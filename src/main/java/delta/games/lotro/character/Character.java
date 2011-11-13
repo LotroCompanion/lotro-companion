@@ -153,7 +153,7 @@ public class Character
       if ((charStat==null) && (createIfNeeded))
       {
         charStat=new CharacterStat(stat);
-        _stats.put(stat.getName(),charStat);
+        _stats.put(stat.name(),charStat);
       }
     }
     return charStat;

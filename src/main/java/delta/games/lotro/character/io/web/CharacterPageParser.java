@@ -1,20 +1,24 @@
 package delta.games.lotro.character.io.web;
 
+import java.io.File;
 import java.net.URL;
 import java.util.List;
-
-import org.apache.log4j.Logger;
 
 import net.htmlparser.jericho.Element;
 import net.htmlparser.jericho.HTMLElementName;
 import net.htmlparser.jericho.Source;
+
+import org.apache.log4j.Logger;
+
 import delta.common.utils.NumericTools;
+import delta.common.utils.text.EncodingNames;
 import delta.games.lotro.character.Character;
 import delta.games.lotro.character.CharacterEquipment;
 import delta.games.lotro.character.CharacterEquipment.EQUIMENT_SLOT;
 import delta.games.lotro.character.CharacterEquipment.SlotContents;
 import delta.games.lotro.character.CharacterStat;
 import delta.games.lotro.character.CharacterStat.STAT;
+import delta.games.lotro.character.io.xml.CharacterXMLWriter;
 import delta.games.lotro.utils.JerichoHtmlUtils;
 import delta.games.lotro.utils.LotroLoggers;
 
@@ -202,20 +206,5 @@ public class CharacterPageParser
       _logger.error("Cannot parse character page ["+url+"]",e);
     }
     return ret;
-  }
-
-  /**
-   * Basic main method for test.
-   * @param args Not used.
-   */
-  public static void main(String[] args)
-  {
-    String glumlug="http://my.lotro.com/home/character/2427907/146366987891794854/";
-    //String allurwyn="http://my.lotro.com/home/character/1069125/146366987890743296/";
-    //String beleganth="http://my.lotro.com/home/character/elendilmir/beleganth/";
-    //String allyriel="http://my.lotro.com/home/character/elendilmir/allyriel/";
-    CharacterPageParser parser=new CharacterPageParser();
-    Character c=parser.parseMainPage(glumlug);
-    System.out.println(c);
   }
 }

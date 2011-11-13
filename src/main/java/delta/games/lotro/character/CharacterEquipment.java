@@ -61,6 +61,11 @@ public class CharacterEquipment
       _objectIconURL=iconURL;
     }
 
+    public EQUIMENT_SLOT getSlot()
+    {
+      return _slot;
+    }
+
     public void setObjectURL(String objectPageURL)
     {
       _objectPageURL=objectPageURL;
