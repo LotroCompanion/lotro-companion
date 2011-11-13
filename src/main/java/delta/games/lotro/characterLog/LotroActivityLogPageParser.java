@@ -3,27 +3,40 @@ package delta.games.lotro.characterLog;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.TimeZone;
 
-import delta.common.utils.files.TextFileReader;
+import org.apache.log4j.Logger;
+
 import delta.common.utils.text.TextTools;
+import delta.common.utils.text.TextUtils;
 import delta.games.lotro.characterLog.LotroLogItem.LogItemType;
+import delta.games.lotro.utils.LotroLoggers;
 
 /**
+ * Parser for LOTRO character log HTML pages. 
  * @author DAM
  */
 public class LotroActivityLogPageParser
 {
+  private static final Logger _logger=LotroLoggers.getCharacterLogLogger();
+
   private static final String TABLE_START="<table class=\"gradient_table activitylog\">";
   private static final String DATE_ROW_START="<td class=\"date\">";
   private static final String DETAILS_ROW_START="<td class=\"details\">";
 
+  /**
+   * Parse an HTML page.
+   * @param page Page to parse.
+   * @return A list of LOTRO log items, or <code>null</code> if a problem occured.
+   */
   public List<LotroLogItem> parseLogPage(File page)
   {
     List<LotroLogItem> ret=null;
-    List<String> lines=TextFileReader.readAsLines(page);
+    List<String> lines=TextUtils.readAsLines(page);
     int tableStartIndex=-1;
     int index=0;
     for(String line : lines)
@@ -125,7 +138,7 @@ public class LotroActivityLogPageParser
       }
       catch(Exception e)
       {
-        e.printStackTrace();
+        _logger.error("Cannot parse LOTRO character log item!",e);
       }
     }
     return ret;
@@ -156,29 +169,58 @@ public class LotroActivityLogPageParser
     return type;
   }
 
+  private static List<File> sortFiles(File[] files)
+  {
+    List<File> ret=new ArrayList<File>();
+    if ((files!=null) && (files.length>0))
+    {
+      for(File file : files)
+      {
+        if (file.getName().endsWith(".html"))
+        {
+          ret.add(file);
+        }
+      }
+
+      Comparator<File> c=new Comparator<File>()
+      {
+        public int compare(File f1, File f2)
+        {
+          String name1=f1.getName();
+          int n1=Integer.parseInt(name1.substring(0,name1.length()-5));
+          String name2=f2.getName();
+          int n2=Integer.parseInt(name2.substring(0,name2.length()-5));
+          if (n1>n2) return 1;
+          if (n1<n2) return -1;
+          return 0;
+        }
+      };
+      Collections.sort(ret,c);
+    }
+    return ret;
+  }
+
   public static void main(String[] args)
   {
     File rootDir=new File("/home/dm/lotroPages/glumlug");
     File[] files=rootDir.listFiles();
     if (files!=null)
     {
+      List<File> filesToParse=sortFiles(files);
       List<LotroLogItem> completeLog=new ArrayList<LotroLogItem>();
       LotroActivityLogPageParser parser=new LotroActivityLogPageParser();
-      for(File file : files)
+      for(File file : filesToParse)
       {
-        if (file.getName().endsWith(".html"))
+        List<LotroLogItem> items=parser.parseLogPage(file);
+        if ((items!=null) && (items.size()>0))
         {
-          List<LotroLogItem> items=parser.parseLogPage(file);
-          if ((items!=null) && (items.size()>0))
+          completeLog.addAll(items);
+          /*
+          if (items.size()!=20)
           {
-            completeLog.addAll(items);
-            /*
-            if (items.size()!=20)
-            {
-              System.out.println(items.size()+" "+file);
-            }
-            */
+            System.out.println(items.size()+" "+file);
           }
+          */
         }
       }
       for(LotroLogItem logItem : completeLog)
