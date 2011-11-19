@@ -8,6 +8,7 @@ import delta.games.lotro.character.io.web.CharacterPageParser;
 import delta.games.lotro.character.io.xml.CharacterXMLWriter;
 
 /**
+ * Test for character description parsing.
  * @author DAM
  */
 public class MainTestCharacterParsing

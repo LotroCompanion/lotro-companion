@@ -3,16 +3,60 @@ package delta.games.lotro.quests;
 import java.util.ArrayList;
 import java.util.List;
 
+import delta.common.utils.text.EndOfLine;
+
 /**
  * LOTRO quest description.
  * @author DAM
  */
 public class QuestDescription
 {
+  /**
+   * Quest size.
+   * @author DAM
+   */
+  public enum SIZE
+  {
+    /**
+     * Solo quest.
+     */
+    SOLO,
+    /**
+     * Small fellowship quest.
+     */
+    SMALL_FELLOWSHIP,
+    /**
+     * Fellowship quest.
+     */
+    FELLOWSHIP
+  }
+  /**
+   * Quest type.
+   * @author DAM
+   */
+  public enum TYPE
+  {
+    /**
+     * Standard non-epic quest.
+     */
+    STANDARD,
+    /**
+     * Epic quest.
+     */
+    EPIC,
+    /**
+     * Skirmish/raid quest.
+     */
+    RAID
+  }
   private String _title;
   private String _category;
   private String _scope;
+  private String _questArc;
   private Integer _minimumLevel;
+  private TYPE _type;
+  private SIZE _size;
+  private boolean _repeatable;
   private String _description;
   private List<String> _prerequisiteQuests;
   private List<String> _nextQuests;
@@ -26,7 +70,11 @@ public class QuestDescription
     _title="";
     _category="";
     _scope="";
+    _questArc="";
     _minimumLevel=null;
+    _type=TYPE.STANDARD;
+    _size=SIZE.SOLO;
+    _repeatable=false;
     _description="";
     _prerequisiteQuests=new ArrayList<String>();
     _nextQuests=new ArrayList<String>();
@@ -88,6 +136,24 @@ public class QuestDescription
   }
 
   /**
+   * Get the arc of this quest.
+   * @return the arc of this quest.
+   */
+  public String getQuestArc()
+  {
+    return _questArc;
+  }
+
+  /**
+   * Set the arc of this quest.
+   * @param questArc the arc to set.
+   */
+  public void setQuestArc(String questArc)
+  {
+    _questArc=questArc;
+  }
+
+  /**
    * Get the minimum level for this quest.
    * @return the minimumLevel for this quest.
    */
@@ -103,6 +169,60 @@ public class QuestDescription
   public void setMinimumLevel(Integer minimumLevel)
   {
     _minimumLevel=minimumLevel;
+  }
+
+  /**
+   * Get quest type.
+   * @return the quest type.
+   */
+  public TYPE getType()
+  {
+    return _type;
+  }
+
+  /**
+   * Set the quest type.
+   * @param type the type to set.
+   */
+  public void setType(TYPE type)
+  {
+    _type=type;
+  }
+
+  /**
+   * Get the quest size.
+   * @return the quest size.
+   */
+  public SIZE getSize()
+  {
+    return _size;
+  }
+
+  /**
+   * Set the quest size.
+   * @param size the size to set.
+   */
+  public void setSize(SIZE size)
+  {
+    _size=size;
+  }
+
+  /**
+   * Indicates if this quest is repeatable or not.
+   * @return <code>true</code> if it is, <code>false</code> otherwise.
+   */
+  public boolean isRepeatable()
+  {
+    return _repeatable;
+  }
+
+  /**
+   * Set the 'repeatable' flag.
+   * @param repeatable value to set.
+   */
+  public void setRepeatable(boolean repeatable)
+  {
+    _repeatable=repeatable;
   }
 
   /**
@@ -166,6 +286,52 @@ public class QuestDescription
   public QuestRewards getQuestRewards()
   {
     return _rewards;
+  }
+
+  /**
+   * Dump the contents of this quest as a string.
+   * @return A readable string.
+   */
+  public String dump()
+  {
+    StringBuilder sb=new StringBuilder();
+    sb.append("Title: ").append(_title).append(EndOfLine.NATIVE_EOL);
+    sb.append('(').append(_type).append(')');
+    if (_size!=SIZE.SOLO)
+    {
+      sb.append(" (");
+      sb.append(_size);
+      sb.append('(');
+    }
+    if (_repeatable)
+    {
+      sb.append(" (repeatable)");
+    }
+    sb.append(EndOfLine.NATIVE_EOL);
+    if (_category.length()>0)
+    {
+      sb.append("Category: ").append(_category).append(EndOfLine.NATIVE_EOL);
+    }
+    if (_scope.length()>0)
+    {
+      sb.append("Scope: ").append(_scope).append(EndOfLine.NATIVE_EOL);
+    }
+    if (_questArc.length()>0)
+    {
+      sb.append("Arc: ").append(_questArc).append(EndOfLine.NATIVE_EOL);
+    }
+    sb.append("Minimum level: ").append(_minimumLevel).append(EndOfLine.NATIVE_EOL);
+    if (_prerequisiteQuests.size()>0)
+    {
+      sb.append("Prerequisites: ").append(_prerequisiteQuests).append(EndOfLine.NATIVE_EOL);
+    }
+    if (_nextQuests.size()>0)
+    {
+      sb.append("Next quests: ").append(_nextQuests).append(EndOfLine.NATIVE_EOL);
+    }
+    sb.append("Rewards: ").append(_rewards).append(EndOfLine.NATIVE_EOL);
+    sb.append("Description: ").append(_description).append(EndOfLine.NATIVE_EOL);
+    return sb.toString();
   }
 
   @Override

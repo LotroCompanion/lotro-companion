@@ -8,6 +8,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import delta.downloads.Downloader;
+import delta.games.lotro.characterLog.io.web.LotroActivityLogPageParser;
 import delta.games.lotro.utils.LotroLoggers;
 
 /**

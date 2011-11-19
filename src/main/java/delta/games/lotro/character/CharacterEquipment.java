@@ -5,33 +5,98 @@ import java.util.HashMap;
 import delta.common.utils.text.EndOfLine;
 
 /**
+ * Equipment of a character.
  * @author DAM
  */
 public class CharacterEquipment
 {
   private static HashMap<Integer,EQUIMENT_SLOT> _positionToSlot=new HashMap<Integer,EQUIMENT_SLOT>();
 
+  /**
+   * Equipment slot designators.
+   * @author DAM
+   */
   public enum EQUIMENT_SLOT
   {
+    /**
+     * Left ear.
+     */
     LEFT_EAR(14),
+    /**
+     * Right ear.
+     */
     RIGHT_EAR(15),
+    /**
+     * Neck.
+     */
     NECK(11),
+    /**
+     * Pocket.
+     */
     POCKET(16),
+    /**
+     * Left wrist.
+     */
     LEFT_WRIST(9),
+    /**
+     * Right wrist.
+     */
     RIGHT_WRIST(10),
+    /**
+     * Left finger.
+     */
     LEFT_FINGER(12),
+    /**
+     * Right finger.
+     */
     RIGHT_FINGER(13),
+    /**
+     * Head.
+     */
     HEAD(2),
+    /**
+     * Shoulder.
+     */
     SHOULDER(7),
+    /**
+     * Breast.
+     */
     BREAST(3),
+    /**
+     * Back.
+     */
     BACK(8),
+    /**
+     * Hands.
+     */
     HANDS(5),
+    /**
+     * Legs.
+     */
     LEGS(4),
+    /**
+     * Feet.
+     */
     FEET(6),
+    /**
+     * Main melee object.
+     */
     MAIN_MELEE(17),
+    /**
+     * Other melee object.
+     */
     OTHER_MELEE(18),
+    /**
+     * Ranged object.
+     */
     RANGED(19),
+    /**
+     * Tool object.
+     */
     TOOL(20),
+    /**
+     * Class object item.
+     */
     CLASS_ITEM(21);
     
     private int _position;
@@ -42,12 +107,20 @@ public class CharacterEquipment
       _positionToSlot.put(Integer.valueOf(position),this);
     }
 
+    /**
+     * Get the integer position associated with this slot.
+     * @return an integer value.
+     */
     public int getPosition()
     {
       return _position;
     }
   }
 
+  /**
+   * Contents of a single slot.
+   * @author DAM
+   */
   public static class SlotContents
   {
     private EQUIMENT_SLOT _slot;
@@ -95,6 +168,9 @@ public class CharacterEquipment
 
   private HashMap<Integer,SlotContents> _contents; 
 
+  /**
+   * Constructor.
+   */
   public CharacterEquipment()
   {
     _contents=new HashMap<Integer,SlotContents>();
@@ -125,6 +201,11 @@ public class CharacterEquipment
     return contents;
   }
 
+  /**
+   * Get an equipment slot designator using its position index. 
+   * @param index Index to search.
+   * @return An equipment slot or <code>null</code> if not found.
+   */
   public static EQUIMENT_SLOT getSlotByIndex(int index)
   {
     EQUIMENT_SLOT slot=_positionToSlot.get(Integer.valueOf(index));

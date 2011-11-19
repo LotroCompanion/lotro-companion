@@ -8,12 +8,31 @@ import java.util.Date;
  */
 public class LotroLogItem
 {
-  enum LogItemType
+  /**
+   * Log item type.
+   * @author DAM
+   */
+  public enum LogItemType
   {
+    /**
+     * Profession advance.
+     */
     PROFESSION,
+    /**
+     * Level increase.
+     */
     LEVELUP,
+    /**
+     * Quest.
+     */
     QUEST,
+    /**
+     * Deed.
+     */
     DEED,
+    /**
+     * Unknown.
+     */
     UNKNOWN
   }
 

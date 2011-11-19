@@ -9,6 +9,7 @@ import net.htmlparser.jericho.HTMLElementName;
 import net.htmlparser.jericho.Segment;
 import net.htmlparser.jericho.Source;
 import net.htmlparser.jericho.StartTag;
+import net.htmlparser.jericho.TextExtractor;
 
 import org.apache.log4j.Logger;
 
@@ -17,8 +18,12 @@ import delta.games.lotro.common.Faction;
 import delta.games.lotro.common.Money;
 import delta.games.lotro.common.Reputation;
 import delta.games.lotro.common.ReputationItem;
+import delta.games.lotro.common.objects.ObjectItem;
+import delta.games.lotro.common.objects.ObjectsSet;
 import delta.games.lotro.quests.QuestDescription;
 import delta.games.lotro.quests.QuestRewards;
+import delta.games.lotro.quests.QuestDescription.SIZE;
+import delta.games.lotro.quests.QuestDescription.TYPE;
 import delta.games.lotro.utils.JerichoHtmlUtils;
 import delta.games.lotro.utils.LotroLoggers;
 
@@ -32,6 +37,8 @@ public class QuestPageParser
   private static final String PREREQUISITE_QUESTS="Prerequisite Quests";
   private static final String NEXT_QUESTS="Next Quests";
   private static final String QUEST_SEED="Quest:";
+  private static final String RECEIVE_KEY="Receive";
+  private static final String SELECT_ONE_OF_KEY="Select one of";
 
   private QuestDescription _quest;
 
@@ -45,7 +52,7 @@ public class QuestPageParser
 
   private void parseQuestField(Element questField)
   {
-    List<Element> strongs=questField.getAllElements("strong");
+    List<Element> strongs=questField.getAllElements(HTMLElementName.STRONG);
     if ((strongs!=null) && (strongs.size()==1))
     {
       List<Segment> nodes=JerichoHtmlUtils.getChildNodes(questField);
@@ -60,6 +67,7 @@ public class QuestPageParser
       else if ("Scope".equals(key))
       {
         String value=nodes.get(3).toString().trim();
+        if ("n/a".equals(value)) value="";
         _quest.setQuestScope(value);
       }
       else if ("Minimum Level".equals(key))
@@ -76,6 +84,19 @@ public class QuestPageParser
           parseQuestsList(dds.get(0),key);
         }
       }
+      else if ("Arc(s)".equals(key))
+      {
+        String value=nodes.get(5).toString().trim();
+        _quest.setQuestArc(value);
+      }
+      else
+      {
+        _logger.warn("Unmanaged quest field key ["+key+"]");
+      }
+    }
+    else
+    {
+      parseQuestIcons(questField);
     }
   }
 
@@ -92,6 +113,42 @@ public class QuestPageParser
       else if (NEXT_QUESTS.equals(category))
       {
         _quest.addNextQuest(value);
+      }
+    }
+  }
+
+  private void parseQuestIcons(Element questField)
+  {
+    List<Element> imgs=questField.getAllElements(HTMLElementName.IMG);
+    for(Element img : imgs)
+    {
+      String title=img.getAttributeValue("title");
+      if (title!=null)
+      {
+        if ("Epic".equals(title))
+        {
+          _quest.setType(TYPE.EPIC);
+        }
+        else if ("Small Fellowship".equals(title))
+        {
+          _quest.setSize(SIZE.SMALL_FELLOWSHIP);
+        }
+        else if ("Fellowship".equals(title))
+        {
+          _quest.setSize(SIZE.FELLOWSHIP);
+        }
+        else if ("Repeatable".equals(title))
+        {
+          _quest.setRepeatable(true);
+        }
+        else if ("Raid".equals(title))
+        {
+          _quest.setType(TYPE.RAID);
+        }
+        else
+        {
+          _logger.warn("Unmanaged quest icon title ["+title+"]");
+        }
       }
     }
   }
@@ -113,6 +170,7 @@ public class QuestPageParser
       }
     }
     _quest.setTitle(title);
+    // Quest attributes
     //System.out.println("Title: "+title);
     List<Element> questFields=JerichoHtmlUtils.findElementsByTagNameAndAttributeValue(officialSection,HTMLElementName.DIV,"class","questfield");
     for(Element questField : questFields)
@@ -249,25 +307,79 @@ public class QuestPageParser
 
   private void parseItemReward(Element rewardDiv)
   {
-    System.out.println("Item reward!");
+    QuestRewards rewards=_quest.getQuestRewards();
+    ObjectsSet objects=null;
+    //System.out.println("Item reward!");
+    String key="";
     List<Element> divs=rewardDiv.getAllElements(HTMLElementName.DIV);
+    divs.remove(0); // remove reward div
     for(Element div : divs)
     {
-      List<Element> as=div.getAllElements(HTMLElementName.A);
-      if ((as!=null) && (as.size()==2))
+      List<Element> strongs=div.getAllElements(HTMLElementName.STRONG);
+      if (strongs.size()>0)
       {
-        Element iconItem=as.get(0);
-        List<Element> imgs=iconItem.getAllElements(HTMLElementName.IMG);
-        if ((imgs!=null) && (imgs.size()==1))
+        Element strong=strongs.get(0);
+        key=CharacterReference.decodeCollapseWhiteSpace(strong.getContent());
+        key=cleanupFieldName(key);
+        if (RECEIVE_KEY.equals(key))
         {
-          Element img=imgs.get(0);
-          String iconURL=img.getAttributeValue("src");
-          System.out.println("Icon: "+iconURL);
+          objects=rewards.getObjects();
         }
-        Element textItem=as.get(1);
-        String itemName=CharacterReference.decodeCollapseWhiteSpace(textItem.getContent());
-        String url=textItem.getAttributeValue("href");
-        System.out.println("Item: "+itemName+", URL: "+url);
+        else if (SELECT_ONE_OF_KEY.equals(key))
+        {
+          objects=rewards.getSelectObjects();
+        }
+        else
+        {
+          _logger.warn("Unmanaged object selection key ["+key+"]");
+        }
+      }
+      else
+      {
+        List<Element> as=div.getAllElements(HTMLElementName.A);
+        if ((as!=null) && (as.size()==2))
+        {
+          Element iconItem=as.get(0);
+          String iconURL=null;
+          List<Element> imgs=iconItem.getAllElements(HTMLElementName.IMG);
+          if ((imgs!=null) && (imgs.size()==1))
+          {
+            Element img=imgs.get(0);
+            iconURL=img.getAttributeValue("src");
+            //System.out.println("Icon: "+iconURL);
+          }
+          Element textItem=as.get(1);
+          String itemName=CharacterReference.decodeCollapseWhiteSpace(textItem.getContent());
+          String url=textItem.getAttributeValue("href");
+          ObjectItem item=new ObjectItem(itemName);
+          item.setObjectURL(url);
+          item.setIconURL(iconURL);
+          
+          int quantity=1;
+          TextExtractor extractor=div.getTextExtractor();
+          extractor.excludeElement(iconItem.getStartTag());
+          extractor.excludeElement(textItem.getStartTag());
+          String text=extractor.toString();
+          int factorIndex=text.indexOf("(x");
+          if (factorIndex!=-1)
+          {
+            int parenthesisIndex=text.indexOf(')',factorIndex+2);
+            if (parenthesisIndex!=-1)
+            {
+              String factorStr=text.substring(factorIndex+2,parenthesisIndex);
+              quantity=NumericTools.parseInt(factorStr,1);
+            }
+          }
+          if (objects!=null)
+          {
+            objects.addObject(item,quantity);
+          }
+          else
+          {
+            _logger.warn("Ignored object ["+item+"], quantity="+quantity);
+          }
+          //System.out.println("Item: "+itemName+", URL: "+url);
+        }
       }
     }
     /*
@@ -306,8 +418,8 @@ Item Advancement Experience
 
   private void parseReward(Element rewardDiv)
   {
-    List<Element> strongs=rewardDiv.getAllElements("strong");
-    if ((strongs!=null) && (strongs.size()==1))
+    List<Element> strongs=rewardDiv.getAllElements(HTMLElementName.STRONG);
+    if ((strongs!=null) && (strongs.size()>=1))
     {
       QuestRewards rewards=_quest.getQuestRewards();
       Element strong=strongs.get(0);
@@ -323,7 +435,7 @@ Item Advancement Experience
         Reputation r=parseReputationReward(rewardDiv);
         rewards.getReputation().add(r);
       }
-      else if (("Receive".equals(key)) || ("Select one of".equals(key)))
+      else if ((RECEIVE_KEY.equals(key)) || (SELECT_ONE_OF_KEY.equals(key)))
       {
         parseItemReward(rewardDiv);
       }

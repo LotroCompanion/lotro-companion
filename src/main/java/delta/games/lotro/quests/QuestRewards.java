@@ -2,6 +2,7 @@ package delta.games.lotro.quests;
 
 import delta.games.lotro.common.Money;
 import delta.games.lotro.common.Reputation;
+import delta.games.lotro.common.objects.ObjectsSet;
 
 /**
  * Quest rewards description.
@@ -12,6 +13,8 @@ public class QuestRewards
   private boolean _itemXP;
   private Money _money;
   private Reputation _reputation;
+  private ObjectsSet _objects;
+  private ObjectsSet _selectObjects;
 
   /**
    * Constructor.
@@ -21,6 +24,8 @@ public class QuestRewards
     _itemXP=false;
     _money=new Money();
     _reputation=new Reputation();
+    _objects=new ObjectsSet();
+    _selectObjects=new ObjectsSet();
   }
 
   /**
@@ -39,6 +44,24 @@ public class QuestRewards
   public Reputation getReputation()
   {
     return _reputation;
+  }
+
+  /**
+   * Get the objects reward.
+   * @return the objects reward.
+   */
+  public ObjectsSet getObjects()
+  {
+    return _objects;
+  }
+
+  /**
+   * Get the objects reward.
+   * @return the objects reward.
+   */
+  public ObjectsSet getSelectObjects()
+  {
+    return _selectObjects;
   }
 
   /**
@@ -63,19 +86,37 @@ public class QuestRewards
   public String toString()
   {
     StringBuilder sb=new StringBuilder();
-    sb.append("Rewards: ");
+    boolean firstDone=false;
     if (!_money.isEmpty())
     {
       sb.append(_money);
+      firstDone=true;
     }
     if (!_reputation.isEmpty())
     {
-      sb.append(" / ");
+      if (firstDone) sb.append(" / ");
       sb.append(_reputation);
+      firstDone=true;
+    }
+    int nbObjects=_objects.getNbObjectItems();
+    if (nbObjects>0)
+    {
+      if (firstDone) sb.append(" / ");
+      sb.append(_objects);
+      firstDone=true;
+    }
+    int nbSelectObjects=_selectObjects.getNbObjectItems();
+    if (nbSelectObjects>0)
+    {
+      if (firstDone) sb.append(" / Select one of: ");
+      sb.append(_selectObjects);
+      firstDone=true;
     }
     if (_itemXP)
     {
-      sb.append(" / Item XP");
+      if (firstDone) sb.append(" / ");
+      sb.append("Item XP");
+      firstDone=true;
     }
     return sb.toString();
   }
