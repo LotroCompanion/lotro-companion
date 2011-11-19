@@ -9,18 +9,31 @@ import net.htmlparser.jericho.HTMLElementName;
 import net.htmlparser.jericho.Segment;
 import net.htmlparser.jericho.Source;
 import net.htmlparser.jericho.StartTag;
+
+import org.apache.log4j.Logger;
+
 import delta.common.utils.NumericTools;
+import delta.games.lotro.common.Faction;
+import delta.games.lotro.common.Money;
+import delta.games.lotro.common.Reputation;
+import delta.games.lotro.common.ReputationItem;
+import delta.games.lotro.quests.QuestDescription;
+import delta.games.lotro.quests.QuestRewards;
 import delta.games.lotro.utils.JerichoHtmlUtils;
+import delta.games.lotro.utils.LotroLoggers;
 
 /**
+ * Parser for MyLotro.com quest page.
  * @author DAM
  */
 public class QuestPageParser
 {
-  private void handleQuestAttribute(String key, String value)
-  {
-    System.out.println(key+"="+value);
-  }
+  private static final Logger _logger=LotroLoggers.getWebInputLogger();
+  private static final String PREREQUISITE_QUESTS="Prerequisite Quests";
+  private static final String NEXT_QUESTS="Next Quests";
+  private static final String QUEST_SEED="Quest:";
+
+  private QuestDescription _quest;
 
   private String cleanupFieldName(String key)
   {
@@ -42,19 +55,20 @@ public class QuestPageParser
       if ("Category".equals(key))
       {
         String value=nodes.get(3).toString().trim();
-        handleQuestAttribute(key,value);
+        _quest.setCategory(value);
       }
       else if ("Scope".equals(key))
       {
         String value=nodes.get(3).toString().trim();
-        handleQuestAttribute(key,value);
+        _quest.setQuestScope(value);
       }
       else if ("Minimum Level".equals(key))
       {
         String value=nodes.get(3).toString().trim();
-        handleQuestAttribute(key,value);
+        Integer minLevel=NumericTools.parseInteger(value);
+        _quest.setMinimumLevel(minLevel);
       }
-      else if (("Prerequisite Quests".equals(key)) || ("Next Quests".equals(key)))
+      else if ((PREREQUISITE_QUESTS.equals(key)) || (NEXT_QUESTS.equals(key)))
       {
         List<Element> dds=questField.getAllElements("dd");
         if ((dds!=null) && (dds.size()==1))
@@ -71,7 +85,14 @@ public class QuestPageParser
     for(Element a : as)
     {
       String value=CharacterReference.decodeCollapseWhiteSpace(a.getContent());
-      System.out.println(category+" -> "+value);
+      if (PREREQUISITE_QUESTS.equals(category))
+      {
+        _quest.addPrerequisiteQuest(value);
+      }
+      else if (NEXT_QUESTS.equals(category))
+      {
+        _quest.addNextQuest(value);
+      }
     }
   }
 
@@ -83,8 +104,16 @@ public class QuestPageParser
     if (titleElement!=null)
     {
       title=CharacterReference.decodeCollapseWhiteSpace(titleElement.getContent());
+      if (title!=null)
+      {
+        if (title.startsWith(QUEST_SEED))
+        {
+          title=title.substring(QUEST_SEED.length()).trim();
+        }
+      }
     }
-    System.out.println("Title: "+title);
+    _quest.setTitle(title);
+    //System.out.println("Title: "+title);
     List<Element> questFields=JerichoHtmlUtils.findElementsByTagNameAndAttributeValue(officialSection,HTMLElementName.DIV,"class","questfield");
     for(Element questField : questFields)
     {
@@ -108,9 +137,10 @@ public class QuestPageParser
     }
   }
 
-  private void parseMoneyReward(Element rewardDiv)
+  private Money parseMoneyReward(Element rewardDiv)
   {
     //System.out.println("Money reward!");
+    Money m=new Money();
     List<Element> elements=rewardDiv.getChildElements();
     if ((elements!=null) && (elements.size()==2))
     {
@@ -134,12 +164,21 @@ public class QuestPageParser
                 String type=((StartTag)tmp).getAttributeValue("src");
                 if (type!=null)
                 {
-                  if (type.contains("silver")) System.out.println("Silver: "+nbCoins);
-                  else if (type.contains("copper")) System.out.println("Copper: "+nbCoins);
-                  else if (type.contains("gold")) System.out.println("Gold: "+nbCoins);
+                  if (type.contains("silver"))
+                  {
+                    m.setSilverCoins(nbCoins);
+                  }
+                  else if (type.contains("copper"))
+                  {
+                    m.setCopperCoins(nbCoins);
+                  }
+                  else if (type.contains("gold"))
+                  {
+                    m.setGoldCoins(nbCoins);
+                  }
                   else
                   {
-                    System.out.println("Unknown coin type!");
+                    _logger.warn("Unknown coin type ["+type+"]");
                   }
                 }
               }
@@ -148,6 +187,7 @@ public class QuestPageParser
         }
       }
     }
+    return m;
     /*
     <div class="questReward">
     <div>
@@ -163,9 +203,10 @@ public class QuestPageParser
     */    
   }
 
-  private void parseReputationReward(Element rewardDiv)
+  private Reputation parseReputationReward(Element rewardDiv)
   {
     //System.out.println("Reputation reward!");
+    Reputation r=new Reputation();
     List<Element> elements=rewardDiv.getChildElements();
     if ((elements!=null) && (elements.size()==2))
     {
@@ -183,11 +224,15 @@ public class QuestPageParser
           valueStr=valueStr.replace("with","").trim();
           valueStr=valueStr.replace("+","").trim();
           int reputation=NumericTools.parseInt(valueStr,0);
-          String faction=factionNode.toString().trim();
-          System.out.println("Faction: '"+faction+"': "+reputation);
+          String factionName=factionNode.toString().trim();
+          Faction faction=Faction.getByName(factionName);
+          ReputationItem item=new ReputationItem(faction);
+          item.setAmount(reputation);
+          r.add(item);
         }
       }
     }
+    return r;
     /*
 <div class="questReward">
 <div>
@@ -242,9 +287,10 @@ public class QuestPageParser
      */
   }
 
-  private void parseItemXPReward(Element rewardDiv)
+  private boolean parseItemXPReward(Element rewardDiv)
   {
-    System.out.println("Item XP reward!");
+    //System.out.println("Item XP reward!");
+    return true;
     /*
 <div class="questReward">
 <div>
@@ -263,16 +309,19 @@ Item Advancement Experience
     List<Element> strongs=rewardDiv.getAllElements("strong");
     if ((strongs!=null) && (strongs.size()==1))
     {
+      QuestRewards rewards=_quest.getQuestRewards();
       Element strong=strongs.get(0);
       String key=CharacterReference.decodeCollapseWhiteSpace(strong.getContent());
       key=cleanupFieldName(key);
       if ("Money".equals(key))
       {
-        parseMoneyReward(rewardDiv);
+        Money m=parseMoneyReward(rewardDiv);
+        rewards.getMoney().add(m);
       }
       else if ("Reputation".equals(key))
       {
-        parseReputationReward(rewardDiv);
+        Reputation r=parseReputationReward(rewardDiv);
+        rewards.getReputation().add(r);
       }
       else if (("Receive".equals(key)) || ("Select one of".equals(key)))
       {
@@ -280,7 +329,8 @@ Item Advancement Experience
       }
       else if ("IXP".equals(key))
       {
-        parseItemXPReward(rewardDiv);
+        boolean itemXP=parseItemXPReward(rewardDiv);
+        rewards.setHasItemXP(itemXP);
       }
       else
       {
@@ -289,10 +339,17 @@ Item Advancement Experience
     }
   }
 
-  public void parseQuestPage(String url)
+  /**
+   * Parse the quest page at the given URL.
+   * @param url URL of quest page.
+   * @return A quest or <code>null</code> if an error occurred..
+   */
+  public QuestDescription parseQuestPage(String url)
   {
+    QuestDescription ret=null;
     try
     {
+      _quest=new QuestDescription();
       Source source=new Source(new URL(url));
   
       //<div id="lorebookNoedit">
@@ -305,20 +362,13 @@ Item Advancement Experience
           parseQuestDescription(officialSection);
         }
       }
+      ret=_quest;
     }
     catch(Exception e)
     {
-      e.printStackTrace();
+      ret=null;
+      _logger.error("Cannot parse quest page ["+url+"]",e);
     }
-  }
-
-  public static void main(String[] args)
-  {
-    //String url="http://lorebook.lotro.com/wiki/Special:LotroResource?id=1879157116";
-    //String url="http://lorebook.lotro.com/wiki/Quest:Return_to_the_Elders";
-    String url="http://lorebook.lotro.com/wiki/Quest:A_Visit_to_the_Warren";
-    //String url="http://lorebook.lotro.com/wiki/Quest:Ending_the_Nightmare";
-    QuestPageParser parser=new QuestPageParser();
-    parser.parseQuestPage(url);
+    return ret;
   }
 }

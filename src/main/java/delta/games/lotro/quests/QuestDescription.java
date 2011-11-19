@@ -11,11 +11,12 @@ public class QuestDescription
 {
   private String _title;
   private String _category;
-  private String _questArc;
+  private String _scope;
   private Integer _minimumLevel;
   private String _description;
   private List<String> _prerequisiteQuests;
   private List<String> _nextQuests;
+  private QuestRewards _rewards;
 
   /**
    * Constructor.
@@ -24,11 +25,12 @@ public class QuestDescription
   {
     _title="";
     _category="";
-    _questArc="";
+    _scope="";
     _minimumLevel=null;
     _description="";
     _prerequisiteQuests=new ArrayList<String>();
     _nextQuests=new ArrayList<String>();
+    _rewards=new QuestRewards();
   }
 
   /**
@@ -68,21 +70,21 @@ public class QuestDescription
   }
 
   /**
-   * Get the quest arc of this quest.
-   * @return the quest arc of this quest.
+   * Get the scope of this quest.
+   * @return the scope of this quest.
    */
-  public String getQuestArc()
+  public String getQuestScope()
   {
-    return _questArc;
+    return _scope;
   }
 
   /**
-   * Set the quest arc of this quest.
-   * @param questArc the quest arc to set.
+   * Set the scope of this quest.
+   * @param scope the scope to set.
    */
-  public void setQuestArc(String questArc)
+  public void setQuestScope(String scope)
   {
-    _questArc=questArc;
+    _scope=scope;
   }
 
   /**
@@ -134,7 +136,7 @@ public class QuestDescription
    * Add a 'pre-requisite' quest.
    * @param prerequisiteQuest name of quest to add as a 'pre-requisite' quest.
    */
-  public void addPrerequisiteQuests(String prerequisiteQuest)
+  public void addPrerequisiteQuest(String prerequisiteQuest)
   {
     _prerequisiteQuests.add(prerequisiteQuest);
   }
@@ -152,9 +154,18 @@ public class QuestDescription
    * Add a 'next' quest.
    * @param nextQuest name of quest to add as a 'next' quest.
    */
-  public void setNextQuests(String nextQuest)
+  public void addNextQuest(String nextQuest)
   {
     _nextQuests.add(nextQuest);
+  }
+
+  /**
+   * Get the rewards for this quest.
+   * @return the rewards.
+   */
+  public QuestRewards getQuestRewards()
+  {
+    return _rewards;
   }
 
   @Override

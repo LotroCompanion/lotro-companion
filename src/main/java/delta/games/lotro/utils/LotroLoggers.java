@@ -21,8 +21,14 @@ public abstract class LotroLoggers
    */
   public static final String CHARACTER_LOG=LOTRO+LoggingConstants.SEPARATOR+"CHARACTER_LOG";
 
+  /**
+   * Name of the 'web input' related LOTRO logger.
+   */
+  public static final String WEB_INPUT=LOTRO+LoggingConstants.SEPARATOR+"WEB_INPUT";
+
   private static final Logger _lotroLogger=LoggersRegistry.getLogger(LOTRO);
   private static final Logger _lotroCharacterLogLogger=LoggersRegistry.getLogger(CHARACTER_LOG);
+  private static final Logger _lotroWebInputLogger=LoggersRegistry.getLogger(WEB_INPUT);
 
   /**
    * Get the logger used for LOTRO (LOTRO).
@@ -40,5 +46,14 @@ public abstract class LotroLoggers
   public static Logger getCharacterLogLogger()
   {
     return _lotroCharacterLogLogger;
+  }
+
+  /**
+   * Get the logger used for the 'web input'.
+   * @return the logger used for the 'web input'.
+   */
+  public static Logger getWebInputLogger()
+  {
+    return _lotroWebInputLogger;
   }
 }

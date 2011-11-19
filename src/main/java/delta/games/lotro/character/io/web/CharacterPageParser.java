@@ -1,6 +1,5 @@
 package delta.games.lotro.character.io.web;
 
-import java.io.File;
 import java.net.URL;
 import java.util.List;
 
@@ -11,14 +10,12 @@ import net.htmlparser.jericho.Source;
 import org.apache.log4j.Logger;
 
 import delta.common.utils.NumericTools;
-import delta.common.utils.text.EncodingNames;
 import delta.games.lotro.character.Character;
 import delta.games.lotro.character.CharacterEquipment;
 import delta.games.lotro.character.CharacterEquipment.EQUIMENT_SLOT;
 import delta.games.lotro.character.CharacterEquipment.SlotContents;
 import delta.games.lotro.character.CharacterStat;
 import delta.games.lotro.character.CharacterStat.STAT;
-import delta.games.lotro.character.io.xml.CharacterXMLWriter;
 import delta.games.lotro.utils.JerichoHtmlUtils;
 import delta.games.lotro.utils.LotroLoggers;
 
@@ -28,7 +25,7 @@ import delta.games.lotro.utils.LotroLoggers;
  */
 public class CharacterPageParser
 {
-  private static final Logger _logger=LotroLoggers.getCharacterLogLogger();
+  private static final Logger _logger=LotroLoggers.getWebInputLogger();
 
   private static final String SLOT_SEED="slot_";
   private static final String OF=" of ";

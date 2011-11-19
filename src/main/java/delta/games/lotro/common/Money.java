@@ -21,6 +21,17 @@ public class Money
   }
 
   /**
+   * Copy constructor.
+   * @param m Money to copy.
+   */
+  public Money(Money m)
+  {
+    _goldCoins=m._goldCoins;
+    _silverCoins=m._silverCoins;
+    _copperCoins=m._copperCoins;
+  }
+
+  /**
    * Full constructor.
    * @param goldCoins Number of gold coins.
    * @param silverCoins Number of silver coins.
@@ -31,6 +42,15 @@ public class Money
     _goldCoins=goldCoins;
     _silverCoins=silverCoins;
     _copperCoins=copperCoins;
+  }
+
+  /**
+   * Indicates if this amount represents no money.
+   * @return <code>true</code> if all coin amounts are zero, <code>false</code> otherwise.
+   */
+  public boolean isEmpty()
+  {
+    return ((_goldCoins==0) && (_silverCoins==0) && (_copperCoins==0));
   }
 
   /**
@@ -101,19 +121,34 @@ public class Money
     }
   }
 
+  /**
+   * Add an amount of money.
+   * @param m Money to add.
+   */
+  public void add(Money m)
+  {
+    _goldCoins+=m.getGoldCoins();
+    _silverCoins+=m.getSilverCoins();
+    _copperCoins+=m.getCopperCoins();
+    simplify();
+  }
+
+  /**
+   * Money addition.
+   * @param m1 An amount of money.
+   * @param m2 Another amount of money.
+   * @return A new amount of money.
+   */
   public static Money add(Money m1,Money m2)
   {
-    int gold=m1.getGoldCoins()+m2.getGoldCoins();
-    int silver=m1.getSilverCoins()+m2.getSilverCoins();
-    int copper=m1.getCopperCoins()+m2.getCopperCoins();
-    Money m=new Money(gold,silver,copper);
-    m.simplify();
-    return m;
+    Money ret=new Money(m1);
+    ret.add(m2);
+    return ret;
   }
 
   @Override
   public String toString()
   {
-    return _goldCoins+"gold, "+_silverCoins+" silver, "+_copperCoins+" copper";
+    return _goldCoins+" gold, "+_silverCoins+" silver, "+_copperCoins+" copper";
   }
 }
