@@ -1,4 +1,4 @@
-package delta.games.lotro.characterLog.io.web;
+package delta.games.lotro.character.log.io.web;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -11,30 +11,32 @@ import org.apache.log4j.Logger;
 
 import delta.common.utils.text.TextTools;
 import delta.common.utils.text.TextUtils;
-import delta.games.lotro.characterLog.LotroLogItem;
-import delta.games.lotro.characterLog.LotroLogItem.LogItemType;
+import delta.games.lotro.character.log.CharacterLogItem;
+import delta.games.lotro.character.log.CharacterLogItem.LogItemType;
 import delta.games.lotro.utils.LotroLoggers;
 
 /**
  * Parser for LOTRO character log HTML pages. 
  * @author DAM
  */
-public class LotroActivityLogPageParser
+public class CharacterLogPageParser
 {
   private static final Logger _logger=LotroLoggers.getCharacterLogLogger();
 
   private static final String TABLE_START="<table class=\"gradient_table activitylog\">";
   private static final String DATE_ROW_START="<td class=\"date\">";
   private static final String DETAILS_ROW_START="<td class=\"details\">";
+  private static final String COMPLETED_SEED="Completed '";
+  private static final String REACHED_LEVEL_SEED="Reached level ";
 
   /**
    * Parse an HTML page.
    * @param page Page to parse.
-   * @return A list of LOTRO log items, or <code>null</code> if a problem occured.
+   * @return A list of character log items, or <code>null</code> if a problem occured.
    */
-  public List<LotroLogItem> parseLogPage(File page)
+  public List<CharacterLogItem> parseLogPage(File page)
   {
-    List<LotroLogItem> ret=null;
+    List<CharacterLogItem> ret=null;
     List<String> lines=TextUtils.readAsLines(page);
     int tableStartIndex=-1;
     int index=0;
@@ -54,9 +56,9 @@ public class LotroActivityLogPageParser
     return ret;
   }
 
-  private List<LotroLogItem> parseLogItems(List<String> lines, int startIndex)
+  private List<CharacterLogItem> parseLogItems(List<String> lines, int startIndex)
   {
-    List<LotroLogItem> ret=new ArrayList<LotroLogItem>();
+    List<CharacterLogItem> ret=new ArrayList<CharacterLogItem>();
     int nbLines=lines.size();
     List<Integer> startRowIndexes=new ArrayList<Integer>();
     for(int index=startIndex;index<nbLines;index++)
@@ -74,7 +76,7 @@ public class LotroActivityLogPageParser
     //System.out.println(startRowIndexes);
     for(Integer startRowIndex : startRowIndexes)
     {
-      LotroLogItem logItem=parseLogItem(lines,startRowIndex.intValue());
+      CharacterLogItem logItem=parseLogItem(lines,startRowIndex.intValue());
       if (logItem!=null)
       {
         ret.add(logItem);
@@ -83,7 +85,7 @@ public class LotroActivityLogPageParser
     return ret;
   }
   
-  private LotroLogItem parseLogItem(List<String> lines, int startRowIndex) {
+  private CharacterLogItem parseLogItem(List<String> lines, int startRowIndex) {
     String dateStr=null,label=null,url=null;
     LogItemType type=null;
     int nbLines=lines.size();
@@ -115,7 +117,7 @@ public class LotroActivityLogPageParser
         break;
       }
     }
-    LotroLogItem ret=null;
+    CharacterLogItem ret=null;
     if ((dateStr!=null) && (type!=null) && (label!=null))
     {
       try
@@ -125,7 +127,7 @@ public class LotroActivityLogPageParser
         int year=Integer.parseInt(items[0]);
         int month=Integer.parseInt(items[1]);
         int day=Integer.parseInt(items[2]);
-        label=label.trim();
+        label=tuneLabel(label);
         if (url!=null)
         {
           url=url.trim();
@@ -133,7 +135,7 @@ public class LotroActivityLogPageParser
         c.setTimeInMillis(0);
         c.set(year,month-1,day);
         long date=c.getTimeInMillis();
-        ret=new LotroLogItem(date,type,label,url);
+        ret=new CharacterLogItem(date,type,label,url);
       }
       catch(Exception e)
       {
@@ -143,6 +145,24 @@ public class LotroActivityLogPageParser
     return ret;
   }
 
+  private String tuneLabel(String label)
+  {
+    label=label.trim();
+    if (label.startsWith(COMPLETED_SEED))
+    {
+      label=label.substring(COMPLETED_SEED.length());
+      if (label.endsWith("'"))
+      {
+        label=label.substring(0,label.length()-1);
+      }
+    }
+    else if (label.startsWith(REACHED_LEVEL_SEED))
+    {
+      label=label.substring(REACHED_LEVEL_SEED.length());
+    }
+    label=label.trim();
+    return label;
+  }
   private LogItemType findType(String imgSrc)
   {
     LogItemType type=LogItemType.UNKNOWN;
@@ -163,6 +183,14 @@ public class LotroActivityLogPageParser
       else if (imgSrc.endsWith("icon_deed.png"))
       {
         type=LogItemType.DEED;
+      }
+      else if (imgSrc.endsWith("icon_vocation.png"))
+      {
+        type=LogItemType.VOCATION;
+      }
+      else
+      {
+        _logger.warn("Unmanaged icon type ["+imgSrc+"]");
       }
     }
     return type;

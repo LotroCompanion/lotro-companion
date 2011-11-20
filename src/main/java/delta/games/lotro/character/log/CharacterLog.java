@@ -1,5 +1,6 @@
-package delta.games.lotro.characterLog;
+package delta.games.lotro.character.log;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,7 +17,7 @@ public class CharacterLog
   /**
    * List of log items.
    */
-  private List<LotroLogItem> _logItems;
+  private List<CharacterLogItem> _logItems;
   
   /**
    * Constructor.
@@ -25,6 +26,16 @@ public class CharacterLog
   public CharacterLog(String name)
   {
     _characterName=name;
+    _logItems=new ArrayList<CharacterLogItem>();
+  }
+
+  /**
+   * Get the name of the involved character.
+   * @return a character name.
+   */
+  public String getName()
+  {
+    return _characterName;
   }
 
   /**
@@ -37,10 +48,20 @@ public class CharacterLog
   }
 
   /**
+   * Get a log item.
+   * @param index Index of log item.
+   * @return A log item.
+   */
+  public CharacterLogItem getLogItem(int index)
+  {
+    return _logItems.get(index);
+  }
+
+  /**
    * Add an item to this log.
    * @param item Item to add.
    */
-  public void addLogItem(LotroLogItem item)
+  public void addLogItem(CharacterLogItem item)
   {
     _logItems.add(item);
   }

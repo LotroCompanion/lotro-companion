@@ -1,4 +1,4 @@
-package delta.games.lotro.characterLog;
+package delta.games.lotro.character.log;
 
 import java.util.Date;
 
@@ -6,7 +6,7 @@ import java.util.Date;
  * Represents an item in a LOTRO character log.
  * @author DAM
  */
-public class LotroLogItem
+public class CharacterLogItem
 {
   /**
    * Log item type.
@@ -31,6 +31,10 @@ public class LotroLogItem
      */
     DEED,
     /**
+     * Vocation.
+     */
+    VOCATION,
+    /**
      * Unknown.
      */
     UNKNOWN
@@ -48,7 +52,7 @@ public class LotroLogItem
    * @param label Log item label.
    * @param resourceUrl Associated URL.
    */
-  public LotroLogItem(long date, LogItemType type, String label, String resourceUrl)
+  public CharacterLogItem(long date, LogItemType type, String label, String resourceUrl)
   {
     _date=date;
     _type=type;

@@ -6,8 +6,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import delta.games.lotro.characterLog.LotroLogItem;
-import delta.games.lotro.characterLog.io.web.LotroActivityLogPageParser;
+import delta.games.lotro.character.log.io.web.CharacterLogPageParser;
 
 /**
  * Test for character activity log parsing.
@@ -57,11 +56,11 @@ public class MainTestCharacterActivityLogParsing
     if (files!=null)
     {
       List<File> filesToParse=sortFiles(files);
-      List<LotroLogItem> completeLog=new ArrayList<LotroLogItem>();
-      LotroActivityLogPageParser parser=new LotroActivityLogPageParser();
+      List<CharacterLogItem> completeLog=new ArrayList<CharacterLogItem>();
+      CharacterLogPageParser parser=new CharacterLogPageParser();
       for(File file : filesToParse)
       {
-        List<LotroLogItem> items=parser.parseLogPage(file);
+        List<CharacterLogItem> items=parser.parseLogPage(file);
         if ((items!=null) && (items.size()>0))
         {
           completeLog.addAll(items);
@@ -73,7 +72,7 @@ public class MainTestCharacterActivityLogParsing
           */
         }
       }
-      for(LotroLogItem logItem : completeLog)
+      for(CharacterLogItem logItem : completeLog)
       {
         System.out.println(logItem);
       }
