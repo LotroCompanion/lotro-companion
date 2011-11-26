@@ -39,6 +39,15 @@ public class CharacterLog
   }
 
   /**
+   * Set the character name.
+   * @param name Character name.
+   */
+  public void setName(String name)
+  {
+    _characterName=name;
+  }
+
+  /**
    * Get the number of items in this log.
    * @return a positive integer.
    */

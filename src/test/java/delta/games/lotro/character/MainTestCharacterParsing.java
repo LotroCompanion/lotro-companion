@@ -2,6 +2,7 @@ package delta.games.lotro.character;
 
 import java.io.File;
 
+import delta.common.utils.environment.FileSystem;
 import delta.common.utils.text.EncodingNames;
 import delta.games.lotro.character.Character;
 import delta.games.lotro.character.io.web.CharacterPageParser;
@@ -42,7 +43,8 @@ public class MainTestCharacterParsing
         System.out.println(c);
         CharacterXMLWriter writer=new CharacterXMLWriter();
         String name=c.getName();
-        File out=new File("/tmp/"+name+".xml");
+        File tmpDir=FileSystem.getTmpDir();
+        File out=new File(tmpDir,name+".xml");
         writer.write(out,c,EncodingNames.UTF_8);
       }
     }

@@ -35,6 +35,10 @@ public class CharacterLogItem
      */
     VOCATION,
     /**
+     * Player Versus Monster Player.
+     */
+    PVMP,
+    /**
      * Unknown.
      */
     UNKNOWN

@@ -2,6 +2,7 @@ package delta.games.lotro.quests;
 
 import java.io.File;
 
+import delta.common.utils.environment.FileSystem;
 import delta.common.utils.text.EncodingNames;
 import delta.games.lotro.quests.io.web.QuestPageParser;
 import delta.games.lotro.quests.io.xml.QuestXMLWriter;
@@ -39,7 +40,8 @@ public class MainTestQuestParsing
         System.out.println(q.dump());
         QuestXMLWriter writer=new QuestXMLWriter();
         String name=q.getTitle();
-        File out=new File("/tmp/"+name+".xml");
+        File tmpDir=FileSystem.getTmpDir();
+        File out=new File(tmpDir,name+".xml");
         writer.write(out,q,EncodingNames.UTF_8);
       }
     }

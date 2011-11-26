@@ -1,145 +1,248 @@
 package delta.games.lotro.character.log.io.web;
 
-import java.io.File;
-import java.util.ArrayList;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.TimeZone;
 
+import net.htmlparser.jericho.CharacterReference;
+import net.htmlparser.jericho.Element;
+import net.htmlparser.jericho.HTMLElementName;
+import net.htmlparser.jericho.Source;
+import net.htmlparser.jericho.TextExtractor;
+
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
-import delta.common.utils.text.TextTools;
-import delta.common.utils.text.TextUtils;
+import delta.common.utils.NumericTools;
+import delta.games.lotro.character.log.CharacterLog;
 import delta.games.lotro.character.log.CharacterLogItem;
 import delta.games.lotro.character.log.CharacterLogItem.LogItemType;
+import delta.games.lotro.utils.JerichoHtmlUtils;
 import delta.games.lotro.utils.LotroLoggers;
 
 /**
- * Parser for LOTRO character log HTML pages. 
+ * Parser for MyLotro.com character log pages.
  * @author DAM
  */
 public class CharacterLogPageParser
 {
-  private static final Logger _logger=LotroLoggers.getCharacterLogLogger();
+  private static final Logger _logger=LotroLoggers.getWebInputLogger();
 
-  private static final String TABLE_START="<table class=\"gradient_table activitylog\">";
-  private static final String DATE_ROW_START="<td class=\"date\">";
-  private static final String DETAILS_ROW_START="<td class=\"details\">";
   private static final String COMPLETED_SEED="Completed '";
   private static final String REACHED_LEVEL_SEED="Reached level ";
 
+  private String _characterName;
+
   /**
-   * Parse an HTML page.
-   * @param page Page to parse.
-   * @return A list of character log items, or <code>null</code> if a problem occured.
+   * Parse the character page at the given URL.
+   * @param url URL of character page.
+   * @return A character or <code>null</code> if an error occurred..
    */
-  public List<CharacterLogItem> parseLogPage(File page)
+  public CharacterLog parseLogPages(String url)
   {
-    List<CharacterLogItem> ret=null;
-    List<String> lines=TextUtils.readAsLines(page);
-    int tableStartIndex=-1;
-    int index=0;
-    for(String line : lines)
+    _characterName=null;
+    String rootURL=url+"/activitylog?"+URLEncoder.encode("cl[pp]");
+    int nbPages=parseFirstPage(rootURL);
+    CharacterLog log=null;
+    if (nbPages>0)
     {
-      if (line.trim().startsWith(TABLE_START))
+      log=new CharacterLog("");
+      for(int i=1;i<=nbPages;i++)
       {
-        tableStartIndex=index;
+        parseLogPage(log, rootURL, i);
+      }
+      if (_characterName!=null)
+      {
+        log.setName(_characterName);
+      }
+    }
+    return log;
+  }
+  
+  private int parseFirstPage(String rootUrl)
+  {
+    int nbPages=0;
+    String firstPageURL=rootUrl+"=1";
+    try
+    {
+      Source source=new Source(new URL(firstPageURL));
+  
+      //<div id="widget_" class="widget ui-widget ui-corner-all" type="activitylog">
+      Element activityLog=JerichoHtmlUtils.findElementByTagNameAndAttributeValue(source,HTMLElementName.DIV,"type","activitylog");
+      if (activityLog!=null)
+      {
+        // Fetch page numbers
+        //<div class="pagination">
+        Element pagination=JerichoHtmlUtils.findElementByTagNameAndAttributeValue(source,HTMLElementName.DIV,"class","pagination");
+        if (pagination!=null)
+        {
+          //<td class="current"> Page 1 of 121 </td>
+          String pages=JerichoHtmlUtils.getTagContents(source,HTMLElementName.TD,"class","current");
+          if (pages!=null)
+          {
+            String[] items=pages.split(" ");
+            if ((items!=null) && (items.length==4))
+            {
+              nbPages=NumericTools.parseInt(items[3],0);
+            }
+          }
+        }
+      }
+    }
+    catch(Exception e)
+    {
+      _logger.error("Cannot parse character log page ["+firstPageURL+"]",e);
+    }
+    return nbPages;
+  }
+
+  private boolean parseLogPage(CharacterLog log, String rootURL, int pageNumber)
+  {
+    boolean ret=false;
+    int maxTries=3;
+    int retryNumber=0;
+    while(retryNumber<maxTries)
+    {
+      boolean ok=parseLogPage(log,rootURL,pageNumber,retryNumber);
+      if (ok)
+      {
+        ret=true;
         break;
       }
-      index++;
+      retryNumber++;
     }
-    if (tableStartIndex!=-1)
+    if (!ret)
     {
-      ret=parseLogItems(lines, tableStartIndex);
+      if (_logger.isEnabledFor(Level.ERROR))
+      {
+        String name=log.getName(); 
+        _logger.error("Cannot parse character log page #"+pageNumber+" rootURL=["+rootURL+"] name=["+name+"]");
+      }
+    }
+      
+    return ret;
+  }
+
+  private boolean parseLogPage(CharacterLog log, String rootURL, int pageNumber, int retryNumber)
+  {
+    System.out.println("Page #"+pageNumber+((retryNumber>0)?" try #"+retryNumber:""));
+    boolean ret;
+    String url=rootURL+"="+String.valueOf(pageNumber);
+    try
+    {
+      Source source=new Source(new URL(url));
+      //<table class="gradient_table activitylog">
+      Element logTable=JerichoHtmlUtils.findElementByTagNameAndAttributeValue(source,HTMLElementName.TABLE,"class","gradient_table activitylog");
+      if (logTable!=null)
+      {
+        List<Element> trs=logTable.getAllElements(HTMLElementName.TR);
+        if ((trs!=null) && (trs.size()>=1))
+        {
+          // ignore first (table headers)
+          trs.remove(0);
+          for(Element tr : trs)
+          {
+            CharacterLogItem item=parseLogItem(tr);
+            if (item!=null)
+            {
+              log.addLogItem(item);
+            }
+          }
+        }
+      }
+      ret=true;
+    }
+    catch(Exception e)
+    {
+      _logger.warn("Cannot parse character page ["+url+"]",e);
+      ret=false;
     }
     return ret;
   }
 
-  private List<CharacterLogItem> parseLogItems(List<String> lines, int startIndex)
+  private CharacterLogItem parseLogItem(Element tr)
   {
-    List<CharacterLogItem> ret=new ArrayList<CharacterLogItem>();
-    int nbLines=lines.size();
-    List<Integer> startRowIndexes=new ArrayList<Integer>();
-    for(int index=startIndex;index<nbLines;index++)
-    {
-      String line=lines.get(index);
-      if (line.trim().startsWith("<tr>"))
-      {
-        startRowIndexes.add(Integer.valueOf(index));
-      }
-    }
-    if (startRowIndexes.size()>0)
-    {
-      startRowIndexes.remove(0);
-    }
-    //System.out.println(startRowIndexes);
-    for(Integer startRowIndex : startRowIndexes)
-    {
-      CharacterLogItem logItem=parseLogItem(lines,startRowIndex.intValue());
-      if (logItem!=null)
-      {
-        ret.add(logItem);
-      }
-    }
-    return ret;
-  }
-  
-  private CharacterLogItem parseLogItem(List<String> lines, int startRowIndex) {
-    String dateStr=null,label=null,url=null;
-    LogItemType type=null;
-    int nbLines=lines.size();
-    for(int index=startRowIndex;index<nbLines;index++)
-    {
-      String line=lines.get(index).trim();
-      if (line.startsWith(DATE_ROW_START))
-      {
-        dateStr=TextTools.findBetween(line,DATE_ROW_START,"</td>");
-      }
-      else if (line.startsWith(DETAILS_ROW_START))
-      {
-        for(int index2=index;index2<nbLines;index2++,index++)
-        {
-          line=lines.get(index2).trim();
-          if (line.contains("images/icons/log/icon_"))
-          {
-            url=TextTools.findBetween(line,"<a href=\"","\">");
-            String imgSrc=TextTools.findBetween(line,"<img src=\"","\" />");
-            type=findType(imgSrc);
-            label=TextTools.findAfter(line,".png\" />");
-            if ((label!=null) && (label.endsWith("</a>")))
-            {
-              label=label.substring(0,label.length()-4);
-            }
-            break;
-          }
-        }
-        break;
-      }
-    }
+/*
+<td class="char">
+<a href="/home/character/2427907/146366987891794854">Glumlug</a>
+</td>
+<td class="date">2011/11/24</td>
+<td class="details">
+<img src="http://content.turbine.com/sites/playerportal/modules/lotro-base/images/icons/log/icon_levelup.png">
+Reached level 70
+</td>
+ */
+/*
+<td class="char">
+<a href="/home/character/2427907/146366987891794854">Glumlug</a>
+</td>
+<td class="date">2011/11/24</td>
+<td class="details">
+<a href="http://lorebook.lotro.com/wiki/Special:LotroResource?id=1879208735">
+<img src="http://content.turbine.com/sites/playerportal/modules/lotro-base/images/icons/log/icon_quest.png">
+Completed 'The Practiced Arm'
+</a>
+</td>
+ */
+    
     CharacterLogItem ret=null;
-    if ((dateStr!=null) && (type!=null) && (label!=null))
+    List<Element> tds=tr.getAllElements(HTMLElementName.TD);
+    if ((tds!=null) && (tds.size()==3))
     {
-      try
+      if (_characterName==null)
       {
-        Calendar c=GregorianCalendar.getInstance(TimeZone.getTimeZone("GMT"));
-        String[] items=dateStr.split("/");
-        int year=Integer.parseInt(items[0]);
-        int month=Integer.parseInt(items[1]);
-        int day=Integer.parseInt(items[2]);
-        label=tuneLabel(label);
-        if (url!=null)
-        {
-          url=url.trim();
-        }
-        c.setTimeInMillis(0);
-        c.set(year,month-1,day);
-        long date=c.getTimeInMillis();
-        ret=new CharacterLogItem(date,type,label,url);
+        Element charName=tds.get(0);
+        _characterName=JerichoHtmlUtils.getTagContents(charName,HTMLElementName.A);
       }
-      catch(Exception e)
+      Element tdDate=tds.get(1);
+      String dateStr=CharacterReference.decodeCollapseWhiteSpace(tdDate.getContent());
+      LogItemType type=null;
+      Element tdDetails=tds.get(2);
+      List<Element> imgs=tdDetails.getAllElements(HTMLElementName.IMG);
+      Element img=null;
+      if ((imgs!=null) && (imgs.size()==1))
       {
-        _logger.error("Cannot parse LOTRO character log item!",e);
+        img=imgs.get(0);
+        String imgSrc=img.getAttributeValue("src");
+        type=findType(imgSrc);
+      }
+      String url=null;
+      Element a=tdDetails.getFirstElement(HTMLElementName.A);
+      if (a!=null)
+      {
+        url=a.getAttributeValue("href");
+      }
+      TextExtractor extractor=tdDetails.getTextExtractor();
+      if (img!=null) extractor.excludeElement(img.getStartTag());
+      if (a!=null) extractor.excludeElement(a.getStartTag());
+      String label=extractor.toString().trim();
+      
+      if ((dateStr!=null) && (type!=null) && (label!=null))
+      {
+        try
+        {
+          Calendar c=GregorianCalendar.getInstance(TimeZone.getTimeZone("GMT"));
+          String[] items=dateStr.split("/");
+          int year=Integer.parseInt(items[0]);
+          int month=Integer.parseInt(items[1]);
+          int day=Integer.parseInt(items[2]);
+          label=tuneLabel(label);
+          if (url!=null)
+          {
+            url=url.trim();
+          }
+          c.setTimeInMillis(0);
+          c.set(year,month-1,day);
+          long date=c.getTimeInMillis();
+          ret=new CharacterLogItem(date,type,label,url);
+        }
+        catch(Exception e)
+        {
+          _logger.error("Cannot parse LOTRO character log item!",e);
+        }
       }
     }
     return ret;
@@ -163,6 +266,7 @@ public class CharacterLogPageParser
     label=label.trim();
     return label;
   }
+
   private LogItemType findType(String imgSrc)
   {
     LogItemType type=LogItemType.UNKNOWN;
@@ -187,6 +291,11 @@ public class CharacterLogPageParser
       else if (imgSrc.endsWith("icon_vocation.png"))
       {
         type=LogItemType.VOCATION;
+      }
+      else if (imgSrc.endsWith("icon_pvmp.png"))
+      {
+        // Example label: Reached rank 'Footman'
+        type=LogItemType.PVMP;
       }
       else
       {
