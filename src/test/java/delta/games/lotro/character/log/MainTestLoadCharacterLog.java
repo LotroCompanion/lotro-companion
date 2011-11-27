@@ -1,0 +1,28 @@
+package delta.games.lotro.character.log;
+
+import java.io.File;
+
+import delta.common.utils.text.EncodingNames;
+import delta.games.lotro.character.log.io.xml.CharacterLogXMLParser;
+import delta.games.lotro.character.log.io.xml.CharacterLogXMLWriter;
+
+/**
+ * Test for character log parsing.
+ * @author DAM
+ */
+public class MainTestLoadCharacterLog
+{
+  /**
+   * Basic main method for test.
+   * @param args Not used.
+   */
+  public static void main(String[] args)
+  {
+    File source=new File("/home/dm/lotro/Glumlug/log 2011-11-26 1159.xml");
+    CharacterLogXMLParser parser=new CharacterLogXMLParser();
+    CharacterLog log=parser.parseXML(source);
+    File logFile=new File(source.getParentFile(),"new-"+source.getName());
+    CharacterLogXMLWriter writer=new CharacterLogXMLWriter();
+    writer.write(logFile,log,EncodingNames.UTF_8);
+  }
+}

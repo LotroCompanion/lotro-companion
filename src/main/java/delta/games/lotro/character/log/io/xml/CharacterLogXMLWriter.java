@@ -25,7 +25,7 @@ import delta.games.lotro.utils.LotroLoggers;
  */
 public class CharacterLogXMLWriter
 {
-  private static final Logger _logger=LotroLoggers.getLotroLogger();
+  private static final Logger _logger=LotroLoggers.getCharacterLogLogger();
 
   private static final String CDATA="CDATA";
   
