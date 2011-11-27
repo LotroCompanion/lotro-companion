@@ -1,6 +1,7 @@
 package delta.games.lotro.character.log;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -73,6 +74,36 @@ public class CharacterLog
   public void addLogItem(CharacterLogItem item)
   {
     _logItems.add(item);
+  }
+
+  /**
+   * Add an item to this log.
+   * @param item Item to add.
+   * @param position Insertion index.
+   */
+  public void addLogItem(CharacterLogItem item, int position)
+  {
+    _logItems.add(position,item);
+  }
+
+  /**
+   * Remove all the items for a given date.
+   * @param date Date to use.
+   * @return Number of removed items.
+   */
+  public int removeItemsOfDay(long date)
+  {
+    int nbRemoved=0;
+    for(Iterator<CharacterLogItem> it=_logItems.iterator();it.hasNext();)
+    {
+      CharacterLogItem item=it.next();
+      if (item.getDate()==date)
+      {
+        it.remove();
+        nbRemoved++;
+      }
+    }
+    return nbRemoved;
   }
 
   @Override

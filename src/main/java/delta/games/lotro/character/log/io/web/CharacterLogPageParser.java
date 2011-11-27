@@ -35,15 +35,21 @@ public class CharacterLogPageParser
   private static final String REACHED_LEVEL_SEED="Reached level ";
 
   private String _characterName;
+  private Long _stopDate;
+  private boolean _stop;
 
   /**
    * Parse the character page at the given URL.
    * @param url URL of character page.
+   * @param stopDate Ignore items strictly before the given date.
+   * <code>null</code> means no filtering.
    * @return A character or <code>null</code> if an error occurred..
    */
-  public CharacterLog parseLogPages(String url)
+  public CharacterLog parseLogPages(String url, Long stopDate)
   {
     _characterName=null;
+    _stopDate=stopDate;
+    _stop=false;
     String rootURL=url+"/activitylog?"+URLEncoder.encode("cl[pp]");
     int nbPages=parseFirstPage(rootURL);
     CharacterLog log=null;
@@ -53,6 +59,10 @@ public class CharacterLogPageParser
       for(int i=1;i<=nbPages;i++)
       {
         parseLogPage(log, rootURL, i);
+        if (_stop)
+        {
+          break;
+        }
       }
       if (_characterName!=null)
       {
@@ -148,7 +158,21 @@ public class CharacterLogPageParser
             CharacterLogItem item=parseLogItem(tr);
             if (item!=null)
             {
-              log.addLogItem(item);
+              boolean addIt=true;
+              long date=item.getDate();
+              if (_stopDate!=null)
+              {
+                if (date<_stopDate.longValue())
+                {
+                  addIt=false;
+                  _stop=true;
+                  break;
+                }
+              }
+              if (addIt)
+              {
+                log.addLogItem(item);
+              }
             }
           }
         }
