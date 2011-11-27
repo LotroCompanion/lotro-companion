@@ -38,10 +38,12 @@ public class MainTestCharacterLogUpdate
       File lastLog=manager.getLastLogFile();
       String url=toon.getBaseMyLotroURL();
       CharacterLog log;
+      int nbItemsLastLog=0;
       if (lastLog!=null)
       {
         CharacterLogXMLParser xmlLogParser=new CharacterLogXMLParser();
         log=xmlLogParser.parseXML(lastLog);
+        nbItemsLastLog=log.getNbItems();
         CharacterLogUpdater updater=new CharacterLogUpdater();
         updater.updateCharacterLog(log,url);
       }
@@ -52,10 +54,14 @@ public class MainTestCharacterLogUpdate
       }
       if (log!=null)
       {
-        File logFile=manager.getNewLogFile();
-        CharacterLogXMLWriter writer=new CharacterLogXMLWriter();
-        logFile.getParentFile().mkdirs();
-        writer.write(logFile,log,EncodingNames.UTF_8);
+        int nbItems=log.getNbItems();
+        if (nbItems!=nbItemsLastLog)
+        {
+          File logFile=manager.getNewLogFile();
+          CharacterLogXMLWriter writer=new CharacterLogXMLWriter();
+          logFile.getParentFile().mkdirs();
+          writer.write(logFile,log,EncodingNames.UTF_8);
+        }
       }
       else
       {
