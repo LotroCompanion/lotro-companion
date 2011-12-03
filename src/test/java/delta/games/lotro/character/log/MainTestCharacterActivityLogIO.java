@@ -1,18 +1,15 @@
 package delta.games.lotro.character.log;
 
-import java.io.File;
 import java.util.List;
 
-import delta.common.utils.text.EncodingNames;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.log.io.web.CharacterLogPageParser;
-import delta.games.lotro.character.log.io.xml.CharacterLogXMLWriter;
 
 /**
  * Test for character log parsing.
  * @author DAM
  */
-public class MainTestCharacterActivityLogParsing
+public class MainTestCharacterActivityLogIO
 {
   /**
    * Basic main method for test.
@@ -32,10 +29,11 @@ public class MainTestCharacterActivityLogParsing
       {
         System.out.println(log);
         CharacterLogsManager manager=new CharacterLogsManager(toon);
-        File logFile=manager.getNewLogFile();
-        logFile.getParentFile().mkdirs();
-        CharacterLogXMLWriter writer=new CharacterLogXMLWriter();
-        writer.write(logFile,log,EncodingNames.UTF_8);
+        boolean ok=manager.writeNewLog(log);
+        if (ok)
+        {
+          System.out.println("OK");
+        }
       }
     }
   }

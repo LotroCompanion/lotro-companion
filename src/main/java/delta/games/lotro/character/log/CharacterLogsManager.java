@@ -5,26 +5,44 @@ import java.io.FileFilter;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
+import org.apache.log4j.Logger;
+
+import delta.common.utils.text.EncodingNames;
 import delta.games.lotro.character.CharacterFile;
+import delta.games.lotro.character.log.io.web.CharacterLogPageParser;
+import delta.games.lotro.character.log.io.xml.CharacterLogXMLParser;
+import delta.games.lotro.character.log.io.xml.CharacterLogXMLWriter;
+import delta.games.lotro.utils.LotroLoggers;
 
 /**
+ * Manages log files for a single toon.
  * @author DAM
  */
 public class CharacterLogsManager
 {
-  private CharacterFile _file;
+  private static final Logger _logger=LotroLoggers.getCharacterLogLogger();
 
-  public CharacterLogsManager(CharacterFile file)
+  private CharacterFile _toon;
+
+  /**
+   * Constructor.
+   * @param toon Toon to manage.
+   */
+  public CharacterLogsManager(CharacterFile toon)
   {
-    _file=file;
-    
+    _toon=toon;
   }
 
+  /**
+   * Get the most recent log file.
+   * @return a file or <code>null</code> if there is no log file for this toon.
+   */
   public File getLastLogFile()
   {
     File lastLog=null;
-    File characterDir=_file.getRootDir();
+    File characterDir=_toon.getRootDir();
     if (characterDir.exists())
     {
       FileFilter filter=new FileFilter()
@@ -49,11 +67,124 @@ public class CharacterLogsManager
     return lastLog;
   }
 
-  public File getNewLogFile()
+  /**
+   * Update character log.
+   * @return <code>true</code> if it was successfull, <code>false</code> otherwise.
+   */
+  public boolean updateLog()
+  {
+    File lastLog=getLastLogFile();
+    String url=_toon.getBaseMyLotroURL();
+    CharacterLog log;
+    int nbItemsLastLog=0;
+    boolean updateOK;
+    if (lastLog!=null)
+    {
+      CharacterLogXMLParser xmlLogParser=new CharacterLogXMLParser();
+      log=xmlLogParser.parseXML(lastLog);
+      nbItemsLastLog=log.getNbItems();
+      updateOK=updateCharacterLog(log,url);
+    }
+    else
+    {
+      CharacterLogPageParser parser=new CharacterLogPageParser();
+      log=parser.parseLogPages(url,null);
+      updateOK=(log!=null);
+    }
+    boolean ret=updateOK;
+    if (updateOK)
+    {
+      int nbItems=log.getNbItems();
+      if (nbItems!=nbItemsLastLog)
+      {
+        ret=writeNewLog(log);
+      }
+    }
+    if (!ret)
+    {
+      String name=_toon.getName();
+      _logger.error("Update failed for toon ["+name+"]!");
+    }
+    return ret;
+  }
+
+  /**
+   * Write a new log file for this toon.
+   * @param log Log to write.
+   * @return <code>true</code> it it succeeds, <code>false</code> otherwise.
+   */
+  public boolean writeNewLog(CharacterLog log)
+  {
+    boolean ret=true;
+    File logFile=getNewLogFile();
+    File parentFile=logFile.getParentFile();
+    if (!parentFile.exists())
+    {
+      ret=parentFile.mkdirs();
+      if (!ret)
+      {
+        _logger.error("Cannot create directory ["+parentFile+"]!");
+      }
+    }
+    if (ret)
+    {
+      CharacterLogXMLWriter writer=new CharacterLogXMLWriter();
+      ret=writer.write(logFile,log,EncodingNames.UTF_8);
+    }
+    return ret;
+  }
+
+  private boolean updateCharacterLog(CharacterLog log, String url)
+  {
+    boolean ret=false;
+    int nbItems=log.getNbItems();
+    Long stopDate=null;
+    if (nbItems>0)
+    {
+      CharacterLogItem item=log.getLogItem(0);
+      long date=item.getDate();
+      stopDate=Long.valueOf(date);
+    }
+    CharacterLogPageParser parser=new CharacterLogPageParser();
+    CharacterLog newLog=parser.parseLogPages(url,stopDate);
+    if (newLog!=null)
+    {
+      int nbToRemove=0;
+      if (stopDate!=null)
+      {
+        List<CharacterLogItem> items=log.getItemsOfDay(stopDate.longValue());
+        nbToRemove=items.size();
+      }
+      
+      // Merge items
+      int nbNewItems=newLog.getNbItems();
+      if (nbNewItems>=nbToRemove)
+      {
+        int nbRemoved=log.removeItemsOfDay(stopDate.longValue());
+        if (_logger.isInfoEnabled())
+        {
+          _logger.info("Removed "+nbRemoved+" item(s)!");
+        }
+        for(int i=nbNewItems-1;i>=0;i--)
+        {
+          CharacterLogItem newItem=newLog.getLogItem(i);
+          log.addLogItem(newItem,0);
+        }
+        if (_logger.isInfoEnabled())
+        {
+          _logger.info("Added "+nbNewItems+" item(s)!");
+        }
+        ret=true;
+      }
+    }
+    return ret;
+  }
+
+  private File getNewLogFile()
   {
     SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HHmm");
     String filename="log "+sdf.format(new Date())+".xml";
-    File characterDir=_file.getRootDir();
+    File characterDir=_toon.getRootDir();
     File logFile=new File(characterDir,filename);
     return logFile;
   }

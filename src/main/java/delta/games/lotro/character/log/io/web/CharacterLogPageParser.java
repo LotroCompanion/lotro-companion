@@ -138,7 +138,10 @@ public class CharacterLogPageParser
 
   private boolean parseLogPage(CharacterLog log, String rootURL, int pageNumber, int retryNumber)
   {
-    System.out.println("Page #"+pageNumber+((retryNumber>0)?" try #"+retryNumber:""));
+    if (_logger.isInfoEnabled())
+    {
+      _logger.info("Page #"+pageNumber+((retryNumber>0)?" try #"+retryNumber:""));
+    }
     boolean ret;
     String url=rootURL+"="+String.valueOf(pageNumber);
     try

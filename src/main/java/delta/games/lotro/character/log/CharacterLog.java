@@ -87,6 +87,25 @@ public class CharacterLog
   }
 
   /**
+   * Get all the items for a given date.
+   * @param date Date to use.
+   * @return A possibly empty list of items.
+   */
+  public List<CharacterLogItem> getItemsOfDay(long date)
+  {
+    List<CharacterLogItem> ret=new ArrayList<CharacterLogItem>();
+    for(Iterator<CharacterLogItem> it=_logItems.iterator();it.hasNext();)
+    {
+      CharacterLogItem item=it.next();
+      if (item.getDate()==date)
+      {
+        ret.add(item);
+      }
+    }
+    return ret;
+  }
+
+  /**
    * Remove all the items for a given date.
    * @param date Date to use.
    * @return Number of removed items.
