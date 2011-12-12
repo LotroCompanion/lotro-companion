@@ -35,9 +35,11 @@ public class QuestXMLWriter
    * @param outFile Output file.
    * @param quest Quest to write.
    * @param encoding Encoding to use.
+   * @return <code>true</code> if it succeeds, <code>false</code> otherwise.
    */
-  public void write(File outFile, QuestDescription quest, String encoding)
+  public boolean write(File outFile, QuestDescription quest, String encoding)
   {
+    boolean ret;
     FileOutputStream fos=null;
     try
     {
@@ -53,15 +55,18 @@ public class QuestXMLWriter
       hd.startDocument();
       write(hd,quest);
       hd.endDocument();
+      ret=true;
     }
     catch (Exception exception)
     {
       _logger.error("",exception);
+      ret=false;
     }
     finally
     {
       StreamTools.close(fos);
     }
+    return ret;
   }
   
   private void write(TransformerHandler hd, QuestDescription quest) throws Exception

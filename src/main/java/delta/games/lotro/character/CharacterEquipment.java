@@ -127,6 +127,12 @@ public class CharacterEquipment
     private String _objectPageURL;
     private String _objectIconURL;
     
+    /**
+     * Constructor.
+     * @param slot Targeted equipment slot.
+     * @param objectURL URL of the object in this slot.
+     * @param iconURL URL of the icon of object in this slot.
+     */
     public SlotContents(EQUIMENT_SLOT slot, String objectURL, String iconURL)
     {
       _slot=slot;
@@ -134,26 +140,46 @@ public class CharacterEquipment
       _objectIconURL=iconURL;
     }
 
+    /**
+     * Get the managed slot.
+     * @return the managed slot.
+     */
     public EQUIMENT_SLOT getSlot()
     {
       return _slot;
     }
 
+    /**
+     * Set the URL of the object in this slot.
+     * @param objectPageURL URL to set.
+     */
     public void setObjectURL(String objectPageURL)
     {
       _objectPageURL=objectPageURL;
     }
 
+    /**
+     * Set the URL of the icon of the object in this slot.
+     * @param objectIconURL URL to set.
+     */
     public void setIconURL(String objectIconURL)
     {
       _objectIconURL=objectIconURL;
     }
     
+    /**
+     * Get the URL of the object in this slot.
+     * @return an URL.
+     */
     public String getObjectURL()
     {
       return _objectPageURL;
     }
 
+    /**
+     * Get the URL of the icon of the object in this slot.
+     * @return an URL.
+     */
     public String getIconURL()
     {
       return _objectIconURL;
@@ -164,7 +190,7 @@ public class CharacterEquipment
     {
       return "Slot "+_slot+": object=["+_objectPageURL+"], icon=["+_objectIconURL+"]";
     }
-  };
+  }
 
   private HashMap<Integer,SlotContents> _contents; 
 

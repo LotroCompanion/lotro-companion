@@ -36,6 +36,22 @@ public class CharacterLogsManager
   }
 
   /**
+   * Get the most recent character log.
+   * @return A character log or <code>null</code> if not found or error.
+   */
+  public CharacterLog getLastLog()
+  {
+    CharacterLog log=null;
+    File lastLog=getLastLogFile();
+    if (lastLog!=null)
+    {
+      CharacterLogXMLParser xmlLogParser=new CharacterLogXMLParser();
+      log=xmlLogParser.parseXML(lastLog);
+    }
+    return log;
+  }
+
+  /**
    * Get the most recent log file.
    * @return a file or <code>null</code> if there is no log file for this toon.
    */
@@ -103,7 +119,7 @@ public class CharacterLogsManager
     if (!ret)
     {
       String name=_toon.getName();
-      _logger.error("Update failed for toon ["+name+"]!");
+      _logger.error("Log update failed for toon ["+name+"]!");
     }
     return ret;
   }

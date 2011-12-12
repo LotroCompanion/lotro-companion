@@ -14,7 +14,7 @@ import delta.games.lotro.character.CharacterFile;
  */
 public class LotroTestUtils
 {
-  private static File ROOT_DIR=new File("/home/dm/lotro");
+  private static File ROOT_DIR=new File("/home/dm/lotro/characters/elendilmir");
 
   private HashMap<String,CharacterFile> _files;
 
@@ -49,6 +49,7 @@ public class LotroTestUtils
     newCharacterFile("Feroce","http://my.lotro.com/home/character/elendilmir/feroce/");
     newCharacterFile("Serilis","http://my.lotro.com/home/character/elendilmir/serilis/");
     newCharacterFile("Noctivagant","http://my.lotro.com/home/character/elendilmir/noctivagant/");
+    newCharacterFile("Tilmogrim","http://my.lotro.com/home/character/elendilmir/tilmogrim/");
   }
 
   /**
@@ -65,6 +66,16 @@ public class LotroTestUtils
       files.add(_files.get(name));
     }
     return files;
+  }
+
+  /**
+   * Get test toon by its name.
+   * @param name Name of the toon to get.
+   * @return A character file or <code>null</code> if not found.
+   */
+  public CharacterFile getToonByName(String name)
+  {
+    return _files.get(name);
   }
 
   /**

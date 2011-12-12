@@ -5,6 +5,6 @@ package delta.games.lotro.account;
  */
 public class LotroAccount
 {
-  private String _username;
-  private String _password;
+  //private String _username;
+  //private String _password;
 }

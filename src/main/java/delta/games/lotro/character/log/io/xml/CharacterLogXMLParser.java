@@ -21,20 +21,20 @@ public class CharacterLogXMLParser
   /**
    * Parse the XML file.
    * @param source Source file.
-   * @return Parsed model or null.
+   * @return Parsed log or <code>null</code>.
    */
   public CharacterLog parseXML(File source)
   {
-    CharacterLog model=null;
+    CharacterLog log=null;
     Element root=DOMParsingTools.parse(source);
     if (root!=null)
     {
-      model=parseModel(root);
+      log=parseLog(root);
     }
-    return model;
+    return log;
   }
 
-  private CharacterLog parseModel(Element root)
+  private CharacterLog parseLog(Element root)
   {
     String name=DOMParsingTools.getStringAttribute(root.getAttributes(),CharacterLogXMLConstants.CHARACTER_LOG_NAME_ATTR,"");
     CharacterLog log=new CharacterLog(name);

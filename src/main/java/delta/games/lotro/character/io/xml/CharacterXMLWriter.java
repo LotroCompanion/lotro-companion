@@ -37,9 +37,11 @@ public class CharacterXMLWriter
    * @param outFile Output file.
    * @param character Character to write.
    * @param encoding Encoding to use.
+   * @return <code>true</code> if it succeeds, <code>false</code> otherwise.
    */
-  public void write(File outFile, Character character, String encoding)
+  public boolean write(File outFile, Character character, String encoding)
   {
+    boolean ret;
     FileOutputStream fos=null;
     try
     {
@@ -55,15 +57,18 @@ public class CharacterXMLWriter
       hd.startDocument();
       write(hd,character);
       hd.endDocument();
+      ret=true;
     }
     catch (Exception exception)
     {
       _logger.error("",exception);
+      ret=false;
     }
     finally
     {
       StreamTools.close(fos);
     }
+    return ret;
   }
   
   private void write(TransformerHandler hd, Character character) throws Exception

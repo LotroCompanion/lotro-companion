@@ -1,7 +1,6 @@
 package delta.games.lotro.character.log.io.web;
 
 import java.net.URL;
-import java.net.URLEncoder;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -50,7 +49,7 @@ public class CharacterLogPageParser
     _characterName=null;
     _stopDate=stopDate;
     _stop=false;
-    String rootURL=url+"/activitylog?"+URLEncoder.encode("cl[pp]");
+    String rootURL=url+"/activitylog?cl%5Bpp%5D";
     int nbPages=parseFirstPage(rootURL);
     CharacterLog log=null;
     if (nbPages>0)

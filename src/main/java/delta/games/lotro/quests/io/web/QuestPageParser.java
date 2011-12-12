@@ -446,7 +446,7 @@ Item Advancement Experience
       }
       else
       {
-        System.out.println("Unknown reward type: "+key);
+        _logger.error("Unknown reward type: "+key);
       }
     }
   }
