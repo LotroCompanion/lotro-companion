@@ -93,10 +93,15 @@ public class QuestXMLWriter
     {
       questAttrs.addAttribute("","",QuestXMLConstants.QUEST_ARC_ATTR,CDATA,arc);
     }
-    Integer level=quest.getMinimumLevel();
-    if (level!=null)
+    Integer minLevel=quest.getMinimumLevel();
+    if (minLevel!=null)
     {
-      questAttrs.addAttribute("","",QuestXMLConstants.QUEST_LEVEL_ATTR,CDATA,String.valueOf(level));
+      questAttrs.addAttribute("","",QuestXMLConstants.QUEST_MIN_LEVEL_ATTR,CDATA,String.valueOf(minLevel));
+    }
+    Integer maxLevel=quest.getMaximumLevel();
+    if (maxLevel!=null)
+    {
+      questAttrs.addAttribute("","",QuestXMLConstants.QUEST_MAX_LEVEL_ATTR,CDATA,String.valueOf(maxLevel));
     }
     TYPE type=quest.getType();
     if (type!=null)
@@ -118,6 +123,19 @@ public class QuestXMLWriter
     }
 
     hd.startElement("","",QuestXMLConstants.QUEST_TAG,questAttrs);
+
+    List<String> requiredClasses=quest.getRequiredClasses();
+    if (requiredClasses!=null)
+    {
+      for(String requiredClass : requiredClasses)
+      {
+        AttributesImpl attrs=new AttributesImpl();
+        attrs.addAttribute("","",QuestXMLConstants.REQUIRED_CLASS_NAME_ATTR,CDATA,requiredClass);
+        hd.startElement("","",QuestXMLConstants.REQUIRED_CLASS_TAG,attrs);
+        hd.endElement("","",QuestXMLConstants.REQUIRED_CLASS_TAG);
+      }
+    }
+    
     writeQuestsList(hd,quest.getPrerequisiteQuests(),QuestXMLConstants.PREREQUISITES_TAG,QuestXMLConstants.PREREQUISITE_TAG,QuestXMLConstants.PREREQUISITE_NAME_ATTR);
     writeQuestsList(hd,quest.getNextQuests(),QuestXMLConstants.NEXT_QUESTS_TAG,QuestXMLConstants.NEXT_QUEST_TAG,QuestXMLConstants.NEXT_QUEST_NAME_ATTR);
     QuestRewardsXMLWriter.write(hd,quest.getQuestRewards());

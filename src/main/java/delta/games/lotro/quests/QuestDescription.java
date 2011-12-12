@@ -54,6 +54,8 @@ public class QuestDescription
   private String _scope;
   private String _questArc;
   private Integer _minimumLevel;
+  private Integer _maximumLevel;
+  private List<String> _requiredClasses;
   private TYPE _type;
   private SIZE _size;
   private boolean _repeatable;
@@ -72,6 +74,8 @@ public class QuestDescription
     _scope="";
     _questArc="";
     _minimumLevel=null;
+    _maximumLevel=null;
+    _requiredClasses=null;
     _type=TYPE.STANDARD;
     _size=SIZE.SOLO;
     _repeatable=false;
@@ -169,6 +173,46 @@ public class QuestDescription
   public void setMinimumLevel(Integer minimumLevel)
   {
     _minimumLevel=minimumLevel;
+  }
+
+  /**
+   * Get the maximum level for this quest.
+   * @return the maximumLevel for this quest.
+   */
+  public Integer getMaximumLevel()
+  {
+    return _maximumLevel;
+  }
+
+  /**
+   * Set the maximum level for this quest.
+   * @param maximumLevel the maxiimum level to set.
+   */
+  public void setMaximumLevel(Integer maximumLevel)
+  {
+    _maximumLevel=maximumLevel;
+  }
+
+  /**
+   * Get a list of required classes.
+   * @return a list of class names or <code>null</code> if none.
+   */
+  public List<String> getRequiredClasses()
+  {
+    return _requiredClasses;
+  }
+
+  /**
+   * Add a required class.
+   * @param className Name of class to add.
+   */
+  public void addRequiredClass(String className)
+  {
+    if (_requiredClasses==null)
+    {
+      _requiredClasses=new ArrayList<String>();
+    }
+    _requiredClasses.add(className);
   }
 
   /**
@@ -320,7 +364,18 @@ public class QuestDescription
     {
       sb.append("Arc: ").append(_questArc).append(EndOfLine.NATIVE_EOL);
     }
-    sb.append("Minimum level: ").append(_minimumLevel).append(EndOfLine.NATIVE_EOL);
+    if (_minimumLevel!=null)
+    {
+      sb.append("Minimum level: ").append(_minimumLevel).append(EndOfLine.NATIVE_EOL);
+    }
+    if (_maximumLevel!=null)
+    {
+      sb.append("Maximum level: ").append(_maximumLevel).append(EndOfLine.NATIVE_EOL);
+    }
+    if (_requiredClasses!=null)
+    {
+      sb.append("Required class(es): ").append(_requiredClasses).append(EndOfLine.NATIVE_EOL);
+    }
     if (_prerequisiteQuests.size()>0)
     {
       sb.append("Prerequisites: ").append(_prerequisiteQuests).append(EndOfLine.NATIVE_EOL);

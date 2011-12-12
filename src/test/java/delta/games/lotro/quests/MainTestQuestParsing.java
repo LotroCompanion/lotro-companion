@@ -29,8 +29,10 @@ public class MainTestQuestParsing
     String url7="http://lorebook.lotro.com/wiki/Quest:Set_the_Trap"; // Fellowship
     String url8="http://lorebook.lotro.com/wiki/Quest:Assault_on_the_Ringwraiths%27_Lair_--_Daily"; // Skirmish
     String url9="http://lorebook.lotro.com/wiki/Quest:Crafting%3A_Gems_for_Guleneth"; // crafting / receive&select objects
-    String[] urls={ url0, url1, url2, url3, url4, url5, url6, url7, url8, url9 };
-    //String[] urls={ url9 };
+    String url10="http://lorebook.lotro.com/wiki/Quest:A_Song_for_the_Company"; // required classes
+    String url11="http://lorebook.lotro.com/wiki/Quest:Task:_Mossy_Carapaces"; // maximum level
+    String[] urls={ url0, url1, url2, url3, url4, url5, url6, url7, url8, url9, url10, url11 };
+    //String[] urls={ url11 };
     QuestPageParser parser=new QuestPageParser();
     for(String url : urls)
     {

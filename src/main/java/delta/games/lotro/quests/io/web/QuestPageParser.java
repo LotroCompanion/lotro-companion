@@ -76,6 +76,21 @@ public class QuestPageParser
         Integer minLevel=NumericTools.parseInteger(value);
         _quest.setMinimumLevel(minLevel);
       }
+      else if ("Maximum Level".equals(key))
+      {
+        String value=nodes.get(3).toString().trim();
+        Integer maxLevel=NumericTools.parseInteger(value);
+        _quest.setMaximumLevel(maxLevel);
+      }
+      else if ("Required Classes".equals(key))
+      {
+        List<Element> as=questField.getAllElements(HTMLElementName.A);
+        for(Element a : as)
+        {
+          String className=CharacterReference.decodeCollapseWhiteSpace(a.getContent());
+          _quest.addRequiredClass(className);
+        }
+      }
       else if ((PREREQUISITE_QUESTS.equals(key)) || (NEXT_QUESTS.equals(key)))
       {
         List<Element> dds=questField.getAllElements("dd");

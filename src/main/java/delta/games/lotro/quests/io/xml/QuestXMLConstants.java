@@ -30,7 +30,11 @@ public class QuestXMLConstants
   /**
    * Tag 'quest', attribute 'minimumLevel'.
    */
-  public static final String QUEST_LEVEL_ATTR="minimumLevel";
+  public static final String QUEST_MIN_LEVEL_ATTR="minimumLevel";
+  /**
+   * Tag 'quest', attribute 'maximumLevel'.
+   */
+  public static final String QUEST_MAX_LEVEL_ATTR="maximumLevel";
   /**
    * Tag 'quest', attribute 'type'.
    */
@@ -73,4 +77,13 @@ public class QuestXMLConstants
    * Tag 'nextQuest', attribute 'name'.
    */
   public static final String NEXT_QUEST_NAME_ATTR="name";
+
+  /**
+   * Tag 'required class'.
+   */
+  public static final String REQUIRED_CLASS_TAG="requiredClass";
+  /**
+   * Tag 'required class', attribute 'name'.
+   */
+  public static final String REQUIRED_CLASS_NAME_ATTR="name";
 }
