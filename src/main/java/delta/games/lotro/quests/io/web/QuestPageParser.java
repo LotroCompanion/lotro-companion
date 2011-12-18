@@ -490,6 +490,7 @@ Item Advancement Experience
         }
       }
       ret=_quest;
+      _quest=null;
     }
     catch(Exception e)
     {
