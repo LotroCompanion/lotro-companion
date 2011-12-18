@@ -345,7 +345,7 @@ public class QuestDescription
     {
       sb.append(" (");
       sb.append(_size);
-      sb.append('(');
+      sb.append(')');
     }
     if (_repeatable)
     {

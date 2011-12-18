@@ -17,6 +17,7 @@ import delta.games.lotro.quests.io.xml.QuestXMLWriter;
 import delta.games.lotro.utils.LotroLoggers;
 
 /**
+ * Batch quest parsing from MyLotro.
  * @author DAM
  */
 public class MainTestBatchQuestsParsing
