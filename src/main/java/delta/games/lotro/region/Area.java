@@ -61,8 +61,8 @@ public class Area
   }
 
   /**
-   * Get all the areas of this region.
-   * @return an array of areas.
+   * Get all the quests of this area.
+   * @return an array of quests.
    */
   public String[] getQuestIdentifiers()
   {
@@ -71,7 +71,7 @@ public class Area
   }
 
   /**
-   * Dump the contents of this region as a string.
+   * Dump the contents of this area as a string.
    * @return A readable string.
    */
   public String dump()

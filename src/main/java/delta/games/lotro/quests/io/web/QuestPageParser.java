@@ -18,12 +18,16 @@ import delta.games.lotro.common.Faction;
 import delta.games.lotro.common.Money;
 import delta.games.lotro.common.Reputation;
 import delta.games.lotro.common.ReputationItem;
+import delta.games.lotro.common.Skill;
+import delta.games.lotro.common.Title;
+import delta.games.lotro.common.Trait;
+import delta.games.lotro.common.Skill.SkillType;
 import delta.games.lotro.common.objects.ObjectItem;
 import delta.games.lotro.common.objects.ObjectsSet;
 import delta.games.lotro.quests.QuestDescription;
-import delta.games.lotro.quests.QuestRewards;
 import delta.games.lotro.quests.QuestDescription.SIZE;
 import delta.games.lotro.quests.QuestDescription.TYPE;
+import delta.games.lotro.quests.QuestRewards;
 import delta.games.lotro.utils.JerichoHtmlUtils;
 import delta.games.lotro.utils.LotroLoggers;
 
@@ -39,6 +43,10 @@ public class QuestPageParser
   private static final String QUEST_SEED="Quest:";
   private static final String RECEIVE_KEY="Receive";
   private static final String SELECT_ONE_OF_KEY="Select one of";
+  private static final String TRAIT_URL_SEED="Trait:";
+  private static final String PASSIVE_SKILL_URL_SEED="Passive_Skill:";
+  private static final String URL_SEED="/wiki/";
+  private static final String TITLE_URL_SEED="/wiki/Title:";
 
   private QuestDescription _quest;
 
@@ -276,6 +284,109 @@ public class QuestPageParser
     */    
   }
 
+  private void parseTraitReward(Element rewardDiv)
+  {
+    List<Element> as=rewardDiv.getAllElements(HTMLElementName.A);
+    int size=(as!=null)?as.size():0;
+    if (size==2)
+    {
+      Element secondA=as.get(1);
+      String name=CharacterReference.decodeCollapseWhiteSpace(secondA.getContent());
+      //String iconURL=null;
+      Element firstA=as.get(0);
+      String url=firstA.getAttributeValue("href");
+      if ((url!=null) && (url.startsWith(URL_SEED)))
+      {
+        String qualifiedIdentifier=url.substring(URL_SEED.length()).trim();
+        if (qualifiedIdentifier.startsWith(TRAIT_URL_SEED))
+        {
+          String identifier=qualifiedIdentifier.substring(TRAIT_URL_SEED.length()).trim();
+          Trait trait=new Trait(identifier,name);
+          _quest.getQuestRewards().addTrait(trait);
+          //System.out.println(trait.dump());
+        }
+        else if (qualifiedIdentifier.startsWith(PASSIVE_SKILL_URL_SEED))
+        {
+          String identifier=qualifiedIdentifier.substring(PASSIVE_SKILL_URL_SEED.length()).trim();
+          Skill skill=new Skill(SkillType.PASSIVE,identifier,name);
+          _quest.getQuestRewards().addSkill(skill);
+          //System.out.println(skill.dump());
+        }
+        else
+        {
+          _logger.warn("Unmanaged trait/skill identifier ["+qualifiedIdentifier+"]");
+        }
+        /*
+        List<Element> imgs=firstA.getAllElements(HTMLElementName.IMG);
+        if ((imgs!=null) && (imgs.size()>=1))
+        {
+          Element img=imgs.get(0);
+          iconURL=img.getAttributeValue("src");
+        }
+        */
+      }
+      else
+      {
+        _logger.warn("Malformed URL ["+url+"]");
+      }
+    }
+    else
+    {
+      _logger.warn("Trait reward with "+size+" anchor tags!");
+    }
+    /*
+    <div class="questReward">
+    <div>
+    <strong>Traits:</strong>
+    </div>
+    <div>
+    <a href="/wiki/Trait:Expert_Woodworker_Proficiency">
+    <img class="icon" src="http://content.turbine.com/sites/lorebook.lotro.com/images/icons/trait/trait_c_craft_woodworker_complete_proficiency_3.png">
+    </a>
+    <a href="/wiki/Trait:Expert_Woodworker_Proficiency">Expert Woodworker Proficiency</a>
+    </div>
+    </div>
+     */
+  }
+
+  private void parseTitleReward(Element rewardDiv)
+  {
+    List<Element> as=rewardDiv.getAllElements(HTMLElementName.A);
+    int size=(as!=null)?as.size():0;
+    if (size==1)
+    {
+      String name=null;
+      String titleIdentifier=null;
+      //String iconURL=null;
+      Element firstA=as.get(0);
+      String url=firstA.getAttributeValue("href");
+      if ((url!=null) && (url.startsWith(TITLE_URL_SEED)))
+      {
+        titleIdentifier=url.substring(TITLE_URL_SEED.length()).trim();
+      }
+      name=CharacterReference.decodeCollapseWhiteSpace(firstA.getContent());
+      if ((name!=null) && (titleIdentifier!=null))
+      {
+        Title title=new Title(titleIdentifier,name);
+        _quest.getQuestRewards().addTitle(title);
+      }
+    }
+    else
+    {
+      _logger.warn("Title with "+size+" anchor tags!");
+    }
+/*
+<div class="questReward">
+<div>
+<strong>Titles:</strong>
+</div>
+<div>
+<a href="/wiki/Title:_Honorary_Shirriff"> Honorary Shirriff</a>
+</div>
+</div>
+ */
+  }
+
   private Reputation parseReputationReward(Element rewardDiv)
   {
     //System.out.println("Reputation reward!");
@@ -458,6 +569,14 @@ Item Advancement Experience
       {
         boolean itemXP=parseItemXPReward(rewardDiv);
         rewards.setHasItemXP(itemXP);
+      }
+      else if ("Traits".equals(key))
+      {
+        parseTraitReward(rewardDiv);
+      }
+      else if ("Titles".equals(key))
+      {
+        parseTitleReward(rewardDiv);
       }
       else
       {

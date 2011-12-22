@@ -7,6 +7,9 @@ import org.xml.sax.helpers.AttributesImpl;
 import delta.games.lotro.common.Money;
 import delta.games.lotro.common.Reputation;
 import delta.games.lotro.common.ReputationItem;
+import delta.games.lotro.common.Skill;
+import delta.games.lotro.common.Title;
+import delta.games.lotro.common.Trait;
 import delta.games.lotro.common.objects.ObjectItem;
 import delta.games.lotro.common.objects.ObjectsSet;
 import delta.games.lotro.quests.QuestRewards;
@@ -54,12 +57,62 @@ public class QuestRewardsXMLWriter
       }
       hd.endElement("","",QuestRewardsXMLConstants.REPUTATION_TAG);
     }
+    // Item XP
     boolean hasItemXP=rewards.hasItemXP();
     if (hasItemXP)
     {
       hd.startElement("","",QuestRewardsXMLConstants.ITEM_XP_TAG,new AttributesImpl());
       hd.endElement("","",QuestRewardsXMLConstants.ITEM_XP_TAG);
     }
+    // Traits
+    Trait[] traits=rewards.getTraits();
+    if (traits!=null)
+    {
+      for(Trait trait : traits)
+      {
+        AttributesImpl attrs=new AttributesImpl();
+        String id=trait.getIdentifier();
+        attrs.addAttribute("","",QuestRewardsXMLConstants.TRAIT_ID_ATTR,CDATA,id);
+        String name=trait.getName();
+        attrs.addAttribute("","",QuestRewardsXMLConstants.TRAIT_NAME_ATTR,CDATA,name);
+        hd.startElement("","",QuestRewardsXMLConstants.TRAIT_TAG,attrs);
+        hd.endElement("","",QuestRewardsXMLConstants.TRAIT_TAG);
+      }
+    }
+    // Skills
+    Skill[] skills=rewards.getSkills();
+    if (skills!=null)
+    {
+      for(Skill skill : skills)
+      {
+        AttributesImpl attrs=new AttributesImpl();
+        String id=skill.getIdentifier();
+        attrs.addAttribute("","",QuestRewardsXMLConstants.SKILL_ID_ATTR,CDATA,id);
+        String type=skill.getType().toString();
+        attrs.addAttribute("","",QuestRewardsXMLConstants.SKILL_TYPE_ATTR,CDATA,type);
+        String name=skill.getName();
+        attrs.addAttribute("","",QuestRewardsXMLConstants.SKILL_NAME_ATTR,CDATA,name);
+        hd.startElement("","",QuestRewardsXMLConstants.SKILL_TAG,attrs);
+        hd.endElement("","",QuestRewardsXMLConstants.SKILL_TAG);
+      }
+    }
+    // Titles
+    Title[] titles=rewards.getTitles();
+    if (titles!=null)
+    {
+      for(Title title : titles)
+      {
+        AttributesImpl attrs=new AttributesImpl();
+        String id=title.getIdentifier();
+        attrs.addAttribute("","",QuestRewardsXMLConstants.TITLE_ID_ATTR,CDATA,id);
+        String name=title.getName();
+        attrs.addAttribute("","",QuestRewardsXMLConstants.TITLE_NAME_ATTR,CDATA,name);
+        hd.startElement("","",QuestRewardsXMLConstants.TITLE_TAG,attrs);
+        hd.endElement("","",QuestRewardsXMLConstants.TITLE_TAG);
+      }
+    }
+
+    
     writeObjectsList(hd,rewards.getObjects(),null);
     writeObjectsList(hd,rewards.getSelectObjects(),QuestRewardsXMLConstants.SELECT_ONE_OF_TAG);
     hd.endElement("","",QuestRewardsXMLConstants.REWARDS_TAG);

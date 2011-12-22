@@ -10,6 +10,10 @@ import delta.games.lotro.common.Faction;
 import delta.games.lotro.common.Money;
 import delta.games.lotro.common.Reputation;
 import delta.games.lotro.common.ReputationItem;
+import delta.games.lotro.common.Skill;
+import delta.games.lotro.common.Skill.SkillType;
+import delta.games.lotro.common.Title;
+import delta.games.lotro.common.Trait;
 import delta.games.lotro.common.objects.ObjectItem;
 import delta.games.lotro.common.objects.ObjectsSet;
 import delta.games.lotro.quests.QuestRewards;
@@ -67,6 +71,48 @@ public class QuestRewardsXMLParser
       // Item XP
       Element itemXP=DOMParsingTools.getChildTagByName(rewardsTag,QuestRewardsXMLConstants.ITEM_XP_TAG);
       rewards.setHasItemXP(itemXP!=null);
+      
+      // Traits
+      List<Element> traitTags=DOMParsingTools.getChildTagsByName(rewardsTag,QuestRewardsXMLConstants.TRAIT_TAG);
+      for(Element traitTag : traitTags)
+      {
+        NamedNodeMap attrs=traitTag.getAttributes();
+        String id=DOMParsingTools.getStringAttribute(attrs,QuestRewardsXMLConstants.TRAIT_ID_ATTR,null);
+        String name=DOMParsingTools.getStringAttribute(attrs,QuestRewardsXMLConstants.TRAIT_NAME_ATTR,"");
+        if (id!=null)
+        {
+          Trait trait=new Trait(id,name);
+          rewards.addTrait(trait);
+        }
+      }
+      // Skills
+      List<Element> skillTags=DOMParsingTools.getChildTagsByName(rewardsTag,QuestRewardsXMLConstants.SKILL_TAG);
+      for(Element skillTag : skillTags)
+      {
+        NamedNodeMap attrs=skillTag.getAttributes();
+        String id=DOMParsingTools.getStringAttribute(attrs,QuestRewardsXMLConstants.SKILL_ID_ATTR,null);
+        String typeStr=DOMParsingTools.getStringAttribute(attrs,QuestRewardsXMLConstants.SKILL_TYPE_ATTR,"");
+        SkillType type=SkillType.valueOf(typeStr);
+        String name=DOMParsingTools.getStringAttribute(attrs,QuestRewardsXMLConstants.SKILL_NAME_ATTR,"");
+        if (id!=null)
+        {
+          Skill skill=new Skill(type,id,name);
+          rewards.addSkill(skill);
+        }
+      }
+      // Titles
+      List<Element> titleTags=DOMParsingTools.getChildTagsByName(rewardsTag,QuestRewardsXMLConstants.TITLE_TAG);
+      for(Element titleTag : titleTags)
+      {
+        NamedNodeMap attrs=titleTag.getAttributes();
+        String id=DOMParsingTools.getStringAttribute(attrs,QuestRewardsXMLConstants.TITLE_ID_ATTR,null);
+        String name=DOMParsingTools.getStringAttribute(attrs,QuestRewardsXMLConstants.TITLE_NAME_ATTR,"");
+        if (id!=null)
+        {
+          Title title=new Title(id,name);
+          rewards.addTitle(title);
+        }
+      }
 
       // Objects
       List<Element> objectTags=DOMParsingTools.getChildTagsByName(rewardsTag,QuestRewardsXMLConstants.OBJECT_TAG,false);
