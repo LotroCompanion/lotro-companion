@@ -34,9 +34,10 @@ public class MainTestQuestParsing
     String url12="http://lorebook.lotro.com/wiki/Quest:The_Heart_of_the_Wood%2C_Part_III"; // traits
     String url13="http://lorebook.lotro.com/wiki/Quest:A_Bounder_of_Great_Merit"; // titles
     String url14="http://lorebook.lotro.com/wiki/Quest:A_Secret_Club"; // passive skill
+    String url15="http://lorebook.lotro.com/wiki/Quest:A_Feminine_Curve_to_the_Steel"; // duplicate definition
     String[] urls={ url0, url1, url2, url3, url4, url5, url6, url7, url8, url9, url10,
-        url11, url12, url13, url14 };
-    //String[] urls={ url13 };
+        url11, url12, url13, url14, url15 };
+    //String[] urls={ url15 };
     QuestPageParser parser=new QuestPageParser();
     for(String url : urls)
     {
