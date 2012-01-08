@@ -48,6 +48,7 @@ public class CharacterLogItem
   private LogItemType _type;
   private String _label;
   private String _resourceUrl;
+  private String _identifier;
   
   /**
    * Full constructor.
@@ -62,6 +63,7 @@ public class CharacterLogItem
     _type=type;
     _label=label;
     _resourceUrl=resourceUrl;
+    _identifier=null;
   }
   
   /**
@@ -98,6 +100,24 @@ public class CharacterLogItem
   public String getAssociatedUrl()
   {
     return _resourceUrl;
+  }
+
+  /**
+   * Get the identifier of this log item.
+   * @return an identifier or <code>null</code> if there's none.
+   */
+  public String getIdentifier()
+  {
+    return _identifier;
+  }
+
+  /**
+   * Set the identifier.
+   * @param identifier Identifier to set.
+   */
+  public void setIdentifier(String identifier)
+  {
+    _identifier=identifier;
   }
 
   @Override

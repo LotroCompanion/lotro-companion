@@ -15,6 +15,7 @@ public class Config
   private String _myLotroRootURL;
   private File _rootDataDir;
   private File _toonsDir;
+  private File _questsDir;
   private List<String> _servers;
 
   /**
@@ -37,6 +38,16 @@ public class Config
     _servers=new ArrayList<String>();
     _servers.add("Elendilmir");
     _servers.add("Riddermark");
+    _questsDir=new File(_rootDataDir,"quests");
+  }
+
+  /**
+   * Get the root directory for quest data storage.
+   * @return a directory.
+   */
+  public File getQuestsDir()
+  {
+    return _questsDir;
   }
 
   /**

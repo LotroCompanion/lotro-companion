@@ -11,9 +11,11 @@ import org.apache.log4j.Logger;
 
 import delta.common.utils.text.EncodingNames;
 import delta.games.lotro.character.CharacterFile;
+import delta.games.lotro.character.log.CharacterLogItem.LogItemType;
 import delta.games.lotro.character.log.io.web.CharacterLogPageParser;
 import delta.games.lotro.character.log.io.xml.CharacterLogXMLParser;
 import delta.games.lotro.character.log.io.xml.CharacterLogXMLWriter;
+import delta.games.lotro.quests.io.web.MyLotroURL2Identifier;
 import delta.games.lotro.utils.LotroLoggers;
 
 /**
@@ -122,6 +124,48 @@ public class CharacterLogsManager
       _logger.error("Log update failed for toon ["+name+"]!");
     }
     return ret;
+  }
+
+  /**
+   * Update quest identifiers.
+   */
+  public void updateIdentifiers()
+  {
+    File lastLog=getLastLogFile();
+    if (lastLog!=null)
+    {
+      CharacterLogXMLParser xmlLogParser=new CharacterLogXMLParser();
+      CharacterLog log=xmlLogParser.parseXML(lastLog);
+      if (log!=null)
+      {
+        MyLotroURL2Identifier finder=new MyLotroURL2Identifier();
+        int nbItems=log.getNbItems();
+        for(int i=0;i<nbItems;i++)
+        {
+          CharacterLogItem item=log.getLogItem(i);
+          LogItemType type=item.getLogItemType();
+          if ((type==LogItemType.DEED) || (type==LogItemType.QUEST))
+          {
+            String oldId=item.getIdentifier();
+            if (oldId==null)
+            {
+              String itemURL=item.getAssociatedUrl();
+              String id=finder.findIdentifier(itemURL);
+              if (id!=null)
+              {
+                item.setIdentifier(id);
+                System.out.println("Found id ["+id+"] for URL ["+itemURL+"]");
+              }
+              else
+              {
+                System.out.println("No match for ["+item+"]");
+              }
+            }
+          }
+        }
+        writeNewLog(log);
+      }
+    }
   }
 
   /**

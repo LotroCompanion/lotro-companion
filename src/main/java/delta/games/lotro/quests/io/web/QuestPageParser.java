@@ -1,11 +1,13 @@
 package delta.games.lotro.quests.io.web;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 import net.htmlparser.jericho.CharacterReference;
 import net.htmlparser.jericho.Element;
 import net.htmlparser.jericho.HTMLElementName;
+import net.htmlparser.jericho.Renderer;
 import net.htmlparser.jericho.Segment;
 import net.htmlparser.jericho.Source;
 import net.htmlparser.jericho.StartTag;
@@ -47,8 +49,10 @@ public class QuestPageParser
   private static final String PASSIVE_SKILL_URL_SEED="Passive_Skill:";
   private static final String URL_SEED="/wiki/";
   private static final String TITLE_URL_SEED="/wiki/Title:";
+  private static final String QUEST_URL_SEED="/wiki/Quest:";
 
   private QuestDescription _quest;
+  private String _identifier;
 
   private String cleanupFieldName(String key)
   {
@@ -112,9 +116,19 @@ public class QuestPageParser
         String value=nodes.get(5).toString().trim();
         _quest.setQuestArc(value);
       }
+      else if ("Required Races".equals(key))
+      {
+        List<Element> as=questField.getAllElements(HTMLElementName.A);
+        for(Element a : as)
+        {
+          String race=CharacterReference.decodeCollapseWhiteSpace(a.getContent());
+          _quest.addRequiredRace(race);
+        }
+      }
+      // TODO: "Monster Play Quest"
       else
       {
-        _logger.warn("Unmanaged quest field key ["+key+"]");
+        _logger.warn("Quest ["+_identifier+"]. Unmanaged quest field key ["+key+"]");
       }
     }
     else
@@ -128,14 +142,18 @@ public class QuestPageParser
     List<Element> as=dd.getAllElements(HTMLElementName.A);
     for(Element a : as)
     {
-      String value=CharacterReference.decodeCollapseWhiteSpace(a.getContent());
-      if (PREREQUISITE_QUESTS.equals(category))
+      String url=a.getAttributeValue("href");
+      if ((url!=null) && (url.startsWith(QUEST_URL_SEED)))
       {
-        _quest.addPrerequisiteQuest(value);
-      }
-      else if (NEXT_QUESTS.equals(category))
-      {
-        _quest.addNextQuest(value);
+        String value=url.substring(QUEST_URL_SEED.length());
+        if (PREREQUISITE_QUESTS.equals(category))
+        {
+          _quest.addPrerequisiteQuest(value);
+        }
+        else if (NEXT_QUESTS.equals(category))
+        {
+          _quest.addNextQuest(value);
+        }
       }
     }
   }
@@ -168,9 +186,10 @@ public class QuestPageParser
         {
           _quest.setType(TYPE.RAID);
         }
+        // TODO: "Instance"
         else
         {
-          _logger.warn("Unmanaged quest icon title ["+title+"]");
+          _logger.warn("Quest ["+_identifier+"]. Unmanaged quest icon title ["+title+"]");
         }
       }
     }
@@ -259,7 +278,7 @@ public class QuestPageParser
                   }
                   else
                   {
-                    _logger.warn("Unknown coin type ["+type+"]");
+                    _logger.warn("Quest ["+_identifier+"]. Unknown coin type ["+type+"]");
                   }
                 }
               }
@@ -314,7 +333,7 @@ public class QuestPageParser
         }
         else
         {
-          _logger.warn("Unmanaged trait/skill identifier ["+qualifiedIdentifier+"]");
+          _logger.warn("Quest ["+_identifier+"]. Unmanaged trait/skill identifier ["+qualifiedIdentifier+"]");
         }
         /*
         List<Element> imgs=firstA.getAllElements(HTMLElementName.IMG);
@@ -327,12 +346,12 @@ public class QuestPageParser
       }
       else
       {
-        _logger.warn("Malformed URL ["+url+"]");
+        _logger.warn("Quest ["+_identifier+"]. Malformed URL ["+url+"]");
       }
     }
     else
     {
-      _logger.warn("Trait reward with "+size+" anchor tags!");
+      _logger.warn("Quest ["+_identifier+"]. Trait reward with "+size+" anchor tags!");
     }
     /*
     <div class="questReward">
@@ -373,7 +392,7 @@ public class QuestPageParser
     }
     else
     {
-      _logger.warn("Title with "+size+" anchor tags!");
+      _logger.warn("Quest ["+_identifier+"]. Title with "+size+" anchor tags!");
     }
 /*
 <div class="questReward">
@@ -457,7 +476,7 @@ public class QuestPageParser
         }
         else
         {
-          _logger.warn("Unmanaged object selection key ["+key+"]");
+          _logger.warn("Quest ["+_identifier+"]. Unmanaged object selection key ["+key+"]");
         }
       }
       else
@@ -502,7 +521,7 @@ public class QuestPageParser
           }
           else
           {
-            _logger.warn("Ignored object ["+item+"], quantity="+quantity);
+            _logger.warn("Quest ["+_identifier+"]. Ignored object ["+item+"], quantity="+quantity);
           }
           //System.out.println("Item: "+itemName+", URL: "+url);
         }
@@ -542,6 +561,22 @@ Item Advancement Experience
      */
   }
 
+  private void parseDestinyPoints(Element rewardDiv)
+  {
+    // TODO: parse destiny points!
+/*
+<div class="questReward">
+<div>
+<strong>Destiny Points:</strong>
+</div>
+<div>
+250
+<img class="icon" src="http://content.turbine.com/sites/lorebook.lotro.com/images/icons/icon_destiny_points_15.png">
+</div>
+</div>
+ */
+  }
+
   private void parseReward(Element rewardDiv)
   {
     List<Element> strongs=rewardDiv.getAllElements(HTMLElementName.STRONG);
@@ -578,43 +613,161 @@ Item Advancement Experience
       {
         parseTitleReward(rewardDiv);
       }
+      else if ("Destiny Points".equals(key))
+      {
+        parseDestinyPoints(rewardDiv);
+      }
       else
       {
-        _logger.error("Unknown reward type: "+key);
+        _logger.error("Quest ["+_identifier+"]. Unknown reward type: "+key);
       }
     }
   }
 
-  /**
-   * Parse the quest page at the given URL.
-   * @param url URL of quest page.
-   * @return A quest or <code>null</code> if an error occurred..
-   */
-  public QuestDescription parseQuestPage(String url)
+  private String getTextFromTag(Element tag)
+  {
+    //TextExtractor extractor=tag.getTextExtractor();
+    Renderer extractor=tag.getRenderer();
+    extractor.setMaxLineLength(10000);
+    extractor.setIncludeHyperlinkURLs(false);
+    String text=extractor.toString();
+    return text;
+  }
+
+  private QuestDescription parseQuestSection(Element questSection)
   {
     QuestDescription ret=null;
     try
     {
       _quest=new QuestDescription();
-      Source source=new Source(new URL(url));
-  
-      //<div id="lorebookNoedit">
-      Element lorebook=JerichoHtmlUtils.findElementByTagNameAndAttributeValue(source,HTMLElementName.DIV,"id","lorebookNoedit");
-      if (lorebook!=null)
+      Element officialSection=JerichoHtmlUtils.findElementByTagNameAndAttributeValue(questSection,HTMLElementName.DIV,"class","officialsection");
+      if (officialSection!=null)
       {
-        Element officialSection=JerichoHtmlUtils.findElementByTagNameAndAttributeValue(lorebook,HTMLElementName.DIV,"class","officialsection");
-        if (officialSection!=null)
+        parseQuestDescription(officialSection);
+      }
+      // Texts
+      StringBuilder description=new StringBuilder();
+      StringBuilder bestower=new StringBuilder();
+      StringBuilder bestowerText=new StringBuilder();
+      StringBuilder objectives=new StringBuilder();
+      List<Element> textSections=JerichoHtmlUtils.findElementsByTagNameAndAttributeValue(questSection,HTMLElementName.DIV,"class","iteminfosection widget ui-corner-all");
+      for(Element textSection : textSections)
+      {
+        Element titleSection=JerichoHtmlUtils.findElementByTagNameAndAttributeValue(textSection,HTMLElementName.DIV,"class","widget-head ui-widget-header ui-corner-top");
+        if (titleSection!=null)
         {
-          parseQuestDescription(officialSection);
+          String textSectionTitle=CharacterReference.decodeCollapseWhiteSpace(titleSection.getContent());
+          Element contentsSection=JerichoHtmlUtils.findElementByTagNameAndAttributeValue(textSection,HTMLElementName.DIV,"class","widget-body ui-widget-content ui-corner-bottom");
+          if (contentsSection!=null)
+          {
+            StringBuilder link=null;
+            StringBuilder text=null;
+            if ("Description".equals(textSectionTitle))
+            {
+              text=description;
+            }
+            else if ("Bestower".equals(textSectionTitle))
+            {
+              link=bestower;
+              text=bestowerText;
+            }
+            else if ("Objectives".equals(textSectionTitle))
+            {
+              text=objectives;
+            }
+            if (text!=null)
+            {
+              Element bestowerTag=JerichoHtmlUtils.findElementByTagNameAndAttributeValue(contentsSection,HTMLElementName.DIV,"class","bestowertext");
+              if (bestowerTag!=null)
+              {
+                String contents=getTextFromTag(bestowerTag);
+                text.append(contents);
+              }
+            }
+            if (link!=null)
+            {
+              Element bestowerLink=JerichoHtmlUtils.findElementByTagNameAndAttributeValue(contentsSection,HTMLElementName.DIV,"class","bestowerlink");
+              if (bestowerLink!=null)
+              {
+                String contents=getTextFromTag(bestowerLink);
+                link.append(contents);
+              }
+            }
+          }
         }
       }
+      _quest.setDescription(description.toString().trim());
+      _quest.setBestower(bestower.toString().trim());
+      _quest.setBestowerText(bestowerText.toString().trim());
+      _quest.setObjectives(objectives.toString().trim());
       ret=_quest;
       _quest=null;
     }
     catch(Exception e)
     {
       ret=null;
+      _logger.error("Quest ["+_identifier+"]. Cannot parse quest section!",e);
+    }
+    return ret;
+  }
+
+  /**
+   * Parse the quest page at the given URL.
+   * @param url URL of quest page.
+   * @return A quest or <code>null</code> if an error occurred.
+   */
+  public QuestDescription parseQuestPage(String url)
+  {
+    List<QuestDescription> quests=null;
+    try
+    {
+      // TODO: fetch page text first (centralized downloader to cope with proxy problems?)
+      
+      Source source=new Source(new URL(url));
+
+      //<div id="lorebookNoedit">
+      Element lorebook=JerichoHtmlUtils.findElementByTagNameAndAttributeValue(source,HTMLElementName.DIV,"id","lorebookNoedit");
+      if (lorebook!=null)
+      {
+        // identifier
+        // <a id="ca-nstab-quest" class="lorebook_action_link" href="/wiki/Quest:A_Feminine_Curve_to_the_Steel">Article</a>
+        _identifier=null;
+        Element articleLink=JerichoHtmlUtils.findElementByTagNameAndAttributeValue(source,HTMLElementName.A,"id","ca-nstab-quest");
+        if (articleLink!=null)
+        {
+          String thisURL=articleLink.getAttributeValue("href");
+          if ((thisURL!=null) && (thisURL.startsWith(QUEST_URL_SEED)))
+          {
+            _identifier=thisURL.substring(QUEST_URL_SEED.length()).trim();
+          }
+        }
+
+        quests=new ArrayList<QuestDescription>();
+        List<Element> questSections=JerichoHtmlUtils.findElementsByTagNameAndAttributeValue(lorebook,HTMLElementName.DIV,"class","lorebookquest");
+        if ((questSections!=null) && (questSections.size()>0))
+        {
+          for(Element questSection : questSections)
+          {
+            QuestDescription quest=parseQuestSection(questSection);
+            if (quest!=null)
+            {
+              //System.out.println(quest.dump());
+              quests.add(quest);
+              quest.setIdentifier(_identifier);
+            }
+          }
+        }
+      }
+    }
+    catch(Exception e)
+    {
+      quests=null;
       _logger.error("Cannot parse quest page ["+url+"]",e);
+    }
+    QuestDescription ret=null;
+    if ((quests!=null) && (quests.size()>0))
+    {
+      ret=quests.get(0);
     }
     return ret;
   }

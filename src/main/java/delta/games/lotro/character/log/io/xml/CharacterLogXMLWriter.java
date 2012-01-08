@@ -107,6 +107,11 @@ public class CharacterLogXMLWriter
     {
       attrs.addAttribute("","",CharacterLogXMLConstants.LOG_ITEM_URL_ATTR,CDATA,url);
     }
+    String identifier=item.getIdentifier();
+    if (identifier!=null)
+    {
+      attrs.addAttribute("","",CharacterLogXMLConstants.LOG_ITEM_ID_ATTR,CDATA,identifier);
+    }
     hd.startElement("","",CharacterLogXMLConstants.LOG_ITEM_TAG,attrs);
     hd.endElement("","",CharacterLogXMLConstants.LOG_ITEM_TAG);
   }

@@ -1,19 +1,16 @@
 package delta.games.lotro.quests;
 
-import java.io.File;
-
-import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
-import delta.common.utils.text.EncodingNames;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.log.CharacterLog;
 import delta.games.lotro.character.log.CharacterLogItem;
 import delta.games.lotro.character.log.CharacterLogItem.LogItemType;
 import delta.games.lotro.character.log.CharacterLogsManager;
 import delta.games.lotro.character.log.LotroTestUtils;
-import delta.games.lotro.quests.io.web.QuestPageParser;
-import delta.games.lotro.quests.io.xml.QuestXMLWriter;
+import delta.games.lotro.quests.index.QuestCategory;
+import delta.games.lotro.quests.index.QuestSummary;
+import delta.games.lotro.quests.index.QuestsIndex;
 import delta.games.lotro.utils.LotroLoggers;
 
 /**
@@ -23,6 +20,95 @@ import delta.games.lotro.utils.LotroLoggers;
 public class MainTestBatchQuestsParsing
 {
   private static final Logger _logger=LotroLoggers.getLotroLogger();
+  private static final boolean DO_TOON_QUESTS=false;
+  private static final boolean DO_INDEX_QUESTS=true;
+
+  private void doIt()
+  {
+    if (DO_TOON_QUESTS)
+    {
+      CharacterFile toon=new LotroTestUtils().getMainToon();
+      loadToonQuests(toon);
+    }
+    if (DO_INDEX_QUESTS)
+    {
+      loadQuests();
+    }
+  }
+
+  private void loadQuests()
+  {
+    QuestsManager qm=QuestsManager.getInstance();
+    QuestsIndex index=qm.getIndex();
+    String[] categories=index.getCategories();
+    for(String category : categories)
+    {
+      loadQuestsForCategory(category);
+    }
+  }
+
+  private void loadQuestsForCategory(String categoryName)
+  {
+    System.out.println("Category ["+categoryName+"]");
+    QuestsManager qm=QuestsManager.getInstance();
+    QuestsIndex index=qm.getIndex();
+    QuestCategory category=index.getCategory(categoryName);
+    QuestSummary[] summaries=category.getQuests();
+    int nbItems=summaries.length;
+    int nbOK=0;
+    for(QuestSummary summary : summaries)
+    {
+      String id=summary.getId();
+      String name=summary.getName();
+      QuestDescription q=qm.getQuest(id);
+      if (q!=null)
+      {
+        String title=q.getTitle();
+        if (!name.equals(title))
+        {
+          System.out.println("Warn name=["+name+"], title=["+title+"]!");
+        }
+        nbOK++;
+      }
+    }
+    System.out.println("Category ["+categoryName+"]: got "+nbOK+"/"+nbItems);
+  }
+
+  private void loadToonQuests(CharacterFile toon)
+  {
+    CharacterLogsManager logManager=new CharacterLogsManager(toon);
+    CharacterLog log=logManager.getLastLog();
+    if (log!=null)
+    {
+      QuestsManager qm=QuestsManager.getInstance();
+      int nb=log.getNbItems();
+      for(int i=0;i<nb;i++)
+      {
+        CharacterLogItem item=log.getLogItem(i);
+        if (item.getLogItemType()==LogItemType.QUEST)
+        {
+          String id=item.getIdentifier();
+          _logger.info("Item "+(i+1)+"/"+nb+": "+item.getLabel());
+          if ((id!=null) && (id.length()>0))
+          {
+            QuestDescription q=qm.getQuest(id);
+            if (q!=null)
+            {
+              //System.out.println(q.dump());
+            }
+            else
+            {
+              _logger.error("Could not get quest ["+id+"]!");
+            }
+          }
+          else
+          {
+            _logger.info("Identifier is not set for this item!");
+          }
+        }
+      }
+    }
+  }
 
   /**
    * Basic main method for test.
@@ -30,58 +116,7 @@ public class MainTestBatchQuestsParsing
    */
   public static void main(String[] args)
   {
-    _logger.setLevel(Level.INFO);
-    CharacterFile toon=new LotroTestUtils().getMainToon();
-    //CharacterFile toon=new LotroTestUtils().getToonByName("Alphael");
-    CharacterLogsManager logManager=new CharacterLogsManager(toon);
-    CharacterLog log=logManager.getLastLog();
-    if (log!=null)
-    {
-      File rootDir=toon.getRootDir();
-      File questsDir=new File(rootDir,"quests");
-      questsDir.mkdirs();
-      QuestPageParser parser=new QuestPageParser();
-      int nb=log.getNbItems();
-      for(int i=0;i<nb;i++)
-      {
-        CharacterLogItem item=log.getLogItem(i);
-        if (item.getLogItemType()==LogItemType.QUEST)
-        {
-          String url=item.getAssociatedUrl();
-          String label=item.getLabel();
-          if (label.contains(":"))
-          {
-          _logger.info("Item "+(i+1)+"/"+nb+": "+item.getLabel());
-          QuestDescription q=parser.parseQuestPage(url);
-          if (q!=null)
-          {
-            //System.out.println(q.dump());
-            QuestXMLWriter writer=new QuestXMLWriter();
-            String name=q.getTitle();
-            if ((name==null) || (name.length()>0))
-            {
-              File out=new File(questsDir,name+".xml");
-              if (!out.exists())
-              {
-                boolean ok=writer.write(out,q,EncodingNames.UTF_8);
-                if (!ok)
-                {
-                  _logger.error("Write failed for ["+q.getTitle()+"]");
-                }
-              }
-            }
-            else
-            {
-              _logger.error("Name is empty!");
-            }
-          }
-          else
-          {
-            _logger.error("Cannot parse quest ["+item.getLabel()+"]");
-          }
-          }
-        }
-      }
-    }
+    //_logger.setLevel(Level.INFO);
+    new MainTestBatchQuestsParsing().doIt();
   }
 }

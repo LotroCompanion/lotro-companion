@@ -38,6 +38,9 @@ public class QuestXMLParser
     QuestDescription q=new QuestDescription();
 
     NamedNodeMap attrs=root.getAttributes();
+    // Identifier
+    String id=DOMParsingTools.getStringAttribute(attrs,QuestXMLConstants.QUEST_ID_ATTR,null);
+    q.setIdentifier(id);
     // Title
     String title=DOMParsingTools.getStringAttribute(attrs,QuestXMLConstants.QUEST_TITLE_ATTR,null);
     q.setTitle(title);
@@ -76,6 +79,15 @@ public class QuestXMLParser
     // Description
     String description=DOMParsingTools.getStringAttribute(attrs,QuestXMLConstants.QUEST_DESCRIPTION_ATTR,null);
     q.setDescription(description);
+    // Bestower
+    String bestower=DOMParsingTools.getStringAttribute(attrs,QuestXMLConstants.QUEST_BESTOWER_ATTR,null);
+    q.setBestower(bestower);
+    // Bestower text
+    String bestowerText=DOMParsingTools.getStringAttribute(attrs,QuestXMLConstants.QUEST_BESTOWER_TEXT_ATTR,null);
+    q.setBestowerText(bestowerText);
+    // Objectives
+    String objectives=DOMParsingTools.getStringAttribute(attrs,QuestXMLConstants.QUEST_OBJECTIVES_ATTR,null);
+    q.setObjectives(objectives);
 
     // Required classes
     List<Element> requiredClassTags=DOMParsingTools.getChildTagsByName(root,QuestXMLConstants.REQUIRED_CLASS_TAG);
@@ -85,6 +97,17 @@ public class QuestXMLParser
       {
         String className=DOMParsingTools.getStringAttribute(requiredClassTag.getAttributes(),QuestXMLConstants.REQUIRED_CLASS_NAME_ATTR,null);
         q.addRequiredClass(className);
+      }
+    }
+    
+    // Required races
+    List<Element> requiredRaceTags=DOMParsingTools.getChildTagsByName(root,QuestXMLConstants.REQUIRED_RACE_TAG);
+    if (requiredRaceTags!=null)
+    {
+      for(Element requiredRaceTag : requiredRaceTags)
+      {
+        String raceName=DOMParsingTools.getStringAttribute(requiredRaceTag.getAttributes(),QuestXMLConstants.REQUIRED_RACE_NAME_ATTR,null);
+        q.addRequiredRace(raceName);
       }
     }
     

@@ -134,16 +134,6 @@ public class CharacterLevelChartController
     }
 
     /**
-     * Get the name of a series.
-     * @param series Targeted series.
-     * @return the name of the targeted series.
-     */
-    public String getSeriesName(int series)
-    {
-      return _stats.get(series).getName();
-    }
-
-    /**
      * Get the number of points in a series.
      * @param series Targeted series.
      * @return the number of points of the targeted series.

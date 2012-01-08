@@ -49,6 +49,7 @@ public class QuestDescription
      */
     RAID
   }
+  private String _identifier;
   private String _title;
   private String _category;
   private String _scope;
@@ -56,10 +57,14 @@ public class QuestDescription
   private Integer _minimumLevel;
   private Integer _maximumLevel;
   private List<String> _requiredClasses;
+  private List<String> _requiredRaces;
   private TYPE _type;
   private SIZE _size;
   private boolean _repeatable;
   private String _description;
+  private String _bestower;
+  private String _bestowerText;
+  private String _objectives;
   private List<String> _prerequisiteQuests;
   private List<String> _nextQuests;
   private QuestRewards _rewards;
@@ -80,9 +85,30 @@ public class QuestDescription
     _size=SIZE.SOLO;
     _repeatable=false;
     _description="";
+    _bestower="";
+    _bestowerText="";
+    _objectives="";
     _prerequisiteQuests=new ArrayList<String>();
     _nextQuests=new ArrayList<String>();
     _rewards=new QuestRewards();
+  }
+
+  /**
+   * Get the identifier of this quest.
+   * @return the identifier of this quest.
+   */
+  public String getIdentifier()
+  {
+    return _identifier;
+  }
+
+  /**
+   * Set the identifier of this quest.
+   * @param identifier the identifier to set.
+   */
+  public void setIdentifier(String identifier)
+  {
+    _identifier=identifier;
   }
 
   /**
@@ -216,6 +242,28 @@ public class QuestDescription
   }
 
   /**
+   * Get a list of required races.
+   * @return a list of class names or <code>null</code> if none.
+   */
+  public List<String> getRequiredRaces()
+  {
+    return _requiredRaces;
+  }
+
+  /**
+   * Add a required race.
+   * @param race Name of race to add.
+   */
+  public void addRequiredRace(String race)
+  {
+    if (_requiredRaces==null)
+    {
+      _requiredRaces=new ArrayList<String>();
+    }
+    _requiredRaces.add(race);
+  }
+
+  /**
    * Get quest type.
    * @return the quest type.
    */
@@ -285,6 +333,60 @@ public class QuestDescription
   public void setDescription(String description)
   {
     _description=description;
+  }
+
+  /**
+   * Get the bestower of this quest.
+   * @return the bestower of this quest.
+   */
+  public String getBestower()
+  {
+    return _bestower;
+  }
+
+  /**
+   * Set the bestower of this quest.
+   * @param bestower the bestower to set.
+   */
+  public void setBestower(String bestower)
+  {
+    _bestower=bestower;
+  }
+
+  /**
+   * Get the bestower text of this quest.
+   * @return the bestower text of this quest.
+   */
+  public String getBestowerText()
+  {
+    return _bestowerText;
+  }
+
+  /**
+   * Set the bestower text of this quest.
+   * @param bestowerText the bestower text to set.
+   */
+  public void setBestowerText(String bestowerText)
+  {
+    _bestowerText=bestowerText;
+  }
+
+  /**
+   * Get the objectives of this quest.
+   * @return the objectives of this quest.
+   */
+  public String getObjectives()
+  {
+    return _objectives;
+  }
+
+  /**
+   * Set the objectives of this quest.
+   * @param objectives the objectives to set.
+   */
+  public void setObjectives(String objectives)
+  {
+    _objectives=objectives;
   }
 
   /**
@@ -376,6 +478,10 @@ public class QuestDescription
     {
       sb.append("Required class(es): ").append(_requiredClasses).append(EndOfLine.NATIVE_EOL);
     }
+    if (_requiredRaces!=null)
+    {
+      sb.append("Required race(s): ").append(_requiredRaces).append(EndOfLine.NATIVE_EOL);
+    }
     if (_prerequisiteQuests.size()>0)
     {
       sb.append("Prerequisites: ").append(_prerequisiteQuests).append(EndOfLine.NATIVE_EOL);
@@ -386,6 +492,9 @@ public class QuestDescription
     }
     sb.append("Rewards: ").append(_rewards).append(EndOfLine.NATIVE_EOL);
     sb.append("Description: ").append(_description).append(EndOfLine.NATIVE_EOL);
+    sb.append("Bestower: ").append(_bestower).append(EndOfLine.NATIVE_EOL);
+    sb.append("Bestower text: ").append(_bestowerText).append(EndOfLine.NATIVE_EOL);
+    sb.append("Objectives: ").append(_objectives).append(EndOfLine.NATIVE_EOL);
     return sb.toString();
   }
 

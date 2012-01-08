@@ -36,4 +36,8 @@ public class CharacterLogXMLConstants
    * Tag 'logItem', attribute 'url'.
    */
   public static final String LOG_ITEM_URL_ATTR="url";
+  /**
+   * Tag 'logItem', attribute 'identifier'.
+   */
+  public static final String LOG_ITEM_ID_ATTR="identifier";
 }

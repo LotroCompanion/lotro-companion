@@ -12,6 +12,10 @@ public class QuestXMLConstants
    */
   public static final String QUEST_TAG="quest";
   /**
+   * Tag 'quest', attribute 'id'.
+   */
+  public static final String QUEST_ID_ATTR="id";
+  /**
    * Tag 'quest', attribute 'title'.
    */
   public static final String QUEST_TITLE_ATTR="title";
@@ -51,6 +55,18 @@ public class QuestXMLConstants
    * Tag 'quest', attribute 'description'.
    */
   public static final String QUEST_DESCRIPTION_ATTR="description";
+  /**
+   * Tag 'quest', attribute 'bestower'.
+   */
+  public static final String QUEST_BESTOWER_ATTR="bestower";
+  /**
+   * Tag 'quest', attribute 'bestowerText'.
+   */
+  public static final String QUEST_BESTOWER_TEXT_ATTR="bestowerText";
+  /**
+   * Tag 'quest', attribute 'objectives'.
+   */
+  public static final String QUEST_OBJECTIVES_ATTR="objectives";
 
   /**
    * Tag 'prerequisites'.
@@ -86,4 +102,13 @@ public class QuestXMLConstants
    * Tag 'required class', attribute 'name'.
    */
   public static final String REQUIRED_CLASS_NAME_ATTR="name";
+
+  /**
+   * Tag 'required race'.
+   */
+  public static final String REQUIRED_RACE_TAG="requiredRace";
+  /**
+   * Tag 'required race', attribute 'name'.
+   */
+  public static final String REQUIRED_RACE_NAME_ATTR="name";
 }

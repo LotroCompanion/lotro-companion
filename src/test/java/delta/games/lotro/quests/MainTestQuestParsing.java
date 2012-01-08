@@ -1,11 +1,6 @@
 package delta.games.lotro.quests;
 
-import java.io.File;
-
-import delta.common.utils.environment.FileSystem;
-import delta.common.utils.text.EncodingNames;
 import delta.games.lotro.quests.io.web.QuestPageParser;
-import delta.games.lotro.quests.io.xml.QuestXMLWriter;
 
 /**
  * Test for quest description parsing.
@@ -34,9 +29,11 @@ public class MainTestQuestParsing
     String url12="http://lorebook.lotro.com/wiki/Quest:The_Heart_of_the_Wood%2C_Part_III"; // traits
     String url13="http://lorebook.lotro.com/wiki/Quest:A_Bounder_of_Great_Merit"; // titles
     String url14="http://lorebook.lotro.com/wiki/Quest:A_Secret_Club"; // passive skill
-    String url15="http://lorebook.lotro.com/wiki/Quest:A_Feminine_Curve_to_the_Steel"; // duplicate definition
+    String url15="http://lorebook.lotro.com/wiki/Quest:A_Feminine_Curve_to_the_Steel"; // required races / multiple definition
+    String url16="http://lorebook.lotro.com/wiki/Quest:Task%3A_Coarse_Fur_%28Repeatable%29"; // multiple definition
+    //String singleUrl="http://lorebook.lotro.com/wiki/Quest:Vol._I,_Book_11,_Chapter_10:_A_Pouch_of_Gems_for_a_Box_of_Keys";
     String[] urls={ url0, url1, url2, url3, url4, url5, url6, url7, url8, url9, url10,
-        url11, url12, url13, url14, url15 };
+        url11, url12, url13, url14, url15, url16 };
     //String[] urls={ url15 };
     QuestPageParser parser=new QuestPageParser();
     for(String url : urls)
@@ -45,11 +42,10 @@ public class MainTestQuestParsing
       if (q!=null)
       {
         System.out.println(q.dump());
-        QuestXMLWriter writer=new QuestXMLWriter();
-        String name=q.getTitle();
-        File tmpDir=FileSystem.getTmpDir();
-        File out=new File(tmpDir,name+".xml");
-        writer.write(out,q,EncodingNames.UTF_8);
+      }
+      else
+      {
+        System.out.println("Quest ["+url+"] is null!");
       }
     }
   }

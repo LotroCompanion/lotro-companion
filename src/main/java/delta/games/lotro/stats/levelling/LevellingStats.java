@@ -10,6 +10,7 @@ import delta.games.lotro.character.log.CharacterLogItem;
 import delta.games.lotro.character.log.CharacterLogItem.LogItemType;
 
 /**
+ * Levelling statistics for a toon. 
  * @author DAM
  */
 public class LevellingStats
@@ -18,6 +19,10 @@ public class LevellingStats
   private Long[] _dates;
   private Integer[] _levels;
   
+  /**
+   * Constructor.
+   * @param log Character log to use.
+   */
   public LevellingStats(CharacterLog log)
   {
     List<CharacterLogItem> items=getLevelItems(log);
@@ -25,6 +30,10 @@ public class LevellingStats
     _name=log.getName();
   }
 
+  /**
+   * Get the name of the managed toon.
+   * @return a toon name.
+   */
   public String getName()
   {
     return _name;
@@ -52,16 +61,30 @@ public class LevellingStats
     _levels=levels.toArray(new Integer[levels.size()]);
   }
   
+  /**
+   * Get the date for a given item.
+   * @param item Targeted item. 
+   * @return A date.
+   */
   public Long getDate(int item)
   {
     return _dates[item];
   }
 
+  /**
+   * Get the level for a given item.
+   * @param item Targeted item. 
+   * @return A level.
+   */
   public Integer getLevel(int item)
   {
     return _levels[item];
   }
 
+  /**
+   * Get the number of level change items.
+   * @return a positive number.
+   */
   public int getNumberOfItems()
   {
     return _dates.length;

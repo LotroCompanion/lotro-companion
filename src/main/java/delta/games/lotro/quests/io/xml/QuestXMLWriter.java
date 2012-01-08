@@ -73,6 +73,11 @@ public class QuestXMLWriter
   {
     AttributesImpl questAttrs=new AttributesImpl();
 
+    String id=quest.getIdentifier();
+    if (id!=null)
+    {
+      questAttrs.addAttribute("","",QuestXMLConstants.QUEST_ID_ATTR,CDATA,id);
+    }
     String title=quest.getTitle();
     if (title!=null)
     {
@@ -115,11 +120,25 @@ public class QuestXMLWriter
     }
     boolean repeatable=quest.isRepeatable();
     questAttrs.addAttribute("","",QuestXMLConstants.QUEST_REPEATABLE_ATTR,CDATA,String.valueOf(repeatable));
-    
     String description=quest.getDescription();
     if (description!=null)
     {
       questAttrs.addAttribute("","",QuestXMLConstants.QUEST_DESCRIPTION_ATTR,CDATA,description);
+    }
+    String bestower=quest.getBestower();
+    if (bestower!=null)
+    {
+      questAttrs.addAttribute("","",QuestXMLConstants.QUEST_BESTOWER_ATTR,CDATA,bestower);
+    }
+    String bestowerText=quest.getBestowerText();
+    if (bestowerText!=null)
+    {
+      questAttrs.addAttribute("","",QuestXMLConstants.QUEST_BESTOWER_TEXT_ATTR,CDATA,bestowerText);
+    }
+    String objectives=quest.getObjectives();
+    if (objectives!=null)
+    {
+      questAttrs.addAttribute("","",QuestXMLConstants.QUEST_OBJECTIVES_ATTR,CDATA,objectives);
     }
 
     hd.startElement("","",QuestXMLConstants.QUEST_TAG,questAttrs);
@@ -133,6 +152,18 @@ public class QuestXMLWriter
         attrs.addAttribute("","",QuestXMLConstants.REQUIRED_CLASS_NAME_ATTR,CDATA,requiredClass);
         hd.startElement("","",QuestXMLConstants.REQUIRED_CLASS_TAG,attrs);
         hd.endElement("","",QuestXMLConstants.REQUIRED_CLASS_TAG);
+      }
+    }
+    
+    List<String> requiredRaces=quest.getRequiredRaces();
+    if (requiredRaces!=null)
+    {
+      for(String requiredRace : requiredRaces)
+      {
+        AttributesImpl attrs=new AttributesImpl();
+        attrs.addAttribute("","",QuestXMLConstants.REQUIRED_RACE_NAME_ATTR,CDATA,requiredRace);
+        hd.startElement("","",QuestXMLConstants.REQUIRED_RACE_TAG,attrs);
+        hd.endElement("","",QuestXMLConstants.REQUIRED_RACE_TAG);
       }
     }
     
