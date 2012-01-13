@@ -19,6 +19,7 @@ public class QuestRewards
   private boolean _itemXP;
   private Money _money;
   private Reputation _reputation;
+  private int _destinyPoints;
   private List<Trait> _traits;
   private List<Skill> _skills;
   private List<Title> _titles;
@@ -33,6 +34,7 @@ public class QuestRewards
     _itemXP=false;
     _money=new Money();
     _reputation=new Reputation();
+    _destinyPoints=0;
     _traits=null;
     _skills=null;
     _titles=null;
@@ -58,6 +60,24 @@ public class QuestRewards
     return _reputation;
   }
 
+  /**
+   * Get the destiny points.
+   * @return the destiny points.
+   */
+  public int getDestinyPoints()
+  {
+    return _destinyPoints;
+  }
+
+  /**
+   * Set the destiny points.
+   * @param destinyPoints Destiny points to set.
+   */
+  public void setDestinyPoints(int destinyPoints)
+  {
+    _destinyPoints=destinyPoints;
+  }
+  
   /**
    * Get the objects reward.
    * @return the objects reward.
@@ -193,6 +213,12 @@ public class QuestRewards
     {
       if (firstDone) sb.append(" / ");
       sb.append(_reputation);
+      firstDone=true;
+    }
+    if (_destinyPoints>0)
+    {
+      if (firstDone) sb.append(" / ");
+      sb.append(_destinyPoints).append(" destiny points");
       firstDone=true;
     }
     int nbObjects=_objects.getNbObjectItems();

@@ -57,6 +57,15 @@ public class QuestRewardsXMLWriter
       }
       hd.endElement("","",QuestRewardsXMLConstants.REPUTATION_TAG);
     }
+    // Destiny points XP
+    int destinyPoints=rewards.getDestinyPoints();
+    if (destinyPoints>0)
+    {
+      AttributesImpl attrs=new AttributesImpl();
+      attrs.addAttribute("","",QuestRewardsXMLConstants.QUANTITY_DESTINY_POINTS_ATTR,CDATA,String.valueOf(destinyPoints));
+      hd.startElement("","",QuestRewardsXMLConstants.DESTINY_POINTS_TAG,attrs);
+      hd.endElement("","",QuestRewardsXMLConstants.DESTINY_POINTS_TAG);
+    }
     // Item XP
     boolean hasItemXP=rewards.hasItemXP();
     if (hasItemXP)

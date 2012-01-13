@@ -27,6 +27,7 @@ import delta.games.lotro.common.Skill.SkillType;
 import delta.games.lotro.common.objects.ObjectItem;
 import delta.games.lotro.common.objects.ObjectsSet;
 import delta.games.lotro.quests.QuestDescription;
+import delta.games.lotro.quests.QuestDescription.FACTION;
 import delta.games.lotro.quests.QuestDescription.SIZE;
 import delta.games.lotro.quests.QuestDescription.TYPE;
 import delta.games.lotro.quests.QuestRewards;
@@ -125,7 +126,10 @@ public class QuestPageParser
           _quest.addRequiredRace(race);
         }
       }
-      // TODO: "Monster Play Quest"
+      else if ("Monster Play Quest".equals(key))
+      {
+        _quest.setFaction(FACTION.MONSTER_PLAY);
+      }
       else
       {
         _logger.warn("Quest ["+_identifier+"]. Unmanaged quest field key ["+key+"]");
@@ -178,15 +182,18 @@ public class QuestPageParser
         {
           _quest.setSize(SIZE.FELLOWSHIP);
         }
+        else if ("Raid".equals(title))
+        {
+          _quest.setSize(SIZE.RAID);
+        }
         else if ("Repeatable".equals(title))
         {
           _quest.setRepeatable(true);
         }
-        else if ("Raid".equals(title))
+        else if ("Instance".equals(title))
         {
-          _quest.setType(TYPE.RAID);
+          _quest.setInstanced(true);
         }
-        // TODO: "Instance"
         else
         {
           _logger.warn("Quest ["+_identifier+"]. Unmanaged quest icon title ["+title+"]");
@@ -561,9 +568,25 @@ Item Advancement Experience
      */
   }
 
-  private void parseDestinyPoints(Element rewardDiv)
+  private int parseDestinyPoints(Element rewardDiv)
   {
-    // TODO: parse destiny points!
+    int nbDestinyPoints=0;
+    List<Element> elements=rewardDiv.getChildElements();
+    if ((elements!=null) && (elements.size()==2))
+    {
+      Element moneyNode=elements.get(1);
+      List<Segment> nodes=JerichoHtmlUtils.getChildNodes(moneyNode);
+      int nb=nodes.size();
+      for(int i=0;i<nb;i++)
+      {
+        Segment s=nodes.get(i);
+        if (s.getClass()==Segment.class)
+        {
+          nbDestinyPoints=NumericTools.parseInt(s.toString(),0);
+        }
+      }
+    }
+    return nbDestinyPoints;
 /*
 <div class="questReward">
 <div>
@@ -615,7 +638,8 @@ Item Advancement Experience
       }
       else if ("Destiny Points".equals(key))
       {
-        parseDestinyPoints(rewardDiv);
+        int nb=parseDestinyPoints(rewardDiv);
+        rewards.setDestinyPoints(nb);
       }
       else
       {

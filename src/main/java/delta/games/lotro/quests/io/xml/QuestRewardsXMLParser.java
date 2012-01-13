@@ -68,6 +68,14 @@ public class QuestRewardsXMLParser
           }
         }
       }
+      // Destiny points
+      Element destinyPointsTag=DOMParsingTools.getChildTagByName(rewardsTag,QuestRewardsXMLConstants.DESTINY_POINTS_TAG);
+      if (destinyPointsTag!=null)
+      {
+        NamedNodeMap attrs=destinyPointsTag.getAttributes();
+        int destinyPoints=DOMParsingTools.getIntAttribute(attrs,QuestRewardsXMLConstants.QUANTITY_DESTINY_POINTS_ATTR,0);
+        rewards.setDestinyPoints(destinyPoints);
+      }
       // Item XP
       Element itemXP=DOMParsingTools.getChildTagByName(rewardsTag,QuestRewardsXMLConstants.ITEM_XP_TAG);
       rewards.setHasItemXP(itemXP!=null);

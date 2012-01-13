@@ -8,6 +8,7 @@ import org.w3c.dom.NamedNodeMap;
 
 import delta.common.utils.xml.DOMParsingTools;
 import delta.games.lotro.quests.QuestDescription;
+import delta.games.lotro.quests.QuestDescription.FACTION;
 import delta.games.lotro.quests.QuestDescription.SIZE;
 import delta.games.lotro.quests.QuestDescription.TYPE;
 
@@ -73,9 +74,16 @@ public class QuestXMLParser
     String sizeStr=DOMParsingTools.getStringAttribute(attrs,QuestXMLConstants.QUEST_SIZE_ATTR,null);
     SIZE size=SIZE.valueOf(sizeStr);
     q.setSize(size);
+    // Faction
+    String factionStr=DOMParsingTools.getStringAttribute(attrs,QuestXMLConstants.QUEST_FACTION_ATTR,null);
+    FACTION faction=FACTION.valueOf(factionStr);
+    q.setFaction(faction);
     // Repeatable
     boolean repeatable=DOMParsingTools.getBooleanAttribute(attrs,QuestXMLConstants.QUEST_REPEATABLE_ATTR,false);
     q.setRepeatable(repeatable);
+    // Instanced
+    boolean instanced=DOMParsingTools.getBooleanAttribute(attrs,QuestXMLConstants.QUEST_INSTANCED_ATTR,false);
+    q.setInstanced(instanced);
     // Description
     String description=DOMParsingTools.getStringAttribute(attrs,QuestXMLConstants.QUEST_DESCRIPTION_ATTR,null);
     q.setDescription(description);

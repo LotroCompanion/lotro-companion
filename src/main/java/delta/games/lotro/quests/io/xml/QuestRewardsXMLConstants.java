@@ -51,6 +51,15 @@ public class QuestRewardsXMLConstants
   public static final String ITEM_XP_TAG="itemXP";
 
   /**
+   * Tag 'destinyPoints'.
+   */
+  public static final String DESTINY_POINTS_TAG="destinyPoints";
+  /**
+   * Tag 'destinyPoints', attribute 'quantity'.
+   */
+  public static final String QUANTITY_DESTINY_POINTS_ATTR="quantity";
+
+  /**
    * Tag 'trait'.
    */
   public static final String TRAIT_TAG="trait";

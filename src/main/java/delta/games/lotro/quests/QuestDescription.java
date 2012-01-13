@@ -28,7 +28,11 @@ public class QuestDescription
     /**
      * Fellowship quest.
      */
-    FELLOWSHIP
+    FELLOWSHIP,
+    /**
+     * Raid quest.
+     */
+    RAID
   }
   /**
    * Quest type.
@@ -43,11 +47,22 @@ public class QuestDescription
     /**
      * Epic quest.
      */
-    EPIC,
+    EPIC
+  }
+  /**
+   * Faction.
+   * @author DAM
+   */
+  public enum FACTION
+  {
     /**
-     * Skirmish/raid quest.
+     * Free peoples.
      */
-    RAID
+    FREE_PEOPLES,
+    /**
+     * Monster play.
+     */
+    MONSTER_PLAY
   }
   private String _identifier;
   private String _title;
@@ -60,7 +75,9 @@ public class QuestDescription
   private List<String> _requiredRaces;
   private TYPE _type;
   private SIZE _size;
+  private FACTION _faction;
   private boolean _repeatable;
+  private boolean _instanced;
   private String _description;
   private String _bestower;
   private String _bestowerText;
@@ -83,7 +100,9 @@ public class QuestDescription
     _requiredClasses=null;
     _type=TYPE.STANDARD;
     _size=SIZE.SOLO;
+    _faction=FACTION.FREE_PEOPLES;
     _repeatable=false;
+    _instanced=false;
     _description="";
     _bestower="";
     _bestowerText="";
@@ -300,6 +319,24 @@ public class QuestDescription
   }
 
   /**
+   * Get the quest faction.
+   * @return the quest faction.
+   */
+  public FACTION getFaction()
+  {
+    return _faction;
+  }
+
+  /**
+   * Set the quest faction.
+   * @param faction the faction to set.
+   */
+  public void setFaction(FACTION faction)
+  {
+    _faction=faction;
+  }
+
+  /**
    * Indicates if this quest is repeatable or not.
    * @return <code>true</code> if it is, <code>false</code> otherwise.
    */
@@ -315,6 +352,24 @@ public class QuestDescription
   public void setRepeatable(boolean repeatable)
   {
     _repeatable=repeatable;
+  }
+
+  /**
+   * Indicates if this quest is instanced or not.
+   * @return <code>true</code> if it is, <code>false</code> otherwise.
+   */
+  public boolean isInstanced()
+  {
+    return _instanced;
+  }
+
+  /**
+   * Set the 'instanced' flag.
+   * @param instanced value to set.
+   */
+  public void setInstanced(boolean instanced)
+  {
+    _instanced=instanced;
   }
 
   /**
@@ -441,17 +496,32 @@ public class QuestDescription
   public String dump()
   {
     StringBuilder sb=new StringBuilder();
-    sb.append("Title: ").append(_title).append(EndOfLine.NATIVE_EOL);
-    sb.append('(').append(_type).append(')');
+    sb.append("Title: ").append(_title);
+    if (_type!=TYPE.STANDARD)
+    {
+      sb.append(" (");
+      sb.append(_type);
+      sb.append(')');
+    }
     if (_size!=SIZE.SOLO)
     {
       sb.append(" (");
       sb.append(_size);
       sb.append(')');
     }
+    if (_faction!=FACTION.FREE_PEOPLES)
+    {
+      sb.append(" (");
+      sb.append(_faction);
+      sb.append(')');
+    }
     if (_repeatable)
     {
       sb.append(" (repeatable)");
+    }
+    if (_instanced)
+    {
+      sb.append(" (instanced)");
     }
     sb.append(EndOfLine.NATIVE_EOL);
     if (_category.length()>0)

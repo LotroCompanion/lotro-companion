@@ -16,6 +16,7 @@ import org.xml.sax.helpers.AttributesImpl;
 
 import delta.common.utils.io.StreamTools;
 import delta.games.lotro.quests.QuestDescription;
+import delta.games.lotro.quests.QuestDescription.FACTION;
 import delta.games.lotro.quests.QuestDescription.SIZE;
 import delta.games.lotro.quests.QuestDescription.TYPE;
 import delta.games.lotro.utils.LotroLoggers;
@@ -118,8 +119,15 @@ public class QuestXMLWriter
     {
       questAttrs.addAttribute("","",QuestXMLConstants.QUEST_SIZE_ATTR,CDATA,size.name());
     }
+    FACTION faction=quest.getFaction();
+    if (faction!=null)
+    {
+      questAttrs.addAttribute("","",QuestXMLConstants.QUEST_FACTION_ATTR,CDATA,faction.name());
+    }
     boolean repeatable=quest.isRepeatable();
     questAttrs.addAttribute("","",QuestXMLConstants.QUEST_REPEATABLE_ATTR,CDATA,String.valueOf(repeatable));
+    boolean instanced=quest.isInstanced();
+    questAttrs.addAttribute("","",QuestXMLConstants.QUEST_INSTANCED_ATTR,CDATA,String.valueOf(instanced));
     String description=quest.getDescription();
     if (description!=null)
     {

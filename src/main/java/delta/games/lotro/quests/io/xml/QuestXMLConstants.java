@@ -48,9 +48,17 @@ public class QuestXMLConstants
    */
   public static final String QUEST_SIZE_ATTR="size";
   /**
+   * Tag 'quest', attribute 'faction'.
+   */
+  public static final String QUEST_FACTION_ATTR="faction";
+  /**
    * Tag 'quest', attribute 'repeatable'.
    */
   public static final String QUEST_REPEATABLE_ATTR="repeatable";
+  /**
+   * Tag 'quest', attribute 'instanced'.
+   */
+  public static final String QUEST_INSTANCED_ATTR="instanced";
   /**
    * Tag 'quest', attribute 'description'.
    */
