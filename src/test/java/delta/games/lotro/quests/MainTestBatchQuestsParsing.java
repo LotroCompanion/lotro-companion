@@ -22,6 +22,8 @@ public class MainTestBatchQuestsParsing
   private static final Logger _logger=LotroLoggers.getLotroLogger();
   private static final boolean DO_TOON_QUESTS=false;
   private static final boolean DO_INDEX_QUESTS=true;
+  private int _totalNumberOfQuests;
+  private int _totalParsedQuests;
 
   private void doIt()
   {
@@ -33,6 +35,8 @@ public class MainTestBatchQuestsParsing
     if (DO_INDEX_QUESTS)
     {
       loadQuests();
+      System.out.println("Total number of quests: "+_totalNumberOfQuests);
+      System.out.println("Total parsed quests: "+_totalParsedQuests);
     }
   }
 
@@ -59,15 +63,19 @@ public class MainTestBatchQuestsParsing
     for(QuestSummary summary : summaries)
     {
       String id=summary.getId();
-      String name=summary.getName();
+      _totalNumberOfQuests++;
       QuestDescription q=qm.getQuest(id);
       if (q!=null)
       {
+        /*
+        String name=summary.getName();
         String title=q.getTitle();
         if (!name.equals(title))
         {
           System.out.println("Warn name=["+name+"], title=["+title+"]!");
         }
+        */
+        _totalParsedQuests++;
         nbOK++;
       }
     }

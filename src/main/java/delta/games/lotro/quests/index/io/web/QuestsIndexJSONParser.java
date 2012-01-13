@@ -50,12 +50,18 @@ public class QuestsIndexJSONParser
     {
       _index=new QuestsIndex();
       Downloader d=new Downloader();
+      int totalNbDuplicates=0;
       while ((_total==0) || (_currentItemIndex<_total))
       {
-        load(d,_currentItemIndex);
+        int nbDuplicates=load(d,_currentItemIndex);
+        totalNbDuplicates+=nbDuplicates;
       }
       ret=_index;
       _index=null;
+      if (totalNbDuplicates>0)
+      {
+        _logger.warn("Number of duplicated quests:"+totalNbDuplicates);
+      }
     }
     catch(Exception e)
     {
@@ -64,15 +70,16 @@ public class QuestsIndexJSONParser
     return ret;
   }
 
-  private void load(Downloader d, int start) throws Exception
+  private int load(Downloader d, int start) throws Exception
   {
+    int nbDuplicates=0;
     File tmpDir=FileSystem.getTmpDir();
     File tmpFile=new File(tmpDir,"json.txt");
     try
     {
       String url=URL_TEMPLATE+start;
       d.downloadPage(url,tmpFile);
-      parseFile(tmpFile);
+      nbDuplicates=parseFile(tmpFile);
     }
     catch(Exception e)
     {
@@ -85,10 +92,12 @@ public class QuestsIndexJSONParser
         tmpFile.delete();
       }
     }
+    return nbDuplicates;
   }
 
-  private void parseFile(File file) throws Exception
+  private int parseFile(File file) throws Exception
   {
+    int nbDuplicates=0;
     String all=null;
     InputStream is=null;
     InputStreamReader r=null;
@@ -132,7 +141,8 @@ public class QuestsIndexJSONParser
         String category=item.getString(2);
         if ((questId!=null) && (questName!=null) && (category!=null))
         {
-          _index.addQuest(category,questId,questName);
+          boolean ok=_index.addQuest(category,questId,questName);
+          if (!ok) nbDuplicates++;
         }
       }
       _currentItemIndex+=nbItems;
@@ -147,5 +157,6 @@ public class QuestsIndexJSONParser
       StreamTools.close(r);
       StreamTools.close(is);
     }
+    return nbDuplicates;
   }
 }
