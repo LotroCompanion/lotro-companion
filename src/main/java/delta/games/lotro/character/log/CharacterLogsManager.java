@@ -16,6 +16,7 @@ import delta.games.lotro.character.log.io.web.CharacterLogPageParser;
 import delta.games.lotro.character.log.io.xml.CharacterLogXMLParser;
 import delta.games.lotro.character.log.io.xml.CharacterLogXMLWriter;
 import delta.games.lotro.quests.io.web.MyLotroURL2Identifier;
+import delta.games.lotro.utils.Escapes;
 import delta.games.lotro.utils.LotroLoggers;
 
 /**
@@ -107,7 +108,20 @@ public class CharacterLogsManager
     {
       CharacterLogPageParser parser=new CharacterLogPageParser();
       log=parser.parseLogPages(url,null);
-      updateOK=(log!=null);
+      if (log!=null)
+      {
+        updateOK=true;
+        int nb=log.getNbItems();
+        for(int i=0;i<nb;i++)
+        {
+          CharacterLogItem item=log.getLogItem(i);
+          updateIdentifier(item);
+        }
+      }
+      else
+      {
+        updateOK=false;
+      }
     }
     boolean ret=updateOK;
     if (updateOK)
@@ -138,7 +152,6 @@ public class CharacterLogsManager
       CharacterLog log=xmlLogParser.parseXML(lastLog);
       if (log!=null)
       {
-        MyLotroURL2Identifier finder=new MyLotroURL2Identifier();
         int nbItems=log.getNbItems();
         for(int i=0;i<nbItems;i++)
         {
@@ -149,17 +162,12 @@ public class CharacterLogsManager
             String oldId=item.getIdentifier();
             if (oldId==null)
             {
-              String itemURL=item.getAssociatedUrl();
-              String id=finder.findIdentifier(itemURL);
-              if (id!=null)
-              {
-                item.setIdentifier(id);
-                System.out.println("Found id ["+id+"] for URL ["+itemURL+"]");
-              }
-              else
-              {
-                System.out.println("No match for ["+item+"]");
-              }
+              updateIdentifier(item);
+            }
+            else
+            {
+              oldId=Escapes.escapeIdentifier(oldId);
+              item.setIdentifier(oldId);
             }
           }
         }
@@ -228,6 +236,7 @@ public class CharacterLogsManager
         for(int i=nbNewItems-1;i>=0;i--)
         {
           CharacterLogItem newItem=newLog.getLogItem(i);
+          updateIdentifier(newItem);
           log.addLogItem(newItem,0);
         }
         if (_logger.isInfoEnabled())
@@ -238,6 +247,29 @@ public class CharacterLogsManager
       }
     }
     return ret;
+  }
+
+  private void updateIdentifier(CharacterLogItem item)
+  {
+    if ((item!=null) && (item.getLogItemType()==LogItemType.QUEST))
+    {
+      String itemURL=item.getAssociatedUrl();
+      if ((itemURL!=null) && (itemURL.length()>0))
+      {
+        MyLotroURL2Identifier finder=new MyLotroURL2Identifier();
+        String id=finder.findIdentifier(itemURL);
+        if (id!=null)
+        {
+          id=Escapes.escapeIdentifier(id);
+          item.setIdentifier(id);
+          _logger.info("Found id ["+id+"] for URL ["+itemURL+"]");
+        }
+        else
+        {
+          _logger.info("No match for ["+item+"]");
+        }
+      }
+    }
   }
 
   private File getNewLogFile()
