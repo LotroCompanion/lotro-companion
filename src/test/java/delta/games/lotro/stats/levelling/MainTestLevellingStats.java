@@ -12,7 +12,7 @@ import delta.games.lotro.character.log.CharacterLog;
 import delta.games.lotro.character.log.LotroTestUtils;
 
 /**
- * Test for character log update.
+ * Test for character levelling graph.
  * @author DAM
  */
 public class MainTestLevellingStats
@@ -31,8 +31,11 @@ public class MainTestLevellingStats
     for(CharacterFile toon : toons)
     {
       CharacterLog log=toon.getLastCharacterLog();
-      LevellingStats toonStats=new LevellingStats(log);
-      stats.add(toonStats);
+      if (log!=null)
+      {
+        LevellingStats toonStats=new LevellingStats(log);
+        stats.add(toonStats);
+      }
     }
     System.out.println(stats);
     

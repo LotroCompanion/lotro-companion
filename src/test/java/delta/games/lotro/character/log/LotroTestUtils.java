@@ -50,6 +50,8 @@ public class LotroTestUtils
     newCharacterFile("Serilis","http://my.lotro.com/home/character/elendilmir/serilis/");
     newCharacterFile("Noctivagant","http://my.lotro.com/home/character/elendilmir/noctivagant/");
     newCharacterFile("Tilmogrim","http://my.lotro.com/home/character/elendilmir/tilmogrim/");
+    newCharacterFile("Warthil","http://my.lotro.com/home/character/elendilmir/warthil/");
+    newCharacterFile("Kargarth","http://my.lotro.com/home/character/elendilmir/kargarth/");
   }
 
   /**

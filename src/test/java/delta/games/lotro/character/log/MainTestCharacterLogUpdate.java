@@ -21,6 +21,7 @@ public class MainTestCharacterLogUpdate
 
     for(CharacterFile toon : toons)
     {
+      //CharacterFile toon=utils.getMainToon();
       String name=toon.getName();
       System.out.println("Updating toon ["+name+"]");
       CharacterLogsManager manager=new CharacterLogsManager(toon);
