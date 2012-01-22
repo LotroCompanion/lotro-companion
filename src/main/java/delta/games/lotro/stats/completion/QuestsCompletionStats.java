@@ -137,7 +137,7 @@ public class QuestsCompletionStats
         {
           nb=n.intValue();
         }
-        System.out.println(nb+": "+id);
+        ps.println(nb+": "+id);
       }
     }
   }
