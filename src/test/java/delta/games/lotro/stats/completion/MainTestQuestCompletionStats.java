@@ -22,14 +22,17 @@ public class MainTestQuestCompletionStats
     //CharacterFile mainToon=utils.getMainToon();
     CharacterFile mainToon=utils.getToonByName("Feroce");
     CharacterLog log=mainToon.getLastCharacterLog();
-    QuestsManager qm=QuestsManager.getInstance();
-    QuestsIndex index=qm.getIndex();
-    String[] categories=index.getCategories();
-    for(String category : categories)
+    if (log!=null)
     {
-      //String category="Epic - Vol. I, Book 1: Stirrings in the Darkness";
-      QuestsCompletionStats stats=new QuestsCompletionStats(category,log);
-      stats.dump(System.out,true);
+      QuestsManager qm=QuestsManager.getInstance();
+      QuestsIndex index=qm.getIndex();
+      String[] categories=index.getCategories();
+      for(String category : categories)
+      {
+        //String category="Epic - Vol. I, Book 1: Stirrings in the Darkness";
+        QuestsCompletionStats stats=new QuestsCompletionStats(category,log);
+        stats.dump(System.out,true);
+      }
     }
   }
 }

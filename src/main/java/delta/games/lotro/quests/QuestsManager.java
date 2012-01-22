@@ -13,6 +13,8 @@ import delta.games.lotro.quests.io.web.QuestPageParser;
 import delta.games.lotro.quests.io.xml.QuestXMLParser;
 import delta.games.lotro.quests.io.xml.QuestXMLWriter;
 import delta.games.lotro.utils.LotroLoggers;
+import delta.games.lotro.utils.resources.ResourcesMapping;
+import delta.games.lotro.utils.resources.io.xml.ResourcesMappingXMLParser;
 
 /**
  * Facade for quests access.
@@ -25,6 +27,7 @@ public class QuestsManager
   private static QuestsManager _instance=new QuestsManager();
   
   private QuestsIndex _index;
+  private ResourcesMapping _mapping;
   private HashMap<String,QuestDescription> _cache;
   
   /**
@@ -43,6 +46,7 @@ public class QuestsManager
   {
     //_cache=new HashMap<String,QuestDescription>();
     loadIndex();
+    loadResourcesMapping();
   }
 
   /**
@@ -52,6 +56,15 @@ public class QuestsManager
   public QuestsIndex getIndex()
   {
     return _index;
+  }
+
+  /**
+   * Get the quest resources mapping.
+   * @return the quest resources mapping.
+   */
+  public ResourcesMapping getQuestResourcesMapping()
+  {
+    return _mapping;
   }
 
   /**
@@ -161,5 +174,20 @@ public class QuestsManager
     File questIndexFile=new File(questsDir,"questsIndex.xml");
     QuestsIndexXMLParser parser=new QuestsIndexXMLParser();
     _index=parser.parseXML(questIndexFile);
+  }
+
+  private void loadResourcesMapping()
+  {
+    File questsDir=Config.getInstance().getQuestsDir();
+    File ressourcesMappingFile=new File(questsDir,"questResourcesMapping.xml");
+    if (ressourcesMappingFile.exists())
+    {
+      ResourcesMappingXMLParser parser=new ResourcesMappingXMLParser();
+      _mapping=parser.parseXML(ressourcesMappingFile);
+    }
+    else
+    {
+      _mapping=new ResourcesMapping();
+    }
   }
 }

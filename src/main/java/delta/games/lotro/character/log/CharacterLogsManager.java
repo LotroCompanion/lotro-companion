@@ -15,9 +15,11 @@ import delta.games.lotro.character.log.CharacterLogItem.LogItemType;
 import delta.games.lotro.character.log.io.web.CharacterLogPageParser;
 import delta.games.lotro.character.log.io.xml.CharacterLogXMLParser;
 import delta.games.lotro.character.log.io.xml.CharacterLogXMLWriter;
+import delta.games.lotro.quests.QuestsManager;
 import delta.games.lotro.quests.io.web.MyLotroURL2Identifier;
 import delta.games.lotro.utils.Escapes;
 import delta.games.lotro.utils.LotroLoggers;
+import delta.games.lotro.utils.resources.ResourcesMapping;
 
 /**
  * Manages log files for a single toon.
@@ -130,6 +132,8 @@ public class CharacterLogsManager
       if (nbItems!=nbItemsLastLog)
       {
         ret=writeNewLog(log);
+        int nbNewItems=nbItems-nbItemsLastLog;
+        System.out.println("Added "+nbNewItems+" log item(s)!");
       }
     }
     if (!ret)
@@ -256,11 +260,25 @@ public class CharacterLogsManager
       String itemURL=item.getAssociatedUrl();
       if ((itemURL!=null) && (itemURL.length()>0))
       {
-        MyLotroURL2Identifier finder=new MyLotroURL2Identifier();
-        String id=finder.findIdentifier(itemURL);
+        String id=null;
+        QuestsManager qm=QuestsManager.getInstance();
+        ResourcesMapping mapping=qm.getQuestResourcesMapping();
+        int resource=mapping.getResourceIdentifierFromURL(itemURL);
+        if (resource!=-1)
+        {
+          id=mapping.getIdentifier(resource);
+        }
+        if (id==null)
+        {
+          MyLotroURL2Identifier finder=new MyLotroURL2Identifier();
+          id=finder.findIdentifier(itemURL);
+          if (id!=null)
+          {
+            id=Escapes.escapeIdentifier(id);
+          }
+        }
         if (id!=null)
         {
-          id=Escapes.escapeIdentifier(id);
           item.setIdentifier(id);
           _logger.info("Found id ["+id+"] for URL ["+itemURL+"]");
         }
