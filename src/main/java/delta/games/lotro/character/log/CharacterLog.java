@@ -1,6 +1,7 @@
 package delta.games.lotro.character.log;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -123,6 +124,29 @@ public class CharacterLog
       }
     }
     return nbRemoved;
+  }
+
+  /**
+   * Get a sorted list of dates found in the managed log items. 
+   * @return A possibly empty list of dates.
+   */
+  public List<Long> getDates()
+  {
+    List<Long> ret=new ArrayList<Long>();
+    long lastDate=-1;
+    for(Iterator<CharacterLogItem> it=_logItems.iterator();it.hasNext();)
+    {
+      CharacterLogItem item=it.next();
+      long date=item.getDate(); 
+      if (date!=lastDate)
+      {
+        ret.add(Long.valueOf(date));
+        lastDate=date;
+      }
+    }
+    Collections.sort(ret);
+    return ret;
+
   }
 
   @Override

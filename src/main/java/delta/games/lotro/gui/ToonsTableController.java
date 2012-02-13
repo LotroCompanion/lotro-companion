@@ -13,6 +13,7 @@ import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharactersManager;
 
 /**
+ * Controller for a table that shows all available toons.
  * @author DAM
  */
 public class ToonsTableController
