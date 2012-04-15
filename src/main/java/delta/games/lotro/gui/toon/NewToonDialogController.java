@@ -1,4 +1,4 @@
-package delta.games.lotro.gui;
+package delta.games.lotro.gui.toon;
 
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
@@ -20,7 +20,7 @@ import javax.swing.border.EtchedBorder;
 import delta.games.lotro.Config;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharactersManager;
-import delta.games.lotro.character.log.CharacterLogsManager;
+import delta.games.lotro.gui.utils.OKCancelPanelController;
 
 /**
  * Controller for the "new toon" dialog.
@@ -115,10 +115,20 @@ public class NewToonDialogController implements ActionListener
     CharacterFile toon=manager.addToon(server,toonName);
     if (toon!=null)
     {
+      dispose();
+    }
+    else
+    {
+      // todo error?
+    }
+    /*
+    if (toon!=null)
+    {
       CharacterLogsManager logManager=new CharacterLogsManager(toon);
       boolean ok=logManager.updateLog();
       System.out.println(ok);
     }
+    */
   }
 
   private void cancel()

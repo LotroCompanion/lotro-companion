@@ -67,6 +67,7 @@ public class CharacterLogPageParser
       {
         log.setName(_characterName);
       }
+      // TODO set character name even if there's no log entry (e.g Aerael)
     }
     return log;
   }

@@ -161,4 +161,19 @@ public class CharacterFile
     CharacterLog log=_logsManager.getLastLog();
     return log;
   }
+
+  /**
+   * Get the logs manager.
+   * @return the logs manager.
+   */
+  public CharacterLogsManager getLogsManager()
+  {
+    return _logsManager;
+  }
+
+  @Override
+  public String toString()
+  {
+    return getIdentifier();
+  }
 }

@@ -99,6 +99,7 @@ public class CharacterLogsManager
     CharacterLog log;
     int nbItemsLastLog=0;
     boolean updateOK;
+    boolean creation=false;
     if (lastLog!=null)
     {
       CharacterLogXMLParser xmlLogParser=new CharacterLogXMLParser();
@@ -108,6 +109,7 @@ public class CharacterLogsManager
     }
     else
     {
+      creation=true;
       CharacterLogPageParser parser=new CharacterLogPageParser();
       log=parser.parseLogPages(url,null);
       if (log!=null)
@@ -129,7 +131,7 @@ public class CharacterLogsManager
     if (updateOK)
     {
       int nbItems=log.getNbItems();
-      if (nbItems!=nbItemsLastLog)
+      if ((creation) || (nbItems!=nbItemsLastLog))
       {
         ret=writeNewLog(log);
         int nbNewItems=nbItems-nbItemsLastLog;

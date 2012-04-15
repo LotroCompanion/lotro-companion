@@ -33,7 +33,7 @@ public class Config
   private Config()
   {
     _myLotroRootURL="http://my.lotro.com/";
-    _rootDataDir=new File("/home/dm/lotro");
+    _rootDataDir=new File("data");
     _toonsDir=new File(_rootDataDir,"characters");
     _servers=new ArrayList<String>();
     _servers.add("Elendilmir");

@@ -21,7 +21,7 @@ public class MainTestShowCharacterLog
     CharacterLog log=toon.getLastCharacterLog();
     if (log!=null)
     {
-      CharacterLogWindowController controller=new CharacterLogWindowController(log);
+      CharacterLogWindowController controller=new CharacterLogWindowController(toon);
       controller.show();
     }
   }

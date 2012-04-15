@@ -89,16 +89,42 @@ public class CharacterInfosManager
   {
     String url=_toon.getBaseMyLotroURL();
     CharacterPageParser parser=new CharacterPageParser();
-    Character c=parser.parseMainPage(url);
+    String name=_toon.getName();
+    Character c=parser.parseMainPage(name,url);
     boolean ret=writeNewInfo(c);
     if (!ret)
     {
-      String name=_toon.getName();
       _logger.error("Update failed for toon ["+name+"]!");
     }
     return ret;
   }
 
+  /*
+   * 
+Updating toon [Tilmogrim]
+# 2012-04-02 22:40:13,906 [main] [APPS.LOTRO.WEB_INPUT] ERROR delta.games.lotro.character.io.web.CharacterPageParser.parseMainPage(CharacterPageParser.java:203) - Cannot parse character page [http://my.lotro.com/home/character/elendilmir/tilmogrim/]
+java.io.IOException: Server returned HTTP response code: 503 for URL: http://my.lotro.com/home/character/elendilmir/tilmogrim/
+  at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1225)
+  at net.htmlparser.jericho.StreamEncodingDetector.<init>(StreamEncodingDetector.java:65)
+  at net.htmlparser.jericho.EncodingDetector.<init>(EncodingDetector.java:43)
+  at net.htmlparser.jericho.Source.<init>(Source.java:193)
+  at delta.games.lotro.character.io.web.CharacterPageParser.parseMainPage(CharacterPageParser.java:189)
+  at delta.games.lotro.character.CharacterInfosManager.updateCharacterDescription(CharacterInfosManager.java:92)
+  at delta.games.lotro.character.MainTestCharacterParsing.main(MainTestCharacterParsing.java:26)
+# 2012-04-02 22:40:13,921 [main] [APPS.LOTRO] ERROR delta.games.lotro.character.io.xml.CharacterXMLWriter.write(CharacterXMLWriter.java:64) - 
+java.lang.NullPointerException
+  at delta.games.lotro.character.io.xml.CharacterXMLWriter.write(CharacterXMLWriter.java:77)
+  at delta.games.lotro.character.io.xml.CharacterXMLWriter.write(CharacterXMLWriter.java:58)
+  at delta.games.lotro.character.CharacterInfosManager.writeNewInfo(CharacterInfosManager.java:123)
+  at delta.games.lotro.character.CharacterInfosManager.updateCharacterDescription(CharacterInfosManager.java:93)
+  at delta.games.lotro.character.MainTestCharacterParsing.main(MainTestCharacterParsing.java:26)
+# 2012-04-02 22:40:13,921 [main] [APPS.LOTRO.CHARACTER] ERROR delta.games.lotro.character.CharacterInfosManager.updateCharacterDescription(CharacterInfosManager.java:97) - Update failed for toon [Tilmogrim]!
+Updating toon [Warthil]
+OK
+   * 
+   */
+  
+  
   /**
    * Write a new info file for this toon.
    * @param info Character info to write.

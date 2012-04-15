@@ -27,6 +27,7 @@ public class CharacterLogTableController
   private CharacterLogItemsFilter _filter;
   // GUI
   private JTable _table;
+  private CharacterLogTableModel _model;
   private TableRowSorter<CharacterLogTableModel> _sorter;
   private RowFilter<CharacterLogTableModel,Integer> _guiFilter;
 
@@ -46,6 +47,16 @@ public class CharacterLogTableController
   {
     _log=log;
     _filter=filter;
+  }
+
+  /**
+   * Set a new character log.
+   * @param log Character log to set.
+   */
+  public void setLog(CharacterLog log)
+  {
+    _log=log;
+    _model.fireTableDataChanged();
   }
 
   /**
@@ -99,11 +110,11 @@ public class CharacterLogTableController
 
   private JTable build()
   {
-    CharacterLogTableModel model=new CharacterLogTableModel();
-    JTable table=new JTable(model);
+    _model=new CharacterLogTableModel();
+    JTable table=new JTable(_model);
     table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     table.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
-    _sorter=new TableRowSorter<CharacterLogTableModel>(model) {
+    _sorter=new TableRowSorter<CharacterLogTableModel>(_model) {
 
       @Override
       protected boolean useToString(int column)
@@ -240,6 +251,7 @@ public class CharacterLogTableController
       _table.setModel(null);
       _table=null;
     }
+    _model=null;
     _sorter=null;
     _guiFilter=null;
     // Data

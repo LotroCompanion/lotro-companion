@@ -1,4 +1,4 @@
-package delta.games.lotro.gui;
+package delta.games.lotro.gui.utils;
 
 import java.awt.FlowLayout;
 

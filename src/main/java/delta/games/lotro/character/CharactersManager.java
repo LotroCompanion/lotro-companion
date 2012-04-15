@@ -1,5 +1,7 @@
 package delta.games.lotro.character;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.File;
 import java.io.FileFilter;
 import java.util.ArrayList;
@@ -11,6 +13,7 @@ import delta.common.utils.files.filter.FileTypePredicate;
 import delta.games.lotro.Config;
 
 /**
+ * Manages all known toons.
  * @author DAM
  */
 public class CharactersManager
@@ -18,6 +21,13 @@ public class CharactersManager
   private static CharactersManager _instance=new CharactersManager();
   
   private HashMap<String,ServerCharactersManager> _servers;
+
+  private PropertyChangeSupport _listeners;
+
+  /**
+   * Constant for "toon added" event.
+   */
+  public static final String TOON_ADDED = "TOON_ADDED";
 
   /**
    * Get the sole instance of this class.
@@ -52,6 +62,25 @@ public class CharactersManager
         _servers.put(serverName,manager);
       }
     }
+    _listeners=new PropertyChangeSupport(this);
+  }
+
+  /**
+   * Add an event listener.
+   * @param listener Event listener to add.
+   */
+  public void addPropertyChangeListener(PropertyChangeListener listener)
+  {
+    _listeners.addPropertyChangeListener(listener);
+  }
+
+  /**
+   * Remove an event listener.
+   * @param listener Event listener to remove.
+   */
+  public void removePropertyChangeListener(PropertyChangeListener listener)
+  {
+    _listeners.removePropertyChangeListener(listener);
   }
 
   /**
@@ -93,6 +122,10 @@ public class CharactersManager
       {
         _servers.put(serverName,server);
       }
+    }
+    if (toon!=null)
+    {
+      _listeners.firePropertyChange(TOON_ADDED,false,true);
     }
     return toon;
   }

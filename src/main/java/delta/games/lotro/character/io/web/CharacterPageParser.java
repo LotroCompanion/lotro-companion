@@ -7,6 +7,7 @@ import net.htmlparser.jericho.Element;
 import net.htmlparser.jericho.HTMLElementName;
 import net.htmlparser.jericho.Source;
 
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
 import delta.common.utils.NumericTools;
@@ -177,11 +178,49 @@ public class CharacterPageParser
 
   /**
    * Parse the character page at the given URL.
+   * @param name Toon name.
    * @param url URL of character page.
    * @return A character or <code>null</code> if an error occurred..
    */
-  public Character parseMainPage(String url)
+  public Character parseMainPage(String name, String url)
   {
+    Character ret=null;
+    int maxTries=3;
+    int retryNumber=0;
+    while(retryNumber<maxTries)
+    {
+      Character subRet=parseMainPage(name,url,retryNumber);
+      if (subRet!=null)
+      {
+        ret=subRet;
+        break;
+      }
+      retryNumber++;
+    }
+    if (ret==null)
+    {
+      if (_logger.isEnabledFor(Level.ERROR))
+      {
+        _logger.error("Cannot parse character description page url=["+url+"] name=["+name+"]");
+      }
+    }
+      
+    return ret;
+  }
+
+  /**
+   * Parse the character page at the given URL.
+   * @param name Toon name.
+   * @param url URL of character page.
+   * @param retryNumber Number of previous tries.
+   * @return A character or <code>null</code> if an error occurred..
+   */
+  public Character parseMainPage(String name, String url, int retryNumber)
+  {
+    if (_logger.isInfoEnabled())
+    {
+      _logger.info("Character description page parsing for toon ["+name+"] "+((retryNumber>0)?" try #"+retryNumber:""));
+    }
     Character ret=null;
     try
     {
@@ -200,7 +239,10 @@ public class CharacterPageParser
     }
     catch(Exception e)
     {
-      _logger.error("Cannot parse character page ["+url+"]",e);
+      if (_logger.isInfoEnabled())
+      {
+        _logger.info("Cannot parse character page ["+url+"]",e);
+      }
     }
     return ret;
   }
