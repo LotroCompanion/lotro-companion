@@ -149,6 +149,21 @@ public class Money
   @Override
   public String toString()
   {
-    return _goldCoins+" gold, "+_silverCoins+" silver, "+_copperCoins+" copper";
+    StringBuilder sb=new StringBuilder();
+    if (_goldCoins>0)
+    {
+      sb.append(_goldCoins).append(" gold");
+    }
+    if (_silverCoins>0)
+    {
+      if (sb.length()>0) sb.append(", ");
+      sb.append(_silverCoins).append(" silver");
+    }
+    if (_copperCoins>0)
+    {
+      if (sb.length()>0) sb.append(", ");
+      sb.append(_copperCoins).append(" copper");
+    }
+    return sb.toString();
   }
 }

@@ -7,7 +7,6 @@ import java.util.List;
 import net.htmlparser.jericho.CharacterReference;
 import net.htmlparser.jericho.Element;
 import net.htmlparser.jericho.HTMLElementName;
-import net.htmlparser.jericho.Renderer;
 import net.htmlparser.jericho.Segment;
 import net.htmlparser.jericho.Source;
 import net.htmlparser.jericho.StartTag;
@@ -648,16 +647,6 @@ Item Advancement Experience
     }
   }
 
-  private String getTextFromTag(Element tag)
-  {
-    //TextExtractor extractor=tag.getTextExtractor();
-    Renderer extractor=tag.getRenderer();
-    extractor.setMaxLineLength(10000);
-    extractor.setIncludeHyperlinkURLs(false);
-    String text=extractor.toString();
-    return text;
-  }
-
   private QuestDescription parseQuestSection(Element questSection)
   {
     QuestDescription ret=null;
@@ -704,7 +693,7 @@ Item Advancement Experience
               Element bestowerTag=JerichoHtmlUtils.findElementByTagNameAndAttributeValue(contentsSection,HTMLElementName.DIV,"class","bestowertext");
               if (bestowerTag!=null)
               {
-                String contents=getTextFromTag(bestowerTag);
+                String contents=JerichoHtmlUtils.getTextFromTag(bestowerTag);
                 text.append(contents);
               }
             }
@@ -713,7 +702,7 @@ Item Advancement Experience
               Element bestowerLink=JerichoHtmlUtils.findElementByTagNameAndAttributeValue(contentsSection,HTMLElementName.DIV,"class","bestowerlink");
               if (bestowerLink!=null)
               {
-                String contents=getTextFromTag(bestowerLink);
+                String contents=JerichoHtmlUtils.getTextFromTag(bestowerLink);
                 link.append(contents);
               }
             }

@@ -6,6 +6,7 @@ import java.util.List;
 
 import net.htmlparser.jericho.CharacterReference;
 import net.htmlparser.jericho.Element;
+import net.htmlparser.jericho.Renderer;
 import net.htmlparser.jericho.Segment;
 import net.htmlparser.jericho.StartTag;
 
@@ -116,5 +117,20 @@ public class JerichoHtmlUtils
       }
     }
     return ret;
+  }
+
+  /**
+   * Extract text from a tag.
+   * @param tag Tag to use.
+   * @return Extracted text.
+   */
+  public static String getTextFromTag(Element tag)
+  {
+    //TextExtractor extractor=tag.getTextExtractor();
+    Renderer extractor=tag.getRenderer();
+    extractor.setMaxLineLength(10000);
+    extractor.setIncludeHyperlinkURLs(false);
+    String text=extractor.toString();
+    return text;
   }
 }

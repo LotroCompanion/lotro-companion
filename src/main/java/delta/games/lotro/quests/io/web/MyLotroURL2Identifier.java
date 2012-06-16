@@ -15,8 +15,8 @@ public class MyLotroURL2Identifier
 {
   private static final Logger _logger=LotroLoggers.getWebInputLogger();
 
-  private static final String QUEST_URL_SEED="/wiki/Quest:";
-  private static final String DEED_URL_SEED="/wiki/Deed:";
+  private static final String WIKI_URL_SEED="/wiki/";
+  private static final String WIKI_URL_SEPERATOR=":";
 
   /**
    * Find the identifier for the given URL.
@@ -24,6 +24,17 @@ public class MyLotroURL2Identifier
    * @return An identifier or <code>null</code> if not found.
    */
   public String findIdentifier(String urlStr)
+  {
+    return findIdentifier(urlStr,false);
+  }
+
+  /**
+   * Find the identifier for the given URL.
+   * @param urlStr URL to use.
+   * @param full Return full identifier (including URL type).
+   * @return An identifier or <code>null</code> if not found.
+   */
+  public String findIdentifier(String urlStr, boolean full)
   {
     String identifier=null;
     if ((urlStr!=null) && (urlStr.length()>0))
@@ -43,13 +54,20 @@ public class MyLotroURL2Identifier
           {
             byte[] b=loc.getBytes("ISO8859-1");
             loc=new String(b,"UTF-8");
-            if (loc.startsWith(QUEST_URL_SEED))
+            if (loc.startsWith(WIKI_URL_SEED))
             {
-              identifier=loc.substring(QUEST_URL_SEED.length());
-            }
-            else if (loc.startsWith(DEED_URL_SEED))
-            {
-              identifier=loc.substring(DEED_URL_SEED.length());
+              int separatorIndex=loc.indexOf(WIKI_URL_SEPERATOR,WIKI_URL_SEED.length());
+              if (separatorIndex!=-1)
+              {
+                if (full)
+                {
+                  identifier=loc.substring(WIKI_URL_SEED.length());
+                }
+                else
+                {
+                  identifier=loc.substring(separatorIndex+1);
+                }
+              }
             }
           }
         }
