@@ -1,5 +1,6 @@
 package delta.games.lotro.items;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import delta.common.utils.text.EndOfLine;
@@ -15,6 +16,8 @@ public class Item
   private String _id;
   // Item name "Jacket of the Impossible Shot"
   private String _name;
+  // Icon URL
+  private String _iconURL;
   // Item category: Armour, Tool, ...
   private ItemCategory _category;
   // Item sub-category: "Medium Armour", "Craft Tool"
@@ -46,7 +49,21 @@ public class Item
    */
   public Item()
   {
-    // TODO
+    _id=null;
+    _name="";
+    _iconURL=null;
+    _category=ItemCategory.ITEM;
+    _subCategory=null;
+    _binding=null;
+    _unique=false;
+    _bonus=new ArrayList<String>();
+    _durability=null;
+    _sturdiness=null;
+    _minLevel=null;
+    _class=null;
+    _description=null;
+    _value=new Money();
+    _stackMax=null;
   }
 
   /**
@@ -83,6 +100,24 @@ public class Item
   public void setName(String name)
   {
     _name=name;
+  }
+
+  /**
+   * Get the URL of the icon for this item.
+   * @return an URL or <code>null</code>.
+   */
+  public String getIconURL()
+  {
+    return _iconURL;
+  }
+
+  /**
+   * Set the URL for the icon of this item.
+   * @param iconURL the URL to set.
+   */
+  public void setIconURL(String iconURL)
+  {
+    _iconURL=iconURL;
   }
 
   /**
@@ -381,6 +416,11 @@ public class Item
       sb.append(')');
     }
     sb.append(EndOfLine.NATIVE_EOL);
+    if (_iconURL!=null)
+    {
+      sb.append(_iconURL);
+      sb.append(EndOfLine.NATIVE_EOL);
+    }
     if ((_bonus!=null) && (_bonus.size()>0))
     {
       for(String bonus : _bonus)
@@ -388,7 +428,10 @@ public class Item
         sb.append(bonus).append(EndOfLine.NATIVE_EOL);
       }
     }
-    sb.append(_description);
+    if (_description!=null)
+    {
+      sb.append(_description);
+    }
     return sb.toString();
   }
 

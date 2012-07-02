@@ -11,22 +11,6 @@ public class QuestRewardsXMLConstants
    * Tag 'rewards'.
    */
   public static final String REWARDS_TAG="rewards";
-  /**
-   * Tag 'money'.
-   */
-  public static final String MONEY_TAG="money";
-  /**
-   * Tag 'money', attribute 'gold'.
-   */
-  public static final String MONEY_GOLD_ATTR="gold";
-  /**
-   * Tag 'money', attribute 'silver'.
-   */
-  public static final String MONEY_SILVER_ATTR="silver";
-  /**
-   * Tag 'money', attribute 'copper'.
-   */
-  public static final String MONEY_COPPER_ATTR="copper";
 
   /**
    * Tag 'reputation'.

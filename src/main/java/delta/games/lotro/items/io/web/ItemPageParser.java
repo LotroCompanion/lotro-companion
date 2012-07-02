@@ -1,6 +1,5 @@
 package delta.games.lotro.items.io.web;
 
-import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,13 +14,11 @@ import net.htmlparser.jericho.StartTag;
 import org.apache.log4j.Logger;
 
 import delta.common.utils.NumericTools;
-import delta.common.utils.files.FileCopy;
 import delta.games.lotro.common.Money;
 import delta.games.lotro.items.Armour;
 import delta.games.lotro.items.Item;
 import delta.games.lotro.items.ItemBinding;
 import delta.games.lotro.items.ItemSturdiness;
-import delta.games.lotro.quests.io.web.MyLotroURL2Identifier;
 import delta.games.lotro.utils.JerichoHtmlUtils;
 import delta.games.lotro.utils.LotroLoggers;
 
@@ -33,7 +30,6 @@ public class ItemPageParser
 {
   private static final Logger _logger=LotroLoggers.getWebInputLogger();
 
-  private static String ROOT_URL="http://lorebook.lotro.com/wiki/";
   private Item _item;
   private String _identifier;
 
@@ -192,17 +188,26 @@ public class ItemPageParser
     return className;
   }
   
+  private static String[] ITEM_NAME_TAGS={
+    "itemname common",
+    "itemname uncommon",
+    "itemname incomparable",
+    "itemname rare",
+    "itemname epic"
+  };
+
   private String findName(Element itemTooltip)
   {
     String name=null;
-    // <div class="itemname incomparable">Superior Tools of the Explorer</div>
-    name=getTagContent(itemTooltip,"itemname incomparable");
+    for(String tagName : ITEM_NAME_TAGS)
+    {
+      name=getTagContent(itemTooltip,tagName);
+      if (name!=null) break;
+    }
     if (name==null)
     {
-      // <div class="itemname rare">Glossy Eye</div>
-      name=getTagContent(itemTooltip,"itemname rare");
+      _logger.warn("No name found in tooltip ["+itemTooltip+"]");
     }
-    // TODO to be continued
     return name;
   }
 
@@ -325,15 +330,7 @@ public class ItemPageParser
     String name=findName(itemTooltip);
     _item.setName(name);
     if (url!=null) {
-      // TODO beurk
-      try {
-        File toDir=new File("c:\\temp");
-        File to=new File(toDir,name+".png");
-        FileCopy.copyFromURL(new URL(url),to);
-      }
-      catch(Exception e) {
-        e.printStackTrace();
-      }
+      _item.setIconURL(url);
     }
     // Item sub-category
     // <div class="itemtype">Craft Tool</div>
@@ -627,6 +624,8 @@ Strength Quick Shot Slow (Tier(s):
    */
   public Item parseItemPage(String url)
   {
+    Item ret=internalParseItemPage(url);
+    /*
     Item ret=null;
     if (url.contains("?id="))
     {
@@ -642,8 +641,34 @@ Strength Quick Shot Slow (Tier(s):
     {
       ret=internalParseItemPage(url);
     }
+    */
     return ret;
   }
+
+  private static final String HREF_IDENTIFIER_SEED="/wiki/";
+
+  private String fetchIdentifier(Segment root)
+  {
+    String id=null;
+    Element articleTop=JerichoHtmlUtils.findElementByTagNameAndAttributeValue(root,HTMLElementName.DIV,"id","article_top");
+    if (articleTop!=null)
+    {
+      Element article=JerichoHtmlUtils.findElementByTagNameAndAttributeValue(articleTop,HTMLElementName.A,"class","lorebook_action_link");
+      if (article!=null)
+      {
+        String href=article.getAttributeValue("href");
+        if (href!=null)
+        {
+          if (href.startsWith(HREF_IDENTIFIER_SEED))
+          {
+            id=href.substring(HREF_IDENTIFIER_SEED.length());
+          }
+        }
+      }
+    }
+    return id;
+  }
+
   /**
    * Parse the item page at the given URL.
    * @param url URL of quest page.
@@ -662,18 +687,19 @@ Strength Quick Shot Slow (Tier(s):
       //if (lorebook!=null)
       {
         items=new ArrayList<Item>();
+        // Fetch identifier
         List<Element> itemSections=JerichoHtmlUtils.findElementsByTagNameAndAttributeValue(source,HTMLElementName.TABLE,"class","tooltip");
         //List<Element> itemSections=JerichoHtmlUtils.findElementsByTagNameAndAttributeValue(source,HTMLElementName.DIV,"class","lorebookclass");
         if ((itemSections!=null) && (itemSections.size()>0))
         {
+          String identifier=fetchIdentifier(source);
           for(Element itemSection : itemSections)
           {
             Item item=parseItemSection(itemSection);
             if (item!=null)
             {
-              //System.out.println(quest.dump());
               items.add(item);
-              item.setIdentifier(""); // TODO
+              item.setIdentifier(identifier);
             }
           }
         }

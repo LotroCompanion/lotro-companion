@@ -91,7 +91,11 @@ public class CharacterInfosManager
     CharacterPageParser parser=new CharacterPageParser();
     String name=_toon.getName();
     Character c=parser.parseMainPage(name,url);
-    boolean ret=writeNewInfo(c);
+    boolean ret=false;
+    if (c!=null)
+    {
+      ret=writeNewInfo(c);
+    }
     if (!ret)
     {
       _logger.error("Update failed for toon ["+name+"]!");

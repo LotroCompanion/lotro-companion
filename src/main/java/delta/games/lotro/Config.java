@@ -16,6 +16,8 @@ public class Config
   private File _rootDataDir;
   private File _toonsDir;
   private File _questsDir;
+  private File _iconsDir;
+  private File _itemsDir;
   private List<String> _servers;
 
   /**
@@ -39,6 +41,8 @@ public class Config
     _servers.add("Elendilmir");
     _servers.add("Riddermark");
     _questsDir=new File(_rootDataDir,"quests");
+    _iconsDir=new File(_rootDataDir,"icons");
+    _itemsDir=new File(_rootDataDir,"items");
   }
 
   /**
@@ -48,6 +52,24 @@ public class Config
   public File getQuestsDir()
   {
     return _questsDir;
+  }
+
+  /**
+   * Get the root directory for icons data storage.
+   * @return a directory.
+   */
+  public File getIconsDir()
+  {
+    return _iconsDir;
+  }
+
+  /**
+   * Get the root directory for items data storage.
+   * @return a directory.
+   */
+  public File getItemsDir()
+  {
+    return _itemsDir;
   }
 
   /**

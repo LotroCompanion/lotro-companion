@@ -14,6 +14,7 @@ import delta.games.lotro.common.Skill;
 import delta.games.lotro.common.Skill.SkillType;
 import delta.games.lotro.common.Title;
 import delta.games.lotro.common.Trait;
+import delta.games.lotro.common.money.io.xml.MoneyXMLParser;
 import delta.games.lotro.common.objects.ObjectItem;
 import delta.games.lotro.common.objects.ObjectsSet;
 import delta.games.lotro.quests.QuestRewards;
@@ -35,18 +36,8 @@ public class QuestRewardsXMLParser
     if (rewardsTag!=null)
     {
       // Money
-      Element moneyTag=DOMParsingTools.getChildTagByName(rewardsTag,QuestRewardsXMLConstants.MONEY_TAG);
-      if (moneyTag!=null)
-      {
-        Money money=rewards.getMoney();
-        NamedNodeMap attrs=moneyTag.getAttributes();
-        int gold=DOMParsingTools.getIntAttribute(attrs,QuestRewardsXMLConstants.MONEY_GOLD_ATTR,0);
-        money.setGoldCoins(gold);
-        int silver=DOMParsingTools.getIntAttribute(attrs,QuestRewardsXMLConstants.MONEY_SILVER_ATTR,0);
-        money.setSilverCoins(silver);
-        int copper=DOMParsingTools.getIntAttribute(attrs,QuestRewardsXMLConstants.MONEY_COPPER_ATTR,0);
-        money.setCopperCoins(copper);
-      }
+      Money money=rewards.getMoney();
+      MoneyXMLParser.loadMoney(root,money);
 
       // Reputation
       Element reputationTag=DOMParsingTools.getChildTagByName(rewardsTag,QuestRewardsXMLConstants.REPUTATION_TAG);

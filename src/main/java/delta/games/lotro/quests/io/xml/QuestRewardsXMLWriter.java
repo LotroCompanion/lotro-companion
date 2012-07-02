@@ -10,6 +10,7 @@ import delta.games.lotro.common.ReputationItem;
 import delta.games.lotro.common.Skill;
 import delta.games.lotro.common.Title;
 import delta.games.lotro.common.Trait;
+import delta.games.lotro.common.money.io.xml.MoneyXMLWriter;
 import delta.games.lotro.common.objects.ObjectItem;
 import delta.games.lotro.common.objects.ObjectsSet;
 import delta.games.lotro.quests.QuestRewards;
@@ -32,15 +33,7 @@ public class QuestRewardsXMLWriter
   {
     hd.startElement("","",QuestRewardsXMLConstants.REWARDS_TAG,new AttributesImpl());
     Money money=rewards.getMoney();
-    if (!money.isEmpty())
-    {
-      AttributesImpl moneyAttrs=new AttributesImpl();
-      moneyAttrs.addAttribute("","",QuestRewardsXMLConstants.MONEY_GOLD_ATTR,CDATA,String.valueOf(money.getGoldCoins()));
-      moneyAttrs.addAttribute("","",QuestRewardsXMLConstants.MONEY_SILVER_ATTR,CDATA,String.valueOf(money.getSilverCoins()));
-      moneyAttrs.addAttribute("","",QuestRewardsXMLConstants.MONEY_COPPER_ATTR,CDATA,String.valueOf(money.getCopperCoins()));
-      hd.startElement("","",QuestRewardsXMLConstants.MONEY_TAG,moneyAttrs);
-      hd.endElement("","",QuestRewardsXMLConstants.MONEY_TAG);
-    }
+    MoneyXMLWriter.writeMoney(hd,money);
     Reputation reputation=rewards.getReputation();
     if (!reputation.isEmpty())
     {

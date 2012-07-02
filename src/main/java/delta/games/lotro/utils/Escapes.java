@@ -7,33 +7,6 @@ package delta.games.lotro.utils;
 public class Escapes
 {
   /**
-   * Build a filename from an identifier.
-   * @param id Source identifier.
-   * @return A filename, including XML extension.
-   */
-  public static String identifierToFilename(String id)
-  {
-    String filename=id+".xml";
-    filename=filename.replace(":","%3A");
-    filename=filename.replace("'","%27");
-    filename=filename.replace("â","%C3%A2");
-    filename=filename.replace("ä","%C3%A4");
-    filename=filename.replace("á","%C3%A1");
-    filename=filename.replace("Â","%C3%82");
-    filename=filename.replace("Á","%C3%81");
-    filename=filename.replace("ë","%C3%AB");
-    filename=filename.replace("é","%C3%A9");
-    filename=filename.replace("í","%C3%AD");
-    filename=filename.replace("î","%C3%AE");
-    filename=filename.replace("ó","%C3%B3");
-    filename=filename.replace("û","%C3%BB");
-    filename=filename.replace("ú","%C3%BA");
-    filename=filename.replace("?","%3F");
-    
-    return filename;
-  }
-
-  /**
    * Escape an identifier.
    * @param id Source identifier.
    * @return Escaped string.
