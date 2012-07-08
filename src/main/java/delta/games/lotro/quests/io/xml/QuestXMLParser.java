@@ -7,6 +7,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 
 import delta.common.utils.xml.DOMParsingTools;
+import delta.games.lotro.common.io.xml.RewardsXMLParser;
 import delta.games.lotro.quests.QuestDescription;
 import delta.games.lotro.quests.QuestDescription.FACTION;
 import delta.games.lotro.quests.QuestDescription.SIZE;
@@ -141,7 +142,7 @@ public class QuestXMLParser
       }
     }
 
-    QuestRewardsXMLParser.loadQuestRewards(root,q.getQuestRewards());
+    RewardsXMLParser.loadRewards(root,q.getQuestRewards());
     return q;
   }
 }

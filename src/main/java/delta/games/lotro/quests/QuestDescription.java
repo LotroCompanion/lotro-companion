@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import delta.common.utils.text.EndOfLine;
+import delta.games.lotro.common.Rewards;
 
 /**
  * LOTRO quest description.
@@ -34,6 +35,7 @@ public class QuestDescription
      */
     RAID
   }
+
   /**
    * Quest type.
    * @author DAM
@@ -49,6 +51,7 @@ public class QuestDescription
      */
     EPIC
   }
+
   /**
    * Faction.
    * @author DAM
@@ -64,6 +67,7 @@ public class QuestDescription
      */
     MONSTER_PLAY
   }
+
   private String _identifier;
   private String _title;
   private String _category;
@@ -84,7 +88,7 @@ public class QuestDescription
   private String _objectives;
   private List<String> _prerequisiteQuests;
   private List<String> _nextQuests;
-  private QuestRewards _rewards;
+  private Rewards _rewards;
 
   /**
    * Constructor.
@@ -109,7 +113,7 @@ public class QuestDescription
     _objectives="";
     _prerequisiteQuests=new ArrayList<String>();
     _nextQuests=new ArrayList<String>();
-    _rewards=new QuestRewards();
+    _rewards=new Rewards();
   }
 
   /**
@@ -484,7 +488,7 @@ public class QuestDescription
    * Get the rewards for this quest.
    * @return the rewards.
    */
-  public QuestRewards getQuestRewards()
+  public Rewards getQuestRewards()
   {
     return _rewards;
   }

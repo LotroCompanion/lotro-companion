@@ -15,6 +15,7 @@ import delta.games.lotro.character.log.CharacterLogItem.LogItemType;
 import delta.games.lotro.character.log.io.web.CharacterLogPageParser;
 import delta.games.lotro.character.log.io.xml.CharacterLogXMLParser;
 import delta.games.lotro.character.log.io.xml.CharacterLogXMLWriter;
+import delta.games.lotro.lore.deeds.DeedsManager;
 import delta.games.lotro.quests.QuestsManager;
 import delta.games.lotro.quests.io.web.MyLotroURL2Identifier;
 import delta.games.lotro.utils.Escapes;
@@ -257,36 +258,53 @@ public class CharacterLogsManager
 
   private void updateIdentifier(CharacterLogItem item)
   {
-    if ((item!=null) && (item.getLogItemType()==LogItemType.QUEST))
+    if (item!=null)
     {
-      String itemURL=item.getAssociatedUrl();
-      if ((itemURL!=null) && (itemURL.length()>0))
+      LogItemType type=item.getLogItemType();
+      if ((type==LogItemType.QUEST) || (type==LogItemType.DEED))
       {
-        String id=null;
-        QuestsManager qm=QuestsManager.getInstance();
-        ResourcesMapping mapping=qm.getQuestResourcesMapping();
-        int resource=mapping.getResourceIdentifierFromURL(itemURL);
-        if (resource!=-1)
+        String itemURL=item.getAssociatedUrl();
+        if ((itemURL!=null) && (itemURL.length()>0))
         {
-          id=mapping.getIdentifier(resource);
-        }
-        if (id==null)
-        {
-          MyLotroURL2Identifier finder=new MyLotroURL2Identifier();
-          id=finder.findIdentifier(itemURL);
+          String id=null;
+          if (type==LogItemType.QUEST)
+          {
+            QuestsManager questsManager=QuestsManager.getInstance();
+            ResourcesMapping mapping=questsManager.getQuestResourcesMapping();
+            int resource=mapping.getResourceIdentifierFromURL(itemURL);
+            if (resource!=-1)
+            {
+              id=mapping.getIdentifier(resource);
+            }
+          }
+          else if (type==LogItemType.DEED)
+          {
+            DeedsManager deedsManager=DeedsManager.getInstance();
+            ResourcesMapping mapping=deedsManager.getDeedResourcesMapping();
+            int resource=mapping.getResourceIdentifierFromURL(itemURL);
+            if (resource!=-1)
+            {
+              id=mapping.getIdentifier(resource);
+            }
+          }
+          if (id==null)
+          {
+            MyLotroURL2Identifier finder=new MyLotroURL2Identifier();
+            id=finder.findIdentifier(itemURL);
+            if (id!=null)
+            {
+              id=Escapes.escapeIdentifier(id);
+            }
+          }
           if (id!=null)
           {
-            id=Escapes.escapeIdentifier(id);
+            item.setIdentifier(id);
+            _logger.info("Found id ["+id+"] for URL ["+itemURL+"]");
           }
-        }
-        if (id!=null)
-        {
-          item.setIdentifier(id);
-          _logger.info("Found id ["+id+"] for URL ["+itemURL+"]");
-        }
-        else
-        {
-          _logger.info("No match for ["+item+"]");
+          else
+          {
+            _logger.info("No match for ["+item+"]");
+          }
         }
       }
     }

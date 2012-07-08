@@ -1,11 +1,11 @@
-package delta.games.lotro.quests.io.xml;
+package delta.games.lotro.common.io.xml;
 
 /**
  * Constants for tags and attribute names used in the
- * quest rewards XML documents.
+ * rewards XML documents.
  * @author DAM
  */
-public class QuestRewardsXMLConstants
+public class RewardsXMLConstants
 {
   /**
    * Tag 'rewards'.
@@ -85,6 +85,32 @@ public class QuestRewardsXMLConstants
    * Tag 'title', attribute 'name'.
    */
   public static final String TITLE_NAME_ATTR="name";
+
+  /**
+   * Tag 'virtue'.
+   */
+  public static final String VIRTUE_TAG="virtue";
+  /**
+   * Tag 'virtue', attribute 'id'.
+   */
+  public static final String VIRTUE_ID_ATTR="id";
+  /**
+   * Tag 'virtue', attribute 'name'.
+   */
+  public static final String VIRTUE_NAME_ATTR="name";
+
+  /**
+   * Tag 'emote'.
+   */
+  public static final String EMOTE_TAG="emote";
+  /**
+   * Tag 'emote', attribute 'id'.
+   */
+  public static final String EMOTE_ID_ATTR="id";
+  /**
+   * Tag 'emote', attribute 'name'.
+   */
+  public static final String EMOTE_NAME_ATTR="name";
 
   /**
    * Tag 'selectOneOf'.

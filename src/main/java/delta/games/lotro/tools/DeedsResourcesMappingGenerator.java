@@ -10,15 +10,15 @@ import delta.games.lotro.character.CharactersManager;
 import delta.games.lotro.character.log.CharacterLog;
 import delta.games.lotro.character.log.CharacterLogItem;
 import delta.games.lotro.character.log.CharacterLogItem.LogItemType;
-import delta.games.lotro.quests.QuestsManager;
+import delta.games.lotro.lore.deeds.DeedsManager;
 import delta.games.lotro.utils.resources.ResourcesMapping;
 import delta.games.lotro.utils.resources.io.xml.ResourcesMappingXMLWriter;
 
 /**
- * Generator for the mapping of quest resources.
+ * Generator for the mapping of deed resources.
  * @author DAM
  */
-public class QuestResourcesMappingGenerator
+public class DeedsResourcesMappingGenerator
 {
 
   /**
@@ -27,8 +27,8 @@ public class QuestResourcesMappingGenerator
    */
   public static void main(String[] args)
   {
-    QuestsManager qm=QuestsManager.getInstance();
-    ResourcesMapping mapping=qm.getQuestResourcesMapping();
+    DeedsManager deedsManager=DeedsManager.getInstance();
+    ResourcesMapping mapping=deedsManager.getDeedResourcesMapping();
     CharactersManager manager=CharactersManager.getInstance();
     List<CharacterFile> toons=manager.getAllToons();
     for(CharacterFile toon : toons)
@@ -51,7 +51,7 @@ public class QuestResourcesMappingGenerator
 
   private static void handleItem(ResourcesMapping mapping, CharacterLogItem item)
   {
-    if (item.getLogItemType()==LogItemType.QUEST)
+    if (item.getLogItemType()==LogItemType.DEED)
     {
       String url=item.getAssociatedUrl();
       String identifier=item.getIdentifier();

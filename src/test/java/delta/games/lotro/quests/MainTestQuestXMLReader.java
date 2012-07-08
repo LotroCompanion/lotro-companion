@@ -3,8 +3,7 @@ package delta.games.lotro.quests;
 import java.io.File;
 
 import delta.common.utils.files.filter.ExtensionPredicate;
-import delta.games.lotro.character.CharacterFile;
-import delta.games.lotro.character.log.LotroTestUtils;
+import delta.games.lotro.Config;
 import delta.games.lotro.quests.io.xml.QuestXMLParser;
 
 /**
@@ -19,9 +18,7 @@ public class MainTestQuestXMLReader
    */
   public static void main(String[] args)
   {
-    CharacterFile toon=new LotroTestUtils().getMainToon();
-    File rootDir=toon.getRootDir();
-    File questsDir=new File(rootDir,"quests");
+    File questsDir=Config.getInstance().getQuestsDir();
     if (questsDir.exists())
     {
       ExtensionPredicate extFilter=new ExtensionPredicate(".xml");

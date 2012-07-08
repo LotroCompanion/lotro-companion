@@ -15,6 +15,7 @@ import org.apache.log4j.Logger;
 import org.xml.sax.helpers.AttributesImpl;
 
 import delta.common.utils.io.StreamTools;
+import delta.games.lotro.common.io.xml.RewardsXMLWriter;
 import delta.games.lotro.quests.QuestDescription;
 import delta.games.lotro.quests.QuestDescription.FACTION;
 import delta.games.lotro.quests.QuestDescription.SIZE;
@@ -177,7 +178,7 @@ public class QuestXMLWriter
     
     writeQuestsList(hd,quest.getPrerequisiteQuests(),QuestXMLConstants.PREREQUISITES_TAG,QuestXMLConstants.PREREQUISITE_TAG,QuestXMLConstants.PREREQUISITE_NAME_ATTR);
     writeQuestsList(hd,quest.getNextQuests(),QuestXMLConstants.NEXT_QUESTS_TAG,QuestXMLConstants.NEXT_QUEST_TAG,QuestXMLConstants.NEXT_QUEST_NAME_ATTR);
-    QuestRewardsXMLWriter.write(hd,quest.getQuestRewards());
+    RewardsXMLWriter.write(hd,quest.getQuestRewards());
     hd.endElement("","",QuestXMLConstants.QUEST_TAG);
   }
 

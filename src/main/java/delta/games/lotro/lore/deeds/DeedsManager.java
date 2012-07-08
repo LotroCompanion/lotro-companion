@@ -1,4 +1,4 @@
-package delta.games.lotro.quests;
+package delta.games.lotro.lore.deeds;
 
 import java.io.File;
 import java.io.IOException;
@@ -8,34 +8,34 @@ import org.apache.log4j.Logger;
 
 import delta.common.utils.text.EncodingNames;
 import delta.games.lotro.Config;
-import delta.games.lotro.quests.index.QuestsIndex;
-import delta.games.lotro.quests.index.io.xml.QuestsIndexXMLParser;
-import delta.games.lotro.quests.io.web.QuestPageParser;
-import delta.games.lotro.quests.io.xml.QuestXMLParser;
-import delta.games.lotro.quests.io.xml.QuestXMLWriter;
+import delta.games.lotro.lore.deeds.index.DeedsIndex;
+import delta.games.lotro.lore.deeds.index.io.xml.DeedsIndexXMLParser;
+import delta.games.lotro.lore.deeds.io.web.DeedPageParser;
+import delta.games.lotro.lore.deeds.io.xml.DeedXMLParser;
+import delta.games.lotro.lore.deeds.io.xml.DeedXMLWriter;
 import delta.games.lotro.utils.LotroLoggers;
 import delta.games.lotro.utils.resources.ResourcesMapping;
 import delta.games.lotro.utils.resources.io.xml.ResourcesMappingXMLParser;
 
 /**
- * Facade for quests access.
+ * Facade for deeds access.
  * @author DAM
  */
-public class QuestsManager
+public class DeedsManager
 {
   private static final Logger _logger=LotroLoggers.getLotroLogger();
 
-  private static QuestsManager _instance=new QuestsManager();
+  private static DeedsManager _instance=new DeedsManager();
   
-  private QuestsIndex _index;
+  private DeedsIndex _index;
   private ResourcesMapping _mapping;
-  private HashMap<String,QuestDescription> _cache;
+  private HashMap<String,DeedDescription> _cache;
   
   /**
    * Get the sole instance of this class.
    * @return the sole instance of this class.
    */
-  public static QuestsManager getInstance()
+  public static DeedsManager getInstance()
   {
     return _instance;
   }
@@ -43,45 +43,45 @@ public class QuestsManager
   /**
    * Private constructor.
    */
-  private QuestsManager()
+  private DeedsManager()
   {
-    //_cache=new HashMap<String,QuestDescription>();
+    //_cache=new HashMap<String,DeedDescription>();
     loadIndex();
     loadResourcesMapping();
   }
 
   /**
-   * Get the quests index.
-   * @return the quests index.
+   * Get the deeds index.
+   * @return the deeds index.
    */
-  public QuestsIndex getIndex()
+  public DeedsIndex getIndex()
   {
     return _index;
   }
 
   /**
-   * Get the quest resources mapping.
-   * @return the quest resources mapping.
+   * Get the deed resources mapping.
+   * @return the deed resources mapping.
    */
-  public ResourcesMapping getQuestResourcesMapping()
+  public ResourcesMapping getDeedResourcesMapping()
   {
     return _mapping;
   }
 
   /**
-   * Get a quest using its identifier.
-   * @param id Quest identifier.
-   * @return A quest description or <code>null</code> if not found.
+   * Get a deed using its identifier.
+   * @param id Deed identifier.
+   * @return A deed description or <code>null</code> if not found.
    */
-  public QuestDescription getQuest(String id)
+  public DeedDescription getDeed(String id)
   {
-    QuestDescription ret=null;
+    DeedDescription ret=null;
     if ((id!=null) && (id.length()>0))
     {
       ret=(_cache!=null)?_cache.get(id):null;
       if (ret==null)
       {
-        ret=loadQuest(id);
+        ret=loadDeed(id);
         if (ret!=null)
         {
           if (_cache!=null)
@@ -94,68 +94,68 @@ public class QuestsManager
     return ret;
   }
 
-  private QuestDescription loadQuest(String id)
+  private DeedDescription loadDeed(String id)
   {
-    QuestDescription ret=null;
-    File questFile=getQuestFile(id);
-    if (!questFile.exists())
+    DeedDescription ret=null;
+    File deedFile=getDeedFile(id);
+    if (!deedFile.exists())
     {
-      QuestPageParser parser=new QuestPageParser();
+      DeedPageParser parser=new DeedPageParser();
       String url=urlFromIdentifier(id);
-      ret=parser.parseQuestPage(url);
+      ret=parser.parseDeedPage(url);
       if (ret!=null)
       {
-        QuestXMLWriter writer=new QuestXMLWriter();
-        if (!questFile.getParentFile().exists())
+        DeedXMLWriter writer=new DeedXMLWriter();
+        if (!deedFile.getParentFile().exists())
         {
-          questFile.getParentFile().mkdirs();
+          deedFile.getParentFile().mkdirs();
         }
-        boolean ok=writer.write(questFile,ret,EncodingNames.UTF_8);
+        boolean ok=writer.write(deedFile,ret,EncodingNames.UTF_8);
         if (!ok)
         {
-          _logger.error("Write failed for quest ["+ret.getTitle()+"]!");
+          _logger.error("Write failed for deed ["+ret.getName()+"]!");
         }
       }
       else
       {
-        _logger.error("Cannot parse quest ["+id+"] at URL ["+url+"]!");
+        _logger.error("Cannot parse deed ["+id+"] at URL ["+url+"]!");
         try
         {
-          questFile.createNewFile();
+          deedFile.createNewFile();
         }
         catch(IOException ioe)
         {
-          _logger.error("Cannot create new file ["+questFile+"]",ioe);
+          _logger.error("Cannot create new file ["+deedFile+"]",ioe);
         }
       }
     }
     else
     {
-      if (questFile.length()>0)
+      if (deedFile.length()>0)
       {
-        QuestXMLParser parser=new QuestXMLParser();
-        ret=parser.parseXML(questFile);
+        DeedXMLParser parser=new DeedXMLParser();
+        ret=parser.parseXML(deedFile);
         if (ret==null)
         {
-          _logger.error("Cannot load quest file ["+questFile+"]!");
+          _logger.error("Cannot load deed file ["+deedFile+"]!");
         }
       }
     }
     return ret;
   }
 
-  private File getQuestFile(String id)
+  private File getDeedFile(String id)
   {
-    File questsDir=Config.getInstance().getQuestsDir();
+    File deedsDir=Config.getInstance().getDeedsDir();
     String fileName=fileNameFromIdentifier(id);
-    File ret=new File(questsDir,fileName);
+    File ret=new File(deedsDir,fileName);
     return ret;
   }
 
   private String urlFromIdentifier(String id)
   {
     id=id.replace("?","%3F");
-    String url="http://lorebook.lotro.com/wiki/Quest:"+id;
+    String url="http://lorebook.lotro.com/wiki/Deed:"+id;
     return url;
   }
 
@@ -182,16 +182,16 @@ public class QuestsManager
 
   private void loadIndex()
   {
-    File questsDir=Config.getInstance().getQuestsDir();
-    File questIndexFile=new File(questsDir,"questsIndex.xml");
-    QuestsIndexXMLParser parser=new QuestsIndexXMLParser();
-    _index=parser.parseXML(questIndexFile);
+    File deedsDir=Config.getInstance().getDeedsDir();
+    File deedIndexFile=new File(deedsDir,"deedsIndex.xml");
+    DeedsIndexXMLParser parser=new DeedsIndexXMLParser();
+    _index=parser.parseXML(deedIndexFile);
   }
 
   private void loadResourcesMapping()
   {
-    File questsDir=Config.getInstance().getQuestsDir();
-    File ressourcesMappingFile=new File(questsDir,"questResourcesMapping.xml");
+    File deedsDir=Config.getInstance().getDeedsDir();
+    File ressourcesMappingFile=new File(deedsDir,"deedResourcesMapping.xml");
     if (ressourcesMappingFile.exists())
     {
       ResourcesMappingXMLParser parser=new ResourcesMappingXMLParser();

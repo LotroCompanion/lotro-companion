@@ -1,4 +1,4 @@
-package delta.games.lotro.quests;
+package delta.games.lotro.common;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,10 +11,10 @@ import delta.games.lotro.common.Trait;
 import delta.games.lotro.common.objects.ObjectsSet;
 
 /**
- * Quest rewards description.
+ * Rewards description.
  * @author DAM
  */
-public class QuestRewards
+public class Rewards
 {
   private boolean _itemXP;
   private Money _money;
@@ -23,13 +23,15 @@ public class QuestRewards
   private List<Trait> _traits;
   private List<Skill> _skills;
   private List<Title> _titles;
+  private List<Virtue> _virtues;
+  private List<Emote> _emotes;
   private ObjectsSet _objects;
   private ObjectsSet _selectObjects;
 
   /**
    * Constructor.
    */
-  public QuestRewards()
+  public Rewards()
   {
     _itemXP=false;
     _money=new Money();
@@ -38,6 +40,8 @@ public class QuestRewards
     _traits=null;
     _skills=null;
     _titles=null;
+    _virtues=null;
+    _emotes=null;
     _objects=new ObjectsSet();
     _selectObjects=new ObjectsSet();
   }
@@ -170,7 +174,6 @@ public class QuestRewards
     return ret;
   }
 
-
   /**
    * Add a title.
    * @param title Title to add.
@@ -195,6 +198,62 @@ public class QuestRewards
     {
       ret=new Title[_titles.size()];
       ret=_titles.toArray(ret);
+    }
+    return ret;
+  }
+
+  /**
+   * Add a virtue.
+   * @param virtue Virtue to add.
+   */
+  public void addVirtue(Virtue virtue)
+  {
+    if (_virtues==null)
+    {
+      _virtues=new ArrayList<Virtue>();
+    }
+    _virtues.add(virtue);
+  }
+
+  /**
+   * Get all virtues.
+   * @return An array of virtues or <code>null</code> if there's none.
+   */
+  public Virtue[] getVirtues()
+  {
+    Virtue[] ret=null;
+    if (_virtues!=null)
+    {
+      ret=new Virtue[_virtues.size()];
+      ret=_virtues.toArray(ret);
+    }
+    return ret;
+  }
+
+  /**
+   * Add a emote.
+   * @param emote Emote to add.
+   */
+  public void addEmote(Emote emote)
+  {
+    if (_emotes==null)
+    {
+      _emotes=new ArrayList<Emote>();
+    }
+    _emotes.add(emote);
+  }
+
+  /**
+   * Get all titles.
+   * @return An array of titles or <code>null</code> if there's none.
+   */
+  public Emote[] getEmotes()
+  {
+    Emote[] ret=null;
+    if (_emotes!=null)
+    {
+      ret=new Emote[_emotes.size()];
+      ret=_emotes.toArray(ret);
     }
     return ret;
   }
@@ -254,6 +313,20 @@ public class QuestRewards
       if (firstDone) sb.append(" / ");
       sb.append("Titles: ");
       sb.append(_titles);
+      firstDone=true;
+    }
+    if (_virtues!=null)
+    {
+      if (firstDone) sb.append(" / ");
+      sb.append("Virtues: ");
+      sb.append(_virtues);
+      firstDone=true;
+    }
+    if (_emotes!=null)
+    {
+      if (firstDone) sb.append(" / ");
+      sb.append("Emotes: ");
+      sb.append(_emotes);
       firstDone=true;
     }
     if (_itemXP)
