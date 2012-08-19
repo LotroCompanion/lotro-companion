@@ -40,6 +40,11 @@ public class VirtuesStats
     parseDeedItems(deedItems);
   }
 
+  public HashMap<String,List<String>> getVirtues()
+  {
+    return _virtues;
+  }
+
   private void reset()
   {
     _virtues=new HashMap<String,List<String>>();

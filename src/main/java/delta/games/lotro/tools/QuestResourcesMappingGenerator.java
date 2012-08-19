@@ -1,10 +1,7 @@
 package delta.games.lotro.tools;
 
-import java.io.File;
 import java.util.List;
 
-import delta.common.utils.environment.FileSystem;
-import delta.common.utils.text.EncodingNames;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharactersManager;
 import delta.games.lotro.character.log.CharacterLog;
@@ -12,7 +9,6 @@ import delta.games.lotro.character.log.CharacterLogItem;
 import delta.games.lotro.character.log.CharacterLogItem.LogItemType;
 import delta.games.lotro.quests.QuestsManager;
 import delta.games.lotro.utils.resources.ResourcesMapping;
-import delta.games.lotro.utils.resources.io.xml.ResourcesMappingXMLWriter;
 
 /**
  * Generator for the mapping of quest resources.
@@ -44,9 +40,7 @@ public class QuestResourcesMappingGenerator
         }
       }
     }
-    ResourcesMappingXMLWriter writer=new ResourcesMappingXMLWriter();
-    File to=new File(FileSystem.getTmpDir(),"mapping.xml");
-    writer.write(to,mapping,EncodingNames.ISO8859_1);
+    qm.updateQuestResourcesMapping();
   }
 
   private static void handleItem(ResourcesMapping mapping, CharacterLogItem item)

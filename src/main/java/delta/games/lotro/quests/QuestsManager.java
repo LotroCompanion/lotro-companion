@@ -16,6 +16,7 @@ import delta.games.lotro.quests.io.xml.QuestXMLWriter;
 import delta.games.lotro.utils.LotroLoggers;
 import delta.games.lotro.utils.resources.ResourcesMapping;
 import delta.games.lotro.utils.resources.io.xml.ResourcesMappingXMLParser;
+import delta.games.lotro.utils.resources.io.xml.ResourcesMappingXMLWriter;
 
 /**
  * Facade for quests access.
@@ -94,6 +95,16 @@ public class QuestsManager
     return ret;
   }
 
+  /**
+   * Update the quest resources mapping file.
+   */
+  public void updateQuestResourcesMapping()
+  {
+    File ressourcesMappingFile=getQuestResourcesMappingFile();
+    ResourcesMappingXMLWriter writer=new ResourcesMappingXMLWriter();
+    writer.write(ressourcesMappingFile,_mapping,EncodingNames.ISO8859_1);
+  }
+
   private QuestDescription loadQuest(String id)
   {
     QuestDescription ret=null;
@@ -164,17 +175,17 @@ public class QuestsManager
     String filename=id+".xml";
     filename=filename.replace(":","%3A");
     filename=filename.replace("'","%27");
-    filename=filename.replace("√¢","%C3%A2");
-    filename=filename.replace("√§","%C3%A4");
-    filename=filename.replace("√Ç","%C3%82");
-    filename=filename.replace("√Å","%C3%81");
-    filename=filename.replace("√´","%C3%AB");
-    filename=filename.replace("√©","%C3%A9");
-    filename=filename.replace("√≠","%C3%AD");
-    filename=filename.replace("√Æ","%C3%AE");
-    filename=filename.replace("√≥","%C3%B3");
-    filename=filename.replace("√ª","%C3%BB");
-    filename=filename.replace("√∫","%C3%BA");
+    filename=filename.replace("‚","%C3%A2");
+    filename=filename.replace("‰","%C3%A4");
+    filename=filename.replace("¬","%C3%82");
+    filename=filename.replace("¡","%C3%81");
+    filename=filename.replace("Î","%C3%AB");
+    filename=filename.replace("È","%C3%A9");
+    filename=filename.replace("Ì","%C3%AD");
+    filename=filename.replace("Ó","%C3%AE");
+    filename=filename.replace("Û","%C3%B3");
+    filename=filename.replace("˚","%C3%BB");
+    filename=filename.replace("˙","%C3%BA");
     filename=filename.replace("?","%3F");
     
     return filename;
@@ -190,8 +201,7 @@ public class QuestsManager
 
   private void loadResourcesMapping()
   {
-    File questsDir=Config.getInstance().getQuestsDir();
-    File ressourcesMappingFile=new File(questsDir,"questResourcesMapping.xml");
+    File ressourcesMappingFile=getQuestResourcesMappingFile();
     if (ressourcesMappingFile.exists())
     {
       ResourcesMappingXMLParser parser=new ResourcesMappingXMLParser();
@@ -201,5 +211,12 @@ public class QuestsManager
     {
       _mapping=new ResourcesMapping();
     }
+  }
+
+  private File getQuestResourcesMappingFile()
+  {
+    File questsDir=Config.getInstance().getQuestsDir();
+    File ressourcesMappingFile=new File(questsDir,"questResourcesMapping.xml");
+    return ressourcesMappingFile;
   }
 }

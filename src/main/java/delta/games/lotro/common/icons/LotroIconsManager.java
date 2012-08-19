@@ -1,6 +1,7 @@
 package delta.games.lotro.common.icons;
 
 import java.io.File;
+import java.io.IOException;
 
 import org.apache.log4j.Logger;
 
@@ -60,10 +61,19 @@ public class LotroIconsManager
     else
     {
       boolean ok=fetchIcon(url,file);
-      if (ok)
+      if (!ok)
       {
-        ret=file;
+        _logger.error("Cannot fetch icon at URL ["+url+"]!");
+        try
+        {
+          file.createNewFile();
+        }
+        catch(IOException ioe)
+        {
+          _logger.error("Cannot create new file ["+file+"]",ioe);
+        }
       }
+      ret=file;
     }
     return ret;
   }

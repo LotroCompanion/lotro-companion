@@ -16,6 +16,7 @@ public class Armour extends Item
   public Armour()
   {
     super();
+    setCategory(ItemCategory.ARMOUR);
   }
   
   /**

@@ -7,6 +7,10 @@ package delta.games.lotro.items;
 public enum ItemSturdiness
 {
   /**
+   * Brittle.
+   */
+  BRITTLE,
+  /**
    * Normal.
    */
   NORMAL,

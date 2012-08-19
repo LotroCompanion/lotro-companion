@@ -17,6 +17,8 @@ import delta.games.lotro.character.CharacterEquipment.EQUIMENT_SLOT;
 import delta.games.lotro.character.CharacterEquipment.SlotContents;
 import delta.games.lotro.character.CharacterStat;
 import delta.games.lotro.character.CharacterStat.STAT;
+import delta.games.lotro.common.CharacterClass;
+import delta.games.lotro.common.Race;
 import delta.games.lotro.utils.JerichoHtmlUtils;
 import delta.games.lotro.utils.LotroLoggers;
 
@@ -56,10 +58,12 @@ public class CharacterPageParser
     {
       //<div class="char_class header_color">Hunter</div>
       String charClassName=JerichoHtmlUtils.getTagContents(charPanel,HTMLElementName.DIV,"class","char_class header_color");
-      _character.setCharacterClass(charClassName);
+      CharacterClass cClass=CharacterClass.getByLabel(charClassName);
+      _character.setCharacterClass(cClass);
       //<div class="char_race header_color">Dwarf</div>
       String charRace=JerichoHtmlUtils.getTagContents(charPanel,HTMLElementName.DIV,"class","char_race header_color");
-      _character.setRace(charRace);
+      Race race=Race.getByLabel(charRace);
+      _character.setRace(race);
       //<div class="char_nat header_color">Grey Mountains</div>
       String charNation=JerichoHtmlUtils.getTagContents(charPanel,HTMLElementName.DIV,"class","char_nat header_color");
       _character.setRegion(charNation);

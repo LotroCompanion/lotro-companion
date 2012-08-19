@@ -18,6 +18,8 @@ import javax.swing.table.TableRowSorter;
 import delta.games.lotro.character.Character;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharactersManager;
+import delta.games.lotro.common.CharacterClass;
+import delta.games.lotro.common.Race;
 
 /**
  * Controller for a table that shows all available toons.
@@ -49,7 +51,7 @@ public class ToonsTableController
   };
   private static final Class<?>[] COLUMN_CLASSES=
   {
-    String.class, String.class, String.class, Integer.class, String.class
+    String.class, Race.class, CharacterClass.class, Integer.class, String.class
   };
   private static final int[] MIN_WIDTH = { 100, 100, 100, 100, 100 };
   private static final int[] MAX_WIDTH = { 100, 100, 100, 100, 100 };
@@ -96,8 +98,8 @@ public class ToonsTableController
       {
         String id=toon.getIdentifier();
         _cache.put(id,c);
+        _toons.add(toon);
       }
-      _toons.add(toon);
     }
   }
 

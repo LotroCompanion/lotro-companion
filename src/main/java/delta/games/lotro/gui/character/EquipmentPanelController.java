@@ -131,7 +131,11 @@ public class EquipmentPanelController implements ActionListener
             if (iconURL!=null)
             {
               File f=iconsManager.getIconFile(iconURL);
-              ImageIcon icon=IconsManager.getIcon(f);
+              ImageIcon icon=null;
+              if (f.length()>0)
+              {
+                icon=IconsManager.getIcon(f);
+              }
               if (icon==null)
               {
                 icon=IconsManager.getIcon(ITEM_WITH_NO_ICON);

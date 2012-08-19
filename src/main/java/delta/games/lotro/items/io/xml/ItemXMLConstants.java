@@ -16,6 +16,10 @@ public class ItemXMLConstants
    */
   public static final String ITEM_ID_ATTR="id";
   /**
+   * Tag 'item', attribute 'setId'.
+   */
+  public static final String ITEM_SET_ID_ATTR="setId";
+  /**
    * Tag 'item', attribute 'name'.
    */
   public static final String ITEM_NAME_ATTR="name";
@@ -64,6 +68,28 @@ public class ItemXMLConstants
    */
   public static final String ITEM_STACK_MAX_ATTR="stackMax";
 
+  /**
+   * Tag 'item', attribute 'armour'.
+   */
+  public static final String ARMOUR_ATTR="armour";
+  
+  /**
+   * Tag 'item', attribute 'dps'.
+   */
+  public static final String DPS_ATTR="dps";
+  /**
+   * Tag 'item', attribute 'minDamage'.
+   */
+  public static final String MIN_DAMAGE_ATTR="minDamage";
+  /**
+   * Tag 'item', attribute 'maxDamage'.
+   */
+  public static final String MAX_DAMAGE_ATTR="maxDamage";
+  /**
+   * Tag 'item', attribute 'damageType'.
+   */
+  public static final String DAMAGE_TYPE_ATTR="damageType";
+  
   /**
    * Tag 'bonus'.
    */

@@ -14,11 +14,16 @@ import net.htmlparser.jericho.StartTag;
 import org.apache.log4j.Logger;
 
 import delta.common.utils.NumericTools;
+import delta.common.utils.text.TextTools;
+import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.Money;
 import delta.games.lotro.items.Armour;
+import delta.games.lotro.items.DamageType;
 import delta.games.lotro.items.Item;
 import delta.games.lotro.items.ItemBinding;
 import delta.games.lotro.items.ItemSturdiness;
+import delta.games.lotro.items.ItemsSet;
+import delta.games.lotro.items.Weapon;
 import delta.games.lotro.utils.JerichoHtmlUtils;
 import delta.games.lotro.utils.LotroLoggers;
 
@@ -29,8 +34,13 @@ import delta.games.lotro.utils.LotroLoggers;
 public class ItemPageParser
 {
   private static final Logger _logger=LotroLoggers.getWebInputLogger();
+  
+  private static final String WIKI_SEED="/wiki/";
+  private static final String SET_NUMBER_SEED="Set (";
+  private static final String SET_NUMBER_END="):";
 
   private Item _item;
+  private ItemsSet _set;
   private String _identifier;
 
   private String getTagContent(Element itemTooltip, String tagIdentifier)
@@ -78,6 +88,10 @@ public class ItemPageParser
       {
         ret=ItemSturdiness.NORMAL;
       }
+      else if ("Brittle".equalsIgnoreCase(sturdinessStr))
+      {
+        ret=ItemSturdiness.BRITTLE;
+      }
       else
       {
         _logger.warn("Unmanaged sturdiness information ["+sturdinessStr+"]!");
@@ -111,12 +125,16 @@ public class ItemPageParser
 
   private Integer getArmour(String armourValueStr)
   {
-    // Expected input string format: "1130 Armour Value"
+    // Expected input string format: "1130 Armour Value" or "Max: 1130 Armour Value"
     Integer ret = null;
     if ((armourValueStr!=null) && (armourValueStr.endsWith("Armour Value")))
     {
       try
       {
+        if (armourValueStr.startsWith("Max:"))
+        {
+          armourValueStr=armourValueStr.substring(4).trim();
+        }
         int separatorIndex = armourValueStr.indexOf(' ');
         if (separatorIndex!=-1)
         {
@@ -127,6 +145,29 @@ public class ItemPageParser
       catch(Exception e)
       {
         _logger.warn("Unexpected armour value ["+armourValueStr+"]!");
+      }
+    }
+    return ret;
+  }
+
+  private Float getDPS(String dpsStr)
+  {
+    // Expected input string format: "126.5 DPS"
+    Float ret = null;
+    if ((dpsStr!=null) && (dpsStr.endsWith("DPS")))
+    {
+      try
+      {
+        int separatorIndex = dpsStr.indexOf(' ');
+        if (separatorIndex!=-1)
+        {
+          String valueStr = dpsStr.substring(0,separatorIndex).trim();
+          ret = Float.valueOf(valueStr);
+        }
+      }
+      catch(Exception e)
+      {
+        _logger.warn("Unexpected DPS value ["+dpsStr+"]!");
       }
     }
     return ret;
@@ -223,11 +264,14 @@ public class ItemPageParser
     return url;
   }
 
-  private void parseItemsSet(Element itemTooltip)
+  private ItemsSet parseItemsSet(Element itemTooltip)
   {
+    ItemsSet ret=null;
     Element itemsSet=JerichoHtmlUtils.findElementByTagNameAndAttributeValue(itemTooltip,HTMLElementName.DIV,"class","itemset");
     if (itemsSet!=null)
     {
+      ret=new ItemsSet();
+      String setIdentifier=null;
       String setName="";
       String setURL=null;
       Element itemsSetName=JerichoHtmlUtils.findElementByTagNameAndAttributeValue(itemsSet,HTMLElementName.DIV,"class","itemsn");
@@ -237,11 +281,22 @@ public class ItemPageParser
         if (aElement!=null)
         {
           setURL=aElement.getAttributeValue("href");
+          if ((setURL!=null) && (setURL.startsWith(WIKI_SEED)))
+          {
+            setIdentifier=setURL.substring(WIKI_SEED.length());
+            int index=setIdentifier.indexOf(":");
+            if (index!=-1)
+            {
+              setIdentifier=setIdentifier.substring(index+1);
+            }
+          }
           setName=JerichoHtmlUtils.getTagContents(itemsSetName,HTMLElementName.A);
         }
       }
-      System.out.println("Set name: "+setName);
-      System.out.println("Set URL: "+setURL);
+      //System.out.println("Set name: "+setName);
+      //System.out.println("Set URL: "+setURL);
+      ret.setName(setName);
+      ret.setId(setIdentifier);
       // Set items
       Element setItemsElement=JerichoHtmlUtils.findElementByTagNameAndAttributeValue(itemsSet,HTMLElementName.DIV,"class","itemsps");
       if (setItemsElement!=null)
@@ -249,15 +304,24 @@ public class ItemPageParser
         List<Element> setItemElements=JerichoHtmlUtils.findElementsByTagNameAndAttributeValue(itemsSet,HTMLElementName.DIV,"class","itemsp");
         for(Element setItemElement : setItemElements)
         {
+          String itemId=null;
           String itemURL=null;
-          String itemName=null;
+          //String itemName=null;
           Element aElement=setItemElement.getFirstElement(HTMLElementName.A);
           if (aElement!=null)
           {
             itemURL=aElement.getAttributeValue("href");
-            itemName=JerichoHtmlUtils.getTagContents(setItemElement,HTMLElementName.A);
+            if ((itemURL!=null) && (itemURL.startsWith(WIKI_SEED)))
+            {
+              itemId=itemURL.substring(WIKI_SEED.length());
+            }
+            //itemName=JerichoHtmlUtils.getTagContents(setItemElement,HTMLElementName.A);
           }
-          System.out.println("Item ["+itemName+"]. URL=["+itemURL+"]");
+          if (itemId!=null)
+          {
+            ret.addItemId(itemId);
+          }
+          //System.out.println("Item ["+itemName+"]. URL=["+itemURL+"]");
         }
       }
       // Set effects
@@ -266,14 +330,30 @@ public class ItemPageParser
       {
         List<Element> divs=setEffectsElement.getAllElements(HTMLElementName.DIV);
         divs.remove(0); // Remove self
+        int nbOfItems=0;
         for(Element div : divs)
         {
           String effectLine=JerichoHtmlUtils.getTagContents(div,HTMLElementName.DIV);
-          System.out.println("Effect line ["+effectLine+"]");
+          //System.out.println("Effect line ["+effectLine+"]");
+          effectLine=effectLine.trim();
+          if (effectLine.length()>0)
+          {
+            if ((effectLine.startsWith(SET_NUMBER_SEED)) && (effectLine.endsWith(SET_NUMBER_END)))
+            {
+              String nbStr=TextTools.findBetween(effectLine,SET_NUMBER_SEED,SET_NUMBER_END);
+              nbOfItems=NumericTools.parseInt(nbStr,0);
+            }
+            else
+            {
+              if (nbOfItems!=0)
+              {
+                ret.addBonus(nbOfItems,effectLine);
+              }
+            }
+          }
         }
       }
     }
-    
     /*
 <div class="itemset">
   <div class="itemsn"><a href="/wiki/Item:Armaments_of_the_Impossible_Shot">Armaments of the Impossible Shot</a></div>
@@ -299,22 +379,38 @@ public class ItemPageParser
   <div class="itemsd"></div>
 </div>
      */
+    return ret;
   }
 
   private void parseItemDescription(Element itemTooltip)
   {
     // Find out type of item
-    Armour armour;
+    Armour armour=null;
     // Armor?
     // <div class="itemarmor">1130 Armour Value</div>
     String armorStr=getTagContent(itemTooltip,"itemarmor");
-    if (armorStr!=null){
+    Weapon weapon=null;
+    // Weapon?
+    // <div class="itemdps">126.5 DPS</div>
+    String dpsStr=getTagContent(itemTooltip,"itemdps");
+    if (armorStr!=null)
+    {
       armour=new Armour();
       _item=armour;
       Integer armourValue=getArmour(armorStr);
       if (armourValue!=null)
       {
         armour.setArmourValue(armourValue.intValue());
+      }
+    }
+    else if (dpsStr!=null)
+    {
+      weapon=new Weapon();
+      _item=weapon;
+      Float dpsValue=getDPS(dpsStr);
+      if (dpsValue!=null)
+      {
+        weapon.setDPS(dpsValue.floatValue());
       }
     }
     else
@@ -350,21 +446,41 @@ public class ItemPageParser
     _item.setBinding(binding);
 
     // Damage:
-    /*
-<div class="itemdi">
-<div class="itemdamage">197 - 359 Common Damage</div>
-<table width="100%">
-<tbody>
-<tr>
-<td style="text-align: left;">
-<div class="itemdps">126.5 DPS</div>
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-     * 
-     */
+    // <div class="itemdamage">197 - 359 Common Damage</div>
+    String damage=getTagContent(itemTooltip,"itemdamage");
+    if (damage!=null)
+    {
+      try
+      {
+        if (damage.endsWith("Damage"))
+        {
+          String tmp=damage.substring(0,damage.length()-6).trim();
+          String[] split=tmp.split(" ",4);
+          int minDamage=Integer.parseInt(split[0]);
+          int maxDamage=Integer.parseInt(split[2]);
+          String typeStr=split[3];
+          DamageType type=DamageType.COMMON;
+          if ("Common".equals(typeStr)) type=DamageType.COMMON;
+          else if ("Ancient Dwarf-make".equals(typeStr)) type=DamageType.ANCIENT_DWARF;
+          else if ("Beleriand".equals(typeStr)) type=DamageType.BELERIAND;
+          else if ("Westernesse".equals(typeStr)) type=DamageType.WESTERNESSE;
+          else if ("Fire".equals(typeStr)) type=DamageType.FIRE;
+          else if ("Shadow".equals(typeStr)) type=DamageType.SHADOW;
+          else if ("Light".equals(typeStr)) type=DamageType.LIGHT;
+          else
+          {
+            _logger.warn("Unmanaged damage type ["+typeStr+"]");
+          }
+          weapon.setMinDamage(minDamage);
+          weapon.setMaxDamage(maxDamage);
+          weapon.setDamageType(type);
+        }
+      }
+      catch(Exception e)
+      {
+        _logger.error("Damage parsing exception on ["+damage+"]",e);
+      }
+    }
     
     // Bonuses
     // <div class="itemes">
@@ -393,8 +509,17 @@ public class ItemPageParser
     }
     _item.setBonus(bonuses);
     
+    
+    // TODO <div class="itemmsi">+5 Damage to The Dead</div>
+    String msi=getTagContent(itemTooltip,"itemmsi");
+
     // Item set
-    parseItemsSet(itemTooltip);
+    ItemsSet set=parseItemsSet(itemTooltip);
+    if (set!=null)
+    {
+      _item.setSetIdentifier(set.getId());
+      _set=set;
+    }
 
     // Possible legacies TODO
     /*
@@ -503,7 +628,11 @@ Strength Quick Shot Slow (Tier(s):
       {
         // - class
         String className=parseClassRequirement(requirement);
-        _item.setRequiredClass(className);
+        if (className!=null)
+        {
+          CharacterClass cClass=CharacterClass.getByLabel(className);
+          _item.setRequiredClass(cClass);
+        }
       }
     }
     
@@ -601,13 +730,14 @@ Strength Quick Shot Slow (Tier(s):
     Item ret=null;
     try
     {
+      _item=null;
+      _set=null;
       Element itemTooltip=JerichoHtmlUtils.findElementByTagNameAndAttributeValue(itemSection,HTMLElementName.TABLE,"class","tooltip");
       if (itemTooltip!=null)
       {
         parseItemDescription(itemTooltip);
       }
       ret=_item;
-      _item=null;
     }
     catch(Exception e)
     {
@@ -620,11 +750,11 @@ Strength Quick Shot Slow (Tier(s):
   /**
    * Parse the item page at the given URL.
    * @param url URL of quest page.
-   * @return A quest or <code>null</code> if an error occurred.
+   * @return A list of items or <code>null</code> if an error occurred.
    */
-  public Item parseItemPage(String url)
+  public List<Item> parseItemPage(String url)
   {
-    Item ret=internalParseItemPage(url);
+    List<Item> ret=internalParseItemPage(url);
     /*
     Item ret=null;
     if (url.contains("?id="))
@@ -643,6 +773,31 @@ Strength Quick Shot Slow (Tier(s):
     }
     */
     return ret;
+  }
+
+  /**
+   * Parse the item page at the given URL.
+   * @param url URL of quest page.
+   * @return An item or <code>null</code> if an error occurred.
+   */
+  public Item parseOneItemPage(String url)
+  {
+    Item ret=null;
+    List<Item> items=internalParseItemPage(url);
+    if ((items!=null) && (items.size()>0))
+    {
+      ret=items.get(0);
+    }
+    return ret;
+  }
+
+  /**
+   * Get the extracted items set (if any).
+   * @return An items set or <code>null</code>.
+   */
+  public ItemsSet getItemsSet()
+  {
+    return _set;
   }
 
   private static final String HREF_IDENTIFIER_SEED="/wiki/";
@@ -674,7 +829,7 @@ Strength Quick Shot Slow (Tier(s):
    * @param url URL of quest page.
    * @return A quest or <code>null</code> if an error occurred.
    */
-  private Item internalParseItemPage(String url)
+  private List<Item> internalParseItemPage(String url)
   {
     List<Item> items=null;
     try
@@ -710,11 +865,13 @@ Strength Quick Shot Slow (Tier(s):
       items=null;
       _logger.error("Cannot parse quest page ["+url+"]",e);
     }
+    /*
     Item ret=null;
     if ((items!=null) && (items.size()>0))
     {
       ret=items.get(0);
     }
-    return ret;
+    */
+    return items;
   }
 }

@@ -15,12 +15,16 @@ import org.apache.log4j.Logger;
 import org.xml.sax.helpers.AttributesImpl;
 
 import delta.common.utils.io.StreamTools;
+import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.Money;
 import delta.games.lotro.common.money.io.xml.MoneyXMLWriter;
+import delta.games.lotro.items.Armour;
+import delta.games.lotro.items.DamageType;
 import delta.games.lotro.items.Item;
 import delta.games.lotro.items.ItemBinding;
 import delta.games.lotro.items.ItemCategory;
 import delta.games.lotro.items.ItemSturdiness;
+import delta.games.lotro.items.Weapon;
 import delta.games.lotro.utils.LotroLoggers;
 
 /**
@@ -36,7 +40,7 @@ public class ItemXMLWriter
   /**
    * Write an item to a XML file.
    * @param outFile Output file.
-   * @param item Quest to write.
+   * @param item Item to write.
    * @param encoding Encoding to use.
    * @return <code>true</code> if it succeeds, <code>false</code> otherwise.
    */
@@ -81,6 +85,12 @@ public class ItemXMLWriter
     if (id!=null)
     {
       itemAttrs.addAttribute("","",ItemXMLConstants.ITEM_ID_ATTR,CDATA,id);
+    }
+    // Set identifier
+    String setIdentifier=item.getSetIdentifier();
+    if (setIdentifier!=null)
+    {
+      itemAttrs.addAttribute("","",ItemXMLConstants.ITEM_SET_ID_ATTR,CDATA,setIdentifier);
     }
     // Name
     String name=item.getName();
@@ -134,10 +144,11 @@ public class ItemXMLWriter
       itemAttrs.addAttribute("","",ItemXMLConstants.ITEM_MINLEVEL_ATTR,CDATA,String.valueOf(minLevel.intValue()));
     }
     // Required class
-    String requiredClass=item.getRequiredClass();
+    CharacterClass requiredClass=item.getRequiredClass();
     if (requiredClass!=null)
     {
-      itemAttrs.addAttribute("","",ItemXMLConstants.ITEM_REQUIRED_CLASS_ATTR,CDATA,requiredClass);
+      String className=requiredClass.getLabel();
+      itemAttrs.addAttribute("","",ItemXMLConstants.ITEM_REQUIRED_CLASS_ATTR,CDATA,className);
     }
     // Description
     String description=item.getDescription();
@@ -150,6 +161,30 @@ public class ItemXMLWriter
     if (stackMax!=null)
     {
       itemAttrs.addAttribute("","",ItemXMLConstants.ITEM_STACK_MAX_ATTR,CDATA,String.valueOf(stackMax.intValue()));
+    }
+    
+    // Armor specific:
+    if (category==ItemCategory.ARMOUR)
+    {
+      Armour armour=(Armour)item;
+      int armourValue=armour.getArmourValue();
+      itemAttrs.addAttribute("","",ItemXMLConstants.ARMOUR_ATTR,CDATA,String.valueOf(armourValue));
+    }
+    // Weapon specific:
+    else if (category==ItemCategory.WEAPON)
+    {
+      Weapon weapon=(Weapon)item;
+      float dps=weapon.getDPS();
+      itemAttrs.addAttribute("","",ItemXMLConstants.DPS_ATTR,CDATA,String.valueOf(dps));
+      int minDamage=weapon.getMinDamage();
+      itemAttrs.addAttribute("","",ItemXMLConstants.MIN_DAMAGE_ATTR,CDATA,String.valueOf(minDamage));
+      int maxDamage=weapon.getMaxDamage();
+      itemAttrs.addAttribute("","",ItemXMLConstants.MAX_DAMAGE_ATTR,CDATA,String.valueOf(maxDamage));
+      DamageType type=weapon.getDamageType();
+      if (type!=null)
+      {
+        itemAttrs.addAttribute("","",ItemXMLConstants.DAMAGE_TYPE_ATTR,CDATA,String.valueOf(type));
+      }
     }
     hd.startElement("","",ItemXMLConstants.ITEM_TAG,itemAttrs);
 

@@ -3,6 +3,8 @@ package delta.games.lotro.character;
 import java.util.HashMap;
 
 import delta.games.lotro.character.CharacterStat.STAT;
+import delta.games.lotro.common.CharacterClass;
+import delta.games.lotro.common.Race;
 
 /**
  * Storage class for a LOTRO character definition.
@@ -12,8 +14,8 @@ public class Character
 {
   private String _name;
   private String _server;
-  private String _class;
-  private String _race;
+  private CharacterClass _class;
+  private Race _race;
   private String _region;
   private int _level;
   private HashMap<String,CharacterStat> _stats;
@@ -68,7 +70,7 @@ public class Character
    * Get the character's class.
    * @return the character's class.
    */
-  public String getCharacterClass()
+  public CharacterClass getCharacterClass()
   {
     return _class;
   }
@@ -77,7 +79,7 @@ public class Character
    * Set the character's class.
    * @param characterClass the class to set.
    */
-  public void setCharacterClass(String characterClass)
+  public void setCharacterClass(CharacterClass characterClass)
   {
     _class=characterClass;
   }
@@ -86,7 +88,7 @@ public class Character
    * Get the character's race.
    * @return the character's race.
    */
-  public String getRace()
+  public Race getRace()
   {
     return _race;
   }
@@ -95,7 +97,7 @@ public class Character
    * Set the character's race.
    * @param race the race to set.
    */
-  public void setRace(String race)
+  public void setRace(Race race)
   {
     _race=race;
   }

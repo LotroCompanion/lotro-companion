@@ -19,8 +19,17 @@ public class MainTestItemParsing
     String url3="http://lorebook.lotro.com/wiki/Item:Bright_Lamp";
     String url4="http://lorebook.lotro.com/wiki/Item:Westfold_Tome_of_the_Wind-rider";
     String url5="http://lorebook.lotro.com/wiki/Special:LotroResource?id=1879219223";
-    String[] urls={ url0, url1, url2, url3, url4, url5 };
-    //String[] urls={ url2 };
+    String url6="http://lorebook.lotro.com/wiki/Weapon:Black_Ash_Crossbow";
+    String url7="http://lorebook.lotro.com/wiki/Weapon:Battle_Crossbow_of_the_Spirit"; // +5 Damage to The Dead
+    String url8="http://lorebook.lotro.com/wiki/Weapon:Blade_of_the_Valiant"; // Westerness damage
+    String url9="http://lorebook.lotro.com/wiki/Weapon:Ornate_Black_Ash_Bow"; // Light damage
+    String url10="http://lorebook.lotro.com/wiki/Weapon:Methathol"; // Ancient-dwarf damage
+    String url11="http://lorebook.lotro.com/wiki/Weapon:Cumaed"; // Beleriand
+    String url2Items="http://lorebook.lotro.com/wiki/Weapon:Backed_Hand_Axe_%28Level_23%29";
+    String url6DifferentItems="http://lorebook.lotro.com/wiki/Item:Bold_Bracelet_%28Level_58%29";
+    String[] urls={ url0, url1, url2, url3, url4, url5, url6, url7, url8, url9, url10, url11
+     url2Items, url6DifferentItems };
+    //String[] urls={ url6DifferentItems };
     return urls;
   }
 
@@ -35,8 +44,11 @@ public class MainTestItemParsing
     String[] urls=getTestURLs();
     for(String url : urls)
     {
-      Item item=parser.parseItemPage(url);
-      ret.add(item);
+      List<Item> items=parser.parseItemPage(url);
+      if ((items!=null) && (items.size()>0))
+      {
+        ret.addAll(items);
+      }
     }
     return ret;
   }

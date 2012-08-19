@@ -1,4 +1,4 @@
-package delta.games.lotro.items.io;
+package delta.games.lotro.items.io.xml;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -8,13 +8,16 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 
 import delta.common.utils.xml.DOMParsingTools;
+import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.money.io.xml.MoneyXMLParser;
+import delta.games.lotro.items.Armour;
+import delta.games.lotro.items.DamageType;
 import delta.games.lotro.items.Item;
 import delta.games.lotro.items.ItemBinding;
 import delta.games.lotro.items.ItemCategory;
 import delta.games.lotro.items.ItemFactory;
 import delta.games.lotro.items.ItemSturdiness;
-import delta.games.lotro.items.io.xml.ItemXMLConstants;
+import delta.games.lotro.items.Weapon;
 
 /**
  * Parser for item descriptions stored in XML.
@@ -55,6 +58,9 @@ public class ItemXMLParser
     // Identifier
     String id=DOMParsingTools.getStringAttribute(attrs,ItemXMLConstants.ITEM_ID_ATTR,null);
     ret.setIdentifier(id);
+    // Set identifier
+    String setId=DOMParsingTools.getStringAttribute(attrs,ItemXMLConstants.ITEM_SET_ID_ATTR,null);
+    ret.setSetIdentifier(setId);
     // Name
     String name=DOMParsingTools.getStringAttribute(attrs,ItemXMLConstants.ITEM_NAME_ATTR,null);
     ret.setName(name);
@@ -111,8 +117,13 @@ public class ItemXMLParser
       ret.setMinLevel(Integer.valueOf(minimumLevel));
     }
     // Required class
+    CharacterClass cClass=null;
     String requiredClass=DOMParsingTools.getStringAttribute(attrs,ItemXMLConstants.ITEM_REQUIRED_CLASS_ATTR,null);
-    ret.setRequiredClass(requiredClass);
+    if (requiredClass!=null)
+    {
+      cClass=CharacterClass.getByLabel(requiredClass);
+    }
+    ret.setRequiredClass(cClass);
     // Full description
     String description=DOMParsingTools.getStringAttribute(attrs,ItemXMLConstants.ITEM_DESCRIPTION_ATTR,null);
     ret.setDescription(description);
@@ -124,8 +135,30 @@ public class ItemXMLParser
     {
       ret.setStackMax(Integer.valueOf(stackMax));
     }
-    
-    // TODO Handle subclasses: Armour, Weapon
+    // Armor specific:
+    if (category==ItemCategory.ARMOUR)
+    {
+      Armour armour=(Armour)ret;
+      int armourValue=DOMParsingTools.getIntAttribute(attrs,ItemXMLConstants.ARMOUR_ATTR,0);
+      armour.setArmourValue(armourValue);
+    }
+    // Weapon specific:
+    if (category==ItemCategory.WEAPON)
+    {
+      Weapon weapon=(Weapon)ret;
+      float dps=DOMParsingTools.getFloatAttribute(attrs,ItemXMLConstants.DPS_ATTR,0.0f);
+      weapon.setDPS(dps);
+      int minDamage=DOMParsingTools.getIntAttribute(attrs,ItemXMLConstants.MIN_DAMAGE_ATTR,0);
+      weapon.setMinDamage(minDamage);
+      int maxDamage=DOMParsingTools.getIntAttribute(attrs,ItemXMLConstants.MAX_DAMAGE_ATTR,0);
+      weapon.setMaxDamage(maxDamage);
+      String damageTypeStr=DOMParsingTools.getStringAttribute(attrs,ItemXMLConstants.DAMAGE_TYPE_ATTR,null);
+      if (damageTypeStr!=null)
+      {
+        DamageType type=DamageType.valueOf(damageTypeStr);
+        weapon.setDamageType(type);
+      }
+    }
     return ret;
   }
 }

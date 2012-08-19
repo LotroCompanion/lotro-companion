@@ -16,6 +16,7 @@ import delta.games.lotro.lore.deeds.io.xml.DeedXMLWriter;
 import delta.games.lotro.utils.LotroLoggers;
 import delta.games.lotro.utils.resources.ResourcesMapping;
 import delta.games.lotro.utils.resources.io.xml.ResourcesMappingXMLParser;
+import delta.games.lotro.utils.resources.io.xml.ResourcesMappingXMLWriter;
 
 /**
  * Facade for deeds access.
@@ -94,6 +95,16 @@ public class DeedsManager
     return ret;
   }
 
+  /**
+   * Update the deed resources mapping file.
+   */
+  public void updateDeedResourcesMapping()
+  {
+    File ressourcesMappingFile=getDeedResourcesMappingFile();
+    ResourcesMappingXMLWriter writer=new ResourcesMappingXMLWriter();
+    writer.write(ressourcesMappingFile,_mapping,EncodingNames.ISO8859_1);
+  }
+
   private DeedDescription loadDeed(String id)
   {
     DeedDescription ret=null;
@@ -164,17 +175,17 @@ public class DeedsManager
     String filename=id+".xml";
     filename=filename.replace(":","%3A");
     filename=filename.replace("'","%27");
-    filename=filename.replace("√¢","%C3%A2");
-    filename=filename.replace("√§","%C3%A4");
-    filename=filename.replace("√Ç","%C3%82");
-    filename=filename.replace("√Å","%C3%81");
-    filename=filename.replace("√´","%C3%AB");
-    filename=filename.replace("√©","%C3%A9");
-    filename=filename.replace("√≠","%C3%AD");
-    filename=filename.replace("√Æ","%C3%AE");
-    filename=filename.replace("√≥","%C3%B3");
-    filename=filename.replace("√ª","%C3%BB");
-    filename=filename.replace("√∫","%C3%BA");
+    filename=filename.replace("‚","%C3%A2");
+    filename=filename.replace("‰","%C3%A4");
+    filename=filename.replace("¬","%C3%82");
+    filename=filename.replace("¡","%C3%81");
+    filename=filename.replace("Î","%C3%AB");
+    filename=filename.replace("È","%C3%A9");
+    filename=filename.replace("Ì","%C3%AD");
+    filename=filename.replace("Ó","%C3%AE");
+    filename=filename.replace("Û","%C3%B3");
+    filename=filename.replace("˚","%C3%BB");
+    filename=filename.replace("˙","%C3%BA");
     filename=filename.replace("?","%3F");
     
     return filename;
@@ -190,8 +201,7 @@ public class DeedsManager
 
   private void loadResourcesMapping()
   {
-    File deedsDir=Config.getInstance().getDeedsDir();
-    File ressourcesMappingFile=new File(deedsDir,"deedResourcesMapping.xml");
+    File ressourcesMappingFile=getDeedResourcesMappingFile();
     if (ressourcesMappingFile.exists())
     {
       ResourcesMappingXMLParser parser=new ResourcesMappingXMLParser();
@@ -201,5 +211,12 @@ public class DeedsManager
     {
       _mapping=new ResourcesMapping();
     }
+  }
+
+  private File getDeedResourcesMappingFile()
+  {
+    File questsDir=Config.getInstance().getDeedsDir();
+    File ressourcesMappingFile=new File(questsDir,"deedResourcesMapping.xml");
+    return ressourcesMappingFile;
   }
 }

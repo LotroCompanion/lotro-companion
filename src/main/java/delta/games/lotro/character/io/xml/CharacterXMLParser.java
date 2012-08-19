@@ -14,6 +14,8 @@ import delta.games.lotro.character.CharacterEquipment.EQUIMENT_SLOT;
 import delta.games.lotro.character.CharacterEquipment.SlotContents;
 import delta.games.lotro.character.CharacterStat;
 import delta.games.lotro.character.CharacterStat.STAT;
+import delta.games.lotro.common.CharacterClass;
+import delta.games.lotro.common.Race;
 
 /**
  * Parser for character infos stored in XML.
@@ -48,10 +50,12 @@ public class CharacterXMLParser
     c.setServer(server);
     // Class
     String characterClass=DOMParsingTools.getStringAttribute(root.getAttributes(),CharacterXMLConstants.CHARACTER_CLASS_ATTR,"");
-    c.setCharacterClass(characterClass);
+    CharacterClass cClass=CharacterClass.getByLabel(characterClass);
+    c.setCharacterClass(cClass);
     // Race
     String race=DOMParsingTools.getStringAttribute(root.getAttributes(),CharacterXMLConstants.CHARACTER_RACE_ATTR,"");
-    c.setRace(race);
+    Race cRace=Race.getByLabel(race); 
+    c.setRace(cRace);
     // Region
     String region=DOMParsingTools.getStringAttribute(root.getAttributes(),CharacterXMLConstants.CHARACTER_REGION_ATTR,"");
     c.setRegion(region);

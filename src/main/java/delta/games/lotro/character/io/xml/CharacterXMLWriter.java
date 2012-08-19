@@ -20,6 +20,8 @@ import delta.games.lotro.character.CharacterEquipment.EQUIMENT_SLOT;
 import delta.games.lotro.character.CharacterEquipment.SlotContents;
 import delta.games.lotro.character.CharacterStat;
 import delta.games.lotro.character.CharacterStat.STAT;
+import delta.games.lotro.common.CharacterClass;
+import delta.games.lotro.common.Race;
 import delta.games.lotro.utils.LotroLoggers;
 
 /**
@@ -84,15 +86,17 @@ public class CharacterXMLWriter
     {
       characterAttrs.addAttribute("","",CharacterXMLConstants.CHARACTER_SERVER_ATTR,CDATA,server);
     }
-    String characterClass=character.getCharacterClass();
+    CharacterClass characterClass=character.getCharacterClass();
     if (characterClass!=null)
     {
-      characterAttrs.addAttribute("","",CharacterXMLConstants.CHARACTER_CLASS_ATTR,CDATA,characterClass);
+      String cClass=characterClass.getLabel();
+      characterAttrs.addAttribute("","",CharacterXMLConstants.CHARACTER_CLASS_ATTR,CDATA,cClass);
     }
-    String race=character.getRace();
+    Race race=character.getRace();
     if (race!=null)
     {
-      characterAttrs.addAttribute("","",CharacterXMLConstants.CHARACTER_RACE_ATTR,CDATA,race);
+      String cRace=race.getLabel();
+      characterAttrs.addAttribute("","",CharacterXMLConstants.CHARACTER_RACE_ATTR,CDATA,cRace);
     }
     String region=character.getRegion();
     if (region!=null)

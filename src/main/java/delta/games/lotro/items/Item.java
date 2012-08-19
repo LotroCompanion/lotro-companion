@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import delta.common.utils.text.EndOfLine;
+import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.Money;
 
 /**
@@ -14,6 +15,8 @@ public class Item
 {
   // Item identifier: "Jacket_of_the_Impossible_Shot", ...
   private String _id;
+  // Items set identifier (may be null)
+  private String _setId;
   // Item name "Jacket of the Impossible Shot"
   private String _name;
   // Icon URL
@@ -35,8 +38,7 @@ public class Item
   // Minimum level (may be null)
   private Integer _minLevel;
   // Class (may be null)
-  // TODO Use a class enum
-  private String _class;
+  private CharacterClass _class;
   // Full description
   private String _description;
   // Value
@@ -50,6 +52,7 @@ public class Item
   public Item()
   {
     _id=null;
+    _setId=null;
     _name="";
     _iconURL=null;
     _category=ItemCategory.ITEM;
@@ -73,6 +76,24 @@ public class Item
   public String getIdentifier()
   {
     return _id;
+  }
+
+  /**
+   * Set the identifier of the set this item belongs to.
+   * @param setIdentifier the set identifier to set (<code>null</code> if item belongs to no set).
+   */
+  public void setSetIdentifier(String setIdentifier)
+  {
+    _setId=setIdentifier;
+  }
+
+  /**
+   * Get the identifier of the set this item belongs to.
+   * @return a items set identifier or <code>null</code>.
+   */
+  public String getSetIdentifier()
+  {
+    return _setId;
   }
 
   /**
@@ -272,18 +293,18 @@ public class Item
 
   /**
    * Get the required class to use this item.
-   * @return a class name or <code>null</code>.
+   * @return a character class or <code>null</code>.
    */
-  public String getRequiredClass()
+  public CharacterClass getRequiredClass()
   {
     return _class;
   }
 
   /**
    * Set the required class for this item.
-   * @param toonClass a class name or <code>null</code> for no restriction.
+   * @param toonClass a character class or <code>null</code> for no restriction.
    */
-  public void setRequiredClass(String toonClass)
+  public void setRequiredClass(CharacterClass toonClass)
   {
     _class=toonClass;
   }
@@ -344,7 +365,7 @@ public class Item
   }
 
   /**
-   * Dump the contents of this quest as a string.
+   * Dump the contents of this item as a string.
    * @return A readable string.
    */
   public String dump()
@@ -432,7 +453,7 @@ public class Item
     {
       sb.append(_description);
     }
-    return sb.toString();
+    return sb.toString().trim();
   }
 
   @Override

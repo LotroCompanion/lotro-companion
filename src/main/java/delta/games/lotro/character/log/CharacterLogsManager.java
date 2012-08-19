@@ -298,13 +298,14 @@ public class CharacterLogsManager
           }
           if (id!=null)
           {
-            item.setIdentifier(id);
             _logger.info("Found id ["+id+"] for URL ["+itemURL+"]");
           }
           else
           {
+            id="";
             _logger.info("No match for ["+item+"]");
           }
+          item.setIdentifier(id);
         }
       }
     }
