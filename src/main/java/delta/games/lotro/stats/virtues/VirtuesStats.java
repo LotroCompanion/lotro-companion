@@ -14,8 +14,8 @@ import delta.games.lotro.common.Rewards;
 import delta.games.lotro.common.Virtue;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.DeedsManager;
-import delta.games.lotro.quests.QuestDescription;
-import delta.games.lotro.quests.QuestsManager;
+import delta.games.lotro.lore.quests.QuestDescription;
+import delta.games.lotro.lore.quests.QuestsManager;
 
 /**
  * Statistics on virtues on a single toon.

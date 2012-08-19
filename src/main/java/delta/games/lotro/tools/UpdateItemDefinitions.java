@@ -6,7 +6,7 @@ import java.io.FileFilter;
 import delta.common.utils.NumericTools;
 import delta.common.utils.files.filter.ExtensionPredicate;
 import delta.games.lotro.Config;
-import delta.games.lotro.items.ItemsManager;
+import delta.games.lotro.lore.items.ItemsManager;
 
 /**
  * @author DAM

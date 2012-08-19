@@ -5,9 +5,9 @@ import java.io.File;
 import org.apache.log4j.Logger;
 
 import delta.common.utils.text.EncodingNames;
-import delta.games.lotro.quests.QuestDescription;
-import delta.games.lotro.quests.io.web.QuestPageParser;
-import delta.games.lotro.quests.io.xml.QuestXMLWriter;
+import delta.games.lotro.lore.quests.QuestDescription;
+import delta.games.lotro.lore.quests.io.web.QuestPageParser;
+import delta.games.lotro.lore.quests.io.xml.QuestXMLWriter;
 import delta.games.lotro.region.io.web.AreaPageParser;
 import delta.games.lotro.region.io.web.RegionPageParser;
 import delta.games.lotro.utils.LotroLoggers;

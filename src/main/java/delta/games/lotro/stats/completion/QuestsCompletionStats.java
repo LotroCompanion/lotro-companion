@@ -8,10 +8,10 @@ import java.util.List;
 import delta.games.lotro.character.log.CharacterLog;
 import delta.games.lotro.character.log.CharacterLogItem;
 import delta.games.lotro.character.log.CharacterLogItem.LogItemType;
-import delta.games.lotro.quests.QuestsManager;
-import delta.games.lotro.quests.index.QuestCategory;
-import delta.games.lotro.quests.index.QuestSummary;
-import delta.games.lotro.quests.index.QuestsIndex;
+import delta.games.lotro.lore.quests.QuestsManager;
+import delta.games.lotro.lore.quests.index.QuestCategory;
+import delta.games.lotro.lore.quests.index.QuestSummary;
+import delta.games.lotro.lore.quests.index.QuestsIndex;
 
 /**
  * Statistics on quests completion for a single category on a single toon.

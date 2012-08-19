@@ -18,8 +18,8 @@ import delta.games.lotro.character.CharacterEquipment.SlotContents;
 import delta.games.lotro.common.icons.LotroIconsManager;
 import delta.games.lotro.gui.utils.IconsManager;
 import delta.games.lotro.gui.utils.ImagePanel;
-import delta.games.lotro.items.Item;
-import delta.games.lotro.items.ItemsManager;
+import delta.games.lotro.lore.items.Item;
+import delta.games.lotro.lore.items.ItemsManager;
 
 /**
  * Controller for equipment panel.

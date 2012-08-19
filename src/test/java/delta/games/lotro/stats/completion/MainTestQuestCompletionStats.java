@@ -3,8 +3,8 @@ package delta.games.lotro.stats.completion;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.log.CharacterLog;
 import delta.games.lotro.character.log.LotroTestUtils;
-import delta.games.lotro.quests.QuestsManager;
-import delta.games.lotro.quests.index.QuestsIndex;
+import delta.games.lotro.lore.quests.QuestsManager;
+import delta.games.lotro.lore.quests.index.QuestsIndex;
 
 /**
  * Test for quest completion stats.

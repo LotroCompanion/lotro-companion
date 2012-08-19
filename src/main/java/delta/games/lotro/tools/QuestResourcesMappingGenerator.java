@@ -7,7 +7,7 @@ import delta.games.lotro.character.CharactersManager;
 import delta.games.lotro.character.log.CharacterLog;
 import delta.games.lotro.character.log.CharacterLogItem;
 import delta.games.lotro.character.log.CharacterLogItem.LogItemType;
-import delta.games.lotro.quests.QuestsManager;
+import delta.games.lotro.lore.quests.QuestsManager;
 import delta.games.lotro.utils.resources.ResourcesMapping;
 
 /**
