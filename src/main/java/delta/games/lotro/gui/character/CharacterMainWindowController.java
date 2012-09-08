@@ -82,9 +82,9 @@ public class CharacterMainWindowController implements ActionListener
     JPanel panel=new JPanel(new GridBagLayout());
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(summaryPanel,c);
-    c=new GridBagConstraints(0,1,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    c=new GridBagConstraints(0,1,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
     panel.add(equipmentPanel,c);
-    c=new GridBagConstraints(1,0,1,2,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
+    c=new GridBagConstraints(1,0,1,2,1,0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
     panel.add(statsPanel,c);
     c=new GridBagConstraints(0,2,1,2,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     JPanel commandsPanel=buildCommandsPanel();
@@ -97,6 +97,7 @@ public class CharacterMainWindowController implements ActionListener
     frame.setTitle(title);
     frame.pack();
     frame.setLocation(200,200);
+    //frame.setResizable(false);
     WindowAdapter closeWindowAdapter=new WindowAdapter()
     {
       @Override
