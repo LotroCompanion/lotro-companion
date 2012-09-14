@@ -15,6 +15,7 @@ public class Config
   private String _myLotroRootURL;
   private File _rootDataDir;
   private File _toonsDir;
+  private File _indexesDir;
   private File _questsDir;
   private File _deedsDir;
   private File _iconsDir;
@@ -38,6 +39,7 @@ public class Config
     _myLotroRootURL="http://my.lotro.com/";
     _rootDataDir=new File("data");
     _toonsDir=new File(_rootDataDir,"characters");
+    _indexesDir=new File(_rootDataDir,"indexes");
     _servers=new ArrayList<String>();
     _servers.add("Elendilmir");
     _servers.add("Riddermark");
@@ -45,6 +47,15 @@ public class Config
     _deedsDir=new File(_rootDataDir,"deeds");
     _iconsDir=new File(_rootDataDir,"icons");
     _itemsDir=new File(_rootDataDir,"items");
+  }
+
+  /**
+   * Get the root directory for indexes storage.
+   * @return a directory.
+   */
+  public File getIndexesDir()
+  {
+    return _indexesDir;
   }
 
   /**

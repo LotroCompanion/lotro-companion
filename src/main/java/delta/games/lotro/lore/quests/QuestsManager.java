@@ -193,10 +193,17 @@ public class QuestsManager
 
   private void loadIndex()
   {
-    File questsDir=Config.getInstance().getQuestsDir();
-    File questIndexFile=new File(questsDir,"questsIndex.xml");
-    QuestsIndexXMLParser parser=new QuestsIndexXMLParser();
-    _index=parser.parseXML(questIndexFile);
+    File dir=Config.getInstance().getIndexesDir();
+    File questIndexFile=new File(dir,"questsIndex.xml");
+    if (questIndexFile.exists())
+    {
+      QuestsIndexXMLParser parser=new QuestsIndexXMLParser();
+      _index=parser.parseXML(questIndexFile);
+    }
+    else
+    {
+      _index=new QuestsIndex();
+    }
   }
 
   private void loadResourcesMapping()
@@ -215,8 +222,8 @@ public class QuestsManager
 
   private File getQuestResourcesMappingFile()
   {
-    File questsDir=Config.getInstance().getQuestsDir();
-    File ressourcesMappingFile=new File(questsDir,"questResourcesMapping.xml");
+    File dir=Config.getInstance().getIndexesDir();
+    File ressourcesMappingFile=new File(dir,"questResourcesMapping.xml");
     return ressourcesMappingFile;
   }
 }

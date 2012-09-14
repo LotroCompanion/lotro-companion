@@ -175,17 +175,17 @@ public class DeedsManager
     String filename=id+".xml";
     filename=filename.replace(":","%3A");
     filename=filename.replace("'","%27");
-    filename=filename.replace("‚","%C3%A2");
-    filename=filename.replace("‰","%C3%A4");
-    filename=filename.replace("¬","%C3%82");
-    filename=filename.replace("¡","%C3%81");
-    filename=filename.replace("Î","%C3%AB");
-    filename=filename.replace("È","%C3%A9");
-    filename=filename.replace("Ì","%C3%AD");
-    filename=filename.replace("Ó","%C3%AE");
-    filename=filename.replace("Û","%C3%B3");
-    filename=filename.replace("˚","%C3%BB");
-    filename=filename.replace("˙","%C3%BA");
+    filename=filename.replace("√¢","%C3%A2");
+    filename=filename.replace("√§","%C3%A4");
+    filename=filename.replace("√Ç","%C3%82");
+    filename=filename.replace("√Å","%C3%81");
+    filename=filename.replace("√´","%C3%AB");
+    filename=filename.replace("√©","%C3%A9");
+    filename=filename.replace("√≠","%C3%AD");
+    filename=filename.replace("√Æ","%C3%AE");
+    filename=filename.replace("√≥","%C3%B3");
+    filename=filename.replace("√ª","%C3%BB");
+    filename=filename.replace("√∫","%C3%BA");
     filename=filename.replace("?","%3F");
     
     return filename;
@@ -193,10 +193,17 @@ public class DeedsManager
 
   private void loadIndex()
   {
-    File deedsDir=Config.getInstance().getDeedsDir();
-    File deedIndexFile=new File(deedsDir,"deedsIndex.xml");
-    DeedsIndexXMLParser parser=new DeedsIndexXMLParser();
-    _index=parser.parseXML(deedIndexFile);
+    File dir=Config.getInstance().getIndexesDir();
+    File deedIndexFile=new File(dir,"deedsIndex.xml");
+    if (deedIndexFile.exists())
+    {
+      DeedsIndexXMLParser parser=new DeedsIndexXMLParser();
+      _index=parser.parseXML(deedIndexFile);
+    }
+    else
+    {
+      _index=new DeedsIndex();
+    }
   }
 
   private void loadResourcesMapping()
@@ -215,8 +222,8 @@ public class DeedsManager
 
   private File getDeedResourcesMappingFile()
   {
-    File questsDir=Config.getInstance().getDeedsDir();
-    File ressourcesMappingFile=new File(questsDir,"deedResourcesMapping.xml");
+    File dir=Config.getInstance().getIndexesDir();
+    File ressourcesMappingFile=new File(dir,"deedResourcesMapping.xml");
     return ressourcesMappingFile;
   }
 }

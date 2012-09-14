@@ -140,6 +140,7 @@ public class ChararacterStatsPanelController
     panel.setBackground(Color.BLACK);
     Border border=BorderFactory.createBevelBorder(BevelBorder.LOWERED,Color.WHITE,Color.GRAY);
     TitledBorder titledBorder=BorderFactory.createTitledBorder(border,group);
+    titledBorder.setTitleColor(Color.WHITE);
     panel.setBorder(titledBorder);
     panel.setBackground(Color.BLACK);
     return panel;
