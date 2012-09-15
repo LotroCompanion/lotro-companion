@@ -146,6 +146,7 @@ public class EquipmentPanelController implements ActionListener
     panel.add(layeredPane,BorderLayout.CENTER);
     Dimension d=computeDimensions();
     panel.setPreferredSize(d);
+    panel.setMinimumSize(d);
     layeredPane.setSize(panel.getPreferredSize());
     panel.setLayout(null);
     panel.setBackground(Color.BLACK);

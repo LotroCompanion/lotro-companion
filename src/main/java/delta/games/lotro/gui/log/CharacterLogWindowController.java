@@ -51,6 +51,19 @@ public class CharacterLogWindowController extends DefaultWindowController
     return log;
   }
 
+  /**
+   * Get the window identifier for a given toon.
+   * @param serverName Server name.
+   * @param toonName Toon name.
+   * @return A window identifier.
+   */
+  public static String getIdentifier(String serverName, String toonName)
+  {
+    String id="LOG#"+serverName+"#"+toonName;
+    id=id.toUpperCase();
+    return id;
+  }
+
   @Override
   protected JFrame build()
   {
@@ -63,6 +76,16 @@ public class CharacterLogWindowController extends DefaultWindowController
     return frame;
   }
   
+
+  @Override
+  public String getWindowIdentifier()
+  {
+    String serverName=_toon.getServerName();
+    String toonName=_toon.getName();
+    String id=getIdentifier(serverName,toonName);
+    return id;
+  }
+
   @Override
   protected JComponent buildContents()
   {

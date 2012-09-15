@@ -13,13 +13,15 @@ import javax.swing.JToolBar;
 
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharactersManager;
-import delta.games.lotro.character.log.CharacterLog;
-import delta.games.lotro.gui.log.CharacterLogWindowController;
+import delta.games.lotro.gui.character.CharacterMainWindowController;
 import delta.games.lotro.gui.utils.toolbar.ToolbarController;
 import delta.games.lotro.gui.utils.toolbar.ToolbarIconItem;
 import delta.games.lotro.gui.utils.toolbar.ToolbarModel;
+import delta.games.lotro.utils.gui.WindowController;
+import delta.games.lotro.utils.gui.WindowsManager;
 
 /**
+ * Controller for the toons management panel.
  * @author DAM
  */
 public class ToonsManagementController implements ActionListener
@@ -30,12 +32,14 @@ public class ToonsManagementController implements ActionListener
   private ToolbarController _toolbar;
   private NewToonDialogController _newToonDialog;
   private PropertyChangeListener _listener;
+  private WindowsManager _mainWindowsManager;
 
   /**
    * Constructor.
    */
   public ToonsManagementController()
   {
+    _mainWindowsManager=new WindowsManager();
   }
   
   /**
@@ -124,12 +128,16 @@ public class ToonsManagementController implements ActionListener
 
   private void showToon(CharacterFile toon)
   {
-    CharacterLog log=toon.getLastCharacterLog();
-    if (log!=null)
+    String serverName=toon.getServerName();
+    String toonName=toon.getName();
+    String id=CharacterMainWindowController.getIdentifier(serverName,toonName);
+    WindowController controller=_mainWindowsManager.getWindow(id);
+    if (controller==null)
     {
-      CharacterLogWindowController controller=new CharacterLogWindowController(toon);
-      controller.show();
+      controller=new CharacterMainWindowController(toon);
+      _mainWindowsManager.registerWindow(controller);
     }
+    controller.bringToFront();
   }
 
   private void startNewToon()
@@ -146,6 +154,11 @@ public class ToonsManagementController implements ActionListener
    */
   public void dispose()
   {
+    if (_mainWindowsManager!=null)
+    {
+      _mainWindowsManager.disposeAll();
+      _mainWindowsManager=null;
+    }
     if (_listener!=null)
     {
       CharactersManager.getInstance().removePropertyChangeListener(_listener);

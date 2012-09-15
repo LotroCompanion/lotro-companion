@@ -17,6 +17,8 @@ import delta.games.lotro.character.CharacterEquipment;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.gui.log.CharacterLogWindowController;
 import delta.games.lotro.utils.gui.DefaultWindowController;
+import delta.games.lotro.utils.gui.WindowController;
+import delta.games.lotro.utils.gui.WindowsManager;
 
 /**
  * Controller for a "character" window.
@@ -30,6 +32,7 @@ public class CharacterMainWindowController extends DefaultWindowController imple
   private ChararacterStatsPanelController _tableController;
   private EquipmentPanelController _equipmentController;
   private CharacterFile _toon;
+  private WindowsManager _windowsManager;
 
   /**
    * Constructor.
@@ -38,11 +41,25 @@ public class CharacterMainWindowController extends DefaultWindowController imple
   public CharacterMainWindowController(CharacterFile toon)
   {
     _toon=toon;
+    _windowsManager=new WindowsManager();
     _filterController=new CharacterSummaryPanelController(_toon);
     _tableController=new ChararacterStatsPanelController(_toon);
     Character c=_toon.getLastCharacterInfo();
     CharacterEquipment equipment=c.getEquipment();
     _equipmentController=new EquipmentPanelController(equipment);
+  }
+
+  /**
+   * Get the window identifier for a given toon.
+   * @param serverName Server name.
+   * @param toonName Toon name.
+   * @return A window identifier.
+   */
+  public static String getIdentifier(String serverName, String toonName)
+  {
+    String id="MAIN#"+serverName+"#"+toonName;
+    id=id.toUpperCase();
+    return id;
   }
 
   @Override
@@ -86,6 +103,15 @@ public class CharacterMainWindowController extends DefaultWindowController imple
     return frame;
   }
 
+  @Override
+  public String getWindowIdentifier()
+  {
+    String serverName=_toon.getServerName();
+    String toonName=_toon.getName();
+    String id=getIdentifier(serverName,toonName);
+    return id;
+  }
+
   private JPanel buildCommandsPanel()
   {
     JPanel panel=new JPanel(new GridBagLayout());
@@ -106,8 +132,21 @@ public class CharacterMainWindowController extends DefaultWindowController imple
    */
   public void actionPerformed(ActionEvent e)
   {
-    CharacterLogWindowController logController=new CharacterLogWindowController(_toon);
-    logController.show();
+    String command=e.getActionCommand();
+    if (LOG_COMMAND.equals(command))
+    {
+      // Show log 
+      String serverName=_toon.getServerName();
+      String toonName=_toon.getName();
+      String id=CharacterLogWindowController.getIdentifier(serverName,toonName);
+      WindowController controller=_windowsManager.getWindow(id);
+      if (controller==null)
+      {
+        controller=new CharacterLogWindowController(_toon);
+        _windowsManager.registerWindow(controller);
+      }
+      controller.bringToFront();
+    }
   }
 
   /**
@@ -116,6 +155,11 @@ public class CharacterMainWindowController extends DefaultWindowController imple
   @Override
   public void dispose()
   {
+    if (_windowsManager!=null)
+    {
+      _windowsManager.disposeAll();
+      _windowsManager=null;
+    }
     super.dispose();
     if (_filterController!=null)
     {

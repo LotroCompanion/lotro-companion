@@ -8,6 +8,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.RowFilter;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableRowSorter;
 
@@ -248,7 +249,7 @@ public class CharacterLogTableController
     // GUI
     if (_table!=null)
     {
-      _table.setModel(null);
+      _table.setModel(new DefaultTableModel());
       _table=null;
     }
     _model=null;
