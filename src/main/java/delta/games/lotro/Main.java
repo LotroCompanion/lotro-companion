@@ -1,5 +1,7 @@
 package delta.games.lotro;
 
+import java.util.Locale;
+
 import javax.swing.JFrame;
 
 import delta.games.lotro.gui.main.MainFrameController;
@@ -16,28 +18,7 @@ public class Main
    */
   public static void main(String[] args)
   {
-    //MainFrameController controller=new MainFrameController();
-    //controller.show();
-
-    //NewToonDialogController controller=new NewToonDialogController();
-    //controller.show();
-
-    //CharactersManager cm=CharactersManager.getInstance();
-    //List<CharacterFile> toons=cm.getAllToons();
-    /*
-    LotroTestUtils utils=new LotroTestUtils();
-    List<CharacterFile> toons=utils.getAllFiles();
-    
-    for(CharacterFile toon : toons)
-    {
-      CharacterLog log=toon.getLastCharacterLog();
-      if (log!=null)
-      {
-        CharacterLogWindowController controller=new CharacterLogWindowController(log);
-        controller.show();
-      }
-    }
-    */
+    Locale.setDefault(Locale.US);
     MainFrameController controller=new MainFrameController();
     JFrame frame=controller.getFrame();
     frame.setVisible(true);

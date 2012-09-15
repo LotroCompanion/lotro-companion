@@ -6,28 +6,26 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.WindowConstants;
 
 import delta.games.lotro.character.Character;
 import delta.games.lotro.character.CharacterEquipment;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.gui.log.CharacterLogWindowController;
+import delta.games.lotro.utils.gui.DefaultWindowController;
 
 /**
  * Controller for a "character" window.
  * @author DAM
  */
-public class CharacterMainWindowController implements ActionListener
+public class CharacterMainWindowController extends DefaultWindowController implements ActionListener
 {
   private static final String LOG_COMMAND="log";
 
-  private JFrame _window;
   private CharacterSummaryPanelController _filterController;
   private ChararacterStatsPanelController _tableController;
   private EquipmentPanelController _equipmentController;
@@ -47,29 +45,8 @@ public class CharacterMainWindowController implements ActionListener
     _equipmentController=new EquipmentPanelController(equipment);
   }
 
-  /**
-   * Show the managed window.
-   */
-  public void show()
-  {
-    JFrame frame=getFrame();
-    frame.setVisible(true);
-  }
-
-  /**
-   * Get the managed frame.
-   * @return the managed frame.
-   */
-  public JFrame getFrame()
-  {
-    if (_window==null)
-    {
-      _window=build();
-    }
-    return _window;
-  }
-
-  private JFrame build()
+  @Override
+  protected JComponent buildContents()
   {
     // Summary panel
     JPanel summaryPanel=_filterController.getPanel();
@@ -92,10 +69,13 @@ public class CharacterMainWindowController implements ActionListener
     panel.add(commandsPanel,c);
     
     // TODO crafting anvils?
-
-    // Frame
-    JFrame frame=new JFrame();
-    frame.getContentPane().add(panel);
+    return panel;
+  }
+  
+  @Override
+  protected JFrame build()
+  {
+    JFrame frame=super.build();
     // Title
     String name=_toon.getName();
     String serverName=_toon.getServerName();
@@ -103,23 +83,7 @@ public class CharacterMainWindowController implements ActionListener
     frame.setTitle(title);
     frame.pack();
     frame.setLocation(200,200);
-    //frame.setResizable(false);
-    WindowAdapter closeWindowAdapter=new WindowAdapter()
-    {
-      @Override
-      public void windowClosing(WindowEvent e)
-      {
-        close();
-      }
-    };
-    frame.addWindowListener(closeWindowAdapter);
-    frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
     return frame;
-  }
-
-  private void close()
-  {
-    dispose();
   }
 
   private JPanel buildCommandsPanel()
@@ -136,8 +100,9 @@ public class CharacterMainWindowController implements ActionListener
     return panel;
   }
 
-  /* (non-Javadoc)
-   * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+  /**
+   * Handle button actions.
+   * @param e Source event.
    */
   public void actionPerformed(ActionEvent e)
   {
@@ -148,15 +113,10 @@ public class CharacterMainWindowController implements ActionListener
   /**
    * Release all managed resources.
    */
+  @Override
   public void dispose()
   {
-    if (_window!=null)
-    {
-      _window.setVisible(false);
-      _window.removeAll();
-      _window.dispose();
-      _window=null;
-    }
+    super.dispose();
     if (_filterController!=null)
     {
       _filterController.dispose();

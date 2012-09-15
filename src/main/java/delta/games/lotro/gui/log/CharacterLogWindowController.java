@@ -10,7 +10,8 @@ import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JDialog;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -21,14 +22,14 @@ import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.log.CharacterLog;
 import delta.games.lotro.character.log.CharacterLogItemsFilter;
 import delta.games.lotro.character.log.CharacterLogsManager;
+import delta.games.lotro.utils.gui.DefaultWindowController;
 
 /**
  * Controller for a "character log" window.
  * @author DAM
  */
-public class CharacterLogWindowController
+public class CharacterLogWindowController extends DefaultWindowController
 {
-  private JDialog _dialog;
   private CharacterLogFilterController _filterController;
   private CharacterLogTableController _tableController;
   private CharacterFile _toon;
@@ -44,38 +45,28 @@ public class CharacterLogWindowController
     _filter=new CharacterLogItemsFilter();
   }
 
-  /**
-   * Show the managed dialog.
-   */
-  public void show()
-  {
-    JDialog dialog=getDialog();
-    dialog.setVisible(true);
-  }
-
-  /**
-   * Get the managed dialog.
-   * @return the managed dialog.
-   */
-  public JDialog getDialog()
-  {
-    if (_dialog==null)
-    {
-      _dialog=build();
-    }
-    return _dialog;
-  }
-
   private CharacterLog getLog()
   {
     CharacterLog log=_toon.getLastCharacterLog();
     return log;
   }
 
-  private JDialog build()
+  @Override
+  protected JFrame build()
   {
+    JFrame frame=super.build();
     CharacterLog log=getLog();
     String name=log.getName();
+    String title="Character log for: "+name;
+    frame.setTitle(title);
+    frame.pack();
+    return frame;
+  }
+  
+  @Override
+  protected JComponent buildContents()
+  {
+    CharacterLog log=getLog();
     JPanel logPanel=new JPanel(new GridBagLayout());
     // Log frame
     JPanel logFramePanel=new JPanel(new BorderLayout());
@@ -109,14 +100,7 @@ public class CharacterLogWindowController
     logPanel.add(filterPanel,c);
     c.gridy=1;c.weighty=1;c.fill=GridBagConstraints.BOTH;
     logPanel.add(logFramePanel,c);
-    // Dialog
-    JDialog dialog=new JDialog();
-    dialog.setContentPane(logPanel);
-    String title="Character log for: "+name;
-    dialog.setTitle(title);
-    dialog.pack();
-    dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-    return dialog;
+    return logPanel;
   }
 
   /**
@@ -141,15 +125,10 @@ public class CharacterLogWindowController
   /**
    * Release all managed resources.
    */
+  @Override
   public void dispose()
   {
-    if (_dialog!=null)
-    {
-      _dialog.setVisible(false);
-      _dialog.removeAll();
-      _dialog.dispose();
-      _dialog=null;
-    }
+    super.dispose();
     if (_tableController!=null)
     {
       _tableController.dispose();

@@ -2,25 +2,25 @@ package delta.games.lotro.gui.main;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
 import delta.games.lotro.gui.toon.ToonsManagementController;
+import delta.games.lotro.utils.gui.DefaultWindowController;
 
 /**
  * Controller for the main frame.
  * @author DAM
  */
-public class MainFrameController
+public class MainFrameController extends DefaultWindowController
 {
-  private JFrame _frame;
   private ToonsManagementController _toonsManager;
 
   /**
@@ -31,44 +31,19 @@ public class MainFrameController
     _toonsManager=new ToonsManagementController();
   }
 
-  /**
-   * Get the managed dialog.
-   * @return the managed dialog.
-   */
-  public JFrame getFrame()
+  @Override
+  protected JFrame build()
   {
-    if (_frame==null)
-    {
-      _frame=build();
-    }
-    return _frame;
-  }
-
-  private JFrame build()
-  {
-    JFrame frame=new JFrame();
+    JFrame frame=super.build();
     frame.setTitle("LOTRO Companion");
-    JMenuBar menuBar=buildMenuBar();
-    frame.setJMenuBar(menuBar);
-    JTabbedPane pane=buildMainContents();
-    frame.getContentPane().add(pane);
     frame.setSize(500,400);
     frame.setLocation(100,100);
-
-    WindowAdapter closeWindowAdapter=new WindowAdapter()
-    {
-      @Override
-      public void windowClosing(WindowEvent e)
-      {
-        quit();
-      }
-    };
-    frame.addWindowListener(closeWindowAdapter);
 
     return frame;
   }
 
-  private JMenuBar buildMenuBar()
+  @Override
+  protected JMenuBar buildMenuBar()
   {
     JMenu fileMenu=new JMenu("File");
     JMenuItem quit=new JMenuItem("Quit");
@@ -76,7 +51,7 @@ public class MainFrameController
     {
       public void actionPerformed(ActionEvent e)
       {
-        quit();
+        doQuit();
       }
     };
     quit.addActionListener(alQuit);
@@ -86,7 +61,8 @@ public class MainFrameController
     return menuBar;
   }
 
-  private JTabbedPane buildMainContents()
+  @Override
+  protected JComponent buildContents()
   {
     JTabbedPane tabbedPane=new JTabbedPane();
     JPanel toonsPanel=_toonsManager.getPanel();
@@ -94,31 +70,29 @@ public class MainFrameController
     return tabbedPane;
   }
 
-  private void quit()
+  @Override
+  protected void doWindowClosing()
   {
-    dispose();
+    doQuit();
   }
 
-  /**
-   * Show the managed window.
-   */
-  public void show()
+  private void doQuit()
   {
-    JFrame frame=getFrame();
-    frame.setVisible(true);
+    // TODO: confirmation
+    int result=JOptionPane.showConfirmDialog(getFrame(),"Do you really want to quit?","Quit?",JOptionPane.YES_NO_OPTION);
+    if (result==JOptionPane.OK_OPTION)
+    {
+      dispose();
+    }
   }
 
   /**
    * Release all managed resources.
    */
+  @Override
   public void dispose()
   {
-    if (_frame!=null)
-    {
-      _frame.removeAll();
-      _frame.dispose();
-      _frame=null;
-    }
+    super.dispose();
     if (_toonsManager!=null)
     {
       _toonsManager.dispose();
