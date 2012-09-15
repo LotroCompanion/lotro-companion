@@ -1,5 +1,6 @@
 package delta.games.lotro.gui.character;
 
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -70,7 +71,6 @@ public class CharacterMainWindowController implements ActionListener
 
   private JFrame build()
   {
-    String name=_toon.getName();
     // Summary panel
     JPanel summaryPanel=_filterController.getPanel();
     // Stats panel
@@ -80,11 +80,12 @@ public class CharacterMainWindowController implements ActionListener
 
     // Whole panel
     JPanel panel=new JPanel(new GridBagLayout());
-    GridBagConstraints c=new GridBagConstraints(0,0,1,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    panel.setBackground(Color.BLACK);
+    GridBagConstraints c=new GridBagConstraints(0,0,2,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(3,5,3,5),0,0);
     panel.add(summaryPanel,c);
     c=new GridBagConstraints(0,1,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
     panel.add(equipmentPanel,c);
-    c=new GridBagConstraints(1,0,1,2,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    c=new GridBagConstraints(1,1,1,1,0,0,GridBagConstraints.NORTHEAST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(statsPanel,c);
     c=new GridBagConstraints(0,2,1,2,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     JPanel commandsPanel=buildCommandsPanel();
@@ -95,7 +96,10 @@ public class CharacterMainWindowController implements ActionListener
     // Frame
     JFrame frame=new JFrame();
     frame.getContentPane().add(panel);
-    String title="Character: "+name;
+    // Title
+    String name=_toon.getName();
+    String serverName=_toon.getServerName();
+    String title="Character: "+name+" @ "+serverName;
     frame.setTitle(title);
     frame.pack();
     frame.setLocation(200,200);
@@ -121,8 +125,11 @@ public class CharacterMainWindowController implements ActionListener
   private JPanel buildCommandsPanel()
   {
     JPanel panel=new JPanel(new GridBagLayout());
+    panel.setBackground(Color.BLACK);
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
     JButton b=new JButton("Log");
+    b.setBackground(Color.BLACK);
+    b.setForeground(Color.WHITE);
     b.setActionCommand(LOG_COMMAND);
     b.addActionListener(this);
     panel.add(b,c);

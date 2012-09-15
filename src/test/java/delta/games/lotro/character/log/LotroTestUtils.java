@@ -33,11 +33,6 @@ public class LotroTestUtils
   private void initTestToons()
   {
     newCharacterFile("Glumlug","http://my.lotro.com/home/character/2427907/146366987891794854/");
-    // REMOVED:
-    //newCharacterFile("Alphael","http://my.lotro.com/home/character/2427907/146366987891895618/");
-    //newCharacterFile("Minirdil","http://my.lotro.com/home/character/2427907/146366987891842857/");
-    // NOT ON ELENDILMIR
-    //newCharacterFile("Hirthrelthorn","http://my.lotro.com/home/character/2427907/149463212633928354/");
     newCharacterFile("Allurwyn","http://my.lotro.com/home/character/1069125/146366987890743296/");
     newCharacterFile("Beleganth","http://my.lotro.com/home/character/elendilmir/beleganth/");
     newCharacterFile("Allyriel","http://my.lotro.com/home/character/elendilmir/allyriel/");
@@ -52,6 +47,8 @@ public class LotroTestUtils
     newCharacterFile("Blastof","http://my.lotro.com/home/character/elendilmir/blastof/");
     newCharacterFile("Pelagio","http://my.lotro.com/home/character/elendilmir/pelagio/");
     newCharacterFile("Herelies","http://my.lotro.com/home/character/elendilmir/herelies/");
+    newCharacterFile("Fearsus","http://my.lotro.com/home/character/elendilmir/fearsus/");
+    newCharacterFile("Sabaticus","http://my.lotro.com/home/character/elendilmir/sabaticus/");
   }
 
   /**

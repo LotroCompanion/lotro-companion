@@ -1,7 +1,5 @@
 package delta.games.lotro.character;
 
-import java.util.List;
-
 import delta.games.lotro.character.log.LotroTestUtils;
 import delta.games.lotro.gui.character.CharacterMainWindowController;
 
@@ -18,9 +16,10 @@ public class MainTestCharacterMainWindow
   public static void main(String[] args)
   {
     LotroTestUtils utils=new LotroTestUtils();
-    List<CharacterFile> toons=utils.getAllFiles();
-    //CharacterFile toon=utils.getMainToon();
-    for(CharacterFile toon : toons)
+    //List<CharacterFile> toons=utils.getAllFiles();
+    //List<CharacterFile> toons=CharactersManager.getInstance().getAllToons();
+    CharacterFile toon=utils.getMainToon();
+    //for(CharacterFile toon : toons)
     {
       CharacterMainWindowController controller=new CharacterMainWindowController(toon);
       controller.show();

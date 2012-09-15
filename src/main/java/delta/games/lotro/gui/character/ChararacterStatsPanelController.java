@@ -53,12 +53,7 @@ public class ChararacterStatsPanelController
   
   private JPanel buildPanel()
   {
-    JPanel panel=new JPanel(new GridBagLayout());
-    //panel.setPreferredSize(new Dimension(100,500));
-    panel.setBackground(Color.BLACK);
-
     // Show stats
-
     Character info=_toon.getLastCharacterInfo();
     STAT[] stats=STAT.values();
     int nbStats=stats.length;
@@ -92,8 +87,6 @@ public class ChararacterStatsPanelController
       }
       _statValues[i].setText(statValue);
     }
-
-    GridBagConstraints c=new GridBagConstraints(0,0,1,1,1,0,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
     // Morale, Power, Armor
     STAT[] main={STAT.MORALE,STAT.POWER,STAT.ARMOUR};
     // Might, Agility, Vitality, Will, Fate
@@ -109,8 +102,28 @@ public class ChararacterStatsPanelController
     // -- type: physical, tactical
     STAT[] mitigation={STAT.PHYSICAL_MITIGATION,STAT.TACTICAL_MITIGATION};
     
-    STAT[][] statGroups={main,mainStats,offence,defence,avoidance,mitigation};
-    String[] groupNames={"Vitals","Main","Offence","Defence","Avoidance","Mitigation"};
+    JPanel panel=new JPanel(new GridBagLayout());
+    panel.setBackground(Color.BLACK);
+    
+    GridBagConstraints c1=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    STAT[][] statGroups1={main,mainStats,offence};
+    String[] groupNames1={"Vitals","Main","Offence"};
+    JPanel p1=showStatsColumn(statGroups1,groupNames1,true);
+    panel.add(p1,c1);
+    STAT[][] statGroups2={defence,avoidance,mitigation};
+    String[] groupNames2={"Defence","Avoidance","Mitigation"};
+    JPanel p2=showStatsColumn(statGroups2,groupNames2,false);
+    GridBagConstraints c2=new GridBagConstraints(1,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    panel.add(p2,c2);
+    return panel;
+  }
+  
+  private JPanel showStatsColumn(STAT[][] statGroups, String[] groupNames, boolean left)
+  {
+    JPanel panel=new JPanel(new GridBagLayout());
+    panel.setBackground(Color.BLACK);
+    Insets insets=new Insets(2,left?5:2,2,left?2:5);
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,1,0,GridBagConstraints.WEST,GridBagConstraints.BOTH,insets,0,0);
     for(int i=0;i<statGroups.length;i++)
     {
       JPanel statsPanel=showStatsGroup(statGroups[i],groupNames[i]);
@@ -127,11 +140,11 @@ public class ChararacterStatsPanelController
     for(int i=0;i<stats.length;i++)
     {
       int index=stats[i].ordinal();
-      c=new GridBagConstraints(0,i,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+      c=new GridBagConstraints(0,i,1,1,1,0,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(2,5,2,5),0,0);
       panel.add(_statLabels[index],c);
       _statLabels[index].setBackground(Color.BLACK);
       _statLabels[index].setOpaque(true);
-      c=new GridBagConstraints(1,i,1,1,1,0,GridBagConstraints.EAST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
+      c=new GridBagConstraints(1,i,1,1,0,0,GridBagConstraints.EAST,GridBagConstraints.NONE,new Insets(2,5,2,5),0,0);
       panel.add(_statValues[index],c);
       _statValues[index].setBackground(Color.BLACK);
       _statValues[index].setOpaque(true);
@@ -157,5 +170,7 @@ public class ChararacterStatsPanelController
       _panel=null;
     }
     _toon=null;
+    _statLabels=null;
+    _statValues=null;
   }
 }

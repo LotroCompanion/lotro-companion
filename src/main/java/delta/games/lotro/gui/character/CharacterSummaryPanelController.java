@@ -1,7 +1,9 @@
 package delta.games.lotro.gui.character;
 
 import java.awt.Color;
-import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -22,7 +24,6 @@ public class CharacterSummaryPanelController
   private JPanel _panel;
   private CharacterFile _toon;
   private JLabel _nameLabel;
-  private JLabel _regionLabel;
   private JLabel _levelLabel;
   
   /**
@@ -57,29 +58,31 @@ public class CharacterSummaryPanelController
 
   private JPanel buildPanel()
   {
-    JPanel panel=new JPanel();
-    panel.setPreferredSize(new Dimension(300,70));
+    JPanel panel=new JPanel(new GridBagLayout());
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,2,2,2),0,0);
     ImageIcon classIcon=getClassIcon();
-    panel.add(new JLabel(classIcon));
+    panel.add(new JLabel(classIcon),c);
     ImageIcon raceIcon=getRaceIcon();
-    panel.add(new JLabel(raceIcon));
+    c.gridx=1;
+    panel.add(new JLabel(raceIcon),c);
     panel.setBackground(Color.BLACK);
-    _nameLabel=buildLabel(32.0f);
-    _regionLabel=buildLabel(24.0f);
+    _nameLabel=buildLabel(28.0f);
     _levelLabel=buildLabel(32.0f);
     Character info=_toon.getLastCharacterInfo();
     if (info!=null)
     {
       String name=info.getName();
-      _nameLabel.setText(name);
       String region=info.getRegion();
-      _regionLabel.setText("of "+region);
+      String text=name+" of "+region;
+      _nameLabel.setText(text);
       int level=info.getLevel();
       _levelLabel.setText(String.valueOf(level));
     }
-    panel.add(_nameLabel);
-    panel.add(_regionLabel);
-    panel.add(_levelLabel);
+    c.gridx=3;c.anchor=GridBagConstraints.EAST;
+    panel.add(_levelLabel,c);
+    c.gridx=2;c.anchor=GridBagConstraints.CENTER;
+    c.weightx=1.0;c.fill=GridBagConstraints.BOTH;
+    panel.add(_nameLabel,c);
     return panel;
   }
 
