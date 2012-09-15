@@ -12,9 +12,9 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import delta.games.lotro.character.Character;
-import delta.games.lotro.character.CharacterEquipment;
 import delta.games.lotro.character.CharacterFile;
+import delta.games.lotro.character.CharacterInfosManager;
+import delta.games.lotro.character.log.CharacterLogsManager;
 import delta.games.lotro.gui.log.CharacterLogWindowController;
 import delta.games.lotro.utils.gui.DefaultWindowController;
 import delta.games.lotro.utils.gui.WindowController;
@@ -27,9 +27,10 @@ import delta.games.lotro.utils.gui.WindowsManager;
 public class CharacterMainWindowController extends DefaultWindowController implements ActionListener
 {
   private static final String LOG_COMMAND="log";
+  private static final String UPDATE_COMMAND="update";
 
-  private CharacterSummaryPanelController _filterController;
-  private ChararacterStatsPanelController _tableController;
+  private CharacterSummaryPanelController _summaryController;
+  private ChararacterStatsPanelController _statsController;
   private EquipmentPanelController _equipmentController;
   private CharacterFile _toon;
   private WindowsManager _windowsManager;
@@ -42,11 +43,9 @@ public class CharacterMainWindowController extends DefaultWindowController imple
   {
     _toon=toon;
     _windowsManager=new WindowsManager();
-    _filterController=new CharacterSummaryPanelController(_toon);
-    _tableController=new ChararacterStatsPanelController(_toon);
-    Character c=_toon.getLastCharacterInfo();
-    CharacterEquipment equipment=c.getEquipment();
-    _equipmentController=new EquipmentPanelController(equipment);
+    _summaryController=new CharacterSummaryPanelController(_toon);
+    _statsController=new ChararacterStatsPanelController(_toon);
+    _equipmentController=new EquipmentPanelController(_toon);
   }
 
   /**
@@ -66,9 +65,9 @@ public class CharacterMainWindowController extends DefaultWindowController imple
   protected JComponent buildContents()
   {
     // Summary panel
-    JPanel summaryPanel=_filterController.getPanel();
+    JPanel summaryPanel=_summaryController.getPanel();
     // Stats panel
-    JPanel statsPanel=_tableController.getPanel();
+    JPanel statsPanel=_statsController.getPanel();
     // Equipment panel
     JPanel equipmentPanel=_equipmentController.getPanel();
 
@@ -117,13 +116,23 @@ public class CharacterMainWindowController extends DefaultWindowController imple
     JPanel panel=new JPanel(new GridBagLayout());
     panel.setBackground(Color.BLACK);
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
-    JButton b=new JButton("Log");
+    JButton logButton=buildCommandButton("Log",LOG_COMMAND);
+    panel.add(logButton,c);
+    JButton updateButton=buildCommandButton("Update",UPDATE_COMMAND);
+    c.gridx++;
+    panel.add(updateButton,c);
+    return panel;
+  }
+
+  private JButton buildCommandButton(String label, String command)
+  {
+    JButton b=new JButton(label);
     b.setBackground(Color.BLACK);
     b.setForeground(Color.WHITE);
-    b.setActionCommand(LOG_COMMAND);
+    b.setActionCommand(command);
     b.addActionListener(this);
-    panel.add(b,c);
-    return panel;
+    return b;
+    
   }
 
   /**
@@ -147,6 +156,36 @@ public class CharacterMainWindowController extends DefaultWindowController imple
       }
       controller.bringToFront();
     }
+    else if (UPDATE_COMMAND.equals(command))
+    {
+      performUpdate();
+    }
+  }
+
+  private void performUpdate()
+  {
+    CharacterInfosManager infosManager=new CharacterInfosManager(_toon);
+    boolean infosUpDateOK=infosManager.updateCharacterDescription();
+    if (infosUpDateOK)
+    {
+      _summaryController.update();
+      _statsController.update();
+      _equipmentController.update();
+    }
+    CharacterLogsManager logManager=new CharacterLogsManager(_toon);
+    boolean logUpdateOK=logManager.updateLog();
+    if (logUpdateOK)
+    {
+      String serverName=_toon.getServerName();
+      String toonName=_toon.getName();
+      String id=CharacterLogWindowController.getIdentifier(serverName,toonName);
+      WindowController controller=_windowsManager.getWindow(id);
+      if (controller!=null)
+      {
+        CharacterLogWindowController logController=(CharacterLogWindowController)controller;
+        logController.update();
+      }
+    }
   }
 
   /**
@@ -161,15 +200,15 @@ public class CharacterMainWindowController extends DefaultWindowController imple
       _windowsManager=null;
     }
     super.dispose();
-    if (_filterController!=null)
+    if (_summaryController!=null)
     {
-      _filterController.dispose();
-      _filterController=null;
+      _summaryController.dispose();
+      _summaryController=null;
     }
-    if (_tableController!=null)
+    if (_statsController!=null)
     {
-      _tableController.dispose();
-      _tableController=null;
+      _statsController.dispose();
+      _statsController=null;
     }
     if (_equipmentController!=null)
     {

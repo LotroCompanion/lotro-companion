@@ -7,6 +7,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.Collection;
 import java.util.HashMap;
 
 import javax.swing.ImageIcon;
@@ -14,9 +15,11 @@ import javax.swing.JButton;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
-import delta.games.lotro.character.CharacterEquipment;
 import delta.games.lotro.character.CharacterEquipment.EQUIMENT_SLOT;
 import delta.games.lotro.character.CharacterEquipment.SlotContents;
+import delta.games.lotro.character.Character;
+import delta.games.lotro.character.CharacterEquipment;
+import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.common.icons.LotroIconsManager;
 import delta.games.lotro.gui.utils.IconsManager;
 import delta.games.lotro.lore.items.Item;
@@ -53,16 +56,19 @@ public class EquipmentPanelController implements ActionListener
   private static final int Y_ROW=Y_START+DELTA_Y*3+ICON_SIZE+ICON_FRAME_SIZE+Y_MARGIN_COLUMNS_ROW;
 
   private JPanel _panel;
-  private CharacterEquipment _equipment;
+  private JLayeredPane _layeredPane;
   private HashMap<EQUIMENT_SLOT,Dimension> _iconPositions;
+  private CharacterFile _toon;
+  private HashMap<EQUIMENT_SLOT,JButton> _buttons;
   
   /**
    * Constructor.
-   * @param equipment Equipment to display.
+   * @param toon Toon to display.
    */
-  public EquipmentPanelController(CharacterEquipment equipment)
+  public EquipmentPanelController(CharacterFile toon)
   {
-    _equipment=equipment;
+    _toon=toon;
+    _buttons=new HashMap<EQUIMENT_SLOT,JButton>();
     initPositions();
   }
 
@@ -142,17 +148,15 @@ public class EquipmentPanelController implements ActionListener
   private JPanel buildPanel()
   {
     JPanel panel=new JPanel(new BorderLayout());
-    JLayeredPane layeredPane=new JLayeredPane();
-    panel.add(layeredPane,BorderLayout.CENTER);
+    _layeredPane=new JLayeredPane();
+    panel.add(_layeredPane,BorderLayout.CENTER);
     Dimension d=computeDimensions();
     panel.setPreferredSize(d);
     panel.setMinimumSize(d);
-    layeredPane.setSize(panel.getPreferredSize());
+    _layeredPane.setSize(d);
     panel.setLayout(null);
     panel.setBackground(Color.BLACK);
 
-    ItemsManager itemsManager=ItemsManager.getInstance();
-    LotroIconsManager iconsManager=LotroIconsManager.getInstance();
     for(EQUIMENT_SLOT slot : EQUIMENT_SLOT.values())
     {
       // Position for item
@@ -164,9 +168,47 @@ public class EquipmentPanelController implements ActionListener
       backgroundIconButton.setBorderPainted(false);
       backgroundIconButton.setMargin(new Insets(0,0,0,0));
       backgroundIconButton.setBounds(position.width-ICON_FRAME_SIZE,position.height-ICON_FRAME_SIZE,ICON_SIZE+6,ICON_SIZE+6);
-      layeredPane.add(backgroundIconButton,BACKGROUND_ICONS_DEPTH);
+      _layeredPane.add(backgroundIconButton,BACKGROUND_ICONS_DEPTH);
+    }
+    update();
+    
+    return panel;
+  }
+
+  /**
+   * Update contents.
+   */
+  public void update()
+  {
+    if (_layeredPane!=null)
+    {
+      Collection<JButton> buttons=_buttons.values();
+      for(JButton button : buttons)
+      {
+        _layeredPane.remove(button);
+        button.removeActionListener(this);
+      }
+      _buttons.clear();
+    }
+    Character c=_toon.getLastCharacterInfo();
+    CharacterEquipment equipment=c.getEquipment();
+    ItemsManager itemsManager=ItemsManager.getInstance();
+    LotroIconsManager iconsManager=LotroIconsManager.getInstance();
+
+    for(EQUIMENT_SLOT slot : EQUIMENT_SLOT.values())
+    {
+      // Position for item
+      Dimension position=_iconPositions.get(slot);
+      // Add background icon
+      String iconPath=BACKGROUND_ICONS_SEED+slot.name()+".png";
+      ImageIcon backgroundIcon=IconsManager.getIcon(iconPath);
+      JButton backgroundIconButton=new JButton(backgroundIcon);
+      backgroundIconButton.setBorderPainted(false);
+      backgroundIconButton.setMargin(new Insets(0,0,0,0));
+      backgroundIconButton.setBounds(position.width-ICON_FRAME_SIZE,position.height-ICON_FRAME_SIZE,ICON_SIZE+6,ICON_SIZE+6);
+      _layeredPane.add(backgroundIconButton,BACKGROUND_ICONS_DEPTH);
       
-      SlotContents contents=_equipment.getSlotContents(slot,false);
+      SlotContents contents=equipment.getSlotContents(slot,false);
       if (contents!=null)
       {
         String url=contents.getObjectURL();
@@ -195,7 +237,8 @@ public class EquipmentPanelController implements ActionListener
                 button.setBorderPainted(false);
                 button.setMargin(new Insets(0,0,0,0));
                 button.setBounds(position.width,position.height,ICON_SIZE,ICON_SIZE);
-                layeredPane.add(button,ICONS_DEPTH);
+                _layeredPane.add(button,ICONS_DEPTH);
+                _buttons.put(slot,button);
                 button.setActionCommand(slot.name());
                 button.addActionListener(this);
 
@@ -207,8 +250,6 @@ public class EquipmentPanelController implements ActionListener
         }
       }
     }
-    
-    return panel;
   }
 
   public void actionPerformed(ActionEvent e)
@@ -218,7 +259,9 @@ public class EquipmentPanelController implements ActionListener
     if (slot!=null)
     {
       ItemsManager itemsManager=ItemsManager.getInstance();
-      SlotContents contents=_equipment.getSlotContents(slot,false);
+      Character c=_toon.getLastCharacterInfo();
+      CharacterEquipment equipment=c.getEquipment();
+      SlotContents contents=equipment.getSlotContents(slot,false);
       String url=contents.getObjectURL();
       String id=itemsManager.idFromURL(url);
       if (id!=null)
@@ -242,7 +285,13 @@ public class EquipmentPanelController implements ActionListener
       _panel.removeAll();
       _panel=null;
     }
-    _equipment=null;
+    if (_layeredPane!=null)
+    {
+      _layeredPane.removeAll();
+      _layeredPane=null;
+    }
+    _toon=null;
     _iconPositions.clear();
+    _buttons.clear();
   }
 }

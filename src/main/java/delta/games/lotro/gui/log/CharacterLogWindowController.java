@@ -135,14 +135,23 @@ public class CharacterLogWindowController extends DefaultWindowController
     boolean ok=logsManager.updateLog(); // todo shall use a waiting window here
     if (ok)
     {
-      CharacterLog log=logsManager.getLastLog();
-      _filterController.setLog(log);
-      _tableController.setLog(log);
+      update();
     }
     else
     {
       // todo shall do an error message here!
     }
+  }
+
+  /**
+   * Update contents.
+   */
+  public void update()
+  {
+    CharacterLogsManager logsManager=_toon.getLogsManager();
+    CharacterLog log=logsManager.getLastLog();
+    _filterController.setLog(log);
+    _tableController.setLog(log);
   }
 
   /**

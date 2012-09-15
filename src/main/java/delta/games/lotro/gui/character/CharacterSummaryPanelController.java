@@ -68,6 +68,20 @@ public class CharacterSummaryPanelController
     panel.setBackground(Color.BLACK);
     _nameLabel=buildLabel(28.0f);
     _levelLabel=buildLabel(32.0f);
+    update();
+    c.gridx=3;c.anchor=GridBagConstraints.EAST;
+    panel.add(_levelLabel,c);
+    c.gridx=2;c.anchor=GridBagConstraints.CENTER;
+    c.weightx=1.0;c.fill=GridBagConstraints.BOTH;
+    panel.add(_nameLabel,c);
+    return panel;
+  }
+
+  /**
+   * Update contents.
+   */
+  public void update()
+  {
     Character info=_toon.getLastCharacterInfo();
     if (info!=null)
     {
@@ -78,12 +92,6 @@ public class CharacterSummaryPanelController
       int level=info.getLevel();
       _levelLabel.setText(String.valueOf(level));
     }
-    c.gridx=3;c.anchor=GridBagConstraints.EAST;
-    panel.add(_levelLabel,c);
-    c.gridx=2;c.anchor=GridBagConstraints.CENTER;
-    c.weightx=1.0;c.fill=GridBagConstraints.BOTH;
-    panel.add(_nameLabel,c);
-    return panel;
   }
 
   private ImageIcon getClassIcon()

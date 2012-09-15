@@ -29,10 +29,9 @@ public class MainTestEquipmentLoading
       Character infos=manager.getLastCharacterDescription();
       if (infos!=null)
       {
-        CharacterEquipment equipment=infos.getEquipment();
-        EquipmentPanelController ctrl=new EquipmentPanelController(equipment);
+        EquipmentPanelController ctrl=new EquipmentPanelController(toon);
         JPanel panel=ctrl.getPanel();
-        JFrame frame = new JFrame("Equipment for "+toon.getName());
+        JFrame frame=new JFrame("Equipment for "+toon.getName());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
  
         //Create and set up the content pane.

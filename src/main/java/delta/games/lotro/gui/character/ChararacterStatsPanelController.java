@@ -53,40 +53,21 @@ public class ChararacterStatsPanelController
   
   private JPanel buildPanel()
   {
-    // Show stats
-    Character info=_toon.getLastCharacterInfo();
     STAT[] stats=STAT.values();
     int nbStats=stats.length;
     _statLabels=new JLabel[nbStats];
     _statValues=new JLabel[nbStats];
+    
     for(int i=0;i<nbStats;i++)
     {
       String label=stats[i].getName()+":";
       _statLabels[i]=new JLabel(label);
       _statLabels[i].setForeground(Color.WHITE);
-      //_statLabels[i].setBackground(Color.RED);
-      //_statLabels[i].setOpaque(true);
       _statValues[i]=new JLabel();
       _statValues[i].setForeground(Color.WHITE);
-      String statValue="";
-      if (info!=null)
-      {
-        CharacterStat cStat=info.getStat(stats[i],false);
-        if (cStat!=null)
-        {
-          Integer value=cStat.getValue();
-          if (value!=null)
-          {
-            statValue=String.valueOf(value.intValue());
-          }
-          else
-          {
-            statValue="N/A";
-          }
-        }
-      }
-      _statValues[i].setText(statValue);
     }
+    update();
+
     // Morale, Power, Armor
     STAT[] main={STAT.MORALE,STAT.POWER,STAT.ARMOUR};
     // Might, Agility, Vitality, Will, Fate
@@ -118,6 +99,37 @@ public class ChararacterStatsPanelController
     return panel;
   }
   
+  /**
+   * Update contents.
+   */
+  public void update()
+  {
+    Character info=_toon.getLastCharacterInfo();
+    STAT[] stats=STAT.values();
+    int nbStats=stats.length;
+    for(int i=0;i<nbStats;i++)
+    {
+      String statValue="";
+      if (info!=null)
+      {
+        CharacterStat cStat=info.getStat(stats[i],false);
+        if (cStat!=null)
+        {
+          Integer value=cStat.getValue();
+          if (value!=null)
+          {
+            statValue=String.valueOf(value.intValue());
+          }
+          else
+          {
+            statValue="N/A";
+          }
+        }
+      }
+      _statValues[i].setText(statValue);
+    }
+  }
+
   private JPanel showStatsColumn(STAT[][] statGroups, String[] groupNames, boolean left)
   {
     JPanel panel=new JPanel(new GridBagLayout());
