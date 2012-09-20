@@ -2,7 +2,10 @@ package delta.games.lotro;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
+import delta.common.utils.text.TextUtils;
 
 /**
  * Configuration.
@@ -14,6 +17,7 @@ public class Config
   
   private String _myLotroRootURL;
   private File _rootDataDir;
+  private File _configDir;
   private File _toonsDir;
   private File _indexesDir;
   private File _questsDir;
@@ -38,11 +42,11 @@ public class Config
   {
     _myLotroRootURL="http://my.lotro.com/";
     _rootDataDir=new File("data");
+    _configDir=new File(_rootDataDir,"config");
     _toonsDir=new File(_rootDataDir,"characters");
     _indexesDir=new File(_rootDataDir,"indexes");
     _servers=new ArrayList<String>();
-    _servers.add("Elendilmir");
-    _servers.add("Riddermark");
+    loadServers();
     _questsDir=new File(_rootDataDir,"quests");
     _deedsDir=new File(_rootDataDir,"deeds");
     _iconsDir=new File(_rootDataDir,"icons");
@@ -104,6 +108,15 @@ public class Config
   }
 
   /**
+   * Get the root storage directory for configuration files.
+   * @return a directory.
+   */
+  public File getConfigDir()
+  {
+    return _configDir;
+  }
+
+  /**
    * Get the root storage directory for a toon.
    * @param serverName Server of toon.
    * @param toonName Name of toon.
@@ -135,5 +148,16 @@ public class Config
   public List<String> getServerNames()
   {
     return _servers;
+  }
+
+  private void loadServers()
+  {
+    File serversFiles=new File(_configDir,"servers.txt"); 
+    List<String> servers=TextUtils.readAsLines(serversFiles);
+    if (servers!=null)
+    {
+      Collections.sort(servers);
+      _servers.addAll(servers);
+    }
   }
 }
