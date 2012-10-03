@@ -175,6 +175,7 @@ public class QuestsManager
     String filename=id+".xml";
     filename=filename.replace(":","%3A");
     filename=filename.replace("'","%27");
+    // TODO solve encoding problem
     filename=filename.replace("�","%C3%A2");
     filename=filename.replace("�","%C3%A4");
     filename=filename.replace("�","%C3%82");

@@ -294,6 +294,7 @@ public class CharacterLogsManager
             if (id!=null)
             {
               id=Escapes.escapeIdentifier(id);
+              _logger.info("Found NEW id ["+id+"] for URL ["+itemURL+"]");
             }
           }
           if (id!=null)

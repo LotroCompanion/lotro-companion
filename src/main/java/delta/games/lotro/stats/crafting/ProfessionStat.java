@@ -94,9 +94,8 @@ public class ProfessionStat
    */
   public int getProficiencyTier()
   {
-    return _mastery;
+    return _proficiency;
   }
-
 
   /**
    * Get the date of a proficiency tier acquisition.

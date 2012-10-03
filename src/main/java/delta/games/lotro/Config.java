@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import delta.common.utils.text.EncodingNames;
 import delta.common.utils.text.TextUtils;
 
 /**
@@ -153,7 +154,7 @@ public class Config
   private void loadServers()
   {
     File serversFiles=new File(_configDir,"servers.txt"); 
-    List<String> servers=TextUtils.readAsLines(serversFiles);
+    List<String> servers=TextUtils.readAsLines(serversFiles,EncodingNames.UTF_8);
     if (servers!=null)
     {
       Collections.sort(servers);

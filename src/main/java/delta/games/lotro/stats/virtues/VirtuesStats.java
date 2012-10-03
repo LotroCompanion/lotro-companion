@@ -40,9 +40,34 @@ public class VirtuesStats
     parseDeedItems(deedItems);
   }
 
-  public HashMap<String,List<String>> getVirtues()
+  /**
+   * Get all virtues.
+   * @return An possibly empty array of virtues.
+   */
+  public String[] getVirtues()
   {
-    return _virtues;
+    Set<String> virtues=_virtues.keySet();
+    String[] ret=virtues.toArray(new String[virtues.size()]);
+    return ret;
+  }
+
+  /**
+   * Get quest/deed identifiers for a given virtue.
+   * @param virtue Virtue to use. 
+   * @return An array of quest/deed identifiers, or <code>null</code>.
+   */
+  public String[] getIDsForAVirtue(String virtue)
+  {
+    String[] ret=null;
+    if ((virtue!=null) && (virtue.length()>0))
+    {
+      List<String> ids=_virtues.get(virtue);
+      if (ids!=null)
+      {
+        ret=ids.toArray(new String[ids.size()]);
+      }
+    }
+    return ret;
   }
 
   private void reset()

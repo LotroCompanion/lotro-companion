@@ -1,6 +1,7 @@
 package delta.games.lotro.stats.virtues;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -85,11 +86,11 @@ public class MainTestVirtuesStats
       if (toShow.contains(virtueId)) {
       List<String> deeds=virtuesMap.get(virtueId);
       System.out.println(virtueId+" ("+deeds.size()+"): "+deeds);
-      List<String> got=stats.getVirtues().get(virtueId);
+      String[] got=stats.getIDsForAVirtue(virtueId);
       if (got!=null)
       {
-        System.out.println("GOT:"+virtueId+" ("+got.size()+"): "+got);
-        deeds.removeAll(got);
+        System.out.println("GOT:"+virtueId+" ("+got.length+"): "+Arrays.toString(got));
+        for(String id : got) deeds.remove(id);
       }
       System.out.println("MISSING: "+virtueId+" ("+deeds.size()+"): "+deeds);
       }
