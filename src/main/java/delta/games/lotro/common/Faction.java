@@ -1,6 +1,8 @@
 package delta.games.lotro.common;
 
-import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Represents a faction in the LOTRO world.
@@ -8,37 +10,20 @@ import java.util.HashMap;
  */
 public class Faction
 {
-  private static final HashMap<String,Faction> _registry=new HashMap<String,Faction>();
-
   private String _name;
+  private Set<String> _aliases;
+  private FactionLevel[] _levels;
   
   /**
    * Constructor.
-   * @param name
+   * @param name Name of faction.
+   * @param levels Available levels.
    */
-  public Faction(String name)
+  public Faction(String name, List<FactionLevel> levels)
   {
     _name=name;
-  }
-
-  /**
-   * Get a faction instance by name.
-   * @param name Name of the faction to get.
-   * @return A faction instance or <code>null</code> if <code>name</code> is <code>null</code> or empty.
-   */
-  public static Faction getByName(String name)
-  {
-    Faction f=null;
-    if ((name!=null) && (name.length()>0))
-    {
-      f=_registry.get(name);
-      if (f==null)
-      {
-        f=new Faction(name);
-        _registry.put(name,f);
-      }
-    }
-    return f;
+    _aliases=new HashSet<String>();
+    _levels=levels.toArray(new FactionLevel[levels.size()]);
   }
 
   /**
@@ -48,6 +33,33 @@ public class Faction
   public String getName()
   {
     return _name;
+  }
+
+  /**
+   * Get the aliases for this faction.
+   * @return A possibly empty array of strings.
+   */
+  public String[] getAliases()
+  {
+    return _aliases.toArray(new String[_aliases.size()]);
+  }
+
+  /**
+   * Add an alias to this faction.
+   * @param alias Alias to add.
+   */
+  public void addAlias(String alias)
+  {
+    _aliases.add(alias);
+  }
+
+  /**
+   * Get the ordered levels for this faction.
+   * @return an array of levels.
+   */
+  public FactionLevel[] getLevels()
+  {
+    return _levels;
   }
 
   @Override

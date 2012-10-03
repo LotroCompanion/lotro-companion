@@ -14,6 +14,7 @@ import org.apache.log4j.Logger;
 import delta.common.utils.NumericTools;
 import delta.games.lotro.common.Emote;
 import delta.games.lotro.common.Faction;
+import delta.games.lotro.common.Factions;
 import delta.games.lotro.common.Money;
 import delta.games.lotro.common.Reputation;
 import delta.games.lotro.common.ReputationItem;
@@ -359,7 +360,7 @@ public class RewardsHTMLParser
           valueStr=valueStr.replace("+","").trim();
           int reputation=NumericTools.parseInt(valueStr,0);
           String factionName=factionNode.toString().trim();
-          Faction faction=Faction.getByName(factionName);
+          Faction faction=Factions.getInstance().getByName(factionName);
           ReputationItem item=new ReputationItem(faction);
           item.setAmount(reputation);
           r.add(item);

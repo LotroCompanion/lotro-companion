@@ -8,6 +8,7 @@ import org.w3c.dom.NamedNodeMap;
 import delta.common.utils.xml.DOMParsingTools;
 import delta.games.lotro.common.Emote;
 import delta.games.lotro.common.Faction;
+import delta.games.lotro.common.Factions;
 import delta.games.lotro.common.Money;
 import delta.games.lotro.common.Reputation;
 import delta.games.lotro.common.ReputationItem;
@@ -52,7 +53,7 @@ public class RewardsXMLParser
           NamedNodeMap attrs=reputationItemsTag.getAttributes();
           String factionName=DOMParsingTools.getStringAttribute(attrs,RewardsXMLConstants.REPUTATION_ITEM_FACTION_ATTR,null);
           int amount=DOMParsingTools.getIntAttribute(attrs,RewardsXMLConstants.REPUTATION_ITEM_AMOUNT_ATTR,0);
-          Faction faction=Faction.getByName(factionName);
+          Faction faction=Factions.getInstance().getByName(factionName);
           if ((faction!=null) && (amount!=0))
           {
             ReputationItem item=new ReputationItem(faction);
