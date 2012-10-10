@@ -5,20 +5,14 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
-import org.apache.log4j.Logger;
-
-import delta.games.lotro.utils.LotroLoggers;
-
 /**
  * Quest category.
  * @author DAM
  */
 public class QuestCategory
 {
-  private static final Logger _logger=LotroLoggers.getLotroLogger();
-
   private String _name;
-  private HashMap<String,QuestSummary> _idsToSummary;
+  private HashMap<String,List<QuestSummary>> _idsToSummary;
 
   /**
    * Constructor.
@@ -27,7 +21,7 @@ public class QuestCategory
   public QuestCategory(String name)
   {
     _name=name;
-    _idsToSummary=new HashMap<String,QuestSummary>();
+    _idsToSummary=new HashMap<String,List<QuestSummary>>();
   }
   
   /**
@@ -42,25 +36,19 @@ public class QuestCategory
   /**
    * Add a quest.
    * @param identifier Quest identifier.
+   * @param key Quest key.
    * @param name Quest name.
-   * @return <code>true</code> if it was done, <code>false</code> otherwise.
    */
-  public boolean addQuest(String identifier, String name)
+  public void addQuest(int identifier, String key, String name)
   {
-    boolean ret;
-    QuestSummary old=_idsToSummary.get(identifier);
-    if (old==null)
+    List<QuestSummary> list=_idsToSummary.get(key);
+    if (list==null)
     {
-      QuestSummary summary=new QuestSummary(identifier,name);
-      _idsToSummary.put(identifier,summary);
-      ret=true;
+      list=new ArrayList<QuestSummary>();
+      _idsToSummary.put(key,list);
     }
-    else
-    {
-      _logger.warn("Duplicate quest identifier ["+identifier+"] in category ["+_name+"]!");
-      ret=false;
-    }
-    return ret;
+    QuestSummary summary=new QuestSummary(identifier,key,name);
+    list.add(summary);
   }
 
   /**
@@ -71,16 +59,27 @@ public class QuestCategory
   {
     List<String> ids=new ArrayList<String>(_idsToSummary.keySet());
     Collections.sort(ids);
-    QuestSummary[] ret=new QuestSummary[ids.size()];
-    int index=0;
+    List<QuestSummary> summaries=new ArrayList<QuestSummary>();
     for(String id : ids)
     {
-      ret[index]=_idsToSummary.get(id);
-      index++;
+      summaries.addAll(_idsToSummary.get(id));
     }
+    QuestSummary[] ret=summaries.toArray(new QuestSummary[summaries.size()]);
     return ret;
   }
 
+  /**
+   * Get all the keys of this category.
+   * @return A possibly empty array of quest keys.
+   */
+  public String[] getKeys()
+  {
+    List<String> ids=new ArrayList<String>(_idsToSummary.keySet());
+    Collections.sort(ids);
+    String[] ret=ids.toArray(new String[ids.size()]);
+    return ret;
+  }
+  
   @Override
   public String toString()
   {

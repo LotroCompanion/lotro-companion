@@ -1,15 +1,12 @@
 package delta.games.lotro.lore.quests.index;
 
-import java.io.File;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 
-import delta.common.utils.environment.FileSystem;
-import delta.games.lotro.lore.quests.index.QuestCategory;
-import delta.games.lotro.lore.quests.index.QuestSummary;
-import delta.games.lotro.lore.quests.index.QuestsIndex;
-import delta.games.lotro.lore.quests.index.io.xml.QuestsIndexXMLParser;
+import delta.games.lotro.lore.quests.QuestsManager;
 import delta.games.lotro.utils.LotroLoggers;
 
 /**
@@ -26,24 +23,39 @@ public class MainTestQuestsIndexParsing
    */
   public static void main(String[] args)
   {
-      File tmpDir=FileSystem.getTmpDir();
-      File inFile=new File(tmpDir,"questsIndex.xml");
-      QuestsIndexXMLParser xmlParser=new QuestsIndexXMLParser();
-      QuestsIndex index=xmlParser.parseXML(inFile);
-      if (index!=null)
+    QuestsManager qm=QuestsManager.getInstance();
+    QuestsIndex index=qm.getIndex();
+    if (index!=null)
+    {
+      int nbItems=0;
+      Set<String> keys=new HashSet<String>();
+      String[] categories=index.getCategories();
+      System.out.println(Arrays.deepToString(categories));
+      for(String category : categories)
       {
-        String[] categories=index.getCategories();
-        System.out.println(Arrays.deepToString(categories));
-        for(String category : categories)
+        QuestCategory c=index.getCategory(category);
+        QuestSummary[] quests=c.getQuests();
+        nbItems+=quests.length;
+        System.out.println(Arrays.deepToString(quests));
+        for(QuestSummary summary : quests)
         {
-          QuestCategory c=index.getCategory(category);
-          QuestSummary[] quests=c.getQuests();
-          System.out.println(Arrays.deepToString(quests));
+          String id=summary.getKey();
+          if (keys.contains(id))
+          {
+            System.out.println("Duplicate: "+id);
+          }
+          else
+          {
+            keys.add(id);
+          }
         }
       }
-      else
-      {
-        _logger.error("Cannot read quests index file ["+inFile+"]");
-      }
+      System.out.println("Categories: "+categories.length);
+      System.out.println("Quests: "+nbItems);
+    }
+    else
+    {
+      _logger.error("Cannot gets quests index file!");
+    }
   }
 }

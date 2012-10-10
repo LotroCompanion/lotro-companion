@@ -95,12 +95,15 @@ public class VirtuesStats
     QuestsManager qm=QuestsManager.getInstance();
     for(CharacterLogItem item : items)
     {
-      String id=item.getIdentifier();
-      QuestDescription quest=qm.getQuest(id);
-      if (quest!=null)
+      Integer id=item.getResourceIdentifier();
+      if (id!=null)
       {
-        Rewards rewards=quest.getQuestRewards();
-        handleRewards("Quest:"+id,rewards);
+        QuestDescription quest=qm.getQuest(id.intValue());
+        if (quest!=null)
+        {
+          Rewards rewards=quest.getQuestRewards();
+          handleRewards("Quest:"+id,rewards);
+        }
       }
     }
   }

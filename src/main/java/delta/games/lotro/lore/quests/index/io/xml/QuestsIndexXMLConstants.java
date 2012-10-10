@@ -30,6 +30,10 @@ public class QuestsIndexXMLConstants
    */
   public static final String QUEST_ID_ATTR="id";
   /**
+   * Tag 'quest', attribute 'key'.
+   */
+  public static final String QUEST_KEY_ATTR="key";
+  /**
    * Tag 'quest', attribute 'name'.
    */
   public static final String QUEST_NAME_ATTR="name";

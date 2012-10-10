@@ -1,6 +1,7 @@
 package delta.games.lotro.lore.quests;
 
-import delta.games.lotro.lore.quests.QuestDescription;
+import java.util.List;
+
 import delta.games.lotro.lore.quests.io.web.QuestPageParser;
 
 /**
@@ -35,21 +36,25 @@ public class MainTestQuestParsing
     String url17="http://lorebook.lotro.com/wiki/Quest:A_Cauldron_of_Iron"; // destiny points
     String url18="http://lorebook.lotro.com/wiki/Quest:An_Iron_Belly"; // monster play
     String url19="http://lorebook.lotro.com/wiki/Quest:Behind_Bars_--_Instance"; // instanced
+    String url20="http://lorebook.lotro.com/wiki/Quest:Agarochir%2C_Keeper_of_Tirband"; // null faction
     //String singleUrl="http://lorebook.lotro.com/wiki/Quest:Vol._I,_Book_11,_Chapter_10:_A_Pouch_of_Gems_for_a_Box_of_Keys";
     String[] urls={ url0, url1, /*url2, url3, url4,*/ url5, url6, /*url7,*/ url8, url9, url10,
-        url11, /*url12,*/ url13, url14, url15, url16, url17, url18, url19 };
-    //String[] urls={ url18 };
+        url11, /*url12,*/ url13, url14, url15, url16, url17, url18, url19, url20 };
+    //String[] urls={ url16 };
     QuestPageParser parser=new QuestPageParser();
     for(String url : urls)
     {
-      QuestDescription q=parser.parseQuestPage(url);
-      if (q!=null)
+      List<QuestDescription> quests=parser.parseQuestPage(url);
+      if (quests!=null)
       {
-        System.out.println(q.dump());
+        for(QuestDescription quest : quests)
+        {
+          System.out.println(quest.dump());
+        }
       }
       else
       {
-        System.out.println("Quest ["+url+"] is null!");
+        System.out.println("Quest list for URL ["+url+"] is null!");
       }
     }
   }

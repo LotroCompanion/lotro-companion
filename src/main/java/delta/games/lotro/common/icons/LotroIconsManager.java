@@ -5,8 +5,9 @@ import java.io.IOException;
 
 import org.apache.log4j.Logger;
 
-import delta.common.utils.files.FileCopy;
+import delta.downloads.DownloadException;
 import delta.games.lotro.Config;
+import delta.games.lotro.utils.DownloadService;
 import delta.games.lotro.utils.LotroLoggers;
 import delta.games.lotro.utils.cache.StringToFileCache;
 
@@ -92,7 +93,15 @@ public class LotroIconsManager
     }
     if (ret)
     {
-      ret=FileCopy.copyFromURL(url,to);
+      DownloadService downloader=DownloadService.getInstance();
+      try
+      {
+        ret=downloader.downloadToFile(url,to);
+      }
+      catch(DownloadException de)
+      {
+        _logger.error("Cannot fetch icon ["+url+"]!",de);
+      }
     }
     return ret;
   }

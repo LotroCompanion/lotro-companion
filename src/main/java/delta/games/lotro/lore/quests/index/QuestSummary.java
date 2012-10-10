@@ -6,17 +6,20 @@ package delta.games.lotro.lore.quests.index;
  */
 public class QuestSummary
 {
-  private String _id;
+  private int _identifier;
+  private String _key;
   private String _name;
   
   /**
    * Constructor.
-   * @param id Quest identifier.
+   * @param identifier Quest identifier.
+   * @param key Quest key.
    * @param name Quest name.
    */
-  public QuestSummary(String id, String name)
+  public QuestSummary(int identifier, String key, String name)
   {
-    _id=id;
+    _identifier=identifier;
+    _key=key;
     _name=name;
   }
   
@@ -24,9 +27,18 @@ public class QuestSummary
    * Get the quest identifier.
    * @return the quest identifier.
    */
-  public String getId()
+  public int getIdentifier()
   {
-    return _id;
+    return _identifier;
+  }
+
+  /**
+   * Get the quest key.
+   * @return the quest key.
+   */
+  public String getKey()
+  {
+    return _key;
   }
 
   /**
@@ -41,6 +53,6 @@ public class QuestSummary
   @Override
   public String toString()
   {
-    return _id+" ["+_name+"]";
+    return _key+" ["+_identifier+"] ["+_name+"]";
   }
 }

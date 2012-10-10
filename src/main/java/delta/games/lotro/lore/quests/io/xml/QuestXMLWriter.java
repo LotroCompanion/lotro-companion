@@ -75,10 +75,15 @@ public class QuestXMLWriter
   {
     AttributesImpl questAttrs=new AttributesImpl();
 
-    String id=quest.getIdentifier();
-    if (id!=null)
+    int id=quest.getIdentifier();
+    if (id!=0)
     {
-      questAttrs.addAttribute("","",QuestXMLConstants.QUEST_ID_ATTR,CDATA,id);
+      questAttrs.addAttribute("","",QuestXMLConstants.QUEST_ID_ATTR,CDATA,String.valueOf(id));
+    }
+    String key=quest.getKey();
+    if (key!=null)
+    {
+      questAttrs.addAttribute("","",QuestXMLConstants.QUEST_KEY_ATTR,CDATA,key);
     }
     String title=quest.getTitle();
     if (title!=null)

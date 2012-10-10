@@ -5,13 +5,19 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
+import delta.games.lotro.character.Character;
 import delta.games.lotro.character.log.CharacterLog;
 import delta.games.lotro.character.log.CharacterLogItem;
 import delta.games.lotro.character.log.CharacterLogItem.LogItemType;
+import delta.games.lotro.common.CharacterClass;
+import delta.games.lotro.lore.quests.QuestDescription;
 import delta.games.lotro.lore.quests.QuestsManager;
 import delta.games.lotro.lore.quests.index.QuestCategory;
 import delta.games.lotro.lore.quests.index.QuestSummary;
 import delta.games.lotro.lore.quests.index.QuestsIndex;
+import delta.games.lotro.utils.LotroLoggers;
 
 /**
  * Statistics on quests completion for a single category on a single toon.
@@ -19,23 +25,29 @@ import delta.games.lotro.lore.quests.index.QuestsIndex;
  */
 public class QuestsCompletionStats
 {
+  private static final Logger _logger=LotroLoggers.getLotroLogger();
+
+  private static final boolean USE_CLASS_RESTRICTIONS=true;
+  private static final boolean USE_INSTANCES=false;
   private String _name;
   private String _category;
+  private Character _character;
   private int _nbExpectedQuests;
   private int _nbQuestsDone;
-  private List<String> _expectedIds;
-  private List<String> _gotIds;
-  private HashMap<String,Integer> _nbTimesPerQuest;
+  private List<Integer> _expectedIds;
+  private HashMap<Integer,Integer> _nbTimesPerQuest;
 
   /**
    * Constructor.
    * @param category Category to use.
+   * @param c Targeted character.
    * @param log Character log to use.
    */
-  public QuestsCompletionStats(String category, CharacterLog log)
+  public QuestsCompletionStats(String category, Character c, CharacterLog log)
   {
     _name=log.getName();
     _category=category;
+    _character=c;
     reset();
     List<CharacterLogItem> items=getQuestItems(log);
     loadQuestIdentifiers();
@@ -46,9 +58,8 @@ public class QuestsCompletionStats
   {
     _nbExpectedQuests=0;
     _nbQuestsDone=0;
-    _expectedIds=new ArrayList<String>();
-    _gotIds=new ArrayList<String>();
-    _nbTimesPerQuest=new HashMap<String,Integer>();
+    _expectedIds=new ArrayList<Integer>();
+    _nbTimesPerQuest=new HashMap<Integer,Integer>();
   }
 
   private void loadQuestIdentifiers()
@@ -61,12 +72,50 @@ public class QuestsCompletionStats
       if (category!=null)
       {
         QuestSummary[] summaries=category.getQuests();
-        _nbExpectedQuests=summaries.length;
         for(QuestSummary summary : summaries)
         {
-          String id=summary.getId();
-          _expectedIds.add(id);
+          int id=summary.getIdentifier();
+          QuestDescription q=qm.getQuest(id);
+          if (q!=null)
+          {
+            boolean useIt=true;
+            if (USE_CLASS_RESTRICTIONS)
+            {
+              List<String> classes=q.getRequiredClasses();
+              if ((classes!=null) && (classes.size()>0))
+              {
+                CharacterClass cClass=_character.getCharacterClass();
+                String className=cClass.getLabel();
+                if (classes.contains(className))
+                {
+                  useIt=true;
+                }
+                else
+                {
+                  String key=q.getKey();
+                  if (_logger.isInfoEnabled())
+                  {
+                    _logger.info("Ignored quest ["+key+"]. Class="+className+", Required:"+classes);
+                  }
+                  useIt=false;
+                }
+              }
+            }
+            if (!USE_INSTANCES)
+            {
+              boolean instanced=q.isInstanced();
+              if (instanced)
+              {
+                useIt=false;
+              }
+            }
+            if (useIt)
+            {
+              _expectedIds.add(Integer.valueOf(id));
+            }
+          }
         }
+        _nbExpectedQuests=_expectedIds.size();
       }
     }
   }
@@ -90,7 +139,7 @@ public class QuestsCompletionStats
   {
     for(CharacterLogItem item : items)
     {
-      String id=item.getIdentifier();
+      Integer id=item.getResourceIdentifier();
       if (_expectedIds.contains(id))
       {
         Integer nb=_nbTimesPerQuest.get(id);
@@ -106,7 +155,6 @@ public class QuestsCompletionStats
       }
     }
     _nbQuestsDone=_nbTimesPerQuest.size();
-    _gotIds.addAll(_nbTimesPerQuest.keySet());
   }
 
   /**
@@ -129,7 +177,8 @@ public class QuestsCompletionStats
     ps.println("Nb quests: expected="+_nbExpectedQuests+", done="+_nbQuestsDone+": "+getPercentage()+"%");
     if (verbose)
     {
-      for(String id : _expectedIds)
+      QuestsManager qm=QuestsManager.getInstance();
+      for(Integer id : _expectedIds)
       {
         int nb=0;
         Integer n=_nbTimesPerQuest.get(id);
@@ -137,7 +186,13 @@ public class QuestsCompletionStats
         {
           nb=n.intValue();
         }
-        ps.println(nb+": "+id);
+        QuestDescription q=qm.getQuest(id.intValue());
+        String name=null;
+        if (q!=null)
+        {
+          name=q.getKey();
+        }
+        ps.println(nb+": "+name);
       }
     }
   }

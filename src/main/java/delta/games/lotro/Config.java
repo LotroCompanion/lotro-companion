@@ -20,6 +20,7 @@ public class Config
   private File _rootDataDir;
   private File _configDir;
   private File _toonsDir;
+  private File _loreDir;
   private File _indexesDir;
   private File _questsDir;
   private File _deedsDir;
@@ -45,6 +46,7 @@ public class Config
     _rootDataDir=new File("data");
     _configDir=new File(_rootDataDir,"config");
     _toonsDir=new File(_rootDataDir,"characters");
+    _loreDir=new File(_rootDataDir,"lore");
     _indexesDir=new File(_rootDataDir,"indexes");
     _servers=new ArrayList<String>();
     loadServers();
@@ -70,6 +72,15 @@ public class Config
   public File getQuestsDir()
   {
     return _questsDir;
+  }
+
+  /**
+   * Get the root directory for lore data storage.
+   * @return a directory.
+   */
+  public File getLoreDir()
+  {
+    return _loreDir;
   }
 
   /**

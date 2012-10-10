@@ -78,7 +78,6 @@ public class MainFrameController extends DefaultWindowController
 
   private void doQuit()
   {
-    // TODO: confirmation
     int result=JOptionPane.showConfirmDialog(getFrame(),"Do you really want to quit?","Quit?",JOptionPane.YES_NO_OPTION);
     if (result==JOptionPane.OK_OPTION)
     {

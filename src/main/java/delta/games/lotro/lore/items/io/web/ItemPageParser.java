@@ -1,6 +1,5 @@
 package delta.games.lotro.lore.items.io.web;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +23,7 @@ import delta.games.lotro.lore.items.ItemBinding;
 import delta.games.lotro.lore.items.ItemSturdiness;
 import delta.games.lotro.lore.items.ItemsSet;
 import delta.games.lotro.lore.items.Weapon;
+import delta.games.lotro.utils.DownloadService;
 import delta.games.lotro.utils.JerichoHtmlUtils;
 import delta.games.lotro.utils.LotroLoggers;
 
@@ -838,8 +838,9 @@ Strength Quick Shot Slow (Tier(s):
     List<Item> items=null;
     try
     {
-      // TODO: fetch page text first (centralized downloader to cope with proxy problems?)
-      Source source=new Source(new URL(url));
+      DownloadService downloader=DownloadService.getInstance();
+      String page=downloader.getPage(url);
+      Source source=new Source(page);
 
       //<div id="lorebookNoedit">
       //Element lorebook=JerichoHtmlUtils.findElementByTagNameAndAttributeValue(source,HTMLElementName.DIV,"id","lorebookNoedit");

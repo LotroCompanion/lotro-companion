@@ -16,6 +16,10 @@ public class QuestXMLConstants
    */
   public static final String QUEST_ID_ATTR="id";
   /**
+   * Tag 'quest', attribute 'key'.
+   */
+  public static final String QUEST_KEY_ATTR="key";
+  /**
    * Tag 'quest', attribute 'title'.
    */
   public static final String QUEST_TITLE_ATTR="title";

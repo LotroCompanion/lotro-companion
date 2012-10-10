@@ -44,6 +44,7 @@ public class LotroTestUtils
     newCharacterFile("Kargarth","http://my.lotro.com/home/character/elendilmir/kargarth/");
     newCharacterFile("Callith","http://my.lotro.com/home/character/elendilmir/callith/");
     newCharacterFile("Ethell","http://my.lotro.com/home/character/elendilmir/ethell/");
+    newCharacterFile("Utharr","http://my.lotro.com/home/character/elendilmir/utharr/");
     newCharacterFile("Blastof","http://my.lotro.com/home/character/elendilmir/blastof/");
     newCharacterFile("Pelagio","http://my.lotro.com/home/character/elendilmir/pelagio/");
     newCharacterFile("Herelies","http://my.lotro.com/home/character/elendilmir/herelies/");

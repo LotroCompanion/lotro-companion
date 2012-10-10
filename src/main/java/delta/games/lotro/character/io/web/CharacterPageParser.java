@@ -1,6 +1,5 @@
 package delta.games.lotro.character.io.web;
 
-import java.net.URL;
 import java.util.List;
 
 import net.htmlparser.jericho.Element;
@@ -19,6 +18,7 @@ import delta.games.lotro.character.CharacterStat;
 import delta.games.lotro.character.CharacterStat.STAT;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.Race;
+import delta.games.lotro.utils.DownloadService;
 import delta.games.lotro.utils.JerichoHtmlUtils;
 import delta.games.lotro.utils.LotroLoggers;
 
@@ -229,7 +229,9 @@ public class CharacterPageParser
     try
     {
       _character=new Character();
-      Source source=new Source(new URL(url));
+      DownloadService downloader=DownloadService.getInstance();
+      String page=downloader.getPage(url);
+      Source source=new Source(page);
   
       //<table class="char_panel freep">
       Element charPanel=JerichoHtmlUtils.findElementByTagNameAndAttributeValue(source,HTMLElementName.TABLE,"class","char_panel freep");

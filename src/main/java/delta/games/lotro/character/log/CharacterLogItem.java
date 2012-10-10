@@ -2,6 +2,8 @@ package delta.games.lotro.character.log;
 
 import java.util.Date;
 
+import delta.common.utils.NumericTools;
+
 /**
  * Represents an item in a LOTRO character log.
  * @author DAM
@@ -108,6 +110,7 @@ public class CharacterLogItem
    */
   public String getIdentifier()
   {
+    // TODO remove one deeds are managed like quests
     return _identifier;
   }
 
@@ -118,6 +121,27 @@ public class CharacterLogItem
   public void setIdentifier(String identifier)
   {
     _identifier=identifier;
+  }
+
+  private static final String ID_SEED="?id=";
+
+  /**
+   * Get the resource identifier of this log item.
+   * @return an integer identifier or <code>null</code> if there's none.
+   */
+  public Integer getResourceIdentifier()
+  {
+    Integer ret=null;
+    if (_resourceUrl!=null)
+    {
+      int index=_resourceUrl.indexOf(ID_SEED);
+      if (index!=-1)
+      {
+        String idStr=_resourceUrl.substring(index+ID_SEED.length());
+        ret=NumericTools.parseInteger(idStr);
+      }
+    }
+    return ret;
   }
 
   @Override

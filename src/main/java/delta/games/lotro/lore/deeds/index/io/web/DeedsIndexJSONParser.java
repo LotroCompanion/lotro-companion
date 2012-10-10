@@ -1,17 +1,9 @@
 package delta.games.lotro.lore.deeds.index.io.web;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-
 import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import delta.common.utils.environment.FileSystem;
-import delta.common.utils.io.StreamTools;
 import delta.common.utils.text.TextTools;
 import delta.downloads.Downloader;
 import delta.games.lotro.lore.deeds.index.DeedsIndex;
@@ -73,50 +65,25 @@ public class DeedsIndexJSONParser
   private int load(Downloader d, int start) throws Exception
   {
     int nbDuplicates=0;
-    File tmpDir=FileSystem.getTmpDir();
-    File tmpFile=new File(tmpDir,"json.txt");
     try
     {
       String url=URL_TEMPLATE+start;
-      d.downloadPage(url,tmpFile);
-      nbDuplicates=parseFile(tmpFile);
+      String page=d.downloadString(url);
+      nbDuplicates=parsePage(page);
     }
     catch(Exception e)
     {
       _logger.error("Cannot load deeds index JSON stream at index "+start);
     }
-    finally
-    {
-      if (tmpFile.exists())
-      {
-        tmpFile.delete();
-      }
-    }
     return nbDuplicates;
   }
 
-  private int parseFile(File file) throws Exception
+  private int parsePage(String page) throws Exception
   {
     int nbDuplicates=0;
-    String all=null;
-    InputStream is=null;
-    InputStreamReader r=null;
-    BufferedReader br=null;
     try
     {
-      is=new FileInputStream(file);
-      r=new InputStreamReader(is,"ASCII");
-      br=new BufferedReader(r);
-      StringBuilder sb=new StringBuilder();
-      while (true)
-      {
-        String line=br.readLine();
-        if (line==null) break;
-        sb.append(line);
-        sb.append("\n");
-      }
-      all=sb.toString();
-      JSONObject o=new JSONObject(all);
+      JSONObject o=new JSONObject(page);
       _total=o.getInt("iTotalDisplayRecords");
       //System.out.println("Total: "+_total);
       JSONArray data=o.getJSONArray("aaData");
@@ -157,12 +124,6 @@ public class DeedsIndexJSONParser
     catch(Exception e)
     {
       _logger.error("Error when parsing JSON file!",e);
-    }
-    finally
-    {
-      StreamTools.close(br);
-      StreamTools.close(r);
-      StreamTools.close(is);
     }
     return nbDuplicates;
   }

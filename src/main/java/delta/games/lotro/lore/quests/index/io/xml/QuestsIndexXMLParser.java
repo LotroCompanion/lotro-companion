@@ -51,9 +51,10 @@ public class QuestsIndexXMLParser
             for(Element questTag : questTags)
             {
               NamedNodeMap attrs=questTag.getAttributes();
-              String questId=DOMParsingTools.getStringAttribute(attrs,QuestsIndexXMLConstants.QUEST_ID_ATTR,null);
+              int questIdentifier=DOMParsingTools.getIntAttribute(attrs,QuestsIndexXMLConstants.QUEST_ID_ATTR,0);
+              String questKey=DOMParsingTools.getStringAttribute(attrs,QuestsIndexXMLConstants.QUEST_KEY_ATTR,null);
               String questName=DOMParsingTools.getStringAttribute(attrs,QuestsIndexXMLConstants.QUEST_NAME_ATTR,null);
-              index.addQuest(name,questId,questName);
+              index.addQuest(name,questIdentifier,questKey,questName);
             }
           }
         }

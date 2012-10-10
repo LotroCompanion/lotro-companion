@@ -361,9 +361,16 @@ public class RewardsHTMLParser
           int reputation=NumericTools.parseInt(valueStr,0);
           String factionName=factionNode.toString().trim();
           Faction faction=Factions.getInstance().getByName(factionName);
-          ReputationItem item=new ReputationItem(faction);
-          item.setAmount(reputation);
-          r.add(item);
+          if (faction!=null)
+          {
+            ReputationItem item=new ReputationItem(faction);
+            item.setAmount(reputation);
+            r.add(item);
+          }
+          else
+          {
+            _logger.error("Cannot get faction ["+factionName+"]!");
+          }
         }
       }
     }

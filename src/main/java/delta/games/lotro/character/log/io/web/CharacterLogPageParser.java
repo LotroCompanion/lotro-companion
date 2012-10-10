@@ -1,6 +1,5 @@
 package delta.games.lotro.character.log.io.web;
 
-import java.net.URL;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -19,6 +18,7 @@ import delta.common.utils.NumericTools;
 import delta.games.lotro.character.log.CharacterLog;
 import delta.games.lotro.character.log.CharacterLogItem;
 import delta.games.lotro.character.log.CharacterLogItem.LogItemType;
+import delta.games.lotro.utils.DownloadService;
 import delta.games.lotro.utils.JerichoHtmlUtils;
 import delta.games.lotro.utils.LotroLoggers;
 
@@ -78,7 +78,9 @@ public class CharacterLogPageParser
     String firstPageURL=rootUrl+"=1";
     try
     {
-      Source source=new Source(new URL(firstPageURL));
+      DownloadService downloader=DownloadService.getInstance();
+      String page=downloader.getPage(firstPageURL);
+      Source source=new Source(page);
   
       //<div id="widget_" class="widget ui-widget ui-corner-all" type="activitylog">
       Element activityLog=JerichoHtmlUtils.findElementByTagNameAndAttributeValue(source,HTMLElementName.DIV,"type","activitylog");
@@ -146,7 +148,9 @@ public class CharacterLogPageParser
     String url=rootURL+"="+String.valueOf(pageNumber);
     try
     {
-      Source source=new Source(new URL(url));
+      DownloadService downloader=DownloadService.getInstance();
+      String page=downloader.getPage(url);
+      Source source=new Source(page);
       //<table class="gradient_table activitylog">
       Element logTable=JerichoHtmlUtils.findElementByTagNameAndAttributeValue(source,HTMLElementName.TABLE,"class","gradient_table activitylog");
       if (logTable!=null)

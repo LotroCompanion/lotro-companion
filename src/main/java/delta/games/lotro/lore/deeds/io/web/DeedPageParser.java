@@ -1,6 +1,5 @@
 package delta.games.lotro.lore.deeds.io.web;
 
-import java.net.URL;
 import java.util.List;
 
 import net.htmlparser.jericho.CharacterReference;
@@ -17,6 +16,7 @@ import delta.games.lotro.common.Rewards;
 import delta.games.lotro.common.io.web.RewardsHTMLParser;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.DeedDescription.TYPE;
+import delta.games.lotro.utils.DownloadService;
 import delta.games.lotro.utils.JerichoHtmlUtils;
 import delta.games.lotro.utils.LotroLoggers;
 
@@ -234,8 +234,9 @@ public class DeedPageParser
     DeedDescription deed=null;
     try
     {
-      // TODO: fetch page text first (centralized downloader to cope with proxy problems?)
-      Source source=new Source(new URL(url));
+      DownloadService downloader=DownloadService.getInstance();
+      String page=downloader.getPage(url);
+      Source source=new Source(page);
 
       //<div id="lorebookNoedit">
       Element lorebook=JerichoHtmlUtils.findElementByTagNameAndAttributeValue(source,HTMLElementName.DIV,"id","lorebookNoedit");

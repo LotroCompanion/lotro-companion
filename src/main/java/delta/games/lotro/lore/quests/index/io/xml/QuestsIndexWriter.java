@@ -84,7 +84,12 @@ public class QuestsIndexWriter
       for(QuestSummary quest : quests)
       {
         AttributesImpl questAttrs=new AttributesImpl();
-        questAttrs.addAttribute("","",QuestsIndexXMLConstants.QUEST_ID_ATTR,CDATA,quest.getId());
+        int identifier=quest.getIdentifier();
+        if (identifier!=0)
+        {
+          questAttrs.addAttribute("","",QuestsIndexXMLConstants.QUEST_ID_ATTR,CDATA,String.valueOf(identifier));
+        }
+        questAttrs.addAttribute("","",QuestsIndexXMLConstants.QUEST_KEY_ATTR,CDATA,quest.getKey());
         questAttrs.addAttribute("","",QuestsIndexXMLConstants.QUEST_NAME_ATTR,CDATA,quest.getName());
         hd.startElement("","",QuestsIndexXMLConstants.QUEST_TAG,questAttrs);
         hd.endElement("","",QuestsIndexXMLConstants.QUEST_TAG);

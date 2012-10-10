@@ -68,7 +68,8 @@ public class QuestDescription
     MONSTER_PLAY
   }
 
-  private String _identifier;
+  private int _identifier;
+  private String _key;
   private String _title;
   private String _category;
   private String _scope;
@@ -95,6 +96,8 @@ public class QuestDescription
    */
   public QuestDescription()
   {
+    _identifier=0;
+    _key=null;
     _title="";
     _category="";
     _scope="";
@@ -120,7 +123,7 @@ public class QuestDescription
    * Get the identifier of this quest.
    * @return the identifier of this quest.
    */
-  public String getIdentifier()
+  public int getIdentifier()
   {
     return _identifier;
   }
@@ -129,9 +132,27 @@ public class QuestDescription
    * Set the identifier of this quest.
    * @param identifier the identifier to set.
    */
-  public void setIdentifier(String identifier)
+  public void setIdentifier(int identifier)
   {
     _identifier=identifier;
+  }
+
+  /**
+   * Get the key of this quest.
+   * @return the key of this quest.
+   */
+  public String getKey()
+  {
+    return _key;
+  }
+
+  /**
+   * Set the key of this quest.
+   * @param key the key to set.
+   */
+  public void setKey(String key)
+  {
+    _key=key;
   }
 
   /**
@@ -501,6 +522,18 @@ public class QuestDescription
   {
     StringBuilder sb=new StringBuilder();
     sb.append("Title: ").append(_title);
+    if (_identifier!=0)
+    {
+      sb.append(" (");
+      sb.append(_identifier);
+      sb.append(')');
+    }
+    if (_key!=null)
+    {
+      sb.append(" (");
+      sb.append(_key);
+      sb.append(')');
+    }
     if (_type!=TYPE.STANDARD)
     {
       sb.append(" (");

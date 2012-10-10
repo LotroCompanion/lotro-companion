@@ -1,6 +1,5 @@
 package delta.games.lotro.region.io.web;
 
-import java.net.URL;
 import java.util.List;
 
 import net.htmlparser.jericho.CharacterReference;
@@ -12,6 +11,7 @@ import org.apache.log4j.Logger;
 
 import delta.games.lotro.region.Area;
 import delta.games.lotro.region.Region;
+import delta.games.lotro.utils.DownloadService;
 import delta.games.lotro.utils.JerichoHtmlUtils;
 import delta.games.lotro.utils.LotroLoggers;
 
@@ -76,7 +76,9 @@ public class RegionPageParser
     String url="http://lorebook.lotro.com/wiki/Region:"+identifier;
     try
     {
-      Source source=new Source(new URL(url));
+      DownloadService downloader=DownloadService.getInstance();
+      String page=downloader.getPage(url);
+      Source source=new Source(page);
   
       //<div class="lorebooktitle">Region: The Shire</div>
       Element titleTag=JerichoHtmlUtils.findElementByTagNameAndAttributeValue(source,HTMLElementName.DIV,"class","lorebooktitle");

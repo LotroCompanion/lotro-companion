@@ -36,6 +36,7 @@ public class MyLotroURL2Identifier
    */
   public String findIdentifier(String urlStr, boolean full)
   {
+    // TODO use downloader to centralize web I/O and allow proxy usage
     String identifier=null;
     if ((urlStr!=null) && (urlStr.length()>0))
     {

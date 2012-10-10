@@ -34,10 +34,10 @@ public class QuestsIndex
    * Add a quest.
    * @param category Quest category.
    * @param identifier Quest identifier.
+   * @param key Quest key.
    * @param name Quest name.
-   * @return <code>true</code> if it was done, <code>false</code> otherwise.
    */
-  public boolean addQuest(String category, String identifier, String name)
+  public void addQuest(String category, int identifier, String key, String name)
   {
     QuestCategory c=_categories.get(category);
     if (c==null)
@@ -45,8 +45,7 @@ public class QuestsIndex
       c=new QuestCategory(category);
       _categories.put(category,c);
     }
-    boolean ok=c.addQuest(identifier,name);
-    return ok;
+    c.addQuest(identifier,key,name);
   }
 
   /**

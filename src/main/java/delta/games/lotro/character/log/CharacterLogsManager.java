@@ -16,7 +16,6 @@ import delta.games.lotro.character.log.io.web.CharacterLogPageParser;
 import delta.games.lotro.character.log.io.xml.CharacterLogXMLParser;
 import delta.games.lotro.character.log.io.xml.CharacterLogXMLWriter;
 import delta.games.lotro.lore.deeds.DeedsManager;
-import delta.games.lotro.lore.quests.QuestsManager;
 import delta.games.lotro.lore.quests.io.web.MyLotroURL2Identifier;
 import delta.games.lotro.utils.Escapes;
 import delta.games.lotro.utils.LotroLoggers;
@@ -266,19 +265,9 @@ public class CharacterLogsManager
         String itemURL=item.getAssociatedUrl();
         if ((itemURL!=null) && (itemURL.length()>0))
         {
-          String id=null;
-          if (type==LogItemType.QUEST)
+          if (type==LogItemType.DEED)
           {
-            QuestsManager questsManager=QuestsManager.getInstance();
-            ResourcesMapping mapping=questsManager.getQuestResourcesMapping();
-            int resource=mapping.getResourceIdentifierFromURL(itemURL);
-            if (resource!=-1)
-            {
-              id=mapping.getIdentifier(resource);
-            }
-          }
-          else if (type==LogItemType.DEED)
-          {
+            String id=null;
             DeedsManager deedsManager=DeedsManager.getInstance();
             ResourcesMapping mapping=deedsManager.getDeedResourcesMapping();
             int resource=mapping.getResourceIdentifierFromURL(itemURL);
@@ -286,27 +275,27 @@ public class CharacterLogsManager
             {
               id=mapping.getIdentifier(resource);
             }
-          }
-          if (id==null)
-          {
-            MyLotroURL2Identifier finder=new MyLotroURL2Identifier();
-            id=finder.findIdentifier(itemURL);
+            if (id==null)
+            {
+              MyLotroURL2Identifier finder=new MyLotroURL2Identifier();
+              id=finder.findIdentifier(itemURL);
+              if (id!=null)
+              {
+                id=Escapes.escapeIdentifier(id);
+                _logger.info("Found NEW id ["+id+"] for URL ["+itemURL+"]");
+              }
+            }
             if (id!=null)
             {
-              id=Escapes.escapeIdentifier(id);
-              _logger.info("Found NEW id ["+id+"] for URL ["+itemURL+"]");
+              _logger.info("Found id ["+id+"] for URL ["+itemURL+"]");
             }
+            else
+            {
+              id="";
+              _logger.info("No match for ["+item+"]");
+            }
+            item.setIdentifier(id);
           }
-          if (id!=null)
-          {
-            _logger.info("Found id ["+id+"] for URL ["+itemURL+"]");
-          }
-          else
-          {
-            id="";
-            _logger.info("No match for ["+item+"]");
-          }
-          item.setIdentifier(id);
         }
       }
     }
