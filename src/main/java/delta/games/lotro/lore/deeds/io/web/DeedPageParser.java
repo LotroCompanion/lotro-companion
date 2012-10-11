@@ -1,6 +1,11 @@
 package delta.games.lotro.lore.deeds.io.web;
 
+import java.io.StringReader;
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 
 import net.htmlparser.jericho.CharacterReference;
 import net.htmlparser.jericho.Element;
@@ -9,9 +14,12 @@ import net.htmlparser.jericho.Segment;
 import net.htmlparser.jericho.Source;
 
 import org.apache.log4j.Logger;
+import org.w3c.dom.Document;
+import org.xml.sax.InputSource;
 
 import delta.common.utils.NumericTools;
 import delta.common.utils.text.TextTools;
+import delta.common.utils.xml.DOMParsingTools;
 import delta.games.lotro.common.Rewards;
 import delta.games.lotro.common.io.web.RewardsHTMLParser;
 import delta.games.lotro.lore.deeds.DeedDescription;
@@ -32,7 +40,7 @@ public class DeedPageParser
   private static final String LEVEL_FIELD_SEED="Level:";
 
   private DeedDescription _deed;
-  private String _identifier;
+  private String _key;
 
   private String getTagContent(Element deedTooltip, String tagIdentifier)
   {
@@ -80,7 +88,7 @@ public class DeedPageParser
       }
       else
       {
-        _logger.warn("Deed ["+_identifier+"]. Unmanaged deed type information ["+typeStr+"]!");
+        _logger.warn("Deed ["+_key+"]. Unmanaged deed type information ["+typeStr+"]!");
       }
     }
     return ret;
@@ -169,7 +177,7 @@ public class DeedPageParser
           if (rewardsTable!=null)
           {
             Rewards rewards=_deed.getRewards();
-            RewardsHTMLParser parser=new RewardsHTMLParser("Deed ["+_identifier+"]");
+            RewardsHTMLParser parser=new RewardsHTMLParser("Deed ["+_key+"]");
             parser.parseRewards(rewardsTable,rewards);
           }
         }
@@ -177,14 +185,12 @@ public class DeedPageParser
     }
   }
 
-  private DeedDescription parseDeedSection(String identifier, Element deedSection)
+  private DeedDescription parseDeedSection(Element deedSection)
   {
     DeedDescription ret=new DeedDescription();
     try
     {
-      _identifier=identifier;
       _deed=new DeedDescription();
-      _deed.setIdentifier(identifier);
       Element deedTooltip=JerichoHtmlUtils.findElementByTagNameAndAttributeValue(deedSection,HTMLElementName.TABLE,"class","tooltip");
       if (deedTooltip!=null)
       {
@@ -197,7 +203,7 @@ public class DeedPageParser
     catch(Exception e)
     {
       ret=null;
-      _logger.error("Deed ["+_identifier+"]. Cannot parse deed section!",e);
+      _logger.error("Deed ["+_key+"]. Cannot parse deed section!",e);
     }
     return ret;
   }
@@ -224,14 +230,84 @@ public class DeedPageParser
     return id;
   }
 
+  private void findIdentifiers(List<DeedDescription> deeds)
+  {
+    String url="http://lorebook.lotro.com/index.php?title=Deed:"+_key+"&action=edit";
+    DownloadService downloader=DownloadService.getInstance();
+    try
+    {
+      String page=downloader.getPage(url);
+      Source s=new Source(page);
+      //<textarea id="wpTextbox1"
+      Element pageSource=JerichoHtmlUtils.findElementByTagNameAndAttributeValue(s,HTMLElementName.TEXTAREA,"id","wpTextbox1");
+      String text=JerichoHtmlUtils.getTextFromTag(pageSource);
+      parsePageSource(text,deeds);
+    }
+    catch(Exception e)
+    {
+      _logger.error("Parsing error",e);
+    }
+  }
+
+  private void parsePageSource(String text, List<DeedDescription> quests)
+  {
+    try
+    {
+      String seed="</noedit>";
+      int index=text.indexOf(seed);
+      if (index!=-1)
+      {
+        text=text.substring(0,index+seed.length());
+      }
+      text=text.replace("&"," ");
+      DocumentBuilder builder=DocumentBuilderFactory.newInstance().newDocumentBuilder();
+      InputSource is=new InputSource(new StringReader(text));
+      Document doc=builder.parse(is);
+      org.w3c.dom.Element root=doc.getDocumentElement();
+      List<org.w3c.dom.Element> questTags=DOMParsingTools.getChildTagsByName(root,"accomplishment",true);
+      int nbQuestTags=0;
+      if (questTags!=null)
+      {
+        nbQuestTags=questTags.size();
+      }
+      int nbQuests=quests.size();
+      if (nbQuestTags==nbQuests)
+      {
+        int questIndex=0;
+        for(org.w3c.dom.Element questTag : questTags)
+        {
+          String idStr=DOMParsingTools.getStringAttribute(questTag.getAttributes(),"id",null);
+          int id=NumericTools.parseInt(idStr,-1);
+          if (id!=-1)
+          {
+            quests.get(questIndex).setIdentifier(id);
+          }
+          else
+          {
+            _logger.error("Bad identifier ["+idStr+"] for quest key ["+_key+"] index "+questIndex);
+          }
+          questIndex++;
+        }
+      }
+      else
+      {
+        _logger.error("Bad number of quest identifiers for quest key ["+_key+"]. Expected "+nbQuests+", got "+nbQuestTags);
+      }
+    }
+    catch (Exception e)
+    {
+      _logger.error("Parsing error",e);
+    }
+  }
+
   /**
    * Parse the deed page at the given URL.
    * @param url URL of deed page.
-   * @return A deed or <code>null</code> if an error occurred.
+   * @return A list of deeds or <code>null</code> if an error occurred.
    */
-  public DeedDescription parseDeedPage(String url)
+  public List<DeedDescription> parseDeedPage(String url)
   {
-    DeedDescription deed=null;
+    List<DeedDescription> deeds=null;
     try
     {
       DownloadService downloader=DownloadService.getInstance();
@@ -242,14 +318,28 @@ public class DeedPageParser
       Element lorebook=JerichoHtmlUtils.findElementByTagNameAndAttributeValue(source,HTMLElementName.DIV,"id","lorebookNoedit");
       if (lorebook!=null)
       {
-        String identifier=fetchIdentifier(source);
-        deed=parseDeedSection(identifier,lorebook);
+        _key=fetchIdentifier(source);
+        deeds=new ArrayList<DeedDescription>();
+        List<Element> deedSections=JerichoHtmlUtils.findElementsByTagNameAndAttributeValue(lorebook,HTMLElementName.DIV,"class","lorebookquest");
+        if ((deedSections!=null) && (deedSections.size()>0))
+        {
+          for(Element deedSection : deedSections)
+          {
+            DeedDescription deed=parseDeedSection(deedSection);
+            if (deed!=null)
+            {
+              deeds.add(deed);
+              deed.setKey(_key);
+            }
+          }
+        }
+        findIdentifiers(deeds);
       }
     }
     catch(Exception e)
     {
       _logger.error("Cannot parse deed page ["+url+"]",e);
     }
-    return deed;
+    return deeds;
   }
 }

@@ -42,18 +42,12 @@ public class DeedsIndexJSONParser
     {
       _index=new DeedsIndex();
       Downloader d=new Downloader();
-      int totalNbDuplicates=0;
       while ((_total==0) || (_currentItemIndex<_total))
       {
-        int nbDuplicates=load(d,_currentItemIndex);
-        totalNbDuplicates+=nbDuplicates;
+        load(d,_currentItemIndex);
       }
       ret=_index;
       _index=null;
-      if (totalNbDuplicates>0)
-      {
-        _logger.warn("Number of duplicated deeds:"+totalNbDuplicates);
-      }
     }
     catch(Exception e)
     {
@@ -62,25 +56,22 @@ public class DeedsIndexJSONParser
     return ret;
   }
 
-  private int load(Downloader d, int start) throws Exception
+  private void load(Downloader d, int start) throws Exception
   {
-    int nbDuplicates=0;
     try
     {
       String url=URL_TEMPLATE+start;
       String page=d.downloadString(url);
-      nbDuplicates=parsePage(page);
+      parsePage(page);
     }
     catch(Exception e)
     {
       _logger.error("Cannot load deeds index JSON stream at index "+start);
     }
-    return nbDuplicates;
   }
 
-  private int parsePage(String page) throws Exception
+  private void parsePage(String page) throws Exception
   {
-    int nbDuplicates=0;
     try
     {
       JSONObject o=new JSONObject(page);
@@ -91,14 +82,14 @@ public class DeedsIndexJSONParser
       for(int i=0;i<nbItems;i++)
       {
         JSONArray item=data.getJSONArray(i);
-        String deedId=null;
+        String deedKey=null;
         String link=item.getString(0);
         String url=TextTools.findBetween(link,"\"","\"");
         if (url!=null)
         {
           if (url.startsWith(WIKI_DEED_SEED))
           {
-            deedId=url.substring(WIKI_DEED_SEED.length());
+            deedKey=url.substring(WIKI_DEED_SEED.length());
           }
           else
           {
@@ -113,10 +104,9 @@ public class DeedsIndexJSONParser
         //System.out.println(text);
         //System.out.println(level);
         String category="???";
-        if ((deedId!=null) && (deedName!=null) && (category!=null))
+        if ((deedKey!=null) && (deedName!=null) && (category!=null))
         {
-          boolean ok=_index.addDeed(category,deedId,deedName);
-          if (!ok) nbDuplicates++;
+          _index.addDeed(category,0,deedKey,deedName);
         }
       }
       _currentItemIndex+=nbItems;
@@ -125,6 +115,5 @@ public class DeedsIndexJSONParser
     {
       _logger.error("Error when parsing JSON file!",e);
     }
-    return nbDuplicates;
   }
 }

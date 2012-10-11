@@ -45,7 +45,8 @@ public class DeedDescription
     EVENT
   }
 
-  private String _identifier;
+  private int _identifier;
+  private String _key;
   private String _name;
   private TYPE _type;
   private String _class;
@@ -59,7 +60,8 @@ public class DeedDescription
    */
   public DeedDescription()
   {
-    _identifier=null;
+    _identifier=0;
+    _key=null;
     _name="";
     _type=TYPE.SLAYER;
     _class=null;
@@ -73,7 +75,7 @@ public class DeedDescription
    * Get the identifier of this deed.
    * @return the identifier of this deed.
    */
-  public String getIdentifier()
+  public int getIdentifier()
   {
     return _identifier;
   }
@@ -82,9 +84,27 @@ public class DeedDescription
    * Set the identifier of this deed.
    * @param identifier the identifier to set.
    */
-  public void setIdentifier(String identifier)
+  public void setIdentifier(int identifier)
   {
     _identifier=identifier;
+  }
+
+  /**
+   * Get the key of this deed.
+   * @return the key of this deed.
+   */
+  public String getKey()
+  {
+    return _key;
+  }
+
+  /**
+   * Set the key of this deed.
+   * @param key the key to set.
+   */
+  public void setKey(String key)
+  {
+    _key=key;
   }
 
   /**
@@ -212,10 +232,16 @@ public class DeedDescription
   {
     StringBuilder sb=new StringBuilder();
     sb.append("Name: ").append(_name);
-    if (_identifier!=null)
+    if (_identifier!=0)
     {
       sb.append(" (");
       sb.append(_identifier);
+      sb.append(')');
+    }
+    if (_key!=null)
+    {
+      sb.append(" (");
+      sb.append(_key);
       sb.append(')');
     }
     if (_type!=null)

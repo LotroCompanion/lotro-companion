@@ -6,17 +6,20 @@ package delta.games.lotro.lore.deeds.index;
  */
 public class DeedSummary
 {
-  private String _id;
+  private int _identifier;
+  private String _key;
   private String _name;
   
   /**
    * Constructor.
-   * @param id Deed identifier.
+   * @param identifier Deed identifier.
+   * @param key Deed key.
    * @param name Deed name.
    */
-  public DeedSummary(String id, String name)
+  public DeedSummary(int identifier, String key, String name)
   {
-    _id=id;
+    _identifier=identifier;
+    _key=key;
     _name=name;
   }
   
@@ -24,9 +27,18 @@ public class DeedSummary
    * Get the deed identifier.
    * @return the deed identifier.
    */
-  public String getId()
+  public int getIdentifier()
   {
-    return _id;
+    return _identifier;
+  }
+
+  /**
+   * Get the deed key.
+   * @return the deed key.
+   */
+  public String getKey()
+  {
+    return _key;
   }
 
   /**
@@ -41,6 +53,6 @@ public class DeedSummary
   @Override
   public String toString()
   {
-    return _id+" ["+_name+"]";
+    return _key+" ["+_identifier+"] ["+_name+"]";
   }
 }

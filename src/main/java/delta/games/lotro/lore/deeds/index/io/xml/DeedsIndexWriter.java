@@ -84,7 +84,12 @@ public class DeedsIndexWriter
       for(DeedSummary deed : deeds)
       {
         AttributesImpl deedAttrs=new AttributesImpl();
-        deedAttrs.addAttribute("","",DeedsIndexXMLConstants.DEED_ID_ATTR,CDATA,deed.getId());
+        int identifier=deed.getIdentifier();
+        if (identifier!=0)
+        {
+          deedAttrs.addAttribute("","",DeedsIndexXMLConstants.DEED_ID_ATTR,CDATA,String.valueOf(identifier));
+        }
+        deedAttrs.addAttribute("","",DeedsIndexXMLConstants.DEED_KEY_ATTR,CDATA,deed.getKey());
         deedAttrs.addAttribute("","",DeedsIndexXMLConstants.DEED_NAME_ATTR,CDATA,deed.getName());
         hd.startElement("","",DeedsIndexXMLConstants.DEED_TAG,deedAttrs);
         hd.endElement("","",DeedsIndexXMLConstants.DEED_TAG);

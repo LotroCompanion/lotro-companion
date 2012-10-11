@@ -50,9 +50,10 @@ public class MainTestVirtuesStats
       DeedSummary[] summaries=deedCategory.getDeeds();
       for(DeedSummary summary : summaries)
       {
-        String id=summary.getId();
+        int id=summary.getIdentifier();
         DeedDescription description=dm.getDeed(id);
         if (description!=null) {
+          String name=description.getName();
           Rewards rewards=description.getRewards();
           Virtue[] virtues=rewards.getVirtues();
           if (virtues!=null)
@@ -66,7 +67,7 @@ public class MainTestVirtuesStats
                 items=new ArrayList<String>();
                 virtuesMap.put(virtueId,items);
               }
-              items.add("Deed:"+id);
+              items.add("Deed:"+name);
             }
           }
         }

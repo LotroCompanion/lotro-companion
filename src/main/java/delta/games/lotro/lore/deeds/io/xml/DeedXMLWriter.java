@@ -72,10 +72,15 @@ public class DeedXMLWriter
   {
     AttributesImpl deedAttrs=new AttributesImpl();
 
-    String id=deed.getIdentifier();
-    if (id!=null)
+    int id=deed.getIdentifier();
+    if (id!=0)
     {
-      deedAttrs.addAttribute("","",DeedXMLConstants.DEED_ID_ATTR,CDATA,id);
+      deedAttrs.addAttribute("","",DeedXMLConstants.DEED_ID_ATTR,CDATA,String.valueOf(id));
+    }
+    String key=deed.getKey();
+    if (key!=null)
+    {
+      deedAttrs.addAttribute("","",DeedXMLConstants.DEED_KEY_ATTR,CDATA,key);
     }
     String name=deed.getName();
     if (name!=null)

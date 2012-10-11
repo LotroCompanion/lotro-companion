@@ -30,6 +30,10 @@ public class DeedsIndexXMLConstants
    */
   public static final String DEED_ID_ATTR="id";
   /**
+   * Tag 'deed', attribute 'key'.
+   */
+  public static final String DEED_KEY_ATTR="key";
+  /**
    * Tag 'deed', attribute 'name'.
    */
   public static final String DEED_NAME_ATTR="name";

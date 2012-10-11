@@ -34,10 +34,10 @@ public class DeedsIndex
    * Add a deed.
    * @param category Deed category.
    * @param identifier Deed identifier.
+   * @param key Deed key.
    * @param name Deed name.
-   * @return <code>true</code> if it was done, <code>false</code> otherwise.
    */
-  public boolean addDeed(String category, String identifier, String name)
+  public void addDeed(String category, int identifier, String key, String name)
   {
     DeedCategory c=_categories.get(category);
     if (c==null)
@@ -45,8 +45,7 @@ public class DeedsIndex
       c=new DeedCategory(category);
       _categories.put(category,c);
     }
-    boolean ok=c.addDeed(identifier,name);
-    return ok;
+    c.addDeed(identifier,key,name);
   }
 
   /**

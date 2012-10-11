@@ -113,12 +113,16 @@ public class VirtuesStats
     DeedsManager dm=DeedsManager.getInstance();
     for(CharacterLogItem item : items)
     {
-      String id=item.getIdentifier();
-      DeedDescription deed=dm.getDeed(id);
-      if (deed!=null)
+      Integer id=item.getResourceIdentifier();
+      if (id!=null)
       {
-        Rewards rewards=deed.getRewards();
-        handleRewards("Deed:"+id,rewards);
+        DeedDescription deed=dm.getDeed(id.intValue());
+        if (deed!=null)
+        {
+          Rewards rewards=deed.getRewards();
+          String name=deed.getName();
+          handleRewards("Deed:"+name,rewards);
+        }
       }
     }
   }

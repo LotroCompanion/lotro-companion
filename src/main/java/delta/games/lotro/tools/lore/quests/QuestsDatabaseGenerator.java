@@ -5,7 +5,6 @@ import java.io.File;
 import org.apache.log4j.Logger;
 
 import delta.common.utils.environment.FileSystem;
-import delta.games.lotro.Config;
 import delta.games.lotro.utils.LotroLoggers;
 
 /**
@@ -24,8 +23,8 @@ public class QuestsDatabaseGenerator
   public QuestsDatabaseGenerator()
   {
     _workDir=FileSystem.getTmpDir();
-    //_questsDir=new File(_workDir,"quests");
-    _questsDir=Config.getInstance().getQuestsDir();
+    _questsDir=new File(_workDir,"quests");
+    //_questsDir=Config.getInstance().getQuestsDir();
   }
 
   /**
@@ -33,7 +32,6 @@ public class QuestsDatabaseGenerator
    */
   public void doIt()
   {
-    /*
     // 1 - get quests index
     File tmpQuestsIndexFile=new File(_workDir,"tmpQuestsIndex.xml");
     QuestsIndexLoader indexLoader=new QuestsIndexLoader();
@@ -51,7 +49,6 @@ public class QuestsDatabaseGenerator
       _logger.error("Cannot load quests! Stopping.");
       return;
     }
-    */
     // 3 - build quest index
     File questsIndexFile=new File(_workDir,"questsIndex.xml");
     QuestsIndexBuilder questsIndexBuilder=new QuestsIndexBuilder(_questsDir,questsIndexFile);

@@ -5,20 +5,14 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
-import org.apache.log4j.Logger;
-
-import delta.games.lotro.utils.LotroLoggers;
-
 /**
  * Deed category.
  * @author DAM
  */
 public class DeedCategory
 {
-  private static final Logger _logger=LotroLoggers.getLotroLogger();
-
   private String _name;
-  private HashMap<String,DeedSummary> _idsToSummary;
+  private HashMap<String,List<DeedSummary>> _idsToSummary;
 
   /**
    * Constructor.
@@ -27,7 +21,7 @@ public class DeedCategory
   public DeedCategory(String name)
   {
     _name=name;
-    _idsToSummary=new HashMap<String,DeedSummary>();
+    _idsToSummary=new HashMap<String,List<DeedSummary>>();
   }
   
   /**
@@ -42,25 +36,19 @@ public class DeedCategory
   /**
    * Add a deed.
    * @param identifier Deed identifier.
+   * @param key Deed key.
    * @param name Deed name.
-   * @return <code>true</code> if it was done, <code>false</code> otherwise.
    */
-  public boolean addDeed(String identifier, String name)
+  public void addDeed(int identifier, String key, String name)
   {
-    boolean ret;
-    DeedSummary old=_idsToSummary.get(identifier);
-    if (old==null)
+    List<DeedSummary> list=_idsToSummary.get(key);
+    if (list==null)
     {
-      DeedSummary summary=new DeedSummary(identifier,name);
-      _idsToSummary.put(identifier,summary);
-      ret=true;
+      list=new ArrayList<DeedSummary>();
+      _idsToSummary.put(key,list);
     }
-    else
-    {
-      _logger.warn("Duplicate deed identifier ["+identifier+"] in category ["+_name+"]!");
-      ret=false;
-    }
-    return ret;
+    DeedSummary summary=new DeedSummary(identifier,key,name);
+    list.add(summary);
   }
 
   /**
@@ -71,16 +59,27 @@ public class DeedCategory
   {
     List<String> ids=new ArrayList<String>(_idsToSummary.keySet());
     Collections.sort(ids);
-    DeedSummary[] ret=new DeedSummary[ids.size()];
-    int index=0;
+    List<DeedSummary> summaries=new ArrayList<DeedSummary>();
     for(String id : ids)
     {
-      ret[index]=_idsToSummary.get(id);
-      index++;
+      summaries.addAll(_idsToSummary.get(id));
     }
+    DeedSummary[] ret=summaries.toArray(new DeedSummary[summaries.size()]);
     return ret;
   }
 
+  /**
+   * Get all the keys of this category.
+   * @return A possibly empty array of deed keys.
+   */
+  public String[] getKeys()
+  {
+    List<String> ids=new ArrayList<String>(_idsToSummary.keySet());
+    Collections.sort(ids);
+    String[] ret=ids.toArray(new String[ids.size()]);
+    return ret;
+  }
+  
   @Override
   public String toString()
   {

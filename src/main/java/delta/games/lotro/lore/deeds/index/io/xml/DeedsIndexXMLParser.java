@@ -51,9 +51,10 @@ public class DeedsIndexXMLParser
             for(Element deedTag : deedTags)
             {
               NamedNodeMap attrs=deedTag.getAttributes();
-              String deedId=DOMParsingTools.getStringAttribute(attrs,DeedsIndexXMLConstants.DEED_ID_ATTR,null);
+              int deedIdentifier=DOMParsingTools.getIntAttribute(attrs,DeedsIndexXMLConstants.DEED_ID_ATTR,0);
+              String deedKey=DOMParsingTools.getStringAttribute(attrs,DeedsIndexXMLConstants.DEED_KEY_ATTR,null);
               String deedName=DOMParsingTools.getStringAttribute(attrs,DeedsIndexXMLConstants.DEED_NAME_ATTR,null);
-              index.addDeed(name,deedId,deedName);
+              index.addDeed(name,deedIdentifier,deedKey,deedName);
             }
           }
         }

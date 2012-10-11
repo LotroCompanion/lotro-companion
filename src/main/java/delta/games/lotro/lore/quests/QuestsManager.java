@@ -72,7 +72,7 @@ public class QuestsManager
       ret=(_cache!=null)?_cache.get(idKey):null;
       if (ret==null)
       {
-        ret=loadQuest(idKey.intValue());
+        ret=loadQuest(id);
         if (ret!=null)
         {
           if (_cache!=null)
@@ -96,7 +96,7 @@ public class QuestsManager
       ret=parser.parseXML(is);
       if (ret==null)
       {
-        _logger.error("Cannot load quest file ["+fileName+"]!");
+        _logger.error("Cannot load quest ["+fileName+"]!");
       }
     }
     return ret;

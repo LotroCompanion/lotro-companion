@@ -11,15 +11,10 @@ import org.apache.log4j.Logger;
 
 import delta.common.utils.text.EncodingNames;
 import delta.games.lotro.character.CharacterFile;
-import delta.games.lotro.character.log.CharacterLogItem.LogItemType;
 import delta.games.lotro.character.log.io.web.CharacterLogPageParser;
 import delta.games.lotro.character.log.io.xml.CharacterLogXMLParser;
 import delta.games.lotro.character.log.io.xml.CharacterLogXMLWriter;
-import delta.games.lotro.lore.deeds.DeedsManager;
-import delta.games.lotro.lore.quests.io.web.MyLotroURL2Identifier;
-import delta.games.lotro.utils.Escapes;
 import delta.games.lotro.utils.LotroLoggers;
-import delta.games.lotro.utils.resources.ResourcesMapping;
 
 /**
  * Manages log files for a single toon.
@@ -112,20 +107,7 @@ public class CharacterLogsManager
       creation=true;
       CharacterLogPageParser parser=new CharacterLogPageParser();
       log=parser.parseLogPages(url,null);
-      if (log!=null)
-      {
-        updateOK=true;
-        int nb=log.getNbItems();
-        for(int i=0;i<nb;i++)
-        {
-          CharacterLogItem item=log.getLogItem(i);
-          updateIdentifier(item);
-        }
-      }
-      else
-      {
-        updateOK=false;
-      }
+      updateOK=(log!=null);
     }
     boolean ret=updateOK;
     if (updateOK)
@@ -144,42 +126,6 @@ public class CharacterLogsManager
       _logger.error("Log update failed for toon ["+name+"]!");
     }
     return ret;
-  }
-
-  /**
-   * Update quest identifiers.
-   */
-  public void updateIdentifiers()
-  {
-    File lastLog=getLastLogFile();
-    if (lastLog!=null)
-    {
-      CharacterLogXMLParser xmlLogParser=new CharacterLogXMLParser();
-      CharacterLog log=xmlLogParser.parseXML(lastLog);
-      if (log!=null)
-      {
-        int nbItems=log.getNbItems();
-        for(int i=0;i<nbItems;i++)
-        {
-          CharacterLogItem item=log.getLogItem(i);
-          LogItemType type=item.getLogItemType();
-          if ((type==LogItemType.DEED) || (type==LogItemType.QUEST))
-          {
-            String oldId=item.getIdentifier();
-            if (oldId==null)
-            {
-              updateIdentifier(item);
-            }
-            else
-            {
-              oldId=Escapes.escapeIdentifier(oldId);
-              item.setIdentifier(oldId);
-            }
-          }
-        }
-        writeNewLog(log);
-      }
-    }
   }
 
   /**
@@ -242,7 +188,6 @@ public class CharacterLogsManager
         for(int i=nbNewItems-1;i>=0;i--)
         {
           CharacterLogItem newItem=newLog.getLogItem(i);
-          updateIdentifier(newItem);
           log.addLogItem(newItem,0);
         }
         if (_logger.isInfoEnabled())
@@ -253,52 +198,6 @@ public class CharacterLogsManager
       }
     }
     return ret;
-  }
-
-  private void updateIdentifier(CharacterLogItem item)
-  {
-    if (item!=null)
-    {
-      LogItemType type=item.getLogItemType();
-      if ((type==LogItemType.QUEST) || (type==LogItemType.DEED))
-      {
-        String itemURL=item.getAssociatedUrl();
-        if ((itemURL!=null) && (itemURL.length()>0))
-        {
-          if (type==LogItemType.DEED)
-          {
-            String id=null;
-            DeedsManager deedsManager=DeedsManager.getInstance();
-            ResourcesMapping mapping=deedsManager.getDeedResourcesMapping();
-            int resource=mapping.getResourceIdentifierFromURL(itemURL);
-            if (resource!=-1)
-            {
-              id=mapping.getIdentifier(resource);
-            }
-            if (id==null)
-            {
-              MyLotroURL2Identifier finder=new MyLotroURL2Identifier();
-              id=finder.findIdentifier(itemURL);
-              if (id!=null)
-              {
-                id=Escapes.escapeIdentifier(id);
-                _logger.info("Found NEW id ["+id+"] for URL ["+itemURL+"]");
-              }
-            }
-            if (id!=null)
-            {
-              _logger.info("Found id ["+id+"] for URL ["+itemURL+"]");
-            }
-            else
-            {
-              id="";
-              _logger.info("No match for ["+item+"]");
-            }
-            item.setIdentifier(id);
-          }
-        }
-      }
-    }
   }
 
   private File getNewLogFile()

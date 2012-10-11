@@ -37,19 +37,19 @@ public class QuestXMLParser
   }
 
   /**
-   * Parse the XML file.
+   * Parse the XML stream.
    * @param source Source stream.
    * @return Parsed quest or <code>null</code>.
    */
   public QuestDescription parseXML(InputStream source)
   {
-    QuestDescription c=null;
+    QuestDescription quest=null;
     Element root=DOMParsingTools.parse(source);
     if (root!=null)
     {
-      c=parseQuest(root);
+      quest=parseQuest(root);
     }
-    return c;
+    return quest;
   }
 
   private QuestDescription parseQuest(Element root)

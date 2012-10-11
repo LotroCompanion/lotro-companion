@@ -332,6 +332,7 @@ public class QuestPageParser
       {
         text=text.substring(0,index+seed.length());
       }
+      text=text.replace("&"," ");
       DocumentBuilder builder=DocumentBuilderFactory.newInstance().newDocumentBuilder();
       InputSource is=new InputSource(new StringReader(text));
       Document doc=builder.parse(is);
