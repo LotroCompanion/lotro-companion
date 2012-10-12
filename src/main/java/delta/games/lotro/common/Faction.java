@@ -12,18 +12,21 @@ public class Faction
 {
   private String _name;
   private Set<String> _aliases;
+  private FactionLevel _initialLevel;
   private FactionLevel[] _levels;
   
   /**
    * Constructor.
    * @param name Name of faction.
    * @param levels Available levels.
+   * @param initialLevel Initial level.
    */
-  public Faction(String name, List<FactionLevel> levels)
+  public Faction(String name, List<FactionLevel> levels, FactionLevel initialLevel)
   {
     _name=name;
     _aliases=new HashSet<String>();
     _levels=levels.toArray(new FactionLevel[levels.size()]);
+    _initialLevel=initialLevel;
   }
 
   /**
@@ -51,6 +54,15 @@ public class Faction
   public void addAlias(String alias)
   {
     _aliases.add(alias);
+  }
+
+  /**
+   * Get the initial reputation level in this faction.
+   * @return a faction level;
+   */
+  public FactionLevel getInitialLevel()
+  {
+    return _initialLevel;
   }
 
   /**

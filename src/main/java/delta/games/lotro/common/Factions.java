@@ -22,6 +22,7 @@ public class Factions
   private static final String INN_LEAGUE="Inn League";
 
   private HashMap<String,Faction> _registry;
+  private List<Faction> _factions;
 
   /**
    * Get the sole instance of this class.
@@ -38,6 +39,7 @@ public class Factions
   private Factions()
   {
     _registry=new HashMap<String,Faction>();
+    _factions=new ArrayList<Faction>();
     initFactions();
   }
 
@@ -90,6 +92,7 @@ public class Factions
     {
       _registry.put(alias,faction);
     }
+    _factions.add(faction);
   }
 
   /**
@@ -113,10 +116,30 @@ public class Factions
     levels.add(FactionLevel.FRIEND);
     levels.add(FactionLevel.ALLY);
     levels.add(FactionLevel.KINDRED);
-    Faction faction=new Faction(name,levels);
+
+    FactionLevel initialLevel;
+    if (FOROCHEL.equals(name))
+    {
+      initialLevel=FactionLevel.OUTSIDER;
+    }
+    else
+    {
+      initialLevel=FactionLevel.NEUTRAL;
+    }
+    Faction faction=new Faction(name,levels,initialLevel);
     return faction;
   }
   
+  /**
+   * Get all known factions.
+   * @return An array of factions.
+   */
+  public Faction[] getAll()
+  {
+    Faction[] ret=_factions.toArray(new Faction[_factions.size()]);
+    return ret;
+  }
+
   /**
    * Get a faction instance by name.
    * @param name Name of the faction to get.

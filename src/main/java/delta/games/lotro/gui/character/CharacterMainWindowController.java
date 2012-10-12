@@ -16,6 +16,7 @@ import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharacterInfosManager;
 import delta.games.lotro.character.log.CharacterLogsManager;
 import delta.games.lotro.gui.log.CharacterLogWindowController;
+import delta.games.lotro.gui.stats.reputation.CharacterReputationWindowController;
 import delta.games.lotro.utils.gui.DefaultWindowController;
 import delta.games.lotro.utils.gui.WindowController;
 import delta.games.lotro.utils.gui.WindowsManager;
@@ -27,6 +28,7 @@ import delta.games.lotro.utils.gui.WindowsManager;
 public class CharacterMainWindowController extends DefaultWindowController implements ActionListener
 {
   private static final String LOG_COMMAND="log";
+  private static final String REPUTATION_COMMAND="reputation";
   private static final String UPDATE_COMMAND="update";
 
   private CharacterSummaryPanelController _summaryController;
@@ -116,10 +118,16 @@ public class CharacterMainWindowController extends DefaultWindowController imple
     JPanel panel=new JPanel(new GridBagLayout());
     panel.setBackground(Color.BLACK);
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
+    // Log
     JButton logButton=buildCommandButton("Log",LOG_COMMAND);
     panel.add(logButton,c);
-    JButton updateButton=buildCommandButton("Update",UPDATE_COMMAND);
     c.gridx++;
+    // Reputation
+    JButton reputationButton=buildCommandButton("Reputation",REPUTATION_COMMAND);
+    panel.add(reputationButton,c);
+    c.gridx++;
+    // Update
+    JButton updateButton=buildCommandButton("Update",UPDATE_COMMAND);
     panel.add(updateButton,c);
     return panel;
   }
@@ -152,6 +160,20 @@ public class CharacterMainWindowController extends DefaultWindowController imple
       if (controller==null)
       {
         controller=new CharacterLogWindowController(_toon);
+        _windowsManager.registerWindow(controller);
+      }
+      controller.bringToFront();
+    }
+    else if (REPUTATION_COMMAND.equals(command))
+    {
+      // Reputation
+      String serverName=_toon.getServerName();
+      String toonName=_toon.getName();
+      String id=CharacterReputationWindowController.getIdentifier(serverName,toonName);
+      WindowController controller=_windowsManager.getWindow(id);
+      if (controller==null)
+      {
+        controller=new CharacterReputationWindowController(_toon);
         _windowsManager.registerWindow(controller);
       }
       controller.bringToFront();

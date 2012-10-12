@@ -9,37 +9,39 @@ public class FactionLevel
   /**
    * Enemy.
    */
-  public static final FactionLevel ENEMY=new FactionLevel("Enemy");
+  public static final FactionLevel ENEMY=new FactionLevel("Enemy",-1);
   /**
    * Outsider.
    */
-  public static final FactionLevel OUTSIDER=new FactionLevel("Outsider");
+  public static final FactionLevel OUTSIDER=new FactionLevel("Outsider",-1);
   /**
    * Neutral.
    */
-  public static final FactionLevel NEUTRAL=new FactionLevel("Neutral");
+  public static final FactionLevel NEUTRAL=new FactionLevel("Neutral",0);
   /**
    * Acquaintance.
    */
-  public static final FactionLevel ACQUAINTANCE=new FactionLevel("Acquaintance");
+  public static final FactionLevel ACQUAINTANCE=new FactionLevel("Acquaintance",1);
   /**
    * Friend.
    */
-  public static final FactionLevel FRIEND=new FactionLevel("Friend");
+  public static final FactionLevel FRIEND=new FactionLevel("Friend",2);
   /**
    * Ally.
    */
-  public static final FactionLevel ALLY=new FactionLevel("Ally");
+  public static final FactionLevel ALLY=new FactionLevel("Ally",3);
   /**
    * Kindred.
    */
-  public static final FactionLevel KINDRED=new FactionLevel("Kindred");
+  public static final FactionLevel KINDRED=new FactionLevel("Kindred",4);
 
   private String _name;
+  private int _value;
 
-  private FactionLevel(String name)
+  private FactionLevel(String name, int value)
   {
     _name=name;
+    _value=value;
   }
   
   /**
@@ -51,6 +53,16 @@ public class FactionLevel
     return _name;
   }
   
+  /**
+   * Get the value of this level.
+   * @return the value of this level.
+   */
+  public int getValue()
+  {
+    return _value;
+  }
+
+  @Override
   public String toString()
   {
     return _name;
