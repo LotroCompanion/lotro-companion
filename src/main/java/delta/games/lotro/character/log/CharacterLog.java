@@ -127,6 +127,28 @@ public class CharacterLog
   }
 
   /**
+   * Replace items of a given date.
+   * @param date Targeted date.
+   * @param items Items that replace existing ones.
+   */
+  public void replaceItemsOfDate(long date, List<CharacterLogItem> items)
+  {
+    removeItemsOfDay(date);
+    int index=0;
+    for(CharacterLogItem item : _logItems)
+    {
+      long itemDate=item.getDate();
+      if (itemDate<date) break;
+      index++;
+    }
+    int nbItems=items.size();
+    for(int i=nbItems-1;i>=0;i--)
+    {
+      addLogItem(items.get(i),index);
+    }
+  }
+
+  /**
    * Get a sorted list of dates found in the managed log items. 
    * @return A possibly empty list of dates.
    */
