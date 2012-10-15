@@ -50,20 +50,20 @@ public class CharacterLogFilterController implements ItemListener
   private DefaultComboBoxModel _maxDatesModel;
   private JTextField _contains;
   private HashMap<LogItemType,JCheckBox> _types;
-  private CharacterLogTableController _tableController;
+  private CharacterLogPanelController _panelController;
 
   /**
    * Constructor.
    * @param log Managed log.
    * @param filter Log filter.
-   * @param tableController Associated table controller.
+   * @param panelController Associated log panel controller.
    */
-  public CharacterLogFilterController(CharacterLog log, CharacterLogItemsFilter filter, CharacterLogTableController tableController)
+  public CharacterLogFilterController(CharacterLog log, CharacterLogItemsFilter filter, CharacterLogPanelController panelController)
   {
     _log=log;
     _types=new HashMap<LogItemType,JCheckBox>();
     _filter=filter;
-    _tableController=tableController;
+    _panelController=panelController;
   }
 
   /**
@@ -83,7 +83,7 @@ public class CharacterLogFilterController implements ItemListener
 
   private void updateFilter()
   {
-    _tableController.updateFilter();
+    _panelController.updateFilter();
   }
 
   /**

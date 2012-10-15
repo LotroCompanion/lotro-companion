@@ -1,6 +1,5 @@
 package delta.games.lotro.gui.log;
 
-import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -13,8 +12,6 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
 
@@ -32,6 +29,7 @@ import delta.games.lotro.utils.gui.DefaultWindowController;
 public class CharacterLogWindowController extends DefaultWindowController
 {
   private CharacterLogFilterController _filterController;
+  private CharacterLogPanelController _panelController;
   private CharacterLogTableController _tableController;
   private CharacterFile _toon;
   private CharacterLogItemsFilter _filter;
@@ -92,16 +90,11 @@ public class CharacterLogWindowController extends DefaultWindowController
   {
     CharacterLog log=getLog();
     JPanel logPanel=new JPanel(new GridBagLayout());
-    // Log frame
-    JPanel logFramePanel=new JPanel(new BorderLayout());
-    Border logFrameBorder=BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED),"Log");
-    logFramePanel.setBorder(logFrameBorder);
-    // - table
     _tableController=new CharacterLogTableController(log,_filter);
-    JTable table=_tableController.getTable();
-    JScrollPane scroll=new JScrollPane(table);
-    logFramePanel.add(scroll,BorderLayout.CENTER);
-    // - control buttons
+    // Log frame
+    _panelController=new CharacterLogPanelController(_tableController);
+    JPanel tablePanel=_panelController.getPanel();
+    // Control buttons
     JPanel controlPanel=new JPanel(new FlowLayout(FlowLayout.RIGHT,5,0));
     JButton updateButton=new JButton("Update");
     ActionListener al=new ActionListener()
@@ -123,9 +116,8 @@ public class CharacterLogWindowController extends DefaultWindowController
     };
     fixButton.addActionListener(al2);
     controlPanel.add(fixButton);
-    logFramePanel.add(controlPanel,BorderLayout.SOUTH);
     // Filter
-    _filterController=new CharacterLogFilterController(log,_filter,_tableController);
+    _filterController=new CharacterLogFilterController(log,_filter,_panelController);
     JPanel filterPanel=_filterController.getPanel();
     Border filterBorder=BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED),"Filter");
     filterPanel.setBorder(filterBorder);
@@ -133,7 +125,9 @@ public class CharacterLogWindowController extends DefaultWindowController
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     logPanel.add(filterPanel,c);
     c.gridy=1;c.weighty=1;c.fill=GridBagConstraints.BOTH;
-    logPanel.add(logFramePanel,c);
+    logPanel.add(tablePanel,c);
+    c.gridy=2;c.weighty=1;c.fill=GridBagConstraints.HORIZONTAL;c.insets=new Insets(3,0,3,3);
+    logPanel.add(controlPanel,c);
     return logPanel;
   }
 
@@ -143,7 +137,8 @@ public class CharacterLogWindowController extends DefaultWindowController
   public void updateLog()
   {
     CharacterLogsManager logsManager=_toon.getLogsManager();
-    boolean ok=logsManager.updateLog(); // todo shall use a waiting window here
+    // todo shall use a waiting window here
+    boolean ok=logsManager.updateLog();
     if (ok)
     {
       update();
@@ -160,6 +155,7 @@ public class CharacterLogWindowController extends DefaultWindowController
   public void fixLog()
   {
     CharacterLogRepair updater=new CharacterLogRepair();
+    // todo shall use a waiting window here
     boolean ok=updater.doIt(_toon);
     if (ok)
     {
@@ -179,7 +175,7 @@ public class CharacterLogWindowController extends DefaultWindowController
     CharacterLogsManager logsManager=_toon.getLogsManager();
     CharacterLog log=logsManager.getLastLog();
     _filterController.setLog(log);
-    _tableController.setLog(log);
+    _panelController.setLog(log);
   }
 
   /**

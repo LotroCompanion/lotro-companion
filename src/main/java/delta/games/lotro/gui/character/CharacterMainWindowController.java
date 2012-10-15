@@ -100,7 +100,6 @@ public class CharacterMainWindowController extends DefaultWindowController imple
     String title="Character: "+name+" @ "+serverName;
     frame.setTitle(title);
     frame.pack();
-    frame.setLocation(200,200);
     return frame;
   }
 
@@ -162,6 +161,7 @@ public class CharacterMainWindowController extends DefaultWindowController imple
         controller=new CharacterLogWindowController(_toon);
         _windowsManager.registerWindow(controller);
       }
+      controller.getFrame().setLocationRelativeTo(getFrame());
       controller.bringToFront();
     }
     else if (REPUTATION_COMMAND.equals(command))
@@ -176,6 +176,7 @@ public class CharacterMainWindowController extends DefaultWindowController imple
         controller=new CharacterReputationWindowController(_toon);
         _windowsManager.registerWindow(controller);
       }
+      controller.getFrame().setLocationRelativeTo(getFrame());
       controller.bringToFront();
     }
     else if (UPDATE_COMMAND.equals(command))

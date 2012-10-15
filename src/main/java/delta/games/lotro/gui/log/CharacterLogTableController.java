@@ -124,7 +124,6 @@ public class CharacterLogTableController
         if (column==1) return true;
         return super.useToString(column);
       }
-      
     };
     TableColumn dateColumn=table.getColumnModel().getColumn(0);
     dateColumn.setCellRenderer(new DateRenderer());
@@ -239,6 +238,25 @@ public class CharacterLogTableController
       }
       return ret;
     }
+  }
+
+  /**
+   * Get the total number of items in the managed log.
+   * @return A number of items.
+   */
+  public int getNbItems()
+  {
+    return _log.getNbItems();
+  }
+
+  /**
+   * Get the number of filtered items in the managed log.
+   * @return A number of items.
+   */
+  public int getNbFilteredItems()
+  {
+    int ret=_table.getRowSorter().getViewRowCount();
+    return ret;
   }
 
   /**
