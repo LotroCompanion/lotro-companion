@@ -208,7 +208,6 @@ public class CharacterPageParser
         _logger.error("Cannot parse character description page url=["+url+"] name=["+name+"]");
       }
     }
-      
     return ret;
   }
 
@@ -228,15 +227,16 @@ public class CharacterPageParser
     Character ret=null;
     try
     {
-      _character=new Character();
       DownloadService downloader=DownloadService.getInstance();
       String page=downloader.getPage(url);
       Source source=new Source(page);
+      _character=null;
   
       //<table class="char_panel freep">
       Element charPanel=JerichoHtmlUtils.findElementByTagNameAndAttributeValue(source,HTMLElementName.TABLE,"class","char_panel freep");
       if (charPanel!=null)
       {
+        _character=new Character();
         parseCharacterDescription(charPanel);
         parseStats(charPanel);
       }
