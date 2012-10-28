@@ -2,9 +2,11 @@ package delta.games.lotro.stats.crafting;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 
@@ -26,6 +28,7 @@ public class CraftingStats
   private static final Logger _logger=LotroLoggers.getLotroLogger();
 
   private String _name;
+  private String _vocation;
   private HashMap<String,ProfessionStat> _stats;
   
   /**
@@ -38,6 +41,17 @@ public class CraftingStats
     reset();
     List<CharacterLogItem> items=getCraftingItems(log);
     parseItems(items);
+    int nbItems=log.getNbItems();
+    if (nbItems>0)
+    {
+      CharacterLogItem lastItem=log.getLogItem(0);
+      long date=lastItem.getDate();
+      for(ProfessionStat stat : _stats.values())
+      {
+        stat.setLastLogItemDate(date);
+      }
+    }
+
   }
 
   private void reset()
@@ -62,6 +76,27 @@ public class CraftingStats
       }
     }
     Collections.reverse(ret);
+    return ret;
+  }
+
+  /**
+   * Get the current vocation.
+   * @return A vocation name.
+   */
+  public String getVocation()
+  {
+    return _vocation;
+  }
+
+  /**
+   * Get all managed professions.
+   * @return A array of sorted profession names.
+   */
+  public String[] getProfessions()
+  {
+    Set<String> professions=_stats.keySet();
+    String[] ret=professions.toArray(new String[professions.size()]);
+    Arrays.sort(ret);
     return ret;
   }
 
@@ -120,6 +155,7 @@ public class CraftingStats
     Vocation v=Vocations.getInstance().getVocationByName(vocationName);
     if (v!=null)
     {
+      _vocation=v.getName();
       _stats.clear();
       String[] professions=v.getProfessions();
       for(String profession : professions)

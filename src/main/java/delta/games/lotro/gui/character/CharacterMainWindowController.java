@@ -16,6 +16,7 @@ import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharacterInfosManager;
 import delta.games.lotro.character.log.CharacterLogsManager;
 import delta.games.lotro.gui.log.CharacterLogWindowController;
+import delta.games.lotro.gui.stats.crafting.CraftingWindowController;
 import delta.games.lotro.gui.stats.reputation.CharacterReputationWindowController;
 import delta.games.lotro.utils.gui.DefaultWindowController;
 import delta.games.lotro.utils.gui.WindowController;
@@ -29,6 +30,7 @@ public class CharacterMainWindowController extends DefaultWindowController imple
 {
   private static final String LOG_COMMAND="log";
   private static final String REPUTATION_COMMAND="reputation";
+  private static final String CRAFTING_COMMAND="crafting";
   private static final String UPDATE_COMMAND="update";
 
   private CharacterSummaryPanelController _summaryController;
@@ -125,6 +127,10 @@ public class CharacterMainWindowController extends DefaultWindowController imple
     JButton reputationButton=buildCommandButton("Reputation",REPUTATION_COMMAND);
     panel.add(reputationButton,c);
     c.gridx++;
+    // Crafting
+    JButton craftingButton=buildCommandButton("Crafting",CRAFTING_COMMAND);
+    panel.add(craftingButton,c);
+    c.gridx++;
     // Update
     JButton updateButton=buildCommandButton("Update",UPDATE_COMMAND);
     panel.add(updateButton,c);
@@ -174,6 +180,21 @@ public class CharacterMainWindowController extends DefaultWindowController imple
       if (controller==null)
       {
         controller=new CharacterReputationWindowController(_toon);
+        _windowsManager.registerWindow(controller);
+      }
+      controller.getFrame().setLocationRelativeTo(getFrame());
+      controller.bringToFront();
+    }
+    else if (CRAFTING_COMMAND.equals(command))
+    {
+      // Crafting
+      String serverName=_toon.getServerName();
+      String toonName=_toon.getName();
+      String id=CraftingWindowController.getIdentifier(serverName,toonName);
+      WindowController controller=_windowsManager.getWindow(id);
+      if (controller==null)
+      {
+        controller=new CraftingWindowController(_toon);
         _windowsManager.registerWindow(controller);
       }
       controller.getFrame().setLocationRelativeTo(getFrame());
