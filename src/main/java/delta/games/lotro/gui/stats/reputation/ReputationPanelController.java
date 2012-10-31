@@ -20,6 +20,7 @@ import delta.games.lotro.Config;
 import delta.games.lotro.common.Faction;
 import delta.games.lotro.common.FactionLevel;
 import delta.games.lotro.common.Factions;
+import delta.games.lotro.gui.utils.GuiFactory;
 import delta.games.lotro.stats.reputation.FactionStat;
 import delta.games.lotro.stats.reputation.ReputationStats;
 import delta.games.lotro.utils.LotroLoggers;
@@ -59,8 +60,7 @@ public class ReputationPanelController
   
   private JPanel buildPanel()
   {
-    JPanel panel=new JPanel(new GridBagLayout());
-    panel.setBackground(Color.BLACK);
+    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
 
     GridBagConstraints cLabel=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
     GridBagConstraints cBar=new GridBagConstraints(1,0,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(5,5,5,5),0,0);
@@ -99,7 +99,7 @@ public class ReputationPanelController
         value=-value;
       }
       bar.setForeground(background);
-      bar.setBackground(Color.BLACK);
+      bar.setBackground(GuiFactory.getBackgroundColor());
       bar.setBorderPainted(true);
       bar.setStringPainted(true);
       bar.setString(levelName);

@@ -1,7 +1,6 @@
 package delta.games.lotro.gui.character;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
@@ -15,12 +14,13 @@ import javax.swing.JButton;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
-import delta.games.lotro.character.CharacterEquipment.EQUIMENT_SLOT;
-import delta.games.lotro.character.CharacterEquipment.SlotContents;
 import delta.games.lotro.character.Character;
 import delta.games.lotro.character.CharacterEquipment;
+import delta.games.lotro.character.CharacterEquipment.EQUIMENT_SLOT;
+import delta.games.lotro.character.CharacterEquipment.SlotContents;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.common.icons.LotroIconsManager;
+import delta.games.lotro.gui.utils.GuiFactory;
 import delta.games.lotro.gui.utils.IconsManager;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemsManager;
@@ -147,15 +147,13 @@ public class EquipmentPanelController implements ActionListener
 
   private JPanel buildPanel()
   {
-    JPanel panel=new JPanel(new BorderLayout());
+    JPanel panel=GuiFactory.buildPanel(null);
     _layeredPane=new JLayeredPane();
     panel.add(_layeredPane,BorderLayout.CENTER);
     Dimension d=computeDimensions();
     panel.setPreferredSize(d);
     panel.setMinimumSize(d);
     _layeredPane.setSize(d);
-    panel.setLayout(null);
-    panel.setBackground(Color.BLACK);
 
     for(EQUIMENT_SLOT slot : EQUIMENT_SLOT.values())
     {

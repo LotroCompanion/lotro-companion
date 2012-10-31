@@ -1,22 +1,19 @@
 package delta.games.lotro.gui.character;
 
-import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
-import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
 import delta.games.lotro.character.Character;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharacterStat;
 import delta.games.lotro.character.CharacterStat.STAT;
+import delta.games.lotro.gui.utils.GuiFactory;
 
 /**
  * Controller for character stats panel.
@@ -61,10 +58,8 @@ public class ChararacterStatsPanelController
     for(int i=0;i<nbStats;i++)
     {
       String label=stats[i].getName()+":";
-      _statLabels[i]=new JLabel(label);
-      _statLabels[i].setForeground(Color.WHITE);
-      _statValues[i]=new JLabel();
-      _statValues[i].setForeground(Color.WHITE);
+      _statLabels[i]=GuiFactory.buildLabel(label);
+      _statValues[i]=GuiFactory.buildLabel("");
     }
     update();
 
@@ -83,9 +78,7 @@ public class ChararacterStatsPanelController
     // -- type: physical, tactical
     STAT[] mitigation={STAT.PHYSICAL_MITIGATION,STAT.TACTICAL_MITIGATION};
     
-    JPanel panel=new JPanel(new GridBagLayout());
-    panel.setBackground(Color.BLACK);
-    
+    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     GridBagConstraints c1=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     STAT[][] statGroups1={main,mainStats,offence};
     String[] groupNames1={"Vitals","Main","Offence"};
@@ -132,8 +125,7 @@ public class ChararacterStatsPanelController
 
   private JPanel showStatsColumn(STAT[][] statGroups, String[] groupNames, boolean left)
   {
-    JPanel panel=new JPanel(new GridBagLayout());
-    panel.setBackground(Color.BLACK);
+    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     Insets insets=new Insets(2,left?5:2,2,left?2:5);
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,1,0,GridBagConstraints.WEST,GridBagConstraints.BOTH,insets,0,0);
     for(int i=0;i<statGroups.length;i++)
@@ -147,27 +139,21 @@ public class ChararacterStatsPanelController
 
   private JPanel showStatsGroup(STAT[] stats, String group)
   {
-    JPanel panel=new JPanel(new GridBagLayout());
+    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     GridBagConstraints c;
     for(int i=0;i<stats.length;i++)
     {
       int index=stats[i].ordinal();
       c=new GridBagConstraints(0,i,1,1,1,0,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(2,5,2,5),0,0);
       panel.add(_statLabels[index],c);
-      _statLabels[index].setBackground(Color.BLACK);
       _statLabels[index].setOpaque(true);
       c=new GridBagConstraints(1,i,1,1,0,0,GridBagConstraints.EAST,GridBagConstraints.NONE,new Insets(2,5,2,5),0,0);
       panel.add(_statValues[index],c);
-      _statValues[index].setBackground(Color.BLACK);
       _statValues[index].setOpaque(true);
       _statValues[index].setHorizontalAlignment(SwingConstants.RIGHT);
     }
-    panel.setBackground(Color.BLACK);
-    Border border=BorderFactory.createBevelBorder(BevelBorder.LOWERED,Color.WHITE,Color.GRAY);
-    TitledBorder titledBorder=BorderFactory.createTitledBorder(border,group);
-    titledBorder.setTitleColor(Color.WHITE);
+    TitledBorder titledBorder=GuiFactory.buildTitledBorder(group);
     panel.setBorder(titledBorder);
-    panel.setBackground(Color.BLACK);
     return panel;
   }
 

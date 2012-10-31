@@ -20,6 +20,7 @@ import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharactersManager;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.Race;
+import delta.games.lotro.gui.utils.GuiFactory;
 
 /**
  * Controller for a table that shows all available toons.
@@ -144,7 +145,8 @@ public class ToonsTableController
   private JTable build()
   {
     _model=new ToonsTableModel();
-    final JTable table=new JTable(_model);
+    final JTable table=GuiFactory.buildTable();
+    table.setModel(_model);
     table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
     table.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);

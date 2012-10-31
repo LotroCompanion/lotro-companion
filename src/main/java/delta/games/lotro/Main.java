@@ -5,6 +5,7 @@ import java.util.Locale;
 import javax.swing.JFrame;
 
 import delta.games.lotro.gui.main.MainFrameController;
+import delta.games.lotro.gui.utils.GuiFactory;
 
 /**
  * Main for LOTRO companion.
@@ -18,6 +19,7 @@ public class Main
    */
   public static void main(String[] args)
   {
+    GuiFactory.init();
     Locale.setDefault(Locale.US);
     MainFrameController controller=new MainFrameController();
     JFrame frame=controller.getFrame();

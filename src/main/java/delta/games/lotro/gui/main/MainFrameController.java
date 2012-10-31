@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
 import delta.games.lotro.gui.toon.ToonsManagementController;
+import delta.games.lotro.gui.utils.GuiFactory;
 import delta.games.lotro.utils.gui.DefaultWindowController;
 
 /**
@@ -38,6 +39,7 @@ public class MainFrameController extends DefaultWindowController
     frame.setTitle("LOTRO Companion");
     frame.setSize(500,400);
     frame.setLocation(100,100);
+    frame.getContentPane().setBackground(GuiFactory.getBackgroundColor());
 
     return frame;
   }
@@ -45,8 +47,8 @@ public class MainFrameController extends DefaultWindowController
   @Override
   protected JMenuBar buildMenuBar()
   {
-    JMenu fileMenu=new JMenu("File");
-    JMenuItem quit=new JMenuItem("Quit");
+    JMenu fileMenu=GuiFactory.buildMenu("File");
+    JMenuItem quit=GuiFactory.buildMenuItem("Quit");
     ActionListener alQuit=new ActionListener()
     {
       public void actionPerformed(ActionEvent e)
@@ -56,7 +58,7 @@ public class MainFrameController extends DefaultWindowController
     };
     quit.addActionListener(alQuit);
     fileMenu.add(quit);
-    JMenuBar menuBar=new JMenuBar();
+    JMenuBar menuBar=GuiFactory.buildMenuBar();
     menuBar.add(fileMenu);
     return menuBar;
   }
@@ -64,7 +66,7 @@ public class MainFrameController extends DefaultWindowController
   @Override
   protected JComponent buildContents()
   {
-    JTabbedPane tabbedPane=new JTabbedPane();
+    JTabbedPane tabbedPane=GuiFactory.buildTabbedPane();
     JPanel toonsPanel=_toonsManager.getPanel();
     tabbedPane.add("Toons",toonsPanel);
     return tabbedPane;
@@ -78,7 +80,7 @@ public class MainFrameController extends DefaultWindowController
 
   private void doQuit()
   {
-    int result=JOptionPane.showConfirmDialog(getFrame(),"Do you really want to quit?","Quit?",JOptionPane.YES_NO_OPTION);
+    int result=GuiFactory.showQuestionDialog(getFrame(),"Do you really want to quit?","Quit?",JOptionPane.YES_NO_OPTION);
     if (result==JOptionPane.OK_OPTION)
     {
       dispose();

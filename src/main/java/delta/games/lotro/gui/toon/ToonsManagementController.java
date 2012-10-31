@@ -14,6 +14,7 @@ import javax.swing.JToolBar;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharactersManager;
 import delta.games.lotro.gui.character.CharacterMainWindowController;
+import delta.games.lotro.gui.utils.GuiFactory;
 import delta.games.lotro.gui.utils.toolbar.ToolbarController;
 import delta.games.lotro.gui.utils.toolbar.ToolbarIconItem;
 import delta.games.lotro.gui.utils.toolbar.ToolbarModel;
@@ -58,13 +59,13 @@ public class ToonsManagementController implements ActionListener
 
   private JPanel buildPanel()
   {
-    JPanel ret=new JPanel(new BorderLayout());
+    JPanel ret=GuiFactory.buildPanel(new BorderLayout());
     _toolbar=buildToolBar();
     JToolBar toolbar=_toolbar.getToolBar();
     ret.add(toolbar,BorderLayout.NORTH);
     _toonsTable=buildToonsTable();
     JTable table=_toonsTable.getTable();
-    JScrollPane scroll=new JScrollPane(table);
+    JScrollPane scroll=GuiFactory.buildScrollPane(table);
     ret.add(scroll,BorderLayout.CENTER);
     return ret;
   }

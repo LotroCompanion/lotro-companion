@@ -1,6 +1,5 @@
 package delta.games.lotro.gui.character;
 
-import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -18,6 +17,7 @@ import delta.games.lotro.character.log.CharacterLogsManager;
 import delta.games.lotro.gui.log.CharacterLogWindowController;
 import delta.games.lotro.gui.stats.crafting.CraftingWindowController;
 import delta.games.lotro.gui.stats.reputation.CharacterReputationWindowController;
+import delta.games.lotro.gui.utils.GuiFactory;
 import delta.games.lotro.utils.gui.DefaultWindowController;
 import delta.games.lotro.utils.gui.WindowController;
 import delta.games.lotro.utils.gui.WindowsManager;
@@ -76,8 +76,7 @@ public class CharacterMainWindowController extends DefaultWindowController imple
     JPanel equipmentPanel=_equipmentController.getPanel();
 
     // Whole panel
-    JPanel panel=new JPanel(new GridBagLayout());
-    panel.setBackground(Color.BLACK);
+    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     GridBagConstraints c=new GridBagConstraints(0,0,2,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(3,5,3,5),0,0);
     panel.add(summaryPanel,c);
     c=new GridBagConstraints(0,1,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
@@ -102,6 +101,7 @@ public class CharacterMainWindowController extends DefaultWindowController imple
     String title="Character: "+name+" @ "+serverName;
     frame.setTitle(title);
     frame.pack();
+    frame.setResizable(false);
     return frame;
   }
 
@@ -116,8 +116,7 @@ public class CharacterMainWindowController extends DefaultWindowController imple
 
   private JPanel buildCommandsPanel()
   {
-    JPanel panel=new JPanel(new GridBagLayout());
-    panel.setBackground(Color.BLACK);
+    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
     // Log
     JButton logButton=buildCommandButton("Log",LOG_COMMAND);
@@ -139,13 +138,10 @@ public class CharacterMainWindowController extends DefaultWindowController imple
 
   private JButton buildCommandButton(String label, String command)
   {
-    JButton b=new JButton(label);
-    b.setBackground(Color.BLACK);
-    b.setForeground(Color.WHITE);
+    JButton b=GuiFactory.buildButton(label);
     b.setActionCommand(command);
     b.addActionListener(this);
     return b;
-    
   }
 
   /**

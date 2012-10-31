@@ -33,12 +33,11 @@ public class OKCancelPanelController
 
   private void build()
   {
-    _panel=new JPanel();
-    _panel.setLayout(new FlowLayout(FlowLayout.TRAILING));
-    _okButton=new JButton("OK");
+    _panel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.TRAILING));
+    _okButton=GuiFactory.buildButton("OK");
     _okButton.setActionCommand(OK_COMMAND);
     _panel.add(_okButton);
-    _cancelButton=new JButton("Cancel");
+    _cancelButton=GuiFactory.buildButton("Cancel");
     _cancelButton.setActionCommand(CANCEL_COMMAND);
     _panel.add(_cancelButton);
   }

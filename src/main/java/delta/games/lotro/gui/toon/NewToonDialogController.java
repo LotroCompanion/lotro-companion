@@ -8,18 +8,17 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
-import javax.swing.BorderFactory;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.border.Border;
-import javax.swing.border.EtchedBorder;
+import javax.swing.border.TitledBorder;
 
 import delta.games.lotro.Config;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharactersManager;
+import delta.games.lotro.gui.utils.GuiFactory;
 import delta.games.lotro.gui.utils.OKCancelPanelController;
 
 /**
@@ -58,9 +57,9 @@ public class NewToonDialogController implements ActionListener
 
   private JDialog build()
   {
-    JPanel panel=new JPanel(new BorderLayout());
+    JPanel panel=GuiFactory.buildPanel(new BorderLayout());
     JPanel dataPanel=buildNewToonPanel();
-    Border pathsBorder=BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED),"Toon");
+    TitledBorder pathsBorder=GuiFactory.buildTitledBorder("Toon");
     dataPanel.setBorder(pathsBorder);
     panel.add(dataPanel,BorderLayout.CENTER);
     _okCancelController=new OKCancelPanelController();
@@ -77,15 +76,17 @@ public class NewToonDialogController implements ActionListener
 
   private JPanel buildNewToonPanel()
   {
-    JPanel panel=new JPanel(new GridBagLayout());
-    _toonName=new JTextField(TOON_NAME_SIZE);
+    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
+    _toonName=GuiFactory.buildTextField("");
+    _toonName.setColumns(TOON_NAME_SIZE);
     List<String> servers=Config.getInstance().getServerNames();
-    _server=new JComboBox(servers.toArray(new String[servers.size()]));
+    _server=GuiFactory.buildComboBox();
+    _server.setModel(new DefaultComboBoxModel(servers.toArray(new String[servers.size()])));
     Insets insets=new Insets(5,5,5,5);
     GridBagConstraints gbc=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,insets,0,0);
-    panel.add(new JLabel("Name:"),gbc);
+    panel.add(GuiFactory.buildLabel("Name:"),gbc);
     gbc.gridx=0; gbc.gridy=1;
-    panel.add(new JLabel("Server:"),gbc);
+    panel.add(GuiFactory.buildLabel("Server:"),gbc);
     gbc.gridx=1; gbc.gridy=0; 
     gbc.weightx=1.0; gbc.fill=GridBagConstraints.HORIZONTAL;
     panel.add(_toonName,gbc);

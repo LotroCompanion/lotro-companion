@@ -3,15 +3,14 @@ package delta.games.lotro.gui.log;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 
-import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.border.Border;
-import javax.swing.border.EtchedBorder;
+import javax.swing.border.TitledBorder;
 
 import delta.games.lotro.character.log.CharacterLog;
+import delta.games.lotro.gui.utils.GuiFactory;
 
 /**
  * Controller the character log panel.
@@ -49,17 +48,17 @@ public class CharacterLogPanelController
 
   private JPanel build()
   {
-    JPanel panel=new JPanel(new BorderLayout());
-    Border logFrameBorder=BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED),"Log");
+    JPanel panel=GuiFactory.buildPanel(new BorderLayout());
+    TitledBorder logFrameBorder=GuiFactory.buildTitledBorder("Log");
     panel.setBorder(logFrameBorder);
     
     // Table
     JTable table=_tableController.getTable();
-    JScrollPane scroll=new JScrollPane(table);
+    JScrollPane scroll=GuiFactory.buildScrollPane(table);
     panel.add(scroll,BorderLayout.CENTER);
     // Stats
-    JPanel statsPanel=new JPanel(new FlowLayout(FlowLayout.LEFT));
-    _statsLabel=new JLabel("-");
+    JPanel statsPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
+    _statsLabel=GuiFactory.buildLabel("-");
     statsPanel.add(_statsLabel);
     panel.add(statsPanel,BorderLayout.NORTH);
     return panel;

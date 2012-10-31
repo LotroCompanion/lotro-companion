@@ -28,6 +28,7 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
 import delta.games.lotro.crafting.CraftingLevel;
+import delta.games.lotro.gui.utils.GuiFactory;
 import delta.games.lotro.stats.crafting.ProfessionStat;
 
 /**
@@ -103,10 +104,12 @@ public class CraftingHistoryChartController
                         true,   
                         false);  
       
-    jfreechart.setBackgroundPaint(Color.BLACK);
+    Color foregroundColor=GuiFactory.getForegroundColor();
+    Color backgroundColor=GuiFactory.getBackgroundColor();
+    jfreechart.setBackgroundPaint(backgroundColor);
     TextTitle t=new TextTitle(title);
     t.setFont(t.getFont().deriveFont(24.0f));
-    t.setPaint(Color.WHITE);
+    t.setPaint(foregroundColor);
     jfreechart.setTitle(t);
     XYPlot xyplot = (XYPlot)jfreechart.getPlot();  
     xyplot.setDomainPannable(false);
@@ -147,14 +150,14 @@ public class CraftingHistoryChartController
 
     DateAxis axis = (DateAxis) xyplot.getDomainAxis();
     axis.setDateFormatOverride(_datesFormatter);
-    axis.setAxisLinePaint(Color.WHITE);
-    axis.setLabelPaint(Color.WHITE);
-    axis.setTickLabelPaint(Color.WHITE);
+    axis.setAxisLinePaint(foregroundColor);
+    axis.setLabelPaint(foregroundColor);
+    axis.setTickLabelPaint(foregroundColor);
     NumberAxis valueAxis = (NumberAxis)xyplot.getRangeAxis();
     valueAxis.setAutoRange(false);
-    valueAxis.setAxisLinePaint(Color.WHITE);
-    valueAxis.setLabelPaint(Color.WHITE);
-    valueAxis.setTickLabelPaint(Color.WHITE);
+    valueAxis.setAxisLinePaint(foregroundColor);
+    valueAxis.setLabelPaint(foregroundColor);
+    valueAxis.setTickLabelPaint(foregroundColor);
     CraftingLevel maxLevel=CraftingLevel.getMaximumLevel();
     valueAxis.setRange(0,maxLevel.getTier());
     NumberFormat nf=new NumberFormat()
@@ -186,8 +189,8 @@ public class CraftingHistoryChartController
     };
     valueAxis.setNumberFormatOverride(nf);
     LegendTitle legend=jfreechart.getLegend();
-    legend.setItemPaint(Color.WHITE);
-    legend.setBackgroundPaint(Color.BLACK);
+    legend.setItemPaint(foregroundColor);
+    legend.setBackgroundPaint(backgroundColor);
     
     return jfreechart;
   }  

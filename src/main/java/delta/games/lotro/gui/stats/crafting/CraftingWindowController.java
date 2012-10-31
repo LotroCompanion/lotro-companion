@@ -1,6 +1,6 @@
 package delta.games.lotro.gui.stats.crafting;
 
-import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -14,6 +14,7 @@ import javax.swing.JTabbedPane;
 
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.log.CharacterLog;
+import delta.games.lotro.gui.utils.GuiFactory;
 import delta.games.lotro.stats.crafting.CraftingStats;
 import delta.games.lotro.stats.crafting.ProfessionStat;
 import delta.games.lotro.utils.gui.DefaultWindowController;
@@ -56,22 +57,17 @@ public class CraftingWindowController extends DefaultWindowController
   @Override
   protected JComponent buildContents()
   {
-    JPanel panel=new JPanel(new GridBagLayout());
-    panel.setBackground(Color.BLACK);
-    
+    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     // Vocation label
-    JLabel vocationLabel=new JLabel();
     String vocation=_stats.getVocation();
-    vocationLabel.setText("Vocation: "+((vocation!=null)?vocation:"-"));
-    vocationLabel.setForeground(Color.WHITE);
+    String vocationStr="Vocation: "+((vocation!=null)?vocation:"-");
+    JLabel vocationLabel=GuiFactory.buildLabel(vocationStr);
     
     JComponent centerComponent=null;
     String[] professions=_stats.getProfessions();
     if ((professions!=null) && (professions.length>0))
     {
-      JTabbedPane tabbedPane=new JTabbedPane();
-      tabbedPane.setBackground(Color.BLACK);
-      tabbedPane.setForeground(Color.WHITE);
+      JTabbedPane tabbedPane=GuiFactory.buildTabbedPane();
       for(String profession : professions)
       {
         ProfessionStat stats=_stats.getProfessionStat(profession);
@@ -104,6 +100,7 @@ public class CraftingWindowController extends DefaultWindowController
     String title="Crafting for "+name+" @ "+serverName;
     frame.setTitle(title);
     frame.pack();
+    frame.setMinimumSize(new Dimension(500,380));
     return frame;
   }
 

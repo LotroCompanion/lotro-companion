@@ -1,6 +1,5 @@
 package delta.games.lotro.gui.stats.crafting;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -11,6 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import delta.games.lotro.crafting.CraftingLevel;
+import delta.games.lotro.gui.utils.GuiFactory;
 import delta.games.lotro.stats.crafting.ProfessionStat;
 
 /**
@@ -51,28 +51,24 @@ public class CraftingPanelController
   
   private JPanel buildPanel()
   {
-    JPanel panel=new JPanel(new GridBagLayout());
-    panel.setBackground(Color.BLACK);
+    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     
     // Mastery label
     int masteryTier=_stats.getMasteryTier();
     CraftingLevel mastery=CraftingLevel.getByTier(masteryTier);
     String masteryStr=mastery.getMasteryLabel()+" ("+masteryTier+")";
-    _masteryLabel=new JLabel("Mastery: "+masteryStr);
-    _masteryLabel.setForeground(Color.WHITE);
+    _masteryLabel=GuiFactory.buildLabel("Mastery: "+masteryStr);
     // Proficiency label
     int proficiencyTier=_stats.getProficiencyTier();
     CraftingLevel proficiency=CraftingLevel.getByTier(proficiencyTier);
     String proficiencyStr=proficiency.getProficiencyLabel()+" ("+proficiencyTier+")";
-    _proficiencyLabel=new JLabel("Proficiency: "+proficiencyStr);
-    _proficiencyLabel.setForeground(Color.WHITE);
+    _proficiencyLabel=GuiFactory.buildLabel("Proficiency: "+proficiencyStr);
     // History chart
     _history=new CraftingHistoryChartController(_stats,false);
     JPanel historyPanel=_history.getPanel();
 
     // Assembly
-    JPanel labelsPanel=new JPanel();
-    labelsPanel.setBackground(Color.BLACK);
+    JPanel labelsPanel=GuiFactory.buildPanel(null);
     labelsPanel.setLayout(new BoxLayout(labelsPanel,BoxLayout.PAGE_AXIS));
     _masteryLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
     labelsPanel.add(_masteryLabel);

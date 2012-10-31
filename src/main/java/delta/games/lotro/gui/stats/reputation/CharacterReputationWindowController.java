@@ -60,6 +60,7 @@ public class CharacterReputationWindowController extends DefaultWindowController
     String title="Reputation for "+name+" @ "+serverName;
     frame.setTitle(title);
     frame.pack();
+    frame.setResizable(false);
     return frame;
   }
 

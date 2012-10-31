@@ -12,6 +12,7 @@ import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JToolBar;
 
+import delta.games.lotro.gui.utils.GuiFactory;
 import delta.games.lotro.gui.utils.IconsManager;
 
 /**
@@ -62,6 +63,7 @@ public class ToolbarController implements ActionListener
     if (_toolBar==null)
     {
       _toolBar=new JToolBar();
+      _toolBar.setBackground(GuiFactory.getBackgroundColor());
       _toolBar.setFloatable(false);
     }
     else
@@ -89,7 +91,7 @@ public class ToolbarController implements ActionListener
 
   private JButton buildButton(ToolbarIconItem item)
   {
-    JButton button=new JButton();
+    JButton button=GuiFactory.buildButton("");
     String itemId=item.getItemId();
     if (item!=null)
     {

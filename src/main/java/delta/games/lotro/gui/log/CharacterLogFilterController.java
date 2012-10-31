@@ -21,7 +21,6 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
-import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -32,6 +31,7 @@ import javax.swing.event.DocumentListener;
 import delta.games.lotro.character.log.CharacterLog;
 import delta.games.lotro.character.log.CharacterLogItem.LogItemType;
 import delta.games.lotro.character.log.CharacterLogItemsFilter;
+import delta.games.lotro.gui.utils.GuiFactory;
 
 /**
  * Controller for a character log filter edition panel.
@@ -155,29 +155,30 @@ public class CharacterLogFilterController implements ItemListener
 
   private JPanel build()
   {
-    JPanel panel=new JPanel(new GridBagLayout());
+    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     // Dates
-    JPanel datesPanel=new JPanel(new GridBagLayout());
+    JPanel datesPanel=GuiFactory.buildPanel(new GridBagLayout());
     {
       GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
       Long[] datesArray=getDates();
-      datesPanel.add(new JLabel("After:"),c);
+      datesPanel.add(GuiFactory.buildLabel("After:"),c);
       _minDatesModel=buildOrUpdateModel(_minDatesModel,datesArray);
       _minDate=buildDatesCombo(_minDatesModel);
       c.gridx=1;
       datesPanel.add(_minDate,c);
       c.gridy=1;c.gridx=0;
-      datesPanel.add(new JLabel("Before:"),c);
+      datesPanel.add(GuiFactory.buildLabel("Before:"),c);
       _maxDatesModel=buildOrUpdateModel(_maxDatesModel,datesArray);
       _maxDate=buildDatesCombo(_maxDatesModel);
       c.gridx=1;
       datesPanel.add(_maxDate,c);
     }
     // Label filter
-    JPanel containsPanel=new JPanel(new FlowLayout(FlowLayout.LEADING));
+    JPanel containsPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING));
     {
-      containsPanel.add(new JLabel("Label filter:"));
-      _contains=new JTextField(20);
+      containsPanel.add(GuiFactory.buildLabel("Label filter:"));
+      _contains=GuiFactory.buildTextField("");
+      _contains.setColumns(20);
       containsPanel.add(_contains);
       DocumentListener dl=new DocumentListener()
       {
@@ -207,7 +208,7 @@ public class CharacterLogFilterController implements ItemListener
       _contains.getDocument().addDocumentListener(dl);
     }
     // Checkboxes
-    JPanel cbPanel=new JPanel(new GridBagLayout());
+    JPanel cbPanel=GuiFactory.buildPanel(new GridBagLayout());
     {
       LogItemType[] types={
           LogItemType.QUEST,LogItemType.DEED,LogItemType.LEVELUP,
@@ -219,8 +220,7 @@ public class CharacterLogFilterController implements ItemListener
       for(int i=0;i<nbTypes;i++)
       {
         LogItemType type=types[i];
-        JCheckBox checkbox=new JCheckBox();
-        checkbox.setText(labels[i]);
+        JCheckBox checkbox=GuiFactory.buildCheckbox(labels[i]);
         _types.put(type,checkbox);
         checkbox.addItemListener(this);
         GridBagConstraints c=new GridBagConstraints(i%nbInRow,i/nbInRow,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
@@ -239,7 +239,8 @@ public class CharacterLogFilterController implements ItemListener
 
   private JComboBox buildDatesCombo(DefaultComboBoxModel datesModel)
   {
-    JComboBox combo=new JComboBox(datesModel);
+    JComboBox combo=GuiFactory.buildComboBox();
+    combo.setModel(datesModel);
     ListCellRenderer r=new DefaultListCellRenderer()
     {
       public Component getListCellRendererComponent(JList list, Object value, int modelIndex, boolean isSelected, boolean cellHasFocus)

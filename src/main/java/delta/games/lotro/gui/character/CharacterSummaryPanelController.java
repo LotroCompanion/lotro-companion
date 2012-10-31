@@ -1,6 +1,5 @@
 package delta.games.lotro.gui.character;
 
-import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -13,6 +12,7 @@ import delta.games.lotro.character.Character;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.Race;
+import delta.games.lotro.gui.utils.GuiFactory;
 import delta.games.lotro.gui.utils.IconsManager;
 
 /**
@@ -50,22 +50,20 @@ public class CharacterSummaryPanelController
   
   private JLabel buildLabel(float size)
   {
-    JLabel label=new JLabel();
-    label.setForeground(Color.WHITE);
+    JLabel label=GuiFactory.buildLabel("");
     label.setFont(label.getFont().deriveFont(size));
     return label;
   }
 
   private JPanel buildPanel()
   {
-    JPanel panel=new JPanel(new GridBagLayout());
+    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,2,2,2),0,0);
     ImageIcon classIcon=getClassIcon();
     panel.add(new JLabel(classIcon),c);
     ImageIcon raceIcon=getRaceIcon();
     c.gridx=1;
     panel.add(new JLabel(raceIcon),c);
-    panel.setBackground(Color.BLACK);
     _nameLabel=buildLabel(28.0f);
     _levelLabel=buildLabel(32.0f);
     update();

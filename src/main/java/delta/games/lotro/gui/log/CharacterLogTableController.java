@@ -16,6 +16,7 @@ import delta.games.lotro.character.log.CharacterLog;
 import delta.games.lotro.character.log.CharacterLogItem;
 import delta.games.lotro.character.log.CharacterLogItem.LogItemType;
 import delta.games.lotro.character.log.CharacterLogItemsFilter;
+import delta.games.lotro.gui.utils.GuiFactory;
 
 /**
  * Controller for a table that shows a character log.
@@ -112,7 +113,8 @@ public class CharacterLogTableController
   private JTable build()
   {
     _model=new CharacterLogTableModel();
-    JTable table=new JTable(_model);
+    JTable table=GuiFactory.buildTable();
+    table.setModel(_model);
     table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     table.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
     _sorter=new TableRowSorter<CharacterLogTableModel>(_model) {

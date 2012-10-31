@@ -1,5 +1,6 @@
 package delta.games.lotro.gui.log;
 
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -7,18 +8,17 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.border.Border;
-import javax.swing.border.EtchedBorder;
+import javax.swing.border.TitledBorder;
 
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.log.CharacterLog;
 import delta.games.lotro.character.log.CharacterLogItemsFilter;
 import delta.games.lotro.character.log.CharacterLogsManager;
+import delta.games.lotro.gui.utils.GuiFactory;
 import delta.games.lotro.tools.characters.log.CharacterLogRepair;
 import delta.games.lotro.utils.gui.DefaultWindowController;
 
@@ -72,6 +72,7 @@ public class CharacterLogWindowController extends DefaultWindowController
     String title="Character log for: "+name;
     frame.setTitle(title);
     frame.pack();
+    frame.setMinimumSize(new Dimension(400,300));
     return frame;
   }
   
@@ -89,14 +90,14 @@ public class CharacterLogWindowController extends DefaultWindowController
   protected JComponent buildContents()
   {
     CharacterLog log=getLog();
-    JPanel logPanel=new JPanel(new GridBagLayout());
+    JPanel logPanel=GuiFactory.buildPanel(new GridBagLayout());
     _tableController=new CharacterLogTableController(log,_filter);
     // Log frame
     _panelController=new CharacterLogPanelController(_tableController);
     JPanel tablePanel=_panelController.getPanel();
     // Control buttons
-    JPanel controlPanel=new JPanel(new FlowLayout(FlowLayout.RIGHT,5,0));
-    JButton updateButton=new JButton("Update");
+    JPanel controlPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.RIGHT,5,0));
+    JButton updateButton=GuiFactory.buildButton("Update");
     ActionListener al=new ActionListener()
     {
       public void actionPerformed(ActionEvent e)
@@ -106,7 +107,7 @@ public class CharacterLogWindowController extends DefaultWindowController
     };
     updateButton.addActionListener(al);
     controlPanel.add(updateButton);
-    JButton fixButton=new JButton("Fix");
+    JButton fixButton=GuiFactory.buildButton("Fix");
     ActionListener al2=new ActionListener()
     {
       public void actionPerformed(ActionEvent e)
@@ -119,15 +120,15 @@ public class CharacterLogWindowController extends DefaultWindowController
     // Filter
     _filterController=new CharacterLogFilterController(log,_filter,_panelController);
     JPanel filterPanel=_filterController.getPanel();
-    Border filterBorder=BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED),"Filter");
+    TitledBorder filterBorder=GuiFactory.buildTitledBorder("Filter");
     filterPanel.setBorder(filterBorder);
     // Whole panel
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     logPanel.add(filterPanel,c);
     c.gridy=1;c.weighty=1;c.fill=GridBagConstraints.BOTH;
     logPanel.add(tablePanel,c);
-    c.gridy=2;c.weighty=1;c.fill=GridBagConstraints.HORIZONTAL;c.insets=new Insets(3,0,3,3);
-    logPanel.add(controlPanel,c);
+    GridBagConstraints cControl=new GridBagConstraints(0,2,1,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(3,0,3,3),0,0);
+    logPanel.add(controlPanel,cControl);
     return logPanel;
   }
 
