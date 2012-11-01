@@ -251,4 +251,26 @@ public class GuiFactory
     int ret=JOptionPane.showConfirmDialog(parent,message,title,optionType);
     return ret;
   }
+
+  /**
+   * Show a information dialog.
+   * @param parent Parent component.
+   * @param message Information message.
+   * @param title Title of the dialog window.
+   */
+  public static void showInformationDialog(Component parent, String message, String title)
+  {
+    JOptionPane.showMessageDialog(parent,message,title,JOptionPane.INFORMATION_MESSAGE);
+  }
+
+  /**
+   * Show an error dialog.
+   * @param parent Parent component.
+   * @param message Information message.
+   * @param title Title of the dialog window.
+   */
+  public static void showErrorDialog(Component parent, String message, String title)
+  {
+    JOptionPane.showMessageDialog(parent,message,title,JOptionPane.ERROR_MESSAGE);
+  }
 }

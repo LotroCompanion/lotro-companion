@@ -7,6 +7,7 @@ import java.util.List;
 
 import delta.common.utils.text.EncodingNames;
 import delta.common.utils.text.TextUtils;
+import delta.games.lotro.utils.TypedProperties;
 
 /**
  * Configuration.
@@ -26,6 +27,7 @@ public class Config
   private File _deedsDir;
   private File _iconsDir;
   private File _itemsDir;
+  private TypedProperties _parameters;
   private List<String> _servers;
 
   /**
@@ -49,6 +51,9 @@ public class Config
     _loreDir=new File(_rootDataDir,"lore");
     _indexesDir=new File(_rootDataDir,"indexes");
     _servers=new ArrayList<String>();
+    File parametersFiles=new File(_configDir,"params.txt");
+    _parameters=new TypedProperties();
+    _parameters.loadFromFile(parametersFiles);
     loadServers();
     _questsDir=new File(_rootDataDir,"quests");
     _deedsDir=new File(_rootDataDir,"deeds");
@@ -151,6 +156,15 @@ public class Config
   {
     String ret=_myLotroRootURL+"home/character/"+serverName.toLowerCase()+"/"+toonName.toLowerCase();
     return ret;
+  }
+
+  /**
+   * Get the configuration parameters.
+   * @return the configuration parameters.
+   */
+  public TypedProperties getParameters()
+  {
+    return _parameters;
   }
 
   /**

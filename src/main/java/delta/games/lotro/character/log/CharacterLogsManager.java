@@ -10,11 +10,13 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import delta.common.utils.text.EncodingNames;
+import delta.games.lotro.Config;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.log.io.web.CharacterLogPageParser;
 import delta.games.lotro.character.log.io.xml.CharacterLogXMLParser;
 import delta.games.lotro.character.log.io.xml.CharacterLogXMLWriter;
 import delta.games.lotro.utils.LotroLoggers;
+import delta.games.lotro.utils.TypedProperties;
 
 /**
  * Manages log files for a single toon.
@@ -52,12 +54,46 @@ public class CharacterLogsManager
   }
 
   /**
+   * Prune character log files.
+   */
+  public void pruneLogFiles()
+  {
+    TypedProperties props=Config.getInstance().getParameters();
+    int nbMax=props.getIntProperty("character.log.max.files",10);
+    File[] files=getLogFiles();
+    if ((files!=null) && (files.length>nbMax))
+    {
+      int nbToRemove=files.length-nbMax;
+      for(int i=0;i<nbToRemove;i++)
+      {
+        File toRemove=files[i];
+        boolean ok=toRemove.delete();
+        if (!ok)
+        {
+          _logger.warn("Cannot delete file ["+toRemove+"]!");
+        }
+      }
+    }
+  }
+
+  /**
    * Get the most recent log file.
    * @return a file or <code>null</code> if there is no log file for this toon.
    */
   public File getLastLogFile()
   {
     File lastLog=null;
+    File[] files=getLogFiles();
+    if ((files!=null) && (files.length>0))
+    {
+      lastLog=files[files.length-1];
+    }
+    return lastLog;
+  }
+
+  private File[] getLogFiles()
+  {
+    File[] files=null;
     File characterDir=_toon.getRootDir();
     if (characterDir.exists())
     {
@@ -73,22 +109,22 @@ public class CharacterLogsManager
           return false;
         }
       };
-      File[] files=characterDir.listFiles(filter);
-      if ((files!=null) && (files.length>0))
-      {
-        Arrays.sort(files);
-        lastLog=files[files.length-1];
-      }
+      files=characterDir.listFiles(filter);
     }
-    return lastLog;
+    if ((files!=null) && (files.length>0))
+    {
+      Arrays.sort(files);
+    }
+    return files;
   }
 
   /**
    * Update character log.
-   * @return <code>true</code> if it was successfull, <code>false</code> otherwise.
+   * @return An integer value that indicates the number of new items, or <code>null</code> if it failed.
    */
-  public boolean updateLog()
+  public Integer updateLog()
   {
+    Integer ret=null;
     File lastLog=getLastLogFile();
     String url=_toon.getBaseMyLotroURL();
     CharacterLog log;
@@ -109,22 +145,32 @@ public class CharacterLogsManager
       log=parser.parseLogPages(url,null);
       updateOK=(log!=null);
     }
-    boolean ret=updateOK;
+    boolean result=updateOK;
     if (updateOK)
     {
       int nbItems=log.getNbItems();
       if ((creation) || (nbItems!=nbItemsLastLog))
       {
-        ret=writeNewLog(log);
+        result=writeNewLog(log);
         int nbNewItems=nbItems-nbItemsLastLog;
-        System.out.println("Added "+nbNewItems+" log item(s)!");
+        ret=Integer.valueOf(nbNewItems);
+        //System.out.println("Added "+nbNewItems+" log item(s)!");
+      }
+      else
+      {
+        ret=Integer.valueOf(0);
       }
     }
-    if (!ret)
+    if (result)
+    {
+      pruneLogFiles();
+    }
+    else
     {
       String name=_toon.getName();
       _logger.error("Log update failed for toon ["+name+"]!");
     }
+    
     return ret;
   }
 

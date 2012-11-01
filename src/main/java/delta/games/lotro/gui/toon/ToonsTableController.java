@@ -101,6 +101,7 @@ public class ToonsTableController
         _cache.put(id,c);
         _toons.add(toon);
       }
+      toon.getLogsManager().pruneLogFiles();
     }
   }
 

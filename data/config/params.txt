@@ -1,0 +1,1 @@
+character.log.max.files=3

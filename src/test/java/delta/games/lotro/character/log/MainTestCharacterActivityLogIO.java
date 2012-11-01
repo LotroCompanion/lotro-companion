@@ -28,7 +28,7 @@ public class MainTestCharacterActivityLogIO
       if (log!=null)
       {
         System.out.println(log);
-        CharacterLogsManager manager=new CharacterLogsManager(toon);
+        CharacterLogsManager manager=toon.getLogsManager();
         boolean ok=manager.writeNewLog(log);
         if (ok)
         {

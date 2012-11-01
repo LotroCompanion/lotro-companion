@@ -1,5 +1,6 @@
 package delta.games.lotro.gui.log;
 
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
@@ -139,14 +140,41 @@ public class CharacterLogWindowController extends DefaultWindowController
   {
     CharacterLogsManager logsManager=_toon.getLogsManager();
     // todo shall use a waiting window here
-    boolean ok=logsManager.updateLog();
+    Integer nbNewItems=logsManager.updateLog();
+    boolean ok=(nbNewItems!=null);
     if (ok)
     {
       update();
     }
+    CharacterLogWindowController.showLogUpdateMessage(nbNewItems,getFrame());
+  }
+
+  /**
+   * Show a log update result message.
+   * @param nbNewItems Log update result.
+   * @param parent Parent component for the result dialog.
+   */
+  public static void showLogUpdateMessage(Integer nbNewItems, Component parent)
+  {
+    // TODO use non modal information dialogs
+    String title="Character log update";
+    if (nbNewItems!=null)
+    {
+      String message;
+      if (nbNewItems.intValue()>0)
+      {
+        message=nbNewItems+" new items.";
+      }
+      else
+      {
+        message="No new item!";
+      }
+      GuiFactory.showInformationDialog(parent,message,title);
+    }
     else
     {
-      // todo shall do an error message here!
+      String message="Failed!";
+      GuiFactory.showErrorDialog(parent,message,title);
     }
   }
 

@@ -212,8 +212,9 @@ public class CharacterMainWindowController extends DefaultWindowController imple
       _statsController.update();
       _equipmentController.update();
     }
-    CharacterLogsManager logManager=new CharacterLogsManager(_toon);
-    boolean logUpdateOK=logManager.updateLog();
+    CharacterLogsManager logManager=_toon.getLogsManager();
+    Integer nbNewItems=logManager.updateLog();
+    boolean logUpdateOK=(nbNewItems!=null);
     if (logUpdateOK)
     {
       String serverName=_toon.getServerName();
@@ -226,6 +227,7 @@ public class CharacterMainWindowController extends DefaultWindowController imple
         logController.update();
       }
     }
+    CharacterLogWindowController.showLogUpdateMessage(nbNewItems,getFrame());
   }
 
   /**
