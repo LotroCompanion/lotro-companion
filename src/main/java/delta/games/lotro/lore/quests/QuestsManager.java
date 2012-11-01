@@ -2,10 +2,10 @@ package delta.games.lotro.lore.quests;
 
 import java.io.File;
 import java.io.InputStream;
-import java.util.HashMap;
 
 import org.apache.log4j.Logger;
 
+import delta.common.utils.cache.WeakReferencesCache;
 import delta.common.utils.files.archives.ArchiveManager;
 import delta.games.lotro.Config;
 import delta.games.lotro.lore.quests.index.QuestsIndex;
@@ -25,7 +25,7 @@ public class QuestsManager
   
   private QuestsIndex _index;
   private ArchiveManager _archive;
-  private HashMap<Integer,QuestDescription> _cache;
+  private WeakReferencesCache<Integer,QuestDescription> _cache;
   
   /**
    * Get the sole instance of this class.
@@ -41,7 +41,7 @@ public class QuestsManager
    */
   private QuestsManager()
   {
-    //_cache=new HashMap<String,QuestDescription>();
+    _cache=new WeakReferencesCache<Integer,QuestDescription>(100);
     File loreDir=Config.getInstance().getLoreDir();
     File questsArchive=new File(loreDir,"quests.zip");
     _archive=new ArchiveManager(questsArchive);
@@ -69,7 +69,7 @@ public class QuestsManager
     if (id>0)
     {
       Integer idKey=Integer.valueOf(id);
-      ret=(_cache!=null)?_cache.get(idKey):null;
+      ret=(_cache!=null)?_cache.getObject(idKey):null;
       if (ret==null)
       {
         ret=loadQuest(id);
@@ -77,7 +77,7 @@ public class QuestsManager
         {
           if (_cache!=null)
           {
-            _cache.put(idKey,ret);
+            _cache.registerObject(idKey,ret);
           }
         }
       }

@@ -2,7 +2,7 @@ package delta.games.lotro.gui.utils;
 
 import java.io.File;
 import java.net.URL;
-import java.util.HashMap;
+import java.util.WeakHashMap;
 
 import javax.swing.ImageIcon;
 
@@ -17,7 +17,7 @@ import delta.games.lotro.utils.LotroLoggers;
 public class IconsManager
 {
   private static final Logger _logger=LotroLoggers.getLotroLogger();
-  private static final HashMap<String,ImageIcon> _icons=new HashMap<String,ImageIcon>();
+  private static final WeakHashMap<String,ImageIcon> _icons=new WeakHashMap<String,ImageIcon>();
 
   private static URL getIconURL(String iconPath)
   {

@@ -821,6 +821,7 @@ Strength Quick Shot Slow (Tier(s):
           if (href.startsWith(HREF_IDENTIFIER_SEED))
           {
             id=href.substring(HREF_IDENTIFIER_SEED.length());
+            id=new String(id); // explicit copy to trim underlying char[]
           }
         }
       }

@@ -2,10 +2,10 @@ package delta.games.lotro.lore.deeds;
 
 import java.io.File;
 import java.io.InputStream;
-import java.util.HashMap;
 
 import org.apache.log4j.Logger;
 
+import delta.common.utils.cache.WeakReferencesCache;
 import delta.common.utils.files.archives.ArchiveManager;
 import delta.games.lotro.Config;
 import delta.games.lotro.lore.deeds.index.DeedsIndex;
@@ -25,7 +25,7 @@ public class DeedsManager
   
   private DeedsIndex _index;
   private ArchiveManager _archive;
-  private HashMap<Integer,DeedDescription> _cache;
+  private WeakReferencesCache<Integer,DeedDescription> _cache;
   
   /**
    * Get the sole instance of this class.
@@ -41,7 +41,7 @@ public class DeedsManager
    */
   private DeedsManager()
   {
-    //_cache=new HashMap<Integer,DeedDescription>();
+    _cache=new WeakReferencesCache<Integer,DeedDescription>(100);
     File loreDir=Config.getInstance().getLoreDir();
     File deedsArchive=new File(loreDir,"deeds.zip");
     _archive=new ArchiveManager(deedsArchive);
@@ -69,7 +69,7 @@ public class DeedsManager
     if (id>0)
     {
       Integer idKey=Integer.valueOf(id);
-      ret=(_cache!=null)?_cache.get(idKey):null;
+      ret=(_cache!=null)?_cache.getObject(idKey):null;
       if (ret==null)
       {
         ret=loadDeed(id);
@@ -77,7 +77,7 @@ public class DeedsManager
         {
           if (_cache!=null)
           {
-            _cache.put(idKey,ret);
+            _cache.registerObject(idKey,ret);
           }
         }
       }

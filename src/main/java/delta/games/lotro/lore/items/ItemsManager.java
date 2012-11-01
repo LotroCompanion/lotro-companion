@@ -2,10 +2,11 @@ package delta.games.lotro.lore.items;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.WeakHashMap;
 
 import org.apache.log4j.Logger;
 
+import delta.common.utils.cache.WeakReferencesCache;
 import delta.common.utils.text.EncodingNames;
 import delta.games.lotro.Config;
 import delta.games.lotro.lore.items.io.web.ItemPageParser;
@@ -33,8 +34,8 @@ public class ItemsManager
   private static ItemsManager _instance=new ItemsManager();
   
   private ResourcesMapping _mapping;
-  private HashMap<String,Item> _cache;
-  private HashMap<String,ItemsSet> _setsCache;
+  private WeakReferencesCache<String,Item> _cache;
+  private WeakHashMap<String,ItemsSet> _setsCache;
   
   /**
    * Get the sole instance of this class.
@@ -50,8 +51,8 @@ public class ItemsManager
    */
   private ItemsManager()
   {
-    _cache=new HashMap<String,Item>();
-    _setsCache=new HashMap<String,ItemsSet>();
+    _cache=new WeakReferencesCache<String,Item>(20);
+    _setsCache=new WeakHashMap<String,ItemsSet>();
     loadResourcesMapping();
   }
 
@@ -74,7 +75,7 @@ public class ItemsManager
     Item ret=null;
     if ((id!=null) && (id.length()>0))
     {
-      ret=(_cache!=null)?_cache.get(id):null;
+      ret=(_cache!=null)?_cache.getObject(id):null;
       if (ret==null)
       {
         ret=loadItem(id);
@@ -82,7 +83,7 @@ public class ItemsManager
         {
           if (_cache!=null)
           {
-            _cache.put(id,ret);
+            _cache.registerObject(id,ret);
           }
         }
       }
@@ -154,6 +155,11 @@ public class ItemsManager
           {
             String name=ret.getName();
             _logger.error("Write failed for item ["+name+"]!");
+            ret=null;
+          }
+          else
+          {
+            ret=loadItem(id);
           }
           ItemsSet set=parser.getItemsSet();
           if (set!=null)
