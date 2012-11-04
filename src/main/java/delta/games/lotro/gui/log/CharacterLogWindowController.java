@@ -163,11 +163,11 @@ public class CharacterLogWindowController extends DefaultWindowController
       String message;
       if (nbNewItems.intValue()>0)
       {
-        message=nbNewItems+" new items.";
+        message=nbNewItems+" new log items.";
       }
       else
       {
-        message="No new item!";
+        message="No new log item!";
       }
       GuiFactory.showInformationDialog(parent,message,title);
     }
