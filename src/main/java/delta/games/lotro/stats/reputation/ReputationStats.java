@@ -90,6 +90,7 @@ public class ReputationStats
     _seeds.put("Ally of",FactionLevel.ALLY);
     _seeds.put("Kindred to",FactionLevel.KINDRED);
     _seeds.put("Kindred with",FactionLevel.KINDRED);
+    _seeds.put("Kindred of",FactionLevel.KINDRED);
   }
   
   private void handleItem(long date, String label)
