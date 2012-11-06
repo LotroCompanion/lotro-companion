@@ -35,7 +35,7 @@ public class ServerCharactersManager
   {
     Config cfg=Config.getInstance();
     File toonsDir=cfg.getToonsDir();
-    File serverDir=new File(toonsDir,_serverName.toLowerCase());
+    File serverDir=new File(toonsDir,_serverName);
     FileFilter fileFilter=new FileTypePredicate(FileTypePredicate.DIRECTORY);
     File[] toonDirs=serverDir.listFiles(fileFilter);
     if (toonDirs!=null)
