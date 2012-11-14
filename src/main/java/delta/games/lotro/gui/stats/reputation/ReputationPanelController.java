@@ -35,6 +35,8 @@ public class ReputationPanelController
 
   private JPanel _panel;
   private ReputationStats _stats;
+  private List<Faction> _factions;
+  private List<Faction> _worldRenownedFactions;
   
   /**
    * Constructor.
@@ -43,6 +45,7 @@ public class ReputationPanelController
   public ReputationPanelController(ReputationStats stats)
   {
     _stats=stats;
+    init();
   }
 
   /**
@@ -65,9 +68,14 @@ public class ReputationPanelController
     GridBagConstraints cLabel=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
     GridBagConstraints cBar=new GridBagConstraints(1,0,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(5,5,5,5),0,0);
     
-    Faction[] factions=getFactions();
-    int y=0;
-    for(Faction faction : factions)
+    JLabel assessment=new JLabel("Reputation assessment:");
+    assessment.setToolTipText("Assessment of reputation based on recorded character log deed items. It may be wrong sometimes!");
+    GridBagConstraints cTitle=new GridBagConstraints(0,0,1,1,0.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(5,5,5,5),0,0);
+    panel.add(assessment,cTitle);
+
+    int nbWorldRenowned=0;
+    int y=1;
+    for(Faction faction : _factions)
     {
       FactionLevel current;
       FactionStat stat=_stats.getFactionStat(faction);
@@ -81,8 +89,12 @@ public class ReputationPanelController
       }
       // Label
       String name=faction.getName();
-      JLabel label=new JLabel(name);
-      label.setForeground(Color.LIGHT_GRAY);
+      if (_worldRenownedFactions.contains(faction))
+      {
+        name="(*) "+name;
+        if (current==FactionLevel.KINDRED) nbWorldRenowned++;
+      }
+      JLabel label=GuiFactory.buildLabel(name);
       cLabel.gridy=y;
       panel.add(label,cLabel);
       // Bar
@@ -108,24 +120,40 @@ public class ReputationPanelController
       panel.add(bar,cBar);
       y++;
     }
+    String wrLabel="World Renowned(*): "+nbWorldRenowned+" / "+_worldRenownedFactions.size();
+    JLabel worldRenowned=GuiFactory.buildLabel(wrLabel);
+    worldRenowned.setToolTipText("Status for the 'World Renowned' deed");
+    GridBagConstraints cWR=new GridBagConstraints(1,0,1,1,0,0,GridBagConstraints.EAST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
+    panel.add(worldRenowned,cWR);
     
     return panel;
   }
   
-  private Faction[] getFactions()
+  private void init()
   {
     File cfgDir=Config.getInstance().getConfigDir();
     File factionFiles=new File(cfgDir,"reputation-order.txt"); 
     List<String> lines=TextUtils.readAsLines(factionFiles,EncodingNames.UTF_8);
-    List<Faction> factions=new ArrayList<Faction>();
+    _factions=new ArrayList<Faction>();
+    _worldRenownedFactions=new ArrayList<Faction>();
     if (lines!=null)
     {
       for(String line : lines)
       {
+        boolean worldRenowned=false;
+        if (line.startsWith("(R)"))
+        {
+          line=line.substring(3);
+          worldRenowned=true;
+        }
         Faction faction=Factions.getInstance().getByName(line);
         if (faction!=null)
         {
-          factions.add(faction);
+          _factions.add(faction);
+          if (worldRenowned)
+          {
+            _worldRenownedFactions.add(faction);
+          }
         }
         else
         {
@@ -133,8 +161,6 @@ public class ReputationPanelController
         }
       }
     }
-    Faction[] ret=factions.toArray(new Faction[factions.size()]);
-    return ret;
   }
 
   /**
