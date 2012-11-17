@@ -49,7 +49,7 @@ public class Config
     _configDir=new File(_rootDataDir,"config");
     _toonsDir=new File(_rootDataDir,"characters");
     _loreDir=new File(_rootDataDir,"lore");
-    _indexesDir=new File(_rootDataDir,"indexes");
+    _indexesDir=new File(_loreDir,"indexes");
     _servers=new ArrayList<String>();
     File parametersFiles=new File(_configDir,"params.txt");
     _parameters=new TypedProperties();
