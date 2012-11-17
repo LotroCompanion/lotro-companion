@@ -20,6 +20,7 @@ import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharactersManager;
 import delta.games.lotro.gui.utils.GuiFactory;
 import delta.games.lotro.gui.utils.OKCancelPanelController;
+import delta.games.lotro.utils.TypedProperties;
 
 /**
  * Controller for the "new toon" dialog.
@@ -81,7 +82,15 @@ public class NewToonDialogController implements ActionListener
     _toonName.setColumns(TOON_NAME_SIZE);
     List<String> servers=Config.getInstance().getServerNames();
     _server=GuiFactory.buildComboBox();
-    _server.setModel(new DefaultComboBoxModel(servers.toArray(new String[servers.size()])));
+    String[] serverItems=servers.toArray(new String[servers.size()]);
+    DefaultComboBoxModel model=new DefaultComboBoxModel(serverItems);
+    _server.setModel(model);
+    TypedProperties props=Config.getInstance().getParameters();
+    String defaultServer=props.getStringProperty("default.server",null);
+    if (defaultServer!=null)
+    {
+      model.setSelectedItem(defaultServer);
+    }
     Insets insets=new Insets(5,5,5,5);
     GridBagConstraints gbc=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,insets,0,0);
     panel.add(GuiFactory.buildLabel("Name:"),gbc);

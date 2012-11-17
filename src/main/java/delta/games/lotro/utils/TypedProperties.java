@@ -77,4 +77,16 @@ public class TypedProperties
     }
     return ret;
   }
+
+  /**
+   * Get the value of a string property.
+   * @param name Property name.
+   * @param defaultValue Default value, used if the property does not exist.
+   * @return A string value.
+   */
+  public String getStringProperty(String name, String defaultValue)
+  {
+    String ret=_props.getProperty(name,defaultValue);
+    return ret;
+  }
 }
