@@ -97,6 +97,8 @@ public class ReputationStats
   {
     Faction faction=null;
     FactionLevel level=null;
+    
+    // Handle generic seeds
     for(Map.Entry<String,FactionLevel> entry : _seeds.entrySet())
     {
       String seed=entry.getKey();
@@ -130,6 +132,12 @@ public class ReputationStats
       faction=Factions.getInstance().getByName("Ale Association");
       level=FactionLevel.KINDRED;
     }
+    // Kindred with Eglain is "Eglan" 
+    else if (label.equals("Eglan"))
+    {
+      faction=Factions.getInstance().getByName("Eglain");
+      level=FactionLevel.KINDRED;
+    }
     // TODO Inn League
     
     if ((faction!=null) && (level!=null))
@@ -148,12 +156,7 @@ public class ReputationStats
   {
     try
     {
-      if ((label.contains("Known")) || (label.contains("Acquaintance")) ||
-          (label.contains("Friend")) ||
-          (label.contains("Ally")) || (label.contains("Kindred")))
-      {
-        handleItem(date,label);
-      }
+      handleItem(date,label);
     }
     catch(Exception e)
     {
