@@ -710,7 +710,7 @@ Strength Quick Shot Slow (Tier(s):
                 }
                 else
                 {
-                  _logger.warn("Quest ["+_identifier+"]. Unknown coin type ["+type+"]");
+                  _logger.warn("Item ["+_identifier+"]. Unknown coin type ["+type+"]");
                 }
               }
             }
@@ -753,7 +753,7 @@ Strength Quick Shot Slow (Tier(s):
 
   /**
    * Parse the item page at the given URL.
-   * @param url URL of quest page.
+   * @param url URL of item page.
    * @return A list of items or <code>null</code> if an error occurred.
    */
   public List<Item> parseItemPage(String url)
@@ -781,7 +781,7 @@ Strength Quick Shot Slow (Tier(s):
 
   /**
    * Parse the item page at the given URL.
-   * @param url URL of quest page.
+   * @param url URL of item page.
    * @return An item or <code>null</code> if an error occurred.
    */
   public Item parseOneItemPage(String url)
@@ -831,8 +831,8 @@ Strength Quick Shot Slow (Tier(s):
 
   /**
    * Parse the item page at the given URL.
-   * @param url URL of quest page.
-   * @return A quest or <code>null</code> if an error occurred.
+   * @param url URL of item page.
+   * @return An item or <code>null</code> if an error occurred.
    */
   private List<Item> internalParseItemPage(String url)
   {
@@ -869,15 +869,8 @@ Strength Quick Shot Slow (Tier(s):
     catch(Exception e)
     {
       items=null;
-      _logger.error("Cannot parse quest page ["+url+"]",e);
+      _logger.error("Cannot parse item page ["+url+"]",e);
     }
-    /*
-    Item ret=null;
-    if ((items!=null) && (items.size()>0))
-    {
-      ret=items.get(0);
-    }
-    */
     return items;
   }
 }
