@@ -12,6 +12,7 @@ import delta.games.lotro.character.log.CharacterLog;
 import delta.games.lotro.character.log.CharacterLogItem;
 import delta.games.lotro.character.log.CharacterLogItem.LogItemType;
 import delta.games.lotro.common.CharacterClass;
+import delta.games.lotro.common.Race;
 import delta.games.lotro.lore.quests.QuestDescription;
 import delta.games.lotro.lore.quests.QuestsManager;
 import delta.games.lotro.lore.quests.index.QuestCategory;
@@ -28,6 +29,7 @@ public class QuestsCompletionStats
   private static final Logger _logger=LotroLoggers.getLotroLogger();
 
   private static final boolean USE_CLASS_RESTRICTIONS=true;
+  private static final boolean USE_RACE_RESTRICTIONS=true;
   private static final boolean USE_INSTANCES=false;
   private String _name;
   private String _category;
@@ -96,6 +98,28 @@ public class QuestsCompletionStats
                   if (_logger.isInfoEnabled())
                   {
                     _logger.info("Ignored quest ["+key+"]. Class="+className+", Required:"+classes);
+                  }
+                  useIt=false;
+                }
+              }
+            }
+            if (USE_RACE_RESTRICTIONS)
+            {
+              List<String> races=q.getRequiredRaces();
+              if ((races!=null) && (races.size()>0))
+              {
+                Race cRace=_character.getRace();
+                String raceName=cRace.getLabel();
+                if (races.contains(raceName))
+                {
+                  useIt=true;
+                }
+                else
+                {
+                  String key=q.getKey();
+                  if (_logger.isInfoEnabled())
+                  {
+                    _logger.info("Ignored quest ["+key+"]. Race="+raceName+", Required:"+races);
                   }
                   useIt=false;
                 }
