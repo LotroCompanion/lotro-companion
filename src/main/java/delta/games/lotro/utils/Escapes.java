@@ -23,6 +23,7 @@ public class Escapes
     id=id.replace("ë","%C3%AB");
     id=id.replace("é","%C3%A9");
     id=id.replace("í","%C3%AD");
+    id=id.replace("ï","%C3%AF");
     id=id.replace("î","%C3%AE");
     id=id.replace("ó","%C3%B3");
     id=id.replace("û","%C3%BB");
