@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
+import delta.common.utils.files.FilesDeleter;
 import delta.common.utils.files.filter.FileTypePredicate;
 import delta.games.lotro.Config;
 
@@ -18,6 +19,7 @@ public class ServerCharactersManager
 {
   private HashMap<String,CharacterFile> _toons;
 
+  private File _serverDir;
   private String _serverName;
 
   /**
@@ -35,15 +37,23 @@ public class ServerCharactersManager
   {
     Config cfg=Config.getInstance();
     File toonsDir=cfg.getToonsDir();
-    File serverDir=new File(toonsDir,_serverName);
+    _serverDir=new File(toonsDir,_serverName);
     FileFilter fileFilter=new FileTypePredicate(FileTypePredicate.DIRECTORY);
-    File[] toonDirs=serverDir.listFiles(fileFilter);
+    File[] toonDirs=_serverDir.listFiles(fileFilter);
     if (toonDirs!=null)
     {
       for(File toonDir : toonDirs)
       {
         String toonName=toonDir.getName();
-        initToon(toonName);
+        File[] toonFiles=toonDir.listFiles();
+        if ((toonFiles!=null) && (toonFiles.length>0))
+        {
+          initToon(toonName);
+        }
+        else
+        {
+          removeToon(toonName);
+        }
       }
     }
   }
@@ -97,5 +107,22 @@ public class ServerCharactersManager
       }
     }
     return ret;
+  }
+
+  /**
+   * Remove a toon from this server.
+   * It removes all data for this toon.
+   * @param toonName Name of toon to renames.
+   */
+  public void removeToon(String toonName)
+  {
+    _toons.remove(toonName);
+    Config config=Config.getInstance();
+    File toonDir=config.getToonDirectory(_serverName,toonName);
+    if (toonDir.exists())
+    {
+      FilesDeleter deleter=new FilesDeleter(toonDir,null,true);
+      deleter.doIt();
+    }
   }
 }
