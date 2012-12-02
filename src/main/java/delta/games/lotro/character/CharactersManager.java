@@ -105,7 +105,7 @@ public class CharactersManager
    * Add a new toon.
    * @param serverName Server name.
    * @param toonName Toon name.
-   * @return A character file or <code>null</code> if an errors occurs.
+   * @return A character file or <code>null</code> if an error occurs.
    */
   public CharacterFile addToon(String serverName, String toonName)
   {
@@ -114,18 +114,36 @@ public class CharactersManager
     {
       server=new ServerCharactersManager(serverName);
     }
+    // Create character file
     CharacterFile toon=server.addToon(toonName);
     if (toon!=null)
     {
-      ServerCharactersManager tmp=_servers.get(serverName);
-      if (tmp==null)
+      // Update character info...
+      Character c=toon.getLastCharacterInfo();
+      if (c!=null)
       {
-        _servers.put(serverName,server);
+        // Register toon...
+        ServerCharactersManager tmp=_servers.get(serverName);
+        if (tmp==null)
+        {
+          _servers.put(serverName,server);
+        }
+      }
+      else
+      {
+        // Cannot grab toon info... cancel creation!
+        toon=null;
       }
     }
     if (toon!=null)
     {
+      // Broadcast toon creation event...
       _listeners.firePropertyChange(TOON_ADDED,false,true);
+    }
+    else
+    {
+      // Delete newly created toon!
+      server.removeToon(toonName);
     }
     return toon;
   }

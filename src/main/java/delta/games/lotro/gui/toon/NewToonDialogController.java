@@ -129,16 +129,10 @@ public class NewToonDialogController implements ActionListener
     }
     else
     {
-      // todo error?
+      String title="Toon creation";
+      String message="Toon creation failed!";
+      GuiFactory.showErrorDialog(_dialog,message,title);
     }
-    /*
-    if (toon!=null)
-    {
-      CharacterLogsManager logManager=new CharacterLogsManager(toon);
-      boolean ok=logManager.updateLog();
-      System.out.println(ok);
-    }
-    */
   }
 
   private void cancel()
