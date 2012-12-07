@@ -26,6 +26,10 @@ public class WarbandsRegistry
     _mapByName=new HashMap<String,WarbandDefinition>();
   }
 
+  /**
+   * Get the warbands registry.
+   * @return the warbands registry.
+   */
   public static WarbandsRegistry getWarbandsRegistry()
   {
     if (_registry==null)
@@ -39,6 +43,10 @@ public class WarbandsRegistry
     return _registry;
   }
 
+  /**
+   * Add a warband to this registry.
+   * @param warband Warband to add.
+   */
   public void addWarband(WarbandDefinition warband)
   {
     String name=warband.getName();
@@ -49,6 +57,10 @@ public class WarbandsRegistry
     }
   }
 
+  /**
+   * Get all the registered warbands.
+   * @return A possibly empty array of warbands. 
+   */
   public WarbandDefinition[] getAllWarbands()
   {
     List<String> names=new ArrayList<String>(_mapByName.keySet());
@@ -62,6 +74,11 @@ public class WarbandsRegistry
     return ret;
   }
 
+  /**
+   * Get a warband using its name.
+   * @param name Name of the targeted warband.
+   * @return A warband or <code>null</code> if not found.
+   */
   public WarbandDefinition getByName(String name)
   {
     return _mapByName.get(name);
