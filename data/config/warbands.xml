@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<warbands>
+<warband name="Bensengan" level="80" morale="0" region="Entwash Vale" description="The drakeling Bensengan leads an aerial warband over the eastern fields of the Entwash Vale." size="SOLO"/>
+<warband name="Bughrakh" level="77" morale="0" region="The Wold" description="An orc commander who leads a patrol on foot, typically in the woods east of Floodwend." size="SMALL_FELLOWSHIP"/>
+<warband name="Cinder" level="77" morale="0" region="The Wold" description="A huge Salamander with two allies (Minions) - Typically found near Venomtongue in the Seething Mire west of Harwick." size="SOLO"/>
+<warband name="Craban-master Gundul" level="85" morale="0" region="Sutcrofts" description="Gundul and his sizable flock of crebain can be found wandering the ravaged crofts southeast of Garsfeld." size="SMALL_FELLOWSHIP"/>
+<warband name="Dahámab" level="79" morale="0" region="Norcrofts" description="The leader of a mounted Uruk patrol southwest of Cliving." size="SOLO"/>
+<warband name="Dâl" level="80" morale="0" region="Entwash Vale" description="The mighty Dâl leads a band of mounted uruks across the hillside east of Eaworth." size="SOLO"/>
+<warband name="Fearrhorn" level="80" morale="0" region="Entwash Vale" description="A massive auroch, Fearrhorn and his herd can often be found grazing in the eastern fields of the Entash Vale." size="SOLO"/>
+<warband name="Haglob" level="79" morale="0" region="Norcrofts" description="A mighty troll often found northwest of Elthengels, near the border with the Wold. He is his own warband." size="SMALL_FELLOWSHIP"/>
+<warband name="Hanrun" level="77" morale="0" region="The Wold" description="A large, saddled warg notably missing his rider, escorted by two smaller wargs, who roves south of Feldburg." size="SOLO"/>
+<warband name="Kramp" level="85" morale="0" region="Sutcrofts" description="Kramp's band of warg-riders rove through the central fields of the Sutcrofts, often coming dangerously close to Snowborn." size="FELLOWSHIP"/>
+<warband name="Mirz" level="81" morale="0" region="Entwash Vale" description="The half-orc Mirz heads a band of dunlendings, goblins, and orcs in the fields southeast of Thornhope." size="SMALL_FELLOWSHIP"/>
+<warband name="Mâthum" level="80" morale="0" region="Entwash Vale" description="Mâthum and his warg-riders patrol the fields north of Eaworth." size="SOLO"/>
+<warband name="Skútog" level="79" morale="0" region="Norcrofts" description="Skútog and his warg-riders have been spotted patrolling the river crossing near Caddabrand's Camp." size="SOLO"/>
+<warband name="Swertríper" level="79" morale="0" region="Norcrofts" description="A massive láthbear who roams the woods south of Elthengels, along with a pair of smaller láthbears." size="SOLO"/>
+<warband name="Urgai" level="81" morale="0" region="Entwash Vale" description="Urgai, Black Uruk of Mordor, leads a band in the hills southeast of Eaworth." size="FELLOWSHIP"/>
+<warband name="Urush" level="77" morale="0" region="The Wold" description="A mounted Easterling, leading a band of other Easterling riders through the hills west of Jóshkhin Orda." size="SOLO"/>
+<warband name="Warmaster Bugud" level="85" morale="0" region="Sutcrofts" description="Warmaster Bugud oversees a powerful warband in the eastern fields of the Sutcrofts, south of Hytbold." size="RAID"/>
+</warbands>

@@ -15,10 +15,10 @@ import org.apache.log4j.Logger;
 import org.xml.sax.helpers.AttributesImpl;
 
 import delta.common.utils.io.StreamTools;
+import delta.games.lotro.common.SIZE;
 import delta.games.lotro.common.io.xml.RewardsXMLWriter;
 import delta.games.lotro.lore.quests.QuestDescription;
 import delta.games.lotro.lore.quests.QuestDescription.FACTION;
-import delta.games.lotro.lore.quests.QuestDescription.SIZE;
 import delta.games.lotro.lore.quests.QuestDescription.TYPE;
 import delta.games.lotro.utils.LotroLoggers;
 

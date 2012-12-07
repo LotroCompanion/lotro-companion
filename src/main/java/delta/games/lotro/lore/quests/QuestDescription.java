@@ -5,6 +5,7 @@ import java.util.List;
 
 import delta.common.utils.text.EndOfLine;
 import delta.games.lotro.common.Rewards;
+import delta.games.lotro.common.SIZE;
 
 /**
  * LOTRO quest description.
@@ -12,30 +13,6 @@ import delta.games.lotro.common.Rewards;
  */
 public class QuestDescription
 {
-  /**
-   * Quest size.
-   * @author DAM
-   */
-  public enum SIZE
-  {
-    /**
-     * Solo quest.
-     */
-    SOLO,
-    /**
-     * Small fellowship quest.
-     */
-    SMALL_FELLOWSHIP,
-    /**
-     * Fellowship quest.
-     */
-    FELLOWSHIP,
-    /**
-     * Raid quest.
-     */
-    RAID
-  }
-
   /**
    * Quest type.
    * @author DAM
