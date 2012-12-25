@@ -9,6 +9,8 @@ import delta.games.lotro.common.SIZE;
 public class WarbandDefinition
 {
   private String _name;
+  private String _shortName;
+  private String _iconName;
   private Integer _level;
   private Integer _morale;
   private String _region;
@@ -21,6 +23,8 @@ public class WarbandDefinition
   public WarbandDefinition()
   {
     _name="";
+    _shortName=null;
+    _iconName="";
     _level=null;
     _morale=null;
     _region="";
@@ -44,6 +48,42 @@ public class WarbandDefinition
   public void setName(String name)
   {
     _name=name;
+  }
+
+  /**
+   * Get the warband short name.
+   * @return a short name.
+   */
+  public String getShortName()
+  {
+    return _shortName;
+  }
+
+  /**
+   * Set the warband short name.
+   * @param shortName the short name to set.
+   */
+  public void setShortName(String shortName)
+  {
+    _shortName=shortName;
+  }
+
+  /**
+   * Get the warband icon name.
+   * @return an icon name.
+   */
+  public String getIconName()
+  {
+    return _iconName;
+  }
+
+  /**
+   * Set the warband icon name.
+   * @param iconName the icon name to set.
+   */
+  public void setIconName(String iconName)
+  {
+    _iconName=iconName;
   }
 
   /**

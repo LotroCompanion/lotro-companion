@@ -45,6 +45,8 @@ public class WarbandsRegistryXMLParser
       {
         NamedNodeMap attrs=warbandTag.getAttributes();
         String name=DOMParsingTools.getStringAttribute(attrs,WarbandsRegistryXMLConstants.WARBAND_NAME_ATTR,"???");
+        String shortName=DOMParsingTools.getStringAttribute(attrs,WarbandsRegistryXMLConstants.WARBAND_SHORTNAME_ATTR,null);
+        String iconName=DOMParsingTools.getStringAttribute(attrs,WarbandsRegistryXMLConstants.WARBAND_ICON_NAME_ATTR,name);
         int level=DOMParsingTools.getIntAttribute(attrs,WarbandsRegistryXMLConstants.WARBAND_LEVEL_ATTR,0);
         int morale=DOMParsingTools.getIntAttribute(attrs,WarbandsRegistryXMLConstants.WARBAND_MORALE_ATTR,0);
         String region=DOMParsingTools.getStringAttribute(attrs,WarbandsRegistryXMLConstants.WARBAND_REGION_ATTR,null);
@@ -57,6 +59,8 @@ public class WarbandsRegistryXMLParser
         }
         WarbandDefinition warband=new WarbandDefinition();
         warband.setName(name);
+        warband.setShortName(shortName);
+        warband.setIconName(iconName);
         if (level!=0) warband.setLevel(Integer.valueOf(level));
         if (morale!=0) warband.setMorale(Integer.valueOf(morale));
         warband.setRegion(region);

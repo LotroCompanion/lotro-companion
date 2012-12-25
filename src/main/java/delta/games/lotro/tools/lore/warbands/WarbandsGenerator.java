@@ -10,6 +10,7 @@ import delta.games.lotro.lore.warbands.WarbandsRegistry;
 import delta.games.lotro.lore.warbands.io.xml.WarbandsRegistryXMLWriter;
 
 /**
+ * Generator for the warbands definitions file.
  * @author DAM
  */
 public class WarbandsGenerator
@@ -26,6 +27,7 @@ public class WarbandsGenerator
     {
       WarbandDefinition w=new WarbandDefinition();
       w.setName("Cinder");
+      w.setIconName("cinder");
       w.setRegion(WOLD);
       w.setLevel(Integer.valueOf(77));
       w.setMorale(Integer.valueOf(0));
@@ -37,6 +39,7 @@ public class WarbandsGenerator
     {
       WarbandDefinition w=new WarbandDefinition();
       w.setName("Hanrun");
+      w.setIconName("hanrun");
       w.setRegion(WOLD);
       w.setLevel(Integer.valueOf(77));
       w.setMorale(Integer.valueOf(0));
@@ -48,6 +51,7 @@ public class WarbandsGenerator
     {
       WarbandDefinition w=new WarbandDefinition();
       w.setName("Urush");
+      w.setIconName("urush");
       w.setRegion(WOLD);
       w.setLevel(Integer.valueOf(77));
       w.setMorale(Integer.valueOf(0));
@@ -59,6 +63,7 @@ public class WarbandsGenerator
     {
       WarbandDefinition w=new WarbandDefinition();
       w.setName("Bughrakh");
+      w.setIconName("bughrakh");
       w.setRegion(WOLD);
       w.setLevel(Integer.valueOf(77));
       w.setMorale(Integer.valueOf(0));
@@ -71,6 +76,7 @@ public class WarbandsGenerator
     {
       WarbandDefinition w=new WarbandDefinition();
       w.setName("Dahámab");
+      w.setIconName("dahamab");
       w.setRegion(NORCROFTS);
       w.setLevel(Integer.valueOf(79));
       w.setMorale(Integer.valueOf(0));
@@ -82,6 +88,7 @@ public class WarbandsGenerator
     {
       WarbandDefinition w=new WarbandDefinition();
       w.setName("Skútog");
+      w.setIconName("skutog");  
       w.setRegion(NORCROFTS);
       w.setLevel(Integer.valueOf(79));
       w.setMorale(Integer.valueOf(0));
@@ -93,6 +100,7 @@ public class WarbandsGenerator
     {
       WarbandDefinition w=new WarbandDefinition();
       w.setName("Swertríper");
+      w.setIconName("swertriper");
       w.setRegion(NORCROFTS);
       w.setLevel(Integer.valueOf(79));
       w.setMorale(Integer.valueOf(0));
@@ -104,6 +112,7 @@ public class WarbandsGenerator
     {
       WarbandDefinition w=new WarbandDefinition();
       w.setName("Haglob");
+      w.setIconName("haglob");
       w.setRegion(NORCROFTS);
       w.setLevel(Integer.valueOf(79));
       w.setMorale(Integer.valueOf(0));
@@ -116,6 +125,7 @@ public class WarbandsGenerator
     {
       WarbandDefinition w=new WarbandDefinition();
       w.setName("Bensengan");
+      w.setIconName("bensengan");
       w.setRegion(ENTWASH_VALE);
       w.setLevel(Integer.valueOf(80));
       w.setMorale(Integer.valueOf(0));
@@ -127,6 +137,7 @@ public class WarbandsGenerator
     {
       WarbandDefinition w=new WarbandDefinition();
       w.setName("Mâthum");
+      w.setIconName("mathum");
       w.setRegion(ENTWASH_VALE);
       w.setLevel(Integer.valueOf(80));
       w.setMorale(Integer.valueOf(0));
@@ -138,6 +149,7 @@ public class WarbandsGenerator
     {
       WarbandDefinition w=new WarbandDefinition();
       w.setName("Dâl");
+      w.setIconName("dal");
       w.setRegion(ENTWASH_VALE);
       w.setLevel(Integer.valueOf(80));
       w.setMorale(Integer.valueOf(0));
@@ -149,6 +161,7 @@ public class WarbandsGenerator
     {
       WarbandDefinition w=new WarbandDefinition();
       w.setName("Fearrhorn");
+      w.setIconName("fearrhorn");
       w.setRegion(ENTWASH_VALE);
       w.setLevel(Integer.valueOf(80));
       w.setMorale(Integer.valueOf(0));
@@ -160,6 +173,7 @@ public class WarbandsGenerator
     {
       WarbandDefinition w=new WarbandDefinition();
       w.setName("Mirz");
+      w.setIconName("mirz");
       w.setRegion(ENTWASH_VALE);
       w.setLevel(Integer.valueOf(81));
       w.setMorale(Integer.valueOf(0));
@@ -171,6 +185,7 @@ public class WarbandsGenerator
     {
       WarbandDefinition w=new WarbandDefinition();
       w.setName("Urgai");
+      w.setIconName("urgai");
       w.setRegion(ENTWASH_VALE);
       w.setLevel(Integer.valueOf(81));
       w.setMorale(Integer.valueOf(0));
@@ -183,6 +198,8 @@ public class WarbandsGenerator
     {
       WarbandDefinition w=new WarbandDefinition();
       w.setName("Craban-master Gundul");
+      w.setIconName("gundul");
+      w.setShortName("Gundul");
       w.setRegion(SUTCROFTS);
       w.setLevel(Integer.valueOf(85));
       w.setMorale(Integer.valueOf(0));
@@ -194,6 +211,7 @@ public class WarbandsGenerator
     {
       WarbandDefinition w=new WarbandDefinition();
       w.setName("Kramp");
+      w.setIconName("kramp");
       w.setRegion(SUTCROFTS);
       w.setLevel(Integer.valueOf(85));
       w.setMorale(Integer.valueOf(0));
@@ -205,6 +223,8 @@ public class WarbandsGenerator
     {
       WarbandDefinition w=new WarbandDefinition();
       w.setName("Warmaster Bugud");
+      w.setIconName("bugud");
+      w.setShortName("Bugud");
       w.setRegion(SUTCROFTS);
       w.setLevel(Integer.valueOf(85));
       w.setMorale(Integer.valueOf(0));
@@ -233,5 +253,4 @@ public class WarbandsGenerator
   {
     new WarbandsGenerator().doIt();
   }
-
 }

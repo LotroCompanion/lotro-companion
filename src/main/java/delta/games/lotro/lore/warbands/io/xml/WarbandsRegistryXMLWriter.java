@@ -78,6 +78,13 @@ public class WarbandsRegistryXMLWriter
       AttributesImpl attrs=new AttributesImpl();
       String name=warband.getName();
       attrs.addAttribute("","",WarbandsRegistryXMLConstants.WARBAND_NAME_ATTR,CDATA,name);
+      String shortName=warband.getShortName();
+      if (shortName!=null)
+      {
+        attrs.addAttribute("","",WarbandsRegistryXMLConstants.WARBAND_SHORTNAME_ATTR,CDATA,shortName);
+      }
+      String iconName=warband.getIconName();
+      attrs.addAttribute("","",WarbandsRegistryXMLConstants.WARBAND_ICON_NAME_ATTR,CDATA,iconName);
       Integer level=warband.getLevel();
       if (level!=null) attrs.addAttribute("","",WarbandsRegistryXMLConstants.WARBAND_LEVEL_ATTR,CDATA,String.valueOf(level));
       Integer morale=warband.getMorale();

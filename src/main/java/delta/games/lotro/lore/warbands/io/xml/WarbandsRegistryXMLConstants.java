@@ -21,6 +21,14 @@ public class WarbandsRegistryXMLConstants
    */
   public static final String WARBAND_NAME_ATTR="name";
   /**
+   * Tag 'warband', attribute 'shortName'.
+   */
+  public static final String WARBAND_SHORTNAME_ATTR="shortName";
+  /**
+   * Tag 'warband', attribute 'iconName'.
+   */
+  public static final String WARBAND_ICON_NAME_ATTR="iconName";
+  /**
    * Tag 'warband', attribute 'level'.
    */
   public static final String WARBAND_LEVEL_ATTR="level";
