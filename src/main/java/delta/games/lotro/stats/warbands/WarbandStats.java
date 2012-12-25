@@ -49,7 +49,7 @@ public class WarbandStats
     {
       _dates.add(t);
       Collections.sort(_dates);
-      _lastDate=_dates.get(0);
+      _lastDate=_dates.get(_dates.size()-1);
     }
     _nbTimes++;
   }
