@@ -13,6 +13,7 @@ public class Escapes
    */
   public static String escapeIdentifier(String id)
   {
+    // Escape codes may be found at: http://www.utf8-chartable.de/
     id=id.replace(":","%3A");
     id=id.replace("'","%27");
     id=id.replace("â","%C3%A2");
@@ -20,6 +21,7 @@ public class Escapes
     id=id.replace("á","%C3%A1");
     id=id.replace("Â","%C3%82");
     id=id.replace("Á","%C3%81");
+    id=id.replace("É","%C3%89");
     id=id.replace("ë","%C3%AB");
     id=id.replace("é","%C3%A9");
     id=id.replace("í","%C3%AD");
