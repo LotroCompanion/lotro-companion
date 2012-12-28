@@ -59,7 +59,7 @@ public class ToonsManagementController implements ActionListener
 
   private JPanel buildPanel()
   {
-    JPanel ret=GuiFactory.buildPanel(new BorderLayout());
+    JPanel ret=GuiFactory.buildBackgroundPanel(new BorderLayout());
     _toolbar=buildToolBar();
     JToolBar toolbar=_toolbar.getToolBar();
     ret.add(toolbar,BorderLayout.NORTH);

@@ -1,6 +1,6 @@
 package delta.games.lotro.gui.utils;
 
-import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -33,9 +33,9 @@ public class IconsManager
    * @param path Image path in the classpath.
    * @return An image or <code>null</code> if not found.
    */
-  public static Image getImage(String path)
+  public static BufferedImage getImage(String path)
   {
-    Image img=null;
+    BufferedImage img=null;
     if (path!=null)
     {
       URL url=getImageURL(path);

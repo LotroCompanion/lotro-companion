@@ -1,5 +1,6 @@
 package delta.games.lotro.utils.gui;
 
+import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Frame;
 import java.awt.Image;
@@ -14,6 +15,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
+import delta.games.lotro.gui.utils.GuiFactory;
 import delta.games.lotro.gui.utils.IconsManager;
 
 /**
@@ -65,6 +67,8 @@ public class DefaultWindowController implements WindowController
   protected JFrame build()
   {
     JFrame frame=new JFrame();
+    JPanel backgroundPanel=GuiFactory.buildBackgroundPanel(new BorderLayout());
+    frame.setContentPane(backgroundPanel);
     List<Image> icons=getIcons();
     frame.setIconImages(icons);
     JMenuBar menuBar=buildMenuBar();
@@ -76,7 +80,7 @@ public class DefaultWindowController implements WindowController
     JComponent component=buildContents();
     if (component!=null)
     {
-      contentPane.add(component);
+      contentPane.add(component,BorderLayout.CENTER);
     }
     frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
     WindowAdapter closeWindowAdapter=new WindowAdapter()

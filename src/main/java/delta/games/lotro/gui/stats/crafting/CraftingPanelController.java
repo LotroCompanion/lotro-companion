@@ -51,7 +51,7 @@ public class CraftingPanelController
   
   private JPanel buildPanel()
   {
-    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
+    JPanel panel=GuiFactory.buildBackgroundPanel(new GridBagLayout());
     
     // Mastery label
     int masteryTier=_stats.getMasteryTier();

@@ -3,8 +3,13 @@ package delta.games.lotro.gui.utils;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.LayoutManager;
+import java.awt.Paint;
+import java.awt.Rectangle;
+import java.awt.TexturePaint;
+import java.awt.image.BufferedImage;
 
 import javax.swing.BorderFactory;
+import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -33,7 +38,9 @@ public class GuiFactory
 {
   private static Color BACKGROUND=Color.WHITE;
   private static Color FOREGROUND=Color.BLACK;
-  
+
+  private static boolean USE_BACKGROUND_PATTERN=true;
+
   /**
    * Get the standard foreground color.
    * @return a color.
@@ -60,7 +67,62 @@ public class GuiFactory
   public static JPanel buildPanel(LayoutManager layout)
   {
     JPanel panel=new JPanel(layout);
-    panel.setBackground(BACKGROUND);
+    if (USE_BACKGROUND_PATTERN)
+    {
+      panel.setOpaque(false);
+    }
+    else
+    {
+      panel.setBackground(BACKGROUND);
+      panel.setOpaque(true);
+    }
+    return panel;
+  }
+
+  /**
+   * Get the background pattern image.
+   * @return an image.
+   */
+  public static BufferedImage getBackgroundImage()
+  {
+    BufferedImage backgroundImage=IconsManager.getImage("/resources/gui/fond.png");
+    return backgroundImage;
+  }
+
+  /**
+   * Get a painter for background.
+   * @return A background painter.
+   */
+  public static Paint getBackgroundPaint()
+  {
+    if (USE_BACKGROUND_PATTERN)
+    {
+      BufferedImage backgroundImage=GuiFactory.getBackgroundImage();
+      Rectangle r=new Rectangle(0,0,backgroundImage.getWidth(),backgroundImage.getHeight());
+      TexturePaint paint=new TexturePaint(backgroundImage,r);
+      return paint;
+    }
+    return BACKGROUND;
+  }
+
+  /**
+   * Build a background panel.
+   * @param layout Layout manager.
+   * @return a new panel.
+   */
+  public static JPanel buildBackgroundPanel(LayoutManager layout)
+  {
+    JPanel panel;
+    if (USE_BACKGROUND_PATTERN)
+    {
+      BufferedImage backgroundImage=getBackgroundImage();
+      panel=new BackgroundPanel(backgroundImage,layout);
+    }
+    else
+    {
+      panel=new JPanel(layout);
+      panel.setBackground(BACKGROUND);
+    }
     return panel;
   }
 
@@ -97,9 +159,55 @@ public class GuiFactory
    */
   public static JLabel buildLabel(String label)
   {
+    return buildLabel(label,null);
+  }
+  
+  /**
+   * Get a new label using the given text and font size.
+   * @param label Text to use.
+   * @param size Font size.
+   * @return a new label.
+   */
+  public static JLabel buildLabel(String label, float size)
+  {
+    return buildLabel(label,Float.valueOf(size));
+  }
+  
+  /**
+   * Build an iconic label.
+   * @param icon Icon to display.
+   * @return A label.
+   */
+  public static JLabel buildIconLabel(Icon icon)
+  {
+    JLabel l=new JLabel(icon);
+    l.setOpaque(false);
+    return l;
+  }
+
+  /**
+   * Get a new label using the given text.
+   * @param label Text to use.
+   * @param size Font size.
+   * @return a new label.
+   */
+  private static JLabel buildLabel(String label, Float size)
+  {
     JLabel l=new JLabel(label);
     l.setForeground(FOREGROUND);
-    l.setBackground(BACKGROUND);
+    if (USE_BACKGROUND_PATTERN)
+    {
+      l.setOpaque(false);
+    }
+    else
+    {
+      l.setBackground(BACKGROUND);
+      l.setOpaque(true);
+    }
+    if (size!=null)
+    {
+      l.setFont(l.getFont().deriveFont(size.floatValue()));
+    }
     return l;
   }
 
@@ -113,7 +221,15 @@ public class GuiFactory
     JCheckBox checkbox=new JCheckBox();
     checkbox.setText(label);
     checkbox.setForeground(FOREGROUND);
-    checkbox.setBackground(BACKGROUND);
+    if (USE_BACKGROUND_PATTERN)
+    {
+      checkbox.setOpaque(false);
+    }
+    else
+    {
+      checkbox.setBackground(BACKGROUND);
+      checkbox.setOpaque(true);
+    }
     return checkbox;
   }
   
@@ -150,12 +266,24 @@ public class GuiFactory
   public static JTable buildTable()
   {
     JTable table=new JTable();
-    table.setBackground(BACKGROUND);
     table.setForeground(FOREGROUND);
     JTableHeader header=table.getTableHeader();
-    header.setBackground(BACKGROUND);
     header.setForeground(FOREGROUND);
     table.setGridColor(FOREGROUND);
+    if (USE_BACKGROUND_PATTERN)
+    {
+      table.setOpaque(false);
+      header.setOpaque(false);
+      header.setBackground(BACKGROUND);
+      table.setBackground(new Color(0,true));
+    }
+    else
+    {
+      table.setBackground(BACKGROUND);
+      table.setOpaque(true);
+      header.setBackground(BACKGROUND);
+      header.setOpaque(true);
+    }
     return table;
   }
 
@@ -168,7 +296,17 @@ public class GuiFactory
   {
     JScrollPane scrollPane=new JScrollPane(component);
     scrollPane.setForeground(FOREGROUND);
-    scrollPane.setBackground(BACKGROUND);
+    if (USE_BACKGROUND_PATTERN)
+    {
+      scrollPane.setOpaque(false);
+      scrollPane.getViewport().setOpaque(false);
+      scrollPane.getViewport().setBackground(new Color(0,true));
+    }
+    else
+    {
+      scrollPane.setBackground(BACKGROUND);
+      scrollPane.setOpaque(true);
+    }
     JScrollBar vBar=scrollPane.getVerticalScrollBar();
     if (vBar!=null)
     {

@@ -58,7 +58,7 @@ public class NewToonDialogController implements ActionListener
 
   private JDialog build()
   {
-    JPanel panel=GuiFactory.buildPanel(new BorderLayout());
+    JPanel panel=GuiFactory.buildBackgroundPanel(new BorderLayout());
     JPanel dataPanel=buildNewToonPanel();
     TitledBorder pathsBorder=GuiFactory.buildTitledBorder("Toon");
     dataPanel.setBorder(pathsBorder);

@@ -2,6 +2,7 @@ package delta.games.lotro.gui.stats.crafting;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Paint;
 import java.text.FieldPosition;
 import java.text.NumberFormat;
 import java.text.ParsePosition;
@@ -79,12 +80,13 @@ public class CraftingHistoryChartController
 
   private JPanel buildChartPanel()
   {
-    ChartPanel chartPanel = new ChartPanel(_chart);
+    ChartPanel chartPanel=new ChartPanel(_chart);
     chartPanel.setDomainZoomable(true);
     chartPanel.setRangeZoomable(true);
     chartPanel.setHorizontalAxisTrace(false);
     chartPanel.setVerticalAxisTrace(false);
     chartPanel.setPreferredSize(new Dimension(500,300));
+    chartPanel.setOpaque(false);
     return chartPanel;
   }
 
@@ -105,8 +107,8 @@ public class CraftingHistoryChartController
                         false);  
       
     Color foregroundColor=GuiFactory.getForegroundColor();
-    Color backgroundColor=GuiFactory.getBackgroundColor();
-    jfreechart.setBackgroundPaint(backgroundColor);
+    Paint backgroundPaint=GuiFactory.getBackgroundPaint();
+    jfreechart.setBackgroundPaint(backgroundPaint);
     TextTitle t=new TextTitle(title);
     t.setFont(t.getFont().deriveFont(24.0f));
     t.setPaint(foregroundColor);
@@ -190,7 +192,7 @@ public class CraftingHistoryChartController
     valueAxis.setNumberFormatOverride(nf);
     LegendTitle legend=jfreechart.getLegend();
     legend.setItemPaint(foregroundColor);
-    legend.setBackgroundPaint(backgroundColor);
+    legend.setBackgroundPaint(backgroundPaint);
     
     return jfreechart;
   }  

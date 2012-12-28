@@ -146,10 +146,8 @@ public class ChararacterStatsPanelController
       int index=stats[i].ordinal();
       c=new GridBagConstraints(0,i,1,1,1,0,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(2,5,2,5),0,0);
       panel.add(_statLabels[index],c);
-      _statLabels[index].setOpaque(true);
       c=new GridBagConstraints(1,i,1,1,0,0,GridBagConstraints.EAST,GridBagConstraints.NONE,new Insets(2,5,2,5),0,0);
       panel.add(_statValues[index],c);
-      _statValues[index].setOpaque(true);
       _statValues[index].setHorizontalAlignment(SwingConstants.RIGHT);
     }
     TitledBorder titledBorder=GuiFactory.buildTitledBorder(group);

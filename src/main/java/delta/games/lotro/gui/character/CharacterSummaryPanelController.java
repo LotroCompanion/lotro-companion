@@ -48,24 +48,17 @@ public class CharacterSummaryPanelController
     return _panel;
   }
   
-  private JLabel buildLabel(float size)
-  {
-    JLabel label=GuiFactory.buildLabel("");
-    label.setFont(label.getFont().deriveFont(size));
-    return label;
-  }
-
   private JPanel buildPanel()
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,2,2,2),0,0);
     ImageIcon classIcon=getClassIcon();
-    panel.add(new JLabel(classIcon),c);
+    panel.add(GuiFactory.buildIconLabel(classIcon),c);
     ImageIcon raceIcon=getRaceIcon();
     c.gridx=1;
-    panel.add(new JLabel(raceIcon),c);
-    _nameLabel=buildLabel(28.0f);
-    _levelLabel=buildLabel(32.0f);
+    panel.add(GuiFactory.buildIconLabel(raceIcon),c);
+    _nameLabel=GuiFactory.buildLabel("",28.0f);
+    _levelLabel=GuiFactory.buildLabel("",32.0f);
     update();
     c.gridx=3;c.anchor=GridBagConstraints.EAST;
     panel.add(_levelLabel,c);
