@@ -55,7 +55,7 @@ public class ToonsTableController
     String.class, Race.class, CharacterClass.class, Integer.class, String.class
   };
   private static final int[] MIN_WIDTH = { 100, 100, 100, 100, 100 };
-  private static final int[] MAX_WIDTH = { 100, 100, 100, 100, 100 };
+  private static final int[] MAX_WIDTH = { 100, 100, 100, 100, -1 };
   private static final int[] PREFERRED_WIDTH = { 100, 100, 100, 100, 100 };
 
   /**
@@ -149,8 +149,6 @@ public class ToonsTableController
     final JTable table=GuiFactory.buildTable();
     table.setModel(_model);
     table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-
-    table.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
     _sorter=new TableRowSorter<ToonsTableModel>(_model) {
 
       @Override
@@ -181,6 +179,7 @@ public class ToonsTableController
         column.setMaxWidth(setMaxWidth);
       }
     }
+    table.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
     //typeColumn.setCellRenderer(new LogItemTypeRenderer());
     for(int i=0;i<COLUMN_NAMES.length;i++)
     {
