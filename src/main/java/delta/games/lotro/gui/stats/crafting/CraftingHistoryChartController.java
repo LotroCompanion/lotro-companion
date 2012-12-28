@@ -7,8 +7,6 @@ import java.text.FieldPosition;
 import java.text.NumberFormat;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.TimeZone;
 
 import javax.swing.JPanel;
 
@@ -31,6 +29,7 @@ import org.jfree.data.xy.XYSeriesCollection;
 import delta.games.lotro.crafting.CraftingLevel;
 import delta.games.lotro.gui.utils.GuiFactory;
 import delta.games.lotro.stats.crafting.ProfessionStat;
+import delta.games.lotro.utils.Formats;
 
 /**
  * Controller for level chart.
@@ -42,7 +41,6 @@ public class CraftingHistoryChartController
   private JFreeChart _chart;
   private ProfessionStat _stats;
   private boolean _showTitle;
-  private SimpleDateFormat _datesFormatter;
 
   /**
    * Constructor.
@@ -53,8 +51,6 @@ public class CraftingHistoryChartController
   {
     _stats=stats;
     _showTitle=showTitle;
-    _datesFormatter=new SimpleDateFormat("yyyy-MM-dd");
-    _datesFormatter.setTimeZone(TimeZone.getTimeZone("GMT"));
     _panel=buildPanel();
   }
 
@@ -141,7 +137,7 @@ public class CraftingHistoryChartController
           }
         }
         double timestamp=dataset.getXValue(series,item);
-        String date=_datesFormatter.format(new Date((long)timestamp));
+        String date=Formats.getDateString(Long.valueOf((long)timestamp));
         return label+" ("+date+")";
       }
     };
@@ -151,7 +147,8 @@ public class CraftingHistoryChartController
     xyplot.setRenderer(xysteparearenderer);  
 
     DateAxis axis = (DateAxis) xyplot.getDomainAxis();
-    axis.setDateFormatOverride(_datesFormatter);
+    SimpleDateFormat sdf=Formats.getDateFormatter();
+    axis.setDateFormatOverride(sdf);
     axis.setAxisLinePaint(foregroundColor);
     axis.setLabelPaint(foregroundColor);
     axis.setTickLabelPaint(foregroundColor);

@@ -9,8 +9,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -32,6 +30,7 @@ import delta.games.lotro.character.log.CharacterLog;
 import delta.games.lotro.character.log.CharacterLogItem.LogItemType;
 import delta.games.lotro.character.log.CharacterLogItemsFilter;
 import delta.games.lotro.gui.utils.GuiFactory;
+import delta.games.lotro.utils.Formats;
 
 /**
  * Controller for a character log filter edition panel.
@@ -249,7 +248,7 @@ public class CharacterLogFilterController implements ItemListener
         String text=" ";
         if (value!=null)
         {
-          text=new SimpleDateFormat("dd/MM/yyyy").format(new Date(date.longValue()));
+          text=Formats.getDateString(date);
         }
         Component c= super.getListCellRendererComponent(list, text, modelIndex, isSelected, cellHasFocus);
         setText(text);

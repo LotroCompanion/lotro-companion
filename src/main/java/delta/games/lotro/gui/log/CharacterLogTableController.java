@@ -17,6 +17,7 @@ import delta.games.lotro.character.log.CharacterLogItem;
 import delta.games.lotro.character.log.CharacterLogItem.LogItemType;
 import delta.games.lotro.character.log.CharacterLogItemsFilter;
 import delta.games.lotro.gui.utils.GuiFactory;
+import delta.games.lotro.utils.Formats;
 
 /**
  * Controller for a table that shows a character log.
@@ -79,7 +80,7 @@ public class CharacterLogTableController
     private SimpleDateFormat _formatter;  
     public DateRenderer()
     {
-      _formatter=new SimpleDateFormat("dd/MM/yyyy");
+      _formatter=new SimpleDateFormat(Formats.DATE_PATTERN);
     }  
    
     public void setValue(Object value)
