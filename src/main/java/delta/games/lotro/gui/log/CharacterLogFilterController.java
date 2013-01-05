@@ -303,7 +303,9 @@ public class CharacterLogFilterController implements ItemListener
     // Data
     _log=null;
     _filter=null;
-    // GuI
+    // Controllers
+    _panelController=null;
+    // GUI
     if (_panel!=null)
     {
       _panel.removeAll();
