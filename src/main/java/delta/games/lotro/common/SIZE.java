@@ -9,17 +9,29 @@ public enum SIZE
   /**
    * Solo quest.
    */
-  SOLO,
+  SOLO("Solo"),
   /**
    * Small fellowship quest.
    */
-  SMALL_FELLOWSHIP,
+  SMALL_FELLOWSHIP("Small fellowship"),
   /**
    * Fellowship quest.
    */
-  FELLOWSHIP,
+  FELLOWSHIP("Fellowship"),
   /**
    * Raid quest.
    */
-  RAID
+  RAID("Raid");
+
+  private String _label;
+  private SIZE(String label)
+  {
+    _label=label;
+  }
+  
+  @Override
+  public String toString()
+  {
+    return _label;
+  }
 }

@@ -60,6 +60,20 @@ public class WarbandDefinition
   }
 
   /**
+   * Get a non-<code>null</code> short name.
+   * @return A short name.
+   */
+  public String getSafeShortName()
+  {
+    String warbandName=_shortName;
+    if (warbandName==null)
+    {
+      warbandName=_name;
+    }
+    return warbandName;
+  }
+
+  /**
    * Set the warband short name.
    * @param shortName the short name to set.
    */

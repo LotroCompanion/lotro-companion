@@ -76,7 +76,14 @@ public class WarbandsStats
     return stat;
   }
 
-  private WarbandStats getWarbandStats(WarbandDefinition warband, boolean createItIfNeeded)
+  /**
+   * Get the statistics for a given warband.
+   * @param warband Targeted warband.
+   * @param createItIfNeeded Create the stats item if it does not exist.
+   * @return A warband statistics object, or <code>null</code> if the toon does not
+   * have stats for this warband and <code>createItIfNeeded</code> is false.
+   */
+  public WarbandStats getWarbandStats(WarbandDefinition warband, boolean createItIfNeeded)
   {
     String warbandName=warband.getName();
     WarbandStats stat=_stats.get(warbandName);
