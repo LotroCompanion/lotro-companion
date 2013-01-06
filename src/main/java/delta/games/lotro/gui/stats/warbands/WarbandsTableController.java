@@ -482,13 +482,17 @@ public class WarbandsTableController
   public void dispose()
   {
     // GUI
-    if (_table!=null)
-    {
-      _table=null;
-    }
+    _table=null;
     _model=null;
     _sorter=null;
+    _guiFilter=null;
+    _cellPanels=null;
+    _headerPanels=null;
+    _warbandPanels=null;
     // Data
     _stats=null;
+    _toons=null;
+    _warbands=null;
+    _filter=null;
   }
 }

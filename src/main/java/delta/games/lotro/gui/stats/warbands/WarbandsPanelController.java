@@ -95,10 +95,24 @@ public class WarbandsPanelController
    */
   public void dispose()
   {
+    // GUI
     if (_panel!=null)
     {
       _panel.removeAll();
       _panel=null;
     }
+    // Controllers
+    if (_filterController!=null)
+    {
+      _filterController.dispose();
+      _filterController=null;
+    }
+    if (_tableController!=null)
+    {
+      _tableController.dispose();
+      _tableController=null;
+    }
+    // Data
+    _filter=null;
   }
 }
