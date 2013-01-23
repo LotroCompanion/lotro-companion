@@ -62,6 +62,17 @@ public class MultipleToonsWarbandsStats
   }
 
   /**
+   * Get a list of all the managed toons.
+   * @return A possibly empty list of toons.
+   */
+  public List<CharacterFile> getToonsList()
+  {
+    List<CharacterFile> ret=new ArrayList<CharacterFile>();
+    ret.addAll(_toons);
+    return ret;
+  }
+
+  /**
    * Remove a toon.
    * @param toon Toon to remove.
    */

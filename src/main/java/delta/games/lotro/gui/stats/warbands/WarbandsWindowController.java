@@ -21,7 +21,7 @@ public class WarbandsWindowController extends DefaultWindowController
    */
   public WarbandsWindowController(MultipleToonsWarbandsStats stats)
   {
-    _warbandsStatisticsPanelController=new WarbandsPanelController(stats);
+    _warbandsStatisticsPanelController=new WarbandsPanelController(this,stats);
   }
 
   /**

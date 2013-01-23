@@ -35,8 +35,8 @@ public class WarbandsRegistry
     if (_registry==null)
     {
       Config cfg=Config.getInstance();
-      File configDir=cfg.getConfigDir();
-      File warbandsFile=new File(configDir,"warbands.xml");
+      File loreDir=cfg.getLoreDir();
+      File warbandsFile=new File(loreDir,"warbands.xml");
       WarbandsRegistryXMLParser parser=new WarbandsRegistryXMLParser();
       _registry=parser.parseXML(warbandsFile);
     }

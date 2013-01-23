@@ -244,7 +244,6 @@ public class ToonsTableController
      */
     public ToonsTableModel()
     {
-      // TODO: initialize data table cache?
     }
 
     /**

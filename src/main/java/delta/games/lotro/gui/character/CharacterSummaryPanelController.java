@@ -13,7 +13,7 @@ import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.Race;
 import delta.games.lotro.gui.utils.GuiFactory;
-import delta.games.lotro.gui.utils.IconsManager;
+import delta.games.lotro.gui.utils.IconUtils;
 
 /**
  * Controller for character summary panel.
@@ -52,9 +52,18 @@ public class CharacterSummaryPanelController
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,2,2,2),0,0);
-    ImageIcon classIcon=getClassIcon();
+
+    Character character=_toon.getLastCharacterInfo();
+    CharacterClass cClass=null;
+    Race race=null;
+    if (character!=null)
+    {
+      cClass=character.getCharacterClass();
+      race=character.getRace();
+    }
+    ImageIcon classIcon=IconUtils.getClassIcon(cClass,IconUtils.MEDIUM_SIZE);
     panel.add(GuiFactory.buildIconLabel(classIcon),c);
-    ImageIcon raceIcon=getRaceIcon();
+    ImageIcon raceIcon=IconUtils.getRaceIcon(race);
     c.gridx=1;
     panel.add(GuiFactory.buildIconLabel(raceIcon),c);
     _nameLabel=GuiFactory.buildLabel("",28.0f);
@@ -83,40 +92,6 @@ public class CharacterSummaryPanelController
       int level=info.getLevel();
       _levelLabel.setText(String.valueOf(level));
     }
-  }
-
-  private ImageIcon getClassIcon()
-  {
-    ImageIcon ret=null;
-    Character c=_toon.getLastCharacterInfo();
-    if (c!=null)
-    {
-      CharacterClass cClass=c.getCharacterClass();
-      if (cClass!=null)
-      {
-        String classIconPath=cClass.getIconPath();
-        String iconPath="/resources/gui/classes/"+classIconPath+".png";
-        ret=IconsManager.getIcon(iconPath);
-      }
-    }
-    return ret;
-  }
-
-  private ImageIcon getRaceIcon()
-  {
-    ImageIcon ret=null;
-    Character c=_toon.getLastCharacterInfo();
-    if (c!=null)
-    {
-      Race race=c.getRace();
-      if (race!=null)
-      {
-        String classIconPath=race.getIconPath();
-        String iconPath="/resources/gui/races/"+classIconPath+".png";
-        ret=IconsManager.getIcon(iconPath);
-      }
-    }
-    return ret;
   }
 
   /**

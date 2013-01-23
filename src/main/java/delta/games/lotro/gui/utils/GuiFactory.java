@@ -24,6 +24,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.JViewport;
 import javax.swing.UIManager;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
@@ -273,9 +274,9 @@ public class GuiFactory
     if (USE_BACKGROUND_PATTERN)
     {
       table.setOpaque(false);
-      header.setOpaque(false);
-      header.setBackground(BACKGROUND);
       table.setBackground(new Color(0,true));
+      header.setOpaque(false);
+      header.setBackground(new Color(0,true));
     }
     else
     {
@@ -299,8 +300,16 @@ public class GuiFactory
     if (USE_BACKGROUND_PATTERN)
     {
       scrollPane.setOpaque(false);
-      scrollPane.getViewport().setOpaque(false);
-      scrollPane.getViewport().setBackground(new Color(0,true));
+      // Make main viewport transparent
+      JViewport viewport=scrollPane.getViewport();
+      viewport.setOpaque(false);
+      viewport.setBackground(new Color(0,true));
+      // Make header transparent (for tables)
+      // - create a fake view so that the column header viewport gets created!
+      scrollPane.setColumnHeaderView(new JPanel());
+      JViewport hviewport=scrollPane.getColumnHeader();
+      hviewport.setOpaque(false);
+      hviewport.setBackground(new Color(0,true));
     }
     else
     {

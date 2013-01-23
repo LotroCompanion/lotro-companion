@@ -1,7 +1,6 @@
 package delta.games.lotro.gui.stats.warbands;
 
 import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -24,6 +23,7 @@ import delta.games.lotro.character.Character;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.gui.utils.GuiFactory;
+import delta.games.lotro.gui.utils.IconUtils;
 import delta.games.lotro.gui.utils.IconsManager;
 import delta.games.lotro.lore.warbands.WarbandDefinition;
 import delta.games.lotro.lore.warbands.WarbandFilter;
@@ -75,6 +75,8 @@ public class WarbandsTableController
   {
     _cellPanels=new HashMap<String,HashMap<String,JPanel>>();
     _headerPanels=new HashMap<String,JPanel>();
+    JPanel emptyHeaderPanel=GuiFactory.buildBackgroundPanel(new GridBagLayout());
+    _headerPanels.put("",emptyHeaderPanel);
     _warbandPanels=new HashMap<String,JPanel>();
     
     for(WarbandDefinition warband : _warbands)
@@ -104,7 +106,8 @@ public class WarbandsTableController
     }
     if (_table!=null)
     {
-      _model.fireTableDataChanged();
+      _model.fireTableStructureChanged();
+      configureTable(_table);
     }
   }
 
@@ -148,32 +151,29 @@ public class WarbandsTableController
     JPanel panel=GuiFactory.buildBackgroundPanel(new GridBagLayout());
     // Class icon
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
-    ImageIcon classIcon=getClassIcon(toon);
-    panel.add(new JLabel(classIcon),c);
+    ImageIcon classIcon=null;
+    Character character=toon.getLastCharacterInfo();
+    if (character!=null)
+    {
+      CharacterClass cClass=character.getCharacterClass();
+      classIcon=IconUtils.getClassIcon(cClass,IconUtils.MEDIUM_SIZE);
+    }
+    JLabel classLabel;
+    if (classIcon!=null)
+    {
+      classLabel=new JLabel(classIcon);
+    }
+    else
+    {
+      classLabel=new JLabel("(class)");
+    }
+    panel.add(classLabel,c);
     // Toon name
     String name=toon.getName();
     JLabel nameLabel=GuiFactory.buildLabel(name,24.0f);
     c=new GridBagConstraints(1,0,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
     panel.add(nameLabel,c);
     return panel;
-  }
-
-  private ImageIcon getClassIcon(CharacterFile toon)
-  {
-    // TODO duplicated code from CharacterSummaryPanelController
-    ImageIcon ret=null;
-    Character c=toon.getLastCharacterInfo();
-    if (c!=null)
-    {
-      CharacterClass cClass=c.getCharacterClass();
-      if (cClass!=null)
-      {
-        String classIconPath=cClass.getIconPath();
-        String iconPath="/resources/gui/classes/"+classIconPath+".png";
-        ret=IconsManager.getIcon(iconPath);
-      }
-    }
-    return ret;
   }
 
   private JPanel buildToonPanel(CharacterFile toon, WarbandStats stats)
@@ -198,7 +198,7 @@ public class WarbandsTableController
     String nbTimesStr;
     if (nbTimes==0)
     {
-      nbTimesStr="never";
+      nbTimesStr=null;
     }
     else if (nbTimes==1)
     {
@@ -214,9 +214,12 @@ public class WarbandsTableController
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
     textPanel.add(lastDateLabel,c);
     // Number of times
-    JLabel nbTimesLabel=GuiFactory.buildLabel(nbTimesStr,18.0f);
-    c=new GridBagConstraints(0,1,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
-    textPanel.add(nbTimesLabel,c);
+    if (nbTimesStr!=null)
+    {
+      JLabel nbTimesLabel=GuiFactory.buildLabel(nbTimesStr,18.0f);
+      c=new GridBagConstraints(0,1,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+      textPanel.add(nbTimesLabel,c);
+    }
     return textPanel;
   }
 
@@ -226,7 +229,6 @@ public class WarbandsTableController
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
     // Icon
     String iconName=warband.getIconName();
-    iconName="bughrakh";
     BufferedImage warbandImage=IconsManager.getImage("/resources/gui/warbands/"+iconName+".png");
     if (warbandImage!=null)
     {
@@ -278,15 +280,20 @@ public class WarbandsTableController
 
   private JTable build()
   {
-    final JTable statsTable=GuiFactory.buildTable();
-    // Model
+    JTable statsTable=GuiFactory.buildTable();
+
     _model=new WarbandsTableModel();
     statsTable.setModel(_model);
 
-    // Table configuration
+    configureTable(statsTable);
+    return statsTable;
+  }
+
+  private void configureTable(final JTable statsTable)
+  {
     int nbColumns=getNumberOfColumns();
     statsTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-    statsTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+    statsTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
     statsTable.setShowGrid(false);
     TableCellRenderer statCellRenderer=new TableCellRenderer()
     {
@@ -317,18 +324,14 @@ public class WarbandsTableController
     {
       public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
       {
-        JPanel headerPanel;
+        String id="";
         column=table.getColumnModel().getColumn(column).getModelIndex();
-        if (column==0)
-        {
-          headerPanel=GuiFactory.buildBackgroundPanel(new GridBagLayout());
-        }
-        else
+        if (column>0)
         {
           CharacterFile toon=_toons[column-1];
-          String toonID=toon.getIdentifier();
-          headerPanel=_headerPanels.get(toonID);
+          id=toon.getIdentifier();
         }
+        JPanel headerPanel=_headerPanels.get(id);
         return headerPanel;
       }
     };
@@ -344,6 +347,7 @@ public class WarbandsTableController
         JPanel headerPanel=_headerPanels.get(toonID);
         int minWidth=headerPanel.getPreferredSize().width;
         column.setMinWidth(minWidth);
+        column.setPreferredWidth(minWidth);
       }
      }
 
@@ -356,6 +360,7 @@ public class WarbandsTableController
     }
     TableColumn warbandColumn=statsTable.getColumnModel().getColumn(0);
     warbandColumn.setMinWidth(warbandColumnWidth+10);
+    warbandColumn.setPreferredWidth(warbandColumnWidth+10);
     
     // Sorting
     _guiFilter=new RowFilter<WarbandsTableModel,Integer>()
@@ -409,8 +414,7 @@ public class WarbandsTableController
     }
     _sorter.setMaxSortKeys(1);
     statsTable.setRowSorter(_sorter);
-    statsTable.setPreferredScrollableViewportSize(new Dimension(800,600));
-    return statsTable;
+    //statsTable.setPreferredScrollableViewportSize(new Dimension(800,600));
   }
 
   /**

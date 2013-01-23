@@ -6,7 +6,6 @@ import java.awt.Frame;
 import java.awt.Image;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JComponent;
@@ -16,7 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
 import delta.games.lotro.gui.utils.GuiFactory;
-import delta.games.lotro.gui.utils.IconsManager;
+import delta.games.lotro.gui.utils.IconUtils;
 
 /**
  * Default window controller.
@@ -48,28 +47,12 @@ public class DefaultWindowController implements WindowController
     return null;
   }
 
-  private List<Image> getIcons()
-  {
-    int[] sizes={16,32,48,256};
-    List<Image> icons=new ArrayList<Image>();
-    for(int size : sizes)
-    {
-      String iconPath="/resources/gui/ring/ring"+size+".png";
-      Image image=IconsManager.getImage(iconPath);
-      if (image!=null)
-      {
-        icons.add(image);
-      }
-    }
-    return icons;
-  }
-
   protected JFrame build()
   {
     JFrame frame=new JFrame();
     JPanel backgroundPanel=GuiFactory.buildBackgroundPanel(new BorderLayout());
     frame.setContentPane(backgroundPanel);
-    List<Image> icons=getIcons();
+    List<Image> icons=IconUtils.getIcons();
     frame.setIconImages(icons);
     JMenuBar menuBar=buildMenuBar();
     if (menuBar!=null)
