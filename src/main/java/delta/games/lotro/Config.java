@@ -28,6 +28,7 @@ public class Config
   private File _iconsDir;
   private File _itemsDir;
   private TypedProperties _parameters;
+  private Preferences _preferences;
   private List<String> _servers;
 
   /**
@@ -54,6 +55,8 @@ public class Config
     File parametersFiles=new File(_configDir,"params.txt");
     _parameters=new TypedProperties();
     _parameters.loadFromFile(parametersFiles);
+    File preferencesDir=new File(_rootDataDir,"preferences");
+    _preferences=new Preferences(preferencesDir);
     loadServers();
     _questsDir=new File(_rootDataDir,"quests");
     _deedsDir=new File(_rootDataDir,"deeds");
@@ -165,6 +168,15 @@ public class Config
   public TypedProperties getParameters()
   {
     return _parameters;
+  }
+
+  /**
+   * Get the preferences manager.
+   * @return the preferences manager.
+   */
+  public Preferences getPreferences()
+  {
+    return _preferences;
   }
 
   /**

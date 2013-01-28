@@ -83,6 +83,17 @@ public class ServerCharactersManager
   }
 
   /**
+   * Get a toon using its name.
+   * @param toonName Name of the toon to get.
+   * @return A toon or <code>null</code> if not found.
+   */
+  public CharacterFile getToonByName(String toonName)
+  {
+    CharacterFile ret=_toons.get(toonName);
+    return ret;
+  }
+
+  /**
    * Add a new toon in this server.
    * @param toonName Toon to add.
    * @return The character file for the newly created toon, or <code>null</code>

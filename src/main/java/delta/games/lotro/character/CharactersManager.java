@@ -102,6 +102,25 @@ public class CharactersManager
   }
 
   /**
+   * Get a toon using its identifier.
+   * @param toonID Identifier of the toon to get.
+   * @return A toon or <code>null</code> if not found.
+   */
+  public CharacterFile getToonById(String toonID)
+  {
+    CharacterFile ret=null;
+    int index=toonID.indexOf("#");
+    String serverName=toonID.substring(0,index);
+    String toonName=toonID.substring(index+1);
+    ServerCharactersManager serverManager=_servers.get(serverName);
+    if (serverManager!=null)
+    {
+      ret=serverManager.getToonByName(toonName);
+    }
+    return ret;
+  }
+
+  /**
    * Add a new toon.
    * @param serverName Server name.
    * @param toonName Toon name.

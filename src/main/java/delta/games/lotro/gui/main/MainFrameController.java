@@ -12,8 +12,12 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
+import delta.games.lotro.Config;
+import delta.games.lotro.Preferences;
+import delta.games.lotro.gui.stats.warbands.WarbandsWindowController;
 import delta.games.lotro.gui.toon.ToonsManagementController;
 import delta.games.lotro.gui.utils.GuiFactory;
+import delta.games.lotro.stats.warbands.MultipleToonsWarbandsStats;
 import delta.games.lotro.utils.gui.DefaultWindowController;
 
 /**
@@ -58,8 +62,22 @@ public class MainFrameController extends DefaultWindowController
     };
     quit.addActionListener(alQuit);
     fileMenu.add(quit);
+
+    JMenu statsMenu=GuiFactory.buildMenu("Statistics");
+    JMenuItem warbandsStats=GuiFactory.buildMenuItem("Warbands");
+    ActionListener alWarbands=new ActionListener()
+    {
+      public void actionPerformed(ActionEvent e)
+      {
+        doWarbands();
+      }
+    };
+    warbandsStats.addActionListener(alWarbands);
+    statsMenu.add(warbandsStats);
+    
     JMenuBar menuBar=GuiFactory.buildMenuBar();
     menuBar.add(fileMenu);
+    menuBar.add(statsMenu);
     return menuBar;
   }
 
@@ -78,6 +96,13 @@ public class MainFrameController extends DefaultWindowController
     doQuit();
   }
 
+  private void doWarbands()
+  {
+    MultipleToonsWarbandsStats stats=new MultipleToonsWarbandsStats();
+    WarbandsWindowController warbandsController=new WarbandsWindowController(stats);
+    warbandsController.show();
+  }
+
   private void doQuit()
   {
     int result=GuiFactory.showQuestionDialog(getFrame(),"Do you really want to quit?","Quit?",JOptionPane.YES_NO_OPTION);
@@ -85,6 +110,8 @@ public class MainFrameController extends DefaultWindowController
     {
       dispose();
     }
+    Preferences preferences=Config.getInstance().getPreferences();
+    preferences.saveAllPreferences();
   }
 
   /**
