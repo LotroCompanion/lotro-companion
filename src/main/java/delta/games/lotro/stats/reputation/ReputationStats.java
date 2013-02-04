@@ -138,6 +138,11 @@ public class ReputationStats
       faction=Factions.getInstance().getByName("Eglain");
       level=FactionLevel.KINDRED;
     }
+    else if (label.equals("Kindred to the Entwash"))
+    {
+      faction=Factions.getInstance().getByName("Entwash Vale");
+      level=FactionLevel.KINDRED;
+    }
     // TODO Inn League
     
     if ((faction!=null) && (level!=null))
