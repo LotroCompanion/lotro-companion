@@ -14,11 +14,13 @@ import javax.swing.JTabbedPane;
 
 import delta.games.lotro.Config;
 import delta.games.lotro.Preferences;
+import delta.games.lotro.gui.stats.levelling.CharacterLevelWindowController;
 import delta.games.lotro.gui.stats.warbands.WarbandsWindowController;
 import delta.games.lotro.gui.toon.ToonsManagementController;
 import delta.games.lotro.gui.utils.GuiFactory;
-import delta.games.lotro.stats.warbands.MultipleToonsWarbandsStats;
 import delta.games.lotro.utils.gui.DefaultWindowController;
+import delta.games.lotro.utils.gui.WindowController;
+import delta.games.lotro.utils.gui.WindowsManager;
 
 /**
  * Controller for the main frame.
@@ -27,6 +29,7 @@ import delta.games.lotro.utils.gui.DefaultWindowController;
 public class MainFrameController extends DefaultWindowController
 {
   private ToonsManagementController _toonsManager;
+  private WindowsManager _windowsManager;
 
   /**
    * Constructor.
@@ -34,6 +37,7 @@ public class MainFrameController extends DefaultWindowController
   public MainFrameController()
   {
     _toonsManager=new ToonsManagementController();
+    _windowsManager=new WindowsManager();
   }
 
   @Override
@@ -63,7 +67,9 @@ public class MainFrameController extends DefaultWindowController
     quit.addActionListener(alQuit);
     fileMenu.add(quit);
 
+    // Statistics
     JMenu statsMenu=GuiFactory.buildMenu("Statistics");
+    // - warbands
     JMenuItem warbandsStats=GuiFactory.buildMenuItem("Warbands");
     ActionListener alWarbands=new ActionListener()
     {
@@ -74,6 +80,17 @@ public class MainFrameController extends DefaultWindowController
     };
     warbandsStats.addActionListener(alWarbands);
     statsMenu.add(warbandsStats);
+    // - levelling
+    JMenuItem levellingStats=GuiFactory.buildMenuItem("Levelling");
+    ActionListener alLevelling=new ActionListener()
+    {
+      public void actionPerformed(ActionEvent e)
+      {
+        doLevelling();
+      }
+    };
+    levellingStats.addActionListener(alLevelling);
+    statsMenu.add(levellingStats);
     
     JMenuBar menuBar=GuiFactory.buildMenuBar();
     menuBar.add(fileMenu);
@@ -98,9 +115,28 @@ public class MainFrameController extends DefaultWindowController
 
   private void doWarbands()
   {
-    MultipleToonsWarbandsStats stats=new MultipleToonsWarbandsStats();
-    WarbandsWindowController warbandsController=new WarbandsWindowController(stats);
-    warbandsController.show();
+    String id=WarbandsWindowController.getIdentifier();
+    WindowController controller=_windowsManager.getWindow(id);
+    if (controller==null)
+    {
+      controller=new WarbandsWindowController();
+      _windowsManager.registerWindow(controller);
+      controller.getFrame().setLocationRelativeTo(getFrame());
+    }
+    controller.bringToFront();
+  }
+
+  private void doLevelling()
+  {
+    String id=CharacterLevelWindowController.getIdentifier();
+    WindowController controller=_windowsManager.getWindow(id);
+    if (controller==null)
+    {
+      controller=new CharacterLevelWindowController();
+      _windowsManager.registerWindow(controller);
+      controller.getFrame().setLocationRelativeTo(getFrame());
+    }
+    controller.bringToFront();
   }
 
   private void doQuit()
@@ -120,6 +156,11 @@ public class MainFrameController extends DefaultWindowController
   @Override
   public void dispose()
   {
+    if (_windowsManager!=null)
+    {
+      _windowsManager.disposeAll();
+      _windowsManager=null;
+    }
     super.dispose();
     if (_toonsManager!=null)
     {

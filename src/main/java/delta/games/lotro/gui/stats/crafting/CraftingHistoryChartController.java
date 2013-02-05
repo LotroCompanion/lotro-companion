@@ -233,7 +233,7 @@ public class CraftingHistoryChartController
     data.addSeries(masterySeries);
     data.addSeries(proficiencySeries);
     return data;  
-}  
+  }  
 
   /**
    * Release all managed resources.

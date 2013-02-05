@@ -1,9 +1,10 @@
 package delta.games.lotro.gui.character;
 
-import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -14,21 +15,20 @@ import java.util.Set;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 
+import delta.common.utils.ListenersManager;
 import delta.games.lotro.character.Character;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.gui.utils.GuiFactory;
-import delta.games.lotro.gui.utils.OKCancelPanelController;
 
 /**
  * Controller for characters selector panel.
  * @author DAM
  */
-public class CharactersSelectorPanelController
+public class CharactersSelectorPanelController implements ItemListener
 {
   // Constants
   private static final int NB_MAX_COLUMNS=2;
   private static final int PREFERRED_NB_ITEMS_PER_COLUMN=10;
-  private static final int PREFERRED_MAX_ITEMS=NB_MAX_COLUMNS*PREFERRED_NB_ITEMS_PER_COLUMN;
 
   // Data
   private List<CharacterFile> _toons;
@@ -37,9 +37,11 @@ public class CharactersSelectorPanelController
   // GUI
   private HashMap<String,JCheckBox> _checkboxes;
   private JPanel _panel;
-  private JPanel _checkBoxesPanel;
-  // Controllers
-  private OKCancelPanelController _okCancelController;
+  // Configuration
+  private int _nbMaxColumns;
+  private int _nbPreferredNbItemsPerColumn;
+  // Listeners
+  private ListenersManager<CharacterSelectionChangedListener> _listeners;
   
   /**
    * Constructor.
@@ -48,12 +50,13 @@ public class CharactersSelectorPanelController
    */
   public CharactersSelectorPanelController(List<CharacterFile> toons, List<CharacterFile> selectedToons)
   {
+    _nbMaxColumns=NB_MAX_COLUMNS;
+    _nbPreferredNbItemsPerColumn=PREFERRED_NB_ITEMS_PER_COLUMN;
+    _listeners=new ListenersManager<CharacterSelectionChangedListener>();
     _toons=new ArrayList<CharacterFile>();
     _toonsMap=new HashMap<String,CharacterFile>();
     _selectedToons=new HashSet<CharacterFile>();
     _checkboxes=new HashMap<String,JCheckBox>();
-    _okCancelController=new OKCancelPanelController();
-    //getPanel();
     for(CharacterFile toon : toons)
     {
       boolean selected=selectedToons.contains(toon);
@@ -62,11 +65,22 @@ public class CharactersSelectorPanelController
   }
 
   /**
-   * Add a toon to this
+   * Grid size configuration.
+   * @param nbMaxColumns Maximum number of columns.
+   * @param nbPreferredItemsPerColumn Preferred number of items per columns.
+   */
+  public void setGridConfiguration(int nbMaxColumns, int nbPreferredItemsPerColumn)
+  {
+    _nbMaxColumns=nbMaxColumns;
+    _nbPreferredNbItemsPerColumn=nbPreferredItemsPerColumn;
+  }
+
+  /**
+   * Add a toon to this selection panel.
    * @param toon Toon to add.
    * @param selected Indicates if this toon is pre-selected or not.
    */
-  private void addToon(CharacterFile toon, boolean selected)
+  public void addToon(CharacterFile toon, boolean selected)
   {
     if (toon!=null)
     {
@@ -74,6 +88,66 @@ public class CharactersSelectorPanelController
       _toons.add(toon);
       _toonsMap.put(id,toon);
       setToonSelected(id,selected);
+    }
+  }
+
+  /**
+   * Remove a toon from this selection panel.
+   * @param toon Toon to remove.
+   */
+  public void removeToon(CharacterFile toon)
+  {
+    if (toon!=null)
+    {
+      String id=toon.getIdentifier();
+      JCheckBox cb=_checkboxes.get(id);
+      _panel.remove(cb);
+      _checkboxes.remove(id);
+      _toons.remove(toon);
+      _toonsMap.remove(id);
+      _selectedToons.remove(toon);
+    }
+  }
+
+  /**
+   * Get the 'character selection change' listeners manager. 
+   * @return A listeners manager.
+   */
+  public ListenersManager<CharacterSelectionChangedListener> getListenersManager()
+  {
+    return _listeners;
+  }
+
+  public void itemStateChanged(ItemEvent e)
+  {
+    JCheckBox source = (JCheckBox)e.getItemSelectable();
+    for(Map.Entry<String,JCheckBox> entry : _checkboxes.entrySet())
+    {
+      JCheckBox cb=entry.getValue();
+      if (cb==source)
+      {
+        String id=entry.getKey();
+        boolean selected = (e.getStateChange()==ItemEvent.SELECTED);
+        CharacterFile toon=_toonsMap.get(id);
+        if (selected)
+        {
+          _selectedToons.add(toon);
+        }
+        else
+        {
+          _selectedToons.remove(toon);
+        }
+        broadcastToonSelectionChange(id,selected);
+        break;
+      }
+    }
+  }
+
+  private void broadcastToonSelectionChange(String toonId, boolean selected)
+  {
+    for(CharacterSelectionChangedListener listener : _listeners)
+    {
+      listener.selectionChanged(toonId,selected);
     }
   }
 
@@ -98,15 +172,6 @@ public class CharactersSelectorPanelController
     {
       _selectedToons.remove(toon);
     }
-  }
-
-  /**
-   * Get the managed ok/cancel controller.
-   * @return A ok/cancel controller.
-   */
-  public OKCancelPanelController getOKCancelController()
-  {
-    return _okCancelController;
   }
 
   /**
@@ -150,20 +215,52 @@ public class CharactersSelectorPanelController
   
   private JPanel buildPanel()
   {
-    JPanel panel=GuiFactory.buildPanel(new BorderLayout());
-    _checkBoxesPanel=GuiFactory.buildPanel(new GridBagLayout());
-    panel.add(_checkBoxesPanel,BorderLayout.CENTER);
-    fillPanel();
-    JPanel okCancelPanel=_okCancelController.getPanel();
-    panel.add(okCancelPanel,BorderLayout.SOUTH);
-    return panel;
+    _panel=GuiFactory.buildPanel(new GridBagLayout());
+    refresh();
+    return _panel;
+  }
+  
+  /**
+   * Refresh the managed panel (to synchronize with new/removed toons).
+   */
+  public void refresh()
+  {
+    if (_panel!=null)
+    {
+      _panel.removeAll();
+      GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,2,2,2),0,0);
+      int nbItems=_toons.size();
+      int[] size=getGridSize(nbItems);
+      for(CharacterFile toon : _toons)
+      {
+        String toonID=toon.getIdentifier();
+        JCheckBox cb=_checkboxes.get(toonID);
+        if (cb==null)
+        {
+          cb=buildToonCheckbox(toon);
+        }
+        if (cb!=null)
+        {
+          _panel.add(cb,c);
+          c.gridy++;
+          if (size[1]==c.gridy)
+          {
+            c.gridx++;
+            c.gridy=0;
+          }
+        }
+      }
+      _panel.revalidate();
+      _panel.repaint();
+    }
   }
 
   private int[] getGridSize(int nbItems)
   {
     int nbColumns;
     int nbItemsPerColumn;
-    if (nbItems<=PREFERRED_MAX_ITEMS)
+    int preferredMaxItems=_nbMaxColumns*_nbPreferredNbItemsPerColumn;
+    if (nbItems<=preferredMaxItems)
     {
       nbColumns=nbItems/PREFERRED_NB_ITEMS_PER_COLUMN+((nbItems%PREFERRED_NB_ITEMS_PER_COLUMN!=0)?1:0);
       nbItemsPerColumn=PREFERRED_NB_ITEMS_PER_COLUMN;
@@ -176,50 +273,14 @@ public class CharactersSelectorPanelController
     return new int[]{nbColumns,nbItemsPerColumn};
   }
 
-  private void fillPanel()
-  {
-    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,2,2,2),0,0);
-    int nbItems=_toons.size();
-    int[] size=getGridSize(nbItems);
-    for(CharacterFile toon : _toons)
-    {
-      JCheckBox cb=buildToonCheckbox(toon);
-      if (cb!=null)
-      {
-        _checkBoxesPanel.add(cb,c);
-        c.gridy++;
-        if (size[1]==c.gridy)
-        {
-          c.gridx++;
-          c.gridy=0;
-        }
-      }
-    }
-  }
-
   /**
    * Indicates if the given toon is selected or not.
    * @param toon Targeted toon.
    * @return <code>true</code> if it is selected, <code>false</code> otherwise.
    */
-  public boolean isSelected(CharacterFile toon)
+  private boolean isSelected(CharacterFile toon)
   {
     return _selectedToons.contains(toon);
-  }
-
-  void updateSelection()
-  {
-    _selectedToons.clear();
-    for(Map.Entry<String,JCheckBox> entry : _checkboxes.entrySet())
-    {
-      String id=entry.getKey();
-      JCheckBox cb=entry.getValue();
-      if (cb.isSelected())
-      {
-        CharacterFile toon=_toonsMap.get(id);
-        _selectedToons.add(toon);
-      }
-    }
   }
 
   private JCheckBox buildToonCheckbox(CharacterFile toon)
@@ -234,6 +295,7 @@ public class CharactersSelectorPanelController
       _checkboxes.put(id,ret);
       boolean selected=isSelected(toon);
       ret.setSelected(selected);
+      ret.addItemListener(this);
     }
     return ret;
   }
@@ -249,21 +311,10 @@ public class CharactersSelectorPanelController
       _panel.removeAll();
       _panel=null;
     }
-    if (_checkBoxesPanel!=null)
-    {
-      _checkBoxesPanel.removeAll();
-      _checkBoxesPanel=null;
-    }
     _checkboxes=null;
     // Data
     _toons=null;
     _toonsMap=null;
     _selectedToons=null;
-    // Controllers
-    if (_okCancelController!=null)
-    {
-      _okCancelController.dispose();
-      _okCancelController=null;
-    }
   }
 }

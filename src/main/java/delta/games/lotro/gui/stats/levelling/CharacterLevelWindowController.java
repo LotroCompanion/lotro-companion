@@ -1,5 +1,6 @@
-package delta.games.lotro.gui.stats.warbands;
+package delta.games.lotro.gui.stats.levelling;
 
+import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,30 +12,30 @@ import delta.games.lotro.Config;
 import delta.games.lotro.Preferences;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharactersManager;
-import delta.games.lotro.stats.warbands.MultipleToonsWarbandsStats;
+import delta.games.lotro.stats.levelling.MultipleToonsLevellingStats;
 import delta.games.lotro.utils.TypedProperties;
 import delta.games.lotro.utils.gui.DefaultWindowController;
 
 /**
- * Controller for a "warbands statistics" window.
+ * Controller for a "character level" window.
  * @author DAM
  */
-public class WarbandsWindowController extends DefaultWindowController
+public class CharacterLevelWindowController extends DefaultWindowController
 {
-  private static final String WARBANDS_PREFERENCES_NAME="warbands";
-  private static final String TOON_NAME_PREFERENCE="warbands.registered.toon";
+  private static final String LEVELLING_PREFERENCES_NAME="levelling";
+  private static final String TOON_NAME_PREFERENCE="levelling.registered.toon";
 
-  private WarbandsPanelController _warbandsStatisticsPanelController;
-  private MultipleToonsWarbandsStats _stats;
+  private CharacterLevelPanelController _levellingPanelController;
+  private MultipleToonsLevellingStats _stats;
 
   /**
    * Constructor.
    */
-  public WarbandsWindowController()
+  public CharacterLevelWindowController()
   {
-    _stats=new MultipleToonsWarbandsStats();
+    _stats=new MultipleToonsLevellingStats();
     Preferences preferences=Config.getInstance().getPreferences();
-    TypedProperties props=preferences.getPreferences(WARBANDS_PREFERENCES_NAME);
+    TypedProperties props=preferences.getPreferences(LEVELLING_PREFERENCES_NAME);
     List<String> toonIds=props.getStringList(TOON_NAME_PREFERENCE);
     CharactersManager manager=CharactersManager.getInstance();
     if ((toonIds!=null) && (toonIds.size()>0))
@@ -48,34 +49,35 @@ public class WarbandsWindowController extends DefaultWindowController
         }
       }
     }
-    _warbandsStatisticsPanelController=new WarbandsPanelController(this,_stats);
-  }
-
-  /**
-   * Get the window identifier for a given toon.
-   * @return A window identifier.
-   */
-  public static String getIdentifier()
-  {
-    return "WARBANDS";
+    _levellingPanelController=new CharacterLevelPanelController(this,_stats);
   }
 
   @Override
   protected JComponent buildContents()
   {
-    JPanel panel=_warbandsStatisticsPanelController.getPanel();
+    JPanel panel=_levellingPanelController.getPanel();
     return panel;
   }
   
+  /**
+   * Get the window identifier for this window.
+   * @return A window identifier.
+   */
+  public static String getIdentifier()
+  {
+    return "LEVELLING";
+  }
+
   @Override
   protected JFrame build()
   {
     JFrame frame=super.build();
     // Title
-    String title="Warbands statistics";
+    String title="Characters levelling";
     frame.setTitle(title);
     frame.pack();
-    //frame.setResizable(false);
+    frame.setMinimumSize(new Dimension(500,380));
+    frame.setSize(new Dimension(700,500));
     return frame;
   }
 
@@ -94,7 +96,7 @@ public class WarbandsWindowController extends DefaultWindowController
     super.dispose();
     List<CharacterFile> toons=_stats.getToonsList();
     Preferences preferences=Config.getInstance().getPreferences();
-    TypedProperties props=preferences.getPreferences(WARBANDS_PREFERENCES_NAME);
+    TypedProperties props=preferences.getPreferences(LEVELLING_PREFERENCES_NAME);
     List<String> toonIds=new ArrayList<String>();
     for(CharacterFile toon : toons)
     {
@@ -102,10 +104,10 @@ public class WarbandsWindowController extends DefaultWindowController
     }
     props.setStringList(TOON_NAME_PREFERENCE,toonIds);
     _stats=null;
-    if (_warbandsStatisticsPanelController!=null)
+    if (_levellingPanelController!=null)
     {
-      _warbandsStatisticsPanelController.dispose();
-      _warbandsStatisticsPanelController=null;
+      _levellingPanelController.dispose();
+      _levellingPanelController=null;
     }
   }
 }

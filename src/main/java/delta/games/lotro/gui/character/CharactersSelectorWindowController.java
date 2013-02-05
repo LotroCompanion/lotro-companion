@@ -1,5 +1,6 @@
 package delta.games.lotro.gui.character;
 
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -10,6 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import delta.games.lotro.character.CharacterFile;
+import delta.games.lotro.gui.utils.GuiFactory;
 import delta.games.lotro.gui.utils.OKCancelPanelController;
 import delta.games.lotro.utils.gui.DefaultDialogController;
 import delta.games.lotro.utils.gui.WindowController;
@@ -20,7 +22,10 @@ import delta.games.lotro.utils.gui.WindowController;
  */
 public class CharactersSelectorWindowController extends DefaultDialogController
 {
+  // Controllers
+  private OKCancelPanelController _okCancelController;
   private CharactersSelectorPanelController _controller;
+  // Data
   private List<CharacterFile> _selectedToons;
 
   /**
@@ -33,6 +38,7 @@ public class CharactersSelectorWindowController extends DefaultDialogController
   {
     super(parent);
     _controller=new CharactersSelectorPanelController(toons,selectedToons);
+    _okCancelController=new OKCancelPanelController();
   }
 
   @Override
@@ -55,7 +61,11 @@ public class CharactersSelectorWindowController extends DefaultDialogController
   @Override
   protected JComponent buildContents()
   {
-    JPanel panel=_controller.getPanel();
+    JPanel panel=GuiFactory.buildPanel(new BorderLayout());
+    JPanel checkBoxesPanel=_controller.getPanel();
+    panel.add(checkBoxesPanel,BorderLayout.CENTER);
+    JPanel okCancelPanel=_okCancelController.getPanel();
+    panel.add(okCancelPanel,BorderLayout.SOUTH);
     return panel;
   }
 
@@ -75,7 +85,6 @@ public class CharactersSelectorWindowController extends DefaultDialogController
 
   private List<CharacterFile> doShow()
   {
-    OKCancelPanelController okCancelController=_controller.getOKCancelController();
     ActionListener al=new ActionListener()
     {
       public void actionPerformed(ActionEvent event)
@@ -94,7 +103,6 @@ public class CharactersSelectorWindowController extends DefaultDialogController
 
       private void ok()
       {
-        _controller.updateSelection();
         _selectedToons=_controller.getSelectedToons();
       }
 
@@ -103,8 +111,15 @@ public class CharactersSelectorWindowController extends DefaultDialogController
         _selectedToons=null;
       }
     };
-    okCancelController.getOKButton().addActionListener(al);
-    okCancelController.getCancelButton().addActionListener(al);
+    _okCancelController.getOKButton().addActionListener(al);
+    _okCancelController.getCancelButton().addActionListener(al);
+    WindowController parent=getParentController();
+    if (parent!=null)
+    {
+      JFrame frame=parent.getFrame();
+      JDialog thisDialog=getDialog();
+      thisDialog.setLocationRelativeTo(frame);
+    }
     show(true);
     List<CharacterFile> selectedToons=_selectedToons;
     dispose();
@@ -127,6 +142,12 @@ public class CharactersSelectorWindowController extends DefaultDialogController
     {
       _controller.dispose();
       _controller=null;
+    }
+    // Controllers
+    if (_okCancelController!=null)
+    {
+      _okCancelController.dispose();
+      _okCancelController=null;
     }
     _selectedToons=null;
     super.dispose();

@@ -1,7 +1,5 @@
 package delta.games.lotro.gui.stats.warbands;
 
-import delta.games.lotro.stats.warbands.MultipleToonsWarbandsStats;
-
 /**
  * Test for the warbands statistics window.
  * @author DAM
@@ -14,8 +12,7 @@ public class MainTestShowWarbandsStatistics
    */
   public static void main(String[] args)
   {
-    MultipleToonsWarbandsStats stats=new MultipleToonsWarbandsStats();
-    WarbandsWindowController controller=new WarbandsWindowController(stats);
+    WarbandsWindowController controller=new WarbandsWindowController();
     controller.show();
   }
 }

@@ -7,6 +7,7 @@ import java.awt.Insets;
 import java.awt.image.BufferedImage;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -41,7 +42,7 @@ public class WarbandsTableController
 {
   // Data
   private MultipleToonsWarbandsStats _stats;
-  private CharacterFile[] _toons;
+  private List<CharacterFile> _toons;
   private WarbandDefinition[] _warbands;
   private WarbandFilter _filter;
   // GUI
@@ -99,7 +100,7 @@ public class WarbandsTableController
         removeToon(toon);
       }
     }
-    _toons=_stats.getToons();
+    _toons=_stats.getToonsList();
     for(CharacterFile toon : _toons)
     {
       addToon(toon);
@@ -310,7 +311,7 @@ public class WarbandsTableController
         }
         else
         {
-          CharacterFile toon=_toons[column-1];
+          CharacterFile toon=_toons.get(column-1);
           String toonID=toon.getIdentifier();
           WarbandStats stats=(WarbandStats)value;
           WarbandDefinition warband=stats.getDefinition();
@@ -328,7 +329,7 @@ public class WarbandsTableController
         column=table.getColumnModel().getColumn(column).getModelIndex();
         if (column>0)
         {
-          CharacterFile toon=_toons[column-1];
+          CharacterFile toon=_toons.get(column-1);
           id=toon.getIdentifier();
         }
         JPanel headerPanel=_headerPanels.get(id);
@@ -342,7 +343,7 @@ public class WarbandsTableController
       column.setHeaderRenderer(headerCellRenderer);
       if (i>0)
       {
-        CharacterFile toon=_toons[i-1];
+        CharacterFile toon=_toons.get(i-1);
         String toonID=toon.getIdentifier();
         JPanel headerPanel=_headerPanels.get(toonID);
         int minWidth=headerPanel.getPreferredSize().width;
@@ -472,7 +473,7 @@ public class WarbandsTableController
       {
         return warband;
       }
-      CharacterFile toon=_toons[columnIndex-1];
+      CharacterFile toon=_toons.get(columnIndex-1);
       String toonID=toon.getIdentifier();
       WarbandsStats warbandsStats=_stats.getStatsForToon(toonID);
       WarbandStats warbandStats=warbandsStats.getWarbandStats(warband);

@@ -1,6 +1,5 @@
 package delta.games.lotro.stats.levelling;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JFrame;
@@ -8,8 +7,8 @@ import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
 import delta.games.lotro.character.CharacterFile;
-import delta.games.lotro.character.log.CharacterLog;
 import delta.games.lotro.character.log.LotroTestUtils;
+import delta.games.lotro.gui.stats.levelling.CharacterLevelChartController;
 
 /**
  * Test for character levelling graph.
@@ -25,19 +24,14 @@ public class MainTestLevellingStats
   {
     LotroTestUtils utils=new LotroTestUtils();
     List<CharacterFile> toons=utils.getAllFiles();
-    List<LevellingStats> stats=new ArrayList<LevellingStats>();
+    MultipleToonsLevellingStats stats=new MultipleToonsLevellingStats();
     //String[] names={"Glumlug","Feroce","Tilmogrim","Beleganth"};
     //for(String name : names)
+    //CharacterFile toon=utils.getMainToon();
     for(CharacterFile toon : toons)
     {
-      CharacterLog log=toon.getLastCharacterLog();
-      if (log!=null)
-      {
-        LevellingStats toonStats=new LevellingStats(log);
-        stats.add(toonStats);
-      }
+      stats.addToon(toon);
     }
-    System.out.println(stats);
     
     JFrame f=new JFrame();
     CharacterLevelChartController controller=new CharacterLevelChartController(stats);
