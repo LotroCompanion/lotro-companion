@@ -20,6 +20,8 @@ import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.NumberTickUnit;
 import org.jfree.chart.axis.TickUnitSource;
 import org.jfree.chart.axis.TickUnits;
+import org.jfree.chart.labels.StandardXYToolTipGenerator;
+import org.jfree.chart.labels.XYToolTipGenerator;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.chart.title.LegendTitle;
@@ -114,6 +116,21 @@ public class CharacterLevelChartController
     XYPlot plot = jfreechart.getXYPlot();
     plot.setDomainPannable(false);
     
+    XYToolTipGenerator tooltip=new StandardXYToolTipGenerator() {
+      @Override
+      public String generateLabelString(XYDataset dataset, int series, int item)
+      {
+        String name=(String)((XYSeriesCollection)dataset).getSeriesKey(series);
+        int level=(int)dataset.getYValue(series,item);
+        double timestamp=dataset.getXValue(series,item);
+        String date=Formats.getDateString(Long.valueOf((long)timestamp));
+        return name+" - "+level+" ("+date+")";
+      }
+    };
+    XYItemRenderer renderer=plot.getRenderer();
+    renderer.setBaseToolTipGenerator(tooltip);
+
+    // Time axis
     DateAxis axis = (DateAxis) plot.getDomainAxis();
     SimpleDateFormat sdf=Formats.getDateFormatter();
     axis.setDateFormatOverride(sdf);
@@ -121,6 +138,7 @@ public class CharacterLevelChartController
     axis.setLabelPaint(foregroundColor);
     axis.setTickLabelPaint(foregroundColor);
 
+    // Level axis
     NumberAxis valueAxis = (NumberAxis)plot.getRangeAxis();
     valueAxis.setAutoRange(true);
     valueAxis.setAxisLinePaint(foregroundColor);
