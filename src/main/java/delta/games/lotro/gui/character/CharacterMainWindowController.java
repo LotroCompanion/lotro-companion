@@ -162,7 +162,7 @@ public class CharacterMainWindowController extends DefaultWindowController imple
       {
         controller=new CharacterLogWindowController(_toon);
         _windowsManager.registerWindow(controller);
-        controller.getFrame().setLocationRelativeTo(getFrame());
+        controller.getWindow().setLocationRelativeTo(getFrame());
       }
       controller.bringToFront();
     }
@@ -177,7 +177,7 @@ public class CharacterMainWindowController extends DefaultWindowController imple
       {
         controller=new CharacterReputationWindowController(_toon);
         _windowsManager.registerWindow(controller);
-        controller.getFrame().setLocationRelativeTo(getFrame());
+        controller.getWindow().setLocationRelativeTo(getFrame());
       }
       controller.bringToFront();
     }
@@ -192,7 +192,7 @@ public class CharacterMainWindowController extends DefaultWindowController imple
       {
         controller=new CraftingWindowController(_toon);
         _windowsManager.registerWindow(controller);
-        controller.getFrame().setLocationRelativeTo(getFrame());
+        controller.getWindow().setLocationRelativeTo(getFrame());
       }
       controller.bringToFront();
     }

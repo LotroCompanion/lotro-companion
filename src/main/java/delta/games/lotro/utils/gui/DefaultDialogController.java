@@ -3,13 +3,13 @@ package delta.games.lotro.utils.gui;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Image;
+import java.awt.Window;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.List;
 
 import javax.swing.JComponent;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
@@ -20,7 +20,7 @@ import delta.games.lotro.gui.utils.IconUtils;
  * Default dialog controller.
  * @author DAM
  */
-public class DefaultDialogController
+public class DefaultDialogController implements WindowController
 {
   private JDialog _dialog;
   private WindowController _parent;
@@ -32,6 +32,15 @@ public class DefaultDialogController
   public DefaultDialogController(WindowController parent)
   {
     _parent=parent;
+  }
+
+  /**
+   * Compute a window identifier.
+   * @return A string that uniquely identifies the managed frame.
+   */
+  public String getWindowIdentifier()
+  {
+    return null;
   }
 
   /**
@@ -48,6 +57,15 @@ public class DefaultDialogController
   }
 
   /**
+   * Get the managed window.
+   * @return the managed window.
+   */
+  public Window getWindow()
+  {
+    return getDialog();
+  }
+
+  /**
    * Get the parent controller.
    * @return a controller or <code>null</code> if there's none.
    */
@@ -58,16 +76,16 @@ public class DefaultDialogController
 
   protected JDialog build()
   {
-    JFrame parentFrame=null;
+    Window parentWindow=null;
     if (_parent!=null)
     {
-      parentFrame=_parent.getFrame();
+      parentWindow=_parent.getWindow();
     }
     
     JDialog dialog;
-    if (parentFrame!=null)
+    if (parentWindow!=null)
     {
-      dialog=new JDialog(parentFrame);
+      dialog=new JDialog(parentWindow);
     }
     else
     {
@@ -107,6 +125,11 @@ public class DefaultDialogController
   protected void doWindowClosing()
   {
     dispose();
+  }
+
+  public void show()
+  {
+    show(false);
   }
 
   /**

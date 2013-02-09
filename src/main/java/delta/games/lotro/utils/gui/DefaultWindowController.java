@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Frame;
 import java.awt.Image;
+import java.awt.Window;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.List;
@@ -36,6 +37,15 @@ public class DefaultWindowController implements WindowController
       _frame=build();
     }
     return _frame;
+  }
+
+  /**
+   * Get the managed window.
+   * @return the managed window.
+   */
+  public Window getWindow()
+  {
+    return getFrame();
   }
 
   /**

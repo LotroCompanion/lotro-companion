@@ -1,6 +1,6 @@
 package delta.games.lotro.utils.gui;
 
-import javax.swing.JFrame;
+import java.awt.Window;
 
 /**
  * Interface of a window controller.
@@ -9,10 +9,10 @@ import javax.swing.JFrame;
 public interface WindowController
 {
   /**
-   * Get the managed frame.
-   * @return the managed frame.
+   * Get the managed window.
+   * @return the managed window.
    */
-  public JFrame getFrame();
+  public Window getWindow();
 
   /**
    * Compute a window identifier.

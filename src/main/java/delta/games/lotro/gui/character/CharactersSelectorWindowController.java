@@ -1,13 +1,13 @@
 package delta.games.lotro.gui.character;
 
 import java.awt.BorderLayout;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
 import javax.swing.JComponent;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import delta.games.lotro.character.CharacterFile;
@@ -51,8 +51,8 @@ public class CharactersSelectorWindowController extends DefaultDialogController
     WindowController controller=getParentController();
     if (controller!=null)
     {
-      JFrame parentFrame=controller.getFrame();
-      dialog.setLocationRelativeTo(parentFrame);
+      Window parentWindow=controller.getWindow();
+      dialog.setLocationRelativeTo(parentWindow);
     }
     //dialog.setMinimumSize(new Dimension(400,300));
     return dialog;
@@ -116,9 +116,9 @@ public class CharactersSelectorWindowController extends DefaultDialogController
     WindowController parent=getParentController();
     if (parent!=null)
     {
-      JFrame frame=parent.getFrame();
+      Window parentWindow=parent.getWindow();
       JDialog thisDialog=getDialog();
-      thisDialog.setLocationRelativeTo(frame);
+      thisDialog.setLocationRelativeTo(parentWindow);
     }
     show(true);
     List<CharacterFile> selectedToons=_selectedToons;

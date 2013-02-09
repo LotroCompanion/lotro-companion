@@ -1,8 +1,11 @@
 package delta.games.lotro.gui.main;
 
+import java.awt.Point;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.Box;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -17,6 +20,7 @@ import delta.games.lotro.Preferences;
 import delta.games.lotro.gui.stats.levelling.CharacterLevelWindowController;
 import delta.games.lotro.gui.stats.warbands.WarbandsWindowController;
 import delta.games.lotro.gui.toon.ToonsManagementController;
+import delta.games.lotro.gui.utils.AboutDialogController;
 import delta.games.lotro.gui.utils.GuiFactory;
 import delta.games.lotro.utils.gui.DefaultWindowController;
 import delta.games.lotro.utils.gui.WindowController;
@@ -92,9 +96,25 @@ public class MainFrameController extends DefaultWindowController
     levellingStats.addActionListener(alLevelling);
     statsMenu.add(levellingStats);
     
+    // Help
+    JMenu helpMenu=GuiFactory.buildMenu("Help");
+    // - about
+    JMenuItem aboutMenuItem=GuiFactory.buildMenuItem("About...");
+    ActionListener alAbout=new ActionListener()
+    {
+      public void actionPerformed(ActionEvent e)
+      {
+        doAbout();
+      }
+    };
+    aboutMenuItem.addActionListener(alAbout);
+    helpMenu.add(aboutMenuItem);
+    
     JMenuBar menuBar=GuiFactory.buildMenuBar();
     menuBar.add(fileMenu);
     menuBar.add(statsMenu);
+    menuBar.add(Box.createHorizontalGlue());
+    menuBar.add(helpMenu);
     return menuBar;
   }
 
@@ -121,7 +141,7 @@ public class MainFrameController extends DefaultWindowController
     {
       controller=new WarbandsWindowController();
       _windowsManager.registerWindow(controller);
-      controller.getFrame().setLocationRelativeTo(getFrame());
+      controller.getWindow().setLocationRelativeTo(getFrame());
     }
     controller.bringToFront();
   }
@@ -134,7 +154,25 @@ public class MainFrameController extends DefaultWindowController
     {
       controller=new CharacterLevelWindowController();
       _windowsManager.registerWindow(controller);
-      controller.getFrame().setLocationRelativeTo(getFrame());
+      controller.getWindow().setLocationRelativeTo(getFrame());
+    }
+    controller.bringToFront();
+  }
+
+  private void doAbout()
+  {
+    String id=AboutDialogController.getIdentifier();
+    WindowController controller=_windowsManager.getWindow(id);
+    if (controller==null)
+    {
+      JFrame thisFrame=getFrame();
+      controller=new AboutDialogController(this);
+      _windowsManager.registerWindow(controller);
+      Window w=controller.getWindow();
+      w.setLocationRelativeTo(thisFrame);
+      Point p=w.getLocation();
+      w.setLocation(p.x+100,p.y+100);
+      
     }
     controller.bringToFront();
   }

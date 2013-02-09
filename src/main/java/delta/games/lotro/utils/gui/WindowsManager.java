@@ -7,8 +7,6 @@ import java.awt.event.WindowListener;
 import java.util.Collection;
 import java.util.HashMap;
 
-import javax.swing.JFrame;
-
 /**
  * Manages a set of windows.
  * @author DAM
@@ -34,11 +32,11 @@ public class WindowsManager
     String id=controller.getWindowIdentifier();
     if ((id!=null) && (id.length()>0))
     {
-      JFrame frame=controller.getFrame();
-      if (frame!=null)
+      Window window=controller.getWindow();
+      if (window!=null)
       {
         WindowListener wl=new WindowTracker(id);
-        frame.addWindowListener(wl);
+        window.addWindowListener(wl);
         _controllers.put(id,controller);
       }
     }

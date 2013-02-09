@@ -137,7 +137,7 @@ public class ToonsManagementController implements ActionListener
     {
       controller=new CharacterMainWindowController(toon);
       _mainWindowsManager.registerWindow(controller);
-      controller.getFrame().setLocationRelativeTo(getPanel());
+      controller.getWindow().setLocationRelativeTo(getPanel());
     }
     controller.bringToFront();
   }
