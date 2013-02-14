@@ -7,6 +7,7 @@ import java.awt.Image;
 import java.awt.Window;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.util.List;
 
 import javax.swing.JComponent;
@@ -25,6 +26,7 @@ import delta.games.lotro.gui.utils.IconUtils;
 public class DefaultWindowController implements WindowController
 {
   private JFrame _frame;
+  private WindowListener _listener;
   
   /**
    * Get the managed frame.
@@ -85,6 +87,7 @@ public class DefaultWindowController implements WindowController
       }
     };
     frame.addWindowListener(closeWindowAdapter);
+    _listener=closeWindowAdapter;
 
     return frame;
   }
@@ -134,10 +137,15 @@ public class DefaultWindowController implements WindowController
   {
     if (_frame!=null)
     {
+      if (_listener!=null)
+      {
+        _frame.removeWindowListener(_listener);
+      }
       _frame.setVisible(false);
       _frame.removeAll();
       _frame.dispose();
       _frame=null;
     }
+    _listener=null;
   }
 }
