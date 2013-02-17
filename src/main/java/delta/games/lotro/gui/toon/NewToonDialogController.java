@@ -4,12 +4,14 @@ import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -21,44 +23,49 @@ import delta.games.lotro.character.CharactersManager;
 import delta.games.lotro.gui.utils.GuiFactory;
 import delta.games.lotro.gui.utils.OKCancelPanelController;
 import delta.games.lotro.utils.TypedProperties;
+import delta.games.lotro.utils.gui.DefaultDialogController;
+import delta.games.lotro.utils.gui.WindowController;
 
 /**
  * Controller for the "new toon" dialog.
  * @author DAM
  */
-public class NewToonDialogController implements ActionListener
+public class NewToonDialogController extends DefaultDialogController implements ActionListener
 {
   private static final int TOON_NAME_SIZE=32;
-  private JDialog _dialog;
   private OKCancelPanelController _okCancelController;
   private JTextField _toonName;
   private JComboBox _server;
 
   /**
-   * Show the managed dialog.
+   * Constructor.
+   * @param parentController Parent controller.
    */
-  public void show()
+  public NewToonDialogController(WindowController parentController)
   {
-    JDialog dialog=getDialog();
-    dialog.setVisible(true);
+    super(parentController);
   }
 
-  /**
-   * Get the managed dialog.
-   * @return the managed dialog.
-   */
-  public JDialog getDialog()
+  @Override
+  protected JDialog build()
   {
-    if (_dialog==null)
+    JDialog dialog=super.build();
+    dialog.setTitle("New toon...");
+    dialog.setResizable(false);
+    dialog.pack();
+    WindowController controller=getParentController();
+    if (controller!=null)
     {
-      _dialog=build();
+      Window parentWindow=controller.getWindow();
+      dialog.setLocationRelativeTo(parentWindow);
     }
-    return _dialog;
+    return dialog;
   }
-
-  private JDialog build()
+  
+  @Override
+  protected JComponent buildContents()
   {
-    JPanel panel=GuiFactory.buildBackgroundPanel(new BorderLayout());
+    JPanel panel=GuiFactory.buildPanel(new BorderLayout());
     JPanel dataPanel=buildNewToonPanel();
     TitledBorder pathsBorder=GuiFactory.buildTitledBorder("Toon");
     dataPanel.setBorder(pathsBorder);
@@ -68,11 +75,7 @@ public class NewToonDialogController implements ActionListener
     panel.add(okCancelPanel,BorderLayout.SOUTH);
     _okCancelController.getOKButton().addActionListener(this);
     _okCancelController.getCancelButton().addActionListener(this);
-    JDialog dialog=new JDialog();
-    dialog.setContentPane(panel);
-    dialog.setTitle("New toon...");
-    dialog.pack();
-    return dialog;
+    return panel;
   }
 
   private JPanel buildNewToonPanel()
@@ -121,18 +124,47 @@ public class NewToonDialogController implements ActionListener
   {
     String toonName=_toonName.getText();
     String server=(String)_server.getSelectedItem();
-    CharactersManager manager=CharactersManager.getInstance();
-    CharacterFile toon=manager.addToon(server,toonName);
-    if (toon!=null)
+    String errorMsg=checkData();
+    if (errorMsg==null)
     {
-      dispose();
+      CharactersManager manager=CharactersManager.getInstance();
+      CharacterFile toon=manager.addToon(server,toonName);
+      if (toon!=null)
+      {
+        dispose();
+      }
+      else
+      {
+        showErrorMessage("Toon creation failed!");
+      }
     }
     else
     {
-      String title="Toon creation";
-      String message="Toon creation failed!";
-      GuiFactory.showErrorDialog(_dialog,message,title);
+      showErrorMessage(errorMsg);
     }
+  }
+
+  private String checkData()
+  {
+    String errorMsg=null;
+    String toonName=_toonName.getText();
+    if ((toonName==null) || (toonName.trim().length()==0))
+    {
+      errorMsg="Invalid toon name!";
+    }
+    String server=(String)_server.getSelectedItem();
+    if ((server==null) || (server.trim().length()==0))
+    {
+      errorMsg="Invalid server name!";
+    }
+    return errorMsg;
+  }
+
+  private void showErrorMessage(String errorMsg)
+  {
+    String title="Toon creation";
+    JDialog dialog=getDialog();
+    GuiFactory.showErrorDialog(dialog,errorMsg,title);
   }
 
   private void cancel()
@@ -145,13 +177,7 @@ public class NewToonDialogController implements ActionListener
    */
   public void dispose()
   {
-    if (_dialog!=null)
-    {
-      _dialog.setVisible(false);
-      _dialog.removeAll();
-      _dialog.dispose();
-      _dialog=null;
-    }
+    super.dispose();
     if (_okCancelController!=null)
     {
       _okCancelController.dispose();

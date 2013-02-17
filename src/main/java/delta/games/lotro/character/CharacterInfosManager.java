@@ -2,6 +2,7 @@ package delta.games.lotro.character;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
@@ -12,6 +13,7 @@ import delta.common.utils.text.EncodingNames;
 import delta.games.lotro.character.io.web.CharacterPageParser;
 import delta.games.lotro.character.io.xml.CharacterXMLParser;
 import delta.games.lotro.character.io.xml.CharacterXMLWriter;
+import delta.games.lotro.utils.Formats;
 import delta.games.lotro.utils.LotroLoggers;
 
 /**
@@ -102,32 +104,6 @@ public class CharacterInfosManager
     }
     return ret;
   }
-
-  /*
-   * 
-Updating toon [Tilmogrim]
-# 2012-04-02 22:40:13,906 [main] [APPS.LOTRO.WEB_INPUT] ERROR delta.games.lotro.character.io.web.CharacterPageParser.parseMainPage(CharacterPageParser.java:203) - Cannot parse character page [http://my.lotro.com/home/character/elendilmir/tilmogrim/]
-java.io.IOException: Server returned HTTP response code: 503 for URL: http://my.lotro.com/home/character/elendilmir/tilmogrim/
-  at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1225)
-  at net.htmlparser.jericho.StreamEncodingDetector.<init>(StreamEncodingDetector.java:65)
-  at net.htmlparser.jericho.EncodingDetector.<init>(EncodingDetector.java:43)
-  at net.htmlparser.jericho.Source.<init>(Source.java:193)
-  at delta.games.lotro.character.io.web.CharacterPageParser.parseMainPage(CharacterPageParser.java:189)
-  at delta.games.lotro.character.CharacterInfosManager.updateCharacterDescription(CharacterInfosManager.java:92)
-  at delta.games.lotro.character.MainTestCharacterParsing.main(MainTestCharacterParsing.java:26)
-# 2012-04-02 22:40:13,921 [main] [APPS.LOTRO] ERROR delta.games.lotro.character.io.xml.CharacterXMLWriter.write(CharacterXMLWriter.java:64) - 
-java.lang.NullPointerException
-  at delta.games.lotro.character.io.xml.CharacterXMLWriter.write(CharacterXMLWriter.java:77)
-  at delta.games.lotro.character.io.xml.CharacterXMLWriter.write(CharacterXMLWriter.java:58)
-  at delta.games.lotro.character.CharacterInfosManager.writeNewInfo(CharacterInfosManager.java:123)
-  at delta.games.lotro.character.CharacterInfosManager.updateCharacterDescription(CharacterInfosManager.java:93)
-  at delta.games.lotro.character.MainTestCharacterParsing.main(MainTestCharacterParsing.java:26)
-# 2012-04-02 22:40:13,921 [main] [APPS.LOTRO.CHARACTER] ERROR delta.games.lotro.character.CharacterInfosManager.updateCharacterDescription(CharacterInfosManager.java:97) - Update failed for toon [Tilmogrim]!
-Updating toon [Warthil]
-OK
-   * 
-   */
-  
   
   /**
    * Write a new info file for this toon.
@@ -157,10 +133,34 @@ OK
 
   private File getNewInfoFile()
   {
-    SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HHmm");
+    SimpleDateFormat sdf=new SimpleDateFormat(Formats.FILE_DATE_PATTERN);
     String filename="info "+sdf.format(new Date())+".xml";
     File characterDir=_toon.getRootDir();
     File logFile=new File(characterDir,filename);
     return logFile;
+  }
+
+  /**
+   * Get a date from a filename.
+   * @param filename Filename to use.
+   * @return A date or <code>null</code> if it cannot be parsed!
+   */
+  public static Date getDateFromFilename(String filename)
+  {
+    Date ret=null;
+    if ((filename.startsWith("info ")) && (filename.endsWith(".xml")))
+    {
+      filename=filename.substring(5,filename.length()-4);
+      SimpleDateFormat sdf=new SimpleDateFormat(Formats.FILE_DATE_PATTERN);
+      try
+      {
+        ret=sdf.parse(filename);
+      }
+      catch(ParseException pe)
+      {
+        _logger.error("Cannot parse filename ["+filename+"]!",pe);
+      }
+    }
+    return ret;
   }
 }

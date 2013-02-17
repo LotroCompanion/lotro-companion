@@ -15,6 +15,16 @@ public class Formats
    */
   public static String DATE_PATTERN="dd/MM/yyyy";
 
+  /**
+   * Date pattern with time.
+   */
+  public static String DATE_TIME_PATTERN="dd/MM/yyyy HH:mm";
+
+  /**
+   * File date pattern.
+   */
+  public static String FILE_DATE_PATTERN="yyyy-MM-dd HHmm";
+
   private static SimpleDateFormat _dateFormatter=new SimpleDateFormat(DATE_PATTERN);
 
   /**

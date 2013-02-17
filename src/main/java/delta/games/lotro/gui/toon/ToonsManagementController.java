@@ -29,6 +29,7 @@ public class ToonsManagementController implements ActionListener
 {
   private static final String NEW_TOON_ID="newToon";
   private JPanel _panel;
+  private WindowController _parentController;
   private ToonsTableController _toonsTable;
   private ToolbarController _toolbar;
   private NewToonDialogController _newToonDialog;
@@ -37,9 +38,11 @@ public class ToonsManagementController implements ActionListener
 
   /**
    * Constructor.
+   * @param parentController Parent controller.
    */
-  public ToonsManagementController()
+  public ToonsManagementController(WindowController parentController)
   {
+    _parentController=parentController;
     _mainWindowsManager=new WindowsManager();
   }
   
@@ -146,10 +149,10 @@ public class ToonsManagementController implements ActionListener
   {
     if (_newToonDialog==null)
     {
-      _newToonDialog=new NewToonDialogController();
+      _newToonDialog=new NewToonDialogController(_parentController);
     }
     _newToonDialog.getDialog().setLocationRelativeTo(getPanel());
-    _newToonDialog.show();
+    _newToonDialog.show(true);
   }
 
   /**

@@ -40,7 +40,7 @@ public class MainFrameController extends DefaultWindowController
    */
   public MainFrameController()
   {
-    _toonsManager=new ToonsManagementController();
+    _toonsManager=new ToonsManagementController(this);
     _windowsManager=new WindowsManager();
   }
 
@@ -49,10 +49,9 @@ public class MainFrameController extends DefaultWindowController
   {
     JFrame frame=super.build();
     frame.setTitle("LOTRO Companion");
-    frame.setSize(500,400);
+    frame.setSize(760,400);
     frame.setLocation(100,100);
     frame.getContentPane().setBackground(GuiFactory.getBackgroundColor());
-
     return frame;
   }
 

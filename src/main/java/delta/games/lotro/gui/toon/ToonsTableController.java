@@ -5,13 +5,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableRowSorter;
 
@@ -21,6 +24,7 @@ import delta.games.lotro.character.CharactersManager;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.Race;
 import delta.games.lotro.gui.utils.GuiFactory;
+import delta.games.lotro.utils.Formats;
 
 /**
  * Controller for a table that shows all available toons.
@@ -48,15 +52,18 @@ public class ToonsTableController
     "Race",
     "Class",
     "Level",
-    "Server"
+    "Server",
+    "Info update",
+    "Log update"
   };
   private static final Class<?>[] COLUMN_CLASSES=
   {
-    String.class, Race.class, CharacterClass.class, Integer.class, String.class
+    String.class, Race.class, CharacterClass.class, Integer.class, String.class,
+    Date.class, Date.class
   };
-  private static final int[] MIN_WIDTH = { 100, 100, 100, 100, 100 };
-  private static final int[] MAX_WIDTH = { 100, 100, 100, 100, -1 };
-  private static final int[] PREFERRED_WIDTH = { 100, 100, 100, 100, 100 };
+  private static final int[] MIN_WIDTH = { 100, 100, 100, 100, 100, 130, 130 };
+  private static final int[] MAX_WIDTH = { 100, 100, 100, 100, 100, 130, -1 };
+  private static final int[] PREFERRED_WIDTH = { 100, 100, 100, 100, 100, 130, 130 };
 
   /**
    * Constructor.
@@ -118,31 +125,6 @@ public class ToonsTableController
     return _table;
   }
 
-  /*
-   * For future use: class and race (enums) renderers
-  static class LogItemTypeRenderer extends DefaultTableCellRenderer
-  {
-    private HashMap<LogItemType,String> _labels;
-
-    public LogItemTypeRenderer()
-    {
-      _labels=new HashMap<LogItemType,String>();
-      _labels.put(LogItemType.DEED,"Deed");
-      _labels.put(LogItemType.LEVELUP,"Level up");
-      _labels.put(LogItemType.PROFESSION,"Profession");
-      _labels.put(LogItemType.PVMP,"Player vs Monster");
-      _labels.put(LogItemType.QUEST,"Quest");
-      _labels.put(LogItemType.VOCATION,"Vocation");
-      _labels.put(LogItemType.UNKNOWN,"???");
-    }  
-   
-    public void setValue(Object value)
-    {  
-        setText((value == null) ? "" : _labels.get(value));  
-    }  
-  }  
-  */
-
   private JTable build()
   {
     _model=new ToonsTableModel();
@@ -178,9 +160,12 @@ public class ToonsTableController
       {
         column.setMaxWidth(setMaxWidth);
       }
+      if ((i==5) || (i==6))
+      {
+        column.setCellRenderer(new DateRenderer());
+      }
     }
     table.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
-    //typeColumn.setCellRenderer(new LogItemTypeRenderer());
     for(int i=0;i<COLUMN_NAMES.length;i++)
     {
       _sorter.setSortable(i,true);
@@ -317,6 +302,14 @@ public class ToonsTableController
           {
             ret=c.getServer();
           }
+          else if (columnIndex==5)
+          {
+            ret=toon.getLastInfoUpdate();
+          }
+          else if (columnIndex==6)
+          {
+            ret=toon.getLastLogUpdate();
+          }
         }
       }
       return ret;
@@ -339,4 +332,18 @@ public class ToonsTableController
     _cache=null;
     _toons=null;
   }
+
+  static class DateRenderer extends DefaultTableCellRenderer
+  {
+    private SimpleDateFormat _formatter;  
+    public DateRenderer()
+    {
+      _formatter=new SimpleDateFormat(Formats.DATE_TIME_PATTERN);
+    }  
+   
+    public void setValue(Object value)
+    {  
+        setText((value == null) ? "" : _formatter.format(value));  
+    }  
+  }  
 }

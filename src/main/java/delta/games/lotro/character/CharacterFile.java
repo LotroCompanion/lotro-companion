@@ -1,6 +1,7 @@
 package delta.games.lotro.character;
 
 import java.io.File;
+import java.util.Date;
 
 import delta.games.lotro.Config;
 import delta.games.lotro.character.log.CharacterLog;
@@ -133,6 +134,21 @@ public class CharacterFile
   }
 
   /**
+   * Get the date of the last character update.
+   * @return A date or <code>null</code> if there's no log.
+   */
+  public Date getLastInfoUpdate()
+  {
+    Date ret=null;
+    File lastFile=_infosManager.getLastInfoFile();
+    if (lastFile!=null)
+    {
+      ret=CharacterInfosManager.getDateFromFilename(lastFile.getName());
+    }
+    return ret;
+  }
+
+  /**
    * Get latest character info.
    * @return A character description or <code>null</code> if an error occurs.
    */
@@ -145,6 +161,21 @@ public class CharacterFile
     }
     Character c=_infosManager.getLastCharacterDescription();
     return c;
+  }
+
+  /**
+   * Get the date of the last log update.
+   * @return A date or <code>null</code> if there's no log.
+   */
+  public Date getLastLogUpdate()
+  {
+    Date ret=null;
+    File lastFile=_logsManager.getLastLogFile();
+    if (lastFile!=null)
+    {
+      ret=CharacterLogsManager.getDateFromFilename(lastFile.getName());
+    }
+    return ret;
   }
 
   /**

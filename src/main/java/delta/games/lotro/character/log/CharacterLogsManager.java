@@ -2,6 +2,7 @@ package delta.games.lotro.character.log;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
@@ -15,6 +16,7 @@ import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.log.io.web.CharacterLogPageParser;
 import delta.games.lotro.character.log.io.xml.CharacterLogXMLParser;
 import delta.games.lotro.character.log.io.xml.CharacterLogXMLWriter;
+import delta.games.lotro.utils.Formats;
 import delta.games.lotro.utils.LotroLoggers;
 import delta.games.lotro.utils.TypedProperties;
 
@@ -248,10 +250,34 @@ public class CharacterLogsManager
 
   private File getNewLogFile()
   {
-    SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HHmm");
+    SimpleDateFormat sdf=new SimpleDateFormat(Formats.FILE_DATE_PATTERN);
     String filename="log "+sdf.format(new Date())+".xml";
     File characterDir=_toon.getRootDir();
     File logFile=new File(characterDir,filename);
     return logFile;
+  }
+
+  /**
+   * Get a date from a filename.
+   * @param filename Filename to use.
+   * @return A date or <code>null</code> if it cannot be parsed!
+   */
+  public static Date getDateFromFilename(String filename)
+  {
+    Date ret=null;
+    if ((filename.startsWith("log ")) && (filename.endsWith(".xml")))
+    {
+      filename=filename.substring(4,filename.length()-4);
+      SimpleDateFormat sdf=new SimpleDateFormat(Formats.FILE_DATE_PATTERN);
+      try
+      {
+        ret=sdf.parse(filename);
+      }
+      catch(ParseException pe)
+      {
+        _logger.error("Cannot parse filename ["+filename+"]!",pe);
+      }
+    }
+    return ret;
   }
 }
