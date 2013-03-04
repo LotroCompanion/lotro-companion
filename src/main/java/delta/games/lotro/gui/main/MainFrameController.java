@@ -1,5 +1,6 @@
 package delta.games.lotro.gui.main;
 
+import java.awt.BorderLayout;
 import java.awt.Point;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
@@ -14,6 +15,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.swing.JToolBar;
 
 import delta.games.lotro.Config;
 import delta.games.lotro.Preferences;
@@ -22,6 +24,9 @@ import delta.games.lotro.gui.stats.warbands.WarbandsWindowController;
 import delta.games.lotro.gui.toon.ToonsManagementController;
 import delta.games.lotro.gui.utils.AboutDialogController;
 import delta.games.lotro.gui.utils.GuiFactory;
+import delta.games.lotro.gui.utils.toolbar.ToolbarController;
+import delta.games.lotro.gui.utils.toolbar.ToolbarIconItem;
+import delta.games.lotro.gui.utils.toolbar.ToolbarModel;
 import delta.games.lotro.utils.gui.DefaultWindowController;
 import delta.games.lotro.utils.gui.WindowController;
 import delta.games.lotro.utils.gui.WindowsManager;
@@ -30,8 +35,12 @@ import delta.games.lotro.utils.gui.WindowsManager;
  * Controller for the main frame.
  * @author DAM
  */
-public class MainFrameController extends DefaultWindowController
+public class MainFrameController extends DefaultWindowController implements ActionListener
 {
+  private static final String LEVELLING_ID="levelling";
+  private static final String WARBANDS_ID="warbands";
+  
+  private ToolbarController _toolbar;
   private ToonsManagementController _toonsManager;
   private WindowsManager _windowsManager;
 
@@ -74,25 +83,13 @@ public class MainFrameController extends DefaultWindowController
     JMenu statsMenu=GuiFactory.buildMenu("Statistics");
     // - warbands
     JMenuItem warbandsStats=GuiFactory.buildMenuItem("Warbands");
-    ActionListener alWarbands=new ActionListener()
-    {
-      public void actionPerformed(ActionEvent e)
-      {
-        doWarbands();
-      }
-    };
-    warbandsStats.addActionListener(alWarbands);
+    warbandsStats.setActionCommand(WARBANDS_ID);
+    warbandsStats.addActionListener(this);
     statsMenu.add(warbandsStats);
     // - levelling
     JMenuItem levellingStats=GuiFactory.buildMenuItem("Levelling");
-    ActionListener alLevelling=new ActionListener()
-    {
-      public void actionPerformed(ActionEvent e)
-      {
-        doLevelling();
-      }
-    };
-    levellingStats.addActionListener(alLevelling);
+    levellingStats.setActionCommand(LEVELLING_ID);
+    levellingStats.addActionListener(this);
     statsMenu.add(levellingStats);
     
     // Help
@@ -120,10 +117,38 @@ public class MainFrameController extends DefaultWindowController
   @Override
   protected JComponent buildContents()
   {
+    JPanel ret=GuiFactory.buildPanel(new BorderLayout());
+    _toolbar=buildToolBar();
+    JToolBar toolbar=_toolbar.getToolBar();
+    ret.add(toolbar,BorderLayout.NORTH);
     JTabbedPane tabbedPane=GuiFactory.buildTabbedPane();
     JPanel toonsPanel=_toonsManager.getPanel();
     tabbedPane.add("Toons",toonsPanel);
-    return tabbedPane;
+    ret.add(tabbedPane,BorderLayout.CENTER);
+    return ret;
+  }
+
+  private ToolbarController buildToolBar()
+  {
+    ToolbarController controller=new ToolbarController();
+    ToolbarModel model=controller.getModel();
+    // Levelling icon
+    String levellingIconPath=getToolbarIconPath("levelling");
+    ToolbarIconItem levellingIconItem=new ToolbarIconItem(LEVELLING_ID,levellingIconPath,LEVELLING_ID,"Levelling...","Levelling");
+    model.addToolbarIconItem(levellingIconItem);
+    controller.addActionListener(this);
+    // Warbands icon
+    String warbandsIconPath=getToolbarIconPath("warbands");
+    ToolbarIconItem warbandsIconItem=new ToolbarIconItem(WARBANDS_ID,warbandsIconPath,WARBANDS_ID,"Warbands...","Warbands");
+    model.addToolbarIconItem(warbandsIconItem);
+    controller.addActionListener(this);
+    return controller;
+  }
+
+  private String getToolbarIconPath(String iconName)
+  {
+    String imgLocation="/resources/gui/icons/"+iconName+"-icon.png";
+    return imgLocation;
   }
 
   @Override
@@ -143,6 +168,19 @@ public class MainFrameController extends DefaultWindowController
       controller.getWindow().setLocationRelativeTo(getFrame());
     }
     controller.bringToFront();
+  }
+
+  public void actionPerformed(ActionEvent event)
+  {
+    String cmd=event.getActionCommand();
+    if (LEVELLING_ID.equals(cmd))
+    {
+        doLevelling();
+    }
+    else if (WARBANDS_ID.equals(cmd))
+    {
+      doWarbands();
+    }
   }
 
   private void doLevelling()
@@ -199,6 +237,11 @@ public class MainFrameController extends DefaultWindowController
       _windowsManager=null;
     }
     super.dispose();
+    if (_toolbar==null)
+    {
+      _toolbar.dispose();
+      _toolbar=null;
+    }
     if (_toonsManager!=null)
     {
       _toonsManager.dispose();

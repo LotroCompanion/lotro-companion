@@ -88,9 +88,9 @@ public class ToonsManagementController implements ActionListener
     manager.addPropertyChangeListener(_listener);
   }
 
-  private static String getToolbarIconPath(String iconName)
+  private String getToolbarIconPath(String iconName)
   {
-    String imgLocation="/resources/gui/icons/"+iconName+"-icon-16.png";
+    String imgLocation="/resources/gui/icons/"+iconName+"-icon.png";
     return imgLocation;
   }
 
