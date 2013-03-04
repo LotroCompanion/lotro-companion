@@ -296,6 +296,7 @@ public class WarbandsTableController
     statsTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     statsTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
     statsTable.setShowGrid(false);
+    statsTable.getTableHeader().setReorderingAllowed(false);
     TableCellRenderer statCellRenderer=new TableCellRenderer()
     {
       public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
