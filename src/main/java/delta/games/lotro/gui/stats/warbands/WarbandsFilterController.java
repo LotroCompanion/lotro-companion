@@ -12,6 +12,7 @@ import java.util.Set;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -36,6 +37,7 @@ public class WarbandsFilterController implements ActionListener
   private JComboBox _minLevel;
   private JComboBox _region;
   private JComboBox _size;
+  private JButton _reset;
   private WarbandsPanelController _panelController;
 
   /**
@@ -81,21 +83,30 @@ public class WarbandsFilterController implements ActionListener
 
   public void actionPerformed(ActionEvent e)
   {
-    JComboBox source=(JComboBox)e.getSource();
+    Object source=e.getSource();
     if (source==_region)
     {
-      String region=(String)source.getSelectedItem();
+      String region=(String)_region.getSelectedItem();
       _filter.setRegion(region);
     }
     else if (source==_minLevel)
     {
-      Integer minLevel=(Integer)source.getSelectedItem();
+      Integer minLevel=(Integer)_minLevel.getSelectedItem();
       _filter.setMinLevel(minLevel);
     }
     else if (source==_size)
     {
-      SIZE size=(SIZE)source.getSelectedItem();
+      SIZE size=(SIZE)_size.getSelectedItem();
       _filter.setSize(size);
+    }
+    else if (source==_reset)
+    {
+      _region.setSelectedItem(null);
+      _filter.setRegion(null);
+      _minLevel.setSelectedItem(null);
+      _filter.setMinLevel(null);
+      _size.setSelectedItem(null);
+      _filter.setSize(null);
     }
     updateFilter();
   }
@@ -155,6 +166,10 @@ public class WarbandsFilterController implements ActionListener
     _minLevel.addActionListener(this);
     panel.add(GuiFactory.buildLabel("Minimum level:"));
     panel.add(_minLevel);
+    // Reset
+    _reset=GuiFactory.buildButton("Reset");
+    _reset.addActionListener(this);
+    panel.add(_reset);
     return panel;
   }
 
@@ -214,5 +229,6 @@ public class WarbandsFilterController implements ActionListener
     _minLevel=null;
     _region=null;
     _size=null;
+    _reset=null;
   }
 }
