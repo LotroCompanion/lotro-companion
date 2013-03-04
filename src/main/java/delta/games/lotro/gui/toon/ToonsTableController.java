@@ -53,17 +53,16 @@ public class ToonsTableController
     "Class",
     "Level",
     "Server",
-    "Info update",
-    "Log update"
+    "Last update"
   };
   private static final Class<?>[] COLUMN_CLASSES=
   {
     String.class, Race.class, CharacterClass.class, Integer.class, String.class,
     Date.class, Date.class
   };
-  private static final int[] MIN_WIDTH = { 100, 100, 100, 100, 100, 130, 130 };
-  private static final int[] MAX_WIDTH = { 100, 100, 100, 100, 100, 130, -1 };
-  private static final int[] PREFERRED_WIDTH = { 100, 100, 100, 100, 100, 130, 130 };
+  private static final int[] MIN_WIDTH = { 100, 100, 100, 80, 100, 100 };
+  private static final int[] MAX_WIDTH = { 100, 100, 100, 80, 100, -1 };
+  private static final int[] PREFERRED_WIDTH = { 100, 100, 100, 80, 100, 100 };
 
   /**
    * Constructor.
@@ -160,7 +159,7 @@ public class ToonsTableController
       {
         column.setMaxWidth(setMaxWidth);
       }
-      if ((i==5) || (i==6))
+      if (i==5)
       {
         column.setCellRenderer(new DateRenderer());
       }
@@ -305,10 +304,6 @@ public class ToonsTableController
           else if (columnIndex==5)
           {
             ret=toon.getLastInfoUpdate();
-          }
-          else if (columnIndex==6)
-          {
-            ret=toon.getLastLogUpdate();
           }
         }
       }
