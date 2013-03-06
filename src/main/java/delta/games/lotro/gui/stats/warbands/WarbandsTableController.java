@@ -6,6 +6,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.image.BufferedImage;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -151,7 +152,7 @@ public class WarbandsTableController
   {
     JPanel panel=GuiFactory.buildBackgroundPanel(new GridBagLayout());
     // Class icon
-    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
+    GridBagConstraints c=new GridBagConstraints(0,0,1,2,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
     ImageIcon classIcon=null;
     Character character=toon.getLastCharacterInfo();
     if (character!=null)
@@ -171,9 +172,19 @@ public class WarbandsTableController
     panel.add(classLabel,c);
     // Toon name
     String name=toon.getName();
-    JLabel nameLabel=GuiFactory.buildLabel(name,24.0f);
-    c=new GridBagConstraints(1,0,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
+    JLabel nameLabel=GuiFactory.buildLabel(name,16.0f);
+    c=new GridBagConstraints(1,0,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(5,2,2,2),0,0);
     panel.add(nameLabel,c);
+    // Log update
+    Date logDate=toon.getLastLogUpdate();
+    String logDateStr="";
+    if (logDate!=null)
+    {
+      logDateStr=Formats.getDateString(logDate);
+    }
+    JLabel logDateLabel=GuiFactory.buildLabel(logDateStr);
+    c=new GridBagConstraints(1,1,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(2,2,5,2),0,0);
+    panel.add(logDateLabel,c);
     return panel;
   }
 
@@ -211,13 +222,13 @@ public class WarbandsTableController
     }
     JPanel textPanel=GuiFactory.buildPanel(new GridBagLayout());
     // Last date
-    JLabel lastDateLabel=GuiFactory.buildLabel(lastDateStr,24.0f);
+    JLabel lastDateLabel=GuiFactory.buildLabel(lastDateStr,18.0f);
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
     textPanel.add(lastDateLabel,c);
     // Number of times
     if (nbTimesStr!=null)
     {
-      JLabel nbTimesLabel=GuiFactory.buildLabel(nbTimesStr,18.0f);
+      JLabel nbTimesLabel=GuiFactory.buildLabel(nbTimesStr,14.0f);
       c=new GridBagConstraints(0,1,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
       textPanel.add(nbTimesLabel,c);
     }
@@ -245,12 +256,12 @@ public class WarbandsTableController
     textPanel.add(nameLabel,c);
     // Region
     String region=warband.getRegion();
-    JLabel regionLabel=GuiFactory.buildLabel(region,18.0f);
+    JLabel regionLabel=GuiFactory.buildLabel(region,12.0f);
     c=new GridBagConstraints(0,1,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(5,5,5,5),0,0);
     textPanel.add(regionLabel,c);
     // Level
     Integer level=warband.getLevel();
-    JLabel levelLabel=GuiFactory.buildLabel(String.valueOf(level),18.0f);
+    JLabel levelLabel=GuiFactory.buildLabel(String.valueOf(level),12.0f);
     c=new GridBagConstraints(0,2,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(5,5,5,5),0,0);
     textPanel.add(levelLabel,c);
 

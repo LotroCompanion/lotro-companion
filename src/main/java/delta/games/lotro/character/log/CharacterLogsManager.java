@@ -121,6 +121,16 @@ public class CharacterLogsManager
   }
 
   /**
+   * Indicates if this character has a log file.
+   * @return <code>true</code> if it does, <code>false</code> otherwise.
+   */
+  public boolean hasLog()
+  {
+    File lastLog=getLastLogFile();
+    return (lastLog!=null);
+  }
+
+  /**
    * Update character log.
    * @return An integer value that indicates the number of new items, or <code>null</code> if it failed.
    */

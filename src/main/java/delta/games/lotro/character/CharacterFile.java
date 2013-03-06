@@ -202,6 +202,15 @@ public class CharacterFile
     return _logsManager;
   }
 
+  /**
+   * Indicates if this character has a log file.
+   * @return <code>true</code> if it does, <code>false</code> otherwise.
+   */
+  public boolean hasLog()
+  {
+    return _logsManager.hasLog();
+  }
+
   @Override
   public String toString()
   {

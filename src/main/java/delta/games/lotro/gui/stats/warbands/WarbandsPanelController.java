@@ -104,8 +104,7 @@ public class WarbandsPanelController implements ActionListener
   private JPanel buildCommandsPanel()
   {
     JPanel panel=GuiFactory.buildBackgroundPanel(new GridBagLayout());
-
-    GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(5,5,5,5),0,0);
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(5,5,5,5),0,0);
 
     // Filter
     JPanel filterPanel=_filterController.getPanel();
@@ -116,9 +115,7 @@ public class WarbandsPanelController implements ActionListener
     // Choose toons button
     JButton chooser=GuiFactory.buildButton("Choose toons...");
     chooser.addActionListener(this);
-    c.gridx++;
-    c.fill=GridBagConstraints.NONE;
-    c.weightx=0.0;
+    c=new GridBagConstraints(1,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
     panel.add(chooser,c);
     return panel;
   }
