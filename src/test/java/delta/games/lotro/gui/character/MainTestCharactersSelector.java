@@ -20,7 +20,7 @@ public class MainTestCharactersSelector
     LotroTestUtils utils=new LotroTestUtils();
     List<CharacterFile> toons=utils.getAllFiles();
     List<CharacterFile> selectedToons=new ArrayList<CharacterFile>();
-    selectedToons=CharactersSelectorWindowController.selectToons(null,toons,selectedToons);
+    selectedToons=CharactersSelectorWindowController.selectToons(null,toons,selectedToons,toons);
     for(CharacterFile toon : selectedToons)
     {
       System.out.println(toon.getIdentifier());

@@ -34,6 +34,7 @@ public class CharactersSelectorPanelController implements ItemListener
   private List<CharacterFile> _toons;
   private HashMap<String,CharacterFile> _toonsMap;
   private Set<CharacterFile> _selectedToons;
+  private Set<CharacterFile> _enabledToons;
   // GUI
   private HashMap<String,JCheckBox> _checkboxes;
   private JPanel _panel;
@@ -46,9 +47,8 @@ public class CharactersSelectorPanelController implements ItemListener
   /**
    * Constructor.
    * @param toons Managed toons.
-   * @param selectedToons Selected toons.
    */
-  public CharactersSelectorPanelController(List<CharacterFile> toons, List<CharacterFile> selectedToons)
+  public CharactersSelectorPanelController(List<CharacterFile> toons)
   {
     _nbMaxColumns=NB_MAX_COLUMNS;
     _nbPreferredNbItemsPerColumn=PREFERRED_NB_ITEMS_PER_COLUMN;
@@ -56,11 +56,11 @@ public class CharactersSelectorPanelController implements ItemListener
     _toons=new ArrayList<CharacterFile>();
     _toonsMap=new HashMap<String,CharacterFile>();
     _selectedToons=new HashSet<CharacterFile>();
+    _enabledToons=new HashSet<CharacterFile>();
     _checkboxes=new HashMap<String,JCheckBox>();
     for(CharacterFile toon : toons)
     {
-      boolean selected=selectedToons.contains(toon);
-      addToon(toon,selected);
+      addToon(toon,false);
     }
   }
 
@@ -87,7 +87,7 @@ public class CharactersSelectorPanelController implements ItemListener
       String id=toon.getIdentifier();
       _toons.add(toon);
       _toonsMap.put(id,toon);
-      setToonSelected(id,selected);
+      setToonSelected(toon,selected);
     }
   }
 
@@ -106,6 +106,7 @@ public class CharactersSelectorPanelController implements ItemListener
       _toons.remove(toon);
       _toonsMap.remove(id);
       _selectedToons.remove(toon);
+      _enabledToons.remove(toon);
     }
   }
 
@@ -153,17 +154,17 @@ public class CharactersSelectorPanelController implements ItemListener
 
   /**
    * Select a toon.
-   * @param toonId Identifier of the targeted toon.
+   * @param toon Targeted toon.
    * @param selected Selection state to set.
    */
-  private void setToonSelected(String toonId, boolean selected)
+  public void setToonSelected(CharacterFile toon, boolean selected)
   {
+    String toonId=toon.getIdentifier();
     JCheckBox cb=_checkboxes.get(toonId);
     if (cb!=null)
     {
       cb.setSelected(selected);
     }
-    CharacterFile toon=_toonsMap.get(toonId);
     if (selected)
     {
       _selectedToons.add(toon);
@@ -171,6 +172,29 @@ public class CharactersSelectorPanelController implements ItemListener
     else
     {
       _selectedToons.remove(toon);
+    }
+  }
+
+  /**
+   * Enable a toon.
+   * @param toon Targeted toon.
+   * @param enabled Enabled state to set.
+   */
+  public void setToonEnabled(CharacterFile toon, boolean enabled)
+  {
+    String toonId=toon.getIdentifier();
+    JCheckBox cb=_checkboxes.get(toonId);
+    if (cb!=null)
+    {
+      cb.setEnabled(enabled);
+    }
+    if (enabled)
+    {
+      _enabledToons.add(toon);
+    }
+    else
+    {
+      _enabledToons.remove(toon);
     }
   }
 
@@ -295,6 +319,8 @@ public class CharactersSelectorPanelController implements ItemListener
       _checkboxes.put(id,ret);
       boolean selected=isSelected(toon);
       ret.setSelected(selected);
+      boolean enabled=_enabledToons.contains(toon);
+      ret.setEnabled(enabled);
       ret.addItemListener(this);
     }
     return ret;
@@ -316,5 +342,6 @@ public class CharactersSelectorPanelController implements ItemListener
     _toons=null;
     _toonsMap=null;
     _selectedToons=null;
+    _enabledToons=null;
   }
 }

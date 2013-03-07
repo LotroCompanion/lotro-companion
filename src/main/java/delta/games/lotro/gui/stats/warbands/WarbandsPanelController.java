@@ -6,6 +6,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -25,7 +26,7 @@ import delta.games.lotro.stats.warbands.MultipleToonsWarbandsStats;
  * Controller for a warbands statistics panel.
  * @author DAM
  */
-public class WarbandsPanelController implements ActionListener
+public class WarbandsPanelController
 {
   // Controllers
   private WarbandsWindowController _parent;
@@ -64,12 +65,20 @@ public class WarbandsPanelController implements ActionListener
     return _panel;
   }
   
-  public void actionPerformed(ActionEvent e)
+  private void doChooseToons()
   {
     CharactersManager manager=CharactersManager.getInstance();
     List<CharacterFile> toons=manager.getAllToons();
     List<CharacterFile> selectedToons=_stats.getToonsList();
-    List<CharacterFile> newSelectedToons=CharactersSelectorWindowController.selectToons(_parent,toons,selectedToons);
+    List<CharacterFile> enabledToons=new ArrayList<CharacterFile>();
+    for(CharacterFile toon : toons)
+    {
+      if (toon.hasLog())
+      {
+        enabledToons.add(toon);
+      }
+    }
+    List<CharacterFile> newSelectedToons=CharactersSelectorWindowController.selectToons(_parent,toons,selectedToons,enabledToons);
     if (newSelectedToons!=null)
     {
       for(CharacterFile toon : newSelectedToons)
@@ -114,7 +123,14 @@ public class WarbandsPanelController implements ActionListener
     
     // Choose toons button
     JButton chooser=GuiFactory.buildButton("Choose toons...");
-    chooser.addActionListener(this);
+    ActionListener al=new ActionListener()
+    {
+      public void actionPerformed(ActionEvent e)
+      {
+        doChooseToons();
+      }
+    };
+    chooser.addActionListener(al);
     c=new GridBagConstraints(1,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
     panel.add(chooser,c);
     return panel;

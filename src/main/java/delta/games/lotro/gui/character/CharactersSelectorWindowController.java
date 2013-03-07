@@ -33,11 +33,20 @@ public class CharactersSelectorWindowController extends DefaultDialogController
    * @param parent Parent controller.
    * @param toons Managed toons.
    * @param selectedToons Selected toons.
+   * @param enabledToons Enabled toons.
    */
-  private CharactersSelectorWindowController(WindowController parent, List<CharacterFile> toons, List<CharacterFile> selectedToons)
+  private CharactersSelectorWindowController(WindowController parent, List<CharacterFile> toons, List<CharacterFile> selectedToons, List<CharacterFile> enabledToons)
   {
     super(parent);
-    _controller=new CharactersSelectorPanelController(toons,selectedToons);
+    _controller=new CharactersSelectorPanelController(toons);
+    for(CharacterFile toon : selectedToons)
+    {
+      _controller.setToonSelected(toon,true);
+    }
+    for(CharacterFile toon : enabledToons)
+    {
+      _controller.setToonEnabled(toon,true);
+    }
     _okCancelController=new OKCancelPanelController();
   }
 
@@ -74,11 +83,12 @@ public class CharactersSelectorWindowController extends DefaultDialogController
    * @param parent Parent controller.
    * @param toons Toons to show.
    * @param selectedToons Pre-selected toons.
+   * @param enabledToons Enabled toons.
    * @return A list of selected toons or <code>null</code> if the window was closed or canceled.
    */
-  public static List<CharacterFile> selectToons(WindowController parent, List<CharacterFile> toons, List<CharacterFile> selectedToons)
+  public static List<CharacterFile> selectToons(WindowController parent, List<CharacterFile> toons, List<CharacterFile> selectedToons, List<CharacterFile> enabledToons)
   {
-    CharactersSelectorWindowController controller=new CharactersSelectorWindowController(parent,toons,selectedToons);
+    CharactersSelectorWindowController controller=new CharactersSelectorWindowController(parent,toons,selectedToons,enabledToons);
     List<CharacterFile> newSelectedToons=controller.doShow();
     return newSelectedToons;
   }

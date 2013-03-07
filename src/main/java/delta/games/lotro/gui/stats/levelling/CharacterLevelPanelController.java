@@ -7,6 +7,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -72,7 +73,13 @@ public class CharacterLevelPanelController implements CharacterSelectionChangedL
     {
       // Toons show/hide
       List<CharacterFile> toons=_stats.getToonsList();
-      _toonSelectionController=new CharactersSelectorPanelController(toons,toons);
+      _toonSelectionController=new CharactersSelectorPanelController(toons);
+      for(CharacterFile toon : toons)
+      {
+        _toonSelectionController.setToonSelected(toon,true);
+        _toonSelectionController.setToonEnabled(toon,true);
+      }
+      
       _toonSelectionController.setGridConfiguration(1,10);
       JPanel selectionPanel=_toonSelectionController.getPanel();
       GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
@@ -102,7 +109,15 @@ public class CharacterLevelPanelController implements CharacterSelectionChangedL
     CharactersManager manager=CharactersManager.getInstance();
     List<CharacterFile> toons=manager.getAllToons();
     List<CharacterFile> selectedToons=_stats.getToonsList();
-    List<CharacterFile> newSelectedToons=CharactersSelectorWindowController.selectToons(_parentController,toons,selectedToons);
+    List<CharacterFile> enabledToons=new ArrayList<CharacterFile>();
+    for(CharacterFile toon : toons)
+    {
+      if (toon.hasLog())
+      {
+        enabledToons.add(toon);
+      }
+    }
+    List<CharacterFile> newSelectedToons=CharactersSelectorWindowController.selectToons(_parentController,toons,selectedToons,enabledToons);
     if (newSelectedToons!=null)
     {
       for(CharacterFile toon : newSelectedToons)
