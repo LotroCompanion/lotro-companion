@@ -130,6 +130,7 @@ public class CharacterLevelPanelController implements CharacterSelectionChangedL
         {
           _stats.addToon(toon);
           _toonSelectionController.addToon(toon,true);
+          _toonSelectionController.setToonEnabled(toon,true);
         }
       }
       for(CharacterFile removedToon : selectedToons)
