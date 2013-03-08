@@ -30,6 +30,11 @@ public class CharactersManager
   public static final String TOON_ADDED = "TOON_ADDED";
 
   /**
+   * Constant for "toon updated" event.
+   */
+  public static final String TOON_UPDATED = "TOON_UPDATED";
+
+  /**
    * Get the sole instance of this class.
    * @return the sole instance of this class.
    */
@@ -165,5 +170,14 @@ public class CharactersManager
       server.removeToon(toonName);
     }
     return toon;
+  }
+
+  /**
+   * Broadcast a toon update.
+   * @param toon Involved toon.
+   */
+  public void broadcastToonUpdate(CharacterFile toon)
+  {
+    _listeners.firePropertyChange(TOON_UPDATED,null,toon);
   }
 }

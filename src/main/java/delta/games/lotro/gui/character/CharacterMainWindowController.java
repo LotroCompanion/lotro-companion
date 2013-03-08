@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharacterInfosManager;
+import delta.games.lotro.character.CharactersManager;
 import delta.games.lotro.character.log.CharacterLogsManager;
 import delta.games.lotro.gui.log.CharacterLogWindowController;
 import delta.games.lotro.gui.stats.crafting.CraftingWindowController;
@@ -217,6 +218,8 @@ public class CharacterMainWindowController extends DefaultWindowController imple
     boolean logUpdateOK=(nbNewItems!=null);
     if (logUpdateOK)
     {
+      CharactersManager cm=CharactersManager.getInstance();
+      cm.broadcastToonUpdate(_toon);
       String serverName=_toon.getServerName();
       String toonName=_toon.getName();
       String id=CharacterLogWindowController.getIdentifier(serverName,toonName);

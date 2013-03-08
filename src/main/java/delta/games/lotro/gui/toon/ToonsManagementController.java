@@ -83,6 +83,10 @@ public class ToonsManagementController implements ActionListener
         if (CharactersManager.TOON_ADDED.equals(evt.getPropertyName())) {
           _toonsTable.refresh();
         }
+        else if (CharactersManager.TOON_UPDATED.equals(evt.getPropertyName())) {
+          CharacterFile toon=(CharacterFile)evt.getNewValue();
+          _toonsTable.refresh(toon);
+        }
       }
     };
     manager.addPropertyChangeListener(_listener);

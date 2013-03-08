@@ -93,6 +93,23 @@ public class ToonsTableController
     }
   }
 
+  /**
+   * Refresh toons table.
+   * @param toon Toon to refresh.
+   */
+  public void refresh(CharacterFile toon)
+  {
+    if (_table!=null)
+    {
+      int row=_model.getRowForToon(toon);
+      if (row!=-1)
+      {
+        loadToon(toon);
+        _model.fireTableRowsUpdated(row,row);
+      }
+    }
+  }
+
   private void init()
   {
     reset();
@@ -100,14 +117,19 @@ public class ToonsTableController
     List<CharacterFile> toons=manager.getAllToons();
     for(CharacterFile toon : toons)
     {
-      Character c=toon.getLastCharacterInfo();
-      if (c!=null)
-      {
-        String id=toon.getIdentifier();
-        _cache.put(id,c);
-        _toons.add(toon);
-      }
+      loadToon(toon);
+      _toons.add(toon);
       toon.getLogsManager().pruneLogFiles();
+    }
+  }
+
+  private void loadToon(CharacterFile toon)
+  {
+    Character c=toon.getLastCharacterInfo();
+    if (c!=null)
+    {
+      String id=toon.getIdentifier();
+      _cache.put(id,c);
     }
   }
 
@@ -141,6 +163,7 @@ public class ToonsTableController
       }
       
     };
+    _sorter.setSortsOnUpdates(true);
     for(int i=0;i<COLUMN_NAMES.length;i++)
     {
       TableColumn column=table.getColumnModel().getColumn(i);
@@ -263,6 +286,26 @@ public class ToonsTableController
     public Class<?> getColumnClass(int columnIndex)
     {
       return COLUMN_CLASSES[columnIndex];
+    }
+
+    /**
+     * Get the row for the given toon.
+     * @param toon Toon to search.
+     * @return A row index or <code>-1</code> if not found.
+     */
+    public int getRowForToon(CharacterFile toon)
+    {
+      int ret=-1;
+      int nb=_toons.size();
+      for(int i=0;i<nb;i++)
+      {
+        if (_toons.get(i)==toon)
+        {
+          ret=i;
+          break;
+        }
+      }
+      return ret;
     }
 
     /**
