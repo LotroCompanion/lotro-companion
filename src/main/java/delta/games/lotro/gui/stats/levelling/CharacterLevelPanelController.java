@@ -87,7 +87,7 @@ public class CharacterLevelPanelController implements CharacterSelectionChangedL
       _toonSelectionController.getListenersManager().addListener(this);
       
       // Choose toons button
-      JButton chooser=GuiFactory.buildButton("Choose toons...");
+      JButton chooser=GuiFactory.buildButton("Choose characters...");
       ActionListener al=new ActionListener()
       {
         public void actionPerformed(ActionEvent e)

@@ -111,7 +111,7 @@ public class ToonsManagementController implements ActionListener
     ToolbarModel model=controller.getModel();
     // New icon
     String newIconPath=getToolbarIconPath("new");
-    ToolbarIconItem newIconItem=new ToolbarIconItem(NEW_TOON_ID,newIconPath,NEW_TOON_ID,"Create a new toon...","New");
+    ToolbarIconItem newIconItem=new ToolbarIconItem(NEW_TOON_ID,newIconPath,NEW_TOON_ID,"Create a new character...","New");
     model.addToolbarIconItem(newIconItem);
     controller.addActionListener(this);
     return controller;

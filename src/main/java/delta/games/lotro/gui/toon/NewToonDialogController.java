@@ -50,7 +50,7 @@ public class NewToonDialogController extends DefaultDialogController implements 
   protected JDialog build()
   {
     JDialog dialog=super.build();
-    dialog.setTitle("New toon...");
+    dialog.setTitle("New character...");
     dialog.setResizable(false);
     dialog.pack();
     WindowController controller=getParentController();
@@ -67,7 +67,7 @@ public class NewToonDialogController extends DefaultDialogController implements 
   {
     JPanel panel=GuiFactory.buildPanel(new BorderLayout());
     JPanel dataPanel=buildNewToonPanel();
-    TitledBorder pathsBorder=GuiFactory.buildTitledBorder("Toon");
+    TitledBorder pathsBorder=GuiFactory.buildTitledBorder("Character");
     dataPanel.setBorder(pathsBorder);
     panel.add(dataPanel,BorderLayout.CENTER);
     _okCancelController=new OKCancelPanelController();
@@ -135,7 +135,7 @@ public class NewToonDialogController extends DefaultDialogController implements 
       }
       else
       {
-        showErrorMessage("Toon creation failed!");
+        showErrorMessage("Character creation failed!");
       }
     }
     else
@@ -162,7 +162,7 @@ public class NewToonDialogController extends DefaultDialogController implements 
 
   private void showErrorMessage(String errorMsg)
   {
-    String title="Toon creation";
+    String title="Character creation";
     JDialog dialog=getDialog();
     GuiFactory.showErrorDialog(dialog,errorMsg,title);
   }

@@ -123,7 +123,7 @@ public class MainFrameController extends DefaultWindowController implements Acti
     ret.add(toolbar,BorderLayout.NORTH);
     JTabbedPane tabbedPane=GuiFactory.buildTabbedPane();
     JPanel toonsPanel=_toonsManager.getPanel();
-    tabbedPane.add("Toons",toonsPanel);
+    tabbedPane.add("Characters",toonsPanel);
     ret.add(tabbedPane,BorderLayout.CENTER);
     return ret;
   }

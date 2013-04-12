@@ -122,7 +122,7 @@ public class WarbandsPanelController
     panel.add(filterPanel,c);
     
     // Choose toons button
-    JButton chooser=GuiFactory.buildButton("Choose toons...");
+    JButton chooser=GuiFactory.buildButton("Choose characters...");
     ActionListener al=new ActionListener()
     {
       public void actionPerformed(ActionEvent e)
