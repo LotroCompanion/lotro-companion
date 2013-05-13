@@ -8,6 +8,7 @@ import delta.common.utils.environment.FileSystem;
 import delta.games.lotro.utils.LotroLoggers;
 
 /**
+ * Quests database generator.
  * @author DAM
  */
 public class QuestsDatabaseGenerator
