@@ -25,6 +25,8 @@ import delta.games.lotro.lore.items.ItemBinding;
 import delta.games.lotro.lore.items.ItemCategory;
 import delta.games.lotro.lore.items.ItemSturdiness;
 import delta.games.lotro.lore.items.Weapon;
+import delta.games.lotro.lore.items.Armour.ArmourType;
+import delta.games.lotro.lore.items.WeaponType;
 import delta.games.lotro.utils.LotroLoggers;
 
 /**
@@ -169,6 +171,11 @@ public class ItemXMLWriter
       Armour armour=(Armour)item;
       int armourValue=armour.getArmourValue();
       itemAttrs.addAttribute("","",ItemXMLConstants.ARMOUR_ATTR,CDATA,String.valueOf(armourValue));
+      ArmourType type=armour.getArmourType();
+      if (type!=null)
+      {
+        itemAttrs.addAttribute("","",ItemXMLConstants.ARMOUR_TYPE_ATTR,CDATA,String.valueOf(type));
+      }
     }
     // Weapon specific:
     else if (category==ItemCategory.WEAPON)
@@ -183,7 +190,12 @@ public class ItemXMLWriter
       DamageType type=weapon.getDamageType();
       if (type!=null)
       {
-        itemAttrs.addAttribute("","",ItemXMLConstants.DAMAGE_TYPE_ATTR,CDATA,String.valueOf(type));
+        itemAttrs.addAttribute("","",ItemXMLConstants.DAMAGE_TYPE_ATTR,CDATA,type.getKey());
+      }
+      WeaponType weaponType=weapon.getWeaponType();
+      if (weaponType!=null)
+      {
+        itemAttrs.addAttribute("","",ItemXMLConstants.WEAPON_TYPE_ATTR,CDATA,weaponType.getName());
       }
     }
     hd.startElement("","",ItemXMLConstants.ITEM_TAG,itemAttrs);

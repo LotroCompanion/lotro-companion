@@ -23,6 +23,8 @@ import delta.games.lotro.lore.items.ItemBinding;
 import delta.games.lotro.lore.items.ItemSturdiness;
 import delta.games.lotro.lore.items.ItemsSet;
 import delta.games.lotro.lore.items.Weapon;
+import delta.games.lotro.lore.items.Armour.ArmourType;
+import delta.games.lotro.lore.items.WeaponType;
 import delta.games.lotro.utils.DownloadService;
 import delta.games.lotro.utils.JerichoHtmlUtils;
 import delta.games.lotro.utils.LotroLoggers;
@@ -384,6 +386,8 @@ public class ItemPageParser
 
   private void parseItemDescription(Element itemTooltip)
   {
+    // Name
+    String name=findName(itemTooltip);
     // Find out type of item
     Armour armour=null;
     // Armor?
@@ -395,6 +399,7 @@ public class ItemPageParser
     String dpsStr=getTagContent(itemTooltip,"itemdps");
     if (armorStr!=null)
     {
+      // Armour!
       armour=new Armour();
       _item=armour;
       Integer armourValue=getArmour(armorStr);
@@ -402,15 +407,39 @@ public class ItemPageParser
       {
         armour.setArmourValue(armourValue.intValue());
       }
+      String armourTypeStr=getTagContent(itemTooltip,"itemtype");
+      ArmourType armourType=null;
+      if ("Heavy Armour".equals(armourTypeStr)) armourType=ArmourType.HEAVY; 
+      else if ("Medium Armour".equals(armourTypeStr)) armourType=ArmourType.MEDIUM; 
+      else if ("Light Armour".equals(armourTypeStr)) armourType=ArmourType.LIGHT;
+      else {
+        armourType=ArmourType.LIGHT; // Assume light armour...
+        _logger.warn("Unknown armour type: "+armourTypeStr+" (name="+name+")");
+      }
+      armour.setArmourType(armourType);
     }
     else if (dpsStr!=null)
     {
+      // Weapon!
       weapon=new Weapon();
       _item=weapon;
       Float dpsValue=getDPS(dpsStr);
       if (dpsValue!=null)
       {
         weapon.setDPS(dpsValue.floatValue());
+      }
+      String weaponTypeStr=getTagContent(itemTooltip,"itemtype");
+      if (weaponTypeStr!=null)
+      {
+        WeaponType type=WeaponType.getWeaponTypeByName(weaponTypeStr);
+        if (type!=null)
+        {
+          weapon.setWeaponType(type);
+        }
+        else
+        {
+          _logger.warn("Unknown weapon type: "+weaponTypeStr+" (name="+name+")");
+        }
       }
     }
     else
@@ -423,13 +452,13 @@ public class ItemPageParser
     String url=getIconURL(itemTooltip);
     
     // Name
-    String name=findName(itemTooltip);
     _item.setName(name);
     if (url!=null) {
       _item.setIconURL(url);
     }
     // Item sub-category
     // <div class="itemtype">Craft Tool</div>
+    // TODO: duplicated with weapon type and armor type...
     String subCategory=getTagContent(itemTooltip,"itemtype");
     _item.setSubCategory(subCategory);
     // Uniqueness
@@ -459,16 +488,10 @@ public class ItemPageParser
           int minDamage=Integer.parseInt(split[0]);
           int maxDamage=Integer.parseInt(split[2]);
           String typeStr=split[3];
-          DamageType type=DamageType.COMMON;
-          if ("Common".equals(typeStr)) type=DamageType.COMMON;
-          else if ("Ancient Dwarf-make".equals(typeStr)) type=DamageType.ANCIENT_DWARF;
-          else if ("Beleriand".equals(typeStr)) type=DamageType.BELERIAND;
-          else if ("Westernesse".equals(typeStr)) type=DamageType.WESTERNESSE;
-          else if ("Fire".equals(typeStr)) type=DamageType.FIRE;
-          else if ("Shadow".equals(typeStr)) type=DamageType.SHADOW;
-          else if ("Light".equals(typeStr)) type=DamageType.LIGHT;
-          else
+          DamageType type=DamageType.getDamageTypeByName(typeStr);
+          if (type==null)
           {
+            type=DamageType.COMMON;
             _logger.warn("Unmanaged damage type ["+typeStr+"]");
           }
           weapon.setMinDamage(minDamage);

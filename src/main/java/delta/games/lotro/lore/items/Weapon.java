@@ -13,6 +13,7 @@ public class Weapon extends Item
   private int _maxDamage;
   private DamageType _damageType;
   private float _dps;
+  private WeaponType _type;
 
   /**
    * Constructor.
@@ -100,6 +101,24 @@ public class Weapon extends Item
   }
   
   /**
+   * Get weapon type.
+   * @return a weapon type.
+   */
+  public WeaponType getWeaponType()
+  {
+    return _type;
+  }
+
+  /**
+   * Set weapon type.
+   * @param type Weapon type to set.
+   */
+  public void setWeaponType(WeaponType type)
+  {
+    _type=type;
+  }
+
+  /**
    * Dump the contents of this quest as a string.
    * @return A readable string.
    */
@@ -109,7 +128,8 @@ public class Weapon extends Item
     String itemDump=super.dump();
     sb.append(itemDump);
     sb.append(EndOfLine.NATIVE_EOL);
-    sb.append("(DPS=").append(_dps).append(')');
+    sb.append(' ').append(_type);
+    sb.append(" (DPS=").append(_dps).append(')');
     sb.append(" (damage=").append(_minDamage).append('-').append(_maxDamage);
     sb.append(' ').append(_damageType).append(')');
     return sb.toString();

@@ -11,6 +11,7 @@ import delta.common.utils.xml.DOMParsingTools;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.money.io.xml.MoneyXMLParser;
 import delta.games.lotro.lore.items.Armour;
+import delta.games.lotro.lore.items.Armour.ArmourType;
 import delta.games.lotro.lore.items.DamageType;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemBinding;
@@ -18,6 +19,7 @@ import delta.games.lotro.lore.items.ItemCategory;
 import delta.games.lotro.lore.items.ItemFactory;
 import delta.games.lotro.lore.items.ItemSturdiness;
 import delta.games.lotro.lore.items.Weapon;
+import delta.games.lotro.lore.items.WeaponType;
 
 /**
  * Parser for item descriptions stored in XML.
@@ -135,12 +137,18 @@ public class ItemXMLParser
     {
       ret.setStackMax(Integer.valueOf(stackMax));
     }
-    // Armor specific:
+    // Armour specific:
     if (category==ItemCategory.ARMOUR)
     {
       Armour armour=(Armour)ret;
       int armourValue=DOMParsingTools.getIntAttribute(attrs,ItemXMLConstants.ARMOUR_ATTR,0);
       armour.setArmourValue(armourValue);
+      String armourTypeStr=DOMParsingTools.getStringAttribute(attrs,ItemXMLConstants.ARMOUR_TYPE_ATTR,null);
+      if (armourTypeStr!=null)
+      {
+        ArmourType type=ArmourType.valueOf(armourTypeStr);
+        armour.setArmourType(type);
+      }
     }
     // Weapon specific:
     if (category==ItemCategory.WEAPON)
@@ -155,8 +163,14 @@ public class ItemXMLParser
       String damageTypeStr=DOMParsingTools.getStringAttribute(attrs,ItemXMLConstants.DAMAGE_TYPE_ATTR,null);
       if (damageTypeStr!=null)
       {
-        DamageType type=DamageType.valueOf(damageTypeStr);
+        DamageType type=DamageType.getDamageTypeByKey(damageTypeStr);
         weapon.setDamageType(type);
+      }
+      String weaponTypeStr=DOMParsingTools.getStringAttribute(attrs,ItemXMLConstants.WEAPON_TYPE_ATTR,null);
+      if (weaponTypeStr!=null)
+      {
+        WeaponType type=WeaponType.getWeaponTypeByName(weaponTypeStr);
+        weapon.setWeaponType(type);
       }
     }
     return ret;

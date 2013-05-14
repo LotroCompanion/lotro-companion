@@ -68,11 +68,17 @@ public class ItemXMLConstants
    */
   public static final String ITEM_STACK_MAX_ATTR="stackMax";
 
+  // Armour
   /**
    * Tag 'item', attribute 'armour'.
    */
   public static final String ARMOUR_ATTR="armour";
+  /**
+   * Tag 'item', attribute 'armourType'.
+   */
+  public static final String ARMOUR_TYPE_ATTR="armourType";
   
+  // Weapon
   /**
    * Tag 'item', attribute 'dps'.
    */
@@ -89,6 +95,10 @@ public class ItemXMLConstants
    * Tag 'item', attribute 'damageType'.
    */
   public static final String DAMAGE_TYPE_ATTR="damageType";
+  /**
+   * Tag 'item', attribute 'weaponType'.
+   */
+  public static final String WEAPON_TYPE_ATTR="weaponType";
   
   /**
    * Tag 'bonus'.

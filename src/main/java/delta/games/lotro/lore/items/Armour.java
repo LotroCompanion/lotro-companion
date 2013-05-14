@@ -11,6 +11,28 @@ public class Armour extends Item
   private int _armourValue;
   
   /**
+   * Armour type.
+   * @author DAM
+   */
+  public enum ArmourType
+  {
+    /**
+     * Heavy.
+     */
+    HEAVY,
+    /**
+     * Medium.
+     */
+    MEDIUM,
+    /**
+     * Light.
+     */
+    LIGHT
+  }
+  
+  private ArmourType _type;
+  
+  /**
    * Constructor.
    */
   public Armour()
@@ -38,6 +60,24 @@ public class Armour extends Item
   }
   
   /**
+   * Get armour type.
+   * @return an armour type.
+   */
+  public ArmourType getArmourType()
+  {
+    return _type;
+  }
+
+  /**
+   * Set armour type.
+   * @param type Armour type to set.
+   */
+  public void setArmourType(ArmourType type)
+  {
+    _type=type;
+  }
+
+  /**
    * Dump the contents of this quest as a string.
    * @return A readable string.
    */
@@ -49,6 +89,8 @@ public class Armour extends Item
     sb.append(EndOfLine.NATIVE_EOL);
     sb.append("Armour value=");
     sb.append(_armourValue);
+    sb.append(", Armour type=");
+    sb.append(_type);
     return sb.toString();
   }
 }
