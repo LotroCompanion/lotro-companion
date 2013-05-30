@@ -10,26 +10,6 @@ public class Armour extends Item
 {
   private int _armourValue;
   
-  /**
-   * Armour type.
-   * @author DAM
-   */
-  public enum ArmourType
-  {
-    /**
-     * Heavy.
-     */
-    HEAVY,
-    /**
-     * Medium.
-     */
-    MEDIUM,
-    /**
-     * Light.
-     */
-    LIGHT
-  }
-  
   private ArmourType _type;
   
   /**

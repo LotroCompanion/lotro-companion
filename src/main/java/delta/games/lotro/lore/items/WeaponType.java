@@ -13,7 +13,7 @@ public class WeaponType
   /**
    * Two-handed Sword.
    */
-  public static final WeaponType TWO_HANDED_SWORD=new WeaponType("Two handed sword",false,true);
+  public static final WeaponType TWO_HANDED_SWORD=new WeaponType("Two-handed Sword",false,true);
   /**
    * Staff.
    */
@@ -73,10 +73,15 @@ public class WeaponType
   /**
    * Two-handed Axe.
    */
-  public static final WeaponType TWO_HANDED_AXE=new WeaponType("Two-handed Axe",false,false);
-  
-  // TODO Add "Thrown Weapon"?
-  // http://lorebook.lotro.com/wiki/Weapon:Precise_Ancient_Steel_Serrated_Knife
+  public static final WeaponType TWO_HANDED_AXE=new WeaponType("Two-handed Axe",false,true);
+  /**
+   * Rune-stone.
+   */
+  public static final WeaponType RUNE_STONE=new WeaponType("Rune-stone",false,false);
+  /**
+   * Rune-stone.
+   */
+  public static final WeaponType THROWN_WEAPON=new WeaponType("Thrown Weapon",true,false); // TODO CHECK
   
   private String _name;
   private boolean _ranged;

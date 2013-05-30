@@ -39,7 +39,15 @@ public class DamageType
    * Light.
    */
   public static final DamageType LIGHT=new DamageType("LIGHT","Light");
-
+  /**
+   * Lightning.
+   */
+  public static final DamageType LIGHTNING=new DamageType("LIGHTNING","Lightning");
+  /**
+   * Frost.
+   */
+  public static final DamageType FROST=new DamageType("FROST","Frost");
+  
   private String _key;
   private String _name;
   
