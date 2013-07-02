@@ -120,6 +120,43 @@ public class JerichoHtmlUtils
   }
 
   /**
+   * Find tags.
+   * @param root Parent tag.
+   * @param tagName Tag to search.
+   * @return A possibly empty list of tag elements.
+   */
+  public static List<Element> findElementsByTagName(Segment root, String tagName)
+  {
+    List<Element> elements=root.getAllElements(tagName);
+    if ((elements!=null) && (elements.size()>0))
+    {
+      Element first=elements.get(0);
+      if (first==root)
+      {
+        elements.remove(0);
+      }
+    }
+    return elements;
+  }
+
+  /**
+   * Find a tag.
+   * @param root Parent tag.
+   * @param tagName Tag to search.
+   * @return A tag element or <code>null</code> if not found.
+   */
+  public static Element findElementByTagName(Segment root, String tagName)
+  {
+    Element ret=null;
+    List<Element> elements=root.getAllElements(tagName);
+    if (elements.size()>0)
+    {
+      ret=elements.get(0);
+    }
+    return ret;
+  }
+
+  /**
    * Extract text from a tag.
    * @param tag Tag to use.
    * @return Extracted text.
