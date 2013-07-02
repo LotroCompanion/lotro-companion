@@ -62,6 +62,7 @@ public class StringToFileCache
         }
       }
       s=s.replace('\\','/');
+      s=s.replace("//","/");
       String[] path=s.split("/");
       String pathItem;
       for(int i=0;i<path.length;i++)

@@ -18,8 +18,7 @@ import delta.games.lotro.utils.cache.StringToFileCache;
 public class LotroIconsManager
 {
   private static final String SEED="http://content.turbine.com/sites/lorebook.lotro.com/images/icons/";
-  private static final String SEED2="https://my.lotro.com/sites/lorebook.lotro.com/images/icons";
-
+  private static final String SEED2="http://my.lotro.com/sites/lorebook.lotro.com/images/icons";
   private static final Logger _logger=LotroLoggers.getLotroLogger();
 
   private static LotroIconsManager _instance=new LotroIconsManager();
