@@ -28,10 +28,14 @@ public class Escapes
     id=id.replace("ï","%C3%AF");
     id=id.replace("î","%C3%AE");
     id=id.replace("ó","%C3%B3");
+    id=id.replace("ö","%C3%B6");
+    id=id.replace("ô","%C3%B4");
+    id=id.replace("Ö","%C3%96");
     id=id.replace("û","%C3%BB");
     id=id.replace("ú","%C3%BA");
     id=id.replace("?","%3F");
     id=id.replace(",","%2C");
+    id=id.replace("\\","%5C");
     
     return id;
   }
