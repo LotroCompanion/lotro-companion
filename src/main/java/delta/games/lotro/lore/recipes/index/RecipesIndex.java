@@ -11,6 +11,7 @@ import java.util.Set;
 public class RecipesIndex
 {
   private HashMap<String,RecipeSummary> _recipes;
+  private HashMap<String,HashMap<Integer,HashMap<String,RecipeSummary>>> _sortedRecipes;
 
   /**
    * Constructor.
@@ -18,22 +19,25 @@ public class RecipesIndex
   public RecipesIndex()
   {
     _recipes=new HashMap<String,RecipeSummary>();
+    _sortedRecipes=new HashMap<String,HashMap<Integer,HashMap<String,RecipeSummary>>>();
   }
 
   /**
-   * Get a category by its name. 
-   * @param name Name of category to get.
-   * @return A category or <code>null</code> if not found.
+   * Get a recipe by its key. 
+   * @param key Key of recipe to get.
+   * @return A recipe summary or <code>null</code> if not found.
    */
-  public RecipeSummary getRecipe(String name)
+  public RecipeSummary getRecipe(String key)
   {
-    return _recipes.get(name);
+    return _recipes.get(key);
   }
 
   /**
    * Add a recipe.
    * @param key Recipe key.
    * @param name Recipe name.
+   * @param profession Associated profession.
+   * @param tier Recipe tier.
    */
   public void addRecipe(String key, String name, String profession, int tier)
   {
@@ -42,6 +46,20 @@ public class RecipesIndex
     {
       s=new RecipeSummary(key, name, profession, tier);
       _recipes.put(key,s);
+      HashMap<Integer,HashMap<String,RecipeSummary>> professionRecipes=_sortedRecipes.get(profession);
+      if (professionRecipes==null)
+      {
+        professionRecipes=new HashMap<Integer,HashMap<String,RecipeSummary>>();
+        _sortedRecipes.put(profession,professionRecipes);
+      }
+      Integer tierKey=Integer.valueOf(tier);
+      HashMap<String,RecipeSummary> tierRecipes=professionRecipes.get(tierKey);
+      if (tierRecipes==null)
+      {
+        tierRecipes=new HashMap<String,RecipeSummary>();
+        professionRecipes.put(tierKey,tierRecipes);
+      }
+      tierRecipes.put(key,s);
     }
   }
 
@@ -61,6 +79,60 @@ public class RecipesIndex
     else
     {
       ret=new String[0];
+    }
+    return ret;
+  }
+
+  /**
+   * Get all recipe keys for a given profession and tier.
+   * @param profession Targeted profession.
+   * @param tier Targeted tier.
+   * @return An array of keys or <code>null</code> if no such profession/tier.
+   */
+  public String[] getKeysForProfessionAndTier(String profession, int tier)
+  {
+    String[] ret=null;
+    HashMap<Integer,HashMap<String,RecipeSummary>> professionRecipes=_sortedRecipes.get(profession);
+    if (professionRecipes!=null)
+    {
+      Integer tierKey=Integer.valueOf(tier);
+      HashMap<String,RecipeSummary> tierRecipes=professionRecipes.get(tierKey);
+      if (tierRecipes!=null)
+      {
+        Set<String> keys=tierRecipes.keySet();
+        ret=keys.toArray(new String[keys.size()]);
+        Arrays.sort(ret);
+      }
+    }
+    return ret;
+  }
+
+  /**
+   * Get all professions.
+   * @return An array of professions.
+   */
+  public String[] getProfessions()
+  {
+    Set<String> keys=_sortedRecipes.keySet();
+    String[] ret=keys.toArray(new String[keys.size()]);
+    Arrays.sort(ret);
+    return ret;
+  }
+
+  /**
+   * Get recipe tiers for a given profession.
+   * @param profession Targeted profession.
+   * @return An array of recipe tiers or <code>null</code> if no such profession.
+   */
+  public Integer[] getTiersForProfession(String profession)
+  {
+    Integer[] ret=null;
+    HashMap<Integer,HashMap<String,RecipeSummary>> professionRecipes=_sortedRecipes.get(profession);
+    if (professionRecipes!=null)
+    {
+      Set<Integer> keys=professionRecipes.keySet();
+      ret=keys.toArray(new Integer[keys.size()]);
+      Arrays.sort(ret);
     }
     return ret;
   }

@@ -1,4 +1,4 @@
-package delta.games.lotro.lore.recipes.io.web;
+package delta.games.lotro.lore.recipes.index.io.web;
 
 import java.io.File;
 

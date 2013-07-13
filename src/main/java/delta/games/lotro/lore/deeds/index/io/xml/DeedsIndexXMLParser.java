@@ -18,7 +18,7 @@ public class DeedsIndexXMLParser
   /**
    * Parse the XML file.
    * @param source Source file.
-   * @return Parsed deed or <code>null</code>.
+   * @return Parsed deeds index or <code>null</code>.
    */
   public DeedsIndex parseXML(File source)
   {
@@ -26,12 +26,12 @@ public class DeedsIndexXMLParser
     Element root=DOMParsingTools.parse(source);
     if (root!=null)
     {
-      index=parseDeed(root);
+      index=parseDeedsIndex(root);
     }
     return index;
   }
 
-  private DeedsIndex parseDeed(Element root)
+  private DeedsIndex parseDeedsIndex(Element root)
   {
     DeedsIndex index=new DeedsIndex();
 

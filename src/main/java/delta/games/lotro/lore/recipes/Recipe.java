@@ -272,12 +272,19 @@ public class Recipe
     return _name;
   }
 
+  /**
+   * Item reference.
+   * @author DAM
+   */
   public static class ItemReference
   {
     private String _itemId;
     private String _name;
     private String _icon;
     
+    /**
+     * Constructor.
+     */
     public ItemReference()
     {
       _itemId=null;
@@ -287,7 +294,7 @@ public class Recipe
 
     /**
      * Get the item identifier.
-     * @return the itemId
+     * @return an item identifier.
      */
     public String getItemId()
     {
@@ -295,7 +302,8 @@ public class Recipe
     }
 
     /**
-     * @param itemId the itemId to set
+     * Set the item identifier.
+     * @param itemId the identifier to set.
      */
     public void setItemId(String itemId)
     {
@@ -303,7 +311,8 @@ public class Recipe
     }
 
     /**
-     * @return the name
+     * Get the name of the referenced item.
+     * @return an item name.
      */
     public String getName()
     {
@@ -311,7 +320,8 @@ public class Recipe
     }
 
     /**
-     * @param name the name to set
+     * Set the name of the referenced item.
+     * @param name the name to set.
      */
     public void setName(String name)
     {
@@ -319,7 +329,8 @@ public class Recipe
     }
 
     /**
-     * @return the icon
+     * Get the icon of the referenced item.
+     * @return an icon path.
      */
     public String getIcon()
     {
@@ -327,19 +338,25 @@ public class Recipe
     }
 
     /**
-     * @param icon the icon to set
+     * Set the icon of the referenced item.
+     * @param icon the icon path to set.
      */
     public void setIcon(String icon)
     {
       _icon=icon;
     }
 
+    @Override
     public String toString()
     {
       return _name+" ("+_itemId+") ("+_icon+")";
     }
   }
 
+  /**
+   * Ingredient of a recipe.
+   * @author DAM
+   */
   public static class Ingredient
   {
     private int _quantity;
@@ -393,14 +410,17 @@ public class Recipe
     }
 
     /**
-     * @return the item
+     * Get the ingredient item reference.
+     * @return an item reference.
      */
     public ItemReference getItem()
     {
       return _item;
     }
+
     /**
-     * @param item the item to set
+     * Set the ingredient item reference.
+     * @param item the item reference to set.
      */
     public void setItem(ItemReference item)
     {
@@ -414,34 +434,45 @@ public class Recipe
     }
   }
 
+  /**
+   * Version of a recipe.
+   * @author DAM
+   */
   public static class RecipeVersion
   {
     private CraftingResult _regular;
     private CraftingResult _critical;
 
     /**
-     * @return the regular
+     * Get the regular result of this recipe version.
+     * @return A result.
      */
     public CraftingResult getRegular()
     {
       return _regular;
     }
+
     /**
-     * @param regular the regular to set
+     * Set the regular result for this recipe version.
+     * @param regular Result to set.
      */
     public void setRegular(CraftingResult regular)
     {
       _regular=regular;
     }
+
     /**
-     * @return the critical
+     * Get the critical result of this recipe version.
+     * @return A result or <code>null</code> if there's none.
      */
     public CraftingResult getCritical()
     {
       return _critical;
     }
+
     /**
-     * @param critical the critical to set
+     * Set the critical result for this recipe version.
+     * @param critical Result to set (may be <code>null</code>).
      */
     public void setCritical(CraftingResult critical)
     {
@@ -465,6 +496,10 @@ public class Recipe
     }
   }
 
+  /**
+   * Result of a recipe version.
+   * @author DAM
+   */
   public static class CraftingResult
   {
     private int _quantity;
@@ -472,42 +507,55 @@ public class Recipe
     private boolean _isCriticalResult;
 
     /**
-     * @return the quantity
+     * Get the quantity of result items.
+     * @return A quantity.
      */
     public int getQuantity()
     {
       return _quantity;
     }
+
     /**
-     * @param quantity the quantity to set
+     * Set the quantity of result items.
+     * @param quantity the quantity to set.
      */
     public void setQuantity(int quantity)
     {
       _quantity=quantity;
     }
+
     /**
-     * @return the item
+     * Get the result item reference.
+     * @return an item reference.
      */
     public ItemReference getItem()
     {
       return _item;
     }
+
     /**
-     * @param item the item to set
+     * Set the result item reference.
+     * @param item the item reference to set.
      */
     public void setItem(ItemReference item)
     {
       _item=item;
     }
+
     /**
-     * @return the isCriticalResult
+     * Indicates if this is the critical result or
+     * the regular one.
+     * @return <code>true</code> indicates a critical result,
+     * <code>false</code> a regular result.
      */
     public boolean isCriticalResult()
     {
       return _isCriticalResult;
     }
+
     /**
-     * @param isCriticalResult the isCriticalResult to set
+     * Set the critical result flag.
+     * @param isCriticalResult Value to set.
      */
     public void setCriticalResult(boolean isCriticalResult)
     {

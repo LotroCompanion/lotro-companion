@@ -20,8 +20,6 @@ import org.xml.sax.InputSource;
 
 import delta.common.utils.NumericTools;
 import delta.common.utils.xml.DOMParsingTools;
-import delta.games.lotro.lore.items.Item;
-import delta.games.lotro.lore.items.io.web.ItemPageParser;
 import delta.games.lotro.lore.recipes.Recipe;
 import delta.games.lotro.lore.recipes.Recipe.CraftingResult;
 import delta.games.lotro.lore.recipes.Recipe.Ingredient;
@@ -496,14 +494,5 @@ public class RecipePageParser
       _logger.error("Cannot parse quest page ["+url+"]",e);
     }
     return recipes;
-  }
-
-  public static void main(String[] args) {
-    /*
-    RecipePageParser parser=new RecipePageParser();
-    List<Recipe> r=parser.parseRecipePage("");
-    */
-    ItemPageParser parser=new ItemPageParser();
-    List<Item> r=parser.parseItemPage("http://lorebook.lotro.com/wiki/Resource%3AWell-tended_Amaranth_Field");
   }
 }
