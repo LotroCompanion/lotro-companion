@@ -1,31 +1,31 @@
-package delta.games.lotro.tools.lore.quests;
+package delta.games.lotro.tools.lore.recipes;
 
 import java.io.File;
 
 import delta.common.utils.files.archives.ArchiveBuilder;
 
 /**
- * Builds quests archive file.
+ * Builds recipes archive file.
  * @author DAM
  */
-public class QuestsArchiveBuilder
+public class RecipesArchiveBuilder
 {
-  private File _questsDir;
+  private File _recipesDir;
   private File _archiveFile;
 
   /**
    * Constructor.
-   * @param questsDir Quests directory. 
+   * @param recipesDir Recipes directory. 
    * @param archiveFile Archive file.
    */
-  public QuestsArchiveBuilder(File questsDir, File archiveFile)
+  public RecipesArchiveBuilder(File recipesDir, File archiveFile)
   {
-    _questsDir=questsDir;
+    _recipesDir=recipesDir;
     _archiveFile=archiveFile;
   }
 
   /**
-   * Do build quests archive.
+   * Do build recipes archive.
    * @return <code>true</code> if it was done, <code>false</code> otherwise.
    */
   public boolean doIt()
@@ -35,7 +35,7 @@ public class QuestsArchiveBuilder
     boolean ret=builder.start();
     if (ret)
     {
-      ret=builder.addDirectory(_questsDir,null);
+      ret=builder.addDirectory(_recipesDir,null);
       builder.terminate();
     }
     return ret;

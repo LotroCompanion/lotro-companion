@@ -83,7 +83,7 @@ public class RecipesIndexWriter
       {
         AttributesImpl tierAttrs=new AttributesImpl();
         tierAttrs.addAttribute("","",RecipesIndexXMLConstants.TIER_VALUE_ATTR,CDATA,tier.toString());
-        hd.startElement("","",RecipesIndexXMLConstants.TIER_TAG,attrs);
+        hd.startElement("","",RecipesIndexXMLConstants.TIER_TAG,tierAttrs);
 
         String[] keys=index.getKeysForProfessionAndTier(profession,tier.intValue());
         for(String key : keys)

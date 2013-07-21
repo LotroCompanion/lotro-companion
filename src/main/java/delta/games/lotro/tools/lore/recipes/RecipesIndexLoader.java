@@ -6,7 +6,8 @@ import org.apache.log4j.Logger;
 
 import delta.games.lotro.lore.recipes.index.RecipeSummary;
 import delta.games.lotro.lore.recipes.index.RecipesIndex;
-import delta.games.lotro.lore.recipes.io.web.RecipesIndexJSONParser;
+import delta.games.lotro.lore.recipes.index.io.web.RecipesIndexJSONParser;
+import delta.games.lotro.lore.recipes.index.io.xml.RecipesIndexWriter;
 import delta.games.lotro.utils.LotroLoggers;
 
 /**
@@ -22,21 +23,19 @@ public class RecipesIndexLoader
    * @param indexFile Target file.
    * @return <code>true</code> if it was done, <code>false</code> otherwise.
    */
-  public RecipesIndex doIt(File indexFile)
+  public boolean doIt(File indexFile)
   {
     boolean ret=false;
     RecipesIndexJSONParser parser=new RecipesIndexJSONParser();
     RecipesIndex index=parser.parseRecipesIndex();
     if (index!=null)
     {
-      /*
-      QuestsIndexWriter writer=new QuestsIndexWriter();
+      RecipesIndexWriter writer=new RecipesIndexWriter();
       ret=writer.write(indexFile,index,"UTF-8");
       if (!ret)
       {
-        _logger.error("Cannot write quests index file ["+indexFile+"]");
+        _logger.error("Cannot write recipes index file ["+indexFile+"]");
       }
-      */
       String[] keys=index.getKeys();
       for(String key : keys)
       {
@@ -49,7 +48,6 @@ public class RecipesIndexLoader
     {
       _logger.error("Recipes index is null");
     }
-    return index;
-    //return ret;
+    return ret;
   }
 }

@@ -15,6 +15,8 @@ public class RecipeSummary
    * Constructor.
    * @param key Recipe key.
    * @param name Recipe name.
+   * @param profession Related profession.
+   * @param tier Recipe tier.
    */
   public RecipeSummary(String key, String name, String profession, int tier)
   {
@@ -43,7 +45,8 @@ public class RecipeSummary
   }
 
   /**
-   * @return the profession
+   * Get the related profession.
+   * @return the related profession.
    */
   public String getProfession()
   {
@@ -51,7 +54,8 @@ public class RecipeSummary
   }
 
   /**
-   * @return the tier
+   * Get the recipe tier.
+   * @return the recipe tier.
    */
   public int getTier()
   {
