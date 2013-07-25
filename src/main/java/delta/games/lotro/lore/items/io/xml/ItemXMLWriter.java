@@ -19,13 +19,13 @@ import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.Money;
 import delta.games.lotro.common.money.io.xml.MoneyXMLWriter;
 import delta.games.lotro.lore.items.Armour;
+import delta.games.lotro.lore.items.ArmourType;
 import delta.games.lotro.lore.items.DamageType;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemBinding;
 import delta.games.lotro.lore.items.ItemCategory;
 import delta.games.lotro.lore.items.ItemSturdiness;
 import delta.games.lotro.lore.items.Weapon;
-import delta.games.lotro.lore.items.Armour.ArmourType;
 import delta.games.lotro.lore.items.WeaponType;
 import delta.games.lotro.utils.LotroLoggers;
 
@@ -52,6 +52,11 @@ public class ItemXMLWriter
     FileOutputStream fos=null;
     try
     {
+      File parentFile=outFile.getParentFile();
+      if (!parentFile.exists())
+      {
+        parentFile.mkdirs();
+      }
       fos=new FileOutputStream(outFile);
       SAXTransformerFactory tf=(SAXTransformerFactory)TransformerFactory.newInstance();
       TransformerHandler hd=tf.newTransformerHandler();
@@ -82,11 +87,11 @@ public class ItemXMLWriter
   {
     AttributesImpl itemAttrs=new AttributesImpl();
 
-    // ID
-    String id=item.getIdentifier();
-    if (id!=null)
+    // Key
+    String key=item.getKey();
+    if (key!=null)
     {
-      itemAttrs.addAttribute("","",ItemXMLConstants.ITEM_ID_ATTR,CDATA,id);
+      itemAttrs.addAttribute("","",ItemXMLConstants.ITEM_ID_ATTR,CDATA,key);
     }
     // Set identifier
     String setIdentifier=item.getSetIdentifier();
@@ -174,7 +179,7 @@ public class ItemXMLWriter
       ArmourType type=armour.getArmourType();
       if (type!=null)
       {
-        itemAttrs.addAttribute("","",ItemXMLConstants.ARMOUR_TYPE_ATTR,CDATA,String.valueOf(type));
+        itemAttrs.addAttribute("","",ItemXMLConstants.ARMOUR_TYPE_ATTR,CDATA,type.getKey());
       }
     }
     // Weapon specific:

@@ -2,10 +2,12 @@ package delta.games.lotro.lore.items;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.WeakHashMap;
 
 import org.apache.log4j.Logger;
 
+import delta.common.utils.NumericTools;
 import delta.common.utils.cache.WeakReferencesCache;
 import delta.common.utils.text.EncodingNames;
 import delta.games.lotro.Config;
@@ -17,9 +19,6 @@ import delta.games.lotro.lore.items.io.xml.ItemsSetXMLWriter;
 import delta.games.lotro.lore.quests.io.web.MyLotroURL2Identifier;
 import delta.games.lotro.utils.Escapes;
 import delta.games.lotro.utils.LotroLoggers;
-import delta.games.lotro.utils.resources.ResourcesMapping;
-import delta.games.lotro.utils.resources.io.xml.ResourcesMappingXMLParser;
-import delta.games.lotro.utils.resources.io.xml.ResourcesMappingXMLWriter;
 
 /**
  * Facade for items access.
@@ -33,8 +32,7 @@ public class ItemsManager
 
   private static ItemsManager _instance=new ItemsManager();
   
-  private ResourcesMapping _mapping;
-  private WeakReferencesCache<String,Item> _cache;
+  private WeakReferencesCache<Integer,Item> _cache;
   private WeakHashMap<String,ItemsSet> _setsCache;
   
   /**
@@ -51,18 +49,8 @@ public class ItemsManager
    */
   private ItemsManager()
   {
-    _cache=new WeakReferencesCache<String,Item>(20);
+    _cache=new WeakReferencesCache<Integer,Item>(20);
     _setsCache=new WeakHashMap<String,ItemsSet>();
-    loadResourcesMapping();
-  }
-
-  /**
-   * Get the quest resources mapping.
-   * @return the quest resources mapping.
-   */
-  public ResourcesMapping getQuestResourcesMapping()
-  {
-    return _mapping;
   }
 
   /**
@@ -70,15 +58,15 @@ public class ItemsManager
    * @param id Item identifier.
    * @return An item description or <code>null</code> if not found.
    */
-  public Item getItem(String id)
+  public Item getItem(Integer id)
   {
     Item ret=null;
-    if ((id!=null) && (id.length()>0))
+    if (id!=null)
     {
       ret=(_cache!=null)?_cache.getObject(id):null;
       if (ret==null)
       {
-        ret=loadItem(id);
+        ret=loadItem(id.intValue());
         if (ret!=null)
         {
           if (_cache!=null)
@@ -122,75 +110,61 @@ public class ItemsManager
    * @param url URL to use.
    * @return An item identifier or <code>null</code> if URL does not fit.
    */
-  public String idFromURL(String url)
+  public Integer idFromURL(String url)
   {
-    String ret=null;
+    Integer ret=null;
     if ((url!=null) && (url.startsWith(URL_SEED)))
     {
-      ret=url.substring(URL_SEED.length());
+      String idStr=url.substring(URL_SEED.length());
+      ret=NumericTools.parseInteger(idStr,true);
     }
     return ret;
   }
 
-  private Item loadItem(String id)
+  private Item loadFromMyLotro(int id)
+  {
+    Item ret=null;
+    String url=urlFromIdentifier(id);
+    if (url!=null)
+    {
+      ItemPageParser parser=new ItemPageParser();
+      List<Item> items=parser.parseItemPage(url);
+      if ((items!=null) && (items.size()>0))
+      {
+        for(Item item : items)
+        {
+          int itemId=item.getIdentifier();
+          if (itemId==id)
+          {
+            ret=item;
+            break;
+          }
+        }
+      }
+      if (ret==null)
+      {
+        _logger.error("Cannot parse item ["+id+"] at URL ["+url+"]!");
+      }
+    }
+    else
+    {
+      _logger.error("Cannot parse item ["+id+"]. URL is null!");
+    }
+    return ret;
+  }
+
+  private Item loadItem(int id)
   {
     Item ret=null;
     File itemFile=getItemFile(id);
     if (!itemFile.exists())
     {
-      if (!itemFile.getParentFile().exists())
+      ret=loadFromMyLotro(id);
+      if (ret!=null)
       {
-        itemFile.getParentFile().mkdirs();
-      }
-      ItemPageParser parser=new ItemPageParser();
-      String url=urlFromIdentifier(id);
-      if (url!=null)
-      {
-        ret=parser.parseOneItemPage(url);
-        if (ret!=null)
-        {
-          ItemXMLWriter writer=new ItemXMLWriter();
-          boolean ok=writer.write(itemFile,ret,EncodingNames.UTF_8);
-          if (!ok)
-          {
-            String name=ret.getName();
-            _logger.error("Write failed for item ["+name+"]!");
-            ret=null;
-          }
-          else
-          {
-            ret=loadItem(id);
-          }
-          ItemsSet set=parser.getItemsSet();
-          if (set!=null)
-          {
-            String setId=set.getId();
-            File itemsSetFile=getItemsSetFile(setId);
-            if (!itemsSetFile.exists())
-            {
-              if (!itemsSetFile.getParentFile().exists())
-              {
-                itemsSetFile.getParentFile().mkdirs();
-              }
-              ItemsSetXMLWriter setWriter=new ItemsSetXMLWriter();
-              boolean okSet=setWriter.write(itemsSetFile,set,EncodingNames.UTF_8);
-              if (!okSet)
-              {
-                _logger.error("Write failed for items set ["+setId+"]!");
-              }
-            }
-          }
-        }
-        else
-        {
-          _logger.error("Cannot parse item ["+id+"] at URL ["+url+"]!");
-        }
+        ret=writeItemFile(ret);
       }
       else
-      {
-        _logger.error("Cannot parse item ["+id+"]. URL is null!");
-      }
-      if (ret==null)
       {
         try
         {
@@ -208,13 +182,65 @@ public class ItemsManager
       {
         ItemXMLParser parser=new ItemXMLParser();
         ret=parser.parseXML(itemFile);
-        if (ret==null)
+        if (ret!=null)
+        {
+          ret.setIdentifier(id);
+        }
+        else
         {
           _logger.error("Cannot load item file ["+itemFile+"]!");
         }
       }
     }
     return ret;
+  }
+
+  /**
+   * Write an item file.
+   * @param item Item to write.
+   * @return An item.
+   */
+  public Item writeItemFile(Item item)
+  {
+    ItemXMLWriter writer=new ItemXMLWriter();
+    int id=item.getIdentifier();
+    File itemFile=getItemFile(id);
+    boolean ok=writer.write(itemFile,item,EncodingNames.UTF_8);
+    if (!ok)
+    {
+      String name=item.getName();
+      _logger.error("Write failed for item ["+name+"]!");
+      item=null;
+    }
+    else
+    {
+      ItemsSet set=item.getSet();
+      if (set!=null)
+      {
+        writeSetFile(set);
+      }
+      // Reload item to cleanup memory retention of web-loaded strings
+      item=loadItem(id);
+    }
+    return item;
+  }
+
+  private void writeSetFile(ItemsSet set)
+  {
+    if (set!=null)
+    {
+      String setId=set.getId();
+      File itemsSetFile=getItemsSetFile(setId);
+      if (!itemsSetFile.exists())
+      {
+        ItemsSetXMLWriter setWriter=new ItemsSetXMLWriter();
+        boolean ok=setWriter.write(itemsSetFile,set,EncodingNames.UTF_8);
+        if (!ok)
+        {
+          _logger.error("Write failed for items set ["+setId+"]!");
+        }
+      }
+    }
   }
 
   private ItemsSet loadItemsSet(String id)
@@ -236,7 +262,7 @@ public class ItemsManager
     return ret;
   }
 
-  private File getItemFile(String id)
+  private File getItemFile(int id)
   {
     File itemsDir=Config.getInstance().getItemsDir();
     String fileName=id+".xml";
@@ -253,48 +279,17 @@ public class ItemsManager
     return ret;
   }
 
-  private String urlFromIdentifier(String id)
+  private String urlFromIdentifier(int id)
   {
     String ret=null;
     String baseURL=URL_SEED+id;
     MyLotroURL2Identifier finder=new MyLotroURL2Identifier();
-    id=finder.findIdentifier(baseURL,true);
-    if (id!=null)
+    String idStr=finder.findIdentifier(baseURL,true);
+    if (idStr!=null)
     {
-      id=Escapes.escapeIdentifier(id);
-      ret=REAL_URL_SEED+id;
+      idStr=Escapes.escapeIdentifier(idStr);
+      ret=REAL_URL_SEED+idStr;
     }
     return ret;
-  }
-
-  private File getResourcesMappingFile()
-  {
-    File itemsDir=Config.getInstance().getItemsDir();
-    File ressourcesMappingFile=new File(itemsDir,"itemsResourcesMapping.xml");
-    return ressourcesMappingFile;
-  }
-
-  /**
-   * Update resources mapping file.
-   */
-  public void updateResourcesMapping()
-  {
-    File ressourcesMappingFile=getResourcesMappingFile();
-    ResourcesMappingXMLWriter writer=new ResourcesMappingXMLWriter();
-    writer.write(ressourcesMappingFile,_mapping,EncodingNames.ISO8859_1);
-  }
-
-  private void loadResourcesMapping()
-  {
-    File ressourcesMappingFile=getResourcesMappingFile();
-    if (ressourcesMappingFile.exists())
-    {
-      ResourcesMappingXMLParser parser=new ResourcesMappingXMLParser();
-      _mapping=parser.parseXML(ressourcesMappingFile);
-    }
-    else
-    {
-      _mapping=new ResourcesMapping();
-    }
   }
 }

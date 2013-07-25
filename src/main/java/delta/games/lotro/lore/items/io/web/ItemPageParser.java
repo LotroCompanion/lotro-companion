@@ -1,7 +1,11 @@
 package delta.games.lotro.lore.items.io.web;
 
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 
 import net.htmlparser.jericho.CharacterReference;
 import net.htmlparser.jericho.Element;
@@ -11,19 +15,22 @@ import net.htmlparser.jericho.Source;
 import net.htmlparser.jericho.StartTag;
 
 import org.apache.log4j.Logger;
+import org.w3c.dom.Document;
+import org.xml.sax.InputSource;
 
 import delta.common.utils.NumericTools;
 import delta.common.utils.text.TextTools;
+import delta.common.utils.xml.DOMParsingTools;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.Money;
 import delta.games.lotro.lore.items.Armour;
+import delta.games.lotro.lore.items.ArmourType;
 import delta.games.lotro.lore.items.DamageType;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemBinding;
 import delta.games.lotro.lore.items.ItemSturdiness;
 import delta.games.lotro.lore.items.ItemsSet;
 import delta.games.lotro.lore.items.Weapon;
-import delta.games.lotro.lore.items.Armour.ArmourType;
 import delta.games.lotro.lore.items.WeaponType;
 import delta.games.lotro.utils.DownloadService;
 import delta.games.lotro.utils.JerichoHtmlUtils;
@@ -37,13 +44,14 @@ public class ItemPageParser
 {
   private static final Logger _logger=LotroLoggers.getWebInputLogger();
   
+  private static final String HREF_IDENTIFIER_SEED="/wiki/";
   private static final String WIKI_SEED="/wiki/";
   private static final String SET_NUMBER_SEED="Set (";
   private static final String SET_NUMBER_END="):";
+  private static final String RESOURCE_SEED="Resource:";
 
   private Item _item;
-  private ItemsSet _set;
-  private String _identifier;
+  private String _key;
 
   private String getTagContent(Element itemTooltip, String tagIdentifier)
   {
@@ -93,6 +101,10 @@ public class ItemPageParser
       else if ("Brittle".equalsIgnoreCase(sturdinessStr))
       {
         ret=ItemSturdiness.BRITTLE;
+      }
+      else if ("Substantial".equalsIgnoreCase(sturdinessStr))
+      {
+        ret=ItemSturdiness.SUBSTANTIAL;
       }
       else
       {
@@ -408,11 +420,9 @@ public class ItemPageParser
         armour.setArmourValue(armourValue.intValue());
       }
       String armourTypeStr=getTagContent(itemTooltip,"itemtype");
-      ArmourType armourType=null;
-      if ("Heavy Armour".equals(armourTypeStr)) armourType=ArmourType.HEAVY; 
-      else if ("Medium Armour".equals(armourTypeStr)) armourType=ArmourType.MEDIUM; 
-      else if ("Light Armour".equals(armourTypeStr)) armourType=ArmourType.LIGHT;
-      else {
+      ArmourType armourType=ArmourType.getArmourTypeByName(armourTypeStr);
+      if (armourType==null)
+      {
         armourType=ArmourType.LIGHT; // Assume light armour...
         _logger.warn("Unknown armour type: "+armourTypeStr+" (name="+name+")");
       }
@@ -532,7 +542,6 @@ public class ItemPageParser
     }
     _item.setBonus(bonuses);
     
-    
     // TODO <div class="itemmsi">+5 Damage to The Dead</div>
     String msi=getTagContent(itemTooltip,"itemmsi");
     if ((msi!=null) && (msi.length()>0))
@@ -545,7 +554,7 @@ public class ItemPageParser
     if (set!=null)
     {
       _item.setSetIdentifier(set.getId());
-      _set=set;
+      _item.setItemsSet(set);
     }
 
     // Possible legacies TODO
@@ -733,7 +742,7 @@ Strength Quick Shot Slow (Tier(s):
                 }
                 else
                 {
-                  _logger.warn("Item ["+_identifier+"]. Unknown coin type ["+type+"]");
+                  _logger.warn("Item ["+_key+"]. Unknown coin type ["+type+"]");
                 }
               }
             }
@@ -758,7 +767,6 @@ Strength Quick Shot Slow (Tier(s):
     try
     {
       _item=null;
-      _set=null;
       Element itemTooltip=JerichoHtmlUtils.findElementByTagNameAndAttributeValue(itemSection,HTMLElementName.TABLE,"class","tooltip");
       if (itemTooltip!=null)
       {
@@ -769,7 +777,49 @@ Strength Quick Shot Slow (Tier(s):
     catch(Exception e)
     {
       ret=null;
-      _logger.error("Item ["+_identifier+"]. Cannot parse item section!",e);
+      _logger.error("Item ["+_key+"]. Cannot parse item section!",e);
+    }
+    return ret;
+  }
+
+  private Item parseResourceSection(Element resourceSection)
+  {
+    Item ret=null;
+    try
+    {
+      Element officialSection=JerichoHtmlUtils.findElementByTagNameAndAttributeValue(resourceSection,HTMLElementName.DIV,"class","officialsection");
+      if (officialSection!=null)
+      {
+        ret=new Item();
+        // Name
+        String name=null;
+        Element nameElement=JerichoHtmlUtils.findElementByTagNameAndAttributeValue(officialSection,HTMLElementName.DIV,"class","lorebooktitle");
+        if (nameElement!=null)
+        {
+          name=CharacterReference.decodeCollapseWhiteSpace(nameElement.getContent());
+          if (name!=null)
+          {
+            if (name.startsWith(RESOURCE_SEED))
+            {
+              name=name.substring(RESOURCE_SEED.length()).trim();
+            }
+          }
+        }
+        ret.setName(name);
+        // Description
+        List<Element> divs=JerichoHtmlUtils.findElementsByTagName(officialSection,HTMLElementName.DIV);
+        if ((divs!=null) && (divs.size()>=4))
+        {
+          Element div=divs.get(3);
+          String description=CharacterReference.decodeCollapseWhiteSpace(div.getContent());
+          ret.setDescription(description);
+        }
+      }
+    }
+    catch(Exception e)
+    {
+      ret=null;
+      _logger.error("Item ["+_key+"]. Cannot parse item section!",e);
     }
     return ret;
   }
@@ -802,34 +852,7 @@ Strength Quick Shot Slow (Tier(s):
     return ret;
   }
 
-  /**
-   * Parse the item page at the given URL.
-   * @param url URL of item page.
-   * @return An item or <code>null</code> if an error occurred.
-   */
-  public Item parseOneItemPage(String url)
-  {
-    Item ret=null;
-    List<Item> items=internalParseItemPage(url);
-    if ((items!=null) && (items.size()>0))
-    {
-      ret=items.get(0);
-    }
-    return ret;
-  }
-
-  /**
-   * Get the extracted items set (if any).
-   * @return An items set or <code>null</code>.
-   */
-  public ItemsSet getItemsSet()
-  {
-    return _set;
-  }
-
-  private static final String HREF_IDENTIFIER_SEED="/wiki/";
-
-  private String fetchIdentifier(Segment root)
+  private String fetchItemKey(Segment root)
   {
     String id=null;
     Element articleTop=JerichoHtmlUtils.findElementByTagNameAndAttributeValue(root,HTMLElementName.DIV,"id","article_top");
@@ -850,6 +873,94 @@ Strength Quick Shot Slow (Tier(s):
       }
     }
     return id;
+  }
+
+  private void findIdentifiers(List<Item> items)
+  {
+    String url="http://lorebook.lotro.com/index.php?title="+_key+"&action=edit";
+    DownloadService downloader=DownloadService.getInstance();
+    try
+    {
+      String page=downloader.getPage(url);
+      Source s=new Source(page);
+      //<textarea id="wpTextbox1"
+      Element pageSource=JerichoHtmlUtils.findElementByTagNameAndAttributeValue(s,HTMLElementName.TEXTAREA,"id","wpTextbox1");
+      if (pageSource!=null)
+      {
+        String text=JerichoHtmlUtils.getTextFromTag(pageSource);
+        parsePageSource(text,items);
+      }
+      else
+      {
+        _logger.warn("Cannot find identifiers!");
+      }
+    }
+    catch(Exception e)
+    {
+      _logger.error("Parsing error",e);
+    }
+  }
+
+  private String getTagName()
+  {
+    if (_key.startsWith("Armour:")) return "armor";
+    if (_key.startsWith("Weapon:")) return "weapon";
+    if (_key.startsWith("Tool:")) return "tool";
+    if (_key.startsWith("Resource:")) return "resource";
+    if (_key.startsWith("Item:")) return "item";
+    System.out.println("Unmanaged key ["+_key+"]");
+    return "item";
+  }
+  private void parsePageSource(String text, List<Item> items)
+  {
+    try
+    {
+      String seed="</noedit>";
+      int index=text.indexOf(seed);
+      if (index!=-1)
+      {
+        text=text.substring(0,index+seed.length());
+      }
+      text=text.replace("&"," ");
+      DocumentBuilder builder=DocumentBuilderFactory.newInstance().newDocumentBuilder();
+      InputSource is=new InputSource(new StringReader(text));
+      Document doc=builder.parse(is);
+      org.w3c.dom.Element root=doc.getDocumentElement();
+      String tagName=getTagName();
+      List<org.w3c.dom.Element> tags=DOMParsingTools.getChildTagsByName(root,tagName,true);
+      int nbTags=0;
+      if (tags!=null)
+      {
+        nbTags=tags.size();
+      }
+      int nbItems=items.size();
+      if (nbTags==nbItems)
+      {
+        int tagIndex=0;
+        for(org.w3c.dom.Element tag : tags)
+        {
+          String idStr=DOMParsingTools.getStringAttribute(tag.getAttributes(),"id",null);
+          int id=NumericTools.parseInt(idStr,-1);
+          if (id!=-1)
+          {
+            items.get(tagIndex).setIdentifier(id);
+          }
+          else
+          {
+            _logger.error("Bad identifier ["+idStr+"] for item key ["+_key+"] index "+tagIndex);
+          }
+          tagIndex++;
+        }
+      }
+      else
+      {
+        _logger.error("Bad number of recipe identifiers for recipe key ["+_key+"]. Expected "+nbItems+", got "+nbTags);
+      }
+    }
+    catch (Exception e)
+    {
+      _logger.error("Parsing error",e);
+    }
   }
 
   /**
@@ -873,19 +984,36 @@ Strength Quick Shot Slow (Tier(s):
         items=new ArrayList<Item>();
         // Fetch identifier
         List<Element> itemSections=JerichoHtmlUtils.findElementsByTagNameAndAttributeValue(source,HTMLElementName.TABLE,"class","tooltip");
-        //List<Element> itemSections=JerichoHtmlUtils.findElementsByTagNameAndAttributeValue(source,HTMLElementName.DIV,"class","lorebookclass");
         if ((itemSections!=null) && (itemSections.size()>0))
         {
-          String identifier=fetchIdentifier(source);
+          String key=fetchItemKey(source);
+          _key=key;
           for(Element itemSection : itemSections)
           {
             Item item=parseItemSection(itemSection);
             if (item!=null)
             {
               items.add(item);
-              item.setIdentifier(identifier);
+              item.setKey(key);
             }
           }
+          findIdentifiers(items);
+        }
+        List<Element> resourceSections=JerichoHtmlUtils.findElementsByTagNameAndAttributeValue(source,HTMLElementName.DIV,"class","lorebookresource");
+        if ((resourceSections!=null) && (resourceSections.size()>0))
+        {
+          String key=fetchItemKey(source);
+          _key=key;
+          for(Element resourceSection : resourceSections)
+          {
+            Item item=parseResourceSection(resourceSection);
+            if (item!=null)
+            {
+              items.add(item);
+              item.setKey(key);
+            }
+          }
+          findIdentifiers(items);
         }
       }
     }

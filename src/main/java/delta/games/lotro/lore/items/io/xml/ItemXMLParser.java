@@ -11,7 +11,7 @@ import delta.common.utils.xml.DOMParsingTools;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.money.io.xml.MoneyXMLParser;
 import delta.games.lotro.lore.items.Armour;
-import delta.games.lotro.lore.items.Armour.ArmourType;
+import delta.games.lotro.lore.items.ArmourType;
 import delta.games.lotro.lore.items.DamageType;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemBinding;
@@ -58,8 +58,8 @@ public class ItemXMLParser
     ret=ItemFactory.buildItem(category);
     ret.setCategory(category);
     // Identifier
-    String id=DOMParsingTools.getStringAttribute(attrs,ItemXMLConstants.ITEM_ID_ATTR,null);
-    ret.setIdentifier(id);
+    String key=DOMParsingTools.getStringAttribute(attrs,ItemXMLConstants.ITEM_ID_ATTR,null);
+    ret.setKey(key);
     // Set identifier
     String setId=DOMParsingTools.getStringAttribute(attrs,ItemXMLConstants.ITEM_SET_ID_ATTR,null);
     ret.setSetIdentifier(setId);
@@ -146,7 +146,7 @@ public class ItemXMLParser
       String armourTypeStr=DOMParsingTools.getStringAttribute(attrs,ItemXMLConstants.ARMOUR_TYPE_ATTR,null);
       if (armourTypeStr!=null)
       {
-        ArmourType type=ArmourType.valueOf(armourTypeStr);
+        ArmourType type=ArmourType.getDamageTypeByKey(armourTypeStr);
         armour.setArmourType(type);
       }
     }

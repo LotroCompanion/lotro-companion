@@ -14,7 +14,7 @@ public class MainTestItemsManager
   {
     ItemsManager manager=ItemsManager.getInstance();
     // Test for "ï" escape (object: "Egnïon-breichled")
-    Item item=manager.getItem("1879224554");
+    Item item=manager.getItem(1879224554);
     String str=item.dump();
     System.out.println(str);
   }

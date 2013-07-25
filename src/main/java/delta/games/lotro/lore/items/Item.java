@@ -13,10 +13,16 @@ import delta.games.lotro.common.Money;
  */
 public class Item
 {
-  // Item identifier: "Jacket_of_the_Impossible_Shot", ...
-  private String _id;
+  // Item private identifier
+  private int _identifier;
+  // Item key: "Jacket_of_the_Impossible_Shot", ...
+  private String _key;
   // Items set identifier (may be null)
   private String _setId;
+  // Associated set (may be null)
+  private ItemsSet _set;
+  // Slot
+  private EquipmentLocation _equipmentLocation;
   // Item name "Jacket of the Impossible Shot"
   private String _name;
   // Icon URL
@@ -24,6 +30,10 @@ public class Item
   // Item category: Armour, Tool, ...
   private ItemCategory _category;
   // Item sub-category: "Medium Armour", "Craft Tool"
+  // Weapon: Two-handed Sword, Staff, Halberd, Two-handed Hammer, Bow, Javelin,
+  // Two-handed Club, One-handed Hammer, Spear, One-handed Club, One-handed Mace,
+  // Crossbow, Dagger, One-handed Axe, One-handed Sword, Two-handed Axe
+  // ???: Heavy, Warden, Light 
   private String _subCategory;
   // Item binding: "Bind on Acquire", ...
   private ItemBinding _binding;
@@ -37,6 +47,8 @@ public class Item
   private ItemSturdiness _sturdiness;
   // Minimum level (may be null)
   private Integer _minLevel;
+  // Item level (may be null)
+  private Integer _itemLevel;
   // Class (may be null)
   private CharacterClass _class;
   // Full description
@@ -51,8 +63,10 @@ public class Item
    */
   public Item()
   {
-    _id=null;
+    _identifier=0;
+    _key=null;
     _setId=null;
+    _equipmentLocation=null;
     _name="";
     _iconURL=null;
     _category=ItemCategory.ITEM;
@@ -63,6 +77,7 @@ public class Item
     _durability=null;
     _sturdiness=null;
     _minLevel=null;
+    _itemLevel=null;
     _class=null;
     _description=null;
     _value=new Money();
@@ -73,9 +88,36 @@ public class Item
    * Get the identifier of this item.
    * @return an item identifier.
    */
-  public String getIdentifier()
+  public int getIdentifier()
   {
-    return _id;
+    return _identifier;
+  }
+
+  /**
+   * Set the identifier of this item.
+   * @param identifier the identifier to set.
+   */
+  public void setIdentifier(int identifier)
+  {
+    _identifier=identifier;
+  }
+
+  /**
+   * Get the key of this item.
+   * @return an item key.
+   */
+  public String getKey()
+  {
+    return _key;
+  }
+
+  /**
+   * Set the key of the item.
+   * @param key the key to set.
+   */
+  public void setKey(String key)
+  {
+    _key=key;
   }
 
   /**
@@ -97,12 +139,38 @@ public class Item
   }
 
   /**
-   * Set the identifier of the item.
-   * @param id the identifier to set.
+   * Get the associated items set.
+   * @return an items set or <code>null</code>.
    */
-  public void setIdentifier(String id)
+  public ItemsSet getSet()
   {
-    _id=id;
+    return _set;
+  }
+
+  /**
+   * Set the associated items set.
+   * @param set Items set.
+   */
+  public void setItemsSet(ItemsSet set)
+  {
+    _set=set;
+  }
+
+  /**
+   * Get equipment location.
+   * @return an equimment location. 
+   */
+  public EquipmentLocation getEquipmentLocation()
+  {
+    return _equipmentLocation; 
+  }
+
+  /**
+   * Set the equipment location.
+   * @param equipmentLocation Location to set.
+   */
+  public void setEquipmentLocation(EquipmentLocation equipmentLocation) {
+    _equipmentLocation=equipmentLocation;
   }
 
   /**
@@ -292,6 +360,24 @@ public class Item
   }
 
   /**
+   * Get the item level.
+   * @return a level value or <code>null</code>.
+   */
+  public Integer getItemLevel()
+  {
+    return _itemLevel;
+  }
+
+  /**
+   * Set the item level.
+   * @param itemLevel the item level as an integer value, or <code>null</code>.
+   */
+  public void setItemLevel(Integer itemLevel)
+  {
+	  _itemLevel=itemLevel;
+  }
+
+  /**
    * Get the required class to use this item.
    * @return a character class or <code>null</code>.
    */
@@ -372,10 +458,22 @@ public class Item
   {
     StringBuilder sb=new StringBuilder();
     sb.append("Name: ").append(_name);
-    if (_id!=null)
+    if (_identifier!=0)
     {
       sb.append(" (id=");
-      sb.append(_id);
+      sb.append(_identifier);
+      sb.append(')');
+    }
+    if (_key!=null)
+    {
+      sb.append(" (key=");
+      sb.append(_key);
+      sb.append(')');
+    }
+    if (_equipmentLocation!=null)
+    {
+      sb.append(" (");
+      sb.append(_equipmentLocation);
       sb.append(')');
     }
     if (_category!=null)
@@ -416,6 +514,12 @@ public class Item
     {
       sb.append(" (Min level=");
       sb.append(_minLevel);
+      sb.append(')');
+    }
+    if (_itemLevel!=null)
+    {
+      sb.append(" (Item level=");
+      sb.append(_itemLevel);
       sb.append(')');
     }
     if (_value!=null)

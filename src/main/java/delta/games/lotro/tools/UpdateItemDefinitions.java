@@ -33,7 +33,7 @@ public class UpdateItemDefinitions
         if (id!=-1)
         {
           itemFile.delete();
-          mgr.getItem(name);
+          mgr.getItem(Integer.valueOf(id));
         }
       }
     }

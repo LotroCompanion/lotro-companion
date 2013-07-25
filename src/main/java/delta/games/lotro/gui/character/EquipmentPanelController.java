@@ -210,39 +210,48 @@ public class EquipmentPanelController implements ActionListener
       if (contents!=null)
       {
         String url=contents.getObjectURL();
-        String id=itemsManager.idFromURL(url);
+        Integer id=itemsManager.idFromURL(url);
         if (id!=null)
         {
+          String iconURL=null;
           Item item=itemsManager.getItem(id);
           if (item!=null)
           {
-            String iconURL=item.getIconURL();
-            if (iconURL!=null)
+            iconURL=item.getIconURL();
+          }
+          else
+          {
+            iconURL=contents.getIconURL();
+            item=new Item();
+            item.setIdentifier(id.intValue());
+            item.setIconURL(iconURL);
+            itemsManager.writeItemFile(item);
+          }
+          if (iconURL!=null)
+          {
+            File f=iconsManager.getIconFile(iconURL);
+            ImageIcon icon=null;
+            if (f.length()>0)
             {
-              File f=iconsManager.getIconFile(iconURL);
-              ImageIcon icon=null;
-              if (f.length()>0)
-              {
-                icon=IconsManager.getIcon(f);
-              }
-              if (icon==null)
-              {
-                icon=IconsManager.getIcon(ITEM_WITH_NO_ICON);
-              }
-              if (icon!=null)
-              {
-                JButton button=new JButton(icon);
-                button.setBorderPainted(false);
-                button.setMargin(new Insets(0,0,0,0));
-                button.setBounds(position.width,position.height,ICON_SIZE,ICON_SIZE);
-                _layeredPane.add(button,ICONS_DEPTH);
-                _buttons.put(slot,button);
-                button.setActionCommand(slot.name());
-                button.addActionListener(this);
+              icon=IconsManager.getIcon(f);
+            }
+            if (icon==null)
+            {
+              icon=IconsManager.getIcon(ITEM_WITH_NO_ICON);
+            }
+            if (icon!=null)
+            {
+              JButton button=new JButton(icon);
+              button.setBorderPainted(false);
+              button.setMargin(new Insets(0,0,0,0));
+              button.setBounds(position.width,position.height,ICON_SIZE,ICON_SIZE);
+              _layeredPane.add(button,ICONS_DEPTH);
+              _buttons.put(slot,button);
+              button.setActionCommand(slot.name());
+              button.addActionListener(this);
 
-                String dump=item.dump();
-                button.setToolTipText(dump);
-              }
+              String dump=item.dump();
+              button.setToolTipText(dump);
             }
           }
         }
@@ -261,7 +270,7 @@ public class EquipmentPanelController implements ActionListener
       CharacterEquipment equipment=c.getEquipment();
       SlotContents contents=equipment.getSlotContents(slot,false);
       String url=contents.getObjectURL();
-      String id=itemsManager.idFromURL(url);
+      Integer id=itemsManager.idFromURL(url);
       if (id!=null)
       {
         Item item=itemsManager.getItem(id);

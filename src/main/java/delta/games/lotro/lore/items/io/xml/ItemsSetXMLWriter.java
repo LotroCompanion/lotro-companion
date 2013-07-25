@@ -40,6 +40,11 @@ public class ItemsSetXMLWriter
     FileOutputStream fos=null;
     try
     {
+      File parentFile=outFile.getParentFile();
+      if (!parentFile.exists())
+      {
+        parentFile.mkdirs();
+      }
       fos=new FileOutputStream(outFile);
       SAXTransformerFactory tf=(SAXTransformerFactory)TransformerFactory.newInstance();
       TransformerHandler hd=tf.newTransformerHandler();
