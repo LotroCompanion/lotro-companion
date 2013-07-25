@@ -18,6 +18,7 @@ import delta.games.lotro.utils.Escapes;
 import delta.games.lotro.utils.LotroLoggers;
 
 /**
+ * Manager for items and icons loading.
  * @author DAM
  */
 public class ItemsAndIconsManager
@@ -38,6 +39,9 @@ public class ItemsAndIconsManager
     _workDir=workDir;
   }
 
+  /**
+   * Load maps from files.
+   */
   public void loadMaps()
   {
     File iconFile=new File(_workDir,"icons.txt");
@@ -54,6 +58,9 @@ public class ItemsAndIconsManager
     }
   }
 
+  /**
+   * Save maps to files.
+   */
   public void saveMaps()
   {
     File iconFile=new File(_workDir,"icons.txt");
@@ -75,6 +82,10 @@ public class ItemsAndIconsManager
     }
   }
 
+  /**
+   * Handle an icon.
+   * @param iconURL URL of the icon.
+   */
   public void handleIcon(String iconURL)
   {
     if (!_handledIcons.contains(iconURL))
@@ -133,6 +144,10 @@ public class ItemsAndIconsManager
     }
   }
 
+  /**
+   * Handle an item.
+   * @param itemId Item identifier.
+   */
   public void handleItemId(String itemId)
   {
     if (itemId!=null)
@@ -155,6 +170,10 @@ public class ItemsAndIconsManager
     }
   }
 
+  /**
+   * Handle an item.
+   * @param item Item reference.
+   */
   public void handleItem(ItemReference item)
   {
     if (item!=null)

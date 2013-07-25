@@ -17,6 +17,7 @@ import delta.games.lotro.lore.deeds.index.DeedsIndex;
 import delta.games.lotro.utils.LotroLoggers;
 
 /**
+ * Loader for the reward items of deeds.
  * @author DAM
  */
 public class DeedsItemsLoader
@@ -27,6 +28,9 @@ public class DeedsItemsLoader
   private ItemsAndIconsManager _manager;
   private static final String WIKI_SEED="/wiki/";
 
+  /**
+   * Constructor.
+   */
   public DeedsItemsLoader()
   {
     _workDir=FileSystem.getTmpDir();

@@ -2,8 +2,6 @@ package delta.games.lotro.tools.lore.items;
 
 import java.io.File;
 import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
 
 import org.apache.log4j.Logger;
 
@@ -19,6 +17,7 @@ import delta.games.lotro.lore.quests.index.QuestsIndex;
 import delta.games.lotro.utils.LotroLoggers;
 
 /**
+ * Loader for the reward items of quests.
  * @author DAM
  */
 public class QuestsItemsLoader
@@ -29,6 +28,9 @@ public class QuestsItemsLoader
   private ItemsAndIconsManager _manager;
   private static final String WIKI_SEED="/wiki/";
 
+  /**
+   * Constructor.
+   */
   public QuestsItemsLoader()
   {
     _workDir=FileSystem.getTmpDir();
