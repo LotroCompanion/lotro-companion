@@ -110,7 +110,7 @@ public class CharacterFile
    * Set the base MyLOTRO URL for this character.
    * @param baseMyLotroURL the URL to set.
    */
-  public void setBaseMyLotroURL(String baseMyLotroURL)
+  private void setBaseMyLotroURL(String baseMyLotroURL)
   {
     _baseMyLotroURL=baseMyLotroURL;
   }

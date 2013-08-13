@@ -218,7 +218,7 @@ public class CharacterPageParser
    * @param retryNumber Number of previous tries.
    * @return A character or <code>null</code> if an error occurred..
    */
-  public Character parseMainPage(String name, String url, int retryNumber)
+  private Character parseMainPage(String name, String url, int retryNumber)
   {
     if (_logger.isInfoEnabled())
     {
