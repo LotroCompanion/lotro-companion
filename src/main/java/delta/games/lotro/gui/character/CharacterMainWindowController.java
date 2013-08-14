@@ -33,6 +33,8 @@ public class CharacterMainWindowController extends DefaultWindowController imple
   private static final String REPUTATION_COMMAND="reputation";
   private static final String CRAFTING_COMMAND="crafting";
   private static final String UPDATE_COMMAND="update";
+  
+  private static final boolean ENABLE_LOG_UPDATE=false;
 
   private CharacterSummaryPanelController _summaryController;
   private ChararacterStatsPanelController _statsController;
@@ -213,24 +215,27 @@ public class CharacterMainWindowController extends DefaultWindowController imple
       _statsController.update();
       _equipmentController.update();
     }
-    CharacterLogsManager logManager=_toon.getLogsManager();
-    Integer nbNewItems=logManager.updateLog();
-    boolean logUpdateOK=(nbNewItems!=null);
-    if (logUpdateOK)
+    if (ENABLE_LOG_UPDATE)
     {
-      CharactersManager cm=CharactersManager.getInstance();
-      cm.broadcastToonUpdate(_toon);
-      String serverName=_toon.getServerName();
-      String toonName=_toon.getName();
-      String id=CharacterLogWindowController.getIdentifier(serverName,toonName);
-      WindowController controller=_windowsManager.getWindow(id);
-      if (controller!=null)
+      CharacterLogsManager logManager=_toon.getLogsManager();
+      Integer nbNewItems=logManager.updateLog();
+      boolean logUpdateOK=(nbNewItems!=null);
+      if (logUpdateOK)
       {
-        CharacterLogWindowController logController=(CharacterLogWindowController)controller;
-        logController.update();
+        CharactersManager cm=CharactersManager.getInstance();
+        cm.broadcastToonUpdate(_toon);
+        String serverName=_toon.getServerName();
+        String toonName=_toon.getName();
+        String id=CharacterLogWindowController.getIdentifier(serverName,toonName);
+        WindowController controller=_windowsManager.getWindow(id);
+        if (controller!=null)
+        {
+          CharacterLogWindowController logController=(CharacterLogWindowController)controller;
+          logController.update();
+        }
       }
+      CharacterLogWindowController.showLogUpdateMessage(nbNewItems,getFrame());
     }
-    CharacterLogWindowController.showLogUpdateMessage(nbNewItems,getFrame());
   }
 
   /**

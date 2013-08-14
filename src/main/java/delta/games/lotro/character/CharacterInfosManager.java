@@ -11,6 +11,7 @@ import org.apache.log4j.Logger;
 
 import delta.common.utils.text.EncodingNames;
 import delta.games.lotro.character.io.web.CharacterPageParser;
+import delta.games.lotro.character.io.web.DataLotroCharacterPageParser;
 import delta.games.lotro.character.io.xml.CharacterXMLParser;
 import delta.games.lotro.character.io.xml.CharacterXMLWriter;
 import delta.games.lotro.utils.Formats;
@@ -23,6 +24,7 @@ import delta.games.lotro.utils.LotroLoggers;
 public class CharacterInfosManager
 {
   private static final Logger _logger=LotroLoggers.getCharacterLogger();
+  private static final boolean USE_DATA_LOTRO=true;
 
   private CharacterFile _toon;
 
@@ -89,10 +91,21 @@ public class CharacterInfosManager
    */
   public boolean updateCharacterDescription()
   {
-    String url=_toon.getBaseMyLotroURL();
-    CharacterPageParser parser=new CharacterPageParser();
     String name=_toon.getName();
-    Character c=parser.parseMainPage(name,url);
+    Character c;
+    if (USE_DATA_LOTRO)
+    {
+      String world=_toon.getServerName();
+      String url="http://data.lotro.com/valamar/a8ca0c5de7c466ecdd8e7f2df1d610ea/charactersheet/w/"+world+"/c/"+name+"/";
+      DataLotroCharacterPageParser parser=new DataLotroCharacterPageParser();
+      c=parser.parseMainPage(name,url);
+    }
+    else
+    {
+      String url=_toon.getBaseMyLotroURL();
+      CharacterPageParser parser=new CharacterPageParser();
+      c=parser.parseMainPage(name,url);
+    }
     boolean ret=false;
     if (c!=null)
     {
