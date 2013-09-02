@@ -219,10 +219,11 @@ public class CharacterMainWindowController extends DefaultWindowController imple
 
     String serverName=_toon.getServerName();
     String toonName=_toon.getName();
+    Integer nbNewItems=null;
     if (ENABLE_LOG_UPDATE)
     {
       CharacterLogsManager logManager=_toon.getLogsManager();
-      Integer nbNewItems=logManager.updateLog();
+      nbNewItems=logManager.updateLog();
       logUpdateOK=(nbNewItems!=null);
       if (logUpdateOK)
       {
@@ -233,7 +234,6 @@ public class CharacterMainWindowController extends DefaultWindowController imple
           CharacterLogWindowController logController=(CharacterLogWindowController)controller;
           logController.update();
         }
-        CharacterLogWindowController.showLogUpdateMessage(nbNewItems,getFrame());
       }
     }
     if (logUpdateOK)
@@ -241,6 +241,7 @@ public class CharacterMainWindowController extends DefaultWindowController imple
       CharactersManager cm=CharactersManager.getInstance();
       cm.broadcastToonUpdate(_toon);
     }
+    CharacterLogWindowController.showLogUpdateMessage(nbNewItems,getFrame());
   }
 
   /**
