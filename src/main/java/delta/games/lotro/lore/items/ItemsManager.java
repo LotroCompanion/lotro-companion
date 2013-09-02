@@ -159,7 +159,7 @@ public class ItemsManager
     File itemFile=getItemFile(id);
     if (!itemFile.exists())
     {
-      ret=loadFromMyLotro(id);
+      //ret=loadFromMyLotro(id);
       if (ret!=null)
       {
         ret=writeItemFile(ret);
