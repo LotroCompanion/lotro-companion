@@ -79,7 +79,7 @@ public class WeaponType
    */
   public static final WeaponType RUNE_STONE=new WeaponType("Rune-stone",false,false);
   /**
-   * Rune-stone.
+   * Thrown weapon.
    */
   public static final WeaponType THROWN_WEAPON=new WeaponType("Thrown Weapon",true,false); // TODO CHECK
   

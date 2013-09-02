@@ -29,13 +29,15 @@ public class Item
   private String _iconURL;
   // Item category: Armour, Tool, ...
   private ItemCategory _category;
-  // Item sub-category: "Medium Armour", "Craft Tool"
+  // Item sub-category: "Medium Armour", "Craft Tool", "Light Armour"
   // Weapon: Two-handed Sword, Staff, Halberd, Two-handed Hammer, Bow, Javelin,
   // Two-handed Club, One-handed Hammer, Spear, One-handed Club, One-handed Mace,
   // Crossbow, Dagger, One-handed Axe, One-handed Sword, Two-handed Axe
   // ???: Heavy, Warden, Light 
+  // TODO "type" in data.lotro?
   private String _subCategory;
   // Item binding: "Bind on Acquire", ...
+  // TODO data.lotro uses flags: bindOnAcquire="1" bindOnEquip="0"
   private ItemBinding _binding;
   // Is item unique or not?
   private boolean _unique;
@@ -45,18 +47,27 @@ public class Item
   private Integer _durability;
   // Sturdiness (may be null)
   private ItemSturdiness _sturdiness;
-  // Minimum level (may be null)
-  private Integer _minLevel;
   // Item level (may be null)
   private Integer _itemLevel;
+
+  // Requirements:
+  // Minimum level (may be null)
+  private Integer _minLevel;
   // Class (may be null)
+  // TODO list of classes
   private CharacterClass _class;
+  // TODO list of races
+  // TODO list of factions
+  // TODO <gloryRank/>
+  // TODO <traits/>
   // Full description
   private String _description;
   // Value
   private Money _value;
   // Stacking information
   private Integer _stackMax;
+
+  // TODO Missing attrs: quality="Incomparable" isItemAdvancement="0" consumedOnUse="0" cooldown="" decoration="" instrument=""
 
   /**
    * Constructor.

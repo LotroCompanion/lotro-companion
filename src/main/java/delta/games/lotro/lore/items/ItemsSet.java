@@ -21,6 +21,24 @@ public class ItemsSet
   private List<String> _itemIds;
   private HashMap<Integer,List<String>> _bonuses;
 
+  /*
+    <set name="Armour of the Hytbold Cleanser" level="97">
+    <piece id="1879247216" name="Boots of the Hytbold Cleanser"/>
+  <piece id="1879247219" name="Gloves of the Hytbold Cleanser"/>
+  <piece id="1879247220" name="Leggings of the Hytbold Cleanser"/>
+  <piece id="1879247223" name="Shoulderpads of the Hytbold Cleanser"/>
+  <piece id="1879247228" name="Jacket of the Hytbold Cleanser"/>
+  <piece id="1879247230" name="Helm of the Hytbold Cleanser"/>
+    <effect pieceCount="2"><![CDATA[+38 Will]]></effect>
+  <effect pieceCount="2"><![CDATA[+1176 Finesse Rating]]></effect>
+  <effect pieceCount="3"><![CDATA[+10% Smouldering Wrath Damage]]></effect>
+  <effect pieceCount="4"><![CDATA[+388 Critical Rating]]></effect>
+  <effect pieceCount="5"><![CDATA[Fiery Ridicule reduces recovery time of Essay of Fire by 3 seconds]]></effect>
+  <effect pieceCount="5"><![CDATA[ ]]></effect>
+    <description></description>
+  </set>
+   */
+
   /**
    * Constructor.
    */
