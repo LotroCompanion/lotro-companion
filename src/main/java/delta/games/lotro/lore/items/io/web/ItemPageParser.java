@@ -666,7 +666,7 @@ Strength Quick Shot Slow (Tier(s):
         String className=parseClassRequirement(requirement);
         if (className!=null)
         {
-          CharacterClass cClass=CharacterClass.getByLabel(className);
+          CharacterClass cClass=CharacterClass.getByName(className);
           _item.setRequiredClass(cClass);
         }
       }

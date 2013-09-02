@@ -51,7 +51,7 @@ public class DataLotroCharacterPageParser
 
           // Class
           String charClassName=DOMParsingTools.getStringAttribute(attrs,"class",null);
-          CharacterClass cClass=CharacterClass.getByLabel(charClassName);
+          CharacterClass cClass=CharacterClass.getByName(charClassName);
           ret.setCharacterClass(cClass);
           // Race
           String charRace=DOMParsingTools.getStringAttribute(attrs,"race",null);

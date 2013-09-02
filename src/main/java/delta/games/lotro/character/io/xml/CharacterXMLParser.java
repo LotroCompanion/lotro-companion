@@ -50,7 +50,7 @@ public class CharacterXMLParser
     c.setServer(server);
     // Class
     String characterClass=DOMParsingTools.getStringAttribute(root.getAttributes(),CharacterXMLConstants.CHARACTER_CLASS_ATTR,"");
-    CharacterClass cClass=CharacterClass.getByLabel(characterClass);
+    CharacterClass cClass=CharacterClass.getByKey(characterClass);
     c.setCharacterClass(cClass);
     // Race
     String race=DOMParsingTools.getStringAttribute(root.getAttributes(),CharacterXMLConstants.CHARACTER_RACE_ATTR,"");

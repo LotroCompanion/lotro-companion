@@ -354,7 +354,7 @@ public class TulkasItemsDBParser
       if (armourType==null)
       {
         armourType=ArmourType.LIGHT; // Assume light armour...
-        _logger.warn("Unknown armour type: "+armourTypeStr+" (name="+name+")");
+        _logger.warn("Unknown armour type: ["+armourTypeStr+"] (name="+name+")");
       }
       a.setArmourType(armourType);
       ret=a;
@@ -420,14 +420,14 @@ public class TulkasItemsDBParser
     String classStr=(String)map.get("Class");
     if ((classStr!=null) && (classStr.length()>0))
     {
-      CharacterClass cClass=CharacterClass.getByLabel(classStr);
+      CharacterClass cClass=CharacterClass.getByName(classStr);
       if (cClass!=null)
       {
         ret.setRequiredClass(cClass);
       }
       else
       {
-        System.err.println("Unknown class: "+classStr);
+        _logger.error("Unknown class: "+classStr);
       }
     }
     return ret;

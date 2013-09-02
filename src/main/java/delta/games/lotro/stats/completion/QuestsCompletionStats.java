@@ -87,7 +87,7 @@ public class QuestsCompletionStats
               if ((classes!=null) && (classes.size()>0))
               {
                 CharacterClass cClass=_character.getCharacterClass();
-                String className=cClass.getLabel();
+                String className=cClass.getKey();
                 if (classes.contains(className))
                 {
                   useIt=true;

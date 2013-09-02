@@ -123,7 +123,7 @@ public class ItemXMLParser
     String requiredClass=DOMParsingTools.getStringAttribute(attrs,ItemXMLConstants.ITEM_REQUIRED_CLASS_ATTR,null);
     if (requiredClass!=null)
     {
-      cClass=CharacterClass.getByLabel(requiredClass);
+      cClass=CharacterClass.getByKey(requiredClass);
     }
     ret.setRequiredClass(cClass);
     // Full description

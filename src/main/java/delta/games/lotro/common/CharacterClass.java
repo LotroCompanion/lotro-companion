@@ -9,7 +9,8 @@ import java.util.HashMap;
 public class CharacterClass
 {
   private static HashMap<String,CharacterClass> _instances=new HashMap<String,CharacterClass>();
-  private String _label;
+  private static HashMap<String,CharacterClass> _instancesByKey=new HashMap<String,CharacterClass>();
+  private String _key;
   private String _iconPath;
   
   /**
@@ -43,7 +44,7 @@ public class CharacterClass
   /**
    * Rune-keeper.
    */
-  public static final CharacterClass RUNE_KEEPER=new CharacterClass("Rune-keeper","runekeeper");
+  public static final CharacterClass RUNE_KEEPER=new CharacterClass("Rune-keeper","runekeeper",new String[]{"RuneKeeper"});
   /**
    * Warden.
    */
@@ -51,9 +52,31 @@ public class CharacterClass
 
   private CharacterClass(String label, String iconPath)
   {
-    _label=label;
+    this(label,iconPath,null);
+  }
+
+  private CharacterClass(String key, String iconPath, String[] aliases)
+  {
+    _key=key;
     _iconPath=iconPath;
-    _instances.put(label,this);
+    _instances.put(key,this);
+    _instancesByKey.put(key,this);
+    if (aliases!=null)
+    {
+      for(String alias : aliases)
+      {
+        _instances.put(alias,this);
+      }
+    }
+  }
+
+  /**
+   * Get the key for this class.
+   * @return An internal key.
+   */
+  public String getKey()
+  {
+    return _key;
   }
 
   /**
@@ -62,7 +85,7 @@ public class CharacterClass
    */
   public String getLabel()
   {
-    return _label;
+    return _key;
   }
 
   /**
@@ -75,19 +98,30 @@ public class CharacterClass
   }
 
   /**
-   * Get a character class instance by its label.
-   * @param label Label to search.
+   * Get a character class instance by its key.
+   * @param key Key to search.
    * @return A character class or <code>null</code> if not found.
    */
-  public static CharacterClass getByLabel(String label)
+  public static CharacterClass getByKey(String key)
   {
-    CharacterClass ret=_instances.get(label);
+    CharacterClass ret=_instancesByKey.get(key);
+    return ret;
+  }
+
+  /**
+   * Get a character class instance by a name.
+   * @param name Label to search.
+   * @return A character class or <code>null</code> if not found.
+   */
+  public static CharacterClass getByName(String name)
+  {
+    CharacterClass ret=_instances.get(name);
     return ret;
   }
 
   @Override
   public String toString()
   {
-    return _label;
+    return _key;
   }
 }

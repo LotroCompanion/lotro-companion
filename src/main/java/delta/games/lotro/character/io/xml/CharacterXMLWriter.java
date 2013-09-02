@@ -89,7 +89,7 @@ public class CharacterXMLWriter
     CharacterClass characterClass=character.getCharacterClass();
     if (characterClass!=null)
     {
-      String cClass=characterClass.getLabel();
+      String cClass=characterClass.getKey();
       characterAttrs.addAttribute("","",CharacterXMLConstants.CHARACTER_CLASS_ATTR,CDATA,cClass);
     }
     Race race=character.getRace();

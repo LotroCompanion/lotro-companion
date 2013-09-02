@@ -154,7 +154,7 @@ public class ItemXMLWriter
     CharacterClass requiredClass=item.getRequiredClass();
     if (requiredClass!=null)
     {
-      String className=requiredClass.getLabel();
+      String className=requiredClass.getKey();
       itemAttrs.addAttribute("","",ItemXMLConstants.ITEM_REQUIRED_CLASS_ATTR,CDATA,className);
     }
     // Description

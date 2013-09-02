@@ -58,7 +58,7 @@ public class CharacterPageParser
     {
       //<div class="char_class header_color">Hunter</div>
       String charClassName=JerichoHtmlUtils.getTagContents(charPanel,HTMLElementName.DIV,"class","char_class header_color");
-      CharacterClass cClass=CharacterClass.getByLabel(charClassName);
+      CharacterClass cClass=CharacterClass.getByName(charClassName);
       _character.setCharacterClass(cClass);
       //<div class="char_race header_color">Dwarf</div>
       String charRace=JerichoHtmlUtils.getTagContents(charPanel,HTMLElementName.DIV,"class","char_race header_color");
