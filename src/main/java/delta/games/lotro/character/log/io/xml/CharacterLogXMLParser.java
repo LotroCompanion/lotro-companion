@@ -66,11 +66,6 @@ public class CharacterLogXMLParser
     String label=DOMParsingTools.getStringAttribute(attrs,CharacterLogXMLConstants.LOG_ITEM_LABEL_ATTR,null);
     String url=DOMParsingTools.getStringAttribute(attrs,CharacterLogXMLConstants.LOG_ITEM_URL_ATTR,null);
     CharacterLogItem item=new CharacterLogItem(date,type,label,url);
-    String id=DOMParsingTools.getStringAttribute(attrs,CharacterLogXMLConstants.LOG_ITEM_ID_ATTR,null);
-    if (id!=null)
-    {
-      item.setIdentifier(id);
-    }
     return item;
   }
 }
