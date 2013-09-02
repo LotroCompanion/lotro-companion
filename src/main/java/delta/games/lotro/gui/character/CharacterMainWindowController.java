@@ -215,17 +215,17 @@ public class CharacterMainWindowController extends DefaultWindowController imple
       _statsController.update();
       _equipmentController.update();
     }
+    boolean logUpdateOK=infosUpDateOK;
+
+    String serverName=_toon.getServerName();
+    String toonName=_toon.getName();
     if (ENABLE_LOG_UPDATE)
     {
       CharacterLogsManager logManager=_toon.getLogsManager();
       Integer nbNewItems=logManager.updateLog();
-      boolean logUpdateOK=(nbNewItems!=null);
+      logUpdateOK=(nbNewItems!=null);
       if (logUpdateOK)
       {
-        CharactersManager cm=CharactersManager.getInstance();
-        cm.broadcastToonUpdate(_toon);
-        String serverName=_toon.getServerName();
-        String toonName=_toon.getName();
         String id=CharacterLogWindowController.getIdentifier(serverName,toonName);
         WindowController controller=_windowsManager.getWindow(id);
         if (controller!=null)
@@ -233,8 +233,13 @@ public class CharacterMainWindowController extends DefaultWindowController imple
           CharacterLogWindowController logController=(CharacterLogWindowController)controller;
           logController.update();
         }
+        CharacterLogWindowController.showLogUpdateMessage(nbNewItems,getFrame());
       }
-      CharacterLogWindowController.showLogUpdateMessage(nbNewItems,getFrame());
+    }
+    if (logUpdateOK)
+    {
+      CharactersManager cm=CharactersManager.getInstance();
+      cm.broadcastToonUpdate(_toon);
     }
   }
 
