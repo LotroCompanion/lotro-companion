@@ -208,17 +208,18 @@ public class CharacterMainWindowController extends DefaultWindowController imple
   private void performUpdate()
   {
     CharacterInfosManager infosManager=new CharacterInfosManager(_toon);
-    boolean infosUpDateOK=infosManager.updateCharacterDescription();
-    if (infosUpDateOK)
+    boolean infosUpdateOK=infosManager.updateCharacterDescription();
+    if (infosUpdateOK)
     {
       _summaryController.update();
       _statsController.update();
       _equipmentController.update();
     }
-    boolean logUpdateOK=infosUpDateOK;
+    boolean logUpdateOK=infosUpdateOK;
 
     String serverName=_toon.getServerName();
     String toonName=_toon.getName();
+    // Number of new items in log (null means log update failure)
     Integer nbNewItems=null;
     if (ENABLE_LOG_UPDATE)
     {
@@ -234,6 +235,13 @@ public class CharacterMainWindowController extends DefaultWindowController imple
           CharacterLogWindowController logController=(CharacterLogWindowController)controller;
           logController.update();
         }
+      }
+    }
+    else
+    {
+      if (infosUpdateOK)
+      {
+        nbNewItems=Integer.valueOf(0);
       }
     }
     if (logUpdateOK)
