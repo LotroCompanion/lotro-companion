@@ -80,7 +80,7 @@ public class DataLotroCharacterPageParser
               String statName=DOMParsingTools.getStringAttribute(statAttrs,"name",null);
               String statValue=DOMParsingTools.getStringAttribute(statAttrs,"value",null);
               Integer value=null;
-              if (!"N/A".equals(statValue))
+              if ((!"N/A".equals(statValue)) && (!("??".equals(statValue))))
               {
                 value=NumericTools.parseInteger(statValue);
               }
