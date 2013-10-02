@@ -68,8 +68,7 @@ public class CharacterLogWindowController extends DefaultWindowController
   protected JFrame build()
   {
     JFrame frame=super.build();
-    CharacterLog log=getLog();
-    String name=log.getName();
+    String name=_toon.getName();
     String title="Character log for: "+name;
     frame.setTitle(title);
     frame.pack();

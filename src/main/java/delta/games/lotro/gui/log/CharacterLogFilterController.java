@@ -146,10 +146,14 @@ public class CharacterLogFilterController implements ItemListener
 
   private Long[] getDates()
   {
-    List<Long> dates=_log.getDates();
-    dates.add(0,null);
-    Long[] datesArray=dates.toArray(new Long[dates.size()]);
-    return datesArray;
+    if (_log!=null)
+    {
+      List<Long> dates=_log.getDates();
+      dates.add(0,null);
+      Long[] datesArray=dates.toArray(new Long[dates.size()]);
+      return datesArray;
+    }
+    return new Long[0];
   }
 
   private JPanel build()

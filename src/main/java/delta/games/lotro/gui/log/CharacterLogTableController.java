@@ -211,7 +211,7 @@ public class CharacterLogTableController
      */
     public int getRowCount()
     {
-      return _log.getNbItems();
+      return (_log!=null)?_log.getNbItems():0;
     }
 
     /**
@@ -249,7 +249,7 @@ public class CharacterLogTableController
    */
   public int getNbItems()
   {
-    return _log.getNbItems();
+    return (_log!=null)?_log.getNbItems():0;
   }
 
   /**
