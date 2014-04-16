@@ -15,11 +15,11 @@ import javax.swing.JPanel;
 
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharactersManager;
+import delta.games.lotro.character.level.MultipleToonsLevellingStats;
 import delta.games.lotro.gui.character.CharacterSelectionChangedListener;
 import delta.games.lotro.gui.character.CharactersSelectorPanelController;
 import delta.games.lotro.gui.character.CharactersSelectorWindowController;
 import delta.games.lotro.gui.utils.GuiFactory;
-import delta.games.lotro.stats.levelling.MultipleToonsLevellingStats;
 import delta.games.lotro.utils.gui.WindowController;
 
 /**
@@ -112,7 +112,7 @@ public class CharacterLevelPanelController implements CharacterSelectionChangedL
     List<CharacterFile> enabledToons=new ArrayList<CharacterFile>();
     for(CharacterFile toon : toons)
     {
-      if (toon.hasLog())
+      //if (toon.hasLog())
       {
         enabledToons.add(toon);
       }

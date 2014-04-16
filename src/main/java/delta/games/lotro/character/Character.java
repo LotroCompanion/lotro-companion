@@ -12,6 +12,7 @@ import delta.games.lotro.common.Race;
  */
 public class Character
 {
+  private Long _date;
   private String _name;
   private String _server;
   private CharacterClass _class;
@@ -26,8 +27,27 @@ public class Character
    */
   public Character()
   {
+    _date=null;
     _stats=new HashMap<String,CharacterStat>();
     _equipment=new CharacterEquipment();
+  }
+
+  /**
+   * Get the date for this character data.
+   * @return a date or <code>null</code> if not set.
+   */
+  public Long getDate()
+  {
+    return _date;
+  }
+  
+  /**
+   * Set the date for this character data.
+   * @param date Date to set.
+   */
+  public void setDate(Long date)
+  {
+    _date=date;
   }
 
   /**

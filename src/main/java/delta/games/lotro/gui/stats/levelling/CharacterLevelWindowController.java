@@ -12,7 +12,7 @@ import delta.games.lotro.Config;
 import delta.games.lotro.Preferences;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharactersManager;
-import delta.games.lotro.stats.levelling.MultipleToonsLevellingStats;
+import delta.games.lotro.character.level.MultipleToonsLevellingStats;
 import delta.games.lotro.utils.TypedProperties;
 import delta.games.lotro.utils.gui.DefaultWindowController;
 

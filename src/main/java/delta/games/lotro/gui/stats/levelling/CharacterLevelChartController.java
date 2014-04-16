@@ -32,9 +32,9 @@ import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.RectangleEdge;
 
 import delta.games.lotro.character.CharacterFile;
+import delta.games.lotro.character.level.LevelHistory;
+import delta.games.lotro.character.level.MultipleToonsLevellingStats;
 import delta.games.lotro.gui.utils.GuiFactory;
-import delta.games.lotro.stats.levelling.LevellingStats;
-import delta.games.lotro.stats.levelling.MultipleToonsLevellingStats;
 import delta.games.lotro.utils.Formats;
 
 /**
@@ -249,26 +249,27 @@ public class CharacterLevelChartController
   private void addSeriesForToon(XYSeriesCollection data, CharacterFile toon)
   {
     String toonID=toon.getIdentifier();
-    LevellingStats stats=_stats.getStatsForToon(toonID);
+    LevelHistory stats=_stats.getStatsForToon(toonID);
     if (stats!=null)
     {
       String key=stats.getName();
       XYSeries toonSeries = new XYSeries(key);
-      int nbItems=stats.getNumberOfItems();
-      Long lastDate=null;
-      Integer lastLevel=null;
-      for(int i=nbItems-1;i>=0;i--)
+      int[] levels=stats.getLevels();
+      long[] dates=stats.getDatesSortedByLevel();
+      long lastDate=0;
+      int lastLevel=0;
+      for(int i=0;i<levels.length;i++)
       {
-        Long date=stats.getDate(i);
-        Integer level=stats.getLevel(i);
+        long date=dates[i];
+        int level=levels[i];
         if (!_fluent)
         {
-          if ((lastDate!=null) && (lastDate.longValue()!=date.longValue()))
+          if ((lastDate!=0) && (lastDate!=date))
           {
-            toonSeries.add(date.longValue(),lastLevel.intValue());
+            toonSeries.add(date,lastLevel);
           }
         }
-        toonSeries.add(date.longValue(),level.intValue());
+        toonSeries.add(date,level);
         lastDate=date;
         lastLevel=level;
       }

@@ -47,8 +47,24 @@ public class CharacterInfosManager
     File lastInfo=getLastInfoFile();
     if (lastInfo!=null)
     {
-      CharacterXMLParser xmlInfoParser=new CharacterXMLParser();
-      c=xmlInfoParser.parseXML(lastInfo);
+      c=getCharacterDescription(lastInfo);
+    }
+    return c;
+  }
+
+  /**
+   * Get the character data for a given file.
+   * @param infoFile File to read.
+   * @return A character data or <code>null</code> if a problem occurs.
+   */
+  public Character getCharacterDescription(File infoFile)
+  {
+    CharacterXMLParser xmlInfoParser=new CharacterXMLParser();
+    Character c=xmlInfoParser.parseXML(infoFile);
+    if (c!=null)
+    {
+      Date date=getDateFromFilename(infoFile.getName());
+      c.setDate(Long.valueOf(date.getTime()));
     }
     return c;
   }
@@ -60,6 +76,21 @@ public class CharacterInfosManager
   public File getLastInfoFile()
   {
     File lastInfo=null;
+    File[] infoFiles=getInfoFiles();
+    if ((infoFiles!=null) && (infoFiles.length>0))
+    {
+      lastInfo=infoFiles[infoFiles.length-1];
+    }
+    return lastInfo;
+  }
+
+  /**
+   * Get all the available character data files.
+   * @return an array of files.
+   */
+  public File[] getInfoFiles()
+  {
+    File[] files=null;
     File characterDir=_toon.getRootDir();
     if (characterDir.exists())
     {
@@ -75,14 +106,13 @@ public class CharacterInfosManager
           return false;
         }
       };
-      File[] files=characterDir.listFiles(filter);
+      files=characterDir.listFiles(filter);
       if ((files!=null) && (files.length>0))
       {
         Arrays.sort(files);
-        lastInfo=files[files.length-1];
       }
     }
-    return lastInfo;
+    return files;
   }
 
   /**

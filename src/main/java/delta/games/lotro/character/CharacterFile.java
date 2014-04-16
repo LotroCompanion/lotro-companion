@@ -3,7 +3,12 @@ package delta.games.lotro.character;
 import java.io.File;
 import java.util.Date;
 
+import delta.common.utils.text.EncodingNames;
 import delta.games.lotro.Config;
+import delta.games.lotro.character.level.LevelHistory;
+import delta.games.lotro.character.level.LevelHistoryComputer;
+import delta.games.lotro.character.level.io.xml.LevelHistoryXMLParser;
+import delta.games.lotro.character.level.io.xml.LevelHistoryXMLWriter;
 import delta.games.lotro.character.log.CharacterLog;
 import delta.games.lotro.character.log.CharacterLogsManager;
 
@@ -19,6 +24,7 @@ public class CharacterFile
   private File _rootDir;
   private CharacterInfosManager _infosManager;
   private CharacterLogsManager _logsManager;
+  private LevelHistory _levelHistory;
 
   /**
    * Constructor.
@@ -134,6 +140,49 @@ public class CharacterFile
   }
 
   /**
+   * Get the level history for this toon.
+   * @return A level history.
+   */
+  public LevelHistory getLevelHistory()
+  {
+    if (_levelHistory==null)
+    {
+      LevelHistory history=loadLevelHistory();
+      if (history==null)
+      {
+        LevelHistoryComputer c=new LevelHistoryComputer();
+        history=c.buildLevelHistory(this);
+        writeLevelHistory();
+      }
+      _levelHistory=history;
+    }
+    return _levelHistory;
+  }
+  
+  private LevelHistory loadLevelHistory()
+  {
+    LevelHistory history=null;
+    File historyFile=getLevelHistoryFile();
+    if ((historyFile.exists()) && (historyFile.canRead()))
+    {
+      LevelHistoryXMLParser parser=new LevelHistoryXMLParser();
+      history=parser.parseXML(historyFile);
+    }
+    return history;
+  }
+
+  private void writeLevelHistory()
+  {
+    File historyFile=getLevelHistoryFile();
+    LevelHistoryXMLWriter writer=new LevelHistoryXMLWriter();
+    writer.write(historyFile,_levelHistory,EncodingNames.ISO8859_1);
+  }
+  private File getLevelHistoryFile()
+  {
+    return new File(_rootDir,"levels.xml");
+  }
+
+  /**
    * Get the date of the last character update.
    * @return A date or <code>null</code> if there's no log.
    */
@@ -184,11 +233,6 @@ public class CharacterFile
    */
   public CharacterLog getLastCharacterLog()
   {
-    File lastFile=_logsManager.getLastLogFile();
-    if (lastFile==null)
-    {
-      _logsManager.updateLog();
-    }
     CharacterLog log=_logsManager.getLastLog();
     return log;
   }
@@ -200,6 +244,15 @@ public class CharacterFile
   public CharacterLogsManager getLogsManager()
   {
     return _logsManager;
+  }
+
+  /**
+   * Get the character infos manager.
+   * @return the infos manager.
+   */
+  public CharacterInfosManager getInfosManager()
+  {
+    return _infosManager;
   }
 
   /**
