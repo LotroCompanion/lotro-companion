@@ -33,7 +33,12 @@ public class LevelHistory
    */
   public void setLevel(int level, long date)
   {
-    _dates.put(Integer.valueOf(level),Long.valueOf(date));
+    Integer l=Integer.valueOf(level);
+    Long currentDate=_dates.get(l);
+    if ((currentDate==null) || (currentDate.longValue()>date))
+    {
+      _dates.put(l,Long.valueOf(date));
+    }
   }
 
   /**
