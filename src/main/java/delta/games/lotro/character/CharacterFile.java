@@ -147,14 +147,13 @@ public class CharacterFile
   {
     if (_levelHistory==null)
     {
-      LevelHistory history=loadLevelHistory();
-      if (history==null)
+      _levelHistory=loadLevelHistory();
+      if (_levelHistory==null)
       {
         LevelHistoryComputer c=new LevelHistoryComputer();
-        history=c.buildLevelHistory(this);
+        _levelHistory=c.buildLevelHistory(this);
         writeLevelHistory();
       }
-      _levelHistory=history;
     }
     return _levelHistory;
   }
