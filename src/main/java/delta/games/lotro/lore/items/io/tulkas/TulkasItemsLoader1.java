@@ -3,7 +3,6 @@ package delta.games.lotro.lore.items.io.tulkas;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -22,46 +21,18 @@ import delta.games.lotro.lore.items.WeaponType;
 import delta.games.lotro.utils.LotroLoggers;
 
 /**
+ * Items/sets loader for Tulkas DB (version 1).
  * @author DAM
  */
 public class TulkasItemsLoader1
 {
   private static final Logger _logger=LotroLoggers.getLotroLogger();
 
-  private static final String[] bonusNames=new String[] {
-    "Might",
-    "Vitality",
-    "Will",
-    "Agility",
-    "Fate",
-    "Maximum Morale",
-    "Maximum Power",
-    "Stealth Level",
-    "Critical Rating",
-    "Finesse Rating",
-    "Physical Mastery Rating",
-    "Tactical Mastery Rating",
-    "Ranged Offence Rating",
-    "Physical Mitigation",
-    "Tactical Mitigation",
-    "Resistance Rating",
-    "Block Rating",
-    "Evade Rating",
-    "Parry Rating",
-    "Incoming Healing Rating",
-    "in-Combat Power Regen",
-    "non-Combat Power Regen",
-    "in-Combat Morale Regen",
-    "non-Combat Morale Regen",
-    "All Skill Inductions",
-    "Tactical Critical Multiplier",
-    "Audacity"
-  };
-
   /**
    * Inspect loaded data items to fetch possible values in fields.
    * @param items Loaded data items.
    */
+  /*
   public void inspectItems(HashMap<Integer,HashMap<Object,Object>> items)
   {
     Set<String> types=new HashSet<String>();
@@ -95,6 +66,7 @@ public class TulkasItemsLoader1
     // Color: [Yellow, Purple, Orange, Teal]
     System.out.println("Color: "+colors);
   }
+  */
 
   /**
    * Build items from raw data items.
@@ -111,6 +83,7 @@ public class TulkasItemsLoader1
       Integer id=keys.get(i);
       HashMap<Object,Object> data=items.get(id);
       Item item=buildItem(id,data);
+      item.setIdentifier(id.intValue());
       System.out.println(item.dump());
     }
   }
@@ -123,7 +96,7 @@ public class TulkasItemsLoader1
     Item ret=null;
     @SuppressWarnings("unchecked")
     HashMap<Object,Object> statsMap=(HashMap<Object,Object>)map.get("Stats");
-    if (isArmor(loc))
+    if (TulkasConstants.isArmor(loc))
     {
       Armour a=new Armour();
       Integer armourValue=(Integer)statsMap.get("Armour");
@@ -247,7 +220,7 @@ public class TulkasItemsLoader1
       final HashMap<String,Object> bonuses=new HashMap<String,Object>();
       loadBonusItemsVersion1(bonuses,statsMap);
       bonuses.remove("Armour");
-      for(String bonusName : bonusNames)
+      for(String bonusName : TulkasConstants.BONUS_NAMES)
       {
         Object bonus=bonuses.get(bonusName);
         if (bonus!=null)
@@ -317,19 +290,6 @@ Name: Cloak of Cardolan (Back) (ARMOUR) (Quality=Uncommon) (Min level=0) (Item l
 Maximum Morale : 14
 Armour value=74, Armour type=Light Armour
 */
-
-  private boolean isArmor(EquipmentLocation loc)
-  {
-    if (loc==EquipmentLocation.HEAD) return true;
-    if (loc==EquipmentLocation.HAND) return true;
-    if (loc==EquipmentLocation.CHEST) return true;
-    if (loc==EquipmentLocation.BACK) return true;
-    if (loc==EquipmentLocation.LEGS) return true;
-    if (loc==EquipmentLocation.FEET) return true;
-    if (loc==EquipmentLocation.SHIELD) return true;
-    if (loc==EquipmentLocation.SHOULDER) return true;
-    return false;
-  }
 
   private void loadBonusItemsVersion1(final HashMap<String,Object> bonuses, HashMap<Object,Object> map)
   {

@@ -17,6 +17,26 @@ import delta.common.utils.text.TextUtils;
  */
 public class TulkasItemsDBParser
 {
+  private File _inputFile;
+  private int _version;
+
+  /**
+   * Constructor.
+   * @param version Tulkas DB version (1 or 2).
+   */
+  public TulkasItemsDBParser(int version)
+  {
+    _version=version;
+    if (version==1)
+    {
+      _inputFile=new File(new File("d:\\tmp"),"Items.lua");
+    }
+    else if (version==2)
+    {
+      _inputFile=new File(new File("d:\\tmp"),"Items2.1.0.lua");
+    }
+  }
+
   private void parseItemsDef(Map<Object,Object> values, String strValue)
   {
     List<String> items=new ArrayList<String>();
@@ -208,22 +228,33 @@ public class TulkasItemsDBParser
   private void doIt()
   {
     HashMap<Integer,HashMap<Object,Object>> items=loadItems();
-    TulkasItemsLoader1 loader=new TulkasItemsLoader1();
-    // Inspect items
-    loader.inspectItems(items);
-    // Handle items
-    loader.buildItems(items);
-    // Handle sets
-    loader.buildSets(items);
+    if (_version==1)
+    {
+      TulkasItemsLoader1 loader=new TulkasItemsLoader1();
+      // Inspect items
+      //loader.inspectItems(items);
+      // Handle items
+      loader.buildItems(items);
+      // Handle sets
+      loader.buildSets(items);
+    }
+    else if (_version==2)
+    {
+      TulkasItemsLoader2 loader=new TulkasItemsLoader2();
+      // Inspect items
+      //loader.inspectItems(items);
+      // Handle items
+      loader.buildItems(items);
+      // Handle sets
+      loader.buildSets(items);
+    }
   }
 
   private HashMap<Integer,HashMap<Object,Object>> loadItems()
   {
     Locale.setDefault(Locale.US);
-    File dbFile=new File(new File("d:\\tmp"),"Items.lua");
-    // String contents=TextUtils.loadTextFile(dbFile,
-    // EncodingNames.DEFAULT_ENCODING);
-    List<String> lines=TextUtils.readAsLines(dbFile,EncodingNames.UTF_8);
+    List<String> lines=TextUtils.readAsLines(_inputFile,EncodingNames.UTF_8);
+
     List<String> itemLines=new ArrayList<String>();
     boolean foundFirstLine=false;
     for(String line:lines)
@@ -241,8 +272,6 @@ public class TulkasItemsDBParser
       }
     }
     lines=null;
-    //int nb=itemLines.size();
-    // System.out.println("Size: "+nb);
     HashMap<Integer,HashMap<Object,Object>> items=new HashMap<Integer,HashMap<Object,Object>>();
     for(String line:itemLines)
     {
@@ -252,11 +281,9 @@ public class TulkasItemsDBParser
       Integer key=(Integer)entry.getKey();
       @SuppressWarnings("unchecked")
       HashMap<Object,Object> values=(HashMap<Object,Object>)entry.getValue();
-      // System.out.println(map);
       items.put(key,values);
     }
     itemLines=null;
-    // System.out.println("Done!");
     return items;
   }
 
@@ -265,6 +292,6 @@ public class TulkasItemsDBParser
    */
   public static void main(String[] args)
   {
-    new TulkasItemsDBParser().doIt();
+    new TulkasItemsDBParser(2).doIt();
   }
 }

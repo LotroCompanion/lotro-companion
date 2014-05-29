@@ -30,7 +30,7 @@ public class ItemQuality
   /**
    * Epic.
    */
-  public static final ItemQuality EPIC=new ItemQuality("Epic","Orange");
+  public static final ItemQuality LEGENDARY=new ItemQuality("Epic","Orange");
 
   private String _meaning;
   private String _color;
