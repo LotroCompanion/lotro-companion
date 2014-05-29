@@ -75,11 +75,11 @@ public class ItemsSetXMLWriter
   {
     AttributesImpl itemAttrs=new AttributesImpl();
 
-    // ID
-    String id=set.getId();
-    if (id!=null)
+    // Key
+    String key=set.getKey();
+    if (key!=null)
     {
-      itemAttrs.addAttribute("","",ItemsSetXMLConstants.ITEMS_SET_ID_ATTR,CDATA,id);
+      itemAttrs.addAttribute("","",ItemsSetXMLConstants.ITEMS_SET_KEY_ATTR,CDATA,key);
     }
     // Name
     String name=set.getName();
@@ -90,13 +90,16 @@ public class ItemsSetXMLWriter
     hd.startElement("","",ItemsSetXMLConstants.ITEMS_SET_TAG,itemAttrs);
 
     // Items
-    String[] ids=set.getItemIds();
-    if (ids!=null)
+    int[] ids=set.getItemIds();
+    String[] keys=set.getItemKeys();
+    if ((ids!=null) && (keys!=null))
     {
-      for(String itemId : ids)
+      int nb=Math.min(ids.length,keys.length);
+      for(int i=0;i<nb;i++)
       {
         AttributesImpl attrs=new AttributesImpl();
-        attrs.addAttribute("","",ItemsSetXMLConstants.ITEM_ID_ATTR,CDATA,itemId);
+        attrs.addAttribute("","",ItemsSetXMLConstants.ITEM_ID_ATTR,CDATA,String.valueOf(ids[i]));
+        attrs.addAttribute("","",ItemsSetXMLConstants.ITEM_KEY_ATTR,CDATA,keys[i]);
         hd.startElement("","",ItemsSetXMLConstants.ITEM_TAG,attrs);
         hd.endElement("","",ItemsSetXMLConstants.ITEM_TAG);
       }

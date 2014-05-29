@@ -285,7 +285,7 @@ public class ItemPageParser
     if (itemsSet!=null)
     {
       ret=new ItemsSet();
-      String setIdentifier=null;
+      String setKey=null;
       String setName="";
       String setURL=null;
       Element itemsSetName=JerichoHtmlUtils.findElementByTagNameAndAttributeValue(itemsSet,HTMLElementName.DIV,"class","itemsn");
@@ -297,11 +297,11 @@ public class ItemPageParser
           setURL=aElement.getAttributeValue("href");
           if ((setURL!=null) && (setURL.startsWith(WIKI_SEED)))
           {
-            setIdentifier=setURL.substring(WIKI_SEED.length());
-            int index=setIdentifier.indexOf(":");
+            setKey=setURL.substring(WIKI_SEED.length());
+            int index=setKey.indexOf(":");
             if (index!=-1)
             {
-              setIdentifier=setIdentifier.substring(index+1);
+              setKey=setKey.substring(index+1);
             }
           }
           setName=JerichoHtmlUtils.getTagContents(itemsSetName,HTMLElementName.A);
@@ -310,7 +310,7 @@ public class ItemPageParser
       //System.out.println("Set name: "+setName);
       //System.out.println("Set URL: "+setURL);
       ret.setName(setName);
-      ret.setId(setIdentifier);
+      ret.setKey(setKey);
       // Set items
       Element setItemsElement=JerichoHtmlUtils.findElementByTagNameAndAttributeValue(itemsSet,HTMLElementName.DIV,"class","itemsps");
       if (setItemsElement!=null)
@@ -318,7 +318,7 @@ public class ItemPageParser
         List<Element> setItemElements=JerichoHtmlUtils.findElementsByTagNameAndAttributeValue(itemsSet,HTMLElementName.DIV,"class","itemsp");
         for(Element setItemElement : setItemElements)
         {
-          String itemId=null;
+          String itemKey=null;
           String itemURL=null;
           //String itemName=null;
           Element aElement=setItemElement.getFirstElement(HTMLElementName.A);
@@ -327,13 +327,13 @@ public class ItemPageParser
             itemURL=aElement.getAttributeValue("href");
             if ((itemURL!=null) && (itemURL.startsWith(WIKI_SEED)))
             {
-              itemId=itemURL.substring(WIKI_SEED.length());
+              itemKey=itemURL.substring(WIKI_SEED.length());
             }
             //itemName=JerichoHtmlUtils.getTagContents(setItemElement,HTMLElementName.A);
           }
-          if (itemId!=null)
+          if (itemKey!=null)
           {
-            ret.addItemId(itemId);
+            ret.addItem(0,itemKey);
           }
           //System.out.println("Item ["+itemName+"]. URL=["+itemURL+"]");
         }
@@ -553,7 +553,7 @@ public class ItemPageParser
     ItemsSet set=parseItemsSet(itemTooltip);
     if (set!=null)
     {
-      _item.setSetIdentifier(set.getId());
+      _item.setSetKey(set.getKey());
       _item.setItemsSet(set);
     }
 

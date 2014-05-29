@@ -4,7 +4,6 @@ import java.io.File;
 import java.util.List;
 
 import delta.common.utils.text.TextUtils;
-import delta.downloads.Downloader;
 
 /**
  * @author DAM
@@ -16,7 +15,7 @@ public class MainLoadDataLotroItems
     // 1879049233
     List<String> lines=TextUtils.readAsLines(new File("c:\\toto.txt"));
     File toDir=new File("d:\\tmp\\items");
-    Downloader d=new Downloader();
+    //Downloader d=new Downloader();
     for(String line : lines)
     {
       File out=new File(toDir,line+".xml");

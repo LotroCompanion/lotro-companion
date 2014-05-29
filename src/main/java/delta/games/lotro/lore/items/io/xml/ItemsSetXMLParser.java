@@ -38,8 +38,8 @@ public class ItemsSetXMLParser
 
     NamedNodeMap attrs=root.getAttributes();
     // Identifier
-    String id=DOMParsingTools.getStringAttribute(attrs,ItemsSetXMLConstants.ITEMS_SET_ID_ATTR,null);
-    ret.setId(id);
+    String id=DOMParsingTools.getStringAttribute(attrs,ItemsSetXMLConstants.ITEMS_SET_KEY_ATTR,null);
+    ret.setKey(id);
     // Name
     String name=DOMParsingTools.getStringAttribute(attrs,ItemsSetXMLConstants.ITEMS_SET_NAME_ATTR,null);
     ret.setName(name);
@@ -49,11 +49,9 @@ public class ItemsSetXMLParser
     {
       for(Element itemTag : itemTags)
       {
-        String setItemId=DOMParsingTools.getStringAttribute(itemTag.getAttributes(),ItemsSetXMLConstants.ITEM_ID_ATTR,null);
-        if (setItemId!=null)
-        {
-          ret.addItemId(setItemId);
-        }
+        String setItemKey=DOMParsingTools.getStringAttribute(itemTag.getAttributes(),ItemsSetXMLConstants.ITEM_KEY_ATTR,null);
+        int setItemId=DOMParsingTools.getIntAttribute(itemTag.getAttributes(),ItemsSetXMLConstants.ITEM_ID_ATTR,0);
+        ret.addItem(setItemId,setItemKey);
       }
     }
     // Bonuses

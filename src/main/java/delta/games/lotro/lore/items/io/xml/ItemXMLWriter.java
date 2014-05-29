@@ -24,6 +24,7 @@ import delta.games.lotro.lore.items.DamageType;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemBinding;
 import delta.games.lotro.lore.items.ItemCategory;
+import delta.games.lotro.lore.items.ItemQuality;
 import delta.games.lotro.lore.items.ItemSturdiness;
 import delta.games.lotro.lore.items.Weapon;
 import delta.games.lotro.lore.items.WeaponType;
@@ -94,7 +95,7 @@ public class ItemXMLWriter
       itemAttrs.addAttribute("","",ItemXMLConstants.ITEM_ID_ATTR,CDATA,key);
     }
     // Set identifier
-    String setIdentifier=item.getSetIdentifier();
+    String setIdentifier=item.getSetKey();
     if (setIdentifier!=null)
     {
       itemAttrs.addAttribute("","",ItemXMLConstants.ITEM_SET_ID_ATTR,CDATA,setIdentifier);
@@ -143,6 +144,12 @@ public class ItemXMLWriter
     if (sturdiness!=null)
     {
       itemAttrs.addAttribute("","",ItemXMLConstants.ITEM_STURDINESS_ATTR,CDATA,sturdiness.name());
+    }
+    // Quality
+    ItemQuality quality=item.getQuality();
+    if (quality!=null)
+    {
+      itemAttrs.addAttribute("","",ItemXMLConstants.ITEM_QUALITY_ATTR,CDATA,quality.getCode());
     }
     // Minimum level
     Integer minLevel=item.getMinLevel();

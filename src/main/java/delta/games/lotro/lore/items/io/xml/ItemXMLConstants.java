@@ -52,6 +52,10 @@ public class ItemXMLConstants
    */
   public static final String ITEM_STURDINESS_ATTR="sturdiness";
   /**
+   * Tag 'item', attribute 'ITEM_QUALITY_ATTR'.
+   */
+  public static final String ITEM_QUALITY_ATTR="quality";
+  /**
    * Tag 'item', attribute 'minLevel'.
    */
   public static final String ITEM_MINLEVEL_ATTR="minLevel";

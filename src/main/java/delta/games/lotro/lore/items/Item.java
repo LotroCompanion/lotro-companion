@@ -18,7 +18,7 @@ public class Item
   // Item key: "Jacket_of_the_Impossible_Shot", ...
   private String _key;
   // Items set identifier (may be null)
-  private String _setId;
+  private String _setKey;
   // Associated set (may be null)
   private ItemsSet _set;
   // Slot
@@ -68,6 +68,7 @@ public class Item
   private Integer _stackMax;
 
   // TODO Missing attrs: quality="Incomparable" isItemAdvancement="0" consumedOnUse="0" cooldown="" decoration="" instrument=""
+  private ItemQuality _quality;
 
   /**
    * Constructor.
@@ -76,7 +77,7 @@ public class Item
   {
     _identifier=0;
     _key=null;
-    _setId=null;
+    _setKey=null;
     _equipmentLocation=null;
     _name="";
     _iconURL=null;
@@ -93,6 +94,7 @@ public class Item
     _description=null;
     _value=new Money();
     _stackMax=null;
+    _quality=ItemQuality.COMMON;
   }
 
   /**
@@ -132,21 +134,21 @@ public class Item
   }
 
   /**
-   * Set the identifier of the set this item belongs to.
-   * @param setIdentifier the set identifier to set (<code>null</code> if item belongs to no set).
+   * Set the key of the set this item belongs to.
+   * @param setKey the set key to set (<code>null</code> if item belongs to no set).
    */
-  public void setSetIdentifier(String setIdentifier)
+  public void setSetKey(String setKey)
   {
-    _setId=setIdentifier;
+    _setKey=setKey;
   }
 
   /**
    * Get the identifier of the set this item belongs to.
    * @return a items set identifier or <code>null</code>.
    */
-  public String getSetIdentifier()
+  public String getSetKey()
   {
-    return _setId;
+    return _setKey;
   }
 
   /**
@@ -462,6 +464,24 @@ public class Item
   }
 
   /**
+   * Get the quality of this item.
+   * @return a quality value.
+   */
+  public ItemQuality getQuality()
+  {
+    return _quality;
+  }
+
+  /**
+   * Set the quality of this item.
+   * @param quality the quality to set.
+   */
+  public void setQuality(ItemQuality quality)
+  {
+    _quality=quality;
+  }
+
+  /**
    * Dump the contents of this item as a string.
    * @return A readable string.
    */
@@ -509,6 +529,12 @@ public class Item
     {
       sb.append(" (");
       sb.append(_sturdiness);
+      sb.append(')');
+    }
+    if (_quality!=null)
+    {
+      sb.append(" (Quality=");
+      sb.append(_quality);
       sb.append(')');
     }
     if (_unique)

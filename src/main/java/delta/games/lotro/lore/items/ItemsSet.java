@@ -16,9 +16,10 @@ import delta.common.utils.text.EndOfLine;
  */
 public class ItemsSet
 {
-  private String _id;
+  private String _key;
   private String _name;
-  private List<String> _itemIds;
+  private List<Integer> _itemIds;
+  private List<String> _itemKeys;
   private HashMap<Integer,List<String>> _bonuses;
 
   /*
@@ -44,9 +45,10 @@ public class ItemsSet
    */
   public ItemsSet()
   {
-    _id=null;
+    _key=null;
     _name=null;
-    _itemIds=new ArrayList<String>();
+    _itemIds=new ArrayList<Integer>();
+    _itemKeys=new ArrayList<String>();
     _bonuses=new HashMap<Integer,List<String>>();
   }
   
@@ -54,18 +56,18 @@ public class ItemsSet
    * Get the identifier of this set.
    * @return An identifier.
    */
-  public String getId()
+  public String getKey()
   {
-    return _id;
+    return _key;
   }
 
   /**
-   * Set the identifier of this set.
-   * @param id Identifier to set.
+   * Set the key of this set.
+   * @param key Key to set.
    */
-  public void setId(String id)
+  public void setKey(String key)
   {
-    _id=id;
+    _key=key;
   }
   
   /**
@@ -89,20 +91,34 @@ public class ItemsSet
   /**
    * Add a new item in this set.
    * @param itemId Item identifier.
+   * @param itemKey Item key.
    */
-  public void addItemId(String itemId)
+  public void addItem(int itemId, String itemKey)
   {
-    _itemIds.add(itemId);
+    _itemIds.add(Integer.valueOf(itemId));
+    _itemKeys.add(itemKey);
   }
 
   /**
    * Get the identifiers of the items in this set.
    * @return An array of item identifiers.
    */
-  public String[] getItemIds()
+  public String[] getItemKeys()
   {
     int nb=_itemIds.size();
     String[] ret=_itemIds.toArray(new String[nb]);
+    return ret;
+  }
+
+  /**
+   * Get the identifiers of the items in this set.
+   * @return An array of item identifiers.
+   */
+  public int[] getItemIds()
+  {
+    int nb=_itemKeys.size();
+    int[] ret=new int[nb];
+    for(int i=0;i<nb;i++) ret[i]=_itemIds.get(i).intValue();
     return ret;
   }
 
@@ -171,14 +187,14 @@ public class ItemsSet
   {
     StringBuilder sb=new StringBuilder();
     sb.append("Name: ").append(_name);
-    if (_id!=null)
+    if (_key!=null)
     {
       sb.append(" (id=");
-      sb.append(_id);
+      sb.append(_key);
       sb.append(')');
     }
     sb.append(EndOfLine.NATIVE_EOL);
-    for(String itemId : _itemIds)
+    for(Integer itemId : _itemIds)
     {
       sb.append('\t').append(itemId);
       sb.append(EndOfLine.NATIVE_EOL);

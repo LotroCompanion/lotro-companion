@@ -36,7 +36,7 @@ public class CharacterClass
   /**
    * Lore master.
    */
-  public static final CharacterClass LORE_MASTER=new CharacterClass("Lore-master","loremaster");
+  public static final CharacterClass LORE_MASTER=new CharacterClass("Lore-master","loremaster",new String[]{"LoreMaster"});
   /**
    * Minstrel.
    */

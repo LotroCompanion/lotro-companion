@@ -2,7 +2,6 @@ package delta.games.lotro.lore.items;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 import java.util.WeakHashMap;
 
 import org.apache.log4j.Logger;
@@ -11,13 +10,10 @@ import delta.common.utils.NumericTools;
 import delta.common.utils.cache.WeakReferencesCache;
 import delta.common.utils.text.EncodingNames;
 import delta.games.lotro.Config;
-import delta.games.lotro.lore.items.io.web.ItemPageParser;
 import delta.games.lotro.lore.items.io.xml.ItemXMLParser;
 import delta.games.lotro.lore.items.io.xml.ItemXMLWriter;
 import delta.games.lotro.lore.items.io.xml.ItemsSetXMLParser;
 import delta.games.lotro.lore.items.io.xml.ItemsSetXMLWriter;
-import delta.games.lotro.lore.quests.io.web.MyLotroURL2Identifier;
-import delta.games.lotro.utils.Escapes;
 import delta.games.lotro.utils.LotroLoggers;
 
 /**
@@ -28,7 +24,7 @@ public class ItemsManager
 {
   private static final Logger _logger=LotroLoggers.getLotroLogger();
   private static final String URL_SEED="http://lorebook.lotro.com/wiki/Special:LotroResource?id=";
-  private static final String REAL_URL_SEED="http://lorebook.lotro.com/wiki/";
+  //private static final String REAL_URL_SEED="http://lorebook.lotro.com/wiki/";
 
   private static ItemsManager _instance=new ItemsManager();
   
@@ -121,6 +117,7 @@ public class ItemsManager
     return ret;
   }
 
+  /*
   private Item loadFromMyLotro(int id)
   {
     Item ret=null;
@@ -152,6 +149,7 @@ public class ItemsManager
     }
     return ret;
   }
+  */
 
   private Item loadItem(int id)
   {
@@ -160,11 +158,13 @@ public class ItemsManager
     if (!itemFile.exists())
     {
       //ret=loadFromMyLotro(id);
+      /*
       if (ret!=null)
       {
         ret=writeItemFile(ret);
       }
       else
+      */
       {
         try
         {
@@ -229,15 +229,15 @@ public class ItemsManager
   {
     if (set!=null)
     {
-      String setId=set.getId();
-      File itemsSetFile=getItemsSetFile(setId);
+      String setKey=set.getKey();
+      File itemsSetFile=getItemsSetFile(setKey);
       if (!itemsSetFile.exists())
       {
         ItemsSetXMLWriter setWriter=new ItemsSetXMLWriter();
         boolean ok=setWriter.write(itemsSetFile,set,EncodingNames.UTF_8);
         if (!ok)
         {
-          _logger.error("Write failed for items set ["+setId+"]!");
+          _logger.error("Write failed for items set ["+setKey+"]!");
         }
       }
     }
@@ -279,6 +279,7 @@ public class ItemsManager
     return ret;
   }
 
+  /*
   private String urlFromIdentifier(int id)
   {
     String ret=null;
@@ -292,4 +293,5 @@ public class ItemsManager
     }
     return ret;
   }
+  */
 }

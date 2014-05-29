@@ -17,6 +17,7 @@ import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemBinding;
 import delta.games.lotro.lore.items.ItemCategory;
 import delta.games.lotro.lore.items.ItemFactory;
+import delta.games.lotro.lore.items.ItemQuality;
 import delta.games.lotro.lore.items.ItemSturdiness;
 import delta.games.lotro.lore.items.Weapon;
 import delta.games.lotro.lore.items.WeaponType;
@@ -62,7 +63,7 @@ public class ItemXMLParser
     ret.setKey(key);
     // Set identifier
     String setId=DOMParsingTools.getStringAttribute(attrs,ItemXMLConstants.ITEM_SET_ID_ATTR,null);
-    ret.setSetIdentifier(setId);
+    ret.setSetKey(setId);
     // Name
     String name=DOMParsingTools.getStringAttribute(attrs,ItemXMLConstants.ITEM_NAME_ATTR,null);
     ret.setName(name);
@@ -112,6 +113,14 @@ public class ItemXMLParser
       sturdiness=ItemSturdiness.valueOf(sturdinessStr);
     }
     ret.setSturdiness(sturdiness);
+    // Quality
+    ItemQuality quality=null;
+    String qualityStr=DOMParsingTools.getStringAttribute(attrs,ItemXMLConstants.ITEM_QUALITY_ATTR,null);
+    if (qualityStr!=null)
+    {
+      quality=ItemQuality.fromCode(qualityStr);
+    }
+    ret.setQuality(quality);
     // Minimum level
     int minimumLevel=DOMParsingTools.getIntAttribute(attrs,ItemXMLConstants.ITEM_MINLEVEL_ATTR,-1);
     if (minimumLevel!=-1)

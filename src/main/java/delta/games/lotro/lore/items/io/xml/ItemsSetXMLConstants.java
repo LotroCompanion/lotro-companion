@@ -14,7 +14,7 @@ public class ItemsSetXMLConstants
   /**
    * Tag 'itemsSet', attribute 'id'.
    */
-  public static final String ITEMS_SET_ID_ATTR="id";
+  public static final String ITEMS_SET_KEY_ATTR="id";
   /**
    * Tag 'itemsSet', attribute 'name'.
    */
@@ -26,7 +26,12 @@ public class ItemsSetXMLConstants
   /**
    * Tag 'item', attribute 'id'.
    */
-  public static final String ITEM_ID_ATTR="id";
+  // TODO : to remove!
+  public static final String ITEM_KEY_ATTR="id";
+  /**
+   * Tag 'item', attribute 'itemId'.
+   */
+  public static final String ITEM_ID_ATTR="itemId";
   
   /**
    * Tag 'bonus'.
