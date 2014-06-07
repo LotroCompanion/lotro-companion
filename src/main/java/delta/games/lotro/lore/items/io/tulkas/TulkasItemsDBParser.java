@@ -17,23 +17,34 @@ import delta.common.utils.text.TextUtils;
  */
 public class TulkasItemsDBParser
 {
+  private static final int OLD_VERSION=1;
+  private static final int NEW_VERSION=2;
+  private static final int INDEX=3;
   private File _inputFile;
   private int _version;
+  private String _encoding;
 
   /**
    * Constructor.
-   * @param version Tulkas DB version (1 or 2).
+   * @param version Tulkas DB version.
    */
   public TulkasItemsDBParser(int version)
   {
     _version=version;
-    if (version==1)
+    if (version==OLD_VERSION)
     {
       _inputFile=new File(new File("d:\\tmp"),"Items.lua");
+      _encoding=EncodingNames.UTF_8;
     }
-    else if (version==2)
+    else if (version==NEW_VERSION)
     {
       _inputFile=new File(new File("d:\\tmp"),"Items2.1.0.lua");
+      _encoding=EncodingNames.UTF_8;
+    }
+    else if (version==INDEX)
+    {
+      _inputFile=new File(new File("d:\\tmp"),"Items12.1.lua");
+      _encoding=EncodingNames.WINDOWS;
     }
   }
 
@@ -228,7 +239,7 @@ public class TulkasItemsDBParser
   private void doIt()
   {
     HashMap<Integer,HashMap<Object,Object>> items=loadItems();
-    if (_version==1)
+    if (_version==OLD_VERSION)
     {
       TulkasItemsLoader1 loader=new TulkasItemsLoader1();
       // Inspect items
@@ -238,7 +249,7 @@ public class TulkasItemsDBParser
       // Handle sets
       loader.buildSets(items);
     }
-    else if (_version==2)
+    else if (_version==NEW_VERSION)
     {
       TulkasItemsLoader2 loader=new TulkasItemsLoader2();
       // Inspect items
@@ -248,12 +259,20 @@ public class TulkasItemsDBParser
       // Handle sets
       loader.buildSets(items);
     }
+    else if (_version==INDEX)
+    {
+      TulkasItemsIndexLoader loader=new TulkasItemsIndexLoader();
+      // Inspect items
+      //loader.inspectItems(items);
+      // Handle items
+      loader.buildItems(items);
+    }
   }
 
   private HashMap<Integer,HashMap<Object,Object>> loadItems()
   {
     Locale.setDefault(Locale.US);
-    List<String> lines=TextUtils.readAsLines(_inputFile,EncodingNames.UTF_8);
+    List<String> lines=TextUtils.readAsLines(_inputFile,_encoding);
 
     List<String> itemLines=new ArrayList<String>();
     boolean foundFirstLine=false;
@@ -292,6 +311,6 @@ public class TulkasItemsDBParser
    */
   public static void main(String[] args)
   {
-    new TulkasItemsDBParser(2).doIt();
+    new TulkasItemsDBParser(INDEX).doIt();
   }
 }
