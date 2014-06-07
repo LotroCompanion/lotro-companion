@@ -21,5 +21,9 @@ public enum ItemSturdiness
   /**
    * Substantial.
    */
-  SUBSTANTIAL
+  SUBSTANTIAL,
+  /**
+   * Weak.
+   */
+  WEAK
 }
