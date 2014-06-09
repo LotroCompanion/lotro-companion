@@ -111,7 +111,7 @@ public class RecipeXMLParser
     for(Element versionElement : versionElements)
     {
       RecipeVersion version=new RecipeVersion();
-      List<Element> resultElements=DOMParsingTools.getChildTagsByName(versionElement,RecipeXMLConstants.RECIPE_RESULT_TAG);
+      List<Element> resultElements=DOMParsingTools.getChildTagsByName(versionElement,RecipeXMLConstants.RESULT_TAG);
       for(Element resultElement : resultElements)
       {
         CraftingResult result=parseResult(resultElement);
