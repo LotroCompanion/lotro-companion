@@ -27,6 +27,7 @@ public class Config
   private File _deedsDir;
   private File _iconsDir;
   private File _itemsDir;
+  private File _recipesDir;
   private TypedProperties _parameters;
   private Preferences _preferences;
   private List<String> _servers;
@@ -62,6 +63,7 @@ public class Config
     _deedsDir=new File(_rootDataDir,"deeds");
     _iconsDir=new File(_rootDataDir,"icons");
     _itemsDir=new File(_rootDataDir,"items");
+    _recipesDir=new File(_rootDataDir,"recipes");
   }
 
   /**
@@ -116,6 +118,15 @@ public class Config
   public File getItemsDir()
   {
     return _itemsDir;
+  }
+
+  /**
+   * Get the root directory for recipes data storage.
+   * @return a directory.
+   */
+  public File getRecipesDir()
+  {
+    return _recipesDir;
   }
 
   /**
