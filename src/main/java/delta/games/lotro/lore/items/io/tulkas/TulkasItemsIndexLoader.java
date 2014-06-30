@@ -10,6 +10,7 @@ import java.util.Set;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemQuality;
 import delta.games.lotro.lore.items.ItemSturdiness;
+import delta.games.lotro.lore.items.ItemsManager;
 
 /**
  * Items/sets loader for Tulkas DB index.
@@ -32,10 +33,12 @@ public class TulkasItemsIndexLoader
     
     //List<Integer> categories=inspect(3,items);
     //List<Integer> qualities=inspect(4,items);
-    List<Integer> durabilities=inspect(5,items);
+    //List<Integer> durabilities=inspect(5,items);
+    List<Integer> backgroundIconIDs=inspect(9,items);
     HashMap<Integer,List<String>> categories2Names=new HashMap<Integer,List<String>>(); 
     HashMap<Integer,List<String>> qualities2Names=new HashMap<Integer,List<String>>();
     HashMap<Integer,List<String>> durabilities2names=new HashMap<Integer,List<String>>();
+    HashMap<Integer,List<String>> backgroundIconIDs2Names=new HashMap<Integer,List<String>>();
     for(HashMap<Object,Object> item:items.values())
     {
       String name=(String)item.get(Integer.valueOf(1));
@@ -72,6 +75,17 @@ public class TulkasItemsIndexLoader
         }
         names.add(name);
       }
+      // Background icon ID
+      {
+        Integer backgroundIconID=(Integer)item.get(Integer.valueOf(9));
+        List<String> names=backgroundIconIDs2Names.get(backgroundIconID);
+        if (names==null)
+        {
+          names=new ArrayList<String>();
+          backgroundIconIDs2Names.put(backgroundIconID,names);
+        }
+        names.add(name);
+      }
     }
     /*
     for(Integer category : categories)
@@ -97,6 +111,7 @@ public class TulkasItemsIndexLoader
       }
     }
     */
+    /*
     for(Integer durability : durabilities)
     {
       List<String> names=durabilities2names.get(durability);
@@ -107,6 +122,18 @@ public class TulkasItemsIndexLoader
         System.out.println("\t"+name);
       }
     }
+    */
+    for(Integer backgroundIconID : backgroundIconIDs)
+    {
+      List<String> names=backgroundIconIDs2Names.get(backgroundIconID);
+      Collections.sort(names);
+      System.out.println("**************** "+backgroundIconID+" **************");
+      for(String name : names)
+      {
+        System.out.println("\t"+name);
+      }
+    }
+    System.out.println(backgroundIconIDs.size()+" : "+backgroundIconIDs);
   }
   
   List<Integer> inspect(int key, HashMap<Integer,HashMap<Object,Object>> items)
@@ -141,11 +168,24 @@ public class TulkasItemsIndexLoader
       Integer id=keys.get(i);
       HashMap<Object,Object> data=items.get(id);
       String name=(String)data.get(Integer.valueOf(1));
-      // TODO use this?
-      //Integer categoryInt=(Integer)data.get(Integer.valueOf(3));
+      String description=(String)data.get(Integer.valueOf(2));
+      Integer categoryInt=(Integer)data.get(Integer.valueOf(3));
+      Boolean isUnique=(Boolean)data.get(Integer.valueOf(7));
+      Integer iconID=(Integer)data.get(Integer.valueOf(8));
+      Integer backgroundIconid=(Integer)data.get(Integer.valueOf(9));
       Item item=new Item();
       item.setIdentifier(id.intValue());
       item.setName(name);
+      item.setDescription(description);
+      item.setIconURL(iconID+" - "+backgroundIconid);
+      if (isUnique!=null)
+      {
+        item.setUnique(isUnique.booleanValue());
+      }
+      if (categoryInt!=null)
+      {
+        item.setSubCategory(String.valueOf(categoryInt));
+      }
       // Quality
       {
         Integer qualityInt=(Integer)data.get(Integer.valueOf(4));
@@ -178,8 +218,9 @@ public class TulkasItemsIndexLoader
         }
         item.setSturdiness(sturdiness);
       }
-      item.setCategory()
-      System.out.println(item.dump());
+      ItemsManager mgr=ItemsManager.getInstance();
+      mgr.writeItemFile(item);
+      //System.out.println(item.dump());
     }
   }
 }

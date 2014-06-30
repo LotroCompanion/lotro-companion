@@ -14,6 +14,7 @@ import delta.games.lotro.lore.items.DamageType;
 import delta.games.lotro.lore.items.EquipmentLocation;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemQuality;
+import delta.games.lotro.lore.items.ItemsManager;
 import delta.games.lotro.lore.items.ItemsSet;
 import delta.games.lotro.lore.items.Weapon;
 import delta.games.lotro.lore.items.WeaponType;
@@ -72,6 +73,8 @@ public class TulkasItemsLoader2
       HashMap<Object,Object> data=items.get(id);
       Item item=buildItem(id,data);
       item.setIdentifier(id.intValue());
+      ItemsManager mgr=ItemsManager.getInstance();
+      mgr.writeItemFile(item);
       System.out.println(item.dump());
     }
   }

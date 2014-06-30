@@ -263,9 +263,9 @@ public class TulkasItemsDBParser
     {
       TulkasItemsIndexLoader loader=new TulkasItemsIndexLoader();
       // Inspect items
-      //loader.inspectItems(items);
+      loader.inspectItems(items);
       // Handle items
-      loader.buildItems(items);
+      //loader.buildItems(items);
     }
   }
 
