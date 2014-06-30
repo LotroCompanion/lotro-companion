@@ -278,7 +278,8 @@ public class Recipe
    */
   public static class ItemReference
   {
-    private String _itemId;
+    private int _itemId;
+    private String _itemKey;
     private String _name;
     private String _icon;
     
@@ -287,16 +288,17 @@ public class Recipe
      */
     public ItemReference()
     {
-      _itemId=null;
+      _itemId=0;
+      _itemKey=null;
       _name=null;
       _icon=null;
     }
 
     /**
      * Get the item identifier.
-     * @return an item identifier.
+     * @return an item key.
      */
-    public String getItemId()
+    public int getItemId()
     {
       return _itemId;
     }
@@ -305,9 +307,27 @@ public class Recipe
      * Set the item identifier.
      * @param itemId the identifier to set.
      */
-    public void setItemId(String itemId)
+    public void setItemId(int itemId)
     {
       _itemId=itemId;
+    }
+
+    /**
+     * Get the item key.
+     * @return an item key.
+     */
+    public String getItemKey()
+    {
+      return _itemKey;
+    }
+
+    /**
+     * Set the item key.
+     * @param itemKey the key to set.
+     */
+    public void setItemKey(String itemKey)
+    {
+      _itemKey=itemKey;
     }
 
     /**
@@ -349,7 +369,7 @@ public class Recipe
     @Override
     public String toString()
     {
-      return _name+" ("+_itemId+") ("+_icon+")";
+      return _name+" ("+_itemId+") ("+_itemKey+") ("+_icon+")";
     }
   }
 

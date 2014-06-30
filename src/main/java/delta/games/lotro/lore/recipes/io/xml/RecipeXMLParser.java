@@ -158,9 +158,12 @@ public class RecipeXMLParser
   {
     NamedNodeMap attrs=itemRef.getAttributes();
     ItemReference ref=new ItemReference();
-    // Identifier
-    String id=DOMParsingTools.getStringAttribute(attrs,RecipeXMLConstants.RECIPE_ITEM_ID_ATTR,null);
+    // Item id
+    int id=DOMParsingTools.getIntAttribute(attrs,RecipeXMLConstants.RECIPE_ITEM_ID_ATTR,0);
     ref.setItemId(id);
+    // Item key
+    String key=DOMParsingTools.getStringAttribute(attrs,RecipeXMLConstants.RECIPE_ITEM_KEY_ATTR,null);
+    ref.setItemKey(key);
     // Name
     String name=DOMParsingTools.getStringAttribute(attrs,RecipeXMLConstants.RECIPE_ITEM_NAME_ATTR,null);
     ref.setName(name);

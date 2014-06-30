@@ -109,7 +109,7 @@ public class RecipePageParser
           ItemReference scroll=new ItemReference();
           String scrollName=CharacterReference.decodeCollapseWhiteSpace(a.getContent());
           scroll.setName(scrollName);
-          scroll.setItemId(itemId);
+          scroll.setItemKey(itemId);
           _recipe.setRecipeScroll(scroll);
         }
       }
@@ -195,7 +195,7 @@ public class RecipePageParser
       Element a=JerichoHtmlUtils.findElementByTagName(ingredientName,HTMLElementName.A);
       String itemURL=a.getAttributeValue("href");
       String itemId=extractItemIdentifier(itemURL);
-      itemRef.setItemId(itemId);
+      itemRef.setItemKey(itemId);
       String itemName=CharacterReference.decodeCollapseWhiteSpace(a.getContent());
       itemRef.setName(itemName);
     }
@@ -271,7 +271,7 @@ public class RecipePageParser
       Element a=JerichoHtmlUtils.findElementByTagName(ingredientName,HTMLElementName.A);
       String itemURL=a.getAttributeValue("href");
       String itemId=extractItemIdentifier(itemURL);
-      itemRef.setItemId(itemId);
+      itemRef.setItemKey(itemId);
       String itemName=CharacterReference.decodeCollapseWhiteSpace(a.getContent());
       itemRef.setName(itemName);
     }

@@ -177,10 +177,15 @@ public class RecipeXMLWriter
   private void writeItemRef(TransformerHandler hd, ItemReference ref, String tagName) throws Exception
   {
     AttributesImpl attrs=new AttributesImpl();
-    String id=ref.getItemId();
-    if (id!=null)
+    int id=ref.getItemId();
+    if (id!=0)
     {
-      attrs.addAttribute("","",RecipeXMLConstants.RECIPE_ITEM_ID_ATTR,CDATA,id);
+      attrs.addAttribute("","",RecipeXMLConstants.RECIPE_ITEM_ID_ATTR,CDATA,String.valueOf(id));
+    }
+    String key=ref.getItemKey();
+    if (key!=null)
+    {
+      attrs.addAttribute("","",RecipeXMLConstants.RECIPE_ITEM_KEY_ATTR,CDATA,key);
     }
     String name=ref.getName();
     if (name!=null)

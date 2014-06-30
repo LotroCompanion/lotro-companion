@@ -42,7 +42,11 @@ public class RecipeXMLConstants
   /**
    * Tag 'scrollItem', attribute 'itemId'.
    */
-  public static final String RECIPE_ITEM_ID_ATTR="id";
+  public static final String RECIPE_ITEM_ID_ATTR="itemId";
+  /**
+   * Tag 'scrollItem', attribute 'id' (key).
+   */
+  public static final String RECIPE_ITEM_KEY_ATTR="id";
   /**
    * Tag 'scrollItem', attribute 'name'.
    */
