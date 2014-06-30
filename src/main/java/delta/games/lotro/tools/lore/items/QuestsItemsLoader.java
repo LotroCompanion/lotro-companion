@@ -49,7 +49,7 @@ public class QuestsItemsLoader
         if ((url!=null) && (url.startsWith(WIKI_SEED)))
         {
           String itemId=url.substring(WIKI_SEED.length());
-          _manager.handleItemId(itemId);
+          _manager.handleItemKey(itemId);
         }
         String icon=item.getIconURL();
         _manager.handleIcon(icon);

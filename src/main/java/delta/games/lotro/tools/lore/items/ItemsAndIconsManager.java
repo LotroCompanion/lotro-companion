@@ -146,20 +146,20 @@ public class ItemsAndIconsManager
 
   /**
    * Handle an item.
-   * @param itemId Item identifier.
+   * @param itemKey Item key.
    */
-  public void handleItemId(String itemId)
+  public void handleItemKey(String itemKey)
   {
-    if (itemId!=null)
+    if (itemKey!=null)
     {
-      if (!_handledItems.contains(itemId))
+      if (!_handledItems.contains(itemKey))
       {
-        System.out.println("Item: "+itemId);
+        System.out.println("Item: "+itemKey);
         try
         {
-          loadItems(itemId);
-          itemId=new String(itemId);
-          _handledItems.add(itemId);
+          loadItems(itemKey);
+          itemKey=new String(itemKey);
+          _handledItems.add(itemKey);
         }
         catch(Throwable t)
         {
@@ -183,8 +183,8 @@ public class ItemsAndIconsManager
       {
         handleIcon(iconURL);
       }
-      String itemId=item.getItemId();
-      handleItemId(itemId);
+      String itemKey=item.getItemKey();
+      handleItemKey(itemKey);
     }
   }
 }
