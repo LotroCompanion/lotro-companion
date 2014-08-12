@@ -216,6 +216,7 @@ public class ItemXMLWriter
     Money value=item.getValue();
     MoneyXMLWriter.writeMoney(hd,value);
     // Bonuses
+    // TODO better
     List<String> bonuses=item.getBonus();
     if (bonuses!=null)
     {

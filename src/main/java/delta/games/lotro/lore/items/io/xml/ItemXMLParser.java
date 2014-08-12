@@ -58,7 +58,7 @@ public class ItemXMLParser
     }
     ret=ItemFactory.buildItem(category);
     ret.setCategory(category);
-    // Identifier
+    // Key
     String key=DOMParsingTools.getStringAttribute(attrs,ItemXMLConstants.ITEM_ID_ATTR,null);
     ret.setKey(key);
     // Set identifier
