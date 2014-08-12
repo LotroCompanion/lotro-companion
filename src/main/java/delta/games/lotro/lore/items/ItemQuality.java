@@ -8,38 +8,42 @@ import java.util.HashMap;
  */
 public class ItemQuality
 {
-  private static HashMap<String,ItemQuality> _mapFromColor=new HashMap<String,ItemQuality>();
   private static HashMap<String,ItemQuality> _mapFromCode=new HashMap<String,ItemQuality>();
+  private static HashMap<String,ItemQuality> _mapFromColor=new HashMap<String,ItemQuality>();
+  private static HashMap<String,ItemQuality> _mapFromMeaning=new HashMap<String,ItemQuality>();
 
   /**
    * Common.
    */
-  public static final ItemQuality COMMON=new ItemQuality("Common","White");
+  public static final ItemQuality COMMON=new ItemQuality("COMMON","Common","White");
   /**
    * Unommon.
    */
-  public static final ItemQuality UNCOMMON=new ItemQuality("Uncommon","Yellow");
+  public static final ItemQuality UNCOMMON=new ItemQuality("UNCOMMON","Uncommon","Yellow");
   /**
    * Rare.
    */
-  public static final ItemQuality RARE=new ItemQuality("Rare","Purple");
+  public static final ItemQuality RARE=new ItemQuality("RARE","Rare","Purple");
   /**
    * Incomparable.
    */
-  public static final ItemQuality INCOMPARABLE=new ItemQuality("Incomparable","Teal");
+  public static final ItemQuality INCOMPARABLE=new ItemQuality("INCOMPARABLE","Incomparable","Teal");
   /**
    * Epic.
    */
-  public static final ItemQuality LEGENDARY=new ItemQuality("Epic","Orange");
+  public static final ItemQuality LEGENDARY=new ItemQuality("LEGENDARY","Epic","Orange");
 
+  private String _code;
   private String _meaning;
   private String _color;
 
-  private ItemQuality(String meaning,String color)
+  private ItemQuality(String code, String meaning, String color)
   {
+    _code=code;
     _meaning=meaning;
     _color=color;
-    _mapFromCode.put(meaning,this);
+    _mapFromCode.put(code,this);
+    _mapFromMeaning.put(meaning,this);
     _mapFromColor.put(color,this);
   }
 
@@ -49,7 +53,7 @@ public class ItemQuality
    */
   public String getCode()
   {
-    return _meaning;
+    return _code;
   }
 
   /**
@@ -77,7 +81,7 @@ public class ItemQuality
    */
   public static ItemQuality fromCode(String code)
   {
-    return _mapFromCode.get(code);
+    return _mapFromMeaning.get(code);
   }
   
   /**
