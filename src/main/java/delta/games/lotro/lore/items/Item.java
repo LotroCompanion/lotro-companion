@@ -3,16 +3,21 @@ package delta.games.lotro.lore.items;
 import java.util.ArrayList;
 import java.util.List;
 
+import delta.common.framework.objects.data.Identifiable;
 import delta.common.utils.text.EndOfLine;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.Money;
+import delta.games.lotro.lore.items.bonus.BonusManager;
+import delta.games.lotro.lore.items.bonus.RawBonusParser;
 
 /**
  * Item description.
  * @author DAM
  */
-public class Item
+public class Item implements Identifiable<Long>
 {
+  // Database primary key
+  private Long _primaryKey;
   // Item private identifier
   private int _identifier;
   // Item key: "Jacket_of_the_Impossible_Shot", ...
@@ -43,6 +48,7 @@ public class Item
   private boolean _unique;
   // Bonuses
   private List<String> _bonus;
+  private BonusManager _bonusMgr;
   // Durability
   private Integer _durability;
   // Sturdiness (may be null)
@@ -75,6 +81,8 @@ public class Item
    */
   public Item()
   {
+    super();
+    _primaryKey=null;
     _identifier=0;
     _key=null;
     _setKey=null;
@@ -86,6 +94,7 @@ public class Item
     _binding=null;
     _unique=false;
     _bonus=new ArrayList<String>();
+    _bonusMgr=new BonusManager();
     _durability=null;
     _sturdiness=null;
     _minLevel=null;
@@ -95,6 +104,24 @@ public class Item
     _value=new Money();
     _stackMax=null;
     _quality=ItemQuality.COMMON;
+  }
+
+  /**
+   * Get the primary key of this object.
+   * @return the primary key of this object.
+   */
+  public Long getPrimaryKey()
+  {
+    return _primaryKey;
+  }
+
+  /**
+   * Set the primary key of this object.
+   * @param primaryKey Primary key to set.
+   */
+  public void setPrimaryKey(Long primaryKey)
+  {
+    _primaryKey=primaryKey;
   }
 
   /**
@@ -306,15 +333,34 @@ public class Item
 
   /**
    * Set the list of bonus for this item.
-   * @param bonus the bonus to set.
+   * @param bonuses the bonus to set.
    */
-  public void setBonus(List<String> bonus)
+  public void setBonus(List<String> bonuses)
   {
     _bonus.clear();
-    if (bonus!=null)
+    if (bonuses!=null)
     {
-      _bonus.addAll(bonus);
+      _bonus.addAll(bonuses);
     }
+    RawBonusParser parser=new RawBonusParser();
+    _bonusMgr=parser.build(bonuses);
+    if (parser.hasWarn())
+    {
+      System.out.println("Item: "+_identifier+", name="+_name);
+      for(String bonus : bonuses)
+      {
+        System.out.println("\t"+bonus);
+      }
+    }
+  }
+
+  /**
+   * Get the bonus manager.
+   * @return the bonus manager.
+   */
+  public BonusManager getBonusManager()
+  {
+    return _bonusMgr;
   }
 
   /**

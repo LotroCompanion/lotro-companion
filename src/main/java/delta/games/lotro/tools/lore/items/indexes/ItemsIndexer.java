@@ -127,6 +127,7 @@ public class ItemsIndexer
     return idStr2Id;
   }
 
+  /*
   private HashMap<String,Integer> loadCompletionMap()
   {
     HashMap<String,Integer> ret=new HashMap<String,Integer>();
@@ -198,6 +199,7 @@ public class ItemsIndexer
     ret.put("Item:Small_Westfold_Scroll",Integer.valueOf(00000));
     return ret;
   }
+  */
 
   private void handleRecipes(HashMap<String,List<Integer>> ids)
   {

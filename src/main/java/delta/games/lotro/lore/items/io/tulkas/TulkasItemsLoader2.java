@@ -14,17 +14,20 @@ import delta.games.lotro.lore.items.DamageType;
 import delta.games.lotro.lore.items.EquipmentLocation;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemQuality;
-import delta.games.lotro.lore.items.ItemsManager;
 import delta.games.lotro.lore.items.ItemsSet;
 import delta.games.lotro.lore.items.Weapon;
 import delta.games.lotro.lore.items.WeaponType;
+import delta.games.lotro.lore.items.bonus.Bonus;
+import delta.games.lotro.lore.items.bonus.Bonus.BONUS_OCCURRENCE;
+import delta.games.lotro.lore.items.bonus.BonusManager;
+import delta.games.lotro.lore.items.bonus.BonusType;
 import delta.games.lotro.utils.LotroLoggers;
 
 /**
  * Items/sets loader for Tulkas DB (version 2).
  * @author DAM
  */
-public class TulkasItemsLoader2
+public class TulkasItemsLoader2 extends TulkasItemsLoader
 {
   private static final Logger _logger=LotroLoggers.getLotroLogger();
 
@@ -73,9 +76,12 @@ public class TulkasItemsLoader2
       HashMap<Object,Object> data=items.get(id);
       Item item=buildItem(id,data);
       item.setIdentifier(id.intValue());
+      System.out.println(item.dump());
+      /*
       ItemsManager mgr=ItemsManager.getInstance();
       mgr.writeItemFile(item);
-      System.out.println(item.dump());
+      */
+      //writeItemToDB(item);
     }
   }
 
@@ -201,6 +207,8 @@ public class TulkasItemsLoader2
           case 17: weaponType=WeaponType.BOW; break;
           case 18: weaponType=WeaponType.CROSSBOW; break;
           case 19: weaponType=WeaponType.JAVELIN; break;
+          default:
+            _logger.warn("Unmanaged weapon type: "+weaponTypeInt.intValue());
         }
       }
       if (weaponType!=null)
@@ -330,6 +338,7 @@ public class TulkasItemsLoader2
     HashMap<Integer,Object> bonuses=(HashMap<Integer,Object>)map.get(Integer.valueOf(6));
     if (bonuses!=null)
     {
+      BonusManager bonusMgr=ret.getBonusManager();
       List<Integer> keys=new ArrayList<Integer>(bonuses.keySet());
       Collections.sort(keys);
       for(Integer key : keys)
@@ -338,7 +347,13 @@ public class TulkasItemsLoader2
         if ((index>=0) && (index<TulkasConstants.BONUS_NAMES.length))
         {
           String bonusName=TulkasConstants.BONUS_NAMES[index];
-          ret.getBonus().add(bonusName+" : "+bonuses.get(key));
+          Object bonusValue=bonuses.get(key);
+          BonusType type=BonusType.getByName(bonusName);
+          Bonus bonus=new Bonus(type,BONUS_OCCURRENCE.ALWAYS);
+          Object value=type.buildValue(bonusValue);
+          bonus.setValue(value);
+          bonusMgr.add(bonus);
+          //ret.getBonus().add(bonusName+" : "+bonuses.get(key));
           bonuses.remove(key);
         }
         else

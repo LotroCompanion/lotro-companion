@@ -10,13 +10,12 @@ import java.util.Set;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemQuality;
 import delta.games.lotro.lore.items.ItemSturdiness;
-import delta.games.lotro.lore.items.ItemsManager;
 
 /**
  * Items/sets loader for Tulkas DB index.
  * @author DAM
  */
-public class TulkasItemsIndexLoader
+public class TulkasItemsIndexLoader extends TulkasItemsLoader
 {
   /**
    * Inspect loaded data items to fetch possible values in fields.
@@ -218,9 +217,13 @@ public class TulkasItemsIndexLoader
         }
         item.setSturdiness(sturdiness);
       }
+      /*
       ItemsManager mgr=ItemsManager.getInstance();
       mgr.writeItemFile(item);
-      //System.out.println(item.dump());
+      */
+      System.out.println(i);
+      System.out.println(item.dump());
+      writeItemToDB(item);
     }
   }
 }

@@ -304,6 +304,7 @@ public class BonusType
     Object ret=null;
     if (_valueClass==VALUE_CLASS.INTEGER)
     {
+      if (valueStr.startsWith("+")) valueStr=valueStr.substring(1);
       ret=NumericTools.parseInteger(valueStr,true);
     }
     else if (_valueClass==VALUE_CLASS.FLOAT)

@@ -43,7 +43,7 @@ public class TulkasItemsDBParser
     }
     else if (version==INDEX)
     {
-      _inputFile=new File(new File("d:\\tmp"),"Items12.1.lua");
+      _inputFile=new File(new File("d:\\tmp"),"15_1_Items.lua");
       _encoding=EncodingNames.WINDOWS;
     }
   }
@@ -263,9 +263,9 @@ public class TulkasItemsDBParser
     {
       TulkasItemsIndexLoader loader=new TulkasItemsIndexLoader();
       // Inspect items
-      loader.inspectItems(items);
+      //loader.inspectItems(items);
       // Handle items
-      //loader.buildItems(items);
+      loader.buildItems(items);
     }
   }
 
@@ -307,7 +307,8 @@ public class TulkasItemsDBParser
   }
 
   /**
-   * @param args
+   * Main method.
+   * @param args Not used.
    */
   public static void main(String[] args)
   {

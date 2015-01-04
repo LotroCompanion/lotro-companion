@@ -15,17 +15,20 @@ import delta.games.lotro.lore.items.DamageType;
 import delta.games.lotro.lore.items.EquipmentLocation;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemQuality;
-import delta.games.lotro.lore.items.ItemsManager;
 import delta.games.lotro.lore.items.ItemsSet;
 import delta.games.lotro.lore.items.Weapon;
 import delta.games.lotro.lore.items.WeaponType;
+import delta.games.lotro.lore.items.bonus.Bonus;
+import delta.games.lotro.lore.items.bonus.BonusManager;
+import delta.games.lotro.lore.items.bonus.BonusType;
+import delta.games.lotro.lore.items.bonus.Bonus.BONUS_OCCURRENCE;
 import delta.games.lotro.utils.LotroLoggers;
 
 /**
  * Items/sets loader for Tulkas DB (version 1).
  * @author DAM
  */
-public class TulkasItemsLoader1
+public class TulkasItemsLoader1 extends TulkasItemsLoader
 {
   private static final Logger _logger=LotroLoggers.getLotroLogger();
 
@@ -85,9 +88,12 @@ public class TulkasItemsLoader1
       HashMap<Object,Object> data=items.get(id);
       Item item=buildItem(id,data);
       item.setIdentifier(id.intValue());
+      /*
       ItemsManager mgr=ItemsManager.getInstance();
       mgr.writeItemFile(item);
       System.out.println(item.dump());
+      */
+      writeItemToDB(item);
     }
   }
 
@@ -220,15 +226,20 @@ public class TulkasItemsLoader1
     // Bonus
     if (statsMap!=null)
     {
+      BonusManager bonusMgr=ret.getBonusManager();
       final HashMap<String,Object> bonuses=new HashMap<String,Object>();
       loadBonusItemsVersion1(bonuses,statsMap);
       bonuses.remove("Armour");
       for(String bonusName : TulkasConstants.BONUS_NAMES)
       {
-        Object bonus=bonuses.get(bonusName);
-        if (bonus!=null)
+        Object bonusValue=bonuses.get(bonusName);
+        if (bonusValue!=null)
         {
-          ret.getBonus().add(bonusName+" : "+bonus);
+          BonusType type=BonusType.getByName(bonusName);
+          Bonus bonus=new Bonus(type,BONUS_OCCURRENCE.ALWAYS);
+          Object value=type.buildValue(bonusValue);
+          bonus.setValue(value);
+          bonusMgr.add(bonus);
           bonuses.remove(bonusName);
         }
       }
