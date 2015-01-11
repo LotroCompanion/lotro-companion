@@ -1,13 +1,15 @@
 package delta.games.lotro.lore.items;
 
 import java.io.File;
-import java.util.List;
+import java.io.FileFilter;
 
 import org.apache.log4j.Logger;
 
 import delta.common.utils.environment.FileSystem;
+import delta.common.utils.files.filter.ExtensionPredicate;
 import delta.common.utils.text.EncodingNames;
-import delta.games.lotro.lore.items.Item;
+import delta.games.lotro.Config;
+import delta.games.lotro.lore.items.io.xml.ItemXMLParser;
 import delta.games.lotro.lore.items.io.xml.ItemXMLWriter;
 import delta.games.lotro.utils.LotroLoggers;
 
@@ -25,21 +27,28 @@ public class MainTestItemXMLWriter
    */
   public static void main(String[] args)
   {
-    List<Item> items=new MainTestItemParsing().parseItems();
-    File tmpDir=FileSystem.getTmpDir();
-    File toDir=new File(tmpDir,"items");
-    toDir.mkdirs();
-    ItemXMLWriter writer=new ItemXMLWriter();
-    for(Item item : items)
+    File itemsDir=Config.getInstance().getItemsDir();
+    FileFilter fileFilter=new ExtensionPredicate("xml");
+    File[] itemFiles=itemsDir.listFiles(fileFilter);
+    if (itemFiles!=null)
     {
-      String name=item.getName();
-      File to=new File(toDir,name+".xml");
-      //if (!to.exists())
+      File tmpDir=FileSystem.getTmpDir();
+      File toDir=new File(tmpDir,"items");
+      toDir.mkdirs();
+      ItemXMLWriter writer=new ItemXMLWriter();
+      ItemXMLParser reader=new ItemXMLParser();
+      for(File itemFile : itemFiles)
       {
-        boolean ok=writer.write(to,item,EncodingNames.UTF_8);
-        if (!ok)
+        Item item=reader.parseXML(itemFile);
+        String name=item.getName();
+        File to=new File(toDir,name+".xml");
+        //if (!to.exists())
         {
-          _logger.error("Write failed for ["+item.getName()+"]");
+          boolean ok=writer.write(to,item,EncodingNames.UTF_8);
+          if (!ok)
+          {
+            _logger.error("Write failed for ["+item.getName()+"]");
+          }
         }
       }
     }
