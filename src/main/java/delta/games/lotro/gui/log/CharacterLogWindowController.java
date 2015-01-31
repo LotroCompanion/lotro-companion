@@ -20,7 +20,6 @@ import delta.games.lotro.character.log.CharacterLog;
 import delta.games.lotro.character.log.CharacterLogItemsFilter;
 import delta.games.lotro.character.log.CharacterLogsManager;
 import delta.games.lotro.gui.utils.GuiFactory;
-import delta.games.lotro.tools.characters.log.CharacterLogRepair;
 import delta.games.lotro.utils.gui.DefaultWindowController;
 
 /**
@@ -107,6 +106,7 @@ public class CharacterLogWindowController extends DefaultWindowController
     };
     updateButton.addActionListener(al);
     controlPanel.add(updateButton);
+    /*
     JButton fixButton=GuiFactory.buildButton("Fix");
     ActionListener al2=new ActionListener()
     {
@@ -117,6 +117,7 @@ public class CharacterLogWindowController extends DefaultWindowController
     };
     fixButton.addActionListener(al2);
     controlPanel.add(fixButton);
+    */
     // Filter
     _filterController=new CharacterLogFilterController(log,_filter,_panelController);
     JPanel filterPanel=_filterController.getPanel();
@@ -180,6 +181,7 @@ public class CharacterLogWindowController extends DefaultWindowController
   /**
    * Fix toon's log.
    */
+  /*
   public void fixLog()
   {
     CharacterLogRepair updater=new CharacterLogRepair();
@@ -194,6 +196,7 @@ public class CharacterLogWindowController extends DefaultWindowController
       // todo shall do an error message here!
     }
   }
+  */
 
   /**
    * Update contents.

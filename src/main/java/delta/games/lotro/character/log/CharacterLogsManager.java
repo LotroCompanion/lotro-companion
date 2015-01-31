@@ -6,14 +6,12 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 
 import org.apache.log4j.Logger;
 
 import delta.common.utils.text.EncodingNames;
 import delta.games.lotro.Config;
 import delta.games.lotro.character.CharacterFile;
-import delta.games.lotro.character.log.io.web.CharacterLogPageParser;
 import delta.games.lotro.character.log.io.xml.CharacterLogXMLParser;
 import delta.games.lotro.character.log.io.xml.CharacterLogXMLWriter;
 import delta.games.lotro.utils.Formats;
@@ -136,6 +134,7 @@ public class CharacterLogsManager
    */
   public Integer updateLog()
   {
+    /*
     Integer ret=null;
     File lastLog=getLastLogFile();
     String url=_toon.getBaseMyLotroURL();
@@ -182,8 +181,9 @@ public class CharacterLogsManager
       String name=_toon.getName();
       _logger.error("Log update failed for toon ["+name+"]!");
     }
-    
     return ret;
+    */
+    return null;
   }
 
   /**
@@ -212,6 +212,7 @@ public class CharacterLogsManager
     return ret;
   }
 
+  /*
   private boolean updateCharacterLog(CharacterLog log, String url)
   {
     boolean ret=false;
@@ -257,6 +258,7 @@ public class CharacterLogsManager
     }
     return ret;
   }
+  */
 
   private File getNewLogFile()
   {

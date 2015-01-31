@@ -10,8 +10,6 @@ import java.util.Date;
 import org.apache.log4j.Logger;
 
 import delta.common.utils.text.EncodingNames;
-import delta.games.lotro.character.io.web.CharacterPageParser;
-import delta.games.lotro.character.io.web.DataLotroCharacterPageParser;
 import delta.games.lotro.character.io.xml.CharacterXMLParser;
 import delta.games.lotro.character.io.xml.CharacterXMLWriter;
 import delta.games.lotro.utils.Formats;
@@ -24,7 +22,7 @@ import delta.games.lotro.utils.LotroLoggers;
 public class CharacterInfosManager
 {
   private static final Logger _logger=LotroLoggers.getCharacterLogger();
-  private static final boolean USE_DATA_LOTRO=true;
+  //private static final boolean USE_DATA_LOTRO=true;
 
   private CharacterFile _toon;
 
@@ -121,6 +119,7 @@ public class CharacterInfosManager
    */
   public boolean updateCharacterDescription()
   {
+    /*
     String name=_toon.getName();
     Character c;
     if (USE_DATA_LOTRO)
@@ -146,8 +145,10 @@ public class CharacterInfosManager
       _logger.error("Update failed for toon ["+name+"]!");
     }
     return ret;
+    */
+    return false;
   }
-  
+
   /**
    * Write a new info file for this toon.
    * @param info Character info to write.
