@@ -15,11 +15,11 @@ import javax.swing.JPanel;
 
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharactersManager;
-import delta.games.lotro.character.level.MultipleToonsLevellingStats;
 import delta.games.lotro.gui.character.CharacterSelectionChangedListener;
 import delta.games.lotro.gui.character.CharactersSelectorPanelController;
 import delta.games.lotro.gui.character.CharactersSelectorWindowController;
 import delta.games.lotro.gui.utils.GuiFactory;
+import delta.games.lotro.stats.level.MultipleToonsLevellingStats;
 import delta.games.lotro.utils.gui.WindowController;
 
 /**

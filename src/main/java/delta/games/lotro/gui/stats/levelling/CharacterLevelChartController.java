@@ -33,8 +33,8 @@ import org.jfree.ui.RectangleEdge;
 
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.level.LevelHistory;
-import delta.games.lotro.character.level.MultipleToonsLevellingStats;
 import delta.games.lotro.gui.utils.GuiFactory;
+import delta.games.lotro.stats.level.MultipleToonsLevellingStats;
 import delta.games.lotro.utils.Formats;
 
 /**

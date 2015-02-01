@@ -1,6 +1,7 @@
-package delta.games.lotro.character.level;
+package delta.games.lotro.stats.level;
 
 import delta.games.lotro.character.CharacterFile;
+import delta.games.lotro.character.level.LevelHistory;
 import delta.games.lotro.stats.MultipleToonsStats;
 
 /**

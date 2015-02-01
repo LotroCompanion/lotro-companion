@@ -7,9 +7,9 @@ import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
 import delta.games.lotro.character.CharacterFile;
-import delta.games.lotro.character.level.MultipleToonsLevellingStats;
 import delta.games.lotro.character.log.LotroTestUtils;
 import delta.games.lotro.gui.stats.levelling.CharacterLevelChartController;
+import delta.games.lotro.stats.level.MultipleToonsLevellingStats;
 
 /**
  * Test for character levelling graph.
