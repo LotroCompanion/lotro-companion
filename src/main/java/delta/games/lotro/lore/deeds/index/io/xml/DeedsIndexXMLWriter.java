@@ -23,7 +23,7 @@ import delta.games.lotro.utils.LotroLoggers;
  * Writes LOTRO deeds indexes to XML files.
  * @author DAM
  */
-public class DeedsIndexWriter
+public class DeedsIndexXMLWriter
 {
   private static final Logger _logger=LotroLoggers.getLotroLogger();
 
