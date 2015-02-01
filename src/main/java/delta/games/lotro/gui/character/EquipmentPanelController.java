@@ -19,7 +19,7 @@ import delta.games.lotro.character.CharacterEquipment;
 import delta.games.lotro.character.CharacterEquipment.EQUIMENT_SLOT;
 import delta.games.lotro.character.CharacterEquipment.SlotContents;
 import delta.games.lotro.character.CharacterFile;
-import delta.games.lotro.common.icons.LotroIconsManager;
+import delta.games.lotro.common.icons.BasicIconsManager;
 import delta.games.lotro.gui.utils.GuiFactory;
 import delta.games.lotro.gui.utils.IconsManager;
 import delta.games.lotro.lore.items.Item;
@@ -191,7 +191,7 @@ public class EquipmentPanelController implements ActionListener
     Character c=_toon.getLastCharacterInfo();
     CharacterEquipment equipment=c.getEquipment();
     ItemsManager itemsManager=ItemsManager.getInstance();
-    LotroIconsManager iconsManager=LotroIconsManager.getInstance();
+    BasicIconsManager iconsManager=BasicIconsManager.getInstance();
 
     for(EQUIMENT_SLOT slot : EQUIMENT_SLOT.values())
     {

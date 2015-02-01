@@ -1,7 +1,7 @@
-package delta.games.lotro.character;
+package delta.games.lotro.gui.character;
 
+import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.log.LotroTestUtils;
-import delta.games.lotro.gui.character.CharacterMainWindowController;
 
 /**
  * Test for character main window.

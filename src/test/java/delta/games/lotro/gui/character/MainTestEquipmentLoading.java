@@ -1,10 +1,12 @@
-package delta.games.lotro.character;
+package delta.games.lotro.gui.character;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import delta.games.lotro.character.Character;
+import delta.games.lotro.character.CharacterFile;
+import delta.games.lotro.character.CharacterInfosManager;
 import delta.games.lotro.character.log.LotroTestUtils;
-import delta.games.lotro.gui.character.EquipmentPanelController;
 
 /**
  * Test for character equipment access.

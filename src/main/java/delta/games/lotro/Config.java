@@ -17,17 +17,10 @@ public class Config
 {
   private static Config _instance=new Config();
   
-  private String _myLotroRootURL;
   private File _rootDataDir;
   private File _configDir;
   private File _toonsDir;
-  private File _loreDir;
-  private File _indexesDir;
-  private File _questsDir;
-  private File _deedsDir;
   private File _iconsDir;
-  private File _itemsDir;
-  private File _recipesDir;
   private TypedProperties _parameters;
   private Preferences _preferences;
   private List<String> _servers;
@@ -46,12 +39,9 @@ public class Config
    */
   private Config()
   {
-    _myLotroRootURL="http://my.lotro.com/";
     _rootDataDir=new File("data");
     _configDir=new File(_rootDataDir,"config");
     _toonsDir=new File(_rootDataDir,"characters");
-    _loreDir=new File(_rootDataDir,"lore");
-    _indexesDir=new File(_loreDir,"indexes");
     _servers=new ArrayList<String>();
     File parametersFiles=new File(_configDir,"params.txt");
     _parameters=new TypedProperties();
@@ -59,47 +49,6 @@ public class Config
     File preferencesDir=new File(_rootDataDir,"preferences");
     _preferences=new Preferences(preferencesDir);
     loadServers();
-    _questsDir=new File(_rootDataDir,"quests");
-    _deedsDir=new File(_rootDataDir,"deeds");
-    _iconsDir=new File(_rootDataDir,"icons");
-    _itemsDir=new File(_rootDataDir,"items");
-    _recipesDir=new File(_rootDataDir,"recipes");
-  }
-
-  /**
-   * Get the root directory for indexes storage.
-   * @return a directory.
-   */
-  public File getIndexesDir()
-  {
-    return _indexesDir;
-  }
-
-  /**
-   * Get the root directory for quest data storage.
-   * @return a directory.
-   */
-  public File getQuestsDir()
-  {
-    return _questsDir;
-  }
-
-  /**
-   * Get the root directory for lore data storage.
-   * @return a directory.
-   */
-  public File getLoreDir()
-  {
-    return _loreDir;
-  }
-
-  /**
-   * Get the root directory for deed data storage.
-   * @return a directory.
-   */
-  public File getDeedsDir()
-  {
-    return _deedsDir;
   }
 
   /**
@@ -109,24 +58,6 @@ public class Config
   public File getIconsDir()
   {
     return _iconsDir;
-  }
-
-  /**
-   * Get the root directory for items data storage.
-   * @return a directory.
-   */
-  public File getItemsDir()
-  {
-    return _itemsDir;
-  }
-
-  /**
-   * Get the root directory for recipes data storage.
-   * @return a directory.
-   */
-  public File getRecipesDir()
-  {
-    return _recipesDir;
   }
 
   /**
@@ -158,18 +89,6 @@ public class Config
     File serverDir=new File(_toonsDir,serverName);
     File toonDir=new File(serverDir,toonName);
     return toonDir;
-  }
-
-  /**
-   * Get the URL for a toon.
-   * @param serverName Server of toon.
-   * @param toonName Name of toon.
-   * @return An URL.
-   */
-  public String getCharacterURL(String serverName, String toonName)
-  {
-    String ret=_myLotroRootURL+"home/character/"+serverName.toLowerCase()+"/"+toonName.toLowerCase();
-    return ret;
   }
 
   /**
