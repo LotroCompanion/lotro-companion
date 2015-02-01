@@ -22,7 +22,7 @@ import delta.games.lotro.utils.LotroLoggers;
  * Writes LOTRO recipe indexes to XML files.
  * @author DAM
  */
-public class RecipesIndexWriter
+public class RecipesIndexXMLWriter
 {
   private static final Logger _logger=LotroLoggers.getLotroLogger();
 
