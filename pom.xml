@@ -28,11 +28,6 @@
     </dependency>
     <dependency>
       <groupId>com.dam.delta4j</groupId>
-      <artifactId>delta-json</artifactId>
-      <version>1.0</version>
-    </dependency>
-    <dependency>
-      <groupId>com.dam.delta4j</groupId>
       <artifactId>delta-utils-jdbc</artifactId>
       <version>1.0</version>
     </dependency>
