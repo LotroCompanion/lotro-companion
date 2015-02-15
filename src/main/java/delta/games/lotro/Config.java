@@ -19,8 +19,6 @@ public class Config
   
   private File _rootDataDir;
   private File _configDir;
-  private File _toonsDir;
-  private File _iconsDir;
   private TypedProperties _parameters;
   private Preferences _preferences;
   private List<String> _servers;
@@ -41,7 +39,6 @@ public class Config
   {
     _rootDataDir=new File("data");
     _configDir=new File(_rootDataDir,"config");
-    _toonsDir=new File(_rootDataDir,"characters");
     _servers=new ArrayList<String>();
     File parametersFiles=new File(_configDir,"params.txt");
     _parameters=new TypedProperties();
@@ -52,43 +49,12 @@ public class Config
   }
 
   /**
-   * Get the root directory for icons data storage.
-   * @return a directory.
-   */
-  public File getIconsDir()
-  {
-    return _iconsDir;
-  }
-
-  /**
-   * Get the root storage directory for toons.
-   * @return a directory.
-   */
-  public File getToonsDir()
-  {
-    return _toonsDir;
-  }
-
-  /**
    * Get the root storage directory for configuration files.
    * @return a directory.
    */
   public File getConfigDir()
   {
     return _configDir;
-  }
-
-  /**
-   * Get the root storage directory for a toon.
-   * @param serverName Server of toon.
-   * @param toonName Name of toon.
-   * @return a directory.
-   */
-  public File getToonDirectory(String serverName, String toonName)
-  {
-    File serverDir=new File(_toonsDir,serverName);
-    File toonDir=new File(serverDir,toonName);
-    return toonDir;
   }
 
   /**
