@@ -25,7 +25,7 @@ public class MainTestReputationStats
       CharacterLog log=toon.getLastCharacterLog();
       if (log!=null)
       {
-        ReputationStats stats=new ReputationStats(log);
+        ReputationStats stats=new ReputationStats(log.getName(),log);
         stats.dump(System.out);
       }
     }

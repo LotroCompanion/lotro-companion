@@ -32,11 +32,12 @@ public class ReputationStats
   
   /**
    * Constructor.
+   * @param toonName Character name.
    * @param log Character log to use.
    */
-  public ReputationStats(CharacterLog log)
+  public ReputationStats(String toonName, CharacterLog log)
   {
-    _name=log.getName();
+    _name=toonName;
     initSeeds();
     reset();
     List<CharacterLogItem> items=getDeedItems(log);
@@ -51,20 +52,23 @@ public class ReputationStats
   private List<CharacterLogItem> getDeedItems(CharacterLog log)
   {
     List<CharacterLogItem> ret=new ArrayList<CharacterLogItem>();
-    int nb=log.getNbItems();
-    for(int i=0;i<nb;i++)
+    if (log!=null)
     {
-      CharacterLogItem item=log.getLogItem(i);
-      if (item!=null)
+      int nb=log.getNbItems();
+      for(int i=0;i<nb;i++)
       {
-        LogItemType type=item.getLogItemType();
-        if (type==LogItemType.DEED)
+        CharacterLogItem item=log.getLogItem(i);
+        if (item!=null)
         {
-          ret.add(item);
+          LogItemType type=item.getLogItemType();
+          if (type==LogItemType.DEED)
+          {
+            ret.add(item);
+          }
         }
       }
+      Collections.reverse(ret);
     }
-    Collections.reverse(ret);
     return ret;
   }
 

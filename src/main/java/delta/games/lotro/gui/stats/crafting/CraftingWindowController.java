@@ -37,7 +37,8 @@ public class CraftingWindowController extends DefaultWindowController
   {
     _toon=toon;
     CharacterLog log=toon.getLastCharacterLog();
-    _stats=new CraftingStats(log);
+    String toonName=toon.getName();
+    _stats=new CraftingStats(toonName,log);
     _panels=new HashMap<String,CraftingPanelController>();
   }
 

@@ -26,7 +26,8 @@ public class CharacterReputationWindowController extends DefaultWindowController
   {
     _toon=toon;
     CharacterLog log=toon.getLastCharacterLog();
-    ReputationStats stats=new ReputationStats(log);
+    String toonName=toon.getName();
+    ReputationStats stats=new ReputationStats(toonName,log);
     _reputationPanelController=new ReputationPanelController(stats);
   }
 

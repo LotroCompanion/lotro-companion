@@ -33,25 +33,28 @@ public class CraftingStats
   
   /**
    * Constructor.
+   * @param toonName Character name.
    * @param log Character log to use.
    */
-  public CraftingStats(CharacterLog log)
+  public CraftingStats(String toonName, CharacterLog log)
   {
-    _name=log.getName();
+    _name=toonName;
     reset();
     List<CharacterLogItem> items=getCraftingItems(log);
     parseItems(items);
-    int nbItems=log.getNbItems();
-    if (nbItems>0)
+    if (log!=null)
     {
-      CharacterLogItem lastItem=log.getLogItem(0);
-      long date=lastItem.getDate();
-      for(ProfessionStat stat : _stats.values())
+      int nbItems=log.getNbItems();
+      if (nbItems>0)
       {
-        stat.setLastLogItemDate(date);
+        CharacterLogItem lastItem=log.getLogItem(0);
+        long date=lastItem.getDate();
+        for(ProfessionStat stat : _stats.values())
+        {
+          stat.setLastLogItemDate(date);
+        }
       }
     }
-
   }
 
   private void reset()
@@ -62,20 +65,23 @@ public class CraftingStats
   private List<CharacterLogItem> getCraftingItems(CharacterLog log)
   {
     List<CharacterLogItem> ret=new ArrayList<CharacterLogItem>();
-    int nb=log.getNbItems();
-    for(int i=0;i<nb;i++)
+    if (log!=null)
     {
-      CharacterLogItem item=log.getLogItem(i);
-      if (item!=null)
+      int nb=log.getNbItems();
+      for(int i=0;i<nb;i++)
       {
-        LogItemType type=item.getLogItemType();
-        if ((type==LogItemType.PROFESSION) || (type==LogItemType.VOCATION))
+        CharacterLogItem item=log.getLogItem(i);
+        if (item!=null)
         {
-          ret.add(item);
+          LogItemType type=item.getLogItemType();
+          if ((type==LogItemType.PROFESSION) || (type==LogItemType.VOCATION))
+          {
+            ret.add(item);
+          }
         }
       }
+      Collections.reverse(ret);
     }
-    Collections.reverse(ret);
     return ret;
   }
 

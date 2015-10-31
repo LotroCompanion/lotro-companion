@@ -33,7 +33,7 @@ public class MainTestCraftingHistoryChart
       CharacterLog log=toon.getLastCharacterLog();
       if (log!=null)
       {
-        CraftingStats stats=new CraftingStats(log);
+        CraftingStats stats=new CraftingStats(log.getName(),log);
         stats.dump(System.out);
         String[] professions=stats.getProfessions();
         for(String profession : professions)
