@@ -14,6 +14,7 @@ import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharacterStat;
 import delta.games.lotro.character.CharacterStat.STAT;
 import delta.games.lotro.gui.utils.GuiFactory;
+import delta.games.lotro.utils.FixedDecimalsInteger;
 
 /**
  * Controller for character stats panel.
@@ -68,9 +69,9 @@ public class ChararacterStatsPanelController
     // Might, Agility, Vitality, Will, Fate
     STAT[] mainStats={STAT.MIGHT,STAT.AGILITY,STAT.VITALITY,STAT.WILL,STAT.FATE};
     // Offence: Critical hit, finesse, Physical mastery? Tactical Mastery?
-    STAT[] offence={STAT.CRITICAL_HIT,STAT.FINESSE};
+    STAT[] offence={STAT.CRITICAL_RATING,STAT.FINESSE};
     // Defence: Resistance, crit hit avoidance, incoming healing?
-    STAT[] defence={STAT.RESISTANCE,STAT.CRITICAL_AVOID};
+    STAT[] defence={STAT.RESISTANCE,STAT.CRITICAL_DEFENCE};
     // - Avoidance: block, parry, evade
     STAT[] avoidance={STAT.BLOCK,STAT.PARRY,STAT.EVADE};
     // - mitigations:
@@ -108,7 +109,7 @@ public class ChararacterStatsPanelController
         CharacterStat cStat=info.getStat(stats[i],false);
         if (cStat!=null)
         {
-          Integer value=cStat.getValue();
+          FixedDecimalsInteger value=cStat.getValue();
           if (value!=null)
           {
             statValue=String.valueOf(value.intValue());
