@@ -11,8 +11,8 @@ import javax.swing.border.TitledBorder;
 
 import delta.games.lotro.character.Character;
 import delta.games.lotro.character.CharacterFile;
-import delta.games.lotro.character.CharacterStat;
 import delta.games.lotro.character.CharacterStat.STAT;
+import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.gui.utils.GuiFactory;
 import delta.games.lotro.utils.FixedDecimalsInteger;
 
@@ -106,18 +106,15 @@ public class ChararacterStatsPanelController
       String statValue="";
       if (info!=null)
       {
-        CharacterStat cStat=info.getStat(stats[i],false);
-        if (cStat!=null)
+        BasicStatsSet characterStats=info.getStats();
+        FixedDecimalsInteger value=characterStats.getStat(stats[i]);
+        if (value!=null)
         {
-          FixedDecimalsInteger value=cStat.getValue();
-          if (value!=null)
-          {
-            statValue=String.valueOf(value.intValue());
-          }
-          else
-          {
-            statValue="N/A";
-          }
+          statValue=String.valueOf(value.intValue());
+        }
+        else
+        {
+          statValue="N/A";
         }
       }
       _statValues[i].setText(statValue);
