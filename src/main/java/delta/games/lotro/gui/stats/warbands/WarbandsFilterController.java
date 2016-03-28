@@ -18,7 +18,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
 
-import delta.games.lotro.common.SIZE;
+import delta.games.lotro.common.Size;
 import delta.games.lotro.gui.utils.GuiFactory;
 import delta.games.lotro.lore.warbands.WarbandDefinition;
 import delta.games.lotro.lore.warbands.WarbandFilter;
@@ -77,7 +77,7 @@ public class WarbandsFilterController implements ActionListener
     _region.setSelectedItem(region);
     Integer minLevel=_filter.getMinLevel();
     _minLevel.setSelectedItem(minLevel);
-    SIZE size=_filter.getSize();
+    Size size=_filter.getSize();
     _size.setSelectedItem(size);
   }
 
@@ -96,7 +96,7 @@ public class WarbandsFilterController implements ActionListener
     }
     else if (source==_size)
     {
-      SIZE size=(SIZE)_size.getSelectedItem();
+      Size size=(Size)_size.getSelectedItem();
       _filter.setSize(size);
     }
     else if (source==_reset)
@@ -155,7 +155,7 @@ public class WarbandsFilterController implements ActionListener
     panel.add(GuiFactory.buildLabel("Region:"));
     panel.add(_region);
     // Sizes
-    SIZE[] sizes={SIZE.SOLO,SIZE.SMALL_FELLOWSHIP,SIZE.FELLOWSHIP,SIZE.RAID};
+    Size[] sizes={Size.SOLO,Size.SMALL_FELLOWSHIP,Size.FELLOWSHIP,Size.RAID};
     _size=buildCombo(sizes,null);
     _size.addActionListener(this);
     panel.add(GuiFactory.buildLabel("Size:"));
