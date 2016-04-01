@@ -11,8 +11,8 @@ import javax.swing.border.TitledBorder;
 
 import delta.games.lotro.character.Character;
 import delta.games.lotro.character.CharacterFile;
-import delta.games.lotro.character.CharacterStat.STAT;
 import delta.games.lotro.character.stats.BasicStatsSet;
+import delta.games.lotro.character.stats.STAT;
 import delta.games.lotro.gui.utils.GuiFactory;
 import delta.games.lotro.utils.FixedDecimalsInteger;
 
