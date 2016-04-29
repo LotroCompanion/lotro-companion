@@ -5,7 +5,6 @@ import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 import java.util.Collection;
 import java.util.HashMap;
 
@@ -14,15 +13,16 @@ import javax.swing.JButton;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
+import delta.common.utils.text.EndOfLine;
 import delta.games.lotro.character.Character;
 import delta.games.lotro.character.CharacterEquipment;
 import delta.games.lotro.character.CharacterEquipment.EQUIMENT_SLOT;
 import delta.games.lotro.character.CharacterEquipment.SlotContents;
 import delta.games.lotro.character.CharacterFile;
-import delta.games.lotro.common.icons.BasicIconsManager;
 import delta.games.lotro.gui.utils.GuiFactory;
 import delta.games.lotro.gui.utils.IconsManager;
 import delta.games.lotro.lore.items.Item;
+import delta.games.lotro.lore.items.ItemPropertyNames;
 import delta.games.lotro.lore.items.ItemsManager;
 
 /**
@@ -191,7 +191,6 @@ public class EquipmentPanelController implements ActionListener
     Character c=_toon.getLastCharacterInfo();
     CharacterEquipment equipment=c.getEquipment();
     ItemsManager itemsManager=ItemsManager.getInstance();
-    BasicIconsManager iconsManager=BasicIconsManager.getInstance();
 
     for(EQUIMENT_SLOT slot : EQUIMENT_SLOT.values())
     {
@@ -205,7 +204,7 @@ public class EquipmentPanelController implements ActionListener
       backgroundIconButton.setMargin(new Insets(0,0,0,0));
       backgroundIconButton.setBounds(position.width-ICON_FRAME_SIZE,position.height-ICON_FRAME_SIZE,ICON_SIZE+6,ICON_SIZE+6);
       _layeredPane.add(backgroundIconButton,BACKGROUND_ICONS_DEPTH);
-      
+
       SlotContents contents=equipment.getSlotContents(slot,false);
       if (contents!=null)
       {
@@ -213,28 +212,12 @@ public class EquipmentPanelController implements ActionListener
         Integer id=itemsManager.idFromURL(url);
         if (id!=null)
         {
-          String iconURL=null;
           Item item=itemsManager.getItem(id);
           if (item!=null)
           {
-            iconURL=item.getIconURL();
-          }
-          else
-          {
-            iconURL=contents.getIconURL();
-            item=new Item();
-            item.setIdentifier(id.intValue());
-            item.setIconURL(iconURL);
-            itemsManager.writeItemFile(item);
-          }
-          if (iconURL!=null)
-          {
-            File f=iconsManager.getIconFile(iconURL);
-            ImageIcon icon=null;
-            if ((f!=null) && (f.length()>0))
-            {
-              icon=IconsManager.getIcon(f);
-            }
+            String iconId=item.getProperty(ItemPropertyNames.ICON_ID);
+            String backgroundIconId=item.getProperty(ItemPropertyNames.BACKGROUND_ICON_ID);
+            ImageIcon icon=IconsManager.getItemIcon(iconId,backgroundIconId);
             if (icon==null)
             {
               icon=IconsManager.getIcon(ITEM_WITH_NO_ICON);
@@ -249,8 +232,8 @@ public class EquipmentPanelController implements ActionListener
               _buttons.put(slot,button);
               button.setActionCommand(slot.name());
               button.addActionListener(this);
-
               String dump=item.dump();
+              dump="<html>"+dump.replace(EndOfLine.NATIVE_EOL,"<br>")+"</html>";
               button.setToolTipText(dump);
             }
           }
