@@ -1,7 +1,6 @@
 package delta.games.lotro.gui.utils;
 
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.WeakHashMap;
@@ -27,7 +26,7 @@ public class IconsManager
     URL imageURL=IconsManager.class.getResource(iconPath);
     return imageURL;
   }
-  
+
   /**
    * Get an image.
    * @param path Image path in the classpath.
@@ -87,23 +86,14 @@ public class IconsManager
   }
 
   /**
-   * Get an icon stored in a file.
-   * @param iconFile Icon file.
+   * Get the icon for an item.
+   * @param iconId Foreground icon ID.
+   * @param backgroundId Background icon ID.
    * @return An icon or <code>null</code> if not found.
    */
-  public static ImageIcon getIcon(File iconFile)
+  public static ImageIcon getItemIcon(String iconId, String backgroundId)
   {
-    ImageIcon icon=null;
-    if (iconFile!=null)
-    {
-      String iconPath=iconFile.getPath();
-      icon=_icons.get(iconPath);
-      if (icon==null)
-      {
-        icon=new ImageIcon(iconPath);
-        _icons.put(iconPath,icon);
-      }
-    }
-    return icon;
+    String path="/icons/"+iconId+"-"+backgroundId+".png";
+    return getIcon(path);
   }
 }
