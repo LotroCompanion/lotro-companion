@@ -221,6 +221,7 @@ public class CharacterLogWindowController extends DefaultWindowController
       _tableController.dispose();
       _tableController=null;
     }
+    // TODO dispose on panel and filter
     _toon=null;
   }
 }

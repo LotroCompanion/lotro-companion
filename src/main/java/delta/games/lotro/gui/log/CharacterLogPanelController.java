@@ -51,7 +51,7 @@ public class CharacterLogPanelController
     JPanel panel=GuiFactory.buildPanel(new BorderLayout());
     TitledBorder logFrameBorder=GuiFactory.buildTitledBorder("Log");
     panel.setBorder(logFrameBorder);
-    
+
     // Table
     JTable table=_tableController.getTable();
     JScrollPane scroll=GuiFactory.buildScrollPane(table);
