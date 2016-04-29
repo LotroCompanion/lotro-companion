@@ -12,10 +12,10 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableRowSorter;
 
+import delta.common.utils.collections.filters.Filter;
 import delta.games.lotro.character.log.CharacterLog;
 import delta.games.lotro.character.log.CharacterLogItem;
 import delta.games.lotro.character.log.CharacterLogItem.LogItemType;
-import delta.games.lotro.character.log.CharacterLogItemsFilter;
 import delta.games.lotro.gui.utils.GuiFactory;
 import delta.games.lotro.utils.Formats;
 
@@ -27,7 +27,7 @@ public class CharacterLogTableController
 {
   // Data
   private CharacterLog _log;
-  private CharacterLogItemsFilter _filter;
+  private Filter<CharacterLogItem> _filter;
   // GUI
   private JTable _table;
   private CharacterLogTableModel _model;
@@ -46,7 +46,7 @@ public class CharacterLogTableController
    * @param log Character log.
    * @param filter Log filter.
    */
-  public CharacterLogTableController(CharacterLog log, CharacterLogItemsFilter filter)
+  public CharacterLogTableController(CharacterLog log, Filter<CharacterLogItem> filter)
   {
     _log=log;
     _filter=filter;
@@ -140,7 +140,7 @@ public class CharacterLogTableController
     typeColumn.setMaxWidth(100);
     TableColumn labelColumn=table.getColumnModel().getColumn(2);
     labelColumn.setPreferredWidth(150);
-    
+
     _guiFilter=new RowFilter<CharacterLogTableModel,Integer>()
     {
       @Override
@@ -148,7 +148,7 @@ public class CharacterLogTableController
       {
         Integer id=entry.getIdentifier();
         CharacterLogItem item=_log.getLogItem(id.intValue());
-        boolean ret=_filter.filterItem(item);
+        boolean ret=_filter.accept(item);
         return ret;
       }
     };
@@ -170,7 +170,7 @@ public class CharacterLogTableController
   }
 
   private static Class<?>[] TYPES=new Class [] { Long.class, LogItemType.class, String.class};  
-  
+
   private class CharacterLogTableModel extends AbstractTableModel
   {
     /**
