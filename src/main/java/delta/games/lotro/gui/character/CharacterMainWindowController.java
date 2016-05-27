@@ -11,6 +11,7 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import delta.games.lotro.character.Character;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharacterInfosManager;
 import delta.games.lotro.character.CharactersManager;
@@ -50,8 +51,9 @@ public class CharacterMainWindowController extends DefaultWindowController imple
   {
     _toon=toon;
     _windowsManager=new WindowsManager();
+    Character info=_toon.getLastCharacterInfo();
     _summaryController=new CharacterSummaryPanelController(_toon);
-    _statsController=new ChararacterStatsPanelController(_toon);
+    _statsController=new ChararacterStatsPanelController(info);
     _equipmentController=new EquipmentPanelController(_toon);
   }
 
@@ -89,11 +91,11 @@ public class CharacterMainWindowController extends DefaultWindowController imple
     c=new GridBagConstraints(0,2,1,2,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     JPanel commandsPanel=buildCommandsPanel();
     panel.add(commandsPanel,c);
-    
+
     // TODO crafting anvils?
     return panel;
   }
-  
+
   @Override
   protected JFrame build()
   {
@@ -211,7 +213,9 @@ public class CharacterMainWindowController extends DefaultWindowController imple
     boolean infosUpdateOK=infosManager.updateCharacterDescription();
     if (infosUpdateOK)
     {
+      Character info=_toon.getLastCharacterInfo();
       _summaryController.update();
+      _statsController.setCharacter(info);
       _statsController.update();
       _equipmentController.update();
     }

@@ -10,7 +10,6 @@ import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 
 import delta.games.lotro.character.Character;
-import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.character.stats.STAT;
 import delta.games.lotro.gui.utils.GuiFactory;
@@ -23,7 +22,7 @@ import delta.games.lotro.utils.FixedDecimalsInteger;
 public class ChararacterStatsPanelController
 {
   private JPanel _panel;
-  private CharacterFile _toon;
+  private Character _toon;
   private JLabel[] _statLabels;
   private JLabel[] _statValues;
   
@@ -31,7 +30,7 @@ public class ChararacterStatsPanelController
    * Constructor.
    * @param toon Toon to display.
    */
-  public ChararacterStatsPanelController(CharacterFile toon)
+  public ChararacterStatsPanelController(Character toon)
   {
     _toon=toon;
   }
@@ -48,14 +47,14 @@ public class ChararacterStatsPanelController
     }
     return _panel;
   }
-  
+
   private JPanel buildPanel()
   {
     STAT[] stats=STAT.values();
     int nbStats=stats.length;
     _statLabels=new JLabel[nbStats];
     _statValues=new JLabel[nbStats];
-    
+
     for(int i=0;i<nbStats;i++)
     {
       String label=stats[i].getName()+":";
@@ -78,7 +77,7 @@ public class ChararacterStatsPanelController
     // -- source: melee X , ranged X, tactical X
     // -- type: physical, tactical
     STAT[] mitigation={STAT.PHYSICAL_MITIGATION,STAT.TACTICAL_MITIGATION};
-    
+
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     GridBagConstraints c1=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     STAT[][] statGroups1={main,mainStats,offence};
@@ -92,21 +91,29 @@ public class ChararacterStatsPanelController
     panel.add(p2,c2);
     return panel;
   }
-  
+
+  /**
+   * Set character to display.
+   * @param toon Character to set.
+   */
+  public void setCharacter(Character toon)
+  {
+    _toon=toon;
+  }
+
   /**
    * Update contents.
    */
   public void update()
   {
-    Character info=_toon.getLastCharacterInfo();
     STAT[] stats=STAT.values();
     int nbStats=stats.length;
     for(int i=0;i<nbStats;i++)
     {
       String statValue="";
-      if (info!=null)
+      if (_toon!=null)
       {
-        BasicStatsSet characterStats=info.getStats();
+        BasicStatsSet characterStats=_toon.getStats();
         FixedDecimalsInteger value=characterStats.getStat(stats[i]);
         if (value!=null)
         {
@@ -117,7 +124,10 @@ public class ChararacterStatsPanelController
           statValue="N/A";
         }
       }
-      _statValues[i].setText(statValue);
+      if (_statValues[i]!=null)
+      {
+        _statValues[i].setText(statValue);
+      }
     }
   }
 
