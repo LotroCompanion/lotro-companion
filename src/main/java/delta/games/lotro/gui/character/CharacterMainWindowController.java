@@ -13,9 +13,6 @@ import javax.swing.JPanel;
 
 import delta.games.lotro.character.Character;
 import delta.games.lotro.character.CharacterFile;
-import delta.games.lotro.character.CharacterInfosManager;
-import delta.games.lotro.character.CharactersManager;
-import delta.games.lotro.character.log.CharacterLogsManager;
 import delta.games.lotro.gui.log.CharacterLogWindowController;
 import delta.games.lotro.gui.stats.crafting.CraftingWindowController;
 import delta.games.lotro.gui.stats.reputation.CharacterReputationWindowController;
@@ -33,9 +30,6 @@ public class CharacterMainWindowController extends DefaultWindowController imple
   private static final String LOG_COMMAND="log";
   private static final String REPUTATION_COMMAND="reputation";
   private static final String CRAFTING_COMMAND="crafting";
-  private static final String UPDATE_COMMAND="update";
-  
-  private static final boolean ENABLE_LOG_UPDATE=false;
 
   private CharacterSummaryPanelController _summaryController;
   private ChararacterStatsPanelController _statsController;
@@ -134,10 +128,6 @@ public class CharacterMainWindowController extends DefaultWindowController imple
     // Crafting
     JButton craftingButton=buildCommandButton("Crafting",CRAFTING_COMMAND);
     panel.add(craftingButton,c);
-    c.gridx++;
-    // Update
-    JButton updateButton=buildCommandButton("Update",UPDATE_COMMAND);
-    panel.add(updateButton,c);
     return panel;
   }
 
@@ -201,59 +191,6 @@ public class CharacterMainWindowController extends DefaultWindowController imple
       }
       controller.bringToFront();
     }
-    else if (UPDATE_COMMAND.equals(command))
-    {
-      performUpdate();
-    }
-  }
-
-  private void performUpdate()
-  {
-    CharacterInfosManager infosManager=new CharacterInfosManager(_toon);
-    boolean infosUpdateOK=infosManager.updateCharacterDescription();
-    if (infosUpdateOK)
-    {
-      Character info=_toon.getLastCharacterInfo();
-      _summaryController.update();
-      _statsController.setCharacter(info);
-      _statsController.update();
-      _equipmentController.update();
-    }
-    boolean logUpdateOK=infosUpdateOK;
-
-    String serverName=_toon.getServerName();
-    String toonName=_toon.getName();
-    // Number of new items in log (null means log update failure)
-    Integer nbNewItems=null;
-    if (ENABLE_LOG_UPDATE)
-    {
-      CharacterLogsManager logManager=_toon.getLogsManager();
-      nbNewItems=logManager.updateLog();
-      logUpdateOK=(nbNewItems!=null);
-      if (logUpdateOK)
-      {
-        String id=CharacterLogWindowController.getIdentifier(serverName,toonName);
-        WindowController controller=_windowsManager.getWindow(id);
-        if (controller!=null)
-        {
-          CharacterLogWindowController logController=(CharacterLogWindowController)controller;
-          logController.update();
-        }
-      }
-    }
-    else
-    {
-      if (infosUpdateOK)
-      {
-        nbNewItems=Integer.valueOf(0);
-      }
-    }
-    if (logUpdateOK)
-    {
-      CharactersManager cm=CharactersManager.getInstance();
-      cm.broadcastToonUpdate(_toon);
-    }
-    CharacterLogWindowController.showLogUpdateMessage(nbNewItems,getFrame());
   }
 
   /**
