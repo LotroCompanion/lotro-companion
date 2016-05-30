@@ -18,8 +18,11 @@ import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
 import delta.games.lotro.Config;
-import delta.games.lotro.character.CharacterFile;
+import delta.games.lotro.character.Character;
 import delta.games.lotro.character.CharactersManager;
+import delta.games.lotro.character.stats.CharacterStatsComputer;
+import delta.games.lotro.common.CharacterClass;
+import delta.games.lotro.common.Race;
 import delta.games.lotro.gui.utils.GuiFactory;
 import delta.games.lotro.gui.utils.OKCancelPanelController;
 import delta.games.lotro.utils.TypedProperties;
@@ -36,6 +39,8 @@ public class NewToonDialogController extends DefaultDialogController implements 
   private OKCancelPanelController _okCancelController;
   private JTextField _toonName;
   private JComboBox _server;
+  private JComboBox _class;
+  private JComboBox _race;
 
   /**
    * Constructor.
@@ -61,7 +66,7 @@ public class NewToonDialogController extends DefaultDialogController implements 
     }
     return dialog;
   }
-  
+
   @Override
   protected JComponent buildContents()
   {
@@ -81,8 +86,10 @@ public class NewToonDialogController extends DefaultDialogController implements 
   private JPanel buildNewToonPanel()
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
+    // Toon name
     _toonName=GuiFactory.buildTextField("");
     _toonName.setColumns(TOON_NAME_SIZE);
+    // Server
     List<String> servers=Config.getInstance().getServerNames();
     _server=GuiFactory.buildComboBox();
     String[] serverItems=servers.toArray(new String[servers.size()]);
@@ -94,16 +101,33 @@ public class NewToonDialogController extends DefaultDialogController implements 
     {
       model.setSelectedItem(defaultServer);
     }
+    // Class
+    DefaultComboBoxModel classModel=new DefaultComboBoxModel(CharacterClass.ALL_CLASSES);
+    _class=GuiFactory.buildComboBox();
+    _class.setModel(classModel);
+    // Race
+    DefaultComboBoxModel raceModel=new DefaultComboBoxModel(Race.ALL_RACES);
+    _race=GuiFactory.buildComboBox();
+    _race.setModel(raceModel);
+
     Insets insets=new Insets(5,5,5,5);
     GridBagConstraints gbc=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,insets,0,0);
     panel.add(GuiFactory.buildLabel("Name:"),gbc);
     gbc.gridx=0; gbc.gridy=1;
     panel.add(GuiFactory.buildLabel("Server:"),gbc);
+    gbc.gridx=0; gbc.gridy=2;
+    panel.add(GuiFactory.buildLabel("Class:"),gbc);
+    gbc.gridx=0; gbc.gridy=3;
+    panel.add(GuiFactory.buildLabel("Race:"),gbc);
     gbc.gridx=1; gbc.gridy=0; 
     gbc.weightx=1.0; gbc.fill=GridBagConstraints.HORIZONTAL;
     panel.add(_toonName,gbc);
     gbc.gridx=1; gbc.gridy=1;
     panel.add(_server,gbc);
+    gbc.gridx=1; gbc.gridy=2;
+    panel.add(_class,gbc);
+    gbc.gridx=1; gbc.gridy=3;
+    panel.add(_race,gbc);
     return panel;
   }
 
@@ -124,11 +148,22 @@ public class NewToonDialogController extends DefaultDialogController implements 
   {
     String toonName=_toonName.getText();
     String server=(String)_server.getSelectedItem();
+    CharacterClass cClass=(CharacterClass)_class.getSelectedItem();
+    Race race=(Race)_race.getSelectedItem();
     String errorMsg=checkData();
     if (errorMsg==null)
     {
+      Character info=new Character();
+      info.setName(toonName);
+      info.setServer(server);
+      info.setCharacterClass(cClass);
+      info.setRace(race);
+      info.setLevel(1);
+      // Compute stats
+      CharacterStatsComputer computer=new CharacterStatsComputer();
+      info.getStats().setStats(computer.getStats(info));
       CharactersManager manager=CharactersManager.getInstance();
-      CharacterFile toon=manager.addToon(server,toonName);
+      Character toon=manager.addToon(info);
       if (toon!=null)
       {
         dispose();
