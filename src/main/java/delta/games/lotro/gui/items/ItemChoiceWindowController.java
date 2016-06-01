@@ -11,33 +11,37 @@ import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
-import javax.swing.JFrame;
+import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
 import delta.games.lotro.gui.utils.GuiFactory;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.filters.ItemNameFilter;
-import delta.games.lotro.utils.gui.DefaultWindowController;
+import delta.games.lotro.utils.gui.DefaultDialogController;
+import delta.games.lotro.utils.gui.WindowController;
 
 /**
  * Controller for a "character log" window.
  * @author DAM
  */
-public class ItemChoiceWindowController extends DefaultWindowController
+public class ItemChoiceWindowController extends DefaultDialogController
 {
   private ItemFilterController _filterController;
   private ItemChoicePanelController _panelController;
   private ItemChoiceTableController _tableController;
   private List<Item> _items;
   private ItemNameFilter _filter;
+  private Item _selectedItem;
 
   /**
    * Constructor.
+   * @param parent Parent window.
    * @param items Items to choose from.
    */
-  public ItemChoiceWindowController(List<Item> items)
+  public ItemChoiceWindowController(WindowController parent, List<Item> items)
   {
+    super(parent);
     _items=items;
     _filter=new ItemNameFilter();
   }
@@ -56,9 +60,9 @@ public class ItemChoiceWindowController extends DefaultWindowController
   }
 
   @Override
-  protected JFrame build()
+  protected JDialog build()
   {
-    JFrame frame=super.build();
+    JDialog frame=super.build();
     String title="Choose item:";
     frame.setTitle(title);
     frame.pack();
@@ -88,7 +92,8 @@ public class ItemChoiceWindowController extends DefaultWindowController
     {
       public void actionPerformed(ActionEvent e)
       {
-        System.out.println("OK");
+        _selectedItem=_tableController.getSelectedItem();
+        hide();
       }
     };
     okButton.addActionListener(al);
@@ -106,6 +111,15 @@ public class ItemChoiceWindowController extends DefaultWindowController
     GridBagConstraints cControl=new GridBagConstraints(0,2,1,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(3,0,3,3),0,0);
     logPanel.add(controlPanel,cControl);
     return logPanel;
+  }
+
+  /**
+   * Get the selected item.
+   * @return the selected item.
+   */
+  public Item getSelectedItem()
+  {
+    return _selectedItem;
   }
 
   /**

@@ -150,6 +150,22 @@ public class ItemChoiceTableController
   }
 
   /**
+   * Get the currently selected item.
+   * @return An item or <code>null</code> if not found.
+   */
+  public Item getSelectedItem()
+  {
+    Item ret=null;
+    int selectedItemIndex=_table.getSelectedRow();
+    if (selectedItemIndex!=-1)
+    {
+      int modelIndex=_table.convertRowIndexToModel(selectedItemIndex);
+      ret=_items.get(modelIndex);
+    }
+    return ret;
+  }
+
+  /**
    * Update managed filter.
    */
   public void updateFilter()

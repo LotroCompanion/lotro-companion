@@ -5,8 +5,8 @@ import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -18,7 +18,7 @@ import delta.games.lotro.character.Character;
 import delta.games.lotro.character.CharacterEquipment;
 import delta.games.lotro.character.CharacterEquipment.EQUIMENT_SLOT;
 import delta.games.lotro.character.CharacterEquipment.SlotContents;
-import delta.games.lotro.character.CharacterFile;
+import delta.games.lotro.gui.items.ItemChoiceWindowController;
 import delta.games.lotro.gui.utils.GuiFactory;
 import delta.games.lotro.gui.utils.IconsManager;
 import delta.games.lotro.lore.items.Item;
@@ -58,14 +58,14 @@ public class EquipmentPanelController implements ActionListener
   private JPanel _panel;
   private JLayeredPane _layeredPane;
   private HashMap<EQUIMENT_SLOT,Dimension> _iconPositions;
-  private CharacterFile _toon;
+  private Character _toon;
   private HashMap<EQUIMENT_SLOT,JButton> _buttons;
-  
+
   /**
    * Constructor.
    * @param toon Toon to display.
    */
-  public EquipmentPanelController(CharacterFile toon)
+  public EquipmentPanelController(Character toon)
   {
     _toon=toon;
     _buttons=new HashMap<EQUIMENT_SLOT,JButton>();
@@ -155,6 +155,8 @@ public class EquipmentPanelController implements ActionListener
     panel.setMinimumSize(d);
     _layeredPane.setSize(d);
 
+    ImageIcon icon=IconsManager.getIcon(ITEM_WITH_NO_ICON);
+
     for(EQUIMENT_SLOT slot : EQUIMENT_SLOT.values())
     {
       // Position for item
@@ -167,9 +169,19 @@ public class EquipmentPanelController implements ActionListener
       backgroundIconButton.setMargin(new Insets(0,0,0,0));
       backgroundIconButton.setBounds(position.width-ICON_FRAME_SIZE,position.height-ICON_FRAME_SIZE,ICON_SIZE+6,ICON_SIZE+6);
       _layeredPane.add(backgroundIconButton,BACKGROUND_ICONS_DEPTH);
+      // Add object icon
+      JButton button=new JButton(icon);
+      button.setBorderPainted(false);
+      button.setMargin(new Insets(0,0,0,0));
+      button.setBounds(position.width,position.height,ICON_SIZE,ICON_SIZE);
+      _layeredPane.add(button,ICONS_DEPTH);
+      _buttons.put(slot,button);
+      button.setActionCommand(slot.name());
+      button.addActionListener(this);
+      button.setToolTipText("");
     }
     update();
-    
+
     return panel;
   }
 
@@ -178,68 +190,77 @@ public class EquipmentPanelController implements ActionListener
    */
   public void update()
   {
-    if (_layeredPane!=null)
-    {
-      Collection<JButton> buttons=_buttons.values();
-      for(JButton button : buttons)
-      {
-        _layeredPane.remove(button);
-        button.removeActionListener(this);
-      }
-      _buttons.clear();
-    }
-    Character c=_toon.getLastCharacterInfo();
-    CharacterEquipment equipment=c.getEquipment();
-    ItemsManager itemsManager=ItemsManager.getInstance();
+    CharacterEquipment equipment=_toon.getEquipment();
 
     for(EQUIMENT_SLOT slot : EQUIMENT_SLOT.values())
     {
-      // Position for item
-      Dimension position=_iconPositions.get(slot);
-      // Add background icon
-      String iconPath=BACKGROUND_ICONS_SEED+slot.name()+".png";
-      ImageIcon backgroundIcon=IconsManager.getIcon(iconPath);
-      JButton backgroundIconButton=new JButton(backgroundIcon);
-      backgroundIconButton.setBorderPainted(false);
-      backgroundIconButton.setMargin(new Insets(0,0,0,0));
-      backgroundIconButton.setBounds(position.width-ICON_FRAME_SIZE,position.height-ICON_FRAME_SIZE,ICON_SIZE+6,ICON_SIZE+6);
-      _layeredPane.add(backgroundIconButton,BACKGROUND_ICONS_DEPTH);
-
       SlotContents contents=equipment.getSlotContents(slot,false);
-      if (contents!=null)
+      Item item=getItemForSlot(contents);
+      if (item!=null)
+      {
+        String iconId=item.getProperty(ItemPropertyNames.ICON_ID);
+        String backgroundIconId=item.getProperty(ItemPropertyNames.BACKGROUND_ICON_ID);
+        ImageIcon icon=IconsManager.getItemIcon(iconId,backgroundIconId);
+        if (icon==null)
+        {
+          icon=IconsManager.getIcon(ITEM_WITH_NO_ICON);
+        }
+        JButton button=_buttons.get(slot);
+        if (icon!=null)
+        {
+          button.setIcon(icon);
+        }
+        String dump=item.dump();
+        dump="<html>"+dump.replace(EndOfLine.NATIVE_EOL,"<br>")+"</html>";
+        button.setToolTipText(dump);
+      }
+    }
+  }
+
+  private Item getItemForSlot(SlotContents contents)
+  {
+    Item item=null;
+    if (contents!=null)
+    {
+      item=contents.getItem();
+      if (item==null)
       {
         String url=contents.getObjectURL();
+        ItemsManager itemsManager=ItemsManager.getInstance();
         Integer id=itemsManager.idFromURL(url);
         if (id!=null)
         {
-          Item item=itemsManager.getItem(id);
-          if (item!=null)
-          {
-            String iconId=item.getProperty(ItemPropertyNames.ICON_ID);
-            String backgroundIconId=item.getProperty(ItemPropertyNames.BACKGROUND_ICON_ID);
-            ImageIcon icon=IconsManager.getItemIcon(iconId,backgroundIconId);
-            if (icon==null)
-            {
-              icon=IconsManager.getIcon(ITEM_WITH_NO_ICON);
-            }
-            if (icon!=null)
-            {
-              JButton button=new JButton(icon);
-              button.setBorderPainted(false);
-              button.setMargin(new Insets(0,0,0,0));
-              button.setBounds(position.width,position.height,ICON_SIZE,ICON_SIZE);
-              _layeredPane.add(button,ICONS_DEPTH);
-              _buttons.put(slot,button);
-              button.setActionCommand(slot.name());
-              button.addActionListener(this);
-              String dump=item.dump();
-              dump="<html>"+dump.replace(EndOfLine.NATIVE_EOL,"<br>")+"</html>";
-              button.setToolTipText(dump);
-            }
-          }
+          item=itemsManager.getItem(id);
+          contents.setItem(item);
         }
       }
     }
+    return item;
+  }
+
+  private void editItem(EQUIMENT_SLOT slot, Item item)
+  {
+    item=chooseItem(slot,item);
+    if (item!=null)
+    {
+      CharacterEquipment equipment=_toon.getEquipment();
+      SlotContents contents=equipment.getSlotContents(slot,true);
+      contents.setItem(item);
+      update();
+      System.out.println(item.dump());
+    }
+  }
+
+  private Item chooseItem(EQUIMENT_SLOT slot, Item currentItem)
+  {
+    // TODO use unique instance (do not build one each time)
+    ItemSelection selection=new ItemSelection();
+    List<Item> items=selection.getItems(_toon,slot);
+    ItemChoiceWindowController choiceCtrl=new ItemChoiceWindowController(null,items);
+    choiceCtrl.show(true);
+    Item ret=choiceCtrl.getSelectedItem();
+    choiceCtrl.dispose();
+    return ret;
   }
 
   public void actionPerformed(ActionEvent e)
@@ -248,20 +269,10 @@ public class EquipmentPanelController implements ActionListener
     EQUIMENT_SLOT slot=EQUIMENT_SLOT.valueOf(cmd);
     if (slot!=null)
     {
-      ItemsManager itemsManager=ItemsManager.getInstance();
-      Character c=_toon.getLastCharacterInfo();
-      CharacterEquipment equipment=c.getEquipment();
+      CharacterEquipment equipment=_toon.getEquipment();
       SlotContents contents=equipment.getSlotContents(slot,false);
-      String url=contents.getObjectURL();
-      Integer id=itemsManager.idFromURL(url);
-      if (id!=null)
-      {
-        Item item=itemsManager.getItem(id);
-        if (item!=null)
-        {
-          item.dump();
-        }
-      }
+      Item item=getItemForSlot(contents);
+      editItem(slot,item);
     }
   }
 

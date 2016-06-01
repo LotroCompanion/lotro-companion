@@ -48,7 +48,7 @@ public class CharacterMainWindowController extends DefaultWindowController imple
     Character info=_toon.getLastCharacterInfo();
     _summaryController=new CharacterSummaryPanelController(_toon);
     _statsController=new ChararacterStatsPanelController(info);
-    _equipmentController=new EquipmentPanelController(_toon);
+    _equipmentController=new EquipmentPanelController(info);
   }
 
   /**
