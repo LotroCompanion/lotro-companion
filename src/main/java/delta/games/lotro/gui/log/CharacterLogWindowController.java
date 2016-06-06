@@ -1,15 +1,10 @@
 package delta.games.lotro.gui.log;
 
-import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -94,30 +89,6 @@ public class CharacterLogWindowController extends DefaultWindowController
     // Log frame
     _panelController=new CharacterLogPanelController(_tableController);
     JPanel tablePanel=_panelController.getPanel();
-    // Control buttons
-    JPanel controlPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.RIGHT,5,0));
-    JButton updateButton=GuiFactory.buildButton("Update");
-    ActionListener al=new ActionListener()
-    {
-      public void actionPerformed(ActionEvent e)
-      {
-        updateLog();
-      }
-    };
-    updateButton.addActionListener(al);
-    controlPanel.add(updateButton);
-    /*
-    JButton fixButton=GuiFactory.buildButton("Fix");
-    ActionListener al2=new ActionListener()
-    {
-      public void actionPerformed(ActionEvent e)
-      {
-        fixLog();
-      }
-    };
-    fixButton.addActionListener(al2);
-    controlPanel.add(fixButton);
-    */
     // Filter
     _filterController=new CharacterLogFilterController(log,_filter,_panelController);
     JPanel filterPanel=_filterController.getPanel();
@@ -128,75 +99,8 @@ public class CharacterLogWindowController extends DefaultWindowController
     logPanel.add(filterPanel,c);
     c.gridy=1;c.weighty=1;c.fill=GridBagConstraints.BOTH;
     logPanel.add(tablePanel,c);
-    GridBagConstraints cControl=new GridBagConstraints(0,2,1,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(3,0,3,3),0,0);
-    logPanel.add(controlPanel,cControl);
     return logPanel;
   }
-
-  /**
-   * Update toon's log.
-   */
-  public void updateLog()
-  {
-    CharacterLogsManager logsManager=_toon.getLogsManager();
-    // todo shall use a waiting window here
-    Integer nbNewItems=logsManager.updateLog();
-    boolean ok=(nbNewItems!=null);
-    if (ok)
-    {
-      update();
-    }
-    CharacterLogWindowController.showLogUpdateMessage(nbNewItems,getFrame());
-  }
-
-  /**
-   * Show a log update result message.
-   * @param nbNewItems Log update result.
-   * @param parent Parent component for the result dialog.
-   */
-  public static void showLogUpdateMessage(Integer nbNewItems, Component parent)
-  {
-    // TODO use non modal information dialogs
-    String title="Character log update";
-    if (nbNewItems!=null)
-    {
-      String message;
-      if (nbNewItems.intValue()>0)
-      {
-        message=nbNewItems+" new log items.";
-      }
-      else
-      {
-        message="No new log item!";
-      }
-      GuiFactory.showInformationDialog(parent,message,title);
-    }
-    else
-    {
-      String message="Failed!";
-      GuiFactory.showErrorDialog(parent,message,title);
-    }
-  }
-
-  /**
-   * Fix toon's log.
-   */
-  /*
-  public void fixLog()
-  {
-    CharacterLogRepair updater=new CharacterLogRepair();
-    // todo shall use a waiting window here
-    boolean ok=updater.doIt(_toon);
-    if (ok)
-    {
-      update();
-    }
-    else
-    {
-      // todo shall do an error message here!
-    }
-  }
-  */
 
   /**
    * Update contents.
