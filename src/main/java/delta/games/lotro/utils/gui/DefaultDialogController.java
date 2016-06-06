@@ -176,5 +176,6 @@ public class DefaultDialogController implements WindowController
       _dialog.dispose();
       _dialog=null;
     }
+    _parent=null;
   }
 }

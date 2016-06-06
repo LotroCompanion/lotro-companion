@@ -24,6 +24,7 @@ import delta.games.lotro.gui.utils.IconsManager;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemPropertyNames;
 import delta.games.lotro.lore.items.ItemsManager;
+import delta.games.lotro.utils.gui.WindowController;
 
 /**
  * Controller for equipment panel.
@@ -55,6 +56,7 @@ public class EquipmentPanelController implements ActionListener
   private static final int Y_MARGIN_COLUMNS_ROW=25;
   private static final int Y_ROW=Y_START+DELTA_Y*3+ICON_SIZE+ICON_FRAME_SIZE+Y_MARGIN_COLUMNS_ROW;
 
+  private WindowController _parentWindow;
   private JPanel _panel;
   private JLayeredPane _layeredPane;
   private HashMap<EQUIMENT_SLOT,Dimension> _iconPositions;
@@ -63,10 +65,12 @@ public class EquipmentPanelController implements ActionListener
 
   /**
    * Constructor.
+   * @param parent Parent window controller.
    * @param toon Toon to display.
    */
-  public EquipmentPanelController(Character toon)
+  public EquipmentPanelController(WindowController parent, Character toon)
   {
+    _parentWindow=parent;
     _toon=toon;
     _buttons=new HashMap<EQUIMENT_SLOT,JButton>();
     initPositions();
@@ -253,7 +257,7 @@ public class EquipmentPanelController implements ActionListener
     // TODO use unique instance (do not build one each time)
     ItemSelection selection=new ItemSelection();
     List<Item> items=selection.getItems(_toon,slot);
-    ItemChoiceWindowController choiceCtrl=new ItemChoiceWindowController(null,items);
+    ItemChoiceWindowController choiceCtrl=new ItemChoiceWindowController(_parentWindow,items);
     choiceCtrl.show(true);
     Item ret=choiceCtrl.getSelectedItem();
     choiceCtrl.dispose();
@@ -288,6 +292,7 @@ public class EquipmentPanelController implements ActionListener
       _layeredPane.removeAll();
       _layeredPane=null;
     }
+    _parentWindow=null;
     _toon=null;
     _iconPositions.clear();
     _buttons.clear();

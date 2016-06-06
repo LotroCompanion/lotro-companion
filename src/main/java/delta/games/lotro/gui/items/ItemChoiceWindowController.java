@@ -5,6 +5,7 @@ import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -62,12 +63,18 @@ public class ItemChoiceWindowController extends DefaultDialogController
   @Override
   protected JDialog build()
   {
-    JDialog frame=super.build();
+    JDialog dialog=super.build();
     String title="Choose item:";
-    frame.setTitle(title);
-    frame.pack();
-    frame.setMinimumSize(new Dimension(400,300));
-    return frame;
+    dialog.setTitle(title);
+    dialog.pack();
+    WindowController controller=getParentController();
+    if (controller!=null)
+    {
+      Window parentWindow=controller.getWindow();
+      dialog.setLocationRelativeTo(parentWindow);
+    }
+    dialog.setMinimumSize(new Dimension(400,300));
+    return dialog;
   }
   
 
