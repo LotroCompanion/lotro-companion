@@ -72,7 +72,6 @@ public class EquipmentPanelController implements ActionListener
     initPositions();
   }
 
-
   private void initPositions()
   {
     _iconPositions=new HashMap<EQUIMENT_SLOT,Dimension>();
@@ -134,7 +133,6 @@ public class EquipmentPanelController implements ActionListener
     }
     return _panel;
   }
-  
 
   private Dimension computeDimensions()
   {
@@ -225,11 +223,10 @@ public class EquipmentPanelController implements ActionListener
       item=contents.getItem();
       if (item==null)
       {
-        String url=contents.getObjectURL();
-        ItemsManager itemsManager=ItemsManager.getInstance();
-        Integer id=itemsManager.idFromURL(url);
+        Integer id=contents.getItemId();
         if (id!=null)
         {
+          ItemsManager itemsManager=ItemsManager.getInstance();
           item=itemsManager.getItem(id);
           contents.setItem(item);
         }
