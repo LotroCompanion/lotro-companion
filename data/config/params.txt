@@ -1,3 +1,2 @@
-character.log.max.files=3
 # Default server to use in the new toon window (OPTIONAL)
-default.server=Elendilmir
+default.server=Landroval
