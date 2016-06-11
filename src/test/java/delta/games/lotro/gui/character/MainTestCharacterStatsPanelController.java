@@ -3,7 +3,7 @@ package delta.games.lotro.gui.character;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
-import delta.games.lotro.character.Character;
+import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.character.stats.CharacterGenerationTools;
 import delta.games.lotro.character.stats.CharacterGeneratorMeva;
@@ -23,7 +23,7 @@ public class MainTestCharacterStatsPanelController
   {
     CharacterGenerationTools tools=new CharacterGenerationTools();
     CharacterGeneratorMeva mevaGenerator=new CharacterGeneratorMeva(tools);
-    Character meva=mevaGenerator.buildCharacter();
+    CharacterData meva=mevaGenerator.buildCharacter();
     CharacterStatsComputer statsComputer=new CharacterStatsComputer();
     BasicStatsSet stats=statsComputer.getStats(meva);
     meva.getStats().setStats(stats);

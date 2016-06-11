@@ -2,7 +2,7 @@ package delta.games.lotro.gui.character;
 
 import java.util.List;
 
-import delta.games.lotro.character.Character;
+import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.CharacterEquipment.EQUIMENT_SLOT;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.lore.items.EquipmentLocation;
@@ -34,7 +34,7 @@ public class ItemSelection
    * @param slot Targeted slot.
    * @return A list of items.
    */
-  public List<Item> getItems(Character c, EQUIMENT_SLOT slot)
+  public List<Item> getItems(CharacterData c, EQUIMENT_SLOT slot)
   {
     CharacterClass cClass=c.getCharacterClass();
     int level=c.getLevel();

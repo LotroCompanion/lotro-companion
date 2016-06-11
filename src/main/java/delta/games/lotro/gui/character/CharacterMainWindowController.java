@@ -11,7 +11,7 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import delta.games.lotro.character.Character;
+import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.gui.log.CharacterLogWindowController;
 import delta.games.lotro.gui.stats.crafting.CraftingWindowController;
@@ -45,7 +45,7 @@ public class CharacterMainWindowController extends DefaultWindowController imple
   {
     _toon=toon;
     _windowsManager=new WindowsManager();
-    Character info=_toon.getLastCharacterInfo();
+    CharacterData info=_toon.getLastCharacterInfo();
     _summaryController=new CharacterSummaryPanelController(_toon);
     _statsController=new ChararacterStatsPanelController(info);
     _equipmentController=new EquipmentPanelController(this,info);

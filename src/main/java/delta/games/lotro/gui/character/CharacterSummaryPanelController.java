@@ -8,7 +8,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import delta.games.lotro.character.Character;
+import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.Race;
@@ -53,7 +53,7 @@ public class CharacterSummaryPanelController
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,2,2,2),0,0);
 
-    Character character=_toon.getLastCharacterInfo();
+    CharacterData character=_toon.getLastCharacterInfo();
     CharacterClass cClass=null;
     Race race=null;
     if (character!=null)
@@ -82,7 +82,7 @@ public class CharacterSummaryPanelController
    */
   public void update()
   {
-    Character info=_toon.getLastCharacterInfo();
+    CharacterData info=_toon.getLastCharacterInfo();
     if (info!=null)
     {
       String name=info.getName();

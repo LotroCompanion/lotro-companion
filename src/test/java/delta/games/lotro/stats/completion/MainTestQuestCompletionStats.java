@@ -1,7 +1,7 @@
 package delta.games.lotro.stats.completion;
 
 import delta.games.lotro.character.CharacterFile;
-import delta.games.lotro.character.Character;
+import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.log.CharacterLog;
 import delta.games.lotro.character.log.LotroTestUtils;
 import delta.games.lotro.lore.quests.QuestsManager;
@@ -22,7 +22,7 @@ public class MainTestQuestCompletionStats
     LotroTestUtils utils=new LotroTestUtils();
     //CharacterFile mainToon=utils.getMainToon();
     CharacterFile mainToon=utils.getToonByName("Feroce");
-    Character c=mainToon.getLastCharacterInfo();
+    CharacterData c=mainToon.getLastCharacterInfo();
     CharacterLog log=mainToon.getLastCharacterLog();
     if (log!=null)
     {

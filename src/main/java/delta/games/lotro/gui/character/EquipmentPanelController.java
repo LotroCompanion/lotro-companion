@@ -14,7 +14,7 @@ import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
 import delta.common.utils.text.EndOfLine;
-import delta.games.lotro.character.Character;
+import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.CharacterEquipment;
 import delta.games.lotro.character.CharacterEquipment.EQUIMENT_SLOT;
 import delta.games.lotro.character.CharacterEquipment.SlotContents;
@@ -60,7 +60,7 @@ public class EquipmentPanelController implements ActionListener
   private JPanel _panel;
   private JLayeredPane _layeredPane;
   private HashMap<EQUIMENT_SLOT,Dimension> _iconPositions;
-  private Character _toon;
+  private CharacterData _toon;
   private HashMap<EQUIMENT_SLOT,JButton> _buttons;
 
   /**
@@ -68,7 +68,7 @@ public class EquipmentPanelController implements ActionListener
    * @param parent Parent window controller.
    * @param toon Toon to display.
    */
-  public EquipmentPanelController(WindowController parent, Character toon)
+  public EquipmentPanelController(WindowController parent, CharacterData toon)
   {
     _parentWindow=parent;
     _toon=toon;

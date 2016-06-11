@@ -3,7 +3,7 @@ package delta.games.lotro.gui.character;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import delta.games.lotro.character.Character;
+import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharacterInfosManager;
 import delta.games.lotro.character.log.LotroTestUtils;
@@ -28,7 +28,7 @@ public class MainTestEquipmentLoading
       String name=toon.getName();
       System.out.println("Loading toon ["+name+"]");
       CharacterInfosManager manager=new CharacterInfosManager(toon);
-      Character infos=manager.getLastCharacterDescription();
+      CharacterData infos=manager.getLastCharacterDescription();
       if (infos!=null)
       {
         EquipmentPanelController ctrl=new EquipmentPanelController(null,infos);

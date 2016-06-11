@@ -18,7 +18,7 @@ import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
 import delta.games.lotro.Config;
-import delta.games.lotro.character.Character;
+import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.CharactersManager;
 import delta.games.lotro.character.stats.CharacterStatsComputer;
 import delta.games.lotro.common.CharacterClass;
@@ -153,7 +153,7 @@ public class NewToonDialogController extends DefaultDialogController implements 
     String errorMsg=checkData();
     if (errorMsg==null)
     {
-      Character info=new Character();
+      CharacterData info=new CharacterData();
       info.setName(toonName);
       info.setServer(server);
       info.setCharacterClass(cClass);
@@ -163,7 +163,7 @@ public class NewToonDialogController extends DefaultDialogController implements 
       CharacterStatsComputer computer=new CharacterStatsComputer();
       info.getStats().setStats(computer.getStats(info));
       CharactersManager manager=CharactersManager.getInstance();
-      Character toon=manager.addToon(info);
+      CharacterData toon=manager.addToon(info);
       if (toon!=null)
       {
         dispose();

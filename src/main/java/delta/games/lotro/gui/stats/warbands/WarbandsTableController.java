@@ -21,7 +21,7 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableRowSorter;
 
-import delta.games.lotro.character.Character;
+import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.gui.utils.GuiFactory;
@@ -154,7 +154,7 @@ public class WarbandsTableController
     // Class icon
     GridBagConstraints c=new GridBagConstraints(0,0,1,2,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
     ImageIcon classIcon=null;
-    Character character=toon.getLastCharacterInfo();
+    CharacterData character=toon.getLastCharacterInfo();
     if (character!=null)
     {
       CharacterClass cClass=character.getCharacterClass();

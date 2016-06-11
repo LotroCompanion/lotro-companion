@@ -18,7 +18,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableRowSorter;
 
-import delta.games.lotro.character.Character;
+import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharactersManager;
 import delta.games.lotro.common.CharacterClass;
@@ -37,7 +37,7 @@ public class ToonsTableController
    */
   public static final String DOUBLE_CLICK="double click";
   // Data
-  private HashMap<String,Character> _cache;
+  private HashMap<String,CharacterData> _cache;
   private List<CharacterFile> _toons;
   // GUI
   private JTable _table;
@@ -69,7 +69,7 @@ public class ToonsTableController
    */
   public ToonsTableController()
   {
-    _cache=new HashMap<String,Character>();
+    _cache=new HashMap<String,CharacterData>();
     _toons=new ArrayList<CharacterFile>();
     _actionListeners=new ArrayList<ActionListener>();
     init();
@@ -125,7 +125,7 @@ public class ToonsTableController
 
   private void loadToon(CharacterFile toon)
   {
-    Character c=toon.getLastCharacterInfo();
+    CharacterData c=toon.getLastCharacterInfo();
     if (c!=null)
     {
       String id=toon.getIdentifier();
@@ -321,7 +321,7 @@ public class ToonsTableController
       if (toon!=null)
       {
         String id=toon.getIdentifier();
-        Character c=_cache.get(id);
+        CharacterData c=_cache.get(id);
         if (c!=null)
         {
           if (columnIndex==0)

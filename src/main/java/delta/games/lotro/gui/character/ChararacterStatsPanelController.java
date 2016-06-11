@@ -9,7 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 
-import delta.games.lotro.character.Character;
+import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.character.stats.STAT;
 import delta.games.lotro.gui.utils.GuiFactory;
@@ -22,7 +22,7 @@ import delta.games.lotro.utils.FixedDecimalsInteger;
 public class ChararacterStatsPanelController
 {
   private JPanel _panel;
-  private Character _toon;
+  private CharacterData _toon;
   private JLabel[] _statLabels;
   private JLabel[] _statValues;
   
@@ -30,7 +30,7 @@ public class ChararacterStatsPanelController
    * Constructor.
    * @param toon Toon to display.
    */
-  public ChararacterStatsPanelController(Character toon)
+  public ChararacterStatsPanelController(CharacterData toon)
   {
     _toon=toon;
   }
@@ -96,7 +96,7 @@ public class ChararacterStatsPanelController
    * Set character to display.
    * @param toon Character to set.
    */
-  public void setCharacter(Character toon)
+  public void setCharacter(CharacterData toon)
   {
     _toon=toon;
   }

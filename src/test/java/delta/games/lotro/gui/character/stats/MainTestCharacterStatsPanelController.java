@@ -6,7 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
-import delta.games.lotro.character.Character;
+import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.io.xml.CharacterXMLParser;
 import delta.games.lotro.character.stats.BasicStatsSet;
 
@@ -18,8 +18,8 @@ public class MainTestCharacterStatsPanelController
 {
   private void doIt()
   {
-    Character meva=loadCharacter("meva");
-    Character giswald=loadCharacter("giswald");
+    CharacterData meva=loadCharacter("meva");
+    CharacterData giswald=loadCharacter("giswald");
     BasicStatsSet stats=giswald.getStats();
     BasicStatsSet reference=meva.getStats();
 
@@ -34,11 +34,11 @@ public class MainTestCharacterStatsPanelController
     frame.setVisible(true);
   }
 
-  private Character loadCharacter(String name)
+  private CharacterData loadCharacter(String name)
   {
     CharacterXMLParser parser=new CharacterXMLParser();
     File from=new File(name+".xml").getAbsoluteFile();
-    Character c=parser.parseXML(from);
+    CharacterData c=parser.parseXML(from);
     return c;
   }
 
