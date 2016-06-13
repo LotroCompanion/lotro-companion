@@ -159,6 +159,7 @@ public class NewToonDialogController extends DefaultDialogController implements 
       info.setCharacterClass(cClass);
       info.setRace(race);
       info.setLevel(1);
+      info.setDate(Long.valueOf(System.currentTimeMillis()));
       // Compute stats
       CharacterStatsComputer computer=new CharacterStatsComputer();
       info.getStats().setStats(computer.getStats(info));

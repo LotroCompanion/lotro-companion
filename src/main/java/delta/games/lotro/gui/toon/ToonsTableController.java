@@ -119,7 +119,6 @@ public class ToonsTableController
     {
       loadToon(toon);
       _toons.add(toon);
-      toon.getLogsManager().pruneLogFiles();
     }
   }
 
