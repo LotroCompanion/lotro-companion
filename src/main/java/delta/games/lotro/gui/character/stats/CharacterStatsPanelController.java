@@ -345,4 +345,13 @@ public class CharacterStatsPanelController
     JLabel deltaValueLabel=ctrl.getDeltaValueLabel();
     panel.add(deltaValueLabel,c);
   }
+
+  /**
+   * Release all managed resources.
+   */
+  public void dispose()
+  {
+    _ctrls.clear();
+    _panel=null;
+ }
 }
