@@ -1,30 +1,21 @@
 package delta.games.lotro.gui.toon;
 
-import java.awt.Point;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.JTable;
-import javax.swing.ListSelectionModel;
-import javax.swing.table.AbstractTableModel;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableRowSorter;
 
 import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharactersManager;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.Race;
-import delta.games.lotro.gui.utils.GuiFactory;
-import delta.games.lotro.utils.Formats;
+import delta.games.lotro.utils.gui.tables.CellDataProvider;
+import delta.games.lotro.utils.gui.tables.GenericTableController;
+import delta.games.lotro.utils.gui.tables.ListDataProvider;
+import delta.games.lotro.utils.gui.tables.TableColumnController;
 
 /**
  * Controller for a table that shows all available toons.
@@ -37,48 +28,142 @@ public class ToonsTableController
    */
   public static final String DOUBLE_CLICK="double click";
   // Data
-  private HashMap<String,CharacterData> _cache;
   private List<CharacterFile> _toons;
+  private List<CharacterData> _toonsData;
   // GUI
   private JTable _table;
-  private ToonsTableModel _model;
-  private TableRowSorter<ToonsTableModel> _sorter;
-  // Control
-  private List<ActionListener> _actionListeners;
-
-  private static final String[] COLUMN_NAMES=
-  {
-    "Name",
-    "Race",
-    "Class",
-    "Level",
-    "Server",
-    "Last update"
-  };
-  private static final Class<?>[] COLUMN_CLASSES=
-  {
-    String.class, Race.class, CharacterClass.class, Integer.class, String.class,
-    Date.class, Date.class
-  };
-  private static final int[] MIN_WIDTH = { 100, 100, 100, 80, 100, 100 };
-  private static final int[] MAX_WIDTH = { 100, 100, 100, 80, 100, -1 };
-  private static final int[] PREFERRED_WIDTH = { 100, 100, 100, 80, 100, 100 };
+  private GenericTableController<CharacterFile> _tableController;
 
   /**
    * Constructor.
    */
   public ToonsTableController()
   {
-    _cache=new HashMap<String,CharacterData>();
     _toons=new ArrayList<CharacterFile>();
-    _actionListeners=new ArrayList<ActionListener>();
+    _toonsData=new ArrayList<CharacterData>();
     init();
+    _tableController=buildTable();
+  }
+
+  private GenericTableController<CharacterFile> buildTable()
+  {
+    ListDataProvider<CharacterFile> provider=new ListDataProvider<CharacterFile>(_toons);
+    GenericTableController<CharacterFile> table=new GenericTableController<CharacterFile>(provider);
+
+    // Name column
+    {
+      CellDataProvider<CharacterFile,String> nameCell=new CellDataProvider<CharacterFile,String>()
+      {
+        public String getData(CharacterFile item)
+        {
+          CharacterData data=getDataForToon(item);
+          return data.getName();
+        }
+      };
+      TableColumnController<CharacterFile,String> nameColumn=new TableColumnController<CharacterFile,String>("Name",String.class,nameCell);
+      nameColumn.setWidthSpecs(100,100,100);
+      table.addColumnController(nameColumn);
+    }
+    // Race column
+    {
+      CellDataProvider<CharacterFile,Race> raceCell=new CellDataProvider<CharacterFile,Race>()
+      {
+        public Race getData(CharacterFile item)
+        {
+          CharacterData data=getDataForToon(item);
+          return data.getRace();
+        }
+      };
+      TableColumnController<CharacterFile,Race> raceColumn=new TableColumnController<CharacterFile,Race>("Race",Race.class,raceCell);
+      raceColumn.setWidthSpecs(100,100,100);
+      table.addColumnController(raceColumn);
+    }
+    // Class column
+    {
+      CellDataProvider<CharacterFile,CharacterClass> classCell=new CellDataProvider<CharacterFile,CharacterClass>()
+      {
+        public CharacterClass getData(CharacterFile item)
+        {
+          CharacterData data=getDataForToon(item);
+          return data.getCharacterClass();
+        }
+      };
+      TableColumnController<CharacterFile,CharacterClass> classColumn=new TableColumnController<CharacterFile,CharacterClass>("Class",CharacterClass.class,classCell);
+      classColumn.setWidthSpecs(100,100,100);
+      table.addColumnController(classColumn);
+    }
+    // Region column
+    {
+      CellDataProvider<CharacterFile,String> regionCell=new CellDataProvider<CharacterFile,String>()
+      {
+        public String getData(CharacterFile item)
+        {
+          CharacterData data=getDataForToon(item);
+          return data.getRegion();
+        }
+      };
+      TableColumnController<CharacterFile,String> regionColumn=new TableColumnController<CharacterFile,String>("Region",String.class,regionCell);
+      regionColumn.setWidthSpecs(100,100,100);
+      table.addColumnController(regionColumn);
+    }
+    // Level column
+    {
+      CellDataProvider<CharacterFile,Integer> levelCell=new CellDataProvider<CharacterFile,Integer>()
+      {
+        public Integer getData(CharacterFile item)
+        {
+          CharacterData data=getDataForToon(item);
+          return Integer.valueOf(data.getLevel());
+        }
+      };
+      TableColumnController<CharacterFile,Integer> serverColumn=new TableColumnController<CharacterFile,Integer>("Level",Integer.class,levelCell);
+      serverColumn.setWidthSpecs(80,80,80);
+      table.addColumnController(serverColumn);
+    }
+    // Server column
+    {
+      CellDataProvider<CharacterFile,String> serverCell=new CellDataProvider<CharacterFile,String>()
+      {
+        public String getData(CharacterFile item)
+        {
+          CharacterData data=getDataForToon(item);
+          return data.getServer();
+        }
+      };
+      TableColumnController<CharacterFile,String> serverColumn=new TableColumnController<CharacterFile,String>("Server",String.class,serverCell);
+      serverColumn.setWidthSpecs(100,100,100);
+      table.addColumnController(serverColumn);
+    }
+    // Last update time
+    {
+      CellDataProvider<CharacterFile,Date> lastUpdateCell=new CellDataProvider<CharacterFile,Date>()
+      {
+        public Date getData(CharacterFile item)
+        {
+          return item.getLastInfoUpdate();
+        }
+      };
+      TableColumnController<CharacterFile,Date> lastUpdateColumn=new TableColumnController<CharacterFile,Date>("Last update",Date.class,lastUpdateCell);
+      lastUpdateColumn.setWidthSpecs(100,-1,100);
+      table.addColumnController(lastUpdateColumn);
+    }
+    return table;
+  }
+
+  private CharacterData getDataForToon(CharacterFile toon)
+  {
+    int index=_toons.indexOf(toon);
+    if (index!=-1)
+    {
+      return _toonsData.get(index);
+    }
+    return null;
   }
 
   private void reset()
   {
     _toons.clear();
-    _cache.clear();
+    _toonsData.clear();
   }
 
   /**
@@ -89,7 +174,7 @@ public class ToonsTableController
     init();
     if (_table!=null)
     {
-      _model.fireTableDataChanged();
+      _tableController.refresh();
     }
   }
 
@@ -101,11 +186,12 @@ public class ToonsTableController
   {
     if (_table!=null)
     {
-      int row=_model.getRowForToon(toon);
+      int row=_toons.indexOf(toon);
       if (row!=-1)
       {
-        loadToon(toon);
-        _model.fireTableRowsUpdated(row,row);
+        CharacterData c=toon.getLastCharacterInfo();
+        _toonsData.set(row,c);
+        _tableController.refreshRow(row);
       }
     }
   }
@@ -118,7 +204,6 @@ public class ToonsTableController
     for(CharacterFile toon : toons)
     {
       loadToon(toon);
-      _toons.add(toon);
     }
   }
 
@@ -127,8 +212,8 @@ public class ToonsTableController
     CharacterData c=toon.getLastCharacterInfo();
     if (c!=null)
     {
-      String id=toon.getIdentifier();
-      _cache.put(id,c);
+      _toons.add(toon);
+      _toonsData.add(c);
     }
   }
 
@@ -140,89 +225,9 @@ public class ToonsTableController
   {
     if (_table==null)
     {
-      _table=build();
+      _table=_tableController.getTable();
     }
     return _table;
-  }
-
-  private JTable build()
-  {
-    _model=new ToonsTableModel();
-    final JTable table=GuiFactory.buildTable();
-    table.setModel(_model);
-    table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-    _sorter=new TableRowSorter<ToonsTableModel>(_model) {
-
-      @Override
-      protected boolean useToString(int column)
-      {
-        if (column==3) return false; // Level
-        
-        return super.useToString(column);
-      }
-      
-    };
-    _sorter.setSortsOnUpdates(true);
-    for(int i=0;i<COLUMN_NAMES.length;i++)
-    {
-      TableColumn column=table.getColumnModel().getColumn(i);
-      int preferredWidth=PREFERRED_WIDTH[i];
-      if (preferredWidth>=0)
-      {
-        column.setPreferredWidth(preferredWidth);
-      }
-      int minWidth=MIN_WIDTH[i];
-      if (minWidth>=0)
-      {
-        column.setMinWidth(minWidth);
-      }
-      int setMaxWidth=MAX_WIDTH[i];
-      if (setMaxWidth>=0)
-      {
-        column.setMaxWidth(setMaxWidth);
-      }
-      if (i==5)
-      {
-        column.setCellRenderer(new DateRenderer());
-      }
-    }
-    table.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
-    for(int i=0;i<COLUMN_NAMES.length;i++)
-    {
-      _sorter.setSortable(i,true);
-    }
-    _sorter.setMaxSortKeys(3);
-    table.setRowSorter(_sorter);
-    
-    MouseAdapter doucleClickAdapter=new MouseAdapter()
-    {
-      public void mouseClicked(MouseEvent e)
-      {
-        if (e.getClickCount() == 2)
-        {
-          Point p = e.getPoint();
-          int row = table.convertRowIndexToModel(table.rowAtPoint(p));
-          int column = table.convertColumnIndexToModel(table.columnAtPoint(p));
-          if (row >= 0 && column >= 0)
-          {
-            invokeDoubleClickAction(row);
-          }
-        }
-      }
-    };
-    table.addMouseListener(doucleClickAdapter);
-    return table;
-  }
-
-  private void invokeDoubleClickAction(int row)
-  {
-    CharacterFile toon=_toons.get(row);
-    ActionEvent e=new ActionEvent(toon,0,DOUBLE_CLICK);
-    ActionListener[] als=_actionListeners.toArray(new ActionListener[_actionListeners.size()]);
-    for(ActionListener al : als)
-    {
-      al.actionPerformed(e);
-    }
   }
 
   /**
@@ -231,7 +236,7 @@ public class ToonsTableController
    */
   public void addActionListener(ActionListener al)
   {
-    _actionListeners.add(al);
+    _tableController.addActionListener(al);
   }
 
   /**
@@ -240,117 +245,7 @@ public class ToonsTableController
    */
   public void removeActionListener(ActionListener al)
   {
-    _actionListeners.remove(al);
-  }
-
-  private class ToonsTableModel extends AbstractTableModel
-  {
-    /**
-     * Constructor.
-     */
-    public ToonsTableModel()
-    {
-    }
-
-    /**
-     * Get the name of the targeted column.
-     * @param column Index of the targeted column, starting at 0.
-     * @see javax.swing.table.AbstractTableModel#getColumnName(int)
-     */
-    @Override
-    public String getColumnName(int column)
-    {
-      return COLUMN_NAMES[column];
-    }
-
-    /**
-     * Get the number of columns.
-     * @see javax.swing.table.AbstractTableModel#getColumnCount()
-     */
-    public int getColumnCount()
-    {
-      return COLUMN_NAMES.length;
-    }
-
-    /**
-     * Get the number of rows.
-     * @see javax.swing.table.TableModel#getRowCount()
-     */
-    public int getRowCount()
-    {
-      return (_toons!=null)?_toons.size():0;
-    }
-
-    @Override
-    public Class<?> getColumnClass(int columnIndex)
-    {
-      return COLUMN_CLASSES[columnIndex];
-    }
-
-    /**
-     * Get the row for the given toon.
-     * @param toon Toon to search.
-     * @return A row index or <code>-1</code> if not found.
-     */
-    public int getRowForToon(CharacterFile toon)
-    {
-      int ret=-1;
-      int nb=_toons.size();
-      for(int i=0;i<nb;i++)
-      {
-        if (_toons.get(i)==toon)
-        {
-          ret=i;
-          break;
-        }
-      }
-      return ret;
-    }
-
-    /**
-     * Get the value of a cell.
-     * @param rowIndex Index of targeted row.
-     * @param columnIndex Index of targeted column.
-     * @see javax.swing.table.TableModel#getValueAt(int, int)
-     */
-    public Object getValueAt(int rowIndex, int columnIndex)
-    {
-      Object ret=null;
-      CharacterFile toon=_toons.get(rowIndex);
-      if (toon!=null)
-      {
-        String id=toon.getIdentifier();
-        CharacterData c=_cache.get(id);
-        if (c!=null)
-        {
-          if (columnIndex==0)
-          {
-            ret=c.getName();
-          }
-          else if (columnIndex==1)
-          {
-            ret=c.getRace();
-          }
-          else if (columnIndex==2)
-          {
-            ret=c.getCharacterClass();
-          }
-          else if (columnIndex==3)
-          {
-            ret=Integer.valueOf(c.getLevel());
-          }
-          else if (columnIndex==4)
-          {
-            ret=c.getServer();
-          }
-          else if (columnIndex==5)
-          {
-            ret=toon.getLastInfoUpdate();
-          }
-        }
-      }
-      return ret;
-    }
+    _tableController.removeActionListener(al);
   }
 
   /**
@@ -363,24 +258,13 @@ public class ToonsTableController
     {
       _table=null;
     }
-    _model=null;
-    _sorter=null;
-    // Data
-    _cache=null;
-    _toons=null;
-  }
-
-  static class DateRenderer extends DefaultTableCellRenderer
-  {
-    private SimpleDateFormat _formatter;  
-    public DateRenderer()
+    if (_tableController!=null)
     {
-      _formatter=new SimpleDateFormat(Formats.DATE_TIME_PATTERN);
-    }  
-   
-    public void setValue(Object value)
-    {  
-        setText((value == null) ? "" : _formatter.format(value));  
-    }  
-  }  
+      _tableController.dispose();
+      _tableController=null;
+    }
+    // Data
+    _toons=null;
+    _toonsData=null;
+  }
 }
