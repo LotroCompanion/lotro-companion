@@ -21,9 +21,12 @@ public class MainTestCharactersSelector
     List<CharacterFile> toons=utils.getAllFiles();
     List<CharacterFile> selectedToons=new ArrayList<CharacterFile>();
     selectedToons=CharactersSelectorWindowController.selectToons(null,toons,selectedToons,toons);
-    for(CharacterFile toon : selectedToons)
+    if (selectedToons!=null)
     {
-      System.out.println(toon.getIdentifier());
+      for(CharacterFile toon : selectedToons)
+      {
+        System.out.println(toon.getIdentifier());
+      }
     }
   }
 }

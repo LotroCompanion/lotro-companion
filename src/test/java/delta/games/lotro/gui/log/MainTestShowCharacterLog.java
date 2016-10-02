@@ -17,7 +17,7 @@ public class MainTestShowCharacterLog
   public static void main(String[] args)
   {
     LotroTestUtils utils=new LotroTestUtils();
-    CharacterFile toon=utils.getToonByName("Kargarth");
+    CharacterFile toon=utils.getToonByName("Glumlug");
     CharacterLog log=toon.getLastCharacterLog();
     if (log!=null)
     {

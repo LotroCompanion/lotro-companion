@@ -19,6 +19,7 @@ import javax.swing.border.TitledBorder;
 
 import delta.games.lotro.Config;
 import delta.games.lotro.character.CharacterData;
+import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharactersManager;
 import delta.games.lotro.character.stats.CharacterStatsComputer;
 import delta.games.lotro.common.CharacterClass;
@@ -164,7 +165,7 @@ public class NewToonDialogController extends DefaultDialogController implements 
       CharacterStatsComputer computer=new CharacterStatsComputer();
       info.getStats().setStats(computer.getStats(info));
       CharactersManager manager=CharactersManager.getInstance();
-      CharacterData toon=manager.addToon(info);
+      CharacterFile toon=manager.addToon(info);
       if (toon!=null)
       {
         dispose();
