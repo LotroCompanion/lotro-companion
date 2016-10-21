@@ -8,8 +8,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import delta.games.lotro.character.CharacterData;
-import delta.games.lotro.character.CharacterFile;
+import delta.games.lotro.character.CharacterSummary;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.Race;
 import delta.games.lotro.gui.utils.GuiFactory;
@@ -22,17 +21,17 @@ import delta.games.lotro.gui.utils.IconUtils;
 public class CharacterSummaryPanelController
 {
   private JPanel _panel;
-  private CharacterFile _toon;
+  private CharacterSummary _summary;
   private JLabel _nameLabel;
   private JLabel _levelLabel;
   
   /**
    * Constructor.
-   * @param toon Toon to display.
+   * @param summary Summary of toon to display.
    */
-  public CharacterSummaryPanelController(CharacterFile toon)
+  public CharacterSummaryPanelController(CharacterSummary summary)
   {
-    _toon=toon;
+    _summary=summary;
   }
 
   /**
@@ -53,13 +52,12 @@ public class CharacterSummaryPanelController
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,2,2,2),0,0);
 
-    CharacterData character=_toon.getLastCharacterInfo();
     CharacterClass cClass=null;
     Race race=null;
-    if (character!=null)
+    if (_summary!=null)
     {
-      cClass=character.getCharacterClass();
-      race=character.getRace();
+      cClass=_summary.getCharacterClass();
+      race=_summary.getRace();
     }
     ImageIcon classIcon=IconUtils.getClassIcon(cClass,IconUtils.MEDIUM_SIZE);
     panel.add(GuiFactory.buildIconLabel(classIcon),c);
@@ -82,14 +80,13 @@ public class CharacterSummaryPanelController
    */
   public void update()
   {
-    CharacterData info=_toon.getLastCharacterInfo();
-    if (info!=null)
+    if (_summary!=null)
     {
-      String name=info.getName();
-      String region=info.getRegion();
+      String name=_summary.getName();
+      String region=_summary.getRegion();
       String text=name+" of "+region;
       _nameLabel.setText(text);
-      int level=info.getLevel();
+      int level=_summary.getLevel();
       _levelLabel.setText(String.valueOf(level));
     }
   }
@@ -104,6 +101,6 @@ public class CharacterSummaryPanelController
       _panel.removeAll();
       _panel=null;
     }
-    _toon=null;
+    _summary=null;
   }
 }

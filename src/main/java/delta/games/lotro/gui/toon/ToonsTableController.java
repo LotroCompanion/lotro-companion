@@ -7,8 +7,8 @@ import java.util.List;
 
 import javax.swing.JTable;
 
-import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.CharacterFile;
+import delta.games.lotro.character.CharacterSummary;
 import delta.games.lotro.character.CharactersManager;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.Race;
@@ -29,7 +29,7 @@ public class ToonsTableController
   public static final String DOUBLE_CLICK="double click";
   // Data
   private List<CharacterFile> _toons;
-  private List<CharacterData> _toonsData;
+  private List<CharacterSummary> _toonsData;
   // GUI
   private JTable _table;
   private GenericTableController<CharacterFile> _tableController;
@@ -40,7 +40,7 @@ public class ToonsTableController
   public ToonsTableController()
   {
     _toons=new ArrayList<CharacterFile>();
-    _toonsData=new ArrayList<CharacterData>();
+    _toonsData=new ArrayList<CharacterSummary>();
     init();
     _tableController=buildTable();
   }
@@ -56,7 +56,7 @@ public class ToonsTableController
       {
         public String getData(CharacterFile item)
         {
-          CharacterData data=getDataForToon(item);
+          CharacterSummary data=getDataForToon(item);
           return data.getName();
         }
       };
@@ -70,7 +70,7 @@ public class ToonsTableController
       {
         public Race getData(CharacterFile item)
         {
-          CharacterData data=getDataForToon(item);
+          CharacterSummary data=getDataForToon(item);
           return data.getRace();
         }
       };
@@ -84,7 +84,7 @@ public class ToonsTableController
       {
         public CharacterClass getData(CharacterFile item)
         {
-          CharacterData data=getDataForToon(item);
+          CharacterSummary data=getDataForToon(item);
           return data.getCharacterClass();
         }
       };
@@ -98,7 +98,7 @@ public class ToonsTableController
       {
         public String getData(CharacterFile item)
         {
-          CharacterData data=getDataForToon(item);
+          CharacterSummary data=getDataForToon(item);
           return data.getRegion();
         }
       };
@@ -112,7 +112,7 @@ public class ToonsTableController
       {
         public Integer getData(CharacterFile item)
         {
-          CharacterData data=getDataForToon(item);
+          CharacterSummary data=getDataForToon(item);
           return Integer.valueOf(data.getLevel());
         }
       };
@@ -126,7 +126,7 @@ public class ToonsTableController
       {
         public String getData(CharacterFile item)
         {
-          CharacterData data=getDataForToon(item);
+          CharacterSummary data=getDataForToon(item);
           return data.getServer();
         }
       };
@@ -150,7 +150,7 @@ public class ToonsTableController
     return table;
   }
 
-  private CharacterData getDataForToon(CharacterFile toon)
+  private CharacterSummary getDataForToon(CharacterFile toon)
   {
     int index=_toons.indexOf(toon);
     if (index!=-1)
@@ -189,7 +189,7 @@ public class ToonsTableController
       int row=_toons.indexOf(toon);
       if (row!=-1)
       {
-        CharacterData c=toon.getLastCharacterInfo();
+        CharacterSummary c=toon.getSummary();
         _toonsData.set(row,c);
         _tableController.refreshRow(row);
       }
@@ -209,11 +209,11 @@ public class ToonsTableController
 
   private void loadToon(CharacterFile toon)
   {
-    CharacterData c=toon.getLastCharacterInfo();
-    if (c!=null)
+    CharacterSummary summary=toon.getSummary();
+    if (summary!=null)
     {
       _toons.add(toon);
-      _toonsData.add(c);
+      _toonsData.add(summary);
     }
   }
 
