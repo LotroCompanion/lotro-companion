@@ -1,8 +1,10 @@
 package delta.games.lotro.gui.character;
 
+import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -10,6 +12,10 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JToolBar;
+import javax.swing.SwingUtilities;
 
 import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.CharacterFile;
@@ -18,6 +24,9 @@ import delta.games.lotro.gui.log.CharacterLogWindowController;
 import delta.games.lotro.gui.stats.crafting.CraftingWindowController;
 import delta.games.lotro.gui.stats.reputation.CharacterReputationWindowController;
 import delta.games.lotro.gui.utils.GuiFactory;
+import delta.games.lotro.gui.utils.toolbar.ToolbarController;
+import delta.games.lotro.gui.utils.toolbar.ToolbarIconItem;
+import delta.games.lotro.gui.utils.toolbar.ToolbarModel;
 import delta.games.lotro.utils.gui.DefaultWindowController;
 import delta.games.lotro.utils.gui.WindowController;
 import delta.games.lotro.utils.gui.WindowsManager;
@@ -26,15 +35,16 @@ import delta.games.lotro.utils.gui.WindowsManager;
  * Controller for a "character" window.
  * @author DAM
  */
-public class CharacterMainWindowController extends DefaultWindowController implements ActionListener
+public class CharacterFileWindowController extends DefaultWindowController implements ActionListener
 {
+  private static final String NEW_TOON_DATA_ID="newToonData";
   private static final String LOG_COMMAND="log";
   private static final String REPUTATION_COMMAND="reputation";
   private static final String CRAFTING_COMMAND="crafting";
 
   private CharacterSummaryPanelController _summaryController;
-  private ChararacterStatsPanelController _statsController;
-  private EquipmentPanelController _equipmentController;
+  private CharacterDataTableController _toonsTable;
+  private ToolbarController _toolbar;
   private CharacterFile _toon;
   private WindowsManager _windowsManager;
 
@@ -42,15 +52,12 @@ public class CharacterMainWindowController extends DefaultWindowController imple
    * Constructor.
    * @param toon Managed toon.
    */
-  public CharacterMainWindowController(CharacterFile toon)
+  public CharacterFileWindowController(CharacterFile toon)
   {
     _toon=toon;
     _windowsManager=new WindowsManager();
-    CharacterData info=_toon.getLastCharacterInfo();
     CharacterSummary summary=_toon.getSummary();
     _summaryController=new CharacterSummaryPanelController(summary);
-    _statsController=new ChararacterStatsPanelController(info);
-    _equipmentController=new EquipmentPanelController(this,info);
   }
 
   /**
@@ -61,7 +68,7 @@ public class CharacterMainWindowController extends DefaultWindowController imple
    */
   public static String getIdentifier(String serverName, String toonName)
   {
-    String id="MAIN#"+serverName+"#"+toonName;
+    String id="FILE#"+serverName+"#"+toonName;
     id=id.toUpperCase();
     return id;
   }
@@ -71,19 +78,16 @@ public class CharacterMainWindowController extends DefaultWindowController imple
   {
     // Summary panel
     JPanel summaryPanel=_summaryController.getPanel();
-    // Stats panel
-    JPanel statsPanel=_statsController.getPanel();
-    // Equipment panel
-    JPanel equipmentPanel=_equipmentController.getPanel();
 
     // Whole panel
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
+    // - summary
     GridBagConstraints c=new GridBagConstraints(0,0,2,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(3,5,3,5),0,0);
     panel.add(summaryPanel,c);
-    c=new GridBagConstraints(0,1,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
-    panel.add(equipmentPanel,c);
-    c=new GridBagConstraints(1,1,1,1,0,0,GridBagConstraints.NORTHEAST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
-    panel.add(statsPanel,c);
+    // Character data table
+    JPanel tablePanel=buildTablePanel();
+    c=new GridBagConstraints(0,1,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
+    panel.add(tablePanel,c);
     c=new GridBagConstraints(0,2,1,2,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     JPanel commandsPanel=buildCommandsPanel();
     panel.add(commandsPanel,c);
@@ -102,7 +106,7 @@ public class CharacterMainWindowController extends DefaultWindowController imple
     String title="Character: "+name+" @ "+serverName;
     frame.setTitle(title);
     frame.pack();
-    frame.setResizable(false);
+    frame.setResizable(true);
     return frame;
   }
 
@@ -193,6 +197,82 @@ public class CharacterMainWindowController extends DefaultWindowController imple
       }
       controller.bringToFront();
     }
+    else if (NEW_TOON_DATA_ID.equals(command))
+    {
+      startNewCharacterData();
+    }
+    else if (CharacterDataTableController.DOUBLE_CLICK.equals(command))
+    {
+      CharacterData data=(CharacterData)e.getSource();
+      showCharacterData(data);
+    }
+  }
+
+  private JPanel buildTablePanel()
+  {
+    JPanel ret=GuiFactory.buildBackgroundPanel(new BorderLayout());
+    _toolbar=buildToolBar();
+    JToolBar toolbar=_toolbar.getToolBar();
+    ret.add(toolbar,BorderLayout.NORTH);
+    _toonsTable=buildToonsTable();
+    JTable table=_toonsTable.getTable();
+    JScrollPane scroll=GuiFactory.buildScrollPane(table);
+    ret.add(scroll,BorderLayout.CENTER);
+    return ret;
+  }
+
+  private ToolbarController buildToolBar()
+  {
+    ToolbarController controller=new ToolbarController();
+    ToolbarModel model=controller.getModel();
+    // New icon
+    String newIconPath=getToolbarIconPath("new");
+    ToolbarIconItem newIconItem=new ToolbarIconItem(NEW_TOON_DATA_ID,newIconPath,NEW_TOON_DATA_ID,"Create a new character configuration...","New");
+    model.addToolbarIconItem(newIconItem);
+    controller.addActionListener(this);
+    return controller;
+  }
+
+  private String getToolbarIconPath(String iconName)
+  {
+    String imgLocation="/resources/gui/icons/"+iconName+"-icon.png";
+    return imgLocation;
+  }
+
+  private CharacterDataTableController buildToonsTable()
+  {
+    CharacterDataTableController tableController=new CharacterDataTableController(_toon);
+    tableController.addActionListener(this);
+    return tableController;
+  }
+
+  private void startNewCharacterData()
+  {
+    System.out.println("New character data for: " + _toon);
+    /*
+    if (_newToonDialog==null)
+    {
+      _newToonDialog=new NewToonDialogController(_parentController);
+    }
+    _newToonDialog.getDialog().setLocationRelativeTo(getPanel());
+    _newToonDialog.show(true);
+    */
+  }
+
+  private void showCharacterData(CharacterData data)
+  {
+    String serverName=data.getServer();
+    String toonName=data.getName();
+    String id=CharacterDataWindowController.getIdentifier(serverName,toonName);
+    WindowController controller=_windowsManager.getWindow(id);
+    if (controller==null)
+    {
+      controller=new CharacterDataWindowController(data);
+      _windowsManager.registerWindow(controller);
+      Window thisWindow=SwingUtilities.getWindowAncestor(_toonsTable.getTable());
+      controller.getWindow().setLocationRelativeTo(thisWindow);
+    }
+    controller.bringToFront();
   }
 
   /**
@@ -212,15 +292,15 @@ public class CharacterMainWindowController extends DefaultWindowController imple
       _summaryController.dispose();
       _summaryController=null;
     }
-    if (_statsController!=null)
+    if (_toonsTable!=null)
     {
-      _statsController.dispose();
-      _statsController=null;
+      _toonsTable.dispose();
+      _toonsTable=null;
     }
-    if (_equipmentController!=null)
+    if (_toolbar==null)
     {
-      _equipmentController.dispose();
-      _equipmentController=null;
+      _toolbar.dispose();
+      _toolbar=null;
     }
     _toon=null;
   }

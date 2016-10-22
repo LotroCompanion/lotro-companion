@@ -21,7 +21,7 @@ public class MainTestCharacterMainWindow
     CharacterFile toon=utils.getMainToon();
     //for(CharacterFile toon : toons)
     {
-      CharacterMainWindowController controller=new CharacterMainWindowController(toon);
+      CharacterFileWindowController controller=new CharacterFileWindowController(toon);
       controller.show();
     }
   }

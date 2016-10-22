@@ -13,7 +13,7 @@ import javax.swing.JToolBar;
 
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharactersManager;
-import delta.games.lotro.gui.character.CharacterMainWindowController;
+import delta.games.lotro.gui.character.CharacterFileWindowController;
 import delta.games.lotro.gui.utils.GuiFactory;
 import delta.games.lotro.gui.utils.toolbar.ToolbarController;
 import delta.games.lotro.gui.utils.toolbar.ToolbarIconItem;
@@ -138,11 +138,11 @@ public class ToonsManagementController implements ActionListener
   {
     String serverName=toon.getServerName();
     String toonName=toon.getName();
-    String id=CharacterMainWindowController.getIdentifier(serverName,toonName);
+    String id=CharacterFileWindowController.getIdentifier(serverName,toonName);
     WindowController controller=_mainWindowsManager.getWindow(id);
     if (controller==null)
     {
-      controller=new CharacterMainWindowController(toon);
+      controller=new CharacterFileWindowController(toon);
       _mainWindowsManager.registerWindow(controller);
       controller.getWindow().setLocationRelativeTo(getPanel());
     }
