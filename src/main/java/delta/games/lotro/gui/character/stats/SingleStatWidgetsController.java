@@ -107,10 +107,12 @@ public class SingleStatWidgetsController
   {
     if (_isPercentage)
     {
-      double diff=value.doubleValue()-reference.doubleValue();
+      double currentValue=(value!=null)?value.doubleValue():0;
+      double diff=currentValue-reference.doubleValue();
       return new FixedDecimalsInteger((float)diff);
     }
-    int diff=value.intValue()-reference.intValue();
+    int currentValue=(value!=null)?value.intValue():0;
+    int diff=currentValue-reference.intValue();
     return new FixedDecimalsInteger(diff);
   }
 
