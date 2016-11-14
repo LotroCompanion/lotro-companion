@@ -23,7 +23,7 @@ import delta.games.lotro.utils.gui.DefaultDialogController;
 import delta.games.lotro.utils.gui.WindowController;
 
 /**
- * Controller for a "character log" window.
+ * Controller for an item choice window.
  * @author DAM
  */
 public class ItemChoiceWindowController extends DefaultDialogController

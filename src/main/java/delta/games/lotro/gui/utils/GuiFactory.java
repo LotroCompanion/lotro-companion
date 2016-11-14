@@ -23,6 +23,7 @@ import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JViewport;
 import javax.swing.UIManager;
@@ -139,7 +140,7 @@ public class GuiFactory
     b.setForeground(FOREGROUND);
     return b;
   }
-  
+
   /**
    * Get a new titled border using the given title.
    * @param title Title to use.
@@ -152,7 +153,7 @@ public class GuiFactory
     titledBorder.setTitleColor(FOREGROUND);
     return titledBorder;
   }
-  
+
   /**
    * Get a new label using the given text.
    * @param label Text to use.
@@ -162,7 +163,7 @@ public class GuiFactory
   {
     return buildLabel(label,null);
   }
-  
+
   /**
    * Get a new label using the given text and font size.
    * @param label Text to use.
@@ -173,7 +174,7 @@ public class GuiFactory
   {
     return buildLabel(label,Float.valueOf(size));
   }
-  
+
   /**
    * Build an iconic label.
    * @param icon Icon to display.
@@ -233,7 +234,7 @@ public class GuiFactory
     }
     return checkbox;
   }
-  
+
   /**
    * Get a new text field using the given text.
    * @param text Text to use.
@@ -247,7 +248,26 @@ public class GuiFactory
     tf.setBackground(BACKGROUND);
     return tf;
   }
-  
+
+  /**
+   * Get a new text area using the given text.
+   * @param text Text to use.
+   * @param opaque Indicates if the component to build is opaque or not.
+   * @return a new text area.
+   */
+  public static JTextArea buildTextArea(String text, boolean opaque)
+  {
+    JTextArea tf=new JTextArea();
+    tf.setText(text);
+    tf.setForeground(FOREGROUND);
+    tf.setOpaque(opaque);
+    if (opaque)
+    {
+      tf.setBackground(BACKGROUND);
+    }
+    return tf;
+  }
+
   /**
    * Get a new combo-box.
    * @return a new combo-box.
