@@ -30,6 +30,7 @@ public class MainTestItemEditionWindowController
       Item item=itemsMgr.getItem(Integer.valueOf(1879134849)); // Javelin of Ire
       //Item item=items.get(index);
       //if ((item.getQuality()==ItemQuality.LEGENDARY) && (Integer.valueOf(192).equals(item.getItemLevel())))
+      //if (item instanceof Armour)
       if (item instanceof Weapon)
       {
         ItemEditionWindowController ctrl=new ItemEditionWindowController(null,item);

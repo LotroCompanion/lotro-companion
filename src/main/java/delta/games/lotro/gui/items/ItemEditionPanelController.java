@@ -214,6 +214,12 @@ public class ItemEditionPanelController
       _quality=buildQualityCombo();
       panelLine.add(GuiFactory.buildLabel("Quality:"));
       panelLine.add(_quality.getComboBox());
+      // Stack max
+      JTextField stackMax=GuiFactory.buildTextField("");
+      _stackMax=new IntegerEditionController(stackMax);
+      _stackMax.setValueRange(Integer.valueOf(1),Integer.valueOf(1000));
+      panelLine.add(GuiFactory.buildLabel("Stack:"));
+      panelLine.add(_stackMax.getTextField());
     }
 
     // Contextual data line
@@ -234,12 +240,6 @@ public class ItemEditionPanelController
 
     // Unused
     {
-      // Stack max
-      JTextField stackMax=GuiFactory.buildTextField("");
-      _stackMax=new IntegerEditionController(stackMax);
-      _stackMax.setValueRange(Integer.valueOf(1),Integer.valueOf(1000));
-      //panelLine4.add(GuiFactory.buildLabel("Stack:"));
-      //panelLine4.add(_stackMax.getTextField());
       // Sub-category
       _subCategory=GuiFactory.buildTextField("");
       _subCategory.setColumns(20);
@@ -247,22 +247,22 @@ public class ItemEditionPanelController
       //panel.add(_subCategory);
     }
 
+    // Tabbed pane at the bottom
     JTabbedPane tabbedPane=GuiFactory.buildTabbedPane();
     // Description
     JPanel descriptionPanel=GuiFactory.buildBackgroundPanel(new BorderLayout());
     _description=GuiFactory.buildTextArea("",false);
-    //_description.setBorder(descriptionBorder);
     _description.setColumns(40);
     _description.setLineWrap(true);
     descriptionPanel.add(_description,BorderLayout.CENTER);
-    //JPanel descriptionPanel=GuiFactory.buildBackgroundPanel(new GridBagLayout());
-    tabbedPane.add("Description",descriptionPanel);
-    //TitledBorder descriptionBorder=GuiFactory.buildTitledBorder("Description");
     // Stats
     _stats=new StatsEditionPanelController();
-    tabbedPane.add("Stats",_stats.getPanel());
 
+    // Tabbed pane assembly
+    tabbedPane.add("Stats",_stats.getPanel());
+    tabbedPane.add("Description",descriptionPanel);
     panel.add(tabbedPane);
+
     return panel;
   }
 
