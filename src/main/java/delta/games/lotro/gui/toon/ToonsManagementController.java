@@ -3,8 +3,6 @@ package delta.games.lotro.gui.toon;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -12,7 +10,10 @@ import javax.swing.JTable;
 import javax.swing.JToolBar;
 
 import delta.games.lotro.character.CharacterFile;
-import delta.games.lotro.character.CharactersManager;
+import delta.games.lotro.character.events.CharacterEvent;
+import delta.games.lotro.character.events.CharacterEventListener;
+import delta.games.lotro.character.events.CharacterEventType;
+import delta.games.lotro.character.events.CharacterEventsManager;
 import delta.games.lotro.gui.character.CharacterFileWindowController;
 import delta.games.lotro.gui.utils.GuiFactory;
 import delta.games.lotro.gui.utils.toolbar.ToolbarController;
@@ -25,7 +26,7 @@ import delta.games.lotro.utils.gui.WindowsManager;
  * Controller for the toons management panel.
  * @author DAM
  */
-public class ToonsManagementController implements ActionListener
+public class ToonsManagementController implements ActionListener,CharacterEventListener
 {
   private static final String NEW_TOON_ID="newToon";
   private JPanel _panel;
@@ -33,7 +34,6 @@ public class ToonsManagementController implements ActionListener
   private ToonsTableController _toonsTable;
   private ToolbarController _toolbar;
   private NewToonDialogController _newToonDialog;
-  private PropertyChangeListener _listener;
   private WindowsManager _mainWindowsManager;
 
   /**
@@ -55,7 +55,7 @@ public class ToonsManagementController implements ActionListener
     if (_panel==null)
     {
       _panel=buildPanel();
-      initListeners();
+      CharacterEventsManager.addListener(this);
     }
     return _panel;
   }
@@ -73,23 +73,20 @@ public class ToonsManagementController implements ActionListener
     return ret;
   }
 
-  private void initListeners()
+  /**
+   * Handle character events.
+   */
+  public void eventOccured(CharacterEventType type, CharacterEvent event)
   {
-    CharactersManager manager=CharactersManager.getInstance();
-    _listener=new PropertyChangeListener()
+    if (type==CharacterEventType.CHARACTER_ADDED)
     {
-      public void propertyChange(PropertyChangeEvent evt)
-      {
-        if (CharactersManager.TOON_ADDED.equals(evt.getPropertyName())) {
-          _toonsTable.refresh();
-        }
-        else if (CharactersManager.TOON_UPDATED.equals(evt.getPropertyName())) {
-          CharacterFile toon=(CharacterFile)evt.getNewValue();
-          _toonsTable.refresh(toon);
-        }
-      }
-    };
-    manager.addPropertyChangeListener(_listener);
+      _toonsTable.refresh();
+    }
+    else if (type==CharacterEventType.CHARACTER_SUMMARY_UPDATED)
+    {
+      CharacterFile toon=event.getToonFile();
+      _toonsTable.refresh(toon);
+    }
   }
 
   private String getToolbarIconPath(String iconName)
@@ -169,11 +166,7 @@ public class ToonsManagementController implements ActionListener
       _mainWindowsManager.disposeAll();
       _mainWindowsManager=null;
     }
-    if (_listener!=null)
-    {
-      CharactersManager.getInstance().removePropertyChangeListener(_listener);
-      _listener=null;
-    }
+    CharacterEventsManager.removeListener(this);
     if (_toonsTable!=null)
     {
       _toonsTable.dispose();
