@@ -19,10 +19,6 @@ import delta.games.lotro.utils.gui.tables.TableColumnController;
  */
 public class CharacterDataTableController
 {
-  /**
-   * Double-click action command.
-   */
-  public static final String DOUBLE_CLICK="double click";
   // Data
   private CharacterFile _toon;
   // GUI

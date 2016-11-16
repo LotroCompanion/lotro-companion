@@ -19,7 +19,11 @@ import javax.swing.SwingUtilities;
 
 import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.CharacterFile;
+import delta.games.lotro.character.CharacterInfosManager;
 import delta.games.lotro.character.CharacterSummary;
+import delta.games.lotro.character.events.CharacterEvent;
+import delta.games.lotro.character.events.CharacterEventType;
+import delta.games.lotro.character.events.CharacterEventsManager;
 import delta.games.lotro.gui.log.CharacterLogWindowController;
 import delta.games.lotro.gui.stats.crafting.CraftingWindowController;
 import delta.games.lotro.gui.stats.reputation.CharacterReputationWindowController;
@@ -30,6 +34,7 @@ import delta.games.lotro.gui.utils.toolbar.ToolbarModel;
 import delta.games.lotro.utils.gui.DefaultWindowController;
 import delta.games.lotro.utils.gui.WindowController;
 import delta.games.lotro.utils.gui.WindowsManager;
+import delta.games.lotro.utils.gui.tables.GenericTableController;
 
 /**
  * Controller for a "character" window.
@@ -201,7 +206,7 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     {
       startNewCharacterData();
     }
-    else if (CharacterDataTableController.DOUBLE_CLICK.equals(command))
+    else if (GenericTableController.DOUBLE_CLICK.equals(command))
     {
       CharacterData data=(CharacterData)e.getSource();
       showCharacterData(data);
@@ -248,15 +253,19 @@ public class CharacterFileWindowController extends DefaultWindowController imple
 
   private void startNewCharacterData()
   {
-    System.out.println("New character data for: " + _toon);
-    /*
-    if (_newToonDialog==null)
+    CharacterInfosManager infos=_toon.getInfosManager();
+    CharacterData lastInfos=infos.getLastCharacterDescription();
+    CharacterData newInfos=new CharacterData();
+    CharacterSummary newSummary=new CharacterSummary(lastInfos.getSummary());
+    newInfos.setSummary(newSummary);
+    newInfos.setDate(Long.valueOf(System.currentTimeMillis()));
+    boolean ok=_toon.getInfosManager().writeNewInfo(newInfos);
+    if (ok)
     {
-      _newToonDialog=new NewToonDialogController(_parentController);
+      CharacterEvent event=new CharacterEvent(_toon,newInfos);
+      CharacterEventsManager.invokeEvent(CharacterEventType.CHARACTER_DATA_ADDED,event);
+      showCharacterData(newInfos);
     }
-    _newToonDialog.getDialog().setLocationRelativeTo(getPanel());
-    _newToonDialog.show(true);
-    */
   }
 
   private void showCharacterData(CharacterData data)
