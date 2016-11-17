@@ -15,6 +15,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableRowSorter;
 
@@ -118,23 +119,20 @@ public class GenericTableController<POJO>
     final JTable table=GuiFactory.buildTable();
     table.setModel(_model);
     table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-    _sorter=new TableRowSorter<GenericTableModel<POJO>>(_model);
-    /*
+    _sorter=new TableRowSorter<GenericTableModel<POJO>>(_model)
     {
       @Override
       protected boolean useToString(int column)
       {
-        TableColumnController columnController=_columns.get(column);
-        Class<?> dataType=columnController.getDataType();
-        if (Number.class.isAssignableFrom(dataType))
+        TableColumnController<POJO,?> columnController=_columns.get(column);
+        Boolean useToString=columnController.isUseToString();
+        if (useToString!=null)
         {
-          return false;
+          return useToString.booleanValue();
         }
-        if (column==3) return false; // Level
         return super.useToString(column);
       }
     };
-    */
     _sorter.setSortsOnUpdates(true);
     int i=0;
     for(TableColumnController<POJO,?> controller : _columns)
@@ -159,7 +157,12 @@ public class GenericTableController<POJO>
       Class<?> dataType=controller.getDataType();
       if (Date.class.isAssignableFrom(dataType))
       {
-        column.setCellRenderer(new DateRenderer());
+        column.setCellRenderer(new DateRenderer(Formats.DATE_TIME_PATTERN));
+      }
+      TableCellRenderer renderer=controller.getCellRenderer();
+      if (renderer!=null)
+      {
+        column.setCellRenderer(renderer);
       }
       boolean sortable=controller.isSortable();
       _sorter.setSortable(i,sortable);
@@ -347,18 +350,26 @@ public class GenericTableController<POJO>
     _filter=null;
   }
 
-  static class DateRenderer extends DefaultTableCellRenderer
+  /**
+   * Date renderer.
+   * @author DAM
+   */
+  public static class DateRenderer extends DefaultTableCellRenderer
   {
-    private SimpleDateFormat _formatter;  
-    public DateRenderer()
+    private SimpleDateFormat _formatter;
+    /**
+     * Constructor.
+     * @param format Date format.
+     */
+    public DateRenderer(String format)
     {
-      _formatter=new SimpleDateFormat(Formats.DATE_TIME_PATTERN);
+      _formatter=new SimpleDateFormat(format);
     }
 
     @Override
     public void setValue(Object value)
     {
-        setText((value == null) ? "" : _formatter.format(value));  
+      setText((value == null) ? "" : _formatter.format(value));
     }
   }
 }

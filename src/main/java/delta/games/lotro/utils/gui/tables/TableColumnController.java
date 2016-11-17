@@ -1,5 +1,7 @@
 package delta.games.lotro.utils.gui.tables;
 
+import javax.swing.table.TableCellRenderer;
+
 /**
  * Controller for a column of a generic table.
  * @param <POJO> Type of data items.
@@ -15,6 +17,8 @@ public class TableColumnController<POJO,VALUE>
   private String _header;
   private boolean _sortable;
   private CellDataProvider<POJO,VALUE> _valueProvider;
+  private TableCellRenderer _renderer;
+  private Boolean _useToString;
 
   /**
    * Constructor.
@@ -26,8 +30,10 @@ public class TableColumnController<POJO,VALUE>
   {
     _header=header;
     _dataType=dataType;
-    _valueProvider=valueProvider;
     _sortable=true;
+    _valueProvider=valueProvider;
+    _renderer=null;
+    _useToString=null;
   }
 
   /**
@@ -113,6 +119,42 @@ public class TableColumnController<POJO,VALUE>
   public void setSortable(boolean sortable)
   {
     _sortable=sortable;
+  }
+
+  /**
+   * Get the associated cell renderer, if any.
+   * @return A renderer or <code>null</code> to use defaults.
+   */
+  public TableCellRenderer getCellRenderer()
+  {
+    return _renderer;
+  }
+
+  /**
+   * Set a specific cell renderer.
+   * @param renderer Renderer to set.
+   */
+  public void setCellRenderer(TableCellRenderer renderer)
+  {
+    _renderer=renderer;
+  }
+
+  /**
+   * Indicates if the 'use to string' has been forced by the user.
+   * @return A Boolean value or <code>null</code> to use defaults.
+   */
+  public Boolean isUseToString()
+  {
+    return _useToString;
+  }
+
+  /**
+   * Set a specific value for 'use to string'.
+   * @param useToString Value to set.
+   */
+  public void setUseToString(Boolean useToString)
+  {
+    _useToString=useToString;
   }
 
   /**
