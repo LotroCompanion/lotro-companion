@@ -12,10 +12,13 @@ import java.util.List;
 
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableRowSorter;
 
+import delta.common.utils.collections.filters.Filter;
 import delta.games.lotro.gui.utils.GuiFactory;
 import delta.games.lotro.utils.Formats;
 
@@ -32,6 +35,7 @@ public class GenericTableController<POJO>
   public static final String DOUBLE_CLICK="double click";
   // Data
   private DataProvider<POJO> _dataProvider;
+  private Filter<POJO> _filter;
   // Columns
   private List<TableColumnController<POJO,?>> _columns;
   // GUI
@@ -48,6 +52,7 @@ public class GenericTableController<POJO>
   public GenericTableController(DataProvider<POJO> dataProvider)
   {
     _dataProvider=dataProvider;
+    _filter=null;
     _columns=new ArrayList<TableColumnController<POJO,?>>();
     _actionListeners=new ArrayList<ActionListener>();
   }
@@ -156,13 +161,33 @@ public class GenericTableController<POJO>
       {
         column.setCellRenderer(new DateRenderer());
       }
-      _sorter.setSortable(i,true);
+      boolean sortable=controller.isSortable();
+      _sorter.setSortable(i,sortable);
       i++;
     }
     table.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
     _sorter.setMaxSortKeys(3);
     table.setRowSorter(_sorter);
 
+    // Filter
+    RowFilter<GenericTableModel<POJO>,Integer> guiFilter=new RowFilter<GenericTableModel<POJO>,Integer>()
+    {
+      @Override
+      public boolean include(RowFilter.Entry<? extends GenericTableModel<POJO>,? extends Integer> entry)
+      {
+        boolean ret=true;
+        if (_filter!=null)
+        {
+          Integer id=entry.getIdentifier();
+          POJO item=_dataProvider.getAt(id.intValue());
+          ret=_filter.accept(item);
+        }
+        return ret;
+      }
+    };
+    _sorter.setRowFilter(guiFilter);
+
+    // Double click management
     MouseAdapter doucleClickAdapter=new MouseAdapter()
     {
       @Override
@@ -262,6 +287,49 @@ public class GenericTableController<POJO>
   }
 
   /**
+   * Set data filter.
+   * @param filter Filter to set.
+   */
+  public void setFilter(Filter<POJO> filter)
+  {
+    _filter=filter;
+  }
+
+  /**
+   * To be called when the filter was updated and the GUI needs a refresh.
+   */
+  public void filterUpdated()
+  {
+    _sorter.setRowFilter(_sorter.getRowFilter());
+  }
+
+  /**
+   * Get the number of filtered items in the managed log.
+   * @return A number of items.
+   */
+  public int getNbFilteredItems()
+  {
+    int ret=_table.getRowSorter().getViewRowCount();
+    return ret;
+  }
+
+  /**
+   * Get the currently selected item.
+   * @return An item or <code>null</code> if not found.
+   */
+  public POJO getSelectedItem()
+  {
+    POJO ret=null;
+    int selectedItemIndex=_table.getSelectedRow();
+    if (selectedItemIndex!=-1)
+    {
+      int modelIndex=_table.convertRowIndexToModel(selectedItemIndex);
+      ret=_dataProvider.getAt(modelIndex);
+    }
+    return ret;
+  }
+
+  /**
    * Release all managed resources.
    */
   public void dispose()
@@ -269,12 +337,14 @@ public class GenericTableController<POJO>
     // GUI
     if (_table!=null)
     {
+      _table.setModel(new DefaultTableModel());
       _table=null;
     }
     _model=null;
     _sorter=null;
     // Data
     _dataProvider=null;
+    _filter=null;
   }
 
   static class DateRenderer extends DefaultTableCellRenderer

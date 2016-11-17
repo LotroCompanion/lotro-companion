@@ -13,6 +13,7 @@ public class TableColumnController<POJO,VALUE>
   private int _preferredWidth;
   private Class<VALUE> _dataType;
   private String _header;
+  private boolean _sortable;
   private CellDataProvider<POJO,VALUE> _valueProvider;
 
   /**
@@ -26,6 +27,7 @@ public class TableColumnController<POJO,VALUE>
     _header=header;
     _dataType=dataType;
     _valueProvider=valueProvider;
+    _sortable=true;
   }
 
   /**
@@ -93,6 +95,24 @@ public class TableColumnController<POJO,VALUE>
     _minWidth=minWidth;
     _maxWidth=maxWidth;
     _preferredWidth=preferredWidth;
+  }
+
+  /**
+   * Indicates if this column is sortable or not.
+   * @return <code>true</code> if it is, <code>false</code> otherwise.
+   */
+  public boolean isSortable()
+  {
+    return _sortable;
+  }
+
+  /**
+   * Set the sortable flag.
+   * @param sortable Flag value to set.
+   */
+  public void setSortable(boolean sortable)
+  {
+    _sortable=sortable;
   }
 
   /**

@@ -12,7 +12,7 @@ import javax.swing.border.TitledBorder;
 import delta.games.lotro.gui.utils.GuiFactory;
 
 /**
- * Controller the character log panel.
+ * Controller the item choice panel.
  * @author DAM
  */
 public class ItemChoicePanelController
@@ -25,7 +25,7 @@ public class ItemChoicePanelController
 
   /**
    * Constructor.
-   * @param tableController Associated log table controller.
+   * @param tableController Associated table controller.
    */
   public ItemChoicePanelController(ItemChoiceTableController tableController)
   {
@@ -48,8 +48,8 @@ public class ItemChoicePanelController
   private JPanel build()
   {
     JPanel panel=GuiFactory.buildPanel(new BorderLayout());
-    TitledBorder logFrameBorder=GuiFactory.buildTitledBorder("Log");
-    panel.setBorder(logFrameBorder);
+    TitledBorder itemsFrameBorder=GuiFactory.buildTitledBorder("Items");
+    panel.setBorder(itemsFrameBorder);
 
     // Table
     JTable table=_tableController.getTable();

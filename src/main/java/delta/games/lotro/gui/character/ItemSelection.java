@@ -1,5 +1,6 @@
 package delta.games.lotro.gui.character;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import delta.games.lotro.character.CharacterData;
@@ -64,6 +65,6 @@ public class ItemSelection
       return weapons;
     }
     // TODO tool, class slot
-    return null;
+    return new ArrayList<Item>();
   }
 }
