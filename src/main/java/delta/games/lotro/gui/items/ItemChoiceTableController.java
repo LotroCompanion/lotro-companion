@@ -68,7 +68,7 @@ public class ItemChoiceTableController
         }
       };
       TableColumnController<Item,ImageIcon> iconColumn=new TableColumnController<Item,ImageIcon>("Icon",ImageIcon.class,iconCell);
-      iconColumn.setWidthSpecs(100,100,50);
+      iconColumn.setWidthSpecs(50,50,50);
       iconColumn.setSortable(false);
       table.addColumnController(iconColumn);
     }
@@ -95,8 +95,7 @@ public class ItemChoiceTableController
         }
       };
       TableColumnController<Item,String> nameColumn=new TableColumnController<Item,String>("Name",String.class,nameCell);
-      nameColumn.setMinWidth(150);
-      nameColumn.setPreferredWidth(150);
+      nameColumn.setWidthSpecs(150,-1,150);
       table.addColumnController(nameColumn);
     }
     // Level column
@@ -109,7 +108,7 @@ public class ItemChoiceTableController
         }
       };
       TableColumnController<Item,Integer> levelColumn=new TableColumnController<Item,Integer>("Level",Integer.class,levelCell);
-      levelColumn.setWidthSpecs(100,100,50);
+      levelColumn.setWidthSpecs(70,70,50);
       table.addColumnController(levelColumn);
     }
     return table;
