@@ -9,7 +9,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.border.TitledBorder;
 
-import delta.games.lotro.character.log.CharacterLog;
 import delta.games.lotro.gui.utils.GuiFactory;
 
 /**
@@ -62,16 +61,6 @@ public class CharacterLogPanelController
     statsPanel.add(_statsLabel);
     panel.add(statsPanel,BorderLayout.NORTH);
     return panel;
-  }
-
-  /**
-   * Set a new character log.
-   * @param log Character log to set.
-   */
-  public void setLog(CharacterLog log)
-  {
-    _tableController.setLog(log);
-    updateStatsLabel();
   }
 
   /**

@@ -41,16 +41,6 @@ public class CharacterLogTableController
     configureTable();
   }
 
-  /**
-   * Set a new character log.
-   * @param log Character log to set.
-   */
-  public void setLog(CharacterLog log)
-  {
-    _log=log;
-    _tableController.refresh();
-  }
-
   private GenericTableController<CharacterLogItem> buildTable()
   {
     DataProvider<CharacterLogItem> provider=new DataProvider<CharacterLogItem>() {

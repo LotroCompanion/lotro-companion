@@ -13,7 +13,6 @@ import javax.swing.border.TitledBorder;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.log.CharacterLog;
 import delta.games.lotro.character.log.CharacterLogItemsFilter;
-import delta.games.lotro.character.log.CharacterLogsManager;
 import delta.games.lotro.gui.utils.GuiFactory;
 import delta.games.lotro.utils.gui.DefaultWindowController;
 
@@ -103,17 +102,6 @@ public class CharacterLogWindowController extends DefaultWindowController
   }
 
   /**
-   * Update contents.
-   */
-  public void update()
-  {
-    CharacterLogsManager logsManager=_toon.getLogsManager();
-    CharacterLog log=logsManager.getLastLog();
-    _filterController.setLog(log);
-    _panelController.setLog(log);
-  }
-
-  /**
    * Release all managed resources.
    */
   @Override
@@ -125,7 +113,17 @@ public class CharacterLogWindowController extends DefaultWindowController
       _tableController.dispose();
       _tableController=null;
     }
-    // TODO dispose on panel and filter
+    if (_panelController!=null)
+    {
+      _panelController.dispose();
+      _panelController=null;
+    }
+    if (_filterController!=null)
+    {
+      _filterController.dispose();
+      _filterController=null;
+    }
+    _filter=null;
     _toon=null;
   }
 }
