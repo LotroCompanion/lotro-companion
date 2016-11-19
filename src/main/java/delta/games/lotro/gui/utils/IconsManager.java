@@ -96,4 +96,15 @@ public class IconsManager
     String path="/icons/"+iconId+"-"+backgroundId+".png";
     return getIcon(path);
   }
+
+  /**
+   * Get the icon for a relic.
+   * @param iconFilename Filename of the relic icon.
+   * @return An icon or <code>null</code> if not found.
+   */
+  public static ImageIcon getRelicIcon(String iconFilename)
+  {
+    String path="/relicIcons/"+iconFilename;
+    return getIcon(path);
+  }
 }
