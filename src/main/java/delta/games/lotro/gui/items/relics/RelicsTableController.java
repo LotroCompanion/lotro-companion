@@ -161,6 +161,15 @@ public class RelicsTableController
   }
 
   /**
+   * Get the currently selected relic.
+   * @return a relic or <code>null</code>.
+   */
+  public Relic getSelectedRelic()
+  {
+    return _tableController.getSelectedItem();
+  }
+
+  /**
    * Release all managed resources.
    */
   public void dispose()

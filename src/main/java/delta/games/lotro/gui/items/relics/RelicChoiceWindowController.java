@@ -1,51 +1,61 @@
 package delta.games.lotro.gui.items.relics;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.Window;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 
 import javax.swing.JComponent;
-import javax.swing.JFrame;
+import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
 import delta.games.lotro.gui.utils.GuiFactory;
+import delta.games.lotro.gui.utils.OKCancelPanelController;
 import delta.games.lotro.lore.items.legendary.relics.Relic;
 import delta.games.lotro.lore.items.legendary.relics.RelicFilter;
 import delta.games.lotro.lore.items.legendary.relics.RelicsManager;
-import delta.games.lotro.utils.gui.DefaultWindowController;
+import delta.games.lotro.utils.gui.DefaultDialogController;
+import delta.games.lotro.utils.gui.WindowController;
 
 /**
- * Controller for a "relic choice" window.
+ * Controller for a "relic choice" dialog.
  * @author DAM
  */
-public class RelicChoiceWindowController extends DefaultWindowController
+public class RelicChoiceWindowController extends DefaultDialogController
 {
   private RelicsFilterController _filterController;
   private RelicChoicePanelController _panelController;
   private RelicsTableController _tableController;
+  private OKCancelPanelController _okCancelController;
   private RelicFilter _filter;
+  private Relic _selectedRelic;
 
   /**
    * Constructor.
+   * @param parent Parent controller.
    */
-  public RelicChoiceWindowController()
+  public RelicChoiceWindowController(WindowController parent)
   {
+    super(parent);
+    _okCancelController=new OKCancelPanelController();
     _filter=new RelicFilter();
   }
 
   @Override
-  protected JFrame build()
+  protected JDialog build()
   {
-    JFrame frame=super.build();
-    frame.setTitle("Choose relic: ");
-    frame.pack();
-    frame.setMinimumSize(new Dimension(900,300));
-    return frame;
+    JDialog dialog=super.build();
+    dialog.setTitle("Choose relic: ");
+    dialog.pack();
+    dialog.setMinimumSize(new Dimension(900,300));
+    return dialog;
   }
-  
 
   @Override
   public String getWindowIdentifier()
@@ -55,6 +65,16 @@ public class RelicChoiceWindowController extends DefaultWindowController
 
   @Override
   protected JComponent buildContents()
+  {
+    JPanel panel=GuiFactory.buildPanel(new BorderLayout());
+    JPanel editionPanel=buildEditionPanel();
+    panel.add(editionPanel,BorderLayout.CENTER);
+    JPanel okCancelPanel=_okCancelController.getPanel();
+    panel.add(okCancelPanel,BorderLayout.SOUTH);
+    return panel;
+  }
+
+  private JPanel buildEditionPanel()
   {
     RelicsManager relicsMgr=RelicsManager.getInstance();
     List<Relic> relics=relicsMgr.getAllRelics();
@@ -74,6 +94,61 @@ public class RelicChoiceWindowController extends DefaultWindowController
     c.gridy=1;c.weighty=1;c.fill=GridBagConstraints.BOTH;
     panel.add(tablePanel,c);
     return panel;
+  }
+
+  /**
+   * Show the relic selection dialog.
+   * @param parent Parent controller.
+   * @return The selected relic or <code>null</code> if the window was closed or canceled.
+   */
+  public static Relic selectRelic(WindowController parent)
+  {
+    RelicChoiceWindowController controller=new RelicChoiceWindowController(parent);
+    Relic selectedRelic=controller.doShow();
+    return selectedRelic;
+  }
+
+  private Relic doShow()
+  {
+    ActionListener al=new ActionListener()
+    {
+      public void actionPerformed(ActionEvent event)
+      {
+        String action=event.getActionCommand();
+        if (OKCancelPanelController.OK_COMMAND.equals(action))
+        {
+          ok();
+        }
+        else if (OKCancelPanelController.CANCEL_COMMAND.equals(action))
+        {
+          cancel();
+        }
+        hide();
+      }
+
+      private void ok()
+      {
+        _selectedRelic=_tableController.getSelectedRelic();
+      }
+
+      private void cancel()
+      {
+        _selectedRelic=null;
+      }
+    };
+    _okCancelController.getOKButton().addActionListener(al);
+    _okCancelController.getCancelButton().addActionListener(al);
+    WindowController parent=getParentController();
+    if (parent!=null)
+    {
+      Window parentWindow=parent.getWindow();
+      JDialog thisDialog=getDialog();
+      thisDialog.setLocationRelativeTo(parentWindow);
+    }
+    show(true);
+    Relic selectedRelic=_selectedRelic;
+    dispose();
+    return selectedRelic;
   }
 
   /**
