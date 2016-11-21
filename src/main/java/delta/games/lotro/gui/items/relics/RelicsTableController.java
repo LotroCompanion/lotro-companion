@@ -170,6 +170,15 @@ public class RelicsTableController
   }
 
   /**
+   * Select a relic.
+   * @param relic Relic to select (may be <code>null</code>).
+   */
+  public void selectRelic(Relic relic)
+  {
+    _tableController.selectItem(relic);
+  }
+
+  /**
    * Release all managed resources.
    */
   public void dispose()

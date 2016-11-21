@@ -34,7 +34,7 @@ public class RelicChoiceWindowController extends DefaultDialogController
   private RelicsTableController _tableController;
   private OKCancelPanelController _okCancelController;
   private RelicFilter _filter;
-  private Relic _selectedRelic;
+  private Relic _chosenRelic;
 
   /**
    * Constructor.
@@ -99,16 +99,17 @@ public class RelicChoiceWindowController extends DefaultDialogController
   /**
    * Show the relic selection dialog.
    * @param parent Parent controller.
+   * @param selectedRelic Selected relic.
    * @return The selected relic or <code>null</code> if the window was closed or canceled.
    */
-  public static Relic selectRelic(WindowController parent)
+  public static Relic selectRelic(WindowController parent, Relic selectedRelic)
   {
     RelicChoiceWindowController controller=new RelicChoiceWindowController(parent);
-    Relic selectedRelic=controller.doShow();
-    return selectedRelic;
+    Relic chosenRelic=controller.doShow(selectedRelic);
+    return chosenRelic;
   }
 
-  private Relic doShow()
+  private Relic doShow(Relic selectedRelic)
   {
     ActionListener al=new ActionListener()
     {
@@ -128,27 +129,40 @@ public class RelicChoiceWindowController extends DefaultDialogController
 
       private void ok()
       {
-        _selectedRelic=_tableController.getSelectedRelic();
+        _chosenRelic=_tableController.getSelectedRelic();
       }
 
       private void cancel()
       {
-        _selectedRelic=null;
+        _chosenRelic=null;
       }
     };
     _okCancelController.getOKButton().addActionListener(al);
     _okCancelController.getCancelButton().addActionListener(al);
+
+    // Build dialog
+    JDialog thisDialog=getDialog();
+    // Set parent
     WindowController parent=getParentController();
     if (parent!=null)
     {
       Window parentWindow=parent.getWindow();
-      JDialog thisDialog=getDialog();
       thisDialog.setLocationRelativeTo(parentWindow);
     }
+    // Set selection
+    _tableController.selectRelic(selectedRelic);
+    // Show modal
     show(true);
-    Relic selectedRelic=_selectedRelic;
+    Relic chosenRelic=_chosenRelic;
     dispose();
-    return selectedRelic;
+    return chosenRelic;
+  }
+
+  @Override
+  protected void doWindowClosing()
+  {
+    _chosenRelic=null;
+    hide();
   }
 
   /**

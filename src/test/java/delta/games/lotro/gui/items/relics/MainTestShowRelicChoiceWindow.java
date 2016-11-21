@@ -1,6 +1,7 @@
 package delta.games.lotro.gui.items.relics;
 
 import delta.games.lotro.lore.items.legendary.relics.Relic;
+import delta.games.lotro.lore.items.legendary.relics.RelicsManager;
 
 /**
  * Test for relic choice window.
@@ -14,7 +15,10 @@ public class MainTestShowRelicChoiceWindow
    */
   public static void main(String[] args)
   {
-    Relic relic=RelicChoiceWindowController.selectRelic(null);
+    RelicsManager relicsMgr=RelicsManager.getInstance();
+    Relic initialRelic=relicsMgr.getAllRelics().get(10);
+    System.out.println(initialRelic);
+    Relic relic=RelicChoiceWindowController.selectRelic(null,initialRelic);
     System.out.println(relic);
   }
 }

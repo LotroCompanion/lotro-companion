@@ -333,6 +333,43 @@ public class GenericTableController<POJO>
   }
 
   /**
+   * Select an item.
+   * @param item Item to select.
+   */
+  public void selectItem(POJO item)
+  {
+    int index=getItemIndex(item);
+    ListSelectionModel selectionModel=_table.getSelectionModel();
+    if (index!=-1)
+    {
+      selectionModel.setSelectionInterval(index,index);
+    }
+    else
+    {
+      selectionModel.clearSelection();
+    }
+  }
+
+  private int getItemIndex(POJO item)
+  {
+    int index=-1;
+    if (item!=null)
+    {
+      int nb=_dataProvider.getCount();
+      for(int i=0;i<nb;i++)
+      {
+        POJO currentItem=_dataProvider.getAt(i);
+        if (currentItem==item)
+        {
+          index=i;
+          break;
+        }
+      }
+    }
+    return index;
+  }
+
+  /**
    * Release all managed resources.
    */
   public void dispose()
