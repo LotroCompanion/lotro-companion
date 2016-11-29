@@ -74,11 +74,18 @@ public class RelicsFilterController
     return _panel;
   }
 
-  private void setFilter()
+  /**
+   * Set filter.
+   */
+  public void setFilter()
   {
     // Type
     RelicType type=_filter.getRelicType();
     _type.selectItem(type);
+    if (type!=null)
+    {
+      _type.getComboBox().setEnabled(false);
+    }
     // Category
     String category=_filter.getRelicCategory();
     _category.selectItem(category);

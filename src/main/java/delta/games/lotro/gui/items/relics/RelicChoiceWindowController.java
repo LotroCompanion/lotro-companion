@@ -19,6 +19,7 @@ import delta.games.lotro.gui.utils.GuiFactory;
 import delta.games.lotro.gui.utils.OKCancelPanelController;
 import delta.games.lotro.lore.items.legendary.relics.Relic;
 import delta.games.lotro.lore.items.legendary.relics.RelicFilter;
+import delta.games.lotro.lore.items.legendary.relics.RelicType;
 import delta.games.lotro.lore.items.legendary.relics.RelicsManager;
 import delta.games.lotro.utils.gui.DefaultDialogController;
 import delta.games.lotro.utils.gui.WindowController;
@@ -99,17 +100,18 @@ public class RelicChoiceWindowController extends DefaultDialogController
   /**
    * Show the relic selection dialog.
    * @param parent Parent controller.
+   * @param type Relic type to use (locks filter) or <code>null</code>.
    * @param selectedRelic Selected relic.
    * @return The selected relic or <code>null</code> if the window was closed or canceled.
    */
-  public static Relic selectRelic(WindowController parent, Relic selectedRelic)
+  public static Relic selectRelic(WindowController parent, RelicType type, Relic selectedRelic)
   {
     RelicChoiceWindowController controller=new RelicChoiceWindowController(parent);
-    Relic chosenRelic=controller.doShow(selectedRelic);
+    Relic chosenRelic=controller.doShow(type, selectedRelic);
     return chosenRelic;
   }
 
-  private Relic doShow(Relic selectedRelic)
+  private Relic doShow(RelicType type, Relic selectedRelic)
   {
     ActionListener al=new ActionListener()
     {
@@ -148,6 +150,12 @@ public class RelicChoiceWindowController extends DefaultDialogController
     {
       Window parentWindow=parent.getWindow();
       thisDialog.setLocationRelativeTo(parentWindow);
+    }
+    // Filter
+    if (type!=null)
+    {
+      _filter.setRelicType(type);
+      _filterController.setFilter();
     }
     // Set selection
     _tableController.selectRelic(selectedRelic);
