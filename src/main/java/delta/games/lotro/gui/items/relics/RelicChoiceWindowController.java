@@ -107,6 +107,10 @@ public class RelicChoiceWindowController extends DefaultDialogController
   public static Relic selectRelic(WindowController parent, RelicType type, Relic selectedRelic)
   {
     RelicChoiceWindowController controller=new RelicChoiceWindowController(parent);
+    if (parent!=null)
+    {
+      controller.getWindow().setLocationRelativeTo(parent.getWindow());
+    }
     Relic chosenRelic=controller.doShow(type, selectedRelic);
     return chosenRelic;
   }

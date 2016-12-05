@@ -16,6 +16,7 @@ import javax.swing.JTextField;
 
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.gui.character.stats.StatsEditionPanelController;
+import delta.games.lotro.gui.items.relics.RelicsEditionPanelController;
 import delta.games.lotro.gui.utils.GuiFactory;
 import delta.games.lotro.gui.utils.IconsManager;
 import delta.games.lotro.lore.items.Armour;
@@ -29,6 +30,9 @@ import delta.games.lotro.lore.items.ItemQuality;
 import delta.games.lotro.lore.items.ItemSturdiness;
 import delta.games.lotro.lore.items.Weapon;
 import delta.games.lotro.lore.items.WeaponType;
+import delta.games.lotro.lore.items.legendary.Legendary;
+import delta.games.lotro.lore.items.legendary.LegendaryAttrs;
+import delta.games.lotro.utils.gui.WindowController;
 import delta.games.lotro.utils.gui.combobox.ComboBoxController;
 import delta.games.lotro.utils.gui.text.FloatEditionController;
 import delta.games.lotro.utils.gui.text.IntegerEditionController;
@@ -43,6 +47,7 @@ public class ItemEditionPanelController
   private Item _item;
   // GUI
   private JPanel _panel;
+  private WindowController _parent;
 
   private JLabel _icon;
   private ComboBoxController<EquipmentLocation> _slot; // <EquipmentLocation>
@@ -77,11 +82,15 @@ public class ItemEditionPanelController
   private FloatEditionController _dps;
   private ComboBoxController<WeaponType> _weaponType;
 
+  private JTabbedPane _tabbedPane;
+
   /**
    * Constructor.
+   * @param parent Parent window.
    */
-  public ItemEditionPanelController()
+  public ItemEditionPanelController(WindowController parent)
   {
+    _parent=parent;
   }
 
   /**
@@ -262,6 +271,7 @@ public class ItemEditionPanelController
     tabbedPane.add("Stats",_stats.getPanel());
     tabbedPane.add("Description",descriptionPanel);
     panel.add(tabbedPane);
+    _tabbedPane=tabbedPane;
 
     return panel;
   }
@@ -331,6 +341,18 @@ public class ItemEditionPanelController
       _weaponType.selectItem(weapon.getWeaponType());
       _damageType.selectItem(weapon.getDamageType());
       _weaponPanel.setVisible(true);
+    }
+
+    // Legendary specifics
+    // Relics
+    JPanel relicsPanel=null;
+    if (item instanceof Legendary)
+    {
+      Legendary legItem=(Legendary)item;
+      LegendaryAttrs attrs=legItem.getLegendaryAttrs();
+      RelicsEditionPanelController relicEditor=new RelicsEditionPanelController(_parent,attrs);
+      relicsPanel=relicEditor.getPanel();
+      _tabbedPane.add("Relics",relicsPanel);
     }
     _item=item;
   }
@@ -507,6 +529,7 @@ public class ItemEditionPanelController
    */
   public void dispose()
   {
+    _parent=null;
     if (_panel!=null)
     {
       _panel.removeAll();

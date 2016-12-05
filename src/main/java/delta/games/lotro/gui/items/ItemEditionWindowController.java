@@ -33,7 +33,7 @@ public class ItemEditionWindowController extends DefaultDialogController impleme
   public ItemEditionWindowController(WindowController parent,Item item)
   {
     super(parent);
-    _panelController=new ItemEditionPanelController();
+    _panelController=new ItemEditionPanelController(this);
     _panelController.setItem(item);
   }
 
