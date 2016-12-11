@@ -2,7 +2,6 @@ package delta.games.lotro.gui.toon;
 
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.swing.JTable;
@@ -135,6 +134,7 @@ public class ToonsTableController
       table.addColumnController(serverColumn);
     }
     // Last update time
+    /*
     {
       CellDataProvider<CharacterFile,Date> lastUpdateCell=new CellDataProvider<CharacterFile,Date>()
       {
@@ -147,6 +147,7 @@ public class ToonsTableController
       lastUpdateColumn.setWidthSpecs(100,-1,100);
       table.addColumnController(lastUpdateColumn);
     }
+    */
     return table;
   }
 
