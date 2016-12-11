@@ -50,24 +50,24 @@ public class ItemEditionPanelController
   private WindowController _parent;
 
   private JLabel _icon;
-  private ComboBoxController<EquipmentLocation> _slot; // <EquipmentLocation>
+  private ComboBoxController<EquipmentLocation> _slot;
   private JTextField _name;
   private StatsEditionPanelController _stats;
   //private EssencesEditionPanelController _essences;
-  private IntegerEditionController _itemLevel; // int (optional)
-  private IntegerEditionController _minLevel; // int (optional)
+  private IntegerEditionController _itemLevel;
+  private IntegerEditionController _minLevel;
   // character class requirement
   private JTextArea _description;
   private JTextField _subCategory;
   private JTextField _birthName;
   private JTextField _crafterName;
-  private ComboBoxController<ItemBinding> _binding; // <ItemBinding>
+  private ComboBoxController<ItemBinding> _binding;
   private JCheckBox _unique; 
-  private IntegerEditionController _durability; // int (optional)
-  private ComboBoxController<ItemSturdiness> _sturdiness; // <ItemSturdiness>
-  private IntegerEditionController _stackMax; // int (optional)
+  private IntegerEditionController _durability;
+  private ComboBoxController<ItemSturdiness> _sturdiness;
+  private IntegerEditionController _stackMax;
   // money
-  private ComboBoxController<ItemQuality> _quality; // <ItemQuality>
+  private ComboBoxController<ItemQuality> _quality;
 
   // Armour attributes
   private JPanel _armourPanel;
