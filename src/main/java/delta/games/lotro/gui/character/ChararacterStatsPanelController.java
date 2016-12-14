@@ -93,15 +93,6 @@ public class ChararacterStatsPanelController
   }
 
   /**
-   * Set character to display.
-   * @param toon Character to set.
-   */
-  public void setCharacter(CharacterData toon)
-  {
-    _toon=toon;
-  }
-
-  /**
    * Update contents.
    */
   public void update()
