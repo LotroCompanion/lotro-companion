@@ -107,4 +107,15 @@ public class IconsManager
     String path="/relicIcons/"+iconFilename;
     return getIcon(path);
   }
+
+  /**
+   * Get icon for a virtue.
+   * @param virtueId Virtue identifier.
+   * @return An icon.
+   */
+  public static ImageIcon getVirtueIcon(String virtueId)
+  {
+    String path="/resources/gui/virtues/"+virtueId.toLowerCase()+".png";
+    return getIcon(path);
+  }
 }
