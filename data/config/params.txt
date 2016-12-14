@@ -1,2 +1,5 @@
 # Default server to use in the new toon window (OPTIONAL)
 default.server=Landroval
+
+# Max character level
+max.character.level=105
