@@ -39,13 +39,41 @@ public class IconWithText implements Icon
   public void paintIcon(Component c, Graphics g, int x, int y)
   {
     _icon.paintIcon(c,g,x,y);
-    FontMetrics metrics=g.getFontMetrics(_font);
-    Rectangle2D r=metrics.getStringBounds(_text,g);
 
-    int dx = (int)(getIconWidth() - r.getWidth()) - 1;
-    int dy = getIconHeight() - metrics.getDescent() - 1;
-    g.setColor(_color);
-    g.drawString(_text, dx, dy);
+    if (_text.length()>0)
+    {
+      FontMetrics metrics=g.getFontMetrics(_font);
+      Rectangle2D r=metrics.getStringBounds(_text,g);
+
+      int dx = (int)(getIconWidth() - r.getWidth()) - 2;
+      int dy = getIconHeight() - metrics.getDescent();
+
+      g.setColor(Color.BLACK);
+      for(int i=dx-1;i<=dx+1;i++)
+      {
+        for(int j=dy-1;j<=dy+1;j++)
+        {
+          if ((i!=dx) || (j!=dy))
+          {
+            g.drawString(_text, i, j);
+          }
+        }
+      }
+      g.setColor(_color);
+      g.drawString(_text, dx, dy);
+    }
+  }
+
+  /**
+   * Set text to display.
+   * @param text Text to display.
+   */
+  public void setText(String text)
+  {
+    if (!_text.equals(text))
+    {
+      _text=text;
+    }
   }
 
   public int getIconWidth()
