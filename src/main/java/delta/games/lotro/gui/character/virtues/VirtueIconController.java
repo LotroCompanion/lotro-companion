@@ -44,6 +44,15 @@ public class VirtueIconController
   }
 
   /**
+   * Get the managed virtue.
+   * @return the managed virtue.
+   */
+  public VirtueId getVirtue()
+  {
+    return _virtueId;
+  }
+
+  /**
    * Set the managed virtue.
    * @param virtueId Virtue to set or <code>null</code>.
    */

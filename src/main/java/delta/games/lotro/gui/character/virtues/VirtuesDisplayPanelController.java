@@ -52,6 +52,22 @@ public class VirtuesDisplayPanelController
   }
 
   /**
+   * Update a virtue.
+   * @param virtueId Targeted virtue.
+   * @param tier New virtue tier.
+   */
+  public void updateVirtue(VirtueId virtueId, int tier)
+  {
+    for(int i=0;i<MAX_VIRTUES;i++)
+    {
+      if (_virtues[i].getVirtue()==virtueId)
+      {
+        _virtues[i].setTier(tier);
+      }
+    }
+  }
+
+  /**
    * Set virtues to show.
    * @param virtues Virtues to show.
    */

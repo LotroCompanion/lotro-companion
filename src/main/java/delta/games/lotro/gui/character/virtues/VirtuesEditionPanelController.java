@@ -7,16 +7,18 @@ import javax.swing.JPanel;
 
 import delta.games.lotro.character.stats.virtues.VirtuesSet;
 import delta.games.lotro.common.VirtueId;
+import delta.games.lotro.gui.character.virtues.VirtueEditionUiController.TierValueListener;
 import delta.games.lotro.gui.utils.GuiFactory;
 
 /**
  * Controller for a virtues edition panel.
  * @author DAM
  */
-public class VirtuesEditionPanelController
+public class VirtuesEditionPanelController implements TierValueListener
 {
   private JPanel _panel;
   private HashMap<VirtueId,VirtueEditionUiController> _virtues;
+  private VirtuesDisplayPanelController _selectedVirtues;
 
   /**
    * Constructor.
@@ -39,17 +41,36 @@ public class VirtuesEditionPanelController
   private JPanel build()
   {
     JPanel panel=GuiFactory.buildBackgroundPanel(null);
-    int index=0;
-    for(VirtueId virtueId : VirtueId.values())
+    // All virtues
     {
-      VirtueEditionUiController ui=new VirtueEditionUiController(virtueId,panel);
-      int[] position=getPosition(index);
-      ui.setLocation(position[0],position[1]);
-      _virtues.put(virtueId,ui);
-      index++;
+      int index=0;
+      for(VirtueId virtueId : VirtueId.values())
+      {
+        VirtueEditionUiController ui=new VirtueEditionUiController(virtueId,panel);
+        ui.setListener(this);
+        int[] position=getPosition(index);
+        ui.setLocation(position[0],position[1]);
+        _virtues.put(virtueId,ui);
+        index++;
+      }
+    }
+    // Selected virtues
+    {
+      _selectedVirtues=new VirtuesDisplayPanelController();
+      JPanel selectedVirtuesPanel=_selectedVirtues.getPanel();
+      panel.add(selectedVirtuesPanel);
+      selectedVirtuesPanel.setSize(selectedVirtuesPanel.getPreferredSize());
+      int x=CENTER_X-(selectedVirtuesPanel.getWidth()/2);
+      int y=CENTER_Y-(selectedVirtuesPanel.getHeight()/2);
+      selectedVirtuesPanel.setLocation(x,y);
     }
     panel.setPreferredSize(new Dimension(650,380));
     return panel;
+  }
+
+  public void tierChanged(VirtueId virtueId, int tier)
+  {
+    _selectedVirtues.updateVirtue(virtueId,tier);
   }
 
   /**
@@ -58,12 +79,15 @@ public class VirtuesEditionPanelController
    */
   public void setVirtues(VirtuesSet set)
   {
+    // Set tiers
     for(VirtueId virtueId : VirtueId.values())
     {
       VirtueEditionUiController ui=_virtues.get(virtueId);
       int tier=set.getVirtueRank(virtueId);
       ui.setTier(tier);
     }
+    // Set selected virtues
+    _selectedVirtues.setVirtues(set);
   }
 
   /**

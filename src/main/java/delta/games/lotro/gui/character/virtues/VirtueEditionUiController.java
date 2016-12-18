@@ -24,6 +24,21 @@ public class VirtueEditionUiController implements ActionListener
   private VirtueIconController _iconController;
   private JButton _plus;
   private JButton _minus;
+  private TierValueListener _listener;
+
+  /**
+   * Tier value listener.
+   * @author DAM
+   */
+  public interface TierValueListener
+  {
+    /**
+     * Called when the tier of the managed virtue has changed.
+     * @param virtueId Targeted virtue.
+     * @param tier New tier value.
+     */
+    void tierChanged(VirtueId virtueId, int tier);
+  }
 
   /**
    * Constructor.
@@ -40,6 +55,16 @@ public class VirtueEditionUiController implements ActionListener
     panel.add(_plus);
     _minus=buildButton('-');
     panel.add(_minus);
+    _listener=null;
+  }
+
+  /**
+   * Set a tier value listener.
+   * @param listener Listener to set.
+   */
+  public void setListener(TierValueListener listener)
+  {
+    _listener=listener;
   }
 
   /**
@@ -50,6 +75,8 @@ public class VirtueEditionUiController implements ActionListener
   public void setLocation(int x, int y)
   {
     JLabel label=_iconController.getLabel();
+    x-=label.getWidth()/2;
+    y-=label.getHeight()/2;
     label.setLocation(x,y);
     int buttonX=x+label.getWidth()+2;
     int buttonY=y+(label.getHeight()-_plus.getHeight())/2;
@@ -76,6 +103,10 @@ public class VirtueEditionUiController implements ActionListener
       if (_tier<MAX_TIER)
       {
         _tier++;
+        if (_listener!=null)
+        {
+          _listener.tierChanged(_iconController.getVirtue(),_tier);
+        }
         updateUi();
       }
     }
@@ -84,6 +115,10 @@ public class VirtueEditionUiController implements ActionListener
       if (_tier>0)
       {
         _tier--;
+        if (_listener!=null)
+        {
+          _listener.tierChanged(_iconController.getVirtue(),_tier);
+        }
         updateUi();
       }
     }
