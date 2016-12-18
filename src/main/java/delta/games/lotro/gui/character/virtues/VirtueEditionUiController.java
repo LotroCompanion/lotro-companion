@@ -2,12 +2,20 @@ package delta.games.lotro.gui.character.virtues;
 
 import java.awt.Font;
 import java.awt.Insets;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.IOException;
 
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.TransferHandler;
 
 import delta.games.lotro.common.VirtueId;
 import delta.games.lotro.gui.utils.GuiFactory;
@@ -50,12 +58,63 @@ public class VirtueEditionUiController implements ActionListener
     _tier=0;
     Font font=panel.getFont();
     _iconController=new VirtueIconController(virtueId,font);
-    panel.add(_iconController.getLabel());
+    JLabel label=_iconController.getLabel();
+
+    label.setTransferHandler(new DragTransferHandler(virtueId));
+    label.setName(virtueId.name());
+    label.addMouseListener(new MouseAdapter()
+    {
+      public void mousePressed(MouseEvent e)
+      {
+        JComponent lab=(JComponent)e.getSource();
+        TransferHandler handle=lab.getTransferHandler();
+        handle.exportAsDrag(lab,e,TransferHandler.COPY);
+      }
+    });
+
+    panel.add(label);
     _plus=buildButton('+');
     panel.add(_plus);
     _minus=buildButton('-');
     panel.add(_minus);
     _listener=null;
+  }
+
+  private static class DragTransferHandler extends TransferHandler
+  {
+    private VirtueId _virtueId;
+
+    @Override
+    protected Transferable createTransferable(JComponent c)
+    {
+      Transferable t=new Transferable()
+      {
+        public boolean isDataFlavorSupported(DataFlavor flavor)
+        {
+          return flavor==DataFlavor.stringFlavor;
+        }
+        public DataFlavor[] getTransferDataFlavors()
+        {
+          return new DataFlavor[] { DataFlavor.stringFlavor };
+        }
+        public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException
+        {
+          return _virtueId;
+        }
+      };
+      return t;
+    }
+    public DragTransferHandler(VirtueId virtueId)
+    {
+      super("text");
+      _virtueId=virtueId;
+    }
+
+    @Override
+    public boolean canImport(TransferSupport support)
+    {
+      return false;
+    }
   }
 
   /**

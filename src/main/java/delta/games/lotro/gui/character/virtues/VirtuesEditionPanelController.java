@@ -1,9 +1,14 @@
 package delta.games.lotro.gui.character.virtues;
 
+import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
 import java.util.HashMap;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.TransferHandler;
 
 import delta.games.lotro.character.stats.virtues.VirtuesSet;
 import delta.games.lotro.common.VirtueId;
@@ -58,14 +63,68 @@ public class VirtuesEditionPanelController implements TierValueListener
     {
       _selectedVirtues=new VirtuesDisplayPanelController();
       JPanel selectedVirtuesPanel=_selectedVirtues.getPanel();
+      for(int i=0;i<VirtuesDisplayPanelController.MAX_VIRTUES;i++)
+      {
+        VirtueIconController iconController=_selectedVirtues.getVirtue(i);
+        JLabel label=iconController.getLabel();
+        TransferHandler handler=new DropTransferHandler();
+        label.setTransferHandler(handler);
+      }
       panel.add(selectedVirtuesPanel);
       selectedVirtuesPanel.setSize(selectedVirtuesPanel.getPreferredSize());
       int x=CENTER_X-(selectedVirtuesPanel.getWidth()/2);
       int y=CENTER_Y-(selectedVirtuesPanel.getHeight()/2);
       selectedVirtuesPanel.setLocation(x,y);
     }
-    panel.setPreferredSize(new Dimension(650,380));
+    panel.setPreferredSize(new Dimension(634,348));
     return panel;
+  }
+
+  private class DropTransferHandler extends TransferHandler
+  {
+    @Override
+    public boolean canImport(TransferSupport support)
+    {
+      VirtueId virtueId=getVirtue(support);
+      if (virtueId!=null)
+      {
+        return !_selectedVirtues.hasVirtue(virtueId);
+      }
+      return false;
+    }
+
+    private VirtueId getVirtue(TransferSupport support)
+    {
+      VirtueId virtueId=null;
+      try
+      {
+        Transferable t=support.getTransferable();
+        virtueId=(VirtueId)t.getTransferData(DataFlavor.stringFlavor);
+      }
+      catch(Exception e)
+      {
+        e.printStackTrace();
+      }
+      return virtueId;
+    }
+
+    @Override
+    public boolean importData(TransferSupport support)
+    {
+      VirtueId virtueId=getVirtue(support);
+      System.out.println(virtueId);
+      Component target=support.getComponent();
+      for(int i=0;i<VirtuesDisplayPanelController.MAX_VIRTUES;i++)
+      {
+        JLabel label=_selectedVirtues.getVirtue(i).getLabel();
+        if (label==target)
+        {
+          int tier=_virtues.get(virtueId).getTier();
+          _selectedVirtues.setVirtue(i,virtueId,tier);
+        }
+      }
+      return true;
+    }
   }
 
   public void tierChanged(VirtueId virtueId, int tier)

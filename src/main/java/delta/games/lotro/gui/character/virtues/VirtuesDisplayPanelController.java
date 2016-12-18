@@ -16,7 +16,10 @@ import delta.games.lotro.gui.utils.GuiFactory;
  */
 public class VirtuesDisplayPanelController
 {
-  private static final int MAX_VIRTUES=5;
+  /**
+   * Maximum number of slotted virtues.
+   */
+  public static final int MAX_VIRTUES=5;
   private VirtueIconController[] _virtues;
   private JPanel _panel;
 
@@ -36,6 +39,45 @@ public class VirtuesDisplayPanelController
   public JPanel getPanel()
   {
     return _panel;
+  }
+
+  /**
+   * Get the virtue icon controller at the given index.
+   * @param index Targeted index, starting at 0.
+   * @return A controller.
+   */
+  public VirtueIconController getVirtue(int index)
+  {
+    return _virtues[index];
+  }
+
+  /**
+   * Indicates if this display shows the given virtue or not.
+   * @param virtueId Targeted virtue.
+   * @return <code>true</code> if it does, <code>false</code> otherwise.
+   */
+  public boolean hasVirtue(VirtueId virtueId)
+  {
+    for(int i=0;i<MAX_VIRTUES;i++)
+    {
+      if (_virtues[i].getVirtue()==virtueId)
+      {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /**
+   * Set the displayed virtue.
+   * @param index Index of the slot to use.
+   * @param virtueId Virtue to set.
+   * @param tier Tier to set.
+   */
+  public void setVirtue(int index, VirtueId virtueId, int tier)
+  {
+    _virtues[index].setVirtue(virtueId);
+    _virtues[index].setTier(tier);
   }
 
   private JPanel build()
@@ -76,9 +118,8 @@ public class VirtuesDisplayPanelController
     for(int i=0;i<MAX_VIRTUES;i++)
     {
       VirtueId virtueId=virtues.getSelectedVirtue(i);
-      _virtues[i].setVirtue(virtueId);
       int tier=virtues.getVirtueRank(virtueId);
-      _virtues[i].setTier(tier);
+      setVirtue(i,virtueId,tier);
     }
   }
 }
