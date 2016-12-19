@@ -1,16 +1,22 @@
 package delta.games.lotro.gui.character;
 
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import delta.games.lotro.character.CharacterData;
+import delta.games.lotro.character.stats.virtues.VirtuesSet;
+import delta.games.lotro.gui.character.virtues.VirtuesDisplayPanelController;
+import delta.games.lotro.gui.character.virtues.VirtuesEditionDialogController;
 import delta.games.lotro.gui.utils.GuiFactory;
 import delta.games.lotro.utils.gui.DefaultWindowController;
 import delta.games.lotro.utils.gui.WindowsManager;
@@ -21,8 +27,10 @@ import delta.games.lotro.utils.gui.WindowsManager;
  */
 public class CharacterDataWindowController extends DefaultWindowController implements ActionListener
 {
+  private CharacterMainAttrsEditionPanelController _attrsController;
   private ChararacterStatsPanelController _statsController;
   private EquipmentPanelController _equipmentController;
+  private VirtuesDisplayPanelController _virtuesController;
   private CharacterData _toon;
   private WindowsManager _windowsManager;
 
@@ -34,8 +42,12 @@ public class CharacterDataWindowController extends DefaultWindowController imple
   {
     _toon=data;
     _windowsManager=new WindowsManager();
+    _attrsController=new CharacterMainAttrsEditionPanelController(data);
+    _attrsController.set();
     _statsController=new ChararacterStatsPanelController(data);
     _equipmentController=new EquipmentPanelController(this,data);
+    _virtuesController=new VirtuesDisplayPanelController();
+    _virtuesController.setVirtues(data.getVirtues());
   }
 
   /**
@@ -54,18 +66,52 @@ public class CharacterDataWindowController extends DefaultWindowController imple
   @Override
   protected JComponent buildContents()
   {
+    JPanel attrsPanel=_attrsController.getPanel();
     // Stats panel
     JPanel statsPanel=_statsController.getPanel();
     // Equipment panel
     JPanel equipmentPanel=_equipmentController.getPanel();
 
-    // Whole panel
-    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
+    // Center panel
+    JPanel panel=GuiFactory.buildBackgroundPanel(new GridBagLayout());
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
     panel.add(equipmentPanel,c);
     c=new GridBagConstraints(1,0,1,1,0,0,GridBagConstraints.NORTHEAST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(statsPanel,c);
 
+    // Bottom panel
+    JPanel virtuesPanel=buildVirtuesPanel();
+    JPanel bottomPanel=GuiFactory.buildPanel(new GridBagLayout());
+    c=new GridBagConstraints(1,0,1,1,0,0,GridBagConstraints.NORTHEAST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    bottomPanel.add(virtuesPanel,c);
+
+    JPanel fullPanel=GuiFactory.buildBackgroundPanel(new BorderLayout());
+    fullPanel.add(attrsPanel,BorderLayout.NORTH);
+    fullPanel.add(panel,BorderLayout.CENTER);
+    fullPanel.add(bottomPanel,BorderLayout.SOUTH);
+    return fullPanel;
+  }
+
+  private JPanel buildVirtuesPanel()
+  {
+    JPanel panel=GuiFactory.buildPanel(new FlowLayout());
+    JPanel virtuesPanel=_virtuesController.getPanel();
+    panel.add(virtuesPanel);
+    JButton button=GuiFactory.buildButton("Edit...");
+    panel.add(button);
+    ActionListener al=new ActionListener()
+    {
+      public void actionPerformed(ActionEvent e)
+      {
+        VirtuesSet virtues=VirtuesEditionDialogController.editVirtues(CharacterDataWindowController.this,_toon.getVirtues());
+        if (virtues!=null)
+        {
+          _toon.getVirtues().copyFrom(virtues);
+          _virtuesController.setVirtues(virtues);
+        }
+      }
+    };
+    button.addActionListener(al);
     return panel;
   }
 

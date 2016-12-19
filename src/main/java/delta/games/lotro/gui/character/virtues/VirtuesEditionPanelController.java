@@ -112,7 +112,6 @@ public class VirtuesEditionPanelController implements TierValueListener
     public boolean importData(TransferSupport support)
     {
       VirtueId virtueId=getVirtue(support);
-      System.out.println(virtueId);
       Component target=support.getComponent();
       for(int i=0;i<VirtuesDisplayPanelController.MAX_VIRTUES;i++)
       {
@@ -162,6 +161,7 @@ public class VirtuesEditionPanelController implements TierValueListener
       int tier=ui.getTier();
       ret.setVirtueValue(virtueId,tier);
     }
+    _selectedVirtues.getSelectedVirtues(ret);
     return ret;
   }
 
@@ -179,5 +179,23 @@ public class VirtuesEditionPanelController implements TierValueListener
     ret[0]=x;
     ret[1]=y;
     return ret;
+  }
+
+  /**
+   * Release all managed resources.
+   */
+  public void dispose()
+  {
+    if (_panel!=null)
+    {
+      _panel.removeAll();
+      _panel=null;
+    }
+    if (_selectedVirtues!=null)
+    {
+      _selectedVirtues.dispose();
+      _selectedVirtues=null;
+    }
+    _virtues=null;
   }
 }

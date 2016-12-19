@@ -130,4 +130,15 @@ public class VirtueIconController
     String html="<html>"+text.replace(EndOfLine.NATIVE_EOL,"<br>")+"</html>";
     return html;
   }
+
+  /**
+   * Release all managed resources.
+   */
+  public void dispose()
+  {
+    _virtueId=null;
+    _label=null;
+    _icon=null;
+    _font=null;
+  }
 }

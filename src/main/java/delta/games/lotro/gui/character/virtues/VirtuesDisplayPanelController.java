@@ -122,4 +122,42 @@ public class VirtuesDisplayPanelController
       setVirtue(i,virtueId,tier);
     }
   }
+
+  /**
+   * Get the selected virtues.
+   * @param virtues Storage for results.
+   */
+  public void getSelectedVirtues(VirtuesSet virtues)
+  {
+    for(int i=0;i<MAX_VIRTUES;i++)
+    {
+      VirtueIconController virtueController=_virtues[i];
+      VirtueId virtue=virtueController.getVirtue();
+      virtues.setSelectedVirtue(virtue,i);
+    }
+  }
+
+  /**
+   * Release all managed resources.
+   */
+  public void dispose()
+  {
+    if (_panel!=null)
+    {
+      _panel.removeAll();
+      _panel=null;
+    }
+    if (_virtues!=null)
+    {
+      for(int i=0;i<MAX_VIRTUES;i++)
+      {
+        if (_virtues[i]!=null)
+        {
+          _virtues[i].dispose();
+          _virtues[i]=null;
+        }
+      }
+      _virtues=null;
+    }
+  }
 }
