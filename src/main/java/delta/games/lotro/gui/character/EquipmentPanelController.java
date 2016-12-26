@@ -1,27 +1,39 @@
 package delta.games.lotro.gui.character;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLayeredPane;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 
 import delta.common.utils.text.EndOfLine;
 import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.CharacterEquipment;
 import delta.games.lotro.character.CharacterEquipment.EQUIMENT_SLOT;
 import delta.games.lotro.character.CharacterEquipment.SlotContents;
+import delta.games.lotro.character.events.CharacterEvent;
+import delta.games.lotro.character.events.CharacterEventType;
+import delta.games.lotro.character.events.CharacterEventsManager;
 import delta.games.lotro.gui.items.ItemChoiceWindowController;
+import delta.games.lotro.gui.items.ItemEditionWindowController;
 import delta.games.lotro.gui.utils.GuiFactory;
 import delta.games.lotro.gui.utils.IconsManager;
 import delta.games.lotro.lore.items.Item;
+import delta.games.lotro.lore.items.ItemFactory;
 import delta.games.lotro.lore.items.ItemPropertyNames;
 import delta.games.lotro.lore.items.ItemsManager;
 import delta.games.lotro.utils.gui.WindowController;
@@ -56,12 +68,17 @@ public class EquipmentPanelController implements ActionListener
   private static final int Y_MARGIN_COLUMNS_ROW=25;
   private static final int Y_ROW=Y_START+DELTA_Y*3+ICON_SIZE+ICON_FRAME_SIZE+Y_MARGIN_COLUMNS_ROW;
 
+  private static final String EDIT_COMMAND="edit";
+  private static final String CHOOSE_COMMAND="choose";
+  private static final String REMOVE_COMMAND="remove";
+
   private WindowController _parentWindow;
   private JPanel _panel;
   private JLayeredPane _layeredPane;
   private HashMap<EQUIMENT_SLOT,Dimension> _iconPositions;
   private CharacterData _toon;
   private HashMap<EQUIMENT_SLOT,JButton> _buttons;
+  private JPopupMenu _contextMenu;
 
   /**
    * Constructor.
@@ -73,6 +90,7 @@ public class EquipmentPanelController implements ActionListener
     _parentWindow=parent;
     _toon=toon;
     _buttons=new HashMap<EQUIMENT_SLOT,JButton>();
+    _contextMenu=buildContextualMenu();
     initPositions();
   }
 
@@ -124,7 +142,50 @@ public class EquipmentPanelController implements ActionListener
     _iconPositions.put(EQUIMENT_SLOT.CLASS_ITEM,new Dimension(x,y));
   }
 
-  /**
+  private JPopupMenu buildContextualMenu()
+  {
+    JPopupMenu popup=new JPopupMenu();
+    JMenuItem edit=new JMenuItem("Edit...");
+    edit.setActionCommand(EDIT_COMMAND);
+    edit.addActionListener(this);
+    popup.add(edit);
+    JMenuItem choose=new JMenuItem("Choose...");
+    choose.setActionCommand(CHOOSE_COMMAND);
+    choose.addActionListener(this);
+    popup.add(choose);
+    JMenuItem remove=new JMenuItem("Remove");
+    remove.setActionCommand(REMOVE_COMMAND);
+    remove.addActionListener(this);
+    popup.add(remove);
+    return popup;
+  }
+
+  private MouseListener buildRightClickListener()
+  {
+    class PopClickListener extends MouseAdapter
+    {
+      public void mousePressed(MouseEvent e)
+      {
+        if (e.isPopupTrigger()) doPop(e);
+      }
+
+      public void mouseReleased(MouseEvent e)
+      {
+        if (e.isPopupTrigger()) doPop(e);
+      }
+
+      private void doPop(MouseEvent e)
+      {
+        EQUIMENT_SLOT slot=findSlotForButton((Component)e.getSource());
+        Item item=getItemForSlot(slot);
+        _contextMenu.getComponent(0).setEnabled(item!=null);
+        _contextMenu.show(e.getComponent(),e.getX(),e.getY());
+      }
+    }
+    return new PopClickListener();
+  }
+
+    /**
    * Get the managed panel.
    * @return a panel.
    */
@@ -159,6 +220,7 @@ public class EquipmentPanelController implements ActionListener
 
     ImageIcon icon=IconsManager.getIcon(ITEM_WITH_NO_ICON);
 
+    MouseListener listener=buildRightClickListener();
     for(EQUIMENT_SLOT slot : EQUIMENT_SLOT.values())
     {
       // Position for item
@@ -180,9 +242,10 @@ public class EquipmentPanelController implements ActionListener
       _buttons.put(slot,button);
       button.setActionCommand(slot.name());
       button.addActionListener(this);
+      button.addMouseListener(listener);
       button.setToolTipText("");
     }
-    update();
+    updateIcons();
 
     return panel;
   }
@@ -190,37 +253,35 @@ public class EquipmentPanelController implements ActionListener
   /**
    * Update contents.
    */
-  public void update()
+  private void updateIcons()
   {
-    CharacterEquipment equipment=_toon.getEquipment();
-
     for(EQUIMENT_SLOT slot : EQUIMENT_SLOT.values())
     {
-      SlotContents contents=equipment.getSlotContents(slot,false);
-      Item item=getItemForSlot(contents);
+      ImageIcon icon=null;
+      String tooltipText=null;
+      Item item=getItemForSlot(slot);
       if (item!=null)
       {
         String iconId=item.getProperty(ItemPropertyNames.ICON_ID);
         String backgroundIconId=item.getProperty(ItemPropertyNames.BACKGROUND_ICON_ID);
-        ImageIcon icon=IconsManager.getItemIcon(iconId,backgroundIconId);
-        if (icon==null)
-        {
-          icon=IconsManager.getIcon(ITEM_WITH_NO_ICON);
-        }
-        JButton button=_buttons.get(slot);
-        if (icon!=null)
-        {
-          button.setIcon(icon);
-        }
+        icon=IconsManager.getItemIcon(iconId,backgroundIconId);
         String dump=item.dump();
-        dump="<html>"+dump.replace(EndOfLine.NATIVE_EOL,"<br>")+"</html>";
-        button.setToolTipText(dump);
+        tooltipText="<html>"+dump.replace(EndOfLine.NATIVE_EOL,"<br>")+"</html>";
       }
+      if (icon==null)
+      {
+        icon=IconsManager.getIcon(ITEM_WITH_NO_ICON);
+      }
+      JButton button=_buttons.get(slot);
+      button.setIcon(icon);
+      button.setToolTipText(tooltipText);
     }
   }
 
-  private Item getItemForSlot(SlotContents contents)
+  private Item getItemForSlot(EQUIMENT_SLOT slot)
   {
+    CharacterEquipment equipment=_toon.getEquipment();
+    SlotContents contents=equipment.getSlotContents(slot,false);
     Item item=null;
     if (contents!=null)
     {
@@ -239,16 +300,40 @@ public class EquipmentPanelController implements ActionListener
     return item;
   }
 
-  private void editItem(EQUIMENT_SLOT slot, Item item)
+  private void handleEditItem(EQUIMENT_SLOT slot)
   {
+    Item item=getItemForSlot(slot);
+    if (item!=null)
+    {
+      ItemEditionWindowController ctrl=new ItemEditionWindowController(_parentWindow,item);
+      ctrl.show(true);
+      refreshToon();
+    }
+  }
+
+  private EQUIMENT_SLOT findSlotForButton(Component c)
+  {
+    for(Map.Entry<EQUIMENT_SLOT,JButton> entry : _buttons.entrySet())
+    {
+      if (c==entry.getValue())
+      {
+        return entry.getKey();
+      }
+    }
+    return null;
+  }
+
+  private void handleChooseItem(EQUIMENT_SLOT slot)
+  {
+    Item item=getItemForSlot(slot);
     item=chooseItem(slot,item);
     if (item!=null)
     {
       CharacterEquipment equipment=_toon.getEquipment();
       SlotContents contents=equipment.getSlotContents(slot,true);
-      contents.setItem(item);
-      update();
-      System.out.println(item.dump());
+      Item clonedItem=ItemFactory.clone(item);
+      contents.setItem(clonedItem);
+      refreshToon();
     }
   }
 
@@ -264,17 +349,67 @@ public class EquipmentPanelController implements ActionListener
     return ret;
   }
 
+  private void handleRemoveItem(EQUIMENT_SLOT slot)
+  {
+    CharacterEquipment equipment=_toon.getEquipment();
+    SlotContents contents=equipment.getSlotContents(slot,false);
+    if (contents!=null)
+    {
+      contents.setItem(null);
+      contents.setItemId(null);
+    }
+    refreshToon();
+  }
+
   public void actionPerformed(ActionEvent e)
   {
     String cmd=e.getActionCommand();
-    EQUIMENT_SLOT slot=EQUIMENT_SLOT.valueOf(cmd);
-    if (slot!=null)
+    if ((EDIT_COMMAND.equals(cmd)) || (CHOOSE_COMMAND.equals(cmd)) || (REMOVE_COMMAND.equals(cmd)))
     {
-      CharacterEquipment equipment=_toon.getEquipment();
-      SlotContents contents=equipment.getSlotContents(slot,false);
-      Item item=getItemForSlot(contents);
-      editItem(slot,item);
+      // From contextual menu
+      Component invoker=_contextMenu.getInvoker();
+      EQUIMENT_SLOT slot=findSlotForButton(invoker);
+      if (slot!=null)
+      {
+        if (EDIT_COMMAND.equals(cmd))
+        {
+          handleEditItem(slot);
+        }
+        else if (CHOOSE_COMMAND.equals(cmd))
+        {
+          handleChooseItem(slot);
+        }
+        else if (REMOVE_COMMAND.equals(cmd))
+        {
+          handleRemoveItem(slot);
+        }
+      }
     }
+    else
+    {
+      // Straight click
+      EQUIMENT_SLOT slot=EQUIMENT_SLOT.valueOf(cmd);
+      if (slot!=null)
+      {
+        Item item=getItemForSlot(slot);
+        if (item!=null)
+        {
+          handleEditItem(slot);
+        }
+        else
+        {
+          handleChooseItem(slot);
+        }
+      }
+    }
+  }
+
+  private void refreshToon()
+  {
+    updateIcons();
+    // Broadcast toon creation event...
+    CharacterEvent event=new CharacterEvent(null,_toon);
+    CharacterEventsManager.invokeEvent(CharacterEventType.CHARACTER_DATA_UPDATED,event);
   }
 
   /**
