@@ -10,10 +10,10 @@ import delta.games.lotro.character.stats.CharacterGeneratorMeva;
 import delta.games.lotro.character.stats.CharacterStatsComputer;
 
 /**
- * Test for character stats panel window.
+ * Test for character stats summary panel window.
  * @author DAM
  */
-public class MainTestCharacterStatsPanelController
+public class MainTestCharacterStatsSummaryPanelController
 {
   /**
    * Basic main method for test.
@@ -27,7 +27,7 @@ public class MainTestCharacterStatsPanelController
     CharacterStatsComputer statsComputer=new CharacterStatsComputer();
     BasicStatsSet stats=statsComputer.getStats(meva);
     meva.getStats().setStats(stats);
-    ChararacterStatsPanelController panelCtrl=new ChararacterStatsPanelController(meva);
+    CharacterStatsSummaryPanelController panelCtrl=new CharacterStatsSummaryPanelController(meva);
     JFrame frame=new JFrame();
     frame.add(panelCtrl.getPanel());
     frame.pack();

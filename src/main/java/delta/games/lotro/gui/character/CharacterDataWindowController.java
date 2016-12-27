@@ -28,7 +28,7 @@ import delta.games.lotro.utils.gui.WindowsManager;
 public class CharacterDataWindowController extends DefaultWindowController implements ActionListener
 {
   private CharacterMainAttrsEditionPanelController _attrsController;
-  private ChararacterStatsPanelController _statsController;
+  private CharacterStatsSummaryPanelController _statsController;
   private EquipmentPanelController _equipmentController;
   private VirtuesDisplayPanelController _virtuesController;
   private CharacterData _toon;
@@ -44,7 +44,7 @@ public class CharacterDataWindowController extends DefaultWindowController imple
     _windowsManager=new WindowsManager();
     _attrsController=new CharacterMainAttrsEditionPanelController(data);
     _attrsController.set();
-    _statsController=new ChararacterStatsPanelController(data);
+    _statsController=new CharacterStatsSummaryPanelController(data);
     _equipmentController=new EquipmentPanelController(this,data);
     _virtuesController=new VirtuesDisplayPanelController();
     _virtuesController.setVirtues(data.getVirtues());

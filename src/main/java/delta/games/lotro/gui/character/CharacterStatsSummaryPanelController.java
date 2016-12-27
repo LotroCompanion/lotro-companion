@@ -16,10 +16,10 @@ import delta.games.lotro.gui.utils.GuiFactory;
 import delta.games.lotro.utils.FixedDecimalsInteger;
 
 /**
- * Controller for character stats panel.
+ * Controller for the character stats summary panel.
  * @author DAM
  */
-public class ChararacterStatsPanelController
+public class CharacterStatsSummaryPanelController
 {
   private JPanel _panel;
   private CharacterData _toon;
@@ -30,7 +30,7 @@ public class ChararacterStatsPanelController
    * Constructor.
    * @param toon Toon to display.
    */
-  public ChararacterStatsPanelController(CharacterData toon)
+  public CharacterStatsSummaryPanelController(CharacterData toon)
   {
     _toon=toon;
   }
