@@ -30,7 +30,7 @@ public class ItemEditionWindowController extends DefaultDialogController impleme
    * @param parent Parent window.
    * @param item Item.
    */
-  public ItemEditionWindowController(WindowController parent,Item item)
+  public ItemEditionWindowController(WindowController parent, Item item)
   {
     super(parent);
     _panelController=new ItemEditionPanelController(this);
@@ -87,19 +87,9 @@ public class ItemEditionWindowController extends DefaultDialogController impleme
 
   private void ok()
   {
-    Item item=_panelController.getItem();
-    System.out.println(item.dump());
+    /*Item item=*/_panelController.getItem();
     dispose();
   }
-
-  /*
-  private void showErrorMessage(String errorMsg)
-  {
-    String title="Item edition";
-    JDialog dialog=getDialog();
-    GuiFactory.showErrorDialog(dialog,errorMsg,title);
-  }
-  */
 
   private void cancel()
   {

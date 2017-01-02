@@ -43,7 +43,7 @@ public class FontsManager
       GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
       ge.registerFont(f);
       String s = f.getFamily();
-      System.out.println(s);
+      //System.out.println(s);
       _font = new Font(s, Font.PLAIN, 12);
     }
     catch(Exception e)
