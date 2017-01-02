@@ -10,7 +10,12 @@ import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 
 import delta.games.lotro.character.CharacterData;
+import delta.games.lotro.character.events.CharacterEvent;
+import delta.games.lotro.character.events.CharacterEventListener;
+import delta.games.lotro.character.events.CharacterEventType;
+import delta.games.lotro.character.events.CharacterEventsManager;
 import delta.games.lotro.character.stats.BasicStatsSet;
+import delta.games.lotro.character.stats.CharacterStatsComputer;
 import delta.games.lotro.character.stats.STAT;
 import delta.games.lotro.gui.utils.GuiFactory;
 import delta.games.lotro.utils.FixedDecimalsInteger;
@@ -19,13 +24,13 @@ import delta.games.lotro.utils.FixedDecimalsInteger;
  * Controller for the character stats summary panel.
  * @author DAM
  */
-public class CharacterStatsSummaryPanelController
+public class CharacterStatsSummaryPanelController implements CharacterEventListener
 {
   private JPanel _panel;
   private CharacterData _toon;
   private JLabel[] _statLabels;
   private JLabel[] _statValues;
-  
+
   /**
    * Constructor.
    * @param toon Toon to display.
@@ -44,6 +49,8 @@ public class CharacterStatsSummaryPanelController
     if (_panel==null)
     {
       _panel=buildPanel();
+      // Register to events
+      CharacterEventsManager.addListener(this);
     }
     return _panel;
   }
@@ -59,18 +66,17 @@ public class CharacterStatsSummaryPanelController
     {
       String label=stats[i].getName()+":";
       _statLabels[i]=GuiFactory.buildLabel(label);
-      _statValues[i]=GuiFactory.buildLabel("");
+      _statValues[i]=GuiFactory.buildLabel("99999");
     }
-    update();
 
     // Morale, Power, Armor
     STAT[] main={STAT.MORALE,STAT.POWER,STAT.ARMOUR};
     // Might, Agility, Vitality, Will, Fate
     STAT[] mainStats={STAT.MIGHT,STAT.AGILITY,STAT.VITALITY,STAT.WILL,STAT.FATE};
-    // Offence: Critical hit, finesse, Physical mastery? Tactical Mastery?
-    STAT[] offence={STAT.CRITICAL_RATING,STAT.FINESSE};
-    // Defence: Resistance, crit hit avoidance, incoming healing?
-    STAT[] defence={STAT.RESISTANCE,STAT.CRITICAL_DEFENCE};
+    // Offence: Critical hit, finesse, Physical mastery Tactical Mastery
+    STAT[] offence={STAT.CRITICAL_RATING,STAT.FINESSE,STAT.PHYSICAL_MASTERY,STAT.TACTICAL_MASTERY};
+    // Defence: Resistance, crit hit avoidance, incoming healing
+    STAT[] defence={STAT.RESISTANCE,STAT.CRITICAL_DEFENCE,STAT.INCOMING_HEALING};
     // - Avoidance: block, parry, evade
     STAT[] avoidance={STAT.BLOCK,STAT.PARRY,STAT.EVADE};
     // - mitigations:
@@ -112,7 +118,7 @@ public class CharacterStatsSummaryPanelController
         }
         else
         {
-          statValue="N/A";
+          statValue="-";
         }
       }
       if (_statValues[i]!=null)
@@ -154,11 +160,29 @@ public class CharacterStatsSummaryPanelController
     return panel;
   }
 
+  public void eventOccured(CharacterEventType type, CharacterEvent event)
+  {
+    if (type==CharacterEventType.CHARACTER_DATA_UPDATED)
+    {
+      CharacterData data=event.getToonData();
+      if (data==_toon)
+      {
+        CharacterStatsComputer computer=new CharacterStatsComputer();
+        BasicStatsSet stats=computer.getStats(data);
+        BasicStatsSet toonStats=_toon.getStats();
+        toonStats.clear();
+        toonStats.setStats(stats);
+        update();
+      }
+    }
+  }
+
   /**
    * Release all managed resources.
    */
   public void dispose()
   {
+    CharacterEventsManager.removeListener(this);
     if (_panel!=null)
     {
       _panel.removeAll();

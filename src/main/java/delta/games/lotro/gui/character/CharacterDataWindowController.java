@@ -124,9 +124,17 @@ public class CharacterDataWindowController extends DefaultWindowController imple
     String serverName=_toon.getServer();
     String title="Character: "+name+" @ "+serverName;
     frame.setTitle(title);
+    // Size
     frame.pack();
     frame.setResizable(false);
+    // Set values
+    setValues();
     return frame;
+  }
+
+  private void setValues()
+  {
+    _statsController.update();
   }
 
   @Override
