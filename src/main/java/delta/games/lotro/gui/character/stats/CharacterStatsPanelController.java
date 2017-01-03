@@ -24,6 +24,8 @@ public class CharacterStatsPanelController
 {
   private HashMap<STAT,SingleStatWidgetsController> _ctrls;
 
+  private BasicStatsSet _reference;
+  private BasicStatsSet _current;
   private JPanel _panel;
 
   /**
@@ -65,12 +67,22 @@ public class CharacterStatsPanelController
   }
 
   /**
+   * Update values.
+   */
+  public void update()
+  {
+    setStats(_reference,_current);
+  }
+
+  /**
    * Set stats to display.
    * @param reference Reference stats (may be <code>null</code>).
    * @param current Current stats.
    */
   public void setStats(BasicStatsSet reference, BasicStatsSet current)
   {
+    _reference=reference;
+    _current=current;
     for(SingleStatWidgetsController ctrl : _ctrls.values())
     {
       ctrl.updateStats(reference,current);

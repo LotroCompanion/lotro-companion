@@ -4,7 +4,8 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import delta.games.lotro.character.CharacterFile;
+import delta.games.lotro.character.CharacterData;
+import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.utils.gui.DefaultWindowController;
 
 /**
@@ -13,30 +14,22 @@ import delta.games.lotro.utils.gui.DefaultWindowController;
  */
 public class CharacterStatsWindowController extends DefaultWindowController
 {
+  /**
+   * Window identifier.
+   */
+  public static final String IDENTIFIER="DETAILS";
+
   private CharacterStatsPanelController _statsPanelController;
-  private CharacterFile _toon;
+  private CharacterData _toon;
 
   /**
    * Constructor.
    * @param toon Managed toon.
    */
-  public CharacterStatsWindowController(CharacterFile toon)
+  public CharacterStatsWindowController(CharacterData toon)
   {
     _statsPanelController=new CharacterStatsPanelController();
     _toon=toon;
-  }
-
-  /**
-   * Get the window identifier for a given toon.
-   * @param serverName Server name.
-   * @param toonName Toon name.
-   * @return A window identifier.
-   */
-  public static String getIdentifier(String serverName, String toonName)
-  {
-    String id="DETAILED_STATS#"+serverName+"#"+toonName;
-    id=id.toUpperCase();
-    return id;
   }
 
   @Override
@@ -52,7 +45,7 @@ public class CharacterStatsWindowController extends DefaultWindowController
     JFrame frame=super.build();
     // Title
     String name=_toon.getName();
-    String serverName=_toon.getServerName();
+    String serverName=_toon.getServer();
     String title="Detailed stats for: "+name+" @ "+serverName;
     frame.setTitle(title);
     frame.pack();
@@ -63,10 +56,25 @@ public class CharacterStatsWindowController extends DefaultWindowController
   @Override
   public String getWindowIdentifier()
   {
-    String serverName=_toon.getServerName();
-    String toonName=_toon.getName();
-    String id=getIdentifier(serverName,toonName);
-    return id;
+    return IDENTIFIER;
+  }
+
+  /**
+   * Set stats to display.
+   * @param reference Reference stats (may be <code>null</code>).
+   * @param current Current stats.
+   */
+  public void setStats(BasicStatsSet reference, BasicStatsSet current)
+  {
+    _statsPanelController.setStats(reference,current);
+  }
+
+  /**
+   * Update values.
+   */
+  public void update()
+  {
+    _statsPanelController.update();
   }
 
   /**
@@ -81,5 +89,6 @@ public class CharacterStatsWindowController extends DefaultWindowController
       _statsPanelController=null;
     }
     _toon=null;
+    super.dispose();
   }
 }

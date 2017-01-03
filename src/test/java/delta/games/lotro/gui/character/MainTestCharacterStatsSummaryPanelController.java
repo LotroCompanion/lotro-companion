@@ -27,7 +27,7 @@ public class MainTestCharacterStatsSummaryPanelController
     CharacterStatsComputer statsComputer=new CharacterStatsComputer();
     BasicStatsSet stats=statsComputer.getStats(meva);
     meva.getStats().setStats(stats);
-    CharacterStatsSummaryPanelController panelCtrl=new CharacterStatsSummaryPanelController(meva);
+    CharacterStatsSummaryPanelController panelCtrl=new CharacterStatsSummaryPanelController(null,meva);
     JFrame frame=new JFrame();
     frame.add(panelCtrl.getPanel());
     frame.pack();

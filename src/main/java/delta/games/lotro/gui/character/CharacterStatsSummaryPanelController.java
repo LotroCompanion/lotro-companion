@@ -3,7 +3,10 @@ package delta.games.lotro.gui.character;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
@@ -17,8 +20,11 @@ import delta.games.lotro.character.events.CharacterEventsManager;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.character.stats.CharacterStatsComputer;
 import delta.games.lotro.character.stats.STAT;
+import delta.games.lotro.gui.character.stats.CharacterStatsWindowController;
 import delta.games.lotro.gui.utils.GuiFactory;
 import delta.games.lotro.utils.FixedDecimalsInteger;
+import delta.games.lotro.utils.gui.WindowController;
+import delta.games.lotro.utils.gui.WindowsManager;
 
 /**
  * Controller for the character stats summary panel.
@@ -30,14 +36,19 @@ public class CharacterStatsSummaryPanelController implements CharacterEventListe
   private CharacterData _toon;
   private JLabel[] _statLabels;
   private JLabel[] _statValues;
+  private WindowController _parent;
+  private WindowsManager _childControllers;
 
   /**
    * Constructor.
+   * @param parent Parent window controller.
    * @param toon Toon to display.
    */
-  public CharacterStatsSummaryPanelController(CharacterData toon)
+  public CharacterStatsSummaryPanelController(WindowController parent, CharacterData toon)
   {
     _toon=toon;
+    _parent=parent;
+    _childControllers=new WindowsManager();
   }
 
   /**
@@ -85,7 +96,7 @@ public class CharacterStatsSummaryPanelController implements CharacterEventListe
     STAT[] mitigation={STAT.PHYSICAL_MITIGATION,STAT.TACTICAL_MITIGATION};
 
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
-    GridBagConstraints c1=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    GridBagConstraints c1=new GridBagConstraints(0,0,1,2,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     STAT[][] statGroups1={main,mainStats,offence};
     String[] groupNames1={"Vitals","Main","Offence"};
     JPanel p1=showStatsColumn(statGroups1,groupNames1,true);
@@ -95,7 +106,41 @@ public class CharacterStatsSummaryPanelController implements CharacterEventListe
     JPanel p2=showStatsColumn(statGroups2,groupNames2,false);
     GridBagConstraints c2=new GridBagConstraints(1,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(p2,c2);
+
+    // Details button
+    JButton details=GuiFactory.buildButton("Details...");
+    ActionListener al=new ActionListener()
+    {
+      
+      public void actionPerformed(ActionEvent e)
+      {
+        doDetails();
+      }
+    };
+    details.addActionListener(al);
+    GridBagConstraints cDetails=new GridBagConstraints(1,1,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    panel.add(details,cDetails);
     return panel;
+  }
+
+  private void doDetails()
+  {
+    CharacterStatsWindowController detailsStatsController=getDetailsController();
+    if (detailsStatsController==null)
+    {
+      detailsStatsController=new CharacterStatsWindowController(_toon);
+      _childControllers.registerWindow(detailsStatsController);
+      BasicStatsSet referenceStats=new BasicStatsSet(_toon.getStats());
+      detailsStatsController.setStats(referenceStats,_toon.getStats());
+      detailsStatsController.getWindow().setLocationRelativeTo(_parent.getWindow());
+    }
+    detailsStatsController.bringToFront();
+  }
+
+  private CharacterStatsWindowController getDetailsController()
+  {
+    WindowController controller=_childControllers.getWindow(CharacterStatsWindowController.IDENTIFIER);
+    return (CharacterStatsWindowController)controller;
   }
 
   /**
@@ -173,6 +218,11 @@ public class CharacterStatsSummaryPanelController implements CharacterEventListe
         toonStats.clear();
         toonStats.setStats(stats);
         update();
+        CharacterStatsWindowController detailsStatsController=getDetailsController();
+        if (detailsStatsController!=null)
+        {
+          detailsStatsController.update();
+        }
       }
     }
   }
@@ -188,6 +238,12 @@ public class CharacterStatsSummaryPanelController implements CharacterEventListe
       _panel.removeAll();
       _panel=null;
     }
+    if (_childControllers!=null)
+    {
+      _childControllers.disposeAll();
+      _childControllers=null;
+    }
+    _parent=null;
     _toon=null;
     _statLabels=null;
     _statValues=null;

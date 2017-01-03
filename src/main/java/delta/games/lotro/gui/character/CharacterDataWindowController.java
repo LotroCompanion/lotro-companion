@@ -47,7 +47,7 @@ public class CharacterDataWindowController extends DefaultWindowController imple
     _windowsManager=new WindowsManager();
     _attrsController=new CharacterMainAttrsEditionPanelController(data);
     _attrsController.set();
-    _statsController=new CharacterStatsSummaryPanelController(data);
+    _statsController=new CharacterStatsSummaryPanelController(this,data);
     _equipmentController=new EquipmentPanelController(this,data);
     _virtuesController=new VirtuesDisplayPanelController();
     _virtuesController.setVirtues(data.getVirtues());
