@@ -49,22 +49,27 @@ public class ItemSelection
     }
     if ((location==EquipmentLocation.EAR) || (location==EquipmentLocation.NECK)
         || (location==EquipmentLocation.WRIST) || (location==EquipmentLocation.FINGER)
-        || (location==EquipmentLocation.POCKET))
+        || (location==EquipmentLocation.POCKET) || (location==EquipmentLocation.CLASS_SLOT)
+        || (location==EquipmentLocation.TOOL))
     {
-      return _sorter.getJewels(location);
+      return _sorter.getBySlot(location);
     }
     if ((location==EquipmentLocation.MAIN_HAND) || (location==EquipmentLocation.OFF_HAND)
         || (location==EquipmentLocation.RANGED_ITEM))
     {
-      List<Item> weapons=_sorter.buildWeaponsList(cClass,level,location);
+      List<Item> items=_sorter.buildWeaponsList(cClass,level,location);
       if (location==EquipmentLocation.OFF_HAND)
       {
         List<Item> shields=_sorter.buildShieldsList(cClass,level);
-        weapons.addAll(shields);
+        items.addAll(shields);
       }
-      return weapons;
+      if (location==EquipmentLocation.RANGED_ITEM)
+      {
+        List<Item> rangedItems=_sorter.getBySlot(location);
+        items.addAll(rangedItems);
+      }
+      return items;
     }
-    // TODO tool, class slot
     return new ArrayList<Item>();
   }
 }
