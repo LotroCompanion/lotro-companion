@@ -407,7 +407,7 @@ public class EquipmentPanelController implements ActionListener
   private void refreshToon()
   {
     updateIcons();
-    // Broadcast toon creation event...
+    // Broadcast equipment update event...
     CharacterEvent event=new CharacterEvent(null,_toon);
     CharacterEventsManager.invokeEvent(CharacterEventType.CHARACTER_DATA_UPDATED,event);
   }

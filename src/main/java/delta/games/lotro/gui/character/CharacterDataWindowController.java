@@ -14,6 +14,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import delta.games.lotro.character.CharacterData;
+import delta.games.lotro.character.events.CharacterEvent;
+import delta.games.lotro.character.events.CharacterEventType;
+import delta.games.lotro.character.events.CharacterEventsManager;
 import delta.games.lotro.character.stats.virtues.VirtuesSet;
 import delta.games.lotro.gui.character.virtues.VirtuesDisplayPanelController;
 import delta.games.lotro.gui.character.virtues.VirtuesEditionDialogController;
@@ -108,6 +111,9 @@ public class CharacterDataWindowController extends DefaultWindowController imple
         {
           _toon.getVirtues().copyFrom(virtues);
           _virtuesController.setVirtues(virtues);
+          // Broadcast virtues update event...
+          CharacterEvent event=new CharacterEvent(null,_toon);
+          CharacterEventsManager.invokeEvent(CharacterEventType.CHARACTER_DATA_UPDATED,event);
         }
       }
     };
