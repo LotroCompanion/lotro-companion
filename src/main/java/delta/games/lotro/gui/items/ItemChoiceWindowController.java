@@ -89,7 +89,7 @@ public class ItemChoiceWindowController extends DefaultDialogController
   {
     JPanel logPanel=GuiFactory.buildPanel(new GridBagLayout());
     _tableController=new ItemChoiceTableController(_items,_filter);
-    // Log frame
+    // Table
     _panelController=new ItemChoicePanelController(_tableController);
     JPanel tablePanel=_panelController.getPanel();
     // Control buttons
