@@ -72,4 +72,13 @@ public class ItemSelection
     }
     return new ArrayList<Item>();
   }
+
+  /**
+   * Get a list of all essences.
+   * @return a list of essence items.
+   */
+  public List<Item> getEssences()
+  {
+    return _sorter.buildEssencesList();
+  }
 }

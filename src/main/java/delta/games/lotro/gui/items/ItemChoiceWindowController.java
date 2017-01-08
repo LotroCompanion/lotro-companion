@@ -16,9 +16,9 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
+import delta.common.utils.collections.filters.Filter;
 import delta.games.lotro.gui.utils.GuiFactory;
 import delta.games.lotro.lore.items.Item;
-import delta.games.lotro.lore.items.filters.ItemNameFilter;
 import delta.games.lotro.utils.gui.DefaultDialogController;
 import delta.games.lotro.utils.gui.WindowController;
 
@@ -28,23 +28,26 @@ import delta.games.lotro.utils.gui.WindowController;
  */
 public class ItemChoiceWindowController extends DefaultDialogController
 {
-  private ItemFilterController _filterController;
+  private AbstractItemFilterPanelController _filterController;
   private ItemChoicePanelController _panelController;
   private ItemChoiceTableController _tableController;
   private List<Item> _items;
-  private ItemNameFilter _filter;
+  private Filter<Item> _filter;
   private Item _selectedItem;
 
   /**
    * Constructor.
    * @param parent Parent window.
    * @param items Items to choose from.
+   * @param filter Filter to use.
+   * @param ui Filter UI controller.
    */
-  public ItemChoiceWindowController(WindowController parent, List<Item> items)
+  public ItemChoiceWindowController(WindowController parent, List<Item> items, Filter<Item> filter, AbstractItemFilterPanelController ui)
   {
     super(parent);
     _items=items;
-    _filter=new ItemNameFilter();
+    _filter=filter;
+    _filterController=ui;
   }
 
   /**
@@ -91,6 +94,7 @@ public class ItemChoiceWindowController extends DefaultDialogController
     _tableController=new ItemChoiceTableController(_items,_filter);
     // Table
     _panelController=new ItemChoicePanelController(_tableController);
+    _filterController.setChoicePanel(_panelController);
     JPanel tablePanel=_panelController.getPanel();
     // Control buttons
     JPanel controlPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.RIGHT,5,0));
@@ -106,7 +110,6 @@ public class ItemChoiceWindowController extends DefaultDialogController
     okButton.addActionListener(al);
     controlPanel.add(okButton);
     // Filter
-    _filterController=new ItemFilterController(_filter,_panelController);
     JPanel filterPanel=_filterController.getPanel();
     TitledBorder filterBorder=GuiFactory.buildTitledBorder("Filter");
     filterPanel.setBorder(filterBorder);

@@ -7,39 +7,33 @@ import java.awt.Insets;
 
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 
 import delta.games.lotro.gui.utils.GuiFactory;
 import delta.games.lotro.lore.items.filters.ItemNameFilter;
+import delta.games.lotro.utils.gui.text.DynamicTextEditionController;
+import delta.games.lotro.utils.gui.text.TextListener;
 
 /**
  * Controller for a item filter edition panel.
  * @author DAM
  */
-public class ItemFilterController
+public class ItemFilterController extends AbstractItemFilterPanelController
 {
   // Data
   private ItemNameFilter _filter;
   // GUI
   private JPanel _panel;
   private JTextField _contains;
-  private ItemChoicePanelController _panelController;
+  // Controllers
+  private DynamicTextEditionController _textController;
 
   /**
    * Constructor.
    * @param filter Item filter.
-   * @param panelController Associated log panel controller.
    */
-  public ItemFilterController(ItemNameFilter filter, ItemChoicePanelController panelController)
+  public ItemFilterController(ItemNameFilter filter)
   {
     _filter=filter;
-    _panelController=panelController;
-  }
-
-  private void updateFilter()
-  {
-    _panelController.updateFilter();
   }
 
   /**
@@ -71,39 +65,20 @@ public class ItemFilterController
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     // Label filter
     JPanel containsPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING));
+    containsPanel.add(GuiFactory.buildLabel("Label filter:"));
+    _contains=GuiFactory.buildTextField("");
+    _contains.setColumns(20);
+    containsPanel.add(_contains);
+    TextListener listener=new TextListener()
     {
-      containsPanel.add(GuiFactory.buildLabel("Label filter:"));
-      _contains=GuiFactory.buildTextField("");
-      _contains.setColumns(20);
-      containsPanel.add(_contains);
-      DocumentListener dl=new DocumentListener()
+      public void textChanged(String newText)
       {
-        public void removeUpdate(DocumentEvent e)
-        {
-          doIt();
-        }
-        
-        public void insertUpdate(DocumentEvent e)
-        {
-          doIt();
-        }
-        
-        public void changedUpdate(DocumentEvent e)
-        {
-          doIt();
-        }
-
-        private void doIt()
-        {
-          String text=_contains.getText();
-          if (text.length()==0) text=null;
-          _filter.setPattern(text);
-          updateFilter();
-        }
-      };
-      _contains.getDocument().addDocumentListener(dl);
-    }
-
+        if (newText.length()==0) newText=null;
+        _filter.setPattern(newText);
+        updateFilter();
+      }
+    };
+    _textController=new DynamicTextEditionController(_contains,listener);
     GridBagConstraints c=new GridBagConstraints(0,1,2,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(containsPanel,c);
     return panel;
@@ -114,10 +89,15 @@ public class ItemFilterController
    */
   public void dispose()
   {
+    super.dispose();
     // Data
     _filter=null;
     // Controllers
-    _panelController=null;
+    if (_textController!=null)
+    {
+      _textController.dispose();
+      _textController=null;
+    }
     // GUI
     if (_panel!=null)
     {

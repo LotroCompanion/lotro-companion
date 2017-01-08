@@ -220,7 +220,7 @@ public class ItemEditionPanelController
       panelLine.add(GuiFactory.buildLabel("Sturdiness:"));
       panelLine.add(_sturdiness.getComboBox());
       // Quality
-      _quality=buildQualityCombo();
+      _quality=ItemUiTools.buildQualityCombo();
       panelLine.add(GuiFactory.buildLabel("Quality:"));
       panelLine.add(_quality.getComboBox());
       // Stack max
@@ -467,19 +467,6 @@ public class ItemEditionPanelController
     for(ItemSturdiness sturdiness : ItemSturdiness.values())
     {
       ctrl.addItem(sturdiness,sturdiness.name());
-    }
-    ctrl.selectItem(null);
-    return ctrl;
-  }
-
-  private ComboBoxController<ItemQuality> buildQualityCombo()
-  {
-    JComboBox combo=GuiFactory.buildComboBox();
-    ComboBoxController<ItemQuality> ctrl=new ComboBoxController<ItemQuality>(combo);
-    ctrl.addEmptyItem("");
-    for(ItemQuality quality : ItemQuality.getAll())
-    {
-      ctrl.addItem(quality,quality.getMeaning());
     }
     ctrl.selectItem(null);
     return ctrl;

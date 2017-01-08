@@ -7,10 +7,10 @@ import delta.common.utils.collections.filters.CompoundFilter;
 import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.collections.filters.Operator;
 import delta.games.lotro.lore.items.Item;
-import delta.games.lotro.lore.items.ItemQuality;
 import delta.games.lotro.lore.items.filters.EssenceTierFilter;
 import delta.games.lotro.lore.items.filters.ItemFilter;
 import delta.games.lotro.lore.items.filters.ItemIsEssenceFilter;
+import delta.games.lotro.lore.items.filters.ItemNameFilter;
 import delta.games.lotro.lore.items.filters.ItemQualityFilter;
 
 /**
@@ -22,6 +22,7 @@ public class EssenceItemFilter implements ItemFilter
   private ItemIsEssenceFilter _essenceFilter;
   private ItemQualityFilter _qualityFilter;
   private EssenceTierFilter _tierFilter;
+  private ItemNameFilter _nameFilter;
   private Filter<Item> _filter;
 
   /**
@@ -31,54 +32,41 @@ public class EssenceItemFilter implements ItemFilter
   {
     _essenceFilter=new ItemIsEssenceFilter();
     _qualityFilter=new ItemQualityFilter(null);
-    _tierFilter=null;
+    _tierFilter=new EssenceTierFilter();
+    _nameFilter=new ItemNameFilter();
+    List<Filter<Item>> filters=new ArrayList<Filter<Item>>();
+    filters.add(_essenceFilter);
+    filters.add(_qualityFilter);
+    filters.add(_tierFilter);
+    filters.add(_nameFilter);
+    _filter=new CompoundFilter<Item>(Operator.AND,filters);
   }
 
   /**
-   * Set the quality to select.
-   * @param quality A quality or <code>null</code> to accept all.
+   * Get the managed item name filter.
+   * @return a filter.
    */
-  public void setQuality(ItemQuality quality)
+  public ItemNameFilter getNameFilter()
   {
-    _qualityFilter.setQuality(quality);
-    _filter=buildFilter();
+    return _nameFilter;
   }
 
   /**
-   * Set the tier to select.
-   * @param tier A tier or <code>null</code> to accept all.
+   * Get the managed item quality filter.
+   * @return a filter.
    */
-  public void setTier(Integer tier)
+  public ItemQualityFilter getQualityFilter()
   {
-    if (tier!=null)
-    {
-      _tierFilter=new EssenceTierFilter(tier.intValue());
-    }
-    else
-    {
-      _tierFilter=null;
-    }
-    _filter=buildFilter();
+    return _qualityFilter;
   }
 
-  private Filter<Item> buildFilter()
+  /**
+   * Get the managed essence tier filter.
+   * @return a filter.
+   */
+  public EssenceTierFilter getEssenceTierFilter()
   {
-    if ((_tierFilter!=null) || (_qualityFilter!=null))
-    {
-      List<Filter<Item>> filters=new ArrayList<Filter<Item>>();
-      filters.add(_essenceFilter);
-      if (_qualityFilter.getQuality()!=null)
-      {
-        filters.add(_qualityFilter);
-      }
-      if (_tierFilter!=null)
-      {
-        filters.add(_tierFilter);
-      }
-      CompoundFilter<Item> filter=new CompoundFilter<Item>(Operator.AND,filters);
-      return filter;
-    }
-    return _essenceFilter;
+    return _tierFilter;
   }
 
   public boolean accept(Item item)

@@ -30,12 +30,14 @@ import delta.games.lotro.character.events.CharacterEventType;
 import delta.games.lotro.character.events.CharacterEventsManager;
 import delta.games.lotro.gui.items.ItemChoiceWindowController;
 import delta.games.lotro.gui.items.ItemEditionWindowController;
+import delta.games.lotro.gui.items.ItemFilterController;
 import delta.games.lotro.gui.utils.GuiFactory;
 import delta.games.lotro.gui.utils.IconsManager;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemFactory;
 import delta.games.lotro.lore.items.ItemPropertyNames;
 import delta.games.lotro.lore.items.ItemsManager;
+import delta.games.lotro.lore.items.filters.ItemNameFilter;
 import delta.games.lotro.utils.gui.WindowController;
 
 /**
@@ -342,7 +344,9 @@ public class EquipmentPanelController implements ActionListener
     // TODO use unique instance (do not build one each time)
     ItemSelection selection=new ItemSelection();
     List<Item> items=selection.getItems(_toon,slot);
-    ItemChoiceWindowController choiceCtrl=new ItemChoiceWindowController(_parentWindow,items);
+    ItemNameFilter filter=new ItemNameFilter();
+    ItemFilterController filterController=new ItemFilterController(filter);
+    ItemChoiceWindowController choiceCtrl=new ItemChoiceWindowController(_parentWindow,items,filter,filterController);
     choiceCtrl.show(true);
     Item ret=choiceCtrl.getSelectedItem();
     choiceCtrl.dispose();
