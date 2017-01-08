@@ -1,5 +1,7 @@
 package delta.games.lotro.utils.gui.combobox;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +16,7 @@ public class ComboBoxController<T>
 {
   private JComboBox _comboBox;
   private List<ComboBoxItem<T>> _items;
+  private List<ItemSelectionListener<T>> _listeners;
 
   /**
    * Constructor.
@@ -23,6 +26,7 @@ public class ComboBoxController<T>
   {
     _comboBox=comboBox;
     _items=new ArrayList<ComboBoxItem<T>>();
+    _listeners=null;
   }
 
   /**
@@ -93,5 +97,52 @@ public class ComboBoxController<T>
   {
     ComboBoxItem<T> item=getItemForData(data);
     _comboBox.setSelectedItem(item);
+  }
+
+  /**
+   * Add a listener for item selection.
+   * @param listener Listener to add.
+   */
+  public void addListener(ItemSelectionListener<T> listener)
+  {
+    if (_listeners==null)
+    {
+      _listeners=new ArrayList<ItemSelectionListener<T>>();
+      ActionListener al=new ActionListener()
+      {
+        public void actionPerformed(ActionEvent e)
+        {
+          callListeners();
+        }
+      };
+      _comboBox.addActionListener(al);
+    }
+    _listeners.add(listener);
+  }
+
+  /**
+   * Remove a listener for item selection.
+   * @param listener Listener to remove.
+   */
+  public void removeListener(ItemSelectionListener<T> listener)
+  {
+    _listeners.remove(listener);
+  }
+
+  private void callListeners()
+  {
+    T item=getSelectedItem();
+    for(ItemSelectionListener<T> listener : _listeners)
+    {
+      listener.itemSelected(item);
+    }
+  }
+
+  /**
+   * Release all managed resources.
+   */
+  public void dispose()
+  {
+    _listeners=null;
   }
 }

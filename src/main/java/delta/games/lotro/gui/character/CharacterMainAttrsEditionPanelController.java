@@ -14,6 +14,9 @@ import javax.swing.JTextField;
 
 import delta.games.lotro.Config;
 import delta.games.lotro.character.CharacterData;
+import delta.games.lotro.character.events.CharacterEvent;
+import delta.games.lotro.character.events.CharacterEventType;
+import delta.games.lotro.character.events.CharacterEventsManager;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.Race;
 import delta.games.lotro.gui.utils.GuiFactory;
@@ -21,6 +24,7 @@ import delta.games.lotro.gui.utils.IconUtils;
 import delta.games.lotro.utils.Formats;
 import delta.games.lotro.utils.TypedProperties;
 import delta.games.lotro.utils.gui.combobox.ComboBoxController;
+import delta.games.lotro.utils.gui.combobox.ItemSelectionListener;
 
 /**
  * Controller for character main attributes edition panel.
@@ -77,6 +81,17 @@ public class CharacterMainAttrsEditionPanelController
     // Level
     _level=buildLevelCombo();
     panel.add(_level.getComboBox());
+    ItemSelectionListener<Integer> levelListener=new ItemSelectionListener<Integer>()
+    {
+      public void itemSelected(Integer level)
+      {
+        _toon.setLevel(level.intValue());
+        // Broadcast level update event...
+        CharacterEvent event=new CharacterEvent(null,_toon);
+        CharacterEventsManager.invokeEvent(CharacterEventType.CHARACTER_DATA_UPDATED,event);
+      }
+    };
+    _level.addListener(levelListener);
     // Date
     _date=GuiFactory.buildTextField("");
     _date.setColumns(10);
