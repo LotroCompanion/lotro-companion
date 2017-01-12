@@ -16,6 +16,7 @@ import javax.swing.JTextField;
 
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.gui.character.stats.StatsEditionPanelController;
+import delta.games.lotro.gui.items.essences.EssencesEditionPanelController;
 import delta.games.lotro.gui.items.relics.RelicsEditionPanelController;
 import delta.games.lotro.gui.utils.GuiFactory;
 import delta.games.lotro.gui.utils.IconsManager;
@@ -341,6 +342,15 @@ public class ItemEditionPanelController
       _weaponType.selectItem(weapon.getWeaponType());
       _damageType.selectItem(weapon.getDamageType());
       _weaponPanel.setVisible(true);
+    }
+
+    // Essences
+    JPanel essencesPanel=null;
+    if (item.getEssenceSlots()>0)
+    {
+      EssencesEditionPanelController essencesEditor=new EssencesEditionPanelController(_parent,item);
+      essencesPanel=essencesEditor.getPanel();
+      _tabbedPane.add("Essences",essencesPanel);
     }
 
     // Legendary specifics
