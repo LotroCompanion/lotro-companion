@@ -17,10 +17,12 @@ import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.events.CharacterEvent;
 import delta.games.lotro.character.events.CharacterEventType;
 import delta.games.lotro.character.events.CharacterEventsManager;
+import delta.games.lotro.character.io.xml.CharacterDataIO;
 import delta.games.lotro.character.stats.virtues.VirtuesSet;
 import delta.games.lotro.gui.character.virtues.VirtuesDisplayPanelController;
 import delta.games.lotro.gui.character.virtues.VirtuesEditionDialogController;
 import delta.games.lotro.gui.utils.GuiFactory;
+import delta.games.lotro.gui.utils.OKCancelPanelController;
 import delta.games.lotro.utils.gui.DefaultWindowController;
 import delta.games.lotro.utils.gui.WindowsManager;
 
@@ -28,12 +30,13 @@ import delta.games.lotro.utils.gui.WindowsManager;
  * Controller for a "character data" window.
  * @author DAM
  */
-public class CharacterDataWindowController extends DefaultWindowController implements ActionListener
+public class CharacterDataWindowController extends DefaultWindowController
 {
   private CharacterMainAttrsEditionPanelController _attrsController;
   private CharacterStatsSummaryPanelController _statsController;
   private EquipmentPanelController _equipmentController;
   private VirtuesDisplayPanelController _virtuesController;
+  private OKCancelPanelController _okCancelController;
   private CharacterData _toon;
   private WindowsManager _windowsManager;
 
@@ -51,6 +54,7 @@ public class CharacterDataWindowController extends DefaultWindowController imple
     _equipmentController=new EquipmentPanelController(this,data);
     _virtuesController=new VirtuesDisplayPanelController();
     _virtuesController.setVirtues(data.getVirtues());
+    _okCancelController=new OKCancelPanelController();
   }
 
   /**
@@ -68,6 +72,36 @@ public class CharacterDataWindowController extends DefaultWindowController imple
 
   @Override
   protected JComponent buildContents()
+  {
+    JPanel panel=GuiFactory.buildPanel(new BorderLayout());
+    JPanel editionPanel=buildEditionPanel();
+    panel.add(editionPanel,BorderLayout.CENTER);
+    JPanel okCancelPanel=_okCancelController.getPanel();
+    panel.add(okCancelPanel,BorderLayout.SOUTH);
+    _okCancelController.getOKButton().setText("Save");
+
+    ActionListener al=new ActionListener()
+    {
+      public void actionPerformed(ActionEvent event)
+      {
+        String action=event.getActionCommand();
+        if (OKCancelPanelController.OK_COMMAND.equals(action))
+        {
+          ok();
+        }
+        else if (OKCancelPanelController.CANCEL_COMMAND.equals(action))
+        {
+          cancel();
+        }
+      }
+    };
+    _okCancelController.getOKButton().addActionListener(al);
+    _okCancelController.getCancelButton().addActionListener(al);
+
+    return panel;
+  }
+
+  private JPanel buildEditionPanel()
   {
     JPanel attrsPanel=_attrsController.getPanel();
     // Stats panel
@@ -152,14 +186,19 @@ public class CharacterDataWindowController extends DefaultWindowController imple
     return id;
   }
 
-  /**
-   * Handle button actions.
-   * @param e Source event.
-   */
-  public void actionPerformed(ActionEvent e)
+  private void ok()
   {
-    String command=e.getActionCommand();
-    System.out.println("command:"+command);
+    boolean ok=CharacterDataIO.saveInfo(_toon.getFile(),_toon);
+    if (!ok)
+    {
+      // TODO warn
+    }
+  }
+
+  private void cancel()
+  {
+    _toon.revert();
+    dispose();
   }
 
   /**
@@ -183,6 +222,10 @@ public class CharacterDataWindowController extends DefaultWindowController imple
     {
       _equipmentController.dispose();
       _equipmentController=null;
+    }
+    if (_okCancelController!=null)
+    {
+      _okCancelController.dispose();
     }
     _toon=null;
   }
