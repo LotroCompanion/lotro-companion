@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
-import delta.games.lotro.character.CharacterData;
+import delta.games.lotro.character.CharacterSummary;
 import delta.games.lotro.character.log.CharacterLog;
 import delta.games.lotro.character.log.CharacterLogItem;
 import delta.games.lotro.character.log.CharacterLogItem.LogItemType;
@@ -33,7 +33,7 @@ public class QuestsCompletionStats
   private static final boolean USE_INSTANCES=false;
   private String _name;
   private String _category;
-  private CharacterData _character;
+  private CharacterSummary _character;
   private int _nbExpectedQuests;
   private int _nbQuestsDone;
   private List<Integer> _expectedIds;
@@ -42,14 +42,14 @@ public class QuestsCompletionStats
   /**
    * Constructor.
    * @param category Category to use.
-   * @param c Targeted character.
+   * @param summary Targeted character.
    * @param log Character log to use.
    */
-  public QuestsCompletionStats(String category, CharacterData c, CharacterLog log)
+  public QuestsCompletionStats(String category, CharacterSummary summary, CharacterLog log)
   {
     _name=log.getName();
     _category=category;
-    _character=c;
+    _character=summary;
     reset();
     List<CharacterLogItem> items=getQuestItems(log);
     loadQuestIdentifiers();

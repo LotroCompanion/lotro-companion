@@ -18,6 +18,7 @@ import javax.swing.JPanel;
 import delta.common.utils.ListenersManager;
 import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.CharacterFile;
+import delta.games.lotro.character.CharacterSummary;
 import delta.games.lotro.gui.utils.GuiFactory;
 
 /**
@@ -310,10 +311,10 @@ public class CharactersSelectorPanelController implements ItemListener
   private JCheckBox buildToonCheckbox(CharacterFile toon)
   {
     JCheckBox ret=null;
-    CharacterData c=toon.getLastCharacterInfo();
-    if (c!=null)
+    CharacterSummary summary=toon.getSummary();
+    if (summary!=null)
     {
-      String name=c.getName();
+      String name=summary.getName();
       ret=GuiFactory.buildCheckbox(name);
       String id=toon.getIdentifier();
       _checkboxes.put(id,ret);
