@@ -16,7 +16,6 @@ import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 
 import delta.common.utils.ListenersManager;
-import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharacterSummary;
 import delta.games.lotro.gui.utils.GuiFactory;
