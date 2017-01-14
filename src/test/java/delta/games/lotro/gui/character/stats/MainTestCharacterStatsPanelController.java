@@ -7,7 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
 import delta.games.lotro.character.CharacterData;
-import delta.games.lotro.character.io.xml.CharacterXMLParser;
+import delta.games.lotro.character.io.xml.CharacterDataIO;
 import delta.games.lotro.character.stats.BasicStatsSet;
 
 /**
@@ -36,9 +36,8 @@ public class MainTestCharacterStatsPanelController
 
   private CharacterData loadCharacter(String name)
   {
-    CharacterXMLParser parser=new CharacterXMLParser();
     File from=new File(name+".xml").getAbsoluteFile();
-    CharacterData c=parser.parseXML(from);
+    CharacterData c=CharacterDataIO.getCharacterDescription(from);
     return c;
   }
 

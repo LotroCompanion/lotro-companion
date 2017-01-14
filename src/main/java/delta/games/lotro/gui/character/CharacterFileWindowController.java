@@ -260,7 +260,7 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     CharacterSummary newSummary=new CharacterSummary(lastInfos.getSummary());
     newInfos.setSummary(newSummary);
     newInfos.setDate(Long.valueOf(System.currentTimeMillis()));
-    boolean ok=_toon.getInfosManager().writeNewInfo(newInfos);
+    boolean ok=_toon.getInfosManager().writeNewCharacterData(newInfos);
     if (ok)
     {
       CharacterEvent event=new CharacterEvent(_toon,newInfos);
