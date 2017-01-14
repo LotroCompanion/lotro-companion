@@ -199,6 +199,10 @@ public class RelicChoiceWindowController extends DefaultDialogController
       _filterController.dispose();
       _filterController=null;
     }
+    if (_okCancelController!=null)
+    {
+      _okCancelController.dispose();
+    }
     _filter=null;
   }
 }
