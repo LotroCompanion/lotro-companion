@@ -28,7 +28,6 @@ public class ToonsTableController
   public static final String DOUBLE_CLICK="double click";
   // Data
   private List<CharacterFile> _toons;
-  private List<CharacterSummary> _toonsData;
   // GUI
   private JTable _table;
   private GenericTableController<CharacterFile> _tableController;
@@ -39,7 +38,6 @@ public class ToonsTableController
   public ToonsTableController()
   {
     _toons=new ArrayList<CharacterFile>();
-    _toonsData=new ArrayList<CharacterSummary>();
     init();
     _tableController=buildTable();
   }
@@ -153,18 +151,12 @@ public class ToonsTableController
 
   private CharacterSummary getDataForToon(CharacterFile toon)
   {
-    int index=_toons.indexOf(toon);
-    if (index!=-1)
-    {
-      return _toonsData.get(index);
-    }
-    return null;
+    return toon.getSummary();
   }
 
   private void reset()
   {
     _toons.clear();
-    _toonsData.clear();
   }
 
   /**
@@ -190,8 +182,6 @@ public class ToonsTableController
       int row=_toons.indexOf(toon);
       if (row!=-1)
       {
-        CharacterSummary c=toon.getSummary();
-        _toonsData.set(row,c);
         _tableController.refreshRow(row);
       }
     }
@@ -214,7 +204,6 @@ public class ToonsTableController
     if (summary!=null)
     {
       _toons.add(toon);
-      _toonsData.add(summary);
     }
   }
 
@@ -266,6 +255,5 @@ public class ToonsTableController
     }
     // Data
     _toons=null;
-    _toonsData=null;
   }
 }
