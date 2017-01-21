@@ -57,7 +57,9 @@ public class ItemSelection
     if ((location==EquipmentLocation.MAIN_HAND) || (location==EquipmentLocation.OFF_HAND)
         || (location==EquipmentLocation.RANGED_ITEM))
     {
-      List<Item> items=_sorter.buildWeaponsList(cClass,level,location);
+      EquipmentLocation weaponLoc=location;
+      if (location==EquipmentLocation.OFF_HAND) weaponLoc=EquipmentLocation.MAIN_HAND;
+      List<Item> items=_sorter.buildWeaponsList(cClass,level,weaponLoc);
       if (location==EquipmentLocation.OFF_HAND)
       {
         List<Item> shields=_sorter.buildShieldsList(cClass,level);
