@@ -1,0 +1,6 @@
+/target/
+/data/characters/toon*
+/data/lore/items.xml
+/data/lore/relics.xml
+/data/preferences/levelling.properties
+/data/preferences/warbands.properties
