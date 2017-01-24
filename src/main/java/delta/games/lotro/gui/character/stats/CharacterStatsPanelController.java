@@ -261,7 +261,7 @@ public class CharacterStatsPanelController
     String[] labelsV=new String[]{"Crit.Def (melee)",
         "Crit.Def (ranged)", "Crit.Def (tactical)",
         "Physical", "Orc-craft/Fell-wrought", "Tactical",
-        "Lightning", "Frost", "Acid", "Shadow"};
+        "Fire", "Lightning", "Frost", "Acid", "Shadow"};
     addHeaders(panel,0,1,labelsV,false,1);
     int x=1;
     String[] labelsH=new String[]{"Rating", "Mitigation %"};
@@ -287,6 +287,9 @@ public class CharacterStatsPanelController
     // Tactical Mitigation
     addStatWidgets(panel,STAT.TACTICAL_MITIGATION,x,y,false);
     addStatWidgets(panel,STAT.TACTICAL_MITIGATION_PERCENTAGE,x+2,y,false);
+    y++;
+    // Fire Mitigation
+    addStatWidgets(panel,STAT.FIRE_MITIGATION_PERCENTAGE,x+2,y,false);
     y++;
     // Lightning Mitigation
     addStatWidgets(panel,STAT.LIGHTNING_MITIGATION_PERCENTAGE,x+2,y,false);
