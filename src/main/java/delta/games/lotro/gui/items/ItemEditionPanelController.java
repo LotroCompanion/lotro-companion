@@ -3,6 +3,7 @@ package delta.games.lotro.gui.items;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.util.List;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -31,6 +32,7 @@ import delta.games.lotro.lore.items.ItemQuality;
 import delta.games.lotro.lore.items.ItemSturdiness;
 import delta.games.lotro.lore.items.Weapon;
 import delta.games.lotro.lore.items.WeaponType;
+import delta.games.lotro.lore.items.essences.EssencesSet;
 import delta.games.lotro.lore.items.legendary.Legendary;
 import delta.games.lotro.lore.items.legendary.LegendaryAttrs;
 import delta.games.lotro.utils.gui.WindowController;
@@ -54,7 +56,7 @@ public class ItemEditionPanelController
   private ComboBoxController<EquipmentLocation> _slot;
   private JTextField _name;
   private StatsEditionPanelController _stats;
-  //private EssencesEditionPanelController _essences;
+  private EssencesEditionPanelController _essencesEditor;
   private IntegerEditionController _itemLevel;
   private IntegerEditionController _minLevel;
   // character class requirement
@@ -267,10 +269,13 @@ public class ItemEditionPanelController
     descriptionPanel.add(_description,BorderLayout.CENTER);
     // Stats
     _stats=new StatsEditionPanelController();
+    // Essences
+    _essencesEditor=new EssencesEditionPanelController(_parent);
 
     // Tabbed pane assembly
     tabbedPane.add("Stats",_stats.getPanel());
     tabbedPane.add("Description",descriptionPanel);
+    tabbedPane.add("Essences",_essencesEditor.getPanel());
     panel.add(tabbedPane);
     _tabbedPane=tabbedPane;
 
@@ -345,13 +350,7 @@ public class ItemEditionPanelController
     }
 
     // Essences
-    JPanel essencesPanel=null;
-    if (item.getEssenceSlots()>0)
-    {
-      EssencesEditionPanelController essencesEditor=new EssencesEditionPanelController(_parent,item);
-      essencesPanel=essencesEditor.getPanel();
-      _tabbedPane.add("Essences",essencesPanel);
-    }
+    _essencesEditor.initFromItem(item);
 
     // Legendary specifics
     // Relics
@@ -405,7 +404,18 @@ public class ItemEditionPanelController
     _item.setStackMax(_stackMax.getValue());
     // Quality
     _item.setQuality(_quality.getSelectedItem());
-
+    // Essences
+    List<Item> selectedEssences=_essencesEditor.getEssences();
+    EssencesSet essences=null;
+    if (selectedEssences.size()>0)
+    {
+      essences=new EssencesSet(selectedEssences.size());
+      for(int i=0;i<selectedEssences.size();i++)
+      {
+        essences.setEssence(i,selectedEssences.get(i));
+      }
+    }
+    _item.setEssences(essences);
     // Armour specifics
     if (_item instanceof Armour)
     {

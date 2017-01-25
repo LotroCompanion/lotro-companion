@@ -6,9 +6,12 @@ import javax.swing.ImageIcon;
 import javax.swing.JTable;
 
 import delta.common.utils.collections.filters.Filter;
+import delta.games.lotro.character.stats.BasicStatsSet;
+import delta.games.lotro.character.stats.STAT;
 import delta.games.lotro.gui.utils.IconsManager;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemPropertyNames;
+import delta.games.lotro.utils.FixedDecimalsInteger;
 import delta.games.lotro.utils.gui.tables.CellDataProvider;
 import delta.games.lotro.utils.gui.tables.DataProvider;
 import delta.games.lotro.utils.gui.tables.GenericTableController;
@@ -111,7 +114,26 @@ public class ItemChoiceTableController
       levelColumn.setWidthSpecs(70,70,50);
       table.addColumnController(levelColumn);
     }
+    // Stat columns
+    table.addColumnController(buildStatColumn(STAT.MIGHT));
+    table.addColumnController(buildStatColumn(STAT.MORALE));
     return table;
+  }
+
+  private TableColumnController<Item,FixedDecimalsInteger> buildStatColumn(final STAT stat)
+  {
+    CellDataProvider<Item,FixedDecimalsInteger> statCell=new CellDataProvider<Item,FixedDecimalsInteger>()
+    {
+      public FixedDecimalsInteger getData(Item item)
+      {
+        BasicStatsSet stats=item.getStats();
+        FixedDecimalsInteger value=stats.getStat(stat);
+        return value;
+      }
+    };
+    TableColumnController<Item,FixedDecimalsInteger> statColumn=new TableColumnController<Item,FixedDecimalsInteger>(stat.getName(),FixedDecimalsInteger.class,statCell);
+    statColumn.setWidthSpecs(70,70,50);
+    return statColumn;
   }
 
   private void configureTable()
