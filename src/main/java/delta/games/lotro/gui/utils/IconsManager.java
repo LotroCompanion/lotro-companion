@@ -109,6 +109,17 @@ public class IconsManager
   }
 
   /**
+   * Get the icon for a buff.
+   * @param iconFilename Filename of the relic icon.
+   * @return An icon or <code>null</code> if not found.
+   */
+  public static ImageIcon getBuffIcon(String iconFilename)
+  {
+    String path="/resources/gui/buffs/"+iconFilename+".png";
+    return getIcon(path);
+  }
+
+  /**
    * Get icon for a virtue.
    * @param virtueId Virtue identifier.
    * @return An icon.
