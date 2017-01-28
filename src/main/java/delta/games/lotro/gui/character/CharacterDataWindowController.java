@@ -19,6 +19,7 @@ import delta.games.lotro.character.events.CharacterEventType;
 import delta.games.lotro.character.events.CharacterEventsManager;
 import delta.games.lotro.character.io.xml.CharacterDataIO;
 import delta.games.lotro.character.stats.virtues.VirtuesSet;
+import delta.games.lotro.gui.character.buffs.BuffEditionPanelController;
 import delta.games.lotro.gui.character.virtues.VirtuesDisplayPanelController;
 import delta.games.lotro.gui.character.virtues.VirtuesEditionDialogController;
 import delta.games.lotro.gui.utils.GuiFactory;
@@ -36,6 +37,7 @@ public class CharacterDataWindowController extends DefaultWindowController
   private CharacterStatsSummaryPanelController _statsController;
   private EquipmentPanelController _equipmentController;
   private VirtuesDisplayPanelController _virtuesController;
+  private BuffEditionPanelController _buffsController;
   private OKCancelPanelController _okCancelController;
   private CharacterData _toon;
   private WindowsManager _windowsManager;
@@ -54,6 +56,7 @@ public class CharacterDataWindowController extends DefaultWindowController
     _equipmentController=new EquipmentPanelController(this,data);
     _virtuesController=new VirtuesDisplayPanelController();
     _virtuesController.setVirtues(data.getVirtues());
+    _buffsController=new BuffEditionPanelController(data);
     _okCancelController=new OKCancelPanelController();
   }
 
@@ -119,8 +122,11 @@ public class CharacterDataWindowController extends DefaultWindowController
     // Bottom panel
     JPanel virtuesPanel=buildVirtuesPanel();
     JPanel bottomPanel=GuiFactory.buildPanel(new GridBagLayout());
-    c=new GridBagConstraints(1,0,1,1,0,0,GridBagConstraints.NORTHEAST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.NORTHEAST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     bottomPanel.add(virtuesPanel,c);
+    JPanel buffsPanel=_buffsController.getPanel();
+    c=new GridBagConstraints(1,0,1,1,0,0,GridBagConstraints.NORTHEAST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    bottomPanel.add(buffsPanel,c);
 
     JPanel fullPanel=GuiFactory.buildBackgroundPanel(new BorderLayout());
     fullPanel.add(attrsPanel,BorderLayout.NORTH);
@@ -226,6 +232,12 @@ public class CharacterDataWindowController extends DefaultWindowController
     if (_okCancelController!=null)
     {
       _okCancelController.dispose();
+      _okCancelController=null;
+    }
+    if (_buffsController!=null)
+    {
+      _buffsController.dispose();
+      _buffsController=null;
     }
     _toon=null;
   }
