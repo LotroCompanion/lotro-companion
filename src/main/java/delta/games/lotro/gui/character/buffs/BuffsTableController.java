@@ -83,7 +83,7 @@ public class BuffsTableController
         }
       };
       TableColumnController<Buff,CharacterClass> classColumn=new TableColumnController<Buff,CharacterClass>("Class",CharacterClass.class,classCell);
-      classColumn.setWidthSpecs(70,70,50);
+      classColumn.setWidthSpecs(100,100,50);
       table.addColumnController(classColumn);
     }
     return table;
