@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.border.TitledBorder;
 
 import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.events.CharacterEvent;
@@ -20,6 +21,7 @@ import delta.games.lotro.character.events.CharacterEventsManager;
 import delta.games.lotro.character.io.xml.CharacterDataIO;
 import delta.games.lotro.character.stats.virtues.VirtuesSet;
 import delta.games.lotro.gui.character.buffs.BuffEditionPanelController;
+import delta.games.lotro.gui.character.tomes.TomesEditionPanelController;
 import delta.games.lotro.gui.character.virtues.VirtuesDisplayPanelController;
 import delta.games.lotro.gui.character.virtues.VirtuesEditionDialogController;
 import delta.games.lotro.gui.utils.GuiFactory;
@@ -38,6 +40,7 @@ public class CharacterDataWindowController extends DefaultWindowController
   private EquipmentPanelController _equipmentController;
   private VirtuesDisplayPanelController _virtuesController;
   private BuffEditionPanelController _buffsController;
+  private TomesEditionPanelController _tomesController;
   private OKCancelPanelController _okCancelController;
   private CharacterData _toon;
   private WindowsManager _windowsManager;
@@ -57,6 +60,7 @@ public class CharacterDataWindowController extends DefaultWindowController
     _virtuesController=new VirtuesDisplayPanelController();
     _virtuesController.setVirtues(data.getVirtues());
     _buffsController=new BuffEditionPanelController(data);
+    _tomesController=new TomesEditionPanelController(data);
     _okCancelController=new OKCancelPanelController();
   }
 
@@ -120,13 +124,31 @@ public class CharacterDataWindowController extends DefaultWindowController
     panel.add(statsPanel,c);
 
     // Bottom panel
-    JPanel virtuesPanel=buildVirtuesPanel();
     JPanel bottomPanel=GuiFactory.buildPanel(new GridBagLayout());
-    c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.NORTHEAST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
-    bottomPanel.add(virtuesPanel,c);
-    JPanel buffsPanel=_buffsController.getPanel();
-    c=new GridBagConstraints(1,0,1,1,0,0,GridBagConstraints.NORTHEAST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
-    bottomPanel.add(buffsPanel,c);
+    // - virtues
+    {
+      JPanel virtuesPanel=buildVirtuesPanel();
+      TitledBorder border=GuiFactory.buildTitledBorder("Virtues");
+      virtuesPanel.setBorder(border);
+      c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.NORTHEAST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+      bottomPanel.add(virtuesPanel,c);
+    }
+    // - tomes
+    {
+      JPanel tomesPanel=_tomesController.getPanel();
+      TitledBorder border=GuiFactory.buildTitledBorder("Tomes");
+      tomesPanel.setBorder(border);
+      c=new GridBagConstraints(1,0,1,1,0,0,GridBagConstraints.NORTHEAST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+      bottomPanel.add(tomesPanel,c);
+    }
+    // - buffs
+    {
+      JPanel buffsPanel=_buffsController.getPanel();
+      TitledBorder border=GuiFactory.buildTitledBorder("Buffs");
+      buffsPanel.setBorder(border);
+      c=new GridBagConstraints(0,1,1,1,0,0,GridBagConstraints.NORTHEAST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+      bottomPanel.add(buffsPanel,c);
+    }
 
     JPanel fullPanel=GuiFactory.buildBackgroundPanel(new BorderLayout());
     fullPanel.add(attrsPanel,BorderLayout.NORTH);
@@ -238,6 +260,11 @@ public class CharacterDataWindowController extends DefaultWindowController
     {
       _buffsController.dispose();
       _buffsController=null;
+    }
+    if (_tomesController!=null)
+    {
+      _tomesController.dispose();
+      _tomesController=null;
     }
     _toon=null;
   }

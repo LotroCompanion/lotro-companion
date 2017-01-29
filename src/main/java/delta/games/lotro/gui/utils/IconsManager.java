@@ -10,6 +10,7 @@ import javax.swing.ImageIcon;
 
 import org.apache.log4j.Logger;
 
+import delta.games.lotro.character.stats.STAT;
 import delta.games.lotro.utils.LotroLoggers;
 
 /**
@@ -116,6 +117,17 @@ public class IconsManager
   public static ImageIcon getBuffIcon(String iconFilename)
   {
     String path="/resources/gui/buffs/"+iconFilename+".png";
+    return getIcon(path);
+  }
+
+  /**
+   * Get the icon for a stat tome.
+   * @param stat Targeted stat.
+   * @return An icon or <code>null</code> if not found.
+   */
+  public static ImageIcon getTomeIcon(STAT stat)
+  {
+    String path="/resources/gui/tomes/"+stat.getKey().toLowerCase()+".png";
     return getIcon(path);
   }
 
