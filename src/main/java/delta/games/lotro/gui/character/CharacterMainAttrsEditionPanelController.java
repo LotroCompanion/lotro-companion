@@ -2,6 +2,9 @@ package delta.games.lotro.gui.character;
 
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -39,6 +42,9 @@ public class CharacterMainAttrsEditionPanelController
   private JTextField _name;
   private ComboBoxController<Integer> _level;
   private JTextField _date;
+  private JTextField _shortDescription;
+  //private JTextArea _description;
+
   // Data
   private CharacterData _toon;
 
@@ -66,21 +72,25 @@ public class CharacterMainAttrsEditionPanelController
 
   private JPanel buildPanel()
   {
-    JPanel panel=GuiFactory.buildBackgroundPanel(new FlowLayout(FlowLayout.LEFT));
+    JPanel panel=GuiFactory.buildBackgroundPanel(new GridBagLayout());
+    // 1st line
+    JPanel firstLinePanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    panel.add(firstLinePanel,c);
     // Class icon
     _classIcon=GuiFactory.buildIconLabel(null);
-    panel.add(_classIcon);
+    firstLinePanel.add(_classIcon);
     // Race icon
     _raceIcon=GuiFactory.buildIconLabel(null);
-    panel.add(_raceIcon);
+    firstLinePanel.add(_raceIcon);
     // Name
     _name=GuiFactory.buildTextField("");
     _name.setFont(_name.getFont().deriveFont(16f).deriveFont(Font.BOLD));
     _name.setColumns(25);
-    panel.add(_name);
+    firstLinePanel.add(_name);
     // Level
     _level=buildLevelCombo();
-    panel.add(_level.getComboBox());
+    firstLinePanel.add(_level.getComboBox());
     ItemSelectionListener<Integer> levelListener=new ItemSelectionListener<Integer>()
     {
       public void itemSelected(Integer level)
@@ -95,7 +105,18 @@ public class CharacterMainAttrsEditionPanelController
     // Date
     _date=GuiFactory.buildTextField("");
     _date.setColumns(10);
-    panel.add(_date);
+    firstLinePanel.add(_date);
+
+    // 2nd line
+    JPanel secondLinePanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
+    // Short description
+    secondLinePanel.add(GuiFactory.buildLabel("Description:"));
+    _shortDescription=GuiFactory.buildTextField("");
+    _shortDescription.setColumns(50);
+    secondLinePanel.add(_shortDescription);
+    c=new GridBagConstraints(0,1,1,1,0.0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    panel.add(secondLinePanel,c);
+
     return panel;
   }
 
@@ -122,6 +143,8 @@ public class CharacterMainAttrsEditionPanelController
     Date date=(timestamp!=null)?new Date(timestamp.longValue()):null;
     String dateStr=Formats.getDateTimeString(date);
     _date.setText(dateStr);
+    // Short description
+    _shortDescription.setText(_toon.getShortDescription());
   }
 
   /**
@@ -143,6 +166,8 @@ public class CharacterMainAttrsEditionPanelController
     {
       _toon.setDate(Long.valueOf(date.getTime()));
     }
+    // Short description
+    _toon.setShortDescription(_shortDescription.getText());
   }
 
   private ComboBoxController<Integer> buildLevelCombo()
@@ -179,5 +204,6 @@ public class CharacterMainAttrsEditionPanelController
     _name=null;
     _level=null;
     _date=null;
+    _shortDescription=null;
   }
 }
