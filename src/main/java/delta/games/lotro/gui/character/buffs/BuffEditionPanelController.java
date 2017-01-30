@@ -42,6 +42,7 @@ public class BuffEditionPanelController implements ActionListener
   private JPanel _panel;
   private JPanel _iconsPanel;
   private JPopupMenu _contextMenu;
+  private JLabel _transparentIcon;
 
   /**
    * Constructor.
@@ -81,6 +82,7 @@ public class BuffEditionPanelController implements ActionListener
     };
     button.addActionListener(al);
     _contextMenu=buildContextualMenu();
+    _transparentIcon=GuiFactory.buildTransparentIconlabel(32);
   }
 
   private void updateIconsPanel()
@@ -90,6 +92,10 @@ public class BuffEditionPanelController implements ActionListener
     {
       JLabel label=controller.getLabel();
       _iconsPanel.add(label);
+    }
+    if (_buffControllers.size()==0)
+    {
+      _iconsPanel.add(_transparentIcon);
     }
     _panel.revalidate();
     _panel.repaint();

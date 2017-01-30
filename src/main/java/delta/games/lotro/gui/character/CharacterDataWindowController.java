@@ -110,49 +110,73 @@ public class CharacterDataWindowController extends DefaultWindowController
 
   private JPanel buildEditionPanel()
   {
+    // North: attributes panel
     JPanel attrsPanel=_attrsController.getPanel();
+
+    // Center: equipment and stats
     // Stats panel
     JPanel statsPanel=_statsController.getPanel();
     // Equipment panel
     JPanel equipmentPanel=_equipmentController.getPanel();
+    TitledBorder equipmentBorder=GuiFactory.buildTitledBorder("Equipment");
+    equipmentPanel.setBorder(equipmentBorder);
 
+    GridBagConstraints c;
     // Center panel
-    JPanel panel=GuiFactory.buildBackgroundPanel(new GridBagLayout());
-    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
-    panel.add(equipmentPanel,c);
-    c=new GridBagConstraints(1,0,1,1,0,0,GridBagConstraints.NORTHEAST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
-    panel.add(statsPanel,c);
+    JPanel centerPanel;
+    {
+      centerPanel=GuiFactory.buildBackgroundPanel(new GridBagLayout());
+      c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(0,5,0,0),0,0);
+      centerPanel.add(equipmentPanel,c);
+      c=new GridBagConstraints(1,0,1,1,1.0,0,GridBagConstraints.CENTER,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+      centerPanel.add(GuiFactory.buildPanel(new BorderLayout()),c);
+      c=new GridBagConstraints(2,0,1,1,0,0,GridBagConstraints.NORTHEAST,GridBagConstraints.NONE,new Insets(0,0,0,5),0,0);
+      centerPanel.add(statsPanel,c);
+    }
 
     // Bottom panel
     JPanel bottomPanel=GuiFactory.buildPanel(new GridBagLayout());
+    JPanel bottomPanel1=GuiFactory.buildPanel(new GridBagLayout());
     // - virtues
     {
       JPanel virtuesPanel=buildVirtuesPanel();
       TitledBorder border=GuiFactory.buildTitledBorder("Virtues");
       virtuesPanel.setBorder(border);
-      c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.NORTHEAST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
-      bottomPanel.add(virtuesPanel,c);
+      c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,5,0,5),0,0);
+      bottomPanel1.add(virtuesPanel,c);
     }
     // - tomes
     {
       JPanel tomesPanel=_tomesController.getPanel();
       TitledBorder border=GuiFactory.buildTitledBorder("Tomes");
       tomesPanel.setBorder(border);
-      c=new GridBagConstraints(1,0,1,1,0,0,GridBagConstraints.NORTHEAST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
-      bottomPanel.add(tomesPanel,c);
+      c=new GridBagConstraints(1,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+      bottomPanel1.add(tomesPanel,c);
     }
+    // Space on right
+    c=new GridBagConstraints(2,0,1,1,1.0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    bottomPanel1.add(GuiFactory.buildPanel(new GridBagLayout()),c);
+    c=new GridBagConstraints(0,0,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
+    bottomPanel.add(bottomPanel1,c);
+
+    JPanel bottomPanel2=GuiFactory.buildPanel(new GridBagLayout());
     // - buffs
     {
       JPanel buffsPanel=_buffsController.getPanel();
       TitledBorder border=GuiFactory.buildTitledBorder("Buffs");
       buffsPanel.setBorder(border);
-      c=new GridBagConstraints(0,1,1,1,0,0,GridBagConstraints.NORTHEAST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
-      bottomPanel.add(buffsPanel,c);
+      c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,5,0,0),0,0);
+      bottomPanel2.add(buffsPanel,c);
     }
+    // Space on right
+    c=new GridBagConstraints(1,0,1,1,1.0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    bottomPanel2.add(GuiFactory.buildPanel(new GridBagLayout()),c);
+    c=new GridBagConstraints(0,1,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
+    bottomPanel.add(bottomPanel2,c);
 
     JPanel fullPanel=GuiFactory.buildBackgroundPanel(new BorderLayout());
     fullPanel.add(attrsPanel,BorderLayout.NORTH);
-    fullPanel.add(panel,BorderLayout.CENTER);
+    fullPanel.add(centerPanel,BorderLayout.CENTER);
     fullPanel.add(bottomPanel,BorderLayout.SOUTH);
     return fullPanel;
   }
@@ -192,11 +216,11 @@ public class CharacterDataWindowController extends DefaultWindowController
     String serverName=_toon.getServer();
     String title="Character: "+name+" @ "+serverName;
     frame.setTitle(title);
+    // Set values
+    setValues();
     // Size
     frame.pack();
     frame.setResizable(false);
-    // Set values
-    setValues();
     return frame;
   }
 
@@ -216,6 +240,7 @@ public class CharacterDataWindowController extends DefaultWindowController
 
   private void ok()
   {
+    _attrsController.get();
     boolean ok=CharacterDataIO.saveInfo(_toon.getFile(),_toon);
     if (!ok)
     {

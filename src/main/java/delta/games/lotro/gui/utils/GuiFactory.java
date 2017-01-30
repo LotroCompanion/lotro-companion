@@ -10,6 +10,7 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -185,6 +186,18 @@ public class GuiFactory
     JLabel l=new JLabel(icon);
     l.setOpaque(false);
     return l;
+  }
+
+  /**
+   * Build a transparent icon label.
+   * @param size Size of icon.
+   * @return A label.
+   */
+  public static JLabel buildTransparentIconlabel(int size)
+  {
+    BufferedImage image=new BufferedImage(size, size, BufferedImage.TYPE_INT_ARGB);
+    ImageIcon icon=new ImageIcon(image);
+    return buildIconLabel(icon);
   }
 
   /**
