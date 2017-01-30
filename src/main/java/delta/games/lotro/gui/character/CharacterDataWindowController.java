@@ -85,7 +85,7 @@ public class CharacterDataWindowController extends DefaultWindowController
     panel.add(editionPanel,BorderLayout.CENTER);
     JPanel okCancelPanel=_okCancelController.getPanel();
     panel.add(okCancelPanel,BorderLayout.SOUTH);
-    _okCancelController.getOKButton().setText("Save");
+    _okCancelController.getOKButton().setText("OK");
 
     ActionListener al=new ActionListener()
     {
@@ -242,7 +242,13 @@ public class CharacterDataWindowController extends DefaultWindowController
   {
     _attrsController.get();
     boolean ok=CharacterDataIO.saveInfo(_toon.getFile(),_toon);
-    if (!ok)
+    if (ok)
+    {
+      CharacterEvent event=new CharacterEvent(null,_toon);
+      CharacterEventsManager.invokeEvent(CharacterEventType.CHARACTER_DATA_UPDATED,event);
+      dispose();
+    }
+    else
     {
       // TODO warn
     }
