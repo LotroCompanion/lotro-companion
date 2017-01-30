@@ -89,26 +89,6 @@ public class CharacterStatsPanelController
     }
   }
 
-  /*
-  private JPanel buildPanel2()
-  {
-    JPanel panel=GuiFactory.buildBackgroundPanel(new BorderLayout());
-    JPanel mainStatsPanel=buildMainStatsPanel();
-    JPanel offencePanel=buildOffencePanel();
-    JPanel avoidancePanel=buildAvoidancePanel();
-    JPanel mitigationPanel=buildMitigationsPanel();
-    JPanel healingPanel=buildHealingPanel();
-    JTabbedPane tabbedPane=GuiFactory.buildTabbedPane();
-    tabbedPane.add("Main",mainStatsPanel);
-    tabbedPane.add("Offence",offencePanel);
-    tabbedPane.add("Avoidance",avoidancePanel);
-    tabbedPane.add("Mitigation",mitigationPanel);
-    tabbedPane.add("Healing",healingPanel);
-    panel.add(tabbedPane,BorderLayout.CENTER);
-    return panel;
-  }
-  */
-
   private JPanel buildPanel()
   {
     JPanel panel=GuiFactory.buildBackgroundPanel(new GridBagLayout());
@@ -134,8 +114,6 @@ public class CharacterStatsPanelController
   private JPanel buildMainStatsPanel()
   {
     JPanel panel=GuiFactory.buildBackgroundPanel(new GridBagLayout());
-    //String[] labels=new String[]{"", "Value", "+/-"};
-    //addHeaders(panel,0,0,labels,true,1);
     STAT[] stats={STAT.MORALE, STAT.POWER, STAT.ARMOUR, STAT.MIGHT,
         STAT.AGILITY, STAT.VITALITY, STAT.WILL, STAT.FATE,
         STAT.OCMR, STAT.ICMR, STAT.OCPR, STAT.ICPR

@@ -49,7 +49,7 @@ public class CharacterStatsWindowController extends DefaultWindowController
     String title="Detailed stats for: "+name+" @ "+serverName;
     frame.setTitle(title);
     frame.pack();
-    frame.setResizable(false);
+    frame.setResizable(true);
     return frame;
   }
 
@@ -67,6 +67,7 @@ public class CharacterStatsWindowController extends DefaultWindowController
   public void setStats(BasicStatsSet reference, BasicStatsSet current)
   {
     _statsPanelController.setStats(reference,current);
+    getFrame().pack();
   }
 
   /**
@@ -75,6 +76,7 @@ public class CharacterStatsWindowController extends DefaultWindowController
   public void update()
   {
     _statsPanelController.update();
+    getFrame().pack();
   }
 
   /**
