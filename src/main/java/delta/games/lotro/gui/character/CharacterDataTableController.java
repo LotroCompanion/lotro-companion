@@ -8,6 +8,10 @@ import javax.swing.JTable;
 import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharacterInfosManager;
+import delta.games.lotro.character.events.CharacterEvent;
+import delta.games.lotro.character.events.CharacterEventListener;
+import delta.games.lotro.character.events.CharacterEventType;
+import delta.games.lotro.character.events.CharacterEventsManager;
 import delta.games.lotro.utils.gui.tables.CellDataProvider;
 import delta.games.lotro.utils.gui.tables.DataProvider;
 import delta.games.lotro.utils.gui.tables.GenericTableController;
@@ -17,7 +21,7 @@ import delta.games.lotro.utils.gui.tables.TableColumnController;
  * Controller for a table that shows all available data for a single toon.
  * @author DAM
  */
-public class CharacterDataTableController
+public class CharacterDataTableController implements CharacterEventListener
 {
   // Data
   private CharacterFile _toon;
@@ -34,6 +38,7 @@ public class CharacterDataTableController
     _toon=toon;
     _toon.getInfosManager().sync();
     _tableController=buildTable();
+    CharacterEventsManager.addListener(this);
   }
 
   private DataProvider<CharacterData> buildDataProvider()
@@ -138,6 +143,19 @@ public class CharacterDataTableController
     _tableController.removeActionListener(al);
   }
 
+  public void eventOccured(CharacterEventType type, CharacterEvent event)
+  {
+    if (type==CharacterEventType.CHARACTER_DATA_UPDATED)
+    {
+      CharacterData data=event.getToonData();
+      _tableController.refresh(data);
+    }
+    if ((type==CharacterEventType.CHARACTER_DATA_ADDED) || (type==CharacterEventType.CHARACTER_DATA_REMOVED))
+    {
+      _tableController.refresh();
+    }
+  }
+
   /**
    * Release all managed resources.
    */
@@ -154,6 +172,7 @@ public class CharacterDataTableController
       _tableController=null;
     }
     // Data
+    CharacterEventsManager.removeListener(this);
     _toon=null;
   }
 }
