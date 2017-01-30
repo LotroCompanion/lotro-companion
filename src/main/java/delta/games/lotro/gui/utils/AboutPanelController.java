@@ -57,27 +57,27 @@ public class AboutPanelController
     y++;
 
     // Project version
-    String projectVersion="Version 3.0 (16/03/2013)";
+    String projectVersion="Version 4.0 beta1 (01/02/2017)";
     JLabel lbVersion=new JLabel(projectVersion);
     lbVersion.setFont(lbVersion.getFont().deriveFont(Font.BOLD,24));
     c=new GridBagConstraints(0,y,2,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(10,5,10,5),0,0);
     panel.add(lbVersion,c);
     y++;
-    
+
     // Project contact
     JLabel lbEmail=new JLabel("lotrocompanion@gmail.com");
     lbEmail.setFont(lbVersion.getFont().deriveFont(Font.BOLD,16));
     c=new GridBagConstraints(0,y,2,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(10,5,10,5),0,0);
     panel.add(lbEmail,c);
     y++;
-    
-    // Contributors label contrub
+
+    // Contributors label contrib
     JLabel lbContributors=new JLabel("Contributors:");
     lbContributors.setFont(lbVersion.getFont().deriveFont(Font.BOLD,24));
     c=new GridBagConstraints(0,y,2,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(10,15,10,5),0,0);
     panel.add(lbContributors,c);
     y++;
-    
+
     // Project contributors
     JPanel contributorsPanel=buildContributorsPanel();
     c=new GridBagConstraints(0,y,2,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(5,5,5,5),0,0);
