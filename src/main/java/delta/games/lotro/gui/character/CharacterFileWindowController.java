@@ -132,7 +132,6 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     JButton logButton=buildCommandButton("Log",LOG_COMMAND);
     panel.add(logButton,c);
     c.gridx++;
-    logButton.setEnabled(_toon.hasLog());
     // Reputation
     JButton reputationButton=buildCommandButton("Reputation",REPUTATION_COMMAND);
     panel.add(reputationButton,c);
@@ -140,6 +139,13 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     // Crafting
     JButton craftingButton=buildCommandButton("Crafting",CRAFTING_COMMAND);
     panel.add(craftingButton,c);
+
+    // Disable buttons if no log
+    boolean hasLog=_toon.hasLog();
+    logButton.setEnabled(hasLog);
+    reputationButton.setEnabled(hasLog);
+    craftingButton.setEnabled(hasLog);
+
     return panel;
   }
 
