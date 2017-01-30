@@ -229,6 +229,12 @@ public class CharacterDataWindowController extends DefaultWindowController
     dispose();
   }
 
+  @Override
+  protected void doWindowClosing()
+  {
+    cancel();
+  }
+
   /**
    * Release all managed resources.
    */
