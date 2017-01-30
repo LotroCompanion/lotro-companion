@@ -83,8 +83,8 @@ public class CharacterSummaryPanelController
     if (_summary!=null)
     {
       String name=_summary.getName();
-      String region=_summary.getRegion();
-      String text=name+" of "+region;
+      //String region=_summary.getRegion();
+      String text=name;//+" of "+region;
       _nameLabel.setText(text);
       /*
       int level=_summary.getLevel();
