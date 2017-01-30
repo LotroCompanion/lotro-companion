@@ -295,6 +295,10 @@ public class EquipmentPanelController implements ActionListener
         {
           ItemsManager itemsManager=ItemsManager.getInstance();
           item=itemsManager.getItem(id);
+          if (item!=null)
+          {
+            item=ItemFactory.clone(item);
+          }
           contents.setItem(item);
         }
       }
