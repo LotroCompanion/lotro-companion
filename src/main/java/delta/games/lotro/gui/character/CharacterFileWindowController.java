@@ -24,6 +24,7 @@ import delta.games.lotro.character.CharacterSummary;
 import delta.games.lotro.character.events.CharacterEvent;
 import delta.games.lotro.character.events.CharacterEventType;
 import delta.games.lotro.character.events.CharacterEventsManager;
+import delta.games.lotro.character.stats.CharacterStatsComputer;
 import delta.games.lotro.gui.log.CharacterLogWindowController;
 import delta.games.lotro.gui.stats.crafting.CraftingWindowController;
 import delta.games.lotro.gui.stats.reputation.CharacterReputationWindowController;
@@ -266,6 +267,9 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     CharacterSummary newSummary=new CharacterSummary(lastInfos.getSummary());
     newInfos.setSummary(newSummary);
     newInfos.setDate(Long.valueOf(System.currentTimeMillis()));
+    // Compute stats
+    CharacterStatsComputer computer=new CharacterStatsComputer();
+    newInfos.getStats().setStats(computer.getStats(newInfos));
     boolean ok=_toon.getInfosManager().writeNewCharacterData(newInfos);
     if (ok)
     {
