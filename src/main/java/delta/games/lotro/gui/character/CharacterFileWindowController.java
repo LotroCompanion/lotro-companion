@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -44,6 +45,7 @@ import delta.games.lotro.utils.gui.tables.GenericTableController;
 public class CharacterFileWindowController extends DefaultWindowController implements ActionListener
 {
   private static final String NEW_TOON_DATA_ID="newToonData";
+  private static final String REMOVE_TOON_DATA_ID="removeToonData";
   private static final String LOG_COMMAND="log";
   private static final String REPUTATION_COMMAND="reputation";
   private static final String CRAFTING_COMMAND="crafting";
@@ -214,6 +216,10 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     {
       startNewCharacterData();
     }
+    else if (REMOVE_TOON_DATA_ID.equals(command))
+    {
+      removeCharacterData();
+    }
     else if (GenericTableController.DOUBLE_CLICK.equals(command))
     {
       CharacterData data=(CharacterData)e.getSource();
@@ -242,6 +248,10 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     String newIconPath=getToolbarIconPath("new");
     ToolbarIconItem newIconItem=new ToolbarIconItem(NEW_TOON_DATA_ID,newIconPath,NEW_TOON_DATA_ID,"Create a new character configuration...","New");
     model.addToolbarIconItem(newIconItem);
+    // Remove icon
+    String removeIconPath=getToolbarIconPath("erase");
+    ToolbarIconItem eraseIconItem=new ToolbarIconItem(REMOVE_TOON_DATA_ID,removeIconPath,REMOVE_TOON_DATA_ID,"Remove the selected character...","Remove");
+    model.addToolbarIconItem(eraseIconItem);
     controller.addActionListener(this);
     return controller;
   }
@@ -264,7 +274,15 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     CharacterInfosManager infos=_toon.getInfosManager();
     CharacterData lastInfos=infos.getLastCharacterDescription();
     CharacterData newInfos=new CharacterData();
-    CharacterSummary newSummary=new CharacterSummary(lastInfos.getSummary());
+    CharacterSummary newSummary;
+    if (lastInfos!=null)
+    {
+      newSummary=new CharacterSummary(lastInfos.getSummary());
+    }
+    else
+    {
+      newSummary=new CharacterSummary(_toon.getSummary());
+    }
     newInfos.setSummary(newSummary);
     newInfos.setDate(Long.valueOf(System.currentTimeMillis()));
     // Compute stats
@@ -281,9 +299,7 @@ public class CharacterFileWindowController extends DefaultWindowController imple
 
   private void showCharacterData(CharacterData data)
   {
-    String serverName=data.getServer();
-    String toonName=data.getName();
-    String id=CharacterDataWindowController.getIdentifier(serverName,toonName);
+    String id=CharacterDataWindowController.getIdentifier(data);
     WindowController controller=_windowsManager.getWindow(id);
     if (controller==null)
     {
@@ -293,6 +309,34 @@ public class CharacterFileWindowController extends DefaultWindowController imple
       controller.getWindow().setLocationRelativeTo(thisWindow);
     }
     controller.bringToFront();
+  }
+
+  private void removeCharacterData()
+  {
+    GenericTableController<CharacterData> controller=_toonsTable.getTableController();
+    CharacterData data=controller.getSelectedItem();
+    if (data!=null)
+    {
+      // Check deletion
+      String serverName=data.getServer();
+      String toonName=data.getName();
+      int result=GuiFactory.showQuestionDialog(getFrame(),"Do you really want to delete this configuration of " + toonName+"@"+ serverName + "?","Delete?",JOptionPane.YES_NO_OPTION);
+      if (result==JOptionPane.OK_OPTION)
+      {
+        String id=CharacterDataWindowController.getIdentifier(data);
+        WindowController windowController=_windowsManager.getWindow(id);
+        if (windowController!=null)
+        {
+          windowController.dispose();
+        }
+        boolean ok=_toon.getInfosManager().remove(data);
+        if (ok)
+        {
+          CharacterEvent event=new CharacterEvent(_toon,data);
+          CharacterEventsManager.invokeEvent(CharacterEventType.CHARACTER_DATA_REMOVED,event);
+        }
+      }
+    }
   }
 
   /**

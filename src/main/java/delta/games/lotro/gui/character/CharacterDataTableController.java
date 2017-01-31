@@ -113,6 +113,15 @@ public class CharacterDataTableController implements CharacterEventListener
   }
 
   /**
+   * Get the managed table controller.
+   * @return the managed table controller.
+   */
+  public GenericTableController<CharacterData> getTableController()
+  {
+    return _tableController;
+  }
+
+  /**
    * Get the managed table.
    * @return the managed table.
    */

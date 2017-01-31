@@ -66,14 +66,12 @@ public class CharacterDataWindowController extends DefaultWindowController
 
   /**
    * Get the window identifier for a given toon.
-   * @param serverName Server name.
-   * @param toonName Toon name.
+   * @param data Data to use.
    * @return A window identifier.
    */
-  public static String getIdentifier(String serverName, String toonName)
+  public static String getIdentifier(CharacterData data)
   {
-    String id="DATA#"+serverName+"#"+toonName;
-    id=id.toUpperCase();
+    String id="DATA#"+data.getFile();
     return id;
   }
 
@@ -232,9 +230,7 @@ public class CharacterDataWindowController extends DefaultWindowController
   @Override
   public String getWindowIdentifier()
   {
-    String serverName=_toon.getServer();
-    String toonName=_toon.getName();
-    String id=getIdentifier(serverName,toonName);
+    String id=getIdentifier(_toon);
     return id;
   }
 
