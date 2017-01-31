@@ -4,12 +4,14 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JToolBar;
 
 import delta.games.lotro.character.CharacterFile;
+import delta.games.lotro.character.CharactersManager;
 import delta.games.lotro.character.events.CharacterEvent;
 import delta.games.lotro.character.events.CharacterEventListener;
 import delta.games.lotro.character.events.CharacterEventType;
@@ -21,6 +23,7 @@ import delta.games.lotro.gui.utils.toolbar.ToolbarIconItem;
 import delta.games.lotro.gui.utils.toolbar.ToolbarModel;
 import delta.games.lotro.utils.gui.WindowController;
 import delta.games.lotro.utils.gui.WindowsManager;
+import delta.games.lotro.utils.gui.tables.GenericTableController;
 
 /**
  * Controller for the toons management panel.
@@ -29,6 +32,7 @@ import delta.games.lotro.utils.gui.WindowsManager;
 public class ToonsManagementController implements ActionListener,CharacterEventListener
 {
   private static final String NEW_TOON_ID="newToon";
+  private static final String REMOVE_TOON_ID="removeToon";
   private JPanel _panel;
   private WindowController _parentController;
   private ToonsTableController _toonsTable;
@@ -45,7 +49,7 @@ public class ToonsManagementController implements ActionListener,CharacterEventL
     _parentController=parentController;
     _mainWindowsManager=new WindowsManager();
   }
-  
+
   /**
    * Get the managed panel.
    * @return the managed panel.
@@ -78,7 +82,7 @@ public class ToonsManagementController implements ActionListener,CharacterEventL
    */
   public void eventOccured(CharacterEventType type, CharacterEvent event)
   {
-    if (type==CharacterEventType.CHARACTER_ADDED)
+    if ((type==CharacterEventType.CHARACTER_ADDED) || (type==CharacterEventType.CHARACTER_REMOVED))
     {
       _toonsTable.refresh();
     }
@@ -110,6 +114,10 @@ public class ToonsManagementController implements ActionListener,CharacterEventL
     String newIconPath=getToolbarIconPath("new");
     ToolbarIconItem newIconItem=new ToolbarIconItem(NEW_TOON_ID,newIconPath,NEW_TOON_ID,"Create a new character...","New");
     model.addToolbarIconItem(newIconItem);
+    // Remove icon
+    String removeIconPath=getToolbarIconPath("erase");
+    ToolbarIconItem eraseIconItem=new ToolbarIconItem(REMOVE_TOON_ID,removeIconPath,REMOVE_TOON_ID,"Remove the selected character...","Remove");
+    model.addToolbarIconItem(eraseIconItem);
     controller.addActionListener(this);
     return controller;
   }
@@ -123,6 +131,10 @@ public class ToonsManagementController implements ActionListener,CharacterEventL
     if (NEW_TOON_ID.equals(action))
     {
       startNewToon();
+    }
+    else if (REMOVE_TOON_ID.equals(action))
+    {
+      deleteToon();
     }
     else if (ToonsTableController.DOUBLE_CLICK.equals(action))
     {
@@ -154,6 +166,30 @@ public class ToonsManagementController implements ActionListener,CharacterEventL
     }
     _newToonDialog.getDialog().setLocationRelativeTo(getPanel());
     _newToonDialog.show(true);
+  }
+
+  private void deleteToon()
+  {
+    GenericTableController<CharacterFile> controller=_toonsTable.getTableController();
+    CharacterFile file=controller.getSelectedItem();
+    if (file!=null)
+    {
+      String serverName=file.getServerName();
+      String toonName=file.getName();
+      // Check deletion
+      int result=GuiFactory.showQuestionDialog(_parentController.getWindow(),"Do you really want to delete " + toonName+"@"+ serverName + "?","Delete?",JOptionPane.YES_NO_OPTION);
+      if (result==JOptionPane.OK_OPTION)
+      {
+        String id=CharacterFileWindowController.getIdentifier(serverName,toonName);
+        WindowController windowController=_mainWindowsManager.getWindow(id);
+        if (windowController!=null)
+        {
+          windowController.dispose();
+        }
+        CharactersManager manager=CharactersManager.getInstance();
+        manager.removeToon(file);
+      }
+    }
   }
 
   /**

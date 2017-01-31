@@ -151,6 +151,15 @@ public class ToonsTableController
     return table;
   }
 
+  /**
+   * Get the managed table controller.
+   * @return the managed table controller.
+   */
+  public GenericTableController<CharacterFile> getTableController()
+  {
+    return _tableController;
+  }
+
   private CharacterSummary getDataForToon(CharacterFile toon)
   {
     return toon.getSummary();
