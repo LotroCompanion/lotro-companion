@@ -142,7 +142,7 @@ public class ItemChoiceTableController
       }
     };
     TableColumnController<Item,FixedDecimalsInteger> statColumn=new TableColumnController<Item,FixedDecimalsInteger>("Armour",FixedDecimalsInteger.class,statCell);
-    statColumn.setWidthSpecs(70,70,50);
+    statColumn.setWidthSpecs(55,55,50);
     return statColumn;
   }
 
@@ -158,7 +158,7 @@ public class ItemChoiceTableController
       }
     };
     TableColumnController<Item,FixedDecimalsInteger> statColumn=new TableColumnController<Item,FixedDecimalsInteger>(stat.getName(),FixedDecimalsInteger.class,statCell);
-    statColumn.setWidthSpecs(70,70,50);
+    statColumn.setWidthSpecs(55,55,50);
     return statColumn;
   }
 
