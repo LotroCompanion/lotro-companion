@@ -59,7 +59,7 @@ public class CharacterDataWindowController extends DefaultWindowController
     _equipmentController=new EquipmentPanelController(this,data);
     _virtuesController=new VirtuesDisplayPanelController();
     _virtuesController.setVirtues(data.getVirtues());
-    _buffsController=new BuffEditionPanelController(data);
+    _buffsController=new BuffEditionPanelController(this,data);
     _tomesController=new TomesEditionPanelController(data);
     _okCancelController=new OKCancelPanelController();
   }

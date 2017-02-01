@@ -26,6 +26,7 @@ import delta.games.lotro.character.stats.buffs.BuffInstance;
 import delta.games.lotro.character.stats.buffs.BuffRegistry;
 import delta.games.lotro.character.stats.buffs.BuffsManager;
 import delta.games.lotro.gui.utils.GuiFactory;
+import delta.games.lotro.utils.gui.WindowController;
 
 /**
  * Controller for a panel to edit buffs.
@@ -38,6 +39,7 @@ public class BuffEditionPanelController implements ActionListener
   // Data
   private CharacterData _toon;
   // UI
+  private WindowController _parentWindow;
   private List<BuffIconController> _buffControllers;
   private JPanel _panel;
   private JPanel _iconsPanel;
@@ -46,10 +48,12 @@ public class BuffEditionPanelController implements ActionListener
 
   /**
    * Constructor.
+   * @param parent Parent window controller.
    * @param character Targeted character.
    */
-  public BuffEditionPanelController(CharacterData character)
+  public BuffEditionPanelController(WindowController parent, CharacterData character)
   {
+    _parentWindow=parent;
     _toon=character;
     _buffControllers=new ArrayList<BuffIconController>();
     build();
@@ -218,7 +222,7 @@ public class BuffEditionPanelController implements ActionListener
   {
     BuffsManager buffs=_toon.getBuffs();
     List<Buff> possibleBuffs=BuffRegistry.getInstance().buildBuffSelection(_toon,buffs);
-    Buff buff=BuffChoiceWindowController.selectBuff(null,possibleBuffs,null);
+    Buff buff=BuffChoiceWindowController.selectBuff(_parentWindow,possibleBuffs,null);
     if (buff!=null)
     {
       BuffInstance buffInstance=buff.buildInstance();
@@ -286,6 +290,7 @@ public class BuffEditionPanelController implements ActionListener
       _iconsPanel=null;
     }
     _buffControllers.clear();
+    _parentWindow=null;
     _toon=null;
   }
 }
