@@ -77,6 +77,7 @@ public class ItemChoiceWindowController extends DefaultDialogController
       dialog.setLocationRelativeTo(parentWindow);
     }
     dialog.setMinimumSize(new Dimension(400,300));
+    dialog.setSize(1000,dialog.getHeight());
     return dialog;
   }
   

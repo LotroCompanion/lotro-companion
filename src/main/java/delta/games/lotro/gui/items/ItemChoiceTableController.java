@@ -9,6 +9,7 @@ import delta.common.utils.collections.filters.Filter;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.character.stats.STAT;
 import delta.games.lotro.gui.utils.IconsManager;
+import delta.games.lotro.lore.items.Armour;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemPropertyNames;
 import delta.games.lotro.utils.FixedDecimalsInteger;
@@ -115,9 +116,34 @@ public class ItemChoiceTableController
       table.addColumnController(levelColumn);
     }
     // Stat columns
-    table.addColumnController(buildStatColumn(STAT.MIGHT));
-    table.addColumnController(buildStatColumn(STAT.MORALE));
+    table.addColumnController(buildArmourColumn());
+    STAT[] stats=new STAT[]{STAT.MORALE,STAT.MIGHT,STAT.AGILITY,STAT.WILL,STAT.VITALITY,STAT.FATE,STAT.CRITICAL_RATING};
+    for(STAT stat : stats)
+    {
+      table.addColumnController(buildStatColumn(stat));
+    }
     return table;
+  }
+
+  private TableColumnController<Item,FixedDecimalsInteger> buildArmourColumn()
+  {
+    CellDataProvider<Item,FixedDecimalsInteger> statCell=new CellDataProvider<Item,FixedDecimalsInteger>()
+    {
+      public FixedDecimalsInteger getData(Item item)
+      {
+        if (item instanceof Armour)
+        {
+          Armour armour=(Armour)item;
+          return new FixedDecimalsInteger(armour.getArmourValue());
+        }
+        BasicStatsSet stats=item.getStats();
+        FixedDecimalsInteger value=stats.getStat(STAT.ARMOUR);
+        return value;
+      }
+    };
+    TableColumnController<Item,FixedDecimalsInteger> statColumn=new TableColumnController<Item,FixedDecimalsInteger>("Armour",FixedDecimalsInteger.class,statCell);
+    statColumn.setWidthSpecs(70,70,50);
+    return statColumn;
   }
 
   private TableColumnController<Item,FixedDecimalsInteger> buildStatColumn(final STAT stat)
