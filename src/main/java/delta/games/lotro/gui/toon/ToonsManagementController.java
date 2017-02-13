@@ -115,9 +115,9 @@ public class ToonsManagementController implements ActionListener,CharacterEventL
     ToolbarIconItem newIconItem=new ToolbarIconItem(NEW_TOON_ID,newIconPath,NEW_TOON_ID,"Create a new character...","New");
     model.addToolbarIconItem(newIconItem);
     // Remove icon
-    String removeIconPath=getToolbarIconPath("erase");
-    ToolbarIconItem eraseIconItem=new ToolbarIconItem(REMOVE_TOON_ID,removeIconPath,REMOVE_TOON_ID,"Remove the selected character...","Remove");
-    model.addToolbarIconItem(eraseIconItem);
+    String deleteIconPath=getToolbarIconPath("delete");
+    ToolbarIconItem deleteIconItem=new ToolbarIconItem(REMOVE_TOON_ID,deleteIconPath,REMOVE_TOON_ID,"Remove the selected character...","Remove");
+    model.addToolbarIconItem(deleteIconItem);
     controller.addActionListener(this);
     return controller;
   }

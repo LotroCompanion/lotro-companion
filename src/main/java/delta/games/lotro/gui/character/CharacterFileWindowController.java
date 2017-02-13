@@ -249,9 +249,9 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     ToolbarIconItem newIconItem=new ToolbarIconItem(NEW_TOON_DATA_ID,newIconPath,NEW_TOON_DATA_ID,"Create a new character configuration...","New");
     model.addToolbarIconItem(newIconItem);
     // Remove icon
-    String removeIconPath=getToolbarIconPath("erase");
-    ToolbarIconItem eraseIconItem=new ToolbarIconItem(REMOVE_TOON_DATA_ID,removeIconPath,REMOVE_TOON_DATA_ID,"Remove the selected character...","Remove");
-    model.addToolbarIconItem(eraseIconItem);
+    String deleteIconPath=getToolbarIconPath("delete");
+    ToolbarIconItem deleteIconItem=new ToolbarIconItem(REMOVE_TOON_DATA_ID,deleteIconPath,REMOVE_TOON_DATA_ID,"Remove the selected character...","Remove");
+    model.addToolbarIconItem(deleteIconItem);
     controller.addActionListener(this);
     return controller;
   }
