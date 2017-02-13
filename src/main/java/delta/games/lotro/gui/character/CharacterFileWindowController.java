@@ -45,6 +45,7 @@ import delta.games.lotro.utils.gui.tables.GenericTableController;
 public class CharacterFileWindowController extends DefaultWindowController implements ActionListener
 {
   private static final String NEW_TOON_DATA_ID="newToonData";
+  private static final String CLONE_TOON_DATA_ID="cloneToonData";
   private static final String REMOVE_TOON_DATA_ID="removeToonData";
   private static final String LOG_COMMAND="log";
   private static final String REPUTATION_COMMAND="reputation";
@@ -216,6 +217,10 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     {
       startNewCharacterData();
     }
+    else if (CLONE_TOON_DATA_ID.equals(command))
+    {
+      cloneCharacterData();
+    }
     else if (REMOVE_TOON_DATA_ID.equals(command))
     {
       removeCharacterData();
@@ -248,6 +253,11 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     String newIconPath=getToolbarIconPath("new");
     ToolbarIconItem newIconItem=new ToolbarIconItem(NEW_TOON_DATA_ID,newIconPath,NEW_TOON_DATA_ID,"Create a new character configuration...","New");
     model.addToolbarIconItem(newIconItem);
+    // Clone icon
+    String cloneIconPath=getToolbarIconPath("copy");
+    ToolbarIconItem cloneIconItem=new ToolbarIconItem(CLONE_TOON_DATA_ID,cloneIconPath,CLONE_TOON_DATA_ID,"Clone the selected character configuration...","Clone");
+    model.addToolbarIconItem(cloneIconItem);
+    controller.addActionListener(this);
     // Remove icon
     String deleteIconPath=getToolbarIconPath("delete");
     ToolbarIconItem deleteIconItem=new ToolbarIconItem(REMOVE_TOON_DATA_ID,deleteIconPath,REMOVE_TOON_DATA_ID,"Remove the selected character...","Remove");
@@ -309,6 +319,26 @@ public class CharacterFileWindowController extends DefaultWindowController imple
       controller.getWindow().setLocationRelativeTo(thisWindow);
     }
     controller.bringToFront();
+  }
+
+  private void cloneCharacterData()
+  {
+    GenericTableController<CharacterData> controller=_toonsTable.getTableController();
+    CharacterData data=controller.getSelectedItem();
+    if (data!=null)
+    {
+      // Build new configuration
+      CharacterData newInfos=new CharacterData(data);
+      newInfos.setDate(Long.valueOf(System.currentTimeMillis()));
+      // Register new configuration
+      CharacterInfosManager infos=_toon.getInfosManager();
+      boolean ok=infos.writeNewCharacterData(newInfos);
+      if (ok)
+      {
+        CharacterEvent event=new CharacterEvent(_toon,newInfos);
+        CharacterEventsManager.invokeEvent(CharacterEventType.CHARACTER_DATA_ADDED,event);
+      }
+    }
   }
 
   private void removeCharacterData()
