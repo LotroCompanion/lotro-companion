@@ -7,6 +7,7 @@ import java.awt.Insets;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -18,6 +19,7 @@ import javax.swing.JTable;
 import javax.swing.JToolBar;
 import javax.swing.SwingUtilities;
 
+import delta.common.utils.files.FileCopy;
 import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharacterInfosManager;
@@ -36,6 +38,7 @@ import delta.games.lotro.gui.utils.toolbar.ToolbarModel;
 import delta.games.lotro.utils.gui.DefaultWindowController;
 import delta.games.lotro.utils.gui.WindowController;
 import delta.games.lotro.utils.gui.WindowsManager;
+import delta.games.lotro.utils.gui.filechooser.FileChooserController;
 import delta.games.lotro.utils.gui.tables.GenericTableController;
 
 /**
@@ -46,6 +49,7 @@ public class CharacterFileWindowController extends DefaultWindowController imple
 {
   private static final String NEW_TOON_DATA_ID="newToonData";
   private static final String CLONE_TOON_DATA_ID="cloneToonData";
+  private static final String EXPORT_TOON_DATA_ID="exportToonData";
   private static final String REMOVE_TOON_DATA_ID="removeToonData";
   private static final String LOG_COMMAND="log";
   private static final String REPUTATION_COMMAND="reputation";
@@ -221,6 +225,10 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     {
       cloneCharacterData();
     }
+    else if (EXPORT_TOON_DATA_ID.equals(command))
+    {
+      exportCharacterData();
+    }
     else if (REMOVE_TOON_DATA_ID.equals(command))
     {
       removeCharacterData();
@@ -257,11 +265,15 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     String cloneIconPath=getToolbarIconPath("copy");
     ToolbarIconItem cloneIconItem=new ToolbarIconItem(CLONE_TOON_DATA_ID,cloneIconPath,CLONE_TOON_DATA_ID,"Clone the selected character configuration...","Clone");
     model.addToolbarIconItem(cloneIconItem);
-    controller.addActionListener(this);
+    // Export icon
+    String exportIconPath=getToolbarIconPath("export");
+    ToolbarIconItem exportIconItem=new ToolbarIconItem(EXPORT_TOON_DATA_ID,exportIconPath,EXPORT_TOON_DATA_ID,"Export the selected character configuration...","Export");
+    model.addToolbarIconItem(exportIconItem);
     // Remove icon
     String deleteIconPath=getToolbarIconPath("delete");
     ToolbarIconItem deleteIconItem=new ToolbarIconItem(REMOVE_TOON_DATA_ID,deleteIconPath,REMOVE_TOON_DATA_ID,"Remove the selected character...","Remove");
     model.addToolbarIconItem(deleteIconItem);
+    // Register action listener
     controller.addActionListener(this);
     return controller;
   }
@@ -337,6 +349,48 @@ public class CharacterFileWindowController extends DefaultWindowController imple
       {
         CharacterEvent event=new CharacterEvent(_toon,newInfos);
         CharacterEventsManager.invokeEvent(CharacterEventType.CHARACTER_DATA_ADDED,event);
+      }
+    }
+  }
+
+  private void exportCharacterData()
+  {
+    GenericTableController<CharacterData> controller=_toonsTable.getTableController();
+    CharacterData data=controller.getSelectedItem();
+    if (data!=null)
+    {
+      FileChooserController ctrl=new FileChooserController("export", "Export character...");
+      File toFile=ctrl.chooseFile(getWindow(),"Export");
+      if (toFile!=null)
+      {
+        boolean doIt=true;
+        if (!toFile.getName().toLowerCase().endsWith(".xml"))
+        {
+          toFile=new File(toFile.getParentFile(),toFile.getName()+".xml");
+        }
+        if (toFile.exists())
+        {
+          doIt=false;
+          int result=GuiFactory.showQuestionDialog(getFrame(),"Do you really want to overwrite the selected file?","Overwrite?",JOptionPane.YES_NO_OPTION);
+          if (result==JOptionPane.OK_OPTION)
+          {
+            doIt=true;
+          }
+        }
+        if (doIt)
+        {
+          File sourceFile=data.getFile();
+          boolean ok=FileCopy.copy(sourceFile,toFile);
+          Window window=getWindow();
+          if (ok)
+          {
+            GuiFactory.showInformationDialog(window,"Export OK!","OK!");
+          }
+          else
+          {
+            GuiFactory.showErrorDialog(window,"Export failed!","Error!");
+          }
+        }
       }
     }
   }

@@ -136,11 +136,11 @@ public class MainFrameController extends DefaultWindowController implements Acti
     String levellingIconPath=getToolbarIconPath("levelling");
     ToolbarIconItem levellingIconItem=new ToolbarIconItem(LEVELLING_ID,levellingIconPath,LEVELLING_ID,"Levelling...","Levelling");
     model.addToolbarIconItem(levellingIconItem);
-    controller.addActionListener(this);
     // Warbands icon
     String warbandsIconPath=getToolbarIconPath("warbands");
     ToolbarIconItem warbandsIconItem=new ToolbarIconItem(WARBANDS_ID,warbandsIconPath,WARBANDS_ID,"Warbands...","Warbands");
     model.addToolbarIconItem(warbandsIconItem);
+    // Register action listener
     controller.addActionListener(this);
     return controller;
   }
