@@ -1,8 +1,10 @@
 package delta.games.lotro.gui.toon;
 
 import java.awt.BorderLayout;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -10,12 +12,15 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JToolBar;
 
+import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.CharacterFile;
+import delta.games.lotro.character.CharacterInfosManager;
 import delta.games.lotro.character.CharactersManager;
 import delta.games.lotro.character.events.CharacterEvent;
 import delta.games.lotro.character.events.CharacterEventListener;
 import delta.games.lotro.character.events.CharacterEventType;
 import delta.games.lotro.character.events.CharacterEventsManager;
+import delta.games.lotro.character.io.xml.CharacterXMLParser;
 import delta.games.lotro.gui.character.CharacterFileWindowController;
 import delta.games.lotro.gui.utils.GuiFactory;
 import delta.games.lotro.gui.utils.toolbar.ToolbarController;
@@ -23,6 +28,7 @@ import delta.games.lotro.gui.utils.toolbar.ToolbarIconItem;
 import delta.games.lotro.gui.utils.toolbar.ToolbarModel;
 import delta.games.lotro.utils.gui.WindowController;
 import delta.games.lotro.utils.gui.WindowsManager;
+import delta.games.lotro.utils.gui.filechooser.FileChooserController;
 import delta.games.lotro.utils.gui.tables.GenericTableController;
 
 /**
@@ -32,6 +38,7 @@ import delta.games.lotro.utils.gui.tables.GenericTableController;
 public class ToonsManagementController implements ActionListener,CharacterEventListener
 {
   private static final String NEW_TOON_ID="newToon";
+  private static final String IMPORT_TOON_ID="importToon";
   private static final String REMOVE_TOON_ID="removeToon";
   private JPanel _panel;
   private WindowController _parentController;
@@ -119,6 +126,10 @@ public class ToonsManagementController implements ActionListener,CharacterEventL
     ToolbarIconItem deleteIconItem=new ToolbarIconItem(REMOVE_TOON_ID,deleteIconPath,REMOVE_TOON_ID,"Remove the selected character...","Remove");
     model.addToolbarIconItem(deleteIconItem);
     controller.addActionListener(this);
+    // Import icon
+    String importIconPath=getToolbarIconPath("import");
+    ToolbarIconItem importIconItem=new ToolbarIconItem(IMPORT_TOON_ID,importIconPath,IMPORT_TOON_ID,"Import a character...","Import");
+    model.addToolbarIconItem(importIconItem);
     return controller;
   }
 
@@ -135,6 +146,10 @@ public class ToonsManagementController implements ActionListener,CharacterEventL
     else if (REMOVE_TOON_ID.equals(action))
     {
       deleteToon();
+    }
+    else if (IMPORT_TOON_ID.equals(action))
+    {
+      importToon();
     }
     else if (ToonsTableController.DOUBLE_CLICK.equals(action))
     {
@@ -188,6 +203,51 @@ public class ToonsManagementController implements ActionListener,CharacterEventL
         }
         CharactersManager manager=CharactersManager.getInstance();
         manager.removeToon(file);
+      }
+    }
+  }
+
+  private void importToon()
+  {
+    FileChooserController ctrl=new FileChooserController("import", "Import character...");
+    Window window=_parentController.getWindow();
+    File fromFile=ctrl.chooseFile(window,"Import");
+    if (fromFile!=null)
+    {
+      CharacterXMLParser parser=new CharacterXMLParser();
+      CharacterData data=new CharacterData();
+      boolean ok=parser.parseXML(fromFile,data);
+      if (ok)
+      {
+        CharactersManager manager=CharactersManager.getInstance();
+        CharacterFile toon=manager.getToonById(data.getServer(),data.getName());
+        if (toon!=null)
+        {
+          CharacterInfosManager infos=toon.getInfosManager();
+          ok=infos.writeNewCharacterData(data);
+          if (ok)
+          {
+            CharacterEvent event=new CharacterEvent(toon,data);
+            CharacterEventsManager.invokeEvent(CharacterEventType.CHARACTER_DATA_ADDED,event);
+          }
+        }
+        else
+        {
+          CharacterFile newFile=manager.addToon(data);
+          ok=(newFile!=null);
+        }
+        if (ok)
+        {
+          GuiFactory.showInformationDialog(window,"Import OK!","OK!");
+        }
+        else
+        {
+          GuiFactory.showErrorDialog(window,"Import failed!","Error!");
+        }
+      }
+      else
+      {
+        GuiFactory.showErrorDialog(window,"Import failed (bad XML file)!","Error!");
       }
     }
   }
