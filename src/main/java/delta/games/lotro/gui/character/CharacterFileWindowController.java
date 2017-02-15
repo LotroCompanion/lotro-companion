@@ -265,14 +265,14 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     String cloneIconPath=getToolbarIconPath("copy");
     ToolbarIconItem cloneIconItem=new ToolbarIconItem(CLONE_TOON_DATA_ID,cloneIconPath,CLONE_TOON_DATA_ID,"Clone the selected character configuration...","Clone");
     model.addToolbarIconItem(cloneIconItem);
-    // Export icon
-    String exportIconPath=getToolbarIconPath("export");
-    ToolbarIconItem exportIconItem=new ToolbarIconItem(EXPORT_TOON_DATA_ID,exportIconPath,EXPORT_TOON_DATA_ID,"Export the selected character configuration...","Export");
-    model.addToolbarIconItem(exportIconItem);
     // Remove icon
     String deleteIconPath=getToolbarIconPath("delete");
     ToolbarIconItem deleteIconItem=new ToolbarIconItem(REMOVE_TOON_DATA_ID,deleteIconPath,REMOVE_TOON_DATA_ID,"Remove the selected character...","Remove");
     model.addToolbarIconItem(deleteIconItem);
+    // Export icon
+    String exportIconPath=getToolbarIconPath("export");
+    ToolbarIconItem exportIconItem=new ToolbarIconItem(EXPORT_TOON_DATA_ID,exportIconPath,EXPORT_TOON_DATA_ID,"Export the selected character configuration...","Export");
+    model.addToolbarIconItem(exportIconItem);
     // Register action listener
     controller.addActionListener(this);
     return controller;
