@@ -145,6 +145,7 @@ public class ItemChoiceWindowController extends DefaultDialogController
       _tableController.dispose();
       _tableController=null;
     }
+    _filter=null;
     if (_filterController!=null)
     {
       _filterController.dispose();

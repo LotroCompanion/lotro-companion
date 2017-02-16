@@ -13,6 +13,8 @@ import delta.games.lotro.utils.gui.WindowController;
  */
 public class EssenceChoice
 {
+  private static EssenceItemFilter _filter=new EssenceItemFilter();
+
   /**
    * Choose an essence.
    * @param parent Parent controller.
@@ -22,9 +24,8 @@ public class EssenceChoice
   {
     ItemSelection selection=new ItemSelection();
     List<Item> items=selection.getEssences();
-    EssenceItemFilter filter=new EssenceItemFilter();
-    EssenceFilterController filterController=new EssenceFilterController(filter);
-    ItemChoiceWindowController choiceCtrl=new ItemChoiceWindowController(parent,items,filter,filterController);
+    EssenceFilterController filterController=new EssenceFilterController(_filter);
+    ItemChoiceWindowController choiceCtrl=new ItemChoiceWindowController(parent,items,_filter,filterController);
     choiceCtrl.show(true);
     Item ret=choiceCtrl.getSelectedItem();
     choiceCtrl.dispose();
