@@ -145,7 +145,16 @@ public class ItemChoiceWindowController extends DefaultDialogController
       _tableController.dispose();
       _tableController=null;
     }
-    // TODO dispose on panel and filter
+    if (_filterController!=null)
+    {
+      _filterController.dispose();
+      _filterController=null;
+    }
+    if (_panelController!=null)
+    {
+      _panelController.dispose();
+      _panelController=null;
+    }
     _items=null;
   }
 }
