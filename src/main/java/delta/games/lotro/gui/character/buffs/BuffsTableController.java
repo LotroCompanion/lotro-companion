@@ -8,6 +8,7 @@ import javax.swing.JTable;
 import delta.games.lotro.character.stats.buffs.Buff;
 import delta.games.lotro.character.stats.buffs.BuffFilter;
 import delta.games.lotro.common.CharacterClass;
+import delta.games.lotro.common.Race;
 import delta.games.lotro.gui.utils.IconsManager;
 import delta.games.lotro.utils.gui.tables.CellDataProvider;
 import delta.games.lotro.utils.gui.tables.DataProvider;
@@ -83,6 +84,19 @@ public class BuffsTableController
         }
       };
       TableColumnController<Buff,CharacterClass> classColumn=new TableColumnController<Buff,CharacterClass>("Class",CharacterClass.class,classCell);
+      classColumn.setWidthSpecs(100,100,50);
+      table.addColumnController(classColumn);
+    }
+    // Race column
+    {
+      CellDataProvider<Buff,Race> classCell=new CellDataProvider<Buff,Race>()
+      {
+        public Race getData(Buff buff)
+        {
+          return buff.getRequiredRace();
+        }
+      };
+      TableColumnController<Buff,Race> classColumn=new TableColumnController<Buff,Race>("Race",Race.class,classCell);
       classColumn.setWidthSpecs(100,100,50);
       table.addColumnController(classColumn);
     }

@@ -54,9 +54,9 @@ public class BuffChoiceWindowController extends DefaultDialogController
   {
     JDialog dialog=super.build();
     dialog.setTitle("Choose buff: ");
-    dialog.setSize(450,500);
+    dialog.setSize(500,500);
     //dialog.pack();
-    dialog.setMinimumSize(new Dimension(450,200));
+    dialog.setMinimumSize(new Dimension(500,200));
     return dialog;
   }
 
