@@ -2,6 +2,9 @@ package delta.games.lotro.gui.character.tomes;
 
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -56,7 +59,7 @@ public class TomesEditionPanelController
   private void build()
   {
     _panel=GuiFactory.buildPanel(new FlowLayout());
-    _iconsPanel=GuiFactory.buildBackgroundPanel(new FlowLayout(FlowLayout.LEFT));
+    _iconsPanel=GuiFactory.buildBackgroundPanel(new GridBagLayout());
     buildTomesControllers(_panel);
     _panel.add(_iconsPanel);
   }
@@ -64,10 +67,18 @@ public class TomesEditionPanelController
   private void updateIconsPanel()
   {
     _iconsPanel.removeAll();
+    int index=0;
     for(TomeIconController controller : _tomeControllers)
     {
       JLabel label=controller.getLabel();
-      _iconsPanel.add(label);
+      String statName=controller.getStat().getName();
+      JLabel statLabel=GuiFactory.buildLabel(statName);
+      int left=(index>0)?3:0;
+      GridBagConstraints c=new GridBagConstraints(index,0,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(0,left,0,0),0,0);
+      _iconsPanel.add(statLabel,c);
+      c.gridy++;
+      _iconsPanel.add(label,c);
+      index++;
     }
     _panel.revalidate();
     _panel.repaint();
