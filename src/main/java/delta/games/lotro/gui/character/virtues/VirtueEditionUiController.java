@@ -26,7 +26,10 @@ import delta.games.lotro.gui.utils.GuiFactory;
  */
 public class VirtueEditionUiController implements ActionListener
 {
-  private static final int MAX_TIER=19;
+  /**
+   * Maximum tier.
+   */
+  public static final int MAX_TIER=19;
 
   private int _tier;
   private VirtueIconController _iconController;

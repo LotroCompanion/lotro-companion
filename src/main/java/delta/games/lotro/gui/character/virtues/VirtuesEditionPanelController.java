@@ -4,8 +4,12 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.HashMap;
+import java.util.Map;
 
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.TransferHandler;
@@ -24,6 +28,7 @@ public class VirtuesEditionPanelController implements TierValueListener
   private JPanel _panel;
   private HashMap<VirtueId,VirtueEditionUiController> _virtues;
   private VirtuesDisplayPanelController _selectedVirtues;
+  private JButton _maxAll;
 
   /**
    * Constructor.
@@ -76,6 +81,21 @@ public class VirtuesEditionPanelController implements TierValueListener
       int y=CENTER_Y-(selectedVirtuesPanel.getHeight()/2);
       selectedVirtuesPanel.setLocation(x,y);
     }
+    // Max all button
+    _maxAll=GuiFactory.buildButton("Max all");
+    ActionListener al=new ActionListener()
+    {
+      public void actionPerformed(ActionEvent e)
+      {
+        maxAll();
+      }
+    };
+    _maxAll.addActionListener(al);
+    panel.add(_maxAll);
+    _maxAll.setSize(_maxAll.getPreferredSize());
+    int x=CENTER_X-(_maxAll.getWidth()/2);
+    int y=CENTER_Y+10+(_selectedVirtues.getPanel().getHeight()+_maxAll.getHeight()/2);
+    _maxAll.setLocation(x,y);
     panel.setPreferredSize(new Dimension(634,348));
     return panel;
   }
@@ -129,6 +149,18 @@ public class VirtuesEditionPanelController implements TierValueListener
   public void tierChanged(VirtueId virtueId, int tier)
   {
     _selectedVirtues.updateVirtue(virtueId,tier);
+  }
+
+  private void maxAll()
+  {
+    for(Map.Entry<VirtueId,VirtueEditionUiController> entry : _virtues.entrySet())
+    {
+      VirtueEditionUiController controller=entry.getValue();
+      int tier=VirtueEditionUiController.MAX_TIER;
+      controller.setTier(tier);
+      VirtueId virtueId=entry.getKey();
+      _selectedVirtues.updateVirtue(virtueId,tier);
+    }
   }
 
   /**
@@ -196,6 +228,7 @@ public class VirtuesEditionPanelController implements TierValueListener
       _selectedVirtues.dispose();
       _selectedVirtues=null;
     }
+    _maxAll=null;
     _virtues=null;
   }
 }
