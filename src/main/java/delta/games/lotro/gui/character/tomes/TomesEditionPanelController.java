@@ -99,16 +99,25 @@ public class TomesEditionPanelController
     {
       public void mouseReleased(MouseEvent e)
       {
+        int delta=0;
         if (e.getButton()==MouseEvent.BUTTON1)
         {
-          updateTier(e);
+          delta=1;
+        }
+        else if (e.getButton()==MouseEvent.BUTTON3)
+        {
+          delta=-1;
+        }
+        if (delta!=0)
+        {
+          updateTier(e,delta);
         }
       }
     }
     return new LeftClickListener();
   }
 
-  private void updateTier(MouseEvent e)
+  private void updateTier(MouseEvent e, int delta)
   {
     // Straight click
     Object invoker=e.getSource();
@@ -116,7 +125,7 @@ public class TomesEditionPanelController
     if (index!=-1)
     {
       // Update tier
-      updateTier(index);
+      updateTier(index,delta);
     }
   }
 
@@ -135,15 +144,19 @@ public class TomesEditionPanelController
     return -1;
   }
 
-  private void updateTier(int index)
+  private void updateTier(int index,int delta)
   {
     TomesSet tomes=_toon.getTomes();
     STAT stat=TomesSet.AVAILABLE_TOMES[index];
     int currentTierIndex=tomes.getTomeRank(stat);
-    currentTierIndex++;
+    currentTierIndex+=delta;
     if (currentTierIndex>TomesSet.MAX_RANK)
     {
       currentTierIndex=0;
+    }
+    if (currentTierIndex<0)
+    {
+      currentTierIndex=TomesSet.MAX_RANK;
     }
     tomes.setTomeRank(stat,currentTierIndex);
     _tomeControllers.get(index).update();
