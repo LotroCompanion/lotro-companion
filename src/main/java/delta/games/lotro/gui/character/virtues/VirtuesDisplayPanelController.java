@@ -1,7 +1,9 @@
 package delta.games.lotro.gui.character.virtues;
 
-import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -21,6 +23,7 @@ public class VirtuesDisplayPanelController
    */
   public static final int MAX_VIRTUES=5;
   private VirtueIconController[] _virtues;
+  private JLabel[] _virtueLabels;
   private JPanel _panel;
 
   /**
@@ -29,6 +32,7 @@ public class VirtuesDisplayPanelController
   public VirtuesDisplayPanelController()
   {
     _virtues=new VirtueIconController[MAX_VIRTUES];
+    _virtueLabels=new JLabel[MAX_VIRTUES];
     _panel=build();
   }
 
@@ -78,17 +82,25 @@ public class VirtuesDisplayPanelController
   {
     _virtues[index].setVirtue(virtueId);
     _virtues[index].setTier(tier);
+    String virtueLabel=virtueId.name().toLowerCase();
+    virtueLabel=virtueLabel.substring(0,1).toUpperCase()+virtueLabel.substring(1);
+    _virtueLabels[index].setText(virtueLabel);
   }
 
   private JPanel build()
   {
-    JPanel panel=GuiFactory.buildBackgroundPanel(new FlowLayout(FlowLayout.LEFT));
+    JPanel panel=GuiFactory.buildBackgroundPanel(new GridBagLayout());
     Font font=panel.getFont();
     for(int i=0;i<MAX_VIRTUES;i++)
     {
       _virtues[i]=new VirtueIconController(null,font);
+      int left=(i>0)?3:0;
+      GridBagConstraints c=new GridBagConstraints(i,0,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(0,left,0,0),0,0);
+      _virtueLabels[i]=GuiFactory.buildLabel("");
+      panel.add(_virtueLabels[i],c);
+      c.gridy++;
       JLabel label=_virtues[i].getLabel();
-      panel.add(label);
+      panel.add(label,c);
     }
     return panel;
   }
@@ -159,5 +171,6 @@ public class VirtuesDisplayPanelController
       }
       _virtues=null;
     }
+    _virtueLabels=null;
   }
 }

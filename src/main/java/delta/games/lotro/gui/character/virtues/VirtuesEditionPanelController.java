@@ -76,10 +76,7 @@ public class VirtuesEditionPanelController implements TierValueListener
         label.setTransferHandler(handler);
       }
       panel.add(selectedVirtuesPanel);
-      selectedVirtuesPanel.setSize(selectedVirtuesPanel.getPreferredSize());
-      int x=CENTER_X-(selectedVirtuesPanel.getWidth()/2);
-      int y=CENTER_Y-(selectedVirtuesPanel.getHeight()/2);
-      selectedVirtuesPanel.setLocation(x,y);
+      layoutSelectedVirtues();
     }
     // Max all button
     _maxAll=GuiFactory.buildButton("Max all");
@@ -98,6 +95,15 @@ public class VirtuesEditionPanelController implements TierValueListener
     _maxAll.setLocation(x,y);
     panel.setPreferredSize(new Dimension(634,348));
     return panel;
+  }
+
+  private void layoutSelectedVirtues()
+  {
+    JPanel selectedVirtuesPanel=_selectedVirtues.getPanel();
+    selectedVirtuesPanel.setSize(selectedVirtuesPanel.getPreferredSize());
+    int x=CENTER_X-(selectedVirtuesPanel.getWidth()/2);
+    int y=CENTER_Y-(selectedVirtuesPanel.getHeight()/2);
+    selectedVirtuesPanel.setLocation(x,y);
   }
 
   private class DropTransferHandler extends TransferHandler
@@ -140,6 +146,8 @@ public class VirtuesEditionPanelController implements TierValueListener
         {
           int tier=_virtues.get(virtueId).getTier();
           _selectedVirtues.setVirtue(i,virtueId,tier);
+          layoutSelectedVirtues();
+          break;
         }
       }
       return true;
@@ -178,6 +186,7 @@ public class VirtuesEditionPanelController implements TierValueListener
     }
     // Set selected virtues
     _selectedVirtues.setVirtues(set);
+    layoutSelectedVirtues();
   }
 
   /**
