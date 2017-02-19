@@ -57,7 +57,7 @@ public class AboutPanelController
     y++;
 
     // Project version
-    String projectVersion="Version 4.0 beta1 (01/02/2017)";
+    String projectVersion="Version 4.0 (19/02/2017)";
     JLabel lbVersion=new JLabel(projectVersion);
     lbVersion.setFont(lbVersion.getFont().deriveFont(Font.BOLD,24));
     c=new GridBagConstraints(0,y,2,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(10,5,10,5),0,0);
