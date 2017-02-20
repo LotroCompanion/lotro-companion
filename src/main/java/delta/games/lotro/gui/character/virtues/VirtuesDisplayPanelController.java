@@ -82,8 +82,12 @@ public class VirtuesDisplayPanelController
   {
     _virtues[index].setVirtue(virtueId);
     _virtues[index].setTier(tier);
-    String virtueLabel=virtueId.name().toLowerCase();
-    virtueLabel=virtueLabel.substring(0,1).toUpperCase()+virtueLabel.substring(1);
+    String virtueLabel="";
+    if (virtueId!=null)
+    {
+      virtueLabel=virtueId.name().toLowerCase();
+      virtueLabel=virtueLabel.substring(0,1).toUpperCase()+virtueLabel.substring(1);
+    }
     _virtueLabels[index].setText(virtueLabel);
   }
 
