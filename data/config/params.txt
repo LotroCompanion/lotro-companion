@@ -6,9 +6,11 @@ max.character.level=105
 
 # Current version
 #current.version.id=390
-current.version.id=400
+#current.version.id=400
+current.version.id=401
 #current.version.name=4.0beta1
-current.version.name=4.0
+#current.version.name=4.0
+current.version.name=4.0.1
 
 # URL for updates check
 update.check.url=http://dmorcellet.free.fr/lotrocompanion/latest.txt
