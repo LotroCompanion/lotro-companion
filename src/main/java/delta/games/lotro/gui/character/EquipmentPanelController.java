@@ -49,7 +49,6 @@ public class EquipmentPanelController implements ActionListener
   private static final int ICON_SIZE=32;
   private static final String BACKGROUND_ICONS_SEED="/resources/gui/equipment/";
   private static final String ITEM_WITH_NO_ICON="/resources/gui/equipment/itemNoIcon.png";
-  private static final Integer BACKGROUND_ICONS_DEPTH=Integer.valueOf(0);
   private static final Integer ICONS_DEPTH=Integer.valueOf(1);
 
   private static final int ICON_FRAME_SIZE=3;
@@ -227,14 +226,6 @@ public class EquipmentPanelController implements ActionListener
     {
       // Position for item
       Dimension position=_iconPositions.get(slot);
-      // Add background icon
-      String iconPath=BACKGROUND_ICONS_SEED+slot.name()+".png";
-      ImageIcon backgroundIcon=IconsManager.getIcon(iconPath);
-      JButton backgroundIconButton=new JButton(backgroundIcon);
-      backgroundIconButton.setBorderPainted(false);
-      backgroundIconButton.setMargin(new Insets(0,0,0,0));
-      backgroundIconButton.setBounds(position.width-ICON_FRAME_SIZE,position.height-ICON_FRAME_SIZE,ICON_SIZE+6,ICON_SIZE+6);
-      _layeredPane.add(backgroundIconButton,BACKGROUND_ICONS_DEPTH);
       // Add object icon
       JButton button=new JButton(icon);
       button.setBorderPainted(false);
@@ -250,6 +241,13 @@ public class EquipmentPanelController implements ActionListener
     updateIcons();
 
     return panel;
+  }
+
+  private ImageIcon getDefaultIcon(EQUIMENT_SLOT slot)
+  {
+    String iconPath=BACKGROUND_ICONS_SEED+slot.name()+".png";
+    ImageIcon backgroundIcon=IconsManager.getIcon(iconPath);
+    return backgroundIcon;
   }
 
   /**
@@ -269,10 +267,14 @@ public class EquipmentPanelController implements ActionListener
         icon=IconsManager.getItemIcon(iconId,backgroundIconId);
         String dump=item.dump();
         tooltipText="<html>"+dump.replace(EndOfLine.NATIVE_EOL,"<br>")+"</html>";
+        if (icon==null)
+        {
+          icon=IconsManager.getIcon(ITEM_WITH_NO_ICON);
+        }
       }
-      if (icon==null)
+      else
       {
-        icon=IconsManager.getIcon(ITEM_WITH_NO_ICON);
+        icon=getDefaultIcon(slot);
       }
       JButton button=_buttons.get(slot);
       button.setIcon(icon);
