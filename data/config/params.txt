@@ -13,6 +13,6 @@ current.version.id=401
 current.version.name=4.0.1
 
 # URL for updates check
-update.check.url=http://dmorcellet.free.fr/lotrocompanion/latest.txt
+#update.check.url=http://dmorcellet.free.fr/lotrocompanion/latest.txt
 # Period of update checks (hours)
 update.check.period=24
