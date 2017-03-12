@@ -1,9 +1,12 @@
 package delta.games.lotro.utils.gui.tables;
 
 import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -11,21 +14,52 @@ import javax.swing.JScrollPane;
 import delta.games.lotro.utils.gui.tables.DataItem.SEX;
 
 /**
- * @author dm
+ * Test for the generic tables.
+ * @author DAM
  */
 public class MainTestGenericTables
 {
+  private GenericTableController<DataItem> _table;
+  private List<TableColumnController<DataItem,?>> _controllers=new ArrayList<TableColumnController<DataItem,?>>();
+
+  private boolean _doAdd=false;
 
   private void doIt()
   {
-    GenericTableController<DataItem> table=buildTable();
+    _table=buildTable();
     JFrame f=new JFrame();
     JPanel panel=new JPanel(new BorderLayout());
-    JScrollPane scroll=new JScrollPane(table.getTable());
+    JScrollPane scroll=new JScrollPane(_table.getTable());
     panel.add(scroll,BorderLayout.CENTER);
+    JButton b=new JButton("Update columns");
+    ActionListener al=new ActionListener()
+    {
+      public void actionPerformed(ActionEvent e)
+      {
+        updateColumns();
+      }
+    };
+    b.addActionListener(al);
+    panel.add(b,BorderLayout.SOUTH);
     f.getContentPane().add(panel);
     f.pack();
     f.setVisible(true);
+  }
+
+  private void updateColumns()
+  {
+    if (_doAdd)
+    {
+      TableColumnController<DataItem,?> controller=_controllers.get(0);
+      _table.addColumnController(controller);
+    }
+    else
+    {
+      TableColumnController<DataItem,?> controller=_controllers.get(0);
+      _table.removeColumnController(controller);
+    }
+    _table.updateColumns();
+    _doAdd=!_doAdd;
   }
 
   private GenericTableController<DataItem> buildTable()
@@ -49,17 +83,22 @@ public class MainTestGenericTables
     TableColumnController<DataItem,Long> idColumn=new TableColumnController<DataItem,Long>("ID",Long.class,idCell);
     idColumn.setWidthSpecs(100,100,100);
     table.addColumnController(idColumn);
+    _controllers.add(idColumn);
     // Name column
-    CellDataProvider<DataItem,String> nameCell=new CellDataProvider<DataItem,String>()
+    for(int i=0;i<3;i++)
     {
-      public String getData(DataItem item)
+      CellDataProvider<DataItem,String> nameCell=new CellDataProvider<DataItem,String>()
       {
-        return item.getName();
-      }
-    };
-    TableColumnController<DataItem,String> nameColumn=new TableColumnController<DataItem,String>("NOM",String.class,nameCell);
-    nameColumn.setWidthSpecs(100,200,150);
-    table.addColumnController(nameColumn);
+        public String getData(DataItem item)
+        {
+          return item.getName();
+        }
+      };
+      TableColumnController<DataItem,String> nameColumn=new TableColumnController<DataItem,String>("NOM",String.class,nameCell);
+      nameColumn.setWidthSpecs(100,200,150);
+      table.addColumnController(nameColumn);
+      _controllers.add(nameColumn);
+    }
     // Sex column
     CellDataProvider<DataItem,SEX> sexCell=new CellDataProvider<DataItem,SEX>()
     {
@@ -71,6 +110,7 @@ public class MainTestGenericTables
     TableColumnController<DataItem,SEX> sexColumn=new TableColumnController<DataItem,SEX>("SEX",SEX.class,sexCell);
     sexColumn.setWidthSpecs(100,200,150);
     table.addColumnController(sexColumn);
+    _controllers.add(sexColumn);
     return table;
   }
 

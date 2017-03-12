@@ -134,40 +134,7 @@ public class GenericTableController<POJO>
       }
     };
     _sorter.setSortsOnUpdates(true);
-    int i=0;
-    for(TableColumnController<POJO,?> controller : _columns)
-    {
-      TableColumn column=table.getColumnModel().getColumn(i);
-      int preferredWidth=controller.getPreferredWidth();
-      if (preferredWidth>=0)
-      {
-        column.setPreferredWidth(preferredWidth);
-      }
-      int minWidth=controller.getMinWidth();
-      if (minWidth>=0)
-      {
-        column.setMinWidth(minWidth);
-      }
-      int maxWidth=controller.getMaxWidth();
-      if (maxWidth>=0)
-      {
-        column.setMaxWidth(maxWidth);
-      }
-      column.setResizable(true);
-      Class<?> dataType=controller.getDataType();
-      if (Date.class.isAssignableFrom(dataType))
-      {
-        column.setCellRenderer(new DateRenderer(Formats.DATE_TIME_PATTERN));
-      }
-      TableCellRenderer renderer=controller.getCellRenderer();
-      if (renderer!=null)
-      {
-        column.setCellRenderer(renderer);
-      }
-      boolean sortable=controller.isSortable();
-      _sorter.setSortable(i,sortable);
-      i++;
-    }
+    initColumns(table);
     table.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
     _sorter.setMaxSortKeys(3);
     table.setRowSorter(_sorter);
@@ -212,6 +179,50 @@ public class GenericTableController<POJO>
     return table;
   }
 
+  private void initColumns(JTable table)
+  {
+    int i=0;
+    for(TableColumnController<POJO,?> controller : _columns)
+    {
+      TableColumn column=table.getColumnModel().getColumn(i);
+      int preferredWidth=controller.getPreferredWidth();
+      if (preferredWidth>=0)
+      {
+        column.setPreferredWidth(preferredWidth);
+      }
+      int minWidth=controller.getMinWidth();
+      if (minWidth>=0)
+      {
+        column.setMinWidth(minWidth);
+      }
+      int maxWidth=controller.getMaxWidth();
+      if (maxWidth>=0)
+      {
+        column.setMaxWidth(maxWidth);
+      }
+      column.setResizable(true);
+      Class<?> dataType=controller.getDataType();
+      if (Date.class.isAssignableFrom(dataType))
+      {
+        column.setCellRenderer(new DateRenderer(Formats.DATE_TIME_PATTERN));
+      }
+      TableCellRenderer renderer=controller.getCellRenderer();
+      if (renderer!=null)
+      {
+        column.setCellRenderer(renderer);
+      }
+      boolean sortable=controller.isSortable();
+      _sorter.setSortable(i,sortable);
+      i++;
+    }
+  }
+
+  public void updateColumns()
+  {
+    _model.fireTableStructureChanged();
+    initColumns(_table);
+  }
+
   private void invokeDoubleClickAction(int row)
   {
     POJO dataItem=_dataProvider.getAt(row);
@@ -230,6 +241,15 @@ public class GenericTableController<POJO>
   public void addColumnController(TableColumnController<POJO,?> controller)
   {
     _columns.add(controller);
+  }
+
+  /**
+   * Remove a column controller.
+   * @param controller Controller to remove.
+   */
+  public void removeColumnController(TableColumnController<POJO,?> controller)
+  {
+    _columns.remove(controller);
   }
 
   /**
