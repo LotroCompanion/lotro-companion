@@ -6,7 +6,6 @@ import java.util.List;
 import delta.games.lotro.character.storage.AccountServerStorage;
 import delta.games.lotro.character.storage.CharacterStorage;
 import delta.games.lotro.character.storage.Chest;
-import delta.games.lotro.character.storage.ItemsContainer;
 import delta.games.lotro.character.storage.StoredItem;
 import delta.games.lotro.character.storage.Vault;
 import delta.games.lotro.gui.items.ItemChoiceWindowController;
@@ -41,7 +40,10 @@ public class MainTestShowCharacterStorage
       choiceCtrl.show(true);
       Item ret=choiceCtrl.getSelectedItem();
       choiceCtrl.dispose();
-      System.out.println(ret.dump());
+      if (ret!=null)
+      {
+        System.out.println(ret.dump());
+      }
     }
   }
 
@@ -114,6 +116,10 @@ public class MainTestShowCharacterStorage
     return null;
   }
 
+  /**
+   * Main method for this test.
+   * @param args Not used.
+   */
   public static void main(String[] args)
   {
     new MainTestShowCharacterStorage().doIt();
