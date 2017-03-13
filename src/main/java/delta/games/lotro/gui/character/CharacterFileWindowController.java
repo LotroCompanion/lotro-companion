@@ -89,23 +89,21 @@ public class CharacterFileWindowController extends DefaultWindowController imple
   @Override
   protected JComponent buildContents()
   {
-    // Summary panel
-    JPanel summaryPanel=_summaryController.getPanel();
-
     // Whole panel
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
-    // - summary
+    // Summary panel
+    JPanel summaryPanel=_summaryController.getPanel();
     GridBagConstraints c=new GridBagConstraints(0,0,2,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(3,5,3,5),0,0);
     panel.add(summaryPanel,c);
     // Character data table
     JPanel tablePanel=buildTablePanel();
     c=new GridBagConstraints(0,1,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
     panel.add(tablePanel,c);
-    c=new GridBagConstraints(0,2,1,2,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    tablePanel.setBorder(GuiFactory.buildTitledBorder("Configurations"));
+    // Command buttons
     JPanel commandsPanel=buildCommandsPanel();
+    c=new GridBagConstraints(0,2,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(commandsPanel,c);
-
-    // TODO crafting anvils?
     return panel;
   }
 
