@@ -217,6 +217,9 @@ public class GenericTableController<POJO>
     }
   }
 
+  /**
+   * Indicates that columns were updated.
+   */
   public void updateColumns()
   {
     _model.fireTableStructureChanged();
