@@ -93,7 +93,7 @@ public class StashItemsTableController
         }
       };
       TableColumnController<Item,String> nameColumn=new TableColumnController<Item,String>("Name",String.class,nameCell);
-      nameColumn.setWidthSpecs(150,-1,150);
+      nameColumn.setWidthSpecs(200,-1,300);
       table.addColumnController(nameColumn);
     }
     // Location column
@@ -106,7 +106,7 @@ public class StashItemsTableController
         }
       };
       TableColumnController<Item,EquipmentLocation> locationColumn=new TableColumnController<Item,EquipmentLocation>("Location",EquipmentLocation.class,locationCell);
-      locationColumn.setWidthSpecs(150,-1,150);
+      locationColumn.setWidthSpecs(70,70,70);
       table.addColumnController(locationColumn);
     }
     // Comment column
@@ -120,7 +120,7 @@ public class StashItemsTableController
         }
       };
       TableColumnController<Item,String> commentColumn=new TableColumnController<Item,String>("Comment",String.class,commentCell);
-      commentColumn.setWidthSpecs(100,-1,100);
+      commentColumn.setWidthSpecs(200,-1,400);
       table.addColumnController(commentColumn);
     }
     return table;

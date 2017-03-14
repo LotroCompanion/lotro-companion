@@ -1,6 +1,7 @@
 package delta.games.lotro.gui.character.stash;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -102,6 +103,8 @@ public class StashWindowController extends DefaultWindowController implements Ac
     String title="Stash of "+name+" @ "+serverName;
     frame.setTitle(title);
     frame.pack();
+    frame.setMinimumSize(new Dimension(500,380));
+    frame.setSize(new Dimension(850,500));
     frame.setResizable(true);
     return frame;
   }
