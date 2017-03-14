@@ -13,16 +13,20 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JToolBar;
+import javax.swing.border.TitledBorder;
 
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.storage.ItemsStash;
+import delta.games.lotro.gui.items.FilterUpdateListener;
 import delta.games.lotro.gui.items.ItemEditionWindowController;
+import delta.games.lotro.gui.items.ItemFilterController;
 import delta.games.lotro.gui.utils.GuiFactory;
 import delta.games.lotro.gui.utils.toolbar.ToolbarController;
 import delta.games.lotro.gui.utils.toolbar.ToolbarIconItem;
 import delta.games.lotro.gui.utils.toolbar.ToolbarModel;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemFactory;
+import delta.games.lotro.lore.items.filters.ItemNameFilter;
 import delta.games.lotro.utils.gui.DefaultWindowController;
 import delta.games.lotro.utils.gui.tables.GenericTableController;
 
@@ -30,11 +34,11 @@ import delta.games.lotro.utils.gui.tables.GenericTableController;
  * Controller for a "items stash" window.
  * @author DAM
  */
-public class StashWindowController extends DefaultWindowController implements ActionListener
+public class StashWindowController extends DefaultWindowController implements ActionListener,FilterUpdateListener
 {
-  private static final String NEW_ITEM_ID="newToonData";
-  private static final String CLONE_ITEM_ID="cloneToonData";
-  private static final String REMOVE_ITEM_ID="removeToonData";
+  private static final String NEW_ITEM_ID="newItem";
+  private static final String CLONE_ITEM_ID="cloneItem";
+  private static final String REMOVE_ITEM_ID="removeItem";
 
   private StashItemsTableController _itemsTable;
   private ToolbarController _toolbar;
@@ -67,11 +71,24 @@ public class StashWindowController extends DefaultWindowController implements Ac
   {
     // Whole panel
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
-    // Items table
+
+    // Build table
     JPanel tablePanel=buildTablePanel();
-    GridBagConstraints c=new GridBagConstraints(0,1,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
+
+    // Filter
+    ItemNameFilter filter=new ItemNameFilter();
+    ItemFilterController filterController=new ItemFilterController(filter);
+    filterController.setFilterUpdateListener(this);
+    JPanel filterPanel=filterController.getPanel();
+    TitledBorder filterBorder=GuiFactory.buildTitledBorder("Filter");
+    filterPanel.setBorder(filterBorder);
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    panel.add(filterPanel,c);
+    // Items table
+    c.gridy=1;c.weighty=1;c.fill=GridBagConstraints.BOTH;
     panel.add(tablePanel,c);
     tablePanel.setBorder(GuiFactory.buildTitledBorder("Items"));
+    _itemsTable.getTableController().setFilter(filter);
     return panel;
   }
 
@@ -96,6 +113,14 @@ public class StashWindowController extends DefaultWindowController implements Ac
     String toonName=_toon.getName();
     String id=getIdentifier(serverName,toonName);
     return id;
+  }
+
+  /**
+   * Filter updated callback.
+   */
+  public void filterUpdated()
+  {
+    _itemsTable.getTableController().filterUpdated();
   }
 
   /**
@@ -130,7 +155,7 @@ public class StashWindowController extends DefaultWindowController implements Ac
     _toolbar=buildToolBar();
     JToolBar toolbar=_toolbar.getToolBar();
     ret.add(toolbar,BorderLayout.NORTH);
-    _itemsTable=buildToonsTable();
+    _itemsTable=buildTable();
     JTable table=_itemsTable.getTable();
     JScrollPane scroll=GuiFactory.buildScrollPane(table);
     ret.add(scroll,BorderLayout.CENTER);
@@ -164,7 +189,7 @@ public class StashWindowController extends DefaultWindowController implements Ac
     return imgLocation;
   }
 
-  private StashItemsTableController buildToonsTable()
+  private StashItemsTableController buildTable()
   {
     StashItemsTableController tableController=new StashItemsTableController(_toon);
     tableController.addActionListener(this);

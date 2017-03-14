@@ -46,7 +46,7 @@ public class ItemFilterController extends AbstractItemFilterPanelController
     {
       _panel=build();
       setFilter();
-      updateFilter();
+      filterUpdated();
     }
     return _panel;
   }
@@ -75,7 +75,7 @@ public class ItemFilterController extends AbstractItemFilterPanelController
       {
         if (newText.length()==0) newText=null;
         _filter.setPattern(newText);
-        updateFilter();
+        filterUpdated();
       }
     };
     _textController=new DynamicTextEditionController(_contains,listener);

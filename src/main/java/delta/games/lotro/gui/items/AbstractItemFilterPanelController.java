@@ -8,7 +8,7 @@ import javax.swing.JPanel;
  */
 public abstract class AbstractItemFilterPanelController
 {
-  private ItemChoicePanelController _choiceController;
+  private FilterUpdateListener _filterListener;
 
   /**
    * Get the managed panel.
@@ -17,17 +17,20 @@ public abstract class AbstractItemFilterPanelController
   public abstract JPanel getPanel();
 
   /**
-   * Set the associated item choice controller.
-   * @param choiceController Associated item choice controller.
+   * Set the filter update listener.
+   * @param filterListener Associated filter listener.
    */
-  public void setChoicePanel(ItemChoicePanelController choiceController)
+  public void setFilterUpdateListener(FilterUpdateListener filterListener)
   {
-    _choiceController=choiceController;
+    _filterListener=filterListener;
   }
 
-  protected void updateFilter()
+  protected void filterUpdated()
   {
-    _choiceController.updateFilter();
+    if (_filterListener!=null)
+    {
+      _filterListener.filterUpdated();
+    }
   }
 
   /**
@@ -35,6 +38,6 @@ public abstract class AbstractItemFilterPanelController
    */
   public void dispose()
   {
-    _choiceController=null;
+    _filterListener=null;
   }
 }

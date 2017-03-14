@@ -53,7 +53,7 @@ public class EssenceFilterController extends AbstractItemFilterPanelController
     {
       _panel=build();
       setFilter();
-      updateFilter();
+      filterUpdated();
     }
     return _panel;
   }
@@ -87,7 +87,7 @@ public class EssenceFilterController extends AbstractItemFilterPanelController
         public void itemSelected(Integer tier)
         {
           _filter.getEssenceTierFilter().setTier(tier);
-          updateFilter();
+          filterUpdated();
         }
       };
       _tier.addListener(tierListener);
@@ -105,7 +105,7 @@ public class EssenceFilterController extends AbstractItemFilterPanelController
         public void itemSelected(ItemQuality quality)
         {
           _filter.getQualityFilter().setQuality(quality);
-          updateFilter();
+          filterUpdated();
         }
       };
       _quality.addListener(qualityListener);
@@ -126,7 +126,7 @@ public class EssenceFilterController extends AbstractItemFilterPanelController
         {
           if (newText.length()==0) newText=null;
           _filter.getNameFilter().setPattern(newText);
-          updateFilter();
+          filterUpdated();
         }
       };
       _textController=new DynamicTextEditionController(_contains,listener);

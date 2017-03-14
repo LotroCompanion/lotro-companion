@@ -91,11 +91,11 @@ public class ItemChoiceWindowController extends DefaultDialogController
   @Override
   protected JComponent buildContents()
   {
-    JPanel logPanel=GuiFactory.buildPanel(new GridBagLayout());
+    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     _tableController=new ItemChoiceTableController(_items,_filter);
     // Table
     _panelController=new ItemChoicePanelController(_tableController);
-    _filterController.setChoicePanel(_panelController);
+    _filterController.setFilterUpdateListener(_panelController);
     JPanel tablePanel=_panelController.getPanel();
     // Control buttons
     JPanel controlPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.RIGHT,5,0));
@@ -116,12 +116,12 @@ public class ItemChoiceWindowController extends DefaultDialogController
     filterPanel.setBorder(filterBorder);
     // Whole panel
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
-    logPanel.add(filterPanel,c);
+    panel.add(filterPanel,c);
     c.gridy=1;c.weighty=1;c.fill=GridBagConstraints.BOTH;
-    logPanel.add(tablePanel,c);
+    panel.add(tablePanel,c);
     GridBagConstraints cControl=new GridBagConstraints(0,2,1,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(3,0,3,3),0,0);
-    logPanel.add(controlPanel,cControl);
-    return logPanel;
+    panel.add(controlPanel,cControl);
+    return panel;
   }
 
   /**

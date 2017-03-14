@@ -15,7 +15,7 @@ import delta.games.lotro.gui.utils.GuiFactory;
  * Controller the item choice panel.
  * @author DAM
  */
-public class ItemChoicePanelController
+public class ItemChoicePanelController implements FilterUpdateListener
 {
   // Data
   private ItemChoiceTableController _tableController;
@@ -66,7 +66,7 @@ public class ItemChoicePanelController
   /**
    * Update filter.
    */
-  public void updateFilter()
+  public void filterUpdated()
   {
     _tableController.updateFilter();
     updateStatsLabel();
