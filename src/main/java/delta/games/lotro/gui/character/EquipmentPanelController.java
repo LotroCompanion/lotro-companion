@@ -36,7 +36,6 @@ import delta.games.lotro.gui.utils.IconsManager;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemFactory;
 import delta.games.lotro.lore.items.ItemPropertyNames;
-import delta.games.lotro.lore.items.ItemsManager;
 import delta.games.lotro.lore.items.filters.ItemNameFilter;
 import delta.games.lotro.utils.gui.WindowController;
 
@@ -285,26 +284,7 @@ public class EquipmentPanelController implements ActionListener
   private Item getItemForSlot(EQUIMENT_SLOT slot)
   {
     CharacterEquipment equipment=_toon.getEquipment();
-    SlotContents contents=equipment.getSlotContents(slot,false);
-    Item item=null;
-    if (contents!=null)
-    {
-      item=contents.getItem();
-      if (item==null)
-      {
-        Integer id=contents.getItemId();
-        if (id!=null)
-        {
-          ItemsManager itemsManager=ItemsManager.getInstance();
-          item=itemsManager.getItem(id);
-          if (item!=null)
-          {
-            item=ItemFactory.clone(item);
-          }
-          contents.setItem(item);
-        }
-      }
-    }
+    Item item=equipment.getItemForSlot(slot);
     return item;
   }
 

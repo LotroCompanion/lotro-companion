@@ -30,10 +30,9 @@ public class MainTestStashWindow
     CharacterEquipment gear=data.getEquipment();
     for(EQUIMENT_SLOT slot : EQUIMENT_SLOT.values())
     {
-      SlotContents contents=gear.getSlotContents(slot,false);
-      if (contents!=null)
+      Item item=gear.getItemForSlot(slot);
+      if (item!=null)
       {
-        Item item=contents.getItem();
         Item clone=ItemFactory.clone(item);
         stash.addItem(clone);
       }
