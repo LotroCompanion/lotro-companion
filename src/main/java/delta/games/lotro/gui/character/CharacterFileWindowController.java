@@ -28,6 +28,7 @@ import delta.games.lotro.character.events.CharacterEvent;
 import delta.games.lotro.character.events.CharacterEventType;
 import delta.games.lotro.character.events.CharacterEventsManager;
 import delta.games.lotro.character.stats.CharacterStatsComputer;
+import delta.games.lotro.gui.character.stash.StashWindowController;
 import delta.games.lotro.gui.log.CharacterLogWindowController;
 import delta.games.lotro.gui.stats.crafting.CraftingWindowController;
 import delta.games.lotro.gui.stats.reputation.CharacterReputationWindowController;
@@ -54,6 +55,7 @@ public class CharacterFileWindowController extends DefaultWindowController imple
   private static final String LOG_COMMAND="log";
   private static final String REPUTATION_COMMAND="reputation";
   private static final String CRAFTING_COMMAND="crafting";
+  private static final String STASH_COMMAND="stash";
 
   private CharacterSummaryPanelController _summaryController;
   private CharacterDataTableController _toonsTable;
@@ -145,6 +147,11 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     // Crafting
     JButton craftingButton=buildCommandButton("Crafting",CRAFTING_COMMAND);
     panel.add(craftingButton,c);
+    c.gridx++;
+    // Stash
+    JButton stashButton=buildCommandButton("Stash",STASH_COMMAND);
+    panel.add(stashButton,c);
+    c.gridx++;
 
     // Disable buttons if no log
     boolean hasLog=_toon.hasLog();
@@ -210,6 +217,21 @@ public class CharacterFileWindowController extends DefaultWindowController imple
       if (controller==null)
       {
         controller=new CraftingWindowController(_toon);
+        _windowsManager.registerWindow(controller);
+        controller.getWindow().setLocationRelativeTo(getFrame());
+      }
+      controller.bringToFront();
+    }
+    else if (STASH_COMMAND.equals(command))
+    {
+      // Crafting
+      String serverName=_toon.getServerName();
+      String toonName=_toon.getName();
+      String id=StashWindowController.getIdentifier(serverName,toonName);
+      WindowController controller=_windowsManager.getWindow(id);
+      if (controller==null)
+      {
+        controller=new StashWindowController(_toon);
         _windowsManager.registerWindow(controller);
         controller.getWindow().setLocationRelativeTo(getFrame());
       }
