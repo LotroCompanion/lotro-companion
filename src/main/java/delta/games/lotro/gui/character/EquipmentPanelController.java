@@ -25,9 +25,11 @@ import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.CharacterEquipment;
 import delta.games.lotro.character.CharacterEquipment.EQUIMENT_SLOT;
 import delta.games.lotro.character.CharacterEquipment.SlotContents;
+import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.events.CharacterEvent;
 import delta.games.lotro.character.events.CharacterEventType;
 import delta.games.lotro.character.events.CharacterEventsManager;
+import delta.games.lotro.character.storage.ItemsStash;
 import delta.games.lotro.gui.items.ItemChoiceWindowController;
 import delta.games.lotro.gui.items.ItemEditionWindowController;
 import delta.games.lotro.gui.items.ItemFilterController;
@@ -36,6 +38,7 @@ import delta.games.lotro.gui.utils.IconsManager;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemFactory;
 import delta.games.lotro.lore.items.ItemPropertyNames;
+import delta.games.lotro.lore.items.ItemsManager;
 import delta.games.lotro.lore.items.filters.ItemNameFilter;
 import delta.games.lotro.utils.gui.WindowController;
 
@@ -70,25 +73,31 @@ public class EquipmentPanelController implements ActionListener
 
   private static final String EDIT_COMMAND="edit";
   private static final String CHOOSE_COMMAND="choose";
+  private static final String CHOOSE_FROM_STASH_COMMAND="chooseFromStash";
   private static final String REMOVE_COMMAND="remove";
+  private static final String COPY_TO_STASH_COMMAND="toStash";
+  private static final String SLOT_SEED="slot_";
 
   private WindowController _parentWindow;
   private JPanel _panel;
   private JLayeredPane _layeredPane;
   private HashMap<EQUIMENT_SLOT,Dimension> _iconPositions;
-  private CharacterData _toon;
+  private CharacterFile _toon;
+  private CharacterData _toonData;
   private HashMap<EQUIMENT_SLOT,JButton> _buttons;
   private JPopupMenu _contextMenu;
 
   /**
    * Constructor.
    * @param parent Parent window controller.
-   * @param toon Toon to display.
+   * @param toon Parent toon.
+   * @param toonData Toon data to display.
    */
-  public EquipmentPanelController(WindowController parent, CharacterData toon)
+  public EquipmentPanelController(WindowController parent, CharacterFile toon, CharacterData toonData)
   {
     _parentWindow=parent;
     _toon=toon;
+    _toonData=toonData;
     _buttons=new HashMap<EQUIMENT_SLOT,JButton>();
     _contextMenu=buildContextualMenu();
     initPositions();
@@ -145,18 +154,31 @@ public class EquipmentPanelController implements ActionListener
   private JPopupMenu buildContextualMenu()
   {
     JPopupMenu popup=new JPopupMenu();
+    // Edit...
     JMenuItem edit=new JMenuItem("Edit...");
     edit.setActionCommand(EDIT_COMMAND);
     edit.addActionListener(this);
     popup.add(edit);
+    // Choose...
     JMenuItem choose=new JMenuItem("Choose...");
     choose.setActionCommand(CHOOSE_COMMAND);
     choose.addActionListener(this);
     popup.add(choose);
+    // Choose from stash...
+    JMenuItem choosefromStash=new JMenuItem("Choose from stash...");
+    choosefromStash.setActionCommand(CHOOSE_FROM_STASH_COMMAND);
+    choosefromStash.addActionListener(this);
+    popup.add(choosefromStash);
+    // Remove!
     JMenuItem remove=new JMenuItem("Remove");
     remove.setActionCommand(REMOVE_COMMAND);
     remove.addActionListener(this);
     popup.add(remove);
+    // Copy to stash
+    JMenuItem copyToStash=new JMenuItem("Copy to stash");
+    copyToStash.setActionCommand(COPY_TO_STASH_COMMAND);
+    copyToStash.addActionListener(this);
+    popup.add(copyToStash);
     return popup;
   }
 
@@ -232,7 +254,7 @@ public class EquipmentPanelController implements ActionListener
       button.setBounds(position.width,position.height,ICON_SIZE,ICON_SIZE);
       _layeredPane.add(button,ICONS_DEPTH);
       _buttons.put(slot,button);
-      button.setActionCommand(slot.name());
+      button.setActionCommand(SLOT_SEED+slot.name());
       button.addActionListener(this);
       button.addMouseListener(listener);
       button.setToolTipText("");
@@ -283,7 +305,7 @@ public class EquipmentPanelController implements ActionListener
 
   private Item getItemForSlot(EQUIMENT_SLOT slot)
   {
-    CharacterEquipment equipment=_toon.getEquipment();
+    CharacterEquipment equipment=_toonData.getEquipment();
     Item item=equipment.getItemForSlot(slot);
     return item;
   }
@@ -311,28 +333,25 @@ public class EquipmentPanelController implements ActionListener
     return null;
   }
 
-  private void handleChooseItem(EQUIMENT_SLOT slot)
+  private void handleChooseItem(EQUIMENT_SLOT slot, List<Item> items)
   {
-    Item item=getItemForSlot(slot);
-    item=chooseItem(slot,item);
+    Item item=chooseItem(slot,items);
     if (item!=null)
     {
-      CharacterEquipment equipment=_toon.getEquipment();
+      CharacterEquipment equipment=_toonData.getEquipment();
       SlotContents contents=equipment.getSlotContents(slot,true);
       Item clonedItem=ItemFactory.clone(item);
       contents.setItem(clonedItem);
       refreshToon();
     }
   }
-
-  private Item chooseItem(EQUIMENT_SLOT slot, Item currentItem)
+  private Item chooseItem(EQUIMENT_SLOT slot, List<Item> items)
   {
-    // TODO use unique instance (do not build one each time)
-    ItemSelection selection=new ItemSelection();
-    List<Item> items=selection.getItems(_toon,slot);
+    ItemSelection selection=new ItemSelection(items);
+    List<Item> selectedItems=selection.getItems(_toonData,slot);
     ItemNameFilter filter=new ItemNameFilter();
     ItemFilterController filterController=new ItemFilterController(filter);
-    ItemChoiceWindowController choiceCtrl=new ItemChoiceWindowController(_parentWindow,items,filter,filterController);
+    ItemChoiceWindowController choiceCtrl=new ItemChoiceWindowController(_parentWindow,selectedItems,filter,filterController);
     choiceCtrl.show(true);
     Item ret=choiceCtrl.getSelectedItem();
     choiceCtrl.dispose();
@@ -341,7 +360,7 @@ public class EquipmentPanelController implements ActionListener
 
   private void handleRemoveItem(EQUIMENT_SLOT slot)
   {
-    CharacterEquipment equipment=_toon.getEquipment();
+    CharacterEquipment equipment=_toonData.getEquipment();
     SlotContents contents=equipment.getSlotContents(slot,false);
     if (contents!=null)
     {
@@ -351,10 +370,50 @@ public class EquipmentPanelController implements ActionListener
     refreshToon();
   }
 
+  private void handleCopyToStash(EQUIMENT_SLOT slot)
+  {
+    CharacterEquipment equipment=_toonData.getEquipment();
+    SlotContents contents=equipment.getSlotContents(slot,false);
+    if (contents!=null)
+    {
+      Item item=contents.getItem();
+      if (item!=null)
+      {
+        ItemsStash stash=_toon.getStash();
+        Item newItem=ItemFactory.clone(item);
+        stash.addItem(newItem);
+        int stashId=newItem.getStashIdentifier();
+        item.setStashIdentifier(stashId);
+        _toon.saveStash();
+        // Broadcast stash update event...
+        // TODO
+      }
+    }
+  }
+
   public void actionPerformed(ActionEvent e)
   {
     String cmd=e.getActionCommand();
-    if ((EDIT_COMMAND.equals(cmd)) || (CHOOSE_COMMAND.equals(cmd)) || (REMOVE_COMMAND.equals(cmd)))
+    if (cmd.startsWith(SLOT_SEED))
+    {
+      cmd=cmd.substring(SLOT_SEED.length());
+      // Straight click
+      EQUIMENT_SLOT slot=EQUIMENT_SLOT.valueOf(cmd);
+      if (slot!=null)
+      {
+        Item currentItem=getItemForSlot(slot);
+        if (currentItem!=null)
+        {
+          handleEditItem(slot);
+        }
+        else
+        {
+          List<Item> items=ItemsManager.getInstance().getAllItems();
+          handleChooseItem(slot,items);
+        }
+      }
+    }
+    else
     {
       // From contextual menu
       Component invoker=_contextMenu.getInvoker();
@@ -367,28 +426,22 @@ public class EquipmentPanelController implements ActionListener
         }
         else if (CHOOSE_COMMAND.equals(cmd))
         {
-          handleChooseItem(slot);
+          List<Item> items=ItemsManager.getInstance().getAllItems();
+          handleChooseItem(slot,items);
+        }
+        else if (CHOOSE_FROM_STASH_COMMAND.equals(cmd))
+        {
+          ItemsStash stash=_toon.getStash();
+          List<Item> items=stash.getAll();
+          handleChooseItem(slot,items);
         }
         else if (REMOVE_COMMAND.equals(cmd))
         {
           handleRemoveItem(slot);
         }
-      }
-    }
-    else
-    {
-      // Straight click
-      EQUIMENT_SLOT slot=EQUIMENT_SLOT.valueOf(cmd);
-      if (slot!=null)
-      {
-        Item item=getItemForSlot(slot);
-        if (item!=null)
+        else if (COPY_TO_STASH_COMMAND.equals(cmd))
         {
-          handleEditItem(slot);
-        }
-        else
-        {
-          handleChooseItem(slot);
+          handleCopyToStash(slot);
         }
       }
     }
@@ -398,7 +451,7 @@ public class EquipmentPanelController implements ActionListener
   {
     updateIcons();
     // Broadcast equipment update event...
-    CharacterEvent event=new CharacterEvent(null,_toon);
+    CharacterEvent event=new CharacterEvent(_toon,_toonData);
     CharacterEventsManager.invokeEvent(CharacterEventType.CHARACTER_DATA_UPDATED,event);
   }
 
@@ -419,6 +472,7 @@ public class EquipmentPanelController implements ActionListener
     }
     _parentWindow=null;
     _toon=null;
+    _toonData=null;
     _iconPositions.clear();
     _buttons.clear();
   }

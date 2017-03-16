@@ -345,7 +345,7 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     WindowController controller=_windowsManager.getWindow(id);
     if (controller==null)
     {
-      controller=new CharacterDataWindowController(data);
+      controller=new CharacterDataWindowController(_toon,data);
       _windowsManager.registerWindow(controller);
       Window thisWindow=SwingUtilities.getWindowAncestor(_toonsTable.getTable());
       controller.getWindow().setLocationRelativeTo(thisWindow);

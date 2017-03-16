@@ -5,6 +5,7 @@ import java.util.List;
 import delta.games.lotro.gui.character.ItemSelection;
 import delta.games.lotro.gui.items.ItemChoiceWindowController;
 import delta.games.lotro.lore.items.Item;
+import delta.games.lotro.lore.items.ItemsManager;
 import delta.games.lotro.utils.gui.WindowController;
 
 /**
@@ -22,7 +23,9 @@ public class EssenceChoice
    */
   public static Item chooseEssence(WindowController parent)
   {
-    ItemSelection selection=new ItemSelection();
+    // TODO Select only essences
+    List<Item> allItems=ItemsManager.getInstance().getAllItems();
+    ItemSelection selection=new ItemSelection(allItems);
     List<Item> items=selection.getEssences();
     EssenceFilterController filterController=new EssenceFilterController(_filter);
     ItemChoiceWindowController choiceCtrl=new ItemChoiceWindowController(parent,items,_filter,filterController);

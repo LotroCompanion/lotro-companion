@@ -8,7 +8,6 @@ import delta.games.lotro.character.CharacterEquipment.EQUIMENT_SLOT;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.lore.items.EquipmentLocation;
 import delta.games.lotro.lore.items.Item;
-import delta.games.lotro.lore.items.ItemsManager;
 import delta.games.lotro.lore.items.sort.ItemsSorter;
 
 /**
@@ -21,11 +20,11 @@ public class ItemSelection
 
   /**
    * Constructor.
+   * @param items List of items to choose from.
    */
-  public ItemSelection()
+  public ItemSelection(List<Item> items)
   {
     _sorter=new ItemsSorter();
-    List<Item> items=ItemsManager.getInstance().getAllItems();
     _sorter.sortItems(items);
   }
 

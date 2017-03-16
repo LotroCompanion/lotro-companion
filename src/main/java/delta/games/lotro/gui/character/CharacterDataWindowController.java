@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
 import delta.games.lotro.character.CharacterData;
+import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.events.CharacterEvent;
 import delta.games.lotro.character.events.CharacterEventType;
 import delta.games.lotro.character.events.CharacterEventsManager;
@@ -47,20 +48,21 @@ public class CharacterDataWindowController extends DefaultWindowController
 
   /**
    * Constructor.
-   * @param data Managed toon.
+   * @param toon Parent toon.
+   * @param toonData Managed toon.
    */
-  public CharacterDataWindowController(CharacterData data)
+  public CharacterDataWindowController(CharacterFile toon,CharacterData toonData)
   {
-    _toon=data;
+    _toon=toonData;
     _windowsManager=new WindowsManager();
-    _attrsController=new CharacterMainAttrsEditionPanelController(data);
+    _attrsController=new CharacterMainAttrsEditionPanelController(toonData);
     _attrsController.set();
-    _statsController=new CharacterStatsSummaryPanelController(this,data);
-    _equipmentController=new EquipmentPanelController(this,data);
+    _statsController=new CharacterStatsSummaryPanelController(this,toonData);
+    _equipmentController=new EquipmentPanelController(this,toon,toonData);
     _virtuesController=new VirtuesDisplayPanelController();
-    _virtuesController.setVirtues(data.getVirtues());
-    _buffsController=new BuffEditionPanelController(this,data);
-    _tomesController=new TomesEditionPanelController(data);
+    _virtuesController.setVirtues(toonData.getVirtues());
+    _buffsController=new BuffEditionPanelController(this,toonData);
+    _tomesController=new TomesEditionPanelController(toonData);
     _okCancelController=new OKCancelPanelController();
   }
 

@@ -31,7 +31,7 @@ public class MainTestEquipmentLoading
       CharacterData infos=manager.getLastCharacterDescription();
       if (infos!=null)
       {
-        EquipmentPanelController ctrl=new EquipmentPanelController(null,infos);
+        EquipmentPanelController ctrl=new EquipmentPanelController(null,toon,infos);
         JPanel panel=ctrl.getPanel();
         JFrame frame=new JFrame("Equipment for "+toon.getName());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
