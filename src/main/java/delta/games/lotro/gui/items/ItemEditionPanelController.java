@@ -290,13 +290,15 @@ public class ItemEditionPanelController
   {
     // Ensure panel is built!
     getPanel();
+    String name=item.getName();
+    _parent.setTitle(name);
     // Icon
     String iconId=item.getProperty(ItemPropertyNames.ICON_ID);
     String backgroundIconId=item.getProperty(ItemPropertyNames.BACKGROUND_ICON_ID);
     ImageIcon icon=IconsManager.getItemIcon(iconId,backgroundIconId);
     _icon.setIcon(icon);
     // Name
-    _name.setText(item.getName());
+    _name.setText(name);
     // Slot
     _slot.selectItem(item.getEquipmentLocation());
     // Stats

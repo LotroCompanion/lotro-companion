@@ -31,6 +31,12 @@ public interface WindowController
   public void bringToFront();
 
   /**
+   * Set window title.
+   * @param title Title to set.
+   */
+  public void setTitle(String title);
+
+  /**
    * Release all managed resources.
    */
   public void dispose();

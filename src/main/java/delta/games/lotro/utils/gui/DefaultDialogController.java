@@ -165,6 +165,16 @@ public class DefaultDialogController implements WindowController
   }
 
   /**
+   * Set window title.
+   * @param title Title to set.
+   */
+  public void setTitle(String title)
+  {
+    JDialog dialog=getDialog();
+    dialog.setTitle(title);
+  }
+
+  /**
    * Release all managed resources.
    */
   public void dispose()
