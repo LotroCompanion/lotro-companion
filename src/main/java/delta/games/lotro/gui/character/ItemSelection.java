@@ -51,7 +51,7 @@ public class ItemSelection
         || (location==EquipmentLocation.POCKET) || (location==EquipmentLocation.CLASS_SLOT)
         || (location==EquipmentLocation.TOOL))
     {
-      return _sorter.getBySlot(location);
+      return _sorter.getBySlot(cClass,location);
     }
     if ((location==EquipmentLocation.MAIN_HAND) || (location==EquipmentLocation.OFF_HAND)
         || (location==EquipmentLocation.RANGED_ITEM))
@@ -66,7 +66,7 @@ public class ItemSelection
       }
       if (location==EquipmentLocation.RANGED_ITEM)
       {
-        List<Item> rangedItems=_sorter.getBySlot(location);
+        List<Item> rangedItems=_sorter.getBySlot(cClass,location);
         items.addAll(rangedItems);
       }
       return items;
