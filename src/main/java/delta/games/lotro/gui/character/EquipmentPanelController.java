@@ -382,7 +382,7 @@ public class EquipmentPanelController implements ActionListener
         ItemsStash stash=_toon.getStash();
         Item newItem=ItemFactory.clone(item);
         stash.addItem(newItem);
-        int stashId=newItem.getStashIdentifier();
+        Integer stashId=newItem.getStashIdentifier();
         item.setStashIdentifier(stashId);
         _toon.saveStash();
         // Broadcast stash update event...
