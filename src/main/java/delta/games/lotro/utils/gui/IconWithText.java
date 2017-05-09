@@ -16,24 +16,53 @@ import javax.swing.ImageIcon;
  */
 public class IconWithText implements Icon
 {
+  /**
+   * Default font.
+   */
+  public static final Font DEFAULT_FONT=new Font(Font.DIALOG,Font.BOLD,12);
+
+  /**
+   * Position of text inside the icon.
+   * @author DAM
+   */
+  public enum Position
+  {
+    /**
+     * Bottom right.
+     */
+    BOTTOM_RIGHT,
+    /**
+     * Top left.
+     */
+    TOP_LEFT
+  }
+
   private ImageIcon _icon;
-  private Font _font;
   private String _text;
   private Color _color;
+  private Position _position;
 
   /**
    * Constructor.
    * @param icon Embedded icon.
-   * @param font Font to use for text.
    * @param text Text to display.
    * @param color Color to use for text.
    */
-  public IconWithText(ImageIcon icon, Font font, String text, Color color)
+  public IconWithText(ImageIcon icon, String text, Color color)
   {
     _icon=icon;
-    _font=font;
     _text=text;
     _color=color;
+    _position=Position.BOTTOM_RIGHT;
+  }
+
+  /**
+   * Set position to use.
+   * @param position Position to use.
+   */
+  public void setPosition(Position position)
+  {
+    _position=position;
   }
 
   public void paintIcon(Component c, Graphics g, int x, int y)
@@ -42,11 +71,25 @@ public class IconWithText implements Icon
 
     if (_text.length()>0)
     {
-      FontMetrics metrics=g.getFontMetrics(_font);
+      Font font=DEFAULT_FONT;
+      g.setFont(font);
+      FontMetrics metrics=g.getFontMetrics(font);
       Rectangle2D r=metrics.getStringBounds(_text,g);
 
-      int dx = (int)(getIconWidth() - r.getWidth()) - 2;
-      int dy = getIconHeight() - metrics.getDescent();
+      int dx;
+      int dy;
+      if (_position==Position.BOTTOM_RIGHT)
+      {
+        dx = (int)(getIconWidth() - r.getWidth()) - 2;
+        dy = getIconHeight() - metrics.getDescent();
+      }
+      else
+      {
+        dx = 5;
+        dy = metrics.getAscent() + 1;
+      }
+      dx+=x;
+      dy+=y;
 
       g.setColor(Color.BLACK);
       for(int i=dx-1;i<=dx+1;i++)

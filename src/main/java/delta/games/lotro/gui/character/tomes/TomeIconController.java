@@ -1,7 +1,6 @@
 package delta.games.lotro.gui.character.tomes;
 
 import java.awt.Color;
-import java.awt.Font;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -28,13 +27,12 @@ public class TomeIconController
    * Constructor.
    * @param tomes Tomes to edit.
    * @param stat Stat to use.
-   * @param font Font to use to display tier.
    */
-  public TomeIconController(TomesSet tomes, STAT stat, Font font)
+  public TomeIconController(TomesSet tomes, STAT stat)
   {
     _tomes=tomes;
     _stat=stat;
-    _icon=buildStatIcon(stat,font);
+    _icon=buildStatIcon(stat);
     _label=GuiFactory.buildIconLabel(_icon);
     _label.setSize(_icon.getIconWidth(),_icon.getIconHeight());
     update();
@@ -78,13 +76,12 @@ public class TomeIconController
   /**
    * Get the icon for the given tome.
    * @param stat Stat to use.
-   * @param font Font to use to display tier.
    * @return An icon with embedded text to display tier.
    */
-  private IconWithText buildStatIcon(STAT stat, Font font)
+  private IconWithText buildStatIcon(STAT stat)
   {
     ImageIcon icon=IconsManager.getTomeIcon(stat);
-    IconWithText labeledIcon=new IconWithText(icon,font,"",Color.WHITE);
+    IconWithText labeledIcon=new IconWithText(icon,"",Color.WHITE);
     return labeledIcon;
   }
 

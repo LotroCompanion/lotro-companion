@@ -1,7 +1,6 @@
 package delta.games.lotro.gui.character.buffs;
 
 import java.awt.Color;
-import java.awt.Font;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -26,12 +25,11 @@ public class BuffIconController
   /**
    * Constructor.
    * @param buff Buff to use.
-   * @param font Font to use to display tier.
    */
-  public BuffIconController(BuffInstance buff, Font font)
+  public BuffIconController(BuffInstance buff)
   {
     _buff=buff;
-    _icon=buildBuffIcon(buff,font);
+    _icon=buildBuffIcon(buff);
     _label=GuiFactory.buildIconLabel(_icon);
     _label.setSize(_icon.getIconWidth(),_icon.getIconHeight());
     update();
@@ -75,14 +73,13 @@ public class BuffIconController
   /**
    * Get the icon for the given virtue.
    * @param buff Buff to use.
-   * @param font Font to use to display tier.
    * @return An icon with embedded text to display tier.
    */
-  private IconWithText buildBuffIcon(BuffInstance buff, Font font)
+  private IconWithText buildBuffIcon(BuffInstance buff)
   {
     String iconFile=buff.getBuff().getIcon();
     ImageIcon icon=IconsManager.getBuffIcon(iconFile);
-    IconWithText labeledIcon=new IconWithText(icon,font,"",Color.WHITE);
+    IconWithText labeledIcon=new IconWithText(icon,"",Color.WHITE);
     return labeledIcon;
   }
 

@@ -1,6 +1,5 @@
 package delta.games.lotro.gui.character.virtues;
 
-import java.awt.Font;
 import java.awt.Insets;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
@@ -59,8 +58,7 @@ public class VirtueEditionUiController implements ActionListener
   public VirtueEditionUiController(VirtueId virtueId, JPanel panel)
   {
     _tier=0;
-    Font font=panel.getFont();
-    _iconController=new VirtueIconController(virtueId,font);
+    _iconController=new VirtueIconController(virtueId);
     JLabel label=_iconController.getLabel();
 
     label.setTransferHandler(new DragTransferHandler(virtueId));

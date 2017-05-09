@@ -1,7 +1,6 @@
 package delta.games.lotro.gui.character.tomes;
 
 import java.awt.FlowLayout;
-import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -96,8 +95,7 @@ public class TomesEditionPanelController
 
   private TomeIconController buildTomeController(TomesSet tomes, STAT stat)
   {
-    Font font=_iconsPanel.getFont();
-    TomeIconController controller=new TomeIconController(tomes,stat,font);
+    TomeIconController controller=new TomeIconController(tomes,stat);
     JLabel label=controller.getLabel();
     MouseListener listener=buildLeftClickListener();
     label.addMouseListener(listener);

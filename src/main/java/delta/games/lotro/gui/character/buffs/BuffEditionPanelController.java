@@ -2,7 +2,6 @@ package delta.games.lotro.gui.character.buffs;
 
 import java.awt.Component;
 import java.awt.FlowLayout;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -119,8 +118,7 @@ public class BuffEditionPanelController implements ActionListener
 
   private BuffIconController buildBuffController(BuffInstance buff)
   {
-    Font font=_iconsPanel.getFont();
-    BuffIconController controller=new BuffIconController(buff,font);
+    BuffIconController controller=new BuffIconController(buff);
     JLabel label=controller.getLabel();
     MouseListener popupListener=buildRightClickListener();
     label.addMouseListener(popupListener);

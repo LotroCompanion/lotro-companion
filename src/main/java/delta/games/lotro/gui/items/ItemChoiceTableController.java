@@ -2,16 +2,14 @@ package delta.games.lotro.gui.items;
 
 import java.util.List;
 
-import javax.swing.ImageIcon;
+import javax.swing.Icon;
 import javax.swing.JTable;
 
 import delta.common.utils.collections.filters.Filter;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.character.stats.STAT;
-import delta.games.lotro.gui.utils.IconsManager;
 import delta.games.lotro.lore.items.Armour;
 import delta.games.lotro.lore.items.Item;
-import delta.games.lotro.lore.items.ItemPropertyNames;
 import delta.games.lotro.utils.FixedDecimalsInteger;
 import delta.games.lotro.utils.gui.tables.CellDataProvider;
 import delta.games.lotro.utils.gui.tables.DataProvider;
@@ -61,17 +59,15 @@ public class ItemChoiceTableController
 
     // Icon column
     {
-      CellDataProvider<Item,ImageIcon> iconCell=new CellDataProvider<Item,ImageIcon>()
+      CellDataProvider<Item,Icon> iconCell=new CellDataProvider<Item,Icon>()
       {
-        public ImageIcon getData(Item item)
+        public Icon getData(Item item)
         {
-          String iconId=item.getProperty(ItemPropertyNames.ICON_ID);
-          String backgroundIconId=item.getProperty(ItemPropertyNames.BACKGROUND_ICON_ID);
-          ImageIcon icon=IconsManager.getItemIcon(iconId, backgroundIconId);
+          Icon icon=ItemUiTools.buildItemIcon(item);
           return icon;
         }
       };
-      TableColumnController<Item,ImageIcon> iconColumn=new TableColumnController<Item,ImageIcon>("Icon",ImageIcon.class,iconCell);
+      TableColumnController<Item,Icon> iconColumn=new TableColumnController<Item,Icon>("Icon",Icon.class,iconCell);
       iconColumn.setWidthSpecs(50,50,50);
       iconColumn.setSortable(false);
       table.addColumnController(iconColumn);

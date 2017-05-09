@@ -10,15 +10,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BoxLayout;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import delta.games.lotro.gui.items.ItemUiTools;
 import delta.games.lotro.gui.utils.GuiFactory;
 import delta.games.lotro.gui.utils.IconsManager;
 import delta.games.lotro.lore.items.Item;
-import delta.games.lotro.lore.items.ItemPropertyNames;
 import delta.games.lotro.utils.gui.WindowController;
 
 /**
@@ -225,12 +226,10 @@ public class EssencesEditionPanelController
     private void setEssence(Item essence)
     {
       // Set essence icon
-      ImageIcon icon=null;
+      Icon icon=null;
       if (essence!=null)
       {
-        String iconId=essence.getProperty(ItemPropertyNames.ICON_ID);
-        String backgroundIconId=essence.getProperty(ItemPropertyNames.BACKGROUND_ICON_ID);
-        icon=IconsManager.getItemIcon(iconId,backgroundIconId);
+        icon=ItemUiTools.buildItemIcon(essence);
       }
       else
       {

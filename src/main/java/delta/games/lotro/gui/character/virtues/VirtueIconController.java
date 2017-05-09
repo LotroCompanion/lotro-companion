@@ -1,7 +1,6 @@
 package delta.games.lotro.gui.character.virtues;
 
 import java.awt.Color;
-import java.awt.Font;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -26,18 +25,15 @@ public class VirtueIconController
   private VirtueId _virtueId;
   private JLabel _label;
   private IconWithText _icon;
-  private Font _font;
 
   /**
    * Constructor.
    * @param virtueId Virtue to use.
-   * @param font Font to use to display tier.
    */
-  public VirtueIconController(VirtueId virtueId, Font font)
+  public VirtueIconController(VirtueId virtueId)
   {
     _virtueId=virtueId;
-    _font=font;
-    _icon=buildVirtueIcon(virtueId,0,font);
+    _icon=buildVirtueIcon(virtueId,0);
     _label=GuiFactory.buildIconLabel(_icon);
     _label.setSize(_icon.getIconWidth(),_icon.getIconHeight());
     setTier(0);
@@ -59,7 +55,7 @@ public class VirtueIconController
   public void setVirtue(VirtueId virtueId)
   {
     _virtueId=virtueId;
-    _icon=buildVirtueIcon(virtueId,0,_font);
+    _icon=buildVirtueIcon(virtueId,0);
     _label.setIcon(_icon);
     setTier(0);
   }
@@ -93,10 +89,9 @@ public class VirtueIconController
    * Get the icon for the given virtue.
    * @param virtueId A virtue identifier or <code>null</code>.
    * @param tier Tier to show.
-   * @param font Font to use to display tier.
    * @return An icon with embedded text to display tier.
    */
-  private IconWithText buildVirtueIcon(VirtueId virtueId, int tier, Font font)
+  private IconWithText buildVirtueIcon(VirtueId virtueId, int tier)
   {
     ImageIcon icon=null;
     String text;
@@ -110,7 +105,7 @@ public class VirtueIconController
       icon=IconsManager.getIcon(NO_VIRTUE_ICON);
       text="";
     }
-    IconWithText labeledIcon=new IconWithText(icon,font,text,Color.WHITE);
+    IconWithText labeledIcon=new IconWithText(icon,text,Color.WHITE);
     return labeledIcon;
   }
 
@@ -139,6 +134,5 @@ public class VirtueIconController
     _virtueId=null;
     _label=null;
     _icon=null;
-    _font=null;
   }
 }
