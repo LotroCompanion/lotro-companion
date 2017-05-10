@@ -21,6 +21,7 @@ import delta.games.lotro.gui.utils.GuiFactory;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.utils.gui.DefaultDialogController;
 import delta.games.lotro.utils.gui.WindowController;
+import delta.games.lotro.utils.gui.tables.GenericTableController;
 
 /**
  * Controller for an item choice window.
@@ -109,6 +110,8 @@ public class ItemChoiceWindowController extends DefaultDialogController
       }
     };
     okButton.addActionListener(al);
+    GenericTableController<Item> controller=_tableController.getTableController();
+    controller.addActionListener(al);
     controlPanel.add(okButton);
     // Filter
     JPanel filterPanel=_filterController.getPanel();

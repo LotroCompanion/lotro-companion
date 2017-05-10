@@ -405,6 +405,7 @@ public class GenericTableController<POJO>
     }
     _model=null;
     _sorter=null;
+    _actionListeners.clear();
     // Data
     _dataProvider=null;
     _filter=null;

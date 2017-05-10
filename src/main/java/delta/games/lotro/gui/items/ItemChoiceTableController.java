@@ -42,6 +42,15 @@ public class ItemChoiceTableController
   }
 
   /**
+   * Get the managed generic table controller.
+   * @return the managed generic table controller.
+   */
+  public GenericTableController<Item> getTableController()
+  {
+    return _tableController;
+  }
+
+  /**
    * Set a new set of items.
    * @param items Items to set.
    */
