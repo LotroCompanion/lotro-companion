@@ -5,7 +5,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
-import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -142,8 +141,7 @@ public class EssenceFilterController extends AbstractItemFilterPanelController
    */
   private ComboBoxController<Integer> buildTierCombo()
   {
-    JComboBox combo=GuiFactory.buildComboBox();
-    ComboBoxController<Integer> ctrl=new ComboBoxController<Integer>(combo);
+    ComboBoxController<Integer> ctrl=new ComboBoxController<Integer>();
     ctrl.addEmptyItem("");
     for(int tier=1;tier<=8;tier++)
     {

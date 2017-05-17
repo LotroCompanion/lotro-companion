@@ -7,6 +7,8 @@ import java.util.List;
 
 import javax.swing.JComboBox;
 
+import delta.games.lotro.gui.utils.GuiFactory;
+
 /**
  * Controller for a combo box.
  * @param <T> Type of managed data.
@@ -20,11 +22,10 @@ public class ComboBoxController<T>
 
   /**
    * Constructor.
-   * @param comboBox Embedded combo box.
    */
-  public ComboBoxController(JComboBox comboBox)
+  public ComboBoxController()
   {
-    _comboBox=comboBox;
+    _comboBox=GuiFactory.buildComboBox();
     _items=new ArrayList<ComboBoxItem<T>>();
     _listeners=null;
   }

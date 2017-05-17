@@ -4,15 +4,12 @@ import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
@@ -22,6 +19,7 @@ import delta.games.lotro.character.stats.buffs.Buff;
 import delta.games.lotro.character.stats.buffs.BuffFilter;
 import delta.games.lotro.gui.utils.GuiFactory;
 import delta.games.lotro.utils.gui.combobox.ComboBoxController;
+import delta.games.lotro.utils.gui.combobox.ItemSelectionListener;
 
 /**
  * Controller for a buff filter edition panel.
@@ -92,8 +90,7 @@ public class BuffsFilterController
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
 
     // Category
-    JComboBox categoryCombo=GuiFactory.buildComboBox();
-    _category=buildCategoriesCombo(categoryCombo);
+    _category=buildCategoriesCombo();
     // Name filter
     JPanel nameContainsPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING));
     {
@@ -119,25 +116,24 @@ public class BuffsFilterController
     return panel;
   }
 
-  private ComboBoxController<String> buildCategoriesCombo(JComboBox combo)
+  private ComboBoxController<String> buildCategoriesCombo()
   {
-    final ComboBoxController<String> ctrl=new ComboBoxController<String>(combo);
+    final ComboBoxController<String> ctrl=new ComboBoxController<String>();
     ctrl.addEmptyItem("");
     List<String> categories=getCategories();
     for(String category : categories)
     {
       ctrl.addItem(category,category);
     }
-    ActionListener l=new ActionListener()
+    ItemSelectionListener<String> l=new ItemSelectionListener<String>()
     {
-      public void actionPerformed(ActionEvent e)
+      public void itemSelected(String category)
       {
-        String category=ctrl.getSelectedItem();
         _filter.setCategory(category);
         updateFilter();
       }
     };
-    combo.addActionListener(l);
+    ctrl.addListener(l);
     return ctrl;
   }
 

@@ -4,10 +4,8 @@ import java.awt.Color;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import javax.swing.JComboBox;
 
 import delta.common.utils.NumericTools;
-import delta.games.lotro.gui.utils.GuiFactory;
 import delta.games.lotro.gui.utils.IconsManager;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemPropertyNames;
@@ -56,8 +54,7 @@ public class ItemUiTools
    */
   public static ComboBoxController<ItemQuality> buildQualityCombo()
   {
-    JComboBox combo=GuiFactory.buildComboBox();
-    ComboBoxController<ItemQuality> ctrl=new ComboBoxController<ItemQuality>(combo);
+    ComboBoxController<ItemQuality> ctrl=new ComboBoxController<ItemQuality>();
     ctrl.addEmptyItem("");
     for(ItemQuality quality : ItemQuality.getAll())
     {

@@ -4,15 +4,12 @@ import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
@@ -23,6 +20,7 @@ import delta.games.lotro.lore.items.legendary.relics.Relic;
 import delta.games.lotro.lore.items.legendary.relics.RelicFilter;
 import delta.games.lotro.lore.items.legendary.relics.RelicType;
 import delta.games.lotro.utils.gui.combobox.ComboBoxController;
+import delta.games.lotro.utils.gui.combobox.ItemSelectionListener;
 
 /**
  * Controller for a relic filter edition panel.
@@ -108,11 +106,9 @@ public class RelicsFilterController
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
 
     // Type
-    JComboBox typeCombo=GuiFactory.buildComboBox();
-    _type=buildTypesCombo(typeCombo);
+    _type=buildTypesCombo();
     // Category
-    JComboBox categoryCombo=GuiFactory.buildComboBox();
-    _category=buildCategoriesCombo(categoryCombo);
+    _category=buildCategoriesCombo();
     // Name filter
     JPanel nameContainsPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING));
     {
@@ -150,46 +146,44 @@ public class RelicsFilterController
     return panel;
   }
 
-  private ComboBoxController<RelicType> buildTypesCombo(JComboBox combo)
+  private ComboBoxController<RelicType> buildTypesCombo()
   {
-    final ComboBoxController<RelicType> ctrl=new ComboBoxController<RelicType>(combo);
+    final ComboBoxController<RelicType> ctrl=new ComboBoxController<RelicType>();
     ctrl.addEmptyItem("");
     for(RelicType type : RelicType.values())
     {
       ctrl.addItem(type,type.name());
     }
-    ActionListener l=new ActionListener()
+    ItemSelectionListener<RelicType> l=new ItemSelectionListener<RelicType>()
     {
-      public void actionPerformed(ActionEvent e)
+      public void itemSelected(RelicType type)
       {
-        RelicType type=ctrl.getSelectedItem();
         _filter.setRelicType(type);
         updateFilter();
       }
     };
-    combo.addActionListener(l);
+    ctrl.addListener(l);
     return ctrl;
   }
 
-  private ComboBoxController<String> buildCategoriesCombo(JComboBox combo)
+  private ComboBoxController<String> buildCategoriesCombo()
   {
-    final ComboBoxController<String> ctrl=new ComboBoxController<String>(combo);
+    final ComboBoxController<String> ctrl=new ComboBoxController<String>();
     ctrl.addEmptyItem("");
     List<String> categories=getCategories();
     for(String category : categories)
     {
       ctrl.addItem(category,category);
     }
-    ActionListener l=new ActionListener()
+    ItemSelectionListener<String> l=new ItemSelectionListener<String>()
     {
-      public void actionPerformed(ActionEvent e)
+      public void itemSelected(String category)
       {
-        String category=ctrl.getSelectedItem();
         _filter.setRelicCategory(category);
         updateFilter();
       }
     };
-    combo.addActionListener(l);
+    ctrl.addListener(l);
     return ctrl;
   }
 

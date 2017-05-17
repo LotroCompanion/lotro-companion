@@ -10,7 +10,6 @@ import java.util.Date;
 import java.util.List;
 
 import javax.swing.ImageIcon;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -172,8 +171,7 @@ public class CharacterMainAttrsEditionPanelController
 
   private ComboBoxController<Integer> buildLevelCombo()
   {
-    JComboBox combo=GuiFactory.buildComboBox();
-    ComboBoxController<Integer> ctrl=new ComboBoxController<Integer>(combo);
+    ComboBoxController<Integer> ctrl=new ComboBoxController<Integer>();
     TypedProperties props=Config.getInstance().getParameters();
     int maxLevel=props.getIntProperty("max.character.level.server",105);
     List<Integer> levels=new ArrayList<Integer>();

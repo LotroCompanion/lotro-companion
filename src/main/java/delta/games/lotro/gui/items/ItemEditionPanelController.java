@@ -8,7 +8,6 @@ import java.util.List;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
@@ -457,8 +456,7 @@ public class ItemEditionPanelController
 
   private ComboBoxController<EquipmentLocation> buildSlotCombo()
   {
-    JComboBox combo=GuiFactory.buildComboBox();
-    ComboBoxController<EquipmentLocation> ctrl=new ComboBoxController<EquipmentLocation>(combo);
+    ComboBoxController<EquipmentLocation> ctrl=new ComboBoxController<EquipmentLocation>();
     ctrl.addEmptyItem("");
     for(EquipmentLocation slot : EquipmentLocation.getAll())
     {
@@ -470,8 +468,7 @@ public class ItemEditionPanelController
 
   private ComboBoxController<ItemBinding> buildBindingCombo()
   {
-    JComboBox combo=GuiFactory.buildComboBox();
-    ComboBoxController<ItemBinding> ctrl=new ComboBoxController<ItemBinding>(combo);
+    ComboBoxController<ItemBinding> ctrl=new ComboBoxController<ItemBinding>();
     ctrl.addEmptyItem("");
     for(ItemBinding binding : ItemBinding.values())
     {
@@ -483,8 +480,7 @@ public class ItemEditionPanelController
 
   private ComboBoxController<ItemSturdiness> buildSturdinessCombo()
   {
-    JComboBox combo=GuiFactory.buildComboBox();
-    ComboBoxController<ItemSturdiness> ctrl=new ComboBoxController<ItemSturdiness>(combo);
+    ComboBoxController<ItemSturdiness> ctrl=new ComboBoxController<ItemSturdiness>();
     ctrl.addEmptyItem("");
     for(ItemSturdiness sturdiness : ItemSturdiness.values())
     {
@@ -496,8 +492,7 @@ public class ItemEditionPanelController
 
   private ComboBoxController<ArmourType> buildArmourTypeCombo()
   {
-    JComboBox combo=GuiFactory.buildComboBox();
-    ComboBoxController<ArmourType> ctrl=new ComboBoxController<ArmourType>(combo);
+    ComboBoxController<ArmourType> ctrl=new ComboBoxController<ArmourType>();
     ctrl.addEmptyItem("");
     for(ArmourType quality : ArmourType.getAll())
     {
@@ -509,8 +504,7 @@ public class ItemEditionPanelController
 
   private ComboBoxController<DamageType> buildDamageTypeCombo()
   {
-    JComboBox combo=GuiFactory.buildComboBox();
-    ComboBoxController<DamageType> ctrl=new ComboBoxController<DamageType>(combo);
+    ComboBoxController<DamageType> ctrl=new ComboBoxController<DamageType>();
     ctrl.addEmptyItem("");
     for(DamageType damageType : DamageType.getAll())
     {
@@ -522,8 +516,7 @@ public class ItemEditionPanelController
 
   private ComboBoxController<WeaponType> buildWeaponTypeCombo()
   {
-    JComboBox combo=GuiFactory.buildComboBox();
-    ComboBoxController<WeaponType> ctrl=new ComboBoxController<WeaponType>(combo);
+    ComboBoxController<WeaponType> ctrl=new ComboBoxController<WeaponType>();
     ctrl.addEmptyItem("");
     for(WeaponType weaponType : WeaponType.getAll())
     {

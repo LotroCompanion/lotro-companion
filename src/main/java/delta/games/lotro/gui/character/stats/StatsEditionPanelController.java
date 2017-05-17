@@ -212,8 +212,7 @@ public class StatsEditionPanelController
 
     private ComboBoxController<STAT> buildStatChooser()
     {
-      JComboBox combo=GuiFactory.buildComboBox();
-      ComboBoxController<STAT> controller=new ComboBoxController<STAT>(combo);
+      ComboBoxController<STAT> controller=new ComboBoxController<STAT>();
       String name=CharacterStatsPanelController.class.getPackage().getName()+".statLabels";
       TranslatorsManager translatorsMgr=TranslatorsManager.getInstance();
       Translator translator=translatorsMgr.getTranslatorByName(name,true,false);
