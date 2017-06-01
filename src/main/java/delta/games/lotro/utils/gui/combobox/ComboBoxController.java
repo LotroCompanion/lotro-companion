@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.swing.JComboBox;
 
+import delta.common.utils.NumericTools;
 import delta.games.lotro.gui.utils.GuiFactory;
 
 /**
@@ -19,15 +20,28 @@ public class ComboBoxController<T>
   private JComboBox _comboBox;
   private List<ComboBoxItem<T>> _items;
   private List<ItemSelectionListener<T>> _listeners;
+  private Class<T> _type;
 
   /**
    * Constructor.
    */
   public ComboBoxController()
   {
+    this(false,null);
+  }
+
+  /**
+   * Constructor.
+   * @param editable Editable or not.
+   * @param type Managed type.
+   */
+  public ComboBoxController(boolean editable, Class<T> type)
+  {
     _comboBox=GuiFactory.buildComboBox();
+    _comboBox.setEditable(editable);
     _items=new ArrayList<ComboBoxItem<T>>();
     _listeners=null;
+    _type=type;
   }
 
   /**
@@ -75,6 +89,17 @@ public class ComboBoxController<T>
       ComboBoxItem<T> item=_items.get(index);
       ret=item.getItem();
     }
+    else
+    {
+      if (_comboBox.isEditable())
+      {
+        Object itemValue=_comboBox.getSelectedItem();
+        if (itemValue!=null)
+        {
+          ret=convert(itemValue);
+        }
+      }
+    }
     return ret;
   }
 
@@ -82,9 +107,31 @@ public class ComboBoxController<T>
   {
     for(ComboBoxItem<T> item : _items)
     {
-      if (item.getItem()==data)
+      if (equal(item.getItem(),data))
       {
         return item;
+      }
+    }
+    return null;
+  }
+
+  private boolean equal(T t1, T t2)
+  {
+    if (t1==null)
+    {
+      return t2==null;
+    }
+    return t1.equals(t2);
+  }
+
+  @SuppressWarnings("unchecked")
+  private T convert(Object value)
+  {
+    if (value instanceof String)
+    {
+      if (Integer.class.equals(_type)) {
+        Integer intValue=NumericTools.parseInteger((String)value,false);
+        return (T)intValue;
       }
     }
     return null;

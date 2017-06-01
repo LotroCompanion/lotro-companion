@@ -26,6 +26,7 @@ import delta.games.lotro.lore.items.DamageType;
 import delta.games.lotro.lore.items.EquipmentLocation;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemBinding;
+import delta.games.lotro.lore.items.ItemFactory;
 import delta.games.lotro.lore.items.ItemPropertyNames;
 import delta.games.lotro.lore.items.ItemQuality;
 import delta.games.lotro.lore.items.ItemSturdiness;
@@ -34,8 +35,11 @@ import delta.games.lotro.lore.items.WeaponType;
 import delta.games.lotro.lore.items.essences.EssencesSet;
 import delta.games.lotro.lore.items.legendary.Legendary;
 import delta.games.lotro.lore.items.legendary.LegendaryAttrs;
+import delta.games.lotro.lore.items.stats.Scaling;
+import delta.games.lotro.lore.items.stats.ScalingRule;
 import delta.games.lotro.utils.gui.WindowController;
 import delta.games.lotro.utils.gui.combobox.ComboBoxController;
+import delta.games.lotro.utils.gui.combobox.ItemSelectionListener;
 import delta.games.lotro.utils.gui.text.FloatEditionController;
 import delta.games.lotro.utils.gui.text.IntegerEditionController;
 
@@ -56,8 +60,8 @@ public class ItemEditionPanelController
   private JTextField _name;
   private StatsEditionPanelController _stats;
   private EssencesEditionPanelController _essencesEditor;
-  private IntegerEditionController _itemLevel;
-  private IntegerEditionController _minLevel;
+  private ComboBoxController<Integer> _itemLevel;
+  private ComboBoxController<Integer> _minLevel;
   // character class requirement
   private JTextArea _description;
   private JTextField _subCategory;
@@ -190,17 +194,13 @@ public class ItemEditionPanelController
       JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
       panel.add(panelLine);
       // Item level
-      JTextField itemLevel=GuiFactory.buildTextField("");
-      _itemLevel=new IntegerEditionController(itemLevel);
-      _itemLevel.setValueRange(Integer.valueOf(1),Integer.valueOf(500));
+      _itemLevel=new ComboBoxController<Integer>(true,Integer.class);
       panelLine.add(GuiFactory.buildLabel("Item level:"));
-      panelLine.add(_itemLevel.getTextField());
+      panelLine.add(_itemLevel.getComboBox());
       // Minimum level
-      JTextField minLevel=GuiFactory.buildTextField("");
-      _minLevel=new IntegerEditionController(minLevel);
-      _minLevel.setValueRange(Integer.valueOf(1),Integer.valueOf(150));
+      _minLevel=new ComboBoxController<Integer>(true,Integer.class);
       panelLine.add(GuiFactory.buildLabel("Required level:"));
-      panelLine.add(_minLevel.getTextField());
+      panelLine.add(_minLevel.getComboBox());
       // Binding
       _binding=buildBindingCombo();
       panelLine.add(GuiFactory.buildLabel("Binding:"));
@@ -287,6 +287,7 @@ public class ItemEditionPanelController
    */
   public void setItem(Item item)
   {
+    _item=item;
     // Ensure panel is built!
     getPanel();
     String name=item.getName();
@@ -302,12 +303,14 @@ public class ItemEditionPanelController
     _slot.selectItem(item.getEquipmentLocation());
     // Stats
     _stats.initFromStats(item.getStats());
+    // Configure scaling
+    configureScaling(item);
     // Item level
     Integer itemLevel=item.getItemLevel();
-    _itemLevel.setValue(itemLevel);
+    _itemLevel.selectItem(itemLevel);
     // Minimum level
     Integer minLevel=item.getMinLevel();
-    _minLevel.setValue(minLevel);
+    _minLevel.selectItem(minLevel);
     // Description
     _description.setText(item.getDescription());
     // Sub category
@@ -364,7 +367,6 @@ public class ItemEditionPanelController
       relicsPanel=relicEditor.getPanel();
       _tabbedPane.add("Relics",relicsPanel);
     }
-    _item=item;
   }
 
   /**
@@ -382,9 +384,9 @@ public class ItemEditionPanelController
     stats.clear();
     stats.setStats(_stats.getStats());
     // Item level
-    _item.setItemLevel(_itemLevel.getValue());
+    _item.setItemLevel(_itemLevel.getSelectedItem());
     // Minimum level
-    _item.setMinLevel(_minLevel.getValue());
+    _item.setMinLevel(_minLevel.getSelectedItem());
     // Description
     _item.setDescription(_description.getText());
     // Sub category
@@ -524,6 +526,101 @@ public class ItemEditionPanelController
     }
     ctrl.selectItem(null);
     return ctrl;
+  }
+
+  private void configureScaling(Item item)
+  {
+    ScalingRule rule=Scaling.getScalingRule(item);
+    if (rule!=null)
+    {
+      // Min level
+      List<Integer> minLevels=rule.getRequiredLevels();
+      for(Integer minLevel : minLevels)
+      {
+        _minLevel.addItem(minLevel,minLevel.toString());
+      }
+      ItemSelectionListener<Integer> listenerRequiredLevel=new ItemSelectionListener<Integer>()
+      {
+        public void itemSelected(Integer requiredLevel)
+        {
+          selectRequiredLevel(requiredLevel);
+        }
+      };
+      _minLevel.addListener(listenerRequiredLevel);
+      // Item level
+      List<Integer> itemLevels=rule.getItemLevels();
+      for(Integer itemLevel : itemLevels)
+      {
+        _itemLevel.addItem(itemLevel,itemLevel.toString());
+      }
+      ItemSelectionListener<Integer> listener=new ItemSelectionListener<Integer>()
+      {
+        public void itemSelected(Integer itemLevel)
+        {
+          selectItemLevel(itemLevel);
+        }
+      };
+      _itemLevel.addListener(listener);
+    }
+    else
+    {
+      // Min level
+      _minLevel.addEmptyItem("");
+      Integer minLevel=item.getMinLevel();
+      if (minLevel!=null)
+      {
+        _minLevel.addItem(minLevel,minLevel.toString());
+      }
+      // Item level
+      _itemLevel.addEmptyItem("");
+      Integer itemLevel=item.getItemLevel();
+      if (itemLevel!=null)
+      {
+        _itemLevel.addItem(itemLevel,itemLevel.toString());
+      }
+    }
+  }
+
+  private void selectRequiredLevel(Integer requiredLevel)
+  {
+    if (requiredLevel!=null)
+    {
+      ScalingRule rule=Scaling.getScalingRule(_item);
+      if (rule!=null)
+      {
+        Integer itemLevel=rule.getItemLevel(requiredLevel.intValue());
+        if (itemLevel!=null)
+        {
+          _itemLevel.selectItem(itemLevel);
+        }
+      }
+    }
+  }
+
+  private void selectItemLevel(Integer itemLevel)
+  {
+    if (itemLevel!=null)
+    {
+      ScalingRule rule=Scaling.getScalingRule(_item);
+      if (rule!=null)
+      {
+        Item item=ItemFactory.clone(_item);
+        Scaling.scaleToItemLevel(item,itemLevel.intValue());
+        BasicStatsSet stats=item.getStats();
+        _stats.initFromStats(stats);
+        if (item instanceof Armour)
+        {
+          Armour armour=(Armour)item;
+          int armourValue=armour.getArmourValue();
+          _armourValue.setValue(Integer.valueOf(armourValue));
+        }
+        Integer requiredLevel=rule.getRequiredLevel(itemLevel.intValue());
+        if (requiredLevel!=null)
+        {
+          _minLevel.selectItem(requiredLevel);
+        }
+      }
+    }
   }
 
   /**
