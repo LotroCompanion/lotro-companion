@@ -17,6 +17,10 @@ import javax.swing.JToolBar;
 import javax.swing.border.TitledBorder;
 
 import delta.games.lotro.character.CharacterFile;
+import delta.games.lotro.character.events.CharacterEvent;
+import delta.games.lotro.character.events.CharacterEventListener;
+import delta.games.lotro.character.events.CharacterEventType;
+import delta.games.lotro.character.events.CharacterEventsManager;
 import delta.games.lotro.character.storage.ItemsStash;
 import delta.games.lotro.gui.items.FilterUpdateListener;
 import delta.games.lotro.gui.items.ItemEditionWindowController;
@@ -35,7 +39,7 @@ import delta.games.lotro.utils.gui.tables.GenericTableController;
  * Controller for a "items stash" window.
  * @author DAM
  */
-public class StashWindowController extends DefaultWindowController implements ActionListener,FilterUpdateListener
+public class StashWindowController extends DefaultWindowController implements ActionListener,FilterUpdateListener,CharacterEventListener
 {
   private static final String NEW_ITEM_ID="newItem";
   private static final String CLONE_ITEM_ID="cloneItem";
@@ -106,7 +110,21 @@ public class StashWindowController extends DefaultWindowController implements Ac
     frame.setMinimumSize(new Dimension(500,380));
     frame.setSize(new Dimension(850,500));
     frame.setResizable(true);
+
+    // Register stash updates events
+    CharacterEventsManager.addListener(this);
     return frame;
+  }
+
+  /**
+   * Handle character events.
+   */
+  public void eventOccured(CharacterEventType type, CharacterEvent event)
+  {
+    if (type==CharacterEventType.CHARACTER_STASH_UPDATED)
+    {
+      _itemsTable.getTableController().refresh();
+    }
   }
 
   @Override
@@ -240,6 +258,7 @@ public class StashWindowController extends DefaultWindowController implements Ac
   @Override
   public void dispose()
   {
+    CharacterEventsManager.removeListener(this);
     super.dispose();
     if (_itemsTable!=null)
     {

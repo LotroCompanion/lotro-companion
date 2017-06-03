@@ -386,7 +386,8 @@ public class EquipmentPanelController implements ActionListener
         item.setStashIdentifier(stashId);
         _toon.saveStash();
         // Broadcast stash update event...
-        // TODO
+        CharacterEvent event=new CharacterEvent(_toon,null);
+        CharacterEventsManager.invokeEvent(CharacterEventType.CHARACTER_STASH_UPDATED,event);
       }
     }
   }
