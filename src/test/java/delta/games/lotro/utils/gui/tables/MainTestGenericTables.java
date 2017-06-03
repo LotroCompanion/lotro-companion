@@ -28,6 +28,7 @@ public class MainTestGenericTables
   {
     _table=buildTable();
     JFrame f=new JFrame();
+    f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     JPanel panel=new JPanel(new BorderLayout());
     JScrollPane scroll=new JScrollPane(_table.getTable());
     panel.add(scroll,BorderLayout.CENTER);
