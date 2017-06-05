@@ -8,6 +8,7 @@ import javax.swing.JTable;
 
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.storage.ItemsStash;
+import delta.games.lotro.gui.items.ItemConstants;
 import delta.games.lotro.gui.utils.IconsManager;
 import delta.games.lotro.lore.items.EquipmentLocation;
 import delta.games.lotro.lore.items.Item;
@@ -115,7 +116,7 @@ public class StashItemsTableController
       {
         public String getData(Item item)
         {
-          String property=item.getProperty("UserComment");
+          String property=item.getProperty(ItemConstants.USER_COMMENT);
           return property;
         }
       };

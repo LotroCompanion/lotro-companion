@@ -67,6 +67,7 @@ public class ItemEditionPanelController
   private JTextField _subCategory;
   private JTextField _birthName;
   private JTextField _crafterName;
+  private JTextField _userComments;
   private ComboBoxController<ItemBinding> _binding;
   private JCheckBox _unique; 
   private IntegerEditionController _durability;
@@ -248,6 +249,15 @@ public class ItemEditionPanelController
       panelLine.add(GuiFactory.buildLabel("Crafter:"));
       panelLine.add(_crafterName);
     }
+    // User comments
+    {
+      _userComments=GuiFactory.buildTextField("");
+      _userComments.setColumns(40);
+      JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
+      panel.add(panelLine);
+      panelLine.add(GuiFactory.buildLabel("Comments:"));
+      panelLine.add(_userComments);
+    }
 
     // Unused
     {
@@ -319,6 +329,10 @@ public class ItemEditionPanelController
     _birthName.setText(item.getBirthName());
     // Crafter name
     _crafterName.setText(item.getCrafterName());
+    // User comments
+    String userComments=item.getProperty(ItemConstants.USER_COMMENT);
+    if (userComments==null) userComments="";
+    _userComments.setText(userComments);
     // Binding
     _binding.selectItem(item.getBinding());
     // Unicity
@@ -395,6 +409,16 @@ public class ItemEditionPanelController
     _item.setBirthName(_birthName.getText());
     // Crafter name
     _item.setCrafterName(_crafterName.getText());
+    // User comments
+    String userComments=_userComments.getText();
+    if (userComments.length()>0)
+    {
+      _item.setProperty(ItemConstants.USER_COMMENT,userComments);
+    }
+    else
+    {
+      _item.removeProperty(ItemConstants.USER_COMMENT);
+    }
     // Binding
     _item.setBinding(_binding.getSelectedItem());
     // Unicity
