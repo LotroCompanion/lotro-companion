@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
@@ -17,7 +18,6 @@ import org.xml.sax.helpers.AttributesImpl;
 
 import delta.common.utils.io.StreamTools;
 import delta.games.lotro.common.CharacterClass;
-import delta.games.lotro.lore.items.io.xml.ItemXMLConstants;
 import delta.games.lotro.stats.traitPoints.TraitPoint;
 import delta.games.lotro.stats.traitPoints.TraitPointsRegistry;
 import delta.games.lotro.stats.traitPoints.comparators.TraitPointIdComparator;
@@ -106,28 +106,51 @@ public class TraitPointsRegistryXMLWriter
    */
   private void write(TransformerHandler hd, TraitPoint point) throws Exception
   {
-    AttributesImpl itemAttrs=new AttributesImpl();
+    AttributesImpl attrs=new AttributesImpl();
 
     // Identifier
     String id=point.getId();
     if (id!=null)
     {
-      itemAttrs.addAttribute("","",TraitPointsRegistryXMLConstants.TRAIT_POINT_ID_ATTR,CDATA,id);
+      attrs.addAttribute("","",TraitPointsRegistryXMLConstants.TRAIT_POINT_ID_ATTR,CDATA,id);
+    }
+    // Category
+    String category=point.getCategory();
+    if (category!=null)
+    {
+      attrs.addAttribute("","",TraitPointsRegistryXMLConstants.TRAIT_POINT_CATEGORY_ATTR,CDATA,category);
     }
     // Label
     String label=point.getLabel();
     if (label!=null)
     {
-      itemAttrs.addAttribute("","",TraitPointsRegistryXMLConstants.TRAIT_POINT_LABEL_ATTR,CDATA,label);
+      attrs.addAttribute("","",TraitPointsRegistryXMLConstants.TRAIT_POINT_LABEL_ATTR,CDATA,label);
     }
     // Required class
-    CharacterClass requiredClass=point.getRequiredClass();
-    if (requiredClass!=null)
+    Set<CharacterClass> requiredClasses=point.getRequiredClasses();
+    if (!requiredClasses.isEmpty())
     {
-      String className=requiredClass.getKey();
-      itemAttrs.addAttribute("","",TraitPointsRegistryXMLConstants.TRAIT_POINT_REQUIRED_CLASS_ATTR,CDATA,className);
+      String classes=buildClassRequirement(requiredClasses);
+      attrs.addAttribute("","",TraitPointsRegistryXMLConstants.TRAIT_POINT_REQUIRED_CLASS_ATTR,CDATA,classes);
     }
-    hd.startElement("","",ItemXMLConstants.ITEM_TAG,itemAttrs);
-    hd.endElement("","",ItemXMLConstants.ITEM_TAG);
+    hd.startElement("","",TraitPointsRegistryXMLConstants.TRAIT_POINT_TAG,attrs);
+    hd.endElement("","",TraitPointsRegistryXMLConstants.TRAIT_POINT_TAG);
+  }
+
+  private String buildClassRequirement(Set<CharacterClass> classes)
+  {
+    StringBuilder sb=new StringBuilder();
+    int index=0;
+    for(CharacterClass characterClass : classes)
+    {
+      if (index>0)
+      {
+        sb.append(',');
+      }
+      String key=characterClass.getKey();
+      sb.append(key);
+      index++;
+    }
+    return sb.toString();
   }
 }

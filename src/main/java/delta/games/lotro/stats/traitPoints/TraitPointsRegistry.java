@@ -59,8 +59,8 @@ public class TraitPointsRegistry
     List<TraitPoint> points=new ArrayList<TraitPoint>();
     for(TraitPoint point : _traitPoints.values())
     {
-      CharacterClass traitRequiredClass=point.getRequiredClass();
-      if ((traitRequiredClass==null) || (traitRequiredClass==requiredClass))
+      boolean enabled=point.isEnabledForClass(requiredClass);
+      if (enabled)
       {
         points.add(point);
       }

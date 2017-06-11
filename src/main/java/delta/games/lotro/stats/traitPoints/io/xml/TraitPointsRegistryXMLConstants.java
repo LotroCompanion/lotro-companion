@@ -21,11 +21,15 @@ public class TraitPointsRegistryXMLConstants
    */
   public static final String TRAIT_POINT_ID_ATTR="id";
   /**
+   * Tag 'traitPoint', attribute 'category'.
+   */
+  public static final String TRAIT_POINT_CATEGORY_ATTR="category";
+  /**
    * Tag 'traitPoint', attribute 'label'.
    */
   public static final String TRAIT_POINT_LABEL_ATTR="label";
   /**
-   * Tag 'traitPoint', attribute 'requiredClass'.
+   * Tag 'traitPoint', attribute 'requiredClasses'.
    */
-  public static final String TRAIT_POINT_REQUIRED_CLASS_ATTR="requiredClass";
+  public static final String TRAIT_POINT_REQUIRED_CLASS_ATTR="requiredClasses";
 }

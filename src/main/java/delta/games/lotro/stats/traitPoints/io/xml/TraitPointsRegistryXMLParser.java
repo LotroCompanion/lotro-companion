@@ -38,9 +38,9 @@ public class TraitPointsRegistryXMLParser
   {
     TraitPointsRegistry registry=new TraitPointsRegistry();
     List<Element> pointTags=DOMParsingTools.getChildTagsByName(root,TraitPointsRegistryXMLConstants.TRAIT_POINT_TAG,false);
-    for(Element itemTag : pointTags)
+    for(Element pointTag : pointTags)
     {
-      TraitPoint item=parsePoint(itemTag);
+      TraitPoint item=parsePoint(pointTag);
       registry.registerTraitPoint(item);
     }
     return registry;
@@ -48,31 +48,41 @@ public class TraitPointsRegistryXMLParser
 
   /**
    * Build a trait point from an XML tag.
-   * @param root Root XML tag.
+   * @param pointTag Point tag.
    * @return A trait point.
    */
-  public TraitPoint parsePoint(Element root)
+  public TraitPoint parsePoint(Element pointTag)
   {
     TraitPoint ret=null;
-    NamedNodeMap attrs=root.getAttributes();
+    NamedNodeMap attrs=pointTag.getAttributes();
 
     // Identifier
     String id=DOMParsingTools.getStringAttribute(attrs,TraitPointsRegistryXMLConstants.TRAIT_POINT_ID_ATTR,null);
-    // Label
-    String label=DOMParsingTools.getStringAttribute(attrs,TraitPointsRegistryXMLConstants.TRAIT_POINT_LABEL_ATTR,null);
-    // Required class
-    CharacterClass requiredCharacterClass=null;
-    String requiredClass=DOMParsingTools.getStringAttribute(attrs,ItemXMLConstants.ITEM_REQUIRED_CLASS_ATTR,null);
-    if (requiredClass!=null)
-    {
-      requiredCharacterClass=CharacterClass.getByKey(requiredClass);
-    }
     if (id!=null)
     {
-      ret=new TraitPoint(id,requiredCharacterClass);
+      ret=new TraitPoint(id);
+      // Label
+      String label=DOMParsingTools.getStringAttribute(attrs,TraitPointsRegistryXMLConstants.TRAIT_POINT_LABEL_ATTR,null);
       if (label!=null)
       {
         ret.setLabel(label);
+      }
+      // Category
+      String category=DOMParsingTools.getStringAttribute(attrs,TraitPointsRegistryXMLConstants.TRAIT_POINT_CATEGORY_ATTR,null);
+      if (category!=null)
+      {
+        ret.setCategory(category);
+      }
+      // Required class
+      String requiredClassesStr=DOMParsingTools.getStringAttribute(attrs,ItemXMLConstants.ITEM_REQUIRED_CLASS_ATTR,null);
+      if (requiredClassesStr!=null)
+      {
+        String[] requiredClasses=requiredClassesStr.split(",");
+        for(String requiredClass : requiredClasses)
+        {
+          CharacterClass characterClass=CharacterClass.getByKey(requiredClass);
+          ret.addRequiredClass(characterClass);
+        }
       }
     }
     return ret;
