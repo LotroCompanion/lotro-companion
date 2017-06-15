@@ -5,14 +5,8 @@ import java.util.List;
 
 import javax.swing.JTable;
 
-import delta.games.lotro.character.CharacterFile;
-import delta.games.lotro.character.CharacterSummary;
-import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.stats.traitPoints.TraitPoint;
-import delta.games.lotro.stats.traitPoints.TraitPointFilter;
 import delta.games.lotro.stats.traitPoints.TraitPointStatus;
-import delta.games.lotro.stats.traitPoints.TraitPoints;
-import delta.games.lotro.stats.traitPoints.TraitPointsRegistry;
 import delta.games.lotro.stats.traitPoints.TraitPointsStatus;
 import delta.games.lotro.utils.gui.tables.CellDataProvider;
 import delta.games.lotro.utils.gui.tables.DataProvider;
@@ -27,43 +21,35 @@ import delta.games.lotro.utils.gui.tables.TableColumnController;
 public class TraitPointsTableController
 {
   // Data
-  private CharacterFile _character;
-  private TraitPointFilter _filter;
+  private TraitPointsStatus _pointsStatus;
+  private List<TraitPoint> _points;
   // GUI
   private GenericTableController<TraitPointStatus> _tableController;
   private JTable _table;
 
   /**
    * Constructor.
-   * @param character Character to use.
-   * @param filter Data filter.
+   * @param pointsStatus Status to edit.
+   * @param points Points to edit.
    */
-  public TraitPointsTableController(CharacterFile character, TraitPointFilter filter)
+  public TraitPointsTableController(TraitPointsStatus pointsStatus, List<TraitPoint> points)
   {
-    _character=character;
-    _filter=filter;
+    _pointsStatus=pointsStatus;
+    _points=points;
     _tableController=buildTable();
   }
 
   private DataProvider<TraitPointStatus> buildDataProvider()
   {
-    CharacterSummary summary=_character.getSummary();
-    CharacterClass characterClass=summary.getCharacterClass();
-    TraitPointsRegistry registry=TraitPoints.get().getRegistry();
-    List<TraitPoint> points=registry.getPointsForClass(characterClass);
-    List<TraitPointStatus> selectedPoints=new ArrayList<TraitPointStatus>();
-    TraitPointsStatus pointsStatus=TraitPoints.get().load(_character);
-    for(TraitPoint point : points)
+    List<TraitPointStatus> pointStatuses=new ArrayList<TraitPointStatus>();
+    for(TraitPoint point : _points)
     {
-      if (_filter.accept(point))
-      {
-        TraitPointStatus status=new TraitPointStatus(point);
-        boolean acquired=pointsStatus.isAcquired(point.getId());
-        status.setAcquired(acquired);
-        selectedPoints.add(status);
-      }
+      TraitPointStatus status=new TraitPointStatus(point);
+      boolean acquired=_pointsStatus.isAcquired(point.getId());
+      status.setAcquired(acquired);
+      pointStatuses.add(status);
     }
-    DataProvider<TraitPointStatus> ret=new ListDataProvider<TraitPointStatus>(selectedPoints);
+    DataProvider<TraitPointStatus> ret=new ListDataProvider<TraitPointStatus>(pointStatuses);
     return ret;
   }
 
@@ -137,7 +123,7 @@ public class TraitPointsTableController
     _tableController=null;
     _table=null;
     // Data
-    _character=null;
-    _filter=null;
+    _pointsStatus=null;
+    _points=null;
   }
 }
