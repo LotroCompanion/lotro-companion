@@ -31,5 +31,5 @@ public class TraitPointsRegistryXMLConstants
   /**
    * Tag 'traitPoint', attribute 'requiredClasses'.
    */
-  public static final String TRAIT_POINT_REQUIRED_CLASS_ATTR="requiredClasses";
+  public static final String TRAIT_POINT_REQUIRED_CLASSES_ATTR="requiredClasses";
 }

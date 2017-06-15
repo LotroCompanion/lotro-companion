@@ -44,6 +44,30 @@ public class TraitPointsStatus
   }
 
   /**
+   * Get the number acquired trait points
+   * @param characterLevel Level of the character.
+   * @return A points count.
+   */
+  public int getPointsCount(int characterLevel) 
+  {
+    int pointsFromLevel=getTraitPointsFromLevel(characterLevel);
+    int acquiredPoints=_acquiredTraitPointsIds.size();
+    int total=pointsFromLevel+acquiredPoints;
+    return total;
+  }
+
+  /**
+   * Get the number of trait points for a character level.
+   * @param characterLevel Level to use.
+   * @return A points count.
+   */
+  public static int getTraitPointsFromLevel(int characterLevel)
+  {
+    int nb = Math.min(0,characterLevel - 5)/2;
+    return nb;
+  }
+
+  /**
    * Set the status of a single trait point.
    * @param id Identifier of the trait point.
    * @param acquired Status to set.

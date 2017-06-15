@@ -131,7 +131,7 @@ public class TraitPointsRegistryXMLWriter
     if (!requiredClasses.isEmpty())
     {
       String classes=buildClassRequirement(requiredClasses);
-      attrs.addAttribute("","",TraitPointsRegistryXMLConstants.TRAIT_POINT_REQUIRED_CLASS_ATTR,CDATA,classes);
+      attrs.addAttribute("","",TraitPointsRegistryXMLConstants.TRAIT_POINT_REQUIRED_CLASSES_ATTR,CDATA,classes);
     }
     hd.startElement("","",TraitPointsRegistryXMLConstants.TRAIT_POINT_TAG,attrs);
     hd.endElement("","",TraitPointsRegistryXMLConstants.TRAIT_POINT_TAG);

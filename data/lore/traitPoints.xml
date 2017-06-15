@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<traitPointsRegistry>
+<traitPoint id="Beorning:ClassDeed1" category="Class" label="Class Deeds - Tier 1" requiredClasses="Beorning"/>
+<traitPoint id="Beorning:ClassDeed2" category="Class" label="Class Deeds - Tier 2" requiredClasses="Beorning"/>
+<traitPoint id="Beorning:ClassDeed3" category="Class" label="Class Deeds - Tier 3" requiredClasses="Beorning"/>
+<traitPoint id="Beorning:ClassDeed4" category="Class" label="Class Deeds - Tier 4" requiredClasses="Beorning"/>
+<traitPoint id="Beorning:ClassDeed5" category="Class" label="Class Deeds - Tier 5" requiredClasses="Beorning"/>
+<traitPoint id="Beorning:ClassDeed6" category="Class" label="Class Deeds - Tier 6" requiredClasses="Beorning"/>
+<traitPoint id="Beorning:ClassDeed7" category="Class" label="Class Deeds - Tier 7" requiredClasses="Beorning"/>
+<traitPoint id="Beorning:ClassDeed8" category="Class" label="Class Deeds - Tier 8" requiredClasses="Beorning"/>
+<traitPoint id="Beorning:ClassQuests15" category="Class" label="Complete the Level 15 Class Quest Chain" requiredClasses="Beorning"/>
+<traitPoint id="Beorning:ClassQuests30" category="Class" label="Complete the Level 30 Class Quest Chain" requiredClasses="Beorning"/>
+<traitPoint id="Beorning:ClassQuests50" category="Class" label="Complete the Level 50 Class Quests" requiredClasses="Beorning"/>
+<traitPoint id="Beorning:ClassQuests58" category="Class" label="Complete the Level 58 Class Quest Chain" requiredClasses="Beorning"/>
+<traitPoint id="Beorning:LegendaryBook1" category="Class" label="Complete Legendary Book Pages (A Hobbit's Holiday)" requiredClasses="Beorning"/>
+<traitPoint id="Beorning:LegendaryBook2" category="Class" label="Complete Legendary Book Pages (A Study of the Skin-changer)" requiredClasses="Beorning"/>
+<traitPoint id="Beorning:LegendaryBook3" category="Class" label="Complete Legendary Book Pages (Geneology of the Beornings)" requiredClasses="Beorning"/>
+<traitPoint id="Burglar:ClassDeed1" category="Class" label="Class Deeds - Tier 1" requiredClasses="Burglar"/>
+<traitPoint id="Burglar:ClassDeed2" category="Class" label="Class Deeds - Tier 2" requiredClasses="Burglar"/>
+<traitPoint id="Burglar:ClassDeed3" category="Class" label="Class Deeds - Tier 3" requiredClasses="Burglar"/>
+<traitPoint id="Burglar:ClassDeed4" category="Class" label="Class Deeds - Tier 4" requiredClasses="Burglar"/>
+<traitPoint id="Burglar:ClassDeed5" category="Class" label="Class Deeds - Tier 5" requiredClasses="Burglar"/>
+<traitPoint id="Burglar:ClassDeed6" category="Class" label="Class Deeds - Tier 6" requiredClasses="Burglar"/>
+<traitPoint id="Burglar:ClassDeed7" category="Class" label="Class Deeds - Tier 7" requiredClasses="Burglar"/>
+<traitPoint id="Burglar:ClassDeed8" category="Class" label="Class Deeds - Tier 8" requiredClasses="Burglar"/>
+<traitPoint id="Burglar:ClassQuests50" category="Class" label="Complete the Level 50 Class Quests" requiredClasses="Burglar"/>
+<traitPoint id="Burglar:ClassQuests58" category="Class" label="Complete the Level 58 Class Quest Chain" requiredClasses="Burglar"/>
+<traitPoint id="Burglar:LegendaryBook1" category="Class" label="Complete Legendary Book Pages (The Book of Knives)" requiredClasses="Burglar"/>
+<traitPoint id="Burglar:LegendaryBook2" category="Class" label="Complete Legendary Book Pages (Knee-breaker's Manual)" requiredClasses="Burglar"/>
+<traitPoint id="Burglar:LegendaryBook3" category="Class" label="Complete Legendary Book Pages (The Expert's Guide to Dirty Fighting)" requiredClasses="Burglar"/>
+<traitPoint id="Burglar:ReadGuardsBook" category="Class" label="Obtain Kindred with the Iron Garrison Guards and read their book" requiredClasses="Burglar"/>
+<traitPoint id="Captain:ClassDeed1" category="Class" label="Class Deeds - Tier 1" requiredClasses="Captain"/>
+<traitPoint id="Captain:ClassDeed2" category="Class" label="Class Deeds - Tier 2" requiredClasses="Captain"/>
+<traitPoint id="Captain:ClassDeed3" category="Class" label="Class Deeds - Tier 3" requiredClasses="Captain"/>
+<traitPoint id="Captain:ClassDeed4" category="Class" label="Class Deeds - Tier 4" requiredClasses="Captain"/>
+<traitPoint id="Captain:ClassDeed5" category="Class" label="Class Deeds - Tier 5" requiredClasses="Captain"/>
+<traitPoint id="Captain:ClassDeed6" category="Class" label="Class Deeds - Tier 6" requiredClasses="Captain"/>
+<traitPoint id="Captain:ClassDeed7" category="Class" label="Class Deeds - Tier 7" requiredClasses="Captain"/>
+<traitPoint id="Captain:ClassDeed8" category="Class" label="Class Deeds - Tier 8" requiredClasses="Captain"/>
+<traitPoint id="Captain:ClassQuests50" category="Class" label="Complete the Level 50 Class Quests" requiredClasses="Captain"/>
+<traitPoint id="Captain:ClassQuests58" category="Class" label="Complete the Level 58 Class Quest Chain" requiredClasses="Captain"/>
+<traitPoint id="Captain:LegendaryBook1" category="Class" label="Complete Legendary Book Pages (The Candle's Flame)" requiredClasses="Captain"/>
+<traitPoint id="Captain:LegendaryBook2" category="Class" label="Complete Legendary Book Pages (Treatise of Valour)" requiredClasses="Captain"/>
+<traitPoint id="Captain:LegendaryBook3" category="Class" label="Complete Legendary Book Pages (The Book of Oaths)" requiredClasses="Captain"/>
+<traitPoint id="Captain:ReadGuardsBook" category="Class" label="Obtain Kindred with the Iron Garrison Guards and read their book" requiredClasses="Captain"/>
+<traitPoint id="Central Gondor:Dor-en-Ernil" category="Quests" label="Complete Dor-en-Ernil quest chain"/>
+<traitPoint id="Central Gondor:Lebennin" category="Quests" label="Complete Lebennin quest chain"/>
+<traitPoint id="Central Gondor:Pelargir" category="Quests" label="Complete Pelargir quest chain"/>
+<traitPoint id="Central Gondor:Ringló Vale" category="Quests" label="Complete Ringló Vale quest chain"/>
+<traitPoint id="Champion:ClassDeed1" category="Class" label="Class Deeds - Tier 1" requiredClasses="Champion"/>
+<traitPoint id="Champion:ClassDeed2" category="Class" label="Class Deeds - Tier 2" requiredClasses="Champion"/>
+<traitPoint id="Champion:ClassDeed3" category="Class" label="Class Deeds - Tier 3" requiredClasses="Champion"/>
+<traitPoint id="Champion:ClassDeed4" category="Class" label="Class Deeds - Tier 4" requiredClasses="Champion"/>
+<traitPoint id="Champion:ClassDeed5" category="Class" label="Class Deeds - Tier 5" requiredClasses="Champion"/>
+<traitPoint id="Champion:ClassDeed6" category="Class" label="Class Deeds - Tier 6" requiredClasses="Champion"/>
+<traitPoint id="Champion:ClassDeed7" category="Class" label="Class Deeds - Tier 7" requiredClasses="Champion"/>
+<traitPoint id="Champion:ClassDeed8" category="Class" label="Class Deeds - Tier 8" requiredClasses="Champion"/>
+<traitPoint id="Champion:ClassQuests50" category="Class" label="Complete the Level 50 Class Quests" requiredClasses="Champion"/>
+<traitPoint id="Champion:ClassQuests58" category="Class" label="Complete the Level 58 Class Quest Chain" requiredClasses="Champion"/>
+<traitPoint id="Champion:LegendaryBook1" category="Class" label="Complete Legendary Book Pages (The Tome of Swords)" requiredClasses="Champion"/>
+<traitPoint id="Champion:LegendaryBook2" category="Class" label="Complete Legendary Book Pages (The Joy of Battle)" requiredClasses="Champion"/>
+<traitPoint id="Champion:LegendaryBook3" category="Class" label="Complete Legendary Book Pages (The Artisan Blade)" requiredClasses="Champion"/>
+<traitPoint id="Champion:ReadGuardsBook" category="Class" label="Obtain Kindred with the Iron Garrison Guards and read their book" requiredClasses="Champion"/>
+<traitPoint id="Eastern Gondor:AshesAndStars" category="Quests" label="Complete Ashes and Stars, Chapter 4"/>
+<traitPoint id="Epic Battles 1" category="Epic" label="Earn 100 Promotion Points"/>
+<traitPoint id="Epic Battles 2" category="Epic" label="Earn 200 Promotion Points"/>
+<traitPoint id="EpicVol2Book6" category="Epic" label="Complete Volume II, Book 6 (Moria)" requiredClasses="Champion,Warden,Guardian,Rune-keeper,Lore-master,Hunter,Burglar,Minstrel,Captain"/>
+<traitPoint id="EpicVol4Book2" category="Epic" label="Complete Volume IV, Book 2: The Dawnless Day"/>
+<traitPoint id="EpicVol4Book4Chapter10" category="Epic" label="Complete Volume IV, Book 4, Chapter 10: The Defence of Minas Tirith"/>
+<traitPoint id="EpicVol4Book4Chapter11" category="Epic" label="Complete Volume IV, Book 4, Chapter 11: Hammer of the Underworld"/>
+<traitPoint id="EpicVol4Book8Chapter7" category="Epic" label="Complete Volume IV, Book 8, Chapter 7: Mordor Triumphant"/>
+<traitPoint id="Guardian:ClassDeed1" category="Class" label="Class Deeds - Tier 1" requiredClasses="Guardian"/>
+<traitPoint id="Guardian:ClassDeed2" category="Class" label="Class Deeds - Tier 2" requiredClasses="Guardian"/>
+<traitPoint id="Guardian:ClassDeed3" category="Class" label="Class Deeds - Tier 3" requiredClasses="Guardian"/>
+<traitPoint id="Guardian:ClassDeed4" category="Class" label="Class Deeds - Tier 4" requiredClasses="Guardian"/>
+<traitPoint id="Guardian:ClassDeed5" category="Class" label="Class Deeds - Tier 5" requiredClasses="Guardian"/>
+<traitPoint id="Guardian:ClassDeed6" category="Class" label="Class Deeds - Tier 6" requiredClasses="Guardian"/>
+<traitPoint id="Guardian:ClassDeed7" category="Class" label="Class Deeds - Tier 7" requiredClasses="Guardian"/>
+<traitPoint id="Guardian:ClassDeed8" category="Class" label="Class Deeds - Tier 8" requiredClasses="Guardian"/>
+<traitPoint id="Guardian:ClassQuests50" category="Class" label="Complete the Level 50 Class Quests" requiredClasses="Guardian"/>
+<traitPoint id="Guardian:ClassQuests58" category="Class" label="Complete the Level 58 Class Quest Chain" requiredClasses="Guardian"/>
+<traitPoint id="Guardian:LegendaryBook1" category="Class" label="Complete Legendary Book Pages (The Best Defence)" requiredClasses="Guardian"/>
+<traitPoint id="Guardian:LegendaryBook2" category="Class" label="Complete Legendary Book Pages (A Shield-maiden's Song)" requiredClasses="Guardian"/>
+<traitPoint id="Guardian:LegendaryBook3" category="Class" label="Complete Legendary Book Pages (The Final Word)" requiredClasses="Guardian"/>
+<traitPoint id="Guardian:ReadGuardsBook" category="Class" label="Obtain Kindred with the Iron Garrison Guards and read their book" requiredClasses="Guardian"/>
+<traitPoint id="Hunter:ClassDeed1" category="Class" label="Class Deeds - Tier 1" requiredClasses="Hunter"/>
+<traitPoint id="Hunter:ClassDeed2" category="Class" label="Class Deeds - Tier 2" requiredClasses="Hunter"/>
+<traitPoint id="Hunter:ClassDeed3" category="Class" label="Class Deeds - Tier 3" requiredClasses="Hunter"/>
+<traitPoint id="Hunter:ClassDeed4" category="Class" label="Class Deeds - Tier 4" requiredClasses="Hunter"/>
+<traitPoint id="Hunter:ClassDeed5" category="Class" label="Class Deeds - Tier 5" requiredClasses="Hunter"/>
+<traitPoint id="Hunter:ClassDeed6" category="Class" label="Class Deeds - Tier 6" requiredClasses="Hunter"/>
+<traitPoint id="Hunter:ClassDeed7" category="Class" label="Class Deeds - Tier 7" requiredClasses="Hunter"/>
+<traitPoint id="Hunter:ClassDeed8" category="Class" label="Class Deeds - Tier 8" requiredClasses="Hunter"/>
+<traitPoint id="Hunter:ClassQuests50" category="Class" label="Complete the Level 50 Class Quests" requiredClasses="Hunter"/>
+<traitPoint id="Hunter:ClassQuests58" category="Class" label="Complete the Level 58 Class Quest Chain" requiredClasses="Hunter"/>
+<traitPoint id="Hunter:LegendaryBook1" category="Class" label="Complete Legendary Book Pages (A Shot in the Dark)" requiredClasses="Hunter"/>
+<traitPoint id="Hunter:LegendaryBook2" category="Class" label="Complete Legendary Book Pages (The Way of the Hunter)" requiredClasses="Hunter"/>
+<traitPoint id="Hunter:LegendaryBook3" category="Class" label="Complete Legendary Book Pages (The Furthest Charge)" requiredClasses="Hunter"/>
+<traitPoint id="Hunter:ReadGuardsBook" category="Class" label="Obtain Kindred with the Iron Garrison Guards and read their book" requiredClasses="Hunter"/>
+<traitPoint id="Lore-master:ClassDeed1" category="Class" label="Class Deeds - Tier 1" requiredClasses="Lore-master"/>
+<traitPoint id="Lore-master:ClassDeed2" category="Class" label="Class Deeds - Tier 2" requiredClasses="Lore-master"/>
+<traitPoint id="Lore-master:ClassDeed3" category="Class" label="Class Deeds - Tier 3" requiredClasses="Lore-master"/>
+<traitPoint id="Lore-master:ClassDeed4" category="Class" label="Class Deeds - Tier 4" requiredClasses="Lore-master"/>
+<traitPoint id="Lore-master:ClassDeed5" category="Class" label="Class Deeds - Tier 5" requiredClasses="Lore-master"/>
+<traitPoint id="Lore-master:ClassDeed6" category="Class" label="Class Deeds - Tier 6" requiredClasses="Lore-master"/>
+<traitPoint id="Lore-master:ClassDeed7" category="Class" label="Class Deeds - Tier 7" requiredClasses="Lore-master"/>
+<traitPoint id="Lore-master:ClassDeed8" category="Class" label="Class Deeds - Tier 8" requiredClasses="Lore-master"/>
+<traitPoint id="Lore-master:ClassQuests50" category="Class" label="Complete the Level 50 Class Quests" requiredClasses="Lore-master"/>
+<traitPoint id="Lore-master:ClassQuests58" category="Class" label="Complete the Level 58 Class Quest Chain" requiredClasses="Lore-master"/>
+<traitPoint id="Lore-master:LegendaryBook1" category="Class" label="Complete Legendary Book Pages (The Book of Beasts)" requiredClasses="Lore-master"/>
+<traitPoint id="Lore-master:LegendaryBook2" category="Class" label="Complete Legendary Book Pages (Lore of the Blade)" requiredClasses="Lore-master"/>
+<traitPoint id="Lore-master:LegendaryBook3" category="Class" label="Complete Legendary Book Pages (Of Leaf and Twig)" requiredClasses="Lore-master"/>
+<traitPoint id="Lore-master:ReadGuardsBook" category="Class" label="Obtain Kindred with the Iron Garrison Guards and read their book" requiredClasses="Lore-master"/>
+<traitPoint id="Minstrel:ClassDeed1" category="Class" label="Class Deeds - Tier 1" requiredClasses="Minstrel"/>
+<traitPoint id="Minstrel:ClassDeed2" category="Class" label="Class Deeds - Tier 2" requiredClasses="Minstrel"/>
+<traitPoint id="Minstrel:ClassDeed3" category="Class" label="Class Deeds - Tier 3" requiredClasses="Minstrel"/>
+<traitPoint id="Minstrel:ClassDeed4" category="Class" label="Class Deeds - Tier 4" requiredClasses="Minstrel"/>
+<traitPoint id="Minstrel:ClassDeed5" category="Class" label="Class Deeds - Tier 5" requiredClasses="Minstrel"/>
+<traitPoint id="Minstrel:ClassDeed6" category="Class" label="Class Deeds - Tier 6" requiredClasses="Minstrel"/>
+<traitPoint id="Minstrel:ClassDeed7" category="Class" label="Class Deeds - Tier 7" requiredClasses="Minstrel"/>
+<traitPoint id="Minstrel:ClassDeed8" category="Class" label="Class Deeds - Tier 8" requiredClasses="Minstrel"/>
+<traitPoint id="Minstrel:ClassQuests50" category="Class" label="Complete the Level 50 Class Quests" requiredClasses="Minstrel"/>
+<traitPoint id="Minstrel:ClassQuests58" category="Class" label="Complete the Level 58 Class Quest Chain" requiredClasses="Minstrel"/>
+<traitPoint id="Minstrel:LegendaryBook1" category="Class" label="Complete Legendary Book Pages (Melodies of the Valar)" requiredClasses="Minstrel"/>
+<traitPoint id="Minstrel:LegendaryBook2" category="Class" label="Complete Legendary Book Pages (The Rising Chord)" requiredClasses="Minstrel"/>
+<traitPoint id="Minstrel:LegendaryBook3" category="Class" label="Complete Legendary Book Pages (Valour's Marches)" requiredClasses="Minstrel"/>
+<traitPoint id="Minstrel:ReadGuardsBook" category="Class" label="Obtain Kindred with the Iron Garrison Guards and read their book" requiredClasses="Minstrel"/>
+<traitPoint id="OldAnórienDeeds" category="Deeds" label="Complete Deed 'Deeds of Old Anórien'"/>
+<traitPoint id="OldAnórienQuests" category="Deeds" label="Complete Deed 'Quests of Old Anórien'"/>
+<traitPoint id="Rune-keeper:ClassDeed1" category="Class" label="Class Deeds - Tier 1" requiredClasses="Rune-keeper"/>
+<traitPoint id="Rune-keeper:ClassDeed2" category="Class" label="Class Deeds - Tier 2" requiredClasses="Rune-keeper"/>
+<traitPoint id="Rune-keeper:ClassDeed3" category="Class" label="Class Deeds - Tier 3" requiredClasses="Rune-keeper"/>
+<traitPoint id="Rune-keeper:ClassDeed4" category="Class" label="Class Deeds - Tier 4" requiredClasses="Rune-keeper"/>
+<traitPoint id="Rune-keeper:ClassDeed5" category="Class" label="Class Deeds - Tier 5" requiredClasses="Rune-keeper"/>
+<traitPoint id="Rune-keeper:ClassDeed6" category="Class" label="Class Deeds - Tier 6" requiredClasses="Rune-keeper"/>
+<traitPoint id="Rune-keeper:ClassDeed7" category="Class" label="Class Deeds - Tier 7" requiredClasses="Rune-keeper"/>
+<traitPoint id="Rune-keeper:ClassDeed8" category="Class" label="Class Deeds - Tier 8" requiredClasses="Rune-keeper"/>
+<traitPoint id="Rune-keeper:ClassQuests50" category="Class" label="Complete the Level 50 Class Quests" requiredClasses="Rune-keeper"/>
+<traitPoint id="Rune-keeper:ClassQuests58" category="Class" label="Complete the Level 58 Class Quest Chain" requiredClasses="Rune-keeper"/>
+<traitPoint id="Rune-keeper:LegendaryBook1" category="Class" label="Complete Legendary Book Pages (Golu o Maeth)" requiredClasses="Rune-keeper"/>
+<traitPoint id="Rune-keeper:LegendaryBook2" category="Class" label="Complete Legendary Book Pages (Thunder and Flame)" requiredClasses="Rune-keeper"/>
+<traitPoint id="Rune-keeper:LegendaryBook3" category="Class" label="Complete Legendary Book Pages (Whispers in the Dark)" requiredClasses="Rune-keeper"/>
+<traitPoint id="Rune-keeper:ReadGuardsBook" category="Class" label="Obtain Kindred with the Iron Garrison Guards and read their book" requiredClasses="Rune-keeper"/>
+<traitPoint id="Warden:ClassDeed1" category="Class" label="Class Deeds - Tier 1" requiredClasses="Warden"/>
+<traitPoint id="Warden:ClassDeed2" category="Class" label="Class Deeds - Tier 2" requiredClasses="Warden"/>
+<traitPoint id="Warden:ClassDeed3" category="Class" label="Class Deeds - Tier 3" requiredClasses="Warden"/>
+<traitPoint id="Warden:ClassDeed4" category="Class" label="Class Deeds - Tier 4" requiredClasses="Warden"/>
+<traitPoint id="Warden:ClassDeed5" category="Class" label="Class Deeds - Tier 5" requiredClasses="Warden"/>
+<traitPoint id="Warden:ClassDeed6" category="Class" label="Class Deeds - Tier 6" requiredClasses="Warden"/>
+<traitPoint id="Warden:ClassDeed7" category="Class" label="Class Deeds - Tier 7" requiredClasses="Warden"/>
+<traitPoint id="Warden:ClassDeed8" category="Class" label="Class Deeds - Tier 8" requiredClasses="Warden"/>
+<traitPoint id="Warden:ClassQuests50" category="Class" label="Complete the Level 50 Class Quests" requiredClasses="Warden"/>
+<traitPoint id="Warden:ClassQuests58" category="Class" label="Complete the Level 58 Class Quest Chain" requiredClasses="Warden"/>
+<traitPoint id="Warden:LegendaryBook1" category="Class" label="Complete Legendary Book Pages (The Watch Against the Night)" requiredClasses="Warden"/>
+<traitPoint id="Warden:LegendaryBook2" category="Class" label="Complete Legendary Book Pages (Chieftains of the Dúnedain)" requiredClasses="Warden"/>
+<traitPoint id="Warden:LegendaryBook3" category="Class" label="Complete Legendary Book Pages (Bullroarer's Boy)" requiredClasses="Warden"/>
+<traitPoint id="Warden:ReadGuardsBook" category="Class" label="Obtain Kindred with the Iron Garrison Guards and read their book" requiredClasses="Warden"/>
+<traitPoint id="West Rohan:Broadacres" category="Quests" label="Complete Broadacres quest chain"/>
+<traitPoint id="West Rohan:Eastfold" category="Quests" label="Complete Eastfold quest chain"/>
+<traitPoint id="West Rohan:Kingstead" category="Quests" label="Complete Kingstead quest chain"/>
+<traitPoint id="West Rohan:Stonedeans" category="Quests" label="Complete Stonedeans quest chain"/>
+<traitPoint id="West Rohan:Westfold" category="Quests" label="Complete Westfold quest chain"/>
+</traitPointsRegistry>

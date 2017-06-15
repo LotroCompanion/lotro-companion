@@ -8,9 +8,9 @@ package delta.games.lotro.stats.traitPoints.io.xml;
 public class TraitPointsStatusXMLConstants
 {
   /**
-   * Tag 'traitPointsRegistry'.
+   * Tag 'traitPoints'.
    */
-  public static final String TRAIT_POINTS_REGISTRY_TAG="traitPoints";
+  public static final String TRAIT_POINTS_TAG="traitPoints";
 
   /**
    * Tag 'traitPoint'.

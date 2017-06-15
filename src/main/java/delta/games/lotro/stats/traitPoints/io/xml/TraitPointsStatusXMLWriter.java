@@ -82,7 +82,7 @@ public class TraitPointsStatusXMLWriter
   public void write(TransformerHandler hd, TraitPointsStatus status) throws Exception
   {
     AttributesImpl attrs=new AttributesImpl();
-    hd.startElement("","",TraitPointsRegistryXMLConstants.TRAIT_POINTS_REGISTRY_TAG,attrs);
+    hd.startElement("","",TraitPointsStatusXMLConstants.TRAIT_POINTS_TAG,attrs);
 
     List<String> ids=status.getAcquiredTraitPointsIds();
     Collections.sort(ids);
@@ -90,10 +90,10 @@ public class TraitPointsStatusXMLWriter
     for(String id : ids)
     {
       AttributesImpl pointAttrs=new AttributesImpl();
-      attrs.addAttribute("","",TraitPointsRegistryXMLConstants.TRAIT_POINT_ID_ATTR,CDATA,id);
-      hd.startElement("","",TraitPointsRegistryXMLConstants.TRAIT_POINT_TAG,pointAttrs);
-      hd.endElement("","",TraitPointsRegistryXMLConstants.TRAIT_POINT_TAG);
+      pointAttrs.addAttribute("","",TraitPointsStatusXMLConstants.TRAIT_POINT_ID_ATTR,CDATA,id);
+      hd.startElement("","",TraitPointsStatusXMLConstants.TRAIT_POINT_TAG,pointAttrs);
+      hd.endElement("","",TraitPointsStatusXMLConstants.TRAIT_POINT_TAG);
     }
-    hd.endElement("","",TraitPointsRegistryXMLConstants.TRAIT_POINTS_REGISTRY_TAG);
+    hd.endElement("","",TraitPointsStatusXMLConstants.TRAIT_POINTS_TAG);
   }
 }

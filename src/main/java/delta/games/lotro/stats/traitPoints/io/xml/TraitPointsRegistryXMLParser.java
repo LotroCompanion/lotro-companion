@@ -8,7 +8,6 @@ import org.w3c.dom.NamedNodeMap;
 
 import delta.common.utils.xml.DOMParsingTools;
 import delta.games.lotro.common.CharacterClass;
-import delta.games.lotro.lore.items.io.xml.ItemXMLConstants;
 import delta.games.lotro.stats.traitPoints.TraitPoint;
 import delta.games.lotro.stats.traitPoints.TraitPointsRegistry;
 
@@ -74,7 +73,7 @@ public class TraitPointsRegistryXMLParser
         ret.setCategory(category);
       }
       // Required class
-      String requiredClassesStr=DOMParsingTools.getStringAttribute(attrs,ItemXMLConstants.ITEM_REQUIRED_CLASS_ATTR,null);
+      String requiredClassesStr=DOMParsingTools.getStringAttribute(attrs,TraitPointsRegistryXMLConstants.TRAIT_POINT_REQUIRED_CLASSES_ATTR,null);
       if (requiredClassesStr!=null)
       {
         String[] requiredClasses=requiredClassesStr.split(",");
