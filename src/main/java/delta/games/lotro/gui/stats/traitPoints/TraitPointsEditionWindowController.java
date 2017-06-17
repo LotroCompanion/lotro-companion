@@ -10,9 +10,10 @@ import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 
-import delta.games.lotro.character.CharacterFile;
+import delta.games.lotro.character.CharacterSummary;
 import delta.games.lotro.gui.utils.GuiFactory;
 import delta.games.lotro.gui.utils.OKCancelPanelController;
+import delta.games.lotro.stats.traitPoints.TraitPointsStatus;
 import delta.games.lotro.utils.gui.DefaultDialogController;
 import delta.games.lotro.utils.gui.WindowController;
 
@@ -24,16 +25,19 @@ public class TraitPointsEditionWindowController extends DefaultDialogController 
 {
   private TraitPointsEditionPanelController _panelController;
   private OKCancelPanelController _okCancelController;
+  private CharacterSummary _summary;
 
   /**
    * Constructor.
    * @param parent Parent window.
-   * @param character Character.
+   * @param summary Character summary.
+   * @param status Status to edit.
    */
-  public TraitPointsEditionWindowController(WindowController parent, CharacterFile character)
+  public TraitPointsEditionWindowController(WindowController parent, CharacterSummary summary, TraitPointsStatus status)
   {
     super(parent);
-    _panelController=new TraitPointsEditionPanelController(this,character);
+    _summary=summary;
+    _panelController=new TraitPointsEditionPanelController(this,summary,status);
   }
 
   @Override
@@ -48,6 +52,9 @@ public class TraitPointsEditionWindowController extends DefaultDialogController 
       dialog.setLocationRelativeTo(parentWindow);
     }
     dialog.setMinimumSize(new Dimension(400,300));
+    String name=_summary.getName();
+    int level=_summary.getLevel();
+    dialog.setTitle("Trait points for "+name+" ("+level+")");
     return dialog;
   }
 
@@ -103,6 +110,7 @@ public class TraitPointsEditionWindowController extends DefaultDialogController 
   public void dispose()
   {
     super.dispose();
+    _summary=null;
     if (_okCancelController!=null)
     {
       _okCancelController.dispose();

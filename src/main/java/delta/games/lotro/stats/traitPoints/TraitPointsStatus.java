@@ -83,4 +83,10 @@ public class TraitPointsStatus
       _acquiredTraitPointsIds.remove(id);
     }
   }
+
+  @Override
+  public String toString()
+  {
+    return _acquiredTraitPointsIds.toString();
+  }
 }

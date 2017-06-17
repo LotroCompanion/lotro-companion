@@ -1,14 +1,13 @@
 package delta.games.lotro.gui.stats.traitPoints;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JTable;
 
 import delta.games.lotro.stats.traitPoints.TraitPoint;
-import delta.games.lotro.stats.traitPoints.TraitPointStatus;
 import delta.games.lotro.stats.traitPoints.TraitPointsStatus;
 import delta.games.lotro.utils.gui.tables.CellDataProvider;
+import delta.games.lotro.utils.gui.tables.CellDataUpdater;
 import delta.games.lotro.utils.gui.tables.DataProvider;
 import delta.games.lotro.utils.gui.tables.GenericTableController;
 import delta.games.lotro.utils.gui.tables.ListDataProvider;
@@ -24,7 +23,7 @@ public class TraitPointsTableController
   private TraitPointsStatus _pointsStatus;
   private List<TraitPoint> _points;
   // GUI
-  private GenericTableController<TraitPointStatus> _tableController;
+  private GenericTableController<TraitPoint> _tableController;
   private JTable _table;
 
   /**
@@ -37,50 +36,48 @@ public class TraitPointsTableController
     _pointsStatus=pointsStatus;
     _points=points;
     _tableController=buildTable();
+    initTable();
   }
 
-  private DataProvider<TraitPointStatus> buildDataProvider()
+  private GenericTableController<TraitPoint> buildTable()
   {
-    List<TraitPointStatus> pointStatuses=new ArrayList<TraitPointStatus>();
-    for(TraitPoint point : _points)
-    {
-      TraitPointStatus status=new TraitPointStatus(point);
-      boolean acquired=_pointsStatus.isAcquired(point.getId());
-      status.setAcquired(acquired);
-      pointStatuses.add(status);
-    }
-    DataProvider<TraitPointStatus> ret=new ListDataProvider<TraitPointStatus>(pointStatuses);
-    return ret;
-  }
-
-  private GenericTableController<TraitPointStatus> buildTable()
-  {
-    DataProvider<TraitPointStatus> provider=buildDataProvider();
-    GenericTableController<TraitPointStatus> table=new GenericTableController<TraitPointStatus>(provider);
+    DataProvider<TraitPoint> provider=new ListDataProvider<TraitPoint>(_points);
+    GenericTableController<TraitPoint> table=new GenericTableController<TraitPoint>(provider);
 
     // Acquired
     {
-      CellDataProvider<TraitPointStatus,Boolean> acquiredCell=new CellDataProvider<TraitPointStatus,Boolean>()
+      CellDataProvider<TraitPoint,Boolean> acquiredCell=new CellDataProvider<TraitPoint,Boolean>()
       {
-        public Boolean getData(TraitPointStatus item)
+        public Boolean getData(TraitPoint item)
         {
-          return Boolean.valueOf(item.isAcquired());
+          return Boolean.valueOf(_pointsStatus.isAcquired(item.getId()));
         }
       };
-      TableColumnController<TraitPointStatus,Boolean> acquiredColumn=new TableColumnController<TraitPointStatus,Boolean>("Acquired",Boolean.class,acquiredCell);
+      TableColumnController<TraitPoint,Boolean> acquiredColumn=new TableColumnController<TraitPoint,Boolean>("Acquired",Boolean.class,acquiredCell);
       acquiredColumn.setWidthSpecs(80,80,80);
+      acquiredColumn.setEditable(true);
+      acquiredColumn.setCellRenderer(new TraitPointCellRenderer());
+      CellDataUpdater<TraitPoint> acquiredCellUpdater=new CellDataUpdater<TraitPoint>()
+      {
+        public void setData(TraitPoint item, Object value)
+        {
+          boolean acquired=((Boolean)value).booleanValue();
+          _pointsStatus.setStatus(item.getId(),acquired);
+        }
+      };
+      acquiredColumn.setValueUpdater(acquiredCellUpdater);
       table.addColumnController(acquiredColumn);
     }
     // Label column
     {
-      CellDataProvider<TraitPointStatus,String> descriptionCell=new CellDataProvider<TraitPointStatus,String>()
+      CellDataProvider<TraitPoint,String> descriptionCell=new CellDataProvider<TraitPoint,String>()
       {
-        public String getData(TraitPointStatus item)
+        public String getData(TraitPoint item)
         {
-          return item.getTraitPoint().getLabel();
+          return item.getLabel();
         }
       };
-      TableColumnController<TraitPointStatus,String> labelColumn=new TableColumnController<TraitPointStatus,String>("Label",String.class,descriptionCell);
+      TableColumnController<TraitPoint,String> labelColumn=new TableColumnController<TraitPoint,String>("Label",String.class,descriptionCell);
       labelColumn.setWidthSpecs(100,-1,100);
       table.addColumnController(labelColumn);
     }
@@ -91,7 +88,7 @@ public class TraitPointsTableController
    * Get the managed table controller.
    * @return the managed table controller.
    */
-  public GenericTableController<TraitPointStatus> getTableController()
+  public GenericTableController<TraitPoint> getTableController()
   {
     return _tableController;
   }
@@ -107,6 +104,13 @@ public class TraitPointsTableController
       _table=_tableController.getTable();
     }
     return _table;
+  }
+
+  private void initTable()
+  {
+    JTable table=getTable();
+    table.setShowGrid(false);
+    table.setRowSelectionAllowed(false);
   }
 
   /**

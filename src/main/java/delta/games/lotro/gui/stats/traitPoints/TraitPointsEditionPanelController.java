@@ -2,6 +2,7 @@ package delta.games.lotro.gui.stats.traitPoints;
 
 import java.awt.BorderLayout;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.swing.JPanel;
@@ -9,7 +10,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 
-import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharacterSummary;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.gui.utils.GuiFactory;
@@ -18,6 +18,7 @@ import delta.games.lotro.stats.traitPoints.TraitPointFilter;
 import delta.games.lotro.stats.traitPoints.TraitPoints;
 import delta.games.lotro.stats.traitPoints.TraitPointsRegistry;
 import delta.games.lotro.stats.traitPoints.TraitPointsStatus;
+import delta.games.lotro.stats.traitPoints.comparators.TraitPointLabelComparator;
 import delta.games.lotro.utils.gui.WindowController;
 
 /**
@@ -31,19 +32,22 @@ public class TraitPointsEditionPanelController
   private List<String> _labels;
   private List<TraitPointsTableController> _tableControllers;
   // Data
-  private CharacterFile _character;
+  private CharacterSummary _summary;
+  private TraitPointsStatus _status;
   // GUI
   private JPanel _panel;
 
   /**
    * Constructor.
    * @param parentController Parent controller.
-   * @param character Character to edit.
+   * @param summary Character summary.
+   * @param status Status to edit.
    */
-  public TraitPointsEditionPanelController(WindowController parentController, CharacterFile character)
+  public TraitPointsEditionPanelController(WindowController parentController, CharacterSummary summary, TraitPointsStatus status)
   {
     _parent=parentController;
-    _character=character;
+    _summary=summary;
+    _status=status;
     buildTables();
   }
 
@@ -51,11 +55,10 @@ public class TraitPointsEditionPanelController
   {
     _tableControllers=new ArrayList<TraitPointsTableController>();
     _labels=new ArrayList<String>();
-    CharacterSummary summary=_character.getSummary();
-    CharacterClass characterClass=summary.getCharacterClass();
+    CharacterClass characterClass=_summary.getCharacterClass();
     TraitPointsRegistry registry=TraitPoints.get().getRegistry();
     List<TraitPoint> points=registry.getPointsForClass(characterClass);
-    TraitPointsStatus pointsStatus=TraitPoints.get().load(_character);
+    Collections.sort(points,new TraitPointLabelComparator());
 
     String[] categories={"Class", "Epic", "Quests", "Deeds"};
     for(String category : categories)
@@ -70,7 +73,7 @@ public class TraitPointsEditionPanelController
           selectedPoints.add(point);
         }
       }
-      TraitPointsTableController tableController=new TraitPointsTableController(pointsStatus,selectedPoints);
+      TraitPointsTableController tableController=new TraitPointsTableController(_status,selectedPoints);
       _tableControllers.add(tableController);
       _labels.add(category);
     }
@@ -132,6 +135,7 @@ public class TraitPointsEditionPanelController
       _tableControllers=null;
     }
     // Data
-    _character=null;
+    _summary=null;
+    _status=null;
   }
 }
