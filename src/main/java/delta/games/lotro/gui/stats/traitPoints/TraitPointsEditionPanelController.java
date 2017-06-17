@@ -31,6 +31,7 @@ public class TraitPointsEditionPanelController
   private WindowController _parent;
   private List<String> _labels;
   private List<TraitPointsTableController> _tableControllers;
+  private TraitPointsSummaryPanelController _summaryController;
   // Data
   private CharacterSummary _summary;
   private TraitPointsStatus _status;
@@ -48,6 +49,7 @@ public class TraitPointsEditionPanelController
     _parent=parentController;
     _summary=summary;
     _status=status;
+    _summaryController=new TraitPointsSummaryPanelController(_summary,_status);
     buildTables();
   }
 
@@ -60,6 +62,13 @@ public class TraitPointsEditionPanelController
     List<TraitPoint> points=registry.getPointsForClass(characterClass);
     Collections.sort(points,new TraitPointLabelComparator());
 
+    TraitPointsStatusListener listener=new TraitPointsStatusListener()
+    {
+      public void statusUpdated()
+      {
+        _summaryController.update();
+      }
+    };
     String[] categories={"Class", "Epic", "Quests", "Deeds"};
     for(String category : categories)
     {
@@ -76,6 +85,7 @@ public class TraitPointsEditionPanelController
       TraitPointsTableController tableController=new TraitPointsTableController(_status,selectedPoints);
       _tableControllers.add(tableController);
       _labels.add(category);
+      tableController.setListener(listener);
     }
   }
 
@@ -96,6 +106,10 @@ public class TraitPointsEditionPanelController
   {
     JPanel panel=GuiFactory.buildBackgroundPanel(new BorderLayout());
 
+    // Header
+    JPanel summaryPanel=_summaryController.getPanel();
+    panel.add(summaryPanel,BorderLayout.NORTH);
+    // Tables
     JTabbedPane tabbedPane=GuiFactory.buildTabbedPane();
     int nbTables=_tableControllers.size();
     for(int i=0;i<nbTables;i++)
@@ -125,6 +139,11 @@ public class TraitPointsEditionPanelController
     }
     // Controllers
     _parent=null;
+    if (_summaryController!=null)
+    {
+      _summaryController.dispose();
+      _summaryController=null;
+    }
     if (_tableControllers!=null)
     {
       for(TraitPointsTableController controller : _tableControllers)

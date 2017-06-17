@@ -22,8 +22,10 @@ public class TraitPointsTableController
   // Data
   private TraitPointsStatus _pointsStatus;
   private List<TraitPoint> _points;
-  // GUI
+  // Controllers
   private GenericTableController<TraitPoint> _tableController;
+  private TraitPointsStatusListener _listener;
+  // GUI
   private JTable _table;
 
   /**
@@ -37,6 +39,15 @@ public class TraitPointsTableController
     _points=points;
     _tableController=buildTable();
     initTable();
+  }
+
+  /**
+   * Set the listener for the managed trait points status.
+   * @param listener Listener to set.
+   */
+  public void setListener(TraitPointsStatusListener listener)
+  {
+    _listener=listener;
   }
 
   private GenericTableController<TraitPoint> buildTable()
@@ -63,6 +74,10 @@ public class TraitPointsTableController
         {
           boolean acquired=((Boolean)value).booleanValue();
           _pointsStatus.setStatus(item.getId(),acquired);
+          if (_listener!=null)
+          {
+            _listener.statusUpdated();
+          }
         }
       };
       acquiredColumn.setValueUpdater(acquiredCellUpdater);
@@ -118,13 +133,15 @@ public class TraitPointsTableController
    */
   public void dispose()
   {
-    // GUI
+    // Controllers
     if (_tableController!=null)
     {
       _tableController.dispose();
       _tableController=null;
     }
     _tableController=null;
+    _listener=null;
+    // GUI
     _table=null;
     // Data
     _pointsStatus=null;

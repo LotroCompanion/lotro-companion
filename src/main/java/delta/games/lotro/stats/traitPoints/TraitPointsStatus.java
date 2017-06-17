@@ -63,7 +63,7 @@ public class TraitPointsStatus
    */
   public static int getTraitPointsFromLevel(int characterLevel)
   {
-    int nb = Math.min(0,characterLevel - 5)/2;
+    int nb = Math.max(0,characterLevel - 5)/2;
     return nb;
   }
 
