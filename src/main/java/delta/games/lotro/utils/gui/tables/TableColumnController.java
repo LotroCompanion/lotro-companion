@@ -17,8 +17,10 @@ public class TableColumnController<POJO,VALUE>
   private String _header;
   private boolean _sortable;
   private CellDataProvider<POJO,VALUE> _valueProvider;
+  private CellDataUpdater<POJO> _valueUpdater;
   private TableCellRenderer _renderer;
   private Boolean _useToString;
+  private boolean _editable;
 
   /**
    * Constructor.
@@ -140,6 +142,24 @@ public class TableColumnController<POJO,VALUE>
   }
 
   /**
+   * Indicates if this column is editable or not.
+   * @return <code>true</code> if it is, <code>false</code> otherwise.
+   */
+  public boolean isEditable()
+  {
+    return _editable;
+  }
+
+  /**
+   * Set the 'editable' flag.
+   * @param editable <code>true</code> if it is, <code>false</code> otherwise.
+   */
+  public void setEditable(boolean editable)
+  {
+    _editable=editable;
+  }
+
+  /**
    * Indicates if the 'use to string' has been forced by the user.
    * @return A Boolean value or <code>null</code> to use defaults.
    */
@@ -182,5 +202,23 @@ public class TableColumnController<POJO,VALUE>
   public CellDataProvider<POJO,VALUE> getValueProvider()
   {
     return _valueProvider;
+  }
+
+  /**
+   * Get the cell value updater for this column.
+   * @return a cell value updater.
+   */
+  public CellDataUpdater<POJO> getValueUpdater()
+  {
+    return _valueUpdater;
+  }
+
+  /**
+   * Set the value updater.
+   * @param valueUpdater updater to set.
+   */
+  public void setValueUpdater(CellDataUpdater<POJO> valueUpdater)
+  {
+    _valueUpdater=valueUpdater;
   }
 }

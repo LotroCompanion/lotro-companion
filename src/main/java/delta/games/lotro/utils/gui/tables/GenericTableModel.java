@@ -80,4 +80,23 @@ public class GenericTableModel<POJO> extends AbstractTableModel
     }
     return ret;
   }
+
+  @Override
+  public boolean isCellEditable(int rowIndex, int columnIndex)
+  {
+    TableColumnController<POJO,?> controller=_table.getColumnController(columnIndex);
+    return controller.isEditable();
+  }
+
+  @Override
+  public void setValueAt(Object aValue, int rowIndex, int columnIndex)
+  {
+    POJO dataItem=_provider.getAt(rowIndex);
+    if (dataItem!=null)
+    {
+      TableColumnController<POJO,?> controller=_table.getColumnController(columnIndex);
+      CellDataUpdater<POJO> updater=controller.getValueUpdater();
+      updater.setData(dataItem,aValue);
+    }
+  }
 }
