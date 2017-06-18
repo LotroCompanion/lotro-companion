@@ -54,6 +54,7 @@ public class TraitPointsEditionWindowController extends DefaultDialogController 
       dialog.setLocationRelativeTo(parentWindow);
     }
     dialog.setMinimumSize(new Dimension(400,300));
+    dialog.setSize(600,dialog.getHeight());
     String name=_summary.getName();
     int level=_summary.getLevel();
     dialog.setTitle("Trait points for "+name+" ("+level+")");
