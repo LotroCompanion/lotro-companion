@@ -26,6 +26,7 @@ public class TraitPointsEditionWindowController extends DefaultDialogController 
   private TraitPointsEditionPanelController _panelController;
   private OKCancelPanelController _okCancelController;
   private CharacterSummary _summary;
+  private TraitPointsStatus _status;
 
   /**
    * Constructor.
@@ -37,7 +38,8 @@ public class TraitPointsEditionWindowController extends DefaultDialogController 
   {
     super(parent);
     _summary=summary;
-    _panelController=new TraitPointsEditionPanelController(this,summary,status);
+    _status=status;
+    _panelController=new TraitPointsEditionPanelController(summary,status);
   }
 
   @Override
@@ -91,16 +93,29 @@ public class TraitPointsEditionWindowController extends DefaultDialogController 
     }
   }
 
+  /**
+   * Show edition dialog.
+   * @return the newly edited status or <code>null</code> if canceled.
+   */
+  public TraitPointsStatus showDialog()
+  {
+    show(true);
+    TraitPointsStatus value=_status;
+    if (value!=null)
+    {
+      dispose();
+      return value;
+    }
+    return null;
+  }
+
   private void ok()
   {
-    System.out.println("ok");
-    // TODO
-    dispose();
+    getDialog().setVisible(false);
   }
 
   private void cancel()
   {
-    System.out.println("cancel");
     dispose();
   }
 
@@ -111,6 +126,7 @@ public class TraitPointsEditionWindowController extends DefaultDialogController 
   {
     super.dispose();
     _summary=null;
+    _status=null;
     if (_okCancelController!=null)
     {
       _okCancelController.dispose();

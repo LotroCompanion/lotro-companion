@@ -32,10 +32,13 @@ import delta.games.lotro.gui.character.stash.StashWindowController;
 import delta.games.lotro.gui.log.CharacterLogWindowController;
 import delta.games.lotro.gui.stats.crafting.CraftingWindowController;
 import delta.games.lotro.gui.stats.reputation.CharacterReputationWindowController;
+import delta.games.lotro.gui.stats.traitPoints.TraitPointsEditionWindowController;
 import delta.games.lotro.gui.utils.GuiFactory;
 import delta.games.lotro.gui.utils.toolbar.ToolbarController;
 import delta.games.lotro.gui.utils.toolbar.ToolbarIconItem;
 import delta.games.lotro.gui.utils.toolbar.ToolbarModel;
+import delta.games.lotro.stats.traitPoints.TraitPoints;
+import delta.games.lotro.stats.traitPoints.TraitPointsStatus;
 import delta.games.lotro.utils.gui.DefaultWindowController;
 import delta.games.lotro.utils.gui.WindowController;
 import delta.games.lotro.utils.gui.WindowsManager;
@@ -56,6 +59,7 @@ public class CharacterFileWindowController extends DefaultWindowController imple
   private static final String REPUTATION_COMMAND="reputation";
   private static final String CRAFTING_COMMAND="crafting";
   private static final String STASH_COMMAND="stash";
+  private static final String TRAIT_POINTS_COMMAND="traitPoints";
 
   private CharacterSummaryPanelController _summaryController;
   private CharacterDataTableController _toonsTable;
@@ -152,6 +156,10 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     JButton stashButton=buildCommandButton("Stash",STASH_COMMAND);
     panel.add(stashButton,c);
     c.gridx++;
+    // Trait points
+    JButton traitPointsButton=buildCommandButton("Trait points",TRAIT_POINTS_COMMAND);
+    panel.add(traitPointsButton,c);
+    c.gridx++;
 
     // Disable buttons if no log
     boolean hasLog=_toon.hasLog();
@@ -224,18 +232,11 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     }
     else if (STASH_COMMAND.equals(command))
     {
-      // Crafting
-      String serverName=_toon.getServerName();
-      String toonName=_toon.getName();
-      String id=StashWindowController.getIdentifier(serverName,toonName);
-      WindowController controller=_windowsManager.getWindow(id);
-      if (controller==null)
-      {
-        controller=new StashWindowController(_toon);
-        _windowsManager.registerWindow(controller);
-        controller.getWindow().setLocationRelativeTo(getFrame());
-      }
-      controller.bringToFront();
+      showStash();
+    }
+    else if (TRAIT_POINTS_COMMAND.equals(command))
+    {
+      editTraitPoints();
     }
     else if (NEW_TOON_DATA_ID.equals(command))
     {
@@ -440,6 +441,34 @@ public class CharacterFileWindowController extends DefaultWindowController imple
           CharacterEventsManager.invokeEvent(CharacterEventType.CHARACTER_DATA_REMOVED,event);
         }
       }
+    }
+  }
+
+  private void showStash()
+  {
+    // Stash
+    String serverName=_toon.getServerName();
+    String toonName=_toon.getName();
+    String id=StashWindowController.getIdentifier(serverName,toonName);
+    WindowController controller=_windowsManager.getWindow(id);
+    if (controller==null)
+    {
+      controller=new StashWindowController(_toon);
+      _windowsManager.registerWindow(controller);
+      controller.getWindow().setLocationRelativeTo(getFrame());
+    }
+    controller.bringToFront();
+  }
+
+  private void editTraitPoints()
+  {
+    CharacterSummary summary=_toon.getSummary();
+    TraitPointsStatus pointsStatus=TraitPoints.get().load(_toon);
+    TraitPointsEditionWindowController controller=new TraitPointsEditionWindowController(this,summary,pointsStatus);
+    TraitPointsStatus newStatus=controller.showDialog();
+    if (newStatus!=null)
+    {
+      TraitPoints.get().save(_toon,newStatus);
     }
   }
 

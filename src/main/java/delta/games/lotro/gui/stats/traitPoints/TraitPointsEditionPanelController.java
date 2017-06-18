@@ -19,7 +19,6 @@ import delta.games.lotro.stats.traitPoints.TraitPoints;
 import delta.games.lotro.stats.traitPoints.TraitPointsRegistry;
 import delta.games.lotro.stats.traitPoints.TraitPointsStatus;
 import delta.games.lotro.stats.traitPoints.comparators.TraitPointLabelComparator;
-import delta.games.lotro.utils.gui.WindowController;
 
 /**
  * Controller for a trait points edition panel.
@@ -28,7 +27,6 @@ import delta.games.lotro.utils.gui.WindowController;
 public class TraitPointsEditionPanelController
 {
   // Controllers
-  private WindowController _parent;
   private List<String> _labels;
   private List<TraitPointsTableController> _tableControllers;
   private TraitPointsSummaryPanelController _summaryController;
@@ -40,13 +38,11 @@ public class TraitPointsEditionPanelController
 
   /**
    * Constructor.
-   * @param parentController Parent controller.
    * @param summary Character summary.
    * @param status Status to edit.
    */
-  public TraitPointsEditionPanelController(WindowController parentController, CharacterSummary summary, TraitPointsStatus status)
+  public TraitPointsEditionPanelController(CharacterSummary summary, TraitPointsStatus status)
   {
-    _parent=parentController;
     _summary=summary;
     _status=status;
     _summaryController=new TraitPointsSummaryPanelController(_summary,_status);
@@ -138,7 +134,6 @@ public class TraitPointsEditionPanelController
       _panel=null;
     }
     // Controllers
-    _parent=null;
     if (_summaryController!=null)
     {
       _summaryController.dispose();
