@@ -150,7 +150,7 @@ public class VirtueEditionUiController implements ActionListener
     button.setSize(15,15);
     button.setMargin(new Insets(1,1,1,1));
     button.setContentAreaFilled(false);
-    button.setBorderPainted(false);
+    button.setBorderPainted(true);
     button.addActionListener(this);
     return button;
   }
