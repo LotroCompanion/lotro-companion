@@ -120,7 +120,7 @@ public class NewToonDialogController extends DefaultDialogController implements 
     panel.add(GuiFactory.buildLabel("Class:"),gbc);
     gbc.gridx=0; gbc.gridy=3;
     panel.add(GuiFactory.buildLabel("Race:"),gbc);
-    gbc.gridx=1; gbc.gridy=0; 
+    gbc.gridx=1; gbc.gridy=0;
     gbc.weightx=1.0; gbc.fill=GridBagConstraints.HORIZONTAL;
     panel.add(_toonName,gbc);
     gbc.gridx=1; gbc.gridy=1;

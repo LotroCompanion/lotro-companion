@@ -39,7 +39,7 @@ public class AboutPanelController
 
     int x=0;
     int y=0;
-    
+
     // Icon (if any)
     String iconPath="/resources/gui/ring/ring48.png";
     Image icon=IconsManager.getImage(iconPath);
@@ -48,7 +48,7 @@ public class AboutPanelController
     JLabel lbIcon=new JLabel(imageIcon);
     panel.add(lbIcon,c);
     x++;
-    
+
     // Project name
     JLabel lbName=new JLabel("LotRO Companion");
     lbName.setFont(lbName.getFont().deriveFont(Font.BOLD,36));
@@ -83,7 +83,7 @@ public class AboutPanelController
     c=new GridBagConstraints(0,y,2,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(5,5,5,5),0,0);
     panel.add(contributorsPanel,c);
     y++;
-    
+
     return panel;
   }
 
@@ -174,7 +174,7 @@ public class AboutPanelController
     ImageIcon imageIcon=new ImageIcon(icon);
     JLabel lbIcon=new JLabel(imageIcon);
     panel.add(lbIcon,c);
-    
+
     return panel;
   }
 
@@ -193,7 +193,7 @@ public class AboutPanelController
     JLabel lbIcon=new JLabel(imageIcon);
     panel.add(lbIcon,c);
     x++;
-    
+
     // Toon name
     JLabel lbName=new JLabel(toonName);
     lbName.setFont(lbName.getFont().deriveFont(Font.BOLD,36));
@@ -207,7 +207,7 @@ public class AboutPanelController
     c=new GridBagConstraints(x,y,1,1,1.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(5,5,5,5),0,0);
     panel.add(contribLabel,c);
     y++;
-    
+
     return panel;
   }
 

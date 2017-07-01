@@ -18,7 +18,7 @@ public class WarbandStats
   private Long _lastDate;
   private List<Long> _dates;
   private int _nbTimes;
-  
+
   /**
    * Constructor.
    * @param definition Definition of the associated warband.
@@ -72,7 +72,7 @@ public class WarbandStats
 
   /**
    * Get the number of quest completion for this warband.
-   * @return A number. 
+   * @return A number.
    */
   public int getNumberOfTimes()
   {

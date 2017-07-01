@@ -16,7 +16,7 @@ import delta.games.lotro.utils.TypedProperties;
 public class Config
 {
   private static Config _instance=new Config();
-  
+
   private File _rootDataDir;
   private File _configDir;
   private TypedProperties _parameters;
@@ -86,7 +86,7 @@ public class Config
 
   private void loadServers()
   {
-    File serversFiles=new File(_configDir,"servers.txt"); 
+    File serversFiles=new File(_configDir,"servers.txt");
     List<String> servers=TextUtils.readAsLines(serversFiles,EncodingNames.UTF_8);
     if (servers!=null)
     {

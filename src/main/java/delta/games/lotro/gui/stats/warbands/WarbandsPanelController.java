@@ -37,7 +37,7 @@ public class WarbandsPanelController
   private MultipleToonsWarbandsStats _stats;
   // GUI
   private JPanel _panel;
-  
+
   /**
    * Constructor.
    * @param parentController Parent controller.
@@ -64,7 +64,7 @@ public class WarbandsPanelController
     }
     return _panel;
   }
-  
+
   private void doChooseToons()
   {
     CharactersManager manager=CharactersManager.getInstance();
@@ -120,7 +120,7 @@ public class WarbandsPanelController
     TitledBorder filterBorder=GuiFactory.buildTitledBorder("Filter");
     filterPanel.setBorder(filterBorder);
     panel.add(filterPanel,c);
-    
+
     // Choose toons button
     JButton chooser=GuiFactory.buildButton("Choose characters...");
     ActionListener al=new ActionListener()
@@ -141,7 +141,7 @@ public class WarbandsPanelController
     JPanel panel=GuiFactory.buildPanel(new BorderLayout());
     TitledBorder logFrameBorder=GuiFactory.buildTitledBorder("Warbands");
     panel.setBorder(logFrameBorder);
-    
+
     // Table
     JTable table=_tableController.getTable();
     JScrollPane scroll=GuiFactory.buildScrollPane(table);

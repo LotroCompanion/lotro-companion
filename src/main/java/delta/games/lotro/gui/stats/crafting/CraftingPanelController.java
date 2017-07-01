@@ -26,7 +26,7 @@ public class CraftingPanelController
   private CraftingHistoryChartController _history;
   // Data
   private ProfessionStat _stats;
-  
+
   /**
    * Constructor.
    * @param stats Profession stats to display.
@@ -48,11 +48,11 @@ public class CraftingPanelController
     }
     return _panel;
   }
-  
+
   private JPanel buildPanel()
   {
     JPanel panel=GuiFactory.buildBackgroundPanel(new GridBagLayout());
-    
+
     // Mastery label
     int masteryTier=_stats.getMasteryTier();
     CraftingLevel mastery=CraftingLevel.getByTier(masteryTier);
@@ -78,10 +78,10 @@ public class CraftingPanelController
     panel.add(labelsPanel,c);
     GridBagConstraints c2=new GridBagConstraints(0,1,1,1,1.0,1.0,GridBagConstraints.CENTER,GridBagConstraints.BOTH,new Insets(5,10,5,10),0,0);
     panel.add(historyPanel,c2);
-    
+
     return panel;
   }
-  
+
   /**
    * Release all managed resources.
    */

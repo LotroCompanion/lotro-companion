@@ -29,7 +29,7 @@ public class ReputationStats
   private String _name;
   private HashMap<Faction,FactionStat> _stats;
   private HashMap<String,FactionLevel> _seeds;
-  
+
   /**
    * Constructor.
    * @param toonName Character name.
@@ -96,12 +96,12 @@ public class ReputationStats
     _seeds.put("Kindred with",FactionLevel.KINDRED);
     _seeds.put("Kindred of",FactionLevel.KINDRED);
   }
-  
+
   private void handleItem(long date, String label)
   {
     Faction faction=null;
     FactionLevel level=null;
-    
+
     // Handle generic seeds
     for(Map.Entry<String,FactionLevel> entry : _seeds.entrySet())
     {
@@ -121,8 +121,8 @@ public class ReputationStats
         }
       }
     }
-    
-    // Handle "Ale Association" specificly 
+
+    // Handle "Ale Association" specificly
     if (label.startsWith(ALE_ASSOCIATION_SEED))
     {
       faction=Factions.getInstance().getByName("Ale Association");
@@ -136,7 +136,7 @@ public class ReputationStats
       faction=Factions.getInstance().getByName("Ale Association");
       level=FactionLevel.KINDRED;
     }
-    // Kindred with Eglain is "Eglan" 
+    // Kindred with Eglain is "Eglan"
     else if (label.equals("Eglan"))
     {
       faction=Factions.getInstance().getByName("Eglain");
@@ -148,7 +148,7 @@ public class ReputationStats
       level=FactionLevel.KINDRED;
     }
     // TODO Inn League
-    
+
     if ((faction!=null) && (level!=null))
     {
       FactionStat stat=_stats.get(faction);

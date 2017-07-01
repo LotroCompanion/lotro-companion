@@ -357,7 +357,7 @@ public class GuiFactory
     }
     return scrollPane;
   }
-  
+
   /**
    * Get a new tabbed pane.
    * @return a new tabbed pane.
@@ -369,7 +369,7 @@ public class GuiFactory
     tabbedPane.setForeground(FOREGROUND);
     return tabbedPane;
   }
-  
+
   /**
    * Get a new menu bar.
    * @return a new menu bar.
@@ -381,7 +381,7 @@ public class GuiFactory
     mb.setBackground(BACKGROUND);
     return mb;
   }
-  
+
   /**
    * Get a new menu using the given text.
    * @param label Text to use.
@@ -394,7 +394,7 @@ public class GuiFactory
     menu.setBackground(BACKGROUND);
     return menu;
   }
-  
+
   /**
    * Get a new menu item using the given text.
    * @param label Text to use.

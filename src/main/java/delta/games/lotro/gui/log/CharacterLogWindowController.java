@@ -68,7 +68,6 @@ public class CharacterLogWindowController extends DefaultWindowController
     frame.setMinimumSize(new Dimension(400,300));
     return frame;
   }
-  
 
   @Override
   public String getWindowIdentifier()

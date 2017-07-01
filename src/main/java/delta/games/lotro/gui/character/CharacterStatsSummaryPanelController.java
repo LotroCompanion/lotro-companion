@@ -111,7 +111,7 @@ public class CharacterStatsSummaryPanelController implements CharacterEventListe
     JButton details=GuiFactory.buildButton("Details...");
     ActionListener al=new ActionListener()
     {
-      
+
       public void actionPerformed(ActionEvent e)
       {
         doDetails();

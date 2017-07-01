@@ -35,10 +35,10 @@ public class MainTestEquipmentLoading
         JPanel panel=ctrl.getPanel();
         JFrame frame=new JFrame("Equipment for "+toon.getName());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
- 
+
         //Create and set up the content pane.
         frame.setContentPane(panel);
- 
+
         //Display the window.
         frame.pack();
         frame.setVisible(true);

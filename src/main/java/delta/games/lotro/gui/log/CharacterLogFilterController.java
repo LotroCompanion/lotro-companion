@@ -189,12 +189,12 @@ public class CharacterLogFilterController implements ItemListener
         {
           doIt();
         }
-        
+
         public void insertUpdate(DocumentEvent e)
         {
           doIt();
         }
-        
+
         public void changedUpdate(DocumentEvent e)
         {
           doIt();
@@ -284,7 +284,6 @@ public class CharacterLogFilterController implements ItemListener
   }
 
   public void itemStateChanged(ItemEvent e) {
-    
     Set<LogItemType> types=new HashSet<LogItemType>();
     for(Map.Entry<LogItemType,JCheckBox> entry : _types.entrySet())
     {

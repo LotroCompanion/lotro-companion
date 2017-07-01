@@ -33,7 +33,7 @@ public class MainTestLevellingStats
     {
       stats.addToon(toon);
     }
-    
+
     JFrame f=new JFrame();
     CharacterLevelChartController controller=new CharacterLevelChartController(stats);
     JPanel panel=controller.getPanel();

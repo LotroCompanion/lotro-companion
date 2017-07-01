@@ -63,7 +63,7 @@ public class CraftingWindowController extends DefaultWindowController
     String vocation=_stats.getVocation();
     String vocationStr="Vocation: "+((vocation!=null)?vocation:"-");
     JLabel vocationLabel=GuiFactory.buildLabel(vocationStr);
-    
+
     JComponent centerComponent=null;
     String[] professions=_stats.getProfessions();
     if ((professions!=null) && (professions.length>0))
@@ -90,7 +90,7 @@ public class CraftingWindowController extends DefaultWindowController
     panel.add(centerComponent,c2);
     return panel;
   }
-  
+
   @Override
   protected JFrame build()
   {

@@ -187,7 +187,7 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     String command=e.getActionCommand();
     if (LOG_COMMAND.equals(command))
     {
-      // Show log 
+      // Show log
       String serverName=_toon.getServerName();
       String toonName=_toon.getName();
       String id=CharacterLogWindowController.getIdentifier(serverName,toonName);

@@ -107,7 +107,7 @@ public class CharacterLevelChartController
     Color foregroundColor=GuiFactory.getForegroundColor();
     Paint backgroundPaint=GuiFactory.getBackgroundPaint();
     jfreechart.setBackgroundPaint(backgroundPaint);
-    
+
     TextTitle t=new TextTitle(title);
     t.setFont(t.getFont().deriveFont(24.0f));
     t.setPaint(foregroundColor);
@@ -115,7 +115,7 @@ public class CharacterLevelChartController
 
     XYPlot plot = jfreechart.getXYPlot();
     plot.setDomainPannable(false);
-    
+
     XYToolTipGenerator tooltip=new StandardXYToolTipGenerator() {
       @Override
       public String generateLabelString(XYDataset dataset, int series, int item)
@@ -237,14 +237,14 @@ public class CharacterLevelChartController
 
   private XYSeriesCollection createDataset()
   {
-    XYSeriesCollection data=new XYSeriesCollection();  
+    XYSeriesCollection data=new XYSeriesCollection();
     List<CharacterFile> toons=_stats.getToonsList();
     for(CharacterFile toon : toons)
     {
       addSeriesForToon(data,toon);
     }
-    return data;  
-  }  
+    return data;
+  }
 
   private void addSeriesForToon(XYSeriesCollection data, CharacterFile toon)
   {

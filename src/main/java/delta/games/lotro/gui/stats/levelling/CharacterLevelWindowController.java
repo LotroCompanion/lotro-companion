@@ -58,7 +58,7 @@ public class CharacterLevelWindowController extends DefaultWindowController
     JPanel panel=_levellingPanelController.getPanel();
     return panel;
   }
-  
+
   /**
    * Get the window identifier for this window.
    * @return A window identifier.

@@ -24,7 +24,7 @@ public class CharacterSummaryPanelController
   private CharacterSummary _summary;
   private JLabel _nameLabel;
   private JLabel _levelLabel;
-  
+
   /**
    * Constructor.
    * @param summary Summary of toon to display.
@@ -46,7 +46,7 @@ public class CharacterSummaryPanelController
     }
     return _panel;
   }
-  
+
   private JPanel buildPanel()
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());

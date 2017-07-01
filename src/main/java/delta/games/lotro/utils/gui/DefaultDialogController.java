@@ -81,7 +81,7 @@ public class DefaultDialogController implements WindowController
     {
       parentWindow=_parent.getWindow();
     }
-    
+
     JDialog dialog;
     if (parentWindow!=null)
     {

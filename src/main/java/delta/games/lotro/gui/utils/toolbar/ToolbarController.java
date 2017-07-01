@@ -86,7 +86,7 @@ public class ToolbarController implements ActionListener
         _toolBar.addSeparator();
       }
     }
-    
+
     _toolBar.add(Box.createHorizontalGlue());
   }
 
@@ -109,7 +109,7 @@ public class ToolbarController implements ActionListener
       button.setToolTipText(toolTipText);
     }
     button.addActionListener(this);
-  
+
     Icon icon=null;
     String iconPath=item.getIconPath();
     if (iconPath!=null)

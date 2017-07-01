@@ -14,7 +14,7 @@ import java.util.HashMap;
 public class WindowsManager
 {
   private HashMap<String,WindowController> _controllers;
-  
+
   /**
    * Constructor.
    */
@@ -49,7 +49,7 @@ public class WindowsManager
   public class WindowTracker extends WindowAdapter
   {
     private String _id;
-    
+
     /**
      * Constructor.
      * @param id Window identifier.

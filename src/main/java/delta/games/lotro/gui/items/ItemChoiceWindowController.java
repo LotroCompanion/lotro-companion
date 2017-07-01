@@ -81,7 +81,6 @@ public class ItemChoiceWindowController extends DefaultDialogController
     dialog.setSize(1000,dialog.getHeight());
     return dialog;
   }
-  
 
   @Override
   public String getWindowIdentifier()

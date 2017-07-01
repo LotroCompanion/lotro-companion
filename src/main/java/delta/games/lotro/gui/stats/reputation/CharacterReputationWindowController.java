@@ -50,7 +50,7 @@ public class CharacterReputationWindowController extends DefaultWindowController
     JPanel panel=_reputationPanelController.getPanel();
     return panel;
   }
-  
+
   @Override
   protected JFrame build()
   {

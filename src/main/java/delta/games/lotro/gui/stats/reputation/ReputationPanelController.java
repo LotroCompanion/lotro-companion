@@ -37,7 +37,7 @@ public class ReputationPanelController
   private ReputationStats _stats;
   private List<Faction> _factions;
   private List<Faction> _worldRenownedFactions;
-  
+
   /**
    * Constructor.
    * @param stats Reputation stats to display.
@@ -60,14 +60,14 @@ public class ReputationPanelController
     }
     return _panel;
   }
-  
+
   private JPanel buildPanel()
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
 
     GridBagConstraints cLabel=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
     GridBagConstraints cBar=new GridBagConstraints(1,0,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(5,5,5,5),0,0);
-    
+
     JLabel assessment=new JLabel("Reputation assessment:");
     assessment.setToolTipText("Assessment of reputation based on recorded character log deed items. It may be wrong sometimes!");
     GridBagConstraints cTitle=new GridBagConstraints(0,0,1,1,0.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(5,5,5,5),0,0);
@@ -125,14 +125,14 @@ public class ReputationPanelController
     worldRenowned.setToolTipText("Status for the 'World Renowned' deed");
     GridBagConstraints cWR=new GridBagConstraints(1,0,1,1,0,0,GridBagConstraints.EAST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
     panel.add(worldRenowned,cWR);
-    
+
     return panel;
   }
-  
+
   private void init()
   {
     File cfgDir=Config.getInstance().getConfigDir();
-    File factionFiles=new File(cfgDir,"reputation-order.txt"); 
+    File factionFiles=new File(cfgDir,"reputation-order.txt");
     List<String> lines=TextUtils.readAsLines(factionFiles,EncodingNames.UTF_8);
     _factions=new ArrayList<Faction>();
     _worldRenownedFactions=new ArrayList<Faction>();

@@ -66,7 +66,7 @@ public class WarbandsWindowController extends DefaultWindowController
     JPanel panel=_warbandsStatisticsPanelController.getPanel();
     return panel;
   }
-  
+
   @Override
   protected JFrame build()
   {

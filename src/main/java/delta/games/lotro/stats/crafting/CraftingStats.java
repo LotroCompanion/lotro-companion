@@ -30,7 +30,7 @@ public class CraftingStats
   private String _name;
   private String _vocation;
   private HashMap<String,ProfessionStat> _stats;
-  
+
   /**
    * Constructor.
    * @param toonName Character name.
@@ -134,8 +134,8 @@ public class CraftingStats
     // Advanced 'Woodworker' (Mastery 6 / Proficiency 5)
     try
     {
-      String profession=TextTools.findBetween(label,"'","'").trim(); 
-      String masteryStr=TextTools.findBetween(label,"Mastery","/").trim(); 
+      String profession=TextTools.findBetween(label,"'","'").trim();
+      String masteryStr=TextTools.findBetween(label,"Mastery","/").trim();
       String proficiencyStr=TextTools.findBetween(label,"Proficiency",")").trim();
       // Labels are wrong in the character log
       // Proficiency is the brown anvil, mastery is the yellow anvil

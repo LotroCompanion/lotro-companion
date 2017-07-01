@@ -80,7 +80,7 @@ public class WarbandsTableController
     JPanel emptyHeaderPanel=GuiFactory.buildBackgroundPanel(new GridBagLayout());
     _headerPanels.put("",emptyHeaderPanel);
     _warbandPanels=new HashMap<String,JPanel>();
-    
+
     for(WarbandDefinition warband : _warbands)
     {
       JPanel warbandPanel=buildWarbandPanel(warband);
@@ -374,7 +374,7 @@ public class WarbandsTableController
     TableColumn warbandColumn=statsTable.getColumnModel().getColumn(0);
     warbandColumn.setMinWidth(warbandColumnWidth+10);
     warbandColumn.setPreferredWidth(warbandColumnWidth+10);
-    
+
     // Sorting
     _guiFilter=new RowFilter<WarbandsTableModel,Integer>()
     {
@@ -389,7 +389,7 @@ public class WarbandsTableController
     };
     _sorter=new TableRowSorter<WarbandsTableModel>(_model);
     _sorter.setRowFilter(_guiFilter);
-    
+
     // Comparators setup
     Comparator<WarbandStats> statsComparator=new Comparator<WarbandStats>() {
       public int compare(WarbandStats w1, WarbandStats w2)

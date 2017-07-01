@@ -43,7 +43,7 @@ public class CharactersSelectorPanelController implements ItemListener
   private int _nbPreferredNbItemsPerColumn;
   // Listeners
   private ListenersManager<CharacterSelectionChangedListener> _listeners;
-  
+
   /**
    * Constructor.
    * @param toons Managed toons.
@@ -111,7 +111,7 @@ public class CharactersSelectorPanelController implements ItemListener
   }
 
   /**
-   * Get the 'character selection change' listeners manager. 
+   * Get the 'character selection change' listeners manager.
    * @return A listeners manager.
    */
   public ListenersManager<CharacterSelectionChangedListener> getListenersManager()
@@ -236,14 +236,14 @@ public class CharactersSelectorPanelController implements ItemListener
     }
     return _panel;
   }
-  
+
   private JPanel buildPanel()
   {
     _panel=GuiFactory.buildPanel(new GridBagLayout());
     refresh();
     return _panel;
   }
-  
+
   /**
    * Refresh the managed panel (to synchronize with new/removed toons).
    */

@@ -93,15 +93,15 @@ public class CraftingHistoryChartController
       title=_stats.getProfession();
     }
     XYDataset xydataset=createDataset();
-    JFreeChart jfreechart = ChartFactory.createXYStepChart(title,   
-                        "Time",   
-                        "Tier",   
-                        xydataset,   
-                        PlotOrientation.VERTICAL,   
-                        true,   
-                        true,   
-                        false);  
-      
+    JFreeChart jfreechart = ChartFactory.createXYStepChart(title,
+                        "Time",
+                        "Tier",
+                        xydataset,
+                        PlotOrientation.VERTICAL,
+                        true,
+                        true,
+                        false);
+
     Color foregroundColor=GuiFactory.getForegroundColor();
     Paint backgroundPaint=GuiFactory.getBackgroundPaint();
     jfreechart.setBackgroundPaint(backgroundPaint);
@@ -109,9 +109,9 @@ public class CraftingHistoryChartController
     t.setFont(t.getFont().deriveFont(24.0f));
     t.setPaint(foregroundColor);
     jfreechart.setTitle(t);
-    XYPlot xyplot = (XYPlot)jfreechart.getPlot();  
+    XYPlot xyplot = (XYPlot)jfreechart.getPlot();
     xyplot.setDomainPannable(false);
-    XYStepAreaRenderer xysteparearenderer = new XYStepAreaRenderer(XYStepAreaRenderer.AREA_AND_SHAPES);  
+    XYStepAreaRenderer xysteparearenderer = new XYStepAreaRenderer(XYStepAreaRenderer.AREA_AND_SHAPES);
     XYToolTipGenerator tooltip=new StandardXYToolTipGenerator() {
       @Override
       public String generateLabelString(XYDataset dataset, int series, int item)
@@ -144,7 +144,7 @@ public class CraftingHistoryChartController
     xysteparearenderer.setBaseToolTipGenerator(tooltip);
     xysteparearenderer.setSeriesPaint(0,new Color(255,235,31));
     xysteparearenderer.setSeriesPaint(1,new Color(130,80,57));
-    xyplot.setRenderer(xysteparearenderer);  
+    xyplot.setRenderer(xysteparearenderer);
 
     DateAxis axis = (DateAxis) xyplot.getDomainAxis();
     SimpleDateFormat sdf=Formats.getDateFormatter();
@@ -190,16 +190,16 @@ public class CraftingHistoryChartController
     LegendTitle legend=jfreechart.getLegend();
     legend.setItemPaint(foregroundColor);
     legend.setBackgroundPaint(backgroundPaint);
-    
+
     return jfreechart;
-  }  
+  }
 
   private XYDataset createDataset()
   {
-    XYSeriesCollection data = new XYSeriesCollection();  
+    XYSeriesCollection data = new XYSeriesCollection();
 
     Long lastItemDate=_stats.getLastLogItemDate();
-    
+
     XYSeries proficiencySeries = new XYSeries("Proficiency");
     CraftingLevel maxLevel=CraftingLevel.getMaximumLevel();
     int maxTier=maxLevel.getTier();
@@ -208,16 +208,16 @@ public class CraftingHistoryChartController
       Long date=_stats.getProficiencyTierDate(i);
       if (date!=null)
       {
-        proficiencySeries.add(date.longValue(),i);  
+        proficiencySeries.add(date.longValue(),i);
       }
     }
-    XYSeries masterySeries = new XYSeries("Mastery");  
+    XYSeries masterySeries = new XYSeries("Mastery");
     for(int i=0;i<=maxTier;i++)
     {
       Long date=_stats.getMasteryTierDate(i);
       if (date!=null)
       {
-        masterySeries.add(date.longValue(),i);  
+        masterySeries.add(date.longValue(),i);
       }
     }
 
@@ -229,11 +229,11 @@ public class CraftingHistoryChartController
       int currentMastery=_stats.getMasteryTier();
       masterySeries.add(lastItemDate.longValue(),currentMastery);
     }
-    
+
     data.addSeries(masterySeries);
     data.addSeries(proficiencySeries);
-    return data;  
-  }  
+    return data;
+  }
 
   /**
    * Release all managed resources.

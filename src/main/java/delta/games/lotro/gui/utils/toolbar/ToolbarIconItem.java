@@ -11,7 +11,7 @@ public class ToolbarIconItem implements ToolbarItem
   private String _actionId;
   private String _tooltip;
   private String _alternativeText;
-  
+
   /**
    * Constructor.
    * @param itemId Item identifier.
@@ -48,7 +48,7 @@ public class ToolbarIconItem implements ToolbarItem
   }
 
   /**
-   * Get the action identifier. 
+   * Get the action identifier.
    * @return an action identifier or <code>null</code>.
    */
   public String getActionId()
@@ -57,7 +57,7 @@ public class ToolbarIconItem implements ToolbarItem
   }
 
   /**
-   * Get the tooltip. 
+   * Get the tooltip.
    * @return a tooltip or <code>null</code>.
    */
   public String getTooltip()
@@ -66,14 +66,14 @@ public class ToolbarIconItem implements ToolbarItem
   }
 
   /**
-   * Get the alternative text. 
+   * Get the alternative text.
    * @return a string or <code>null</code>.
    */
   public String getAlternativeText()
   {
     return _alternativeText;
   }
-  
+
   @Override
   public String toString()
   {

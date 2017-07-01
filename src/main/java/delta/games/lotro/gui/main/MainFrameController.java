@@ -39,7 +39,7 @@ public class MainFrameController extends DefaultWindowController implements Acti
 {
   private static final String LEVELLING_ID="levelling";
   private static final String WARBANDS_ID="warbands";
-  
+
   private ToolbarController _toolbar;
   private ToonsManagementController _toonsManager;
   private WindowsManager _windowsManager;
@@ -91,7 +91,7 @@ public class MainFrameController extends DefaultWindowController implements Acti
     levellingStats.setActionCommand(LEVELLING_ID);
     levellingStats.addActionListener(this);
     statsMenu.add(levellingStats);
-    
+
     // Help
     JMenu helpMenu=GuiFactory.buildMenu("Help");
     // - about
@@ -105,7 +105,7 @@ public class MainFrameController extends DefaultWindowController implements Acti
     };
     aboutMenuItem.addActionListener(alAbout);
     helpMenu.add(aboutMenuItem);
-    
+
     JMenuBar menuBar=GuiFactory.buildMenuBar();
     menuBar.add(fileMenu);
     menuBar.add(statsMenu);
@@ -209,7 +209,6 @@ public class MainFrameController extends DefaultWindowController implements Acti
       w.setLocationRelativeTo(thisFrame);
       Point p=w.getLocation();
       w.setLocation(p.x+100,p.y+100);
-      
     }
     controller.bringToFront();
   }

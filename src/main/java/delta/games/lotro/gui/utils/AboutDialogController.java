@@ -44,7 +44,7 @@ public class AboutDialogController extends DefaultDialogController
     //dialog.setMinimumSize(new Dimension(400,300));
     return dialog;
   }
-  
+
   /**
    * Get the window identifier for a given toon.
    * @return A window identifier.

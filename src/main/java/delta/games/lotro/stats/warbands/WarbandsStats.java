@@ -26,7 +26,7 @@ public class WarbandsStats
 
   private String _name;
   private HashMap<String,WarbandStats> _stats;
-  
+
   /**
    * Constructor.
    * @param log Character log to use.

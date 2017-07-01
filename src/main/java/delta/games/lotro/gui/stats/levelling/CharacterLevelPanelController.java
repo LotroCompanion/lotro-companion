@@ -36,7 +36,7 @@ public class CharacterLevelPanelController implements CharacterSelectionChangedL
   private CharactersSelectorPanelController _toonSelectionController;
   // Data
   private MultipleToonsLevellingStats _stats;
-  
+
   /**
    * Constructor.
    * @param parentController Parent window controller.
@@ -60,11 +60,11 @@ public class CharacterLevelPanelController implements CharacterSelectionChangedL
     }
     return _panel;
   }
-  
+
   private JPanel buildPanel()
   {
     JPanel panel=GuiFactory.buildBackgroundPanel(new BorderLayout());
-    
+
     _chartController=new CharacterLevelChartController(_stats);
     JPanel chartPanel=_chartController.getPanel();
     panel.add(chartPanel,BorderLayout.CENTER);
@@ -79,13 +79,13 @@ public class CharacterLevelPanelController implements CharacterSelectionChangedL
         _toonSelectionController.setToonSelected(toon,true);
         _toonSelectionController.setToonEnabled(toon,true);
       }
-      
+
       _toonSelectionController.setGridConfiguration(1,10);
       JPanel selectionPanel=_toonSelectionController.getPanel();
       GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
       toonsControlPanel.add(selectionPanel,c);
       _toonSelectionController.getListenersManager().addListener(this);
-      
+
       // Choose toons button
       JButton chooser=GuiFactory.buildButton("Choose characters...");
       ActionListener al=new ActionListener()
@@ -103,7 +103,7 @@ public class CharacterLevelPanelController implements CharacterSelectionChangedL
     panel.add(toonsControlPanel,BorderLayout.EAST);
     return panel;
   }
-  
+
   private void doChooseToons()
   {
     CharactersManager manager=CharactersManager.getInstance();

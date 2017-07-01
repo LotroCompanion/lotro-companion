@@ -66,7 +66,7 @@ public class CharactersSelectorWindowController extends DefaultDialogController
     //dialog.setMinimumSize(new Dimension(400,300));
     return dialog;
   }
-  
+
   @Override
   protected JComponent buildContents()
   {

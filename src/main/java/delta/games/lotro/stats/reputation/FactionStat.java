@@ -106,7 +106,7 @@ public class FactionStat
     String factionName=_faction.getName();
     ps.println("Reputation history for faction ["+factionName+"]:");
     ps.println("\tLevel: "+_level);
-    
+
     int nbEvents=getNumberOfReputationEvents();
     for(int i=0;i<nbEvents;i++)
     {

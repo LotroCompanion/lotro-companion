@@ -53,7 +53,7 @@ public class VirtuesStats
 
   /**
    * Get quest/deed identifiers for a given virtue.
-   * @param virtue Virtue to use. 
+   * @param virtue Virtue to use.
    * @return An array of quest/deed identifiers, or <code>null</code>.
    */
   public String[] getIDsForAVirtue(String virtue)
@@ -154,7 +154,7 @@ public class VirtuesStats
   public void dump(PrintStream ps, boolean verbose)
   {
     ps.println("Virtues for ["+_name+"]:");
-    
+
     Set<String> virtues=_virtues.keySet();
     List<String> sortedVirtues=new ArrayList<String>(virtues);
     Collections.sort(sortedVirtues);

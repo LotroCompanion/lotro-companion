@@ -51,7 +51,7 @@ public class FontsManager
       e.printStackTrace();
     }
   }
-  
+
   /**
    * Get the custom font.
    * @return a font.

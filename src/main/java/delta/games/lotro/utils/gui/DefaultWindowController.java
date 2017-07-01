@@ -27,7 +27,7 @@ public class DefaultWindowController implements WindowController
 {
   private JFrame _frame;
   private WindowListener _listener;
-  
+
   /**
    * Get the managed frame.
    * @return the managed frame.

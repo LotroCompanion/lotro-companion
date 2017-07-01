@@ -62,7 +62,7 @@ public class WaitWindowController
   }
 
   /**
-   * Set the range of the progress bar. 
+   * Set the range of the progress bar.
    * @param min Minimum value to set.
    * @param max Maximum value to set.
    */

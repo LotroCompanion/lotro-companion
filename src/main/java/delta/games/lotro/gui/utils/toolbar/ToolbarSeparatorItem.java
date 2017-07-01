@@ -25,7 +25,7 @@ public class ToolbarSeparatorItem implements ToolbarItem
   {
     return _itemId;
   }
-  
+
   @Override
   public String toString()
   {

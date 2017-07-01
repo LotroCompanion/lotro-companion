@@ -69,7 +69,7 @@ public class ItemEditionPanelController
   private JTextField _crafterName;
   private JTextField _userComments;
   private ComboBoxController<ItemBinding> _binding;
-  private JCheckBox _unique; 
+  private JCheckBox _unique;
   private IntegerEditionController _durability;
   private ComboBoxController<ItemSturdiness> _sturdiness;
   private IntegerEditionController _stackMax;

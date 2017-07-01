@@ -135,7 +135,7 @@ public class CharacterLogTableController
 
     public void setValue(Object value)
     {
-      setText((value == null) ? "" : _labels.get(value));  
+      setText((value == null) ? "" : _labels.get(value));
     }
   }
 
