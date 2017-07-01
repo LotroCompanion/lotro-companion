@@ -10,11 +10,11 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
+import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.windows.DefaultWindowController;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.log.CharacterLog;
 import delta.games.lotro.character.log.CharacterLogItemsFilter;
-import delta.games.lotro.gui.utils.GuiFactory;
-import delta.games.lotro.utils.gui.DefaultWindowController;
 
 /**
  * Controller for a "character log" window.

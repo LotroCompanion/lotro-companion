@@ -6,15 +6,15 @@ import java.util.List;
 
 import javax.swing.JTable;
 
+import delta.common.ui.swing.tables.CellDataProvider;
+import delta.common.ui.swing.tables.GenericTableController;
+import delta.common.ui.swing.tables.ListDataProvider;
+import delta.common.ui.swing.tables.TableColumnController;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharacterSummary;
 import delta.games.lotro.character.CharactersManager;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.Race;
-import delta.games.lotro.utils.gui.tables.CellDataProvider;
-import delta.games.lotro.utils.gui.tables.GenericTableController;
-import delta.games.lotro.utils.gui.tables.ListDataProvider;
-import delta.games.lotro.utils.gui.tables.TableColumnController;
 
 /**
  * Controller for a table that shows all available toons.
@@ -145,6 +145,7 @@ public class ToonsTableController
       };
       TableColumnController<CharacterFile,Date> lastUpdateColumn=new TableColumnController<CharacterFile,Date>("Last update",Date.class,lastUpdateCell);
       lastUpdateColumn.setWidthSpecs(100,-1,100);
+      lastUpdateColumn.setCellRenderer(new DateRenderer(Formats.DATE_PATTERN));
       table.addColumnController(lastUpdateColumn);
     }
     */

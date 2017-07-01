@@ -31,9 +31,9 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.RectangleEdge;
 
+import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.level.LevelHistory;
-import delta.games.lotro.gui.utils.GuiFactory;
 import delta.games.lotro.stats.level.MultipleToonsLevellingStats;
 import delta.games.lotro.utils.Formats;
 

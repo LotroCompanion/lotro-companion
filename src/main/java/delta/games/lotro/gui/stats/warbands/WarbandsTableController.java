@@ -21,12 +21,12 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableRowSorter;
 
+import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.icons.IconsManager;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharacterSummary;
 import delta.games.lotro.common.CharacterClass;
-import delta.games.lotro.gui.utils.GuiFactory;
-import delta.games.lotro.gui.utils.IconUtils;
-import delta.games.lotro.gui.utils.IconsManager;
+import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.lore.warbands.WarbandDefinition;
 import delta.games.lotro.lore.warbands.WarbandFilter;
 import delta.games.lotro.lore.warbands.WarbandsRegistry;
@@ -158,7 +158,7 @@ public class WarbandsTableController
     if (summary!=null)
     {
       CharacterClass cClass=summary.getCharacterClass();
-      classIcon=IconUtils.getClassIcon(cClass,IconUtils.MEDIUM_SIZE);
+      classIcon=LotroIconsManager.getClassIcon(cClass,LotroIconsManager.MEDIUM_SIZE);
     }
     JLabel classLabel;
     if (classIcon!=null)

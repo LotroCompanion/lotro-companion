@@ -5,14 +5,15 @@ import java.awt.Color;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
+import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.icons.IconWithText;
+import delta.common.ui.swing.icons.IconsManager;
 import delta.common.utils.text.EndOfLine;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.character.stats.STAT;
 import delta.games.lotro.character.stats.virtues.VirtuesContributionsMgr;
 import delta.games.lotro.common.VirtueId;
-import delta.games.lotro.gui.utils.GuiFactory;
-import delta.games.lotro.gui.utils.IconsManager;
-import delta.games.lotro.utils.gui.IconWithText;
+import delta.games.lotro.gui.LotroIconsManager;
 
 /**
  * Controller for a virtue icon.
@@ -97,7 +98,7 @@ public class VirtueIconController
     String text;
     if (virtueId!=null)
     {
-      icon=IconsManager.getVirtueIcon(virtueId.name());
+      icon=LotroIconsManager.getVirtueIcon(virtueId.name());
       text=String.valueOf(tier);
     }
     else

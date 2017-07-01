@@ -8,9 +8,9 @@ import javax.swing.SwingUtilities;
 
 import org.apache.log4j.Logger;
 
+import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.Config;
 import delta.games.lotro.Preferences;
-import delta.games.lotro.gui.utils.GuiFactory;
 import delta.games.lotro.utils.LotroLoggers;
 import delta.games.lotro.utils.TypedProperties;
 

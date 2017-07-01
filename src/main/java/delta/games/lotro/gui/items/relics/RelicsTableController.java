@@ -5,14 +5,14 @@ import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JTable;
 
+import delta.common.ui.swing.tables.CellDataProvider;
+import delta.common.ui.swing.tables.DataProvider;
+import delta.common.ui.swing.tables.GenericTableController;
+import delta.common.ui.swing.tables.ListDataProvider;
+import delta.common.ui.swing.tables.TableColumnController;
 import delta.common.utils.collections.filters.Filter;
-import delta.games.lotro.gui.utils.IconsManager;
+import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.lore.items.legendary.relics.Relic;
-import delta.games.lotro.utils.gui.tables.CellDataProvider;
-import delta.games.lotro.utils.gui.tables.DataProvider;
-import delta.games.lotro.utils.gui.tables.GenericTableController;
-import delta.games.lotro.utils.gui.tables.ListDataProvider;
-import delta.games.lotro.utils.gui.tables.TableColumnController;
 
 /**
  * Controller for a table that shows relics.
@@ -50,7 +50,7 @@ public class RelicsTableController
         public ImageIcon getData(Relic item)
         {
           String filename=item.getIconFilename();
-          ImageIcon icon=IconsManager.getRelicIcon(filename);
+          ImageIcon icon=LotroIconsManager.getRelicIcon(filename);
           return icon;
         }
       };

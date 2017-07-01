@@ -13,14 +13,14 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharactersManager;
 import delta.games.lotro.gui.character.CharacterSelectionChangedListener;
 import delta.games.lotro.gui.character.CharactersSelectorPanelController;
 import delta.games.lotro.gui.character.CharactersSelectorWindowController;
-import delta.games.lotro.gui.utils.GuiFactory;
 import delta.games.lotro.stats.level.MultipleToonsLevellingStats;
-import delta.games.lotro.utils.gui.WindowController;
 
 /**
  * Controller for a characters levelling panel.

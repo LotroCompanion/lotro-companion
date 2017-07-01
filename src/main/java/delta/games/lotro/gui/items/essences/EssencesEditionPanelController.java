@@ -16,11 +16,11 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.icons.IconsManager;
+import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.gui.items.ItemUiTools;
-import delta.games.lotro.gui.utils.GuiFactory;
-import delta.games.lotro.gui.utils.IconsManager;
 import delta.games.lotro.lore.items.Item;
-import delta.games.lotro.utils.gui.WindowController;
 
 /**
  * Panel to edit essences.

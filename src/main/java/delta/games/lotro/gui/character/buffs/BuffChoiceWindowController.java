@@ -15,12 +15,12 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
+import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.OKCancelPanelController;
+import delta.common.ui.swing.windows.DefaultDialogController;
+import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.stats.buffs.Buff;
 import delta.games.lotro.character.stats.buffs.BuffFilter;
-import delta.games.lotro.gui.utils.GuiFactory;
-import delta.games.lotro.gui.utils.OKCancelPanelController;
-import delta.games.lotro.utils.gui.DefaultDialogController;
-import delta.games.lotro.utils.gui.WindowController;
 
 /**
  * Controller for a "buff choice" dialog.

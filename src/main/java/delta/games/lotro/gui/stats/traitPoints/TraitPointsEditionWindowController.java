@@ -10,12 +10,12 @@ import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 
+import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.OKCancelPanelController;
+import delta.common.ui.swing.windows.DefaultDialogController;
+import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.CharacterSummary;
-import delta.games.lotro.gui.utils.GuiFactory;
-import delta.games.lotro.gui.utils.OKCancelPanelController;
 import delta.games.lotro.stats.traitPoints.TraitPointsStatus;
-import delta.games.lotro.utils.gui.DefaultDialogController;
-import delta.games.lotro.utils.gui.WindowController;
 
 /**
  * Controller for a traits points edition window.

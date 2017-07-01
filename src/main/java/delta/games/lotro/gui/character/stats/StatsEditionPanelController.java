@@ -15,15 +15,15 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.combobox.ComboBoxController;
+import delta.common.ui.swing.icons.IconsManager;
 import delta.common.utils.NumericTools;
 import delta.common.utils.i18n.Translator;
 import delta.common.utils.i18n.TranslatorsManager;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.character.stats.STAT;
-import delta.games.lotro.gui.utils.GuiFactory;
-import delta.games.lotro.gui.utils.IconsManager;
 import delta.games.lotro.utils.FixedDecimalsInteger;
-import delta.games.lotro.utils.gui.combobox.ComboBoxController;
 
 /**
  * Controller for a stats edition panel.

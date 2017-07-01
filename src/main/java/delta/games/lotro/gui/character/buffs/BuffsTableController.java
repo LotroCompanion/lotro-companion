@@ -5,16 +5,16 @@ import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JTable;
 
+import delta.common.ui.swing.tables.CellDataProvider;
+import delta.common.ui.swing.tables.DataProvider;
+import delta.common.ui.swing.tables.GenericTableController;
+import delta.common.ui.swing.tables.ListDataProvider;
+import delta.common.ui.swing.tables.TableColumnController;
 import delta.games.lotro.character.stats.buffs.Buff;
 import delta.games.lotro.character.stats.buffs.BuffFilter;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.Race;
-import delta.games.lotro.gui.utils.IconsManager;
-import delta.games.lotro.utils.gui.tables.CellDataProvider;
-import delta.games.lotro.utils.gui.tables.DataProvider;
-import delta.games.lotro.utils.gui.tables.GenericTableController;
-import delta.games.lotro.utils.gui.tables.ListDataProvider;
-import delta.games.lotro.utils.gui.tables.TableColumnController;
+import delta.games.lotro.gui.LotroIconsManager;
 
 /**
  * Controller for a table that shows buffs.
@@ -52,7 +52,7 @@ public class BuffsTableController
         public ImageIcon getData(Buff buff)
         {
           String filename=buff.getIcon();
-          ImageIcon icon=IconsManager.getBuffIcon(filename);
+          ImageIcon icon=LotroIconsManager.getBuffIcon(filename);
           return icon;
         }
       };

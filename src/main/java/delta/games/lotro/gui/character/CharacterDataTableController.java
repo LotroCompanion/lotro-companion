@@ -5,6 +5,11 @@ import java.util.Date;
 
 import javax.swing.JTable;
 
+import delta.common.ui.swing.tables.CellDataProvider;
+import delta.common.ui.swing.tables.DataProvider;
+import delta.common.ui.swing.tables.GenericTableController;
+import delta.common.ui.swing.tables.GenericTableController.DateRenderer;
+import delta.common.ui.swing.tables.TableColumnController;
 import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharacterInfosManager;
@@ -12,10 +17,7 @@ import delta.games.lotro.character.events.CharacterEvent;
 import delta.games.lotro.character.events.CharacterEventListener;
 import delta.games.lotro.character.events.CharacterEventType;
 import delta.games.lotro.character.events.CharacterEventsManager;
-import delta.games.lotro.utils.gui.tables.CellDataProvider;
-import delta.games.lotro.utils.gui.tables.DataProvider;
-import delta.games.lotro.utils.gui.tables.GenericTableController;
-import delta.games.lotro.utils.gui.tables.TableColumnController;
+import delta.games.lotro.utils.Formats;
 
 /**
  * Controller for a table that shows all available data for a single toon.
@@ -81,6 +83,7 @@ public class CharacterDataTableController implements CharacterEventListener
       };
       TableColumnController<CharacterData,Date> lastUpdateColumn=new TableColumnController<CharacterData,Date>("Date",Date.class,lastUpdateCell);
       lastUpdateColumn.setWidthSpecs(120,120,120);
+      lastUpdateColumn.setCellRenderer(new DateRenderer(Formats.DATE_PATTERN));
       table.addColumnController(lastUpdateColumn);
     }
     // Level column

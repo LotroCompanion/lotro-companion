@@ -15,10 +15,10 @@ import java.util.Set;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 
+import delta.common.ui.swing.GuiFactory;
 import delta.common.utils.ListenersManager;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharacterSummary;
-import delta.games.lotro.gui.utils.GuiFactory;
 
 /**
  * Controller for characters selector panel.

@@ -13,13 +13,13 @@ import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.events.CharacterEvent;
 import delta.games.lotro.character.events.CharacterEventType;
 import delta.games.lotro.character.events.CharacterEventsManager;
 import delta.games.lotro.character.stats.STAT;
 import delta.games.lotro.character.stats.tomes.TomesSet;
-import delta.games.lotro.gui.utils.GuiFactory;
 
 /**
  * Controller for a panel to edit tomes.

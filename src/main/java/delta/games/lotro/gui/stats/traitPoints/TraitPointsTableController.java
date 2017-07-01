@@ -4,14 +4,14 @@ import java.util.List;
 
 import javax.swing.JTable;
 
+import delta.common.ui.swing.tables.CellDataProvider;
+import delta.common.ui.swing.tables.CellDataUpdater;
+import delta.common.ui.swing.tables.DataProvider;
+import delta.common.ui.swing.tables.GenericTableController;
+import delta.common.ui.swing.tables.ListDataProvider;
+import delta.common.ui.swing.tables.TableColumnController;
 import delta.games.lotro.stats.traitPoints.TraitPoint;
 import delta.games.lotro.stats.traitPoints.TraitPointsStatus;
-import delta.games.lotro.utils.gui.tables.CellDataProvider;
-import delta.games.lotro.utils.gui.tables.CellDataUpdater;
-import delta.games.lotro.utils.gui.tables.DataProvider;
-import delta.games.lotro.utils.gui.tables.GenericTableController;
-import delta.games.lotro.utils.gui.tables.ListDataProvider;
-import delta.games.lotro.utils.gui.tables.TableColumnController;
 
 /**
  * Controller for a table that shows the trait points status for a character.

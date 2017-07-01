@@ -7,9 +7,9 @@ import java.awt.Insets;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.character.stats.virtues.VirtuesSet;
 import delta.games.lotro.common.VirtueId;
-import delta.games.lotro.gui.utils.GuiFactory;
 
 /**
  * Controller for a panel to display selected virtues.

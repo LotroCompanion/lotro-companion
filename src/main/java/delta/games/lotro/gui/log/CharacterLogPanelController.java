@@ -9,7 +9,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.border.TitledBorder;
 
-import delta.games.lotro.gui.utils.GuiFactory;
+import delta.common.ui.swing.GuiFactory;
 
 /**
  * Controller the character log panel.

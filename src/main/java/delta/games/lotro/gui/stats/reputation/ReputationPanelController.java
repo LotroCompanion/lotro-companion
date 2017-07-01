@@ -14,13 +14,13 @@ import javax.swing.JProgressBar;
 
 import org.apache.log4j.Logger;
 
+import delta.common.ui.swing.GuiFactory;
 import delta.common.utils.text.EncodingNames;
 import delta.common.utils.text.TextUtils;
 import delta.games.lotro.Config;
 import delta.games.lotro.common.Faction;
 import delta.games.lotro.common.FactionLevel;
 import delta.games.lotro.common.Factions;
-import delta.games.lotro.gui.utils.GuiFactory;
 import delta.games.lotro.stats.reputation.FactionStat;
 import delta.games.lotro.stats.reputation.ReputationStats;
 import delta.games.lotro.utils.LotroLoggers;

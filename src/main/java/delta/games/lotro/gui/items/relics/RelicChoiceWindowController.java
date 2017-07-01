@@ -15,14 +15,14 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
-import delta.games.lotro.gui.utils.GuiFactory;
-import delta.games.lotro.gui.utils.OKCancelPanelController;
+import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.OKCancelPanelController;
+import delta.common.ui.swing.windows.DefaultDialogController;
+import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.lore.items.legendary.relics.Relic;
 import delta.games.lotro.lore.items.legendary.relics.RelicFilter;
 import delta.games.lotro.lore.items.legendary.relics.RelicType;
 import delta.games.lotro.lore.items.legendary.relics.RelicsManager;
-import delta.games.lotro.utils.gui.DefaultDialogController;
-import delta.games.lotro.utils.gui.WindowController;
 
 /**
  * Controller for a "relic choice" dialog.

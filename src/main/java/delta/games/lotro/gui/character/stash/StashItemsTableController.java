@@ -6,17 +6,17 @@ import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JTable;
 
+import delta.common.ui.swing.tables.CellDataProvider;
+import delta.common.ui.swing.tables.DataProvider;
+import delta.common.ui.swing.tables.GenericTableController;
+import delta.common.ui.swing.tables.TableColumnController;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.storage.ItemsStash;
+import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.items.ItemConstants;
-import delta.games.lotro.gui.utils.IconsManager;
 import delta.games.lotro.lore.items.EquipmentLocation;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemPropertyNames;
-import delta.games.lotro.utils.gui.tables.CellDataProvider;
-import delta.games.lotro.utils.gui.tables.DataProvider;
-import delta.games.lotro.utils.gui.tables.GenericTableController;
-import delta.games.lotro.utils.gui.tables.TableColumnController;
 
 /**
  * Controller for a table that shows all items in a stash.
@@ -75,7 +75,7 @@ public class StashItemsTableController
         {
           String iconId=item.getProperty(ItemPropertyNames.ICON_ID);
           String backgroundIconId=item.getProperty(ItemPropertyNames.BACKGROUND_ICON_ID);
-          ImageIcon icon=IconsManager.getItemIcon(iconId, backgroundIconId);
+          ImageIcon icon=LotroIconsManager.getItemIcon(iconId, backgroundIconId);
           return icon;
         }
       };

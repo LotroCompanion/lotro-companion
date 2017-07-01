@@ -17,19 +17,19 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JToolBar;
 
+import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.toolbar.ToolbarController;
+import delta.common.ui.swing.toolbar.ToolbarIconItem;
+import delta.common.ui.swing.toolbar.ToolbarModel;
+import delta.common.ui.swing.windows.DefaultWindowController;
+import delta.common.ui.swing.windows.WindowController;
+import delta.common.ui.swing.windows.WindowsManager;
 import delta.games.lotro.Config;
 import delta.games.lotro.Preferences;
+import delta.games.lotro.gui.about.AboutDialogController;
 import delta.games.lotro.gui.stats.levelling.CharacterLevelWindowController;
 import delta.games.lotro.gui.stats.warbands.WarbandsWindowController;
 import delta.games.lotro.gui.toon.ToonsManagementController;
-import delta.games.lotro.gui.utils.AboutDialogController;
-import delta.games.lotro.gui.utils.GuiFactory;
-import delta.games.lotro.gui.utils.toolbar.ToolbarController;
-import delta.games.lotro.gui.utils.toolbar.ToolbarIconItem;
-import delta.games.lotro.gui.utils.toolbar.ToolbarModel;
-import delta.games.lotro.utils.gui.DefaultWindowController;
-import delta.games.lotro.utils.gui.WindowController;
-import delta.games.lotro.utils.gui.WindowsManager;
 
 /**
  * Controller for the main frame.

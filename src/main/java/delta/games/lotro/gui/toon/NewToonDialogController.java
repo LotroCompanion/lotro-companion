@@ -17,6 +17,10 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
+import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.OKCancelPanelController;
+import delta.common.ui.swing.windows.DefaultDialogController;
+import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.Config;
 import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.CharacterFile;
@@ -24,11 +28,7 @@ import delta.games.lotro.character.CharactersManager;
 import delta.games.lotro.character.stats.CharacterStatsComputer;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.Race;
-import delta.games.lotro.gui.utils.GuiFactory;
-import delta.games.lotro.gui.utils.OKCancelPanelController;
 import delta.games.lotro.utils.TypedProperties;
-import delta.games.lotro.utils.gui.DefaultDialogController;
-import delta.games.lotro.utils.gui.WindowController;
 
 /**
  * Controller for the "new toon" dialog.

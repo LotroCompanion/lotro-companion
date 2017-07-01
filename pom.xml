@@ -22,9 +22,14 @@
       <version>1.2</version>
     </dependency>
     <dependency>
-    	<groupId>jfree</groupId>
-    	<artifactId>jfreechart</artifactId>
-    	<version>1.0.13</version>
+      <groupId>com.dam.delta4j</groupId>
+      <artifactId>delta-common-ui</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+        <groupId>jfree</groupId>
+        <artifactId>jfreechart</artifactId>
+        <version>1.0.13</version>
     </dependency>
   </dependencies>
 </project>

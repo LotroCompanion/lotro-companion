@@ -15,10 +15,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.border.TitledBorder;
 
+import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharactersManager;
 import delta.games.lotro.gui.character.CharactersSelectorWindowController;
-import delta.games.lotro.gui.utils.GuiFactory;
 import delta.games.lotro.lore.warbands.WarbandFilter;
 import delta.games.lotro.stats.warbands.MultipleToonsWarbandsStats;
 

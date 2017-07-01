@@ -14,10 +14,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.TransferHandler;
 
+import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.character.stats.virtues.VirtuesSet;
 import delta.games.lotro.common.VirtueId;
 import delta.games.lotro.gui.character.virtues.VirtueEditionUiController.TierValueListener;
-import delta.games.lotro.gui.utils.GuiFactory;
 
 /**
  * Controller for a virtues edition panel.

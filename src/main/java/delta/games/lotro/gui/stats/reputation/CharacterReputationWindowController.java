@@ -4,10 +4,10 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import delta.common.ui.swing.windows.DefaultWindowController;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.log.CharacterLog;
 import delta.games.lotro.stats.reputation.ReputationStats;
-import delta.games.lotro.utils.gui.DefaultWindowController;
 
 /**
  * Controller for a "character reputation" window.

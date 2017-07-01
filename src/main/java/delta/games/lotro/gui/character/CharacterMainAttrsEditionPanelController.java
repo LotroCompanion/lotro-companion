@@ -14,6 +14,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.combobox.ComboBoxController;
+import delta.common.ui.swing.combobox.ItemSelectionListener;
 import delta.games.lotro.Config;
 import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.events.CharacterEvent;
@@ -21,12 +24,9 @@ import delta.games.lotro.character.events.CharacterEventType;
 import delta.games.lotro.character.events.CharacterEventsManager;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.Race;
-import delta.games.lotro.gui.utils.GuiFactory;
-import delta.games.lotro.gui.utils.IconUtils;
+import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.utils.Formats;
 import delta.games.lotro.utils.TypedProperties;
-import delta.games.lotro.utils.gui.combobox.ComboBoxController;
-import delta.games.lotro.utils.gui.combobox.ItemSelectionListener;
 
 /**
  * Controller for character main attributes edition panel.
@@ -127,11 +127,11 @@ public class CharacterMainAttrsEditionPanelController
     getPanel();
     // Class icon
     CharacterClass cClass=_toon.getCharacterClass();
-    ImageIcon classIcon=IconUtils.getClassIcon(cClass,IconUtils.MEDIUM_SIZE);
+    ImageIcon classIcon=LotroIconsManager.getClassIcon(cClass,LotroIconsManager.MEDIUM_SIZE);
     _classIcon.setIcon(classIcon);
     // Race icon
     Race race=_toon.getRace();
-    ImageIcon raceIcon=IconUtils.getRaceIcon(race);
+    ImageIcon raceIcon=LotroIconsManager.getRaceIcon(race);
     _raceIcon.setIcon(raceIcon);
     // Name
     _name.setText(_toon.getName());

@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.utils;
+package delta.games.lotro.gui.about;
 
 import java.awt.Dimension;
 import java.awt.Font;
@@ -15,6 +15,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
+
+import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.icons.IconsManager;
 
 /**
  * Controller for a 'about' panel.

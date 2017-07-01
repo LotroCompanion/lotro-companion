@@ -5,17 +5,17 @@ import java.util.List;
 import javax.swing.Icon;
 import javax.swing.JTable;
 
+import delta.common.ui.swing.tables.CellDataProvider;
+import delta.common.ui.swing.tables.DataProvider;
+import delta.common.ui.swing.tables.GenericTableController;
+import delta.common.ui.swing.tables.ListDataProvider;
+import delta.common.ui.swing.tables.TableColumnController;
 import delta.common.utils.collections.filters.Filter;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.character.stats.STAT;
 import delta.games.lotro.lore.items.Armour;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.utils.FixedDecimalsInteger;
-import delta.games.lotro.utils.gui.tables.CellDataProvider;
-import delta.games.lotro.utils.gui.tables.DataProvider;
-import delta.games.lotro.utils.gui.tables.GenericTableController;
-import delta.games.lotro.utils.gui.tables.ListDataProvider;
-import delta.games.lotro.utils.gui.tables.TableColumnController;
 
 /**
  * Controller for a table that shows a choice of items.

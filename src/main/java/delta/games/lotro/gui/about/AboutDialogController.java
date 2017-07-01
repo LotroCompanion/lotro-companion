@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.utils;
+package delta.games.lotro.gui.about;
 
 import java.awt.Window;
 
@@ -6,8 +6,8 @@ import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 
-import delta.games.lotro.utils.gui.DefaultDialogController;
-import delta.games.lotro.utils.gui.WindowController;
+import delta.common.ui.swing.windows.DefaultDialogController;
+import delta.common.ui.swing.windows.WindowController;
 
 /**
  * Controller for a "about" window.

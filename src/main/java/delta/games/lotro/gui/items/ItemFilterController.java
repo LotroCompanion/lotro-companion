@@ -8,10 +8,10 @@ import java.awt.Insets;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import delta.games.lotro.gui.utils.GuiFactory;
+import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.text.DynamicTextEditionController;
+import delta.common.ui.swing.text.TextListener;
 import delta.games.lotro.lore.items.filters.ItemNameFilter;
-import delta.games.lotro.utils.gui.text.DynamicTextEditionController;
-import delta.games.lotro.utils.gui.text.TextListener;
 
 /**
  * Controller for a item filter edition panel.

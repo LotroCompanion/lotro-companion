@@ -5,12 +5,12 @@ import java.awt.Color;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
+import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.icons.IconWithText;
 import delta.common.utils.text.EndOfLine;
 import delta.games.lotro.character.stats.buffs.Buff;
 import delta.games.lotro.character.stats.buffs.BuffInstance;
-import delta.games.lotro.gui.utils.GuiFactory;
-import delta.games.lotro.gui.utils.IconsManager;
-import delta.games.lotro.utils.gui.IconWithText;
+import delta.games.lotro.gui.LotroIconsManager;
 
 /**
  * Controller for a buff icon.
@@ -78,7 +78,7 @@ public class BuffIconController
   private IconWithText buildBuffIcon(BuffInstance buff)
   {
     String iconFile=buff.getBuff().getIcon();
-    ImageIcon icon=IconsManager.getBuffIcon(iconFile);
+    ImageIcon icon=LotroIconsManager.getBuffIcon(iconFile);
     IconWithText labeledIcon=new IconWithText(icon,"",Color.WHITE);
     return labeledIcon;
   }

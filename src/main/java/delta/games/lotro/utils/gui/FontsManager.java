@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.utils;
+package delta.games.lotro.utils.gui;
 
 import java.awt.Font;
 import java.awt.GraphicsEnvironment;

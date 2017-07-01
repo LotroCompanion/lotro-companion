@@ -15,12 +15,12 @@ import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-import delta.games.lotro.gui.utils.GuiFactory;
+import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.combobox.ComboBoxController;
+import delta.common.ui.swing.combobox.ItemSelectionListener;
 import delta.games.lotro.lore.items.legendary.relics.Relic;
 import delta.games.lotro.lore.items.legendary.relics.RelicFilter;
 import delta.games.lotro.lore.items.legendary.relics.RelicType;
-import delta.games.lotro.utils.gui.combobox.ComboBoxController;
-import delta.games.lotro.utils.gui.combobox.ItemSelectionListener;
 
 /**
  * Controller for a relic filter edition panel.

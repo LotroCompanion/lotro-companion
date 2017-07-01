@@ -4,9 +4,9 @@ import java.awt.Color;
 
 import javax.swing.JLabel;
 
+import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.character.stats.STAT;
-import delta.games.lotro.gui.utils.GuiFactory;
 import delta.games.lotro.utils.FixedDecimalsInteger;
 
 /**

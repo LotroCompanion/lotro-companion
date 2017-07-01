@@ -16,12 +16,12 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
+import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.tables.GenericTableController;
+import delta.common.ui.swing.windows.DefaultDialogController;
+import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.collections.filters.Filter;
-import delta.games.lotro.gui.utils.GuiFactory;
 import delta.games.lotro.lore.items.Item;
-import delta.games.lotro.utils.gui.DefaultDialogController;
-import delta.games.lotro.utils.gui.WindowController;
-import delta.games.lotro.utils.gui.tables.GenericTableController;
 
 /**
  * Controller for an item choice window.

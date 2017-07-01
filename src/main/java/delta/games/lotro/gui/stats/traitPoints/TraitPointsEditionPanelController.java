@@ -10,9 +10,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 
+import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.character.CharacterSummary;
 import delta.games.lotro.common.CharacterClass;
-import delta.games.lotro.gui.utils.GuiFactory;
 import delta.games.lotro.stats.traitPoints.TraitPoint;
 import delta.games.lotro.stats.traitPoints.TraitPointFilter;
 import delta.games.lotro.stats.traitPoints.TraitPoints;

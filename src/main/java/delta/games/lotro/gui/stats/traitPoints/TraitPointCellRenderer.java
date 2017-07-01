@@ -10,10 +10,11 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
 
-import delta.games.lotro.gui.utils.GuiFactory;
-import delta.games.lotro.utils.gui.CheckButtonController;
+import delta.common.ui.swing.CheckButtonController;
+import delta.common.ui.swing.GuiFactory;
 
 /**
+ * Renderer for a trait point cell.
  * @author DAM
  */
 public class TraitPointCellRenderer implements TableCellRenderer
@@ -26,7 +27,7 @@ public class TraitPointCellRenderer implements TableCellRenderer
    */
   public TraitPointCellRenderer()
   {
-    String[] icons={"delete32","check32"};
+    String[] icons={"/resources/gui/icons/delete32.png","/resources/gui/icons/check32.png"};
     _buttonController=new CheckButtonController(icons);
     _panel=buildCellPanel();
   }

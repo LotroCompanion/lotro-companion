@@ -8,14 +8,14 @@ import java.awt.Insets;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.combobox.ComboBoxController;
+import delta.common.ui.swing.combobox.ItemSelectionListener;
+import delta.common.ui.swing.text.DynamicTextEditionController;
+import delta.common.ui.swing.text.TextListener;
 import delta.games.lotro.gui.items.AbstractItemFilterPanelController;
 import delta.games.lotro.gui.items.ItemUiTools;
-import delta.games.lotro.gui.utils.GuiFactory;
 import delta.games.lotro.lore.items.ItemQuality;
-import delta.games.lotro.utils.gui.combobox.ComboBoxController;
-import delta.games.lotro.utils.gui.combobox.ItemSelectionListener;
-import delta.games.lotro.utils.gui.text.DynamicTextEditionController;
-import delta.games.lotro.utils.gui.text.TextListener;
 
 /**
  * Controller for a essence filter edition panel.

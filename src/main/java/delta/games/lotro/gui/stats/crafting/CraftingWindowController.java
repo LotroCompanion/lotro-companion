@@ -12,12 +12,12 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
+import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.windows.DefaultWindowController;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.log.CharacterLog;
-import delta.games.lotro.gui.utils.GuiFactory;
 import delta.games.lotro.stats.crafting.CraftingStats;
 import delta.games.lotro.stats.crafting.ProfessionStat;
-import delta.games.lotro.utils.gui.DefaultWindowController;
 
 /**
  * Controller for a "crafting stats" window.

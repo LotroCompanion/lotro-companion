@@ -20,6 +20,9 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 
+import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.icons.IconsManager;
+import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.text.EndOfLine;
 import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.CharacterEquipment;
@@ -30,17 +33,15 @@ import delta.games.lotro.character.events.CharacterEvent;
 import delta.games.lotro.character.events.CharacterEventType;
 import delta.games.lotro.character.events.CharacterEventsManager;
 import delta.games.lotro.character.storage.ItemsStash;
+import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.items.ItemChoiceWindowController;
 import delta.games.lotro.gui.items.ItemEditionWindowController;
 import delta.games.lotro.gui.items.ItemFilterController;
-import delta.games.lotro.gui.utils.GuiFactory;
-import delta.games.lotro.gui.utils.IconsManager;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemFactory;
 import delta.games.lotro.lore.items.ItemPropertyNames;
 import delta.games.lotro.lore.items.ItemsManager;
 import delta.games.lotro.lore.items.filters.ItemNameFilter;
-import delta.games.lotro.utils.gui.WindowController;
 
 /**
  * Controller for equipment panel.
@@ -285,7 +286,7 @@ public class EquipmentPanelController implements ActionListener
       {
         String iconId=item.getProperty(ItemPropertyNames.ICON_ID);
         String backgroundIconId=item.getProperty(ItemPropertyNames.BACKGROUND_ICON_ID);
-        icon=IconsManager.getItemIcon(iconId,backgroundIconId);
+        icon=LotroIconsManager.getItemIcon(iconId,backgroundIconId);
         String dump=item.dump();
         tooltipText="<html>"+dump.replace(EndOfLine.NATIVE_EOL,"<br>")+"</html>";
         if (icon==null)

@@ -8,11 +8,11 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.character.CharacterSummary;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.Race;
-import delta.games.lotro.gui.utils.GuiFactory;
-import delta.games.lotro.gui.utils.IconUtils;
+import delta.games.lotro.gui.LotroIconsManager;
 
 /**
  * Controller for character summary panel.
@@ -59,9 +59,9 @@ public class CharacterSummaryPanelController
       cClass=_summary.getCharacterClass();
       race=_summary.getRace();
     }
-    ImageIcon classIcon=IconUtils.getClassIcon(cClass,IconUtils.MEDIUM_SIZE);
+    ImageIcon classIcon=LotroIconsManager.getClassIcon(cClass,LotroIconsManager.MEDIUM_SIZE);
     panel.add(GuiFactory.buildIconLabel(classIcon),c);
-    ImageIcon raceIcon=IconUtils.getRaceIcon(race);
+    ImageIcon raceIcon=LotroIconsManager.getRaceIcon(race);
     c.gridx=1;
     panel.add(GuiFactory.buildIconLabel(raceIcon),c);
     _nameLabel=GuiFactory.buildLabel("",28.0f);

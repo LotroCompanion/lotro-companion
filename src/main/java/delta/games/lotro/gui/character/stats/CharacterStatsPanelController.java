@@ -10,11 +10,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
+import delta.common.ui.swing.GuiFactory;
 import delta.common.utils.i18n.Translator;
 import delta.common.utils.i18n.TranslatorsManager;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.character.stats.STAT;
-import delta.games.lotro.gui.utils.GuiFactory;
 
 /**
  * Controller for a panel that displays the stats of a single character.

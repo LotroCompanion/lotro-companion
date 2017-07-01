@@ -5,14 +5,14 @@ import java.awt.Color;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
+import delta.common.ui.swing.combobox.ComboBoxController;
+import delta.common.ui.swing.icons.IconWithText;
+import delta.common.ui.swing.icons.IconWithText.Position;
 import delta.common.utils.NumericTools;
-import delta.games.lotro.gui.utils.IconsManager;
+import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemPropertyNames;
 import delta.games.lotro.lore.items.ItemQuality;
-import delta.games.lotro.utils.gui.IconWithText;
-import delta.games.lotro.utils.gui.IconWithText.Position;
-import delta.games.lotro.utils.gui.combobox.ComboBoxController;
 
 /**
  * Tools related to items UI.
@@ -32,7 +32,7 @@ public class ItemUiTools
     Icon ret=null;
     String iconId=item.getProperty(ItemPropertyNames.ICON_ID);
     String backgroundIconId=item.getProperty(ItemPropertyNames.BACKGROUND_ICON_ID);
-    ImageIcon icon=IconsManager.getItemIcon(iconId, backgroundIconId);
+    ImageIcon icon=LotroIconsManager.getItemIcon(iconId, backgroundIconId);
     ret=icon;
     String subCategory=item.getSubCategory();
     if ((subCategory!=null) && (subCategory.startsWith(ESSENCE_SEED)))

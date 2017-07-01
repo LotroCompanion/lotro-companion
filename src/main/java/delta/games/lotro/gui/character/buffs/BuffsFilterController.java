@@ -15,11 +15,11 @@ import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.combobox.ComboBoxController;
+import delta.common.ui.swing.combobox.ItemSelectionListener;
 import delta.games.lotro.character.stats.buffs.Buff;
 import delta.games.lotro.character.stats.buffs.BuffFilter;
-import delta.games.lotro.gui.utils.GuiFactory;
-import delta.games.lotro.utils.gui.combobox.ComboBoxController;
-import delta.games.lotro.utils.gui.combobox.ItemSelectionListener;
 
 /**
  * Controller for a buff filter edition panel.

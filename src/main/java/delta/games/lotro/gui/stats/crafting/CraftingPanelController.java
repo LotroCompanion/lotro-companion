@@ -9,8 +9,8 @@ import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.crafting.CraftingLevel;
-import delta.games.lotro.gui.utils.GuiFactory;
 import delta.games.lotro.stats.crafting.ProfessionStat;
 
 /**

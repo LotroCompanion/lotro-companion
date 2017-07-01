@@ -18,8 +18,8 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
 
+import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.common.Size;
-import delta.games.lotro.gui.utils.GuiFactory;
 import delta.games.lotro.lore.warbands.WarbandDefinition;
 import delta.games.lotro.lore.warbands.WarbandFilter;
 import delta.games.lotro.lore.warbands.WarbandsRegistry;

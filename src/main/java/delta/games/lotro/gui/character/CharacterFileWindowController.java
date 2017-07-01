@@ -19,6 +19,14 @@ import javax.swing.JTable;
 import javax.swing.JToolBar;
 import javax.swing.SwingUtilities;
 
+import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.tables.GenericTableController;
+import delta.common.ui.swing.toolbar.ToolbarController;
+import delta.common.ui.swing.toolbar.ToolbarIconItem;
+import delta.common.ui.swing.toolbar.ToolbarModel;
+import delta.common.ui.swing.windows.DefaultWindowController;
+import delta.common.ui.swing.windows.WindowController;
+import delta.common.ui.swing.windows.WindowsManager;
 import delta.common.utils.files.FileCopy;
 import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.CharacterFile;
@@ -33,17 +41,9 @@ import delta.games.lotro.gui.log.CharacterLogWindowController;
 import delta.games.lotro.gui.stats.crafting.CraftingWindowController;
 import delta.games.lotro.gui.stats.reputation.CharacterReputationWindowController;
 import delta.games.lotro.gui.stats.traitPoints.TraitPointsEditionWindowController;
-import delta.games.lotro.gui.utils.GuiFactory;
-import delta.games.lotro.gui.utils.toolbar.ToolbarController;
-import delta.games.lotro.gui.utils.toolbar.ToolbarIconItem;
-import delta.games.lotro.gui.utils.toolbar.ToolbarModel;
 import delta.games.lotro.stats.traitPoints.TraitPoints;
 import delta.games.lotro.stats.traitPoints.TraitPointsStatus;
-import delta.games.lotro.utils.gui.DefaultWindowController;
-import delta.games.lotro.utils.gui.WindowController;
-import delta.games.lotro.utils.gui.WindowsManager;
 import delta.games.lotro.utils.gui.filechooser.FileChooserController;
-import delta.games.lotro.utils.gui.tables.GenericTableController;
 
 /**
  * Controller for a "character" window.

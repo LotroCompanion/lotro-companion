@@ -26,10 +26,10 @@ import javax.swing.ListCellRenderer;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.character.log.CharacterLog;
 import delta.games.lotro.character.log.CharacterLogItem.LogItemType;
 import delta.games.lotro.character.log.CharacterLogItemsFilter;
-import delta.games.lotro.gui.utils.GuiFactory;
 import delta.games.lotro.utils.Formats;
 
 /**

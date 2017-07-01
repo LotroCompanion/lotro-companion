@@ -14,12 +14,17 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.combobox.ComboBoxController;
+import delta.common.ui.swing.combobox.ItemSelectionListener;
+import delta.common.ui.swing.text.FloatEditionController;
+import delta.common.ui.swing.text.IntegerEditionController;
+import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.stats.BasicStatsSet;
+import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.character.stats.StatsEditionPanelController;
 import delta.games.lotro.gui.items.essences.EssencesEditionPanelController;
 import delta.games.lotro.gui.items.relics.RelicsEditionPanelController;
-import delta.games.lotro.gui.utils.GuiFactory;
-import delta.games.lotro.gui.utils.IconsManager;
 import delta.games.lotro.lore.items.Armour;
 import delta.games.lotro.lore.items.ArmourType;
 import delta.games.lotro.lore.items.DamageType;
@@ -37,11 +42,6 @@ import delta.games.lotro.lore.items.legendary.Legendary;
 import delta.games.lotro.lore.items.legendary.LegendaryAttrs;
 import delta.games.lotro.lore.items.stats.Scaling;
 import delta.games.lotro.lore.items.stats.ScalingRule;
-import delta.games.lotro.utils.gui.WindowController;
-import delta.games.lotro.utils.gui.combobox.ComboBoxController;
-import delta.games.lotro.utils.gui.combobox.ItemSelectionListener;
-import delta.games.lotro.utils.gui.text.FloatEditionController;
-import delta.games.lotro.utils.gui.text.IntegerEditionController;
 
 /**
  * Controller for an item edition panel.
@@ -305,7 +305,7 @@ public class ItemEditionPanelController
     // Icon
     String iconId=item.getProperty(ItemPropertyNames.ICON_ID);
     String backgroundIconId=item.getProperty(ItemPropertyNames.BACKGROUND_ICON_ID);
-    ImageIcon icon=IconsManager.getItemIcon(iconId,backgroundIconId);
+    ImageIcon icon=LotroIconsManager.getItemIcon(iconId,backgroundIconId);
     _icon.setIcon(icon);
     // Name
     _name.setText(name);

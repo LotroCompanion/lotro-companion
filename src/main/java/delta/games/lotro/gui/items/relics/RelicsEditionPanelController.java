@@ -13,12 +13,13 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import delta.games.lotro.gui.utils.GuiFactory;
-import delta.games.lotro.gui.utils.IconsManager;
+import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.icons.IconsManager;
+import delta.common.ui.swing.windows.WindowController;
+import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.lore.items.legendary.LegendaryAttrs;
 import delta.games.lotro.lore.items.legendary.relics.Relic;
 import delta.games.lotro.lore.items.legendary.relics.RelicType;
-import delta.games.lotro.utils.gui.WindowController;
 
 /**
  * Panel to edit relics.
@@ -122,7 +123,7 @@ public class RelicsEditionPanelController implements ActionListener
       if (relic!=null)
       {
         String filename=relic.getIconFilename();
-        icon=IconsManager.getRelicIcon(filename);
+        icon=LotroIconsManager.getRelicIcon(filename);
       }
       else
       {

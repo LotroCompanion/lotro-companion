@@ -16,6 +16,12 @@ import javax.swing.JTable;
 import javax.swing.JToolBar;
 import javax.swing.border.TitledBorder;
 
+import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.tables.GenericTableController;
+import delta.common.ui.swing.toolbar.ToolbarController;
+import delta.common.ui.swing.toolbar.ToolbarIconItem;
+import delta.common.ui.swing.toolbar.ToolbarModel;
+import delta.common.ui.swing.windows.DefaultWindowController;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.events.CharacterEvent;
 import delta.games.lotro.character.events.CharacterEventListener;
@@ -25,15 +31,9 @@ import delta.games.lotro.character.storage.ItemsStash;
 import delta.games.lotro.gui.items.FilterUpdateListener;
 import delta.games.lotro.gui.items.ItemEditionWindowController;
 import delta.games.lotro.gui.items.ItemFilterController;
-import delta.games.lotro.gui.utils.GuiFactory;
-import delta.games.lotro.gui.utils.toolbar.ToolbarController;
-import delta.games.lotro.gui.utils.toolbar.ToolbarIconItem;
-import delta.games.lotro.gui.utils.toolbar.ToolbarModel;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemFactory;
 import delta.games.lotro.lore.items.filters.ItemNameFilter;
-import delta.games.lotro.utils.gui.DefaultWindowController;
-import delta.games.lotro.utils.gui.tables.GenericTableController;
 
 /**
  * Controller for a "items stash" window.

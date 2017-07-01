@@ -16,8 +16,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.TransferHandler;
 
+import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.common.VirtueId;
-import delta.games.lotro.gui.utils.GuiFactory;
 
 /**
  * Gather UI items to edit a single virtue.

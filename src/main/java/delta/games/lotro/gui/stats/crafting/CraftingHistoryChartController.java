@@ -26,8 +26,8 @@ import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
+import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.crafting.CraftingLevel;
-import delta.games.lotro.gui.utils.GuiFactory;
 import delta.games.lotro.stats.crafting.ProfessionStat;
 import delta.games.lotro.utils.Formats;
 
