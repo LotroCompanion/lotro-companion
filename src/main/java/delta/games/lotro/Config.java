@@ -19,6 +19,7 @@ public class Config
 
   private File _rootDataDir;
   private File _configDir;
+  private File _mapsDir;
   private TypedProperties _parameters;
   private Preferences _preferences;
   private List<String> _servers;
@@ -39,6 +40,8 @@ public class Config
   {
     _rootDataDir=new File("data");
     _configDir=new File(_rootDataDir,"config");
+    File loreDir=new File(_rootDataDir,"lore");
+    _mapsDir=new File(loreDir,"maps");
     _servers=new ArrayList<String>();
     File parametersFiles=new File(_configDir,"params.txt");
     _parameters=new TypedProperties();
@@ -55,6 +58,15 @@ public class Config
   public File getConfigDir()
   {
     return _configDir;
+  }
+
+  /**
+   * Get the root storage directory for map files.
+   * @return a directory.
+   */
+  public File getMapsDir()
+  {
+    return _mapsDir;
   }
 
   /**

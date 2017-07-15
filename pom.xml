@@ -13,6 +13,11 @@
   <dependencies>
     <dependency>
       <groupId>com.dam.delta4j</groupId>
+      <artifactId>delta-lotro-maps</artifactId>
+      <version>4.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.dam.delta4j</groupId>
       <artifactId>delta-lotro-core</artifactId>
       <version>4.0</version>
     </dependency>

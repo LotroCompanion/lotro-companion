@@ -5,6 +5,7 @@ import java.awt.Point;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 import javax.swing.Box;
 import javax.swing.JComponent;
@@ -30,6 +31,8 @@ import delta.games.lotro.gui.about.AboutDialogController;
 import delta.games.lotro.gui.stats.levelling.CharacterLevelWindowController;
 import delta.games.lotro.gui.stats.warbands.WarbandsWindowController;
 import delta.games.lotro.gui.toon.ToonsManagementController;
+import delta.games.lotro.maps.data.MapsManager;
+import delta.games.lotro.maps.ui.MapWindowController;
 
 /**
  * Controller for the main frame.
@@ -39,6 +42,7 @@ public class MainFrameController extends DefaultWindowController implements Acti
 {
   private static final String LEVELLING_ID="levelling";
   private static final String WARBANDS_ID="warbands";
+  private static final String MAP_ID="map";
 
   private ToolbarController _toolbar;
   private ToonsManagementController _toonsManager;
@@ -91,6 +95,11 @@ public class MainFrameController extends DefaultWindowController implements Acti
     levellingStats.setActionCommand(LEVELLING_ID);
     levellingStats.addActionListener(this);
     statsMenu.add(levellingStats);
+    // - map
+    JMenuItem map=GuiFactory.buildMenuItem("Middle-earth Map");
+    map.setActionCommand(MAP_ID);
+    map.addActionListener(this);
+    statsMenu.add(map);
 
     // Help
     JMenu helpMenu=GuiFactory.buildMenu("Help");
@@ -140,6 +149,10 @@ public class MainFrameController extends DefaultWindowController implements Acti
     String warbandsIconPath=getToolbarIconPath("warbands");
     ToolbarIconItem warbandsIconItem=new ToolbarIconItem(WARBANDS_ID,warbandsIconPath,WARBANDS_ID,"Warbands...","Warbands");
     model.addToolbarIconItem(warbandsIconItem);
+    // Map icon
+    String mapIconPath=getToolbarIconPath("globe");
+    ToolbarIconItem mapIconItem=new ToolbarIconItem(MAP_ID,mapIconPath,MAP_ID,"Map...","Map");
+    model.addToolbarIconItem(mapIconItem);
     // Register action listener
     controller.addActionListener(this);
     return controller;
@@ -170,6 +183,21 @@ public class MainFrameController extends DefaultWindowController implements Acti
     controller.bringToFront();
   }
 
+  private void doMap()
+  {
+    WindowController controller=_windowsManager.getWindow(MapWindowController.IDENTIFIER);
+    if (controller==null)
+    {
+      File mapsDir=Config.getInstance().getMapsDir();
+      MapsManager mapsManager=new MapsManager(mapsDir);
+      mapsManager.load();
+      controller=new MapWindowController(mapsManager);
+      _windowsManager.registerWindow(controller);
+      controller.getWindow().setLocationRelativeTo(getFrame());
+    }
+    controller.bringToFront();
+  }
+
   public void actionPerformed(ActionEvent event)
   {
     String cmd=event.getActionCommand();
@@ -180,6 +208,10 @@ public class MainFrameController extends DefaultWindowController implements Acti
     else if (WARBANDS_ID.equals(cmd))
     {
       doWarbands();
+    }
+    else if (MAP_ID.equals(cmd))
+    {
+      doMap();
     }
   }
 
