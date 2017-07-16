@@ -87,7 +87,7 @@ public class ItemEditionWindowController extends DefaultDialogController impleme
 
   private void ok()
   {
-    /*Item item=*/_panelController.getItem();
+    _panelController.getItem();
     dispose();
   }
 

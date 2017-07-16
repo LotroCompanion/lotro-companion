@@ -10,16 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BoxLayout;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
-import delta.common.ui.swing.icons.IconsManager;
 import delta.common.ui.swing.windows.WindowController;
-import delta.games.lotro.gui.items.ItemUiTools;
 import delta.games.lotro.lore.items.Item;
 
 /**
@@ -28,15 +24,12 @@ import delta.games.lotro.lore.items.Item;
  */
 public class EssencesEditionPanelController
 {
-  private static final String ITEM_WITH_NO_ICON="/resources/gui/equipment/itemNoIcon.png";
-
-  // Data
-  private List<Item> _essences;
   // GUI
   private JPanel _essencesPanel;
   private JPanel _panel;
-  private List<SingleEssenceController> _essenceControllers;
+  // Controllers
   private WindowController _parent;
+  private List<SingleEssenceEditionController> _essenceControllers;
 
   /**
    * Constructor.
@@ -45,8 +38,7 @@ public class EssencesEditionPanelController
   public EssencesEditionPanelController(WindowController parent)
   {
     _parent=parent;
-    _essences=new ArrayList<Item>();
-    _essenceControllers=new ArrayList<SingleEssenceController>();
+    _essenceControllers=new ArrayList<SingleEssenceEditionController>();
     _panel=build();
   }
 
@@ -84,8 +76,7 @@ public class EssencesEditionPanelController
     for(int i=0;i<nbSlots;i++)
     {
       Item essence=item.getEssenceAt(i);
-      SingleEssenceController ctrl=new SingleEssenceController();
-      _essences.add(essence);
+      SingleEssenceEditionController ctrl=new SingleEssenceEditionController(_parent);
       ctrl.setEssence(essence);
       _essenceControllers.add(ctrl);
     }
@@ -105,7 +96,7 @@ public class EssencesEditionPanelController
   {
     _essencesPanel.removeAll();
     int index=0;
-    for(SingleEssenceController ctrl : _essenceControllers)
+    for(SingleEssenceEditionController ctrl : _essenceControllers)
     {
       buildStatUi(_essencesPanel,ctrl,index);
       index++;
@@ -114,7 +105,7 @@ public class EssencesEditionPanelController
     _panel.repaint();
   }
 
-  private void buildStatUi(JPanel panel,SingleEssenceController ctrl,int index)
+  private void buildStatUi(JPanel panel,SingleEssenceEditionController ctrl,int index)
   {
     GridBagConstraints c=new GridBagConstraints(0,index,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     // Essence icon
@@ -133,45 +124,9 @@ public class EssencesEditionPanelController
 
   private void addSlot()
   {
-    SingleEssenceController ctrl=new SingleEssenceController();
+    SingleEssenceEditionController ctrl=new SingleEssenceEditionController(_parent);
     _essenceControllers.add(ctrl);
-    _essences.add(null);
     updateUi();
-    update();
-  }
-
-  /**
-   * Update UI from the managed data.
-   */
-  public void update()
-  {
-    int index=0;
-    for(Item essence : _essences)
-    {
-      SingleEssenceController ctrl=_essenceControllers.get(index);
-      ctrl.setEssence(essence);
-      index++;
-    }
-  }
-
-  private void handleButtonClick(JButton button, SingleEssenceController ctrl)
-  {
-    if (button==ctrl.getEssenceButton())
-    {
-      Item essence=EssenceChoice.chooseEssence(_parent);
-      if (essence!=null)
-      {
-        int index=_essenceControllers.indexOf(ctrl);
-        _essences.set(index,essence);
-        update();
-      }
-    }
-    else if (button==ctrl.getDeleteButton())
-    {
-      int index=_essenceControllers.indexOf(ctrl);
-      _essences.set(index,null);
-      update();
-    }
   }
 
   /**
@@ -180,93 +135,13 @@ public class EssencesEditionPanelController
    */
   public List<Item> getEssences()
   {
-    return _essences;
-  }
-
-  /**
-   * Controller for the UI items of a single essence.
-   * @author DAM
-   */
-  private class SingleEssenceController
-  {
-    private JButton _essenceIconButton;
-    private JLabel _essenceName;
-    private JButton _deleteButton;
-
-    /**
-     * Constructor.
-     */
-    public SingleEssenceController()
+    List<Item> essences=new ArrayList<Item>();
+    for(SingleEssenceEditionController ctrl : _essenceControllers)
     {
-      // Button
-      _essenceIconButton=GuiFactory.buildButton("");
-      _essenceIconButton.setOpaque(false);
-      _essenceIconButton.setBorderPainted(false);
-      _essenceIconButton.setMargin(new Insets(0,0,0,0));
-      ActionListener listener=new ActionListener()
-      {
-        public void actionPerformed(ActionEvent e)
-        {
-          handleButtonClick((JButton)e.getSource(),SingleEssenceController.this);
-        }
-      };
-      _essenceIconButton.addActionListener(listener);
-      // Label
-      _essenceName=GuiFactory.buildLabel("");
-      // Delete button
-      ImageIcon icon=IconsManager.getIcon("/resources/gui/icons/cross.png");
-      _deleteButton=GuiFactory.buildButton("");
-      _deleteButton.setIcon(icon);
-      _deleteButton.setMargin(new Insets(0,0,0,0));
-      _deleteButton.setContentAreaFilled(false);
-      _deleteButton.setBorderPainted(false);
-      _deleteButton.addActionListener(listener);
+      Item essence=ctrl.getEssence();
+      essences.add(essence);
     }
-
-    private void setEssence(Item essence)
-    {
-      // Set essence icon
-      Icon icon=null;
-      if (essence!=null)
-      {
-        icon=ItemUiTools.buildItemIcon(essence);
-      }
-      else
-      {
-        icon=IconsManager.getIcon(ITEM_WITH_NO_ICON);
-      }
-      _essenceIconButton.setIcon(icon);
-      // Text
-      String text=(essence!=null)?essence.getName():"";
-      _essenceName.setText(text);
-    }
-
-    /**
-     * Get the managed essence button.
-     * @return the managed essence button.
-     */
-    public JButton getEssenceButton()
-    {
-      return _essenceIconButton;
-    }
-
-    /**
-     * Get the label for the essence.
-     * @return a label.
-     */
-    public JLabel getEssenceNameLabel()
-    {
-      return _essenceName;
-    }
-
-    /**
-     * Get the delete button associated with this essence.
-     * @return a button.
-     */
-    public JButton getDeleteButton()
-    {
-      return _deleteButton;
-    }
+    return essences;
   }
 
   /**
@@ -285,6 +160,14 @@ public class EssencesEditionPanelController
       _essencesPanel.removeAll();
       _essencesPanel=null;
     }
-    _essenceControllers.clear();
+    if (_essenceControllers!=null)
+    {
+      for(SingleEssenceEditionController essenceController : _essenceControllers)
+      {
+        essenceController.dispose();
+      }
+      _essenceControllers.clear();
+      _essenceControllers=null;
+    }
   }
 }

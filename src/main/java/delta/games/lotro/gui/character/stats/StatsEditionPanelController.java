@@ -168,6 +168,28 @@ public class StatsEditionPanelController
   }
 
   /**
+   * Release all managed resources.
+   */
+  public void dispose()
+  {
+    // UI
+    if (_panel!=null)
+    {
+      _panel.removeAll();
+      _panel=null;
+    }
+    // Controllers
+    if (_statControllers!=null)
+    {
+      for(SingleStatController controller : _statControllers)
+      {
+        controller.dispose();
+      }
+      _statControllers=null;
+    }
+  }
+
+  /**
    * Controller for the UI items of a single stat.
    * @author DAM
    */
@@ -283,6 +305,22 @@ public class StatsEditionPanelController
     public JButton getAddButton()
     {
       return _addButton;
+    }
+
+    /**
+     * Release all managed resources.
+     */
+    public void dispose()
+    {
+      _value=null;
+      if (_statChooser!=null)
+      {
+        _statChooser.dispose();
+        _statChooser=null;
+      }
+      _unit=null;
+      _deleteButton=null;
+      _addButton=null;
     }
   }
 }

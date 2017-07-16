@@ -652,11 +652,111 @@ public class ItemEditionPanelController
    */
   public void dispose()
   {
+    // Data
+    _item=null;
+    // Controllers
     _parent=null;
+    if (_slot!=null)
+    {
+      _slot.dispose();
+      _slot=null;
+    }
+    if (_stats!=null)
+    {
+      _stats.dispose();
+      _stats=null;
+    }
+    if (_essencesEditor!=null)
+    {
+      _essencesEditor.dispose();
+      _essencesEditor=null;
+    }
+    if (_itemLevel!=null)
+    {
+      _itemLevel.dispose();
+      _itemLevel=null;
+    }
+    if (_minLevel!=null)
+    {
+      _minLevel.dispose();
+      _minLevel=null;
+    }
+    if (_binding!=null)
+    {
+      _binding.dispose();
+      _binding=null;
+    }
+    if (_durability!=null)
+    {
+      _durability.dispose();
+      _durability=null;
+    }
+    if (_sturdiness!=null)
+    {
+      _sturdiness.dispose();
+      _sturdiness=null;
+    }
+    if (_stackMax!=null)
+    {
+      _stackMax.dispose();
+      _stackMax=null;
+    }
+    if (_quality!=null)
+    {
+      _quality.dispose();
+      _quality=null;
+    }
+    if (_armourValue!=null)
+    {
+      _armourValue.dispose();
+      _armourValue=null;
+    }
+    if (_armourType!=null)
+    {
+      _armourType.dispose();
+      _armourType=null;
+    }
+    if (_minDamage!=null)
+    {
+      _minDamage.dispose();
+      _minDamage=null;
+    }
+    if (_maxDamage!=null)
+    {
+      _maxDamage.dispose();
+      _maxDamage=null;
+    }
+    if (_damageType!=null)
+    {
+      _damageType.dispose();
+      _damageType=null;
+    }
+    if (_dps!=null)
+    {
+      _dps.dispose();
+      _dps=null;
+    }
+    if (_weaponType!=null)
+    {
+      _weaponType.dispose();
+      _weaponType=null;
+    }
+    // UI
     if (_panel!=null)
     {
       _panel.removeAll();
       _panel=null;
     }
+    _icon=null;
+    _name=null;
+    _description=null;
+    _subCategory=null;
+    _birthName=null;
+    _crafterName=null;
+    _userComments=null;
+    _unique=null;
+    _armourPanel=null;
+    _weaponPanel=null;
+    _tabbedPane=null;
   }
 }
