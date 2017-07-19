@@ -217,7 +217,6 @@ public class EquipmentPanelController implements ActionListener
     if (_panel==null)
     {
       _panel=buildPanel();
-      //magouille();
     }
     return _panel;
   }

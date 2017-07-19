@@ -31,6 +31,8 @@ public class SingleEssenceEditionController
   private JButton _essenceIconButton;
   private JLabel _essenceName;
   private JButton _deleteButton;
+  // Listeners
+  private EssenceUpdatedListener _listener;
 
   /**
    * Constructor.
@@ -65,6 +67,15 @@ public class SingleEssenceEditionController
     _deleteButton.addActionListener(listener);
   }
 
+  /**
+   * Set the listener for this controller.
+   * @param listener A listener.
+   */
+  public void setListener(EssenceUpdatedListener listener)
+  {
+    _listener=listener;
+  }
+
   private void handleButtonClick(JButton button)
   {
     if (button==_essenceIconButton)
@@ -73,11 +84,19 @@ public class SingleEssenceEditionController
       if (essence!=null)
       {
         setEssence(essence);
+        if (_listener!=null)
+        {
+          _listener.essenceUpdated(this);
+        }
       }
     }
     else if (button==_deleteButton)
     {
       setEssence(null);
+      if (_listener!=null)
+      {
+        _listener.essenceUpdated(this);
+      }
     }
   }
 
@@ -110,7 +129,11 @@ public class SingleEssenceEditionController
     }
     _essenceIconButton.setIcon(icon);
     // Text
-    String text=(essence!=null)?essence.getName():"";
+    String text="";
+    if (essence!=null)
+    {
+      text="<html>"+essence.getName()+"</html>";
+    }
     _essenceName.setText(text);
   }
 
@@ -154,6 +177,8 @@ public class SingleEssenceEditionController
     _essenceIconButton=null;
     _essenceName=null;
     _deleteButton=null;
+    // Listeners
+    _listener=null;
   }
 }
 

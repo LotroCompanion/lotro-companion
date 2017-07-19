@@ -23,6 +23,7 @@ import delta.games.lotro.character.events.CharacterEventsManager;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.character.stats.CharacterStatsComputer;
 import delta.games.lotro.character.stats.STAT;
+import delta.games.lotro.gui.character.essences.AllEssencesWindowController;
 import delta.games.lotro.gui.character.stats.CharacterStatsWindowController;
 import delta.games.lotro.utils.FixedDecimalsInteger;
 
@@ -111,7 +112,6 @@ public class CharacterStatsSummaryPanelController implements CharacterEventListe
     JButton details=GuiFactory.buildButton("Details...");
     ActionListener al=new ActionListener()
     {
-
       public void actionPerformed(ActionEvent e)
       {
         doDetails();
@@ -120,6 +120,19 @@ public class CharacterStatsSummaryPanelController implements CharacterEventListe
     details.addActionListener(al);
     GridBagConstraints cDetails=new GridBagConstraints(1,1,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(details,cDetails);
+
+    // Essences button
+    JButton essences=GuiFactory.buildButton("Essences...");
+    ActionListener alEssences=new ActionListener()
+    {
+      public void actionPerformed(ActionEvent e)
+      {
+        doEssences();
+      }
+    };
+    essences.addActionListener(alEssences);
+    GridBagConstraints cEssences=new GridBagConstraints(2,1,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    panel.add(essences,cEssences);
     return panel;
   }
 
@@ -141,6 +154,24 @@ public class CharacterStatsSummaryPanelController implements CharacterEventListe
   {
     WindowController controller=_childControllers.getWindow(CharacterStatsWindowController.IDENTIFIER);
     return (CharacterStatsWindowController)controller;
+  }
+
+  private void doEssences()
+  {
+    AllEssencesWindowController essencesController=getEssencesController();
+    if (essencesController==null)
+    {
+      essencesController=new AllEssencesWindowController(_toon);
+      _childControllers.registerWindow(essencesController);
+      essencesController.getWindow().setLocationRelativeTo(_parent.getWindow());
+    }
+    essencesController.bringToFront();
+  }
+
+  private AllEssencesWindowController getEssencesController()
+  {
+    WindowController controller=_childControllers.getWindow(AllEssencesWindowController.IDENTIFIER);
+    return (AllEssencesWindowController)controller;
   }
 
   /**
