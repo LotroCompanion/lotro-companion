@@ -75,8 +75,7 @@ public class CharacterFileWindowController extends DefaultWindowController imple
   {
     _toon=toon;
     _windowsManager=new WindowsManager();
-    CharacterSummary summary=_toon.getSummary();
-    _summaryController=new CharacterSummaryPanelController(summary);
+    _summaryController=new CharacterSummaryPanelController(this,_toon);
   }
 
   /**

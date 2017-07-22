@@ -103,7 +103,6 @@ public class ToonsTableController
       regionColumn.setWidthSpecs(100,100,100);
       table.addColumnController(regionColumn);
     }
-    /*
     // Level column
     {
       CellDataProvider<CharacterFile,Integer> levelCell=new CellDataProvider<CharacterFile,Integer>()
@@ -118,7 +117,6 @@ public class ToonsTableController
       serverColumn.setWidthSpecs(80,80,80);
       table.addColumnController(serverColumn);
     }
-    */
     // Server column
     {
       CellDataProvider<CharacterFile,String> serverCell=new CellDataProvider<CharacterFile,String>()

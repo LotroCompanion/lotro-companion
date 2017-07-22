@@ -5,9 +5,7 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -17,7 +15,6 @@ import javax.swing.JTextField;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.common.ui.swing.combobox.ItemSelectionListener;
-import delta.games.lotro.Config;
 import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.events.CharacterEvent;
 import delta.games.lotro.character.events.CharacterEventType;
@@ -25,8 +22,8 @@ import delta.games.lotro.character.events.CharacterEventsManager;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.Race;
 import delta.games.lotro.gui.LotroIconsManager;
+import delta.games.lotro.gui.character.summary.CharacterUiUtils;
 import delta.games.lotro.utils.Formats;
-import delta.games.lotro.utils.TypedProperties;
 
 /**
  * Controller for character main attributes edition panel.
@@ -88,7 +85,7 @@ public class CharacterMainAttrsEditionPanelController
     _name.setColumns(25);
     firstLinePanel.add(_name);
     // Level
-    _level=buildLevelCombo();
+    _level=CharacterUiUtils.buildLevelCombo();
     firstLinePanel.add(_level.getComboBox());
     ItemSelectionListener<Integer> levelListener=new ItemSelectionListener<Integer>()
     {
@@ -167,24 +164,6 @@ public class CharacterMainAttrsEditionPanelController
     }
     // Short description
     _toon.setShortDescription(_shortDescription.getText());
-  }
-
-  private ComboBoxController<Integer> buildLevelCombo()
-  {
-    ComboBoxController<Integer> ctrl=new ComboBoxController<Integer>();
-    TypedProperties props=Config.getInstance().getParameters();
-    int maxLevel=props.getIntProperty("max.character.level.server",105);
-    List<Integer> levels=new ArrayList<Integer>();
-    for(int i=1;i<=maxLevel;i++)
-    {
-      levels.add(Integer.valueOf(i));
-    }
-    for(Integer level : levels)
-    {
-      ctrl.addItem(level,level.toString());
-    }
-    ctrl.selectItem(levels.get(maxLevel-1));
-    return ctrl;
   }
 
   /**
