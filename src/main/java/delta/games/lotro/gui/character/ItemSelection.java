@@ -64,11 +64,8 @@ public class ItemSelection
         List<Item> shields=_sorter.buildShieldsList(cClass,level);
         items.addAll(shields);
       }
-      if (location==EquipmentLocation.RANGED_ITEM)
-      {
-        List<Item> rangedItems=_sorter.getBySlot(cClass,location);
-        items.addAll(rangedItems);
-      }
+      List<Item> others=_sorter.getBySlot(cClass,location);
+      items.addAll(others);
       return items;
     }
     return new ArrayList<Item>();
