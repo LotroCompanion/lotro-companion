@@ -28,6 +28,7 @@ import delta.games.lotro.character.io.xml.CharacterDataIO;
 import delta.games.lotro.character.stats.virtues.VirtuesSet;
 import delta.games.lotro.gui.character.buffs.BuffEditionPanelController;
 import delta.games.lotro.gui.character.essences.AllEssencesWindowController;
+import delta.games.lotro.gui.character.gear.EquipmentPanelController;
 import delta.games.lotro.gui.character.tomes.TomesEditionPanelController;
 import delta.games.lotro.gui.character.virtues.VirtuesDisplayPanelController;
 import delta.games.lotro.gui.character.virtues.VirtuesEditionDialogController;

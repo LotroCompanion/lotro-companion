@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.character;
+package delta.games.lotro.gui.character.gear;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -21,9 +21,7 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 
 import delta.common.ui.swing.GuiFactory;
-import delta.common.ui.swing.icons.IconsManager;
 import delta.common.ui.swing.windows.WindowController;
-import delta.common.utils.text.EndOfLine;
 import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.CharacterEquipment;
 import delta.games.lotro.character.CharacterEquipment.EQUIMENT_SLOT;
@@ -33,13 +31,12 @@ import delta.games.lotro.character.events.CharacterEvent;
 import delta.games.lotro.character.events.CharacterEventType;
 import delta.games.lotro.character.events.CharacterEventsManager;
 import delta.games.lotro.character.storage.ItemsStash;
-import delta.games.lotro.gui.LotroIconsManager;
+import delta.games.lotro.gui.character.ItemSelection;
 import delta.games.lotro.gui.items.ItemChoiceWindowController;
 import delta.games.lotro.gui.items.ItemEditionWindowController;
 import delta.games.lotro.gui.items.ItemFilterController;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemFactory;
-import delta.games.lotro.lore.items.ItemPropertyNames;
 import delta.games.lotro.lore.items.ItemsManager;
 import delta.games.lotro.lore.items.filters.ItemNameFilter;
 
@@ -50,8 +47,6 @@ import delta.games.lotro.lore.items.filters.ItemNameFilter;
 public class EquipmentPanelController implements ActionListener
 {
   private static final int ICON_SIZE=32;
-  private static final String BACKGROUND_ICONS_SEED="/resources/gui/equipment/";
-  private static final String ITEM_WITH_NO_ICON="/resources/gui/equipment/itemNoIcon.png";
   private static final Integer ICONS_DEPTH=Integer.valueOf(1);
 
   private static final int ICON_FRAME_SIZE=3;
@@ -86,6 +81,7 @@ public class EquipmentPanelController implements ActionListener
   private CharacterFile _toon;
   private CharacterData _toonData;
   private HashMap<EQUIMENT_SLOT,JButton> _buttons;
+  private HashMap<EQUIMENT_SLOT,EquipmentSlotIconController> _icons;
   private JPopupMenu _contextMenu;
 
   /**
@@ -100,6 +96,7 @@ public class EquipmentPanelController implements ActionListener
     _toon=toon;
     _toonData=toonData;
     _buttons=new HashMap<EQUIMENT_SLOT,JButton>();
+    _icons=new HashMap<EQUIMENT_SLOT,EquipmentSlotIconController>();
     _contextMenu=buildContextualMenu();
     initPositions();
   }
@@ -240,14 +237,17 @@ public class EquipmentPanelController implements ActionListener
     panel.setMinimumSize(d);
     _layeredPane.setSize(d);
 
-    ImageIcon icon=IconsManager.getIcon(ITEM_WITH_NO_ICON);
-
     MouseListener listener=buildRightClickListener();
     for(EQUIMENT_SLOT slot : EQUIMENT_SLOT.values())
     {
       // Position for item
       Dimension position=_iconPositions.get(slot);
       // Add object icon
+      // - icon controller
+      EquipmentSlotIconController iconController=new EquipmentSlotIconController(slot);
+      _icons.put(slot,iconController);
+      ImageIcon icon=iconController.getIcon();
+      // - button
       JButton button=new JButton(icon);
       button.setBorderPainted(false);
       button.setMargin(new Insets(0,0,0,0));
@@ -264,13 +264,6 @@ public class EquipmentPanelController implements ActionListener
     return panel;
   }
 
-  private ImageIcon getDefaultIcon(EQUIMENT_SLOT slot)
-  {
-    String iconPath=BACKGROUND_ICONS_SEED+slot.name()+".png";
-    ImageIcon backgroundIcon=IconsManager.getIcon(iconPath);
-    return backgroundIcon;
-  }
-
   /**
    * Update contents.
    */
@@ -278,27 +271,13 @@ public class EquipmentPanelController implements ActionListener
   {
     for(EQUIMENT_SLOT slot : EQUIMENT_SLOT.values())
     {
-      ImageIcon icon=null;
-      String tooltipText=null;
       Item item=getItemForSlot(slot);
-      if (item!=null)
-      {
-        String iconId=item.getProperty(ItemPropertyNames.ICON_ID);
-        String backgroundIconId=item.getProperty(ItemPropertyNames.BACKGROUND_ICON_ID);
-        icon=LotroIconsManager.getItemIcon(iconId,backgroundIconId);
-        String dump=item.dump();
-        tooltipText="<html>"+dump.replace(EndOfLine.NATIVE_EOL,"<br>")+"</html>";
-        if (icon==null)
-        {
-          icon=IconsManager.getIcon(ITEM_WITH_NO_ICON);
-        }
-      }
-      else
-      {
-        icon=getDefaultIcon(slot);
-      }
+      EquipmentSlotIconController iconController=_icons.get(slot);
+      iconController.setItem(item);
       JButton button=_buttons.get(slot);
+      ImageIcon icon=iconController.getIcon();
       button.setIcon(icon);
+      String tooltipText=iconController.getTooltip();
       button.setToolTipText(tooltipText);
     }
   }
@@ -476,5 +455,6 @@ public class EquipmentPanelController implements ActionListener
     _toonData=null;
     _iconPositions.clear();
     _buttons.clear();
+    _icons.clear();
   }
 }
