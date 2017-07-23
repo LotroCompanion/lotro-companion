@@ -3,7 +3,9 @@ package delta.games.lotro.gui.character.essences;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 
+import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.DefaultWindowController;
 import delta.games.lotro.character.CharacterData;
 
@@ -18,7 +20,8 @@ public class AllEssencesWindowController extends DefaultWindowController
    */
   public static final String IDENTIFIER="ESSENCES";
 
-  private AllEssencesEditionPanelController _panelController;
+  private AllEssencesEditionPanelController _editionController;
+  private EssencesSummaryPanelController _summaryController;
   private CharacterData _toon;
 
   /**
@@ -27,15 +30,20 @@ public class AllEssencesWindowController extends DefaultWindowController
    */
   public AllEssencesWindowController(CharacterData toon)
   {
-    _panelController=new AllEssencesEditionPanelController(this,toon);
+    _editionController=new AllEssencesEditionPanelController(this,toon);
+    _summaryController=new EssencesSummaryPanelController(toon);
     _toon=toon;
   }
 
   @Override
   protected JComponent buildContents()
   {
-    JPanel panel = _panelController.getPanel();
-    return panel;
+    JTabbedPane tabs=GuiFactory.buildTabbedPane();
+    JPanel editionPanel = _editionController.getPanel();
+    tabs.add("Essences",editionPanel);
+    JPanel summaryPanel = _summaryController.getPanel();
+    tabs.add("Summary",summaryPanel);
+    return tabs;
   }
 
   @Override
@@ -64,10 +72,15 @@ public class AllEssencesWindowController extends DefaultWindowController
   @Override
   public void dispose()
   {
-    if (_panelController!=null)
+    if (_editionController!=null)
     {
-      _panelController.dispose();
-      _panelController=null;
+      _editionController.dispose();
+      _editionController=null;
+    }
+    if (_summaryController!=null)
+    {
+      _summaryController.dispose();
+      _summaryController=null;
     }
     _toon=null;
     super.dispose();
