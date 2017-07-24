@@ -9,10 +9,10 @@ import javax.swing.SwingUtilities;
 import org.apache.log4j.Logger;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.utils.misc.Preferences;
+import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.Config;
-import delta.games.lotro.Preferences;
 import delta.games.lotro.utils.LotroLoggers;
-import delta.games.lotro.utils.TypedProperties;
 
 /**
  * Checks for software updates.

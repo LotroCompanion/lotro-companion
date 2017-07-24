@@ -5,9 +5,9 @@ import java.io.File;
 
 import javax.swing.JFileChooser;
 
+import delta.common.utils.misc.Preferences;
+import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.Config;
-import delta.games.lotro.Preferences;
-import delta.games.lotro.utils.TypedProperties;
 
 /**
  * Controller for a file chooser.

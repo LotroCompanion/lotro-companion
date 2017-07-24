@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import delta.common.ui.swing.combobox.ComboBoxController;
+import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.Config;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.Race;
-import delta.games.lotro.utils.TypedProperties;
 
 /**
  * Utility methods for character UI.

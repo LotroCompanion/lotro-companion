@@ -21,6 +21,7 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.OKCancelPanelController;
 import delta.common.ui.swing.windows.DefaultDialogController;
 import delta.common.ui.swing.windows.WindowController;
+import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.Config;
 import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.CharacterFile;
@@ -28,7 +29,6 @@ import delta.games.lotro.character.CharactersManager;
 import delta.games.lotro.character.stats.CharacterStatsComputer;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.Race;
-import delta.games.lotro.utils.TypedProperties;
 
 /**
  * Controller for the "new toon" dialog.

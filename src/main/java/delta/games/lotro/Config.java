@@ -5,9 +5,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import delta.common.utils.misc.Preferences;
+import delta.common.utils.misc.TypedProperties;
 import delta.common.utils.text.EncodingNames;
 import delta.common.utils.text.TextUtils;
-import delta.games.lotro.utils.TypedProperties;
 
 /**
  * Configuration.

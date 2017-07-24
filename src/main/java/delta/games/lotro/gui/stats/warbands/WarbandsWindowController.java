@@ -8,12 +8,12 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import delta.common.ui.swing.windows.DefaultWindowController;
+import delta.common.utils.misc.Preferences;
+import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.Config;
-import delta.games.lotro.Preferences;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharactersManager;
 import delta.games.lotro.stats.warbands.MultipleToonsWarbandsStats;
-import delta.games.lotro.utils.TypedProperties;
 
 /**
  * Controller for a "warbands statistics" window.
