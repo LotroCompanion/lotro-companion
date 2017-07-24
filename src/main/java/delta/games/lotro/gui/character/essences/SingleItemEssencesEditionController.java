@@ -68,16 +68,23 @@ public class SingleItemEssencesEditionController
       label="<html>"+label+"</html>";
       // Essences
       EssencesSet essences=item.getEssences();
+      int nbEssences=0;
       if (essences!=null)
       {
-        int size=essences.getSize();
-        for(int i=0;i<size;i++)
+        nbEssences=essences.getSize();
+      }
+      int nbEssenceSlots=item.getEssenceSlots();
+      int size=Math.max(nbEssences,nbEssenceSlots);
+      for(int i=0;i<size;i++)
+      {
+        SingleEssenceEditionController controller=new SingleEssenceEditionController(_parent);
+        Item essence=null;
+        if (essences!=null)
         {
-          Item essence=essences.getEssence(i);
-          SingleEssenceEditionController controller=new SingleEssenceEditionController(_parent);
-          controller.setEssence(essence);
-          _controllers.add(controller);
+          essence=essences.getEssence(i);
         }
+        controller.setEssence(essence);
+        _controllers.add(controller);
       }
     }
     _iconController.setItem(item);
