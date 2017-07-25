@@ -100,6 +100,7 @@ public class EssencesSummaryPanelController
 
   private void updateEssenceCountsPanel()
   {
+    _countsPanel.removeAll();
     List<EssenceCount> counts=_summary.getCounts();
     int rowIndex=0;
     for(EssenceCount count : counts)

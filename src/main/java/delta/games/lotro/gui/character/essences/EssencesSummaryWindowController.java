@@ -6,12 +6,16 @@ import javax.swing.JPanel;
 
 import delta.common.ui.swing.windows.DefaultWindowController;
 import delta.games.lotro.character.CharacterData;
+import delta.games.lotro.character.events.CharacterEvent;
+import delta.games.lotro.character.events.CharacterEventListener;
+import delta.games.lotro.character.events.CharacterEventType;
+import delta.games.lotro.character.events.CharacterEventsManager;
 
 /**
  * Controller for a "essences summary" window.
  * @author DAM
  */
-public class EssencesSummaryWindowController extends DefaultWindowController
+public class EssencesSummaryWindowController extends DefaultWindowController implements CharacterEventListener
 {
   /**
    * Window identifier.
@@ -35,6 +39,8 @@ public class EssencesSummaryWindowController extends DefaultWindowController
   protected JComponent buildContents()
   {
     JPanel summaryPanel=_summaryController.getPanel();
+    // Register to events
+    CharacterEventsManager.addListener(this);
     return summaryPanel;
   }
 
@@ -58,12 +64,26 @@ public class EssencesSummaryWindowController extends DefaultWindowController
     return IDENTIFIER;
   }
 
+  public void eventOccured(CharacterEventType type, CharacterEvent event)
+  {
+    if (type==CharacterEventType.CHARACTER_DATA_UPDATED)
+    {
+      CharacterData data=event.getToonData();
+      if (data==_toon)
+      {
+        _summaryController.update();
+        getFrame().pack();
+      }
+    }
+  }
+
   /**
    * Release all managed resources.
    */
   @Override
   public void dispose()
   {
+    CharacterEventsManager.removeListener(this);
     if (_summaryController!=null)
     {
       _summaryController.dispose();
