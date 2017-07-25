@@ -17,7 +17,6 @@ import javax.swing.border.TitledBorder;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.OKCancelPanelController;
 import delta.common.ui.swing.windows.DefaultWindowController;
-import delta.common.ui.swing.windows.WindowController;
 import delta.common.ui.swing.windows.WindowsManager;
 import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.CharacterFile;
@@ -28,6 +27,7 @@ import delta.games.lotro.character.io.xml.CharacterDataIO;
 import delta.games.lotro.character.stats.virtues.VirtuesSet;
 import delta.games.lotro.gui.character.buffs.BuffEditionPanelController;
 import delta.games.lotro.gui.character.essences.AllEssencesWindowController;
+import delta.games.lotro.gui.character.essences.EssencesSummaryWindowController;
 import delta.games.lotro.gui.character.gear.EquipmentPanelController;
 import delta.games.lotro.gui.character.tomes.TomesEditionPanelController;
 import delta.games.lotro.gui.character.virtues.VirtuesDisplayPanelController;
@@ -123,23 +123,17 @@ public class CharacterDataWindowController extends DefaultWindowController
     JPanel equipmentPanel=_equipmentController.getPanel();
     TitledBorder equipmentBorder=GuiFactory.buildTitledBorder("Equipment");
     equipmentPanel.setBorder(equipmentBorder);
-    // Essences button
-    JButton essences=GuiFactory.buildButton("Essences...");
-    ActionListener alEssences=new ActionListener()
-    {
-      public void actionPerformed(ActionEvent e)
-      {
-        doEssences();
-      }
-    };
-    essences.addActionListener(alEssences);
+    // Essences panel
+    JPanel essencesPanel=buildEssencesPanel();
+    TitledBorder essencesBorder=GuiFactory.buildTitledBorder("Essences");
+    essencesPanel.setBorder(essencesBorder);
 
     JPanel gearingPanel=GuiFactory.buildPanel(new GridBagLayout());
     GridBagConstraints c;
     c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     gearingPanel.add(equipmentPanel,c);
     c=new GridBagConstraints(0,1,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(3,3,0,0),0,0);
-    gearingPanel.add(essences,c);
+    gearingPanel.add(essencesPanel,c);
 
     // Center panel
     JPanel centerPanel;
@@ -200,6 +194,38 @@ public class CharacterDataWindowController extends DefaultWindowController
     return fullPanel;
   }
 
+  private JPanel buildEssencesPanel()
+  {
+    JPanel panel=GuiFactory.buildPanel(new FlowLayout());
+    // Edition
+    {
+      JButton edit=GuiFactory.buildButton("Edit...");
+      ActionListener alEssences=new ActionListener()
+      {
+        public void actionPerformed(ActionEvent e)
+        {
+          doEssencesEdition();
+        }
+      };
+      edit.addActionListener(alEssences);
+      panel.add(edit);
+    }
+    // Summary
+    {
+      JButton summary=GuiFactory.buildButton("Summary...");
+      ActionListener alEssences=new ActionListener()
+      {
+        public void actionPerformed(ActionEvent e)
+        {
+          doEssencesSummary();
+        }
+      };
+      summary.addActionListener(alEssences);
+      panel.add(summary);
+    }
+    return panel;
+  }
+
   private JPanel buildVirtuesPanel()
   {
     JPanel panel=GuiFactory.buildPanel(new FlowLayout());
@@ -255,22 +281,28 @@ public class CharacterDataWindowController extends DefaultWindowController
     return id;
   }
 
-  private void doEssences()
+  private void doEssencesEdition()
   {
-    AllEssencesWindowController essencesController=getEssencesController();
-    if (essencesController==null)
+    AllEssencesWindowController editionController=(AllEssencesWindowController)_windowsManager.getWindow(AllEssencesWindowController.IDENTIFIER);
+    if (editionController==null)
     {
-      essencesController=new AllEssencesWindowController(_toon);
-      _windowsManager.registerWindow(essencesController);
-      essencesController.getWindow().setLocationRelativeTo(this.getWindow());
+      editionController=new AllEssencesWindowController(_toon);
+      _windowsManager.registerWindow(editionController);
+      editionController.getWindow().setLocationRelativeTo(this.getWindow());
     }
-    essencesController.bringToFront();
+    editionController.bringToFront();
   }
 
-  private AllEssencesWindowController getEssencesController()
+  private void doEssencesSummary()
   {
-    WindowController controller=_windowsManager.getWindow(AllEssencesWindowController.IDENTIFIER);
-    return (AllEssencesWindowController)controller;
+    EssencesSummaryWindowController summaryController=(EssencesSummaryWindowController)_windowsManager.getWindow(EssencesSummaryWindowController.IDENTIFIER);
+    if (summaryController==null)
+    {
+      summaryController=new EssencesSummaryWindowController(_toon);
+      _windowsManager.registerWindow(summaryController);
+      summaryController.getWindow().setLocationRelativeTo(this.getWindow());
+    }
+    summaryController.bringToFront();
   }
 
   private void ok()

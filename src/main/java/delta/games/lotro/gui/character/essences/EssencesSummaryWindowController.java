@@ -8,34 +8,34 @@ import delta.common.ui.swing.windows.DefaultWindowController;
 import delta.games.lotro.character.CharacterData;
 
 /**
- * Controller for a "all essences edition" window.
+ * Controller for a "essences summary" window.
  * @author DAM
  */
-public class AllEssencesWindowController extends DefaultWindowController
+public class EssencesSummaryWindowController extends DefaultWindowController
 {
   /**
    * Window identifier.
    */
-  public static final String IDENTIFIER="ESSENCES";
+  public static final String IDENTIFIER="ESSENCES_SUMMARY";
 
-  private AllEssencesEditionPanelController _editionController;
+  private EssencesSummaryPanelController _summaryController;
   private CharacterData _toon;
 
   /**
    * Constructor.
    * @param toon Managed toon.
    */
-  public AllEssencesWindowController(CharacterData toon)
+  public EssencesSummaryWindowController(CharacterData toon)
   {
-    _editionController=new AllEssencesEditionPanelController(this,toon);
+    _summaryController=new EssencesSummaryPanelController(toon);
     _toon=toon;
   }
 
   @Override
   protected JComponent buildContents()
   {
-    JPanel editionPanel=_editionController.getPanel();
-    return editionPanel;
+    JPanel summaryPanel=_summaryController.getPanel();
+    return summaryPanel;
   }
 
   @Override
@@ -45,7 +45,7 @@ public class AllEssencesWindowController extends DefaultWindowController
     // Title
     String name=_toon.getName();
     String serverName=_toon.getServer();
-    String title="Essences for: "+name+" @ "+serverName;
+    String title="Essences summary for: "+name+" @ "+serverName;
     frame.setTitle(title);
     frame.pack();
     frame.setResizable(true);
@@ -64,10 +64,10 @@ public class AllEssencesWindowController extends DefaultWindowController
   @Override
   public void dispose()
   {
-    if (_editionController!=null)
+    if (_summaryController!=null)
     {
-      _editionController.dispose();
-      _editionController=null;
+      _summaryController.dispose();
+      _summaryController=null;
     }
     _toon=null;
     super.dispose();
