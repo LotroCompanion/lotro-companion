@@ -18,7 +18,6 @@ public class Config
 {
   private static Config _instance=new Config();
 
-  private File _rootDataDir;
   private File _configDir;
   private File _mapsDir;
   private TypedProperties _parameters;
@@ -39,16 +38,25 @@ public class Config
    */
   private Config()
   {
-    _rootDataDir=new File("data");
-    _configDir=new File(_rootDataDir,"config");
-    File loreDir=new File(_rootDataDir,"lore");
+    LotroCoreConfig coreConfig=LotroCoreConfig.getInstance();
+
+    // Lore
+    File loreDir=coreConfig.getLoreDir();
     _mapsDir=new File(loreDir,"maps");
-    _servers=new ArrayList<String>();
+
+    // Configuration
+    _configDir=coreConfig.getConfigDir();
     File parametersFiles=new File(_configDir,"params.txt");
     _parameters=new TypedProperties();
     _parameters.loadFromFile(parametersFiles);
-    File preferencesDir=new File(_rootDataDir,"preferences");
+
+    // User data
+    File userDir=coreConfig.getUserDataDir();
+    // - preferences
+    File preferencesDir=new File(userDir,"preferences");
     _preferences=new Preferences(preferencesDir);
+
+    // Load servers
     loadServers();
   }
 
@@ -99,6 +107,7 @@ public class Config
 
   private void loadServers()
   {
+    _servers=new ArrayList<String>();
     File serversFiles=new File(_configDir,"servers.txt");
     List<String> servers=TextUtils.readAsLines(serversFiles,EncodingNames.UTF_8);
     if (servers!=null)
