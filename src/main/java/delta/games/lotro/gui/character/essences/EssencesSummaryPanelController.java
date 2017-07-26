@@ -5,6 +5,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.util.List;
 
+import javax.swing.Box;
 import javax.swing.Icon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -103,6 +104,9 @@ public class EssencesSummaryPanelController
     _countsPanel.removeAll();
     List<EssenceCount> counts=_summary.getCounts();
     int rowIndex=0;
+    GridBagConstraints strutConstraints=new GridBagConstraints(0,rowIndex,3,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,5,0,0),0,0);
+    _countsPanel.add(Box.createHorizontalStrut(100),strutConstraints);
+    rowIndex++;
     for(EssenceCount count : counts)
     {
       SingleEssenceCountController controller=new SingleEssenceCountController(count);
@@ -140,6 +144,12 @@ public class EssencesSummaryPanelController
   private void updateStatsPanel(JPanel panel, BasicStatsSet stats)
   {
     panel.removeAll();
+
+    int rowIndex=0;
+    GridBagConstraints strutConstraints=new GridBagConstraints(0,rowIndex,3,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,5,0,0),0,0);
+    panel.add(Box.createHorizontalStrut(100),strutConstraints);
+    rowIndex++;
+
     int statsCount=stats.getStatsCount();
     if (statsCount>0)
     {
@@ -152,7 +162,6 @@ public class EssencesSummaryPanelController
       BasicStatsSet toonStats=_toon.getStats();
 
       // Build display
-      int rowIndex=0;
       for(STAT stat : STAT.values())
       {
         FixedDecimalsInteger value=stats.getStat(stat);
