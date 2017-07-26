@@ -31,7 +31,6 @@ import delta.games.lotro.character.events.CharacterEvent;
 import delta.games.lotro.character.events.CharacterEventType;
 import delta.games.lotro.character.events.CharacterEventsManager;
 import delta.games.lotro.character.storage.ItemsStash;
-import delta.games.lotro.gui.character.ItemSelection;
 import delta.games.lotro.gui.items.ItemChoiceWindowController;
 import delta.games.lotro.gui.items.ItemEditionWindowController;
 import delta.games.lotro.gui.items.ItemFilterController;
@@ -324,10 +323,11 @@ public class EquipmentPanelController implements ActionListener
       refreshToon();
     }
   }
+
   private Item chooseItem(EQUIMENT_SLOT slot, List<Item> items)
   {
-    ItemSelection selection=new ItemSelection(items);
-    List<Item> selectedItems=selection.getItems(_toonData,slot);
+    ItemsManager itemsManager=ItemsManager.getInstance();
+    List<Item> selectedItems=itemsManager.getItems(_toonData,slot);
     ItemNameFilter filter=new ItemNameFilter();
     ItemFilterController filterController=new ItemFilterController(filter);
     ItemChoiceWindowController choiceCtrl=new ItemChoiceWindowController(_parentWindow,selectedItems,filter,filterController);

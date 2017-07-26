@@ -24,11 +24,11 @@ public class MainTestItemEditionWindowController
     int nbItems=items.size();
     while ((index<nbItems) && (nbWindows<1))
     {
-      //Item item=itemsMgr.getItem(Integer.valueOf(1879313783)); // Light Nadhin Hood (level 192)
-      //Item item=itemsMgr.getItem(Integer.valueOf(1879323547)); // Bridge-warden's Shield (level 201)
-      //Item item=itemsMgr.getItem(Integer.valueOf(1879134849)); // Javelin of Ire
-      //Item item=itemsMgr.getItem(Integer.valueOf(1879311750)); // Reshaped Minstrel's Club of the First Age
-      Item item=itemsMgr.getItem(Integer.valueOf(1879279194)); // Lesser Valourous Helm of Fate
+      //Item item=itemsMgr.getItem(1879313783); // Light Nadhin Hood (level 192)
+      //Item item=itemsMgr.getItem(1879323547); // Bridge-warden's Shield (level 201)
+      //Item item=itemsMgr.getItem(1879134849); // Javelin of Ire
+      //Item item=itemsMgr.getItem(1879311750); // Reshaped Minstrel's Club of the First Age
+      Item item=itemsMgr.getItem(1879279194); // Lesser Valourous Helm of Fate
       //Item item=items.get(index);
       //if ((item.getQuality()==ItemQuality.LEGENDARY) && (Integer.valueOf(192).equals(item.getItemLevel())))
       //if (item instanceof Armour)
