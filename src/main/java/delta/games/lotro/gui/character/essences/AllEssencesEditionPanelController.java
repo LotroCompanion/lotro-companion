@@ -47,11 +47,11 @@ public class AllEssencesEditionPanelController implements EssenceUpdatedListener
     _toon=toon;
     _parent=parent;
     _editors=new ArrayList<SingleItemEssencesEditionController>();
-    init();
-    _panel=buildPanel();
+    _panel=GuiFactory.buildBackgroundPanel(new GridBagLayout());
+    update();
   }
 
-  private void init()
+  private void initEditors()
   {
     CharacterEquipment equipment=_toon.getEquipment();
     for(EQUIMENT_SLOT slot : EQUIMENT_SLOT.values())
@@ -63,10 +63,14 @@ public class AllEssencesEditionPanelController implements EssenceUpdatedListener
     }
   }
 
-  private JPanel buildPanel()
+  /**
+   * Update UI.
+   */
+  public void update()
   {
-    JPanel panel=GuiFactory.buildBackgroundPanel(new GridBagLayout());
-
+    clearEditors();
+    initEditors();
+    _panel.removeAll();
     int nbEssencesColumns=getEssencesCount();
     // Headers
     int nbColumns=nbEssencesColumns+2;
@@ -79,7 +83,7 @@ public class AllEssencesEditionPanelController implements EssenceUpdatedListener
       if (i==1) text="Name";
       else if (i>1) text="Slot #"+(i-1);
       JLabel label=GuiFactory.buildLabel(text);
-      panel.add(label,c);
+      _panel.add(label,c);
       columnIndex+=columnSpan;
     }
 
@@ -91,12 +95,12 @@ public class AllEssencesEditionPanelController implements EssenceUpdatedListener
       // Icon
       JLabel icon=controller.getItemIcon();
       GridBagConstraints c=new GridBagConstraints(columnIndex,rowIndex,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,0,0),0,0);
-      panel.add(icon,c);
+      _panel.add(icon,c);
       columnIndex++;
       // Label
       JLabel label=controller.getItemLabel();
       c=new GridBagConstraints(columnIndex,rowIndex,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(5,5,0,10),0,0);
-      panel.add(label,c);
+      _panel.add(label,c);
       columnIndex++;
       // Essences
       List<SingleEssenceEditionController> essenceEditors=controller.getEssenceControllers();
@@ -109,19 +113,18 @@ public class AllEssencesEditionPanelController implements EssenceUpdatedListener
           essenceEditor.setListener(this);
           JButton essenceButton=essenceEditor.getEssenceButton();
           c=new GridBagConstraints(columnIndex,rowIndex,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
-          panel.add(essenceButton,c);
+          _panel.add(essenceButton,c);
           JLabel essenceLabel=essenceEditor.getEssenceNameLabel();
           c=new GridBagConstraints(columnIndex+1,rowIndex,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
-          panel.add(essenceLabel,c);
+          _panel.add(essenceLabel,c);
           JButton deleteButton=essenceEditor.getDeleteButton();
           c=new GridBagConstraints(columnIndex+2,rowIndex,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
-          panel.add(deleteButton,c);
+          _panel.add(deleteButton,c);
         }
         columnIndex+=3;
       }
       rowIndex++;
     }
-    return panel;
   }
 
   private int getEssencesCount()
@@ -173,6 +176,15 @@ public class AllEssencesEditionPanelController implements EssenceUpdatedListener
     return _panel;
   }
 
+  private void clearEditors()
+  {
+    for(SingleItemEssencesEditionController editor : _editors)
+    {
+      editor.dispose();
+    }
+    _editors.clear();
+  }
+
   /**
    * Release all managed resources.
    */
@@ -184,10 +196,7 @@ public class AllEssencesEditionPanelController implements EssenceUpdatedListener
     _parent=null;
     if (_editors!=null)
     {
-      for(SingleItemEssencesEditionController editor : _editors)
-      {
-        editor.dispose();
-      }
+      clearEditors();
       _editors=null;
     }
     // UI
