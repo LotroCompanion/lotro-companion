@@ -1,7 +1,6 @@
 package delta.games.lotro.gui.items;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -33,8 +32,7 @@ public class ItemEditionWindowController extends DefaultDialogController impleme
   public ItemEditionWindowController(WindowController parent, Item item)
   {
     super(parent);
-    _panelController=new ItemEditionPanelController(this);
-    _panelController.setItem(item);
+    _panelController=new ItemEditionPanelController(this,item);
   }
 
   @Override
@@ -48,7 +46,7 @@ public class ItemEditionWindowController extends DefaultDialogController impleme
       Window parentWindow=controller.getWindow();
       dialog.setLocationRelativeTo(parentWindow);
     }
-    dialog.setMinimumSize(new Dimension(400,300));
+    dialog.setMinimumSize(dialog.getPreferredSize());
     return dialog;
   }
 

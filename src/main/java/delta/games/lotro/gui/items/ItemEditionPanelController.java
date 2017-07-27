@@ -3,9 +3,11 @@ package delta.games.lotro.gui.items;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.util.List;
 
-import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
@@ -89,15 +91,15 @@ public class ItemEditionPanelController
   private FloatEditionController _dps;
   private ComboBoxController<WeaponType> _weaponType;
 
-  private JTabbedPane _tabbedPane;
-
   /**
    * Constructor.
    * @param parent Parent window.
+   * @param item Item.
    */
-  public ItemEditionPanelController(WindowController parent)
+  public ItemEditionPanelController(WindowController parent, Item item)
   {
     _parent=parent;
+    _item=item;
   }
 
   /**
@@ -115,13 +117,14 @@ public class ItemEditionPanelController
 
   private JPanel build()
   {
-    JPanel panel=GuiFactory.buildBackgroundPanel(new BorderLayout());
-    panel.setLayout(new BoxLayout(panel,BoxLayout.PAGE_AXIS));
+    JPanel panel=GuiFactory.buildBackgroundPanel(new GridBagLayout());
 
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     // Main data line
     {
       JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
-      panel.add(panelLine);
+      panel.add(panelLine,c);
+      c.gridy++;
       // Icon
       _icon=GuiFactory.buildIconLabel(null);
       panelLine.add(_icon);
@@ -139,10 +142,12 @@ public class ItemEditionPanelController
     }
 
     // Armour specifics line
+    if (_item instanceof Armour)
     {
       _armourPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
-      panel.add(_armourPanel);
-      _armourPanel.setVisible(false);
+      panel.add(_armourPanel,c);
+      c.gridy++;
+      _armourPanel.setVisible(true);
       // Armour
       JTextField armourValue=GuiFactory.buildTextField("");
       _armourValue=new IntegerEditionController(armourValue);
@@ -156,9 +161,11 @@ public class ItemEditionPanelController
     }
 
     // Weapon specifics line
+    if (_item instanceof Weapon)
     {
       _weaponPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
-      panel.add(_weaponPanel);
+      panel.add(_weaponPanel,c);
+      c.gridy++;
       _weaponPanel.setVisible(false);
 
       // Weapon type
@@ -193,7 +200,8 @@ public class ItemEditionPanelController
     // Level and binding line
     {
       JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
-      panel.add(panelLine);
+      panel.add(panelLine,c);
+      c.gridy++;
       // Item level
       _itemLevel=new ComboBoxController<Integer>(true,Integer.class);
       panelLine.add(GuiFactory.buildLabel("Item level:"));
@@ -211,7 +219,8 @@ public class ItemEditionPanelController
     // Durability/sturdiness/quality line
     {
       JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
-      panel.add(panelLine);
+      panel.add(panelLine,c);
+      c.gridy++;
       // Durability
       JTextField durability=GuiFactory.buildTextField("");
       _durability=new IntegerEditionController(durability,3);
@@ -237,7 +246,8 @@ public class ItemEditionPanelController
     // Contextual data line
     {
       JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
-      panel.add(panelLine);
+      panel.add(panelLine,c);
+      c.gridy++;
       // Birth name
       _birthName=GuiFactory.buildTextField("");
       _birthName.setColumns(20);
@@ -254,7 +264,8 @@ public class ItemEditionPanelController
       _userComments=GuiFactory.buildTextField("");
       _userComments.setColumns(40);
       JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
-      panel.add(panelLine);
+      panel.add(panelLine,c);
+      c.gridy++;
       panelLine.add(GuiFactory.buildLabel("Comments:"));
       panelLine.add(_userComments);
     }
@@ -285,102 +296,100 @@ public class ItemEditionPanelController
     tabbedPane.add("Stats",_stats.getPanel());
     tabbedPane.add("Description",descriptionPanel);
     tabbedPane.add("Essences",_essencesEditor.getPanel());
-    panel.add(tabbedPane);
-    _tabbedPane=tabbedPane;
+    // Legendary specifics
+    // - relics
+    JPanel relicsPanel=null;
+    if (_item instanceof Legendary)
+    {
+      Legendary legItem=(Legendary)_item;
+      LegendaryAttrs attrs=legItem.getLegendaryAttrs();
+      RelicsEditionPanelController relicEditor=new RelicsEditionPanelController(_parent,attrs);
+      relicsPanel=relicEditor.getPanel();
+      tabbedPane.add("Relics",relicsPanel);
+    }
 
+    c.gridy++;
+    c.weighty=1.0;
+    c.fill=GridBagConstraints.BOTH;
+    panel.add(tabbedPane,c);
+
+    _panel=panel;
+    setItem();
     return panel;
   }
 
   /**
    * Set the item to display.
-   * @param item Item to display.
    */
-  public void setItem(Item item)
+  private void setItem()
   {
-    _item=item;
-    // Ensure panel is built!
-    getPanel();
-    String name=item.getName();
+    String name=_item.getName();
     _parent.setTitle(name);
     // Icon
-    String iconId=item.getProperty(ItemPropertyNames.ICON_ID);
-    String backgroundIconId=item.getProperty(ItemPropertyNames.BACKGROUND_ICON_ID);
+    String iconId=_item.getProperty(ItemPropertyNames.ICON_ID);
+    String backgroundIconId=_item.getProperty(ItemPropertyNames.BACKGROUND_ICON_ID);
     ImageIcon icon=LotroIconsManager.getItemIcon(iconId,backgroundIconId);
     _icon.setIcon(icon);
     // Name
     _name.setText(name);
     // Slot
-    _slot.selectItem(item.getEquipmentLocation());
+    _slot.selectItem(_item.getEquipmentLocation());
     // Stats
-    _stats.initFromStats(item.getStats());
+    _stats.initFromStats(_item.getStats());
     // Configure scaling
-    configureScaling(item);
+    configureScaling(_item);
     // Item level
-    Integer itemLevel=item.getItemLevel();
+    Integer itemLevel=_item.getItemLevel();
     _itemLevel.selectItem(itemLevel);
     // Minimum level
-    Integer minLevel=item.getMinLevel();
+    Integer minLevel=_item.getMinLevel();
     _minLevel.selectItem(minLevel);
     // Description
-    _description.setText(item.getDescription());
+    _description.setText(_item.getDescription());
     // Sub category
-    _subCategory.setText(item.getSubCategory());
+    _subCategory.setText(_item.getSubCategory());
     // Birth name
-    _birthName.setText(item.getBirthName());
+    _birthName.setText(_item.getBirthName());
     // Crafter name
-    _crafterName.setText(item.getCrafterName());
+    _crafterName.setText(_item.getCrafterName());
     // User comments
-    String userComments=item.getProperty(ItemConstants.USER_COMMENT);
+    String userComments=_item.getProperty(ItemConstants.USER_COMMENT);
     if (userComments==null) userComments="";
     _userComments.setText(userComments);
     // Binding
-    _binding.selectItem(item.getBinding());
+    _binding.selectItem(_item.getBinding());
     // Unicity
-    _unique.setSelected(item.isUnique());
+    _unique.setSelected(_item.isUnique());
     // Durability
-    _durability.setValue(item.getDurability());
+    _durability.setValue(_item.getDurability());
     // Sturdiness
-    _sturdiness.selectItem(item.getSturdiness());
+    _sturdiness.selectItem(_item.getSturdiness());
     // Stack max
-    _stackMax.setValue(item.getStackMax());
+    _stackMax.setValue(_item.getStackMax());
     // Quality
-    _quality.selectItem(item.getQuality());
+    _quality.selectItem(_item.getQuality());
 
     // Armour specifics
-    if (item instanceof Armour)
+    if (_item instanceof Armour)
     {
-      Armour armour=(Armour)item;
+      Armour armour=(Armour)_item;
       _armourValue.setValue(Integer.valueOf(armour.getArmourValue()));
       _armourType.selectItem(armour.getArmourType());
-      _armourPanel.setVisible(true);
     }
 
     // Weapon specifics
-    if (item instanceof Weapon)
+    if (_item instanceof Weapon)
     {
-      Weapon weapon=(Weapon)item;
+      Weapon weapon=(Weapon)_item;
       _minDamage.setValue(Integer.valueOf(weapon.getMinDamage()));
       _maxDamage.setValue(Integer.valueOf(weapon.getMaxDamage()));
       _dps.setValue(Float.valueOf(weapon.getDPS()));
       _weaponType.selectItem(weapon.getWeaponType());
       _damageType.selectItem(weapon.getDamageType());
-      _weaponPanel.setVisible(true);
     }
 
     // Essences
-    _essencesEditor.initFromItem(item);
-
-    // Legendary specifics
-    // Relics
-    JPanel relicsPanel=null;
-    if (item instanceof Legendary)
-    {
-      Legendary legItem=(Legendary)item;
-      LegendaryAttrs attrs=legItem.getLegendaryAttrs();
-      RelicsEditionPanelController relicEditor=new RelicsEditionPanelController(_parent,attrs);
-      relicsPanel=relicEditor.getPanel();
-      _tabbedPane.add("Relics",relicsPanel);
-    }
+    _essencesEditor.initFromItem(_item);
   }
 
   /**
@@ -757,6 +766,5 @@ public class ItemEditionPanelController
     _unique=null;
     _armourPanel=null;
     _weaponPanel=null;
-    _tabbedPane=null;
   }
 }
