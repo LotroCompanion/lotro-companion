@@ -57,6 +57,7 @@ public class SingleEssenceEditionController
     _essenceIconButton.addActionListener(listener);
     // Label
     _essenceName=GuiFactory.buildLabel("");
+    setEssence(null);
     // Delete button
     ImageIcon icon=IconsManager.getIcon("/resources/gui/icons/cross.png");
     _deleteButton=GuiFactory.buildButton("");
