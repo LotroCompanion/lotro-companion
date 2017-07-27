@@ -117,7 +117,7 @@ public class ItemEditionPanelController
 
   private JPanel build()
   {
-    JPanel panel=GuiFactory.buildBackgroundPanel(new GridBagLayout());
+    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
 
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     // Main data line
@@ -280,7 +280,6 @@ public class ItemEditionPanelController
     }
 
     // Tabbed pane at the bottom
-    JTabbedPane tabbedPane=GuiFactory.buildTabbedPane();
     // Description
     JPanel descriptionPanel=GuiFactory.buildBackgroundPanel(new BorderLayout());
     _description=GuiFactory.buildTextArea("",false);
@@ -293,6 +292,7 @@ public class ItemEditionPanelController
     _essencesEditor=new EssencesEditionPanelController(_parent);
 
     // Tabbed pane assembly
+    JTabbedPane tabbedPane=GuiFactory.buildTabbedPane();
     tabbedPane.add("Stats",_stats.getPanel());
     tabbedPane.add("Description",descriptionPanel);
     tabbedPane.add("Essences",_essencesEditor.getPanel());
@@ -308,14 +308,13 @@ public class ItemEditionPanelController
       tabbedPane.add("Relics",relicsPanel);
     }
 
-    c.gridy++;
-    c.weighty=1.0;
-    c.fill=GridBagConstraints.BOTH;
-    panel.add(tabbedPane,c);
+    JPanel ret=GuiFactory.buildBackgroundPanel(new BorderLayout());
+    ret.add(panel,BorderLayout.NORTH);
+    ret.add(tabbedPane,BorderLayout.CENTER);
 
-    _panel=panel;
+    _panel=ret;
     setItem();
-    return panel;
+    return ret;
   }
 
   /**
