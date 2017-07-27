@@ -326,7 +326,7 @@ public class EquipmentPanelController implements ActionListener
 
   private Item chooseItem(EQUIMENT_SLOT slot, List<Item> items)
   {
-    ItemsManager itemsManager=ItemsManager.getInstance();
+    ItemsManager itemsManager=new ItemsManager(items);
     List<Item> selectedItems=itemsManager.getItems(_toonData,slot);
     ItemNameFilter filter=new ItemNameFilter();
     ItemFilterController filterController=new ItemFilterController(filter);
