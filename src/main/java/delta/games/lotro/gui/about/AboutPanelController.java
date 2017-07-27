@@ -18,6 +18,8 @@ import javax.swing.Timer;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.icons.IconsManager;
+import delta.common.ui.swing.labels.HyperLinkController;
+import delta.common.ui.swing.labels.HyperLinkController.TYPE;
 
 /**
  * Controller for a 'about' panel.
@@ -27,6 +29,7 @@ public class AboutPanelController
 {
   private JPanel _panel;
   private Timer _timer;
+  private HyperLinkController _mail;
 
   /**
    * Constructor.
@@ -68,7 +71,9 @@ public class AboutPanelController
     y++;
 
     // Project contact
-    JLabel lbEmail=new JLabel("lotrocompanion@gmail.com");
+    _mail=new HyperLinkController(TYPE.MAILTO);
+    _mail.configureMail("lotrocompanion@gmail.com","Contact");
+    JLabel lbEmail=_mail.getLabel();
     lbEmail.setFont(lbVersion.getFont().deriveFont(Font.BOLD,16));
     c=new GridBagConstraints(0,y,2,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(10,5,10,5),0,0);
     panel.add(lbEmail,c);
@@ -241,6 +246,11 @@ public class AboutPanelController
     {
       _timer.stop();
       _timer=null;
+    }
+    if (_mail!=null)
+    {
+      _mail.dispose();
+      _mail=null;
     }
   }
 }
