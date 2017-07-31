@@ -20,6 +20,8 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.icons.IconsManager;
 import delta.common.ui.swing.labels.HyperLinkController;
 import delta.common.ui.swing.labels.HyperLinkController.TYPE;
+import delta.common.utils.misc.TypedProperties;
+import delta.games.lotro.Config;
 
 /**
  * Controller for a 'about' panel.
@@ -63,7 +65,7 @@ public class AboutPanelController
     y++;
 
     // Project version
-    String projectVersion="Version 4.0.1 (20/02/2017)";
+    String projectVersion=buildProjectVersion();
     JLabel lbVersion=new JLabel(projectVersion);
     lbVersion.setFont(lbVersion.getFont().deriveFont(Font.BOLD,24));
     c=new GridBagConstraints(0,y,2,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(10,5,10,5),0,0);
@@ -93,6 +95,14 @@ public class AboutPanelController
     y++;
 
     return panel;
+  }
+
+  private String buildProjectVersion()
+  {
+    TypedProperties props=Config.getInstance().getParameters();
+    String name=props.getStringProperty("current.version.name","?");
+    String date=props.getStringProperty("current.version.date","01/01/1970");
+    return "Version "+name+" ("+date+')';
   }
 
   private JPanel buildContributorsPanel()
