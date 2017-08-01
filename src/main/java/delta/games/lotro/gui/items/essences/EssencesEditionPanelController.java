@@ -11,7 +11,6 @@ import java.util.List;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
@@ -76,7 +75,7 @@ public class EssencesEditionPanelController
     for(int i=0;i<nbSlots;i++)
     {
       Item essence=item.getEssenceAt(i);
-      SingleEssenceEditionController ctrl=new SingleEssenceEditionController(_parent);
+      SingleEssenceEditionController ctrl=new SingleEssenceEditionController(_parent,1);
       ctrl.setEssence(essence);
       _essenceControllers.add(ctrl);
     }
@@ -112,7 +111,7 @@ public class EssencesEditionPanelController
     JButton value=ctrl.getEssenceButton();
     panel.add(value,c);
     // Essence label
-    JLabel unit=ctrl.getEssenceNameLabel();
+    JPanel unit=ctrl.getEssenceNameLabel();
     c=new GridBagConstraints(1,index,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(unit,c);
     // Delete button
@@ -124,7 +123,7 @@ public class EssencesEditionPanelController
 
   private void addSlot()
   {
-    SingleEssenceEditionController ctrl=new SingleEssenceEditionController(_parent);
+    SingleEssenceEditionController ctrl=new SingleEssenceEditionController(_parent,1);
     _essenceControllers.add(ctrl);
     updateUi();
   }

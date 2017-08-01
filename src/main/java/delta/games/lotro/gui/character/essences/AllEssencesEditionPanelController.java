@@ -98,8 +98,8 @@ public class AllEssencesEditionPanelController implements EssenceUpdatedListener
       _panel.add(icon,c);
       columnIndex++;
       // Label
-      JLabel label=controller.getItemLabel();
-      c=new GridBagConstraints(columnIndex,rowIndex,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(5,5,0,10),0,0);
+      JPanel label=controller.getItemLabel();
+      c=new GridBagConstraints(columnIndex,rowIndex,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,0,10),0,0);
       _panel.add(label,c);
       columnIndex++;
       // Essences
@@ -114,8 +114,8 @@ public class AllEssencesEditionPanelController implements EssenceUpdatedListener
           JButton essenceButton=essenceEditor.getEssenceButton();
           c=new GridBagConstraints(columnIndex,rowIndex,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
           _panel.add(essenceButton,c);
-          JLabel essenceLabel=essenceEditor.getEssenceNameLabel();
-          c=new GridBagConstraints(columnIndex+1,rowIndex,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+          JPanel essenceLabel=essenceEditor.getEssenceNameLabel();
+          c=new GridBagConstraints(columnIndex+1,rowIndex,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
           _panel.add(essenceLabel,c);
           JButton deleteButton=essenceEditor.getDeleteButton();
           c=new GridBagConstraints(columnIndex+2,rowIndex,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);

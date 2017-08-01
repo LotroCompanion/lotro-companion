@@ -26,7 +26,7 @@ import delta.games.lotro.character.events.CharacterEventsManager;
 import delta.games.lotro.character.io.xml.CharacterDataIO;
 import delta.games.lotro.character.stats.virtues.VirtuesSet;
 import delta.games.lotro.gui.character.buffs.BuffEditionPanelController;
-import delta.games.lotro.gui.character.essences.AllEssencesWindowController;
+import delta.games.lotro.gui.character.essences.AllEssencesEditionWindowController;
 import delta.games.lotro.gui.character.essences.EssencesSummaryWindowController;
 import delta.games.lotro.gui.character.gear.EquipmentPanelController;
 import delta.games.lotro.gui.character.tomes.TomesEditionPanelController;
@@ -283,10 +283,10 @@ public class CharacterDataWindowController extends DefaultWindowController
 
   private void doEssencesEdition()
   {
-    AllEssencesWindowController editionController=(AllEssencesWindowController)_windowsManager.getWindow(AllEssencesWindowController.IDENTIFIER);
+    AllEssencesEditionWindowController editionController=(AllEssencesEditionWindowController)_windowsManager.getWindow(AllEssencesEditionWindowController.IDENTIFIER);
     if (editionController==null)
     {
-      editionController=new AllEssencesWindowController(_toon);
+      editionController=new AllEssencesEditionWindowController(_toon);
       _windowsManager.registerWindow(editionController);
       editionController.getWindow().setLocationRelativeTo(this.getWindow());
     }

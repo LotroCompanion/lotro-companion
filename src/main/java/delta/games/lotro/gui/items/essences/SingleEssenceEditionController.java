@@ -7,10 +7,11 @@ import java.awt.event.ActionListener;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.icons.IconsManager;
+import delta.common.ui.swing.labels.MultilineLabel;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.gui.items.ItemUiTools;
 import delta.games.lotro.lore.items.Item;
@@ -25,11 +26,12 @@ public class SingleEssenceEditionController
 
   // Data
   private Item _essence;
+  private int _linesCount;
   // Controllers
   private WindowController _parent;
   // UI
   private JButton _essenceIconButton;
-  private JLabel _essenceName;
+  private MultilineLabel _essenceName;
   private JButton _deleteButton;
   // Listeners
   private EssenceUpdatedListener _listener;
@@ -37,10 +39,12 @@ public class SingleEssenceEditionController
   /**
    * Constructor.
    * @param parent Parent window.
+   * @param linesCount Number of lines to display the essence name.
    */
-  public SingleEssenceEditionController(WindowController parent)
+  public SingleEssenceEditionController(WindowController parent, int linesCount)
   {
     _essence=null;
+    _linesCount=linesCount;
     _parent=parent;
     // Button
     _essenceIconButton=GuiFactory.buildButton("");
@@ -56,7 +60,7 @@ public class SingleEssenceEditionController
     };
     _essenceIconButton.addActionListener(listener);
     // Label
-    _essenceName=GuiFactory.buildLabel("");
+    _essenceName=new MultilineLabel();
     setEssence(null);
     // Delete button
     ImageIcon icon=IconsManager.getIcon("/resources/gui/icons/cross.png");
@@ -133,9 +137,9 @@ public class SingleEssenceEditionController
     String text="";
     if (essence!=null)
     {
-      text="<html>"+essence.getName()+"</html>";
+      text=essence.getName();
     }
-    _essenceName.setText(text);
+    _essenceName.setText(text,_linesCount);
   }
 
   /**
@@ -151,7 +155,7 @@ public class SingleEssenceEditionController
    * Get the label for the essence.
    * @return a label.
    */
-  public JLabel getEssenceNameLabel()
+  public JPanel getEssenceNameLabel()
   {
     return _essenceName;
   }
@@ -182,4 +186,3 @@ public class SingleEssenceEditionController
     _listener=null;
   }
 }
-

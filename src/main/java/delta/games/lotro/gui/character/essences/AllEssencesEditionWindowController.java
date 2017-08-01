@@ -15,7 +15,7 @@ import delta.games.lotro.character.events.CharacterEventsManager;
  * Controller for a "all essences edition" window.
  * @author DAM
  */
-public class AllEssencesWindowController extends DefaultWindowController implements CharacterEventListener
+public class AllEssencesEditionWindowController extends DefaultWindowController implements CharacterEventListener
 {
   /**
    * Window identifier.
@@ -29,7 +29,7 @@ public class AllEssencesWindowController extends DefaultWindowController impleme
    * Constructor.
    * @param toon Managed toon.
    */
-  public AllEssencesWindowController(CharacterData toon)
+  public AllEssencesEditionWindowController(CharacterData toon)
   {
     _editionController=new AllEssencesEditionPanelController(this,toon);
     _toon=toon;
@@ -54,7 +54,7 @@ public class AllEssencesWindowController extends DefaultWindowController impleme
     String title="Essences for: "+name+" @ "+serverName;
     frame.setTitle(title);
     frame.pack();
-    frame.setResizable(true);
+    frame.setResizable(false);
     return frame;
   }
 
