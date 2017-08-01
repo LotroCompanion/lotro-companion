@@ -28,6 +28,7 @@ import delta.common.ui.swing.windows.WindowsManager;
 import delta.common.utils.misc.Preferences;
 import delta.games.lotro.Config;
 import delta.games.lotro.gui.about.AboutDialogController;
+import delta.games.lotro.gui.about.CreditsDialogController;
 import delta.games.lotro.gui.stats.levelling.CharacterLevelWindowController;
 import delta.games.lotro.gui.stats.warbands.WarbandsWindowController;
 import delta.games.lotro.gui.toon.ToonsManagementController;
@@ -114,6 +115,17 @@ public class MainFrameController extends DefaultWindowController implements Acti
     };
     aboutMenuItem.addActionListener(alAbout);
     helpMenu.add(aboutMenuItem);
+    // - credits
+    JMenuItem creditsMenuItem=GuiFactory.buildMenuItem("Credits...");
+    ActionListener alCredits=new ActionListener()
+    {
+      public void actionPerformed(ActionEvent e)
+      {
+        doCredits();
+      }
+    };
+    creditsMenuItem.addActionListener(alCredits);
+    helpMenu.add(creditsMenuItem);
 
     JMenuBar menuBar=GuiFactory.buildMenuBar();
     menuBar.add(fileMenu);
@@ -241,6 +253,21 @@ public class MainFrameController extends DefaultWindowController implements Acti
       w.setLocationRelativeTo(thisFrame);
       Point p=w.getLocation();
       w.setLocation(p.x+100,p.y+100);
+    }
+    controller.bringToFront();
+  }
+
+  private void doCredits()
+  {
+    String id=CreditsDialogController.getIdentifier();
+    WindowController controller=_windowsManager.getWindow(id);
+    if (controller==null)
+    {
+      JFrame thisFrame=getFrame();
+      controller=new CreditsDialogController(this);
+      _windowsManager.registerWindow(controller);
+      Window w=controller.getWindow();
+      w.setLocationRelativeTo(thisFrame);
     }
     controller.bringToFront();
   }
