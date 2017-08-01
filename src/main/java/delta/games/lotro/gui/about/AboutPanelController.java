@@ -1,6 +1,7 @@
 package delta.games.lotro.gui.about;
 
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -73,13 +74,51 @@ public class AboutPanelController
     y++;
 
     // Project contact
+    JPanel contactPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.CENTER));
+    JLabel contactLabel=GuiFactory.buildLabel("Contact: ");
+    Font font=lbVersion.getFont().deriveFont(Font.BOLD,16);
+    contactLabel.setFont(font);
+    contactPanel.add(contactLabel);
     _mail=new HyperLinkController(TYPE.MAILTO);
     _mail.configureMail("lotrocompanion@gmail.com","Contact");
     JLabel lbEmail=_mail.getLabel();
-    lbEmail.setFont(lbVersion.getFont().deriveFont(Font.BOLD,16));
-    c=new GridBagConstraints(0,y,2,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(10,5,10,5),0,0);
-    panel.add(lbEmail,c);
+    lbEmail.setFont(font);
+    contactPanel.add(lbEmail);
+    c=new GridBagConstraints(0,y,2,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(10,5,5,5),0,0);
+    panel.add(contactPanel,c);
     y++;
+
+    // Source code
+    {
+      JPanel sourcePanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.CENTER));
+      JLabel sourceLabel=GuiFactory.buildLabel("Source code: ");
+      sourceLabel.setFont(font);
+      sourcePanel.add(sourceLabel);
+      HyperLinkController github=new HyperLinkController(TYPE.BROWSE);
+      github.setUrl("https://github.com/dmorcellet/lotro-companion","lotro-companion@GitHub");
+      JLabel lbGitHub=github.getLabel();
+      lbGitHub.setFont(font);
+      sourcePanel.add(lbGitHub);
+      c=new GridBagConstraints(0,y,2,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(0,5,5,5),0,0);
+      panel.add(sourcePanel,c);
+      y++;
+    }
+
+    // Facebook
+    {
+      JPanel facebookPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.CENTER));
+      JLabel seeUsLabel=GuiFactory.buildLabel("News: ");
+      seeUsLabel.setFont(font);
+      facebookPanel.add(seeUsLabel);
+      HyperLinkController facebook=new HyperLinkController(TYPE.BROWSE);
+      facebook.setUrl("https://www.facebook.com/lotrocompanion/","lotro-companion@Facebook");
+      JLabel lbFacebook=facebook.getLabel();
+      lbFacebook.setFont(font);
+      facebookPanel.add(lbFacebook);
+      c=new GridBagConstraints(0,y,2,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(0,5,10,5),0,0);
+      panel.add(facebookPanel,c);
+      y++;
+    }
 
     // Contributors label contrib
     JLabel lbContributors=new JLabel("Contributors:");
