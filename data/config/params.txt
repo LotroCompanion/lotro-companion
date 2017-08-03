@@ -13,9 +13,9 @@ current.version.id=500
 #current.version.name=4.0
 #current.version.name=4.0.1
 current.version.name=5.0
-current.version.date=31/07/2017
+current.version.date=03/08/2017
 
 # URL for updates check
-#update.check.url=http://dmorcellet.free.fr/lotrocompanion/latest.txt
+update.check.url=http://dmorcellet.free.fr/lotrocompanion/latest.txt
 # Period of update checks (hours)
 update.check.period=24
