@@ -17,6 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.TransferHandler;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.games.lotro.character.stats.virtues.VirtuesSet;
 import delta.games.lotro.common.VirtueId;
 
 /**
@@ -25,11 +26,6 @@ import delta.games.lotro.common.VirtueId;
  */
 public class VirtueEditionUiController implements ActionListener
 {
-  /**
-   * Maximum tier.
-   */
-  public static final int MAX_TIER=19;
-
   private int _tier;
   private VirtueIconController _iconController;
   private JButton _plus;
@@ -160,7 +156,7 @@ public class VirtueEditionUiController implements ActionListener
     Object source=e.getSource();
     if (_plus==source)
     {
-      if (_tier<MAX_TIER)
+      if (_tier<VirtuesSet.MAX_TIER)
       {
         _tier++;
         if (_listener!=null)
@@ -207,6 +203,6 @@ public class VirtueEditionUiController implements ActionListener
   {
     _iconController.setTier(_tier);
     _minus.setEnabled(_tier>0);
-    _plus.setEnabled(_tier<MAX_TIER);
+    _plus.setEnabled(_tier<VirtuesSet.MAX_TIER);
   }
 }

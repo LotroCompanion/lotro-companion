@@ -164,7 +164,7 @@ public class VirtuesEditionPanelController implements TierValueListener
     for(Map.Entry<VirtueId,VirtueEditionUiController> entry : _virtues.entrySet())
     {
       VirtueEditionUiController controller=entry.getValue();
-      int tier=VirtueEditionUiController.MAX_TIER;
+      int tier=VirtuesSet.MAX_TIER;
       controller.setTier(tier);
       VirtueId virtueId=entry.getKey();
       _selectedVirtues.updateVirtue(virtueId,tier);
