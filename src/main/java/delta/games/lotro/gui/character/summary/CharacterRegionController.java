@@ -104,7 +104,6 @@ public class CharacterRegionController
     _regionsByRace.put(Race.BEORNING,beorningsRegions);
 
     // High Elf
-    /*
     List<String> highElvesRegions=new ArrayList<String>();
     highElvesRegions.add("Beleriand");
     highElvesRegions.add("Imladris");
@@ -112,6 +111,5 @@ public class CharacterRegionController
     highElvesRegions.add("Gondolin");
     highElvesRegions.add("Ossiriand");
     _regionsByRace.put(Race.HIGH_ELF,highElvesRegions);
-    */
   }
 }
