@@ -143,7 +143,7 @@ public class EssenceFilterController extends AbstractItemFilterPanelController
   {
     ComboBoxController<Integer> ctrl=new ComboBoxController<Integer>();
     ctrl.addEmptyItem("");
-    for(int tier=1;tier<=8;tier++)
+    for(int tier=1;tier<=10;tier++)
     {
       ctrl.addItem(Integer.valueOf(tier),"Tier "+tier);
     }
