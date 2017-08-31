@@ -18,11 +18,11 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.utils.text.EncodingNames;
 import delta.common.utils.text.TextUtils;
 import delta.games.lotro.Config;
+import delta.games.lotro.character.reputation.FactionData;
+import delta.games.lotro.character.reputation.ReputationData;
 import delta.games.lotro.common.Faction;
 import delta.games.lotro.common.FactionLevel;
 import delta.games.lotro.common.Factions;
-import delta.games.lotro.stats.reputation.FactionStat;
-import delta.games.lotro.stats.reputation.ReputationStats;
 import delta.games.lotro.utils.LotroLoggers;
 
 /**
@@ -34,7 +34,7 @@ public class ReputationPanelController
   private static final Logger _logger=LotroLoggers.getLotroLogger();
 
   private JPanel _panel;
-  private ReputationStats _stats;
+  private ReputationData _stats;
   private List<Faction> _factions;
   private List<Faction> _worldRenownedFactions;
 
@@ -42,7 +42,7 @@ public class ReputationPanelController
    * Constructor.
    * @param stats Reputation stats to display.
    */
-  public ReputationPanelController(ReputationStats stats)
+  public ReputationPanelController(ReputationData stats)
   {
     _stats=stats;
     init();
@@ -78,7 +78,7 @@ public class ReputationPanelController
     for(Faction faction : _factions)
     {
       FactionLevel current;
-      FactionStat stat=_stats.getFactionStat(faction);
+      FactionData stat=_stats.getFactionStat(faction);
       if (stat!=null)
       {
         current=stat.getFactionLevel();

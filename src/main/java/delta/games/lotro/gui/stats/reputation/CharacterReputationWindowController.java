@@ -6,8 +6,7 @@ import javax.swing.JPanel;
 
 import delta.common.ui.swing.windows.DefaultWindowController;
 import delta.games.lotro.character.CharacterFile;
-import delta.games.lotro.character.log.CharacterLog;
-import delta.games.lotro.stats.reputation.ReputationStats;
+import delta.games.lotro.character.reputation.ReputationData;
 
 /**
  * Controller for a "character reputation" window.
@@ -25,9 +24,7 @@ public class CharacterReputationWindowController extends DefaultWindowController
   public CharacterReputationWindowController(CharacterFile toon)
   {
     _toon=toon;
-    CharacterLog log=toon.getLastCharacterLog();
-    String toonName=toon.getName();
-    ReputationStats stats=new ReputationStats(toonName,log);
+    ReputationData stats=toon.getReputation();
     _reputationPanelController=new ReputationPanelController(stats);
   }
 

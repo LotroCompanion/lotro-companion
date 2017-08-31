@@ -3,6 +3,8 @@ package delta.games.lotro.stats.reputation;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.log.CharacterLog;
 import delta.games.lotro.character.log.LotroTestUtils;
+import delta.games.lotro.character.reputation.ReputationComputer;
+import delta.games.lotro.character.reputation.ReputationData;
 
 /**
  * Test for reputation stats.
@@ -25,7 +27,8 @@ public class MainTestReputationStats
       CharacterLog log=toon.getLastCharacterLog();
       if (log!=null)
       {
-        ReputationStats stats=new ReputationStats(log.getName(),log);
+        ReputationComputer computer=new ReputationComputer();
+        ReputationData stats=computer.buildReputationData(toon);
         stats.dump(System.out);
       }
     }
