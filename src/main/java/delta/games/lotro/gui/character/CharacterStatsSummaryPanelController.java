@@ -86,8 +86,8 @@ public class CharacterStatsSummaryPanelController implements CharacterEventListe
     STAT[] mainStats={STAT.MIGHT,STAT.AGILITY,STAT.VITALITY,STAT.WILL,STAT.FATE};
     // Offence: Critical hit, finesse, Physical mastery Tactical Mastery
     STAT[] offence={STAT.CRITICAL_RATING,STAT.FINESSE,STAT.PHYSICAL_MASTERY,STAT.TACTICAL_MASTERY};
-    // Defence: Resistance, crit hit avoidance, incoming healing
-    STAT[] defence={STAT.RESISTANCE,STAT.CRITICAL_DEFENCE,STAT.INCOMING_HEALING};
+    // Defence: Light of Eärendil, Resistance, crit hit avoidance, incoming healing
+    STAT[] defence={STAT.LIGHT_OF_EARENDIL,STAT.RESISTANCE,STAT.CRITICAL_DEFENCE,STAT.INCOMING_HEALING};
     // - Avoidance: block, parry, evade
     STAT[] avoidance={STAT.BLOCK,STAT.PARRY,STAT.EVADE};
     // - mitigations:
