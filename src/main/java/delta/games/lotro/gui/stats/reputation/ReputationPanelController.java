@@ -4,26 +4,18 @@ import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 
-import org.apache.log4j.Logger;
-
 import delta.common.ui.swing.GuiFactory;
-import delta.common.utils.text.EncodingNames;
-import delta.common.utils.text.TextUtils;
-import delta.games.lotro.Config;
 import delta.games.lotro.character.reputation.FactionData;
 import delta.games.lotro.character.reputation.ReputationData;
-import delta.games.lotro.common.Faction;
-import delta.games.lotro.common.FactionLevel;
-import delta.games.lotro.common.Factions;
-import delta.games.lotro.utils.LotroLoggers;
+import delta.games.lotro.lore.reputation.Faction;
+import delta.games.lotro.lore.reputation.FactionLevel;
+import delta.games.lotro.lore.reputation.FactionsRegistry;
 
 /**
  * Controller for a reputation panel.
@@ -31,8 +23,6 @@ import delta.games.lotro.utils.LotroLoggers;
  */
 public class ReputationPanelController
 {
-  private static final Logger _logger=LotroLoggers.getLotroLogger();
-
   private JPanel _panel;
   private ReputationData _stats;
   private List<Faction> _factions;
@@ -131,36 +121,9 @@ public class ReputationPanelController
 
   private void init()
   {
-    File cfgDir=Config.getInstance().getConfigDir();
-    File factionFiles=new File(cfgDir,"reputation-order.txt");
-    List<String> lines=TextUtils.readAsLines(factionFiles,EncodingNames.UTF_8);
-    _factions=new ArrayList<Faction>();
-    _worldRenownedFactions=new ArrayList<Faction>();
-    if (lines!=null)
-    {
-      for(String line : lines)
-      {
-        boolean worldRenowned=false;
-        if (line.startsWith("(R)"))
-        {
-          line=line.substring(3);
-          worldRenowned=true;
-        }
-        Faction faction=Factions.getInstance().getByName(line);
-        if (faction!=null)
-        {
-          _factions.add(faction);
-          if (worldRenowned)
-          {
-            _worldRenownedFactions.add(faction);
-          }
-        }
-        else
-        {
-          _logger.warn("Unknown faction ["+line+"]!");
-        }
-      }
-    }
+    FactionsRegistry registry=FactionsRegistry.getInstance();
+    _factions=registry.getFactionsForCategory("ERIADOR");
+    _worldRenownedFactions=registry.getFactionsForDeed("World Renowned");
   }
 
   /**
