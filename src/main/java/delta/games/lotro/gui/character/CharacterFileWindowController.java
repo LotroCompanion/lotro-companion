@@ -163,7 +163,6 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     // Disable buttons if no log
     boolean hasLog=_toon.hasLog();
     logButton.setEnabled(hasLog);
-    reputationButton.setEnabled(hasLog);
     craftingButton.setEnabled(hasLog);
 
     return panel;
