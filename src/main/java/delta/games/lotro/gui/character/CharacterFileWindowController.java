@@ -202,16 +202,8 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     else if (REPUTATION_COMMAND.equals(command))
     {
       // Reputation
-      String serverName=_toon.getServerName();
-      String toonName=_toon.getName();
-      String id=CharacterReputationWindowController.getIdentifier(serverName,toonName);
-      WindowController controller=_windowsManager.getWindow(id);
-      if (controller==null)
-      {
-        controller=new CharacterReputationWindowController(_toon);
-        _windowsManager.registerWindow(controller);
-        controller.getWindow().setLocationRelativeTo(getFrame());
-      }
+      WindowController controller=new CharacterReputationWindowController(this,_toon);
+      controller.getWindow().setLocationRelativeTo(getFrame());
       controller.bringToFront();
     }
     else if (CRAFTING_COMMAND.equals(command))
