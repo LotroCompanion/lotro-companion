@@ -43,6 +43,7 @@ public class CharacterReputationDialogController extends DefaultDialogController
   private ReputationData _data;
   // UI
   private ReputationDeedsDisplayController _deedsDisplay;
+  private ReputationRewardsDisplayController _rewardsDisplay;
   private HashMap<String,FactionEditionPanelController> _editors;
   private OKCancelPanelController _okCancelController;
 
@@ -94,11 +95,8 @@ public class CharacterReputationDialogController extends DefaultDialogController
   {
     JPanel panel=GuiFactory.buildPanel(new BorderLayout());
     // Top: reputation deeds
-    _deedsDisplay=new ReputationDeedsDisplayController(_data);
-    JPanel deedsDisplayPanel=_deedsDisplay.getPanel();
-    TitledBorder deedsBorder=GuiFactory.buildTitledBorder("Deeds");
-    deedsDisplayPanel.setBorder(deedsBorder);
-    panel.add(deedsDisplayPanel,BorderLayout.NORTH);
+    JPanel topPanel=buildTopPanel();
+    panel.add(topPanel,BorderLayout.NORTH);
     // Center: faction levels
     FactionsRegistry registry=FactionsRegistry.getInstance();
     JTabbedPane tabs=GuiFactory.buildTabbedPane();
@@ -116,6 +114,26 @@ public class CharacterReputationDialogController extends DefaultDialogController
     TitledBorder factionsBorder=GuiFactory.buildTitledBorder("Factions");
     tabs.setBorder(factionsBorder);
     panel.add(tabs,BorderLayout.CENTER);
+    return panel;
+  }
+
+  private JPanel buildTopPanel()
+  {
+    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
+    // Deeds
+    _deedsDisplay=new ReputationDeedsDisplayController(_data);
+    JPanel deedsDisplayPanel=_deedsDisplay.getPanel();
+    TitledBorder deedsBorder=GuiFactory.buildTitledBorder("Deeds");
+    deedsDisplayPanel.setBorder(deedsBorder);
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(5,5,5,5),0,0);
+    panel.add(deedsDisplayPanel,c);
+    // Rewards
+    _rewardsDisplay=new ReputationRewardsDisplayController(_data);
+    JPanel rewardsDisplayPanel=_rewardsDisplay.getPanel();
+    TitledBorder rewardsBorder=GuiFactory.buildTitledBorder("Rewards");
+    rewardsDisplayPanel.setBorder(rewardsBorder);
+    c=new GridBagConstraints(1,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.VERTICAL,new Insets(5,5,5,5),0,0);
+    panel.add(rewardsDisplayPanel,c);
     return panel;
   }
 
@@ -169,6 +187,7 @@ public class CharacterReputationDialogController extends DefaultDialogController
       updateFactionDisplay(editor);
     }
     _deedsDisplay.update();
+    _rewardsDisplay.update();
   }
 
   public void actionPerformed(ActionEvent event)
@@ -193,6 +212,7 @@ public class CharacterReputationDialogController extends DefaultDialogController
           _data.updateFaction(faction,false);
           updateFactionDisplay(editor);
           _deedsDisplay.update();
+          _rewardsDisplay.update();
         }
         else if (source==editor.getPlusButton())
         {
@@ -200,6 +220,7 @@ public class CharacterReputationDialogController extends DefaultDialogController
           _data.updateFaction(faction,true);
           updateFactionDisplay(editor);
           _deedsDisplay.update();
+          _rewardsDisplay.update();
         }
       }
     }
@@ -249,6 +270,8 @@ public class CharacterReputationDialogController extends DefaultDialogController
       _editors.clear();
       _editors=null;
     }
+    _deedsDisplay=null;
+    _rewardsDisplay=null;
     _toon=null;
   }
 }

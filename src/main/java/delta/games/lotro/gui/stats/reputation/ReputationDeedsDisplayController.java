@@ -12,8 +12,9 @@ import javax.swing.JPanel;
 import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.character.reputation.ReputationData;
 import delta.games.lotro.character.reputation.ReputationDeedStatus;
-import delta.games.lotro.character.reputation.ReputationDeedsComputer;
+import delta.games.lotro.character.reputation.ReputationDeedsData;
 import delta.games.lotro.lore.reputation.FactionsRegistry;
+import delta.games.lotro.lore.reputation.ReputationDeed;
 
 /**
  * Controller for a panel that displays the status of reputation deeds.
@@ -51,9 +52,10 @@ public class ReputationDeedsDisplayController
     FactionsRegistry registry=FactionsRegistry.getInstance();
 
     int y=0;
-    List<String> deedNames=registry.getFactionDeeds();
-    for(String deedName : deedNames)
+    List<ReputationDeed> deeds=registry.getReputationDeeds();
+    for(ReputationDeed deed : deeds)
     {
+      String deedName=deed.getName();
       JLabel label=GuiFactory.buildLabel(deedName+":");
       label.setToolTipText("Status for the '"+deedName+"' deed");
       GridBagConstraints c=new GridBagConstraints(0,y,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
@@ -74,13 +76,14 @@ public class ReputationDeedsDisplayController
    */
   public void update()
   {
-    ReputationDeedsComputer deedComputer=new ReputationDeedsComputer();
-    List<ReputationDeedStatus> deedStatuses=deedComputer.compute(_reputation);
+    _reputation.update();
+    ReputationDeedsData deedsStatus=_reputation.getDeedsStatus();
+    List<ReputationDeedStatus> deedStatuses=deedsStatus.getStatus();
     int index=0;
-    for(ReputationDeedStatus deed : deedStatuses)
+    for(ReputationDeedStatus deedStatus : deedStatuses)
     {
-      int acquired=deed.getAcquiredCount();
-      int total=deed.getTotalCount(); 
+      int acquired=deedStatus.getAcquiredCount();
+      int total=deedStatus.getTotalCount(); 
       String deedLabel=acquired+" / "+total;
       _countLabels.get(index).setText(deedLabel);
       index++;

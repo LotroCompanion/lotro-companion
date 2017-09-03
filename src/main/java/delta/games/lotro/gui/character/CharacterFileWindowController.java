@@ -205,7 +205,6 @@ public class CharacterFileWindowController extends DefaultWindowController imple
       DefaultDialogController controller=new CharacterReputationDialogController(this,_toon);
       controller.getWindow().setLocationRelativeTo(getFrame());
       controller.show(true);
-      controller.bringToFront();
     }
     else if (CRAFTING_COMMAND.equals(command))
     {
