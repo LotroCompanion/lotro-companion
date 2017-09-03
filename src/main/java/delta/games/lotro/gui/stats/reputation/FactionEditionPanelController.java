@@ -1,7 +1,9 @@
 package delta.games.lotro.gui.stats.reputation;
 
 import java.awt.Color;
+import java.awt.Dimension;
 
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JProgressBar;
 
@@ -18,6 +20,8 @@ public class FactionEditionPanelController
   private Faction _faction;
   private JLabel _label;
   private JProgressBar _bar;
+  private JButton _minus;
+  private JButton _plus;
 
   /**
    * Constructor.
@@ -37,6 +41,10 @@ public class FactionEditionPanelController
     _bar.setBackground(GuiFactory.getBackgroundColor());
     _bar.setBorderPainted(true);
     _bar.setStringPainted(true);
+    _bar.setPreferredSize(new Dimension(200,25));
+    // Buttons
+    _minus=GuiFactory.buildIconButton("/resources/gui/icons/button_minus.png");
+    _plus=GuiFactory.buildIconButton("/resources/gui/icons/button_plus.png");
   }
 
   /**
@@ -64,6 +72,24 @@ public class FactionEditionPanelController
   public JProgressBar getBar()
   {
     return _bar;
+  }
+
+  /**
+   * Get the minus button.
+   * @return the minus button.
+   */
+  public JButton getMinusButton()
+  {
+    return _minus;
+  }
+
+  /**
+   * Get the plus button.
+   * @return the plus button.
+   */
+  public JButton getPlusButton()
+  {
+    return _plus;
   }
 
   /**

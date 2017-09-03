@@ -24,6 +24,7 @@ import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.toolbar.ToolbarController;
 import delta.common.ui.swing.toolbar.ToolbarIconItem;
 import delta.common.ui.swing.toolbar.ToolbarModel;
+import delta.common.ui.swing.windows.DefaultDialogController;
 import delta.common.ui.swing.windows.DefaultWindowController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.ui.swing.windows.WindowsManager;
@@ -39,7 +40,7 @@ import delta.games.lotro.character.stats.CharacterStatsComputer;
 import delta.games.lotro.gui.character.stash.StashWindowController;
 import delta.games.lotro.gui.log.CharacterLogWindowController;
 import delta.games.lotro.gui.stats.crafting.CraftingWindowController;
-import delta.games.lotro.gui.stats.reputation.CharacterReputationWindowController;
+import delta.games.lotro.gui.stats.reputation.CharacterReputationDialogController;
 import delta.games.lotro.gui.stats.traitPoints.TraitPointsEditionWindowController;
 import delta.games.lotro.stats.traitPoints.TraitPoints;
 import delta.games.lotro.stats.traitPoints.TraitPointsStatus;
@@ -201,8 +202,9 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     else if (REPUTATION_COMMAND.equals(command))
     {
       // Reputation
-      WindowController controller=new CharacterReputationWindowController(this,_toon);
+      DefaultDialogController controller=new CharacterReputationDialogController(this,_toon);
       controller.getWindow().setLocationRelativeTo(getFrame());
+      controller.show(true);
       controller.bringToFront();
     }
     else if (CRAFTING_COMMAND.equals(command))
