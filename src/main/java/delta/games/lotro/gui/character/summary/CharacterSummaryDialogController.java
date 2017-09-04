@@ -201,6 +201,12 @@ public class CharacterSummaryDialogController extends DefaultDialogController im
     dispose();
   }
 
+  @Override
+  protected void doWindowClosing()
+  {
+    cancel();
+  }
+
   /**
    * Release all managed resources.
    */
