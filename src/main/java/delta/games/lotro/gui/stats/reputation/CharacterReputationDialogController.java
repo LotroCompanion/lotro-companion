@@ -254,6 +254,12 @@ public class CharacterReputationDialogController extends DefaultDialogController
     dispose();
   }
 
+  @Override
+  protected void doWindowClosing()
+  {
+    cancel();
+  }
+
   /**
    * Release all managed resources.
    */
