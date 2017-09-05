@@ -16,12 +16,7 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.ui.swing.windows.WindowsManager;
 import delta.games.lotro.character.CharacterData;
-import delta.games.lotro.character.events.CharacterEvent;
-import delta.games.lotro.character.events.CharacterEventListener;
-import delta.games.lotro.character.events.CharacterEventType;
-import delta.games.lotro.character.events.CharacterEventsManager;
 import delta.games.lotro.character.stats.BasicStatsSet;
-import delta.games.lotro.character.stats.CharacterStatsComputer;
 import delta.games.lotro.character.stats.STAT;
 import delta.games.lotro.gui.character.stats.CharacterStatsWindowController;
 import delta.games.lotro.utils.FixedDecimalsInteger;
@@ -30,7 +25,7 @@ import delta.games.lotro.utils.FixedDecimalsInteger;
  * Controller for the character stats summary panel.
  * @author DAM
  */
-public class CharacterStatsSummaryPanelController implements CharacterEventListener
+public class CharacterStatsSummaryPanelController
 {
   private JPanel _panel;
   private CharacterData _toon;
@@ -60,8 +55,6 @@ public class CharacterStatsSummaryPanelController implements CharacterEventListe
     if (_panel==null)
     {
       _panel=buildPanel();
-      // Register to events
-      CharacterEventsManager.addListener(this);
     }
     return _panel;
   }
@@ -170,6 +163,11 @@ public class CharacterStatsSummaryPanelController implements CharacterEventListe
         _statValues[i].setText(statValue);
       }
     }
+    CharacterStatsWindowController detailsStatsController=getDetailsController();
+    if (detailsStatsController!=null)
+    {
+      detailsStatsController.update();
+    }
   }
 
   private JPanel showStatsColumn(STAT[][] statGroups, String[] groupNames, boolean left)
@@ -204,34 +202,11 @@ public class CharacterStatsSummaryPanelController implements CharacterEventListe
     return panel;
   }
 
-  public void eventOccured(CharacterEventType type, CharacterEvent event)
-  {
-    if (type==CharacterEventType.CHARACTER_DATA_UPDATED)
-    {
-      CharacterData data=event.getToonData();
-      if (data==_toon)
-      {
-        CharacterStatsComputer computer=new CharacterStatsComputer();
-        BasicStatsSet stats=computer.getStats(data);
-        BasicStatsSet toonStats=_toon.getStats();
-        toonStats.clear();
-        toonStats.setStats(stats);
-        update();
-        CharacterStatsWindowController detailsStatsController=getDetailsController();
-        if (detailsStatsController!=null)
-        {
-          detailsStatsController.update();
-        }
-      }
-    }
-  }
-
   /**
    * Release all managed resources.
    */
   public void dispose()
   {
-    CharacterEventsManager.removeListener(this);
     if (_panel!=null)
     {
       _panel.removeAll();

@@ -8,6 +8,9 @@ import javax.swing.JLabel;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.icons.IconWithText;
 import delta.common.utils.text.EndOfLine;
+import delta.games.lotro.character.CharacterData;
+import delta.games.lotro.character.stats.BasicStatsSet;
+import delta.games.lotro.character.stats.STAT;
 import delta.games.lotro.character.stats.buffs.Buff;
 import delta.games.lotro.character.stats.buffs.BuffInstance;
 import delta.games.lotro.gui.LotroIconsManager;
@@ -19,16 +22,19 @@ import delta.games.lotro.gui.LotroIconsManager;
 public class BuffIconController
 {
   private BuffInstance _buff;
+  private CharacterData _toon;
   private JLabel _label;
   private IconWithText _icon;
 
   /**
    * Constructor.
    * @param buff Buff to use.
+   * @param toon Parent toon.
    */
-  public BuffIconController(BuffInstance buff)
+  public BuffIconController(BuffInstance buff, CharacterData toon)
   {
     _buff=buff;
+    _toon=toon;
     _icon=buildBuffIcon(buff);
     _label=GuiFactory.buildIconLabel(_icon);
     _label.setSize(_icon.getIconWidth(),_icon.getIconHeight());
@@ -86,8 +92,16 @@ public class BuffIconController
   private String buildToolTip()
   {
     Buff buff=_buff.getBuff();
-    String label=buff.getLabel();
-    String text=label;
+    StringBuilder sb=new StringBuilder();
+    sb.append(buff.getLabel()).append(EndOfLine.NATIVE_EOL);
+    BasicStatsSet stats=_buff.getStats(_toon);
+    for(STAT stat : stats.getStats())
+    {
+      String name=stat.getName();
+      String value=stats.getStat(stat).toString();
+      sb.append(name).append(": ").append(value).append(EndOfLine.NATIVE_EOL);
+    }
+    String text=sb.toString().trim();
     String html="<html>"+text.replace(EndOfLine.NATIVE_EOL,"<br>")+"</html>";
     return html;
   }

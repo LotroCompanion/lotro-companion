@@ -93,6 +93,7 @@ public class BuffEditionPanelController implements ActionListener
     _iconsPanel.removeAll();
     for(BuffIconController controller : _buffControllers)
     {
+      controller.update();
       JLabel label=controller.getLabel();
       _iconsPanel.add(label);
     }
@@ -118,7 +119,7 @@ public class BuffEditionPanelController implements ActionListener
 
   private BuffIconController buildBuffController(BuffInstance buff)
   {
-    BuffIconController controller=new BuffIconController(buff);
+    BuffIconController controller=new BuffIconController(buff,_toon);
     JLabel label=controller.getLabel();
     MouseListener popupListener=buildRightClickListener();
     label.addMouseListener(popupListener);
@@ -227,12 +228,19 @@ public class BuffEditionPanelController implements ActionListener
       buffs.addBuff(buffInstance);
       BuffIconController controller=buildBuffController(buffInstance);
       _buffControllers.add(controller);
-      // Update UI
-      updateIconsPanel();
       // Broadcast toon update event...
       CharacterEvent event=new CharacterEvent(null,_toon);
       CharacterEventsManager.invokeEvent(CharacterEventType.CHARACTER_DATA_UPDATED,event);
     }
+  }
+
+  /**
+   * Update display.
+   */
+  public void update()
+  {
+    // Update UI
+    updateIconsPanel();
   }
 
   private void updateTier(int index)

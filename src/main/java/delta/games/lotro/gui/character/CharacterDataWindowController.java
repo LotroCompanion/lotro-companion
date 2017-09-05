@@ -21,9 +21,12 @@ import delta.common.ui.swing.windows.WindowsManager;
 import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.events.CharacterEvent;
+import delta.games.lotro.character.events.CharacterEventListener;
 import delta.games.lotro.character.events.CharacterEventType;
 import delta.games.lotro.character.events.CharacterEventsManager;
 import delta.games.lotro.character.io.xml.CharacterDataIO;
+import delta.games.lotro.character.stats.BasicStatsSet;
+import delta.games.lotro.character.stats.CharacterStatsComputer;
 import delta.games.lotro.character.stats.virtues.VirtuesSet;
 import delta.games.lotro.gui.character.buffs.BuffEditionPanelController;
 import delta.games.lotro.gui.character.essences.AllEssencesEditionWindowController;
@@ -37,7 +40,7 @@ import delta.games.lotro.gui.character.virtues.VirtuesEditionDialogController;
  * Controller for a "character data" window.
  * @author DAM
  */
-public class CharacterDataWindowController extends DefaultWindowController
+public class CharacterDataWindowController extends DefaultWindowController implements CharacterEventListener
 {
   private CharacterMainAttrsEditionPanelController _attrsController;
   private CharacterStatsSummaryPanelController _statsController;
@@ -191,6 +194,9 @@ public class CharacterDataWindowController extends DefaultWindowController
     fullPanel.add(attrsPanel,BorderLayout.NORTH);
     fullPanel.add(centerPanel,BorderLayout.CENTER);
     fullPanel.add(bottomPanel,BorderLayout.SOUTH);
+
+    // Register to events
+    CharacterEventsManager.addListener(this);
     return fullPanel;
   }
 
@@ -305,6 +311,27 @@ public class CharacterDataWindowController extends DefaultWindowController
     summaryController.bringToFront();
   }
 
+  public void eventOccured(CharacterEventType type, CharacterEvent event)
+  {
+    if (type==CharacterEventType.CHARACTER_DATA_UPDATED)
+    {
+      CharacterData data=event.getToonData();
+      if (data==_toon)
+      {
+        // Compute new stats
+        CharacterStatsComputer computer=new CharacterStatsComputer();
+        BasicStatsSet stats=computer.getStats(data);
+        BasicStatsSet toonStats=_toon.getStats();
+        toonStats.clear();
+        toonStats.setStats(stats);
+        // Update stats display
+        _statsController.update();
+        // Update buffs display
+        _buffsController.update();
+      }
+    }
+  }
+
   private void ok()
   {
     _attrsController.get();
@@ -339,6 +366,7 @@ public class CharacterDataWindowController extends DefaultWindowController
   @Override
   public void dispose()
   {
+    CharacterEventsManager.removeListener(this);
     if (_windowsManager!=null)
     {
       _windowsManager.disposeAll();
