@@ -10,7 +10,6 @@ import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -130,9 +129,8 @@ public class StatsEditionPanelController
     JTextField value=ctrl.getValue();
     panel.add(value,c);
     // Stat chooser
-    JComboBox statChooser=ctrl.getStatCombo();
     c.gridx++;
-    panel.add(statChooser,c);
+    panel.add(ctrl.getStatComboController().getComboBox(),c);
     // Stat unit label
     JLabel unit=ctrl.getUnit();
     c.gridx++;
@@ -264,15 +262,6 @@ public class StatsEditionPanelController
     public JTextField getValue()
     {
       return _value;
-    }
-
-    /**
-     * Get the managed stat chooser.
-     * @return the managed stat chooser.
-     */
-    public JComboBox getStatCombo()
-    {
-      return _statChooser.getComboBox();
     }
 
     public ComboBoxController<STAT> getStatComboController()
