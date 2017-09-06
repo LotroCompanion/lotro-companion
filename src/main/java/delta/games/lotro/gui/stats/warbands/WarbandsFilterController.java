@@ -1,6 +1,5 @@
 package delta.games.lotro.gui.stats.warbands;
 
-import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,15 +9,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListCellRenderer;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.ListCellRenderer;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.combobox.ComboBoxController;
+import delta.common.ui.swing.combobox.ItemSelectionListener;
 import delta.games.lotro.common.Size;
 import delta.games.lotro.lore.warbands.WarbandDefinition;
 import delta.games.lotro.lore.warbands.WarbandFilter;
@@ -34,9 +30,9 @@ public class WarbandsFilterController implements ActionListener
   private WarbandFilter _filter;
   // GUI
   private JPanel _panel;
-  private JComboBox _minLevel;
-  private JComboBox _region;
-  private JComboBox _size;
+  private ComboBoxController<Integer> _minLevel;
+  private ComboBoxController<String> _region;
+  private ComboBoxController<Size> _size;
   private JButton _reset;
   private WarbandsPanelController _panelController;
 
@@ -74,41 +70,26 @@ public class WarbandsFilterController implements ActionListener
   private void setFilter()
   {
     String region=_filter.getRegion();
-    _region.setSelectedItem(region);
+    _region.selectItem(region);
     Integer minLevel=_filter.getMinLevel();
-    _minLevel.setSelectedItem(minLevel);
+    _minLevel.selectItem(minLevel);
     Size size=_filter.getSize();
-    _size.setSelectedItem(size);
+    _size.selectItem(size);
   }
 
   public void actionPerformed(ActionEvent e)
   {
     Object source=e.getSource();
-    if (source==_region)
+    if (source==_reset)
     {
-      String region=(String)_region.getSelectedItem();
-      _filter.setRegion(region);
-    }
-    else if (source==_minLevel)
-    {
-      Integer minLevel=(Integer)_minLevel.getSelectedItem();
-      _filter.setMinLevel(minLevel);
-    }
-    else if (source==_size)
-    {
-      Size size=(Size)_size.getSelectedItem();
-      _filter.setSize(size);
-    }
-    else if (source==_reset)
-    {
-      _region.setSelectedItem(null);
+      _region.selectItem(null);
       _filter.setRegion(null);
-      _minLevel.setSelectedItem(null);
+      _minLevel.selectItem(null);
       _filter.setMinLevel(null);
-      _size.setSelectedItem(null);
+      _size.selectItem(null);
       _filter.setSize(null);
+      updateFilter();
     }
-    updateFilter();
   }
 
   private String[] getRegions()
@@ -150,65 +131,66 @@ public class WarbandsFilterController implements ActionListener
 
     // Regions
     String[] regions=getRegions();
-    _region=buildCombo(regions,null);
-    _region.addActionListener(this);
+    _region=new ComboBoxController<String>();
+    _region.addEmptyItem(" ");
+    for(String region : regions)
+    {
+      _region.addItem(region,region);
+    }
+    ItemSelectionListener<String> regionListener=new ItemSelectionListener<String>()
+    {
+      public void itemSelected(String region)
+      {
+        _filter.setRegion(region);
+        updateFilter();
+      }
+    };
+    _region.addListener(regionListener);
     panel.add(GuiFactory.buildLabel("Region:"));
-    panel.add(_region);
+    panel.add(_region.getComboBox());
     // Sizes
     Size[] sizes={Size.SOLO,Size.SMALL_FELLOWSHIP,Size.FELLOWSHIP,Size.RAID};
-    _size=buildCombo(sizes,null);
-    _size.addActionListener(this);
+    _size=new ComboBoxController<Size>();
+    _size.addEmptyItem(" ");
+    for(Size size : sizes)
+    {
+      _size.addItem(size,size.toString());
+    }
+    ItemSelectionListener<Size> sizeListener=new ItemSelectionListener<Size>()
+    {
+      public void itemSelected(Size size)
+      {
+        _filter.setSize(size);
+        updateFilter();
+      }
+    };
+    _size.addListener(sizeListener);
     panel.add(GuiFactory.buildLabel("Size:"));
-    panel.add(_size);
+    panel.add(_size.getComboBox());
     // Levels
     Integer[] minLevels=getMinLevels();
-    _minLevel=buildCombo(minLevels,null);
-    _minLevel.addActionListener(this);
+    _minLevel=new ComboBoxController<Integer>();
+    _minLevel.addEmptyItem(" ");
+    for(Integer minLevel : minLevels)
+    {
+      _minLevel.addItem(minLevel,minLevel.toString());
+    }
+    ItemSelectionListener<Integer> minLevelListener=new ItemSelectionListener<Integer>()
+    {
+      public void itemSelected(Integer minLevel)
+      {
+        _filter.setMinLevel(minLevel);
+        updateFilter();
+      }
+    };
+    _minLevel.addListener(minLevelListener);
     panel.add(GuiFactory.buildLabel("Minimum level:"));
-    panel.add(_minLevel);
+    panel.add(_minLevel.getComboBox());
     // Reset
     _reset=GuiFactory.buildButton("Reset");
     _reset.addActionListener(this);
     panel.add(_reset);
     return panel;
-  }
-
-  private JComboBox buildCombo(final Object[] values, final String[] labels)
-  {
-    JComboBox combo=GuiFactory.buildComboBox();
-    Object[] valuesWithNull=new Object[values.length+1];
-    valuesWithNull[0]=null;
-    System.arraycopy(values,0,valuesWithNull,1,values.length);
-    DefaultComboBoxModel model=new DefaultComboBoxModel(valuesWithNull);
-    combo.setModel(model);
-    ListCellRenderer r=new DefaultListCellRenderer()
-    {
-      public Component getListCellRendererComponent(JList list, Object value, int modelIndex, boolean isSelected, boolean cellHasFocus)
-      {
-        String text=" ";
-        if (value!=null)
-        {
-          text=value.toString();
-          if (labels!=null)
-          {
-            for(int i=0;i<values.length;i++)
-            {
-              if (values[i]==value)
-              {
-                text=labels[i];
-                break;
-              }
-            }
-          }
-        }
-        Component c= super.getListCellRendererComponent(list, text, modelIndex, isSelected, cellHasFocus);
-        setText(text);
-        setToolTipText(text);
-        return c;
-      }
-    };
-    combo.setRenderer(r);
-    return combo;
   }
 
   /**
@@ -220,6 +202,21 @@ public class WarbandsFilterController implements ActionListener
     _filter=null;
     // Controllers
     _panelController=null;
+    if (_region!=null)
+    {
+      _region.dispose();
+      _region=null;
+    }
+    if (_size!=null)
+    {
+      _size.dispose();
+      _size=null;
+    }
+    if (_minLevel!=null)
+    {
+      _minLevel.dispose();
+      _minLevel=null;
+    }
     // GUI
     if (_panel!=null)
     {
