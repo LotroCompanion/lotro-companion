@@ -1,12 +1,9 @@
 package delta.games.lotro.gui.log;
 
-import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.HashMap;
@@ -15,18 +12,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListCellRenderer;
 import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.ListCellRenderer;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.combobox.ComboBoxController;
+import delta.common.ui.swing.combobox.ItemSelectionListener;
 import delta.games.lotro.character.log.CharacterLog;
 import delta.games.lotro.character.log.CharacterLogItem.LogItemType;
 import delta.games.lotro.character.log.CharacterLogItemsFilter;
@@ -43,10 +37,8 @@ public class CharacterLogFilterController implements ItemListener
   private CharacterLogItemsFilter _filter;
   // GUI
   private JPanel _panel;
-  private JComboBox _minDate;
-  private DefaultComboBoxModel _minDatesModel;
-  private JComboBox _maxDate;
-  private DefaultComboBoxModel _maxDatesModel;
+  private ComboBoxController<Long> _minDates;
+  private ComboBoxController<Long> _maxDates;
   private JTextField _contains;
   private HashMap<LogItemType,JCheckBox> _types;
   private CharacterLogPanelController _panelController;
@@ -63,21 +55,6 @@ public class CharacterLogFilterController implements ItemListener
     _types=new HashMap<LogItemType,JCheckBox>();
     _filter=filter;
     _panelController=panelController;
-  }
-
-  /**
-   * Set a new character log.
-   * @param log Character log to set.
-   */
-  public void setLog(CharacterLog log)
-  {
-    _log=log;
-    // Update dates combo
-    Long[] datesArray=getDates();
-    _minDatesModel=buildOrUpdateModel(_minDatesModel,datesArray);
-    _minDate.setModel(_minDatesModel);
-    _maxDatesModel=buildOrUpdateModel(_maxDatesModel,datesArray);
-    _maxDate.setModel(_maxDatesModel);
   }
 
   private void updateFilter()
@@ -103,9 +80,9 @@ public class CharacterLogFilterController implements ItemListener
   private void setFilter()
   {
     Long minDate=_filter.getMinDate();
-    _minDate.setSelectedItem(minDate);
+    _minDates.selectItem(minDate);
     Long maxDate=_filter.getMaxDate();
-    _maxDate.setSelectedItem(maxDate);
+    _maxDates.selectItem(maxDate);
     String contains=_filter.getLabelFilter();
     if (contains!=null)
     {
@@ -119,41 +96,15 @@ public class CharacterLogFilterController implements ItemListener
     }
   }
 
-  private DefaultComboBoxModel buildOrUpdateModel(DefaultComboBoxModel model, Long[] dates)
+  private ComboBoxController<Long> buildDatesChooser(List<Long> dates)
   {
-    DefaultComboBoxModel ret;
-    Long selectedDate=null;
-    if (model!=null)
+    ComboBoxController<Long> ret=new ComboBoxController<Long>();
+    ret.addEmptyItem(" ");
+    for(Long date : dates)
     {
-      selectedDate=(Long)model.getSelectedItem();
+      ret.addItem(date,Formats.getDateString(date));
     }
-    ret=new DefaultComboBoxModel(dates);
-    Long toSelect=null;
-    if (selectedDate!=null)
-    {
-      for(int i=0;i<dates.length;i++)
-      {
-        if ((dates[i]!=null) && (selectedDate.longValue()==dates[i].longValue()))
-        {
-          toSelect=dates[i];
-          break;
-        }
-      }
-    }
-    ret.setSelectedItem(toSelect);
     return ret;
-  }
-
-  private Long[] getDates()
-  {
-    if (_log!=null)
-    {
-      List<Long> dates=_log.getDates();
-      dates.add(0,null);
-      Long[] datesArray=dates.toArray(new Long[dates.size()]);
-      return datesArray;
-    }
-    return new Long[0];
   }
 
   private JPanel build()
@@ -163,18 +114,34 @@ public class CharacterLogFilterController implements ItemListener
     JPanel datesPanel=GuiFactory.buildPanel(new GridBagLayout());
     {
       GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
-      Long[] datesArray=getDates();
+      List<Long> dates=_log.getDates();
       datesPanel.add(GuiFactory.buildLabel("After:"),c);
-      _minDatesModel=buildOrUpdateModel(_minDatesModel,datesArray);
-      _minDate=buildDatesCombo(_minDatesModel);
+      _minDates=buildDatesChooser(dates);
       c.gridx=1;
-      datesPanel.add(_minDate,c);
+      datesPanel.add(_minDates.getComboBox(),c);
       c.gridy=1;c.gridx=0;
       datesPanel.add(GuiFactory.buildLabel("Before:"),c);
-      _maxDatesModel=buildOrUpdateModel(_maxDatesModel,datesArray);
-      _maxDate=buildDatesCombo(_maxDatesModel);
+      _maxDates=buildDatesChooser(dates);
       c.gridx=1;
-      datesPanel.add(_maxDate,c);
+      datesPanel.add(_maxDates.getComboBox(),c);
+      ItemSelectionListener<Long> listenerMinDates=new ItemSelectionListener<Long>()
+      {
+        public void itemSelected(Long selected)
+        {
+          _filter.setMinDate(selected);
+          updateFilter();
+        }
+      };
+      _minDates.addListener(listenerMinDates);
+      ItemSelectionListener<Long> listenerMaxDates=new ItemSelectionListener<Long>()
+      {
+        public void itemSelected(Long selected)
+        {
+          _filter.setMaxDate(selected);
+          updateFilter();
+        }
+      };
+      _maxDates.addListener(listenerMaxDates);
     }
     // Label filter
     JPanel containsPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING));
@@ -240,49 +207,6 @@ public class CharacterLogFilterController implements ItemListener
     return panel;
   }
 
-  private JComboBox buildDatesCombo(DefaultComboBoxModel datesModel)
-  {
-    JComboBox combo=GuiFactory.buildComboBox();
-    combo.setModel(datesModel);
-    ListCellRenderer r=new DefaultListCellRenderer()
-    {
-      public Component getListCellRendererComponent(JList list, Object value, int modelIndex, boolean isSelected, boolean cellHasFocus)
-      {
-        Long date=(Long)value;
-        String text=" ";
-        if (value!=null)
-        {
-          text=Formats.getDateString(date);
-        }
-        Component c= super.getListCellRendererComponent(list, text, modelIndex, isSelected, cellHasFocus);
-        setText(text);
-        setToolTipText(text);
-        return c;
-      }
-    };
-    combo.setRenderer(r);
-    ActionListener l=new ActionListener()
-    {
-      public void actionPerformed(ActionEvent e)
-      {
-        JComboBox source=(JComboBox)e.getSource();
-        if (source==_minDate)
-        {
-          Long selected=(Long)source.getSelectedItem();
-          _filter.setMinDate(selected);
-        }
-        else if (source==_maxDate)
-        {
-          Long selected=(Long)source.getSelectedItem();
-          _filter.setMaxDate(selected);
-        }
-        updateFilter();
-      }
-    };
-    combo.addActionListener(l);
-    return combo;
-  }
-
   public void itemStateChanged(ItemEvent e) {
     Set<LogItemType> types=new HashSet<LogItemType>();
     for(Map.Entry<LogItemType,JCheckBox> entry : _types.entrySet())
@@ -314,10 +238,16 @@ public class CharacterLogFilterController implements ItemListener
       _panel.removeAll();
       _panel=null;
     }
-    _minDate=null;
-    _minDatesModel=null;
-    _maxDate=null;
-    _maxDatesModel=null;
+    if (_minDates!=null)
+    {
+      _minDates.dispose();
+      _minDates=null;
+    }
+    if (_maxDates!=null)
+    {
+      _maxDates.dispose();
+      _maxDates=null;
+    }
     _contains=null;
     _types=null;
   }
