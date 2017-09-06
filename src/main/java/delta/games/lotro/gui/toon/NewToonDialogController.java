@@ -7,10 +7,7 @@ import java.awt.Insets;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
 
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
@@ -19,6 +16,7 @@ import javax.swing.border.TitledBorder;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.OKCancelPanelController;
+import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.common.ui.swing.windows.DefaultDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.misc.TypedProperties;
@@ -29,6 +27,7 @@ import delta.games.lotro.character.CharactersManager;
 import delta.games.lotro.character.stats.CharacterStatsComputer;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.Race;
+import delta.games.lotro.gui.character.summary.CharacterUiUtils;
 
 /**
  * Controller for the "new toon" dialog.
@@ -39,9 +38,9 @@ public class NewToonDialogController extends DefaultDialogController implements 
   private static final int TOON_NAME_SIZE=32;
   private OKCancelPanelController _okCancelController;
   private JTextField _toonName;
-  private JComboBox _server;
-  private JComboBox _class;
-  private JComboBox _race;
+  private ComboBoxController<String> _server;
+  private ComboBoxController<CharacterClass> _class;
+  private ComboBoxController<Race> _race;
 
   /**
    * Constructor.
@@ -91,25 +90,17 @@ public class NewToonDialogController extends DefaultDialogController implements 
     _toonName=GuiFactory.buildTextField("");
     _toonName.setColumns(TOON_NAME_SIZE);
     // Server
-    List<String> servers=Config.getInstance().getServerNames();
-    _server=GuiFactory.buildComboBox();
-    String[] serverItems=servers.toArray(new String[servers.size()]);
-    DefaultComboBoxModel model=new DefaultComboBoxModel(serverItems);
-    _server.setModel(model);
+    _server=CharacterUiUtils.buildServerCombo();
     TypedProperties props=Config.getInstance().getParameters();
     String defaultServer=props.getStringProperty("default.server",null);
     if (defaultServer!=null)
     {
-      model.setSelectedItem(defaultServer);
+      _server.selectItem(defaultServer);
     }
     // Class
-    DefaultComboBoxModel classModel=new DefaultComboBoxModel(CharacterClass.ALL_CLASSES);
-    _class=GuiFactory.buildComboBox();
-    _class.setModel(classModel);
+    _class=CharacterUiUtils.buildClassCombo();
     // Race
-    DefaultComboBoxModel raceModel=new DefaultComboBoxModel(Race.ALL_RACES);
-    _race=GuiFactory.buildComboBox();
-    _race.setModel(raceModel);
+    _race=CharacterUiUtils.buildRaceCombo();
 
     Insets insets=new Insets(5,5,5,5);
     GridBagConstraints gbc=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,insets,0,0);
@@ -124,11 +115,11 @@ public class NewToonDialogController extends DefaultDialogController implements 
     gbc.weightx=1.0; gbc.fill=GridBagConstraints.HORIZONTAL;
     panel.add(_toonName,gbc);
     gbc.gridx=1; gbc.gridy=1;
-    panel.add(_server,gbc);
+    panel.add(_server.getComboBox(),gbc);
     gbc.gridx=1; gbc.gridy=2;
-    panel.add(_class,gbc);
+    panel.add(_class.getComboBox(),gbc);
     gbc.gridx=1; gbc.gridy=3;
-    panel.add(_race,gbc);
+    panel.add(_race.getComboBox(),gbc);
     return panel;
   }
 
@@ -148,9 +139,9 @@ public class NewToonDialogController extends DefaultDialogController implements 
   private void ok()
   {
     String toonName=_toonName.getText();
-    String server=(String)_server.getSelectedItem();
-    CharacterClass cClass=(CharacterClass)_class.getSelectedItem();
-    Race race=(Race)_race.getSelectedItem();
+    String server=_server.getSelectedItem();
+    CharacterClass cClass=_class.getSelectedItem();
+    Race race=_race.getSelectedItem();
     String errorMsg=checkData();
     if (errorMsg==null)
     {
@@ -189,7 +180,7 @@ public class NewToonDialogController extends DefaultDialogController implements 
     {
       errorMsg="Invalid toon name!";
     }
-    String server=(String)_server.getSelectedItem();
+    String server=_server.getSelectedItem();
     if ((server==null) || (server.trim().length()==0))
     {
       errorMsg="Invalid server name!";
@@ -219,6 +210,21 @@ public class NewToonDialogController extends DefaultDialogController implements 
     {
       _okCancelController.dispose();
       _okCancelController=null;
+    }
+    if (_server!=null)
+    {
+      _server.dispose();
+      _server=null;
+    }
+    if (_class!=null)
+    {
+      _class.dispose();
+      _class=null;
+    }
+    if (_race!=null)
+    {
+      _race.dispose();
+      _race=null;
     }
     _toonName=null;
     _server=null;
