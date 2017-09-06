@@ -74,10 +74,12 @@ public class CharacterSummaryPanelController implements CharacterEventListener
     // Grab data
     CharacterClass cClass=null;
     Race race=null;
+    //CharacterSex sex=null;
     if (_summary!=null)
     {
       cClass=_summary.getCharacterClass();
       race=_summary.getRace();
+      //sex=_summary.getCharacterSex();
     }
     // Class
     ImageIcon classIcon=LotroIconsManager.getClassIcon(cClass,LotroIconsManager.MEDIUM_SIZE);
@@ -86,6 +88,7 @@ public class CharacterSummaryPanelController implements CharacterEventListener
     ImageIcon raceIcon=LotroIconsManager.getRaceIcon(race);
     c.gridx=1;
     panel.add(GuiFactory.buildIconLabel(raceIcon),c);
+    // TODO Use sex to choose icon
     // Name
     _nameLabel=GuiFactory.buildLabel("",28.0f);
     c.gridx=2;c.anchor=GridBagConstraints.CENTER;

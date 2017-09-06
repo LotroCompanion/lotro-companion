@@ -112,4 +112,18 @@ public class CharacterRegionController
     highElvesRegions.add("Ossiriand");
     _regionsByRace.put(Race.HIGH_ELF,highElvesRegions);
   }
+
+  /**
+   * Release all managed resources.
+   */
+  public void dispose()
+  {
+    if (_regionController!=null)
+    {
+      _regionController.dispose();
+      _regionController=null;
+    }
+    _regionsByRace=null;
+    _race=null;
+  }
 }

@@ -7,6 +7,7 @@ import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.Config;
 import delta.games.lotro.common.CharacterClass;
+import delta.games.lotro.common.CharacterSex;
 import delta.games.lotro.common.Race;
 
 /**
@@ -39,6 +40,20 @@ public class CharacterUiUtils
     for(Race race : Race.ALL_RACES)
     {
       ctrl.addItem(race,race.getLabel());
+    }
+    return ctrl;
+  }
+
+  /**
+   * Build a character sex combobox.
+   * @return a character sex combobox.
+   */
+  public static ComboBoxController<CharacterSex> buildSexCombo()
+  {
+    ComboBoxController<CharacterSex> ctrl=new ComboBoxController<CharacterSex>();
+    for(CharacterSex characterSex : CharacterSex.ALL)
+    {
+      ctrl.addItem(characterSex,characterSex.getLabel());
     }
     return ctrl;
   }

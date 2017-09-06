@@ -21,6 +21,7 @@ import delta.common.ui.swing.windows.DefaultDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.CharacterSummary;
 import delta.games.lotro.common.CharacterClass;
+import delta.games.lotro.common.CharacterSex;
 import delta.games.lotro.common.Race;
 
 /**
@@ -38,6 +39,7 @@ public class CharacterSummaryDialogController extends DefaultDialogController im
   private ComboBoxController<String> _server;
   private ComboBoxController<CharacterClass> _class;
   private ComboBoxController<Race> _race;
+  private ComboBoxController<CharacterSex> _sex;
   private CharacterRegionController _region;
   private ComboBoxController<Integer> _level;
 
@@ -108,6 +110,9 @@ public class CharacterSummaryDialogController extends DefaultDialogController im
     // Race
     _race=CharacterUiUtils.buildRaceCombo();
     _race.getComboBox().setEnabled(false);
+    // Sex
+    _sex=CharacterUiUtils.buildSexCombo();
+    _sex.getComboBox().setEnabled(true);
     // Region
     _region=new CharacterRegionController();
     // Level
@@ -123,8 +128,10 @@ public class CharacterSummaryDialogController extends DefaultDialogController im
     gbc.gridx=0; gbc.gridy=3;
     panel.add(GuiFactory.buildLabel("Race:"),gbc);
     gbc.gridx=0; gbc.gridy=4;
-    panel.add(GuiFactory.buildLabel("Region:"),gbc);
+    panel.add(GuiFactory.buildLabel("Sex:"),gbc);
     gbc.gridx=0; gbc.gridy=5;
+    panel.add(GuiFactory.buildLabel("Region:"),gbc);
+    gbc.gridx=0; gbc.gridy=6;
     panel.add(GuiFactory.buildLabel("Level:"),gbc);
     gbc.gridx=1; gbc.gridy=0;
     gbc.weightx=1.0; gbc.fill=GridBagConstraints.HORIZONTAL;
@@ -136,8 +143,10 @@ public class CharacterSummaryDialogController extends DefaultDialogController im
     gbc.gridx=1; gbc.gridy=3;
     panel.add(_race.getComboBox(),gbc);
     gbc.gridx=1; gbc.gridy=4;
-    panel.add(_region.getComboBoxController().getComboBox(),gbc);
+    panel.add(_sex.getComboBox(),gbc);
     gbc.gridx=1; gbc.gridy=5;
+    panel.add(_region.getComboBoxController().getComboBox(),gbc);
+    gbc.gridx=1; gbc.gridy=6;
     panel.add(_level.getComboBox(),gbc);
     return panel;
   }
@@ -170,6 +179,9 @@ public class CharacterSummaryDialogController extends DefaultDialogController im
     Race race=_summary.getRace();
     _race.selectItem(race);
     _region.setRace(race);
+    // Sex
+    CharacterSex sex=_summary.getCharacterSex();
+    _sex.selectItem(sex);
     // Region
     String region=_summary.getRegion();
     _region.getComboBoxController().selectItem(region);
@@ -188,6 +200,8 @@ public class CharacterSummaryDialogController extends DefaultDialogController im
     _summary.setCharacterClass(cClass);
     Race race=_race.getSelectedItem();
     _summary.setRace(race);
+    CharacterSex sex=_sex.getSelectedItem();
+    _summary.setCharacterSex(sex);
     String region=_region.getComboBoxController().getSelectedItem();
     _summary.setRegion(region);
     int level=_level.getSelectedItem().intValue();
@@ -219,10 +233,37 @@ public class CharacterSummaryDialogController extends DefaultDialogController im
       _okCancelController=null;
     }
     _toonName=null;
-    _server=null;
-    _class=null;
-    _race=null;
-    _region=null;
-    _level=null;
+    // DO NOT set _summary to null since it is used afterwards
+    //_summary=null;
+    if (_server!=null)
+    {
+      _server.dispose();
+      _server=null;
+    }
+    if (_class!=null)
+    {
+      _class.dispose();
+      _class=null;
+    }
+    if (_race!=null)
+    {
+      _race.dispose();
+      _race=null;
+    }
+    if (_sex!=null)
+    {
+      _sex.dispose();
+      _sex=null;
+    }
+    if (_region!=null)
+    {
+      _region.dispose();
+      _region=null;
+    }
+    if (_level!=null)
+    {
+      _level.dispose();
+      _level=null;
+    }
   }
 }

@@ -14,6 +14,7 @@ import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharacterSummary;
 import delta.games.lotro.character.CharactersManager;
 import delta.games.lotro.common.CharacterClass;
+import delta.games.lotro.common.CharacterSex;
 import delta.games.lotro.common.Race;
 
 /**
@@ -74,6 +75,20 @@ public class ToonsTableController
       TableColumnController<CharacterFile,Race> raceColumn=new TableColumnController<CharacterFile,Race>("Race",Race.class,raceCell);
       raceColumn.setWidthSpecs(100,100,100);
       table.addColumnController(raceColumn);
+    }
+    // Sex column
+    {
+      CellDataProvider<CharacterFile,CharacterSex> sexCell=new CellDataProvider<CharacterFile,CharacterSex>()
+      {
+        public CharacterSex getData(CharacterFile item)
+        {
+          CharacterSummary data=getDataForToon(item);
+          return data.getCharacterSex();
+        }
+      };
+      TableColumnController<CharacterFile,CharacterSex> sexColumn=new TableColumnController<CharacterFile,CharacterSex>("Sex",CharacterSex.class,sexCell);
+      sexColumn.setWidthSpecs(80,80,80);
+      table.addColumnController(sexColumn);
     }
     // Class column
     {
