@@ -124,9 +124,9 @@ public class CharacterSummaryDialogController extends DefaultDialogController im
     gbc.gridx=0; gbc.gridy=1;
     panel.add(GuiFactory.buildLabel("Server:"),gbc);
     gbc.gridx=0; gbc.gridy=2;
-    panel.add(GuiFactory.buildLabel("Class:"),gbc);
-    gbc.gridx=0; gbc.gridy=3;
     panel.add(GuiFactory.buildLabel("Race:"),gbc);
+    gbc.gridx=0; gbc.gridy=3;
+    panel.add(GuiFactory.buildLabel("Class:"),gbc);
     gbc.gridx=0; gbc.gridy=4;
     panel.add(GuiFactory.buildLabel("Sex:"),gbc);
     gbc.gridx=0; gbc.gridy=5;
@@ -139,9 +139,9 @@ public class CharacterSummaryDialogController extends DefaultDialogController im
     gbc.gridx=1; gbc.gridy=1;
     panel.add(_server.getComboBox(),gbc);
     gbc.gridx=1; gbc.gridy=2;
-    panel.add(_class.getComboBox(),gbc);
-    gbc.gridx=1; gbc.gridy=3;
     panel.add(_race.getComboBox(),gbc);
+    gbc.gridx=1; gbc.gridy=3;
+    panel.add(_class.getComboBox(),gbc);
     gbc.gridx=1; gbc.gridy=4;
     panel.add(_sex.getComboBox(),gbc);
     gbc.gridx=1; gbc.gridy=5;

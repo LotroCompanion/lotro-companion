@@ -76,20 +76,6 @@ public class ToonsTableController
       raceColumn.setWidthSpecs(100,100,100);
       table.addColumnController(raceColumn);
     }
-    // Sex column
-    {
-      CellDataProvider<CharacterFile,CharacterSex> sexCell=new CellDataProvider<CharacterFile,CharacterSex>()
-      {
-        public CharacterSex getData(CharacterFile item)
-        {
-          CharacterSummary data=getDataForToon(item);
-          return data.getCharacterSex();
-        }
-      };
-      TableColumnController<CharacterFile,CharacterSex> sexColumn=new TableColumnController<CharacterFile,CharacterSex>("Sex",CharacterSex.class,sexCell);
-      sexColumn.setWidthSpecs(80,80,80);
-      table.addColumnController(sexColumn);
-    }
     // Class column
     {
       CellDataProvider<CharacterFile,CharacterClass> classCell=new CellDataProvider<CharacterFile,CharacterClass>()
@@ -103,6 +89,20 @@ public class ToonsTableController
       TableColumnController<CharacterFile,CharacterClass> classColumn=new TableColumnController<CharacterFile,CharacterClass>("Class",CharacterClass.class,classCell);
       classColumn.setWidthSpecs(100,100,100);
       table.addColumnController(classColumn);
+    }
+    // Sex column
+    {
+      CellDataProvider<CharacterFile,CharacterSex> sexCell=new CellDataProvider<CharacterFile,CharacterSex>()
+      {
+        public CharacterSex getData(CharacterFile item)
+        {
+          CharacterSummary data=getDataForToon(item);
+          return data.getCharacterSex();
+        }
+      };
+      TableColumnController<CharacterFile,CharacterSex> sexColumn=new TableColumnController<CharacterFile,CharacterSex>("Sex",CharacterSex.class,sexCell);
+      sexColumn.setWidthSpecs(80,80,80);
+      table.addColumnController(sexColumn);
     }
     // Region column
     {
