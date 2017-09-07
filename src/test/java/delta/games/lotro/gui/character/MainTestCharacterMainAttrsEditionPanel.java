@@ -23,7 +23,7 @@ public class MainTestCharacterMainAttrsEditionPanel
     CharacterGeneratorMeva mevaGenerator=new CharacterGeneratorMeva(tools);
     CharacterData meva=mevaGenerator.buildCharacter();
     meva.setDate(Long.valueOf(System.currentTimeMillis()));
-    CharacterMainAttrsEditionPanelController panelCtrl=new CharacterMainAttrsEditionPanelController(meva);
+    CharacterMainAttrsEditionPanelController panelCtrl=new CharacterMainAttrsEditionPanelController(null,meva);
     panelCtrl.set();
     JFrame frame=new JFrame();
     frame.add(panelCtrl.getPanel());

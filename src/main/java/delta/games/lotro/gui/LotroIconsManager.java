@@ -1,5 +1,6 @@
 package delta.games.lotro.gui;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +10,7 @@ import delta.common.ui.swing.icons.ApplicationIcons;
 import delta.common.ui.swing.icons.IconsManager;
 import delta.games.lotro.character.stats.STAT;
 import delta.games.lotro.common.CharacterClass;
+import delta.games.lotro.common.CharacterSex;
 import delta.games.lotro.common.Race;
 
 /**
@@ -45,18 +47,28 @@ public class LotroIconsManager
   }
 
   /**
-   * Get an icon for a character race.
+   * Get an icon for a character race/sex.
    * @param race Character race.
+   * @param sex Character sex.
    * @return An icon or <code>null/code> if not found.
    */
-  public static ImageIcon getRaceIcon(Race race)
+  public static ImageIcon getCharacterIcon(Race race, CharacterSex sex)
   {
     ImageIcon ret=null;
     if (race!=null)
     {
-      String classIconPath=race.getIconPath();
-      String iconPath="/resources/gui/races/"+classIconPath+".png";
-      ret=IconsManager.getIcon(iconPath);
+      String raceIconPath=race.getIconPath();
+      String iconPath=raceIconPath;
+      if (sex!=null)
+      {
+        iconPath=iconPath+"_"+sex.getKey().toLowerCase();
+      }
+      URL iconUrl=IconsManager.class.getResource("/resources/gui/races/"+iconPath+".png");
+      if (iconUrl==null)
+      {
+        iconPath=raceIconPath;
+      }
+      ret=IconsManager.getIcon("/resources/gui/races/"+iconPath+".png");
     }
     return ret;
   }

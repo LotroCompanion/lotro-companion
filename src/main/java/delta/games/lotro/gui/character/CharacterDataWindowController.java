@@ -49,6 +49,7 @@ public class CharacterDataWindowController extends DefaultWindowController imple
   private BuffEditionPanelController _buffsController;
   private TomesEditionPanelController _tomesController;
   private OKCancelPanelController _okCancelController;
+  private CharacterFile _toonFile;
   private CharacterData _toon;
   private WindowsManager _windowsManager;
 
@@ -57,11 +58,12 @@ public class CharacterDataWindowController extends DefaultWindowController imple
    * @param toon Parent toon.
    * @param toonData Managed toon.
    */
-  public CharacterDataWindowController(CharacterFile toon,CharacterData toonData)
+  public CharacterDataWindowController(CharacterFile toon, CharacterData toonData)
   {
+    _toonFile=toon;
     _toon=toonData;
     _windowsManager=new WindowsManager();
-    _attrsController=new CharacterMainAttrsEditionPanelController(toonData);
+    _attrsController=new CharacterMainAttrsEditionPanelController(toon,toonData);
     _attrsController.set();
     _statsController=new CharacterStatsSummaryPanelController(this,toonData);
     _equipmentController=new EquipmentPanelController(this,toon,toonData);
@@ -330,6 +332,15 @@ public class CharacterDataWindowController extends DefaultWindowController imple
         _buffsController.update();
       }
     }
+    if (type==CharacterEventType.CHARACTER_SUMMARY_UPDATED)
+    {
+      CharacterFile toonFile=event.getToonFile();
+      if (toonFile==_toonFile)
+      {
+        // Update sex
+        _attrsController.updateSexDisplay();
+      }
+    }
   }
 
   private void ok()
@@ -399,5 +410,6 @@ public class CharacterDataWindowController extends DefaultWindowController imple
       _tomesController=null;
     }
     _toon=null;
+    _toonFile=null;
   }
 }

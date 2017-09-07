@@ -16,10 +16,13 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.common.ui.swing.combobox.ItemSelectionListener;
 import delta.games.lotro.character.CharacterData;
+import delta.games.lotro.character.CharacterFile;
+import delta.games.lotro.character.CharacterSummary;
 import delta.games.lotro.character.events.CharacterEvent;
 import delta.games.lotro.character.events.CharacterEventType;
 import delta.games.lotro.character.events.CharacterEventsManager;
 import delta.games.lotro.common.CharacterClass;
+import delta.games.lotro.common.CharacterSex;
 import delta.games.lotro.common.Race;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.character.summary.CharacterUiUtils;
@@ -42,15 +45,18 @@ public class CharacterMainAttrsEditionPanelController
   //private JTextArea _description;
 
   // Data
+  private CharacterFile _toonFile;
   private CharacterData _toon;
 
   /**
    * Constructor.
-   * @param toon Toon to display.
+   * @param toon Parent toon.
+   * @param toonData Managed toon.
    */
-  public CharacterMainAttrsEditionPanelController(CharacterData toon)
+  public CharacterMainAttrsEditionPanelController(CharacterFile toon, CharacterData toonData)
   {
-    _toon=toon;
+    _toonFile=toon;
+    _toon=toonData;
   }
 
   /**
@@ -126,10 +132,8 @@ public class CharacterMainAttrsEditionPanelController
     CharacterClass cClass=_toon.getCharacterClass();
     ImageIcon classIcon=LotroIconsManager.getClassIcon(cClass,LotroIconsManager.MEDIUM_SIZE);
     _classIcon.setIcon(classIcon);
-    // Race icon
-    Race race=_toon.getRace();
-    ImageIcon raceIcon=LotroIconsManager.getRaceIcon(race);
-    _raceIcon.setIcon(raceIcon);
+    // Character icon
+    updateSexDisplay();
     // Name
     _name.setText(_toon.getName());
     // Level
@@ -141,6 +145,31 @@ public class CharacterMainAttrsEditionPanelController
     _date.setText(dateStr);
     // Short description
     _shortDescription.setText(_toon.getShortDescription());
+  }
+
+  /**
+   * Update sex display.
+   */
+  public void updateSexDisplay()
+  {
+    Race race=_toon.getRace();
+    CharacterSex sex=getCharacterSex();
+    ImageIcon characterIcon=LotroIconsManager.getCharacterIcon(race,sex);
+    _raceIcon.setIcon(characterIcon);
+  }
+
+  private CharacterSex getCharacterSex()
+  {
+    CharacterSex ret=null;
+    if (_toonFile!=null)
+    {
+      CharacterSummary summary=_toonFile.getSummary();
+      if (summary!=null)
+      {
+        ret=summary.getCharacterSex();
+      }
+    }
+    return ret;
   }
 
   /**

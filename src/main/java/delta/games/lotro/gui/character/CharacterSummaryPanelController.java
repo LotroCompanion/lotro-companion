@@ -20,6 +20,7 @@ import delta.games.lotro.character.events.CharacterEventListener;
 import delta.games.lotro.character.events.CharacterEventType;
 import delta.games.lotro.character.events.CharacterEventsManager;
 import delta.games.lotro.common.CharacterClass;
+import delta.games.lotro.common.CharacterSex;
 import delta.games.lotro.common.Race;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.character.summary.CharacterSummaryDialogController;
@@ -39,6 +40,7 @@ public class CharacterSummaryPanelController implements CharacterEventListener
   private JPanel _panel;
   private JLabel _nameLabel;
   private JLabel _levelLabel;
+  private JLabel _characterIconLabel;
 
   /**
    * Constructor.
@@ -74,21 +76,21 @@ public class CharacterSummaryPanelController implements CharacterEventListener
     // Grab data
     CharacterClass cClass=null;
     Race race=null;
-    //CharacterSex sex=null;
+    CharacterSex sex=null;
     if (_summary!=null)
     {
       cClass=_summary.getCharacterClass();
       race=_summary.getRace();
-      //sex=_summary.getCharacterSex();
+      sex=_summary.getCharacterSex();
     }
     // Class
     ImageIcon classIcon=LotroIconsManager.getClassIcon(cClass,LotroIconsManager.MEDIUM_SIZE);
     panel.add(GuiFactory.buildIconLabel(classIcon),c);
-    // Race
-    ImageIcon raceIcon=LotroIconsManager.getRaceIcon(race);
+    // Character icon
+    ImageIcon characterIcon=LotroIconsManager.getCharacterIcon(race,sex);
     c.gridx=1;
-    panel.add(GuiFactory.buildIconLabel(raceIcon),c);
-    // TODO Use sex to choose icon
+    _characterIconLabel=GuiFactory.buildIconLabel(characterIcon);
+    panel.add(_characterIconLabel,c);
     // Name
     _nameLabel=GuiFactory.buildLabel("",28.0f);
     c.gridx=2;c.anchor=GridBagConstraints.CENTER;
@@ -148,6 +150,7 @@ public class CharacterSummaryPanelController implements CharacterEventListener
   {
     if (_summary!=null)
     {
+      // Name/region
       String name=_summary.getName();
       String region=_summary.getRegion();
       String text=name;
@@ -156,8 +159,14 @@ public class CharacterSummaryPanelController implements CharacterEventListener
         text=text+" of "+region;
       }
       _nameLabel.setText(text);
+      // Level
       int level=_summary.getLevel();
       _levelLabel.setText(String.valueOf(level));
+      // Character icon
+      Race race=_summary.getRace();
+      CharacterSex sex=_summary.getCharacterSex();
+      ImageIcon characterIcon=LotroIconsManager.getCharacterIcon(race,sex);
+      _characterIconLabel.setIcon(characterIcon);
     }
   }
 
@@ -171,6 +180,7 @@ public class CharacterSummaryPanelController implements CharacterEventListener
     // Controllers
     _parent=null;
     // UI
+    _characterIconLabel=null;
     if (_panel!=null)
     {
       _panel.removeAll();
