@@ -17,6 +17,7 @@ import javax.swing.border.TitledBorder;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.OKCancelPanelController;
 import delta.common.ui.swing.combobox.ComboBoxController;
+import delta.common.ui.swing.combobox.ItemSelectionListener;
 import delta.common.ui.swing.windows.DefaultDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.misc.TypedProperties;
@@ -40,7 +41,7 @@ public class NewToonDialogController extends DefaultDialogController implements 
   private OKCancelPanelController _okCancelController;
   private JTextField _toonName;
   private ComboBoxController<String> _server;
-  private ComboBoxController<CharacterClass> _class;
+  private CharacterClassController _class;
   private ComboBoxController<Race> _race;
   private ComboBoxController<CharacterSex> _sex;
 
@@ -100,9 +101,17 @@ public class NewToonDialogController extends DefaultDialogController implements 
       _server.selectItem(defaultServer);
     }
     // Class
-    _class=CharacterUiUtils.buildClassCombo();
+    _class=new CharacterClassController();
     // Race
     _race=CharacterUiUtils.buildRaceCombo();
+    ItemSelectionListener<Race> listener=new ItemSelectionListener<Race>()
+    {
+      public void itemSelected(Race race)
+      {
+        _class.setRace(race);
+      }
+    };
+    _race.addListener(listener);
     // Sex
     _sex=CharacterUiUtils.buildSexCombo();
 
@@ -125,7 +134,7 @@ public class NewToonDialogController extends DefaultDialogController implements 
     gbc.gridx=1; gbc.gridy=2;
     panel.add(_race.getComboBox(),gbc);
     gbc.gridx=1; gbc.gridy=3;
-    panel.add(_class.getComboBox(),gbc);
+    panel.add(_class.getComboBoxController().getComboBox(),gbc);
     gbc.gridx=1; gbc.gridy=4;
     panel.add(_sex.getComboBox(),gbc);
     return panel;
@@ -148,7 +157,7 @@ public class NewToonDialogController extends DefaultDialogController implements 
   {
     String toonName=_toonName.getText();
     String server=_server.getSelectedItem();
-    CharacterClass cClass=_class.getSelectedItem();
+    CharacterClass cClass=_class.getComboBoxController().getSelectedItem();
     Race race=_race.getSelectedItem();
     CharacterSex sex=_sex.getSelectedItem();
     String errorMsg=checkData();
