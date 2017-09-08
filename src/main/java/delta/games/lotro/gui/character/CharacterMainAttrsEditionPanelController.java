@@ -5,7 +5,6 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.util.Date;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -15,6 +14,7 @@ import javax.swing.JTextField;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.common.ui.swing.combobox.ItemSelectionListener;
+import delta.common.ui.swing.text.dates.DateEditionController;
 import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharacterSummary;
@@ -26,7 +26,7 @@ import delta.games.lotro.common.CharacterSex;
 import delta.games.lotro.common.Race;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.character.summary.CharacterUiUtils;
-import delta.games.lotro.utils.Formats;
+import delta.games.lotro.utils.DateFormat;
 
 /**
  * Controller for character main attributes edition panel.
@@ -40,7 +40,7 @@ public class CharacterMainAttrsEditionPanelController
   private JLabel _raceIcon;
   private JTextField _name;
   private ComboBoxController<Integer> _level;
-  private JTextField _date;
+  private DateEditionController _date;
   private JTextField _shortDescription;
   //private JTextArea _description;
 
@@ -105,9 +105,8 @@ public class CharacterMainAttrsEditionPanelController
     };
     _level.addListener(levelListener);
     // Date
-    _date=GuiFactory.buildTextField("");
-    _date.setColumns(10);
-    firstLinePanel.add(_date);
+    _date=new DateEditionController(DateFormat.getDateTimeCodec());
+    firstLinePanel.add(_date.getTextField());
 
     // 2nd line
     JPanel secondLinePanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
@@ -140,9 +139,7 @@ public class CharacterMainAttrsEditionPanelController
     _level.selectItem(Integer.valueOf(_toon.getLevel()));
     // Date
     Long timestamp=_toon.getDate();
-    Date date=(timestamp!=null)?new Date(timestamp.longValue()):null;
-    String dateStr=Formats.getDateTimeString(date);
-    _date.setText(dateStr);
+    _date.setDate(timestamp);
     // Short description
     _shortDescription.setText(_toon.getShortDescription());
   }
@@ -186,11 +183,8 @@ public class CharacterMainAttrsEditionPanelController
       _toon.setLevel(level.intValue());
     }
     // Date
-    Date date=Formats.parseDate(_date.getText());
-    if (date!=null)
-    {
-      _toon.setDate(Long.valueOf(date.getTime()));
-    }
+    Long date=_date.getDate();
+    _toon.setDate(date);
     // Short description
     _toon.setShortDescription(_shortDescription.getText());
   }
@@ -205,11 +199,15 @@ public class CharacterMainAttrsEditionPanelController
       _panel.removeAll();
       _panel=null;
     }
+    if (_date!=null)
+    {
+      _date.dispose();
+      _date=null;
+    }
     _toon=null;
     _classIcon=null;
     _name=null;
     _level=null;
-    _date=null;
     _shortDescription=null;
   }
 }
