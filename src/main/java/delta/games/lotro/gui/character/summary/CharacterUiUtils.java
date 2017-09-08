@@ -83,8 +83,7 @@ public class CharacterUiUtils
   public static ComboBoxController<Integer> buildLevelCombo()
   {
     ComboBoxController<Integer> ctrl=new ComboBoxController<Integer>();
-    TypedProperties props=Config.getInstance().getParameters();
-    int maxLevel=props.getIntProperty("max.character.level",115);
+    int maxLevel=Config.getInstance().getMaxCharacterLevel();
     List<Integer> levels=new ArrayList<Integer>();
     for(int i=1;i<=maxLevel;i++)
     {

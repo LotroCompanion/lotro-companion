@@ -40,6 +40,7 @@ import delta.games.lotro.character.stats.CharacterStatsComputer;
 import delta.games.lotro.gui.character.stash.StashWindowController;
 import delta.games.lotro.gui.log.CharacterLogWindowController;
 import delta.games.lotro.gui.stats.crafting.CraftingWindowController;
+import delta.games.lotro.gui.stats.levelling.LevelHistoryEditionDialogController;
 import delta.games.lotro.gui.stats.reputation.CharacterReputationDialogController;
 import delta.games.lotro.gui.stats.traitPoints.TraitPointsEditionWindowController;
 import delta.games.lotro.stats.traitPoints.TraitPoints;
@@ -57,6 +58,7 @@ public class CharacterFileWindowController extends DefaultWindowController imple
   private static final String EXPORT_TOON_DATA_ID="exportToonData";
   private static final String REMOVE_TOON_DATA_ID="removeToonData";
   private static final String LOG_COMMAND="log";
+  private static final String LEVEL_COMMAND="level";
   private static final String REPUTATION_COMMAND="reputation";
   private static final String CRAFTING_COMMAND="crafting";
   private static final String STASH_COMMAND="stash";
@@ -148,6 +150,10 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     JButton reputationButton=buildCommandButton("Reputation",REPUTATION_COMMAND);
     panel.add(reputationButton,c);
     c.gridx++;
+    // Levels
+    JButton levelsButton=buildCommandButton("Levels",LEVEL_COMMAND);
+    panel.add(levelsButton,c);
+    c.gridx++;
     // Crafting
     JButton craftingButton=buildCommandButton("Crafting",CRAFTING_COMMAND);
     panel.add(craftingButton,c);
@@ -203,6 +209,13 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     {
       // Reputation
       DefaultDialogController controller=new CharacterReputationDialogController(this,_toon);
+      controller.getWindow().setLocationRelativeTo(getFrame());
+      controller.show(true);
+    }
+    else if (LEVEL_COMMAND.equals(command))
+    {
+      // Level history
+      DefaultDialogController controller=new LevelHistoryEditionDialogController(this,_toon);
       controller.getWindow().setLocationRelativeTo(getFrame());
       controller.show(true);
     }

@@ -79,6 +79,17 @@ public class Config
   }
 
   /**
+   * Get the maximum character level.
+   * @return the maximum character level.
+   */
+  public int getMaxCharacterLevel()
+  {
+    TypedProperties props=getParameters();
+    int maxLevel=props.getIntProperty("max.character.level",115);
+    return maxLevel;
+  }
+
+  /**
    * Get the configuration parameters.
    * @return the configuration parameters.
    */
