@@ -129,7 +129,7 @@ public class CharacterMainAttrsEditionPanelController
     getPanel();
     // Class icon
     CharacterClass cClass=_toon.getCharacterClass();
-    ImageIcon classIcon=LotroIconsManager.getClassIcon(cClass,LotroIconsManager.MEDIUM_SIZE);
+    ImageIcon classIcon=LotroIconsManager.getClassIcon(cClass,LotroIconsManager.COMPACT_SIZE);
     _classIcon.setIcon(classIcon);
     // Character icon
     updateSexDisplay();

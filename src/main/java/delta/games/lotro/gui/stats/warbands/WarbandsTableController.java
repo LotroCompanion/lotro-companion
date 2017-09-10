@@ -158,7 +158,7 @@ public class WarbandsTableController
     if (summary!=null)
     {
       CharacterClass cClass=summary.getCharacterClass();
-      classIcon=LotroIconsManager.getClassIcon(cClass,LotroIconsManager.MEDIUM_SIZE);
+      classIcon=LotroIconsManager.getClassIcon(cClass,LotroIconsManager.COMPACT_SIZE);
     }
     JLabel classLabel;
     if (classIcon!=null)

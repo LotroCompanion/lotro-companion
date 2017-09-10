@@ -24,6 +24,10 @@ public class LotroIconsManager
    */
   public static final String MEDIUM_SIZE="medium";
   /**
+   * Compact size.
+   */
+  public static final String COMPACT_SIZE="compact";
+  /**
    * Small size.
    */
   public static final String SMALL_SIZE="small";
