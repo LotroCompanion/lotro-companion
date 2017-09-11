@@ -27,8 +27,8 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.games.lotro.character.crafting.ProfessionStatus;
 import delta.games.lotro.crafting.CraftingLevel;
-import delta.games.lotro.stats.crafting.ProfessionStat;
 import delta.games.lotro.utils.Formats;
 
 /**
@@ -39,7 +39,7 @@ public class CraftingHistoryChartController
 {
   private JPanel _panel;
   private JFreeChart _chart;
-  private ProfessionStat _stats;
+  private ProfessionStatus _stats;
   private boolean _showTitle;
 
   /**
@@ -47,7 +47,7 @@ public class CraftingHistoryChartController
    * @param stats Data to display.
    * @param showTitle Show title or not.
    */
-  public CraftingHistoryChartController(ProfessionStat stats, boolean showTitle)
+  public CraftingHistoryChartController(ProfessionStatus stats, boolean showTitle)
   {
     _stats=stats;
     _showTitle=showTitle;
@@ -90,7 +90,7 @@ public class CraftingHistoryChartController
     String title="";
     if (_showTitle)
     {
-      title=_stats.getProfession();
+      title=_stats.getProfession().getLabel();
     }
     XYDataset xydataset=createDataset();
     JFreeChart jfreechart = ChartFactory.createXYStepChart(title,

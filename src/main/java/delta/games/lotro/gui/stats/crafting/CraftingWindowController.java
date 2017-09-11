@@ -15,9 +15,10 @@ import javax.swing.JTabbedPane;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.DefaultWindowController;
 import delta.games.lotro.character.CharacterFile;
-import delta.games.lotro.character.log.CharacterLog;
-import delta.games.lotro.stats.crafting.CraftingStats;
-import delta.games.lotro.stats.crafting.ProfessionStat;
+import delta.games.lotro.character.crafting.CraftingStatus;
+import delta.games.lotro.character.crafting.ProfessionStatus;
+import delta.games.lotro.crafting.Profession;
+import delta.games.lotro.crafting.Vocation;
 
 /**
  * Controller for a "crafting stats" window.
@@ -26,8 +27,8 @@ import delta.games.lotro.stats.crafting.ProfessionStat;
 public class CraftingWindowController extends DefaultWindowController
 {
   private CharacterFile _toon;
-  private CraftingStats _stats;
-  private HashMap<String,CraftingPanelController> _panels;
+  private CraftingStatus _stats;
+  private HashMap<Profession,CraftingPanelController> _panels;
 
   /**
    * Constructor.
@@ -36,10 +37,8 @@ public class CraftingWindowController extends DefaultWindowController
   public CraftingWindowController(CharacterFile toon)
   {
     _toon=toon;
-    CharacterLog log=toon.getLastCharacterLog();
-    String toonName=toon.getName();
-    _stats=new CraftingStats(toonName,log);
-    _panels=new HashMap<String,CraftingPanelController>();
+    _stats=toon.getCraftingStatus();
+    _panels=new HashMap<Profession,CraftingPanelController>();
   }
 
   /**
@@ -60,21 +59,21 @@ public class CraftingWindowController extends DefaultWindowController
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     // Vocation label
-    String vocation=_stats.getVocation();
-    String vocationStr="Vocation: "+((vocation!=null)?vocation:"-");
+    Vocation vocation=_stats.getVocation();
+    String vocationStr="Vocation: "+((vocation!=null)?vocation.getName():"-");
     JLabel vocationLabel=GuiFactory.buildLabel(vocationStr);
 
     JComponent centerComponent=null;
-    String[] professions=_stats.getProfessions();
+    Profession[] professions=_stats.getProfessions();
     if ((professions!=null) && (professions.length>0))
     {
       JTabbedPane tabbedPane=GuiFactory.buildTabbedPane();
-      for(String profession : professions)
+      for(Profession profession : professions)
       {
-        ProfessionStat stats=_stats.getProfessionStat(profession);
+        ProfessionStatus stats=_stats.getProfessionStatus(profession);
         CraftingPanelController craftingPanelController=new CraftingPanelController(stats);
         JPanel craftingPanel=craftingPanelController.getPanel();
-        tabbedPane.add(profession,craftingPanel);
+        tabbedPane.add(profession.getLabel(),craftingPanel);
         _panels.put(profession,craftingPanelController);
       }
       centerComponent=tabbedPane;

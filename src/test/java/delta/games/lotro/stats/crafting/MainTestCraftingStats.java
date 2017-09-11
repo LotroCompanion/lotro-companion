@@ -3,7 +3,7 @@ package delta.games.lotro.stats.crafting;
 import java.util.List;
 
 import delta.games.lotro.character.CharacterFile;
-import delta.games.lotro.character.log.CharacterLog;
+import delta.games.lotro.character.crafting.CraftingStatus;
 import delta.games.lotro.character.log.LotroTestUtils;
 
 /**
@@ -24,12 +24,8 @@ public class MainTestCraftingStats
     {
       //CharacterFile toon=utils.getMainToon();
       //CharacterFile toon=utils.getToonByName("Feroce");
-      CharacterLog log=toon.getLastCharacterLog();
-      if (log!=null)
-      {
-        CraftingStats stats=new CraftingStats(log.getName(),log);
-        stats.dump(System.out);
-      }
+      CraftingStatus stats=toon.getCraftingStatus();
+      stats.dump(System.out);
     }
   }
 }

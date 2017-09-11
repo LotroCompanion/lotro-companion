@@ -7,10 +7,10 @@ import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
 import delta.games.lotro.character.CharacterFile;
-import delta.games.lotro.character.log.CharacterLog;
+import delta.games.lotro.character.crafting.CraftingStatus;
+import delta.games.lotro.character.crafting.ProfessionStatus;
 import delta.games.lotro.character.log.LotroTestUtils;
-import delta.games.lotro.stats.crafting.CraftingStats;
-import delta.games.lotro.stats.crafting.ProfessionStat;
+import delta.games.lotro.crafting.Profession;
 
 /**
  * Test for crafting history graph.
@@ -29,24 +29,19 @@ public class MainTestCraftingHistoryChart
     //for(CharacterFile toon : utils.getAllFiles())
     {
       CharacterFile toon=utils.getMainToon();
-      //CharacterFile toon=utils.getToonByName("Glumlug");
-      CharacterLog log=toon.getLastCharacterLog();
-      if (log!=null)
+      CraftingStatus stats=toon.getCraftingStatus();
+      stats.dump(System.out);
+      Profession[] professions=stats.getProfessions();
+      for(Profession profession : professions)
       {
-        CraftingStats stats=new CraftingStats(log.getName(),log);
-        stats.dump(System.out);
-        String[] professions=stats.getProfessions();
-        for(String profession : professions)
-        {
-          ProfessionStat stat=stats.getProfessionStat(profession);
-          JFrame f=new JFrame();
-          CraftingHistoryChartController controller=new CraftingHistoryChartController(stat,true);
-          JPanel panel=controller.getPanel();
-          f.getContentPane().add(panel);
-          f.pack();
-          f.setVisible(true);
-          f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        }
+        ProfessionStatus stat=stats.getProfessionStatus(profession);
+        JFrame f=new JFrame();
+        CraftingHistoryChartController controller=new CraftingHistoryChartController(stat,true);
+        JPanel panel=controller.getPanel();
+        f.getContentPane().add(panel);
+        f.pack();
+        f.setVisible(true);
+        f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
       }
     }
   }

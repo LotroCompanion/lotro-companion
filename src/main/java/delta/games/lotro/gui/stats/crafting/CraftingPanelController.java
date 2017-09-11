@@ -10,8 +10,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.games.lotro.character.crafting.ProfessionStatus;
 import delta.games.lotro.crafting.CraftingLevel;
-import delta.games.lotro.stats.crafting.ProfessionStat;
 
 /**
  * Controller for a crafting panel (one profession).
@@ -25,13 +25,13 @@ public class CraftingPanelController
   private JLabel _proficiencyLabel;
   private CraftingHistoryChartController _history;
   // Data
-  private ProfessionStat _stats;
+  private ProfessionStatus _stats;
 
   /**
    * Constructor.
    * @param stats Profession stats to display.
    */
-  public CraftingPanelController(ProfessionStat stats)
+  public CraftingPanelController(ProfessionStatus stats)
   {
     _stats=stats;
   }
