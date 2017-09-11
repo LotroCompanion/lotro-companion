@@ -54,14 +54,12 @@ public class CraftingPanelController
     JPanel panel=GuiFactory.buildBackgroundPanel(new GridBagLayout());
 
     // Mastery label
-    int masteryTier=_stats.getMasteryTier();
-    CraftingLevel mastery=CraftingLevel.getByTier(masteryTier);
-    String masteryStr=mastery.getMasteryLabel()+" ("+masteryTier+")";
+    CraftingLevel mastery=_stats.getMasteryLevel();
+    String masteryStr=mastery.getMastery().getLabel()+" ("+mastery.getTier()+")";
     _masteryLabel=GuiFactory.buildLabel("Mastery: "+masteryStr);
     // Proficiency label
-    int proficiencyTier=_stats.getProficiencyTier();
-    CraftingLevel proficiency=CraftingLevel.getByTier(proficiencyTier);
-    String proficiencyStr=proficiency.getProficiencyLabel()+" ("+proficiencyTier+")";
+    CraftingLevel proficiency=_stats.getProficiencyLevel();
+    String proficiencyStr=proficiency.getProficiency().getLabel()+" ("+proficiency.getTier()+")";
     _proficiencyLabel=GuiFactory.buildLabel("Proficiency: "+proficiencyStr);
     // History chart
     _history=new CraftingHistoryChartController(_stats,false);

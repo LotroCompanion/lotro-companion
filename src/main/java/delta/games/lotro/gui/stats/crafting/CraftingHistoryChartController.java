@@ -127,8 +127,8 @@ public class CraftingHistoryChartController
           CraftingLevel level=CraftingLevel.getByTier(tier);
           if (level!=null)
           {
-            if (series==0) label=level.getMasteryLabel();
-            else if (series==1) label=level.getProficiencyLabel();
+            if (series==0) label=level.getMastery().getLabel();
+            else if (series==1) label=level.getProficiency().getLabel();
             else label="???";
           }
           else
@@ -164,7 +164,7 @@ public class CraftingHistoryChartController
       private String format(int number)
       {
         CraftingLevel level=CraftingLevel.getByTier(number);
-        String ret=(level!=null)?level.getProficiencyLabel():"???";
+        String ret=(level!=null)?level.getProficiency().getLabel():"???";
         return ret;
       }
 
@@ -205,29 +205,29 @@ public class CraftingHistoryChartController
     int maxTier=maxLevel.getTier();
     for(int i=0;i<=maxTier;i++)
     {
-      Long date=_stats.getProficiencyTierDate(i);
-      if (date!=null)
+      long date=_stats.getLevelStatus(i).getProficiency().getCompletionDate();
+      if (date!=0)
       {
-        proficiencySeries.add(date.longValue(),i);
+        proficiencySeries.add(date,i);
       }
     }
     XYSeries masterySeries = new XYSeries("Mastery");
     for(int i=0;i<=maxTier;i++)
     {
-      Long date=_stats.getMasteryTierDate(i);
-      if (date!=null)
+      long date=_stats.getLevelStatus(i).getMastery().getCompletionDate();
+      if (date!=0)
       {
-        masterySeries.add(date.longValue(),i);
+        masterySeries.add(date,i);
       }
     }
 
     // Set last point
     if (lastItemDate!=null)
     {
-      int currentProficiency=_stats.getProficiencyTier();
-      proficiencySeries.add(lastItemDate.longValue(),currentProficiency);
-      int currentMastery=_stats.getMasteryTier();
-      masterySeries.add(lastItemDate.longValue(),currentMastery);
+      CraftingLevel currentProficiency=_stats.getProficiencyLevel();
+      proficiencySeries.add(lastItemDate.longValue(),currentProficiency.getTier());
+      CraftingLevel currentMastery=_stats.getMasteryLevel();
+      masterySeries.add(lastItemDate.longValue(),currentMastery.getTier());
     }
 
     data.addSeries(masterySeries);
