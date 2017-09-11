@@ -1,6 +1,5 @@
 package delta.games.lotro.gui;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,17 +60,11 @@ public class LotroIconsManager
     ImageIcon ret=null;
     if (race!=null)
     {
-      String raceIconPath=race.getIconPath();
-      String iconPath=raceIconPath;
-      if (sex!=null)
+      if (sex==null)
       {
-        iconPath=iconPath+"_"+sex.getKey().toLowerCase();
+        sex=CharacterSex.MALE;
       }
-      URL iconUrl=IconsManager.class.getResource("/resources/gui/races/"+iconPath+".png");
-      if (iconUrl==null)
-      {
-        iconPath=raceIconPath;
-      }
+      String iconPath=race.getIconPath()+"_"+sex.getKey().toLowerCase();
       ret=IconsManager.getIcon("/resources/gui/races/"+iconPath+".png");
     }
     return ret;
