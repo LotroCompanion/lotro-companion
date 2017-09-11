@@ -95,7 +95,6 @@ public class LevelHistoryEditionDialogController extends DefaultDialogController
 
   private void cancel()
   {
-    _toon.revertLevelHistory();
     dispose();
   }
 
