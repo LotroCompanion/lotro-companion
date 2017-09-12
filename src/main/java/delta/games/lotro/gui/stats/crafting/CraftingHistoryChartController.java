@@ -198,7 +198,7 @@ public class CraftingHistoryChartController
   {
     XYSeriesCollection data = new XYSeriesCollection();
 
-    Long lastItemDate=_stats.getLastLogItemDate();
+    Long lastItemDate=_stats.getValidityDate();
 
     XYSeries proficiencySeries = new XYSeries("Proficiency");
     CraftingLevel maxLevel=CraftingLevel.getMaximumLevel();
