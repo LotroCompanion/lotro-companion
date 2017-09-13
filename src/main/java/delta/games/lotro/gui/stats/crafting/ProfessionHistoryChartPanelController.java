@@ -14,10 +14,10 @@ import delta.games.lotro.character.crafting.ProfessionStatus;
 import delta.games.lotro.crafting.CraftingLevel;
 
 /**
- * Controller for a crafting panel (one profession).
+ * Controller for a panel that displays the history of a single profession.
  * @author DAM
  */
-public class CraftingPanelController
+public class ProfessionHistoryChartPanelController
 {
   // GUI
   private JPanel _panel;
@@ -31,7 +31,7 @@ public class CraftingPanelController
    * Constructor.
    * @param stats Profession stats to display.
    */
-  public CraftingPanelController(ProfessionStatus stats)
+  public ProfessionHistoryChartPanelController(ProfessionStatus stats)
   {
     _stats=stats;
   }

@@ -28,7 +28,7 @@ public class CraftingWindowController extends DefaultWindowController
 {
   private CharacterFile _toon;
   private CraftingStatus _stats;
-  private HashMap<Profession,CraftingPanelController> _panels;
+  private HashMap<Profession,ProfessionPanelController> _panels;
 
   /**
    * Constructor.
@@ -38,7 +38,7 @@ public class CraftingWindowController extends DefaultWindowController
   {
     _toon=toon;
     _stats=toon.getCraftingStatus();
-    _panels=new HashMap<Profession,CraftingPanelController>();
+    _panels=new HashMap<Profession,ProfessionPanelController>();
   }
 
   /**
@@ -71,7 +71,7 @@ public class CraftingWindowController extends DefaultWindowController
       for(Profession profession : professions)
       {
         ProfessionStatus stats=_stats.getProfessionStatus(profession);
-        CraftingPanelController craftingPanelController=new CraftingPanelController(stats);
+        ProfessionPanelController craftingPanelController=new ProfessionPanelController(stats);
         JPanel craftingPanel=craftingPanelController.getPanel();
         tabbedPane.add(profession.getLabel(),craftingPanel);
         _panels.put(profession,craftingPanelController);
@@ -122,7 +122,7 @@ public class CraftingWindowController extends DefaultWindowController
     super.dispose();
     if (_panels!=null)
     {
-      for(CraftingPanelController controller : _panels.values())
+      for(ProfessionPanelController controller : _panels.values())
       {
         controller.dispose();
       }
