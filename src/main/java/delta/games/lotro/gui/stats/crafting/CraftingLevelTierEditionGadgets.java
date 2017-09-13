@@ -15,19 +15,23 @@ import delta.games.lotro.utils.DateFormat;
  */
 public class CraftingLevelTierEditionGadgets
 {
+  private CraftingLevelTierStatus _status;
   private IntegerEditionController _xp;
   private DateEditionController _completionDate;
   private CheckboxController _completed;
 
   /**
    * Constructor.
+   * @param status Managed status.
    */
-  public CraftingLevelTierEditionGadgets()
+  public CraftingLevelTierEditionGadgets(CraftingLevelTierStatus status)
   {
+    _status=status;
     JTextField xpTextField=GuiFactory.buildTextField("");
     _xp=new IntegerEditionController(xpTextField);
     _completionDate=new DateEditionController(DateFormat.getDateTimeCodec());
     _completed=new CheckboxController("");
+    updateUi();
   }
 
   /**
@@ -59,30 +63,32 @@ public class CraftingLevelTierEditionGadgets
 
   /**
    * Set the status to display.
-   * @param status Status to display.
    */
-  public void setStatus(CraftingLevelTierStatus status)
+  /**
+   * Update UI.
+   */
+  public void updateUi()
   {
-    boolean completed=status.isCompleted();
+    // XP
+    int xp=_status.getAcquiredXP();
+    _xp.setValue(Integer.valueOf(xp));
+    // Completion date
+    long completionDate=_status.getCompletionDate();
+    Long date=(completionDate!=0)?Long.valueOf(completionDate):null;
+    _completionDate.setDate(date);
+    // Completed
+    boolean completed=_status.isCompleted();
+    _completed.setSelected(completed);
+    // Update UI states (enabled,editable)
     if (completed)
     {
       _xp.setState(false,false);
-      int maxXP=status.getLevelTier().getXP();
-      _xp.setValue(Integer.valueOf(maxXP));
-      _completed.setSelected(true);
       _completionDate.setState(true,true);
-      long completionDate=status.getCompletionDate();
-      Long date=(completionDate!=0)?Long.valueOf(completionDate):null;
-      _completionDate.setDate(date);
     }
     else
     {
       _xp.setState(true,true);
-      int xp=status.getAcquiredXP();
-      _xp.setValue(Integer.valueOf(xp));
-      _completed.setSelected(false);
       _completionDate.setState(false,false);
-      _completionDate.setDate(null);
     }
   }
 

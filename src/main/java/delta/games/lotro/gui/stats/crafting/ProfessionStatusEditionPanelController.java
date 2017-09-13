@@ -3,9 +3,12 @@ package delta.games.lotro.gui.stats.crafting;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -39,7 +42,6 @@ public class ProfessionStatusEditionPanelController
     _proficiencyGadgets=new ArrayList<CraftingLevelTierEditionGadgets>();
     _masteryGadgets=new ArrayList<CraftingLevelTierEditionGadgets>();
     _panel=buildPanel();
-    setStatus(status);
   }
 
   /**
@@ -78,24 +80,43 @@ public class ProfessionStatusEditionPanelController
       c.gridx++;
     }
     c.gridy++;
+
+    ActionListener l=new ActionListener()
+    {
+      public void actionPerformed(ActionEvent e)
+      {
+        handleUpdate(e.getSource());
+      }
+    };
+
     // Data rows
     CraftingLevel[] levels=CraftingLevel.ALL_TIERS;
     for(CraftingLevel level : levels)
     {
+      CraftingLevelStatus levelStatus=_status.getLevelStatus(level);
       c.gridx=0;
       JLabel tierLabel=GuiFactory.buildLabel(level.toString());
       panel.add(tierLabel,c);
       c.gridx++;
-      CraftingLevelTierEditionGadgets proficiencyGadgets=new CraftingLevelTierEditionGadgets();
-      panel.add(proficiencyGadgets.getCompleted().getCheckbox(),c);
+      // Proficiency
+      CraftingLevelTierStatus proficiencyStatus=levelStatus.getProficiency();
+      CraftingLevelTierEditionGadgets proficiencyGadgets=new CraftingLevelTierEditionGadgets(proficiencyStatus);
+      JCheckBox checkbox=proficiencyGadgets.getCompleted().getCheckbox();
+      panel.add(checkbox,c);
+      checkbox.addActionListener(l);
       c.gridx++;
       panel.add(proficiencyGadgets.getXp().getTextField(),c);
       c.gridx++;
       panel.add(proficiencyGadgets.getCompletionDate().getTextField(),c);
       c.gridx++;
       _proficiencyGadgets.add(proficiencyGadgets);
-      CraftingLevelTierEditionGadgets masteryGadgets=new CraftingLevelTierEditionGadgets();
-      panel.add(masteryGadgets.getCompleted().getCheckbox(),c);
+
+      // Mastery
+      CraftingLevelTierStatus masteryStatus=levelStatus.getMastery();
+      CraftingLevelTierEditionGadgets masteryGadgets=new CraftingLevelTierEditionGadgets(masteryStatus);
+      checkbox=masteryGadgets.getCompleted().getCheckbox();
+      panel.add(checkbox,c);
+      checkbox.addActionListener(l);
       c.gridx++;
       panel.add(masteryGadgets.getXp().getTextField(),c);
       c.gridx++;
@@ -103,31 +124,46 @@ public class ProfessionStatusEditionPanelController
       c.gridx++;
       _masteryGadgets.add(masteryGadgets);
       c.gridy++;
+
+      if (level==CraftingLevel.BEGINNER)
+      {
+        proficiencyGadgets.getCompleted().setState(false);
+        masteryGadgets.getCompleted().setState(false);
+      }
     }
     return panel;
   }
 
-  /**
-   * Set the displayed status.
-   * @param status Status to display.
-   */
-  public void setStatus(ProfessionStatus status)
+  private void handleUpdate(Object source)
   {
-    _status=status;
     CraftingLevel[] levels=CraftingLevel.ALL_TIERS;
     int index=0;
     for(CraftingLevel level : levels)
     {
-      CraftingLevelStatus levelStatus=status.getLevelStatus(level);
-      // Proficiency
-      CraftingLevelTierStatus proficiencyStatus=levelStatus.getProficiency();
-      CraftingLevelTierEditionGadgets proficiencyGadgets=_proficiencyGadgets.get(index);
-      proficiencyGadgets.setStatus(proficiencyStatus);
-      // Mastery
-      CraftingLevelTierStatus masteryStatus=levelStatus.getMastery();
-      CraftingLevelTierEditionGadgets masteryGadgets=_masteryGadgets.get(index);
-      masteryGadgets.setStatus(masteryStatus);
+      CraftingLevelTierEditionGadgets proficiency=_proficiencyGadgets.get(index);
+      if (source==proficiency.getCompleted().getCheckbox())
+      {
+        boolean completed=proficiency.getCompleted().isSelected();
+        _status.setCompletionStatus(level,false,completed);
+      }
+      CraftingLevelTierEditionGadgets mastery=_masteryGadgets.get(index);
+      if (source==mastery.getCompleted().getCheckbox())
+      {
+        boolean completed=mastery.getCompleted().isSelected();
+        _status.setCompletionStatus(level,true,completed);
+      }
       index++;
+    }
+    updateUi();
+  }
+
+  private void updateUi()
+  {
+    int nbTiers=_proficiencyGadgets.size();
+    for(int i=0;i<nbTiers;i++)
+    {
+      _proficiencyGadgets.get(i).updateUi();
+      _masteryGadgets.get(i).updateUi();
     }
   }
 
