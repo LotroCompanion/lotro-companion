@@ -31,7 +31,6 @@ public class CraftingLevelTierEditionGadgets
     _xp=new IntegerEditionController(xpTextField);
     _completionDate=new DateEditionController(DateFormat.getDateTimeCodec());
     _completed=new CheckboxController("");
-    updateUi();
   }
 
   /**

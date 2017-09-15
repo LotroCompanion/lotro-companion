@@ -36,7 +36,7 @@ public class MainTestCraftingHistoryChart
       {
         ProfessionStatus stat=stats.getProfessionStatus(profession);
         JFrame f=new JFrame();
-        CraftingHistoryChartController controller=new CraftingHistoryChartController(stat,true);
+        ProfessionPanelController controller=new ProfessionPanelController(stat);
         JPanel panel=controller.getPanel();
         f.getContentPane().add(panel);
         f.pack();

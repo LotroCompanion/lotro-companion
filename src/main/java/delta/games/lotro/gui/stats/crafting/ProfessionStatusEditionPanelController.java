@@ -11,8 +11,11 @@ import java.util.List;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.text.dates.DateEditionController;
+import delta.common.ui.swing.text.dates.DateListener;
 import delta.games.lotro.character.crafting.CraftingLevelStatus;
 import delta.games.lotro.character.crafting.CraftingLevelTierStatus;
 import delta.games.lotro.character.crafting.ProfessionStatus;
@@ -29,16 +32,20 @@ public class ProfessionStatusEditionPanelController
   // Controllers
   private List<CraftingLevelTierEditionGadgets> _proficiencyGadgets;
   private List<CraftingLevelTierEditionGadgets> _masteryGadgets;
+  private ProfessionHistoryChartPanelController _chart;
   // UI
   private JPanel _panel;
+  private Timer _updateTimer;
 
   /**
    * Constructor.
    * @param status Status to edit.
+   * @param chart Associated chart.
    */
-  public ProfessionStatusEditionPanelController(ProfessionStatus status)
+  public ProfessionStatusEditionPanelController(ProfessionStatus status, ProfessionHistoryChartPanelController chart)
   {
     _status=status;
+    _chart=chart;
     _proficiencyGadgets=new ArrayList<CraftingLevelTierEditionGadgets>();
     _masteryGadgets=new ArrayList<CraftingLevelTierEditionGadgets>();
     _panel=buildPanel();
@@ -85,7 +92,15 @@ public class ProfessionStatusEditionPanelController
     {
       public void actionPerformed(ActionEvent e)
       {
-        handleUpdate(e.getSource());
+        handleCompletionChange(e.getSource());
+      }
+    };
+    DateListener dateListener=new DateListener()
+    {
+      public void dateChanged(DateEditionController controller, Long newDate)
+      {
+        long date=(newDate!=null)?newDate.longValue():0;
+        handleDateChange(controller,date);
       }
     };
 
@@ -107,7 +122,9 @@ public class ProfessionStatusEditionPanelController
       c.gridx++;
       panel.add(proficiencyGadgets.getXp().getTextField(),c);
       c.gridx++;
-      panel.add(proficiencyGadgets.getCompletionDate().getTextField(),c);
+      DateEditionController dateCompletion=proficiencyGadgets.getCompletionDate();
+      dateCompletion.addListener(dateListener);
+      panel.add(dateCompletion.getTextField(),c);
       c.gridx++;
       _proficiencyGadgets.add(proficiencyGadgets);
 
@@ -120,7 +137,9 @@ public class ProfessionStatusEditionPanelController
       c.gridx++;
       panel.add(masteryGadgets.getXp().getTextField(),c);
       c.gridx++;
-      panel.add(masteryGadgets.getCompletionDate().getTextField(),c);
+      dateCompletion=masteryGadgets.getCompletionDate();
+      dateCompletion.addListener(dateListener);
+      panel.add(dateCompletion.getTextField(),c);
       c.gridx++;
       _masteryGadgets.add(masteryGadgets);
       c.gridy++;
@@ -131,10 +150,11 @@ public class ProfessionStatusEditionPanelController
         masteryGadgets.getCompleted().setState(false);
       }
     }
+    updateUi();
     return panel;
   }
 
-  private void handleUpdate(Object source)
+  private void handleCompletionChange(Object source)
   {
     CraftingLevel[] levels=CraftingLevel.ALL_TIERS;
     int index=0;
@@ -155,6 +175,52 @@ public class ProfessionStatusEditionPanelController
       index++;
     }
     updateUi();
+  }
+
+  private void handleDateChange(DateEditionController source, long completionDate)
+  {
+    CraftingLevel[] levels=CraftingLevel.ALL_TIERS;
+    int index=0;
+    for(CraftingLevel level : levels)
+    {
+      CraftingLevelTierEditionGadgets proficiency=_proficiencyGadgets.get(index);
+      if (source==proficiency.getCompletionDate())
+      {
+        _status.getLevelStatus(level).getProficiency().setCompletionDate(completionDate);
+      }
+      CraftingLevelTierEditionGadgets mastery=_masteryGadgets.get(index);
+      if (source==mastery.getCompletionDate())
+      {
+        _status.getLevelStatus(level).getMastery().setCompletionDate(completionDate);
+      }
+      index++;
+    }
+    if (completionDate!=0)
+    {
+      Long validity=_status.getValidityDate();
+      if ((validity==null) || (validity.longValue()<completionDate))
+      {
+        _status.setValidityDate(Long.valueOf(completionDate));
+      }
+    }
+    triggerChartUpdateTimer();
+  }
+
+  private void triggerChartUpdateTimer()
+  {
+    if (_updateTimer==null)
+    {
+      ActionListener updateChart = new ActionListener()
+      {
+        public void actionPerformed(ActionEvent e)
+        {
+          _chart.updateData();
+        }
+      };
+      _updateTimer=new Timer(100,updateChart);
+      _updateTimer.setRepeats(false);
+    }
+    _updateTimer.restart();
   }
 
   private void updateUi()

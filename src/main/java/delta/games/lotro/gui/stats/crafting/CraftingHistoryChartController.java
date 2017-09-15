@@ -41,6 +41,7 @@ public class CraftingHistoryChartController
   private JFreeChart _chart;
   private ProfessionStatus _stats;
   private boolean _showTitle;
+  private XYSeriesCollection _data;
 
   /**
    * Constructor.
@@ -51,6 +52,7 @@ public class CraftingHistoryChartController
   {
     _stats=stats;
     _showTitle=showTitle;
+    _data = new XYSeriesCollection();
     _panel=buildPanel();
   }
 
@@ -92,11 +94,11 @@ public class CraftingHistoryChartController
     {
       title=_stats.getProfession().getLabel();
     }
-    XYDataset xydataset=createDataset();
+    updateData();
     JFreeChart jfreechart = ChartFactory.createXYStepChart(title,
                         "Time",
                         "Tier",
-                        xydataset,
+                        _data,
                         PlotOrientation.VERTICAL,
                         true,
                         true,
@@ -194,10 +196,12 @@ public class CraftingHistoryChartController
     return jfreechart;
   }
 
-  private XYDataset createDataset()
+  /**
+   * Update graph data.
+   */
+  public void updateData()
   {
-    XYSeriesCollection data = new XYSeriesCollection();
-
+    _data.removeAllSeries();
     Long lastItemDate=_stats.getValidityDate();
 
     XYSeries proficiencySeries = new XYSeries("Proficiency");
@@ -230,9 +234,8 @@ public class CraftingHistoryChartController
       masterySeries.add(lastItemDate.longValue(),currentMastery.getTier());
     }
 
-    data.addSeries(masterySeries);
-    data.addSeries(proficiencySeries);
-    return data;
+    _data.addSeries(masterySeries);
+    _data.addSeries(proficiencySeries);
   }
 
   /**

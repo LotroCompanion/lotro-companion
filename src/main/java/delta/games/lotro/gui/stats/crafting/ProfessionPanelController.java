@@ -32,8 +32,8 @@ public class ProfessionPanelController
    */
   public ProfessionPanelController(ProfessionStatus status)
   {
-    _editionController=new ProfessionStatusEditionPanelController(status);
     _chartController=new ProfessionHistoryChartPanelController(status);
+    _editionController=new ProfessionStatusEditionPanelController(status,_chartController);
   }
 
   /**

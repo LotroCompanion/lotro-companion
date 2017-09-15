@@ -14,17 +14,12 @@ public class DateFormat
   {
     public Long parseDate(String dateStr)
     {
-      Date date=Formats.parseDate(dateStr);
-      return (date!=null)?Long.valueOf(date.getTime()):null;
+      return parseDateTime(dateStr,true);
     }
 
     public String formatDate(Long date)
     {
-      if (date!=null)
-      {
-        return Formats.getDateTimeString(new Date(date.longValue()));
-      }
-      return "";
+      return DateFormat.formatDate(date);
     }
   };
 
@@ -35,5 +30,32 @@ public class DateFormat
   public static DateCodec getDateTimeCodec()
   {
     return _codec;
+  }
+
+  private static String formatDate(Long date)
+  {
+    if (date!=null)
+    {
+      return Formats.getDateTimeString(new Date(date.longValue()));
+    }
+    return "";
+  }
+
+  private static Long parseDateTime(String dateStr, boolean strict)
+  {
+    if (dateStr==null)
+    {
+      return null;
+    }
+    if (strict)
+    {
+      int length=dateStr.length();
+      if (length!=16) // DD/MM/YYYY HH:MM
+      {
+        return null;
+      }
+    }
+    Date date=Formats.parseDate(dateStr);
+    return (date!=null)?Long.valueOf(date.getTime()):null;
   }
 }

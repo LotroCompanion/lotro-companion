@@ -81,6 +81,17 @@ public class ProfessionHistoryChartPanelController
   }
 
   /**
+   * Update graph data.
+   */
+  public void updateData()
+  {
+    if (_history!=null)
+    {
+      _history.updateData();
+    }
+  }
+
+  /**
    * Release all managed resources.
    */
   public void dispose()
