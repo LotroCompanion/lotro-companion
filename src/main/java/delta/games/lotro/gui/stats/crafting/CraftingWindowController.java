@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.JComponent;
-import javax.swing.JFrame;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
@@ -18,7 +18,8 @@ import javax.swing.JTabbedPane;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.common.ui.swing.combobox.ItemSelectionListener;
-import delta.common.ui.swing.windows.DefaultWindowController;
+import delta.common.ui.swing.windows.DefaultFormDialogController;
+import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.crafting.CraftingStatus;
 import delta.games.lotro.character.crafting.ProfessionStatus;
@@ -30,7 +31,7 @@ import delta.games.lotro.crafting.Vocations;
  * Controller for a "crafting stats" window.
  * @author DAM
  */
-public class CraftingWindowController extends DefaultWindowController
+public class CraftingWindowController extends DefaultFormDialogController<CraftingStatus>
 {
   private CharacterFile _toon;
   private CraftingStatus _stats;
@@ -40,30 +41,19 @@ public class CraftingWindowController extends DefaultWindowController
 
   /**
    * Constructor.
+   * @param parentController Parent controller.
    * @param toon Managed toon.
    */
-  public CraftingWindowController(CharacterFile toon)
+  public CraftingWindowController(WindowController parentController, CharacterFile toon)
   {
+    super(parentController,toon.getCraftingStatus());
     _toon=toon;
     _stats=toon.getCraftingStatus();
     _panels=new HashMap<Profession,ProfessionPanelController>();
   }
 
-  /**
-   * Get the window identifier for a given toon.
-   * @param serverName Server name.
-   * @param toonName Toon name.
-   * @return A window identifier.
-   */
-  public static String getIdentifier(String serverName, String toonName)
-  {
-    String id="CRAFTING#"+serverName+"#"+toonName;
-    id=id.toUpperCase();
-    return id;
-  }
-
   @Override
-  protected JComponent buildContents()
+  protected JPanel buildFormPanel()
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     // Vocation panel
@@ -131,31 +121,34 @@ public class CraftingWindowController extends DefaultWindowController
     _professionsPanel.repaint();
     if (!wasEmpty)
     {
-      getFrame().pack();
+      getWindow().pack();
     }
   }
 
   @Override
-  protected JFrame build()
+  protected JDialog build()
   {
-    JFrame frame=super.build();
+    JDialog dialog=super.build();
     // Title
     String name=_toon.getName();
     String serverName=_toon.getServerName();
-    String title="Crafting for "+name+" @ "+serverName;
-    frame.setTitle(title);
-    frame.pack();
-    frame.setMinimumSize(new Dimension(500,380));
-    return frame;
+    String title="Crafting history editor for "+name+" @ "+serverName;
+    dialog.setTitle(title);
+    // Minimum size
+    dialog.setMinimumSize(new Dimension(500,380));
+    return dialog;
   }
 
   @Override
-  public String getWindowIdentifier()
+  protected void okImpl()
   {
-    String serverName=_toon.getServerName();
-    String toonName=_toon.getName();
-    String id=getIdentifier(serverName,toonName);
-    return id;
+    _toon.saveCrafting();
+  }
+
+  @Override
+  protected void cancelImpl()
+  {
+    _toon.revertCrafting();
   }
 
   private ComboBoxController<Vocation> buildVocationCombo()

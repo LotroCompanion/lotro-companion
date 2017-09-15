@@ -221,17 +221,8 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     else if (CRAFTING_COMMAND.equals(command))
     {
       // Crafting
-      String serverName=_toon.getServerName();
-      String toonName=_toon.getName();
-      String id=CraftingWindowController.getIdentifier(serverName,toonName);
-      WindowController controller=_windowsManager.getWindow(id);
-      if (controller==null)
-      {
-        controller=new CraftingWindowController(_toon);
-        _windowsManager.registerWindow(controller);
-        controller.getWindow().setLocationRelativeTo(getFrame());
-      }
-      controller.bringToFront();
+      CraftingWindowController controller=new CraftingWindowController(this,_toon);
+      controller.editModal();
     }
     else if (STASH_COMMAND.equals(command))
     {
