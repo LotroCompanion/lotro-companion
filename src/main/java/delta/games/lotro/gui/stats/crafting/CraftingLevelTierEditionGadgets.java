@@ -61,8 +61,18 @@ public class CraftingLevelTierEditionGadgets
   }
 
   /**
-   * Set the status to display.
+   * Update data from UI contents.
    */
+  public void updateDatafromUi()
+  {
+    // XP
+    Integer acquiredXp=_xp.getValue();
+    if (acquiredXp!=null)
+    {
+      _status.setAcquiredXP(acquiredXp.intValue());
+    }
+  }
+
   /**
    * Update UI.
    */

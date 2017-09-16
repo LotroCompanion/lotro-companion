@@ -1,5 +1,7 @@
 package delta.games.lotro.gui.stats.crafting;
 
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -20,6 +22,7 @@ import delta.games.lotro.character.crafting.CraftingLevelStatus;
 import delta.games.lotro.character.crafting.CraftingLevelTierStatus;
 import delta.games.lotro.character.crafting.ProfessionStatus;
 import delta.games.lotro.crafting.CraftingLevel;
+import delta.games.lotro.utils.DateFormat;
 
 /**
  * Controller for a profession status edition panel.
@@ -33,6 +36,7 @@ public class ProfessionStatusEditionPanelController
   private List<CraftingLevelTierEditionGadgets> _proficiencyGadgets;
   private List<CraftingLevelTierEditionGadgets> _masteryGadgets;
   private ProfessionHistoryChartPanelController _chart;
+  private DateEditionController _validityDate;
   // UI
   private JPanel _panel;
   private Timer _updateTimer;
@@ -62,8 +66,36 @@ public class ProfessionStatusEditionPanelController
 
   private JPanel buildPanel()
   {
-    JPanel panel=GuiFactory.buildBackgroundPanel(new GridBagLayout());
+    JPanel panel=GuiFactory.buildBackgroundPanel(new BorderLayout());
+    JPanel topPanel=buildValidityDatePanel();
+    panel.add(topPanel,BorderLayout.NORTH);
+    JPanel statusEditionPanel=buildStatusEditionPanel();
+    panel.add(statusEditionPanel,BorderLayout.CENTER);
+    updateUi();
+    return panel;
+  }
 
+  private JPanel buildValidityDatePanel()
+  {
+    _validityDate=new DateEditionController(DateFormat.getDateTimeCodec());
+    JPanel panel=GuiFactory.buildPanel(new FlowLayout());
+    panel.add(GuiFactory.buildLabel("Validity date:"));
+    panel.add(_validityDate.getTextField());
+    DateListener dateListener=new DateListener()
+    {
+      public void dateChanged(DateEditionController controller, Long newDate)
+      {
+        _status.setValidityDate(newDate);
+        triggerChartUpdateTimer();
+      }
+    };
+    _validityDate.addListener(dateListener);
+    return panel;
+  }
+
+  private JPanel buildStatusEditionPanel()
+  {
+    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     // Header row 1
     GridBagConstraints c=new GridBagConstraints(0,0,1,2,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
     JLabel tier=GuiFactory.buildLabel("Tier");
@@ -150,7 +182,6 @@ public class ProfessionStatusEditionPanelController
         masteryGadgets.getCompleted().setState(false);
       }
     }
-    updateUi();
     return panel;
   }
 
@@ -195,15 +226,31 @@ public class ProfessionStatusEditionPanelController
       }
       index++;
     }
-    if (completionDate!=0)
+    Long validityDate=_status.getValidityDate();
+    if (validityDate==null)
     {
-      Long validity=_status.getValidityDate();
-      if ((validity==null) || (validity.longValue()<completionDate))
-      {
-        _status.setValidityDate(Long.valueOf(completionDate));
-      }
+      updateValidityDate();
     }
     triggerChartUpdateTimer();
+  }
+
+  /**
+   * Update validity date.
+   */
+  private void updateValidityDate()
+  {
+    long[] range=_status.getDateRange();
+    if (range!=null)
+    {
+      long validityDate=range[1];
+      long now=System.currentTimeMillis();
+      if (validityDate>now)
+      {
+        validityDate=now;
+      }
+      _status.setValidityDate(Long.valueOf(validityDate));
+      _validityDate.setDate(_status.getValidityDate());
+    }
   }
 
   private void triggerChartUpdateTimer()
@@ -230,6 +277,20 @@ public class ProfessionStatusEditionPanelController
     {
       _proficiencyGadgets.get(i).updateUi();
       _masteryGadgets.get(i).updateUi();
+    }
+    _validityDate.setDate(_status.getValidityDate());
+  }
+
+  /**
+   * Update data from UI contents.
+   */
+  public void updateDatafromUi()
+  {
+    int nbTiers=_proficiencyGadgets.size();
+    for(int i=0;i<nbTiers;i++)
+    {
+      _proficiencyGadgets.get(i).updateDatafromUi();
+      _masteryGadgets.get(i).updateDatafromUi();
     }
   }
 

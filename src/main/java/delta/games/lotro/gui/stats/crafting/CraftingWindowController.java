@@ -142,6 +142,10 @@ public class CraftingWindowController extends DefaultFormDialogController<Crafti
   @Override
   protected void okImpl()
   {
+    for(ProfessionPanelController controller: _panels.values())
+    {
+      controller.updateDataFromUi();
+    }
     _toon.saveCrafting();
   }
 
