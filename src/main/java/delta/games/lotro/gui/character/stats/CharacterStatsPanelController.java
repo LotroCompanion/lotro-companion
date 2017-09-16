@@ -301,6 +301,7 @@ public class CharacterStatsPanelController
     addStatWidgets(panel,STAT.INCOMING_HEALING,x,y,false);
     addStatWidgets(panel,STAT.INCOMING_HEALING_PERCENTAGE,x+2,y,false);
     y++;
+    addStatWidgets(panel,STAT.OUTGOING_HEALING,x,y,false);
     addStatWidgets(panel,STAT.OUTGOING_HEALING_PERCENTAGE,x+2,y,false);
 
     TitledBorder border=GuiFactory.buildTitledBorder("Healing");
