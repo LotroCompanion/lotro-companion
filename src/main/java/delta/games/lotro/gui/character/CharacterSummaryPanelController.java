@@ -118,8 +118,7 @@ public class CharacterSummaryPanelController implements CharacterEventListener
   private void editSummary()
   {
     CharacterSummaryDialogController dialog=new CharacterSummaryDialogController(_parent,_summary);
-    dialog.show(true);
-    CharacterSummary summary=dialog.getSummary();
+    CharacterSummary summary=dialog.editModal();
     if (summary!=null)
     {
       _toon.saveSummary(_summary);

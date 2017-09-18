@@ -1,23 +1,17 @@
 package delta.games.lotro.gui.character.summary;
 
-import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.Window;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
 import delta.common.ui.swing.GuiFactory;
-import delta.common.ui.swing.OKCancelPanelController;
 import delta.common.ui.swing.combobox.ComboBoxController;
-import delta.common.ui.swing.windows.DefaultDialogController;
+import delta.common.ui.swing.windows.DefaultFormDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.CharacterSummary;
 import delta.games.lotro.common.CharacterClass;
@@ -28,13 +22,10 @@ import delta.games.lotro.common.Race;
  * Controller for the "character summary toon" dialog.
  * @author DAM
  */
-public class CharacterSummaryDialogController extends DefaultDialogController implements ActionListener
+public class CharacterSummaryDialogController extends DefaultFormDialogController<CharacterSummary>
 {
   private static final int TOON_NAME_SIZE=32;
-  // Data
-  private CharacterSummary _summary;
   // UI
-  private OKCancelPanelController _okCancelController;
   private JTextField _toonName;
   private ComboBoxController<String> _server;
   private ComboBoxController<CharacterClass> _class;
@@ -50,17 +41,7 @@ public class CharacterSummaryDialogController extends DefaultDialogController im
    */
   public CharacterSummaryDialogController(WindowController parentController, CharacterSummary summary)
   {
-    super(parentController);
-    _summary=summary;
-  }
-
-  /**
-   * Get the managed summary.
-   * @return a summary or <code>null</code> if canceled.
-   */
-  public CharacterSummary getSummary()
-  {
-    return _summary;
+    super(parentController,summary);
   }
 
   @Override
@@ -69,31 +50,17 @@ public class CharacterSummaryDialogController extends DefaultDialogController im
     JDialog dialog=super.build();
     dialog.setTitle("Edit character summary...");
     dialog.setResizable(false);
-    dialog.pack();
-    WindowController controller=getParentController();
-    if (controller!=null)
-    {
-      Window parentWindow=controller.getWindow();
-      dialog.setLocationRelativeTo(parentWindow);
-    }
     return dialog;
   }
 
   @Override
-  protected JComponent buildContents()
+  protected JPanel buildFormPanel()
   {
-    JPanel panel=GuiFactory.buildPanel(new BorderLayout());
     JPanel dataPanel=buildPanel();
     TitledBorder pathsBorder=GuiFactory.buildTitledBorder("Character summary");
     dataPanel.setBorder(pathsBorder);
-    panel.add(dataPanel,BorderLayout.CENTER);
-    _okCancelController=new OKCancelPanelController();
-    JPanel okCancelPanel=_okCancelController.getPanel();
-    panel.add(okCancelPanel,BorderLayout.SOUTH);
-    _okCancelController.getOKButton().addActionListener(this);
-    _okCancelController.getCancelButton().addActionListener(this);
     initData();
-    return panel;
+    return dataPanel;
   }
 
   private JPanel buildPanel()
@@ -151,74 +118,49 @@ public class CharacterSummaryDialogController extends DefaultDialogController im
     return panel;
   }
 
-  public void actionPerformed(ActionEvent event)
-  {
-    String action=event.getActionCommand();
-    if (OKCancelPanelController.OK_COMMAND.equals(action))
-    {
-      ok();
-    }
-    else if (OKCancelPanelController.CANCEL_COMMAND.equals(action))
-    {
-      cancel();
-    }
-  }
-
   private void initData()
   {
     // Toon name
-    String name=_summary.getName();
+    String name=_data.getName();
     _toonName.setText(name);
     // Server
-    String server=_summary.getServer();
+    String server=_data.getServer();
     _server.selectItem(server);
     // Class
-    CharacterClass characterClass=_summary.getCharacterClass();
+    CharacterClass characterClass=_data.getCharacterClass();
     _class.selectItem(characterClass);
     // Race
-    Race race=_summary.getRace();
+    Race race=_data.getRace();
     _race.selectItem(race);
     _region.setRace(race);
     // Sex
-    CharacterSex sex=_summary.getCharacterSex();
+    CharacterSex sex=_data.getCharacterSex();
     _sex.selectItem(sex);
     // Region
-    String region=_summary.getRegion();
+    String region=_data.getRegion();
     _region.getComboBoxController().selectItem(region);
     // Level
-    int level=_summary.getLevel();
+    int level=_data.getLevel();
     _level.selectItem(Integer.valueOf(level));
   }
 
-  private void ok()
+  @Override
+  protected void okImpl()
   {
     String toonName=_toonName.getText();
-    _summary.setName(toonName);
+    _data.setName(toonName);
     String server=_server.getSelectedItem();
-    _summary.setServer(server);
+    _data.setServer(server);
     CharacterClass cClass=_class.getSelectedItem();
-    _summary.setCharacterClass(cClass);
+    _data.setCharacterClass(cClass);
     Race race=_race.getSelectedItem();
-    _summary.setRace(race);
+    _data.setRace(race);
     CharacterSex sex=_sex.getSelectedItem();
-    _summary.setCharacterSex(sex);
+    _data.setCharacterSex(sex);
     String region=_region.getComboBoxController().getSelectedItem();
-    _summary.setRegion(region);
+    _data.setRegion(region);
     int level=_level.getSelectedItem().intValue();
-    _summary.setLevel(level);
-    dispose();
-  }
-
-  private void cancel()
-  {
-    _summary=null;
-    dispose();
-  }
-
-  @Override
-  protected void doWindowClosing()
-  {
-    cancel();
+    _data.setLevel(level);
   }
 
   /**
@@ -227,14 +169,7 @@ public class CharacterSummaryDialogController extends DefaultDialogController im
   public void dispose()
   {
     super.dispose();
-    if (_okCancelController!=null)
-    {
-      _okCancelController.dispose();
-      _okCancelController=null;
-    }
     _toonName=null;
-    // DO NOT set _summary to null since it is used afterwards
-    //_summary=null;
     if (_server!=null)
     {
       _server.dispose();
