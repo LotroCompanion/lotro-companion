@@ -81,7 +81,15 @@ public class BuffChoiceWindowController extends DefaultDialogController
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     _tableController=new BuffsTableController(_possibleBuffs,_filter);
-    // Relics table
+    ActionListener al=new ActionListener()
+    {
+      public void actionPerformed(ActionEvent e)
+      {
+        ok();
+      }
+    };
+    _tableController.getTableController().addActionListener(al);
+    // Buffs table
     _panelController=new BuffChoicePanelController(_tableController);
     JPanel tablePanel=_panelController.getPanel();
     // Filter
@@ -130,17 +138,6 @@ public class BuffChoiceWindowController extends DefaultDialogController
         {
           cancel();
         }
-        hide();
-      }
-
-      private void ok()
-      {
-        _chosenBuff=_tableController.getSelectedBuff();
-      }
-
-      private void cancel()
-      {
-        _chosenBuff=null;
       }
     };
     _okCancelController.getOKButton().addActionListener(al);
@@ -166,6 +163,17 @@ public class BuffChoiceWindowController extends DefaultDialogController
 
   @Override
   protected void doWindowClosing()
+  {
+    cancel();
+  }
+
+  private void ok()
+  {
+    _chosenBuff=_tableController.getSelectedBuff();
+    hide();
+  }
+
+  private void cancel()
   {
     _chosenBuff=null;
     hide();

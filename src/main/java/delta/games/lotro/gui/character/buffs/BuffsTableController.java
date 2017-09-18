@@ -40,6 +40,15 @@ public class BuffsTableController
     configureTable();
   }
 
+  /**
+   * Get the managed generic table controller.
+   * @return the managed generic table controller.
+   */
+  public GenericTableController<Buff> getTableController()
+  {
+    return _tableController;
+  }
+
   private GenericTableController<Buff> buildTable()
   {
     DataProvider<Buff> provider=new ListDataProvider<Buff>(_buffs);
