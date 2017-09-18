@@ -38,6 +38,15 @@ public class RelicsTableController
     configureTable();
   }
 
+  /**
+   * Get the managed generic table controller.
+   * @return the managed generic table controller.
+   */
+  public GenericTableController<Relic> getTableController()
+  {
+    return _tableController;
+  }
+
   private GenericTableController<Relic> buildTable()
   {
     DataProvider<Relic> provider=new ListDataProvider<Relic>(_relics);

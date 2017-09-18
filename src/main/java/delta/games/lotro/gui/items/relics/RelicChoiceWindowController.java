@@ -81,6 +81,14 @@ public class RelicChoiceWindowController extends DefaultDialogController
     List<Relic> relics=relicsMgr.getAllRelics();
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     _tableController=new RelicsTableController(relics,_filter);
+    ActionListener al=new ActionListener()
+    {
+      public void actionPerformed(ActionEvent e)
+      {
+        ok();
+      }
+    };
+    _tableController.getTableController().addActionListener(al);
     // Relics table
     _panelController=new RelicChoicePanelController(_tableController);
     JPanel tablePanel=_panelController.getPanel();
@@ -130,17 +138,6 @@ public class RelicChoiceWindowController extends DefaultDialogController
         {
           cancel();
         }
-        hide();
-      }
-
-      private void ok()
-      {
-        _chosenRelic=_tableController.getSelectedRelic();
-      }
-
-      private void cancel()
-      {
-        _chosenRelic=null;
       }
     };
     _okCancelController.getOKButton().addActionListener(al);
@@ -170,8 +167,19 @@ public class RelicChoiceWindowController extends DefaultDialogController
     return chosenRelic;
   }
 
+  private void ok()
+  {
+    _chosenRelic=_tableController.getSelectedRelic();
+    hide();
+  }
+
   @Override
   protected void doWindowClosing()
+  {
+    cancel();
+  }
+
+  private void cancel()
   {
     _chosenRelic=null;
     hide();
