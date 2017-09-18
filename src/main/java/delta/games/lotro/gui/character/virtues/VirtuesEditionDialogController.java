@@ -1,17 +1,11 @@
 package delta.games.lotro.gui.character.virtues;
 
-import java.awt.BorderLayout;
-import java.awt.Window;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 
-import delta.common.ui.swing.GuiFactory;
-import delta.common.ui.swing.OKCancelPanelController;
-import delta.common.ui.swing.windows.DefaultDialogController;
+import delta.common.ui.swing.windows.DefaultFormDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.stats.virtues.VirtuesSet;
 
@@ -19,28 +13,19 @@ import delta.games.lotro.character.stats.virtues.VirtuesSet;
  * Controller for the virtues edition dialog.
  * @author DAM
  */
-public class VirtuesEditionDialogController extends DefaultDialogController implements ActionListener
+public class VirtuesEditionDialogController extends DefaultFormDialogController<VirtuesSet> implements ActionListener
 {
   private VirtuesEditionPanelController _virtuesEdition;
-  private OKCancelPanelController _okCancelController;
-  private VirtuesSet _virtues;
 
   /**
    * Constructor.
    * @param parentController Parent controller.
+   * @param virtues Virtues to edit.
    */
-  public VirtuesEditionDialogController(WindowController parentController)
+  public VirtuesEditionDialogController(WindowController parentController, VirtuesSet virtues)
   {
-    super(parentController);
+    super(parentController,virtues);
     _virtuesEdition=new VirtuesEditionPanelController();
-  }
-
-  /**
-   * Set the virtues to show.
-   * @param virtues Virtues to show.
-   */
-  public void setVirtues(VirtuesSet virtues)
-  {
     _virtuesEdition.setVirtues(virtues);
   }
 
@@ -50,42 +35,20 @@ public class VirtuesEditionDialogController extends DefaultDialogController impl
     JDialog dialog=super.build();
     dialog.setTitle("Virtues edition");
     dialog.setResizable(false);
-    dialog.pack();
-    WindowController controller=getParentController();
-    if (controller!=null)
-    {
-      Window parentWindow=controller.getWindow();
-      dialog.setLocationRelativeTo(parentWindow);
-    }
     return dialog;
   }
 
   @Override
-  protected JComponent buildContents()
+  protected JPanel buildFormPanel()
   {
-    JPanel panel=GuiFactory.buildPanel(new BorderLayout());
     JPanel virtuesPanel=_virtuesEdition.getPanel();
-    panel.add(virtuesPanel,BorderLayout.CENTER);
-    _okCancelController=new OKCancelPanelController();
-    JPanel okCancelPanel=_okCancelController.getPanel();
-    panel.add(okCancelPanel,BorderLayout.SOUTH);
-    _okCancelController.getOKButton().addActionListener(this);
-    _okCancelController.getCancelButton().addActionListener(this);
-    return panel;
+    return virtuesPanel;
   }
 
-  public void actionPerformed(ActionEvent event)
+  @Override
+  public void okImpl()
   {
-    String action=event.getActionCommand();
-    if (OKCancelPanelController.OK_COMMAND.equals(action))
-    {
-      _virtues=_virtuesEdition.getVirtues();
-    }
-    else if (OKCancelPanelController.CANCEL_COMMAND.equals(action))
-    {
-      // Nothing!
-    }
-    hide();
+    _data=_virtuesEdition.getVirtues();
   }
 
   /**
@@ -94,17 +57,11 @@ public class VirtuesEditionDialogController extends DefaultDialogController impl
   public void dispose()
   {
     super.dispose();
-    if (_okCancelController!=null)
-    {
-      _okCancelController.dispose();
-      _okCancelController=null;
-    }
     if (_virtuesEdition!=null)
     {
       _virtuesEdition.dispose();
       _virtuesEdition=null;
     }
-    _virtues=null;
   }
 
   /**
@@ -115,15 +72,8 @@ public class VirtuesEditionDialogController extends DefaultDialogController impl
    */
   public static VirtuesSet editVirtues(WindowController parent, VirtuesSet virtues)
   {
-    VirtuesEditionDialogController controller=new VirtuesEditionDialogController(parent);
-    if (parent!=null)
-    {
-      controller.getWindow().setLocationRelativeTo(parent.getWindow());
-    }
-    controller.setVirtues(virtues);
-    controller.show(true);
-    VirtuesSet editedVirtues=controller._virtues;
-    controller.dispose();
+    VirtuesEditionDialogController controller=new VirtuesEditionDialogController(parent,virtues);
+    VirtuesSet editedVirtues=controller.editModal();
     return editedVirtues;
   }
 }
