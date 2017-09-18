@@ -458,7 +458,7 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     CharacterSummary summary=_toon.getSummary();
     TraitPointsStatus pointsStatus=TraitPoints.get().load(_toon);
     TraitPointsEditionWindowController controller=new TraitPointsEditionWindowController(this,summary,pointsStatus);
-    TraitPointsStatus newStatus=controller.showDialog();
+    TraitPointsStatus newStatus=controller.editModal();
     if (newStatus!=null)
     {
       TraitPoints.get().save(_toon,newStatus);
