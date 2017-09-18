@@ -1,24 +1,18 @@
 package delta.games.lotro.gui.toon;
 
-import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.Window;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
 import delta.common.ui.swing.GuiFactory;
-import delta.common.ui.swing.OKCancelPanelController;
 import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.common.ui.swing.combobox.ItemSelectionListener;
-import delta.common.ui.swing.windows.DefaultDialogController;
+import delta.common.ui.swing.windows.DefaultFormDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.Config;
@@ -35,10 +29,9 @@ import delta.games.lotro.gui.character.summary.CharacterUiUtils;
  * Controller for the "new toon" dialog.
  * @author DAM
  */
-public class NewToonDialogController extends DefaultDialogController implements ActionListener
+public class NewToonDialogController extends DefaultFormDialogController<Object>
 {
   private static final int TOON_NAME_SIZE=32;
-  private OKCancelPanelController _okCancelController;
   private JTextField _toonName;
   private ComboBoxController<String> _server;
   private CharacterClassController _class;
@@ -51,7 +44,7 @@ public class NewToonDialogController extends DefaultDialogController implements 
    */
   public NewToonDialogController(WindowController parentController)
   {
-    super(parentController);
+    super(parentController,null);
   }
 
   @Override
@@ -60,30 +53,16 @@ public class NewToonDialogController extends DefaultDialogController implements 
     JDialog dialog=super.build();
     dialog.setTitle("New character...");
     dialog.setResizable(false);
-    dialog.pack();
-    WindowController controller=getParentController();
-    if (controller!=null)
-    {
-      Window parentWindow=controller.getWindow();
-      dialog.setLocationRelativeTo(parentWindow);
-    }
     return dialog;
   }
 
   @Override
-  protected JComponent buildContents()
+  protected JPanel buildFormPanel()
   {
-    JPanel panel=GuiFactory.buildPanel(new BorderLayout());
     JPanel dataPanel=buildNewToonPanel();
     TitledBorder pathsBorder=GuiFactory.buildTitledBorder("Character");
     dataPanel.setBorder(pathsBorder);
-    panel.add(dataPanel,BorderLayout.CENTER);
-    _okCancelController=new OKCancelPanelController();
-    JPanel okCancelPanel=_okCancelController.getPanel();
-    panel.add(okCancelPanel,BorderLayout.SOUTH);
-    _okCancelController.getOKButton().addActionListener(this);
-    _okCancelController.getCancelButton().addActionListener(this);
-    return panel;
+    return dataPanel;
   }
 
   private JPanel buildNewToonPanel()
@@ -140,55 +119,42 @@ public class NewToonDialogController extends DefaultDialogController implements 
     return panel;
   }
 
-  public void actionPerformed(ActionEvent event)
-  {
-    String action=event.getActionCommand();
-    if (OKCancelPanelController.OK_COMMAND.equals(action))
-    {
-      ok();
-    }
-    else if (OKCancelPanelController.CANCEL_COMMAND.equals(action))
-    {
-      cancel();
-    }
-  }
-
-  private void ok()
+  @Override
+  protected void okImpl()
   {
     String toonName=_toonName.getText();
     String server=_server.getSelectedItem();
     CharacterClass cClass=_class.getComboBoxController().getSelectedItem();
     Race race=_race.getSelectedItem();
     CharacterSex sex=_sex.getSelectedItem();
+    CharacterData info=new CharacterData();
+    info.setName(toonName);
+    info.setServer(server);
+    info.setCharacterClass(cClass);
+    info.setCharacterSex(sex);
+    info.setRace(race);
+    info.setLevel(1);
+    info.setDate(Long.valueOf(System.currentTimeMillis()));
+    // Compute stats
+    CharacterStatsComputer computer=new CharacterStatsComputer();
+    info.getStats().setStats(computer.getStats(info));
+    CharactersManager manager=CharactersManager.getInstance();
+    CharacterFile toon=manager.addToon(info);
+    if (toon==null)
+    {
+      showErrorMessage("Character creation failed!");
+    }
+  }
+
+  protected boolean checkInput()
+  {
     String errorMsg=checkData();
     if (errorMsg==null)
     {
-      CharacterData info=new CharacterData();
-      info.setName(toonName);
-      info.setServer(server);
-      info.setCharacterClass(cClass);
-      info.setCharacterSex(sex);
-      info.setRace(race);
-      info.setLevel(1);
-      info.setDate(Long.valueOf(System.currentTimeMillis()));
-      // Compute stats
-      CharacterStatsComputer computer=new CharacterStatsComputer();
-      info.getStats().setStats(computer.getStats(info));
-      CharactersManager manager=CharactersManager.getInstance();
-      CharacterFile toon=manager.addToon(info);
-      if (toon!=null)
-      {
-        dispose();
-      }
-      else
-      {
-        showErrorMessage("Character creation failed!");
-      }
+      return true;
     }
-    else
-    {
-      showErrorMessage(errorMsg);
-    }
+    showErrorMessage(errorMsg);
+    return false;
   }
 
   private String checkData()
@@ -214,22 +180,12 @@ public class NewToonDialogController extends DefaultDialogController implements 
     GuiFactory.showErrorDialog(dialog,errorMsg,title);
   }
 
-  private void cancel()
-  {
-    dispose();
-  }
-
   /**
    * Release all managed resources.
    */
   public void dispose()
   {
     super.dispose();
-    if (_okCancelController!=null)
-    {
-      _okCancelController.dispose();
-      _okCancelController=null;
-    }
     if (_server!=null)
     {
       _server.dispose();
