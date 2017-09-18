@@ -214,9 +214,8 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     else if (LEVEL_COMMAND.equals(command))
     {
       // Level history
-      DefaultDialogController controller=new LevelHistoryEditionDialogController(this,_toon);
-      controller.getWindow().setLocationRelativeTo(getFrame());
-      controller.show(true);
+      LevelHistoryEditionDialogController controller=new LevelHistoryEditionDialogController(this,_toon);
+      controller.editModal();
     }
     else if (CRAFTING_COMMAND.equals(command))
     {
