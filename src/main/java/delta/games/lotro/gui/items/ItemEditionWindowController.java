@@ -1,17 +1,9 @@
 package delta.games.lotro.gui.items;
 
-import java.awt.BorderLayout;
-import java.awt.Window;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 
-import delta.common.ui.swing.GuiFactory;
-import delta.common.ui.swing.OKCancelPanelController;
-import delta.common.ui.swing.windows.DefaultDialogController;
+import delta.common.ui.swing.windows.DefaultFormDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.lore.items.Item;
 
@@ -19,10 +11,9 @@ import delta.games.lotro.lore.items.Item;
  * Controller for an item edition window.
  * @author DAM
  */
-public class ItemEditionWindowController extends DefaultDialogController implements ActionListener
+public class ItemEditionWindowController extends DefaultFormDialogController<Item>
 {
   private ItemEditionPanelController _panelController;
-  private OKCancelPanelController _okCancelController;
 
   /**
    * Constructor.
@@ -31,7 +22,7 @@ public class ItemEditionWindowController extends DefaultDialogController impleme
    */
   public ItemEditionWindowController(WindowController parent, Item item)
   {
-    super(parent);
+    super(parent,item);
     _panelController=new ItemEditionPanelController(this,item);
   }
 
@@ -39,59 +30,21 @@ public class ItemEditionWindowController extends DefaultDialogController impleme
   protected JDialog build()
   {
     JDialog dialog=super.build();
-    dialog.pack();
-    WindowController controller=getParentController();
-    if (controller!=null)
-    {
-      Window parentWindow=controller.getWindow();
-      dialog.setLocationRelativeTo(parentWindow);
-    }
     dialog.setMinimumSize(dialog.getPreferredSize());
     return dialog;
   }
 
   @Override
-  public String getWindowIdentifier()
+  protected JPanel buildFormPanel()
   {
-    return "ItemEditor";
+    JPanel dataPanel=_panelController.getPanel();
+    return dataPanel;
   }
 
   @Override
-  protected JComponent buildContents()
-  {
-    JPanel panel=GuiFactory.buildPanel(new BorderLayout());
-    JPanel dataPanel=_panelController.getPanel();
-    panel.add(dataPanel,BorderLayout.CENTER);
-    _okCancelController=new OKCancelPanelController();
-    JPanel okCancelPanel=_okCancelController.getPanel();
-    panel.add(okCancelPanel,BorderLayout.SOUTH);
-    _okCancelController.getOKButton().addActionListener(this);
-    _okCancelController.getCancelButton().addActionListener(this);
-    return panel;
-  }
-
-  public void actionPerformed(ActionEvent event)
-  {
-    String action=event.getActionCommand();
-    if (OKCancelPanelController.OK_COMMAND.equals(action))
-    {
-      ok();
-    }
-    else if (OKCancelPanelController.CANCEL_COMMAND.equals(action))
-    {
-      cancel();
-    }
-  }
-
-  private void ok()
+  protected void okImpl()
   {
     _panelController.getItem();
-    dispose();
-  }
-
-  private void cancel()
-  {
-    dispose();
   }
 
   /**
@@ -100,11 +53,6 @@ public class ItemEditionWindowController extends DefaultDialogController impleme
   public void dispose()
   {
     super.dispose();
-    if (_okCancelController!=null)
-    {
-      _okCancelController.dispose();
-      _okCancelController=null;
-    }
     if (_panelController!=null)
     {
       _panelController.dispose();
