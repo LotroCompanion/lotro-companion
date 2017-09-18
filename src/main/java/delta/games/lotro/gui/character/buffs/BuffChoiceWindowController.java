@@ -1,23 +1,19 @@
 package delta.games.lotro.gui.character.buffs;
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
-import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
 import delta.common.ui.swing.GuiFactory;
-import delta.common.ui.swing.OKCancelPanelController;
-import delta.common.ui.swing.windows.DefaultDialogController;
+import delta.common.ui.swing.windows.DefaultFormDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.stats.buffs.Buff;
 import delta.games.lotro.character.stats.buffs.BuffFilter;
@@ -26,15 +22,13 @@ import delta.games.lotro.character.stats.buffs.BuffFilter;
  * Controller for a "buff choice" dialog.
  * @author DAM
  */
-public class BuffChoiceWindowController extends DefaultDialogController
+public class BuffChoiceWindowController extends DefaultFormDialogController<Buff>
 {
   private BuffsFilterController _filterController;
   private BuffChoicePanelController _panelController;
   private BuffsTableController _tableController;
-  private OKCancelPanelController _okCancelController;
   private List<Buff> _possibleBuffs;
   private BuffFilter _filter;
-  private Buff _chosenBuff;
 
   /**
    * Constructor.
@@ -43,9 +37,8 @@ public class BuffChoiceWindowController extends DefaultDialogController
    */
   public BuffChoiceWindowController(WindowController parent, List<Buff> possibleBuffs)
   {
-    super(parent);
+    super(parent,null);
     _possibleBuffs=possibleBuffs;
-    _okCancelController=new OKCancelPanelController();
     _filter=new BuffFilter();
   }
 
@@ -55,29 +48,12 @@ public class BuffChoiceWindowController extends DefaultDialogController
     JDialog dialog=super.build();
     dialog.setTitle("Choose buff: ");
     dialog.setSize(500,500);
-    //dialog.pack();
-    dialog.setMinimumSize(new Dimension(500,200));
+    dialog.setMinimumSize(new Dimension(500,400));
     return dialog;
   }
 
   @Override
-  public String getWindowIdentifier()
-  {
-    return "BUFF_CHOOSER";
-  }
-
-  @Override
-  protected JComponent buildContents()
-  {
-    JPanel panel=GuiFactory.buildPanel(new BorderLayout());
-    JPanel editionPanel=buildEditionPanel();
-    panel.add(editionPanel,BorderLayout.CENTER);
-    JPanel okCancelPanel=_okCancelController.getPanel();
-    panel.add(okCancelPanel,BorderLayout.SOUTH);
-    return panel;
-  }
-
-  private JPanel buildEditionPanel()
+  protected JPanel buildFormPanel()
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     _tableController=new BuffsTableController(_possibleBuffs,_filter);
@@ -106,11 +82,11 @@ public class BuffChoiceWindowController extends DefaultDialogController
   }
 
   /**
-   * Show the relic selection dialog.
+   * Show the buff selection dialog.
    * @param parent Parent controller.
    * @param possibleBuffs Possible buffs.
-   * @param selectedBuff Selected relic.
-   * @return The selected relic or <code>null</code> if the window was closed or canceled.
+   * @param selectedBuff Selected buff.
+   * @return The selected buff or <code>null</code> if the window was closed or canceled.
    */
   public static Buff selectBuff(WindowController parent, List<Buff> possibleBuffs, Buff selectedBuff)
   {
@@ -119,64 +95,23 @@ public class BuffChoiceWindowController extends DefaultDialogController
     {
       controller.getWindow().setLocationRelativeTo(parent.getWindow());
     }
-    Buff chosenRelic=controller.doShow(selectedBuff);
-    return chosenRelic;
+    Buff chosenBuff=controller.doShow(selectedBuff);
+    return chosenBuff;
   }
 
   private Buff doShow(Buff selectedBuff)
   {
-    ActionListener al=new ActionListener()
-    {
-      public void actionPerformed(ActionEvent event)
-      {
-        String action=event.getActionCommand();
-        if (OKCancelPanelController.OK_COMMAND.equals(action))
-        {
-          ok();
-        }
-        else if (OKCancelPanelController.CANCEL_COMMAND.equals(action))
-        {
-          cancel();
-        }
-      }
-    };
-    _okCancelController.getOKButton().addActionListener(al);
-    _okCancelController.getCancelButton().addActionListener(al);
-
-    // Build dialog
-    JDialog thisDialog=getDialog();
-    // Set parent
-    WindowController parent=getParentController();
-    if (parent!=null)
-    {
-      Window parentWindow=parent.getWindow();
-      thisDialog.setLocationRelativeTo(parentWindow);
-    }
     // Set selection
     _tableController.selectBuff(selectedBuff);
     // Show modal
-    show(true);
-    Buff chosenBuff=_chosenBuff;
-    dispose();
+    Buff chosenBuff=editModal();
     return chosenBuff;
   }
 
   @Override
-  protected void doWindowClosing()
+  protected void okImpl()
   {
-    cancel();
-  }
-
-  private void ok()
-  {
-    _chosenBuff=_tableController.getSelectedBuff();
-    hide();
-  }
-
-  private void cancel()
-  {
-    _chosenBuff=null;
-    hide();
+    _data=_tableController.getSelectedBuff();
   }
 
   /**
@@ -200,10 +135,6 @@ public class BuffChoiceWindowController extends DefaultDialogController
     {
       _filterController.dispose();
       _filterController=null;
-    }
-    if (_okCancelController!=null)
-    {
-      _okCancelController.dispose();
     }
     _filter=null;
   }
