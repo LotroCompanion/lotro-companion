@@ -66,7 +66,6 @@ public class ItemEditionPanelController
   private ComboBoxController<Integer> _minLevel;
   // character class requirement
   private JTextArea _description;
-  private JTextField _subCategory;
   private JTextField _birthName;
   private JTextField _crafterName;
   private JTextField _userComments;
@@ -273,15 +272,6 @@ public class ItemEditionPanelController
       panelLine.add(_userComments);
     }
 
-    // Unused
-    {
-      // Sub-category
-      _subCategory=GuiFactory.buildTextField("");
-      _subCategory.setColumns(20);
-      //panel.add(GuiFactory.buildLabel("Category:"));
-      //panel.add(_subCategory);
-    }
-
     // Tabbed pane at the bottom
     // Description
     JPanel descriptionPanel=GuiFactory.buildBackgroundPanel(new BorderLayout());
@@ -348,8 +338,6 @@ public class ItemEditionPanelController
     _minLevel.selectItem(minLevel);
     // Description
     _description.setText(_item.getDescription());
-    // Sub category
-    _subCategory.setText(_item.getSubCategory());
     // Birth name
     _birthName.setText(_item.getBirthName());
     // Crafter name
@@ -414,8 +402,6 @@ public class ItemEditionPanelController
     _item.setMinLevel(_minLevel.getSelectedItem());
     // Description
     _item.setDescription(_description.getText());
-    // Sub category
-    _item.setSubCategory(_subCategory.getText());
     // Birth name
     _item.setBirthName(_birthName.getText());
     // Crafter name
@@ -773,7 +759,6 @@ public class ItemEditionPanelController
     _icon=null;
     _name=null;
     _description=null;
-    _subCategory=null;
     _birthName=null;
     _crafterName=null;
     _userComments=null;
