@@ -24,7 +24,6 @@ import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.toolbar.ToolbarController;
 import delta.common.ui.swing.toolbar.ToolbarIconItem;
 import delta.common.ui.swing.toolbar.ToolbarModel;
-import delta.common.ui.swing.windows.DefaultDialogController;
 import delta.common.ui.swing.windows.DefaultWindowController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.ui.swing.windows.WindowsManager;
@@ -207,9 +206,8 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     else if (REPUTATION_COMMAND.equals(command))
     {
       // Reputation
-      DefaultDialogController controller=new CharacterReputationDialogController(this,_toon);
-      controller.getWindow().setLocationRelativeTo(getFrame());
-      controller.show(true);
+      CharacterReputationDialogController controller=new CharacterReputationDialogController(this,_toon);
+      controller.editModal();
     }
     else if (LEVEL_COMMAND.equals(command))
     {

@@ -6,14 +6,12 @@ import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -22,8 +20,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.border.TitledBorder;
 
 import delta.common.ui.swing.GuiFactory;
-import delta.common.ui.swing.OKCancelPanelController;
-import delta.common.ui.swing.windows.DefaultDialogController;
+import delta.common.ui.swing.windows.DefaultFormDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.reputation.FactionData;
@@ -36,16 +33,14 @@ import delta.games.lotro.lore.reputation.FactionsRegistry;
  * Controller for a "character reputation" dialog.
  * @author DAM
  */
-public class CharacterReputationDialogController extends DefaultDialogController implements ActionListener
+public class CharacterReputationDialogController extends DefaultFormDialogController<ReputationData> implements ActionListener
 {
   // Data
   private CharacterFile _toon;
-  private ReputationData _data;
   // UI
   private ReputationDeedsDisplayController _deedsDisplay;
   private ReputationRewardsDisplayController _rewardsDisplay;
   private HashMap<String,FactionEditionPanelController> _editors;
-  private OKCancelPanelController _okCancelController;
 
   /**
    * Constructor.
@@ -54,7 +49,7 @@ public class CharacterReputationDialogController extends DefaultDialogController
    */
   public CharacterReputationDialogController(WindowController parentController, CharacterFile toon)
   {
-    super(parentController);
+    super(parentController,null);
     _toon=toon;
     _data=_toon.getReputation();
     _editors=new HashMap<String,FactionEditionPanelController>();
@@ -66,29 +61,15 @@ public class CharacterReputationDialogController extends DefaultDialogController
     JDialog dialog=super.build();
     dialog.setTitle("Reputation editor");
     dialog.setResizable(false);
-    dialog.pack();
-    WindowController controller=getParentController();
-    if (controller!=null)
-    {
-      Window parentWindow=controller.getWindow();
-      dialog.setLocationRelativeTo(parentWindow);
-    }
     return dialog;
   }
 
   @Override
-  protected JComponent buildContents()
+  protected JPanel buildFormPanel()
   {
-    JPanel panel=GuiFactory.buildPanel(new BorderLayout());
     JPanel dataPanel=buildPanel();
-    panel.add(dataPanel,BorderLayout.CENTER);
-    _okCancelController=new OKCancelPanelController();
-    JPanel okCancelPanel=_okCancelController.getPanel();
-    panel.add(okCancelPanel,BorderLayout.SOUTH);
-    _okCancelController.getOKButton().addActionListener(this);
-    _okCancelController.getCancelButton().addActionListener(this);
     initData();
-    return panel;
+    return dataPanel;
   }
 
   private JPanel buildPanel()
@@ -192,36 +173,25 @@ public class CharacterReputationDialogController extends DefaultDialogController
 
   public void actionPerformed(ActionEvent event)
   {
-    String action=event.getActionCommand();
-    if (OKCancelPanelController.OK_COMMAND.equals(action))
+    // +/- buttons
+    Object source=event.getSource();
+    for(FactionEditionPanelController editor : _editors.values())
     {
-      ok();
-    }
-    else if (OKCancelPanelController.CANCEL_COMMAND.equals(action))
-    {
-      cancel();
-    }
-    else // +/- buttons
-    {
-      Object source=event.getSource();
-      for(FactionEditionPanelController editor : _editors.values())
+      if (source==editor.getMinusButton())
       {
-        if (source==editor.getMinusButton())
-        {
-          Faction faction=editor.getFaction();
-          _data.updateFaction(faction,false);
-          updateFactionDisplay(editor);
-          _deedsDisplay.update();
-          _rewardsDisplay.update();
-        }
-        else if (source==editor.getPlusButton())
-        {
-          Faction faction=editor.getFaction();
-          _data.updateFaction(faction,true);
-          updateFactionDisplay(editor);
-          _deedsDisplay.update();
-          _rewardsDisplay.update();
-        }
+        Faction faction=editor.getFaction();
+        _data.updateFaction(faction,false);
+        updateFactionDisplay(editor);
+        _deedsDisplay.update();
+        _rewardsDisplay.update();
+      }
+      else if (source==editor.getPlusButton())
+      {
+        Faction faction=editor.getFaction();
+        _data.updateFaction(faction,true);
+        updateFactionDisplay(editor);
+        _deedsDisplay.update();
+        _rewardsDisplay.update();
       }
     }
   }
@@ -242,22 +212,16 @@ public class CharacterReputationDialogController extends DefaultDialogController
     editor.setFactionLevel(current);
   }
 
-  private void ok()
+  @Override
+  protected void okImpl()
   {
     _toon.saveReputation();
-    dispose();
-  }
-
-  private void cancel()
-  {
-    _toon.revertReputation();
-    dispose();
   }
 
   @Override
-  protected void doWindowClosing()
+  protected void cancelImpl()
   {
-    cancel();
+    _toon.revertReputation();
   }
 
   /**
