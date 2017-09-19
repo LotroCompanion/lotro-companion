@@ -17,6 +17,7 @@ import delta.games.lotro.lore.items.filters.ItemNameFilter;
 import delta.games.lotro.plugins.StorageLoader;
 
 /**
+ * Test class to show the storage for a single character.
  * @author DAM
  */
 public class MainTestShowCharacterStorage
@@ -37,9 +38,7 @@ public class MainTestShowCharacterStorage
       ItemNameFilter filter=new ItemNameFilter();
       ItemFilterController filterController=new ItemFilterController(filter);
       ItemChoiceWindowController choiceCtrl=new ItemChoiceWindowController(null,items,filter,filterController);
-      choiceCtrl.show(true);
-      Item ret=choiceCtrl.getSelectedItem();
-      choiceCtrl.dispose();
+      Item ret=choiceCtrl.editModal();
       if (ret!=null)
       {
         System.out.println(ret.dump());

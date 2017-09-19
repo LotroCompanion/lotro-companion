@@ -331,9 +331,7 @@ public class EquipmentPanelController implements ActionListener
     ItemNameFilter filter=new ItemNameFilter();
     ItemFilterController filterController=new ItemFilterController(filter);
     ItemChoiceWindowController choiceCtrl=new ItemChoiceWindowController(_parentWindow,selectedItems,filter,filterController);
-    choiceCtrl.show(true);
-    Item ret=choiceCtrl.getSelectedItem();
-    choiceCtrl.dispose();
+    Item ret=choiceCtrl.editModal();
     return ret;
   }
 

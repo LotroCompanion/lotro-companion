@@ -25,9 +25,7 @@ public class EssenceChoice
     List<Item> essences=ItemsManager.getInstance().getEssences();
     EssenceFilterController filterController=new EssenceFilterController(_filter);
     ItemChoiceWindowController choiceCtrl=new ItemChoiceWindowController(parent,essences,_filter,filterController);
-    choiceCtrl.show(true);
-    Item ret=choiceCtrl.getSelectedItem();
-    choiceCtrl.dispose();
+    Item ret=choiceCtrl.editModal();
     return ret;
   }
 }
