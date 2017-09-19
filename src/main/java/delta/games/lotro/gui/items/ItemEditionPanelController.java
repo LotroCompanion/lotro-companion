@@ -91,6 +91,9 @@ public class ItemEditionPanelController
   private FloatEditionController _dps;
   private ComboBoxController<WeaponType> _weaponType;
 
+  // Legendary
+  private RelicsEditionPanelController _relicsEditor;
+
   /**
    * Constructor.
    * @param parent Parent window.
@@ -302,9 +305,9 @@ public class ItemEditionPanelController
     if (_item instanceof Legendary)
     {
       Legendary legItem=(Legendary)_item;
-      LegendaryAttrs attrs=legItem.getLegendaryAttrs();
-      RelicsEditionPanelController relicEditor=new RelicsEditionPanelController(_parent,attrs);
-      relicsPanel=relicEditor.getPanel();
+      LegendaryAttrs attrs=new LegendaryAttrs(legItem.getLegendaryAttrs());
+      _relicsEditor=new RelicsEditionPanelController(_parent,attrs);
+      relicsPanel=_relicsEditor.getPanel();
       tabbedPane.add("Relics",relicsPanel);
     }
 
@@ -463,7 +466,7 @@ public class ItemEditionPanelController
       armour.setArmourType(_armourType.getSelectedItem());
     }
 
-    // Armour specifics
+    // Weapon specifics
     if (_item instanceof Weapon)
     {
       Weapon weapon=(Weapon)_item;
@@ -484,6 +487,13 @@ public class ItemEditionPanelController
       }
       weapon.setDamageType(_damageType.getSelectedItem());
       weapon.setWeaponType(_weaponType.getSelectedItem());
+    }
+
+    // Legendary specifics
+    if (_item instanceof Legendary)
+    {
+      Legendary legendary=(Legendary)_item;
+      _relicsEditor.getData(legendary.getLegendaryAttrs());
     }
     return _item;
   }
@@ -748,6 +758,11 @@ public class ItemEditionPanelController
     {
       _weaponType.dispose();
       _weaponType=null;
+    }
+    if (_relicsEditor!=null)
+    {
+      _relicsEditor.dispose();
+      _relicsEditor=null;
     }
     // UI
     if (_panel!=null)

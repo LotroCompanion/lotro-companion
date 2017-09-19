@@ -108,9 +108,21 @@ public class RelicsEditionPanelController implements ActionListener
   }
 
   /**
+   * Get the contents of the edited data into the given storage.
+   * @param attrs Storage attributes.
+   */
+  public void getData(LegendaryAttrs attrs)
+  {
+    attrs.setSetting(_legAttrs.getSetting());
+    attrs.setGem(_legAttrs.getGem());
+    attrs.setRune(_legAttrs.getRune());
+    attrs.setCraftedRelic(_legAttrs.getCraftedRelic());
+  }
+
+  /**
    * Update UI from the managed data.
    */
-  public void update()
+  private void update()
   {
     List<Relic> relics=_legAttrs.getRelics();
     int nbRelics=relics.size();
