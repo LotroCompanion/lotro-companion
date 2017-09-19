@@ -1,7 +1,5 @@
 package delta.games.lotro.gui.character.virtues;
 
-import java.awt.event.ActionListener;
-
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 
@@ -13,7 +11,7 @@ import delta.games.lotro.character.stats.virtues.VirtuesSet;
  * Controller for the virtues edition dialog.
  * @author DAM
  */
-public class VirtuesEditionDialogController extends DefaultFormDialogController<VirtuesSet> implements ActionListener
+public class VirtuesEditionDialogController extends DefaultFormDialogController<VirtuesSet>
 {
   private VirtuesEditionPanelController _virtuesEdition;
 
