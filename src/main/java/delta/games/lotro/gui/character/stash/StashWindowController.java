@@ -22,6 +22,7 @@ import delta.common.ui.swing.toolbar.ToolbarController;
 import delta.common.ui.swing.toolbar.ToolbarIconItem;
 import delta.common.ui.swing.toolbar.ToolbarModel;
 import delta.common.ui.swing.windows.DefaultWindowController;
+import delta.common.utils.collections.filters.Filter;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.events.CharacterEvent;
 import delta.games.lotro.character.events.CharacterEventListener;
@@ -33,7 +34,6 @@ import delta.games.lotro.gui.items.ItemEditionWindowController;
 import delta.games.lotro.gui.items.ItemFilterController;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemFactory;
-import delta.games.lotro.lore.items.filters.ItemNameFilter;
 
 /**
  * Controller for a "items stash" window.
@@ -81,8 +81,8 @@ public class StashWindowController extends DefaultWindowController implements Ac
     JPanel tablePanel=buildTablePanel();
 
     // Filter
-    ItemNameFilter filter=new ItemNameFilter();
-    ItemFilterController filterController=new ItemFilterController(filter);
+    ItemFilterController filterController=new ItemFilterController();
+    Filter<Item> filter=filterController.getFilter();
     filterController.setFilterUpdateListener(this);
     JPanel filterPanel=filterController.getPanel();
     TitledBorder filterBorder=GuiFactory.buildTitledBorder("Filter");

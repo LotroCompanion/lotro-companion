@@ -10,9 +10,11 @@ import delta.common.ui.swing.icons.IconWithText;
 import delta.common.ui.swing.icons.IconWithText.Position;
 import delta.common.utils.NumericTools;
 import delta.games.lotro.gui.LotroIconsManager;
+import delta.games.lotro.lore.items.ArmourType;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemPropertyNames;
 import delta.games.lotro.lore.items.ItemQuality;
+import delta.games.lotro.lore.items.WeaponType;
 
 /**
  * Tools related to items UI.
@@ -59,6 +61,38 @@ public class ItemUiTools
     for(ItemQuality quality : ItemQuality.getAll())
     {
       ctrl.addItem(quality,quality.getMeaning());
+    }
+    ctrl.selectItem(null);
+    return ctrl;
+  }
+
+  /**
+   * Build a controller for a combo box to choose a weapon type.
+   * @return A new controller.
+   */
+  public static ComboBoxController<WeaponType> buildWeaponTypeCombo()
+  {
+    ComboBoxController<WeaponType> ctrl=new ComboBoxController<WeaponType>();
+    ctrl.addEmptyItem("");
+    for(WeaponType weaponType : WeaponType.getAll())
+    {
+      ctrl.addItem(weaponType,weaponType.getName());
+    }
+    ctrl.selectItem(null);
+    return ctrl;
+  }
+
+  /**
+   * Build a controller for a combo box to choose a armour type.
+   * @return A new controller.
+   */
+  public static ComboBoxController<ArmourType> buildArmourTypeCombo()
+  {
+    ComboBoxController<ArmourType> ctrl=new ComboBoxController<ArmourType>();
+    ctrl.addEmptyItem("");
+    for(ArmourType quality : ArmourType.getAll())
+    {
+      ctrl.addItem(quality,quality.getName());
     }
     ctrl.selectItem(null);
     return ctrl;

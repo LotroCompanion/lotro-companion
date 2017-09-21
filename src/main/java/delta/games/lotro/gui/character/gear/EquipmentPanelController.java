@@ -22,6 +22,7 @@ import javax.swing.JPopupMenu;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.WindowController;
+import delta.common.utils.collections.filters.Filter;
 import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.CharacterEquipment;
 import delta.games.lotro.character.CharacterEquipment.EQUIMENT_SLOT;
@@ -37,7 +38,6 @@ import delta.games.lotro.gui.items.ItemFilterController;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemFactory;
 import delta.games.lotro.lore.items.ItemsManager;
-import delta.games.lotro.lore.items.filters.ItemNameFilter;
 
 /**
  * Controller for equipment panel.
@@ -328,8 +328,8 @@ public class EquipmentPanelController implements ActionListener
   {
     ItemsManager itemsManager=new ItemsManager(items);
     List<Item> selectedItems=itemsManager.getItems(_toonData,slot);
-    ItemNameFilter filter=new ItemNameFilter();
-    ItemFilterController filterController=new ItemFilterController(filter);
+    ItemFilterController filterController=new ItemFilterController();
+    Filter<Item> filter=filterController.getFilter();
     ItemChoiceWindowController choiceCtrl=new ItemChoiceWindowController(_parentWindow,selectedItems,filter,filterController);
     Item ret=choiceCtrl.editModal();
     return ret;

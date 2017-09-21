@@ -157,7 +157,7 @@ public class ItemEditionPanelController
       _armourPanel.add(GuiFactory.buildLabel("Armour:"));
       _armourPanel.add(_armourValue.getTextField());
       // Armour Type
-      _armourType=buildArmourTypeCombo();
+      _armourType=ItemUiTools.buildArmourTypeCombo();
       _armourPanel.add(GuiFactory.buildLabel("Armour Type:"));
       _armourPanel.add(_armourType.getComboBox());
     }
@@ -171,7 +171,7 @@ public class ItemEditionPanelController
       _weaponPanel.setVisible(false);
 
       // Weapon type
-      _weaponType=buildWeaponTypeCombo();
+      _weaponType=ItemUiTools.buildWeaponTypeCombo();
       _weaponPanel.add(GuiFactory.buildLabel("Type:"));
       _weaponPanel.add(_weaponType.getComboBox());
 
@@ -520,18 +520,6 @@ public class ItemEditionPanelController
     return ctrl;
   }
 
-  private ComboBoxController<ArmourType> buildArmourTypeCombo()
-  {
-    ComboBoxController<ArmourType> ctrl=new ComboBoxController<ArmourType>();
-    ctrl.addEmptyItem("");
-    for(ArmourType quality : ArmourType.getAll())
-    {
-      ctrl.addItem(quality,quality.getName());
-    }
-    ctrl.selectItem(null);
-    return ctrl;
-  }
-
   private ComboBoxController<DamageType> buildDamageTypeCombo()
   {
     ComboBoxController<DamageType> ctrl=new ComboBoxController<DamageType>();
@@ -539,18 +527,6 @@ public class ItemEditionPanelController
     for(DamageType damageType : DamageType.getAll())
     {
       ctrl.addItem(damageType,damageType.getName());
-    }
-    ctrl.selectItem(null);
-    return ctrl;
-  }
-
-  private ComboBoxController<WeaponType> buildWeaponTypeCombo()
-  {
-    ComboBoxController<WeaponType> ctrl=new ComboBoxController<WeaponType>();
-    ctrl.addEmptyItem("");
-    for(WeaponType weaponType : WeaponType.getAll())
-    {
-      ctrl.addItem(weaponType,weaponType.getName());
     }
     ctrl.selectItem(null);
     return ctrl;

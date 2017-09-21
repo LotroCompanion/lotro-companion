@@ -3,6 +3,7 @@ package delta.games.lotro.gui.character.storage;
 import java.util.ArrayList;
 import java.util.List;
 
+import delta.common.utils.collections.filters.Filter;
 import delta.games.lotro.character.storage.AccountServerStorage;
 import delta.games.lotro.character.storage.CharacterStorage;
 import delta.games.lotro.character.storage.Chest;
@@ -13,7 +14,6 @@ import delta.games.lotro.gui.items.ItemFilterController;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemPropertyNames;
 import delta.games.lotro.lore.items.ItemsManager;
-import delta.games.lotro.lore.items.filters.ItemNameFilter;
 import delta.games.lotro.plugins.StorageLoader;
 
 /**
@@ -35,8 +35,8 @@ public class MainTestShowCharacterStorage
       List<StoredItem> storedItems=getAllItems("Meva",storage,false);
       List<Item> items=getItems(storedItems);
 
-      ItemNameFilter filter=new ItemNameFilter();
-      ItemFilterController filterController=new ItemFilterController(filter);
+      ItemFilterController filterController=new ItemFilterController();
+      Filter<Item> filter=filterController.getFilter();
       ItemChoiceWindowController choiceCtrl=new ItemChoiceWindowController(null,items,filter,filterController);
       Item ret=choiceCtrl.editModal();
       if (ret!=null)
