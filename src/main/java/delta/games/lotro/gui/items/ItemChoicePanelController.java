@@ -2,7 +2,10 @@ package delta.games.lotro.gui.items;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -10,6 +13,9 @@ import javax.swing.JTable;
 import javax.swing.border.TitledBorder;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.tables.TableColumnsChooserController;
+import delta.common.ui.swing.windows.WindowController;
+import delta.games.lotro.lore.items.Item;
 
 /**
  * Controller the item choice panel.
@@ -22,13 +28,17 @@ public class ItemChoicePanelController implements FilterUpdateListener
   // GUI
   private JPanel _panel;
   private JLabel _statsLabel;
+  // Controllers
+  private WindowController _parent;
 
   /**
    * Constructor.
+   * @param parent Parent window.
    * @param tableController Associated table controller.
    */
-  public ItemChoicePanelController(ItemChoiceTableController tableController)
+  public ItemChoicePanelController(WindowController parent, ItemChoiceTableController tableController)
   {
+    _parent=parent;
     _tableController=tableController;
   }
 
@@ -59,6 +69,17 @@ public class ItemChoicePanelController implements FilterUpdateListener
     JPanel statsPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
     _statsLabel=GuiFactory.buildLabel("-");
     statsPanel.add(_statsLabel);
+    JButton choose=GuiFactory.buildButton("Choose...");
+    ActionListener al=new ActionListener()
+    {
+      public void actionPerformed(ActionEvent e)
+      {
+        TableColumnsChooserController<Item> chooser=new TableColumnsChooserController<Item>(_parent,_tableController.getTableController());
+        chooser.editModal();
+      }
+    };
+    choose.addActionListener(al);
+    statsPanel.add(choose);
     panel.add(statsPanel,BorderLayout.NORTH);
     return panel;
   }
@@ -102,5 +123,7 @@ public class ItemChoicePanelController implements FilterUpdateListener
       _panel=null;
     }
     _statsLabel=null;
+    // Controllers
+    _parent=null;
   }
 }

@@ -62,7 +62,7 @@ public class ItemChoiceWindowController extends DefaultFormDialogController<Item
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     _tableController=new ItemChoiceTableController(_items,_filter);
     // Table
-    _panelController=new ItemChoicePanelController(_tableController);
+    _panelController=new ItemChoicePanelController(this,_tableController);
     _filterController.setFilterUpdateListener(_panelController);
     JPanel tablePanel=_panelController.getPanel();
     ActionListener al=new ActionListener()
