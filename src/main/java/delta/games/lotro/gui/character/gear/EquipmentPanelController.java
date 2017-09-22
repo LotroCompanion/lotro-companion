@@ -34,6 +34,7 @@ import delta.games.lotro.character.events.CharacterEventsManager;
 import delta.games.lotro.character.storage.ItemsStash;
 import delta.games.lotro.gui.items.ItemChoiceWindowController;
 import delta.games.lotro.gui.items.ItemEditionWindowController;
+import delta.games.lotro.gui.items.ItemFilterConfiguration;
 import delta.games.lotro.gui.items.ItemFilterController;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemFactory;
@@ -328,7 +329,9 @@ public class EquipmentPanelController implements ActionListener
   {
     ItemsManager itemsManager=new ItemsManager(items);
     List<Item> selectedItems=itemsManager.getItems(_toonData,slot);
-    ItemFilterController filterController=new ItemFilterController();
+    ItemFilterConfiguration cfg=new ItemFilterConfiguration();
+    cfg.initFromItems(selectedItems);
+    ItemFilterController filterController=new ItemFilterController(cfg);
     Filter<Item> filter=filterController.getFilter();
     ItemChoiceWindowController choiceCtrl=new ItemChoiceWindowController(_parentWindow,selectedItems,filter,filterController);
     Item ret=choiceCtrl.editModal();

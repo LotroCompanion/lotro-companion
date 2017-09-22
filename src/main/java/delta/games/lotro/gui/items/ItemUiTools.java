@@ -72,9 +72,19 @@ public class ItemUiTools
    */
   public static ComboBoxController<WeaponType> buildWeaponTypeCombo()
   {
+    return buildWeaponTypeCombo(WeaponType.getAll());
+  }
+
+  /**
+   * Build a controller for a combo box to choose a weapon type.
+   * @param weaponTypes Weapon types to use.
+   * @return A new controller.
+   */
+  public static ComboBoxController<WeaponType> buildWeaponTypeCombo(Iterable<WeaponType> weaponTypes)
+  {
     ComboBoxController<WeaponType> ctrl=new ComboBoxController<WeaponType>();
     ctrl.addEmptyItem("");
-    for(WeaponType weaponType : WeaponType.getAll())
+    for(WeaponType weaponType : weaponTypes)
     {
       ctrl.addItem(weaponType,weaponType.getName());
     }
@@ -88,9 +98,19 @@ public class ItemUiTools
    */
   public static ComboBoxController<ArmourType> buildArmourTypeCombo()
   {
+    return buildArmourTypeCombo(ArmourType.getAll());
+  }
+
+  /**
+   * Build a controller for a combo box to choose a armour type.
+   * @param armourTypes Armour types to use.
+   * @return A new controller.
+   */
+  public static ComboBoxController<ArmourType> buildArmourTypeCombo(Iterable<ArmourType> armourTypes)
+  {
     ComboBoxController<ArmourType> ctrl=new ComboBoxController<ArmourType>();
     ctrl.addEmptyItem("");
-    for(ArmourType quality : ArmourType.getAll())
+    for(ArmourType quality : armourTypes)
     {
       ctrl.addItem(quality,quality.getName());
     }

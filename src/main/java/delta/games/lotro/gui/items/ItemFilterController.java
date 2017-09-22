@@ -39,6 +39,8 @@ public class ItemFilterController extends AbstractItemFilterPanelController
   private ItemQualityFilter _qualityFilter;
   private WeaponTypeFilter _weaponTypeFilter;
   private ArmourTypeFilter _armourTypeFilter;
+  private ArmourTypeFilter _shieldTypeFilter;
+  private ItemFilterConfiguration _cfg;
   // GUI
   private JPanel _panel;
   private JTextField _contains;
@@ -47,21 +49,54 @@ public class ItemFilterController extends AbstractItemFilterPanelController
   private ComboBoxController<ItemQuality> _quality;
   private ComboBoxController<WeaponType> _weaponType;
   private ComboBoxController<ArmourType> _armourType;
+  private ComboBoxController<ArmourType> _shieldType;
 
   /**
    * Constructor.
    */
   public ItemFilterController()
   {
-    _nameFilter=new ItemNameFilter();
-    _qualityFilter=new ItemQualityFilter(null);
-    _weaponTypeFilter=new WeaponTypeFilter(null);
-    _armourTypeFilter=new ArmourTypeFilter(null);
+    this(new ItemFilterConfiguration());
+  }
+
+  /**
+   * Constructor.
+   * @param cfg Configuration.
+   */
+  public ItemFilterController(ItemFilterConfiguration cfg)
+  {
+    _cfg=cfg;
     List<Filter<Item>> filters=new ArrayList<Filter<Item>>();
+    // Name
+    _nameFilter=new ItemNameFilter();
     filters.add(_nameFilter);
+    // Quality
+    _qualityFilter=new ItemQualityFilter(null);
     filters.add(_qualityFilter);
-    filters.add(_weaponTypeFilter);
-    filters.add(_armourTypeFilter);
+    // Weapon type
+    List<WeaponType> weaponTypes=_cfg.getWeaponTypes();
+    if (weaponTypes.size()>0)
+    {
+      _weaponTypeFilter=new WeaponTypeFilter(null);
+      _weaponType=ItemUiTools.buildWeaponTypeCombo(weaponTypes);
+      filters.add(_weaponTypeFilter);
+    }
+    // Armour type
+    List<ArmourType> armourTypes=_cfg.getArmourTypes();
+    if (armourTypes.size()>0)
+    {
+      _armourTypeFilter=new ArmourTypeFilter(null);
+      _armourType=ItemUiTools.buildArmourTypeCombo(armourTypes);
+      filters.add(_armourTypeFilter);
+    }
+    // Shield type
+    List<ArmourType> shieldTypes=_cfg.getShieldTypes();
+    if (shieldTypes.size()>0)
+    {
+      _shieldTypeFilter=new ArmourTypeFilter(null);
+      _shieldType=ItemUiTools.buildArmourTypeCombo(shieldTypes);
+      filters.add(_shieldTypeFilter);
+    }
     _filter=new CompoundFilter<Item>(Operator.AND,filters);
   }
 
@@ -101,16 +136,29 @@ public class ItemFilterController extends AbstractItemFilterPanelController
     ItemQuality quality=_qualityFilter.getQuality();
     _quality.selectItem(quality);
     // Weapon type
-    WeaponType weaponType=_weaponTypeFilter.getWeaponType();
-    _weaponType.selectItem(weaponType);
+    if (_weaponType!=null)
+    {
+      WeaponType weaponType=_weaponTypeFilter.getWeaponType();
+      _weaponType.selectItem(weaponType);
+    }
     // Armour type
-    ArmourType armourType=_armourTypeFilter.getArmourType();
-    _armourType.selectItem(armourType);
+    if (_armourType!=null)
+    {
+      ArmourType armourType=_armourTypeFilter.getArmourType();
+      _armourType.selectItem(armourType);
+    }
+    // Shield type
+    if (_shieldType!=null)
+    {
+      ArmourType shieldType=_shieldTypeFilter.getArmourType();
+      _shieldType.selectItem(shieldType);
+    }
   }
 
   private JPanel build()
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
+    JPanel line1Panel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
     // Quality
     {
       JPanel qualityPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING));
@@ -126,63 +174,127 @@ public class ItemFilterController extends AbstractItemFilterPanelController
       };
       _quality.addListener(qualityListener);
       qualityPanel.add(_quality.getComboBox());
-      GridBagConstraints c=new GridBagConstraints(1,0,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
-      panel.add(qualityPanel,c);
+      line1Panel.add(qualityPanel);
     }
-    // Weapon type
+    // Label filter
     {
-      JPanel weaponTypePanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING));
+      JPanel containsPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING));
+      containsPanel.add(GuiFactory.buildLabel("Label filter:"));
+      _contains=GuiFactory.buildTextField("");
+      _contains.setColumns(20);
+      containsPanel.add(_contains);
+      TextListener listener=new TextListener()
+      {
+        public void textChanged(String newText)
+        {
+          if (newText.length()==0) newText=null;
+          _nameFilter.setPattern(newText);
+          filterUpdated();
+        }
+      };
+      _textController=new DynamicTextEditionController(_contains,listener);
+      line1Panel.add(containsPanel);
+    }
+    // Line 2: weapon type, armour type, shield type
+    JPanel line2Panel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING));
+    // Weapon type
+    if (_weaponType!=null)
+    {
+      JPanel weaponTypePanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
       weaponTypePanel.add(GuiFactory.buildLabel("Weapon type:"));
-      _weaponType=ItemUiTools.buildWeaponTypeCombo();
       ItemSelectionListener<WeaponType> weaponTypeListener=new ItemSelectionListener<WeaponType>()
       {
         public void itemSelected(WeaponType type)
         {
           _weaponTypeFilter.setWeaponType(type);
+          // If a weapon type is selected,
+          if (type!=null)
+          {
+            // Reset the shield type combo
+            if (_armourType!=null)
+            {
+              _armourType.selectItem(null);
+            }
+            // Reset the shield type combo
+            if (_shieldType!=null)
+            {
+              _shieldType.selectItem(null);
+            }
+          }
           filterUpdated();
         }
       };
       _weaponType.addListener(weaponTypeListener);
       weaponTypePanel.add(_weaponType.getComboBox());
-      GridBagConstraints c=new GridBagConstraints(2,0,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
-      panel.add(weaponTypePanel,c);
+      line2Panel.add(weaponTypePanel);
     }
     // Armour type
+    if (_armourType!=null)
     {
       JPanel armourTypePanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING));
       armourTypePanel.add(GuiFactory.buildLabel("Armour type:"));
-      _armourType=ItemUiTools.buildArmourTypeCombo();
-      ItemSelectionListener<ArmourType> ArmourTypeListener=new ItemSelectionListener<ArmourType>()
+      ItemSelectionListener<ArmourType> armourTypeListener=new ItemSelectionListener<ArmourType>()
       {
         public void itemSelected(ArmourType type)
         {
           _armourTypeFilter.setArmourType(type);
+          // If an armour type is selected,
+          if (type!=null)
+          {
+            // Reset the weapon type combo
+            if (_weaponType!=null)
+            {
+              _weaponType.selectItem(null);
+            }
+            // Reset the shield type combo
+            if (_shieldType!=null)
+            {
+              _shieldType.selectItem(null);
+            }
+          }
           filterUpdated();
         }
       };
-      _armourType.addListener(ArmourTypeListener);
+      _armourType.addListener(armourTypeListener);
       armourTypePanel.add(_armourType.getComboBox());
-      GridBagConstraints c=new GridBagConstraints(3,0,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
-      panel.add(armourTypePanel,c);
+      line2Panel.add(armourTypePanel);
     }
-    // Label filter
-    JPanel containsPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING));
-    containsPanel.add(GuiFactory.buildLabel("Label filter:"));
-    _contains=GuiFactory.buildTextField("");
-    _contains.setColumns(20);
-    containsPanel.add(_contains);
-    TextListener listener=new TextListener()
+    // Shield type
+    if (_shieldType!=null)
     {
-      public void textChanged(String newText)
+      JPanel shieldTypePanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING));
+      shieldTypePanel.add(GuiFactory.buildLabel("Shield type:"));
+      ItemSelectionListener<ArmourType> shieldTypeListener=new ItemSelectionListener<ArmourType>()
       {
-        if (newText.length()==0) newText=null;
-        _nameFilter.setPattern(newText);
-        filterUpdated();
-      }
-    };
-    _textController=new DynamicTextEditionController(_contains,listener);
-    GridBagConstraints c=new GridBagConstraints(0,1,3,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
-    panel.add(containsPanel,c);
+        public void itemSelected(ArmourType type)
+        {
+          _shieldTypeFilter.setArmourType(type);
+          // If a shield type is selected,
+          if (type!=null)
+          {
+            // Reset the weapon type combo
+            if (_weaponType!=null)
+            {
+              _weaponType.selectItem(null);
+            }
+            // Reset the armour type combo
+            if (_armourType!=null)
+            {
+              _armourType.selectItem(null);
+            }
+          }
+          filterUpdated();
+        }
+      };
+      _shieldType.addListener(shieldTypeListener);
+      shieldTypePanel.add(_shieldType.getComboBox());
+      line2Panel.add(shieldTypePanel);
+    }
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    panel.add(line1Panel,c);
+    c=new GridBagConstraints(0,1,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    panel.add(line2Panel,c);
+
     return panel;
   }
 
@@ -209,6 +321,11 @@ public class ItemFilterController extends AbstractItemFilterPanelController
     {
       _weaponType.dispose();
       _weaponType=null;
+    }
+    if (_armourType!=null)
+    {
+      _armourType.dispose();
+      _armourType=null;
     }
     // GUI
     if (_panel!=null)
