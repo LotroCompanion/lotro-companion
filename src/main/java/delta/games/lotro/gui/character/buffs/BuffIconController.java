@@ -95,11 +95,14 @@ public class BuffIconController
     StringBuilder sb=new StringBuilder();
     sb.append(buff.getLabel()).append(EndOfLine.NATIVE_EOL);
     BasicStatsSet stats=_buff.getStats(_toon);
-    for(STAT stat : stats.getStats())
+    if (stats!=null)
     {
-      String name=stat.getName();
-      String value=stats.getStat(stat).toString();
-      sb.append(name).append(": ").append(value).append(EndOfLine.NATIVE_EOL);
+      for(STAT stat : stats.getStats())
+      {
+        String name=stat.getName();
+        String value=stats.getStat(stat).toString();
+        sb.append(name).append(": ").append(value).append(EndOfLine.NATIVE_EOL);
+      }
     }
     String text=sb.toString().trim();
     String html="<html>"+text.replace(EndOfLine.NATIVE_EOL,"<br>")+"</html>";
