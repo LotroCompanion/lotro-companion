@@ -1,5 +1,6 @@
 package delta.games.lotro.gui.items;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.Icon;
@@ -10,11 +11,18 @@ import delta.common.ui.swing.tables.DataProvider;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.ListDataProvider;
 import delta.common.ui.swing.tables.TableColumnController;
+import delta.common.ui.swing.tables.TableColumnsManager;
 import delta.common.utils.collections.filters.Filter;
+import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.character.stats.STAT;
+import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.lore.items.Armour;
+import delta.games.lotro.lore.items.ArmourType;
 import delta.games.lotro.lore.items.Item;
+import delta.games.lotro.lore.items.ItemQuality;
+import delta.games.lotro.lore.items.Weapon;
+import delta.games.lotro.lore.items.WeaponType;
 import delta.games.lotro.utils.FixedDecimalsInteger;
 
 /**
@@ -23,6 +31,8 @@ import delta.games.lotro.utils.FixedDecimalsInteger;
  */
 public class ItemChoiceTableController
 {
+  // Preferences
+  private TypedProperties _prefs;
   // Data
   private List<Item> _items;
   // GUI
@@ -30,11 +40,13 @@ public class ItemChoiceTableController
 
   /**
    * Constructor.
+   * @param prefs User preferences.
    * @param items Items to choose from.
    * @param filter Items filter.
    */
-  public ItemChoiceTableController(List<Item> items, Filter<Item> filter)
+  public ItemChoiceTableController(TypedProperties prefs, List<Item> items, Filter<Item> filter)
   {
+    _prefs=prefs;
     _items=items;
     _tableController=buildTable();
     _tableController.setFilter(filter);
@@ -50,22 +62,41 @@ public class ItemChoiceTableController
     return _tableController;
   }
 
-  /**
-   * Set a new set of items.
-   * @param items Items to set.
-   */
-  public void setItems(List<Item> items)
-  {
-    _items.clear();
-    _items.addAll(items);
-    _tableController.refresh();
-  }
-
   private GenericTableController<Item> buildTable()
   {
     DataProvider<Item> provider=new ListDataProvider<Item>(_items);
     GenericTableController<Item> table=new GenericTableController<Item>(provider);
+    List<TableColumnController<Item,?>> columns=initColumns();
+    TableColumnsManager<Item> columnsManager=table.getColumnsManager();
+    for(TableColumnController<Item,?> column : columns)
+    {
+      columnsManager.addColumnController(column,false);
+    }
+    List<String> columnsIds=getColumnsId();
+    columnsManager.setColumns(columnsIds);
+    return table;
+  }
 
+  private List<String> getColumnsId()
+  {
+    List<String> columnsIds;
+    if (_prefs!=null)
+    {
+      columnsIds=_prefs.getStringList(ItemChoiceWindowController.COLUMNS_PROPERTY);
+    }
+    else
+    {
+      columnsIds=new ArrayList<String>();
+      columnsIds.add(ItemColumnIds.ICON.name());
+      columnsIds.add(ItemColumnIds.ID.name());
+      columnsIds.add(ItemColumnIds.NAME.name());
+    }
+    return columnsIds;
+  }
+
+  private List<TableColumnController<Item,?>> initColumns()
+  {
+    List<TableColumnController<Item,?>> columns=new ArrayList<TableColumnController<Item,?>>();
     // Icon column
     {
       CellDataProvider<Item,Icon> iconCell=new CellDataProvider<Item,Icon>()
@@ -76,10 +107,10 @@ public class ItemChoiceTableController
           return icon;
         }
       };
-      TableColumnController<Item,Icon> iconColumn=new TableColumnController<Item,Icon>("Icon",Icon.class,iconCell);
+      TableColumnController<Item,Icon> iconColumn=new TableColumnController<Item,Icon>(ItemColumnIds.ICON.name(),"Icon",Icon.class,iconCell);
       iconColumn.setWidthSpecs(50,50,50);
       iconColumn.setSortable(false);
-      table.addColumnController(iconColumn);
+      columns.add(iconColumn);
     }
     // ID column
     {
@@ -90,9 +121,9 @@ public class ItemChoiceTableController
           return Long.valueOf(item.getIdentifier());
         }
       };
-      TableColumnController<Item,Long> idColumn=new TableColumnController<Item,Long>("ID",Long.class,idCell);
-      idColumn.setWidthSpecs(100,100,50);
-      table.addColumnController(idColumn);
+      TableColumnController<Item,Long> idColumn=new TableColumnController<Item,Long>(ItemColumnIds.ID.name(),"ID",Long.class,idCell);
+      idColumn.setWidthSpecs(90,90,50);
+      columns.add(idColumn);
     }
     // Name column
     {
@@ -103,9 +134,9 @@ public class ItemChoiceTableController
           return item.getName();
         }
       };
-      TableColumnController<Item,String> nameColumn=new TableColumnController<Item,String>("Name",String.class,nameCell);
+      TableColumnController<Item,String> nameColumn=new TableColumnController<Item,String>(ItemColumnIds.NAME.name(),"Name",String.class,nameCell);
       nameColumn.setWidthSpecs(150,-1,150);
-      table.addColumnController(nameColumn);
+      columns.add(nameColumn);
     }
     // Level column
     {
@@ -116,39 +147,125 @@ public class ItemChoiceTableController
           return item.getItemLevel();
         }
       };
-      TableColumnController<Item,Integer> levelColumn=new TableColumnController<Item,Integer>("Level",Integer.class,levelCell);
-      levelColumn.setWidthSpecs(70,70,50);
-      table.addColumnController(levelColumn);
+      TableColumnController<Item,Integer> levelColumn=new TableColumnController<Item,Integer>(ItemColumnIds.ITEM_LEVEL.name(),"Item Lvl",Integer.class,levelCell);
+      levelColumn.setWidthSpecs(55,55,50);
+      columns.add(levelColumn);
+    }
+    // Required level column
+    {
+      CellDataProvider<Item,Integer> minLevelCell=new CellDataProvider<Item,Integer>()
+      {
+        public Integer getData(Item item)
+        {
+          return item.getMinLevel();
+        }
+      };
+      TableColumnController<Item,Integer> minLevelColumn=new TableColumnController<Item,Integer>(ItemColumnIds.REQUIRED_LEVEL.name(),"Level",Integer.class,minLevelCell);
+      minLevelColumn.setWidthSpecs(55,55,50);
+      columns.add(minLevelColumn);
+    }
+    // Class requirement
+    {
+      CellDataProvider<Item,CharacterClass> requiredClassCell=new CellDataProvider<Item,CharacterClass>()
+      {
+        public CharacterClass getData(Item item)
+        {
+          return item.getRequiredClass();
+        }
+      };
+      TableColumnController<Item,CharacterClass> requiredClassColumn=new TableColumnController<Item,CharacterClass>(ItemColumnIds.CLASS.name(),"Class",CharacterClass.class,requiredClassCell);
+      requiredClassColumn.setWidthSpecs(100,100,100);
+      columns.add(requiredClassColumn);
+    }
+    // Slot count
+    {
+      CellDataProvider<Item,Integer> slotsCell=new CellDataProvider<Item,Integer>()
+      {
+        public Integer getData(Item item)
+        {
+          int nbSlots=item.getEssenceSlots();
+          return (nbSlots>0)?Integer.valueOf(nbSlots):null;
+        }
+      };
+      TableColumnController<Item,Integer> slotsColumn=new TableColumnController<Item,Integer>(ItemColumnIds.SLOT_COUNT.name(),"Slots",Integer.class,slotsCell);
+      slotsColumn.setWidthSpecs(55,55,50);
+      columns.add(slotsColumn);
+    }
+    // Quality
+    {
+      CellDataProvider<Item,ItemQuality> qualityCell=new CellDataProvider<Item,ItemQuality>()
+      {
+        public ItemQuality getData(Item item)
+        {
+          return item.getQuality();
+        }
+      };
+      TableColumnController<Item,ItemQuality> qualityColumn=new TableColumnController<Item,ItemQuality>(ItemColumnIds.QUALITY.name(),"Quality",ItemQuality.class,qualityCell);
+      qualityColumn.setWidthSpecs(100,100,100);
+      columns.add(qualityColumn);
+    }
+    // Armour column
+    {
+      CellDataProvider<Item,FixedDecimalsInteger> armourCell=new CellDataProvider<Item,FixedDecimalsInteger>()
+      {
+        public FixedDecimalsInteger getData(Item item)
+        {
+          if (item instanceof Armour)
+          {
+            Armour armour=(Armour)item;
+            return new FixedDecimalsInteger(armour.getArmourValue());
+          }
+          BasicStatsSet stats=item.getStats();
+          FixedDecimalsInteger value=stats.getStat(STAT.ARMOUR);
+          return value;
+        }
+      };
+      TableColumnController<Item,FixedDecimalsInteger> armourColumn=new TableColumnController<Item,FixedDecimalsInteger>(ItemColumnIds.ARMOUR.name(),"Armour",FixedDecimalsInteger.class,armourCell);
+      armourColumn.setWidthSpecs(55,55,50);
+      columns.add(armourColumn);
+    }
+    // Armour type
+    {
+      CellDataProvider<Item,ArmourType> armourTypeCell=new CellDataProvider<Item,ArmourType>()
+      {
+        public ArmourType getData(Item item)
+        {
+          if (item instanceof Armour)
+          {
+            Armour armour=(Armour)item;
+            return armour.getArmourType();
+          }
+          return null;
+        }
+      };
+      TableColumnController<Item,ArmourType> armourTypeColumn=new TableColumnController<Item,ArmourType>(ItemColumnIds.ARMOUR_TYPE.name(),"Armour type",ArmourType.class,armourTypeCell);
+      armourTypeColumn.setWidthSpecs(100,100,100);
+      columns.add(armourTypeColumn);
+    }
+    // Weapon type
+    {
+      CellDataProvider<Item,WeaponType> weaponTypeCell=new CellDataProvider<Item,WeaponType>()
+      {
+        public WeaponType getData(Item item)
+        {
+          if (item instanceof Weapon)
+          {
+            Weapon weapon=(Weapon)item;
+            return weapon.getWeaponType();
+          }
+          return null;
+        }
+      };
+      TableColumnController<Item,WeaponType> weaponTypeColumn=new TableColumnController<Item,WeaponType>(ItemColumnIds.WEAPON_TYPE.name(),"Weapon type",WeaponType.class,weaponTypeCell);
+      weaponTypeColumn.setWidthSpecs(150,150,150);
+      columns.add(weaponTypeColumn);
     }
     // Stat columns
-    table.addColumnController(buildArmourColumn());
-    STAT[] stats=new STAT[]{STAT.MORALE,STAT.MIGHT,STAT.AGILITY,STAT.WILL,STAT.VITALITY,STAT.FATE,STAT.CRITICAL_RATING};
-    for(STAT stat : stats)
+    for(STAT stat : STAT.values())
     {
-      table.addColumnController(buildStatColumn(stat));
+      columns.add(buildStatColumn(stat));
     }
-    return table;
-  }
-
-  private TableColumnController<Item,FixedDecimalsInteger> buildArmourColumn()
-  {
-    CellDataProvider<Item,FixedDecimalsInteger> statCell=new CellDataProvider<Item,FixedDecimalsInteger>()
-    {
-      public FixedDecimalsInteger getData(Item item)
-      {
-        if (item instanceof Armour)
-        {
-          Armour armour=(Armour)item;
-          return new FixedDecimalsInteger(armour.getArmourValue());
-        }
-        BasicStatsSet stats=item.getStats();
-        FixedDecimalsInteger value=stats.getStat(STAT.ARMOUR);
-        return value;
-      }
-    };
-    TableColumnController<Item,FixedDecimalsInteger> statColumn=new TableColumnController<Item,FixedDecimalsInteger>("Armour",FixedDecimalsInteger.class,statCell);
-    statColumn.setWidthSpecs(55,55,50);
-    return statColumn;
+    return columns;
   }
 
   private TableColumnController<Item,FixedDecimalsInteger> buildStatColumn(final STAT stat)
@@ -162,7 +279,7 @@ public class ItemChoiceTableController
         return value;
       }
     };
-    TableColumnController<Item,FixedDecimalsInteger> statColumn=new TableColumnController<Item,FixedDecimalsInteger>(stat.getName(),FixedDecimalsInteger.class,statCell);
+    TableColumnController<Item,FixedDecimalsInteger> statColumn=new TableColumnController<Item,FixedDecimalsInteger>(stat.name(),stat.getName(),FixedDecimalsInteger.class,statCell);
     statColumn.setWidthSpecs(55,55,50);
     return statColumn;
   }
@@ -225,6 +342,12 @@ public class ItemChoiceTableController
    */
   public void dispose()
   {
+    // Preferences
+    if (_prefs!=null)
+    {
+      List<String> columnIds=_tableController.getColumnsManager().getSelectedColumnsIds();
+      _prefs.setStringList(ItemChoiceWindowController.COLUMNS_PROPERTY,columnIds);
+    }
     // GUI
     if (_tableController!=null)
     {

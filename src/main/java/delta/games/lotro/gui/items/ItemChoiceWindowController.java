@@ -17,6 +17,7 @@ import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.windows.DefaultFormDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.collections.filters.Filter;
+import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.lore.items.Item;
 
 /**
@@ -25,6 +26,19 @@ import delta.games.lotro.lore.items.Item;
  */
 public class ItemChoiceWindowController extends DefaultFormDialogController<Item>
 {
+  /**
+   * Preference file for the columns of the item chooser.
+   */
+  public static final String ITEM_CHOOSER_PROPERTIES_ID="ItemChooserColumn";
+  /**
+   * Preference file for the columns of the essence chooser.
+   */
+  public static final String ESSENCE_CHOOSER_PROPERTIES_ID="EssenceChooserColumn";
+  /**
+   * Name of the property for column IDs.
+   */
+  public static final String COLUMNS_PROPERTY="columns";
+
   private AbstractItemFilterPanelController _filterController;
   private ItemChoicePanelController _panelController;
   private ItemChoiceTableController _tableController;
@@ -34,16 +48,18 @@ public class ItemChoiceWindowController extends DefaultFormDialogController<Item
   /**
    * Constructor.
    * @param parent Parent window.
+   * @param prefs User preferences.
    * @param items Items to choose from.
    * @param filter Filter to use.
    * @param ui Filter UI controller.
    */
-  public ItemChoiceWindowController(WindowController parent, List<Item> items, Filter<Item> filter, AbstractItemFilterPanelController ui)
+  public ItemChoiceWindowController(WindowController parent, TypedProperties prefs, List<Item> items, Filter<Item> filter, AbstractItemFilterPanelController ui)
   {
     super(parent,null);
     _items=items;
     _filter=filter;
     _filterController=ui;
+    _tableController=new ItemChoiceTableController(prefs,_items,_filter);
   }
 
   @Override
@@ -60,7 +76,6 @@ public class ItemChoiceWindowController extends DefaultFormDialogController<Item
   protected JPanel buildFormPanel()
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
-    _tableController=new ItemChoiceTableController(_items,_filter);
     // Table
     _panelController=new ItemChoicePanelController(this,_tableController);
     _filterController.setFilterUpdateListener(_panelController);

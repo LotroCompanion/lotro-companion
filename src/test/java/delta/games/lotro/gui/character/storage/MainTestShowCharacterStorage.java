@@ -3,6 +3,8 @@ package delta.games.lotro.gui.character.storage;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import delta.common.utils.collections.filters.Filter;
 import delta.games.lotro.character.storage.AccountServerStorage;
 import delta.games.lotro.character.storage.CharacterStorage;
@@ -22,6 +24,8 @@ import delta.games.lotro.plugins.StorageLoader;
  */
 public class MainTestShowCharacterStorage
 {
+  private static final Logger LOGGER=Logger.getLogger(MainTestShowCharacterStorage.class);
+
   private void doIt()
   {
     String account="glorfindel666";
@@ -37,7 +41,7 @@ public class MainTestShowCharacterStorage
 
       ItemFilterController filterController=new ItemFilterController();
       Filter<Item> filter=filterController.getFilter();
-      ItemChoiceWindowController choiceCtrl=new ItemChoiceWindowController(null,items,filter,filterController);
+      ItemChoiceWindowController choiceCtrl=new ItemChoiceWindowController(null,null,items,filter,filterController);
       Item ret=choiceCtrl.editModal();
       if (ret!=null)
       {
@@ -84,7 +88,14 @@ public class MainTestShowCharacterStorage
           break;
         }
       }
-      selection.add(selectedItem);
+      if (selectedItem!=null)
+      {
+        selection.add(selectedItem);
+      }
+      else
+      {
+        LOGGER.warn("Could not find item: "+storedItem.getName());
+      }
     }
     return selection;
   }

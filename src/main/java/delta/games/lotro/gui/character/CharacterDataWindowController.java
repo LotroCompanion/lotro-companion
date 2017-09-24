@@ -18,6 +18,7 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.OKCancelPanelController;
 import delta.common.ui.swing.windows.DefaultWindowController;
 import delta.common.ui.swing.windows.WindowsManager;
+import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.events.CharacterEvent;
@@ -289,12 +290,17 @@ public class CharacterDataWindowController extends DefaultWindowController imple
     return id;
   }
 
+  public TypedProperties getUserProperties(String id)
+  {
+    return CharacterPreferencesManager.getUserProperties(_toonFile,id);
+  }
+
   private void doEssencesEdition()
   {
     AllEssencesEditionWindowController editionController=(AllEssencesEditionWindowController)_windowsManager.getWindow(AllEssencesEditionWindowController.IDENTIFIER);
     if (editionController==null)
     {
-      editionController=new AllEssencesEditionWindowController(_toon);
+      editionController=new AllEssencesEditionWindowController(this,_toon);
       _windowsManager.registerWindow(editionController);
       editionController.getWindow().setLocationRelativeTo(this.getWindow());
     }
@@ -410,6 +416,10 @@ public class CharacterDataWindowController extends DefaultWindowController imple
       _tomesController=null;
     }
     _toon=null;
-    _toonFile=null;
+    if (_toonFile!=null)
+    {
+      _toonFile.getPreferences().saveAllPreferences();
+      _toonFile=null;
+    }
   }
 }

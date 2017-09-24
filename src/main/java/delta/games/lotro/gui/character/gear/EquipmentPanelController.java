@@ -23,6 +23,7 @@ import javax.swing.JPopupMenu;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.collections.filters.Filter;
+import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.CharacterEquipment;
 import delta.games.lotro.character.CharacterEquipment.EQUIMENT_SLOT;
@@ -333,7 +334,9 @@ public class EquipmentPanelController implements ActionListener
     cfg.initFromItems(selectedItems);
     ItemFilterController filterController=new ItemFilterController(cfg);
     Filter<Item> filter=filterController.getFilter();
-    ItemChoiceWindowController choiceCtrl=new ItemChoiceWindowController(_parentWindow,selectedItems,filter,filterController);
+    String id=ItemChoiceWindowController.ITEM_CHOOSER_PROPERTIES_ID+"#"+slot.name();
+    TypedProperties props=_parentWindow.getUserProperties(id);
+    ItemChoiceWindowController choiceCtrl=new ItemChoiceWindowController(_parentWindow,props,selectedItems,filter,filterController);
     Item ret=choiceCtrl.editModal();
     return ret;
   }

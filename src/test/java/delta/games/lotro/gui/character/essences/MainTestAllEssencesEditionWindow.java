@@ -20,7 +20,7 @@ public class MainTestAllEssencesEditionWindow
     CharacterGeneratorMeva mevaGenerator=new CharacterGeneratorMeva(tools);
     CharacterData meva=mevaGenerator.buildCharacter();
     meva.setDate(Long.valueOf(System.currentTimeMillis()));
-    AllEssencesEditionWindowController ctrl=new AllEssencesEditionWindowController(meva);
+    AllEssencesEditionWindowController ctrl=new AllEssencesEditionWindowController(null,meva);
     ctrl.show();
   }
 }
