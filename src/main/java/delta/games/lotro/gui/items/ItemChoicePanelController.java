@@ -69,7 +69,7 @@ public class ItemChoicePanelController implements FilterUpdateListener
     JPanel statsPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
     _statsLabel=GuiFactory.buildLabel("-");
     statsPanel.add(_statsLabel);
-    JButton choose=GuiFactory.buildButton("Choose...");
+    JButton choose=GuiFactory.buildButton("Choose columns...");
     ActionListener al=new ActionListener()
     {
       public void actionPerformed(ActionEvent e)
