@@ -31,6 +31,10 @@ public enum ItemColumnIds
    */
   REQUIRED_LEVEL,
   /**
+   * Essence tier.
+   */
+  TIER,
+  /**
    * Slot count.
    */
   SLOT_COUNT,

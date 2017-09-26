@@ -25,6 +25,7 @@ public class ItemChoiceTableColumnsManager
     ret.add(ItemColumnIds.ID.name());
     ret.add(ItemColumnIds.NAME.name());
     ret.add(ItemColumnIds.ITEM_LEVEL.name());
+    ret.add(ItemColumnIds.TIER.name());
     ret.addAll(getStatColumns(characterClass));
     return ret;
   }

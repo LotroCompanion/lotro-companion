@@ -12,6 +12,7 @@ import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.ListDataProvider;
 import delta.common.ui.swing.tables.TableColumnController;
 import delta.common.ui.swing.tables.TableColumnsManager;
+import delta.common.utils.NumericTools;
 import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.character.stats.BasicStatsSet;
@@ -23,6 +24,7 @@ import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemQuality;
 import delta.games.lotro.lore.items.Weapon;
 import delta.games.lotro.lore.items.WeaponType;
+import delta.games.lotro.lore.items.filters.EssenceTierFilter;
 import delta.games.lotro.utils.FixedDecimalsInteger;
 
 /**
@@ -190,6 +192,24 @@ public class ItemChoiceTableController
       TableColumnController<Item,Integer> slotsColumn=new TableColumnController<Item,Integer>(ItemColumnIds.SLOT_COUNT.name(),"Slots",Integer.class,slotsCell);
       slotsColumn.setWidthSpecs(55,55,50);
       columns.add(slotsColumn);
+    }
+    // Essence tier
+    {
+      CellDataProvider<Item,Integer> tierCell=new CellDataProvider<Item,Integer>()
+      {
+        public Integer getData(Item item)
+        {
+          String category=item.getSubCategory();
+          if ((category!=null) && (category.startsWith(EssenceTierFilter.ESSENCE_TIER_SEED)))
+          {
+            return NumericTools.parseInteger(category.substring(EssenceTierFilter.ESSENCE_TIER_SEED.length()));
+          }
+          return null;
+        }
+      };
+      TableColumnController<Item,Integer> tierColumn=new TableColumnController<Item,Integer>(ItemColumnIds.TIER.name(),"Tier",Integer.class,tierCell);
+      tierColumn.setWidthSpecs(55,55,50);
+      columns.add(tierColumn);
     }
     // Quality
     {
