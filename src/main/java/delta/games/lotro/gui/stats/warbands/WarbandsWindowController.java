@@ -13,7 +13,6 @@ import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.Config;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharactersManager;
-import delta.games.lotro.stats.warbands.MultipleToonsWarbandsStats;
 
 /**
  * Controller for a "warbands statistics" window.
@@ -25,14 +24,13 @@ public class WarbandsWindowController extends DefaultWindowController
   private static final String TOON_NAME_PREFERENCE="warbands.registered.toon";
 
   private WarbandsPanelController _warbandsStatisticsPanelController;
-  private MultipleToonsWarbandsStats _stats;
 
   /**
    * Constructor.
    */
   public WarbandsWindowController()
   {
-    _stats=new MultipleToonsWarbandsStats();
+    List<CharacterFile> toons=new ArrayList<CharacterFile>();
     Preferences preferences=Config.getInstance().getPreferences();
     TypedProperties props=preferences.getPreferences(WARBANDS_PREFERENCES_NAME);
     List<String> toonIds=props.getStringList(TOON_NAME_PREFERENCE);
@@ -44,11 +42,12 @@ public class WarbandsWindowController extends DefaultWindowController
         CharacterFile toon=manager.getToonById(toonID);
         if (toon!=null)
         {
-          _stats.addToon(toon);
+          toons.add(toon);
         }
       }
     }
-    _warbandsStatisticsPanelController=new WarbandsPanelController(this,_stats);
+    _warbandsStatisticsPanelController=new WarbandsPanelController(this);
+    _warbandsStatisticsPanelController.getTableController().refresh(toons);
   }
 
   /**
@@ -92,16 +91,14 @@ public class WarbandsWindowController extends DefaultWindowController
   public void dispose()
   {
     super.dispose();
-    List<CharacterFile> toons=_stats.getToonsList();
     Preferences preferences=Config.getInstance().getPreferences();
     TypedProperties props=preferences.getPreferences(WARBANDS_PREFERENCES_NAME);
     List<String> toonIds=new ArrayList<String>();
-    for(CharacterFile toon : toons)
+    for(CharacterFile toon : _warbandsStatisticsPanelController.getTableController().getToons())
     {
       toonIds.add(toon.getIdentifier());
     }
     props.setStringList(TOON_NAME_PREFERENCE,toonIds);
-    _stats=null;
     if (_warbandsStatisticsPanelController!=null)
     {
       _warbandsStatisticsPanelController.dispose();

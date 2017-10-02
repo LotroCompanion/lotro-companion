@@ -20,7 +20,6 @@ import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharactersManager;
 import delta.games.lotro.gui.character.CharactersSelectorWindowController;
 import delta.games.lotro.lore.warbands.WarbandFilter;
-import delta.games.lotro.stats.warbands.MultipleToonsWarbandsStats;
 
 /**
  * Controller for a warbands statistics panel.
@@ -34,22 +33,28 @@ public class WarbandsPanelController
   private WarbandsTableController _tableController;
   // Data
   private WarbandFilter _filter;
-  private MultipleToonsWarbandsStats _stats;
   // GUI
   private JPanel _panel;
 
   /**
    * Constructor.
    * @param parentController Parent controller.
-   * @param stats Underlying warbands statistics.
    */
-  public WarbandsPanelController(WarbandsWindowController parentController, MultipleToonsWarbandsStats stats)
+  public WarbandsPanelController(WarbandsWindowController parentController)
   {
     _parent=parentController;
-    _stats=stats;
     _filter=new WarbandFilter();
     _filterController=new WarbandsFilterController(_filter,this);
-    _tableController=new WarbandsTableController(stats,_filter);
+    _tableController=new WarbandsTableController(_filter);
+  }
+
+  /**
+   * Get the table controller.
+   * @return the table controller.
+   */
+  public WarbandsTableController getTableController()
+  {
+    return _tableController;
   }
 
   /**
@@ -69,7 +74,7 @@ public class WarbandsPanelController
   {
     CharactersManager manager=CharactersManager.getInstance();
     List<CharacterFile> toons=manager.getAllToons();
-    List<CharacterFile> selectedToons=_stats.getToonsList();
+    List<CharacterFile> selectedToons=_tableController.getToons();
     List<CharacterFile> enabledToons=new ArrayList<CharacterFile>();
     for(CharacterFile toon : toons)
     {
@@ -81,22 +86,7 @@ public class WarbandsPanelController
     List<CharacterFile> newSelectedToons=CharactersSelectorWindowController.selectToons(_parent,toons,selectedToons,enabledToons);
     if (newSelectedToons!=null)
     {
-      for(CharacterFile toon : newSelectedToons)
-      {
-        if (selectedToons.contains(toon))
-        {
-          selectedToons.remove(toon);
-        }
-        else
-        {
-          _stats.addToon(toon);
-        }
-      }
-      for(CharacterFile removedToon : selectedToons)
-      {
-        _stats.removeToon(removedToon);
-      }
-      _tableController.refresh();
+      _tableController.refresh(newSelectedToons);
     }
   }
 

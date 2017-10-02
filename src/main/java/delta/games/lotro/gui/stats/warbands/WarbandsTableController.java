@@ -1,36 +1,41 @@
 package delta.games.lotro.gui.stats.warbands;
 
+import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
-import javax.swing.ListSelectionModel;
-import javax.swing.RowFilter;
-import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableRowSorter;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.icons.IconsManager;
+import delta.common.ui.swing.tables.CellDataProvider;
+import delta.common.ui.swing.tables.DataProvider;
+import delta.common.ui.swing.tables.GenericTableController;
+import delta.common.ui.swing.tables.ListDataProvider;
+import delta.common.ui.swing.tables.TableColumnController;
+import delta.common.ui.swing.tables.TableColumnsManager;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharacterSummary;
+import delta.games.lotro.character.log.CharacterLog;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.lore.warbands.WarbandDefinition;
 import delta.games.lotro.lore.warbands.WarbandFilter;
 import delta.games.lotro.lore.warbands.WarbandsRegistry;
-import delta.games.lotro.stats.warbands.MultipleToonsWarbandsStats;
 import delta.games.lotro.stats.warbands.WarbandStats;
 import delta.games.lotro.stats.warbands.WarbandsStats;
 import delta.games.lotro.utils.Formats;
@@ -42,110 +47,240 @@ import delta.games.lotro.utils.Formats;
 public class WarbandsTableController
 {
   // Data
-  private MultipleToonsWarbandsStats _stats;
   private List<CharacterFile> _toons;
-  private WarbandDefinition[] _warbands;
   private WarbandFilter _filter;
   // GUI
-  private JTable _table;
-  private WarbandsTableModel _model;
-  private TableRowSorter<WarbandsTableModel> _sorter;
-  private RowFilter<WarbandsTableModel,Integer> _guiFilter;
-  // - map toon IDs to a map warband ID -> stats panel
-  private HashMap<String,HashMap<String,JPanel>> _cellPanels;
-  // - map toon IDs to toon header panels
-  private HashMap<String,JPanel> _headerPanels;
-  // - map warband ID -> warband panel
-  private HashMap<String,JPanel> _warbandPanels;
+  private GenericTableController<WarbandDefinition> _table;
 
   /**
    * Constructor.
-   * @param stats Underlying warbands statistics.
    * @param filter Warband filter.
    */
-  public WarbandsTableController(MultipleToonsWarbandsStats stats, WarbandFilter filter)
+  public WarbandsTableController(WarbandFilter filter)
   {
-    _stats=stats;
     _filter=filter;
-    WarbandsRegistry registry=WarbandsRegistry.getWarbandsRegistry();
-    _warbands=registry.getAllWarbands();
-    init();
-    refresh();
+    _toons=new ArrayList<CharacterFile>();
+    _table=buildTable();
+    configureTable(_table.getTable());
   }
 
-  private void init()
+  /**
+   * Get the managed toons.
+   * @return the managed toons.
+   */
+  public List<CharacterFile> getToons()
   {
-    _cellPanels=new HashMap<String,HashMap<String,JPanel>>();
-    _headerPanels=new HashMap<String,JPanel>();
-    JPanel emptyHeaderPanel=GuiFactory.buildBackgroundPanel(new GridBagLayout());
-    _headerPanels.put("",emptyHeaderPanel);
-    _warbandPanels=new HashMap<String,JPanel>();
+    return _toons;
+  }
 
-    for(WarbandDefinition warband : _warbands)
+  private DataProvider<WarbandDefinition> buildDataProvider()
+  {
+    WarbandsRegistry registry=WarbandsRegistry.getWarbandsRegistry();
+    WarbandDefinition[] warbands=registry.getAllWarbands();
+    List<WarbandDefinition> warbandsList=Arrays.asList(warbands);
+    DataProvider<WarbandDefinition> ret=new ListDataProvider<WarbandDefinition>(warbandsList);
+    return ret;
+  }
+
+  private GenericTableController<WarbandDefinition> buildTable()
+  {
+    DataProvider<WarbandDefinition> provider=buildDataProvider();
+    GenericTableController<WarbandDefinition> table=new GenericTableController<WarbandDefinition>(provider);
+    table.setFilter(_filter);
+    TableColumnController<WarbandDefinition,WarbandDefinition> warbandsColumn=buildWarbandColumn();
+    table.addColumnController(warbandsColumn);
+    return table;
+  }
+
+  private TableCellRenderer buildWarbandCellRenderer(final HashMap<String,JPanel> warbandPanels)
+  {
+    TableCellRenderer renderer=new TableCellRenderer()
+    {
+      public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
+      {
+        WarbandDefinition warband=(WarbandDefinition)value;
+        JPanel panel=warbandPanels.get(warband.getName());
+        int height=panel.getPreferredSize().height;
+        table.setRowHeight(row,height);
+        return panel;
+      }
+    };
+
+    return renderer;
+  }
+
+  private TableColumnController<WarbandDefinition,WarbandDefinition> buildWarbandColumn()
+  {
+    CellDataProvider<WarbandDefinition,WarbandDefinition> lastUpdateCell=new CellDataProvider<WarbandDefinition,WarbandDefinition>()
+    {
+      public WarbandDefinition getData(WarbandDefinition item)
+      {
+        return item;
+      }
+    };
+    TableColumnController<WarbandDefinition,WarbandDefinition> column=new TableColumnController<WarbandDefinition,WarbandDefinition>("Warbands",WarbandDefinition.class,lastUpdateCell);
+
+    // Init panels
+    int warbandColumnWidth=0;
+    final HashMap<String,JPanel> warbandPanels=new HashMap<String,JPanel>();
+    WarbandsRegistry registry=WarbandsRegistry.getWarbandsRegistry();
+    WarbandDefinition[] warbands=registry.getAllWarbands();
+    for(WarbandDefinition warband : warbands)
     {
       JPanel warbandPanel=buildWarbandPanel(warband);
-      String warbandID=warband.getName();
-      _warbandPanels.put(warbandID,warbandPanel);
+      warbandPanels.put(warband.getName(),warbandPanel);
+      // Column size
+      int width=warbandPanel.getPreferredSize().width;
+      warbandColumnWidth=Math.max(warbandColumnWidth,width);
     }
+    column.setMinWidth(warbandColumnWidth+10);
+    column.setPreferredWidth(warbandColumnWidth+10);
+
+    // Cell renderer
+    TableCellRenderer renderer=buildWarbandCellRenderer(warbandPanels);
+    column.setCellRenderer(renderer);
+    // Header renderer
+    JPanel emptyHeaderPanel=GuiFactory.buildBackgroundPanel(new GridBagLayout());
+    TableCellRenderer headerRenderer=buildSimpleCellRenderer(emptyHeaderPanel);
+    column.setHeaderCellRenderer(headerRenderer);
+
+    // Comparator
+    Comparator<WarbandDefinition> warbandComparator=new Comparator<WarbandDefinition>() {
+      public int compare(WarbandDefinition w1, WarbandDefinition w2)
+      {
+        String n1=w1.getSafeShortName();
+        String n2=w2.getSafeShortName();
+        return n1.compareTo(n2);
+      }
+    };
+    column.setComparator(warbandComparator);
+
+    return column;
+  }
+
+  private TableCellRenderer buildStatCellRenderer(final WarbandsStats warbandsStats)
+  {
+    // Map warband ID -> stats panel
+    final Map<String,JPanel> cellPanels=new HashMap<String,JPanel>();
+    TableCellRenderer renderer=new TableCellRenderer()
+    {
+      public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
+      {
+        WarbandStats stats=(WarbandStats)value;
+        JPanel panel=null;
+        if (stats!=null)
+        {
+          WarbandDefinition warband=stats.getDefinition();
+          panel=cellPanels.get(warband.getName());
+          if (panel==null)
+          {
+            panel=buildStatsPanel(stats);
+            cellPanels.put(warband.getName(),panel);
+          }
+        }
+        else
+        {
+          panel=GuiFactory.buildPanel(new BorderLayout());
+        }
+        return panel;
+      }
+    };
+    return renderer;
+  }
+
+  private TableCellRenderer buildSimpleCellRenderer(final JPanel panel)
+  {
+    TableCellRenderer renderer=new TableCellRenderer()
+    {
+      public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
+      {
+        return panel;
+      }
+    };
+    return renderer;
+  }
+
+  private WarbandsStats loadToonStats(CharacterFile toon)
+  {
+    CharacterLog log=toon.getLastCharacterLog();
+    WarbandsStats stats=new WarbandsStats(log);
+    return stats;
+  }
+
+  private TableColumnController<WarbandDefinition,WarbandStats> buildCharacterColumn(CharacterFile character)
+  {
+    final WarbandsStats warbandsStats=loadToonStats(character);
+    CellDataProvider<WarbandDefinition,WarbandStats> cell=new CellDataProvider<WarbandDefinition,WarbandStats>()
+    {
+      public WarbandStats getData(WarbandDefinition item)
+      {
+        return warbandsStats.getWarbandStats(item,true);
+      }
+    };
+    String id=character.getIdentifier();
+    TableColumnController<WarbandDefinition,WarbandStats> column=new TableColumnController<WarbandDefinition,WarbandStats>(id,"Stats",WarbandStats.class,cell);
+
+    // Cell renderer
+    TableCellRenderer renderer=buildStatCellRenderer(warbandsStats);
+    column.setCellRenderer(renderer);
+    // Header renderer
+    JPanel headerPanel=buildToonHeaderPanel(character);
+    TableCellRenderer headerRenderer=buildSimpleCellRenderer(headerPanel);
+    column.setHeaderCellRenderer(headerRenderer);
+    int minWidth=headerPanel.getPreferredSize().width;
+    column.setMinWidth(minWidth);
+    column.setPreferredWidth(minWidth);
+
+    // Comparator
+    Comparator<WarbandStats> statsComparator=new Comparator<WarbandStats>() {
+      public int compare(WarbandStats w1, WarbandStats w2)
+      {
+        Long d1=w1.getMostRecentDate();
+        Long d2=w2.getMostRecentDate();
+        if (d1==null)
+        {
+          if (d2==null) return 0;
+          return -1;
+        }
+        if (d2==null) return 1;
+        return d1.compareTo(d2);
+      }
+    };
+    column.setComparator(statsComparator);
+    return column;
   }
 
   /**
    * Refresh toons table.
+   * @param toons New toon.
    */
-  public void refresh()
+  public void refresh(List<CharacterFile> toons)
   {
-    if (_toons!=null)
+    for(CharacterFile toon : _toons)
     {
-      for(CharacterFile toon : _toons)
-      {
-        removeToon(toon);
-      }
+      removeToon(toon);
     }
-    _toons=_stats.getToonsList();
+    _toons.clear();
+    _toons.addAll(toons);
     for(CharacterFile toon : _toons)
     {
       addToon(toon);
     }
-    if (_table!=null)
-    {
-      _model.fireTableStructureChanged();
-      configureTable(_table);
-    }
+    _table.updateColumns();
   }
 
   private void addToon(CharacterFile toon)
   {
-    String toonID=toon.getIdentifier();
-    JPanel toonHeaderPanel=buildToonHeaderPanel(toon);
-    _headerPanels.put(toonID,toonHeaderPanel);
-    WarbandsStats stats=_stats.getStatsForToon(toonID);
-    HashMap<String,JPanel> toonStatsPanels=new HashMap<String,JPanel>();
-    for(WarbandDefinition warband : _warbands)
-    {
-      WarbandStats warbandStats=stats.getWarbandStats(warband,true);
-      JPanel toonPanel=buildToonPanel(toon,warbandStats);
-      String warbandID=warband.getName();
-      toonStatsPanels.put(warbandID,toonPanel);
-    }
-    _cellPanels.put(toonID,toonStatsPanels);
+    TableColumnController<WarbandDefinition,WarbandStats> column=buildCharacterColumn(toon);
+    _table.addColumnController(column);
   }
 
   private void removeToon(CharacterFile toon)
   {
-    String toonID=toon.getIdentifier();
-    JPanel panel=_headerPanels.remove(toonID);
-    if (panel!=null)
-    {
-      panel.removeAll();
-    }
-    HashMap<String,JPanel> panels=_cellPanels.remove(toonID);
-    if (panels!=null)
-    {
-      for(JPanel cellPanel : panels.values())
-      {
-        cellPanel.removeAll();
-      }
-    }
+    String id=toon.getIdentifier();
+    TableColumnsManager<WarbandDefinition> mgr=_table.getColumnsManager();
+    TableColumnController<WarbandDefinition,?> column=mgr.getById(id);
+    mgr.removeColumn(column);
   }
 
   private JPanel buildToonHeaderPanel(CharacterFile toon)
@@ -188,7 +323,7 @@ public class WarbandsTableController
     return panel;
   }
 
-  private JPanel buildToonPanel(CharacterFile toon, WarbandStats stats)
+  private JPanel buildStatsPanel(WarbandStats stats)
   {
     Long date=null;
     int nbTimes=0;
@@ -277,157 +412,14 @@ public class WarbandsTableController
    */
   public JTable getTable()
   {
-    if (_table==null)
-    {
-      _table=build();
-    }
-    return _table;
-  }
-
-  private int getNumberOfColumns()
-  {
-    int nbToons=_stats.getNumberOfToons();
-    return 1+nbToons;
-  }
-
-  private JTable build()
-  {
-    JTable statsTable=GuiFactory.buildTable();
-
-    _model=new WarbandsTableModel();
-    statsTable.setModel(_model);
-
-    configureTable(statsTable);
-    return statsTable;
+    return _table.getTable();
   }
 
   private void configureTable(final JTable statsTable)
   {
-    int nbColumns=getNumberOfColumns();
-    statsTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     statsTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
     statsTable.setShowGrid(false);
     statsTable.getTableHeader().setReorderingAllowed(false);
-    TableCellRenderer statCellRenderer=new TableCellRenderer()
-    {
-      public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
-      {
-        JPanel panel;
-        column=table.getColumnModel().getColumn(column).getModelIndex();
-        if (column==0)
-        {
-          WarbandDefinition warband=(WarbandDefinition)value;
-          panel=_warbandPanels.get(warband.getName());
-          int height=panel.getPreferredSize().height;
-          table.setRowHeight(row,height);
-        }
-        else
-        {
-          CharacterFile toon=_toons.get(column-1);
-          String toonID=toon.getIdentifier();
-          WarbandStats stats=(WarbandStats)value;
-          WarbandDefinition warband=stats.getDefinition();
-          HashMap<String,JPanel> warbandsPanels=_cellPanels.get(toonID);
-          panel=warbandsPanels.get(warband.getName());
-        }
-        return panel;
-      }
-    };
-    TableCellRenderer headerCellRenderer=new TableCellRenderer()
-    {
-      public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
-      {
-        String id="";
-        column=table.getColumnModel().getColumn(column).getModelIndex();
-        if (column>0)
-        {
-          CharacterFile toon=_toons.get(column-1);
-          id=toon.getIdentifier();
-        }
-        JPanel headerPanel=_headerPanels.get(id);
-        return headerPanel;
-      }
-    };
-    for(int i=0;i<nbColumns;i++)
-    {
-      TableColumn column=statsTable.getColumnModel().getColumn(i);
-      column.setCellRenderer(statCellRenderer);
-      column.setHeaderRenderer(headerCellRenderer);
-      if (i>0)
-      {
-        CharacterFile toon=_toons.get(i-1);
-        String toonID=toon.getIdentifier();
-        JPanel headerPanel=_headerPanels.get(toonID);
-        int minWidth=headerPanel.getPreferredSize().width;
-        column.setMinWidth(minWidth);
-        column.setPreferredWidth(minWidth);
-      }
-     }
-
-    // Column size
-    int warbandColumnWidth=0;
-    for(JPanel warbandPanel : _warbandPanels.values())
-    {
-      int width=warbandPanel.getPreferredSize().width;
-      warbandColumnWidth=Math.max(warbandColumnWidth,width);
-    }
-    TableColumn warbandColumn=statsTable.getColumnModel().getColumn(0);
-    warbandColumn.setMinWidth(warbandColumnWidth+10);
-    warbandColumn.setPreferredWidth(warbandColumnWidth+10);
-
-    // Sorting
-    _guiFilter=new RowFilter<WarbandsTableModel,Integer>()
-    {
-      @Override
-      public boolean include(RowFilter.Entry<? extends WarbandsTableModel,? extends Integer> entry)
-      {
-        Integer id=entry.getIdentifier();
-        WarbandDefinition warband=_warbands[id.intValue()];
-        boolean ret=_filter.filterItem(warband);
-        return ret;
-      }
-    };
-    _sorter=new TableRowSorter<WarbandsTableModel>(_model);
-    _sorter.setRowFilter(_guiFilter);
-
-    // Comparators setup
-    Comparator<WarbandStats> statsComparator=new Comparator<WarbandStats>() {
-      public int compare(WarbandStats w1, WarbandStats w2)
-      {
-        Long d1=w1.getMostRecentDate();
-        Long d2=w2.getMostRecentDate();
-        if (d1==null)
-        {
-          if (d2==null) return 0;
-          return -1;
-        }
-        if (d2==null) return 1;
-        return d1.compareTo(d2);
-      }
-    };
-    Comparator<WarbandDefinition> warbandComparator=new Comparator<WarbandDefinition>() {
-      public int compare(WarbandDefinition w1, WarbandDefinition w2)
-      {
-        String n1=w1.getSafeShortName();
-        String n2=w2.getSafeShortName();
-        return n1.compareTo(n2);
-      }
-    };
-    for(int i=0;i<nbColumns;i++)
-    {
-      _sorter.setSortable(i,true);
-      if (i>0)
-      {
-        _sorter.setComparator(i,statsComparator);
-      }
-      else
-      {
-        _sorter.setComparator(0,warbandComparator);
-      }
-    }
-    _sorter.setMaxSortKeys(1);
-    statsTable.setRowSorter(_sorter);
-    //statsTable.setPreferredScrollableViewportSize(new Dimension(800,600));
   }
 
   /**
@@ -435,62 +427,7 @@ public class WarbandsTableController
    */
   public void updateFilter()
   {
-    _sorter.setRowFilter(_guiFilter);
-  }
-
-  private class WarbandsTableModel extends AbstractTableModel
-  {
-    /**
-     * Constructor.
-     */
-    public WarbandsTableModel()
-    {
-    }
-
-    /**
-     * Get the number of columns.
-     * @see javax.swing.table.AbstractTableModel#getColumnCount()
-     */
-    public int getColumnCount()
-    {
-      return getNumberOfColumns();
-    }
-
-    /**
-     * Get the number of rows.
-     * @see javax.swing.table.TableModel#getRowCount()
-     */
-    public int getRowCount()
-    {
-      return _warbands.length;
-    }
-
-    @Override
-    public Class<?> getColumnClass(int columnIndex)
-    {
-      if (columnIndex==0) return WarbandDefinition.class;
-      return WarbandStats.class;
-    }
-
-    /**
-     * Get the value of a cell.
-     * @param rowIndex Index of targeted row.
-     * @param columnIndex Index of targeted column.
-     * @see javax.swing.table.TableModel#getValueAt(int, int)
-     */
-    public Object getValueAt(int rowIndex, int columnIndex)
-    {
-      WarbandDefinition warband=_warbands[rowIndex];
-      if (columnIndex==0)
-      {
-        return warband;
-      }
-      CharacterFile toon=_toons.get(columnIndex-1);
-      String toonID=toon.getIdentifier();
-      WarbandsStats warbandsStats=_stats.getStatsForToon(toonID);
-      WarbandStats warbandStats=warbandsStats.getWarbandStats(warband);
-      return warbandStats;
-    }
+    _table.filterUpdated();
   }
 
   /**
@@ -499,17 +436,13 @@ public class WarbandsTableController
   public void dispose()
   {
     // GUI
-    _table=null;
-    _model=null;
-    _sorter=null;
-    _guiFilter=null;
-    _cellPanels=null;
-    _headerPanels=null;
-    _warbandPanels=null;
+    if (_table!=null)
+    {
+      _table.dispose();
+      _table=null;
+    }
     // Data
-    _stats=null;
     _toons=null;
-    _warbands=null;
     _filter=null;
   }
 }
