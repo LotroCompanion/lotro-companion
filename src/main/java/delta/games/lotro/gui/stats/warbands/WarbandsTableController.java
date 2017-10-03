@@ -111,14 +111,14 @@ public class WarbandsTableController
 
   private TableColumnController<WarbandDefinition,WarbandDefinition> buildWarbandColumn()
   {
-    CellDataProvider<WarbandDefinition,WarbandDefinition> lastUpdateCell=new CellDataProvider<WarbandDefinition,WarbandDefinition>()
+    CellDataProvider<WarbandDefinition,WarbandDefinition> cell=new CellDataProvider<WarbandDefinition,WarbandDefinition>()
     {
       public WarbandDefinition getData(WarbandDefinition item)
       {
         return item;
       }
     };
-    TableColumnController<WarbandDefinition,WarbandDefinition> column=new TableColumnController<WarbandDefinition,WarbandDefinition>("Warbands",WarbandDefinition.class,lastUpdateCell);
+    TableColumnController<WarbandDefinition,WarbandDefinition> column=new TableColumnController<WarbandDefinition,WarbandDefinition>("Warbands",WarbandDefinition.class,cell);
 
     // Init panels
     int warbandColumnWidth=0;
