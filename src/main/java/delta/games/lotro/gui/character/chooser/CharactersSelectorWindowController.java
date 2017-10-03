@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.character;
+package delta.games.lotro.gui.character.chooser;
 
 import java.util.List;
 

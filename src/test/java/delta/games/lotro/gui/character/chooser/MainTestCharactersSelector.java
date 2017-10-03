@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.character;
+package delta.games.lotro.gui.character.chooser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,6 +7,7 @@ import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.log.LotroTestUtils;
 
 /**
+ * Test class for the characters selector.
  * @author DAM
  */
 public class MainTestCharactersSelector

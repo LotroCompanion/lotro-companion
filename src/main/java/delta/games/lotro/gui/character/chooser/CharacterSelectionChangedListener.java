@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.character;
+package delta.games.lotro.gui.character.chooser;
 
 /**
  * Listener for character selection changes.

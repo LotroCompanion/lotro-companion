@@ -17,9 +17,9 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharactersManager;
-import delta.games.lotro.gui.character.CharacterSelectionChangedListener;
-import delta.games.lotro.gui.character.CharactersSelectorPanelController;
-import delta.games.lotro.gui.character.CharactersSelectorWindowController;
+import delta.games.lotro.gui.character.chooser.CharacterSelectionChangedListener;
+import delta.games.lotro.gui.character.chooser.CharactersSelectorPanelController;
+import delta.games.lotro.gui.character.chooser.CharactersSelectorWindowController;
 import delta.games.lotro.stats.level.MultipleToonsLevellingStats;
 
 /**
