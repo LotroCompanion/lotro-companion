@@ -2,8 +2,10 @@ package delta.games.lotro.gui.stats.reputation.synopsis;
 
 import java.util.List;
 
-import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 
+import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.DefaultWindowController;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharactersManager;
@@ -26,10 +28,14 @@ public class MainTestReputationSynopsis
         stats.addToon(toon);
       i++;
     }
-    ReputationSynopsisPanelController panelCtrl=new ReputationSynopsisPanelController(null,stats);
-    final JPanel panel=panelCtrl.getPanel();
+    ReputationSynopsisTableController table=new ReputationSynopsisTableController(null);
+    table.refresh(allToons);
+    JTable jtable=table.getTable();
+    JScrollPane scroll=GuiFactory.buildScrollPane(jtable);
+    //ReputationSynopsisPanelController panelCtrl=new ReputationSynopsisPanelController(null,stats);
+    //final JPanel panel=panelCtrl.getPanel();
     DefaultWindowController w=new DefaultWindowController();
-    w.getFrame().add(panel);
+    w.getFrame().add(scroll);
     w.getFrame().pack();
     w.show();
   }

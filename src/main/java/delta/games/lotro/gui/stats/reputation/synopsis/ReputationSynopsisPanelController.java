@@ -119,7 +119,7 @@ public class ReputationSynopsisPanelController
     return panel;
   }
 
-  private void configureFactionLabel(JLabel label, FactionData factionData)
+  public static void configureFactionLabel(JLabel label, FactionData factionData)
   {
     Color backgroundColor=null;
     String text="";
