@@ -18,7 +18,7 @@ import javax.swing.border.TitledBorder;
 import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharactersManager;
-import delta.games.lotro.gui.character.chooser.CharactersSelectorWindowController;
+import delta.games.lotro.gui.character.chooser.CharactersChooserController;
 import delta.games.lotro.lore.warbands.WarbandFilter;
 
 /**
@@ -83,7 +83,7 @@ public class WarbandsPanelController
         enabledToons.add(toon);
       }
     }
-    List<CharacterFile> newSelectedToons=CharactersSelectorWindowController.selectToons(_parent,toons,selectedToons,enabledToons);
+    List<CharacterFile> newSelectedToons=CharactersChooserController.selectToons(_parent,enabledToons,selectedToons);
     if (newSelectedToons!=null)
     {
       _tableController.refresh(newSelectedToons);
