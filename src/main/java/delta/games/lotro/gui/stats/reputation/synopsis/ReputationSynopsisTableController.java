@@ -1,6 +1,8 @@
 package delta.games.lotro.gui.stats.reputation.synopsis;
 
+import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -12,6 +14,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
+import javax.swing.SwingConstants;
 import javax.swing.table.TableCellRenderer;
 
 import delta.common.ui.swing.GuiFactory;
@@ -28,9 +31,10 @@ import delta.games.lotro.character.reputation.ReputationData;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.lore.reputation.Faction;
+import delta.games.lotro.lore.reputation.FactionFilter;
+import delta.games.lotro.lore.reputation.FactionLevel;
 import delta.games.lotro.lore.reputation.FactionLevelComparator;
 import delta.games.lotro.lore.reputation.FactionsRegistry;
-import delta.games.lotro.lore.warbands.WarbandFilter;
 
 /**
  * Controller for a table that shows reputation for several toons.
@@ -40,15 +44,15 @@ public class ReputationSynopsisTableController
 {
   // Data
   private List<CharacterFile> _toons;
-  private WarbandFilter _filter;
+  private FactionFilter _filter;
   // GUI
   private GenericTableController<Faction> _table;
 
   /**
    * Constructor.
-   * @param filter Warband filter.
+   * @param filter Faction filter.
    */
-  public ReputationSynopsisTableController(WarbandFilter filter)
+  public ReputationSynopsisTableController(FactionFilter filter)
   {
     _filter=filter;
     _toons=new ArrayList<CharacterFile>();
@@ -77,7 +81,7 @@ public class ReputationSynopsisTableController
   {
     DataProvider<Faction> provider=buildDataProvider();
     GenericTableController<Faction> table=new GenericTableController<Faction>(provider);
-    //table.setFilter(_filter);
+    table.setFilter(_filter);
     TableColumnController<Faction,String> factionsColumn=buildFactionsColumn();
     table.addColumnController(factionsColumn);
     return table;
@@ -114,7 +118,7 @@ public class ReputationSynopsisTableController
       public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
       {
         FactionData data=(FactionData)value;
-        ReputationSynopsisPanelController.configureFactionLabel(label,data);
+        configureFactionLabel(label,data);
         return label;
       }
     };
@@ -171,8 +175,8 @@ public class ReputationSynopsisTableController
   }
 
   /**
-   * Refresh toons table.
-   * @param toons New toon.
+   * Refresh table.
+   * @param toons New toons.
    */
   public void refresh(List<CharacterFile> toons)
   {
@@ -255,6 +259,66 @@ public class ReputationSynopsisTableController
   public void updateFilter()
   {
     _table.filterUpdated();
+  }
+
+  private void configureFactionLabel(JLabel label, FactionData factionData)
+  {
+    Color backgroundColor=null;
+    String text="";
+    if (factionData!=null)
+    {
+      FactionLevel level=factionData.getFactionLevel();
+      String key=level.getKey();
+      if (FactionLevel.NEUTRAL.getKey().equals(key)) backgroundColor=Color.GRAY;
+      else if (FactionLevel.ENEMY.getKey().equals(key)) backgroundColor=Color.RED;
+      else if (FactionLevel.OUTSIDER.getKey().equals(key)) backgroundColor=Color.RED;
+      else if (FactionLevel.ACQUAINTANCE.getKey().equals(key)) backgroundColor=Color.ORANGE;
+      else if (FactionLevel.FRIEND.getKey().equals(key)) backgroundColor=Color.YELLOW;
+      else if (FactionLevel.ALLY.getKey().equals(key)) backgroundColor=new Color(0,128,0);
+      else if (FactionLevel.KINDRED.getKey().equals(key)) backgroundColor=Color.GREEN;
+      else if (FactionLevel.RESPECTED.getKey().equals(key)) backgroundColor=Color.GREEN;
+      else if (FactionLevel.HONOURED.getKey().equals(key)) backgroundColor=Color.GREEN;
+      else if (FactionLevel.CELEBRATED.getKey().equals(key)) backgroundColor=Color.GREEN;
+      else if ("CELEBRATED_GORGOROTH".equals(key)) backgroundColor=Color.GREEN;
+      // Host of the West
+      else if ("NONE".equals(key)) backgroundColor=Color.GRAY;
+      else if ("INITIAL".equals(key)) backgroundColor=Color.ORANGE;
+      else if ("INTERMEDIATE".equals(key)) backgroundColor=Color.YELLOW;
+      else if ("ADVANCED".equals(key)) backgroundColor=new Color(0,128,0);
+      else if ("FINAL".equals(key)) backgroundColor=Color.GREEN;
+      // Guild
+      else if ("INITIATE".equals(key)) backgroundColor=Color.GRAY;
+      else if ("APPRENTICE".equals(key)) backgroundColor=Color.GREEN;
+      else if ("JOURNEYMAN".equals(key)) backgroundColor=Color.GREEN;
+      else if ("EXPERT".equals(key)) backgroundColor=Color.GREEN;
+      else if ("ARTISAN".equals(key)) backgroundColor=Color.GREEN;
+      else if ("MASTER".equals(key)) backgroundColor=Color.GREEN;
+      else if ("EASTEMNET MASTER".equals(key)) backgroundColor=Color.GREEN;
+      else if ("WESTEMNET MASTER".equals(key)) backgroundColor=Color.GREEN;
+      // Hobnanigans
+      else if ("ROOKIE".equals(key)) backgroundColor=Color.GRAY;
+      else if ("LEAGUER".equals(key)) backgroundColor=Color.ORANGE;
+      else if ("MAJOR_LEAGUER".equals(key)) backgroundColor=Color.YELLOW;
+      else if ("ALL_STAR".equals(key)) backgroundColor=new Color(0,128,0);
+      else if ("HALL_OF_FAMER".equals(key)) backgroundColor=Color.GREEN;
+      else System.out.println(key);
+      text=level.getName();
+    }
+    label.setForeground(Color.BLACK);
+    if (backgroundColor!=null)
+    {
+      label.setOpaque(true);
+      backgroundColor=new Color(backgroundColor.getRed(),backgroundColor.getGreen(),backgroundColor.getBlue(),128);
+      label.setBackground(backgroundColor);
+    }
+    else
+    {
+      label.setOpaque(false);
+    }
+    label.setText(text);
+    label.setHorizontalAlignment(SwingConstants.CENTER);
+    Dimension preferredSize=label.getPreferredSize();
+    label.setMaximumSize(new Dimension(50,preferredSize.height));
   }
 
   /**

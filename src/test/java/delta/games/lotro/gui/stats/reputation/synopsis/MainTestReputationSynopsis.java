@@ -20,20 +20,10 @@ public class MainTestReputationSynopsis
   {
     CharactersManager mgr=CharactersManager.getInstance();
     List<CharacterFile> allToons=mgr.getAllToons();
-    MultipleToonsReputationStats stats=new MultipleToonsReputationStats();
-    int i=0;
-    for(CharacterFile toon : allToons)
-    {
-      if (i<60)
-        stats.addToon(toon);
-      i++;
-    }
     ReputationSynopsisTableController table=new ReputationSynopsisTableController(null);
     table.refresh(allToons);
     JTable jtable=table.getTable();
     JScrollPane scroll=GuiFactory.buildScrollPane(jtable);
-    //ReputationSynopsisPanelController panelCtrl=new ReputationSynopsisPanelController(null,stats);
-    //final JPanel panel=panelCtrl.getPanel();
     DefaultWindowController w=new DefaultWindowController();
     w.getFrame().add(scroll);
     w.getFrame().pack();

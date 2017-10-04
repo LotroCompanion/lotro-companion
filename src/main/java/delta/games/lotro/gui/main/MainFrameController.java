@@ -30,6 +30,7 @@ import delta.games.lotro.Config;
 import delta.games.lotro.gui.about.AboutDialogController;
 import delta.games.lotro.gui.about.CreditsDialogController;
 import delta.games.lotro.gui.stats.levelling.CharacterLevelWindowController;
+import delta.games.lotro.gui.stats.reputation.synopsis.ReputationSynopsisWindowController;
 import delta.games.lotro.gui.stats.warbands.WarbandsWindowController;
 import delta.games.lotro.gui.toon.ToonsManagementController;
 import delta.games.lotro.maps.data.MapsManager;
@@ -43,6 +44,7 @@ public class MainFrameController extends DefaultWindowController implements Acti
 {
   private static final String LEVELLING_ID="levelling";
   private static final String WARBANDS_ID="warbands";
+  private static final String REPUTATION_SYNOPSIS_ID="reputationSynopsis";
   private static final String MAP_ID="map";
 
   private ToolbarController _toolbar;
@@ -86,16 +88,21 @@ public class MainFrameController extends DefaultWindowController implements Acti
 
     // Statistics
     JMenu statsMenu=GuiFactory.buildMenu("Statistics");
-    // - warbands
-    JMenuItem warbandsStats=GuiFactory.buildMenuItem("Warbands");
-    warbandsStats.setActionCommand(WARBANDS_ID);
-    warbandsStats.addActionListener(this);
-    statsMenu.add(warbandsStats);
     // - levelling
     JMenuItem levellingStats=GuiFactory.buildMenuItem("Levelling");
     levellingStats.setActionCommand(LEVELLING_ID);
     levellingStats.addActionListener(this);
     statsMenu.add(levellingStats);
+    // - warbands
+    JMenuItem warbandsStats=GuiFactory.buildMenuItem("Warbands");
+    warbandsStats.setActionCommand(WARBANDS_ID);
+    warbandsStats.addActionListener(this);
+    statsMenu.add(warbandsStats);
+    // - reputation
+    JMenuItem reputationSynopsis=GuiFactory.buildMenuItem("Reputation synopsis");
+    reputationSynopsis.setActionCommand(REPUTATION_SYNOPSIS_ID);
+    reputationSynopsis.addActionListener(this);
+    statsMenu.add(reputationSynopsis);
     // - map
     JMenuItem map=GuiFactory.buildMenuItem("Middle-earth Map");
     map.setActionCommand(MAP_ID);
@@ -161,6 +168,10 @@ public class MainFrameController extends DefaultWindowController implements Acti
     String warbandsIconPath=getToolbarIconPath("warbands");
     ToolbarIconItem warbandsIconItem=new ToolbarIconItem(WARBANDS_ID,warbandsIconPath,WARBANDS_ID,"Warbands...","Warbands");
     model.addToolbarIconItem(warbandsIconItem);
+    // Reputation synopsis icon
+    String reputationSynopsisIconPath=getToolbarIconPath("reputation");
+    ToolbarIconItem reputationSynopsisIconItem=new ToolbarIconItem(REPUTATION_SYNOPSIS_ID,reputationSynopsisIconPath,REPUTATION_SYNOPSIS_ID,"Reputation synopsis...","Reputation synopsis");
+    model.addToolbarIconItem(reputationSynopsisIconItem);
     // Map icon
     String mapIconPath=getToolbarIconPath("globe");
     ToolbarIconItem mapIconItem=new ToolbarIconItem(MAP_ID,mapIconPath,MAP_ID,"Map...","Map");
@@ -195,6 +206,19 @@ public class MainFrameController extends DefaultWindowController implements Acti
     controller.bringToFront();
   }
 
+  private void doReputationSynopsis()
+  {
+    String id=ReputationSynopsisWindowController.getIdentifier();
+    WindowController controller=_windowsManager.getWindow(id);
+    if (controller==null)
+    {
+      controller=new ReputationSynopsisWindowController();
+      _windowsManager.registerWindow(controller);
+      controller.getWindow().setLocationRelativeTo(getFrame());
+    }
+    controller.bringToFront();
+  }
+
   private void doMap()
   {
     WindowController controller=_windowsManager.getWindow(MapWindowController.IDENTIFIER);
@@ -220,6 +244,10 @@ public class MainFrameController extends DefaultWindowController implements Acti
     else if (WARBANDS_ID.equals(cmd))
     {
       doWarbands();
+    }
+    else if (REPUTATION_SYNOPSIS_ID.equals(cmd))
+    {
+      doReputationSynopsis();
     }
     else if (MAP_ID.equals(cmd))
     {
