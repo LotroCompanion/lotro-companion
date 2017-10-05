@@ -47,7 +47,7 @@ public class ReputationSynopsisWindowController extends DefaultWindowController
       }
     }
     _panelController=new ReputationSynopsisPanelController(this);
-    _panelController.getTableController().refresh(toons);
+    _panelController.getTableController().setToons(toons);
   }
 
   /**

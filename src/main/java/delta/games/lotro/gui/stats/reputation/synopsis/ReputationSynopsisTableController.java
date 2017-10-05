@@ -139,11 +139,12 @@ public class ReputationSynopsisTableController
 
   private TableColumnController<Faction,FactionData> buildCharacterColumn(CharacterFile character)
   {
-    final ReputationData data=character.getReputation();
+    final CharacterFile toon=character;
     CellDataProvider<Faction,FactionData> cell=new CellDataProvider<Faction,FactionData>()
     {
       public FactionData getData(Faction item)
       {
+        ReputationData data=toon.getReputation();
         return data.getOrCreateFactionStat(item);
       }
     };
@@ -175,10 +176,10 @@ public class ReputationSynopsisTableController
   }
 
   /**
-   * Refresh table.
-   * @param toons New toons.
+   * Set the displayed toons.
+   * @param toons Toons to display.
    */
-  public void refresh(List<CharacterFile> toons)
+  public void setToons(List<CharacterFile> toons)
   {
     for(CharacterFile toon : _toons)
     {
@@ -197,6 +198,15 @@ public class ReputationSynopsisTableController
   {
     TableColumnController<Faction,FactionData> column=buildCharacterColumn(toon);
     _table.addColumnController(column);
+  }
+
+  /**
+   * Update data for a toon.
+   * @param toon Targeted toon.
+   */
+  public void updateToon(CharacterFile toon)
+  {
+    _table.refresh();
   }
 
   private void removeToon(CharacterFile toon)

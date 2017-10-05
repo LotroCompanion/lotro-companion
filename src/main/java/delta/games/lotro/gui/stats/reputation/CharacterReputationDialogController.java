@@ -23,6 +23,9 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.DefaultFormDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.CharacterFile;
+import delta.games.lotro.character.events.CharacterEvent;
+import delta.games.lotro.character.events.CharacterEventType;
+import delta.games.lotro.character.events.CharacterEventsManager;
 import delta.games.lotro.character.reputation.FactionData;
 import delta.games.lotro.character.reputation.ReputationData;
 import delta.games.lotro.lore.reputation.Faction;
@@ -216,6 +219,9 @@ public class CharacterReputationDialogController extends DefaultFormDialogContro
   protected void okImpl()
   {
     _toon.saveReputation();
+    // Broadcast reputation update event...
+    CharacterEvent event=new CharacterEvent(_toon,null);
+    CharacterEventsManager.invokeEvent(CharacterEventType.CHARACTER_REPUTATION_UPDATED,event);
   }
 
   @Override

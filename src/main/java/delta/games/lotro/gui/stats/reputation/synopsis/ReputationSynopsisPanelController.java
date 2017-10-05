@@ -17,6 +17,10 @@ import javax.swing.border.TitledBorder;
 import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharactersManager;
+import delta.games.lotro.character.events.CharacterEvent;
+import delta.games.lotro.character.events.CharacterEventListener;
+import delta.games.lotro.character.events.CharacterEventType;
+import delta.games.lotro.character.events.CharacterEventsManager;
 import delta.games.lotro.gui.character.chooser.CharactersChooserController;
 import delta.games.lotro.lore.reputation.FactionFilter;
 
@@ -24,7 +28,7 @@ import delta.games.lotro.lore.reputation.FactionFilter;
  * Controller for a reputation synopsis panel.
  * @author DAM
  */
-public class ReputationSynopsisPanelController
+public class ReputationSynopsisPanelController implements CharacterEventListener
 {
   // Controllers
   private ReputationSynopsisWindowController _parent;
@@ -45,6 +49,7 @@ public class ReputationSynopsisPanelController
     _filter=new FactionFilter();
     _filterController=new ReputationSynopsisFilterController(_filter,this);
     _tableController=new ReputationSynopsisTableController(_filter);
+    CharacterEventsManager.addListener(this);
   }
 
   /**
@@ -77,7 +82,7 @@ public class ReputationSynopsisPanelController
     List<CharacterFile> newSelectedToons=CharactersChooserController.selectToons(_parent,toons,selectedToons);
     if (newSelectedToons!=null)
     {
-      _tableController.refresh(newSelectedToons);
+      _tableController.setToons(newSelectedToons);
     }
   }
 
@@ -139,10 +144,27 @@ public class ReputationSynopsisPanelController
   }
 
   /**
+   * Handle character events.
+   */
+  public void eventOccured(CharacterEventType type, CharacterEvent event)
+  {
+    if (type==CharacterEventType.CHARACTER_REPUTATION_UPDATED)
+    {
+      CharacterFile toon=event.getToonFile();
+      List<CharacterFile> currentToons=_tableController.getToons();
+      if (currentToons.contains(toon))
+      {
+        _tableController.updateToon(toon);
+      }
+    }
+  }
+
+  /**
    * Release all managed resources.
    */
   public void dispose()
   {
+    CharacterEventsManager.removeListener(this);
     // GUI
     if (_panel!=null)
     {
