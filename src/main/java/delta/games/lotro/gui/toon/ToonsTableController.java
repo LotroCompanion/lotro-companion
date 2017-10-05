@@ -204,11 +204,7 @@ public class ToonsTableController
   {
     if (_table!=null)
     {
-      int row=_toons.indexOf(toon);
-      if (row!=-1)
-      {
-        _tableController.refreshRow(row);
-      }
+      _tableController.refresh(toon);
     }
   }
 
