@@ -6,7 +6,6 @@ import javax.swing.JPanel;
 
 import delta.common.ui.swing.windows.DefaultWindowController;
 import delta.common.ui.swing.windows.WindowController;
-import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.events.CharacterEvent;
 import delta.games.lotro.character.events.CharacterEventListener;
@@ -25,7 +24,6 @@ public class AllEssencesEditionWindowController extends DefaultWindowController 
   public static final String IDENTIFIER="ESSENCES";
 
   private AllEssencesEditionPanelController _editionController;
-  private WindowController _parent;
   private CharacterData _toon;
 
   /**
@@ -35,8 +33,8 @@ public class AllEssencesEditionWindowController extends DefaultWindowController 
    */
   public AllEssencesEditionWindowController(WindowController parent, CharacterData toon)
   {
+    super(parent);
     _editionController=new AllEssencesEditionPanelController(this,toon);
-    _parent=parent;
     _toon=toon;
   }
 
@@ -77,19 +75,9 @@ public class AllEssencesEditionWindowController extends DefaultWindowController 
       if (data==_toon)
       {
         _editionController.update();
-        getFrame().pack();
+        getWindow().pack();
       }
     }
-  }
-
-  @Override
-  public TypedProperties getUserProperties(String id)
-  {
-    if (_parent!=null)
-    {
-      return _parent.getUserProperties(id);
-    }
-    return null;
   }
 
   /**
@@ -104,7 +92,6 @@ public class AllEssencesEditionWindowController extends DefaultWindowController 
       _editionController.dispose();
       _editionController=null;
     }
-    _parent=null;
     _toon=null;
     super.dispose();
   }
