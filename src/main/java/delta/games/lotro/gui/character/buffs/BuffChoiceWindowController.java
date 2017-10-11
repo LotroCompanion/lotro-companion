@@ -43,6 +43,12 @@ public class BuffChoiceWindowController extends DefaultFormDialogController<Buff
   }
 
   @Override
+  public String getWindowIdentifier()
+  {
+    return "BUFF_CHOOSER";
+  }
+
+  @Override
   protected JDialog build()
   {
     JDialog dialog=super.build();
