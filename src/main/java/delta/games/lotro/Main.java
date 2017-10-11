@@ -22,6 +22,7 @@ public class Main
   public static void main(String[] args)
   {
     GuiFactory.init();
+    GuiFactory.setPreferences(Config.getInstance().getPreferences());
     Locale.setDefault(Locale.US);
     LotroIconsManager.initApplicationIcons();
     MainFrameController controller=new MainFrameController();
