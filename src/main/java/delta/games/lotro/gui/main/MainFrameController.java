@@ -29,6 +29,7 @@ import delta.common.utils.misc.Preferences;
 import delta.games.lotro.Config;
 import delta.games.lotro.gui.about.AboutDialogController;
 import delta.games.lotro.gui.about.CreditsDialogController;
+import delta.games.lotro.gui.stats.crafting.synopsis.CraftingSynopsisWindowController;
 import delta.games.lotro.gui.stats.levelling.CharacterLevelWindowController;
 import delta.games.lotro.gui.stats.reputation.synopsis.ReputationSynopsisWindowController;
 import delta.games.lotro.gui.stats.warbands.WarbandsWindowController;
@@ -45,6 +46,7 @@ public class MainFrameController extends DefaultWindowController implements Acti
   private static final String LEVELLING_ID="levelling";
   private static final String WARBANDS_ID="warbands";
   private static final String REPUTATION_SYNOPSIS_ID="reputationSynopsis";
+  private static final String CRAFTING_SYNOPSIS_ID="craftingSynopsis";
   private static final String MAP_ID="map";
 
   private ToolbarController _toolbar;
@@ -103,6 +105,11 @@ public class MainFrameController extends DefaultWindowController implements Acti
     reputationSynopsis.setActionCommand(REPUTATION_SYNOPSIS_ID);
     reputationSynopsis.addActionListener(this);
     statsMenu.add(reputationSynopsis);
+    // - crafting
+    JMenuItem craftingSynopsis=GuiFactory.buildMenuItem("Crafting synopsis");
+    craftingSynopsis.setActionCommand(CRAFTING_SYNOPSIS_ID);
+    craftingSynopsis.addActionListener(this);
+    statsMenu.add(craftingSynopsis);
     // - map
     JMenuItem map=GuiFactory.buildMenuItem("Middle-earth Map");
     map.setActionCommand(MAP_ID);
@@ -172,6 +179,10 @@ public class MainFrameController extends DefaultWindowController implements Acti
     String reputationSynopsisIconPath=getToolbarIconPath("reputation");
     ToolbarIconItem reputationSynopsisIconItem=new ToolbarIconItem(REPUTATION_SYNOPSIS_ID,reputationSynopsisIconPath,REPUTATION_SYNOPSIS_ID,"Reputation synopsis...","Reputation synopsis");
     model.addToolbarIconItem(reputationSynopsisIconItem);
+    // Crafting synopsis icon
+    String craftingSynopsisIconPath=getToolbarIconPath("crafting");
+    ToolbarIconItem craftingSynopsisIconItem=new ToolbarIconItem(CRAFTING_SYNOPSIS_ID,craftingSynopsisIconPath,CRAFTING_SYNOPSIS_ID,"Reputation synopsis...","Crafting synopsis");
+    model.addToolbarIconItem(craftingSynopsisIconItem);
     // Map icon
     String mapIconPath=getToolbarIconPath("globe");
     ToolbarIconItem mapIconItem=new ToolbarIconItem(MAP_ID,mapIconPath,MAP_ID,"Map...","Map");
@@ -219,6 +230,19 @@ public class MainFrameController extends DefaultWindowController implements Acti
     controller.bringToFront();
   }
 
+  private void doCraftingSynopsis()
+  {
+    String id=CraftingSynopsisWindowController.getIdentifier();
+    WindowController controller=_windowsManager.getWindow(id);
+    if (controller==null)
+    {
+      controller=new CraftingSynopsisWindowController();
+      _windowsManager.registerWindow(controller);
+      controller.getWindow().setLocationRelativeTo(getFrame());
+    }
+    controller.bringToFront();
+  }
+
   private void doMap()
   {
     WindowController controller=_windowsManager.getWindow(MapWindowController.IDENTIFIER);
@@ -248,6 +272,10 @@ public class MainFrameController extends DefaultWindowController implements Acti
     else if (REPUTATION_SYNOPSIS_ID.equals(cmd))
     {
       doReputationSynopsis();
+    }
+    else if (CRAFTING_SYNOPSIS_ID.equals(cmd))
+    {
+      doCraftingSynopsis();
     }
     else if (MAP_ID.equals(cmd))
     {
