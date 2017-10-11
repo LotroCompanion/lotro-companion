@@ -120,7 +120,7 @@ public class CharacterStatsSummaryPanelController
     CharacterStatsWindowController detailsStatsController=getDetailsController();
     if (detailsStatsController==null)
     {
-      detailsStatsController=new CharacterStatsWindowController(_toon);
+      detailsStatsController=new CharacterStatsWindowController(_parent,_toon);
       _childControllers.registerWindow(detailsStatsController);
       BasicStatsSet referenceStats=new BasicStatsSet(_toon.getStats());
       detailsStatsController.setStats(referenceStats,_toon.getStats());

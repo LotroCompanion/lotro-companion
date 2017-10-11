@@ -1,10 +1,11 @@
 package delta.games.lotro.gui.character.stats;
 
 import javax.swing.JComponent;
-import javax.swing.JFrame;
+import javax.swing.JDialog;
 import javax.swing.JPanel;
 
-import delta.common.ui.swing.windows.DefaultWindowController;
+import delta.common.ui.swing.windows.DefaultDialogController;
+import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.stats.BasicStatsSet;
 
@@ -12,7 +13,7 @@ import delta.games.lotro.character.stats.BasicStatsSet;
  * Controller for a "detailed character stats" window.
  * @author DAM
  */
-public class CharacterStatsWindowController extends DefaultWindowController
+public class CharacterStatsWindowController extends DefaultDialogController
 {
   /**
    * Window identifier.
@@ -24,10 +25,12 @@ public class CharacterStatsWindowController extends DefaultWindowController
 
   /**
    * Constructor.
+   * @param parent Parent controller.
    * @param toon Managed toon.
    */
-  public CharacterStatsWindowController(CharacterData toon)
+  public CharacterStatsWindowController(WindowController parent, CharacterData toon)
   {
+    super(parent);
     _statsPanelController=new CharacterStatsPanelController();
     _toon=toon;
   }
@@ -40,17 +43,17 @@ public class CharacterStatsWindowController extends DefaultWindowController
   }
 
   @Override
-  protected JFrame build()
+  protected JDialog build()
   {
-    JFrame frame=super.build();
+    JDialog dialog=super.build();
     // Title
     String name=_toon.getName();
     String serverName=_toon.getServer();
     String title="Detailed stats for: "+name+" @ "+serverName;
-    frame.setTitle(title);
-    frame.pack();
-    frame.setResizable(true);
-    return frame;
+    dialog.setTitle(title);
+    dialog.pack();
+    dialog.setResizable(true);
+    return dialog;
   }
 
   @Override
@@ -67,7 +70,7 @@ public class CharacterStatsWindowController extends DefaultWindowController
   public void setStats(BasicStatsSet reference, BasicStatsSet current)
   {
     _statsPanelController.setStats(reference,current);
-    getFrame().pack();
+    getWindow().pack();
   }
 
   /**
@@ -76,7 +79,7 @@ public class CharacterStatsWindowController extends DefaultWindowController
   public void update()
   {
     _statsPanelController.update();
-    getFrame().pack();
+    getWindow().pack();
   }
 
   /**
