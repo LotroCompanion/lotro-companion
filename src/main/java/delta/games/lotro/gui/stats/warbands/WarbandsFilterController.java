@@ -38,7 +38,7 @@ public class WarbandsFilterController implements ActionListener
 
   /**
    * Constructor.
-   * @param filter Log filter.
+   * @param filter Warband filter.
    * @param panelController Associated warbands panel controller.
    */
   public WarbandsFilterController(WarbandFilter filter, WarbandsPanelController panelController)
