@@ -312,7 +312,7 @@ public class CharacterDataWindowController extends DefaultWindowController imple
     EssencesSummaryWindowController summaryController=(EssencesSummaryWindowController)_windowsManager.getWindow(EssencesSummaryWindowController.IDENTIFIER);
     if (summaryController==null)
     {
-      summaryController=new EssencesSummaryWindowController(_toon);
+      summaryController=new EssencesSummaryWindowController(this,_toon);
       _windowsManager.registerWindow(summaryController);
       summaryController.getWindow().setLocationRelativeTo(this.getWindow());
     }

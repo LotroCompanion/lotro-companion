@@ -1,10 +1,11 @@
 package delta.games.lotro.gui.character.essences;
 
 import javax.swing.JComponent;
-import javax.swing.JFrame;
+import javax.swing.JDialog;
 import javax.swing.JPanel;
 
-import delta.common.ui.swing.windows.DefaultWindowController;
+import delta.common.ui.swing.windows.DefaultDialogController;
+import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.events.CharacterEvent;
 import delta.games.lotro.character.events.CharacterEventListener;
@@ -15,7 +16,7 @@ import delta.games.lotro.character.events.CharacterEventsManager;
  * Controller for a "essences summary" window.
  * @author DAM
  */
-public class EssencesSummaryWindowController extends DefaultWindowController implements CharacterEventListener
+public class EssencesSummaryWindowController extends DefaultDialogController implements CharacterEventListener
 {
   /**
    * Window identifier.
@@ -27,10 +28,12 @@ public class EssencesSummaryWindowController extends DefaultWindowController imp
 
   /**
    * Constructor.
+   * @param parent Parent controller.
    * @param toon Managed toon.
    */
-  public EssencesSummaryWindowController(CharacterData toon)
+  public EssencesSummaryWindowController(WindowController parent, CharacterData toon)
   {
+    super(parent);
     _summaryController=new EssencesSummaryPanelController(toon);
     _toon=toon;
   }
@@ -45,17 +48,17 @@ public class EssencesSummaryWindowController extends DefaultWindowController imp
   }
 
   @Override
-  protected JFrame build()
+  protected JDialog build()
   {
-    JFrame frame=super.build();
+    JDialog dialog=super.build();
     // Title
     String name=_toon.getName();
     String serverName=_toon.getServer();
     String title="Essences summary for: "+name+" @ "+serverName;
-    frame.setTitle(title);
-    frame.pack();
-    frame.setResizable(true);
-    return frame;
+    dialog.setTitle(title);
+    dialog.pack();
+    dialog.setResizable(true);
+    return dialog;
   }
 
   @Override
@@ -72,7 +75,7 @@ public class EssencesSummaryWindowController extends DefaultWindowController imp
       if (data==_toon)
       {
         _summaryController.update();
-        getFrame().pack();
+        getWindow().pack();
       }
     }
   }
