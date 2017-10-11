@@ -81,7 +81,7 @@ public class ReputationSynopsisFilterController
     {
       _category.addItem(category,category);
     }
-    ItemSelectionListener<String> regionListener=new ItemSelectionListener<String>()
+    ItemSelectionListener<String> categoryListener=new ItemSelectionListener<String>()
     {
       public void itemSelected(String region)
       {
@@ -89,7 +89,7 @@ public class ReputationSynopsisFilterController
         updateFilter();
       }
     };
-    _category.addListener(regionListener);
+    _category.addListener(categoryListener);
     panel.add(GuiFactory.buildLabel("Category:"));
     panel.add(_category.getComboBox());
     return panel;
@@ -115,6 +115,5 @@ public class ReputationSynopsisFilterController
       _panel.removeAll();
       _panel=null;
     }
-    _category=null;
   }
 }

@@ -51,12 +51,12 @@ public class ReputationSynopsisWindowController extends DefaultWindowController
   }
 
   /**
-   * Get the window identifier for a given toon.
+   * Get the window identifier.
    * @return A window identifier.
    */
   public static String getIdentifier()
   {
-    return "REPUTATION";
+    return "REPUTATION_SYNOPSIS";
   }
 
   @Override

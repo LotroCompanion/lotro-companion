@@ -17,7 +17,7 @@ import delta.games.lotro.character.level.LevelHistory;
 import delta.games.lotro.utils.DateFormat;
 
 /**
- * Controller for a reputation panel.
+ * Controller for a level history edition panel.
  * @author DAM
  */
 public class LevelHistoryEditionPanelController
