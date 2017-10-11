@@ -181,7 +181,7 @@ public class MainFrameController extends DefaultWindowController implements Acti
     model.addToolbarIconItem(reputationSynopsisIconItem);
     // Crafting synopsis icon
     String craftingSynopsisIconPath=getToolbarIconPath("crafting");
-    ToolbarIconItem craftingSynopsisIconItem=new ToolbarIconItem(CRAFTING_SYNOPSIS_ID,craftingSynopsisIconPath,CRAFTING_SYNOPSIS_ID,"Reputation synopsis...","Crafting synopsis");
+    ToolbarIconItem craftingSynopsisIconItem=new ToolbarIconItem(CRAFTING_SYNOPSIS_ID,craftingSynopsisIconPath,CRAFTING_SYNOPSIS_ID,"Crafting synopsis...","Crafting synopsis");
     model.addToolbarIconItem(craftingSynopsisIconItem);
     // Map icon
     String mapIconPath=getToolbarIconPath("globe");
