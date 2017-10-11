@@ -87,10 +87,13 @@ public class EssencesSummary
       if (item!=null)
       {
         EssencesSet essences=item.getEssences();
+        int nbSlots=item.getEssenceSlots();
+        int nbEssences=(essences!=null)?essences.getSize():0;
+        int slotsCount=Math.max(nbSlots,nbEssences);
+        // Increment total essence slot count
+        _slotsCount+=slotsCount;
         if (essences!=null)
         {
-          int nbEssences=essences.getSize();
-          _slotsCount+=nbEssences;
           for(int i=0;i<nbEssences;i++)
           {
             Item essence=essences.getEssence(i);
