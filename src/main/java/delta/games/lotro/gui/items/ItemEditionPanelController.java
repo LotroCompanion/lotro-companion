@@ -500,9 +500,9 @@ public class ItemEditionPanelController
   {
     ComboBoxController<ItemBinding> ctrl=new ComboBoxController<ItemBinding>();
     ctrl.addEmptyItem("");
-    for(ItemBinding binding : ItemBinding.values())
+    for(ItemBinding binding : ItemBinding.ALL)
     {
-      ctrl.addItem(binding,binding.name());
+      ctrl.addItem(binding,binding.getLabel());
     }
     ctrl.selectItem(null);
     return ctrl;
@@ -512,9 +512,9 @@ public class ItemEditionPanelController
   {
     ComboBoxController<ItemSturdiness> ctrl=new ComboBoxController<ItemSturdiness>();
     ctrl.addEmptyItem("");
-    for(ItemSturdiness sturdiness : ItemSturdiness.values())
+    for(ItemSturdiness sturdiness : ItemSturdiness.ALL)
     {
-      ctrl.addItem(sturdiness,sturdiness.name());
+      ctrl.addItem(sturdiness,sturdiness.getLabel());
     }
     ctrl.selectItem(null);
     return ctrl;

@@ -69,7 +69,7 @@ public class RelicChoiceWindowController extends DefaultFormDialogController<Rel
     _panelController=new RelicChoicePanelController(_tableController);
     JPanel tablePanel=_panelController.getPanel();
     // Filter
-    _filterController=new RelicsFilterController(relics,_filter,_panelController);
+    _filterController=new RelicsFilterController(_filter,_panelController);
     JPanel filterPanel=_filterController.getPanel();
     TitledBorder filterBorder=GuiFactory.buildTitledBorder("Filter");
     filterPanel.setBorder(filterBorder);

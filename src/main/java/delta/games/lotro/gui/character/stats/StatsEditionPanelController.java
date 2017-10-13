@@ -237,7 +237,7 @@ public class StatsEditionPanelController
       TranslatorsManager translatorsMgr=TranslatorsManager.getInstance();
       Translator translator=translatorsMgr.getTranslatorByName(name,true,false);
       controller.addEmptyItem("");
-      for(STAT stat : STAT.values())
+      for(STAT stat : STAT.getAll())
       {
         String label=translator.translate(stat.getKey());
         controller.addItem(stat,label);

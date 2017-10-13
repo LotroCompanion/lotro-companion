@@ -4,11 +4,6 @@ import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -18,9 +13,9 @@ import javax.swing.event.DocumentListener;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.common.ui.swing.combobox.ItemSelectionListener;
-import delta.games.lotro.lore.items.legendary.relics.Relic;
 import delta.games.lotro.lore.items.legendary.relics.RelicFilter;
 import delta.games.lotro.lore.items.legendary.relics.RelicType;
+import delta.games.lotro.lore.items.legendary.relics.RelicsCategories;
 
 /**
  * Controller for a relic filter edition panel.
@@ -29,7 +24,6 @@ import delta.games.lotro.lore.items.legendary.relics.RelicType;
 public class RelicsFilterController
 {
   // Data
-  private List<Relic> _relics;
   private RelicFilter _filter;
   // GUI
   private JPanel _panel;
@@ -41,13 +35,11 @@ public class RelicsFilterController
 
   /**
    * Constructor.
-   * @param relics Relics.
    * @param filter Filter.
    * @param panelController Associated panel controller.
    */
-  public RelicsFilterController(List<Relic> relics, RelicFilter filter, RelicChoicePanelController panelController)
+  public RelicsFilterController(RelicFilter filter, RelicChoicePanelController panelController)
   {
-    _relics=relics;
     _filter=filter;
     _panelController=panelController;
   }
@@ -152,7 +144,7 @@ public class RelicsFilterController
     ctrl.addEmptyItem("");
     for(RelicType type : RelicType.values())
     {
-      ctrl.addItem(type,type.name());
+      ctrl.addItem(type,type.getName());
     }
     ItemSelectionListener<RelicType> l=new ItemSelectionListener<RelicType>()
     {
@@ -170,8 +162,7 @@ public class RelicsFilterController
   {
     final ComboBoxController<String> ctrl=new ComboBoxController<String>();
     ctrl.addEmptyItem("");
-    List<String> categories=getCategories();
-    for(String category : categories)
+    for(String category : RelicsCategories.CATEGORIES)
     {
       ctrl.addItem(category,category);
     }
@@ -185,23 +176,6 @@ public class RelicsFilterController
     };
     ctrl.addListener(l);
     return ctrl;
-  }
-
-  private List<String> getCategories()
-  {
-    Set<String> categories=new HashSet<String>();
-    for(Relic relic : _relics)
-    {
-      String category=relic.getCategory();
-      if (category!=null)
-      {
-        categories.add(category);
-      }
-    }
-    List<String> ret=new ArrayList<String>();
-    ret.addAll(categories);
-    Collections.sort(ret);
-    return ret;
   }
 
   private JTextField buildReactiveTextField()
@@ -248,7 +222,6 @@ public class RelicsFilterController
   public void dispose()
   {
     // Data
-    _relics=null;
     _filter=null;
     // Controllers
     _panelController=null;

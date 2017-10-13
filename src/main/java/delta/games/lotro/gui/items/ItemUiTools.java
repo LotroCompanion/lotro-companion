@@ -58,7 +58,7 @@ public class ItemUiTools
   {
     ComboBoxController<ItemQuality> ctrl=new ComboBoxController<ItemQuality>();
     ctrl.addEmptyItem("");
-    for(ItemQuality quality : ItemQuality.getAll())
+    for(ItemQuality quality : ItemQuality.ALL)
     {
       ctrl.addItem(quality,quality.getMeaning());
     }
