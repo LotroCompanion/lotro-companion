@@ -12,7 +12,7 @@ public class MainTestShowWarbandsStatistics
    */
   public static void main(String[] args)
   {
-    WarbandsWindowController controller=new WarbandsWindowController();
+    WarbandsWindowController controller=new WarbandsWindowController(null);
     controller.show();
   }
 }

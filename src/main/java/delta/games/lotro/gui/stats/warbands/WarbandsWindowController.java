@@ -1,5 +1,6 @@
 package delta.games.lotro.gui.stats.warbands;
 
+import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,6 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import delta.common.ui.swing.windows.DefaultWindowController;
+import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.misc.Preferences;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.Config;
@@ -27,9 +29,11 @@ public class WarbandsWindowController extends DefaultWindowController
 
   /**
    * Constructor.
+   * @param parent Parent window controller.
    */
-  public WarbandsWindowController()
+  public WarbandsWindowController(WindowController parent)
   {
+    super(parent);
     List<CharacterFile> toons=new ArrayList<CharacterFile>();
     Preferences preferences=Config.getInstance().getPreferences();
     TypedProperties props=preferences.getPreferences(WARBANDS_PREFERENCES_NAME);
@@ -73,9 +77,17 @@ public class WarbandsWindowController extends DefaultWindowController
     // Title
     String title="Warbands statistics";
     frame.setTitle(title);
+    // Minimum size
+    frame.setMinimumSize(new Dimension(800,400));
+    // Default size
     frame.pack();
-    //frame.setResizable(false);
     return frame;
+  }
+
+  @Override
+  public void configureWindow()
+  {
+    automaticLocationSetup();
   }
 
   @Override
@@ -90,6 +102,7 @@ public class WarbandsWindowController extends DefaultWindowController
   @Override
   public void dispose()
   {
+    saveBoundsPreferences();
     super.dispose();
     Preferences preferences=Config.getInstance().getPreferences();
     TypedProperties props=preferences.getPreferences(WARBANDS_PREFERENCES_NAME);
