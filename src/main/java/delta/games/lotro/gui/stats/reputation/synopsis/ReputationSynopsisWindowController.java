@@ -1,5 +1,6 @@
 package delta.games.lotro.gui.stats.reputation.synopsis;
 
+import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,6 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import delta.common.ui.swing.windows.DefaultWindowController;
+import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.misc.Preferences;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.Config;
@@ -27,9 +29,11 @@ public class ReputationSynopsisWindowController extends DefaultWindowController
 
   /**
    * Constructor.
+   * @param parent Parent window controller.
    */
-  public ReputationSynopsisWindowController()
+  public ReputationSynopsisWindowController(WindowController parent)
   {
+    super(parent);
     List<CharacterFile> toons=new ArrayList<CharacterFile>();
     Preferences preferences=Config.getInstance().getPreferences();
     TypedProperties props=preferences.getPreferences(REPUTATION_PREFERENCES_NAME);
@@ -73,8 +77,17 @@ public class ReputationSynopsisWindowController extends DefaultWindowController
     // Title
     String title="Reputation synopsis";
     frame.setTitle(title);
-    frame.pack();
+    // Minimum size
+    frame.setMinimumSize(new Dimension(500,380));
+    // Default size
+    frame.setSize(new Dimension(600,700));
     return frame;
+  }
+
+  @Override
+  public void configureWindow()
+  {
+    automaticLocationSetup();
   }
 
   @Override
@@ -89,6 +102,7 @@ public class ReputationSynopsisWindowController extends DefaultWindowController
   @Override
   public void dispose()
   {
+    saveBoundsPreferences();
     super.dispose();
     Preferences preferences=Config.getInstance().getPreferences();
     TypedProperties props=preferences.getPreferences(REPUTATION_PREFERENCES_NAME);

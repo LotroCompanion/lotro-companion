@@ -223,9 +223,8 @@ public class MainFrameController extends DefaultWindowController implements Acti
     WindowController controller=_windowsManager.getWindow(id);
     if (controller==null)
     {
-      controller=new ReputationSynopsisWindowController();
+      controller=new ReputationSynopsisWindowController(this);
       _windowsManager.registerWindow(controller);
-      controller.getWindow().setLocationRelativeTo(getFrame());
     }
     controller.bringToFront();
   }
