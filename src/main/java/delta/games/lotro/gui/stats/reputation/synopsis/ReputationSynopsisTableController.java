@@ -35,6 +35,7 @@ import delta.games.lotro.lore.reputation.FactionFilter;
 import delta.games.lotro.lore.reputation.FactionLevel;
 import delta.games.lotro.lore.reputation.FactionLevelComparator;
 import delta.games.lotro.lore.reputation.FactionsRegistry;
+import delta.games.lotro.utils.gui.Gradients;
 
 /**
  * Controller for a table that shows reputation for several toons.
@@ -271,42 +272,6 @@ public class ReputationSynopsisTableController
     _table.filterUpdated();
   }
 
-  private static final Color[] STEPS_4={
-    Color.ORANGE,
-    new Color(215,219,0),
-    new Color(159,237,0),
-    Color.GREEN
-  };
-
-  private static final Color[] STEPS_5={
-    Color.ORANGE,
-    new Color(226,214,0),
-    new Color(190,228,0),
-    new Color(139,242,0),
-    Color.GREEN
-  };
-
-  private static final Color[] STEPS_7={
-    Color.ORANGE,
-    new Color(236,209,0),
-    new Color(215,219,0),
-    new Color(190,228,0),
-    new Color(159,237,0),
-    new Color(116,246,0),
-    Color.GREEN
-  };
-
-  private static final Color[] STEPS_8={
-    Color.ORANGE,
-    new Color(239,207,0),
-    new Color(221,216,0),
-    new Color(201,224,0),
-    new Color(177,232,0),
-    new Color(148,240,0),
-    new Color(108,247,0),
-    Color.GREEN
-  };
-
   private Color getColorForFactionLevel(Faction faction, FactionLevel level)
   {
     int index=level.getValue();
@@ -316,12 +281,17 @@ public class ReputationSynopsisTableController
     int max=levels[levels.length-1].getValue();
     if (max==1) return Color.GREEN;
     // Gradient from orange to green
-    if (max==4) return STEPS_4[index-1];
-    if (max==5) return STEPS_5[index-1];
-    if (max==7) return STEPS_7[index-1];
-    if (max==8) return STEPS_8[index-1];
-    System.out.println("Unmanaged steps: " + max);
-    return Color.WHITE;
+    Color[] gradient=Gradients.getOrangeToGreen(max);
+    Color ret=null;
+    if (gradient!=null)
+    {
+      ret=gradient[index-1];
+    }
+    else
+    {
+      ret=Color.WHITE;
+    }
+    return ret;
   }
 
   private void configureFactionLabel(JLabel label, FactionData factionData)

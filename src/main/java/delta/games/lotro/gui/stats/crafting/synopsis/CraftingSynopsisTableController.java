@@ -1,13 +1,16 @@
 package delta.games.lotro.gui.stats.crafting.synopsis;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridBagLayout;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
+import javax.swing.SwingConstants;
 import javax.swing.table.TableCellRenderer;
 
 import delta.common.ui.swing.GuiFactory;
@@ -20,8 +23,10 @@ import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.crafting.CraftingStatus;
 import delta.games.lotro.character.crafting.ProfessionStatus;
 import delta.games.lotro.crafting.CraftingLevel;
+import delta.games.lotro.crafting.CraftingLevelTier;
 import delta.games.lotro.crafting.Profession;
 import delta.games.lotro.crafting.ProfessionFilter;
+import delta.games.lotro.utils.gui.Gradients;
 
 /**
  * Controller for a table that shows crafting status for several toons.
@@ -91,7 +96,7 @@ public class CraftingSynopsisTableController
     // Proficiency
     TableColumnController<CraftingSynopsisItem,CraftingLevel> proficiencyColumn=buildCraftingTierColumn(false);
     table.addColumnController(proficiencyColumn);
-    // Proficiency
+    // Mastery
     TableColumnController<CraftingSynopsisItem,CraftingLevel> masteryColumn=buildCraftingTierColumn(true);
     table.addColumnController(masteryColumn);
     return table;
@@ -123,9 +128,10 @@ public class CraftingSynopsisTableController
     };
     TableColumnController<CraftingSynopsisItem,String> column=new TableColumnController<CraftingSynopsisItem,String>("Items",String.class,cell);
 
-    // Init panels
-    column.setMinWidth(200);
+    // Init widths
+    column.setMinWidth(150);
     column.setPreferredWidth(200);
+    column.setMaxWidth(300);
 
     // Header renderer
     JPanel emptyHeaderPanel=GuiFactory.buildBackgroundPanel(new GridBagLayout());
@@ -133,6 +139,21 @@ public class CraftingSynopsisTableController
     column.setHeaderCellRenderer(headerRenderer);
 
     return column;
+  }
+
+  private TableCellRenderer buildCraftingLevelCellRenderer(final boolean mastery)
+  {
+    final JLabel label=GuiFactory.buildLabel("");
+    TableCellRenderer renderer=new TableCellRenderer()
+    {
+      public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
+      {
+        CraftingLevel data=(CraftingLevel)value;
+        configureCraftingLevelLabel(mastery,label,data);
+        return label;
+      }
+    };
+    return renderer;
   }
 
   private TableColumnController<CraftingSynopsisItem,CraftingLevel> buildCraftingTierColumn(final boolean mastery)
@@ -147,10 +168,14 @@ public class CraftingSynopsisTableController
     String columnName=mastery?"Mastery":"Proficiency";
     String id=columnName;
     TableColumnController<CraftingSynopsisItem,CraftingLevel> column=new TableColumnController<CraftingSynopsisItem,CraftingLevel>(id,columnName,CraftingLevel.class,cell);
+    // Cell renderer
+    TableCellRenderer renderer=buildCraftingLevelCellRenderer(mastery);
+    column.setCellRenderer(renderer);
 
-    // Width
-    column.setMinWidth(100);
-    column.setPreferredWidth(100);
+    // Init widths
+    column.setMinWidth(150);
+    column.setPreferredWidth(200);
+    column.setMaxWidth(300);
 
     // Comparator
     Comparator<CraftingLevel> statsComparator=new Comparator<CraftingLevel>()
@@ -208,6 +233,50 @@ public class CraftingSynopsisTableController
   public void updateFilter()
   {
     _table.filterUpdated();
+  }
+
+  private Color getColorForCraftingLevel(CraftingLevel level)
+  {
+    int index=level.getTier();
+    if (index==0) return Color.GRAY;
+    // Gradient from orange to green
+    int nbSteps=CraftingLevel.getMaximumLevel().getTier();
+    Color[] gradient=Gradients.getOrangeToGreen(nbSteps);
+    Color ret=null;
+    if (gradient!=null)
+    {
+      ret=gradient[index-1];
+    }
+    else
+    {
+      ret=Color.WHITE;
+    }
+    return ret;
+  }
+
+  private void configureCraftingLevelLabel(boolean mastery, JLabel label, CraftingLevel level)
+  {
+    Color backgroundColor=null;
+    String text="";
+    if (level!=null)
+    {
+      backgroundColor=getColorForCraftingLevel(level);
+      CraftingLevelTier tier=mastery?level.getMastery():level.getProficiency();
+      text=tier.getLabel();
+    }
+    label.setForeground(Color.BLACK);
+    if (backgroundColor!=null)
+    {
+      label.setOpaque(true);
+      backgroundColor=new Color(backgroundColor.getRed(),backgroundColor.getGreen(),backgroundColor.getBlue(),128);
+      label.setBackground(backgroundColor);
+    }
+    else
+    {
+      label.setOpaque(false);
+    }
+    label.setText(text);
+    label.setHorizontalAlignment(SwingConstants.CENTER);
   }
 
   /**

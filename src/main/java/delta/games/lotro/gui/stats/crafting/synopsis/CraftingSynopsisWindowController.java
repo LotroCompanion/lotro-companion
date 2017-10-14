@@ -1,5 +1,6 @@
 package delta.games.lotro.gui.stats.crafting.synopsis;
 
+import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,6 +74,9 @@ public class CraftingSynopsisWindowController extends DefaultWindowController
     // Title
     String title="Crafting synopsis";
     frame.setTitle(title);
+    // Minimum size
+    frame.setMinimumSize(new Dimension(650,400));
+    // Default size
     frame.pack();
     return frame;
   }
