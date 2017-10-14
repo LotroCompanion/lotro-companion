@@ -271,6 +271,59 @@ public class ReputationSynopsisTableController
     _table.filterUpdated();
   }
 
+  private static final Color[] STEPS_4={
+    Color.ORANGE,
+    new Color(215,219,0),
+    new Color(159,237,0),
+    Color.GREEN
+  };
+
+  private static final Color[] STEPS_5={
+    Color.ORANGE,
+    new Color(226,214,0),
+    new Color(190,228,0),
+    new Color(139,242,0),
+    Color.GREEN
+  };
+
+  private static final Color[] STEPS_7={
+    Color.ORANGE,
+    new Color(236,209,0),
+    new Color(215,219,0),
+    new Color(190,228,0),
+    new Color(159,237,0),
+    new Color(116,246,0),
+    Color.GREEN
+  };
+
+  private static final Color[] STEPS_8={
+    Color.ORANGE,
+    new Color(239,207,0),
+    new Color(221,216,0),
+    new Color(201,224,0),
+    new Color(177,232,0),
+    new Color(148,240,0),
+    new Color(108,247,0),
+    Color.GREEN
+  };
+
+  private Color getColorForFactionLevel(Faction faction, FactionLevel level)
+  {
+    int index=level.getValue();
+    if (index==-1) return Color.RED;
+    if (index==0) return Color.GRAY;
+    FactionLevel[] levels=faction.getLevels();
+    int max=levels[levels.length-1].getValue();
+    if (max==1) return Color.GREEN;
+    // Gradient from orange to green
+    if (max==4) return STEPS_4[index-1];
+    if (max==5) return STEPS_5[index-1];
+    if (max==7) return STEPS_7[index-1];
+    if (max==8) return STEPS_8[index-1];
+    System.out.println("Unmanaged steps: " + max);
+    return Color.WHITE;
+  }
+
   private void configureFactionLabel(JLabel label, FactionData factionData)
   {
     Color backgroundColor=null;
@@ -278,40 +331,8 @@ public class ReputationSynopsisTableController
     if (factionData!=null)
     {
       FactionLevel level=factionData.getFactionLevel();
-      String key=level.getKey();
-      if (FactionLevel.NEUTRAL.getKey().equals(key)) backgroundColor=Color.GRAY;
-      else if (FactionLevel.ENEMY.getKey().equals(key)) backgroundColor=Color.RED;
-      else if (FactionLevel.OUTSIDER.getKey().equals(key)) backgroundColor=Color.RED;
-      else if (FactionLevel.ACQUAINTANCE.getKey().equals(key)) backgroundColor=Color.ORANGE;
-      else if (FactionLevel.FRIEND.getKey().equals(key)) backgroundColor=Color.YELLOW;
-      else if (FactionLevel.ALLY.getKey().equals(key)) backgroundColor=new Color(0,128,0);
-      else if (FactionLevel.KINDRED.getKey().equals(key)) backgroundColor=Color.GREEN;
-      else if (FactionLevel.RESPECTED.getKey().equals(key)) backgroundColor=Color.GREEN;
-      else if (FactionLevel.HONOURED.getKey().equals(key)) backgroundColor=Color.GREEN;
-      else if (FactionLevel.CELEBRATED.getKey().equals(key)) backgroundColor=Color.GREEN;
-      else if ("CELEBRATED_GORGOROTH".equals(key)) backgroundColor=Color.GREEN;
-      // Host of the West
-      else if ("NONE".equals(key)) backgroundColor=Color.GRAY;
-      else if ("INITIAL".equals(key)) backgroundColor=Color.ORANGE;
-      else if ("INTERMEDIATE".equals(key)) backgroundColor=Color.YELLOW;
-      else if ("ADVANCED".equals(key)) backgroundColor=new Color(0,128,0);
-      else if ("FINAL".equals(key)) backgroundColor=Color.GREEN;
-      // Guild
-      else if ("INITIATE".equals(key)) backgroundColor=Color.GRAY;
-      else if ("APPRENTICE".equals(key)) backgroundColor=Color.GREEN;
-      else if ("JOURNEYMAN".equals(key)) backgroundColor=Color.GREEN;
-      else if ("EXPERT".equals(key)) backgroundColor=Color.GREEN;
-      else if ("ARTISAN".equals(key)) backgroundColor=Color.GREEN;
-      else if ("MASTER".equals(key)) backgroundColor=Color.GREEN;
-      else if ("EASTEMNET MASTER".equals(key)) backgroundColor=Color.GREEN;
-      else if ("WESTEMNET MASTER".equals(key)) backgroundColor=Color.GREEN;
-      // Hobnanigans
-      else if ("ROOKIE".equals(key)) backgroundColor=Color.GRAY;
-      else if ("LEAGUER".equals(key)) backgroundColor=Color.ORANGE;
-      else if ("MAJOR_LEAGUER".equals(key)) backgroundColor=Color.YELLOW;
-      else if ("ALL_STAR".equals(key)) backgroundColor=new Color(0,128,0);
-      else if ("HALL_OF_FAMER".equals(key)) backgroundColor=Color.GREEN;
-      else System.out.println(key);
+      //backgroundColor=getColor(level);
+      backgroundColor=getColorForFactionLevel(factionData.getFaction(),level);
       text=level.getName();
     }
     label.setForeground(Color.BLACK);
