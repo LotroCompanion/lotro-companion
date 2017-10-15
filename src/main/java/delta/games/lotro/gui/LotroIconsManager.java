@@ -11,6 +11,7 @@ import delta.games.lotro.character.stats.STAT;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.CharacterSex;
 import delta.games.lotro.common.Race;
+import delta.games.lotro.crafting.Profession;
 
 /**
  * Access to Lotro specific icons.
@@ -123,6 +124,29 @@ public class LotroIconsManager
   public static ImageIcon getVirtueIcon(String virtueId)
   {
     String path="/resources/gui/virtues/"+virtueId.toLowerCase()+".png";
+    return IconsManager.getIcon(path);
+  }
+
+  /**
+   * Get the icon for a profession.
+   * @param profession Profession.
+   * @return An icon or <code>null</code> if not found.
+   */
+  public static ImageIcon getProfessionIcon(Profession profession)
+  {
+    String path="/resources/gui/crafting/professions/"+profession.getKey().toLowerCase()+".png";
+    return IconsManager.getIcon(path);
+  }
+
+  /**
+   * Get the icon for a crafting tier.
+   * @param mastery Mastery or proficiency.
+   * @return An icon or <code>null</code> if not found.
+   */
+  public static ImageIcon getCraftingTierIcon(boolean mastery)
+  {
+    String key=mastery?"mastery":"proficiency";
+    String path="/resources/gui/crafting/"+key+".png";
     return IconsManager.getIcon(path);
   }
 

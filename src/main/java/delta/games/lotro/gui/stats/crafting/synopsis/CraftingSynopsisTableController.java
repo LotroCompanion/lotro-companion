@@ -2,15 +2,18 @@ package delta.games.lotro.gui.stats.crafting.synopsis;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.FlowLayout;
 import java.awt.GridBagLayout;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+import javax.swing.Icon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 
 import delta.common.ui.swing.GuiFactory;
@@ -25,7 +28,9 @@ import delta.games.lotro.character.crafting.ProfessionStatus;
 import delta.games.lotro.crafting.CraftingLevel;
 import delta.games.lotro.crafting.CraftingLevelTier;
 import delta.games.lotro.crafting.Profession;
+import delta.games.lotro.crafting.ProfessionComparator;
 import delta.games.lotro.crafting.ProfessionFilter;
+import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.utils.gui.Gradients;
 
 /**
@@ -93,6 +98,9 @@ public class CraftingSynopsisTableController
     // Row header column
     TableColumnController<CraftingSynopsisItem,String> rowHeaderColumn=buildRowHeaderColumn();
     table.addColumnController(rowHeaderColumn);
+    // Profession column
+    TableColumnController<CraftingSynopsisItem,Profession> professionColumn=buildProfessionColumn();
+    table.addColumnController(professionColumn);
     // Proficiency
     TableColumnController<CraftingSynopsisItem,CraftingLevel> proficiencyColumn=buildCraftingTierColumn(false);
     table.addColumnController(proficiencyColumn);
@@ -114,23 +122,37 @@ public class CraftingSynopsisTableController
     return renderer;
   }
 
+  private TableCellRenderer buildCharacterNameCellRenderer()
+  {
+    final JLabel label=GuiFactory.buildLabel("");
+    label.setHorizontalAlignment(SwingConstants.CENTER);
+    TableCellRenderer renderer=new TableCellRenderer()
+    {
+      public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
+      {
+        label.setText((String)value);
+        return label;
+      }
+    };
+    return renderer;
+  }
+
   private TableColumnController<CraftingSynopsisItem,String> buildRowHeaderColumn()
   {
     CellDataProvider<CraftingSynopsisItem,String> cell=new CellDataProvider<CraftingSynopsisItem,String>()
     {
       public String getData(CraftingSynopsisItem item)
       {
-        Profession profession=item.getProfession();
         CharacterFile character=item.getCharacter();
         String name=character.getName();
-        return name+" ("+profession+")";
+        return name;
       }
     };
-    TableColumnController<CraftingSynopsisItem,String> column=new TableColumnController<CraftingSynopsisItem,String>("Items",String.class,cell);
+    TableColumnController<CraftingSynopsisItem,String> column=new TableColumnController<CraftingSynopsisItem,String>("Name",String.class,cell);
 
     // Init widths
-    column.setMinWidth(150);
-    column.setPreferredWidth(200);
+    column.setMinWidth(100);
+    column.setPreferredWidth(150);
     column.setMaxWidth(300);
 
     // Header renderer
@@ -138,7 +160,64 @@ public class CraftingSynopsisTableController
     TableCellRenderer headerRenderer=buildSimpleCellRenderer(emptyHeaderPanel);
     column.setHeaderCellRenderer(headerRenderer);
 
+    // Cell renderer
+    TableCellRenderer renderer=buildCharacterNameCellRenderer();
+    column.setCellRenderer(renderer);
+
     return column;
+  }
+
+  private TableCellRenderer buildProfessionCellRenderer()
+  {
+    TableCellRenderer renderer=new DefaultTableCellRenderer()
+    {
+      public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
+      {
+        JLabel label=(JLabel)super.getTableCellRendererComponent(table,value,isSelected,hasFocus,row,column);
+        Profession profession=(Profession)value;
+        Icon icon=LotroIconsManager.getProfessionIcon(profession);
+        label.setHorizontalAlignment(SwingConstants.CENTER);
+        label.setIcon(icon);
+        label.setToolTipText(profession.getLabel());
+        label.setText("");
+        return label;
+      }
+    };
+    return renderer;
+  }
+
+  private TableColumnController<CraftingSynopsisItem,Profession> buildProfessionColumn()
+  {
+    CellDataProvider<CraftingSynopsisItem,Profession> professionCell=new CellDataProvider<CraftingSynopsisItem,Profession>()
+    {
+      public Profession getData(CraftingSynopsisItem item)
+      {
+        return item.getProfession();
+      }
+    };
+    TableColumnController<CraftingSynopsisItem,Profession> professionColumn=new TableColumnController<CraftingSynopsisItem,Profession>("Profession",Profession.class,professionCell);
+    professionColumn.setWidthSpecs(50,50,50);
+    // Header renderer
+    JPanel emptyHeaderPanel=GuiFactory.buildBackgroundPanel(new GridBagLayout());
+    TableCellRenderer headerRenderer=buildSimpleCellRenderer(emptyHeaderPanel);
+    professionColumn.setHeaderCellRenderer(headerRenderer);
+    // Cell renderer
+    TableCellRenderer cellRenderer=buildProfessionCellRenderer();
+    professionColumn.setCellRenderer(cellRenderer);
+    // Comparator
+    ProfessionComparator comparator=new ProfessionComparator();
+    professionColumn.setComparator(comparator);
+    return professionColumn;
+  }
+
+  private JPanel buildCraftingTierPanel(boolean mastery)
+  {
+    JPanel panel=GuiFactory.buildBackgroundPanel(new FlowLayout());
+    Icon tierIcon=LotroIconsManager.getCraftingTierIcon(mastery);
+    panel.add(GuiFactory.buildIconLabel(tierIcon));
+    String label=mastery?"Mastery":"Proficiency";
+    panel.add(GuiFactory.buildLabel(label));
+    return panel;
   }
 
   private TableCellRenderer buildCraftingLevelCellRenderer(final boolean mastery)
@@ -168,6 +247,10 @@ public class CraftingSynopsisTableController
     String columnName=mastery?"Mastery":"Proficiency";
     String id=columnName;
     TableColumnController<CraftingSynopsisItem,CraftingLevel> column=new TableColumnController<CraftingSynopsisItem,CraftingLevel>(id,columnName,CraftingLevel.class,cell);
+    // Header cell renderer
+    JPanel panel=buildCraftingTierPanel(mastery);
+    TableCellRenderer headerRenderer=buildSimpleCellRenderer(panel);
+    column.setHeaderCellRenderer(headerRenderer);
     // Cell renderer
     TableCellRenderer renderer=buildCraftingLevelCellRenderer(mastery);
     column.setCellRenderer(renderer);
@@ -220,11 +303,13 @@ public class CraftingSynopsisTableController
     return _table.getTable();
   }
 
-  private void configureTable(final JTable statsTable)
+  private void configureTable(final JTable table)
   {
-    statsTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-    statsTable.setShowGrid(false);
-    statsTable.getTableHeader().setReorderingAllowed(false);
+    table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+    table.setShowGrid(false);
+    table.getTableHeader().setReorderingAllowed(false);
+    // Adjust table row height for icons (30 pixels)
+    table.setRowHeight(30);
   }
 
   /**
