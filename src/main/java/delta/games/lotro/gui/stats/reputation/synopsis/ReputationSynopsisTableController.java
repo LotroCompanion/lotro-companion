@@ -111,7 +111,11 @@ public class ReputationSynopsisTableController
     return column;
   }
 
-  private TableCellRenderer buildStatCellRenderer()
+  /**
+   * Build a cell renderer for a faction status.
+   * @return A renderer.
+   */
+  public static TableCellRenderer buildStatCellRenderer()
   {
     final JLabel label=GuiFactory.buildLabel("");
     TableCellRenderer renderer=new TableCellRenderer()
@@ -272,7 +276,7 @@ public class ReputationSynopsisTableController
     _table.filterUpdated();
   }
 
-  private Color getColorForFactionLevel(Faction faction, FactionLevel level)
+  private static Color getColorForFactionLevel(Faction faction, FactionLevel level)
   {
     int index=level.getValue();
     if (index==-1) return Color.RED;
@@ -294,14 +298,13 @@ public class ReputationSynopsisTableController
     return ret;
   }
 
-  private void configureFactionLabel(JLabel label, FactionData factionData)
+  private static void configureFactionLabel(JLabel label, FactionData factionData)
   {
     Color backgroundColor=null;
     String text="";
     if (factionData!=null)
     {
       FactionLevel level=factionData.getFactionLevel();
-      //backgroundColor=getColor(level);
       backgroundColor=getColorForFactionLevel(factionData.getFaction(),level);
       text=level.getName();
     }

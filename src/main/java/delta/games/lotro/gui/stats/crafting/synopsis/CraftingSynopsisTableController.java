@@ -24,13 +24,17 @@ import delta.common.ui.swing.tables.ListDataProvider;
 import delta.common.ui.swing.tables.TableColumnController;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.crafting.CraftingStatus;
+import delta.games.lotro.character.crafting.GuildStatus;
 import delta.games.lotro.character.crafting.ProfessionStatus;
+import delta.games.lotro.character.reputation.FactionData;
 import delta.games.lotro.crafting.CraftingLevel;
 import delta.games.lotro.crafting.CraftingLevelTier;
 import delta.games.lotro.crafting.Profession;
 import delta.games.lotro.crafting.ProfessionComparator;
 import delta.games.lotro.crafting.ProfessionFilter;
 import delta.games.lotro.gui.LotroIconsManager;
+import delta.games.lotro.gui.stats.reputation.synopsis.ReputationSynopsisTableController;
+import delta.games.lotro.lore.reputation.FactionLevelComparator;
 import delta.games.lotro.utils.gui.Gradients;
 
 /**
@@ -75,10 +79,13 @@ public class CraftingSynopsisTableController
     {
       CraftingStatus craftingStatus=toon.getCraftingStatus();
       Profession[] professions=craftingStatus.getProfessions();
+      GuildStatus guildStatus=craftingStatus.getGuildStatus();
+      Profession guild=guildStatus.getProfession();
       for(Profession profession : professions)
       {
         ProfessionStatus professionStatus=craftingStatus.getProfessionStatus(profession,true);
-        CraftingSynopsisItem item=new CraftingSynopsisItem(toon,professionStatus);
+        GuildStatus displayedStatus=(profession==guild)?guildStatus:null;
+        CraftingSynopsisItem item=new CraftingSynopsisItem(toon,professionStatus,displayedStatus);
         _rowItems.add(item);
       }
     }
@@ -107,6 +114,9 @@ public class CraftingSynopsisTableController
     // Mastery
     TableColumnController<CraftingSynopsisItem,CraftingLevel> masteryColumn=buildCraftingTierColumn(true);
     table.addColumnController(masteryColumn);
+    // Guild
+    TableColumnController<CraftingSynopsisItem,FactionData> guildColumn=buildGuildColumn();
+    table.addColumnController(guildColumn);
     return table;
   }
 
@@ -266,6 +276,51 @@ public class CraftingSynopsisTableController
       public int compare(CraftingLevel data1, CraftingLevel data2)
       {
         return Integer.compare(data1.getTier(),data2.getTier());
+      }
+    };
+    column.setComparator(statsComparator);
+    return column;
+  }
+
+  private JPanel buildGuildPanel()
+  {
+    JPanel panel=GuiFactory.buildBackgroundPanel(new FlowLayout());
+    panel.add(GuiFactory.buildLabel("Guild"));
+    return panel;
+  }
+
+  private TableColumnController<CraftingSynopsisItem,FactionData> buildGuildColumn()
+  {
+    CellDataProvider<CraftingSynopsisItem,FactionData> cell=new CellDataProvider<CraftingSynopsisItem,FactionData>()
+    {
+      public FactionData getData(CraftingSynopsisItem item)
+      {
+        return item.getGuildFaction();
+      }
+    };
+    String columnName="Guild";
+    String id=columnName;
+    TableColumnController<CraftingSynopsisItem,FactionData> column=new TableColumnController<CraftingSynopsisItem,FactionData>(id,columnName,FactionData.class,cell);
+    // Header cell renderer
+    JPanel panel=buildGuildPanel();
+    TableCellRenderer headerRenderer=buildSimpleCellRenderer(panel);
+    column.setHeaderCellRenderer(headerRenderer);
+    // Cell renderer
+    TableCellRenderer renderer=ReputationSynopsisTableController.buildStatCellRenderer();
+    column.setCellRenderer(renderer);
+
+    // Init widths
+    column.setMinWidth(150);
+    column.setPreferredWidth(200);
+    column.setMaxWidth(300);
+
+    // Comparator
+    final FactionLevelComparator factionLevelComparator=new FactionLevelComparator();
+    Comparator<FactionData> statsComparator=new Comparator<FactionData>()
+    {
+      public int compare(FactionData data1, FactionData data2)
+      {
+        return factionLevelComparator.compare(data1.getFactionLevel(),data2.getFactionLevel());
       }
     };
     column.setComparator(statsComparator);
