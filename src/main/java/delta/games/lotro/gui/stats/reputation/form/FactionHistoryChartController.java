@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.stats.crafting;
+package delta.games.lotro.gui.stats.reputation.form;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -27,19 +27,21 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
 import delta.common.ui.swing.GuiFactory;
-import delta.games.lotro.character.crafting.ProfessionStatus;
-import delta.games.lotro.crafting.CraftingLevel;
+import delta.games.lotro.character.reputation.FactionData;
+import delta.games.lotro.character.reputation.FactionLevelStatus;
+import delta.games.lotro.lore.reputation.Faction;
+import delta.games.lotro.lore.reputation.FactionLevel;
 import delta.games.lotro.utils.Formats;
 
 /**
- * Controller for crafting history chart.
+ * Controller for faction history chart.
  * @author DAM
  */
-public class CraftingHistoryChartController
+public class FactionHistoryChartController
 {
   private JPanel _panel;
   private JFreeChart _chart;
-  private ProfessionStatus _stats;
+  private FactionData _stats;
   private boolean _showTitle;
   private XYSeriesCollection _data;
 
@@ -48,7 +50,7 @@ public class CraftingHistoryChartController
    * @param stats Data to display.
    * @param showTitle Show title or not.
    */
-  public CraftingHistoryChartController(ProfessionStatus stats, boolean showTitle)
+  public FactionHistoryChartController(FactionData stats, boolean showTitle)
   {
     _stats=stats;
     _showTitle=showTitle;
@@ -92,12 +94,12 @@ public class CraftingHistoryChartController
     String title="";
     if (_showTitle)
     {
-      title=_stats.getProfession().getLabel();
+      title=_stats.getFaction().getName();
     }
     updateData();
     JFreeChart jfreechart = ChartFactory.createXYStepChart(title,
                         "Time",
-                        "Tier",
+                        "Level",
                         _data,
                         PlotOrientation.VERTICAL,
                         true,
@@ -114,28 +116,19 @@ public class CraftingHistoryChartController
     XYPlot xyplot = (XYPlot)jfreechart.getPlot();
     xyplot.setDomainPannable(false);
     XYStepAreaRenderer xysteparearenderer = new XYStepAreaRenderer(XYStepAreaRenderer.AREA_AND_SHAPES);
+    Faction faction=_stats.getFaction();
+    final FactionLevel[] levels=faction.getLevels();
     XYToolTipGenerator tooltip=new StandardXYToolTipGenerator() {
       @Override
       public String generateLabelString(XYDataset dataset, int series, int item)
       {
-        String label;
+        String label="???";
         int tier=(int)dataset.getYValue(series,item);
-        if (tier==0)
+        for(FactionLevel level : levels)
         {
-          label="Started profession";
-        }
-        else
-        {
-          CraftingLevel level=CraftingLevel.getByTier(tier);
-          if (level!=null)
+          if (level.getValue()==tier)
           {
-            if (series==0) label=level.getMastery().getLabel();
-            else if (series==1) label=level.getProficiency().getLabel();
-            else label="???";
-          }
-          else
-          {
-            label="???";
+            label=level.getName();
           }
         }
         double timestamp=dataset.getXValue(series,item);
@@ -144,8 +137,7 @@ public class CraftingHistoryChartController
       }
     };
     xysteparearenderer.setBaseToolTipGenerator(tooltip);
-    xysteparearenderer.setSeriesPaint(0,new Color(255,235,31));
-    xysteparearenderer.setSeriesPaint(1,new Color(130,80,57));
+    xysteparearenderer.setSeriesPaint(0,new Color(0,0,255));
     xyplot.setRenderer(xysteparearenderer);
 
     DateAxis axis = (DateAxis) xyplot.getDomainAxis();
@@ -159,14 +151,14 @@ public class CraftingHistoryChartController
     valueAxis.setAxisLinePaint(foregroundColor);
     valueAxis.setLabelPaint(foregroundColor);
     valueAxis.setTickLabelPaint(foregroundColor);
-    CraftingLevel maxLevel=CraftingLevel.getMaximumLevel();
-    valueAxis.setRange(0,maxLevel.getTier());
+    final int min=levels[0].getValue();
+    int max=levels[levels.length-1].getValue();
+    valueAxis.setRange(min,max);
     NumberFormat nf=new NumberFormat()
     {
       private String format(int number)
       {
-        CraftingLevel level=CraftingLevel.getByTier(number);
-        String ret=(level!=null)?level.getProficiency().getLabel():"???";
+        String ret=levels[number-min].getName();
         return ret;
       }
 
@@ -202,40 +194,28 @@ public class CraftingHistoryChartController
   public void updateData()
   {
     _data.removeAllSeries();
-    Long lastItemDate=_stats.getValidityDate();
 
-    XYSeries proficiencySeries = new XYSeries("Proficiency");
-    CraftingLevel maxLevel=CraftingLevel.getMaximumLevel();
-    int maxTier=maxLevel.getTier();
-    for(int i=0;i<=maxTier;i++)
+    XYSeries series = new XYSeries("History");
+    Faction faction=_stats.getFaction();
+    FactionLevel[] levels=faction.getLevels();
+    for(FactionLevel level : levels)
     {
-      long date=_stats.getLevelStatus(i).getProficiency().getCompletionDate();
-      if (date!=0)
+      FactionLevelStatus levelStatus=_stats.getStatusForLevel(level);
+      if (levelStatus!=null)
       {
-        proficiencySeries.add(date,i);
+        boolean isCompleted=levelStatus.isCompleted();
+        if (isCompleted)
+        {
+          long date=levelStatus.getCompletionDate();
+          if (date!=0)
+          {
+            series.add(date,level.getValue());
+          }
+        }
       }
     }
-    XYSeries masterySeries = new XYSeries("Mastery");
-    for(int i=0;i<=maxTier;i++)
-    {
-      long date=_stats.getLevelStatus(i).getMastery().getCompletionDate();
-      if (date!=0)
-      {
-        masterySeries.add(date,i);
-      }
-    }
 
-    // Set last point
-    if (lastItemDate!=null)
-    {
-      CraftingLevel currentProficiency=_stats.getProficiencyLevel();
-      proficiencySeries.add(lastItemDate.longValue(),currentProficiency.getTier());
-      CraftingLevel currentMastery=_stats.getMasteryLevel();
-      masterySeries.add(lastItemDate.longValue(),currentMastery.getTier());
-    }
-
-    _data.addSeries(masterySeries);
-    _data.addSeries(proficiencySeries);
+    _data.addSeries(series);
   }
 
   /**

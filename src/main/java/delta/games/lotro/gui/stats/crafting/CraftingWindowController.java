@@ -22,6 +22,7 @@ import delta.common.ui.swing.windows.DefaultFormDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.crafting.CraftingStatus;
+import delta.games.lotro.character.crafting.GuildStatus;
 import delta.games.lotro.character.crafting.ProfessionStatus;
 import delta.games.lotro.character.events.CharacterEvent;
 import delta.games.lotro.character.events.CharacterEventType;
@@ -29,6 +30,7 @@ import delta.games.lotro.character.events.CharacterEventsManager;
 import delta.games.lotro.crafting.Profession;
 import delta.games.lotro.crafting.Vocation;
 import delta.games.lotro.crafting.Vocations;
+import delta.games.lotro.gui.stats.reputation.form.FactionHistoryPanelController;
 
 /**
  * Controller for a "crafting stats" window.
@@ -39,8 +41,11 @@ public class CraftingWindowController extends DefaultFormDialogController<Crafti
   private CharacterFile _toon;
   private CraftingStatus _stats;
   private ComboBoxController<Vocation> _vocation;
+  private ComboBoxController<Profession> _guild;
   private JPanel _professionsPanel;
   private HashMap<Profession,ProfessionPanelController> _panels;
+  private FactionHistoryPanelController _guildHistory;
+  private JTabbedPane _tabbedPane;
 
   /**
    * Constructor.
@@ -60,39 +65,75 @@ public class CraftingWindowController extends DefaultFormDialogController<Crafti
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     // Vocation panel
-    // - combo
-    _vocation=buildVocationCombo();
-    Vocation vocation=_stats.getVocation();
     JPanel vocationPanel=GuiFactory.buildPanel(new FlowLayout());
-    JLabel vocationLabel=GuiFactory.buildLabel("Vocation:");
-    vocationPanel.add(vocationLabel);
-    vocationPanel.add(_vocation.getComboBox());
+    {
+      _vocation=buildVocationCombo();
+      JLabel vocationLabel=GuiFactory.buildLabel("Vocation:");
+      vocationPanel.add(vocationLabel);
+      vocationPanel.add(_vocation.getComboBox());
+
+      ItemSelectionListener<Vocation> vocationListener=new ItemSelectionListener<Vocation>()
+      {
+        public void itemSelected(Vocation selectedVocation)
+        {
+          updateProfessionPanel(selectedVocation);
+          updateGuildCombo(selectedVocation);
+        }
+      };
+      _vocation.addListener(vocationListener);
+    }
+    // Guild panel
+    JPanel guildPanel=GuiFactory.buildPanel(new FlowLayout());
+    {
+      _guild=new ComboBoxController<Profession>();
+      JLabel guildLabel=GuiFactory.buildLabel("Guild:");
+      guildPanel.add(guildLabel);
+      guildPanel.add(_guild.getComboBox());
+    }
 
     // Professions panel
     _professionsPanel=GuiFactory.buildPanel(new BorderLayout());
+
+    // Assembly
+    JPanel topPanel=GuiFactory.buildPanel(new FlowLayout());
+    topPanel.add(vocationPanel);
+    topPanel.add(guildPanel);
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,10,0,10),0,0);
-    panel.add(vocationPanel,c);
+    panel.add(topPanel,c);
     GridBagConstraints c2=new GridBagConstraints(0,1,1,1,1.0,1.0,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(5,10,5,10),0,0);
     panel.add(_professionsPanel,c2);
 
-    ItemSelectionListener<Vocation> vocationListener=new ItemSelectionListener<Vocation>()
+    // Init vocation and guild
+    Vocation vocation=_stats.getVocation();
+    Profession currentGuild=_stats.getGuildStatus().getProfession();
+    _vocation.selectItem(vocation);
+
+    ItemSelectionListener<Profession> guildListener=new ItemSelectionListener<Profession>()
     {
-      public void itemSelected(Vocation selectedVocation)
+      public void itemSelected(Profession selectedGuild)
       {
-        initProfessionPanel(selectedVocation);
+        updateGuildUi(selectedGuild);
       }
     };
-    _vocation.addListener(vocationListener);
-    _vocation.selectItem(vocation);
+    // Init guild
+    _guild.addListener(guildListener);
+    _guild.selectItem(currentGuild);
+
+    // Select first tab, if any
+    if (_tabbedPane!=null)
+    {
+      _tabbedPane.setSelectedIndex(0);
+    }
 
     return panel;
   }
 
-  private void initProfessionPanel(Vocation selectedVocation)
+  private void updateProfessionPanel(Vocation selectedVocation)
   {
     JComponent centerComponent=null;
     boolean wasEmpty=(_professionsPanel.getComponentCount()==0);
     _professionsPanel.removeAll();
+    _tabbedPane=null;
     Vocation currentVocation=_stats.getVocation();
     if (currentVocation!=selectedVocation)
     {
@@ -103,16 +144,21 @@ public class CraftingWindowController extends DefaultFormDialogController<Crafti
     Profession[] professions=(selectedVocation!=null)?selectedVocation.getProfessions():null;
     if ((professions!=null) && (professions.length>0))
     {
-      JTabbedPane tabbedPane=GuiFactory.buildTabbedPane();
+      _tabbedPane=GuiFactory.buildTabbedPane();
+      // Professions
       for(Profession profession : professions)
       {
         ProfessionStatus stats=_stats.getProfessionStatus(profession,true);
-        ProfessionPanelController craftingPanelController=new ProfessionPanelController(stats);
+        ProfessionPanelController craftingPanelController=_panels.get(profession);
+        if (craftingPanelController==null)
+        {
+          craftingPanelController=new ProfessionPanelController(stats);
+          _panels.put(profession,craftingPanelController);
+        }
         JPanel craftingPanel=craftingPanelController.getPanel();
-        tabbedPane.add(profession.getLabel(),craftingPanel);
-        _panels.put(profession,craftingPanelController);
+        _tabbedPane.add(profession.getLabel(),craftingPanel);
       }
-      centerComponent=tabbedPane;
+      centerComponent=_tabbedPane;
     }
     else
     {
@@ -125,6 +171,40 @@ public class CraftingWindowController extends DefaultFormDialogController<Crafti
     if (!wasEmpty)
     {
       getWindow().pack();
+    }
+  }
+
+  private void updateGuildUi(Profession guild)
+  {
+    // Cleanup
+    if (_guildHistory!=null)
+    {
+      if (_tabbedPane!=null)
+      {
+        JPanel guildPanel=_guildHistory.getPanel();
+        _tabbedPane.remove(guildPanel);
+      }
+    }
+    GuildStatus guildStatus=_stats.getGuildStatus();
+    Profession current=guildStatus.getProfession();
+    // Add tab if needed
+    if (guild!=null)
+    {
+      if (current!=guild)
+      {
+        long now=System.currentTimeMillis();
+        guildStatus.initGuild(now);
+      }
+      guildStatus.setProfesssion(guild);
+      _guildHistory=new FactionHistoryPanelController(guildStatus.getFactionData());
+      JPanel guildPanel=_guildHistory.getPanel();
+      _tabbedPane.add("Guild",guildPanel);
+      _tabbedPane.setSelectedComponent(guildPanel);
+    }
+    else
+    {
+      guildStatus.setProfesssion(null);
+      guildStatus.getFactionData().reset();
     }
   }
 
@@ -149,6 +229,7 @@ public class CraftingWindowController extends DefaultFormDialogController<Crafti
     {
       controller.updateDataFromUi();
     }
+    _guildHistory.updateDataFromUi();
     _toon.saveCrafting();
     // Broadcast crafting update event...
     CharacterEvent event=new CharacterEvent(_toon,null);
@@ -173,6 +254,22 @@ public class CraftingWindowController extends DefaultFormDialogController<Crafti
     return ret;
   }
 
+  private void updateGuildCombo(Vocation vocation)
+  {
+    _guild.removeAllItems();
+    _guild.addEmptyItem("");
+    if (vocation!=null)
+    {
+      for(Profession profession : vocation.getProfessions())
+      {
+        if (profession.hasGuild())
+        {
+          _guild.addItem(profession,profession.getLabel());
+        }
+      }
+    }
+  }
+
   private void disposeProfessionPanels()
   {
     for(ProfessionPanelController controller : _panels.values())
@@ -194,6 +291,22 @@ public class CraftingWindowController extends DefaultFormDialogController<Crafti
       disposeProfessionPanels();
       _panels=null;
     }
+    if (_vocation!=null)
+    {
+      _vocation.dispose();
+      _vocation=null;
+    }
+    if (_guild!=null)
+    {
+      _guild.dispose();
+      _guild=null;
+    }
+    if (_guildHistory!=null)
+    {
+      _guildHistory.dispose();
+      _guildHistory=null;
+    }
+    _tabbedPane=null;
     _stats=null;
     _toon=null;
   }
