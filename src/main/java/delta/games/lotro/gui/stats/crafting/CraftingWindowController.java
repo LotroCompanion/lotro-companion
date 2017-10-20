@@ -195,7 +195,7 @@ public class CraftingWindowController extends DefaultFormDialogController<Crafti
         long now=System.currentTimeMillis();
         guildStatus.initGuild(now);
       }
-      guildStatus.setProfesssion(guild);
+      guildStatus.setProfession(guild);
       _guildHistory=new FactionHistoryPanelController(guildStatus.getFactionData());
       JPanel guildPanel=_guildHistory.getPanel();
       _tabbedPane.add("Guild",guildPanel);
@@ -203,7 +203,7 @@ public class CraftingWindowController extends DefaultFormDialogController<Crafti
     }
     else
     {
-      guildStatus.setProfesssion(null);
+      guildStatus.setProfession(null);
       guildStatus.getFactionData().reset();
     }
   }
