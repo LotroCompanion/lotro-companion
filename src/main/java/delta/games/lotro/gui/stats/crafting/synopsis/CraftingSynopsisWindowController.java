@@ -82,6 +82,12 @@ public class CraftingSynopsisWindowController extends DefaultWindowController
   }
 
   @Override
+  public void configureWindow()
+  {
+    automaticLocationSetup();
+  }
+
+  @Override
   public String getWindowIdentifier()
   {
     return getIdentifier();
@@ -93,6 +99,7 @@ public class CraftingSynopsisWindowController extends DefaultWindowController
   @Override
   public void dispose()
   {
+    saveBoundsPreferences();
     super.dispose();
     Preferences preferences=Config.getInstance().getPreferences();
     TypedProperties props=preferences.getPreferences(CRAFTING_PREFERENCES_NAME);

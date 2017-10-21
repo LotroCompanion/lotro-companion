@@ -236,7 +236,6 @@ public class MainFrameController extends DefaultWindowController implements Acti
     {
       controller=new CraftingSynopsisWindowController();
       _windowsManager.registerWindow(controller);
-      controller.getWindow().setLocationRelativeTo(getFrame());
     }
     controller.bringToFront();
   }

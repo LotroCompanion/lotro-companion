@@ -1,6 +1,7 @@
 package delta.games.lotro.gui.stats.crafting.synopsis;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -131,6 +132,7 @@ public class CraftingSynopsisPanelController implements CharacterEventListener
     // Table
     JTable table=_tableController.getTable();
     JScrollPane scroll=GuiFactory.buildScrollPane(table);
+    scroll.setPreferredSize(new Dimension(850,400));
     panel.add(scroll,BorderLayout.CENTER);
     return panel;
   }
