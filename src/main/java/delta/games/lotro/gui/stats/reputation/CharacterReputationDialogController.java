@@ -28,6 +28,7 @@ import delta.games.lotro.character.events.CharacterEventType;
 import delta.games.lotro.character.events.CharacterEventsManager;
 import delta.games.lotro.character.reputation.FactionData;
 import delta.games.lotro.character.reputation.ReputationData;
+import delta.games.lotro.gui.stats.reputation.form.FactionEditionDialogController;
 import delta.games.lotro.lore.reputation.Faction;
 import delta.games.lotro.lore.reputation.FactionLevel;
 import delta.games.lotro.lore.reputation.FactionsRegistry;
@@ -128,6 +129,7 @@ public class CharacterReputationDialogController extends DefaultFormDialogContro
     // Factions
     GridBagConstraints cLabel=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
     GridBagConstraints cBar=new GridBagConstraints(1,0,1,1,1.0,0,GridBagConstraints.EAST,GridBagConstraints.HORIZONTAL,new Insets(0,5,0,5),0,0);
+    GridBagConstraints cEdit=new GridBagConstraints(2,0,1,1,0,0,GridBagConstraints.EAST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
 
     int y=0;
     for(Faction faction : factions)
@@ -155,6 +157,11 @@ public class CharacterReputationDialogController extends DefaultFormDialogContro
       barButtonsPanel.add(plus);
       cBar.gridy=y;
       panel.add(barButtonsPanel,cBar);
+      // - button edit
+      JButton edit=editionController.getEditButton();
+      edit.addActionListener(this);
+      cEdit.gridy=y;
+      panel.add(edit,cEdit);
       y++;
     }
     JPanel gluePanel=GuiFactory.buildPanel(new BorderLayout());
@@ -192,6 +199,16 @@ public class CharacterReputationDialogController extends DefaultFormDialogContro
       {
         Faction faction=editor.getFaction();
         _data.updateFaction(faction,true);
+        updateFactionDisplay(editor);
+        _deedsDisplay.update();
+        _rewardsDisplay.update();
+      }
+      else if (source==editor.getEditButton())
+      {
+        Faction faction=editor.getFaction();
+        FactionData status=_data.getOrCreateFactionStat(faction);
+        FactionEditionDialogController edit=new FactionEditionDialogController(this,status);
+        edit.show(true);
         updateFactionDisplay(editor);
         _deedsDisplay.update();
         _rewardsDisplay.update();

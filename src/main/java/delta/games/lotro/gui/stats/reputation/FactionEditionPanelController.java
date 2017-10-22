@@ -22,6 +22,7 @@ public class FactionEditionPanelController
   private JProgressBar _bar;
   private JButton _minus;
   private JButton _plus;
+  private JButton _edit;
 
   /**
    * Constructor.
@@ -45,6 +46,7 @@ public class FactionEditionPanelController
     // Buttons
     _minus=GuiFactory.buildIconButton("/resources/gui/icons/button_minus.png");
     _plus=GuiFactory.buildIconButton("/resources/gui/icons/button_plus.png");
+    _edit=GuiFactory.buildButton("Edit...");
   }
 
   /**
@@ -93,6 +95,15 @@ public class FactionEditionPanelController
   }
 
   /**
+   * Get the edit button.
+   * @return the edit button.
+   */
+  public JButton getEditButton()
+  {
+    return _edit;
+  }
+
+  /**
    * Set the faction level.
    * @param level Level to set.
    */
@@ -119,5 +130,8 @@ public class FactionEditionPanelController
     _faction=null;
     _label=null;
     _bar=null;
+    _plus=null;
+    _minus=null;
+    _edit=null;
   }
 }
