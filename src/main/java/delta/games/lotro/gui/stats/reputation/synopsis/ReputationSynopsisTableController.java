@@ -26,8 +26,8 @@ import delta.common.ui.swing.tables.TableColumnController;
 import delta.common.ui.swing.tables.TableColumnsManager;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharacterSummary;
-import delta.games.lotro.character.reputation.FactionData;
-import delta.games.lotro.character.reputation.ReputationData;
+import delta.games.lotro.character.reputation.FactionStatus;
+import delta.games.lotro.character.reputation.ReputationStatus;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.lore.reputation.Faction;
@@ -122,8 +122,8 @@ public class ReputationSynopsisTableController
     {
       public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
       {
-        FactionData data=(FactionData)value;
-        configureFactionLabel(label,data);
+        FactionStatus status=(FactionStatus)value;
+        configureFactionLabel(label,status);
         return label;
       }
     };
@@ -142,19 +142,19 @@ public class ReputationSynopsisTableController
     return renderer;
   }
 
-  private TableColumnController<Faction,FactionData> buildCharacterColumn(CharacterFile character)
+  private TableColumnController<Faction,FactionStatus> buildCharacterColumn(CharacterFile character)
   {
     final CharacterFile toon=character;
-    CellDataProvider<Faction,FactionData> cell=new CellDataProvider<Faction,FactionData>()
+    CellDataProvider<Faction,FactionStatus> cell=new CellDataProvider<Faction,FactionStatus>()
     {
-      public FactionData getData(Faction item)
+      public FactionStatus getData(Faction item)
       {
-        ReputationData data=toon.getReputation();
-        return data.getOrCreateFactionStat(item);
+        ReputationStatus status=toon.getReputation();
+        return status.getOrCreateFactionStat(item);
       }
     };
     String id=character.getIdentifier();
-    TableColumnController<Faction,FactionData> column=new TableColumnController<Faction,FactionData>(id,"Faction",FactionData.class,cell);
+    TableColumnController<Faction,FactionStatus> column=new TableColumnController<Faction,FactionStatus>(id,"Faction",FactionStatus.class,cell);
 
     // Cell renderer
     TableCellRenderer renderer=buildStatCellRenderer();
@@ -169,9 +169,9 @@ public class ReputationSynopsisTableController
 
     // Comparator
     final FactionLevelComparator factionLevelComparator=new FactionLevelComparator();
-    Comparator<FactionData> statsComparator=new Comparator<FactionData>()
+    Comparator<FactionStatus> statsComparator=new Comparator<FactionStatus>()
     {
-      public int compare(FactionData data1, FactionData data2)
+      public int compare(FactionStatus data1, FactionStatus data2)
       {
         return factionLevelComparator.compare(data1.getFactionLevel(),data2.getFactionLevel());
       }
@@ -201,7 +201,7 @@ public class ReputationSynopsisTableController
 
   private void addToon(CharacterFile toon)
   {
-    TableColumnController<Faction,FactionData> column=buildCharacterColumn(toon);
+    TableColumnController<Faction,FactionStatus> column=buildCharacterColumn(toon);
     _table.addColumnController(column);
   }
 
@@ -298,14 +298,14 @@ public class ReputationSynopsisTableController
     return ret;
   }
 
-  private static void configureFactionLabel(JLabel label, FactionData factionData)
+  private static void configureFactionLabel(JLabel label, FactionStatus factionStatus)
   {
     Color backgroundColor=null;
     String text="";
-    if (factionData!=null)
+    if (factionStatus!=null)
     {
-      FactionLevel level=factionData.getFactionLevel();
-      backgroundColor=getColorForFactionLevel(factionData.getFaction(),level);
+      FactionLevel level=factionStatus.getFactionLevel();
+      backgroundColor=getColorForFactionLevel(factionStatus.getFaction(),level);
       text=level.getName();
     }
     label.setForeground(Color.BLACK);

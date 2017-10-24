@@ -10,9 +10,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
-import delta.games.lotro.character.reputation.ReputationData;
+import delta.games.lotro.character.reputation.ReputationStatus;
 import delta.games.lotro.character.reputation.ReputationDeedStatus;
-import delta.games.lotro.character.reputation.ReputationDeedsData;
+import delta.games.lotro.character.reputation.ReputationDeedsStatus;
 import delta.games.lotro.lore.reputation.FactionsRegistry;
 import delta.games.lotro.lore.reputation.ReputationDeed;
 
@@ -24,15 +24,15 @@ public class ReputationDeedsDisplayController
 {
   private JPanel _panel;
   private List<JLabel> _countLabels;
-  private ReputationData _reputation;
+  private ReputationStatus _reputation;
 
   /**
    * Constructor.
-   * @param reputationData Reputation to use.
+   * @param reputationStatus Reputation to use.
    */
-  public ReputationDeedsDisplayController(ReputationData reputationData)
+  public ReputationDeedsDisplayController(ReputationStatus reputationStatus)
   {
-    _reputation=reputationData;
+    _reputation=reputationStatus;
     _countLabels=new ArrayList<JLabel>();
     _panel=buildPanel();
   }
@@ -77,8 +77,8 @@ public class ReputationDeedsDisplayController
   public void update()
   {
     _reputation.update();
-    ReputationDeedsData deedsStatus=_reputation.getDeedsStatus();
-    List<ReputationDeedStatus> deedStatuses=deedsStatus.getStatus();
+    ReputationDeedsStatus deedsStatus=_reputation.getDeedsStatus();
+    List<ReputationDeedStatus> deedStatuses=deedsStatus.getAllDeedStatuses();
     int index=0;
     for(ReputationDeedStatus deedStatus : deedStatuses)
     {

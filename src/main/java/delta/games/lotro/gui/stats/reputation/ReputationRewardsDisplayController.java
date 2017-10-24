@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.icons.IconsManager;
-import delta.games.lotro.character.reputation.ReputationData;
+import delta.games.lotro.character.reputation.ReputationStatus;
 
 /**
  * Controller for a panel that displays the rewards from reputation.
@@ -18,15 +18,15 @@ public class ReputationRewardsDisplayController
 {
   private JPanel _panel;
   private JLabel _lpLabel;
-  private ReputationData _reputation;
+  private ReputationStatus _reputation;
 
   /**
    * Constructor.
-   * @param reputationData Reputation to use.
+   * @param reputationStatus Reputation to use.
    */
-  public ReputationRewardsDisplayController(ReputationData reputationData)
+  public ReputationRewardsDisplayController(ReputationStatus reputationStatus)
   {
-    _reputation=reputationData;
+    _reputation=reputationStatus;
     _panel=buildPanel();
   }
 

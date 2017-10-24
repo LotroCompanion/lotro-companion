@@ -10,7 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
-import delta.games.lotro.character.reputation.FactionData;
+import delta.games.lotro.character.reputation.FactionStatus;
 import delta.games.lotro.lore.reputation.FactionLevel;
 
 /**
@@ -24,13 +24,13 @@ public class FactionHistoryChartPanelController
   private JLabel _label;
   private FactionHistoryChartController _history;
   // Data
-  private FactionData _stats;
+  private FactionStatus _stats;
 
   /**
    * Constructor.
    * @param stats Faction stats to display.
    */
-  public FactionHistoryChartPanelController(FactionData stats)
+  public FactionHistoryChartPanelController(FactionStatus stats)
   {
     _stats=stats;
   }

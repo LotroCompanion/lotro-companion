@@ -26,8 +26,8 @@ import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.events.CharacterEvent;
 import delta.games.lotro.character.events.CharacterEventType;
 import delta.games.lotro.character.events.CharacterEventsManager;
-import delta.games.lotro.character.reputation.FactionData;
-import delta.games.lotro.character.reputation.ReputationData;
+import delta.games.lotro.character.reputation.FactionStatus;
+import delta.games.lotro.character.reputation.ReputationStatus;
 import delta.games.lotro.gui.stats.reputation.form.FactionEditionDialogController;
 import delta.games.lotro.lore.reputation.Faction;
 import delta.games.lotro.lore.reputation.FactionLevel;
@@ -37,7 +37,7 @@ import delta.games.lotro.lore.reputation.FactionsRegistry;
  * Controller for a "character reputation" dialog.
  * @author DAM
  */
-public class CharacterReputationDialogController extends DefaultFormDialogController<ReputationData> implements ActionListener
+public class CharacterReputationDialogController extends DefaultFormDialogController<ReputationStatus> implements ActionListener
 {
   // Data
   private CharacterFile _toon;
@@ -206,7 +206,7 @@ public class CharacterReputationDialogController extends DefaultFormDialogContro
       else if (source==editor.getEditButton())
       {
         Faction faction=editor.getFaction();
-        FactionData status=_data.getOrCreateFactionStat(faction);
+        FactionStatus status=_data.getOrCreateFactionStat(faction);
         FactionEditionDialogController edit=new FactionEditionDialogController(this,status);
         edit.show(true);
         updateFactionDisplay(editor);
@@ -220,10 +220,10 @@ public class CharacterReputationDialogController extends DefaultFormDialogContro
   {
     Faction faction=editor.getFaction();
     FactionLevel current;
-    FactionData factionData=_data.getFactionStat(faction);
-    if (factionData!=null)
+    FactionStatus factionStatus=_data.getFactionStatus(faction);
+    if (factionStatus!=null)
     {
-      current=factionData.getFactionLevel();
+      current=factionStatus.getFactionLevel();
     }
     else
     {

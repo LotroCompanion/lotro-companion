@@ -7,7 +7,7 @@ import java.awt.Insets;
 import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
-import delta.games.lotro.character.reputation.FactionData;
+import delta.games.lotro.character.reputation.FactionStatus;
 
 /**
  * Controller for a faction display panel.
@@ -30,7 +30,7 @@ public class FactionHistoryPanelController
    * Constructor.
    * @param status Faction status to display.
    */
-  public FactionHistoryPanelController(FactionData status)
+  public FactionHistoryPanelController(FactionStatus status)
   {
     _chartController=new FactionHistoryChartPanelController(status);
     _editionController=new FactionStatusEditionPanelController(status,_chartController);

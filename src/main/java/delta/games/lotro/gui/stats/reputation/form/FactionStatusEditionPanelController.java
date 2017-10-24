@@ -18,7 +18,7 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.checkbox.CheckboxController;
 import delta.common.ui.swing.text.dates.DateEditionController;
 import delta.common.ui.swing.text.dates.DateListener;
-import delta.games.lotro.character.reputation.FactionData;
+import delta.games.lotro.character.reputation.FactionStatus;
 import delta.games.lotro.character.reputation.FactionLevelStatus;
 import delta.games.lotro.lore.reputation.Faction;
 import delta.games.lotro.lore.reputation.FactionLevel;
@@ -30,7 +30,7 @@ import delta.games.lotro.lore.reputation.FactionLevel;
 public class FactionStatusEditionPanelController
 {
   // Data
-  private FactionData _status;
+  private FactionStatus _status;
   // Controllers
   private List<FactionLevelEditionGadgets> _gadgets;
   private FactionHistoryChartPanelController _chart;
@@ -43,7 +43,7 @@ public class FactionStatusEditionPanelController
    * @param status Status to edit.
    * @param chart Associated chart.
    */
-  public FactionStatusEditionPanelController(FactionData status, FactionHistoryChartPanelController chart)
+  public FactionStatusEditionPanelController(FactionStatus status, FactionHistoryChartPanelController chart)
   {
     _status=status;
     _chart=chart;

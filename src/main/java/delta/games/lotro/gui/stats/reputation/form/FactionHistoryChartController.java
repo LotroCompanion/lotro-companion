@@ -27,7 +27,7 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
 import delta.common.ui.swing.GuiFactory;
-import delta.games.lotro.character.reputation.FactionData;
+import delta.games.lotro.character.reputation.FactionStatus;
 import delta.games.lotro.character.reputation.FactionLevelStatus;
 import delta.games.lotro.lore.reputation.Faction;
 import delta.games.lotro.lore.reputation.FactionLevel;
@@ -41,7 +41,7 @@ public class FactionHistoryChartController
 {
   private JPanel _panel;
   private JFreeChart _chart;
-  private FactionData _stats;
+  private FactionStatus _stats;
   private boolean _showTitle;
   private XYSeriesCollection _data;
 
@@ -50,7 +50,7 @@ public class FactionHistoryChartController
    * @param stats Data to display.
    * @param showTitle Show title or not.
    */
-  public FactionHistoryChartController(FactionData stats, boolean showTitle)
+  public FactionHistoryChartController(FactionStatus stats, boolean showTitle)
   {
     _stats=stats;
     _showTitle=showTitle;

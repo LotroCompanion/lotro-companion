@@ -26,7 +26,7 @@ import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.crafting.CraftingStatus;
 import delta.games.lotro.character.crafting.GuildStatus;
 import delta.games.lotro.character.crafting.ProfessionStatus;
-import delta.games.lotro.character.reputation.FactionData;
+import delta.games.lotro.character.reputation.FactionStatus;
 import delta.games.lotro.crafting.CraftingLevel;
 import delta.games.lotro.crafting.CraftingLevelTier;
 import delta.games.lotro.crafting.Profession;
@@ -115,7 +115,7 @@ public class CraftingSynopsisTableController
     TableColumnController<CraftingSynopsisItem,CraftingLevel> masteryColumn=buildCraftingTierColumn(true);
     table.addColumnController(masteryColumn);
     // Guild
-    TableColumnController<CraftingSynopsisItem,FactionData> guildColumn=buildGuildColumn();
+    TableColumnController<CraftingSynopsisItem,FactionStatus> guildColumn=buildGuildColumn();
     table.addColumnController(guildColumn);
     return table;
   }
@@ -289,18 +289,18 @@ public class CraftingSynopsisTableController
     return panel;
   }
 
-  private TableColumnController<CraftingSynopsisItem,FactionData> buildGuildColumn()
+  private TableColumnController<CraftingSynopsisItem,FactionStatus> buildGuildColumn()
   {
-    CellDataProvider<CraftingSynopsisItem,FactionData> cell=new CellDataProvider<CraftingSynopsisItem,FactionData>()
+    CellDataProvider<CraftingSynopsisItem,FactionStatus> cell=new CellDataProvider<CraftingSynopsisItem,FactionStatus>()
     {
-      public FactionData getData(CraftingSynopsisItem item)
+      public FactionStatus getData(CraftingSynopsisItem item)
       {
         return item.getGuildFaction();
       }
     };
     String columnName="Guild";
     String id=columnName;
-    TableColumnController<CraftingSynopsisItem,FactionData> column=new TableColumnController<CraftingSynopsisItem,FactionData>(id,columnName,FactionData.class,cell);
+    TableColumnController<CraftingSynopsisItem,FactionStatus> column=new TableColumnController<CraftingSynopsisItem,FactionStatus>(id,columnName,FactionStatus.class,cell);
     // Header cell renderer
     JPanel panel=buildGuildPanel();
     TableCellRenderer headerRenderer=buildSimpleCellRenderer(panel);
@@ -316,9 +316,9 @@ public class CraftingSynopsisTableController
 
     // Comparator
     final FactionLevelComparator factionLevelComparator=new FactionLevelComparator();
-    Comparator<FactionData> statsComparator=new Comparator<FactionData>()
+    Comparator<FactionStatus> statsComparator=new Comparator<FactionStatus>()
     {
-      public int compare(FactionData data1, FactionData data2)
+      public int compare(FactionStatus data1, FactionStatus data2)
       {
         return factionLevelComparator.compare(data1.getFactionLevel(),data2.getFactionLevel());
       }

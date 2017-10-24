@@ -5,29 +5,29 @@ import javax.swing.JPanel;
 
 import delta.common.ui.swing.windows.DefaultFormDialogController;
 import delta.common.ui.swing.windows.WindowController;
-import delta.games.lotro.character.reputation.FactionData;
+import delta.games.lotro.character.reputation.FactionStatus;
 import delta.games.lotro.lore.reputation.Faction;
 
 /**
  * Controller for a "faction edition" dialog.
  * @author DAM
  */
-public class FactionEditionDialogController extends DefaultFormDialogController<FactionData>
+public class FactionEditionDialogController extends DefaultFormDialogController<FactionStatus>
 {
   // UI
   private FactionHistoryPanelController _edition;
   // Data
-  FactionData _edited;
+  FactionStatus _edited;
 
   /**
    * Constructor.
    * @param parentController Parent controller.
    * @param status Data to edit.
    */
-  public FactionEditionDialogController(WindowController parentController, FactionData status)
+  public FactionEditionDialogController(WindowController parentController, FactionStatus status)
   {
     super(parentController,status);
-    _edited=new FactionData(status);
+    _edited=new FactionStatus(status);
     _edition=new FactionHistoryPanelController(_edited); 
   }
 

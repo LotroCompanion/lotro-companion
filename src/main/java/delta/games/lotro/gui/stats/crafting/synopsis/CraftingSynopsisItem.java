@@ -3,7 +3,7 @@ package delta.games.lotro.gui.stats.crafting.synopsis;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.crafting.GuildStatus;
 import delta.games.lotro.character.crafting.ProfessionStatus;
-import delta.games.lotro.character.reputation.FactionData;
+import delta.games.lotro.character.reputation.FactionStatus;
 import delta.games.lotro.crafting.CraftingLevel;
 import delta.games.lotro.crafting.Profession;
 
@@ -60,14 +60,14 @@ public class CraftingSynopsisItem
   }
 
   /**
-   * Get the guild faction data.
-   * @return A faction data or <code>null</code>.
+   * Get the guild faction status.
+   * @return A faction status or <code>null</code>.
    */
-  public FactionData getGuildFaction()
+  public FactionStatus getGuildFaction()
   {
     if (_guildStatus!=null)
     {
-      return _guildStatus.getFactionData();
+      return _guildStatus.getFactionStatus();
     }
     return null;
   }
