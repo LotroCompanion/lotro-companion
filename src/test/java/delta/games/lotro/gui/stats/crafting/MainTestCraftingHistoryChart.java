@@ -1,5 +1,6 @@
 package delta.games.lotro.gui.stats.crafting;
 
+import java.util.List;
 import java.util.Locale;
 
 import javax.swing.JFrame;
@@ -31,12 +32,12 @@ public class MainTestCraftingHistoryChart
       CharacterFile toon=utils.getMainToon();
       CraftingStatus stats=toon.getCraftingStatus();
       stats.dump(System.out);
-      Profession[] professions=stats.getProfessions();
+      List<Profession> professions=stats.getProfessions();
       for(Profession profession : professions)
       {
         ProfessionStatus stat=stats.getProfessionStatus(profession);
         JFrame f=new JFrame();
-        ProfessionPanelController controller=new ProfessionPanelController(stat);
+        ProfessionStatusPanelController controller=new ProfessionStatusPanelController(stat);
         JPanel panel=controller.getPanel();
         f.getContentPane().add(panel);
         f.pack();

@@ -63,7 +63,7 @@ public class CraftingLevelTierEditionGadgets
   /**
    * Update data from UI contents.
    */
-  public void updateDatafromUi()
+  public void updateDataFromUi()
   {
     // XP
     Integer acquiredXp=_xp.getValue();
@@ -74,9 +74,9 @@ public class CraftingLevelTierEditionGadgets
   }
 
   /**
-   * Update UI.
+   * Update UI from data.
    */
-  public void updateUi()
+  public void updateUiFromData()
   {
     // XP
     int xp=_status.getAcquiredXP();

@@ -71,7 +71,7 @@ public class ProfessionStatusEditionPanelController
     panel.add(topPanel,BorderLayout.NORTH);
     JPanel statusEditionPanel=buildStatusEditionPanel();
     panel.add(statusEditionPanel,BorderLayout.CENTER);
-    updateUi();
+    updateUiFromData();
     return panel;
   }
 
@@ -205,7 +205,7 @@ public class ProfessionStatusEditionPanelController
       }
       index++;
     }
-    updateUi();
+    updateUiFromData();
   }
 
   private void handleDateChange(DateEditionController source, long completionDate)
@@ -270,27 +270,31 @@ public class ProfessionStatusEditionPanelController
     _updateTimer.restart();
   }
 
-  private void updateUi()
+  /**
+   * Update UI from data.
+   */
+  public void updateUiFromData()
   {
     int nbTiers=_proficiencyGadgets.size();
     for(int i=0;i<nbTiers;i++)
     {
-      _proficiencyGadgets.get(i).updateUi();
-      _masteryGadgets.get(i).updateUi();
+      _proficiencyGadgets.get(i).updateUiFromData();
+      _masteryGadgets.get(i).updateUiFromData();
     }
     _validityDate.setDate(_status.getValidityDate());
+    triggerChartUpdateTimer();
   }
 
   /**
    * Update data from UI contents.
    */
-  public void updateDatafromUi()
+  public void updateDataFromUi()
   {
     int nbTiers=_proficiencyGadgets.size();
     for(int i=0;i<nbTiers;i++)
     {
-      _proficiencyGadgets.get(i).updateDatafromUi();
-      _masteryGadgets.get(i).updateDatafromUi();
+      _proficiencyGadgets.get(i).updateDataFromUi();
+      _masteryGadgets.get(i).updateDataFromUi();
     }
   }
 

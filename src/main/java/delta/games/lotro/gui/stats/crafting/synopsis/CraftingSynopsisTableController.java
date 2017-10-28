@@ -78,7 +78,7 @@ public class CraftingSynopsisTableController
     for(CharacterFile toon : _toons)
     {
       CraftingStatus craftingStatus=toon.getCraftingStatus();
-      Profession[] professions=craftingStatus.getProfessions();
+      List<Profession> professions=craftingStatus.getProfessions();
       GuildStatus guildStatus=craftingStatus.getGuildStatus();
       Profession guild=guildStatus.getProfession();
       for(Profession profession : professions)

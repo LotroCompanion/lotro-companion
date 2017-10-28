@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.stats.crafting;
+package delta.games.lotro.gui.stats.reputation.form;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -7,33 +7,33 @@ import java.awt.Insets;
 import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
-import delta.games.lotro.character.crafting.ProfessionStatus;
+import delta.games.lotro.character.reputation.FactionStatus;
 
 /**
- * Controller for a profession display panel.
+ * Controller for a faction display panel.
  * It includes:
  * <ul>
  * <li>an edition panel,
- * <li>a display of profession history as a chart.
+ * <li>a chart to display the history of a faction.
  * </ul>
  * @author DAM
  */
-public class ProfessionPanelController
+public class FactionStatusPanelController
 {
   // Controllers
-  private ProfessionStatusEditionPanelController _editionController;
-  private ProfessionHistoryChartPanelController _chartController;
+  private FactionStatusEditionPanelController _editionController;
+  private FactionHistoryChartPanelController _chartController;
   // UI
   private JPanel _panel;
 
   /**
    * Constructor.
-   * @param status Profession status to display.
+   * @param status Faction status to display.
    */
-  public ProfessionPanelController(ProfessionStatus status)
+  public FactionStatusPanelController(FactionStatus status)
   {
-    _chartController=new ProfessionHistoryChartPanelController(status);
-    _editionController=new ProfessionStatusEditionPanelController(status,_chartController);
+    _chartController=new FactionHistoryChartPanelController(status);
+    _editionController=new FactionStatusEditionPanelController(status,_chartController);
   }
 
   /**

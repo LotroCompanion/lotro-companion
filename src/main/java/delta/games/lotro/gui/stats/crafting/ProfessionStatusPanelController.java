@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.stats.reputation.form;
+package delta.games.lotro.gui.stats.crafting;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -7,33 +7,33 @@ import java.awt.Insets;
 import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
-import delta.games.lotro.character.reputation.FactionStatus;
+import delta.games.lotro.character.crafting.ProfessionStatus;
 
 /**
- * Controller for a faction display panel.
+ * Controller for a panel to display a profession status.
  * It includes:
  * <ul>
  * <li>an edition panel,
- * <li>a display of faction history as a chart.
+ * <li>a chart that displays the profession history.
  * </ul>
  * @author DAM
  */
-public class FactionHistoryPanelController
+public class ProfessionStatusPanelController
 {
   // Controllers
-  private FactionStatusEditionPanelController _editionController;
-  private FactionHistoryChartPanelController _chartController;
+  private ProfessionStatusEditionPanelController _editionController;
+  private ProfessionHistoryChartPanelController _chartController;
   // UI
   private JPanel _panel;
 
   /**
    * Constructor.
-   * @param status Faction status to display.
+   * @param status Profession status to display.
    */
-  public FactionHistoryPanelController(FactionStatus status)
+  public ProfessionStatusPanelController(ProfessionStatus status)
   {
-    _chartController=new FactionHistoryChartPanelController(status);
-    _editionController=new FactionStatusEditionPanelController(status,_chartController);
+    _chartController=new ProfessionHistoryChartPanelController(status);
+    _editionController=new ProfessionStatusEditionPanelController(status,_chartController);
   }
 
   /**
@@ -64,7 +64,7 @@ public class FactionHistoryPanelController
    */
   public void updateDataFromUi()
   {
-    _editionController.updateDatafromUi();
+    _editionController.updateDataFromUi();
   }
 
   /**
@@ -72,11 +72,13 @@ public class FactionHistoryPanelController
    */
   public void dispose()
   {
+    // UI
     if (_panel!=null)
     {
       _panel.removeAll();
       _panel=null;
     }
+    // Controllers
     if (_editionController!=null)
     {
       _editionController.dispose();
