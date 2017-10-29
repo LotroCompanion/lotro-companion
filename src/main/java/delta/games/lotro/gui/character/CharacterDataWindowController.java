@@ -9,14 +9,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JFrame;
+import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
 import delta.common.ui.swing.GuiFactory;
-import delta.common.ui.swing.OKCancelPanelController;
-import delta.common.ui.swing.windows.DefaultWindowController;
+import delta.common.ui.swing.windows.DefaultFormDialogController;
+import delta.common.ui.swing.windows.WindowController;
 import delta.common.ui.swing.windows.WindowsManager;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.character.CharacterData;
@@ -41,7 +40,7 @@ import delta.games.lotro.gui.character.virtues.VirtuesEditionDialogController;
  * Controller for a "character data" window.
  * @author DAM
  */
-public class CharacterDataWindowController extends DefaultWindowController implements CharacterEventListener
+public class CharacterDataWindowController extends DefaultFormDialogController<CharacterData> implements CharacterEventListener
 {
   private CharacterMainAttrsEditionPanelController _attrsController;
   private CharacterStatsSummaryPanelController _statsController;
@@ -49,20 +48,19 @@ public class CharacterDataWindowController extends DefaultWindowController imple
   private VirtuesDisplayPanelController _virtuesController;
   private BuffEditionPanelController _buffsController;
   private TomesEditionPanelController _tomesController;
-  private OKCancelPanelController _okCancelController;
   private CharacterFile _toonFile;
-  private CharacterData _toon;
   private WindowsManager _windowsManager;
 
   /**
    * Constructor.
+   * @param parent Parent window controller.
    * @param toon Parent toon.
    * @param toonData Managed toon.
    */
-  public CharacterDataWindowController(CharacterFile toon, CharacterData toonData)
+  public CharacterDataWindowController(WindowController parent, CharacterFile toon, CharacterData toonData)
   {
+    super(parent,toonData);
     _toonFile=toon;
-    _toon=toonData;
     _windowsManager=new WindowsManager();
     _attrsController=new CharacterMainAttrsEditionPanelController(toon,toonData);
     _attrsController.set();
@@ -72,7 +70,6 @@ public class CharacterDataWindowController extends DefaultWindowController imple
     _virtuesController.setVirtues(toonData.getVirtues());
     _buffsController=new BuffEditionPanelController(this,toonData);
     _tomesController=new TomesEditionPanelController(toonData);
-    _okCancelController=new OKCancelPanelController();
   }
 
   /**
@@ -87,37 +84,7 @@ public class CharacterDataWindowController extends DefaultWindowController imple
   }
 
   @Override
-  protected JComponent buildContents()
-  {
-    JPanel panel=GuiFactory.buildPanel(new BorderLayout());
-    JPanel editionPanel=buildEditionPanel();
-    panel.add(editionPanel,BorderLayout.CENTER);
-    JPanel okCancelPanel=_okCancelController.getPanel();
-    panel.add(okCancelPanel,BorderLayout.SOUTH);
-    _okCancelController.getOKButton().setText("OK");
-
-    ActionListener al=new ActionListener()
-    {
-      public void actionPerformed(ActionEvent event)
-      {
-        String action=event.getActionCommand();
-        if (OKCancelPanelController.OK_COMMAND.equals(action))
-        {
-          ok();
-        }
-        else if (OKCancelPanelController.CANCEL_COMMAND.equals(action))
-        {
-          cancel();
-        }
-      }
-    };
-    _okCancelController.getOKButton().addActionListener(al);
-    _okCancelController.getCancelButton().addActionListener(al);
-
-    return panel;
-  }
-
-  private JPanel buildEditionPanel()
+  protected JPanel buildFormPanel()
   {
     // North: attributes panel
     JPanel attrsPanel=_attrsController.getPanel();
@@ -246,13 +213,13 @@ public class CharacterDataWindowController extends DefaultWindowController imple
     {
       public void actionPerformed(ActionEvent e)
       {
-        VirtuesSet virtues=VirtuesEditionDialogController.editVirtues(CharacterDataWindowController.this,_toon.getVirtues());
+        VirtuesSet virtues=VirtuesEditionDialogController.editVirtues(CharacterDataWindowController.this,_data.getVirtues());
         if (virtues!=null)
         {
-          _toon.getVirtues().copyFrom(virtues);
+          _data.getVirtues().copyFrom(virtues);
           _virtuesController.setVirtues(virtues);
           // Broadcast virtues update event...
-          CharacterEvent event=new CharacterEvent(null,_toon);
+          CharacterEvent event=new CharacterEvent(null,_data);
           CharacterEventsManager.invokeEvent(CharacterEventType.CHARACTER_DATA_UPDATED,event);
         }
       }
@@ -262,31 +229,25 @@ public class CharacterDataWindowController extends DefaultWindowController imple
   }
 
   @Override
-  protected JFrame build()
+  public void configureWindow()
   {
-    JFrame frame=super.build();
+    JDialog dialog=getDialog();
     // Title
-    String name=_toon.getName();
-    String serverName=_toon.getServer();
+    String name=_data.getName();
+    String serverName=_data.getServer();
     String title="Character: "+name+" @ "+serverName;
-    frame.setTitle(title);
+    dialog.setTitle(title);
     // Set values
-    setValues();
-    // Size
-    frame.pack();
-    frame.setResizable(false);
-    return frame;
-  }
-
-  private void setValues()
-  {
     _statsController.update();
+    // Size
+    dialog.pack();
+    dialog.setResizable(false);
   }
 
   @Override
   public String getWindowIdentifier()
   {
-    String id=getIdentifier(_toon);
+    String id=getIdentifier(_data);
     return id;
   }
 
@@ -300,7 +261,7 @@ public class CharacterDataWindowController extends DefaultWindowController imple
     AllEssencesEditionWindowController editionController=(AllEssencesEditionWindowController)_windowsManager.getWindow(AllEssencesEditionWindowController.IDENTIFIER);
     if (editionController==null)
     {
-      editionController=new AllEssencesEditionWindowController(this,_toon);
+      editionController=new AllEssencesEditionWindowController(this,_data);
       _windowsManager.registerWindow(editionController);
       editionController.getWindow().setLocationRelativeTo(this.getWindow());
     }
@@ -312,7 +273,7 @@ public class CharacterDataWindowController extends DefaultWindowController imple
     EssencesSummaryWindowController summaryController=(EssencesSummaryWindowController)_windowsManager.getWindow(EssencesSummaryWindowController.IDENTIFIER);
     if (summaryController==null)
     {
-      summaryController=new EssencesSummaryWindowController(this,_toon);
+      summaryController=new EssencesSummaryWindowController(this,_data);
       _windowsManager.registerWindow(summaryController);
       summaryController.getWindow().setLocationRelativeTo(this.getWindow());
     }
@@ -324,12 +285,12 @@ public class CharacterDataWindowController extends DefaultWindowController imple
     if (type==CharacterEventType.CHARACTER_DATA_UPDATED)
     {
       CharacterData data=event.getToonData();
-      if (data==_toon)
+      if (data==_data)
       {
         // Compute new stats
         CharacterStatsComputer computer=new CharacterStatsComputer();
         BasicStatsSet stats=computer.getStats(data);
-        BasicStatsSet toonStats=_toon.getStats();
+        BasicStatsSet toonStats=_data.getStats();
         toonStats.clear();
         toonStats.setStats(stats);
         // Update stats display
@@ -349,15 +310,15 @@ public class CharacterDataWindowController extends DefaultWindowController imple
     }
   }
 
-  private void ok()
+  @Override
+  public void okImpl()
   {
     _attrsController.get();
-    boolean ok=CharacterDataIO.saveInfo(_toon.getFile(),_toon);
+    boolean ok=CharacterDataIO.saveInfo(_data.getFile(),_data);
     if (ok)
     {
-      CharacterEvent event=new CharacterEvent(null,_toon);
+      CharacterEvent event=new CharacterEvent(null,_data);
       CharacterEventsManager.invokeEvent(CharacterEventType.CHARACTER_DATA_UPDATED,event);
-      dispose();
     }
     else
     {
@@ -365,16 +326,10 @@ public class CharacterDataWindowController extends DefaultWindowController imple
     }
   }
 
-  private void cancel()
-  {
-    _toon.revert();
-    dispose();
-  }
-
   @Override
-  protected void doWindowClosing()
+  public void cancelImpl()
   {
-    cancel();
+    _data.revert();
   }
 
   /**
@@ -383,13 +338,13 @@ public class CharacterDataWindowController extends DefaultWindowController imple
   @Override
   public void dispose()
   {
+    super.dispose();
     CharacterEventsManager.removeListener(this);
     if (_windowsManager!=null)
     {
       _windowsManager.disposeAll();
       _windowsManager=null;
     }
-    super.dispose();
     if (_statsController!=null)
     {
       _statsController.dispose();
@@ -399,11 +354,6 @@ public class CharacterDataWindowController extends DefaultWindowController imple
     {
       _equipmentController.dispose();
       _equipmentController=null;
-    }
-    if (_okCancelController!=null)
-    {
-      _okCancelController.dispose();
-      _okCancelController=null;
     }
     if (_buffsController!=null)
     {
@@ -415,7 +365,6 @@ public class CharacterDataWindowController extends DefaultWindowController imple
       _tomesController.dispose();
       _tomesController=null;
     }
-    _toon=null;
     if (_toonFile!=null)
     {
       _toonFile.getPreferences().saveAllPreferences();
