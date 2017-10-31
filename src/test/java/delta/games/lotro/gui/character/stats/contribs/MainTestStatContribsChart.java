@@ -15,7 +15,7 @@ import delta.games.lotro.character.stats.CharacterGenerationTools;
 import delta.games.lotro.character.stats.CharacterGeneratorGiswald;
 import delta.games.lotro.character.stats.CharacterStatsComputer;
 import delta.games.lotro.character.stats.STAT;
-import delta.games.lotro.character.stats.contribs.SourceContribution;
+import delta.games.lotro.character.stats.contribs.StatContribution;
 import delta.games.lotro.character.stats.contribs.StatsContributionsManager;
 
 /**
@@ -38,7 +38,7 @@ public class MainTestStatContribsChart
     CharacterStatsComputer statsComputer=new CharacterStatsComputer(contribs);
     BasicStatsSet stats=statsComputer.getStats(data);
     System.out.println(stats);
-    Map<STAT,List<SourceContribution>> sortedContribs=contribs.sortByStat();
+    Map<STAT,List<StatContribution>> sortedContribs=contribs.sortByStat();
     JPanel panel=GuiFactory.buildBackgroundPanel(new BorderLayout());
     JTabbedPane tabs=GuiFactory.buildTabbedPane();
     panel.add(tabs,BorderLayout.CENTER);
