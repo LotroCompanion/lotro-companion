@@ -84,8 +84,7 @@ public class VirtuesDisplayPanelController
     String virtueLabel="";
     if (virtueId!=null)
     {
-      virtueLabel=virtueId.name().toLowerCase();
-      virtueLabel=virtueLabel.substring(0,1).toUpperCase()+virtueLabel.substring(1);
+      virtueLabel=virtueId.getLabel();
     }
     _virtueLabels[index].setText(virtueLabel);
   }
