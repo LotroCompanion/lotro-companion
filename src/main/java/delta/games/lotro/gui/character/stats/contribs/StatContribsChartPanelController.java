@@ -1,7 +1,6 @@
 package delta.games.lotro.gui.character.stats.contribs;
 
 import java.text.DecimalFormat;
-import java.util.List;
 
 import javax.swing.JPanel;
 
@@ -13,6 +12,7 @@ import org.jfree.chart.plot.PiePlot;
 import org.jfree.data.general.DefaultPieDataset;
 
 import delta.games.lotro.character.stats.STAT;
+import delta.games.lotro.character.stats.contribs.ContribsByStat;
 import delta.games.lotro.character.stats.contribs.StatContribution;
 import delta.games.lotro.utils.FixedDecimalsInteger;
 
@@ -51,10 +51,10 @@ public class StatContribsChartPanelController
    * Set the contributions to display.
    * @param contribs Contributions to display.
    */
-  public void setContributions(List<StatContribution> contribs)
+  public void setContributions(ContribsByStat contribs)
   {
     _data.clear();
-    for(StatContribution contrib : contribs)
+    for(StatContribution contrib : contribs.getContribs())
     {
       String source=contrib.getSource().getLabel();
       FixedDecimalsInteger value=contrib.getValue();
