@@ -38,6 +38,7 @@ public class MainTestStatContribsChart
     BasicStatsSet stats=statsComputer.getStats(data);
     System.out.println(stats);
     Map<STAT,ContribsByStat> sortedContribs=contribs.sortByStat();
+    contribs.resolveDerivatedContributions(sortedContribs);
     JPanel panel=GuiFactory.buildBackgroundPanel(new BorderLayout());
     JTabbedPane tabs=GuiFactory.buildTabbedPane();
     panel.add(tabs,BorderLayout.CENTER);
