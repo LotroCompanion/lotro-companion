@@ -1,7 +1,6 @@
 package delta.games.lotro.gui.character.stats.contribs;
 
 import java.awt.BorderLayout;
-import java.util.Map;
 
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
@@ -37,17 +36,21 @@ public class MainTestStatContribsChart
     CharacterStatsComputer statsComputer=new CharacterStatsComputer(contribs);
     BasicStatsSet stats=statsComputer.getStats(data);
     System.out.println(stats);
-    Map<STAT,ContribsByStat> sortedContribs=contribs.sortByStat();
-    contribs.resolveDerivatedContributions(sortedContribs);
+    contribs.setResolveIndirectContributions(true);
+    contribs.compute();
     JPanel panel=GuiFactory.buildBackgroundPanel(new BorderLayout());
     JTabbedPane tabs=GuiFactory.buildTabbedPane();
     panel.add(tabs,BorderLayout.CENTER);
-    for(STAT stat : sortedContribs.keySet())
+    for(STAT stat : STAT.values())
     {
-      StatContribsChartPanelController chartController=new StatContribsChartPanelController(stat);
-      chartController.setContributions(sortedContribs.get(stat));
-      JPanel statPanel=chartController.getPanel();
-      tabs.add(stat.getName(),statPanel);
+      ContribsByStat contribsForStat=contribs.getContribs(stat);
+      if (contribsForStat!=null)
+      {
+        StatContribsChartPanelController chartController=new StatContribsChartPanelController();
+        chartController.setContributions(contribsForStat);
+        JPanel statPanel=chartController.getPanel();
+        tabs.add(stat.getName(),statPanel);
+      }
     }
     DefaultWindowController w=new DefaultWindowController();
     w.getFrame().add(panel);

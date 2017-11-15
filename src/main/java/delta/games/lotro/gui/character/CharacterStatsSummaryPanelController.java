@@ -1,5 +1,6 @@
 package delta.games.lotro.gui.character;
 
+import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -19,6 +20,7 @@ import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.character.stats.STAT;
 import delta.games.lotro.gui.character.stats.CharacterStatsWindowController;
+import delta.games.lotro.gui.character.stats.contribs.StatContribsWindowController;
 import delta.games.lotro.utils.FixedDecimalsInteger;
 
 /**
@@ -100,18 +102,32 @@ public class CharacterStatsSummaryPanelController
     GridBagConstraints c2=new GridBagConstraints(1,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(p2,c2);
 
+    // Buttons
+    JPanel buttonsPanel=GuiFactory.buildPanel(new FlowLayout());
     // Details button
     JButton details=GuiFactory.buildButton("Details...");
-    ActionListener al=new ActionListener()
+    ActionListener alDetails=new ActionListener()
     {
       public void actionPerformed(ActionEvent e)
       {
         doDetails();
       }
     };
-    details.addActionListener(al);
-    GridBagConstraints cDetails=new GridBagConstraints(1,1,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,5,0,0),0,0);
-    panel.add(details,cDetails);
+    details.addActionListener(alDetails);
+    buttonsPanel.add(details);
+    // Contribs button
+    JButton contribs=GuiFactory.buildButton("Contribs...");
+    ActionListener alContribs=new ActionListener()
+    {
+      public void actionPerformed(ActionEvent e)
+      {
+        doContribs();
+      }
+    };
+    contribs.addActionListener(alContribs);
+    buttonsPanel.add(contribs);
+    GridBagConstraints cButtons=new GridBagConstraints(1,1,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,5,0,0),0,0);
+    panel.add(buttonsPanel,cButtons);
     return panel;
   }
 
@@ -133,6 +149,25 @@ public class CharacterStatsSummaryPanelController
   {
     WindowController controller=_childControllers.getWindow(CharacterStatsWindowController.IDENTIFIER);
     return (CharacterStatsWindowController)controller;
+  }
+
+  private void doContribs()
+  {
+    StatContribsWindowController contribsController=getContribsController();
+    if (contribsController==null)
+    {
+      contribsController=new StatContribsWindowController(_parent,_toon);
+      _childControllers.registerWindow(contribsController);
+      contribsController.update();
+      contribsController.getWindow().setLocationRelativeTo(_parent.getWindow());
+    }
+    contribsController.bringToFront();
+  }
+
+  private StatContribsWindowController getContribsController()
+  {
+    WindowController controller=_childControllers.getWindow(StatContribsWindowController.IDENTIFIER);
+    return (StatContribsWindowController)controller;
   }
 
   /**
@@ -167,6 +202,11 @@ public class CharacterStatsSummaryPanelController
     if (detailsStatsController!=null)
     {
       detailsStatsController.update();
+    }
+    StatContribsWindowController contribsController=getContribsController();
+    if (contribsController!=null)
+    {
+      contribsController.update();
     }
   }
 

@@ -22,20 +22,24 @@ import delta.games.lotro.utils.FixedDecimalsInteger;
  */
 public class StatContribsChartPanelController
 {
+  // UI
   private JPanel _panel;
+  // JFreeChart data
   private DefaultPieDataset _data;
+  private JFreeChart _pieChart;
 
   /**
    * Constructor.
-   * @param stat Targeted stat.
    */
-  public StatContribsChartPanelController(STAT stat)
+  public StatContribsChartPanelController()
   {
     _data=new DefaultPieDataset();
-    JFreeChart pieChart = ChartFactory.createPieChart(stat.getName(), _data, true, true, true);
-    PiePlot plot=(PiePlot)pieChart.getPlot();
+    boolean legend=false;
+    boolean urls=false;
+    _pieChart = ChartFactory.createPieChart("Stat name", _data, legend, true, urls);
+    PiePlot plot=(PiePlot)_pieChart.getPlot();
     plot.setLabelGenerator(new StandardPieSectionLabelGenerator("{0}={1} ({2})",new DecimalFormat("#0.#"),new DecimalFormat("#0.##%")));
-    _panel = new ChartPanel(pieChart);
+    _panel = new ChartPanel(_pieChart);
   }
 
   /**
@@ -53,12 +57,33 @@ public class StatContribsChartPanelController
    */
   public void setContributions(ContribsByStat contribs)
   {
+    // Update data
     _data.clear();
+    // Update title
+    STAT stat=contribs.getStat();
+    if (stat!=null)
+    {
+      _pieChart.setTitle(stat.getName());
+    }
     for(StatContribution contrib : contribs.getContribs())
     {
       String source=contrib.getSource().getLabel();
       FixedDecimalsInteger value=contrib.getValue();
       _data.setValue(source,value.doubleValue());
     }
+  }
+
+  /**
+   * Release all managed resources.
+   */
+  public void dispose()
+  {
+    if (_panel!=null)
+    {
+      _panel.removeAll();
+      _panel=null;
+    }
+    _data=null;
+    _pieChart=null;
   }
 }
