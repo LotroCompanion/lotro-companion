@@ -9,7 +9,7 @@ import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.CharacterData;
 
 /**
- * Controller for a "detailed character stats" window.
+ * Controller for a "stat contribs" window.
  * @author DAM
  */
 public class StatContribsWindowController extends DefaultDialogController
@@ -30,7 +30,7 @@ public class StatContribsWindowController extends DefaultDialogController
   public StatContribsWindowController(WindowController parent, CharacterData toon)
   {
     super(parent);
-    _contribsPanelController=new StatContribsPanelController();
+    _contribsPanelController=new StatContribsPanelController(toon);
     _toon=toon;
   }
 
@@ -66,7 +66,7 @@ public class StatContribsWindowController extends DefaultDialogController
    */
   public void update()
   {
-    _contribsPanelController.update(_toon);
+    _contribsPanelController.update();
   }
 
   /**
