@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.checkbox.CheckboxController;
@@ -34,6 +35,7 @@ public class StatContribsPanelController
   private ComboBoxController<STAT> _statChooser;
   private StatContribsChartPanelController _chartPanel;
   private CheckboxController _merged;
+  private StatContribsTableController _table;
 
   /**
    * Constructor.
@@ -44,6 +46,7 @@ public class StatContribsPanelController
     _toon=toon;
     _contribs=new StatsContributionsManager();
     _statsComputer=new CharacterStatsComputer(_contribs);
+    _table=new StatContribsTableController();
     _panel=buildPanel();
   }
 
@@ -74,6 +77,9 @@ public class StatContribsPanelController
     // Center panel
     _chartPanel=new StatContribsChartPanelController();
     panel.add(_chartPanel.getPanel(),BorderLayout.CENTER);
+    // Right panel
+    JScrollPane scroll=GuiFactory.buildScrollPane(_table.getTable());
+    panel.add(scroll,BorderLayout.EAST);
     return panel;
   }
 
@@ -150,6 +156,7 @@ public class StatContribsPanelController
       contribs=new ContribsByStat(stat);
     }
     _chartPanel.setContributions(contribs);
+    _table.setContributions(contribs);
   }
 
   /**
