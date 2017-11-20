@@ -1,6 +1,7 @@
 package delta.games.lotro.gui.character.stats.contribs;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.swing.JTable;
@@ -44,6 +45,8 @@ public class StatContribsTableController
   {
     _statContribs.clear();
     _statContribs.addAll(contribs.getContribs());
+    // High values first
+    Collections.reverse(_statContribs);
     _tableController.refresh();
   }
 

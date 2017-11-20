@@ -2,11 +2,15 @@ package delta.games.lotro.gui.character.stats.contribs;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.border.TitledBorder;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.checkbox.CheckboxController;
@@ -75,15 +79,38 @@ public class StatContribsPanelController
     // Top panel
     panel.add(buildTopPanel(),BorderLayout.NORTH);
     // Center panel
-    _chartPanel=new StatContribsChartPanelController();
-    panel.add(_chartPanel.getPanel(),BorderLayout.CENTER);
+    {
+      _chartPanel=new StatContribsChartPanelController();
+      JPanel chartPanel=_chartPanel.getPanel();
+      TitledBorder border=GuiFactory.buildTitledBorder("Contributions Chart");
+      chartPanel.setBorder(border);
+      panel.add(chartPanel,BorderLayout.CENTER);
+    }
     // Right panel
-    JScrollPane scroll=GuiFactory.buildScrollPane(_table.getTable());
-    panel.add(scroll,BorderLayout.EAST);
+    JPanel right=buildRightPanel();
+    panel.add(right,BorderLayout.EAST);
     return panel;
   }
 
   private JPanel buildTopPanel()
+  {
+    JPanel comboPanel=buildComboPanel();
+    return comboPanel;
+  }
+
+  private JPanel buildRightPanel()
+  {
+    JPanel panel=GuiFactory.buildPanel(new BorderLayout());
+    JPanel configPanel=buildConfigurationPanel();
+    panel.add(configPanel,BorderLayout.NORTH);
+    JScrollPane scroll=GuiFactory.buildScrollPane(_table.getTable());
+    TitledBorder border=GuiFactory.buildTitledBorder("Contributions Table");
+    scroll.setBorder(border);
+    panel.add(scroll,BorderLayout.CENTER);
+    return panel;
+  }
+
+  private JPanel buildConfigurationPanel()
   {
     _merged=new CheckboxController("Merged");
     _merged.setSelected(false);
@@ -95,10 +122,11 @@ public class StatContribsPanelController
       }
     };
     _merged.getCheckbox().addActionListener(l);
-    JPanel comboPanel=buildComboPanel();
-    JPanel panel=GuiFactory.buildPanel(new FlowLayout());
-    panel.add(comboPanel);
-    panel.add(_merged.getCheckbox());
+    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    panel.add(_merged.getCheckbox(),c);
+    TitledBorder border=GuiFactory.buildTitledBorder("Configuration");
+    panel.setBorder(border);
     return panel;
   }
 
