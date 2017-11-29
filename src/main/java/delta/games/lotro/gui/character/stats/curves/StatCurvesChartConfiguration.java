@@ -1,52 +1,43 @@
 package delta.games.lotro.gui.character.stats.curves;
 
-import delta.games.lotro.character.stats.ratings.RatingCurve;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Configuration of a stat curve.
  * @author DAM
  */
-public class StatCurveConfiguration
+public class StatCurvesChartConfiguration
 {
   private String _title;
-  private RatingCurve _curve;
   private int _level;
   private double _minRating;
   private double _maxRating;
+  private List<SingleStatCurveConfiguration> _curves;
 
   /**
    * Constructor.
-   * @param title Curve title.
-   * @param curve Curve to display.
+   * @param title Chart title.
    * @param level Level to use.
    * @param minRating Minimum rating.
    * @param maxRating Maximum rating.
    */
-  public StatCurveConfiguration(String title, RatingCurve curve, int level, double minRating, double maxRating)
+  public StatCurvesChartConfiguration(String title, int level, double minRating, double maxRating)
   {
     _title=title;
-    _curve=curve;
     _level=level;
     _minRating=minRating;
     _maxRating=maxRating;
+    _curves=new ArrayList<SingleStatCurveConfiguration>();
   }
 
   /**
-   * Get the title for the curve.
+   * Get the title for the chart.
    * @return a title.
    */
   public String getTitle()
   {
     return _title;
-  }
-
-  /**
-   * Get the curve to display.
-   * @return the curve to display.
-   */
-  public RatingCurve getCurve()
-  {
-    return _curve;
   }
 
   /**
@@ -74,5 +65,15 @@ public class StatCurveConfiguration
   public double getMaxRating()
   {
     return _maxRating;
+  }
+
+  public void addCurve(SingleStatCurveConfiguration curveConfiguration)
+  {
+    _curves.add(curveConfiguration);
+  }
+
+  public List<SingleStatCurveConfiguration> getCurveConfigurations()
+  {
+    return _curves;
   }
 }

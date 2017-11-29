@@ -26,81 +26,93 @@ public class MainTestStatCurveChart
     doIt(c);
   }
 
+  private StatCurvesChartConfiguration build(String title, RatingCurve curve, int level, double minRating, double maxRating)
+  {
+    StatCurvesChartConfiguration chartCfg=new StatCurvesChartConfiguration(title,level,minRating,maxRating);
+    SingleStatCurveConfiguration curveCfg=new SingleStatCurveConfiguration(title,curve);
+    chartCfg.addCurve(curveCfg);
+    return chartCfg;
+  }
+
   private void doIt(CharacterData data)
   {
     RatingsMgr mgr=new RatingsMgr();
-    List<StatCurveConfiguration> configs=new ArrayList<StatCurveConfiguration>();
+    List<StatCurvesChartConfiguration> configs=new ArrayList<StatCurvesChartConfiguration>();
     {
       // Damage
       // - physical mastery => physical damage
       // - tactical mastery => tactical damage
       RatingCurve damage=mgr.getDamage();
-      configs.add(new StatCurveConfiguration("Physical/tactical damage",damage,105,0,200000));
+      configs.add(build("Physical/tactical damage",damage,105,0,200000));
       // Critical hit
-      // - critical rating => critical hit chance (melee/ranged/tactical)
-      RatingCurve critHit=mgr.getCriticalHitCurve();
-      configs.add(new StatCurveConfiguration("Critical hit chance",critHit,105,0,22000));
-      // Devastate hit
-      // - critical rating => devastate hit chance (melee/ranged/tactical)
-      RatingCurve devHit=mgr.getDevastateHitCurve();
-      configs.add(new StatCurveConfiguration("Devastate hit chance",devHit,105,0,22000));
-      // Crit/devastate hit magnitude
-      // - critical rating => crit/devastate hit magnitude % (melee/ranged/tactical)
-      RatingCurve critDevHitMagnitude=mgr.getCritAndDevastateHitMagnitudeCurve();
-      configs.add(new StatCurveConfiguration("Critical/devastate magnitude",critDevHitMagnitude,105,0,35000));
+      // Cap ratings are: 22000, 22000, 35000 => 35000
+      {
+        StatCurvesChartConfiguration critChart=new StatCurvesChartConfiguration("Critical Rating",105,0,35000);
+        RatingCurve critDevHitMagnitude=mgr.getCritAndDevastateHitMagnitudeCurve();
+        SingleStatCurveConfiguration magnitudeCfg=new SingleStatCurveConfiguration("Critical/devastate magnitude %",critDevHitMagnitude);
+        critChart.addCurve(magnitudeCfg);
+        RatingCurve critHit=mgr.getCriticalHitCurve();
+        SingleStatCurveConfiguration critHitCfg=new SingleStatCurveConfiguration("Critical Hit Chance",critHit);
+        critChart.addCurve(critHitCfg);
+        RatingCurve devHit=mgr.getDevastateHitCurve();
+        SingleStatCurveConfiguration devastateHitCfg=new SingleStatCurveConfiguration("Devastate Hit Chance",devHit);
+        critChart.addCurve(devastateHitCfg);
+        configs.add(critChart);
+      }
+
       // Finesse
       // - finesse => finesse %
       RatingCurve finesse=mgr.getFinesse();
-      configs.add(new StatCurveConfiguration("Finesse",finesse,105,0,400000));
+      configs.add(build("Finesse",finesse,105,0,400000));
       // Healing
       // - outgoing healing (~= tactical mastery) => healing %
       RatingCurve healing=mgr.getHealing();
-      configs.add(new StatCurveConfiguration("Healing",healing,105,0,75000));
+      configs.add(build("Healing",healing,105,0,75000));
       // Incoming healing
       // - incoming healing => incoming healing %
       RatingCurve incomingHealing=mgr.getIncomingHealing();
-      configs.add(new StatCurveConfiguration("Incoming healing",incomingHealing,105,0,20000));
+      configs.add(build("Incoming healing",incomingHealing,105,0,20000));
       // Avoidance
-      // - block rating => block %
-      // - parry rating => parry %
-      // - evade rating => evade %
-      RatingCurve avoidance=mgr.getAvoidance();
-      configs.add(new StatCurveConfiguration("Block/parry/evade chance",avoidance,105,0,20000));
-      // Partial avoidance
-      // - block rating => partial block %
-      // - parry rating => partial parry %
-      // - evade rating => partial evade %
-      RatingCurve partialAvoidance=mgr.getPartialAvoidance();
-      configs.add(new StatCurveConfiguration("Partial block/parry/evade chance",partialAvoidance,105,0,50000));
+      // Cap ratings are: 20000, 50000, 200000 => 200000
+      // - Block
+      {
+        StatCurvesChartConfiguration blockChart=new StatCurvesChartConfiguration("Block Rating",105,0,200000);
+        RatingCurve avoidance=mgr.getAvoidance();
+        SingleStatCurveConfiguration fullBlockCfg=new SingleStatCurveConfiguration("Full Block",avoidance);
+        blockChart.addCurve(fullBlockCfg);
+        RatingCurve partialAvoidance=mgr.getPartialAvoidance();
+        SingleStatCurveConfiguration partialBlockCfg=new SingleStatCurveConfiguration("Partial Block",partialAvoidance);
+        blockChart.addCurve(partialBlockCfg);
+        RatingCurve partialMitigation=mgr.getPartialMitigation();
+        SingleStatCurveConfiguration partialMitBlockCfg=new SingleStatCurveConfiguration("Partial Block Mitigation",partialMitigation);
+        blockChart.addCurve(partialMitBlockCfg);
+        configs.add(blockChart);
+      }
+      // Same for Parry and Evade
+
       // Critical defence
       // - critical defence rating => critical defence % (melee/ranged/tactical)
       RatingCurve critDefence=mgr.getCriticalDefence();
-      configs.add(new StatCurveConfiguration("Critical defence %",critDefence,105,0,12000));
+      configs.add(build("Critical defence %",critDefence,105,0,12000));
       // Resistance
       // - resistance => resistance %
       RatingCurve resistance=mgr.getResistance();
-      configs.add(new StatCurveConfiguration("Resistance %",resistance,105,0,45000));
-      // Partial mitigation
-      // - block rating => partial block mitigation %
-      // - parry rating => partial parry mitigation %
-      // - evade rating => partial evade mitigation %
-      RatingCurve partialMitigation=mgr.getPartialMitigation();
-      configs.add(new StatCurveConfiguration("Block/parry/evade partial mitigation",partialMitigation,105,0,200000));
+      configs.add(build("Resistance %",resistance,105,0,45000));
       // Armour mitigation
       // - physical mitigation => physical mitigation %
       // - orc craft/fell wrought mitigation => orc craft/fell wrought mitigation %
       // - tactical mitigation => tactical mitigation %
       // 1) Heavy
       RatingCurve heavyArmorMitigation=mgr.getHeavyArmorMitigation();
-      configs.add(new StatCurveConfiguration("Heavy armor mitigation",heavyArmorMitigation,105,0,20000));
+      configs.add(build("Heavy armor mitigation",heavyArmorMitigation,105,0,20000));
       // 2) Medium
       RatingCurve mediumArmorMitigation=mgr.getMediumArmorMitigation();
-      configs.add(new StatCurveConfiguration("Medium armor mitigation",mediumArmorMitigation,105,0,17000));
+      configs.add(build("Medium armor mitigation",mediumArmorMitigation,105,0,17000));
       // 3) Light
       RatingCurve lightArmorMitigation=mgr.getLightArmorMitigation();
-      configs.add(new StatCurveConfiguration("Light armor mitigation",lightArmorMitigation,105,0,15000));
+      configs.add(build("Light armor mitigation",lightArmorMitigation,105,0,15000));
     }
-    for(StatCurveConfiguration config : configs)
+    for(StatCurvesChartConfiguration config : configs)
     {
       StatCurveChartPanelController chartController=new StatCurveChartPanelController(config);
       JPanel statPanel=chartController.getPanel();
@@ -109,13 +121,6 @@ public class MainTestStatCurveChart
       w.getFrame().pack();
       w.show();
     }
-
-    /*
-    mgr.getPartialMitigation();
-    mgr.getHeavyArmorMitigation();
-    mgr.getMediumArmorMitigation();
-    mgr.getLightArmorMitigation();
-     */
   }
 
   /**
