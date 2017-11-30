@@ -18,14 +18,13 @@ import org.jfree.chart.title.TextTitle;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
-import org.jfree.ui.RectangleAnchor;
 import org.jfree.util.ShapeUtilities;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.character.stats.ratings.RatingCurve;
 
 /**
- * Controller for a start curve chart.
+ * Controller for a stat curve chart.
  * @author DAM
  */
 public class StatCurveChartPanelController

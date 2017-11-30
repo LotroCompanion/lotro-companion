@@ -1,5 +1,9 @@
 package delta.games.lotro.gui.character.stats.curves;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import delta.games.lotro.character.stats.STAT;
 import delta.games.lotro.character.stats.ratings.RatingCurve;
 
 /**
@@ -10,6 +14,7 @@ public class SingleStatCurveConfiguration
 {
   private String _title;
   private RatingCurve _curve;
+  private List<STAT> _stats;
 
   /**
    * Constructor.
@@ -20,6 +25,7 @@ public class SingleStatCurveConfiguration
   {
     _title=title;
     _curve=curve;
+    _stats=new ArrayList<STAT>();
   }
 
   /**
@@ -38,5 +44,23 @@ public class SingleStatCurveConfiguration
   public RatingCurve getCurve()
   {
     return _curve;
+  }
+
+  /**
+   * Add an associated stat.
+   * @param stat Stat to add.
+   */
+  public void addStat(STAT stat)
+  {
+    _stats.add(stat);
+  }
+
+  /**
+   * Get the associated stats.
+   * @return A list of stats.
+   */
+  public List<STAT> getStats()
+  {
+    return _stats;
   }
 }

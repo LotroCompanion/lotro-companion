@@ -9,6 +9,7 @@ import delta.common.ui.swing.windows.DefaultWindowController;
 import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.stats.CharacterGenerationTools;
 import delta.games.lotro.character.stats.CharacterGeneratorGiswald;
+import delta.games.lotro.character.stats.STAT;
 import delta.games.lotro.character.stats.ratings.RatingCurve;
 import delta.games.lotro.character.stats.ratings.RatingsMgr;
 
@@ -26,91 +27,195 @@ public class MainTestStatCurveChart
     doIt(c);
   }
 
-  private StatCurvesChartConfiguration build(String title, RatingCurve curve, int level, double minRating, double maxRating)
-  {
-    StatCurvesChartConfiguration chartCfg=new StatCurvesChartConfiguration(title,level,minRating,maxRating);
-    SingleStatCurveConfiguration curveCfg=new SingleStatCurveConfiguration(title,curve);
-    chartCfg.addCurve(curveCfg);
-    return chartCfg;
-  }
-
   private void doIt(CharacterData data)
   {
     RatingsMgr mgr=new RatingsMgr();
+    int level=105;
     List<StatCurvesChartConfiguration> configs=new ArrayList<StatCurvesChartConfiguration>();
     {
       // Damage
-      // - physical mastery => physical damage
-      // - tactical mastery => tactical damage
       RatingCurve damage=mgr.getDamage();
-      configs.add(build("Physical/tactical damage",damage,105,0,200000));
-      // Critical hit
-      // Cap ratings are: 22000, 22000, 35000 => 35000
+      // - Physical damage
       {
-        StatCurvesChartConfiguration critChart=new StatCurvesChartConfiguration("Critical Rating",105,0,35000);
+        StatCurvesChartConfiguration physicalDamageCfg=new StatCurvesChartConfiguration("Physical damage",level,0,200000,STAT.PHYSICAL_MASTERY);
+        SingleStatCurveConfiguration physicalDamageCurveCfg=new SingleStatCurveConfiguration("Physical damage",damage);
+        physicalDamageCurveCfg.addStat(STAT.MELEE_DAMAGE_PERCENTAGE);
+        physicalDamageCurveCfg.addStat(STAT.RANGED_DAMAGE_PERCENTAGE);
+        physicalDamageCfg.addCurve(physicalDamageCurveCfg);
+        configs.add(physicalDamageCfg);
+      }
+      // - Tactical damage
+      {
+        StatCurvesChartConfiguration tacticalDamageCfg=new StatCurvesChartConfiguration("Tactical damage",level,0,200000,STAT.TACTICAL_MASTERY);
+        SingleStatCurveConfiguration tacticalDamageCurveCfg=new SingleStatCurveConfiguration("Tactical damage",damage);
+        tacticalDamageCurveCfg.addStat(STAT.TACTICAL_DAMAGE_PERCENTAGE);
+        tacticalDamageCfg.addCurve(tacticalDamageCurveCfg);
+        configs.add(tacticalDamageCfg);
+      }
+      // - Critical hit
+      {
+        // Cap ratings are: 22000, 22000, 35000 => 35000
+        StatCurvesChartConfiguration critChart=new StatCurvesChartConfiguration("Critical Rating",level,0,35000,STAT.CRITICAL_RATING);
+        // Magnitude
         RatingCurve critDevHitMagnitude=mgr.getCritAndDevastateHitMagnitudeCurve();
         SingleStatCurveConfiguration magnitudeCfg=new SingleStatCurveConfiguration("Critical/devastate magnitude %",critDevHitMagnitude);
+        magnitudeCfg.addStat(STAT.CRIT_DEVASTATE_MAGNITUDE_MELEE_PERCENTAGE);
+        magnitudeCfg.addStat(STAT.CRIT_DEVASTATE_MAGNITUDE_RANGED_PERCENTAGE);
+        magnitudeCfg.addStat(STAT.CRIT_DEVASTATE_MAGNITUDE_TACTICAL_PERCENTAGE);
         critChart.addCurve(magnitudeCfg);
+        // Critical hit chance
         RatingCurve critHit=mgr.getCriticalHitCurve();
         SingleStatCurveConfiguration critHitCfg=new SingleStatCurveConfiguration("Critical Hit Chance",critHit);
+        critHitCfg.addStat(STAT.CRITICAL_MELEE_PERCENTAGE);
+        critHitCfg.addStat(STAT.CRITICAL_RANGED_PERCENTAGE);
+        critHitCfg.addStat(STAT.CRITICAL_TACTICAL_PERCENTAGE);
         critChart.addCurve(critHitCfg);
+        // Devastate hit chance
         RatingCurve devHit=mgr.getDevastateHitCurve();
         SingleStatCurveConfiguration devastateHitCfg=new SingleStatCurveConfiguration("Devastate Hit Chance",devHit);
+        devastateHitCfg.addStat(STAT.DEVASTATE_MELEE_PERCENTAGE);
+        devastateHitCfg.addStat(STAT.DEVASTATE_RANGED_PERCENTAGE);
+        devastateHitCfg.addStat(STAT.DEVASTATE_TACTICAL_PERCENTAGE);
         critChart.addCurve(devastateHitCfg);
         configs.add(critChart);
       }
-
-      // Finesse
-      // - finesse => finesse %
-      RatingCurve finesse=mgr.getFinesse();
-      configs.add(build("Finesse",finesse,105,0,400000));
+      // - Finesse
+      {
+        RatingCurve finesse=mgr.getFinesse();
+        StatCurvesChartConfiguration finesseCfg=new StatCurvesChartConfiguration("Finesse",level,0,400000,STAT.FINESSE);
+        SingleStatCurveConfiguration finesseCurveCfg=new SingleStatCurveConfiguration("Finesse",finesse);
+        finesseCurveCfg.addStat(STAT.FINESSE_PERCENTAGE);
+        finesseCfg.addCurve(finesseCurveCfg);
+        configs.add(finesseCfg);
+      }
       // Healing
-      // - outgoing healing (~= tactical mastery) => healing %
-      RatingCurve healing=mgr.getHealing();
-      configs.add(build("Healing",healing,105,0,75000));
-      // Incoming healing
-      // - incoming healing => incoming healing %
-      RatingCurve incomingHealing=mgr.getIncomingHealing();
-      configs.add(build("Incoming healing",incomingHealing,105,0,20000));
+      // - Outgoing Healing (~= tactical mastery) => healing %
+      {
+        RatingCurve healing=mgr.getHealing();
+        StatCurvesChartConfiguration healingCfg=new StatCurvesChartConfiguration("Healing",level,0,75000,STAT.OUTGOING_HEALING);
+        SingleStatCurveConfiguration healingCurveCfg=new SingleStatCurveConfiguration("Healing",healing);
+        healingCurveCfg.addStat(STAT.OUTGOING_HEALING_PERCENTAGE);
+        healingCfg.addCurve(healingCurveCfg);
+        configs.add(healingCfg);
+      }
+      // - Incoming Healing
+      {
+        RatingCurve incomingHealing=mgr.getIncomingHealing();
+        StatCurvesChartConfiguration incomingHealingCfg=new StatCurvesChartConfiguration("Incoming Healing",level,0,20000,STAT.INCOMING_HEALING);
+        SingleStatCurveConfiguration incomingHealingCurveCfg=new SingleStatCurveConfiguration("Healing",incomingHealing);
+        incomingHealingCurveCfg.addStat(STAT.INCOMING_HEALING_PERCENTAGE);
+        incomingHealingCfg.addCurve(incomingHealingCurveCfg);
+        configs.add(incomingHealingCfg);
+      }
       // Avoidance
       // Cap ratings are: 20000, 50000, 200000 => 200000
       // - Block
       {
-        StatCurvesChartConfiguration blockChart=new StatCurvesChartConfiguration("Block Rating",105,0,200000);
+        StatCurvesChartConfiguration blockChart=new StatCurvesChartConfiguration("Block Rating",level,0,200000,STAT.BLOCK);
         RatingCurve avoidance=mgr.getAvoidance();
         SingleStatCurveConfiguration fullBlockCfg=new SingleStatCurveConfiguration("Full Block",avoidance);
+        fullBlockCfg.addStat(STAT.BLOCK_PERCENTAGE);
         blockChart.addCurve(fullBlockCfg);
         RatingCurve partialAvoidance=mgr.getPartialAvoidance();
         SingleStatCurveConfiguration partialBlockCfg=new SingleStatCurveConfiguration("Partial Block",partialAvoidance);
+        partialBlockCfg.addStat(STAT.PARTIAL_BLOCK_PERCENTAGE);
         blockChart.addCurve(partialBlockCfg);
         RatingCurve partialMitigation=mgr.getPartialMitigation();
         SingleStatCurveConfiguration partialMitBlockCfg=new SingleStatCurveConfiguration("Partial Block Mitigation",partialMitigation);
+        partialMitBlockCfg.addStat(STAT.PARTIAL_BLOCK_MITIGATION_PERCENTAGE);
         blockChart.addCurve(partialMitBlockCfg);
         configs.add(blockChart);
       }
-      // Same for Parry and Evade
+      // - Parry
+      {
+        StatCurvesChartConfiguration parryChart=new StatCurvesChartConfiguration("Parry Rating",level,0,200000,STAT.PARRY);
+        RatingCurve avoidance=mgr.getAvoidance();
+        SingleStatCurveConfiguration fullParryCfg=new SingleStatCurveConfiguration("Full Parry",avoidance);
+        fullParryCfg.addStat(STAT.PARRY_PERCENTAGE);
+        parryChart.addCurve(fullParryCfg);
+        RatingCurve partialAvoidance=mgr.getPartialAvoidance();
+        SingleStatCurveConfiguration partialParryCfg=new SingleStatCurveConfiguration("Partial Parry",partialAvoidance);
+        partialParryCfg.addStat(STAT.PARTIAL_PARRY_PERCENTAGE);
+        parryChart.addCurve(partialParryCfg);
+        RatingCurve partialMitigation=mgr.getPartialMitigation();
+        SingleStatCurveConfiguration partialMitParryCfg=new SingleStatCurveConfiguration("Partial Parry Mitigation",partialMitigation);
+        partialMitParryCfg.addStat(STAT.PARTIAL_PARRY_MITIGATION_PERCENTAGE);
+        parryChart.addCurve(partialMitParryCfg);
+        configs.add(parryChart);
+      }
+      // - Evade
+      {
+        StatCurvesChartConfiguration evadeChart=new StatCurvesChartConfiguration("Evade Rating",level,0,200000,STAT.EVADE);
+        RatingCurve avoidance=mgr.getAvoidance();
+        SingleStatCurveConfiguration fullEvadeCfg=new SingleStatCurveConfiguration("Full Evade",avoidance);
+        fullEvadeCfg.addStat(STAT.EVADE_PERCENTAGE);
+        evadeChart.addCurve(fullEvadeCfg);
+        RatingCurve partialAvoidance=mgr.getPartialAvoidance();
+        SingleStatCurveConfiguration partialEvadeCfg=new SingleStatCurveConfiguration("Partial Evade",partialAvoidance);
+        partialEvadeCfg.addStat(STAT.PARTIAL_EVADE_PERCENTAGE);
+        evadeChart.addCurve(partialEvadeCfg);
+        RatingCurve partialMitigation=mgr.getPartialMitigation();
+        SingleStatCurveConfiguration partialMitEvadeCfg=new SingleStatCurveConfiguration("Partial Evade Mitigation",partialMitigation);
+        partialMitEvadeCfg.addStat(STAT.PARTIAL_EVADE_MITIGATION_PERCENTAGE);
+        evadeChart.addCurve(partialMitEvadeCfg);
+        configs.add(evadeChart);
+      }
+      // - Resistance
+      {
+        RatingCurve resistance=mgr.getResistance();
+        StatCurvesChartConfiguration resistanceCfg=new StatCurvesChartConfiguration("Resistance",level,0,45000,STAT.RESISTANCE);
+        SingleStatCurveConfiguration resistanceCurveCfg=new SingleStatCurveConfiguration("Resistance",resistance);
+        resistanceCurveCfg.addStat(STAT.RESISTANCE_PERCENTAGE);
+        resistanceCfg.addCurve(resistanceCurveCfg);
+        configs.add(resistanceCfg);
+      }
 
-      // Critical defence
-      // - critical defence rating => critical defence % (melee/ranged/tactical)
-      RatingCurve critDefence=mgr.getCriticalDefence();
-      configs.add(build("Critical defence %",critDefence,105,0,12000));
-      // Resistance
-      // - resistance => resistance %
-      RatingCurve resistance=mgr.getResistance();
-      configs.add(build("Resistance %",resistance,105,0,45000));
-      // Armour mitigation
-      // - physical mitigation => physical mitigation %
-      // - orc craft/fell wrought mitigation => orc craft/fell wrought mitigation %
-      // - tactical mitigation => tactical mitigation %
-      // 1) Heavy
+      // Mitigation
+      // - Critical defence
+      {
+        RatingCurve critDefence=mgr.getCriticalDefence();
+        StatCurvesChartConfiguration criticalDefenceCfg=new StatCurvesChartConfiguration("Critical Defence",level,0,12000,STAT.CRITICAL_DEFENCE);
+        SingleStatCurveConfiguration criticalDefenceCurveCfg=new SingleStatCurveConfiguration("Critical Defence",critDefence);
+        criticalDefenceCurveCfg.addStat(STAT.MELEE_CRITICAL_DEFENCE);
+        criticalDefenceCurveCfg.addStat(STAT.RANGED_CRITICAL_DEFENCE);
+        criticalDefenceCurveCfg.addStat(STAT.TACTICAL_CRITICAL_DEFENCE);
+        criticalDefenceCfg.addCurve(criticalDefenceCurveCfg);
+        configs.add(criticalDefenceCfg);
+      }
+      // Choose armor: maxRating=20000/17000/15000
       RatingCurve heavyArmorMitigation=mgr.getHeavyArmorMitigation();
-      configs.add(build("Heavy armor mitigation",heavyArmorMitigation,105,0,20000));
-      // 2) Medium
-      RatingCurve mediumArmorMitigation=mgr.getMediumArmorMitigation();
-      configs.add(build("Medium armor mitigation",mediumArmorMitigation,105,0,17000));
-      // 3) Light
-      RatingCurve lightArmorMitigation=mgr.getLightArmorMitigation();
-      configs.add(build("Light armor mitigation",lightArmorMitigation,105,0,15000));
+      //RatingCurve mediumArmorMitigation=mgr.getMediumArmorMitigation();
+      //RatingCurve lightArmorMitigation=mgr.getLightArmorMitigation();
+      RatingCurve armorMitigation=heavyArmorMitigation;
+      // - Physical Mitigation
+      {
+        StatCurvesChartConfiguration mitigationCfg=new StatCurvesChartConfiguration("Physical Mitigation",level,0,20000,STAT.PHYSICAL_MITIGATION);
+        SingleStatCurveConfiguration mitigationCurveCfg=new SingleStatCurveConfiguration("Physical Mitigation",armorMitigation);
+        mitigationCurveCfg.addStat(STAT.PHYSICAL_MITIGATION_PERCENTAGE);
+        mitigationCfg.addCurve(mitigationCurveCfg);
+        configs.add(mitigationCfg);
+      }
+      // - Tactical Mitigation
+      {
+        StatCurvesChartConfiguration mitigationCfg=new StatCurvesChartConfiguration("Tactical Mitigation",level,0,20000,STAT.TACTICAL_MITIGATION);
+        SingleStatCurveConfiguration mitigationCurveCfg=new SingleStatCurveConfiguration("Tactical Mitigation",armorMitigation);
+        mitigationCurveCfg.addStat(STAT.TACTICAL_MITIGATION_PERCENTAGE);
+        mitigationCurveCfg.addStat(STAT.FIRE_MITIGATION_PERCENTAGE);
+        mitigationCurveCfg.addStat(STAT.LIGHTNING_MITIGATION_PERCENTAGE);
+        mitigationCurveCfg.addStat(STAT.FROST_MITIGATION_PERCENTAGE);
+        mitigationCurveCfg.addStat(STAT.ACID_MITIGATION_PERCENTAGE);
+        mitigationCurveCfg.addStat(STAT.SHADOW_MITIGATION_PERCENTAGE);
+        mitigationCfg.addCurve(mitigationCurveCfg);
+        configs.add(mitigationCfg);
+      }
+      // - Orc craft/Fell wrought Mitigation
+      {
+        StatCurvesChartConfiguration mitigationCfg=new StatCurvesChartConfiguration("Orc Craft/Fell Wrought Mitigation",level,0,20000,STAT.OCFW_MITIGATION);
+        SingleStatCurveConfiguration mitigationCurveCfg=new SingleStatCurveConfiguration("Orc Craft/Fell Wrought Mitigation",armorMitigation);
+        mitigationCurveCfg.addStat(STAT.OCFW_MITIGATION_PERCENTAGE);
+        mitigationCfg.addCurve(mitigationCurveCfg);
+        configs.add(mitigationCfg);
+      }
     }
     for(StatCurvesChartConfiguration config : configs)
     {
