@@ -115,7 +115,7 @@ public class ReputationSynopsisTableController
    * Build a cell renderer for a faction status.
    * @return A renderer.
    */
-  public static TableCellRenderer buildStatCellRenderer()
+  public static TableCellRenderer buildFactionStatusCellRenderer()
   {
     final JLabel label=GuiFactory.buildLabel("");
     TableCellRenderer renderer=new TableCellRenderer()
@@ -157,7 +157,7 @@ public class ReputationSynopsisTableController
     TableColumnController<Faction,FactionStatus> column=new TableColumnController<Faction,FactionStatus>(id,"Faction",FactionStatus.class,cell);
 
     // Cell renderer
-    TableCellRenderer renderer=buildStatCellRenderer();
+    TableCellRenderer renderer=buildFactionStatusCellRenderer();
     column.setCellRenderer(renderer);
     // Header renderer
     JPanel headerPanel=buildToonHeaderPanel(character);

@@ -306,7 +306,7 @@ public class CraftingSynopsisTableController
     TableCellRenderer headerRenderer=buildSimpleCellRenderer(panel);
     column.setHeaderCellRenderer(headerRenderer);
     // Cell renderer
-    TableCellRenderer renderer=ReputationSynopsisTableController.buildStatCellRenderer();
+    TableCellRenderer renderer=ReputationSynopsisTableController.buildFactionStatusCellRenderer();
     column.setCellRenderer(renderer);
 
     // Init widths
