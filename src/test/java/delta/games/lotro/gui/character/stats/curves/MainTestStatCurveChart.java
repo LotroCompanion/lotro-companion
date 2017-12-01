@@ -7,8 +7,11 @@ import javax.swing.JPanel;
 
 import delta.common.ui.swing.windows.DefaultWindowController;
 import delta.games.lotro.character.CharacterData;
+import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.character.stats.CharacterGenerationTools;
 import delta.games.lotro.character.stats.CharacterGeneratorGiswald;
+import delta.games.lotro.character.stats.CharacterGeneratorMeva;
+import delta.games.lotro.character.stats.CharacterStatsComputer;
 import delta.games.lotro.character.stats.STAT;
 import delta.games.lotro.character.stats.ratings.RatingCurve;
 import delta.games.lotro.character.stats.ratings.RatingsMgr;
@@ -22,15 +25,22 @@ public class MainTestStatCurveChart
   private void doIt()
   {
     CharacterGenerationTools tools=new CharacterGenerationTools();
-    CharacterGeneratorGiswald generator=new CharacterGeneratorGiswald(tools);
+    CharacterGeneratorMeva generator=new CharacterGeneratorMeva(tools);
     CharacterData c=generator.buildCharacter();
     doIt(c);
   }
 
   private void doIt(CharacterData data)
   {
+    // Load toon stats
+    CharacterGenerationTools tools=new CharacterGenerationTools();
+    CharacterGeneratorGiswald generator=new CharacterGeneratorGiswald(tools);
+    CharacterData c=generator.buildCharacter();
+    CharacterStatsComputer statsComputer=new CharacterStatsComputer();
+    BasicStatsSet stats=statsComputer.getStats(c);
+    int level=c.getLevel();
+
     RatingsMgr mgr=new RatingsMgr();
-    int level=105;
     List<StatCurvesChartConfiguration> configs=new ArrayList<StatCurvesChartConfiguration>();
     {
       // Damage
@@ -219,8 +229,9 @@ public class MainTestStatCurveChart
     }
     for(StatCurvesChartConfiguration config : configs)
     {
-      StatCurveChartPanelController chartController=new StatCurveChartPanelController(config);
-      JPanel statPanel=chartController.getPanel();
+      StatCurvesPanelController controller=new StatCurvesPanelController(config);
+      controller.update(stats);
+      JPanel statPanel=controller.getPanel();
       DefaultWindowController w=new DefaultWindowController();
       w.getFrame().add(statPanel);
       w.getFrame().pack();

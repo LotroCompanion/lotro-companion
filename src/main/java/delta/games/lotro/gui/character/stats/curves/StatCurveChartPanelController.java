@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Paint;
 import java.awt.Shape;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JPanel;
 
@@ -21,7 +23,10 @@ import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.util.ShapeUtilities;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.games.lotro.character.stats.BasicStatsSet;
+import delta.games.lotro.character.stats.STAT;
 import delta.games.lotro.character.stats.ratings.RatingCurve;
+import delta.games.lotro.utils.FixedDecimalsInteger;
 
 /**
  * Controller for a stat curve chart.
@@ -30,11 +35,15 @@ import delta.games.lotro.character.stats.ratings.RatingCurve;
 public class StatCurveChartPanelController
 {
   private static final int NB_POINTS=100;
-  private static final Color[] LINE_COLORS={ Color.GREEN, Color.BLUE, Color.RED };
+  /**
+   * Colors.
+   */
+  public static final Color[] LINE_COLORS={ Color.GREEN, Color.BLUE, Color.RED };
 
   // GUI
   private JPanel _panel;
   private JFreeChart _chart;
+  private List<XYSeries> _series;
   // Data
   private StatCurvesChartConfiguration _config;
 
@@ -45,6 +54,45 @@ public class StatCurveChartPanelController
   public StatCurveChartPanelController(StatCurvesChartConfiguration config)
   {
     _config=config;
+    _series=new ArrayList<XYSeries>();
+  }
+
+  /**
+   * Update this panel with new stats.
+   * @param stats Stats to display.
+   */
+  public void update(BasicStatsSet stats)
+  {
+    STAT baseStat=_config.getBaseStat();
+    FixedDecimalsInteger baseStatValue=stats.getStat(baseStat);
+    updateSeriesWithCurrentValue(baseStatValue);
+  }
+
+  private void updateSeriesWithCurrentValue(FixedDecimalsInteger value)
+  {
+    List<SingleStatCurveConfiguration> curveConfigs=_config.getCurveConfigurations();
+    int nbCurves=curveConfigs.size();
+    for(int i=0;i<nbCurves;i++)
+    {
+      XYSeries series=_series.get(i);
+      int count=series.getItemCount();
+      if (count>0)
+      {
+        series.remove(0);
+      }
+      if (value!=null)
+      {
+        SingleStatCurveConfiguration curveConfig=curveConfigs.get(i);
+        RatingCurve curve=curveConfig.getCurve();
+        double rating=value.doubleValue();
+        int level=_config.getLevel();
+        Double percentage=curve.getPercentage(rating,level);
+        if (percentage!=null)
+        {
+          series.add(rating,percentage.doubleValue());
+        }
+      }
+    }
   }
 
   /**
@@ -124,11 +172,11 @@ public class StatCurveChartPanelController
   private XYSeriesCollection createDataset()
   {
     XYSeriesCollection data=new XYSeriesCollection();
-    buildMainCurve(data);
+    buildCurves(data);
     return data;
   }
 
-  private void buildMainCurve(XYSeriesCollection data)
+  private void buildCurves(XYSeriesCollection data)
   {
     double minRating=_config.getMinRating();
     double step=(_config.getMaxRating()-minRating)/NB_POINTS;
@@ -152,7 +200,7 @@ public class StatCurveChartPanelController
   
       // Current point series
       {
-        XYSeries currentPointSeries = new XYSeries(key+" (Current)");
+        XYSeries currentPointSeries=new XYSeries(key+" (Current)");
         double rating=minRating+(NB_POINTS/2)*step;
         Double percentage=curve.getPercentage(rating,level);
         if (percentage!=null)
@@ -160,6 +208,7 @@ public class StatCurveChartPanelController
           currentPointSeries.add(rating,percentage.doubleValue());
         }
         data.addSeries(currentPointSeries);
+        _series.add(currentPointSeries);
       }
     }
   }

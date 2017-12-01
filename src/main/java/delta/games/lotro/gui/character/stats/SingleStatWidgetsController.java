@@ -118,22 +118,7 @@ public class SingleStatWidgetsController
 
   private void setValue(JLabel label, FixedDecimalsInteger value, boolean percentage)
   {
-    String valueStr;
-    if (value!=null)
-    {
-      if (percentage)
-      {
-        valueStr=String.format("%.1f%%",Double.valueOf(value.doubleValue()));
-      }
-      else
-      {
-        valueStr=String.format("%d",Integer.valueOf(value.intValue()));
-      }
-    }
-    else
-    {
-      valueStr="-";
-    }
+    String valueStr=StatDisplayUtils.getStatDisplay(value,percentage);
     label.setText(valueStr);
   }
 }
