@@ -112,7 +112,7 @@ public class MainTestStatCurveChart
       {
         RatingCurve incomingHealing=mgr.getIncomingHealing();
         StatCurvesChartConfiguration incomingHealingCfg=new StatCurvesChartConfiguration("Incoming Healing",level,0,20000,STAT.INCOMING_HEALING);
-        SingleStatCurveConfiguration incomingHealingCurveCfg=new SingleStatCurveConfiguration("Healing",incomingHealing);
+        SingleStatCurveConfiguration incomingHealingCurveCfg=new SingleStatCurveConfiguration("Incoming Healing",incomingHealing);
         incomingHealingCurveCfg.addStat(STAT.INCOMING_HEALING_PERCENTAGE);
         incomingHealingCfg.addCurve(incomingHealingCurveCfg);
         configs.add(incomingHealingCfg);
