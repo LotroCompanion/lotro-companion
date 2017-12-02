@@ -3,6 +3,7 @@ package delta.games.lotro.gui.character.stats.curves;
 import java.awt.BorderLayout;
 
 import javax.swing.JPanel;
+import javax.swing.border.TitledBorder;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.character.stats.BasicStatsSet;
@@ -44,9 +45,13 @@ public class StatCurvesPanelController
   {
     JPanel panel=GuiFactory.buildPanel(new BorderLayout());
     JPanel chartPanel=_chartPanel.getPanel();
+    TitledBorder chartBorder=GuiFactory.buildTitledBorder("Chart");
+    chartPanel.setBorder(chartBorder);
     panel.add(chartPanel,BorderLayout.CENTER);
     JPanel valuesPanel=_valuesPanel.getPanel();
-    panel.add(valuesPanel,BorderLayout.EAST);
+    TitledBorder valuesBorder=GuiFactory.buildTitledBorder("Values");
+    valuesPanel.setBorder(valuesBorder);
+    panel.add(valuesPanel,BorderLayout.SOUTH);
     return panel;
   }
 
