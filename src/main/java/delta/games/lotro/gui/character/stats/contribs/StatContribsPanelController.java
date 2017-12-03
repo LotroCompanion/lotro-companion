@@ -7,7 +7,9 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.TitledBorder;
@@ -20,7 +22,10 @@ import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.stats.CharacterStatsComputer;
 import delta.games.lotro.character.stats.STAT;
 import delta.games.lotro.character.stats.contribs.ContribsByStat;
+import delta.games.lotro.character.stats.contribs.StatContribution;
 import delta.games.lotro.character.stats.contribs.StatsContributionsManager;
+import delta.games.lotro.gui.character.stats.StatDisplayUtils;
+import delta.games.lotro.utils.FixedDecimalsInteger;
 
 /**
  * Controller for a panel that displays the contributions of to stats.
@@ -35,6 +40,7 @@ public class StatContribsPanelController
   private StatsContributionsManager _contribs;
   // UI
   private JPanel _panel;
+  private JLabel _totals;
   // Controllers
   private ComboBoxController<STAT> _statChooser;
   private StatContribsChartPanelController _chartPanel;
@@ -107,6 +113,8 @@ public class StatContribsPanelController
     TitledBorder border=GuiFactory.buildTitledBorder("Contributions Table");
     scroll.setBorder(border);
     panel.add(scroll,BorderLayout.CENTER);
+    _totals=GuiFactory.buildLabel("");
+    panel.add(_totals,BorderLayout.SOUTH);
     return panel;
   }
 
@@ -128,6 +136,26 @@ public class StatContribsPanelController
     TitledBorder border=GuiFactory.buildTitledBorder("Configuration");
     panel.setBorder(border);
     return panel;
+  }
+
+  private void updateTotals(ContribsByStat contribs, FixedDecimalsInteger expectedTotal)
+  {
+    FixedDecimalsInteger total=new FixedDecimalsInteger();
+    List<StatContribution> statContribs=contribs.getContribs();
+    for(StatContribution statContrib : statContribs)
+    {
+      total.add(statContrib.getValue());
+    }
+    int expected=(expectedTotal!=null)?expectedTotal.getInternalValue():0;
+    boolean positive=(expected>=0);
+    int actual=total.getInternalValue();
+    boolean same=(actual==Math.abs(expected));
+    boolean isPercentage=_statChooser.getSelectedItem().isPercentage();
+    String totalStr=StatDisplayUtils.getStatDisplay(total,isPercentage);
+    if (!positive) totalStr="-"+totalStr;
+    String expectedTotalStr=StatDisplayUtils.getStatDisplay(expectedTotal,isPercentage);
+    String label="Total: "+(same?totalStr:totalStr + " / " + expectedTotalStr);
+    _totals.setText(label);
   }
 
   private JPanel buildComboPanel()
@@ -178,6 +206,10 @@ public class StatContribsPanelController
 
   private void updateStat(STAT stat)
   {
+    if (stat==null)
+    {
+      return;
+    }
     ContribsByStat contribs=_contribs.getContribs(stat);
     if (contribs==null)
     {
@@ -185,6 +217,8 @@ public class StatContribsPanelController
     }
     _chartPanel.setContributions(contribs);
     _table.setContributions(contribs);
+    FixedDecimalsInteger statValue=_toon.getStats().getStat(stat);
+    updateTotals(contribs,statValue);
   }
 
   /**
