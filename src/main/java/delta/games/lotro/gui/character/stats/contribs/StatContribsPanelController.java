@@ -48,7 +48,7 @@ public class StatContribsPanelController
   public StatContribsPanelController(CharacterData toon)
   {
     _toon=toon;
-    _contribs=new StatsContributionsManager();
+    _contribs=new StatsContributionsManager(toon.getCharacterClass());
     _statsComputer=new CharacterStatsComputer(_contribs);
     _table=new StatContribsTableController();
     _panel=buildPanel();

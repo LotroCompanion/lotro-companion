@@ -32,7 +32,7 @@ public class MainTestStatContribsChart
 
   private void doIt(CharacterData data)
   {
-    StatsContributionsManager contribs=new StatsContributionsManager();
+    StatsContributionsManager contribs=new StatsContributionsManager(data.getCharacterClass());
     CharacterStatsComputer statsComputer=new CharacterStatsComputer(contribs);
     BasicStatsSet stats=statsComputer.getStats(data);
     System.out.println(stats);
