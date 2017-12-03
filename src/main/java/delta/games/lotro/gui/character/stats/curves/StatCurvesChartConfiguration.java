@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import delta.games.lotro.character.stats.STAT;
+import delta.games.lotro.character.stats.ratings.RatingCurve;
 
 /**
  * Configuration of a stat curve.
@@ -97,5 +98,28 @@ public class StatCurvesChartConfiguration
   public List<SingleStatCurveConfiguration> getCurveConfigurations()
   {
     return _curves;
+  }
+
+  /**
+   * Automagically compute value of the maximum rating for this curve.
+   * @return A rating value.
+   */
+  public double getAutoMaxRating()
+  {
+    double max=0;
+    for(SingleStatCurveConfiguration config : _curves)
+    {
+      RatingCurve curve=config.getCurve();
+      Double rating=curve.getRatingForCap(_level);
+      //System.out.println("Found rating "+rating+" for cap of curve "+config.getTitle()+" at level "+_level);
+      if (rating!=null)
+      {
+        if (rating.doubleValue()>max)
+        {
+          max=rating.doubleValue();
+        }
+      }
+    }
+    return max;
   }
 }

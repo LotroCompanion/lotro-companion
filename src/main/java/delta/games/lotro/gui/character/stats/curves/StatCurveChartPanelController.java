@@ -179,7 +179,10 @@ public class StatCurveChartPanelController
   private void buildCurves(XYSeriesCollection data)
   {
     double minRating=_config.getMinRating();
-    double step=(_config.getMaxRating()-minRating)/NB_POINTS;
+    double manualMaxRating=_config.getMaxRating();
+    double autoMaxRating=_config.getAutoMaxRating();
+    double maxRating=Math.max(manualMaxRating,autoMaxRating);
+    double step=(maxRating-minRating)/NB_POINTS;
     int level=_config.getLevel();
     for(SingleStatCurveConfiguration curveConfiguration : _config.getCurveConfigurations())
     {
