@@ -17,7 +17,7 @@ public class FactionEditionDialogController extends DefaultFormDialogController<
   // UI
   private FactionStatusPanelController _edition;
   // Data
-  FactionStatus _edited;
+  private FactionStatus _edited;
 
   /**
    * Constructor.

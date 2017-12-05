@@ -15,7 +15,7 @@ import delta.games.lotro.stats.traitPoints.io.xml.TraitPointsStatusXMLWriter;
  * Facade for services related to trait points.
  * @author DAM
  */
-public class TraitPoints
+public final class TraitPoints
 {
   private static final TraitPoints _instance=new TraitPoints();
 

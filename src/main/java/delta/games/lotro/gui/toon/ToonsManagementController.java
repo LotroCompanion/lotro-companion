@@ -86,6 +86,8 @@ public class ToonsManagementController implements ActionListener,CharacterEventL
 
   /**
    * Handle character events.
+   * @param type Event type.
+   * @param event Source event.
    */
   public void eventOccured(CharacterEventType type, CharacterEvent event)
   {
@@ -135,10 +137,11 @@ public class ToonsManagementController implements ActionListener,CharacterEventL
 
   /**
    * Action implementation.
+   * @param event Source event.
    */
-  public void actionPerformed(ActionEvent e)
+  public void actionPerformed(ActionEvent event)
   {
-    String action=e.getActionCommand();
+    String action=event.getActionCommand();
     if (NEW_TOON_ID.equals(action))
     {
       startNewToon();
@@ -153,7 +156,7 @@ public class ToonsManagementController implements ActionListener,CharacterEventL
     }
     else if (ToonsTableController.DOUBLE_CLICK.equals(action))
     {
-      CharacterFile toon=(CharacterFile)e.getSource();
+      CharacterFile toon=(CharacterFile)event.getSource();
       showToon(toon);
     }
   }

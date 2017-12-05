@@ -118,6 +118,8 @@ public class StashWindowController extends DefaultWindowController implements Ac
 
   /**
    * Handle character events.
+   * @param type Event type.
+   * @param event Source event.
    */
   public void eventOccured(CharacterEventType type, CharacterEvent event)
   {

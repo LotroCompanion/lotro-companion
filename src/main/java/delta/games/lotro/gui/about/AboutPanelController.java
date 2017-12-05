@@ -199,8 +199,8 @@ public class AboutPanelController
     }
     // Allyriel
     {
-      String contrib="<html><ul>"+"<li>General support,<li>Ideas,<li>Beta testing,<li>" +
-          "Advertisement,<li>Warbands screenshots"+"</ul></html>";
+      String contrib="<html><ul>"+"<li>General support,<li>Ideas,<li>Beta testing,<li>"
+          + "Advertisement,<li>Warbands screenshots"+"</ul></html>";
       JPanel allyriel=buildToonContribPanel("Allyriel","allyriel",contrib);
       panels.add(allyriel);
     }

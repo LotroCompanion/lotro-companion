@@ -44,7 +44,7 @@ public class TraitPointsStatus
   }
 
   /**
-   * Get the number acquired trait points
+   * Get the number acquired trait points.
    * @param characterLevel Level of the character.
    * @return A points count.
    */

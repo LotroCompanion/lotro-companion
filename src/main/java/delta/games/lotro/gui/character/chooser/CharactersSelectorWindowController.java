@@ -13,7 +13,7 @@ import delta.games.lotro.character.CharacterFile;
  * Controller for a "character selector" window.
  * @author DAM
  */
-public class CharactersSelectorWindowController extends DefaultFormDialogController<List<CharacterFile>>
+public final class CharactersSelectorWindowController extends DefaultFormDialogController<List<CharacterFile>>
 {
   // Controllers
   private CharactersSelectorPanelController _controller;

@@ -36,7 +36,7 @@ public class LotroIconsManager
    * Get an icon for a character class.
    * @param cClass Character class.
    * @param size Icon size. Use <code>MEDIUM</code> or <code>SMALL</code>.
-   * @return An icon or <code>null/code> if not found.
+   * @return An icon or <code>null</code> if not found.
    */
   public static ImageIcon getClassIcon(CharacterClass cClass, String size)
   {
@@ -54,7 +54,7 @@ public class LotroIconsManager
    * Get an icon for a character race/sex.
    * @param race Character race.
    * @param sex Character sex.
-   * @return An icon or <code>null/code> if not found.
+   * @return An icon or <code>null</code> if not found.
    */
   public static ImageIcon getCharacterIcon(Race race, CharacterSex sex)
   {

@@ -81,7 +81,7 @@ public class TraitPointsRegistryXMLWriter
    * Write a trait points registry to the given XML stream.
    * @param hd XML output stream.
    * @param registry Registry to write.
-   * @throws Exception
+   * @throws Exception If an error occurs.
    */
   public void write(TransformerHandler hd, TraitPointsRegistry registry) throws Exception
   {

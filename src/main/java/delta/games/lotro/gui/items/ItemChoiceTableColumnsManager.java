@@ -43,9 +43,9 @@ public class ItemChoiceTableColumnsManager
     ret.add(ItemColumnIds.ID.name());
     ret.add(ItemColumnIds.NAME.name());
     ret.add(ItemColumnIds.ITEM_LEVEL.name());
-    if ((slot==EQUIMENT_SLOT.HEAD) || (slot==EQUIMENT_SLOT.BREAST) ||
-        (slot==EQUIMENT_SLOT.HANDS) || (slot==EQUIMENT_SLOT.LEGS) ||
-        (slot==EQUIMENT_SLOT.FEET) || (slot==EQUIMENT_SLOT.SHOULDER))
+    if ((slot==EQUIMENT_SLOT.HEAD) || (slot==EQUIMENT_SLOT.BREAST)
+        || (slot==EQUIMENT_SLOT.HANDS) || (slot==EQUIMENT_SLOT.LEGS)
+        || (slot==EQUIMENT_SLOT.FEET) || (slot==EQUIMENT_SLOT.SHOULDER))
     {
       ret.add(ItemColumnIds.SLOT_COUNT.name());
       ret.add(ItemColumnIds.ARMOUR.name());
@@ -73,10 +73,10 @@ public class ItemChoiceTableColumnsManager
     {
       ret.add(ItemColumnIds.WEAPON_TYPE.name());
     }
-    else if ((slot==EQUIMENT_SLOT.NECK) || (slot==EQUIMENT_SLOT.POCKET) ||
-        (slot==EQUIMENT_SLOT.LEFT_EAR) || (slot==EQUIMENT_SLOT.RIGHT_EAR) ||
-        (slot==EQUIMENT_SLOT.LEFT_WRIST) || (slot==EQUIMENT_SLOT.RIGHT_WRIST) ||
-        (slot==EQUIMENT_SLOT.LEFT_FINGER) || (slot==EQUIMENT_SLOT.RIGHT_FINGER))
+    else if ((slot==EQUIMENT_SLOT.NECK) || (slot==EQUIMENT_SLOT.POCKET)
+        || (slot==EQUIMENT_SLOT.LEFT_EAR) || (slot==EQUIMENT_SLOT.RIGHT_EAR)
+        || (slot==EQUIMENT_SLOT.LEFT_WRIST) || (slot==EQUIMENT_SLOT.RIGHT_WRIST)
+        || (slot==EQUIMENT_SLOT.LEFT_FINGER) || (slot==EQUIMENT_SLOT.RIGHT_FINGER))
     {
       ret.add(ItemColumnIds.SLOT_COUNT.name());
     }

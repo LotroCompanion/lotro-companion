@@ -32,7 +32,7 @@ public class RelicsEditionPanelController implements ActionListener
   /**
    * Relic types, ordered like in the LOTRO UI.
    */
-  private static RelicType[] RELIC_TYPES={RelicType.SETTING,RelicType.GEM,RelicType.RUNE,RelicType.CRAFTED_RELIC};
+  private static final RelicType[] RELIC_TYPES={RelicType.SETTING,RelicType.GEM,RelicType.RUNE,RelicType.CRAFTED_RELIC};
 
   // Data
   private LegendaryAttrs _legAttrs;

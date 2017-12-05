@@ -12,13 +12,13 @@ import org.apache.log4j.Logger;
  * Custom fonts manager.
  * @author DAM
  */
-public class FontsManager
+public final class FontsManager
 {
   private static final Logger LOGGER=Logger.getLogger(FontsManager.class);
 
   private static final String FONT = "/resources/gui/fonts/firstv2.ttf";
 
-  private static FontsManager instance=new FontsManager();
+  private static FontsManager _instance=new FontsManager();
 
   private Font _font;
 
@@ -28,7 +28,7 @@ public class FontsManager
    */
   public static FontsManager getInstance()
   {
-    return instance;
+    return _instance;
   }
 
   private FontsManager()

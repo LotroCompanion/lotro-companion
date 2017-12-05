@@ -16,7 +16,7 @@ import delta.games.lotro.character.CharacterFile;
  * Controller for a characters chooser.
  * @author DAM
  */
-public class CharactersChooserController extends DefaultFormDialogController<List<CharacterFile>>
+public final class CharactersChooserController extends DefaultFormDialogController<List<CharacterFile>>
 {
   private OrderedItemsSelectionController<CharacterFile> _selectionController;
 

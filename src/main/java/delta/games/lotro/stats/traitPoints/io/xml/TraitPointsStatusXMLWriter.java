@@ -74,10 +74,10 @@ public class TraitPointsStatusXMLWriter
   }
 
   /**
-   * Write a trait points registry to the given XML stream.
+   * Write a trait points status to the given XML stream.
    * @param hd XML output stream.
    * @param status Status to write.
-   * @throws Exception
+   * @throws Exception If an error occurs.
    */
   public void write(TransformerHandler hd, TraitPointsStatus status) throws Exception
   {

@@ -14,7 +14,7 @@ import delta.common.utils.text.TextUtils;
  * Configuration.
  * @author DAM
  */
-public class Config
+public final class Config
 {
   private static Config _instance=new Config();
 
