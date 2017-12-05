@@ -104,16 +104,16 @@ public class ReputationSynopsisWindowController extends DefaultWindowController
   {
     saveBoundsPreferences();
     super.dispose();
-    Preferences preferences=Config.getInstance().getPreferences();
-    TypedProperties props=preferences.getPreferences(REPUTATION_PREFERENCES_NAME);
-    List<String> toonIds=new ArrayList<String>();
-    for(CharacterFile toon : _panelController.getTableController().getToons())
-    {
-      toonIds.add(toon.getIdentifier());
-    }
-    props.setStringList(TOON_NAME_PREFERENCE,toonIds);
     if (_panelController!=null)
     {
+      Preferences preferences=Config.getInstance().getPreferences();
+      TypedProperties props=preferences.getPreferences(REPUTATION_PREFERENCES_NAME);
+      List<String> toonIds=new ArrayList<String>();
+      for(CharacterFile toon : _panelController.getTableController().getToons())
+      {
+        toonIds.add(toon.getIdentifier());
+      }
+      props.setStringList(TOON_NAME_PREFERENCE,toonIds);
       _panelController.dispose();
       _panelController=null;
     }

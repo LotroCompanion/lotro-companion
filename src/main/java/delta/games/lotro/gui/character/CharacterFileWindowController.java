@@ -485,7 +485,7 @@ public class CharacterFileWindowController extends DefaultWindowController imple
       _toonsTable.dispose();
       _toonsTable=null;
     }
-    if (_toolbar==null)
+    if (_toolbar!=null)
     {
       _toolbar.dispose();
       _toolbar=null;

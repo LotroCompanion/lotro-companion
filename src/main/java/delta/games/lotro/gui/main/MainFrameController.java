@@ -348,7 +348,7 @@ public class MainFrameController extends DefaultWindowController implements Acti
       _windowsManager=null;
     }
     super.dispose();
-    if (_toolbar==null)
+    if (_toolbar!=null)
     {
       _toolbar.dispose();
       _toolbar=null;

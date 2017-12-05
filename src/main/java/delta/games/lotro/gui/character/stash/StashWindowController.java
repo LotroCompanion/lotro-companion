@@ -265,7 +265,7 @@ public class StashWindowController extends DefaultWindowController implements Ac
       _itemsTable.dispose();
       _itemsTable=null;
     }
-    if (_toolbar==null)
+    if (_toolbar!=null)
     {
       _toolbar.dispose();
       _toolbar=null;

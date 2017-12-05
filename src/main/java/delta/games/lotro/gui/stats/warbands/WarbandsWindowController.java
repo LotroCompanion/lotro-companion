@@ -104,16 +104,16 @@ public class WarbandsWindowController extends DefaultWindowController
   {
     saveBoundsPreferences();
     super.dispose();
-    Preferences preferences=Config.getInstance().getPreferences();
-    TypedProperties props=preferences.getPreferences(WARBANDS_PREFERENCES_NAME);
-    List<String> toonIds=new ArrayList<String>();
-    for(CharacterFile toon : _warbandsStatisticsPanelController.getTableController().getToons())
-    {
-      toonIds.add(toon.getIdentifier());
-    }
-    props.setStringList(TOON_NAME_PREFERENCE,toonIds);
     if (_warbandsStatisticsPanelController!=null)
     {
+      Preferences preferences=Config.getInstance().getPreferences();
+      TypedProperties props=preferences.getPreferences(WARBANDS_PREFERENCES_NAME);
+      List<String> toonIds=new ArrayList<String>();
+      for(CharacterFile toon : _warbandsStatisticsPanelController.getTableController().getToons())
+      {
+        toonIds.add(toon.getIdentifier());
+      }
+      props.setStringList(TOON_NAME_PREFERENCE,toonIds);
       _warbandsStatisticsPanelController.dispose();
       _warbandsStatisticsPanelController=null;
     }
