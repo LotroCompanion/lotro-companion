@@ -14,6 +14,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.TransferHandler;
 
+import org.apache.log4j.Logger;
+
 import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.character.stats.virtues.VirtuesSet;
 import delta.games.lotro.common.VirtueId;
@@ -25,6 +27,8 @@ import delta.games.lotro.gui.character.virtues.VirtueEditionUiController.TierVal
  */
 public class VirtuesEditionPanelController implements TierValueListener
 {
+  private static final Logger LOGGER=Logger.getLogger(VirtuesEditionPanelController.class);
+
   private JPanel _panel;
   private HashMap<VirtueId,VirtueEditionUiController> _virtues;
   private VirtuesDisplayPanelController _selectedVirtues;
@@ -129,7 +133,7 @@ public class VirtuesEditionPanelController implements TierValueListener
       }
       catch(Exception e)
       {
-        e.printStackTrace();
+        LOGGER.warn("Could not get virtue ID from DnD input data", e);
       }
       return virtueId;
     }

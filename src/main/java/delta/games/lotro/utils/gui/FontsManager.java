@@ -6,13 +6,17 @@ import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
 
+import org.apache.log4j.Logger;
+
 /**
  * Custom fonts manager.
  * @author DAM
  */
 public class FontsManager
 {
-  private final String font = "/resources/gui/fonts/firstv2.ttf";
+  private static final Logger LOGGER=Logger.getLogger(FontsManager.class);
+
+  private static final String FONT = "/resources/gui/fonts/firstv2.ttf";
 
   private static FontsManager instance=new FontsManager();
 
@@ -35,7 +39,7 @@ public class FontsManager
   private void loadFont()
   {
     try {
-      URL ufont=FontsManager.class.getResource(font);
+      URL ufont=FontsManager.class.getResource(FONT);
       URLConnection con = ufont.openConnection();
       con.connect();
       InputStream is = con.getInputStream();
@@ -48,7 +52,7 @@ public class FontsManager
     }
     catch(Exception e)
     {
-      e.printStackTrace();
+      LOGGER.warn("Could not load font "+FONT,e);
     }
   }
 
