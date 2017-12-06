@@ -56,6 +56,15 @@ public class StatCurvesChartConfiguration
   }
 
   /**
+   * Set level to use.
+   * @param level Level to use.
+   */
+  public void setLevel(int level)
+  {
+    _level=level;
+  }
+
+  /**
    * Get the minimum rating to use.
    * @return the minimum rating to use.
    */
@@ -74,6 +83,15 @@ public class StatCurvesChartConfiguration
   }
 
   /**
+   * Set the max rating to use.
+   * @param maxRating the maximum rating to use.
+   */
+  public void setMaxRating(double maxRating)
+  {
+    _maxRating=maxRating;
+  }
+
+  /**
    * Get the stat used to build this chart.
    * @return a stat.
    */
@@ -89,6 +107,7 @@ public class StatCurvesChartConfiguration
   public void addCurve(SingleStatCurveConfiguration curveConfiguration)
   {
     _curves.add(curveConfiguration);
+    _maxRating=getAutoMaxRating();
   }
 
   /**

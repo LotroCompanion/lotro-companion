@@ -43,9 +43,11 @@ public class StatCurveChartPanelController
   // GUI
   private JPanel _panel;
   private JFreeChart _chart;
-  private List<XYSeries> _series;
+  private List<XYSeries> _curvesSeries;
+  private List<XYSeries> _currentValueSeries;
   // Data
   private StatCurvesChartConfiguration _config;
+  private FixedDecimalsInteger _statValue;
 
   /**
    * Constructor.
@@ -54,7 +56,17 @@ public class StatCurveChartPanelController
   public StatCurveChartPanelController(StatCurvesChartConfiguration config)
   {
     _config=config;
-    _series=new ArrayList<XYSeries>();
+    _curvesSeries=new ArrayList<XYSeries>();
+    _currentValueSeries=new ArrayList<XYSeries>();
+  }
+
+  /**
+   * Full update.
+   */
+  public void update()
+  {
+    updateCurveLinesSeries();
+    updateStatSeries();
   }
 
   /**
@@ -64,33 +76,69 @@ public class StatCurveChartPanelController
   public void update(BasicStatsSet stats)
   {
     STAT baseStat=_config.getBaseStat();
-    FixedDecimalsInteger baseStatValue=stats.getStat(baseStat);
-    updateSeriesWithCurrentValue(baseStatValue);
+    _statValue=stats.getStat(baseStat);
+    updateStatSeries();
   }
 
-  private void updateSeriesWithCurrentValue(FixedDecimalsInteger value)
+  private void updateCurveLinesSeries()
   {
     List<SingleStatCurveConfiguration> curveConfigs=_config.getCurveConfigurations();
     int nbCurves=curveConfigs.size();
     for(int i=0;i<nbCurves;i++)
     {
-      XYSeries series=_series.get(i);
-      int count=series.getItemCount();
-      if (count>0)
+      SingleStatCurveConfiguration curveConfig=curveConfigs.get(i);
+      XYSeries curveLineSeries=_curvesSeries.get(i);
+      updateCurveLineSeries(curveLineSeries,curveConfig);
+    }
+  }
+
+  private void updateCurveLineSeries(XYSeries curveLineSeries, SingleStatCurveConfiguration curveConfiguration)
+  {
+    curveLineSeries.clear();
+    double minRating=_config.getMinRating();
+    double maxRating=_config.getMaxRating();
+    double step=(maxRating-minRating)/NB_POINTS;
+    int level=_config.getLevel();
+    RatingCurve curve=curveConfiguration.getCurve();
+    for(int i=0;i<NB_POINTS;i++)
+    {
+      double rating=minRating+i*step;
+      Double percentage=curve.getPercentage(rating,level);
+      if (percentage!=null)
       {
-        series.remove(0);
+        curveLineSeries.add(rating,percentage.doubleValue());
       }
-      if (value!=null)
+    }
+  }
+
+  private void updateStatSeries()
+  {
+    List<SingleStatCurveConfiguration> curveConfigs=_config.getCurveConfigurations();
+    int nbCurves=curveConfigs.size();
+    for(int i=0;i<nbCurves;i++)
+    {
+      XYSeries statSeries=_currentValueSeries.get(i);
+      SingleStatCurveConfiguration curveConfiguration=curveConfigs.get(i);
+      updateStatSeries(statSeries,curveConfiguration);
+    }
+  }
+
+  private void updateStatSeries(XYSeries statSeries, SingleStatCurveConfiguration curveConfiguration)
+  {
+    int count=statSeries.getItemCount();
+    if (count>0)
+    {
+      statSeries.remove(0);
+    }
+    if (_statValue!=null)
+    {
+      RatingCurve curve=curveConfiguration.getCurve();
+      double rating=_statValue.doubleValue();
+      int level=_config.getLevel();
+      Double percentage=curve.getPercentage(rating,level);
+      if (percentage!=null)
       {
-        SingleStatCurveConfiguration curveConfig=curveConfigs.get(i);
-        RatingCurve curve=curveConfig.getCurve();
-        double rating=value.doubleValue();
-        int level=_config.getLevel();
-        Double percentage=curve.getPercentage(rating,level);
-        if (percentage!=null)
-        {
-          series.add(rating,percentage.doubleValue());
-        }
+        statSeries.add(rating,percentage.doubleValue());
       }
     }
   }
@@ -173,45 +221,26 @@ public class StatCurveChartPanelController
   {
     XYSeriesCollection data=new XYSeriesCollection();
     buildCurves(data);
+    updateCurveLinesSeries();
     return data;
   }
 
   private void buildCurves(XYSeriesCollection data)
   {
-    double minRating=_config.getMinRating();
-    double manualMaxRating=_config.getMaxRating();
-    double autoMaxRating=_config.getAutoMaxRating();
-    double maxRating=Math.max(manualMaxRating,autoMaxRating);
-    double step=(maxRating-minRating)/NB_POINTS;
-    int level=_config.getLevel();
     for(SingleStatCurveConfiguration curveConfiguration : _config.getCurveConfigurations())
     {
-      RatingCurve curve=curveConfiguration.getCurve();
-      // Curve line series
       String key=curveConfiguration.getTitle();
-      XYSeries curveLineSeries = new XYSeries(key);
-      for(int i=0;i<NB_POINTS;i++)
+      // Curve line series
       {
-        double rating=minRating+i*step;
-        Double percentage=curve.getPercentage(rating,level);
-        if (percentage!=null)
-        {
-          curveLineSeries.add(rating,percentage.doubleValue());
-        }
+        XYSeries curveLineSeries = new XYSeries(key);
+        data.addSeries(curveLineSeries);
+        _curvesSeries.add(curveLineSeries);
       }
-      data.addSeries(curveLineSeries);
-  
       // Current point series
       {
         XYSeries currentPointSeries=new XYSeries(key+" (Current)");
-        double rating=minRating+(NB_POINTS/2)*step;
-        Double percentage=curve.getPercentage(rating,level);
-        if (percentage!=null)
-        {
-          currentPointSeries.add(rating,percentage.doubleValue());
-        }
         data.addSeries(currentPointSeries);
-        _series.add(currentPointSeries);
+        _currentValueSeries.add(currentPointSeries);
       }
     }
   }
@@ -226,6 +255,10 @@ public class StatCurveChartPanelController
       _panel.removeAll();
       _panel=null;
     }
+    _curvesSeries.clear();
+    _currentValueSeries.clear();
+    _statValue=null;
+    _config=null;
     _chart=null;
   }
 }

@@ -142,4 +142,17 @@ public class StatValuesPanelController
     label.setOpaque(true);
     return label;
   }
+
+  /**
+   * Release all managed resources.
+   */
+  public void dispose()
+  {
+    if (_panel!=null)
+    {
+      _panel.removeAll();
+      _panel=null;
+    }
+    _config=null;
+  }
 }
