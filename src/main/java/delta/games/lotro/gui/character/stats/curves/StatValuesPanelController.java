@@ -84,12 +84,11 @@ public class StatValuesPanelController
       for(STAT stat : stats)
       {
         c.gridx=0;
-        if (nbCurves>1)
-        {
-          // Add color
-          JLabel coloredLabel=buildColoredLabel(color);
-          _panel.add(coloredLabel,c);
-        }
+        c.fill=GridBagConstraints.NONE;
+        c.weightx=0.0;
+        // Add color
+        JLabel coloredLabel=buildColoredLabel(color);
+        _panel.add(coloredLabel,c);
         c.gridx++;
         // Stat name
         JLabel statNameLabel=GuiFactory.buildLabel(stat.getName());
