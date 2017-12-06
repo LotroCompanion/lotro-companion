@@ -31,7 +31,7 @@ public class StatCurvesPanelController
   {
     _chartPanel=new StatCurveChartPanelController(config);
     _valuesPanel=new StatValuesPanelController(config);
-    _configPanel=new StatCurvesConfigurationPanel(config,_chartPanel);
+    _configPanel=new StatCurvesConfigurationPanel(config,_chartPanel,_valuesPanel);
     _panel=buildPanel();
   }
 

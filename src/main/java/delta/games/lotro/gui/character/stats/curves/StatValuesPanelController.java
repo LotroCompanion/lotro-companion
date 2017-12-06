@@ -5,6 +5,7 @@ import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.Box;
@@ -28,6 +29,8 @@ public class StatValuesPanelController
   private JPanel _panel;
   // Data
   private StatCurvesChartConfiguration _config;
+  private List<FixedDecimalsInteger> _deltaValues;
+  private BasicStatsSet _values;
 
   /**
    * Constructor.
@@ -37,6 +40,8 @@ public class StatValuesPanelController
   {
     _config=config;
     _panel=GuiFactory.buildPanel(new GridBagLayout());
+    _deltaValues=new ArrayList<FixedDecimalsInteger>();
+    _values=new BasicStatsSet();
   }
 
   /**
@@ -54,6 +59,22 @@ public class StatValuesPanelController
    */
   public void update(BasicStatsSet values)
   {
+    _values=new BasicStatsSet(values);
+    update();
+  }
+
+  /**
+   * Update this panel.
+   */
+  public void update()
+  {
+    buildContents();
+    _panel.revalidate();
+    _panel.repaint();
+  }
+
+  private void buildContents()
+  {
     // Clear
     _panel.removeAll();
 
@@ -67,15 +88,17 @@ public class StatValuesPanelController
     _panel.add(baseStatNameLabel,c);
     // - Stat value
     c.gridx++;
-    FixedDecimalsInteger baseStatValue=values.getStat(baseStat);
+    FixedDecimalsInteger baseStatValue=_values.getStat(baseStat);
     JLabel baseStatValueLabel=GuiFactory.buildLabel(StatDisplayUtils.getStatDisplay(baseStatValue,baseStat.isPercentage()));
     _panel.add(baseStatValueLabel,c);
     c.gridy++;
 
+    boolean doComputeDelta=(_deltaValues.size()==0);
     // Stat lines
     int level=_config.getLevel();
     List<SingleStatCurveConfiguration> curveConfigs=_config.getCurveConfigurations();
     int nbCurves=curveConfigs.size();
+    int index=0;
     for(int curveIndex=0;curveIndex<nbCurves;curveIndex++)
     {
       SingleStatCurveConfiguration curveConfig=curveConfigs.get(curveIndex);
@@ -96,27 +119,29 @@ public class StatValuesPanelController
         c.gridx++;
         // Stat value
         FixedDecimalsInteger statValueFromCurve=getStatValue(curveConfig,level,baseStatValue);
-        FixedDecimalsInteger statValue=values.getStat(stat);
+        FixedDecimalsInteger statValue=_values.getStat(stat);
         String statValueFromCurveStr=StatDisplayUtils.getStatDisplay(statValueFromCurve,stat.isPercentage());
         JLabel statValueFromCurveLabel=GuiFactory.buildLabel(statValueFromCurveStr);
         _panel.add(statValueFromCurveLabel,c);
         c.gridx++;
         // Bonus
         FixedDecimalsInteger deltaValue=null;
-        if ((statValueFromCurve!=null) && (statValue!=null))
+        if (doComputeDelta)
         {
-          int delta=statValue.getInternalValue()-statValueFromCurve.getInternalValue();
-          if (delta!=0)
-          {
-            deltaValue=new FixedDecimalsInteger();
-            deltaValue.setRawValue(delta);
-          }
+          deltaValue=getDeltaValue(statValueFromCurve,statValue);
+          _deltaValues.add(deltaValue);
+        }
+        else
+        {
+          deltaValue=_deltaValues.get(index);
         }
         if (deltaValue!=null)
         {
           String deltaValueStr=StatDisplayUtils.getStatDisplay(deltaValue,stat.isPercentage());
           if (deltaValue.getInternalValue()>0) deltaValueStr="+"+deltaValueStr;
-          String totalValueStr=StatDisplayUtils.getStatDisplay(statValue,stat.isPercentage());
+          FixedDecimalsInteger totalValue=new FixedDecimalsInteger(statValueFromCurve);
+          totalValue.add(deltaValue);
+          String totalValueStr=StatDisplayUtils.getStatDisplay(totalValue,stat.isPercentage());
           String bonusStr=deltaValueStr+" = "+totalValueStr;
           JLabel bonusLabel=GuiFactory.buildLabel(bonusStr);
           _panel.add(bonusLabel,c);
@@ -131,8 +156,24 @@ public class StatValuesPanelController
         }
         c.gridx++;
         c.gridy++;
+        index++;
       }
     }
+  }
+
+  private FixedDecimalsInteger getDeltaValue(FixedDecimalsInteger statValueFromCurve, FixedDecimalsInteger statValue)
+  {
+    FixedDecimalsInteger deltaValue=null;
+    if ((statValueFromCurve!=null) && (statValue!=null))
+    {
+      int delta=statValue.getInternalValue()-statValueFromCurve.getInternalValue();
+      if (delta!=0)
+      {
+        deltaValue=new FixedDecimalsInteger();
+        deltaValue.setRawValue(delta);
+      }
+    }
+    return deltaValue;
   }
 
   private FixedDecimalsInteger getStatValue(SingleStatCurveConfiguration config, int level, FixedDecimalsInteger baseStatValue)

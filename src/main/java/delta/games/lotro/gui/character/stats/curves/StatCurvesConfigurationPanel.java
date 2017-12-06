@@ -28,6 +28,7 @@ public class StatCurvesConfigurationPanel
   private ComboBoxController<Integer> _level;
   private IntegerEditionController _maxRating;
   private StatCurveChartPanelController _chart;
+  private StatValuesPanelController _values;
   // UI
   private JPanel _panel;
 
@@ -35,12 +36,14 @@ public class StatCurvesConfigurationPanel
    * Constructor.
    * @param config Curves configuration.
    * @param chart Associated chart.
+   * @param values Associated 'values' panel.
    */
-  public StatCurvesConfigurationPanel(StatCurvesChartConfiguration config, StatCurveChartPanelController chart)
+  public StatCurvesConfigurationPanel(StatCurvesChartConfiguration config, StatCurveChartPanelController chart, StatValuesPanelController values)
   {
     _initialLevel=null;
     _config=config;
     _chart=chart;
+    _values=values;
     _panel=buildPanel();
   }
 
@@ -102,6 +105,7 @@ public class StatCurvesConfigurationPanel
     {
       _chart.update();
     }
+    _values.update();
   }
 
   private void updateMaxRating()
