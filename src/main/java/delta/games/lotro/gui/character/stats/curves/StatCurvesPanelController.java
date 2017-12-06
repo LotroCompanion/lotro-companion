@@ -57,13 +57,13 @@ public class StatCurvesPanelController
     JPanel valuesPanel=_valuesPanel.getPanel();
     TitledBorder valuesBorder=GuiFactory.buildTitledBorder("Values");
     valuesPanel.setBorder(valuesBorder);
-    c=new GridBagConstraints(0,1,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    c=new GridBagConstraints(0,1,1,1,1.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(valuesPanel,c);
     // Configuration
     JPanel configurationPanel=_configPanel.getPanel();
     TitledBorder configurationBorder=GuiFactory.buildTitledBorder("Configuration");
     configurationPanel.setBorder(configurationBorder);
-    c=new GridBagConstraints(1,1,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    c=new GridBagConstraints(1,1,1,1,0.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(configurationPanel,c);
     return panel;
   }

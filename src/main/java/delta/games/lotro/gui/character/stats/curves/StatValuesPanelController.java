@@ -1,11 +1,13 @@
 package delta.games.lotro.gui.character.stats.curves;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.util.List;
 
+import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -121,6 +123,14 @@ public class StatValuesPanelController
           _panel.add(bonusLabel,c);
           c.gridx++;
         }
+        // Add 'buffer' empty column
+        {
+          c.fill=GridBagConstraints.BOTH;
+          c.weightx=1.0;
+          Component glue=Box.createGlue();
+          _panel.add(glue,c);
+        }
+        c.gridx++;
         c.gridy++;
       }
     }
