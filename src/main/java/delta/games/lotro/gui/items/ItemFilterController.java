@@ -113,6 +113,7 @@ public class ItemFilterController extends AbstractItemFilterPanelController
    * Get the managed panel.
    * @return the managed panel.
    */
+  @Override
   public JPanel getPanel()
   {
     if (_panel==null)
@@ -301,6 +302,7 @@ public class ItemFilterController extends AbstractItemFilterPanelController
   /**
    * Release all managed resources.
    */
+  @Override
   public void dispose()
   {
     super.dispose();

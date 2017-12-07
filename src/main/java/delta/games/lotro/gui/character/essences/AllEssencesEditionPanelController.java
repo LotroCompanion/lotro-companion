@@ -139,6 +139,10 @@ public class AllEssencesEditionPanelController implements EssenceUpdatedListener
     return nbEssences;
   }
 
+  /**
+   * Invoked when an essence has been updated.
+   * @param source Source controller.
+   */
   public void essenceUpdated(SingleEssenceEditionController source)
   {
     for(SingleItemEssencesEditionController itemEssences : _editors)

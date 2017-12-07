@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JProgressBar;
+import javax.swing.SwingConstants;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.lore.reputation.Faction;
@@ -38,7 +39,7 @@ public class FactionEditionPanelController
     FactionLevel[] levels=_faction.getLevels();
     int min=0;
     int max=levels[levels.length-1].getValue();
-    _bar=new JProgressBar(JProgressBar.HORIZONTAL,min,max);
+    _bar=new JProgressBar(SwingConstants.HORIZONTAL,min,max);
     _bar.setBackground(GuiFactory.getBackgroundColor());
     _bar.setBorderPainted(true);
     _bar.setStringPainted(true);

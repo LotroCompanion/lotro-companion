@@ -207,7 +207,12 @@ public class CharacterLogFilterController implements ItemListener
     return panel;
   }
 
-  public void itemStateChanged(ItemEvent e) {
+  /**
+   * Invoked when a 'type' checkbox state has changed.
+   * @param event Source event.
+   */
+  public void itemStateChanged(ItemEvent event)
+  {
     Set<LogItemType> types=new HashSet<LogItemType>();
     for(Map.Entry<LogItemType,JCheckBox> entry : _types.entrySet())
     {

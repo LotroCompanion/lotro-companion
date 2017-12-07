@@ -185,11 +185,13 @@ public class EquipmentPanelController implements ActionListener
   {
     class PopClickListener extends MouseAdapter
     {
+      @Override
       public void mousePressed(MouseEvent e)
       {
         if (e.isPopupTrigger()) doPop(e);
       }
 
+      @Override
       public void mouseReleased(MouseEvent e)
       {
         if (e.isPopupTrigger()) doPop(e);

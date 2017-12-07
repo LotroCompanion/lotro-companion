@@ -61,6 +61,7 @@ public class VirtueEditionUiController implements ActionListener
     label.setName(virtueId.name());
     label.addMouseListener(new MouseAdapter()
     {
+      @Override
       public void mousePressed(MouseEvent e)
       {
         JComponent lab=(JComponent)e.getSource();

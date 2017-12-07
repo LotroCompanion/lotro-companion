@@ -21,6 +21,11 @@ public class CraftingSynopsisItemFilter implements Filter<CraftingSynopsisItem>
     _professionFilter=professionFilter;
   }
 
+  /**
+   * Indicates if this filter accepts the given item.
+   * @return <code>true</code> if the profession filter accepts the profession of the given item,
+   * <code>false</code> otherwise.
+   */
   public boolean accept(CraftingSynopsisItem item)
   {
     Profession profession=item.getProfession();

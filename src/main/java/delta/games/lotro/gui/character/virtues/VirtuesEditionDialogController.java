@@ -52,6 +52,7 @@ public class VirtuesEditionDialogController extends DefaultFormDialogController<
   /**
    * Release all managed resources.
    */
+  @Override
   public void dispose()
   {
     super.dispose();

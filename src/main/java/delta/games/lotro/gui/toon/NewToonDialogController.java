@@ -146,6 +146,7 @@ public class NewToonDialogController extends DefaultFormDialogController<Object>
     }
   }
 
+  @Override
   protected boolean checkInput()
   {
     String errorMsg=checkData();
@@ -183,6 +184,7 @@ public class NewToonDialogController extends DefaultFormDialogController<Object>
   /**
    * Release all managed resources.
    */
+  @Override
   public void dispose()
   {
     super.dispose();

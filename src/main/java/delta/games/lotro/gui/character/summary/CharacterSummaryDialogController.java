@@ -166,6 +166,7 @@ public class CharacterSummaryDialogController extends DefaultFormDialogControlle
   /**
    * Release all managed resources.
    */
+  @Override
   public void dispose()
   {
     super.dispose();

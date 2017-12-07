@@ -50,6 +50,7 @@ public class ItemEditionWindowController extends DefaultFormDialogController<Ite
   /**
    * Release all managed resources.
    */
+  @Override
   public void dispose()
   {
     super.dispose();

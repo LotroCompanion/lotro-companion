@@ -143,6 +143,11 @@ public class CharacterLevelPanelController implements CharacterSelectionChangedL
     }
   }
 
+  /**
+   * Called when the selection of characters has changed.
+   * @param toonId Targeted character identifier.
+   * @param selected New state for this character (visible if selected, hidden otherwise).
+   */
   public void selectionChanged(String toonId, boolean selected)
   {
     if (_chartController!=null)

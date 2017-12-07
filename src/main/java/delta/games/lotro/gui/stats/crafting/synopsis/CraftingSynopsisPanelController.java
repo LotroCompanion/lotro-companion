@@ -150,7 +150,7 @@ public class CraftingSynopsisPanelController implements CharacterEventListener
    * @param type Event type.
    * @param event Source event.
    */
-  public void eventOccured(CharacterEventType type, CharacterEvent event)
+  public void eventOccurred(CharacterEventType type, CharacterEvent event)
   {
     if (type==CharacterEventType.CHARACTER_CRAFTING_UPDATED)
     {

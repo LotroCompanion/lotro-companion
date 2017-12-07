@@ -106,6 +106,7 @@ public class TomesEditionPanelController
   {
     class LeftClickListener extends MouseAdapter
     {
+      @Override
       public void mouseReleased(MouseEvent e)
       {
         int delta=0;

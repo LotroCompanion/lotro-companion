@@ -142,11 +142,13 @@ public class BuffEditionPanelController implements ActionListener
   {
     class PopClickListener extends MouseAdapter
     {
+      @Override
       public void mousePressed(MouseEvent e)
       {
         if (e.isPopupTrigger()) doPop(e);
       }
 
+      @Override
       public void mouseReleased(MouseEvent e)
       {
         if (e.isPopupTrigger()) doPop(e);
@@ -164,6 +166,7 @@ public class BuffEditionPanelController implements ActionListener
   {
     class LeftClickListener extends MouseAdapter
     {
+      @Override
       public void mouseReleased(MouseEvent e)
       {
         if (e.getButton()==MouseEvent.BUTTON1)
@@ -175,9 +178,16 @@ public class BuffEditionPanelController implements ActionListener
     return new LeftClickListener();
   }
 
-  public void actionPerformed(ActionEvent e)
+  /**
+   * Callback for managed commands:
+   * <ul>
+   * <li>Remove.
+   * </ul>
+   * @param event Source event.
+   */
+  public void actionPerformed(ActionEvent event)
   {
-    String cmd=e.getActionCommand();
+    String cmd=event.getActionCommand();
     if (REMOVE_COMMAND.equals(cmd))
     {
       // From contextual menu

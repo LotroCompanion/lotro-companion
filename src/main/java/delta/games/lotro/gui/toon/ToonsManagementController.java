@@ -89,7 +89,7 @@ public class ToonsManagementController implements ActionListener,CharacterEventL
    * @param type Event type.
    * @param event Source event.
    */
-  public void eventOccured(CharacterEventType type, CharacterEvent event)
+  public void eventOccurred(CharacterEventType type, CharacterEvent event)
   {
     if ((type==CharacterEventType.CHARACTER_ADDED) || (type==CharacterEventType.CHARACTER_REMOVED))
     {

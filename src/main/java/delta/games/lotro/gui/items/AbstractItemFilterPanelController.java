@@ -25,6 +25,9 @@ public abstract class AbstractItemFilterPanelController
     _filterListener=filterListener;
   }
 
+  /**
+   * Invoked when the managed filter has been updated.
+   */
   protected void filterUpdated()
   {
     if (_filterListener!=null)

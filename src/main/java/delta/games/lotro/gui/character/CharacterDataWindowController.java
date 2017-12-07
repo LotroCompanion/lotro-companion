@@ -251,6 +251,12 @@ public class CharacterDataWindowController extends DefaultFormDialogController<C
     return id;
   }
 
+  /**
+   * Get a set of user properties.
+   * @param id of the properties set.
+   * @return Some properties or <code>null</code> if not managed.
+   */
+  @Override
   public TypedProperties getUserProperties(String id)
   {
     return CharacterPreferencesManager.getUserProperties(_toonFile,id);
@@ -280,7 +286,12 @@ public class CharacterDataWindowController extends DefaultFormDialogController<C
     summaryController.bringToFront();
   }
 
-  public void eventOccured(CharacterEventType type, CharacterEvent event)
+  /**
+   * Handle character events.
+   * @param type Event type.
+   * @param event Source event.
+   */
+  public void eventOccurred(CharacterEventType type, CharacterEvent event)
   {
     if (type==CharacterEventType.CHARACTER_DATA_UPDATED)
     {

@@ -155,7 +155,12 @@ public class CharacterDataTableController implements CharacterEventListener
     _tableController.removeActionListener(al);
   }
 
-  public void eventOccured(CharacterEventType type, CharacterEvent event)
+  /**
+   * Handle character events.
+   * @param type Event type.
+   * @param event Source event.
+   */
+  public void eventOccurred(CharacterEventType type, CharacterEvent event)
   {
     if (type==CharacterEventType.CHARACTER_DATA_UPDATED)
     {

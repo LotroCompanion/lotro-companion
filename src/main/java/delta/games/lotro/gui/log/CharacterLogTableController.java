@@ -121,6 +121,9 @@ public class CharacterLogTableController
   {
     private HashMap<LogItemType,String> _labels;
 
+    /**
+     * Constructor.
+     */
     public LogItemTypeRenderer()
     {
       _labels=new HashMap<LogItemType,String>();
@@ -133,6 +136,7 @@ public class CharacterLogTableController
       _labels.put(LogItemType.UNKNOWN,"???");
     }
 
+    @Override
     public void setValue(Object value)
     {
       setText((value == null) ? "" : _labels.get(value));
