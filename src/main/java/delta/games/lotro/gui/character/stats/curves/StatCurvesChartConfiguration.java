@@ -22,17 +22,14 @@ public class StatCurvesChartConfiguration
   /**
    * Constructor.
    * @param title Chart title.
-   * @param level Level to use.
-   * @param minRating Minimum rating.
-   * @param maxRating Maximum rating.
    * @param baseStat Base stat.
    */
-  public StatCurvesChartConfiguration(String title, int level, double minRating, double maxRating, STAT baseStat)
+  public StatCurvesChartConfiguration(String title, STAT baseStat)
   {
     _title=title;
-    _level=level;
-    _minRating=minRating;
-    _maxRating=maxRating;
+    _level=1;
+    _minRating=0;
+    _maxRating=0;
     _baseStat=baseStat;
     _curves=new ArrayList<SingleStatCurveConfiguration>();
   }
