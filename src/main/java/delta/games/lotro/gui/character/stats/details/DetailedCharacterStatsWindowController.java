@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.character.stats;
+package delta.games.lotro.gui.character.stats.details;
 
 import javax.swing.JComponent;
 import javax.swing.JDialog;
@@ -13,14 +13,14 @@ import delta.games.lotro.character.stats.BasicStatsSet;
  * Controller for a "detailed character stats" window.
  * @author DAM
  */
-public class CharacterStatsWindowController extends DefaultDialogController
+public class DetailedCharacterStatsWindowController extends DefaultDialogController
 {
   /**
    * Window identifier.
    */
   public static final String IDENTIFIER="DETAILS";
 
-  private CharacterStatsPanelController _statsPanelController;
+  private DetailedCharacterStatsPanelController _statsPanelController;
   private CharacterData _toon;
 
   /**
@@ -28,10 +28,10 @@ public class CharacterStatsWindowController extends DefaultDialogController
    * @param parent Parent controller.
    * @param toon Managed toon.
    */
-  public CharacterStatsWindowController(WindowController parent, CharacterData toon)
+  public DetailedCharacterStatsWindowController(WindowController parent, CharacterData toon)
   {
     super(parent);
-    _statsPanelController=new CharacterStatsPanelController();
+    _statsPanelController=new DetailedCharacterStatsPanelController();
     _toon=toon;
   }
 

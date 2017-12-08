@@ -19,8 +19,8 @@ import delta.common.ui.swing.windows.WindowsManager;
 import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.character.stats.STAT;
-import delta.games.lotro.gui.character.stats.CharacterStatsWindowController;
 import delta.games.lotro.gui.character.stats.contribs.StatContribsWindowController;
+import delta.games.lotro.gui.character.stats.details.DetailedCharacterStatsWindowController;
 import delta.games.lotro.utils.FixedDecimalsInteger;
 
 /**
@@ -133,10 +133,10 @@ public class CharacterStatsSummaryPanelController
 
   private void doDetails()
   {
-    CharacterStatsWindowController detailsStatsController=getDetailsController();
+    DetailedCharacterStatsWindowController detailsStatsController=getDetailsController();
     if (detailsStatsController==null)
     {
-      detailsStatsController=new CharacterStatsWindowController(_parent,_toon);
+      detailsStatsController=new DetailedCharacterStatsWindowController(_parent,_toon);
       _childControllers.registerWindow(detailsStatsController);
       BasicStatsSet referenceStats=new BasicStatsSet(_toon.getStats());
       detailsStatsController.setStats(referenceStats,_toon.getStats());
@@ -145,10 +145,10 @@ public class CharacterStatsSummaryPanelController
     detailsStatsController.bringToFront();
   }
 
-  private CharacterStatsWindowController getDetailsController()
+  private DetailedCharacterStatsWindowController getDetailsController()
   {
-    WindowController controller=_childControllers.getWindow(CharacterStatsWindowController.IDENTIFIER);
-    return (CharacterStatsWindowController)controller;
+    WindowController controller=_childControllers.getWindow(DetailedCharacterStatsWindowController.IDENTIFIER);
+    return (DetailedCharacterStatsWindowController)controller;
   }
 
   private void doContribs()
@@ -198,7 +198,7 @@ public class CharacterStatsSummaryPanelController
         _statValues[i].setText(statValue);
       }
     }
-    CharacterStatsWindowController detailsStatsController=getDetailsController();
+    DetailedCharacterStatsWindowController detailsStatsController=getDetailsController();
     if (detailsStatsController!=null)
     {
       detailsStatsController.update();

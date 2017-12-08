@@ -9,6 +9,7 @@ import javax.swing.WindowConstants;
 import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.io.xml.CharacterDataIO;
 import delta.games.lotro.character.stats.BasicStatsSet;
+import delta.games.lotro.gui.character.stats.details.DetailedCharacterStatsPanelController;
 
 /**
  * Test class for the character stats panel controller.
@@ -23,7 +24,7 @@ public class MainTestCharacterStatsPanelController
     BasicStatsSet stats=giswald.getStats();
     BasicStatsSet reference=meva.getStats();
 
-    CharacterStatsPanelController panelCtrl=new CharacterStatsPanelController();
+    DetailedCharacterStatsPanelController panelCtrl=new DetailedCharacterStatsPanelController();
     JPanel panel=panelCtrl.getPanel();
     panelCtrl.setStats(reference,stats);
 

@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.character.stats;
+package delta.games.lotro.gui.character.stats.details;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -11,16 +11,16 @@ import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
 import delta.common.ui.swing.GuiFactory;
-import delta.common.utils.i18n.Translator;
-import delta.common.utils.i18n.TranslatorsManager;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.character.stats.STAT;
+import delta.games.lotro.gui.character.stats.SingleStatWidgetsController;
+import delta.games.lotro.gui.character.stats.StatLabels;
 
 /**
  * Controller for a panel that displays the stats of a single character.
  * @author DAM
  */
-public class CharacterStatsPanelController
+public class DetailedCharacterStatsPanelController
 {
   private HashMap<STAT,SingleStatWidgetsController> _ctrls;
 
@@ -31,7 +31,7 @@ public class CharacterStatsPanelController
   /**
    * Constructor.
    */
-  public CharacterStatsPanelController()
+  public DetailedCharacterStatsPanelController()
   {
     _ctrls=new HashMap<STAT,SingleStatWidgetsController>();
     init();
@@ -49,13 +49,10 @@ public class CharacterStatsPanelController
 
   private void init()
   {
-    String name=CharacterStatsPanelController.class.getPackage().getName()+".statLabels";
-    TranslatorsManager translatorsMgr=TranslatorsManager.getInstance();
-    Translator translator=translatorsMgr.getTranslatorByName(name,true,false);
-    for(String key : translator.getKeys())
+    for(String key : StatLabels.getTranslatedStats())
     {
       STAT stat=STAT.getByName(key);
-      String label=translator.translate(key);
+      String label=StatLabels.getStatLabel(stat);
       addStat(label,stat);
     }
   }

@@ -18,8 +18,6 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.common.ui.swing.icons.IconsManager;
 import delta.common.utils.NumericTools;
-import delta.common.utils.i18n.Translator;
-import delta.common.utils.i18n.TranslatorsManager;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.character.stats.STAT;
 import delta.games.lotro.utils.FixedDecimalsInteger;
@@ -233,13 +231,10 @@ public class StatsEditionPanelController
     private ComboBoxController<STAT> buildStatChooser()
     {
       ComboBoxController<STAT> controller=new ComboBoxController<STAT>();
-      String name=CharacterStatsPanelController.class.getPackage().getName()+".statLabels";
-      TranslatorsManager translatorsMgr=TranslatorsManager.getInstance();
-      Translator translator=translatorsMgr.getTranslatorByName(name,true,false);
       controller.addEmptyItem("");
       for(STAT stat : STAT.getAll())
       {
-        String label=translator.translate(stat.getKey());
+        String label=StatLabels.getStatLabel(stat);
         controller.addItem(stat,label);
       }
       controller.selectItem(null);

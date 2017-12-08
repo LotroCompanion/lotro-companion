@@ -12,15 +12,13 @@ import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
 import delta.common.ui.swing.GuiFactory;
-import delta.common.utils.i18n.Translator;
-import delta.common.utils.i18n.TranslatorsManager;
 import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.character.stats.STAT;
 import delta.games.lotro.character.stats.base.DerivatedStatsContributionsMgr;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.gui.character.essences.EssencesSummary.EssenceCount;
-import delta.games.lotro.gui.character.stats.CharacterStatsPanelController;
+import delta.games.lotro.gui.character.stats.StatLabels;
 import delta.games.lotro.gui.items.ItemUiTools;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.utils.FixedDecimalsInteger;
@@ -153,11 +151,6 @@ public class EssencesSummaryPanelController
     int statsCount=stats.getStatsCount();
     if (statsCount>0)
     {
-      // Init translator
-      String translatorName=CharacterStatsPanelController.class.getPackage().getName()+".statLabels";
-      TranslatorsManager translatorsMgr=TranslatorsManager.getInstance();
-      Translator translator=translatorsMgr.getTranslatorByName(translatorName,true,false);
-
       // Grab toon stats
       BasicStatsSet toonStats=_toon.getStats();
 
@@ -172,7 +165,7 @@ public class EssencesSummaryPanelController
           GridBagConstraints c=new GridBagConstraints(0,rowIndex,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,5,0,0),0,0);
           panel.add(valueLabel,c);
           // Name label
-          String name=translator.translate(stat.getKey());
+          String name=StatLabels.getStatLabel(stat);
           JLabel statLabel=GuiFactory.buildLabel(name);
           c=new GridBagConstraints(1,rowIndex,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,5,0,0),0,0);
           panel.add(statLabel,c);
