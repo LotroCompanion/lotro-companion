@@ -12,8 +12,8 @@ import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.icons.IconsManager;
+import delta.common.ui.swing.labels.BrowserHyperlinkAction;
 import delta.common.ui.swing.labels.HyperLinkController;
-import delta.common.ui.swing.labels.HyperLinkController.TYPE;
 
 /**
  * Controller for a 'credits' panel.
@@ -77,8 +77,8 @@ public class CreditsPanelController
     int nbCredits=Math.min(labels.length,urls.length);
     for(int i=0;i<nbCredits;i++)
     {
-      HyperLinkController creditLink=new HyperLinkController(TYPE.BROWSE);
-      creditLink.setUrl(urls[i],labels[i]);
+      BrowserHyperlinkAction creditAction=new BrowserHyperlinkAction(urls[i],labels[i]);
+      HyperLinkController creditLink=new HyperLinkController(creditAction);
       JLabel linkLabel=creditLink.getLabel();
       c=new GridBagConstraints(0,y,2,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(0,5,5,5),0,0);
       panel.add(linkLabel,c);

@@ -19,8 +19,9 @@ import javax.swing.Timer;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.icons.IconsManager;
+import delta.common.ui.swing.labels.BrowserHyperlinkAction;
 import delta.common.ui.swing.labels.HyperLinkController;
-import delta.common.ui.swing.labels.HyperLinkController.TYPE;
+import delta.common.ui.swing.labels.MailToHyperlinkAction;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.Config;
 
@@ -79,8 +80,8 @@ public class AboutPanelController
     Font font=lbVersion.getFont().deriveFont(Font.BOLD,16);
     contactLabel.setFont(font);
     contactPanel.add(contactLabel);
-    _mail=new HyperLinkController(TYPE.MAILTO);
-    _mail.configureMail("lotrocompanion@gmail.com","Contact");
+    MailToHyperlinkAction mailAction=new MailToHyperlinkAction("lotrocompanion@gmail.com","Contact");
+    _mail=new HyperLinkController(mailAction);
     JLabel lbEmail=_mail.getLabel();
     lbEmail.setFont(font);
     contactPanel.add(lbEmail);
@@ -94,8 +95,8 @@ public class AboutPanelController
       JLabel sourceLabel=GuiFactory.buildLabel("Source code: ");
       sourceLabel.setFont(font);
       sourcePanel.add(sourceLabel);
-      HyperLinkController github=new HyperLinkController(TYPE.BROWSE);
-      github.setUrl("https://github.com/dmorcellet/lotro-companion","lotro-companion@GitHub");
+      BrowserHyperlinkAction githubAction=new BrowserHyperlinkAction("https://github.com/dmorcellet/lotro-companion","lotro-companion@GitHub");
+      HyperLinkController github=new HyperLinkController(githubAction);
       JLabel lbGitHub=github.getLabel();
       lbGitHub.setFont(font);
       sourcePanel.add(lbGitHub);
@@ -110,8 +111,8 @@ public class AboutPanelController
       JLabel seeUsLabel=GuiFactory.buildLabel("News: ");
       seeUsLabel.setFont(font);
       facebookPanel.add(seeUsLabel);
-      HyperLinkController facebook=new HyperLinkController(TYPE.BROWSE);
-      facebook.setUrl("https://www.facebook.com/lotrocompanion/","lotro-companion@Facebook");
+      BrowserHyperlinkAction facebookAction=new BrowserHyperlinkAction("https://www.facebook.com/lotrocompanion/","lotro-companion@Facebook");
+      HyperLinkController facebook=new HyperLinkController(facebookAction);
       JLabel lbFacebook=facebook.getLabel();
       lbFacebook.setFont(font);
       facebookPanel.add(lbFacebook);
