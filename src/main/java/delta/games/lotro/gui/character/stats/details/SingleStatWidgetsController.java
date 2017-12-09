@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.character.stats;
+package delta.games.lotro.gui.character.stats.details;
 
 import java.awt.Color;
 
@@ -7,6 +7,7 @@ import javax.swing.JLabel;
 import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.character.stats.STAT;
+import delta.games.lotro.gui.character.stats.StatDisplayUtils;
 import delta.games.lotro.utils.FixedDecimalsInteger;
 
 /**
@@ -17,32 +18,20 @@ public class SingleStatWidgetsController
 {
   private boolean _isPercentage;
   private STAT _stat;
-  private JLabel _label;
   private JLabel _value;
   private JLabel _deltaValue;
 
   /**
    * Constructor.
-   * @param label Stat label.
    * @param stat Stat to use.
    * @param isPercentage Stat is a percentage or not.
    */
-  public SingleStatWidgetsController(String label, STAT stat, boolean isPercentage)
+  public SingleStatWidgetsController(STAT stat, boolean isPercentage)
   {
     _stat=stat;
     _isPercentage=isPercentage;
-    _label=GuiFactory.buildLabel(label+":");
     _value=GuiFactory.buildLabel("");
     _deltaValue=GuiFactory.buildLabel("");
-  }
-
-  /**
-   * Get the stat label.
-   * @return a label.
-   */
-  public JLabel getLabel()
-  {
-    return _label;
   }
 
   /**

@@ -159,18 +159,13 @@ public class StatCurveChartPanelController
   private JPanel buildPanel()
   {
     _chart=buildChart();
-    _panel=buildChartPanel();
-    return _panel;
-  }
-
-  private JPanel buildChartPanel()
-  {
     ChartPanel chartPanel=new ChartPanel(_chart);
     chartPanel.setDomainZoomable(true);
     chartPanel.setRangeZoomable(true);
     chartPanel.setHorizontalAxisTrace(false);
     chartPanel.setVerticalAxisTrace(false);
-    chartPanel.setPreferredSize(new Dimension(500,300));
+    chartPanel.setMinimumSize(new Dimension(550,330));
+    chartPanel.setPreferredSize(new Dimension(550,330));
     chartPanel.setOpaque(false);
     return chartPanel;
   }

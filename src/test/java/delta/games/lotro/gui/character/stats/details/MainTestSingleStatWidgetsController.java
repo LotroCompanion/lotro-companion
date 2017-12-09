@@ -1,11 +1,13 @@
-package delta.games.lotro.gui.character.stats;
+package delta.games.lotro.gui.character.stats.details;
 
 import java.awt.FlowLayout;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
+import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.character.stats.STAT;
 import delta.games.lotro.utils.FixedDecimalsInteger;
@@ -25,18 +27,20 @@ public class MainTestSingleStatWidgetsController
     reference.addStat(STAT.MORALE,new FixedDecimalsInteger(67));
     reference.addStat(STAT.CRITICAL_MELEE_PERCENTAGE,new FixedDecimalsInteger(13.3f));
 
-    SingleStatWidgetsController moraleCtrl=new SingleStatWidgetsController("Morale",STAT.MORALE,false);
+    JLabel morale=GuiFactory.buildLabel("Morale");
+    SingleStatWidgetsController moraleCtrl=new SingleStatWidgetsController(STAT.MORALE,false);
     moraleCtrl.updateStats(reference,value);
-    showFrameForStat(moraleCtrl);
-    SingleStatWidgetsController critCtrl=new SingleStatWidgetsController("Crit Melee %",STAT.CRITICAL_MELEE_PERCENTAGE,true);
+    showFrameForStat(morale,moraleCtrl);
+    JLabel critMelee=GuiFactory.buildLabel("Crit Melee %");
+    SingleStatWidgetsController critCtrl=new SingleStatWidgetsController(STAT.CRITICAL_MELEE_PERCENTAGE,true);
     critCtrl.updateStats(reference,value);
-    showFrameForStat(critCtrl);
+    showFrameForStat(critMelee,critCtrl);
   }
 
-  private void showFrameForStat(SingleStatWidgetsController singleCtrl)
+  private void showFrameForStat(JLabel label,SingleStatWidgetsController singleCtrl)
   {
     JPanel panel=new JPanel(new FlowLayout());
-    panel.add(singleCtrl.getLabel());
+    panel.add(label);
     panel.add(singleCtrl.getValueLabel());
     panel.add(singleCtrl.getDeltaValueLabel());
     JFrame frame=new JFrame();

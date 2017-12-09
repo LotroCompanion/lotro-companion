@@ -8,6 +8,7 @@ import delta.common.ui.swing.windows.DefaultDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.stats.BasicStatsSet;
+import delta.games.lotro.gui.character.stats.curves.StatCurvesWindowsManager;
 
 /**
  * Controller for a "detailed character stats" window.
@@ -31,7 +32,8 @@ public class DetailedCharacterStatsWindowController extends DefaultDialogControl
   public DetailedCharacterStatsWindowController(WindowController parent, CharacterData toon)
   {
     super(parent);
-    _statsPanelController=new DetailedCharacterStatsPanelController();
+    StatCurvesWindowsManager statCurvesMgr=new StatCurvesWindowsManager(parent,toon);
+    _statsPanelController=new DetailedCharacterStatsPanelController(statCurvesMgr);
     _toon=toon;
   }
 

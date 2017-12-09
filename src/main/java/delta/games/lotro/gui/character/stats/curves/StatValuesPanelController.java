@@ -60,6 +60,7 @@ public class StatValuesPanelController
   public void update(BasicStatsSet values)
   {
     _values=new BasicStatsSet(values);
+    _deltaValues.clear();
     update();
   }
 

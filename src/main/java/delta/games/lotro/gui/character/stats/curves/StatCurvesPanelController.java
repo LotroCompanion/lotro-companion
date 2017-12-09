@@ -1,5 +1,6 @@
 package delta.games.lotro.gui.character.stats.curves;
 
+import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -8,7 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
 import delta.common.ui.swing.GuiFactory;
-import delta.games.lotro.character.stats.BasicStatsSet;
+import delta.games.lotro.character.CharacterData;
 
 /**
  * Controller for a stat curve display panel (chart+values).
@@ -46,36 +47,39 @@ public class StatCurvesPanelController
 
   private JPanel buildPanel()
   {
-    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
+    JPanel panel=GuiFactory.buildPanel(new BorderLayout());
     // Chart
     JPanel chartPanel=_chartPanel.getPanel();
     TitledBorder chartBorder=GuiFactory.buildTitledBorder("Chart");
     chartPanel.setBorder(chartBorder);
-    GridBagConstraints c=new GridBagConstraints(0,0,2,1,1.0,1.0,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
-    panel.add(chartPanel,c);
+    panel.add(chartPanel,BorderLayout.CENTER);
+
+    JPanel southPanel=GuiFactory.buildPanel(new GridBagLayout());
     // Values
     JPanel valuesPanel=_valuesPanel.getPanel();
     TitledBorder valuesBorder=GuiFactory.buildTitledBorder("Values");
     valuesPanel.setBorder(valuesBorder);
-    c=new GridBagConstraints(0,1,1,1,1.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
-    panel.add(valuesPanel,c);
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    southPanel.add(valuesPanel,c);
     // Configuration
     JPanel configurationPanel=_configPanel.getPanel();
     TitledBorder configurationBorder=GuiFactory.buildTitledBorder("Configuration");
     configurationPanel.setBorder(configurationBorder);
-    c=new GridBagConstraints(1,1,1,1,0.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
-    panel.add(configurationPanel,c);
+    c=new GridBagConstraints(1,0,1,1,0.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    southPanel.add(configurationPanel,c);
+    panel.add(southPanel,BorderLayout.SOUTH);
     return panel;
   }
 
   /**
    * Update this panel with new stats.
-   * @param stats Stats to display.
+   * @param toon Toon to display.
    */
-  public void update(BasicStatsSet stats)
+  public void update(CharacterData toon)
   {
-    _valuesPanel.update(stats);
-    _chartPanel.update(stats);
+    _configPanel.update(toon.getLevel());
+    _valuesPanel.update(toon.getStats());
+    _chartPanel.update(toon.getStats());
   }
 
   /**

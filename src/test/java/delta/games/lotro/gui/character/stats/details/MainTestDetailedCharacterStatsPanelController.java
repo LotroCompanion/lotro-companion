@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.character.stats;
+package delta.games.lotro.gui.character.stats.details;
 
 import java.io.File;
 
@@ -15,7 +15,7 @@ import delta.games.lotro.gui.character.stats.details.DetailedCharacterStatsPanel
  * Test class for the character stats panel controller.
  * @author DAM
  */
-public class MainTestCharacterStatsPanelController
+public class MainTestDetailedCharacterStatsPanelController
 {
   private void doIt()
   {
@@ -24,7 +24,7 @@ public class MainTestCharacterStatsPanelController
     BasicStatsSet stats=giswald.getStats();
     BasicStatsSet reference=meva.getStats();
 
-    DetailedCharacterStatsPanelController panelCtrl=new DetailedCharacterStatsPanelController();
+    DetailedCharacterStatsPanelController panelCtrl=new DetailedCharacterStatsPanelController(null);
     JPanel panel=panelCtrl.getPanel();
     panelCtrl.setStats(reference,stats);
 
@@ -48,6 +48,6 @@ public class MainTestCharacterStatsPanelController
    */
   public static void main(String[] args)
   {
-    new MainTestCharacterStatsPanelController().doIt();
+    new MainTestDetailedCharacterStatsPanelController().doIt();
   }
 }

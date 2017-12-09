@@ -53,6 +53,7 @@ public class MainTestStatCurveChart
 
     CharacterStatsComputer statsComputer=new CharacterStatsComputer();
     BasicStatsSet stats=statsComputer.getStats(c);
+    c.getStats().setStats(stats);
     int level=c.getLevel();
 
     for(StatCurvesChartConfiguration config : configs)
@@ -60,7 +61,7 @@ public class MainTestStatCurveChart
       config.setLevel(level);
       config.setMaxRating(config.getAutoMaxRating());
       StatCurvesPanelController controller=new StatCurvesPanelController(config);
-      controller.update(stats);
+      controller.update(c);
       JPanel statPanel=controller.getPanel();
       DefaultWindowController w=new DefaultWindowController();
       w.getFrame().add(statPanel);

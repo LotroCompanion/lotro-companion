@@ -42,7 +42,7 @@ public class StatCurvesConfigurationFactory
   }
 
   /**
-   * Build configuration for the 'physical damage' chart.
+   * Build configuration for the 'tactical damage' chart.
    * @return A chart configuration.
    */
   public StatCurvesChartConfiguration buildTacticalDamageChart()
@@ -56,7 +56,7 @@ public class StatCurvesConfigurationFactory
   }
 
   /**
-   * Build configuration for the 'physical damage' chart.
+   * Build configuration for the 'criticals' chart.
    * @return A chart configuration.
    */
   public StatCurvesChartConfiguration buildCriticalsChart()
@@ -87,7 +87,7 @@ public class StatCurvesConfigurationFactory
   }
 
   /**
-   * Build configuration for the 'physical damage' chart.
+   * Build configuration for the 'finesse' chart.
    * @return A chart configuration.
    */
   public StatCurvesChartConfiguration buildFinesseChart()
@@ -101,7 +101,7 @@ public class StatCurvesConfigurationFactory
   }
 
   /**
-   * Build configuration for the 'physical damage' chart.
+   * Build configuration for the 'healing' chart.
    * @return A chart configuration.
    */
   public StatCurvesChartConfiguration buildHealingChart()
@@ -115,7 +115,7 @@ public class StatCurvesConfigurationFactory
   }
 
   /**
-   * Build configuration for the 'physical damage' chart.
+   * Build configuration for the 'incoming healing' chart.
    * @return A chart configuration.
    */
   public StatCurvesChartConfiguration buildIncomingHealingChart()
@@ -129,7 +129,7 @@ public class StatCurvesConfigurationFactory
   }
 
   /**
-   * Build configuration for the 'physical damage' chart.
+   * Build configuration for the 'block' chart.
    * @return A chart configuration.
    */
   public StatCurvesChartConfiguration buildBlockChart()
@@ -151,7 +151,7 @@ public class StatCurvesConfigurationFactory
   }
 
   /**
-   * Build configuration for the 'physical damage' chart.
+   * Build configuration for the 'parry' chart.
    * @return A chart configuration.
    */
   public StatCurvesChartConfiguration buildParryChart()
@@ -173,7 +173,7 @@ public class StatCurvesConfigurationFactory
   }
 
   /**
-   * Build configuration for the 'physical damage' chart.
+   * Build configuration for the 'evade' chart.
    * @return A chart configuration.
    */
   public StatCurvesChartConfiguration buildEvadeChart()
@@ -195,7 +195,7 @@ public class StatCurvesConfigurationFactory
   }
 
   /**
-   * Build configuration for the 'physical damage' chart.
+   * Build configuration for the 'resistance' chart.
    * @return A chart configuration.
    */
   public StatCurvesChartConfiguration buildResistanceChart()
@@ -209,7 +209,7 @@ public class StatCurvesConfigurationFactory
   }
 
   /**
-   * Build configuration for the 'physical damage' chart.
+   * Build configuration for the 'critical defence' chart.
    * @return A chart configuration.
    */
   public StatCurvesChartConfiguration buildCriticalDefenceChart()
@@ -224,11 +224,7 @@ public class StatCurvesConfigurationFactory
     return criticalDefenceCfg;
   }
 
-  /**
-   * Build configuration for the 'physical damage' chart.
-   * @return A chart configuration.
-   */
-  public RatingCurve getArmorMitigationCurve()
+  private RatingCurve getArmorMitigationCurve()
   {
     ArmourType type=CharacterProficiencies.getArmourTypeForMitigations(_characterClass);
     if (type==ArmourType.LIGHT) return _ratingsMgr.getLightArmorMitigation();
@@ -238,7 +234,7 @@ public class StatCurvesConfigurationFactory
   }
 
   /**
-   * Build configuration for the 'physical damage' chart.
+   * Build configuration for the 'physical mitigation' chart.
    * @return A chart configuration.
    */
   public StatCurvesChartConfiguration buildPhysicalMitigationChart()
@@ -252,7 +248,7 @@ public class StatCurvesConfigurationFactory
   }
 
   /**
-   * Build configuration for the 'physical damage' chart.
+   * Build configuration for the 'tactical mitigation' chart.
    * @return A chart configuration.
    */
   public StatCurvesChartConfiguration buildTacticalMitigationChart()
@@ -271,7 +267,7 @@ public class StatCurvesConfigurationFactory
   }
 
   /**
-   * Build configuration for the 'physical damage' chart.
+   * Build configuration for the 'orc craft/fell wrought mitigation' chart.
    * @return A chart configuration.
    */
   public StatCurvesChartConfiguration buildOrcCraftFellWroughtMitigationChart()

@@ -3,6 +3,8 @@ package delta.games.lotro.gui.character.stats.details;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.HashMap;
 
 import javax.swing.BoxLayout;
@@ -11,10 +13,13 @@ import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.labels.HyperLinkController;
+import delta.common.ui.swing.labels.LocalHyperlinkAction;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.character.stats.STAT;
-import delta.games.lotro.gui.character.stats.SingleStatWidgetsController;
 import delta.games.lotro.gui.character.stats.StatLabels;
+import delta.games.lotro.gui.character.stats.curves.StatCurvesChartConfiguration;
+import delta.games.lotro.gui.character.stats.curves.StatCurvesWindowsManager;
 
 /**
  * Controller for a panel that displays the stats of a single character.
@@ -22,18 +27,24 @@ import delta.games.lotro.gui.character.stats.StatLabels;
  */
 public class DetailedCharacterStatsPanelController
 {
+  // Controllers
   private HashMap<STAT,SingleStatWidgetsController> _ctrls;
-
+  // Data
   private BasicStatsSet _reference;
   private BasicStatsSet _current;
+  // UI
   private JPanel _panel;
+  // Child windows manager
+  private StatCurvesWindowsManager _statCurvesMgr;
 
   /**
    * Constructor.
+   * @param statCurvesMgr Manager for stat curves.
    */
-  public DetailedCharacterStatsPanelController()
+  public DetailedCharacterStatsPanelController(StatCurvesWindowsManager statCurvesMgr)
   {
     _ctrls=new HashMap<STAT,SingleStatWidgetsController>();
+    _statCurvesMgr=statCurvesMgr;
     init();
     _panel=buildPanel();
   }
@@ -52,14 +63,13 @@ public class DetailedCharacterStatsPanelController
     for(String key : StatLabels.getTranslatedStats())
     {
       STAT stat=STAT.getByName(key);
-      String label=StatLabels.getStatLabel(stat);
-      addStat(label,stat);
+      addStat(stat);
     }
   }
 
-  private void addStat(String label, STAT stat)
+  private void addStat(STAT stat)
   {
-    SingleStatWidgetsController singleCtrl=new SingleStatWidgetsController(label,stat,stat.isPercentage());
+    SingleStatWidgetsController singleCtrl=new SingleStatWidgetsController(stat,stat.isPercentage());
     _ctrls.put(stat,singleCtrl);
   }
 
@@ -69,6 +79,7 @@ public class DetailedCharacterStatsPanelController
   public void update()
   {
     setStats(_reference,_current);
+    _statCurvesMgr.update();
   }
 
   /**
@@ -142,13 +153,6 @@ public class DetailedCharacterStatsPanelController
   private JPanel buildOffenceStatsPanel()
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
-    /*
-    String[] labels=new String[]{"", "Value", "+/-"};
-    for(int i=0;i<2;i++)
-    {
-      addHeaders(panel,3*i,0,labels,true,1);
-    }
-    */
     int x=0;
     int y=0;
     addStatWidgets(panel,STAT.PHYSICAL_MASTERY,x,y,true);
@@ -168,10 +172,11 @@ public class DetailedCharacterStatsPanelController
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     String[] labelsV=new String[]{"Melee", "Ranged", "Tactical"};
-    addHeaders(panel,0,1,labelsV,false,1);
+    STAT[] stats={STAT.PHYSICAL_MASTERY, STAT.PHYSICAL_MASTERY, STAT.TACTICAL_MASTERY};
+    addHeaders(panel,0,1,labelsV,stats,false,1);
     int x=1;
     String[] labelsH=new String[]{"Damage %", "Critical %", "Devastate %", "Magnitude %"};
-    addHeaders(panel,x,0,labelsH,true,2);
+    addHeaders(panel,x,0,labelsH,null,true,2);
     int y=1;
     addStatWidgets(panel,STAT.MELEE_DAMAGE_PERCENTAGE,x,y,false);
     addStatWidgets(panel,STAT.CRITICAL_MELEE_PERCENTAGE,x+2,y,false);
@@ -197,10 +202,11 @@ public class DetailedCharacterStatsPanelController
   {
     JPanel panel=GuiFactory.buildBackgroundPanel(new GridBagLayout());
     String[] labelsV=new String[]{"Resistance", "Block", "Parry", "Evade"};
-    addHeaders(panel,0,1,labelsV,false,1);
+    STAT[] stats={STAT.RESISTANCE, STAT.BLOCK, STAT.PARRY, STAT.EVADE};
+    addHeaders(panel,0,1,labelsV,stats,false,1);
     int x=1;
     String[] labelsH=new String[]{"Rating", "Full %", "Partial %", "Mitigation %"};
-    addHeaders(panel,x,0,labelsH,true,2);
+    addHeaders(panel,x,0,labelsH,null,true,2);
 
     int y=1;
     // Resist
@@ -237,10 +243,13 @@ public class DetailedCharacterStatsPanelController
         "Crit.Def (ranged)", "Crit.Def (tactical)",
         "Physical", "Orc-craft/Fell-wrought", "Tactical",
         "Fire", "Lightning", "Frost", "Acid", "Shadow"};
-    addHeaders(panel,0,1,labelsV,false,1);
+    STAT[] stats={STAT.CRITICAL_DEFENCE, STAT.CRITICAL_DEFENCE, STAT.CRITICAL_DEFENCE,
+        STAT.PHYSICAL_MITIGATION, STAT.OCFW_MITIGATION, STAT.TACTICAL_MITIGATION,
+        null,null,null,null,null};
+    addHeaders(panel,0,1,labelsV,stats,false,1);
     int x=1;
     String[] labelsH=new String[]{"Rating", "Mitigation %"};
-    addHeaders(panel,x,0,labelsH,true,2);
+    addHeaders(panel,x,0,labelsH,null,true,2);
 
     int y=1;
     // Crit/dev defence
@@ -287,11 +296,12 @@ public class DetailedCharacterStatsPanelController
   private JPanel buildHealingPanel()
   {
     JPanel panel=GuiFactory.buildBackgroundPanel(new GridBagLayout());
-    String[] labelsV=new String[]{"Incoming", "Outgoing"};
-    addHeaders(panel,0,1,labelsV,false,1);
+    String[] labelsV={"Incoming", "Outgoing"};
+    STAT[] stats={STAT.INCOMING_HEALING, STAT.OUTGOING_HEALING};
+    addHeaders(panel,0,1,labelsV,stats,false,1);
     int x=1;
     String[] labelsH=new String[]{"Rating", "Healing %"};
-    addHeaders(panel,x,0,labelsH,true,2);
+    addHeaders(panel,x,0,labelsH,null,true,2);
 
     int y=1;
     // Incoming Healing
@@ -306,14 +316,16 @@ public class DetailedCharacterStatsPanelController
     return panel;
   }
 
-  private void addHeaders(JPanel panel, int x, int y, String[] labels, boolean horizontal, int gridwidth)
+  private void addHeaders(JPanel panel, int x, int y, String[] labels, STAT[] stats, boolean horizontal, int gridwidth)
   {
     for(int i=0;i<labels.length;i++)
     {
       int cellX=x+(horizontal?(gridwidth*i):0);
       int cellY=y+(horizontal?0:i);
       GridBagConstraints c=new GridBagConstraints(cellX,cellY,gridwidth,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
-      panel.add(new JLabel(labels[i]),c);
+      STAT stat=(stats!=null)?stats[i]:null;
+      JLabel label=buildLabelForStat(labels[i],stat);
+      panel.add(label,c);
     }
   }
 
@@ -323,7 +335,8 @@ public class DetailedCharacterStatsPanelController
     SingleStatWidgetsController ctrl=_ctrls.get(stat);
     if (showLabel)
     {
-      JLabel label=ctrl.getLabel();
+      String text=StatLabels.getStatLabel(stat)+":";
+      JLabel label=buildLabelForStat(text,stat);
       c=new GridBagConstraints(x,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
       panel.add(label,c);
       x++;
@@ -337,12 +350,50 @@ public class DetailedCharacterStatsPanelController
     panel.add(deltaValueLabel,c);
   }
 
+  private JLabel buildLabelForStat(String text, STAT stat)
+  {
+    JLabel label=null;
+    if (stat!=null)
+    {
+      final StatCurvesChartConfiguration config=(_statCurvesMgr!=null)?_statCurvesMgr.getConfigForStat(stat):null;
+      if (config!=null)
+      {
+        ActionListener al=new ActionListener()
+        {
+          public void actionPerformed(ActionEvent e)
+          {
+            _statCurvesMgr.showStatCurvesWindow(config);
+          }
+        };
+        LocalHyperlinkAction action=new LocalHyperlinkAction(text,al);
+        HyperLinkController controller=new HyperLinkController(action);
+        label=controller.getLabel();
+      }
+    }
+    if (label==null)
+    {
+      label=GuiFactory.buildLabel(text);
+    }
+    return label;
+  }
+
   /**
    * Release all managed resources.
    */
   public void dispose()
   {
     _ctrls.clear();
-    _panel=null;
- }
+    _reference=null;
+    _current=null;
+    if (_panel!=null)
+    {
+      _panel.removeAll();
+      _panel=null;
+    }
+    if (_statCurvesMgr!=null)
+    {
+      _statCurvesMgr.dispose();
+      _statCurvesMgr=null;
+    }
+  }
 }

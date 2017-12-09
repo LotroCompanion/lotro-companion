@@ -82,6 +82,7 @@ public class StatCurvesConfigurationPanel
     _maxRating=new IntegerEditionController(GuiFactory.buildTextField(""));
     _maxRating.setValueRange(Integer.valueOf(1),Integer.valueOf(5000000));
     _maxRating.setValue(Integer.valueOf((int)_config.getMaxRating()));
+    _maxRating.getTextField().setColumns(5);
     panel.add(_maxRating.getTextField(),c);
     ActionListener al=new ActionListener()
     {
