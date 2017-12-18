@@ -8,8 +8,8 @@ import javax.swing.JPanel;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.common.ui.swing.combobox.ItemSelectionListener;
-import delta.games.lotro.crafting.Profession;
-import delta.games.lotro.crafting.ProfessionFilter;
+import delta.games.lotro.lore.crafting.Profession;
+import delta.games.lotro.lore.crafting.ProfessionFilter;
 
 /**
  * Controller for a crafting filter edition panel.

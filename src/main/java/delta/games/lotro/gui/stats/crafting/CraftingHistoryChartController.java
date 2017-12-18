@@ -28,7 +28,7 @@ import org.jfree.data.xy.XYSeriesCollection;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.character.crafting.ProfessionStatus;
-import delta.games.lotro.crafting.CraftingLevel;
+import delta.games.lotro.lore.crafting.CraftingLevel;
 import delta.games.lotro.utils.Formats;
 
 /**

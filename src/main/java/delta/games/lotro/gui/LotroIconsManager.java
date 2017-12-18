@@ -11,7 +11,7 @@ import delta.games.lotro.character.stats.STAT;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.CharacterSex;
 import delta.games.lotro.common.Race;
-import delta.games.lotro.crafting.Profession;
+import delta.games.lotro.lore.crafting.Profession;
 
 /**
  * Access to Lotro specific icons.

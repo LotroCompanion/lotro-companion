@@ -1,8 +1,8 @@
 package delta.games.lotro.gui.stats.crafting.synopsis;
 
 import delta.common.utils.collections.filters.Filter;
-import delta.games.lotro.crafting.Profession;
-import delta.games.lotro.crafting.ProfessionFilter;
+import delta.games.lotro.lore.crafting.Profession;
+import delta.games.lotro.lore.crafting.ProfessionFilter;
 
 /**
  * Filter for crafting synopsis items.

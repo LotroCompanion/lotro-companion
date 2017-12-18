@@ -4,8 +4,8 @@ import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.crafting.GuildStatus;
 import delta.games.lotro.character.crafting.ProfessionStatus;
 import delta.games.lotro.character.reputation.FactionStatus;
-import delta.games.lotro.crafting.CraftingLevel;
-import delta.games.lotro.crafting.Profession;
+import delta.games.lotro.lore.crafting.CraftingLevel;
+import delta.games.lotro.lore.crafting.Profession;
 
 /**
  * Gathers crafting data for a single toon and a single profession.

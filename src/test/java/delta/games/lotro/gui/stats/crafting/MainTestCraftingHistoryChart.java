@@ -11,7 +11,7 @@ import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.crafting.CraftingStatus;
 import delta.games.lotro.character.crafting.ProfessionStatus;
 import delta.games.lotro.character.log.LotroTestUtils;
-import delta.games.lotro.crafting.Profession;
+import delta.games.lotro.lore.crafting.Profession;
 
 /**
  * Test for crafting history graph.

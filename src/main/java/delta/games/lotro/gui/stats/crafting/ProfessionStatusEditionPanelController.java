@@ -21,7 +21,7 @@ import delta.common.ui.swing.text.dates.DateListener;
 import delta.games.lotro.character.crafting.CraftingLevelStatus;
 import delta.games.lotro.character.crafting.CraftingLevelTierStatus;
 import delta.games.lotro.character.crafting.ProfessionStatus;
-import delta.games.lotro.crafting.CraftingLevel;
+import delta.games.lotro.lore.crafting.CraftingLevel;
 import delta.games.lotro.utils.DateFormat;
 
 /**

@@ -27,13 +27,13 @@ import delta.games.lotro.character.crafting.CraftingStatus;
 import delta.games.lotro.character.crafting.GuildStatus;
 import delta.games.lotro.character.crafting.ProfessionStatus;
 import delta.games.lotro.character.reputation.FactionStatus;
-import delta.games.lotro.crafting.CraftingLevel;
-import delta.games.lotro.crafting.CraftingLevelTier;
-import delta.games.lotro.crafting.Profession;
-import delta.games.lotro.crafting.ProfessionComparator;
-import delta.games.lotro.crafting.ProfessionFilter;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.stats.reputation.synopsis.ReputationSynopsisTableController;
+import delta.games.lotro.lore.crafting.CraftingLevel;
+import delta.games.lotro.lore.crafting.CraftingLevelTier;
+import delta.games.lotro.lore.crafting.Profession;
+import delta.games.lotro.lore.crafting.ProfessionComparator;
+import delta.games.lotro.lore.crafting.ProfessionFilter;
 import delta.games.lotro.lore.reputation.FactionLevelComparator;
 import delta.games.lotro.utils.gui.Gradients;
 

@@ -22,8 +22,8 @@ import delta.games.lotro.character.events.CharacterEvent;
 import delta.games.lotro.character.events.CharacterEventListener;
 import delta.games.lotro.character.events.CharacterEventType;
 import delta.games.lotro.character.events.CharacterEventsManager;
-import delta.games.lotro.crafting.ProfessionFilter;
 import delta.games.lotro.gui.character.chooser.CharactersChooserController;
+import delta.games.lotro.lore.crafting.ProfessionFilter;
 
 /**
  * Controller for a crafting synopsis panel.

@@ -13,9 +13,9 @@ import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.character.crafting.CraftingStatus;
 import delta.games.lotro.character.crafting.GuildStatus;
 import delta.games.lotro.character.crafting.ProfessionStatus;
-import delta.games.lotro.crafting.Profession;
-import delta.games.lotro.crafting.Vocation;
 import delta.games.lotro.gui.stats.reputation.form.FactionStatusPanelController;
+import delta.games.lotro.lore.crafting.Profession;
+import delta.games.lotro.lore.crafting.Vocation;
 
 /**
  * Controller for the vocation edition panel. This panel contains:
