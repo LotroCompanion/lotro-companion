@@ -9,8 +9,10 @@ import delta.common.utils.collections.filters.Filter;
 import delta.games.lotro.character.storage.AccountServerStorage;
 import delta.games.lotro.character.storage.CharacterStorage;
 import delta.games.lotro.character.storage.Chest;
+import delta.games.lotro.character.storage.ItemsContainer;
 import delta.games.lotro.character.storage.StoredItem;
 import delta.games.lotro.character.storage.Vault;
+import delta.games.lotro.character.storage.Wallet;
 import delta.games.lotro.gui.items.ItemChoiceWindowController;
 import delta.games.lotro.gui.items.ItemFilterController;
 import delta.games.lotro.lore.items.Item;
@@ -30,44 +32,79 @@ public class MainTestShowCharacterStorage
   {
     String account="glorfindel666";
     String server="Landroval";
+    String toon="Meva";
+    boolean showShared=false;
     StorageLoader loader=new StorageLoader();
     AccountServerStorage storage=loader.loadStorage(account,server);
     if (storage!=null)
     {
-      //ItemsContainer container=storage.getSharedWallet();
-      //List<StoredItem> storedItems=container.getAllItemsByName();
-      List<StoredItem> storedItems=getAllItems("Meva",storage,false);
-      List<Item> items=getItems(storedItems);
-
-      ItemFilterController filterController=new ItemFilterController();
-      Filter<Item> filter=filterController.getFilter();
-      ItemChoiceWindowController choiceCtrl=new ItemChoiceWindowController(null,null,items,filter,filterController);
-      Item ret=choiceCtrl.editModal();
-      if (ret!=null)
+      // Own bags
       {
-        System.out.println(ret.dump());
+        List<StoredItem> storedItems=getAllItems(toon,storage,true);
+        show(storedItems);
+      }
+      // Own vault
+      {
+        List<StoredItem> storedItems=getAllItems(toon,storage,false);
+        show(storedItems);
+      }
+      // Own wallet
+      {
+        CharacterStorage characterStorage=storage.getStorage(toon,true);
+        Wallet ownWallet=characterStorage.getWallet();
+        List<StoredItem> storedItems=ownWallet.getAllItemsByName();
+        show(storedItems);
+      }
+      if (showShared)
+      {
+        // Shared wallet
+        {
+          ItemsContainer container=storage.getSharedWallet();
+          List<StoredItem> storedItems=container.getAllItemsByName();
+          show(storedItems);
+        }
+        // Shared vault
+        {
+          Vault sharedVault=storage.getSharedVault();
+          List<StoredItem> storedItems=getAllItems(sharedVault);
+          show(storedItems);
+        }
       }
     }
+  }
+
+  private void show(List<StoredItem> storedItems)
+  {
+    List<Item> items=getItems(storedItems);
+    ItemFilterController filterController=new ItemFilterController();
+    Filter<Item> filter=filterController.getFilter();
+    ItemChoiceWindowController choiceCtrl=new ItemChoiceWindowController(null,null,items,filter,filterController);
+    choiceCtrl.show();
   }
 
   private List<StoredItem> getAllItems(String character, AccountServerStorage storage, boolean bags)
   {
     CharacterStorage characterStorage=storage.getStorage(character,true);
-    List<StoredItem> items=new ArrayList<StoredItem>();
     Vault container=(bags?characterStorage.getBags():characterStorage.getOwnVault());
+    return getAllItems(container);
+  }
+
+  private List<StoredItem> getAllItems(Vault container)
+  {
+    List<StoredItem> items=new ArrayList<StoredItem>();
     int chests=container.getChestCount();
-    int itemsCount=0;
+    //int itemsCount=0;
     for(int i=0;i<chests;i++)
     {
       Chest chest=container.getChest(i);
       if (chest!=null)
       {
         List<StoredItem> chestItems=chest.getAllItemsByName();
-        itemsCount+=chestItems.size();
+        //itemsCount+=chestItems.size();
         items.addAll(chestItems);
       }
     }
-    System.out.println(itemsCount);
+    //System.out.println(itemsCount);
     return items;
   }
 
