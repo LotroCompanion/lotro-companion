@@ -29,6 +29,7 @@ import delta.common.utils.misc.Preferences;
 import delta.games.lotro.Config;
 import delta.games.lotro.gui.about.AboutDialogController;
 import delta.games.lotro.gui.about.CreditsDialogController;
+import delta.games.lotro.gui.account.AccountsManagementController;
 import delta.games.lotro.gui.stats.crafting.synopsis.CraftingSynopsisWindowController;
 import delta.games.lotro.gui.stats.levelling.CharacterLevelWindowController;
 import delta.games.lotro.gui.stats.reputation.synopsis.ReputationSynopsisWindowController;
@@ -51,6 +52,7 @@ public class MainFrameController extends DefaultWindowController implements Acti
 
   private ToolbarController _toolbar;
   private ToonsManagementController _toonsManager;
+  private AccountsManagementController _accountsManager;
   private WindowsManager _windowsManager;
 
   /**
@@ -59,6 +61,7 @@ public class MainFrameController extends DefaultWindowController implements Acti
   public MainFrameController()
   {
     _toonsManager=new ToonsManagementController(this);
+    _accountsManager=new AccountsManagementController(this);
     _windowsManager=new WindowsManager();
   }
 
@@ -157,8 +160,12 @@ public class MainFrameController extends DefaultWindowController implements Acti
     JToolBar toolbar=_toolbar.getToolBar();
     ret.add(toolbar,BorderLayout.NORTH);
     JTabbedPane tabbedPane=GuiFactory.buildTabbedPane();
+    // Characters
     JPanel toonsPanel=_toonsManager.getPanel();
     tabbedPane.add("Characters",toonsPanel);
+    // Accounts
+    JPanel accountsPanel=_accountsManager.getPanel();
+    tabbedPane.add("Accounts",accountsPanel);
     ret.add(tabbedPane,BorderLayout.CENTER);
     return ret;
   }
@@ -357,6 +364,11 @@ public class MainFrameController extends DefaultWindowController implements Acti
     {
       _toonsManager.dispose();
       _toonsManager=null;
+    }
+    if (_accountsManager!=null)
+    {
+      _accountsManager.dispose();
+      _accountsManager=null;
     }
   }
 }
