@@ -11,7 +11,7 @@ import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.ListDataProvider;
 import delta.common.ui.swing.tables.TableColumnController;
 import delta.games.lotro.lore.deeds.DeedDescription;
-import delta.games.lotro.lore.deeds.DeedDescription.TYPE;
+import delta.games.lotro.lore.deeds.DeedType;
 import delta.games.lotro.lore.deeds.DeedsManager;
 
 /**
@@ -49,9 +49,9 @@ public class DeedsTableController
     {
       CellDataProvider<DeedDescription,Integer> idCell=new CellDataProvider<DeedDescription,Integer>()
       {
-        public Integer getData(DeedDescription item)
+        public Integer getData(DeedDescription deed)
         {
-          return Integer.valueOf(item.getIdentifier());
+          return Integer.valueOf(deed.getIdentifier());
         }
       };
       TableColumnController<DeedDescription,Integer> idColumn=new TableColumnController<DeedDescription,Integer>("ID",Integer.class,idCell);
@@ -62,9 +62,9 @@ public class DeedsTableController
     {
       CellDataProvider<DeedDescription,String> keyCell=new CellDataProvider<DeedDescription,String>()
       {
-        public String getData(DeedDescription item)
+        public String getData(DeedDescription deed)
         {
-          return item.getKey();
+          return deed.getKey();
         }
       };
       TableColumnController<DeedDescription,String> keyColumn=new TableColumnController<DeedDescription,String>("Key",String.class,keyCell);
@@ -75,12 +75,12 @@ public class DeedsTableController
     {
       CellDataProvider<DeedDescription,String> nameCell=new CellDataProvider<DeedDescription,String>()
       {
-        public String getData(DeedDescription item)
+        public String getData(DeedDescription deed)
         {
-          item.getObjectives();
-          item.getDescription();
-          item.getRewards();
-          return item.getName();
+          deed.getObjectives();
+          deed.getDescription();
+          deed.getRewards();
+          return deed.getName();
         }
       };
       TableColumnController<DeedDescription,String> nameColumn=new TableColumnController<DeedDescription,String>("Name",String.class,nameCell);
@@ -89,14 +89,14 @@ public class DeedsTableController
     }
     // Type column
     {
-      CellDataProvider<DeedDescription,TYPE> typeCell=new CellDataProvider<DeedDescription,TYPE>()
+      CellDataProvider<DeedDescription,DeedType> typeCell=new CellDataProvider<DeedDescription,DeedType>()
       {
-        public TYPE getData(DeedDescription item)
+        public DeedType getData(DeedDescription deed)
         {
-          return item.getType();
+          return deed.getType();
         }
       };
-      TableColumnController<DeedDescription,TYPE> typeColumn=new TableColumnController<DeedDescription,TYPE>("Type",TYPE.class,typeCell);
+      TableColumnController<DeedDescription,DeedType> typeColumn=new TableColumnController<DeedDescription,DeedType>("Type",DeedType.class,typeCell);
       typeColumn.setWidthSpecs(80,100,80);
       table.addColumnController(typeColumn);
     }
@@ -104,9 +104,9 @@ public class DeedsTableController
     {
       CellDataProvider<DeedDescription,Integer> minLevelCell=new CellDataProvider<DeedDescription,Integer>()
       {
-        public Integer getData(DeedDescription item)
+        public Integer getData(DeedDescription deed)
         {
-          return item.getMinLevel();
+          return deed.getMinLevel();
         }
       };
       TableColumnController<DeedDescription,Integer> minLevelColumn=new TableColumnController<DeedDescription,Integer>("Min Level",Integer.class,minLevelCell);
@@ -117,9 +117,9 @@ public class DeedsTableController
     {
       CellDataProvider<DeedDescription,String> objectivesCell=new CellDataProvider<DeedDescription,String>()
       {
-        public String getData(DeedDescription item)
+        public String getData(DeedDescription deed)
         {
-          return item.getObjectives();
+          return deed.getObjectives();
         }
       };
       TableColumnController<DeedDescription,String> objectivesColumn=new TableColumnController<DeedDescription,String>("Objectives",String.class,objectivesCell);
