@@ -100,6 +100,19 @@ public class DeedsTableController
       typeColumn.setWidthSpecs(80,100,80);
       table.addColumnController(typeColumn);
     }
+    // Category column
+    {
+      CellDataProvider<DeedDescription,String> categoryCell=new CellDataProvider<DeedDescription,String>()
+      {
+        public String getData(DeedDescription deed)
+        {
+          return deed.getCategory();
+        }
+      };
+      TableColumnController<DeedDescription,String> categoryColumn=new TableColumnController<DeedDescription,String>("Category",String.class,categoryCell);
+      categoryColumn.setWidthSpecs(80,100,80);
+      table.addColumnController(categoryColumn);
+    }
     // Min level column
     {
       CellDataProvider<DeedDescription,Integer> minLevelCell=new CellDataProvider<DeedDescription,Integer>()
