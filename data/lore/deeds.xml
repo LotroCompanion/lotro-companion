@@ -3307,7 +3307,7 @@
 <trait id="Heart_of_the_Bard" name="Heart of the Bard"/>
 </rewards>
 </deed>
-<deed id="1879138889" key="Barbed_Hindrance" name="Barbed Hindrance" type="CLASS" class="Hunter" minimumLevel="30" description="Train hard to improve the snare on your Barbed Arrow, to help keep your prey at a comfortable distance from you." objectives="Strike foes with your Barbed Arrow (750)">
+<deed id="1879138889" key="Barbed_Hindrance" name="Barbed Hinderance" type="CLASS" class="Hunter" minimumLevel="30" description="Train hard to improve the snare on your Barbed Arrow, to help keep your prey at a comfortable distance from you." objectives="Strike foes with your Barbed Arrow (750)">
 <rewards>
 <trait id="Barbed_Hindrance" name="Barbed Hindrance"/>
 </rewards>
