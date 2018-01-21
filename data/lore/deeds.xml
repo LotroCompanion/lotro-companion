@@ -6302,7 +6302,7 @@
 </deed>
 <deed id="1879188445" key="The_School_at_Tham_M%C3%ADrdain_(Shadows_of_Angmar)" name="The School at Tham Mírdain" type="SLAYER" minimumLevel="60" description="The School at Tham Mírdain once trained the mightiest Elf-smiths in Middle-earth. Much to their dismay, their learning was used against them when the Great Rings were created." objectives="Complete Musings and Teachings (1)&#13;&#10;Complete Blade of the Dunlending (1)&#13;&#10;Complete Biting the White Hand (1)&#13;&#10;Complete Chieftain Tarsh (1)&#13;&#10;Complete Flames of Knowledge (1)&#13;&#10;Complete Texts of the Crumbling School (1)&#13;&#10;Complete Invaders of Tham Mírdain (School) (1)">
 <rewards>
-<title id="_School_Saviour" name="School Saviour"/>
+<title id="_School_Saviour" name="School Savior"/>
 <object name="Mark" pageURL="/wiki/Item:Mark" iconURL="http://content.turbine.com/sites/lorebook.lotro.com/images/icons/item/barter/it_barter_capped_marks.png" quantity="100"/>
 </rewards>
 </deed>
