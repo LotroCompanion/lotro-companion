@@ -11,6 +11,7 @@ import delta.games.lotro.character.log.CharacterLog;
 import delta.games.lotro.character.log.LotroTestUtils;
 import delta.games.lotro.common.Rewards;
 import delta.games.lotro.common.Virtue;
+import delta.games.lotro.common.VirtueId;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.DeedsManager;
 
@@ -37,7 +38,7 @@ public class MainTestVirtuesStats
       stats.dump(System.out,true);
     }
 
-    HashMap<String,List<String>> virtuesMap=new HashMap<String,List<String>>();
+    HashMap<VirtueId,List<String>> virtuesMap=new HashMap<VirtueId,List<String>>();
     {
       DeedsManager dm=DeedsManager.getInstance();
       List<DeedDescription> deeds=dm.getAll();
@@ -50,7 +51,7 @@ public class MainTestVirtuesStats
         {
           for(Virtue virtue : virtues)
           {
-            String virtueId=virtue.getIdentifier();
+            VirtueId virtueId=virtue.getIdentifier();
             List<String> items=virtuesMap.get(virtueId);
             if (items==null)
             {
@@ -69,9 +70,9 @@ public class MainTestVirtuesStats
     toShow.add("Honour");
     toShow.add("Innocence");
     toShow.add("Zeal");
-    List<String> virtueIds=new ArrayList<String>(virtuesMap.keySet());
+    List<VirtueId> virtueIds=new ArrayList<VirtueId>(virtuesMap.keySet());
     Collections.sort(virtueIds);
-    for(String virtueId : virtueIds)
+    for(VirtueId virtueId : virtueIds)
     {
       if (toShow.contains(virtueId))
       {
