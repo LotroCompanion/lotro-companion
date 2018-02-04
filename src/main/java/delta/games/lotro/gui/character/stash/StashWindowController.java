@@ -25,21 +25,21 @@ import delta.common.ui.swing.windows.DefaultWindowController;
 import delta.common.utils.collections.filters.Filter;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.events.CharacterEvent;
-import delta.games.lotro.character.events.CharacterEventListener;
 import delta.games.lotro.character.events.CharacterEventType;
-import delta.games.lotro.character.events.CharacterEventsManager;
 import delta.games.lotro.character.storage.ItemsStash;
 import delta.games.lotro.gui.items.FilterUpdateListener;
 import delta.games.lotro.gui.items.ItemEditionWindowController;
 import delta.games.lotro.gui.items.ItemFilterController;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemFactory;
+import delta.games.lotro.utils.events.EventsManager;
+import delta.games.lotro.utils.events.GenericEventsListener;
 
 /**
  * Controller for a "items stash" window.
  * @author DAM
  */
-public class StashWindowController extends DefaultWindowController implements ActionListener,FilterUpdateListener,CharacterEventListener
+public class StashWindowController extends DefaultWindowController implements ActionListener,FilterUpdateListener,GenericEventsListener<CharacterEvent>
 {
   private static final String NEW_ITEM_ID="newItem";
   private static final String CLONE_ITEM_ID="cloneItem";
@@ -112,17 +112,17 @@ public class StashWindowController extends DefaultWindowController implements Ac
     frame.setResizable(true);
 
     // Register stash updates events
-    CharacterEventsManager.addListener(this);
+    EventsManager.addListener(CharacterEvent.class,this);
     return frame;
   }
 
   /**
    * Handle character events.
-   * @param type Event type.
    * @param event Source event.
    */
-  public void eventOccurred(CharacterEventType type, CharacterEvent event)
+  public void eventOccurred(CharacterEvent event)
   {
+    CharacterEventType type=event.getType();
     if (type==CharacterEventType.CHARACTER_STASH_UPDATED)
     {
       _itemsTable.getTableController().refresh();
@@ -260,7 +260,7 @@ public class StashWindowController extends DefaultWindowController implements Ac
   @Override
   public void dispose()
   {
-    CharacterEventsManager.removeListener(this);
+    EventsManager.removeListener(CharacterEvent.class,this);
     super.dispose();
     if (_itemsTable!=null)
     {

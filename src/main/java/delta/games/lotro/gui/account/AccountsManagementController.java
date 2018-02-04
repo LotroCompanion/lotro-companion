@@ -19,15 +19,14 @@ import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.account.Account;
 import delta.games.lotro.account.AccountsManager;
 import delta.games.lotro.character.events.CharacterEvent;
-import delta.games.lotro.character.events.CharacterEventListener;
-import delta.games.lotro.character.events.CharacterEventType;
-import delta.games.lotro.character.events.CharacterEventsManager;
+import delta.games.lotro.utils.events.EventsManager;
+import delta.games.lotro.utils.events.GenericEventsListener;
 
 /**
  * Controller for the toons management panel.
  * @author DAM
  */
-public class AccountsManagementController implements ActionListener,CharacterEventListener
+public class AccountsManagementController implements ActionListener,GenericEventsListener<CharacterEvent>
 {
   private static final String NEW_ACCOUNT_ID="newAccount";
   private static final String REMOVE_ACCOUNT_ID="removeAccount";
@@ -55,7 +54,7 @@ public class AccountsManagementController implements ActionListener,CharacterEve
     if (_panel==null)
     {
       _panel=buildPanel();
-      CharacterEventsManager.addListener(this);
+      EventsManager.addListener(CharacterEvent.class,this);
     }
     return _panel;
   }
@@ -75,10 +74,9 @@ public class AccountsManagementController implements ActionListener,CharacterEve
 
   /**
    * Handle character events.
-   * @param type Event type.
    * @param event Source event.
    */
-  public void eventOccurred(CharacterEventType type, CharacterEvent event)
+  public void eventOccurred(CharacterEvent event)
   {
     // TODO
     /*
@@ -177,7 +175,7 @@ public class AccountsManagementController implements ActionListener,CharacterEve
    */
   public void dispose()
   {
-    CharacterEventsManager.removeListener(this);
+    EventsManager.removeListener(CharacterEvent.class,this);
     if (_accountsTable!=null)
     {
       _accountsTable.dispose();

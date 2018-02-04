@@ -14,16 +14,16 @@ import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharacterInfosManager;
 import delta.games.lotro.character.events.CharacterEvent;
-import delta.games.lotro.character.events.CharacterEventListener;
 import delta.games.lotro.character.events.CharacterEventType;
-import delta.games.lotro.character.events.CharacterEventsManager;
 import delta.games.lotro.utils.Formats;
+import delta.games.lotro.utils.events.EventsManager;
+import delta.games.lotro.utils.events.GenericEventsListener;
 
 /**
  * Controller for a table that shows all available data for a single toon.
  * @author DAM
  */
-public class CharacterDataTableController implements CharacterEventListener
+public class CharacterDataTableController implements GenericEventsListener<CharacterEvent>
 {
   // Data
   private CharacterFile _toon;
@@ -40,7 +40,7 @@ public class CharacterDataTableController implements CharacterEventListener
     _toon=toon;
     _toon.getInfosManager().sync();
     _tableController=buildTable();
-    CharacterEventsManager.addListener(this);
+    EventsManager.addListener(CharacterEvent.class,this);
   }
 
   private DataProvider<CharacterData> buildDataProvider()
@@ -157,11 +157,11 @@ public class CharacterDataTableController implements CharacterEventListener
 
   /**
    * Handle character events.
-   * @param type Event type.
    * @param event Source event.
    */
-  public void eventOccurred(CharacterEventType type, CharacterEvent event)
+  public void eventOccurred(CharacterEvent event)
   {
+    CharacterEventType type=event.getType();
     if (type==CharacterEventType.CHARACTER_DATA_UPDATED)
     {
       CharacterData data=event.getToonData();
@@ -189,7 +189,7 @@ public class CharacterDataTableController implements CharacterEventListener
       _tableController=null;
     }
     // Data
-    CharacterEventsManager.removeListener(this);
+    EventsManager.removeListener(CharacterEvent.class,this);
     _toon=null;
   }
 }

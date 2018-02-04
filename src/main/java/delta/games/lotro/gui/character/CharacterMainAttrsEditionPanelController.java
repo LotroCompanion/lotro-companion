@@ -20,13 +20,13 @@ import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharacterSummary;
 import delta.games.lotro.character.events.CharacterEvent;
 import delta.games.lotro.character.events.CharacterEventType;
-import delta.games.lotro.character.events.CharacterEventsManager;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.CharacterSex;
 import delta.games.lotro.common.Race;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.character.summary.CharacterUiUtils;
 import delta.games.lotro.utils.DateFormat;
+import delta.games.lotro.utils.events.EventsManager;
 
 /**
  * Controller for character main attributes edition panel.
@@ -99,8 +99,8 @@ public class CharacterMainAttrsEditionPanelController
       {
         _toon.setLevel(level.intValue());
         // Broadcast level update event...
-        CharacterEvent event=new CharacterEvent(null,_toon);
-        CharacterEventsManager.invokeEvent(CharacterEventType.CHARACTER_DATA_UPDATED,event);
+        CharacterEvent event=new CharacterEvent(CharacterEventType.CHARACTER_DATA_UPDATED,null,_toon);
+        EventsManager.invokeEvent(event);
       }
     };
     _level.addListener(levelListener);

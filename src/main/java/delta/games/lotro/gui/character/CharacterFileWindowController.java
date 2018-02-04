@@ -34,7 +34,6 @@ import delta.games.lotro.character.CharacterInfosManager;
 import delta.games.lotro.character.CharacterSummary;
 import delta.games.lotro.character.events.CharacterEvent;
 import delta.games.lotro.character.events.CharacterEventType;
-import delta.games.lotro.character.events.CharacterEventsManager;
 import delta.games.lotro.character.stats.CharacterStatsComputer;
 import delta.games.lotro.gui.character.stash.StashWindowController;
 import delta.games.lotro.gui.log.CharacterLogWindowController;
@@ -44,6 +43,7 @@ import delta.games.lotro.gui.stats.reputation.CharacterReputationDialogControlle
 import delta.games.lotro.gui.stats.traitPoints.TraitPointsEditionWindowController;
 import delta.games.lotro.stats.traitPoints.TraitPoints;
 import delta.games.lotro.stats.traitPoints.TraitPointsStatus;
+import delta.games.lotro.utils.events.EventsManager;
 import delta.games.lotro.utils.gui.filechooser.FileChooserController;
 
 /**
@@ -325,8 +325,8 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     boolean ok=_toon.getInfosManager().writeNewCharacterData(newInfos);
     if (ok)
     {
-      CharacterEvent event=new CharacterEvent(_toon,newInfos);
-      CharacterEventsManager.invokeEvent(CharacterEventType.CHARACTER_DATA_ADDED,event);
+      CharacterEvent event=new CharacterEvent(CharacterEventType.CHARACTER_DATA_ADDED,_toon,newInfos);
+      EventsManager.invokeEvent(event);
       showCharacterData(newInfos);
     }
   }
@@ -359,8 +359,8 @@ public class CharacterFileWindowController extends DefaultWindowController imple
       boolean ok=infos.writeNewCharacterData(newInfos);
       if (ok)
       {
-        CharacterEvent event=new CharacterEvent(_toon,newInfos);
-        CharacterEventsManager.invokeEvent(CharacterEventType.CHARACTER_DATA_ADDED,event);
+        CharacterEvent event=new CharacterEvent(CharacterEventType.CHARACTER_DATA_ADDED,_toon,newInfos);
+        EventsManager.invokeEvent(event);
       }
     }
   }
@@ -428,8 +428,8 @@ public class CharacterFileWindowController extends DefaultWindowController imple
         boolean ok=_toon.getInfosManager().remove(data);
         if (ok)
         {
-          CharacterEvent event=new CharacterEvent(_toon,data);
-          CharacterEventsManager.invokeEvent(CharacterEventType.CHARACTER_DATA_REMOVED,event);
+          CharacterEvent event=new CharacterEvent(CharacterEventType.CHARACTER_DATA_REMOVED,_toon,data);
+          EventsManager.invokeEvent(event);
         }
       }
     }

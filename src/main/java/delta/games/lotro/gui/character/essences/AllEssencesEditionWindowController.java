@@ -8,15 +8,15 @@ import delta.common.ui.swing.windows.DefaultWindowController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.events.CharacterEvent;
-import delta.games.lotro.character.events.CharacterEventListener;
 import delta.games.lotro.character.events.CharacterEventType;
-import delta.games.lotro.character.events.CharacterEventsManager;
+import delta.games.lotro.utils.events.EventsManager;
+import delta.games.lotro.utils.events.GenericEventsListener;
 
 /**
  * Controller for a "all essences edition" window.
  * @author DAM
  */
-public class AllEssencesEditionWindowController extends DefaultWindowController implements CharacterEventListener
+public class AllEssencesEditionWindowController extends DefaultWindowController implements GenericEventsListener<CharacterEvent>
 {
   /**
    * Window identifier.
@@ -43,7 +43,7 @@ public class AllEssencesEditionWindowController extends DefaultWindowController 
   {
     JPanel editionPanel=_editionController.getPanel();
     // Register to events
-    CharacterEventsManager.addListener(this);
+    EventsManager.addListener(CharacterEvent.class,this);
     return editionPanel;
   }
 
@@ -69,11 +69,11 @@ public class AllEssencesEditionWindowController extends DefaultWindowController 
 
   /**
    * Handle character events.
-   * @param type Event type.
    * @param event Source event.
    */
-  public void eventOccurred(CharacterEventType type, CharacterEvent event)
+  public void eventOccurred(CharacterEvent event)
   {
+    CharacterEventType type=event.getType();
     if (type==CharacterEventType.CHARACTER_DATA_UPDATED)
     {
       CharacterData data=event.getToonData();
@@ -91,7 +91,7 @@ public class AllEssencesEditionWindowController extends DefaultWindowController 
   @Override
   public void dispose()
   {
-    CharacterEventsManager.removeListener(this);
+    EventsManager.removeListener(CharacterEvent.class,this);
     if (_editionController!=null)
     {
       _editionController.dispose();

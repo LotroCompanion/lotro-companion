@@ -31,7 +31,6 @@ import delta.games.lotro.character.CharacterEquipment.SlotContents;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.events.CharacterEvent;
 import delta.games.lotro.character.events.CharacterEventType;
-import delta.games.lotro.character.events.CharacterEventsManager;
 import delta.games.lotro.character.storage.ItemsStash;
 import delta.games.lotro.gui.items.ItemChoiceWindowController;
 import delta.games.lotro.gui.items.ItemEditionWindowController;
@@ -40,6 +39,7 @@ import delta.games.lotro.gui.items.ItemFilterController;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemFactory;
 import delta.games.lotro.lore.items.ItemsManager;
+import delta.games.lotro.utils.events.EventsManager;
 
 /**
  * Controller for equipment panel.
@@ -371,8 +371,8 @@ public class EquipmentPanelController implements ActionListener
         item.setStashIdentifier(stashId);
         _toon.saveStash();
         // Broadcast stash update event...
-        CharacterEvent event=new CharacterEvent(_toon,null);
-        CharacterEventsManager.invokeEvent(CharacterEventType.CHARACTER_STASH_UPDATED,event);
+        CharacterEvent event=new CharacterEvent(CharacterEventType.CHARACTER_STASH_UPDATED,_toon,null);
+        EventsManager.invokeEvent(event);
       }
     }
   }
@@ -437,8 +437,8 @@ public class EquipmentPanelController implements ActionListener
   {
     updateIcons();
     // Broadcast equipment update event...
-    CharacterEvent event=new CharacterEvent(_toon,_toonData);
-    CharacterEventsManager.invokeEvent(CharacterEventType.CHARACTER_DATA_UPDATED,event);
+    CharacterEvent event=new CharacterEvent(CharacterEventType.CHARACTER_DATA_UPDATED,_toon,_toonData);
+    EventsManager.invokeEvent(event);
   }
 
   /**

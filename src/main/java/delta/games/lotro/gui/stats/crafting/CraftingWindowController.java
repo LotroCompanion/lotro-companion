@@ -20,10 +20,10 @@ import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.crafting.CraftingStatus;
 import delta.games.lotro.character.events.CharacterEvent;
 import delta.games.lotro.character.events.CharacterEventType;
-import delta.games.lotro.character.events.CharacterEventsManager;
 import delta.games.lotro.lore.crafting.Profession;
 import delta.games.lotro.lore.crafting.Vocation;
 import delta.games.lotro.lore.crafting.Vocations;
+import delta.games.lotro.utils.events.EventsManager;
 
 /**
  * Controller for a "crafting stats" window.
@@ -191,8 +191,8 @@ public class CraftingWindowController extends DefaultFormDialogController<Crafti
     _vocationController.updateDataFromUi();
     _toon.saveCrafting();
     // Broadcast crafting update event...
-    CharacterEvent event=new CharacterEvent(_toon,null);
-    CharacterEventsManager.invokeEvent(CharacterEventType.CHARACTER_CRAFTING_UPDATED,event);
+    CharacterEvent event=new CharacterEvent(CharacterEventType.CHARACTER_CRAFTING_UPDATED,_toon,null);
+    EventsManager.invokeEvent(event);
   }
 
   @Override

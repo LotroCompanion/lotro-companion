@@ -17,11 +17,11 @@ import delta.games.lotro.character.CharacterEquipment;
 import delta.games.lotro.character.CharacterEquipment.EQUIMENT_SLOT;
 import delta.games.lotro.character.events.CharacterEvent;
 import delta.games.lotro.character.events.CharacterEventType;
-import delta.games.lotro.character.events.CharacterEventsManager;
 import delta.games.lotro.gui.items.essences.EssenceUpdatedListener;
 import delta.games.lotro.gui.items.essences.SingleEssenceEditionController;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.essences.EssencesSet;
+import delta.games.lotro.utils.events.EventsManager;
 
 /**
  * Controller for a panel to edit all the essences of a character.
@@ -167,8 +167,8 @@ public class AllEssencesEditionPanelController implements EssenceUpdatedListener
 
   private void refreshToon()
   {
-    CharacterEvent event=new CharacterEvent(null,_toon);
-    CharacterEventsManager.invokeEvent(CharacterEventType.CHARACTER_DATA_UPDATED,event);
+    CharacterEvent event=new CharacterEvent(CharacterEventType.CHARACTER_DATA_UPDATED,null,_toon);
+    EventsManager.invokeEvent(event);
   }
 
   /**

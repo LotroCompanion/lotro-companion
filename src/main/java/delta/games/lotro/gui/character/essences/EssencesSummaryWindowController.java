@@ -8,15 +8,15 @@ import delta.common.ui.swing.windows.DefaultDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.events.CharacterEvent;
-import delta.games.lotro.character.events.CharacterEventListener;
 import delta.games.lotro.character.events.CharacterEventType;
-import delta.games.lotro.character.events.CharacterEventsManager;
+import delta.games.lotro.utils.events.EventsManager;
+import delta.games.lotro.utils.events.GenericEventsListener;
 
 /**
  * Controller for a "essences summary" window.
  * @author DAM
  */
-public class EssencesSummaryWindowController extends DefaultDialogController implements CharacterEventListener
+public class EssencesSummaryWindowController extends DefaultDialogController implements GenericEventsListener<CharacterEvent>
 {
   /**
    * Window identifier.
@@ -43,7 +43,7 @@ public class EssencesSummaryWindowController extends DefaultDialogController imp
   {
     JPanel summaryPanel=_summaryController.getPanel();
     // Register to events
-    CharacterEventsManager.addListener(this);
+    EventsManager.addListener(CharacterEvent.class,this);
     return summaryPanel;
   }
 
@@ -69,11 +69,11 @@ public class EssencesSummaryWindowController extends DefaultDialogController imp
 
   /**
    * Handle character events.
-   * @param type Event type.
    * @param event Source event.
    */
-  public void eventOccurred(CharacterEventType type, CharacterEvent event)
+  public void eventOccurred(CharacterEvent event)
   {
+    CharacterEventType type=event.getType();
     if (type==CharacterEventType.CHARACTER_DATA_UPDATED)
     {
       CharacterData data=event.getToonData();
@@ -91,7 +91,7 @@ public class EssencesSummaryWindowController extends DefaultDialogController imp
   @Override
   public void dispose()
   {
-    CharacterEventsManager.removeListener(this);
+    EventsManager.removeListener(CharacterEvent.class,this);
     if (_summaryController!=null)
     {
       _summaryController.dispose();

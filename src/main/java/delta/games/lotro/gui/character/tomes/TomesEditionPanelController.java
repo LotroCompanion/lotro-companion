@@ -17,9 +17,9 @@ import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.events.CharacterEvent;
 import delta.games.lotro.character.events.CharacterEventType;
-import delta.games.lotro.character.events.CharacterEventsManager;
 import delta.games.lotro.character.stats.STAT;
 import delta.games.lotro.character.stats.tomes.TomesSet;
+import delta.games.lotro.utils.events.EventsManager;
 
 /**
  * Controller for a panel to edit tomes.
@@ -171,8 +171,8 @@ public class TomesEditionPanelController
     tomes.setTomeRank(stat,currentTierIndex);
     _tomeControllers.get(index).update();
     // Broadcast toon update event...
-    CharacterEvent event=new CharacterEvent(null,_toon);
-    CharacterEventsManager.invokeEvent(CharacterEventType.CHARACTER_DATA_UPDATED,event);
+    CharacterEvent event=new CharacterEvent(CharacterEventType.CHARACTER_DATA_UPDATED,null,_toon);
+    EventsManager.invokeEvent(event);
   }
 
   /**

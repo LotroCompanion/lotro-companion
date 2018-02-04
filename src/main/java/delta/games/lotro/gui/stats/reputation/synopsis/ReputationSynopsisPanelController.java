@@ -18,17 +18,17 @@ import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharactersManager;
 import delta.games.lotro.character.events.CharacterEvent;
-import delta.games.lotro.character.events.CharacterEventListener;
 import delta.games.lotro.character.events.CharacterEventType;
-import delta.games.lotro.character.events.CharacterEventsManager;
 import delta.games.lotro.gui.character.chooser.CharactersChooserController;
 import delta.games.lotro.lore.reputation.FactionFilter;
+import delta.games.lotro.utils.events.EventsManager;
+import delta.games.lotro.utils.events.GenericEventsListener;
 
 /**
  * Controller for a reputation synopsis panel.
  * @author DAM
  */
-public class ReputationSynopsisPanelController implements CharacterEventListener
+public class ReputationSynopsisPanelController implements GenericEventsListener<CharacterEvent>
 {
   // Controllers
   private ReputationSynopsisWindowController _parent;
@@ -49,7 +49,7 @@ public class ReputationSynopsisPanelController implements CharacterEventListener
     _filter=new FactionFilter();
     _filterController=new ReputationSynopsisFilterController(_filter,this);
     _tableController=new ReputationSynopsisTableController(_filter);
-    CharacterEventsManager.addListener(this);
+    EventsManager.addListener(CharacterEvent.class,this);
   }
 
   /**
@@ -145,11 +145,11 @@ public class ReputationSynopsisPanelController implements CharacterEventListener
 
   /**
    * Handle character events.
-   * @param type Event type.
    * @param event Source event.
    */
-  public void eventOccurred(CharacterEventType type, CharacterEvent event)
+  public void eventOccurred(CharacterEvent event)
   {
+    CharacterEventType type=event.getType();
     if (type==CharacterEventType.CHARACTER_REPUTATION_UPDATED)
     {
       CharacterFile toon=event.getToonFile();
@@ -166,7 +166,7 @@ public class ReputationSynopsisPanelController implements CharacterEventListener
    */
   public void dispose()
   {
-    CharacterEventsManager.removeListener(this);
+    EventsManager.removeListener(CharacterEvent.class,this);
     // GUI
     if (_panel!=null)
     {

@@ -21,11 +21,11 @@ import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.events.CharacterEvent;
 import delta.games.lotro.character.events.CharacterEventType;
-import delta.games.lotro.character.events.CharacterEventsManager;
 import delta.games.lotro.character.stats.buffs.Buff;
 import delta.games.lotro.character.stats.buffs.BuffInstance;
 import delta.games.lotro.character.stats.buffs.BuffRegistry;
 import delta.games.lotro.character.stats.buffs.BuffsManager;
+import delta.games.lotro.utils.events.EventsManager;
 
 /**
  * Controller for a panel to edit buffs.
@@ -239,8 +239,8 @@ public class BuffEditionPanelController implements ActionListener
       BuffIconController controller=buildBuffController(buffInstance);
       _buffControllers.add(controller);
       // Broadcast toon update event...
-      CharacterEvent event=new CharacterEvent(null,_toon);
-      CharacterEventsManager.invokeEvent(CharacterEventType.CHARACTER_DATA_UPDATED,event);
+      CharacterEvent event=new CharacterEvent(CharacterEventType.CHARACTER_DATA_UPDATED,null,_toon);
+      EventsManager.invokeEvent(event);
     }
   }
 
@@ -272,8 +272,8 @@ public class BuffEditionPanelController implements ActionListener
         buff.setTier(tiers.get(currentTierIndex));
         _buffControllers.get(index).update();
         // Broadcast toon update event...
-        CharacterEvent event=new CharacterEvent(null,_toon);
-        CharacterEventsManager.invokeEvent(CharacterEventType.CHARACTER_DATA_UPDATED,event);
+        CharacterEvent event=new CharacterEvent(CharacterEventType.CHARACTER_DATA_UPDATED,null,_toon);
+        EventsManager.invokeEvent(event);
       }
     }
   }
@@ -286,8 +286,8 @@ public class BuffEditionPanelController implements ActionListener
     // Update UI
     updateIconsPanel();
     // Broadcast toon update event...
-    CharacterEvent event=new CharacterEvent(null,_toon);
-    CharacterEventsManager.invokeEvent(CharacterEventType.CHARACTER_DATA_UPDATED,event);
+    CharacterEvent event=new CharacterEvent(CharacterEventType.CHARACTER_DATA_UPDATED,null,_toon);
+    EventsManager.invokeEvent(event);
   }
 
   /**

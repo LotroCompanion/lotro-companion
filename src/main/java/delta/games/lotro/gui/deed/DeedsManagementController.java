@@ -24,9 +24,9 @@ import delta.games.lotro.character.CharacterInfosManager;
 import delta.games.lotro.character.CharactersManager;
 import delta.games.lotro.character.events.CharacterEvent;
 import delta.games.lotro.character.events.CharacterEventType;
-import delta.games.lotro.character.events.CharacterEventsManager;
 import delta.games.lotro.character.io.xml.CharacterXMLParser;
 import delta.games.lotro.lore.deeds.DeedDescription;
+import delta.games.lotro.utils.events.EventsManager;
 import delta.games.lotro.utils.gui.filechooser.FileChooserController;
 
 /**
@@ -236,8 +236,8 @@ public class DeedsManagementController implements ActionListener//,CharacterEven
           ok=infos.writeNewCharacterData(data);
           if (ok)
           {
-            CharacterEvent event=new CharacterEvent(toon,data);
-            CharacterEventsManager.invokeEvent(CharacterEventType.CHARACTER_DATA_ADDED,event);
+            CharacterEvent event=new CharacterEvent(CharacterEventType.CHARACTER_DATA_ADDED,toon,data);
+            EventsManager.invokeEvent(event);
           }
         }
         else

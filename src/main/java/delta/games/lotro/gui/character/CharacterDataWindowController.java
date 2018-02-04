@@ -21,9 +21,7 @@ import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.events.CharacterEvent;
-import delta.games.lotro.character.events.CharacterEventListener;
 import delta.games.lotro.character.events.CharacterEventType;
-import delta.games.lotro.character.events.CharacterEventsManager;
 import delta.games.lotro.character.io.xml.CharacterDataIO;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.character.stats.CharacterStatsComputer;
@@ -35,12 +33,14 @@ import delta.games.lotro.gui.character.gear.EquipmentPanelController;
 import delta.games.lotro.gui.character.tomes.TomesEditionPanelController;
 import delta.games.lotro.gui.character.virtues.VirtuesDisplayPanelController;
 import delta.games.lotro.gui.character.virtues.VirtuesEditionDialogController;
+import delta.games.lotro.utils.events.EventsManager;
+import delta.games.lotro.utils.events.GenericEventsListener;
 
 /**
  * Controller for a "character data" window.
  * @author DAM
  */
-public class CharacterDataWindowController extends DefaultFormDialogController<CharacterData> implements CharacterEventListener
+public class CharacterDataWindowController extends DefaultFormDialogController<CharacterData> implements GenericEventsListener<CharacterEvent>
 {
   private CharacterMainAttrsEditionPanelController _attrsController;
   private CharacterStatsSummaryPanelController _statsController;
@@ -166,7 +166,7 @@ public class CharacterDataWindowController extends DefaultFormDialogController<C
     fullPanel.add(bottomPanel,BorderLayout.SOUTH);
 
     // Register to events
-    CharacterEventsManager.addListener(this);
+    EventsManager.addListener(CharacterEvent.class,this);
     return fullPanel;
   }
 
@@ -219,8 +219,8 @@ public class CharacterDataWindowController extends DefaultFormDialogController<C
           _data.getVirtues().copyFrom(virtues);
           _virtuesController.setVirtues(virtues);
           // Broadcast virtues update event...
-          CharacterEvent event=new CharacterEvent(null,_data);
-          CharacterEventsManager.invokeEvent(CharacterEventType.CHARACTER_DATA_UPDATED,event);
+          CharacterEvent event=new CharacterEvent(CharacterEventType.CHARACTER_DATA_UPDATED,null,_data);
+          EventsManager.invokeEvent(event);
         }
       }
     };
@@ -288,11 +288,11 @@ public class CharacterDataWindowController extends DefaultFormDialogController<C
 
   /**
    * Handle character events.
-   * @param type Event type.
    * @param event Source event.
    */
-  public void eventOccurred(CharacterEventType type, CharacterEvent event)
+  public void eventOccurred(CharacterEvent event)
   {
+    CharacterEventType type=event.getType();
     if (type==CharacterEventType.CHARACTER_DATA_UPDATED)
     {
       CharacterData data=event.getToonData();
@@ -328,8 +328,8 @@ public class CharacterDataWindowController extends DefaultFormDialogController<C
     boolean ok=CharacterDataIO.saveInfo(_data.getFile(),_data);
     if (ok)
     {
-      CharacterEvent event=new CharacterEvent(null,_data);
-      CharacterEventsManager.invokeEvent(CharacterEventType.CHARACTER_DATA_UPDATED,event);
+      CharacterEvent event=new CharacterEvent(CharacterEventType.CHARACTER_DATA_UPDATED,null,_data);
+      EventsManager.invokeEvent(event);
     }
     else
     {
@@ -350,7 +350,7 @@ public class CharacterDataWindowController extends DefaultFormDialogController<C
   public void dispose()
   {
     super.dispose();
-    CharacterEventsManager.removeListener(this);
+    EventsManager.removeListener(CharacterEvent.class,this);
     if (_windowsManager!=null)
     {
       _windowsManager.disposeAll();

@@ -24,18 +24,18 @@ import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharacterInfosManager;
 import delta.games.lotro.character.CharactersManager;
 import delta.games.lotro.character.events.CharacterEvent;
-import delta.games.lotro.character.events.CharacterEventListener;
 import delta.games.lotro.character.events.CharacterEventType;
-import delta.games.lotro.character.events.CharacterEventsManager;
 import delta.games.lotro.character.io.xml.CharacterXMLParser;
 import delta.games.lotro.gui.character.CharacterFileWindowController;
+import delta.games.lotro.utils.events.EventsManager;
+import delta.games.lotro.utils.events.GenericEventsListener;
 import delta.games.lotro.utils.gui.filechooser.FileChooserController;
 
 /**
  * Controller for the toons management panel.
  * @author DAM
  */
-public class ToonsManagementController implements ActionListener,CharacterEventListener
+public class ToonsManagementController implements ActionListener,GenericEventsListener<CharacterEvent>
 {
   private static final String NEW_TOON_ID="newToon";
   private static final String IMPORT_TOON_ID="importToon";
@@ -66,7 +66,7 @@ public class ToonsManagementController implements ActionListener,CharacterEventL
     if (_panel==null)
     {
       _panel=buildPanel();
-      CharacterEventsManager.addListener(this);
+      EventsManager.addListener(CharacterEvent.class,this);
     }
     return _panel;
   }
@@ -86,11 +86,11 @@ public class ToonsManagementController implements ActionListener,CharacterEventL
 
   /**
    * Handle character events.
-   * @param type Event type.
    * @param event Source event.
    */
-  public void eventOccurred(CharacterEventType type, CharacterEvent event)
+  public void eventOccurred(CharacterEvent event)
   {
+    CharacterEventType type=event.getType();
     if ((type==CharacterEventType.CHARACTER_ADDED) || (type==CharacterEventType.CHARACTER_REMOVED))
     {
       _toonsTable.refresh();
@@ -230,8 +230,8 @@ public class ToonsManagementController implements ActionListener,CharacterEventL
           ok=infos.writeNewCharacterData(data);
           if (ok)
           {
-            CharacterEvent event=new CharacterEvent(toon,data);
-            CharacterEventsManager.invokeEvent(CharacterEventType.CHARACTER_DATA_ADDED,event);
+            CharacterEvent event=new CharacterEvent(CharacterEventType.CHARACTER_DATA_ADDED,toon,data);
+            EventsManager.invokeEvent(event);
           }
         }
         else
@@ -265,7 +265,7 @@ public class ToonsManagementController implements ActionListener,CharacterEventL
       _mainWindowsManager.disposeAll();
       _mainWindowsManager=null;
     }
-    CharacterEventsManager.removeListener(this);
+    EventsManager.removeListener(CharacterEvent.class,this);
     if (_toonsTable!=null)
     {
       _toonsTable.dispose();

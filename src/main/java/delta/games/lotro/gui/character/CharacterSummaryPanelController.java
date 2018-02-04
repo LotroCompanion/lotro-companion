@@ -16,20 +16,20 @@ import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharacterSummary;
 import delta.games.lotro.character.events.CharacterEvent;
-import delta.games.lotro.character.events.CharacterEventListener;
 import delta.games.lotro.character.events.CharacterEventType;
-import delta.games.lotro.character.events.CharacterEventsManager;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.CharacterSex;
 import delta.games.lotro.common.Race;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.character.summary.CharacterSummaryDialogController;
+import delta.games.lotro.utils.events.EventsManager;
+import delta.games.lotro.utils.events.GenericEventsListener;
 
 /**
  * Controller for character summary panel.
  * @author DAM
  */
-public class CharacterSummaryPanelController implements CharacterEventListener
+public class CharacterSummaryPanelController implements GenericEventsListener<CharacterEvent>
 {
   // Data
   private CharacterFile _toon;
@@ -52,7 +52,7 @@ public class CharacterSummaryPanelController implements CharacterEventListener
     _parent=parent;
     _toon=toon;
     _summary=toon.getSummary();
-    CharacterEventsManager.addListener(this);
+    EventsManager.addListener(CharacterEvent.class,this);
   }
 
   /**
@@ -122,18 +122,18 @@ public class CharacterSummaryPanelController implements CharacterEventListener
     if (summary!=null)
     {
       _toon.saveSummary(_summary);
-      CharacterEvent event=new CharacterEvent(_toon,null);
-      CharacterEventsManager.invokeEvent(CharacterEventType.CHARACTER_SUMMARY_UPDATED,event);
+      CharacterEvent event=new CharacterEvent(CharacterEventType.CHARACTER_SUMMARY_UPDATED,_toon,null);
+      EventsManager.invokeEvent(event);
     }
   }
 
   /**
    * Handle character events.
-   * @param type Event type.
    * @param event Source event.
    */
-  public void eventOccurred(CharacterEventType type, CharacterEvent event)
+  public void eventOccurred(CharacterEvent event)
   {
+    CharacterEventType type=event.getType();
     if (type==CharacterEventType.CHARACTER_SUMMARY_UPDATED)
     {
       CharacterFile toon=event.getToonFile();
@@ -177,7 +177,7 @@ public class CharacterSummaryPanelController implements CharacterEventListener
   public void dispose()
   {
     // Listeners
-    CharacterEventsManager.removeListener(this);
+    EventsManager.removeListener(CharacterEvent.class,this);
     // Controllers
     _parent=null;
     // UI
