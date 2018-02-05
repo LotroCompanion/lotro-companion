@@ -14,6 +14,7 @@ import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.toolbar.ToolbarController;
 import delta.common.ui.swing.toolbar.ToolbarIconItem;
 import delta.common.ui.swing.toolbar.ToolbarModel;
+import delta.common.ui.swing.windows.WindowController;
 import delta.common.ui.swing.windows.WindowsManager;
 import delta.games.lotro.gui.deed.events.DeedEvent;
 import delta.games.lotro.gui.deed.events.DeedEventType;
@@ -30,7 +31,7 @@ public class DeedsManagementController implements ActionListener,GenericEventsLi
   private static final String NEW_DEED_ID="newDeed";
   private static final String REMOVE_DEED_ID="removeDeed";
   private JPanel _panel;
-  //private WindowController _parentController;
+  private WindowController _parentController;
   private DeedsTableController _toonsTable;
   private ToolbarController _toolbar;
   //private NewToonDialogController _newToonDialog;
@@ -38,10 +39,11 @@ public class DeedsManagementController implements ActionListener,GenericEventsLi
 
   /**
    * Constructor.
+   * @param parentController Parent window.
    */
-  public DeedsManagementController(/*WindowController parentController*/)
+  public DeedsManagementController(WindowController parentController)
   {
-    //_parentController=parentController;
+    _parentController=parentController;
     _mainWindowsManager=new WindowsManager();
   }
 
@@ -143,19 +145,8 @@ public class DeedsManagementController implements ActionListener,GenericEventsLi
 
   private void showToon(DeedDescription toon)
   {
-    /*
-    String serverName=toon.getServerName();
-    String toonName=toon.getName();
-    String id=CharacterFileWindowController.getIdentifier(serverName,toonName);
-    WindowController controller=_mainWindowsManager.getWindow(id);
-    if (controller==null)
-    {
-      controller=new CharacterFileWindowController(toon);
-      _mainWindowsManager.registerWindow(controller);
-      controller.getWindow().setLocationRelativeTo(getPanel());
-    }
-    controller.bringToFront();
-    */
+    DeedEditionWindowController edit=new DeedEditionWindowController(_parentController,toon);
+    edit.show(true);
   }
 
   private void startNewDeed()

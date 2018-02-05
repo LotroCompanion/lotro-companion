@@ -12,6 +12,7 @@ import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.CharacterSex;
 import delta.games.lotro.common.Race;
 import delta.games.lotro.lore.crafting.Profession;
+import delta.games.lotro.lore.deeds.DeedType;
 
 /**
  * Access to Lotro specific icons.
@@ -148,6 +149,21 @@ public class LotroIconsManager
     String key=mastery?"mastery":"proficiency";
     String path="/resources/gui/crafting/"+key+".png";
     return IconsManager.getIcon(path);
+  }
+
+  /**
+   * Get an icon for a deed type.
+   * @param type Deed type.
+   * @return An icon or <code>null</code> if not found.
+   */
+  public static ImageIcon getDeedTypeIcon(DeedType type)
+  {
+    if (type==null) type=DeedType.QUEST;
+    if (type==DeedType.QUEST) type=DeedType.REPUTATION;
+    String filename=type.name().toLowerCase();
+    String path="/resources/gui/deeds/"+filename+".png";
+    ImageIcon ret=IconsManager.getIcon(path);
+    return ret;
   }
 
   /**
