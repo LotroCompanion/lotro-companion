@@ -10,6 +10,7 @@ import delta.common.ui.swing.tables.CellDataProvider;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.ListDataProvider;
 import delta.common.ui.swing.tables.TableColumnController;
+import delta.common.utils.collections.filters.Filter;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.DeedType;
 import delta.games.lotro.lore.deeds.DeedsManager;
@@ -25,24 +26,26 @@ public class DeedsTableController
    */
   public static final String DOUBLE_CLICK="double click";
   // Data
-  private List<DeedDescription> _toons;
+  private List<DeedDescription> _deeds;
   // GUI
   private JTable _table;
   private GenericTableController<DeedDescription> _tableController;
 
   /**
    * Constructor.
+   * @param filter Managed filter.
    */
-  public DeedsTableController()
+  public DeedsTableController(Filter<DeedDescription> filter)
   {
-    _toons=new ArrayList<DeedDescription>();
+    _deeds=new ArrayList<DeedDescription>();
     init();
     _tableController=buildTable();
+    _tableController.setFilter(filter);
   }
 
   private GenericTableController<DeedDescription> buildTable()
   {
-    ListDataProvider<DeedDescription> provider=new ListDataProvider<DeedDescription>(_toons);
+    ListDataProvider<DeedDescription> provider=new ListDataProvider<DeedDescription>(_deeds);
     GenericTableController<DeedDescription> table=new GenericTableController<DeedDescription>(provider);
 
     // Identifier column
@@ -110,7 +113,7 @@ public class DeedsTableController
         }
       };
       TableColumnController<DeedDescription,String> categoryColumn=new TableColumnController<DeedDescription,String>("Category",String.class,categoryCell);
-      categoryColumn.setWidthSpecs(80,100,80);
+      categoryColumn.setWidthSpecs(80,350,80);
       table.addColumnController(categoryColumn);
     }
     // Min level column
@@ -151,13 +154,40 @@ public class DeedsTableController
     return _tableController;
   }
 
-  private void reset()
+  /**
+   * Update managed filter.
+   */
+  public void updateFilter()
   {
-    _toons.clear();
+    _tableController.filterUpdated();
   }
 
   /**
-   * Refresh toons table.
+   * Get the total number of deeds.
+   * @return A number of deeds.
+   */
+  public int getNbItems()
+  {
+    return _deeds.size();
+  }
+
+  /**
+   * Get the number of filtered items in the managed table.
+   * @return A number of items.
+   */
+  public int getNbFilteredItems()
+  {
+    int ret=_tableController.getNbFilteredItems();
+    return ret;
+  }
+
+  private void reset()
+  {
+    _deeds.clear();
+  }
+
+  /**
+   * Refresh table.
    */
   public void refresh()
   {
@@ -169,14 +199,14 @@ public class DeedsTableController
   }
 
   /**
-   * Refresh toons table.
-   * @param toon Toon to refresh.
+   * Refresh table.
+   * @param deed Deed to refresh.
    */
-  public void refresh(DeedDescription toon)
+  public void refresh(DeedDescription deed)
   {
     if (_table!=null)
     {
-      _tableController.refresh(toon);
+      _tableController.refresh(deed);
     }
   }
 
@@ -184,10 +214,10 @@ public class DeedsTableController
   {
     reset();
     DeedsManager manager=DeedsManager.getInstance();
-    List<DeedDescription> toons=manager.getAll();
-    for(DeedDescription toon : toons)
+    List<DeedDescription> deeds=manager.getAll();
+    for(DeedDescription deed : deeds)
     {
-      _toons.add(toon);
+      _deeds.add(deed);
     }
   }
 
@@ -238,6 +268,6 @@ public class DeedsTableController
       _tableController=null;
     }
     // Data
-    _toons=null;
+    _deeds=null;
   }
 }

@@ -1,10 +1,8 @@
 package delta.games.lotro.gui.deed;
 
 import java.awt.BorderLayout;
-import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -16,30 +14,23 @@ import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.toolbar.ToolbarController;
 import delta.common.ui.swing.toolbar.ToolbarIconItem;
 import delta.common.ui.swing.toolbar.ToolbarModel;
-import delta.common.ui.swing.windows.WindowController;
 import delta.common.ui.swing.windows.WindowsManager;
-import delta.games.lotro.character.CharacterData;
-import delta.games.lotro.character.CharacterFile;
-import delta.games.lotro.character.CharacterInfosManager;
-import delta.games.lotro.character.CharactersManager;
-import delta.games.lotro.character.events.CharacterEvent;
-import delta.games.lotro.character.events.CharacterEventType;
-import delta.games.lotro.character.io.xml.CharacterXMLParser;
+import delta.games.lotro.gui.deed.events.DeedEvent;
+import delta.games.lotro.gui.deed.events.DeedEventType;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.utils.events.EventsManager;
-import delta.games.lotro.utils.gui.filechooser.FileChooserController;
+import delta.games.lotro.utils.events.GenericEventsListener;
 
 /**
- * Controller for the toons management panel.
+ * Controller for the deeds management panel.
  * @author DAM
  */
-public class DeedsManagementController implements ActionListener//,CharacterEventListener
+public class DeedsManagementController implements ActionListener,GenericEventsListener<DeedEvent>
 {
-  private static final String NEW_TOON_ID="newToon";
-  private static final String IMPORT_TOON_ID="importToon";
-  private static final String REMOVE_TOON_ID="removeToon";
+  private static final String NEW_DEED_ID="newDeed";
+  private static final String REMOVE_DEED_ID="removeDeed";
   private JPanel _panel;
-  private WindowController _parentController;
+  //private WindowController _parentController;
   private DeedsTableController _toonsTable;
   private ToolbarController _toolbar;
   //private NewToonDialogController _newToonDialog;
@@ -47,11 +38,10 @@ public class DeedsManagementController implements ActionListener//,CharacterEven
 
   /**
    * Constructor.
-   * @param parentController Parent controller.
    */
-  public DeedsManagementController(WindowController parentController)
+  public DeedsManagementController(/*WindowController parentController*/)
   {
-    _parentController=parentController;
+    //_parentController=parentController;
     _mainWindowsManager=new WindowsManager();
   }
 
@@ -64,7 +54,7 @@ public class DeedsManagementController implements ActionListener//,CharacterEven
     if (_panel==null)
     {
       _panel=buildPanel();
-      //CharacterEventsManager.addListener(this);
+      EventsManager.addListener(DeedEvent.class,this);
     }
     return _panel;
   }
@@ -83,24 +73,22 @@ public class DeedsManagementController implements ActionListener//,CharacterEven
   }
 
   /**
-   * Handle character events.
-   * @param type Event type.
+   * Handle events.
    * @param event Source event.
    */
-  /*
-  public void eventOccurred(CharacterEventType type, CharacterEvent event)
+  public void eventOccurred(DeedEvent event)
   {
-    if ((type==CharacterEventType.CHARACTER_ADDED) || (type==CharacterEventType.CHARACTER_REMOVED))
+    DeedEventType type=event.getType();
+    if ((type==DeedEventType.DEED_ADDED) || (type==DeedEventType.DEED_REMOVED))
     {
       _toonsTable.refresh();
     }
-    else if (type==CharacterEventType.CHARACTER_SUMMARY_UPDATED)
+    else if (type==DeedEventType.DEED_UPDATED)
     {
-      DeedDescription toon=event.getToonFile();
+      DeedDescription toon=event.getDeed();
       _toonsTable.refresh(toon);
     }
   }
-  */
 
   private String getToolbarIconPath(String iconName)
   {
@@ -110,7 +98,7 @@ public class DeedsManagementController implements ActionListener//,CharacterEven
 
   private DeedsTableController buildToonsTable()
   {
-    DeedsTableController tableController=new DeedsTableController();
+    DeedsTableController tableController=new DeedsTableController(null);
     tableController.addActionListener(this);
     return tableController;
   }
@@ -121,17 +109,13 @@ public class DeedsManagementController implements ActionListener//,CharacterEven
     ToolbarModel model=controller.getModel();
     // New icon
     String newIconPath=getToolbarIconPath("new");
-    ToolbarIconItem newIconItem=new ToolbarIconItem(NEW_TOON_ID,newIconPath,NEW_TOON_ID,"Create a new character...","New");
+    ToolbarIconItem newIconItem=new ToolbarIconItem(NEW_DEED_ID,newIconPath,NEW_DEED_ID,"Create a new deed...","New");
     model.addToolbarIconItem(newIconItem);
     // Remove icon
     String deleteIconPath=getToolbarIconPath("delete");
-    ToolbarIconItem deleteIconItem=new ToolbarIconItem(REMOVE_TOON_ID,deleteIconPath,REMOVE_TOON_ID,"Remove the selected character...","Remove");
+    ToolbarIconItem deleteIconItem=new ToolbarIconItem(REMOVE_DEED_ID,deleteIconPath,REMOVE_DEED_ID,"Remove the selected deed...","Remove");
     model.addToolbarIconItem(deleteIconItem);
     controller.addActionListener(this);
-    // Import icon
-    String importIconPath=getToolbarIconPath("import");
-    ToolbarIconItem importIconItem=new ToolbarIconItem(IMPORT_TOON_ID,importIconPath,IMPORT_TOON_ID,"Import a character...","Import");
-    model.addToolbarIconItem(importIconItem);
     return controller;
   }
 
@@ -142,17 +126,13 @@ public class DeedsManagementController implements ActionListener//,CharacterEven
   public void actionPerformed(ActionEvent event)
   {
     String action=event.getActionCommand();
-    /*if (NEW_TOON_ID.equals(action))
+    if (NEW_DEED_ID.equals(action))
     {
-      startNewToon();
+      startNewDeed();
     }
-    else */if (REMOVE_TOON_ID.equals(action))
+    else if (REMOVE_DEED_ID.equals(action))
     {
       deleteToon();
-    }
-    else if (IMPORT_TOON_ID.equals(action))
-    {
-      importToon();
     }
     else if (DeedsTableController.DOUBLE_CLICK.equals(action))
     {
@@ -178,17 +158,17 @@ public class DeedsManagementController implements ActionListener//,CharacterEven
     */
   }
 
-  /*
-  private void startNewToon()
+  private void startNewDeed()
   {
+    /*
     if (_newToonDialog==null)
     {
       _newToonDialog=new NewToonDialogController(_parentController);
     }
     _newToonDialog.getDialog().setLocationRelativeTo(getPanel());
     _newToonDialog.show(true);
+    */
   }
-  */
 
   private void deleteToon()
   {
@@ -216,62 +196,18 @@ public class DeedsManagementController implements ActionListener//,CharacterEven
     }
   }
 
-  private void importToon()
-  {
-    FileChooserController ctrl=new FileChooserController("import", "Import character...");
-    Window window=_parentController.getWindow();
-    File fromFile=ctrl.chooseFile(window,"Import");
-    if (fromFile!=null)
-    {
-      CharacterXMLParser parser=new CharacterXMLParser();
-      CharacterData data=new CharacterData();
-      boolean ok=parser.parseXML(fromFile,data);
-      if (ok)
-      {
-        CharactersManager manager=CharactersManager.getInstance();
-        CharacterFile toon=manager.getToonById(data.getServer(),data.getName());
-        if (toon!=null)
-        {
-          CharacterInfosManager infos=toon.getInfosManager();
-          ok=infos.writeNewCharacterData(data);
-          if (ok)
-          {
-            CharacterEvent event=new CharacterEvent(CharacterEventType.CHARACTER_DATA_ADDED,toon,data);
-            EventsManager.invokeEvent(event);
-          }
-        }
-        else
-        {
-          CharacterFile newFile=manager.addToon(data);
-          ok=(newFile!=null);
-        }
-        if (ok)
-        {
-          GuiFactory.showInformationDialog(window,"Import OK!","OK!");
-        }
-        else
-        {
-          GuiFactory.showErrorDialog(window,"Import failed!","Error!");
-        }
-      }
-      else
-      {
-        GuiFactory.showErrorDialog(window,"Import failed (bad XML file)!","Error!");
-      }
-    }
-  }
-
   /**
    * Release all managed resources.
    */
   public void dispose()
   {
+    //_parentController=null;
     if (_mainWindowsManager!=null)
     {
       _mainWindowsManager.disposeAll();
       _mainWindowsManager=null;
     }
-    //CharacterEventsManager.removeListener(this);
+    EventsManager.removeListener(DeedEvent.class,this);
     if (_toonsTable!=null)
     {
       _toonsTable.dispose();
