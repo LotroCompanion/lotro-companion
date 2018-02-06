@@ -32,7 +32,7 @@ public class DeedsManagementController implements ActionListener,GenericEventsLi
   private static final String REMOVE_DEED_ID="removeDeed";
   private JPanel _panel;
   private WindowController _parentController;
-  private DeedsTableController _toonsTable;
+  private DeedsTableController _deedsTable;
   private ToolbarController _toolbar;
   //private NewToonDialogController _newToonDialog;
   private WindowsManager _mainWindowsManager;
@@ -67,8 +67,8 @@ public class DeedsManagementController implements ActionListener,GenericEventsLi
     _toolbar=buildToolBar();
     JToolBar toolbar=_toolbar.getToolBar();
     ret.add(toolbar,BorderLayout.NORTH);
-    _toonsTable=buildToonsTable();
-    JTable table=_toonsTable.getTable();
+    _deedsTable=buildDeedsTable();
+    JTable table=_deedsTable.getTable();
     JScrollPane scroll=GuiFactory.buildScrollPane(table);
     ret.add(scroll,BorderLayout.CENTER);
     return ret;
@@ -83,12 +83,12 @@ public class DeedsManagementController implements ActionListener,GenericEventsLi
     DeedEventType type=event.getType();
     if ((type==DeedEventType.DEED_ADDED) || (type==DeedEventType.DEED_REMOVED))
     {
-      _toonsTable.refresh();
+      _deedsTable.refresh();
     }
     else if (type==DeedEventType.DEED_UPDATED)
     {
-      DeedDescription toon=event.getDeed();
-      _toonsTable.refresh(toon);
+      DeedDescription deed=event.getDeed();
+      _deedsTable.refresh(deed);
     }
   }
 
@@ -98,7 +98,7 @@ public class DeedsManagementController implements ActionListener,GenericEventsLi
     return imgLocation;
   }
 
-  private DeedsTableController buildToonsTable()
+  private DeedsTableController buildDeedsTable()
   {
     DeedsTableController tableController=new DeedsTableController(null);
     tableController.addActionListener(this);
@@ -134,18 +134,18 @@ public class DeedsManagementController implements ActionListener,GenericEventsLi
     }
     else if (REMOVE_DEED_ID.equals(action))
     {
-      deleteToon();
+      deleteDeed();
     }
     else if (DeedsTableController.DOUBLE_CLICK.equals(action))
     {
-      DeedDescription toon=(DeedDescription)event.getSource();
-      showToon(toon);
+      DeedDescription deed=(DeedDescription)event.getSource();
+      showToon(deed);
     }
   }
 
-  private void showToon(DeedDescription toon)
+  private void showToon(DeedDescription deed)
   {
-    DeedEditionWindowController edit=new DeedEditionWindowController(_parentController,toon);
+    DeedEditionWindowController edit=new DeedEditionWindowController(_parentController,deed);
     edit.show(true);
   }
 
@@ -161,9 +161,9 @@ public class DeedsManagementController implements ActionListener,GenericEventsLi
     */
   }
 
-  private void deleteToon()
+  private void deleteDeed()
   {
-    GenericTableController<DeedDescription> controller=_toonsTable.getTableController();
+    GenericTableController<DeedDescription> controller=_deedsTable.getTableController();
     DeedDescription file=controller.getSelectedItem();
     if (file!=null)
     {
@@ -199,10 +199,10 @@ public class DeedsManagementController implements ActionListener,GenericEventsLi
       _mainWindowsManager=null;
     }
     EventsManager.removeListener(DeedEvent.class,this);
-    if (_toonsTable!=null)
+    if (_deedsTable!=null)
     {
-      _toonsTable.dispose();
-      _toonsTable=null;
+      _deedsTable.dispose();
+      _deedsTable=null;
     }
     if (_toolbar!=null)
     {
