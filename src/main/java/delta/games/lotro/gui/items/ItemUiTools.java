@@ -51,6 +51,24 @@ public class ItemUiTools
   }
 
   /**
+   * Build an icon for an item count.
+   * @param item Item to use.
+   * @param count Count to display.
+   * @return An icon.
+   */
+  public static Icon buildItemIcon(Item item, int count)
+  {
+    Icon ret=buildItemIcon(item);
+    if (count>1)
+    {
+      IconWithText iconWithText=new IconWithText(ret,String.valueOf(count),Color.WHITE);
+      iconWithText.setPosition(Position.BOTTOM_RIGHT);
+      ret=iconWithText;
+    }
+    return ret;
+  }
+
+  /**
    * Build a controller for a combo box to choose an item quality.
    * @return A new controller.
    */
