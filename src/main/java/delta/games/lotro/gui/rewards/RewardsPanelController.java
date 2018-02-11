@@ -9,6 +9,8 @@ import java.util.List;
 import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.games.lotro.common.Reputation;
+import delta.games.lotro.common.ReputationItem;
 import delta.games.lotro.common.Rewards;
 import delta.games.lotro.common.Virtue;
 import delta.games.lotro.common.objects.ObjectItem;
@@ -26,6 +28,7 @@ public class RewardsPanelController
   private LotroPointsRewardGadgetsController _lotroPoints;
   private List<ItemRewardGadgetsController> _itemRewards;
   private List<VirtueRewardGadgetsController> _virtueRewards;
+  private List<ReputationRewardGadgetsController> _reputationRewards;
 
   /**
    * Constructor.
@@ -52,6 +55,7 @@ public class RewardsPanelController
       ItemRewardGadgetsController itemReward=new ItemRewardGadgetsController(item,count);
       _itemRewards.add(itemReward);
     }
+    // TODO Title
     // Virtue(s) reward(s)
     _virtueRewards=new ArrayList<VirtueRewardGadgetsController>();
     Virtue[] virtues=rewards.getVirtues();
@@ -62,6 +66,15 @@ public class RewardsPanelController
         VirtueRewardGadgetsController virtueReward=new VirtueRewardGadgetsController(virtue);
         _virtueRewards.add(virtueReward);
       }
+    }
+    // Reputation
+    _reputationRewards=new ArrayList<ReputationRewardGadgetsController>();
+    Reputation reputation=rewards.getReputation();
+    ReputationItem[] reputationItems=reputation.getItems();
+    for(ReputationItem reputationItem : reputationItems)
+    {
+      ReputationRewardGadgetsController reputationReward=new ReputationRewardGadgetsController(reputationItem);
+      _reputationRewards.add(reputationReward);
     }
     _panel=build();
   }
@@ -104,6 +117,15 @@ public class RewardsPanelController
       ret.add(virtueReward.getLabelIcon(),c);
       c.gridx++;
       ret.add(virtueReward.getLabel(),c);
+      c.gridy++;
+    }
+    // Reputation
+    for(ReputationRewardGadgetsController reputationReward : _reputationRewards)
+    {
+      c.gridx=0;
+      ret.add(reputationReward.getLabelIcon(),c);
+      c.gridx++;
+      ret.add(reputationReward.getLabel(),c);
       c.gridy++;
     }
     return ret;
