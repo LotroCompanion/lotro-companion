@@ -9,27 +9,37 @@ import java.util.List;
 import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.games.lotro.common.Rewards;
 import delta.games.lotro.common.objects.ObjectItem;
 import delta.games.lotro.common.objects.ObjectsSet;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemsManager;
 
 /**
- * Controller for a panel to display a set of items as found in rewards.
+ * Controller for a panel to display rewards.
  * @author DAM
  */
-public class ItemRewardsPanelController
+public class RewardsPanelController
 {
   private JPanel _panel;
-  private List<ItemRewardGadgetsController> _rewards;
+  private LotroPointsRewardGadgetsController _lotroPoints;
+  private List<ItemRewardGadgetsController> _itemRewards;
 
   /**
    * Constructor.
-   * @param objects Items to display.
+   * @param rewards Rewards to display.
    */
-  public ItemRewardsPanelController(ObjectsSet objects)
+  public RewardsPanelController(Rewards rewards)
   {
-    _rewards=new ArrayList<ItemRewardGadgetsController>();
+    // LOTRO Points
+    int lotroPoints=rewards.getLotroPoints();
+    if (lotroPoints>0)
+    {
+      _lotroPoints=new LotroPointsRewardGadgetsController(lotroPoints);
+    }
+    // Item rewards
+    ObjectsSet objects=rewards.getObjects();
+    _itemRewards=new ArrayList<ItemRewardGadgetsController>();
     int nbItems=objects.getNbObjectItems();
     for(int i=0;i<nbItems;i++)
     {
@@ -38,7 +48,7 @@ public class ItemRewardsPanelController
       int count=objects.getQuantity(i);
       Item item=ItemsManager.getInstance().getItem(id);
       ItemRewardGadgetsController itemReward=new ItemRewardGadgetsController(item,count);
-      _rewards.add(itemReward);
+      _itemRewards.add(itemReward);
     }
     _panel=build();
   }
@@ -56,7 +66,17 @@ public class ItemRewardsPanelController
   {
     JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
-    for(ItemRewardGadgetsController reward : _rewards)
+    // LOTRO Points
+    if (_lotroPoints!=null)
+    {
+      c.gridx=0;
+      ret.add(_lotroPoints.getLabelIcon(),c);
+      c.gridx++;
+      ret.add(_lotroPoints.getLabel(),c);
+      c.gridy++;
+    }
+    // Items
+    for(ItemRewardGadgetsController reward : _itemRewards)
     {
       c.gridx=0;
       ret.add(reward.getLabelIcon(),c);
