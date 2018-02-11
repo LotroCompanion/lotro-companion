@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.common.Rewards;
+import delta.games.lotro.common.Virtue;
 import delta.games.lotro.common.objects.ObjectItem;
 import delta.games.lotro.common.objects.ObjectsSet;
 import delta.games.lotro.lore.items.Item;
@@ -24,6 +25,7 @@ public class RewardsPanelController
   private JPanel _panel;
   private LotroPointsRewardGadgetsController _lotroPoints;
   private List<ItemRewardGadgetsController> _itemRewards;
+  private List<VirtueRewardGadgetsController> _virtueRewards;
 
   /**
    * Constructor.
@@ -49,6 +51,17 @@ public class RewardsPanelController
       Item item=ItemsManager.getInstance().getItem(id);
       ItemRewardGadgetsController itemReward=new ItemRewardGadgetsController(item,count);
       _itemRewards.add(itemReward);
+    }
+    // Virtue(s) reward(s)
+    _virtueRewards=new ArrayList<VirtueRewardGadgetsController>();
+    Virtue[] virtues=rewards.getVirtues();
+    if (virtues!=null)
+    {
+      for(Virtue virtue : virtues)
+      {
+        VirtueRewardGadgetsController virtueReward=new VirtueRewardGadgetsController(virtue);
+        _virtueRewards.add(virtueReward);
+      }
     }
     _panel=build();
   }
@@ -82,6 +95,15 @@ public class RewardsPanelController
       ret.add(reward.getLabelIcon(),c);
       c.gridx++;
       ret.add(reward.getLabel(),c);
+      c.gridy++;
+    }
+    // Virtues
+    for(VirtueRewardGadgetsController virtueReward : _virtueRewards)
+    {
+      c.gridx=0;
+      ret.add(virtueReward.getLabelIcon(),c);
+      c.gridx++;
+      ret.add(virtueReward.getLabel(),c);
       c.gridy++;
     }
     return ret;
