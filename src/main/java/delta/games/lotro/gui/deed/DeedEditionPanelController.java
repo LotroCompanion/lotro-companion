@@ -5,7 +5,6 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -91,10 +90,10 @@ public class DeedEditionPanelController
       panel.add(panelLine,c);
       c.gridy++;
       // Category
-      _category=buildCategoryCombo();
+      _category=DeedUiUtils.buildCategoryCombo();
       panelLine.add(_category.getComboBox());
       // Type
-      _type=buildDeedTypeCombo();
+      _type=DeedUiUtils.buildDeedTypeCombo();
       panelLine.add(_type.getComboBox());
       // Item level
       _requiredLevel=new ComboBoxController<Integer>(true,Integer.class);
@@ -171,31 +170,6 @@ public class DeedEditionPanelController
     // Objectives
     _item.setObjectives(_objectives.getText());
     return _item;
-  }
-
-  private ComboBoxController<String> buildCategoryCombo()
-  {
-    ComboBoxController<String> ctrl=new ComboBoxController<String>();
-    ctrl.addEmptyItem("");
-    List<String> categories=DeedUtils.getCategories();
-    for(String category : categories)
-    {
-      ctrl.addItem(category,category);
-    }
-    ctrl.selectItem(null);
-    return ctrl;
-  }
-
-  private ComboBoxController<DeedType> buildDeedTypeCombo()
-  {
-    ComboBoxController<DeedType> ctrl=new ComboBoxController<DeedType>();
-    ctrl.addEmptyItem("");
-    for(DeedType deedType : DeedType.values())
-    {
-      ctrl.addItem(deedType,deedType.name());// TODO Label
-    }
-    ctrl.selectItem(null);
-    return ctrl;
   }
 
   /**

@@ -9,11 +9,16 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.combobox.ComboBoxController;
+import delta.common.ui.swing.combobox.ItemSelectionListener;
 import delta.common.ui.swing.text.DynamicTextEditionController;
 import delta.common.ui.swing.text.TextListener;
 import delta.common.utils.collections.filters.Filter;
 import delta.games.lotro.lore.deeds.DeedDescription;
+import delta.games.lotro.lore.deeds.DeedType;
+import delta.games.lotro.lore.deeds.filters.DeedCategoryFilter;
 import delta.games.lotro.lore.deeds.filters.DeedNameFilter;
+import delta.games.lotro.lore.deeds.filters.DeedTypeFilter;
 
 /**
  * Controller for a deed filter edition panel.
@@ -26,6 +31,8 @@ public class DeedFilterController
   // GUI
   private JPanel _panel;
   private JTextField _contains;
+  private ComboBoxController<DeedType> _type;
+  private ComboBoxController<String> _category;
   // Controllers
   private DynamicTextEditionController _textController;
   private DeedExplorerPanelController _panelController;
@@ -82,6 +89,14 @@ public class DeedFilterController
     {
       _contains.setText(contains);
     }
+    // Type
+    DeedTypeFilter typeFilter=_filter.getTypeFilter();
+    DeedType type=typeFilter.getDeedType();
+    _type.selectItem(type);
+    // Category
+    DeedCategoryFilter categoryFilter=_filter.getCategoryFilter();
+    String category=categoryFilter.getDeedCategory();
+    _category.selectItem(category);
   }
 
   private JPanel build()
@@ -111,6 +126,41 @@ public class DeedFilterController
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(line1Panel,c);
 
+    JPanel line2Panel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
+    // Type
+    {
+      _type=DeedUiUtils.buildDeedTypeCombo();
+      ItemSelectionListener<DeedType> typeListener=new ItemSelectionListener<DeedType>()
+      {
+        @Override
+        public void itemSelected(DeedType type)
+        {
+          DeedTypeFilter typeFilter=_filter.getTypeFilter();
+          typeFilter.setDeedType(type);
+          filterUpdated();
+        }
+      };
+      _type.addListener(typeListener);
+      line2Panel.add(_type.getComboBox());
+    }
+    // Category
+    {
+      _category=DeedUiUtils.buildCategoryCombo();
+      ItemSelectionListener<String> categoryListener=new ItemSelectionListener<String>()
+      {
+        @Override
+        public void itemSelected(String category)
+        {
+          DeedCategoryFilter categoryFilter=_filter.getCategoryFilter();
+          categoryFilter.setDeedCategory(category);
+          filterUpdated();
+        }
+      };
+      _category.addListener(categoryListener);
+      line2Panel.add(_category.getComboBox());
+    }
+    c=new GridBagConstraints(0,1,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    panel.add(line2Panel,c);
     return panel;
   }
 
