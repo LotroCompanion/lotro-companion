@@ -11,6 +11,10 @@ import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.ListDataProvider;
 import delta.common.ui.swing.tables.TableColumnController;
 import delta.common.utils.collections.filters.Filter;
+import delta.games.lotro.common.Emote;
+import delta.games.lotro.common.Rewards;
+import delta.games.lotro.common.Title;
+import delta.games.lotro.common.Virtue;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.DeedType;
 import delta.games.lotro.lore.deeds.DeedsManager;
@@ -129,6 +133,8 @@ public class DeedsTableController
       minLevelColumn.setWidthSpecs(40,40,40);
       table.addColumnController(minLevelColumn);
     }
+    // Rewards
+    initRewardsColumns(table);
     // Objectives column
     {
       CellDataProvider<DeedDescription,String> objectivesCell=new CellDataProvider<DeedDescription,String>()
@@ -143,6 +149,70 @@ public class DeedsTableController
       table.addColumnController(objectivesColumn);
     }
     return table;
+  }
+
+  private void initRewardsColumns(GenericTableController<DeedDescription> table)
+  {
+    // LOTRO points column
+    {
+      CellDataProvider<DeedDescription,Integer> lpCell=new CellDataProvider<DeedDescription,Integer>()
+      {
+        public Integer getData(DeedDescription deed)
+        {
+          Rewards rewards=deed.getRewards();
+          int lotroPoints=rewards.getLotroPoints();
+          return (lotroPoints>0)?Integer.valueOf(lotroPoints):null;
+        }
+      };
+      TableColumnController<DeedDescription,Integer> lpColumn=new TableColumnController<DeedDescription,Integer>("LOTRO Points",Integer.class,lpCell);
+      lpColumn.setWidthSpecs(40,40,40);
+      table.addColumnController(lpColumn);
+    }
+    // Title column
+    {
+      CellDataProvider<DeedDescription,String> titleCell=new CellDataProvider<DeedDescription,String>()
+      {
+        public String getData(DeedDescription deed)
+        {
+          Rewards rewards=deed.getRewards();
+          Title[] titles=rewards.getTitles();
+          return ((titles!=null) && (titles.length>0))?titles[0].getName():null;
+        }
+      };
+      TableColumnController<DeedDescription,String> titleColumn=new TableColumnController<DeedDescription,String>("Title",String.class,titleCell);
+      titleColumn.setWidthSpecs(100,300,200);
+      table.addColumnController(titleColumn);
+    }
+    // Virtue column
+    {
+      CellDataProvider<DeedDescription,String> virtueCell=new CellDataProvider<DeedDescription,String>()
+      {
+        public String getData(DeedDescription deed)
+        {
+          Rewards rewards=deed.getRewards();
+          Virtue[] virtues=rewards.getVirtues();
+          return ((virtues!=null) && (virtues.length>0))?virtues[0].getIdentifier().getLabel():null;
+        }
+      };
+      TableColumnController<DeedDescription,String> virtueColumn=new TableColumnController<DeedDescription,String>("Virtue",String.class,virtueCell);
+      virtueColumn.setWidthSpecs(100,300,200);
+      table.addColumnController(virtueColumn);
+    }
+    // Emote column
+    {
+      CellDataProvider<DeedDescription,String> emoteCell=new CellDataProvider<DeedDescription,String>()
+      {
+        public String getData(DeedDescription deed)
+        {
+          Rewards rewards=deed.getRewards();
+          Emote[] emotes=rewards.getEmotes();
+          return ((emotes!=null) && (emotes.length>0))?emotes[0].getName():null;
+        }
+      };
+      TableColumnController<DeedDescription,String> emoteColumn=new TableColumnController<DeedDescription,String>("Emote",String.class,emoteCell);
+      emoteColumn.setWidthSpecs(100,300,200);
+      table.addColumnController(emoteColumn);
+    }
   }
 
   /**
