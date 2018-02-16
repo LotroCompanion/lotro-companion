@@ -29,6 +29,23 @@ public class DeedUiUtils
   }
 
   /**
+   * Build a combo-box controller to choose a title.
+   * @return A new combo-box controller.
+   */
+  public static ComboBoxController<String> buildTitleCombo()
+  {
+    ComboBoxController<String> ctrl=new ComboBoxController<String>();
+    ctrl.addEmptyItem("");
+    List<String> titles=DeedUtils.getTitles();
+    for(String title : titles)
+    {
+      ctrl.addItem(title,title);
+    }
+    ctrl.selectItem(null);
+    return ctrl;
+  }
+
+  /**
    * Build a combo-box controller to choose a deed type.
    * @return A new combo-box controller.
    */

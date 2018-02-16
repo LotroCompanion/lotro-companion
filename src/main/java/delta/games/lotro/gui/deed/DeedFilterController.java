@@ -14,6 +14,7 @@ import delta.common.ui.swing.combobox.ItemSelectionListener;
 import delta.common.ui.swing.text.DynamicTextEditionController;
 import delta.common.ui.swing.text.TextListener;
 import delta.common.utils.collections.filters.Filter;
+import delta.games.lotro.common.rewards.filters.TitleRewardFilter;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.DeedType;
 import delta.games.lotro.lore.deeds.filters.DeedCategoryFilter;
@@ -33,6 +34,7 @@ public class DeedFilterController
   private JTextField _contains;
   private ComboBoxController<DeedType> _type;
   private ComboBoxController<String> _category;
+  private ComboBoxController<String> _title;
   // Controllers
   private DynamicTextEditionController _textController;
   private DeedExplorerPanelController _panelController;
@@ -97,6 +99,10 @@ public class DeedFilterController
     DeedCategoryFilter categoryFilter=_filter.getCategoryFilter();
     String category=categoryFilter.getDeedCategory();
     _category.selectItem(category);
+    // Title
+    TitleRewardFilter titleFilter=_filter.getTitleFilter();
+    String title=titleFilter.getTitle();
+    _title.selectItem(title);
   }
 
   private JPanel build()
@@ -161,6 +167,26 @@ public class DeedFilterController
     }
     c=new GridBagConstraints(0,1,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(line2Panel,c);
+
+    JPanel line3Panel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
+    // Title
+    {
+      _title=DeedUiUtils.buildTitleCombo();
+      ItemSelectionListener<String> titleListener=new ItemSelectionListener<String>()
+      {
+        @Override
+        public void itemSelected(String title)
+        {
+          TitleRewardFilter titleFilter=_filter.getTitleFilter();
+          titleFilter.setTitle(title);
+          filterUpdated();
+        }
+      };
+      _title.addListener(titleListener);
+      line3Panel.add(_title.getComboBox());
+    }
+    c=new GridBagConstraints(0,2,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    panel.add(line3Panel,c);
     return panel;
   }
 
@@ -182,6 +208,21 @@ public class DeedFilterController
     {
       _panel.removeAll();
       _panel=null;
+    }
+    if (_type!=null)
+    {
+      _type.dispose();
+      _type=null;
+    }
+    if (_category!=null)
+    {
+      _category.dispose();
+      _category=null;
+    }
+    if (_title!=null)
+    {
+      _title.dispose();
+      _title=null;
     }
     _contains=null;
   }

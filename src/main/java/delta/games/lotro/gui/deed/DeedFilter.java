@@ -6,9 +6,11 @@ import java.util.List;
 import delta.common.utils.collections.filters.CompoundFilter;
 import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.collections.filters.Operator;
+import delta.games.lotro.common.rewards.filters.TitleRewardFilter;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.filters.DeedCategoryFilter;
 import delta.games.lotro.lore.deeds.filters.DeedNameFilter;
+import delta.games.lotro.lore.deeds.filters.DeedRewardFilter;
 import delta.games.lotro.lore.deeds.filters.DeedTypeFilter;
 
 /**
@@ -22,6 +24,7 @@ public class DeedFilter implements Filter<DeedDescription>
   private DeedNameFilter _nameFilter;
   private DeedTypeFilter _typeFilter;
   private DeedCategoryFilter _categoryFilter;
+  private TitleRewardFilter _titleFilter;
 
   /**
    * Constructor.
@@ -38,6 +41,9 @@ public class DeedFilter implements Filter<DeedDescription>
     // Category
     _categoryFilter=new DeedCategoryFilter(null);
     filters.add(_categoryFilter);
+    // Title
+    _titleFilter=new TitleRewardFilter(null);
+    filters.add(new DeedRewardFilter(_titleFilter));
     _filter=new CompoundFilter<DeedDescription>(Operator.AND,filters);
   }
 
@@ -66,6 +72,15 @@ public class DeedFilter implements Filter<DeedDescription>
   public DeedCategoryFilter getCategoryFilter()
   {
     return _categoryFilter;
+  }
+
+  /**
+   * Get the filter on deed title.
+   * @return a deed title filter.
+   */
+  public TitleRewardFilter getTitleFilter()
+  {
+    return _titleFilter;
   }
 
   @Override

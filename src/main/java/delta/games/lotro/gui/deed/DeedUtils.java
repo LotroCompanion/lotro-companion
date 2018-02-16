@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 import delta.games.lotro.lore.deeds.DeedDescription;
+import delta.games.lotro.lore.deeds.DeedRewardsExplorer;
 import delta.games.lotro.lore.deeds.DeedsManager;
 
 /**
@@ -31,5 +32,17 @@ public class DeedUtils
     ret.remove(null);
     Collections.sort(ret);
     return ret;
+  }
+
+  /**
+   * Load available titles from deeds manager.
+   * @return A sorted list of deed categories.
+   */
+  public static List<String> getTitles()
+  {
+    List<DeedDescription> deeds=DeedsManager.getInstance().getAll();
+    DeedRewardsExplorer explorer=new DeedRewardsExplorer();
+    explorer.doIt(deeds);
+    return explorer.getTitles();
   }
 }
