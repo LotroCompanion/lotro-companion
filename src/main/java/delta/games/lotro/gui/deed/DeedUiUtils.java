@@ -3,6 +3,7 @@ package delta.games.lotro.gui.deed;
 import java.util.List;
 
 import delta.common.ui.swing.combobox.ComboBoxController;
+import delta.games.lotro.common.VirtueId;
 import delta.games.lotro.lore.deeds.DeedType;
 
 /**
@@ -40,6 +41,22 @@ public class DeedUiUtils
     for(String title : titles)
     {
       ctrl.addItem(title,title);
+    }
+    ctrl.selectItem(null);
+    return ctrl;
+  }
+
+  /**
+   * Build a combo-box controller to choose a virtue.
+   * @return A new combo-box controller.
+   */
+  public static ComboBoxController<VirtueId> buildVirtueCombo()
+  {
+    ComboBoxController<VirtueId> ctrl=new ComboBoxController<VirtueId>();
+    ctrl.addEmptyItem("");
+    for(VirtueId virtue : VirtueId.values())
+    {
+      ctrl.addItem(virtue,virtue.getLabel());
     }
     ctrl.selectItem(null);
     return ctrl;

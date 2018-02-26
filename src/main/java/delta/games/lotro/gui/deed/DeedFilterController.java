@@ -14,7 +14,9 @@ import delta.common.ui.swing.combobox.ItemSelectionListener;
 import delta.common.ui.swing.text.DynamicTextEditionController;
 import delta.common.ui.swing.text.TextListener;
 import delta.common.utils.collections.filters.Filter;
+import delta.games.lotro.common.VirtueId;
 import delta.games.lotro.common.rewards.filters.TitleRewardFilter;
+import delta.games.lotro.common.rewards.filters.VirtueRewardFilter;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.DeedType;
 import delta.games.lotro.lore.deeds.filters.DeedCategoryFilter;
@@ -35,6 +37,7 @@ public class DeedFilterController
   private ComboBoxController<DeedType> _type;
   private ComboBoxController<String> _category;
   private ComboBoxController<String> _title;
+  private ComboBoxController<VirtueId> _virtue;
   // Controllers
   private DynamicTextEditionController _textController;
   private DeedExplorerPanelController _panelController;
@@ -185,6 +188,22 @@ public class DeedFilterController
       _title.addListener(titleListener);
       line3Panel.add(_title.getComboBox());
     }
+    // Virtue
+    {
+      _virtue=DeedUiUtils.buildVirtueCombo();
+      ItemSelectionListener<VirtueId> virtueListener=new ItemSelectionListener<VirtueId>()
+      {
+        @Override
+        public void itemSelected(VirtueId virtueId)
+        {
+          VirtueRewardFilter virtueFilter=_filter.getVirtueFilter();
+          virtueFilter.setVirtueId(virtueId);
+          filterUpdated();
+        }
+      };
+      _virtue.addListener(virtueListener);
+      line3Panel.add(_virtue.getComboBox());
+    }
     c=new GridBagConstraints(0,2,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(line3Panel,c);
     return panel;
@@ -223,6 +242,11 @@ public class DeedFilterController
     {
       _title.dispose();
       _title=null;
+    }
+    if (_virtue!=null)
+    {
+      _virtue.dispose();
+      _virtue=null;
     }
     _contains=null;
   }
