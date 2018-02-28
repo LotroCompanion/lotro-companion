@@ -106,6 +106,10 @@ public class DeedFilterController
     TitleRewardFilter titleFilter=_filter.getTitleFilter();
     String title=titleFilter.getTitle();
     _title.selectItem(title);
+    // Virtue
+    VirtueRewardFilter virtueFilter=_filter.getVirtueFilter();
+    VirtueId virtueId=virtueFilter.getVirtueId();
+    _virtue.selectItem(virtueId);
   }
 
   private JPanel build()
