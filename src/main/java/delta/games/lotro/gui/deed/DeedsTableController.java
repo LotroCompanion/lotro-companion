@@ -11,7 +11,9 @@ import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.ListDataProvider;
 import delta.common.ui.swing.tables.TableColumnController;
 import delta.common.utils.collections.filters.Filter;
+import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.Emote;
+import delta.games.lotro.common.Race;
 import delta.games.lotro.common.Rewards;
 import delta.games.lotro.common.Title;
 import delta.games.lotro.common.Virtue;
@@ -119,6 +121,32 @@ public class DeedsTableController
       TableColumnController<DeedDescription,String> categoryColumn=new TableColumnController<DeedDescription,String>("Category",String.class,categoryCell);
       categoryColumn.setWidthSpecs(80,350,80);
       table.addColumnController(categoryColumn);
+    }
+    // Class column
+    {
+      CellDataProvider<DeedDescription,CharacterClass> classCell=new CellDataProvider<DeedDescription,CharacterClass>()
+      {
+        public CharacterClass getData(DeedDescription deed)
+        {
+          return deed.getRequiredClass();
+        }
+      };
+      TableColumnController<DeedDescription,CharacterClass> classColumn=new TableColumnController<DeedDescription,CharacterClass>("Class",CharacterClass.class,classCell);
+      classColumn.setWidthSpecs(80,100,80);
+      table.addColumnController(classColumn);
+    }
+    // Race column
+    {
+      CellDataProvider<DeedDescription,Race> raceCell=new CellDataProvider<DeedDescription,Race>()
+      {
+        public Race getData(DeedDescription deed)
+        {
+          return deed.getRequiredRace();
+        }
+      };
+      TableColumnController<DeedDescription,Race> raceColumn=new TableColumnController<DeedDescription,Race>("Race",Race.class,raceCell);
+      raceColumn.setWidthSpecs(80,100,80);
+      table.addColumnController(raceColumn);
     }
     // Min level column
     {
