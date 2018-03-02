@@ -35,14 +35,52 @@ public class DeedUtils
   }
 
   /**
+   * Load available traits from deeds manager.
+   * @return A sorted list of traits.
+   */
+  public static List<String> getTraits()
+  {
+    DeedRewardsExplorer rewardsExplorer=DeedsManager.getInstance().getRewardsExplorer();
+    return rewardsExplorer.getTraits();
+  }
+
+  /**
+   * Load available skills from deeds manager.
+   * @return A sorted list of skills.
+   */
+  public static List<String> getSkills()
+  {
+    DeedRewardsExplorer rewardsExplorer=DeedsManager.getInstance().getRewardsExplorer();
+    return rewardsExplorer.getSkills();
+  }
+
+  /**
    * Load available titles from deeds manager.
-   * @return A sorted list of deed categories.
+   * @return A sorted list of titles.
    */
   public static List<String> getTitles()
   {
-    List<DeedDescription> deeds=DeedsManager.getInstance().getAll();
-    DeedRewardsExplorer explorer=new DeedRewardsExplorer();
-    explorer.doIt(deeds);
-    return explorer.getTitles();
+    DeedRewardsExplorer rewardsExplorer=DeedsManager.getInstance().getRewardsExplorer();
+    return rewardsExplorer.getTitles();
+  }
+
+  /**
+   * Load available emotes from deeds manager.
+   * @return A sorted list of emotes.
+   */
+  public static List<String> getEmotes()
+  {
+    DeedRewardsExplorer rewardsExplorer=DeedsManager.getInstance().getRewardsExplorer();
+    return rewardsExplorer.getEmotes();
+  }
+
+  /**
+   * Load available item names from deeds manager.
+   * @return A sorted list of item names.
+   */
+  public static List<String> getItemNames()
+  {
+    DeedRewardsExplorer rewardsExplorer=DeedsManager.getInstance().getRewardsExplorer();
+    return rewardsExplorer.getItemNames();
   }
 }
