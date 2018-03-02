@@ -4,6 +4,8 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JDialog;
 import javax.swing.JPanel;
@@ -12,6 +14,8 @@ import javax.swing.border.TitledBorder;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.DefaultDialogController;
 import delta.common.ui.swing.windows.WindowController;
+import delta.games.lotro.gui.deed.form.DeedDisplayWindowController;
+import delta.games.lotro.lore.deeds.DeedDescription;
 
 /**
  * Controller for the deeds explorer window.
@@ -73,7 +77,7 @@ public class DeedsExplorerWindowController extends DefaultDialogController
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     // Table
-    _tableController=new DeedsTableController(_filter);
+    initDeedsTable();
     _panelController=new DeedExplorerPanelController(this,_tableController);
     JPanel tablePanel=_panelController.getPanel();
     // Filter
@@ -87,6 +91,26 @@ public class DeedsExplorerWindowController extends DefaultDialogController
     c.gridy=1;c.weighty=1;c.fill=GridBagConstraints.BOTH;
     panel.add(tablePanel,c);
     return panel;
+  }
+
+  private void initDeedsTable()
+  {
+    _tableController=new DeedsTableController(_filter);
+    ActionListener al=new ActionListener()
+    {
+      @Override
+      public void actionPerformed(ActionEvent event)
+      {
+        String action=event.getActionCommand();
+        if (DeedsTableController.DOUBLE_CLICK.equals(action))
+        {
+          DeedDescription deed=(DeedDescription)event.getSource();
+          DeedDisplayWindowController window=new DeedDisplayWindowController(DeedsExplorerWindowController.this,deed);
+          window.show(false);
+        }
+      }
+    };
+    _tableController.addActionListener(al);
   }
 
   /**

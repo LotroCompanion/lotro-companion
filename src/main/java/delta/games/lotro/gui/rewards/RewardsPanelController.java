@@ -130,4 +130,23 @@ public class RewardsPanelController
     }
     return ret;
   }
+
+
+  /**
+   * Release all managed resources.
+   */
+  public void dispose()
+  {
+    // Controllers
+    _lotroPoints=null;
+    _itemRewards=null;
+    _virtueRewards=null;
+    _reputationRewards=null;
+    // UI
+    if (_panel!=null)
+    {
+      _panel.removeAll();
+      _panel=null;
+    }
+  }
 }
