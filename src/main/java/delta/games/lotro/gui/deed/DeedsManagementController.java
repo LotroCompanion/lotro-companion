@@ -16,8 +16,10 @@ import delta.common.ui.swing.toolbar.ToolbarIconItem;
 import delta.common.ui.swing.toolbar.ToolbarModel;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.ui.swing.windows.WindowsManager;
+import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.gui.deed.events.DeedEvent;
 import delta.games.lotro.gui.deed.events.DeedEventType;
+import delta.games.lotro.gui.main.GlobalPreferences;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.utils.events.EventsManager;
 import delta.games.lotro.utils.events.GenericEventsListener;
@@ -100,7 +102,8 @@ public class DeedsManagementController implements ActionListener,GenericEventsLi
 
   private DeedsTableController buildDeedsTable()
   {
-    DeedsTableController tableController=new DeedsTableController(null);
+    TypedProperties prefs=GlobalPreferences.getGlobalProperties("DeedsEditor");
+    DeedsTableController tableController=new DeedsTableController(prefs,null);
     tableController.addActionListener(this);
     return tableController;
   }

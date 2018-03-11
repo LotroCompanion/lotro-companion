@@ -1,7 +1,7 @@
 package delta.games.lotro.gui.items;
 
 /**
- * Some icolumn identifiers for the items tables.
+ * Some column identifiers for the items tables.
  * @author DAM
  */
 public enum ItemColumnIds

@@ -14,7 +14,9 @@ import javax.swing.border.TitledBorder;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.DefaultDialogController;
 import delta.common.ui.swing.windows.WindowController;
+import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.gui.deed.form.DeedDisplayWindowController;
+import delta.games.lotro.gui.main.GlobalPreferences;
 import delta.games.lotro.lore.deeds.DeedDescription;
 
 /**
@@ -95,7 +97,8 @@ public class DeedsExplorerWindowController extends DefaultDialogController
 
   private void initDeedsTable()
   {
-    _tableController=new DeedsTableController(_filter);
+    TypedProperties prefs=GlobalPreferences.getGlobalProperties("DeedsExplorer");
+    _tableController=new DeedsTableController(prefs,_filter);
     ActionListener al=new ActionListener()
     {
       @Override
