@@ -119,18 +119,6 @@ public class DeedFilterController
     String category=categoryFilter.getDeedCategory();
     _category.selectItem(category);
 
-    /*
-    private ComboBoxController<Faction> _reputation;
-    private ComboBoxController<Boolean> _lotroPoints;
-    private ComboBoxController<Boolean> _classPoints;
-    private ComboBoxController<String> _trait;
-    private ComboBoxController<String> _skill;
-    private ComboBoxController<String> _title;
-    private ComboBoxController<VirtueId> _virtue;
-    private ComboBoxController<String> _emote;
-    private ComboBoxController<String> _item;
-    */
-
     // Reputation
     ReputationRewardFilter factionFilter=_filter.getReputationFilter();
     Faction faction=factionFilter.getFaction();
@@ -159,6 +147,14 @@ public class DeedFilterController
     VirtueRewardFilter virtueFilter=_filter.getVirtueFilter();
     VirtueId virtueId=virtueFilter.getVirtueId();
     _virtue.selectItem(virtueId);
+    // Emote
+    EmoteRewardFilter emoteFilter=_filter.getEmoteFilter();
+    String emote=emoteFilter.getEmote();
+    _emote.selectItem(emote);
+    // Item
+    ItemRewardFilter itemFilter=_filter.getItemFilter();
+    String itemName=itemFilter.getItemName();
+    _item.selectItem(itemName);
   }
 
   private JPanel build()
@@ -231,6 +227,7 @@ public class DeedFilterController
     // LOTRO points
     _lotroPoints=buildLotroPointsCombobox();
     line3Panel.add(_lotroPoints.getComboBox());
+    // Class point
     _classPoints=buildClassPointsCombobox();
     line3Panel.add(_classPoints.getComboBox());
     // Title
@@ -252,7 +249,7 @@ public class DeedFilterController
     // Emotes
     _emote=buildEmotesCombobox();
     line4Panel.add(_emote.getComboBox());
-    // Traits
+    // Items
     _item=buildItemsCombobox();
     line4Panel.add(_item.getComboBox());
     c=new GridBagConstraints(0,3,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
