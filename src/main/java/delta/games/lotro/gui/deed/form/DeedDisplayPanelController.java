@@ -13,7 +13,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import delta.common.ui.swing.GuiFactory;
-import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.Race;
 import delta.games.lotro.gui.LotroIconsManager;
@@ -28,10 +27,9 @@ import delta.games.lotro.lore.deeds.DeedType;
 public class DeedDisplayPanelController
 {
   // Data
-  private DeedDescription _item;
+  private DeedDescription _deed;
   // GUI
   private JPanel _panel;
-  //private WindowController _parent;
 
   private JLabel _icon;
   private JLabel _type;
@@ -41,17 +39,19 @@ public class DeedDisplayPanelController
   private JTextArea _description;
   private JTextArea _objectives;
   // Controllers
+  private DeedDisplayWindowController _parent;
   private RewardsPanelController _rewards;
+  private DeedLinksDisplayPanelController _links;
 
   /**
    * Constructor.
    * @param parent Parent window.
    * @param deed Deed to edit.
    */
-  public DeedDisplayPanelController(WindowController parent, DeedDescription deed)
+  public DeedDisplayPanelController(DeedDisplayWindowController parent, DeedDescription deed)
   {
-    //_parent=parent;
-    _item=deed;
+    _parent=parent;
+    _deed=deed;
   }
 
   /**
@@ -112,9 +112,15 @@ public class DeedDisplayPanelController
     }
 
     // Rewards
-    _rewards=new RewardsPanelController(_item.getRewards());
+    _rewards=new RewardsPanelController(_deed.getRewards());
     JPanel rewardsPanel=_rewards.getPanel();
     panel.add(rewardsPanel,c);
+    c.gridy++;
+    // Links
+    _links=new DeedLinksDisplayPanelController(_parent,_deed);
+    JPanel linksPanel=_links.getPanel();
+    c=new GridBagConstraints(0,c.gridy,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    panel.add(linksPanel,c);
     c.gridy++;
 
     // Description
@@ -150,27 +156,27 @@ public class DeedDisplayPanelController
    */
   private void setItem()
   {
-    String name=_item.getName();
+    String name=_deed.getName();
     // Name
     _name.setText(name);
     // Type
-    DeedType type=_item.getType();
+    DeedType type=_deed.getType();
     _type.setText((type!=null)?type.name():"-");
     // Icon
     ImageIcon icon=LotroIconsManager.getDeedTypeIcon(type);
     _icon.setIcon(icon);
     // Category
-    String category=_item.getCategory();
+    String category=_deed.getCategory();
     _category.setText((category!=null)?category:"");
     // Requirements
     String requirements=buildRequirementString();
     _requirements.setText(requirements);
     // Description
-    _description.setText(_item.getDescription());
+    _description.setText(_deed.getDescription());
     _description.setEditable(false);
     _description.setCaretPosition(0);
     // Objectives
-    _objectives.setText(_item.getObjectives());
+    _objectives.setText(_deed.getObjectives());
     _objectives.setEditable(false);
     _objectives.setCaretPosition(0);
   }
@@ -181,9 +187,9 @@ public class DeedDisplayPanelController
    */
   private String buildRequirementString()
   {
-    CharacterClass requiredClass=_item.getRequiredClass();
-    Race requiredRace=_item.getRequiredRace();
-    Integer minLevel=_item.getMinLevel();
+    CharacterClass requiredClass=_deed.getRequiredClass();
+    Race requiredRace=_deed.getRequiredRace();
+    Integer minLevel=_deed.getMinLevel();
     StringBuilder sb=new StringBuilder();
     if (requiredClass!=null)
     {
@@ -221,14 +227,19 @@ public class DeedDisplayPanelController
   public void dispose()
   {
     // Data
-    _item=null;
+    _deed=null;
     // Controllers
     if (_rewards!=null)
     {
       _rewards.dispose();
       _rewards=null;
     }
-    //_parent=null;
+    if (_links!=null)
+    {
+      _links.dispose();
+      _links=null;
+    }
+    _parent=null;
     // UI
     _type=null;
     _category=null;

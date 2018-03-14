@@ -1,8 +1,9 @@
 package delta.games.lotro.gui.deed.form;
 
+import java.awt.BorderLayout;
+import java.awt.Container;
 import java.awt.Window;
 
-import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 
@@ -22,19 +23,26 @@ public class DeedDisplayWindowController extends DefaultDialogController
   /**
    * Constructor.
    * @param parent Parent controller.
-   * @param deed Deed to display.
    */
-  public DeedDisplayWindowController(WindowController parent, DeedDescription deed)
+  public DeedDisplayWindowController(WindowController parent)
   {
     super(parent);
-    _controller=new DeedDisplayPanelController(parent,deed);
   }
 
-  @Override
-  protected JDialog build()
+  /**
+   * Set deed to display.
+   * @param deed Deed to display.
+   */
+  public void setDeed(DeedDescription deed)
   {
-    JDialog dialog=super.build();
-    dialog.setTitle("Deed");
+    disposeDeedPanel();
+    _controller=new DeedDisplayPanelController(this,deed);
+    JDialog dialog=getDialog();
+    Container container=dialog.getContentPane();
+    container.removeAll();
+    JPanel panel=_controller.getPanel();
+    container.add(panel,BorderLayout.CENTER);
+    dialog.setTitle("Deed: "+deed.getName());
     dialog.pack();
     WindowController controller=getParentController();
     if (controller!=null)
@@ -43,14 +51,6 @@ public class DeedDisplayWindowController extends DefaultDialogController
       dialog.setLocationRelativeTo(parentWindow);
     }
     dialog.setResizable(false);
-    return dialog;
-  }
-
-  @Override
-  protected JComponent buildContents()
-  {
-    JPanel panel=_controller.getPanel();
-    return panel;
   }
 
   /**
@@ -59,11 +59,16 @@ public class DeedDisplayWindowController extends DefaultDialogController
   @Override
   public void dispose()
   {
+    disposeDeedPanel();
+    super.dispose();
+  }
+
+  private void disposeDeedPanel()
+  {
     if (_controller!=null)
     {
       _controller.dispose();
       _controller=null;
     }
-    super.dispose();
   }
 }

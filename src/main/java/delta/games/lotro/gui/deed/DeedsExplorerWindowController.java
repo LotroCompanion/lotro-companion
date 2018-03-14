@@ -108,7 +108,8 @@ public class DeedsExplorerWindowController extends DefaultDialogController
         if (DeedsTableController.DOUBLE_CLICK.equals(action))
         {
           DeedDescription deed=(DeedDescription)event.getSource();
-          DeedDisplayWindowController window=new DeedDisplayWindowController(DeedsExplorerWindowController.this,deed);
+          DeedDisplayWindowController window=new DeedDisplayWindowController(DeedsExplorerWindowController.this);
+          window.setDeed(deed);
           window.show(false);
         }
       }
