@@ -71,9 +71,11 @@ public class DeedLinksDisplayPanelController
     int y=0;
     for(int i=0;i<nbLinks;i++)
     {
-      GridBagConstraints c=new GridBagConstraints(0,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+      int top=(i>0)?5:0;
+      int bottom=(i<nbLinks-1)?0:5;
+      GridBagConstraints c=new GridBagConstraints(0,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(top,5,bottom,5),0,0);
       panel.add(GuiFactory.buildLabel(_labels.get(i)),c);
-      c=new GridBagConstraints(1,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+      c=new GridBagConstraints(1,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(top,0,bottom,0),0,0);
       panel.add(_links.get(i).getLabel(),c);
       y++;
     }
