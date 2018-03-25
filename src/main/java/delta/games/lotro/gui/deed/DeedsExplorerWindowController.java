@@ -7,12 +7,12 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
 import delta.common.ui.swing.GuiFactory;
-import delta.common.ui.swing.windows.DefaultDialogController;
+import delta.common.ui.swing.windows.DefaultWindowController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.gui.deed.form.DeedDisplayWindowController;
@@ -23,7 +23,7 @@ import delta.games.lotro.lore.deeds.DeedDescription;
  * Controller for the deeds explorer window.
  * @author DAM
  */
-public class DeedsExplorerWindowController extends DefaultDialogController
+public class DeedsExplorerWindowController extends DefaultWindowController
 {
   /**
    * Identifier for this window.
@@ -59,13 +59,13 @@ public class DeedsExplorerWindowController extends DefaultDialogController
   }
 
   @Override
-  protected JDialog build()
+  protected JFrame build()
   {
-    JDialog dialog=super.build();
-    dialog.setTitle("Deeds explorer");
-    dialog.setMinimumSize(new Dimension(400,300));
-    dialog.setSize(1000,500);
-    return dialog;
+    JFrame frame=super.build();
+    frame.setTitle("Deeds explorer");
+    frame.setMinimumSize(new Dimension(400,300));
+    frame.setSize(1000,500);
+    return frame;
   }
 
   @Override
