@@ -102,6 +102,7 @@ public class RewardsPanelController
 
   private JPanel build()
   {
+    int nbColumns=2;
     JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
     // LOTRO Points
@@ -111,43 +112,64 @@ public class RewardsPanelController
       ret.add(_lotroPoints.getLabelIcon(),c);
       c.gridx++;
       ret.add(_lotroPoints.getLabel(),c);
-      c.gridy++;
+      c.gridx++;
+      if (c.gridx/2==nbColumns)
+      {
+        c.gridx=0;
+        c.gridy++;
+      }
     }
     // Items
     for(ItemRewardGadgetsController reward : _itemRewards)
     {
-      c.gridx=0;
       ret.add(reward.getLabelIcon(),c);
       c.gridx++;
       ret.add(reward.getLabel(),c);
-      c.gridy++;
+      c.gridx++;
+      if (c.gridx/2==nbColumns)
+      {
+        c.gridx=0;
+        c.gridy++;
+      }
     }
     // Titles
     for(TitleRewardGadgetsController titleReward : _titleRewards)
     {
-      c.gridx=0;
       ret.add(titleReward.getLabelIcon(),c);
       c.gridx++;
       ret.add(titleReward.getLabel(),c);
-      c.gridy++;
+      c.gridx++;
+      if (c.gridx/2==nbColumns)
+      {
+        c.gridx=0;
+        c.gridy++;
+      }
     }
     // Virtues
     for(VirtueRewardGadgetsController virtueReward : _virtueRewards)
     {
-      c.gridx=0;
       ret.add(virtueReward.getLabelIcon(),c);
       c.gridx++;
       ret.add(virtueReward.getLabel(),c);
-      c.gridy++;
+      c.gridx++;
+      if (c.gridx/2==nbColumns)
+      {
+        c.gridx=0;
+        c.gridy++;
+      }
     }
     // Reputation
     for(ReputationRewardGadgetsController reputationReward : _reputationRewards)
     {
-      c.gridx=0;
       ret.add(reputationReward.getLabelIcon(),c);
       c.gridx++;
       ret.add(reputationReward.getLabel(),c);
-      c.gridy++;
+      c.gridx++;
+      if (c.gridx/2==nbColumns)
+      {
+        c.gridx=0;
+        c.gridy++;
+      }
     }
     return ret;
   }
