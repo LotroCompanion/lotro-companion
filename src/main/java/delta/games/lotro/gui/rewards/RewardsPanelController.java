@@ -12,6 +12,7 @@ import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.common.Reputation;
 import delta.games.lotro.common.ReputationItem;
 import delta.games.lotro.common.Rewards;
+import delta.games.lotro.common.Title;
 import delta.games.lotro.common.Virtue;
 import delta.games.lotro.common.objects.ObjectItem;
 import delta.games.lotro.common.objects.ObjectsSet;
@@ -27,6 +28,7 @@ public class RewardsPanelController
   private JPanel _panel;
   private LotroPointsRewardGadgetsController _lotroPoints;
   private List<ItemRewardGadgetsController> _itemRewards;
+  private List<TitleRewardGadgetsController> _titleRewards;
   private List<VirtueRewardGadgetsController> _virtueRewards;
   private List<ReputationRewardGadgetsController> _reputationRewards;
 
@@ -55,7 +57,17 @@ public class RewardsPanelController
       ItemRewardGadgetsController itemReward=new ItemRewardGadgetsController(item,count);
       _itemRewards.add(itemReward);
     }
-    // TODO Title
+    // Title reward(s)
+    _titleRewards=new ArrayList<TitleRewardGadgetsController>();
+    Title[] titles=rewards.getTitles();
+    if (titles!=null)
+    {
+      for(Title title : titles)
+      {
+        TitleRewardGadgetsController titleReward=new TitleRewardGadgetsController(title);
+        _titleRewards.add(titleReward);
+      }
+    }
     // Virtue(s) reward(s)
     _virtueRewards=new ArrayList<VirtueRewardGadgetsController>();
     Virtue[] virtues=rewards.getVirtues();
@@ -110,6 +122,15 @@ public class RewardsPanelController
       ret.add(reward.getLabel(),c);
       c.gridy++;
     }
+    // Titles
+    for(TitleRewardGadgetsController titleReward : _titleRewards)
+    {
+      c.gridx=0;
+      ret.add(titleReward.getLabelIcon(),c);
+      c.gridx++;
+      ret.add(titleReward.getLabel(),c);
+      c.gridy++;
+    }
     // Virtues
     for(VirtueRewardGadgetsController virtueReward : _virtueRewards)
     {
@@ -140,6 +161,7 @@ public class RewardsPanelController
     // Controllers
     _lotroPoints=null;
     _itemRewards=null;
+    _titleRewards=null;
     _virtueRewards=null;
     _reputationRewards=null;
     // UI
