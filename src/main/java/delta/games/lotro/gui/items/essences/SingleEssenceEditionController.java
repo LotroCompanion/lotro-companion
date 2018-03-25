@@ -53,6 +53,7 @@ public class SingleEssenceEditionController
     _essenceIconButton.setMargin(new Insets(0,0,0,0));
     ActionListener listener=new ActionListener()
     {
+      @Override
       public void actionPerformed(ActionEvent e)
       {
         handleButtonClick((JButton)e.getSource());

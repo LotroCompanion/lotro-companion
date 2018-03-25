@@ -77,6 +77,7 @@ public class WarbandsFilterController implements ActionListener
     _size.selectItem(size);
   }
 
+  @Override
   public void actionPerformed(ActionEvent e)
   {
     Object source=e.getSource();
@@ -139,6 +140,7 @@ public class WarbandsFilterController implements ActionListener
     }
     ItemSelectionListener<String> regionListener=new ItemSelectionListener<String>()
     {
+      @Override
       public void itemSelected(String region)
       {
         _filter.setRegion(region);
@@ -158,6 +160,7 @@ public class WarbandsFilterController implements ActionListener
     }
     ItemSelectionListener<Size> sizeListener=new ItemSelectionListener<Size>()
     {
+      @Override
       public void itemSelected(Size size)
       {
         _filter.setSize(size);
@@ -177,6 +180,7 @@ public class WarbandsFilterController implements ActionListener
     }
     ItemSelectionListener<Integer> minLevelListener=new ItemSelectionListener<Integer>()
     {
+      @Override
       public void itemSelected(Integer minLevel)
       {
         _filter.setMinLevel(minLevel);

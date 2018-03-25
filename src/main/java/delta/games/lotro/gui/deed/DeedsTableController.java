@@ -64,6 +64,7 @@ public class DeedsTableController
     {
       CellDataProvider<DeedDescription,Integer> idCell=new CellDataProvider<DeedDescription,Integer>()
       {
+        @Override
         public Integer getData(DeedDescription deed)
         {
           return Integer.valueOf(deed.getIdentifier());
@@ -77,6 +78,7 @@ public class DeedsTableController
     {
       CellDataProvider<DeedDescription,String> keyCell=new CellDataProvider<DeedDescription,String>()
       {
+        @Override
         public String getData(DeedDescription deed)
         {
           return deed.getKey();
@@ -90,6 +92,7 @@ public class DeedsTableController
     {
       CellDataProvider<DeedDescription,String> nameCell=new CellDataProvider<DeedDescription,String>()
       {
+        @Override
         public String getData(DeedDescription deed)
         {
           deed.getObjectives();
@@ -106,6 +109,7 @@ public class DeedsTableController
     {
       CellDataProvider<DeedDescription,DeedType> typeCell=new CellDataProvider<DeedDescription,DeedType>()
       {
+        @Override
         public DeedType getData(DeedDescription deed)
         {
           return deed.getType();
@@ -119,6 +123,7 @@ public class DeedsTableController
     {
       CellDataProvider<DeedDescription,String> categoryCell=new CellDataProvider<DeedDescription,String>()
       {
+        @Override
         public String getData(DeedDescription deed)
         {
           return deed.getCategory();
@@ -132,6 +137,7 @@ public class DeedsTableController
     {
       CellDataProvider<DeedDescription,CharacterClass> classCell=new CellDataProvider<DeedDescription,CharacterClass>()
       {
+        @Override
         public CharacterClass getData(DeedDescription deed)
         {
           return deed.getRequiredClass();
@@ -145,6 +151,7 @@ public class DeedsTableController
     {
       CellDataProvider<DeedDescription,Race> raceCell=new CellDataProvider<DeedDescription,Race>()
       {
+        @Override
         public Race getData(DeedDescription deed)
         {
           return deed.getRequiredRace();
@@ -158,6 +165,7 @@ public class DeedsTableController
     {
       CellDataProvider<DeedDescription,Integer> minLevelCell=new CellDataProvider<DeedDescription,Integer>()
       {
+        @Override
         public Integer getData(DeedDescription deed)
         {
           return deed.getMinLevel();
@@ -173,6 +181,7 @@ public class DeedsTableController
     {
       CellDataProvider<DeedDescription,String> objectivesCell=new CellDataProvider<DeedDescription,String>()
       {
+        @Override
         public String getData(DeedDescription deed)
         {
           return deed.getObjectives();
@@ -195,6 +204,7 @@ public class DeedsTableController
     {
       CellDataProvider<DeedDescription,Integer> lpCell=new CellDataProvider<DeedDescription,Integer>()
       {
+        @Override
         public Integer getData(DeedDescription deed)
         {
           Rewards rewards=deed.getRewards();
@@ -210,6 +220,7 @@ public class DeedsTableController
     {
       CellDataProvider<DeedDescription,String> titleCell=new CellDataProvider<DeedDescription,String>()
       {
+        @Override
         public String getData(DeedDescription deed)
         {
           Rewards rewards=deed.getRewards();
@@ -225,6 +236,7 @@ public class DeedsTableController
     {
       CellDataProvider<DeedDescription,String> virtueCell=new CellDataProvider<DeedDescription,String>()
       {
+        @Override
         public String getData(DeedDescription deed)
         {
           Rewards rewards=deed.getRewards();
@@ -240,6 +252,7 @@ public class DeedsTableController
     {
       CellDataProvider<DeedDescription,String> emoteCell=new CellDataProvider<DeedDescription,String>()
       {
+        @Override
         public String getData(DeedDescription deed)
         {
           Rewards rewards=deed.getRewards();

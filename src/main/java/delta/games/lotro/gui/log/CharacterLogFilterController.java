@@ -126,6 +126,7 @@ public class CharacterLogFilterController implements ItemListener
       datesPanel.add(_maxDates.getComboBox(),c);
       ItemSelectionListener<Long> listenerMinDates=new ItemSelectionListener<Long>()
       {
+        @Override
         public void itemSelected(Long selected)
         {
           _filter.setMinDate(selected);
@@ -135,6 +136,7 @@ public class CharacterLogFilterController implements ItemListener
       _minDates.addListener(listenerMinDates);
       ItemSelectionListener<Long> listenerMaxDates=new ItemSelectionListener<Long>()
       {
+        @Override
         public void itemSelected(Long selected)
         {
           _filter.setMaxDate(selected);
@@ -152,16 +154,19 @@ public class CharacterLogFilterController implements ItemListener
       containsPanel.add(_contains);
       DocumentListener dl=new DocumentListener()
       {
+        @Override
         public void removeUpdate(DocumentEvent e)
         {
           doIt();
         }
 
+        @Override
         public void insertUpdate(DocumentEvent e)
         {
           doIt();
         }
 
+        @Override
         public void changedUpdate(DocumentEvent e)
         {
           doIt();
@@ -211,6 +216,7 @@ public class CharacterLogFilterController implements ItemListener
    * Invoked when a 'type' checkbox state has changed.
    * @param event Source event.
    */
+  @Override
   public void itemStateChanged(ItemEvent event)
   {
     Set<LogItemType> types=new HashSet<LogItemType>();

@@ -83,6 +83,7 @@ public class ReputationSynopsisFilterController
     }
     ItemSelectionListener<String> categoryListener=new ItemSelectionListener<String>()
     {
+      @Override
       public void itemSelected(String region)
       {
         _filter.setCategory(region);

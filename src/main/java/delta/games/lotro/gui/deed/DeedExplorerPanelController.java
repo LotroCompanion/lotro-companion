@@ -72,6 +72,7 @@ public class DeedExplorerPanelController
     JButton choose=GuiFactory.buildButton("Choose columns...");
     ActionListener al=new ActionListener()
     {
+      @Override
       public void actionPerformed(ActionEvent e)
       {
         TableColumnsChooserController<DeedDescription> chooser=new TableColumnsChooserController<DeedDescription>(_parent,_tableController.getTableController());

@@ -185,6 +185,7 @@ public class CharacterFileWindowController extends DefaultWindowController imple
    * Handle button actions.
    * @param e Source event.
    */
+  @Override
   public void actionPerformed(ActionEvent e)
   {
     String command=e.getActionCommand();

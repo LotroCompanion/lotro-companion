@@ -80,6 +80,7 @@ public class DeedsManagementController implements ActionListener,GenericEventsLi
    * Handle events.
    * @param event Source event.
    */
+  @Override
   public void eventOccurred(DeedEvent event)
   {
     DeedEventType type=event.getType();
@@ -128,6 +129,7 @@ public class DeedsManagementController implements ActionListener,GenericEventsLi
    * Action implementation.
    * @param event Source event.
    */
+  @Override
   public void actionPerformed(ActionEvent event)
   {
     String action=event.getActionCommand();

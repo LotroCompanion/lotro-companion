@@ -111,6 +111,7 @@ public class ReputationSynopsisPanelController implements GenericEventsListener<
     JButton chooser=GuiFactory.buildButton("Choose characters...");
     ActionListener al=new ActionListener()
     {
+      @Override
       public void actionPerformed(ActionEvent e)
       {
         doChooseToons();
@@ -147,6 +148,7 @@ public class ReputationSynopsisPanelController implements GenericEventsListener<
    * Handle character events.
    * @param event Source event.
    */
+  @Override
   public void eventOccurred(CharacterEvent event)
   {
     CharacterEventType type=event.getType();

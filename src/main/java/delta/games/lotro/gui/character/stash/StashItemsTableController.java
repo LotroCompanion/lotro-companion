@@ -45,6 +45,7 @@ public class StashItemsTableController
   {
     DataProvider<Item> ret=new DataProvider<Item>()
     {
+      @Override
       public Item getAt(int index)
       {
         ItemsStash stash=_toon.getStash();
@@ -52,6 +53,7 @@ public class StashItemsTableController
         return items.get(index);
       }
 
+      @Override
       public int getCount()
       {
         ItemsStash stash=_toon.getStash();
@@ -71,6 +73,7 @@ public class StashItemsTableController
     {
       CellDataProvider<Item,ImageIcon> iconCell=new CellDataProvider<Item,ImageIcon>()
       {
+        @Override
         public ImageIcon getData(Item item)
         {
           String iconId=item.getProperty(ItemPropertyNames.ICON_ID);
@@ -88,6 +91,7 @@ public class StashItemsTableController
     {
       CellDataProvider<Item,String> nameCell=new CellDataProvider<Item,String>()
       {
+        @Override
         public String getData(Item item)
         {
           return item.getName();
@@ -101,6 +105,7 @@ public class StashItemsTableController
     {
       CellDataProvider<Item,EquipmentLocation> locationCell=new CellDataProvider<Item,EquipmentLocation>()
       {
+        @Override
         public EquipmentLocation getData(Item item)
         {
           return item.getEquipmentLocation();
@@ -114,6 +119,7 @@ public class StashItemsTableController
     {
       CellDataProvider<Item,String> commentCell=new CellDataProvider<Item,String>()
       {
+        @Override
         public String getData(Item item)
         {
           String property=item.getProperty(ItemConstants.USER_COMMENT);

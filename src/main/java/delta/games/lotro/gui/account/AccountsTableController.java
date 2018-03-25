@@ -49,6 +49,7 @@ public class AccountsTableController
     {
       CellDataProvider<Account,String> nameCell=new CellDataProvider<Account,String>()
       {
+        @Override
         public String getData(Account item)
         {
           AccountSummary data=getDataForAccount(item);

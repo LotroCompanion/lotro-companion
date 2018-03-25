@@ -360,6 +360,7 @@ public class DetailedCharacterStatsPanelController
       {
         ActionListener al=new ActionListener()
         {
+          @Override
           public void actionPerformed(ActionEvent e)
           {
             _statCurvesMgr.showStatCurvesWindow(config);

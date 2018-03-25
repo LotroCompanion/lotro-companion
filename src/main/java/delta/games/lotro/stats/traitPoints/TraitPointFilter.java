@@ -41,6 +41,7 @@ public class TraitPointFilter implements Filter<TraitPoint>
    * @param traitPoint Item to test.
    * @return <code>true</code> if it passes the filter, <code>false</code> otherwise.
    */
+  @Override
   public boolean accept(TraitPoint traitPoint)
   {
     boolean ret=true;

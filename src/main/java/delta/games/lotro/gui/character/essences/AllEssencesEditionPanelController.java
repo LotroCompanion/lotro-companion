@@ -143,6 +143,7 @@ public class AllEssencesEditionPanelController implements EssenceUpdatedListener
    * Invoked when an essence has been updated.
    * @param source Source controller.
    */
+  @Override
   public void essenceUpdated(SingleEssenceEditionController source)
   {
     for(SingleItemEssencesEditionController itemEssences : _editors)

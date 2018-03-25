@@ -83,6 +83,7 @@ public class ProfessionStatusEditionPanelController
     panel.add(_validityDate.getTextField());
     DateListener dateListener=new DateListener()
     {
+      @Override
       public void dateChanged(DateEditionController controller, Long newDate)
       {
         _status.setValidityDate(newDate);
@@ -122,6 +123,7 @@ public class ProfessionStatusEditionPanelController
 
     ActionListener l=new ActionListener()
     {
+      @Override
       public void actionPerformed(ActionEvent e)
       {
         handleCompletionChange(e.getSource());
@@ -129,6 +131,7 @@ public class ProfessionStatusEditionPanelController
     };
     DateListener dateListener=new DateListener()
     {
+      @Override
       public void dateChanged(DateEditionController controller, Long newDate)
       {
         long date=(newDate!=null)?newDate.longValue():0;
@@ -259,6 +262,7 @@ public class ProfessionStatusEditionPanelController
     {
       ActionListener updateChart = new ActionListener()
       {
+        @Override
         public void actionPerformed(ActionEvent e)
         {
           _chart.updateData();

@@ -124,6 +124,7 @@ public class CraftingSynopsisTableController
   {
     TableCellRenderer renderer=new TableCellRenderer()
     {
+      @Override
       public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
       {
         return panel;
@@ -138,6 +139,7 @@ public class CraftingSynopsisTableController
     label.setHorizontalAlignment(SwingConstants.CENTER);
     TableCellRenderer renderer=new TableCellRenderer()
     {
+      @Override
       public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
       {
         label.setText((String)value);
@@ -151,6 +153,7 @@ public class CraftingSynopsisTableController
   {
     CellDataProvider<CraftingSynopsisItem,String> cell=new CellDataProvider<CraftingSynopsisItem,String>()
     {
+      @Override
       public String getData(CraftingSynopsisItem item)
       {
         CharacterFile character=item.getCharacter();
@@ -201,6 +204,7 @@ public class CraftingSynopsisTableController
   {
     CellDataProvider<CraftingSynopsisItem,Profession> professionCell=new CellDataProvider<CraftingSynopsisItem,Profession>()
     {
+      @Override
       public Profession getData(CraftingSynopsisItem item)
       {
         return item.getProfession();
@@ -236,6 +240,7 @@ public class CraftingSynopsisTableController
     final JLabel label=GuiFactory.buildLabel("");
     TableCellRenderer renderer=new TableCellRenderer()
     {
+      @Override
       public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
       {
         CraftingLevel data=(CraftingLevel)value;
@@ -250,6 +255,7 @@ public class CraftingSynopsisTableController
   {
     CellDataProvider<CraftingSynopsisItem,CraftingLevel> cell=new CellDataProvider<CraftingSynopsisItem,CraftingLevel>()
     {
+      @Override
       public CraftingLevel getData(CraftingSynopsisItem item)
       {
         return item.getLevel(mastery);
@@ -274,6 +280,7 @@ public class CraftingSynopsisTableController
     // Comparator
     Comparator<CraftingLevel> statsComparator=new Comparator<CraftingLevel>()
     {
+      @Override
       public int compare(CraftingLevel data1, CraftingLevel data2)
       {
         return Integer.compare(data1.getTier(),data2.getTier());
@@ -294,6 +301,7 @@ public class CraftingSynopsisTableController
   {
     CellDataProvider<CraftingSynopsisItem,FactionStatus> cell=new CellDataProvider<CraftingSynopsisItem,FactionStatus>()
     {
+      @Override
       public FactionStatus getData(CraftingSynopsisItem item)
       {
         return item.getGuildFaction();
@@ -319,6 +327,7 @@ public class CraftingSynopsisTableController
     final FactionLevelComparator factionLevelComparator=new FactionLevelComparator();
     Comparator<FactionStatus> statsComparator=new Comparator<FactionStatus>()
     {
+      @Override
       public int compare(FactionStatus data1, FactionStatus data2)
       {
         return factionLevelComparator.compare(data1.getFactionLevel(),data2.getFactionLevel());

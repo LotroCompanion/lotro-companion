@@ -545,6 +545,7 @@ public class ItemEditionPanelController
       }
       ItemSelectionListener<Integer> listenerRequiredLevel=new ItemSelectionListener<Integer>()
       {
+        @Override
         public void itemSelected(Integer requiredLevel)
         {
           selectRequiredLevel(requiredLevel);
@@ -559,6 +560,7 @@ public class ItemEditionPanelController
       }
       ItemSelectionListener<Integer> listener=new ItemSelectionListener<Integer>()
       {
+        @Override
         public void itemSelected(Integer itemLevel)
         {
           selectItemLevel(itemLevel);

@@ -56,6 +56,7 @@ public class RelicsTableController
     {
       CellDataProvider<Relic,ImageIcon> iconCell=new CellDataProvider<Relic,ImageIcon>()
       {
+        @Override
         public ImageIcon getData(Relic item)
         {
           String filename=item.getIconFilename();
@@ -87,6 +88,7 @@ public class RelicsTableController
     {
       CellDataProvider<Relic,String> nameCell=new CellDataProvider<Relic,String>()
       {
+        @Override
         public String getData(Relic item)
         {
           return item.getName();
@@ -100,6 +102,7 @@ public class RelicsTableController
     {
       CellDataProvider<Relic,Integer> levelCell=new CellDataProvider<Relic,Integer>()
       {
+        @Override
         public Integer getData(Relic item)
         {
           return item.getRequiredLevel();
@@ -113,6 +116,7 @@ public class RelicsTableController
     {
       CellDataProvider<Relic,String> statsCell=new CellDataProvider<Relic,String>()
       {
+        @Override
         public String getData(Relic item)
         {
           String statsStr=item.getStats().toString();

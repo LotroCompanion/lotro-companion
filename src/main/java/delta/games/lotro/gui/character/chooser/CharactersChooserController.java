@@ -36,6 +36,7 @@ public final class CharactersChooserController extends DefaultFormDialogControll
 
   private static class TableColumnsComparator implements Comparator<CharacterFile>
   {
+    @Override
     public int compare(CharacterFile o1, CharacterFile o2)
     {
       return o1.getName().compareTo(o2.getName());
@@ -54,6 +55,7 @@ public final class CharactersChooserController extends DefaultFormDialogControll
     TableColumnsComparator comparator=new TableColumnsComparator();
     LabelProvider<CharacterFile> labelProvider=new LabelProvider<CharacterFile>()
     {
+      @Override
       public String getLabel(CharacterFile item)
       {
         return item.getName();

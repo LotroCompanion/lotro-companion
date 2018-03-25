@@ -95,6 +95,7 @@ public class CharacterMainAttrsEditionPanelController
     firstLinePanel.add(_level.getComboBox());
     ItemSelectionListener<Integer> levelListener=new ItemSelectionListener<Integer>()
     {
+      @Override
       public void itemSelected(Integer level)
       {
         _toon.setLevel(level.intValue());

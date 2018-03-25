@@ -10,6 +10,7 @@ import delta.games.lotro.stats.traitPoints.TraitPoint;
  */
 public class TraitPointLabelComparator implements Comparator<TraitPoint>
 {
+  @Override
   public int compare(TraitPoint tp1, TraitPoint tp2)
   {
     String label1=tp1.getLabel();

@@ -76,6 +76,7 @@ public class AccountsManagementController implements ActionListener,GenericEvent
    * Handle character events.
    * @param event Source event.
    */
+  @Override
   public void eventOccurred(CharacterEvent event)
   {
     // TODO
@@ -120,6 +121,7 @@ public class AccountsManagementController implements ActionListener,GenericEvent
    * Action implementation.
    * @param event Source event.
    */
+  @Override
   public void actionPerformed(ActionEvent event)
   {
     String action=event.getActionCommand();

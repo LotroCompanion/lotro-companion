@@ -71,6 +71,7 @@ public class AllEssencesEditionWindowController extends DefaultWindowController 
    * Handle character events.
    * @param event Source event.
    */
+  @Override
   public void eventOccurred(CharacterEvent event)
   {
     CharacterEventType type=event.getType();

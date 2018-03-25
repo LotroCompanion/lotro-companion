@@ -60,6 +60,7 @@ public class TraitPointsEditionPanelController
 
     TraitPointsStatusListener listener=new TraitPointsStatusListener()
     {
+      @Override
       public void statusUpdated()
       {
         _summaryController.update();

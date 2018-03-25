@@ -47,12 +47,14 @@ public class CharacterDataTableController implements GenericEventsListener<Chara
   {
     DataProvider<CharacterData> ret=new DataProvider<CharacterData>()
     {
+      @Override
       public CharacterData getAt(int index)
       {
         CharacterInfosManager dataMgr=_toon.getInfosManager();
         return dataMgr.getData(index);
       }
 
+      @Override
       public int getCount()
       {
         if (_toon!=null)
@@ -75,6 +77,7 @@ public class CharacterDataTableController implements GenericEventsListener<Chara
     {
       CellDataProvider<CharacterData,Date> lastUpdateCell=new CellDataProvider<CharacterData,Date>()
       {
+        @Override
         public Date getData(CharacterData item)
         {
           Long timestamp=item.getDate();
@@ -90,6 +93,7 @@ public class CharacterDataTableController implements GenericEventsListener<Chara
     {
       CellDataProvider<CharacterData,Integer> levelCell=new CellDataProvider<CharacterData,Integer>()
       {
+        @Override
         public Integer getData(CharacterData item)
         {
           return Integer.valueOf(item.getLevel());
@@ -103,6 +107,7 @@ public class CharacterDataTableController implements GenericEventsListener<Chara
     {
       CellDataProvider<CharacterData,String> descriptionCell=new CellDataProvider<CharacterData,String>()
       {
+        @Override
         public String getData(CharacterData item)
         {
           return item.getShortDescription();
@@ -159,6 +164,7 @@ public class CharacterDataTableController implements GenericEventsListener<Chara
    * Handle character events.
    * @param event Source event.
    */
+  @Override
   public void eventOccurred(CharacterEvent event)
   {
     CharacterEventType type=event.getType();

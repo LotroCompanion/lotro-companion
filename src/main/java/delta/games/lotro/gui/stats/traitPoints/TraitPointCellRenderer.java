@@ -41,6 +41,7 @@ public class TraitPointCellRenderer implements TableCellRenderer
     return panel;
   }
 
+  @Override
   public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
   {
     Boolean acquired=(Boolean)value;

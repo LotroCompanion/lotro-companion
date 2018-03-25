@@ -78,6 +78,7 @@ public class BuffEditionPanelController implements ActionListener
     _panel.add(button);
     ActionListener al=new ActionListener()
     {
+      @Override
       public void actionPerformed(ActionEvent e)
       {
         add();
@@ -185,6 +186,7 @@ public class BuffEditionPanelController implements ActionListener
    * </ul>
    * @param event Source event.
    */
+  @Override
   public void actionPerformed(ActionEvent event)
   {
     String cmd=event.getActionCommand();

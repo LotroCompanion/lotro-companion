@@ -212,6 +212,7 @@ public class StatsEditionPanelController
       _deleteButton.setBorderPainted(false);
       ActionListener listener=new ActionListener()
       {
+        @Override
         public void actionPerformed(ActionEvent e)
         {
           handleButtonClick((JButton)e.getSource(),SingleStatController.this);

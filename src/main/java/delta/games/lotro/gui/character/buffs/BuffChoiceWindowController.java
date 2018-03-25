@@ -65,6 +65,7 @@ public class BuffChoiceWindowController extends DefaultFormDialogController<Buff
     _tableController=new BuffsTableController(_possibleBuffs,_filter);
     ActionListener al=new ActionListener()
     {
+      @Override
       public void actionPerformed(ActionEvent e)
       {
         ok();

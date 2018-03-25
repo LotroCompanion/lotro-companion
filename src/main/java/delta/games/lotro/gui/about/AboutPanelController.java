@@ -172,6 +172,7 @@ public class AboutPanelController
     ActionListener al=new ActionListener()
     {
       private int _index=0;
+      @Override
       public void actionPerformed(ActionEvent e)
       {
         JPanel oldPanel=panels.get(_index);

@@ -92,6 +92,7 @@ public class ReputationSynopsisTableController
   {
     CellDataProvider<Faction,String> cell=new CellDataProvider<Faction,String>()
     {
+      @Override
       public String getData(Faction item)
       {
         return item.getName();
@@ -120,6 +121,7 @@ public class ReputationSynopsisTableController
     final JLabel label=GuiFactory.buildLabel("");
     TableCellRenderer renderer=new TableCellRenderer()
     {
+      @Override
       public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
       {
         FactionStatus status=(FactionStatus)value;
@@ -134,6 +136,7 @@ public class ReputationSynopsisTableController
   {
     TableCellRenderer renderer=new TableCellRenderer()
     {
+      @Override
       public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
       {
         return panel;
@@ -147,6 +150,7 @@ public class ReputationSynopsisTableController
     final CharacterFile toon=character;
     CellDataProvider<Faction,FactionStatus> cell=new CellDataProvider<Faction,FactionStatus>()
     {
+      @Override
       public FactionStatus getData(Faction item)
       {
         ReputationStatus status=toon.getReputation();
@@ -171,6 +175,7 @@ public class ReputationSynopsisTableController
     final FactionLevelComparator factionLevelComparator=new FactionLevelComparator();
     Comparator<FactionStatus> statsComparator=new Comparator<FactionStatus>()
     {
+      @Override
       public int compare(FactionStatus data1, FactionStatus data2)
       {
         return factionLevelComparator.compare(data1.getFactionLevel(),data2.getFactionLevel());

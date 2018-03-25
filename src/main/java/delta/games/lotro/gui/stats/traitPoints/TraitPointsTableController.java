@@ -59,6 +59,7 @@ public class TraitPointsTableController
     {
       CellDataProvider<TraitPoint,Boolean> acquiredCell=new CellDataProvider<TraitPoint,Boolean>()
       {
+        @Override
         public Boolean getData(TraitPoint item)
         {
           return Boolean.valueOf(_pointsStatus.isAcquired(item.getId()));
@@ -70,6 +71,7 @@ public class TraitPointsTableController
       acquiredColumn.setCellRenderer(new TraitPointCellRenderer());
       CellDataUpdater<TraitPoint> acquiredCellUpdater=new CellDataUpdater<TraitPoint>()
       {
+        @Override
         public void setData(TraitPoint item, Object value)
         {
           boolean acquired=((Boolean)value).booleanValue();
@@ -87,6 +89,7 @@ public class TraitPointsTableController
     {
       CellDataProvider<TraitPoint,String> descriptionCell=new CellDataProvider<TraitPoint,String>()
       {
+        @Override
         public String getData(TraitPoint item)
         {
           return item.getLabel();

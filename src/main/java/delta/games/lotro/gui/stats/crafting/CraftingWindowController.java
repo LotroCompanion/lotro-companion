@@ -98,6 +98,7 @@ public class CraftingWindowController extends DefaultFormDialogController<Crafti
     // Init vocation combo
     ItemSelectionListener<Vocation> vocationListener=new ItemSelectionListener<Vocation>()
     {
+      @Override
       public void itemSelected(Vocation selectedVocation)
       {
         handleVocationUpdate(selectedVocation);
@@ -107,6 +108,7 @@ public class CraftingWindowController extends DefaultFormDialogController<Crafti
     // Init guild combo
     ItemSelectionListener<Profession> guildListener=new ItemSelectionListener<Profession>()
     {
+      @Override
       public void itemSelected(Profession selectedGuild)
       {
         handleGuildUpdate(selectedGuild);

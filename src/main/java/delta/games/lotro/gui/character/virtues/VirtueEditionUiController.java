@@ -87,14 +87,17 @@ public class VirtueEditionUiController implements ActionListener
     {
       Transferable t=new Transferable()
       {
+        @Override
         public boolean isDataFlavorSupported(DataFlavor flavor)
         {
           return flavor==DataFlavor.stringFlavor;
         }
+        @Override
         public DataFlavor[] getTransferDataFlavors()
         {
           return new DataFlavor[] { DataFlavor.stringFlavor };
         }
+        @Override
         public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException
         {
           return _virtueId;
@@ -152,6 +155,7 @@ public class VirtueEditionUiController implements ActionListener
     return button;
   }
 
+  @Override
   public void actionPerformed(ActionEvent e)
   {
     Object source=e.getSource();

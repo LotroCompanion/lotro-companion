@@ -86,6 +86,7 @@ public class VirtuesEditionPanelController implements TierValueListener
     _maxAll=GuiFactory.buildButton("Max all");
     ActionListener al=new ActionListener()
     {
+      @Override
       public void actionPerformed(ActionEvent e)
       {
         maxAll();
@@ -158,6 +159,7 @@ public class VirtuesEditionPanelController implements TierValueListener
     }
   }
 
+  @Override
   public void tierChanged(VirtueId virtueId, int tier)
   {
     _selectedVirtues.updateVirtue(virtueId,tier);

@@ -89,6 +89,7 @@ public class FactionStatusEditionPanelController
 
     ActionListener l=new ActionListener()
     {
+      @Override
       public void actionPerformed(ActionEvent e)
       {
         handleCompletionChange(e.getSource());
@@ -96,6 +97,7 @@ public class FactionStatusEditionPanelController
     };
     DateListener dateListener=new DateListener()
     {
+      @Override
       public void dateChanged(DateEditionController controller, Long newDate)
       {
         long date=(newDate!=null)?newDate.longValue():0;
@@ -179,6 +181,7 @@ public class FactionStatusEditionPanelController
     {
       ActionListener updateChart = new ActionListener()
       {
+        @Override
         public void actionPerformed(ActionEvent e)
         {
           _chart.updateData();

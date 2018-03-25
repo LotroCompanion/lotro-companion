@@ -124,6 +124,7 @@ public class StatContribsPanelController
     _merged.setSelected(false);
     ActionListener l=new ActionListener()
     {
+      @Override
       public void actionPerformed(ActionEvent e)
       {
         setMerged(_merged.isSelected());
@@ -195,6 +196,7 @@ public class StatContribsPanelController
     ComboBoxController<STAT> controller=new ComboBoxController<STAT>();
     ItemSelectionListener<STAT> listener=new ItemSelectionListener<STAT>()
     {
+      @Override
       public void itemSelected(STAT stat)
       {
         updateStat(stat);

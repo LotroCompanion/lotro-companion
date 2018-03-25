@@ -59,6 +59,7 @@ public class RelicChoiceWindowController extends DefaultFormDialogController<Rel
     _tableController=new RelicsTableController(relics,_filter);
     ActionListener al=new ActionListener()
     {
+      @Override
       public void actionPerformed(ActionEvent e)
       {
         ok();

@@ -50,6 +50,7 @@ public class EssencesEditionPanelController
     JButton button=GuiFactory.buildButton("New slot");
     ActionListener al=new ActionListener()
     {
+      @Override
       public void actionPerformed(ActionEvent e)
       {
         addSlot();

@@ -44,11 +44,13 @@ public class CharacterLogTableController
   private GenericTableController<CharacterLogItem> buildTable()
   {
     DataProvider<CharacterLogItem> provider=new DataProvider<CharacterLogItem>() {
+      @Override
       public CharacterLogItem getAt(int index)
       {
         return _log.getLogItem(index);
       }
 
+      @Override
       public int getCount()
       {
         return _log.getNbItems();
@@ -60,6 +62,7 @@ public class CharacterLogTableController
     {
       CellDataProvider<CharacterLogItem,Date> dateCell=new CellDataProvider<CharacterLogItem,Date>()
       {
+        @Override
         public Date getData(CharacterLogItem item)
         {
           long timestamp=item.getDate();
@@ -75,6 +78,7 @@ public class CharacterLogTableController
     {
       CellDataProvider<CharacterLogItem,LogItemType> typeCell=new CellDataProvider<CharacterLogItem,LogItemType>()
       {
+        @Override
         public LogItemType getData(CharacterLogItem item)
         {
           return item.getLogItemType();
@@ -90,6 +94,7 @@ public class CharacterLogTableController
     {
       CellDataProvider<CharacterLogItem,String> labelCell=new CellDataProvider<CharacterLogItem,String>()
       {
+        @Override
         public String getData(CharacterLogItem item)
         {
           return item.getLabel();

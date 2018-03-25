@@ -96,6 +96,7 @@ public class WarbandsTableController
   {
     TableCellRenderer renderer=new TableCellRenderer()
     {
+      @Override
       public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
       {
         WarbandDefinition warband=(WarbandDefinition)value;
@@ -113,6 +114,7 @@ public class WarbandsTableController
   {
     CellDataProvider<WarbandDefinition,WarbandDefinition> cell=new CellDataProvider<WarbandDefinition,WarbandDefinition>()
     {
+      @Override
       public WarbandDefinition getData(WarbandDefinition item)
       {
         return item;
@@ -146,6 +148,7 @@ public class WarbandsTableController
 
     // Comparator
     Comparator<WarbandDefinition> warbandComparator=new Comparator<WarbandDefinition>() {
+      @Override
       public int compare(WarbandDefinition w1, WarbandDefinition w2)
       {
         String n1=w1.getSafeShortName();
@@ -164,6 +167,7 @@ public class WarbandsTableController
     final Map<String,JPanel> cellPanels=new HashMap<String,JPanel>();
     TableCellRenderer renderer=new TableCellRenderer()
     {
+      @Override
       public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
       {
         WarbandStats stats=(WarbandStats)value;
@@ -192,6 +196,7 @@ public class WarbandsTableController
   {
     TableCellRenderer renderer=new TableCellRenderer()
     {
+      @Override
       public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
       {
         return panel;
@@ -212,6 +217,7 @@ public class WarbandsTableController
     final WarbandsStats warbandsStats=loadToonStats(character);
     CellDataProvider<WarbandDefinition,WarbandStats> cell=new CellDataProvider<WarbandDefinition,WarbandStats>()
     {
+      @Override
       public WarbandStats getData(WarbandDefinition item)
       {
         return warbandsStats.getWarbandStats(item,true);
@@ -233,6 +239,7 @@ public class WarbandsTableController
 
     // Comparator
     Comparator<WarbandStats> statsComparator=new Comparator<WarbandStats>() {
+      @Override
       public int compare(WarbandStats w1, WarbandStats w2)
       {
         Long d1=w1.getMostRecentDate();

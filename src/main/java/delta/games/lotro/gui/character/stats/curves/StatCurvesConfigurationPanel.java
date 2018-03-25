@@ -68,6 +68,7 @@ public class StatCurvesConfigurationPanel
     panel.add(_level.getComboBox(),c);
     ItemSelectionListener<Integer> listener=new ItemSelectionListener<Integer>()
     {
+      @Override
       public void itemSelected(Integer item)
       {
         updateLevel(item.intValue());
@@ -86,6 +87,7 @@ public class StatCurvesConfigurationPanel
     panel.add(_maxRating.getTextField(),c);
     ActionListener al=new ActionListener()
     {
+      @Override
       public void actionPerformed(ActionEvent e)
       {
         updateMaxRating();

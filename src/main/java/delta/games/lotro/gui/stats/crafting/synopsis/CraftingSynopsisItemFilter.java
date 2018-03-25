@@ -26,6 +26,7 @@ public class CraftingSynopsisItemFilter implements Filter<CraftingSynopsisItem>
    * @return <code>true</code> if the profession filter accepts the profession of the given item,
    * <code>false</code> otherwise.
    */
+  @Override
   public boolean accept(CraftingSynopsisItem item)
   {
     Profession profession=item.getProfession();

@@ -90,6 +90,7 @@ public class CharacterLevelPanelController implements CharacterSelectionChangedL
       JButton chooser=GuiFactory.buildButton("Choose characters...");
       ActionListener al=new ActionListener()
       {
+        @Override
         public void actionPerformed(ActionEvent e)
         {
           doChooseToons();
@@ -148,6 +149,7 @@ public class CharacterLevelPanelController implements CharacterSelectionChangedL
    * @param toonId Targeted character identifier.
    * @param selected New state for this character (visible if selected, hidden otherwise).
    */
+  @Override
   public void selectionChanged(String toonId, boolean selected)
   {
     if (_chartController!=null)

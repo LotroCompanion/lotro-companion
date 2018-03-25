@@ -88,6 +88,7 @@ public class ToonsManagementController implements ActionListener,GenericEventsLi
    * Handle character events.
    * @param event Source event.
    */
+  @Override
   public void eventOccurred(CharacterEvent event)
   {
     CharacterEventType type=event.getType();
@@ -139,6 +140,7 @@ public class ToonsManagementController implements ActionListener,GenericEventsLi
    * Action implementation.
    * @param event Source event.
    */
+  @Override
   public void actionPerformed(ActionEvent event)
   {
     String action=event.getActionCommand();

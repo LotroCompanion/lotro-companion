@@ -88,6 +88,7 @@ public class MainFrameController extends DefaultWindowController implements Acti
     JMenuItem quit=GuiFactory.buildMenuItem("Quit");
     ActionListener alQuit=new ActionListener()
     {
+      @Override
       public void actionPerformed(ActionEvent e)
       {
         doQuit();
@@ -135,6 +136,7 @@ public class MainFrameController extends DefaultWindowController implements Acti
     JMenuItem aboutMenuItem=GuiFactory.buildMenuItem("About...");
     ActionListener alAbout=new ActionListener()
     {
+      @Override
       public void actionPerformed(ActionEvent e)
       {
         doAbout();
@@ -146,6 +148,7 @@ public class MainFrameController extends DefaultWindowController implements Acti
     JMenuItem creditsMenuItem=GuiFactory.buildMenuItem("Credits...");
     ActionListener alCredits=new ActionListener()
     {
+      @Override
       public void actionPerformed(ActionEvent e)
       {
         doCredits();
@@ -291,6 +294,7 @@ public class MainFrameController extends DefaultWindowController implements Acti
     controller.bringToFront();
   }
 
+  @Override
   public void actionPerformed(ActionEvent event)
   {
     String cmd=event.getActionCommand();

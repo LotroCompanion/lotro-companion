@@ -119,6 +119,7 @@ public class CharactersSelectorPanelController implements ItemListener
     return _listeners;
   }
 
+  @Override
   public void itemStateChanged(ItemEvent e)
   {
     JCheckBox source = (JCheckBox)e.getItemSelectable();

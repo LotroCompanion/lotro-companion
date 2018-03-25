@@ -69,6 +69,7 @@ public class EssenceItemFilter implements ItemFilter
     return _tierFilter;
   }
 
+  @Override
   public boolean accept(Item item)
   {
     return _filter.accept(item);

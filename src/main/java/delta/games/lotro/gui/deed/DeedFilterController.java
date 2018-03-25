@@ -170,6 +170,7 @@ public class DeedFilterController
       containsPanel.add(_contains);
       TextListener listener=new TextListener()
       {
+        @Override
         public void textChanged(String newText)
         {
           if (newText.length()==0) newText=null;

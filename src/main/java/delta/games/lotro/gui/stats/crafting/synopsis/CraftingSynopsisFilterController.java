@@ -75,6 +75,7 @@ public class CraftingSynopsisFilterController
     }
     ItemSelectionListener<Profession> listener=new ItemSelectionListener<Profession>()
     {
+      @Override
       public void itemSelected(Profession profession)
       {
         _filter.setProfession(profession);

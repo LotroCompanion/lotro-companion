@@ -112,6 +112,7 @@ public class CraftingSynopsisPanelController implements GenericEventsListener<Ch
     JButton chooser=GuiFactory.buildButton("Choose characters...");
     ActionListener al=new ActionListener()
     {
+      @Override
       public void actionPerformed(ActionEvent e)
       {
         doChooseToons();
@@ -149,6 +150,7 @@ public class CraftingSynopsisPanelController implements GenericEventsListener<Ch
    * Handle character events.
    * @param event Source event.
    */
+  @Override
   public void eventOccurred(CharacterEvent event)
   {
     CharacterEventType type=event.getType();

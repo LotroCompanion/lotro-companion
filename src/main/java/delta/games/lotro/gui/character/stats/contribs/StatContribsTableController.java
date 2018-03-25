@@ -73,6 +73,7 @@ public class StatContribsTableController
     {
       CellDataProvider<StatContribution,String> sourceCell=new CellDataProvider<StatContribution,String>()
       {
+        @Override
         public String getData(StatContribution item)
         {
           return item.getSource().getLabel();
@@ -86,6 +87,7 @@ public class StatContribsTableController
     {
       CellDataProvider<StatContribution,FixedDecimalsInteger> statCell=new CellDataProvider<StatContribution,FixedDecimalsInteger>()
       {
+        @Override
         public FixedDecimalsInteger getData(StatContribution item)
         {
           return item.getValue();

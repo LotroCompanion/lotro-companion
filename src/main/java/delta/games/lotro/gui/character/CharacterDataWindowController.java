@@ -178,6 +178,7 @@ public class CharacterDataWindowController extends DefaultFormDialogController<C
       JButton edit=GuiFactory.buildButton("Edit...");
       ActionListener alEssences=new ActionListener()
       {
+        @Override
         public void actionPerformed(ActionEvent e)
         {
           doEssencesEdition();
@@ -191,6 +192,7 @@ public class CharacterDataWindowController extends DefaultFormDialogController<C
       JButton summary=GuiFactory.buildButton("Summary...");
       ActionListener alEssences=new ActionListener()
       {
+        @Override
         public void actionPerformed(ActionEvent e)
         {
           doEssencesSummary();
@@ -211,6 +213,7 @@ public class CharacterDataWindowController extends DefaultFormDialogController<C
     panel.add(button);
     ActionListener al=new ActionListener()
     {
+      @Override
       public void actionPerformed(ActionEvent e)
       {
         VirtuesSet virtues=VirtuesEditionDialogController.editVirtues(CharacterDataWindowController.this,_data.getVirtues());
@@ -290,6 +293,7 @@ public class CharacterDataWindowController extends DefaultFormDialogController<C
    * Handle character events.
    * @param event Source event.
    */
+  @Override
   public void eventOccurred(CharacterEvent event)
   {
     CharacterEventType type=event.getType();

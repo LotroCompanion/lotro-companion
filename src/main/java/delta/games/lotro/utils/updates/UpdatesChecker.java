@@ -94,6 +94,7 @@ public class UpdatesChecker
   {
     Runnable r=new Runnable()
     {
+      @Override
       public void run()
       {
         StringBuilder sb=new StringBuilder();
@@ -148,6 +149,7 @@ public class UpdatesChecker
     {
       Runnable r=new Runnable()
       {
+        @Override
         public void run()
         {
           doCheck();

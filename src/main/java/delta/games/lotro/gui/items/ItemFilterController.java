@@ -167,6 +167,7 @@ public class ItemFilterController extends AbstractItemFilterPanelController
       _quality=ItemUiTools.buildQualityCombo();
       ItemSelectionListener<ItemQuality> qualityListener=new ItemSelectionListener<ItemQuality>()
       {
+        @Override
         public void itemSelected(ItemQuality quality)
         {
           _qualityFilter.setQuality(quality);
@@ -186,6 +187,7 @@ public class ItemFilterController extends AbstractItemFilterPanelController
       containsPanel.add(_contains);
       TextListener listener=new TextListener()
       {
+        @Override
         public void textChanged(String newText)
         {
           if (newText.length()==0) newText=null;
@@ -205,6 +207,7 @@ public class ItemFilterController extends AbstractItemFilterPanelController
       weaponTypePanel.add(GuiFactory.buildLabel("Weapon type:"));
       ItemSelectionListener<WeaponType> weaponTypeListener=new ItemSelectionListener<WeaponType>()
       {
+        @Override
         public void itemSelected(WeaponType type)
         {
           _weaponTypeFilter.setWeaponType(type);
@@ -236,6 +239,7 @@ public class ItemFilterController extends AbstractItemFilterPanelController
       armourTypePanel.add(GuiFactory.buildLabel("Armour type:"));
       ItemSelectionListener<ArmourType> armourTypeListener=new ItemSelectionListener<ArmourType>()
       {
+        @Override
         public void itemSelected(ArmourType type)
         {
           _armourTypeFilter.setArmourType(type);
@@ -267,6 +271,7 @@ public class ItemFilterController extends AbstractItemFilterPanelController
       shieldTypePanel.add(GuiFactory.buildLabel("Shield type:"));
       ItemSelectionListener<ArmourType> shieldTypeListener=new ItemSelectionListener<ArmourType>()
       {
+        @Override
         public void itemSelected(ArmourType type)
         {
           _shieldTypeFilter.setArmourType(type);

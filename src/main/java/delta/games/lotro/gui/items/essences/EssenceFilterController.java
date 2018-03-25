@@ -84,6 +84,7 @@ public class EssenceFilterController extends AbstractItemFilterPanelController
       _tier=buildTierCombo();
       ItemSelectionListener<Integer> tierListener=new ItemSelectionListener<Integer>()
       {
+        @Override
         public void itemSelected(Integer tier)
         {
           _filter.getEssenceTierFilter().setTier(tier);
@@ -102,6 +103,7 @@ public class EssenceFilterController extends AbstractItemFilterPanelController
       _quality=ItemUiTools.buildQualityCombo();
       ItemSelectionListener<ItemQuality> qualityListener=new ItemSelectionListener<ItemQuality>()
       {
+        @Override
         public void itemSelected(ItemQuality quality)
         {
           _filter.getQualityFilter().setQuality(quality);
@@ -122,6 +124,7 @@ public class EssenceFilterController extends AbstractItemFilterPanelController
       containsPanel.add(_contains);
       TextListener listener=new TextListener()
       {
+        @Override
         public void textChanged(String newText)
         {
           if (newText.length()==0) newText=null;

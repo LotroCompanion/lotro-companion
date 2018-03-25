@@ -181,6 +181,7 @@ public class CharacterReputationDialogController extends DefaultFormDialogContro
     _rewardsDisplay.update();
   }
 
+  @Override
   public void actionPerformed(ActionEvent event)
   {
     // +/- buttons

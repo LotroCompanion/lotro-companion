@@ -12,11 +12,13 @@ public class DateFormat
 {
   private static DateCodec _codec=new DateCodec()
   {
+    @Override
     public Long parseDate(String dateStr)
     {
       return parseDateTime(dateStr,true);
     }
 
+    @Override
     public String formatDate(Long date)
     {
       return DateFormat.formatDate(date);

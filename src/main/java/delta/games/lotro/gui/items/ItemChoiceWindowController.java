@@ -82,6 +82,7 @@ public class ItemChoiceWindowController extends DefaultFormDialogController<Item
     JPanel tablePanel=_panelController.getPanel();
     ActionListener al=new ActionListener()
     {
+      @Override
       public void actionPerformed(ActionEvent e)
       {
         ok();

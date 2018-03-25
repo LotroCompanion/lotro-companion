@@ -52,6 +52,7 @@ public class ToonsTableController
     {
       CellDataProvider<CharacterFile,String> nameCell=new CellDataProvider<CharacterFile,String>()
       {
+        @Override
         public String getData(CharacterFile item)
         {
           CharacterSummary data=getDataForToon(item);
@@ -66,6 +67,7 @@ public class ToonsTableController
     {
       CellDataProvider<CharacterFile,Race> raceCell=new CellDataProvider<CharacterFile,Race>()
       {
+        @Override
         public Race getData(CharacterFile item)
         {
           CharacterSummary data=getDataForToon(item);
@@ -80,6 +82,7 @@ public class ToonsTableController
     {
       CellDataProvider<CharacterFile,CharacterClass> classCell=new CellDataProvider<CharacterFile,CharacterClass>()
       {
+        @Override
         public CharacterClass getData(CharacterFile item)
         {
           CharacterSummary data=getDataForToon(item);
@@ -94,6 +97,7 @@ public class ToonsTableController
     {
       CellDataProvider<CharacterFile,CharacterSex> sexCell=new CellDataProvider<CharacterFile,CharacterSex>()
       {
+        @Override
         public CharacterSex getData(CharacterFile item)
         {
           CharacterSummary data=getDataForToon(item);
@@ -108,6 +112,7 @@ public class ToonsTableController
     {
       CellDataProvider<CharacterFile,String> regionCell=new CellDataProvider<CharacterFile,String>()
       {
+        @Override
         public String getData(CharacterFile item)
         {
           CharacterSummary data=getDataForToon(item);
@@ -122,6 +127,7 @@ public class ToonsTableController
     {
       CellDataProvider<CharacterFile,Integer> levelCell=new CellDataProvider<CharacterFile,Integer>()
       {
+        @Override
         public Integer getData(CharacterFile item)
         {
           CharacterSummary data=getDataForToon(item);
@@ -136,6 +142,7 @@ public class ToonsTableController
     {
       CellDataProvider<CharacterFile,String> serverCell=new CellDataProvider<CharacterFile,String>()
       {
+        @Override
         public String getData(CharacterFile item)
         {
           CharacterSummary data=getDataForToon(item);

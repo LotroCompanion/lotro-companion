@@ -72,6 +72,7 @@ public class ItemChoicePanelController implements FilterUpdateListener
     JButton choose=GuiFactory.buildButton("Choose columns...");
     ActionListener al=new ActionListener()
     {
+      @Override
       public void actionPerformed(ActionEvent e)
       {
         TableColumnsChooserController<Item> chooser=new TableColumnsChooserController<Item>(_parent,_tableController.getTableController());
@@ -87,6 +88,7 @@ public class ItemChoicePanelController implements FilterUpdateListener
   /**
    * Update filter.
    */
+  @Override
   public void filterUpdated()
   {
     _tableController.updateFilter();

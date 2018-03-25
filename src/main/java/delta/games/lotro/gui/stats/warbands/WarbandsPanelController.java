@@ -115,6 +115,7 @@ public class WarbandsPanelController
     JButton chooser=GuiFactory.buildButton("Choose characters...");
     ActionListener al=new ActionListener()
     {
+      @Override
       public void actionPerformed(ActionEvent e)
       {
         doChooseToons();

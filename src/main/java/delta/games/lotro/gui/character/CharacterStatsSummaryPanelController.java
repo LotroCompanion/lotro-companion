@@ -108,6 +108,7 @@ public class CharacterStatsSummaryPanelController
     JButton details=GuiFactory.buildButton("Details...");
     ActionListener alDetails=new ActionListener()
     {
+      @Override
       public void actionPerformed(ActionEvent e)
       {
         doDetails();
@@ -119,6 +120,7 @@ public class CharacterStatsSummaryPanelController
     JButton contribs=GuiFactory.buildButton("Contribs...");
     ActionListener alContribs=new ActionListener()
     {
+      @Override
       public void actionPerformed(ActionEvent e)
       {
         doContribs();

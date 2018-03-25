@@ -58,6 +58,7 @@ public class BuffsTableController
     {
       CellDataProvider<Buff,ImageIcon> iconCell=new CellDataProvider<Buff,ImageIcon>()
       {
+        @Override
         public ImageIcon getData(Buff buff)
         {
           String filename=buff.getIcon();
@@ -74,6 +75,7 @@ public class BuffsTableController
     {
       CellDataProvider<Buff,String> nameCell=new CellDataProvider<Buff,String>()
       {
+        @Override
         public String getData(Buff buff)
         {
           return buff.getLabel();
@@ -87,6 +89,7 @@ public class BuffsTableController
     {
       CellDataProvider<Buff,CharacterClass> classCell=new CellDataProvider<Buff,CharacterClass>()
       {
+        @Override
         public CharacterClass getData(Buff buff)
         {
           return buff.getRequiredClass();
@@ -100,6 +103,7 @@ public class BuffsTableController
     {
       CellDataProvider<Buff,Race> classCell=new CellDataProvider<Buff,Race>()
       {
+        @Override
         public Race getData(Buff buff)
         {
           return buff.getRequiredRace();

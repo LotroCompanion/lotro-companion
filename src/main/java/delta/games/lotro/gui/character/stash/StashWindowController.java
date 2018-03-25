@@ -120,6 +120,7 @@ public class StashWindowController extends DefaultWindowController implements Ac
    * Handle character events.
    * @param event Source event.
    */
+  @Override
   public void eventOccurred(CharacterEvent event)
   {
     CharacterEventType type=event.getType();
@@ -141,6 +142,7 @@ public class StashWindowController extends DefaultWindowController implements Ac
   /**
    * Filter updated callback.
    */
+  @Override
   public void filterUpdated()
   {
     _itemsTable.getTableController().filterUpdated();
@@ -150,6 +152,7 @@ public class StashWindowController extends DefaultWindowController implements Ac
    * Handle button actions.
    * @param e Source event.
    */
+  @Override
   public void actionPerformed(ActionEvent e)
   {
     String command=e.getActionCommand();

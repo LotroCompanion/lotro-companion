@@ -148,6 +148,7 @@ public class RelicsFilterController
     }
     ItemSelectionListener<RelicType> l=new ItemSelectionListener<RelicType>()
     {
+      @Override
       public void itemSelected(RelicType type)
       {
         _filter.setRelicType(type);
@@ -168,6 +169,7 @@ public class RelicsFilterController
     }
     ItemSelectionListener<String> l=new ItemSelectionListener<String>()
     {
+      @Override
       public void itemSelected(String category)
       {
         _filter.setRelicCategory(category);
@@ -184,14 +186,17 @@ public class RelicsFilterController
     textField.setColumns(20);
     DocumentListener dl=new DocumentListener()
     {
+      @Override
       public void removeUpdate(DocumentEvent e)
       {
         textFieldUpdated(textField);
       }
+      @Override
       public void insertUpdate(DocumentEvent e)
       {
         textFieldUpdated(textField);
       }
+      @Override
       public void changedUpdate(DocumentEvent e)
       {
         textFieldUpdated(textField);

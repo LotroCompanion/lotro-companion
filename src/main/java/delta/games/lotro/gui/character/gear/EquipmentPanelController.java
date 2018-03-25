@@ -377,6 +377,7 @@ public class EquipmentPanelController implements ActionListener
     }
   }
 
+  @Override
   public void actionPerformed(ActionEvent e)
   {
     String cmd=e.getActionCommand();

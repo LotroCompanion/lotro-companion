@@ -103,6 +103,7 @@ public class ItemChoiceTableController
     {
       CellDataProvider<Item,Icon> iconCell=new CellDataProvider<Item,Icon>()
       {
+        @Override
         public Icon getData(Item item)
         {
           Icon icon=ItemUiTools.buildItemIcon(item);
@@ -118,6 +119,7 @@ public class ItemChoiceTableController
     {
       CellDataProvider<Item,Long> idCell=new CellDataProvider<Item,Long>()
       {
+        @Override
         public Long getData(Item item)
         {
           return Long.valueOf(item.getIdentifier());
@@ -131,6 +133,7 @@ public class ItemChoiceTableController
     {
       CellDataProvider<Item,String> nameCell=new CellDataProvider<Item,String>()
       {
+        @Override
         public String getData(Item item)
         {
           return item.getName();
@@ -144,6 +147,7 @@ public class ItemChoiceTableController
     {
       CellDataProvider<Item,Integer> levelCell=new CellDataProvider<Item,Integer>()
       {
+        @Override
         public Integer getData(Item item)
         {
           return item.getItemLevel();
@@ -157,6 +161,7 @@ public class ItemChoiceTableController
     {
       CellDataProvider<Item,Integer> minLevelCell=new CellDataProvider<Item,Integer>()
       {
+        @Override
         public Integer getData(Item item)
         {
           return item.getMinLevel();
@@ -170,6 +175,7 @@ public class ItemChoiceTableController
     {
       CellDataProvider<Item,CharacterClass> requiredClassCell=new CellDataProvider<Item,CharacterClass>()
       {
+        @Override
         public CharacterClass getData(Item item)
         {
           return item.getRequiredClass();
@@ -183,6 +189,7 @@ public class ItemChoiceTableController
     {
       CellDataProvider<Item,Integer> slotsCell=new CellDataProvider<Item,Integer>()
       {
+        @Override
         public Integer getData(Item item)
         {
           int nbSlots=item.getEssenceSlots();
@@ -197,6 +204,7 @@ public class ItemChoiceTableController
     {
       CellDataProvider<Item,Integer> tierCell=new CellDataProvider<Item,Integer>()
       {
+        @Override
         public Integer getData(Item item)
         {
           String category=item.getSubCategory();
@@ -215,6 +223,7 @@ public class ItemChoiceTableController
     {
       CellDataProvider<Item,ItemQuality> qualityCell=new CellDataProvider<Item,ItemQuality>()
       {
+        @Override
         public ItemQuality getData(Item item)
         {
           return item.getQuality();
@@ -228,6 +237,7 @@ public class ItemChoiceTableController
     {
       CellDataProvider<Item,FixedDecimalsInteger> armourCell=new CellDataProvider<Item,FixedDecimalsInteger>()
       {
+        @Override
         public FixedDecimalsInteger getData(Item item)
         {
           if (item instanceof Armour)
@@ -248,6 +258,7 @@ public class ItemChoiceTableController
     {
       CellDataProvider<Item,ArmourType> armourTypeCell=new CellDataProvider<Item,ArmourType>()
       {
+        @Override
         public ArmourType getData(Item item)
         {
           if (item instanceof Armour)
@@ -266,6 +277,7 @@ public class ItemChoiceTableController
     {
       CellDataProvider<Item,WeaponType> weaponTypeCell=new CellDataProvider<Item,WeaponType>()
       {
+        @Override
         public WeaponType getData(Item item)
         {
           if (item instanceof Weapon)
@@ -292,6 +304,7 @@ public class ItemChoiceTableController
   {
     CellDataProvider<Item,FixedDecimalsInteger> statCell=new CellDataProvider<Item,FixedDecimalsInteger>()
     {
+      @Override
       public FixedDecimalsInteger getData(Item item)
       {
         BasicStatsSet stats=item.getStats();
