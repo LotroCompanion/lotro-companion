@@ -53,7 +53,7 @@ public class DeedFilterController
   private ComboBoxController<String> _title;
   private ComboBoxController<VirtueId> _virtue;
   private ComboBoxController<String> _emote;
-  private ComboBoxController<String> _item;
+  private ComboBoxController<Integer> _item;
   // Controllers
   private DynamicTextEditionController _textController;
   private DeedExplorerPanelController _panelController;
@@ -153,8 +153,8 @@ public class DeedFilterController
     _emote.selectItem(emote);
     // Item
     ItemRewardFilter itemFilter=_filter.getItemFilter();
-    String itemName=itemFilter.getItemName();
-    _item.selectItem(itemName);
+    Integer itemId=itemFilter.getItemId();
+    _item.selectItem(itemId);
   }
 
   private JPanel build()
@@ -409,16 +409,16 @@ public class DeedFilterController
     return combo;
   }
 
-  private ComboBoxController<String> buildItemsCombobox()
+  private ComboBoxController<Integer> buildItemsCombobox()
   {
-    ComboBoxController<String> combo=DeedUiUtils.buildItemsCombo();
-    ItemSelectionListener<String> listener=new ItemSelectionListener<String>()
+    ComboBoxController<Integer> combo=DeedUiUtils.buildItemsCombo();
+    ItemSelectionListener<Integer> listener=new ItemSelectionListener<Integer>()
     {
       @Override
-      public void itemSelected(String itemName)
+      public void itemSelected(Integer itemId)
       {
         ItemRewardFilter filter=_filter.getItemFilter();
-        filter.setItemName(itemName);
+        filter.setItemId(itemId);
         filterUpdated();
       }
     };

@@ -5,6 +5,7 @@ import java.util.List;
 import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.games.lotro.common.VirtueId;
 import delta.games.lotro.lore.deeds.DeedType;
+import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.reputation.Faction;
 import delta.games.lotro.lore.reputation.FactionsRegistry;
 
@@ -136,14 +137,14 @@ public class DeedUiUtils
    * Build a combo-box controller to choose an item name.
    * @return A new combo-box controller.
    */
-  public static ComboBoxController<String> buildItemsCombo()
+  public static ComboBoxController<Integer> buildItemsCombo()
   {
-    ComboBoxController<String> ctrl=new ComboBoxController<String>();
+    ComboBoxController<Integer> ctrl=new ComboBoxController<Integer>();
     ctrl.addEmptyItem("");
-    List<String> itemNames=DeedUtils.getItemNames();
-    for(String itemName : itemNames)
+    List<Item> items=DeedUtils.getItems();
+    for(Item item : items)
     {
-      ctrl.addItem(itemName,itemName);
+      ctrl.addItem(Integer.valueOf(item.getIdentifier()),item.getName());
     }
     ctrl.selectItem(null);
     return ctrl;

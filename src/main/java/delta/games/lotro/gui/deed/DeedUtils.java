@@ -9,6 +9,7 @@ import java.util.Set;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.DeedRewardsExplorer;
 import delta.games.lotro.lore.deeds.DeedsManager;
+import delta.games.lotro.lore.items.Item;
 
 /**
  * Deed-related utility methods.
@@ -75,12 +76,12 @@ public class DeedUtils
   }
 
   /**
-   * Load available item names from deeds manager.
-   * @return A sorted list of item names.
+   * Load available items from deeds manager.
+   * @return A list of items, sorted by name.
    */
-  public static List<String> getItemNames()
+  public static List<Item> getItems()
   {
     DeedRewardsExplorer rewardsExplorer=DeedsManager.getInstance().getRewardsExplorer();
-    return rewardsExplorer.getItemNames();
+    return rewardsExplorer.getItems();
   }
 }

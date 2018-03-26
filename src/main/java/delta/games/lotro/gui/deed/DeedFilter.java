@@ -82,7 +82,7 @@ public class DeedFilter implements Filter<DeedDescription>
     // - emote
     _emoteFilter=new EmoteRewardFilter(null);
     filters.add(new DeedRewardFilter(_emoteFilter));
-    // - emote
+    // - item
     _itemFilter=new ItemRewardFilter(null);
     filters.add(new DeedRewardFilter(_itemFilter));
     _filter=new CompoundFilter<DeedDescription>(Operator.AND,filters);
