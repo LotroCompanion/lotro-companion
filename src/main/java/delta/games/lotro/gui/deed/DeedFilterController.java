@@ -5,8 +5,10 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.border.Border;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.combobox.ComboBoxController;
@@ -160,11 +162,46 @@ public class DeedFilterController
   private JPanel build()
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
-    JPanel line1Panel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
+
+    int y=0;
+
+    // Deed attributes
+    JPanel deedPanel=buildDeedPanel();
+    Border deedBorder=GuiFactory.buildTitledBorder("Deed");
+    deedPanel.setBorder(deedBorder);
+    GridBagConstraints c=new GridBagConstraints(0,y,1,1,0.0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    panel.add(deedPanel,c);
+    y++;
+
+    // Requirements
+    JPanel requirementsPanel=buildRequirementsPanel();
+    Border requirementsBorder=GuiFactory.buildTitledBorder("Requirements");
+    requirementsPanel.setBorder(requirementsBorder);
+    c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    panel.add(requirementsPanel,c);
+    y++;
+
+    // Rewards
+    JPanel rewardsPanel=buildRewardsPanel();
+    Border rewardsBorder=GuiFactory.buildTitledBorder("Rewards");
+    rewardsPanel.setBorder(rewardsBorder);
+    c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    panel.add(rewardsPanel,c);
+    y++;
+
+    return panel;
+  }
+
+  private JPanel buildDeedPanel()
+  {
+    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
+
+    int y=0;
+    JPanel line1Panel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,0,0));
     // Label filter
     {
-      JPanel containsPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING));
-      containsPanel.add(GuiFactory.buildLabel("Label filter:"));
+      JPanel containsPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
+      containsPanel.add(GuiFactory.buildLabel("Name filter:"));
       _contains=GuiFactory.buildTextField("");
       _contains.setColumns(20);
       containsPanel.add(_contains);
@@ -182,12 +219,15 @@ public class DeedFilterController
       _textController=new DynamicTextEditionController(_contains,listener);
       line1Panel.add(containsPanel);
     }
-    GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,5,0),0,0);
     panel.add(line1Panel,c);
+    y++;
 
     JPanel line2Panel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
     // Type
     {
+      JLabel label=GuiFactory.buildLabel("Type:");
+      line2Panel.add(label);
       _type=DeedUiUtils.buildDeedTypeCombo();
       ItemSelectionListener<DeedType> typeListener=new ItemSelectionListener<DeedType>()
       {
@@ -204,6 +244,8 @@ public class DeedFilterController
     }
     // Category
     {
+      JLabel label=GuiFactory.buildLabel("Category:");
+      line2Panel.add(label);
       _category=DeedUiUtils.buildCategoryCombo();
       ItemSelectionListener<String> categoryListener=new ItemSelectionListener<String>()
       {
@@ -218,43 +260,81 @@ public class DeedFilterController
       _category.addListener(categoryListener);
       line2Panel.add(_category.getComboBox());
     }
-    c=new GridBagConstraints(0,1,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,5,0),0,0);
     panel.add(line2Panel,c);
+    y++;
 
-    JPanel line3Panel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
-    // Reputation
-    _reputation=buildReputationCombobox();
-    line3Panel.add(_reputation.getComboBox());
-    // LOTRO points
-    _lotroPoints=buildLotroPointsCombobox();
-    line3Panel.add(_lotroPoints.getComboBox());
-    // Class point
-    _classPoints=buildClassPointsCombobox();
-    line3Panel.add(_classPoints.getComboBox());
-    // Title
-    _title=buildTitlesCombobox();
-    line3Panel.add(_title.getComboBox());
-    // Virtue
-    _virtue=buildVirtuesCombobox();
-    line3Panel.add(_virtue.getComboBox());
-    c=new GridBagConstraints(0,2,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
-    panel.add(line3Panel,c);
+    return panel;
+  }
 
-    JPanel line4Panel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
-    // Traits
-    _trait=buildTraitsCombobox();
-    line4Panel.add(_trait.getComboBox());
-    // Skills
-    _skill=buildSkillsCombobox();
-    line4Panel.add(_skill.getComboBox());
-    // Emotes
-    _emote=buildEmotesCombobox();
-    line4Panel.add(_emote.getComboBox());
-    // Items
-    _item=buildItemsCombobox();
-    line4Panel.add(_item.getComboBox());
-    c=new GridBagConstraints(0,3,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
-    panel.add(line4Panel,c);
+  private JPanel buildRequirementsPanel()
+  {
+    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
+    return panel;
+  }
+
+  private JPanel buildRewardsPanel()
+  {
+    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
+    int y=0;
+
+    GridBagConstraints c;
+    {
+      JPanel linePanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
+      // Reputation
+      linePanel.add(GuiFactory.buildLabel("Reputation:"));
+      _reputation=buildReputationCombobox();
+      linePanel.add(_reputation.getComboBox());
+      // Title
+      linePanel.add(GuiFactory.buildLabel("Title:"));
+      _title=buildTitlesCombobox();
+      linePanel.add(_title.getComboBox());
+      // Virtue
+      linePanel.add(GuiFactory.buildLabel("Virtue:"));
+      _virtue=buildVirtuesCombobox();
+      linePanel.add(_virtue.getComboBox());
+      c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(5,0,0,0),0,0);
+      panel.add(linePanel,c);
+      y++;
+    }
+
+    {
+      JPanel linePanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
+      // Traits
+      linePanel.add(GuiFactory.buildLabel("Trait:"));
+      _trait=buildTraitsCombobox();
+      linePanel.add(_trait.getComboBox());
+      // Skills
+      linePanel.add(GuiFactory.buildLabel("Skill:"));
+      _skill=buildSkillsCombobox();
+      linePanel.add(_skill.getComboBox());
+      // Emotes
+      linePanel.add(GuiFactory.buildLabel("Emote:"));
+      _emote=buildEmotesCombobox();
+      linePanel.add(_emote.getComboBox());
+      c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(5,0,0,0),0,0);
+      panel.add(linePanel,c);
+      y++;
+    }
+
+    {
+      JPanel line=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
+      // Items
+      line.add(GuiFactory.buildLabel("Item:"));
+      _item=buildItemsCombobox();
+      line.add(_item.getComboBox());
+      // LOTRO points
+      line.add(GuiFactory.buildLabel("LOTRO points:"));
+      _lotroPoints=buildLotroPointsCombobox();
+      line.add(_lotroPoints.getComboBox());
+      // Class point
+      line.add(GuiFactory.buildLabel("Class point:"));
+      _classPoints=buildClassPointsCombobox();
+      line.add(_classPoints.getComboBox());
+      c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(5,0,5,0),0,0);
+      panel.add(line,c);
+      y++;
+    }
 
     return panel;
   }
