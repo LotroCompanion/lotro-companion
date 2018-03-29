@@ -16,6 +16,8 @@ import delta.common.ui.swing.combobox.ItemSelectionListener;
 import delta.common.ui.swing.text.DynamicTextEditionController;
 import delta.common.ui.swing.text.TextListener;
 import delta.common.utils.collections.filters.Filter;
+import delta.games.lotro.common.CharacterClass;
+import delta.games.lotro.common.Race;
 import delta.games.lotro.common.VirtueId;
 import delta.games.lotro.common.rewards.filters.ClassPointRewardFilter;
 import delta.games.lotro.common.rewards.filters.EmoteRewardFilter;
@@ -26,10 +28,13 @@ import delta.games.lotro.common.rewards.filters.SkillRewardFilter;
 import delta.games.lotro.common.rewards.filters.TitleRewardFilter;
 import delta.games.lotro.common.rewards.filters.TraitRewardFilter;
 import delta.games.lotro.common.rewards.filters.VirtueRewardFilter;
+import delta.games.lotro.gui.character.summary.CharacterUiUtils;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.DeedType;
 import delta.games.lotro.lore.deeds.filters.DeedCategoryFilter;
+import delta.games.lotro.lore.deeds.filters.DeedClassRequirementFilter;
 import delta.games.lotro.lore.deeds.filters.DeedNameFilter;
+import delta.games.lotro.lore.deeds.filters.DeedRaceRequirementFilter;
 import delta.games.lotro.lore.deeds.filters.DeedTypeFilter;
 import delta.games.lotro.lore.reputation.Faction;
 
@@ -46,6 +51,9 @@ public class DeedFilterController
   private JTextField _contains;
   private ComboBoxController<DeedType> _type;
   private ComboBoxController<String> _category;
+  // -- Requirements UI --
+  private ComboBoxController<CharacterClass> _class;
+  private ComboBoxController<Race> _race;
   // -- Rewards UI --
   private ComboBoxController<Faction> _reputation;
   private ComboBoxController<Boolean> _lotroPoints;
@@ -121,6 +129,17 @@ public class DeedFilterController
     String category=categoryFilter.getDeedCategory();
     _category.selectItem(category);
 
+    // Requirements:
+    // - class
+    DeedClassRequirementFilter classFilter=_filter.getClassFilter();
+    CharacterClass requiredClass=classFilter.getCharacterClass();
+    _class.selectItem(requiredClass);
+    // - race
+    DeedRaceRequirementFilter raceFilter=_filter.getRaceFilter();
+    Race requiredRace=raceFilter.getRace();
+    _race.selectItem(requiredRace);
+
+    // Rewards:
     // Reputation
     ReputationRewardFilter factionFilter=_filter.getReputationFilter();
     Faction faction=factionFilter.getFaction();
@@ -270,7 +289,59 @@ public class DeedFilterController
   private JPanel buildRequirementsPanel()
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
+    int y=0;
+
+    GridBagConstraints c;
+    {
+      JPanel linePanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
+      // Class
+      linePanel.add(GuiFactory.buildLabel("Class:"));
+      _class=buildCharacterClassCombobox();
+      linePanel.add(_class.getComboBox());
+      // Race
+      linePanel.add(GuiFactory.buildLabel("Race:"));
+      _race=buildRaceCombobox();
+      linePanel.add(_race.getComboBox());
+      c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(5,0,0,0),0,0);
+      panel.add(linePanel,c);
+      y++;
+    }
+
     return panel;
+  }
+
+  private ComboBoxController<CharacterClass> buildCharacterClassCombobox()
+  {
+    ComboBoxController<CharacterClass> combo=CharacterUiUtils.buildClassCombo(true);
+    ItemSelectionListener<CharacterClass> listener=new ItemSelectionListener<CharacterClass>()
+    {
+      @Override
+      public void itemSelected(CharacterClass requiredClass)
+      {
+        DeedClassRequirementFilter filter=_filter.getClassFilter();
+        filter.setCharacterClass(requiredClass);
+        filterUpdated();
+      }
+    };
+    combo.addListener(listener);
+    return combo;
+  }
+
+  private ComboBoxController<Race> buildRaceCombobox()
+  {
+    ComboBoxController<Race> combo=CharacterUiUtils.buildRaceCombo(true);
+    ItemSelectionListener<Race> listener=new ItemSelectionListener<Race>()
+    {
+      @Override
+      public void itemSelected(Race requiredRace)
+      {
+        DeedRaceRequirementFilter filter=_filter.getRaceFilter();
+        filter.setRace(requiredRace);
+        filterUpdated();
+      }
+    };
+    combo.addListener(listener);
+    return combo;
   }
 
   private JPanel buildRewardsPanel()

@@ -82,7 +82,7 @@ public class NewToonDialogController extends DefaultFormDialogController<Object>
     // Class
     _class=new CharacterClassController();
     // Race
-    _race=CharacterUiUtils.buildRaceCombo();
+    _race=CharacterUiUtils.buildRaceCombo(false);
     ItemSelectionListener<Race> listener=new ItemSelectionListener<Race>()
     {
       @Override

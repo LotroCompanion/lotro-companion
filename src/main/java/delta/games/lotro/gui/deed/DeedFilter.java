@@ -17,7 +17,9 @@ import delta.games.lotro.common.rewards.filters.TraitRewardFilter;
 import delta.games.lotro.common.rewards.filters.VirtueRewardFilter;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.filters.DeedCategoryFilter;
+import delta.games.lotro.lore.deeds.filters.DeedClassRequirementFilter;
 import delta.games.lotro.lore.deeds.filters.DeedNameFilter;
+import delta.games.lotro.lore.deeds.filters.DeedRaceRequirementFilter;
 import delta.games.lotro.lore.deeds.filters.DeedRewardFilter;
 import delta.games.lotro.lore.deeds.filters.DeedTypeFilter;
 
@@ -32,6 +34,10 @@ public class DeedFilter implements Filter<DeedDescription>
   private DeedNameFilter _nameFilter;
   private DeedTypeFilter _typeFilter;
   private DeedCategoryFilter _categoryFilter;
+  // Requirements
+  private DeedClassRequirementFilter _classFilter;
+  private DeedRaceRequirementFilter _raceFilter;
+  // Rewards
   private ReputationRewardFilter _reputationFilter;
   private LotroPointsRewardFilter _lotroPointsFilter;
   private ClassPointRewardFilter _classPointsFilter;
@@ -57,6 +63,13 @@ public class DeedFilter implements Filter<DeedDescription>
     // Category
     _categoryFilter=new DeedCategoryFilter(null);
     filters.add(_categoryFilter);
+    // Requirements:
+    // - class
+    _classFilter=new DeedClassRequirementFilter(null);
+    filters.add(_classFilter);
+    // - race
+    _raceFilter=new DeedRaceRequirementFilter(null);
+    filters.add(_raceFilter);
     // Rewards:
     // - reputation
     _reputationFilter=new ReputationRewardFilter(null);
@@ -113,6 +126,24 @@ public class DeedFilter implements Filter<DeedDescription>
   public DeedCategoryFilter getCategoryFilter()
   {
     return _categoryFilter;
+  }
+
+  /**
+   * Get the filter on class requirement.
+   * @return a character class or <code>null</code>.
+   */
+  public DeedClassRequirementFilter getClassFilter()
+  {
+    return _classFilter;
+  }
+
+  /**
+   * Get the filter on race requirement.
+   * @return a race or <code>null</code>.
+   */
+  public DeedRaceRequirementFilter getRaceFilter()
+  {
+    return _raceFilter;
   }
 
   /**

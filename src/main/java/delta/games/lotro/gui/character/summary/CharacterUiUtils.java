@@ -18,11 +18,16 @@ public class CharacterUiUtils
 {
   /**
    * Build a character class combobox.
+   * @param includeEmptyChoice Include an empty choice or not.
    * @return a character class combobox.
    */
-  public static ComboBoxController<CharacterClass> buildClassCombo()
+  public static ComboBoxController<CharacterClass> buildClassCombo(boolean includeEmptyChoice)
   {
     ComboBoxController<CharacterClass> ctrl=new ComboBoxController<CharacterClass>();
+    if (includeEmptyChoice)
+    {
+      ctrl.addEmptyItem("");
+    }
     for(CharacterClass characterClass : CharacterClass.ALL_CLASSES)
     {
       ctrl.addItem(characterClass,characterClass.getLabel());
@@ -32,11 +37,16 @@ public class CharacterUiUtils
 
   /**
    * Build a character race combobox.
+   * @param includeEmptyChoice Include an empty choice or not.
    * @return a character race combobox.
    */
-  public static ComboBoxController<Race> buildRaceCombo()
+  public static ComboBoxController<Race> buildRaceCombo(boolean includeEmptyChoice)
   {
     ComboBoxController<Race> ctrl=new ComboBoxController<Race>();
+    if (includeEmptyChoice)
+    {
+      ctrl.addEmptyItem("");
+    }
     for(Race race : Race.ALL_RACES)
     {
       ctrl.addItem(race,race.getLabel());

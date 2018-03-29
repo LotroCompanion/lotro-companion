@@ -72,10 +72,10 @@ public class CharacterSummaryDialogController extends DefaultFormDialogControlle
     // Server
     _server=CharacterUiUtils.buildServerCombo();
     // Class
-    _class=CharacterUiUtils.buildClassCombo();
+    _class=CharacterUiUtils.buildClassCombo(false);
     _class.getComboBox().setEnabled(false);
     // Race
-    _race=CharacterUiUtils.buildRaceCombo();
+    _race=CharacterUiUtils.buildRaceCombo(false);
     _race.getComboBox().setEnabled(false);
     // Sex
     _sex=CharacterUiUtils.buildSexCombo();
