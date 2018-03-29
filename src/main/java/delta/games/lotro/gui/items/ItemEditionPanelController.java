@@ -153,7 +153,7 @@ public class ItemEditionPanelController
       // Armour
       JTextField armourValue=GuiFactory.buildTextField("");
       _armourValue=new IntegerEditionController(armourValue);
-      _armourValue.setValueRange(Integer.valueOf(0),Integer.valueOf(5000));
+      _armourValue.setValueRange(Integer.valueOf(0),Integer.valueOf(50000));
       _armourPanel.add(GuiFactory.buildLabel("Armour:"));
       _armourPanel.add(_armourValue.getTextField());
       // Armour Type
@@ -178,13 +178,13 @@ public class ItemEditionPanelController
       // Damage
       JTextField minDamage=GuiFactory.buildTextField("");
       _minDamage=new IntegerEditionController(minDamage,3);
-      _minDamage.setValueRange(Integer.valueOf(0),Integer.valueOf(1000));
+      _minDamage.setValueRange(Integer.valueOf(0),Integer.valueOf(10000));
       _weaponPanel.add(GuiFactory.buildLabel("Damage:"));
       _weaponPanel.add(_minDamage.getTextField());
       _weaponPanel.add(GuiFactory.buildLabel("-"));
       JTextField maxDamage=GuiFactory.buildTextField("");
       _maxDamage=new IntegerEditionController(maxDamage,3);
-      _maxDamage.setValueRange(Integer.valueOf(0),Integer.valueOf(1000));
+      _maxDamage.setValueRange(Integer.valueOf(0),Integer.valueOf(10000));
       _weaponPanel.add(_maxDamage.getTextField());
 
       // Damage type
