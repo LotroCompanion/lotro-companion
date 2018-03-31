@@ -161,7 +161,7 @@ public class DeedDisplayPanelController
     _name.setText(name);
     // Type
     DeedType type=_deed.getType();
-    _type.setText((type!=null)?type.name():"-");
+    _type.setText((type!=null)?type.toString():"-");
     // Icon
     ImageIcon icon=LotroIconsManager.getDeedTypeIcon(type);
     _icon.setIcon(icon);

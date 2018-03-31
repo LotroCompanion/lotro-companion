@@ -160,7 +160,7 @@ public class DeedUiUtils
     ctrl.addEmptyItem("");
     for(DeedType deedType : DeedType.values())
     {
-      ctrl.addItem(deedType,deedType.name());// TODO Label
+      ctrl.addItem(deedType,deedType.toString());
     }
     ctrl.selectItem(null);
     return ctrl;
