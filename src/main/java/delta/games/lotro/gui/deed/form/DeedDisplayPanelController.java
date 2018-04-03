@@ -11,6 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.border.TitledBorder;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.common.CharacterClass;
@@ -114,8 +115,12 @@ public class DeedDisplayPanelController
     // Rewards
     _rewards=new RewardsPanelController(_deed.getRewards());
     JPanel rewardsPanel=_rewards.getPanel();
+    TitledBorder rewardsBorder=GuiFactory.buildTitledBorder("Rewards");
+    rewardsPanel.setBorder(rewardsBorder);
+    c=new GridBagConstraints(0,c.gridy,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(rewardsPanel,c);
     c.gridy++;
+
     // Links
     _links=new DeedLinksDisplayPanelController(_parent,_deed);
     JPanel linksPanel=_links.getPanel();

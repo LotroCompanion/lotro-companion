@@ -171,6 +171,10 @@ public class RewardsPanelController
         c.gridy++;
       }
     }
+    // Add space on right
+    c=new GridBagConstraints(2*nbColumns,0,1,c.gridy,1.0,1.0,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
+    JPanel paddingPanel=GuiFactory.buildPanel(null);
+    ret.add(paddingPanel,c);
     return ret;
   }
 
