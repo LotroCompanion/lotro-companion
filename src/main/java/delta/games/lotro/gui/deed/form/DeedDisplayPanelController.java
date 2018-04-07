@@ -1,5 +1,6 @@
 package delta.games.lotro.gui.deed.form;
 
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -7,10 +8,10 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 
 import javax.swing.ImageIcon;
+import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import javax.swing.border.TitledBorder;
 
 import delta.common.ui.swing.GuiFactory;
@@ -37,8 +38,8 @@ public class DeedDisplayPanelController
   private JLabel _category;
   private JLabel _name;
   private JLabel _requirements;
-  private JTextArea _description;
-  private JTextArea _objectives;
+  private JEditorPane _details;
+
   // Controllers
   private DeedDisplayWindowController _parent;
   private RewardsPanelController _rewards;
@@ -128,32 +129,48 @@ public class DeedDisplayPanelController
     panel.add(linksPanel,c);
     c.gridy++;
 
-    // Description
-    _description=GuiFactory.buildTextArea("",false);
-    JScrollPane descriptionPane=GuiFactory.buildScrollPane(_description);
-    descriptionPane.setBorder(GuiFactory.buildTitledBorder("Description"));
-    _description.setColumns(40);
-    _description.setLineWrap(true);
-    _description.setWrapStyleWord(true);
+    // Details
+    _details=buildDetailsPane();
+    JScrollPane detailsPane=GuiFactory.buildScrollPane(_details);
+    detailsPane.setBorder(GuiFactory.buildTitledBorder("Details"));
     c.fill=GridBagConstraints.BOTH;
     c.weightx=1.0;
     c.weighty=1.0;
-    panel.add(descriptionPane,c);
-    c.gridy++;
-
-    // Objectives
-    _objectives=GuiFactory.buildTextArea("",false);
-    JScrollPane objectivesPane=GuiFactory.buildScrollPane(_objectives);
-    objectivesPane.setBorder(GuiFactory.buildTitledBorder("Objectives"));
-    _objectives.setColumns(40);
-    _objectives.setLineWrap(true);
-    _objectives.setWrapStyleWord(true);
-    panel.add(objectivesPane,c);
+    panel.add(detailsPane,c);
     c.gridy++;
 
     _panel=panel;
     setItem();
     return _panel;
+  }
+
+  private JEditorPane buildDetailsPane()
+  {
+    JEditorPane editor=new JEditorPane("text/html","");
+    editor.setEditable(false);
+    editor.setPreferredSize(new Dimension(500,300));
+    editor.setOpaque(false);
+    return editor;
+  }
+
+  private String buildHtml()
+  {
+    StringBuilder sb=new StringBuilder();
+    sb.append("<html><body>");
+    sb.append("<b>Description</b><p>");
+    sb.append(toHtml(_deed.getDescription()));
+    sb.append("<p><b>Objectives</b><p>");
+    sb.append(toHtml(_deed.getObjectives()));
+    sb.append("</body></html>");
+    return sb.toString();
+  }
+
+  private String toHtml(String text)
+  {
+    text=text.trim();
+    text=text.replace("\n\n","<br>");
+    text=text.replace("\n","<br>");
+    return text;
   }
 
   /**
@@ -176,14 +193,9 @@ public class DeedDisplayPanelController
     // Requirements
     String requirements=buildRequirementString();
     _requirements.setText(requirements);
-    // Description
-    _description.setText(_deed.getDescription());
-    _description.setEditable(false);
-    _description.setCaretPosition(0);
-    // Objectives
-    _objectives.setText(_deed.getObjectives());
-    _objectives.setEditable(false);
-    _objectives.setCaretPosition(0);
+    // Details
+    _details.setText(buildHtml());
+    _details.setCaretPosition(0);
   }
 
   /**
@@ -256,7 +268,6 @@ public class DeedDisplayPanelController
     }
     _icon=null;
     _name=null;
-    _description=null;
-    _objectives=null;
+    _details=null;
   }
 }
