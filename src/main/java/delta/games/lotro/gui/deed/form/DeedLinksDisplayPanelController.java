@@ -84,10 +84,14 @@ public class DeedLinksDisplayPanelController
 
   private void buildLinks()
   {
-    buildController("Parent:",_deed.getParentDeedProxy());
+    List<DeedProxy> parents=_deed.getParentDeedProxies().getDeedProxies();
+    for(DeedProxy parent : parents)
+    {
+      buildController("Parent:",parent);
+    }
     buildController("Previous:",_deed.getPreviousDeedProxy());
     buildController("Next:",_deed.getNextDeedProxy());
-    List<DeedProxy> children=_deed.getChildDeeds();
+    List<DeedProxy> children=_deed.getChildDeedProxies().getDeedProxies();
     for(DeedProxy child : children)
     {
       buildController("Child:",child);
