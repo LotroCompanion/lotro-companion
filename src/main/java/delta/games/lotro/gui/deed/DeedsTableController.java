@@ -216,6 +216,22 @@ public class DeedsTableController
       lpColumn.setWidthSpecs(40,40,40);
       table.addColumnController(lpColumn);
     }
+    // Class point column
+    {
+      CellDataProvider<DeedDescription,Boolean> cpCell=new CellDataProvider<DeedDescription,Boolean>()
+      {
+        @Override
+        public Boolean getData(DeedDescription deed)
+        {
+          Rewards rewards=deed.getRewards();
+          int classPoints=rewards.getClassPoints();
+          return (classPoints>0)?Boolean.TRUE:Boolean.FALSE;
+        }
+      };
+      TableColumnController<DeedDescription,Boolean> cpColumn=new TableColumnController<DeedDescription,Boolean>(DeedColumnIds.CLASS_POINT.name(),"Class Point",Boolean.class,cpCell);
+      cpColumn.setWidthSpecs(40,40,40);
+      table.addColumnController(cpColumn);
+    }
     // Title column
     {
       CellDataProvider<DeedDescription,String> titleCell=new CellDataProvider<DeedDescription,String>()

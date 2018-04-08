@@ -47,6 +47,10 @@ public enum DeedColumnIds
    */
   LOTRO_POINTS,
   /**
+   * Rewards: Class point.
+   */
+  CLASS_POINT,
+  /**
    * Rewards: title.
    */
   TITLE,
