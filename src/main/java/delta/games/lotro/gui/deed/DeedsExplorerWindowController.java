@@ -14,6 +14,7 @@ import javax.swing.border.TitledBorder;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.DefaultWindowController;
 import delta.common.ui.swing.windows.WindowController;
+import delta.common.ui.swing.windows.WindowsManager;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.gui.deed.form.DeedDisplayWindowController;
 import delta.games.lotro.gui.main.GlobalPreferences;
@@ -30,23 +31,11 @@ public class DeedsExplorerWindowController extends DefaultWindowController
    */
   public static final String IDENTIFIER="DEEDS_EXPLORER";
 
-  /**
-   * Preference file for the columns of the item chooser.
-   */
-  public static final String ITEM_CHOOSER_PROPERTIES_ID="ItemChooserColumn";
-  /**
-   * Preference file for the columns of the essence chooser.
-   */
-  public static final String ESSENCE_CHOOSER_PROPERTIES_ID="EssenceChooserColumn";
-  /**
-   * Name of the property for column IDs.
-   */
-  public static final String COLUMNS_PROPERTY="columns";
-
   private DeedFilterController _filterController;
   private DeedExplorerPanelController _panelController;
   private DeedsTableController _tableController;
   private DeedFilter _filter;
+  private WindowsManager _deedWindows;
 
   /**
    * Constructor.
@@ -56,6 +45,7 @@ public class DeedsExplorerWindowController extends DefaultWindowController
   {
     super(parent);
     _filter=new DeedFilter();
+    _deedWindows=new WindowsManager();
   }
 
   @Override
@@ -108,13 +98,20 @@ public class DeedsExplorerWindowController extends DefaultWindowController
         if (DeedsTableController.DOUBLE_CLICK.equals(action))
         {
           DeedDescription deed=(DeedDescription)event.getSource();
-          DeedDisplayWindowController window=new DeedDisplayWindowController(DeedsExplorerWindowController.this);
-          window.setDeed(deed);
-          window.show(false);
+          showDeed(deed);
         }
       }
     };
     _tableController.addActionListener(al);
+  }
+
+  private void showDeed(DeedDescription deed)
+  {
+    DeedDisplayWindowController window=new DeedDisplayWindowController(DeedsExplorerWindowController.this);
+    window.setDeed(deed);
+    window.show(false);
+    WindowsManager manager=new WindowsManager();
+    manager.registerWindow(window);
   }
 
   /**
@@ -124,6 +121,11 @@ public class DeedsExplorerWindowController extends DefaultWindowController
   public void dispose()
   {
     super.dispose();
+    if (_deedWindows!=null)
+    {
+      _deedWindows.disposeAll();
+      _deedWindows=null;
+    }
     if (_tableController!=null)
     {
       _tableController.dispose();
