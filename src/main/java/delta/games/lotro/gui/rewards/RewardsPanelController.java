@@ -26,6 +26,7 @@ import delta.games.lotro.lore.items.ItemsManager;
 public class RewardsPanelController
 {
   private JPanel _panel;
+  private ClassPointRewardGadgetsController _classPoint;
   private LotroPointsRewardGadgetsController _lotroPoints;
   private List<ItemRewardGadgetsController> _itemRewards;
   private List<TitleRewardGadgetsController> _titleRewards;
@@ -38,6 +39,12 @@ public class RewardsPanelController
    */
   public RewardsPanelController(Rewards rewards)
   {
+    // Class Point
+    int classPoints=rewards.getClassPoints();
+    if (classPoints>0)
+    {
+      _classPoint=new ClassPointRewardGadgetsController(classPoints);
+    }
     // LOTRO Points
     int lotroPoints=rewards.getLotroPoints();
     if (lotroPoints>0)
@@ -105,10 +112,23 @@ public class RewardsPanelController
     int nbColumns=2;
     JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
+    // Class Points
+    if (_classPoint!=null)
+    {
+      c.gridx=0;
+      ret.add(_classPoint.getLabelIcon(),c);
+      c.gridx++;
+      ret.add(_classPoint.getLabel(),c);
+      c.gridx++;
+      if (c.gridx/2==nbColumns)
+      {
+        c.gridx=0;
+        c.gridy++;
+      }
+    }
     // LOTRO Points
     if (_lotroPoints!=null)
     {
-      c.gridx=0;
       ret.add(_lotroPoints.getLabelIcon(),c);
       c.gridx++;
       ret.add(_lotroPoints.getLabel(),c);
@@ -185,6 +205,7 @@ public class RewardsPanelController
   public void dispose()
   {
     // Controllers
+    _classPoint=null;
     _lotroPoints=null;
     _itemRewards=null;
     _titleRewards=null;
