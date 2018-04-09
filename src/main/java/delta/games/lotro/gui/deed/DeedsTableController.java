@@ -216,6 +216,22 @@ public class DeedsTableController
       lpColumn.setWidthSpecs(40,40,40);
       table.addColumnController(lpColumn);
     }
+    // Destiny points column
+    {
+      CellDataProvider<DeedDescription,Integer> dpCell=new CellDataProvider<DeedDescription,Integer>()
+      {
+        @Override
+        public Integer getData(DeedDescription deed)
+        {
+          Rewards rewards=deed.getRewards();
+          int destinyPoints=rewards.getDestinyPoints();
+          return (destinyPoints>0)?Integer.valueOf(destinyPoints):null;
+        }
+      };
+      TableColumnController<DeedDescription,Integer> dpColumn=new TableColumnController<DeedDescription,Integer>(DeedColumnIds.DESTINY_POINTS.name(),"Destiny Points",Integer.class,dpCell);
+      dpColumn.setWidthSpecs(40,40,40);
+      table.addColumnController(dpColumn);
+    }
     // Class point column
     {
       CellDataProvider<DeedDescription,Boolean> cpCell=new CellDataProvider<DeedDescription,Boolean>()

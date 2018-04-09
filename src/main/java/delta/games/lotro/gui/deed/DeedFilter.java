@@ -7,6 +7,7 @@ import delta.common.utils.collections.filters.CompoundFilter;
 import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.collections.filters.Operator;
 import delta.games.lotro.common.rewards.filters.ClassPointRewardFilter;
+import delta.games.lotro.common.rewards.filters.DestinyPointsRewardFilter;
 import delta.games.lotro.common.rewards.filters.EmoteRewardFilter;
 import delta.games.lotro.common.rewards.filters.ItemRewardFilter;
 import delta.games.lotro.common.rewards.filters.LotroPointsRewardFilter;
@@ -40,6 +41,7 @@ public class DeedFilter implements Filter<DeedDescription>
   // Rewards
   private ReputationRewardFilter _reputationFilter;
   private LotroPointsRewardFilter _lotroPointsFilter;
+  private DestinyPointsRewardFilter _destinyPointsFilter;
   private ClassPointRewardFilter _classPointsFilter;
   private TraitRewardFilter _traitFilter;
   private SkillRewardFilter _skillFilter;
@@ -77,6 +79,9 @@ public class DeedFilter implements Filter<DeedDescription>
     // - LOTRO points
     _lotroPointsFilter=new LotroPointsRewardFilter(null);
     filters.add(new DeedRewardFilter(_lotroPointsFilter));
+    // - destiny points
+    _destinyPointsFilter=new DestinyPointsRewardFilter(null);
+    filters.add(new DeedRewardFilter(_destinyPointsFilter));
     // - class points
     _classPointsFilter=new ClassPointRewardFilter(null);
     filters.add(new DeedRewardFilter(_classPointsFilter));
@@ -162,6 +167,15 @@ public class DeedFilter implements Filter<DeedDescription>
   public LotroPointsRewardFilter getLotroPointsFilter()
   {
     return _lotroPointsFilter;
+  }
+
+  /**
+   * Get the filter on destiny points reward.
+   * @return a filter.
+   */
+  public DestinyPointsRewardFilter getDestinyPointsFilter()
+  {
+    return _destinyPointsFilter;
   }
 
   /**
