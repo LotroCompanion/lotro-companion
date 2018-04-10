@@ -54,8 +54,14 @@ public class DeedsExplorerWindowController extends DefaultWindowController
     JFrame frame=super.build();
     frame.setTitle("Deeds explorer");
     frame.setMinimumSize(new Dimension(400,300));
-    frame.setSize(1000,500);
+    frame.setSize(950,700);
     return frame;
+  }
+
+  @Override
+  public void configureWindow()
+  {
+    automaticLocationSetup();
   }
 
   @Override
@@ -120,6 +126,7 @@ public class DeedsExplorerWindowController extends DefaultWindowController
   @Override
   public void dispose()
   {
+    saveBoundsPreferences();
     super.dispose();
     if (_deedWindows!=null)
     {

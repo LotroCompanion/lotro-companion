@@ -289,7 +289,6 @@ public class MainFrameController extends DefaultWindowController implements Acti
     {
       controller=new DeedsExplorerWindowController(this);
       _windowsManager.registerWindow(controller);
-      controller.getWindow().setLocationRelativeTo(getFrame());
     }
     controller.bringToFront();
   }
