@@ -4,7 +4,10 @@ import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -43,12 +46,14 @@ import delta.games.lotro.lore.reputation.Faction;
  * Controller for a deed filter edition panel.
  * @author DAM
  */
-public class DeedFilterController
+public class DeedFilterController implements ActionListener
 {
   // Data
   private DeedFilter _filter;
   // GUI
   private JPanel _panel;
+  private JButton _reset;
+  // -- Deed attributes UI --
   private JTextField _contains;
   private ComboBoxController<DeedType> _type;
   private ComboBoxController<String> _category;
@@ -111,6 +116,30 @@ public class DeedFilterController
   protected void filterUpdated()
   {
     _panelController.filterUpdated();
+  }
+
+  @Override
+  public void actionPerformed(ActionEvent e)
+  {
+    Object source=e.getSource();
+    if (source==_reset)
+    {
+      _type.selectItem(null);
+      _category.selectItem(null);
+      _class.selectItem(null);
+      _race.selectItem(null);
+      _reputation.selectItem(null);
+      _lotroPoints.selectItem(null);
+      _destinyPoints.selectItem(null);
+      _classPoints.selectItem(null);
+      _trait.selectItem(null);
+      _skill.selectItem(null);
+      _title.selectItem(null);
+      _virtue.selectItem(null);
+      _emote.selectItem(null);
+      _item.selectItem(null);
+      _contains.setText("");
+    }
   }
 
   private void setFilter()
@@ -196,13 +225,19 @@ public class DeedFilterController
     deedPanel.setBorder(deedBorder);
     GridBagConstraints c=new GridBagConstraints(0,y,1,1,0.0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(deedPanel,c);
+
+    // Reset
+    _reset=GuiFactory.buildButton("Reset");
+    _reset.addActionListener(this);
+    c=new GridBagConstraints(1,y,1,1,0.0,0,GridBagConstraints.SOUTHWEST,GridBagConstraints.NONE,new Insets(0,5,5,0),0,0);
+    panel.add(_reset,c);
     y++;
 
     // Requirements
     JPanel requirementsPanel=buildRequirementsPanel();
     Border requirementsBorder=GuiFactory.buildTitledBorder("Requirements");
     requirementsPanel.setBorder(requirementsBorder);
-    c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    c=new GridBagConstraints(0,y,2,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(requirementsPanel,c);
     y++;
 
@@ -210,7 +245,7 @@ public class DeedFilterController
     JPanel rewardsPanel=buildRewardsPanel();
     Border rewardsBorder=GuiFactory.buildTitledBorder("Rewards");
     rewardsPanel.setBorder(rewardsBorder);
-    c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    c=new GridBagConstraints(0,y,2,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(rewardsPanel,c);
     y++;
 
@@ -684,5 +719,6 @@ public class DeedFilterController
       _item=null;
     }
     _contains=null;
+    _reset=null;
   }
 }
