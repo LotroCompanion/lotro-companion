@@ -33,6 +33,7 @@ import delta.games.lotro.common.rewards.filters.TitleRewardFilter;
 import delta.games.lotro.common.rewards.filters.TraitRewardFilter;
 import delta.games.lotro.common.rewards.filters.VirtueRewardFilter;
 import delta.games.lotro.gui.character.summary.CharacterUiUtils;
+import delta.games.lotro.gui.items.FilterUpdateListener;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.DeedType;
 import delta.games.lotro.lore.deeds.filters.DeedCategoryFilter;
@@ -73,17 +74,17 @@ public class DeedFilterController implements ActionListener
   private ComboBoxController<Integer> _item;
   // Controllers
   private DynamicTextEditionController _textController;
-  private DeedExplorerPanelController _panelController;
+  private FilterUpdateListener _filterUpdateListener;
 
   /**
    * Constructor.
    * @param filter Managed filter.
-   * @param panelController Deed explorer panel.
+   * @param filterUpdateListener Filter update listener.
    */
-  public DeedFilterController(DeedFilter filter, DeedExplorerPanelController panelController)
+  public DeedFilterController(DeedFilter filter, FilterUpdateListener filterUpdateListener)
   {
     _filter=filter;
-    _panelController=panelController;
+    _filterUpdateListener=filterUpdateListener;
   }
 
   /**
@@ -115,7 +116,7 @@ public class DeedFilterController implements ActionListener
    */
   protected void filterUpdated()
   {
-    _panelController.filterUpdated();
+    _filterUpdateListener.filterUpdated();
   }
 
   @Override

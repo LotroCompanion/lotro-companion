@@ -59,7 +59,25 @@ public class DeedsTableController
   {
     ListDataProvider<DeedDescription> provider=new ListDataProvider<DeedDescription>(_deeds);
     GenericTableController<DeedDescription> table=new GenericTableController<DeedDescription>(provider);
+    List<TableColumnController<DeedDescription,?>> columns=buildColumns();
+    for(TableColumnController<DeedDescription,?> column : columns)
+    {
+      table.addColumnController(column);
+    }
 
+    TableColumnsManager<DeedDescription> columnsManager=table.getColumnsManager();
+    List<String> columnsIds=getColumnIds();
+    columnsManager.setColumns(columnsIds);
+    return table;
+  }
+
+  /**
+   * Build the columns for a deeds table.
+   * @return A list of columns for a deeds table.
+   */
+  public static List<TableColumnController<DeedDescription,?>> buildColumns()
+  {
+    List<TableColumnController<DeedDescription,?>> ret=new ArrayList<TableColumnController<DeedDescription,?>>();
     // Identifier column
     {
       CellDataProvider<DeedDescription,Integer> idCell=new CellDataProvider<DeedDescription,Integer>()
@@ -72,7 +90,7 @@ public class DeedsTableController
       };
       TableColumnController<DeedDescription,Integer> idColumn=new TableColumnController<DeedDescription,Integer>(DeedColumnIds.ID.name(),"ID",Integer.class,idCell);
       idColumn.setWidthSpecs(100,100,100);
-      table.addColumnController(idColumn);
+      ret.add(idColumn);
     }
     // Key column
     {
@@ -86,7 +104,7 @@ public class DeedsTableController
       };
       TableColumnController<DeedDescription,String> keyColumn=new TableColumnController<DeedDescription,String>(DeedColumnIds.KEY.name(),"Key",String.class,keyCell);
       keyColumn.setWidthSpecs(100,200,200);
-      table.addColumnController(keyColumn);
+      ret.add(keyColumn);
     }
     // Name column
     {
@@ -103,7 +121,7 @@ public class DeedsTableController
       };
       TableColumnController<DeedDescription,String> nameColumn=new TableColumnController<DeedDescription,String>(DeedColumnIds.NAME.name(),"Name",String.class,nameCell);
       nameColumn.setWidthSpecs(100,300,200);
-      table.addColumnController(nameColumn);
+      ret.add(nameColumn);
     }
     // Type column
     {
@@ -117,7 +135,7 @@ public class DeedsTableController
       };
       TableColumnController<DeedDescription,DeedType> typeColumn=new TableColumnController<DeedDescription,DeedType>(DeedColumnIds.TYPE.name(),"Type",DeedType.class,typeCell);
       typeColumn.setWidthSpecs(80,100,80);
-      table.addColumnController(typeColumn);
+      ret.add(typeColumn);
     }
     // Category column
     {
@@ -131,7 +149,7 @@ public class DeedsTableController
       };
       TableColumnController<DeedDescription,String> categoryColumn=new TableColumnController<DeedDescription,String>(DeedColumnIds.CATEGORY.name(),"Category",String.class,categoryCell);
       categoryColumn.setWidthSpecs(80,350,80);
-      table.addColumnController(categoryColumn);
+      ret.add(categoryColumn);
     }
     // Class column
     {
@@ -145,7 +163,7 @@ public class DeedsTableController
       };
       TableColumnController<DeedDescription,CharacterClass> classColumn=new TableColumnController<DeedDescription,CharacterClass>(DeedColumnIds.REQUIRED_CLASS.name(),"Class",CharacterClass.class,classCell);
       classColumn.setWidthSpecs(80,100,80);
-      table.addColumnController(classColumn);
+      ret.add(classColumn);
     }
     // Race column
     {
@@ -159,7 +177,7 @@ public class DeedsTableController
       };
       TableColumnController<DeedDescription,Race> raceColumn=new TableColumnController<DeedDescription,Race>(DeedColumnIds.REQUIRED_RACE.name(),"Race",Race.class,raceCell);
       raceColumn.setWidthSpecs(80,100,80);
-      table.addColumnController(raceColumn);
+      ret.add(raceColumn);
     }
     // Min level column
     {
@@ -173,10 +191,10 @@ public class DeedsTableController
       };
       TableColumnController<DeedDescription,Integer> minLevelColumn=new TableColumnController<DeedDescription,Integer>(DeedColumnIds.REQUIRED_LEVEL.name(),"Min Level",Integer.class,minLevelCell);
       minLevelColumn.setWidthSpecs(40,40,40);
-      table.addColumnController(minLevelColumn);
+      ret.add(minLevelColumn);
     }
     // Rewards
-    initRewardsColumns(table);
+    ret.addAll(buildRewardsColumns());
     // Objectives column
     {
       CellDataProvider<DeedDescription,String> objectivesCell=new CellDataProvider<DeedDescription,String>()
@@ -189,17 +207,14 @@ public class DeedsTableController
       };
       TableColumnController<DeedDescription,String> objectivesColumn=new TableColumnController<DeedDescription,String>(DeedColumnIds.OBJECTIVES.name(),"Objectives",String.class,objectivesCell);
       objectivesColumn.setWidthSpecs(100,-1,100);
-      table.addColumnController(objectivesColumn);
+      ret.add(objectivesColumn);
     }
-
-    TableColumnsManager<DeedDescription> columnsManager=table.getColumnsManager();
-    List<String> columnsIds=getColumnIds();
-    columnsManager.setColumns(columnsIds);
-    return table;
+    return ret;
   }
 
-  private void initRewardsColumns(GenericTableController<DeedDescription> table)
+  private static List<TableColumnController<DeedDescription,?>> buildRewardsColumns()
   {
+    List<TableColumnController<DeedDescription,?>> ret=new ArrayList<TableColumnController<DeedDescription,?>>();
     // LOTRO points column
     {
       CellDataProvider<DeedDescription,Integer> lpCell=new CellDataProvider<DeedDescription,Integer>()
@@ -214,7 +229,7 @@ public class DeedsTableController
       };
       TableColumnController<DeedDescription,Integer> lpColumn=new TableColumnController<DeedDescription,Integer>(DeedColumnIds.LOTRO_POINTS.name(),"LOTRO Points",Integer.class,lpCell);
       lpColumn.setWidthSpecs(40,40,40);
-      table.addColumnController(lpColumn);
+      ret.add(lpColumn);
     }
     // Destiny points column
     {
@@ -230,7 +245,7 @@ public class DeedsTableController
       };
       TableColumnController<DeedDescription,Integer> dpColumn=new TableColumnController<DeedDescription,Integer>(DeedColumnIds.DESTINY_POINTS.name(),"Destiny Points",Integer.class,dpCell);
       dpColumn.setWidthSpecs(40,40,40);
-      table.addColumnController(dpColumn);
+      ret.add(dpColumn);
     }
     // Class point column
     {
@@ -246,7 +261,7 @@ public class DeedsTableController
       };
       TableColumnController<DeedDescription,Boolean> cpColumn=new TableColumnController<DeedDescription,Boolean>(DeedColumnIds.CLASS_POINT.name(),"Class Point",Boolean.class,cpCell);
       cpColumn.setWidthSpecs(40,40,40);
-      table.addColumnController(cpColumn);
+      ret.add(cpColumn);
     }
     // Title column
     {
@@ -262,7 +277,7 @@ public class DeedsTableController
       };
       TableColumnController<DeedDescription,String> titleColumn=new TableColumnController<DeedDescription,String>(DeedColumnIds.TITLE.name(),"Title",String.class,titleCell);
       titleColumn.setWidthSpecs(100,300,200);
-      table.addColumnController(titleColumn);
+      ret.add(titleColumn);
     }
     // Virtue column
     {
@@ -278,7 +293,7 @@ public class DeedsTableController
       };
       TableColumnController<DeedDescription,String> virtueColumn=new TableColumnController<DeedDescription,String>(DeedColumnIds.VIRTUE.name(),"Virtue",String.class,virtueCell);
       virtueColumn.setWidthSpecs(100,300,200);
-      table.addColumnController(virtueColumn);
+      ret.add(virtueColumn);
     }
     // Emote column
     {
@@ -294,8 +309,9 @@ public class DeedsTableController
       };
       TableColumnController<DeedDescription,String> emoteColumn=new TableColumnController<DeedDescription,String>(DeedColumnIds.EMOTE.name(),"Emote",String.class,emoteCell);
       emoteColumn.setWidthSpecs(100,300,200);
-      table.addColumnController(emoteColumn);
+      ret.add(emoteColumn);
     }
+    return ret;
   }
 
   private List<String> getColumnIds()

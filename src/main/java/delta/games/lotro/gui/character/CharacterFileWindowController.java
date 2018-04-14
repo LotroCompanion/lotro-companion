@@ -38,9 +38,12 @@ import delta.games.lotro.character.stats.CharacterStatsComputer;
 import delta.games.lotro.gui.character.stash.StashWindowController;
 import delta.games.lotro.gui.log.CharacterLogWindowController;
 import delta.games.lotro.gui.stats.crafting.CraftingWindowController;
+import delta.games.lotro.gui.stats.deeds.DeedsStatusEditionWindowController;
 import delta.games.lotro.gui.stats.levelling.LevelHistoryEditionDialogController;
 import delta.games.lotro.gui.stats.reputation.CharacterReputationDialogController;
 import delta.games.lotro.gui.stats.traitPoints.TraitPointsEditionWindowController;
+import delta.games.lotro.stats.deeds.DeedsStatusManager;
+import delta.games.lotro.stats.deeds.io.DeedsStatusIo;
 import delta.games.lotro.stats.traitPoints.TraitPoints;
 import delta.games.lotro.stats.traitPoints.TraitPointsStatus;
 import delta.games.lotro.utils.events.EventsManager;
@@ -62,6 +65,7 @@ public class CharacterFileWindowController extends DefaultWindowController imple
   private static final String CRAFTING_COMMAND="crafting";
   private static final String STASH_COMMAND="stash";
   private static final String TRAIT_POINTS_COMMAND="traitPoints";
+  private static final String DEEDS_STATUS_COMMAND="deedsStatus";
 
   private CharacterSummaryPanelController _summaryController;
   private CharacterDataTableController _toonsTable;
@@ -165,6 +169,10 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     JButton traitPointsButton=buildCommandButton("Trait points",TRAIT_POINTS_COMMAND);
     panel.add(traitPointsButton,c);
     c.gridx++;
+    // Deeds status
+    JButton deedsButton=buildCommandButton("Deeds",DEEDS_STATUS_COMMAND);
+    panel.add(deedsButton,c);
+    c.gridx++;
 
     // Disable buttons if no log
     boolean hasLog=_toon.hasLog();
@@ -229,6 +237,10 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     else if (TRAIT_POINTS_COMMAND.equals(command))
     {
       editTraitPoints();
+    }
+    else if (DEEDS_STATUS_COMMAND.equals(command))
+    {
+      editDeedsStatus();
     }
     else if (NEW_TOON_DATA_ID.equals(command))
     {
@@ -461,6 +473,17 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     if (newStatus!=null)
     {
       TraitPoints.get().save(_toon,newStatus);
+    }
+  }
+
+  private void editDeedsStatus()
+  {
+    DeedsStatusManager status=DeedsStatusIo.load(_toon);
+    DeedsStatusEditionWindowController controller=new DeedsStatusEditionWindowController(this,status);
+    DeedsStatusManager newStatus=controller.editModal();
+    if (newStatus!=null)
+    {
+      DeedsStatusIo.save(_toon,newStatus);
     }
   }
 

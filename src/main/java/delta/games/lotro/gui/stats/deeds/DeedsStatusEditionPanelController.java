@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.deed;
+package delta.games.lotro.gui.stats.deeds;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -19,13 +19,13 @@ import delta.games.lotro.gui.items.FilterUpdateListener;
 import delta.games.lotro.lore.deeds.DeedDescription;
 
 /**
- * Controller the deed explorer panel.
+ * Controller the deeds status edition panel.
  * @author DAM
  */
-public class DeedExplorerPanelController implements FilterUpdateListener
+public class DeedsStatusEditionPanelController implements FilterUpdateListener
 {
   // Data
-  private DeedsTableController _tableController;
+  private DeedStatusTableController _tableController;
   // GUI
   private JPanel _panel;
   private JLabel _statsLabel;
@@ -37,7 +37,7 @@ public class DeedExplorerPanelController implements FilterUpdateListener
    * @param parent Parent window.
    * @param tableController Associated table controller.
    */
-  public DeedExplorerPanelController(WindowController parent, DeedsTableController tableController)
+  public DeedsStatusEditionPanelController(WindowController parent, DeedStatusTableController tableController)
   {
     _parent=parent;
     _tableController=tableController;
@@ -59,7 +59,7 @@ public class DeedExplorerPanelController implements FilterUpdateListener
   private JPanel build()
   {
     JPanel panel=GuiFactory.buildPanel(new BorderLayout());
-    TitledBorder itemsFrameBorder=GuiFactory.buildTitledBorder("Items");
+    TitledBorder itemsFrameBorder=GuiFactory.buildTitledBorder("Status of deeds");
     panel.setBorder(itemsFrameBorder);
 
     // Table
