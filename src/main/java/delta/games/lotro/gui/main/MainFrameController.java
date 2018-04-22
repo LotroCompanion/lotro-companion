@@ -177,11 +177,15 @@ public class MainFrameController extends DefaultWindowController implements Acti
     JPanel toonsPanel=_toonsManager.getPanel();
     tabbedPane.add("Characters",toonsPanel);
     // Accounts
+    /*
     JPanel accountsPanel=_accountsManager.getPanel();
     tabbedPane.add("Accounts",accountsPanel);
+    */
     // Deeds
+    /*
     JPanel deedsPanel=_deedsManager.getPanel();
     tabbedPane.add("Deeds",deedsPanel);
+    */
     ret.add(tabbedPane,BorderLayout.CENTER);
     return ret;
   }
@@ -405,6 +409,11 @@ public class MainFrameController extends DefaultWindowController implements Acti
     {
       _accountsManager.dispose();
       _accountsManager=null;
+    }
+    if (_deedsManager!=null)
+    {
+      _deedsManager.dispose();
+      _deedsManager=null;
     }
   }
 }
