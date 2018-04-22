@@ -61,7 +61,7 @@ public class DeedsStatusEditionWindowController extends DefaultFormDialogControl
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     // Table
     initDeedsTable();
-    _panelController=new DeedsStatusEditionPanelController(this,_tableController);
+    _panelController=new DeedsStatusEditionPanelController(this,_tableController,_data);
     JPanel tablePanel=_panelController.getPanel();
     // Filter
     _filterController=new DeedFilterController(_filter,_panelController);
@@ -104,6 +104,7 @@ public class DeedsStatusEditionWindowController extends DefaultFormDialogControl
     if (status!=null)
     {
       _tableController.getTableController().refresh(deed);
+      _panelController.updateStats(_data);
     }
   }
 

@@ -12,6 +12,8 @@ import java.util.Map;
  */
 public class DeedsStatusManager
 {
+  private String _characterName;
+  private String _server;
   private Map<String,DeedStatus> _status;
 
   /**
@@ -20,6 +22,35 @@ public class DeedsStatusManager
   public DeedsStatusManager()
   {
     _status=new HashMap<String,DeedStatus>();
+  }
+
+  /**
+   * Set character infos.
+   * @param name Character name.
+   * @param server Server name.
+   */
+  public void setCharacter(String name, String server)
+  {
+    _characterName=name;
+    _server=server;
+  }
+
+  /**
+   * Get the character name.
+   * @return the character name.
+   */
+  public String getCharacterName()
+  {
+    return _characterName;
+  }
+
+  /**
+   * Get the server name.
+   * @return the server name.
+   */
+  public String getServer()
+  {
+    return _server;
   }
 
   /**

@@ -32,6 +32,7 @@ public class DeedsStatusIo
     {
       status=new DeedsStatusManager();
     }
+    status.setCharacter(character.getName(),character.getServerName());
     return status;
   }
 

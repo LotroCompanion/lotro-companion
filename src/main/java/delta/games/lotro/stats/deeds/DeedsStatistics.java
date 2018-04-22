@@ -254,12 +254,42 @@ public class DeedsStatistics
   }
 
   /**
+   * Get the total number of virtue points.
+   * @return A virtue points count.
+   */
+  public int getTotalVirtuePoints()
+  {
+    int total=0;
+    for(VirtueStatsFromDeeds virtueStats : _virtues.values())
+    {
+      int points=virtueStats.getPoints();
+      total+=points;
+    }
+    return total;
+  }
+
+  /**
    * Get the statistics about the acquired reputation.
    * @return A map of faction statistics.
    */
   public Map<String,FactionStatsFromDeeds> getReputation()
   {
     return _reputation;
+  }
+
+  /**
+   * Get the total number of reputation points.
+   * @return A reputation points count.
+   */
+  public int getTotalReputationPoints()
+  {
+    int total=0;
+    for(FactionStatsFromDeeds factionStats : _reputation.values())
+    {
+      int points=factionStats.getPoints();
+      total+=points;
+    }
+    return total;
   }
 
   /**
