@@ -156,7 +156,7 @@ public class ToonsManagementController implements ActionListener,GenericEventsLi
     {
       importToon();
     }
-    else if (ToonsTableController.DOUBLE_CLICK.equals(action))
+    else if (GenericTableController.DOUBLE_CLICK.equals(action))
     {
       CharacterFile toon=(CharacterFile)event.getSource();
       showToon(toon);

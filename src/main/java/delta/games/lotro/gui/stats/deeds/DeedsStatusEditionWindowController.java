@@ -12,12 +12,12 @@ import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.windows.DefaultFormDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.gui.deed.DeedFilter;
 import delta.games.lotro.gui.deed.DeedFilterController;
-import delta.games.lotro.gui.deed.DeedsTableController;
 import delta.games.lotro.gui.main.GlobalPreferences;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.stats.deeds.DeedStatus;
@@ -86,7 +86,7 @@ public class DeedsStatusEditionWindowController extends DefaultFormDialogControl
       public void actionPerformed(ActionEvent event)
       {
         String action=event.getActionCommand();
-        if (DeedsTableController.DOUBLE_CLICK.equals(action))
+        if (GenericTableController.DOUBLE_CLICK.equals(action))
         {
           DeedDescription deed=(DeedDescription)event.getSource();
           editDeedStatus(deed);

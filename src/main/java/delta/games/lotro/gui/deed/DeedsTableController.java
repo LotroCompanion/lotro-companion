@@ -30,10 +30,6 @@ import delta.games.lotro.lore.deeds.DeedsManager;
  */
 public class DeedsTableController
 {
-  /**
-   * Double-click action command.
-   */
-  public static final String DOUBLE_CLICK="double click";
   // Data
   private TypedProperties _prefs;
   private List<DeedDescription> _deeds;

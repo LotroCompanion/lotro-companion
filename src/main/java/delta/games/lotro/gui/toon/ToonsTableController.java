@@ -23,10 +23,6 @@ import delta.games.lotro.common.Race;
  */
 public class ToonsTableController
 {
-  /**
-   * Double-click action command.
-   */
-  public static final String DOUBLE_CLICK="double click";
   // Data
   private List<CharacterFile> _toons;
   // GUI

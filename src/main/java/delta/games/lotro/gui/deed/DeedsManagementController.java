@@ -141,7 +141,7 @@ public class DeedsManagementController implements ActionListener,GenericEventsLi
     {
       deleteDeed();
     }
-    else if (DeedsTableController.DOUBLE_CLICK.equals(action))
+    else if (GenericTableController.DOUBLE_CLICK.equals(action))
     {
       DeedDescription deed=(DeedDescription)event.getSource();
       showToon(deed);

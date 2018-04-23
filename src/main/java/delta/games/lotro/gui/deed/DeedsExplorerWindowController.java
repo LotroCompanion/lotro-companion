@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.windows.DefaultWindowController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.ui.swing.windows.WindowsManager;
@@ -101,7 +102,7 @@ public class DeedsExplorerWindowController extends DefaultWindowController
       public void actionPerformed(ActionEvent event)
       {
         String action=event.getActionCommand();
-        if (DeedsTableController.DOUBLE_CLICK.equals(action))
+        if (GenericTableController.DOUBLE_CLICK.equals(action))
         {
           DeedDescription deed=(DeedDescription)event.getSource();
           showDeed(deed);
