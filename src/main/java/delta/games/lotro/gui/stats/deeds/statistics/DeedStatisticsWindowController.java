@@ -1,5 +1,7 @@
 package delta.games.lotro.gui.stats.deeds.statistics;
 
+import java.awt.Dimension;
+
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
@@ -31,7 +33,7 @@ public class DeedStatisticsWindowController extends DefaultDialogController
   {
     super(parent);
     _statistics=new DeedsStatistics();
-    _panelController=new DeedStatisticsPanelController(_statistics);
+    _panelController=new DeedStatisticsPanelController(this,_statistics);
   }
 
   @Override
@@ -45,7 +47,8 @@ public class DeedStatisticsWindowController extends DefaultDialogController
   protected JDialog build()
   {
     JDialog dialog=super.build();
-    dialog.pack();
+    dialog.setMinimumSize(new Dimension(400,300));
+    dialog.setSize(700,700);
     dialog.setResizable(true);
     return dialog;
   }
@@ -69,7 +72,6 @@ public class DeedStatisticsWindowController extends DefaultDialogController
     getDialog().setTitle(title);
     // Update status
     _panelController.updateStats(status);
-    getDialog().pack();
   }
 
   /**

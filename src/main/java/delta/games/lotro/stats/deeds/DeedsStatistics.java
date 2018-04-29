@@ -19,6 +19,8 @@ import delta.games.lotro.common.objects.ObjectsSet;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.reputation.Faction;
 import delta.games.lotro.lore.reputation.FactionsRegistry;
+import delta.games.lotro.stats.deeds.statistics.TitleEvent;
+import delta.games.lotro.stats.deeds.statistics.TitleEventNameComparator;
 
 /**
  * Gather statistics about a collection of deeds for a single character.
@@ -32,7 +34,7 @@ public class DeedsStatistics
   private int _classPoints;
   private int _marksCount;
   private int _medallionsCount;
-  private List<String> _titles;
+  private List<TitleEvent> _titles;
   private List<String> _emotes;
   private Map<VirtueId,VirtueStatsFromDeeds> _virtues;
   private Map<String,FactionStatsFromDeeds> _reputation;
@@ -42,7 +44,7 @@ public class DeedsStatistics
    */
   public DeedsStatistics()
   {
-    _titles=new ArrayList<String>();
+    _titles=new ArrayList<TitleEvent>();
     _emotes=new ArrayList<String>();
     _virtues=new HashMap<VirtueId,VirtueStatsFromDeeds>();
     _reputation=new HashMap<String,FactionStatsFromDeeds>();
@@ -83,7 +85,7 @@ public class DeedsStatistics
       }
       _total++;
     }
-    Collections.sort(_titles);
+    Collections.sort(_titles,new TitleEventNameComparator());
     Collections.sort(_emotes);
   }
 
@@ -124,7 +126,9 @@ public class DeedsStatistics
       {
         for(Title title : titles)
         {
-          _titles.add(title.getName());
+          Long date=deedStatus.getCompletionDate();
+          TitleEvent event=new TitleEvent(title.getName(),date,deed);
+          _titles.add(event);
         }
       }
       // Emotes
@@ -227,10 +231,10 @@ public class DeedsStatistics
   }
 
   /**
-   * Get the acquired titles.
-   * @return A list of titles, sorted by name.
+   * Get the titles events.
+   * @return A list of title events, sorted by name.
    */
-  public List<String> getTitles()
+  public List<TitleEvent> getTitles()
   {
     return _titles;
   }
@@ -306,7 +310,7 @@ public class DeedsStatistics
     if (_titles.size()>0)
     {
       sb.append("Titles: (").append(_titles.size()).append(')').append(EndOfLine.NATIVE_EOL);
-      for(String title : _titles)
+      for(TitleEvent title : _titles)
       {
         sb.append('\t').append(title).append(EndOfLine.NATIVE_EOL);
       }
