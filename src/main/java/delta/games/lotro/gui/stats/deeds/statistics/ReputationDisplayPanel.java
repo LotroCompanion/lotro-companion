@@ -16,13 +16,13 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.tables.TableColumnsChooserController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.stats.deeds.DeedsStatistics;
-import delta.games.lotro.stats.deeds.statistics.TitleEvent;
+import delta.games.lotro.stats.deeds.FactionStatsFromDeeds;
 
 /**
- * Controller the titles display panel.
+ * Controller the reputation display panel.
  * @author DAM
  */
-public class TitlesDisplayPanelController
+public class ReputationDisplayPanel
 {
   // Data
   private DeedsStatistics _stats;
@@ -30,7 +30,7 @@ public class TitlesDisplayPanelController
   private JPanel _panel;
   private JLabel _statsLabel;
   // Controllers
-  private TitleEventsTableController _tableController;
+  private ReputationFromDeedsTableController _tableController;
   private WindowController _parent;
 
   /**
@@ -38,11 +38,11 @@ public class TitlesDisplayPanelController
    * @param parent Parent window.
    * @param stats Stats to show.
    */
-  public TitlesDisplayPanelController(WindowController parent, DeedsStatistics stats)
+  public ReputationDisplayPanel(WindowController parent, DeedsStatistics stats)
   {
     _parent=parent;
     _stats=stats;
-    _tableController=new TitleEventsTableController(stats);
+    _tableController=new ReputationFromDeedsTableController(stats);
   }
 
   /**
@@ -61,8 +61,8 @@ public class TitlesDisplayPanelController
   private JPanel build()
   {
     JPanel panel=GuiFactory.buildBackgroundPanel(new BorderLayout());
-    TitledBorder itemsFrameBorder=GuiFactory.buildTitledBorder("Titles");
-    panel.setBorder(itemsFrameBorder);
+    TitledBorder border=GuiFactory.buildTitledBorder("Reputation");
+    panel.setBorder(border);
 
     // Table
     JTable table=_tableController.getTable();
@@ -78,7 +78,7 @@ public class TitlesDisplayPanelController
       @Override
       public void actionPerformed(ActionEvent e)
       {
-        TableColumnsChooserController<TitleEvent> chooser=new TableColumnsChooserController<TitleEvent>(_parent,_tableController.getTableController());
+        TableColumnsChooserController<FactionStatsFromDeeds> chooser=new TableColumnsChooserController<FactionStatsFromDeeds>(_parent,_tableController.getTableController());
         chooser.editModal();
       }
     };
@@ -99,8 +99,8 @@ public class TitlesDisplayPanelController
 
   private void updateStatsLabel()
   {
-    int nbItems=_stats.getTitles().size();
-    String label="Titles(s): "+nbItems;
+    int nbItems=_stats.getReputation().size();
+    String label="Factions(s): "+nbItems;
     _statsLabel.setText(label);
   }
 

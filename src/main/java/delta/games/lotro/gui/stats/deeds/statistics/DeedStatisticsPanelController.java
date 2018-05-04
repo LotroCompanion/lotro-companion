@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.util.List;
 
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.WindowController;
@@ -25,6 +26,7 @@ public class DeedStatisticsPanelController
   // Controllers
   private DeedStatisticsSummaryPanelController _summary;
   private TitlesDisplayPanelController _titles;
+  private ReputationDisplayPanel _reputation;
 
   /**
    * Constructor.
@@ -36,6 +38,7 @@ public class DeedStatisticsPanelController
     _statistics=statistics;
     _summary=new DeedStatisticsSummaryPanelController(statistics);
     _titles=new TitlesDisplayPanelController(parent,statistics);
+    _reputation=new ReputationDisplayPanel(parent,statistics);
     _panel=buildPanel();
   }
 
@@ -45,9 +48,14 @@ public class DeedStatisticsPanelController
     // Summary panel
     JPanel summaryPanel=_summary.getPanel();
     panel.add(summaryPanel,BorderLayout.NORTH);
+    JTabbedPane pane=GuiFactory.buildTabbedPane();
+    panel.add(pane,BorderLayout.CENTER);
     // Titles
     JPanel titlesPanel=_titles.getPanel();
-    panel.add(titlesPanel,BorderLayout.CENTER);
+    pane.add("Titles",titlesPanel);
+    // Reputation
+    JPanel reputationPanel=_reputation.getPanel();
+    pane.add("Reputation",reputationPanel);
     return panel;
   }
 
@@ -61,6 +69,7 @@ public class DeedStatisticsPanelController
     _statistics.useDeeds(status,deeds);
     _summary.update();
     _titles.update();
+    _reputation.update();
   }
 
   /**
@@ -95,6 +104,11 @@ public class DeedStatisticsPanelController
     {
       _titles.dispose();
       _titles=null;
+    }
+    if (_reputation!=null)
+    {
+      _reputation.dispose();
+      _reputation=null;
     }
   }
 }
