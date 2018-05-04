@@ -18,7 +18,7 @@ public class ItemChoiceTableColumnsManager
    * @param characterClass Targeted class.
    * @return A list of column identifiers for the items chooser table.
    */
-  public List<String> getEssenceChoiceColumns(CharacterClass characterClass)
+  public static List<String> getEssenceChoiceColumns(CharacterClass characterClass)
   {
     List<String> ret=new ArrayList<String>();
     ret.add(ItemColumnIds.ICON.name());
@@ -36,7 +36,7 @@ public class ItemChoiceTableColumnsManager
    * @param slot Targeted slot.
    * @return A list of column identifiers for the items chooser table.
    */
-  public List<String> getItemChoiceColumns(CharacterClass characterClass, EQUIMENT_SLOT slot)
+  public static List<String> getItemChoiceColumns(CharacterClass characterClass, EQUIMENT_SLOT slot)
   {
     List<String> ret=new ArrayList<String>();
     ret.add(ItemColumnIds.ICON.name());
@@ -84,7 +84,7 @@ public class ItemChoiceTableColumnsManager
     return ret;
   }
 
-  private List<String> getStatColumns(CharacterClass characterClass)
+  private static List<String> getStatColumns(CharacterClass characterClass)
   {
     List<String> ret=new ArrayList<String>();
     // Stats

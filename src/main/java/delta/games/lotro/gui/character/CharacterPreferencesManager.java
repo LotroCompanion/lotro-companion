@@ -37,8 +37,7 @@ public class CharacterPreferencesManager
           String slotKey=id.substring(id.indexOf("#")+1);
           EQUIMENT_SLOT slot=EQUIMENT_SLOT.valueOf(slotKey);
           CharacterClass characterClass=toonFile.getSummary().getCharacterClass();
-          ItemChoiceTableColumnsManager mgr=new ItemChoiceTableColumnsManager();
-          columnIds=mgr.getItemChoiceColumns(characterClass,slot);
+          columnIds=ItemChoiceTableColumnsManager.getItemChoiceColumns(characterClass,slot);
           props.setStringList(ItemChoiceWindowController.COLUMNS_PROPERTY,columnIds);
           prefs.savePreferences(props);
         }
@@ -52,8 +51,7 @@ public class CharacterPreferencesManager
       if (columnIds==null)
       {
         CharacterClass characterClass=toonFile.getSummary().getCharacterClass();
-        ItemChoiceTableColumnsManager mgr=new ItemChoiceTableColumnsManager();
-        columnIds=mgr.getEssenceChoiceColumns(characterClass);
+        columnIds=ItemChoiceTableColumnsManager.getEssenceChoiceColumns(characterClass);
         props.setStringList(ItemChoiceWindowController.COLUMNS_PROPERTY,columnIds);
         prefs.savePreferences(props);
       }
