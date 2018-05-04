@@ -9,7 +9,7 @@ import delta.common.ui.swing.tables.CellDataProvider;
 import delta.common.ui.swing.tables.DataProvider;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.ListDataProvider;
-import delta.common.ui.swing.tables.TableColumnController;
+import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.games.lotro.character.stats.buffs.Buff;
 import delta.games.lotro.character.stats.buffs.BuffFilter;
 import delta.games.lotro.common.CharacterClass;
@@ -66,7 +66,7 @@ public class BuffsTableController
           return icon;
         }
       };
-      TableColumnController<Buff,ImageIcon> iconColumn=new TableColumnController<Buff,ImageIcon>("Icon",ImageIcon.class,iconCell);
+      DefaultTableColumnController<Buff,ImageIcon> iconColumn=new DefaultTableColumnController<Buff,ImageIcon>("Icon",ImageIcon.class,iconCell);
       iconColumn.setWidthSpecs(50,50,50);
       iconColumn.setSortable(false);
       table.addColumnController(iconColumn);
@@ -81,7 +81,7 @@ public class BuffsTableController
           return buff.getLabel();
         }
       };
-      TableColumnController<Buff,String> nameColumn=new TableColumnController<Buff,String>("Name",String.class,nameCell);
+      DefaultTableColumnController<Buff,String> nameColumn=new DefaultTableColumnController<Buff,String>("Name",String.class,nameCell);
       nameColumn.setWidthSpecs(100,-1,210);
       table.addColumnController(nameColumn);
     }
@@ -95,7 +95,7 @@ public class BuffsTableController
           return buff.getRequiredClass();
         }
       };
-      TableColumnController<Buff,CharacterClass> classColumn=new TableColumnController<Buff,CharacterClass>("Class",CharacterClass.class,classCell);
+      DefaultTableColumnController<Buff,CharacterClass> classColumn=new DefaultTableColumnController<Buff,CharacterClass>("Class",CharacterClass.class,classCell);
       classColumn.setWidthSpecs(100,100,50);
       table.addColumnController(classColumn);
     }
@@ -109,7 +109,7 @@ public class BuffsTableController
           return buff.getRequiredRace();
         }
       };
-      TableColumnController<Buff,Race> classColumn=new TableColumnController<Buff,Race>("Race",Race.class,classCell);
+      DefaultTableColumnController<Buff,Race> classColumn=new DefaultTableColumnController<Buff,Race>("Race",Race.class,classCell);
       classColumn.setWidthSpecs(100,100,50);
       table.addColumnController(classColumn);
     }

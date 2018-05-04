@@ -8,10 +8,10 @@ import javax.swing.JTable;
 
 import delta.common.ui.swing.tables.CellDataProvider;
 import delta.common.ui.swing.tables.GenericTableController;
-import delta.common.ui.swing.tables.ListDataProvider;
-import delta.common.ui.swing.tables.TableColumnController;
-import delta.common.ui.swing.tables.TableColumnsManager;
 import delta.common.ui.swing.tables.GenericTableController.DateRenderer;
+import delta.common.ui.swing.tables.ListDataProvider;
+import delta.common.ui.swing.tables.DefaultTableColumnController;
+import delta.common.ui.swing.tables.TableColumnsManager;
 import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.gui.deed.DeedColumnIds;
@@ -59,8 +59,8 @@ public class DeedStatusTableController
   {
     ListDataProvider<DeedDescription> provider=new ListDataProvider<DeedDescription>(_deeds);
     GenericTableController<DeedDescription> table=new GenericTableController<DeedDescription>(provider);
-    List<TableColumnController<DeedDescription,?>> deedColumns=DeedsTableController.buildColumns();
-    for(TableColumnController<DeedDescription,?> deedColumn : deedColumns)
+    List<DefaultTableColumnController<DeedDescription,?>> deedColumns=DeedsTableController.buildColumns();
+    for(DefaultTableColumnController<DeedDescription,?> deedColumn : deedColumns)
     {
       table.addColumnController(deedColumn);
     }
@@ -80,7 +80,7 @@ public class DeedStatusTableController
           return Boolean.FALSE;
         }
       };
-      TableColumnController<DeedDescription,Boolean> completedColumn=new TableColumnController<DeedDescription,Boolean>(COMPLETED,"Completed",Boolean.class,completedCell);
+      DefaultTableColumnController<DeedDescription,Boolean> completedColumn=new DefaultTableColumnController<DeedDescription,Boolean>(COMPLETED,"Completed",Boolean.class,completedCell);
       completedColumn.setWidthSpecs(30,30,30);
       table.addColumnController(completedColumn);
     }
@@ -100,7 +100,7 @@ public class DeedStatusTableController
           return (timestamp!=null)?new Date(timestamp.longValue()):null;
         }
       };
-      TableColumnController<DeedDescription,Date> completionDateColumn=new TableColumnController<DeedDescription,Date>(COMPLETION_DATE,"Completion Date",Date.class,completionDateCell);
+      DefaultTableColumnController<DeedDescription,Date> completionDateColumn=new DefaultTableColumnController<DeedDescription,Date>(COMPLETION_DATE,"Completion Date",Date.class,completionDateCell);
       completionDateColumn.setWidthSpecs(120,120,120);
       completionDateColumn.setCellRenderer(new DateRenderer(Formats.DATE_TIME_PATTERN));
       table.addColumnController(completionDateColumn);

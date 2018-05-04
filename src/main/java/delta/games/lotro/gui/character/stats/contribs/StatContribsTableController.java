@@ -10,7 +10,7 @@ import delta.common.ui.swing.tables.CellDataProvider;
 import delta.common.ui.swing.tables.DataProvider;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.ListDataProvider;
-import delta.common.ui.swing.tables.TableColumnController;
+import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.TableColumnsManager;
 import delta.games.lotro.character.stats.contribs.ContribsByStat;
 import delta.games.lotro.character.stats.contribs.StatContribution;
@@ -79,7 +79,7 @@ public class StatContribsTableController
           return item.getSource().getLabel();
         }
       };
-      TableColumnController<StatContribution,String> sourceColumn=new TableColumnController<StatContribution,String>("Source",String.class,sourceCell);
+      DefaultTableColumnController<StatContribution,String> sourceColumn=new DefaultTableColumnController<StatContribution,String>("Source",String.class,sourceCell);
       sourceColumn.setWidthSpecs(150,-1,150);
       columnsManager.addColumnController(sourceColumn,true);
     }
@@ -93,7 +93,7 @@ public class StatContribsTableController
           return item.getValue();
         }
       };
-      TableColumnController<StatContribution,FixedDecimalsInteger> statColumn=new TableColumnController<StatContribution,FixedDecimalsInteger>("Value",FixedDecimalsInteger.class,statCell);
+      DefaultTableColumnController<StatContribution,FixedDecimalsInteger> statColumn=new DefaultTableColumnController<StatContribution,FixedDecimalsInteger>("Value",FixedDecimalsInteger.class,statCell);
       statColumn.setWidthSpecs(55,55,50);
       columnsManager.addColumnController(statColumn,true);
     }

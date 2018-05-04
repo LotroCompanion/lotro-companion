@@ -9,7 +9,7 @@ import javax.swing.JTable;
 import delta.common.ui.swing.tables.CellDataProvider;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.ListDataProvider;
-import delta.common.ui.swing.tables.TableColumnController;
+import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.games.lotro.account.Account;
 import delta.games.lotro.account.AccountSummary;
 import delta.games.lotro.account.AccountsManager;
@@ -56,7 +56,7 @@ public class AccountsTableController
           return data.getName();
         }
       };
-      TableColumnController<Account,String> nameColumn=new TableColumnController<Account,String>("Name",String.class,nameCell);
+      DefaultTableColumnController<Account,String> nameColumn=new DefaultTableColumnController<Account,String>("Name",String.class,nameCell);
       nameColumn.setWidthSpecs(100,100,100);
       table.addColumnController(nameColumn);
     }

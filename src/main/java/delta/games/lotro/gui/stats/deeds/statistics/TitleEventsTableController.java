@@ -10,7 +10,7 @@ import delta.common.ui.swing.tables.CellDataProvider;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.GenericTableController.DateRenderer;
 import delta.common.ui.swing.tables.ListDataProvider;
-import delta.common.ui.swing.tables.TableColumnController;
+import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.TableColumnsManager;
 import delta.games.lotro.stats.deeds.DeedsStatistics;
 import delta.games.lotro.stats.deeds.statistics.TitleEvent;
@@ -57,7 +57,7 @@ public class TitleEventsTableController
           return item.getTitle();
         }
       };
-      TableColumnController<TitleEvent,String> titleColumn=new TableColumnController<TitleEvent,String>(TITLE,"Title",String.class,titleCell);
+      DefaultTableColumnController<TitleEvent,String> titleColumn=new DefaultTableColumnController<TitleEvent,String>(TITLE,"Title",String.class,titleCell);
       titleColumn.setWidthSpecs(100,300,200);
       table.addColumnController(titleColumn);
     }
@@ -72,7 +72,7 @@ public class TitleEventsTableController
           return (timestamp!=null)?new Date(timestamp.longValue()):null;
         }
       };
-      TableColumnController<TitleEvent,Date> completionDateColumn=new TableColumnController<TitleEvent,Date>(DATE,"Date",Date.class,completionDateCell);
+      DefaultTableColumnController<TitleEvent,Date> completionDateColumn=new DefaultTableColumnController<TitleEvent,Date>(DATE,"Date",Date.class,completionDateCell);
       completionDateColumn.setWidthSpecs(120,120,120);
       completionDateColumn.setCellRenderer(new DateRenderer(Formats.DATE_TIME_PATTERN));
       table.addColumnController(completionDateColumn);
@@ -87,7 +87,7 @@ public class TitleEventsTableController
           return item.getDeed().getName();
         }
       };
-      TableColumnController<TitleEvent,String> deedColumn=new TableColumnController<TitleEvent,String>(DEED_NAME,"Deed",String.class,deedCell);
+      DefaultTableColumnController<TitleEvent,String> deedColumn=new DefaultTableColumnController<TitleEvent,String>(DEED_NAME,"Deed",String.class,deedCell);
       deedColumn.setWidthSpecs(100,300,200);
       table.addColumnController(deedColumn);
     }

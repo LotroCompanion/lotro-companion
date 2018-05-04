@@ -9,7 +9,7 @@ import delta.common.ui.swing.tables.CellDataUpdater;
 import delta.common.ui.swing.tables.DataProvider;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.ListDataProvider;
-import delta.common.ui.swing.tables.TableColumnController;
+import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.games.lotro.stats.traitPoints.TraitPoint;
 import delta.games.lotro.stats.traitPoints.TraitPointsStatus;
 
@@ -65,7 +65,7 @@ public class TraitPointsTableController
           return Boolean.valueOf(_pointsStatus.isAcquired(item.getId()));
         }
       };
-      TableColumnController<TraitPoint,Boolean> acquiredColumn=new TableColumnController<TraitPoint,Boolean>("Acquired",Boolean.class,acquiredCell);
+      DefaultTableColumnController<TraitPoint,Boolean> acquiredColumn=new DefaultTableColumnController<TraitPoint,Boolean>("Acquired",Boolean.class,acquiredCell);
       acquiredColumn.setWidthSpecs(80,80,80);
       acquiredColumn.setEditable(true);
       acquiredColumn.setCellRenderer(new TraitPointCellRenderer());
@@ -95,7 +95,7 @@ public class TraitPointsTableController
           return item.getLabel();
         }
       };
-      TableColumnController<TraitPoint,String> labelColumn=new TableColumnController<TraitPoint,String>("Label",String.class,descriptionCell);
+      DefaultTableColumnController<TraitPoint,String> labelColumn=new DefaultTableColumnController<TraitPoint,String>("Label",String.class,descriptionCell);
       labelColumn.setWidthSpecs(100,-1,100);
       table.addColumnController(labelColumn);
     }

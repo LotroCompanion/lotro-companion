@@ -26,8 +26,9 @@ import delta.common.ui.swing.tables.CellDataProvider;
 import delta.common.ui.swing.tables.DataProvider;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.ListDataProvider;
-import delta.common.ui.swing.tables.TableColumnController;
+import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.TableColumnsManager;
+import delta.common.ui.swing.tables.TableColumnController;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharacterSummary;
 import delta.games.lotro.character.log.CharacterLog;
@@ -87,7 +88,7 @@ public class WarbandsTableController
     DataProvider<WarbandDefinition> provider=buildDataProvider();
     GenericTableController<WarbandDefinition> table=new GenericTableController<WarbandDefinition>(provider);
     table.setFilter(_filter);
-    TableColumnController<WarbandDefinition,WarbandDefinition> warbandsColumn=buildWarbandColumn();
+    DefaultTableColumnController<WarbandDefinition,WarbandDefinition> warbandsColumn=buildWarbandColumn();
     table.addColumnController(warbandsColumn);
     return table;
   }
@@ -110,7 +111,7 @@ public class WarbandsTableController
     return renderer;
   }
 
-  private TableColumnController<WarbandDefinition,WarbandDefinition> buildWarbandColumn()
+  private DefaultTableColumnController<WarbandDefinition,WarbandDefinition> buildWarbandColumn()
   {
     CellDataProvider<WarbandDefinition,WarbandDefinition> cell=new CellDataProvider<WarbandDefinition,WarbandDefinition>()
     {
@@ -120,7 +121,7 @@ public class WarbandsTableController
         return item;
       }
     };
-    TableColumnController<WarbandDefinition,WarbandDefinition> column=new TableColumnController<WarbandDefinition,WarbandDefinition>("Warbands",WarbandDefinition.class,cell);
+    DefaultTableColumnController<WarbandDefinition,WarbandDefinition> column=new DefaultTableColumnController<WarbandDefinition,WarbandDefinition>("Warbands",WarbandDefinition.class,cell);
 
     // Init panels
     int warbandColumnWidth=0;
@@ -212,7 +213,7 @@ public class WarbandsTableController
     return stats;
   }
 
-  private TableColumnController<WarbandDefinition,WarbandStats> buildCharacterColumn(CharacterFile character)
+  private DefaultTableColumnController<WarbandDefinition,WarbandStats> buildCharacterColumn(CharacterFile character)
   {
     final WarbandsStats warbandsStats=loadToonStats(character);
     CellDataProvider<WarbandDefinition,WarbandStats> cell=new CellDataProvider<WarbandDefinition,WarbandStats>()
@@ -224,7 +225,7 @@ public class WarbandsTableController
       }
     };
     String id=character.getIdentifier();
-    TableColumnController<WarbandDefinition,WarbandStats> column=new TableColumnController<WarbandDefinition,WarbandStats>(id,"Stats",WarbandStats.class,cell);
+    DefaultTableColumnController<WarbandDefinition,WarbandStats> column=new DefaultTableColumnController<WarbandDefinition,WarbandStats>(id,"Stats",WarbandStats.class,cell);
 
     // Cell renderer
     TableCellRenderer renderer=buildStatCellRenderer(warbandsStats);
@@ -278,7 +279,7 @@ public class WarbandsTableController
 
   private void addToon(CharacterFile toon)
   {
-    TableColumnController<WarbandDefinition,WarbandStats> column=buildCharacterColumn(toon);
+    DefaultTableColumnController<WarbandDefinition,WarbandStats> column=buildCharacterColumn(toon);
     _table.addColumnController(column);
   }
 

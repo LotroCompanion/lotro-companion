@@ -21,7 +21,7 @@ import delta.common.ui.swing.tables.CellDataProvider;
 import delta.common.ui.swing.tables.DataProvider;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.ListDataProvider;
-import delta.common.ui.swing.tables.TableColumnController;
+import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.crafting.CraftingStatus;
 import delta.games.lotro.character.crafting.GuildStatus;
@@ -103,19 +103,19 @@ public class CraftingSynopsisTableController
     GenericTableController<CraftingSynopsisItem> table=new GenericTableController<CraftingSynopsisItem>(provider);
     table.setFilter(_filter);
     // Row header column
-    TableColumnController<CraftingSynopsisItem,String> rowHeaderColumn=buildRowHeaderColumn();
+    DefaultTableColumnController<CraftingSynopsisItem,String> rowHeaderColumn=buildRowHeaderColumn();
     table.addColumnController(rowHeaderColumn);
     // Profession column
-    TableColumnController<CraftingSynopsisItem,Profession> professionColumn=buildProfessionColumn();
+    DefaultTableColumnController<CraftingSynopsisItem,Profession> professionColumn=buildProfessionColumn();
     table.addColumnController(professionColumn);
     // Proficiency
-    TableColumnController<CraftingSynopsisItem,CraftingLevel> proficiencyColumn=buildCraftingTierColumn(false);
+    DefaultTableColumnController<CraftingSynopsisItem,CraftingLevel> proficiencyColumn=buildCraftingTierColumn(false);
     table.addColumnController(proficiencyColumn);
     // Mastery
-    TableColumnController<CraftingSynopsisItem,CraftingLevel> masteryColumn=buildCraftingTierColumn(true);
+    DefaultTableColumnController<CraftingSynopsisItem,CraftingLevel> masteryColumn=buildCraftingTierColumn(true);
     table.addColumnController(masteryColumn);
     // Guild
-    TableColumnController<CraftingSynopsisItem,FactionStatus> guildColumn=buildGuildColumn();
+    DefaultTableColumnController<CraftingSynopsisItem,FactionStatus> guildColumn=buildGuildColumn();
     table.addColumnController(guildColumn);
     return table;
   }
@@ -149,7 +149,7 @@ public class CraftingSynopsisTableController
     return renderer;
   }
 
-  private TableColumnController<CraftingSynopsisItem,String> buildRowHeaderColumn()
+  private DefaultTableColumnController<CraftingSynopsisItem,String> buildRowHeaderColumn()
   {
     CellDataProvider<CraftingSynopsisItem,String> cell=new CellDataProvider<CraftingSynopsisItem,String>()
     {
@@ -161,7 +161,7 @@ public class CraftingSynopsisTableController
         return name;
       }
     };
-    TableColumnController<CraftingSynopsisItem,String> column=new TableColumnController<CraftingSynopsisItem,String>("Name",String.class,cell);
+    DefaultTableColumnController<CraftingSynopsisItem,String> column=new DefaultTableColumnController<CraftingSynopsisItem,String>("Name",String.class,cell);
 
     // Init widths
     column.setMinWidth(100);
@@ -200,7 +200,7 @@ public class CraftingSynopsisTableController
     return renderer;
   }
 
-  private TableColumnController<CraftingSynopsisItem,Profession> buildProfessionColumn()
+  private DefaultTableColumnController<CraftingSynopsisItem,Profession> buildProfessionColumn()
   {
     CellDataProvider<CraftingSynopsisItem,Profession> professionCell=new CellDataProvider<CraftingSynopsisItem,Profession>()
     {
@@ -210,7 +210,7 @@ public class CraftingSynopsisTableController
         return item.getProfession();
       }
     };
-    TableColumnController<CraftingSynopsisItem,Profession> professionColumn=new TableColumnController<CraftingSynopsisItem,Profession>("Profession",Profession.class,professionCell);
+    DefaultTableColumnController<CraftingSynopsisItem,Profession> professionColumn=new DefaultTableColumnController<CraftingSynopsisItem,Profession>("Profession",Profession.class,professionCell);
     professionColumn.setWidthSpecs(50,50,50);
     // Header renderer
     JPanel emptyHeaderPanel=GuiFactory.buildBackgroundPanel(new GridBagLayout());
@@ -251,7 +251,7 @@ public class CraftingSynopsisTableController
     return renderer;
   }
 
-  private TableColumnController<CraftingSynopsisItem,CraftingLevel> buildCraftingTierColumn(final boolean mastery)
+  private DefaultTableColumnController<CraftingSynopsisItem,CraftingLevel> buildCraftingTierColumn(final boolean mastery)
   {
     CellDataProvider<CraftingSynopsisItem,CraftingLevel> cell=new CellDataProvider<CraftingSynopsisItem,CraftingLevel>()
     {
@@ -263,7 +263,7 @@ public class CraftingSynopsisTableController
     };
     String columnName=mastery?"Mastery":"Proficiency";
     String id=columnName;
-    TableColumnController<CraftingSynopsisItem,CraftingLevel> column=new TableColumnController<CraftingSynopsisItem,CraftingLevel>(id,columnName,CraftingLevel.class,cell);
+    DefaultTableColumnController<CraftingSynopsisItem,CraftingLevel> column=new DefaultTableColumnController<CraftingSynopsisItem,CraftingLevel>(id,columnName,CraftingLevel.class,cell);
     // Header cell renderer
     JPanel panel=buildCraftingTierPanel(mastery);
     TableCellRenderer headerRenderer=buildSimpleCellRenderer(panel);
@@ -297,7 +297,7 @@ public class CraftingSynopsisTableController
     return panel;
   }
 
-  private TableColumnController<CraftingSynopsisItem,FactionStatus> buildGuildColumn()
+  private DefaultTableColumnController<CraftingSynopsisItem,FactionStatus> buildGuildColumn()
   {
     CellDataProvider<CraftingSynopsisItem,FactionStatus> cell=new CellDataProvider<CraftingSynopsisItem,FactionStatus>()
     {
@@ -309,7 +309,7 @@ public class CraftingSynopsisTableController
     };
     String columnName="Guild";
     String id=columnName;
-    TableColumnController<CraftingSynopsisItem,FactionStatus> column=new TableColumnController<CraftingSynopsisItem,FactionStatus>(id,columnName,FactionStatus.class,cell);
+    DefaultTableColumnController<CraftingSynopsisItem,FactionStatus> column=new DefaultTableColumnController<CraftingSynopsisItem,FactionStatus>(id,columnName,FactionStatus.class,cell);
     // Header cell renderer
     JPanel panel=buildGuildPanel();
     TableCellRenderer headerRenderer=buildSimpleCellRenderer(panel);

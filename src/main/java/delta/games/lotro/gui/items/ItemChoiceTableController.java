@@ -8,9 +8,9 @@ import javax.swing.JTable;
 
 import delta.common.ui.swing.tables.CellDataProvider;
 import delta.common.ui.swing.tables.DataProvider;
+import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.ListDataProvider;
-import delta.common.ui.swing.tables.TableColumnController;
 import delta.common.ui.swing.tables.TableColumnsManager;
 import delta.common.utils.NumericTools;
 import delta.common.utils.collections.filters.Filter;
@@ -36,7 +36,7 @@ public class ItemChoiceTableController
   // Preferences
   private TypedProperties _prefs;
   // Data
-  private List<Item> _items;
+  protected List<Item> _items;
   // GUI
   private GenericTableController<Item> _tableController;
 
@@ -68,9 +68,9 @@ public class ItemChoiceTableController
   {
     DataProvider<Item> provider=new ListDataProvider<Item>(_items);
     GenericTableController<Item> table=new GenericTableController<Item>(provider);
-    List<TableColumnController<Item,?>> columns=initColumns();
+    List<DefaultTableColumnController<Item,?>> columns=initColumns();
     TableColumnsManager<Item> columnsManager=table.getColumnsManager();
-    for(TableColumnController<Item,?> column : columns)
+    for(DefaultTableColumnController<Item,?> column : columns)
     {
       columnsManager.addColumnController(column,false);
     }
@@ -79,7 +79,7 @@ public class ItemChoiceTableController
     return table;
   }
 
-  private List<String> getColumnsId()
+  protected List<String> getColumnsId()
   {
     List<String> columnsIds;
     if (_prefs!=null)
@@ -88,17 +88,27 @@ public class ItemChoiceTableController
     }
     else
     {
-      columnsIds=new ArrayList<String>();
-      columnsIds.add(ItemColumnIds.ICON.name());
-      columnsIds.add(ItemColumnIds.ID.name());
-      columnsIds.add(ItemColumnIds.NAME.name());
+      columnsIds=getDefaultColumnIds();
     }
     return columnsIds;
   }
 
-  private List<TableColumnController<Item,?>> initColumns()
+  protected List<String> getDefaultColumnIds()
   {
-    List<TableColumnController<Item,?>> columns=new ArrayList<TableColumnController<Item,?>>();
+    List<String> columnsIds=new ArrayList<String>();
+    columnsIds.add(ItemColumnIds.ICON.name());
+    columnsIds.add(ItemColumnIds.ID.name());
+    columnsIds.add(ItemColumnIds.NAME.name());
+    return columnsIds;
+  }
+
+  /**
+   * Build a list of all managed columns.
+   * @return A list of column controllers.
+   */
+  public static List<DefaultTableColumnController<Item,?>> initColumns()
+  {
+    List<DefaultTableColumnController<Item,?>> columns=new ArrayList<DefaultTableColumnController<Item,?>>();
     // Icon column
     {
       CellDataProvider<Item,Icon> iconCell=new CellDataProvider<Item,Icon>()
@@ -110,7 +120,7 @@ public class ItemChoiceTableController
           return icon;
         }
       };
-      TableColumnController<Item,Icon> iconColumn=new TableColumnController<Item,Icon>(ItemColumnIds.ICON.name(),"Icon",Icon.class,iconCell);
+      DefaultTableColumnController<Item,Icon> iconColumn=new DefaultTableColumnController<Item,Icon>(ItemColumnIds.ICON.name(),"Icon",Icon.class,iconCell);
       iconColumn.setWidthSpecs(50,50,50);
       iconColumn.setSortable(false);
       columns.add(iconColumn);
@@ -125,7 +135,7 @@ public class ItemChoiceTableController
           return Long.valueOf(item.getIdentifier());
         }
       };
-      TableColumnController<Item,Long> idColumn=new TableColumnController<Item,Long>(ItemColumnIds.ID.name(),"ID",Long.class,idCell);
+      DefaultTableColumnController<Item,Long> idColumn=new DefaultTableColumnController<Item,Long>(ItemColumnIds.ID.name(),"ID",Long.class,idCell);
       idColumn.setWidthSpecs(90,90,50);
       columns.add(idColumn);
     }
@@ -139,7 +149,7 @@ public class ItemChoiceTableController
           return item.getName();
         }
       };
-      TableColumnController<Item,String> nameColumn=new TableColumnController<Item,String>(ItemColumnIds.NAME.name(),"Name",String.class,nameCell);
+      DefaultTableColumnController<Item,String> nameColumn=new DefaultTableColumnController<Item,String>(ItemColumnIds.NAME.name(),"Name",String.class,nameCell);
       nameColumn.setWidthSpecs(150,-1,150);
       columns.add(nameColumn);
     }
@@ -153,7 +163,7 @@ public class ItemChoiceTableController
           return item.getItemLevel();
         }
       };
-      TableColumnController<Item,Integer> levelColumn=new TableColumnController<Item,Integer>(ItemColumnIds.ITEM_LEVEL.name(),"Item Lvl",Integer.class,levelCell);
+      DefaultTableColumnController<Item,Integer> levelColumn=new DefaultTableColumnController<Item,Integer>(ItemColumnIds.ITEM_LEVEL.name(),"Item Lvl",Integer.class,levelCell);
       levelColumn.setWidthSpecs(55,55,50);
       columns.add(levelColumn);
     }
@@ -167,7 +177,7 @@ public class ItemChoiceTableController
           return item.getMinLevel();
         }
       };
-      TableColumnController<Item,Integer> minLevelColumn=new TableColumnController<Item,Integer>(ItemColumnIds.REQUIRED_LEVEL.name(),"Level",Integer.class,minLevelCell);
+      DefaultTableColumnController<Item,Integer> minLevelColumn=new DefaultTableColumnController<Item,Integer>(ItemColumnIds.REQUIRED_LEVEL.name(),"Level",Integer.class,minLevelCell);
       minLevelColumn.setWidthSpecs(55,55,50);
       columns.add(minLevelColumn);
     }
@@ -181,7 +191,7 @@ public class ItemChoiceTableController
           return item.getRequiredClass();
         }
       };
-      TableColumnController<Item,CharacterClass> requiredClassColumn=new TableColumnController<Item,CharacterClass>(ItemColumnIds.CLASS.name(),"Class",CharacterClass.class,requiredClassCell);
+      DefaultTableColumnController<Item,CharacterClass> requiredClassColumn=new DefaultTableColumnController<Item,CharacterClass>(ItemColumnIds.CLASS.name(),"Class",CharacterClass.class,requiredClassCell);
       requiredClassColumn.setWidthSpecs(100,100,100);
       columns.add(requiredClassColumn);
     }
@@ -196,7 +206,7 @@ public class ItemChoiceTableController
           return (nbSlots>0)?Integer.valueOf(nbSlots):null;
         }
       };
-      TableColumnController<Item,Integer> slotsColumn=new TableColumnController<Item,Integer>(ItemColumnIds.SLOT_COUNT.name(),"Slots",Integer.class,slotsCell);
+      DefaultTableColumnController<Item,Integer> slotsColumn=new DefaultTableColumnController<Item,Integer>(ItemColumnIds.SLOT_COUNT.name(),"Slots",Integer.class,slotsCell);
       slotsColumn.setWidthSpecs(55,55,50);
       columns.add(slotsColumn);
     }
@@ -215,7 +225,7 @@ public class ItemChoiceTableController
           return null;
         }
       };
-      TableColumnController<Item,Integer> tierColumn=new TableColumnController<Item,Integer>(ItemColumnIds.TIER.name(),"Tier",Integer.class,tierCell);
+      DefaultTableColumnController<Item,Integer> tierColumn=new DefaultTableColumnController<Item,Integer>(ItemColumnIds.TIER.name(),"Tier",Integer.class,tierCell);
       tierColumn.setWidthSpecs(55,55,50);
       columns.add(tierColumn);
     }
@@ -229,7 +239,7 @@ public class ItemChoiceTableController
           return item.getQuality();
         }
       };
-      TableColumnController<Item,ItemQuality> qualityColumn=new TableColumnController<Item,ItemQuality>(ItemColumnIds.QUALITY.name(),"Quality",ItemQuality.class,qualityCell);
+      DefaultTableColumnController<Item,ItemQuality> qualityColumn=new DefaultTableColumnController<Item,ItemQuality>(ItemColumnIds.QUALITY.name(),"Quality",ItemQuality.class,qualityCell);
       qualityColumn.setWidthSpecs(100,100,100);
       columns.add(qualityColumn);
     }
@@ -250,7 +260,7 @@ public class ItemChoiceTableController
           return value;
         }
       };
-      TableColumnController<Item,FixedDecimalsInteger> armourColumn=new TableColumnController<Item,FixedDecimalsInteger>(ItemColumnIds.ARMOUR.name(),"Armour",FixedDecimalsInteger.class,armourCell);
+      DefaultTableColumnController<Item,FixedDecimalsInteger> armourColumn=new DefaultTableColumnController<Item,FixedDecimalsInteger>(ItemColumnIds.ARMOUR.name(),"Armour",FixedDecimalsInteger.class,armourCell);
       armourColumn.setWidthSpecs(55,55,50);
       columns.add(armourColumn);
     }
@@ -269,7 +279,7 @@ public class ItemChoiceTableController
           return null;
         }
       };
-      TableColumnController<Item,ArmourType> armourTypeColumn=new TableColumnController<Item,ArmourType>(ItemColumnIds.ARMOUR_TYPE.name(),"Armour type",ArmourType.class,armourTypeCell);
+      DefaultTableColumnController<Item,ArmourType> armourTypeColumn=new DefaultTableColumnController<Item,ArmourType>(ItemColumnIds.ARMOUR_TYPE.name(),"Armour type",ArmourType.class,armourTypeCell);
       armourTypeColumn.setWidthSpecs(100,100,100);
       columns.add(armourTypeColumn);
     }
@@ -288,7 +298,7 @@ public class ItemChoiceTableController
           return null;
         }
       };
-      TableColumnController<Item,WeaponType> weaponTypeColumn=new TableColumnController<Item,WeaponType>(ItemColumnIds.WEAPON_TYPE.name(),"Weapon type",WeaponType.class,weaponTypeCell);
+      DefaultTableColumnController<Item,WeaponType> weaponTypeColumn=new DefaultTableColumnController<Item,WeaponType>(ItemColumnIds.WEAPON_TYPE.name(),"Weapon type",WeaponType.class,weaponTypeCell);
       weaponTypeColumn.setWidthSpecs(150,150,150);
       columns.add(weaponTypeColumn);
     }
@@ -300,7 +310,7 @@ public class ItemChoiceTableController
     return columns;
   }
 
-  private TableColumnController<Item,FixedDecimalsInteger> buildStatColumn(final STAT stat)
+  private static DefaultTableColumnController<Item,FixedDecimalsInteger> buildStatColumn(final STAT stat)
   {
     CellDataProvider<Item,FixedDecimalsInteger> statCell=new CellDataProvider<Item,FixedDecimalsInteger>()
     {
@@ -312,7 +322,7 @@ public class ItemChoiceTableController
         return value;
       }
     };
-    TableColumnController<Item,FixedDecimalsInteger> statColumn=new TableColumnController<Item,FixedDecimalsInteger>(stat.name(),stat.getName(),FixedDecimalsInteger.class,statCell);
+    DefaultTableColumnController<Item,FixedDecimalsInteger> statColumn=new DefaultTableColumnController<Item,FixedDecimalsInteger>(stat.name(),stat.getName(),FixedDecimalsInteger.class,statCell);
     statColumn.setWidthSpecs(55,55,50);
     return statColumn;
   }

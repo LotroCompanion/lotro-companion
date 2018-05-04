@@ -9,7 +9,7 @@ import delta.common.ui.swing.tables.CellDataProvider;
 import delta.common.ui.swing.tables.DataProvider;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.ListDataProvider;
-import delta.common.ui.swing.tables.TableColumnController;
+import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.utils.collections.filters.Filter;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.lore.items.legendary.relics.Relic;
@@ -64,7 +64,7 @@ public class RelicsTableController
           return icon;
         }
       };
-      TableColumnController<Relic,ImageIcon> iconColumn=new TableColumnController<Relic,ImageIcon>("Icon",ImageIcon.class,iconCell);
+      DefaultTableColumnController<Relic,ImageIcon> iconColumn=new DefaultTableColumnController<Relic,ImageIcon>("Icon",ImageIcon.class,iconCell);
       iconColumn.setWidthSpecs(50,50,50);
       iconColumn.setSortable(false);
       table.addColumnController(iconColumn);
@@ -94,7 +94,7 @@ public class RelicsTableController
           return item.getName();
         }
       };
-      TableColumnController<Relic,String> nameColumn=new TableColumnController<Relic,String>("Name",String.class,nameCell);
+      DefaultTableColumnController<Relic,String> nameColumn=new DefaultTableColumnController<Relic,String>("Name",String.class,nameCell);
       nameColumn.setWidthSpecs(100,230,210);
       table.addColumnController(nameColumn);
     }
@@ -108,7 +108,7 @@ public class RelicsTableController
           return item.getRequiredLevel();
         }
       };
-      TableColumnController<Relic,Integer> levelColumn=new TableColumnController<Relic,Integer>("Level",Integer.class,levelCell);
+      DefaultTableColumnController<Relic,Integer> levelColumn=new DefaultTableColumnController<Relic,Integer>("Level",Integer.class,levelCell);
       levelColumn.setWidthSpecs(70,70,50);
       table.addColumnController(levelColumn);
     }
@@ -123,7 +123,7 @@ public class RelicsTableController
           return statsStr;
         }
       };
-      TableColumnController<Relic,String> statsColumn=new TableColumnController<Relic,String>("Stats",String.class,statsCell);
+      DefaultTableColumnController<Relic,String> statsColumn=new DefaultTableColumnController<Relic,String>("Stats",String.class,statsCell);
       statsColumn.setWidthSpecs(250,-1,250);
       table.addColumnController(statsColumn);
     }

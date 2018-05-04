@@ -10,7 +10,7 @@ import delta.common.ui.swing.tables.CellDataProvider;
 import delta.common.ui.swing.tables.DataProvider;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.GenericTableController.DateRenderer;
-import delta.common.ui.swing.tables.TableColumnController;
+import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.utils.collections.filters.Filter;
 import delta.games.lotro.character.log.CharacterLog;
 import delta.games.lotro.character.log.CharacterLogItem;
@@ -69,7 +69,7 @@ public class CharacterLogTableController
           return new Date(timestamp);
         }
       };
-      TableColumnController<CharacterLogItem,Date> dateColumn=new TableColumnController<CharacterLogItem,Date>("Date",Date.class,dateCell);
+      DefaultTableColumnController<CharacterLogItem,Date> dateColumn=new DefaultTableColumnController<CharacterLogItem,Date>("Date",Date.class,dateCell);
       dateColumn.setWidthSpecs(100,100,50);
       dateColumn.setCellRenderer(new DateRenderer(Formats.DATE_PATTERN));
       table.addColumnController(dateColumn);
@@ -84,7 +84,7 @@ public class CharacterLogTableController
           return item.getLogItemType();
         }
       };
-      TableColumnController<CharacterLogItem,LogItemType> typeColumn=new TableColumnController<CharacterLogItem,LogItemType>("Type",LogItemType.class,typeCell);
+      DefaultTableColumnController<CharacterLogItem,LogItemType> typeColumn=new DefaultTableColumnController<CharacterLogItem,LogItemType>("Type",LogItemType.class,typeCell);
       typeColumn.setWidthSpecs(100,100,50);
       typeColumn.setCellRenderer(new LogItemTypeRenderer());
       typeColumn.setUseToString(Boolean.TRUE);
@@ -100,7 +100,7 @@ public class CharacterLogTableController
           return item.getLabel();
         }
       };
-      TableColumnController<CharacterLogItem,String> labelColumn=new TableColumnController<CharacterLogItem,String>("Label",String.class,labelCell);
+      DefaultTableColumnController<CharacterLogItem,String> labelColumn=new DefaultTableColumnController<CharacterLogItem,String>("Label",String.class,labelCell);
       labelColumn.setWidthSpecs(150,-1,150);
       table.addColumnController(labelColumn);
     }

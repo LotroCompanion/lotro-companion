@@ -22,6 +22,7 @@ import delta.common.ui.swing.tables.CellDataProvider;
 import delta.common.ui.swing.tables.DataProvider;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.ListDataProvider;
+import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.TableColumnController;
 import delta.common.ui.swing.tables.TableColumnsManager;
 import delta.games.lotro.character.CharacterFile;
@@ -83,12 +84,12 @@ public class ReputationSynopsisTableController
     DataProvider<Faction> provider=buildDataProvider();
     GenericTableController<Faction> table=new GenericTableController<Faction>(provider);
     table.setFilter(_filter);
-    TableColumnController<Faction,String> factionsColumn=buildFactionsColumn();
+    DefaultTableColumnController<Faction,String> factionsColumn=buildFactionsColumn();
     table.addColumnController(factionsColumn);
     return table;
   }
 
-  private TableColumnController<Faction,String> buildFactionsColumn()
+  private DefaultTableColumnController<Faction,String> buildFactionsColumn()
   {
     CellDataProvider<Faction,String> cell=new CellDataProvider<Faction,String>()
     {
@@ -98,7 +99,7 @@ public class ReputationSynopsisTableController
         return item.getName();
       }
     };
-    TableColumnController<Faction,String> column=new TableColumnController<Faction,String>("Factions",String.class,cell);
+    DefaultTableColumnController<Faction,String> column=new DefaultTableColumnController<Faction,String>("Factions",String.class,cell);
 
     // Init panels
     column.setMinWidth(200);
@@ -145,7 +146,7 @@ public class ReputationSynopsisTableController
     return renderer;
   }
 
-  private TableColumnController<Faction,FactionStatus> buildCharacterColumn(CharacterFile character)
+  private DefaultTableColumnController<Faction,FactionStatus> buildCharacterColumn(CharacterFile character)
   {
     final CharacterFile toon=character;
     CellDataProvider<Faction,FactionStatus> cell=new CellDataProvider<Faction,FactionStatus>()
@@ -158,7 +159,7 @@ public class ReputationSynopsisTableController
       }
     };
     String id=character.getIdentifier();
-    TableColumnController<Faction,FactionStatus> column=new TableColumnController<Faction,FactionStatus>(id,"Faction",FactionStatus.class,cell);
+    DefaultTableColumnController<Faction,FactionStatus> column=new DefaultTableColumnController<Faction,FactionStatus>(id,"Faction",FactionStatus.class,cell);
 
     // Cell renderer
     TableCellRenderer renderer=buildFactionStatusCellRenderer();
@@ -206,7 +207,7 @@ public class ReputationSynopsisTableController
 
   private void addToon(CharacterFile toon)
   {
-    TableColumnController<Faction,FactionStatus> column=buildCharacterColumn(toon);
+    DefaultTableColumnController<Faction,FactionStatus> column=buildCharacterColumn(toon);
     _table.addColumnController(column);
   }
 

@@ -9,7 +9,7 @@ import javax.swing.JTable;
 import delta.common.ui.swing.tables.CellDataProvider;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.ListDataProvider;
-import delta.common.ui.swing.tables.TableColumnController;
+import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharacterSummary;
 import delta.games.lotro.character.CharactersManager;
@@ -55,7 +55,7 @@ public class ToonsTableController
           return data.getName();
         }
       };
-      TableColumnController<CharacterFile,String> nameColumn=new TableColumnController<CharacterFile,String>("Name",String.class,nameCell);
+      DefaultTableColumnController<CharacterFile,String> nameColumn=new DefaultTableColumnController<CharacterFile,String>("Name",String.class,nameCell);
       nameColumn.setWidthSpecs(100,100,100);
       table.addColumnController(nameColumn);
     }
@@ -70,7 +70,7 @@ public class ToonsTableController
           return data.getRace();
         }
       };
-      TableColumnController<CharacterFile,Race> raceColumn=new TableColumnController<CharacterFile,Race>("Race",Race.class,raceCell);
+      DefaultTableColumnController<CharacterFile,Race> raceColumn=new DefaultTableColumnController<CharacterFile,Race>("Race",Race.class,raceCell);
       raceColumn.setWidthSpecs(100,100,100);
       table.addColumnController(raceColumn);
     }
@@ -85,7 +85,7 @@ public class ToonsTableController
           return data.getCharacterClass();
         }
       };
-      TableColumnController<CharacterFile,CharacterClass> classColumn=new TableColumnController<CharacterFile,CharacterClass>("Class",CharacterClass.class,classCell);
+      DefaultTableColumnController<CharacterFile,CharacterClass> classColumn=new DefaultTableColumnController<CharacterFile,CharacterClass>("Class",CharacterClass.class,classCell);
       classColumn.setWidthSpecs(100,100,100);
       table.addColumnController(classColumn);
     }
@@ -100,7 +100,7 @@ public class ToonsTableController
           return data.getCharacterSex();
         }
       };
-      TableColumnController<CharacterFile,CharacterSex> sexColumn=new TableColumnController<CharacterFile,CharacterSex>("Sex",CharacterSex.class,sexCell);
+      DefaultTableColumnController<CharacterFile,CharacterSex> sexColumn=new DefaultTableColumnController<CharacterFile,CharacterSex>("Sex",CharacterSex.class,sexCell);
       sexColumn.setWidthSpecs(80,80,80);
       table.addColumnController(sexColumn);
     }
@@ -115,7 +115,7 @@ public class ToonsTableController
           return data.getRegion();
         }
       };
-      TableColumnController<CharacterFile,String> regionColumn=new TableColumnController<CharacterFile,String>("Region",String.class,regionCell);
+      DefaultTableColumnController<CharacterFile,String> regionColumn=new DefaultTableColumnController<CharacterFile,String>("Region",String.class,regionCell);
       regionColumn.setWidthSpecs(100,100,100);
       table.addColumnController(regionColumn);
     }
@@ -130,7 +130,7 @@ public class ToonsTableController
           return Integer.valueOf(data.getLevel());
         }
       };
-      TableColumnController<CharacterFile,Integer> serverColumn=new TableColumnController<CharacterFile,Integer>("Level",Integer.class,levelCell);
+      DefaultTableColumnController<CharacterFile,Integer> serverColumn=new DefaultTableColumnController<CharacterFile,Integer>("Level",Integer.class,levelCell);
       serverColumn.setWidthSpecs(80,80,80);
       table.addColumnController(serverColumn);
     }
@@ -145,7 +145,7 @@ public class ToonsTableController
           return data.getServer();
         }
       };
-      TableColumnController<CharacterFile,String> serverColumn=new TableColumnController<CharacterFile,String>("Server",String.class,serverCell);
+      DefaultTableColumnController<CharacterFile,String> serverColumn=new DefaultTableColumnController<CharacterFile,String>("Server",String.class,serverCell);
       serverColumn.setWidthSpecs(100,100,100);
       table.addColumnController(serverColumn);
     }
