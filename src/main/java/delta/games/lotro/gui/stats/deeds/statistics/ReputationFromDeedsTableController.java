@@ -27,7 +27,6 @@ public class ReputationFromDeedsTableController
   private DeedsStatistics _stats;
   private List<FactionStatsFromDeeds> _factionStats;
   // GUI
-  private JTable _table;
   private GenericTableController<FactionStatsFromDeeds> _tableController;
 
   /**
@@ -57,7 +56,7 @@ public class ReputationFromDeedsTableController
         }
       };
       DefaultTableColumnController<FactionStatsFromDeeds,String> factionColumn=new DefaultTableColumnController<FactionStatsFromDeeds,String>(FACTION,"Faction",String.class,factionCell);
-      factionColumn.setWidthSpecs(100,300,200);
+      factionColumn.setWidthSpecs(200,-1,200);
       table.addColumnController(factionColumn);
     }
     // Amount column
@@ -71,8 +70,8 @@ public class ReputationFromDeedsTableController
           return amount;
         }
       };
-      DefaultTableColumnController<FactionStatsFromDeeds,Integer> amountColumn=new DefaultTableColumnController<FactionStatsFromDeeds,Integer>(AMOUNT,"Amount",Integer.class,amountCell);
-      amountColumn.setWidthSpecs(120,120,120);
+      DefaultTableColumnController<FactionStatsFromDeeds,Integer> amountColumn=new DefaultTableColumnController<FactionStatsFromDeeds,Integer>(AMOUNT,"Points",Integer.class,amountCell);
+      amountColumn.setWidthSpecs(60,60,60);
       table.addColumnController(amountColumn);
     }
     // Deeds count column
@@ -87,7 +86,7 @@ public class ReputationFromDeedsTableController
         }
       };
       DefaultTableColumnController<FactionStatsFromDeeds,Integer> deedsCountColumn=new DefaultTableColumnController<FactionStatsFromDeeds,Integer>(DEEDS_COUNT,"Deeds",Integer.class,deedsCountCell);
-      deedsCountColumn.setWidthSpecs(100,300,200);
+      deedsCountColumn.setWidthSpecs(60,60,60);
       table.addColumnController(deedsCountColumn);
     }
 
@@ -131,11 +130,7 @@ public class ReputationFromDeedsTableController
    */
   public JTable getTable()
   {
-    if (_table==null)
-    {
-      _table=_tableController.getTable();
-    }
-    return _table;
+    return _tableController.getTable();
   }
 
   /**
@@ -144,7 +139,6 @@ public class ReputationFromDeedsTableController
   public void dispose()
   {
     // GUI
-    _table=null;
     if (_tableController!=null)
     {
       _tableController.dispose();
