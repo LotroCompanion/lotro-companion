@@ -10,6 +10,7 @@ public class VirtueStatsFromDeeds
 {
   private VirtueId _virtueId;
   private int _points;
+  private int _deedsCount;
 
   /**
    * Constructor.
@@ -36,6 +37,7 @@ public class VirtueStatsFromDeeds
   public void add(int points)
   {
     _points+=points;
+    _deedsCount++;
   }
 
   /**
@@ -46,5 +48,14 @@ public class VirtueStatsFromDeeds
   public int getPoints()
   {
     return _points;
+  }
+
+  /**
+   * Get the number of deeds used to build the associated virtue.
+   * @return A deeds count.
+   */
+  public int getDeedsCount()
+  {
+    return _deedsCount;
   }
 }

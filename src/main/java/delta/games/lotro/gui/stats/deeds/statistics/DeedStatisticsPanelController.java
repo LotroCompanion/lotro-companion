@@ -27,6 +27,7 @@ public class DeedStatisticsPanelController
   private DeedStatisticsSummaryPanelController _summary;
   private TitlesDisplayPanelController _titles;
   private ReputationDisplayPanel _reputation;
+  private VirtuesDisplayPanel _virtues;
 
   /**
    * Constructor.
@@ -39,6 +40,7 @@ public class DeedStatisticsPanelController
     _summary=new DeedStatisticsSummaryPanelController(statistics);
     _titles=new TitlesDisplayPanelController(parent,statistics);
     _reputation=new ReputationDisplayPanel(parent,statistics);
+    _virtues=new VirtuesDisplayPanel(parent,statistics);
     _panel=buildPanel();
   }
 
@@ -56,6 +58,9 @@ public class DeedStatisticsPanelController
     // Reputation
     JPanel reputationPanel=_reputation.getPanel();
     pane.add("Reputation",reputationPanel);
+    // Virtues
+    JPanel virtuesPanel=_virtues.getPanel();
+    pane.add("Virtues",virtuesPanel);
     return panel;
   }
 
@@ -70,6 +75,7 @@ public class DeedStatisticsPanelController
     _summary.update();
     _titles.update();
     _reputation.update();
+    _virtues.update();
   }
 
   /**
@@ -109,6 +115,11 @@ public class DeedStatisticsPanelController
     {
       _reputation.dispose();
       _reputation=null;
+    }
+    if (_virtues!=null)
+    {
+      _virtues.dispose();
+      _virtues=null;
     }
   }
 }
