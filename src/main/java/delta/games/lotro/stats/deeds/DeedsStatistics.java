@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
+
 import delta.common.utils.text.EndOfLine;
 import delta.games.lotro.common.Emote;
 import delta.games.lotro.common.Reputation;
@@ -16,7 +18,11 @@ import delta.games.lotro.common.Virtue;
 import delta.games.lotro.common.VirtueId;
 import delta.games.lotro.common.objects.ObjectItem;
 import delta.games.lotro.common.objects.ObjectsSet;
+import delta.games.lotro.gui.items.CountedItem;
+import delta.games.lotro.gui.items.CountedItemNameComparator;
 import delta.games.lotro.lore.deeds.DeedDescription;
+import delta.games.lotro.lore.items.Item;
+import delta.games.lotro.lore.items.ItemsManager;
 import delta.games.lotro.lore.reputation.Faction;
 import delta.games.lotro.lore.reputation.FactionsRegistry;
 import delta.games.lotro.stats.deeds.statistics.EmoteEvent;
@@ -30,6 +36,8 @@ import delta.games.lotro.stats.deeds.statistics.TitleEventNameComparator;
  */
 public class DeedsStatistics
 {
+  private static final Logger LOGGER=Logger.getLogger(DeedsStatistics.class);
+
   private int _completedCount;
   private int _total;
   private int _acquiredLP;
@@ -40,6 +48,7 @@ public class DeedsStatistics
   private List<EmoteEvent> _emotes;
   private Map<VirtueId,VirtueStatsFromDeeds> _virtues;
   private Map<String,FactionStatsFromDeeds> _reputation;
+  private Map<Integer,CountedItem> _items;
 
   /**
    * Constructor.
@@ -50,6 +59,7 @@ public class DeedsStatistics
     _emotes=new ArrayList<EmoteEvent>();
     _virtues=new HashMap<VirtueId,VirtueStatsFromDeeds>();
     _reputation=new HashMap<String,FactionStatsFromDeeds>();
+    _items=new HashMap<Integer,CountedItem>();
     reset();
   }
 
@@ -68,6 +78,7 @@ public class DeedsStatistics
     _emotes.clear();
     _virtues.clear();
     _reputation.clear();
+    _items.clear();
   }
 
   /**
@@ -111,15 +122,32 @@ public class DeedsStatistics
       {
         ObjectItem itemReward=objects.getItem(i);
         int itemId=itemReward.getItemId();
+        int itemsCount=objects.getQuantity(i);
         // Marks
         if (itemId==1879224343)
         {
-          _marksCount+=objects.getQuantity(i);
+          _marksCount+=itemsCount;
         }
         // Medallions
         if (itemId==1879224344)
         {
-          _medallionsCount+=objects.getQuantity(i);
+          _medallionsCount+=itemsCount;
+        }
+        Item item=ItemsManager.getInstance().getItem(itemId);
+        if (item!=null)
+        {
+          Integer itemIdInteger=Integer.valueOf(itemId);
+          CountedItem count=_items.get(itemIdInteger);
+          if (count==null)
+          {
+            count=new CountedItem(item,0);
+            _items.put(itemIdInteger,count);
+          }
+          count.add(itemsCount);
+        }
+        else
+        {
+          LOGGER.warn("Item not found: "+itemId);
         }
       }
       // Titles
@@ -298,6 +326,17 @@ public class DeedsStatistics
       total+=points;
     }
     return total;
+  }
+
+  /**
+   * Get the acquired items.
+   * @return A list of counted items, sorted by name.
+   */
+  public List<CountedItem> getItems()
+  {
+    List<CountedItem> items=new ArrayList<CountedItem>(_items.values());
+    Collections.sort(items,new CountedItemNameComparator());
+    return items;
   }
 
   /**
