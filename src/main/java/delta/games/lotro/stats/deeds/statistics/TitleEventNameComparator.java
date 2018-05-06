@@ -3,7 +3,8 @@ package delta.games.lotro.stats.deeds.statistics;
 import java.util.Comparator;
 
 /**
- * @author dm
+ * Comparator for TitleEvent that uses the title name.
+ * @author DAM
  */
 public class TitleEventNameComparator implements Comparator<TitleEvent>
 {

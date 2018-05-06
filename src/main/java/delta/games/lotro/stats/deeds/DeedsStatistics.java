@@ -19,6 +19,8 @@ import delta.games.lotro.common.objects.ObjectsSet;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.reputation.Faction;
 import delta.games.lotro.lore.reputation.FactionsRegistry;
+import delta.games.lotro.stats.deeds.statistics.EmoteEvent;
+import delta.games.lotro.stats.deeds.statistics.EmoteEventNameComparator;
 import delta.games.lotro.stats.deeds.statistics.TitleEvent;
 import delta.games.lotro.stats.deeds.statistics.TitleEventNameComparator;
 
@@ -35,7 +37,7 @@ public class DeedsStatistics
   private int _marksCount;
   private int _medallionsCount;
   private List<TitleEvent> _titles;
-  private List<String> _emotes;
+  private List<EmoteEvent> _emotes;
   private Map<VirtueId,VirtueStatsFromDeeds> _virtues;
   private Map<String,FactionStatsFromDeeds> _reputation;
 
@@ -45,7 +47,7 @@ public class DeedsStatistics
   public DeedsStatistics()
   {
     _titles=new ArrayList<TitleEvent>();
-    _emotes=new ArrayList<String>();
+    _emotes=new ArrayList<EmoteEvent>();
     _virtues=new HashMap<VirtueId,VirtueStatsFromDeeds>();
     _reputation=new HashMap<String,FactionStatsFromDeeds>();
     reset();
@@ -86,7 +88,7 @@ public class DeedsStatistics
       _total++;
     }
     Collections.sort(_titles,new TitleEventNameComparator());
-    Collections.sort(_emotes);
+    Collections.sort(_emotes,new EmoteEventNameComparator());
   }
 
   private void useDeed(DeedStatus deedStatus, DeedDescription deed)
@@ -137,7 +139,9 @@ public class DeedsStatistics
       {
         for(Emote emote : emotes)
         {
-          _emotes.add(emote.getName());
+          Long date=deedStatus.getCompletionDate();
+          EmoteEvent event=new EmoteEvent(emote.getName(),date,deed);
+          _emotes.add(event);
         }
       }
       // Virtues
@@ -231,7 +235,7 @@ public class DeedsStatistics
   }
 
   /**
-   * Get the titles events.
+   * Get the title events.
    * @return A list of title events, sorted by name.
    */
   public List<TitleEvent> getTitles()
@@ -240,10 +244,10 @@ public class DeedsStatistics
   }
 
   /**
-   * Get the acquired emotes.
-   * @return A list of emotes, sorted by name.
+   * Get the acquired emote events.
+   * @return A list of emote events, sorted by name.
    */
-  public List<String> getEmotes()
+  public List<EmoteEvent> getEmotes()
   {
     return _emotes;
   }
@@ -318,7 +322,7 @@ public class DeedsStatistics
     if (_emotes.size()>0)
     {
       sb.append("Emotes: (").append(_emotes.size()).append(')').append(EndOfLine.NATIVE_EOL);
-      for(String emote : _emotes)
+      for(EmoteEvent emote : _emotes)
       {
         sb.append('\t').append(emote).append(EndOfLine.NATIVE_EOL);
       }
