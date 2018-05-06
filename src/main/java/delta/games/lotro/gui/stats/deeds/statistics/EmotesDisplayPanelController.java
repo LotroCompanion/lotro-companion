@@ -99,8 +99,8 @@ public class EmotesDisplayPanelController
 
   private void updateStatsLabel()
   {
-    int nbItems=_stats.getTitles().size();
-    String label="Titles(s): "+nbItems;
+    int nbItems=_stats.getEmotes().size();
+    String label="Emotes(s): "+nbItems;
     _statsLabel.setText(label);
   }
 
