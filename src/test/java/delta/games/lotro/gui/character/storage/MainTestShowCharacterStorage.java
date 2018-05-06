@@ -3,8 +3,14 @@ package delta.games.lotro.gui.character.storage;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JComponent;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+
 import org.apache.log4j.Logger;
 
+import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.windows.DefaultWindowController;
 import delta.common.utils.collections.filters.Filter;
 import delta.games.lotro.character.storage.AccountServerStorage;
 import delta.games.lotro.character.storage.CharacterStorage;
@@ -13,7 +19,8 @@ import delta.games.lotro.character.storage.ItemsContainer;
 import delta.games.lotro.character.storage.StoredItem;
 import delta.games.lotro.character.storage.Vault;
 import delta.games.lotro.character.storage.Wallet;
-import delta.games.lotro.gui.items.ItemChoiceWindowController;
+import delta.games.lotro.gui.items.CountedItem;
+import delta.games.lotro.gui.items.CountedItemsTableController;
 import delta.games.lotro.gui.items.ItemFilterController;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemPropertyNames;
@@ -75,11 +82,22 @@ public class MainTestShowCharacterStorage
 
   private void show(List<StoredItem> storedItems)
   {
-    List<Item> items=getItems(storedItems);
+    List<CountedItem> countedItems=getItems(storedItems);
     ItemFilterController filterController=new ItemFilterController();
     Filter<Item> filter=filterController.getFilter();
-    ItemChoiceWindowController choiceCtrl=new ItemChoiceWindowController(null,null,items,filter,filterController);
-    choiceCtrl.show();
+    final CountedItemsTableController tableController=new CountedItemsTableController(null,countedItems,filter);
+    DefaultWindowController c=new DefaultWindowController()
+    {
+      @Override
+      protected JComponent buildContents()
+      {
+        // Table
+        JTable table=tableController.getTable();
+        JScrollPane scroll=GuiFactory.buildScrollPane(table);
+        return scroll;
+      }
+    };
+    c.show();
   }
 
   private List<StoredItem> getAllItems(String character, AccountServerStorage storage, boolean bags)
@@ -108,11 +126,11 @@ public class MainTestShowCharacterStorage
     return items;
   }
 
-  private List<Item> getItems(List<StoredItem> storedItems)
+  private List<CountedItem> getItems(List<StoredItem> storedItems)
   {
     ItemsManager itemsMgr=ItemsManager.getInstance();
     List<Item> allItems=itemsMgr.getAllItems();
-    List<Item> selection=new ArrayList<Item>();
+    List<CountedItem> selection=new ArrayList<CountedItem>();
     for(StoredItem storedItem : storedItems)
     {
       Item selectedItem=null;
@@ -127,7 +145,8 @@ public class MainTestShowCharacterStorage
       }
       if (selectedItem!=null)
       {
-        selection.add(selectedItem);
+        CountedItem countedItem=new CountedItem(selectedItem,storedItem.getQuantity());
+        selection.add(countedItem);
       }
       else
       {
