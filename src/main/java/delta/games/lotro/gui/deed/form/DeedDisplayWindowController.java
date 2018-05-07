@@ -19,14 +19,17 @@ public class DeedDisplayWindowController extends DefaultDialogController
 {
   // Controllers
   private DeedDisplayPanelController _controller;
+  private int _id;
 
   /**
    * Constructor.
    * @param parent Parent controller.
+   * @param id Identifier.
    */
-  public DeedDisplayWindowController(WindowController parent)
+  public DeedDisplayWindowController(WindowController parent, int id)
   {
     super(parent);
+    _id=id;
   }
 
   /**
@@ -51,6 +54,12 @@ public class DeedDisplayWindowController extends DefaultDialogController
       dialog.setLocationRelativeTo(parentWindow);
     }
     dialog.setResizable(false);
+  }
+
+  @Override
+  public String getWindowIdentifier()
+  {
+    return "DEED_DISPLAY#"+_id;
   }
 
   /**

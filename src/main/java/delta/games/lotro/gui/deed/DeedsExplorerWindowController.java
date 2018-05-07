@@ -114,11 +114,11 @@ public class DeedsExplorerWindowController extends DefaultWindowController
 
   private void showDeed(DeedDescription deed)
   {
-    DeedDisplayWindowController window=new DeedDisplayWindowController(DeedsExplorerWindowController.this);
+    int id=_deedWindows.getAll().size();
+    DeedDisplayWindowController window=new DeedDisplayWindowController(DeedsExplorerWindowController.this,id);
     window.setDeed(deed);
     window.show(false);
-    WindowsManager manager=new WindowsManager();
-    manager.registerWindow(window);
+    _deedWindows.registerWindow(window);
   }
 
   /**
