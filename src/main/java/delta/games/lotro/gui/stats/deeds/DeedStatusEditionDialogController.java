@@ -16,11 +16,15 @@ import javax.swing.border.TitledBorder;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.checkbox.CheckboxController;
+import delta.common.ui.swing.labels.HyperLinkController;
+import delta.common.ui.swing.labels.LocalHyperlinkAction;
 import delta.common.ui.swing.text.dates.DateCodec;
 import delta.common.ui.swing.text.dates.DateEditionController;
 import delta.common.ui.swing.windows.DefaultFormDialogController;
 import delta.common.ui.swing.windows.WindowController;
+import delta.common.ui.swing.windows.WindowsManager;
 import delta.games.lotro.gui.LotroIconsManager;
+import delta.games.lotro.gui.deed.form.DeedDisplayWindowController;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.DeedType;
 import delta.games.lotro.stats.deeds.DeedStatus;
@@ -36,10 +40,10 @@ public class DeedStatusEditionDialogController extends DefaultFormDialogControll
   private DeedDescription _deed;
   // UI
   private JLabel _icon;
-  private JLabel _name;
   // Controllers
   private CheckboxController _completed;
   private DateEditionController _completionDate;
+  private WindowsManager _windowsManager;
 
   /**
    * Constructor.
@@ -51,6 +55,7 @@ public class DeedStatusEditionDialogController extends DefaultFormDialogControll
   {
     super(parentController,status);
     _deed=deed;
+    _windowsManager=new WindowsManager();
   }
 
   @Override
@@ -80,9 +85,19 @@ public class DeedStatusEditionDialogController extends DefaultFormDialogControll
       deedSummaryLine.add(_icon);
       // Name
       String name=_deed.getName();
-      _name=GuiFactory.buildLabel(name);
-      _name.setFont(_name.getFont().deriveFont(16f).deriveFont(Font.BOLD));
-      deedSummaryLine.add(_name);
+      ActionListener al=new ActionListener()
+      {
+        @Override
+        public void actionPerformed(ActionEvent e)
+        {
+          showDeed();
+        }
+      };
+      LocalHyperlinkAction deedLinkAction=new LocalHyperlinkAction(name,al);
+      HyperLinkController deedLink=new HyperLinkController(deedLinkAction);
+      JLabel label=deedLink.getLabel();
+      label.setFont(label.getFont().deriveFont(16f).deriveFont(Font.BOLD));
+      deedSummaryLine.add(label);
       panel.add(deedSummaryLine,c);
       c.gridy++;
     }
@@ -134,6 +149,24 @@ public class DeedStatusEditionDialogController extends DefaultFormDialogControll
     // Completion date
     Long completionDate=_completionDate.getDate();
     _data.setCompletionDate(completionDate);
+  }
+
+  private void showDeed()
+  {
+    int nbWindows=_windowsManager.getAll().size();
+    if (nbWindows==0)
+    {
+      DeedDisplayWindowController window=new DeedDisplayWindowController(this,0);
+      window.setDeed(_deed);
+      window.show(false);
+      _windowsManager.registerWindow(window);
+    }
+    else
+    {
+      DeedDisplayWindowController window=(DeedDisplayWindowController)_windowsManager.getAll().get(0);
+      window.setDeed(_deed);
+      window.bringToFront();
+    }
   }
 
   /**
