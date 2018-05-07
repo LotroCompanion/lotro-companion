@@ -1,6 +1,7 @@
 package delta.games.lotro.gui.stats.deeds.statistics;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.swing.Icon;
@@ -14,6 +15,7 @@ import delta.common.ui.swing.tables.TableColumnsManager;
 import delta.games.lotro.common.VirtueId;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.stats.deeds.DeedsStatistics;
+import delta.games.lotro.stats.deeds.VirtueStatsComparator;
 import delta.games.lotro.stats.deeds.VirtueStatsFromDeeds;
 
 /**
@@ -29,7 +31,7 @@ public class VirtuesFromDeedsTableController
 
   // Data
   private DeedsStatistics _stats;
-  private List<VirtueStatsFromDeeds> _factionStats;
+  private List<VirtueStatsFromDeeds> _virtueStats;
   // GUI
   private GenericTableController<VirtueStatsFromDeeds> _tableController;
 
@@ -46,8 +48,8 @@ public class VirtuesFromDeedsTableController
 
   private GenericTableController<VirtueStatsFromDeeds> buildTable()
   {
-    _factionStats=new ArrayList<VirtueStatsFromDeeds>();
-    ListDataProvider<VirtueStatsFromDeeds> provider=new ListDataProvider<VirtueStatsFromDeeds>(_factionStats);
+    _virtueStats=new ArrayList<VirtueStatsFromDeeds>();
+    ListDataProvider<VirtueStatsFromDeeds> provider=new ListDataProvider<VirtueStatsFromDeeds>(_virtueStats);
     GenericTableController<VirtueStatsFromDeeds> table=new GenericTableController<VirtueStatsFromDeeds>(provider);
 
     // Virtue icon
@@ -142,8 +144,9 @@ public class VirtuesFromDeedsTableController
    */
   public void update()
   {
-    _factionStats.clear();
-    _factionStats.addAll(_stats.getVirtues().values());
+    _virtueStats.clear();
+    _virtueStats.addAll(_stats.getVirtues().values());
+    Collections.sort(_virtueStats,new VirtueStatsComparator());
     _tableController.refresh();
   }
 
