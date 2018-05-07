@@ -18,6 +18,7 @@ import delta.games.lotro.common.Emote;
 import delta.games.lotro.common.Race;
 import delta.games.lotro.common.Rewards;
 import delta.games.lotro.common.Title;
+import delta.games.lotro.common.Trait;
 import delta.games.lotro.common.Virtue;
 import delta.games.lotro.gui.items.ItemChoiceWindowController;
 import delta.games.lotro.lore.deeds.DeedDescription;
@@ -306,6 +307,22 @@ public class DeedsTableController
       DefaultTableColumnController<DeedDescription,String> emoteColumn=new DefaultTableColumnController<DeedDescription,String>(DeedColumnIds.EMOTE.name(),"Emote",String.class,emoteCell);
       emoteColumn.setWidthSpecs(100,300,200);
       ret.add(emoteColumn);
+    }
+    // Trait column
+    {
+      CellDataProvider<DeedDescription,String> traitCell=new CellDataProvider<DeedDescription,String>()
+      {
+        @Override
+        public String getData(DeedDescription deed)
+        {
+          Rewards rewards=deed.getRewards();
+          Trait[] traits=rewards.getTraits();
+          return ((traits!=null) && (traits.length>0))?traits[0].getName():null;
+        }
+      };
+      DefaultTableColumnController<DeedDescription,String> traitColumn=new DefaultTableColumnController<DeedDescription,String>(DeedColumnIds.TRAIT.name(),"Trait",String.class,traitCell);
+      traitColumn.setWidthSpecs(100,300,200);
+      ret.add(traitColumn);
     }
     return ret;
   }

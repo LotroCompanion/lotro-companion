@@ -65,5 +65,9 @@ public enum DeedColumnIds
   /**
    * Rewards: emote.
    */
-  EMOTE
+  EMOTE,
+  /**
+   * Rewards: trait.
+   */
+  TRAIT
 }
