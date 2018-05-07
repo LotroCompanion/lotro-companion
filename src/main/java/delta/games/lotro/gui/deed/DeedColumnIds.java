@@ -69,5 +69,9 @@ public enum DeedColumnIds
   /**
    * Rewards: trait.
    */
-  TRAIT
+  TRAIT,
+  /**
+   * Rewards: skill.
+   */
+  SKILL
 }

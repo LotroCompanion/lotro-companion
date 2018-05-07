@@ -17,6 +17,7 @@ import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.Emote;
 import delta.games.lotro.common.Race;
 import delta.games.lotro.common.Rewards;
+import delta.games.lotro.common.Skill;
 import delta.games.lotro.common.Title;
 import delta.games.lotro.common.Trait;
 import delta.games.lotro.common.Virtue;
@@ -323,6 +324,22 @@ public class DeedsTableController
       DefaultTableColumnController<DeedDescription,String> traitColumn=new DefaultTableColumnController<DeedDescription,String>(DeedColumnIds.TRAIT.name(),"Trait",String.class,traitCell);
       traitColumn.setWidthSpecs(100,300,200);
       ret.add(traitColumn);
+    }
+    // Skill column
+    {
+      CellDataProvider<DeedDescription,String> skillCell=new CellDataProvider<DeedDescription,String>()
+      {
+        @Override
+        public String getData(DeedDescription deed)
+        {
+          Rewards rewards=deed.getRewards();
+          Skill[] skills=rewards.getSkills();
+          return ((skills!=null) && (skills.length>0))?skills[0].getName():null;
+        }
+      };
+      DefaultTableColumnController<DeedDescription,String> skillColumn=new DefaultTableColumnController<DeedDescription,String>(DeedColumnIds.SKILL.name(),"Skill",String.class,skillCell);
+      skillColumn.setWidthSpecs(100,300,200);
+      ret.add(skillColumn);
     }
     return ret;
   }
