@@ -8,8 +8,10 @@ import javax.swing.JPanel;
 
 import delta.common.ui.swing.windows.DefaultDialogController;
 import delta.common.ui.swing.windows.WindowController;
+import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.stats.deeds.DeedsStatistics;
 import delta.games.lotro.stats.deeds.DeedsStatusManager;
+import delta.games.lotro.stats.deeds.io.DeedsStatusIo;
 
 /**
  * Controller for a "deeds statistics" window.
@@ -22,18 +24,25 @@ public class DeedStatisticsWindowController extends DefaultDialogController
    */
   public static final String IDENTIFIER="DEEDS_STATISTICS";
 
-  private DeedStatisticsPanelController _panelController;
+  // Data
+  private CharacterFile _toon;
+  private DeedsStatusManager _deedsStatus;
   private DeedsStatistics _statistics;
+  // Controllers
+  private DeedStatisticsPanelController _panelController;
 
   /**
    * Constructor.
    * @param parent Parent controller.
+   * @param toon Character file.
    */
-  public DeedStatisticsWindowController(WindowController parent)
+  public DeedStatisticsWindowController(WindowController parent, CharacterFile toon)
   {
     super(parent);
+    _toon=toon;
     _statistics=new DeedsStatistics();
     _panelController=new DeedStatisticsPanelController(this,_statistics);
+    updateStats();
   }
 
   @Override
@@ -59,19 +68,24 @@ public class DeedStatisticsWindowController extends DefaultDialogController
     return IDENTIFIER;
   }
 
+  private void loadDeedsStatus()
+  {
+    _deedsStatus=DeedsStatusIo.load(_toon);
+  }
+
   /**
-   * Update statistics using the given deeds status.
-   * @param status Deeds status to use.
+   * Update deeds statistics.
    */
-  public void updateStats(DeedsStatusManager status)
+  private void updateStats()
   {
     // Title
-    String name=status.getCharacterName();
-    String serverName=status.getServer();
+    String name=_toon.getName();
+    String serverName=_toon.getServerName();
     String title="Deeds statistics for "+name+" @ "+serverName;
     getDialog().setTitle(title);
     // Update status
-    _panelController.updateStats(status);
+    loadDeedsStatus();
+    _panelController.updateStats(_deedsStatus);
   }
 
   /**
@@ -80,12 +94,16 @@ public class DeedStatisticsWindowController extends DefaultDialogController
   @Override
   public void dispose()
   {
+    // Data
+    _toon=null;
+    _deedsStatus=null;
+    _statistics=null;
+    // Controllers
     if (_panelController!=null)
     {
       _panelController.dispose();
       _panelController=null;
     }
-    _statistics=null;
     super.dispose();
   }
 }

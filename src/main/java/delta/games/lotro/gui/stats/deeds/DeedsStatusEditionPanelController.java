@@ -17,9 +17,7 @@ import delta.common.ui.swing.tables.TableColumnsChooserController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.ui.swing.windows.WindowsManager;
 import delta.games.lotro.gui.items.FilterUpdateListener;
-import delta.games.lotro.gui.stats.deeds.statistics.DeedStatisticsWindowController;
 import delta.games.lotro.lore.deeds.DeedDescription;
-import delta.games.lotro.stats.deeds.DeedsStatusManager;
 
 /**
  * Controller the deeds status edition panel.
@@ -29,7 +27,6 @@ public class DeedsStatusEditionPanelController implements FilterUpdateListener
 {
   // Data
   private DeedStatusTableController _tableController;
-  private DeedsStatusManager _status;
   // GUI
   private JPanel _panel;
   private JLabel _statsLabel;
@@ -41,12 +38,10 @@ public class DeedsStatusEditionPanelController implements FilterUpdateListener
    * Constructor.
    * @param parent Parent window.
    * @param tableController Associated table controller.
-   * @param status Deeds status to edit.
    */
-  public DeedsStatusEditionPanelController(WindowController parent, DeedStatusTableController tableController, DeedsStatusManager status)
+  public DeedsStatusEditionPanelController(WindowController parent, DeedStatusTableController tableController)
   {
     _parent=parent;
-    _status=status;
     _tableController=tableController;
     _windowsManager=new WindowsManager();
   }
@@ -91,47 +86,8 @@ public class DeedsStatusEditionPanelController implements FilterUpdateListener
     };
     choose.addActionListener(al);
     statsPanel.add(choose);
-    // - statistics button
-    JButton showStatsButton=GuiFactory.buildButton("Statistics...");
-    al=new ActionListener()
-    {
-      @Override
-      public void actionPerformed(ActionEvent e)
-      {
-        doShowStatistics();
-      }
-    };
-    showStatsButton.addActionListener(al);
-    statsPanel.add(showStatsButton);
-    // Statistics button
     panel.add(statsPanel,BorderLayout.NORTH);
     return panel;
-  }
-
-  private void doShowStatistics()
-  {
-    DeedStatisticsWindowController summaryController=(DeedStatisticsWindowController)_windowsManager.getWindow(DeedStatisticsWindowController.IDENTIFIER);
-    if (summaryController==null)
-    {
-      summaryController=new DeedStatisticsWindowController(_parent);
-      summaryController.updateStats(_status);
-      _windowsManager.registerWindow(summaryController);
-      summaryController.getWindow().setLocationRelativeTo(_parent.getWindow());
-    }
-    summaryController.bringToFront();
-  }
-
-  /**
-   * Update statistics using the given deeds status.
-   * @param status Deeds status to use.
-   */
-  public void updateStats(DeedsStatusManager status)
-  {
-    DeedStatisticsWindowController summaryController=(DeedStatisticsWindowController)_windowsManager.getWindow(DeedStatisticsWindowController.IDENTIFIER);
-    if (summaryController!=null)
-    {
-      summaryController.updateStats(status);
-    }
   }
 
   /**
@@ -166,7 +122,6 @@ public class DeedsStatusEditionPanelController implements FilterUpdateListener
   {
     // Data
     _tableController=null;
-    _status=null;
     // GUI
     if (_panel!=null)
     {

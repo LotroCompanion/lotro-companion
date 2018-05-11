@@ -39,6 +39,7 @@ import delta.games.lotro.gui.character.stash.StashWindowController;
 import delta.games.lotro.gui.log.CharacterLogWindowController;
 import delta.games.lotro.gui.stats.crafting.CraftingWindowController;
 import delta.games.lotro.gui.stats.deeds.DeedsStatusEditionWindowController;
+import delta.games.lotro.gui.stats.deeds.statistics.DeedStatisticsWindowController;
 import delta.games.lotro.gui.stats.levelling.LevelHistoryEditionDialogController;
 import delta.games.lotro.gui.stats.reputation.CharacterReputationDialogController;
 import delta.games.lotro.gui.stats.traitPoints.TraitPointsEditionWindowController;
@@ -66,6 +67,7 @@ public class CharacterFileWindowController extends DefaultWindowController imple
   private static final String STASH_COMMAND="stash";
   private static final String TRAIT_POINTS_COMMAND="traitPoints";
   private static final String DEEDS_STATUS_COMMAND="deedsStatus";
+  private static final String DEEDS_STATISTICS_COMMAND="deedsStatistics";
 
   private CharacterSummaryPanelController _summaryController;
   private CharacterDataTableController _toonsTable;
@@ -173,6 +175,10 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     JButton deedsButton=buildCommandButton("Deeds",DEEDS_STATUS_COMMAND);
     panel.add(deedsButton,c);
     c.gridx++;
+    // Deeds statistics
+    JButton deedsStatisticsButton=buildCommandButton("Deeds Stats",DEEDS_STATISTICS_COMMAND);
+    panel.add(deedsStatisticsButton,c);
+    c.gridx++;
 
     // Disable buttons if no log
     boolean hasLog=_toon.hasLog();
@@ -241,6 +247,10 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     else if (DEEDS_STATUS_COMMAND.equals(command))
     {
       editDeedsStatus();
+    }
+    else if (DEEDS_STATISTICS_COMMAND.equals(command))
+    {
+      showDeedsStatistics();
     }
     else if (NEW_TOON_DATA_ID.equals(command))
     {
@@ -485,6 +495,18 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     {
       DeedsStatusIo.save(_toon,newStatus);
     }
+  }
+
+  private void showDeedsStatistics()
+  {
+    DeedStatisticsWindowController summaryController=(DeedStatisticsWindowController)_windowsManager.getWindow(DeedStatisticsWindowController.IDENTIFIER);
+    if (summaryController==null)
+    {
+      summaryController=new DeedStatisticsWindowController(this,_toon);
+      _windowsManager.registerWindow(summaryController);
+      summaryController.getWindow().setLocationRelativeTo(getWindow());
+    }
+    summaryController.bringToFront();
   }
 
   /**
