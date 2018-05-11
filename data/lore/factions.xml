@@ -1,0 +1,430 @@
+<?xml version="1.0" encoding="UTF-8"?><factions>
+<faction key="SHIRE" name="Mathom Society" category="Eriador" initialLevel="NEUTRAL">
+<alias name="The Mathom Society"/>
+<level key="NEUTRAL" name="Neutral" code="0" lotroPoints="0" requiredXp="0"/>
+<level key="ACQUAINTANCE" name="Acquaintance" code="1" lotroPoints="5" requiredXp="10000"/>
+<level key="FRIEND" name="Friend" code="2" lotroPoints="10" requiredXp="20000"/>
+<level key="ALLY" name="Ally" code="3" lotroPoints="15" requiredXp="25000"/>
+<level key="KINDRED" name="Kindred" code="4" lotroPoints="20" requiredXp="30000"/>
+</faction>
+<faction key="BREE" name="Men of Bree" category="Eriador" initialLevel="NEUTRAL">
+<level key="NEUTRAL" name="Neutral" code="0" lotroPoints="0" requiredXp="0"/>
+<level key="ACQUAINTANCE" name="Acquaintance" code="1" lotroPoints="5" requiredXp="10000"/>
+<level key="FRIEND" name="Friend" code="2" lotroPoints="10" requiredXp="20000"/>
+<level key="ALLY" name="Ally" code="3" lotroPoints="15" requiredXp="25000"/>
+<level key="KINDRED" name="Kindred" code="4" lotroPoints="20" requiredXp="30000"/>
+</faction>
+<faction key="DWARVES" name="Thorin's Hall" category="Eriador" initialLevel="NEUTRAL">
+<level key="NEUTRAL" name="Neutral" code="0" lotroPoints="0" requiredXp="0"/>
+<level key="ACQUAINTANCE" name="Acquaintance" code="1" lotroPoints="5" requiredXp="10000"/>
+<level key="FRIEND" name="Friend" code="2" lotroPoints="10" requiredXp="20000"/>
+<level key="ALLY" name="Ally" code="3" lotroPoints="15" requiredXp="25000"/>
+<level key="KINDRED" name="Kindred" code="4" lotroPoints="20" requiredXp="30000"/>
+</faction>
+<faction key="EGLAIN" name="Eglain" category="Eriador" initialLevel="NEUTRAL">
+<alias name="The Eglain"/>
+<level key="NEUTRAL" name="Neutral" code="0" lotroPoints="0" requiredXp="0"/>
+<level key="ACQUAINTANCE" name="Acquaintance" code="1" lotroPoints="5" requiredXp="10000"/>
+<level key="FRIEND" name="Friend" code="2" lotroPoints="10" requiredXp="20000"/>
+<level key="ALLY" name="Ally" code="3" lotroPoints="15" requiredXp="25000"/>
+<level key="KINDRED" name="Kindred" code="4" lotroPoints="20" requiredXp="30000"/>
+</faction>
+<faction key="ESTELDIN" name="Rangers of Esteldín" category="Eriador" initialLevel="NEUTRAL">
+<level key="NEUTRAL" name="Neutral" code="0" lotroPoints="0" requiredXp="0"/>
+<level key="ACQUAINTANCE" name="Acquaintance" code="1" lotroPoints="5" requiredXp="10000"/>
+<level key="FRIEND" name="Friend" code="2" lotroPoints="10" requiredXp="20000"/>
+<level key="ALLY" name="Ally" code="3" lotroPoints="15" requiredXp="25000"/>
+<level key="KINDRED" name="Kindred" code="4" lotroPoints="20" requiredXp="30000"/>
+</faction>
+<faction key="RIVENDELL" name="Elves of Rivendell" category="Eriador" initialLevel="NEUTRAL">
+<level key="NEUTRAL" name="Neutral" code="0" lotroPoints="0" requiredXp="0"/>
+<level key="ACQUAINTANCE" name="Acquaintance" code="1" lotroPoints="5" requiredXp="10000"/>
+<level key="FRIEND" name="Friend" code="2" lotroPoints="10" requiredXp="20000"/>
+<level key="ALLY" name="Ally" code="3" lotroPoints="15" requiredXp="25000"/>
+<level key="KINDRED" name="Kindred" code="4" lotroPoints="20" requiredXp="30000"/>
+</faction>
+<faction key="ANNUMINAS" name="Wardens of Annúminas" category="Eriador" initialLevel="NEUTRAL">
+<alias name="The Wardens of Annúminas"/>
+<level key="NEUTRAL" name="Neutral" code="0" lotroPoints="0" requiredXp="0"/>
+<level key="ACQUAINTANCE" name="Acquaintance" code="1" lotroPoints="5" requiredXp="10000"/>
+<level key="FRIEND" name="Friend" code="2" lotroPoints="10" requiredXp="20000"/>
+<level key="ALLY" name="Ally" code="3" lotroPoints="15" requiredXp="25000"/>
+<level key="KINDRED" name="Kindred" code="4" lotroPoints="20" requiredXp="30000"/>
+</faction>
+<faction key="LOSSOTH" name="Lossoth of Forochel" category="Eriador" initialLevel="OUTSIDER">
+<alias name="Lossoth"/>
+<level key="OUTSIDER" name="Outsider" code="-1" lotroPoints="0" requiredXp="0"/>
+<level key="NEUTRAL" name="Neutral" code="0" lotroPoints="0" requiredXp="10000"/>
+<level key="ACQUAINTANCE" name="Acquaintance" code="1" lotroPoints="5" requiredXp="10000"/>
+<level key="FRIEND" name="Friend" code="2" lotroPoints="10" requiredXp="20000"/>
+<level key="ALLY" name="Ally" code="3" lotroPoints="15" requiredXp="25000"/>
+<level key="KINDRED" name="Kindred" code="4" lotroPoints="20" requiredXp="30000"/>
+</faction>
+<faction key="COUNCIL_OF_THE_NORTH" name="Council of the North" category="Eriador" initialLevel="NEUTRAL">
+<alias name="Council of North"/>
+<level key="NEUTRAL" name="Neutral" code="0" lotroPoints="0" requiredXp="0"/>
+<level key="ACQUAINTANCE" name="Acquaintance" code="1" lotroPoints="5" requiredXp="10000"/>
+<level key="FRIEND" name="Friend" code="2" lotroPoints="10" requiredXp="20000"/>
+<level key="ALLY" name="Ally" code="3" lotroPoints="15" requiredXp="25000"/>
+<level key="KINDRED" name="Kindred" code="4" lotroPoints="20" requiredXp="30000"/>
+</faction>
+<faction key="ELDGANG" name="Eldgang" category="Eriador" initialLevel="NEUTRAL">
+<alias name="The Eldgang"/>
+<level key="NEUTRAL" name="Neutral" code="0" lotroPoints="0" requiredXp="0"/>
+<level key="ACQUAINTANCE" name="Acquaintance" code="1" lotroPoints="5" requiredXp="10000"/>
+<level key="FRIEND" name="Friend" code="2" lotroPoints="10" requiredXp="20000"/>
+<level key="ALLY" name="Ally" code="3" lotroPoints="15" requiredXp="25000"/>
+<level key="KINDRED" name="Kindred" code="4" lotroPoints="20" requiredXp="30000"/>
+</faction>
+<faction key="MORIA_GUARDS" name="Iron Garrison Guards" category="Rhovanion" initialLevel="NEUTRAL">
+<level key="NEUTRAL" name="Neutral" code="0" lotroPoints="0" requiredXp="0"/>
+<level key="ACQUAINTANCE" name="Acquaintance" code="1" lotroPoints="5" requiredXp="10000"/>
+<level key="FRIEND" name="Friend" code="2" lotroPoints="10" requiredXp="20000"/>
+<level key="ALLY" name="Ally" code="3" lotroPoints="15" requiredXp="25000"/>
+<level key="KINDRED" name="Kindred" code="4" lotroPoints="20" requiredXp="30000"/>
+</faction>
+<faction key="MORIA_MINERS" name="Iron Garrison Miners" category="Rhovanion" initialLevel="NEUTRAL">
+<level key="NEUTRAL" name="Neutral" code="0" lotroPoints="0" requiredXp="0"/>
+<level key="ACQUAINTANCE" name="Acquaintance" code="1" lotroPoints="5" requiredXp="10000"/>
+<level key="FRIEND" name="Friend" code="2" lotroPoints="10" requiredXp="20000"/>
+<level key="ALLY" name="Ally" code="3" lotroPoints="15" requiredXp="25000"/>
+<level key="KINDRED" name="Kindred" code="4" lotroPoints="20" requiredXp="30000"/>
+</faction>
+<faction key="GALADHRIM" name="Galadhrim" category="Rhovanion" initialLevel="NEUTRAL">
+<level key="NEUTRAL" name="Neutral" code="0" lotroPoints="0" requiredXp="0"/>
+<level key="ACQUAINTANCE" name="Acquaintance" code="1" lotroPoints="5" requiredXp="10000"/>
+<level key="FRIEND" name="Friend" code="2" lotroPoints="10" requiredXp="20000"/>
+<level key="ALLY" name="Ally" code="3" lotroPoints="15" requiredXp="25000"/>
+<level key="KINDRED" name="Kindred" code="4" lotroPoints="20" requiredXp="30000"/>
+</faction>
+<faction key="MALLEDHRIM" name="Malledhrim" category="Rhovanion" initialLevel="NEUTRAL">
+<level key="NEUTRAL" name="Neutral" code="0" lotroPoints="0" requiredXp="0"/>
+<level key="ACQUAINTANCE" name="Acquaintance" code="1" lotroPoints="5" requiredXp="10000"/>
+<level key="FRIEND" name="Friend" code="2" lotroPoints="10" requiredXp="20000"/>
+<level key="ALLY" name="Ally" code="3" lotroPoints="15" requiredXp="25000"/>
+<level key="KINDRED" name="Kindred" code="4" lotroPoints="20" requiredXp="30000"/>
+</faction>
+<faction key="ELVES_OF_FELEGOTH" name="Elves of Felegoth" category="Rhovanion" initialLevel="NEUTRAL">
+<level key="NEUTRAL" name="Neutral" code="0" lotroPoints="0" requiredXp="0"/>
+<level key="ACQUAINTANCE" name="Acquaintance" code="1" lotroPoints="5" requiredXp="10000"/>
+<level key="FRIEND" name="Friend" code="2" lotroPoints="10" requiredXp="20000"/>
+<level key="ALLY" name="Ally" code="3" lotroPoints="15" requiredXp="25000"/>
+<level key="KINDRED" name="Kindred" code="4" lotroPoints="20" requiredXp="30000"/>
+</faction>
+<faction key="MEN_OF_DALE" name="Men of Dale" category="Rhovanion" initialLevel="NEUTRAL">
+<level key="NEUTRAL" name="Neutral" code="0" lotroPoints="0" requiredXp="0"/>
+<level key="ACQUAINTANCE" name="Acquaintance" code="1" lotroPoints="5" requiredXp="10000"/>
+<level key="FRIEND" name="Friend" code="2" lotroPoints="10" requiredXp="20000"/>
+<level key="ALLY" name="Ally" code="3" lotroPoints="15" requiredXp="25000"/>
+<level key="KINDRED" name="Kindred" code="4" lotroPoints="20" requiredXp="30000"/>
+</faction>
+<faction key="DWARVES_OF_EREBOR" name="Dwarves of Erebor" category="Rhovanion" initialLevel="NEUTRAL">
+<level key="NEUTRAL" name="Neutral" code="0" lotroPoints="0" requiredXp="0"/>
+<level key="ACQUAINTANCE" name="Acquaintance" code="1" lotroPoints="5" requiredXp="10000"/>
+<level key="FRIEND" name="Friend" code="2" lotroPoints="10" requiredXp="20000"/>
+<level key="ALLY" name="Ally" code="3" lotroPoints="15" requiredXp="25000"/>
+<level key="KINDRED" name="Kindred" code="4" lotroPoints="20" requiredXp="30000"/>
+</faction>
+<faction key="ALGRAIG" name="Algraig, Men of Enedwaith" category="Dunland" initialLevel="NEUTRAL">
+<alias name="Algraig"/>
+<level key="NEUTRAL" name="Neutral" code="0" lotroPoints="0" requiredXp="0"/>
+<level key="ACQUAINTANCE" name="Acquaintance" code="1" lotroPoints="5" requiredXp="10000"/>
+<level key="FRIEND" name="Friend" code="2" lotroPoints="10" requiredXp="20000"/>
+<level key="ALLY" name="Ally" code="3" lotroPoints="15" requiredXp="25000"/>
+<level key="KINDRED" name="Kindred" code="4" lotroPoints="20" requiredXp="30000"/>
+</faction>
+<faction key="GREY_COMPANY" name="Grey Company" category="Dunland" initialLevel="NEUTRAL">
+<alias name="The Grey Company"/>
+<level key="NEUTRAL" name="Neutral" code="0" lotroPoints="0" requiredXp="0"/>
+<level key="ACQUAINTANCE" name="Acquaintance" code="1" lotroPoints="5" requiredXp="10000"/>
+<level key="FRIEND" name="Friend" code="2" lotroPoints="10" requiredXp="20000"/>
+<level key="ALLY" name="Ally" code="3" lotroPoints="15" requiredXp="25000"/>
+<level key="KINDRED" name="Kindred" code="4" lotroPoints="20" requiredXp="30000"/>
+</faction>
+<faction key="DUNLAND" name="Men of Dunland" category="Dunland" initialLevel="NEUTRAL">
+<level key="NEUTRAL" name="Neutral" code="0" lotroPoints="0" requiredXp="0"/>
+<level key="ACQUAINTANCE" name="Acquaintance" code="1" lotroPoints="5" requiredXp="10000"/>
+<level key="FRIEND" name="Friend" code="2" lotroPoints="10" requiredXp="20000"/>
+<level key="ALLY" name="Ally" code="3" lotroPoints="15" requiredXp="25000"/>
+<level key="KINDRED" name="Kindred" code="4" lotroPoints="20" requiredXp="30000"/>
+</faction>
+<faction key="THEODRED_RIDERS" name="Théodred's Riders" category="Dunland" initialLevel="NEUTRAL">
+<alias name="Riders of Théodred"/>
+<level key="NEUTRAL" name="Neutral" code="0" lotroPoints="0" requiredXp="0"/>
+<level key="ACQUAINTANCE" name="Acquaintance" code="1" lotroPoints="5" requiredXp="10000"/>
+<level key="FRIEND" name="Friend" code="2" lotroPoints="10" requiredXp="20000"/>
+<level key="ALLY" name="Ally" code="3" lotroPoints="15" requiredXp="25000"/>
+<level key="KINDRED" name="Kindred" code="4" lotroPoints="20" requiredXp="30000"/>
+</faction>
+<faction key="STANGARD_RIDERS" name="Riders of Stangard" category="Rohan" initialLevel="NEUTRAL">
+<alias name="The Riders of Stangard"/>
+<level key="NEUTRAL" name="Neutral" code="0" lotroPoints="0" requiredXp="0"/>
+<level key="ACQUAINTANCE" name="Acquaintance" code="1" lotroPoints="5" requiredXp="10000"/>
+<level key="FRIEND" name="Friend" code="2" lotroPoints="10" requiredXp="20000"/>
+<level key="ALLY" name="Ally" code="3" lotroPoints="15" requiredXp="25000"/>
+<level key="KINDRED" name="Kindred" code="4" lotroPoints="20" requiredXp="30000"/>
+</faction>
+<faction key="LIMLIGHT_GORGE" name="Heroes of Limlight Gorge" category="Rohan" initialLevel="NEUTRAL">
+<level key="NEUTRAL" name="Neutral" code="0" lotroPoints="0" requiredXp="0"/>
+<level key="ACQUAINTANCE" name="Acquaintance" code="1" lotroPoints="5" requiredXp="10000"/>
+<level key="FRIEND" name="Friend" code="2" lotroPoints="10" requiredXp="20000"/>
+<level key="ALLY" name="Ally" code="3" lotroPoints="15" requiredXp="25000"/>
+<level key="KINDRED" name="Kindred" code="4" lotroPoints="20" requiredXp="30000"/>
+</faction>
+<faction key="WOLD" name="Men of the Wold" category="Rohan" initialLevel="NEUTRAL">
+<alias name="Wold"/>
+<level key="NEUTRAL" name="Neutral" code="0" lotroPoints="0" requiredXp="0"/>
+<level key="ACQUAINTANCE" name="Acquaintance" code="1" lotroPoints="5" requiredXp="10000"/>
+<level key="FRIEND" name="Friend" code="2" lotroPoints="10" requiredXp="20000"/>
+<level key="ALLY" name="Ally" code="3" lotroPoints="15" requiredXp="25000"/>
+<level key="KINDRED" name="Kindred" code="4" lotroPoints="20" requiredXp="30000"/>
+</faction>
+<faction key="NORCROFTS" name="Men of the Norcrofts" category="Rohan" initialLevel="NEUTRAL">
+<alias name="Norcrofts"/>
+<level key="NEUTRAL" name="Neutral" code="0" lotroPoints="0" requiredXp="0"/>
+<level key="ACQUAINTANCE" name="Acquaintance" code="1" lotroPoints="5" requiredXp="10000"/>
+<level key="FRIEND" name="Friend" code="2" lotroPoints="10" requiredXp="20000"/>
+<level key="ALLY" name="Ally" code="3" lotroPoints="15" requiredXp="25000"/>
+<level key="KINDRED" name="Kindred" code="4" lotroPoints="20" requiredXp="30000"/>
+</faction>
+<faction key="ENTWASH_VALE" name="Men of the Entwash Vale" category="Rohan" initialLevel="NEUTRAL">
+<alias name="Entwash Vale"/>
+<level key="NEUTRAL" name="Neutral" code="0" lotroPoints="0" requiredXp="0"/>
+<level key="ACQUAINTANCE" name="Acquaintance" code="1" lotroPoints="5" requiredXp="10000"/>
+<level key="FRIEND" name="Friend" code="2" lotroPoints="10" requiredXp="20000"/>
+<level key="ALLY" name="Ally" code="3" lotroPoints="15" requiredXp="25000"/>
+<level key="KINDRED" name="Kindred" code="4" lotroPoints="20" requiredXp="30000"/>
+</faction>
+<faction key="SUTCROFTS" name="Men of the Sutcrofts" category="Rohan" initialLevel="NEUTRAL">
+<alias name="Sutcrofts"/>
+<level key="NEUTRAL" name="Neutral" code="0" lotroPoints="0" requiredXp="0"/>
+<level key="ACQUAINTANCE" name="Acquaintance" code="1" lotroPoints="5" requiredXp="10000"/>
+<level key="FRIEND" name="Friend" code="2" lotroPoints="10" requiredXp="20000"/>
+<level key="ALLY" name="Ally" code="3" lotroPoints="15" requiredXp="25000"/>
+<level key="KINDRED" name="Kindred" code="4" lotroPoints="20" requiredXp="30000"/>
+</faction>
+<faction key="PEOPLE_WILDERMORE" name="People of Wildermore" category="Rohan" initialLevel="NEUTRAL">
+<level key="NEUTRAL" name="Neutral" code="0" lotroPoints="0" requiredXp="0"/>
+<level key="ACQUAINTANCE" name="Acquaintance" code="1" lotroPoints="5" requiredXp="10000"/>
+<level key="FRIEND" name="Friend" code="2" lotroPoints="10" requiredXp="20000"/>
+<level key="ALLY" name="Ally" code="3" lotroPoints="15" requiredXp="25000"/>
+<level key="KINDRED" name="Kindred" code="4" lotroPoints="20" requiredXp="30000"/>
+</faction>
+<faction key="SURVIVORS_WILDERMORE" name="Survivors of Wildermore" category="Rohan" initialLevel="NEUTRAL">
+<level key="NEUTRAL" name="Neutral" code="0" lotroPoints="0" requiredXp="0"/>
+<level key="ACQUAINTANCE" name="Acquaintance" code="1" lotroPoints="5" requiredXp="10000"/>
+<level key="FRIEND" name="Friend" code="2" lotroPoints="10" requiredXp="20000"/>
+<level key="ALLY" name="Ally" code="3" lotroPoints="15" requiredXp="25000"/>
+<level key="KINDRED" name="Kindred" code="4" lotroPoints="20" requiredXp="30000"/>
+</faction>
+<faction key="EORLINGAS" name="Eorlingas" category="Rohan" initialLevel="NEUTRAL">
+<alias name="The Eorlingas"/>
+<level key="NEUTRAL" name="Neutral" code="0" lotroPoints="0" requiredXp="0"/>
+<level key="ACQUAINTANCE" name="Acquaintance" code="1" lotroPoints="5" requiredXp="10000"/>
+<level key="FRIEND" name="Friend" code="2" lotroPoints="10" requiredXp="20000"/>
+<level key="ALLY" name="Ally" code="3" lotroPoints="15" requiredXp="25000"/>
+<level key="KINDRED" name="Kindred" code="4" lotroPoints="20" requiredXp="30000"/>
+</faction>
+<faction key="HELMINGAS" name="Helmingas" category="Rohan" initialLevel="NEUTRAL">
+<alias name="The Helmingas"/>
+<level key="NEUTRAL" name="Neutral" code="0" lotroPoints="0" requiredXp="0"/>
+<level key="ACQUAINTANCE" name="Acquaintance" code="1" lotroPoints="5" requiredXp="10000"/>
+<level key="FRIEND" name="Friend" code="2" lotroPoints="10" requiredXp="20000"/>
+<level key="ALLY" name="Ally" code="3" lotroPoints="15" requiredXp="25000"/>
+<level key="KINDRED" name="Kindred" code="4" lotroPoints="20" requiredXp="30000"/>
+</faction>
+<faction key="FANGORN" name="Ents of Fangorn Forest" category="Rohan" initialLevel="NEUTRAL">
+<alias name="The Ents of Fangorn Forest"/>
+<level key="NEUTRAL" name="Neutral" code="0" lotroPoints="0" requiredXp="0"/>
+<level key="ACQUAINTANCE" name="Acquaintance" code="1" lotroPoints="5" requiredXp="10000"/>
+<level key="FRIEND" name="Friend" code="2" lotroPoints="10" requiredXp="20000"/>
+<level key="ALLY" name="Ally" code="3" lotroPoints="15" requiredXp="25000"/>
+<level key="KINDRED" name="Kindred" code="4" lotroPoints="20" requiredXp="30000"/>
+</faction>
+<faction key="DOL_AMROTH" name="Dol Amroth" category="Dol Amroth" initialLevel="NEUTRAL">
+<level key="NEUTRAL" name="Neutral" code="0" lotroPoints="0" requiredXp="0"/>
+<level key="ACQUAINTANCE" name="Acquaintance" code="1" lotroPoints="5" requiredXp="10000"/>
+<level key="FRIEND" name="Friend" code="2" lotroPoints="10" requiredXp="20000"/>
+<level key="ALLY" name="Ally" code="3" lotroPoints="15" requiredXp="25000"/>
+<level key="KINDRED" name="Kindred" code="4" lotroPoints="20" requiredXp="30000"/>
+</faction>
+<faction key="DA_ARMOURY" name="Dol Amroth – Armoury" category="Dol Amroth" initialLevel="NEUTRAL">
+<level key="NEUTRAL" name="Neutral" code="0" lotroPoints="0" requiredXp="0"/>
+<level key="ACQUAINTANCE" name="Acquaintance" code="1" lotroPoints="0" requiredXp="10000"/>
+</faction>
+<faction key="DA_BANK" name="Dol Amroth – Bank" category="Dol Amroth" initialLevel="NEUTRAL">
+<level key="NEUTRAL" name="Neutral" code="0" lotroPoints="0" requiredXp="0"/>
+<level key="ACQUAINTANCE" name="Acquaintance" code="1" lotroPoints="0" requiredXp="10000"/>
+</faction>
+<faction key="DA_DOCKS" name="Dol Amroth – Docks" category="Dol Amroth" initialLevel="NEUTRAL">
+<level key="NEUTRAL" name="Neutral" code="0" lotroPoints="0" requiredXp="0"/>
+<level key="ACQUAINTANCE" name="Acquaintance" code="1" lotroPoints="0" requiredXp="10000"/>
+</faction>
+<faction key="DA_GREAT_HALL" name="Dol Amroth – Great Hall" category="Dol Amroth" initialLevel="NEUTRAL">
+<level key="NEUTRAL" name="Neutral" code="0" lotroPoints="0" requiredXp="0"/>
+<level key="ACQUAINTANCE" name="Acquaintance" code="1" lotroPoints="0" requiredXp="10000"/>
+</faction>
+<faction key="DA_LIBRARY" name="Dol Amroth – Library" category="Dol Amroth" initialLevel="NEUTRAL">
+<level key="NEUTRAL" name="Neutral" code="0" lotroPoints="0" requiredXp="0"/>
+<level key="ACQUAINTANCE" name="Acquaintance" code="1" lotroPoints="0" requiredXp="10000"/>
+</faction>
+<faction key="DA_MASON" name="Dol Amroth – Mason" category="Dol Amroth" initialLevel="NEUTRAL">
+<level key="NEUTRAL" name="Neutral" code="0" lotroPoints="0" requiredXp="0"/>
+<level key="ACQUAINTANCE" name="Acquaintance" code="1" lotroPoints="0" requiredXp="10000"/>
+</faction>
+<faction key="DA_SWAN_KNIGHTS" name="Dol Amroth – Swan Knights" category="Dol Amroth" initialLevel="NEUTRAL">
+<level key="NEUTRAL" name="Neutral" code="0" lotroPoints="0" requiredXp="0"/>
+<level key="ACQUAINTANCE" name="Acquaintance" code="1" lotroPoints="0" requiredXp="10000"/>
+</faction>
+<faction key="DA_WAREHOUSE" name="Dol Amroth – Warehouse" category="Dol Amroth" initialLevel="NEUTRAL">
+<level key="NEUTRAL" name="Neutral" code="0" lotroPoints="0" requiredXp="0"/>
+<level key="ACQUAINTANCE" name="Acquaintance" code="1" lotroPoints="0" requiredXp="10000"/>
+</faction>
+<faction key="RINGLO_VALE" name="Men of Ringló Vale" category="Gondor" initialLevel="NEUTRAL">
+<level key="NEUTRAL" name="Neutral" code="0" lotroPoints="0" requiredXp="0"/>
+<level key="ACQUAINTANCE" name="Acquaintance" code="1" lotroPoints="0" requiredXp="10000"/>
+<level key="FRIEND" name="Friend" code="2" lotroPoints="0" requiredXp="20000"/>
+<level key="ALLY" name="Ally" code="3" lotroPoints="0" requiredXp="25000"/>
+<level key="KINDRED" name="Kindred" code="4" lotroPoints="0" requiredXp="30000"/>
+</faction>
+<faction key="DOR_EN_ERNIL" name="Men of Dor-en-Ernil" category="Gondor" initialLevel="NEUTRAL">
+<level key="NEUTRAL" name="Neutral" code="0" lotroPoints="0" requiredXp="0"/>
+<level key="ACQUAINTANCE" name="Acquaintance" code="1" lotroPoints="0" requiredXp="10000"/>
+<level key="FRIEND" name="Friend" code="2" lotroPoints="0" requiredXp="20000"/>
+<level key="ALLY" name="Ally" code="3" lotroPoints="0" requiredXp="25000"/>
+<level key="KINDRED" name="Kindred" code="4" lotroPoints="0" requiredXp="30000"/>
+</faction>
+<faction key="LEBENNIN" name="Men of Lebennin" category="Gondor" initialLevel="NEUTRAL">
+<level key="NEUTRAL" name="Neutral" code="0" lotroPoints="0" requiredXp="0"/>
+<level key="ACQUAINTANCE" name="Acquaintance" code="1" lotroPoints="0" requiredXp="10000"/>
+<level key="FRIEND" name="Friend" code="2" lotroPoints="0" requiredXp="20000"/>
+<level key="ALLY" name="Ally" code="3" lotroPoints="0" requiredXp="25000"/>
+<level key="KINDRED" name="Kindred" code="4" lotroPoints="0" requiredXp="30000"/>
+</faction>
+<faction key="PELARGIR" name="Pelargir" category="Gondor" initialLevel="NEUTRAL">
+<level key="NEUTRAL" name="Neutral" code="0" lotroPoints="0" requiredXp="0"/>
+<level key="ACQUAINTANCE" name="Acquaintance" code="1" lotroPoints="5" requiredXp="10000"/>
+<level key="FRIEND" name="Friend" code="2" lotroPoints="10" requiredXp="20000"/>
+<level key="ALLY" name="Ally" code="3" lotroPoints="15" requiredXp="25000"/>
+<level key="KINDRED" name="Kindred" code="4" lotroPoints="20" requiredXp="30000"/>
+</faction>
+<faction key="RANGERS_ITHILIEN" name="Rangers of Ithilien" category="Gondor" initialLevel="NEUTRAL">
+<level key="NEUTRAL" name="Neutral" code="0" lotroPoints="0" requiredXp="0"/>
+<level key="ACQUAINTANCE" name="Acquaintance" code="1" lotroPoints="5" requiredXp="10000"/>
+<level key="FRIEND" name="Friend" code="2" lotroPoints="10" requiredXp="20000"/>
+<level key="ALLY" name="Ally" code="3" lotroPoints="15" requiredXp="25000"/>
+<level key="KINDRED" name="Kindred" code="4" lotroPoints="20" requiredXp="30000"/>
+</faction>
+<faction key="MINAS_TIRITH" name="Defenders of Minas Tirith" category="Gondor" initialLevel="NEUTRAL">
+<level key="NEUTRAL" name="Neutral" code="0" lotroPoints="0" requiredXp="0"/>
+<level key="ACQUAINTANCE" name="Acquaintance" code="1" lotroPoints="5" requiredXp="10000"/>
+<level key="FRIEND" name="Friend" code="2" lotroPoints="10" requiredXp="20000"/>
+<level key="ALLY" name="Ally" code="3" lotroPoints="15" requiredXp="25000"/>
+<level key="KINDRED" name="Kindred" code="4" lotroPoints="20" requiredXp="30000"/>
+<level key="RESPECTED" name="Respected" code="5" lotroPoints="20" requiredXp="45000"/>
+<level key="HONOURED" name="Honoured" code="6" lotroPoints="20" requiredXp="60000"/>
+<level key="CELEBRATED" name="Celebrated" code="7" lotroPoints="50" requiredXp="90000"/>
+</faction>
+<faction key="RIDERS_ROHAN" name="Riders of Rohan" category="Gondor" initialLevel="NEUTRAL">
+<level key="NEUTRAL" name="Neutral" code="0" lotroPoints="0" requiredXp="0"/>
+<level key="ACQUAINTANCE" name="Acquaintance" code="1" lotroPoints="5" requiredXp="10000"/>
+<level key="FRIEND" name="Friend" code="2" lotroPoints="10" requiredXp="20000"/>
+<level key="ALLY" name="Ally" code="3" lotroPoints="15" requiredXp="25000"/>
+<level key="KINDRED" name="Kindred" code="4" lotroPoints="20" requiredXp="30000"/>
+</faction>
+<faction key="HOST_OF_THE_WEST" name="Host of the West" category="Mordor" initialLevel="NEUTRAL">
+<level key="NEUTRAL" name="Neutral" code="0" lotroPoints="0" requiredXp="0"/>
+<level key="ACQUAINTANCE" name="Acquaintance" code="1" lotroPoints="5" requiredXp="10000"/>
+<level key="FRIEND" name="Friend" code="2" lotroPoints="10" requiredXp="20000"/>
+<level key="ALLY" name="Ally" code="3" lotroPoints="15" requiredXp="25000"/>
+<level key="KINDRED" name="Kindred" code="4" lotroPoints="20" requiredXp="30000"/>
+<level key="RESPECTED" name="Respected" code="5" lotroPoints="20" requiredXp="45000"/>
+<level key="HONOURED" name="Honoured" code="6" lotroPoints="20" requiredXp="60000"/>
+<level key="CELEBRATED" name="Celebrated" code="7" lotroPoints="50" requiredXp="90000"/>
+</faction>
+<faction key="HOW_ARMOUR" name="Host of the West: Armour" category="Mordor" initialLevel="NONE">
+<level key="NONE" name="-" code="0" lotroPoints="0" requiredXp="0"/>
+<level key="INITIAL" name="Initial" code="1" lotroPoints="0" requiredXp="10000"/>
+<level key="INTERMEDIATE" name="Intermediate" code="2" lotroPoints="5" requiredXp="20000"/>
+<level key="ADVANCED" name="Advanced" code="3" lotroPoints="10" requiredXp="25000"/>
+<level key="FINAL" name="Final" code="4" lotroPoints="15" requiredXp="30000"/>
+</faction>
+<faction key="HOW_PROVISIONS" name="Host of the West: Provisions" category="Mordor" initialLevel="NONE">
+<level key="NONE" name="-" code="0" lotroPoints="0" requiredXp="0"/>
+<level key="INITIAL" name="Initial" code="1" lotroPoints="0" requiredXp="10000"/>
+<level key="INTERMEDIATE" name="Intermediate" code="2" lotroPoints="5" requiredXp="20000"/>
+<level key="ADVANCED" name="Advanced" code="3" lotroPoints="10" requiredXp="25000"/>
+<level key="FINAL" name="Final" code="4" lotroPoints="15" requiredXp="30000"/>
+</faction>
+<faction key="HOW_WEAPONS" name="Host of the West: Weapons" category="Mordor" initialLevel="NONE">
+<level key="NONE" name="-" code="0" lotroPoints="0" requiredXp="0"/>
+<level key="INITIAL" name="Initial" code="1" lotroPoints="0" requiredXp="10000"/>
+<level key="INTERMEDIATE" name="Intermediate" code="2" lotroPoints="5" requiredXp="20000"/>
+<level key="ADVANCED" name="Advanced" code="3" lotroPoints="10" requiredXp="25000"/>
+<level key="FINAL" name="Final" code="4" lotroPoints="15" requiredXp="30000"/>
+</faction>
+<faction key="GORGOROTH" name="Conquest of Gorgoroth" category="Mordor" initialLevel="NEUTRAL">
+<level key="NEUTRAL" name="Neutral" code="0" lotroPoints="0" requiredXp="0"/>
+<level key="ACQUAINTANCE" name="Acquaintance" code="1" lotroPoints="5" requiredXp="10000"/>
+<level key="FRIEND" name="Friend" code="2" lotroPoints="10" requiredXp="20000"/>
+<level key="ALLY" name="Ally" code="3" lotroPoints="15" requiredXp="25000"/>
+<level key="KINDRED" name="Kindred" code="4" lotroPoints="20" requiredXp="30000"/>
+<level key="RESPECTED" name="Respected" code="5" lotroPoints="20" requiredXp="45000"/>
+<level key="HONOURED" name="Honoured" code="6" lotroPoints="20" requiredXp="60000"/>
+<level key="CELEBRATED_GORGOROTH" name="Celebrated" code="7" lotroPoints="20" requiredXp="90000"/>
+</faction>
+<faction key="ALE_ASSOCIATION" name="Ale Association" category="Misc" initialLevel="NEUTRAL">
+<alias name="The Ale Association"/>
+<level key="ENEMY" name="Enemy" code="-1" lotroPoints="0" requiredXp="10000"/>
+<level key="NEUTRAL" name="Neutral" code="0" lotroPoints="0" requiredXp="0"/>
+<level key="ACQUAINTANCE" name="Acquaintance" code="1" lotroPoints="0" requiredXp="10000"/>
+<level key="FRIEND" name="Friend" code="2" lotroPoints="0" requiredXp="20000"/>
+<level key="ALLY" name="Ally" code="3" lotroPoints="0" requiredXp="25000"/>
+<level key="KINDRED" name="Kindred" code="4" lotroPoints="0" requiredXp="30000"/>
+</faction>
+<faction key="INN_LEAGUE" name="Inn League" category="Misc" initialLevel="NEUTRAL">
+<alias name="The Inn League"/>
+<level key="ENEMY" name="Enemy" code="-1" lotroPoints="0" requiredXp="10000"/>
+<level key="NEUTRAL" name="Neutral" code="0" lotroPoints="0" requiredXp="0"/>
+<level key="ACQUAINTANCE" name="Acquaintance" code="1" lotroPoints="0" requiredXp="10000"/>
+<level key="FRIEND" name="Friend" code="2" lotroPoints="0" requiredXp="20000"/>
+<level key="ALLY" name="Ally" code="3" lotroPoints="0" requiredXp="25000"/>
+<level key="KINDRED" name="Kindred" code="4" lotroPoints="0" requiredXp="30000"/>
+</faction>
+<faction key="HOBNANIGANS" name="Chicken Chasing League of Eriador" category="Misc" initialLevel="NONE">
+<level key="NONE" name="-" code="0" lotroPoints="0" requiredXp="0"/>
+<level key="ROOKIE" name="Rookie" code="1" lotroPoints="0" requiredXp="10000"/>
+<level key="LEAGUER" name="Leaguer" code="2" lotroPoints="0" requiredXp="20000"/>
+<level key="MAJOR_LEAGUER" name="Major Leaguer" code="3" lotroPoints="0" requiredXp="25000"/>
+<level key="ALL_STAR" name="All-star" code="4" lotroPoints="0" requiredXp="30000"/>
+<level key="HALL_OF_FAMER" name="Hall of Famer" code="5" lotroPoints="0" requiredXp="45000"/>
+</faction>
+<faction key="GUILD" name="Guild" initialLevel="INITIATE">
+<level key="INITIATE" name="Guild Initiate" code="0" lotroPoints="0" requiredXp="0"/>
+<level key="APPRENTICE" name="Apprentice of the Guild" code="1" lotroPoints="0" requiredXp="10000"/>
+<level key="JOURNEYMAN" name="Journeyman of the Guild" code="2" lotroPoints="0" requiredXp="20000"/>
+<level key="EXPERT" name="Expert of the Guild" code="3" lotroPoints="0" requiredXp="25000"/>
+<level key="ARTISAN" name="Artisan of the Guild" code="4" lotroPoints="0" requiredXp="30000"/>
+<level key="MASTER" name="Master of the Guild" code="5" lotroPoints="0" requiredXp="45000"/>
+<level key="EASTEMNET MASTER" name="Eastemnet Master of the Guild" code="6" lotroPoints="0" requiredXp="60000"/>
+<level key="WESTEMNET MASTER" name="Westemnet Master of the Guild" code="7" lotroPoints="0" requiredXp="90000"/>
+</faction>
+<deed name="World Renowned" lotroPoints="50">
+<deedFaction key="SHIRE"/>
+<deedFaction key="BREE"/>
+<deedFaction key="DWARVES"/>
+<deedFaction key="EGLAIN"/>
+<deedFaction key="ESTELDIN"/>
+<deedFaction key="RIVENDELL"/>
+<deedFaction key="ANNUMINAS"/>
+<deedFaction key="LOSSOTH"/>
+<deedFaction key="COUNCIL_OF_THE_NORTH"/>
+<deedFaction key="ALGRAIG"/>
+<deedFaction key="GREY_COMPANY"/>
+</deed>
+<deed name="Ambassador of the Elves" lotroPoints="20">
+<deedFaction key="RIVENDELL"/>
+<deedFaction key="GALADHRIM"/>
+<deedFaction key="MALLEDHRIM"/>
+</deed>
+</factions>
