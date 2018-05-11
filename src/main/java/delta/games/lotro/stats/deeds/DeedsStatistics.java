@@ -14,6 +14,7 @@ import delta.games.lotro.common.Reputation;
 import delta.games.lotro.common.ReputationItem;
 import delta.games.lotro.common.Rewards;
 import delta.games.lotro.common.Title;
+import delta.games.lotro.common.Trait;
 import delta.games.lotro.common.Virtue;
 import delta.games.lotro.common.VirtueId;
 import delta.games.lotro.common.objects.ObjectItem;
@@ -29,6 +30,7 @@ import delta.games.lotro.stats.deeds.statistics.EmoteEvent;
 import delta.games.lotro.stats.deeds.statistics.EmoteEventNameComparator;
 import delta.games.lotro.stats.deeds.statistics.TitleEvent;
 import delta.games.lotro.stats.deeds.statistics.TitleEventNameComparator;
+import delta.games.lotro.stats.deeds.statistics.TraitEvent;
 
 /**
  * Gather statistics about a collection of deeds for a single character.
@@ -46,6 +48,7 @@ public class DeedsStatistics
   private int _medallionsCount;
   private List<TitleEvent> _titles;
   private List<EmoteEvent> _emotes;
+  private List<TraitEvent> _traits;
   private Map<VirtueId,VirtueStatsFromDeeds> _virtues;
   private Map<String,FactionStatsFromDeeds> _reputation;
   private Map<Integer,CountedItem> _items;
@@ -57,6 +60,7 @@ public class DeedsStatistics
   {
     _titles=new ArrayList<TitleEvent>();
     _emotes=new ArrayList<EmoteEvent>();
+    _traits=new ArrayList<TraitEvent>();
     _virtues=new HashMap<VirtueId,VirtueStatsFromDeeds>();
     _reputation=new HashMap<String,FactionStatsFromDeeds>();
     _items=new HashMap<Integer,CountedItem>();
@@ -172,6 +176,17 @@ public class DeedsStatistics
           _emotes.add(event);
         }
       }
+      // Traits
+      Trait[] traits=rewards.getTraits();
+      if (traits!=null)
+      {
+        for(Trait trait : traits)
+        {
+          Long date=deedStatus.getCompletionDate();
+          TraitEvent event=new TraitEvent(trait.getName(),date,deed);
+          _traits.add(event);
+        }
+      }
       // Virtues
       Virtue[] virtueRewards=rewards.getVirtues();
       if (virtueRewards!=null)
@@ -281,6 +296,15 @@ public class DeedsStatistics
   }
 
   /**
+   * Get the trait events.
+   * @return A list of trait events, sorted by name.
+   */
+  public List<TraitEvent> getTraits()
+  {
+    return _traits;
+  }
+
+  /**
    * Get the statistics about the acquired virtues.
    * @return A map of virtues statistics.
    */
@@ -364,6 +388,14 @@ public class DeedsStatistics
       for(EmoteEvent emote : _emotes)
       {
         sb.append('\t').append(emote).append(EndOfLine.NATIVE_EOL);
+      }
+    }
+    if (_traits.size()>0)
+    {
+      sb.append("Traits: (").append(_traits.size()).append(')').append(EndOfLine.NATIVE_EOL);
+      for(TraitEvent trait : _traits)
+      {
+        sb.append('\t').append(trait).append(EndOfLine.NATIVE_EOL);
       }
     }
     if (_virtues.size()>0)
