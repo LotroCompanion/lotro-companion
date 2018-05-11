@@ -6,3 +6,4 @@
 /data/preferences/*.properties
 /data/lore/maps
 /data/lore/deeds.xml
+/factions.xml
