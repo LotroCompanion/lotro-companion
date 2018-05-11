@@ -493,7 +493,13 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     DeedsStatusManager newStatus=controller.editModal();
     if (newStatus!=null)
     {
-      DeedsStatusIo.save(_toon,newStatus);
+      boolean ok=DeedsStatusIo.save(_toon,newStatus);
+      if (ok)
+      {
+        // Broadcast deeds status update event...
+        CharacterEvent event=new CharacterEvent(CharacterEventType.DEEDS_STATUS_UPDATED,_toon,null);
+        EventsManager.invokeEvent(event);
+      }
     }
   }
 
