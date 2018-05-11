@@ -31,6 +31,7 @@ import delta.games.lotro.stats.deeds.statistics.EmoteEventNameComparator;
 import delta.games.lotro.stats.deeds.statistics.TitleEvent;
 import delta.games.lotro.stats.deeds.statistics.TitleEventNameComparator;
 import delta.games.lotro.stats.deeds.statistics.TraitEvent;
+import delta.games.lotro.stats.deeds.statistics.TraitEventNameComparator;
 
 /**
  * Gather statistics about a collection of deeds for a single character.
@@ -105,6 +106,7 @@ public class DeedsStatistics
     }
     Collections.sort(_titles,new TitleEventNameComparator());
     Collections.sort(_emotes,new EmoteEventNameComparator());
+    Collections.sort(_traits,new TraitEventNameComparator());
   }
 
   private void useDeed(DeedStatus deedStatus, DeedDescription deed)
