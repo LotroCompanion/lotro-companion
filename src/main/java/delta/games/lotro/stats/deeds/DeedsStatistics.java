@@ -80,6 +80,7 @@ public class DeedsStatistics
     _medallionsCount=0;
     _titles.clear();
     _emotes.clear();
+    _traits.clear();
     _virtues.clear();
     _reputation.clear();
     _items.clear();
