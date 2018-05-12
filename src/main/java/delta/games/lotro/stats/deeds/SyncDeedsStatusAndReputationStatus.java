@@ -65,4 +65,54 @@ public class SyncDeedsStatusAndReputationStatus
       }
     }
   }
+
+  /**
+   * Update the reputation status to reflect the deeds status.
+   * @param deedsStatus Source deeds status.
+   * @param repStatus Target reputation status.
+   */
+  public static void syncReputationStatus(DeedsStatusManager deedsStatus, ReputationStatus repStatus)
+  {
+    List<Faction> factions=FactionsRegistry.getInstance().getAll();
+    for(Faction faction : factions)
+    {
+      boolean hasDeedKeys=false;
+      FactionStatus factionStatus=repStatus.getOrCreateFactionStat(faction);
+      FactionLevel[] levels=faction.getLevels();
+      for(FactionLevel level : levels)
+      {
+        String deedKey=level.getDeedKey();
+        if (deedKey!=null)
+        {
+          hasDeedKeys=true;
+          boolean completed=false;
+          Long date=null;
+          DeedStatus deedStatus=deedsStatus.get(deedKey,false);
+          if ((deedStatus!=null) && (deedStatus.isCompleted()==Boolean.TRUE))
+          {
+            completed=true;
+            date=deedStatus.getCompletionDate();
+          }
+          FactionLevelStatus factionLevelStatus=factionStatus.getStatusForLevel(level);
+          factionLevelStatus.setCompleted(completed);
+          if (completed)
+          {
+            factionLevelStatus.setAcquiredXP(level.getRequiredXp());
+          }
+          else
+          {
+            factionLevelStatus.setCompletionDate(0);
+          }
+          if (date!=null)
+          {
+            factionLevelStatus.setCompletionDate(date.longValue());
+          }
+        }
+      }
+      if (hasDeedKeys)
+      {
+        factionStatus.updateCurrentLevel();
+      }
+    }
+  }
 }

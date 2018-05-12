@@ -16,12 +16,18 @@ import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.windows.DefaultFormDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.misc.TypedProperties;
+import delta.games.lotro.character.CharacterFile;
+import delta.games.lotro.character.events.CharacterEvent;
+import delta.games.lotro.character.events.CharacterEventType;
+import delta.games.lotro.character.reputation.ReputationStatus;
 import delta.games.lotro.gui.deed.DeedFilter;
 import delta.games.lotro.gui.deed.DeedFilterController;
 import delta.games.lotro.gui.main.GlobalPreferences;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.stats.deeds.DeedStatus;
 import delta.games.lotro.stats.deeds.DeedsStatusManager;
+import delta.games.lotro.stats.deeds.SyncDeedsStatusAndReputationStatus;
+import delta.games.lotro.utils.events.EventsManager;
 
 /**
  * Controller for a traits points edition window.
@@ -29,6 +35,9 @@ import delta.games.lotro.stats.deeds.DeedsStatusManager;
  */
 public class DeedsStatusEditionWindowController extends DefaultFormDialogController<DeedsStatusManager>
 {
+  // Data
+  private CharacterFile _toon;
+  // Controllers
   private DeedFilterController _filterController;
   private DeedsStatusEditionPanelController _panelController;
   private DeedStatusTableController _tableController;
@@ -38,10 +47,12 @@ public class DeedsStatusEditionWindowController extends DefaultFormDialogControl
    * Constructor.
    * @param parent Parent window.
    * @param status Status to edit.
+   * @param toon Parent toon.
    */
-  public DeedsStatusEditionWindowController(WindowController parent, DeedsStatusManager status)
+  public DeedsStatusEditionWindowController(WindowController parent, DeedsStatusManager status, CharacterFile toon)
   {
     super(parent,status);
+    _toon=toon;
     _filter=new DeedFilter();
   }
 
@@ -107,6 +118,20 @@ public class DeedsStatusEditionWindowController extends DefaultFormDialogControl
     }
   }
 
+  @Override
+  protected void okImpl()
+  {
+    super.okImpl();
+    // Sync reputation status
+    {
+      ReputationStatus reputationStatus=_toon.getReputation();
+      SyncDeedsStatusAndReputationStatus.syncReputationStatus(_data,reputationStatus);
+      _toon.saveReputation();
+      CharacterEvent event=new CharacterEvent(CharacterEventType.CHARACTER_REPUTATION_UPDATED,_toon,null);
+      EventsManager.invokeEvent(event);
+    }
+  }
+
   /**
    * Release all managed resources.
    */
@@ -114,6 +139,7 @@ public class DeedsStatusEditionWindowController extends DefaultFormDialogControl
   public void dispose()
   {
     super.dispose();
+    _toon=null;
     if (_filterController!=null)
     {
       _filterController.dispose();

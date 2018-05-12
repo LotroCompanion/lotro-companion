@@ -489,7 +489,7 @@ public class CharacterFileWindowController extends DefaultWindowController imple
   private void editDeedsStatus()
   {
     DeedsStatusManager status=DeedsStatusIo.load(_toon);
-    DeedsStatusEditionWindowController controller=new DeedsStatusEditionWindowController(this,status);
+    DeedsStatusEditionWindowController controller=new DeedsStatusEditionWindowController(this,status,_toon);
     DeedsStatusManager newStatus=controller.editModal();
     if (newStatus!=null)
     {
