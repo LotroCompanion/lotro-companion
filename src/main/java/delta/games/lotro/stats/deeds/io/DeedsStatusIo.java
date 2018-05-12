@@ -4,7 +4,9 @@ import java.io.File;
 
 import delta.common.utils.text.EncodingNames;
 import delta.games.lotro.character.CharacterFile;
+import delta.games.lotro.character.reputation.ReputationStatus;
 import delta.games.lotro.stats.deeds.DeedsStatusManager;
+import delta.games.lotro.stats.deeds.SyncDeedsStatusAndReputationStatus;
 import delta.games.lotro.stats.deeds.io.xml.DeedsStatusXMLParser;
 import delta.games.lotro.stats.deeds.io.xml.DeedsStatusXMLWriter;
 
@@ -30,7 +32,11 @@ public class DeedsStatusIo
     }
     if (status==null)
     {
+      // Initialize from reputation status
       status=new DeedsStatusManager();
+      ReputationStatus repStatus=character.getReputation();
+      SyncDeedsStatusAndReputationStatus.syncDeedsStatus(repStatus,status);
+      save(character,status);
     }
     status.setCharacter(character.getName(),character.getServerName());
     return status;
