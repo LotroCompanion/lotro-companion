@@ -31,6 +31,9 @@ import delta.games.lotro.gui.stats.reputation.form.FactionEditionDialogControlle
 import delta.games.lotro.lore.reputation.Faction;
 import delta.games.lotro.lore.reputation.FactionLevel;
 import delta.games.lotro.lore.reputation.FactionsRegistry;
+import delta.games.lotro.stats.deeds.DeedsStatusManager;
+import delta.games.lotro.stats.deeds.SyncDeedsStatusAndReputationStatus;
+import delta.games.lotro.stats.deeds.io.DeedsStatusIo;
 import delta.games.lotro.utils.events.EventsManager;
 
 /**
@@ -237,6 +240,14 @@ public class CharacterReputationDialogController extends DefaultFormDialogContro
   protected void okImpl()
   {
     _toon.saveReputation();
+    // Sync deeds status
+    {
+      DeedsStatusManager deedsStatus=DeedsStatusIo.load(_toon);
+      SyncDeedsStatusAndReputationStatus.syncDeedsStatus(_data,deedsStatus);
+      DeedsStatusIo.save(_toon,deedsStatus);
+      CharacterEvent event=new CharacterEvent(CharacterEventType.DEEDS_STATUS_UPDATED,_toon,null);
+      EventsManager.invokeEvent(event);
+    }
     // Broadcast reputation update event...
     CharacterEvent event=new CharacterEvent(CharacterEventType.CHARACTER_REPUTATION_UPDATED,_toon,null);
     EventsManager.invokeEvent(event);
