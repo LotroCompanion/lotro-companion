@@ -14,7 +14,7 @@ import delta.games.lotro.stats.deeds.DeedsStatistics;
 import delta.games.lotro.stats.deeds.FactionStatsFromDeeds;
 
 /**
- * Controller for a table that shows the title events for a single character.
+ * Controller for a table that shows the reputations for a single character.
  * @author DAM
  */
 public class ReputationFromDeedsTableController

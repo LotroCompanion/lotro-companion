@@ -16,13 +16,13 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.tables.TableColumnsChooserController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.stats.deeds.DeedsStatistics;
-import delta.games.lotro.stats.deeds.FactionStatsFromDeeds;
+import delta.games.lotro.stats.deeds.statistics.SkillEvent;
 
 /**
- * Controller for the reputation display panel.
+ * Controller for the skills display panel.
  * @author DAM
  */
-public class ReputationDisplayPanelController
+public class SkillsDisplayPanelController
 {
   // Data
   private DeedsStatistics _stats;
@@ -30,7 +30,7 @@ public class ReputationDisplayPanelController
   private JPanel _panel;
   private JLabel _statsLabel;
   // Controllers
-  private ReputationFromDeedsTableController _tableController;
+  private SkillEventsTableController _tableController;
   private WindowController _parent;
 
   /**
@@ -38,11 +38,11 @@ public class ReputationDisplayPanelController
    * @param parent Parent window.
    * @param stats Stats to show.
    */
-  public ReputationDisplayPanelController(WindowController parent, DeedsStatistics stats)
+  public SkillsDisplayPanelController(WindowController parent, DeedsStatistics stats)
   {
     _parent=parent;
     _stats=stats;
-    _tableController=new ReputationFromDeedsTableController(stats);
+    _tableController=new SkillEventsTableController(stats);
   }
 
   /**
@@ -61,7 +61,7 @@ public class ReputationDisplayPanelController
   private JPanel build()
   {
     JPanel panel=GuiFactory.buildBackgroundPanel(new BorderLayout());
-    TitledBorder border=GuiFactory.buildTitledBorder("Reputation");
+    TitledBorder border=GuiFactory.buildTitledBorder("Skills");
     panel.setBorder(border);
 
     // Table
@@ -78,7 +78,7 @@ public class ReputationDisplayPanelController
       @Override
       public void actionPerformed(ActionEvent e)
       {
-        TableColumnsChooserController<FactionStatsFromDeeds> chooser=new TableColumnsChooserController<FactionStatsFromDeeds>(_parent,_tableController.getTableController());
+        TableColumnsChooserController<SkillEvent> chooser=new TableColumnsChooserController<SkillEvent>(_parent,_tableController.getTableController());
         chooser.editModal();
       }
     };
@@ -99,8 +99,8 @@ public class ReputationDisplayPanelController
 
   private void updateStatsLabel()
   {
-    int nbItems=_stats.getReputation().size();
-    String label="Faction(s): "+nbItems;
+    int nbItems=_stats.getSkills().size();
+    String label="Skill(s): "+nbItems;
     _statsLabel.setText(label);
   }
 

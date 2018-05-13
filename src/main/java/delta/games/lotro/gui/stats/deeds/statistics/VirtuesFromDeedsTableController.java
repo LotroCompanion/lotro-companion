@@ -71,7 +71,7 @@ public class VirtuesFromDeedsTableController
     }
     // Virtue name
     {
-      CellDataProvider<VirtueStatsFromDeeds,String> factionCell=new CellDataProvider<VirtueStatsFromDeeds,String>()
+      CellDataProvider<VirtueStatsFromDeeds,String> virtueCell=new CellDataProvider<VirtueStatsFromDeeds,String>()
       {
         @Override
         public String getData(VirtueStatsFromDeeds item)
@@ -79,9 +79,9 @@ public class VirtuesFromDeedsTableController
           return item.getVirtueId().getLabel();
         }
       };
-      DefaultTableColumnController<VirtueStatsFromDeeds,String> factionColumn=new DefaultTableColumnController<VirtueStatsFromDeeds,String>(VIRTUE,"Virtue",String.class,factionCell);
-      factionColumn.setWidthSpecs(200,-1,200);
-      table.addColumnController(factionColumn);
+      DefaultTableColumnController<VirtueStatsFromDeeds,String> virtueColumn=new DefaultTableColumnController<VirtueStatsFromDeeds,String>(VIRTUE,"Virtue",String.class,virtueCell);
+      virtueColumn.setWidthSpecs(200,-1,200);
+      table.addColumnController(virtueColumn);
     }
     // Virtue points column
     {

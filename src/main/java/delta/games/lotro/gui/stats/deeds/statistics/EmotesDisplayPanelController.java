@@ -19,7 +19,7 @@ import delta.games.lotro.stats.deeds.DeedsStatistics;
 import delta.games.lotro.stats.deeds.statistics.EmoteEvent;
 
 /**
- * Controller the emotes display panel.
+ * Controller for the emotes display panel.
  * @author DAM
  */
 public class EmotesDisplayPanelController
@@ -61,8 +61,8 @@ public class EmotesDisplayPanelController
   private JPanel build()
   {
     JPanel panel=GuiFactory.buildBackgroundPanel(new BorderLayout());
-    TitledBorder itemsFrameBorder=GuiFactory.buildTitledBorder("Emotes");
-    panel.setBorder(itemsFrameBorder);
+    TitledBorder border=GuiFactory.buildTitledBorder("Emotes");
+    panel.setBorder(border);
 
     // Table
     JTable table=_tableController.getTable();
@@ -100,7 +100,7 @@ public class EmotesDisplayPanelController
   private void updateStatsLabel()
   {
     int nbItems=_stats.getEmotes().size();
-    String label="Emotes(s): "+nbItems;
+    String label="Emote(s): "+nbItems;
     _statsLabel.setText(label);
   }
 

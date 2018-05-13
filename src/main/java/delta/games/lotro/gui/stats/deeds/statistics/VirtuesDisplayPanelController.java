@@ -19,7 +19,7 @@ import delta.games.lotro.stats.deeds.DeedsStatistics;
 import delta.games.lotro.stats.deeds.VirtueStatsFromDeeds;
 
 /**
- * Controller the virtues display panel.
+ * Controller for the virtues display panel.
  * @author DAM
  */
 public class VirtuesDisplayPanelController

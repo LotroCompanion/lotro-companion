@@ -19,7 +19,7 @@ import delta.games.lotro.stats.deeds.DeedsStatistics;
 import delta.games.lotro.stats.deeds.statistics.TitleEvent;
 
 /**
- * Controller the titles display panel.
+ * Controller for the titles display panel.
  * @author DAM
  */
 public class TitlesDisplayPanelController
@@ -100,7 +100,7 @@ public class TitlesDisplayPanelController
   private void updateStatsLabel()
   {
     int nbItems=_stats.getTitles().size();
-    String label="Titles(s): "+nbItems;
+    String label="Title(s): "+nbItems;
     _statsLabel.setText(label);
   }
 

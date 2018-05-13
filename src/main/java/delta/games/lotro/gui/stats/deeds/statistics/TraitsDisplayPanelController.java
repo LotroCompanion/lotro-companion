@@ -19,7 +19,7 @@ import delta.games.lotro.stats.deeds.DeedsStatistics;
 import delta.games.lotro.stats.deeds.statistics.TraitEvent;
 
 /**
- * Controller the traits display panel.
+ * Controller for the traits display panel.
  * @author DAM
  */
 public class TraitsDisplayPanelController
@@ -61,8 +61,8 @@ public class TraitsDisplayPanelController
   private JPanel build()
   {
     JPanel panel=GuiFactory.buildBackgroundPanel(new BorderLayout());
-    TitledBorder itemsFrameBorder=GuiFactory.buildTitledBorder("Traits");
-    panel.setBorder(itemsFrameBorder);
+    TitledBorder border=GuiFactory.buildTitledBorder("Traits");
+    panel.setBorder(border);
 
     // Table
     JTable table=_tableController.getTable();

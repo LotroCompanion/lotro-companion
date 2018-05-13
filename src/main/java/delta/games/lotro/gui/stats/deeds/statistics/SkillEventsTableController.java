@@ -13,16 +13,16 @@ import delta.common.ui.swing.tables.GenericTableController.DateRenderer;
 import delta.common.ui.swing.tables.ListDataProvider;
 import delta.common.ui.swing.tables.TableColumnsManager;
 import delta.games.lotro.stats.deeds.DeedsStatistics;
-import delta.games.lotro.stats.deeds.statistics.EmoteEvent;
+import delta.games.lotro.stats.deeds.statistics.SkillEvent;
 import delta.games.lotro.utils.Formats;
 
 /**
- * Controller for a table that shows the emote events for a single character.
+ * Controller for a table that shows the skill events for a single character.
  * @author DAM
  */
-public class EmoteEventsTableController
+public class SkillEventsTableController
 {
-  private static final String EMOTE="EMOTE";
+  private static final String SKILL="SKILL";
   private static final String DATE="COMPLETION_DATE";
   private static final String DEED_NAME="DEED";
 
@@ -30,69 +30,69 @@ public class EmoteEventsTableController
   private DeedsStatistics _stats;
   // GUI
   private JTable _table;
-  private GenericTableController<EmoteEvent> _tableController;
+  private GenericTableController<SkillEvent> _tableController;
 
   /**
    * Constructor.
    * @param stats Stats to show.
    */
-  public EmoteEventsTableController(DeedsStatistics stats)
+  public SkillEventsTableController(DeedsStatistics stats)
   {
     _stats=stats;
     _tableController=buildTable();
   }
 
-  private GenericTableController<EmoteEvent> buildTable()
+  private GenericTableController<SkillEvent> buildTable()
   {
-    ListDataProvider<EmoteEvent> provider=new ListDataProvider<EmoteEvent>(_stats.getEmotes());
-    GenericTableController<EmoteEvent> table=new GenericTableController<EmoteEvent>(provider);
+    ListDataProvider<SkillEvent> provider=new ListDataProvider<SkillEvent>(_stats.getSkills());
+    GenericTableController<SkillEvent> table=new GenericTableController<SkillEvent>(provider);
 
-    // Emote
+    // Skill
     {
-      CellDataProvider<EmoteEvent,String> emoteCell=new CellDataProvider<EmoteEvent,String>()
+      CellDataProvider<SkillEvent,String> skillCell=new CellDataProvider<SkillEvent,String>()
       {
         @Override
-        public String getData(EmoteEvent item)
+        public String getData(SkillEvent item)
         {
-          return item.getEmote();
+          return item.getSkill();
         }
       };
-      DefaultTableColumnController<EmoteEvent,String> emoteColumn=new DefaultTableColumnController<EmoteEvent,String>(EMOTE,"Emote",String.class,emoteCell);
-      emoteColumn.setWidthSpecs(100,300,200);
-      table.addColumnController(emoteColumn);
+      DefaultTableColumnController<SkillEvent,String> skillColumn=new DefaultTableColumnController<SkillEvent,String>(SKILL,"Skill",String.class,skillCell);
+      skillColumn.setWidthSpecs(100,300,200);
+      table.addColumnController(skillColumn);
     }
     // Date column
     {
-      CellDataProvider<EmoteEvent,Date> completionDateCell=new CellDataProvider<EmoteEvent,Date>()
+      CellDataProvider<SkillEvent,Date> completionDateCell=new CellDataProvider<SkillEvent,Date>()
       {
         @Override
-        public Date getData(EmoteEvent item)
+        public Date getData(SkillEvent item)
         {
           Long timestamp=item.getDate();
           return (timestamp!=null)?new Date(timestamp.longValue()):null;
         }
       };
-      DefaultTableColumnController<EmoteEvent,Date> completionDateColumn=new DefaultTableColumnController<EmoteEvent,Date>(DATE,"Date",Date.class,completionDateCell);
+      DefaultTableColumnController<SkillEvent,Date> completionDateColumn=new DefaultTableColumnController<SkillEvent,Date>(DATE,"Date",Date.class,completionDateCell);
       completionDateColumn.setWidthSpecs(120,120,120);
       completionDateColumn.setCellRenderer(new DateRenderer(Formats.DATE_TIME_PATTERN));
       table.addColumnController(completionDateColumn);
     }
     // Deed name column
     {
-      CellDataProvider<EmoteEvent,String> deedCell=new CellDataProvider<EmoteEvent,String>()
+      CellDataProvider<SkillEvent,String> deedCell=new CellDataProvider<SkillEvent,String>()
       {
         @Override
-        public String getData(EmoteEvent item)
+        public String getData(SkillEvent item)
         {
           return item.getDeed().getName();
         }
       };
-      DefaultTableColumnController<EmoteEvent,String> deedColumn=new DefaultTableColumnController<EmoteEvent,String>(DEED_NAME,"Deed",String.class,deedCell);
+      DefaultTableColumnController<SkillEvent,String> deedColumn=new DefaultTableColumnController<SkillEvent,String>(DEED_NAME,"Deed",String.class,deedCell);
       deedColumn.setWidthSpecs(100,300,200);
       table.addColumnController(deedColumn);
     }
 
-    TableColumnsManager<EmoteEvent> columnsManager=table.getColumnsManager();
+    TableColumnsManager<SkillEvent> columnsManager=table.getColumnsManager();
     List<String> columnsIds=getColumnIds();
     columnsManager.setColumns(columnsIds);
     return table;
@@ -101,7 +101,7 @@ public class EmoteEventsTableController
   private List<String> getColumnIds()
   {
     List<String> columnIds=new ArrayList<String>();
-    columnIds.add(EMOTE);
+    columnIds.add(SKILL);
     columnIds.add(DATE);
     columnIds.add(DEED_NAME);
     return columnIds;
@@ -111,7 +111,7 @@ public class EmoteEventsTableController
    * Get the managed table controller.
    * @return the managed table controller.
    */
-  public GenericTableController<EmoteEvent> getTableController()
+  public GenericTableController<SkillEvent> getTableController()
   {
     return _tableController;
   }

@@ -22,7 +22,7 @@ import delta.games.lotro.gui.items.CountedItemsTableController;
 import delta.games.lotro.stats.deeds.DeedsStatistics;
 
 /**
- * Controller the items display panel.
+ * Controller for the items display panel.
  * @author DAM
  */
 public class ItemsDisplayPanelController
@@ -66,8 +66,8 @@ public class ItemsDisplayPanelController
   private JPanel build()
   {
     JPanel panel=GuiFactory.buildBackgroundPanel(new BorderLayout());
-    TitledBorder itemsFrameBorder=GuiFactory.buildTitledBorder("Items");
-    panel.setBorder(itemsFrameBorder);
+    TitledBorder border=GuiFactory.buildTitledBorder("Items");
+    panel.setBorder(border);
 
     // Table
     JTable table=_tableController.getTable();
@@ -107,7 +107,7 @@ public class ItemsDisplayPanelController
     _items.clear();
     _items.addAll(_stats.getItems());
     int nbItems=_items.size();
-    String label="Items(s): "+nbItems;
+    String label="Item(s): "+nbItems;
     _statsLabel.setText(label);
   }
 

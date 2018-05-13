@@ -13,6 +13,7 @@ import delta.games.lotro.common.Emote;
 import delta.games.lotro.common.Reputation;
 import delta.games.lotro.common.ReputationItem;
 import delta.games.lotro.common.Rewards;
+import delta.games.lotro.common.Skill;
 import delta.games.lotro.common.Title;
 import delta.games.lotro.common.Trait;
 import delta.games.lotro.common.Virtue;
@@ -28,6 +29,8 @@ import delta.games.lotro.lore.reputation.Faction;
 import delta.games.lotro.lore.reputation.FactionsRegistry;
 import delta.games.lotro.stats.deeds.statistics.EmoteEvent;
 import delta.games.lotro.stats.deeds.statistics.EmoteEventNameComparator;
+import delta.games.lotro.stats.deeds.statistics.SkillEvent;
+import delta.games.lotro.stats.deeds.statistics.SkillEventNameComparator;
 import delta.games.lotro.stats.deeds.statistics.TitleEvent;
 import delta.games.lotro.stats.deeds.statistics.TitleEventNameComparator;
 import delta.games.lotro.stats.deeds.statistics.TraitEvent;
@@ -50,6 +53,7 @@ public class DeedsStatistics
   private List<TitleEvent> _titles;
   private List<EmoteEvent> _emotes;
   private List<TraitEvent> _traits;
+  private List<SkillEvent> _skills;
   private Map<VirtueId,VirtueStatsFromDeeds> _virtues;
   private Map<String,FactionStatsFromDeeds> _reputation;
   private Map<Integer,CountedItem> _items;
@@ -62,6 +66,7 @@ public class DeedsStatistics
     _titles=new ArrayList<TitleEvent>();
     _emotes=new ArrayList<EmoteEvent>();
     _traits=new ArrayList<TraitEvent>();
+    _skills=new ArrayList<SkillEvent>();
     _virtues=new HashMap<VirtueId,VirtueStatsFromDeeds>();
     _reputation=new HashMap<String,FactionStatsFromDeeds>();
     _items=new HashMap<Integer,CountedItem>();
@@ -82,6 +87,7 @@ public class DeedsStatistics
     _titles.clear();
     _emotes.clear();
     _traits.clear();
+    _skills.clear();
     _virtues.clear();
     _reputation.clear();
     _items.clear();
@@ -107,6 +113,7 @@ public class DeedsStatistics
     Collections.sort(_titles,new TitleEventNameComparator());
     Collections.sort(_emotes,new EmoteEventNameComparator());
     Collections.sort(_traits,new TraitEventNameComparator());
+    Collections.sort(_skills,new SkillEventNameComparator());
   }
 
   private void useDeed(DeedStatus deedStatus, DeedDescription deed)
@@ -188,6 +195,17 @@ public class DeedsStatistics
           Long date=deedStatus.getCompletionDate();
           TraitEvent event=new TraitEvent(trait.getName(),date,deed);
           _traits.add(event);
+        }
+      }
+      // Skills
+      Skill[] skills=rewards.getSkills();
+      if (skills!=null)
+      {
+        for(Skill skill : skills)
+        {
+          Long date=deedStatus.getCompletionDate();
+          SkillEvent event=new SkillEvent(skill.getName(),date,deed);
+          _skills.add(event);
         }
       }
       // Virtues
@@ -308,6 +326,15 @@ public class DeedsStatistics
   }
 
   /**
+   * Get the skill events.
+   * @return A list of skill events, sorted by name.
+   */
+  public List<SkillEvent> getSkills()
+  {
+    return _skills;
+  }
+
+  /**
    * Get the statistics about the acquired virtues.
    * @return A map of virtues statistics.
    */
@@ -399,6 +426,14 @@ public class DeedsStatistics
       for(TraitEvent trait : _traits)
       {
         sb.append('\t').append(trait).append(EndOfLine.NATIVE_EOL);
+      }
+    }
+    if (_skills.size()>0)
+    {
+      sb.append("Skills: (").append(_skills.size()).append(')').append(EndOfLine.NATIVE_EOL);
+      for(SkillEvent skill : _skills)
+      {
+        sb.append('\t').append(skill).append(EndOfLine.NATIVE_EOL);
       }
     }
     if (_virtues.size()>0)
