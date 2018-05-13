@@ -158,7 +158,7 @@ public class FactionHistoryChartController
     {
       private String format(int number)
       {
-        String ret=levels[number-min].getName();
+        String ret=levels[number-min].getName(); // TODO: better
         return ret;
       }
 
