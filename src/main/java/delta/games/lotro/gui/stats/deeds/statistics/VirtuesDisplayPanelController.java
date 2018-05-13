@@ -22,7 +22,7 @@ import delta.games.lotro.stats.deeds.VirtueStatsFromDeeds;
  * Controller the virtues display panel.
  * @author DAM
  */
-public class VirtuesDisplayPanel
+public class VirtuesDisplayPanelController
 {
   // Data
   private DeedsStatistics _stats;
@@ -38,7 +38,7 @@ public class VirtuesDisplayPanel
    * @param parent Parent window.
    * @param stats Stats to show.
    */
-  public VirtuesDisplayPanel(WindowController parent, DeedsStatistics stats)
+  public VirtuesDisplayPanelController(WindowController parent, DeedsStatistics stats)
   {
     _parent=parent;
     _stats=stats;

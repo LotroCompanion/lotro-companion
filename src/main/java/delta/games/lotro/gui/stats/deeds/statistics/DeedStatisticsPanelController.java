@@ -26,8 +26,8 @@ public class DeedStatisticsPanelController
   // Controllers
   private DeedStatisticsSummaryPanelController _summary;
   private TitlesDisplayPanelController _titles;
-  private ReputationDisplayPanel _reputation;
-  private VirtuesDisplayPanel _virtues;
+  private ReputationDisplayPanelController _reputation;
+  private VirtuesDisplayPanelController _virtues;
   private ItemsDisplayPanelController _items;
   private EmotesDisplayPanelController _emotes;
   private TraitsDisplayPanelController _traits;
@@ -42,8 +42,8 @@ public class DeedStatisticsPanelController
     _statistics=statistics;
     _summary=new DeedStatisticsSummaryPanelController(statistics);
     _titles=new TitlesDisplayPanelController(parent,statistics);
-    _reputation=new ReputationDisplayPanel(parent,statistics);
-    _virtues=new VirtuesDisplayPanel(parent,statistics);
+    _reputation=new ReputationDisplayPanelController(parent,statistics);
+    _virtues=new VirtuesDisplayPanelController(parent,statistics);
     _items=new ItemsDisplayPanelController(parent,statistics);
     _emotes=new EmotesDisplayPanelController(parent,statistics);
     _traits=new TraitsDisplayPanelController(parent,statistics);

@@ -22,7 +22,7 @@ import delta.games.lotro.stats.deeds.FactionStatsFromDeeds;
  * Controller the reputation display panel.
  * @author DAM
  */
-public class ReputationDisplayPanel
+public class ReputationDisplayPanelController
 {
   // Data
   private DeedsStatistics _stats;
@@ -38,7 +38,7 @@ public class ReputationDisplayPanel
    * @param parent Parent window.
    * @param stats Stats to show.
    */
-  public ReputationDisplayPanel(WindowController parent, DeedsStatistics stats)
+  public ReputationDisplayPanelController(WindowController parent, DeedsStatistics stats)
   {
     _parent=parent;
     _stats=stats;
