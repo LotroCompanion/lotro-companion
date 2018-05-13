@@ -10,6 +10,6 @@ current.version.name=8.0
 current.version.date=13/05/2018
 
 # URL for updates check
-update.check.url=http://dmorcellet.free.fr/lotrocompanion/latest.txt
+#update.check.url=http://dmorcellet.free.fr/lotrocompanion/latest.txt
 # Period of update checks (hours)
 update.check.period=24
