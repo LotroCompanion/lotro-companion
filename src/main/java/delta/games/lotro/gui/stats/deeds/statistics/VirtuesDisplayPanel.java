@@ -61,7 +61,7 @@ public class VirtuesDisplayPanel
   private JPanel build()
   {
     JPanel panel=GuiFactory.buildBackgroundPanel(new BorderLayout());
-    TitledBorder border=GuiFactory.buildTitledBorder("Reputation");
+    TitledBorder border=GuiFactory.buildTitledBorder("Virtues");
     panel.setBorder(border);
 
     // Table

@@ -66,7 +66,7 @@ public class ItemsDisplayPanelController
   private JPanel build()
   {
     JPanel panel=GuiFactory.buildBackgroundPanel(new BorderLayout());
-    TitledBorder itemsFrameBorder=GuiFactory.buildTitledBorder("Titles");
+    TitledBorder itemsFrameBorder=GuiFactory.buildTitledBorder("Items");
     panel.setBorder(itemsFrameBorder);
 
     // Table
