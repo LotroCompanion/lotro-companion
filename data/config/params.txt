@@ -5,9 +5,9 @@ default.server=Landroval
 max.character.level=115
 
 # Current version
-current.version.id=700
-current.version.name=7.0
-current.version.date=16/12/2017
+current.version.id=800
+current.version.name=8.0
+current.version.date=13/05/2018
 
 # URL for updates check
 update.check.url=http://dmorcellet.free.fr/lotrocompanion/latest.txt
