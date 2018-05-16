@@ -14,6 +14,8 @@ import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.Config;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharactersManager;
+import delta.games.lotro.character.level.LevelHistory;
+import delta.games.lotro.gui.stats.curves.DatedCurvesChartConfiguration;
 import delta.games.lotro.stats.level.MultipleToonsLevellingStats;
 
 /**
@@ -25,7 +27,7 @@ public class CharacterLevelWindowController extends DefaultWindowController
   private static final String LEVELLING_PREFERENCES_NAME="levelling";
   private static final String TOON_NAME_PREFERENCE="levelling.registered.toon";
 
-  private CharacterLevelPanelController _levellingPanelController;
+  private MultipleToonsDatedCurvesChartPanelController<LevelHistory> _levellingPanelController;
   private MultipleToonsLevellingStats _stats;
 
   /**
@@ -49,7 +51,12 @@ public class CharacterLevelWindowController extends DefaultWindowController
         }
       }
     }
-    _levellingPanelController=new CharacterLevelPanelController(this,_stats);
+    LevelCurveProvider provider=new LevelCurveProvider();
+    DatedCurvesChartConfiguration configuration=new DatedCurvesChartConfiguration();
+    configuration.setChartTitle("Characters levelling");
+    configuration.setValueAxisLabel("Level");
+    configuration.setValueAxisTicks(new double[]{1,5,10});
+    _levellingPanelController=new MultipleToonsDatedCurvesChartPanelController<LevelHistory>(this,_stats,provider,configuration);
   }
 
   @Override

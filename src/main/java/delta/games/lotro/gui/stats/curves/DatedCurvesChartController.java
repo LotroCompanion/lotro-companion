@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.stats.levelling;
+package delta.games.lotro.gui.stats.curves;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -18,7 +18,6 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.DateAxis;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.NumberTickUnit;
-import org.jfree.chart.axis.TickUnitSource;
 import org.jfree.chart.axis.TickUnits;
 import org.jfree.chart.labels.StandardXYToolTipGenerator;
 import org.jfree.chart.labels.XYToolTipGenerator;
@@ -32,35 +31,37 @@ import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.RectangleEdge;
 
 import delta.common.ui.swing.GuiFactory;
-import delta.games.lotro.character.CharacterFile;
-import delta.games.lotro.character.level.LevelHistory;
-import delta.games.lotro.stats.level.MultipleToonsLevellingStats;
 import delta.games.lotro.utils.Formats;
+import delta.games.lotro.utils.charts.DatedCurve;
+import delta.games.lotro.utils.charts.DatedCurveItem;
 
 /**
- * Controller for level chart.
+ * Controller for a chart with a set of dated curves.
  * @author DAM
  */
-public class CharacterLevelChartController
+public class DatedCurvesChartController
 {
   // GUI
   private JPanel _panel;
   private JFreeChart _chart;
   // Data
-  private MultipleToonsLevellingStats _stats;
+  private DatedCurvesProvider _provider;
   // Configuration
+  private DatedCurvesChartConfiguration _configuration; 
   private boolean _fluent=false;
   // Internal cooking
-  private HashMap<String,Integer> _toonID2SeriesIndex;
+  private HashMap<String,Integer> _curveIds2SeriesIndex;
 
   /**
    * Constructor.
-   * @param stats Data to display.
+   * @param provider Data provider.
+   * @param configuration Chart configuration.
    */
-  public CharacterLevelChartController(MultipleToonsLevellingStats stats)
+  public DatedCurvesChartController(DatedCurvesProvider provider, DatedCurvesChartConfiguration configuration)
   {
-    _stats=stats;
-    _toonID2SeriesIndex=new HashMap<String,Integer>();
+    _provider=provider;
+    _configuration=configuration;
+    _curveIds2SeriesIndex=new HashMap<String,Integer>();
   }
 
   /**
@@ -97,9 +98,9 @@ public class CharacterLevelChartController
 
   private JFreeChart buildChart()
   {
-    String title="Characters levelling";
-    String timeAxisLabel="Time";
-    String valueAxisLabel="Level";
+    String title=_configuration.getChartTitle();
+    String timeAxisLabel=_configuration.getTimeAxisLabel();
+    String valueAxisLabel=_configuration.getValueAxisLabel();
 
     XYDataset xydataset=createDataset();
     JFreeChart jfreechart=ChartFactory.createTimeSeriesChart(title, timeAxisLabel, valueAxisLabel, xydataset, true, true, false);
@@ -116,15 +117,16 @@ public class CharacterLevelChartController
     XYPlot plot = jfreechart.getXYPlot();
     plot.setDomainPannable(false);
 
-    XYToolTipGenerator tooltip=new StandardXYToolTipGenerator() {
+    XYToolTipGenerator tooltip=new StandardXYToolTipGenerator()
+    {
       @Override
       public String generateLabelString(XYDataset dataset, int series, int item)
       {
         String name=(String)((XYSeriesCollection)dataset).getSeriesKey(series);
-        int level=(int)dataset.getYValue(series,item);
+        int value=(int)dataset.getYValue(series,item);
         double timestamp=dataset.getXValue(series,item);
         String date=Formats.getDateString(Long.valueOf((long)timestamp));
-        return name+" - "+level+" ("+date+")";
+        return name+" - "+value+" ("+date+")";
       }
     };
     XYItemRenderer renderer=plot.getRenderer();
@@ -138,14 +140,22 @@ public class CharacterLevelChartController
     axis.setLabelPaint(foregroundColor);
     axis.setTickLabelPaint(foregroundColor);
 
-    // Level axis
+    // Value axis
     NumberAxis valueAxis = (NumberAxis)plot.getRangeAxis();
     valueAxis.setAutoRange(true);
     valueAxis.setAxisLinePaint(foregroundColor);
     valueAxis.setLabelPaint(foregroundColor);
     valueAxis.setTickLabelPaint(foregroundColor);
-    TickUnitSource ticks=getLevelTicks();
-    valueAxis.setStandardTickUnits(ticks);
+    double[] valueAxisTicks=_configuration.getValueAxisTicks();
+    if (valueAxisTicks!=null)
+    {
+      TickUnits ticks=new TickUnits();
+      for(double tick : valueAxisTicks)
+      {
+        ticks.add(new NumberTickUnit(tick));
+      }
+      valueAxis.setStandardTickUnits(ticks);
+    }
 
     LegendTitle legend=jfreechart.getLegend();
     legend.setPosition(RectangleEdge.BOTTOM);
@@ -154,23 +164,14 @@ public class CharacterLevelChartController
     return jfreechart;
   }
 
-  private TickUnitSource getLevelTicks()
-  {
-    TickUnits ret=new TickUnits();
-    ret.add(new NumberTickUnit(1));
-    ret.add(new NumberTickUnit(5));
-    ret.add(new NumberTickUnit(10));
-    return ret;
-  }
-
   /**
-   * Show hide the series associated with a toon.
-   * @param toonId Toon identifier.
+   * Show hide the series associated with a curve.
+   * @param curveId Curve identifier.
    * @param visible <code>true</code> to make it visible, <code>false</code> otherwise.
    */
-  public void setVisible(String toonId, boolean visible)
+  public void setVisible(String curveId, boolean visible)
   {
-    Integer index=_toonID2SeriesIndex.get(toonId);
+    Integer index=_curveIds2SeriesIndex.get(curveId);
     if (index!=null)
     {
       if (_chart!=null)
@@ -188,37 +189,29 @@ public class CharacterLevelChartController
   public void refresh()
   {
     XYSeriesCollection data=(XYSeriesCollection)_chart.getXYPlot().getDataset();
-    List<CharacterFile> newToons=_stats.getToonsList();
+    List<String> curveIds=_provider.getCurveIds();
+    List<String> newCurveIds=new ArrayList<String>(curveIds);
 
-    // Find added/removed toons
+    // Find added/removed curves
     ArrayList<Integer> indexesToRemove=new ArrayList<Integer>();
-    HashSet<String> toonIDsToRemove=new HashSet<String>();
-    for(String toonID : _toonID2SeriesIndex.keySet())
+    HashSet<String> curveIdsToRemove=new HashSet<String>();
+    for(String curveId : _curveIds2SeriesIndex.keySet())
     {
-      CharacterFile foundToon=null;
-      for(CharacterFile toon : newToons)
+      if (curveIds.contains(curveId))
       {
-        if (toonID.equals(toon.getIdentifier()))
-        {
-          foundToon=toon;
-          break;
-        }
-      }
-      if (foundToon!=null)
-      {
-        newToons.remove(foundToon);
+        newCurveIds.remove(curveId);
       }
       else
       {
-        Integer index=_toonID2SeriesIndex.get(toonID);
+        Integer index=_curveIds2SeriesIndex.get(curveId);
         indexesToRemove.add(index);
-        toonIDsToRemove.add(toonID);
+        curveIdsToRemove.add(curveId);
       }
     }
-    // Remove no more used toons
-    for(String toonID : toonIDsToRemove)
+    // Remove no more used curves
+    for(String curveId : curveIdsToRemove)
     {
-      _toonID2SeriesIndex.remove(toonID);
+      _curveIds2SeriesIndex.remove(curveId);
     }
     Collections.sort(indexesToRemove);
     for(int i=indexesToRemove.size()-1;i>=0;i--)
@@ -226,56 +219,56 @@ public class CharacterLevelChartController
       int index=indexesToRemove.get(i).intValue();
       data.removeSeries(index);
     }
-    // Added new toons
-    for(CharacterFile toon : newToons)
+    // Added new curves
+    for(String newCurveId : newCurveIds)
     {
-      addSeriesForToon(data,toon);
-      String toonID=toon.getIdentifier();
-      setVisible(toonID,true);
+      addSeriesForCurve(data,newCurveId);
+      setVisible(newCurveId,true);
     }
  }
 
   private XYSeriesCollection createDataset()
   {
     XYSeriesCollection data=new XYSeriesCollection();
-    List<CharacterFile> toons=_stats.getToonsList();
-    for(CharacterFile toon : toons)
+    List<String> curveIds=_provider.getCurveIds();
+    for(String curveId : curveIds)
     {
-      addSeriesForToon(data,toon);
+      addSeriesForCurve(data,curveId);
     }
     return data;
   }
 
-  private void addSeriesForToon(XYSeriesCollection data, CharacterFile toon)
+  private void addSeriesForCurve(XYSeriesCollection data, String curveId)
   {
-    String toonID=toon.getIdentifier();
-    LevelHistory stats=_stats.getStatsForToon(toonID);
-    if (stats!=null)
+    DatedCurve<?> curve=_provider.getCurve(curveId);
+    if (curve!=null)
     {
-      String key=stats.getName();
-      XYSeries toonSeries = new XYSeries(key);
-      int[] levels=stats.getLevels();
-      long[] dates=stats.getDatesSortedByLevel();
+      String key=curve.getName();
+      XYSeries series = new XYSeries(key);
       long lastDate=0;
-      int lastLevel=0;
-      for(int i=0;i<levels.length;i++)
+      double lastValue=0;
+      for(DatedCurveItem<?> point : curve.getPoints())
       {
-        long date=dates[i];
-        int level=levels[i];
-        if (!_fluent)
+        long date=point.getDate().longValue();
+        Object objectValue=point.getValue();
+        if (objectValue instanceof Number)
         {
-          if ((lastDate!=0) && (lastDate!=date))
+          double value=((Number)objectValue).doubleValue();
+          if (!_fluent)
           {
-            toonSeries.add(date,lastLevel);
+            if ((lastDate!=0) && (lastDate!=date))
+            {
+              series.add(date,lastValue);
+            }
           }
+          series.add(date,value);
+          lastDate=date;
+          lastValue=value;
         }
-        toonSeries.add(date,level);
-        lastDate=date;
-        lastLevel=level;
       }
       int index=data.getSeriesCount();
-      _toonID2SeriesIndex.put(toonID,Integer.valueOf(index));
-      data.addSeries(toonSeries);
+      _curveIds2SeriesIndex.put(curveId,Integer.valueOf(index));
+      data.addSeries(series);
     }
     else
     {
@@ -288,12 +281,14 @@ public class CharacterLevelChartController
    */
   public void dispose()
   {
+    // UI
     if (_panel!=null)
     {
       _panel.removeAll();
       _panel=null;
     }
     _chart=null;
-    _stats=null;
+    // Data
+    _provider=null;
   }
 }

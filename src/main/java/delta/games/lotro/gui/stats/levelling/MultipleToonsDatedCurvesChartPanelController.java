@@ -20,32 +20,41 @@ import delta.games.lotro.character.CharactersManager;
 import delta.games.lotro.gui.character.chooser.CharacterSelectionChangedListener;
 import delta.games.lotro.gui.character.chooser.CharactersSelectorPanelController;
 import delta.games.lotro.gui.character.chooser.CharactersSelectorWindowController;
-import delta.games.lotro.stats.level.MultipleToonsLevellingStats;
+import delta.games.lotro.gui.stats.curves.DatedCurvesChartConfiguration;
+import delta.games.lotro.gui.stats.curves.DatedCurveProvider;
+import delta.games.lotro.gui.stats.curves.DatedCurvesChartController;
+import delta.games.lotro.gui.stats.curves.MultipleToonsDatedCurvesProvider;
+import delta.games.lotro.stats.MultipleToonsStats;
 
 /**
- * Controller for a characters levelling panel.
+ * Controller for a panel to show a chart with curves for a series of characters.
+ * @param <T> Type of managed stats.
  * @author DAM
  */
-public class CharacterLevelPanelController implements CharacterSelectionChangedListener
+public class MultipleToonsDatedCurvesChartPanelController<T> implements CharacterSelectionChangedListener
 {
   // GUI
   private JPanel _panel;
   // Controllers
   private WindowController _parentController;
-  private CharacterLevelChartController _chartController;
+  private DatedCurvesChartController _chartController;
   private CharactersSelectorPanelController _toonSelectionController;
   // Data
-  private MultipleToonsLevellingStats _stats;
+  private MultipleToonsStats<T> _stats;
 
   /**
    * Constructor.
    * @param parentController Parent window controller.
-   * @param stats Levelling stats to display.
+   * @param stats Stats to display.
+   * @param curveProvider Curve provider.
+   * @param configuration Chart configuration.
    */
-  public CharacterLevelPanelController(WindowController parentController, MultipleToonsLevellingStats stats)
+  public MultipleToonsDatedCurvesChartPanelController(WindowController parentController, MultipleToonsStats<T> stats, DatedCurveProvider<T> curveProvider, DatedCurvesChartConfiguration configuration)
   {
     _parentController=parentController;
     _stats=stats;
+    MultipleToonsDatedCurvesProvider<T> provider=new MultipleToonsDatedCurvesProvider<T>(stats,curveProvider);
+    _chartController=new DatedCurvesChartController(provider,configuration);
   }
 
   /**
@@ -65,7 +74,6 @@ public class CharacterLevelPanelController implements CharacterSelectionChangedL
   {
     JPanel panel=GuiFactory.buildBackgroundPanel(new BorderLayout());
 
-    _chartController=new CharacterLevelChartController(_stats);
     JPanel chartPanel=_chartController.getPanel();
     panel.add(chartPanel,BorderLayout.CENTER);
 
