@@ -394,7 +394,7 @@
 <faction key="HOBNANIGANS" name="Chicken Chasing League of Eriador" category="Misc" initialLevel="NONE">
 <level key="NONE" name="-" code="0" lotroPoints="0" requiredXp="0"/>
 <level key="ROOKIE" name="Rookie" code="1" lotroPoints="0" requiredXp="10000"/>
-<level key="LEAGUER" name="Leaguer" code="2" lotroPoints="0" requiredXp="20000"/>
+<level key="LEAGUER" name="Minor Leaguer" code="2" lotroPoints="0" requiredXp="20000"/>
 <level key="MAJOR_LEAGUER" name="Major Leaguer" code="3" lotroPoints="0" requiredXp="25000"/>
 <level key="ALL_STAR" name="All-star" code="4" lotroPoints="0" requiredXp="30000"/>
 <level key="HALL_OF_FAMER" name="Hall of Famer" code="5" lotroPoints="0" requiredXp="45000"/>
