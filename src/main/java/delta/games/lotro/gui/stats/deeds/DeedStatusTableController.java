@@ -9,6 +9,7 @@ import javax.swing.JTable;
 import delta.common.ui.swing.tables.CellDataProvider;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.GenericTableController.DateRenderer;
+import delta.common.ui.swing.tables.CellDataUpdater;
 import delta.common.ui.swing.tables.ListDataProvider;
 import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.TableColumnsManager;
@@ -82,6 +83,19 @@ public class DeedStatusTableController
       };
       DefaultTableColumnController<DeedDescription,Boolean> completedColumn=new DefaultTableColumnController<DeedDescription,Boolean>(COMPLETED,"Completed",Boolean.class,completedCell);
       completedColumn.setWidthSpecs(30,30,30);
+
+      completedColumn.setEditable(true);
+      CellDataUpdater<DeedDescription> updater=new CellDataUpdater<DeedDescription>()
+      {
+        @Override
+        public void setData(DeedDescription item, Object value)
+        {
+          DeedStatus status=_deedsStatus.get(item.getKey(),true);
+          Boolean completed=(Boolean)value;
+          status.setCompleted(completed);
+        }
+      };
+      completedColumn.setValueUpdater(updater);
       table.addColumnController(completedColumn);
     }
     // Completion date column
@@ -109,6 +123,7 @@ public class DeedStatusTableController
     TableColumnsManager<DeedDescription> columnsManager=table.getColumnsManager();
     List<String> columnsIds=getColumnIds();
     columnsManager.setColumns(columnsIds);
+
     return table;
   }
 
