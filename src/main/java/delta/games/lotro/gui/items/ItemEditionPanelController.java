@@ -343,7 +343,7 @@ public class ItemEditionPanelController
     // Crafter name
     _crafterName.setText(_item.getCrafterName());
     // User comments
-    String userComments=_item.getProperty(ItemConstants.USER_COMMENT);
+    String userComments=_item.getProperty(ItemPropertyNames.USER_COMMENT);
     if (userComments==null) userComments="";
     _userComments.setText(userComments);
     // Binding
@@ -410,11 +410,11 @@ public class ItemEditionPanelController
     String userComments=_userComments.getText();
     if (userComments.length()>0)
     {
-      _item.setProperty(ItemConstants.USER_COMMENT,userComments);
+      _item.setProperty(ItemPropertyNames.USER_COMMENT,userComments);
     }
     else
     {
-      _item.removeProperty(ItemConstants.USER_COMMENT);
+      _item.removeProperty(ItemPropertyNames.USER_COMMENT);
     }
     // Binding
     _item.setBinding(_binding.getSelectedItem());

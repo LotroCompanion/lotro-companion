@@ -8,12 +8,11 @@ import javax.swing.JTable;
 
 import delta.common.ui.swing.tables.CellDataProvider;
 import delta.common.ui.swing.tables.DataProvider;
-import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.DefaultTableColumnController;
+import delta.common.ui.swing.tables.GenericTableController;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.storage.ItemsStash;
 import delta.games.lotro.gui.LotroIconsManager;
-import delta.games.lotro.gui.items.ItemConstants;
 import delta.games.lotro.lore.items.EquipmentLocation;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemPropertyNames;
@@ -122,7 +121,7 @@ public class StashItemsTableController
         @Override
         public String getData(Item item)
         {
-          String property=item.getProperty(ItemConstants.USER_COMMENT);
+          String property=item.getProperty(ItemPropertyNames.USER_COMMENT);
           return property;
         }
       };
