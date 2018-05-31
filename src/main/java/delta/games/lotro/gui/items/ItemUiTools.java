@@ -9,7 +9,9 @@ import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.common.ui.swing.icons.IconWithText;
 import delta.common.ui.swing.icons.IconWithText.Position;
 import delta.common.utils.NumericTools;
+import delta.games.lotro.character.stats.STAT;
 import delta.games.lotro.gui.LotroIconsManager;
+import delta.games.lotro.gui.character.stats.StatLabels;
 import delta.games.lotro.lore.items.ArmourType;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemPropertyNames;
@@ -134,5 +136,22 @@ public class ItemUiTools
     }
     ctrl.selectItem(null);
     return ctrl;
+  }
+
+  /**
+   * Build a controller for combo box to choose a stat.
+   * @return A new controller.
+   */
+  public static ComboBoxController<STAT> buildStatChooser()
+  {
+    ComboBoxController<STAT> controller=new ComboBoxController<STAT>();
+    controller.addEmptyItem("");
+    for(STAT stat : STAT.getAll())
+    {
+      String label=StatLabels.getStatLabel(stat);
+      controller.addItem(stat,label);
+    }
+    controller.selectItem(null);
+    return controller;
   }
 }

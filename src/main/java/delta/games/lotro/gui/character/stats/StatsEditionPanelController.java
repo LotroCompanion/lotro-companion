@@ -20,6 +20,7 @@ import delta.common.ui.swing.icons.IconsManager;
 import delta.common.utils.NumericTools;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.character.stats.STAT;
+import delta.games.lotro.gui.items.ItemUiTools;
 import delta.games.lotro.utils.FixedDecimalsInteger;
 
 /**
@@ -201,7 +202,7 @@ public class StatsEditionPanelController
     {
       _value=GuiFactory.buildTextField("");
       _value.setColumns(6);
-      _statChooser=buildStatChooser();
+      _statChooser=ItemUiTools.buildStatChooser();
       _unit=GuiFactory.buildLabel("");
       // Delete button
       ImageIcon icon=IconsManager.getIcon("/resources/gui/icons/cross.png");
@@ -227,19 +228,6 @@ public class StatsEditionPanelController
       _addButton.setContentAreaFilled(false);
       _addButton.setBorderPainted(false);
       _addButton.addActionListener(listener);
-    }
-
-    private ComboBoxController<STAT> buildStatChooser()
-    {
-      ComboBoxController<STAT> controller=new ComboBoxController<STAT>();
-      controller.addEmptyItem("");
-      for(STAT stat : STAT.getAll())
-      {
-        String label=StatLabels.getStatLabel(stat);
-        controller.addItem(stat,label);
-      }
-      controller.selectItem(null);
-      return controller;
     }
 
     public void setStat(STAT stat, FixedDecimalsInteger value)

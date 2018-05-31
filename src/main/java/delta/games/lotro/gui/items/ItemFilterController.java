@@ -18,6 +18,7 @@ import delta.common.ui.swing.text.TextListener;
 import delta.common.utils.collections.filters.CompoundFilter;
 import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.collections.filters.Operator;
+import delta.games.lotro.character.stats.STAT;
 import delta.games.lotro.lore.items.ArmourType;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemQuality;
@@ -25,6 +26,7 @@ import delta.games.lotro.lore.items.WeaponType;
 import delta.games.lotro.lore.items.filters.ArmourTypeFilter;
 import delta.games.lotro.lore.items.filters.ItemNameFilter;
 import delta.games.lotro.lore.items.filters.ItemQualityFilter;
+import delta.games.lotro.lore.items.filters.ItemStatFilter;
 import delta.games.lotro.lore.items.filters.WeaponTypeFilter;
 
 /**
@@ -33,6 +35,8 @@ import delta.games.lotro.lore.items.filters.WeaponTypeFilter;
  */
 public class ItemFilterController extends AbstractItemFilterPanelController
 {
+  private static final int NB_STATS=3;
+
   // Data
   private Filter<Item> _filter;
   private ItemNameFilter _nameFilter;
@@ -40,6 +44,7 @@ public class ItemFilterController extends AbstractItemFilterPanelController
   private WeaponTypeFilter _weaponTypeFilter;
   private ArmourTypeFilter _armourTypeFilter;
   private ArmourTypeFilter _shieldTypeFilter;
+  private ItemStatFilter _statFilter;
   private ItemFilterConfiguration _cfg;
   // GUI
   private JPanel _panel;
@@ -50,6 +55,7 @@ public class ItemFilterController extends AbstractItemFilterPanelController
   private ComboBoxController<WeaponType> _weaponType;
   private ComboBoxController<ArmourType> _armourType;
   private ComboBoxController<ArmourType> _shieldType;
+  private List<ComboBoxController<STAT>> _stats;
 
   /**
    * Constructor.
@@ -97,6 +103,9 @@ public class ItemFilterController extends AbstractItemFilterPanelController
       _shieldType=ItemUiTools.buildArmourTypeCombo(shieldTypes);
       filters.add(_shieldTypeFilter);
     }
+    // Stat contribution
+    _statFilter=new ItemStatFilter(NB_STATS);
+    filters.add(_statFilter);
     _filter=new CompoundFilter<Item>(Operator.AND,filters);
   }
 
@@ -159,6 +168,7 @@ public class ItemFilterController extends AbstractItemFilterPanelController
   private JPanel build()
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
+    // Line 1: quality, name, stat
     JPanel line1Panel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
     // Quality
     {
@@ -197,6 +207,31 @@ public class ItemFilterController extends AbstractItemFilterPanelController
       };
       _textController=new DynamicTextEditionController(_contains,listener);
       line1Panel.add(containsPanel);
+    }
+    // Line 1bis: stats
+    JPanel line1BisPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
+    {
+      _stats=new ArrayList<ComboBoxController<STAT>>();
+      JPanel statPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING));
+      for(int i=0;i<NB_STATS;i++)
+      {
+        statPanel.add(GuiFactory.buildLabel("Stat:"));
+        ComboBoxController<STAT> statChooser=ItemUiTools.buildStatChooser();
+        final int statIndex=i;
+        ItemSelectionListener<STAT> statListener=new ItemSelectionListener<STAT>()
+        {
+          @Override
+          public void itemSelected(STAT stat)
+          {
+            _statFilter.setStat(statIndex,stat);
+            filterUpdated();
+          }
+        };
+        statChooser.addListener(statListener);
+        _stats.add(statChooser);
+        statPanel.add(statChooser.getComboBox());
+        line1BisPanel.add(statPanel);
+      }
     }
     // Line 2: weapon type, armour type, shield type
     JPanel line2Panel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING));
@@ -299,6 +334,8 @@ public class ItemFilterController extends AbstractItemFilterPanelController
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(line1Panel,c);
     c=new GridBagConstraints(0,1,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    panel.add(line1BisPanel,c);
+    c=new GridBagConstraints(0,2,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(line2Panel,c);
 
     return panel;
