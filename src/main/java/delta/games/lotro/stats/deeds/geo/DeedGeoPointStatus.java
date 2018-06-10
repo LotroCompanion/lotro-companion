@@ -1,41 +1,37 @@
-package delta.games.lotro.stats.deeds;
+package delta.games.lotro.stats.deeds.geo;
 
 import java.util.Date;
-
-import delta.games.lotro.stats.deeds.geo.DeedGeoStatus;
 
 /**
  * Status of a single deed for a single character.
  * @author DAM
  */
-public class DeedStatus
+public class DeedGeoPointStatus
 {
-  private String _deedKey;
+  private int _pointId;
   private Boolean _completed;
   private Long _completionDate;
-  private DeedGeoStatus _geoStatus;
 
   /**
    * Constructor.
-   * @param deedKey Key of the associated deed.
+   * @param pointId
    */
-  public DeedStatus(String deedKey)
+  public DeedGeoPointStatus(int pointId)
   {
-    _deedKey=deedKey;
-    _geoStatus=null;
+    _pointId=pointId;
   }
 
   /**
-   * Get the key of the associated deed.
-   * @return a deed key.
+   * Get the identifier of the targeted point.
+   * @return A point identifier.
    */
-  public String getDeedKey()
+  public int getPointId()
   {
-    return _deedKey;
+    return _pointId;
   }
 
   /**
-   * Indicates if this deed is completed, or not, or if it is unknown.
+   * Indicates if this deed geo point is completed or not, or if it is unknown.
    * @return A 3-state boolean.
    */
   public Boolean isCompleted()
@@ -70,29 +66,11 @@ public class DeedStatus
     _completionDate=completionDate;
   }
 
-  /**
-   * Get the geographic status of this deed, if any.
-   * @return A geo status or <code>null</code>.
-   */
-  public DeedGeoStatus getGeoStatus()
-  {
-    return _geoStatus;
-  }
-
-  /**
-   * Set the geographic status of this deed.
-   * @param geoStatus A geo status or <code>null</code>.
-   */
-  public void setGeoStatus(DeedGeoStatus geoStatus)
-  {
-    _geoStatus=geoStatus;
-  }
-
   @Override
   public String toString()
   {
     StringBuilder sb=new StringBuilder();
-    sb.append("Deed '").append(_deedKey).append("': ");
+    sb.append("Point: ").append(_pointId).append(": ");
     if (_completed==Boolean.TRUE)
     {
       sb.append("completed");
@@ -108,10 +86,6 @@ public class DeedStatus
     else
     {
       sb.append("unknown status");
-    }
-    if (_geoStatus!=null)
-    {
-      sb.append(" ; ").append(_geoStatus);
     }
     return sb.toString();
   }

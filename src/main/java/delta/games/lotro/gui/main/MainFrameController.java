@@ -5,7 +5,6 @@ import java.awt.Point;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 
 import javax.swing.Box;
 import javax.swing.JComponent;
@@ -39,6 +38,7 @@ import delta.games.lotro.gui.stats.warbands.WarbandsWindowController;
 import delta.games.lotro.gui.toon.ToonsManagementController;
 import delta.games.lotro.maps.data.MapsManager;
 import delta.games.lotro.maps.ui.MapWindowController;
+import delta.games.lotro.utils.maps.Maps;
 
 /**
  * Controller for the main frame.
@@ -276,9 +276,7 @@ public class MainFrameController extends DefaultWindowController implements Acti
     WindowController controller=_windowsManager.getWindow(MapWindowController.IDENTIFIER);
     if (controller==null)
     {
-      File mapsDir=Config.getInstance().getMapsDir();
-      MapsManager mapsManager=new MapsManager(mapsDir);
-      mapsManager.load();
+      MapsManager mapsManager=Maps.getMaps().getMapsManager();
       controller=new MapWindowController(mapsManager);
       _windowsManager.registerWindow(controller);
       controller.getWindow().setLocationRelativeTo(getFrame());

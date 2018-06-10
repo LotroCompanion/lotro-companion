@@ -11,6 +11,8 @@ import delta.common.utils.io.xml.XmlFileWriterHelper;
 import delta.common.utils.io.xml.XmlWriter;
 import delta.games.lotro.stats.deeds.DeedStatus;
 import delta.games.lotro.stats.deeds.DeedsStatusManager;
+import delta.games.lotro.stats.deeds.geo.DeedGeoPointStatus;
+import delta.games.lotro.stats.deeds.geo.DeedGeoStatus;
 
 /**
  * Writes a deeds status to an XML file.
@@ -43,12 +45,12 @@ public class DeedsStatusXMLWriter
   }
 
   /**
-   * Write a trait points status to the given XML stream.
+   * Write a deed status to the given XML stream.
    * @param hd XML output stream.
    * @param status Status to write.
    * @throws Exception If an error occurs.
    */
-  public void writeDeedsStatus(TransformerHandler hd, DeedsStatusManager status) throws Exception
+  private void writeDeedsStatus(TransformerHandler hd, DeedsStatusManager status) throws Exception
   {
     AttributesImpl attrs=new AttributesImpl();
     hd.startElement("","",DeedStatusXMLConstants.DEEDS_STATUS_TAG,attrs);
@@ -74,8 +76,45 @@ public class DeedsStatusXMLWriter
         deedAttrs.addAttribute("","",DeedStatusXMLConstants.DEED_STATUS_COMPLETION_DATE_ATTR,CDATA,completionDate.toString());
       }
       hd.startElement("","",DeedStatusXMLConstants.DEED_STATUS_TAG,deedAttrs);
+      writeGeoStatus(hd,deedStatus);
       hd.endElement("","",DeedStatusXMLConstants.DEED_STATUS_TAG);
     }
     hd.endElement("","",DeedStatusXMLConstants.DEEDS_STATUS_TAG);
+  }
+
+  /**
+   * Write a greographic deed status to the given XML stream.
+   * @param hd XML output stream.
+   * @param status Status to write.
+   * @throws Exception If an error occurs.
+   */
+  private void writeGeoStatus(TransformerHandler hd, DeedStatus status) throws Exception
+  {
+    DeedGeoStatus geoStatus=status.getGeoStatus();
+    if (geoStatus!=null)
+    {
+      List<DeedGeoPointStatus> pointStatuses=geoStatus.getPointStatuses();
+      for(DeedGeoPointStatus pointStatus : pointStatuses)
+      {
+        AttributesImpl deedAttrs=new AttributesImpl();
+        // PointID
+        int pointId=pointStatus.getPointId();
+        deedAttrs.addAttribute("","",DeedStatusXMLConstants.GEO_POINT_STATUS_ID_ATTR,CDATA,String.valueOf(pointId));
+        // Completed
+        Boolean completed=pointStatus.isCompleted();
+        if (completed!=null)
+        {
+          deedAttrs.addAttribute("","",DeedStatusXMLConstants.GEO_POINT_STATUS_COMPLETED_ATTR,CDATA,completed.toString());
+        }
+        // Completion date
+        Long completionDate=pointStatus.getCompletionDate();
+        if (completionDate!=null)
+        {
+          deedAttrs.addAttribute("","",DeedStatusXMLConstants.GEO_POINT_STATUS_COMPLETION_DATE_ATTR,CDATA,completionDate.toString());
+        }
+        hd.startElement("","",DeedStatusXMLConstants.GEO_POINT_STATUS_TAG,deedAttrs);
+        hd.endElement("","",DeedStatusXMLConstants.GEO_POINT_STATUS_TAG);
+      }
+    }
   }
 }

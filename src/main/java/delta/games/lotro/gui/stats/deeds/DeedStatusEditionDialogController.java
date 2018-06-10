@@ -7,6 +7,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
@@ -27,7 +28,9 @@ import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.deed.form.DeedDisplayWindowController;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.DeedType;
+import delta.games.lotro.lore.deeds.geo.DeedGeoData;
 import delta.games.lotro.stats.deeds.DeedStatus;
+import delta.games.lotro.stats.deeds.geo.DeedGeoStatus;
 import delta.games.lotro.utils.DateFormat;
 
 /**
@@ -44,6 +47,7 @@ public class DeedStatusEditionDialogController extends DefaultFormDialogControll
   private CheckboxController _completed;
   private DateEditionController _completionDate;
   private WindowsManager _windowsManager;
+  private DeedGeoStatusEditionPanelController _geoEditor;
 
   /**
    * Constructor.
@@ -127,11 +131,50 @@ public class DeedStatusEditionDialogController extends DefaultFormDialogControll
     gbc.gridx=1;
     panel.add(_completionDate.getTextField(),gbc);
 
+    DeedGeoData geoData=_deed.getGeoData();
+    if (geoData!=null)
+    {
+      JPanel geoPanel=buildGeoStatusEditionPanel();
+      GridBagConstraints geoC=new GridBagConstraints(0,3,2,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,insets,0,0);
+      panel.add(geoPanel,geoC);
+    }
     // Set values
     boolean completed=_data.isCompleted()==Boolean.TRUE;
     _completed.setSelected(completed);
     setCompleted(completed);
     _completionDate.setDate(_data.getCompletionDate());
+    if (_geoEditor!=null)
+    {
+      DeedGeoStatus status=_data.getGeoStatus();
+      if (status==null)
+      {
+        status=new DeedGeoStatus();
+        _data.setGeoStatus(status);
+      }
+      _geoEditor.setStatusData(status);
+    }
+    return panel;
+  }
+
+  private JPanel buildGeoStatusEditionPanel()
+  {
+    DeedGeoData geoData=_deed.getGeoData();
+    _geoEditor=new DeedGeoStatusEditionPanelController(geoData);
+    List<DeedGeoPointStatusGadgetsController> gadgets=_geoEditor.getGadgets();
+
+    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
+    TitledBorder pathsBorder=GuiFactory.buildTitledBorder("Geographic status");
+    panel.setBorder(pathsBorder);
+
+    int lineIndex=0;
+    for(DeedGeoPointStatusGadgetsController gadget : gadgets)
+    {
+      GridBagConstraints c=new GridBagConstraints(0,lineIndex,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+      panel.add(gadget.getCheckbox().getCheckbox(),c);
+      c.gridx++;
+      panel.add(gadget.getDateEditor().getTextField(),c);
+      lineIndex++;
+    }
     return panel;
   }
 
@@ -149,6 +192,8 @@ public class DeedStatusEditionDialogController extends DefaultFormDialogControll
     // Completion date
     Long completionDate=_completionDate.getDate();
     _data.setCompletionDate(completionDate);
+    // Geographic data
+    _geoEditor.updateGeoStatus(_data.getGeoStatus());
   }
 
   private void showDeed()
@@ -185,6 +230,11 @@ public class DeedStatusEditionDialogController extends DefaultFormDialogControll
     {
       _completionDate.dispose();
       _completionDate=null;
+    }
+    if (_geoEditor!=null)
+    {
+      _geoEditor.dispose();
+      _geoEditor=null;
     }
   }
 }
