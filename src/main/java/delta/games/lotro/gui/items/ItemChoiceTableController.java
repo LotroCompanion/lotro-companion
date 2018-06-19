@@ -21,6 +21,7 @@ import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.lore.items.Armour;
 import delta.games.lotro.lore.items.ArmourType;
 import delta.games.lotro.lore.items.Item;
+import delta.games.lotro.lore.items.ItemBinding;
 import delta.games.lotro.lore.items.ItemPropertyNames;
 import delta.games.lotro.lore.items.ItemQuality;
 import delta.games.lotro.lore.items.Weapon;
@@ -315,6 +316,20 @@ public class ItemChoiceTableController
       DefaultTableColumnController<Item,WeaponType> weaponTypeColumn=new DefaultTableColumnController<Item,WeaponType>(ItemColumnIds.WEAPON_TYPE.name(),"Weapon type",WeaponType.class,weaponTypeCell);
       weaponTypeColumn.setWidthSpecs(150,150,150);
       columns.add(weaponTypeColumn);
+    }
+    // Binding
+    {
+      CellDataProvider<Item,ItemBinding> bindingCell=new CellDataProvider<Item,ItemBinding>()
+      {
+        @Override
+        public ItemBinding getData(Item item)
+        {
+          return item.getBinding();
+        }
+      };
+      DefaultTableColumnController<Item,ItemBinding> bindingColumn=new DefaultTableColumnController<Item,ItemBinding>(ItemColumnIds.BINDING.name(),"Binding",ItemBinding.class,bindingCell);
+      bindingColumn.setWidthSpecs(150,150,150);
+      columns.add(bindingColumn);
     }
     // Stat columns
     for(STAT stat : STAT.values())

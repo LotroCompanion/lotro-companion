@@ -51,9 +51,13 @@ public enum ItemColumnIds
    */
   ARMOUR_TYPE,
   /**
-   * Wepaon type.
+   * Weapon type.
    */
   WEAPON_TYPE,
+  /**
+   * Binding.
+   */
+  BINDING,
   /**
    * Class requirement.
    */
