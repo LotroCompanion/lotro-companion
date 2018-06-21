@@ -315,9 +315,15 @@ public class EquipmentPanelController implements ActionListener
     return null;
   }
 
-  private void handleChooseItem(EQUIMENT_SLOT slot, List<Item> items)
+  private void handleChooseItem(EQUIMENT_SLOT slot)
   {
-    Item item=chooseItem(slot,items);
+    ItemsManager itemsManager=ItemsManager.getInstance();
+    handleChooseItem(slot,itemsManager);
+  }
+
+  private void handleChooseItem(EQUIMENT_SLOT slot, ItemsManager itemsManager)
+  {
+    Item item=chooseItem(slot,itemsManager);
     if (item!=null)
     {
       CharacterEquipment equipment=_toonData.getEquipment();
@@ -328,13 +334,12 @@ public class EquipmentPanelController implements ActionListener
     }
   }
 
-  private Item chooseItem(EQUIMENT_SLOT slot, List<Item> items)
+  private Item chooseItem(EQUIMENT_SLOT slot, ItemsManager itemsManager)
   {
-    ItemsManager itemsManager=new ItemsManager(items);
-    List<Item> selectedItems=itemsManager.getItems(_toonData,slot);
+    List<Item> selectedItems=itemsManager.getItems(slot);
     ItemFilterConfiguration cfg=new ItemFilterConfiguration();
     cfg.initFromItems(selectedItems);
-    ItemFilterController filterController=new ItemFilterController(cfg);
+    ItemFilterController filterController=new ItemFilterController(cfg,_toonData);
     Filter<Item> filter=filterController.getFilter();
     String id=ItemChoiceWindowController.ITEM_CHOOSER_PROPERTIES_ID+"#"+slot.name();
     TypedProperties props=_parentWindow.getUserProperties(id);
@@ -395,8 +400,7 @@ public class EquipmentPanelController implements ActionListener
         }
         else
         {
-          List<Item> items=ItemsManager.getInstance().getAllItems();
-          handleChooseItem(slot,items);
+          handleChooseItem(slot);
         }
       }
     }
@@ -413,14 +417,14 @@ public class EquipmentPanelController implements ActionListener
         }
         else if (CHOOSE_COMMAND.equals(cmd))
         {
-          List<Item> items=ItemsManager.getInstance().getAllItems();
-          handleChooseItem(slot,items);
+          handleChooseItem(slot);
         }
         else if (CHOOSE_FROM_STASH_COMMAND.equals(cmd))
         {
           ItemsStash stash=_toon.getStash();
           List<Item> items=stash.getAll();
-          handleChooseItem(slot,items);
+          ItemsManager itemsManager=new ItemsManager(items);
+          handleChooseItem(slot,itemsManager);
         }
         else if (REMOVE_COMMAND.equals(cmd))
         {

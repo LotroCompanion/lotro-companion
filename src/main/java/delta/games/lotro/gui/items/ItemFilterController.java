@@ -18,14 +18,18 @@ import delta.common.ui.swing.text.TextListener;
 import delta.common.utils.collections.filters.CompoundFilter;
 import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.collections.filters.Operator;
+import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.stats.STAT;
+import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.lore.items.ArmourType;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemQuality;
 import delta.games.lotro.lore.items.WeaponType;
 import delta.games.lotro.lore.items.filters.ArmourTypeFilter;
+import delta.games.lotro.lore.items.filters.CharacterProficienciesFilter;
 import delta.games.lotro.lore.items.filters.ItemNameFilter;
 import delta.games.lotro.lore.items.filters.ItemQualityFilter;
+import delta.games.lotro.lore.items.filters.ItemRequiredClassFilter;
 import delta.games.lotro.lore.items.filters.ItemStatFilter;
 import delta.games.lotro.lore.items.filters.WeaponTypeFilter;
 
@@ -39,6 +43,8 @@ public class ItemFilterController extends AbstractItemFilterPanelController
 
   // Data
   private Filter<Item> _filter;
+  private ItemRequiredClassFilter _classFilter;
+  private CharacterProficienciesFilter _proficienciesFilter;
   private ItemNameFilter _nameFilter;
   private ItemQualityFilter _qualityFilter;
   private WeaponTypeFilter _weaponTypeFilter;
@@ -62,17 +68,33 @@ public class ItemFilterController extends AbstractItemFilterPanelController
    */
   public ItemFilterController()
   {
-    this(new ItemFilterConfiguration());
+    this(new ItemFilterConfiguration(),null);
   }
 
   /**
    * Constructor.
    * @param cfg Configuration.
+   * @param character Targeted character (may be <code>null</code>).
    */
-  public ItemFilterController(ItemFilterConfiguration cfg)
+  public ItemFilterController(ItemFilterConfiguration cfg, CharacterData character)
   {
     _cfg=cfg;
     List<Filter<Item>> filters=new ArrayList<Filter<Item>>();
+    // Character proficiencies
+    if (character!=null)
+    {
+      CharacterClass characterClass=character.getCharacterClass();
+      int level=character.getLevel();
+      _proficienciesFilter=new CharacterProficienciesFilter(characterClass,level);
+      _proficienciesFilter.setEnabled(false);
+      filters.add(_proficienciesFilter);
+    }
+    // Character class
+    if (character!=null)
+    {
+      _classFilter=new ItemRequiredClassFilter(character.getCharacterClass(),false);
+      filters.add(_classFilter);
+    }
     // Name
     _nameFilter=new ItemNameFilter();
     filters.add(_nameFilter);
