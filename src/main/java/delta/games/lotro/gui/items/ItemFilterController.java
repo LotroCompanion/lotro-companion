@@ -4,13 +4,17 @@ import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.checkbox.CheckboxController;
 import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.common.ui.swing.combobox.ItemSelectionListener;
 import delta.common.ui.swing.text.DynamicTextEditionController;
@@ -30,6 +34,7 @@ import delta.games.lotro.lore.items.filters.CharacterProficienciesFilter;
 import delta.games.lotro.lore.items.filters.ItemNameFilter;
 import delta.games.lotro.lore.items.filters.ItemQualityFilter;
 import delta.games.lotro.lore.items.filters.ItemRequiredClassFilter;
+import delta.games.lotro.lore.items.filters.ItemRequiredLevelFilter;
 import delta.games.lotro.lore.items.filters.ItemStatFilter;
 import delta.games.lotro.lore.items.filters.WeaponTypeFilter;
 
@@ -45,6 +50,7 @@ public class ItemFilterController extends AbstractItemFilterPanelController
   private Filter<Item> _filter;
   private ItemRequiredClassFilter _classFilter;
   private CharacterProficienciesFilter _proficienciesFilter;
+  private ItemRequiredLevelFilter _levelFilter;
   private ItemNameFilter _nameFilter;
   private ItemQualityFilter _qualityFilter;
   private WeaponTypeFilter _weaponTypeFilter;
@@ -62,6 +68,9 @@ public class ItemFilterController extends AbstractItemFilterPanelController
   private ComboBoxController<ArmourType> _armourType;
   private ComboBoxController<ArmourType> _shieldType;
   private List<ComboBoxController<STAT>> _stats;
+  private CheckboxController _classRequirement;
+  private CheckboxController _characterLevelRequirement;
+  private CheckboxController _proficienciesRequirement;
 
   /**
    * Constructor.
@@ -85,15 +94,15 @@ public class ItemFilterController extends AbstractItemFilterPanelController
     {
       CharacterClass characterClass=character.getCharacterClass();
       int level=character.getLevel();
-      _proficienciesFilter=new CharacterProficienciesFilter(characterClass,level);
-      _proficienciesFilter.setEnabled(false);
-      filters.add(_proficienciesFilter);
-    }
-    // Character class
-    if (character!=null)
-    {
-      _classFilter=new ItemRequiredClassFilter(character.getCharacterClass(),false);
+      // Class
+      _classFilter=new ItemRequiredClassFilter(characterClass,false);
       filters.add(_classFilter);
+      // Proficiencies
+      _proficienciesFilter=new CharacterProficienciesFilter(characterClass,level);
+      filters.add(_proficienciesFilter);
+      // Level
+      _levelFilter=new ItemRequiredLevelFilter(level);
+      filters.add(_levelFilter);
     }
     // Name
     _nameFilter=new ItemNameFilter();
@@ -129,6 +138,11 @@ public class ItemFilterController extends AbstractItemFilterPanelController
     _statFilter=new ItemStatFilter(NB_STATS);
     filters.add(_statFilter);
     _filter=new CompoundFilter<Item>(Operator.AND,filters);
+    // Character requirements
+    _classRequirement=new CheckboxController("Class");
+    _proficienciesRequirement=new CheckboxController("Proficiencies");
+    _characterLevelRequirement=new CheckboxController("Level");
+    
   }
 
   /**
@@ -190,7 +204,27 @@ public class ItemFilterController extends AbstractItemFilterPanelController
   private JPanel build()
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
-    // Line 1: quality, name, stat
+    // Line 1: quality, name
+    JPanel line1Panel=buildLine1();
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    panel.add(line1Panel,c);
+    // Line 1bis: stats
+    JPanel line1BisPanel=buildLine1Bis();
+    c=new GridBagConstraints(0,1,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    panel.add(line1BisPanel,c);
+    // Line 2: weapon type, armour type, shield type
+    JPanel line2Panel=buildLine2();
+    c=new GridBagConstraints(0,2,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    panel.add(line2Panel,c);
+    // Line 3: character-related requirements
+    JPanel requirementsPanel=buildRequirementsPanel();
+    c=new GridBagConstraints(0,3,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    panel.add(requirementsPanel,c);
+    return panel;
+  }
+
+  private JPanel buildLine1()
+  {
     JPanel line1Panel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
     // Quality
     {
@@ -230,7 +264,11 @@ public class ItemFilterController extends AbstractItemFilterPanelController
       _textController=new DynamicTextEditionController(_contains,listener);
       line1Panel.add(containsPanel);
     }
-    // Line 1bis: stats
+    return line1Panel;
+  }
+
+  private JPanel buildLine1Bis()
+  {
     JPanel line1BisPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
     {
       _stats=new ArrayList<ComboBoxController<STAT>>();
@@ -255,7 +293,11 @@ public class ItemFilterController extends AbstractItemFilterPanelController
         line1BisPanel.add(statPanel);
       }
     }
-    // Line 2: weapon type, armour type, shield type
+    return line1BisPanel;
+  }
+
+  private JPanel buildLine2()
+  {
     JPanel line2Panel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING));
     // Weapon type
     if (_weaponType!=null)
@@ -353,14 +395,64 @@ public class ItemFilterController extends AbstractItemFilterPanelController
       shieldTypePanel.add(_shieldType.getComboBox());
       line2Panel.add(shieldTypePanel);
     }
-    GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
-    panel.add(line1Panel,c);
-    c=new GridBagConstraints(0,1,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
-    panel.add(line1BisPanel,c);
-    c=new GridBagConstraints(0,2,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
-    panel.add(line2Panel,c);
+    return line2Panel;
+  }
 
-    return panel;
+  private JPanel buildRequirementsPanel()
+  {
+    JPanel requirementsPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING));
+    // Class requirement
+    {
+      final JCheckBox classCheckbox=_classRequirement.getCheckbox();
+      _classRequirement.setSelected(true);
+      requirementsPanel.add(classCheckbox);
+      ActionListener l=new ActionListener()
+      {
+        @Override
+        public void actionPerformed(ActionEvent e)
+        {
+          boolean selected=classCheckbox.isSelected();
+          _classFilter.setEnabled(selected);
+          filterUpdated();
+        }
+      };
+      classCheckbox.addActionListener(l);
+    }
+    // Proficiencies
+    {
+      final JCheckBox proficienciesCheckbox=_proficienciesRequirement.getCheckbox();
+      _proficienciesRequirement.setSelected(true);
+      requirementsPanel.add(proficienciesCheckbox);
+      ActionListener l=new ActionListener()
+      {
+        @Override
+        public void actionPerformed(ActionEvent e)
+        {
+          boolean selected=proficienciesCheckbox.isSelected();
+          _proficienciesFilter.setEnabled(selected);
+          filterUpdated();
+        }
+      };
+      proficienciesCheckbox.addActionListener(l);
+    }
+    // Level
+    {
+      final JCheckBox levelCheckbox=_characterLevelRequirement.getCheckbox();
+      _characterLevelRequirement.setSelected(true);
+      requirementsPanel.add(levelCheckbox);
+      ActionListener l=new ActionListener()
+      {
+        @Override
+        public void actionPerformed(ActionEvent e)
+        {
+          boolean selected=levelCheckbox.isSelected();
+          _levelFilter.setEnabled(selected);
+          filterUpdated();
+        }
+      };
+      levelCheckbox.addActionListener(l);
+    }
+    return requirementsPanel;
   }
 
   /**
@@ -392,6 +484,32 @@ public class ItemFilterController extends AbstractItemFilterPanelController
     {
       _armourType.dispose();
       _armourType=null;
+    }
+    // Stats
+    if (_stats!=null)
+    {
+      for(ComboBoxController<STAT> statCombo : _stats)
+      {
+        statCombo.dispose();
+      }
+      _stats.clear();
+      _stats=null;
+    }
+    // Requirements
+    if (_classRequirement!=null)
+    {
+      _classRequirement.dispose();
+      _classRequirement=null;
+    }
+    if (_characterLevelRequirement!=null)
+    {
+      _characterLevelRequirement.dispose();
+      _characterLevelRequirement=null;
+    }
+    if (_proficienciesRequirement!=null)
+    {
+      _proficienciesRequirement.dispose();
+      _proficienciesRequirement=null;
     }
     // GUI
     if (_panel!=null)
