@@ -19,23 +19,14 @@ import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.common.ui.swing.combobox.ItemSelectionListener;
 import delta.common.ui.swing.text.DynamicTextEditionController;
 import delta.common.ui.swing.text.TextListener;
-import delta.common.utils.collections.filters.CompoundFilter;
 import delta.common.utils.collections.filters.Filter;
-import delta.common.utils.collections.filters.Operator;
 import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.stats.STAT;
-import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.lore.items.ArmourType;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemQuality;
 import delta.games.lotro.lore.items.WeaponType;
 import delta.games.lotro.lore.items.filters.ArmourTypeFilter;
-import delta.games.lotro.lore.items.filters.CharacterProficienciesFilter;
-import delta.games.lotro.lore.items.filters.ItemNameFilter;
-import delta.games.lotro.lore.items.filters.ItemQualityFilter;
-import delta.games.lotro.lore.items.filters.ItemRequiredClassFilter;
-import delta.games.lotro.lore.items.filters.ItemRequiredLevelFilter;
-import delta.games.lotro.lore.items.filters.ItemStatFilter;
 import delta.games.lotro.lore.items.filters.WeaponTypeFilter;
 
 /**
@@ -44,20 +35,8 @@ import delta.games.lotro.lore.items.filters.WeaponTypeFilter;
  */
 public class ItemFilterController extends AbstractItemFilterPanelController
 {
-  private static final int NB_STATS=3;
-
   // Data
-  private Filter<Item> _filter;
-  private ItemRequiredClassFilter _classFilter;
-  private CharacterProficienciesFilter _proficienciesFilter;
-  private ItemRequiredLevelFilter _levelFilter;
-  private ItemNameFilter _nameFilter;
-  private ItemQualityFilter _qualityFilter;
-  private WeaponTypeFilter _weaponTypeFilter;
-  private ArmourTypeFilter _armourTypeFilter;
-  private ArmourTypeFilter _shieldTypeFilter;
-  private ItemStatFilter _statFilter;
-  private ItemFilterConfiguration _cfg;
+  private ItemChooserFilter _filter;
   // GUI
   private JPanel _panel;
   private JTextField _contains;
@@ -87,62 +66,7 @@ public class ItemFilterController extends AbstractItemFilterPanelController
    */
   public ItemFilterController(ItemFilterConfiguration cfg, CharacterData character)
   {
-    _cfg=cfg;
-    List<Filter<Item>> filters=new ArrayList<Filter<Item>>();
-    // Character proficiencies
-    if (character!=null)
-    {
-      CharacterClass characterClass=character.getCharacterClass();
-      int level=character.getLevel();
-      // Class
-      _classFilter=new ItemRequiredClassFilter(characterClass,false);
-      filters.add(_classFilter);
-      // Proficiencies
-      _proficienciesFilter=new CharacterProficienciesFilter(characterClass,level);
-      filters.add(_proficienciesFilter);
-      // Level
-      _levelFilter=new ItemRequiredLevelFilter(level);
-      filters.add(_levelFilter);
-    }
-    // Name
-    _nameFilter=new ItemNameFilter();
-    filters.add(_nameFilter);
-    // Quality
-    _qualityFilter=new ItemQualityFilter(null);
-    filters.add(_qualityFilter);
-    // Weapon type
-    List<WeaponType> weaponTypes=_cfg.getWeaponTypes();
-    if (weaponTypes.size()>0)
-    {
-      _weaponTypeFilter=new WeaponTypeFilter(null);
-      _weaponType=ItemUiTools.buildWeaponTypeCombo(weaponTypes);
-      filters.add(_weaponTypeFilter);
-    }
-    // Armour type
-    List<ArmourType> armourTypes=_cfg.getArmourTypes();
-    if (armourTypes.size()>0)
-    {
-      _armourTypeFilter=new ArmourTypeFilter(null);
-      _armourType=ItemUiTools.buildArmourTypeCombo(armourTypes);
-      filters.add(_armourTypeFilter);
-    }
-    // Shield type
-    List<ArmourType> shieldTypes=_cfg.getShieldTypes();
-    if (shieldTypes.size()>0)
-    {
-      _shieldTypeFilter=new ArmourTypeFilter(null);
-      _shieldType=ItemUiTools.buildArmourTypeCombo(shieldTypes);
-      filters.add(_shieldTypeFilter);
-    }
-    // Stat contribution
-    _statFilter=new ItemStatFilter(NB_STATS);
-    filters.add(_statFilter);
-    _filter=new CompoundFilter<Item>(Operator.AND,filters);
-    // Character requirements
-    _classRequirement=new CheckboxController("Class");
-    _proficienciesRequirement=new CheckboxController("Proficiencies");
-    _characterLevelRequirement=new CheckboxController("Level");
-    
+    _filter=new ItemChooserFilter(cfg,character);
   }
 
   /**
@@ -173,30 +97,33 @@ public class ItemFilterController extends AbstractItemFilterPanelController
   private void setFilter()
   {
     // Name
-    String contains=_nameFilter.getPattern();
+    String contains=_filter.getNameFilter().getPattern();
     if (contains!=null)
     {
       _contains.setText(contains);
     }
     // Quality
-    ItemQuality quality=_qualityFilter.getQuality();
+    ItemQuality quality=_filter.getQualityFilter().getQuality();
     _quality.selectItem(quality);
     // Weapon type
-    if (_weaponType!=null)
+    WeaponTypeFilter weaponTypeFilter=_filter.getWeaponTypeFilter();
+    if (weaponTypeFilter!=null)
     {
-      WeaponType weaponType=_weaponTypeFilter.getWeaponType();
+      WeaponType weaponType=weaponTypeFilter.getWeaponType();
       _weaponType.selectItem(weaponType);
     }
     // Armour type
-    if (_armourType!=null)
+    ArmourTypeFilter armourTypeFilter=_filter.getArmourTypeFilter();
+    if (armourTypeFilter!=null)
     {
-      ArmourType armourType=_armourTypeFilter.getArmourType();
+      ArmourType armourType=armourTypeFilter.getArmourType();
       _armourType.selectItem(armourType);
     }
     // Shield type
-    if (_shieldType!=null)
+    ArmourTypeFilter shieldTypeFilter=_filter.getShieldTypeFilter();
+    if (shieldTypeFilter!=null)
     {
-      ArmourType shieldType=_shieldTypeFilter.getArmourType();
+      ArmourType shieldType=shieldTypeFilter.getArmourType();
       _shieldType.selectItem(shieldType);
     }
   }
@@ -236,7 +163,7 @@ public class ItemFilterController extends AbstractItemFilterPanelController
         @Override
         public void itemSelected(ItemQuality quality)
         {
-          _qualityFilter.setQuality(quality);
+          _filter.getQualityFilter().setQuality(quality);
           filterUpdated();
         }
       };
@@ -257,7 +184,7 @@ public class ItemFilterController extends AbstractItemFilterPanelController
         public void textChanged(String newText)
         {
           if (newText.length()==0) newText=null;
-          _nameFilter.setPattern(newText);
+          _filter.getNameFilter().setPattern(newText);
           filterUpdated();
         }
       };
@@ -273,7 +200,7 @@ public class ItemFilterController extends AbstractItemFilterPanelController
     {
       _stats=new ArrayList<ComboBoxController<STAT>>();
       JPanel statPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING));
-      for(int i=0;i<NB_STATS;i++)
+      for(int i=0;i<ItemChooserFilter.NB_STATS;i++)
       {
         statPanel.add(GuiFactory.buildLabel("Stat:"));
         ComboBoxController<STAT> statChooser=ItemUiTools.buildStatChooser();
@@ -283,7 +210,7 @@ public class ItemFilterController extends AbstractItemFilterPanelController
           @Override
           public void itemSelected(STAT stat)
           {
-            _statFilter.setStat(statIndex,stat);
+            _filter.getStatFilter().setStat(statIndex,stat);
             filterUpdated();
           }
         };
@@ -300,8 +227,11 @@ public class ItemFilterController extends AbstractItemFilterPanelController
   {
     JPanel line2Panel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING));
     // Weapon type
-    if (_weaponType!=null)
+    final WeaponTypeFilter weaponTypeFilter=_filter.getWeaponTypeFilter();
+    if (weaponTypeFilter!=null)
     {
+      List<WeaponType> weaponTypes=_filter.getConfiguration().getWeaponTypes();
+      _weaponType=ItemUiTools.buildWeaponTypeCombo(weaponTypes);
       JPanel weaponTypePanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
       weaponTypePanel.add(GuiFactory.buildLabel("Weapon type:"));
       ItemSelectionListener<WeaponType> weaponTypeListener=new ItemSelectionListener<WeaponType>()
@@ -309,7 +239,7 @@ public class ItemFilterController extends AbstractItemFilterPanelController
         @Override
         public void itemSelected(WeaponType type)
         {
-          _weaponTypeFilter.setWeaponType(type);
+          weaponTypeFilter.setWeaponType(type);
           // If a weapon type is selected,
           if (type!=null)
           {
@@ -332,8 +262,11 @@ public class ItemFilterController extends AbstractItemFilterPanelController
       line2Panel.add(weaponTypePanel);
     }
     // Armour type
-    if (_armourType!=null)
+    final ArmourTypeFilter armourTypeFilter=_filter.getArmourTypeFilter();
+    if (armourTypeFilter!=null)
     {
+      List<ArmourType> armourTypes=_filter.getConfiguration().getArmourTypes();
+      _armourType=ItemUiTools.buildArmourTypeCombo(armourTypes);
       JPanel armourTypePanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING));
       armourTypePanel.add(GuiFactory.buildLabel("Armour type:"));
       ItemSelectionListener<ArmourType> armourTypeListener=new ItemSelectionListener<ArmourType>()
@@ -341,7 +274,7 @@ public class ItemFilterController extends AbstractItemFilterPanelController
         @Override
         public void itemSelected(ArmourType type)
         {
-          _armourTypeFilter.setArmourType(type);
+          armourTypeFilter.setArmourType(type);
           // If an armour type is selected,
           if (type!=null)
           {
@@ -364,8 +297,11 @@ public class ItemFilterController extends AbstractItemFilterPanelController
       line2Panel.add(armourTypePanel);
     }
     // Shield type
-    if (_shieldType!=null)
+    final ArmourTypeFilter shieldTypeFilter=_filter.getShieldTypeFilter();
+    if (shieldTypeFilter!=null)
     {
+      List<ArmourType> shieldTypes=_filter.getConfiguration().getShieldTypes();
+      _shieldType=ItemUiTools.buildArmourTypeCombo(shieldTypes);
       JPanel shieldTypePanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING));
       shieldTypePanel.add(GuiFactory.buildLabel("Shield type:"));
       ItemSelectionListener<ArmourType> shieldTypeListener=new ItemSelectionListener<ArmourType>()
@@ -373,7 +309,7 @@ public class ItemFilterController extends AbstractItemFilterPanelController
         @Override
         public void itemSelected(ArmourType type)
         {
-          _shieldTypeFilter.setArmourType(type);
+          shieldTypeFilter.setArmourType(type);
           // If a shield type is selected,
           if (type!=null)
           {
@@ -403,6 +339,7 @@ public class ItemFilterController extends AbstractItemFilterPanelController
     JPanel requirementsPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING));
     // Class requirement
     {
+      _classRequirement=new CheckboxController("Class");
       final JCheckBox classCheckbox=_classRequirement.getCheckbox();
       _classRequirement.setSelected(true);
       requirementsPanel.add(classCheckbox);
@@ -412,7 +349,7 @@ public class ItemFilterController extends AbstractItemFilterPanelController
         public void actionPerformed(ActionEvent e)
         {
           boolean selected=classCheckbox.isSelected();
-          _classFilter.setEnabled(selected);
+          _filter.getClassFilter().setEnabled(selected);
           filterUpdated();
         }
       };
@@ -420,6 +357,7 @@ public class ItemFilterController extends AbstractItemFilterPanelController
     }
     // Proficiencies
     {
+      _proficienciesRequirement=new CheckboxController("Proficiencies");
       final JCheckBox proficienciesCheckbox=_proficienciesRequirement.getCheckbox();
       _proficienciesRequirement.setSelected(true);
       requirementsPanel.add(proficienciesCheckbox);
@@ -429,7 +367,7 @@ public class ItemFilterController extends AbstractItemFilterPanelController
         public void actionPerformed(ActionEvent e)
         {
           boolean selected=proficienciesCheckbox.isSelected();
-          _proficienciesFilter.setEnabled(selected);
+          _filter.getProficienciesFilter().setEnabled(selected);
           filterUpdated();
         }
       };
@@ -437,6 +375,7 @@ public class ItemFilterController extends AbstractItemFilterPanelController
     }
     // Level
     {
+      _characterLevelRequirement=new CheckboxController("Level");
       final JCheckBox levelCheckbox=_characterLevelRequirement.getCheckbox();
       _characterLevelRequirement.setSelected(true);
       requirementsPanel.add(levelCheckbox);
@@ -446,7 +385,7 @@ public class ItemFilterController extends AbstractItemFilterPanelController
         public void actionPerformed(ActionEvent e)
         {
           boolean selected=levelCheckbox.isSelected();
-          _levelFilter.setEnabled(selected);
+          _filter.getLevelFilter().setEnabled(selected);
           filterUpdated();
         }
       };
