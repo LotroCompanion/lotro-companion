@@ -13,11 +13,13 @@ import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.WeaponType;
 import delta.games.lotro.lore.items.filters.ArmourTypeFilter;
 import delta.games.lotro.lore.items.filters.CharacterProficienciesFilter;
+import delta.games.lotro.lore.items.filters.ItemLevelFilter;
 import delta.games.lotro.lore.items.filters.ItemNameFilter;
 import delta.games.lotro.lore.items.filters.ItemQualityFilter;
 import delta.games.lotro.lore.items.filters.ItemRequiredClassFilter;
 import delta.games.lotro.lore.items.filters.ItemRequiredLevelFilter;
 import delta.games.lotro.lore.items.filters.ItemStatFilter;
+import delta.games.lotro.lore.items.filters.LegendaryItemFilter;
 import delta.games.lotro.lore.items.filters.WeaponTypeFilter;
 
 /**
@@ -39,10 +41,12 @@ public class ItemChooserFilter implements Filter<Item>
   private ItemRequiredLevelFilter _levelFilter;
   private ItemNameFilter _nameFilter;
   private ItemQualityFilter _qualityFilter;
+  private LegendaryItemFilter _legendaryFilter;
   private WeaponTypeFilter _weaponTypeFilter;
   private ArmourTypeFilter _armourTypeFilter;
   private ArmourTypeFilter _shieldTypeFilter;
   private ItemStatFilter _statFilter;
+  private ItemLevelFilter _itemLevelFilter;
 
   /**
    * Constructor.
@@ -74,6 +78,9 @@ public class ItemChooserFilter implements Filter<Item>
     // Quality
     _qualityFilter=new ItemQualityFilter(null);
     filters.add(_qualityFilter);
+    // Legendary
+    _legendaryFilter=new LegendaryItemFilter(null);
+    filters.add(_legendaryFilter);
     // Weapon type
     List<WeaponType> weaponTypes=cfg.getWeaponTypes();
     if (weaponTypes.size()>0)
@@ -98,6 +105,9 @@ public class ItemChooserFilter implements Filter<Item>
     // Stat contribution
     _statFilter=new ItemStatFilter(NB_STATS);
     filters.add(_statFilter);
+    // Item level
+    _itemLevelFilter=new ItemLevelFilter();
+    filters.add(_itemLevelFilter);
     _filter=new CompoundFilter<Item>(Operator.AND,filters);
   }
 
@@ -189,6 +199,15 @@ public class ItemChooserFilter implements Filter<Item>
   public ItemStatFilter getStatFilter()
   {
     return _statFilter;
+  }
+
+  /**
+   * Get the item level filter.
+   * @return An item level filter.
+   */
+  public ItemLevelFilter getItemLevelFilter()
+  {
+    return _itemLevelFilter;
   }
 
   @Override

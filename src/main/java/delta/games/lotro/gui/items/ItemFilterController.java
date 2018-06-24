@@ -19,6 +19,8 @@ import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.common.ui.swing.combobox.ItemSelectionListener;
 import delta.common.ui.swing.text.DynamicTextEditionController;
 import delta.common.ui.swing.text.TextListener;
+import delta.common.ui.swing.text.range.RangeEditorController;
+import delta.common.ui.swing.text.range.RangeListener;
 import delta.common.utils.collections.filters.Filter;
 import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.stats.STAT;
@@ -50,6 +52,7 @@ public class ItemFilterController extends AbstractItemFilterPanelController
   private CheckboxController _classRequirement;
   private CheckboxController _characterLevelRequirement;
   private CheckboxController _proficienciesRequirement;
+  private RangeEditorController _itemLevelRange;
 
   /**
    * Constructor.
@@ -147,6 +150,10 @@ public class ItemFilterController extends AbstractItemFilterPanelController
     JPanel requirementsPanel=buildRequirementsPanel();
     c=new GridBagConstraints(0,3,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(requirementsPanel,c);
+    // Line 4: item level range
+    JPanel itemLevelRangePanel=buildItemLevelRangePanel();
+    c=new GridBagConstraints(0,4,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    panel.add(itemLevelRangePanel,c);
     return panel;
   }
 
@@ -394,6 +401,28 @@ public class ItemFilterController extends AbstractItemFilterPanelController
     return requirementsPanel;
   }
 
+  private JPanel buildItemLevelRangePanel()
+  {
+    List<Integer> itemLevels=_filter.getConfiguration().getItemLevels();
+    _itemLevelRange=new RangeEditorController();
+    JPanel gadgetsPanel=_itemLevelRange.getPanel();
+    _itemLevelRange.setRangeValues(itemLevels);
+    JPanel panel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING));
+    panel.add(GuiFactory.buildLabel("Item Level: "));
+    panel.add(gadgetsPanel);
+    RangeListener listener=new RangeListener()
+    {
+      @Override
+      public void rangeUpdated(RangeEditorController source, Integer minValue, Integer maxValue)
+      {
+        _filter.getItemLevelFilter().setRange(minValue,maxValue);
+        filterUpdated();
+      }
+    };
+    _itemLevelRange.getListeners().addListener(listener);
+    return panel;
+  }
+
   /**
    * Release all managed resources.
    */
@@ -449,6 +478,11 @@ public class ItemFilterController extends AbstractItemFilterPanelController
     {
       _proficienciesRequirement.dispose();
       _proficienciesRequirement=null;
+    }
+    if (_itemLevelRange!=null)
+    {
+      _itemLevelRange.dispose();
+      _itemLevelRange=null;
     }
     // GUI
     if (_panel!=null)

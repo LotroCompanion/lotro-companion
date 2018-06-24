@@ -23,18 +23,22 @@ public class ItemFilterConfiguration
   private Set<ArmourType> _armourTypes;
   private Set<ArmourType> _shieldTypes;
   private Set<WeaponType> _weaponTypes;
+  private Set<Integer> _itemLevels;
 
   /**
    * Constructor.
    */
-  public ItemFilterConfiguration() {
+  public ItemFilterConfiguration()
+  {
     _armourTypes=new HashSet<ArmourType>();
     _shieldTypes=new HashSet<ArmourType>();
     _weaponTypes=new HashSet<WeaponType>();
+    _itemLevels=new HashSet<Integer>();
     defaultInit();
   }
 
-  private void defaultInit() {
+  private void defaultInit()
+  {
     for(ArmourType armourType : ArmourType.ARMOUR_TYPES) 
     {
       _armourTypes.add(armourType);
@@ -47,6 +51,10 @@ public class ItemFilterConfiguration
     {
       _weaponTypes.add(weaponType);
     }
+    for(int i=1;i<400;i++)
+    {
+      _itemLevels.add(Integer.valueOf(i));
+    }
   }
 
   /**
@@ -58,6 +66,7 @@ public class ItemFilterConfiguration
     _armourTypes.clear();
     _shieldTypes.clear();
     _weaponTypes.clear();
+    _itemLevels.clear();
     for(Item item : items)
     {
       // Armour
@@ -84,6 +93,12 @@ public class ItemFilterConfiguration
           _weaponTypes.add(type);
         }
       }
+      // Item Level
+      Integer itemLevel=item.getItemLevel();
+      if (itemLevel!=null)
+      {
+        _itemLevels.add(itemLevel);
+      }
     }
   }
 
@@ -91,7 +106,8 @@ public class ItemFilterConfiguration
    * Get the selected weapon types.
    * @return a possibly empty but not <code>null</code> list of sorted weapon types.
    */
-  public List<WeaponType> getWeaponTypes() {
+  public List<WeaponType> getWeaponTypes()
+  {
     List<WeaponType> weaponTypes=new ArrayList<WeaponType>();
     weaponTypes.addAll(_weaponTypes);
     Collections.sort(weaponTypes,new WeaponTypeComparator());
@@ -102,7 +118,8 @@ public class ItemFilterConfiguration
    * Get the selected armour types.
    * @return a possibly empty but not <code>null</code> list of sorted armour types.
    */
-  public List<ArmourType> getArmourTypes() {
+  public List<ArmourType> getArmourTypes()
+  {
     List<ArmourType> armourTypes=new ArrayList<ArmourType>();
     armourTypes.addAll(_armourTypes);
     Collections.sort(armourTypes,new ArmourTypeComparator());
@@ -113,10 +130,23 @@ public class ItemFilterConfiguration
    * Get the selected shield types.
    * @return a possibly empty but not <code>null</code> list of sorted shield types.
    */
-  public List<ArmourType> getShieldTypes() {
+  public List<ArmourType> getShieldTypes()
+  {
     List<ArmourType> weaponTypes=new ArrayList<ArmourType>();
     weaponTypes.addAll(_shieldTypes);
     Collections.sort(weaponTypes,new ArmourTypeComparator());
     return weaponTypes;
+  }
+
+  /**
+   * Get the possible item levels.
+   * @return A list of item levels.
+   */
+  public List<Integer> getItemLevels()
+  {
+    List<Integer> itemLevels=new ArrayList<Integer>();
+    itemLevels.addAll(_itemLevels);
+    Collections.sort(itemLevels);
+    return itemLevels;
   }
 }
