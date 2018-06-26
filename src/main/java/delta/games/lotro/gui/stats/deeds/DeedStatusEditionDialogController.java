@@ -193,7 +193,10 @@ public class DeedStatusEditionDialogController extends DefaultFormDialogControll
     Long completionDate=_completionDate.getDate();
     _data.setCompletionDate(completionDate);
     // Geographic data
-    _geoEditor.updateGeoStatus(_data.getGeoStatus());
+    if (_geoEditor!=null)
+    {
+      _geoEditor.updateGeoStatus(_data.getGeoStatus());
+    }
   }
 
   private void showDeed()
