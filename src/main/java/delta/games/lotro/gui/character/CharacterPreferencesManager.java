@@ -56,6 +56,11 @@ public class CharacterPreferencesManager
         prefs.savePreferences(props);
       }
     }
+    else
+    {
+      Preferences prefs=toonFile.getPreferences();
+      props=prefs.getPreferences(id);
+    }
     return props;
   }
 }

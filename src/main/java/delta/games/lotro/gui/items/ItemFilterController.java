@@ -22,6 +22,7 @@ import delta.common.ui.swing.text.TextListener;
 import delta.common.ui.swing.text.range.RangeEditorController;
 import delta.common.ui.swing.text.range.RangeListener;
 import delta.common.utils.collections.filters.Filter;
+import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.stats.STAT;
 import delta.games.lotro.lore.items.ArmourType;
@@ -39,6 +40,7 @@ public class ItemFilterController extends AbstractItemFilterPanelController
 {
   // Data
   private ItemChooserFilter _filter;
+  private TypedProperties _props;
   // GUI
   private JPanel _panel;
   private JTextField _contains;
@@ -59,17 +61,20 @@ public class ItemFilterController extends AbstractItemFilterPanelController
    */
   public ItemFilterController()
   {
-    this(new ItemFilterConfiguration(),null);
+    this(new ItemFilterConfiguration(),null,null);
   }
 
   /**
    * Constructor.
    * @param cfg Configuration.
    * @param character Targeted character (may be <code>null</code>).
+   * @param props Filter state.
    */
-  public ItemFilterController(ItemFilterConfiguration cfg, CharacterData character)
+  public ItemFilterController(ItemFilterConfiguration cfg, CharacterData character, TypedProperties props)
   {
     _filter=new ItemChooserFilter(cfg,character);
+    _props=props;
+    ItemChooserFilterIo.loadFrom(_filter,props);
   }
 
   /**
@@ -129,6 +134,12 @@ public class ItemFilterController extends AbstractItemFilterPanelController
       ArmourType shieldType=shieldTypeFilter.getArmourType();
       _shieldType.selectItem(shieldType);
     }
+    // Stats
+    // TODO
+    // Proficiencies
+    // TODO
+    // Item level range
+    // TODO
   }
 
   private JPanel build()
@@ -431,6 +442,8 @@ public class ItemFilterController extends AbstractItemFilterPanelController
   {
     super.dispose();
     // Data
+    ItemChooserFilterIo.saveTo(_filter,_props);
+    _props=null;
     _filter=null;
     // Controllers
     if (_textController!=null)

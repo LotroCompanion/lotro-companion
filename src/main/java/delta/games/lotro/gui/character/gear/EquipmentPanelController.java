@@ -339,7 +339,8 @@ public class EquipmentPanelController implements ActionListener
     List<Item> selectedItems=itemsManager.getItems(slot);
     ItemFilterConfiguration cfg=new ItemFilterConfiguration();
     cfg.initFromItems(selectedItems);
-    ItemFilterController filterController=new ItemFilterController(cfg,_toonData);
+    TypedProperties filterProps=_parentWindow.getUserProperties("ItemFilter");
+    ItemFilterController filterController=new ItemFilterController(cfg,_toonData,filterProps);
     Filter<Item> filter=filterController.getFilter();
     String id=ItemChoiceWindowController.ITEM_CHOOSER_PROPERTIES_ID+"#"+slot.name();
     TypedProperties props=_parentWindow.getUserProperties(id);
