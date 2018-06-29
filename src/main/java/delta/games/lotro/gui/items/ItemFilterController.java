@@ -30,6 +30,11 @@ import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemQuality;
 import delta.games.lotro.lore.items.WeaponType;
 import delta.games.lotro.lore.items.filters.ArmourTypeFilter;
+import delta.games.lotro.lore.items.filters.CharacterProficienciesFilter;
+import delta.games.lotro.lore.items.filters.ItemLevelFilter;
+import delta.games.lotro.lore.items.filters.ItemRequiredClassFilter;
+import delta.games.lotro.lore.items.filters.ItemRequiredLevelFilter;
+import delta.games.lotro.lore.items.filters.ItemStatFilter;
 import delta.games.lotro.lore.items.filters.WeaponTypeFilter;
 
 /**
@@ -135,11 +140,32 @@ public class ItemFilterController extends AbstractItemFilterPanelController
       _shieldType.selectItem(shieldType);
     }
     // Stats
-    // TODO
-    // Proficiencies
-    // TODO
+    ItemStatFilter statFilter=_filter.getStatFilter();
+    int nbStats=statFilter.getNbItems();
+    int nbUiStats=_stats.size();
+    for(int i=0;i<Math.min(nbStats,nbUiStats);i++)
+    {
+      _stats.get(i).selectItem(statFilter.getStat(i));
+    }
+    // Character requirements
+    ItemRequiredClassFilter classFilter=_filter.getClassFilter();
+    if (classFilter!=null)
+    {
+      _classRequirement.setSelected(classFilter.isEnabled());
+    }
+    CharacterProficienciesFilter proficienciesFilter=_filter.getProficienciesFilter();
+    if (proficienciesFilter!=null)
+    {
+      _proficienciesRequirement.setSelected(proficienciesFilter.isEnabled());
+    }
+    ItemRequiredLevelFilter levelFilter=_filter.getLevelFilter();
+    if (levelFilter!=null)
+    {
+      _characterLevelRequirement.setSelected(levelFilter.isEnabled());
+    }
     // Item level range
-    // TODO
+    ItemLevelFilter itemLevelFilter=_filter.getItemLevelFilter();
+    _itemLevelRange.setCurrentRange(itemLevelFilter.getMinItemLevel(),itemLevelFilter.getMaxItemLevel());
   }
 
   private JPanel build()
