@@ -140,13 +140,10 @@ public class ItemFilterConfiguration
 
   /**
    * Get the possible item levels.
-   * @return A list of item levels.
+   * @return A set of item levels.
    */
-  public List<Integer> getItemLevels()
+  public Set<Integer> getItemLevels()
   {
-    List<Integer> itemLevels=new ArrayList<Integer>();
-    itemLevels.addAll(_itemLevels);
-    Collections.sort(itemLevels);
-    return itemLevels;
+    return _itemLevels;
   }
 }

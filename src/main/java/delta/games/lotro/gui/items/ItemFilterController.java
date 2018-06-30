@@ -7,7 +7,10 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
@@ -440,7 +443,7 @@ public class ItemFilterController extends AbstractItemFilterPanelController
 
   private JPanel buildItemLevelRangePanel()
   {
-    List<Integer> itemLevels=_filter.getConfiguration().getItemLevels();
+    List<Integer> itemLevels=buildItemLevels();
     _itemLevelRange=new RangeEditorController();
     JPanel gadgetsPanel=_itemLevelRange.getPanel();
     _itemLevelRange.setRangeValues(itemLevels);
@@ -458,6 +461,29 @@ public class ItemFilterController extends AbstractItemFilterPanelController
     };
     _itemLevelRange.getListeners().addListener(listener);
     return panel;
+  }
+
+  private List<Integer> buildItemLevels()
+  {
+    Set<Integer> possibleItemLevels=_filter.getConfiguration().getItemLevels();
+    Set<Integer> allItemLevels=new HashSet<Integer>(possibleItemLevels);
+    ItemLevelFilter itemLevelFilter=_filter.getItemLevelFilter();
+    if (itemLevelFilter!=null)
+    {
+      Integer minLevel=itemLevelFilter.getMinItemLevel();
+      if (minLevel!=null)
+      {
+        allItemLevels.add(minLevel);
+      }
+      Integer maxLevel=itemLevelFilter.getMaxItemLevel();
+      if (maxLevel!=null)
+      {
+        allItemLevels.add(maxLevel);
+      }
+    }
+    List<Integer> ret=new ArrayList<Integer>(allItemLevels);
+    Collections.sort(ret);
+    return ret;
   }
 
   /**
