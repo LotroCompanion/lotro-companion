@@ -4,7 +4,7 @@ import java.util.List;
 
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.misc.TypedProperties;
-import delta.games.lotro.gui.items.ItemChoiceWindowController;
+import delta.games.lotro.gui.items.chooser.ItemChoiceWindowController;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemsManager;
 

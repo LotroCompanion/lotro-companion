@@ -21,7 +21,7 @@ import delta.games.lotro.common.Skill;
 import delta.games.lotro.common.Title;
 import delta.games.lotro.common.Trait;
 import delta.games.lotro.common.Virtue;
-import delta.games.lotro.gui.items.ItemChoiceWindowController;
+import delta.games.lotro.gui.items.chooser.ItemChoiceWindowController;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.DeedType;
 import delta.games.lotro.lore.deeds.DeedsManager;

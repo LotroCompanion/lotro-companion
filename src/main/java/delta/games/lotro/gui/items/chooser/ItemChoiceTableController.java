@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.items;
+package delta.games.lotro.gui.items.chooser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +18,8 @@ import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.character.stats.STAT;
 import delta.games.lotro.common.CharacterClass;
+import delta.games.lotro.gui.items.ItemColumnIds;
+import delta.games.lotro.gui.items.ItemUiTools;
 import delta.games.lotro.lore.items.Armour;
 import delta.games.lotro.lore.items.ArmourType;
 import delta.games.lotro.lore.items.Item;

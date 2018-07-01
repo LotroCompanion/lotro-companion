@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.items;
+package delta.games.lotro.gui.items.chooser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,6 +6,7 @@ import java.util.List;
 import delta.games.lotro.character.CharacterEquipment.EQUIMENT_SLOT;
 import delta.games.lotro.character.stats.STAT;
 import delta.games.lotro.common.CharacterClass;
+import delta.games.lotro.gui.items.ItemColumnIds;
 
 /**
  * Manages the columns to show for item/essence choice table.

@@ -15,6 +15,8 @@ import delta.common.ui.swing.tables.TableColumnController;
 import delta.common.ui.swing.tables.TableColumnsManager;
 import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.misc.TypedProperties;
+import delta.games.lotro.gui.items.chooser.ItemChoiceTableController;
+import delta.games.lotro.gui.items.chooser.ItemChoiceWindowController;
 import delta.games.lotro.lore.items.Item;
 
 /**

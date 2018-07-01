@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.items;
+package delta.games.lotro.gui.items.chooser;
 
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -18,6 +18,7 @@ import delta.common.ui.swing.windows.DefaultFormDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.misc.TypedProperties;
+import delta.games.lotro.gui.items.AbstractItemFilterPanelController;
 import delta.games.lotro.lore.items.Item;
 
 /**

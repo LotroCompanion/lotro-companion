@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.items;
+package delta.games.lotro.gui.items.chooser;
 
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.character.stats.STAT;

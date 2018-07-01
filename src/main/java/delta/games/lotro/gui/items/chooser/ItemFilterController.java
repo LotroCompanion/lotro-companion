@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.items;
+package delta.games.lotro.gui.items.chooser;
 
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
@@ -28,6 +28,8 @@ import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.stats.STAT;
+import delta.games.lotro.gui.items.AbstractItemFilterPanelController;
+import delta.games.lotro.gui.items.ItemUiTools;
 import delta.games.lotro.lore.items.ArmourType;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemQuality;

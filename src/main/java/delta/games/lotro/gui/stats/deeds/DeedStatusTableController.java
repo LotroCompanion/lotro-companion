@@ -17,7 +17,7 @@ import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.gui.deed.DeedColumnIds;
 import delta.games.lotro.gui.deed.DeedsTableController;
-import delta.games.lotro.gui.items.ItemChoiceWindowController;
+import delta.games.lotro.gui.items.chooser.ItemChoiceWindowController;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.DeedsManager;
 import delta.games.lotro.stats.deeds.DeedStatus;

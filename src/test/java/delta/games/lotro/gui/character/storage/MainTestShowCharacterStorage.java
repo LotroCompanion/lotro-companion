@@ -21,7 +21,7 @@ import delta.games.lotro.character.storage.Vault;
 import delta.games.lotro.character.storage.Wallet;
 import delta.games.lotro.gui.items.CountedItem;
 import delta.games.lotro.gui.items.CountedItemsTableController;
-import delta.games.lotro.gui.items.ItemFilterController;
+import delta.games.lotro.gui.items.chooser.ItemFilterController;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemPropertyNames;
 import delta.games.lotro.lore.items.ItemsManager;

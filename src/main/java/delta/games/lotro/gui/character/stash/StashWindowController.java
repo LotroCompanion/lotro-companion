@@ -29,7 +29,7 @@ import delta.games.lotro.character.events.CharacterEventType;
 import delta.games.lotro.character.storage.ItemsStash;
 import delta.games.lotro.gui.items.FilterUpdateListener;
 import delta.games.lotro.gui.items.ItemEditionWindowController;
-import delta.games.lotro.gui.items.ItemFilterController;
+import delta.games.lotro.gui.items.chooser.ItemFilterController;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemFactory;
 import delta.games.lotro.utils.events.EventsManager;
