@@ -9,7 +9,6 @@ import delta.common.utils.collections.filters.Operator;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.filters.EssenceTierFilter;
 import delta.games.lotro.lore.items.filters.ItemFilter;
-import delta.games.lotro.lore.items.filters.ItemIsEssenceFilter;
 import delta.games.lotro.lore.items.filters.ItemNameFilter;
 import delta.games.lotro.lore.items.filters.ItemQualityFilter;
 
@@ -19,7 +18,6 @@ import delta.games.lotro.lore.items.filters.ItemQualityFilter;
  */
 public class EssenceItemFilter implements ItemFilter
 {
-  private ItemIsEssenceFilter _essenceFilter;
   private ItemQualityFilter _qualityFilter;
   private EssenceTierFilter _tierFilter;
   private ItemNameFilter _nameFilter;
@@ -30,12 +28,10 @@ public class EssenceItemFilter implements ItemFilter
    */
   public EssenceItemFilter()
   {
-    _essenceFilter=new ItemIsEssenceFilter();
     _qualityFilter=new ItemQualityFilter(null);
     _tierFilter=new EssenceTierFilter();
     _nameFilter=new ItemNameFilter();
     List<Filter<Item>> filters=new ArrayList<Filter<Item>>();
-    filters.add(_essenceFilter);
     filters.add(_qualityFilter);
     filters.add(_tierFilter);
     filters.add(_nameFilter);
