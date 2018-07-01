@@ -15,6 +15,7 @@ import java.util.Set;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.border.TitledBorder;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.checkbox.CheckboxController;
@@ -180,22 +181,18 @@ public class ItemFilterController extends AbstractItemFilterPanelController
     JPanel line1Panel=buildLine1();
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(line1Panel,c);
-    // Line 1bis: stats
-    JPanel line1BisPanel=buildLine1Bis();
-    c=new GridBagConstraints(0,1,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
-    panel.add(line1BisPanel,c);
-    // Line 2: weapon type, armour type, shield type
+    // Line 2: stats
     JPanel line2Panel=buildLine2();
-    c=new GridBagConstraints(0,2,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    c=new GridBagConstraints(0,1,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(line2Panel,c);
-    // Line 3: character-related requirements
-    JPanel requirementsPanel=buildRequirementsPanel();
+    // Line 3: weapon type, armour type, shield type
+    JPanel line3Panel=buildLine3();
+    c=new GridBagConstraints(0,2,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    panel.add(line3Panel,c);
+    // Line 4: character-related requirements ; item level range
+    JPanel line4Panel=buildLine4Panel();
     c=new GridBagConstraints(0,3,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
-    panel.add(requirementsPanel,c);
-    // Line 4: item level range
-    JPanel itemLevelRangePanel=buildItemLevelRangePanel();
-    c=new GridBagConstraints(0,4,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
-    panel.add(itemLevelRangePanel,c);
+    panel.add(line4Panel,c);
     return panel;
   }
 
@@ -243,7 +240,7 @@ public class ItemFilterController extends AbstractItemFilterPanelController
     return line1Panel;
   }
 
-  private JPanel buildLine1Bis()
+  private JPanel buildLine2()
   {
     JPanel line1BisPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
     {
@@ -272,7 +269,7 @@ public class ItemFilterController extends AbstractItemFilterPanelController
     return line1BisPanel;
   }
 
-  private JPanel buildLine2()
+  private JPanel buildLine3()
   {
     JPanel line2Panel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING));
     // Weapon type
@@ -383,9 +380,21 @@ public class ItemFilterController extends AbstractItemFilterPanelController
     return line2Panel;
   }
 
+  private JPanel buildLine4Panel()
+  {
+    JPanel panel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING));
+    JPanel requirementsPanel=buildRequirementsPanel();
+    panel.add(requirementsPanel);
+    JPanel itemLevelPanel=buildItemLevelRangePanel();
+    panel.add(itemLevelPanel);
+    return panel;
+  }
+
   private JPanel buildRequirementsPanel()
   {
     JPanel requirementsPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING));
+    TitledBorder border=GuiFactory.buildTitledBorder("Character requirements");
+    requirementsPanel.setBorder(border);
     // Class requirement
     {
       _classRequirement=new CheckboxController("Class");
@@ -447,11 +456,10 @@ public class ItemFilterController extends AbstractItemFilterPanelController
   {
     List<Integer> itemLevels=buildItemLevels();
     _itemLevelRange=new RangeEditorController();
-    JPanel gadgetsPanel=_itemLevelRange.getPanel();
+    JPanel rangePanel=_itemLevelRange.getPanel();
     _itemLevelRange.setRangeValues(itemLevels);
-    JPanel panel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING));
-    panel.add(GuiFactory.buildLabel("Item Level: "));
-    panel.add(gadgetsPanel);
+    TitledBorder title=GuiFactory.buildTitledBorder("Item Level");
+    rangePanel.setBorder(title);
     RangeListener listener=new RangeListener()
     {
       @Override
@@ -462,7 +470,7 @@ public class ItemFilterController extends AbstractItemFilterPanelController
       }
     };
     _itemLevelRange.getListeners().addListener(listener);
-    return panel;
+    return rangePanel;
   }
 
   private List<Integer> buildItemLevels()
