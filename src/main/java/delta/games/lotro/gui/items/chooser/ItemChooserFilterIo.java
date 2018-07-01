@@ -67,13 +67,19 @@ public class ItemChooserFilterIo
     }
     // Name
     ItemNameFilter nameFilter=filter.getNameFilter();
-    String namePattern=props.getStringProperty(NAME_PATTERN,null);
-    nameFilter.setPattern(namePattern);
+    if (nameFilter!=null)
+    {
+      String namePattern=props.getStringProperty(NAME_PATTERN,null);
+      nameFilter.setPattern(namePattern);
+    }
     // Quality
     ItemQualityFilter qualityFilter=filter.getQualityFilter();
-    String qualityKey=props.getStringProperty(QUALITY,null);
-    ItemQuality quality=ItemQuality.fromCode(qualityKey);
-    qualityFilter.setQuality(quality);
+    if (qualityFilter!=null)
+    {
+      String qualityKey=props.getStringProperty(QUALITY,null);
+      ItemQuality quality=ItemQuality.fromCode(qualityKey);
+      qualityFilter.setQuality(quality);
+    }
     // Legendary
     // TODO
     // Weapon type
@@ -102,19 +108,25 @@ public class ItemChooserFilterIo
     }
     // Stats
     ItemStatFilter statFilter=filter.getStatFilter();
-    int nbStats=statFilter.getNbItems();
-    for(int i=0;i<nbStats;i++)
+    if (statFilter!=null)
     {
-      String statKey=STAT_SEED+i;
-      String statStr=props.getStringProperty(statKey,null);
-      STAT stat=STAT.getByName(statStr);
-      statFilter.setStat(i,stat);
+      int nbStats=statFilter.getNbItems();
+      for(int i=0;i<nbStats;i++)
+      {
+        String statKey=STAT_SEED+i;
+        String statStr=props.getStringProperty(statKey,null);
+        STAT stat=STAT.getByName(statStr);
+        statFilter.setStat(i,stat);
+      }
     }
     // Item level
     ItemLevelFilter itemLevelFilter=filter.getItemLevelFilter();
-    Integer minLevel=props.getIntegerProperty(MIN_ITEM_LEVEL);
-    Integer maxLevel=props.getIntegerProperty(MAX_ITEM_LEVEL);
-    itemLevelFilter.setRange(minLevel,maxLevel);
+    if (itemLevelFilter!=null)
+    {
+      Integer minLevel=props.getIntegerProperty(MIN_ITEM_LEVEL);
+      Integer maxLevel=props.getIntegerProperty(MAX_ITEM_LEVEL);
+      itemLevelFilter.setRange(minLevel,maxLevel);
+    }
   }
 
   /**
@@ -144,18 +156,24 @@ public class ItemChooserFilterIo
     }
     // Name
     ItemNameFilter nameFilter=filter.getNameFilter();
-    String namePattern=nameFilter.getPattern();
-    props.setStringProperty(NAME_PATTERN,namePattern);
+    if (nameFilter!=null)
+    {
+      String namePattern=nameFilter.getPattern();
+      props.setStringProperty(NAME_PATTERN,namePattern);
+    }
     // Quality
     ItemQualityFilter qualityFilter=filter.getQualityFilter();
-    ItemQuality quality=qualityFilter.getQuality();
-    if (quality!=null)
+    if (qualityFilter!=null)
     {
-      props.setStringProperty(QUALITY,quality.getKey());
-    }
-    else
-    {
-      props.removeProperty(QUALITY);
+      ItemQuality quality=qualityFilter.getQuality();
+      if (quality!=null)
+      {
+        props.setStringProperty(QUALITY,quality.getKey());
+      }
+      else
+      {
+        props.removeProperty(QUALITY);
+      }
     }
     // Legendary
     // TODO
@@ -203,39 +221,45 @@ public class ItemChooserFilterIo
     }
     // Stats
     ItemStatFilter statFilter=filter.getStatFilter();
-    int nbStats=statFilter.getNbItems();
-    for(int i=0;i<nbStats;i++)
+    if (statFilter!=null)
     {
-      STAT stat=statFilter.getStat(i);
-      String statKey=STAT_SEED+i;
-      if (stat!=null)
+      int nbStats=statFilter.getNbItems();
+      for(int i=0;i<nbStats;i++)
       {
-        props.setStringProperty(statKey,stat.getKey());
-      }
-      else
-      {
-        props.removeProperty(statKey);
+        STAT stat=statFilter.getStat(i);
+        String statKey=STAT_SEED+i;
+        if (stat!=null)
+        {
+          props.setStringProperty(statKey,stat.getKey());
+        }
+        else
+        {
+          props.removeProperty(statKey);
+        }
       }
     }
     // Item level
     ItemLevelFilter itemLevelFilter=filter.getItemLevelFilter();
-    Integer minLevel=itemLevelFilter.getMinItemLevel();
-    if (minLevel!=null)
+    if (itemLevelFilter!=null)
     {
-      props.setIntProperty(MIN_ITEM_LEVEL,minLevel.intValue());
-    }
-    else
-    {
-      props.removeProperty(MIN_ITEM_LEVEL);
-    }
-    Integer maxLevel=itemLevelFilter.getMaxItemLevel();
-    if (maxLevel!=null)
-    {
-      props.setIntProperty(MAX_ITEM_LEVEL,maxLevel.intValue());
-    }
-    else
-    {
-      props.removeProperty(MAX_ITEM_LEVEL);
+      Integer minLevel=itemLevelFilter.getMinItemLevel();
+      if (minLevel!=null)
+      {
+        props.setIntProperty(MIN_ITEM_LEVEL,minLevel.intValue());
+      }
+      else
+      {
+        props.removeProperty(MIN_ITEM_LEVEL);
+      }
+      Integer maxLevel=itemLevelFilter.getMaxItemLevel();
+      if (maxLevel!=null)
+      {
+        props.setIntProperty(MAX_ITEM_LEVEL,maxLevel.intValue());
+      }
+      else
+      {
+        props.removeProperty(MAX_ITEM_LEVEL);
+      }
     }
   }
 }

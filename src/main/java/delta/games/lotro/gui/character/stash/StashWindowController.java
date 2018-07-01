@@ -29,6 +29,7 @@ import delta.games.lotro.character.events.CharacterEventType;
 import delta.games.lotro.character.storage.ItemsStash;
 import delta.games.lotro.gui.items.FilterUpdateListener;
 import delta.games.lotro.gui.items.ItemEditionWindowController;
+import delta.games.lotro.gui.items.chooser.ItemFilterConfiguration;
 import delta.games.lotro.gui.items.chooser.ItemFilterController;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemFactory;
@@ -81,7 +82,9 @@ public class StashWindowController extends DefaultWindowController implements Ac
     JPanel tablePanel=buildTablePanel();
 
     // Filter
-    ItemFilterController filterController=new ItemFilterController();
+    ItemFilterConfiguration cfg=new ItemFilterConfiguration();
+    cfg.forStashFilter();
+    ItemFilterController filterController=new ItemFilterController(cfg,null,null);
     Filter<Item> filter=filterController.getFilter();
     filterController.setFilterUpdateListener(this);
     JPanel filterPanel=filterController.getPanel();

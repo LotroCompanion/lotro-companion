@@ -63,51 +63,91 @@ public class ItemChooserFilter implements Filter<Item>
       CharacterClass characterClass=character.getCharacterClass();
       int level=character.getLevel();
       // Class
-      _classFilter=new ItemRequiredClassFilter(characterClass,false);
-      filters.add(_classFilter);
+      boolean useClass=cfg.hasComponent(ItemChooserFilterComponent.CHAR_CLASS);
+      if (useClass)
+      {
+        _classFilter=new ItemRequiredClassFilter(characterClass,false);
+        filters.add(_classFilter);
+      }
       // Proficiencies
-      _proficienciesFilter=new CharacterProficienciesFilter(characterClass,level);
-      filters.add(_proficienciesFilter);
+      boolean useProficiencies=cfg.hasComponent(ItemChooserFilterComponent.CHAR_PROFICIENCIES);
+      if (useProficiencies)
+      {
+        _proficienciesFilter=new CharacterProficienciesFilter(characterClass,level);
+        filters.add(_proficienciesFilter);
+      }
       // Level
-      _levelFilter=new ItemRequiredLevelFilter(level);
-      filters.add(_levelFilter);
+      boolean useLevel=cfg.hasComponent(ItemChooserFilterComponent.CHAR_LEVEL);
+      if (useLevel)
+      {
+        _levelFilter=new ItemRequiredLevelFilter(level);
+        filters.add(_levelFilter);
+      }
     }
     // Name
-    _nameFilter=new ItemNameFilter();
-    filters.add(_nameFilter);
+    boolean useName=cfg.hasComponent(ItemChooserFilterComponent.NAME);
+    if (useName)
+    {
+      _nameFilter=new ItemNameFilter();
+      filters.add(_nameFilter);
+    }
     // Quality
-    _qualityFilter=new ItemQualityFilter(null);
-    filters.add(_qualityFilter);
+    boolean useQuality=cfg.hasComponent(ItemChooserFilterComponent.QUALITY);
+    if (useQuality)
+    {
+      _qualityFilter=new ItemQualityFilter(null);
+      filters.add(_qualityFilter);
+    }
     // Legendary
     _legendaryFilter=new LegendaryItemFilter(null);
     filters.add(_legendaryFilter);
     // Weapon type
-    List<WeaponType> weaponTypes=cfg.getWeaponTypes();
-    if (weaponTypes.size()>0)
+    boolean useWeaponType=cfg.hasComponent(ItemChooserFilterComponent.WEAPON_TYPE);
+    if (useWeaponType)
     {
-      _weaponTypeFilter=new WeaponTypeFilter(null);
-      filters.add(_weaponTypeFilter);
+      List<WeaponType> weaponTypes=cfg.getWeaponTypes();
+      if (weaponTypes.size()>0)
+      {
+        _weaponTypeFilter=new WeaponTypeFilter(null);
+        filters.add(_weaponTypeFilter);
+      }
     }
     // Armour type
-    List<ArmourType> armourTypes=cfg.getArmourTypes();
-    if (armourTypes.size()>0)
+    boolean useArmourType=cfg.hasComponent(ItemChooserFilterComponent.ARMOUR_TYPE);
+    if (useArmourType)
     {
-      _armourTypeFilter=new ArmourTypeFilter(null);
-      filters.add(_armourTypeFilter);
+      List<ArmourType> armourTypes=cfg.getArmourTypes();
+      if (armourTypes.size()>0)
+      {
+        _armourTypeFilter=new ArmourTypeFilter(null);
+        filters.add(_armourTypeFilter);
+      }
     }
     // Shield type
-    List<ArmourType> shieldTypes=cfg.getShieldTypes();
-    if (shieldTypes.size()>0)
+    boolean useShieldType=cfg.hasComponent(ItemChooserFilterComponent.SHIELD_TYPE);
+    if (useShieldType)
     {
-      _shieldTypeFilter=new ArmourTypeFilter(null);
-      filters.add(_shieldTypeFilter);
+      List<ArmourType> shieldTypes=cfg.getShieldTypes();
+      if (shieldTypes.size()>0)
+      {
+        _shieldTypeFilter=new ArmourTypeFilter(null);
+        filters.add(_shieldTypeFilter);
+      }
     }
     // Stat contribution
-    _statFilter=new ItemStatFilter(NB_STATS);
-    filters.add(_statFilter);
+    boolean useStat=cfg.hasComponent(ItemChooserFilterComponent.STAT);
+    if (useStat)
+    {
+      _statFilter=new ItemStatFilter(NB_STATS);
+      filters.add(_statFilter);
+    }
     // Item level
-    _itemLevelFilter=new ItemLevelFilter();
-    filters.add(_itemLevelFilter);
+    boolean useItemLevel=cfg.hasComponent(ItemChooserFilterComponent.ITEM_LEVEL);
+    if (useItemLevel)
+    {
+      _itemLevelFilter=new ItemLevelFilter();
+      filters.add(_itemLevelFilter);
+    }
     _filter=new CompoundFilter<Item>(Operator.AND,filters);
   }
 

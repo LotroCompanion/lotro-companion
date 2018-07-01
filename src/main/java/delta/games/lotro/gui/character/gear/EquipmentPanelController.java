@@ -318,12 +318,12 @@ public class EquipmentPanelController implements ActionListener
   private void handleChooseItem(EQUIMENT_SLOT slot)
   {
     ItemsManager itemsManager=ItemsManager.getInstance();
-    handleChooseItem(slot,itemsManager);
+    handleChooseItem(slot,itemsManager,false);
   }
 
-  private void handleChooseItem(EQUIMENT_SLOT slot, ItemsManager itemsManager)
+  private void handleChooseItem(EQUIMENT_SLOT slot, ItemsManager itemsManager, boolean stash)
   {
-    Item item=chooseItem(slot,itemsManager);
+    Item item=chooseItem(slot,itemsManager,stash);
     if (item!=null)
     {
       CharacterEquipment equipment=_toonData.getEquipment();
@@ -334,11 +334,19 @@ public class EquipmentPanelController implements ActionListener
     }
   }
 
-  private Item chooseItem(EQUIMENT_SLOT slot, ItemsManager itemsManager)
+  private Item chooseItem(EQUIMENT_SLOT slot, ItemsManager itemsManager, boolean stash)
   {
     List<Item> selectedItems=itemsManager.getItems(slot);
     ItemFilterConfiguration cfg=new ItemFilterConfiguration();
     cfg.initFromItems(selectedItems);
+    if (stash)
+    {
+      cfg.forStashFilter();
+    }
+    else
+    {
+      cfg.forItemFilter();
+    }
     TypedProperties filterProps=_parentWindow.getUserProperties("ItemFilter");
     ItemFilterController filterController=new ItemFilterController(cfg,_toonData,filterProps);
     Filter<Item> filter=filterController.getFilter();
@@ -425,7 +433,7 @@ public class EquipmentPanelController implements ActionListener
           ItemsStash stash=_toon.getStash();
           List<Item> items=stash.getAll();
           ItemsManager itemsManager=new ItemsManager(items);
-          handleChooseItem(slot,itemsManager);
+          handleChooseItem(slot,itemsManager,true);
         }
         else if (REMOVE_COMMAND.equals(cmd))
         {

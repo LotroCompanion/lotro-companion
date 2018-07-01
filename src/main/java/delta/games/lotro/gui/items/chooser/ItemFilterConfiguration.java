@@ -24,6 +24,7 @@ public class ItemFilterConfiguration
   private Set<ArmourType> _shieldTypes;
   private Set<WeaponType> _weaponTypes;
   private Set<Integer> _itemLevels;
+  private boolean[] _components;
 
   /**
    * Constructor.
@@ -39,6 +40,8 @@ public class ItemFilterConfiguration
 
   private void defaultInit()
   {
+    int nbComponents=ItemChooserFilterComponent.values().length;
+    _components=new boolean[nbComponents];
     for(ArmourType armourType : ArmourType.ARMOUR_TYPES) 
     {
       _armourTypes.add(armourType);
@@ -55,6 +58,56 @@ public class ItemFilterConfiguration
     {
       _itemLevels.add(Integer.valueOf(i));
     }
+  }
+
+  /**
+   * Configure the filter for choosing an item from stash.
+   */
+  public void forStashFilter()
+  {
+    _components[ItemChooserFilterComponent.NAME.ordinal()]=true;
+    _components[ItemChooserFilterComponent.QUALITY.ordinal()]=true;
+  }
+
+  /**
+   * Configure the filter for choosing an essence.
+   */
+  public void forEssenceFilter()
+  {
+    _components[ItemChooserFilterComponent.TIER.ordinal()]=true;
+    _components[ItemChooserFilterComponent.NAME.ordinal()]=true;
+    _components[ItemChooserFilterComponent.QUALITY.ordinal()]=true;
+    _components[ItemChooserFilterComponent.STAT.ordinal()]=true;
+    _components[ItemChooserFilterComponent.CHAR_CLASS.ordinal()]=true;
+    _components[ItemChooserFilterComponent.CHAR_LEVEL.ordinal()]=true;
+    _components[ItemChooserFilterComponent.ITEM_LEVEL.ordinal()]=true;
+  }
+
+  /**
+   * Configure the filter for choosing an item from the whole items database.
+   */
+  public void forItemFilter()
+  {
+    _components[ItemChooserFilterComponent.NAME.ordinal()]=true;
+    _components[ItemChooserFilterComponent.QUALITY.ordinal()]=true;
+    _components[ItemChooserFilterComponent.STAT.ordinal()]=true;
+    _components[ItemChooserFilterComponent.ARMOUR_TYPE.ordinal()]=true;
+    _components[ItemChooserFilterComponent.WEAPON_TYPE.ordinal()]=true;
+    _components[ItemChooserFilterComponent.SHIELD_TYPE.ordinal()]=true;
+    _components[ItemChooserFilterComponent.CHAR_CLASS.ordinal()]=true;
+    _components[ItemChooserFilterComponent.CHAR_PROFICIENCIES.ordinal()]=true;
+    _components[ItemChooserFilterComponent.CHAR_LEVEL.ordinal()]=true;
+    _components[ItemChooserFilterComponent.ITEM_LEVEL.ordinal()]=true;
+  }
+
+  /**
+   * Indicates if the specified component is enabled or not.
+   * @param component Targeted component.
+   * @return <code>true</code> if it is, <code>false</code> otherwise.
+   */
+  public boolean hasComponent(ItemChooserFilterComponent component)
+  {
+    return _components[component.ordinal()];
   }
 
   /**
