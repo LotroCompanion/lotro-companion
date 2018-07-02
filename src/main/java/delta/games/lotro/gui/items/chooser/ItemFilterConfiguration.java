@@ -90,6 +90,7 @@ public class ItemFilterConfiguration
   {
     _components[ItemChooserFilterComponent.NAME.ordinal()]=true;
     _components[ItemChooserFilterComponent.QUALITY.ordinal()]=true;
+    _components[ItemChooserFilterComponent.LEGENDARY.ordinal()]=true;
     _components[ItemChooserFilterComponent.STAT.ordinal()]=true;
     _components[ItemChooserFilterComponent.ARMOUR_TYPE.ordinal()]=true;
     _components[ItemChooserFilterComponent.WEAPON_TYPE.ordinal()]=true;

@@ -60,6 +60,7 @@ public class ItemFilterController extends AbstractItemFilterPanelController
   private DynamicTextEditionController _textController;
   private ComboBoxController<Integer> _tier;
   private ComboBoxController<ItemQuality> _quality;
+  private ComboBoxController<Boolean> _legendary;
   private ComboBoxController<WeaponType> _weaponType;
   private ComboBoxController<ArmourType> _armourType;
   private ComboBoxController<ArmourType> _shieldType;
@@ -130,6 +131,12 @@ public class ItemFilterController extends AbstractItemFilterPanelController
     {
       ItemQuality quality=_filter.getQualityFilter().getQuality();
       _quality.selectItem(quality);
+    }
+    // Legendary
+    if (_legendary!=null)
+    {
+      Boolean legendary=_filter.getLegendaryFilter().getLegendary();
+      _legendary.selectItem(legendary);
     }
     // Weapon type
     if (_weaponType!=null)
@@ -278,6 +285,27 @@ public class ItemFilterController extends AbstractItemFilterPanelController
       };
       _textController=new DynamicTextEditionController(_contains,listener);
       panel.add(containsPanel);
+    }
+    // Legendary
+    boolean useLegendary=_cfg.hasComponent(ItemChooserFilterComponent.LEGENDARY);
+    if (useLegendary)
+    {
+      JPanel legendaryPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING));
+      legendaryPanel.add(GuiFactory.buildLabel("Legendary:"));
+      _legendary=buildLegendaryCombo();
+      ItemSelectionListener<Boolean> legendaryListener=new ItemSelectionListener<Boolean>()
+      {
+        @Override
+        public void itemSelected(Boolean legendary)
+        {
+          _filter.getLegendaryFilter().setLegendary(legendary);
+          filterUpdated();
+        }
+      };
+      _legendary.addListener(legendaryListener);
+      legendaryPanel.add(_legendary.getComboBox());
+      GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+      panel.add(legendaryPanel,c);
     }
     return panel;
   }
@@ -522,6 +550,20 @@ public class ItemFilterController extends AbstractItemFilterPanelController
     {
       ctrl.addItem(Integer.valueOf(tier),"Tier "+tier);
     }
+    ctrl.selectItem(null);
+    return ctrl;
+  }
+
+  /**
+   * Build a controller for a combo box to choose the legendary quality of item.
+   * @return A new controller.
+   */
+  private ComboBoxController<Boolean> buildLegendaryCombo()
+  {
+    ComboBoxController<Boolean> ctrl=new ComboBoxController<Boolean>();
+    ctrl.addEmptyItem("");
+    ctrl.addItem(Boolean.TRUE,"Yes");
+    ctrl.addItem(Boolean.FALSE,"No");
     ctrl.selectItem(null);
     return ctrl;
   }

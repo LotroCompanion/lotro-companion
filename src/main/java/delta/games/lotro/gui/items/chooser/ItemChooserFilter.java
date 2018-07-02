@@ -224,6 +224,15 @@ public class ItemChooserFilter implements Filter<Item>
   }
 
   /**
+   * Get the filter on the 'legendary' attribute of items.
+   * @return A filter for the 'legendary' attribute of items.
+   */
+  public LegendaryItemFilter getLegendaryFilter()
+  {
+    return _legendaryFilter;
+  }
+
+  /**
    * Get the weapon type filter.
    * @return a weapon type filter or <code>null</code>.
    */

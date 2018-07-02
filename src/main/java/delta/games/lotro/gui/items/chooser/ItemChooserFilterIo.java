@@ -1,5 +1,6 @@
 package delta.games.lotro.gui.items.chooser;
 
+import delta.common.utils.BooleanTools;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.character.stats.STAT;
 import delta.games.lotro.lore.items.ArmourType;
@@ -14,6 +15,7 @@ import delta.games.lotro.lore.items.filters.ItemQualityFilter;
 import delta.games.lotro.lore.items.filters.ItemRequiredClassFilter;
 import delta.games.lotro.lore.items.filters.ItemRequiredLevelFilter;
 import delta.games.lotro.lore.items.filters.ItemStatFilter;
+import delta.games.lotro.lore.items.filters.LegendaryItemFilter;
 import delta.games.lotro.lore.items.filters.WeaponTypeFilter;
 
 /**
@@ -28,6 +30,7 @@ public class ItemChooserFilterIo
   private static final String ESSENCE_TIER="essenceTier";
   private static final String NAME_PATTERN="namePattern";
   private static final String QUALITY="quality";
+  private static final String LEGENDARY="legendary";
   private static final String WEAPON_TYPE="weaponType";
   private static final String ARMOUR_TYPE="armourType";
   private static final String SHIELD_TYPE="shieldType";
@@ -90,7 +93,17 @@ public class ItemChooserFilterIo
       qualityFilter.setQuality(quality);
     }
     // Legendary
-    // TODO
+    LegendaryItemFilter legendaryFilter=filter.getLegendaryFilter();
+    if (legendaryFilter!=null)
+    {
+      String legendaryKey=props.getStringProperty(LEGENDARY,null);
+      Boolean legendary=null;
+      if (legendaryKey!=null)
+      {
+        legendary=BooleanTools.parseBoolean(legendaryKey);
+      }
+      legendaryFilter.setLegendary(legendary);
+    }
     // Weapon type
     WeaponTypeFilter weaponTypeFilter=filter.getWeaponTypeFilter();
     if (weaponTypeFilter!=null)
@@ -199,7 +212,19 @@ public class ItemChooserFilterIo
       }
     }
     // Legendary
-    // TODO
+    LegendaryItemFilter legendaryFilter=filter.getLegendaryFilter();
+    if (legendaryFilter!=null)
+    {
+      Boolean legendary=legendaryFilter.getLegendary();
+      if (legendary!=null)
+      {
+        props.setStringProperty(LEGENDARY,legendary.toString());
+      }
+      else
+      {
+        props.removeProperty(LEGENDARY);
+      }
+    }
     // Weapon type
     WeaponTypeFilter weaponTypeFilter=filter.getWeaponTypeFilter();
     if (weaponTypeFilter!=null)
