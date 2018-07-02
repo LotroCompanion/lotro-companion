@@ -7,6 +7,7 @@ import delta.games.lotro.lore.items.ItemQuality;
 import delta.games.lotro.lore.items.WeaponType;
 import delta.games.lotro.lore.items.filters.ArmourTypeFilter;
 import delta.games.lotro.lore.items.filters.CharacterProficienciesFilter;
+import delta.games.lotro.lore.items.filters.EssenceTierFilter;
 import delta.games.lotro.lore.items.filters.ItemLevelFilter;
 import delta.games.lotro.lore.items.filters.ItemNameFilter;
 import delta.games.lotro.lore.items.filters.ItemQualityFilter;
@@ -24,6 +25,7 @@ public class ItemChooserFilterIo
   private static final String CLASS_FILTER_ENABLED="classFilterEnabled";
   private static final String PROFICIENCIES_FILTER_ENABLED="proficienciesFilterEnabled";
   private static final String LEVEL_FILTER_ENABLED="levelFilterEnabled";
+  private static final String ESSENCE_TIER="essenceTier";
   private static final String NAME_PATTERN="namePattern";
   private static final String QUALITY="quality";
   private static final String WEAPON_TYPE="weaponType";
@@ -64,6 +66,13 @@ public class ItemChooserFilterIo
     {
       boolean enabled=props.getBooleanProperty(LEVEL_FILTER_ENABLED,false);
       levelFilter.setEnabled(enabled);
+    }
+    // Essence Tier
+    EssenceTierFilter tierFilter=filter.getEssenceTierFilter();
+    if (tierFilter!=null)
+    {
+      Integer tier=props.getIntegerProperty(ESSENCE_TIER);
+      tierFilter.setTier(tier);
     }
     // Name
     ItemNameFilter nameFilter=filter.getNameFilter();
@@ -153,6 +162,20 @@ public class ItemChooserFilterIo
     if (levelFilter!=null)
     {
       props.setStringProperty(LEVEL_FILTER_ENABLED,Boolean.toString(levelFilter.isEnabled()));
+    }
+    // Essence Tier
+    EssenceTierFilter tierFilter=filter.getEssenceTierFilter();
+    if (tierFilter!=null)
+    {
+      Integer tier=tierFilter.getTier();
+      if (tier!=null)
+      {
+        props.setIntProperty(ESSENCE_TIER,tier.intValue());
+      }
+      else
+      {
+        props.removeProperty(ESSENCE_TIER);
+      }
     }
     // Name
     ItemNameFilter nameFilter=filter.getNameFilter();

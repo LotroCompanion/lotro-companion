@@ -5,6 +5,7 @@ import javax.swing.JPanel;
 
 import delta.common.ui.swing.windows.DefaultFormDialogController;
 import delta.common.ui.swing.windows.WindowController;
+import delta.games.lotro.character.CharacterSummary;
 import delta.games.lotro.lore.items.Item;
 
 /**
@@ -13,17 +14,19 @@ import delta.games.lotro.lore.items.Item;
  */
 public class ItemEditionWindowController extends DefaultFormDialogController<Item>
 {
+  // Controllers
   private ItemEditionPanelController _panelController;
 
   /**
    * Constructor.
    * @param parent Parent window.
+   * @param character Character data.
    * @param item Item.
    */
-  public ItemEditionWindowController(WindowController parent, Item item)
+  public ItemEditionWindowController(WindowController parent, CharacterSummary character, Item item)
   {
     super(parent,item);
-    _panelController=new ItemEditionPanelController(this,item);
+    _panelController=new ItemEditionPanelController(this,character,item);
   }
 
   @Override

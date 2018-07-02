@@ -1,5 +1,7 @@
 package delta.games.lotro.gui.items.essences;
 
+import delta.games.lotro.character.CharacterSummary;
+import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.lore.items.Item;
 
 /**
@@ -10,7 +12,10 @@ public class MainTestEssenceChoice
 {
   private void doIt()
   {
-    Item ret=EssenceChoice.chooseEssence(null);
+    CharacterSummary c=new CharacterSummary();
+    c.setCharacterClass(CharacterClass.MINSTREL);
+    c.setLevel(110);
+    Item ret=EssenceChoice.chooseEssence(null,c);
     System.out.println(ret);
   }
 

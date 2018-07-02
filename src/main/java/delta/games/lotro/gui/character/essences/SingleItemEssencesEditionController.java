@@ -10,6 +10,7 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.labels.MultilineLabel;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.CharacterEquipment.EQUIMENT_SLOT;
+import delta.games.lotro.character.CharacterSummary;
 import delta.games.lotro.gui.character.gear.EquipmentSlotIconController;
 import delta.games.lotro.gui.items.essences.SingleEssenceEditionController;
 import delta.games.lotro.lore.items.Item;
@@ -23,6 +24,7 @@ public class SingleItemEssencesEditionController
 {
   // Data
   private Item _item;
+  private CharacterSummary _character;
   // Controllers
   private WindowController _parent;
   private List<SingleEssenceEditionController> _controllers;
@@ -34,11 +36,13 @@ public class SingleItemEssencesEditionController
   /**
    * Constructor.
    * @param parent Parent window.
+   * @param character Character data.
    * @param slot Managed slot.
    */
-  public SingleItemEssencesEditionController(WindowController parent, EQUIMENT_SLOT slot)
+  public SingleItemEssencesEditionController(WindowController parent, CharacterSummary character, EQUIMENT_SLOT slot)
   {
     _item=null;
+    _character=character;
     _parent=parent;
     _controllers=new ArrayList<SingleEssenceEditionController>();
     _iconController=new EquipmentSlotIconController(slot);
@@ -79,7 +83,7 @@ public class SingleItemEssencesEditionController
       int size=Math.max(nbEssences,nbEssenceSlots);
       for(int i=0;i<size;i++)
       {
-        SingleEssenceEditionController controller=new SingleEssenceEditionController(_parent,2);
+        SingleEssenceEditionController controller=new SingleEssenceEditionController(_parent,2,_character);
         Item essence=null;
         if (essences!=null)
         {

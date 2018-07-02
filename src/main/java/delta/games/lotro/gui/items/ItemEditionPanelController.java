@@ -22,6 +22,7 @@ import delta.common.ui.swing.combobox.ItemSelectionListener;
 import delta.common.ui.swing.text.FloatEditionController;
 import delta.common.ui.swing.text.IntegerEditionController;
 import delta.common.ui.swing.windows.WindowController;
+import delta.games.lotro.character.CharacterSummary;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.character.stats.StatsEditionPanelController;
@@ -53,10 +54,10 @@ public class ItemEditionPanelController
 {
   // Data
   private Item _item;
+  private CharacterSummary _character;
   // GUI
   private JPanel _panel;
   private WindowController _parent;
-
   private JLabel _icon;
   private ComboBoxController<EquipmentLocation> _slot;
   private JTextField _name;
@@ -96,11 +97,13 @@ public class ItemEditionPanelController
   /**
    * Constructor.
    * @param parent Parent window.
+   * @param character Character data.
    * @param item Item.
    */
-  public ItemEditionPanelController(WindowController parent, Item item)
+  public ItemEditionPanelController(WindowController parent, CharacterSummary character, Item item)
   {
     _parent=parent;
+    _character=character;
     _item=item;
   }
 
@@ -282,7 +285,7 @@ public class ItemEditionPanelController
     // Stats
     _stats=new StatsEditionPanelController();
     // Essences
-    _essencesEditor=new EssencesEditionPanelController(_parent);
+    _essencesEditor=new EssencesEditionPanelController(_parent,_character);
 
     // Tabbed pane assembly
     JTabbedPane tabbedPane=GuiFactory.buildTabbedPane();

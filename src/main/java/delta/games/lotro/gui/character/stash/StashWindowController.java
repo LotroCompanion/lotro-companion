@@ -227,7 +227,7 @@ public class StashWindowController extends DefaultWindowController implements Ac
 
   private void editItem(Item item)
   {
-    ItemEditionWindowController ctrl=new ItemEditionWindowController(this,item);
+    ItemEditionWindowController ctrl=new ItemEditionWindowController(this,_toon.getSummary(),item);
     ctrl.show(true);
     _toon.saveStash();
   }

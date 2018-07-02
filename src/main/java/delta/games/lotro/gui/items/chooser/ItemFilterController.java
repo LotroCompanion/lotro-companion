@@ -27,7 +27,7 @@ import delta.common.ui.swing.text.range.RangeEditorController;
 import delta.common.ui.swing.text.range.RangeListener;
 import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.misc.TypedProperties;
-import delta.games.lotro.character.CharacterData;
+import delta.games.lotro.character.CharacterSummary;
 import delta.games.lotro.character.stats.STAT;
 import delta.games.lotro.gui.items.AbstractItemFilterPanelController;
 import delta.games.lotro.gui.items.ItemUiTools;
@@ -58,6 +58,7 @@ public class ItemFilterController extends AbstractItemFilterPanelController
   private JTextField _contains;
   // Controllers
   private DynamicTextEditionController _textController;
+  private ComboBoxController<Integer> _tier;
   private ComboBoxController<ItemQuality> _quality;
   private ComboBoxController<WeaponType> _weaponType;
   private ComboBoxController<ArmourType> _armourType;
@@ -74,7 +75,7 @@ public class ItemFilterController extends AbstractItemFilterPanelController
    * @param character Targeted character (may be <code>null</code>).
    * @param props Filter state.
    */
-  public ItemFilterController(ItemFilterConfiguration cfg, CharacterData character, TypedProperties props)
+  public ItemFilterController(ItemFilterConfiguration cfg, CharacterSummary character, TypedProperties props)
   {
     _cfg=cfg;
     _filter=new ItemChooserFilter(cfg,character);
@@ -109,6 +110,12 @@ public class ItemFilterController extends AbstractItemFilterPanelController
 
   private void setFilter()
   {
+    // Essence Tier
+    if (_tier!=null)
+    {
+      Integer tier=_filter.getEssenceTierFilter().getTier();
+      _tier.selectItem(tier);
+    }
     // Name
     if (_contains!=null)
     {
@@ -209,7 +216,27 @@ public class ItemFilterController extends AbstractItemFilterPanelController
   private JPanel buildLine1()
   {
     JPanel panel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
-    // TODO Add tier (for essences)
+    // Tier
+    boolean useTier=_cfg.hasComponent(ItemChooserFilterComponent.TIER);
+    if (useTier)
+    {
+      JPanel tierPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING));
+      tierPanel.add(GuiFactory.buildLabel("Tier:"));
+      _tier=buildTierCombo();
+      ItemSelectionListener<Integer> tierListener=new ItemSelectionListener<Integer>()
+      {
+        @Override
+        public void itemSelected(Integer tier)
+        {
+          _filter.getEssenceTierFilter().setTier(tier);
+          filterUpdated();
+        }
+      };
+      _tier.addListener(tierListener);
+      tierPanel.add(_tier.getComboBox());
+      GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+      panel.add(tierPanel,c);
+    }
     // Quality
     boolean useQuality=_cfg.hasComponent(ItemChooserFilterComponent.QUALITY);
     if (useQuality)
@@ -483,6 +510,22 @@ public class ItemFilterController extends AbstractItemFilterPanelController
     return requirementsPanel;
   }
 
+  /**
+   * Build a controller for a combo box to choose an essence tier.
+   * @return A new controller.
+   */
+  private ComboBoxController<Integer> buildTierCombo()
+  {
+    ComboBoxController<Integer> ctrl=new ComboBoxController<Integer>();
+    ctrl.addEmptyItem("");
+    for(int tier=1;tier<=10;tier++)
+    {
+      ctrl.addItem(Integer.valueOf(tier),"Tier "+tier);
+    }
+    ctrl.selectItem(null);
+    return ctrl;
+  }
+
   private JPanel buildItemLevelRangePanel()
   {
     List<Integer> itemLevels=buildItemLevels();
@@ -539,6 +582,11 @@ public class ItemFilterController extends AbstractItemFilterPanelController
     _props=null;
     _filter=null;
     // Controllers
+    if (_tier!=null)
+    {
+      _tier.dispose();
+      _tier=null;
+    }
     if (_textController!=null)
     {
       _textController.dispose();

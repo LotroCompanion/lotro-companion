@@ -6,13 +6,14 @@ import java.util.List;
 import delta.common.utils.collections.filters.CompoundFilter;
 import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.collections.filters.Operator;
-import delta.games.lotro.character.CharacterData;
+import delta.games.lotro.character.CharacterSummary;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.lore.items.ArmourType;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.WeaponType;
 import delta.games.lotro.lore.items.filters.ArmourTypeFilter;
 import delta.games.lotro.lore.items.filters.CharacterProficienciesFilter;
+import delta.games.lotro.lore.items.filters.EssenceTierFilter;
 import delta.games.lotro.lore.items.filters.ItemLevelFilter;
 import delta.games.lotro.lore.items.filters.ItemNameFilter;
 import delta.games.lotro.lore.items.filters.ItemQualityFilter;
@@ -39,6 +40,7 @@ public class ItemChooserFilter implements Filter<Item>
   private ItemRequiredClassFilter _classFilter;
   private CharacterProficienciesFilter _proficienciesFilter;
   private ItemRequiredLevelFilter _levelFilter;
+  private EssenceTierFilter _essenceTierFilter;
   private ItemNameFilter _nameFilter;
   private ItemQualityFilter _qualityFilter;
   private LegendaryItemFilter _legendaryFilter;
@@ -53,7 +55,7 @@ public class ItemChooserFilter implements Filter<Item>
    * @param cfg Configuration.
    * @param character Targeted character (may be <code>null</code>).
    */
-  public ItemChooserFilter(ItemFilterConfiguration cfg, CharacterData character)
+  public ItemChooserFilter(ItemFilterConfiguration cfg, CharacterSummary character)
   {
     _cfg=cfg;
     List<Filter<Item>> filters=new ArrayList<Filter<Item>>();
@@ -83,6 +85,13 @@ public class ItemChooserFilter implements Filter<Item>
         _levelFilter=new ItemRequiredLevelFilter(level);
         filters.add(_levelFilter);
       }
+    }
+    // Tier
+    boolean useTier=cfg.hasComponent(ItemChooserFilterComponent.TIER);
+    if (useTier)
+    {
+      _essenceTierFilter=new EssenceTierFilter();
+      filters.add(_essenceTierFilter);
     }
     // Name
     boolean useName=cfg.hasComponent(ItemChooserFilterComponent.NAME);
@@ -158,6 +167,15 @@ public class ItemChooserFilter implements Filter<Item>
   public ItemFilterConfiguration getConfiguration()
   {
     return _cfg;
+  }
+
+  /**
+   * Get the managed essence tier filter.
+   * @return a filter.
+   */
+  public EssenceTierFilter getEssenceTierFilter()
+  {
+    return _essenceTierFilter;
   }
 
   /**

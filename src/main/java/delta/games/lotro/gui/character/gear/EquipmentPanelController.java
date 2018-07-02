@@ -297,7 +297,7 @@ public class EquipmentPanelController implements ActionListener
     Item item=getItemForSlot(slot);
     if (item!=null)
     {
-      ItemEditionWindowController ctrl=new ItemEditionWindowController(_parentWindow,item);
+      ItemEditionWindowController ctrl=new ItemEditionWindowController(_parentWindow,_toonData.getSummary(),item);
       ctrl.show(true);
       refreshToon();
     }
@@ -348,7 +348,7 @@ public class EquipmentPanelController implements ActionListener
       cfg.forItemFilter();
     }
     TypedProperties filterProps=_parentWindow.getUserProperties("ItemFilter");
-    ItemFilterController filterController=new ItemFilterController(cfg,_toonData,filterProps);
+    ItemFilterController filterController=new ItemFilterController(cfg,_toonData.getSummary(),filterProps);
     Filter<Item> filter=filterController.getFilter();
     String id=ItemChoiceWindowController.ITEM_CHOOSER_PROPERTIES_ID+"#"+slot.name();
     TypedProperties props=_parentWindow.getUserProperties(id);

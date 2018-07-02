@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.WindowController;
+import delta.games.lotro.character.CharacterSummary;
 import delta.games.lotro.lore.items.Item;
 
 /**
@@ -23,6 +24,8 @@ import delta.games.lotro.lore.items.Item;
  */
 public class EssencesEditionPanelController
 {
+  // Data
+  private CharacterSummary _character;
   // GUI
   private JPanel _essencesPanel;
   private JPanel _panel;
@@ -33,10 +36,12 @@ public class EssencesEditionPanelController
   /**
    * Constructor.
    * @param parent Parent controller.
+   * @param character Character.
    */
-  public EssencesEditionPanelController(WindowController parent)
+  public EssencesEditionPanelController(WindowController parent, CharacterSummary character)
   {
     _parent=parent;
+    _character=character;
     _essenceControllers=new ArrayList<SingleEssenceEditionController>();
     _panel=build();
   }
@@ -76,7 +81,7 @@ public class EssencesEditionPanelController
     for(int i=0;i<nbSlots;i++)
     {
       Item essence=item.getEssenceAt(i);
-      SingleEssenceEditionController ctrl=new SingleEssenceEditionController(_parent,1);
+      SingleEssenceEditionController ctrl=new SingleEssenceEditionController(_parent,1,_character);
       ctrl.setEssence(essence);
       _essenceControllers.add(ctrl);
     }
@@ -124,7 +129,7 @@ public class EssencesEditionPanelController
 
   private void addSlot()
   {
-    SingleEssenceEditionController ctrl=new SingleEssenceEditionController(_parent,1);
+    SingleEssenceEditionController ctrl=new SingleEssenceEditionController(_parent,1,_character);
     _essenceControllers.add(ctrl);
     updateUi();
   }

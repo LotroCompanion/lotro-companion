@@ -2,6 +2,8 @@ package delta.games.lotro.gui.items;
 
 import java.util.List;
 
+import delta.games.lotro.character.CharacterSummary;
+import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemsManager;
 
@@ -17,6 +19,9 @@ public class MainTestItemEditionWindowController
    */
   public static void main(String[] args)
   {
+    CharacterSummary summary=new CharacterSummary();
+    summary.setCharacterClass(CharacterClass.MINSTREL);
+    summary.setLevel(105);
     ItemsManager itemsMgr=ItemsManager.getInstance();
     List<Item> items=itemsMgr.getAllItems();
     int nbWindows=0;
@@ -34,7 +39,7 @@ public class MainTestItemEditionWindowController
       //if (item instanceof Armour)
       //if (item instanceof Weapon)
       {
-        ItemEditionWindowController ctrl=new ItemEditionWindowController(null,item);
+        ItemEditionWindowController ctrl=new ItemEditionWindowController(null,summary,item);
         ctrl.show(true);
         nbWindows++;
       }

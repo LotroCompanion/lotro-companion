@@ -56,7 +56,7 @@ public class AllEssencesEditionPanelController implements EssenceUpdatedListener
     CharacterEquipment equipment=_toon.getEquipment();
     for(EQUIMENT_SLOT slot : EQUIMENT_SLOT.values())
     {
-      SingleItemEssencesEditionController controller=new SingleItemEssencesEditionController(_parent,slot);
+      SingleItemEssencesEditionController controller=new SingleItemEssencesEditionController(_parent,_toon.getSummary(),slot);
       Item item=equipment.getItemForSlot(slot);
       controller.setItem(item);
       _editors.add(controller);
