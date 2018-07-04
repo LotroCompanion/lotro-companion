@@ -11,7 +11,7 @@ import delta.common.ui.swing.tables.DataProvider;
 import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.games.lotro.character.CharacterFile;
-import delta.games.lotro.character.storage.ItemsStash;
+import delta.games.lotro.character.storage.stash.ItemsStash;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.lore.items.EquipmentLocation;
 import delta.games.lotro.lore.items.Item;

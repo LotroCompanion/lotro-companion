@@ -31,7 +31,7 @@ import delta.games.lotro.character.CharacterEquipment.SlotContents;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.events.CharacterEvent;
 import delta.games.lotro.character.events.CharacterEventType;
-import delta.games.lotro.character.storage.ItemsStash;
+import delta.games.lotro.character.storage.stash.ItemsStash;
 import delta.games.lotro.gui.items.ItemEditionWindowController;
 import delta.games.lotro.gui.items.chooser.ItemChoiceWindowController;
 import delta.games.lotro.gui.items.chooser.ItemFilterConfiguration;
