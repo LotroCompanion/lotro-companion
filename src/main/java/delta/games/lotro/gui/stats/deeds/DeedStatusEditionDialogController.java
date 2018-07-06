@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.util.List;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -137,6 +138,18 @@ public class DeedStatusEditionDialogController extends DefaultFormDialogControll
       JPanel geoPanel=buildGeoStatusEditionPanel();
       GridBagConstraints geoC=new GridBagConstraints(0,3,2,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,insets,0,0);
       panel.add(geoPanel,geoC);
+      JButton toggleMap=GuiFactory.buildButton("Map");
+      ActionListener mapActionListener=new ActionListener()
+      {
+        @Override
+        public void actionPerformed(ActionEvent e)
+        {
+          _geoEditor.showMap();
+        }
+      };
+      toggleMap.addActionListener(mapActionListener);
+      geoC.gridy++;
+      panel.add(toggleMap,geoC);
     }
     // Set values
     boolean completed=_data.isCompleted()==Boolean.TRUE;
@@ -159,7 +172,7 @@ public class DeedStatusEditionDialogController extends DefaultFormDialogControll
   private JPanel buildGeoStatusEditionPanel()
   {
     DeedGeoData geoData=_deed.getGeoData();
-    _geoEditor=new DeedGeoStatusEditionPanelController(geoData);
+    _geoEditor=new DeedGeoStatusEditionPanelController(this,geoData);
     List<DeedGeoPointStatusGadgetsController> gadgets=_geoEditor.getGadgets();
 
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());

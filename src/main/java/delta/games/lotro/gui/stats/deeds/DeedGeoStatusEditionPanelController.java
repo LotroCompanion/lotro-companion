@@ -1,10 +1,16 @@
 package delta.games.lotro.gui.stats.deeds;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JCheckBox;
+
 import delta.common.ui.swing.checkbox.CheckboxController;
 import delta.common.ui.swing.text.dates.DateEditionController;
+import delta.common.ui.swing.windows.WindowController;
+import delta.games.lotro.gui.stats.deeds.map.GeoDeedMapWindowController;
 import delta.games.lotro.lore.deeds.geo.DeedGeoData;
 import delta.games.lotro.lore.deeds.geo.DeedGeoPoint;
 import delta.games.lotro.maps.data.MapBundle;
@@ -21,15 +27,19 @@ import delta.games.lotro.utils.maps.Maps;
  */
 public class DeedGeoStatusEditionPanelController
 {
+  private WindowController _parent;
   private DeedGeoData _geoData;
   private List<DeedGeoPointStatusGadgetsController> _gadgets;
+  private GeoDeedMapWindowController _mapController;
 
   /**
    * Constructor.
+   * @param parent Parent window.
    * @param geoData Geographic data of the deed.
    */
-  public DeedGeoStatusEditionPanelController(DeedGeoData geoData)
+  public DeedGeoStatusEditionPanelController(WindowController parent,DeedGeoData geoData)
   {
+    _parent=parent;
     _geoData=geoData;
     _gadgets=new ArrayList<DeedGeoPointStatusGadgetsController>();
     init();
@@ -41,9 +51,59 @@ public class DeedGeoStatusEditionPanelController
     for(DeedGeoPoint point : points)
     {
       Marker marker=getMarker(point);
-      DeedGeoPointStatusGadgetsController gadgets=new DeedGeoPointStatusGadgetsController(marker);
+      final DeedGeoPointStatusGadgetsController gadgets=new DeedGeoPointStatusGadgetsController(marker);
       _gadgets.add(gadgets);
+      // Add a listener on the checkbox to update the map
+      final JCheckBox checkbox=gadgets.getCheckbox().getCheckbox();
+      final int pointId=marker.getId();
+      ActionListener l=new ActionListener()
+      {
+        @Override
+        public void actionPerformed(ActionEvent e)
+        {
+          boolean completed=checkbox.isSelected();
+          updatePoint(pointId,completed);
+        }
+      };
+      checkbox.addActionListener(l);
     }
+  }
+
+  private void updatePoint(int pointId, boolean completed)
+  {
+    if (_mapController!=null)
+    {
+      _mapController.setPointStatus(pointId,completed);
+    }
+  }
+
+  /**
+   * Show map.
+   */
+  public void showMap()
+  {
+    String mapKey=null;
+    List<Marker> markers=new ArrayList<Marker>();
+    List<DeedGeoPoint> points=_geoData.getPoints();
+    for(DeedGeoPoint point : points)
+    {
+      Marker marker=getMarker(point);
+      markers.add(marker);
+      mapKey=point.getMapKey();
+    }
+    _mapController=new GeoDeedMapWindowController(_parent,mapKey,markers);
+    // Update points status
+    int nbPoints=points.size();
+    for(int i=0;i<nbPoints;i++)
+    {
+      DeedGeoPointStatusGadgetsController gadgets=_gadgets.get(i);
+      JCheckBox checkbox=gadgets.getCheckbox().getCheckbox();
+      boolean completed=checkbox.isSelected();
+      Marker marker=markers.get(i);
+      int pointId=marker.getId();
+      updatePoint(pointId,completed);
+    }
+    _mapController.show();
   }
 
   private Marker getMarker(DeedGeoPoint point)
@@ -75,10 +135,10 @@ public class DeedGeoStatusEditionPanelController
     List<DeedGeoPointStatus> pointStatuses=status.getPointStatuses();
     for(DeedGeoPointStatus pointStatus : pointStatuses)
     {
-      int pointId=pointStatus.getPointId();
+      final int pointId=pointStatus.getPointId();
       DeedGeoPointStatusGadgetsController gadgets=getGadgets(pointId);
       Boolean isCompleted=pointStatus.isCompleted(); 
-      CheckboxController checkbox=gadgets.getCheckbox();
+      final CheckboxController checkbox=gadgets.getCheckbox();
       checkbox.setSelected(isCompleted==Boolean.TRUE);
       Long completionDate=pointStatus.getCompletionDate();
       DateEditionController dateEditor=gadgets.getDateEditor();
@@ -123,6 +183,7 @@ public class DeedGeoStatusEditionPanelController
    */
   public void dispose()
   {
+    _parent=null;
     _geoData=null;
     if (_gadgets!=null)
     {
@@ -132,6 +193,11 @@ public class DeedGeoStatusEditionPanelController
       }
       _gadgets.clear();
       _gadgets=null;
+    }
+    if (_mapController!=null)
+    {
+      _mapController.dispose();
+      _mapController=null;
     }
   }
 }
