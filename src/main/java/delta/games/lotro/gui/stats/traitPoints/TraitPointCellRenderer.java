@@ -47,7 +47,10 @@ public class TraitPointCellRenderer implements TableCellRenderer
     Boolean acquired=(Boolean)value;
     _buttonController.setState(acquired.booleanValue()?1:0);
     int height=_panel.getPreferredSize().height;
-    table.setRowHeight(row,height);
+    if (table.getRowHeight(row)!=height)
+    {
+      table.setRowHeight(row,height);
+    }
     return _panel;
   }
 }
