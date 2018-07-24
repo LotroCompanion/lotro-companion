@@ -321,9 +321,8 @@ public class ItemEditionPanelController
     String name=_item.getName();
     _parent.setTitle(name);
     // Icon
-    String iconId=_item.getProperty(ItemPropertyNames.ICON_ID);
-    String backgroundIconId=_item.getProperty(ItemPropertyNames.BACKGROUND_ICON_ID);
-    ImageIcon icon=LotroIconsManager.getItemIcon(iconId,backgroundIconId);
+    String iconPath=_item.getIcon();
+    ImageIcon icon=LotroIconsManager.getItemIcon(iconPath);
     _icon.setIcon(icon);
     // Name
     _name.setText(name);

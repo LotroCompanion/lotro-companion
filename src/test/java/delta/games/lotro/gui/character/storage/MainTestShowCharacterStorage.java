@@ -24,7 +24,6 @@ import delta.games.lotro.gui.items.CountedItemsTableController;
 import delta.games.lotro.gui.items.chooser.ItemFilterConfiguration;
 import delta.games.lotro.gui.items.chooser.ItemFilterController;
 import delta.games.lotro.lore.items.Item;
-import delta.games.lotro.lore.items.ItemPropertyNames;
 import delta.games.lotro.lore.items.ItemsManager;
 import delta.games.lotro.plugins.StorageLoader;
 
@@ -41,7 +40,7 @@ public class MainTestShowCharacterStorage
     String account="glorfindel666";
     String server="Landroval";
     String toon="Meva";
-    boolean showShared=false;
+    boolean showShared=true;
     StorageLoader loader=new StorageLoader();
     AccountServerStorage storage=loader.loadStorage(account,server);
     if (storage!=null)
@@ -100,6 +99,7 @@ public class MainTestShowCharacterStorage
         return scroll;
       }
     };
+    c.getWindow().pack();
     c.show();
   }
 
@@ -165,18 +165,17 @@ public class MainTestShowCharacterStorage
     String storedItemName=storedItem.getName();
     if (storedItemName.equals(itemName))
     {
-      String itemIconId=item.getProperty(ItemPropertyNames.ICON_ID);
-      String storedIconId=storedItem.getIconId();
-      if (itemIconId.equals(storedIconId))
+      int itemIconId=item.getIconId();
+      Integer storedIconId=storedItem.getIconId();
+      if (storedIconId.intValue()==itemIconId)
       {
-        String itemBackground=item.getProperty(ItemPropertyNames.BACKGROUND_ICON_ID);
-        String storedBackgroundIconId=storedItem.getBackgroundIconId();
+        Integer storedBackgroundIconId=storedItem.getBackgroundIconId();
         if (storedBackgroundIconId==null)
         {
-          storedBackgroundIconId=itemBackground;
           return item;
         }
-        if (itemBackground.equals(storedBackgroundIconId))
+        int itemBackgroundIconId=item.getBackgroundIconId();
+        if (storedBackgroundIconId.intValue()==itemBackgroundIconId)
         {
           return item;
         }

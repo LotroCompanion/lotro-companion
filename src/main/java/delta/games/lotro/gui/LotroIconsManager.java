@@ -74,14 +74,12 @@ public class LotroIconsManager
 
   /**
    * Get the icon for an item.
-   * @param iconId Foreground icon ID.
-   * @param backgroundId Background icon ID.
+   * @param icon Icon path.
    * @return An icon or <code>null</code> if not found.
    */
-  public static ImageIcon getItemIcon(String iconId, String backgroundId)
+  public static ImageIcon getItemIcon(String icon)
   {
-    String path="/icons/"+iconId+"-"+backgroundId+".png";
-    return IconsManager.getIcon(path);
+    return IconsManager.getIcon("/icons/"+icon+".png");
   }
 
   /**

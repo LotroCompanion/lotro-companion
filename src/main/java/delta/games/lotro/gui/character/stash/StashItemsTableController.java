@@ -75,9 +75,8 @@ public class StashItemsTableController
         @Override
         public ImageIcon getData(Item item)
         {
-          String iconId=item.getProperty(ItemPropertyNames.ICON_ID);
-          String backgroundIconId=item.getProperty(ItemPropertyNames.BACKGROUND_ICON_ID);
-          ImageIcon icon=LotroIconsManager.getItemIcon(iconId, backgroundIconId);
+          String iconPath=item.getIcon();
+          ImageIcon icon=LotroIconsManager.getItemIcon(iconPath);
           return icon;
         }
       };

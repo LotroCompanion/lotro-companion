@@ -14,7 +14,6 @@ import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.character.stats.StatLabels;
 import delta.games.lotro.lore.items.ArmourType;
 import delta.games.lotro.lore.items.Item;
-import delta.games.lotro.lore.items.ItemPropertyNames;
 import delta.games.lotro.lore.items.ItemQuality;
 import delta.games.lotro.lore.items.WeaponType;
 
@@ -34,9 +33,8 @@ public class ItemUiTools
   public static Icon buildItemIcon(Item item)
   {
     Icon ret=null;
-    String iconId=item.getProperty(ItemPropertyNames.ICON_ID);
-    String backgroundIconId=item.getProperty(ItemPropertyNames.BACKGROUND_ICON_ID);
-    ImageIcon icon=LotroIconsManager.getItemIcon(iconId, backgroundIconId);
+    String iconPath=item.getIcon();
+    ImageIcon icon=LotroIconsManager.getItemIcon(iconPath);
     ret=icon;
     String subCategory=item.getSubCategory();
     if ((subCategory!=null) && (subCategory.startsWith(ESSENCE_SEED)))

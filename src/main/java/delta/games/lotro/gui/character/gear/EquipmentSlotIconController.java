@@ -12,7 +12,6 @@ import delta.common.utils.text.EndOfLine;
 import delta.games.lotro.character.CharacterEquipment.EQUIMENT_SLOT;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.lore.items.Item;
-import delta.games.lotro.lore.items.ItemPropertyNames;
 
 /**
  * Controller for the icon of an equipment slot.
@@ -45,9 +44,8 @@ public class EquipmentSlotIconController
   {
     if (item!=null)
     {
-      String iconId=item.getProperty(ItemPropertyNames.ICON_ID);
-      String backgroundIconId=item.getProperty(ItemPropertyNames.BACKGROUND_ICON_ID);
-      _icon=LotroIconsManager.getItemIcon(iconId,backgroundIconId);
+      String icon=item.getIcon();
+      _icon=LotroIconsManager.getItemIcon(icon);
       String dump=item.dump();
       _tooltip="<html>"+dump.replace(EndOfLine.NATIVE_EOL,"<br>")+"</html>";
       if (_icon==null)
