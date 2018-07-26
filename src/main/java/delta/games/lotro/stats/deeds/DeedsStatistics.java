@@ -9,6 +9,7 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 
 import delta.common.utils.text.EndOfLine;
+import delta.games.lotro.character.storage.StoredItem;
 import delta.games.lotro.common.Emote;
 import delta.games.lotro.common.Reputation;
 import delta.games.lotro.common.ReputationItem;
@@ -20,10 +21,10 @@ import delta.games.lotro.common.Virtue;
 import delta.games.lotro.common.VirtueId;
 import delta.games.lotro.common.objects.ObjectItem;
 import delta.games.lotro.common.objects.ObjectsSet;
-import delta.games.lotro.gui.items.CountedItem;
-import delta.games.lotro.gui.items.CountedItemNameComparator;
+import delta.games.lotro.gui.items.StoredItemNameComparator;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.items.Item;
+import delta.games.lotro.lore.items.ItemProxy;
 import delta.games.lotro.lore.items.ItemsManager;
 import delta.games.lotro.lore.reputation.Faction;
 import delta.games.lotro.lore.reputation.FactionsRegistry;
@@ -56,7 +57,7 @@ public class DeedsStatistics
   private List<SkillEvent> _skills;
   private Map<VirtueId,VirtueStatsFromDeeds> _virtues;
   private Map<String,FactionStatsFromDeeds> _reputation;
-  private Map<Integer,CountedItem> _items;
+  private Map<Integer,StoredItem> _items;
 
   /**
    * Constructor.
@@ -69,7 +70,7 @@ public class DeedsStatistics
     _skills=new ArrayList<SkillEvent>();
     _virtues=new HashMap<VirtueId,VirtueStatsFromDeeds>();
     _reputation=new HashMap<String,FactionStatsFromDeeds>();
-    _items=new HashMap<Integer,CountedItem>();
+    _items=new HashMap<Integer,StoredItem>();
     reset();
   }
 
@@ -151,10 +152,12 @@ public class DeedsStatistics
         if (item!=null)
         {
           Integer itemIdInteger=Integer.valueOf(itemId);
-          CountedItem count=_items.get(itemIdInteger);
+          StoredItem count=_items.get(itemIdInteger);
           if (count==null)
           {
-            count=new CountedItem(item,0);
+            ItemProxy proxy=new ItemProxy();
+            proxy.setItem(item);
+            count=new StoredItem(proxy,0);
             _items.put(itemIdInteger,count);
           }
           count.add(itemsCount);
@@ -386,10 +389,10 @@ public class DeedsStatistics
    * Get the acquired items.
    * @return A list of counted items, sorted by name.
    */
-  public List<CountedItem> getItems()
+  public List<StoredItem> getItems()
   {
-    List<CountedItem> items=new ArrayList<CountedItem>(_items.values());
-    Collections.sort(items,new CountedItemNameComparator());
+    List<StoredItem> items=new ArrayList<StoredItem>(_items.values());
+    Collections.sort(items,new StoredItemNameComparator());
     return items;
   }
 

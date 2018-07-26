@@ -7,8 +7,6 @@ import javax.swing.JComponent;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
-import org.apache.log4j.Logger;
-
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.DefaultWindowController;
 import delta.common.utils.collections.filters.Filter;
@@ -19,12 +17,10 @@ import delta.games.lotro.character.storage.ItemsContainer;
 import delta.games.lotro.character.storage.StoredItem;
 import delta.games.lotro.character.storage.Vault;
 import delta.games.lotro.character.storage.Wallet;
-import delta.games.lotro.gui.items.CountedItem;
-import delta.games.lotro.gui.items.CountedItemsTableController;
+import delta.games.lotro.gui.items.StoredItemsTableController;
 import delta.games.lotro.gui.items.chooser.ItemFilterConfiguration;
 import delta.games.lotro.gui.items.chooser.ItemFilterController;
 import delta.games.lotro.lore.items.Item;
-import delta.games.lotro.lore.items.ItemsManager;
 import delta.games.lotro.plugins.StorageLoader;
 
 /**
@@ -33,8 +29,6 @@ import delta.games.lotro.plugins.StorageLoader;
  */
 public class MainTestShowCharacterStorage
 {
-  private static final Logger LOGGER=Logger.getLogger(MainTestShowCharacterStorage.class);
-
   private void doIt()
   {
     String account="glorfindel666";
@@ -48,19 +42,19 @@ public class MainTestShowCharacterStorage
       // Own bags
       {
         List<StoredItem> storedItems=getAllItems(toon,storage,true);
-        show(storedItems);
+        show("Bags",storedItems);
       }
       // Own vault
       {
         List<StoredItem> storedItems=getAllItems(toon,storage,false);
-        show(storedItems);
+        show("Vault",storedItems);
       }
       // Own wallet
       {
         CharacterStorage characterStorage=storage.getStorage(toon,true);
         Wallet ownWallet=characterStorage.getWallet();
         List<StoredItem> storedItems=ownWallet.getAllItemsByName();
-        show(storedItems);
+        show("Wallet",storedItems);
       }
       if (showShared)
       {
@@ -68,26 +62,25 @@ public class MainTestShowCharacterStorage
         {
           ItemsContainer container=storage.getSharedWallet();
           List<StoredItem> storedItems=container.getAllItemsByName();
-          show(storedItems);
+          show("Shared wallet",storedItems);
         }
         // Shared vault
         {
           Vault sharedVault=storage.getSharedVault();
           List<StoredItem> storedItems=getAllItems(sharedVault);
-          show(storedItems);
+          show("Shared vault",storedItems);
         }
       }
     }
   }
 
-  private void show(List<StoredItem> storedItems)
+  private void show(String title, List<StoredItem> storedItems)
   {
-    List<CountedItem> countedItems=getItems(storedItems);
     ItemFilterConfiguration cfg=new ItemFilterConfiguration();
     cfg.forStashFilter();
     ItemFilterController filterController=new ItemFilterController(cfg,null,null);
     Filter<Item> filter=filterController.getFilter();
-    final CountedItemsTableController tableController=new CountedItemsTableController(null,countedItems,filter);
+    final StoredItemsTableController tableController=new StoredItemsTableController(null,storedItems,filter);
     DefaultWindowController c=new DefaultWindowController()
     {
       @Override
@@ -99,6 +92,7 @@ public class MainTestShowCharacterStorage
         return scroll;
       }
     };
+    c.setTitle(title);
     c.getWindow().pack();
     c.show();
   }
@@ -127,61 +121,6 @@ public class MainTestShowCharacterStorage
     }
     //System.out.println(itemsCount);
     return items;
-  }
-
-  private List<CountedItem> getItems(List<StoredItem> storedItems)
-  {
-    ItemsManager itemsMgr=ItemsManager.getInstance();
-    List<Item> allItems=itemsMgr.getAllItems();
-    List<CountedItem> selection=new ArrayList<CountedItem>();
-    for(StoredItem storedItem : storedItems)
-    {
-      Item selectedItem=null;
-      for(Item item : allItems)
-      {
-        Item match=match(item,storedItem);
-        if (match!=null)
-        {
-          selectedItem=item;
-          break;
-        }
-      }
-      if (selectedItem!=null)
-      {
-        CountedItem countedItem=new CountedItem(selectedItem,storedItem.getQuantity());
-        selection.add(countedItem);
-      }
-      else
-      {
-        LOGGER.warn("Could not find item: "+storedItem.getName());
-      }
-    }
-    return selection;
-  }
-
-  private Item match(Item item, StoredItem storedItem)
-  {
-    String itemName=item.getName();
-    String storedItemName=storedItem.getName();
-    if (storedItemName.equals(itemName))
-    {
-      int itemIconId=item.getIconId();
-      Integer storedIconId=storedItem.getIconId();
-      if (storedIconId.intValue()==itemIconId)
-      {
-        Integer storedBackgroundIconId=storedItem.getBackgroundIconId();
-        if (storedBackgroundIconId==null)
-        {
-          return item;
-        }
-        int itemBackgroundIconId=item.getBackgroundIconId();
-        if (storedBackgroundIconId.intValue()==itemBackgroundIconId)
-        {
-          return item;
-        }
-      }
-    }
-    return null;
   }
 
   /**
