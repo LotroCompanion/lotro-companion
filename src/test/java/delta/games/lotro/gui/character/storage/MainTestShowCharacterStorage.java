@@ -17,7 +17,7 @@ import delta.games.lotro.character.storage.ItemsContainer;
 import delta.games.lotro.character.storage.StoredItem;
 import delta.games.lotro.character.storage.Vault;
 import delta.games.lotro.character.storage.Wallet;
-import delta.games.lotro.gui.items.StoredItemsTableController;
+import delta.games.lotro.gui.items.CountedItemsTableController;
 import delta.games.lotro.gui.items.chooser.ItemFilterConfiguration;
 import delta.games.lotro.gui.items.chooser.ItemFilterController;
 import delta.games.lotro.lore.items.Item;
@@ -80,7 +80,7 @@ public class MainTestShowCharacterStorage
     cfg.forStashFilter();
     ItemFilterController filterController=new ItemFilterController(cfg,null,null);
     Filter<Item> filter=filterController.getFilter();
-    final StoredItemsTableController tableController=new StoredItemsTableController(null,storedItems,filter);
+    final CountedItemsTableController tableController=new CountedItemsTableController(null,storedItems,filter);
     DefaultWindowController c=new DefaultWindowController()
     {
       @Override

@@ -17,8 +17,8 @@ import javax.swing.border.TitledBorder;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.tables.TableColumnsChooserController;
 import delta.common.ui.swing.windows.WindowController;
-import delta.games.lotro.character.storage.StoredItem;
-import delta.games.lotro.gui.items.StoredItemsTableController;
+import delta.games.lotro.gui.items.CountedItemsTableController;
+import delta.games.lotro.lore.items.CountedItem;
 import delta.games.lotro.stats.deeds.DeedsStatistics;
 
 /**
@@ -29,12 +29,12 @@ public class ItemsDisplayPanelController
 {
   // Data
   private DeedsStatistics _stats;
-  private List<StoredItem> _items;
+  private List<CountedItem> _items;
   // GUI
   private JPanel _panel;
   private JLabel _statsLabel;
   // Controllers
-  private StoredItemsTableController _tableController;
+  private CountedItemsTableController _tableController;
   private WindowController _parent;
 
   /**
@@ -46,8 +46,8 @@ public class ItemsDisplayPanelController
   {
     _parent=parent;
     _stats=stats;
-    _items=new ArrayList<StoredItem>();
-    _tableController=new StoredItemsTableController(null,_items,null);
+    _items=new ArrayList<CountedItem>();
+    _tableController=new CountedItemsTableController(null,_items,null);
   }
 
   /**
@@ -83,7 +83,7 @@ public class ItemsDisplayPanelController
       @Override
       public void actionPerformed(ActionEvent e)
       {
-        TableColumnsChooserController<StoredItem> chooser=new TableColumnsChooserController<StoredItem>(_parent,_tableController.getTableController());
+        TableColumnsChooserController<CountedItem> chooser=new TableColumnsChooserController<CountedItem>(_parent,_tableController.getTableController());
         chooser.editModal();
       }
     };

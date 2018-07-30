@@ -15,16 +15,16 @@ import delta.common.ui.swing.tables.TableColumnController;
 import delta.common.ui.swing.tables.TableColumnsManager;
 import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.misc.TypedProperties;
-import delta.games.lotro.character.storage.StoredItem;
 import delta.games.lotro.gui.items.chooser.ItemChoiceTableController;
 import delta.games.lotro.gui.items.chooser.ItemChoiceWindowController;
+import delta.games.lotro.lore.items.CountedItem;
 import delta.games.lotro.lore.items.Item;
 
 /**
- * Controller for a table that shows stored items.
+ * Controller for a table that shows counted items.
  * @author DAM
  */
-public class StoredItemsTableController
+public class CountedItemsTableController
 {
   /**
    * Identifier of the "Count" column.
@@ -34,9 +34,9 @@ public class StoredItemsTableController
   // Preferences
   private TypedProperties _prefs;
   // Data
-  protected List<StoredItem> _items;
+  protected List<? extends CountedItem> _items;
   // GUI
-  private GenericTableController<StoredItem> _tableController;
+  private GenericTableController<CountedItem> _tableController;
 
   /**
    * Constructor.
@@ -44,16 +44,16 @@ public class StoredItemsTableController
    * @param items Items to show.
    * @param filter Items filter.
    */
-  public StoredItemsTableController(TypedProperties prefs, List<StoredItem> items, final Filter<Item> filter)
+  public CountedItemsTableController(TypedProperties prefs, List<? extends CountedItem> items, final Filter<Item> filter)
   {
     _prefs=prefs;
     _items=items;
     _tableController=buildTable();
     if (filter!=null)
     {
-      Filter<StoredItem> f=new Filter<StoredItem>()
+      Filter<CountedItem> f=new Filter<CountedItem>()
       {
-        public boolean accept(StoredItem item)
+        public boolean accept(CountedItem item)
         {
           return filter.accept(item.getItem());
         }
@@ -67,18 +67,18 @@ public class StoredItemsTableController
    * Get the managed generic table controller.
    * @return the managed generic table controller.
    */
-  public GenericTableController<StoredItem> getTableController()
+  public GenericTableController<CountedItem> getTableController()
   {
     return _tableController;
   }
 
-  private GenericTableController<StoredItem> buildTable()
+  private GenericTableController<CountedItem> buildTable()
   {
-    DataProvider<StoredItem> provider=new ListDataProvider<StoredItem>(_items);
-    GenericTableController<StoredItem> table=new GenericTableController<StoredItem>(provider);
-    List<TableColumnController<StoredItem,?>> columns=initColumns();
-    TableColumnsManager<StoredItem> columnsManager=table.getColumnsManager();
-    for(TableColumnController<StoredItem,?> column : columns)
+    DataProvider<CountedItem> provider=new ListDataProvider<CountedItem>(_items);
+    GenericTableController<CountedItem> table=new GenericTableController<CountedItem>(provider);
+    List<TableColumnController<CountedItem,?>> columns=initColumns();
+    TableColumnsManager<CountedItem> columnsManager=table.getColumnsManager();
+    for(TableColumnController<CountedItem,?> column : columns)
     {
       columnsManager.addColumnController(column,false);
     }
@@ -110,37 +110,37 @@ public class StoredItemsTableController
     return columnsIds;
   }
 
-  protected List<TableColumnController<StoredItem,?>> initColumns()
+  protected List<TableColumnController<CountedItem,?>> initColumns()
   {
-    List<TableColumnController<StoredItem,?>> ret=new ArrayList<TableColumnController<StoredItem,?>>();
+    List<TableColumnController<CountedItem,?>> ret=new ArrayList<TableColumnController<CountedItem,?>>();
 
     List<DefaultTableColumnController<Item,?>> columns=ItemChoiceTableController.initColumns();
     for(TableColumnController<Item,?> column : columns)
     {
-      CellDataProvider<StoredItem,Item> dataProvider=new CellDataProvider<StoredItem,Item>()
+      CellDataProvider<CountedItem,Item> dataProvider=new CellDataProvider<CountedItem,Item>()
       {
         @Override
-        public Item getData(StoredItem p)
+        public Item getData(CountedItem p)
         {
           return p.getItem();
         }
       };
       @SuppressWarnings("unchecked")
       TableColumnController<Item,Object> c=(TableColumnController<Item,Object>)column;
-      TableColumnController<StoredItem,Object> proxiedColumn=new ProxiedTableColumnController<StoredItem,Item,Object>(c,dataProvider);
+      TableColumnController<CountedItem,Object> proxiedColumn=new ProxiedTableColumnController<CountedItem,Item,Object>(c,dataProvider);
       ret.add(proxiedColumn);
     }
     // Count column
     {
-      CellDataProvider<StoredItem,Integer> countCell=new CellDataProvider<StoredItem,Integer>()
+      CellDataProvider<CountedItem,Integer> countCell=new CellDataProvider<CountedItem,Integer>()
       {
         @Override
-        public Integer getData(StoredItem item)
+        public Integer getData(CountedItem item)
         {
           return Integer.valueOf(item.getQuantity());
         }
       };
-      DefaultTableColumnController<StoredItem,Integer> countColumn=new DefaultTableColumnController<StoredItem,Integer>(COUNT_COLUMN,"Count",Integer.class,countCell);
+      DefaultTableColumnController<CountedItem,Integer> countColumn=new DefaultTableColumnController<CountedItem,Integer>(COUNT_COLUMN,"Count",Integer.class,countCell);
       countColumn.setWidthSpecs(55,55,50);
       ret.add(countColumn);
     }
