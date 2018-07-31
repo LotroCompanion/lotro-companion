@@ -10,6 +10,8 @@ import javax.swing.JTable;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.DefaultWindowController;
 import delta.common.utils.collections.filters.Filter;
+import delta.games.lotro.character.CharacterFile;
+import delta.games.lotro.character.CharactersManager;
 import delta.games.lotro.character.storage.AccountServerStorage;
 import delta.games.lotro.character.storage.CharacterStorage;
 import delta.games.lotro.character.storage.Chest;
@@ -17,6 +19,7 @@ import delta.games.lotro.character.storage.ItemsContainer;
 import delta.games.lotro.character.storage.StoredItem;
 import delta.games.lotro.character.storage.Vault;
 import delta.games.lotro.character.storage.Wallet;
+import delta.games.lotro.character.storage.io.xml.StorageIO;
 import delta.games.lotro.gui.items.CountedItemsTableController;
 import delta.games.lotro.gui.items.chooser.ItemFilterConfiguration;
 import delta.games.lotro.gui.items.chooser.ItemFilterController;
@@ -39,19 +42,29 @@ public class MainTestShowCharacterStorage
     AccountServerStorage storage=loader.loadStorage(account,server);
     if (storage!=null)
     {
+      // Store/reload
+      CharacterStorage characterStorage=storage.getStorage(toon,false);
+      CharactersManager manager=CharactersManager.getInstance();
+      CharacterFile character=manager.getToonById(server,toon);
+      // Store
+      StorageIO.writeCharacterStorage(characterStorage,character);
+      // Reload
+      characterStorage=StorageIO.loadCharacterStorage(character);
+
       // Own bags
       {
-        List<StoredItem> storedItems=getAllItems(toon,storage,true);
+        Vault container=characterStorage.getBags();
+        List<StoredItem> storedItems=getAllItems(container);
         show("Bags",storedItems);
       }
       // Own vault
       {
-        List<StoredItem> storedItems=getAllItems(toon,storage,false);
+        Vault container=characterStorage.getOwnVault();
+        List<StoredItem> storedItems=getAllItems(container);
         show("Vault",storedItems);
       }
       // Own wallet
       {
-        CharacterStorage characterStorage=storage.getStorage(toon,true);
         Wallet ownWallet=characterStorage.getWallet();
         List<StoredItem> storedItems=ownWallet.getAllItemsByName();
         show("Wallet",storedItems);
@@ -95,13 +108,6 @@ public class MainTestShowCharacterStorage
     c.setTitle(title);
     c.getWindow().pack();
     c.show();
-  }
-
-  private List<StoredItem> getAllItems(String character, AccountServerStorage storage, boolean bags)
-  {
-    CharacterStorage characterStorage=storage.getStorage(character,true);
-    Vault container=(bags?characterStorage.getBags():characterStorage.getOwnVault());
-    return getAllItems(container);
   }
 
   private List<StoredItem> getAllItems(Vault container)
