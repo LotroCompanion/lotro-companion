@@ -2,6 +2,7 @@ package delta.games.lotro.gui.character.storage;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.swing.JComponent;
 import javax.swing.JScrollPane;
@@ -36,52 +37,62 @@ public class MainTestShowCharacterStorage
   {
     String account="glorfindel666";
     String server="Landroval";
-    String toon="Meva";
+    //String toon="Meva";
     boolean showShared=true;
     StorageLoader loader=new StorageLoader();
     AccountServerStorage storage=loader.loadStorage(account,server);
     if (storage!=null)
     {
-      // Store/reload
-      CharacterStorage characterStorage=storage.getStorage(toon,false);
-      CharactersManager manager=CharactersManager.getInstance();
-      CharacterFile character=manager.getToonById(server,toon);
-      // Store
-      StorageIO.writeCharacterStorage(characterStorage,character);
-      // Reload
-      characterStorage=StorageIO.loadCharacterStorage(character);
-
-      // Own bags
+      Set<String> toons=storage.getCharacters();
+      for(String toon : toons)
       {
-        Vault container=characterStorage.getBags();
-        List<StoredItem> storedItems=getAllItems(container);
-        show("Bags",storedItems);
-      }
-      // Own vault
-      {
-        Vault container=characterStorage.getOwnVault();
-        List<StoredItem> storedItems=getAllItems(container);
-        show("Vault",storedItems);
-      }
-      // Own wallet
-      {
-        Wallet ownWallet=characterStorage.getWallet();
-        List<StoredItem> storedItems=ownWallet.getAllItemsByName();
-        show("Wallet",storedItems);
-      }
-      if (showShared)
-      {
-        // Shared wallet
+        // Store/reload
+        CharacterStorage characterStorage=storage.getStorage(toon,false);
+        CharactersManager manager=CharactersManager.getInstance();
+        CharacterFile character=manager.getToonById(server,toon);
+        if (character==null)
         {
-          ItemsContainer container=storage.getSharedWallet();
-          List<StoredItem> storedItems=container.getAllItemsByName();
-          show("Shared wallet",storedItems);
+          System.out.println("Character not found: "+toon);
+          continue;
         }
-        // Shared vault
+        // Store
+        StorageIO.writeCharacterStorage(characterStorage,character);
+        // Reload
+        characterStorage=StorageIO.loadCharacterStorage(character);
+  
+        // Own bags
         {
-          Vault sharedVault=storage.getSharedVault();
-          List<StoredItem> storedItems=getAllItems(sharedVault);
-          show("Shared vault",storedItems);
+          Vault container=characterStorage.getBags();
+          List<StoredItem> storedItems=getAllItems(container);
+          show("Bags ("+toon+")",storedItems);
+        }
+        // Own vault
+        {
+          Vault container=characterStorage.getOwnVault();
+          List<StoredItem> storedItems=getAllItems(container);
+          show("Vault ("+toon+")",storedItems);
+        }
+        // Own wallet
+        {
+          Wallet ownWallet=characterStorage.getWallet();
+          List<StoredItem> storedItems=ownWallet.getAllItemsByName();
+          show("Wallet ("+toon+")",storedItems);
+        }
+        if (showShared)
+        {
+          // Shared wallet
+          {
+            ItemsContainer container=storage.getSharedWallet();
+            List<StoredItem> storedItems=container.getAllItemsByName();
+            show("Shared wallet",storedItems);
+          }
+          // Shared vault
+          {
+            Vault sharedVault=storage.getSharedVault();
+            List<StoredItem> storedItems=getAllItems(sharedVault);
+            show("Shared vault",storedItems);
+          }
+          showShared=false;
         }
       }
     }
