@@ -10,21 +10,18 @@ import javax.swing.JTable;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.DefaultWindowController;
-import delta.common.utils.collections.filters.Filter;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharactersManager;
 import delta.games.lotro.character.storage.AccountServerStorage;
 import delta.games.lotro.character.storage.CharacterStorage;
 import delta.games.lotro.character.storage.Chest;
 import delta.games.lotro.character.storage.ItemsContainer;
-import delta.games.lotro.character.storage.StoredItem;
 import delta.games.lotro.character.storage.Vault;
 import delta.games.lotro.character.storage.Wallet;
 import delta.games.lotro.character.storage.io.xml.StorageIO;
 import delta.games.lotro.gui.items.CountedItemsTableController;
 import delta.games.lotro.gui.items.chooser.ItemFilterConfiguration;
-import delta.games.lotro.gui.items.chooser.ItemFilterController;
-import delta.games.lotro.lore.items.Item;
+import delta.games.lotro.lore.items.CountedItem;
 import delta.games.lotro.plugins.StorageLoader;
 
 /**
@@ -63,19 +60,19 @@ public class MainTestShowCharacterStorage
         // Own bags
         {
           Vault container=characterStorage.getBags();
-          List<StoredItem> storedItems=getAllItems(container);
+          List<CountedItem> storedItems=getAllItems(container);
           show("Bags ("+toon+")",storedItems);
         }
         // Own vault
         {
           Vault container=characterStorage.getOwnVault();
-          List<StoredItem> storedItems=getAllItems(container);
+          List<CountedItem> storedItems=getAllItems(container);
           show("Vault ("+toon+")",storedItems);
         }
         // Own wallet
         {
           Wallet ownWallet=characterStorage.getWallet();
-          List<StoredItem> storedItems=ownWallet.getAllItemsByName();
+          List<CountedItem> storedItems=ownWallet.getAllItemsByName();
           show("Wallet ("+toon+")",storedItems);
         }
         if (showShared)
@@ -83,13 +80,13 @@ public class MainTestShowCharacterStorage
           // Shared wallet
           {
             ItemsContainer container=storage.getSharedWallet();
-            List<StoredItem> storedItems=container.getAllItemsByName();
+            List<CountedItem> storedItems=container.getAllItemsByName();
             show("Shared wallet",storedItems);
           }
           // Shared vault
           {
             Vault sharedVault=storage.getSharedVault();
-            List<StoredItem> storedItems=getAllItems(sharedVault);
+            List<CountedItem> storedItems=getAllItems(sharedVault);
             show("Shared vault",storedItems);
           }
           showShared=false;
@@ -98,13 +95,11 @@ public class MainTestShowCharacterStorage
     }
   }
 
-  private void show(String title, List<StoredItem> storedItems)
+  private void show(String title, List<CountedItem> storedItems)
   {
     ItemFilterConfiguration cfg=new ItemFilterConfiguration();
     cfg.forStashFilter();
-    ItemFilterController filterController=new ItemFilterController(cfg,null,null);
-    Filter<Item> filter=filterController.getFilter();
-    final CountedItemsTableController tableController=new CountedItemsTableController(null,storedItems,filter);
+    final CountedItemsTableController tableController=new CountedItemsTableController(null,storedItems,null);
     DefaultWindowController c=new DefaultWindowController()
     {
       @Override
@@ -121,9 +116,9 @@ public class MainTestShowCharacterStorage
     c.show();
   }
 
-  private List<StoredItem> getAllItems(Vault container)
+  private List<CountedItem> getAllItems(Vault container)
   {
-    List<StoredItem> items=new ArrayList<StoredItem>();
+    List<CountedItem> items=new ArrayList<CountedItem>();
     int chests=container.getChestCount();
     //int itemsCount=0;
     for(int i=0;i<chests;i++)
@@ -131,7 +126,7 @@ public class MainTestShowCharacterStorage
       Chest chest=container.getChest(i);
       if (chest!=null)
       {
-        List<StoredItem> chestItems=chest.getAllItemsByName();
+        List<CountedItem> chestItems=chest.getAllItemsByName();
         //itemsCount+=chestItems.size();
         items.addAll(chestItems);
       }

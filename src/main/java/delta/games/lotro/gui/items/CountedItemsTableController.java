@@ -3,6 +3,7 @@ package delta.games.lotro.gui.items;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.Icon;
 import javax.swing.JTable;
 
 import delta.common.ui.swing.tables.CellDataProvider;
@@ -15,6 +16,7 @@ import delta.common.ui.swing.tables.TableColumnController;
 import delta.common.ui.swing.tables.TableColumnsManager;
 import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.misc.TypedProperties;
+import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.items.chooser.ItemChoiceTableController;
 import delta.games.lotro.gui.items.chooser.ItemChoiceWindowController;
 import delta.games.lotro.lore.items.CountedItem;
@@ -114,9 +116,75 @@ public class CountedItemsTableController
   {
     List<TableColumnController<CountedItem,?>> ret=new ArrayList<TableColumnController<CountedItem,?>>();
 
+    // Icon column
+    {
+      CellDataProvider<CountedItem,Icon> iconCell=new CellDataProvider<CountedItem,Icon>()
+      {
+        @Override
+        public Icon getData(CountedItem countedItem)
+        {
+          Item item=countedItem.getItem();
+          if (item!=null)
+          {
+            return ItemUiTools.buildItemIcon(item);
+          }
+          String icon=countedItem.getIcon();
+          return LotroIconsManager.getItemIcon(icon);
+        }
+      };
+      DefaultTableColumnController<CountedItem,Icon> iconColumn=new DefaultTableColumnController<CountedItem,Icon>(ItemColumnIds.ICON.name(),"Icon",Icon.class,iconCell);
+      iconColumn.setWidthSpecs(50,50,50);
+      iconColumn.setSortable(false);
+      ret.add(iconColumn);
+    }
+    // ID column
+    {
+      CellDataProvider<CountedItem,Long> idCell=new CellDataProvider<CountedItem,Long>()
+      {
+        @Override
+        public Long getData(CountedItem countedItem)
+        {
+          Item item=countedItem.getItem();
+          if (item!=null)
+          {
+            return Long.valueOf(item.getIdentifier());
+          }
+          return Long.valueOf(countedItem.getId());
+        }
+      };
+      DefaultTableColumnController<CountedItem,Long> idColumn=new DefaultTableColumnController<CountedItem,Long>(ItemColumnIds.ID.name(),"ID",Long.class,idCell);
+      idColumn.setWidthSpecs(90,90,50);
+      ret.add(idColumn);
+    }
+    // Name column
+    {
+      CellDataProvider<CountedItem,String> nameCell=new CellDataProvider<CountedItem,String>()
+      {
+        @Override
+        public String getData(CountedItem countedItem)
+        {
+          Item item=countedItem.getItem();
+          if (item!=null)
+          {
+            return item.getName();
+          }
+          return "*** "+countedItem.getName();
+        }
+      };
+      DefaultTableColumnController<CountedItem,String> nameColumn=new DefaultTableColumnController<CountedItem,String>(ItemColumnIds.NAME.name(),"Name",String.class,nameCell);
+      nameColumn.setWidthSpecs(150,-1,150);
+      ret.add(nameColumn);
+    }
+
     List<DefaultTableColumnController<Item,?>> columns=ItemChoiceTableController.initColumns();
     for(TableColumnController<Item,?> column : columns)
     {
+      String id=column.getId();
+      // Ignore ID, icon and name
+      if ((ItemColumnIds.ID.equals(id)) || (ItemColumnIds.ICON.equals(id)) || (ItemColumnIds.NAME.equals(id)))
+      {
+        continue;
+      }
       CellDataProvider<CountedItem,Item> dataProvider=new CellDataProvider<CountedItem,Item>()
       {
         @Override
