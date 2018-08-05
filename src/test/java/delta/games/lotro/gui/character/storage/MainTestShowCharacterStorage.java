@@ -10,6 +10,8 @@ import javax.swing.JTable;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.DefaultWindowController;
+import delta.games.lotro.account.Account;
+import delta.games.lotro.account.AccountsManager;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharactersManager;
 import delta.games.lotro.character.storage.AccountServerStorage;
@@ -40,16 +42,16 @@ public class MainTestShowCharacterStorage
 {
   private void doIt()
   {
-    String account="glorfindel666";
+    String accountName="glorfindel666";
     String server="Landroval";
     //String toon="Meva";
     boolean showShared=true;
     StorageLoader loader=new StorageLoader();
-    AccountServerStorage storage=loader.loadStorage(account,server);
+    AccountServerStorage storage=loader.loadStorage(accountName,server);
     if (storage!=null)
     {
       List<StoredItem> allItems=new ArrayList<StoredItem>();
-      AccountOwner accountOwner=new AccountOwner(account);
+      AccountOwner accountOwner=new AccountOwner(accountName);
       AccountServerOwner accountServer=new AccountServerOwner(accountOwner,server);
       Set<String> toons=storage.getCharacters();
       for(String toon : toons)
@@ -98,21 +100,27 @@ public class MainTestShowCharacterStorage
         show("All ("+toon+")",allItemsForToon);
         if (showShared)
         {
+          // Store
+          Account account=AccountsManager.getInstance().getAccountByName(accountName);
+          StorageIO.writeAccountStorage(storage,account);
+          // Reload
+          Vault sharedVault=StorageIO.loadAccountSharedVault(account,server);
+          Wallet sharedWallet=StorageIO.loadAccountSharedWallet(account,server);
+
           // Shared wallet
           {
-            ItemsContainer container=storage.getSharedWallet();
             WalletLocation location=new WalletLocation();
-            List<StoredItem> storedItems=getAllItems(accountServer,location,container);
+            List<StoredItem> storedItems=getAllItems(accountServer,location,sharedWallet);
             allItems.addAll(storedItems);
             show("Shared wallet",storedItems);
           }
           // Shared vault
           {
-            Vault sharedVault=storage.getSharedVault();
             List<StoredItem> storedItems=getAllItems(accountServer,sharedVault,false);
             allItems.addAll(storedItems);
             show("Shared vault",storedItems);
           }
+
           showShared=false;
         }
       }
