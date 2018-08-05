@@ -40,7 +40,7 @@ public class MainTestShowCharacterStorage
 {
   private void doIt()
   {
-    String account="meva666";
+    String account="glorfindel666";
     String server="Landroval";
     //String toon="Meva";
     boolean showShared=true;
@@ -68,25 +68,30 @@ public class MainTestShowCharacterStorage
         // Reload
         characterStorage=StorageIO.loadCharacterStorage(character);
 
+        List<StoredItem> allItemsForToon=new ArrayList<StoredItem>();
         // Own bags
         {
           Vault container=characterStorage.getBags();
           List<StoredItem> storedItems=getAllItems(owner,container,true);
-          show("Bags ("+toon+")",storedItems);
+          allItemsForToon.addAll(storedItems);
+          //show("Bags ("+toon+")",storedItems);
         }
         // Own vault
         {
           Vault container=characterStorage.getOwnVault();
           List<StoredItem> storedItems=getAllItems(owner,container,false);
-          show("Vault ("+toon+")",storedItems);
+          allItemsForToon.addAll(storedItems);
+          //show("Vault ("+toon+")",storedItems);
         }
         // Own wallet
         {
           Wallet ownWallet=characterStorage.getWallet();
           WalletLocation location=new WalletLocation();
           List<StoredItem> storedItems=getAllItems(owner,location,ownWallet);
-          show("Wallet ("+toon+")",storedItems);
+          allItemsForToon.addAll(storedItems);
+          //show("Wallet ("+toon+")",storedItems);
         }
+        show("All ("+toon+")",allItemsForToon);
         if (showShared)
         {
           // Shared wallet
