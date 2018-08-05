@@ -36,6 +36,7 @@ import delta.games.lotro.character.events.CharacterEvent;
 import delta.games.lotro.character.events.CharacterEventType;
 import delta.games.lotro.character.stats.CharacterStatsComputer;
 import delta.games.lotro.gui.character.stash.StashWindowController;
+import delta.games.lotro.gui.character.storage.StorageDisplayWindowController;
 import delta.games.lotro.gui.log.CharacterLogWindowController;
 import delta.games.lotro.gui.stats.crafting.CraftingWindowController;
 import delta.games.lotro.gui.stats.deeds.DeedsStatusEditionWindowController;
@@ -68,6 +69,7 @@ public class CharacterFileWindowController extends DefaultWindowController imple
   private static final String TRAIT_POINTS_COMMAND="traitPoints";
   private static final String DEEDS_STATUS_COMMAND="deedsStatus";
   private static final String DEEDS_STATISTICS_COMMAND="deedsStatistics";
+  private static final String STORAGE_COMMAND="storage";
 
   private CharacterSummaryPanelController _summaryController;
   private CharacterDataTableController _toonsTable;
@@ -179,6 +181,10 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     JButton deedsStatisticsButton=buildCommandButton("Deeds Stats",DEEDS_STATISTICS_COMMAND);
     panel.add(deedsStatisticsButton,c);
     c.gridx++;
+    // Storage
+    JButton storageButton=buildCommandButton("Storage",STORAGE_COMMAND);
+    panel.add(storageButton,c);
+    c.gridx++;
 
     // Disable buttons if no log
     boolean hasLog=_toon.hasLog();
@@ -251,6 +257,10 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     else if (DEEDS_STATISTICS_COMMAND.equals(command))
     {
       showDeedsStatistics();
+    }
+    else if (STORAGE_COMMAND.equals(command))
+    {
+      showStorage();
     }
     else if (NEW_TOON_DATA_ID.equals(command))
     {
@@ -505,10 +515,22 @@ public class CharacterFileWindowController extends DefaultWindowController imple
 
   private void showDeedsStatistics()
   {
-    DeedStatisticsWindowController summaryController=(DeedStatisticsWindowController)_windowsManager.getWindow(DeedStatisticsWindowController.IDENTIFIER);
+    DeedStatisticsWindowController deedsStatistics=(DeedStatisticsWindowController)_windowsManager.getWindow(DeedStatisticsWindowController.IDENTIFIER);
+    if (deedsStatistics==null)
+    {
+      deedsStatistics=new DeedStatisticsWindowController(this,_toon);
+      _windowsManager.registerWindow(deedsStatistics);
+      deedsStatistics.getWindow().setLocationRelativeTo(getWindow());
+    }
+    deedsStatistics.bringToFront();
+  }
+
+  private void showStorage()
+  {
+    StorageDisplayWindowController summaryController=(StorageDisplayWindowController)_windowsManager.getWindow(StorageDisplayWindowController.IDENTIFIER);
     if (summaryController==null)
     {
-      summaryController=new DeedStatisticsWindowController(this,_toon);
+      summaryController=new StorageDisplayWindowController(this,_toon);
       _windowsManager.registerWindow(summaryController);
       summaryController.getWindow().setLocationRelativeTo(getWindow());
     }

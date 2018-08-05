@@ -28,7 +28,6 @@ import delta.games.lotro.character.storage.location.VaultLocation;
 import delta.games.lotro.character.storage.location.WalletLocation;
 import delta.games.lotro.common.owner.AccountOwner;
 import delta.games.lotro.common.owner.AccountServerOwner;
-import delta.games.lotro.common.owner.CharacterOwner;
 import delta.games.lotro.common.owner.Owner;
 import delta.games.lotro.gui.items.chooser.ItemFilterConfiguration;
 import delta.games.lotro.lore.items.CountedItem;
@@ -41,6 +40,11 @@ import delta.games.lotro.plugins.StorageLoader;
 public class MainTestShowCharacterStorage
 {
   private void doIt()
+  {
+    fetchStorageData();
+  }
+
+  private void fetchStorageData()
   {
     String accountName="glorfindel666";
     String server="Landroval";
@@ -56,7 +60,6 @@ public class MainTestShowCharacterStorage
       Set<String> toons=storage.getCharacters();
       for(String toon : toons)
       {
-        CharacterOwner owner=new CharacterOwner(accountServer,toon);
         // Store/reload
         CharacterStorage characterStorage=storage.getStorage(toon,false);
         CharactersManager manager=CharactersManager.getInstance();
@@ -68,36 +71,9 @@ public class MainTestShowCharacterStorage
         }
         // Store
         StorageIO.writeCharacterStorage(characterStorage,character);
-        // Reload
-        characterStorage=StorageIO.loadCharacterStorage(character);
+        StorageDisplayWindowController window=new StorageDisplayWindowController(null,character);
+        window.show();
 
-        List<StoredItem> allItemsForToon=new ArrayList<StoredItem>();
-        // Own bags
-        {
-          Vault container=characterStorage.getBags();
-          List<StoredItem> storedItems=getAllItems(owner,container,true);
-          allItemsForToon.addAll(storedItems);
-          allItems.addAll(storedItems);
-          //show("Bags ("+toon+")",storedItems);
-        }
-        // Own vault
-        {
-          Vault container=characterStorage.getOwnVault();
-          List<StoredItem> storedItems=getAllItems(owner,container,false);
-          allItemsForToon.addAll(storedItems);
-          allItems.addAll(storedItems);
-          //show("Vault ("+toon+")",storedItems);
-        }
-        // Own wallet
-        {
-          Wallet ownWallet=characterStorage.getWallet();
-          WalletLocation location=new WalletLocation();
-          List<StoredItem> storedItems=getAllItems(owner,location,ownWallet);
-          allItemsForToon.addAll(storedItems);
-          allItems.addAll(storedItems);
-          //show("Wallet ("+toon+")",storedItems);
-        }
-        show("All ("+toon+")",allItemsForToon);
         if (showShared)
         {
           // Store
