@@ -48,6 +48,7 @@ public class MainTestShowCharacterStorage
     AccountServerStorage storage=loader.loadStorage(account,server);
     if (storage!=null)
     {
+      List<StoredItem> allItems=new ArrayList<StoredItem>();
       AccountOwner accountOwner=new AccountOwner(account);
       AccountServerOwner accountServer=new AccountServerOwner(accountOwner,server);
       Set<String> toons=storage.getCharacters();
@@ -74,6 +75,7 @@ public class MainTestShowCharacterStorage
           Vault container=characterStorage.getBags();
           List<StoredItem> storedItems=getAllItems(owner,container,true);
           allItemsForToon.addAll(storedItems);
+          allItems.addAll(storedItems);
           //show("Bags ("+toon+")",storedItems);
         }
         // Own vault
@@ -81,6 +83,7 @@ public class MainTestShowCharacterStorage
           Vault container=characterStorage.getOwnVault();
           List<StoredItem> storedItems=getAllItems(owner,container,false);
           allItemsForToon.addAll(storedItems);
+          allItems.addAll(storedItems);
           //show("Vault ("+toon+")",storedItems);
         }
         // Own wallet
@@ -89,6 +92,7 @@ public class MainTestShowCharacterStorage
           WalletLocation location=new WalletLocation();
           List<StoredItem> storedItems=getAllItems(owner,location,ownWallet);
           allItemsForToon.addAll(storedItems);
+          allItems.addAll(storedItems);
           //show("Wallet ("+toon+")",storedItems);
         }
         show("All ("+toon+")",allItemsForToon);
@@ -99,17 +103,20 @@ public class MainTestShowCharacterStorage
             ItemsContainer container=storage.getSharedWallet();
             WalletLocation location=new WalletLocation();
             List<StoredItem> storedItems=getAllItems(accountServer,location,container);
+            allItems.addAll(storedItems);
             show("Shared wallet",storedItems);
           }
           // Shared vault
           {
             Vault sharedVault=storage.getSharedVault();
             List<StoredItem> storedItems=getAllItems(accountServer,sharedVault,false);
+            allItems.addAll(storedItems);
             show("Shared vault",storedItems);
           }
           showShared=false;
         }
       }
+      show("All",allItems);
     }
   }
 
