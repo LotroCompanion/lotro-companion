@@ -112,7 +112,11 @@ public class CountedItemsTableController
     return columnsIds;
   }
 
-  protected List<TableColumnController<CountedItem,?>> initColumns()
+  /**
+   * Build a list of all managed columns.
+   * @return A list of column controllers.
+   */
+  public static List<TableColumnController<CountedItem,?>> initColumns()
   {
     List<TableColumnController<CountedItem,?>> ret=new ArrayList<TableColumnController<CountedItem,?>>();
 
@@ -168,7 +172,7 @@ public class CountedItemsTableController
           {
             return item.getName();
           }
-          return "*** "+countedItem.getName();
+          return countedItem.getName();
         }
       };
       DefaultTableColumnController<CountedItem,String> nameColumn=new DefaultTableColumnController<CountedItem,String>(ItemColumnIds.NAME.name(),"Name",String.class,nameCell);

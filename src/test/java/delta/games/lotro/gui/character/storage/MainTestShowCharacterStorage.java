@@ -16,10 +16,18 @@ import delta.games.lotro.character.storage.AccountServerStorage;
 import delta.games.lotro.character.storage.CharacterStorage;
 import delta.games.lotro.character.storage.Chest;
 import delta.games.lotro.character.storage.ItemsContainer;
+import delta.games.lotro.character.storage.StoredItem;
 import delta.games.lotro.character.storage.Vault;
 import delta.games.lotro.character.storage.Wallet;
 import delta.games.lotro.character.storage.io.xml.StorageIO;
-import delta.games.lotro.gui.items.CountedItemsTableController;
+import delta.games.lotro.character.storage.location.BagLocation;
+import delta.games.lotro.character.storage.location.StorageLocation;
+import delta.games.lotro.character.storage.location.VaultLocation;
+import delta.games.lotro.character.storage.location.WalletLocation;
+import delta.games.lotro.common.owner.AccountOwner;
+import delta.games.lotro.common.owner.AccountServerOwner;
+import delta.games.lotro.common.owner.CharacterOwner;
+import delta.games.lotro.common.owner.Owner;
 import delta.games.lotro.gui.items.chooser.ItemFilterConfiguration;
 import delta.games.lotro.lore.items.CountedItem;
 import delta.games.lotro.plugins.StorageLoader;
@@ -32,7 +40,7 @@ public class MainTestShowCharacterStorage
 {
   private void doIt()
   {
-    String account="glorfindel666";
+    String account="meva666";
     String server="Landroval";
     //String toon="Meva";
     boolean showShared=true;
@@ -40,9 +48,12 @@ public class MainTestShowCharacterStorage
     AccountServerStorage storage=loader.loadStorage(account,server);
     if (storage!=null)
     {
+      AccountOwner accountOwner=new AccountOwner(account);
+      AccountServerOwner accountServer=new AccountServerOwner(accountOwner,server);
       Set<String> toons=storage.getCharacters();
       for(String toon : toons)
       {
+        CharacterOwner owner=new CharacterOwner(accountServer,toon);
         // Store/reload
         CharacterStorage characterStorage=storage.getStorage(toon,false);
         CharactersManager manager=CharactersManager.getInstance();
@@ -56,23 +67,24 @@ public class MainTestShowCharacterStorage
         StorageIO.writeCharacterStorage(characterStorage,character);
         // Reload
         characterStorage=StorageIO.loadCharacterStorage(character);
-  
+
         // Own bags
         {
           Vault container=characterStorage.getBags();
-          List<CountedItem> storedItems=getAllItems(container);
+          List<StoredItem> storedItems=getAllItems(owner,container,true);
           show("Bags ("+toon+")",storedItems);
         }
         // Own vault
         {
           Vault container=characterStorage.getOwnVault();
-          List<CountedItem> storedItems=getAllItems(container);
+          List<StoredItem> storedItems=getAllItems(owner,container,false);
           show("Vault ("+toon+")",storedItems);
         }
         // Own wallet
         {
           Wallet ownWallet=characterStorage.getWallet();
-          List<CountedItem> storedItems=ownWallet.getAllItemsByName();
+          WalletLocation location=new WalletLocation();
+          List<StoredItem> storedItems=getAllItems(owner,location,ownWallet);
           show("Wallet ("+toon+")",storedItems);
         }
         if (showShared)
@@ -80,13 +92,14 @@ public class MainTestShowCharacterStorage
           // Shared wallet
           {
             ItemsContainer container=storage.getSharedWallet();
-            List<CountedItem> storedItems=container.getAllItemsByName();
+            WalletLocation location=new WalletLocation();
+            List<StoredItem> storedItems=getAllItems(accountServer,location,container);
             show("Shared wallet",storedItems);
           }
           // Shared vault
           {
             Vault sharedVault=storage.getSharedVault();
-            List<CountedItem> storedItems=getAllItems(sharedVault);
+            List<StoredItem> storedItems=getAllItems(accountServer,sharedVault,false);
             show("Shared vault",storedItems);
           }
           showShared=false;
@@ -95,11 +108,11 @@ public class MainTestShowCharacterStorage
     }
   }
 
-  private void show(String title, List<CountedItem> storedItems)
+  private void show(String title, List<StoredItem> storedItems)
   {
     ItemFilterConfiguration cfg=new ItemFilterConfiguration();
     cfg.forStashFilter();
-    final CountedItemsTableController tableController=new CountedItemsTableController(null,storedItems,null);
+    final StoredItemsTableController tableController=new StoredItemsTableController(null,storedItems);
     DefaultWindowController c=new DefaultWindowController()
     {
       @Override
@@ -116,22 +129,40 @@ public class MainTestShowCharacterStorage
     c.show();
   }
 
-  private List<CountedItem> getAllItems(Vault container)
+  private List<StoredItem> getAllItems(Owner owner, Vault container, boolean isBag)
   {
-    List<CountedItem> items=new ArrayList<CountedItem>();
+    List<StoredItem> items=new ArrayList<StoredItem>();
     int chests=container.getChestCount();
-    //int itemsCount=0;
     for(int i=0;i<chests;i++)
     {
       Chest chest=container.getChest(i);
       if (chest!=null)
       {
+        String chestName=chest.getName();
+        StorageLocation location=isBag?new BagLocation(chestName):new VaultLocation(chestName);
         List<CountedItem> chestItems=chest.getAllItemsByName();
-        //itemsCount+=chestItems.size();
-        items.addAll(chestItems);
+        for(CountedItem chestItem : chestItems)
+        {
+          StoredItem storedItem=new StoredItem(chestItem.getProxy(),chestItem.getQuantity());
+          storedItem.setOwner(owner);
+          storedItem.setLocation(location);
+          items.add(storedItem);
+        }
       }
     }
-    //System.out.println(itemsCount);
+    return items;
+  }
+
+  private List<StoredItem> getAllItems(Owner owner, StorageLocation location, ItemsContainer container)
+  {
+    List<StoredItem> items=new ArrayList<StoredItem>();
+    for(CountedItem countedItem : container.getAllItemsByName())
+    {
+      StoredItem storedItem=new StoredItem(countedItem.getProxy(),countedItem.getQuantity());
+      storedItem.setOwner(owner);
+      storedItem.setLocation(location);
+      items.add(storedItem);
+    }
     return items;
   }
 
