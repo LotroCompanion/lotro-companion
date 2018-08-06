@@ -18,15 +18,16 @@ import delta.common.ui.swing.toolbar.ToolbarModel;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.account.Account;
 import delta.games.lotro.account.AccountsManager;
-import delta.games.lotro.character.events.CharacterEvent;
+import delta.games.lotro.account.events.AccountEvent;
+import delta.games.lotro.account.events.AccountEventType;
 import delta.games.lotro.utils.events.EventsManager;
 import delta.games.lotro.utils.events.GenericEventsListener;
 
 /**
- * Controller for the toons management panel.
+ * Controller for the accounts management panel.
  * @author DAM
  */
-public class AccountsManagementController implements ActionListener,GenericEventsListener<CharacterEvent>
+public class AccountsManagementController implements ActionListener,GenericEventsListener<AccountEvent>
 {
   private static final String NEW_ACCOUNT_ID="newAccount";
   private static final String REMOVE_ACCOUNT_ID="removeAccount";
@@ -34,7 +35,7 @@ public class AccountsManagementController implements ActionListener,GenericEvent
   private WindowController _parentController;
   private AccountsTableController _accountsTable;
   private ToolbarController _toolbar;
-  private NewAccountDialogController _newToonDialog;
+  private NewAccountDialogController _newAccountDialog;
 
   /**
    * Constructor.
@@ -54,7 +55,7 @@ public class AccountsManagementController implements ActionListener,GenericEvent
     if (_panel==null)
     {
       _panel=buildPanel();
-      EventsManager.addListener(CharacterEvent.class,this);
+      EventsManager.addListener(AccountEvent.class,this);
     }
     return _panel;
   }
@@ -65,7 +66,7 @@ public class AccountsManagementController implements ActionListener,GenericEvent
     _toolbar=buildToolBar();
     JToolBar toolbar=_toolbar.getToolBar();
     ret.add(toolbar,BorderLayout.NORTH);
-    _accountsTable=buildToonsTable();
+    _accountsTable=buildAccountsTable();
     JTable table=_accountsTable.getTable();
     JScrollPane scroll=GuiFactory.buildScrollPane(table);
     ret.add(scroll,BorderLayout.CENTER);
@@ -77,15 +78,13 @@ public class AccountsManagementController implements ActionListener,GenericEvent
    * @param event Source event.
    */
   @Override
-  public void eventOccurred(CharacterEvent event)
+  public void eventOccurred(AccountEvent event)
   {
-    // TODO
-    /*
-    if ((type==CharacterEventType.CHARACTER_ADDED) || (type==CharacterEventType.CHARACTER_REMOVED))
+    AccountEventType type=event.getType();
+    if ((type==AccountEventType.ACCOUNT_ADDED) || (type==AccountEventType.ACCOUNT_REMOVED))
     {
       _accountsTable.refresh();
     }
-    */
   }
 
   private String getToolbarIconPath(String iconName)
@@ -94,7 +93,7 @@ public class AccountsManagementController implements ActionListener,GenericEvent
     return imgLocation;
   }
 
-  private AccountsTableController buildToonsTable()
+  private AccountsTableController buildAccountsTable()
   {
     AccountsTableController tableController=new AccountsTableController();
     tableController.addActionListener(this);
@@ -142,17 +141,17 @@ public class AccountsManagementController implements ActionListener,GenericEvent
 
   private void showAccount(Account account)
   {
-    // TODO
+    System.out.println("Show account: "+account);
   }
 
   private void startNewAccount()
   {
-    if (_newToonDialog==null)
+    if (_newAccountDialog==null)
     {
-      _newToonDialog=new NewAccountDialogController(_parentController);
+      _newAccountDialog=new NewAccountDialogController(_parentController);
     }
-    _newToonDialog.getDialog().setLocationRelativeTo(getPanel());
-    _newToonDialog.show(true);
+    _newAccountDialog.getDialog().setLocationRelativeTo(getPanel());
+    _newAccountDialog.show(true);
   }
 
   private void deleteAccount()
@@ -177,7 +176,7 @@ public class AccountsManagementController implements ActionListener,GenericEvent
    */
   public void dispose()
   {
-    EventsManager.removeListener(CharacterEvent.class,this);
+    EventsManager.removeListener(AccountEvent.class,this);
     if (_accountsTable!=null)
     {
       _accountsTable.dispose();
@@ -188,10 +187,10 @@ public class AccountsManagementController implements ActionListener,GenericEvent
       _toolbar.dispose();
       _toolbar=null;
     }
-    if (_newToonDialog!=null)
+    if (_newAccountDialog!=null)
     {
-      _newToonDialog.dispose();
-      _newToonDialog=null;
+      _newAccountDialog.dispose();
+      _newAccountDialog=null;
     }
     if (_panel!=null)
     {
