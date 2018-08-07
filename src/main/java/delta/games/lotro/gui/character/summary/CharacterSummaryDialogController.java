@@ -28,6 +28,7 @@ public class CharacterSummaryDialogController extends DefaultFormDialogControlle
   // UI
   private JTextField _toonName;
   private ComboBoxController<String> _server;
+  private ComboBoxController<String> _account;
   private ComboBoxController<CharacterClass> _class;
   private ComboBoxController<Race> _race;
   private ComboBoxController<CharacterSex> _sex;
@@ -71,6 +72,8 @@ public class CharacterSummaryDialogController extends DefaultFormDialogControlle
     _toonName.setColumns(TOON_NAME_SIZE);
     // Server
     _server=CharacterUiUtils.buildServerCombo();
+    // Account
+    _account=CharacterUiUtils.buildAccountCombo();
     // Class
     _class=CharacterUiUtils.buildClassCombo(false);
     _class.getComboBox().setEnabled(false);
@@ -88,32 +91,36 @@ public class CharacterSummaryDialogController extends DefaultFormDialogControlle
     Insets insets=new Insets(5,5,5,5);
     GridBagConstraints gbc=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,insets,0,0);
     panel.add(GuiFactory.buildLabel("Name:"),gbc);
-    gbc.gridx=0; gbc.gridy=1;
+    gbc.gridx=0; gbc.gridy++;
     panel.add(GuiFactory.buildLabel("Server:"),gbc);
-    gbc.gridx=0; gbc.gridy=2;
+    gbc.gridx=0; gbc.gridy++;
+    panel.add(GuiFactory.buildLabel("Account:"),gbc);
+    gbc.gridx=0; gbc.gridy++;
     panel.add(GuiFactory.buildLabel("Race:"),gbc);
-    gbc.gridx=0; gbc.gridy=3;
+    gbc.gridx=0; gbc.gridy++;
     panel.add(GuiFactory.buildLabel("Class:"),gbc);
-    gbc.gridx=0; gbc.gridy=4;
+    gbc.gridx=0; gbc.gridy++;
     panel.add(GuiFactory.buildLabel("Sex:"),gbc);
-    gbc.gridx=0; gbc.gridy=5;
+    gbc.gridx=0; gbc.gridy++;
     panel.add(GuiFactory.buildLabel("Region:"),gbc);
-    gbc.gridx=0; gbc.gridy=6;
+    gbc.gridx=0; gbc.gridy++;
     panel.add(GuiFactory.buildLabel("Level:"),gbc);
     gbc.gridx=1; gbc.gridy=0;
     gbc.weightx=1.0; gbc.fill=GridBagConstraints.HORIZONTAL;
     panel.add(_toonName,gbc);
-    gbc.gridx=1; gbc.gridy=1;
+    gbc.gridx=1; gbc.gridy++;
     panel.add(_server.getComboBox(),gbc);
-    gbc.gridx=1; gbc.gridy=2;
+    gbc.gridx=1; gbc.gridy++;
+    panel.add(_account.getComboBox(),gbc);
+    gbc.gridx=1; gbc.gridy++;
     panel.add(_race.getComboBox(),gbc);
-    gbc.gridx=1; gbc.gridy=3;
+    gbc.gridx=1; gbc.gridy++;
     panel.add(_class.getComboBox(),gbc);
-    gbc.gridx=1; gbc.gridy=4;
+    gbc.gridx=1; gbc.gridy++;
     panel.add(_sex.getComboBox(),gbc);
-    gbc.gridx=1; gbc.gridy=5;
+    gbc.gridx=1; gbc.gridy++;
     panel.add(_region.getComboBoxController().getComboBox(),gbc);
-    gbc.gridx=1; gbc.gridy=6;
+    gbc.gridx=1; gbc.gridy++;
     panel.add(_level.getComboBox(),gbc);
     return panel;
   }
@@ -126,6 +133,9 @@ public class CharacterSummaryDialogController extends DefaultFormDialogControlle
     // Server
     String server=_data.getServer();
     _server.selectItem(server);
+    // Account
+    String account=_data.getAccountName();
+    _account.selectItem(account);
     // Class
     CharacterClass characterClass=_data.getCharacterClass();
     _class.selectItem(characterClass);
@@ -151,6 +161,8 @@ public class CharacterSummaryDialogController extends DefaultFormDialogControlle
     _data.setName(toonName);
     String server=_server.getSelectedItem();
     _data.setServer(server);
+    String accountName=_account.getSelectedItem();
+    _data.setAccountName(accountName);
     CharacterClass cClass=_class.getSelectedItem();
     _data.setCharacterClass(cClass);
     Race race=_race.getSelectedItem();
@@ -175,6 +187,11 @@ public class CharacterSummaryDialogController extends DefaultFormDialogControlle
     {
       _server.dispose();
       _server=null;
+    }
+    if (_account!=null)
+    {
+      _account.dispose();
+      _account=null;
     }
     if (_class!=null)
     {

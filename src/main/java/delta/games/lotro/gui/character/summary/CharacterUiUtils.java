@@ -1,11 +1,14 @@
 package delta.games.lotro.gui.character.summary;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.Config;
+import delta.games.lotro.account.Account;
+import delta.games.lotro.account.AccountsManager;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.CharacterSex;
 import delta.games.lotro.common.Race;
@@ -83,6 +86,29 @@ public class CharacterUiUtils
     TypedProperties props=Config.getInstance().getParameters();
     String defaultServer=props.getStringProperty("default.server",null);
     ctrl.selectItem(defaultServer);
+    return ctrl;
+  }
+
+  /**
+   * Build an account combobox.
+   * @return an account combobox.
+   */
+  public static ComboBoxController<String> buildAccountCombo()
+  {
+    List<Account> accounts=AccountsManager.getInstance().getAllAccounts();
+    List<String> accountNames=new ArrayList<String>();
+    for(Account account : accounts)
+    {
+      String accountName=account.getName();
+      accountNames.add(accountName);
+    }
+    Collections.sort(accountNames);
+    ComboBoxController<String> ctrl=new ComboBoxController<String>();
+    ctrl.addEmptyItem("");
+    for(String accountName : accountNames)
+    {
+      ctrl.addItem(accountName,accountName);
+    }
     return ctrl;
   }
 

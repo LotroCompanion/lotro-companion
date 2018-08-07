@@ -149,6 +149,21 @@ public class ToonsTableController
       serverColumn.setWidthSpecs(100,100,100);
       table.addColumnController(serverColumn);
     }
+    // Account column
+    {
+      CellDataProvider<CharacterFile,String> accountCell=new CellDataProvider<CharacterFile,String>()
+      {
+        @Override
+        public String getData(CharacterFile item)
+        {
+          CharacterSummary data=getDataForToon(item);
+          return data.getAccountName();
+        }
+      };
+      DefaultTableColumnController<CharacterFile,String> accountColumn=new DefaultTableColumnController<CharacterFile,String>("Account",String.class,accountCell);
+      accountColumn.setWidthSpecs(100,100,100);
+      table.addColumnController(accountColumn);
+    }
     // Last update time
     /*
     {

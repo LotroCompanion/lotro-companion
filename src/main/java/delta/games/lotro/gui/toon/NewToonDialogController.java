@@ -34,6 +34,7 @@ public class NewToonDialogController extends DefaultFormDialogController<Object>
   private static final int TOON_NAME_SIZE=32;
   private JTextField _toonName;
   private ComboBoxController<String> _server;
+  private ComboBoxController<String> _account;
   private CharacterClassController _class;
   private ComboBoxController<Race> _race;
   private ComboBoxController<CharacterSex> _sex;
@@ -79,6 +80,8 @@ public class NewToonDialogController extends DefaultFormDialogController<Object>
     {
       _server.selectItem(defaultServer);
     }
+    // Account
+    _account=CharacterUiUtils.buildAccountCombo();
     // Class
     _class=new CharacterClassController();
     // Race
@@ -98,24 +101,28 @@ public class NewToonDialogController extends DefaultFormDialogController<Object>
     Insets insets=new Insets(5,5,5,5);
     GridBagConstraints gbc=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,insets,0,0);
     panel.add(GuiFactory.buildLabel("Name:"),gbc);
-    gbc.gridx=0; gbc.gridy=1;
+    gbc.gridx=0; gbc.gridy++;
     panel.add(GuiFactory.buildLabel("Server:"),gbc);
-    gbc.gridx=0; gbc.gridy=2;
+    gbc.gridx=0; gbc.gridy++;
+    panel.add(GuiFactory.buildLabel("Account:"),gbc);
+    gbc.gridx=0; gbc.gridy++;
     panel.add(GuiFactory.buildLabel("Race:"),gbc);
-    gbc.gridx=0; gbc.gridy=3;
+    gbc.gridx=0; gbc.gridy++;
     panel.add(GuiFactory.buildLabel("Class:"),gbc);
-    gbc.gridx=0; gbc.gridy=4;
+    gbc.gridx=0; gbc.gridy++;
     panel.add(GuiFactory.buildLabel("Sex:"),gbc);
     gbc.gridx=1; gbc.gridy=0;
     gbc.weightx=1.0; gbc.fill=GridBagConstraints.HORIZONTAL;
     panel.add(_toonName,gbc);
-    gbc.gridx=1; gbc.gridy=1;
+    gbc.gridx=1; gbc.gridy++;
     panel.add(_server.getComboBox(),gbc);
-    gbc.gridx=1; gbc.gridy=2;
+    gbc.gridx=1; gbc.gridy++;
+    panel.add(_account.getComboBox(),gbc);
+    gbc.gridx=1; gbc.gridy++;
     panel.add(_race.getComboBox(),gbc);
-    gbc.gridx=1; gbc.gridy=3;
+    gbc.gridx=1; gbc.gridy++;
     panel.add(_class.getComboBoxController().getComboBox(),gbc);
-    gbc.gridx=1; gbc.gridy=4;
+    gbc.gridx=1; gbc.gridy++;
     panel.add(_sex.getComboBox(),gbc);
     return panel;
   }
@@ -125,12 +132,14 @@ public class NewToonDialogController extends DefaultFormDialogController<Object>
   {
     String toonName=_toonName.getText();
     String server=_server.getSelectedItem();
+    String account=_account.getSelectedItem();
     CharacterClass cClass=_class.getComboBoxController().getSelectedItem();
     Race race=_race.getSelectedItem();
     CharacterSex sex=_sex.getSelectedItem();
     CharacterData info=new CharacterData();
     info.setName(toonName);
     info.setServer(server);
+    info.setAccountName(account);
     info.setCharacterClass(cClass);
     info.setCharacterSex(sex);
     info.setRace(race);
@@ -194,6 +203,11 @@ public class NewToonDialogController extends DefaultFormDialogController<Object>
       _server.dispose();
       _server=null;
     }
+    if (_account!=null)
+    {
+      _account.dispose();
+      _account=null;
+    }
     if (_class!=null)
     {
       _class.dispose();
@@ -210,6 +224,5 @@ public class NewToonDialogController extends DefaultFormDialogController<Object>
       _sex=null;
     }
     _toonName=null;
-    _server=null;
   }
 }
