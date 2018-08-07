@@ -17,6 +17,7 @@ import javax.swing.border.TitledBorder;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.tables.TableColumnsChooserController;
 import delta.common.ui.swing.windows.WindowController;
+import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.storage.CharacterStorage;
 import delta.games.lotro.character.storage.Chest;
@@ -33,17 +34,20 @@ import delta.games.lotro.common.owner.AccountOwner;
 import delta.games.lotro.common.owner.AccountServerOwner;
 import delta.games.lotro.common.owner.CharacterOwner;
 import delta.games.lotro.common.owner.Owner;
+import delta.games.lotro.gui.items.FilterUpdateListener;
+import delta.games.lotro.gui.main.GlobalPreferences;
 import delta.games.lotro.lore.items.CountedItem;
 
 /**
  * Controller for the storage display panel.
  * @author DAM
  */
-public class StorageDisplayPanelController
+public class StorageDisplayPanelController implements FilterUpdateListener
 {
   // Data
   private CharacterFile _character;
   private List<StoredItem> _items;
+  private StorageFilter _filter;
   // GUI
   private JPanel _panel;
   private JLabel _statsLabel;
@@ -55,13 +59,18 @@ public class StorageDisplayPanelController
    * Constructor.
    * @param parent Parent window.
    * @param character Character to show.
+   * @param filter FIlter of stored items.
    */
-  public StorageDisplayPanelController(WindowController parent, CharacterFile character)
+  public StorageDisplayPanelController(WindowController parent, CharacterFile character, StorageFilter filter)
   {
     _parent=parent;
     _character=character;
+    _filter=filter;
     _items=new ArrayList<StoredItem>();
-    _tableController=new StoredItemsTableController(null,_items);
+    TypedProperties prefs=GlobalPreferences.getGlobalProperties("StorageDisplay");
+    _tableController=new StoredItemsTableController(prefs,_items,filter);
+    getPanel();
+    update();
   }
 
   /**
@@ -117,10 +126,28 @@ public class StorageDisplayPanelController
     _tableController.update();
   }
 
+  /**
+   * Update filter.
+   */
+  public void filterUpdated()
+  {
+    _tableController.updateFilter();
+    updateStatsLabel();
+  }
+
   private void updateStatsLabel()
   {
-    int nbItems=_items.size();
-    String label="Item(s): "+nbItems;
+    int nbFiltered=_tableController.getNbFilteredItems();
+    int nbItems=_tableController.getNbItems();
+    String label="";
+    if (nbFiltered==nbItems)
+    {
+      label="Item(s): "+nbItems;
+    }
+    else
+    {
+      label="Item(s): "+nbFiltered+"/"+nbItems;
+    }
     _statsLabel.setText(label);
   }
 
@@ -157,6 +184,7 @@ public class StorageDisplayPanelController
       List<StoredItem> storedItems=getAllItems(owner,location,ownWallet);
       _items.addAll(storedItems);
     }
+    _filter.getConfiguration().setItems(_items);
   }
 
   private List<StoredItem> getAllItems(Owner owner, Vault container, boolean isBag)

@@ -108,7 +108,7 @@ public class MainTestShowCharacterStorage
   {
     ItemFilterConfiguration cfg=new ItemFilterConfiguration();
     cfg.forStashFilter();
-    final StoredItemsTableController tableController=new StoredItemsTableController(null,storedItems);
+    final StoredItemsTableController tableController=new StoredItemsTableController(null,storedItems,null);
     DefaultWindowController c=new DefaultWindowController()
     {
       @Override

@@ -13,6 +13,7 @@ import delta.common.ui.swing.tables.ListDataProvider;
 import delta.common.ui.swing.tables.ProxiedTableColumnController;
 import delta.common.ui.swing.tables.TableColumnController;
 import delta.common.ui.swing.tables.TableColumnsManager;
+import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.character.storage.StoredItem;
 import delta.games.lotro.character.storage.location.StorageLocation;
@@ -48,12 +49,14 @@ public class StoredItemsTableController
    * Constructor.
    * @param prefs User preferences.
    * @param items Items to show.
+   * @param filter Managed filter.
    */
-  public StoredItemsTableController(TypedProperties prefs, List<? extends StoredItem> items)
+  public StoredItemsTableController(TypedProperties prefs, List<? extends StoredItem> items, Filter<StoredItem> filter)
   {
     _prefs=prefs;
     _items=items;
     _tableController=buildTable();
+    _tableController.setFilter(filter);
     configureTable();
   }
 
@@ -138,12 +141,12 @@ public class StoredItemsTableController
 
   protected List<String> getColumnsId()
   {
-    List<String> columnsIds;
+    List<String> columnsIds=null;
     if (_prefs!=null)
     {
       columnsIds=_prefs.getStringList(ItemChoiceWindowController.COLUMNS_PROPERTY);
     }
-    else
+    if (columnsIds==null)
     {
       columnsIds=getDefaultColumnIds();
     }

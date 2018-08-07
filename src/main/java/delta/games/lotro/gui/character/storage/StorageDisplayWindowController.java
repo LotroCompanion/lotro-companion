@@ -1,11 +1,16 @@
 package delta.games.lotro.gui.character.storage;
 
 import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
+import javax.swing.border.TitledBorder;
 
+import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.DefaultDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.CharacterFile;
@@ -29,6 +34,8 @@ public class StorageDisplayWindowController extends DefaultDialogController impl
   private CharacterFile _toon;
   // Controllers
   private StorageDisplayPanelController _panelController;
+  private StorageFilterController _filterController;
+  private StorageFilter _filter;
 
   /**
    * Constructor.
@@ -39,7 +46,7 @@ public class StorageDisplayWindowController extends DefaultDialogController impl
   {
     super(parent);
     _toon=toon;
-    _panelController=new StorageDisplayPanelController(this,toon);
+    _filter=new StorageFilter();
     updateContents();
     EventsManager.addListener(CharacterEvent.class,this);
   }
@@ -47,8 +54,20 @@ public class StorageDisplayWindowController extends DefaultDialogController impl
   @Override
   protected JComponent buildContents()
   {
-    JPanel summaryPanel=_panelController.getPanel();
-    return summaryPanel;
+    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
+    _panelController=new StorageDisplayPanelController(this,_toon,_filter);
+    JPanel tablePanel=_panelController.getPanel();
+    // Filter
+    _filterController=new StorageFilterController(_filter,_panelController);
+    JPanel filterPanel=_filterController.getPanel();
+    TitledBorder filterBorder=GuiFactory.buildTitledBorder("Filter");
+    filterPanel.setBorder(filterBorder);
+    // Whole panel
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    panel.add(filterPanel,c);
+    c.gridy=1;c.weighty=1;c.fill=GridBagConstraints.BOTH;
+    panel.add(tablePanel,c);
+    return panel;
   }
 
   @Override

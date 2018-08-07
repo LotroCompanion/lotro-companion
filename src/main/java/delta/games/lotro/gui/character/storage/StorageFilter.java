@@ -1,0 +1,113 @@
+package delta.games.lotro.gui.character.storage;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import delta.common.utils.collections.filters.CompoundFilter;
+import delta.common.utils.collections.filters.Filter;
+import delta.common.utils.collections.filters.Operator;
+import delta.games.lotro.character.storage.StoredItem;
+import delta.games.lotro.character.storage.filters.ProxyFilter;
+import delta.games.lotro.character.storage.filters.ProxyValueResolver;
+import delta.games.lotro.character.storage.filters.StoredItemLocationFilter;
+import delta.games.lotro.character.storage.filters.StoredItemNameFilter;
+import delta.games.lotro.character.storage.filters.StoredItemOwnerFilter;
+import delta.games.lotro.lore.items.Item;
+import delta.games.lotro.lore.items.filters.ItemQualityFilter;
+
+/**
+ * Storage filter.
+ * @author DAM
+ */
+public class StorageFilter implements Filter<StoredItem>
+{
+  // Data
+  private StorageFilterConfiguration _cfg;
+  private Filter<StoredItem> _filter;
+
+  private StoredItemNameFilter _nameFilter;
+  private StoredItemOwnerFilter _ownerFilter;
+  private StoredItemLocationFilter _locationFilter;
+  private ItemQualityFilter _qualityFilter;
+
+  /**
+   * Constructor.
+   */
+  public StorageFilter()
+  {
+    _cfg=new StorageFilterConfiguration();
+    List<Filter<StoredItem>> filters=new ArrayList<Filter<StoredItem>>();
+    // Name
+    _nameFilter=new StoredItemNameFilter();
+    filters.add(_nameFilter);
+    // Owner
+    _ownerFilter=new StoredItemOwnerFilter(null);
+    filters.add(_ownerFilter);
+    // Location
+    _locationFilter=new StoredItemLocationFilter(null);
+    filters.add(_locationFilter);
+    // Quality
+    _qualityFilter=new ItemQualityFilter(null);
+    ProxyValueResolver<StoredItem,Item> resolver=new ProxyValueResolver<StoredItem,Item>()
+    {
+      public Item getValue(StoredItem source)
+      {
+        return source.getItem();
+      }
+    };
+    ProxyFilter<StoredItem,Item> qualityFilter=new ProxyFilter<StoredItem,Item>(resolver,_qualityFilter);
+    filters.add(qualityFilter);
+    _filter=new CompoundFilter<StoredItem>(Operator.AND,filters);
+  }
+
+  /**
+   * Get the filter configuration.
+   * @return the filter configuration.
+   */
+  public StorageFilterConfiguration getConfiguration()
+  {
+    return _cfg;
+  }
+
+  /**
+   * Get the filter on item name.
+   * @return a stored item name filter.
+   */
+  public StoredItemNameFilter getNameFilter()
+  {
+    return _nameFilter;
+  }
+
+  /**
+   * Get the filter on owner.
+   * @return a stored item owner filter.
+   */
+  public StoredItemOwnerFilter getOwnerFilter()
+  {
+    return _ownerFilter;
+  }
+
+  /**
+   * Get the filter on location.
+   * @return a stored item location filter.
+   */
+  public StoredItemLocationFilter getLocationFilter()
+  {
+    return _locationFilter;
+  }
+
+  /**
+   * Get the filter on quality.
+   * @return A quality filter.
+   */
+  public ItemQualityFilter getQualityFilter()
+  {
+    return _qualityFilter;
+  }
+
+  @Override
+  public boolean accept(StoredItem item)
+  {
+    return _filter.accept(item);
+  }
+}
