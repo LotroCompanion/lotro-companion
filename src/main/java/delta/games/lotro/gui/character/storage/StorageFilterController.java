@@ -85,6 +85,21 @@ public class StorageFilterController implements ActionListener
   }
 
   /**
+   * Update the filter UI (for new items).
+   */
+  public void update()
+  {
+    // Owner
+    Owner owner=_owner.getSelectedItem();
+    updateOwnerCombobox(_owner);
+    _owner.selectItem(owner);
+    // Location
+    StorageLocation location=_location.getSelectedItem();
+    updateLocationCombobox(_location);
+    _location.selectItem(location);
+  }
+
+  /**
    * Invoked when the managed filter has been updated.
    */
   protected void filterUpdated()
@@ -245,27 +260,39 @@ public class StorageFilterController implements ActionListener
   private ComboBoxController<Owner> buildOwnerCombobox()
   {
     ComboBoxController<Owner> ctrl=new ComboBoxController<Owner>();
+    updateOwnerCombobox(ctrl);
+    ctrl.selectItem(null);
+    return ctrl;
+  }
+
+  private void updateOwnerCombobox(ComboBoxController<Owner> ctrl)
+  {
+    ctrl.removeAllItems();
     ctrl.addEmptyItem("");
     List<Owner> owners=_filter.getConfiguration().getOwners();
     for(Owner owner : owners)
     {
       ctrl.addItem(owner,owner.getLabel());
     }
-    ctrl.selectItem(null);
-    return ctrl;
   }
 
   private ComboBoxController<StorageLocation> buildLocationCombobox()
   {
     ComboBoxController<StorageLocation> ctrl=new ComboBoxController<StorageLocation>();
+    updateLocationCombobox(ctrl);
+    ctrl.selectItem(null);
+    return ctrl;
+  }
+
+  private void updateLocationCombobox(ComboBoxController<StorageLocation> ctrl)
+  {
+    ctrl.removeAllItems();
     ctrl.addEmptyItem("");
     List<StorageLocation> locations=_filter.getConfiguration().getLocations();
     for(StorageLocation location : locations)
     {
       ctrl.addItem(location,location.getLabel());
     }
-    ctrl.selectItem(null);
-    return ctrl;
   }
 
   /**

@@ -25,7 +25,6 @@ import delta.games.lotro.character.storage.ItemsContainer;
 import delta.games.lotro.character.storage.StoredItem;
 import delta.games.lotro.character.storage.Vault;
 import delta.games.lotro.character.storage.Wallet;
-import delta.games.lotro.character.storage.io.xml.StorageIO;
 import delta.games.lotro.character.storage.location.BagLocation;
 import delta.games.lotro.character.storage.location.StorageLocation;
 import delta.games.lotro.character.storage.location.VaultLocation;
@@ -70,7 +69,6 @@ public class StorageDisplayPanelController implements FilterUpdateListener
     TypedProperties prefs=GlobalPreferences.getGlobalProperties("StorageDisplay");
     _tableController=new StoredItemsTableController(prefs,_items,filter);
     getPanel();
-    update();
   }
 
   /**
@@ -118,10 +116,11 @@ public class StorageDisplayPanelController implements FilterUpdateListener
 
   /**
    * Update display.
+   * @param characterStorage Storage to show.
    */
-  public void update()
+  public void update(CharacterStorage characterStorage)
   {
-    loadStorage();
+    updateStorage(characterStorage);
     updateStatsLabel();
     _tableController.update();
   }
@@ -151,12 +150,9 @@ public class StorageDisplayPanelController implements FilterUpdateListener
     _statsLabel.setText(label);
   }
 
-  private void loadStorage()
+  private void updateStorage(CharacterStorage characterStorage)
   {
     _items.clear();
-
-    // Load
-    CharacterStorage characterStorage=StorageIO.loadCharacterStorage(_character);
 
     // Build owner
     AccountOwner accountOwner=new AccountOwner("???");

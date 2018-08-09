@@ -4,7 +4,10 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
@@ -16,6 +19,9 @@ import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.events.CharacterEvent;
 import delta.games.lotro.character.events.CharacterEventType;
+import delta.games.lotro.character.storage.CharacterStorage;
+import delta.games.lotro.character.storage.io.xml.StorageIO;
+import delta.games.lotro.plugins.updates.StorageUpdater;
 import delta.games.lotro.utils.events.EventsManager;
 import delta.games.lotro.utils.events.GenericEventsListener;
 
@@ -33,6 +39,7 @@ public class StorageDisplayWindowController extends DefaultDialogController impl
   // Data
   private CharacterFile _toon;
   // Controllers
+  private StorageSummaryPanelController _summaryController;
   private StorageDisplayPanelController _panelController;
   private StorageFilterController _filterController;
   private StorageFilter _filter;
@@ -55,7 +62,22 @@ public class StorageDisplayWindowController extends DefaultDialogController impl
   protected JComponent buildContents()
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
+    // Summary
+    _summaryController=new StorageSummaryPanelController();
+    // Display
     _panelController=new StorageDisplayPanelController(this,_toon,_filter);
+    // Update button
+    JButton button=GuiFactory.buildButton("Update");
+    ActionListener al=new ActionListener()
+    {
+      @Override
+      public void actionPerformed(ActionEvent e)
+      {
+        StorageUpdater.updateCharacterStorage(_toon);
+      }
+    };
+    button.addActionListener(al);
+    // Table
     JPanel tablePanel=_panelController.getPanel();
     // Filter
     _filterController=new StorageFilterController(_filter,_panelController);
@@ -63,9 +85,13 @@ public class StorageDisplayWindowController extends DefaultDialogController impl
     TitledBorder filterBorder=GuiFactory.buildTitledBorder("Filter");
     filterPanel.setBorder(filterBorder);
     // Whole panel
-    GridBagConstraints c=new GridBagConstraints(0,0,1,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    panel.add(_summaryController.getPanel(),c);
+    c=new GridBagConstraints(1,0,1,1,0,0,GridBagConstraints.SOUTHEAST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
+    panel.add(button,c);
+    c=new GridBagConstraints(0,1,2,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(filterPanel,c);
-    c.gridy=1;c.weighty=1;c.fill=GridBagConstraints.BOTH;
+    c.gridy++;c.weighty=1;c.fill=GridBagConstraints.BOTH;
     panel.add(tablePanel,c);
     return panel;
   }
@@ -114,8 +140,11 @@ public class StorageDisplayWindowController extends DefaultDialogController impl
     String serverName=_toon.getServerName();
     String title="Storage for "+name+" @ "+serverName;
     getDialog().setTitle(title);
-    // Update status
-    _panelController.update();
+    // Update storage
+    CharacterStorage characterStorage=StorageIO.loadCharacterStorage(_toon);
+    _summaryController.update(characterStorage);
+    _panelController.update(characterStorage);
+    _filterController.update();
   }
 
   /**
