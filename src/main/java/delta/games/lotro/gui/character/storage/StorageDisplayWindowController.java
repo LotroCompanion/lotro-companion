@@ -6,6 +6,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -20,6 +21,7 @@ import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.events.CharacterEvent;
 import delta.games.lotro.character.events.CharacterEventType;
 import delta.games.lotro.character.storage.CharacterStorage;
+import delta.games.lotro.character.storage.StoredItem;
 import delta.games.lotro.character.storage.io.xml.StorageIO;
 import delta.games.lotro.plugins.updates.StorageUpdater;
 import delta.games.lotro.utils.events.EventsManager;
@@ -65,7 +67,7 @@ public class StorageDisplayWindowController extends DefaultDialogController impl
     // Summary
     _summaryController=new StorageSummaryPanelController();
     // Display
-    _panelController=new StorageDisplayPanelController(this,_toon,_filter);
+    _panelController=new StorageDisplayPanelController(this,_filter);
     // Update button
     JButton button=GuiFactory.buildButton("Update");
     ActionListener al=new ActionListener()
@@ -143,7 +145,8 @@ public class StorageDisplayWindowController extends DefaultDialogController impl
     // Update storage
     CharacterStorage characterStorage=StorageIO.loadCharacterStorage(_toon);
     _summaryController.update(characterStorage);
-    _panelController.update(characterStorage);
+    List<StoredItem> items=StorageUtils.buildCharacterItems(_toon,characterStorage);
+    _panelController.update(items);
     _filterController.update();
   }
 

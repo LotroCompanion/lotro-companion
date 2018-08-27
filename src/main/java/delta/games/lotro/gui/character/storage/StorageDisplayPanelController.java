@@ -18,24 +18,9 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.tables.TableColumnsChooserController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.misc.TypedProperties;
-import delta.games.lotro.character.CharacterFile;
-import delta.games.lotro.character.storage.CharacterStorage;
-import delta.games.lotro.character.storage.Chest;
-import delta.games.lotro.character.storage.ItemsContainer;
 import delta.games.lotro.character.storage.StoredItem;
-import delta.games.lotro.character.storage.Vault;
-import delta.games.lotro.character.storage.Wallet;
-import delta.games.lotro.character.storage.location.BagLocation;
-import delta.games.lotro.character.storage.location.StorageLocation;
-import delta.games.lotro.character.storage.location.VaultLocation;
-import delta.games.lotro.character.storage.location.WalletLocation;
-import delta.games.lotro.common.owner.AccountOwner;
-import delta.games.lotro.common.owner.AccountServerOwner;
-import delta.games.lotro.common.owner.CharacterOwner;
-import delta.games.lotro.common.owner.Owner;
 import delta.games.lotro.gui.items.FilterUpdateListener;
 import delta.games.lotro.gui.main.GlobalPreferences;
-import delta.games.lotro.lore.items.CountedItem;
 
 /**
  * Controller for the storage display panel.
@@ -44,7 +29,6 @@ import delta.games.lotro.lore.items.CountedItem;
 public class StorageDisplayPanelController implements FilterUpdateListener
 {
   // Data
-  private CharacterFile _character;
   private List<StoredItem> _items;
   private StorageFilter _filter;
   // GUI
@@ -57,13 +41,11 @@ public class StorageDisplayPanelController implements FilterUpdateListener
   /**
    * Constructor.
    * @param parent Parent window.
-   * @param character Character to show.
    * @param filter FIlter of stored items.
    */
-  public StorageDisplayPanelController(WindowController parent, CharacterFile character, StorageFilter filter)
+  public StorageDisplayPanelController(WindowController parent, StorageFilter filter)
   {
     _parent=parent;
-    _character=character;
     _filter=filter;
     _items=new ArrayList<StoredItem>();
     TypedProperties prefs=GlobalPreferences.getGlobalProperties("StorageDisplay");
@@ -116,11 +98,11 @@ public class StorageDisplayPanelController implements FilterUpdateListener
 
   /**
    * Update display.
-   * @param characterStorage Storage to show.
+   * @param items Items to show.
    */
-  public void update(CharacterStorage characterStorage)
+  public void update(List<StoredItem> items)
   {
-    updateStorage(characterStorage);
+    updateStorage(items);
     updateStatsLabel();
     _tableController.update();
   }
@@ -150,74 +132,11 @@ public class StorageDisplayPanelController implements FilterUpdateListener
     _statsLabel.setText(label);
   }
 
-  private void updateStorage(CharacterStorage characterStorage)
+  private void updateStorage(List<StoredItem> items)
   {
     _items.clear();
-
-    // Build owner
-    AccountOwner accountOwner=new AccountOwner("???");
-    String server=_character.getServerName();
-    AccountServerOwner accountServer=new AccountServerOwner(accountOwner,server);
-    String characterName=_character.getName();
-    CharacterOwner owner=new CharacterOwner(accountServer,characterName);
-
-    // Own bags
-    {
-      Vault container=characterStorage.getBags();
-      List<StoredItem> storedItems=getAllItems(owner,container,true);
-      _items.addAll(storedItems);
-    }
-    // Own vault
-    {
-      Vault container=characterStorage.getOwnVault();
-      List<StoredItem> storedItems=getAllItems(owner,container,false);
-      _items.addAll(storedItems);
-    }
-    // Own wallet
-    {
-      Wallet ownWallet=characterStorage.getWallet();
-      WalletLocation location=new WalletLocation();
-      List<StoredItem> storedItems=getAllItems(owner,location,ownWallet);
-      _items.addAll(storedItems);
-    }
+    _items.addAll(items);
     _filter.getConfiguration().setItems(_items);
-  }
-
-  private List<StoredItem> getAllItems(Owner owner, Vault container, boolean isBag)
-  {
-    List<StoredItem> items=new ArrayList<StoredItem>();
-    int chests=container.getChestCount();
-    for(int i=0;i<chests;i++)
-    {
-      Chest chest=container.getChest(i);
-      if (chest!=null)
-      {
-        String chestName=chest.getName();
-        StorageLocation location=isBag?new BagLocation(chestName):new VaultLocation(chestName);
-        List<CountedItem> chestItems=chest.getAllItemsByName();
-        for(CountedItem chestItem : chestItems)
-        {
-          StoredItem storedItem=new StoredItem(chestItem.getProxy(),chestItem.getQuantity());
-          storedItem.setOwner(owner);
-          storedItem.setLocation(location);
-          items.add(storedItem);
-        }
-      }
-    }
-    return items;
-  }
-
-  private List<StoredItem> getAllItems(Owner owner, StorageLocation location, ItemsContainer container)
-  {
-    List<StoredItem> items=new ArrayList<StoredItem>();
-    for(CountedItem countedItem : container.getAllItemsByName())
-    {
-      StoredItem storedItem=new StoredItem(countedItem.getProxy(),countedItem.getQuantity());
-      storedItem.setOwner(owner);
-      storedItem.setLocation(location);
-      items.add(storedItem);
-    }
-    return items;
   }
 
   /**
@@ -226,7 +145,6 @@ public class StorageDisplayPanelController implements FilterUpdateListener
   public void dispose()
   {
     // Data
-    _character=null;
     _items=null;
     // GUI
     if (_panel!=null)
