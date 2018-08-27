@@ -3,6 +3,9 @@ package delta.games.lotro.gui.character.storage;
 import java.util.ArrayList;
 import java.util.List;
 
+import delta.games.lotro.account.Account;
+import delta.games.lotro.account.AccountUtils;
+import delta.games.lotro.account.AccountsManager;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.storage.CharacterStorage;
 import delta.games.lotro.character.storage.Chest;
@@ -10,6 +13,7 @@ import delta.games.lotro.character.storage.ItemsContainer;
 import delta.games.lotro.character.storage.StoredItem;
 import delta.games.lotro.character.storage.Vault;
 import delta.games.lotro.character.storage.Wallet;
+import delta.games.lotro.character.storage.io.xml.StorageIO;
 import delta.games.lotro.character.storage.location.BagLocation;
 import delta.games.lotro.character.storage.location.StorageLocation;
 import delta.games.lotro.character.storage.location.VaultLocation;
@@ -60,6 +64,74 @@ public class StorageUtils
       WalletLocation location=new WalletLocation();
       List<StoredItem> storedItems=getAllItems(owner,location,ownWallet);
       items.addAll(storedItems);
+    }
+    return items;
+  }
+
+  /**
+   * Build account/server items.
+   * @param accountName Targeted account.
+   * @param serverName Targeted server.
+   * @return A list of stored items.
+   */
+  public static List<StoredItem> buildAccountItems(String accountName, String serverName)
+  {
+    List<StoredItem> items=new ArrayList<StoredItem>();
+
+    AccountOwner accountOwner=new AccountOwner(accountName);
+    AccountServerOwner accountServer=new AccountServerOwner(accountOwner,serverName);
+
+    // Characters
+    List<CharacterFile> characters=AccountUtils.getCharacters(accountName,serverName);
+    for(CharacterFile character : characters)
+    {
+      // Build owner
+      String characterName=character.getName();
+      CharacterOwner owner=new CharacterOwner(accountServer,characterName);
+  
+      CharacterStorage characterStorage=StorageIO.loadCharacterStorage(character);
+      if (characterStorage!=null)
+      {
+        // Own bags
+        {
+          Vault container=characterStorage.getBags();
+          List<StoredItem> storedItems=getAllItems(owner,container,true);
+          items.addAll(storedItems);
+        }
+        // Own vault
+        {
+          Vault container=characterStorage.getOwnVault();
+          List<StoredItem> storedItems=getAllItems(owner,container,false);
+          items.addAll(storedItems);
+        }
+        // Own wallet
+        {
+          Wallet ownWallet=characterStorage.getWallet();
+          WalletLocation location=new WalletLocation();
+          List<StoredItem> storedItems=getAllItems(owner,location,ownWallet);
+          items.addAll(storedItems);
+        }
+      }
+    }
+    // Account/server storage
+    Account account=AccountsManager.getInstance().getAccountByName(accountName);
+    if (account!=null)
+    {
+      // Shared vault
+      Vault sharedVault=StorageIO.loadAccountSharedVault(account,serverName);
+      if (sharedVault!=null)
+      {
+        List<StoredItem> storedItems=getAllItems(accountServer,sharedVault,false);
+        items.addAll(storedItems);
+      }
+      // Shared wallet
+      Wallet sharedWallet=StorageIO.loadAccountSharedWallet(account,serverName);
+      if (sharedWallet!=null)
+      {
+        WalletLocation location=new WalletLocation();
+        List<StoredItem> storedItems=getAllItems(accountServer,location,sharedWallet);
+        items.addAll(storedItems);
+      }
     }
     return items;
   }
