@@ -35,7 +35,7 @@ import delta.games.lotro.utils.events.EventsManager;
 import delta.games.lotro.utils.events.GenericEventsListener;
 
 /**
- * Controller for a "character storage" window.
+ * Controller for an "account/server storage" window.
  * @author DAM
  */
 public class AccountStorageDisplayWindowController extends DefaultDialogController implements GenericEventsListener<CharacterEvent>
@@ -43,7 +43,7 @@ public class AccountStorageDisplayWindowController extends DefaultDialogControll
   /**
    * Window identifier.
    */
-  public static final String IDENTIFIER="CHARACTER_STORAGE";
+  public static final String IDENTIFIER="ACCOUNT_STORAGE";
 
   // Data
   private Account _account;

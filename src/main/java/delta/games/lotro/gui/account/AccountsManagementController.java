@@ -16,6 +16,7 @@ import delta.common.ui.swing.toolbar.ToolbarController;
 import delta.common.ui.swing.toolbar.ToolbarIconItem;
 import delta.common.ui.swing.toolbar.ToolbarModel;
 import delta.common.ui.swing.windows.WindowController;
+import delta.common.ui.swing.windows.WindowsManager;
 import delta.games.lotro.account.Account;
 import delta.games.lotro.account.AccountsManager;
 import delta.games.lotro.account.events.AccountEvent;
@@ -36,6 +37,7 @@ public class AccountsManagementController implements ActionListener,GenericEvent
   private AccountsTableController _accountsTable;
   private ToolbarController _toolbar;
   private NewAccountDialogController _newAccountDialog;
+  private WindowsManager _mainWindowsManager;
 
   /**
    * Constructor.
@@ -44,6 +46,7 @@ public class AccountsManagementController implements ActionListener,GenericEvent
   public AccountsManagementController(WindowController parentController)
   {
     _parentController=parentController;
+    _mainWindowsManager=new WindowsManager();
   }
 
   /**
@@ -74,7 +77,7 @@ public class AccountsManagementController implements ActionListener,GenericEvent
   }
 
   /**
-   * Handle character events.
+   * Handle account events.
    * @param event Source event.
    */
   @Override
@@ -141,7 +144,16 @@ public class AccountsManagementController implements ActionListener,GenericEvent
 
   private void showAccount(Account account)
   {
-    System.out.println("Show account: "+account);
+    String accountName=account.getName();
+    String id=AccountWindowController.getIdentifier(accountName);
+    WindowController controller=_mainWindowsManager.getWindow(id);
+    if (controller==null)
+    {
+      controller=new AccountWindowController(account);
+      _mainWindowsManager.registerWindow(controller);
+      controller.getWindow().setLocationRelativeTo(getPanel());
+    }
+    controller.bringToFront();
   }
 
   private void startNewAccount()
@@ -165,6 +177,12 @@ public class AccountsManagementController implements ActionListener,GenericEvent
       int result=GuiFactory.showQuestionDialog(_parentController.getWindow(),"Do you really want to delete account " + accountName + "?","Delete?",JOptionPane.YES_NO_OPTION);
       if (result==JOptionPane.OK_OPTION)
       {
+        String id=AccountWindowController.getIdentifier(accountName);
+        WindowController windowController=_mainWindowsManager.getWindow(id);
+        if (windowController!=null)
+        {
+          windowController.dispose();
+        }
         AccountsManager manager=AccountsManager.getInstance();
         manager.removeAccount(account);
       }
@@ -176,6 +194,11 @@ public class AccountsManagementController implements ActionListener,GenericEvent
    */
   public void dispose()
   {
+    if (_mainWindowsManager!=null)
+    {
+      _mainWindowsManager.disposeAll();
+      _mainWindowsManager=null;
+    }
     EventsManager.removeListener(AccountEvent.class,this);
     if (_accountsTable!=null)
     {
