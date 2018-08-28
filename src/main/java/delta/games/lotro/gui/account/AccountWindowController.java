@@ -1,11 +1,13 @@
 package delta.games.lotro.gui.account;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -18,6 +20,8 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.DefaultWindowController;
 import delta.common.ui.swing.windows.WindowsManager;
 import delta.games.lotro.account.Account;
+import delta.games.lotro.account.AccountUtils;
+import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.gui.character.storage.AccountStorageDisplayWindowController;
 import delta.games.lotro.gui.toon.ToonsTableController;
 
@@ -28,6 +32,7 @@ import delta.games.lotro.gui.toon.ToonsTableController;
 public class AccountWindowController extends DefaultWindowController implements ActionListener
 {
   private static final String STORAGE_COMMAND="storage";
+  private static final String SERVER="Landroval";
 
   private AccountSummaryPanelController _summaryController;
   private ToonsTableController _toonsTable;
@@ -85,7 +90,8 @@ public class AccountWindowController extends DefaultWindowController implements 
     String name=_account.getName();
     String title="Account: "+name;
     frame.setTitle(title);
-    frame.pack();
+    frame.setMinimumSize(new Dimension(400,200));
+    frame.setSize(800,350);
     frame.setResizable(true);
     return frame;
   }
@@ -145,6 +151,8 @@ public class AccountWindowController extends DefaultWindowController implements 
   private ToonsTableController buildToonsTable()
   {
     ToonsTableController tableController=new ToonsTableController();
+    List<CharacterFile> characters=AccountUtils.getCharacters(_account.getName(),SERVER);
+    tableController.setToons(characters);
     return tableController;
   }
 
@@ -153,7 +161,7 @@ public class AccountWindowController extends DefaultWindowController implements 
     AccountStorageDisplayWindowController summaryController=(AccountStorageDisplayWindowController)_windowsManager.getWindow(AccountStorageDisplayWindowController.IDENTIFIER);
     if (summaryController==null)
     {
-      summaryController=new AccountStorageDisplayWindowController(this,_account,"Landroval");
+      summaryController=new AccountStorageDisplayWindowController(this,_account,SERVER);
       _windowsManager.registerWindow(summaryController);
       summaryController.getWindow().setLocationRelativeTo(getWindow());
     }

@@ -5,6 +5,7 @@ import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.List;
 
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -78,6 +79,7 @@ public class ToonsManagementController implements ActionListener,GenericEventsLi
     JToolBar toolbar=_toolbar.getToolBar();
     ret.add(toolbar,BorderLayout.NORTH);
     _toonsTable=buildToonsTable();
+    refreshTable();
     JTable table=_toonsTable.getTable();
     JScrollPane scroll=GuiFactory.buildScrollPane(table);
     ret.add(scroll,BorderLayout.CENTER);
@@ -94,13 +96,16 @@ public class ToonsManagementController implements ActionListener,GenericEventsLi
     CharacterEventType type=event.getType();
     if ((type==CharacterEventType.CHARACTER_ADDED) || (type==CharacterEventType.CHARACTER_REMOVED))
     {
-      _toonsTable.refresh();
+      // Refresh toons table.
+      refreshTable();
     }
-    else if (type==CharacterEventType.CHARACTER_SUMMARY_UPDATED)
-    {
-      CharacterFile toon=event.getToonFile();
-      _toonsTable.refresh(toon);
-    }
+  }
+
+  private void refreshTable()
+  {
+    CharactersManager manager=CharactersManager.getInstance();
+    List<CharacterFile> toons=manager.getAllToons();
+    _toonsTable.setToons(toons);
   }
 
   private String getToolbarIconPath(String iconName)

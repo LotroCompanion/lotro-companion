@@ -7,21 +7,24 @@ import java.util.List;
 import javax.swing.JTable;
 
 import delta.common.ui.swing.tables.CellDataProvider;
+import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.ListDataProvider;
-import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharacterSummary;
-import delta.games.lotro.character.CharactersManager;
+import delta.games.lotro.character.events.CharacterEvent;
+import delta.games.lotro.character.events.CharacterEventType;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.CharacterSex;
 import delta.games.lotro.common.Race;
+import delta.games.lotro.utils.events.EventsManager;
+import delta.games.lotro.utils.events.GenericEventsListener;
 
 /**
  * Controller for a table that shows all available toons.
  * @author DAM
  */
-public class ToonsTableController
+public class ToonsTableController implements GenericEventsListener<CharacterEvent>
 {
   // Data
   private List<CharacterFile> _toons;
@@ -35,8 +38,8 @@ public class ToonsTableController
   public ToonsTableController()
   {
     _toons=new ArrayList<CharacterFile>();
-    init();
     _tableController=buildTable();
+    EventsManager.addListener(CharacterEvent.class,this);
   }
 
   private GenericTableController<CharacterFile> buildTable()
@@ -194,56 +197,45 @@ public class ToonsTableController
 
   private CharacterSummary getDataForToon(CharacterFile toon)
   {
-    return toon.getSummary();
-  }
-
-  private void reset()
-  {
-    _toons.clear();
-  }
-
-  /**
-   * Refresh toons table.
-   */
-  public void refresh()
-  {
-    init();
-    if (_table!=null)
+    CharacterSummary summary=toon.getSummary();
+    if (summary==null)
     {
-      _tableController.refresh();
+      summary=new CharacterSummary();
     }
+    return summary;
   }
 
   /**
-   * Refresh toons table.
-   * @param toon Toon to refresh.
+   * Handle character events.
+   * @param event Source event.
    */
-  public void refresh(CharacterFile toon)
+  @Override
+  public void eventOccurred(CharacterEvent event)
   {
-    if (_table!=null)
+    CharacterEventType type=event.getType();
+    if (type==CharacterEventType.CHARACTER_SUMMARY_UPDATED)
     {
+      CharacterFile toon=event.getToonFile();
       _tableController.refresh(toon);
     }
   }
 
-  private void init()
+  /**
+   * Set the characters to show.
+   * @param toons List of characters to show.
+   */
+  public void setToons(List<CharacterFile> toons)
   {
-    reset();
-    CharactersManager manager=CharactersManager.getInstance();
-    List<CharacterFile> toons=manager.getAllToons();
+    _toons.clear();
     for(CharacterFile toon : toons)
     {
-      loadToon(toon);
+      CharacterSummary summary=toon.getSummary();
+      if (summary!=null)
+      {
+        _toons.add(toon);
+      }
     }
-  }
-
-  private void loadToon(CharacterFile toon)
-  {
-    CharacterSummary summary=toon.getSummary();
-    if (summary!=null)
-    {
-      _toons.add(toon);
-    }
+    _tableController.refresh();
   }
 
   /**
@@ -282,11 +274,10 @@ public class ToonsTableController
    */
   public void dispose()
   {
+    // Listeners
+    EventsManager.removeListener(CharacterEvent.class,this);
     // GUI
-    if (_table!=null)
-    {
-      _table=null;
-    }
+    _table=null;
     if (_tableController!=null)
     {
       _tableController.dispose();
