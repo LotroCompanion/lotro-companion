@@ -36,7 +36,7 @@ import delta.games.lotro.character.events.CharacterEvent;
 import delta.games.lotro.character.events.CharacterEventType;
 import delta.games.lotro.character.stats.CharacterStatsComputer;
 import delta.games.lotro.gui.character.stash.StashWindowController;
-import delta.games.lotro.gui.character.storage.StorageDisplayWindowController;
+import delta.games.lotro.gui.character.storage.CharacterStorageDisplayWindowController;
 import delta.games.lotro.gui.log.CharacterLogWindowController;
 import delta.games.lotro.gui.stats.crafting.CraftingWindowController;
 import delta.games.lotro.gui.stats.deeds.DeedsStatusEditionWindowController;
@@ -527,10 +527,10 @@ public class CharacterFileWindowController extends DefaultWindowController imple
 
   private void showStorage()
   {
-    StorageDisplayWindowController summaryController=(StorageDisplayWindowController)_windowsManager.getWindow(StorageDisplayWindowController.IDENTIFIER);
+    CharacterStorageDisplayWindowController summaryController=(CharacterStorageDisplayWindowController)_windowsManager.getWindow(CharacterStorageDisplayWindowController.IDENTIFIER);
     if (summaryController==null)
     {
-      summaryController=new StorageDisplayWindowController(this,_toon);
+      summaryController=new CharacterStorageDisplayWindowController(this,_toon);
       _windowsManager.registerWindow(summaryController);
       summaryController.getWindow().setLocationRelativeTo(getWindow());
     }

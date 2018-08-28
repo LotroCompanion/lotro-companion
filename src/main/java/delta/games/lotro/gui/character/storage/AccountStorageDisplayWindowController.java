@@ -17,47 +17,77 @@ import javax.swing.border.TitledBorder;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.DefaultDialogController;
 import delta.common.ui.swing.windows.WindowController;
+import delta.games.lotro.account.Account;
+import delta.games.lotro.account.AccountUtils;
+import delta.games.lotro.account.events.AccountEvent;
+import delta.games.lotro.account.events.AccountEventType;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.events.CharacterEvent;
 import delta.games.lotro.character.events.CharacterEventType;
+import delta.games.lotro.character.storage.AccountServerStorage;
 import delta.games.lotro.character.storage.CharacterStorage;
 import delta.games.lotro.character.storage.StoredItem;
+import delta.games.lotro.character.storage.Vault;
+import delta.games.lotro.character.storage.Wallet;
 import delta.games.lotro.character.storage.io.xml.StorageIO;
 import delta.games.lotro.plugins.updates.StorageUpdater;
 import delta.games.lotro.utils.events.EventsManager;
 import delta.games.lotro.utils.events.GenericEventsListener;
 
 /**
- * Controller for a "storage" window.
+ * Controller for a "character storage" window.
  * @author DAM
  */
-public class StorageDisplayWindowController extends DefaultDialogController implements GenericEventsListener<CharacterEvent>
+public class AccountStorageDisplayWindowController extends DefaultDialogController implements GenericEventsListener<CharacterEvent>
 {
   /**
    * Window identifier.
    */
-  public static final String IDENTIFIER="STORAGE";
+  public static final String IDENTIFIER="CHARACTER_STORAGE";
 
   // Data
-  private CharacterFile _toon;
+  private Account _account;
+  private String _serverName;
+  private List<CharacterFile> _characters;
+  private StorageFilter _filter;
   // Controllers
-  private StorageSummaryPanelController _summaryController;
+  private AccountStorageSummaryPanelController _summaryController;
   private StorageDisplayPanelController _panelController;
   private StorageFilterController _filterController;
-  private StorageFilter _filter;
+  // Listeners
+  private GenericEventsListener<AccountEvent> _accountEventsListener;
 
   /**
    * Constructor.
    * @param parent Parent controller.
-   * @param toon Character file.
+   * @param account Account to use.
+   * @param server Server to use.
    */
-  public StorageDisplayWindowController(WindowController parent, CharacterFile toon)
+  public AccountStorageDisplayWindowController(WindowController parent, Account account, String server)
   {
     super(parent);
-    _toon=toon;
+    _account=account;
+    _serverName=server;
+    _characters=AccountUtils.getCharacters(account.getName(),server);
     _filter=new StorageFilter();
     updateContents();
     EventsManager.addListener(CharacterEvent.class,this);
+    _accountEventsListener=new GenericEventsListener<AccountEvent>()
+    {
+      @Override
+      public void eventOccurred(AccountEvent event)
+      {
+        AccountEventType type=event.getType();
+        if (type==AccountEventType.STORAGE_UPDATED)
+        {
+          if (event.getAccount()==_account)
+          {
+            updateContents();
+          }
+        }
+      }
+    };
+    EventsManager.addListener(AccountEvent.class,_accountEventsListener);
   }
 
   @Override
@@ -65,7 +95,7 @@ public class StorageDisplayWindowController extends DefaultDialogController impl
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     // Summary
-    _summaryController=new StorageSummaryPanelController();
+    _summaryController=new AccountStorageSummaryPanelController();
     // Display
     _panelController=new StorageDisplayPanelController(this,_filter);
     // Update button
@@ -75,7 +105,7 @@ public class StorageDisplayWindowController extends DefaultDialogController impl
       @Override
       public void actionPerformed(ActionEvent e)
       {
-        StorageUpdater.updateCharacterStorage(_toon);
+        StorageUpdater.updateAccountServerStorage(_account,_serverName);
       }
     };
     button.addActionListener(al);
@@ -102,8 +132,8 @@ public class StorageDisplayWindowController extends DefaultDialogController impl
   protected JDialog build()
   {
     JDialog dialog=super.build();
-    dialog.setMinimumSize(new Dimension(400,300));
-    dialog.setSize(700,700);
+    dialog.setMinimumSize(new Dimension(700,350));
+    dialog.setSize(750,700);
     dialog.setResizable(true);
     return dialog;
   }
@@ -125,7 +155,7 @@ public class StorageDisplayWindowController extends DefaultDialogController impl
     if (type==CharacterEventType.CHARACTER_STORAGE_UPDATED)
     {
       CharacterFile toon=event.getToonFile();
-      if (toon==_toon)
+      if (_characters.contains(toon))
       {
         updateContents();
       }
@@ -138,14 +168,22 @@ public class StorageDisplayWindowController extends DefaultDialogController impl
   private void updateContents()
   {
     // Title
-    String name=_toon.getName();
-    String serverName=_toon.getServerName();
-    String title="Storage for "+name+" @ "+serverName;
+    String name=_account.getName();
+    String title="Storage for account "+name+" @ "+_serverName;
     getDialog().setTitle(title);
     // Update storage
-    CharacterStorage characterStorage=StorageIO.loadCharacterStorage(_toon);
-    _summaryController.update(characterStorage);
-    List<StoredItem> items=StorageUtils.buildCharacterItems(_toon,characterStorage);
+    AccountServerStorage storage=new AccountServerStorage(_account.getName(),_serverName);
+    Vault sharedVault=StorageIO.loadAccountSharedVault(_account,_serverName);
+    storage.setSharedVault(sharedVault);
+    Wallet sharedWallet=StorageIO.loadAccountSharedWallet(_account,_serverName);
+    storage.setSharedWallet(sharedWallet);
+    for(CharacterFile character : _characters)
+    {
+      CharacterStorage characterStorage=StorageIO.loadCharacterStorage(character);
+      storage.addStorage(character.getName(),characterStorage);
+    }
+    _summaryController.update(storage);
+    List<StoredItem> items=StorageUtils.buildAccountItems(_account,_serverName);
     _panelController.update(items);
     _filterController.update();
   }
@@ -156,14 +194,30 @@ public class StorageDisplayWindowController extends DefaultDialogController impl
   @Override
   public void dispose()
   {
+    // Listeners
     EventsManager.removeListener(CharacterEvent.class,this);
+    EventsManager.removeListener(AccountEvent.class,_accountEventsListener);
+    _accountEventsListener=null;
     // Data
-    _toon=null;
+    _account=null;
+    _serverName=null;
+    _characters=null;
+    _filter=null;
     // Controllers
+    if (_summaryController!=null)
+    {
+      _summaryController.dispose();
+      _summaryController=null;
+    }
     if (_panelController!=null)
     {
       _panelController.dispose();
       _panelController=null;
+    }
+    if (_filterController!=null)
+    {
+      _filterController.dispose();
+      _filterController=null;
     }
     super.dispose();
   }

@@ -5,7 +5,6 @@ import java.util.List;
 
 import delta.games.lotro.account.Account;
 import delta.games.lotro.account.AccountUtils;
-import delta.games.lotro.account.AccountsManager;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.storage.CharacterStorage;
 import delta.games.lotro.character.storage.Chest;
@@ -70,14 +69,15 @@ public class StorageUtils
 
   /**
    * Build account/server items.
-   * @param accountName Targeted account.
+   * @param account Targeted account.
    * @param serverName Targeted server.
    * @return A list of stored items.
    */
-  public static List<StoredItem> buildAccountItems(String accountName, String serverName)
+  public static List<StoredItem> buildAccountItems(Account account, String serverName)
   {
     List<StoredItem> items=new ArrayList<StoredItem>();
 
+    String accountName=account.getName();
     AccountOwner accountOwner=new AccountOwner(accountName);
     AccountServerOwner accountServer=new AccountServerOwner(accountOwner,serverName);
 
@@ -114,7 +114,6 @@ public class StorageUtils
       }
     }
     // Account/server storage
-    Account account=AccountsManager.getInstance().getAccountByName(accountName);
     if (account!=null)
     {
       // Shared vault
