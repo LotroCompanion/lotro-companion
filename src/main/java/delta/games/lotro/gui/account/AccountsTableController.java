@@ -2,23 +2,31 @@ package delta.games.lotro.gui.account;
 
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.JTable;
 
 import delta.common.ui.swing.tables.CellDataProvider;
-import delta.common.ui.swing.tables.GenericTableController;
-import delta.common.ui.swing.tables.ListDataProvider;
 import delta.common.ui.swing.tables.DefaultTableColumnController;
+import delta.common.ui.swing.tables.GenericTableController;
+import delta.common.ui.swing.tables.GenericTableController.DateRenderer;
+import delta.common.ui.swing.tables.ListDataProvider;
 import delta.games.lotro.account.Account;
 import delta.games.lotro.account.AccountSummary;
+import delta.games.lotro.account.AccountType;
 import delta.games.lotro.account.AccountsManager;
+import delta.games.lotro.account.events.AccountEvent;
+import delta.games.lotro.account.events.AccountEventType;
+import delta.games.lotro.utils.Formats;
+import delta.games.lotro.utils.events.EventsManager;
+import delta.games.lotro.utils.events.GenericEventsListener;
 
 /**
  * Controller for a table that shows all available accounts.
  * @author DAM
  */
-public class AccountsTableController
+public class AccountsTableController implements GenericEventsListener<AccountEvent>
 {
   /**
    * Double-click action command.
@@ -38,6 +46,7 @@ public class AccountsTableController
     _accounts=new ArrayList<Account>();
     init();
     _tableController=buildTable();
+    EventsManager.addListener(AccountEvent.class,this);
   }
 
   private GenericTableController<Account> buildTable()
@@ -52,13 +61,45 @@ public class AccountsTableController
         @Override
         public String getData(Account item)
         {
-          AccountSummary data=getDataForAccount(item);
+          AccountSummary data=item.getSummary();
           return data.getName();
         }
       };
       DefaultTableColumnController<Account,String> nameColumn=new DefaultTableColumnController<Account,String>("Name",String.class,nameCell);
       nameColumn.setWidthSpecs(100,100,100);
       table.addColumnController(nameColumn);
+    }
+    // Signup date
+    {
+      CellDataProvider<Account,Date> signupDateCell=new CellDataProvider<Account,Date>()
+      {
+        @Override
+        public Date getData(Account item)
+        {
+          AccountSummary data=item.getSummary();
+          Long signupDate=data.getSignupDate();
+          return (signupDate!=null)?new Date(signupDate.longValue()):null;
+        }
+      };
+      DefaultTableColumnController<Account,Date> signupDateColumn=new DefaultTableColumnController<Account,Date>("Signup Date",Date.class,signupDateCell);
+      signupDateColumn.setWidthSpecs(120,120,120);
+      signupDateColumn.setCellRenderer(new DateRenderer(Formats.DATE_PATTERN));
+      table.addColumnController(signupDateColumn);
+    }
+    // Account type
+    {
+      CellDataProvider<Account,AccountType> accountTypeCell=new CellDataProvider<Account,AccountType>()
+      {
+        @Override
+        public AccountType getData(Account item)
+        {
+          AccountSummary data=item.getSummary();
+          return data.getAccountType();
+        }
+      };
+      DefaultTableColumnController<Account,AccountType> accountTypeColumn=new DefaultTableColumnController<Account,AccountType>("Type",AccountType.class,accountTypeCell);
+      accountTypeColumn.setWidthSpecs(100,100,100);
+      table.addColumnController(accountTypeColumn);
     }
     return table;
   }
@@ -70,11 +111,6 @@ public class AccountsTableController
   public GenericTableController<Account> getTableController()
   {
     return _tableController;
-  }
-
-  private AccountSummary getDataForAccount(Account account)
-  {
-    return account.getSummary();
   }
 
   private void reset()
@@ -95,13 +131,16 @@ public class AccountsTableController
   }
 
   /**
-   * Refresh accounts table.
-   * @param account Account to refresh.
+   * Handle character events.
+   * @param event Source event.
    */
-  public void refresh(Account account)
+  @Override
+  public void eventOccurred(AccountEvent event)
   {
-    if (_table!=null)
+    AccountEventType type=event.getType();
+    if (type==AccountEventType.ACCOUNT_SUMMARY_UPDATED)
     {
+      Account account=event.getAccount();
       _tableController.refresh(account);
     }
   }
@@ -162,6 +201,7 @@ public class AccountsTableController
    */
   public void dispose()
   {
+    EventsManager.removeListener(AccountEvent.class,this);
     // GUI
     if (_table!=null)
     {
