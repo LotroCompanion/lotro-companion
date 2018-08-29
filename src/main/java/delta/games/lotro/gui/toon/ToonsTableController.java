@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JTable;
+import javax.swing.RowSorter;
+import javax.swing.SortOrder;
+import javax.swing.table.TableModel;
 
 import delta.common.ui.swing.tables.CellDataProvider;
 import delta.common.ui.swing.tables.DefaultTableColumnController;
@@ -247,6 +250,11 @@ public class ToonsTableController implements GenericEventsListener<CharacterEven
     if (_table==null)
     {
       _table=_tableController.getTable();
+      RowSorter<? extends TableModel> sorter=_table.getRowSorter();
+      List<RowSorter.SortKey> sortKeys = new ArrayList<>();
+      sortKeys.add(new RowSorter.SortKey(0, SortOrder.ASCENDING));
+      sortKeys.add(new RowSorter.SortKey(6, SortOrder.ASCENDING));
+      sorter.setSortKeys(sortKeys);
     }
     return _table;
   }
