@@ -5,14 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JTable;
-import javax.swing.RowSorter;
-import javax.swing.SortOrder;
-import javax.swing.table.TableModel;
 
 import delta.common.ui.swing.tables.CellDataProvider;
 import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.ListDataProvider;
+import delta.common.ui.swing.tables.Sort;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharacterSummary;
 import delta.games.lotro.character.events.CharacterEvent;
@@ -29,6 +27,9 @@ import delta.games.lotro.utils.events.GenericEventsListener;
  */
 public class ToonsTableController implements GenericEventsListener<CharacterEvent>
 {
+  private static final String NAME="NAME";
+  private static final String SERVER="SERVER";
+
   // Data
   private List<CharacterFile> _toons;
   // GUI
@@ -61,7 +62,7 @@ public class ToonsTableController implements GenericEventsListener<CharacterEven
           return data.getName();
         }
       };
-      DefaultTableColumnController<CharacterFile,String> nameColumn=new DefaultTableColumnController<CharacterFile,String>("Name",String.class,nameCell);
+      DefaultTableColumnController<CharacterFile,String> nameColumn=new DefaultTableColumnController<CharacterFile,String>(NAME,"Name",String.class,nameCell);
       nameColumn.setWidthSpecs(100,100,100);
       table.addColumnController(nameColumn);
     }
@@ -151,7 +152,7 @@ public class ToonsTableController implements GenericEventsListener<CharacterEven
           return data.getServer();
         }
       };
-      DefaultTableColumnController<CharacterFile,String> serverColumn=new DefaultTableColumnController<CharacterFile,String>("Server",String.class,serverCell);
+      DefaultTableColumnController<CharacterFile,String> serverColumn=new DefaultTableColumnController<CharacterFile,String>(SERVER,"Server",String.class,serverCell);
       serverColumn.setWidthSpecs(100,100,100);
       table.addColumnController(serverColumn);
     }
@@ -186,6 +187,8 @@ public class ToonsTableController implements GenericEventsListener<CharacterEven
       table.addColumnController(lastUpdateColumn);
     }
     */
+    String sort=Sort.SORT_ASCENDING+NAME+Sort.SORT_ITEM_SEPARATOR+Sort.SORT_ASCENDING+SERVER;
+    table.setSort(Sort.buildFromString(sort));
     return table;
   }
 
@@ -250,11 +253,6 @@ public class ToonsTableController implements GenericEventsListener<CharacterEven
     if (_table==null)
     {
       _table=_tableController.getTable();
-      RowSorter<? extends TableModel> sorter=_table.getRowSorter();
-      List<RowSorter.SortKey> sortKeys = new ArrayList<>();
-      sortKeys.add(new RowSorter.SortKey(0, SortOrder.ASCENDING));
-      sortKeys.add(new RowSorter.SortKey(6, SortOrder.ASCENDING));
-      sorter.setSortKeys(sortKeys);
     }
     return _table;
   }

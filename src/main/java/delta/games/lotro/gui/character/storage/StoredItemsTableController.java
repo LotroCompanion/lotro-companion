@@ -11,6 +11,7 @@ import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.ListDataProvider;
 import delta.common.ui.swing.tables.ProxiedTableColumnController;
+import delta.common.ui.swing.tables.Sort;
 import delta.common.ui.swing.tables.TableColumnController;
 import delta.common.ui.swing.tables.TableColumnsManager;
 import delta.common.utils.collections.filters.Filter;
@@ -71,6 +72,7 @@ public class StoredItemsTableController
 
   private GenericTableController<StoredItem> buildTable()
   {
+    // Build table
     DataProvider<StoredItem> provider=new ListDataProvider<StoredItem>(_items);
     GenericTableController<StoredItem> table=new GenericTableController<StoredItem>(provider);
     List<TableColumnController<StoredItem,?>> columns=initColumns();
@@ -81,6 +83,10 @@ public class StoredItemsTableController
     }
     List<String> columnsIds=getColumnsId();
     columnsManager.setColumns(columnsIds);
+
+    // Sort
+    String sort=Sort.SORT_ASCENDING+ItemColumnIds.NAME+Sort.SORT_ITEM_SEPARATOR+Sort.SORT_ASCENDING+OWNER_COLUMN;
+    table.setSort(Sort.buildFromString(sort));
     return table;
   }
 
