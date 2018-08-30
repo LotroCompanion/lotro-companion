@@ -1,6 +1,7 @@
 package delta.games.lotro.gui.character.storage;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -8,6 +9,7 @@ import java.util.Set;
 import delta.games.lotro.character.storage.StoredItem;
 import delta.games.lotro.character.storage.location.StorageLocation;
 import delta.games.lotro.common.owner.Owner;
+import delta.games.lotro.common.owner.comparators.OwnerComparator;
 
 /**
  * Configuration of the storage filter.
@@ -57,7 +59,7 @@ public class StorageFilterConfiguration
   {
     List<Owner> owners=new ArrayList<Owner>();
     owners.addAll(_owners);
-    // TODO Sort
+    Collections.sort(owners,new OwnerComparator());
     return owners;
   }
 
