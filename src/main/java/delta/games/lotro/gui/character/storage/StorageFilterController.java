@@ -24,6 +24,8 @@ import delta.games.lotro.character.storage.filters.StoredItemLocationFilter;
 import delta.games.lotro.character.storage.filters.StoredItemNameFilter;
 import delta.games.lotro.character.storage.filters.StoredItemOwnerFilter;
 import delta.games.lotro.character.storage.location.StorageLocation;
+import delta.games.lotro.common.owner.AccountServerOwner;
+import delta.games.lotro.common.owner.CharacterOwner;
 import delta.games.lotro.common.owner.Owner;
 import delta.games.lotro.gui.items.FilterUpdateListener;
 import delta.games.lotro.gui.items.ItemUiTools;
@@ -272,8 +274,22 @@ public class StorageFilterController implements ActionListener
     List<Owner> owners=_filter.getConfiguration().getOwners();
     for(Owner owner : owners)
     {
-      ctrl.addItem(owner,owner.getLabel());
+      ctrl.addItem(owner,getLabelForOwner(owner));
     }
+  }
+
+  private String getLabelForOwner(Owner owner)
+  {
+    if (owner instanceof AccountServerOwner)
+    {
+      return "Account";
+    }
+    if (owner instanceof CharacterOwner)
+    {
+      return ((CharacterOwner)owner).getCharacterName();
+    }
+    // Default case (not used)
+    return owner.getLabel();
   }
 
   private ComboBoxController<StorageLocation> buildLocationCombobox()
