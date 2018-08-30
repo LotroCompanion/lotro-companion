@@ -19,6 +19,7 @@ import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.character.storage.StoredItem;
 import delta.games.lotro.character.storage.location.StorageLocation;
 import delta.games.lotro.common.owner.Owner;
+import delta.games.lotro.common.owner.comparators.OwnerComparator;
 import delta.games.lotro.gui.items.CountedItemsTableController;
 import delta.games.lotro.gui.items.ItemColumnIds;
 import delta.games.lotro.gui.items.chooser.ItemChoiceWindowController;
@@ -126,6 +127,7 @@ public class StoredItemsTableController
       };
       DefaultTableColumnController<StoredItem,Owner> ownerColumn=new DefaultTableColumnController<StoredItem,Owner>(OWNER_COLUMN,"Owner",Owner.class,ownerCell);
       ownerColumn.setWidthSpecs(150,-1,150);
+      ownerColumn.setComparator(new OwnerComparator());
       ret.add(ownerColumn);
     }
     // Location column
