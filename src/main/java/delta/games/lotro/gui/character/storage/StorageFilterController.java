@@ -278,7 +278,12 @@ public class StorageFilterController implements ActionListener
     }
   }
 
-  private String getLabelForOwner(Owner owner)
+  /**
+   * Get a simple label for a owner.
+   * @param owner Owner to use.
+   * @return A displayable string.
+   */
+  public static String getLabelForOwner(Owner owner)
   {
     if (owner instanceof AccountServerOwner)
     {

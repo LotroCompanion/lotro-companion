@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 
 import delta.common.ui.swing.tables.CellDataProvider;
 import delta.common.ui.swing.tables.DataProvider;
@@ -128,6 +129,7 @@ public class StoredItemsTableController
       DefaultTableColumnController<StoredItem,Owner> ownerColumn=new DefaultTableColumnController<StoredItem,Owner>(OWNER_COLUMN,"Owner",Owner.class,ownerCell);
       ownerColumn.setWidthSpecs(150,-1,150);
       ownerColumn.setComparator(new OwnerComparator());
+      ownerColumn.setCellRenderer(new OwnerRenderer());
       ret.add(ownerColumn);
     }
     // Location column
@@ -242,5 +244,19 @@ public class StoredItemsTableController
     }
     // Data
     _items=null;
+  }
+
+  /**
+   * Owner renderer.
+   * @author DAM
+   */
+  public static class OwnerRenderer extends DefaultTableCellRenderer
+  {
+    @Override
+    public void setValue(Object value)
+    {
+      String text=StorageFilterController.getLabelForOwner((Owner)value);
+      setText(text);
+    }
   }
 }
