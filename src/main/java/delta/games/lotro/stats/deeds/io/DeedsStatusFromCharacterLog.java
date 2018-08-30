@@ -14,7 +14,6 @@ import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.log.CharacterLog;
 import delta.games.lotro.character.log.CharacterLogItem;
 import delta.games.lotro.character.log.CharacterLogItem.LogItemType;
-import delta.games.lotro.character.log.LotroTestUtils;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.DeedsManager;
 import delta.games.lotro.lore.deeds.io.xml.DeedXMLParser;
@@ -55,7 +54,8 @@ public class DeedsStatusFromCharacterLog
   public void doIt()
   {
     loadLorebookDeeds();
-    List<CharacterFile> files=new LotroTestUtils().getAllFiles();
+    List<CharacterFile> files=new ArrayList<CharacterFile>();
+    //List<CharacterFile> files=new LotroTestUtils().getAllFiles();
     for(CharacterFile file : files)
     {
       doIt(file);
