@@ -8,15 +8,13 @@ import delta.games.lotro.account.AccountUtils;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.storage.CharacterStorage;
 import delta.games.lotro.character.storage.Chest;
-import delta.games.lotro.character.storage.ItemsContainer;
 import delta.games.lotro.character.storage.StoredItem;
 import delta.games.lotro.character.storage.Vault;
 import delta.games.lotro.character.storage.Wallet;
 import delta.games.lotro.character.storage.io.xml.StorageIO;
-import delta.games.lotro.character.storage.location.BagLocation;
+import delta.games.lotro.character.storage.location.SimpleStorageLocation;
+import delta.games.lotro.character.storage.location.SimpleStorageLocation.LocationType;
 import delta.games.lotro.character.storage.location.StorageLocation;
-import delta.games.lotro.character.storage.location.VaultLocation;
-import delta.games.lotro.character.storage.location.WalletLocation;
 import delta.games.lotro.common.owner.AccountOwner;
 import delta.games.lotro.common.owner.AccountServerOwner;
 import delta.games.lotro.common.owner.CharacterOwner;
@@ -48,20 +46,19 @@ public class StorageUtils
     // Own bags
     {
       Vault container=characterStorage.getBags();
-      List<StoredItem> storedItems=getAllItems(owner,container,true);
+      List<StoredItem> storedItems=getAllItems(owner,container,LocationType.BAG);
       items.addAll(storedItems);
     }
     // Own vault
     {
       Vault container=characterStorage.getOwnVault();
-      List<StoredItem> storedItems=getAllItems(owner,container,false);
+      List<StoredItem> storedItems=getAllItems(owner,container,LocationType.VAULT);
       items.addAll(storedItems);
     }
     // Own wallet
     {
       Wallet ownWallet=characterStorage.getWallet();
-      WalletLocation location=new WalletLocation();
-      List<StoredItem> storedItems=getAllItems(owner,location,ownWallet);
+      List<StoredItem> storedItems=getAllItems(owner,ownWallet,LocationType.WALLET);
       items.addAll(storedItems);
     }
     return items;
@@ -95,20 +92,19 @@ public class StorageUtils
         // Own bags
         {
           Vault container=characterStorage.getBags();
-          List<StoredItem> storedItems=getAllItems(owner,container,true);
+          List<StoredItem> storedItems=getAllItems(owner,container,LocationType.BAG);
           items.addAll(storedItems);
         }
         // Own vault
         {
           Vault container=characterStorage.getOwnVault();
-          List<StoredItem> storedItems=getAllItems(owner,container,false);
+          List<StoredItem> storedItems=getAllItems(owner,container,LocationType.VAULT);
           items.addAll(storedItems);
         }
         // Own wallet
         {
           Wallet ownWallet=characterStorage.getWallet();
-          WalletLocation location=new WalletLocation();
-          List<StoredItem> storedItems=getAllItems(owner,location,ownWallet);
+          List<StoredItem> storedItems=getAllItems(owner,ownWallet,LocationType.WALLET);
           items.addAll(storedItems);
         }
       }
@@ -120,23 +116,23 @@ public class StorageUtils
       Vault sharedVault=StorageIO.loadAccountSharedVault(account,serverName);
       if (sharedVault!=null)
       {
-        List<StoredItem> storedItems=getAllItems(accountServer,sharedVault,false);
+        List<StoredItem> storedItems=getAllItems(accountServer,sharedVault,LocationType.SHARED_VAULT);
         items.addAll(storedItems);
       }
       // Shared wallet
       Wallet sharedWallet=StorageIO.loadAccountSharedWallet(account,serverName);
       if (sharedWallet!=null)
       {
-        WalletLocation location=new WalletLocation();
-        List<StoredItem> storedItems=getAllItems(accountServer,location,sharedWallet);
+        List<StoredItem> storedItems=getAllItems(accountServer,sharedWallet,LocationType.SHARED_WALLET);
         items.addAll(storedItems);
       }
     }
     return items;
   }
 
-  private static List<StoredItem> getAllItems(Owner owner, StorageLocation location, ItemsContainer container)
+  private static List<StoredItem> getAllItems(Owner owner, Wallet container, LocationType type)
   {
+    StorageLocation location=new SimpleStorageLocation(owner,type,null);
     List<StoredItem> items=new ArrayList<StoredItem>();
     for(CountedItem countedItem : container.getAllItemsByName())
     {
@@ -148,7 +144,7 @@ public class StorageUtils
     return items;
   }
 
-  private static List<StoredItem> getAllItems(Owner owner, Vault container, boolean isBag)
+  private static List<StoredItem> getAllItems(Owner owner, Vault container, LocationType type)
   {
     List<StoredItem> items=new ArrayList<StoredItem>();
     int chests=container.getChestCount();
@@ -158,7 +154,7 @@ public class StorageUtils
       if (chest!=null)
       {
         String chestName=chest.getName();
-        StorageLocation location=isBag?new BagLocation(chestName):new VaultLocation(chestName);
+        StorageLocation location=new SimpleStorageLocation(owner,type,chestName);
         List<CountedItem> chestItems=chest.getAllItemsByName();
         for(CountedItem chestItem : chestItems)
         {
