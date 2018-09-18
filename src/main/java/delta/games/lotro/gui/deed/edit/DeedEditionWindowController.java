@@ -5,8 +5,8 @@ import javax.swing.JPanel;
 
 import delta.common.ui.swing.windows.DefaultFormDialogController;
 import delta.common.ui.swing.windows.WindowController;
-import delta.games.lotro.gui.deed.events.DeedEvent;
-import delta.games.lotro.gui.deed.events.DeedEventType;
+import delta.games.lotro.gui.deed.edit.events.DeedEvent;
+import delta.games.lotro.gui.deed.edit.events.DeedEventType;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.utils.events.EventsManager;
 

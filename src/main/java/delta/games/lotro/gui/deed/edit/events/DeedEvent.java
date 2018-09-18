@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.deed.events;
+package delta.games.lotro.gui.deed.edit.events;
 
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.utils.events.Event;

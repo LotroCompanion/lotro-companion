@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.deed.events;
+package delta.games.lotro.gui.deed.edit.events;
 
 /**
  * Type of deed events.
