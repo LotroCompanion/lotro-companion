@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.deed;
+package delta.games.lotro.gui.deed.edit;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -17,6 +17,7 @@ import delta.common.ui.swing.toolbar.ToolbarModel;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.ui.swing.windows.WindowsManager;
 import delta.common.utils.misc.TypedProperties;
+import delta.games.lotro.gui.deed.DeedsTableController;
 import delta.games.lotro.gui.deed.events.DeedEvent;
 import delta.games.lotro.gui.deed.events.DeedEventType;
 import delta.games.lotro.gui.main.GlobalPreferences;
@@ -144,11 +145,11 @@ public class DeedsManagementController implements ActionListener,GenericEventsLi
     else if (GenericTableController.DOUBLE_CLICK.equals(action))
     {
       DeedDescription deed=(DeedDescription)event.getSource();
-      showToon(deed);
+      editDeed(deed);
     }
   }
 
-  private void showToon(DeedDescription deed)
+  private void editDeed(DeedDescription deed)
   {
     DeedEditionWindowController edit=new DeedEditionWindowController(_parentController,deed);
     edit.show(true);

@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.deed;
+package delta.games.lotro.gui.deed.edit;
 
 import javax.swing.JDialog;
 import javax.swing.JPanel;

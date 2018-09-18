@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.deed;
+package delta.games.lotro.gui.deed.edit;
 
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -17,6 +17,7 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.gui.LotroIconsManager;
+import delta.games.lotro.gui.deed.DeedUiUtils;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.DeedType;
 

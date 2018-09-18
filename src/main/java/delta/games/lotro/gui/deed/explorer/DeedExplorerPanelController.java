@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.deed;
+package delta.games.lotro.gui.deed.explorer;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -15,6 +15,7 @@ import javax.swing.border.TitledBorder;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.tables.TableColumnsChooserController;
 import delta.common.ui.swing.windows.WindowController;
+import delta.games.lotro.gui.deed.DeedsTableController;
 import delta.games.lotro.gui.items.FilterUpdateListener;
 import delta.games.lotro.lore.deeds.DeedDescription;
 

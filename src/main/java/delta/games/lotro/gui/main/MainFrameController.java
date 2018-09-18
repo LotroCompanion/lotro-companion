@@ -29,8 +29,8 @@ import delta.games.lotro.Config;
 import delta.games.lotro.gui.about.AboutDialogController;
 import delta.games.lotro.gui.about.CreditsDialogController;
 import delta.games.lotro.gui.account.AccountsManagementController;
-import delta.games.lotro.gui.deed.DeedsExplorerWindowController;
-import delta.games.lotro.gui.deed.DeedsManagementController;
+import delta.games.lotro.gui.deed.edit.DeedsManagementController;
+import delta.games.lotro.gui.deed.explorer.DeedsExplorerWindowController;
 import delta.games.lotro.gui.stats.crafting.synopsis.CraftingSynopsisWindowController;
 import delta.games.lotro.gui.stats.levelling.CharacterLevelWindowController;
 import delta.games.lotro.gui.stats.reputation.synopsis.ReputationSynopsisWindowController;
@@ -56,7 +56,6 @@ public class MainFrameController extends DefaultWindowController implements Acti
   private ToolbarController _toolbar;
   private ToonsManagementController _toonsManager;
   private AccountsManagementController _accountsManager;
-  private DeedsManagementController _deedsManager;
   private WindowsManager _windowsManager;
 
   /**
@@ -66,7 +65,6 @@ public class MainFrameController extends DefaultWindowController implements Acti
   {
     _toonsManager=new ToonsManagementController(this);
     _accountsManager=new AccountsManagementController(this);
-    _deedsManager=new DeedsManagementController(this);
     _windowsManager=new WindowsManager();
   }
 
@@ -179,11 +177,6 @@ public class MainFrameController extends DefaultWindowController implements Acti
     // Accounts
     JPanel accountsPanel=_accountsManager.getPanel();
     tabbedPane.add("Accounts",accountsPanel);
-    // Deeds
-    /*
-    JPanel deedsPanel=_deedsManager.getPanel();
-    tabbedPane.add("Deeds",deedsPanel);
-    */
     ret.add(tabbedPane,BorderLayout.CENTER);
     return ret;
   }
@@ -405,11 +398,6 @@ public class MainFrameController extends DefaultWindowController implements Acti
     {
       _accountsManager.dispose();
       _accountsManager=null;
-    }
-    if (_deedsManager!=null)
-    {
-      _deedsManager.dispose();
-      _deedsManager=null;
     }
   }
 }
