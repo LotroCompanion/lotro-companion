@@ -111,9 +111,6 @@ public class DeedsTableController
         @Override
         public String getData(DeedDescription deed)
         {
-          deed.getObjectives();
-          deed.getDescription();
-          deed.getRewards();
           return deed.getName();
         }
       };

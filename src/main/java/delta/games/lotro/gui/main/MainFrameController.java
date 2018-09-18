@@ -29,8 +29,8 @@ import delta.games.lotro.Config;
 import delta.games.lotro.gui.about.AboutDialogController;
 import delta.games.lotro.gui.about.CreditsDialogController;
 import delta.games.lotro.gui.account.AccountsManagementController;
-import delta.games.lotro.gui.deed.edit.DeedsManagementController;
 import delta.games.lotro.gui.deed.explorer.DeedsExplorerWindowController;
+import delta.games.lotro.gui.recipes.explorer.RecipesExplorerWindowController;
 import delta.games.lotro.gui.stats.crafting.synopsis.CraftingSynopsisWindowController;
 import delta.games.lotro.gui.stats.levelling.CharacterLevelWindowController;
 import delta.games.lotro.gui.stats.reputation.synopsis.ReputationSynopsisWindowController;
@@ -49,6 +49,7 @@ public class MainFrameController extends DefaultWindowController implements Acti
   private static final String LEVELLING_ID="levelling";
   private static final String WARBANDS_ID="warbands";
   private static final String DEEDS_ID="deeds";
+  private static final String RECIPES_ID="recipes";
   private static final String REPUTATION_SYNOPSIS_ID="reputationSynopsis";
   private static final String CRAFTING_SYNOPSIS_ID="craftingSynopsis";
   private static final String MAP_ID="map";
@@ -126,6 +127,11 @@ public class MainFrameController extends DefaultWindowController implements Acti
     JMenuItem deedsExplorer=GuiFactory.buildMenuItem("Deeds");
     deedsExplorer.setActionCommand(DEEDS_ID);
     deedsExplorer.addActionListener(this);
+    statsMenu.add(deedsExplorer);
+    // - recipes
+    JMenuItem recipesExplorer=GuiFactory.buildMenuItem("Recipes");
+    recipesExplorer.setActionCommand(RECIPES_ID);
+    recipesExplorer.addActionListener(this);
     statsMenu.add(deedsExplorer);
 
     // Help
@@ -209,6 +215,10 @@ public class MainFrameController extends DefaultWindowController implements Acti
     String deedsIconPath=getToolbarIconPath("deeds");
     ToolbarIconItem deedsIconItem=new ToolbarIconItem(DEEDS_ID,deedsIconPath,DEEDS_ID,"Deeds...","Deeds");
     model.addToolbarIconItem(deedsIconItem);
+    // Recipes icon
+    String recipesIconPath=getToolbarIconPath("recipes");
+    ToolbarIconItem recipesIconItem=new ToolbarIconItem(RECIPES_ID,recipesIconPath,RECIPES_ID,"Recipes...","Recipes");
+    model.addToolbarIconItem(recipesIconItem);
     // Register action listener
     controller.addActionListener(this);
     return controller;
@@ -286,6 +296,17 @@ public class MainFrameController extends DefaultWindowController implements Acti
     controller.bringToFront();
   }
 
+  private void doRecipes()
+  {
+    WindowController controller=_windowsManager.getWindow(RecipesExplorerWindowController.IDENTIFIER);
+    if (controller==null)
+    {
+      controller=new RecipesExplorerWindowController(this);
+      _windowsManager.registerWindow(controller);
+    }
+    controller.bringToFront();
+  }
+
   @Override
   public void actionPerformed(ActionEvent event)
   {
@@ -313,6 +334,10 @@ public class MainFrameController extends DefaultWindowController implements Acti
     else if (DEEDS_ID.equals(cmd))
     {
       doDeeds();
+    }
+    else if (RECIPES_ID.equals(cmd))
+    {
+      doRecipes();
     }
   }
 
