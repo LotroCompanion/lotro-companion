@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JTable;
+import javax.swing.table.TableCellRenderer;
 
 import delta.common.ui.swing.tables.CellDataProvider;
 import delta.common.ui.swing.tables.DefaultTableColumnController;
@@ -197,8 +198,24 @@ public class RecipesTableController
       cooldownColumn.setWidthSpecs(30,30,30);
       ret.add(cooldownColumn);
     }
+    // Ingredients
+    {
+      CellDataProvider<Recipe,Recipe> ingredientsCell=new CellDataProvider<Recipe,Recipe>()
+      {
+        @Override
+        public Recipe getData(Recipe recipe)
+        {
+          return recipe;
+        }
+      };
+      DefaultTableColumnController<Recipe,Recipe> ingredientsColumn=new DefaultTableColumnController<Recipe,Recipe>(RecipeColumnIds.INGREDIENTS.name(),"Ingredients",Recipe.class,ingredientsCell);
+      ingredientsColumn.setWidthSpecs(150,260,150);
+      IngredientsSummaryPanelController panelController=new IngredientsSummaryPanelController();
+      TableCellRenderer renderer=panelController.buildRenderer();
+      ingredientsColumn.setCellRenderer(renderer);
+      ret.add(ingredientsColumn);
+    }
     // TODO: Graphical panels for:
-    //INGREDIENTS
     //REGULAR_RESULT
     //CRITICAL_RESULT
     return ret;
@@ -218,6 +235,7 @@ public class RecipesTableController
       columnIds.add(RecipeColumnIds.PROFESSION.name());
       columnIds.add(RecipeColumnIds.TIER.name());
       columnIds.add(RecipeColumnIds.CATEGORY.name());
+      columnIds.add(RecipeColumnIds.INGREDIENTS.name());
     }
     return columnIds;
   }
