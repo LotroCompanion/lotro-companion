@@ -21,6 +21,7 @@ import delta.games.lotro.gui.main.GlobalPreferences;
 import delta.games.lotro.gui.recipes.RecipeFilter;
 import delta.games.lotro.gui.recipes.RecipeFilterController;
 import delta.games.lotro.gui.recipes.RecipesTableController;
+import delta.games.lotro.gui.recipes.form.RecipeDisplayWindowController;
 import delta.games.lotro.lore.crafting.recipes.Recipe;
 
 /**
@@ -116,15 +117,11 @@ public class RecipesExplorerWindowController extends DefaultWindowController
 
   private void showRecipe(Recipe recipe)
   {
-    // TODO
-    System.out.println("Show recipe!");
-    /*
     int id=_recipeWindows.getAll().size();
-    DeedDisplayWindowController window=new DeedDisplayWindowController(RecipesExplorerWindowController.this,id);
-    window.setDeed(deed);
+    RecipeDisplayWindowController window=new RecipeDisplayWindowController(RecipesExplorerWindowController.this,id);
+    window.setRecipe(recipe);
     window.show(false);
     _recipeWindows.registerWindow(window);
-    */
   }
 
   /**

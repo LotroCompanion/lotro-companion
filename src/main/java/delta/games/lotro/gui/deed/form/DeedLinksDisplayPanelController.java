@@ -27,7 +27,6 @@ public class DeedLinksDisplayPanelController
   private List<String> _labels;
   // GUI
   private JPanel _panel;
-
   // Controllers
   private DeedDisplayWindowController _parent;
   private List<HyperLinkController> _links;
@@ -128,7 +127,7 @@ public class DeedLinksDisplayPanelController
     _labels.clear();
     _deed=null;
     // Controllers
-    //_parent=null;
+    _parent=null;
     for(HyperLinkController link : _links)
     {
       link.dispose();
