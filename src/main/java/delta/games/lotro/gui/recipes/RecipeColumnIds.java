@@ -47,11 +47,7 @@ public enum RecipeColumnIds
    */
   INGREDIENTS,
   /**
-   * Regular result.
+   * Result.
    */
-  REGULAR_RESULT,
-  /**
-   * Critical result.
-   */
-  CRITICAL_RESULT
+  RESULT
 }

@@ -16,6 +16,7 @@ import delta.common.ui.swing.tables.TableColumnsManager;
 import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.gui.items.chooser.ItemChoiceWindowController;
+import delta.games.lotro.gui.recipes.ItemsSummaryPanelController.Mode;
 import delta.games.lotro.lore.crafting.recipes.Recipe;
 import delta.games.lotro.lore.crafting.recipes.RecipesManager;
 
@@ -210,14 +211,28 @@ public class RecipesTableController
       };
       DefaultTableColumnController<Recipe,Recipe> ingredientsColumn=new DefaultTableColumnController<Recipe,Recipe>(RecipeColumnIds.INGREDIENTS.name(),"Ingredients",Recipe.class,ingredientsCell);
       ingredientsColumn.setWidthSpecs(150,260,150);
-      IngredientsSummaryPanelController panelController=new IngredientsSummaryPanelController();
+      ItemsSummaryPanelController panelController=new ItemsSummaryPanelController(Mode.INGREDIENTS);
       TableCellRenderer renderer=panelController.buildRenderer();
       ingredientsColumn.setCellRenderer(renderer);
       ret.add(ingredientsColumn);
     }
-    // TODO: Graphical panels for:
-    //REGULAR_RESULT
-    //CRITICAL_RESULT
+    // Results
+    {
+      CellDataProvider<Recipe,Recipe> resultsCell=new CellDataProvider<Recipe,Recipe>()
+      {
+        @Override
+        public Recipe getData(Recipe recipe)
+        {
+          return recipe;
+        }
+      };
+      DefaultTableColumnController<Recipe,Recipe> resultsColumn=new DefaultTableColumnController<Recipe,Recipe>(RecipeColumnIds.RESULT.name(),"Result",Recipe.class,resultsCell);
+      resultsColumn.setWidthSpecs(80,80,80);
+      ItemsSummaryPanelController panelController=new ItemsSummaryPanelController(Mode.RESULTS);
+      TableCellRenderer renderer=panelController.buildRenderer();
+      resultsColumn.setCellRenderer(renderer);
+      ret.add(resultsColumn);
+    }
     return ret;
   }
 
@@ -236,6 +251,7 @@ public class RecipesTableController
       columnIds.add(RecipeColumnIds.TIER.name());
       columnIds.add(RecipeColumnIds.CATEGORY.name());
       columnIds.add(RecipeColumnIds.INGREDIENTS.name());
+      columnIds.add(RecipeColumnIds.RESULT.name());
     }
     return columnIds;
   }
