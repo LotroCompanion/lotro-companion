@@ -81,7 +81,7 @@ public class RecipesTableController
         }
       };
       DefaultTableColumnController<Recipe,Integer> idColumn=new DefaultTableColumnController<Recipe,Integer>(RecipeColumnIds.ID.name(),"ID",Integer.class,idCell);
-      idColumn.setWidthSpecs(100,100,100);
+      idColumn.setWidthSpecs(80,80,80);
       ret.add(idColumn);
     }
     // Key column
@@ -123,7 +123,7 @@ public class RecipesTableController
         }
       };
       DefaultTableColumnController<Recipe,String> professionColumn=new DefaultTableColumnController<Recipe,String>(RecipeColumnIds.PROFESSION.name(),"Profession",String.class,professionCell);
-      professionColumn.setWidthSpecs(80,350,80);
+      professionColumn.setWidthSpecs(100,100,100);
       ret.add(professionColumn);
     }
     // Tier column
@@ -137,7 +137,7 @@ public class RecipesTableController
         }
       };
       DefaultTableColumnController<Recipe,Integer> tierColumn=new DefaultTableColumnController<Recipe,Integer>(RecipeColumnIds.TIER.name(),"Tier",Integer.class,tierCell);
-      tierColumn.setWidthSpecs(100,100,100);
+      tierColumn.setWidthSpecs(50,50,50);
       ret.add(tierColumn);
     }
     // Category column
@@ -151,7 +151,7 @@ public class RecipesTableController
         }
       };
       DefaultTableColumnController<Recipe,String> categoryColumn=new DefaultTableColumnController<Recipe,String>(RecipeColumnIds.CATEGORY.name(),"Category",String.class,categoryCell);
-      categoryColumn.setWidthSpecs(80,350,80);
+      categoryColumn.setWidthSpecs(80,270,80);
       ret.add(categoryColumn);
     }
     // XP column
@@ -165,7 +165,7 @@ public class RecipesTableController
         }
       };
       DefaultTableColumnController<Recipe,Integer> xpColumn=new DefaultTableColumnController<Recipe,Integer>(RecipeColumnIds.XP.name(),"XP",Integer.class,xpCell);
-      xpColumn.setWidthSpecs(100,100,100);
+      xpColumn.setWidthSpecs(30,30,30);
       ret.add(xpColumn);
     }
     // Cooldown column
@@ -180,7 +180,7 @@ public class RecipesTableController
         }
       };
       DefaultTableColumnController<Recipe,Integer> cooldownColumn=new DefaultTableColumnController<Recipe,Integer>(RecipeColumnIds.COOLDOWN.name(),"Cooldown",Integer.class,cooldownCell);
-      cooldownColumn.setWidthSpecs(100,100,100);
+      cooldownColumn.setWidthSpecs(60,60,60);
       // TODO add a formatter to display a duration
       ret.add(cooldownColumn);
     }
@@ -210,7 +210,7 @@ public class RecipesTableController
         }
       };
       DefaultTableColumnController<Recipe,Recipe> ingredientsColumn=new DefaultTableColumnController<Recipe,Recipe>(RecipeColumnIds.INGREDIENTS.name(),"Ingredients",Recipe.class,ingredientsCell);
-      ingredientsColumn.setWidthSpecs(150,260,150);
+      ingredientsColumn.setWidthSpecs(150,230,150);
       ItemsSummaryPanelController panelController=new ItemsSummaryPanelController(Mode.INGREDIENTS);
       TableCellRenderer renderer=panelController.buildRenderer();
       ingredientsColumn.setCellRenderer(renderer);
