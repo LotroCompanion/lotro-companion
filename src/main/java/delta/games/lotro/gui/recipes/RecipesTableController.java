@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JTable;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 
 import delta.common.ui.swing.tables.CellDataProvider;
@@ -15,6 +17,7 @@ import delta.common.ui.swing.tables.ListDataProvider;
 import delta.common.ui.swing.tables.TableColumnsManager;
 import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.misc.TypedProperties;
+import delta.games.lotro.common.Duration;
 import delta.games.lotro.gui.items.chooser.ItemChoiceWindowController;
 import delta.games.lotro.gui.recipes.ItemsSummaryPanelController.Mode;
 import delta.games.lotro.lore.crafting.recipes.Recipe;
@@ -181,7 +184,16 @@ public class RecipesTableController
       };
       DefaultTableColumnController<Recipe,Integer> cooldownColumn=new DefaultTableColumnController<Recipe,Integer>(RecipeColumnIds.COOLDOWN.name(),"Cooldown",Integer.class,cooldownCell);
       cooldownColumn.setWidthSpecs(60,60,60);
-      // TODO add a formatter to display a duration
+      DefaultTableCellRenderer renderer=new DefaultTableCellRenderer()
+      {
+        @Override
+        public void setValue(Object value)
+        {
+          setHorizontalAlignment(SwingConstants.CENTER);
+          setText((value == null) ? "" : Duration.getDurationString(((Integer)value).intValue()));
+        }
+      };
+      cooldownColumn.setCellRenderer(renderer);
       ret.add(cooldownColumn);
     }
     // 'One time use' column
