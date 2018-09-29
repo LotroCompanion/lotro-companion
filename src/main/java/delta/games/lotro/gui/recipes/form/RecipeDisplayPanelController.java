@@ -16,8 +16,10 @@ import delta.common.ui.swing.icons.IconWithText;
 import delta.games.lotro.common.Duration;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.recipes.RecipeIcons;
+import delta.games.lotro.lore.crafting.recipes.CraftingResult;
 import delta.games.lotro.lore.crafting.recipes.Ingredient;
 import delta.games.lotro.lore.crafting.recipes.Recipe;
+import delta.games.lotro.lore.crafting.recipes.RecipeVersion;
 import delta.games.lotro.lore.items.ItemProxy;
 
 /**
@@ -31,8 +33,8 @@ public class RecipeDisplayPanelController
   // GUI
   private JPanel _panel;
   private List<ItemDisplayGadgets> _ingredients;
-  //private ItemDisplayGadgets _regularResult;
-  //private ItemDisplayGadgets _criticalResult;
+  private ItemDisplayGadgets _regularResult;
+  private ItemDisplayGadgets _criticalResult;
 
   /**
    * Constructor.
@@ -71,6 +73,10 @@ public class RecipeDisplayPanelController
     c=new GridBagConstraints(0,1,1,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(2,2,2,2),0,0);
     panel.add(ingredientsPanel,c);
     // Results
+    JPanel resultsPanel=buildResultsPanel();
+    resultsPanel.setBorder(GuiFactory.buildTitledBorder("Results"));
+    c=new GridBagConstraints(0,2,1,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(2,2,2,2),0,0);
+    panel.add(resultsPanel,c);
     return panel;
   }
 
@@ -204,6 +210,63 @@ public class RecipeDisplayPanelController
     }
   }
 
+  private JPanel buildResultsPanel()
+  {
+    initResultGadgets();
+    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
+    List<ItemDisplayGadgets> results=new ArrayList<ItemDisplayGadgets>();
+    results.add(_regularResult);
+    results.add(_criticalResult);
+
+    int y=0;
+    for(ItemDisplayGadgets gadgets : results)
+    {
+      if (gadgets!=null)
+      {
+        // Comment
+        GridBagConstraints c=new GridBagConstraints(0,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,2,2,2),0,0);
+        panel.add(gadgets.getComment(),c);
+        // Icon
+        c=new GridBagConstraints(1,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,2,2,2),0,0);
+        panel.add(gadgets.getIcon(),c);
+        // Name
+        c=new GridBagConstraints(2,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(2,2,2,2),0,0);
+        panel.add(gadgets.getName(),c);
+        y++;
+      }
+    }
+    return panel;
+  }
+
+  private void initResultGadgets()
+  {
+    RecipeVersion version=_recipe.getVersions().get(0);
+    CraftingResult regularResult=version.getRegular();
+    _regularResult=buildResultGadget(regularResult);
+    CraftingResult criticalResult=version.getCritical();
+    if (criticalResult!=null)
+    {
+      _criticalResult=buildResultGadget(criticalResult);
+    }
+  }
+
+  private ItemDisplayGadgets buildResultGadget(CraftingResult result)
+  {
+    // Icon
+    int quantity=result.getQuantity();
+    ItemProxy proxy=result.getItem();
+    Icon icon=LotroIconsManager.getItemIcon(proxy.getIcon());
+    String text=(quantity!=1)?String.valueOf(quantity):"";
+    IconWithText iconWithText=new IconWithText(icon,text,Color.WHITE);
+    // Name
+    String name=proxy.getName();
+    ItemDisplayGadgets ret=new ItemDisplayGadgets();
+    // Comment
+    String comment=result.isCriticalResult()?"Critical result: ":"Regular result: ";
+    ret.set(iconWithText,name,comment);
+    return ret;
+  }
+
   /**
    * Release all managed resources.
    */
@@ -217,5 +280,8 @@ public class RecipeDisplayPanelController
       _panel.removeAll();
       _panel=null;
     }
+    _ingredients=null;
+    _regularResult=null;
+    _criticalResult=null;
   }
 }
