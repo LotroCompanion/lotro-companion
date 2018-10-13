@@ -546,7 +546,7 @@ public class ItemFilterController extends AbstractItemFilterPanelController
   {
     ComboBoxController<Integer> ctrl=new ComboBoxController<Integer>();
     ctrl.addEmptyItem("");
-    for(int tier=1;tier<=10;tier++)
+    for(int tier=1;tier<=12;tier++)
     {
       ctrl.addItem(Integer.valueOf(tier),"Tier "+tier);
     }
