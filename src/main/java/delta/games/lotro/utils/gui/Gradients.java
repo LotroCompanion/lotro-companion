@@ -44,17 +44,18 @@ public class Gradients
     Color.GREEN
   };
 
-  private static final Color[] STEPS_11={
+  private static final Color[] STEPS_12={
     Color.ORANGE,
-    new Color(244,205,0),
-    new Color(232,211,0),
-    new Color(219,217,0),
-    new Color(205,222,0),
-    new Color(190,228,0),
-    new Color(172,233,0),
-    new Color(151,239,0),
-    new Color(126,244,0),
-    new Color(91,249,0),
+    new Color(244,209,0),
+    new Color(234,214,0),
+    new Color(222,219,0),
+    new Color(210,223,0),
+    new Color(196,228,0),
+    new Color(181,233,0),
+    new Color(164,237,0),
+    new Color(144,242,0),
+    new Color(119,246,0),
+    new Color(86,250,0),
     Color.GREEN
   };
 
@@ -69,7 +70,7 @@ public class Gradients
     if (nbSteps==5) return STEPS_5;
     if (nbSteps==7) return STEPS_7;
     if (nbSteps==8) return STEPS_8;
-    if (nbSteps==11) return STEPS_11;
+    if (nbSteps==12) return STEPS_12;
     return null;
   }
 }
