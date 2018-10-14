@@ -63,7 +63,18 @@ public class TraitPointsStatus
    */
   public static int getTraitPointsFromLevel(int characterLevel)
   {
-    int nb = Math.min(Math.max(0,characterLevel - 5)/2,50) + Math.max(0,characterLevel - 105)/3;
+    // Every odd level from 7 to 105 (max 50)
+    int nb=Math.max(0,Math.min(characterLevel,105) - 5)/2;
+    // Every third level to 115 (108, 111, 114)
+    if (characterLevel>=105)
+    {
+      nb+=Math.max(0,Math.min(characterLevel,115) - 105)/3;
+    }
+    // Level 120
+    if (characterLevel==120)
+    {
+      nb++;
+    }
     return nb;
   }
 
