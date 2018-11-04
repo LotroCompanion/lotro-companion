@@ -32,9 +32,6 @@ public class RecipeDisplayPanelController
   private Recipe _recipe;
   // GUI
   private JPanel _panel;
-  private List<ItemDisplayGadgets> _ingredients;
-  private ItemDisplayGadgets _regularResult;
-  private ItemDisplayGadgets _criticalResult;
 
   /**
    * Constructor.
@@ -43,7 +40,6 @@ public class RecipeDisplayPanelController
   public RecipeDisplayPanelController(Recipe recipe)
   {
     _recipe=recipe;
-    _ingredients=new ArrayList<ItemDisplayGadgets>();
   }
 
   /**
@@ -160,27 +156,28 @@ public class RecipeDisplayPanelController
 
   private JPanel buildIngredientsPanel()
   {
-    initIngredientsGadgets();
+    List<ItemDisplayGadgets> ingredientsGadgets=initIngredientsGadgets();
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     int y=0;
-    for(ItemDisplayGadgets gadgets : _ingredients)
+    for(ItemDisplayGadgets ingredientsGadget : ingredientsGadgets)
     {
       GridBagConstraints c=new GridBagConstraints(0,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,2,2,2),0,0);
       // Icon
-      panel.add(gadgets.getIcon(),c);
+      panel.add(ingredientsGadget.getIcon(),c);
       // Name
       c=new GridBagConstraints(1,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(2,2,2,2),0,0);
-      panel.add(gadgets.getName(),c);
+      panel.add(ingredientsGadget.getName(),c);
       // Comment
       c=new GridBagConstraints(2,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,2,2,2),0,0);
-      panel.add(gadgets.getComment(),c);
+      panel.add(ingredientsGadget.getComment(),c);
       y++;
     }
     return panel;
   }
 
-  private void initIngredientsGadgets()
+  private List<ItemDisplayGadgets> initIngredientsGadgets()
   {
+    List<ItemDisplayGadgets> ret=new ArrayList<ItemDisplayGadgets>();
     List<Ingredient> ingredients=_recipe.getIngredients();
     for(Ingredient ingredient : ingredients)
     {
@@ -206,48 +203,67 @@ public class RecipeDisplayPanelController
         }
       }
       gadgets.set(iconWithText,name,comment);
-      _ingredients.add(gadgets);
+      ret.add(gadgets);
     }
+    return ret;
   }
 
   private JPanel buildResultsPanel()
   {
-    initResultGadgets();
-    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
-    List<ItemDisplayGadgets> results=new ArrayList<ItemDisplayGadgets>();
-    results.add(_regularResult);
-    results.add(_criticalResult);
-
-    int y=0;
-    for(ItemDisplayGadgets gadgets : results)
+    int nbVersions=_recipe.getVersions().size();
+    if (nbVersions==1)
     {
-      if (gadgets!=null)
-      {
-        // Comment
-        GridBagConstraints c=new GridBagConstraints(0,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,2,2,2),0,0);
-        panel.add(gadgets.getComment(),c);
-        // Icon
-        c=new GridBagConstraints(1,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,2,2,2),0,0);
-        panel.add(gadgets.getIcon(),c);
-        // Name
-        c=new GridBagConstraints(2,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(2,2,2,2),0,0);
-        panel.add(gadgets.getName(),c);
-        y++;
-      }
+      return buildResultsPanel(_recipe.getVersions().get(0));
+    }
+    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
+    int y=0;
+    for(RecipeVersion version : _recipe.getVersions())
+    {
+      String name=version.getRegular().getItem().getName();
+      JPanel resultsPanel=buildResultsPanel(version);
+      resultsPanel.setBorder(GuiFactory.buildTitledBorder(name));
+      GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(2,2,2,2),0,0);
+      panel.add(resultsPanel,c);
+      y++;
     }
     return panel;
   }
 
-  private void initResultGadgets()
+  private JPanel buildResultsPanel(RecipeVersion version)
   {
-    RecipeVersion version=_recipe.getVersions().get(0);
+    List<ItemDisplayGadgets> resultGadgets=initResultGadgets(version);
+    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
+
+    int y=0;
+    for(ItemDisplayGadgets resultGadget : resultGadgets)
+    {
+      // Comment
+      GridBagConstraints c=new GridBagConstraints(0,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,2,2,2),0,0);
+      panel.add(resultGadget.getComment(),c);
+      // Icon
+      c=new GridBagConstraints(1,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,2,2,2),0,0);
+      panel.add(resultGadget.getIcon(),c);
+      // Name
+      c=new GridBagConstraints(2,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(2,2,2,2),0,0);
+      panel.add(resultGadget.getName(),c);
+      y++;
+    }
+    return panel;
+  }
+
+  private List<ItemDisplayGadgets> initResultGadgets(RecipeVersion version)
+  {
+    List<ItemDisplayGadgets> ret=new ArrayList<ItemDisplayGadgets>();
     CraftingResult regularResult=version.getRegular();
-    _regularResult=buildResultGadget(regularResult);
+    ItemDisplayGadgets regularResultGadgets=buildResultGadget(regularResult);
+    ret.add(regularResultGadgets);
     CraftingResult criticalResult=version.getCritical();
     if (criticalResult!=null)
     {
-      _criticalResult=buildResultGadget(criticalResult);
+      ItemDisplayGadgets criticalResultGadgets=buildResultGadget(criticalResult);
+      ret.add(criticalResultGadgets);
     }
+    return ret;
   }
 
   private ItemDisplayGadgets buildResultGadget(CraftingResult result)
@@ -280,8 +296,5 @@ public class RecipeDisplayPanelController
       _panel.removeAll();
       _panel=null;
     }
-    _ingredients=null;
-    _regularResult=null;
-    _criticalResult=null;
   }
 }
