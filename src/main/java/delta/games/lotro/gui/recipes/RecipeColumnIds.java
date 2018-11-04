@@ -43,6 +43,10 @@ public enum RecipeColumnIds
    */
   ONE_TIME_USE,
   /**
+   * Guild required.
+   */
+  GUILD,
+  /**
    * Ingredients.
    */
   INGREDIENTS,

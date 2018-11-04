@@ -103,7 +103,7 @@ public class RecipeDisplayPanelController
     // Category and XP
     JLabel categoryAndXpLabel=GuiFactory.buildLabel(getCategoryAndXp());
     // Single use and cooldown
-    String singleUseAndCooldownStr=getSingleUseAndCooldown();
+    String singleUseAndCooldownStr=getSingleUseGuildAndCooldown();
     JLabel singleUseAndCooldownLabel=GuiFactory.buildLabel(singleUseAndCooldownStr);
 
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
@@ -145,13 +145,22 @@ public class RecipeDisplayPanelController
     return sb.toString();
   }
 
-  private String getSingleUseAndCooldown()
+  private String getSingleUseGuildAndCooldown()
   {
     StringBuilder sb=new StringBuilder();
     boolean singleUse=_recipe.isOneTimeUse();
     if (singleUse)
     {
       sb.append("Single Use");
+    }
+    boolean guildRequired=_recipe.isGuildRequired();
+    if (guildRequired)
+    {
+      if (sb.length()>0)
+      {
+        sb.append(", ");
+      }
+      sb.append("Guild recipe");
     }
     int cooldown=_recipe.getCooldown();
     if (cooldown>0)

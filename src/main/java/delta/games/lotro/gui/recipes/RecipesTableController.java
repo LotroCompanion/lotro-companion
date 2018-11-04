@@ -211,6 +211,21 @@ public class RecipesTableController
       cooldownColumn.setWidthSpecs(30,30,30);
       ret.add(cooldownColumn);
     }
+    // 'Guild' column
+    {
+      CellDataProvider<Recipe,Boolean> guildCell=new CellDataProvider<Recipe,Boolean>()
+      {
+        @Override
+        public Boolean getData(Recipe recipe)
+        {
+          boolean guildRequired=recipe.isGuildRequired();
+          return Boolean.valueOf(guildRequired);
+        }
+      };
+      DefaultTableColumnController<Recipe,Boolean> guildColumn=new DefaultTableColumnController<Recipe,Boolean>(RecipeColumnIds.GUILD.name(),"Guild",Boolean.class,guildCell);
+      guildColumn.setWidthSpecs(30,30,30);
+      ret.add(guildColumn);
+    }
     // Ingredients
     {
       CellDataProvider<Recipe,Recipe> ingredientsCell=new CellDataProvider<Recipe,Recipe>()
