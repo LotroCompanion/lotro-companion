@@ -8,8 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.Icon;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.icons.IconWithText;
@@ -63,16 +65,27 @@ public class RecipeDisplayPanelController
     JPanel attributesPanel=buildAttributesPanel();
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,2,2,2),0,0);
     panel.add(attributesPanel,c);
-    // Ingredients
-    JPanel ingredientsPanel=buildIngredientsPanel();
-    ingredientsPanel.setBorder(GuiFactory.buildTitledBorder("Ingredients"));
-    c=new GridBagConstraints(0,1,1,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(2,2,2,2),0,0);
-    panel.add(ingredientsPanel,c);
-    // Results
-    JPanel resultsPanel=buildResultsPanel();
-    resultsPanel.setBorder(GuiFactory.buildTitledBorder("Results"));
-    c=new GridBagConstraints(0,2,1,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(2,2,2,2),0,0);
-    panel.add(resultsPanel,c);
+
+    int nbVersions=_recipe.getVersions().size();
+    JComponent versionsComponent;
+    if (nbVersions>1)
+    {
+      JTabbedPane tabbedPane=GuiFactory.buildTabbedPane();
+      int index=1;
+      for(RecipeVersion version : _recipe.getVersions())
+      {
+        JPanel versionPanel=buildVersionPanel(version);
+        tabbedPane.add("Output #"+index,versionPanel);
+        index++;
+      }
+      versionsComponent=tabbedPane;
+    }
+    else
+    {
+      versionsComponent=buildVersionPanel(_recipe.getVersions().get(0));
+    }
+    c=new GridBagConstraints(0,1,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(2,2,2,2),0,0);
+    panel.add(versionsComponent,c);
     return panel;
   }
 
@@ -154,9 +167,25 @@ public class RecipeDisplayPanelController
     return sb.toString();
   }
 
-  private JPanel buildIngredientsPanel()
+  private JPanel buildVersionPanel(RecipeVersion version)
   {
-    List<ItemDisplayGadgets> ingredientsGadgets=initIngredientsGadgets();
+    JPanel versionPanel=GuiFactory.buildBackgroundPanel(new GridBagLayout());
+    // Ingredients
+    JPanel ingredientsPanel=buildIngredientsPanel(version);
+    ingredientsPanel.setBorder(GuiFactory.buildTitledBorder("Ingredients"));
+    GridBagConstraints c=new GridBagConstraints(0,1,1,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(2,2,2,2),0,0);
+    versionPanel.add(ingredientsPanel,c);
+    // Results
+    JPanel resultsPanel=buildResultsPanel(version);
+    resultsPanel.setBorder(GuiFactory.buildTitledBorder("Results"));
+    c=new GridBagConstraints(0,2,1,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(2,2,2,2),0,0);
+    versionPanel.add(resultsPanel,c);
+    return versionPanel;
+  }
+
+  private JPanel buildIngredientsPanel(RecipeVersion version)
+  {
+    List<ItemDisplayGadgets> ingredientsGadgets=initIngredientsGadgets(version);
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     int y=0;
     for(ItemDisplayGadgets ingredientsGadget : ingredientsGadgets)
@@ -175,10 +204,10 @@ public class RecipeDisplayPanelController
     return panel;
   }
 
-  private List<ItemDisplayGadgets> initIngredientsGadgets()
+  private List<ItemDisplayGadgets> initIngredientsGadgets(RecipeVersion version)
   {
     List<ItemDisplayGadgets> ret=new ArrayList<ItemDisplayGadgets>();
-    List<Ingredient> ingredients=_recipe.getIngredients();
+    List<Ingredient> ingredients=version.getIngredients();
     for(Ingredient ingredient : ingredients)
     {
       ItemDisplayGadgets gadgets=new ItemDisplayGadgets();
@@ -206,27 +235,6 @@ public class RecipeDisplayPanelController
       ret.add(gadgets);
     }
     return ret;
-  }
-
-  private JPanel buildResultsPanel()
-  {
-    int nbVersions=_recipe.getVersions().size();
-    if (nbVersions==1)
-    {
-      return buildResultsPanel(_recipe.getVersions().get(0));
-    }
-    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
-    int y=0;
-    for(RecipeVersion version : _recipe.getVersions())
-    {
-      String name=version.getRegular().getItem().getName();
-      JPanel resultsPanel=buildResultsPanel(version);
-      resultsPanel.setBorder(GuiFactory.buildTitledBorder(name));
-      GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(2,2,2,2),0,0);
-      panel.add(resultsPanel,c);
-      y++;
-    }
-    return panel;
   }
 
   private JPanel buildResultsPanel(RecipeVersion version)

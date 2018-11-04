@@ -79,9 +79,10 @@ public class ItemsSummaryPanelController
   private void setupPanel(Recipe recipe)
   {
     _panel.removeAll();
+    RecipeVersion version=recipe.getVersions().get(0);
     if (_mode==Mode.INGREDIENTS)
     {
-      List<Ingredient> ingredients=recipe.getIngredients();
+      List<Ingredient> ingredients=version.getIngredients();
       int nbIngredients=ingredients.size();
       while (_labels.size()<nbIngredients)
       {
@@ -103,7 +104,6 @@ public class ItemsSummaryPanelController
       {
         _labels.add(GuiFactory.buildIconLabel(null));
       }
-      RecipeVersion version=recipe.getVersions().get(0);
       CraftingResult regular=version.getRegular();
       {
         ItemProxy regularItem=regular.getItem();
