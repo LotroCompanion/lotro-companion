@@ -18,7 +18,7 @@ import delta.games.lotro.lore.items.filters.ItemLevelFilter;
 import delta.games.lotro.lore.items.filters.ItemNameFilter;
 import delta.games.lotro.lore.items.filters.ItemQualityFilter;
 import delta.games.lotro.lore.items.filters.ItemRequiredClassFilter;
-import delta.games.lotro.lore.items.filters.ItemRequiredLevelFilter;
+import delta.games.lotro.lore.items.filters.ItemCharacterLevelFilter;
 import delta.games.lotro.lore.items.filters.ItemStatFilter;
 import delta.games.lotro.lore.items.filters.LegendaryItemFilter;
 import delta.games.lotro.lore.items.filters.WeaponTypeFilter;
@@ -39,7 +39,7 @@ public class ItemChooserFilter implements Filter<Item>
   private Filter<Item> _filter;
   private ItemRequiredClassFilter _classFilter;
   private CharacterProficienciesFilter _proficienciesFilter;
-  private ItemRequiredLevelFilter _levelFilter;
+  private ItemCharacterLevelFilter _levelFilter;
   private EssenceTierFilter _essenceTierFilter;
   private ItemNameFilter _nameFilter;
   private ItemQualityFilter _qualityFilter;
@@ -82,7 +82,7 @@ public class ItemChooserFilter implements Filter<Item>
       boolean useLevel=cfg.hasComponent(ItemChooserFilterComponent.CHAR_LEVEL);
       if (useLevel)
       {
-        _levelFilter=new ItemRequiredLevelFilter(level);
+        _levelFilter=new ItemCharacterLevelFilter(level);
         filters.add(_levelFilter);
       }
     }
@@ -200,7 +200,7 @@ public class ItemChooserFilter implements Filter<Item>
    * Get the managed level filter.
    * @return a level filter or <code>null</code>.
    */
-  public ItemRequiredLevelFilter getLevelFilter()
+  public ItemCharacterLevelFilter getLevelFilter()
   {
     return _levelFilter;
   }

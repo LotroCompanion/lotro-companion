@@ -39,7 +39,7 @@ import delta.games.lotro.lore.items.filters.ArmourTypeFilter;
 import delta.games.lotro.lore.items.filters.CharacterProficienciesFilter;
 import delta.games.lotro.lore.items.filters.ItemLevelFilter;
 import delta.games.lotro.lore.items.filters.ItemRequiredClassFilter;
-import delta.games.lotro.lore.items.filters.ItemRequiredLevelFilter;
+import delta.games.lotro.lore.items.filters.ItemCharacterLevelFilter;
 import delta.games.lotro.lore.items.filters.ItemStatFilter;
 import delta.games.lotro.lore.items.filters.WeaponTypeFilter;
 
@@ -183,7 +183,7 @@ public class ItemFilterController extends AbstractItemFilterPanelController
     }
     if (_characterLevelRequirement!=null)
     {
-      ItemRequiredLevelFilter levelFilter=_filter.getLevelFilter();
+      ItemCharacterLevelFilter levelFilter=_filter.getLevelFilter();
       _characterLevelRequirement.setSelected(levelFilter.isEnabled());
     }
     // Item level range

@@ -13,7 +13,7 @@ import delta.games.lotro.lore.items.filters.ItemLevelFilter;
 import delta.games.lotro.lore.items.filters.ItemNameFilter;
 import delta.games.lotro.lore.items.filters.ItemQualityFilter;
 import delta.games.lotro.lore.items.filters.ItemRequiredClassFilter;
-import delta.games.lotro.lore.items.filters.ItemRequiredLevelFilter;
+import delta.games.lotro.lore.items.filters.ItemCharacterLevelFilter;
 import delta.games.lotro.lore.items.filters.ItemStatFilter;
 import delta.games.lotro.lore.items.filters.LegendaryItemFilter;
 import delta.games.lotro.lore.items.filters.WeaponTypeFilter;
@@ -64,7 +64,7 @@ public class ItemChooserFilterIo
       proficienciesFilter.setEnabled(enabled);
     }
     // Level
-    ItemRequiredLevelFilter levelFilter=filter.getLevelFilter();
+    ItemCharacterLevelFilter levelFilter=filter.getLevelFilter();
     if (levelFilter!=null)
     {
       boolean enabled=props.getBooleanProperty(LEVEL_FILTER_ENABLED,false);
@@ -171,7 +171,7 @@ public class ItemChooserFilterIo
       props.setStringProperty(PROFICIENCIES_FILTER_ENABLED,Boolean.toString(proficienciesFilter.isEnabled()));
     }
     // Level
-    ItemRequiredLevelFilter levelFilter=filter.getLevelFilter();
+    ItemCharacterLevelFilter levelFilter=filter.getLevelFilter();
     if (levelFilter!=null)
     {
       props.setStringProperty(LEVEL_FILTER_ENABLED,Boolean.toString(levelFilter.isEnabled()));
