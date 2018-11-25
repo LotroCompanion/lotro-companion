@@ -28,5 +28,6 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="/delta-lotro-item-icons-db/icons.zip"/>
 	<classpathentry kind="lib" path="/delta-lotro-relics/relicIcons.zip"/>
+	<classpathentry kind="lib" path="/delta-lotro-tools/data/icons.zip"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

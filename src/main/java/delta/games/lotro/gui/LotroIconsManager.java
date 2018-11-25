@@ -100,6 +100,10 @@ public class LotroIconsManager
    */
   public static ImageIcon getBuffIcon(String iconFilename)
   {
+    if (iconFilename.startsWith("/icons/traits"))
+    {
+      return IconsManager.getIcon(iconFilename);
+    }
     String path="/resources/gui/buffs/"+iconFilename+".png";
     return IconsManager.getIcon(path);
   }
