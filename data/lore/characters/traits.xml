@@ -1,0 +1,1108 @@
+<?xml version="1.0" encoding="UTF-8"?><traits>
+<trait identifier="1879052432" name="Use of Fire" iconId="1090561241" minLevel="1" tiers="1" description="Enables hunters and wardens to apply fire-oil to their ranged weapons."/>
+<trait identifier="1879056133" name="Use of Light" iconId="1090561310" minLevel="1" tiers="1" description="Enables hunters and wardens to apply light-oil to their ranged weapons."/>
+<trait identifier="1879059926" name="Runic Use" iconId="1090539750" minLevel="1" tiers="1" description="Allows the use of Runes."/>
+<trait identifier="1879060116" name="Shield Spike Use" iconId="1090561514" minLevel="1" tiers="1" description="Allows the use of shield-spikes"/>
+<trait identifier="1879060248" name="Master" iconId="1090540988" minLevel="30" tiers="1" description="Those that serve the Dark Lord of Mordor are beginning to seek conflict with you directly, lest you foil their schemes."/>
+<trait identifier="1879060257" name="Journeyman" iconId="1090540989" minLevel="10" tiers="1" description="As a hardy warrior of Middle-earth, you have seen much conflict."/>
+<trait identifier="1879060258" name="Adept" iconId="1090540990" minLevel="20" tiers="1" description="The road to saving Middle-earth is long, but you are already walking it."/>
+<trait identifier="1879064086" name="One-handed Axes" iconId="1090552270" minLevel="1" tiers="1" description="Allows the use of One-handed Axes. Axes have a small chance of reducing the target's armour."/>
+<trait identifier="1879064087" name="One-handed Clubs" iconId="1090552271" minLevel="1" tiers="1" description="Allows the use of One-handed Clubs. Clubs have a small chance of slowing the target's Attack Speed."/>
+<trait identifier="1879064088" name="One-handed Hammers" iconId="1090552272" minLevel="1" tiers="1" description="Allows the use of One-handed Hammers. Hammers have a small chance of lowering the target's ability to Evade."/>
+<trait identifier="1879064089" name="One-handed Maces" iconId="1090552273" minLevel="1" tiers="1" description="Allows the use of One-handed Maces. Maces have a small chance of slowing the target's movement speed."/>
+<trait identifier="1879064090" name="One-handed Swords" iconId="1090552274" minLevel="1" tiers="1" description="Allows the use of One-handed Swords. Swords have a small Parry-chance increase."/>
+<trait identifier="1879064091" name="Daggers" iconId="1090552275" minLevel="1" tiers="1" description="Allows the use of Daggers. Daggers have a small chance of landing Critical Hits."/>
+<trait identifier="1879064092" name="Dual Wielding" iconId="1090552276" minLevel="1" tiers="1" description="Allows the wielding of a second weapon in the off-hand."/>
+<trait identifier="1879064093" name="Specialized Equipment" iconId="1090640863" minLevel="1" tiers="1" description="Allows the use of Specialized Equipment and to learn how to play instruments."/>
+<trait identifier="1879064094" name="Light Armour" iconId="1090552278" minLevel="1" tiers="1" description="Allows the use of Light Armour."/>
+<trait identifier="1879064095" name="Medium Armour" iconId="1090552279" minLevel="1" tiers="1" description="Allows the use of Medium Armour."/>
+<trait identifier="1879064096" name="Horn Use" iconId="1090641990" minLevel="1" tiers="1" description="Allows the use of Horns."/>
+<trait identifier="1879064099" name="Two-handed Axes" iconId="1090552282" minLevel="1" tiers="1" description="Allows the use of Two-handed Axes. Axes have a small chance of reducing the target's armour."/>
+<trait identifier="1879064100" name="Two-handed Hammers" iconId="1090552283" minLevel="1" tiers="1" description="Allows the use of Two-handed Hammers. Hammers have a small chance of lowering the target's ability to Evade."/>
+<trait identifier="1879064101" name="Two-handed Swords" iconId="1090552284" minLevel="1" tiers="1" description="Allows the use of Two-handed Swords. Swords have a small Parry-chance increase."/>
+<trait identifier="1879064102" name="Spear" iconId="1090552285" minLevel="1" tiers="1" description="Allows the use of Spears. Spears have a small chance of wounding the target, inflicting damage over time."/>
+<trait identifier="1879064105" name="Shields" iconId="1090552288" minLevel="1" tiers="1" description="Allows the use of Shields.  Shields slightly reduce the chance to be critically hit."/>
+<trait identifier="1879064108" name="Bows" iconId="1090552291" minLevel="1" tiers="1" description="Allows the use of Bows. Bows have a small chance of landing Critical Hits when using auto-attack."/>
+<trait identifier="1879064109" name="Heavy Armour" iconId="1090552292" minLevel="1" tiers="1" description="Allows the use of Heavy Armour."/>
+<trait identifier="1879064155" name="Two-handed Clubs" iconId="1090552308" minLevel="1" tiers="1" description="Allows the use of Two-handed Clubs. Clubs have a small chance of slowing the target's Attack Speed."/>
+<trait identifier="1879064160" name="Halberd" iconId="1090552309" minLevel="1" tiers="1" description="Allows the use of Halberds. Halberds increase threat level, drawing the attention of your enemies upon yourself."/>
+<trait identifier="1879064173" name="Summoning Horn Use" iconId="1090561670" minLevel="1" tiers="1" description="Allows the use of summoning horns."/>
+<trait identifier="1879064210" name="Lute Use" iconId="1090641993" minLevel="1" tiers="1" description="Allows the use of Lutes."/>
+<trait identifier="1879064211" name="Clarinet Use" iconId="1090641991" minLevel="1" tiers="1" description="Allows the use of Clarinets."/>
+<trait identifier="1879064212" name="Flute Use" iconId="1090641994" minLevel="1" tiers="1" description="Allows the use of Flutes."/>
+<trait identifier="1879064213" name="Harp Use" iconId="1090641992" minLevel="1" tiers="1" description="Allows the use of Harps."/>
+<trait identifier="1879064259" name="Two-handed Staves" iconId="1090552317" minLevel="1" tiers="1" description="Allows the use of Two-handed Staves."/>
+<trait identifier="1879064298" name="Crossbows" iconId="1090552320" minLevel="1" tiers="1" description="Allows the use of Crossbows. Crossbows lower the chance of your auto-attacks being blocked by the target."/>
+<trait identifier="1879064299" name="Heavy Shields" iconId="1090552288" minLevel="1" tiers="1" description="Allows the use of Heavy Shields. All heavy shields greatly reduce the chance to be critically hit and carry a small penalty to Evade."/>
+<trait identifier="1879064400" name="Improved Range" iconId="1090535587" minLevel="1" tiers="1" description="Your skill with ranged weapons allows you to attack from a greater distance than others."/>
+<trait identifier="1879073451" name="Small Size" iconId="1090553978" minLevel="1" tiers="1" description="Reduced Might - hobbits lack the physical strength of other races.">
+<stat name="MIGHT" value="-7.0"/>
+</trait>
+<trait identifier="1879073452" name="Hobbit-toughness" iconId="1090553979" minLevel="1" tiers="1" description="Improved Vitality - hobbits are remarkably tough.">
+<stat name="VITALITY" value="15.0"/>
+</trait>
+<trait identifier="1879073453" name="Rapid Recovery" iconId="1090553980" minLevel="1" tiers="1" description="Improved Morale Regeneration out of combat - hobbits recover from trying times faster than other races.">
+<stat name="OCMR" value="60.0"/>
+</trait>
+<trait identifier="1879073454" name="Hobbit-courage" iconId="1090553981" minLevel="1" tiers="1" description="Improved Fear Resistance - the slow-kindled courage of the hobbit race."/>
+<trait identifier="1879073455" name="Resist Corruption" iconId="1090553982" minLevel="1" tiers="1" description="Improved Shadow Mitigation - hobbits have a great resistance to temptation.">
+<stat name="SHADOW_MITIGATION_PERCENTAGE" value="1.0"/>
+</trait>
+<trait identifier="1879073469" name="Stoop for a Stone" iconId="1090553965" minLevel="1" tiers="1" description="You gain a short-distance ranged attack."/>
+<trait identifier="1879073473" name="Guile and Conviction Bonus" iconId="1090553967" minLevel="1" tiers="1" description="You receive a bonus to Spider's Guile and Eagle's Cry contributions"/>
+<trait identifier="1879073475" name="Hobbit Club-damage Bonus" iconId="1090553968" minLevel="1" tiers="1" description="Hobbit Club-damage Bonus"/>
+<trait identifier="1879073477" key="HOBBIT_STATURE" name="Hobbit-stature" iconId="1090553969" minLevel="1" tiers="1" description="You have overcome your humble beginnings and play a mighty role in this age. Your Might is improved.">
+<stat name="MIGHT" scaling="1879276719"/>
+</trait>
+<trait identifier="1879073479" name="Return to Michel Delving" iconId="1090553970" minLevel="1" tiers="1" description="This enables you to quickly return to Michel Delving."/>
+<trait identifier="1879073483" name="Return to Rivendell" iconId="1090554012" minLevel="1" tiers="1" description="This enables you to quickly return to Rivendell."/>
+<trait identifier="1879073485" name="Hobbit-resilience" iconId="1090553972" minLevel="1" tiers="1" description="You can raise your Fellowship's Hope value through good old-fashioned hobbit-cheer. This does not stack with other Hope buffs."/>
+<trait identifier="1879073490" name="Hobbit-stealth" iconId="1090553974" minLevel="1" tiers="1" description="Although untrained, you have the natural ability to move about unseen, though there is a chance enemies may detect you, especially when moving in front of them."/>
+<trait identifier="1879073494" name="Hobbit-silence" iconId="1090553976" minLevel="1" tiers="1" description="You can lie prone in complete silence, causing enemies to ignore you."/>
+<trait identifier="1879073502" name="Gift of Men" iconId="1090554001" minLevel="1" tiers="1" description="Improved Fate - Men have the greatest destiny of all the Free Peoples.">
+<stat name="FATE" value="15.0"/>
+</trait>
+<trait identifier="1879073503" name="Diminishing of Mankind" iconId="1090554002" minLevel="1" tiers="1" description="Decreased Will - Men have weaker wills than the other races.">
+<stat name="WILL" value="-7.0"/>
+</trait>
+<trait identifier="1879073504" name="Easily Inspired" iconId="1090554003" minLevel="1" tiers="1" description="Increased Morale Restoration- Men are more quickly emboldened than the other races.">
+<stat name="INCOMING_HEALING_PERCENTAGE" value="5.0"/>
+</trait>
+<trait identifier="1879073505" name="Strong Men" iconId="1090554004" minLevel="1" tiers="1" description="Improved Strength - The feats of strength that men such as Boromir could accomplish are worthy of song.">
+<stat name="MIGHT" value="15.0"/>
+</trait>
+<trait identifier="1879073515" name="Upper-cut" iconId="1090553988" minLevel="1" tiers="1" description="You gain a short-distance melee attack."/>
+<trait identifier="1879073519" name="Tactics and Might Bonus" iconId="1090553990" minLevel="1" tiers="1" description="You receive a bonus to Stallion's Spirit and Ent's Strength contributions."/>
+<trait identifier="1879073521" name="Man Sword-damage Bonus" iconId="1090553991" minLevel="1" tiers="1" description="Man Sword-damage Bonus"/>
+<trait identifier="1879073523" key="MAN_OF_THE_FOURTH_AGE" name="Man of the Fourth Age" iconId="1090553992" minLevel="1" tiers="1" description="You are destined to greatness -- a Man for the Fourth Age -- but for now you must secure the Third. Your Will is improved.">
+<stat name="WILL" scaling="1879276722"/>
+</trait>
+<trait identifier="1879073525" name="Return to Bree" iconId="1090553993" minLevel="1" tiers="1" description="This enables you to quickly return to Bree."/>
+<trait identifier="1879073529" name="Duty-bound" iconId="1090553995" minLevel="1" tiers="1" description="You provide a bonus to your fellowship's Morale."/>
+<trait identifier="1879073534" key="BALANCE_OF_MAN" name="Balance of Man" iconId="1090553998" minLevel="1" tiers="1" description="The Race of Man grows eerily proficient at the art of war.">
+<stat name="EVADE" scaling="1879122264"/>
+<stat name="PARRY" scaling="1879122262"/>
+<stat name="BLOCK" scaling="1879122263"/>
+</trait>
+<trait identifier="1879073536" name="Strength of Morale" iconId="1090553999" minLevel="1" tiers="1" description="In combat, the Race of Man is known for its unquenchable spirit."/>
+<trait identifier="1879073545" name="Sorrow of the Firstborn" iconId="1090554017" minLevel="1" tiers="1" description="Reduced Morale and Morale Regeneration out of combat - Elves feel things more deeply than the other races and are more subject to sorrow.">
+<stat name="MORALE" value="-20.0"/>
+<stat name="OCMR" value="-60.0"/>
+</trait>
+<trait identifier="1879073546" name="Agility of the Woods" iconId="1090554018" minLevel="1" tiers="1" description="Improved Agility - The Grace of the Eldar is remembered in legend.">
+<stat name="AGILITY" value="15.0"/>
+</trait>
+<trait identifier="1879073547" name="Fading of the Firstborn" iconId="1090554019" minLevel="1" tiers="1" description="Reduced Fate - The time of the Elves in Middle-earth is nearly at its end.">
+<stat name="FATE" value="-7.0"/>
+</trait>
+<trait identifier="1879073548" name="Suffer no Illness" iconId="1090554020" minLevel="1" tiers="1" description="Improved resistance to Disease and Poison - Elves do not suffer illness."/>
+<trait identifier="1879073558" name="Silvan Shadows" iconId="1090554007" minLevel="1" tiers="1" description="Although untrained, you have the natural ability to move about unseen, though there is a chance enemies may detect you, especially when moving in front of them."/>
+<trait identifier="1879073561" name="Tactics and Conviction Bonus" iconId="1090554009" minLevel="1" tiers="1" description="You receive a bonus to Eagle's Cry and Stallion's Spirit contributions."/>
+<trait identifier="1879073563" name="Elf Bow-damage Bonus" iconId="1090554010" minLevel="1" tiers="1" description="Elf Bow-damage Bonus"/>
+<trait identifier="1879073565" key="FRIEND_OF_MAN" name="Friend Of Man" iconId="1090554011" minLevel="1" tiers="1" description="You are devoted to guiding the race of Man. Your Fate is improved.">
+<stat name="FATE" scaling="1879358496"/>
+</trait>
+<trait identifier="1879073570" name="Eldar's Grace" iconId="1090554014" minLevel="1" tiers="1" description="With the speed and grace of the Eldar, you can put up a strong parry defence."/>
+<trait identifier="1879073574" name="Elf One-handed Sword-damage Bonus" iconId="1090554015" minLevel="1" tiers="1" description="Elf One-handed Sword-damage Bonus"/>
+<trait identifier="1879073576" name="Power of the Eldar" iconId="1090554016" minLevel="1" tiers="1" description="You provide a bonus to your fellowship's Power."/>
+<trait identifier="1879073582" name="Sturdiness" iconId="1090554034" minLevel="1" tiers="1" description="Increased Might and Vitality, improved Common damage mitigation - dwarves are a sturdy race.">
+<stat name="MIGHT" value="15.0"/>
+<stat name="VITALITY" value="10.0"/>
+<stat name="PHYSICAL_MITIGATION_PERCENTAGE" value="1.0"/>
+</trait>
+<trait identifier="1879073583" name="Stocky" iconId="1090554035" minLevel="1" tiers="1" description="Reduced Agility - dwarves are naturally less agile than the other races.">
+<stat name="AGILITY" value="-7.0"/>
+</trait>
+<trait identifier="1879073584" name="Lost Dwarf-kingdoms" iconId="1090554036" minLevel="1" tiers="1" description="Reduced Fate - the dwarves' time in Middle-earth is fading.">
+<stat name="FATE" value="-7.0"/>
+</trait>
+<trait identifier="1879073585" name="Unwearying in Battle" iconId="1090554037" minLevel="1" tiers="1" description="Bonus to Morale and Power regeneration in combat, penalty to Morale and Power regeneration out of combat.">
+<stat name="ICMR" value="30.0"/>
+<stat name="ICPR" value="30.0"/>
+<stat name="OCMR" value="-60.0"/>
+<stat name="OCPR" value="-30.0"/>
+</trait>
+<trait identifier="1879073595" name="Head-butt" iconId="1090554023" minLevel="1" tiers="1" description="You gain a short-distance melee attack."/>
+<trait identifier="1879073599" name="Guile and Might Bonus" iconId="1090554025" minLevel="1" tiers="1" description="You receive a bonus to Spider's Guile and Ent's Strength contributions."/>
+<trait identifier="1879073601" name="Dwarf Axe-damage Bonus" iconId="1090554026" minLevel="1" tiers="1" description="Dwarf Axe-damage Bonus"/>
+<trait identifier="1879073603" key="FATEFUL_DWARF" name="Fateful Dwarf" iconId="1090554027" minLevel="1" tiers="1" description="You are a dwarf of great influence. Your Fate is improved.">
+<stat name="FATE" scaling="1879358496"/>
+</trait>
+<trait identifier="1879073605" name="Return to Thorin's Gate" iconId="1090554028" minLevel="1" tiers="1" description="This enables you to quickly return to Thorin's Gate."/>
+<trait identifier="1879073609" name="Endurance of Stone" iconId="1090554030" minLevel="1" tiers="1" description="For a short amount of time, you can withstand blows that would batter a weaker race's Morale into dust."/>
+<trait identifier="1879073613" name="Dwarf-endurance" iconId="1090554032" minLevel="1" tiers="1" description="You provide a bonus to your fellowship's Vitality."/>
+<trait identifier="1879076057" name="Clever Devices" iconId="1090560979" minLevel="1" tiers="1" description="Enables burglars to use devices such as caltrops and marbles."/>
+<trait identifier="1879076061" name="Tools of the Trade" iconId="1090561221" minLevel="1" tiers="1" description="Enables burglars to use special tools to facilitate their clever tricks."/>
+<trait identifier="1879076067" name="Books of Lore" iconId="1090552318" minLevel="1" tiers="1" description="Allows the use of books of lore."/>
+<trait identifier="1879076071" name="Hand Wrought Traps" iconId="1090561242" minLevel="1" tiers="1" description="Allows hunters to use traps crafted by Weaponsmiths."/>
+<trait identifier="1879076104" name="Armament Use" iconId="1090552310" minLevel="1" tiers="1" description="Allows the wielding of Armaments."/>
+<trait identifier="1879076155" name="Horns of Valour" iconId="1090561669" minLevel="1" tiers="1" description="Allows the use of champion horns."/>
+<trait identifier="1879076358" key="SHIELD_BRAWLER" name="Shield Brawler" iconId="1090562065" minLevel="1" tiers="1" description="Your defensive combat abilities have been improved.">
+<stat name="BLOCK" scaling="1879120142"/>
+</trait>
+<trait identifier="1879083738" name="Heroic" iconId="1090620289" minLevel="40" tiers="1" description="The fates of the One Ring and the Free Peoples are being shaped by heroes such as yourself."/>
+<trait identifier="1879088470" name="Drum Use" iconId="1090648294" minLevel="1" tiers="1" description="Allows the use of Drums."/>
+<trait identifier="1879088471" name="Theorbo Use" iconId="1090648295" minLevel="1" tiers="1" description="Allows the use of Theorbo."/>
+<trait identifier="1879090925" name="Bow Chants" iconId="1091388854" minLevel="1" tiers="1" description="Allows hunters to employ ancient chants to empower their bow to various different ends."/>
+<trait identifier="1879092949" name="Virtuous Man" iconId="1091386988" minLevel="1" tiers="1" description="The Virtues of Men are represented strongly in you. This trait does not apply to unequipped or capped Virtues."/>
+<trait identifier="1879092950" name="Virtuous Dwarf" iconId="1091386989" minLevel="1" tiers="1" description="The Virtues of the Dwarves are represented strongly in you. This trait does not apply to unequipped or capped Virtues."/>
+<trait identifier="1879092951" name="Virtuous Elf" iconId="1091386990" minLevel="1" tiers="1" description="The Virtues of the Elves are represented strongly in you. This trait does not apply to unequipped or capped Virtues."/>
+<trait identifier="1879092952" name="Virtuous Hobbit" iconId="1091386987" minLevel="1" tiers="1" description="The Virtues of the Hobbits are represented strongly in you.  This trait does not apply to unequipped or capped Virtues."/>
+<trait identifier="1879093481" name="Tracking Guide" iconId="1091388995" minLevel="1" tiers="1" description="Allows the Hunter to share the location of his tracked target with his fellowship members. Only information about non-player targets can be shared in this way."/>
+<trait identifier="1879097466" name="Bagpipe Use" iconId="1091401279" minLevel="1" tiers="1" description="Allows the use of Bagpipes."/>
+<trait identifier="1879097468" name="Basic Cowbell Use" iconId="1091401282" minLevel="1" tiers="1" description="Allows the use of Cowbells."/>
+<trait identifier="1879112554" name="Warden's Shields" iconId="1090552288" minLevel="1" tiers="1" description="Allows the use of Warden's Shields. Warden Shields reduce the chance to be critically hit."/>
+<trait identifier="1879114476" name="Spear Training" iconId="1090552285" minLevel="1" tiers="1" description="Wardens train primarily with spears and have learned to get the most out of them."/>
+<trait identifier="1879114477" name="Sword Training" iconId="1090552274" minLevel="1" tiers="1" description="Wardens have learned a few fancy sword manoeuvres."/>
+<trait identifier="1879114478" name="Club Training" iconId="1090552271" minLevel="1" tiers="1" description="Wardens learn advanced club techniques when keeping order in civilized lands."/>
+<trait identifier="1879116363" name="Javelins" iconId="1090552285" minLevel="1" tiers="1" description="Allows the use of Javelins."/>
+<trait identifier="1879120160" name="2 Icon Gambits" iconId="1090552293" minLevel="1" tiers="1" description=" "/>
+<trait identifier="1879130697" name="3 Icon Gambits" iconId="1090552293" minLevel="1" tiers="1" description=" "/>
+<trait identifier="1879131135" name="4 Icon Gambits" iconId="1090552293" minLevel="1" tiers="1" description=" "/>
+<trait identifier="1879132035" name="Master Sword Training" iconId="1090552274" minLevel="1" tiers="1" description="Wardens have learned a few fancy sword manoeuvres."/>
+<trait identifier="1879132037" name="Master Spear Training" iconId="1090552285" minLevel="1" tiers="1" description="Wardens train primarily with spears and have learned to get the most out of them."/>
+<trait identifier="1879132040" name="Expert Spear Training" iconId="1090552285" minLevel="1" tiers="1" description="Wardens train primarily with spears and have learned to get the most out of them."/>
+<trait identifier="1879132043" name="Master Club Training" iconId="1090552271" minLevel="1" tiers="1" description="Wardens learn advanced club techniques when keeping order in civilized lands."/>
+<trait identifier="1879132051" name="Expert Sword Training" iconId="1090552274" minLevel="1" tiers="1" description="Wardens have learned a few fancy sword manoeuvres."/>
+<trait identifier="1879132052" name="Expert Club Training" iconId="1090552271" minLevel="1" tiers="1" description="Wardens learn advanced club techniques when keeping order in civilized lands."/>
+<trait identifier="1879134769" name="5 Icon Gambits" iconId="1090552293" minLevel="1" tiers="1" description=" "/>
+<trait identifier="1879144862" name="Rune-stones" iconId="1090625157" minLevel="1" tiers="1" description="Allows the use of Rune-stones.  Rune-stones have affinity to fire, lightning, or frost."/>
+<trait identifier="1879145626" name="Daggers Training: Accomplished" iconId="1090552275" minLevel="1" tiers="1" description="Grants Burglars greater effectiveness when wielding daggers."/>
+<trait identifier="1879145627" name="Daggers Training: Expert" iconId="1090552275" minLevel="1" tiers="1" description="Grants Burglars greater effectiveness when wielding daggers."/>
+<trait identifier="1879145628" name="Daggers Training: Master" iconId="1090552275" minLevel="1" tiers="1" description="Grants Burglars greater effectiveness when wielding daggers."/>
+<trait identifier="1879153111" name="Carving Use" iconId="1091547193" minLevel="1" tiers="1" description="Allows the use of Carvings."/>
+<trait identifier="1879163315" name="Critical Defence" iconId="1091570592" minLevel="1" tiers="1" description="Reduces the Warden's chance to suffer a Critical Hit.">
+<stat name="CRITICAL_DEFENCE" scaling="1879211645"/>
+</trait>
+<trait identifier="1879163316" name="Critical Defence" iconId="1091570592" minLevel="1" tiers="1" description="Reduces the chance for the Guardian to suffer a critical hit.">
+<stat name="CRITICAL_DEFENCE" scaling="1879211642"/>
+</trait>
+<trait identifier="1879163317" name="Critical Defence" iconId="1091570592" minLevel="1" tiers="1" description="Reduces the chance for the Captain to suffer a critical hit.">
+<stat name="CRITICAL_DEFENCE" scaling="1879211644"/>
+</trait>
+<trait identifier="1879180446" name="Improved Halberd Training" iconId="1090552309" minLevel="1" tiers="1" description="Your skill with a Halberd has improved."/>
+<trait identifier="1879186957" name="Newbie" iconId="1090522632" minLevel="1" tiers="1" description="You are young and eager to see all of Middle-earth."/>
+<trait identifier="1879213615" name="Improved Defensive Strike" iconId="1091478757" minLevel="1" tiers="1" description="Using the skill Defensive Strike can apply the Potency effect to you."/>
+<trait identifier="1879213616" name="Improved Deft Strike" iconId="1091478773" minLevel="1" tiers="1" description="Using the skill Deft Strike can apply the Potency effect to you."/>
+<trait identifier="1879213617" name="Improved Goad Strike" iconId="1091478759" minLevel="1" tiers="1" description="Using the skill Goad can apply the Potency effect to you."/>
+<trait identifier="1879220090" name="Ancient Wisdom" iconId="1090541226" minLevel="1" tiers="1" description="Your research into lost knowledge increases your Will.">
+<stat name="WILL" scaling="1879060839"/>
+</trait>
+<trait identifier="1879225777" name="Pibgorn Use" iconId="1091691578" minLevel="1" tiers="1" description="Allows the use of special Pibgorns."/>
+<trait identifier="1879230292" name="Audacity" iconId="1091711663" minLevel="1" tiers="25" description="Audacity improves your ability to fight the Servants of Angmar.">
+<stat name="TACTICAL_DAMAGE_PERCENTAGE" scaling="1879325968"/>
+<stat name="MELEE_DAMAGE_PERCENTAGE" scaling="1879325966"/>
+</trait>
+<trait identifier="1879238171" name="Sword and Staff" iconId="1091764280" minLevel="1" tiers="1" description="You now may dual wield sword and staff."/>
+<trait identifier="1879259264" name="Footpad" iconId="1090541265" minLevel="1" tiers="5" description="You are harder to detect while Stealthed.">
+<stat name="STEALTH_LEVEL" scaling="1879268029"/>
+</trait>
+<trait identifier="1879259269" name="Back Stab" iconId="1091841204" minLevel="1" tiers="5" description="Positional attacks deal more damage."/>
+<trait identifier="1879259323" name="Hidden Dagger" iconId="1090541258" minLevel="1" tiers="5" description="Deal more damage from Stealth."/>
+<trait identifier="1879259327" name="Deft Strikes" iconId="1091829386" minLevel="1" tiers="5" description="Increases Critical Chance.">
+<stat name="CRITICAL_MELEE_PERCENTAGE" scaling="1879297174"/>
+</trait>
+<trait identifier="1879259340" name="Aim" iconId="1091840423" minLevel="1" tiers="1" description="Earns the skill: Aim."/>
+<trait identifier="1879259348" name="Playful Mind" iconId="1090541256" minLevel="1" tiers="3" description="Increases the duration of your Tricks."/>
+<trait identifier="1879259349" name="Trick: Dust In the Eyes" iconId="1090541262" minLevel="1" tiers="1" description="Earns Trick: Dust in the Eyes."/>
+<trait identifier="1879259350" name="Practical Joke" iconId="1091840427" minLevel="1" tiers="5" description="Increases Trick and Trick Removal skill damage."/>
+<trait identifier="1879259352" name="Startling Twist" iconId="1091659741" minLevel="1" tiers="2" description="Rank 1 earns the skill: Startling Twist.\n\nRank 2 allows Startling Twist to affect multiple enemies."/>
+<trait identifier="1879259356" name="Trickster" iconId="1090541261" minLevel="1" tiers="1" description="Your next Trick is applied to multiple targets and can stack a normal Trick."/>
+<trait identifier="1879259358" name="Trick: Counter Defence" iconId="1091840420" minLevel="1" tiers="2" description="Earns Trick: Counter-Defence."/>
+<trait identifier="1879259359" name="Perplexing Proposition" iconId="1090541276" minLevel="1" tiers="5" description="Trick Removal skills can be used more often."/>
+<trait identifier="1879259366" name="Leaf Walker" iconId="1090541260" minLevel="1" tiers="5" description="You are harder to detect while Stealthed.">
+<stat name="STEALTH_LEVEL" scaling="1879268029"/>
+</trait>
+<trait identifier="1879259367" name="Stick and Move" iconId="1091829388" minLevel="1" tiers="5" description="Boosts Evade chance.">
+<stat name="EVADE_PERCENTAGE" scaling="1879297179"/>
+</trait>
+<trait identifier="1879259368" name="Cruel Odds" iconId="1091509960" minLevel="1" tiers="5" description="Increases chance of applying a Gamble."/>
+<trait identifier="1879259370" name="Honed Wit" iconId="1091829380" minLevel="1" tiers="5" description="Increases the damage of damage-over-time effects."/>
+<trait identifier="1879259371" name="Trip" iconId="1091840422" minLevel="1" tiers="1" description="Earns the skill: Trip."/>
+<trait identifier="1879259533" name="Barbed Fury" iconId="1090541187" minLevel="1" tiers="5" description="Increases damage for any skill that deals damage over time."/>
+<trait identifier="1879259536" name="Rain of Thorns" iconId="1091840309" minLevel="1" tiers="4" description="Earns the skill: Rain of Thorns."/>
+<trait identifier="1879259537" name="Combat Traps" iconId="1091457998" minLevel="1" tiers="5" description="Increases Trap damage and reduced Trap cooldowns."/>
+<trait identifier="1879259540" name="True Shot" iconId="1090541197" minLevel="1" tiers="5" description="Increases the target critical chance vulnerability of Penetrating Shot."/>
+<trait identifier="1879259541" name="Fast Draw" iconId="1090532013" minLevel="1" tiers="5" description="Using Quick Shot grants a stacking buff which reduces the inductions of attacks."/>
+<trait identifier="1879259545" name="Explosive Arrow" iconId="1091459008" minLevel="1" tiers="1" description="Earns the skill: Explosive Arrow."/>
+<trait identifier="1879259548" key="CRITICAL_EYE" name="Critical Eye" iconId="1091456538" minLevel="1" tiers="5" description="Increases Critical Chance.">
+<stat name="CRITICAL_RANGED_PERCENTAGE" scaling="1879297188"/>
+</trait>
+<trait identifier="1879259554" name="Split Shot" iconId="1091840238" minLevel="1" tiers="4" description="Earns the skill: Split Shot.\n\n Subsequent ranks increase number of targets."/>
+<trait identifier="1879259979" name="Furious Storms" iconId="1091805962" minLevel="1" tiers="5" description="Lightning skills place a stack of Fury of Storm on the Rune-keeper, increasing the Critical Damage of their next attack.\n\nCritical hits will consume this effect."/>
+<trait identifier="1879259980" name="Confounding Principles" iconId="1091502136" minLevel="1" tiers="5" description="Increases the damage and daze duration of Shocking touch."/>
+<trait identifier="1879259981" name="Tale of Rage" iconId="1091829860" minLevel="1" tiers="5" description="Fire skills increase the fire damage of the Rune-keeper.\n\nThis effect can stack up to five times."/>
+<trait identifier="1879259982" name="Essence of Flame" iconId="1091829843" minLevel="1" tiers="1" description="Single target attack that refreshes the current tier of Fiery Ridicule on a target."/>
+<trait identifier="1879259985" name="After-burn" iconId="1091805933" minLevel="1" tiers="5" description="Increases fire damage-over-time."/>
+<trait identifier="1879259987" name="Thunderous Words" iconId="1091502150" minLevel="1" tiers="5" description="Lightning skills have a chance to briefly buff lightning skill's Critical Chance."/>
+<trait identifier="1879259991" name="Ceaseless Argument" iconId="1091840527" minLevel="1" tiers="1" description="Earns the skill: Ceaseless Argument."/>
+<trait identifier="1879259992" name="Conflagration of Runes" iconId="1091502139" minLevel="1" tiers="5" description="Increases the damage of Fiery Ridicule.\n\nAt max rank, Fiery Ridicule affects up to three targets."/>
+<trait identifier="1879259995" name="Scathing Mockery" iconId="1091805954" minLevel="1" tiers="1" description="Earns the skill: Scathing Mockery."/>
+<trait identifier="1879260000" name="Mending Verse" iconId="1091502144" minLevel="1" tiers="1" description="Earns the skill: Mending Verse."/>
+<trait identifier="1879260001" name="Rune of Restoration" iconId="1091829844" minLevel="1" tiers="1" description="Earns the skill: Rune of Restoration."/>
+<trait identifier="1879260590" name="Deadly Strikes" iconId="1090541126" minLevel="1" tiers="5" description="Increases Critical damage for all Strike skills."/>
+<trait identifier="1879260591" name="Mighty Blast" iconId="1091830068" minLevel="1" tiers="5" description="Increases Horn of Gondor damage.\n\nAt max rank, Horn of Gondor reduces Cry resistance."/>
+<trait identifier="1879260592" name="Ardent Rage" iconId="1091830096" minLevel="1" tiers="4" description="Increases the Fervour generated by Battle Frenzy. \n\n Max rank lowers the cooldown of Battle Frenzy and replaces its Fervour regeneration effect with a more powerful version."/>
+<trait identifier="1879260594" name="Sweeping Riposte" iconId="1091830086" minLevel="1" tiers="1" description="Grants the skill: Sweeping Riposte."/>
+<trait identifier="1879260598" name="Vicious Strikes" iconId="1090539730" minLevel="1" tiers="5" description="Every hit on Strikes skills have an increased chance to critically hit."/>
+<trait identifier="1879260599" name="Athletic" iconId="1091509972" minLevel="1" tiers="3" description="Reduces the cooldown of Sprint.\n\nAt max rank, Sprint will cause the Champion's next attack to briefly stun the target."/>
+<trait identifier="1879260605" name="Battle Frenzy" iconId="1091830083" minLevel="1" tiers="1" description="Grants the skill: Battle Frenzy."/>
+<trait identifier="1879260618" name="Thrill of Battle" iconId="1091840978" minLevel="1" tiers="5" description="Critical hits with response skills will heal you for a percentage of your max Morale.  This heal can't trigger more than once every 20 seconds."/>
+<trait identifier="1879260676" name="Second Wind" iconId="1091457105" minLevel="1" tiers="1" description="Grants the skill: Second Wind."/>
+<trait identifier="1879260805" name="Brutal Charge" iconId="1091805264" minLevel="1" tiers="1" description="Your Charge becomes Brutal Charge."/>
+<trait identifier="1879260811" name="Invigourating Parry" iconId="1091829802" minLevel="1" tiers="4" description="Critical hits with your parry response skills will restore power."/>
+<trait identifier="1879261465" name="Appraising Eye" iconId="1090531549" minLevel="1" tiers="1" description="The skill Reveal Weakness does more damage."/>
+<trait identifier="1879261466" name="Complicated Terms" iconId="1091509964" minLevel="1" tiers="5" description="Increases the grace period of your crowd control effects."/>
+<trait identifier="1879261467" name="Trick: Enrage" iconId="1090522262" minLevel="1" tiers="2" description="Earns Trick: Enrage."/>
+<trait identifier="1879261472" name="Opportunist" iconId="1090541270" minLevel="1" tiers="5" description="The skill Subtle Stab does additional damage to targets with an active Trick on them. Additional ranks increase the damage dealt."/>
+<trait identifier="1879261474" name="Burglar's Antidote" iconId="1091840421" minLevel="1" tiers="1" description="The skill Burglar's Antidote now applies to the Fellowship."/>
+<trait identifier="1879261482" name="Double Down" iconId="1091798529" minLevel="1" tiers="1" description="Diversion has a chance to apply a gamble. Provoke has a chance to apply a Daze. Provoke's chance is increased when applied from Stealth."/>
+<trait identifier="1879261483" name="Aggravated Bleeds" iconId="1091840294" minLevel="1" tiers="2" description="Increases the duration of damage-over-time dealt by Gambler's Advantage and Cunning Attack."/>
+<trait identifier="1879261487" name="Even the Odds" iconId="1091798533" minLevel="1" tiers="5" description="The skill Double-edged Strike may grant you a random buff when used on a target with an active Gamble."/>
+<trait identifier="1879261489" name="All In" iconId="1091798537" minLevel="1" tiers="1" description="Earns the skill: All In."/>
+<trait identifier="1879261490" name="Swift and Subtle" iconId="1090541254" minLevel="1" tiers="5" description="Improves the Heal over Time from Bob and Weave."/>
+<trait identifier="1879262364" name="Noble Mark" iconId="1091840445" minLevel="1" tiers="1" description="Earns the skill: Noble Mark."/>
+<trait identifier="1879262374" name="Telling Mark" iconId="1090541196" minLevel="1" tiers="1" description="Earns the skill: Telling Mark."/>
+<trait identifier="1879262375" name="Revealing Mark" iconId="1091840248" minLevel="1" tiers="1" description="Earns the skill: Revealing Mark."/>
+<trait identifier="1879264248" name="In For The Kill" iconId="1091829816" minLevel="1" tiers="1" description="Heart Seeker reduces incoming healing and increases its bleed damage."/>
+<trait identifier="1879264249" name="Quick Escape" iconId="1090553940" minLevel="1" tiers="1" description="Low Cut applies a root and temporarily allows you to move without losing Focus."/>
+<trait identifier="1879264250" name="Upshot" iconId="1091798535" minLevel="1" tiers="1" description="Earns the skill: Upshot."/>
+<trait identifier="1879264251" name="Hail of Arrows" iconId="1090553936" minLevel="1" tiers="2" description="When you critically hit with Rain of Arrows, the skill has a chance to reset its cooldown."/>
+<trait identifier="1879264252" name="Burn Hot" iconId="1091840300" minLevel="1" tiers="2" description="Earns the skill: Burn Hot. Second rank reduces the cooldown and increases the damage and ranged power cost reduction of Burn Hot."/>
+<trait identifier="1879264254" name="Rain of Arrows" iconId="1090553936" minLevel="1" tiers="2" description="Earns the skill: Rain of Arrows."/>
+<trait identifier="1879264257" name="Mercy Kill" iconId="1091798536" minLevel="1" tiers="3" description="Increases Merciful Shot's Critical Multiplier."/>
+<trait identifier="1879264307" name="Advanced Placement" iconId="1091798528" minLevel="1" tiers="3" description="Changes all Traps to ranged, ground-targeted skills."/>
+<trait identifier="1879264321" key="IMPACT_ARROWS" name="Impact Arrows" iconId="1091829820" minLevel="1" tiers="5" description="Increases Ranged Damage."/>
+<trait identifier="1879264322" name="Strength of Earth" iconId="1091840253" minLevel="1" tiers="1" description="Earns the skill: Strength of the Earth."/>
+<trait identifier="1879264323" name="Shot Through The Heart" iconId="1091470793" minLevel="1" tiers="1" description="Heart Seeker and Merciful Shot do additional damage to targets with bleeds on them."/>
+<trait identifier="1879264324" name="Bow of the Righteous" iconId="1090532129" minLevel="1" tiers="1" description="Recover Power with each successful ranged skill."/>
+<trait identifier="1879264325" name="Blood Arrow" iconId="1091840250" minLevel="1" tiers="2" description="Blood arrow now applies an additional HoT."/>
+<trait identifier="1879264327" name="Rapid Fire" iconId="1091798534" minLevel="1" tiers="1" description="Earns the skill: Rapid Fire."/>
+<trait identifier="1879266986" name="Fury of Blades" iconId="1091830084" minLevel="1" tiers="1" description="Grants the skill: Fury of Blades."/>
+<trait identifier="1879266989" name="Barbed Wall" iconId="1091830073" minLevel="1" tiers="5" description="Increases the damage of Blade Wall."/>
+<trait identifier="1879266991" name="Battle Acuity" iconId="1090539722" minLevel="1" tiers="5" description="Great Cleave increases AoE damage."/>
+<trait identifier="1879266994" name="Great Cleave" iconId="1091830094" minLevel="1" tiers="1" description="Grants the skill: Great Cleave."/>
+<trait identifier="1879266995" name="Horn of Champions" iconId="1091840519" minLevel="1" tiers="1" description="Grants the skill: Horn of Champions."/>
+<trait identifier="1879266996" name="Wild Swings" iconId="1091840522" minLevel="1" tiers="5" description="Increases Wild Attacks damage.\n\nAt max rank, Wild Attack Critical hits increase Critical Chance for a short duration."/>
+<trait identifier="1879267056" name="Dire Need" iconId="1091840521" minLevel="1" tiers="1" description="Grants the skill: Dire Need."/>
+<trait identifier="1879267057" name="Unbreakable" iconId="1091830104" minLevel="1" tiers="1" description="Grants the skill: Unbreakable."/>
+<trait identifier="1879267058" name="Aggressive Exchange" iconId="1090539729" minLevel="1" tiers="5" description="Blade Wall debuffs enemy damage."/>
+<trait identifier="1879267061" name="Improved Raging Blade" iconId="1091830075" minLevel="1" tiers="3" description="Increases the damage of Raging Blade."/>
+<trait identifier="1879267062" name="Vigour of Champions" iconId="1091830087" minLevel="1" tiers="5" description="Increases Power restored from Second Wind."/>
+<trait identifier="1879267063" name="Deep Strikes" iconId="1090541132" minLevel="1" tiers="3" description="Strike skills now apply a Bleed on Critical Hit."/>
+<trait identifier="1879267064" name="Unstable" iconId="1091830095" minLevel="1" tiers="5" description="Upon being Critically hit, the Champion deals bonus damage."/>
+<trait identifier="1879267065" name="Hamstrung" iconId="1090553765" minLevel="1" tiers="5" description="Increases Hamstring's slow per rank. Max rank causing Hamstring to knock down its target for a short duration."/>
+<trait identifier="1879267066" name="Raging Blade" iconId="1091830063" minLevel="1" tiers="1" description="Grants the skill: Raging Blade."/>
+<trait identifier="1879267067" name="Controlled Burn" iconId="1091830064" minLevel="1" tiers="1" description="Grants the skill: Controlled Burn."/>
+<trait identifier="1879267069" name="Placed Strike" iconId="1091457117" minLevel="1" tiers="5" description="Increases the damage of Sweeping Riposte."/>
+<trait identifier="1879267073" name="Merciful Minded" iconId="1091457192" minLevel="1" tiers="3" description="Increases the health Threshold for enabling Merciful Strike. Max rank will make Merciful Strike always critically hit."/>
+<trait identifier="1879267074" name="Ebbing Ire" iconId="1091840526" minLevel="1" tiers="1" description="Earns the skill: Ebbing Ire."/>
+<trait identifier="1879267077" name="Improved Dire Need" iconId="1091830088" minLevel="1" tiers="5" description="Increases the heal of Dire Need."/>
+<trait identifier="1879267971" name="Exposed Throat" iconId="1091840293" minLevel="1" tiers="1" description="Earns the skill: Exposed Throat."/>
+<trait identifier="1879267972" name="Vital Points" iconId="1091840429" minLevel="1" tiers="3" description="Critical Response skills have a chance to lower your target's Critical Defence."/>
+<trait identifier="1879267973" name="Heartening Prank" iconId="1091829387" minLevel="1" tiers="5" description="Increases max Morale.">
+<stat name="MORALE" scaling="1879339009"/>
+</trait>
+<trait identifier="1879267974" name="Agile Hands" iconId="1091829385" minLevel="1" tiers="5" description="Increases Critical Magnitude."/>
+<trait identifier="1879267976" name="A Sure Thing" iconId="1091798522" minLevel="1" tiers="5" description="Increases the damage done by harmful Gambles."/>
+<trait identifier="1879267977" name="Strike From Shadows" iconId="1090541264" minLevel="1" tiers="6" description="Attacks enhanced by Stealth are more likely to Crit."/>
+<trait identifier="1879267978" name="Improved Hide In Plain Sight" iconId="1091840426" minLevel="1" tiers="5" description="The skill Hide in Plain Sight has a reduced cooldown."/>
+<trait identifier="1879267979" name="Stun Dust" iconId="1091798510" minLevel="1" tiers="1" description="Earns the skill: Stun Dust."/>
+<trait identifier="1879267980" name="High Roller" iconId="1091840419" minLevel="1" tiers="5" description="Increases the damage of skills:\nLucky Strike\nGambler's Strike\nHedge Your Bet\nBlind Bet\nGambler's Advantage\nCash Out"/>
+<trait identifier="1879267981" name="Coup de Grâce" iconId="1091798515" minLevel="1" tiers="1" description="Earns the skill: Coup de Grâce."/>
+<trait identifier="1879267982" name="Flashing Blades" iconId="1090531736" minLevel="1" tiers="1" description="Earns the skill: Flashing Blades."/>
+<trait identifier="1879267983" name="Well-practiced" iconId="1091798511" minLevel="1" tiers="3" description="The skills Aim and Find Footing have reduced cooldowns."/>
+<trait identifier="1879267984" name="Gambler's Advantage" iconId="1091798516" minLevel="1" tiers="1" description="Earns the skill: Gambler's Advantage."/>
+<trait identifier="1879267985" name="Dance of Blades" iconId="1091798521" minLevel="1" tiers="5" description="Increases the damage of your Critical Chain attacks."/>
+<trait identifier="1879267986" name="Comedic Timing" iconId="1091798527" minLevel="1" tiers="3" description="Tricks and Trick Removal skills are harder to resist."/>
+<trait identifier="1879267987" name="Roll the Dice" iconId="1091829383" minLevel="1" tiers="6" description="Increases Physical Mastery.">
+<stat name="MELEE_DAMAGE_PERCENTAGE" scaling="1879297190"/>
+<stat name="CRITICAL_MELEE_PERCENTAGE" scaling="1879313984"/>
+</trait>
+<trait identifier="1879267988" name="Clever Retort" iconId="1091414346" minLevel="1" tiers="1" description="Earns the skill: Clever Retort."/>
+<trait identifier="1879267989" name="Self Adulation" iconId="1091829382" minLevel="1" tiers="5" description="Increases the potency of heals."/>
+<trait identifier="1879268078" name="Piercing Trap" iconId="1091829819" minLevel="1" tiers="1" description="Places a Trap that does damage over time and slows all enemies in the Trap radius."/>
+<trait identifier="1879268079" name="Volley" iconId="1091840218" minLevel="1" tiers="5" description="Using a skill that costs Focus has a chance of removing the bow induction time of your next attack."/>
+<trait identifier="1879268080" name="Deadly Precision" iconId="1090541196" minLevel="1" tiers="1" description="Critical hits generate 1 Focus."/>
+<trait identifier="1879268081" name="Strength" iconId="1091841064" minLevel="1" tiers="2" description="Increases the Ranged Damage bonus of Strength Stance."/>
+<trait identifier="1879268082" name="Improved Distracting Shot" iconId="1091459007" minLevel="1" tiers="2" description="Reduces Distracting Shot's cooldown and increases the grace period of the applied Daze."/>
+<trait identifier="1879268083" name="Strong Draw" iconId="1090541189" minLevel="1" tiers="6" description="Increases damage for skills that consume Focus."/>
+<trait identifier="1879268084" name="Improved Intent Concentration" iconId="1091840252" minLevel="1" tiers="1" description="Adds a Power restore and reduces the cooldown of Intent Concentration."/>
+<trait identifier="1879268085" name="Elusive" iconId="1091829833" minLevel="1" tiers="5" description="Increases Evade Chance.">
+<stat name="EVADE_PERCENTAGE" scaling="1879297179"/>
+</trait>
+<trait identifier="1879268086" name="Endurance" iconId="1090553960" minLevel="1" tiers="2" description="Increases the Parry and Evade bonuses of Endurance Stance."/>
+<trait identifier="1879268087" name="Exsanguinate" iconId="1091798532" minLevel="1" tiers="3" description="Blood Arrow has a chance to grant a bonus attack called Exsanguinate that applies a strong bleed to the target."/>
+<trait identifier="1879268088" name="Survival Gear" iconId="1091829814" minLevel="1" tiers="6" description="Increases Physical and Tactical Mitigation."/>
+<trait identifier="1879268089" name="Armour Rend" iconId="1091829815" minLevel="1" tiers="5" description="Penetrating Shot debuffs the target's Block, Parry, and Evade ratings."/>
+<trait identifier="1879268090" name="Bodkin Arrows" iconId="1091798546" minLevel="1" tiers="5" description="Grants mitigation penetration to your Bow attacks."/>
+<trait identifier="1879268091" name="The One Trap" iconId="1091798545" minLevel="1" tiers="1" description="Earns the skill: The One Trap."/>
+<trait identifier="1879268093" name="Wounded Prey" iconId="1091798519" minLevel="1" tiers="1" description="Merciful Shot applies an additional damage effect if Lingering Wound is present. Potency is based off the number of stacks on the target."/>
+<trait identifier="1879268094" name="Complex Mechanisms" iconId="1091457998" minLevel="1" tiers="5" description="Increases Resistance penetration for all Traps."/>
+<trait identifier="1879268095" name="Natural Extracts" iconId="1091798523" minLevel="1" tiers="5" description="Increases damage-over-time damage."/>
+<trait identifier="1879268096" name="Quick Draw" iconId="1091840219" minLevel="1" tiers="4" description="Reduces all Inductions."/>
+<trait identifier="1879268098" name="Quick Shot Focus" iconId="1091829822" minLevel="1" tiers="5" description="Quick Shot has a chance to generate 1 additional Focus."/>
+<trait identifier="1879268099" name="Explosive Powder" iconId="1091798513" minLevel="1" tiers="5" description="Increases damage for Deadly Decoy and Explosive Arrow."/>
+<trait identifier="1879268100" name="Precision" iconId="1091840248" minLevel="1" tiers="2" description="Increases the amount of Focus Precision Stance generates."/>
+<trait identifier="1879268101" name="Pathfinder" iconId="1091840251" minLevel="1" tiers="5" description="Increases Find the Path movement speed buff."/>
+<trait identifier="1879268102" name="Draw Weight" iconId="1091840299" minLevel="1" tiers="6" description="Increases damage for bow skills that require an induction."/>
+<trait identifier="1879269696" name="Persevere" iconId="1091478764" minLevel="1" tiers="5" description="Increases healing and damage done by Gambits in the Persevere Gambit Line."/>
+<trait identifier="1879269697" name="For the Free Peoples" iconId="1091830161" minLevel="1" tiers="1" description="Earns the skill For the Free Peoples, enabling you to buff your Fellowship."/>
+<trait identifier="1879269698" name="Deep Wounds" iconId="1091830172" minLevel="1" tiers="5" description="Further increases the Critical Damage of Bleeds and other damage-over-time effects."/>
+<trait identifier="1879269699" name="Spear Sweep" iconId="1091830135" minLevel="1" tiers="1" description="Grants Onslaught the ability to consume the bleed from Power Attack to deal AoE damage.\n\nGrants Wall of Steel the ability to consume the bleed from Mighty Blow to deal greater AoE damage."/>
+<trait identifier="1879269700" name="Critical Protection" iconId="1091830105" minLevel="1" tiers="5" description="Increases Critical Defence."/>
+<trait identifier="1879269701" name="Way of the Spear" iconId="1091830188" minLevel="1" tiers="3" description="Makes your Spear Gambits more effective."/>
+<trait identifier="1879269702" name="Never Surrender" iconId="1091806078" minLevel="1" tiers="1" description="The cooldown of Never Surrender is reduced, helping you to survive difficult battles."/>
+<trait identifier="1879269703" name="Lasting Impression" iconId="1091830184" minLevel="1" tiers="2" description="Bleeds and Damage-over-time effects gain an additional pulse."/>
+<trait identifier="1879269704" name="Physical Mastery" iconId="1091830182" minLevel="1" tiers="5" description="Increase your Physical Mastery, which improves melee and ranged damage output.">
+<stat name="PHYSICAL_MASTERY" tieredScaling="1879368687;1879368690;1879368692;1879368684;1879368689;1879368689"/>
+</trait>
+<trait identifier="1879269705" name="Careful Shield-work" iconId="1091840529" minLevel="1" tiers="5" description="Gains bonuses to Block Chance when using Persevere Gambits."/>
+<trait identifier="1879269706" name="Recklessness" iconId="1091830136" minLevel="1" tiers="1" description="Greatly increases Melee Damage and Critical Rating, and decreases Block, Evade, and Parry chance for a short time."/>
+<trait identifier="1879269707" name="No Respite for the Wicked" iconId="1091830160" minLevel="1" tiers="3" description="The Offensive Strike Gambit line applies an Incoming Healing debuff to enemies."/>
+<trait identifier="1879269708" name="Defiance" iconId="1091830177" minLevel="1" tiers="3" description="Increase your mitigations after making a challenge."/>
+<trait identifier="1879269709" name="Thick Skin" iconId="1091830164" minLevel="1" tiers="1" description="Gains further bonuses to your ratings from Dance of War and Conviction."/>
+<trait identifier="1879269710" name="Vital Points" iconId="1091830167" minLevel="1" tiers="5" description="Increases the potency of your Bleeds."/>
+<trait identifier="1879269711" name="Warden's Triumph" iconId="1091830176" minLevel="1" tiers="3" description="Boosts the duration of Adroit Manoeuvre, and the damage dealt from Warden's Triumph."/>
+<trait identifier="1879269712" name="Unassailable" iconId="1091830181" minLevel="1" tiers="1" description="Increases your Desolation Miss Chance and Surety of Death Evade Rating."/>
+<trait identifier="1879269713" name="War-cry" iconId="1091806016" minLevel="1" tiers="5" description="The War-cry Gambit increases Evade rating."/>
+<trait identifier="1879269714" name="Lasting Hope" iconId="1091830155" minLevel="1" tiers="3" description="Healing-over-Time effects last longer."/>
+<trait identifier="1879269715" name="Impressive Flourish" iconId="1091806083" minLevel="1" tiers="5" description="Increases the bonuses of Impressive Flourish."/>
+<trait identifier="1879269716" name="On the Offence" iconId="1091830173" minLevel="1" tiers="5" description="Enhances the Morale-tap ability of Offensive Strike."/>
+<trait identifier="1879269717" name="Fear No Darkness" iconId="1091830180" minLevel="1" tiers="5" description="Skills that drain enemy Morale and heal the Warden are more potent."/>
+<trait identifier="1879269718" name="Indefatigable" iconId="1091830147" minLevel="1" tiers="1" description="Increases the heal of Restoration and the Block Rating of Celebration of Skill."/>
+<trait identifier="1879269719" name="Basic Strikes" iconId="1091830131" minLevel="1" tiers="5" description="Your Gambit Builders are more powerful."/>
+<trait identifier="1879269720" name="Quick Sweep" iconId="1091830142" minLevel="1" tiers="3" description="A refined version of Spear Sweep.\n\nThere is a chance that Onslaught and Wall of Steel will trigger Bleeds on your AoE targets in addition to burst damage."/>
+<trait identifier="1879269721" name="Stand Your Ground" iconId="1091830178" minLevel="1" tiers="4" description="Sacrifice Evade to boost Block and Parry ratings. At Max Rank, gain +2% Block chance and +2% Parry chance.">
+<stat name="BLOCK" tieredScaling="1879270010;1879312315;1879312318;1879312309;1879312312"/>
+<stat name="PARRY" tieredScaling="1879312323;1879312321;1879312316;1879312313;1879312311"/>
+<stat name="EVADE" tieredScaling="1879312325;1879312319;1879312314;1879312324;1879312322"/>
+<stat name="BLOCK_PERCENTAGE" scaling="1879312344"/>
+<stat name="PARRY_PERCENTAGE" scaling="1879312345"/>
+</trait>
+<trait identifier="1879269722" name="Counter-attack" iconId="1091830129" minLevel="1" tiers="1" description="Allows you to reset your Mastery skills upon Evading an enemy attack, leading to a quick response."/>
+<trait identifier="1879269723" name="Aggravating Wounds" iconId="1091830150" minLevel="1" tiers="5" description="Bleeds and damage-over-time effects are more likely to achieve a Critical Hit."/>
+<trait identifier="1879269724" name="Bane of Shadow" iconId="1091830133" minLevel="1" tiers="5" description="Increases Light damage."/>
+<trait identifier="1879269725" name="No Mercy" iconId="1091830162" minLevel="1" tiers="1" description="Onslaught and Wall of Steel now have a 50% chance not to consume the bleed on the primary target."/>
+<trait identifier="1879269726" name="Foe of the Darkness" iconId="1091830148" minLevel="1" tiers="5" description="Increases Light skill damage."/>
+<trait identifier="1879269727" name="Warden's Challenge" iconId="1091830127" minLevel="1" tiers="1" description="Earns the skill Defiant Challenge, enabling the Warden to draw threat and attack many foes at once."/>
+<trait identifier="1879269728" name="Grievous Wounds" iconId="1091831437" minLevel="1" tiers="5" description="Increases initial and Bleed damage of Grave Wound.\n\nMax rank causes Grave Wound to cause an incoming Healing debuff."/>
+<trait identifier="1879269729" name="Fellowship of the Shield" iconId="1091831480" minLevel="1" tiers="3" description="Grants your Fellowship a portion of the benefits from Shield-brother skills."/>
+<trait identifier="1879269730" name="Astute Hands" iconId="1091831446" minLevel="1" tiers="6" description="Increases Tactical Critical Chance.">
+<stat name="CRITICAL_TACTICAL_PERCENTAGE" scaling="1879311246"/>
+<stat name="TACTICAL_CRITICAL_MULTIPLIER" scaling="1879311224"/>
+</trait>
+<trait identifier="1879269731" name="Standard of War" iconId="1091831485" minLevel="1" tiers="5" description="Increases damage and Offence buff of Standard of War. At max rank, Standard of War becomes Ground Targeted."/>
+<trait identifier="1879269732" name="Standard of Valour" iconId="1091831448" minLevel="1" tiers="5" description="Increases the damage and Incoming Healing of Standard of Valour. At max rank, Standard of Valour becomes a Ground-targeted skill."/>
+<trait identifier="1879269733" name="Reform the Lines!" iconId="1091831429" minLevel="1" tiers="1" description="Earns the skill: Reform the Lines!"/>
+<trait identifier="1879269734" name="React To Battle" iconId="1091831476" minLevel="1" tiers="3" description="Increases damage of Devastating Blow, Light of Elendil, Pressing Attack, and Routing Cry.\n\nIncreases Critical Chance at max rank."/>
+<trait identifier="1879269735" name="Stand Tall" iconId="1091831444" minLevel="1" tiers="3" description="Being hit reduces the cooldown of Last Stand.\n\nCannot trigger more than once per second."/>
+<trait identifier="1879269736" name="Vital Stroke" iconId="1091840442" minLevel="1" tiers="2" description="Increases  the Critical Damage Magnitude of Grave Wound's bleed.\n\nMax rank reduces Grave Wound's cooldown."/>
+<trait identifier="1879269737" name="Situational Awareness" iconId="1091831467" minLevel="1" tiers="5" description="Devastating Blow, Pressing Attack, Blade of Elendil and Routing Cry have a chance to trigger an Evade buff."/>
+<trait identifier="1879269738" key="STEELED_RESOLVE" name="Steeled Resolve" iconId="1091831478" minLevel="1" tiers="4" description="Increases max Morale.">
+<stat name="MORALE" scaling="1879297173"/>
+</trait>
+<trait identifier="1879269739" key="MARTIAL_PROWESS" name="Martial Prowess" iconId="1091831438" minLevel="1" tiers="3" description="Increases melee damage and attack speed.">
+<stat name="ATTACK_DURATION_PERCENTAGE" scaling="1879311233"/>
+<stat name="MELEE_DAMAGE_PERCENTAGE" scaling="1879297190"/>
+</trait>
+<trait identifier="1879269740" name="Rallying Roar" iconId="1091831427" minLevel="1" tiers="5" description="Increases Morale healed by Rallying Cry.\n\nRestores power when used with a Defeat Event."/>
+<trait identifier="1879269741" name="Terrifying Bellow" iconId="1091831486" minLevel="1" tiers="3" description="Routing Cry stuns affected enemies when coupled with a Defeat Event. Additional ranks increase the stun duration."/>
+<trait identifier="1879269742" name="Time of Need" iconId="1091840434" minLevel="1" tiers="1" description="Earns the skill: Time of Need."/>
+<trait identifier="1879269743" name="Shield of the Dúnedain" iconId="1090533152" minLevel="1" tiers="1" description="Earns the skill: Shield of the Dúnedain."/>
+<trait identifier="1879269744" name="Strong Voice" iconId="1091831472" minLevel="1" tiers="1" description="Threatening Shout now affects up to 6 targets in a small radius."/>
+<trait identifier="1879269745" name="Courageous Convocation" iconId="1091840417" minLevel="1" tiers="1" description="Muster Courage heals the Captain."/>
+<trait identifier="1879269746" name="Advantageous Attack" iconId="1091840437" minLevel="1" tiers="1" description="Shadow's Lament triggers a Light Damage proc on Telling Mark target."/>
+<trait identifier="1879269747" name="Shrug Blows Aside" iconId="1091830183" minLevel="1" tiers="5" description="Increases Critical Defence."/>
+<trait identifier="1879269748" name="Deafening Shouts" iconId="1091840433" minLevel="1" tiers="3" description="Increases Light-type damage."/>
+<trait identifier="1879269749" name="Standard of Honour" iconId="1091831442" minLevel="1" tiers="5" description="Increases damage and healing of Standard of Honour. At max rank, Standard of Honour becomes Ground Targeted."/>
+<trait identifier="1879269750" name="Bolstered Resolve" iconId="1091831445" minLevel="1" tiers="5" description="Increases Healing Critical Magnitude."/>
+<trait identifier="1879269751" name="Skilled Hands" iconId="1091831434" minLevel="1" tiers="3" description="Increases Tactical damage and Outgoing Healing.">
+<stat name="TACTICAL_DAMAGE_PERCENTAGE" scaling="1879311222"/>
+</trait>
+<trait identifier="1879269752" name="Impactful Blows" iconId="1091831424" minLevel="1" tiers="3" description="Increases 2-handed weapon damage."/>
+<trait identifier="1879269753" name="In Harm's Way" iconId="1091830097" minLevel="1" tiers="3" description="Earns the skill: In Harm's Way.\n\nAdditional ranks reduce the damage the Captain takes while the skill is active."/>
+<trait identifier="1879269754" name="Fellowship of the Blade" iconId="1091831488" minLevel="1" tiers="3" description="Gives your Fellowship a portion of the benefit from Blade-brother skills."/>
+<trait identifier="1879269755" name="Oathbreaker's Shame" iconId="1090533154" minLevel="1" tiers="1" description="Earns the skill: Oathbreaker's Shame."/>
+<trait identifier="1879269756" key="ARTERIAL_STRIKES" name="Arterial Strikes" iconId="1091831482" minLevel="1" tiers="4" description="Increases Melee Critical Chance.">
+<stat name="CRITICAL_MELEE_PERCENTAGE" scaling="1879297174"/>
+</trait>
+<trait identifier="1879269757" name="Heightened Allies" iconId="1091840441" minLevel="1" tiers="2" description="Increases summoned Herald and Archer damage."/>
+<trait identifier="1879269758" name="Penetrating Cry" iconId="1091830273" minLevel="1" tiers="3" description="When Routing Cry consumes a Defeat Event, it briefly grants the Fellowship a boost to Attack Speed."/>
+<trait identifier="1879269759" name="Gallant Display" iconId="1091831435" minLevel="1" tiers="1" description="Unlocks the Gallant Display skill."/>
+<trait identifier="1879269760" name="Fellowship of the Song" iconId="1091831481" minLevel="1" tiers="3" description="Gives your Fellowship a portion of the benefits from Song-brother skills."/>
+<trait identifier="1879269761" name="Blood of Númenor" iconId="1091831454" minLevel="1" tiers="3" description="Reviving defeated allies restores additional Morale and Power.\n\nFinal rank turns Escape from Darkness into Cry of Vengeance"/>
+<trait identifier="1879269762" name="Turning Point" iconId="1091831436" minLevel="1" tiers="5" description="Defeat Events grant Incoming Healing.\n\n This effect can stack up to 5 times."/>
+<trait identifier="1879269763" name="Honourable Blow" iconId="1091840416" minLevel="1" tiers="1" description="Captains strike with honour and integrity.\n\nValiant Strike grants an Incoming Healing buff to the Fellowship when used on a target with Revealing Mark"/>
+<trait identifier="1879269764" name="Dignified Spectacle" iconId="1091831433" minLevel="1" tiers="4" description="Increases outgoing damage and healing.">
+<stat name="TACTICAL_DAMAGE_PERCENTAGE" scaling="1879283684"/>
+<stat name="MELEE_DAMAGE_PERCENTAGE" scaling="1879283685"/>
+</trait>
+<trait identifier="1879269765" name="Rousing Cry" iconId="1091831455" minLevel="1" tiers="3" description="When Rallying Cry consumes a Defeat Event, it briefly increases your Fellowship's outgoing damage."/>
+<trait identifier="1879269766" name="Strength in Numbers" iconId="1091831431" minLevel="1" tiers="2" description="Earns the skill: Strength in Numbers."/>
+<trait identifier="1879269767" name="Make Them Bleed" iconId="1091831461" minLevel="1" tiers="5" description="Increases Bleed damage."/>
+<trait identifier="1879269768" name="Absorb Momentum" iconId="1091831443" minLevel="1" tiers="5" description="Increases Block chance.">
+<stat name="BLOCK_PERCENTAGE" scaling="1879297201"/>
+</trait>
+<trait identifier="1879269769" name="Call Them Out" iconId="1091830076" minLevel="1" tiers="5" description="Cutting Attack and Grave Wound deal additional damage."/>
+<trait identifier="1879269770" name="Restraint" iconId="1091831471" minLevel="1" tiers="4" description="Decreases power cost of damaging skills."/>
+<trait identifier="1879269771" name="Demand Attention" iconId="1091831426" minLevel="1" tiers="1" description="Grave Wound will briefly Force Taunt a target."/>
+<trait identifier="1879269772" name="Reversal" iconId="1091831423" minLevel="1" tiers="2" description="Critical events briefly increase melee damage."/>
+<trait identifier="1879269773" name="Lifting Words" iconId="1091831474" minLevel="1" tiers="5" description="Increases Words of Courage healing."/>
+<trait identifier="1879269775" name="Relentless Optimism" iconId="1091831473" minLevel="1" tiers="3" description="Increases AoE Healing."/>
+<trait identifier="1879269777" name="Hardened Heart" iconId="1091831479" minLevel="1" tiers="3" description="Increases Critical hit damage of Melee skills while in Battle-hardened state."/>
+<trait identifier="1879269778" name="Sic 'em" iconId="1091829955" minLevel="1" tiers="1" description="Earns the skill: Sic 'em.\n\nEnables you to summon a host of wild animals to your aid, but they cannot be controlled."/>
+<trait identifier="1879269779" name="Knowledge of Storms" iconId="1091455330" minLevel="1" tiers="5" description="Deal more damage with Lightning attacks."/>
+<trait identifier="1879269780" name="Fend Them Off" iconId="1091840540" minLevel="1" tiers="3" description="Sword and Storm temporarily boosts your Parry Chance, Evade Chance, and Fire Skill Damage."/>
+<trait identifier="1879269781" name="Ancient Fire" iconId="1091829938" minLevel="1" tiers="5" description="Gives Gust of Wind a chance to upgrade 2 Burning Embers DoT effects at once."/>
+<trait identifier="1879269782" name="Catmint" iconId="1091829960" minLevel="1" tiers="1" description="Earns the skill: Catmint."/>
+<trait identifier="1879269783" name="Hearty Diet" iconId="1091829939" minLevel="1" tiers="6" description="Boosts the max Morale of your pet and yourself. At max rank, you gain both Tactical and Mitigation bonuses.">
+<stat name="MORALE" tieredScaling="1879311511;1879311513;1879311509;1879311512;1879311510"/>
+</trait>
+<trait identifier="1879269784" name="Prepare for War" iconId="1091829949" minLevel="1" tiers="5" description="Increase Tactical damage dealt by both your pet and yourself.">
+<stat name="TACTICAL_MASTERY" tieredScaling="1879311508;1879311506;1879311505;1879311503;1879311504"/>
+</trait>
+<trait identifier="1879269785" name="Don't Interrupt Me" iconId="1091829926" minLevel="1" tiers="3" description="Enemies who interrupt your inductions pay dearly for their rudeness.\n\nAt base, you return and absorb 7% of damage."/>
+<trait identifier="1879269786" name="Slow Burn" iconId="1091840539" minLevel="1" tiers="3" description="Burning Embers lasts much longer."/>
+<trait identifier="1879269787" name="Nature's Fury" iconId="1091829914" minLevel="1" tiers="1" description="Earns the skill: Nature's Fury."/>
+<trait identifier="1879269788" name="Prepared Materials" iconId="1091829931" minLevel="1" tiers="3" description="You attack faster now that you are prepared for battle."/>
+<trait identifier="1879269789" name="Sign of the Wild: Protection" iconId="1091806022" minLevel="1" tiers="5" description="Sign of the Wild: Protection increases your pet's defences."/>
+<trait identifier="1879269790" name="Burning Earth" iconId="1091829923" minLevel="1" tiers="3" description="The Cracked Earth skill burns hotter, dealing additional damage."/>
+<trait identifier="1879269791" name="Synchronized Movement" iconId="1091829947" minLevel="1" tiers="3" description="You and your pet execute attacks more quickly."/>
+<trait identifier="1879269792" name="Sword and Storm" iconId="1091829915" minLevel="1" tiers="1" description="Staff-strike deals bonus Lightning damage and stuns the foe."/>
+<trait identifier="1879269793" name="Loyalty" iconId="1091829944" minLevel="1" tiers="5" description="Your pet loves you. If you are hit by a Critical attack, your pet will sacrifice some Morale to heal you."/>
+<trait identifier="1879269794" name="Don't You Touch Him!" iconId="1091829927" minLevel="1" tiers="3" description="Protective of your pet, you gain a damage buff if your pet is hit by a Critical attack."/>
+<trait identifier="1879269795" name="Ring of Fire" iconId="1091829941" minLevel="1" tiers="4" description="Earns the skill: Ring of Fire. At max rank, Ring of Fire's radius is doubled."/>
+<trait identifier="1879269796" name="Master of Fire" iconId="1091829938" minLevel="1" tiers="3" description="Increases Fire skill damage."/>
+<trait identifier="1879269797" name="Lightning-storm" iconId="1091399989" minLevel="1" tiers="3" description="Earns the skill: Lightning-storm."/>
+<trait identifier="1879269799" name="Dry Kindling" iconId="1091829913" minLevel="1" tiers="3" description="Burning Embers has a chance to burn hotter and last longer."/>
+<trait identifier="1879269800" name="Inner Flame" iconId="1091829934" minLevel="1" tiers="3" description="Earns the skill: Inner Flame.\nThis skill heals Morale and tiers up a Fire Damage buff as you channel."/>
+<trait identifier="1879269801" name="Sign of the Wild: Rage" iconId="1091840537" minLevel="1" tiers="5" description="Sign of the Wild: Rage increases your pet's damage and attack speed."/>
+<trait identifier="1879269802" key="TACTICAL_DAMAGE" name="Tactical Damage" iconId="1091829951" minLevel="1" tiers="5" description="Deal more damage with Tactical skills.">
+<stat name="TACTICAL_DAMAGE_PERCENTAGE" scaling="1879270045"/>
+</trait>
+<trait identifier="1879269804" name="Mighty Wind" iconId="1091829945" minLevel="1" tiers="3" description="Gust of Wind has a chance to spread the flames of Burning Embers from foe to foe."/>
+<trait identifier="1879269805" name="Go for the Throat" iconId="1091829952" minLevel="1" tiers="5" description="Increases your pet's Critical rating."/>
+<trait identifier="1879269806" name="Fierce Lightning" iconId="1091829942" minLevel="1" tiers="5" description="Lightning-storm may set the ground beneath the enemy afire, dealing additional Fire damage."/>
+<trait identifier="1879269820" name="After-battle Treat" iconId="1091829935" minLevel="1" tiers="3" description="After a battle is finished, your pet receives positive reinforcement from you; it gains Morale and a damage buff."/>
+<trait identifier="1879270103" name="A Trick for all Tastes" iconId="1091509965" minLevel="1" tiers="1" description="Your Trick Removal buffs are now applied to your Fellowship."/>
+<trait identifier="1879270104" name="Reveal Weakness" iconId="1091798509" minLevel="1" tiers="1" description="Reveal Weakness gains the ability to reduce the target's Critical Defence."/>
+<trait identifier="1879270105" name="Reveal Weakness" iconId="1091798542" minLevel="1" tiers="1" description="Reveal Weakness gains the ability to reduce the target's Finesse."/>
+<trait identifier="1879270106" name="Location is Everything" iconId="1091840428" minLevel="1" tiers="1" description="Striking at the weak links in your opponent's armour allows your Critical chain attacks to bypass their defences."/>
+<trait identifier="1879270107" name="Critical Magnitude" iconId="1091829381" minLevel="1" tiers="1" description="Increases the Critical and Devastating Critical Damage of all your skills."/>
+<trait identifier="1879270108" name="Relish Battle" iconId="1091829384" minLevel="1" tiers="1" description="Your Critical hits grant a Heal-over-time."/>
+<trait identifier="1879270109" name="Confound the Fools" iconId="1091509963" minLevel="1" tiers="1" description="Your mastery of the Trick is second to none."/>
+<trait identifier="1879270110" name="Bob and Weave" iconId="1091798538" minLevel="1" tiers="1" description="Grants a Heal-over-time when you Evade an attack."/>
+<trait identifier="1879270111" name="Joke With Legs" iconId="1091798512" minLevel="1" tiers="1" description="Increases the range of your Trick skills."/>
+<trait identifier="1879270112" name="Loaded Dice" iconId="1091829392" minLevel="1" tiers="1" description="You always play to win."/>
+<trait identifier="1879270113" name="Improved Knives Out" iconId="1091414339" minLevel="1" tiers="1" description="Reduces the cooldown of Knives Out."/>
+<trait identifier="1879270114" name="Reveal Weakness" iconId="1091798547" minLevel="1" tiers="1" description="Reveal Weakness gains the ability to reduce the target's Resistance."/>
+<trait identifier="1879270126" name="Blind Bet" iconId="1091798526" minLevel="1" tiers="1" description="You make an additional attack after using Double-edged Strike, inflicting moderate damage. A random Gamble is applied to your target."/>
+<trait identifier="1879270127" name="Cash Out" iconId="1091798524" minLevel="1" tiers="1" description="Sometimes it's better to cut your losses and cash out. You use your knowledge of the game to turn a gamble into a sure thing."/>
+<trait identifier="1879270252" name="Thick Skin" iconId="1091829379" minLevel="1" tiers="5" description="Increases Physical and Tactical mitigation."/>
+<trait identifier="1879270405" name="Ferocious Strikes" iconId="1091830072" minLevel="1" tiers="1" description="Earns the skill: Ferocious Strikes."/>
+<trait identifier="1879270406" name="Deafening Horn" iconId="1091830100" minLevel="1" tiers="2" description="Increases Horn of Champions damage."/>
+<trait identifier="1879270408" name="Champion's Advantage" iconId="1091830092" minLevel="1" tiers="3" description="Blade skills have a chance to bypass the target's Physical mitigation."/>
+<trait identifier="1879270409" key="MIGHT_INCREASE" name="Might Increase" iconId="1091830097" minLevel="1" tiers="5" description="Increases Might.">
+<stat name="MIGHT" tieredScaling="1879366646;1879366652;1879366655;1879366660;1879366662"/>
+</trait>
+<trait identifier="1879270410" name="Fight Through The Pain" iconId="1091830098" minLevel="1" tiers="5" description="Buffs Parry rating upon being Critically hit.\n\nMax rank grants the Champion a Parry response upon being Critically hit."/>
+<trait identifier="1879270411" key="CRIT_CHANCE_INCREASE" name="Critical Chance Increase" iconId="1091830069" minLevel="1" tiers="5" description="Increases Critical Chance.">
+<stat name="CRITICAL_MELEE_PERCENTAGE" scaling="1879297174"/>
+</trait>
+<trait identifier="1879270413" name="Tactical Mitigation Increase" iconId="1091830059" minLevel="1" tiers="5" description="Increases Tactical Mitigation."/>
+<trait identifier="1879270414" name="Vitality Increase" iconId="1091830101" minLevel="1" tiers="5" description="Increases Vitality.">
+<stat name="VITALITY" tieredScaling="1879366659;1879366643;1879366650;1879366645;1879366641"/>
+</trait>
+<trait identifier="1879270415" name="Battle Reflexes" iconId="1091830070" minLevel="1" tiers="5" description="Decreases Attack Duration.">
+<stat name="ATTACK_DURATION_PERCENTAGE" scaling="1879291521"/>
+</trait>
+<trait identifier="1879270416" name="Killing Spree" iconId="1091830099" minLevel="1" tiers="3" description="Killing an enemy grants a portion of the Champion's max Morale."/>
+<trait identifier="1879270417" name="Critical Defence Increase" iconId="1091830105" minLevel="1" tiers="5" description="Increases Critical Defence."/>
+<trait identifier="1879270418" name="Finesse Increase" iconId="1091830085" minLevel="1" tiers="5" description="Increases Finesse Rating.">
+<stat name="FINESSE" tieredScaling="1879367860;1879367858;1879367861;1879367859;1879367857"/>
+</trait>
+<trait identifier="1879270419" name="A Champion's Duel" iconId="1091830061" minLevel="1" tiers="1" description="Debuffs the target's damage and movement speed, while increasing the strength of the Champion."/>
+<trait identifier="1879270420" name="Strong Armed Swings" iconId="1091830067" minLevel="1" tiers="5" description="Every hit on Strikes skills deal additional damage."/>
+<trait identifier="1879270421" name="Blade of Courage" iconId="1091830056" minLevel="1" tiers="3" description="Blade skills have a chance to return health to the Champion on use."/>
+<trait identifier="1879270437" name="Molten Rock" iconId="1091805926" minLevel="1" tiers="3" description="Increases the damage of Volcanic Runestone. Max Rank makes the Volcanic Runestone Ground Targeted."/>
+<trait identifier="1879270438" key="EXACTING_WARDS" name="Exacting Wards" iconId="1091829842" minLevel="1" tiers="5" description="Increases Critical defence."/>
+<trait identifier="1879270439" name="Empowering Flame" iconId="1091805927" minLevel="1" tiers="3" description="Mystifying Flame procs briefly reduce inductions."/>
+<trait identifier="1879270440" name="Epic Conclusion" iconId="1091840528" minLevel="1" tiers="1" description="Earns the skill: Epic Conclusion."/>
+<trait identifier="1879270441" name="Thick Skinned" iconId="1091915730" minLevel="1" tiers="3" description="Increases Physical Mitigation."/>
+<trait identifier="1879270442" name="Vivid Imagery" iconId="1091840976" minLevel="1" tiers="1" description="Earns the skill: Vivid Imagery."/>
+<trait identifier="1879270443" name="Fulgurite Runestone" iconId="1091829840" minLevel="1" tiers="1" description="Earns the skill: Fulgurite Runestone."/>
+<trait identifier="1879270444" name="Exalted" iconId="1091454161" minLevel="1" tiers="5" description="Increases the Bubble duration of Words of Exalatation and Essay of Exalatation.\n\nAlso increases the Heal of Essay of Exaltation."/>
+<trait identifier="1879270445" name="Harsh Debate" iconId="1091502148" minLevel="1" tiers="5" description="Lightning skills have a chance to briefly buff Tactical Damage."/>
+<trait identifier="1879270447" name="Bombastic Inspiration" iconId="1091805929" minLevel="1" tiers="1" description="Earns the skill: Bombastic Inspiration."/>
+<trait identifier="1879270448" name="Combustion" iconId="1091805938" minLevel="1" tiers="1" description="Earns the skill: Combustion."/>
+<trait identifier="1879270449" key="DELIBERATE_ADDRESS" name="Deliberate Address" iconId="1091829848" minLevel="1" tiers="5" description="Increases Tactical Damage.">
+<stat name="TACTICAL_DAMAGE_PERCENTAGE" scaling="1879297189"/>
+</trait>
+<trait identifier="1879270450" name="Overflowing Confidence" iconId="1091502135" minLevel="1" tiers="5" description="Self Motivation now heals Morale and reduces Power cost of skills."/>
+<trait identifier="1879270451" name="Rune of Endurance" iconId="1091805936" minLevel="1" tiers="3" description="Increases the healing done by Rune of Restoration. Max Rank makes the Rune of Restoration Ground Targeted."/>
+<trait identifier="1879270452" name="Truly Epic" iconId="1091805958" minLevel="1" tiers="4" description="Critical heals with Epic for The Ages heal all allies around the target for a percentage of the heal."/>
+<trait identifier="1879270453" name="Essay of Exaltation" iconId="1091829856" minLevel="1" tiers="1" description="Earns the skill: Essay of Exaltation."/>
+<trait identifier="1879270454" name="Self-esteem Boost" iconId="1091805944" minLevel="1" tiers="5" description="Epic for The Ages, Mending Verse, or Rousing Words heal the Rune-keeper for a small amount."/>
+<trait identifier="1879270455" name="Rallying Verse" iconId="1091502137" minLevel="1" tiers="5" description="Targets revived by Nothing Truly Ends return with additional Power and Morale."/>
+<trait identifier="1879270456" name="Molten Flame" iconId="1091805924" minLevel="1" tiers="3" description="Fire skills reduce the armour of a target."/>
+<trait identifier="1879270457" name="Explosive Rhetoric" iconId="1091805947" minLevel="1" tiers="3" description="Increases the damage of Essence of Flame."/>
+<trait identifier="1879270458" name="Closing Remarks" iconId="1091502149" minLevel="1" tiers="5" description="Increases the proc chance of Thunderous Words and Harsh Debate.\n\nWhen both buffs become active on the Rune-keeper, they become one buff that can be consumed by Epic Conclusion to increase its damage and reduce its cooldown."/>
+<trait identifier="1879270459" name="Mystifying Flames" iconId="1091502155" minLevel="1" tiers="3" description="Fire skills have a chance to briefly reduce the target's resistance to fire."/>
+<trait identifier="1879270460" name="Prophetic Word" iconId="1091502144" minLevel="1" tiers="3" description="Enhances the potency of Mending Verse."/>
+<trait identifier="1879270461" key="LIGHT_ON_ONES_FEET" name="Light on One's Feet" iconId="1091829857" minLevel="1" tiers="5" description="Increases Evade Chance.">
+<stat name="EVADE_PERCENTAGE" scaling="1879297135"/>
+</trait>
+<trait identifier="1879270462" name="Linnod of Flame" iconId="1091829853" minLevel="1" tiers="2" description="Increases the number of targets affected by Essence of Flame."/>
+<trait identifier="1879270463" name="Unwavering Confidence" iconId="1091805961" minLevel="1" tiers="5" description="Epic for The Ages provides additional Heal-over-time."/>
+<trait identifier="1879270464" name="Statically Charged" iconId="1091829855" minLevel="1" tiers="3" description="Fulgurite Runestone slows nearby enemies and deals more damage. Max Rank makes the Fulgurite Runestone Ground Targeted."/>
+<trait identifier="1879270465" key="FORTUNE_SMILES" name="Fortune Smiles" iconId="1091829854" minLevel="1" tiers="5" description="Increases Fate.">
+<stat name="FATE" tieredScaling="1879366664;1879366654;1879366651;1879366663;1879366657"/>
+</trait>
+<trait identifier="1879270466" name="Concession and Rebuttal" iconId="1091805928" minLevel="1" tiers="1" description="Earns the skill: Concession and Rebuttal.\n\nPlaces 5 Charges that can be consumed to enhance the Rune-keepers Lightning skills.\n\nUsing one of these Enhanced skills consumes a Charge."/>
+<trait identifier="1879270467" name="Perfect Imagery" iconId="1091502157" minLevel="1" tiers="4" description="Increases the number of targets Vivid Imagery affects."/>
+<trait identifier="1879270468" name="Prelude of Power" iconId="1091829839" minLevel="1" tiers="5" description="Prelude of Hope also gives a Power-over-time effect to its target."/>
+<trait identifier="1879270469" key="CUTTING_REMARKS" name="Cutting Remarks" iconId="1091829862" minLevel="1" tiers="5" description="Increases Tactical Critical Chance.">
+<stat name="CRITICAL_TACTICAL_PERCENTAGE" scaling="1879297100"/>
+</trait>
+<trait identifier="1879270470" key="DETERMINATION" name="Determination" iconId="1091829846" minLevel="1" tiers="5" description="Increases Will.">
+<stat name="WILL" tieredScaling="1879366649;1879366661;1879366656;1879366644;1879366658"/>
+</trait>
+<trait identifier="1879270471" name="Volcanic Runestone" iconId="1091805945" minLevel="1" tiers="1" description="Earns the skill: Volcanic Runestone."/>
+<trait identifier="1879270656" key="FINESSE_INCREASE" name="Finesse" iconId="1091830085" minLevel="1" tiers="5" description="Increases your Finesse rating.">
+<stat name="FINESSE" tieredScaling="1879367860;1879367858;1879367861;1879367859;1879367857"/>
+</trait>
+<trait identifier="1879270657" name="Enduring Assailment" iconId="1091830174" minLevel="1" tiers="5" description="Increase the debuff duration of Assailment Gambit debuffs."/>
+<trait identifier="1879270658" name="Lasting Mark" iconId="1091830141" minLevel="1" tiers="5" description="Increase the Duration of Marked Target and Diminished Target."/>
+<trait identifier="1879270659" name="Area Targeting" iconId="1091830175" minLevel="1" tiers="1" description="Marked Target and Diminished Target will affect up to 4 additional targets."/>
+<trait identifier="1879270660" name="Bulls-eye" iconId="1091830149" minLevel="1" tiers="6" description="Increases your Critical rating, and grants 1% Ranged Critical damage per rank.\n\nAt max rank, gain a significant Critical Damage bonus.">
+<stat name="CRITICAL_MELEE_PERCENTAGE" scaling="1879300535"/>
+<stat name="CRITICAL_RANGED_PERCENTAGE" scaling="1879300536"/>
+<stat name="CRITICAL_TACTICAL_PERCENTAGE" scaling="1879300531"/>
+</trait>
+<trait identifier="1879270661" name="Suppression" iconId="1091830159" minLevel="1" tiers="3" description="Increases the outgoing damage debuff in the Ranged Offensive Strike Gambit line."/>
+<trait identifier="1879270662" name="Ranged Damage" iconId="1091831426" minLevel="1" tiers="5" description="Increases your Ranged damage rating."/>
+<trait identifier="1879270663" name="Shield's Up" iconId="1091830185" minLevel="1" tiers="1" description="Swapping into melee stance will grant you a temporary Block buff."/>
+<trait identifier="1879270664" name="Barbed Javelins" iconId="1091830146" minLevel="1" tiers="5" description="All Javelin Gambits have a chance to trigger a Bleed. The more builders used to make the Gambit, the more damaging the Bleed will be.\n\nBleeds of the same tier will not stack."/>
+<trait identifier="1879270665" name="Battering Strikes" iconId="1091830165" minLevel="1" tiers="3" description="Increases the Critical Defence debuff rating in the Precise Throw Gambit line."/>
+<trait identifier="1879270666" name="Shattered Javelins" iconId="1091830183" minLevel="1" tiers="1" description="Attempting to stack a Barbed Javelins bleed will instead consume the bleed for an area effect damage burst.\n\nThe more powerful the bleed, the more powerful the damage burst will be."/>
+<trait identifier="1879270667" name="Momentum" iconId="1091830134" minLevel="1" tiers="5" description="Swapping into melee stance will grant you a temporary Melee damage buff."/>
+<trait identifier="1879270668" name="Hurry Up with That!" iconId="1091830145" minLevel="1" tiers="3" description="Ranged Adroit Manoeuvre triggers an Induction duration buff to your fellowship."/>
+<trait identifier="1879270669" name="Piercing Javelins" iconId="1091830154" minLevel="1" tiers="3" description="Ranged Gambits bypass enemy armour."/>
+<trait identifier="1879270670" name="Javelin of Deadly Force" iconId="1091830139" minLevel="1" tiers="1" description="Earns the skill Javelin of Deadly Force, enabling a Javelin attack that can pierce many enemies at once.\n\nFor every target hit, you gain a stack of a Ranged Damage and Critical Damage buff."/>
+<trait identifier="1879270674" name="Firm Grasp" iconId="1091829911" minLevel="1" tiers="3" description="Increases Breakout Grace Period on all crowd-control skills."/>
+<trait identifier="1879270675" name="Frost-lore" iconId="1091840552" minLevel="1" tiers="5" description="Improves the potency of Frost-lore's Tactical Damage Debuff."/>
+<trait identifier="1879270676" name="Disable" iconId="1091829932" minLevel="1" tiers="3" description="Increases Stun duration."/>
+<trait identifier="1879270677" name="Level-headed" iconId="1091829918" minLevel="1" tiers="5" description="Decreases Morale Cost of skills."/>
+<trait identifier="1879270678" name="Quick Hands" iconId="1091829917" minLevel="1" tiers="3" description="Reduces duration of all Lore-master inductions."/>
+<trait identifier="1879270679" name="Fire-lore" iconId="1091840551" minLevel="1" tiers="5" description="Improves the potency of Fire-lore's Melee Damage Debuff."/>
+<trait identifier="1879270680" name="Pleasant Breeze" iconId="1091829943" minLevel="1" tiers="5" description="A critical hit with Gust of Wind will allow you to direct a pleasant breeze to your allies, restoring some Morale."/>
+<trait identifier="1879270681" name="Storm-lore" iconId="1091840553" minLevel="1" tiers="3" description="Earns the skill: Storm-lore.\n\nIncreases Lightning Damage per rank."/>
+<trait identifier="1879270682" name="Playing with Fire" iconId="1091829912" minLevel="1" tiers="1" description="Adds unique debuffs when using a Fire, Frost, or Lightning skill on a target afflicted with Fire-lore:"/>
+<trait identifier="1879270683" name="Ancient Craft" iconId="1091806010" minLevel="1" tiers="4" description="Increases Armour Debuff of Ancient Craft\n\n At third rank, Ancient Craft causes the first Lightning Skill to be used against a target to deal bonus damage.\n\nAt max rank, your armour is 5% more effective."/>
+<trait identifier="1879270684" name="Mending Lore" iconId="1091829940" minLevel="1" tiers="5" description="Increases Outgoing Healing per Rank. At max rank, increases the Incoming Healing buff on Water-lore."/>
+<trait identifier="1879270685" name="The Ancient Master" iconId="1091829937" minLevel="1" tiers="1" description="Earns the skill: The Ancient Master."/>
+<trait identifier="1879270686" name="Flow of Power" iconId="1091829922" minLevel="1" tiers="5" description="Increases Power restoration by Power of Knowledge and Share the Power."/>
+<trait identifier="1879270687" name="Out in the Cold" iconId="1091829919" minLevel="1" tiers="1" description="Adds unique debuffs when using a Fire, Frost, or Lightning skill on a target afflicted with Frost-lore:"/>
+<trait identifier="1879270739" name="Poignant Phrases" iconId="1091830281" minLevel="1" tiers="5" description="Increases Critical Healing."/>
+<trait identifier="1879270741" name="Cacophonous Timeless Echoes" iconId="1091840511" minLevel="1" tiers="3" description="Increases the damage done by Timeless Echoes."/>
+<trait identifier="1879270742" name="The Fundamentals" iconId="1091830274" minLevel="1" tiers="5" description="Increases the damage of Ballads and Codas."/>
+<trait identifier="1879270743" name="Weakening Echoes of Battle" iconId="1091840495" minLevel="1" tiers="3" description="Echoes of Battle deals more damage and further reduces the enemy's Resistance."/>
+<trait identifier="1879270744" name="Resonant Piercing Cry" iconId="1091840504" minLevel="1" tiers="1" description="Tune your Piercing Cry to both help your allies and harm your foes."/>
+<trait identifier="1879270745" key="ENDURING_MORALE" name="Enduring Morale" iconId="1091830254" minLevel="1" tiers="5" description="Increases max Morale.">
+<stat name="MORALE" tieredScaling="1879211574;1879211989;1879211583;1879212170;1879211538"/>
+</trait>
+<trait identifier="1879270746" name="Pause for Breath" iconId="1091830268" minLevel="1" tiers="3" description="Healing skills have a chance to refund their Power cost.\n\nAt max rank, heals refund more than their Power cost."/>
+<trait identifier="1879270747" name="Soothing Voice" iconId="1091830283" minLevel="1" tiers="5" description="Increases the potency of Heals."/>
+<trait identifier="1879270748" name="Legend of Helm Hammerhand" iconId="1091830276" minLevel="1" tiers="1" description="Earns the skill: Legend of Helm Hammerhand."/>
+<trait identifier="1879270750" name="Echoing Anthem of War" iconId="1091840501" minLevel="1" tiers="1" description="Anthem of War improves your allies' Tactical damage."/>
+<trait identifier="1879270751" name="Piercing Ballads" iconId="1091840513" minLevel="1" tiers="5" description="Increases the Critical Chance of Ballad skills."/>
+<trait identifier="1879270752" name="Improved Hero's Strike" iconId="1091830272" minLevel="1" tiers="3" description="Increases damage and healing done by Hero's Strike."/>
+<trait identifier="1879270753" name="Call to Greatness" iconId="1091830259" minLevel="1" tiers="1" description="Earns the skill: Call to Greatness"/>
+<trait identifier="1879270754" name="Improved Coda of Melody" iconId="1091840516" minLevel="1" tiers="3" description="Coda of Melody will also increase the fellowships Incoming Healing."/>
+<trait identifier="1879270756" name="Improved Coda of Fury" iconId="1091830280" minLevel="1" tiers="3" description="Coda of Fury has a chance to reset the cooldown of all Cries and Calls. You cannot gain this effect more than once every 25s."/>
+<trait identifier="1879270757" name="Tactical Mastery" iconId="1091830270" minLevel="1" tiers="6" description="Increases Tactical Mastery rating.">
+<stat name="TACTICAL_MASTERY" tieredScaling="1879368691;1879368688;1879368685;1879368693;1879368686;1879368686"/>
+</trait>
+<trait identifier="1879270758" name="Improved Chord of Salvation" iconId="1091840485" minLevel="1" tiers="4" description="Chord of Salvation gains a fellowship-wide heal."/>
+<trait identifier="1879270759" name="Improved Song of the Hammerhand" iconId="1091840486" minLevel="1" tiers="3" description="Enhances the potency the bubble from Song of the Hammerhand."/>
+<trait identifier="1879270760" key="FINESSE_MINSTREL" name="Finesse" iconId="1091830258" minLevel="1" tiers="5" description="Finesse rating is improved.">
+<stat name="FINESSE" tieredScaling="1879367860;1879367858;1879367861;1879367859;1879367857"/>
+</trait>
+<trait identifier="1879270761" name="Change of Pace - Heal!" iconId="1091830255" minLevel="1" tiers="5" description="Offensive skills have a chance to grant you a buff that will make your next healing skill crit."/>
+<trait identifier="1879270762" name="Follow Up" iconId="1091840543" minLevel="1" tiers="2" description="Critical Heals speed up skill use."/>
+<trait identifier="1879270763" name="Improved Call of Oromë" iconId="1091840508" minLevel="1" tiers="2" description="Call of Oromë affects more targets and deals more damage."/>
+<trait identifier="1879270764" name="Improved Inspire Fellows" iconId="1091840479" minLevel="1" tiers="5" description="Inspire Fellows costs less Power, heals more Morale, and briefly reduces incoming damage."/>
+<trait identifier="1879270765" name="Cry of the Wizards" iconId="1091840475" minLevel="1" tiers="1" description="Earns the skill: Cry of the Wizards."/>
+<trait identifier="1879270766" name="Sharing a Story" iconId="1091840506" minLevel="1" tiers="2" description="A Critical hit with a Ballad will reset Piercing Cry cooldowns."/>
+<trait identifier="1879270767" name="Inspiring Cries and Calls" iconId="1091830261" minLevel="1" tiers="5" description="Healing skills have a chance to reset the cooldown of Cries and Calls. You cannot gain this effect more than once every 15s."/>
+<trait identifier="1879270768" name="Improved Bolster Courage" iconId="1091830267" minLevel="1" tiers="5" description="Bolster Courage delivers a more potent heal."/>
+<trait identifier="1879270769" name="Triumphant Spirit" iconId="1091840477" minLevel="1" tiers="2" description="Earns the skill: Triumphant Spirit."/>
+<trait identifier="1879270770" name="Call of Oromë" iconId="1091840514" minLevel="1" tiers="1" description="Earns the skill: Call of Oromë."/>
+<trait identifier="1879270771" name="Shielding Cry" iconId="1091840507" minLevel="1" tiers="3" description="Piercing Cry causes some of the damage the Fellowship takes to be reflected upon your enemies."/>
+<trait identifier="1879270772" name="Cry of the Valar" iconId="1091840482" minLevel="1" tiers="1" description="Earns the skill: Cry of the Valar."/>
+<trait identifier="1879270773" name="Shield Focus" iconId="1091830287" minLevel="1" tiers="2" description="Gain a defensive skill."/>
+<trait identifier="1879270774" key="CRITICAL_STRIKES" name="Critical Strikes" iconId="1091830275" minLevel="1" tiers="5" description="Increases Critical Chance and Critical Damage.">
+<stat name="CRITICAL_MELEE_PERCENTAGE" scaling="1879300534"/>
+<stat name="CRITICAL_RANGED_PERCENTAGE" scaling="1879300538"/>
+<stat name="CRITICAL_TACTICAL_PERCENTAGE" scaling="1879300537"/>
+<stat name="TACTICAL_CRITICAL_MULTIPLIER" scaling="1879300533"/>
+</trait>
+<trait identifier="1879270775" name="Herald's Strength" iconId="1091840483" minLevel="1" tiers="6" description="Dissonant Strike steals Morale from the enemy on a Critical Hit."/>
+<trait identifier="1879270777" name="Discordant Cries" iconId="1091830263" minLevel="1" tiers="5" description="Increases the damage of Cries and Calls."/>
+<trait identifier="1879270778" name="Improved Coda of Resonance" iconId="1091840484" minLevel="1" tiers="3" description="Coda of Resonance briefly reduces incoming damage."/>
+<trait identifier="1879270779" name="Quick Melody" iconId="1091830278" minLevel="1" tiers="5" description="Lowers skill induction time, letting you heal faster."/>
+<trait identifier="1879270780" name="Anthem of Composure" iconId="1091810091" minLevel="1" tiers="1" description="Earns the skill: Anthem of Composure."/>
+<trait identifier="1879270781" name="Strong Appeal" iconId="1091830264" minLevel="1" tiers="5" description="Increases the Crit chance of heals."/>
+<trait identifier="1879270782" name="Strength of Helm Hammerhand" iconId="1091840509" minLevel="1" tiers="1" description="Adds a Physical and Tactical Mastery buff to Song of the Hammerhand's and Gift of the Hammerhand's bubble."/>
+<trait identifier="1879270788" name="Extended Anthems" iconId="1091830291" minLevel="1" tiers="5" description="Increases Anthem Duration"/>
+<trait identifier="1879271328" name="Thrill of Danger" iconId="1091805290" minLevel="1" tiers="1" description="Earns the skill: Thrill of Danger."/>
+<trait identifier="1879271330" name="Haemorrhage" iconId="1091829800" minLevel="1" tiers="5" description="The Brutal Assault skill has a chance to apply a Haemorrhaging Wound. Each rank will increase the wound's damage over time."/>
+<trait identifier="1879271331" name="Tireless Defender" iconId="1091805244" minLevel="1" tiers="3" description="Your Guardian's Ward skill will reduce skill power cost while active."/>
+<trait identifier="1879271332" name="War-chant" iconId="1091805276" minLevel="1" tiers="1" description="Earns the skill: War-chant."/>
+<trait identifier="1879271334" name="Disorientation" iconId="1091805265" minLevel="1" tiers="5" description="The skills Shield-smash and Shield-blow make it harder for your enemy to avoid attacks."/>
+<trait identifier="1879271335" name="Relentless Assault" iconId="1091805252" minLevel="1" tiers="5" description="The Sting skill has a chance to provide a block and parry response."/>
+<trait identifier="1879271336" name="Bring on the Pain" iconId="1091805236" minLevel="1" tiers="5" description="For a short period of time, your Thrill of Danger skill will allow you to restore a small amount of morale every time you are hit."/>
+<trait identifier="1879271337" name="Bolster" iconId="1091805274" minLevel="1" tiers="5" description="Blocking attacks will increase your Critical Defence Rating. This effect may stack up to five times."/>
+<trait identifier="1879271338" name="Redirect" iconId="1091805238" minLevel="1" tiers="1" description="Earns the skill: Redirect."/>
+<trait identifier="1879271339" name="Warrior's Fortitude" iconId="1091829799" minLevel="1" tiers="1" description="The Warrior's Heart skill will also increase your Physical Mastery rating, Incoming Healing, Evade chance, and Partial Evade chance."/>
+<trait identifier="1879271341" name="Warrior's Fortitude" iconId="1091829796" minLevel="1" tiers="1" description="The skill Warrior's Heart will also increase your Physical Mitigation, Incoming Healing, and Block chance."/>
+<trait identifier="1879271342" name="Broad Strokes" iconId="1091805282" minLevel="1" tiers="2" description="Sweeping Cut will affect additional targets and has a chance to apply a Bleed on hit."/>
+<trait identifier="1879271343" name="Guardian's Pledge" iconId="1091805278" minLevel="1" tiers="1" description="Earns the skill: Guardian's Pledge."/>
+<trait identifier="1879271344" name="Blind Rage" iconId="1091805272" minLevel="1" tiers="5" description="The To The King skill has a chance to trigger a Parry response."/>
+<trait identifier="1879271345" name="Reversal" iconId="1091805292" minLevel="1" tiers="5" description="The Turn the Tables skill has a reduced cooldown, and will provide brief combat state immunity when used."/>
+<trait identifier="1879271346" name="Tireless Blows" iconId="1091805262" minLevel="1" tiers="5" description="Parry responses have a chance to reset the cooldown of Brutal Assault."/>
+<trait identifier="1879271347" name="Defensive Expertise" iconId="1091829806" minLevel="1" tiers="5" description="Increases your Block and Partial Block Rating.">
+<stat name="BLOCK_PERCENTAGE" scaling="1879297192"/>
+</trait>
+<trait identifier="1879271348" name="Thrust" iconId="1090553903" minLevel="1" tiers="1" description="Earns the skill: Thrust."/>
+<trait identifier="1879271349" name="Shield-smash" iconId="1091805263" minLevel="1" tiers="1" description="Earns the skill: Shield-smash."/>
+<trait identifier="1879271351" key="SKILLED_DEFLECTION" name="Skilled Deflection" iconId="1091829805" minLevel="1" tiers="5" description="Increases your Parry/Partial Parry Rating">
+<stat name="PARRY_PERCENTAGE" scaling="1879297167"/>
+</trait>
+<trait identifier="1879271352" name="Bellow" iconId="1091805291" minLevel="1" tiers="5" description="Increases the range of your Challenge and Fray the Edge skills."/>
+<trait identifier="1879271353" name="Heavy Weapons Training" iconId="1091829798" minLevel="1" tiers="5" description="Increases damage with each of your skills."/>
+<trait identifier="1879271354" name="Tenderize" iconId="1091805277" minLevel="1" tiers="5" description="Parrying attacks will increase your Critical Rating. This effect may stack up to five times and will expire out of combat."/>
+<trait identifier="1879271355" name="Brutal Assault" iconId="1091449586" minLevel="1" tiers="1" description="Earns the skill: Brutal Assault."/>
+<trait identifier="1879271356" name="Warrior's Fortitude" iconId="1091829801" minLevel="1" tiers="1" description="The Warrior's Heart skill will also increase your Physical Mastery rating, Melee Crit chance, Parry chance, and Partial Parry chance."/>
+<trait identifier="1879271358" name="To The King" iconId="1091805239" minLevel="1" tiers="1" description="Earns the skill: To the King."/>
+<trait identifier="1879271359" name="Juggernaut" iconId="1091805285" minLevel="1" tiers="1" description="Earns the skill: Juggernaut."/>
+<trait identifier="1879271360" name="Vicious Rebuttal" iconId="1091805271" minLevel="1" tiers="5" description="The Redirect skill will absorb and reflect additional damage."/>
+<trait identifier="1879271362" name="Improved Shield Spikes" iconId="1091805283" minLevel="1" tiers="5" description="Increases the duration and Crit chance of shield spikes."/>
+<trait identifier="1879271363" name="Deeper Wounds" iconId="1091805251" minLevel="1" tiers="5" description="Increase the damage and duration of Deep Wound and Terrible Wounds."/>
+<trait identifier="1879271364" name="Hammer Down" iconId="1091805233" minLevel="1" tiers="1" description="Earns the skill: Hammer Down."/>
+<trait identifier="1879271366" name="Cataclysmic Shout" iconId="1091805237" minLevel="1" tiers="1" description="Earns the skill: Cataclysmic Shout."/>
+<trait identifier="1879271367" name="High-spirited" iconId="1091829804" minLevel="1" tiers="5" description="Increases Incoming Healing.">
+<stat name="INCOMING_HEALING_PERCENTAGE" scaling="1879297099"/>
+</trait>
+<trait identifier="1879271368" name="To The Rescue" iconId="1090541172" minLevel="1" tiers="6" description="The Charge skill will provide additional run speed for a longer period of time."/>
+<trait identifier="1879271369" name="Demoralizing Anthem" iconId="1091805286" minLevel="1" tiers="5" description="Increases the range and number of targets affected by your War-chant skill. If you are currently protecting an ally, War-chant will also reduce the cooldown of your Block/Parry Response skills."/>
+<trait identifier="1879272161" name="Of All Trades" iconId="1091840490" minLevel="1" tiers="4" description="Increase damage and healing.">
+<stat name="TACTICAL_DAMAGE_PERCENTAGE" scaling="1879368799"/>
+<stat name="MELEE_DAMAGE_PERCENTAGE" scaling="1879368801"/>
+</trait>
+<trait identifier="1879272271" name="Grand Master Weapons Training" iconId="1091840526" minLevel="1" tiers="1" description="">
+<stat name="MELEE_DAMAGE_PERCENTAGE" value="5.0"/>
+</trait>
+<trait identifier="1879272272" name="Martial Fury" iconId="1091829385" minLevel="1" tiers="1" description="Gambits in the Power Attack Gambit line and the Precise Blow Gambit line have 15% chance to apply a secondary DoT to their target which stacks with the normal DoT.\n\nSecondary DoTs cannot stack with each other."/>
+<trait identifier="1879272273" name="Sharpened Spears" iconId="1091840731" minLevel="1" tiers="1" description=""/>
+<trait identifier="1879272274" name="Unconventional Strikes" iconId="1091830072" minLevel="1" tiers="1" description=""/>
+<trait identifier="1879272275" name="Precision Training" iconId="1091830168" minLevel="1" tiers="1" description="">
+<stat name="CRITICAL_MELEE_PERCENTAGE" value="2.5"/>
+<stat name="CRITICAL_RANGED_PERCENTAGE" value="2.5"/>
+<stat name="CRITICAL_TACTICAL_PERCENTAGE" value="2.5"/>
+</trait>
+<trait identifier="1879272276" name="Taking Advantage" iconId="1091841123" minLevel="1" tiers="1" description="After Parrying or Partially Parrying, you heal a small amount of Morale and your Gambit Builders cost no Power for 5s."/>
+<trait identifier="1879272277" name="One After Another" iconId="1091840517" minLevel="1" tiers="1" description="Minor victories in battle hearten you."/>
+<trait identifier="1879272536" name="Shield Tactics" iconId="1091829795" minLevel="1" tiers="1" description="Clever use of the shield greatly increases your Tactical Mitigation."/>
+<trait identifier="1879272537" name="Shield Mastery" iconId="1091830057" minLevel="1" tiers="1" description="Grants access to Shield Mastery, a skill which enhances your avoidances."/>
+<trait identifier="1879272541" name="Exultation of Battle" iconId="1091806059" minLevel="1" tiers="1" description="Your Morale-taps last longer."/>
+<trait identifier="1879272542" name="Endurance Training" iconId="1091830126" minLevel="1" tiers="1" description="Exercising your throwing arm prevents you from wearing out during battle."/>
+<trait identifier="1879272543" name="Revel in Combat" iconId="1091830156" minLevel="1" tiers="1" description=""/>
+<trait identifier="1879272547" name="Makeshift Caltrops" iconId="1091457998" minLevel="1" tiers="1" description="Improved Hampering Javelin now slows enemies around your target."/>
+<trait identifier="1879272548" name="Focus Fire" iconId="1091830189" minLevel="1" tiers="1" description="You excel at marking priority targets for your fellows."/>
+<trait identifier="1879272549" name="Thrill of Battle" iconId="1091840668" minLevel="1" tiers="1" description=""/>
+<trait identifier="1879272551" name="Throwing Arm" iconId="1091841064" minLevel="1" tiers="1" description="A strong throwing arm puts more power behind your Javelins."/>
+<trait identifier="1879272552" name="Elegant Finish" iconId="1091831429" minLevel="1" tiers="1" description="You gain a swath of unique bonuses to your Buff chain finishers."/>
+<trait identifier="1879272554" name="Close Call" iconId="1091840667" minLevel="1" tiers="1" description=""/>
+<trait identifier="1879272886" name="Manifested Ire" iconId="1091840977" minLevel="1" tiers="1" description="Enemies are snared if they fail to continue attacking the Guardian after their use of damaging abilites."/>
+<trait identifier="1879272887" name="Incapacitation" iconId="1091805280" minLevel="1" tiers="1" description="The potency of all non-damaging debuffs is increased by 100% on your marked target."/>
+<trait identifier="1879272889" name="Adaptability" iconId="1091805234" minLevel="1" tiers="1" description="Whenever you are hit by an attack, your block and parry ratings will increase.\n\nThis effect can stack up to 3 times and will last for 10s or until a response skill is used."/>
+<trait identifier="1879272890" name="Mark of Permanence" iconId="1091840445" minLevel="1" tiers="1" description="Non-damaging debuffs applied to a target marked by Take to Heart become permanent in duration."/>
+<trait identifier="1879272891" name="Light-touched" iconId="1091805245" minLevel="1" tiers="1" description="This trait enhances your melee damage, and incoming healing.\n\nYou will also be able to block with 2-handed weapons.">
+<stat name="MELEE_DAMAGE_PERCENTAGE" value="5.0"/>
+<stat name="INCOMING_HEALING_PERCENTAGE" value="5.0"/>
+</trait>
+<trait identifier="1879272892" key="OVERPOWER" name="Valorous Strength" iconId="1091805266" minLevel="1" tiers="1" description="This trait enhances your melee and critical damage.">
+<stat name="MELEE_DAMAGE_PERCENTAGE" value="10.0"/>
+</trait>
+<trait identifier="1879272893" name="Guardian's Defence" iconId="1091805232" minLevel="1" tiers="1" description="This trait enhances your armour, critical defence, block chance and mitigation, and reduces shield wear while blocking">
+<stat name="PARTIAL_BLOCK_MITIGATION_PERCENTAGE" value="2.5"/>
+</trait>
+<trait identifier="1879272894" key="HEAVY_BLOWS" name="Heavy Blows" iconId="1091805240" minLevel="1" tiers="1" description="This trait further increases your melee damage and critical damage multiplier.">
+<stat name="MELEE_DAMAGE_PERCENTAGE" value="5.0"/>
+</trait>
+<trait identifier="1879272895" name="Disabling Strikes" iconId="1091805268" minLevel="1" tiers="1" description="The potency of all non-damaging debuffs is increased by 50%"/>
+<trait identifier="1879272896" name="Bolstering Blocks" iconId="1091805259" minLevel="1" tiers="1" description="Blocking attacks will restore a small amount of morale."/>
+<trait identifier="1879272897" name="Prey on the Weak" iconId="1091805287" minLevel="1" tiers="1" description="Critical hits against an opponent suffering from a Slashing Wound will inflict additional damage."/>
+<trait identifier="1879272898" name="Shield the People" iconId="1091830161" minLevel="1" tiers="1" description="Your shield skills are twice as likely to provide you with a Fortification buff. At five stacks, you will provide a fellowship-wide mitigation buff."/>
+<trait identifier="1879272899" name="Reactive Parry" iconId="1091805258" minLevel="1" tiers="1" description="Parrying attacks will cause a small amount of damage to your enemies."/>
+<trait identifier="1879272905" name="Protection" iconId="1091805260" minLevel="39" tiers="1" description="You may protect one of your allies, improving his defence.  You will also be able to react to attacks made against him if you are within 10m."/>
+<trait identifier="1879272906" name="Protection by the Sword" iconId="1091805398" minLevel="39" tiers="1" description="You may enhance your fellowship members, improving their physical mastery and parry. You will  also be able to react to attacks that an ally parries if you are within 10m."/>
+<trait identifier="1879272911" name="Shield Wall" iconId="1091805255" minLevel="39" tiers="1" description="Protects an ally by intercepting all incoming damage."/>
+<trait identifier="1879273250" name="Readied Blade" iconId="1091829381" minLevel="1" tiers="1" description="Shadow's Lament triggers a Battle-ready Event."/>
+<trait identifier="1879273251" name="Inspiriting Presence" iconId="1091840414" minLevel="1" tiers="1" description="Critical heals with Inspire and Valiant Strike grant you and your Song-brother guaranteed Critical Hits with Tactical skills for the next 10s.\n\nInspire's healing is enhanced based on the tier of your Gallant Display buff. When Inspire is used, the Gallant Display buff will be consumed."/>
+<trait identifier="1879273252" name="Elendil's Favour" iconId="1091831439" minLevel="1" tiers="1" description="Blade of Elendil makes your next Valiant Strike heal for more."/>
+<trait identifier="1879273253" name="Blessing of the Song" iconId="1091840409" minLevel="1" tiers="1" description="You gain the benefits of your Song-brother skills."/>
+<trait identifier="1879273254" name="Blade-brother's Call" iconId="1091840431" minLevel="1" tiers="1" description="Unlocks the Blade-brother's Call skill."/>
+<trait identifier="1879273255" name="Uplift" iconId="1091831449" minLevel="1" tiers="1" description="Critical Heals give the Captain a stacking Critical Hit buff."/>
+<trait identifier="1879273256" name="Defensive Strike" iconId="1090541078" minLevel="1" tiers="1" description="Sure Strike grants an Armour buff, and you Parry attacks more often.">
+<stat name="PARRY_PERCENTAGE" value="5.0"/>
+</trait>
+<trait identifier="1879273257" name="Elendil's Boon" iconId="1091831441" minLevel="1" tiers="1" description="Blade of Elendil causes the next attack against you to deal less damage."/>
+<trait identifier="1879273258" name="Blessing of the Blade" iconId="1091840432" minLevel="1" tiers="1" description="You gain the benefits of your Blade-brother skills."/>
+<trait identifier="1879273259" name="Exemplar" iconId="1091840444" minLevel="1" tiers="1" description="When you or your Shield-brother is attacked, both have a chance to be healed.\n\nCritical and Devastating Hits against you or your Shield-brother reduce the cooldown of Shield of the Dúnedain and Strength in Numbers."/>
+<trait identifier="1879273260" name="Song-brother's Call" iconId="1091831453" minLevel="1" tiers="1" description="Unlocks the Song-brother's Call skill."/>
+<trait identifier="1879273261" name="Last Stand" iconId="1091840443" minLevel="1" tiers="1" description="Unlocks the Last Stand skill."/>
+<trait identifier="1879273262" name="Blessing of the Shield" iconId="1091831464" minLevel="1" tiers="1" description="You gain the benefits of your Shield-brother skills."/>
+<trait identifier="1879273263" name="Tactician's Prowess" iconId="1091831457" minLevel="1" tiers="1" description="Increases Critical Healing Magnitude."/>
+<trait identifier="1879273264" name="Master of War" iconId="1091831459" minLevel="1" tiers="1" description="Critical Hits with Inspire and Shadow's Lament cause you and your Blade-brother's next Melee or Ranged Skill to Crit.\n\nBanner of War causes a stacking Critical Rating buff to allies within its effect for each skillplay they perform."/>
+<trait identifier="1879273265" name="Two-handed Prowess" iconId="1091830074" minLevel="1" tiers="1" description="You may Block with a two-handed weapon and have more Morale.">
+<stat name="MORALE" value="1.25"/>
+</trait>
+<trait identifier="1879273266" name="Lacerate" iconId="1091840430" minLevel="1" tiers="1" description="Grave Wound spreads a Bleed to targets around the Captain when used on a target with the Cutting Attack bleed."/>
+<trait identifier="1879273267" name="Shield-brother's Call" iconId="1091831458" minLevel="1" tiers="1" description="Unlocks the Shield-brother's Call skill."/>
+<trait identifier="1879273268" name="Cutting Edge" iconId="1090553775" minLevel="1" tiers="1" description="Cutting Attack causes you to deal additional critical damage for a short time."/>
+<trait identifier="1879273269" name="Elendil's Fortune" iconId="1091840418" minLevel="1" tiers="1" description="Blade of Elendil causes your next Shadow's Lament to deal additional damage."/>
+<trait identifier="1879273270" name="Readied Strike" iconId="1091840377" minLevel="1" tiers="1" description="Valiant Strike triggers a Battle-ready event."/>
+<trait identifier="1879273460" name="Bracing Against Defeat" iconId="1090541128" minLevel="1" tiers="1" description="Bracing Attack now generates 2 points of fervour and the amount of Morale it restores is increased."/>
+<trait identifier="1879273461" name="Sharpened Blades" iconId="1091840518" minLevel="1" tiers="1" description="Increases the initial damage of rend and increases the max number of stacks of its bleed to five"/>
+<trait identifier="1879273462" name="Precise Strikes" iconId="1091830089" minLevel="1" tiers="1" description="Hits with any strike skill decreases the Champion's attack duration. In addition, critical strikes generate an additional point of fervour. These effects have a chance to be triggered per hit of a skill."/>
+<trait identifier="1879273463" name="Glory" iconId="1091840520" minLevel="1" tiers="1" description="Reduce incoming melee damage."/>
+<trait identifier="1879273464" name="Ardour" iconId="1091830078" minLevel="1" tiers="1" description="Reduces Power Cost per Fervour point."/>
+<trait identifier="1879273465" name="Red Haze" iconId="1091830065" minLevel="1" tiers="1" description="Killing an enemy restores full Fervour."/>
+<trait identifier="1879273466" name="Renewing Strikes" iconId="1091840517" minLevel="1" tiers="1" description="Strike Skills have a chance to return a percentage of max Morale. This effect has a chance to be triggered per hit of a skill."/>
+<trait identifier="1879273467" name="Masochism Increase" iconId="1091830066" minLevel="1" tiers="1" description="Increases the chance of Masochism's effects to apply by 10% and increases the amount of damage it reflects by 20%."/>
+<trait identifier="1879273468" name="Fervour" iconId="1091830091" minLevel="1" tiers="1" description="Increases Power regeneration and Damage Dealt per fervour pip."/>
+<trait identifier="1879273469" name="Exalted Combatant" iconId="1091830081" minLevel="1" tiers="1" description="Heals the Champion if their Morale gets low."/>
+<trait identifier="1879273470" name="Good Defence/Strong Offence" iconId="1091830093" minLevel="1" tiers="1" description="Deal more melee damage whilst Sudden Defence is active."/>
+<trait identifier="1879273471" name="Furious Swings" iconId="1091830090" minLevel="1" tiers="1" description="Increases the damage of all Blade skills and gives them a chance to generate an additional point of fervour."/>
+<trait identifier="1879273472" name="Ardour Increase" iconId="1091830078" minLevel="1" tiers="1" description="Increases damage and gives a Tactical Mitigation rating for each Fervour point."/>
+<trait identifier="1879273473" name="Flurry Increase" iconId="1091830076" minLevel="1" tiers="1" description="Increases the duration of Flurry and grants critical rating"/>
+<trait identifier="1879273474" name="Emboldened Blades Increase" iconId="1091830077" minLevel="1" tiers="1" description="Increases the Critical Damage of Remorseless Strike by 10% per stack."/>
+<trait identifier="1879273551" name="Exchange of Blows" iconId="1091509974" minLevel="58" tiers="1" description="Reflects a portion of damage taken for a moderate duration"/>
+<trait identifier="1879273552" name="Devastation" iconId="1091830079" minLevel="1" tiers="1" description="Devastating Strike bypasses a portion of its target's mitigations."/>
+<trait identifier="1879273553" name="Adamant" iconId="1091840529" minLevel="58" tiers="1" description="Reduces incoming damage for a short duration. The amount of damage reduced is dependant on how many pips of fervour is consumed"/>
+<trait identifier="1879273783" name="Invincible" iconId="1091509975" minLevel="1" tiers="1" description="For each 5% of health the Champion is missing, his damage is increased while Adamant is active."/>
+<trait identifier="1879273795" name="Born For Combat" iconId="1091830074" minLevel="58" tiers="1" description="Each time you are struck by an enemy, you gain a stack of Born for Combat. At 10 stacks, you gain a powerful AoE skill that damages foes all around you."/>
+<trait identifier="1879274003" name="Fire at Will" iconId="1091830187" minLevel="1" tiers="1" description="You call for your fellowship to rain attacks down upon your enemies, granting them bonuses to their damage."/>
+<trait identifier="1879274207" name="A Small Snag" iconId="1091926676" minLevel="1" tiers="1" description="Sometimes we just get caught up on the little things in life. You make sure this tends to happen more often than not."/>
+<trait identifier="1879274679" name="Frost Affinity" iconId="1091805932" minLevel="1" tiers="1" description="Grants bonus healing."/>
+<trait identifier="1879274680" name="Writ of Well-being" iconId="1091502160" minLevel="1" tiers="1" description="Writ of Health now tiers down instead of dispelling upon expiration."/>
+<trait identifier="1879274681" name="Glorious Foreshadowing" iconId="1091511273" minLevel="1" tiers="1" description="Incoming healing is increased by 5% for each Writ of Health tier on a target."/>
+<trait identifier="1879274682" name="Fire Affinity" iconId="1091805925" minLevel="1" tiers="1" description="Grants bonus Fire damage."/>
+<trait identifier="1879274683" name="Sustenance" iconId="1091805951" minLevel="1" tiers="1" description="Sustaining Bolt also heals Morale, its potency based on Battle attunement."/>
+<trait identifier="1879274684" name="Fellowship Narrative" iconId="1091502143" minLevel="1" tiers="1" description="Healing attunement increases the Critical chance of healing abilities and effects. Also increases the healing of Epic For The Ages."/>
+<trait identifier="1879274685" name="Writ of Blazing Fire" iconId="1091502141" minLevel="1" tiers="1" description="Writ of Fire now tiers down instead of dispelling upon expiration."/>
+<trait identifier="1879274686" name="Our Fates Entwined" iconId="1091829845" minLevel="1" tiers="1" description="Grants a Runestone that can be placed at range, redirecting damage to itself for a moderate duration."/>
+<trait identifier="1879274687" name="Tale of The Storm" iconId="1091829858" minLevel="1" tiers="1" description="Grants bonus Critical Chance and Critical Damage per Battle attunement."/>
+<trait identifier="1879274688" name="Scathing Retort" iconId="1091502140" minLevel="1" tiers="1" description="Reduces the cooldown of Smouldering Wrath and makes the skill immune to interrupt."/>
+<trait identifier="1879274689" name="Master of Allusion" iconId="1091502147" minLevel="1" tiers="1" description="Benediction of Peace: Crits reduce the induction time of the Rune-keeper's healing and frost skills for a short duration."/>
+<trait identifier="1879274690" name="Master of Tragedy" iconId="1091829859" minLevel="1" tiers="1" description="Lightning skills critical hits restore a portion of the Rune-keeper's max power."/>
+<trait identifier="1879274691" name="Static Surge" iconId="1091805948" minLevel="1" tiers="1" description="Lightning skills have a chance to grant a skill that deal lightning damage to enemies in front of you."/>
+<trait identifier="1879274692" name="Master of Connotation" iconId="1091502130" minLevel="1" tiers="1" description="Fire skills place a stacking Master of Connotation buff on the Rune-keeper.\n\nAt five stacks, their next Writ heals Morale and has no induction."/>
+<trait identifier="1879274693" name="Refutation" iconId="1091805956" minLevel="1" tiers="1" description=""/>
+<trait identifier="1879274694" name="Lightning Affinity" iconId="1091829863" minLevel="1" tiers="1" description="Grants bonus lightning damage."/>
+<trait identifier="1879274695" name="Extreme Heat" iconId="1091805946" minLevel="1" tiers="1" description="Searing Words: damage is increased by 10% for each current tier of Writ of Fire on the target."/>
+<trait identifier="1879274696" name="Seething Truth" iconId="1091805960" minLevel="1" tiers="1" description="Grants various bonuses to Fire Skills."/>
+<trait identifier="1879274752" name="Strong Intimidation" iconId="1091458277" minLevel="1" tiers="1" description="Increases Hunter's Fear duration and reduces the chance of their Fear being resisted."/>
+<trait identifier="1879274753" name="Swift Release" iconId="1091840358" minLevel="1" tiers="1" description="Reduces the inductions of Barbed Arrow and Swift Bow."/>
+<trait identifier="1879274754" name="Triple Trap" iconId="1091840301" minLevel="1" tiers="1" description="Set Trap becomes Triple Trap, placing three traps instead of one."/>
+<trait identifier="1879274755" name="Master Trapper" iconId="1091829807" minLevel="1" tiers="1" description="Adds effects to your traps:\n\nTriple Trap: +15% incoming damage debuff.\n\nPiercing Trap: Restores morale to all those who hit the target.\n\nDeadly Decoy: +10% incoming critical chance debuff."/>
+<trait identifier="1879274756" name="Sturdy Traps" iconId="1091798544" minLevel="1" tiers="1" description="Increases the grace period of your traps and removes any focus loss from movement."/>
+<trait identifier="1879274757" name="Shoot to Kill" iconId="1091798530" minLevel="1" tiers="1" description="Increases Ranged Damage."/>
+<trait identifier="1879274758" name="Nock on The Move" iconId="1091471136" minLevel="1" tiers="1" description="Reduces the induction movement penalty."/>
+<trait identifier="1879274759" name="Deadly Decoy" iconId="1091798518" minLevel="1" tiers="1" description="Decoy becomes Deadly Decoy, which now explodes after a duration, causing damage and stunning enemies around it."/>
+<trait identifier="1879274760" name="Improved Fleetness" iconId="1091840353" minLevel="1" tiers="1" description="Fleetness now restores Focus in addition to granting a Speed buff."/>
+<trait identifier="1879274761" name="Hidden Stalker" iconId="1091798539" minLevel="1" tiers="1" description="Greatly increases the Stealth level of Camouflage and increases Ranged Critical Chance while camouflaged."/>
+<trait identifier="1879274762" name="Archer's Mark" iconId="1091798531" minLevel="1" tiers="1" description="Attacks have a chance to apply a stacking Critical Defence Debuff on enemies."/>
+<trait identifier="1879274763" name="Fleetness" iconId="1091840353" minLevel="1" tiers="1" description="All harmful skills have a chance to apply an effect that increases your Movement Speed."/>
+<trait identifier="1879274764" name="Marksman" iconId="1091840283" minLevel="1" tiers="1" description="Heart Seeker and Upshot's cooldowns are reduced by a certain amount for every Critical and Devastating hit."/>
+<trait identifier="1879274765" name="Intensified Fire" iconId="1091798520" minLevel="1" tiers="1" description="Every attack made while Rapid Fire is active puts a stacking Physical Mastery buff on the Hunter."/>
+<trait identifier="1879274766" name="Barbed Hinderance" iconId="1091840355" minLevel="1" tiers="1" description="Increases Barbed Arrow's damage and Slow potency."/>
+<trait identifier="1879274767" name="Haemorrhaging Shot" iconId="1091829813" minLevel="1" tiers="1" description="Increases the Critical Damage of all Bow Attacks."/>
+<trait identifier="1879274768" name="Swift Mercy" iconId="1090541188" minLevel="1" tiers="1" description="Increases the target health threshold of Merciful Shot and makes Swift Bow reduce the Focus cost of Merciful Shot per use."/>
+<trait identifier="1879274769" name="Hunter's Voice" iconId="1091840352" minLevel="1" tiers="1" description="Reduces the cooldown of Cry of the Hunter, and increases its movement bonus by +10%"/>
+<trait identifier="1879274770" name="Earthborn" iconId="1091840357" minLevel="1" tiers="1" description="In addition to Power, Strength of the Earth now restores Morale and Focus."/>
+<trait identifier="1879274771" name="Purge Poison" iconId="1091840350" minLevel="1" tiers="1" description="Purge Poison now cures your entire Fellowship."/>
+<trait identifier="1879274772" name="Heightened Senses" iconId="1090541190" minLevel="1" tiers="1" description="Increases the Hunter's Stealth Detection and Evasion. In addition, when the Hunter evades an attack, it will reduce the active cooldown of all Trap skills.">
+<stat name="EVADE_PERCENTAGE" value="5.0"/>
+</trait>
+<trait identifier="1879275252" name="Continuous Blood Rage" iconId="1091830062" minLevel="1" tiers="1" description="Blood Rage becomes Continuous Blood Rage.\n\nIn addition to breaking the Champion out of all combat states, it provides immunity to combat states, reduces power costs, and increases resistances on the Champion for a moderate duration.\n\nThis skill also restores max fervour."/>
+<trait identifier="1879275314" name="Tutelage of the Brown Wizard" iconId="1091829948" minLevel="1" tiers="1" description=""/>
+<trait identifier="1879275315" name="Exposure to the Elements" iconId="1091829946" minLevel="1" tiers="1" description=""/>
+<trait identifier="1879275316" name="Critical Coordination" iconId="1091829924" minLevel="1" tiers="1" description="When your Pet scores a Critical Hit, your next skill is guaranteed to Crit as well."/>
+<trait identifier="1879275317" name="Noble Savage" iconId="1091840531" minLevel="1" tiers="1" description=""/>
+<trait identifier="1879275318" name="Liquid Fire" iconId="1091873733" minLevel="1" tiers="1" description="Sticky Gourd becomes Improved Sticky Gourd, and applies Burning Embers to targets stuck in its area of effect every 4 seconds."/>
+<trait identifier="1879275319" name="Raven's Protection" iconId="1091840534" minLevel="1" tiers="1" description="The Raven now offers a Tactical Mitigation Buff to you and your fellows."/>
+<trait identifier="1879275320" name="Force of Will" iconId="1091829930" minLevel="1" tiers="1" description="Your mastery of Lore makes your debuffs last longer."/>
+<trait identifier="1879275322" name="Peerless Wisdom" iconId="1091805929" minLevel="1" tiers="1" description="You have a greater chance of reflecting damage when using Wisdom of the Council."/>
+<trait identifier="1879275324" name="Advanced Knowledge of Cures" iconId="1091840550" minLevel="1" tiers="1" description="Knowledge of Cures is now instant-cast."/>
+<trait identifier="1879275325" name="Stamp Out the Fire" iconId="1091829954" minLevel="1" tiers="1" description="Your pets deal bonus damage to enemies suffering from Burning Embers."/>
+<trait identifier="1879275330" name="Flame of Anor" iconId="1091829928" minLevel="1" tiers="1" description="Sign of Battle: Wizard's Fire now affects up to 2 additional targets."/>
+<trait identifier="1879275331" name="Beacon of Hope" iconId="1091829956" minLevel="1" tiers="1" description="Light of Hope becomes Beacon of Hope, which heals allies in an area around your target."/>
+<trait identifier="1879275332" name="Master of the Elements" iconId="1091829936" minLevel="1" tiers="1" description=""/>
+<trait identifier="1879275333" name="Fellowship Friend" iconId="1091840535" minLevel="1" tiers="1" description="When your Pet scores a Critical Hit, a unique buff will be bestowed from your pet unto your fellowship."/>
+<trait identifier="1879275334" name="Improved Ignition" iconId="1091829959" minLevel="1" tiers="1" description=""/>
+<trait identifier="1879275364" name="Ents go to War" iconId="1091873730" minLevel="1" tiers="1" description="Grants you Ents go to War"/>
+<trait identifier="1879275388" name="Air-lore" iconId="1091829920" minLevel="1" tiers="1" description="You learn to use Air-lore"/>
+<trait identifier="1879275389" name="Warding Lore" iconId="1091399325" minLevel="1" tiers="1" description="You learn to use Warding Knowledge"/>
+<trait identifier="1879275390" name="Herb-lore" iconId="1091829957" minLevel="1" tiers="1" description="You learn to use Herb Lore"/>
+<trait identifier="1879275695" name="Power of Knowledge" iconId="1091840568" minLevel="1" tiers="1" description="Increases the Power restoration and damage from Power of Knowledge."/>
+<trait identifier="1879275915" name="Chill Wind" iconId="1091840570" minLevel="1" tiers="1" description="Using Wind-lore on an enemy afflicted by Frost-lore will spread the cold to nearby foes."/>
+<trait identifier="1879275916" name="Wild Fire" iconId="1091840569" minLevel="1" tiers="1" description="Using Wind-lore on an enemy afflicted by Fire-lore will spread the flames to nearby foes."/>
+<trait identifier="1879276052" name="Haste" iconId="1091840474" minLevel="1" tiers="1" description="Ballads reduce the active cooldown of your Cries and Calls by 1s."/>
+<trait identifier="1879276053" name="Freedom" iconId="1091840500" minLevel="1" tiers="1" description="Calls have a chance to trigger the ability to use a single healing skill from another stance."/>
+<trait identifier="1879276054" name="Fierce Cries" iconId="1091840488" minLevel="1" tiers="1" description="Your Cry and Call damage is increased."/>
+<trait identifier="1879276055" name="Piercing Calls" iconId="1091840478" minLevel="1" tiers="1" description=""/>
+<trait identifier="1879276056" name="Encore" iconId="1091810108" minLevel="1" tiers="1" description="There is a small chance that a Coda will not consume your Ballads."/>
+<trait identifier="1879276057" name="Concentration" iconId="1091840476" minLevel="1" tiers="1" description="You gain immunity to interruption and induction setback for 5 seconds after scoring a Critical Hit with a Cry or Call."/>
+<trait identifier="1879276058" name="Discordant Ballads" iconId="1091840489" minLevel="1" tiers="1" description="All Ballads now grant you a Tactical Damage Buff.">
+<stat name="TACTICAL_DAMAGE_PERCENTAGE" value="5.0"/>
+</trait>
+<trait identifier="1879276377" name="Improved Anthem of the Third Age" iconId="1091840499" minLevel="1" tiers="1" description="Increases the bonuses offered by Anthem of the Third Age - Melody"/>
+<trait identifier="1879276378" name="Improved Call of the Second Age" iconId="1091840502" minLevel="1" tiers="1" description="Call of the Second Age offers improved bonuses."/>
+<trait identifier="1879276379" name="Gripped by Fear" iconId="1091840487" minLevel="1" tiers="1" description=""/>
+<trait identifier="1879276380" name="Tale of Tales" iconId="1091451426" minLevel="1" tiers="1" description="Grants access to Tale of Tales, a powerful Aura which carries different buffs based on what stance you are in."/>
+<trait identifier="1879276382" name="Song of Restoration" iconId="1091840473" minLevel="1" tiers="1" description="Story of Courage is now a targeted skill, and will remove an additional Poison, Disease, Wound, or Fear in an area around your target."/>
+<trait identifier="1879276383" name="Ascendant Anthem of the Third Age" iconId="1091840496" minLevel="1" tiers="1" description="Further increases the bonuses offered by Anthem of the Third Age - Melody"/>
+<trait identifier="1879276386" name="Chord of Legend" iconId="1091810066" minLevel="1" tiers="1" description=""/>
+<trait identifier="1879276387" name="Resonant Ballads" iconId="1091840492" minLevel="1" tiers="1" description="All Ballads increase Outgoing Healing by an extra 3%."/>
+<trait identifier="1879276388" name="Rally!" iconId="1091840505" minLevel="1" tiers="1" description="The ways of the elder ages are not lost to all races yet. You may bring new inspiration to those whose Morale has been entirely depleted, reviving a defeated ally in combat."/>
+<trait identifier="1879276389" name="Resolute" iconId="1091840481" minLevel="1" tiers="1" description="Protect yourself so that you may protect others.">
+<stat name="BLOCK" scaling="1879368064"/>
+</trait>
+<trait identifier="1879276391" name="Bolster Our Courage" iconId="1091840499" minLevel="1" tiers="1" description="A portion of Bolster Courage's heal is also applied to nearby Fellows."/>
+<trait identifier="1879276544" name="Song of Aid" iconId="1091840542" minLevel="1" tiers="1" description="Grants access to Song of Aid, which gives each member of your fellowship a unique buff based on their class."/>
+<trait identifier="1879277092" name="Bleed Them Dry" iconId="1091831437" minLevel="1" tiers="1" description="All Guardian bleeds have an extended duration."/>
+<trait identifier="1879277102" name="Call to Ioreth" iconId="1091840515" minLevel="1" tiers="1" description="Grants access to Call to Ioreth, which causes your next heal to be a critical heal."/>
+<trait identifier="1879277534" name="Smashing Stab" iconId="1091805247" minLevel="1" tiers="1" description="Earns the skill: Smashing Stab."/>
+<trait identifier="1879277535" name="Follow Through" iconId="1091840544" minLevel="1" tiers="3" description="The Shield-smash skill will hit additional targets."/>
+<trait identifier="1879277536" name="Stoic" iconId="1091805273" minLevel="1" tiers="6" description="Your Warrior's Heart skill has a chance to apply a damage bubble on use.\n\nAt rank 6 the bubble's potency is increased, and it can apply a 10% morale heal upon expiration."/>
+<trait identifier="1879277543" name="Guardian's Ward: Tactics" iconId="1091805275" minLevel="1" tiers="5" description="Guardian's Ward will now provide additional Tactical Mitigation with each rank."/>
+<trait identifier="1879277622" name="Challenge the Darkness" iconId="1091805261" minLevel="1" tiers="1" description="Your Challenge skill will affect additional targets and cast Guardian's Ward when used."/>
+<trait identifier="1879277644" name="Strengthen the Bulwark" iconId="1091805235" minLevel="1" tiers="1" description="Your fortification buff will provide additional damage mitigation per stack.\n\nYour critical hits with shield skills will also automatically apply a stack of fortification."/>
+<trait identifier="1879277670" name="Rousing Words" iconId="1091805930" minLevel="1" tiers="1" description="A channelled skill that heals Morale with every second."/>
+<trait identifier="1879277702" name="Essay of Fire" iconId="1091829851" minLevel="1" tiers="1" description="Powerful damage over time skill that removes the induction of your next fire attack."/>
+<trait identifier="1879277703" name="Shocked" iconId="1091829849" minLevel="1" tiers="1" description="Writ of Lightning also increases enemy inductions and attack duration."/>
+<trait identifier="1879277705" name="Strong Bursts" iconId="1091829803" minLevel="1" tiers="6" description="Increases area of effect skill damage."/>
+<trait identifier="1879277748" name="Numbed Senses" iconId="1091805293" minLevel="1" tiers="3" description="Ignore the Pain will remove additional debuffs."/>
+<trait identifier="1879277830" name="Radiate" iconId="1091805269" minLevel="1" tiers="3" description="Your damaging area of effect skills have a chance to transfer your debuffs to additional targets."/>
+<trait identifier="1879277843" name="Lesser Giant Eagle" iconId="1091840538" minLevel="1" tiers="1" description="Earns the skill: Eagle-friend."/>
+<trait identifier="1879277910" name="Insult to Injury" iconId="1091840979" minLevel="1" tiers="5" description="Your damaging attacks have a chance to renew all debuffs on your target."/>
+<trait identifier="1879277911" name="Flash of Light" iconId="1091805269" minLevel="1" tiers="1" description="Attacks against marked targets will deal Light damage to nearby targets."/>
+<trait identifier="1879278628" name="Overwhelming Odds" iconId="1090541272" minLevel="1" tiers="1" description="Completing a Fellowship Manoeuvre will empower the burglar, based on what Manoeuvre was completed."/>
+<trait identifier="1879278629" name="Disabling Attack" iconId="1090541268" minLevel="1" tiers="1" description="You are able to use your Disable skill to greatly reduce your enemy's speed."/>
+<trait identifier="1879278630" name="Little Annoyances" iconId="1091480098" minLevel="1" tiers="1" description="You know how to make those little things really distract people. Small Snag becomes Quite a Snag, which has increased range, a more potent debuff, and no longer requires Double-edged Strike to be used first."/>
+<trait identifier="1879278631" name="Improved Sneak" iconId="1091840424" minLevel="1" tiers="1" description="When using Surprise Strike or Cunning Attack from Sneak they are now guaranteed to be Critical Hits.\n\n&lt;rgb=#DD2121&gt;Note: This does not affect Feint Attack or Improved Feint Attack.&lt;/rgb&gt;"/>
+<trait identifier="1879278632" name="Practiced Bluff" iconId="1091480099" minLevel="1" tiers="1" description="Your ability to bluff an attack through has been well-practiced. Feint Attack becomes Improved Feint Attack and now activates more stealth skills.  Your damage from Stealth attacks, including Improved Feint, is also increased."/>
+<trait identifier="1879278633" name="Dealings Done" iconId="1091480097" minLevel="1" tiers="1" description="You know what to do with the cards you are dealt.  Lucky Strike becomes Gambler's Strike, which has a reduced cooldown, no longer requires Double-edged Strike, and can now upgrade Gambles to their max tier.  Your chance of applying a gamble is also increased."/>
+<trait identifier="1879283653" name="Raise Our Spirits" iconId="1090553793" minLevel="1" tiers="3" description="Raise the Spirit provides a fellowship-wide AoE heal."/>
+<trait identifier="1879283654" name="Emboldening Finish" iconId="1091830279" minLevel="1" tiers="3" description="Ballads have a chance to build a stacking enhancement for Coda of Dissonance.\n\nEach stack will cause Coda of Dissonance to add a +3% damage buff, up to 15%."/>
+<trait identifier="1879283655" name="Inspiring Finish" iconId="1091840545" minLevel="1" tiers="3" description="Ballads have a chance to build a stacking enhancement for Coda of Resonance.\n\nEach stack will cause Coda of Resonance to add 3% Outgoing Healing, up to 15%."/>
+<trait identifier="1879284077" name="Snap Shot" iconId="1091830132" minLevel="1" tiers="1" description="Gambit Builders have a chance of triggering the ability to use one of your Javelin Skills, even if it is on cooldown. You cannot gain this effect more than once every 20s."/>
+<trait identifier="1879284091" name="Dodge This!" iconId="1091830128" minLevel="1" tiers="1" description="When an enemy avoids an attack, you gain access to an unavoidable Javelin skill."/>
+<trait identifier="1879287439" name="Snowball" iconId="1091840503" minLevel="1" tiers="1" description="Healing skills build a stacking buff. At maximum stack, you can use a powerful heal"/>
+<trait identifier="1879287567" name="Purify Corruption" iconId="1090553789" minLevel="1" tiers="1" description="Your Strike skills and Echoes of Battle skills will remove a corruption effect from a foe."/>
+<trait identifier="1879288926" name="Friend of Ravens" iconId="1090541226" minLevel="20" tiers="1" description="You may summon a raven to your side."/>
+<trait identifier="1879290044" name="Friend of Sabre-cats" iconId="1090541226" minLevel="20" tiers="1" description="You may summon a Sabre-tooth to your side."/>
+<trait identifier="1879290048" name="Friend of Nature" iconId="1090541226" minLevel="20" tiers="1" description="You may summon a Spirit of Nature to your side."/>
+<trait identifier="1879290050" name="Friend of Lynx" iconId="1090541226" minLevel="20" tiers="1" description="You may summon a lynx to your side."/>
+<trait identifier="1879290052" name="Friend of Bog-guardians" iconId="1090541226" minLevel="20" tiers="1" description="You may summon a Bog-guardian to your side."/>
+<trait identifier="1879290053" name="Friend of Bears" iconId="1090541226" minLevel="20" tiers="1" description="You may summon a bear to your side."/>
+<trait identifier="1879290894" name="Brutal Strikes" iconId="1090553754" minLevel="1" tiers="1" description="Earns the skill: Brutal Strikes."/>
+<trait identifier="1879290955" name="Blade Damage" iconId="1091830058" minLevel="1" tiers="5" description="Increases Blade skill damage."/>
+<trait identifier="1879290957" name="Broad Sweep" iconId="1091830060" minLevel="1" tiers="5" description="Increases the number of Targets for Area Effect Skills\n\n At max rank, Swift Strike becomes Swift Blade."/>
+<trait identifier="1879291404" name="Concussive Shout" iconId="1091810063" minLevel="1" tiers="1" description="Critical Hits with Piercing Cry will stun the target for 5s."/>
+<trait identifier="1879292019" name="Heart Seeker" iconId="1091840260" minLevel="1" tiers="2" description="First rank unlocks the Skill Heart Seeker. Second rank increases the duration of the Heartseeker DoT."/>
+<trait identifier="1879292021" name="Swift and True" iconId="1090541188" minLevel="1" tiers="5" description="Increases Swift Bow's damage per rank. Max rank gives Quick Shot a chance to reduce the induction of Swift Bow. "/>
+<trait identifier="1879292069" name="Perseverance" iconId="1091840295" minLevel="1" tiers="4" description="Increases the Power and Morale gain of Press Onward."/>
+<trait identifier="1879292070" name="Press Onward" iconId="1091840295" minLevel="1" tiers="1" description="Earns the skill: Press Onward."/>
+<trait identifier="1879295433" name="Tripwire" iconId="1091388957" minLevel="1" tiers="1" description="Earns the skill: Tripwire."/>
+<trait identifier="1879296867" name="Word Spreads" iconId="1091840541" minLevel="1" tiers="2" description="Each rank increases the amount of maximum targets for Gift of the Hammerhand by 1."/>
+<trait identifier="1879297055" name="Perfect Performance" iconId="1091840497" minLevel="1" tiers="3" description="Your ballads provide a portion of their bonuses to your fellowship."/>
+<trait identifier="1879297578" name="Enough for Everyone" iconId="1091840549" minLevel="1" tiers="1" description="Grants the Skill: Share the Power - Fellowship"/>
+<trait identifier="1879302706" name="Rapid Fire" iconId="1091841573" minLevel="1" tiers="5" description="Reduces Induction Duration"/>
+<trait identifier="1879311267" name="Valour" iconId="1091916299" minLevel="1" tiers="1" description="The Captain's healing skills have a 20% chance to build stacks of valour. At 5 stacks, you burst an AoE heal around yourself and your next Valiant Strike is guaranteed to crit."/>
+<trait identifier="1879311300" name="Elite Companions" iconId="1091916295" minLevel="1" tiers="1" description="You give your companions the equipment and training to damage enemy armour."/>
+<trait identifier="1879311401" name="Elendil's Fury" iconId="1091916298" minLevel="1" tiers="1" description="Blocking, Parrying, and Evading attacks build stacks of Elendil's Fury. At 5 stacks, you channel this Fury into your next Blade of Elendil for additional damage and grant yourself a defeat event."/>
+<trait identifier="1879311517" name="Bleed Damage" iconId="1091941807" minLevel="1" tiers="5" description="Slash now applies a bleed that can stack up to three times. Additional ranks increase the potency of the bleed."/>
+<trait identifier="1879311518" name="Serrated Edge" iconId="1091941809" minLevel="1" tiers="3" description="Biting Edge becomes a single attack, but as a bleed over 12 seconds. \n \n Max Rank reduces the duration of the bleed in half."/>
+<trait identifier="1879311519" name="Quick Recovery" iconId="1091941825" minLevel="1" tiers="2" description="Increases the initial heal of Recuperate at the cost of lowering the heal-over-time. The second rank increases the initial heal further."/>
+<trait identifier="1879311520" name="Piercing Roar" iconId="1091941765" minLevel="1" tiers="1" description="Unlocks Piercing Roar, a single target attack that reduces your target's damage."/>
+<trait identifier="1879311521" name="Levelling Roar" iconId="1091941797" minLevel="1" tiers="1" description="Takedown no longer deals damage, but can now be used on targets up to 10m away."/>
+<trait identifier="1879311522" name="Encouraging Strike" iconId="1091941814" minLevel="1" tiers="5" description="Striking enemies with Slash puts a stacking healing buff on yourself. Additional ranks increase the potency of the buff per stack."/>
+<trait identifier="1879311523" name="Crippling Stings" iconId="1091941785" minLevel="1" tiers="5" description="Bee Swarm now also snares your enemies for a short duration. Additional ranks increase the potency of the snare."/>
+<trait identifier="1879311524" name="Final Strike" iconId="1091941812" minLevel="1" tiers="2" description="Increases the damage and health threshold requirement of Execute. "/>
+<trait identifier="1879311525" name="Composure" iconId="1091941810" minLevel="1" tiers="5" description="Hearten becomes Composure, a self only heal that heals the Beorning for a percentage of his or her Max Morale per tick."/>
+<trait identifier="1879311526" name="Imposing Presence" iconId="1091941788" minLevel="1" tiers="3" description="Increases Grisly Cry's fear duration per rank"/>
+<trait identifier="1879311527" name="In Harm's Way" iconId="1091941827" minLevel="1" tiers="3" description="In addition to redirecting damage to the Beorning, Sacrifice also transfers some of the target's threat."/>
+<trait identifier="1879311528" name="Nature's Mend" iconId="1091941803" minLevel="1" tiers="1" description="Unlocks the skill Nature's Mend, an induction based heal that is more potent for your marked ally."/>
+<trait identifier="1879311529" name="Stampede" iconId="1091941798" minLevel="1" tiers="5" description="Using Rush in Bear Form applies the effect to your entire fellowship. Additional ranks increase the duration of the effect."/>
+<trait identifier="1879311530" name="Execute" iconId="1091941813" minLevel="1" tiers="1" description="Unlocks Execute, a heavy hitting skill that costs Wrath."/>
+<trait identifier="1879311531" name="Improved Hearten" iconId="1091941794" minLevel="1" tiers="5" description="Increases Hearten's heal per rank."/>
+<trait identifier="1879311532" name="Physical Mitigation Increase" iconId="1091941819" minLevel="1" tiers="5" description="Increases your Physical Mitigation per rank."/>
+<trait identifier="1879311533" name="Fate" iconId="1091941822" minLevel="1" tiers="5" description="Increases your Fate per rank.">
+<stat name="FATE" tieredScaling="1879366664;1879366654;1879366651;1879366663;1879366657"/>
+</trait>
+<trait identifier="1879311534" name="Melee Damage" iconId="1091941763" minLevel="1" tiers="5" description="Increases your melee damage per rank.">
+<stat name="MELEE_DAMAGE_PERCENTAGE" scaling="1879297172"/>
+</trait>
+<trait identifier="1879311535" name="Weakening Blow" iconId="1091941777" minLevel="1" tiers="5" description="Increases the damage of Slam per rank. Max Rank gives Slam an outgoing damage debuff."/>
+<trait identifier="1879311536" name="Lumber" iconId="1091941775" minLevel="1" tiers="1" description="After using Rush in bear form, your next attack will knock down your target."/>
+<trait identifier="1879311537" name="Takedown" iconId="1091941802" minLevel="1" tiers="1" description="Unlocks the skill Takedown, a bear form attack that deals minor damage and knocks a target down."/>
+<trait identifier="1879311538" name="Vitality Increase" iconId="1091941805" minLevel="1" tiers="5" description="Increases your vitality per rank.">
+<stat name="VITALITY" tieredScaling="1879366659;1879366643;1879366650;1879366645;1879366641"/>
+</trait>
+<trait identifier="1879311539" name="Any Advantage" iconId="1091941773" minLevel="1" tiers="3" description="Striking an enemy from behind with Slam will heal you."/>
+<trait identifier="1879311540" name="Shake Free" iconId="1091941801" minLevel="1" tiers="2" description="The first rank adds a Morale Bubble to Shake Free. The second rank increases the potency of the bubble. \n \n If Support: \n Shake Free applies its benefits to your marked ally."/>
+<trait identifier="1879311541" name="Tactical Mitigation Increase" iconId="1091941811" minLevel="1" tiers="5" description="Increases your Tactical Mitigation per rank."/>
+<trait identifier="1879311542" name="Enraging Sacrifice" iconId="1091941783" minLevel="1" tiers="3" description="Reduces the amount of damage Sacrifice redirects from your ally. Gain Wrath every time your Sacrifice target is hit."/>
+<trait identifier="1879311543" name="Sluggish Stings" iconId="1091941781" minLevel="1" tiers="3" description="In addition to dealing damage, your bees now increase the induction duration of your target."/>
+<trait identifier="1879311544" name="Healing Increase" iconId="1091941829" minLevel="1" tiers="5" description="Increases your Outgoing Healing per rank."/>
+<trait identifier="1879311545" name="Assertive Roar" iconId="1091941769" minLevel="1" tiers="3" description="Ferocious Roar gains a Max Morale buff. Additional ranks increase the potency of the buff."/>
+<trait identifier="1879311546" name="Opposing Presence" iconId="1091941816" minLevel="1" tiers="5" description="Increases the Area Effect damage of Biting Edge. Max rank causes Biting Edge to force taunt for a short duration, but at the cost of an increased cooldown."/>
+<trait identifier="1879311547" name="Turn The Tides" iconId="1091941824" minLevel="1" tiers="5" description="Nature's Vengeance now deals damage to the target for every corruption it removes. Additional ranks increase the amount of damage you do per corruption removed."/>
+<trait identifier="1879311548" name="Rending Blows" iconId="1091941791" minLevel="1" tiers="1" description="Unlocks the skill Rending Blow."/>
+<trait identifier="1879311549" name="Recuperate" iconId="1091941789" minLevel="1" tiers="1" description="Unlocks the skill Recuperate, a wrath consuming heal over time."/>
+<trait identifier="1879311550" name="All On The Line" iconId="1091941764" minLevel="1" tiers="2" description="Increases the amount of damage that Sacrifice redirects, but mitigates a percentage of the redirected damage."/>
+<trait identifier="1879311551" name="Quick Mend" iconId="1091941771" minLevel="1" tiers="4" description="Reduces the induction of Nature's Mend and increases its healing."/>
+<trait identifier="1879311552" name="Raging Blow" iconId="1091941770" minLevel="1" tiers="3" description="Increases the damage of Vicious Claws. \n \n If Support: \n Striking a target with Vicious Claws will give your Mark of Grimbeorn target a short duration damage buff. Additional ranks increase the potency of the buff."/>
+<trait identifier="1879311553" name="Desperate Shouts" iconId="1091941787" minLevel="1" tiers="2" description="After using Ferocious Roar, the Wrath cost of your next healing skill is reduced. At max rank, the cost is fully removed."/>
+<trait identifier="1879311554" name="Hardened Heart" iconId="1091941799" minLevel="1" tiers="3" description="After using Hearten, you generate additional Wrath over time. Amount per second is increased by additional ranks."/>
+<trait identifier="1879311555" name="Armour Crush" iconId="1091941782" minLevel="1" tiers="3" description="The first rank converts Rending Blow into Armour Crush, which adds an incoming damage debuff to the skill. The second rank increases the debuff but increases the cooldown of the skill."/>
+<trait identifier="1879311556" name="Debilitating Bees" iconId="1091941800" minLevel="1" tiers="5" description="Bee Swarm reduces the target's Physical Mitigation for its duration."/>
+<trait identifier="1879311557" name="Critical Chance" iconId="1091940989" minLevel="1" tiers="5" description="Increases your Critical Chance per rank.">
+<stat name="CRITICAL_MELEE_PERCENTAGE" scaling="1879297174"/>
+<stat name="CRITICAL_RANGED_PERCENTAGE" scaling="1879297188"/>
+<stat name="CRITICAL_TACTICAL_PERCENTAGE" scaling="1879297176"/>
+</trait>
+<trait identifier="1879311558" name="Vigilant Roar" iconId="1091941795" minLevel="1" tiers="5" description="Vigilant Roar gains a reactive shield that reflects a portion of the damage taken. Additional ranks increase the shield's duration."/>
+<trait identifier="1879311559" name="Moment of Opportunity" iconId="1091941772" minLevel="1" tiers="3" description="Increases the damage of Execute per rank. Max rank gives the Beorning's attacks in bear form a chance to proc a free Execute."/>
+<trait identifier="1879311560" name="Feral" iconId="1091916306" minLevel="1" tiers="1" description="You are inspired by your pet companion, and take on a few of its fighting characteristics."/>
+<trait identifier="1879311567" name="Crippling Roar" iconId="1091942865" minLevel="1" tiers="3" description="Adds a snare to Piercing Roar. Additional ranks improve the snare's strength."/>
+<trait identifier="1879311569" name="Fire Shield" iconId="1091916307" minLevel="1" tiers="1" description="Your Fire skills have a 25% chance to raise a protective shield around you, boosting your defences and reflecting Fire Damage at attackers."/>
+<trait identifier="1879311740" name="Enfeeble" iconId="1091916308" minLevel="1" tiers="1" description="The debuff strength of the following skills are increased for the first 10s of their cast:"/>
+<trait identifier="1879312381" name="Fellowship Protector" iconId="1091916300" minLevel="1" tiers="1" description="Your fellows are a source of strength."/>
+<trait identifier="1879312451" name="Cover Your Tracks" iconId="1091918104" minLevel="1" tiers="1" description="You learn to cover your tracks, making it harder for the enemy to retaliate for your mischief.">
+<stat name="MORALE" value="1.05"/>
+</trait>
+<trait identifier="1879312452" name="Sharp Eye" iconId="1091925946" minLevel="1" tiers="1" description="Learning to spot cheats has taught you to better spot enemy attacks. You are better able to better weather the enemy when not using your most potent abilities."/>
+<trait identifier="1879312453" name="Sneak Attack" iconId="1091918105" minLevel="1" tiers="1" description="Deal savage damage when attacking from stealth."/>
+<trait identifier="1879312458" name="Quick with a Blade" iconId="1091915498" minLevel="1" tiers="1" description="Your refined technique allows you to take better advantage of an enemy, regardless of their health."/>
+<trait identifier="1879312459" name="The More The Merrier" iconId="1091915497" minLevel="1" tiers="1" description="You grow so adept at fighting groups of enemies you become more effective when doing so."/>
+<trait identifier="1879312460" name="Weapons Master" iconId="1091915496" minLevel="1" tiers="1" description="Your extensive weapons training makes you a dangerous foe with your arms of choice."/>
+<trait identifier="1879312461" name="Moving Target" iconId="1091917446" minLevel="1" tiers="1" description="A moving target is always more difficult to hit."/>
+<trait identifier="1879312462" name="Plant Feet" iconId="1091917445" minLevel="1" tiers="1" description="You hold your ground even under enemy fire."/>
+<trait identifier="1879312463" name="Emergency Preparations" iconId="1091917447" minLevel="1" tiers="1" description="You save a trap for when you are most threatened."/>
+<trait identifier="1879312829" name="Honed Spikes" iconId="1091916301" minLevel="1" tiers="1" description="You can improve any set of shield-spikes you come across."/>
+<trait identifier="1879312897" name="Seize the Moment" iconId="1091916302" minLevel="1" tiers="1" description="Your Critical Hits can open up the enemy to a barrage of attacks."/>
+<trait identifier="1879313870" name="Prolonged Verse" iconId="1091915700" minLevel="1" tiers="3" description="Increases the number of pulses of Mending Verse. Max rank lowers the induction of Mending verse."/>
+<trait identifier="1879313903" name="Overture of Hope" iconId="1091915701" minLevel="1" tiers="1" description="Rune-keeper bubbles increase a targets incoming healing and reduces the damage they take. Words of Exaltation will also trigger the expiration heal of Bombastic Inspiration on a target if it is present."/>
+<trait identifier="1879313914" name="Branded Marks" iconId="1091915729" minLevel="1" tiers="1" description="Increases the pulses of all Fire damage over time effects."/>
+<trait identifier="1879313915" name="Hastened Determination" iconId="1091915731" minLevel="1" tiers="3" description="Reduces the cooldown of self Motivation. At max rank, Self Motivation has no induction and can be used while moving."/>
+<trait identifier="1879313928" name="Flashing Images" iconId="1091915737" minLevel="1" tiers="1" description="For a short duration after using Steady Hands to switch attunement, using a skill which returns you to neutral attunement will activate the Steady Hands effect again. "/>
+<trait identifier="1879314132" name="Break Ranks" iconId="1091916296" minLevel="1" tiers="1" description="Throw aside your defences to unleash punishment upon the enemy.">
+<stat name="MELEE_DAMAGE_PERCENTAGE" value="5.0"/>
+<stat name="TACTICAL_DAMAGE_PERCENTAGE" value="5.0"/>
+</trait>
+<trait identifier="1879314318" name="Honourable Combat" iconId="1091916297" minLevel="1" tiers="1" description="A fair exchange brings rest to both yourself and your foe."/>
+<trait identifier="1879314360" name="Singular Focus" iconId="1091916294" minLevel="1" tiers="1" description="Your focus allows you to target weaknesses in enemy armour, hastening their defeat. Your marked enemies are especially vulnerable."/>
+<trait identifier="1879314433" name="Strike a Chord" iconId="1091916303" minLevel="1" tiers="1" description="Your Ballads may be beautiful to you, but your foes would disagree."/>
+<trait identifier="1879314434" name="Inner Strength" iconId="1091916304" minLevel="1" tiers="1" description="Your songs infuse inner strength in your allies."/>
+<trait identifier="1879314435" name="Echoes" iconId="1091916305" minLevel="1" tiers="1" description="All damaging Cries and Calls can echo in your enemies' ears, dealing extra damage."/>
+<trait identifier="1879315618" name="Bond of Trust" iconId="1091941828" minLevel="1" tiers="1" description="You always make time to tend to a trusted friend."/>
+<trait identifier="1879315619" name="Sharpened Claws" iconId="1091941774" minLevel="1" tiers="1" description="Letting out a fierce war cry empowers you."/>
+<trait identifier="1879315620" name="Animalistic" iconId="1091941808" minLevel="1" tiers="1" description="You prefer to spend your days as a bear over all else."/>
+<trait identifier="1879315621" name="Greater Swarm" iconId="1091941778" minLevel="1" tiers="1" description="You draw on the powers of unexpected allies."/>
+<trait identifier="1879315622" name="Mark of Beorn" iconId="1091941804" minLevel="1" tiers="1" description="Mark your enemies."/>
+<trait identifier="1879315623" name="Battle Born" iconId="1091941790" minLevel="1" tiers="1" description="Throughout your life, you defended your land from countless Orc attacks, seasoning you as a warrior."/>
+<trait identifier="1879315624" name="Defensively Minded" iconId="1091941786" minLevel="1" tiers="1" description="Your experience in the thick of battle has made you stronger. "/>
+<trait identifier="1879315625" name="Festering Wounds" iconId="1091941818" minLevel="1" tiers="1" description="Wounds you inflict upon your enemies take longer than usual to heal."/>
+<trait identifier="1879315626" name="Down But Not Out" iconId="1091941766" minLevel="1" tiers="1" description="A Beorning's ability to fight through pain is legendary."/>
+<trait identifier="1879315627" name="Brutal Energy" iconId="1091941784" minLevel="1" tiers="1" description="The faster you slay a foe, the quicker you can defeat the next."/>
+<trait identifier="1879315628" name="Menacing Assault" iconId="1091943882" minLevel="1" tiers="1" description="You ferociously swing at your opponents, forcing them to pay attention."/>
+<trait identifier="1879315629" name="Worthy Adversary" iconId="1091941823" minLevel="1" tiers="1" description="Some say a Beorning's hide is stronger than some shields."/>
+<trait identifier="1879315630" name="Honey Cleanse" iconId="1091941780" minLevel="1" tiers="1" description="Beornings are keen to the medicinal properties of honey."/>
+<trait identifier="1879315631" name="Rake" iconId="1091941815" minLevel="1" tiers="1" description="If they stop paying attention to you, they will pay for it."/>
+<trait identifier="1879315632" name="Rejuvenating Bellow" iconId="1091941768" minLevel="1" tiers="1" description="A Beorning's roar can be as heartening to its allies as it is intimidating to its enemies."/>
+<trait identifier="1879315633" name="Flayer of Evil" iconId="1091941820" minLevel="1" tiers="1" description="While your people in their bear form are known for their might, you appear larger and more formidable than most."/>
+<trait identifier="1879315634" name="Guarded Attack" iconId="1091941806" minLevel="1" tiers="1" description="Offence leads to victories, but defence wins wars."/>
+<trait identifier="1879315635" name="Grimbeorn's Strength" iconId="1091941821" minLevel="1" tiers="1" description="Inspired by Grimbeorn, you learn to better aid your friends in times of need."/>
+<trait identifier="1879315636" name="Wrathful" iconId="1091941779" minLevel="1" tiers="1" description="Your wrath on the battlefield is that of legend."/>
+<trait identifier="1879315637" name="Aid the Assault" iconId="1091941767" minLevel="1" tiers="1" description="Your relentless attack boosts the Morale of your allies."/>
+<trait identifier="1879315638" name="Raining Blows" iconId="1091941826" minLevel="1" tiers="1" description="You grow in strength each time you strike your foe with your claws."/>
+<trait identifier="1879316853" name="Virtuous Beorning" iconId="1091934351" minLevel="1" tiers="1" description="The Virtues of Beorn are represented strongly in you. This trait does not apply to unequipped or capped Virtues."/>
+<trait identifier="1879316854" name="Beorning Club and Axe-damage Bonus" iconId="1091934352" minLevel="1" tiers="1" description="Beorning Club and Axe-damage Bonus"/>
+<trait identifier="1879316861" name="Thick Hide" iconId="1091934356" minLevel="1" tiers="1" description="Increased Vitality - Beornings are thick skinned.">
+<stat name="VITALITY" value="15.0"/>
+</trait>
+<trait identifier="1879316862" name="Natural Resistance" iconId="1091934355" minLevel="1" tiers="1" description="Improved Poison Resistance - Their bond with the natural world gives Beornings a natural resistance to toxins."/>
+<trait identifier="1879316863" name="Might of the Wild" iconId="1091934353" minLevel="1" tiers="1" description="Increased Might - Beornings wield a ferocity unmatched by other races.">
+<stat name="MIGHT" value="15.0"/>
+</trait>
+<trait identifier="1879316864" name="Few in Number" iconId="1091934354" minLevel="1" tiers="1" description="Reduced Fate - So few in number, the Beornings' Fate is in question.">
+<stat name="FATE" value="-7.0"/>
+</trait>
+<trait identifier="1879316867" key="EMISSARY" name="Emissary" iconId="1091934357" minLevel="1" tiers="1" description="You represent your people to the good folk of Middle-earth.">
+<stat name="FATE" scaling="1879358496"/>
+</trait>
+<trait identifier="1879316911" name="Bake a Honey-cake" iconId="1091934652" minLevel="1" tiers="1" description="You have mastered Beorn's recipe for Honey-cakes and can make them whenever you'd like."/>
+<trait identifier="1879316913" name="Might and Conviction Bonus" iconId="1091934368" minLevel="1" tiers="1" description="You receive a bonus to Ent's Strength and Eagle's Cry contributions."/>
+<trait identifier="1879317027" name="Return to Grimbeorn's Lodge" iconId="1091934650" minLevel="1" tiers="1" description="This enables you to quickly return to Grimbeorn's Lodge."/>
+<trait identifier="1879317033" name="Natural Diet" iconId="1091934646" minLevel="1" tiers="1" description="Your unique diet gives you resistance to disease."/>
+<trait identifier="1879317040" name="Feral Presence" iconId="1091934651" minLevel="1" tiers="1" description="You provide a bonus to your fellowship's Fate."/>
+<trait identifier="1879317044" name="Bracing Roar" iconId="1091934649" minLevel="1" tiers="1" description="In their darkest moments, Beornings can muster a powerful roar which restores Morale and unleashes their Wrath."/>
+<trait identifier="1879318308" name="Nature's Bond" iconId="1091941792" minLevel="1" tiers="1" description="Unlocks the skill Nature's Bond which allows you to mark an ally. When you receive healing, your marked ally also receives healing equal to 70% of the original heal."/>
+<trait identifier="1879318325" name="Thickened Hide" iconId="1091941817" minLevel="1" tiers="1" description="Unlocks the skill Thickened Hide, which reduces all damage taken for a duration. During this time, the Beorning will heal for one percent of his or her Morale each time he or she is hit."/>
+<trait identifier="1879318326" name="Call To Wild" iconId="1091941793" minLevel="1" tiers="1" description="Unlocks the skill Call to Wild, a buff that increases the Beorning's damage, causes pip generators to build faster, and bear form skills to cost less for a duration."/>
+<trait identifier="1879318635" name="Thrash Damage" iconId="1091941776" minLevel="1" tiers="5" description="Increases the damage of Thrash per rank."/>
+<trait identifier="1879322052" name="Broad Thrash" iconId="1091952765" minLevel="1" tiers="1" description="Thrash - Tier 3 now hits up to 5 enemies in front of the Beorning."/>
+<trait identifier="1879322053" name="Thunderous Roar" iconId="1091952766" minLevel="1" tiers="1" description="Enhances Vigilant Roar to taunt all enemies within 10m of the Beorning"/>
+<trait identifier="1879322054" name="In The Face Of" iconId="1091952764" minLevel="1" tiers="1" description="Bear Up can now be used in combat but has an increased cooldown."/>
+<trait identifier="1879324452" name="Light in the Shadow" iconId="1090541275" minLevel="1" tiers="1" description="Your ability to go unseen becomes more potent.">
+<stat name="STEALTH_LEVEL" value="3.0"/>
+</trait>
+<trait identifier="1879324459" name="Melee Skills Range" iconId="1091570592" minLevel="1" tiers="1" description="Your reach with melee weapons is improved."/>
+<trait identifier="1879324510" name="Melee Skills Range" iconId="1090552281" minLevel="1" tiers="1" description="Your reach with melee weapons is improved."/>
+<trait identifier="1879335360" name="Legendary" iconId="1090620289" minLevel="95" tiers="1" description="You have ranged across the lands of Middle-earth, and have foiled the plans of the Enemy at every turn."/>
+<trait identifier="1879346311" name="Virtuous High Elf" iconId="1092337486" minLevel="1" tiers="1" description="The Virtues of the High Elves are represented strongly in you. This trait does not apply to unequipped or capped Virtues."/>
+<trait identifier="1879346312" name="Grace of the Firstborn" iconId="1092337485" minLevel="1" tiers="1" description="You move swiftly and effortlessly through the world."/>
+<trait identifier="1879346313" name="Blade Dancer" iconId="1092337483" minLevel="1" tiers="1" description="Your bladework is as deadly as it is beautiful to behold."/>
+<trait identifier="1879346314" name="Enmity of Darkness" iconId="1092337487" minLevel="1" tiers="1" description="Your very presence pushes back the shadow."/>
+<trait identifier="1879346315" key="THOSE_WHO_REMAIN" name="Those Who Remain" iconId="1092337484" minLevel="1" tiers="1" description="You resist the call to the west, knowing there is still work to be done in Middle-earth.">
+<stat name="WILL" scaling="1879276722"/>
+</trait>
+<trait identifier="1879346343" name="Grace of Valinor" iconId="1092337489" minLevel="1" tiers="1" description="The hope you carry from Valinor can revive the spirit of even the most desperate ally."/>
+<trait identifier="1879346344" name="Glory of the First Age" iconId="1092337490" minLevel="1" tiers="1" description="This immobilizing technique you learned long ago has not lost its potency."/>
+<trait identifier="1879346345" name="Travel to Caras Galadhon" iconId="1092337493" minLevel="1" tiers="1" description="This enables you to quickly return to Lothlórien."/>
+<trait identifier="1879346346" name="Wrath of the Firstborn" iconId="1092337495" minLevel="1" tiers="1" description="Inspire your fellows to fight back against the shadow."/>
+<trait identifier="1879359114" name="Peace of the Eldar" iconId="1090554018" minLevel="1" tiers="1" description="Increased Morale and Morale Regeneration - In times of peace, your vitality and spirit are renewed more swiftly than those of the younger races of the world.">
+<stat name="MORALE" value="20.0"/>
+<stat name="OCMR" value="60.0"/>
+</trait>
+<trait identifier="1879359115" name="Fading of the Firstborn" iconId="1090554019" minLevel="1" tiers="1" description="Reduced Fate - The time of the Elves in Middle-earth is nearly at its end.">
+<stat name="FATE" value="-7.0"/>
+</trait>
+<trait identifier="1879359116" name="Suffer no Illness" iconId="1090554020" minLevel="1" tiers="1" description="Improved resistance to Disease and Poison - Elves do not suffer illness."/>
+<trait identifier="1879359117" name="Sorrow of the Undying" iconId="1090554017" minLevel="1" tiers="1" description="Reduced Will - You have witnessed the passing of Ages, and still feel the hurts of those lost in the battles of the Elder Days.">
+<stat name="WILL" value="-7.0"/>
+</trait>
+<trait identifier="1879365746" name="Fiddle Use" iconId="1092364674" minLevel="1" tiers="1" description="Allows the use of Fiddles."/>
+<trait identifier="1879368546" name="Hasten" iconId="1091829925" minLevel="1" tiers="1" description="Your Staff Sweep skill will now reduce the cooldowns on Sticky Gourd (5s), Lightning Storm (10s), and Ents go to War (15s)."/>
+<trait identifier="1879369800" name="Bolster" iconId="1091570592" minLevel="1" tiers="1" description="A placeholder trait for the 'Bolster' ability."/>
+<trait identifier="1879378378" name="Bassoon Use" iconId="1092408493" minLevel="1" tiers="1" description="Allows the use of Bassoons."/>
+<trait identifier="1879380288" name="Inner Light" iconId="1092413616" minLevel="1" tiers="1" description="Your journeys have taught you to more effectively endure the shadow of Mordor.">
+<stat name="LIGHT_OF_EARENDIL" scaling="1879380318"/>
+</trait>
+</traits>
