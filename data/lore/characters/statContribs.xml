@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?><derivatedStatsContributions>
 <classContribs class="Beorning">
+<statContribs sourceStat="ARMOUR">
+<statContrib targetStat="PHYSICAL_MITIGATION" factor="1.0"/>
+<statContrib targetStat="TACTICAL_MITIGATION" factor="0.2"/>
+<statContrib targetStat="OCFW_MITIGATION" factor="0.2"/>
+</statContribs>
 <statContribs sourceStat="MIGHT">
 <statContrib targetStat="PARRY" factor="3.0"/>
 <statContrib targetStat="EVADE" factor="1.0"/>
@@ -29,6 +34,17 @@
 <statContrib targetStat="RESISTANCE" factor="1.0"/>
 <statContrib targetStat="ICMR" factor="3.0"/>
 </statContribs>
+<statContribs sourceStat="TACTICAL_MASTERY">
+<statContrib targetStat="OUTGOING_HEALING" factor="1.0"/>
+</statContribs>
+<statContribs sourceStat="CRITICAL_DEFENCE_PERCENTAGE">
+<statContrib targetStat="MELEE_CRITICAL_DEFENCE" factor="1.0"/>
+<statContrib targetStat="RANGED_CRITICAL_DEFENCE" factor="1.0"/>
+<statContrib targetStat="TACTICAL_CRITICAL_DEFENCE" factor="1.0"/>
+</statContribs>
+<statContribs sourceStat="PHYSICAL_MITIGATION">
+<statContrib targetStat="OCFW_MITIGATION" factor="1.0"/>
+</statContribs>
 <statContribs sourceStat="WARSTEED_AGILITY">
 <statContrib targetStat="TACTICAL_MASTERY" factor="1.0"/>
 </statContribs>
@@ -38,6 +54,11 @@
 </statContribs>
 </classContribs>
 <classContribs class="Burglar">
+<statContribs sourceStat="ARMOUR">
+<statContrib targetStat="PHYSICAL_MITIGATION" factor="1.0"/>
+<statContrib targetStat="TACTICAL_MITIGATION" factor="0.2"/>
+<statContrib targetStat="OCFW_MITIGATION" factor="0.2"/>
+</statContribs>
 <statContribs sourceStat="MIGHT">
 <statContrib targetStat="BLOCK" factor="3.0"/>
 <statContrib targetStat="PARRY" factor="2.0"/>
@@ -67,6 +88,17 @@
 <statContrib targetStat="ICPR" factor="1.71"/>
 <statContrib targetStat="OCPR" factor="24.0"/>
 </statContribs>
+<statContribs sourceStat="TACTICAL_MASTERY">
+<statContrib targetStat="OUTGOING_HEALING" factor="1.0"/>
+</statContribs>
+<statContribs sourceStat="CRITICAL_DEFENCE_PERCENTAGE">
+<statContrib targetStat="MELEE_CRITICAL_DEFENCE" factor="1.0"/>
+<statContrib targetStat="RANGED_CRITICAL_DEFENCE" factor="1.0"/>
+<statContrib targetStat="TACTICAL_CRITICAL_DEFENCE" factor="1.0"/>
+</statContribs>
+<statContribs sourceStat="PHYSICAL_MITIGATION">
+<statContrib targetStat="OCFW_MITIGATION" factor="1.0"/>
+</statContribs>
 <statContribs sourceStat="WARSTEED_AGILITY">
 <statContrib targetStat="TACTICAL_MASTERY" factor="1.0"/>
 </statContribs>
@@ -76,6 +108,11 @@
 </statContribs>
 </classContribs>
 <classContribs class="Captain">
+<statContribs sourceStat="ARMOUR">
+<statContrib targetStat="PHYSICAL_MITIGATION" factor="1.0"/>
+<statContrib targetStat="TACTICAL_MITIGATION" factor="0.2"/>
+<statContrib targetStat="OCFW_MITIGATION" factor="0.2"/>
+</statContribs>
 <statContribs sourceStat="MIGHT">
 <statContrib targetStat="BLOCK" factor="3.0"/>
 <statContrib targetStat="PARRY" factor="2.0"/>
@@ -103,6 +140,17 @@
 <statContrib targetStat="ICPR" factor="1.71"/>
 <statContrib targetStat="OCPR" factor="24.0"/>
 </statContribs>
+<statContribs sourceStat="TACTICAL_MASTERY">
+<statContrib targetStat="OUTGOING_HEALING" factor="1.0"/>
+</statContribs>
+<statContribs sourceStat="CRITICAL_DEFENCE_PERCENTAGE">
+<statContrib targetStat="MELEE_CRITICAL_DEFENCE" factor="1.0"/>
+<statContrib targetStat="RANGED_CRITICAL_DEFENCE" factor="1.0"/>
+<statContrib targetStat="TACTICAL_CRITICAL_DEFENCE" factor="1.0"/>
+</statContribs>
+<statContribs sourceStat="PHYSICAL_MITIGATION">
+<statContrib targetStat="OCFW_MITIGATION" factor="1.0"/>
+</statContribs>
 <statContribs sourceStat="WARSTEED_AGILITY">
 <statContrib targetStat="TACTICAL_MASTERY" factor="1.0"/>
 </statContribs>
@@ -112,6 +160,11 @@
 </statContribs>
 </classContribs>
 <classContribs class="Champion">
+<statContribs sourceStat="ARMOUR">
+<statContrib targetStat="PHYSICAL_MITIGATION" factor="1.0"/>
+<statContrib targetStat="TACTICAL_MITIGATION" factor="0.2"/>
+<statContrib targetStat="OCFW_MITIGATION" factor="0.2"/>
+</statContribs>
 <statContribs sourceStat="MIGHT">
 <statContrib targetStat="BLOCK" factor="3.0"/>
 <statContrib targetStat="PARRY" factor="3.0"/>
@@ -141,6 +194,17 @@
 <statContrib targetStat="ICPR" factor="1.71"/>
 <statContrib targetStat="OCPR" factor="24.0"/>
 </statContribs>
+<statContribs sourceStat="TACTICAL_MASTERY">
+<statContrib targetStat="OUTGOING_HEALING" factor="1.0"/>
+</statContribs>
+<statContribs sourceStat="CRITICAL_DEFENCE_PERCENTAGE">
+<statContrib targetStat="MELEE_CRITICAL_DEFENCE" factor="1.0"/>
+<statContrib targetStat="RANGED_CRITICAL_DEFENCE" factor="1.0"/>
+<statContrib targetStat="TACTICAL_CRITICAL_DEFENCE" factor="1.0"/>
+</statContribs>
+<statContribs sourceStat="PHYSICAL_MITIGATION">
+<statContrib targetStat="OCFW_MITIGATION" factor="1.0"/>
+</statContribs>
 <statContribs sourceStat="WARSTEED_AGILITY">
 <statContrib targetStat="TACTICAL_MASTERY" factor="1.0"/>
 </statContribs>
@@ -150,6 +214,11 @@
 </statContribs>
 </classContribs>
 <classContribs class="Guardian">
+<statContribs sourceStat="ARMOUR">
+<statContrib targetStat="PHYSICAL_MITIGATION" factor="1.0"/>
+<statContrib targetStat="TACTICAL_MITIGATION" factor="0.2"/>
+<statContrib targetStat="OCFW_MITIGATION" factor="0.2"/>
+</statContribs>
 <statContribs sourceStat="MIGHT">
 <statContrib targetStat="BLOCK" factor="3.0"/>
 <statContrib targetStat="PARRY" factor="2.0"/>
@@ -178,6 +247,17 @@
 <statContrib targetStat="ICMR" factor="1.5"/>
 <statContrib targetStat="ICPR" factor="1.71"/>
 <statContrib targetStat="OCPR" factor="24.0"/>
+</statContribs>
+<statContribs sourceStat="TACTICAL_MASTERY">
+<statContrib targetStat="OUTGOING_HEALING" factor="1.0"/>
+</statContribs>
+<statContribs sourceStat="CRITICAL_DEFENCE_PERCENTAGE">
+<statContrib targetStat="MELEE_CRITICAL_DEFENCE" factor="1.0"/>
+<statContrib targetStat="RANGED_CRITICAL_DEFENCE" factor="1.0"/>
+<statContrib targetStat="TACTICAL_CRITICAL_DEFENCE" factor="1.0"/>
+</statContribs>
+<statContribs sourceStat="PHYSICAL_MITIGATION">
+<statContrib targetStat="OCFW_MITIGATION" factor="1.0"/>
 </statContribs>
 <statContribs sourceStat="WARSTEED_AGILITY">
 <statContrib targetStat="TACTICAL_MASTERY" factor="1.0"/>
@@ -188,6 +268,11 @@
 </statContribs>
 </classContribs>
 <classContribs class="Hunter">
+<statContribs sourceStat="ARMOUR">
+<statContrib targetStat="PHYSICAL_MITIGATION" factor="1.0"/>
+<statContrib targetStat="TACTICAL_MITIGATION" factor="0.2"/>
+<statContrib targetStat="OCFW_MITIGATION" factor="0.2"/>
+</statContribs>
 <statContribs sourceStat="MIGHT">
 <statContrib targetStat="BLOCK" factor="3.0"/>
 <statContrib targetStat="PARRY" factor="2.0"/>
@@ -218,6 +303,17 @@
 <statContrib targetStat="ICPR" factor="1.71"/>
 <statContrib targetStat="OCPR" factor="24.0"/>
 </statContribs>
+<statContribs sourceStat="TACTICAL_MASTERY">
+<statContrib targetStat="OUTGOING_HEALING" factor="1.0"/>
+</statContribs>
+<statContribs sourceStat="CRITICAL_DEFENCE_PERCENTAGE">
+<statContrib targetStat="MELEE_CRITICAL_DEFENCE" factor="1.0"/>
+<statContrib targetStat="RANGED_CRITICAL_DEFENCE" factor="1.0"/>
+<statContrib targetStat="TACTICAL_CRITICAL_DEFENCE" factor="1.0"/>
+</statContribs>
+<statContribs sourceStat="PHYSICAL_MITIGATION">
+<statContrib targetStat="OCFW_MITIGATION" factor="1.0"/>
+</statContribs>
 <statContribs sourceStat="WARSTEED_AGILITY">
 <statContrib targetStat="TACTICAL_MASTERY" factor="1.0"/>
 </statContribs>
@@ -227,6 +323,11 @@
 </statContribs>
 </classContribs>
 <classContribs class="Lore-master">
+<statContribs sourceStat="ARMOUR">
+<statContrib targetStat="PHYSICAL_MITIGATION" factor="1.0"/>
+<statContrib targetStat="TACTICAL_MITIGATION" factor="0.2"/>
+<statContrib targetStat="OCFW_MITIGATION" factor="0.2"/>
+</statContribs>
 <statContribs sourceStat="MIGHT">
 <statContrib targetStat="BLOCK" factor="3.0"/>
 <statContrib targetStat="PARRY" factor="2.0"/>
@@ -255,6 +356,17 @@
 <statContrib targetStat="ICMR" factor="1.5"/>
 <statContrib targetStat="ICPR" factor="1.71"/>
 <statContrib targetStat="OCPR" factor="24.0"/>
+</statContribs>
+<statContribs sourceStat="TACTICAL_MASTERY">
+<statContrib targetStat="OUTGOING_HEALING" factor="1.0"/>
+</statContribs>
+<statContribs sourceStat="CRITICAL_DEFENCE_PERCENTAGE">
+<statContrib targetStat="MELEE_CRITICAL_DEFENCE" factor="1.0"/>
+<statContrib targetStat="RANGED_CRITICAL_DEFENCE" factor="1.0"/>
+<statContrib targetStat="TACTICAL_CRITICAL_DEFENCE" factor="1.0"/>
+</statContribs>
+<statContribs sourceStat="PHYSICAL_MITIGATION">
+<statContrib targetStat="OCFW_MITIGATION" factor="1.0"/>
 </statContribs>
 <statContribs sourceStat="WARSTEED_AGILITY">
 <statContrib targetStat="TACTICAL_MASTERY" factor="1.0"/>
@@ -265,6 +377,11 @@
 </statContribs>
 </classContribs>
 <classContribs class="Minstrel">
+<statContribs sourceStat="ARMOUR">
+<statContrib targetStat="PHYSICAL_MITIGATION" factor="1.0"/>
+<statContrib targetStat="TACTICAL_MITIGATION" factor="0.2"/>
+<statContrib targetStat="OCFW_MITIGATION" factor="0.2"/>
+</statContribs>
 <statContribs sourceStat="MIGHT">
 <statContrib targetStat="BLOCK" factor="3.0"/>
 <statContrib targetStat="PARRY" factor="2.0"/>
@@ -293,6 +410,17 @@
 <statContrib targetStat="ICMR" factor="1.5"/>
 <statContrib targetStat="ICPR" factor="1.71"/>
 <statContrib targetStat="OCPR" factor="24.0"/>
+</statContribs>
+<statContribs sourceStat="TACTICAL_MASTERY">
+<statContrib targetStat="OUTGOING_HEALING" factor="1.0"/>
+</statContribs>
+<statContribs sourceStat="CRITICAL_DEFENCE_PERCENTAGE">
+<statContrib targetStat="MELEE_CRITICAL_DEFENCE" factor="1.0"/>
+<statContrib targetStat="RANGED_CRITICAL_DEFENCE" factor="1.0"/>
+<statContrib targetStat="TACTICAL_CRITICAL_DEFENCE" factor="1.0"/>
+</statContribs>
+<statContribs sourceStat="PHYSICAL_MITIGATION">
+<statContrib targetStat="OCFW_MITIGATION" factor="1.0"/>
 </statContribs>
 <statContribs sourceStat="WARSTEED_AGILITY">
 <statContrib targetStat="TACTICAL_MASTERY" factor="1.0"/>
@@ -303,6 +431,11 @@
 </statContribs>
 </classContribs>
 <classContribs class="Rune-keeper">
+<statContribs sourceStat="ARMOUR">
+<statContrib targetStat="PHYSICAL_MITIGATION" factor="1.0"/>
+<statContrib targetStat="TACTICAL_MITIGATION" factor="0.2"/>
+<statContrib targetStat="OCFW_MITIGATION" factor="0.2"/>
+</statContribs>
 <statContribs sourceStat="MIGHT">
 <statContrib targetStat="BLOCK" factor="3.0"/>
 <statContrib targetStat="PARRY" factor="2.0"/>
@@ -332,6 +465,17 @@
 <statContrib targetStat="ICPR" factor="1.71"/>
 <statContrib targetStat="OCPR" factor="24.0"/>
 </statContribs>
+<statContribs sourceStat="TACTICAL_MASTERY">
+<statContrib targetStat="OUTGOING_HEALING" factor="1.0"/>
+</statContribs>
+<statContribs sourceStat="CRITICAL_DEFENCE_PERCENTAGE">
+<statContrib targetStat="MELEE_CRITICAL_DEFENCE" factor="1.0"/>
+<statContrib targetStat="RANGED_CRITICAL_DEFENCE" factor="1.0"/>
+<statContrib targetStat="TACTICAL_CRITICAL_DEFENCE" factor="1.0"/>
+</statContribs>
+<statContribs sourceStat="PHYSICAL_MITIGATION">
+<statContrib targetStat="OCFW_MITIGATION" factor="1.0"/>
+</statContribs>
 <statContribs sourceStat="WARSTEED_AGILITY">
 <statContrib targetStat="TACTICAL_MASTERY" factor="1.0"/>
 </statContribs>
@@ -341,6 +485,11 @@
 </statContribs>
 </classContribs>
 <classContribs class="Warden">
+<statContribs sourceStat="ARMOUR">
+<statContrib targetStat="PHYSICAL_MITIGATION" factor="1.0"/>
+<statContrib targetStat="TACTICAL_MITIGATION" factor="0.2"/>
+<statContrib targetStat="OCFW_MITIGATION" factor="0.2"/>
+</statContribs>
 <statContribs sourceStat="MIGHT">
 <statContrib targetStat="BLOCK" factor="3.0"/>
 <statContrib targetStat="PARRY" factor="2.0"/>
@@ -369,6 +518,17 @@
 <statContrib targetStat="ICMR" factor="1.5"/>
 <statContrib targetStat="ICPR" factor="1.71"/>
 <statContrib targetStat="OCPR" factor="24.0"/>
+</statContribs>
+<statContribs sourceStat="TACTICAL_MASTERY">
+<statContrib targetStat="OUTGOING_HEALING" factor="1.0"/>
+</statContribs>
+<statContribs sourceStat="CRITICAL_DEFENCE_PERCENTAGE">
+<statContrib targetStat="MELEE_CRITICAL_DEFENCE" factor="1.0"/>
+<statContrib targetStat="RANGED_CRITICAL_DEFENCE" factor="1.0"/>
+<statContrib targetStat="TACTICAL_CRITICAL_DEFENCE" factor="1.0"/>
+</statContribs>
+<statContribs sourceStat="PHYSICAL_MITIGATION">
+<statContrib targetStat="OCFW_MITIGATION" factor="1.0"/>
 </statContribs>
 <statContribs sourceStat="WARSTEED_AGILITY">
 <statContrib targetStat="TACTICAL_MASTERY" factor="1.0"/>
