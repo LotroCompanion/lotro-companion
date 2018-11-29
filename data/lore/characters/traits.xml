@@ -36,17 +36,17 @@
 <trait identifier="1879064299" name="Heavy Shields" iconId="1090552288" minLevel="1" tiers="1" description="Allows the use of Heavy Shields. All heavy shields greatly reduce the chance to be critically hit and carry a small penalty to Evade."/>
 <trait identifier="1879064400" name="Improved Range" iconId="1090535587" minLevel="1" tiers="1" description="Your skill with ranged weapons allows you to attack from a greater distance than others."/>
 <trait identifier="1879073451" name="Small Size" iconId="1090553978" minLevel="1" tiers="1" description="Reduced Might - hobbits lack the physical strength of other races.">
-<stat name="MIGHT" value="-7.0"/>
+<stat name="MIGHT" constant="-7.0"/>
 </trait>
 <trait identifier="1879073452" name="Hobbit-toughness" iconId="1090553979" minLevel="1" tiers="1" description="Improved Vitality - hobbits are remarkably tough.">
-<stat name="VITALITY" value="15.0"/>
+<stat name="VITALITY" constant="15.0"/>
 </trait>
 <trait identifier="1879073453" name="Rapid Recovery" iconId="1090553980" minLevel="1" tiers="1" description="Improved Morale Regeneration out of combat - hobbits recover from trying times faster than other races.">
-<stat name="OCMR" value="60.0"/>
+<stat name="OCMR" constant="60.0"/>
 </trait>
 <trait identifier="1879073454" name="Hobbit-courage" iconId="1090553981" minLevel="1" tiers="1" description="Improved Fear Resistance - the slow-kindled courage of the hobbit race."/>
 <trait identifier="1879073455" name="Resist Corruption" iconId="1090553982" minLevel="1" tiers="1" description="Improved Shadow Mitigation - hobbits have a great resistance to temptation.">
-<stat name="SHADOW_MITIGATION_PERCENTAGE" value="1.0"/>
+<stat name="SHADOW_MITIGATION_PERCENTAGE" constant="1.0"/>
 </trait>
 <trait identifier="1879073469" name="Stoop for a Stone" iconId="1090553965" minLevel="1" tiers="1" description="You gain a short-distance ranged attack."/>
 <trait identifier="1879073473" name="Guile and Conviction Bonus" iconId="1090553967" minLevel="1" tiers="1" description="You receive a bonus to Spider's Guile and Eagle's Cry contributions"/>
@@ -60,16 +60,16 @@
 <trait identifier="1879073490" name="Hobbit-stealth" iconId="1090553974" minLevel="1" tiers="1" description="Although untrained, you have the natural ability to move about unseen, though there is a chance enemies may detect you, especially when moving in front of them."/>
 <trait identifier="1879073494" name="Hobbit-silence" iconId="1090553976" minLevel="1" tiers="1" description="You can lie prone in complete silence, causing enemies to ignore you."/>
 <trait identifier="1879073502" name="Gift of Men" iconId="1090554001" minLevel="1" tiers="1" description="Improved Fate - Men have the greatest destiny of all the Free Peoples.">
-<stat name="FATE" value="15.0"/>
+<stat name="FATE" constant="15.0"/>
 </trait>
 <trait identifier="1879073503" name="Diminishing of Mankind" iconId="1090554002" minLevel="1" tiers="1" description="Decreased Will - Men have weaker wills than the other races.">
-<stat name="WILL" value="-7.0"/>
+<stat name="WILL" constant="-7.0"/>
 </trait>
 <trait identifier="1879073504" name="Easily Inspired" iconId="1090554003" minLevel="1" tiers="1" description="Increased Morale Restoration- Men are more quickly emboldened than the other races.">
-<stat name="INCOMING_HEALING_PERCENTAGE" value="5.0"/>
+<stat name="INCOMING_HEALING_PERCENTAGE" constant="5.0"/>
 </trait>
 <trait identifier="1879073505" name="Strong Men" iconId="1090554004" minLevel="1" tiers="1" description="Improved Strength - The feats of strength that men such as Boromir could accomplish are worthy of song.">
-<stat name="MIGHT" value="15.0"/>
+<stat name="MIGHT" constant="15.0"/>
 </trait>
 <trait identifier="1879073515" name="Upper-cut" iconId="1090553988" minLevel="1" tiers="1" description="You gain a short-distance melee attack."/>
 <trait identifier="1879073519" name="Tactics and Might Bonus" iconId="1090553990" minLevel="1" tiers="1" description="You receive a bonus to Stallion's Spirit and Ent's Strength contributions."/>
@@ -86,14 +86,14 @@
 </trait>
 <trait identifier="1879073536" name="Strength of Morale" iconId="1090553999" minLevel="1" tiers="1" description="In combat, the Race of Man is known for its unquenchable spirit."/>
 <trait identifier="1879073545" name="Sorrow of the Firstborn" iconId="1090554017" minLevel="1" tiers="1" description="Reduced Morale and Morale Regeneration out of combat - Elves feel things more deeply than the other races and are more subject to sorrow.">
-<stat name="MORALE" value="-20.0"/>
-<stat name="OCMR" value="-60.0"/>
+<stat name="MORALE" constant="-20.0"/>
+<stat name="OCMR" constant="-60.0"/>
 </trait>
 <trait identifier="1879073546" name="Agility of the Woods" iconId="1090554018" minLevel="1" tiers="1" description="Improved Agility - The Grace of the Eldar is remembered in legend.">
-<stat name="AGILITY" value="15.0"/>
+<stat name="AGILITY" constant="15.0"/>
 </trait>
 <trait identifier="1879073547" name="Fading of the Firstborn" iconId="1090554019" minLevel="1" tiers="1" description="Reduced Fate - The time of the Elves in Middle-earth is nearly at its end.">
-<stat name="FATE" value="-7.0"/>
+<stat name="FATE" constant="-7.0"/>
 </trait>
 <trait identifier="1879073548" name="Suffer no Illness" iconId="1090554020" minLevel="1" tiers="1" description="Improved resistance to Disease and Poison - Elves do not suffer illness."/>
 <trait identifier="1879073558" name="Silvan Shadows" iconId="1090554007" minLevel="1" tiers="1" description="Although untrained, you have the natural ability to move about unseen, though there is a chance enemies may detect you, especially when moving in front of them."/>
@@ -106,21 +106,21 @@
 <trait identifier="1879073574" name="Elf One-handed Sword-damage Bonus" iconId="1090554015" minLevel="1" tiers="1" description="Elf One-handed Sword-damage Bonus"/>
 <trait identifier="1879073576" name="Power of the Eldar" iconId="1090554016" minLevel="1" tiers="1" description="You provide a bonus to your fellowship's Power."/>
 <trait identifier="1879073582" name="Sturdiness" iconId="1090554034" minLevel="1" tiers="1" description="Increased Might and Vitality, improved Common damage mitigation - dwarves are a sturdy race.">
-<stat name="MIGHT" value="15.0"/>
-<stat name="VITALITY" value="10.0"/>
-<stat name="PHYSICAL_MITIGATION_PERCENTAGE" value="1.0"/>
+<stat name="MIGHT" constant="15.0"/>
+<stat name="VITALITY" constant="10.0"/>
+<stat name="PHYSICAL_MITIGATION_PERCENTAGE" constant="1.0"/>
 </trait>
 <trait identifier="1879073583" name="Stocky" iconId="1090554035" minLevel="1" tiers="1" description="Reduced Agility - dwarves are naturally less agile than the other races.">
-<stat name="AGILITY" value="-7.0"/>
+<stat name="AGILITY" constant="-7.0"/>
 </trait>
 <trait identifier="1879073584" name="Lost Dwarf-kingdoms" iconId="1090554036" minLevel="1" tiers="1" description="Reduced Fate - the dwarves' time in Middle-earth is fading.">
-<stat name="FATE" value="-7.0"/>
+<stat name="FATE" constant="-7.0"/>
 </trait>
 <trait identifier="1879073585" name="Unwearying in Battle" iconId="1090554037" minLevel="1" tiers="1" description="Bonus to Morale and Power regeneration in combat, penalty to Morale and Power regeneration out of combat.">
-<stat name="ICMR" value="30.0"/>
-<stat name="ICPR" value="30.0"/>
-<stat name="OCMR" value="-60.0"/>
-<stat name="OCPR" value="-30.0"/>
+<stat name="ICMR" constant="30.0"/>
+<stat name="ICPR" constant="30.0"/>
+<stat name="OCMR" constant="-60.0"/>
+<stat name="OCPR" constant="-30.0"/>
 </trait>
 <trait identifier="1879073595" name="Head-butt" iconId="1090554023" minLevel="1" tiers="1" description="You gain a short-distance melee attack."/>
 <trait identifier="1879073599" name="Guile and Might Bonus" iconId="1090554025" minLevel="1" tiers="1" description="You receive a bonus to Spider's Guile and Ent's Strength contributions."/>
@@ -734,15 +734,15 @@
 <stat name="MELEE_DAMAGE_PERCENTAGE" scaling="1879368801"/>
 </trait>
 <trait identifier="1879272271" name="Grand Master Weapons Training" iconId="1091840526" minLevel="1" tiers="1" description="">
-<stat name="MELEE_DAMAGE_PERCENTAGE" value="5.0"/>
+<stat name="MELEE_DAMAGE_PERCENTAGE" constant="5.0"/>
 </trait>
 <trait identifier="1879272272" name="Martial Fury" iconId="1091829385" minLevel="1" tiers="1" description="Gambits in the Power Attack Gambit line and the Precise Blow Gambit line have 15% chance to apply a secondary DoT to their target which stacks with the normal DoT.\n\nSecondary DoTs cannot stack with each other."/>
 <trait identifier="1879272273" name="Sharpened Spears" iconId="1091840731" minLevel="1" tiers="1" description=""/>
 <trait identifier="1879272274" name="Unconventional Strikes" iconId="1091830072" minLevel="1" tiers="1" description=""/>
 <trait identifier="1879272275" name="Precision Training" iconId="1091830168" minLevel="1" tiers="1" description="">
-<stat name="CRITICAL_MELEE_PERCENTAGE" value="2.5"/>
-<stat name="CRITICAL_RANGED_PERCENTAGE" value="2.5"/>
-<stat name="CRITICAL_TACTICAL_PERCENTAGE" value="2.5"/>
+<stat name="CRITICAL_MELEE_PERCENTAGE" constant="2.5"/>
+<stat name="CRITICAL_RANGED_PERCENTAGE" constant="2.5"/>
+<stat name="CRITICAL_TACTICAL_PERCENTAGE" constant="2.5"/>
 </trait>
 <trait identifier="1879272276" name="Taking Advantage" iconId="1091841123" minLevel="1" tiers="1" description="After Parrying or Partially Parrying, you heal a small amount of Morale and your Gambit Builders cost no Power for 5s."/>
 <trait identifier="1879272277" name="One After Another" iconId="1091840517" minLevel="1" tiers="1" description="Minor victories in battle hearten you."/>
@@ -755,7 +755,7 @@
 <trait identifier="1879272548" name="Focus Fire" iconId="1091830189" minLevel="1" tiers="1" description="You excel at marking priority targets for your fellows."/>
 <trait identifier="1879272549" name="Thrill of Battle" iconId="1091840668" minLevel="1" tiers="1" description=""/>
 <trait identifier="1879272551" name="Throwing Arm" iconId="1091841064" minLevel="1" tiers="1" description="A strong throwing arm puts more power behind your Javelins.">
-<stat name="RANGED_DAMAGE_PERCENTAGE" value="10.0"/>
+<stat name="RANGED_DAMAGE_PERCENTAGE" constant="10.0"/>
 </trait>
 <trait identifier="1879272552" name="Elegant Finish" iconId="1091831429" minLevel="1" tiers="1" description="You gain a swath of unique bonuses to your Buff chain finishers."/>
 <trait identifier="1879272554" name="Close Call" iconId="1091840667" minLevel="1" tiers="1" description=""/>
@@ -764,18 +764,18 @@
 <trait identifier="1879272889" name="Adaptability" iconId="1091805234" minLevel="1" tiers="1" description="Whenever you are hit by an attack, your block and parry ratings will increase.\n\nThis effect can stack up to 3 times and will last for 10s or until a response skill is used."/>
 <trait identifier="1879272890" name="Mark of Permanence" iconId="1091840445" minLevel="1" tiers="1" description="Non-damaging debuffs applied to a target marked by Take to Heart become permanent in duration."/>
 <trait identifier="1879272891" name="Light-touched" iconId="1091805245" minLevel="1" tiers="1" description="This trait enhances your melee damage, and incoming healing.\n\nYou will also be able to block with 2-handed weapons.">
-<stat name="MELEE_DAMAGE_PERCENTAGE" value="5.0"/>
-<stat name="INCOMING_HEALING_PERCENTAGE" value="5.0"/>
+<stat name="MELEE_DAMAGE_PERCENTAGE" constant="5.0"/>
+<stat name="INCOMING_HEALING_PERCENTAGE" constant="5.0"/>
 </trait>
 <trait identifier="1879272892" key="OVERPOWER" name="Valorous Strength" iconId="1091805266" minLevel="1" tiers="1" description="This trait enhances your melee and critical damage.">
-<stat name="MELEE_DAMAGE_PERCENTAGE" value="10.0"/>
+<stat name="MELEE_DAMAGE_PERCENTAGE" constant="10.0"/>
 </trait>
 <trait identifier="1879272893" name="Guardian's Defence" iconId="1091805232" minLevel="1" tiers="1" description="This trait enhances your armour, critical defence, block chance and mitigation, and reduces shield wear while blocking">
-<stat name="CRITICAL_DEFENCE_PERCENTAGE" value="10.0"/>
-<stat name="PARTIAL_BLOCK_MITIGATION_PERCENTAGE" value="2.5"/>
+<stat name="CRITICAL_DEFENCE_PERCENTAGE" constant="10.0"/>
+<stat name="PARTIAL_BLOCK_MITIGATION_PERCENTAGE" constant="2.5"/>
 </trait>
 <trait identifier="1879272894" key="HEAVY_BLOWS" name="Heavy Blows" iconId="1091805240" minLevel="1" tiers="1" description="This trait further increases your melee damage and critical damage multiplier.">
-<stat name="MELEE_DAMAGE_PERCENTAGE" value="5.0"/>
+<stat name="MELEE_DAMAGE_PERCENTAGE" constant="5.0"/>
 </trait>
 <trait identifier="1879272895" name="Disabling Strikes" iconId="1091805268" minLevel="1" tiers="1" description="The potency of all non-damaging debuffs is increased by 50%"/>
 <trait identifier="1879272896" name="Bolstering Blocks" iconId="1091805259" minLevel="1" tiers="1" description="Blocking attacks will restore a small amount of morale."/>
@@ -792,7 +792,7 @@
 <trait identifier="1879273254" name="Blade-brother's Call" iconId="1091840431" minLevel="1" tiers="1" description="Unlocks the Blade-brother's Call skill."/>
 <trait identifier="1879273255" name="Uplift" iconId="1091831449" minLevel="1" tiers="1" description="Critical Heals give the Captain a stacking Critical Hit buff."/>
 <trait identifier="1879273256" name="Defensive Strike" iconId="1090541078" minLevel="1" tiers="1" description="Sure Strike grants an Armour buff, and you Parry attacks more often.">
-<stat name="PARRY_PERCENTAGE" value="5.0"/>
+<stat name="PARRY_PERCENTAGE" constant="5.0"/>
 </trait>
 <trait identifier="1879273257" name="Elendil's Boon" iconId="1091831441" minLevel="1" tiers="1" description="Blade of Elendil causes the next attack against you to deal less damage."/>
 <trait identifier="1879273258" name="Blessing of the Blade" iconId="1091840432" minLevel="1" tiers="1" description="You gain the benefits of your Blade-brother skills."/>
@@ -803,7 +803,7 @@
 <trait identifier="1879273263" name="Tactician's Prowess" iconId="1091831457" minLevel="1" tiers="1" description="Increases Critical Healing Magnitude."/>
 <trait identifier="1879273264" name="Master of War" iconId="1091831459" minLevel="1" tiers="1" description="Critical Hits with Inspire and Shadow's Lament cause you and your Blade-brother's next Melee or Ranged Skill to Crit.\n\nBanner of War causes a stacking Critical Rating buff to allies within its effect for each skillplay they perform."/>
 <trait identifier="1879273265" name="Two-handed Prowess" iconId="1091830074" minLevel="1" tiers="1" description="You may Block with a two-handed weapon and have more Morale.">
-<stat name="MORALE" value="1.25"/>
+<stat name="MORALE" constant="1.25"/>
 </trait>
 <trait identifier="1879273266" name="Lacerate" iconId="1091840430" minLevel="1" tiers="1" description="Grave Wound spreads a Bleed to targets around the Captain when used on a target with the Cutting Attack bleed."/>
 <trait identifier="1879273267" name="Shield-brother's Call" iconId="1091831458" minLevel="1" tiers="1" description="Unlocks the Shield-brother's Call skill."/>
@@ -814,7 +814,7 @@
 <trait identifier="1879273461" name="Sharpened Blades" iconId="1091840518" minLevel="1" tiers="1" description="Increases the initial damage of rend and increases the max number of stacks of its bleed to five"/>
 <trait identifier="1879273462" name="Precise Strikes" iconId="1091830089" minLevel="1" tiers="1" description="Hits with any strike skill decreases the Champion's attack duration. In addition, critical strikes generate an additional point of fervour. These effects have a chance to be triggered per hit of a skill."/>
 <trait identifier="1879273463" name="Glory" iconId="1091840520" minLevel="1" tiers="1" description="Reduce incoming melee damage.">
-<stat name="MELEE_DEFENCE_PERCENTAGE" value="10.0"/>
+<stat name="MELEE_DEFENCE_PERCENTAGE" constant="10.0"/>
 </trait>
 <trait identifier="1879273464" name="Ardour" iconId="1091830078" minLevel="1" tiers="1" description="Reduces Power Cost per Fervour point."/>
 <trait identifier="1879273465" name="Red Haze" iconId="1091830065" minLevel="1" tiers="1" description="Killing an enemy restores full Fervour."/>
@@ -835,7 +835,7 @@
 <trait identifier="1879274003" name="Fire at Will" iconId="1091830187" minLevel="1" tiers="1" description="You call for your fellowship to rain attacks down upon your enemies, granting them bonuses to their damage."/>
 <trait identifier="1879274207" name="A Small Snag" iconId="1091926676" minLevel="1" tiers="1" description="Sometimes we just get caught up on the little things in life. You make sure this tends to happen more often than not."/>
 <trait identifier="1879274679" name="Frost Affinity" iconId="1091805932" minLevel="1" tiers="1" description="Grants bonus healing.">
-<stat name="OUTGOING_HEALING_PERCENTAGE" value="20.0"/>
+<stat name="OUTGOING_HEALING_PERCENTAGE" constant="20.0"/>
 </trait>
 <trait identifier="1879274680" name="Writ of Well-being" iconId="1091502160" minLevel="1" tiers="1" description="Writ of Health now tiers down instead of dispelling upon expiration."/>
 <trait identifier="1879274681" name="Glorious Foreshadowing" iconId="1091511273" minLevel="1" tiers="1" description="Incoming healing is increased by 5% for each Writ of Health tier on a target."/>
@@ -860,7 +860,7 @@
 <trait identifier="1879274755" name="Master Trapper" iconId="1091829807" minLevel="1" tiers="1" description="Adds effects to your traps:\n\nTriple Trap: +15% incoming damage debuff.\n\nPiercing Trap: Restores morale to all those who hit the target.\n\nDeadly Decoy: +10% incoming critical chance debuff."/>
 <trait identifier="1879274756" name="Sturdy Traps" iconId="1091798544" minLevel="1" tiers="1" description="Increases the grace period of your traps and removes any focus loss from movement."/>
 <trait identifier="1879274757" name="Shoot to Kill" iconId="1091798530" minLevel="1" tiers="1" description="Increases Ranged Damage.">
-<stat name="RANGED_DAMAGE_PERCENTAGE" value="10.0"/>
+<stat name="RANGED_DAMAGE_PERCENTAGE" constant="10.0"/>
 </trait>
 <trait identifier="1879274758" name="Nock on The Move" iconId="1091471136" minLevel="1" tiers="1" description="Reduces the induction movement penalty."/>
 <trait identifier="1879274759" name="Deadly Decoy" iconId="1091798518" minLevel="1" tiers="1" description="Decoy becomes Deadly Decoy, which now explodes after a duration, causing damage and stunning enemies around it."/>
@@ -877,7 +877,7 @@
 <trait identifier="1879274770" name="Earthborn" iconId="1091840357" minLevel="1" tiers="1" description="In addition to Power, Strength of the Earth now restores Morale and Focus."/>
 <trait identifier="1879274771" name="Purge Poison" iconId="1091840350" minLevel="1" tiers="1" description="Purge Poison now cures your entire Fellowship."/>
 <trait identifier="1879274772" name="Heightened Senses" iconId="1090541190" minLevel="1" tiers="1" description="Increases the Hunter's Stealth Detection and Evasion. In addition, when the Hunter evades an attack, it will reduce the active cooldown of all Trap skills.">
-<stat name="EVADE_PERCENTAGE" value="5.0"/>
+<stat name="EVADE_PERCENTAGE" constant="5.0"/>
 </trait>
 <trait identifier="1879275252" name="Continuous Blood Rage" iconId="1091830062" minLevel="1" tiers="1" description="Blood Rage becomes Continuous Blood Rage.\n\nIn addition to breaking the Champion out of all combat states, it provides immunity to combat states, reduces power costs, and increases resistances on the Champion for a moderate duration.\n\nThis skill also restores max fervour."/>
 <trait identifier="1879275314" name="Tutelage of the Brown Wizard" iconId="1091829948" minLevel="1" tiers="1" description=""/>
@@ -909,7 +909,7 @@
 <trait identifier="1879276056" name="Encore" iconId="1091810108" minLevel="1" tiers="1" description="There is a small chance that a Coda will not consume your Ballads."/>
 <trait identifier="1879276057" name="Concentration" iconId="1091840476" minLevel="1" tiers="1" description="You gain immunity to interruption and induction setback for 5 seconds after scoring a Critical Hit with a Cry or Call."/>
 <trait identifier="1879276058" name="Discordant Ballads" iconId="1091840489" minLevel="1" tiers="1" description="All Ballads now grant you a Tactical Damage Buff.">
-<stat name="TACTICAL_DAMAGE_PERCENTAGE" value="5.0"/>
+<stat name="TACTICAL_DAMAGE_PERCENTAGE" constant="5.0"/>
 </trait>
 <trait identifier="1879276377" name="Improved Anthem of the Third Age" iconId="1091840499" minLevel="1" tiers="1" description="Increases the bonuses offered by Anthem of the Third Age - Melody"/>
 <trait identifier="1879276378" name="Improved Call of the Second Age" iconId="1091840502" minLevel="1" tiers="1" description="Call of the Second Age offers improved bonuses."/>
@@ -1042,9 +1042,9 @@
 <trait identifier="1879311740" name="Enfeeble" iconId="1091916308" minLevel="1" tiers="1" description="The debuff strength of the following skills are increased for the first 10s of their cast:"/>
 <trait identifier="1879312381" name="Fellowship Protector" iconId="1091916300" minLevel="1" tiers="1" description="Your fellows are a source of strength."/>
 <trait identifier="1879312451" name="Cover Your Tracks" iconId="1091918104" minLevel="1" tiers="1" description="You learn to cover your tracks, making it harder for the enemy to retaliate for your mischief.">
-<stat name="MORALE" value="1.05"/>
-<stat name="PHYSICAL_MITIGATION_PERCENTAGE" value="2.5"/>
-<stat name="TACTICAL_MITIGATION_PERCENTAGE" value="2.5"/>
+<stat name="MORALE" constant="1.05"/>
+<stat name="PHYSICAL_MITIGATION_PERCENTAGE" constant="2.5"/>
+<stat name="TACTICAL_MITIGATION_PERCENTAGE" constant="2.5"/>
 </trait>
 <trait identifier="1879312452" name="Sharp Eye" iconId="1091925946" minLevel="1" tiers="1" description="Learning to spot cheats has taught you to better spot enemy attacks. You are better able to better weather the enemy when not using your most potent abilities."/>
 <trait identifier="1879312453" name="Sneak Attack" iconId="1091918105" minLevel="1" tiers="1" description="Deal savage damage when attacking from stealth."/>
@@ -1062,9 +1062,9 @@
 <trait identifier="1879313915" name="Hastened Determination" iconId="1091915731" minLevel="1" tiers="3" description="Reduces the cooldown of self Motivation. At max rank, Self Motivation has no induction and can be used while moving."/>
 <trait identifier="1879313928" name="Flashing Images" iconId="1091915737" minLevel="1" tiers="1" description="For a short duration after using Steady Hands to switch attunement, using a skill which returns you to neutral attunement will activate the Steady Hands effect again. "/>
 <trait identifier="1879314132" name="Break Ranks" iconId="1091916296" minLevel="1" tiers="1" description="Throw aside your defences to unleash punishment upon the enemy.">
-<stat name="MELEE_DAMAGE_PERCENTAGE" value="5.0"/>
-<stat name="RANGED_DAMAGE_PERCENTAGE" value="5.0"/>
-<stat name="TACTICAL_DAMAGE_PERCENTAGE" value="5.0"/>
+<stat name="MELEE_DAMAGE_PERCENTAGE" constant="5.0"/>
+<stat name="RANGED_DAMAGE_PERCENTAGE" constant="5.0"/>
+<stat name="TACTICAL_DAMAGE_PERCENTAGE" constant="5.0"/>
 </trait>
 <trait identifier="1879314318" name="Honourable Combat" iconId="1091916297" minLevel="1" tiers="1" description="A fair exchange brings rest to both yourself and your foe."/>
 <trait identifier="1879314360" name="Singular Focus" iconId="1091916294" minLevel="1" tiers="1" description="Your focus allows you to target weaknesses in enemy armour, hastening their defeat. Your marked enemies are especially vulnerable."/>
@@ -1095,14 +1095,14 @@
 <trait identifier="1879316853" name="Virtuous Beorning" iconId="1091934351" minLevel="1" tiers="1" description="The Virtues of Beorn are represented strongly in you. This trait does not apply to unequipped or capped Virtues."/>
 <trait identifier="1879316854" name="Beorning Club and Axe-damage Bonus" iconId="1091934352" minLevel="1" tiers="1" description="Beorning Club and Axe-damage Bonus"/>
 <trait identifier="1879316861" name="Thick Hide" iconId="1091934356" minLevel="1" tiers="1" description="Increased Vitality - Beornings are thick skinned.">
-<stat name="VITALITY" value="15.0"/>
+<stat name="VITALITY" constant="15.0"/>
 </trait>
 <trait identifier="1879316862" name="Natural Resistance" iconId="1091934355" minLevel="1" tiers="1" description="Improved Poison Resistance - Their bond with the natural world gives Beornings a natural resistance to toxins."/>
 <trait identifier="1879316863" name="Might of the Wild" iconId="1091934353" minLevel="1" tiers="1" description="Increased Might - Beornings wield a ferocity unmatched by other races.">
-<stat name="MIGHT" value="15.0"/>
+<stat name="MIGHT" constant="15.0"/>
 </trait>
 <trait identifier="1879316864" name="Few in Number" iconId="1091934354" minLevel="1" tiers="1" description="Reduced Fate - So few in number, the Beornings' Fate is in question.">
-<stat name="FATE" value="-7.0"/>
+<stat name="FATE" constant="-7.0"/>
 </trait>
 <trait identifier="1879316867" key="EMISSARY" name="Emissary" iconId="1091934357" minLevel="1" tiers="1" description="You represent your people to the good folk of Middle-earth.">
 <stat name="FATE" scaling="1879358496"/>
@@ -1121,7 +1121,7 @@
 <trait identifier="1879322053" name="Thunderous Roar" iconId="1091952766" minLevel="1" tiers="1" description="Enhances Vigilant Roar to taunt all enemies within 10m of the Beorning"/>
 <trait identifier="1879322054" name="In The Face Of" iconId="1091952764" minLevel="1" tiers="1" description="Bear Up can now be used in combat but has an increased cooldown."/>
 <trait identifier="1879324452" name="Light in the Shadow" iconId="1090541275" minLevel="1" tiers="1" description="Your ability to go unseen becomes more potent.">
-<stat name="STEALTH_LEVEL" value="3.0"/>
+<stat name="STEALTH_LEVEL" constant="3.0"/>
 </trait>
 <trait identifier="1879324459" name="Melee Skills Range" iconId="1091570592" minLevel="1" tiers="1" description="Your reach with melee weapons is improved."/>
 <trait identifier="1879324510" name="Melee Skills Range" iconId="1090552281" minLevel="1" tiers="1" description="Your reach with melee weapons is improved."/>
@@ -1138,15 +1138,15 @@
 <trait identifier="1879346345" name="Travel to Caras Galadhon" iconId="1092337493" minLevel="1" tiers="1" description="This enables you to quickly return to Lothlórien."/>
 <trait identifier="1879346346" name="Wrath of the Firstborn" iconId="1092337495" minLevel="1" tiers="1" description="Inspire your fellows to fight back against the shadow."/>
 <trait identifier="1879359114" name="Peace of the Eldar" iconId="1090554018" minLevel="1" tiers="1" description="Increased Morale and Morale Regeneration - In times of peace, your vitality and spirit are renewed more swiftly than those of the younger races of the world.">
-<stat name="MORALE" value="20.0"/>
-<stat name="OCMR" value="60.0"/>
+<stat name="MORALE" constant="20.0"/>
+<stat name="OCMR" constant="60.0"/>
 </trait>
 <trait identifier="1879359115" name="Fading of the Firstborn" iconId="1090554019" minLevel="1" tiers="1" description="Reduced Fate - The time of the Elves in Middle-earth is nearly at its end.">
-<stat name="FATE" value="-7.0"/>
+<stat name="FATE" constant="-7.0"/>
 </trait>
 <trait identifier="1879359116" name="Suffer no Illness" iconId="1090554020" minLevel="1" tiers="1" description="Improved resistance to Disease and Poison - Elves do not suffer illness."/>
 <trait identifier="1879359117" name="Sorrow of the Undying" iconId="1090554017" minLevel="1" tiers="1" description="Reduced Will - You have witnessed the passing of Ages, and still feel the hurts of those lost in the battles of the Elder Days.">
-<stat name="WILL" value="-7.0"/>
+<stat name="WILL" constant="-7.0"/>
 </trait>
 <trait identifier="1879365746" name="Fiddle Use" iconId="1092364674" minLevel="1" tiers="1" description="Allows the use of Fiddles."/>
 <trait identifier="1879368546" name="Hasten" iconId="1091829925" minLevel="1" tiers="1" description="Your Staff Sweep skill will now reduce the cooldowns on Sticky Gourd (5s), Lightning Storm (10s), and Ents go to War (15s)."/>
