@@ -190,6 +190,9 @@
 </trait>
 <trait identifier="1879225777" name="Pibgorn Use" iconId="1091691578" minLevel="1" tiers="1" description="Allows the use of special Pibgorns."/>
 <trait identifier="1879230292" name="Audacity" iconId="1091711663" minLevel="1" tiers="25" description="Audacity improves your ability to fight the Servants of Angmar.">
+<stat name="TACTICAL_DEFENCE_PERCENTAGE" scaling="1879231531"/>
+<stat name="MELEE_DEFENCE_PERCENTAGE" scaling="1879231530"/>
+<stat name="RANGED_DEFENCE_PERCENTAGE" scaling="1879231532"/>
 <stat name="TACTICAL_DAMAGE_PERCENTAGE" scaling="1879325968"/>
 <stat name="MELEE_DAMAGE_PERCENTAGE" scaling="1879325966"/>
 <stat name="RANGED_DAMAGE_PERCENTAGE" scaling="1879325967"/>
@@ -356,7 +359,9 @@
 <trait identifier="1879269697" name="For the Free Peoples" iconId="1091830161" minLevel="1" tiers="1" description="Earns the skill For the Free Peoples, enabling you to buff your Fellowship."/>
 <trait identifier="1879269698" name="Deep Wounds" iconId="1091830172" minLevel="1" tiers="5" description="Further increases the Critical Damage of Bleeds and other damage-over-time effects."/>
 <trait identifier="1879269699" name="Spear Sweep" iconId="1091830135" minLevel="1" tiers="1" description="Grants Onslaught the ability to consume the bleed from Power Attack to deal AoE damage.\n\nGrants Wall of Steel the ability to consume the bleed from Mighty Blow to deal greater AoE damage."/>
-<trait identifier="1879269700" name="Critical Protection" iconId="1091830105" minLevel="1" tiers="5" description="Increases Critical Defence."/>
+<trait identifier="1879269700" name="Critical Protection" iconId="1091830105" minLevel="1" tiers="5" description="Increases Critical Defence.">
+<stat name="CRITICAL_DEFENCE_PERCENTAGE" scaling="1879300532"/>
+</trait>
 <trait identifier="1879269701" name="Way of the Spear" iconId="1091830188" minLevel="1" tiers="3" description="Makes your Spear Gambits more effective."/>
 <trait identifier="1879269702" name="Never Surrender" iconId="1091806078" minLevel="1" tiers="1" description="The cooldown of Never Surrender is reduced, helping you to survive difficult battles."/>
 <trait identifier="1879269703" name="Lasting Impression" iconId="1091830184" minLevel="1" tiers="2" description="Bleeds and Damage-over-time effects gain an additional pulse."/>
@@ -419,7 +424,9 @@
 <trait identifier="1879269744" name="Strong Voice" iconId="1091831472" minLevel="1" tiers="1" description="Threatening Shout now affects up to 6 targets in a small radius."/>
 <trait identifier="1879269745" name="Courageous Convocation" iconId="1091840417" minLevel="1" tiers="1" description="Muster Courage heals the Captain."/>
 <trait identifier="1879269746" name="Advantageous Attack" iconId="1091840437" minLevel="1" tiers="1" description="Shadow's Lament triggers a Light Damage proc on Telling Mark target."/>
-<trait identifier="1879269747" name="Shrug Blows Aside" iconId="1091830183" minLevel="1" tiers="5" description="Increases Critical Defence."/>
+<trait identifier="1879269747" name="Shrug Blows Aside" iconId="1091830183" minLevel="1" tiers="5" description="Increases Critical Defence.">
+<stat name="CRITICAL_DEFENCE_PERCENTAGE" scaling="1879301214"/>
+</trait>
 <trait identifier="1879269748" name="Deafening Shouts" iconId="1091840433" minLevel="1" tiers="3" description="Increases Light-type damage."/>
 <trait identifier="1879269749" name="Standard of Honour" iconId="1091831442" minLevel="1" tiers="5" description="Increases damage and healing of Standard of Honour. At max rank, Standard of Honour becomes Ground Targeted."/>
 <trait identifier="1879269750" name="Bolstered Resolve" iconId="1091831445" minLevel="1" tiers="5" description="Increases Healing Critical Magnitude."/>
@@ -533,7 +540,9 @@
 <stat name="ATTACK_DURATION_PERCENTAGE" scaling="1879291521"/>
 </trait>
 <trait identifier="1879270416" name="Killing Spree" iconId="1091830099" minLevel="1" tiers="3" description="Killing an enemy grants a portion of the Champion's max Morale."/>
-<trait identifier="1879270417" name="Critical Defence Increase" iconId="1091830105" minLevel="1" tiers="5" description="Increases Critical Defence."/>
+<trait identifier="1879270417" name="Critical Defence Increase" iconId="1091830105" minLevel="1" tiers="5" description="Increases Critical Defence.">
+<stat name="CRITICAL_DEFENCE_PERCENTAGE" scaling="1879301214"/>
+</trait>
 <trait identifier="1879270418" name="Finesse Increase" iconId="1091830085" minLevel="1" tiers="5" description="Increases Finesse Rating.">
 <stat name="FINESSE" tieredScaling="1879367860;1879367858;1879367861;1879367859;1879367857"/>
 </trait>
@@ -541,7 +550,9 @@
 <trait identifier="1879270420" name="Strong Armed Swings" iconId="1091830067" minLevel="1" tiers="5" description="Every hit on Strikes skills deal additional damage."/>
 <trait identifier="1879270421" name="Blade of Courage" iconId="1091830056" minLevel="1" tiers="3" description="Blade skills have a chance to return health to the Champion on use."/>
 <trait identifier="1879270437" name="Molten Rock" iconId="1091805926" minLevel="1" tiers="3" description="Increases the damage of Volcanic Runestone. Max Rank makes the Volcanic Runestone Ground Targeted."/>
-<trait identifier="1879270438" key="EXACTING_WARDS" name="Exacting Wards" iconId="1091829842" minLevel="1" tiers="5" description="Increases Critical defence."/>
+<trait identifier="1879270438" key="EXACTING_WARDS" name="Exacting Wards" iconId="1091829842" minLevel="1" tiers="5" description="Increases Critical defence.">
+<stat name="CRITICAL_DEFENCE_PERCENTAGE" scaling="1879301214"/>
+</trait>
 <trait identifier="1879270439" name="Empowering Flame" iconId="1091805927" minLevel="1" tiers="3" description="Mystifying Flame procs briefly reduce inductions."/>
 <trait identifier="1879270440" name="Epic Conclusion" iconId="1091840528" minLevel="1" tiers="1" description="Earns the skill: Epic Conclusion."/>
 <trait identifier="1879270441" name="Thick Skinned" iconId="1091915730" minLevel="1" tiers="3" description="Increases Physical Mitigation.">
@@ -760,6 +771,7 @@
 <stat name="MELEE_DAMAGE_PERCENTAGE" value="10.0"/>
 </trait>
 <trait identifier="1879272893" name="Guardian's Defence" iconId="1091805232" minLevel="1" tiers="1" description="This trait enhances your armour, critical defence, block chance and mitigation, and reduces shield wear while blocking">
+<stat name="CRITICAL_DEFENCE_PERCENTAGE" value="10.0"/>
 <stat name="PARTIAL_BLOCK_MITIGATION_PERCENTAGE" value="2.5"/>
 </trait>
 <trait identifier="1879272894" key="HEAVY_BLOWS" name="Heavy Blows" iconId="1091805240" minLevel="1" tiers="1" description="This trait further increases your melee damage and critical damage multiplier.">
@@ -801,7 +813,9 @@
 <trait identifier="1879273460" name="Bracing Against Defeat" iconId="1090541128" minLevel="1" tiers="1" description="Bracing Attack now generates 2 points of fervour and the amount of Morale it restores is increased."/>
 <trait identifier="1879273461" name="Sharpened Blades" iconId="1091840518" minLevel="1" tiers="1" description="Increases the initial damage of rend and increases the max number of stacks of its bleed to five"/>
 <trait identifier="1879273462" name="Precise Strikes" iconId="1091830089" minLevel="1" tiers="1" description="Hits with any strike skill decreases the Champion's attack duration. In addition, critical strikes generate an additional point of fervour. These effects have a chance to be triggered per hit of a skill."/>
-<trait identifier="1879273463" name="Glory" iconId="1091840520" minLevel="1" tiers="1" description="Reduce incoming melee damage."/>
+<trait identifier="1879273463" name="Glory" iconId="1091840520" minLevel="1" tiers="1" description="Reduce incoming melee damage.">
+<stat name="MELEE_DEFENCE_PERCENTAGE" value="10.0"/>
+</trait>
 <trait identifier="1879273464" name="Ardour" iconId="1091830078" minLevel="1" tiers="1" description="Reduces Power Cost per Fervour point."/>
 <trait identifier="1879273465" name="Red Haze" iconId="1091830065" minLevel="1" tiers="1" description="Killing an enemy restores full Fervour."/>
 <trait identifier="1879273466" name="Renewing Strikes" iconId="1091840517" minLevel="1" tiers="1" description="Strike Skills have a chance to return a percentage of max Morale. This effect has a chance to be triggered per hit of a skill."/>
