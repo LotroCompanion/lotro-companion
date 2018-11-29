@@ -18,7 +18,6 @@ import javax.swing.JTextField;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.combobox.ComboBoxController;
-import delta.common.ui.swing.combobox.ItemSelectionListener;
 import delta.common.ui.swing.text.FloatEditionController;
 import delta.common.ui.swing.text.IntegerEditionController;
 import delta.common.ui.swing.windows.WindowController;
@@ -34,7 +33,6 @@ import delta.games.lotro.lore.items.DamageType;
 import delta.games.lotro.lore.items.EquipmentLocation;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemBinding;
-import delta.games.lotro.lore.items.ItemFactory;
 import delta.games.lotro.lore.items.ItemPropertyNames;
 import delta.games.lotro.lore.items.ItemQuality;
 import delta.games.lotro.lore.items.ItemSturdiness;
@@ -43,8 +41,6 @@ import delta.games.lotro.lore.items.WeaponType;
 import delta.games.lotro.lore.items.essences.EssencesSet;
 import delta.games.lotro.lore.items.legendary.Legendary;
 import delta.games.lotro.lore.items.legendary.LegendaryAttrs;
-import delta.games.lotro.lore.items.stats.Scaling;
-import delta.games.lotro.lore.items.stats.ScalingRule;
 
 /**
  * Controller for an item edition panel.
@@ -536,6 +532,7 @@ public class ItemEditionPanelController
 
   private void configureScaling(Item item)
   {
+    /*
     ScalingRule rule=Scaling.getScalingRule(item);
     if (rule!=null)
     {
@@ -587,8 +584,10 @@ public class ItemEditionPanelController
         _itemLevel.addItem(itemLevel,itemLevel.toString());
       }
     }
+    */
   }
 
+  /*
   private void selectRequiredLevel(Integer requiredLevel)
   {
     if (requiredLevel!=null)
@@ -604,12 +603,13 @@ public class ItemEditionPanelController
       }
     }
   }
+  */
 
+  /*
   private void selectItemLevel(Integer itemLevel)
   {
     if (itemLevel!=null)
     {
-      ScalingRule rule=Scaling.getScalingRule(_item);
       if (rule!=null)
       {
         Item item=ItemFactory.clone(_item);
@@ -630,6 +630,7 @@ public class ItemEditionPanelController
       }
     }
   }
+  */
 
   /**
    * Release all managed resources.
