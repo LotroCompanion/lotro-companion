@@ -18,11 +18,15 @@ import javax.swing.JTextField;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.combobox.ComboBoxController;
+import delta.common.ui.swing.text.DynamicTextEditionController;
 import delta.common.ui.swing.text.FloatEditionController;
 import delta.common.ui.swing.text.IntegerEditionController;
+import delta.common.ui.swing.text.TextListener;
 import delta.common.ui.swing.windows.WindowController;
+import delta.common.utils.NumericTools;
 import delta.games.lotro.character.CharacterSummary;
 import delta.games.lotro.character.stats.BasicStatsSet;
+import delta.games.lotro.common.stats.StatsProvider;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.character.stats.StatsEditionPanelController;
 import delta.games.lotro.gui.items.essences.EssencesEditionPanelController;
@@ -59,7 +63,7 @@ public class ItemEditionPanelController
   private JTextField _name;
   private StatsEditionPanelController _stats;
   private EssencesEditionPanelController _essencesEditor;
-  private ComboBoxController<Integer> _itemLevel;
+  private JTextField _itemLevel;
   private ComboBoxController<Integer> _minLevel;
   // character class requirement
   private JTextArea _description;
@@ -204,9 +208,10 @@ public class ItemEditionPanelController
       panel.add(panelLine,c);
       c.gridy++;
       // Item level
-      _itemLevel=new ComboBoxController<Integer>(true,Integer.class);
+      _itemLevel=GuiFactory.buildTextField("");
+      _itemLevel.setColumns(4);
       panelLine.add(GuiFactory.buildLabel("Item level:"));
-      panelLine.add(_itemLevel.getComboBox());
+      panelLine.add(_itemLevel);
       // Minimum level
       _minLevel=new ComboBoxController<Integer>(true,Integer.class);
       panelLine.add(GuiFactory.buildLabel("Required level:"));
@@ -330,7 +335,8 @@ public class ItemEditionPanelController
     configureScaling(_item);
     // Item level
     Integer itemLevel=_item.getItemLevel();
-    _itemLevel.selectItem(itemLevel);
+    String itemLevelStr=(itemLevel!=null)?itemLevel.toString():"";
+    _itemLevel.setText(itemLevelStr);
     // Minimum level
     Integer minLevel=_item.getMinLevel();
     _minLevel.selectItem(minLevel);
@@ -395,7 +401,9 @@ public class ItemEditionPanelController
     stats.clear();
     stats.setStats(_stats.getStats());
     // Item level
-    _item.setItemLevel(_itemLevel.getSelectedItem());
+    String itemLevelStr=_itemLevel.getText();
+    Integer itemLevel=NumericTools.parseInteger(itemLevelStr);
+    _item.setItemLevel(itemLevel);
     // Minimum level
     _item.setMinLevel(_minLevel.getSelectedItem());
     // Description
@@ -532,6 +540,16 @@ public class ItemEditionPanelController
 
   private void configureScaling(Item item)
   {
+    TextListener listener=new TextListener()
+    {
+      @Override
+      public void textChanged(String newText)
+      {
+        Integer itemLevel=NumericTools.parseInteger(newText);
+        selectItemLevel(itemLevel);
+      }
+    };
+    new DynamicTextEditionController(_itemLevel,listener);
     /*
     ScalingRule rule=Scaling.getScalingRule(item);
     if (rule!=null)
@@ -605,32 +623,24 @@ public class ItemEditionPanelController
   }
   */
 
-  /*
   private void selectItemLevel(Integer itemLevel)
   {
     if (itemLevel!=null)
     {
-      if (rule!=null)
+      StatsProvider provider=_item.getStatsProvider();
+      if (provider!=null)
       {
-        Item item=ItemFactory.clone(_item);
-        Scaling.scaleToItemLevel(item,itemLevel.intValue());
-        BasicStatsSet stats=item.getStats();
+        BasicStatsSet stats=provider.getStats(1,itemLevel.intValue());
         _stats.initFromStats(stats);
-        if (item instanceof Armour)
+        if (_item instanceof Armour)
         {
-          Armour armour=(Armour)item;
+          Armour armour=(Armour)_item;
           int armourValue=armour.getArmourValue();
           _armourValue.setValue(Integer.valueOf(armourValue));
-        }
-        Integer requiredLevel=rule.getRequiredLevel(itemLevel.intValue());
-        if (requiredLevel!=null)
-        {
-          _minLevel.selectItem(requiredLevel);
         }
       }
     }
   }
-  */
 
   /**
    * Release all managed resources.
@@ -658,7 +668,7 @@ public class ItemEditionPanelController
     }
     if (_itemLevel!=null)
     {
-      _itemLevel.dispose();
+      //_itemLevel.dispose();
       _itemLevel=null;
     }
     if (_minLevel!=null)
