@@ -49,13 +49,13 @@ public class ItemChoiceTableColumnsManager
         || (slot==EQUIMENT_SLOT.FEET) || (slot==EQUIMENT_SLOT.SHOULDER))
     {
       ret.add(ItemColumnIds.SLOT_COUNT.name());
-      ret.add(ItemColumnIds.ARMOUR.name());
+      ret.add(STAT.ARMOUR.name());
       ret.add(ItemColumnIds.ARMOUR_TYPE.name());
     }
     else if (slot==EQUIMENT_SLOT.BACK)
     {
       ret.add(ItemColumnIds.SLOT_COUNT.name());
-      ret.add(ItemColumnIds.ARMOUR.name());
+      ret.add(STAT.ARMOUR.name());
     }
     else if (slot==EQUIMENT_SLOT.MAIN_MELEE)
     {
@@ -67,7 +67,7 @@ public class ItemChoiceTableColumnsManager
     else if (slot==EQUIMENT_SLOT.OTHER_MELEE)
     {
       ret.add(ItemColumnIds.WEAPON_TYPE.name());
-      ret.add(ItemColumnIds.ARMOUR.name());
+      ret.add(STAT.ARMOUR.name());
       ret.add(ItemColumnIds.ARMOUR_TYPE.name());
     }
     else if (slot==EQUIMENT_SLOT.RANGED)

@@ -369,7 +369,6 @@ public class ItemEditionPanelController
     if (_item instanceof Armour)
     {
       Armour armour=(Armour)_item;
-      _armourValue.setValue(Integer.valueOf(armour.getArmourValue()));
       _armourType.selectItem(armour.getArmourType());
     }
 
@@ -455,7 +454,7 @@ public class ItemEditionPanelController
       Integer armourValue=_armourValue.getValue();
       if (armourValue!=null)
       {
-        armour.setArmourValue(armourValue.intValue());
+        stats.addStat(STAT.ARMOUR,new FixedDecimalsInteger(armourValue.intValue()));
       }
       armour.setArmourType(_armourType.getSelectedItem());
     }

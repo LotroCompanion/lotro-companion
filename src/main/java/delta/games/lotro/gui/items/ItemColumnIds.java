@@ -43,10 +43,6 @@ public enum ItemColumnIds
    */
   SLOT_COUNT,
   /**
-   * Armour.
-   */
-  ARMOUR,
-  /**
    * Armour/shield type.
    */
   ARMOUR_TYPE,

@@ -260,27 +260,6 @@ public class ItemChoiceTableController
       qualityColumn.setWidthSpecs(100,100,100);
       columns.add(qualityColumn);
     }
-    // Armour column
-    {
-      CellDataProvider<Item,FixedDecimalsInteger> armourCell=new CellDataProvider<Item,FixedDecimalsInteger>()
-      {
-        @Override
-        public FixedDecimalsInteger getData(Item item)
-        {
-          if (item instanceof Armour)
-          {
-            Armour armour=(Armour)item;
-            return new FixedDecimalsInteger(armour.getArmourValue());
-          }
-          BasicStatsSet stats=item.getStats();
-          FixedDecimalsInteger value=stats.getStat(STAT.ARMOUR);
-          return value;
-        }
-      };
-      DefaultTableColumnController<Item,FixedDecimalsInteger> armourColumn=new DefaultTableColumnController<Item,FixedDecimalsInteger>(ItemColumnIds.ARMOUR.name(),"Armour",FixedDecimalsInteger.class,armourCell);
-      armourColumn.setWidthSpecs(55,55,50);
-      columns.add(armourColumn);
-    }
     // Armour type
     {
       CellDataProvider<Item,ArmourType> armourTypeCell=new CellDataProvider<Item,ArmourType>()
