@@ -26,6 +26,7 @@ import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.NumericTools;
 import delta.games.lotro.character.CharacterSummary;
 import delta.games.lotro.character.stats.BasicStatsSet;
+import delta.games.lotro.character.stats.STAT;
 import delta.games.lotro.common.stats.StatsProvider;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.character.stats.StatsEditionPanelController;
@@ -45,6 +46,7 @@ import delta.games.lotro.lore.items.WeaponType;
 import delta.games.lotro.lore.items.essences.EssencesSet;
 import delta.games.lotro.lore.items.legendary.Legendary;
 import delta.games.lotro.lore.items.legendary.LegendaryAttrs;
+import delta.games.lotro.utils.FixedDecimalsInteger;
 
 /**
  * Controller for an item edition panel.
@@ -631,13 +633,16 @@ public class ItemEditionPanelController
       if (provider!=null)
       {
         BasicStatsSet stats=provider.getStats(1,itemLevel.intValue());
-        _stats.initFromStats(stats);
         if (_item instanceof Armour)
         {
-          Armour armour=(Armour)_item;
-          int armourValue=armour.getArmourValue();
-          _armourValue.setValue(Integer.valueOf(armourValue));
+          FixedDecimalsInteger armourValue=stats.getStat(STAT.ARMOUR);
+          if (armourValue!=null)
+          {
+            stats.removeStat(STAT.ARMOUR);
+            _armourValue.setValue(Integer.valueOf(armourValue.intValue()));
+          }
         }
+        _stats.initFromStats(stats);
       }
     }
   }
