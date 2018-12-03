@@ -332,7 +332,7 @@ public class ItemEditionPanelController
     // Slot
     _slot.selectItem(_item.getEquipmentLocation());
     // Stats
-    _stats.initFromStats(_item.getStats());
+    setStats(_item.getStats());
     // Configure scaling
     configureScaling(_item);
     // Item level
@@ -633,18 +633,23 @@ public class ItemEditionPanelController
       if (provider!=null)
       {
         BasicStatsSet stats=provider.getStats(1,itemLevel.intValue());
-        if (_item instanceof Armour)
-        {
-          FixedDecimalsInteger armourValue=stats.getStat(STAT.ARMOUR);
-          if (armourValue!=null)
-          {
-            stats.removeStat(STAT.ARMOUR);
-            _armourValue.setValue(Integer.valueOf(armourValue.intValue()));
-          }
-        }
-        _stats.initFromStats(stats);
+        setStats(stats);
       }
     }
+  }
+
+  private void setStats(BasicStatsSet stats)
+  {
+    if (_item instanceof Armour)
+    {
+      FixedDecimalsInteger armourValue=stats.getStat(STAT.ARMOUR);
+      if (armourValue!=null)
+      {
+        stats.removeStat(STAT.ARMOUR);
+        _armourValue.setValue(Integer.valueOf(armourValue.intValue()));
+      }
+    }
+    _stats.initFromStats(stats);
   }
 
   /**
