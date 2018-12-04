@@ -21,10 +21,6 @@ import delta.games.lotro.lore.deeds.DeedType;
 public class LotroIconsManager
 {
   /**
-   * Medium size.
-   */
-  public static final String MEDIUM_SIZE="medium";
-  /**
    * Compact size.
    */
   public static final String COMPACT_SIZE="compact";
