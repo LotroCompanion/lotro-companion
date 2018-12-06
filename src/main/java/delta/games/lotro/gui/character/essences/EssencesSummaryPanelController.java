@@ -16,6 +16,7 @@ import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.character.stats.STAT;
 import delta.games.lotro.character.stats.base.DerivedStatsContributionsMgr;
+import delta.games.lotro.character.stats.base.io.DerivedStatContributionsIO;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.gui.character.essences.EssencesSummary.EssenceCount;
 import delta.games.lotro.gui.character.stats.StatLabels;
@@ -130,7 +131,7 @@ public class EssencesSummaryPanelController
     BasicStatsSet raw=_summary.getStats();
     updateStatsPanel(_rawStatsPanel,raw);
     // Cumulated
-    DerivedStatsContributionsMgr derivedStatsMgr=new DerivedStatsContributionsMgr();
+    DerivedStatsContributionsMgr derivedStatsMgr=DerivedStatContributionsIO.load();
     CharacterClass characterClass=_toon.getCharacterClass();
     BasicStatsSet derivated=derivedStatsMgr.getContribution(characterClass,raw);
     BasicStatsSet cumulated=new BasicStatsSet();
