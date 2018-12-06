@@ -639,9 +639,10 @@ public class ItemEditionPanelController
 
   private void setStats(BasicStatsSet stats)
   {
+    FixedDecimalsInteger armourValue=null;
     if (_item instanceof Armour)
     {
-      FixedDecimalsInteger armourValue=stats.getStat(STAT.ARMOUR);
+      armourValue=stats.getStat(STAT.ARMOUR);
       if (armourValue!=null)
       {
         stats.removeStat(STAT.ARMOUR);
@@ -649,6 +650,10 @@ public class ItemEditionPanelController
       }
     }
     _stats.initFromStats(stats);
+    if (armourValue!=null)
+    {
+      stats.setStat(STAT.ARMOUR,armourValue);
+    }
   }
 
   /**
