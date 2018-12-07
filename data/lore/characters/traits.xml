@@ -307,7 +307,7 @@
 <trait identifier="1879267971" name="Exposed Throat" iconId="1091840293" minLevel="1" tiers="1" description="Earns the skill: Exposed Throat."/>
 <trait identifier="1879267972" name="Vital Points" iconId="1091840429" minLevel="1" tiers="3" description="Critical Response skills have a chance to lower your target's Critical Defence."/>
 <trait identifier="1879267973" name="Heartening Prank" iconId="1091829387" minLevel="1" tiers="5" description="Increases max Morale.">
-<stat name="MORALE" scaling="1879339009"/>
+<stat name="MORALE" operator="MULTIPLY" scaling="1879339009"/>
 </trait>
 <trait identifier="1879267974" name="Agile Hands" iconId="1091829385" minLevel="1" tiers="5" description="Increases Critical Magnitude."/>
 <trait identifier="1879267976" name="A Sure Thing" iconId="1091798522" minLevel="1" tiers="5" description="Increases the damage done by harmful Gambles."/>
@@ -387,7 +387,7 @@
 <trait identifier="1879269721" name="Stand Your Ground" iconId="1091830178" minLevel="1" tiers="4" description="Sacrifice Evade to boost Block and Parry ratings. At Max Rank, gain +2% Block chance and +2% Parry chance.">
 <stat name="BLOCK" tieredScaling="1879270010;1879312315;1879312318;1879312309;1879312312"/>
 <stat name="PARRY" tieredScaling="1879312323;1879312321;1879312316;1879312313;1879312311"/>
-<stat name="EVADE" tieredScaling="1879312325;1879312319;1879312314;1879312324;1879312322"/>
+<stat name="EVADE" operator="SUBSTRACT" tieredScaling="1879312325;1879312319;1879312314;1879312324;1879312322"/>
 <stat name="BLOCK_PERCENTAGE" scaling="1879312344"/>
 <stat name="PARRY_PERCENTAGE" scaling="1879312345"/>
 </trait>
@@ -411,10 +411,10 @@
 <trait identifier="1879269736" name="Vital Stroke" iconId="1091840442" minLevel="1" tiers="2" description="Increases  the Critical Damage Magnitude of Grave Wound's bleed.\n\nMax rank reduces Grave Wound's cooldown."/>
 <trait identifier="1879269737" name="Situational Awareness" iconId="1091831467" minLevel="1" tiers="5" description="Devastating Blow, Pressing Attack, Blade of Elendil and Routing Cry have a chance to trigger an Evade buff."/>
 <trait identifier="1879269738" key="STEELED_RESOLVE" name="Steeled Resolve" iconId="1091831478" minLevel="1" tiers="4" description="Increases max Morale.">
-<stat name="MORALE" scaling="1879297173"/>
+<stat name="MORALE" operator="MULTIPLY" scaling="1879297173"/>
 </trait>
 <trait identifier="1879269739" key="MARTIAL_PROWESS" name="Martial Prowess" iconId="1091831438" minLevel="1" tiers="3" description="Increases melee damage and attack speed.">
-<stat name="ATTACK_DURATION_PERCENTAGE" scaling="1879311233"/>
+<stat name="ATTACK_DURATION_PERCENTAGE" operator="SUBSTRACT" scaling="1879311233"/>
 <stat name="MELEE_DAMAGE_PERCENTAGE" scaling="1879297190"/>
 </trait>
 <trait identifier="1879269740" name="Rallying Roar" iconId="1091831427" minLevel="1" tiers="5" description="Increases Morale healed by Rallying Cry.\n\nRestores power when used with a Defeat Event."/>
@@ -537,7 +537,7 @@
 <stat name="VITALITY" tieredScaling="1879366659;1879366643;1879366650;1879366645;1879366641"/>
 </trait>
 <trait identifier="1879270415" name="Battle Reflexes" iconId="1091830070" minLevel="1" tiers="5" description="Decreases Attack Duration.">
-<stat name="ATTACK_DURATION_PERCENTAGE" scaling="1879291521"/>
+<stat name="ATTACK_DURATION_PERCENTAGE" operator="SUBSTRACT" scaling="1879291521"/>
 </trait>
 <trait identifier="1879270416" name="Killing Spree" iconId="1091830099" minLevel="1" tiers="3" description="Killing an enemy grants a portion of the Champion's max Morale."/>
 <trait identifier="1879270417" name="Critical Defence Increase" iconId="1091830105" minLevel="1" tiers="5" description="Increases Critical Defence.">
@@ -803,7 +803,7 @@
 <trait identifier="1879273263" name="Tactician's Prowess" iconId="1091831457" minLevel="1" tiers="1" description="Increases Critical Healing Magnitude."/>
 <trait identifier="1879273264" name="Master of War" iconId="1091831459" minLevel="1" tiers="1" description="Critical Hits with Inspire and Shadow's Lament cause you and your Blade-brother's next Melee or Ranged Skill to Crit.\n\nBanner of War causes a stacking Critical Rating buff to allies within its effect for each skillplay they perform."/>
 <trait identifier="1879273265" name="Two-handed Prowess" iconId="1091830074" minLevel="1" tiers="1" description="You may Block with a two-handed weapon and have more Morale.">
-<stat name="MORALE" constant="1.25"/>
+<stat name="MORALE" operator="MULTIPLY" constant="1.25"/>
 </trait>
 <trait identifier="1879273266" name="Lacerate" iconId="1091840430" minLevel="1" tiers="1" description="Grave Wound spreads a Bleed to targets around the Captain when used on a target with the Cutting Attack bleed."/>
 <trait identifier="1879273267" name="Shield-brother's Call" iconId="1091831458" minLevel="1" tiers="1" description="Unlocks the Shield-brother's Call skill."/>
@@ -814,7 +814,7 @@
 <trait identifier="1879273461" name="Sharpened Blades" iconId="1091840518" minLevel="1" tiers="1" description="Increases the initial damage of rend and increases the max number of stacks of its bleed to five"/>
 <trait identifier="1879273462" name="Precise Strikes" iconId="1091830089" minLevel="1" tiers="1" description="Hits with any strike skill decreases the Champion's attack duration. In addition, critical strikes generate an additional point of fervour. These effects have a chance to be triggered per hit of a skill."/>
 <trait identifier="1879273463" name="Glory" iconId="1091840520" minLevel="1" tiers="1" description="Reduce incoming melee damage.">
-<stat name="MELEE_DEFENCE_PERCENTAGE" constant="10.0"/>
+<stat name="MELEE_DEFENCE_PERCENTAGE" operator="SUBSTRACT" constant="10.0"/>
 </trait>
 <trait identifier="1879273464" name="Ardour" iconId="1091830078" minLevel="1" tiers="1" description="Reduces Power Cost per Fervour point."/>
 <trait identifier="1879273465" name="Red Haze" iconId="1091830065" minLevel="1" tiers="1" description="Killing an enemy restores full Fervour."/>
@@ -835,7 +835,7 @@
 <trait identifier="1879274003" name="Fire at Will" iconId="1091830187" minLevel="1" tiers="1" description="You call for your fellowship to rain attacks down upon your enemies, granting them bonuses to their damage."/>
 <trait identifier="1879274207" name="A Small Snag" iconId="1091926676" minLevel="1" tiers="1" description="Sometimes we just get caught up on the little things in life. You make sure this tends to happen more often than not."/>
 <trait identifier="1879274679" name="Frost Affinity" iconId="1091805932" minLevel="1" tiers="1" description="Grants bonus healing.">
-<stat name="OUTGOING_HEALING_PERCENTAGE" constant="20.0"/>
+<stat name="OUTGOING_HEALING_PERCENTAGE" operator="SET" constant="20.0"/>
 </trait>
 <trait identifier="1879274680" name="Writ of Well-being" iconId="1091502160" minLevel="1" tiers="1" description="Writ of Health now tiers down instead of dispelling upon expiration."/>
 <trait identifier="1879274681" name="Glorious Foreshadowing" iconId="1091511273" minLevel="1" tiers="1" description="Incoming healing is increased by 5% for each Writ of Health tier on a target."/>
@@ -1042,7 +1042,7 @@
 <trait identifier="1879311740" name="Enfeeble" iconId="1091916308" minLevel="1" tiers="1" description="The debuff strength of the following skills are increased for the first 10s of their cast:"/>
 <trait identifier="1879312381" name="Fellowship Protector" iconId="1091916300" minLevel="1" tiers="1" description="Your fellows are a source of strength."/>
 <trait identifier="1879312451" name="Cover Your Tracks" iconId="1091918104" minLevel="1" tiers="1" description="You learn to cover your tracks, making it harder for the enemy to retaliate for your mischief.">
-<stat name="MORALE" constant="1.05"/>
+<stat name="MORALE" operator="MULTIPLY" constant="1.05"/>
 <stat name="PHYSICAL_MITIGATION_PERCENTAGE" constant="2.5"/>
 <stat name="TACTICAL_MITIGATION_PERCENTAGE" constant="2.5"/>
 </trait>
