@@ -96,7 +96,7 @@ public class LotroIconsManager
    */
   public static ImageIcon getBuffIcon(String iconFilename)
   {
-    if (iconFilename.startsWith("/icons/traits"))
+    if (iconFilename.startsWith("/traitIcons"))
     {
       return IconsManager.getIcon(iconFilename);
     }
