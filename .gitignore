@@ -1,19 +1,20 @@
 /target/
 /data/characters/toon*
-/data/lore/items.xml
-/data/lore/relics.xml
-/data/logs/lotrocompanion.log
-/data/preferences/*.properties
-/data/lore/maps
-/data/lore/deeds.xml
-/factions.xml
-/data/lore/progressions_characters.xml
-/data/lore/progressions_items.xml
+/data/lore/characters/traits.xml
 /data/lore/deeds-from-lorebook.xml
+/data/lore/deeds.xml
 /data/lore/items_dat - Copie.xml
 /data/lore/items_dat.xml
 /data/lore/items_ref.xml
+/data/lore/items.xml
+/data/lore/maps
+/data/lore/progressions_characters.xml
+/data/lore/progressions_items.xml
 /data/lore/recipes.xml
+/data/lore/relics.xml
 /data/lore/relics - Copie.xml
+/data/logs/lotrocompanion.log
+/data/preferences/*.properties
+/factions.xml
 /giswald.xml
 /meva.xml
