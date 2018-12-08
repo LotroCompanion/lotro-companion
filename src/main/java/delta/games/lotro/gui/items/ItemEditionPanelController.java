@@ -631,7 +631,7 @@ public class ItemEditionPanelController
       StatsProvider provider=_item.getStatsProvider();
       if (provider!=null)
       {
-        BasicStatsSet stats=provider.getStats(1,itemLevel.intValue());
+        BasicStatsSet stats=provider.getStats(1,itemLevel.intValue(),true);
         setStats(stats);
       }
     }
