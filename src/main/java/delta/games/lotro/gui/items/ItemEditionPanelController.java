@@ -18,6 +18,7 @@ import javax.swing.JTextField;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.combobox.ComboBoxController;
+import delta.common.ui.swing.combobox.ItemSelectionListener;
 import delta.common.ui.swing.text.DynamicTextEditionController;
 import delta.common.ui.swing.text.FloatEditionController;
 import delta.common.ui.swing.text.IntegerEditionController;
@@ -46,7 +47,9 @@ import delta.games.lotro.lore.items.WeaponType;
 import delta.games.lotro.lore.items.essences.EssencesSet;
 import delta.games.lotro.lore.items.legendary.Legendary;
 import delta.games.lotro.lore.items.legendary.LegendaryAttrs;
+import delta.games.lotro.lore.items.scaling.Munging;
 import delta.games.lotro.utils.FixedDecimalsInteger;
+import delta.games.lotro.utils.maths.Progression;
 
 /**
  * Controller for an item edition panel.
@@ -56,6 +59,7 @@ public class ItemEditionPanelController
 {
   // Data
   private Item _item;
+  private Munging _munging;
   private CharacterSummary _character;
   // GUI
   private JPanel _panel;
@@ -66,8 +70,9 @@ public class ItemEditionPanelController
   private StatsEditionPanelController _stats;
   private EssencesEditionPanelController _essencesEditor;
   private JTextField _itemLevel;
+  private JLabel _mungingLabel;
+  private ComboBoxController<Integer> _mungingLevel;
   private ComboBoxController<Integer> _minLevel;
-  // character class requirement
   private JTextArea _description;
   private JTextField _birthName;
   private JTextField _crafterName;
@@ -77,7 +82,6 @@ public class ItemEditionPanelController
   private IntegerEditionController _durability;
   private ComboBoxController<ItemSturdiness> _sturdiness;
   private IntegerEditionController _stackMax;
-  // money
   private ComboBoxController<ItemQuality> _quality;
 
   // Armour attributes
@@ -126,7 +130,7 @@ public class ItemEditionPanelController
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
 
-    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     // Main data line
     {
       JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
@@ -209,6 +213,11 @@ public class ItemEditionPanelController
       JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
       panel.add(panelLine,c);
       c.gridy++;
+      // Munging level
+      _mungingLabel=GuiFactory.buildLabel("Scaling level:");
+      panelLine.add(_mungingLabel);
+      _mungingLevel=new ComboBoxController<Integer>(false,Integer.class);
+      panelLine.add(_mungingLevel.getComboBox());
       // Item level
       _itemLevel=GuiFactory.buildTextField("");
       _itemLevel.setColumns(4);
@@ -307,9 +316,11 @@ public class ItemEditionPanelController
       tabbedPane.add("Relics",relicsPanel);
     }
 
-    JPanel ret=GuiFactory.buildBackgroundPanel(new BorderLayout());
-    ret.add(panel,BorderLayout.NORTH);
-    ret.add(tabbedPane,BorderLayout.CENTER);
+    JPanel ret=GuiFactory.buildBackgroundPanel(new GridBagLayout());
+    c=new GridBagConstraints(0,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    ret.add(panel,c);
+    c=new GridBagConstraints(0,1,1,1,1.0,1.0,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
+    ret.add(tabbedPane,c);
 
     _panel=ret;
     setItem();
@@ -551,78 +562,54 @@ public class ItemEditionPanelController
       }
     };
     new DynamicTextEditionController(_itemLevel,listener);
-    /*
-    ScalingRule rule=Scaling.getScalingRule(item);
-    if (rule!=null)
+    boolean hide=true;
+    String mungingSpec=item.getProperty(ItemPropertyNames.MUNGING);
+    if (mungingSpec!=null)
     {
-      // Min level
-      List<Integer> minLevels=rule.getRequiredLevels();
-      for(Integer minLevel : minLevels)
+      _munging=Munging.fromString(mungingSpec);
+      Progression progression=_munging.getProgression();
+      if (progression!=null)
       {
-        _minLevel.addItem(minLevel,minLevel.toString());
-      }
-      ItemSelectionListener<Integer> listenerRequiredLevel=new ItemSelectionListener<Integer>()
-      {
-        @Override
-        public void itemSelected(Integer requiredLevel)
+        Integer min=_munging.getMin();
+        int minLevel=(min!=null?min.intValue():1);
+        Integer max=_munging.getMax();
+        int maxLevel=(max!=null?max.intValue():120); // TODO Configure cap
+        _mungingLevel.addEmptyItem("");
+        for(int level=minLevel;level<=maxLevel;level++)
         {
-          selectRequiredLevel(requiredLevel);
+          _mungingLevel.addItem(Integer.valueOf(level),String.valueOf(level));
         }
-      };
-      _minLevel.addListener(listenerRequiredLevel);
-      // Item level
-      List<Integer> itemLevels=rule.getItemLevels();
-      for(Integer itemLevel : itemLevels)
-      {
-        _itemLevel.addItem(itemLevel,itemLevel.toString());
-      }
-      ItemSelectionListener<Integer> listener=new ItemSelectionListener<Integer>()
-      {
-        @Override
-        public void itemSelected(Integer itemLevel)
+        ItemSelectionListener<Integer> listenerMungingLevel=new ItemSelectionListener<Integer>()
         {
-          selectItemLevel(itemLevel);
-        }
-      };
-      _itemLevel.addListener(listener);
-    }
-    else
-    {
-      // Min level
-      _minLevel.addEmptyItem("");
-      Integer minLevel=item.getMinLevel();
-      if (minLevel!=null)
-      {
-        _minLevel.addItem(minLevel,minLevel.toString());
-      }
-      // Item level
-      _itemLevel.addEmptyItem("");
-      Integer itemLevel=item.getItemLevel();
-      if (itemLevel!=null)
-      {
-        _itemLevel.addItem(itemLevel,itemLevel.toString());
+          @Override
+          public void itemSelected(Integer mungingLevel)
+          {
+            selectMungingLevel(mungingLevel);
+          }
+        };
+        _mungingLevel.addListener(listenerMungingLevel);
+        hide=false;
       }
     }
-    */
+    if (hide)
+    {
+      _mungingLabel.setVisible(false);
+      _mungingLevel.getComboBox().setVisible(false);
+    }
   }
 
-  /*
-  private void selectRequiredLevel(Integer requiredLevel)
+  private void selectMungingLevel(Integer mungingLevel)
   {
-    if (requiredLevel!=null)
+    if (mungingLevel!=null)
     {
-      ScalingRule rule=Scaling.getScalingRule(_item);
-      if (rule!=null)
+      Progression progression=_munging.getProgression();
+      Float itemLevel=progression.getValue(mungingLevel.intValue());
+      if (itemLevel!=null)
       {
-        Integer itemLevel=rule.getItemLevel(requiredLevel.intValue());
-        if (itemLevel!=null)
-        {
-          _itemLevel.selectItem(itemLevel);
-        }
+        _itemLevel.setText(String.valueOf(itemLevel.intValue()));
       }
     }
   }
-  */
 
   private void selectItemLevel(Integer itemLevel)
   {
@@ -684,6 +671,12 @@ public class ItemEditionPanelController
     {
       //_itemLevel.dispose();
       _itemLevel=null;
+    }
+    _mungingLabel=null;
+    if (_mungingLevel!=null)
+    {
+      _mungingLevel.dispose();
+      _mungingLevel=null;
     }
     if (_minLevel!=null)
     {
