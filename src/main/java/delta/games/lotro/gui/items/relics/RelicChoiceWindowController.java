@@ -54,7 +54,7 @@ public class RelicChoiceWindowController extends DefaultFormDialogController<Rel
   protected JPanel buildFormPanel()
   {
     RelicsManager relicsMgr=RelicsManager.getInstance();
-    List<Relic> relics=relicsMgr.getAllRelics();
+    List<Relic> relics=relicsMgr.getAllRelics(false);
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     _tableController=new RelicsTableController(relics,_filter);
     ActionListener al=new ActionListener()
