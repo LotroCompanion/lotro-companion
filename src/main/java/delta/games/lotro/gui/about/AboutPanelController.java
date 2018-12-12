@@ -220,6 +220,12 @@ public class AboutPanelController
     }
     JPanel groupPanel=buildGroupContribPanel("Ever Watchful","group");
     panels.add(groupPanel);
+    // Tegyr
+    {
+      String contrib="<html><ul>"+"<li>Seeker of Deep Places,<li>Champollion"+"</ul></html>";
+      JPanel tegyr=buildToonContribPanel("Tegyr","tegyr",contrib);
+      panels.add(tegyr);
+    }
     return panels;
   }
 
