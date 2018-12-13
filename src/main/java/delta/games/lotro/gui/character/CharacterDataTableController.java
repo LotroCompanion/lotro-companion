@@ -8,6 +8,7 @@ import javax.swing.JTable;
 import delta.common.ui.swing.tables.CellDataProvider;
 import delta.common.ui.swing.tables.DataProvider;
 import delta.common.ui.swing.tables.GenericTableController;
+import delta.common.ui.swing.tables.Sort;
 import delta.common.ui.swing.tables.GenericTableController.DateRenderer;
 import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.games.lotro.character.CharacterData;
@@ -25,6 +26,11 @@ import delta.games.lotro.utils.events.GenericEventsListener;
  */
 public class CharacterDataTableController implements GenericEventsListener<CharacterEvent>
 {
+  // Column IDs
+  private static final String DATE="DATE";
+  private static final String LEVEL="LEVEL";
+  private static final String DESCRIPTION="DESCRIPTION";
+
   // Data
   private CharacterFile _toon;
   // GUI
@@ -84,7 +90,7 @@ public class CharacterDataTableController implements GenericEventsListener<Chara
           return (timestamp!=null)?new Date(timestamp.longValue()):null;
         }
       };
-      DefaultTableColumnController<CharacterData,Date> lastUpdateColumn=new DefaultTableColumnController<CharacterData,Date>("Date",Date.class,lastUpdateCell);
+      DefaultTableColumnController<CharacterData,Date> lastUpdateColumn=new DefaultTableColumnController<CharacterData,Date>(DATE,"Date",Date.class,lastUpdateCell);
       lastUpdateColumn.setWidthSpecs(120,120,120);
       lastUpdateColumn.setCellRenderer(new DateRenderer(Formats.DATE_PATTERN));
       table.addColumnController(lastUpdateColumn);
@@ -99,7 +105,7 @@ public class CharacterDataTableController implements GenericEventsListener<Chara
           return Integer.valueOf(item.getLevel());
         }
       };
-      DefaultTableColumnController<CharacterData,Integer> serverColumn=new DefaultTableColumnController<CharacterData,Integer>("Level",Integer.class,levelCell);
+      DefaultTableColumnController<CharacterData,Integer> serverColumn=new DefaultTableColumnController<CharacterData,Integer>(LEVEL,"Level",Integer.class,levelCell);
       serverColumn.setWidthSpecs(80,80,80);
       table.addColumnController(serverColumn);
     }
@@ -113,10 +119,12 @@ public class CharacterDataTableController implements GenericEventsListener<Chara
           return item.getShortDescription();
         }
       };
-      DefaultTableColumnController<CharacterData,String> descriptionColumn=new DefaultTableColumnController<CharacterData,String>("Description",String.class,descriptionCell);
+      DefaultTableColumnController<CharacterData,String> descriptionColumn=new DefaultTableColumnController<CharacterData,String>(DESCRIPTION,"Description",String.class,descriptionCell);
       descriptionColumn.setWidthSpecs(100,-1,100);
       table.addColumnController(descriptionColumn);
     }
+    String sort=Sort.SORT_DESCENDING+DATE;
+    table.setSort(Sort.buildFromString(sort));
     return table;
   }
 
