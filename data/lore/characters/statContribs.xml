@@ -6,6 +6,7 @@
 <statContrib targetStat="OCFW_MITIGATION" factor="0.2"/>
 </statContribs>
 <statContribs sourceStat="MIGHT">
+<statContrib targetStat="BLOCK" factor="2.0"/>
 <statContrib targetStat="PARRY" factor="3.0"/>
 <statContrib targetStat="EVADE" factor="1.0"/>
 <statContrib targetStat="CRITICAL_RATING" factor="1.0"/>
