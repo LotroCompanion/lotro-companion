@@ -338,13 +338,12 @@ public class CharacterFileWindowController extends DefaultWindowController imple
 
   private void startNewCharacterData()
   {
-    CharacterInfosManager infos=_toon.getInfosManager();
-    CharacterData lastInfos=infos.getLastCharacterDescription();
     CharacterData newInfos=new CharacterData();
     CharacterSummary newSummary;
-    if (lastInfos!=null)
+    CharacterSummary toonSummary=_toon.getSummary();
+    if (toonSummary!=null)
     {
-      newSummary=new CharacterSummary(lastInfos.getSummary());
+      newSummary=new CharacterSummary(toonSummary);
     }
     else
     {
