@@ -8,7 +8,7 @@
 <stat name="WILL" value="1100"/>
 <stat name="FATE" value="1400"/>
 <stat name="OCMR" value="6000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="8100"/>
 </stats>
 <stats class="Beorning" level="2">
 <stat name="MORALE" value="11900"/>
@@ -19,7 +19,7 @@
 <stat name="WILL" value="1200"/>
 <stat name="FATE" value="1600"/>
 <stat name="OCMR" value="12000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="8100"/>
 </stats>
 <stats class="Beorning" level="3">
 <stat name="MORALE" value="15300"/>
@@ -30,7 +30,7 @@
 <stat name="WILL" value="1400"/>
 <stat name="FATE" value="1800"/>
 <stat name="OCMR" value="12000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="8200"/>
 </stats>
 <stats class="Beorning" level="4">
 <stat name="MORALE" value="18700"/>
@@ -41,7 +41,7 @@
 <stat name="WILL" value="1500"/>
 <stat name="FATE" value="2000"/>
 <stat name="OCMR" value="12000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="8300"/>
 </stats>
 <stats class="Beorning" level="5">
 <stat name="MORALE" value="22100"/>
@@ -52,7 +52,7 @@
 <stat name="WILL" value="1700"/>
 <stat name="FATE" value="2200"/>
 <stat name="OCMR" value="12000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="8300"/>
 </stats>
 <stats class="Beorning" level="6">
 <stat name="MORALE" value="25500"/>
@@ -63,7 +63,7 @@
 <stat name="WILL" value="1800"/>
 <stat name="FATE" value="2400"/>
 <stat name="OCMR" value="18000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="8400"/>
 </stats>
 <stats class="Beorning" level="7">
 <stat name="MORALE" value="28900"/>
@@ -74,7 +74,7 @@
 <stat name="WILL" value="1900"/>
 <stat name="FATE" value="2600"/>
 <stat name="OCMR" value="18000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="8500"/>
 </stats>
 <stats class="Beorning" level="8">
 <stat name="MORALE" value="32300"/>
@@ -85,7 +85,7 @@
 <stat name="WILL" value="2100"/>
 <stat name="FATE" value="2800"/>
 <stat name="OCMR" value="18000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="8500"/>
 </stats>
 <stats class="Beorning" level="9">
 <stat name="MORALE" value="35700"/>
@@ -96,7 +96,7 @@
 <stat name="WILL" value="2200"/>
 <stat name="FATE" value="3000"/>
 <stat name="OCMR" value="18000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="8600"/>
 </stats>
 <stats class="Beorning" level="10">
 <stat name="MORALE" value="39100"/>
@@ -107,7 +107,7 @@
 <stat name="WILL" value="2400"/>
 <stat name="FATE" value="3200"/>
 <stat name="OCMR" value="18000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="8700"/>
 </stats>
 <stats class="Beorning" level="11">
 <stat name="MORALE" value="41000"/>
@@ -118,7 +118,7 @@
 <stat name="WILL" value="2500"/>
 <stat name="FATE" value="3400"/>
 <stat name="OCMR" value="18000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="8700"/>
 </stats>
 <stats class="Beorning" level="12">
 <stat name="MORALE" value="44400"/>
@@ -129,7 +129,7 @@
 <stat name="WILL" value="2600"/>
 <stat name="FATE" value="3600"/>
 <stat name="OCMR" value="18000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="8800"/>
 </stats>
 <stats class="Beorning" level="13">
 <stat name="MORALE" value="47800"/>
@@ -140,7 +140,7 @@
 <stat name="WILL" value="2800"/>
 <stat name="FATE" value="3800"/>
 <stat name="OCMR" value="18000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="8900"/>
 </stats>
 <stats class="Beorning" level="14">
 <stat name="MORALE" value="51200"/>
@@ -151,7 +151,7 @@
 <stat name="WILL" value="2900"/>
 <stat name="FATE" value="4000"/>
 <stat name="OCMR" value="18000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="8900"/>
 </stats>
 <stats class="Beorning" level="15">
 <stat name="MORALE" value="54600"/>
@@ -162,7 +162,7 @@
 <stat name="WILL" value="3100"/>
 <stat name="FATE" value="4200"/>
 <stat name="OCMR" value="18000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="9000"/>
 </stats>
 <stats class="Beorning" level="16">
 <stat name="MORALE" value="58000"/>
@@ -173,7 +173,7 @@
 <stat name="WILL" value="3200"/>
 <stat name="FATE" value="4400"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="9100"/>
 </stats>
 <stats class="Beorning" level="17">
 <stat name="MORALE" value="61400"/>
@@ -184,7 +184,7 @@
 <stat name="WILL" value="3300"/>
 <stat name="FATE" value="4600"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="9100"/>
 </stats>
 <stats class="Beorning" level="18">
 <stat name="MORALE" value="64800"/>
@@ -195,7 +195,7 @@
 <stat name="WILL" value="3500"/>
 <stat name="FATE" value="4800"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="9200"/>
 </stats>
 <stats class="Beorning" level="19">
 <stat name="MORALE" value="68200"/>
@@ -206,7 +206,7 @@
 <stat name="WILL" value="3600"/>
 <stat name="FATE" value="5000"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="9300"/>
 </stats>
 <stats class="Beorning" level="20">
 <stat name="MORALE" value="71600"/>
@@ -217,7 +217,7 @@
 <stat name="WILL" value="3800"/>
 <stat name="FATE" value="5200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="9300"/>
 </stats>
 <stats class="Beorning" level="21">
 <stat name="MORALE" value="73800"/>
@@ -228,7 +228,7 @@
 <stat name="WILL" value="3900"/>
 <stat name="FATE" value="5400"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="9400"/>
 </stats>
 <stats class="Beorning" level="22">
 <stat name="MORALE" value="76000"/>
@@ -239,7 +239,7 @@
 <stat name="WILL" value="4000"/>
 <stat name="FATE" value="5600"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="9500"/>
 </stats>
 <stats class="Beorning" level="23">
 <stat name="MORALE" value="78200"/>
@@ -250,7 +250,7 @@
 <stat name="WILL" value="4200"/>
 <stat name="FATE" value="5800"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="9500"/>
 </stats>
 <stats class="Beorning" level="24">
 <stat name="MORALE" value="80400"/>
@@ -261,7 +261,7 @@
 <stat name="WILL" value="4300"/>
 <stat name="FATE" value="6000"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="9600"/>
 </stats>
 <stats class="Beorning" level="25">
 <stat name="MORALE" value="82600"/>
@@ -272,7 +272,7 @@
 <stat name="WILL" value="4500"/>
 <stat name="FATE" value="6200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="9700"/>
 </stats>
 <stats class="Beorning" level="26">
 <stat name="MORALE" value="84800"/>
@@ -283,7 +283,7 @@
 <stat name="WILL" value="4600"/>
 <stat name="FATE" value="6400"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="9700"/>
 </stats>
 <stats class="Beorning" level="27">
 <stat name="MORALE" value="87000"/>
@@ -294,7 +294,7 @@
 <stat name="WILL" value="4700"/>
 <stat name="FATE" value="6600"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="9800"/>
 </stats>
 <stats class="Beorning" level="28">
 <stat name="MORALE" value="89200"/>
@@ -305,7 +305,7 @@
 <stat name="WILL" value="4900"/>
 <stat name="FATE" value="6800"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="9900"/>
 </stats>
 <stats class="Beorning" level="29">
 <stat name="MORALE" value="91400"/>
@@ -316,7 +316,7 @@
 <stat name="WILL" value="5000"/>
 <stat name="FATE" value="7000"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="9900"/>
 </stats>
 <stats class="Beorning" level="30">
 <stat name="MORALE" value="93600"/>
@@ -327,7 +327,7 @@
 <stat name="WILL" value="5200"/>
 <stat name="FATE" value="7100"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="10000"/>
 </stats>
 <stats class="Beorning" level="31">
 <stat name="MORALE" value="95800"/>
@@ -338,7 +338,7 @@
 <stat name="WILL" value="5300"/>
 <stat name="FATE" value="7200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="10100"/>
 </stats>
 <stats class="Beorning" level="32">
 <stat name="MORALE" value="98000"/>
@@ -349,7 +349,7 @@
 <stat name="WILL" value="5400"/>
 <stat name="FATE" value="7300"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="10100"/>
 </stats>
 <stats class="Beorning" level="33">
 <stat name="MORALE" value="100200"/>
@@ -360,7 +360,7 @@
 <stat name="WILL" value="5600"/>
 <stat name="FATE" value="7400"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="10200"/>
 </stats>
 <stats class="Beorning" level="34">
 <stat name="MORALE" value="102400"/>
@@ -371,7 +371,7 @@
 <stat name="WILL" value="5700"/>
 <stat name="FATE" value="7500"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="10300"/>
 </stats>
 <stats class="Beorning" level="35">
 <stat name="MORALE" value="104600"/>
@@ -382,7 +382,7 @@
 <stat name="WILL" value="5900"/>
 <stat name="FATE" value="7600"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="10300"/>
 </stats>
 <stats class="Beorning" level="36">
 <stat name="MORALE" value="106800"/>
@@ -393,7 +393,7 @@
 <stat name="WILL" value="6000"/>
 <stat name="FATE" value="7700"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="10400"/>
 </stats>
 <stats class="Beorning" level="37">
 <stat name="MORALE" value="109000"/>
@@ -404,7 +404,7 @@
 <stat name="WILL" value="6100"/>
 <stat name="FATE" value="7900"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="10500"/>
 </stats>
 <stats class="Beorning" level="38">
 <stat name="MORALE" value="111200"/>
@@ -415,7 +415,7 @@
 <stat name="WILL" value="6300"/>
 <stat name="FATE" value="8000"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="10500"/>
 </stats>
 <stats class="Beorning" level="39">
 <stat name="MORALE" value="113400"/>
@@ -426,7 +426,7 @@
 <stat name="WILL" value="6400"/>
 <stat name="FATE" value="8100"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="10600"/>
 </stats>
 <stats class="Beorning" level="40">
 <stat name="MORALE" value="115600"/>
@@ -437,7 +437,7 @@
 <stat name="WILL" value="6600"/>
 <stat name="FATE" value="8200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="10700"/>
 </stats>
 <stats class="Beorning" level="41">
 <stat name="MORALE" value="117800"/>
@@ -448,7 +448,7 @@
 <stat name="WILL" value="6700"/>
 <stat name="FATE" value="8300"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="10700"/>
 </stats>
 <stats class="Beorning" level="42">
 <stat name="MORALE" value="120000"/>
@@ -459,7 +459,7 @@
 <stat name="WILL" value="6800"/>
 <stat name="FATE" value="8400"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="10800"/>
 </stats>
 <stats class="Beorning" level="43">
 <stat name="MORALE" value="122200"/>
@@ -470,7 +470,7 @@
 <stat name="WILL" value="7000"/>
 <stat name="FATE" value="8500"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="10900"/>
 </stats>
 <stats class="Beorning" level="44">
 <stat name="MORALE" value="124400"/>
@@ -481,7 +481,7 @@
 <stat name="WILL" value="7100"/>
 <stat name="FATE" value="8600"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="10900"/>
 </stats>
 <stats class="Beorning" level="45">
 <stat name="MORALE" value="126600"/>
@@ -492,7 +492,7 @@
 <stat name="WILL" value="7300"/>
 <stat name="FATE" value="8700"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="11000"/>
 </stats>
 <stats class="Beorning" level="46">
 <stat name="MORALE" value="128800"/>
@@ -503,7 +503,7 @@
 <stat name="WILL" value="7400"/>
 <stat name="FATE" value="8800"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="11100"/>
 </stats>
 <stats class="Beorning" level="47">
 <stat name="MORALE" value="131000"/>
@@ -514,7 +514,7 @@
 <stat name="WILL" value="7500"/>
 <stat name="FATE" value="8900"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="11100"/>
 </stats>
 <stats class="Beorning" level="48">
 <stat name="MORALE" value="133200"/>
@@ -525,7 +525,7 @@
 <stat name="WILL" value="7700"/>
 <stat name="FATE" value="9000"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="11200"/>
 </stats>
 <stats class="Beorning" level="49">
 <stat name="MORALE" value="135400"/>
@@ -536,7 +536,7 @@
 <stat name="WILL" value="7800"/>
 <stat name="FATE" value="9100"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="11300"/>
 </stats>
 <stats class="Beorning" level="50">
 <stat name="MORALE" value="137600"/>
@@ -547,7 +547,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="11300"/>
 </stats>
 <stats class="Beorning" level="51">
 <stat name="MORALE" value="139800"/>
@@ -558,7 +558,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="11400"/>
 </stats>
 <stats class="Beorning" level="52">
 <stat name="MORALE" value="142000"/>
@@ -569,7 +569,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="11500"/>
 </stats>
 <stats class="Beorning" level="53">
 <stat name="MORALE" value="144200"/>
@@ -580,7 +580,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="11500"/>
 </stats>
 <stats class="Beorning" level="54">
 <stat name="MORALE" value="146400"/>
@@ -591,7 +591,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="11600"/>
 </stats>
 <stats class="Beorning" level="55">
 <stat name="MORALE" value="148600"/>
@@ -602,7 +602,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="11700"/>
 </stats>
 <stats class="Beorning" level="56">
 <stat name="MORALE" value="150800"/>
@@ -613,7 +613,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="11700"/>
 </stats>
 <stats class="Beorning" level="57">
 <stat name="MORALE" value="153000"/>
@@ -624,7 +624,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="11800"/>
 </stats>
 <stats class="Beorning" level="58">
 <stat name="MORALE" value="155200"/>
@@ -635,7 +635,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="11900"/>
 </stats>
 <stats class="Beorning" level="59">
 <stat name="MORALE" value="157400"/>
@@ -646,7 +646,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="11900"/>
 </stats>
 <stats class="Beorning" level="60">
 <stat name="MORALE" value="159600"/>
@@ -657,7 +657,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="12000"/>
 </stats>
 <stats class="Beorning" level="61">
 <stat name="MORALE" value="161800"/>
@@ -668,7 +668,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="12100"/>
 </stats>
 <stats class="Beorning" level="62">
 <stat name="MORALE" value="164000"/>
@@ -679,7 +679,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="12100"/>
 </stats>
 <stats class="Beorning" level="63">
 <stat name="MORALE" value="166200"/>
@@ -690,7 +690,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="12200"/>
 </stats>
 <stats class="Beorning" level="64">
 <stat name="MORALE" value="168400"/>
@@ -701,7 +701,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="12300"/>
 </stats>
 <stats class="Beorning" level="65">
 <stat name="MORALE" value="170600"/>
@@ -712,7 +712,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="12300"/>
 </stats>
 <stats class="Beorning" level="66">
 <stat name="MORALE" value="173300"/>
@@ -723,7 +723,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="12400"/>
 </stats>
 <stats class="Beorning" level="67">
 <stat name="MORALE" value="176600"/>
@@ -734,7 +734,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="12500"/>
 </stats>
 <stats class="Beorning" level="68">
 <stat name="MORALE" value="180400"/>
@@ -745,7 +745,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="12500"/>
 </stats>
 <stats class="Beorning" level="69">
 <stat name="MORALE" value="184800"/>
@@ -756,7 +756,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="12600"/>
 </stats>
 <stats class="Beorning" level="70">
 <stat name="MORALE" value="189700"/>
@@ -767,7 +767,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="12700"/>
 </stats>
 <stats class="Beorning" level="71">
 <stat name="MORALE" value="195200"/>
@@ -778,7 +778,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="12700"/>
 </stats>
 <stats class="Beorning" level="72">
 <stat name="MORALE" value="201200"/>
@@ -789,7 +789,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="12800"/>
 </stats>
 <stats class="Beorning" level="73">
 <stat name="MORALE" value="207800"/>
@@ -800,7 +800,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="12900"/>
 </stats>
 <stats class="Beorning" level="74">
 <stat name="MORALE" value="214400"/>
@@ -811,7 +811,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="12900"/>
 </stats>
 <stats class="Beorning" level="75">
 <stat name="MORALE" value="221000"/>
@@ -822,7 +822,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="13000"/>
 </stats>
 <stats class="Beorning" level="76">
 <stat name="MORALE" value="227600"/>
@@ -833,7 +833,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="13100"/>
 </stats>
 <stats class="Beorning" level="77">
 <stat name="MORALE" value="234200"/>
@@ -844,7 +844,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="13100"/>
 </stats>
 <stats class="Beorning" level="78">
 <stat name="MORALE" value="240800"/>
@@ -855,7 +855,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="13200"/>
 </stats>
 <stats class="Beorning" level="79">
 <stat name="MORALE" value="247400"/>
@@ -866,7 +866,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="13300"/>
 </stats>
 <stats class="Beorning" level="80">
 <stat name="MORALE" value="254000"/>
@@ -877,7 +877,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="13300"/>
 </stats>
 <stats class="Beorning" level="81">
 <stat name="MORALE" value="260600"/>
@@ -888,7 +888,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="13400"/>
 </stats>
 <stats class="Beorning" level="82">
 <stat name="MORALE" value="267200"/>
@@ -899,7 +899,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="13500"/>
 </stats>
 <stats class="Beorning" level="83">
 <stat name="MORALE" value="273800"/>
@@ -910,7 +910,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="13500"/>
 </stats>
 <stats class="Beorning" level="84">
 <stat name="MORALE" value="280400"/>
@@ -921,7 +921,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="13600"/>
 </stats>
 <stats class="Beorning" level="85">
 <stat name="MORALE" value="287000"/>
@@ -932,7 +932,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="13700"/>
 </stats>
 <stats class="Beorning" level="86">
 <stat name="MORALE" value="293600"/>
@@ -943,7 +943,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="13700"/>
 </stats>
 <stats class="Beorning" level="87">
 <stat name="MORALE" value="300200"/>
@@ -954,7 +954,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="13800"/>
 </stats>
 <stats class="Beorning" level="88">
 <stat name="MORALE" value="306800"/>
@@ -965,7 +965,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="13900"/>
 </stats>
 <stats class="Beorning" level="89">
 <stat name="MORALE" value="313400"/>
@@ -976,7 +976,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="13900"/>
 </stats>
 <stats class="Beorning" level="90">
 <stat name="MORALE" value="320000"/>
@@ -987,7 +987,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="14000"/>
 </stats>
 <stats class="Beorning" level="91">
 <stat name="MORALE" value="326600"/>
@@ -998,7 +998,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="14100"/>
 </stats>
 <stats class="Beorning" level="92">
 <stat name="MORALE" value="333200"/>
@@ -1009,7 +1009,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="14100"/>
 </stats>
 <stats class="Beorning" level="93">
 <stat name="MORALE" value="339800"/>
@@ -1020,7 +1020,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="14200"/>
 </stats>
 <stats class="Beorning" level="94">
 <stat name="MORALE" value="346400"/>
@@ -1031,7 +1031,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="14300"/>
 </stats>
 <stats class="Beorning" level="95">
 <stat name="MORALE" value="353000"/>
@@ -1042,7 +1042,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="14300"/>
 </stats>
 <stats class="Beorning" level="96">
 <stat name="MORALE" value="359600"/>
@@ -1053,7 +1053,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="14400"/>
 </stats>
 <stats class="Beorning" level="97">
 <stat name="MORALE" value="366200"/>
@@ -1064,7 +1064,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="14500"/>
 </stats>
 <stats class="Beorning" level="98">
 <stat name="MORALE" value="372800"/>
@@ -1075,7 +1075,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="14500"/>
 </stats>
 <stats class="Beorning" level="99">
 <stat name="MORALE" value="379400"/>
@@ -1086,7 +1086,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="14600"/>
 </stats>
 <stats class="Beorning" level="100">
 <stat name="MORALE" value="386000"/>
@@ -1097,7 +1097,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="14700"/>
 </stats>
 <stats class="Beorning" level="101">
 <stat name="MORALE" value="392600"/>
@@ -1108,7 +1108,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="14700"/>
 </stats>
 <stats class="Beorning" level="102">
 <stat name="MORALE" value="399200"/>
@@ -1119,7 +1119,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="14800"/>
 </stats>
 <stats class="Beorning" level="103">
 <stat name="MORALE" value="405800"/>
@@ -1130,7 +1130,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="14900"/>
 </stats>
 <stats class="Beorning" level="104">
 <stat name="MORALE" value="412400"/>
@@ -1141,7 +1141,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="14900"/>
 </stats>
 <stats class="Beorning" level="105">
 <stat name="MORALE" value="419000"/>
@@ -1152,7 +1152,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="15000"/>
 </stats>
 <stats class="Beorning" level="106">
 <stat name="MORALE" value="425600"/>
@@ -1163,7 +1163,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="15100"/>
 </stats>
 <stats class="Beorning" level="107">
 <stat name="MORALE" value="432200"/>
@@ -1174,7 +1174,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="15100"/>
 </stats>
 <stats class="Beorning" level="108">
 <stat name="MORALE" value="438800"/>
@@ -1185,7 +1185,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="15200"/>
 </stats>
 <stats class="Beorning" level="109">
 <stat name="MORALE" value="445400"/>
@@ -1196,7 +1196,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="15300"/>
 </stats>
 <stats class="Beorning" level="110">
 <stat name="MORALE" value="452000"/>
@@ -1207,7 +1207,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="15300"/>
 </stats>
 <stats class="Beorning" level="111">
 <stat name="MORALE" value="458600"/>
@@ -1218,7 +1218,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="15400"/>
 </stats>
 <stats class="Beorning" level="112">
 <stat name="MORALE" value="465200"/>
@@ -1229,7 +1229,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="15500"/>
 </stats>
 <stats class="Beorning" level="113">
 <stat name="MORALE" value="471800"/>
@@ -1240,7 +1240,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="15500"/>
 </stats>
 <stats class="Beorning" level="114">
 <stat name="MORALE" value="478400"/>
@@ -1251,7 +1251,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="15600"/>
 </stats>
 <stats class="Beorning" level="115">
 <stat name="MORALE" value="485000"/>
@@ -1262,7 +1262,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="15700"/>
 </stats>
 <stats class="Beorning" level="116">
 <stat name="MORALE" value="491600"/>
@@ -1273,7 +1273,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="15700"/>
 </stats>
 <stats class="Beorning" level="117">
 <stat name="MORALE" value="498200"/>
@@ -1284,7 +1284,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="15800"/>
 </stats>
 <stats class="Beorning" level="118">
 <stat name="MORALE" value="504800"/>
@@ -1295,7 +1295,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="15900"/>
 </stats>
 <stats class="Beorning" level="119">
 <stat name="MORALE" value="511400"/>
@@ -1306,7 +1306,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="15900"/>
 </stats>
 <stats class="Beorning" level="120">
 <stat name="MORALE" value="518000"/>
@@ -1317,7 +1317,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="16000"/>
 </stats>
 <stats class="Burglar" level="1">
 <stat name="MORALE" value="7500"/>
@@ -2888,7 +2888,7 @@
 <stat name="WILL" value="1100"/>
 <stat name="FATE" value="1400"/>
 <stat name="OCMR" value="6000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="8100"/>
 <stat name="OCPR" value="7500"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -2901,7 +2901,7 @@
 <stat name="WILL" value="1200"/>
 <stat name="FATE" value="1600"/>
 <stat name="OCMR" value="12000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="8100"/>
 <stat name="OCPR" value="7500"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -2914,7 +2914,7 @@
 <stat name="WILL" value="1400"/>
 <stat name="FATE" value="1800"/>
 <stat name="OCMR" value="12000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="8200"/>
 <stat name="OCPR" value="9000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -2927,7 +2927,7 @@
 <stat name="WILL" value="1500"/>
 <stat name="FATE" value="2000"/>
 <stat name="OCMR" value="12000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="8300"/>
 <stat name="OCPR" value="9000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -2940,7 +2940,7 @@
 <stat name="WILL" value="1700"/>
 <stat name="FATE" value="2200"/>
 <stat name="OCMR" value="12000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="8300"/>
 <stat name="OCPR" value="9000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -2953,7 +2953,7 @@
 <stat name="WILL" value="1800"/>
 <stat name="FATE" value="2400"/>
 <stat name="OCMR" value="18000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="8400"/>
 <stat name="OCPR" value="9000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -2966,7 +2966,7 @@
 <stat name="WILL" value="1900"/>
 <stat name="FATE" value="2600"/>
 <stat name="OCMR" value="18000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="8500"/>
 <stat name="OCPR" value="9000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -2979,7 +2979,7 @@
 <stat name="WILL" value="2100"/>
 <stat name="FATE" value="2800"/>
 <stat name="OCMR" value="18000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="8500"/>
 <stat name="OCPR" value="10500"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -2992,7 +2992,7 @@
 <stat name="WILL" value="2200"/>
 <stat name="FATE" value="3000"/>
 <stat name="OCMR" value="18000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="8600"/>
 <stat name="OCPR" value="10500"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -3005,7 +3005,7 @@
 <stat name="WILL" value="2400"/>
 <stat name="FATE" value="3200"/>
 <stat name="OCMR" value="18000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="8700"/>
 <stat name="OCPR" value="10500"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -3018,7 +3018,7 @@
 <stat name="WILL" value="2500"/>
 <stat name="FATE" value="3400"/>
 <stat name="OCMR" value="18000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="8700"/>
 <stat name="OCPR" value="10500"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -3031,7 +3031,7 @@
 <stat name="WILL" value="2600"/>
 <stat name="FATE" value="3600"/>
 <stat name="OCMR" value="18000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="8800"/>
 <stat name="OCPR" value="10500"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -3044,7 +3044,7 @@
 <stat name="WILL" value="2800"/>
 <stat name="FATE" value="3800"/>
 <stat name="OCMR" value="18000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="8900"/>
 <stat name="OCPR" value="10500"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -3057,7 +3057,7 @@
 <stat name="WILL" value="2900"/>
 <stat name="FATE" value="4000"/>
 <stat name="OCMR" value="18000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="8900"/>
 <stat name="OCPR" value="10500"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -3070,7 +3070,7 @@
 <stat name="WILL" value="3100"/>
 <stat name="FATE" value="4200"/>
 <stat name="OCMR" value="18000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="9000"/>
 <stat name="OCPR" value="10500"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -3083,7 +3083,7 @@
 <stat name="WILL" value="3200"/>
 <stat name="FATE" value="4400"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="9100"/>
 <stat name="OCPR" value="10500"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -3096,7 +3096,7 @@
 <stat name="WILL" value="3300"/>
 <stat name="FATE" value="4600"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="9100"/>
 <stat name="OCPR" value="10500"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -3109,7 +3109,7 @@
 <stat name="WILL" value="3500"/>
 <stat name="FATE" value="4800"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="9200"/>
 <stat name="OCPR" value="10500"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -3122,7 +3122,7 @@
 <stat name="WILL" value="3600"/>
 <stat name="FATE" value="5000"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="9300"/>
 <stat name="OCPR" value="10500"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -3135,7 +3135,7 @@
 <stat name="WILL" value="3800"/>
 <stat name="FATE" value="5200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="9300"/>
 <stat name="OCPR" value="10500"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -3148,7 +3148,7 @@
 <stat name="WILL" value="3900"/>
 <stat name="FATE" value="5400"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="9400"/>
 <stat name="OCPR" value="10500"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -3161,7 +3161,7 @@
 <stat name="WILL" value="4000"/>
 <stat name="FATE" value="5600"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="9500"/>
 <stat name="OCPR" value="10500"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -3174,7 +3174,7 @@
 <stat name="WILL" value="4200"/>
 <stat name="FATE" value="5800"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="9500"/>
 <stat name="OCPR" value="10500"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -3187,7 +3187,7 @@
 <stat name="WILL" value="4300"/>
 <stat name="FATE" value="6000"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="9600"/>
 <stat name="OCPR" value="10500"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -3200,7 +3200,7 @@
 <stat name="WILL" value="4500"/>
 <stat name="FATE" value="6200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="9700"/>
 <stat name="OCPR" value="10500"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -3213,7 +3213,7 @@
 <stat name="WILL" value="4600"/>
 <stat name="FATE" value="6400"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="9700"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -3226,7 +3226,7 @@
 <stat name="WILL" value="4700"/>
 <stat name="FATE" value="6600"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="9800"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -3239,7 +3239,7 @@
 <stat name="WILL" value="4900"/>
 <stat name="FATE" value="6800"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="9900"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -3252,7 +3252,7 @@
 <stat name="WILL" value="5000"/>
 <stat name="FATE" value="7000"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="9900"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -3265,7 +3265,7 @@
 <stat name="WILL" value="5200"/>
 <stat name="FATE" value="7100"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="10000"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -3278,7 +3278,7 @@
 <stat name="WILL" value="5300"/>
 <stat name="FATE" value="7200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="10100"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -3291,7 +3291,7 @@
 <stat name="WILL" value="5400"/>
 <stat name="FATE" value="7300"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="10100"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -3304,7 +3304,7 @@
 <stat name="WILL" value="5600"/>
 <stat name="FATE" value="7400"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="10200"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -3317,7 +3317,7 @@
 <stat name="WILL" value="5700"/>
 <stat name="FATE" value="7500"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="10300"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -3330,7 +3330,7 @@
 <stat name="WILL" value="5900"/>
 <stat name="FATE" value="7600"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="10300"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -3343,7 +3343,7 @@
 <stat name="WILL" value="6000"/>
 <stat name="FATE" value="7700"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="10400"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -3356,7 +3356,7 @@
 <stat name="WILL" value="6100"/>
 <stat name="FATE" value="7900"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="10500"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -3369,7 +3369,7 @@
 <stat name="WILL" value="6300"/>
 <stat name="FATE" value="8000"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="10500"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -3382,7 +3382,7 @@
 <stat name="WILL" value="6400"/>
 <stat name="FATE" value="8100"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="10600"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -3395,7 +3395,7 @@
 <stat name="WILL" value="6600"/>
 <stat name="FATE" value="8200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="10700"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -3408,7 +3408,7 @@
 <stat name="WILL" value="6700"/>
 <stat name="FATE" value="8300"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="10700"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -3421,7 +3421,7 @@
 <stat name="WILL" value="6800"/>
 <stat name="FATE" value="8400"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="10800"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -3434,7 +3434,7 @@
 <stat name="WILL" value="7000"/>
 <stat name="FATE" value="8500"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="10900"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -3447,7 +3447,7 @@
 <stat name="WILL" value="7100"/>
 <stat name="FATE" value="8600"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="10900"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -3460,7 +3460,7 @@
 <stat name="WILL" value="7300"/>
 <stat name="FATE" value="8700"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="11000"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -3473,7 +3473,7 @@
 <stat name="WILL" value="7400"/>
 <stat name="FATE" value="8800"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="11100"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -3486,7 +3486,7 @@
 <stat name="WILL" value="7500"/>
 <stat name="FATE" value="8900"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="11100"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -3499,7 +3499,7 @@
 <stat name="WILL" value="7700"/>
 <stat name="FATE" value="9000"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="11200"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -3512,7 +3512,7 @@
 <stat name="WILL" value="7800"/>
 <stat name="FATE" value="9100"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="11300"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -3525,7 +3525,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="11300"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -3538,7 +3538,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="11400"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -3551,7 +3551,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="11500"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -3564,7 +3564,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="11500"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -3577,7 +3577,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="11600"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -3590,7 +3590,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="11700"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -3603,7 +3603,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="11700"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -3616,7 +3616,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="11800"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -3629,7 +3629,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="11900"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -3642,7 +3642,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="11900"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -3655,7 +3655,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="12000"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -3668,7 +3668,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="12100"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -3681,7 +3681,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="12100"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -3694,7 +3694,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="12200"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -3707,7 +3707,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="12300"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -3720,7 +3720,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="12300"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -3733,7 +3733,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="12400"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -3746,7 +3746,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="12500"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -3759,7 +3759,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="12500"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -3772,7 +3772,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="12600"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -3785,7 +3785,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="12700"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -3798,7 +3798,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="12700"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -3811,7 +3811,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="12800"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -3824,7 +3824,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="12900"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -3837,7 +3837,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="12900"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -3850,7 +3850,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="13000"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -3863,7 +3863,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="13100"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -3876,7 +3876,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="13100"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -3889,7 +3889,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="13200"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -3902,7 +3902,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="13300"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -3915,7 +3915,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="13300"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -3928,7 +3928,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="13400"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -3941,7 +3941,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="13500"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -3954,7 +3954,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="13500"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -3967,7 +3967,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="13600"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -3980,7 +3980,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="13700"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -3993,7 +3993,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="13700"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -4006,7 +4006,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="13800"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -4019,7 +4019,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="13900"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -4032,7 +4032,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="13900"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -4045,7 +4045,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="14000"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -4058,7 +4058,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="14100"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -4071,7 +4071,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="14100"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -4084,7 +4084,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="14200"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -4097,7 +4097,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="14300"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -4110,7 +4110,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="14300"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -4123,7 +4123,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="14400"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -4136,7 +4136,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="14500"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -4149,7 +4149,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="14500"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -4162,7 +4162,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="14600"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -4175,7 +4175,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="14700"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -4188,7 +4188,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="14700"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -4201,7 +4201,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="14800"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -4214,7 +4214,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="14900"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -4227,7 +4227,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="14900"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -4240,7 +4240,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="15000"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -4253,7 +4253,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="15100"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -4266,7 +4266,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="15100"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -4279,7 +4279,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="15200"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -4292,7 +4292,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="15300"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -4305,7 +4305,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="15300"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -4318,7 +4318,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="15400"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -4331,7 +4331,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="15500"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -4344,7 +4344,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="15500"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -4357,7 +4357,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="15600"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -4370,7 +4370,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="15700"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -4383,7 +4383,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="15700"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -4396,7 +4396,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="15800"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -4409,7 +4409,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="15900"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -4422,7 +4422,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="15900"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -4435,7 +4435,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="9200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="16000"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -7568,7 +7568,7 @@
 <stat name="WILL" value="1400"/>
 <stat name="FATE" value="1100"/>
 <stat name="OCMR" value="6000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="8100"/>
 <stat name="OCPR" value="7500"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -7581,7 +7581,7 @@
 <stat name="WILL" value="1500"/>
 <stat name="FATE" value="1200"/>
 <stat name="OCMR" value="12000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="8100"/>
 <stat name="OCPR" value="7500"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -7594,7 +7594,7 @@
 <stat name="WILL" value="1700"/>
 <stat name="FATE" value="1300"/>
 <stat name="OCMR" value="12000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="8200"/>
 <stat name="OCPR" value="9000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -7607,7 +7607,7 @@
 <stat name="WILL" value="1800"/>
 <stat name="FATE" value="1400"/>
 <stat name="OCMR" value="12000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="8300"/>
 <stat name="OCPR" value="9000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -7620,7 +7620,7 @@
 <stat name="WILL" value="2000"/>
 <stat name="FATE" value="1500"/>
 <stat name="OCMR" value="12000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="8300"/>
 <stat name="OCPR" value="9000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -7633,7 +7633,7 @@
 <stat name="WILL" value="2100"/>
 <stat name="FATE" value="1600"/>
 <stat name="OCMR" value="18000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="8400"/>
 <stat name="OCPR" value="9000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -7646,7 +7646,7 @@
 <stat name="WILL" value="2200"/>
 <stat name="FATE" value="1700"/>
 <stat name="OCMR" value="18000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="8500"/>
 <stat name="OCPR" value="9000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -7659,7 +7659,7 @@
 <stat name="WILL" value="2400"/>
 <stat name="FATE" value="1800"/>
 <stat name="OCMR" value="18000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="8500"/>
 <stat name="OCPR" value="10500"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -7672,7 +7672,7 @@
 <stat name="WILL" value="2500"/>
 <stat name="FATE" value="1900"/>
 <stat name="OCMR" value="18000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="8600"/>
 <stat name="OCPR" value="10500"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -7685,7 +7685,7 @@
 <stat name="WILL" value="2700"/>
 <stat name="FATE" value="2000"/>
 <stat name="OCMR" value="18000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="8700"/>
 <stat name="OCPR" value="10500"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -7698,7 +7698,7 @@
 <stat name="WILL" value="2800"/>
 <stat name="FATE" value="2100"/>
 <stat name="OCMR" value="18000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="8700"/>
 <stat name="OCPR" value="10500"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -7711,7 +7711,7 @@
 <stat name="WILL" value="2900"/>
 <stat name="FATE" value="2200"/>
 <stat name="OCMR" value="18000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="8800"/>
 <stat name="OCPR" value="10500"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -7724,7 +7724,7 @@
 <stat name="WILL" value="3100"/>
 <stat name="FATE" value="2300"/>
 <stat name="OCMR" value="18000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="8900"/>
 <stat name="OCPR" value="10500"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -7737,7 +7737,7 @@
 <stat name="WILL" value="3200"/>
 <stat name="FATE" value="2400"/>
 <stat name="OCMR" value="18000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="8900"/>
 <stat name="OCPR" value="10500"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -7750,7 +7750,7 @@
 <stat name="WILL" value="3400"/>
 <stat name="FATE" value="2500"/>
 <stat name="OCMR" value="18000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="9000"/>
 <stat name="OCPR" value="10500"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -7763,7 +7763,7 @@
 <stat name="WILL" value="3500"/>
 <stat name="FATE" value="2600"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="9100"/>
 <stat name="OCPR" value="10500"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -7776,7 +7776,7 @@
 <stat name="WILL" value="3600"/>
 <stat name="FATE" value="2700"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="9100"/>
 <stat name="OCPR" value="10500"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -7789,7 +7789,7 @@
 <stat name="WILL" value="3800"/>
 <stat name="FATE" value="2800"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="9200"/>
 <stat name="OCPR" value="10500"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -7802,7 +7802,7 @@
 <stat name="WILL" value="3900"/>
 <stat name="FATE" value="2900"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="9300"/>
 <stat name="OCPR" value="10500"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -7815,7 +7815,7 @@
 <stat name="WILL" value="4100"/>
 <stat name="FATE" value="3000"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="9300"/>
 <stat name="OCPR" value="10500"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -7828,7 +7828,7 @@
 <stat name="WILL" value="4200"/>
 <stat name="FATE" value="3100"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="9400"/>
 <stat name="OCPR" value="10500"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -7841,7 +7841,7 @@
 <stat name="WILL" value="4300"/>
 <stat name="FATE" value="3200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="9500"/>
 <stat name="OCPR" value="10500"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -7854,7 +7854,7 @@
 <stat name="WILL" value="4500"/>
 <stat name="FATE" value="3300"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="9500"/>
 <stat name="OCPR" value="10500"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -7867,7 +7867,7 @@
 <stat name="WILL" value="4600"/>
 <stat name="FATE" value="3400"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="9600"/>
 <stat name="OCPR" value="10500"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -7880,7 +7880,7 @@
 <stat name="WILL" value="4800"/>
 <stat name="FATE" value="3500"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="9700"/>
 <stat name="OCPR" value="10500"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -7893,7 +7893,7 @@
 <stat name="WILL" value="4900"/>
 <stat name="FATE" value="3600"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="9700"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -7906,7 +7906,7 @@
 <stat name="WILL" value="5000"/>
 <stat name="FATE" value="3700"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="9800"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -7919,7 +7919,7 @@
 <stat name="WILL" value="5200"/>
 <stat name="FATE" value="3800"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="9900"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -7932,7 +7932,7 @@
 <stat name="WILL" value="5300"/>
 <stat name="FATE" value="3900"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="9900"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -7945,7 +7945,7 @@
 <stat name="WILL" value="5500"/>
 <stat name="FATE" value="4000"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="10000"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -7958,7 +7958,7 @@
 <stat name="WILL" value="5600"/>
 <stat name="FATE" value="4100"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="10100"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -7971,7 +7971,7 @@
 <stat name="WILL" value="5700"/>
 <stat name="FATE" value="4200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="10100"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -7984,7 +7984,7 @@
 <stat name="WILL" value="5900"/>
 <stat name="FATE" value="4300"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="10200"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -7997,7 +7997,7 @@
 <stat name="WILL" value="6000"/>
 <stat name="FATE" value="4400"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="10300"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -8010,7 +8010,7 @@
 <stat name="WILL" value="6200"/>
 <stat name="FATE" value="4500"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="10300"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -8023,7 +8023,7 @@
 <stat name="WILL" value="6300"/>
 <stat name="FATE" value="4600"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="10400"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -8036,7 +8036,7 @@
 <stat name="WILL" value="6400"/>
 <stat name="FATE" value="4700"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="10500"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -8049,7 +8049,7 @@
 <stat name="WILL" value="6600"/>
 <stat name="FATE" value="4800"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="10500"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -8062,7 +8062,7 @@
 <stat name="WILL" value="6700"/>
 <stat name="FATE" value="4900"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="10600"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -8075,7 +8075,7 @@
 <stat name="WILL" value="6900"/>
 <stat name="FATE" value="5000"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="10700"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -8088,7 +8088,7 @@
 <stat name="WILL" value="7000"/>
 <stat name="FATE" value="5100"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="10700"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -8101,7 +8101,7 @@
 <stat name="WILL" value="7100"/>
 <stat name="FATE" value="5200"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="10800"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -8114,7 +8114,7 @@
 <stat name="WILL" value="7300"/>
 <stat name="FATE" value="5300"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="10900"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -8127,7 +8127,7 @@
 <stat name="WILL" value="7400"/>
 <stat name="FATE" value="5400"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="10900"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -8140,7 +8140,7 @@
 <stat name="WILL" value="7600"/>
 <stat name="FATE" value="5500"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="11000"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -8153,7 +8153,7 @@
 <stat name="WILL" value="7700"/>
 <stat name="FATE" value="5600"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="11100"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -8166,7 +8166,7 @@
 <stat name="WILL" value="7800"/>
 <stat name="FATE" value="5700"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="11100"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -8179,7 +8179,7 @@
 <stat name="WILL" value="8000"/>
 <stat name="FATE" value="5800"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="11200"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -8192,7 +8192,7 @@
 <stat name="WILL" value="8100"/>
 <stat name="FATE" value="5900"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="11300"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -8205,7 +8205,7 @@
 <stat name="WILL" value="8300"/>
 <stat name="FATE" value="6000"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="11300"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -8218,7 +8218,7 @@
 <stat name="WILL" value="8300"/>
 <stat name="FATE" value="6000"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="11400"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -8231,7 +8231,7 @@
 <stat name="WILL" value="8300"/>
 <stat name="FATE" value="6000"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="11500"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -8244,7 +8244,7 @@
 <stat name="WILL" value="8300"/>
 <stat name="FATE" value="6000"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="11500"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -8257,7 +8257,7 @@
 <stat name="WILL" value="8300"/>
 <stat name="FATE" value="6000"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="11600"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -8270,7 +8270,7 @@
 <stat name="WILL" value="8300"/>
 <stat name="FATE" value="6000"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="11700"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -8283,7 +8283,7 @@
 <stat name="WILL" value="8300"/>
 <stat name="FATE" value="6000"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="11700"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -8296,7 +8296,7 @@
 <stat name="WILL" value="8300"/>
 <stat name="FATE" value="6000"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="11800"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -8309,7 +8309,7 @@
 <stat name="WILL" value="8300"/>
 <stat name="FATE" value="6000"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="11900"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -8322,7 +8322,7 @@
 <stat name="WILL" value="8300"/>
 <stat name="FATE" value="6000"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="11900"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -8335,7 +8335,7 @@
 <stat name="WILL" value="8300"/>
 <stat name="FATE" value="6000"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="12000"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -8348,7 +8348,7 @@
 <stat name="WILL" value="8300"/>
 <stat name="FATE" value="6000"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="12100"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -8361,7 +8361,7 @@
 <stat name="WILL" value="8300"/>
 <stat name="FATE" value="6000"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="12100"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -8374,7 +8374,7 @@
 <stat name="WILL" value="8300"/>
 <stat name="FATE" value="6000"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="12200"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -8387,7 +8387,7 @@
 <stat name="WILL" value="8300"/>
 <stat name="FATE" value="6000"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="12300"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -8400,7 +8400,7 @@
 <stat name="WILL" value="8300"/>
 <stat name="FATE" value="6000"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="12300"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -8413,7 +8413,7 @@
 <stat name="WILL" value="8300"/>
 <stat name="FATE" value="6000"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="12400"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -8426,7 +8426,7 @@
 <stat name="WILL" value="8300"/>
 <stat name="FATE" value="6000"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="12500"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -8439,7 +8439,7 @@
 <stat name="WILL" value="8300"/>
 <stat name="FATE" value="6000"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="12500"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -8452,7 +8452,7 @@
 <stat name="WILL" value="8300"/>
 <stat name="FATE" value="6000"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="12600"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -8465,7 +8465,7 @@
 <stat name="WILL" value="8300"/>
 <stat name="FATE" value="6000"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="12700"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -8478,7 +8478,7 @@
 <stat name="WILL" value="8300"/>
 <stat name="FATE" value="6000"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="12700"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -8491,7 +8491,7 @@
 <stat name="WILL" value="8300"/>
 <stat name="FATE" value="6000"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="12800"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -8504,7 +8504,7 @@
 <stat name="WILL" value="8300"/>
 <stat name="FATE" value="6000"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="12900"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -8517,7 +8517,7 @@
 <stat name="WILL" value="8300"/>
 <stat name="FATE" value="6000"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="12900"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -8530,7 +8530,7 @@
 <stat name="WILL" value="8300"/>
 <stat name="FATE" value="6000"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="13000"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -8543,7 +8543,7 @@
 <stat name="WILL" value="8300"/>
 <stat name="FATE" value="6000"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="13100"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -8556,7 +8556,7 @@
 <stat name="WILL" value="8300"/>
 <stat name="FATE" value="6000"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="13100"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -8569,7 +8569,7 @@
 <stat name="WILL" value="8300"/>
 <stat name="FATE" value="6000"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="13200"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -8582,7 +8582,7 @@
 <stat name="WILL" value="8300"/>
 <stat name="FATE" value="6000"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="13300"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -8595,7 +8595,7 @@
 <stat name="WILL" value="8300"/>
 <stat name="FATE" value="6000"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="13300"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -8608,7 +8608,7 @@
 <stat name="WILL" value="8300"/>
 <stat name="FATE" value="6000"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="13400"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -8621,7 +8621,7 @@
 <stat name="WILL" value="8300"/>
 <stat name="FATE" value="6000"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="13500"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -8634,7 +8634,7 @@
 <stat name="WILL" value="8300"/>
 <stat name="FATE" value="6000"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="13500"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -8647,7 +8647,7 @@
 <stat name="WILL" value="8300"/>
 <stat name="FATE" value="6000"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="13600"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -8660,7 +8660,7 @@
 <stat name="WILL" value="8300"/>
 <stat name="FATE" value="6000"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="13700"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -8673,7 +8673,7 @@
 <stat name="WILL" value="8300"/>
 <stat name="FATE" value="6000"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="13700"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -8686,7 +8686,7 @@
 <stat name="WILL" value="8300"/>
 <stat name="FATE" value="6000"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="13800"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -8699,7 +8699,7 @@
 <stat name="WILL" value="8300"/>
 <stat name="FATE" value="6000"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="13900"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -8712,7 +8712,7 @@
 <stat name="WILL" value="8300"/>
 <stat name="FATE" value="6000"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="13900"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -8725,7 +8725,7 @@
 <stat name="WILL" value="8300"/>
 <stat name="FATE" value="6000"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="14000"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -8738,7 +8738,7 @@
 <stat name="WILL" value="8300"/>
 <stat name="FATE" value="6000"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="14100"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -8751,7 +8751,7 @@
 <stat name="WILL" value="8300"/>
 <stat name="FATE" value="6000"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="14100"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -8764,7 +8764,7 @@
 <stat name="WILL" value="8300"/>
 <stat name="FATE" value="6000"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="14200"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -8777,7 +8777,7 @@
 <stat name="WILL" value="8300"/>
 <stat name="FATE" value="6000"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="14300"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -8790,7 +8790,7 @@
 <stat name="WILL" value="8300"/>
 <stat name="FATE" value="6000"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="14300"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -8803,7 +8803,7 @@
 <stat name="WILL" value="8300"/>
 <stat name="FATE" value="6000"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="14400"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -8816,7 +8816,7 @@
 <stat name="WILL" value="8300"/>
 <stat name="FATE" value="6000"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="14500"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -8829,7 +8829,7 @@
 <stat name="WILL" value="8300"/>
 <stat name="FATE" value="6000"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="14500"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -8842,7 +8842,7 @@
 <stat name="WILL" value="8300"/>
 <stat name="FATE" value="6000"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="14600"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -8855,7 +8855,7 @@
 <stat name="WILL" value="8300"/>
 <stat name="FATE" value="6000"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="14700"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -8868,7 +8868,7 @@
 <stat name="WILL" value="8300"/>
 <stat name="FATE" value="6000"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="14700"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -8881,7 +8881,7 @@
 <stat name="WILL" value="8300"/>
 <stat name="FATE" value="6000"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="14800"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -8894,7 +8894,7 @@
 <stat name="WILL" value="8300"/>
 <stat name="FATE" value="6000"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="14900"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -8907,7 +8907,7 @@
 <stat name="WILL" value="8300"/>
 <stat name="FATE" value="6000"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="14900"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -8920,7 +8920,7 @@
 <stat name="WILL" value="8300"/>
 <stat name="FATE" value="6000"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="15000"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -8933,7 +8933,7 @@
 <stat name="WILL" value="8300"/>
 <stat name="FATE" value="6000"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="15100"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -8946,7 +8946,7 @@
 <stat name="WILL" value="8300"/>
 <stat name="FATE" value="6000"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="15100"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -8959,7 +8959,7 @@
 <stat name="WILL" value="8300"/>
 <stat name="FATE" value="6000"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="15200"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -8972,7 +8972,7 @@
 <stat name="WILL" value="8300"/>
 <stat name="FATE" value="6000"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="15300"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -8985,7 +8985,7 @@
 <stat name="WILL" value="8300"/>
 <stat name="FATE" value="6000"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="15300"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -8998,7 +8998,7 @@
 <stat name="WILL" value="8300"/>
 <stat name="FATE" value="6000"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="15400"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -9011,7 +9011,7 @@
 <stat name="WILL" value="8300"/>
 <stat name="FATE" value="6000"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="15500"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -9024,7 +9024,7 @@
 <stat name="WILL" value="8300"/>
 <stat name="FATE" value="6000"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="15500"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -9037,7 +9037,7 @@
 <stat name="WILL" value="8300"/>
 <stat name="FATE" value="6000"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="15600"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -9050,7 +9050,7 @@
 <stat name="WILL" value="8300"/>
 <stat name="FATE" value="6000"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="15700"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -9063,7 +9063,7 @@
 <stat name="WILL" value="8300"/>
 <stat name="FATE" value="6000"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="15700"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -9076,7 +9076,7 @@
 <stat name="WILL" value="8300"/>
 <stat name="FATE" value="6000"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="15800"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -9089,7 +9089,7 @@
 <stat name="WILL" value="8300"/>
 <stat name="FATE" value="6000"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="15900"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -9102,7 +9102,7 @@
 <stat name="WILL" value="8300"/>
 <stat name="FATE" value="6000"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="15900"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
@@ -9115,7 +9115,7 @@
 <stat name="WILL" value="8300"/>
 <stat name="FATE" value="6000"/>
 <stat name="OCMR" value="24000"/>
-<stat name="ICMR" value="8000"/>
+<stat name="ICMR" value="16000"/>
 <stat name="OCPR" value="12000"/>
 <stat name="ICPR" value="24000"/>
 </stats>
