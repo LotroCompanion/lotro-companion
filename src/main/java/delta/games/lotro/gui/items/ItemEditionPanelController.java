@@ -342,8 +342,6 @@ public class ItemEditionPanelController
     _name.setText(name);
     // Slot
     _slot.selectItem(_item.getEquipmentLocation());
-    // Stats
-    setStats(_item.getStats());
     // Configure scaling
     configureScaling(_item);
     // Item level
@@ -353,6 +351,8 @@ public class ItemEditionPanelController
     // Minimum level
     Integer minLevel=_item.getMinLevel();
     _minLevel.selectItem(minLevel);
+    // Stats
+    setStats(_item.getStats());
     // Description
     _description.setText(_item.getDescription());
     // Birth name
