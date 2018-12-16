@@ -32,6 +32,7 @@ import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.events.CharacterEvent;
 import delta.games.lotro.character.events.CharacterEventType;
 import delta.games.lotro.character.storage.stash.ItemsStash;
+import delta.games.lotro.character.utils.CharacterGearUpdater;
 import delta.games.lotro.gui.items.ItemEditionWindowController;
 import delta.games.lotro.gui.items.chooser.ItemChoiceWindowController;
 import delta.games.lotro.gui.items.chooser.ItemFilterConfiguration;
@@ -54,8 +55,8 @@ public class EquipmentPanelController implements ActionListener
   private static final int DELTA_X=44;
   private static final int DELTA_Y=45;
   private static final int DELTA_COLUMNS=52;
-  private static final int DELTA_COLUMN_GROUPS=50;
-  private static final int X_MARGIN=27;
+  private static final int DELTA_COLUMN_GROUPS=100;
+  private static final int X_MARGIN=15;
   private static final int Y_MARGIN=20;
   private static final int Y_START=Y_MARGIN+ICON_FRAME_SIZE;
   private static final int X_COLUMN_1=X_MARGIN+ICON_FRAME_SIZE;
@@ -67,7 +68,10 @@ public class EquipmentPanelController implements ActionListener
   private static final int X_ROW=X_MARGIN+(COLUMNS_WIDTH-ROW_WIDTH)/2;
   private static final int Y_MARGIN_COLUMNS_ROW=25;
   private static final int Y_ROW=Y_START+DELTA_Y*3+ICON_SIZE+ICON_FRAME_SIZE+Y_MARGIN_COLUMNS_ROW;
+  private static final int X_BUTTON=X_COLUMN_2+DELTA_COLUMNS+5;
+  private static final int Y_BUTTON=Y_START+DELTA_Y*2;
 
+  private static final String UPDATE_COMMAND="update";
   private static final String EDIT_COMMAND="edit";
   private static final String CHOOSE_COMMAND="choose";
   private static final String CHOOSE_FROM_STASH_COMMAND="chooseFromStash";
@@ -239,6 +243,14 @@ public class EquipmentPanelController implements ActionListener
     panel.setPreferredSize(d);
     panel.setMinimumSize(d);
     _layeredPane.setSize(d);
+
+    JButton updateButton=GuiFactory.buildButton("Update");
+    updateButton.setToolTipText("Update gear using the current items database");
+    updateButton.setBounds(X_BUTTON,Y_BUTTON,85,30);
+    updateButton.setSize(updateButton.getPreferredSize());
+    _layeredPane.add(updateButton,ICONS_DEPTH);
+    updateButton.setActionCommand(UPDATE_COMMAND);
+    updateButton.addActionListener(this);
 
     MouseListener listener=buildRightClickListener();
     for(EQUIMENT_SLOT slot : EQUIMENT_SLOT.values())
@@ -412,6 +424,12 @@ public class EquipmentPanelController implements ActionListener
           handleChooseItem(slot);
         }
       }
+    }
+    else if (cmd.equals(UPDATE_COMMAND))
+    {
+      CharacterGearUpdater updater=new CharacterGearUpdater();
+      updater.updateGear(_toonData);
+      refreshToon();
     }
     else
     {
