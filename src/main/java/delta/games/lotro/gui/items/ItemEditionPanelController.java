@@ -25,6 +25,7 @@ import delta.common.ui.swing.text.IntegerEditionController;
 import delta.common.ui.swing.text.TextListener;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.NumericTools;
+import delta.games.lotro.Config;
 import delta.games.lotro.character.CharacterSummary;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.character.stats.STAT;
@@ -72,7 +73,7 @@ public class ItemEditionPanelController
   private JTextField _itemLevel;
   private JLabel _mungingLabel;
   private ComboBoxController<Integer> _mungingLevel;
-  private ComboBoxController<Integer> _minLevel;
+  private IntegerEditionController _minLevel;
   private JTextArea _description;
   private JTextField _birthName;
   private JTextField _crafterName;
@@ -224,9 +225,12 @@ public class ItemEditionPanelController
       panelLine.add(GuiFactory.buildLabel("Item level:"));
       panelLine.add(_itemLevel);
       // Minimum level
-      _minLevel=new ComboBoxController<Integer>(true,Integer.class);
+      JTextField minLevel=GuiFactory.buildTextField("");
+      _minLevel=new IntegerEditionController(minLevel,3);
+      int maxLevel=Config.getInstance().getMaxCharacterLevel();
+      _minLevel.setValueRange(Integer.valueOf(1),Integer.valueOf(maxLevel));
       panelLine.add(GuiFactory.buildLabel("Required level:"));
-      panelLine.add(_minLevel.getComboBox());
+      panelLine.add(_minLevel.getTextField());
       // Binding
       _binding=buildBindingCombo();
       panelLine.add(GuiFactory.buildLabel("Binding:"));
@@ -350,7 +354,7 @@ public class ItemEditionPanelController
     _itemLevel.setText(itemLevelStr);
     // Minimum level
     Integer minLevel=_item.getMinLevel();
-    _minLevel.selectItem(minLevel);
+    _minLevel.setValue(minLevel);
     // Stats
     setStats(_item.getStats());
     // Description
@@ -417,7 +421,7 @@ public class ItemEditionPanelController
     Integer itemLevel=NumericTools.parseInteger(itemLevelStr);
     _item.setItemLevel(itemLevel);
     // Minimum level
-    _item.setMinLevel(_minLevel.getSelectedItem());
+    _item.setMinLevel(_minLevel.getValue());
     // Description
     _item.setDescription(_description.getText());
     // Birth name
@@ -573,7 +577,8 @@ public class ItemEditionPanelController
         Integer min=_munging.getMin();
         int minLevel=(min!=null?min.intValue():1);
         Integer max=_munging.getMax();
-        int maxLevel=(max!=null?max.intValue():120); // TODO Configure cap
+        int levelCap=Config.getInstance().getMaxCharacterLevel();
+        int maxLevel=(max!=null?max.intValue():levelCap);
         _mungingLevel.addEmptyItem("");
         for(int level=minLevel;level<=maxLevel;level++)
         {
