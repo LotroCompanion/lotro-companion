@@ -234,11 +234,11 @@ public class MainFrameController extends DefaultWindowController implements Acti
     ToolbarIconItem recipesIconItem=new ToolbarIconItem(RECIPES_ID,recipesIconPath,RECIPES_ID,"Recipes...","Recipes");
     model.addToolbarIconItem(recipesIconItem);
     // Titles icon
-    String titlesIconPath=getToolbarIconPath("recipes");
+    String titlesIconPath=getToolbarIconPath("titles");
     ToolbarIconItem titlesIconItem=new ToolbarIconItem(TITLES_ID,titlesIconPath,TITLES_ID,"Titles...","Titles");
     model.addToolbarIconItem(titlesIconItem);
     // Emotes icon
-    String emotesIconPath=getToolbarIconPath("recipes");
+    String emotesIconPath=getToolbarIconPath("emotes");
     ToolbarIconItem emotesIconItem=new ToolbarIconItem(EMOTES_ID,emotesIconPath,EMOTES_ID,"Emotes...","Emotes");
     model.addToolbarIconItem(emotesIconItem);
     // Register action listener
