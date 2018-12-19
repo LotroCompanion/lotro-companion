@@ -21,7 +21,6 @@ import delta.common.ui.swing.text.TextListener;
 import delta.common.utils.collections.filters.Filter;
 import delta.games.lotro.gui.items.FilterUpdateListener;
 import delta.games.lotro.lore.crafting.recipes.Recipe;
-import delta.games.lotro.lore.crafting.recipes.filters.RecipeCategoryFilter;
 import delta.games.lotro.lore.crafting.recipes.filters.RecipeNameFilter;
 import delta.games.lotro.lore.crafting.recipes.filters.RecipeProfessionFilter;
 import delta.games.lotro.lore.crafting.recipes.filters.RecipeTierFilter;
@@ -41,7 +40,7 @@ public class RecipeFilterController implements ActionListener
   private JTextField _contains;
   private ComboBoxController<String> _profession;
   private ComboBoxController<Integer> _tier;
-  private ComboBoxController<String> _category;
+  //private ComboBoxController<String> _category;
   // Controllers
   private DynamicTextEditionController _textController;
   private FilterUpdateListener _filterUpdateListener;
@@ -97,7 +96,7 @@ public class RecipeFilterController implements ActionListener
     {
       _profession.selectItem(null);
       _tier.selectItem(null);
-      _category.selectItem(null);
+      //_category.selectItem(null);
       _contains.setText("");
     }
   }
@@ -120,9 +119,11 @@ public class RecipeFilterController implements ActionListener
     Integer tier=tierFilter.getTier();
     _tier.selectItem(tier);
     // Category
+    /*
     RecipeCategoryFilter categoryFilter=_filter.getCategoryFilter();
     String category=categoryFilter.getCategory();
     _category.selectItem(category);
+    */
   }
 
   private JPanel build()
@@ -217,6 +218,7 @@ public class RecipeFilterController implements ActionListener
       line2Panel.add(_tier.getComboBox());
     }
     // Category
+    /*
     {
       JLabel label=GuiFactory.buildLabel("Category:");
       line2Panel.add(label);
@@ -234,6 +236,7 @@ public class RecipeFilterController implements ActionListener
       _category.addListener(categoryListener);
       line2Panel.add(_category.getComboBox());
     }
+    */
     c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,5,0),0,0);
     panel.add(line2Panel,c);
     y++;
@@ -270,11 +273,13 @@ public class RecipeFilterController implements ActionListener
       _tier.dispose();
       _tier=null;
     }
+    /*
     if (_category!=null)
     {
       _category.dispose();
       _category=null;
     }
+    */
     _contains=null;
     _reset=null;
   }
