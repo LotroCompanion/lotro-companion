@@ -113,7 +113,7 @@ public class TitlesTableController
         }
       };
       DefaultTableColumnController<TitleDescription,String> categoryColumn=new DefaultTableColumnController<TitleDescription,String>(TitleColumnIds.CATEGORY.name(),"Category",String.class,categoryCell);
-      categoryColumn.setWidthSpecs(100,100,100);
+      categoryColumn.setWidthSpecs(100,200,180);
       ret.add(categoryColumn);
     }
     // Name column

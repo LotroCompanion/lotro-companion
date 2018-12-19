@@ -113,7 +113,7 @@ public class EmotesTableController
         }
       };
       DefaultTableColumnController<EmoteDescription,String> commandColumn=new DefaultTableColumnController<EmoteDescription,String>(EmoteColumnIds.COMMAND.name(),"Command",String.class,commandCell);
-      commandColumn.setWidthSpecs(100,-1,200);
+      commandColumn.setWidthSpecs(100,120,200);
       ret.add(commandColumn);
     }
     // Description column
