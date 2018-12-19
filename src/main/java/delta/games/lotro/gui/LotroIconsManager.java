@@ -79,6 +79,28 @@ public class LotroIconsManager
   }
 
   /**
+   * Get the icon for a title.
+   * @param iconFilename Filename of the title icon.
+   * @return An icon or <code>null</code> if not found.
+   */
+  public static ImageIcon getTitleIcon(String iconFilename)
+  {
+    String path="/titleIcons/"+iconFilename;
+    return IconsManager.getIcon(path);
+  }
+
+  /**
+   * Get the icon for a emote.
+   * @param iconFilename Filename of the emote icon.
+   * @return An icon or <code>null</code> if not found.
+   */
+  public static ImageIcon getEmoteIcon(String iconFilename)
+  {
+    String path="/emoteIcons/"+iconFilename;
+    return IconsManager.getIcon(path);
+  }
+
+  /**
    * Get the icon for a relic.
    * @param iconFilename Filename of the relic icon.
    * @return An icon or <code>null</code> if not found.

@@ -30,11 +30,13 @@ import delta.games.lotro.gui.about.AboutDialogController;
 import delta.games.lotro.gui.about.CreditsDialogController;
 import delta.games.lotro.gui.account.AccountsManagementController;
 import delta.games.lotro.gui.deed.explorer.DeedsExplorerWindowController;
+import delta.games.lotro.gui.emotes.explorer.EmotesExplorerWindowController;
 import delta.games.lotro.gui.recipes.explorer.RecipesExplorerWindowController;
 import delta.games.lotro.gui.stats.crafting.synopsis.CraftingSynopsisWindowController;
 import delta.games.lotro.gui.stats.levelling.CharacterLevelWindowController;
 import delta.games.lotro.gui.stats.reputation.synopsis.ReputationSynopsisWindowController;
 import delta.games.lotro.gui.stats.warbands.WarbandsWindowController;
+import delta.games.lotro.gui.titles.explorer.TitlesExplorerWindowController;
 import delta.games.lotro.gui.toon.ToonsManagementController;
 import delta.games.lotro.maps.data.MapsManager;
 import delta.games.lotro.maps.ui.MapWindowController;
@@ -50,6 +52,8 @@ public class MainFrameController extends DefaultWindowController implements Acti
   private static final String WARBANDS_ID="warbands";
   private static final String DEEDS_ID="deeds";
   private static final String RECIPES_ID="recipes";
+  private static final String TITLES_ID="titles";
+  private static final String EMOTES_ID="emotes";
   private static final String REPUTATION_SYNOPSIS_ID="reputationSynopsis";
   private static final String CRAFTING_SYNOPSIS_ID="craftingSynopsis";
   private static final String MAP_ID="map";
@@ -132,7 +136,17 @@ public class MainFrameController extends DefaultWindowController implements Acti
     JMenuItem recipesExplorer=GuiFactory.buildMenuItem("Recipes");
     recipesExplorer.setActionCommand(RECIPES_ID);
     recipesExplorer.addActionListener(this);
-    statsMenu.add(deedsExplorer);
+    statsMenu.add(recipesExplorer);
+    // - titles
+    JMenuItem titlesExplorer=GuiFactory.buildMenuItem("Titles");
+    titlesExplorer.setActionCommand(TITLES_ID);
+    titlesExplorer.addActionListener(this);
+    statsMenu.add(titlesExplorer);
+    // - emotes
+    JMenuItem emotesExplorer=GuiFactory.buildMenuItem("Emotes");
+    emotesExplorer.setActionCommand(EMOTES_ID);
+    emotesExplorer.addActionListener(this);
+    statsMenu.add(emotesExplorer);
 
     // Help
     JMenu helpMenu=GuiFactory.buildMenu("Help");
@@ -219,6 +233,14 @@ public class MainFrameController extends DefaultWindowController implements Acti
     String recipesIconPath=getToolbarIconPath("recipes");
     ToolbarIconItem recipesIconItem=new ToolbarIconItem(RECIPES_ID,recipesIconPath,RECIPES_ID,"Recipes...","Recipes");
     model.addToolbarIconItem(recipesIconItem);
+    // Titles icon
+    String titlesIconPath=getToolbarIconPath("recipes");
+    ToolbarIconItem titlesIconItem=new ToolbarIconItem(TITLES_ID,titlesIconPath,TITLES_ID,"Titles...","Titles");
+    model.addToolbarIconItem(titlesIconItem);
+    // Emotes icon
+    String emotesIconPath=getToolbarIconPath("recipes");
+    ToolbarIconItem emotesIconItem=new ToolbarIconItem(EMOTES_ID,emotesIconPath,EMOTES_ID,"Emotes...","Emotes");
+    model.addToolbarIconItem(emotesIconItem);
     // Register action listener
     controller.addActionListener(this);
     return controller;
@@ -307,6 +329,28 @@ public class MainFrameController extends DefaultWindowController implements Acti
     controller.bringToFront();
   }
 
+  private void doTitles()
+  {
+    WindowController controller=_windowsManager.getWindow(TitlesExplorerWindowController.IDENTIFIER);
+    if (controller==null)
+    {
+      controller=new TitlesExplorerWindowController(this);
+      _windowsManager.registerWindow(controller);
+    }
+    controller.bringToFront();
+  }
+
+  private void doEmotes()
+  {
+    WindowController controller=_windowsManager.getWindow(EmotesExplorerWindowController.IDENTIFIER);
+    if (controller==null)
+    {
+      controller=new EmotesExplorerWindowController(this);
+      _windowsManager.registerWindow(controller);
+    }
+    controller.bringToFront();
+  }
+
   @Override
   public void actionPerformed(ActionEvent event)
   {
@@ -338,6 +382,14 @@ public class MainFrameController extends DefaultWindowController implements Acti
     else if (RECIPES_ID.equals(cmd))
     {
       doRecipes();
+    }
+    else if (TITLES_ID.equals(cmd))
+    {
+      doTitles();
+    }
+    else if (EMOTES_ID.equals(cmd))
+    {
+      doEmotes();
     }
   }
 
