@@ -35,7 +35,7 @@ public class DeedStatisticsSummaryPanelController
 
   /**
    * Constructor.
-   * @param statistics Statistics to show toon.
+   * @param statistics Statistics to show.
    */
   public DeedStatisticsSummaryPanelController(DeedsStatistics statistics)
   {
@@ -101,7 +101,6 @@ public class DeedStatisticsSummaryPanelController
     _statsPanel.add(_reputation,cValues);
     cLabels.gridy++;cValues.gridy++;
 
-    // TODO Buttons
     return panel;
   }
 
