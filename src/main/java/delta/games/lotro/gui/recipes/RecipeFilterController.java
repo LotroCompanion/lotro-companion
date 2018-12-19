@@ -141,7 +141,7 @@ public class RecipeFilterController implements ActionListener
     // Reset
     _reset=GuiFactory.buildButton("Reset");
     _reset.addActionListener(this);
-    c=new GridBagConstraints(1,y,1,1,0.0,0,GridBagConstraints.SOUTHWEST,GridBagConstraints.NONE,new Insets(0,5,5,0),0,0);
+    c=new GridBagConstraints(1,y,1,1,0.0,0,GridBagConstraints.SOUTHWEST,GridBagConstraints.NONE,new Insets(0,5,5,5),0,0);
     panel.add(_reset,c);
     y++;
 
