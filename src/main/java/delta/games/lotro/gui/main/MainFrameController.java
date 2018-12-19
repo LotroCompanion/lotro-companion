@@ -122,31 +122,34 @@ public class MainFrameController extends DefaultWindowController implements Acti
     craftingSynopsis.setActionCommand(CRAFTING_SYNOPSIS_ID);
     craftingSynopsis.addActionListener(this);
     statsMenu.add(craftingSynopsis);
+
+    // Compendium
+    JMenu compendiumMenu=GuiFactory.buildMenu("Compendium");
     // - map
     JMenuItem map=GuiFactory.buildMenuItem("Middle-earth Map");
     map.setActionCommand(MAP_ID);
     map.addActionListener(this);
-    statsMenu.add(map);
+    compendiumMenu.add(map);
     // - deeds
     JMenuItem deedsExplorer=GuiFactory.buildMenuItem("Deeds");
     deedsExplorer.setActionCommand(DEEDS_ID);
     deedsExplorer.addActionListener(this);
-    statsMenu.add(deedsExplorer);
+    compendiumMenu.add(deedsExplorer);
     // - recipes
     JMenuItem recipesExplorer=GuiFactory.buildMenuItem("Recipes");
     recipesExplorer.setActionCommand(RECIPES_ID);
     recipesExplorer.addActionListener(this);
-    statsMenu.add(recipesExplorer);
+    compendiumMenu.add(recipesExplorer);
     // - titles
     JMenuItem titlesExplorer=GuiFactory.buildMenuItem("Titles");
     titlesExplorer.setActionCommand(TITLES_ID);
     titlesExplorer.addActionListener(this);
-    statsMenu.add(titlesExplorer);
+    compendiumMenu.add(titlesExplorer);
     // - emotes
     JMenuItem emotesExplorer=GuiFactory.buildMenuItem("Emotes");
     emotesExplorer.setActionCommand(EMOTES_ID);
     emotesExplorer.addActionListener(this);
-    statsMenu.add(emotesExplorer);
+    compendiumMenu.add(emotesExplorer);
 
     // Help
     JMenu helpMenu=GuiFactory.buildMenu("Help");
@@ -178,6 +181,7 @@ public class MainFrameController extends DefaultWindowController implements Acti
     JMenuBar menuBar=GuiFactory.buildMenuBar();
     menuBar.add(fileMenu);
     menuBar.add(statsMenu);
+    menuBar.add(compendiumMenu);
     menuBar.add(Box.createHorizontalGlue());
     menuBar.add(helpMenu);
     return menuBar;
