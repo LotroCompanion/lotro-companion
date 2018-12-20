@@ -80,12 +80,12 @@ public class LotroIconsManager
 
   /**
    * Get the icon for a title.
-   * @param iconFilename Filename of the title icon.
+   * @param titleId Title identifier.
    * @return An icon or <code>null</code> if not found.
    */
-  public static ImageIcon getTitleIcon(String iconFilename)
+  public static ImageIcon getTitleIcon(int titleId)
   {
-    String path="/titleIcons/"+iconFilename;
+    String path="/titleIcons/"+titleId+".png";
     return IconsManager.getIcon(path);
   }
 

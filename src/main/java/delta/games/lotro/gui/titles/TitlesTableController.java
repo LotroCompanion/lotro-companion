@@ -79,7 +79,7 @@ public class TitlesTableController
         public Icon getData(TitleDescription title)
         {
           int id=title.getIconId();
-          Icon icon=LotroIconsManager.getTitleIcon(id+".png");
+          Icon icon=LotroIconsManager.getTitleIcon(id);
           return icon;
         }
       };

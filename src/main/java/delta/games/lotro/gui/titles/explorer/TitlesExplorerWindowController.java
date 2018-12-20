@@ -21,6 +21,7 @@ import delta.games.lotro.gui.main.GlobalPreferences;
 import delta.games.lotro.gui.titles.TitleFilter;
 import delta.games.lotro.gui.titles.TitleFilterController;
 import delta.games.lotro.gui.titles.TitlesTableController;
+import delta.games.lotro.gui.titles.form.TitleDisplayWindowController;
 import delta.games.lotro.lore.titles.TitleDescription;
 
 /**
@@ -109,7 +110,7 @@ public class TitlesExplorerWindowController extends DefaultWindowController
         if (GenericTableController.DOUBLE_CLICK.equals(action))
         {
           TitleDescription title=(TitleDescription)event.getSource();
-          //showTitle(title);
+          showTitle(title);
         }
       }
     };
@@ -118,13 +119,14 @@ public class TitlesExplorerWindowController extends DefaultWindowController
 
   private void showTitle(TitleDescription title)
   {
-    /*
-    int id=_recipeWindows.getAll().size();
-    RecipeDisplayWindowController window=new RecipeDisplayWindowController(TitlesExplorerWindowController.this,id);
-    window.setRecipe(recipe);
-    window.show(false);
-    _recipeWindows.registerWindow(window);
-    */
+    String id=TitleDisplayWindowController.getId(title);
+    WindowController window=_titleWindows.getWindow(id);
+    if (window==null)
+    {
+      window=new TitleDisplayWindowController(this,title);
+      _titleWindows.registerWindow(window);
+    }
+    window.show();
   }
 
   /**
