@@ -116,6 +116,20 @@ public class EmotesTableController
       commandColumn.setWidthSpecs(100,120,200);
       ret.add(commandColumn);
     }
+    // Auto?
+    {
+      CellDataProvider<EmoteDescription,Boolean> autoCell=new CellDataProvider<EmoteDescription,Boolean>()
+      {
+        @Override
+        public Boolean getData(EmoteDescription emote)
+        {
+          return Boolean.valueOf(emote.isAuto());
+        }
+      };
+      DefaultTableColumnController<EmoteDescription,Boolean> autoColumn=new DefaultTableColumnController<EmoteDescription,Boolean>(EmoteColumnIds.AUTO.name(),"Auto",Boolean.class,autoCell);
+      autoColumn.setWidthSpecs(30,30,30);
+      ret.add(autoColumn);
+    }
     // Description column
     {
       CellDataProvider<EmoteDescription,String> nameCell=new CellDataProvider<EmoteDescription,String>()
