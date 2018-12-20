@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.border.TitledBorder;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.tables.GenericTableController;
@@ -16,6 +17,8 @@ import delta.common.ui.swing.windows.DefaultWindowController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.ui.swing.windows.WindowsManager;
 import delta.common.utils.misc.TypedProperties;
+import delta.games.lotro.gui.emotes.EmoteFilter;
+import delta.games.lotro.gui.emotes.EmoteFilterController;
 import delta.games.lotro.gui.emotes.EmotesTableController;
 import delta.games.lotro.gui.main.GlobalPreferences;
 import delta.games.lotro.lore.emotes.EmoteDescription;
@@ -31,9 +34,10 @@ public class EmotesExplorerWindowController extends DefaultWindowController
    */
   public static final String IDENTIFIER="EMOTES_EXPLORER";
 
+  private EmoteFilterController _filterController;
   private EmotesExplorerPanelController _panelController;
   private EmotesTableController _tableController;
-  //private RecipeFilter _filter;
+  private EmoteFilter _filter;
   private WindowsManager _emoteWindows;
 
   /**
@@ -43,7 +47,7 @@ public class EmotesExplorerWindowController extends DefaultWindowController
   public EmotesExplorerWindowController(WindowController parent)
   {
     super(parent);
-    //_filter=new RecipeFilter();
+    _filter=new EmoteFilter();
     _emoteWindows=new WindowsManager();
   }
 
@@ -78,14 +82,16 @@ public class EmotesExplorerWindowController extends DefaultWindowController
     _panelController=new EmotesExplorerPanelController(this,_tableController);
     JPanel tablePanel=_panelController.getPanel();
     // Filter
-    //_filterController=new RecipeFilterController(_filter,_panelController);
-    //JPanel filterPanel=_filterController.getPanel();
-    //TitledBorder filterBorder=GuiFactory.buildTitledBorder("Filter");
-    //filterPanel.setBorder(filterBorder);
+    _filterController=new EmoteFilterController(_filter,_panelController);
+    JPanel filterPanel=_filterController.getPanel();
+    TitledBorder filterBorder=GuiFactory.buildTitledBorder("Filter");
+    filterPanel.setBorder(filterBorder);
     // Whole panel
-    GridBagConstraints c=new GridBagConstraints(0,0,1,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
-    //panel.add(filterPanel,c);
-    c.gridy=1;c.weighty=1;c.fill=GridBagConstraints.BOTH;
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    panel.add(filterPanel,c);
+    c=new GridBagConstraints(1,0,1,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    panel.add(GuiFactory.buildPanel(null),c);
+    c=new GridBagConstraints(0,1,2,1,1,1,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
     panel.add(tablePanel,c);
     return panel;
   }
@@ -93,7 +99,7 @@ public class EmotesExplorerWindowController extends DefaultWindowController
   private void initEmotesTable()
   {
     TypedProperties prefs=GlobalPreferences.getGlobalProperties("EmotesExplorer");
-    _tableController=new EmotesTableController(prefs,null/*_filter*/);
+    _tableController=new EmotesTableController(prefs,_filter);
     ActionListener al=new ActionListener()
     {
       @Override
@@ -139,13 +145,11 @@ public class EmotesExplorerWindowController extends DefaultWindowController
       _tableController.dispose();
       _tableController=null;
     }
-    /*
     if (_filterController!=null)
     {
       _filterController.dispose();
       _filterController=null;
     }
-    */
     if (_panelController!=null)
     {
       _panelController.dispose();
