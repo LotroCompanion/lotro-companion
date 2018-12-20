@@ -4,15 +4,12 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
 import delta.common.ui.swing.GuiFactory;
-import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.windows.DefaultWindowController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.ui.swing.windows.WindowsManager;
@@ -21,7 +18,6 @@ import delta.games.lotro.gui.emotes.EmoteFilter;
 import delta.games.lotro.gui.emotes.EmoteFilterController;
 import delta.games.lotro.gui.emotes.EmotesTableController;
 import delta.games.lotro.gui.main.GlobalPreferences;
-import delta.games.lotro.lore.emotes.EmoteDescription;
 
 /**
  * Controller for the emotes explorer window.
@@ -100,31 +96,6 @@ public class EmotesExplorerWindowController extends DefaultWindowController
   {
     TypedProperties prefs=GlobalPreferences.getGlobalProperties("EmotesExplorer");
     _tableController=new EmotesTableController(prefs,_filter);
-    ActionListener al=new ActionListener()
-    {
-      @Override
-      public void actionPerformed(ActionEvent event)
-      {
-        String action=event.getActionCommand();
-        if (GenericTableController.DOUBLE_CLICK.equals(action))
-        {
-          EmoteDescription emote=(EmoteDescription)event.getSource();
-          //showEmote(emote);
-        }
-      }
-    };
-    _tableController.addActionListener(al);
-  }
-
-  private void showEmote(EmoteDescription emote)
-  {
-  /*
-    int id=_recipeWindows.getAll().size();
-    RecipeDisplayWindowController window=new RecipeDisplayWindowController(this,id);
-    window.setRecipe(recipe);
-    window.show(false);
-    _recipeWindows.registerWindow(window);
-    */
   }
 
   /**
