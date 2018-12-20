@@ -86,7 +86,7 @@ public class TitleDisplayPanelController
     }
 
     // Description
-    _details=buildDetailsPane();
+    _details=buildDescriptionPane();
     JScrollPane detailsPane=GuiFactory.buildScrollPane(_details);
     detailsPane.setBorder(GuiFactory.buildTitledBorder("Description"));
     c.fill=GridBagConstraints.BOTH;
@@ -100,7 +100,7 @@ public class TitleDisplayPanelController
     return _panel;
   }
 
-  private JEditorPane buildDetailsPane()
+  private JEditorPane buildDescriptionPane()
   {
     JEditorPane editor=new JEditorPane("text/html","");
     editor.setEditable(false);
@@ -121,7 +121,6 @@ public class TitleDisplayPanelController
   private String toHtml(String text)
   {
     text=text.trim();
-    text=text.replace("\n\n","<br>");
     text=text.replace("\n","<br>");
     return text;
   }
