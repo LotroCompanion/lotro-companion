@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.border.TitledBorder;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.tables.GenericTableController;
@@ -17,6 +18,8 @@ import delta.common.ui.swing.windows.WindowController;
 import delta.common.ui.swing.windows.WindowsManager;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.gui.main.GlobalPreferences;
+import delta.games.lotro.gui.titles.TitleFilter;
+import delta.games.lotro.gui.titles.TitleFilterController;
 import delta.games.lotro.gui.titles.TitlesTableController;
 import delta.games.lotro.lore.titles.TitleDescription;
 
@@ -31,9 +34,10 @@ public class TitlesExplorerWindowController extends DefaultWindowController
    */
   public static final String IDENTIFIER="TITLES_EXPLORER";
 
+  private TitleFilterController _filterController;
   private TitleExplorerPanelController _panelController;
   private TitlesTableController _tableController;
-  //private RecipeFilter _filter;
+  private TitleFilter _filter;
   private WindowsManager _titleWindows;
 
   /**
@@ -43,7 +47,7 @@ public class TitlesExplorerWindowController extends DefaultWindowController
   public TitlesExplorerWindowController(WindowController parent)
   {
     super(parent);
-    //_filter=new RecipeFilter();
+    _filter=new TitleFilter();
     _titleWindows=new WindowsManager();
   }
 
@@ -74,26 +78,28 @@ public class TitlesExplorerWindowController extends DefaultWindowController
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     // Table
-    initRecipesTable();
+    initTitlesTable();
     _panelController=new TitleExplorerPanelController(this,_tableController);
     JPanel tablePanel=_panelController.getPanel();
     // Filter
-    //_filterController=new RecipeFilterController(_filter,_panelController);
-    //JPanel filterPanel=_filterController.getPanel();
-    //TitledBorder filterBorder=GuiFactory.buildTitledBorder("Filter");
-    //filterPanel.setBorder(filterBorder);
+    _filterController=new TitleFilterController(_filter,_panelController);
+    JPanel filterPanel=_filterController.getPanel();
+    TitledBorder filterBorder=GuiFactory.buildTitledBorder("Filter");
+    filterPanel.setBorder(filterBorder);
     // Whole panel
-    GridBagConstraints c=new GridBagConstraints(0,0,1,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
-    //panel.add(filterPanel,c);
-    c.gridy=1;c.weighty=1;c.fill=GridBagConstraints.BOTH;
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    panel.add(filterPanel,c);
+    c=new GridBagConstraints(1,0,1,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    panel.add(GuiFactory.buildPanel(null),c);
+    c=new GridBagConstraints(0,1,2,1,1,1,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
     panel.add(tablePanel,c);
     return panel;
   }
 
-  private void initRecipesTable()
+  private void initTitlesTable()
   {
     TypedProperties prefs=GlobalPreferences.getGlobalProperties("TitlesExplorer");
-    _tableController=new TitlesTableController(prefs,null/*_filter*/);
+    _tableController=new TitlesTableController(prefs,_filter);
     ActionListener al=new ActionListener()
     {
       @Override
@@ -139,13 +145,11 @@ public class TitlesExplorerWindowController extends DefaultWindowController
       _tableController.dispose();
       _tableController=null;
     }
-    /*
     if (_filterController!=null)
     {
       _filterController.dispose();
       _filterController=null;
     }
-    */
     if (_panelController!=null)
     {
       _panelController.dispose();
