@@ -127,10 +127,10 @@
 </faction>
 <faction key="GREY_MOUNTAINS_EXPEDITION" name="Grey Mountains Expedition" category="Rhovanion" initialLevel="NEUTRAL">
 <level key="NEUTRAL" name="Neutral" code="0" lotroPoints="0" requiredXp="0"/>
-<level key="ACQUAINTANCE" name="Acquaintance" code="1" lotroPoints="5" requiredXp="10000"/>
-<level key="FRIEND" name="Friend" code="2" lotroPoints="10" requiredXp="20000"/>
-<level key="ALLY" name="Ally" code="3" lotroPoints="15" requiredXp="25000"/>
-<level key="KINDRED" name="Kindred" code="4" lotroPoints="20" requiredXp="30000"/>
+<level key="ACQUAINTANCE" name="Acquaintance" code="1" lotroPoints="5" requiredXp="10000" deedKey="Known_to_the_Grey_Mountains_Expedition"/>
+<level key="FRIEND" name="Friend" code="2" lotroPoints="10" requiredXp="20000" deedKey="Friend_to_the_Grey_Mountains_Expedition"/>
+<level key="ALLY" name="Ally" code="3" lotroPoints="15" requiredXp="25000" deedKey="Ally_to_the_Grey_Mountains_Expedition"/>
+<level key="KINDRED" name="Kindred" code="4" lotroPoints="20" requiredXp="30000" deedKey="Kindred_to_the_Grey_Mountains_Expedition"/>
 </faction>
 <faction key="ALGRAIG" name="Algraig, Men of Enedwaith" category="Dunland" initialLevel="NEUTRAL">
 <alias name="Algraig"/>
