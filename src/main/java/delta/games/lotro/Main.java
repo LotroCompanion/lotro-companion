@@ -24,6 +24,7 @@ public class Main
     GuiFactory.init();
     GuiFactory.setPreferences(Config.getInstance().getPreferences());
     Locale.setDefault(Locale.US);
+    LotroCore.init();
     LotroIconsManager.initApplicationIcons();
     MainFrameController controller=new MainFrameController();
     JFrame frame=controller.getFrame();
