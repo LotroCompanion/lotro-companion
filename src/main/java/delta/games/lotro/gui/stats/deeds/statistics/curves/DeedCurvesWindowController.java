@@ -15,9 +15,9 @@ import delta.games.lotro.Config;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharactersManager;
 import delta.games.lotro.gui.stats.curves.DatedCurvesChartConfiguration;
-import delta.games.lotro.gui.stats.levelling.MultipleToonsDatedCurvesChartPanelController;
 import delta.games.lotro.stats.MultipleToonsStats;
 import delta.games.lotro.stats.deeds.statistics.curves.DeedCurvesBuilder;
+import delta.games.lotro.utils.charts.MultipleToonsDatedCurvesChartPanelController;
 
 /**
  * Controller for a "deed curves" window.

@@ -17,6 +17,7 @@ import delta.games.lotro.character.CharactersManager;
 import delta.games.lotro.character.level.LevelHistory;
 import delta.games.lotro.gui.stats.curves.DatedCurvesChartConfiguration;
 import delta.games.lotro.stats.level.MultipleToonsLevellingStats;
+import delta.games.lotro.utils.charts.MultipleToonsDatedCurvesChartPanelController;
 
 /**
  * Controller for a "character level" window.

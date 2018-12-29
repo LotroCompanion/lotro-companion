@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.stats.levelling;
+package delta.games.lotro.utils.charts;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
