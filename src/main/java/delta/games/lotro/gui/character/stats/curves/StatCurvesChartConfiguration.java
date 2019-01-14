@@ -3,8 +3,8 @@ package delta.games.lotro.gui.character.stats.curves;
 import java.util.ArrayList;
 import java.util.List;
 
-import delta.games.lotro.character.stats.STAT;
 import delta.games.lotro.character.stats.ratings.RatingCurve;
+import delta.games.lotro.common.stats.StatDescription;
 
 /**
  * Configuration of a stat curve.
@@ -16,7 +16,7 @@ public class StatCurvesChartConfiguration
   private int _level;
   private double _minRating;
   private double _maxRating;
-  private STAT _baseStat;
+  private StatDescription _baseStat;
   private List<SingleStatCurveConfiguration> _curves;
 
   /**
@@ -24,7 +24,7 @@ public class StatCurvesChartConfiguration
    * @param title Chart title.
    * @param baseStat Base stat.
    */
-  public StatCurvesChartConfiguration(String title, STAT baseStat)
+  public StatCurvesChartConfiguration(String title, StatDescription baseStat)
   {
     _title=title;
     _level=1;
@@ -92,7 +92,7 @@ public class StatCurvesChartConfiguration
    * Get the stat used to build this chart.
    * @return a stat.
    */
-  public STAT getBaseStat()
+  public StatDescription getBaseStat()
   {
     return _baseStat;
   }

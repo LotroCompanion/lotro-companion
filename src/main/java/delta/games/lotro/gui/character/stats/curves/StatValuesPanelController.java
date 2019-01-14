@@ -14,8 +14,8 @@ import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.character.stats.BasicStatsSet;
-import delta.games.lotro.character.stats.STAT;
 import delta.games.lotro.character.stats.ratings.RatingCurve;
+import delta.games.lotro.common.stats.StatDescription;
 import delta.games.lotro.gui.character.stats.StatDisplayUtils;
 import delta.games.lotro.utils.FixedDecimalsInteger;
 
@@ -84,7 +84,7 @@ public class StatValuesPanelController
     // - First cell blank
     c.gridx++;
     // - Stat name
-    STAT baseStat=_config.getBaseStat();
+    StatDescription baseStat=_config.getBaseStat();
     JLabel baseStatNameLabel=GuiFactory.buildLabel(baseStat.getName());
     _panel.add(baseStatNameLabel,c);
     // - Stat value
@@ -104,8 +104,8 @@ public class StatValuesPanelController
     {
       SingleStatCurveConfiguration curveConfig=curveConfigs.get(curveIndex);
       Color color=StatCurveChartPanelController.LINE_COLORS[curveIndex];
-      List<STAT> stats=curveConfig.getStats();
-      for(STAT stat : stats)
+      List<StatDescription> stats=curveConfig.getStats();
+      for(StatDescription stat : stats)
       {
         c.gridx=0;
         c.fill=GridBagConstraints.NONE;

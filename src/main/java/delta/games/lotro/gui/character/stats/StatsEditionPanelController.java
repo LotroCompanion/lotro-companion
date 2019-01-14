@@ -19,7 +19,7 @@ import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.common.ui.swing.icons.IconsManager;
 import delta.common.utils.NumericTools;
 import delta.games.lotro.character.stats.BasicStatsSet;
-import delta.games.lotro.character.stats.STAT;
+import delta.games.lotro.common.stats.StatDescription;
 import delta.games.lotro.gui.items.ItemUiTools;
 import delta.games.lotro.utils.FixedDecimalsInteger;
 
@@ -51,15 +51,12 @@ public class StatsEditionPanelController
   public void initFromStats(BasicStatsSet stats)
   {
     _statControllers.clear();
-    for(STAT stat : STAT.values())
+    for(StatDescription stat : stats.getSortedStats())
     {
       FixedDecimalsInteger value=stats.getStat(stat);
-      if (value!=null)
-      {
-        SingleStatController ctrl=new SingleStatController();
-        ctrl.setStat(stat,value);
-        _statControllers.add(ctrl);
-      }
+      SingleStatController ctrl=new SingleStatController();
+      ctrl.setStat(stat,value);
+      _statControllers.add(ctrl);
     }
     if (_statControllers.size()==0)
     {
@@ -77,8 +74,8 @@ public class StatsEditionPanelController
     BasicStatsSet stats=new BasicStatsSet();
     for(SingleStatController ctrl : _statControllers)
     {
-      ComboBoxController<STAT> comboCtrl=ctrl.getStatComboController();
-      STAT stat=comboCtrl.getSelectedItem();
+      ComboBoxController<StatDescription> comboCtrl=ctrl.getStatComboController();
+      StatDescription stat=comboCtrl.getSelectedItem();
       if (stat!=null)
       {
         String valueStr=ctrl.getValue().getText();
@@ -193,7 +190,7 @@ public class StatsEditionPanelController
   private class SingleStatController
   {
     private JTextField _value;
-    private ComboBoxController<STAT> _statChooser;
+    private ComboBoxController<StatDescription> _statChooser;
     private JLabel _unit;
     private JButton _deleteButton;
     private JButton _addButton;
@@ -230,7 +227,7 @@ public class StatsEditionPanelController
       _addButton.addActionListener(listener);
     }
 
-    public void setStat(STAT stat, FixedDecimalsInteger value)
+    public void setStat(StatDescription stat, FixedDecimalsInteger value)
     {
       _statChooser.selectItem(stat);
       _value.setText(value.toString());
@@ -248,7 +245,7 @@ public class StatsEditionPanelController
       return _value;
     }
 
-    public ComboBoxController<STAT> getStatComboController()
+    public ComboBoxController<StatDescription> getStatComboController()
     {
       return _statChooser;
     }

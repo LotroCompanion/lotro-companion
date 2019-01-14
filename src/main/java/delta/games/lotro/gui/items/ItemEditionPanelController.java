@@ -28,8 +28,8 @@ import delta.common.utils.NumericTools;
 import delta.games.lotro.Config;
 import delta.games.lotro.character.CharacterSummary;
 import delta.games.lotro.character.stats.BasicStatsSet;
-import delta.games.lotro.character.stats.STAT;
 import delta.games.lotro.common.stats.StatsProvider;
+import delta.games.lotro.common.stats.WellKnownStat;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.character.stats.StatsEditionPanelController;
 import delta.games.lotro.gui.items.essences.EssencesEditionPanelController;
@@ -469,7 +469,7 @@ public class ItemEditionPanelController
       Integer armourValue=_armourValue.getValue();
       if (armourValue!=null)
       {
-        stats.addStat(STAT.ARMOUR,new FixedDecimalsInteger(armourValue.intValue()));
+        stats.addStat(WellKnownStat.ARMOUR,new FixedDecimalsInteger(armourValue.intValue()));
       }
       armour.setArmourType(_armourType.getSelectedItem());
     }
@@ -634,17 +634,17 @@ public class ItemEditionPanelController
     FixedDecimalsInteger armourValue=null;
     if (_item instanceof Armour)
     {
-      armourValue=stats.getStat(STAT.ARMOUR);
+      armourValue=stats.getStat(WellKnownStat.ARMOUR);
       if (armourValue!=null)
       {
-        stats.removeStat(STAT.ARMOUR);
+        stats.removeStat(WellKnownStat.ARMOUR);
         _armourValue.setValue(Integer.valueOf(armourValue.intValue()));
       }
     }
     _stats.initFromStats(stats);
     if (armourValue!=null)
     {
-      stats.setStat(STAT.ARMOUR,armourValue);
+      stats.setStat(WellKnownStat.ARMOUR,armourValue);
     }
   }
 

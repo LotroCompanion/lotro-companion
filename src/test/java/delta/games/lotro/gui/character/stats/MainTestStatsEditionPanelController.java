@@ -5,7 +5,7 @@ import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
 import delta.games.lotro.character.stats.BasicStatsSet;
-import delta.games.lotro.character.stats.STAT;
+import delta.games.lotro.common.stats.WellKnownStat;
 
 /**
  * Test class for the stats edition panel controller.
@@ -16,11 +16,11 @@ public class MainTestStatsEditionPanelController
   private BasicStatsSet buildStats()
   {
     BasicStatsSet stats=new BasicStatsSet();
-    stats.setStat(STAT.AGILITY,224);
-    stats.setStat(STAT.PHYSICAL_MASTERY,1180);
-    stats.setStat(STAT.DEVASTATE_MAGNITUDE_PERCENTAGE, 2.5f);
-    stats.setStat(STAT.AUDACITY, 132);
-    stats.setStat(STAT.MORALE, 12);
+    stats.setStat(WellKnownStat.AGILITY,224);
+    stats.setStat(WellKnownStat.PHYSICAL_MASTERY,1180);
+    stats.setStat(WellKnownStat.BLOCK_PERCENTAGE, 2.5f);
+    stats.setStat(WellKnownStat.CRITICAL_DEFENCE, 132);
+    stats.setStat(WellKnownStat.MORALE, 12);
     return stats;
   }
 

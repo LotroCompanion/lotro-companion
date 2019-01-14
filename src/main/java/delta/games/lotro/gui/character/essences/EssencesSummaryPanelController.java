@@ -14,10 +14,10 @@ import javax.swing.border.TitledBorder;
 import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.stats.BasicStatsSet;
-import delta.games.lotro.character.stats.STAT;
 import delta.games.lotro.character.stats.base.DerivedStatsContributionsMgr;
 import delta.games.lotro.character.stats.base.io.DerivedStatContributionsIO;
 import delta.games.lotro.common.CharacterClass;
+import delta.games.lotro.common.stats.StatDescription;
 import delta.games.lotro.gui.character.essences.EssencesSummary.EssenceCount;
 import delta.games.lotro.gui.character.stats.StatLabels;
 import delta.games.lotro.gui.items.ItemUiTools;
@@ -156,33 +156,30 @@ public class EssencesSummaryPanelController
       BasicStatsSet toonStats=_toon.getStats();
 
       // Build display
-      for(STAT stat : STAT.values())
+      for(StatDescription stat : stats.getSortedStats())
       {
         FixedDecimalsInteger value=stats.getStat(stat);
-        if (value!=null)
+        // Value label
+        JLabel valueLabel=GuiFactory.buildLabel(value.toString());
+        GridBagConstraints c=new GridBagConstraints(0,rowIndex,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,5,0,0),0,0);
+        panel.add(valueLabel,c);
+        // Name label
+        String name=StatLabels.getStatLabel(stat);
+        JLabel statLabel=GuiFactory.buildLabel(name);
+        c=new GridBagConstraints(1,rowIndex,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,5,0,0),0,0);
+        panel.add(statLabel,c);
+        // Percentage
+        FixedDecimalsInteger toonStat=toonStats.getStat(stat);
+        String percentageStr="";
+        if (toonStat!=null)
         {
-          // Value label
-          JLabel valueLabel=GuiFactory.buildLabel(value.toString());
-          GridBagConstraints c=new GridBagConstraints(0,rowIndex,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,5,0,0),0,0);
-          panel.add(valueLabel,c);
-          // Name label
-          String name=StatLabels.getStatLabel(stat);
-          JLabel statLabel=GuiFactory.buildLabel(name);
-          c=new GridBagConstraints(1,rowIndex,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,5,0,0),0,0);
-          panel.add(statLabel,c);
-          // Percentage
-          FixedDecimalsInteger toonStat=toonStats.getStat(stat);
-          String percentageStr="";
-          if (toonStat!=null)
-          {
-            float percentage=100*(value.floatValue()/toonStat.floatValue());
-            percentageStr=String.format("%.1f%%",Float.valueOf(percentage));
-          }
-          JLabel percentageLabel=GuiFactory.buildLabel(percentageStr);
-          c=new GridBagConstraints(2,rowIndex,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,5,0,5),0,0);
-          panel.add(percentageLabel,c);
-          rowIndex++;
+          float percentage=100*(value.floatValue()/toonStat.floatValue());
+          percentageStr=String.format("%.1f%%",Float.valueOf(percentage));
         }
+        JLabel percentageLabel=GuiFactory.buildLabel(percentageStr);
+        c=new GridBagConstraints(2,rowIndex,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,5,0,5),0,0);
+        panel.add(percentageLabel,c);
+        rowIndex++;
       }
     }
   }

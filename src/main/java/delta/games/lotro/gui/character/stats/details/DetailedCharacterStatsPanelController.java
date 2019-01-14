@@ -16,7 +16,9 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.labels.HyperLinkController;
 import delta.common.ui.swing.labels.LocalHyperlinkAction;
 import delta.games.lotro.character.stats.BasicStatsSet;
-import delta.games.lotro.character.stats.STAT;
+import delta.games.lotro.common.stats.StatDescription;
+import delta.games.lotro.common.stats.StatsRegistry;
+import delta.games.lotro.common.stats.WellKnownStat;
 import delta.games.lotro.gui.character.stats.StatLabels;
 import delta.games.lotro.gui.character.stats.curves.StatCurvesChartConfiguration;
 import delta.games.lotro.gui.character.stats.curves.StatCurvesWindowsManager;
@@ -28,7 +30,7 @@ import delta.games.lotro.gui.character.stats.curves.StatCurvesWindowsManager;
 public class DetailedCharacterStatsPanelController
 {
   // Controllers
-  private HashMap<STAT,SingleStatWidgetsController> _ctrls;
+  private HashMap<StatDescription,SingleStatWidgetsController> _ctrls;
   // Data
   private BasicStatsSet _reference;
   private BasicStatsSet _current;
@@ -43,7 +45,7 @@ public class DetailedCharacterStatsPanelController
    */
   public DetailedCharacterStatsPanelController(StatCurvesWindowsManager statCurvesMgr)
   {
-    _ctrls=new HashMap<STAT,SingleStatWidgetsController>();
+    _ctrls=new HashMap<StatDescription,SingleStatWidgetsController>();
     _statCurvesMgr=statCurvesMgr;
     init();
     _panel=buildPanel();
@@ -62,14 +64,15 @@ public class DetailedCharacterStatsPanelController
   {
     for(String key : StatLabels.getTranslatedStats())
     {
-      STAT stat=STAT.getByName(key);
+      StatDescription stat=StatsRegistry.getInstance().getByKey(key);
       addStat(stat);
     }
   }
 
-  private void addStat(STAT stat)
+  private void addStat(StatDescription stat)
   {
-    SingleStatWidgetsController singleCtrl=new SingleStatWidgetsController(stat,stat.isPercentage());
+    boolean isPercentage=(stat!=null)?stat.isPercentage():false;
+    SingleStatWidgetsController singleCtrl=new SingleStatWidgetsController(stat,isPercentage);
     _ctrls.put(stat,singleCtrl);
   }
 
@@ -122,13 +125,13 @@ public class DetailedCharacterStatsPanelController
   private JPanel buildMainStatsPanel()
   {
     JPanel panel=GuiFactory.buildBackgroundPanel(new GridBagLayout());
-    STAT[] stats={STAT.MORALE, STAT.POWER, STAT.ARMOUR, STAT.MIGHT,
-        STAT.AGILITY, STAT.VITALITY, STAT.WILL, STAT.FATE,
-        STAT.OCMR, STAT.ICMR, STAT.OCPR, STAT.ICPR
+    StatDescription[] stats={WellKnownStat.MORALE, WellKnownStat.POWER, WellKnownStat.ARMOUR, WellKnownStat.MIGHT,
+        WellKnownStat.AGILITY, WellKnownStat.VITALITY, WellKnownStat.WILL, WellKnownStat.FATE,
+        WellKnownStat.OCMR, WellKnownStat.ICMR, WellKnownStat.OCPR, WellKnownStat.ICPR
     };
     int x=0;
     int y=0;
-    for(STAT stat : stats)
+    for(StatDescription stat : stats)
     {
       addStatWidgets(panel,stat,x,y,true);
       y++;
@@ -155,13 +158,13 @@ public class DetailedCharacterStatsPanelController
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     int x=0;
     int y=0;
-    addStatWidgets(panel,STAT.PHYSICAL_MASTERY,x,y,true);
-    addStatWidgets(panel,STAT.FINESSE,x+3,y,true);
+    addStatWidgets(panel,WellKnownStat.PHYSICAL_MASTERY,x,y,true);
+    addStatWidgets(panel,WellKnownStat.FINESSE,x+3,y,true);
     y++;
-    addStatWidgets(panel,STAT.TACTICAL_MASTERY,x,y,true);
-    addStatWidgets(panel,STAT.FINESSE_PERCENTAGE,x+3,y,true);
+    addStatWidgets(panel,WellKnownStat.TACTICAL_MASTERY,x,y,true);
+    addStatWidgets(panel,WellKnownStat.FINESSE_PERCENTAGE,x+3,y,true);
     y++;
-    addStatWidgets(panel,STAT.CRITICAL_RATING,x,y,true);
+    addStatWidgets(panel,WellKnownStat.CRITICAL_RATING,x,y,true);
 
     TitledBorder border=GuiFactory.buildTitledBorder("Stats");
     panel.setBorder(border);
@@ -172,26 +175,26 @@ public class DetailedCharacterStatsPanelController
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     String[] labelsV=new String[]{"Melee", "Ranged", "Tactical"};
-    STAT[] stats={STAT.PHYSICAL_MASTERY, STAT.PHYSICAL_MASTERY, STAT.TACTICAL_MASTERY};
+    StatDescription[] stats={WellKnownStat.PHYSICAL_MASTERY, WellKnownStat.PHYSICAL_MASTERY, WellKnownStat.TACTICAL_MASTERY};
     addHeaders(panel,0,1,labelsV,stats,false,1);
     int x=1;
     String[] labelsH=new String[]{"Damage %", "Critical %", "Devastate %", "Magnitude %"};
     addHeaders(panel,x,0,labelsH,null,true,2);
     int y=1;
-    addStatWidgets(panel,STAT.MELEE_DAMAGE_PERCENTAGE,x,y,false);
-    addStatWidgets(panel,STAT.CRITICAL_MELEE_PERCENTAGE,x+2,y,false);
-    addStatWidgets(panel,STAT.DEVASTATE_MELEE_PERCENTAGE,x+4,y,false);
-    addStatWidgets(panel,STAT.CRIT_DEVASTATE_MAGNITUDE_MELEE_PERCENTAGE,x+6,y,false);
+    addStatWidgets(panel,WellKnownStat.MELEE_DAMAGE_PERCENTAGE,x,y,false);
+    addStatWidgets(panel,WellKnownStat.CRITICAL_MELEE_PERCENTAGE,x+2,y,false);
+    addStatWidgets(panel,WellKnownStat.DEVASTATE_MELEE_PERCENTAGE,x+4,y,false);
+    addStatWidgets(panel,WellKnownStat.CRIT_DEVASTATE_MAGNITUDE_MELEE_PERCENTAGE,x+6,y,false);
     y++;
-    addStatWidgets(panel,STAT.RANGED_DAMAGE_PERCENTAGE,x,y,false);
-    addStatWidgets(panel,STAT.CRITICAL_RANGED_PERCENTAGE,x+2,y,false);
-    addStatWidgets(panel,STAT.DEVASTATE_RANGED_PERCENTAGE,x+4,y,false);
-    addStatWidgets(panel,STAT.CRIT_DEVASTATE_MAGNITUDE_RANGED_PERCENTAGE,x+6,y,false);
+    addStatWidgets(panel,WellKnownStat.RANGED_DAMAGE_PERCENTAGE,x,y,false);
+    addStatWidgets(panel,WellKnownStat.CRITICAL_RANGED_PERCENTAGE,x+2,y,false);
+    addStatWidgets(panel,WellKnownStat.DEVASTATE_RANGED_PERCENTAGE,x+4,y,false);
+    addStatWidgets(panel,WellKnownStat.CRIT_DEVASTATE_MAGNITUDE_RANGED_PERCENTAGE,x+6,y,false);
     y++;
-    addStatWidgets(panel,STAT.TACTICAL_DAMAGE_PERCENTAGE,x,y,false);
-    addStatWidgets(panel,STAT.CRITICAL_TACTICAL_PERCENTAGE,x+2,y,false);
-    addStatWidgets(panel,STAT.DEVASTATE_TACTICAL_PERCENTAGE,x+4,y,false);
-    addStatWidgets(panel,STAT.CRIT_DEVASTATE_MAGNITUDE_TACTICAL_PERCENTAGE,x+6,y,false);
+    addStatWidgets(panel,WellKnownStat.TACTICAL_DAMAGE_PERCENTAGE,x,y,false);
+    addStatWidgets(panel,WellKnownStat.CRITICAL_TACTICAL_PERCENTAGE,x+2,y,false);
+    addStatWidgets(panel,WellKnownStat.DEVASTATE_TACTICAL_PERCENTAGE,x+4,y,false);
+    addStatWidgets(panel,WellKnownStat.CRIT_DEVASTATE_MAGNITUDE_TACTICAL_PERCENTAGE,x+6,y,false);
 
     TitledBorder border=GuiFactory.buildTitledBorder("Damage");
     panel.setBorder(border);
@@ -202,7 +205,7 @@ public class DetailedCharacterStatsPanelController
   {
     JPanel panel=GuiFactory.buildBackgroundPanel(new GridBagLayout());
     String[] labelsV=new String[]{"Resistance", "Block", "Parry", "Evade"};
-    STAT[] stats={STAT.RESISTANCE, STAT.BLOCK, STAT.PARRY, STAT.EVADE};
+    StatDescription[] stats={WellKnownStat.RESISTANCE, WellKnownStat.BLOCK, WellKnownStat.PARRY, WellKnownStat.EVADE};
     addHeaders(panel,0,1,labelsV,stats,false,1);
     int x=1;
     String[] labelsH=new String[]{"Rating", "Full %", "Partial %", "Mitigation %"};
@@ -210,26 +213,26 @@ public class DetailedCharacterStatsPanelController
 
     int y=1;
     // Resist
-    addStatWidgets(panel,STAT.RESISTANCE,x,y,false);
-    addStatWidgets(panel,STAT.RESISTANCE_PERCENTAGE,x+2,y,false);
+    addStatWidgets(panel,WellKnownStat.RESISTANCE,x,y,false);
+    addStatWidgets(panel,WellKnownStat.RESISTANCE_PERCENTAGE,x+2,y,false);
     y++;
     // Block
-    addStatWidgets(panel,STAT.BLOCK,x,y,false);
-    addStatWidgets(panel,STAT.BLOCK_PERCENTAGE,x+2,y,false);
-    addStatWidgets(panel,STAT.PARTIAL_BLOCK_PERCENTAGE,x+4,y,false);
-    addStatWidgets(panel,STAT.PARTIAL_BLOCK_MITIGATION_PERCENTAGE,x+6,y,false);
+    addStatWidgets(panel,WellKnownStat.BLOCK,x,y,false);
+    addStatWidgets(panel,WellKnownStat.BLOCK_PERCENTAGE,x+2,y,false);
+    addStatWidgets(panel,WellKnownStat.PARTIAL_BLOCK_PERCENTAGE,x+4,y,false);
+    addStatWidgets(panel,WellKnownStat.PARTIAL_BLOCK_MITIGATION_PERCENTAGE,x+6,y,false);
     y++;
     // Parry
-    addStatWidgets(panel,STAT.PARRY,x,y,false);
-    addStatWidgets(panel,STAT.PARRY_PERCENTAGE,x+2,y,false);
-    addStatWidgets(panel,STAT.PARTIAL_PARRY_PERCENTAGE,x+4,y,false);
-    addStatWidgets(panel,STAT.PARTIAL_PARRY_MITIGATION_PERCENTAGE,x+6,y,false);
+    addStatWidgets(panel,WellKnownStat.PARRY,x,y,false);
+    addStatWidgets(panel,WellKnownStat.PARRY_PERCENTAGE,x+2,y,false);
+    addStatWidgets(panel,WellKnownStat.PARTIAL_PARRY_PERCENTAGE,x+4,y,false);
+    addStatWidgets(panel,WellKnownStat.PARTIAL_PARRY_MITIGATION_PERCENTAGE,x+6,y,false);
     y++;
     // Evade
-    addStatWidgets(panel,STAT.EVADE,x,y,false);
-    addStatWidgets(panel,STAT.EVADE_PERCENTAGE,x+2,y,false);
-    addStatWidgets(panel,STAT.PARTIAL_EVADE_PERCENTAGE,x+4,y,false);
-    addStatWidgets(panel,STAT.PARTIAL_EVADE_MITIGATION_PERCENTAGE,x+6,y,false);
+    addStatWidgets(panel,WellKnownStat.EVADE,x,y,false);
+    addStatWidgets(panel,WellKnownStat.EVADE_PERCENTAGE,x+2,y,false);
+    addStatWidgets(panel,WellKnownStat.PARTIAL_EVADE_PERCENTAGE,x+4,y,false);
+    addStatWidgets(panel,WellKnownStat.PARTIAL_EVADE_MITIGATION_PERCENTAGE,x+6,y,false);
 
     TitledBorder border=GuiFactory.buildTitledBorder("Avoidance");
     panel.setBorder(border);
@@ -243,8 +246,8 @@ public class DetailedCharacterStatsPanelController
         "Crit.Def (ranged)", "Crit.Def (tactical)",
         "Physical", "Orc-craft/Fell-wrought", "Tactical",
         "Fire", "Lightning", "Frost", "Acid", "Shadow"};
-    STAT[] stats={STAT.CRITICAL_DEFENCE, STAT.CRITICAL_DEFENCE, STAT.CRITICAL_DEFENCE,
-        STAT.PHYSICAL_MITIGATION, STAT.OCFW_MITIGATION, STAT.TACTICAL_MITIGATION,
+    StatDescription[] stats={WellKnownStat.CRITICAL_DEFENCE, WellKnownStat.CRITICAL_DEFENCE, WellKnownStat.CRITICAL_DEFENCE,
+        WellKnownStat.PHYSICAL_MITIGATION, WellKnownStat.OCFW_MITIGATION, WellKnownStat.TACTICAL_MITIGATION,
         null,null,null,null,null};
     addHeaders(panel,0,1,labelsV,stats,false,1);
     int x=1;
@@ -253,39 +256,39 @@ public class DetailedCharacterStatsPanelController
 
     int y=1;
     // Crit/dev defence
-    addStatWidgets(panel,STAT.CRITICAL_DEFENCE,x,y,false);
-    addStatWidgets(panel,STAT.MELEE_CRITICAL_DEFENCE,x+2,y,false);
+    addStatWidgets(panel,WellKnownStat.CRITICAL_DEFENCE,x,y,false);
+    addStatWidgets(panel,WellKnownStat.MELEE_CRITICAL_DEFENCE,x+2,y,false);
     y++;
-    addStatWidgets(panel,STAT.RANGED_CRITICAL_DEFENCE,x+2,y,false);
+    addStatWidgets(panel,WellKnownStat.RANGED_CRITICAL_DEFENCE,x+2,y,false);
     y++;
-    addStatWidgets(panel,STAT.TACTICAL_CRITICAL_DEFENCE,x+2,y,false);
+    addStatWidgets(panel,WellKnownStat.TACTICAL_CRITICAL_DEFENCE,x+2,y,false);
     y++;
     // Physical Mitigation
-    addStatWidgets(panel,STAT.PHYSICAL_MITIGATION,x,y,false);
-    addStatWidgets(panel,STAT.PHYSICAL_MITIGATION_PERCENTAGE,x+2,y,false);
+    addStatWidgets(panel,WellKnownStat.PHYSICAL_MITIGATION,x,y,false);
+    addStatWidgets(panel,WellKnownStat.PHYSICAL_MITIGATION_PERCENTAGE,x+2,y,false);
     y++;
     // Orc-craft/Fell-wrought Mitigation
-    addStatWidgets(panel,STAT.OCFW_MITIGATION,x,y,false);
-    addStatWidgets(panel,STAT.OCFW_MITIGATION_PERCENTAGE,x+2,y,false);
+    addStatWidgets(panel,WellKnownStat.OCFW_MITIGATION,x,y,false);
+    addStatWidgets(panel,WellKnownStat.OCFW_MITIGATION_PERCENTAGE,x+2,y,false);
     y++;
     // Tactical Mitigation
-    addStatWidgets(panel,STAT.TACTICAL_MITIGATION,x,y,false);
-    addStatWidgets(panel,STAT.TACTICAL_MITIGATION_PERCENTAGE,x+2,y,false);
+    addStatWidgets(panel,WellKnownStat.TACTICAL_MITIGATION,x,y,false);
+    addStatWidgets(panel,WellKnownStat.TACTICAL_MITIGATION_PERCENTAGE,x+2,y,false);
     y++;
     // Fire Mitigation
-    addStatWidgets(panel,STAT.FIRE_MITIGATION_PERCENTAGE,x+2,y,false);
+    addStatWidgets(panel,WellKnownStat.FIRE_MITIGATION_PERCENTAGE,x+2,y,false);
     y++;
     // Lightning Mitigation
-    addStatWidgets(panel,STAT.LIGHTNING_MITIGATION_PERCENTAGE,x+2,y,false);
+    addStatWidgets(panel,WellKnownStat.LIGHTNING_MITIGATION_PERCENTAGE,x+2,y,false);
     y++;
     // Frost Mitigation
-    addStatWidgets(panel,STAT.FROST_MITIGATION_PERCENTAGE,x+2,y,false);
+    addStatWidgets(panel,WellKnownStat.FROST_MITIGATION_PERCENTAGE,x+2,y,false);
     y++;
     // Acid Mitigation
-    addStatWidgets(panel,STAT.ACID_MITIGATION_PERCENTAGE,x+2,y,false);
+    addStatWidgets(panel,WellKnownStat.ACID_MITIGATION_PERCENTAGE,x+2,y,false);
     y++;
     // Shadow Mitigation
-    addStatWidgets(panel,STAT.SHADOW_MITIGATION_PERCENTAGE,x+2,y,false);
+    addStatWidgets(panel,WellKnownStat.SHADOW_MITIGATION_PERCENTAGE,x+2,y,false);
     y++;
 
     TitledBorder border=GuiFactory.buildTitledBorder("Mitigations");
@@ -297,7 +300,7 @@ public class DetailedCharacterStatsPanelController
   {
     JPanel panel=GuiFactory.buildBackgroundPanel(new GridBagLayout());
     String[] labelsV={"Incoming", "Outgoing"};
-    STAT[] stats={STAT.INCOMING_HEALING, STAT.OUTGOING_HEALING};
+    StatDescription[] stats={WellKnownStat.INCOMING_HEALING, WellKnownStat.OUTGOING_HEALING};
     addHeaders(panel,0,1,labelsV,stats,false,1);
     int x=1;
     String[] labelsH=new String[]{"Rating", "Healing %"};
@@ -305,31 +308,31 @@ public class DetailedCharacterStatsPanelController
 
     int y=1;
     // Incoming Healing
-    addStatWidgets(panel,STAT.INCOMING_HEALING,x,y,false);
-    addStatWidgets(panel,STAT.INCOMING_HEALING_PERCENTAGE,x+2,y,false);
+    addStatWidgets(panel,WellKnownStat.INCOMING_HEALING,x,y,false);
+    addStatWidgets(panel,WellKnownStat.INCOMING_HEALING_PERCENTAGE,x+2,y,false);
     y++;
-    addStatWidgets(panel,STAT.OUTGOING_HEALING,x,y,false);
-    addStatWidgets(panel,STAT.OUTGOING_HEALING_PERCENTAGE,x+2,y,false);
+    addStatWidgets(panel,WellKnownStat.OUTGOING_HEALING,x,y,false);
+    addStatWidgets(panel,WellKnownStat.OUTGOING_HEALING_PERCENTAGE,x+2,y,false);
 
     TitledBorder border=GuiFactory.buildTitledBorder("Healing");
     panel.setBorder(border);
     return panel;
   }
 
-  private void addHeaders(JPanel panel, int x, int y, String[] labels, STAT[] stats, boolean horizontal, int gridwidth)
+  private void addHeaders(JPanel panel, int x, int y, String[] labels, StatDescription[] stats, boolean horizontal, int gridwidth)
   {
     for(int i=0;i<labels.length;i++)
     {
       int cellX=x+(horizontal?(gridwidth*i):0);
       int cellY=y+(horizontal?0:i);
       GridBagConstraints c=new GridBagConstraints(cellX,cellY,gridwidth,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
-      STAT stat=(stats!=null)?stats[i]:null;
+      StatDescription stat=(stats!=null)?stats[i]:null;
       JLabel label=buildLabelForStat(labels[i],stat);
       panel.add(label,c);
     }
   }
 
-  private void addStatWidgets(JPanel panel, STAT stat, int x, int y, boolean showLabel)
+  private void addStatWidgets(JPanel panel, StatDescription stat, int x, int y, boolean showLabel)
   {
     GridBagConstraints c;
     SingleStatWidgetsController ctrl=_ctrls.get(stat);
@@ -350,7 +353,7 @@ public class DetailedCharacterStatsPanelController
     panel.add(deltaValueLabel,c);
   }
 
-  private JLabel buildLabelForStat(String text, STAT stat)
+  private JLabel buildLabelForStat(String text, StatDescription stat)
   {
     JLabel label=null;
     if (stat!=null)

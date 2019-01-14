@@ -24,8 +24,8 @@ import org.jfree.util.ShapeUtilities;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.character.stats.BasicStatsSet;
-import delta.games.lotro.character.stats.STAT;
 import delta.games.lotro.character.stats.ratings.RatingCurve;
+import delta.games.lotro.common.stats.StatDescription;
 import delta.games.lotro.utils.FixedDecimalsInteger;
 
 /**
@@ -75,7 +75,7 @@ public class StatCurveChartPanelController
    */
   public void update(BasicStatsSet stats)
   {
-    STAT baseStat=_config.getBaseStat();
+    StatDescription baseStat=_config.getBaseStat();
     _statValue=stats.getStat(baseStat);
     updateStatSeries();
   }

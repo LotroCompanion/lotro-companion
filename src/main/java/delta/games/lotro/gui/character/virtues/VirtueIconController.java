@@ -10,9 +10,9 @@ import delta.common.ui.swing.icons.IconWithText;
 import delta.common.ui.swing.icons.IconsManager;
 import delta.common.utils.text.EndOfLine;
 import delta.games.lotro.character.stats.BasicStatsSet;
-import delta.games.lotro.character.stats.STAT;
 import delta.games.lotro.character.stats.virtues.VirtuesContributionsMgr;
 import delta.games.lotro.common.VirtueId;
+import delta.games.lotro.common.stats.StatDescription;
 import delta.games.lotro.gui.LotroIconsManager;
 
 /**
@@ -116,7 +116,7 @@ public class VirtueIconController
     BasicStatsSet stats=virtuesMgr.getContribution(virtueId,tier);
     StringBuilder sb=new StringBuilder();
     sb.append(virtueId.name()).append(EndOfLine.NATIVE_EOL);
-    for(STAT stat : stats.getStats())
+    for(StatDescription stat : stats.getStats())
     {
       String name=stat.getName();
       String value=stats.getStat(stat).toString();

@@ -9,7 +9,7 @@ import javax.swing.WindowConstants;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.character.stats.BasicStatsSet;
-import delta.games.lotro.character.stats.STAT;
+import delta.games.lotro.common.stats.WellKnownStat;
 import delta.games.lotro.utils.FixedDecimalsInteger;
 
 /**
@@ -21,18 +21,18 @@ public class MainTestSingleStatWidgetsController
   private void doIt()
   {
     BasicStatsSet value=new BasicStatsSet();
-    value.addStat(STAT.MORALE,new FixedDecimalsInteger(100));
-    value.addStat(STAT.CRITICAL_MELEE_PERCENTAGE,new FixedDecimalsInteger(12.3f));
+    value.addStat(WellKnownStat.MORALE,new FixedDecimalsInteger(100));
+    value.addStat(WellKnownStat.CRITICAL_MELEE_PERCENTAGE,new FixedDecimalsInteger(12.3f));
     BasicStatsSet reference=new BasicStatsSet();
-    reference.addStat(STAT.MORALE,new FixedDecimalsInteger(67));
-    reference.addStat(STAT.CRITICAL_MELEE_PERCENTAGE,new FixedDecimalsInteger(13.3f));
+    reference.addStat(WellKnownStat.MORALE,new FixedDecimalsInteger(67));
+    reference.addStat(WellKnownStat.CRITICAL_MELEE_PERCENTAGE,new FixedDecimalsInteger(13.3f));
 
     JLabel morale=GuiFactory.buildLabel("Morale");
-    SingleStatWidgetsController moraleCtrl=new SingleStatWidgetsController(STAT.MORALE,false);
+    SingleStatWidgetsController moraleCtrl=new SingleStatWidgetsController(WellKnownStat.MORALE,false);
     moraleCtrl.updateStats(reference,value);
     showFrameForStat(morale,moraleCtrl);
     JLabel critMelee=GuiFactory.buildLabel("Crit Melee %");
-    SingleStatWidgetsController critCtrl=new SingleStatWidgetsController(STAT.CRITICAL_MELEE_PERCENTAGE,true);
+    SingleStatWidgetsController critCtrl=new SingleStatWidgetsController(WellKnownStat.CRITICAL_MELEE_PERCENTAGE,true);
     critCtrl.updateStats(reference,value);
     showFrameForStat(critMelee,critCtrl);
   }

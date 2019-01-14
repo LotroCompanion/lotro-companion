@@ -20,10 +20,10 @@ import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.common.ui.swing.combobox.ItemSelectionListener;
 import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.stats.CharacterStatsComputer;
-import delta.games.lotro.character.stats.STAT;
 import delta.games.lotro.character.stats.contribs.ContribsByStat;
 import delta.games.lotro.character.stats.contribs.StatContribution;
 import delta.games.lotro.character.stats.contribs.StatsContributionsManager;
+import delta.games.lotro.common.stats.StatDescription;
 import delta.games.lotro.gui.character.stats.StatDisplayUtils;
 import delta.games.lotro.utils.FixedDecimalsInteger;
 
@@ -42,7 +42,7 @@ public class StatContribsPanelController
   private JPanel _panel;
   private JLabel _totals;
   // Controllers
-  private ComboBoxController<STAT> _statChooser;
+  private ComboBoxController<StatDescription> _statChooser;
   private StatContribsChartPanelController _chartPanel;
   private CheckboxController _merged;
   private StatContribsTableController _table;
@@ -170,19 +170,15 @@ public class StatContribsPanelController
 
   private void updateStatCombo()
   {
-    STAT currentStat=_statChooser.getSelectedItem();
+    StatDescription currentStat=_statChooser.getSelectedItem();
     _statChooser.removeAllItems();
     boolean found=false;
-    for(STAT stat : STAT.values())
+    for(StatDescription stat : _contribs.getContributingStats())
     {
-      ContribsByStat contribs=_contribs.getContribs(stat);
-      if (contribs!=null)
+      _statChooser.addItem(stat,stat.getName());
+      if (stat==currentStat)
       {
-        _statChooser.addItem(stat,stat.getName());
-        if (stat==currentStat)
-        {
-          found=true;
-        }
+        found=true;
       }
     }
     if (found)
@@ -191,13 +187,13 @@ public class StatContribsPanelController
     }
   }
 
-  private ComboBoxController<STAT> buildStatCombo()
+  private ComboBoxController<StatDescription> buildStatCombo()
   {
-    ComboBoxController<STAT> controller=new ComboBoxController<STAT>();
-    ItemSelectionListener<STAT> listener=new ItemSelectionListener<STAT>()
+    ComboBoxController<StatDescription> controller=new ComboBoxController<StatDescription>();
+    ItemSelectionListener<StatDescription> listener=new ItemSelectionListener<StatDescription>()
     {
       @Override
-      public void itemSelected(STAT stat)
+      public void itemSelected(StatDescription stat)
       {
         updateStat(stat);
       }
@@ -206,7 +202,7 @@ public class StatContribsPanelController
     return controller;
   }
 
-  private void updateStat(STAT stat)
+  private void updateStat(StatDescription stat)
   {
     if (stat==null)
     {

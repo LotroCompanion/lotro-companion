@@ -7,12 +7,12 @@ import javax.swing.ImageIcon;
 
 import delta.common.ui.swing.icons.ApplicationIcons;
 import delta.common.ui.swing.icons.IconsManager;
-import delta.games.lotro.character.stats.STAT;
 import delta.games.lotro.character.traits.TraitDescription;
 import delta.games.lotro.character.traits.TraitsManager;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.CharacterSex;
 import delta.games.lotro.common.Race;
+import delta.games.lotro.common.stats.StatDescription;
 import delta.games.lotro.lore.crafting.Profession;
 import delta.games.lotro.lore.deeds.DeedType;
 
@@ -144,9 +144,9 @@ public class LotroIconsManager
    * @param stat Targeted stat.
    * @return An icon or <code>null</code> if not found.
    */
-  public static ImageIcon getTomeIcon(STAT stat)
+  public static ImageIcon getTomeIcon(StatDescription stat)
   {
-    String path="/resources/gui/tomes/"+stat.getKey().toLowerCase()+".png";
+    String path="/resources/gui/tomes/"+stat.getPersistenceKey().toLowerCase()+".png";
     return IconsManager.getIcon(path);
   }
 

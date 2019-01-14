@@ -12,9 +12,9 @@ import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.character.stats.CharacterGenerationTools;
 import delta.games.lotro.character.stats.CharacterGeneratorGiswald;
 import delta.games.lotro.character.stats.CharacterStatsComputer;
-import delta.games.lotro.character.stats.STAT;
 import delta.games.lotro.character.stats.contribs.ContribsByStat;
 import delta.games.lotro.character.stats.contribs.StatsContributionsManager;
+import delta.games.lotro.common.stats.StatDescription;
 
 /**
  * Test for the stat contributions chart.
@@ -41,16 +41,13 @@ public class MainTestStatContribsChart
     JPanel panel=GuiFactory.buildBackgroundPanel(new BorderLayout());
     JTabbedPane tabs=GuiFactory.buildTabbedPane();
     panel.add(tabs,BorderLayout.CENTER);
-    for(STAT stat : STAT.values())
+    for(StatDescription stat : contribs.getContributingStats())
     {
       ContribsByStat contribsForStat=contribs.getContribs(stat);
-      if (contribsForStat!=null)
-      {
-        StatContribsChartPanelController chartController=new StatContribsChartPanelController();
-        chartController.setContributions(contribsForStat);
-        JPanel statPanel=chartController.getPanel();
-        tabs.add(stat.getName(),statPanel);
-      }
+      StatContribsChartPanelController chartController=new StatContribsChartPanelController();
+      chartController.setContributions(contribsForStat);
+      JPanel statPanel=chartController.getPanel();
+      tabs.add(stat.getName(),statPanel);
     }
     DefaultWindowController w=new DefaultWindowController();
     w.getFrame().add(panel);

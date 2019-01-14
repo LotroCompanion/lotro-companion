@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import delta.games.lotro.character.CharacterEquipment.EQUIMENT_SLOT;
-import delta.games.lotro.character.stats.STAT;
 import delta.games.lotro.common.CharacterClass;
+import delta.games.lotro.common.stats.WellKnownStat;
 import delta.games.lotro.gui.items.ItemColumnIds;
 
 /**
@@ -49,13 +49,13 @@ public class ItemChoiceTableColumnsManager
         || (slot==EQUIMENT_SLOT.FEET) || (slot==EQUIMENT_SLOT.SHOULDER))
     {
       ret.add(ItemColumnIds.SLOT_COUNT.name());
-      ret.add(STAT.ARMOUR.name());
+      ret.add(WellKnownStat.ARMOUR.getLegacyKey());
       ret.add(ItemColumnIds.ARMOUR_TYPE.name());
     }
     else if (slot==EQUIMENT_SLOT.BACK)
     {
       ret.add(ItemColumnIds.SLOT_COUNT.name());
-      ret.add(STAT.ARMOUR.name());
+      ret.add(WellKnownStat.ARMOUR.getLegacyKey());
     }
     else if (slot==EQUIMENT_SLOT.MAIN_MELEE)
     {
@@ -67,7 +67,7 @@ public class ItemChoiceTableColumnsManager
     else if (slot==EQUIMENT_SLOT.OTHER_MELEE)
     {
       ret.add(ItemColumnIds.WEAPON_TYPE.name());
-      ret.add(STAT.ARMOUR.name());
+      ret.add(WellKnownStat.ARMOUR.getLegacyKey());
       ret.add(ItemColumnIds.ARMOUR_TYPE.name());
     }
     else if (slot==EQUIMENT_SLOT.RANGED)
@@ -89,29 +89,29 @@ public class ItemChoiceTableColumnsManager
   {
     List<String> ret=new ArrayList<String>();
     // Stats
-    ret.add(STAT.MORALE.name());
-    ret.add(STAT.VITALITY.name());
+    ret.add(WellKnownStat.MORALE.getLegacyKey());
+    ret.add(WellKnownStat.VITALITY.getLegacyKey());
     if ((characterClass==CharacterClass.LORE_MASTER) || (characterClass==CharacterClass.MINSTREL) || (characterClass==CharacterClass.RUNE_KEEPER))
     {
       // Will
-      ret.add(STAT.WILL.name());
-      ret.add(STAT.TACTICAL_MASTERY.name());
+      ret.add(WellKnownStat.WILL.getLegacyKey());
+      ret.add(WellKnownStat.TACTICAL_MASTERY.getLegacyKey());
     }
     else if ((characterClass==CharacterClass.BEORNING) || (characterClass==CharacterClass.CAPTAIN)
         || (characterClass==CharacterClass.CHAMPION) || (characterClass==CharacterClass.GUARDIAN))
     {
       // Might
-      ret.add(STAT.MIGHT.name());
-      ret.add(STAT.PHYSICAL_MASTERY.name());
+      ret.add(WellKnownStat.MIGHT.getLegacyKey());
+      ret.add(WellKnownStat.PHYSICAL_MASTERY.getLegacyKey());
     }
     else if ((characterClass==CharacterClass.BURGLAR) || (characterClass==CharacterClass.HUNTER) || (characterClass==CharacterClass.WARDEN))
     {
       // Agility
-      ret.add(STAT.AGILITY.name());
-      ret.add(STAT.PHYSICAL_MASTERY.name());
+      ret.add(WellKnownStat.AGILITY.getLegacyKey());
+      ret.add(WellKnownStat.PHYSICAL_MASTERY.getLegacyKey());
     }
-    ret.add(STAT.CRITICAL_RATING.name());
-    ret.add(STAT.FINESSE.name());
+    ret.add(WellKnownStat.CRITICAL_RATING.getLegacyKey());
+    ret.add(WellKnownStat.FINESSE.getLegacyKey());
     return ret;
   }
 }

@@ -28,7 +28,7 @@ import delta.common.ui.swing.text.range.RangeListener;
 import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.character.CharacterSummary;
-import delta.games.lotro.character.stats.STAT;
+import delta.games.lotro.common.stats.StatDescription;
 import delta.games.lotro.gui.items.AbstractItemFilterPanelController;
 import delta.games.lotro.gui.items.ItemUiTools;
 import delta.games.lotro.lore.items.ArmourType;
@@ -37,9 +37,9 @@ import delta.games.lotro.lore.items.ItemQuality;
 import delta.games.lotro.lore.items.WeaponType;
 import delta.games.lotro.lore.items.filters.ArmourTypeFilter;
 import delta.games.lotro.lore.items.filters.CharacterProficienciesFilter;
+import delta.games.lotro.lore.items.filters.ItemCharacterLevelFilter;
 import delta.games.lotro.lore.items.filters.ItemLevelFilter;
 import delta.games.lotro.lore.items.filters.ItemRequiredClassFilter;
-import delta.games.lotro.lore.items.filters.ItemCharacterLevelFilter;
 import delta.games.lotro.lore.items.filters.ItemStatFilter;
 import delta.games.lotro.lore.items.filters.WeaponTypeFilter;
 
@@ -64,7 +64,7 @@ public class ItemFilterController extends AbstractItemFilterPanelController
   private ComboBoxController<WeaponType> _weaponType;
   private ComboBoxController<ArmourType> _armourType;
   private ComboBoxController<ArmourType> _shieldType;
-  private List<ComboBoxController<STAT>> _stats;
+  private List<ComboBoxController<StatDescription>> _stats;
   private CheckboxController _classRequirement;
   private CheckboxController _characterLevelRequirement;
   private CheckboxController _proficienciesRequirement;
@@ -314,17 +314,17 @@ public class ItemFilterController extends AbstractItemFilterPanelController
   {
     JPanel panel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
     {
-      _stats=new ArrayList<ComboBoxController<STAT>>();
+      _stats=new ArrayList<ComboBoxController<StatDescription>>();
       JPanel statPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING));
       for(int i=0;i<ItemChooserFilter.NB_STATS;i++)
       {
         statPanel.add(GuiFactory.buildLabel("Stat:"));
-        ComboBoxController<STAT> statChooser=ItemUiTools.buildStatChooser();
+        ComboBoxController<StatDescription> statChooser=ItemUiTools.buildStatChooser();
         final int statIndex=i;
-        ItemSelectionListener<STAT> statListener=new ItemSelectionListener<STAT>()
+        ItemSelectionListener<StatDescription> statListener=new ItemSelectionListener<StatDescription>()
         {
           @Override
-          public void itemSelected(STAT stat)
+          public void itemSelected(StatDescription stat)
           {
             _filter.getStatFilter().setStat(statIndex,stat);
             filterUpdated();
@@ -652,7 +652,7 @@ public class ItemFilterController extends AbstractItemFilterPanelController
     // Stats
     if (_stats!=null)
     {
-      for(ComboBoxController<STAT> statCombo : _stats)
+      for(ComboBoxController<StatDescription> statCombo : _stats)
       {
         statCombo.dispose();
       }

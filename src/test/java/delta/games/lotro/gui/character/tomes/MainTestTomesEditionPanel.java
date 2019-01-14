@@ -4,8 +4,8 @@ import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
 import delta.games.lotro.character.CharacterData;
-import delta.games.lotro.character.stats.STAT;
 import delta.games.lotro.character.stats.tomes.TomesSet;
+import delta.games.lotro.common.stats.WellKnownStat;
 
 /**
  * Test for tomes edition panel.
@@ -21,7 +21,7 @@ public class MainTestTomesEditionPanel
   {
     CharacterData c=new CharacterData();
     TomesSet tomes=c.getTomes();
-    tomes.setTomeRank(STAT.MIGHT,5);
+    tomes.setTomeRank(WellKnownStat.MIGHT,5);
     TomesEditionPanelController controller=new TomesEditionPanelController(c);
     JFrame frame=new JFrame("Tomes edition");
     frame.add(controller.getPanel());

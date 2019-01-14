@@ -4,7 +4,7 @@ import java.util.Set;
 
 import delta.common.utils.i18n.Translator;
 import delta.common.utils.i18n.TranslatorsManager;
-import delta.games.lotro.character.stats.STAT;
+import delta.games.lotro.common.stats.StatDescription;
 
 /**
  * Stat labels provider.
@@ -27,9 +27,9 @@ public class StatLabels
    * @param stat Targeted stat.
    * @return A displayable label.
    */
-  public static String getStatLabel(STAT stat)
+  public static String getStatLabel(StatDescription stat)
   {
-    return TRANSLATOR.translate(stat.getKey());
+    return TRANSLATOR.translate(stat.getPersistenceKey());
   }
 
   /**

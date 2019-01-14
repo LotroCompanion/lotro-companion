@@ -8,8 +8,8 @@ import javax.swing.JLabel;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.icons.IconWithText;
 import delta.common.utils.text.EndOfLine;
-import delta.games.lotro.character.stats.STAT;
 import delta.games.lotro.character.stats.tomes.TomesSet;
+import delta.games.lotro.common.stats.StatDescription;
 import delta.games.lotro.gui.LotroIconsManager;
 
 /**
@@ -19,7 +19,7 @@ import delta.games.lotro.gui.LotroIconsManager;
 public class TomeIconController
 {
   private TomesSet _tomes;
-  private STAT _stat;
+  private StatDescription _stat;
   private JLabel _label;
   private IconWithText _icon;
 
@@ -28,7 +28,7 @@ public class TomeIconController
    * @param tomes Tomes to edit.
    * @param stat Stat to use.
    */
-  public TomeIconController(TomesSet tomes, STAT stat)
+  public TomeIconController(TomesSet tomes, StatDescription stat)
   {
     _tomes=tomes;
     _stat=stat;
@@ -42,7 +42,7 @@ public class TomeIconController
    * Get the managed stat.
    * @return the managed stat.
    */
-  public STAT getStat()
+  public StatDescription getStat()
   {
     return _stat;
   }
@@ -78,7 +78,7 @@ public class TomeIconController
    * @param stat Stat to use.
    * @return An icon with embedded text to display tier.
    */
-  private IconWithText buildStatIcon(STAT stat)
+  private IconWithText buildStatIcon(StatDescription stat)
   {
     ImageIcon icon=LotroIconsManager.getTomeIcon(stat);
     IconWithText labeledIcon=new IconWithText(icon,"",Color.WHITE);

@@ -6,7 +6,7 @@ import javax.swing.JLabel;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.character.stats.BasicStatsSet;
-import delta.games.lotro.character.stats.STAT;
+import delta.games.lotro.common.stats.StatDescription;
 import delta.games.lotro.gui.character.stats.StatDisplayUtils;
 import delta.games.lotro.utils.FixedDecimalsInteger;
 
@@ -17,7 +17,7 @@ import delta.games.lotro.utils.FixedDecimalsInteger;
 public class SingleStatWidgetsController
 {
   private boolean _isPercentage;
-  private STAT _stat;
+  private StatDescription _stat;
   private JLabel _value;
   private JLabel _deltaValue;
 
@@ -26,7 +26,7 @@ public class SingleStatWidgetsController
    * @param stat Stat to use.
    * @param isPercentage Stat is a percentage or not.
    */
-  public SingleStatWidgetsController(STAT stat, boolean isPercentage)
+  public SingleStatWidgetsController(StatDescription stat, boolean isPercentage)
   {
     _stat=stat;
     _isPercentage=isPercentage;

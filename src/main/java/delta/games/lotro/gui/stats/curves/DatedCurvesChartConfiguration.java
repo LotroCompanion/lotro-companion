@@ -70,7 +70,8 @@ public class DatedCurvesChartConfiguration
    * Get the ticks for the value axis.
    * @return some tick values, or <code>null</code> to use defaults.
    */
-  public double[] getValueAxisTicks() {
+  public double[] getValueAxisTicks()
+  {
     return _valueAxisTicks;
   }
 
@@ -78,7 +79,8 @@ public class DatedCurvesChartConfiguration
    * Set the ticks for the value axis.
    * @param ticks Ticks to set.
    */
-  public void setValueAxisTicks(double[] ticks) {
+  public void setValueAxisTicks(double[] ticks)
+  {
     _valueAxisTicks = ticks;
   }
 }

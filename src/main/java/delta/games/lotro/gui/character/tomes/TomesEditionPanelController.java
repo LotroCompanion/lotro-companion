@@ -17,8 +17,8 @@ import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.events.CharacterEvent;
 import delta.games.lotro.character.events.CharacterEventType;
-import delta.games.lotro.character.stats.STAT;
 import delta.games.lotro.character.stats.tomes.TomesSet;
+import delta.games.lotro.common.stats.StatDescription;
 import delta.games.lotro.utils.events.EventsManager;
 
 /**
@@ -86,14 +86,14 @@ public class TomesEditionPanelController
   private void buildTomesControllers(JPanel panel)
   {
     TomesSet tomes=_toon.getTomes();
-    for(STAT stat : TomesSet.AVAILABLE_TOMES)
+    for(StatDescription stat : TomesSet.AVAILABLE_TOMES)
     {
       TomeIconController controller=buildTomeController(tomes,stat);
       _tomeControllers.add(controller);
     }
   }
 
-  private TomeIconController buildTomeController(TomesSet tomes, STAT stat)
+  private TomeIconController buildTomeController(TomesSet tomes, StatDescription stat)
   {
     TomeIconController controller=new TomeIconController(tomes,stat);
     JLabel label=controller.getLabel();
@@ -157,7 +157,7 @@ public class TomesEditionPanelController
   private void updateTier(int index,int delta)
   {
     TomesSet tomes=_toon.getTomes();
-    STAT stat=TomesSet.AVAILABLE_TOMES[index];
+    StatDescription stat=TomesSet.AVAILABLE_TOMES[index];
     int currentTierIndex=tomes.getTomeRank(stat);
     currentTierIndex+=delta;
     if (currentTierIndex>TomesSet.MAX_RANK)

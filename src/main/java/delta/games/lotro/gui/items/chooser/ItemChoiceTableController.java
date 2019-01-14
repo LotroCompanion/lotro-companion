@@ -16,8 +16,9 @@ import delta.common.utils.NumericTools;
 import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.character.stats.BasicStatsSet;
-import delta.games.lotro.character.stats.STAT;
 import delta.games.lotro.common.CharacterClass;
+import delta.games.lotro.common.stats.StatDescription;
+import delta.games.lotro.common.stats.StatsRegistry;
 import delta.games.lotro.gui.items.ItemColumnIds;
 import delta.games.lotro.gui.items.ItemUiTools;
 import delta.games.lotro.lore.items.Armour;
@@ -313,14 +314,15 @@ public class ItemChoiceTableController
       columns.add(bindingColumn);
     }
     // Stat columns
-    for(STAT stat : STAT.values())
+    StatsRegistry registry=StatsRegistry.getInstance();
+    for(StatDescription stat : registry.getAll())
     {
       columns.add(buildStatColumn(stat));
     }
     return columns;
   }
 
-  private static DefaultTableColumnController<Item,FixedDecimalsInteger> buildStatColumn(final STAT stat)
+  private static DefaultTableColumnController<Item,FixedDecimalsInteger> buildStatColumn(final StatDescription stat)
   {
     CellDataProvider<Item,FixedDecimalsInteger> statCell=new CellDataProvider<Item,FixedDecimalsInteger>()
     {
@@ -332,7 +334,9 @@ public class ItemChoiceTableController
         return value;
       }
     };
-    DefaultTableColumnController<Item,FixedDecimalsInteger> statColumn=new DefaultTableColumnController<Item,FixedDecimalsInteger>(stat.name(),stat.getName(),FixedDecimalsInteger.class,statCell);
+    String id=stat.getPersistenceKey();
+    String name=stat.getName();
+    DefaultTableColumnController<Item,FixedDecimalsInteger> statColumn=new DefaultTableColumnController<Item,FixedDecimalsInteger>(id,name,FixedDecimalsInteger.class,statCell);
     statColumn.setWidthSpecs(55,55,50);
     return statColumn;
   }

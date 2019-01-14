@@ -2,18 +2,19 @@ package delta.games.lotro.gui.items.chooser;
 
 import delta.common.utils.BooleanTools;
 import delta.common.utils.misc.TypedProperties;
-import delta.games.lotro.character.stats.STAT;
+import delta.games.lotro.common.stats.StatDescription;
+import delta.games.lotro.common.stats.StatsRegistry;
 import delta.games.lotro.lore.items.ArmourType;
 import delta.games.lotro.lore.items.ItemQuality;
 import delta.games.lotro.lore.items.WeaponType;
 import delta.games.lotro.lore.items.filters.ArmourTypeFilter;
 import delta.games.lotro.lore.items.filters.CharacterProficienciesFilter;
 import delta.games.lotro.lore.items.filters.EssenceTierFilter;
+import delta.games.lotro.lore.items.filters.ItemCharacterLevelFilter;
 import delta.games.lotro.lore.items.filters.ItemLevelFilter;
 import delta.games.lotro.lore.items.filters.ItemNameFilter;
 import delta.games.lotro.lore.items.filters.ItemQualityFilter;
 import delta.games.lotro.lore.items.filters.ItemRequiredClassFilter;
-import delta.games.lotro.lore.items.filters.ItemCharacterLevelFilter;
 import delta.games.lotro.lore.items.filters.ItemStatFilter;
 import delta.games.lotro.lore.items.filters.LegendaryItemFilter;
 import delta.games.lotro.lore.items.filters.WeaponTypeFilter;
@@ -137,7 +138,7 @@ public class ItemChooserFilterIo
       {
         String statKey=STAT_SEED+i;
         String statStr=props.getStringProperty(statKey,null);
-        STAT stat=STAT.getByName(statStr);
+        StatDescription stat=StatsRegistry.getInstance().getByKey(statStr);
         statFilter.setStat(i,stat);
       }
     }
@@ -274,7 +275,7 @@ public class ItemChooserFilterIo
       int nbStats=statFilter.getNbItems();
       for(int i=0;i<nbStats;i++)
       {
-        STAT stat=statFilter.getStat(i);
+        StatDescription stat=statFilter.getStat(i);
         String statKey=STAT_SEED+i;
         if (stat!=null)
         {

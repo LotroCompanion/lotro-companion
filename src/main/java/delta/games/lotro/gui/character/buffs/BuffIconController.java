@@ -10,9 +10,9 @@ import delta.common.ui.swing.icons.IconWithText;
 import delta.common.utils.text.EndOfLine;
 import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.stats.BasicStatsSet;
-import delta.games.lotro.character.stats.STAT;
 import delta.games.lotro.character.stats.buffs.Buff;
 import delta.games.lotro.character.stats.buffs.BuffInstance;
+import delta.games.lotro.common.stats.StatDescription;
 import delta.games.lotro.gui.LotroIconsManager;
 
 /**
@@ -97,7 +97,7 @@ public class BuffIconController
     BasicStatsSet stats=_buff.getStats(_toon);
     if (stats!=null)
     {
-      for(STAT stat : stats.getStats())
+      for(StatDescription stat : stats.getStats())
       {
         String name=stat.getName();
         String value=stats.getStat(stat).toString();

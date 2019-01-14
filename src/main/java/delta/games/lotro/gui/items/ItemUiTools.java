@@ -1,6 +1,8 @@
 package delta.games.lotro.gui.items;
 
 import java.awt.Color;
+import java.util.Collections;
+import java.util.List;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -9,9 +11,10 @@ import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.common.ui.swing.icons.IconWithText;
 import delta.common.ui.swing.icons.IconWithText.Position;
 import delta.common.utils.NumericTools;
-import delta.games.lotro.character.stats.STAT;
+import delta.games.lotro.character.stats.StatNameComparator;
+import delta.games.lotro.common.stats.StatDescription;
+import delta.games.lotro.common.stats.StatsRegistry;
 import delta.games.lotro.gui.LotroIconsManager;
-import delta.games.lotro.gui.character.stats.StatLabels;
 import delta.games.lotro.lore.items.ArmourType;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemQuality;
@@ -140,13 +143,15 @@ public class ItemUiTools
    * Build a controller for combo box to choose a stat.
    * @return A new controller.
    */
-  public static ComboBoxController<STAT> buildStatChooser()
+  public static ComboBoxController<StatDescription> buildStatChooser()
   {
-    ComboBoxController<STAT> controller=new ComboBoxController<STAT>();
+    ComboBoxController<StatDescription> controller=new ComboBoxController<StatDescription>();
     controller.addEmptyItem("");
-    for(STAT stat : STAT.getAll())
+    List<StatDescription> allStats=StatsRegistry.getInstance().getAll();
+    Collections.sort(allStats,new StatNameComparator());
+    for(StatDescription stat : allStats)
     {
-      String label=StatLabels.getStatLabel(stat);
+      String label=stat.getName();
       controller.addItem(stat,label);
     }
     controller.selectItem(null);
