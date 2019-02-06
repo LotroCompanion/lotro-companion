@@ -9,11 +9,12 @@ import java.util.Map;
 
 import delta.common.utils.NumericTools;
 import delta.common.utils.misc.IntegerHolder;
-import delta.games.lotro.LotroCoreConfig;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.log.CharacterLog;
 import delta.games.lotro.character.log.CharacterLogItem;
 import delta.games.lotro.character.log.CharacterLogItem.LogItemType;
+import delta.games.lotro.config.DataFiles;
+import delta.games.lotro.config.LotroCoreConfig;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.DeedsManager;
 import delta.games.lotro.lore.deeds.io.xml.DeedXMLParser;
@@ -31,8 +32,8 @@ public class DeedsStatusFromCharacterLog
 
   private void loadLorebookDeeds()
   {
-    File loreDir=LotroCoreConfig.getInstance().getLoreDir();
-    File deedFile=new File(loreDir,"deeds-from-lorebook.xml");
+    File rootDir=LotroCoreConfig.getInstance().getFile(DataFiles.ROOT);
+    File deedFile=new File(rootDir,"data/lore/deeds-from-lorebook.xml");
     DeedXMLParser parser=new DeedXMLParser();
     List<DeedDescription> deeds=parser.parseXML(deedFile);
     for(DeedDescription deed : deeds)

@@ -9,6 +9,8 @@ import delta.common.utils.misc.Preferences;
 import delta.common.utils.misc.TypedProperties;
 import delta.common.utils.text.EncodingNames;
 import delta.common.utils.text.TextUtils;
+import delta.games.lotro.config.DataFiles;
+import delta.games.lotro.config.LotroCoreConfig;
 
 /**
  * Configuration.
@@ -18,7 +20,6 @@ public final class Config
 {
   private static Config _instance=new Config();
 
-  private File _configDir;
   private File _mapsDir;
   private TypedProperties _parameters;
   private Preferences _preferences;
@@ -41,12 +42,10 @@ public final class Config
     LotroCoreConfig coreConfig=LotroCoreConfig.getInstance();
 
     // Lore
-    File loreDir=coreConfig.getLoreDir();
-    _mapsDir=new File(loreDir,"maps");
+    _mapsDir=coreConfig.getFile(DataFiles.MAPS);
 
     // Configuration
-    _configDir=coreConfig.getConfigDir();
-    File parametersFiles=new File(_configDir,"params.txt");
+    File parametersFiles=coreConfig.getFile(DataFiles.PARAMETERS);
     _parameters=new TypedProperties();
     _parameters.loadFromFile(parametersFiles);
 
@@ -58,15 +57,6 @@ public final class Config
 
     // Load servers
     loadServers();
-  }
-
-  /**
-   * Get the root storage directory for configuration files.
-   * @return a directory.
-   */
-  public File getConfigDir()
-  {
-    return _configDir;
   }
 
   /**
@@ -119,7 +109,7 @@ public final class Config
   private void loadServers()
   {
     _servers=new ArrayList<String>();
-    File serversFiles=new File(_configDir,"servers.txt");
+    File serversFiles=LotroCoreConfig.getInstance().getFile(DataFiles.SERVERS);
     List<String> servers=TextUtils.readAsLines(serversFiles,EncodingNames.UTF_8);
     if (servers!=null)
     {

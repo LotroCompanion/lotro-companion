@@ -4,9 +4,10 @@ import java.io.File;
 import java.util.List;
 
 import delta.common.utils.text.EncodingNames;
-import delta.games.lotro.LotroCoreConfig;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.common.CharacterClass;
+import delta.games.lotro.config.DataFiles;
+import delta.games.lotro.config.LotroCoreConfig;
 import delta.games.lotro.stats.traitPoints.io.xml.TraitPointsRegistryXMLParser;
 import delta.games.lotro.stats.traitPoints.io.xml.TraitPointsStatusXMLParser;
 import delta.games.lotro.stats.traitPoints.io.xml.TraitPointsStatusXMLWriter;
@@ -92,8 +93,7 @@ public final class TraitPoints
   private TraitPointsRegistry loadRegistry()
   {
     LotroCoreConfig cfg=LotroCoreConfig.getInstance();
-    File loreDir=cfg.getLoreDir();
-    File registryFile=new File(loreDir,"traitPoints.xml");
+    File registryFile=cfg.getFile(DataFiles.TRAIT_POINTS);
     TraitPointsRegistryXMLParser parser=new TraitPointsRegistryXMLParser();
     TraitPointsRegistry registry=parser.parseXML(registryFile);
     if (registry==null)

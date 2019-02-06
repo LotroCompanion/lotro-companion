@@ -18,6 +18,8 @@ import delta.common.ui.swing.tables.TableColumnsManager;
 import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.common.Duration;
+import delta.games.lotro.config.DataFiles;
+import delta.games.lotro.config.LotroCoreConfig;
 import delta.games.lotro.gui.items.chooser.ItemChoiceWindowController;
 import delta.games.lotro.gui.recipes.ItemsSummaryPanelController.Mode;
 import delta.games.lotro.lore.crafting.recipes.Recipe;
@@ -340,7 +342,8 @@ public class RecipesTableController
   {
     reset();
     RecipesManager recipesManager=new RecipesManager();
-    recipesManager.loadRecipesFromFile(new File("data/lore/recipes.xml").getAbsoluteFile());
+    File fromFile=LotroCoreConfig.getInstance().getFile(DataFiles.RECIPES);
+    recipesManager.loadRecipesFromFile(fromFile);
     List<Recipe> recipes=recipesManager.getAll();
     for(Recipe recipe : recipes)
     {

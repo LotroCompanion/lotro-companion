@@ -15,6 +15,8 @@ import delta.common.ui.swing.tables.ListDataProvider;
 import delta.common.ui.swing.tables.TableColumnsManager;
 import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.misc.TypedProperties;
+import delta.games.lotro.config.DataFiles;
+import delta.games.lotro.config.LotroCoreConfig;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.items.chooser.ItemChoiceWindowController;
 import delta.games.lotro.lore.titles.TitleDescription;
@@ -222,7 +224,7 @@ public class TitlesTableController
   private void init()
   {
     reset();
-    File fromFile=new File("data/lore/titles.xml").getAbsoluteFile();
+    File fromFile=LotroCoreConfig.getInstance().getFile(DataFiles.TITLES);
     List<TitleDescription> titles=new TitleXMLParser().parseXML(fromFile);
     for(TitleDescription title : titles)
     {
