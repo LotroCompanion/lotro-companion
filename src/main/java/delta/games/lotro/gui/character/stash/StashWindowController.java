@@ -33,6 +33,7 @@ import delta.games.lotro.gui.items.chooser.ItemFilterConfiguration;
 import delta.games.lotro.gui.items.chooser.ItemFilterController;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemFactory;
+import delta.games.lotro.lore.items.ItemInstance;
 import delta.games.lotro.utils.events.EventsManager;
 import delta.games.lotro.utils.events.GenericEventsListener;
 
@@ -85,7 +86,7 @@ public class StashWindowController extends DefaultWindowController implements Ac
     ItemFilterConfiguration cfg=new ItemFilterConfiguration();
     cfg.forStashFilter();
     ItemFilterController filterController=new ItemFilterController(cfg,null,null);
-    Filter<Item> filter=filterController.getFilter();
+    final Filter<Item> filter=filterController.getFilter();
     filterController.setFilterUpdateListener(this);
     JPanel filterPanel=filterController.getPanel();
     TitledBorder filterBorder=GuiFactory.buildTitledBorder("Filter");
@@ -96,7 +97,15 @@ public class StashWindowController extends DefaultWindowController implements Ac
     c.gridy=1;c.weighty=1;c.fill=GridBagConstraints.BOTH;
     panel.add(tablePanel,c);
     tablePanel.setBorder(GuiFactory.buildTitledBorder("Items"));
-    _itemsTable.getTableController().setFilter(filter);
+    Filter<ItemInstance<? extends Item>> instanceFilter=new Filter<ItemInstance<? extends Item>>()
+    {
+      @Override
+      public boolean accept(ItemInstance<? extends Item> item)
+      {
+        return filter.accept(item.getReference());
+      }
+    };
+    _itemsTable.getTableController().setFilter(instanceFilter);
     return panel;
   }
 
@@ -173,7 +182,8 @@ public class StashWindowController extends DefaultWindowController implements Ac
     }
     else if (GenericTableController.DOUBLE_CLICK.equals(command))
     {
-      Item data=(Item)e.getSource();
+      @SuppressWarnings("unchecked")
+      ItemInstance<? extends Item> data=(ItemInstance<? extends Item>)e.getSource();
       editItem(data);
     }
   }
@@ -225,7 +235,7 @@ public class StashWindowController extends DefaultWindowController implements Ac
     return tableController;
   }
 
-  private void editItem(Item item)
+  private void editItem(ItemInstance<? extends Item> item)
   {
     ItemEditionWindowController ctrl=new ItemEditionWindowController(this,_toon.getSummary(),item);
     ctrl.show(true);
@@ -234,11 +244,11 @@ public class StashWindowController extends DefaultWindowController implements Ac
 
   private void cloneItem()
   {
-    GenericTableController<Item> controller=_itemsTable.getTableController();
-    Item item=controller.getSelectedItem();
+    GenericTableController<ItemInstance<? extends Item>> controller=_itemsTable.getTableController();
+    ItemInstance<? extends Item> item=controller.getSelectedItem();
     if (item!=null)
     {
-      Item clone=ItemFactory.clone(item);
+      ItemInstance<? extends Item> clone=ItemFactory.cloneInstance(item);
       clone.setStashIdentifier(null);
       ItemsStash stash=_toon.getStash();
       stash.addItem(clone);
@@ -249,8 +259,8 @@ public class StashWindowController extends DefaultWindowController implements Ac
 
   private void removeItem()
   {
-    GenericTableController<Item> controller=_itemsTable.getTableController();
-    Item item=controller.getSelectedItem();
+    GenericTableController<ItemInstance<? extends Item>> controller=_itemsTable.getTableController();
+    ItemInstance<? extends Item> item=controller.getSelectedItem();
     if (item!=null)
     {
       ItemsStash stash=_toon.getStash();

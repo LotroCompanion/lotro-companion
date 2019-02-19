@@ -40,14 +40,15 @@ import delta.games.lotro.lore.items.DamageType;
 import delta.games.lotro.lore.items.EquipmentLocation;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemBinding;
+import delta.games.lotro.lore.items.ItemInstance;
 import delta.games.lotro.lore.items.ItemPropertyNames;
 import delta.games.lotro.lore.items.ItemQuality;
 import delta.games.lotro.lore.items.ItemSturdiness;
 import delta.games.lotro.lore.items.Weapon;
 import delta.games.lotro.lore.items.WeaponType;
 import delta.games.lotro.lore.items.essences.EssencesSet;
-import delta.games.lotro.lore.items.legendary.Legendary;
 import delta.games.lotro.lore.items.legendary.LegendaryAttrs;
+import delta.games.lotro.lore.items.legendary.LegendaryInstance;
 import delta.games.lotro.lore.items.scaling.Munging;
 import delta.games.lotro.utils.FixedDecimalsInteger;
 import delta.games.lotro.utils.maths.Progression;
@@ -59,6 +60,7 @@ import delta.games.lotro.utils.maths.Progression;
 public class ItemEditionPanelController
 {
   // Data
+  private ItemInstance<? extends Item> _itemInstance;
   private Item _item;
   private Munging _munging;
   private CharacterSummary _character;
@@ -105,13 +107,14 @@ public class ItemEditionPanelController
    * Constructor.
    * @param parent Parent window.
    * @param character Character data.
-   * @param item Item.
+   * @param itemInstance Item instance.
    */
-  public ItemEditionPanelController(WindowController parent, CharacterSummary character, Item item)
+  public ItemEditionPanelController(WindowController parent, CharacterSummary character, ItemInstance<? extends Item> itemInstance)
   {
     _parent=parent;
     _character=character;
-    _item=item;
+    _itemInstance=itemInstance;
+    _item=_itemInstance.getReference();
   }
 
   /**
@@ -311,10 +314,10 @@ public class ItemEditionPanelController
     // Legendary specifics
     // - relics
     JPanel relicsPanel=null;
-    if (_item instanceof Legendary)
+    if (_itemInstance instanceof LegendaryInstance)
     {
-      Legendary legItem=(Legendary)_item;
-      LegendaryAttrs attrs=new LegendaryAttrs(legItem.getLegendaryAttrs());
+      LegendaryInstance legItem=(LegendaryInstance)_itemInstance;
+      LegendaryAttrs attrs=new LegendaryAttrs(legItem.getLegendaryAttributes());
       _relicsEditor=new RelicsEditionPanelController(_parent,attrs);
       relicsPanel=_relicsEditor.getPanel();
       tabbedPane.add("Relics",relicsPanel);
@@ -360,9 +363,9 @@ public class ItemEditionPanelController
     // Description
     _description.setText(_item.getDescription());
     // Birth name
-    _birthName.setText(_item.getBirthName());
+    _birthName.setText(_itemInstance.getBirthName());
     // Crafter name
-    _crafterName.setText(_item.getCrafterName());
+    _crafterName.setText(_itemInstance.getCrafterName());
     // User comments
     String userComments=_item.getProperty(ItemPropertyNames.USER_COMMENT);
     if (userComments==null) userComments="";
@@ -399,7 +402,7 @@ public class ItemEditionPanelController
     }
 
     // Essences
-    _essencesEditor.initFromItem(_item);
+    _essencesEditor.initFromItem(_itemInstance);
   }
 
   /**
@@ -425,9 +428,9 @@ public class ItemEditionPanelController
     // Description
     _item.setDescription(_description.getText());
     // Birth name
-    _item.setBirthName(_birthName.getText());
+    _itemInstance.setBirthName(_birthName.getText());
     // Crafter name
-    _item.setCrafterName(_crafterName.getText());
+    _itemInstance.setCrafterName(_crafterName.getText());
     // User comments
     String userComments=_userComments.getText();
     if (userComments.length()>0)
@@ -461,7 +464,7 @@ public class ItemEditionPanelController
         essences.setEssence(i,selectedEssences.get(i));
       }
     }
-    _item.setEssences(essences);
+    _itemInstance.setEssences(essences);
     // Armour specifics
     if (_item instanceof Armour)
     {
@@ -498,10 +501,10 @@ public class ItemEditionPanelController
     }
 
     // Legendary specifics
-    if (_item instanceof Legendary)
+    if (_itemInstance instanceof LegendaryInstance)
     {
-      Legendary legendary=(Legendary)_item;
-      _relicsEditor.getData(legendary.getLegendaryAttrs());
+      LegendaryInstance legendary=(LegendaryInstance)_itemInstance;
+      _relicsEditor.getData(legendary.getLegendaryAttributes());
     }
     return _item;
   }

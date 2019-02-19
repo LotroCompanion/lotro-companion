@@ -20,6 +20,7 @@ import delta.games.lotro.character.events.CharacterEventType;
 import delta.games.lotro.gui.items.essences.EssenceUpdatedListener;
 import delta.games.lotro.gui.items.essences.SingleEssenceEditionController;
 import delta.games.lotro.lore.items.Item;
+import delta.games.lotro.lore.items.ItemInstance;
 import delta.games.lotro.lore.items.essences.EssencesSet;
 import delta.games.lotro.utils.events.EventsManager;
 
@@ -57,7 +58,7 @@ public class AllEssencesEditionPanelController implements EssenceUpdatedListener
     for(EQUIMENT_SLOT slot : EQUIMENT_SLOT.values())
     {
       SingleItemEssencesEditionController controller=new SingleItemEssencesEditionController(_parent,_toon.getSummary(),slot);
-      Item item=equipment.getItemForSlot(slot);
+      ItemInstance<? extends Item> item=equipment.getItemForSlot(slot);
       controller.setItem(item);
       _editors.add(controller);
     }
@@ -152,12 +153,12 @@ public class AllEssencesEditionPanelController implements EssenceUpdatedListener
       int index=essenceCtrls.indexOf(source);
       if (index!=-1)
       {
-        Item item=itemEssences.getItem();
-        EssencesSet essences=item.getEssences();
+        ItemInstance<? extends Item> itemInstance=itemEssences.getItemInstance();
+        EssencesSet essences=itemInstance.getEssences();
         if (essences==null)
         {
           essences=new EssencesSet(essenceCtrls.size());
-          item.setEssences(essences);
+          itemInstance.setEssences(essences);
         }
         essences.setEssence(index,source.getEssence());
         refreshToon();

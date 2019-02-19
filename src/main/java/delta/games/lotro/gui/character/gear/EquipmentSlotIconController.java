@@ -12,6 +12,7 @@ import delta.common.utils.text.EndOfLine;
 import delta.games.lotro.character.CharacterEquipment.EQUIMENT_SLOT;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.lore.items.Item;
+import delta.games.lotro.lore.items.ItemInstance;
 
 /**
  * Controller for the icon of an equipment slot.
@@ -37,13 +38,14 @@ public class EquipmentSlotIconController
   }
 
   /**
-   * Set the associated item.
-   * @param item Item to set (may be <code>null</code>).
+   * Set the associated item instance.
+   * @param itemInstance Item instance to set (may be <code>null</code>).
    */
-  public void setItem(Item item)
+  public void setItem(ItemInstance<? extends Item> itemInstance)
   {
-    if (item!=null)
+    if (itemInstance!=null)
     {
+      Item item=itemInstance.getReference();
       String icon=item.getIcon();
       _icon=LotroIconsManager.getItemIcon(icon);
       String dump=item.dump();

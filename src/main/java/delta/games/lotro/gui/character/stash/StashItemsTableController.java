@@ -1,6 +1,7 @@
 package delta.games.lotro.gui.character.stash;
 
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.ImageIcon;
@@ -10,11 +11,14 @@ import delta.common.ui.swing.tables.CellDataProvider;
 import delta.common.ui.swing.tables.DataProvider;
 import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.GenericTableController;
+import delta.common.ui.swing.tables.ProxiedTableColumnController;
+import delta.common.ui.swing.tables.TableColumnController;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.storage.stash.ItemsStash;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.lore.items.EquipmentLocation;
 import delta.games.lotro.lore.items.Item;
+import delta.games.lotro.lore.items.ItemInstance;
 import delta.games.lotro.lore.items.ItemPropertyNames;
 
 /**
@@ -27,7 +31,7 @@ public class StashItemsTableController
   private CharacterFile _toon;
   // GUI
   private JTable _table;
-  private GenericTableController<Item> _tableController;
+  private GenericTableController<ItemInstance<? extends Item>> _tableController;
 
   /**
    * Constructor.
@@ -40,34 +44,59 @@ public class StashItemsTableController
     configureTable();
   }
 
-  private DataProvider<Item> buildDataProvider()
+  private DataProvider<ItemInstance<? extends Item>> buildDataProvider()
   {
-    DataProvider<Item> ret=new DataProvider<Item>()
+    DataProvider<ItemInstance<? extends Item>> ret=new DataProvider<ItemInstance<? extends Item>>()
     {
       @Override
-      public Item getAt(int index)
+      public ItemInstance<? extends Item> getAt(int index)
       {
         ItemsStash stash=_toon.getStash();
-        List<Item> items=stash.getItemsList();
-        return items.get(index);
+        List<ItemInstance<? extends Item>> items=stash.getItemsList();
+        ItemInstance<? extends Item> instance=items.get(index);
+        return instance;
       }
 
       @Override
       public int getCount()
       {
         ItemsStash stash=_toon.getStash();
-        List<Item> items=stash.getItemsList();
+        List<ItemInstance<? extends Item>> items=stash.getItemsList();
         return items.size();
       }
     };
     return ret;
   }
 
-  private GenericTableController<Item> buildTable()
+  private GenericTableController<ItemInstance<? extends Item>> buildTable()
   {
-    DataProvider<Item> provider=buildDataProvider();
-    GenericTableController<Item> table=new GenericTableController<Item>(provider);
+    DataProvider<ItemInstance<? extends Item>> provider=buildDataProvider();
+    GenericTableController<ItemInstance<? extends Item>> table=new GenericTableController<ItemInstance<? extends Item>>(provider);
 
+    List<TableColumnController<Item,?>> itemColumns=getItemColumns();
+
+    CellDataProvider<ItemInstance<? extends Item>,Item> dataProvider=new CellDataProvider<ItemInstance<? extends Item>,Item>()
+    {
+      @Override
+      public Item getData(ItemInstance<? extends Item> p)
+      {
+        return p.getReference();
+      }
+    };
+
+    for(TableColumnController<Item,?> itemColumn : itemColumns)
+    {
+      @SuppressWarnings("unchecked")
+      TableColumnController<Item,Object> c=(TableColumnController<Item,Object>)itemColumn;
+      ProxiedTableColumnController<ItemInstance<? extends Item>,Item,Object> column=new ProxiedTableColumnController<ItemInstance<? extends Item>,Item,Object>(c,dataProvider);
+      table.addColumnController(column);
+    }
+    return table;
+  }
+
+  private List<TableColumnController<Item,?>> getItemColumns()
+  {
+    List<TableColumnController<Item,?>> ret=new ArrayList<TableColumnController<Item,?>>();
     // Icon column
     {
       CellDataProvider<Item,ImageIcon> iconCell=new CellDataProvider<Item,ImageIcon>()
@@ -83,7 +112,7 @@ public class StashItemsTableController
       DefaultTableColumnController<Item,ImageIcon> iconColumn=new DefaultTableColumnController<Item,ImageIcon>("Icon",ImageIcon.class,iconCell);
       iconColumn.setWidthSpecs(50,50,50);
       iconColumn.setSortable(false);
-      table.addColumnController(iconColumn);
+      ret.add(iconColumn);
     }
     // Name column
     {
@@ -97,7 +126,7 @@ public class StashItemsTableController
       };
       DefaultTableColumnController<Item,String> nameColumn=new DefaultTableColumnController<Item,String>("Name",String.class,nameCell);
       nameColumn.setWidthSpecs(200,-1,300);
-      table.addColumnController(nameColumn);
+      ret.add(nameColumn);
     }
     // Location column
     {
@@ -111,7 +140,7 @@ public class StashItemsTableController
       };
       DefaultTableColumnController<Item,EquipmentLocation> locationColumn=new DefaultTableColumnController<Item,EquipmentLocation>("Location",EquipmentLocation.class,locationCell);
       locationColumn.setWidthSpecs(70,70,70);
-      table.addColumnController(locationColumn);
+      ret.add(locationColumn);
     }
     // Comment column
     {
@@ -126,9 +155,9 @@ public class StashItemsTableController
       };
       DefaultTableColumnController<Item,String> commentColumn=new DefaultTableColumnController<Item,String>("Comment",String.class,commentCell);
       commentColumn.setWidthSpecs(200,-1,400);
-      table.addColumnController(commentColumn);
+      ret.add(commentColumn);
     }
-    return table;
+    return ret;
   }
 
   private void configureTable()
@@ -142,7 +171,7 @@ public class StashItemsTableController
    * Get the managed table controller.
    * @return the managed table controller.
    */
-  public GenericTableController<Item> getTableController()
+  public GenericTableController<ItemInstance<? extends Item>> getTableController()
   {
     return _tableController;
   }

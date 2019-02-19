@@ -39,6 +39,7 @@ import delta.games.lotro.gui.items.chooser.ItemFilterConfiguration;
 import delta.games.lotro.gui.items.chooser.ItemFilterController;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemFactory;
+import delta.games.lotro.lore.items.ItemInstance;
 import delta.games.lotro.lore.items.ItemsManager;
 import delta.games.lotro.utils.events.EventsManager;
 
@@ -204,7 +205,7 @@ public class EquipmentPanelController implements ActionListener
       private void doPop(MouseEvent e)
       {
         EQUIMENT_SLOT slot=findSlotForButton((Component)e.getSource());
-        Item item=getItemForSlot(slot);
+        ItemInstance<? extends Item> item=getItemForSlot(slot);
         _contextMenu.getComponent(0).setEnabled(item!=null);
         _contextMenu.show(e.getComponent(),e.getX(),e.getY());
       }
@@ -286,9 +287,9 @@ public class EquipmentPanelController implements ActionListener
   {
     for(EQUIMENT_SLOT slot : EQUIMENT_SLOT.values())
     {
-      Item item=getItemForSlot(slot);
+      ItemInstance<? extends Item> itemInstance=getItemForSlot(slot);
       EquipmentSlotIconController iconController=_icons.get(slot);
-      iconController.setItem(item);
+      iconController.setItem(itemInstance);
       JButton button=_buttons.get(slot);
       ImageIcon icon=iconController.getIcon();
       button.setIcon(icon);
@@ -297,16 +298,16 @@ public class EquipmentPanelController implements ActionListener
     }
   }
 
-  private Item getItemForSlot(EQUIMENT_SLOT slot)
+  private ItemInstance<? extends Item> getItemForSlot(EQUIMENT_SLOT slot)
   {
     CharacterEquipment equipment=_toonData.getEquipment();
-    Item item=equipment.getItemForSlot(slot);
-    return item;
+    ItemInstance<? extends Item> itemInstance=equipment.getItemForSlot(slot);
+    return itemInstance;
   }
 
   private void handleEditItem(EQUIMENT_SLOT slot)
   {
-    Item item=getItemForSlot(slot);
+    ItemInstance<? extends Item> item=getItemForSlot(slot);
     if (item!=null)
     {
       ItemEditionWindowController ctrl=new ItemEditionWindowController(_parentWindow,_toonData.getSummary(),item);
@@ -341,7 +342,8 @@ public class EquipmentPanelController implements ActionListener
       CharacterEquipment equipment=_toonData.getEquipment();
       SlotContents contents=equipment.getSlotContents(slot,true);
       Item clonedItem=ItemFactory.clone(item);
-      contents.setItem(clonedItem);
+      ItemInstance<? extends Item> instance=ItemFactory.buildInstance(clonedItem);
+      contents.setItem(instance);
       refreshToon();
     }
   }
@@ -387,13 +389,13 @@ public class EquipmentPanelController implements ActionListener
     SlotContents contents=equipment.getSlotContents(slot,false);
     if (contents!=null)
     {
-      Item item=contents.getItem();
+      ItemInstance<? extends Item> item=contents.getItem();
       if (item!=null)
       {
         ItemsStash stash=_toon.getStash();
-        Item newItem=ItemFactory.clone(item);
-        stash.addItem(newItem);
-        Integer stashId=newItem.getStashIdentifier();
+        ItemInstance<? extends Item> newItemInstance=ItemFactory.cloneInstance(item);
+        stash.addItem(newItemInstance);
+        Integer stashId=newItemInstance.getStashIdentifier();
         item.setStashIdentifier(stashId);
         _toon.saveStash();
         // Broadcast stash update event...
@@ -414,7 +416,7 @@ public class EquipmentPanelController implements ActionListener
       EQUIMENT_SLOT slot=EQUIMENT_SLOT.valueOf(cmd);
       if (slot!=null)
       {
-        Item currentItem=getItemForSlot(slot);
+        ItemInstance<? extends Item> currentItem=getItemForSlot(slot);
         if (currentItem!=null)
         {
           handleEditItem(slot);
@@ -449,7 +451,7 @@ public class EquipmentPanelController implements ActionListener
         else if (CHOOSE_FROM_STASH_COMMAND.equals(cmd))
         {
           ItemsStash stash=_toon.getStash();
-          List<Item> items=stash.getAll();
+          List<ItemInstance<? extends Item>> items=stash.getAll();
           ItemsManager itemsManager=new ItemsManager(items);
           handleChooseItem(slot,itemsManager,true);
         }

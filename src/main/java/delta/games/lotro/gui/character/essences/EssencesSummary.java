@@ -9,6 +9,7 @@ import delta.games.lotro.character.CharacterEquipment;
 import delta.games.lotro.character.CharacterEquipment.EQUIMENT_SLOT;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.lore.items.Item;
+import delta.games.lotro.lore.items.ItemInstance;
 import delta.games.lotro.lore.items.essences.EssencesSet;
 
 /**
@@ -83,10 +84,11 @@ public class EssencesSummary
     CharacterEquipment equipment=_toon.getEquipment();
     for(EQUIMENT_SLOT slot : EQUIMENT_SLOT.values())
     {
-      Item item=equipment.getItemForSlot(slot);
-      if (item!=null)
+      ItemInstance<? extends Item> itemInstance=equipment.getItemForSlot(slot);
+      if (itemInstance!=null)
       {
-        EssencesSet essences=item.getEssences();
+        EssencesSet essences=itemInstance.getEssences();
+        Item item=itemInstance.getReference();
         int nbSlots=item.getEssenceSlots();
         int nbEssences=(essences!=null)?essences.getSize():0;
         int slotsCount=Math.max(nbSlots,nbEssences);

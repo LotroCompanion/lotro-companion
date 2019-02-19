@@ -17,6 +17,7 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.CharacterSummary;
 import delta.games.lotro.lore.items.Item;
+import delta.games.lotro.lore.items.ItemInstance;
 
 /**
  * Panel to edit essences.
@@ -72,15 +73,15 @@ public class EssencesEditionPanelController
 
   /**
    * Initialize the managed panel with the given item.
-   * @param item Item to set.
+   * @param itemInstance Item instance to set.
    */
-  public void initFromItem(Item item)
+  public void initFromItem(ItemInstance<? extends Item> itemInstance)
   {
     _essenceControllers.clear();
-    int nbSlots=item.getEssencesCount();
+    int nbSlots=itemInstance.getEssencesCount();
     for(int i=0;i<nbSlots;i++)
     {
-      Item essence=item.getEssenceAt(i);
+      Item essence=itemInstance.getEssenceAt(i);
       SingleEssenceEditionController ctrl=new SingleEssenceEditionController(_parent,1,_character);
       ctrl.setEssence(essence);
       _essenceControllers.add(ctrl);

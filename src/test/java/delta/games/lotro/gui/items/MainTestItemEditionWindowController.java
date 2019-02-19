@@ -5,6 +5,8 @@ import java.util.List;
 import delta.games.lotro.character.CharacterSummary;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.lore.items.Item;
+import delta.games.lotro.lore.items.ItemFactory;
+import delta.games.lotro.lore.items.ItemInstance;
 import delta.games.lotro.lore.items.ItemsManager;
 
 /**
@@ -39,7 +41,8 @@ public class MainTestItemEditionWindowController
       //if (item instanceof Armour)
       //if (item instanceof Weapon)
       {
-        ItemEditionWindowController ctrl=new ItemEditionWindowController(null,summary,item);
+        ItemInstance<? extends Item> itemInstance=ItemFactory.buildInstance(item);
+        ItemEditionWindowController ctrl=new ItemEditionWindowController(null,summary,itemInstance);
         ctrl.show(true);
         nbWindows++;
       }

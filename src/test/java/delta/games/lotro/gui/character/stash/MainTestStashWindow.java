@@ -8,6 +8,7 @@ import delta.games.lotro.character.log.LotroTestUtils;
 import delta.games.lotro.character.storage.stash.ItemsStash;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemFactory;
+import delta.games.lotro.lore.items.ItemInstance;
 
 /**
  * Test for character stash window.
@@ -29,10 +30,10 @@ public class MainTestStashWindow
     CharacterEquipment gear=data.getEquipment();
     for(EQUIMENT_SLOT slot : EQUIMENT_SLOT.values())
     {
-      Item item=gear.getItemForSlot(slot);
+      ItemInstance<? extends Item> item=gear.getItemForSlot(slot);
       if (item!=null)
       {
-        Item clone=ItemFactory.clone(item);
+        ItemInstance<? extends Item> clone=ItemFactory.cloneInstance(item);
         stash.addItem(clone);
       }
     }

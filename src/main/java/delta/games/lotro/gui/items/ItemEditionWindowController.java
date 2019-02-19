@@ -7,12 +7,13 @@ import delta.common.ui.swing.windows.DefaultFormDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.CharacterSummary;
 import delta.games.lotro.lore.items.Item;
+import delta.games.lotro.lore.items.ItemInstance;
 
 /**
  * Controller for an item edition window.
  * @author DAM
  */
-public class ItemEditionWindowController extends DefaultFormDialogController<Item>
+public class ItemEditionWindowController extends DefaultFormDialogController<ItemInstance<? extends Item>>
 {
   // Controllers
   private ItemEditionPanelController _panelController;
@@ -21,12 +22,12 @@ public class ItemEditionWindowController extends DefaultFormDialogController<Ite
    * Constructor.
    * @param parent Parent window.
    * @param character Character data.
-   * @param item Item.
+   * @param itemInstance Item instance.
    */
-  public ItemEditionWindowController(WindowController parent, CharacterSummary character, Item item)
+  public ItemEditionWindowController(WindowController parent, CharacterSummary character, ItemInstance<? extends Item> itemInstance)
   {
-    super(parent,item);
-    _panelController=new ItemEditionPanelController(this,character,item);
+    super(parent,itemInstance);
+    _panelController=new ItemEditionPanelController(this,character,itemInstance);
   }
 
   @Override

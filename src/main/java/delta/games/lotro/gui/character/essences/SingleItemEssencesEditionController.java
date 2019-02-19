@@ -14,6 +14,7 @@ import delta.games.lotro.character.CharacterSummary;
 import delta.games.lotro.gui.character.gear.EquipmentSlotIconController;
 import delta.games.lotro.gui.items.essences.SingleEssenceEditionController;
 import delta.games.lotro.lore.items.Item;
+import delta.games.lotro.lore.items.ItemInstance;
 import delta.games.lotro.lore.items.essences.EssencesSet;
 
 /**
@@ -23,7 +24,7 @@ import delta.games.lotro.lore.items.essences.EssencesSet;
 public class SingleItemEssencesEditionController
 {
   // Data
-  private Item _item;
+  private ItemInstance<? extends Item> _itemInstance;
   private CharacterSummary _character;
   // Controllers
   private WindowController _parent;
@@ -41,7 +42,7 @@ public class SingleItemEssencesEditionController
    */
   public SingleItemEssencesEditionController(WindowController parent, CharacterSummary character, EQUIMENT_SLOT slot)
   {
-    _item=null;
+    _itemInstance=null;
     _character=character;
     _parent=parent;
     _controllers=new ArrayList<SingleEssenceEditionController>();
@@ -51,29 +52,31 @@ public class SingleItemEssencesEditionController
   }
 
   /**
-   * Get the managed item.
-   * @return the managed item or <code>null</code>.
+   * Get the managed item instance.
+   * @return the managed item instance or <code>null</code>.
    */
-  public Item getItem()
+  public ItemInstance<? extends Item> getItemInstance()
   {
-    return _item;
+    return _itemInstance;
   }
 
   /**
-   * Set the managed item.
-   * @param item Item to set.
+   * Set the managed item instance.
+   * @param itemInstance Item instance to set.
    */
-  public void setItem(Item item)
+  public void setItem(ItemInstance<? extends Item> itemInstance)
   {
-    _item=item;
+    _itemInstance=itemInstance;
+    Item item=null;
     _controllers.clear();
     String label="-";
-    if (item!=null)
+    if (itemInstance!=null)
     {
+      item=_itemInstance.getReference();
       // Label
-      label=item.getName();
+      label=itemInstance.getName();
       // Essences
-      EssencesSet essences=item.getEssences();
+      EssencesSet essences=itemInstance.getEssences();
       int nbEssences=0;
       if (essences!=null)
       {
@@ -93,7 +96,7 @@ public class SingleItemEssencesEditionController
         _controllers.add(controller);
       }
     }
-    _iconController.setItem(item);
+    _iconController.setItem(itemInstance);
     _icon.setIcon(_iconController.getIcon());
     _icon.setToolTipText(_iconController.getTooltip());
     _itemName.setText(label,2);
@@ -132,7 +135,7 @@ public class SingleItemEssencesEditionController
   public void dispose()
   {
     // Data
-    _item=null;
+    _itemInstance=null;
     // Controllers
     _parent=null;
     if (_controllers!=null)
