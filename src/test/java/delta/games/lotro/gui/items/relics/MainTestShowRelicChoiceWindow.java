@@ -19,7 +19,7 @@ public class MainTestShowRelicChoiceWindow
     RelicsManager relicsMgr=RelicsManager.getInstance();
     Relic initialRelic=relicsMgr.getAllRelics(false).get(10);
     System.out.println(initialRelic);
-    Relic relic=RelicChoiceWindowController.selectRelic(null,RelicType.SETTING,initialRelic);
+    Relic relic=RelicChooser.selectRelic(null,RelicType.SETTING,initialRelic);
     //Relic relic=RelicChoiceWindowController.selectRelic(null,null,initialRelic);
     System.out.println(relic);
   }

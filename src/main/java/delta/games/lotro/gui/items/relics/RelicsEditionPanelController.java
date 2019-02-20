@@ -159,7 +159,7 @@ public class RelicsEditionPanelController implements ActionListener
     {
       Relic initialRelic=_legAttrs.getRelics().get(index);
       RelicType type=RELIC_TYPES[index];
-      Relic relic=RelicChoiceWindowController.selectRelic(_parent,type,initialRelic);
+      Relic relic=RelicChooser.selectRelic(_parent,type,initialRelic);
       if (relic!=null)
       {
         _legAttrs.slotRelic(relic);

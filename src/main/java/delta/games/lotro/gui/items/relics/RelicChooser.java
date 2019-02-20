@@ -18,7 +18,7 @@ import delta.games.lotro.utils.gui.filter.ObjectFilterPanelController;
  * Controller for a "relic choice" dialog.
  * @author DAM
  */
-public class RelicChoiceWindowController
+public class RelicChooser
 {
   private static ObjectChoiceWindowController<Relic> buildChooser(WindowController parent, RelicType type, Relic selectedRelic)
   {
