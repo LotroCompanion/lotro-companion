@@ -7,51 +7,28 @@ import javax.swing.JTable;
 
 import delta.common.ui.swing.tables.CellDataProvider;
 import delta.common.ui.swing.tables.DataProvider;
+import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.ListDataProvider;
-import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.games.lotro.character.stats.buffs.Buff;
-import delta.games.lotro.character.stats.buffs.BuffFilter;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.Race;
 import delta.games.lotro.gui.LotroIconsManager;
 
 /**
- * Controller for a table that shows buffs.
+ * Builder for a table that shows buffs.
  * @author DAM
  */
-public class BuffsTableController
+public class BuffsTableBuilder
 {
-  // Data
-  private List<Buff> _buffs;
-  // GUI
-  private GenericTableController<Buff> _tableController;
-
   /**
-   * Constructor.
-   * @param buffs Buffs to choose from.
-   * @param filter Buffs filter.
+   * Build a table to show buffs.
+   * @param buffs Buffs to show.
+   * @return A new table controller.
    */
-  public BuffsTableController(List<Buff> buffs, BuffFilter filter)
+  public static GenericTableController<Buff> buildTable(List<Buff> buffs)
   {
-    _buffs=buffs;
-    _tableController=buildTable();
-    _tableController.setFilter(filter);
-    configureTable();
-  }
-
-  /**
-   * Get the managed generic table controller.
-   * @return the managed generic table controller.
-   */
-  public GenericTableController<Buff> getTableController()
-  {
-    return _tableController;
-  }
-
-  private GenericTableController<Buff> buildTable()
-  {
-    DataProvider<Buff> provider=new ListDataProvider<Buff>(_buffs);
+    DataProvider<Buff> provider=new ListDataProvider<Buff>(buffs);
     GenericTableController<Buff> table=new GenericTableController<Buff>(provider);
 
     // Icon column
@@ -113,82 +90,9 @@ public class BuffsTableController
       classColumn.setWidthSpecs(100,100,50);
       table.addColumnController(classColumn);
     }
-    return table;
-  }
-
-  private void configureTable()
-  {
-    JTable table=getTable();
     // Adjust table row height for icons (32 pixels)
-    table.setRowHeight(32);
-  }
-
-  /**
-   * Get the managed table.
-   * @return the managed table.
-   */
-  public JTable getTable()
-  {
-    return _tableController.getTable();
-  }
-
-  /**
-   * Update managed filter.
-   */
-  public void updateFilter()
-  {
-    _tableController.filterUpdated();
-  }
-
-  /**
-   * Get the total number of buffs.
-   * @return A number of buffs.
-   */
-  public int getNbItems()
-  {
-    return _buffs.size();
-  }
-
-  /**
-   * Get the number of filtered items in the managed log.
-   * @return A number of items.
-   */
-  public int getNbFilteredItems()
-  {
-    int ret=_tableController.getNbFilteredItems();
-    return ret;
-  }
-
-  /**
-   * Get the currently selected buff.
-   * @return a buff or <code>null</code>.
-   */
-  public Buff getSelectedBuff()
-  {
-    return _tableController.getSelectedItem();
-  }
-
-  /**
-   * Select a buff.
-   * @param buff Buff to select (may be <code>null</code>).
-   */
-  public void selectBuff(Buff buff)
-  {
-    _tableController.selectItem(buff);
-  }
-
-  /**
-   * Release all managed resources.
-   */
-  public void dispose()
-  {
-    // GUI
-    if (_tableController!=null)
-    {
-      _tableController.dispose();
-      _tableController=null;
-    }
-    // Data
-    _buffs=null;
+    JTable swingTable=table.getTable();
+    swingTable.setRowHeight(32);
+    return table;
   }
 }

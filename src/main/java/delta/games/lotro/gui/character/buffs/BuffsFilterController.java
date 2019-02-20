@@ -20,12 +20,13 @@ import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.common.ui.swing.combobox.ItemSelectionListener;
 import delta.games.lotro.character.stats.buffs.Buff;
 import delta.games.lotro.character.stats.buffs.BuffFilter;
+import delta.games.lotro.utils.gui.filter.ObjectFilterPanelController;
 
 /**
  * Controller for a buff filter edition panel.
  * @author DAM
  */
-public class BuffsFilterController
+public class BuffsFilterController extends ObjectFilterPanelController
 {
   // Data
   private List<Buff> _buffs;
@@ -34,24 +35,16 @@ public class BuffsFilterController
   private JPanel _panel;
   private ComboBoxController<String> _category;
   private JTextField _nameContains;
-  private BuffChoicePanelController _panelController;
 
   /**
    * Constructor.
    * @param buffs Buffs.
    * @param filter Filter.
-   * @param panelController Associated panel controller.
    */
-  public BuffsFilterController(List<Buff> buffs, BuffFilter filter, BuffChoicePanelController panelController)
+  public BuffsFilterController(List<Buff> buffs, BuffFilter filter)
   {
     _buffs=buffs;
     _filter=filter;
-    _panelController=panelController;
-  }
-
-  private void updateFilter()
-  {
-    _panelController.updateFilter();
   }
 
   /**
@@ -64,7 +57,7 @@ public class BuffsFilterController
     {
       _panel=build();
       setFilter();
-      updateFilter();
+      filterUpdated();
     }
     return _panel;
   }
@@ -131,7 +124,7 @@ public class BuffsFilterController
       public void itemSelected(String category)
       {
         _filter.setCategory(category);
-        updateFilter();
+        filterUpdated();
       }
     };
     ctrl.addListener(l);
@@ -189,7 +182,7 @@ public class BuffsFilterController
     {
       _filter.setNameFilter(text);
     }
-    updateFilter();
+    filterUpdated();
   }
 
   /**
@@ -200,8 +193,6 @@ public class BuffsFilterController
     // Data
     _buffs=null;
     _filter=null;
-    // Controllers
-    _panelController=null;
     // GUI
     if (_panel!=null)
     {
