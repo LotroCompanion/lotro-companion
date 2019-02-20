@@ -1,8 +1,11 @@
-package delta.games.lotro.gui.items.relics;
+package delta.games.lotro.utils.gui.chooser;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -10,25 +13,34 @@ import javax.swing.JTable;
 import javax.swing.border.TitledBorder;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.tables.GenericTableController;
+import delta.common.ui.swing.tables.TableColumnsChooserController;
+import delta.common.ui.swing.windows.WindowController;
+import delta.games.lotro.gui.items.FilterUpdateListener;
 
 /**
- * Controller the relic choice panel.
+ * Controller for an object choice panel.
+ * @param <T> Type of managed objects.
  * @author DAM
  */
-public class RelicChoicePanelController
+public class ObjectChoicePanelController<T> implements FilterUpdateListener
 {
   // Data
-  private RelicsTableController _tableController;
+  private GenericTableController<T> _tableController;
   // GUI
   private JPanel _panel;
   private JLabel _statsLabel;
+  // Controllers
+  private WindowController _parent;
 
   /**
    * Constructor.
+   * @param parent Parent window.
    * @param tableController Associated table controller.
    */
-  public RelicChoicePanelController(RelicsTableController tableController)
+  public ObjectChoicePanelController(WindowController parent, GenericTableController<T> tableController)
   {
+    _parent=parent;
     _tableController=tableController;
   }
 
@@ -48,8 +60,8 @@ public class RelicChoicePanelController
   private JPanel build()
   {
     JPanel panel=GuiFactory.buildPanel(new BorderLayout());
-    TitledBorder border=GuiFactory.buildTitledBorder("Relics");
-    panel.setBorder(border);
+    TitledBorder itemsFrameBorder=GuiFactory.buildTitledBorder("Items");
+    panel.setBorder(itemsFrameBorder);
 
     // Table
     JTable table=_tableController.getTable();
@@ -59,6 +71,18 @@ public class RelicChoicePanelController
     JPanel statsPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
     _statsLabel=GuiFactory.buildLabel("-");
     statsPanel.add(_statsLabel);
+    JButton choose=GuiFactory.buildButton("Choose columns...");
+    ActionListener al=new ActionListener()
+    {
+      @Override
+      public void actionPerformed(ActionEvent e)
+      {
+        TableColumnsChooserController<T> chooser=new TableColumnsChooserController<T>(_parent,_tableController);
+        chooser.editModal();
+      }
+    };
+    choose.addActionListener(al);
+    statsPanel.add(choose);
     panel.add(statsPanel,BorderLayout.NORTH);
     return panel;
   }
@@ -66,9 +90,10 @@ public class RelicChoicePanelController
   /**
    * Update filter.
    */
-  public void updateFilter()
+  @Override
+  public void filterUpdated()
   {
-    _tableController.updateFilter();
+    _tableController.filterUpdated();
     updateStatsLabel();
   }
 
@@ -79,11 +104,11 @@ public class RelicChoicePanelController
     String label="";
     if (nbFiltered==nbItems)
     {
-      label="Relic(s): "+nbItems;
+      label="Item(s): "+nbItems;
     }
     else
     {
-      label="Relic(s): "+nbFiltered+"/"+nbItems;
+      label="Item(s): "+nbFiltered+"/"+nbItems;
     }
     _statsLabel.setText(label);
   }
@@ -102,5 +127,7 @@ public class RelicChoicePanelController
       _panel=null;
     }
     _statsLabel=null;
+    // Controllers
+    _parent=null;
   }
 }
