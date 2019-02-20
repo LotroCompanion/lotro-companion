@@ -29,7 +29,6 @@ import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.character.CharacterSummary;
 import delta.games.lotro.common.stats.StatDescription;
-import delta.games.lotro.gui.items.AbstractItemFilterPanelController;
 import delta.games.lotro.gui.items.ItemUiTools;
 import delta.games.lotro.lore.items.ArmourType;
 import delta.games.lotro.lore.items.Item;
@@ -42,12 +41,13 @@ import delta.games.lotro.lore.items.filters.ItemLevelFilter;
 import delta.games.lotro.lore.items.filters.ItemRequiredClassFilter;
 import delta.games.lotro.lore.items.filters.ItemStatFilter;
 import delta.games.lotro.lore.items.filters.WeaponTypeFilter;
+import delta.games.lotro.utils.gui.filter.ObjectFilterPanelController;
 
 /**
  * Controller for a item filter edition panel.
  * @author DAM
  */
-public class ItemFilterController extends AbstractItemFilterPanelController
+public class ItemFilterController extends ObjectFilterPanelController
 {
   // Data
   private ItemFilterConfiguration _cfg;

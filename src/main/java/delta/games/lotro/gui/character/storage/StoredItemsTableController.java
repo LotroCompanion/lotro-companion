@@ -24,7 +24,7 @@ import delta.games.lotro.common.owner.Owner;
 import delta.games.lotro.common.owner.comparators.OwnerComparator;
 import delta.games.lotro.gui.items.CountedItemsTableController;
 import delta.games.lotro.gui.items.ItemColumnIds;
-import delta.games.lotro.gui.items.chooser.ItemChoiceWindowController;
+import delta.games.lotro.gui.items.chooser.ItemChooser;
 import delta.games.lotro.lore.items.CountedItem;
 
 /**
@@ -156,7 +156,7 @@ public class StoredItemsTableController
     List<String> columnsIds=null;
     if (_prefs!=null)
     {
-      columnsIds=_prefs.getStringList(ItemChoiceWindowController.COLUMNS_PROPERTY);
+      columnsIds=_prefs.getStringList(ItemChooser.COLUMNS_PROPERTY);
     }
     if (columnsIds==null)
     {
@@ -236,7 +236,7 @@ public class StoredItemsTableController
     if (_prefs!=null)
     {
       List<String> columnIds=_tableController.getColumnsManager().getSelectedColumnsIds();
-      _prefs.setStringList(ItemChoiceWindowController.COLUMNS_PROPERTY,columnIds);
+      _prefs.setStringList(ItemChooser.COLUMNS_PROPERTY,columnIds);
     }
     // GUI
     if (_tableController!=null)

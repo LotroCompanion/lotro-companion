@@ -86,6 +86,7 @@ public class ObjectChoiceWindowController<T> extends DefaultFormDialogController
       if (columnsIds!=null)
       {
         _tableController.getColumnsManager().setColumns(columnsIds);
+        _tableController.updateColumns();
       }
     }
     // Table

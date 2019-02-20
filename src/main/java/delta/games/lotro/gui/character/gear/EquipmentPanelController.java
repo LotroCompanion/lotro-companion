@@ -34,7 +34,7 @@ import delta.games.lotro.character.events.CharacterEventType;
 import delta.games.lotro.character.storage.stash.ItemsStash;
 import delta.games.lotro.character.utils.CharacterGearUpdater;
 import delta.games.lotro.gui.items.ItemEditionWindowController;
-import delta.games.lotro.gui.items.chooser.ItemChoiceWindowController;
+import delta.games.lotro.gui.items.chooser.ItemChooser;
 import delta.games.lotro.gui.items.chooser.ItemFilterConfiguration;
 import delta.games.lotro.gui.items.chooser.ItemFilterController;
 import delta.games.lotro.lore.items.Item;
@@ -42,6 +42,7 @@ import delta.games.lotro.lore.items.ItemFactory;
 import delta.games.lotro.lore.items.ItemInstance;
 import delta.games.lotro.lore.items.ItemsManager;
 import delta.games.lotro.utils.events.EventsManager;
+import delta.games.lotro.utils.gui.chooser.ObjectChoiceWindowController;
 
 /**
  * Controller for equipment panel.
@@ -328,6 +329,16 @@ public class EquipmentPanelController implements ActionListener
     return null;
   }
 
+  private void handleChooseItemFromStash(EQUIMENT_SLOT slot)
+  {
+    /*
+    ItemsStash stash=_toon.getStash();
+    List<ItemInstance<? extends Item>> items=stash.getAll();
+    ItemsManager itemsManager=new ItemsManager(items);
+    handleChooseItem(slot,itemsManager,true);
+    */
+  }
+
   private void handleChooseItem(EQUIMENT_SLOT slot)
   {
     ItemsManager itemsManager=ItemsManager.getInstance();
@@ -364,10 +375,10 @@ public class EquipmentPanelController implements ActionListener
     TypedProperties filterProps=_parentWindow.getUserProperties("ItemFilter");
     ItemFilterController filterController=new ItemFilterController(cfg,_toonData.getSummary(),filterProps);
     Filter<Item> filter=filterController.getFilter();
-    String id=ItemChoiceWindowController.ITEM_CHOOSER_PROPERTIES_ID+"#"+slot.name();
+    String id=ItemChooser.ITEM_CHOOSER_PROPERTIES_ID+"#"+slot.name();
     TypedProperties props=_parentWindow.getUserProperties(id);
-    ItemChoiceWindowController choiceCtrl=new ItemChoiceWindowController(_parentWindow,props,selectedItems,filter,filterController);
-    Item ret=choiceCtrl.editModal();
+    ObjectChoiceWindowController<Item> chooser=ItemChooser.buildChooser(_parentWindow,props,selectedItems,filter,filterController);
+    Item ret=chooser.editModal();
     return ret;
   }
 
@@ -450,10 +461,7 @@ public class EquipmentPanelController implements ActionListener
         }
         else if (CHOOSE_FROM_STASH_COMMAND.equals(cmd))
         {
-          ItemsStash stash=_toon.getStash();
-          List<ItemInstance<? extends Item>> items=stash.getAll();
-          ItemsManager itemsManager=new ItemsManager(items);
-          handleChooseItem(slot,itemsManager,true);
+          handleChooseItemFromStash(slot);
         }
         else if (REMOVE_COMMAND.equals(cmd))
         {

@@ -17,7 +17,7 @@ import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.gui.deed.DeedColumnIds;
 import delta.games.lotro.gui.deed.DeedsTableController;
-import delta.games.lotro.gui.items.chooser.ItemChoiceWindowController;
+import delta.games.lotro.gui.items.chooser.ItemChooser;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.DeedsManager;
 import delta.games.lotro.stats.deeds.DeedStatus;
@@ -132,7 +132,7 @@ public class DeedStatusTableController
     List<String> columnIds=null;
     if (_prefs!=null)
     {
-      columnIds=_prefs.getStringList(ItemChoiceWindowController.COLUMNS_PROPERTY);
+      columnIds=_prefs.getStringList(ItemChooser.COLUMNS_PROPERTY);
     }
     if (columnIds==null)
     {
@@ -203,7 +203,7 @@ public class DeedStatusTableController
     if (_prefs!=null)
     {
       List<String> columnIds=_tableController.getColumnsManager().getSelectedColumnsIds();
-      _prefs.setStringList(ItemChoiceWindowController.COLUMNS_PROPERTY,columnIds);
+      _prefs.setStringList(ItemChooser.COLUMNS_PROPERTY,columnIds);
       _prefs=null;
     }
     // GUI

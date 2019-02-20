@@ -13,8 +13,6 @@ import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.ListDataProvider;
 import delta.common.ui.swing.tables.TableColumnsManager;
 import delta.common.utils.NumericTools;
-import delta.common.utils.collections.filters.Filter;
-import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.stats.StatDescription;
@@ -33,45 +31,19 @@ import delta.games.lotro.lore.items.filters.EssenceTierFilter;
 import delta.games.lotro.utils.FixedDecimalsInteger;
 
 /**
- * Controller for a table that shows a choice of items.
+ * Builder for a table that shows items.
  * @author DAM
  */
-public class ItemChoiceTableController
+public class ItemsTableBuilder
 {
-  // Preferences
-  private TypedProperties _prefs;
-  // Data
-  protected List<Item> _items;
-  // GUI
-  private GenericTableController<Item> _tableController;
-
   /**
-   * Constructor.
-   * @param prefs User preferences.
-   * @param items Items to choose from.
-   * @param filter Items filter.
+   * Build a table to show items.
+   * @param items Relics to show.
+   * @return A new table controller.
    */
-  public ItemChoiceTableController(TypedProperties prefs, List<Item> items, Filter<Item> filter)
+  public static GenericTableController<Item> buildTable(List<Item> items)
   {
-    _prefs=prefs;
-    _items=items;
-    _tableController=buildTable();
-    _tableController.setFilter(filter);
-    configureTable();
-  }
-
-  /**
-   * Get the managed generic table controller.
-   * @return the managed generic table controller.
-   */
-  public GenericTableController<Item> getTableController()
-  {
-    return _tableController;
-  }
-
-  private GenericTableController<Item> buildTable()
-  {
-    DataProvider<Item> provider=new ListDataProvider<Item>(_items);
+    DataProvider<Item> provider=new ListDataProvider<Item>(items);
     GenericTableController<Item> table=new GenericTableController<Item>(provider);
     List<DefaultTableColumnController<Item,?>> columns=initColumns();
     TableColumnsManager<Item> columnsManager=table.getColumnsManager();
@@ -79,26 +51,15 @@ public class ItemChoiceTableController
     {
       columnsManager.addColumnController(column,false);
     }
-    List<String> columnsIds=getColumnsId();
+    List<String> columnsIds=getDefaultColumnIds();
     columnsManager.setColumns(columnsIds);
+    // Adjust table row height for icons (32 pixels)
+    JTable swingTable=table.getTable();
+    swingTable.setRowHeight(32);
     return table;
   }
 
-  protected List<String> getColumnsId()
-  {
-    List<String> columnsIds;
-    if (_prefs!=null)
-    {
-      columnsIds=_prefs.getStringList(ItemChoiceWindowController.COLUMNS_PROPERTY);
-    }
-    else
-    {
-      columnsIds=getDefaultColumnIds();
-    }
-    return columnsIds;
-  }
-
-  protected List<String> getDefaultColumnIds()
+  private static List<String> getDefaultColumnIds()
   {
     List<String> columnsIds=new ArrayList<String>();
     columnsIds.add(ItemColumnIds.ICON.name());
@@ -339,79 +300,5 @@ public class ItemChoiceTableController
     DefaultTableColumnController<Item,FixedDecimalsInteger> statColumn=new DefaultTableColumnController<Item,FixedDecimalsInteger>(id,name,FixedDecimalsInteger.class,statCell);
     statColumn.setWidthSpecs(55,55,50);
     return statColumn;
-  }
-
-  private void configureTable()
-  {
-    JTable table=getTable();
-    // Adjust table row height for icons (32 pixels)
-    table.setRowHeight(32);
-  }
-
-  /**
-   * Get the managed table.
-   * @return the managed table.
-   */
-  public JTable getTable()
-  {
-    return _tableController.getTable();
-  }
-
-  /**
-   * Get the currently selected item.
-   * @return An item or <code>null</code> if not found.
-   */
-  public Item getSelectedItem()
-  {
-    Item ret=_tableController.getSelectedItem();
-    return ret;
-  }
-
-  /**
-   * Update managed filter.
-   */
-  public void updateFilter()
-  {
-    _tableController.filterUpdated();
-  }
-
-  /**
-   * Get the total number of items in the managed table.
-   * @return A number of items.
-   */
-  public int getNbItems()
-  {
-    return (_items!=null)?_items.size():0;
-  }
-
-  /**
-   * Get the number of filtered items.
-   * @return A number of items.
-   */
-  public int getNbFilteredItems()
-  {
-    int ret=_tableController.getNbFilteredItems();
-    return ret;
-  }
-
-  /**
-   * Release all managed resources.
-   */
-  public void dispose()
-  {
-    // Preferences
-    if (_prefs!=null)
-    {
-      List<String> columnIds=_tableController.getColumnsManager().getSelectedColumnsIds();
-      _prefs.setStringList(ItemChoiceWindowController.COLUMNS_PROPERTY,columnIds);
-    }
-    // GUI
-    if (_tableController!=null)
-    {
-      _tableController.dispose();
-      _tableController=null;
-    }
-    // Data
-    _items=null;
   }
 }

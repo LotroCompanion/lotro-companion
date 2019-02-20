@@ -6,11 +6,12 @@ import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.character.CharacterSummary;
-import delta.games.lotro.gui.items.chooser.ItemChoiceWindowController;
+import delta.games.lotro.gui.items.chooser.ItemChooser;
 import delta.games.lotro.gui.items.chooser.ItemFilterConfiguration;
 import delta.games.lotro.gui.items.chooser.ItemFilterController;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemsManager;
+import delta.games.lotro.utils.gui.chooser.ObjectChoiceWindowController;
 
 /**
  * Essence choosing utility.
@@ -18,6 +19,11 @@ import delta.games.lotro.lore.items.ItemsManager;
  */
 public class EssenceChoice
 {
+  /**
+   * Preference file for the columns of the essence chooser.
+   */
+  public static final String ESSENCE_CHOOSER_PROPERTIES_ID="EssenceChooserColumn";
+
   /**
    * Choose an essence.
    * @param parent Parent controller.
@@ -43,11 +49,12 @@ public class EssenceChoice
     TypedProperties prefs=null;
     if (parent!=null)
     {
-      prefs=parent.getUserProperties(ItemChoiceWindowController.ESSENCE_CHOOSER_PROPERTIES_ID);
+      prefs=parent.getUserProperties(ESSENCE_CHOOSER_PROPERTIES_ID);
     }
     Filter<Item> filter=filterController.getFilter();
-    ItemChoiceWindowController choiceCtrl=new ItemChoiceWindowController(parent,prefs,essences,filter,filterController);
-    Item ret=choiceCtrl.editModal();
+    ObjectChoiceWindowController<Item> chooser=ItemChooser.buildChooser(parent,prefs,essences,filter,filterController);
+    Item ret=chooser.editModal();
+    chooser.dispose();
     return ret;
   }
 }

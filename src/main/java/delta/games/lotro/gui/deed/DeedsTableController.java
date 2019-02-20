@@ -21,7 +21,7 @@ import delta.games.lotro.common.Skill;
 import delta.games.lotro.common.Title;
 import delta.games.lotro.common.Trait;
 import delta.games.lotro.common.Virtue;
-import delta.games.lotro.gui.items.chooser.ItemChoiceWindowController;
+import delta.games.lotro.gui.items.chooser.ItemChooser;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.DeedType;
 import delta.games.lotro.lore.deeds.DeedsManager;
@@ -346,7 +346,7 @@ public class DeedsTableController
     List<String> columnIds=null;
     if (_prefs!=null)
     {
-      columnIds=_prefs.getStringList(ItemChoiceWindowController.COLUMNS_PROPERTY);
+      columnIds=_prefs.getStringList(ItemChooser.COLUMNS_PROPERTY);
     }
     if (columnIds==null)
     {
@@ -474,7 +474,7 @@ public class DeedsTableController
     if (_prefs!=null)
     {
       List<String> columnIds=_tableController.getColumnsManager().getSelectedColumnsIds();
-      _prefs.setStringList(ItemChoiceWindowController.COLUMNS_PROPERTY,columnIds);
+      _prefs.setStringList(ItemChooser.COLUMNS_PROPERTY,columnIds);
       _prefs=null;
     }
     // GUI

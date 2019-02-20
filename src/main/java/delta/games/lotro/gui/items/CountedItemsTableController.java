@@ -17,8 +17,8 @@ import delta.common.ui.swing.tables.TableColumnsManager;
 import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.gui.LotroIconsManager;
-import delta.games.lotro.gui.items.chooser.ItemChoiceTableController;
-import delta.games.lotro.gui.items.chooser.ItemChoiceWindowController;
+import delta.games.lotro.gui.items.chooser.ItemsTableBuilder;
+import delta.games.lotro.gui.items.chooser.ItemChooser;
 import delta.games.lotro.lore.items.CountedItem;
 import delta.games.lotro.lore.items.Item;
 
@@ -94,7 +94,7 @@ public class CountedItemsTableController
     List<String> columnsIds;
     if (_prefs!=null)
     {
-      columnsIds=_prefs.getStringList(ItemChoiceWindowController.COLUMNS_PROPERTY);
+      columnsIds=_prefs.getStringList(ItemChooser.COLUMNS_PROPERTY);
     }
     else
     {
@@ -180,7 +180,7 @@ public class CountedItemsTableController
       ret.add(nameColumn);
     }
 
-    List<DefaultTableColumnController<Item,?>> columns=ItemChoiceTableController.initColumns();
+    List<DefaultTableColumnController<Item,?>> columns=ItemsTableBuilder.initColumns();
     for(TableColumnController<Item,?> column : columns)
     {
       String id=column.getId();
@@ -279,7 +279,7 @@ public class CountedItemsTableController
     if (_prefs!=null)
     {
       List<String> columnIds=_tableController.getColumnsManager().getSelectedColumnsIds();
-      _prefs.setStringList(ItemChoiceWindowController.COLUMNS_PROPERTY,columnIds);
+      _prefs.setStringList(ItemChooser.COLUMNS_PROPERTY,columnIds);
     }
     // GUI
     if (_tableController!=null)
