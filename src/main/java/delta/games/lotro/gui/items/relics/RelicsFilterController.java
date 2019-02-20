@@ -16,12 +16,13 @@ import delta.common.ui.swing.combobox.ItemSelectionListener;
 import delta.games.lotro.lore.items.legendary.relics.RelicFilter;
 import delta.games.lotro.lore.items.legendary.relics.RelicType;
 import delta.games.lotro.lore.items.legendary.relics.RelicsCategories;
+import delta.games.lotro.utils.gui.filter.ObjectFilterPanelController;
 
 /**
  * Controller for a relic filter edition panel.
  * @author DAM
  */
-public class RelicsFilterController
+public class RelicsFilterController extends ObjectFilterPanelController
 {
   // Data
   private RelicFilter _filter;
@@ -31,22 +32,14 @@ public class RelicsFilterController
   private ComboBoxController<RelicType> _type;
   private JTextField _nameContains;
   private JTextField _statsContains;
-  private RelicChoicePanelController _panelController;
 
   /**
    * Constructor.
    * @param filter Filter.
-   * @param panelController Associated panel controller.
    */
-  public RelicsFilterController(RelicFilter filter, RelicChoicePanelController panelController)
+  public RelicsFilterController(RelicFilter filter)
   {
     _filter=filter;
-    _panelController=panelController;
-  }
-
-  private void updateFilter()
-  {
-    _panelController.updateFilter();
   }
 
   /**
@@ -59,7 +52,7 @@ public class RelicsFilterController
     {
       _panel=build();
       setFilter();
-      updateFilter();
+      filterUpdated();
     }
     return _panel;
   }
@@ -152,7 +145,7 @@ public class RelicsFilterController
       public void itemSelected(RelicType type)
       {
         _filter.setRelicType(type);
-        updateFilter();
+        filterUpdated();
       }
     };
     ctrl.addListener(l);
@@ -173,7 +166,7 @@ public class RelicsFilterController
       public void itemSelected(String category)
       {
         _filter.setRelicCategory(category);
-        updateFilter();
+        filterUpdated();
       }
     };
     ctrl.addListener(l);
@@ -218,7 +211,7 @@ public class RelicsFilterController
     {
       _filter.setStatsFilter(text);
     }
-    updateFilter();
+    filterUpdated();
   }
 
   /**
@@ -228,8 +221,6 @@ public class RelicsFilterController
   {
     // Data
     _filter=null;
-    // Controllers
-    _panelController=null;
     // GUI
     if (_panel!=null)
     {

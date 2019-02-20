@@ -7,49 +7,26 @@ import javax.swing.JTable;
 
 import delta.common.ui.swing.tables.CellDataProvider;
 import delta.common.ui.swing.tables.DataProvider;
+import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.ListDataProvider;
-import delta.common.ui.swing.tables.DefaultTableColumnController;
-import delta.common.utils.collections.filters.Filter;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.lore.items.legendary.relics.Relic;
 
 /**
- * Controller for a table that shows relics.
+ * Builder for a table that shows relics.
  * @author DAM
  */
-public class RelicsTableController
+public class RelicsTableBuilder
 {
-  // Data
-  private List<Relic> _relics;
-  // GUI
-  private GenericTableController<Relic> _tableController;
-
   /**
-   * Constructor.
-   * @param relics Relics to choose from.
-   * @param filter Relics filter.
+   * Build a table to show relics.
+   * @param relics Relics to show.
+   * @return A new table controller.
    */
-  public RelicsTableController(List<Relic> relics, Filter<Relic> filter)
+  public static GenericTableController<Relic> buildTable(List<Relic> relics)
   {
-    _relics=relics;
-    _tableController=buildTable();
-    _tableController.setFilter(filter);
-    configureTable();
-  }
-
-  /**
-   * Get the managed generic table controller.
-   * @return the managed generic table controller.
-   */
-  public GenericTableController<Relic> getTableController()
-  {
-    return _tableController;
-  }
-
-  private GenericTableController<Relic> buildTable()
-  {
-    DataProvider<Relic> provider=new ListDataProvider<Relic>(_relics);
+    DataProvider<Relic> provider=new ListDataProvider<Relic>(relics);
     GenericTableController<Relic> table=new GenericTableController<Relic>(provider);
 
     // Icon column
@@ -127,82 +104,9 @@ public class RelicsTableController
       statsColumn.setWidthSpecs(250,-1,250);
       table.addColumnController(statsColumn);
     }
-    return table;
-  }
-
-  private void configureTable()
-  {
-    JTable table=getTable();
     // Adjust table row height for icons (32 pixels)
-    table.setRowHeight(32);
-  }
-
-  /**
-   * Get the managed table.
-   * @return the managed table.
-   */
-  public JTable getTable()
-  {
-    return _tableController.getTable();
-  }
-
-  /**
-   * Update managed filter.
-   */
-  public void updateFilter()
-  {
-    _tableController.filterUpdated();
-  }
-
-  /**
-   * Get the total number of relics.
-   * @return A number of relics.
-   */
-  public int getNbItems()
-  {
-    return _relics.size();
-  }
-
-  /**
-   * Get the number of filtered items in the managed log.
-   * @return A number of items.
-   */
-  public int getNbFilteredItems()
-  {
-    int ret=_tableController.getNbFilteredItems();
-    return ret;
-  }
-
-  /**
-   * Get the currently selected relic.
-   * @return a relic or <code>null</code>.
-   */
-  public Relic getSelectedRelic()
-  {
-    return _tableController.getSelectedItem();
-  }
-
-  /**
-   * Select a relic.
-   * @param relic Relic to select (may be <code>null</code>).
-   */
-  public void selectRelic(Relic relic)
-  {
-    _tableController.selectItem(relic);
-  }
-
-  /**
-   * Release all managed resources.
-   */
-  public void dispose()
-  {
-    // GUI
-    if (_tableController!=null)
-    {
-      _tableController.dispose();
-      _tableController=null;
-    }
-    // Data
-    _relics=null;
+    JTable swingTable=table.getTable();
+    swingTable.setRowHeight(32);
+    return table;
   }
 }
