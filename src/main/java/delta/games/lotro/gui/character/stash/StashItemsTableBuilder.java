@@ -1,6 +1,5 @@
 package delta.games.lotro.gui.character.stash;
 
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,33 +24,16 @@ import delta.games.lotro.lore.items.ItemPropertyNames;
  * Controller for a table that shows all items in a stash.
  * @author DAM
  */
-public class StashItemsTableController
+public class StashItemsTableBuilder
 {
-  // Data
-  private CharacterFile _toon;
-  // GUI
-  private JTable _table;
-  private GenericTableController<ItemInstance<? extends Item>> _tableController;
-
-  /**
-   * Constructor.
-   * @param toon Managed toon.
-   */
-  public StashItemsTableController(CharacterFile toon)
-  {
-    _toon=toon;
-    _tableController=buildTable();
-    configureTable();
-  }
-
-  private DataProvider<ItemInstance<? extends Item>> buildDataProvider()
+  private static DataProvider<ItemInstance<? extends Item>> buildDataProvider(final CharacterFile toon)
   {
     DataProvider<ItemInstance<? extends Item>> ret=new DataProvider<ItemInstance<? extends Item>>()
     {
       @Override
       public ItemInstance<? extends Item> getAt(int index)
       {
-        ItemsStash stash=_toon.getStash();
+        ItemsStash stash=toon.getStash();
         List<ItemInstance<? extends Item>> items=stash.getItemsList();
         ItemInstance<? extends Item> instance=items.get(index);
         return instance;
@@ -60,7 +42,7 @@ public class StashItemsTableController
       @Override
       public int getCount()
       {
-        ItemsStash stash=_toon.getStash();
+        ItemsStash stash=toon.getStash();
         List<ItemInstance<? extends Item>> items=stash.getItemsList();
         return items.size();
       }
@@ -68,9 +50,14 @@ public class StashItemsTableController
     return ret;
   }
 
-  private GenericTableController<ItemInstance<? extends Item>> buildTable()
+  /**
+   * Build a table to show item instances.
+   * @param toon Targeted toon.
+   * @return A table to show the item instances in the stash of the given toon.
+   */
+  public static GenericTableController<ItemInstance<? extends Item>> buildTable(CharacterFile toon)
   {
-    DataProvider<ItemInstance<? extends Item>> provider=buildDataProvider();
+    DataProvider<ItemInstance<? extends Item>> provider=buildDataProvider(toon);
     GenericTableController<ItemInstance<? extends Item>> table=new GenericTableController<ItemInstance<? extends Item>>(provider);
 
     List<TableColumnController<Item,?>> itemColumns=getItemColumns();
@@ -91,10 +78,15 @@ public class StashItemsTableController
       ProxiedTableColumnController<ItemInstance<? extends Item>,Item,Object> column=new ProxiedTableColumnController<ItemInstance<? extends Item>,Item,Object>(c,dataProvider);
       table.addColumnController(column);
     }
+
+    // Configure table
+    JTable swingTable=table.getTable();
+    // Adjust table row height for icons (32 pixels)
+    swingTable.setRowHeight(32);
     return table;
   }
 
-  private List<TableColumnController<Item,?>> getItemColumns()
+  private static List<TableColumnController<Item,?>> getItemColumns()
   {
     List<TableColumnController<Item,?>> ret=new ArrayList<TableColumnController<Item,?>>();
     // Icon column
@@ -158,70 +150,5 @@ public class StashItemsTableController
       ret.add(commentColumn);
     }
     return ret;
-  }
-
-  private void configureTable()
-  {
-    JTable table=getTable();
-    // Adjust table row height for icons (32 pixels)
-    table.setRowHeight(32);
-  }
-
-  /**
-   * Get the managed table controller.
-   * @return the managed table controller.
-   */
-  public GenericTableController<ItemInstance<? extends Item>> getTableController()
-  {
-    return _tableController;
-  }
-
-  /**
-   * Get the managed table.
-   * @return the managed table.
-   */
-  public JTable getTable()
-  {
-    if (_table==null)
-    {
-      _table=_tableController.getTable();
-    }
-    return _table;
-  }
-
-  /**
-   * Add an action listener.
-   * @param al Action listener to add.
-   */
-  public void addActionListener(ActionListener al)
-  {
-    _tableController.addActionListener(al);
-  }
-
-  /**
-   * Remove an action listener.
-   * @param al Action listener to remove.
-   */
-  public void removeActionListener(ActionListener al)
-  {
-    _tableController.removeActionListener(al);
-  }
-
-  /**
-   * Release all managed resources.
-   */
-  public void dispose()
-  {
-    // GUI
-    if (_table!=null)
-    {
-      _table=null;
-    }
-    if (_tableController!=null)
-    {
-      _tableController.dispose();
-      _tableController=null;
-    }
-    _toon=null;
   }
 }

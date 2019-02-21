@@ -47,7 +47,7 @@ public class StashWindowController extends DefaultWindowController implements Ac
   private static final String CLONE_ITEM_ID="cloneItem";
   private static final String REMOVE_ITEM_ID="removeItem";
 
-  private StashItemsTableController _itemsTable;
+  private GenericTableController<ItemInstance<? extends Item>> _itemsTable;
   private ToolbarController _toolbar;
   private CharacterFile _toon;
 
@@ -105,7 +105,7 @@ public class StashWindowController extends DefaultWindowController implements Ac
         return filter.accept(item.getReference());
       }
     };
-    _itemsTable.getTableController().setFilter(instanceFilter);
+    _itemsTable.setFilter(instanceFilter);
     return panel;
   }
 
@@ -138,7 +138,7 @@ public class StashWindowController extends DefaultWindowController implements Ac
     CharacterEventType type=event.getType();
     if (type==CharacterEventType.CHARACTER_STASH_UPDATED)
     {
-      _itemsTable.getTableController().refresh();
+      _itemsTable.refresh();
     }
   }
 
@@ -157,7 +157,7 @@ public class StashWindowController extends DefaultWindowController implements Ac
   @Override
   public void filterUpdated()
   {
-    _itemsTable.getTableController().filterUpdated();
+    _itemsTable.filterUpdated();
   }
 
   /**
@@ -194,7 +194,8 @@ public class StashWindowController extends DefaultWindowController implements Ac
     _toolbar=buildToolBar();
     JToolBar toolbar=_toolbar.getToolBar();
     ret.add(toolbar,BorderLayout.NORTH);
-    _itemsTable=buildTable();
+    _itemsTable=StashItemsTableBuilder.buildTable(_toon);
+    _itemsTable.addActionListener(this);
     JTable table=_itemsTable.getTable();
     JScrollPane scroll=GuiFactory.buildScrollPane(table);
     ret.add(scroll,BorderLayout.CENTER);
@@ -228,13 +229,6 @@ public class StashWindowController extends DefaultWindowController implements Ac
     return imgLocation;
   }
 
-  private StashItemsTableController buildTable()
-  {
-    StashItemsTableController tableController=new StashItemsTableController(_toon);
-    tableController.addActionListener(this);
-    return tableController;
-  }
-
   private void editItem(ItemInstance<? extends Item> item)
   {
     ItemEditionWindowController ctrl=new ItemEditionWindowController(this,_toon.getSummary(),item);
@@ -244,8 +238,7 @@ public class StashWindowController extends DefaultWindowController implements Ac
 
   private void cloneItem()
   {
-    GenericTableController<ItemInstance<? extends Item>> controller=_itemsTable.getTableController();
-    ItemInstance<? extends Item> item=controller.getSelectedItem();
+    ItemInstance<? extends Item> item=_itemsTable.getSelectedItem();
     if (item!=null)
     {
       ItemInstance<? extends Item> clone=ItemFactory.cloneInstance(item);
@@ -253,20 +246,19 @@ public class StashWindowController extends DefaultWindowController implements Ac
       ItemsStash stash=_toon.getStash();
       stash.addItem(clone);
       _toon.saveStash();
-      _itemsTable.getTableController().refresh();
+      _itemsTable.refresh();
     }
   }
 
   private void removeItem()
   {
-    GenericTableController<ItemInstance<? extends Item>> controller=_itemsTable.getTableController();
-    ItemInstance<? extends Item> item=controller.getSelectedItem();
+    ItemInstance<? extends Item> item=_itemsTable.getSelectedItem();
     if (item!=null)
     {
       ItemsStash stash=_toon.getStash();
       stash.removeItem(item.getStashIdentifier());
       _toon.saveStash();
-      _itemsTable.getTableController().refresh();
+      _itemsTable.refresh();
     }
   }
 
