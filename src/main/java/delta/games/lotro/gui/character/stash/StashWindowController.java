@@ -34,6 +34,7 @@ import delta.games.lotro.gui.items.chooser.ItemFilterController;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemFactory;
 import delta.games.lotro.lore.items.ItemInstance;
+import delta.games.lotro.lore.items.filters.ItemInstanceFilter;
 import delta.games.lotro.utils.events.EventsManager;
 import delta.games.lotro.utils.events.GenericEventsListener;
 
@@ -97,14 +98,7 @@ public class StashWindowController extends DefaultWindowController implements Ac
     c.gridy=1;c.weighty=1;c.fill=GridBagConstraints.BOTH;
     panel.add(tablePanel,c);
     tablePanel.setBorder(GuiFactory.buildTitledBorder("Items"));
-    Filter<ItemInstance<? extends Item>> instanceFilter=new Filter<ItemInstance<? extends Item>>()
-    {
-      @Override
-      public boolean accept(ItemInstance<? extends Item> item)
-      {
-        return filter.accept(item.getReference());
-      }
-    };
+    ItemInstanceFilter instanceFilter=new ItemInstanceFilter(filter);
     _itemsTable.setFilter(instanceFilter);
     return panel;
   }
