@@ -10,6 +10,7 @@ import delta.common.ui.swing.tables.CellDataProvider;
 import delta.common.ui.swing.tables.DataProvider;
 import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.GenericTableController;
+import delta.common.ui.swing.tables.ListDataProvider;
 import delta.common.ui.swing.tables.ProxiedTableColumnController;
 import delta.common.ui.swing.tables.TableColumnController;
 import delta.games.lotro.character.CharacterFile;
@@ -26,6 +27,17 @@ import delta.games.lotro.lore.items.ItemPropertyNames;
  */
 public class StashItemsTableBuilder
 {
+  /**
+   * Build a table to show item instances.
+   * @param instances Instances to show.
+   * @return A table to show the given item instances.
+   */
+  public static GenericTableController<ItemInstance<? extends Item>> buildTable(List<ItemInstance<? extends Item>> instances)
+  {
+    DataProvider<ItemInstance<? extends Item>> provider=new ListDataProvider<ItemInstance<? extends Item>>(instances);
+    return buildTable(provider);
+  }
+
   private static DataProvider<ItemInstance<? extends Item>> buildDataProvider(final CharacterFile toon)
   {
     DataProvider<ItemInstance<? extends Item>> ret=new DataProvider<ItemInstance<? extends Item>>()
@@ -51,13 +63,18 @@ public class StashItemsTableBuilder
   }
 
   /**
-   * Build a table to show item instances.
+   * Build a table to show the item instances of a toon stash.
    * @param toon Targeted toon.
    * @return A table to show the item instances in the stash of the given toon.
    */
   public static GenericTableController<ItemInstance<? extends Item>> buildTable(CharacterFile toon)
   {
     DataProvider<ItemInstance<? extends Item>> provider=buildDataProvider(toon);
+    return buildTable(provider);
+  }
+
+  private static GenericTableController<ItemInstance<? extends Item>> buildTable(DataProvider<ItemInstance<? extends Item>> provider)
+  {
     GenericTableController<ItemInstance<? extends Item>> table=new GenericTableController<ItemInstance<? extends Item>>(provider);
 
     List<TableColumnController<Item,?>> itemColumns=getItemColumns();

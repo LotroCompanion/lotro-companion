@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,10 +38,12 @@ import delta.games.lotro.gui.items.ItemEditionWindowController;
 import delta.games.lotro.gui.items.chooser.ItemChooser;
 import delta.games.lotro.gui.items.chooser.ItemFilterConfiguration;
 import delta.games.lotro.gui.items.chooser.ItemFilterController;
+import delta.games.lotro.gui.items.chooser.ItemInstanceChooser;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemFactory;
 import delta.games.lotro.lore.items.ItemInstance;
 import delta.games.lotro.lore.items.ItemsManager;
+import delta.games.lotro.lore.items.filters.ItemSlotFilter;
 import delta.games.lotro.utils.events.EventsManager;
 import delta.games.lotro.utils.gui.chooser.ObjectChoiceWindowController;
 
@@ -331,23 +334,20 @@ public class EquipmentPanelController implements ActionListener
 
   private void handleChooseItemFromStash(EQUIMENT_SLOT slot)
   {
-    /*
-    ItemsStash stash=_toon.getStash();
-    List<ItemInstance<? extends Item>> items=stash.getAll();
-    ItemsManager itemsManager=new ItemsManager(items);
-    handleChooseItem(slot,itemsManager,true);
-    */
+    ItemInstance<? extends Item> itemInstance=chooseItemInstance(slot);
+    if (itemInstance!=null)
+    {
+      CharacterEquipment equipment=_toonData.getEquipment();
+      SlotContents contents=equipment.getSlotContents(slot,true);
+      ItemInstance<? extends Item> instance=ItemFactory.cloneInstance(itemInstance);
+      contents.setItem(instance);
+      refreshToon();
+    }
   }
 
   private void handleChooseItem(EQUIMENT_SLOT slot)
   {
-    ItemsManager itemsManager=ItemsManager.getInstance();
-    handleChooseItem(slot,itemsManager,false);
-  }
-
-  private void handleChooseItem(EQUIMENT_SLOT slot, ItemsManager itemsManager, boolean stash)
-  {
-    Item item=chooseItem(slot,itemsManager,stash);
+    Item item=chooseItem(slot);
     if (item!=null)
     {
       CharacterEquipment equipment=_toonData.getEquipment();
@@ -359,19 +359,40 @@ public class EquipmentPanelController implements ActionListener
     }
   }
 
-  private Item chooseItem(EQUIMENT_SLOT slot, ItemsManager itemsManager, boolean stash)
+  private ItemInstance<? extends Item> chooseItemInstance(EQUIMENT_SLOT slot)
   {
-    List<Item> selectedItems=itemsManager.getItems(slot);
+    List<ItemInstance<? extends Item>> selectedItemInstances=new ArrayList<ItemInstance<? extends Item>>();
+    {
+      ItemsStash stash=_toon.getStash();
+      List<ItemInstance<? extends Item>> items=stash.getAll();
+      ItemSlotFilter filter=new ItemSlotFilter(slot);
+      for(ItemInstance<? extends Item> itemInstance : items)
+      {
+        Item item=itemInstance.getReference();
+        if (filter.accept(item))
+        {
+          selectedItemInstances.add(itemInstance);
+        }
+      }
+    }
+    ItemFilterConfiguration cfg=new ItemFilterConfiguration();
+    cfg.forStashFilter();
+    TypedProperties filterProps=_parentWindow.getUserProperties("ItemFilter");
+    ItemFilterController filterController=new ItemFilterController(cfg,_toonData.getSummary(),filterProps);
+    Filter<Item> filter=filterController.getFilter();
+    String id=ItemChooser.ITEM_CHOOSER_PROPERTIES_ID+"#"+slot.name();
+    TypedProperties props=_parentWindow.getUserProperties(id);
+    ObjectChoiceWindowController<ItemInstance<? extends Item>> chooser=ItemInstanceChooser.buildChooser(_parentWindow,props,selectedItemInstances,filter,filterController);
+    ItemInstance<? extends Item> ret=chooser.editModal();
+    return ret;
+  }
+
+  private Item chooseItem(EQUIMENT_SLOT slot)
+  {
+    List<Item> selectedItems=ItemsManager.getInstance().getItems(slot.getLocation());
     ItemFilterConfiguration cfg=new ItemFilterConfiguration();
     cfg.initFromItems(selectedItems);
-    if (stash)
-    {
-      cfg.forStashFilter();
-    }
-    else
-    {
-      cfg.forItemFilter();
-    }
+    cfg.forItemFilter();
     TypedProperties filterProps=_parentWindow.getUserProperties("ItemFilter");
     ItemFilterController filterController=new ItemFilterController(cfg,_toonData.getSummary(),filterProps);
     Filter<Item> filter=filterController.getFilter();
