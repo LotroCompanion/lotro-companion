@@ -33,7 +33,7 @@ import delta.games.lotro.common.stats.WellKnownStat;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.character.stats.StatsEditionPanelController;
 import delta.games.lotro.gui.items.essences.EssencesEditionPanelController;
-import delta.games.lotro.gui.items.relics.RelicsEditionPanelController;
+import delta.games.lotro.gui.items.legendary.relics.RelicsEditionPanelController;
 import delta.games.lotro.lore.items.Armour;
 import delta.games.lotro.lore.items.ArmourType;
 import delta.games.lotro.lore.items.DamageType;

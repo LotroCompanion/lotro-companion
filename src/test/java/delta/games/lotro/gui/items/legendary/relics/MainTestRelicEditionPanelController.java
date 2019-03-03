@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.items.relics;
+package delta.games.lotro.gui.items.legendary.relics;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;

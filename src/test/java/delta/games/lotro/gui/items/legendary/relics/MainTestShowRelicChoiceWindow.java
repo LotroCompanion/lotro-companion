@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.items.relics;
+package delta.games.lotro.gui.items.legendary.relics;
 
 import delta.games.lotro.lore.items.legendary.relics.Relic;
 import delta.games.lotro.lore.items.legendary.relics.RelicType;
