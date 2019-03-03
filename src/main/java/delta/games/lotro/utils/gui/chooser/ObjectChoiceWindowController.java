@@ -91,7 +91,10 @@ public class ObjectChoiceWindowController<T> extends DefaultFormDialogController
     }
     // Table
     _panelController=new ObjectChoicePanelController<T>(this,_tableController);
-    _filterController.setFilterUpdateListener(_panelController);
+    if (_filterController!=null)
+    {
+      _filterController.setFilterUpdateListener(_panelController);
+    }
     JPanel tablePanel=_panelController.getPanel();
     ActionListener al=new ActionListener()
     {
@@ -103,12 +106,19 @@ public class ObjectChoiceWindowController<T> extends DefaultFormDialogController
     };
     _tableController.addActionListener(al);
     // Filter
-    JPanel filterPanel=_filterController.getPanel();
-    TitledBorder filterBorder=GuiFactory.buildTitledBorder("Filter");
-    filterPanel.setBorder(filterBorder);
+    JPanel filterPanel=null;
+    if (_filterController!=null)
+    {
+      filterPanel=_filterController.getPanel();
+      TitledBorder filterBorder=GuiFactory.buildTitledBorder("Filter");
+      filterPanel.setBorder(filterBorder);
+    }
     // Whole panel
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
-    panel.add(filterPanel,c);
+    if (filterPanel!=null)
+    {
+      panel.add(filterPanel,c);
+    }
     c.gridy=1;c.weighty=1;c.fill=GridBagConstraints.BOTH;
     panel.add(tablePanel,c);
     return panel;
