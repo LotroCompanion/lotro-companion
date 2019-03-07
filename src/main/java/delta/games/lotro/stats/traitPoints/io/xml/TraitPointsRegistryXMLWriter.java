@@ -1,27 +1,20 @@
 package delta.games.lotro.stats.traitPoints.io.xml;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.sax.SAXTransformerFactory;
 import javax.xml.transform.sax.TransformerHandler;
-import javax.xml.transform.stream.StreamResult;
 
-import org.apache.log4j.Logger;
 import org.xml.sax.helpers.AttributesImpl;
 
-import delta.common.utils.io.StreamTools;
+import delta.common.utils.io.xml.XmlFileWriterHelper;
+import delta.common.utils.io.xml.XmlWriter;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.stats.traitPoints.TraitPoint;
 import delta.games.lotro.stats.traitPoints.TraitPointsRegistry;
 import delta.games.lotro.stats.traitPoints.comparators.TraitPointIdComparator;
-import delta.games.lotro.utils.LotroLoggers;
 
 /**
  * Writes a trait points registry to an XML file.
@@ -29,51 +22,25 @@ import delta.games.lotro.utils.LotroLoggers;
  */
 public class TraitPointsRegistryXMLWriter
 {
-  private static final Logger _logger=LotroLoggers.getLotroLogger();
-
-  private static final String CDATA="CDATA";
-
   /**
-   * Write a registry to an XML file.
+   * Write a trait points registry to an XML file.
    * @param outFile Output file.
    * @param registry Registry to write.
    * @param encoding Encoding to use.
    * @return <code>true</code> if it succeeds, <code>false</code> otherwise.
    */
-  public boolean write(File outFile, TraitPointsRegistry registry, String encoding)
+  public boolean write(File outFile, final TraitPointsRegistry registry, String encoding)
   {
-    boolean ret;
-    FileOutputStream fos=null;
-    try
+    XmlWriter writer=new XmlWriter()
     {
-      File parentFile=outFile.getParentFile();
-      if (!parentFile.exists())
+      @Override
+      public void writeXml(TransformerHandler hd) throws Exception
       {
-        parentFile.mkdirs();
+        write(hd,registry);
       }
-      fos=new FileOutputStream(outFile);
-      SAXTransformerFactory tf=(SAXTransformerFactory)TransformerFactory.newInstance();
-      TransformerHandler hd=tf.newTransformerHandler();
-      Transformer serializer=hd.getTransformer();
-      serializer.setOutputProperty(OutputKeys.ENCODING,encoding);
-      serializer.setOutputProperty(OutputKeys.INDENT,"yes");
-
-      StreamResult streamResult=new StreamResult(fos);
-      hd.setResult(streamResult);
-      hd.startDocument();
-      write(hd,registry);
-      hd.endDocument();
-      ret=true;
-    }
-    catch (Exception exception)
-    {
-      _logger.error("",exception);
-      ret=false;
-    }
-    finally
-    {
-      StreamTools.close(fos);
-    }
+    };
+    XmlFileWriterHelper helper=new XmlFileWriterHelper();
+    boolean ret=helper.write(outFile,encoding,writer);
     return ret;
   }
 
@@ -112,26 +79,26 @@ public class TraitPointsRegistryXMLWriter
     String id=point.getId();
     if (id!=null)
     {
-      attrs.addAttribute("","",TraitPointsRegistryXMLConstants.TRAIT_POINT_ID_ATTR,CDATA,id);
+      attrs.addAttribute("","",TraitPointsRegistryXMLConstants.TRAIT_POINT_ID_ATTR,XmlWriter.CDATA,id);
     }
     // Category
     String category=point.getCategory();
     if (category!=null)
     {
-      attrs.addAttribute("","",TraitPointsRegistryXMLConstants.TRAIT_POINT_CATEGORY_ATTR,CDATA,category);
+      attrs.addAttribute("","",TraitPointsRegistryXMLConstants.TRAIT_POINT_CATEGORY_ATTR,XmlWriter.CDATA,category);
     }
     // Label
     String label=point.getLabel();
     if (label!=null)
     {
-      attrs.addAttribute("","",TraitPointsRegistryXMLConstants.TRAIT_POINT_LABEL_ATTR,CDATA,label);
+      attrs.addAttribute("","",TraitPointsRegistryXMLConstants.TRAIT_POINT_LABEL_ATTR,XmlWriter.CDATA,label);
     }
     // Required class
     Set<CharacterClass> requiredClasses=point.getRequiredClasses();
     if (!requiredClasses.isEmpty())
     {
       String classes=buildClassRequirement(requiredClasses);
-      attrs.addAttribute("","",TraitPointsRegistryXMLConstants.TRAIT_POINT_REQUIRED_CLASSES_ATTR,CDATA,classes);
+      attrs.addAttribute("","",TraitPointsRegistryXMLConstants.TRAIT_POINT_REQUIRED_CLASSES_ATTR,XmlWriter.CDATA,classes);
     }
     hd.startElement("","",TraitPointsRegistryXMLConstants.TRAIT_POINT_TAG,attrs);
     hd.endElement("","",TraitPointsRegistryXMLConstants.TRAIT_POINT_TAG);
