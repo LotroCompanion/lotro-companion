@@ -13,7 +13,6 @@ import delta.games.lotro.character.log.CharacterLogItem;
 import delta.games.lotro.character.log.CharacterLogItem.LogItemType;
 import delta.games.lotro.lore.warbands.WarbandDefinition;
 import delta.games.lotro.lore.warbands.WarbandsRegistry;
-import delta.games.lotro.utils.LotroLoggers;
 
 /**
  * Warbands statistics for a single toon.
@@ -21,7 +20,8 @@ import delta.games.lotro.utils.LotroLoggers;
  */
 public class WarbandsStats
 {
-  private static final Logger _logger=LotroLoggers.getLotroLogger();
+  private static final Logger LOGGER=Logger.getLogger(WarbandsStats.class);
+
   private static final String WARBAND_SEED="Warband:";
 
   private String _name;
@@ -104,7 +104,7 @@ public class WarbandsStats
     WarbandDefinition warband=registry.getByName(warbandName);
     if (warband==null)
     {
-      _logger.warn("Unknown warband ["+warbandName+"]. Ignored.");
+      LOGGER.warn("Unknown warband ["+warbandName+"]. Ignored.");
     }
     else
     {

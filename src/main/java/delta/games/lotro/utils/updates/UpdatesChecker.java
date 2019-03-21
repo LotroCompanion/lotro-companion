@@ -12,7 +12,6 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.utils.misc.Preferences;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.Config;
-import delta.games.lotro.utils.LotroLoggers;
 
 /**
  * Checks for software updates.
@@ -20,7 +19,7 @@ import delta.games.lotro.utils.LotroLoggers;
  */
 public class UpdatesChecker
 {
-  private static final Logger _logger=LotroLoggers.getLotroLogger();
+  private static final Logger LOGGER=Logger.getLogger(UpdatesChecker.class);
 
   private static final String UPDATES_PREFERENCES_NAME="updates";
   private static final String LAST_UPDATE_CHECK_PROPERTY_NAME="lastUpdateCheck.timestamp";
@@ -56,7 +55,7 @@ public class UpdatesChecker
       }
       catch(Exception e)
       {
-        _logger.error("Updates checker error", e);
+        LOGGER.error("Updates checker error", e);
       }
     }
     return ret;
@@ -117,8 +116,8 @@ public class UpdatesChecker
       int currentId=current.getId();
       if (remoteId>currentId)
       {
-        _logger.info("New version available: " + remote);
-        _logger.info("Old version: " + current);
+        LOGGER.info("New version available: " + remote);
+        LOGGER.info("Old version: " + current);
         showInfoWindow(current,remote);
       }
     }

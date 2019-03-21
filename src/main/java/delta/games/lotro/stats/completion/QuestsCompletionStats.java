@@ -18,7 +18,6 @@ import delta.games.lotro.lore.quests.QuestsManager;
 import delta.games.lotro.lore.quests.index.QuestCategory;
 import delta.games.lotro.lore.quests.index.QuestSummary;
 import delta.games.lotro.lore.quests.index.QuestsIndex;
-import delta.games.lotro.utils.LotroLoggers;
 
 /**
  * Statistics on quests completion for a single category on a single toon.
@@ -26,7 +25,7 @@ import delta.games.lotro.utils.LotroLoggers;
  */
 public class QuestsCompletionStats
 {
-  private static final Logger _logger=LotroLoggers.getLotroLogger();
+  private static final Logger LOGGER=Logger.getLogger(QuestsCompletionStats.class);
 
   private static final boolean USE_CLASS_RESTRICTIONS=true;
   private static final boolean USE_RACE_RESTRICTIONS=true;
@@ -95,9 +94,9 @@ public class QuestsCompletionStats
                 else
                 {
                   String key=q.getKey();
-                  if (_logger.isInfoEnabled())
+                  if (LOGGER.isInfoEnabled())
                   {
-                    _logger.info("Ignored quest ["+key+"]. Class="+className+", Required:"+classes);
+                    LOGGER.info("Ignored quest ["+key+"]. Class="+className+", Required:"+classes);
                   }
                   useIt=false;
                 }
@@ -117,9 +116,9 @@ public class QuestsCompletionStats
                 else
                 {
                   String key=q.getKey();
-                  if (_logger.isInfoEnabled())
+                  if (LOGGER.isInfoEnabled())
                   {
-                    _logger.info("Ignored quest ["+key+"]. Race="+raceName+", Required:"+races);
+                    LOGGER.info("Ignored quest ["+key+"]. Race="+raceName+", Required:"+races);
                   }
                   useIt=false;
                 }
