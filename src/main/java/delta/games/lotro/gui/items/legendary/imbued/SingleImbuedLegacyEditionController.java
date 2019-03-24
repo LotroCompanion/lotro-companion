@@ -71,7 +71,6 @@ public class SingleImbuedLegacyEditionController
     _chooseButton.addActionListener(listener);
     // - current level
     _currentLevel=new ComboBoxController<Integer>();
-    initLevelCombos();
     ItemSelectionListener<Integer> currentLevelListener=new ItemSelectionListener<Integer>()
     {
       @Override
@@ -83,10 +82,8 @@ public class SingleImbuedLegacyEditionController
         }
       }
     };
-    _currentLevel.addListener(currentLevelListener);
     // - max level
     _maxLevel=new ComboBoxController<Integer>();
-    initLevelCombos();
     ItemSelectionListener<Integer> maxLevelListener=new ItemSelectionListener<Integer>()
     {
       @Override
@@ -98,6 +95,10 @@ public class SingleImbuedLegacyEditionController
         }
       }
     };
+    // - init combos contents
+    initLevelCombos();
+    // - init listeners
+    _currentLevel.addListener(currentLevelListener);
     _maxLevel.addListener(maxLevelListener);
   }
 
