@@ -15,6 +15,7 @@ import javax.swing.SwingConstants;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.combobox.ComboBoxController;
+import delta.common.ui.swing.combobox.ItemSelectionListener;
 import delta.common.ui.swing.labels.MultilineLabel2;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.common.constraints.ClassAndSlot;
@@ -28,9 +29,10 @@ import delta.games.lotro.lore.items.legendary.imbued.ImbuedLegendaryAttrs;
 public class ImbuedLegacyInstanceEditionPanelController
 {
   // Data
-  //private ImbuedLegendaryAttrs _attrs;
+  private ImbuedLegendaryAttrs _attrs;
   // GUI
   private JPanel _panel;
+  private JLabel _levels;
   // Controllers
   private WindowController _parent;
   private List<SingleImbuedLegacyEditionController> _editors;
@@ -44,7 +46,7 @@ public class ImbuedLegacyInstanceEditionPanelController
   public ImbuedLegacyInstanceEditionPanelController(WindowController parent, ImbuedLegendaryAttrs attrs, ClassAndSlot constraints)
   {
     _parent=parent;
-    //_attrs=attrs;
+    _attrs=attrs;
     polyfillAttrs(attrs);
     _editors=new ArrayList<SingleImbuedLegacyEditionController>();
     int nbLegacies=attrs.getNumberOfLegacies();
@@ -66,6 +68,14 @@ public class ImbuedLegacyInstanceEditionPanelController
     }
   }
 
+  private void updateLevels()
+  {
+    int currentLevels=_attrs.getTotalTiers();
+    int maxLevels=_attrs.getMaxTotalTiers();
+    String label="Levels (current / max): "+currentLevels+" / "+maxLevels;
+    _levels.setText(label);
+  }
+
   /**
    * Get the managed panel.
    * @return the managed panel.
@@ -81,6 +91,18 @@ public class ImbuedLegacyInstanceEditionPanelController
   }
 
   private JPanel build()
+  {
+    JPanel panel=GuiFactory.buildBackgroundPanel(new GridBagLayout());
+    _levels=GuiFactory.buildLabel("? / ?");
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(5,5,5,5),0,0);
+    panel.add(_levels,c);
+    JPanel legaciesPanel=buildLegaciesPanel();
+    c=new GridBagConstraints(0,1,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    panel.add(legaciesPanel,c);
+    return panel;
+  }
+
+  private JPanel buildLegaciesPanel()
   {
     JPanel panel=GuiFactory.buildBackgroundPanel(new GridBagLayout());
     int y=0;
@@ -107,6 +129,14 @@ public class ImbuedLegacyInstanceEditionPanelController
       x++;
       y++;
     }
+    ItemSelectionListener<Integer> levelsListener=new ItemSelectionListener<Integer>()
+    {
+      @Override
+      public void itemSelected(Integer item)
+      {
+        updateLevels();
+      }
+    };
     // Rows
     int nbEditors=_editors.size();
     for(int i=0;i<nbEditors;i++)
@@ -120,11 +150,13 @@ public class ImbuedLegacyInstanceEditionPanelController
       x++;
       // Current level
       ComboBoxController<Integer> currentLevelCombo=editor.getCurrentLevelCombo();
+      currentLevelCombo.addListener(levelsListener);
       c=new GridBagConstraints(x,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,0),0,0);
       panel.add(currentLevelCombo.getComboBox(),c);
       x++;
       // Max level
       ComboBoxController<Integer> maxLevelCombo=editor.getMaxLevelCombo();
+      maxLevelCombo.addListener(levelsListener);
       c=new GridBagConstraints(x,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
       panel.add(maxLevelCombo.getComboBox(),c);
       x++;
@@ -154,6 +186,7 @@ public class ImbuedLegacyInstanceEditionPanelController
     {
       editor.setUiFromLegacy();
     }
+    updateLevels();
   }
 
   /**
@@ -162,13 +195,14 @@ public class ImbuedLegacyInstanceEditionPanelController
   public void dispose()
   {
     // Data
-    //_attrs=null;
+    _attrs=null;
     // GUI
     if (_panel!=null)
     {
       _panel.removeAll();
       _panel=null;
     }
+    _levels=null;
     // Controllers
     _parent=null;
     if (_editors!=null)

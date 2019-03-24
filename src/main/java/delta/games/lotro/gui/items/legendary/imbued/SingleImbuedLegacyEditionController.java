@@ -291,12 +291,17 @@ public class SingleImbuedLegacyEditionController
   {
     // Data
     _legacy=null;
+    _constraints=null;
     // Controllers
     _parent=null;
     // UI
     _value=null;
     _chooseButton=null;
-    _currentLevel=null;
+    if (_currentLevel!=null)
+    {
+      _currentLevel.dispose();
+      _currentLevel=null;
+    }
     if (_maxLevel!=null)
     {
       _maxLevel.dispose();
