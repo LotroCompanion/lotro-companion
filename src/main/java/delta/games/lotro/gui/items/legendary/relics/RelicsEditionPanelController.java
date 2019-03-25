@@ -17,9 +17,9 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.icons.IconsManager;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.gui.LotroIconsManager;
-import delta.games.lotro.lore.items.legendary.LegendaryAttrs;
 import delta.games.lotro.lore.items.legendary.relics.Relic;
 import delta.games.lotro.lore.items.legendary.relics.RelicType;
+import delta.games.lotro.lore.items.legendary.relics.RelicsSet;
 
 /**
  * Panel to edit relics.
@@ -35,7 +35,7 @@ public class RelicsEditionPanelController implements ActionListener
   private static final RelicType[] RELIC_TYPES={RelicType.SETTING,RelicType.GEM,RelicType.RUNE,RelicType.CRAFTED_RELIC};
 
   // Data
-  private LegendaryAttrs _legAttrs;
+  private RelicsSet _relics;
   // GUI
   private JPanel _panel;
   private WindowController _parent;
@@ -46,12 +46,12 @@ public class RelicsEditionPanelController implements ActionListener
   /**
    * Constructor.
    * @param parent Parent controller.
-   * @param legAttrs Attributes to edit.
+   * @param relics Attributes to edit.
    */
-  public RelicsEditionPanelController(WindowController parent,LegendaryAttrs legAttrs)
+  public RelicsEditionPanelController(WindowController parent, RelicsSet relics)
   {
     _parent=parent;
-    _legAttrs=legAttrs;
+    _relics=relics;
   }
 
   /**
@@ -71,7 +71,7 @@ public class RelicsEditionPanelController implements ActionListener
   private JPanel build()
   {
     JPanel panel=GuiFactory.buildBackgroundPanel(new GridBagLayout());
-    List<Relic> relics=_legAttrs.getRelics();
+    List<Relic> relics=_relics.getRelics();
     int nbRelics=relics.size();
     _buttons=new ArrayList<JButton>();
     _relicNames=new ArrayList<JLabel>();
@@ -109,14 +109,14 @@ public class RelicsEditionPanelController implements ActionListener
 
   /**
    * Get the contents of the edited data into the given storage.
-   * @param attrs Storage attributes.
+   * @param relics Source data.
    */
-  public void getData(LegendaryAttrs attrs)
+  public void getData(RelicsSet relics)
   {
-    attrs.setSetting(_legAttrs.getSetting());
-    attrs.setGem(_legAttrs.getGem());
-    attrs.setRune(_legAttrs.getRune());
-    attrs.setCraftedRelic(_legAttrs.getCraftedRelic());
+    relics.setSetting(_relics.getSetting());
+    relics.setGem(_relics.getGem());
+    relics.setRune(_relics.getRune());
+    relics.setCraftedRelic(_relics.getCraftedRelic());
   }
 
   /**
@@ -124,7 +124,7 @@ public class RelicsEditionPanelController implements ActionListener
    */
   private void update()
   {
-    List<Relic> relics=_legAttrs.getRelics();
+    List<Relic> relics=_relics.getRelics();
     int nbRelics=relics.size();
     for(int i=0;i<nbRelics;i++)
     {
@@ -157,12 +157,12 @@ public class RelicsEditionPanelController implements ActionListener
     int index=_buttons.indexOf(source);
     if (index!=-1)
     {
-      Relic initialRelic=_legAttrs.getRelics().get(index);
+      Relic initialRelic=_relics.getRelics().get(index);
       RelicType type=RELIC_TYPES[index];
       Relic relic=RelicChooser.selectRelic(_parent,type,initialRelic);
       if (relic!=null)
       {
-        _legAttrs.slotRelic(relic);
+        _relics.slotRelic(relic);
         update();
       }
     }
@@ -172,10 +172,10 @@ public class RelicsEditionPanelController implements ActionListener
       if (index!=-1)
       {
         RelicType type=RELIC_TYPES[index];
-        if (type==RelicType.SETTING) _legAttrs.setSetting(null);
-        if (type==RelicType.GEM) _legAttrs.setGem(null);
-        if (type==RelicType.RUNE) _legAttrs.setRune(null);
-        if (type==RelicType.CRAFTED_RELIC) _legAttrs.setCraftedRelic(null);
+        if (type==RelicType.SETTING) _relics.setSetting(null);
+        if (type==RelicType.GEM) _relics.setGem(null);
+        if (type==RelicType.RUNE) _relics.setRune(null);
+        if (type==RelicType.CRAFTED_RELIC) _relics.setCraftedRelic(null);
         update();
       }
     }

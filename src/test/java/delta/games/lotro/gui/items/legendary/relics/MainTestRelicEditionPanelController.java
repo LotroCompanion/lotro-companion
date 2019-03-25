@@ -23,7 +23,7 @@ public class MainTestRelicEditionPanelController
     LegendaryWeaponInstance weaponInstance=new LegendaryWeaponInstance();
     weaponInstance.setReference(weapon);
     LegendaryAttrs attrs=weaponInstance.getLegendaryAttributes();
-    RelicsEditionPanelController panelCtrl=new RelicsEditionPanelController(null,attrs);
+    RelicsEditionPanelController panelCtrl=new RelicsEditionPanelController(null,attrs.getRelicsSet());
     JPanel panel=panelCtrl.getPanel();
     JFrame frame=new JFrame();
     frame.add(panel);

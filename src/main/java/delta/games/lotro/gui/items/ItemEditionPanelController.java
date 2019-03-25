@@ -318,7 +318,7 @@ public class ItemEditionPanelController
     {
       LegendaryInstance legItem=(LegendaryInstance)_itemInstance;
       LegendaryAttrs attrs=new LegendaryAttrs(legItem.getLegendaryAttributes());
-      _relicsEditor=new RelicsEditionPanelController(_parent,attrs);
+      _relicsEditor=new RelicsEditionPanelController(_parent,attrs.getRelicsSet());
       relicsPanel=_relicsEditor.getPanel();
       tabbedPane.add("Relics",relicsPanel);
     }
@@ -504,7 +504,7 @@ public class ItemEditionPanelController
     if (_itemInstance instanceof LegendaryInstance)
     {
       LegendaryInstance legendary=(LegendaryInstance)_itemInstance;
-      _relicsEditor.getData(legendary.getLegendaryAttributes());
+      _relicsEditor.getData(legendary.getLegendaryAttributes().getRelicsSet());
     }
     return _item;
   }
