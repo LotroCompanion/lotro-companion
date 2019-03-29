@@ -1,11 +1,12 @@
 package delta.games.lotro.stats.completion;
 
+import java.util.List;
+
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharacterSummary;
 import delta.games.lotro.character.log.CharacterLog;
 import delta.games.lotro.character.log.LotroTestUtils;
 import delta.games.lotro.lore.quests.QuestsManager;
-import delta.games.lotro.lore.quests.index.QuestsIndex;
 
 /**
  * Test for quest completion stats.
@@ -27,8 +28,7 @@ public class MainTestQuestCompletionStats
     if (log!=null)
     {
       QuestsManager qm=QuestsManager.getInstance();
-      QuestsIndex index=qm.getIndex();
-      String[] categories=index.getCategories();
+      List<String> categories=qm.getCategories();
       for(String category : categories)
       {
         //String category="Epic - Vol. I, Book 1: Stirrings in the Darkness";

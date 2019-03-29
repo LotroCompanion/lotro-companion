@@ -15,9 +15,6 @@ import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.Race;
 import delta.games.lotro.lore.quests.QuestDescription;
 import delta.games.lotro.lore.quests.QuestsManager;
-import delta.games.lotro.lore.quests.index.QuestCategory;
-import delta.games.lotro.lore.quests.index.QuestSummary;
-import delta.games.lotro.lore.quests.index.QuestsIndex;
 
 /**
  * Statistics on quests completion for a single category on a single toon.
@@ -66,81 +63,65 @@ public class QuestsCompletionStats
   private void loadQuestIdentifiers()
   {
     QuestsManager qm=QuestsManager.getInstance();
-    QuestsIndex index=qm.getIndex();
-    if (index!=null)
+    List<QuestDescription> quests=qm.getAll();
+    for(QuestDescription quest : quests)
     {
-      QuestCategory category=index.getCategory(_category);
-      if (category!=null)
+      int id=quest.getIdentifier();
+      QuestDescription q=qm.getQuest(id);
+      // Category filter
+      if ((_category!=null) && (!_category.equals(q.getCategory())))
       {
-        QuestSummary[] summaries=category.getQuests();
-        for(QuestSummary summary : summaries)
+        continue;
+      }
+      // Class restriction
+      if (USE_CLASS_RESTRICTIONS)
+      {
+        List<String> classes=q.getRequiredClasses();
+        if ((classes!=null) && (classes.size()>0))
         {
-          int id=summary.getIdentifier();
-          QuestDescription q=qm.getQuest(id);
-          if (q!=null)
+          CharacterClass cClass=_character.getCharacterClass();
+          String className=cClass.getKey();
+          if (!classes.contains(className))
           {
-            boolean useIt=true;
-            if (USE_CLASS_RESTRICTIONS)
+            String key=q.getKey();
+            if (LOGGER.isInfoEnabled())
             {
-              List<String> classes=q.getRequiredClasses();
-              if ((classes!=null) && (classes.size()>0))
-              {
-                CharacterClass cClass=_character.getCharacterClass();
-                String className=cClass.getKey();
-                if (classes.contains(className))
-                {
-                  useIt=true;
-                }
-                else
-                {
-                  String key=q.getKey();
-                  if (LOGGER.isInfoEnabled())
-                  {
-                    LOGGER.info("Ignored quest ["+key+"]. Class="+className+", Required:"+classes);
-                  }
-                  useIt=false;
-                }
-              }
+              LOGGER.info("Ignored quest ["+key+"]. Class="+className+", Required:"+classes);
             }
-            if (USE_RACE_RESTRICTIONS)
-            {
-              List<String> races=q.getRequiredRaces();
-              if ((races!=null) && (races.size()>0))
-              {
-                Race cRace=_character.getRace();
-                String raceName=cRace.getLabel();
-                if (races.contains(raceName))
-                {
-                  useIt=true;
-                }
-                else
-                {
-                  String key=q.getKey();
-                  if (LOGGER.isInfoEnabled())
-                  {
-                    LOGGER.info("Ignored quest ["+key+"]. Race="+raceName+", Required:"+races);
-                  }
-                  useIt=false;
-                }
-              }
-            }
-            if (!USE_INSTANCES)
-            {
-              boolean instanced=q.isInstanced();
-              if (instanced)
-              {
-                useIt=false;
-              }
-            }
-            if (useIt)
-            {
-              _expectedIds.add(Integer.valueOf(id));
-            }
+            continue;
           }
         }
-        _nbExpectedQuests=_expectedIds.size();
       }
+      // Race restriction
+      if (USE_RACE_RESTRICTIONS)
+      {
+        List<String> races=q.getRequiredRaces();
+        if ((races!=null) && (races.size()>0))
+        {
+          Race cRace=_character.getRace();
+          String raceName=cRace.getLabel();
+          if (!races.contains(raceName))
+          {
+            String key=q.getKey();
+            if (LOGGER.isInfoEnabled())
+            {
+              LOGGER.info("Ignored quest ["+key+"]. Race="+raceName+", Required:"+races);
+            }
+            continue;
+          }
+        }
+      }
+      if (!USE_INSTANCES)
+      {
+        boolean instanced=q.isInstanced();
+        if (instanced)
+        {
+          continue;
+        }
+      }
+      _expectedIds.add(Integer.valueOf(id));
     }
+    _nbExpectedQuests=_expectedIds.size();
   }
 
   private List<CharacterLogItem> getQuestItems(CharacterLog log)
@@ -213,7 +194,8 @@ public class QuestsCompletionStats
         String name=null;
         if (q!=null)
         {
-          name=q.getKey();
+          String title=q.getTitle();
+          name=title+" ("+id+")";
         }
         ps.println(nb+": "+name);
       }
