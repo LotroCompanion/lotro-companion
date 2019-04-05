@@ -83,10 +83,10 @@ public class QuestsCompletionStats
           String className=cClass.getKey();
           if (!classes.contains(className))
           {
-            String key=q.getKey();
+            String questName=q.getTitle();
             if (LOGGER.isInfoEnabled())
             {
-              LOGGER.info("Ignored quest ["+key+"]. Class="+className+", Required:"+classes);
+              LOGGER.info("Ignored quest ["+questName+"]. Class="+className+", Required:"+classes);
             }
             continue;
           }
@@ -102,10 +102,10 @@ public class QuestsCompletionStats
           String raceName=cRace.getLabel();
           if (!races.contains(raceName))
           {
-            String key=q.getKey();
+            String questName=q.getTitle();
             if (LOGGER.isInfoEnabled())
             {
-              LOGGER.info("Ignored quest ["+key+"]. Race="+raceName+", Required:"+races);
+              LOGGER.info("Ignored quest ["+questName+"]. Race="+raceName+", Required:"+races);
             }
             continue;
           }
