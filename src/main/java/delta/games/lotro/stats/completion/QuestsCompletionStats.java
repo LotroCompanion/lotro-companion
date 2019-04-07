@@ -13,6 +13,7 @@ import delta.games.lotro.character.log.CharacterLogItem;
 import delta.games.lotro.character.log.CharacterLogItem.LogItemType;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.Race;
+import delta.games.lotro.common.requirements.UsageRequirement;
 import delta.games.lotro.lore.quests.QuestDescription;
 import delta.games.lotro.lore.quests.QuestsManager;
 
@@ -24,8 +25,7 @@ public class QuestsCompletionStats
 {
   private static final Logger LOGGER=Logger.getLogger(QuestsCompletionStats.class);
 
-  private static final boolean USE_CLASS_RESTRICTIONS=true;
-  private static final boolean USE_RACE_RESTRICTIONS=true;
+  private static final boolean USE_RESTRICTIONS=true;
   private static final boolean USE_INSTANCES=false;
   private String _name;
   private String _category;
@@ -73,42 +73,20 @@ public class QuestsCompletionStats
       {
         continue;
       }
-      // Class restriction
-      if (USE_CLASS_RESTRICTIONS)
+      if (USE_RESTRICTIONS)
       {
-        List<String> classes=q.getRequiredClasses();
-        if ((classes!=null) && (classes.size()>0))
+        UsageRequirement requirements=q.getUsageRequirement();
+        int level=_character.getLevel();
+        CharacterClass cClass=_character.getCharacterClass();
+        Race cRace=_character.getRace();
+        if (!requirements.accepts(level,cClass,cRace))
         {
-          CharacterClass cClass=_character.getCharacterClass();
-          String className=cClass.getKey();
-          if (!classes.contains(className))
+          String questName=q.getName();
+          if (LOGGER.isInfoEnabled())
           {
-            String questName=q.getName();
-            if (LOGGER.isInfoEnabled())
-            {
-              LOGGER.info("Ignored quest ["+questName+"]. Class="+className+", Required:"+classes);
-            }
-            continue;
+            LOGGER.info("Ignored quest ["+questName+"]. Requirements: "+requirements);
           }
-        }
-      }
-      // Race restriction
-      if (USE_RACE_RESTRICTIONS)
-      {
-        List<String> races=q.getRequiredRaces();
-        if ((races!=null) && (races.size()>0))
-        {
-          Race cRace=_character.getRace();
-          String raceName=cRace.getLabel();
-          if (!races.contains(raceName))
-          {
-            String questName=q.getName();
-            if (LOGGER.isInfoEnabled())
-            {
-              LOGGER.info("Ignored quest ["+questName+"]. Race="+raceName+", Required:"+races);
-            }
-            continue;
-          }
+          continue;
         }
       }
       if (!USE_INSTANCES)
