@@ -14,10 +14,10 @@ import delta.games.lotro.common.ReputationItem;
 import delta.games.lotro.common.Rewards;
 import delta.games.lotro.common.Title;
 import delta.games.lotro.common.Virtue;
-import delta.games.lotro.common.objects.ObjectItem;
 import delta.games.lotro.common.objects.ObjectsSet;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemsManager;
+import delta.games.lotro.utils.Proxy;
 
 /**
  * Controller for a panel to display rewards.
@@ -64,8 +64,8 @@ public class RewardsPanelController
     int nbItems=objects.getNbObjectItems();
     for(int i=0;i<nbItems;i++)
     {
-      ObjectItem object=objects.getItem(i);
-      int id=object.getItemId();
+      Proxy<Item> itemProxy=objects.getItem(i);
+      int id=itemProxy.getId();
       int count=objects.getQuantity(i);
       Item item=ItemsManager.getInstance().getItem(id);
       ItemRewardGadgetsController itemReward=new ItemRewardGadgetsController(item,count);

@@ -44,16 +44,16 @@ public class DeedCurvesBuilder implements DatedCurveProvider<CharacterFile>
         int nbItems=objects.getNbObjectItems();
         for(int i=0;i<nbItems;i++)
         {
-          ObjectItem itemReward=objects.getItem(i);
-          int itemId=itemReward.getItemId();
+          Proxy<Item> itemReward=objects.getItem(i);
+          int itemId=itemReward.getId();
           int itemsCount=objects.getQuantity(i);
           // Marks
-          if (itemId==1879224343)
+          if (itemId==WellKnownItems.MARK)
           {
             value+=itemsCount;
           }
           // Medallions
-          if (itemId==1879224344)
+          if (itemId==WellKnownItems.MEDALLION)
           {
             value+=itemsCount;
           }

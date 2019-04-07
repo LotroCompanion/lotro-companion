@@ -18,7 +18,6 @@ import delta.games.lotro.common.Title;
 import delta.games.lotro.common.Trait;
 import delta.games.lotro.common.Virtue;
 import delta.games.lotro.common.VirtueId;
-import delta.games.lotro.common.objects.ObjectItem;
 import delta.games.lotro.common.objects.ObjectsSet;
 import delta.games.lotro.gui.items.CountedItemNameComparator;
 import delta.games.lotro.lore.deeds.DeedDescription;
@@ -26,6 +25,7 @@ import delta.games.lotro.lore.items.CountedItem;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemProxy;
 import delta.games.lotro.lore.items.ItemsManager;
+import delta.games.lotro.lore.items.WellKnownItems;
 import delta.games.lotro.lore.reputation.Faction;
 import delta.games.lotro.lore.reputation.FactionsRegistry;
 import delta.games.lotro.stats.deeds.statistics.EmoteEvent;
@@ -36,6 +36,7 @@ import delta.games.lotro.stats.deeds.statistics.TitleEvent;
 import delta.games.lotro.stats.deeds.statistics.TitleEventNameComparator;
 import delta.games.lotro.stats.deeds.statistics.TraitEvent;
 import delta.games.lotro.stats.deeds.statistics.TraitEventNameComparator;
+import delta.games.lotro.utils.Proxy;
 
 /**
  * Gather statistics about a collection of deeds for a single character.
@@ -135,16 +136,16 @@ public class DeedsStatistics
       int nbItems=objects.getNbObjectItems();
       for(int i=0;i<nbItems;i++)
       {
-        ObjectItem itemReward=objects.getItem(i);
-        int itemId=itemReward.getItemId();
+        Proxy<Item> itemReward=objects.getItem(i);
+        int itemId=itemReward.getId();
         int itemsCount=objects.getQuantity(i);
         // Marks
-        if (itemId==1879224343)
+        if (itemId==WellKnownItems.MARK)
         {
           _marksCount+=itemsCount;
         }
         // Medallions
-        if (itemId==1879224344)
+        if (itemId==WellKnownItems.MEDALLION)
         {
           _medallionsCount+=itemsCount;
         }
