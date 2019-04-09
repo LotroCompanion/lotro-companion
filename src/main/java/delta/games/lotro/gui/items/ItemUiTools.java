@@ -1,7 +1,6 @@
 package delta.games.lotro.gui.items;
 
 import java.awt.Color;
-import java.util.Collections;
 import java.util.List;
 
 import javax.swing.Icon;
@@ -11,7 +10,6 @@ import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.common.ui.swing.icons.IconWithText;
 import delta.common.ui.swing.icons.IconWithText.Position;
 import delta.common.utils.NumericTools;
-import delta.games.lotro.character.stats.StatNameComparator;
 import delta.games.lotro.common.stats.StatDescription;
 import delta.games.lotro.common.stats.StatsRegistry;
 import delta.games.lotro.gui.LotroIconsManager;
@@ -147,9 +145,8 @@ public class ItemUiTools
   {
     ComboBoxController<StatDescription> controller=new ComboBoxController<StatDescription>();
     controller.addEmptyItem("");
-    List<StatDescription> allStats=StatsRegistry.getInstance().getAll();
-    Collections.sort(allStats,new StatNameComparator());
-    for(StatDescription stat : allStats)
+    List<StatDescription> indexedStats=StatsRegistry.getInstance().getIndexedStats();
+    for(StatDescription stat : indexedStats)
     {
       String label=stat.getName();
       controller.addItem(stat,label);
