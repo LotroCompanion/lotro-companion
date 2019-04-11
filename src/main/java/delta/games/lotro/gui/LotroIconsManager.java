@@ -122,6 +122,12 @@ public class LotroIconsManager
   {
     if (iconFilename.startsWith("/traitIcons"))
     {
+      // Trait icon
+      return IconsManager.getIcon(iconFilename);
+    }
+    if (iconFilename.startsWith("/icons"))
+    {
+      // Item icon
       return IconsManager.getIcon(iconFilename);
     }
     String path="/resources/gui/buffs/"+iconFilename+".png";
