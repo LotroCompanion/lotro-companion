@@ -9,9 +9,9 @@ import java.util.List;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.log.CharacterLog;
 import delta.games.lotro.character.log.LotroTestUtils;
-import delta.games.lotro.common.Rewards;
 import delta.games.lotro.common.Virtue;
 import delta.games.lotro.common.VirtueId;
+import delta.games.lotro.common.rewards.Rewards;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.DeedsManager;
 

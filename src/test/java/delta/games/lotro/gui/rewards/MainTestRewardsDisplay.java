@@ -7,8 +7,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
-import delta.games.lotro.common.Rewards;
 import delta.games.lotro.common.objects.ObjectsSet;
+import delta.games.lotro.common.rewards.Rewards;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.DeedsManager;
 
