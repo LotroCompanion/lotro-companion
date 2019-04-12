@@ -9,16 +9,16 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 
 import delta.common.utils.text.EndOfLine;
-import delta.games.lotro.common.Emote;
-import delta.games.lotro.common.Reputation;
-import delta.games.lotro.common.ReputationItem;
-import delta.games.lotro.common.Skill;
-import delta.games.lotro.common.Title;
-import delta.games.lotro.common.Trait;
-import delta.games.lotro.common.Virtue;
 import delta.games.lotro.common.VirtueId;
-import delta.games.lotro.common.objects.ObjectsSet;
+import delta.games.lotro.common.rewards.EmoteReward;
+import delta.games.lotro.common.rewards.ItemsSetReward;
+import delta.games.lotro.common.rewards.Reputation;
+import delta.games.lotro.common.rewards.ReputationReward;
 import delta.games.lotro.common.rewards.Rewards;
+import delta.games.lotro.common.rewards.SkillReward;
+import delta.games.lotro.common.rewards.TitleReward;
+import delta.games.lotro.common.rewards.TraitReward;
+import delta.games.lotro.common.rewards.VirtueReward;
 import delta.games.lotro.gui.items.CountedItemNameComparator;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.items.CountedItem;
@@ -132,7 +132,7 @@ public class DeedsStatistics
       int classPoints=rewards.getClassPoints();
       _classPoints+=classPoints;
       // Items
-      ObjectsSet objects=rewards.getObjects();
+      ItemsSetReward objects=rewards.getObjects();
       int nbItems=objects.getNbObjectItems();
       for(int i=0;i<nbItems;i++)
       {
@@ -169,10 +169,10 @@ public class DeedsStatistics
         }
       }
       // Titles
-      Title[] titles=rewards.getTitles();
+      TitleReward[] titles=rewards.getTitles();
       if (titles!=null)
       {
-        for(Title title : titles)
+        for(TitleReward title : titles)
         {
           Long date=deedStatus.getCompletionDate();
           TitleEvent event=new TitleEvent(title.getName(),date,deed);
@@ -180,10 +180,10 @@ public class DeedsStatistics
         }
       }
       // Emotes
-      Emote[] emotes=rewards.getEmotes();
+      EmoteReward[] emotes=rewards.getEmotes();
       if (emotes!=null)
       {
-        for(Emote emote : emotes)
+        for(EmoteReward emote : emotes)
         {
           Long date=deedStatus.getCompletionDate();
           EmoteEvent event=new EmoteEvent(emote.getName(),date,deed);
@@ -191,10 +191,10 @@ public class DeedsStatistics
         }
       }
       // Traits
-      Trait[] traits=rewards.getTraits();
+      TraitReward[] traits=rewards.getTraits();
       if (traits!=null)
       {
-        for(Trait trait : traits)
+        for(TraitReward trait : traits)
         {
           Long date=deedStatus.getCompletionDate();
           TraitEvent event=new TraitEvent(trait.getName(),date,deed);
@@ -202,10 +202,10 @@ public class DeedsStatistics
         }
       }
       // Skills
-      Skill[] skills=rewards.getSkills();
+      SkillReward[] skills=rewards.getSkills();
       if (skills!=null)
       {
-        for(Skill skill : skills)
+        for(SkillReward skill : skills)
         {
           Long date=deedStatus.getCompletionDate();
           SkillEvent event=new SkillEvent(skill.getName(),date,deed);
@@ -213,10 +213,10 @@ public class DeedsStatistics
         }
       }
       // Virtues
-      Virtue[] virtueRewards=rewards.getVirtues();
+      VirtueReward[] virtueRewards=rewards.getVirtues();
       if (virtueRewards!=null)
       {
-        for(Virtue virtueReward : virtueRewards)
+        for(VirtueReward virtueReward : virtueRewards)
         {
           VirtueId virtueId=virtueReward.getIdentifier();
           VirtueStatsFromDeeds virtueStats=_virtues.get(virtueId);
@@ -231,8 +231,8 @@ public class DeedsStatistics
       }
       // Reputation
       Reputation reputation=rewards.getReputation();
-      ReputationItem[] items=reputation.getItems();
-      for(ReputationItem item : items)
+      ReputationReward[] items=reputation.getItems();
+      for(ReputationReward item : items)
       {
         Faction faction=item.getFaction();
         String factionKey=faction.getKey();

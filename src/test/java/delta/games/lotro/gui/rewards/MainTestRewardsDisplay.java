@@ -7,7 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
-import delta.games.lotro.common.objects.ObjectsSet;
+import delta.games.lotro.common.rewards.ItemsSetReward;
 import delta.games.lotro.common.rewards.Rewards;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.DeedsManager;
@@ -30,7 +30,7 @@ public class MainTestRewardsDisplay
     {
       DeedDescription deed=deeds.get(i);
       Rewards rewards=deed.getRewards();
-      ObjectsSet objects=rewards.getObjects();
+      ItemsSetReward objects=rewards.getObjects();
       int lotroPoints=rewards.getLotroPoints();
       if ((objects.getNbObjectItems()>0) || (lotroPoints>0))
       {

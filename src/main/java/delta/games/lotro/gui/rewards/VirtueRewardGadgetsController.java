@@ -8,8 +8,8 @@ import javax.swing.JLabel;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.icons.IconWithText;
 import delta.common.ui.swing.labels.LabelWithHalo;
-import delta.games.lotro.common.Virtue;
 import delta.games.lotro.common.VirtueId;
+import delta.games.lotro.common.rewards.VirtueReward;
 import delta.games.lotro.gui.LotroIconsManager;
 
 /**
@@ -25,7 +25,7 @@ public class VirtueRewardGadgetsController
    * Constructor.
    * @param virtue Virtue.
    */
-  public VirtueRewardGadgetsController(Virtue virtue)
+  public VirtueRewardGadgetsController(VirtueReward virtue)
   {
     // Label
     String text=virtue.getIdentifier().getLabel();

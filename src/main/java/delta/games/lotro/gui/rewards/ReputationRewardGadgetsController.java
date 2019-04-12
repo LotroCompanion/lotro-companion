@@ -8,7 +8,7 @@ import javax.swing.JLabel;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.icons.IconsManager;
 import delta.common.ui.swing.labels.LabelWithHalo;
-import delta.games.lotro.common.ReputationItem;
+import delta.games.lotro.common.rewards.ReputationReward;
 import delta.games.lotro.lore.reputation.Faction;
 
 /**
@@ -24,7 +24,7 @@ public class ReputationRewardGadgetsController
    * Constructor.
    * @param reputation Reputation.
    */
-  public ReputationRewardGadgetsController(ReputationItem reputation)
+  public ReputationRewardGadgetsController(ReputationReward reputation)
   {
     // Label
     int amount=reputation.getAmount();

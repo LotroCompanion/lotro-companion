@@ -14,13 +14,13 @@ import delta.common.ui.swing.tables.TableColumnsManager;
 import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.common.CharacterClass;
-import delta.games.lotro.common.Emote;
 import delta.games.lotro.common.Race;
-import delta.games.lotro.common.Skill;
-import delta.games.lotro.common.Title;
-import delta.games.lotro.common.Trait;
-import delta.games.lotro.common.Virtue;
+import delta.games.lotro.common.rewards.EmoteReward;
 import delta.games.lotro.common.rewards.Rewards;
+import delta.games.lotro.common.rewards.SkillReward;
+import delta.games.lotro.common.rewards.TitleReward;
+import delta.games.lotro.common.rewards.TraitReward;
+import delta.games.lotro.common.rewards.VirtueReward;
 import delta.games.lotro.gui.items.chooser.ItemChooser;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.DeedType;
@@ -266,7 +266,7 @@ public class DeedsTableController
         public String getData(DeedDescription deed)
         {
           Rewards rewards=deed.getRewards();
-          Title[] titles=rewards.getTitles();
+          TitleReward[] titles=rewards.getTitles();
           return ((titles!=null) && (titles.length>0))?titles[0].getName():null;
         }
       };
@@ -282,7 +282,7 @@ public class DeedsTableController
         public String getData(DeedDescription deed)
         {
           Rewards rewards=deed.getRewards();
-          Virtue[] virtues=rewards.getVirtues();
+          VirtueReward[] virtues=rewards.getVirtues();
           return ((virtues!=null) && (virtues.length>0))?virtues[0].getIdentifier().getLabel():null;
         }
       };
@@ -298,7 +298,7 @@ public class DeedsTableController
         public String getData(DeedDescription deed)
         {
           Rewards rewards=deed.getRewards();
-          Emote[] emotes=rewards.getEmotes();
+          EmoteReward[] emotes=rewards.getEmotes();
           return ((emotes!=null) && (emotes.length>0))?emotes[0].getName():null;
         }
       };
@@ -314,7 +314,7 @@ public class DeedsTableController
         public String getData(DeedDescription deed)
         {
           Rewards rewards=deed.getRewards();
-          Trait[] traits=rewards.getTraits();
+          TraitReward[] traits=rewards.getTraits();
           return ((traits!=null) && (traits.length>0))?traits[0].getName():null;
         }
       };
@@ -330,7 +330,7 @@ public class DeedsTableController
         public String getData(DeedDescription deed)
         {
           Rewards rewards=deed.getRewards();
-          Skill[] skills=rewards.getSkills();
+          SkillReward[] skills=rewards.getSkills();
           return ((skills!=null) && (skills.length>0))?skills[0].getName():null;
         }
       };

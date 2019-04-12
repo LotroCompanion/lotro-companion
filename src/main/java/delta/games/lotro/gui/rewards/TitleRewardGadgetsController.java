@@ -6,7 +6,7 @@ import javax.swing.JLabel;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.labels.LabelWithHalo;
-import delta.games.lotro.common.Title;
+import delta.games.lotro.common.rewards.TitleReward;
 
 /**
  * Controller for the UI gadgets of a title reward.
@@ -21,7 +21,7 @@ public class TitleRewardGadgetsController
    * Constructor.
    * @param title Title.
    */
-  public TitleRewardGadgetsController(Title title)
+  public TitleRewardGadgetsController(TitleReward title)
   {
     // Label
     String text=title.getName();

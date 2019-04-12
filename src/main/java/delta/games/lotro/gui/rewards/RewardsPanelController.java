@@ -9,12 +9,12 @@ import java.util.List;
 import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
-import delta.games.lotro.common.Reputation;
-import delta.games.lotro.common.ReputationItem;
-import delta.games.lotro.common.Title;
-import delta.games.lotro.common.Virtue;
-import delta.games.lotro.common.objects.ObjectsSet;
+import delta.games.lotro.common.rewards.ItemsSetReward;
+import delta.games.lotro.common.rewards.Reputation;
+import delta.games.lotro.common.rewards.ReputationReward;
 import delta.games.lotro.common.rewards.Rewards;
+import delta.games.lotro.common.rewards.TitleReward;
+import delta.games.lotro.common.rewards.VirtueReward;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemsManager;
 import delta.games.lotro.utils.Proxy;
@@ -59,7 +59,7 @@ public class RewardsPanelController
       _destinyPoints=new DestinyPointsRewardGadgetsController(destinyPoints);
     }
     // Item rewards
-    ObjectsSet objects=rewards.getObjects();
+    ItemsSetReward objects=rewards.getObjects();
     _itemRewards=new ArrayList<ItemRewardGadgetsController>();
     int nbItems=objects.getNbObjectItems();
     for(int i=0;i<nbItems;i++)
@@ -73,10 +73,10 @@ public class RewardsPanelController
     }
     // Title reward(s)
     _titleRewards=new ArrayList<TitleRewardGadgetsController>();
-    Title[] titles=rewards.getTitles();
+    TitleReward[] titles=rewards.getTitles();
     if (titles!=null)
     {
-      for(Title title : titles)
+      for(TitleReward title : titles)
       {
         TitleRewardGadgetsController titleReward=new TitleRewardGadgetsController(title);
         _titleRewards.add(titleReward);
@@ -84,10 +84,10 @@ public class RewardsPanelController
     }
     // Virtue(s) reward(s)
     _virtueRewards=new ArrayList<VirtueRewardGadgetsController>();
-    Virtue[] virtues=rewards.getVirtues();
+    VirtueReward[] virtues=rewards.getVirtues();
     if (virtues!=null)
     {
-      for(Virtue virtue : virtues)
+      for(VirtueReward virtue : virtues)
       {
         VirtueRewardGadgetsController virtueReward=new VirtueRewardGadgetsController(virtue);
         _virtueRewards.add(virtueReward);
@@ -96,8 +96,8 @@ public class RewardsPanelController
     // Reputation
     _reputationRewards=new ArrayList<ReputationRewardGadgetsController>();
     Reputation reputation=rewards.getReputation();
-    ReputationItem[] reputationItems=reputation.getItems();
-    for(ReputationItem reputationItem : reputationItems)
+    ReputationReward[] reputationItems=reputation.getItems();
+    for(ReputationReward reputationItem : reputationItems)
     {
       ReputationRewardGadgetsController reputationReward=new ReputationRewardGadgetsController(reputationItem);
       _reputationRewards.add(reputationReward);

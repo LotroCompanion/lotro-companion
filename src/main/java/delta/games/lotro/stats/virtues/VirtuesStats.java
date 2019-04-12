@@ -10,9 +10,9 @@ import java.util.Set;
 import delta.games.lotro.character.log.CharacterLog;
 import delta.games.lotro.character.log.CharacterLogItem;
 import delta.games.lotro.character.log.CharacterLogItem.LogItemType;
-import delta.games.lotro.common.Virtue;
 import delta.games.lotro.common.VirtueId;
 import delta.games.lotro.common.rewards.Rewards;
+import delta.games.lotro.common.rewards.VirtueReward;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.DeedsManager;
 import delta.games.lotro.lore.quests.QuestDescription;
@@ -130,10 +130,10 @@ public class VirtuesStats
 
   private void handleRewards(String id, Rewards rewards)
   {
-    Virtue[] virtues=rewards.getVirtues();
+    VirtueReward[] virtues=rewards.getVirtues();
     if (virtues!=null)
     {
-      for(Virtue virtue : virtues)
+      for(VirtueReward virtue : virtues)
       {
         VirtueId virtueId=virtue.getIdentifier();
         List<String> items=_virtues.get(virtueId);
