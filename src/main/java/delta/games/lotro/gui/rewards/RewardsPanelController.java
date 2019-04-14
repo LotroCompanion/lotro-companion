@@ -9,9 +9,9 @@ import java.util.List;
 import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
-import delta.games.lotro.common.rewards.ItemsSetReward;
-import delta.games.lotro.common.rewards.Reputation;
+import delta.games.lotro.common.rewards.ItemReward;
 import delta.games.lotro.common.rewards.ReputationReward;
+import delta.games.lotro.common.rewards.RewardElement;
 import delta.games.lotro.common.rewards.Rewards;
 import delta.games.lotro.common.rewards.TitleReward;
 import delta.games.lotro.common.rewards.VirtueReward;
@@ -58,49 +58,46 @@ public class RewardsPanelController
     {
       _destinyPoints=new DestinyPointsRewardGadgetsController(destinyPoints);
     }
-    // Item rewards
-    ItemsSetReward objects=rewards.getObjects();
+    // Reward elements
     _itemRewards=new ArrayList<ItemRewardGadgetsController>();
-    int nbItems=objects.getNbObjectItems();
-    for(int i=0;i<nbItems;i++)
-    {
-      Proxy<Item> itemProxy=objects.getItem(i);
-      int id=itemProxy.getId();
-      int count=objects.getQuantity(i);
-      Item item=ItemsManager.getInstance().getItem(id);
-      ItemRewardGadgetsController itemReward=new ItemRewardGadgetsController(item,count);
-      _itemRewards.add(itemReward);
-    }
-    // Title reward(s)
     _titleRewards=new ArrayList<TitleRewardGadgetsController>();
-    TitleReward[] titles=rewards.getTitles();
-    if (titles!=null)
-    {
-      for(TitleReward title : titles)
-      {
-        TitleRewardGadgetsController titleReward=new TitleRewardGadgetsController(title);
-        _titleRewards.add(titleReward);
-      }
-    }
-    // Virtue(s) reward(s)
     _virtueRewards=new ArrayList<VirtueRewardGadgetsController>();
-    VirtueReward[] virtues=rewards.getVirtues();
-    if (virtues!=null)
-    {
-      for(VirtueReward virtue : virtues)
-      {
-        VirtueRewardGadgetsController virtueReward=new VirtueRewardGadgetsController(virtue);
-        _virtueRewards.add(virtueReward);
-      }
-    }
-    // Reputation
     _reputationRewards=new ArrayList<ReputationRewardGadgetsController>();
-    Reputation reputation=rewards.getReputation();
-    ReputationReward[] reputationItems=reputation.getItems();
-    for(ReputationReward reputationItem : reputationItems)
+
+    for(RewardElement rewardElement : rewards.getRewardElements())
     {
-      ReputationRewardGadgetsController reputationReward=new ReputationRewardGadgetsController(reputationItem);
-      _reputationRewards.add(reputationReward);
+      // Item reward
+      if (rewardElement instanceof ItemReward)
+      {
+        ItemReward itemReward=(ItemReward)rewardElement;
+        Proxy<Item> itemProxy=itemReward.getItemProxy();
+        int id=itemProxy.getId();
+        int count=itemReward.getQuantity();
+        Item item=ItemsManager.getInstance().getItem(id);
+        ItemRewardGadgetsController itemRewardUi=new ItemRewardGadgetsController(item,count);
+        _itemRewards.add(itemRewardUi);
+      }
+      // Title reward
+      else if (rewardElement instanceof TitleReward)
+      {
+        TitleReward titleReward=(TitleReward)rewardElement;
+        TitleRewardGadgetsController titleRewardUi=new TitleRewardGadgetsController(titleReward);
+        _titleRewards.add(titleRewardUi);
+      }
+      // Virtue reward
+      else if (rewardElement instanceof VirtueReward)
+      {
+        VirtueReward virtueReward=(VirtueReward)rewardElement;
+        VirtueRewardGadgetsController virtueRewardUi=new VirtueRewardGadgetsController(virtueReward);
+        _virtueRewards.add(virtueRewardUi);
+      }
+      // Reputation
+      else if (rewardElement instanceof VirtueReward)
+      {
+        ReputationReward reputationReward=(ReputationReward)rewardElement;
+        ReputationRewardGadgetsController reputationRewardUi=new ReputationRewardGadgetsController(reputationReward);
+        _reputationRewards.add(reputationRewardUi);
+      }
     }
     _panel=build();
   }

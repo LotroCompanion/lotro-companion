@@ -7,7 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
-import delta.games.lotro.common.rewards.ItemsSetReward;
+import delta.games.lotro.common.rewards.RewardElement;
 import delta.games.lotro.common.rewards.Rewards;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.DeedsManager;
@@ -30,9 +30,9 @@ public class MainTestRewardsDisplay
     {
       DeedDescription deed=deeds.get(i);
       Rewards rewards=deed.getRewards();
-      ItemsSetReward objects=rewards.getObjects();
+      List<RewardElement> rewardElements=rewards.getRewardElements();
       int lotroPoints=rewards.getLotroPoints();
-      if ((objects.getNbObjectItems()>0) || (lotroPoints>0))
+      if ((rewardElements.size()>0) || (lotroPoints>0))
       {
         RewardsPanelController panelCtrl=new RewardsPanelController(rewards);
         JPanel panel=panelCtrl.getPanel();

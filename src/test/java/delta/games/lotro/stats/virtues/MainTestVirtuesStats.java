@@ -10,6 +10,7 @@ import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.log.CharacterLog;
 import delta.games.lotro.character.log.LotroTestUtils;
 import delta.games.lotro.common.VirtueId;
+import delta.games.lotro.common.rewards.RewardElement;
 import delta.games.lotro.common.rewards.Rewards;
 import delta.games.lotro.common.rewards.VirtueReward;
 import delta.games.lotro.lore.deeds.DeedDescription;
@@ -46,12 +47,12 @@ public class MainTestVirtuesStats
       {
         String name=deed.getName();
         Rewards rewards=deed.getRewards();
-        VirtueReward[] virtues=rewards.getVirtues();
-        if (virtues!=null)
+        for(RewardElement rewardElement : rewards.getRewardElements())
         {
-          for(VirtueReward virtue : virtues)
+          if (rewardElement instanceof VirtueReward)
           {
-            VirtueId virtueId=virtue.getIdentifier();
+            VirtueReward virtueReward=(VirtueReward)rewardElement;
+            VirtueId virtueId=virtueReward.getIdentifier();
             List<String> items=virtuesMap.get(virtueId);
             if (items==null)
             {

@@ -7,9 +7,9 @@ import java.util.List;
 import javax.swing.JTable;
 
 import delta.common.ui.swing.tables.CellDataProvider;
+import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.ListDataProvider;
-import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.TableColumnsManager;
 import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.misc.TypedProperties;
@@ -266,8 +266,8 @@ public class DeedsTableController
         public String getData(DeedDescription deed)
         {
           Rewards rewards=deed.getRewards();
-          TitleReward[] titles=rewards.getTitles();
-          return ((titles!=null) && (titles.length>0))?titles[0].getName():null;
+          List<TitleReward> titleRewards=rewards.getRewardElementsOfClass(TitleReward.class);
+          return ((titleRewards.size()>0))?titleRewards.get(0).getName():null;
         }
       };
       DefaultTableColumnController<DeedDescription,String> titleColumn=new DefaultTableColumnController<DeedDescription,String>(DeedColumnIds.TITLE.name(),"Title",String.class,titleCell);
@@ -282,8 +282,8 @@ public class DeedsTableController
         public String getData(DeedDescription deed)
         {
           Rewards rewards=deed.getRewards();
-          VirtueReward[] virtues=rewards.getVirtues();
-          return ((virtues!=null) && (virtues.length>0))?virtues[0].getIdentifier().getLabel():null;
+          List<VirtueReward> virtueRewards=rewards.getRewardElementsOfClass(VirtueReward.class);
+          return (virtueRewards.size()>0)?virtueRewards.get(0).getIdentifier().getLabel():null;
         }
       };
       DefaultTableColumnController<DeedDescription,String> virtueColumn=new DefaultTableColumnController<DeedDescription,String>(DeedColumnIds.VIRTUE.name(),"Virtue",String.class,virtueCell);
@@ -298,8 +298,8 @@ public class DeedsTableController
         public String getData(DeedDescription deed)
         {
           Rewards rewards=deed.getRewards();
-          EmoteReward[] emotes=rewards.getEmotes();
-          return ((emotes!=null) && (emotes.length>0))?emotes[0].getName():null;
+          List<EmoteReward> emoteRewards=rewards.getRewardElementsOfClass(EmoteReward.class);
+          return ((emoteRewards.size()>0))?emoteRewards.get(0).getName():null;
         }
       };
       DefaultTableColumnController<DeedDescription,String> emoteColumn=new DefaultTableColumnController<DeedDescription,String>(DeedColumnIds.EMOTE.name(),"Emote",String.class,emoteCell);
@@ -314,8 +314,8 @@ public class DeedsTableController
         public String getData(DeedDescription deed)
         {
           Rewards rewards=deed.getRewards();
-          TraitReward[] traits=rewards.getTraits();
-          return ((traits!=null) && (traits.length>0))?traits[0].getName():null;
+          List<TraitReward> traitRewards=rewards.getRewardElementsOfClass(TraitReward.class);
+          return ((traitRewards.size()>0))?traitRewards.get(0).getName():null;
         }
       };
       DefaultTableColumnController<DeedDescription,String> traitColumn=new DefaultTableColumnController<DeedDescription,String>(DeedColumnIds.TRAIT.name(),"Trait",String.class,traitCell);
@@ -330,8 +330,8 @@ public class DeedsTableController
         public String getData(DeedDescription deed)
         {
           Rewards rewards=deed.getRewards();
-          SkillReward[] skills=rewards.getSkills();
-          return ((skills!=null) && (skills.length>0))?skills[0].getName():null;
+          List<SkillReward> skillRewards=rewards.getRewardElementsOfClass(SkillReward.class);
+          return ((skillRewards.size()>0))?skillRewards.get(0).getName():null;
         }
       };
       DefaultTableColumnController<DeedDescription,String> skillColumn=new DefaultTableColumnController<DeedDescription,String>(DeedColumnIds.SKILL.name(),"Skill",String.class,skillCell);

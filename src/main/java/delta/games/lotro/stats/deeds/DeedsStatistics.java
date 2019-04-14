@@ -11,9 +11,9 @@ import org.apache.log4j.Logger;
 import delta.common.utils.text.EndOfLine;
 import delta.games.lotro.common.VirtueId;
 import delta.games.lotro.common.rewards.EmoteReward;
-import delta.games.lotro.common.rewards.ItemsSetReward;
-import delta.games.lotro.common.rewards.Reputation;
+import delta.games.lotro.common.rewards.ItemReward;
 import delta.games.lotro.common.rewards.ReputationReward;
+import delta.games.lotro.common.rewards.RewardElement;
 import delta.games.lotro.common.rewards.Rewards;
 import delta.games.lotro.common.rewards.SkillReward;
 import delta.games.lotro.common.rewards.TitleReward;
@@ -131,93 +131,80 @@ public class DeedsStatistics
       // Class points
       int classPoints=rewards.getClassPoints();
       _classPoints+=classPoints;
-      // Items
-      ItemsSetReward objects=rewards.getObjects();
-      int nbItems=objects.getNbObjectItems();
-      for(int i=0;i<nbItems;i++)
+      for(RewardElement rewardElement : rewards.getRewardElements())
       {
-        Proxy<Item> itemReward=objects.getItem(i);
-        int itemId=itemReward.getId();
-        int itemsCount=objects.getQuantity(i);
-        // Marks
-        if (itemId==WellKnownItems.MARK)
+        // Item
+        if (rewardElement instanceof ItemReward)
         {
-          _marksCount+=itemsCount;
-        }
-        // Medallions
-        if (itemId==WellKnownItems.MEDALLION)
-        {
-          _medallionsCount+=itemsCount;
-        }
-        Item item=ItemsManager.getInstance().getItem(itemId);
-        if (item!=null)
-        {
-          Integer itemIdInteger=Integer.valueOf(itemId);
-          CountedItem count=_items.get(itemIdInteger);
-          if (count==null)
+          ItemReward itemReward=(ItemReward)rewardElement;
+          Proxy<Item> itemProxy=itemReward.getItemProxy();
+          int itemId=itemProxy.getId();
+          int itemsCount=itemReward.getQuantity();
+          // Marks
+          if (itemId==WellKnownItems.MARK)
           {
-            ItemProxy proxy=new ItemProxy();
-            proxy.setItem(item);
-            count=new CountedItem(proxy,0);
-            _items.put(itemIdInteger,count);
+            _marksCount+=itemsCount;
           }
-          count.add(itemsCount);
+          // Medallions
+          if (itemId==WellKnownItems.MEDALLION)
+          {
+            _medallionsCount+=itemsCount;
+          }
+          Item item=ItemsManager.getInstance().getItem(itemId);
+          if (item!=null)
+          {
+            Integer itemIdInteger=Integer.valueOf(itemId);
+            CountedItem count=_items.get(itemIdInteger);
+            if (count==null)
+            {
+              ItemProxy proxy=new ItemProxy();
+              proxy.setItem(item);
+              count=new CountedItem(proxy,0);
+              _items.put(itemIdInteger,count);
+            }
+            count.add(itemsCount);
+          }
+          else
+          {
+            LOGGER.warn("Item not found: "+itemId);
+          }
         }
-        else
+        // Title
+        else if (rewardElement instanceof TitleReward)
         {
-          LOGGER.warn("Item not found: "+itemId);
-        }
-      }
-      // Titles
-      TitleReward[] titles=rewards.getTitles();
-      if (titles!=null)
-      {
-        for(TitleReward title : titles)
-        {
+          TitleReward titleReward=(TitleReward)rewardElement;
           Long date=deedStatus.getCompletionDate();
-          TitleEvent event=new TitleEvent(title.getName(),date,deed);
+          TitleEvent event=new TitleEvent(titleReward.getName(),date,deed);
           _titles.add(event);
         }
-      }
-      // Emotes
-      EmoteReward[] emotes=rewards.getEmotes();
-      if (emotes!=null)
-      {
-        for(EmoteReward emote : emotes)
+        // Emote
+        else if (rewardElement instanceof EmoteReward)
         {
+          EmoteReward emoteReward=(EmoteReward)rewardElement;
           Long date=deedStatus.getCompletionDate();
-          EmoteEvent event=new EmoteEvent(emote.getName(),date,deed);
+          EmoteEvent event=new EmoteEvent(emoteReward.getName(),date,deed);
           _emotes.add(event);
         }
-      }
-      // Traits
-      TraitReward[] traits=rewards.getTraits();
-      if (traits!=null)
-      {
-        for(TraitReward trait : traits)
+        // Trait
+        else if (rewardElement instanceof TraitReward)
         {
+          TraitReward traitReward=(TraitReward)rewardElement;
           Long date=deedStatus.getCompletionDate();
-          TraitEvent event=new TraitEvent(trait.getName(),date,deed);
+          TraitEvent event=new TraitEvent(traitReward.getName(),date,deed);
           _traits.add(event);
         }
-      }
-      // Skills
-      SkillReward[] skills=rewards.getSkills();
-      if (skills!=null)
-      {
-        for(SkillReward skill : skills)
+        // Skill
+        else if (rewardElement instanceof SkillReward)
         {
+          SkillReward skillReward=(SkillReward)rewardElement;
           Long date=deedStatus.getCompletionDate();
-          SkillEvent event=new SkillEvent(skill.getName(),date,deed);
+          SkillEvent event=new SkillEvent(skillReward.getName(),date,deed);
           _skills.add(event);
         }
-      }
-      // Virtues
-      VirtueReward[] virtueRewards=rewards.getVirtues();
-      if (virtueRewards!=null)
-      {
-        for(VirtueReward virtueReward : virtueRewards)
+        // Virtue
+        else if (rewardElement instanceof VirtueReward)
         {
+          VirtueReward virtueReward=(VirtueReward)rewardElement;
           VirtueId virtueId=virtueReward.getIdentifier();
           VirtueStatsFromDeeds virtueStats=_virtues.get(virtueId);
           if (virtueStats==null)
@@ -228,22 +215,21 @@ public class DeedsStatistics
           int points=virtueReward.getCount();
           virtueStats.add(points);
         }
-      }
-      // Reputation
-      Reputation reputation=rewards.getReputation();
-      ReputationReward[] items=reputation.getItems();
-      for(ReputationReward item : items)
-      {
-        Faction faction=item.getFaction();
-        String factionKey=faction.getKey();
-        FactionStatsFromDeeds factionStats=_reputation.get(factionKey);
-        if (factionStats==null)
+        // Reputation
+        else if (rewardElement instanceof ReputationReward)
         {
-          factionStats=new FactionStatsFromDeeds(faction);
-          _reputation.put(faction.getKey(),factionStats);
+          ReputationReward reputationReward=(ReputationReward)rewardElement;
+          Faction faction=reputationReward.getFaction();
+          String factionKey=faction.getKey();
+          FactionStatsFromDeeds factionStats=_reputation.get(factionKey);
+          if (factionStats==null)
+          {
+            factionStats=new FactionStatsFromDeeds(faction);
+            _reputation.put(faction.getKey(),factionStats);
+          }
+          int amount=reputationReward.getAmount();
+          factionStats.add(amount);
         }
-        int amount=item.getAmount();
-        factionStats.add(amount);
       }
     }
   }
