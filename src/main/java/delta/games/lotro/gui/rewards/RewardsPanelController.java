@@ -6,6 +6,7 @@ import java.awt.Insets;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
@@ -25,6 +26,7 @@ import delta.games.lotro.utils.Proxy;
  */
 public class RewardsPanelController
 {
+  private static final int NB_COLUMNS=2;
   private JPanel _panel;
   private ClassPointRewardGadgetsController _classPoint;
   private LotroPointsRewardGadgetsController _lotroPoints;
@@ -119,94 +121,37 @@ public class RewardsPanelController
     // Class Points
     if (_classPoint!=null)
     {
-      c.gridx=0;
-      ret.add(_classPoint.getLabelIcon(),c);
-      c.gridx++;
-      ret.add(_classPoint.getLabel(),c);
-      c.gridx++;
-      if (c.gridx/2==nbColumns)
-      {
-        c.gridx=0;
-        c.gridy++;
-      }
+      addRewardGadgets(ret,_classPoint.getLabelIcon(),_classPoint.getLabel(),c);
     }
     // LOTRO Points
     if (_lotroPoints!=null)
     {
-      ret.add(_lotroPoints.getLabelIcon(),c);
-      c.gridx++;
-      ret.add(_lotroPoints.getLabel(),c);
-      c.gridx++;
-      if (c.gridx/2==nbColumns)
-      {
-        c.gridx=0;
-        c.gridy++;
-      }
+      addRewardGadgets(ret,_lotroPoints.getLabelIcon(),_lotroPoints.getLabel(),c);
     }
     // Destiny Points
     if (_destinyPoints!=null)
     {
-      ret.add(_destinyPoints.getLabelIcon(),c);
-      c.gridx++;
-      ret.add(_destinyPoints.getLabel(),c);
-      c.gridx++;
-      if (c.gridx/2==nbColumns)
-      {
-        c.gridx=0;
-        c.gridy++;
-      }
+      addRewardGadgets(ret,_destinyPoints.getLabelIcon(),_destinyPoints.getLabel(),c);
     }
     // Items
     for(ItemRewardGadgetsController reward : _itemRewards)
     {
-      ret.add(reward.getLabelIcon(),c);
-      c.gridx++;
-      ret.add(reward.getLabel(),c);
-      c.gridx++;
-      if (c.gridx/2==nbColumns)
-      {
-        c.gridx=0;
-        c.gridy++;
-      }
+      addRewardGadgets(ret,reward.getLabelIcon(),reward.getLabel(),c);
     }
     // Titles
     for(TitleRewardGadgetsController titleReward : _titleRewards)
     {
-      ret.add(titleReward.getLabelIcon(),c);
-      c.gridx++;
-      ret.add(titleReward.getLabel(),c);
-      c.gridx++;
-      if (c.gridx/2==nbColumns)
-      {
-        c.gridx=0;
-        c.gridy++;
-      }
+      addRewardGadgets(ret,titleReward.getLabelIcon(),titleReward.getLabel(),c);
     }
     // Virtues
     for(VirtueRewardGadgetsController virtueReward : _virtueRewards)
     {
-      ret.add(virtueReward.getLabelIcon(),c);
-      c.gridx++;
-      ret.add(virtueReward.getLabel(),c);
-      c.gridx++;
-      if (c.gridx/2==nbColumns)
-      {
-        c.gridx=0;
-        c.gridy++;
-      }
+      addRewardGadgets(ret,virtueReward.getLabelIcon(),virtueReward.getLabel(),c);
     }
     // Reputation
     for(ReputationRewardGadgetsController reputationReward : _reputationRewards)
     {
-      ret.add(reputationReward.getLabelIcon(),c);
-      c.gridx++;
-      ret.add(reputationReward.getLabel(),c);
-      c.gridx++;
-      if (c.gridx/2==nbColumns)
-      {
-        c.gridx=0;
-        c.gridy++;
-      }
+      addRewardGadgets(ret,reputationReward.getLabelIcon(),reputationReward.getLabel(),c);
     }
     // Add space on right
     c=new GridBagConstraints(2*nbColumns,0,1,c.gridy,1.0,1.0,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
@@ -215,6 +160,18 @@ public class RewardsPanelController
     return ret;
   }
 
+  private void addRewardGadgets(JPanel target, JLabel icon, JLabel label, GridBagConstraints c)
+  {
+    target.add(icon,c);
+    c.gridx++;
+    target.add(label,c);
+    c.gridx++;
+    if (c.gridx/2==NB_COLUMNS)
+    {
+      c.gridx=0;
+      c.gridy++;
+    }
+  }
 
   /**
    * Release all managed resources.
