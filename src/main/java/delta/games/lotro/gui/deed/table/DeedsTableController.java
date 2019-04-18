@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.deed;
+package delta.games.lotro.gui.deed.table;
 
 import java.awt.event.ActionListener;
 import java.util.ArrayList;

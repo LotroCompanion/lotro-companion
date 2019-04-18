@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.deed;
+package delta.games.lotro.gui.deed.table;
 
 /**
  * Some column identifiers for the deeds tables.

@@ -19,8 +19,8 @@ import delta.common.ui.swing.windows.WindowsManager;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.gui.deed.DeedFilter;
 import delta.games.lotro.gui.deed.DeedFilterController;
-import delta.games.lotro.gui.deed.DeedsTableController;
 import delta.games.lotro.gui.deed.form.DeedDisplayWindowController;
+import delta.games.lotro.gui.deed.table.DeedsTableController;
 import delta.games.lotro.gui.main.GlobalPreferences;
 import delta.games.lotro.lore.deeds.DeedDescription;
 
