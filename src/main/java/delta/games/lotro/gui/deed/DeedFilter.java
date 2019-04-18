@@ -6,16 +6,7 @@ import java.util.List;
 import delta.common.utils.collections.filters.CompoundFilter;
 import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.collections.filters.Operator;
-import delta.games.lotro.common.rewards.filters.ClassPointRewardFilter;
-import delta.games.lotro.common.rewards.filters.DestinyPointsRewardFilter;
-import delta.games.lotro.common.rewards.filters.EmoteRewardFilter;
-import delta.games.lotro.common.rewards.filters.ItemRewardFilter;
-import delta.games.lotro.common.rewards.filters.LotroPointsRewardFilter;
-import delta.games.lotro.common.rewards.filters.ReputationRewardFilter;
-import delta.games.lotro.common.rewards.filters.SkillRewardFilter;
-import delta.games.lotro.common.rewards.filters.TitleRewardFilter;
-import delta.games.lotro.common.rewards.filters.TraitRewardFilter;
-import delta.games.lotro.common.rewards.filters.VirtueRewardFilter;
+import delta.games.lotro.gui.rewards.RewardsFilter;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.filters.DeedCategoryFilter;
 import delta.games.lotro.lore.deeds.filters.DeedClassRequirementFilter;
@@ -39,16 +30,7 @@ public class DeedFilter implements Filter<DeedDescription>
   private DeedClassRequirementFilter _classFilter;
   private DeedRaceRequirementFilter _raceFilter;
   // Rewards
-  private ReputationRewardFilter _reputationFilter;
-  private LotroPointsRewardFilter _lotroPointsFilter;
-  private DestinyPointsRewardFilter _destinyPointsFilter;
-  private ClassPointRewardFilter _classPointsFilter;
-  private TraitRewardFilter _traitFilter;
-  private SkillRewardFilter _skillFilter;
-  private TitleRewardFilter _titleFilter;
-  private VirtueRewardFilter _virtueFilter;
-  private EmoteRewardFilter _emoteFilter;
-  private ItemRewardFilter _itemFilter;
+  private RewardsFilter _rewardsFilter;
 
   /**
    * Constructor.
@@ -72,37 +54,9 @@ public class DeedFilter implements Filter<DeedDescription>
     // - race
     _raceFilter=new DeedRaceRequirementFilter(null);
     filters.add(_raceFilter);
-    // Rewards:
-    // - reputation
-    _reputationFilter=new ReputationRewardFilter(null);
-    filters.add(new DeedRewardFilter(_reputationFilter));
-    // - LOTRO points
-    _lotroPointsFilter=new LotroPointsRewardFilter(null);
-    filters.add(new DeedRewardFilter(_lotroPointsFilter));
-    // - destiny points
-    _destinyPointsFilter=new DestinyPointsRewardFilter(null);
-    filters.add(new DeedRewardFilter(_destinyPointsFilter));
-    // - class points
-    _classPointsFilter=new ClassPointRewardFilter(null);
-    filters.add(new DeedRewardFilter(_classPointsFilter));
-    // - trait
-    _traitFilter=new TraitRewardFilter(null);
-    filters.add(new DeedRewardFilter(_traitFilter));
-    // - skill
-    _skillFilter=new SkillRewardFilter(null);
-    filters.add(new DeedRewardFilter(_skillFilter));
-    // - title
-    _titleFilter=new TitleRewardFilter(null);
-    filters.add(new DeedRewardFilter(_titleFilter));
-    // - virtue
-    _virtueFilter=new VirtueRewardFilter(null);
-    filters.add(new DeedRewardFilter(_virtueFilter));
-    // - emote
-    _emoteFilter=new EmoteRewardFilter(null);
-    filters.add(new DeedRewardFilter(_emoteFilter));
-    // - item
-    _itemFilter=new ItemRewardFilter(null);
-    filters.add(new DeedRewardFilter(_itemFilter));
+    // Rewards
+    _rewardsFilter=new RewardsFilter();
+    filters.add(new DeedRewardFilter(_rewardsFilter));
     _filter=new CompoundFilter<DeedDescription>(Operator.AND,filters);
   }
 
@@ -152,93 +106,12 @@ public class DeedFilter implements Filter<DeedDescription>
   }
 
   /**
-   * Get the filter on deed reputation.
-   * @return a deed reputation filter.
+   * Get the filter on rewards.
+   * @return the rewards filter.
    */
-  public ReputationRewardFilter getReputationFilter()
+  public RewardsFilter getRewardsFilter()
   {
-    return _reputationFilter;
-  }
-
-  /**
-   * Get the filter on LOTRO points reward.
-   * @return a filter.
-   */
-  public LotroPointsRewardFilter getLotroPointsFilter()
-  {
-    return _lotroPointsFilter;
-  }
-
-  /**
-   * Get the filter on destiny points reward.
-   * @return a filter.
-   */
-  public DestinyPointsRewardFilter getDestinyPointsFilter()
-  {
-    return _destinyPointsFilter;
-  }
-
-  /**
-   * Get the filter on class point reward.
-   * @return a filter.
-   */
-  public ClassPointRewardFilter getClassPointsFilter()
-  {
-    return _classPointsFilter;
-  }
-
-  /**
-   * Get the filter on deed trait.
-   * @return a deed trait filter.
-   */
-  public TraitRewardFilter getTraitFilter()
-  {
-    return _traitFilter;
-  }
-
-  /**
-   * Get the filter on deed skill.
-   * @return a deed skill filter.
-   */
-  public SkillRewardFilter getSkillFilter()
-  {
-    return _skillFilter;
-  }
-
-  /**
-   * Get the filter on deed title.
-   * @return a deed title filter.
-   */
-  public TitleRewardFilter getTitleFilter()
-  {
-    return _titleFilter;
-  }
-
-  /**
-   * Get the filter on deed virtue.
-   * @return a deed virtue filter.
-   */
-  public VirtueRewardFilter getVirtueFilter()
-  {
-    return _virtueFilter;
-  }
-
-  /**
-   * Get the filter on deed emote.
-   * @return a deed emote filter.
-   */
-  public EmoteRewardFilter getEmoteFilter()
-  {
-    return _emoteFilter;
-  }
-
-  /**
-   * Get the filter on deed item.
-   * @return a deed item filter.
-   */
-  public ItemRewardFilter getItemFilter()
-  {
-    return _itemFilter;
+    return _rewardsFilter;
   }
 
   @Override
