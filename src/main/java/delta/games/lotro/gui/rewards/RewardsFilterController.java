@@ -11,6 +11,7 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.common.ui.swing.combobox.ItemSelectionListener;
 import delta.games.lotro.common.VirtueId;
+import delta.games.lotro.common.rewards.RewardsExplorer;
 import delta.games.lotro.common.rewards.filters.ClassPointRewardFilter;
 import delta.games.lotro.common.rewards.filters.DestinyPointsRewardFilter;
 import delta.games.lotro.common.rewards.filters.EmoteRewardFilter;
@@ -21,8 +22,8 @@ import delta.games.lotro.common.rewards.filters.SkillRewardFilter;
 import delta.games.lotro.common.rewards.filters.TitleRewardFilter;
 import delta.games.lotro.common.rewards.filters.TraitRewardFilter;
 import delta.games.lotro.common.rewards.filters.VirtueRewardFilter;
-import delta.games.lotro.gui.deed.DeedUiUtils;
 import delta.games.lotro.gui.items.FilterUpdateListener;
+import delta.games.lotro.gui.utils.SharedUiUtils;
 import delta.games.lotro.lore.reputation.Faction;
 
 /**
@@ -34,6 +35,7 @@ public class RewardsFilterController
   // Data
   private RewardsFilter _filter;
   private FilterUpdateListener _filterUpdateListener;
+  private RewardsUiUtils _uiUtils;
 
   // GUI
   private JPanel _panel;
@@ -54,11 +56,13 @@ public class RewardsFilterController
    * Constructor.
    * @param filter Managed filter.
    * @param filterUpdateListener Filter update listener.
+   * @param explorer Rewards explorer.
    */
-  public RewardsFilterController(RewardsFilter filter, FilterUpdateListener filterUpdateListener)
+  public RewardsFilterController(RewardsFilter filter, FilterUpdateListener filterUpdateListener, RewardsExplorer explorer)
   {
     _filter=filter;
     _filterUpdateListener=filterUpdateListener;
+    _uiUtils=new RewardsUiUtils(explorer);
   }
 
   /**
@@ -285,7 +289,7 @@ public class RewardsFilterController
 
   private ComboBoxController<Faction> buildReputationCombobox()
   {
-    ComboBoxController<Faction> combo=DeedUiUtils.buildFactionCombo();
+    ComboBoxController<Faction> combo=SharedUiUtils.buildFactionCombo();
     ItemSelectionListener<Faction> listener=new ItemSelectionListener<Faction>()
     {
       @Override
@@ -302,7 +306,7 @@ public class RewardsFilterController
 
   private ComboBoxController<String> buildTraitsCombobox()
   {
-    ComboBoxController<String> combo=DeedUiUtils.buildTraitsCombo();
+    ComboBoxController<String> combo=_uiUtils.buildTraitsCombo();
     ItemSelectionListener<String> listener=new ItemSelectionListener<String>()
     {
       @Override
@@ -319,7 +323,7 @@ public class RewardsFilterController
 
   private ComboBoxController<String> buildSkillsCombobox()
   {
-    ComboBoxController<String> combo=DeedUiUtils.buildSkillsCombo();
+    ComboBoxController<String> combo=_uiUtils.buildSkillsCombo();
     ItemSelectionListener<String> listener=new ItemSelectionListener<String>()
     {
       @Override
@@ -336,7 +340,7 @@ public class RewardsFilterController
 
   private ComboBoxController<String> buildTitlesCombobox()
   {
-    ComboBoxController<String> combo=DeedUiUtils.buildTitlesCombo();
+    ComboBoxController<String> combo=_uiUtils.buildTitlesCombo();
     ItemSelectionListener<String> listener=new ItemSelectionListener<String>()
     {
       @Override
@@ -353,7 +357,7 @@ public class RewardsFilterController
 
   private ComboBoxController<VirtueId> buildVirtuesCombobox()
   {
-    ComboBoxController<VirtueId> combo=DeedUiUtils.buildVirtueCombo();
+    ComboBoxController<VirtueId> combo=SharedUiUtils.buildVirtueCombo();
     ItemSelectionListener<VirtueId> listener=new ItemSelectionListener<VirtueId>()
     {
       @Override
@@ -370,7 +374,7 @@ public class RewardsFilterController
 
   private ComboBoxController<String> buildEmotesCombobox()
   {
-    ComboBoxController<String> combo=DeedUiUtils.buildEmotesCombo();
+    ComboBoxController<String> combo=_uiUtils.buildEmotesCombo();
     ItemSelectionListener<String> listener=new ItemSelectionListener<String>()
     {
       @Override
@@ -387,7 +391,7 @@ public class RewardsFilterController
 
   private ComboBoxController<Integer> buildItemsCombobox()
   {
-    ComboBoxController<Integer> combo=DeedUiUtils.buildItemsCombo();
+    ComboBoxController<Integer> combo=_uiUtils.buildItemsCombo();
     ItemSelectionListener<Integer> listener=new ItemSelectionListener<Integer>()
     {
       @Override

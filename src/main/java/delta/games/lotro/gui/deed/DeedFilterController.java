@@ -21,11 +21,13 @@ import delta.common.ui.swing.text.TextListener;
 import delta.common.utils.collections.filters.Filter;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.Race;
+import delta.games.lotro.common.rewards.RewardsExplorer;
 import delta.games.lotro.gui.character.summary.CharacterUiUtils;
 import delta.games.lotro.gui.items.FilterUpdateListener;
 import delta.games.lotro.gui.rewards.RewardsFilterController;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.DeedType;
+import delta.games.lotro.lore.deeds.DeedsManager;
 import delta.games.lotro.lore.deeds.filters.DeedCategoryFilter;
 import delta.games.lotro.lore.deeds.filters.DeedClassRequirementFilter;
 import delta.games.lotro.lore.deeds.filters.DeedNameFilter;
@@ -65,7 +67,8 @@ public class DeedFilterController implements ActionListener
   {
     _filter=filter;
     _filterUpdateListener=filterUpdateListener;
-    _rewards=new RewardsFilterController(filter.getRewardsFilter(),filterUpdateListener);
+    RewardsExplorer explorer=DeedsManager.getInstance().buildRewardsExplorer();
+    _rewards=new RewardsFilterController(filter.getRewardsFilter(),filterUpdateListener,explorer);
   }
 
   /**
