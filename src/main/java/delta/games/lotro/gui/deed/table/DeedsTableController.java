@@ -10,18 +10,16 @@ import delta.common.ui.swing.tables.CellDataProvider;
 import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.ListDataProvider;
+import delta.common.ui.swing.tables.ProxiedTableColumnController;
+import delta.common.ui.swing.tables.TableColumnController;
 import delta.common.ui.swing.tables.TableColumnsManager;
 import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.Race;
-import delta.games.lotro.common.rewards.EmoteReward;
 import delta.games.lotro.common.rewards.Rewards;
-import delta.games.lotro.common.rewards.SkillReward;
-import delta.games.lotro.common.rewards.TitleReward;
-import delta.games.lotro.common.rewards.TraitReward;
-import delta.games.lotro.common.rewards.VirtueReward;
 import delta.games.lotro.gui.items.chooser.ItemChooser;
+import delta.games.lotro.gui.rewards.table.RewardsColumnsBuilder;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.DeedType;
 import delta.games.lotro.lore.deeds.DeedsManager;
@@ -57,8 +55,8 @@ public class DeedsTableController
   {
     ListDataProvider<DeedDescription> provider=new ListDataProvider<DeedDescription>(_deeds);
     GenericTableController<DeedDescription> table=new GenericTableController<DeedDescription>(provider);
-    List<DefaultTableColumnController<DeedDescription,?>> columns=buildColumns();
-    for(DefaultTableColumnController<DeedDescription,?> column : columns)
+    List<TableColumnController<DeedDescription,?>> columns=buildColumns();
+    for(TableColumnController<DeedDescription,?> column : columns)
     {
       table.addColumnController(column);
     }
@@ -73,9 +71,9 @@ public class DeedsTableController
    * Build the columns for a deeds table.
    * @return A list of columns for a deeds table.
    */
-  public static List<DefaultTableColumnController<DeedDescription,?>> buildColumns()
+  public static List<TableColumnController<DeedDescription,?>> buildColumns()
   {
-    List<DefaultTableColumnController<DeedDescription,?>> ret=new ArrayList<DefaultTableColumnController<DeedDescription,?>>();
+    List<TableColumnController<DeedDescription,?>> ret=new ArrayList<TableColumnController<DeedDescription,?>>();
     // Identifier column
     {
       CellDataProvider<DeedDescription,Integer> idCell=new CellDataProvider<DeedDescription,Integer>()
@@ -189,7 +187,22 @@ public class DeedsTableController
       ret.add(minLevelColumn);
     }
     // Rewards
-    ret.addAll(buildRewardsColumns());
+    List<DefaultTableColumnController<Rewards,?>> rewardColumns=RewardsColumnsBuilder.buildRewardColumns();
+    CellDataProvider<DeedDescription,Rewards> dataProvider=new CellDataProvider<DeedDescription,Rewards>()
+    {
+      @Override
+      public Rewards getData(DeedDescription p)
+      {
+        return p.getRewards();
+      }
+    };
+    for(DefaultTableColumnController<Rewards,?> rewardColumn : rewardColumns)
+    {
+      @SuppressWarnings("unchecked")
+      TableColumnController<Rewards,Object> c=(TableColumnController<Rewards,Object>)rewardColumn;
+      TableColumnController<DeedDescription,Object> proxiedColumn=new ProxiedTableColumnController<DeedDescription,Rewards,Object>(c,dataProvider);
+      ret.add(proxiedColumn);
+    }
     // Objectives column
     {
       CellDataProvider<DeedDescription,String> objectivesCell=new CellDataProvider<DeedDescription,String>()
@@ -203,140 +216,6 @@ public class DeedsTableController
       DefaultTableColumnController<DeedDescription,String> objectivesColumn=new DefaultTableColumnController<DeedDescription,String>(DeedColumnIds.OBJECTIVES.name(),"Objectives",String.class,objectivesCell);
       objectivesColumn.setWidthSpecs(100,-1,100);
       ret.add(objectivesColumn);
-    }
-    return ret;
-  }
-
-  private static List<DefaultTableColumnController<DeedDescription,?>> buildRewardsColumns()
-  {
-    List<DefaultTableColumnController<DeedDescription,?>> ret=new ArrayList<DefaultTableColumnController<DeedDescription,?>>();
-    // LOTRO points column
-    {
-      CellDataProvider<DeedDescription,Integer> lpCell=new CellDataProvider<DeedDescription,Integer>()
-      {
-        @Override
-        public Integer getData(DeedDescription deed)
-        {
-          Rewards rewards=deed.getRewards();
-          int lotroPoints=rewards.getLotroPoints();
-          return (lotroPoints>0)?Integer.valueOf(lotroPoints):null;
-        }
-      };
-      DefaultTableColumnController<DeedDescription,Integer> lpColumn=new DefaultTableColumnController<DeedDescription,Integer>(DeedColumnIds.LOTRO_POINTS.name(),"LOTRO Points",Integer.class,lpCell);
-      lpColumn.setWidthSpecs(40,40,40);
-      ret.add(lpColumn);
-    }
-    // Destiny points column
-    {
-      CellDataProvider<DeedDescription,Integer> dpCell=new CellDataProvider<DeedDescription,Integer>()
-      {
-        @Override
-        public Integer getData(DeedDescription deed)
-        {
-          Rewards rewards=deed.getRewards();
-          int destinyPoints=rewards.getDestinyPoints();
-          return (destinyPoints>0)?Integer.valueOf(destinyPoints):null;
-        }
-      };
-      DefaultTableColumnController<DeedDescription,Integer> dpColumn=new DefaultTableColumnController<DeedDescription,Integer>(DeedColumnIds.DESTINY_POINTS.name(),"Destiny Points",Integer.class,dpCell);
-      dpColumn.setWidthSpecs(40,40,40);
-      ret.add(dpColumn);
-    }
-    // Class point column
-    {
-      CellDataProvider<DeedDescription,Boolean> cpCell=new CellDataProvider<DeedDescription,Boolean>()
-      {
-        @Override
-        public Boolean getData(DeedDescription deed)
-        {
-          Rewards rewards=deed.getRewards();
-          int classPoints=rewards.getClassPoints();
-          return (classPoints>0)?Boolean.TRUE:Boolean.FALSE;
-        }
-      };
-      DefaultTableColumnController<DeedDescription,Boolean> cpColumn=new DefaultTableColumnController<DeedDescription,Boolean>(DeedColumnIds.CLASS_POINT.name(),"Class Point",Boolean.class,cpCell);
-      cpColumn.setWidthSpecs(40,40,40);
-      ret.add(cpColumn);
-    }
-    // Title column
-    {
-      CellDataProvider<DeedDescription,String> titleCell=new CellDataProvider<DeedDescription,String>()
-      {
-        @Override
-        public String getData(DeedDescription deed)
-        {
-          Rewards rewards=deed.getRewards();
-          List<TitleReward> titleRewards=rewards.getRewardElementsOfClass(TitleReward.class);
-          return ((titleRewards.size()>0))?titleRewards.get(0).getName():null;
-        }
-      };
-      DefaultTableColumnController<DeedDescription,String> titleColumn=new DefaultTableColumnController<DeedDescription,String>(DeedColumnIds.TITLE.name(),"Title",String.class,titleCell);
-      titleColumn.setWidthSpecs(100,300,200);
-      ret.add(titleColumn);
-    }
-    // Virtue column
-    {
-      CellDataProvider<DeedDescription,String> virtueCell=new CellDataProvider<DeedDescription,String>()
-      {
-        @Override
-        public String getData(DeedDescription deed)
-        {
-          Rewards rewards=deed.getRewards();
-          List<VirtueReward> virtueRewards=rewards.getRewardElementsOfClass(VirtueReward.class);
-          return (virtueRewards.size()>0)?virtueRewards.get(0).getIdentifier().getLabel():null;
-        }
-      };
-      DefaultTableColumnController<DeedDescription,String> virtueColumn=new DefaultTableColumnController<DeedDescription,String>(DeedColumnIds.VIRTUE.name(),"Virtue",String.class,virtueCell);
-      virtueColumn.setWidthSpecs(100,300,200);
-      ret.add(virtueColumn);
-    }
-    // Emote column
-    {
-      CellDataProvider<DeedDescription,String> emoteCell=new CellDataProvider<DeedDescription,String>()
-      {
-        @Override
-        public String getData(DeedDescription deed)
-        {
-          Rewards rewards=deed.getRewards();
-          List<EmoteReward> emoteRewards=rewards.getRewardElementsOfClass(EmoteReward.class);
-          return ((emoteRewards.size()>0))?emoteRewards.get(0).getName():null;
-        }
-      };
-      DefaultTableColumnController<DeedDescription,String> emoteColumn=new DefaultTableColumnController<DeedDescription,String>(DeedColumnIds.EMOTE.name(),"Emote",String.class,emoteCell);
-      emoteColumn.setWidthSpecs(100,300,200);
-      ret.add(emoteColumn);
-    }
-    // Trait column
-    {
-      CellDataProvider<DeedDescription,String> traitCell=new CellDataProvider<DeedDescription,String>()
-      {
-        @Override
-        public String getData(DeedDescription deed)
-        {
-          Rewards rewards=deed.getRewards();
-          List<TraitReward> traitRewards=rewards.getRewardElementsOfClass(TraitReward.class);
-          return ((traitRewards.size()>0))?traitRewards.get(0).getName():null;
-        }
-      };
-      DefaultTableColumnController<DeedDescription,String> traitColumn=new DefaultTableColumnController<DeedDescription,String>(DeedColumnIds.TRAIT.name(),"Trait",String.class,traitCell);
-      traitColumn.setWidthSpecs(100,300,200);
-      ret.add(traitColumn);
-    }
-    // Skill column
-    {
-      CellDataProvider<DeedDescription,String> skillCell=new CellDataProvider<DeedDescription,String>()
-      {
-        @Override
-        public String getData(DeedDescription deed)
-        {
-          Rewards rewards=deed.getRewards();
-          List<SkillReward> skillRewards=rewards.getRewardElementsOfClass(SkillReward.class);
-          return ((skillRewards.size()>0))?skillRewards.get(0).getName():null;
-        }
-      };
-      DefaultTableColumnController<DeedDescription,String> skillColumn=new DefaultTableColumnController<DeedDescription,String>(DeedColumnIds.SKILL.name(),"Skill",String.class,skillCell);
-      skillColumn.setWidthSpecs(100,300,200);
-      ret.add(skillColumn);
     }
     return ret;
   }

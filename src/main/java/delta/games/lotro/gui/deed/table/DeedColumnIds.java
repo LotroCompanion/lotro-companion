@@ -41,37 +41,5 @@ public enum DeedColumnIds
   /**
    * Objectives.
    */
-  OBJECTIVES,
-  /**
-   * Rewards: LOTRO points.
-   */
-  LOTRO_POINTS,
-  /**
-   * Rewards: destiny points.
-   */
-  DESTINY_POINTS,
-  /**
-   * Rewards: Class point.
-   */
-  CLASS_POINT,
-  /**
-   * Rewards: title.
-   */
-  TITLE,
-  /**
-   * Rewards: virtue.
-   */
-  VIRTUE,
-  /**
-   * Rewards: emote.
-   */
-  EMOTE,
-  /**
-   * Rewards: trait.
-   */
-  TRAIT,
-  /**
-   * Rewards: skill.
-   */
-  SKILL
+  OBJECTIVES
 }

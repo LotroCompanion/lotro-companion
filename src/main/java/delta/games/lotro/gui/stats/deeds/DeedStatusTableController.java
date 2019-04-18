@@ -7,11 +7,12 @@ import java.util.List;
 import javax.swing.JTable;
 
 import delta.common.ui.swing.tables.CellDataProvider;
+import delta.common.ui.swing.tables.CellDataUpdater;
+import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.GenericTableController.DateRenderer;
-import delta.common.ui.swing.tables.CellDataUpdater;
 import delta.common.ui.swing.tables.ListDataProvider;
-import delta.common.ui.swing.tables.DefaultTableColumnController;
+import delta.common.ui.swing.tables.TableColumnController;
 import delta.common.ui.swing.tables.TableColumnsManager;
 import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.misc.TypedProperties;
@@ -60,8 +61,8 @@ public class DeedStatusTableController
   {
     ListDataProvider<DeedDescription> provider=new ListDataProvider<DeedDescription>(_deeds);
     GenericTableController<DeedDescription> table=new GenericTableController<DeedDescription>(provider);
-    List<DefaultTableColumnController<DeedDescription,?>> deedColumns=DeedsTableController.buildColumns();
-    for(DefaultTableColumnController<DeedDescription,?> deedColumn : deedColumns)
+    List<TableColumnController<DeedDescription,?>> deedColumns=DeedsTableController.buildColumns();
+    for(TableColumnController<DeedDescription,?> deedColumn : deedColumns)
     {
       table.addColumnController(deedColumn);
     }
