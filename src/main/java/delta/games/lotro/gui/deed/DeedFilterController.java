@@ -21,6 +21,7 @@ import delta.common.ui.swing.text.TextListener;
 import delta.common.utils.collections.filters.Filter;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.Race;
+import delta.games.lotro.common.requirements.filters.UsageRequirementFilter;
 import delta.games.lotro.common.rewards.RewardsExplorer;
 import delta.games.lotro.gui.character.summary.CharacterUiUtils;
 import delta.games.lotro.gui.items.FilterUpdateListener;
@@ -29,9 +30,7 @@ import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.DeedType;
 import delta.games.lotro.lore.deeds.DeedsManager;
 import delta.games.lotro.lore.deeds.filters.DeedCategoryFilter;
-import delta.games.lotro.lore.deeds.filters.DeedClassRequirementFilter;
 import delta.games.lotro.lore.deeds.filters.DeedNameFilter;
-import delta.games.lotro.lore.deeds.filters.DeedRaceRequirementFilter;
 import delta.games.lotro.lore.deeds.filters.DeedTypeFilter;
 
 /**
@@ -136,14 +135,13 @@ public class DeedFilterController implements ActionListener
     String category=categoryFilter.getDeedCategory();
     _category.selectItem(category);
 
-    // Requirements:
+    // Requirements
+    UsageRequirementFilter requirementsFilter=_filter.getRequirementsFilter();
     // - class
-    DeedClassRequirementFilter classFilter=_filter.getClassFilter();
-    CharacterClass requiredClass=classFilter.getCharacterClass();
+    CharacterClass requiredClass=requirementsFilter.getCharacterClass();
     _class.selectItem(requiredClass);
     // - race
-    DeedRaceRequirementFilter raceFilter=_filter.getRaceFilter();
-    Race requiredRace=raceFilter.getRace();
+    Race requiredRace=requirementsFilter.getRace();
     _race.selectItem(requiredRace);
 
     // Rewards:
@@ -296,7 +294,7 @@ public class DeedFilterController implements ActionListener
       @Override
       public void itemSelected(CharacterClass requiredClass)
       {
-        DeedClassRequirementFilter filter=_filter.getClassFilter();
+        UsageRequirementFilter filter=_filter.getRequirementsFilter();
         filter.setCharacterClass(requiredClass);
         filterUpdated();
       }
@@ -313,7 +311,7 @@ public class DeedFilterController implements ActionListener
       @Override
       public void itemSelected(Race requiredRace)
       {
-        DeedRaceRequirementFilter filter=_filter.getRaceFilter();
+        UsageRequirementFilter filter=_filter.getRequirementsFilter();
         filter.setRace(requiredRace);
         filterUpdated();
       }

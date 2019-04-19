@@ -6,12 +6,14 @@ import java.util.List;
 import delta.common.utils.collections.filters.CompoundFilter;
 import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.collections.filters.Operator;
+import delta.games.lotro.character.storage.filters.ProxyFilter;
+import delta.games.lotro.character.storage.filters.ProxyValueResolver;
+import delta.games.lotro.common.requirements.UsageRequirement;
+import delta.games.lotro.common.requirements.filters.UsageRequirementFilter;
 import delta.games.lotro.gui.rewards.RewardsFilter;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.filters.DeedCategoryFilter;
-import delta.games.lotro.lore.deeds.filters.DeedClassRequirementFilter;
 import delta.games.lotro.lore.deeds.filters.DeedNameFilter;
-import delta.games.lotro.lore.deeds.filters.DeedRaceRequirementFilter;
 import delta.games.lotro.lore.deeds.filters.DeedRewardFilter;
 import delta.games.lotro.lore.deeds.filters.DeedTypeFilter;
 
@@ -27,8 +29,7 @@ public class DeedFilter implements Filter<DeedDescription>
   private DeedTypeFilter _typeFilter;
   private DeedCategoryFilter _categoryFilter;
   // Requirements
-  private DeedClassRequirementFilter _classFilter;
-  private DeedRaceRequirementFilter _raceFilter;
+  private UsageRequirementFilter _requirementsFilter;
   // Rewards
   private RewardsFilter _rewardsFilter;
 
@@ -47,13 +48,17 @@ public class DeedFilter implements Filter<DeedDescription>
     // Category
     _categoryFilter=new DeedCategoryFilter(null);
     filters.add(_categoryFilter);
-    // Requirements:
-    // - class
-    _classFilter=new DeedClassRequirementFilter(null);
-    filters.add(_classFilter);
-    // - race
-    _raceFilter=new DeedRaceRequirementFilter(null);
-    filters.add(_raceFilter);
+    // Requirements
+    _requirementsFilter=new UsageRequirementFilter(null,null);
+    ProxyValueResolver<DeedDescription,UsageRequirement> resolver=new ProxyValueResolver<DeedDescription,UsageRequirement>()
+    {
+      public UsageRequirement getValue(DeedDescription pojo)
+      {
+        return pojo.getUsageRequirement();
+      }
+    };
+    ProxyFilter<DeedDescription,UsageRequirement> deedRequirementsFilter=new ProxyFilter<DeedDescription,UsageRequirement>(resolver,_requirementsFilter);
+    filters.add(deedRequirementsFilter);
     // Rewards
     _rewardsFilter=new RewardsFilter();
     filters.add(new DeedRewardFilter(_rewardsFilter));
@@ -88,21 +93,12 @@ public class DeedFilter implements Filter<DeedDescription>
   }
 
   /**
-   * Get the filter on class requirement.
-   * @return a character class or <code>null</code>.
+   * Get the filter on requirements.
+   * @return the requirements filter.
    */
-  public DeedClassRequirementFilter getClassFilter()
+  public UsageRequirementFilter getRequirementsFilter()
   {
-    return _classFilter;
-  }
-
-  /**
-   * Get the filter on race requirement.
-   * @return a race or <code>null</code>.
-   */
-  public DeedRaceRequirementFilter getRaceFilter()
-  {
-    return _raceFilter;
+    return _requirementsFilter;
   }
 
   /**
