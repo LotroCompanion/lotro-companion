@@ -19,11 +19,8 @@ import delta.common.ui.swing.combobox.ItemSelectionListener;
 import delta.common.ui.swing.text.DynamicTextEditionController;
 import delta.common.ui.swing.text.TextListener;
 import delta.common.utils.collections.filters.Filter;
-import delta.games.lotro.common.CharacterClass;
-import delta.games.lotro.common.Race;
-import delta.games.lotro.common.requirements.filters.UsageRequirementFilter;
 import delta.games.lotro.common.rewards.RewardsExplorer;
-import delta.games.lotro.gui.character.summary.CharacterUiUtils;
+import delta.games.lotro.gui.common.requirements.RequirementsFilterController;
 import delta.games.lotro.gui.items.FilterUpdateListener;
 import delta.games.lotro.gui.rewards.RewardsFilterController;
 import delta.games.lotro.lore.deeds.DeedDescription;
@@ -49,8 +46,7 @@ public class DeedFilterController implements ActionListener
   private ComboBoxController<DeedType> _type;
   private ComboBoxController<String> _category;
   // -- Requirements UI --
-  private ComboBoxController<CharacterClass> _class;
-  private ComboBoxController<Race> _race;
+  private RequirementsFilterController _requirements;
   // -- Rewards UI --
   private RewardsFilterController _rewards;
   // Controllers
@@ -66,6 +62,7 @@ public class DeedFilterController implements ActionListener
   {
     _filter=filter;
     _filterUpdateListener=filterUpdateListener;
+    _requirements=new RequirementsFilterController(filter.getRequirementsFilter(),filterUpdateListener);
     RewardsExplorer explorer=DeedsManager.getInstance().buildRewardsExplorer();
     _rewards=new RewardsFilterController(filter.getRewardsFilter(),filterUpdateListener,explorer);
   }
@@ -110,8 +107,7 @@ public class DeedFilterController implements ActionListener
     {
       _type.selectItem(null);
       _category.selectItem(null);
-      _class.selectItem(null);
-      _race.selectItem(null);
+      _requirements.reset();
       _rewards.reset();
       _contains.setText("");
     }
@@ -136,15 +132,9 @@ public class DeedFilterController implements ActionListener
     _category.selectItem(category);
 
     // Requirements
-    UsageRequirementFilter requirementsFilter=_filter.getRequirementsFilter();
-    // - class
-    CharacterClass requiredClass=requirementsFilter.getCharacterClass();
-    _class.selectItem(requiredClass);
-    // - race
-    Race requiredRace=requirementsFilter.getRace();
-    _race.selectItem(requiredRace);
+    _requirements.setFilter();
 
-    // Rewards:
+    // Rewards
     _rewards.setFilter();
   }
 
@@ -169,7 +159,7 @@ public class DeedFilterController implements ActionListener
     y++;
 
     // Requirements
-    JPanel requirementsPanel=buildRequirementsPanel();
+    JPanel requirementsPanel=_requirements.getPanel();
     Border requirementsBorder=GuiFactory.buildTitledBorder("Requirements");
     requirementsPanel.setBorder(requirementsBorder);
     c=new GridBagConstraints(0,y,2,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
@@ -262,64 +252,6 @@ public class DeedFilterController implements ActionListener
     return panel;
   }
 
-  private JPanel buildRequirementsPanel()
-  {
-    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
-    int y=0;
-
-    GridBagConstraints c;
-    {
-      JPanel linePanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
-      // Class
-      linePanel.add(GuiFactory.buildLabel("Class:"));
-      _class=buildCharacterClassCombobox();
-      linePanel.add(_class.getComboBox());
-      // Race
-      linePanel.add(GuiFactory.buildLabel("Race:"));
-      _race=buildRaceCombobox();
-      linePanel.add(_race.getComboBox());
-      c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(5,0,0,0),0,0);
-      panel.add(linePanel,c);
-      y++;
-    }
-
-    return panel;
-  }
-
-  private ComboBoxController<CharacterClass> buildCharacterClassCombobox()
-  {
-    ComboBoxController<CharacterClass> combo=CharacterUiUtils.buildClassCombo(true);
-    ItemSelectionListener<CharacterClass> listener=new ItemSelectionListener<CharacterClass>()
-    {
-      @Override
-      public void itemSelected(CharacterClass requiredClass)
-      {
-        UsageRequirementFilter filter=_filter.getRequirementsFilter();
-        filter.setCharacterClass(requiredClass);
-        filterUpdated();
-      }
-    };
-    combo.addListener(listener);
-    return combo;
-  }
-
-  private ComboBoxController<Race> buildRaceCombobox()
-  {
-    ComboBoxController<Race> combo=CharacterUiUtils.buildRaceCombo(true);
-    ItemSelectionListener<Race> listener=new ItemSelectionListener<Race>()
-    {
-      @Override
-      public void itemSelected(Race requiredRace)
-      {
-        UsageRequirementFilter filter=_filter.getRequirementsFilter();
-        filter.setRace(requiredRace);
-        filterUpdated();
-      }
-    };
-    combo.addListener(listener);
-    return combo;
-  }
-
   /**
    * Release all managed resources.
    */
@@ -349,9 +281,15 @@ public class DeedFilterController implements ActionListener
       _category.dispose();
       _category=null;
     }
+    if (_requirements!=null)
+    {
+      _requirements.dispose();
+      _requirements=null;
+    }
     if (_rewards!=null)
     {
       _rewards.dispose();
+      _rewards=null;
     }
     _contains=null;
     _reset=null;
