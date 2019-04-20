@@ -130,10 +130,8 @@ public class DeedFilterController implements ActionListener
     DeedCategoryFilter categoryFilter=_filter.getCategoryFilter();
     String category=categoryFilter.getDeedCategory();
     _category.selectItem(category);
-
     // Requirements
     _requirements.setFilter();
-
     // Rewards
     _rewards.setFilter();
   }
@@ -259,17 +257,17 @@ public class DeedFilterController implements ActionListener
   {
     // Data
     _filter=null;
-    // Controllers
-    if (_textController!=null)
-    {
-      _textController.dispose();
-      _textController=null;
-    }
     // GUI
     if (_panel!=null)
     {
       _panel.removeAll();
       _panel=null;
+    }
+    // Controllers
+    if (_textController!=null)
+    {
+      _textController.dispose();
+      _textController=null;
     }
     if (_type!=null)
     {

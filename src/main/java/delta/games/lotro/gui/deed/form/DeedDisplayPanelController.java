@@ -17,6 +17,7 @@ import javax.swing.border.TitledBorder;
 import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.Race;
+import delta.games.lotro.common.requirements.UsageRequirement;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.rewards.RewardsPanelController;
 import delta.games.lotro.lore.deeds.DeedDescription;
@@ -204,8 +205,9 @@ public class DeedDisplayPanelController
    */
   private String buildRequirementString()
   {
-    CharacterClass requiredClass=_deed.getRequiredClass();
-    Race requiredRace=_deed.getRequiredRace();
+    UsageRequirement requirements=_deed.getUsageRequirement();
+    CharacterClass requiredClass=requirements.getRequiredClass();
+    Race requiredRace=requirements.getRequiredRace();
     Integer minLevel=_deed.getMinLevel();
     StringBuilder sb=new StringBuilder();
     if (requiredClass!=null)

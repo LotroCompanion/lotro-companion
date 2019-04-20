@@ -27,18 +27,6 @@ public enum DeedColumnIds
    */
   CATEGORY,
   /**
-   * Required class.
-   */
-  REQUIRED_CLASS,
-  /**
-   * Required race.
-   */
-  REQUIRED_RACE,
-  /**
-   * Required level.
-   */
-  REQUIRED_LEVEL,
-  /**
    * Objectives.
    */
   OBJECTIVES

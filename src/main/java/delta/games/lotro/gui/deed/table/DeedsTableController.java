@@ -15,9 +15,9 @@ import delta.common.ui.swing.tables.TableColumnController;
 import delta.common.ui.swing.tables.TableColumnsManager;
 import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.misc.TypedProperties;
-import delta.games.lotro.common.CharacterClass;
-import delta.games.lotro.common.Race;
+import delta.games.lotro.common.requirements.UsageRequirement;
 import delta.games.lotro.common.rewards.Rewards;
+import delta.games.lotro.gui.common.requirements.RequirementsColumnsBuilder;
 import delta.games.lotro.gui.items.chooser.ItemChooser;
 import delta.games.lotro.gui.rewards.table.RewardsColumnsBuilder;
 import delta.games.lotro.lore.deeds.DeedDescription;
@@ -144,64 +144,43 @@ public class DeedsTableController
       categoryColumn.setWidthSpecs(80,350,80);
       ret.add(categoryColumn);
     }
-    // Class column
+    // Requirements
     {
-      CellDataProvider<DeedDescription,CharacterClass> classCell=new CellDataProvider<DeedDescription,CharacterClass>()
+      List<DefaultTableColumnController<UsageRequirement,?>> requirementColumns=RequirementsColumnsBuilder.buildRequirementsColumns();
+      CellDataProvider<DeedDescription,UsageRequirement> dataProvider=new CellDataProvider<DeedDescription,UsageRequirement>()
       {
         @Override
-        public CharacterClass getData(DeedDescription deed)
+        public UsageRequirement getData(DeedDescription deed)
         {
-          return deed.getRequiredClass();
+          return deed.getUsageRequirement();
         }
       };
-      DefaultTableColumnController<DeedDescription,CharacterClass> classColumn=new DefaultTableColumnController<DeedDescription,CharacterClass>(DeedColumnIds.REQUIRED_CLASS.name(),"Class",CharacterClass.class,classCell);
-      classColumn.setWidthSpecs(80,100,80);
-      ret.add(classColumn);
-    }
-    // Race column
-    {
-      CellDataProvider<DeedDescription,Race> raceCell=new CellDataProvider<DeedDescription,Race>()
+      for(DefaultTableColumnController<UsageRequirement,?> requirementColumn : requirementColumns)
       {
-        @Override
-        public Race getData(DeedDescription deed)
-        {
-          return deed.getRequiredRace();
-        }
-      };
-      DefaultTableColumnController<DeedDescription,Race> raceColumn=new DefaultTableColumnController<DeedDescription,Race>(DeedColumnIds.REQUIRED_RACE.name(),"Race",Race.class,raceCell);
-      raceColumn.setWidthSpecs(80,100,80);
-      ret.add(raceColumn);
-    }
-    // Min level column
-    {
-      CellDataProvider<DeedDescription,Integer> minLevelCell=new CellDataProvider<DeedDescription,Integer>()
-      {
-        @Override
-        public Integer getData(DeedDescription deed)
-        {
-          return deed.getMinLevel();
-        }
-      };
-      DefaultTableColumnController<DeedDescription,Integer> minLevelColumn=new DefaultTableColumnController<DeedDescription,Integer>(DeedColumnIds.REQUIRED_LEVEL.name(),"Min Level",Integer.class,minLevelCell);
-      minLevelColumn.setWidthSpecs(40,40,40);
-      ret.add(minLevelColumn);
+        @SuppressWarnings("unchecked")
+        TableColumnController<UsageRequirement,Object> c=(TableColumnController<UsageRequirement,Object>)requirementColumn;
+        TableColumnController<DeedDescription,Object> proxiedColumn=new ProxiedTableColumnController<DeedDescription,UsageRequirement,Object>(c,dataProvider);
+        ret.add(proxiedColumn);
+      }
     }
     // Rewards
-    List<DefaultTableColumnController<Rewards,?>> rewardColumns=RewardsColumnsBuilder.buildRewardColumns();
-    CellDataProvider<DeedDescription,Rewards> dataProvider=new CellDataProvider<DeedDescription,Rewards>()
     {
-      @Override
-      public Rewards getData(DeedDescription p)
+      List<DefaultTableColumnController<Rewards,?>> rewardColumns=RewardsColumnsBuilder.buildRewardColumns();
+      CellDataProvider<DeedDescription,Rewards> dataProvider=new CellDataProvider<DeedDescription,Rewards>()
       {
-        return p.getRewards();
+        @Override
+        public Rewards getData(DeedDescription deed)
+        {
+          return deed.getRewards();
+        }
+      };
+      for(DefaultTableColumnController<Rewards,?> rewardColumn : rewardColumns)
+      {
+        @SuppressWarnings("unchecked")
+        TableColumnController<Rewards,Object> c=(TableColumnController<Rewards,Object>)rewardColumn;
+        TableColumnController<DeedDescription,Object> proxiedColumn=new ProxiedTableColumnController<DeedDescription,Rewards,Object>(c,dataProvider);
+        ret.add(proxiedColumn);
       }
-    };
-    for(DefaultTableColumnController<Rewards,?> rewardColumn : rewardColumns)
-    {
-      @SuppressWarnings("unchecked")
-      TableColumnController<Rewards,Object> c=(TableColumnController<Rewards,Object>)rewardColumn;
-      TableColumnController<DeedDescription,Object> proxiedColumn=new ProxiedTableColumnController<DeedDescription,Rewards,Object>(c,dataProvider);
-      ret.add(proxiedColumn);
     }
     // Objectives column
     {
