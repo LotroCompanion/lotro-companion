@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.common.requirements;
+package delta.games.lotro.gui.common.requirements.table;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +8,6 @@ import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.Race;
 import delta.games.lotro.common.requirements.UsageRequirement;
-import delta.games.lotro.gui.common.requirements.table.RequirementColumnIds;
 
 /**
  * Builder for columns that show requirements data.

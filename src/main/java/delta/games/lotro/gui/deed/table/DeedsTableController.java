@@ -17,7 +17,7 @@ import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.common.requirements.UsageRequirement;
 import delta.games.lotro.common.rewards.Rewards;
-import delta.games.lotro.gui.common.requirements.RequirementsColumnsBuilder;
+import delta.games.lotro.gui.common.requirements.table.RequirementsColumnsBuilder;
 import delta.games.lotro.gui.items.chooser.ItemChooser;
 import delta.games.lotro.gui.rewards.table.RewardsColumnsBuilder;
 import delta.games.lotro.lore.deeds.DeedDescription;
