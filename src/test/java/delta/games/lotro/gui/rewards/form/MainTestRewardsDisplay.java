@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.rewards;
+package delta.games.lotro.gui.rewards.form;
 
 import java.awt.BorderLayout;
 import java.util.List;
@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.common.rewards.RewardElement;
 import delta.games.lotro.common.rewards.Rewards;
+import delta.games.lotro.gui.rewards.form.RewardsPanelController;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.DeedsManager;
 

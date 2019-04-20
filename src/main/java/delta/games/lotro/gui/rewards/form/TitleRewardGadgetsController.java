@@ -1,43 +1,37 @@
-package delta.games.lotro.gui.rewards;
+package delta.games.lotro.gui.rewards.form;
 
 import java.awt.Color;
 
-import javax.swing.Icon;
 import javax.swing.JLabel;
 
 import delta.common.ui.swing.GuiFactory;
-import delta.common.ui.swing.icons.IconsManager;
 import delta.common.ui.swing.labels.LabelWithHalo;
+import delta.games.lotro.common.rewards.TitleReward;
 
 /**
- * Controller for the UI gadgets of a class points reward.
+ * Controller for the UI gadgets of a title reward.
  * @author DAM
  */
-public class ClassPointRewardGadgetsController
+public class TitleRewardGadgetsController
 {
   private JLabel _labelIcon;
   private JLabel _label;
 
   /**
    * Constructor.
-   * @param count Class points count.
+   * @param title Title.
    */
-  public ClassPointRewardGadgetsController(int count)
+  public TitleRewardGadgetsController(TitleReward title)
   {
     // Label
-    String text="Class Point";
-    if (count>1)
-    {
-      text=String.valueOf(count)+" Class Points";
-    }
+    String text=title.getName();
     Color color=Color.WHITE;
     _label=new LabelWithHalo();
     _label.setText(text);
     _label.setOpaque(false);
     _label.setForeground(color);
     // Icon
-    Icon lpIcon=IconsManager.getIcon("/resources/gui/icons/ClassPoint.png");
-    _labelIcon=GuiFactory.buildIconLabel(lpIcon);
+    _labelIcon=GuiFactory.buildTransparentIconlabel(32);
   }
 
   /**

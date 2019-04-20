@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.rewards;
+package delta.games.lotro.gui.rewards.form;
 
 import java.awt.Color;
 

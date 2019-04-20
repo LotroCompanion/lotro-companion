@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.deed;
+package delta.games.lotro.gui.deed.filter;
 
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
@@ -21,8 +21,9 @@ import delta.common.ui.swing.text.TextListener;
 import delta.common.utils.collections.filters.Filter;
 import delta.games.lotro.common.rewards.RewardsExplorer;
 import delta.games.lotro.gui.common.requirements.RequirementsFilterController;
+import delta.games.lotro.gui.deed.DeedUiUtils;
 import delta.games.lotro.gui.items.FilterUpdateListener;
-import delta.games.lotro.gui.rewards.RewardsFilterController;
+import delta.games.lotro.gui.rewards.filter.RewardsFilterController;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.DeedType;
 import delta.games.lotro.lore.deeds.DeedsManager;

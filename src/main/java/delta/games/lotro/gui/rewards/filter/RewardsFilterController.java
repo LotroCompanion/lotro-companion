@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.rewards;
+package delta.games.lotro.gui.rewards.filter;
 
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
@@ -23,6 +23,7 @@ import delta.games.lotro.common.rewards.filters.TitleRewardFilter;
 import delta.games.lotro.common.rewards.filters.TraitRewardFilter;
 import delta.games.lotro.common.rewards.filters.VirtueRewardFilter;
 import delta.games.lotro.gui.items.FilterUpdateListener;
+import delta.games.lotro.gui.rewards.RewardsUiUtils;
 import delta.games.lotro.gui.utils.SharedUiUtils;
 import delta.games.lotro.lore.reputation.Faction;
 

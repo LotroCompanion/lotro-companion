@@ -19,7 +19,7 @@ import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.Race;
 import delta.games.lotro.common.requirements.UsageRequirement;
 import delta.games.lotro.gui.LotroIconsManager;
-import delta.games.lotro.gui.rewards.RewardsPanelController;
+import delta.games.lotro.gui.rewards.form.RewardsPanelController;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.DeedType;
 
