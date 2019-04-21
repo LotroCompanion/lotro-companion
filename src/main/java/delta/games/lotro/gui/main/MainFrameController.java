@@ -31,6 +31,7 @@ import delta.games.lotro.gui.about.CreditsDialogController;
 import delta.games.lotro.gui.account.AccountsManagementController;
 import delta.games.lotro.gui.deed.explorer.DeedsExplorerWindowController;
 import delta.games.lotro.gui.emotes.explorer.EmotesExplorerWindowController;
+import delta.games.lotro.gui.quests.explorer.QuestsExplorerWindowController;
 import delta.games.lotro.gui.recipes.explorer.RecipesExplorerWindowController;
 import delta.games.lotro.gui.stats.crafting.synopsis.CraftingSynopsisWindowController;
 import delta.games.lotro.gui.stats.levelling.CharacterLevelWindowController;
@@ -51,6 +52,7 @@ public class MainFrameController extends DefaultWindowController implements Acti
   private static final String LEVELLING_ID="levelling";
   private static final String WARBANDS_ID="warbands";
   private static final String DEEDS_ID="deeds";
+  private static final String QUESTS_ID="quests";
   private static final String RECIPES_ID="recipes";
   private static final String TITLES_ID="titles";
   private static final String EMOTES_ID="emotes";
@@ -135,6 +137,11 @@ public class MainFrameController extends DefaultWindowController implements Acti
     deedsExplorer.setActionCommand(DEEDS_ID);
     deedsExplorer.addActionListener(this);
     compendiumMenu.add(deedsExplorer);
+    // - quests
+    JMenuItem questsExplorer=GuiFactory.buildMenuItem("Quests");
+    questsExplorer.setActionCommand(QUESTS_ID);
+    questsExplorer.addActionListener(this);
+    compendiumMenu.add(questsExplorer);
     // - recipes
     JMenuItem recipesExplorer=GuiFactory.buildMenuItem("Recipes");
     recipesExplorer.setActionCommand(RECIPES_ID);
@@ -233,6 +240,10 @@ public class MainFrameController extends DefaultWindowController implements Acti
     String deedsIconPath=getToolbarIconPath("deeds");
     ToolbarIconItem deedsIconItem=new ToolbarIconItem(DEEDS_ID,deedsIconPath,DEEDS_ID,"Deeds...","Deeds");
     model.addToolbarIconItem(deedsIconItem);
+    // Quests icon
+    String questsIconPath=getToolbarIconPath("quests");
+    ToolbarIconItem questsIconItem=new ToolbarIconItem(QUESTS_ID,questsIconPath,QUESTS_ID,"Quests...","Quests");
+    model.addToolbarIconItem(questsIconItem);
     // Recipes icon
     String recipesIconPath=getToolbarIconPath("recipes");
     ToolbarIconItem recipesIconItem=new ToolbarIconItem(RECIPES_ID,recipesIconPath,RECIPES_ID,"Recipes...","Recipes");
@@ -322,6 +333,17 @@ public class MainFrameController extends DefaultWindowController implements Acti
     controller.bringToFront();
   }
 
+  private void doQuests()
+  {
+    WindowController controller=_windowsManager.getWindow(QuestsExplorerWindowController.IDENTIFIER);
+    if (controller==null)
+    {
+      controller=new QuestsExplorerWindowController(this);
+      _windowsManager.registerWindow(controller);
+    }
+    controller.bringToFront();
+  }
+
   private void doRecipes()
   {
     WindowController controller=_windowsManager.getWindow(RecipesExplorerWindowController.IDENTIFIER);
@@ -382,6 +404,10 @@ public class MainFrameController extends DefaultWindowController implements Acti
     else if (DEEDS_ID.equals(cmd))
     {
       doDeeds();
+    }
+    else if (QUESTS_ID.equals(cmd))
+    {
+      doQuests();
     }
     else if (RECIPES_ID.equals(cmd))
     {
