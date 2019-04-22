@@ -111,14 +111,12 @@ public class QuestDisplayPanelController
     panel.add(rewardsPanel,c);
     c.gridy++;
 
-    /*
     // Links
     _links=new QuestLinksDisplayPanelController(_parent,_quest);
     JPanel linksPanel=_links.getPanel();
     c=new GridBagConstraints(0,c.gridy,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(linksPanel,c);
     c.gridy++;
-    */
 
     // Details
     _details=buildDetailsPane();

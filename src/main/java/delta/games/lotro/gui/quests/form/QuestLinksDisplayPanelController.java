@@ -3,6 +3,8 @@ package delta.games.lotro.gui.quests.form;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +12,9 @@ import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.labels.HyperLinkController;
+import delta.common.ui.swing.labels.LocalHyperlinkAction;
 import delta.games.lotro.lore.quests.QuestDescription;
+import delta.games.lotro.utils.Proxy;
 
 /**
  * Controller for a panel to display quest links.
@@ -55,7 +59,7 @@ public class QuestLinksDisplayPanelController
 
   private JPanel build()
   {
-    //buildLinks();
+    buildLinks();
     return buildPanel();
   }
 
@@ -77,35 +81,28 @@ public class QuestLinksDisplayPanelController
     return panel;
   }
 
-  /*
   private void buildLinks()
   {
-    List<DeedProxy> parents=_deed.getParentDeedProxies().getDeedProxies();
-    for(DeedProxy parent : parents)
+    List<Proxy<QuestDescription>> prerequisiteQuests=_quest.getPrerequisiteQuests();
+    for(Proxy<QuestDescription> prerequisiteQuest : prerequisiteQuests)
     {
-      buildController("Parent:",parent);
+      buildController("Prerequisite:",prerequisiteQuest);
     }
-    buildController("Previous:",_deed.getPreviousDeedProxy());
-    buildController("Next:",_deed.getNextDeedProxy());
-    List<DeedProxy> children=_deed.getChildDeedProxies().getDeedProxies();
-    for(DeedProxy child : children)
-    {
-      buildController("Child:",child);
-    }
+    buildController("Next:",_quest.getNextQuest());
   }
 
-  private void buildController(String label, DeedProxy proxy)
+  private void buildController(String label, Proxy<QuestDescription> proxy)
   {
     if (proxy!=null)
     {
       String name=proxy.getName();
-      final DeedDescription deed=proxy.getDeed();
+      final QuestDescription quest=proxy.getObject();
       ActionListener listener=new ActionListener()
       {
         @Override
         public void actionPerformed(ActionEvent e)
         {
-          _parent.setQuest(deed);
+          _parent.setQuest(quest);
         }
       };
       LocalHyperlinkAction action=new LocalHyperlinkAction(name,listener);
@@ -114,7 +111,6 @@ public class QuestLinksDisplayPanelController
       _links.add(controller);
     }
   }
-  */
 
   /**
    * Release all managed resources.
