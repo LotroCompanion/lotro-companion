@@ -281,20 +281,6 @@ public class QuestsTableController
         ret.add(proxiedColumn);
       }
     }
-    // Objectives column
-    {
-      CellDataProvider<QuestDescription,String> objectivesCell=new CellDataProvider<QuestDescription,String>()
-      {
-        @Override
-        public String getData(QuestDescription quest)
-        {
-          return quest.getObjectives();
-        }
-      };
-      DefaultTableColumnController<QuestDescription,String> objectivesColumn=new DefaultTableColumnController<QuestDescription,String>(QuestColumnIds.OBJECTIVES.name(),"Objectives",String.class,objectivesCell);
-      objectivesColumn.setWidthSpecs(100,-1,100);
-      ret.add(objectivesColumn);
-    }
     return ret;
   }
 

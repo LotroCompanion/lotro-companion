@@ -53,9 +53,5 @@ public enum QuestColumnIds
   /**
    * Description.
    */
-  DESCRIPTION,
-  /**
-   * Objectives.
-   */
-  OBJECTIVES
+  DESCRIPTION
 }
