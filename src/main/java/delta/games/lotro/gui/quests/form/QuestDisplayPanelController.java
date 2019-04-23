@@ -149,7 +149,7 @@ public class QuestDisplayPanelController
     sb.append("<b>Description</b><p>");
     sb.append(toHtml(_quest.getDescription()));
     sb.append("<p><b>Objectives</b><p>");
-    sb.append(toHtml(_quest.getObjectives()));
+    //sb.append(toHtml(_quest.getObjectives()));
     sb.append("</body></html>");
     return sb.toString();
   }
