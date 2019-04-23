@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.rewards.form;
+package delta.games.lotro.gui.common.rewards.form;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;

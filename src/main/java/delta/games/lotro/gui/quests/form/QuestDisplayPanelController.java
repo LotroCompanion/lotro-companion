@@ -17,7 +17,7 @@ import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.Race;
 import delta.games.lotro.common.requirements.UsageRequirement;
-import delta.games.lotro.gui.rewards.form.RewardsPanelController;
+import delta.games.lotro.gui.common.rewards.form.RewardsPanelController;
 import delta.games.lotro.lore.quests.QuestDescription;
 
 /**

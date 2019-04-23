@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.rewards.filter;
+package delta.games.lotro.gui.common.rewards.filter;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.rewards.table;
+package delta.games.lotro.gui.common.rewards.table;
 
 /**
  * Some column identifiers for the reward columns (for quests and deeds tables).

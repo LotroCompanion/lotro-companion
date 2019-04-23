@@ -10,7 +10,7 @@ import delta.common.utils.collections.filters.ProxyFilter;
 import delta.common.utils.collections.filters.ProxyValueResolver;
 import delta.games.lotro.common.requirements.UsageRequirement;
 import delta.games.lotro.common.requirements.filters.UsageRequirementFilter;
-import delta.games.lotro.gui.rewards.filter.RewardsFilter;
+import delta.games.lotro.gui.common.rewards.filter.RewardsFilter;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.filters.DeedCategoryFilter;
 import delta.games.lotro.lore.deeds.filters.DeedNameFilter;

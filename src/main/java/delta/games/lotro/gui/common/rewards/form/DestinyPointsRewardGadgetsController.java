@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.rewards.form;
+package delta.games.lotro.gui.common.rewards.form;
 
 import java.awt.Color;
 
@@ -10,29 +10,29 @@ import delta.common.ui.swing.icons.IconsManager;
 import delta.common.ui.swing.labels.LabelWithHalo;
 
 /**
- * Controller for the UI gadgets of a LOTRO points reward.
+ * Controller for the UI gadgets of a destiny points reward.
  * @author DAM
  */
-public class LotroPointsRewardGadgetsController
+public class DestinyPointsRewardGadgetsController
 {
   private JLabel _labelIcon;
   private JLabel _label;
 
   /**
    * Constructor.
-   * @param count LOTRO points count.
+   * @param count Destiny points count.
    */
-  public LotroPointsRewardGadgetsController(int count)
+  public DestinyPointsRewardGadgetsController(int count)
   {
     // Label
-    String text=count+" LOTRO Points";
+    String text=count+" Destiny Points";
     Color color=Color.WHITE;
     _label=new LabelWithHalo();
     _label.setText(text);
     _label.setOpaque(false);
     _label.setForeground(color);
     // Icon
-    Icon lpIcon=IconsManager.getIcon("/resources/gui/icons/LP.png");
+    Icon lpIcon=IconsManager.getIcon("/resources/gui/icons/DP.png");
     _labelIcon=GuiFactory.buildIconLabel(lpIcon);
   }
 
