@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.util.List;
 
 import javax.swing.JEditorPane;
 import javax.swing.JLabel;
@@ -19,6 +20,8 @@ import delta.games.lotro.common.Race;
 import delta.games.lotro.common.requirements.UsageRequirement;
 import delta.games.lotro.gui.common.rewards.form.RewardsPanelController;
 import delta.games.lotro.lore.quests.QuestDescription;
+import delta.games.lotro.lore.quests.objectives.Objective;
+import delta.games.lotro.lore.quests.objectives.ObjectivesManager;
 
 /**
  * Controller for a quest display panel.
@@ -148,8 +151,15 @@ public class QuestDisplayPanelController
     sb.append("<html><body>");
     sb.append("<b>Description</b><p>");
     sb.append(toHtml(_quest.getDescription()));
-    sb.append("<p><b>Objectives</b><p>");
-    //sb.append(toHtml(_quest.getObjectives()));
+    // Objectives
+    ObjectivesManager objectivesMgr=_quest.getObjectives();
+    List<Objective> objectives=objectivesMgr.getObjectives();
+    for(Objective objective : objectives)
+    {
+      int index=objective.getIndex();
+      sb.append("<p><b>Objective #").append(index).append("</b><p>");
+      sb.append(toHtml(objective.getText()));
+    }
     sb.append("</body></html>");
     return sb.toString();
   }
