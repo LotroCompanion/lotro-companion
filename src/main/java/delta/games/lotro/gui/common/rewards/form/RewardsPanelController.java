@@ -94,7 +94,7 @@ public class RewardsPanelController
         _virtueRewards.add(virtueRewardUi);
       }
       // Reputation
-      else if (rewardElement instanceof VirtueReward)
+      else if (rewardElement instanceof ReputationReward)
       {
         ReputationReward reputationReward=(ReputationReward)rewardElement;
         ReputationRewardGadgetsController reputationRewardUi=new ReputationRewardGadgetsController(reputationReward);
