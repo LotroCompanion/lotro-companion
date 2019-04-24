@@ -102,7 +102,7 @@ public class DeedLinksDisplayPanelController
     if (proxy!=null)
     {
       String name=proxy.getName();
-      final DeedDescription deed=proxy.getDeed();
+      final DeedDescription deed=proxy.getObject();
       ActionListener listener=new ActionListener()
       {
         @Override
