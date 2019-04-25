@@ -10,14 +10,19 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.games.lotro.common.money.Money;
 import delta.games.lotro.common.rewards.ItemReward;
+import delta.games.lotro.common.rewards.RelicReward;
 import delta.games.lotro.common.rewards.ReputationReward;
 import delta.games.lotro.common.rewards.RewardElement;
 import delta.games.lotro.common.rewards.Rewards;
 import delta.games.lotro.common.rewards.TitleReward;
 import delta.games.lotro.common.rewards.VirtueReward;
+import delta.games.lotro.gui.common.money.MoneyDisplayController;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemsManager;
+import delta.games.lotro.lore.items.legendary.relics.Relic;
+import delta.games.lotro.lore.items.legendary.relics.RelicsManager;
 import delta.games.lotro.utils.Proxy;
 
 /**
@@ -27,6 +32,8 @@ import delta.games.lotro.utils.Proxy;
 public class RewardsPanelController
 {
   private static final int NB_COLUMNS=2;
+  // Data
+  private Rewards _rewards;
   private JPanel _panel;
   private ClassPointRewardGadgetsController _classPoint;
   private LotroPointsRewardGadgetsController _lotroPoints;
@@ -35,6 +42,12 @@ public class RewardsPanelController
   private List<TitleRewardGadgetsController> _titleRewards;
   private List<VirtueRewardGadgetsController> _virtueRewards;
   private List<ReputationRewardGadgetsController> _reputationRewards;
+  private List<RelicRewardGadgetsController> _relicRewards;
+  private MoneyDisplayController _moneyController;
+
+  // TODO
+  // XP, Item XP, Mount XP, Glory
+  // Emote, Selectable, Skill, Trait
 
   /**
    * Constructor.
@@ -42,6 +55,7 @@ public class RewardsPanelController
    */
   public RewardsPanelController(Rewards rewards)
   {
+    _rewards=rewards;
     // Class Point
     int classPoints=rewards.getClassPoints();
     if (classPoints>0)
@@ -65,6 +79,7 @@ public class RewardsPanelController
     _titleRewards=new ArrayList<TitleRewardGadgetsController>();
     _virtueRewards=new ArrayList<VirtueRewardGadgetsController>();
     _reputationRewards=new ArrayList<ReputationRewardGadgetsController>();
+    _relicRewards=new ArrayList<RelicRewardGadgetsController>();
 
     for(RewardElement rewardElement : rewards.getRewardElements())
     {
@@ -99,6 +114,17 @@ public class RewardsPanelController
         ReputationReward reputationReward=(ReputationReward)rewardElement;
         ReputationRewardGadgetsController reputationRewardUi=new ReputationRewardGadgetsController(reputationReward);
         _reputationRewards.add(reputationRewardUi);
+      }
+      // Relic reward
+      else if (rewardElement instanceof RelicReward)
+      {
+        RelicReward relicReward=(RelicReward)rewardElement;
+        Proxy<Relic> relicProxy=relicReward.getRelicProxy();
+        int id=relicProxy.getId();
+        int count=relicReward.getQuantity();
+        Relic relic=RelicsManager.getInstance().getById(id);
+        RelicRewardGadgetsController relicRewardUi=new RelicRewardGadgetsController(relic,count);
+        _relicRewards.add(relicRewardUi);
       }
     }
     _panel=build();
@@ -153,6 +179,21 @@ public class RewardsPanelController
     {
       addRewardGadgets(ret,reputationReward.getLabelIcon(),reputationReward.getLabel(),c);
     }
+    // Relics
+    for(RelicRewardGadgetsController reward : _relicRewards)
+    {
+      addRewardGadgets(ret,reward.getLabelIcon(),reward.getLabel(),c);
+    }
+    // Money
+    Money money=_rewards.getMoney();
+    if (!money.isEmpty())
+    {
+      _moneyController=new MoneyDisplayController();
+      _moneyController.setMoney(money);
+      c.gridx=0;c.gridy++;
+      c.gridwidth=2;
+      ret.add(_moneyController.getPanel(),c);
+    }
     // Add space on right
     c=new GridBagConstraints(2*nbColumns,0,1,c.gridy,1.0,1.0,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
     JPanel paddingPanel=GuiFactory.buildPanel(null);
@@ -178,6 +219,8 @@ public class RewardsPanelController
    */
   public void dispose()
   {
+    // Data
+    _rewards=null;
     // Controllers
     _classPoint=null;
     _lotroPoints=null;
@@ -186,6 +229,12 @@ public class RewardsPanelController
     _titleRewards=null;
     _virtueRewards=null;
     _reputationRewards=null;
+    _relicRewards=null;
+    if (_moneyController!=null)
+    {
+      _moneyController.dispose();
+      _moneyController=null;
+    }
     // UI
     if (_panel!=null)
     {
