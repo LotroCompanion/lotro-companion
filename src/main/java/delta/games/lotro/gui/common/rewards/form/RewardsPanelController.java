@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.common.money.Money;
+import delta.games.lotro.common.rewards.EmoteReward;
 import delta.games.lotro.common.rewards.ItemReward;
 import delta.games.lotro.common.rewards.RelicReward;
 import delta.games.lotro.common.rewards.ReputationReward;
@@ -19,6 +20,8 @@ import delta.games.lotro.common.rewards.Rewards;
 import delta.games.lotro.common.rewards.TitleReward;
 import delta.games.lotro.common.rewards.VirtueReward;
 import delta.games.lotro.gui.common.money.MoneyDisplayController;
+import delta.games.lotro.lore.emotes.EmoteDescription;
+import delta.games.lotro.lore.emotes.EmotesManager;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemsManager;
 import delta.games.lotro.lore.items.legendary.relics.Relic;
@@ -43,11 +46,12 @@ public class RewardsPanelController
   private List<VirtueRewardGadgetsController> _virtueRewards;
   private List<ReputationRewardGadgetsController> _reputationRewards;
   private List<RelicRewardGadgetsController> _relicRewards;
+  private List<EmoteRewardGadgetsController> _emoteRewards;
   private MoneyDisplayController _moneyController;
 
   // TODO
   // XP, Item XP, Mount XP, Glory
-  // Emote, Selectable, Skill, Trait
+  // Selectable, Skill, Trait
 
   /**
    * Constructor.
@@ -80,6 +84,7 @@ public class RewardsPanelController
     _virtueRewards=new ArrayList<VirtueRewardGadgetsController>();
     _reputationRewards=new ArrayList<ReputationRewardGadgetsController>();
     _relicRewards=new ArrayList<RelicRewardGadgetsController>();
+    _emoteRewards=new ArrayList<EmoteRewardGadgetsController>();
 
     for(RewardElement rewardElement : rewards.getRewardElements())
     {
@@ -125,6 +130,16 @@ public class RewardsPanelController
         Relic relic=RelicsManager.getInstance().getById(id);
         RelicRewardGadgetsController relicRewardUi=new RelicRewardGadgetsController(relic,count);
         _relicRewards.add(relicRewardUi);
+      }
+      // Emote reward
+      else if (rewardElement instanceof EmoteReward)
+      {
+        EmoteReward emoteReward=(EmoteReward)rewardElement;
+        Proxy<EmoteDescription> emoteProxy=emoteReward.getEmoteProxy();
+        int id=emoteProxy.getId();
+        EmoteDescription emote=EmotesManager.getInstance().getEmote(id);
+        EmoteRewardGadgetsController emoteRewardUi=new EmoteRewardGadgetsController(emote);
+        _emoteRewards.add(emoteRewardUi);
       }
     }
     _panel=build();
@@ -184,6 +199,11 @@ public class RewardsPanelController
     {
       addRewardGadgets(ret,reward.getLabelIcon(),reward.getLabel(),c);
     }
+    // Emotes
+    for(EmoteRewardGadgetsController emoteReward : _emoteRewards)
+    {
+      addRewardGadgets(ret,emoteReward.getLabelIcon(),emoteReward.getLabel(),c);
+    }
     // Money
     Money money=_rewards.getMoney();
     if (!money.isEmpty())
@@ -230,6 +250,7 @@ public class RewardsPanelController
     _virtueRewards=null;
     _reputationRewards=null;
     _relicRewards=null;
+    _emoteRewards=null;
     if (_moneyController!=null)
     {
       _moneyController.dispose();
