@@ -28,6 +28,7 @@ public class ReputationRewardGadgetsController
   {
     // Label
     int amount=reputation.getAmount();
+    String iconName=(amount>0)?"reputation":"reputation-decrease";
     Faction faction=reputation.getFaction();
     String text=((amount>0)?"+":"")+amount+" "+faction.getName();
     Color color=Color.WHITE;
@@ -36,7 +37,7 @@ public class ReputationRewardGadgetsController
     _label.setOpaque(false);
     _label.setForeground(color);
     // Icon
-    Icon icon=IconsManager.getIcon("/resources/gui/icons/reputation.png");
+    Icon icon=IconsManager.getIcon("/resources/gui/icons/"+iconName+".png");
     _labelIcon=GuiFactory.buildIconLabel(icon);
   }
 
