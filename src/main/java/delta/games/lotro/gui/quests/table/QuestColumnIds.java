@@ -23,6 +23,10 @@ public enum QuestColumnIds
    */
   QUEST_ARC,
   /**
+   * Challenge level.
+   */
+  LEVEL,
+  /**
    * Recommended size.
    */
   SIZE,

@@ -15,6 +15,8 @@ import delta.common.ui.swing.tables.TableColumnController;
 import delta.common.ui.swing.tables.TableColumnsManager;
 import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.misc.TypedProperties;
+import delta.games.lotro.common.ChallengeLevel;
+import delta.games.lotro.common.ChallengeLevelComparator;
 import delta.games.lotro.common.Repeatability;
 import delta.games.lotro.common.Size;
 import delta.games.lotro.common.requirements.UsageRequirement;
@@ -131,6 +133,21 @@ public class QuestsTableController
       DefaultTableColumnController<QuestDescription,String> questArcColumn=new DefaultTableColumnController<QuestDescription,String>(QuestColumnIds.QUEST_ARC.name(),"Quest arc",String.class,questArcCell);
       questArcColumn.setWidthSpecs(80,350,80);
       ret.add(questArcColumn);
+    }
+    // Challenge level column
+    {
+      CellDataProvider<QuestDescription,ChallengeLevel> levelCell=new CellDataProvider<QuestDescription,ChallengeLevel>()
+      {
+        @Override
+        public ChallengeLevel getData(QuestDescription quest)
+        {
+          return quest.getChallengeLevel();
+        }
+      };
+      DefaultTableColumnController<QuestDescription,ChallengeLevel> levelColumn=new DefaultTableColumnController<QuestDescription,ChallengeLevel>(QuestColumnIds.LEVEL.name(),"Level",ChallengeLevel.class,levelCell);
+      levelColumn.setWidthSpecs(100,100,100);
+      levelColumn.setComparator(new ChallengeLevelComparator());
+      ret.add(levelColumn);
     }
     // Recommended size column
     {
@@ -297,6 +314,7 @@ public class QuestsTableController
       columnIds=new ArrayList<String>();
       columnIds.add(QuestColumnIds.NAME.name());
       columnIds.add(QuestColumnIds.CATEGORY.name());
+      columnIds.add(QuestColumnIds.LEVEL.name());
     }
     return columnIds;
   }
