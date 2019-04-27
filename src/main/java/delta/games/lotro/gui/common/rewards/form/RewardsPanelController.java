@@ -132,8 +132,11 @@ public class RewardsPanelController
         int id=relicProxy.getId();
         int count=relicReward.getQuantity();
         Relic relic=RelicsManager.getInstance().getById(id);
-        RelicRewardGadgetsController relicRewardUi=new RelicRewardGadgetsController(relic,count);
-        _relicRewards.add(relicRewardUi);
+        if (relic!=null)
+        {
+          RelicRewardGadgetsController relicRewardUi=new RelicRewardGadgetsController(relic,count);
+          _relicRewards.add(relicRewardUi);
+        }
       }
       // Emote reward
       else if (rewardElement instanceof EmoteReward)
@@ -142,8 +145,11 @@ public class RewardsPanelController
         Proxy<EmoteDescription> emoteProxy=emoteReward.getEmoteProxy();
         int id=emoteProxy.getId();
         EmoteDescription emote=EmotesManager.getInstance().getEmote(id);
-        EmoteRewardGadgetsController emoteRewardUi=new EmoteRewardGadgetsController(emote);
-        _emoteRewards.add(emoteRewardUi);
+        if (emote!=null)
+        {
+          EmoteRewardGadgetsController emoteRewardUi=new EmoteRewardGadgetsController(emote);
+          _emoteRewards.add(emoteRewardUi);
+        }
       }
       // Trait reward
       else if (rewardElement instanceof TraitReward)
@@ -152,8 +158,11 @@ public class RewardsPanelController
         Proxy<TraitDescription> traitProxy=traitReward.getTraitProxy();
         int id=traitProxy.getId();
         TraitDescription trait=TraitsManager.getInstance().getTrait(id);
-        TraitRewardGadgetsController traitRewardUi=new TraitRewardGadgetsController(trait);
-        _traitRewards.add(traitRewardUi);
+        if (trait!=null)
+        {
+          TraitRewardGadgetsController traitRewardUi=new TraitRewardGadgetsController(trait);
+          _traitRewards.add(traitRewardUi);
+        }
       }
     }
     _panel=build();
