@@ -52,10 +52,9 @@ public class RewardsPanelController
   private List<EmoteRewardGadgetsController> _emoteRewards;
   private List<TraitRewardGadgetsController> _traitRewards;
   private MoneyDisplayController _moneyController;
+  private XpRewardsDisplayController _xpController;
 
-  // TODO
-  // XP, Item XP, Mount XP, Glory
-  // Selectable, Skill, Trait
+  // TODO Glory, Selectable, Skill
 
   /**
    * Constructor.
@@ -234,6 +233,18 @@ public class RewardsPanelController
       c.gridwidth=2;
       ret.add(_moneyController.getPanel(),c);
     }
+    // XP
+    int xp=_rewards.getXp();
+    int itemXp=_rewards.getItemXp();
+    int mountXp=_rewards.getMountXp();
+    if ((xp>0) || (itemXp>0) || (mountXp>0))
+    {
+      _xpController=new XpRewardsDisplayController();
+      _xpController.setValues(xp,itemXp,mountXp);
+      c.gridx=0;c.gridy++;
+      c.gridwidth=2;
+      ret.add(_xpController.getPanel(),c);
+    }
     // Add space on right
     c=new GridBagConstraints(2*nbColumns,0,1,c.gridy,1.0,1.0,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
     JPanel paddingPanel=GuiFactory.buildPanel(null);
@@ -276,6 +287,11 @@ public class RewardsPanelController
     {
       _moneyController.dispose();
       _moneyController=null;
+    }
+    if (_xpController!=null)
+    {
+      _xpController.dispose();
+      _xpController=null;
     }
     // UI
     if (_panel!=null)
