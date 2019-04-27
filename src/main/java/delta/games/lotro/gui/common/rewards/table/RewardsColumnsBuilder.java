@@ -7,7 +7,6 @@ import delta.common.ui.swing.tables.CellDataProvider;
 import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.games.lotro.common.rewards.EmoteReward;
 import delta.games.lotro.common.rewards.Rewards;
-import delta.games.lotro.common.rewards.SkillReward;
 import delta.games.lotro.common.rewards.TitleReward;
 import delta.games.lotro.common.rewards.TraitReward;
 import delta.games.lotro.common.rewards.VirtueReward;
@@ -129,21 +128,6 @@ public class RewardsColumnsBuilder
       DefaultTableColumnController<Rewards,String> traitColumn=new DefaultTableColumnController<Rewards,String>(RewardsColumnIds.TRAIT.name(),"Trait",String.class,traitCell);
       traitColumn.setWidthSpecs(100,300,200);
       ret.add(traitColumn);
-    }
-    // Skill column
-    {
-      CellDataProvider<Rewards,String> skillCell=new CellDataProvider<Rewards,String>()
-      {
-        @Override
-        public String getData(Rewards rewards)
-        {
-          List<SkillReward> skillRewards=rewards.getRewardElementsOfClass(SkillReward.class);
-          return ((skillRewards.size()>0))?skillRewards.get(0).getName():null;
-        }
-      };
-      DefaultTableColumnController<Rewards,String> skillColumn=new DefaultTableColumnController<Rewards,String>(RewardsColumnIds.SKILL.name(),"Skill",String.class,skillCell);
-      skillColumn.setWidthSpecs(100,300,200);
-      ret.add(skillColumn);
     }
     return ret;
   }

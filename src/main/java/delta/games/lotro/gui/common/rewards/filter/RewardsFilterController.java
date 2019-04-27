@@ -18,7 +18,6 @@ import delta.games.lotro.common.rewards.filters.EmoteRewardFilter;
 import delta.games.lotro.common.rewards.filters.ItemRewardFilter;
 import delta.games.lotro.common.rewards.filters.LotroPointsRewardFilter;
 import delta.games.lotro.common.rewards.filters.ReputationRewardFilter;
-import delta.games.lotro.common.rewards.filters.SkillRewardFilter;
 import delta.games.lotro.common.rewards.filters.TitleRewardFilter;
 import delta.games.lotro.common.rewards.filters.TraitRewardFilter;
 import delta.games.lotro.common.rewards.filters.VirtueRewardFilter;
@@ -47,7 +46,6 @@ public class RewardsFilterController
   private ComboBoxController<Boolean> _destinyPoints;
   private ComboBoxController<Boolean> _classPoints;
   private ComboBoxController<String> _trait;
-  private ComboBoxController<String> _skill;
   private ComboBoxController<String> _title;
   private ComboBoxController<VirtueId> _virtue;
   private ComboBoxController<String> _emote;
@@ -99,7 +97,6 @@ public class RewardsFilterController
     _destinyPoints.selectItem(null);
     _classPoints.selectItem(null);
     _trait.selectItem(null);
-    _skill.selectItem(null);
     _title.selectItem(null);
     _virtue.selectItem(null);
     _emote.selectItem(null);
@@ -131,10 +128,6 @@ public class RewardsFilterController
     TraitRewardFilter traitFilter=_filter.getTraitFilter();
     String trait=traitFilter.getTrait();
     _trait.selectItem(trait);
-    // Skill
-    SkillRewardFilter skillFilter=_filter.getSkillFilter();
-    String skill=skillFilter.getSkill();
-    _skill.selectItem(skill);
     // Title
     TitleRewardFilter titleFilter=_filter.getTitleFilter();
     String title=titleFilter.getTitle();
@@ -184,10 +177,6 @@ public class RewardsFilterController
       linePanel.add(GuiFactory.buildLabel("Trait:"));
       _trait=buildTraitsCombobox();
       linePanel.add(_trait.getComboBox());
-      // Skills
-      linePanel.add(GuiFactory.buildLabel("Skill:"));
-      _skill=buildSkillsCombobox();
-      linePanel.add(_skill.getComboBox());
       // Emotes
       linePanel.add(GuiFactory.buildLabel("Emote:"));
       _emote=buildEmotesCombobox();
@@ -322,23 +311,6 @@ public class RewardsFilterController
     return combo;
   }
 
-  private ComboBoxController<String> buildSkillsCombobox()
-  {
-    ComboBoxController<String> combo=_uiUtils.buildSkillsCombo();
-    ItemSelectionListener<String> listener=new ItemSelectionListener<String>()
-    {
-      @Override
-      public void itemSelected(String skill)
-      {
-        SkillRewardFilter filter=_filter.getSkillFilter();
-        filter.setSkill(skill);
-        filterUpdated();
-      }
-    };
-    combo.addListener(listener);
-    return combo;
-  }
-
   private ComboBoxController<String> buildTitlesCombobox()
   {
     ComboBoxController<String> combo=_uiUtils.buildTitlesCombo();
@@ -445,11 +417,6 @@ public class RewardsFilterController
     {
       _trait.dispose();
       _trait=null;
-    }
-    if (_skill!=null)
-    {
-      _skill.dispose();
-      _skill=null;
     }
     if (_title!=null)
     {

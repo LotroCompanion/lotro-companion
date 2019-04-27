@@ -31,7 +31,6 @@ public class DeedStatisticsPanelController
   private ItemsDisplayPanelController _items;
   private EmotesDisplayPanelController _emotes;
   private TraitsDisplayPanelController _traits;
-  private SkillsDisplayPanelController _skills;
 
   /**
    * Constructor.
@@ -48,7 +47,6 @@ public class DeedStatisticsPanelController
     _items=new ItemsDisplayPanelController(parent,statistics);
     _emotes=new EmotesDisplayPanelController(parent,statistics);
     _traits=new TraitsDisplayPanelController(parent,statistics);
-    _skills=new SkillsDisplayPanelController(parent,statistics);
     _panel=buildPanel();
   }
 
@@ -78,9 +76,6 @@ public class DeedStatisticsPanelController
     // Traits
     JPanel traitsPanel=_traits.getPanel();
     pane.add("Traits",traitsPanel);
-    // Skills
-    JPanel skillsPanel=_skills.getPanel();
-    pane.add("Skills",skillsPanel);
     return panel;
   }
 
@@ -99,7 +94,6 @@ public class DeedStatisticsPanelController
     _items.update();
     _emotes.update();
     _traits.update();
-    _skills.update();
   }
 
   /**
@@ -159,11 +153,6 @@ public class DeedStatisticsPanelController
     {
       _traits.dispose();
       _traits=null;
-    }
-    if (_skills!=null)
-    {
-      _skills.dispose();
-      _skills=null;
     }
   }
 }

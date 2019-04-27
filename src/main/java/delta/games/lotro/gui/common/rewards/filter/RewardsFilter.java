@@ -13,7 +13,6 @@ import delta.games.lotro.common.rewards.filters.EmoteRewardFilter;
 import delta.games.lotro.common.rewards.filters.ItemRewardFilter;
 import delta.games.lotro.common.rewards.filters.LotroPointsRewardFilter;
 import delta.games.lotro.common.rewards.filters.ReputationRewardFilter;
-import delta.games.lotro.common.rewards.filters.SkillRewardFilter;
 import delta.games.lotro.common.rewards.filters.TitleRewardFilter;
 import delta.games.lotro.common.rewards.filters.TraitRewardFilter;
 import delta.games.lotro.common.rewards.filters.VirtueRewardFilter;
@@ -31,7 +30,6 @@ public class RewardsFilter implements Filter<Rewards>
   private DestinyPointsRewardFilter _destinyPointsFilter;
   private ClassPointRewardFilter _classPointsFilter;
   private TraitRewardFilter _traitFilter;
-  private SkillRewardFilter _skillFilter;
   private TitleRewardFilter _titleFilter;
   private VirtueRewardFilter _virtueFilter;
   private EmoteRewardFilter _emoteFilter;
@@ -58,9 +56,6 @@ public class RewardsFilter implements Filter<Rewards>
     // - trait
     _traitFilter=new TraitRewardFilter(null);
     filters.add(_traitFilter);
-    // - skill
-    _skillFilter=new SkillRewardFilter(null);
-    filters.add(_skillFilter);
     // - title
     _titleFilter=new TitleRewardFilter(null);
     filters.add(_titleFilter);
@@ -77,8 +72,8 @@ public class RewardsFilter implements Filter<Rewards>
   }
 
   /**
-   * Get the filter on deed reputation.
-   * @return a deed reputation filter.
+   * Get the filter on reputation reward.
+   * @return a reputation reward filter.
    */
   public ReputationRewardFilter getReputationFilter()
   {
@@ -113,8 +108,8 @@ public class RewardsFilter implements Filter<Rewards>
   }
 
   /**
-   * Get the filter on deed trait.
-   * @return a deed trait filter.
+   * Get the filter on trait reward.
+   * @return a trait reward filter.
    */
   public TraitRewardFilter getTraitFilter()
   {
@@ -122,17 +117,8 @@ public class RewardsFilter implements Filter<Rewards>
   }
 
   /**
-   * Get the filter on deed skill.
-   * @return a deed skill filter.
-   */
-  public SkillRewardFilter getSkillFilter()
-  {
-    return _skillFilter;
-  }
-
-  /**
-   * Get the filter on deed title.
-   * @return a deed title filter.
+   * Get the filter on title reward.
+   * @return a title reward filter.
    */
   public TitleRewardFilter getTitleFilter()
   {
@@ -140,8 +126,8 @@ public class RewardsFilter implements Filter<Rewards>
   }
 
   /**
-   * Get the filter on deed virtue.
-   * @return a deed virtue filter.
+   * Get the filter on virtue reward.
+   * @return a virtue reward filter.
    */
   public VirtueRewardFilter getVirtueFilter()
   {
@@ -149,8 +135,8 @@ public class RewardsFilter implements Filter<Rewards>
   }
 
   /**
-   * Get the filter on deed emote.
-   * @return a deed emote filter.
+   * Get the filter on emote reward.
+   * @return an emote reward filter.
    */
   public EmoteRewardFilter getEmoteFilter()
   {
@@ -158,8 +144,8 @@ public class RewardsFilter implements Filter<Rewards>
   }
 
   /**
-   * Get the filter on deed item.
-   * @return a deed item filter.
+   * Get the filter on item reward.
+   * @return an item reward filter.
    */
   public ItemRewardFilter getItemFilter()
   {
