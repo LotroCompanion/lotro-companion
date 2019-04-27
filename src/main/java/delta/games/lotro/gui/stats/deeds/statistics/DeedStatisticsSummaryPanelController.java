@@ -29,9 +29,11 @@ public class DeedStatisticsSummaryPanelController
   private JLabel _marks;
   private JLabel _medallions;
   private JLabel _titlesCount;
-  private JLabel _emotesCount;
-  private JLabel _virtues;
   private JLabel _reputation;
+  private JLabel _virtues;
+  private JLabel _itemsCount;
+  private JLabel _emotesCount;
+  private JLabel _traitsCount;
 
   /**
    * Constructor.
@@ -85,20 +87,30 @@ public class DeedStatisticsSummaryPanelController
     _titlesCount=GuiFactory.buildLabel("");
     _statsPanel.add(_titlesCount,cValues);
     cLabels.gridy++;cValues.gridy++;
-    // Emotes
-    _statsPanel.add(GuiFactory.buildLabel("Emotes:"),cLabels);
-    _emotesCount=GuiFactory.buildLabel("");
-    _statsPanel.add(_emotesCount,cValues);
+    // Reputation
+    _statsPanel.add(GuiFactory.buildLabel("Reputation:"),cLabels);
+    _reputation=GuiFactory.buildLabel("");
+    _statsPanel.add(_reputation,cValues);
     cLabels.gridy++;cValues.gridy++;
     // Virtues
     _statsPanel.add(GuiFactory.buildLabel("Virtues:"),cLabels);
     _virtues=GuiFactory.buildLabel("");
     _statsPanel.add(_virtues,cValues);
     cLabels.gridy++;cValues.gridy++;
-    // Reputation
-    _statsPanel.add(GuiFactory.buildLabel("Reputation:"),cLabels);
-    _reputation=GuiFactory.buildLabel("");
-    _statsPanel.add(_reputation,cValues);
+    // Items
+    _statsPanel.add(GuiFactory.buildLabel("Items:"),cLabels);
+    _itemsCount=GuiFactory.buildLabel("");
+    _statsPanel.add(_itemsCount,cValues);
+    cLabels.gridy++;cValues.gridy++;
+    // Emotes
+    _statsPanel.add(GuiFactory.buildLabel("Emotes:"),cLabels);
+    _emotesCount=GuiFactory.buildLabel("");
+    _statsPanel.add(_emotesCount,cValues);
+    cLabels.gridy++;cValues.gridy++;
+    // Traits
+    _statsPanel.add(GuiFactory.buildLabel("Traits:"),cLabels);
+    _traitsCount=GuiFactory.buildLabel("");
+    _statsPanel.add(_traitsCount,cValues);
     cLabels.gridy++;cValues.gridy++;
 
     return panel;
@@ -130,20 +142,27 @@ public class DeedStatisticsSummaryPanelController
     // Titles count
     int nbTitles=_statistics.getTitles().size();
     _titlesCount.setText(String.valueOf(nbTitles));
-    // Emotes count
-    int nbEmotes=_statistics.getEmotes().size();
-    _emotesCount.setText(String.valueOf(nbEmotes));
-    // Virtues
-    int nbVirtues=_statistics.getVirtues().size();
-    int nbVirtuePoints=_statistics.getTotalVirtuePoints();
-    String virtuesStr=String.format("%d points, %d virtues",Integer.valueOf(nbVirtuePoints),Integer.valueOf(nbVirtues));
-    _virtues.setText(virtuesStr);
     // Reputation
     int nbFactions=_statistics.getReputation().size();
     int nbReputationPoints=_statistics.getTotalReputationPoints();
     String reputationStr=String.format("%d points, %d factions",Integer.valueOf(nbReputationPoints),Integer.valueOf(nbFactions));
     _reputation.setText(reputationStr);
+    // Virtues
+    int nbVirtues=_statistics.getVirtues().size();
+    int nbVirtuePoints=_statistics.getTotalVirtuePoints();
+    String virtuesStr=String.format("%d points, %d virtues",Integer.valueOf(nbVirtuePoints),Integer.valueOf(nbVirtues));
+    _virtues.setText(virtuesStr);
+    // Items count
+    int nbItems=_statistics.getItems().size();
+    _itemsCount.setText(String.valueOf(nbItems));
+    // Emotes count
+    int nbEmotes=_statistics.getEmotes().size();
+    _emotesCount.setText(String.valueOf(nbEmotes));
+    // Traits count
+    int nbTraits=_statistics.getTraits().size();
+    _traitsCount.setText(String.valueOf(nbTraits));
   }
+
   /**
    * Get the managed panel.
    * @return the managed panel.
@@ -172,8 +191,10 @@ public class DeedStatisticsSummaryPanelController
     _marks=null;
     _medallions=null;
     _titlesCount=null;
-    _emotesCount=null;
-    _virtues=null;
     _reputation=null;
+    _virtues=null;
+    _itemsCount=null;
+    _emotesCount=null;
+    _traitsCount=null;
   }
 }
