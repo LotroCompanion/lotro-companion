@@ -55,6 +55,10 @@ public enum QuestColumnIds
    */
   AUTO_BESTOWED,
   /**
+   * Obsolete.
+   */
+  OBSOLETE,
+  /**
    * Description.
    */
   DESCRIPTION

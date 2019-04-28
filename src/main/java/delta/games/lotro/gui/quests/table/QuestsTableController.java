@@ -247,6 +247,20 @@ public class QuestsTableController
       autoBestowedColumn.setWidthSpecs(100,100,100);
       ret.add(autoBestowedColumn);
     }
+    // Obsolete column
+    {
+      CellDataProvider<QuestDescription,Boolean> obsoleteCell=new CellDataProvider<QuestDescription,Boolean>()
+      {
+        @Override
+        public Boolean getData(QuestDescription quest)
+        {
+          return Boolean.valueOf(quest.isObsolete());
+        }
+      };
+      DefaultTableColumnController<QuestDescription,Boolean> obsoleteColumn=new DefaultTableColumnController<QuestDescription,Boolean>(QuestColumnIds.OBSOLETE.name(),"Obsolete",Boolean.class,obsoleteCell);
+      obsoleteColumn.setWidthSpecs(100,100,100);
+      ret.add(obsoleteColumn);
+    }
     // Description column
     {
       CellDataProvider<QuestDescription,String> descriptionCell=new CellDataProvider<QuestDescription,String>()
