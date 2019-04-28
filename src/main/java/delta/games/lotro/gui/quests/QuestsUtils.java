@@ -16,7 +16,7 @@ import delta.games.lotro.lore.quests.QuestsManager;
 public class QuestsUtils
 {
   /**
-   * Load available categories from quests manager.
+   * Load available categories from the quests manager.
    * @return A sorted list of quest categories.
    */
   public static List<String> getCategories()
@@ -25,7 +25,7 @@ public class QuestsUtils
   }
 
   /**
-   * Load available categories from quests manager.
+   * Load available categories from the quests manager.
    * @param strict Do not include parent categories.
    * @return A sorted list of quest categories.
    */
@@ -62,6 +62,25 @@ public class QuestsUtils
       }
     }
     List<String> ret=new ArrayList<String>(categories);
+    ret.remove(null);
+    Collections.sort(ret);
+    return ret;
+  }
+
+  /**
+   * Load available quest arcs from the quests manager.
+   * @return A sorted list of quest arcs.
+   */
+  public static List<String> getQuestArcs()
+  {
+    Set<String> questArcs=new HashSet<String>(); 
+    List<QuestDescription> quests=QuestsManager.getInstance().getAll();
+    for(QuestDescription quest : quests)
+    {
+      String questArc=quest.getQuestArc();
+      questArcs.add(questArc);
+    }
+    List<String> ret=new ArrayList<String>(questArcs);
     ret.remove(null);
     Collections.sort(ret);
     return ret;

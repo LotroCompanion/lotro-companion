@@ -26,6 +26,7 @@ import delta.games.lotro.gui.items.FilterUpdateListener;
 import delta.games.lotro.gui.quests.QuestsUiUtils;
 import delta.games.lotro.lore.quests.QuestDescription;
 import delta.games.lotro.lore.quests.QuestsManager;
+import delta.games.lotro.lore.quests.filter.QuestArcFilter;
 import delta.games.lotro.lore.quests.filter.QuestCategoryFilter;
 import delta.games.lotro.lore.quests.filter.QuestNameFilter;
 
@@ -43,6 +44,7 @@ public class QuestFilterController implements ActionListener
   // -- Quest attributes UI --
   private JTextField _contains;
   private ComboBoxController<String> _category;
+  private ComboBoxController<String> _questArc;
   // -- Requirements UI --
   private RequirementsFilterController _requirements;
   // -- Rewards UI --
@@ -104,6 +106,7 @@ public class QuestFilterController implements ActionListener
     if (source==_reset)
     {
       _category.selectItem(null);
+      _questArc.selectItem(null);
       _requirements.reset();
       _rewards.reset();
       _contains.setText("");
@@ -123,6 +126,10 @@ public class QuestFilterController implements ActionListener
     QuestCategoryFilter categoryFilter=_filter.getCategoryFilter();
     String category=categoryFilter.getQuestCategory();
     _category.selectItem(category);
+    // Quest arc
+    QuestArcFilter questArcFilter=_filter.getQuestArcFilter();
+    String questArc=questArcFilter.getQuestArc();
+    _questArc.selectItem(questArc);
     // Requirements
     _requirements.setFilter();
     // Rewards
@@ -218,6 +225,24 @@ public class QuestFilterController implements ActionListener
       _category.addListener(categoryListener);
       line2Panel.add(_category.getComboBox());
     }
+    // Quest arc
+    {
+      JLabel label=GuiFactory.buildLabel("Quest arc:");
+      line2Panel.add(label);
+      _questArc=QuestsUiUtils.buildQuestArcCombo();
+      ItemSelectionListener<String> questArcListener=new ItemSelectionListener<String>()
+      {
+        @Override
+        public void itemSelected(String questArc)
+        {
+          QuestArcFilter questArcFilter=_filter.getQuestArcFilter();
+          questArcFilter.setQuestArc(questArc);
+          filterUpdated();
+        }
+      };
+      _questArc.addListener(questArcListener);
+      line2Panel.add(_questArc.getComboBox());
+    }
     c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,5,0),0,0);
     panel.add(line2Panel,c);
     y++;
@@ -248,6 +273,11 @@ public class QuestFilterController implements ActionListener
     {
       _category.dispose();
       _category=null;
+    }
+    if (_questArc!=null)
+    {
+      _questArc.dispose();
+      _questArc=null;
     }
     if (_requirements!=null)
     {

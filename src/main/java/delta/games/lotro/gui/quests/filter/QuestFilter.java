@@ -13,6 +13,7 @@ import delta.games.lotro.common.requirements.filters.UsageRequirementFilter;
 import delta.games.lotro.common.rewards.Rewards;
 import delta.games.lotro.gui.common.rewards.filter.RewardsFilter;
 import delta.games.lotro.lore.quests.QuestDescription;
+import delta.games.lotro.lore.quests.filter.QuestArcFilter;
 import delta.games.lotro.lore.quests.filter.QuestCategoryFilter;
 import delta.games.lotro.lore.quests.filter.QuestNameFilter;
 
@@ -26,6 +27,7 @@ public class QuestFilter implements Filter<QuestDescription>
 
   private QuestNameFilter _nameFilter;
   private QuestCategoryFilter _categoryFilter;
+  private QuestArcFilter _questArcFilter;
   // Requirements
   private UsageRequirementFilter _requirementsFilter;
   // Rewards
@@ -43,6 +45,9 @@ public class QuestFilter implements Filter<QuestDescription>
     // Category
     _categoryFilter=new QuestCategoryFilter(null);
     filters.add(_categoryFilter);
+    // Quest arc
+    _questArcFilter=new QuestArcFilter(null);
+    filters.add(_questArcFilter);
     // Requirements
     {
       _requirementsFilter=new UsageRequirementFilter(null,null);
@@ -88,6 +93,15 @@ public class QuestFilter implements Filter<QuestDescription>
   public QuestCategoryFilter getCategoryFilter()
   {
     return _categoryFilter;
+  }
+
+  /**
+   * Get the filter on quest arc.
+   * @return a quest arc filter.
+   */
+  public QuestArcFilter getQuestArcFilter()
+  {
+    return _questArcFilter;
   }
 
   /**

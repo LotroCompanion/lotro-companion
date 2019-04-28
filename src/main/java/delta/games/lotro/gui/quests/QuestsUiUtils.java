@@ -26,4 +26,22 @@ public class QuestsUiUtils
     ctrl.selectItem(null);
     return ctrl;
   }
+
+  /**
+   * Build a combo-box controller to choose a quest arc.
+   * @return A new combo-box controller.
+   */
+  public static ComboBoxController<String> buildQuestArcCombo()
+  {
+    ComboBoxController<String> ctrl=new ComboBoxController<String>();
+    ctrl.addEmptyItem("");
+    List<String> questArcs=QuestsUtils.getQuestArcs();
+    for(String questArc : questArcs)
+    {
+      String label=(questArc.length()>0)?questArc:"(none)";
+      ctrl.addItem(questArc,label);
+    }
+    ctrl.selectItem(null);
+    return ctrl;
+  }
 }
