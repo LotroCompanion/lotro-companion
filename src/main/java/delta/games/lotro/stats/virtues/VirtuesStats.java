@@ -103,7 +103,7 @@ public class VirtuesStats
         QuestDescription quest=qm.getQuest(id.intValue());
         if (quest!=null)
         {
-          Rewards rewards=quest.getQuestRewards();
+          Rewards rewards=quest.getRewards();
           handleRewards("Quest:"+id,rewards);
         }
       }

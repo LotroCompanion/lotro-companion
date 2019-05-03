@@ -106,7 +106,7 @@ public class QuestDisplayPanelController
     }
 
     // Rewards
-    _rewards=new RewardsPanelController(_quest.getQuestRewards());
+    _rewards=new RewardsPanelController(_quest.getRewards());
     JPanel rewardsPanel=_rewards.getPanel();
     TitledBorder rewardsBorder=GuiFactory.buildTitledBorder("Rewards");
     rewardsPanel.setBorder(rewardsBorder);

@@ -145,11 +145,11 @@ public class DeedEditionPanelController
     // Category
     _category.selectItem(_item.getCategory());
     // Required level
-    _requiredLevel.selectItem(_item.getMinLevel());
+    _requiredLevel.selectItem(_item.getMinimumLevel());
     // Description
     _description.setText(_item.getDescription());
     // Objectives
-    _objectives.setText(_item.getObjectives());
+    _objectives.setText(_item.getObjectivesString());
   }
 
   /**
@@ -165,11 +165,11 @@ public class DeedEditionPanelController
     // Category
     _item.setCategory(_category.getSelectedItem());
     // Required level
-    _item.setMinLevel(_requiredLevel.getSelectedItem());
+    _item.setMinimumLevel(_requiredLevel.getSelectedItem());
     // Description
     _item.setDescription(_description.getText());
     // Objectives
-    _item.setObjectives(_objectives.getText());
+    _item.setObjectivesString(_objectives.getText());
     return _item;
   }
 

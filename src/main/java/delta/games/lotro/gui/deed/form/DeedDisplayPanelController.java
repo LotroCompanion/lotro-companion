@@ -161,7 +161,7 @@ public class DeedDisplayPanelController
     sb.append("<b>Description</b><p>");
     sb.append(toHtml(_deed.getDescription()));
     sb.append("<p><b>Objectives</b><p>");
-    sb.append(toHtml(_deed.getObjectives()));
+    sb.append(toHtml(_deed.getObjectivesString()));
     sb.append("</body></html>");
     return sb.toString();
   }
@@ -208,7 +208,7 @@ public class DeedDisplayPanelController
     UsageRequirement requirements=_deed.getUsageRequirement();
     CharacterClass requiredClass=requirements.getRequiredClass();
     Race requiredRace=requirements.getRequiredRace();
-    Integer minLevel=_deed.getMinLevel();
+    Integer minLevel=_deed.getMinimumLevel();
     StringBuilder sb=new StringBuilder();
     if (requiredClass!=null)
     {

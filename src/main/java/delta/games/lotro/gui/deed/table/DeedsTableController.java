@@ -189,7 +189,7 @@ public class DeedsTableController
         @Override
         public String getData(DeedDescription deed)
         {
-          return deed.getObjectives();
+          return deed.getObjectivesString();
         }
       };
       DefaultTableColumnController<DeedDescription,String> objectivesColumn=new DefaultTableColumnController<DeedDescription,String>(DeedColumnIds.OBJECTIVES.name(),"Objectives",String.class,objectivesCell);

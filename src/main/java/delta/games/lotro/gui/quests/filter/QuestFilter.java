@@ -68,7 +68,7 @@ public class QuestFilter implements Filter<QuestDescription>
       {
         public Rewards getValue(QuestDescription pojo)
         {
-          return pojo.getQuestRewards();
+          return pojo.getRewards();
         }
       };
       ProxyFilter<QuestDescription,Rewards> questRequirementsFilter=new ProxyFilter<QuestDescription,Rewards>(resolver,_rewardsFilter);

@@ -302,7 +302,7 @@ public class QuestsTableController
         @Override
         public Rewards getData(QuestDescription quest)
         {
-          return quest.getQuestRewards();
+          return quest.getRewards();
         }
       };
       for(DefaultTableColumnController<Rewards,?> rewardColumn : rewardColumns)
