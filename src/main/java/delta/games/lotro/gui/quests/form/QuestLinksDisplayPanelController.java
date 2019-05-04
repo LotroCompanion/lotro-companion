@@ -100,11 +100,11 @@ public class QuestLinksDisplayPanelController
   {
     if (proxy!=null)
     {
-      String name=proxy.getName();
       final Achievable achievable=proxy.getObject();
       if (achievable instanceof QuestDescription)
       {
         final QuestDescription quest=(QuestDescription)achievable;
+        String name=quest.getName();
         ActionListener listener=new ActionListener()
         {
           @Override
