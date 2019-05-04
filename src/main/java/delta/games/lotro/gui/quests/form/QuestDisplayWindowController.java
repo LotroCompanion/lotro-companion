@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 
 import delta.common.ui.swing.windows.DefaultDialogController;
 import delta.common.ui.swing.windows.WindowController;
+import delta.games.lotro.lore.quests.AchievableProxiesResolver;
 import delta.games.lotro.lore.quests.QuestDescription;
 
 /**
@@ -39,6 +40,7 @@ public class QuestDisplayWindowController extends DefaultDialogController
   public void setQuest(QuestDescription quest)
   {
     disposeQuestPanel();
+    AchievableProxiesResolver.resolve(quest);
     _controller=new QuestDisplayPanelController(this,quest);
     JDialog dialog=getDialog();
     Container container=dialog.getContentPane();

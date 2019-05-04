@@ -10,9 +10,12 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
+import org.apache.log4j.Logger;
+
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.labels.HyperLinkController;
 import delta.common.ui.swing.labels.LocalHyperlinkAction;
+import delta.games.lotro.lore.quests.Achievable;
 import delta.games.lotro.lore.quests.QuestDescription;
 import delta.games.lotro.utils.Proxy;
 
@@ -22,6 +25,8 @@ import delta.games.lotro.utils.Proxy;
  */
 public class QuestLinksDisplayPanelController
 {
+  private static final Logger LOGGER=Logger.getLogger(QuestLinksDisplayPanelController.class);
+
   // Data
   private QuestDescription _quest;
   private List<String> _labels;
@@ -83,32 +88,40 @@ public class QuestLinksDisplayPanelController
 
   private void buildLinks()
   {
-    List<Proxy<QuestDescription>> prerequisiteQuests=_quest.getPrerequisiteQuests();
-    for(Proxy<QuestDescription> prerequisiteQuest : prerequisiteQuests)
+    List<Proxy<Achievable>> prerequisites=_quest.getPrerequisites();
+    for(Proxy<Achievable> prerequisite : prerequisites)
     {
-      buildController("Prerequisite:",prerequisiteQuest);
+      buildController("Prerequisite:",prerequisite);
     }
     buildController("Next:",_quest.getNextQuest());
   }
 
-  private void buildController(String label, Proxy<QuestDescription> proxy)
+  private void buildController(String label, Proxy<Achievable> proxy)
   {
     if (proxy!=null)
     {
       String name=proxy.getName();
-      final QuestDescription quest=proxy.getObject();
-      ActionListener listener=new ActionListener()
+      final Achievable achievable=proxy.getObject();
+      if (achievable instanceof QuestDescription)
       {
-        @Override
-        public void actionPerformed(ActionEvent e)
+        final QuestDescription quest=(QuestDescription)achievable;
+        ActionListener listener=new ActionListener()
         {
-          _parent.setQuest(quest);
-        }
-      };
-      LocalHyperlinkAction action=new LocalHyperlinkAction(name,listener);
-      HyperLinkController controller=new HyperLinkController(action);
-      _labels.add(label);
-      _links.add(controller);
+          @Override
+          public void actionPerformed(ActionEvent e)
+          {
+            _parent.setQuest(quest);
+          }
+        };
+        LocalHyperlinkAction action=new LocalHyperlinkAction(name,listener);
+        HyperLinkController controller=new HyperLinkController(action);
+        _labels.add(label);
+        _links.add(controller);
+      }
+      else
+      {
+        LOGGER.warn("Achievable not managed: "+achievable);
+      }
     }
   }
 
