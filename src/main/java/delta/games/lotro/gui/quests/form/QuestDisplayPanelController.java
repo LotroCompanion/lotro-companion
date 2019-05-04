@@ -6,22 +6,22 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.util.List;
 
 import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.HyperlinkEvent;
+import javax.swing.event.HyperlinkListener;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.Race;
 import delta.games.lotro.common.requirements.UsageRequirement;
 import delta.games.lotro.gui.common.rewards.form.RewardsPanelController;
+import delta.games.lotro.gui.quests.ObjectivesHtmlBuilder;
 import delta.games.lotro.lore.quests.QuestDescription;
-import delta.games.lotro.lore.quests.objectives.Objective;
-import delta.games.lotro.lore.quests.objectives.ObjectivesManager;
 
 /**
  * Controller for a quest display panel.
@@ -142,6 +142,17 @@ public class QuestDisplayPanelController
     editor.setEditable(false);
     editor.setPreferredSize(new Dimension(500,300));
     editor.setOpaque(false);
+    HyperlinkListener l=new HyperlinkListener()
+    {
+      @Override
+      public void hyperlinkUpdate(HyperlinkEvent e)
+      {
+        if(e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
+          System.out.println(e.getDescription());
+        }
+      }
+    };
+    editor.addHyperlinkListener(l);
     return editor;
   }
 
@@ -152,14 +163,7 @@ public class QuestDisplayPanelController
     sb.append("<b>Description</b><p>");
     sb.append(toHtml(_quest.getDescription()));
     // Objectives
-    ObjectivesManager objectivesMgr=_quest.getObjectives();
-    List<Objective> objectives=objectivesMgr.getObjectives();
-    for(Objective objective : objectives)
-    {
-      int index=objective.getIndex();
-      sb.append("<p><b>Objective #").append(index).append("</b><p>");
-      sb.append(toHtml(objective.getText()));
-    }
+    ObjectivesHtmlBuilder.buildHtml(sb,_quest);
     sb.append("</body></html>");
     return sb.toString();
   }
