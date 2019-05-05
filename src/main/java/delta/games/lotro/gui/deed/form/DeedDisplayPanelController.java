@@ -20,6 +20,7 @@ import delta.games.lotro.common.Race;
 import delta.games.lotro.common.requirements.UsageRequirement;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.common.rewards.form.RewardsPanelController;
+import delta.games.lotro.gui.quests.ObjectivesHtmlBuilder;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.DeedType;
 
@@ -160,8 +161,8 @@ public class DeedDisplayPanelController
     sb.append("<html><body>");
     sb.append("<b>Description</b><p>");
     sb.append(toHtml(_deed.getDescription()));
-    sb.append("<p><b>Objectives</b><p>");
-    sb.append(toHtml(_deed.getObjectivesString()));
+    // Objectives
+    ObjectivesHtmlBuilder.buildHtml(sb,_deed);
     sb.append("</body></html>");
     return sb.toString();
   }

@@ -58,20 +58,20 @@ public class ObjectivesHtmlBuilder
         if (achievable instanceof QuestDescription)
         {
           QuestDescription quest=(QuestDescription)achievable;
-          sb.append("<p>Complete quest ");
+          sb.append("<p>Complete quest <b>");
           String text=quest.getName();
           String to="QUEST:"+quest.getIdentifier();
           printLink(sb,to,text);
-          sb.append("</p>");
+          sb.append("</b></p>");
         }
         else if (achievable instanceof DeedDescription)
         {
           DeedDescription deed=(DeedDescription)achievable;
-          sb.append("<p>Complete deed ");
+          sb.append("<p>Complete deed <b>");
           String text=deed.getName();
           String to="DEED:"+deed.getIdentifier();
           printLink(sb,to,text);
-          sb.append("</p>");
+          sb.append("</b></p>");
         }
       }
     }

@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import delta.common.ui.swing.windows.DefaultDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.lore.deeds.DeedDescription;
+import delta.games.lotro.lore.quests.AchievableProxiesResolver;
 
 /**
  * Controller for a "deed display" window.
@@ -39,6 +40,7 @@ public class DeedDisplayWindowController extends DefaultDialogController
   public void setDeed(DeedDescription deed)
   {
     disposeDeedPanel();
+    AchievableProxiesResolver.resolve(deed);
     _controller=new DeedDisplayPanelController(this,deed);
     JDialog dialog=getDialog();
     Container container=dialog.getContentPane();
