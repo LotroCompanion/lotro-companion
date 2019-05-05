@@ -19,6 +19,8 @@ import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.Race;
 import delta.games.lotro.common.requirements.UsageRequirement;
+import delta.games.lotro.gui.common.navigator.NavigablePanelController;
+import delta.games.lotro.gui.common.navigator.NavigatorWindowController;
 import delta.games.lotro.gui.common.rewards.form.RewardsPanelController;
 import delta.games.lotro.gui.quests.ObjectivesHtmlBuilder;
 import delta.games.lotro.lore.quests.QuestDescription;
@@ -27,7 +29,7 @@ import delta.games.lotro.lore.quests.QuestDescription;
  * Controller for a quest display panel.
  * @author DAM
  */
-public class QuestDisplayPanelController
+public class QuestDisplayPanelController implements NavigablePanelController
 {
   // Data
   private QuestDescription _quest;
@@ -40,7 +42,7 @@ public class QuestDisplayPanelController
   private JEditorPane _details;
 
   // Controllers
-  private QuestDisplayWindowController _parent;
+  private NavigatorWindowController _parent;
   private RewardsPanelController _rewards;
   private QuestLinksDisplayPanelController _links;
 
@@ -49,16 +51,19 @@ public class QuestDisplayPanelController
    * @param parent Parent window.
    * @param quest Quest to edit.
    */
-  public QuestDisplayPanelController(QuestDisplayWindowController parent, QuestDescription quest)
+  public QuestDisplayPanelController(NavigatorWindowController parent, QuestDescription quest)
   {
     _parent=parent;
     _quest=quest;
   }
 
-  /**
-   * Get the managed panel.
-   * @return the managed panel.
-   */
+  @Override
+  public String getTitle()
+  {
+    return "Quest: "+_quest.getName();
+  }
+
+  @Override
   public JPanel getPanel()
   {
     if (_panel==null)
@@ -147,8 +152,10 @@ public class QuestDisplayPanelController
       @Override
       public void hyperlinkUpdate(HyperlinkEvent e)
       {
-        if(e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
-          System.out.println(e.getDescription());
+        if(e.getEventType() == HyperlinkEvent.EventType.ACTIVATED)
+        {
+          String reference=e.getDescription();
+          _parent.navigateTo(reference);
         }
       }
     };
@@ -236,9 +243,7 @@ public class QuestDisplayPanelController
     return ret;
   }
 
-  /**
-   * Release all managed resources.
-   */
+  @Override
   public void dispose()
   {
     // Data

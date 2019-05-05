@@ -2,6 +2,7 @@ package delta.games.lotro.gui.quests;
 
 import java.util.List;
 
+import delta.games.lotro.gui.common.navigator.ReferenceConstants;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.quests.Achievable;
 import delta.games.lotro.lore.quests.QuestDescription;
@@ -60,7 +61,7 @@ public class ObjectivesHtmlBuilder
           QuestDescription quest=(QuestDescription)achievable;
           sb.append("<p>Complete quest <b>");
           String text=quest.getName();
-          String to="QUEST:"+quest.getIdentifier();
+          String to=ReferenceConstants.getAchievableReference(quest);
           printLink(sb,to,text);
           sb.append("</b></p>");
         }
@@ -69,7 +70,7 @@ public class ObjectivesHtmlBuilder
           DeedDescription deed=(DeedDescription)achievable;
           sb.append("<p>Complete deed <b>");
           String text=deed.getName();
-          String to="DEED:"+deed.getIdentifier();
+          String to=ReferenceConstants.getAchievableReference(deed);
           printLink(sb,to,text);
           sb.append("</b></p>");
         }

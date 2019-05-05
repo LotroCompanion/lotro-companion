@@ -13,12 +13,16 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.HyperlinkEvent;
+import javax.swing.event.HyperlinkListener;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.Race;
 import delta.games.lotro.common.requirements.UsageRequirement;
 import delta.games.lotro.gui.LotroIconsManager;
+import delta.games.lotro.gui.common.navigator.NavigablePanelController;
+import delta.games.lotro.gui.common.navigator.NavigatorWindowController;
 import delta.games.lotro.gui.common.rewards.form.RewardsPanelController;
 import delta.games.lotro.gui.quests.ObjectivesHtmlBuilder;
 import delta.games.lotro.lore.deeds.DeedDescription;
@@ -28,7 +32,7 @@ import delta.games.lotro.lore.deeds.DeedType;
  * Controller for an deed display panel.
  * @author DAM
  */
-public class DeedDisplayPanelController
+public class DeedDisplayPanelController implements NavigablePanelController
 {
   // Data
   private DeedDescription _deed;
@@ -43,7 +47,7 @@ public class DeedDisplayPanelController
   private JEditorPane _details;
 
   // Controllers
-  private DeedDisplayWindowController _parent;
+  private NavigatorWindowController _parent;
   private RewardsPanelController _rewards;
   private DeedLinksDisplayPanelController _links;
 
@@ -52,16 +56,19 @@ public class DeedDisplayPanelController
    * @param parent Parent window.
    * @param deed Deed to edit.
    */
-  public DeedDisplayPanelController(DeedDisplayWindowController parent, DeedDescription deed)
+  public DeedDisplayPanelController(NavigatorWindowController parent, DeedDescription deed)
   {
     _parent=parent;
     _deed=deed;
   }
 
-  /**
-   * Get the managed panel.
-   * @return the managed panel.
-   */
+  @Override
+  public String getTitle()
+  {
+    return "Deed: "+_deed.getName();
+  }
+
+  @Override
   public JPanel getPanel()
   {
     if (_panel==null)
@@ -152,6 +159,19 @@ public class DeedDisplayPanelController
     editor.setEditable(false);
     editor.setPreferredSize(new Dimension(500,300));
     editor.setOpaque(false);
+    HyperlinkListener l=new HyperlinkListener()
+    {
+      @Override
+      public void hyperlinkUpdate(HyperlinkEvent e)
+      {
+        if(e.getEventType() == HyperlinkEvent.EventType.ACTIVATED)
+        {
+          String reference=e.getDescription();
+          _parent.navigateTo(reference);
+        }
+      }
+    };
+    editor.addHyperlinkListener(l);
     return editor;
   }
 
@@ -241,9 +261,7 @@ public class DeedDisplayPanelController
     return ret;
   }
 
-  /**
-   * Release all managed resources.
-   */
+  @Override
   public void dispose()
   {
     // Data

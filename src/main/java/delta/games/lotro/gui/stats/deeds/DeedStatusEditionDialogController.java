@@ -26,7 +26,8 @@ import delta.common.ui.swing.windows.DefaultFormDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.ui.swing.windows.WindowsManager;
 import delta.games.lotro.gui.LotroIconsManager;
-import delta.games.lotro.gui.deed.form.DeedDisplayWindowController;
+import delta.games.lotro.gui.common.navigator.NavigatorWindowController;
+import delta.games.lotro.gui.common.navigator.ReferenceConstants;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.DeedType;
 import delta.games.lotro.lore.deeds.geo.DeedGeoData;
@@ -217,15 +218,17 @@ public class DeedStatusEditionDialogController extends DefaultFormDialogControll
     int nbWindows=_windowsManager.getAll().size();
     if (nbWindows==0)
     {
-      DeedDisplayWindowController window=new DeedDisplayWindowController(this,0);
-      window.setDeed(_deed);
+      NavigatorWindowController window=new NavigatorWindowController(this,0);
+      String ref=ReferenceConstants.getAchievableReference(_deed);
+      window.navigateTo(ref);
       window.show(false);
       _windowsManager.registerWindow(window);
     }
     else
     {
-      DeedDisplayWindowController window=(DeedDisplayWindowController)_windowsManager.getAll().get(0);
-      window.setDeed(_deed);
+      NavigatorWindowController window=(NavigatorWindowController)_windowsManager.getAll().get(0);
+      String ref=ReferenceConstants.getAchievableReference(_deed);
+      window.navigateTo(ref);
       window.bringToFront();
     }
   }

@@ -17,9 +17,10 @@ import delta.common.ui.swing.windows.DefaultWindowController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.ui.swing.windows.WindowsManager;
 import delta.common.utils.misc.TypedProperties;
+import delta.games.lotro.gui.common.navigator.NavigatorWindowController;
+import delta.games.lotro.gui.common.navigator.ReferenceConstants;
 import delta.games.lotro.gui.deed.filter.DeedFilter;
 import delta.games.lotro.gui.deed.filter.DeedFilterController;
-import delta.games.lotro.gui.deed.form.DeedDisplayWindowController;
 import delta.games.lotro.gui.deed.table.DeedsTableController;
 import delta.games.lotro.gui.main.GlobalPreferences;
 import delta.games.lotro.lore.deeds.DeedDescription;
@@ -118,8 +119,9 @@ public class DeedsExplorerWindowController extends DefaultWindowController
   private void showDeed(DeedDescription deed)
   {
     int id=_deedWindows.getAll().size();
-    DeedDisplayWindowController window=new DeedDisplayWindowController(DeedsExplorerWindowController.this,id);
-    window.setDeed(deed);
+    NavigatorWindowController window=new NavigatorWindowController(DeedsExplorerWindowController.this,id);
+    String ref=ReferenceConstants.getAchievableReference(deed);
+    window.navigateTo(ref);
     window.show(false);
     _deedWindows.registerWindow(window);
   }

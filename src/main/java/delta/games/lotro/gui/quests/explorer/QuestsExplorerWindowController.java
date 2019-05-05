@@ -17,10 +17,11 @@ import delta.common.ui.swing.windows.DefaultWindowController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.ui.swing.windows.WindowsManager;
 import delta.common.utils.misc.TypedProperties;
+import delta.games.lotro.gui.common.navigator.NavigatorWindowController;
+import delta.games.lotro.gui.common.navigator.ReferenceConstants;
 import delta.games.lotro.gui.main.GlobalPreferences;
 import delta.games.lotro.gui.quests.filter.QuestFilter;
 import delta.games.lotro.gui.quests.filter.QuestFilterController;
-import delta.games.lotro.gui.quests.form.QuestDisplayWindowController;
 import delta.games.lotro.gui.quests.table.QuestsTableController;
 import delta.games.lotro.lore.quests.QuestDescription;
 
@@ -118,8 +119,9 @@ public class QuestsExplorerWindowController extends DefaultWindowController
   private void showQuest(QuestDescription quest)
   {
     int id=_questWindows.getAll().size();
-    QuestDisplayWindowController window=new QuestDisplayWindowController(QuestsExplorerWindowController.this,id);
-    window.setQuest(quest);
+    NavigatorWindowController window=new NavigatorWindowController(QuestsExplorerWindowController.this,id);
+    String ref=ReferenceConstants.getAchievableReference(quest);
+    window.navigateTo(ref);
     window.show(false);
     _questWindows.registerWindow(window);
   }

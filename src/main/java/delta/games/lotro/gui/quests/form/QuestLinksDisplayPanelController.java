@@ -15,7 +15,10 @@ import org.apache.log4j.Logger;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.labels.HyperLinkController;
 import delta.common.ui.swing.labels.LocalHyperlinkAction;
+import delta.games.lotro.gui.common.navigator.NavigatorWindowController;
+import delta.games.lotro.gui.common.navigator.ReferenceConstants;
 import delta.games.lotro.lore.quests.Achievable;
+import delta.games.lotro.lore.quests.AchievableProxiesResolver;
 import delta.games.lotro.lore.quests.QuestDescription;
 import delta.games.lotro.utils.Proxy;
 
@@ -33,7 +36,7 @@ public class QuestLinksDisplayPanelController
   // GUI
   private JPanel _panel;
   // Controllers
-  private QuestDisplayWindowController _parent;
+  private NavigatorWindowController _parent;
   private List<HyperLinkController> _links;
 
   /**
@@ -41,7 +44,7 @@ public class QuestLinksDisplayPanelController
    * @param parent Parent window.
    * @param quest Quest to show.
    */
-  public QuestLinksDisplayPanelController(QuestDisplayWindowController parent, QuestDescription quest)
+  public QuestLinksDisplayPanelController(NavigatorWindowController parent, QuestDescription quest)
   {
     _parent=parent;
     _quest=quest;
@@ -100,19 +103,20 @@ public class QuestLinksDisplayPanelController
   {
     if (proxy!=null)
     {
-      final Achievable achievable=proxy.getObject();
-      if (achievable instanceof QuestDescription)
+      int id=proxy.getId();
+      Achievable achievable=AchievableProxiesResolver.getInstance().findAchievable(id);
+      if (achievable!=null)
       {
-        final QuestDescription quest=(QuestDescription)achievable;
-        String name=quest.getName();
+        final String ref=ReferenceConstants.getAchievableReference(proxy);
         ActionListener listener=new ActionListener()
         {
           @Override
           public void actionPerformed(ActionEvent e)
           {
-            _parent.setQuest(quest);
+            _parent.navigateTo(ref);
           }
         };
+        String name=achievable.getName();
         LocalHyperlinkAction action=new LocalHyperlinkAction(name,listener);
         HyperLinkController controller=new HyperLinkController(action);
         _labels.add(label);

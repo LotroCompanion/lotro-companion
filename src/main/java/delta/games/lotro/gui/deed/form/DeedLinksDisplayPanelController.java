@@ -10,11 +10,17 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
+import org.apache.log4j.Logger;
+
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.labels.HyperLinkController;
 import delta.common.ui.swing.labels.LocalHyperlinkAction;
+import delta.games.lotro.gui.common.navigator.NavigatorWindowController;
+import delta.games.lotro.gui.common.navigator.ReferenceConstants;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.DeedProxy;
+import delta.games.lotro.lore.quests.Achievable;
+import delta.games.lotro.lore.quests.AchievableProxiesResolver;
 
 /**
  * Controller for a panel to display deed links.
@@ -22,13 +28,15 @@ import delta.games.lotro.lore.deeds.DeedProxy;
  */
 public class DeedLinksDisplayPanelController
 {
+  private static final Logger LOGGER=Logger.getLogger(DeedLinksDisplayPanelController.class);
+
   // Data
   private DeedDescription _deed;
   private List<String> _labels;
   // GUI
   private JPanel _panel;
   // Controllers
-  private DeedDisplayWindowController _parent;
+  private NavigatorWindowController _parent;
   private List<HyperLinkController> _links;
 
   /**
@@ -36,7 +44,7 @@ public class DeedLinksDisplayPanelController
    * @param parent Parent window.
    * @param deed Deed to edit.
    */
-  public DeedLinksDisplayPanelController(DeedDisplayWindowController parent, DeedDescription deed)
+  public DeedLinksDisplayPanelController(NavigatorWindowController parent, DeedDescription deed)
   {
     _parent=parent;
     _deed=deed;
@@ -101,20 +109,29 @@ public class DeedLinksDisplayPanelController
   {
     if (proxy!=null)
     {
-      String name=proxy.getName();
-      final DeedDescription deed=proxy.getObject();
-      ActionListener listener=new ActionListener()
+      int id=proxy.getId();
+      Achievable achievable=AchievableProxiesResolver.getInstance().findAchievable(id);
+      if (achievable!=null)
       {
-        @Override
-        public void actionPerformed(ActionEvent e)
+        final String ref=ReferenceConstants.getAchievableReference(proxy);
+        ActionListener listener=new ActionListener()
         {
-          _parent.setDeed(deed);
-        }
-      };
-      LocalHyperlinkAction action=new LocalHyperlinkAction(name,listener);
-      HyperLinkController controller=new HyperLinkController(action);
-      _labels.add(label);
-      _links.add(controller);
+          @Override
+          public void actionPerformed(ActionEvent e)
+          {
+            _parent.navigateTo(ref);
+          }
+        };
+        String name=achievable.getName();
+        LocalHyperlinkAction action=new LocalHyperlinkAction(name,listener);
+        HyperLinkController controller=new HyperLinkController(action);
+        _labels.add(label);
+        _links.add(controller);
+      }
+      else
+      {
+        LOGGER.warn("Achievable not managed: "+achievable);
+      }
     }
   }
 
