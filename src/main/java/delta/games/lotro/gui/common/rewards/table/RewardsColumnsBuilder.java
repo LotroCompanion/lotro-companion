@@ -129,6 +129,21 @@ public class RewardsColumnsBuilder
       traitColumn.setWidthSpecs(100,300,200);
       ret.add(traitColumn);
     }
+    // XP column
+    {
+      CellDataProvider<Rewards,Integer> xpCell=new CellDataProvider<Rewards,Integer>()
+      {
+        @Override
+        public Integer getData(Rewards rewards)
+        {
+          int xp=rewards.getXp();
+          return (xp>0)?Integer.valueOf(xp):null;
+        }
+      };
+      DefaultTableColumnController<Rewards,Integer> xpColumn=new DefaultTableColumnController<Rewards,Integer>(RewardsColumnIds.XP.name(),"XP",Integer.class,xpCell);
+      xpColumn.setWidthSpecs(60,60,60);
+      ret.add(xpColumn);
+    }
     return ret;
   }
 }

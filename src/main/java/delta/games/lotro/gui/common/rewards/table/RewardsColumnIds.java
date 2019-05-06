@@ -33,5 +33,9 @@ public enum RewardsColumnIds
   /**
    * Trait.
    */
-  TRAIT
+  TRAIT,
+  /**
+   * XP.
+   */
+  XP
 }
