@@ -141,6 +141,7 @@ public class DeedStatusTableController
       columnIds.add(COMPLETED);
       columnIds.add(DeedColumnIds.NAME.name());
       columnIds.add(DeedColumnIds.CATEGORY.name());
+      columnIds.add(DeedColumnIds.LEVEL.name());
       columnIds.add(COMPLETION_DATE);
     }
     return columnIds;

@@ -15,6 +15,8 @@ import delta.common.ui.swing.tables.TableColumnController;
 import delta.common.ui.swing.tables.TableColumnsManager;
 import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.misc.TypedProperties;
+import delta.games.lotro.common.ChallengeLevel;
+import delta.games.lotro.common.ChallengeLevelComparator;
 import delta.games.lotro.common.requirements.UsageRequirement;
 import delta.games.lotro.common.rewards.Rewards;
 import delta.games.lotro.gui.common.requirements.table.RequirementsColumnsBuilder;
@@ -144,6 +146,21 @@ public class DeedsTableController
       categoryColumn.setWidthSpecs(80,350,80);
       ret.add(categoryColumn);
     }
+    // Challenge level column
+    {
+      CellDataProvider<DeedDescription,ChallengeLevel> levelCell=new CellDataProvider<DeedDescription,ChallengeLevel>()
+      {
+        @Override
+        public ChallengeLevel getData(DeedDescription deed)
+        {
+          return deed.getChallengeLevel();
+        }
+      };
+      DefaultTableColumnController<DeedDescription,ChallengeLevel> levelColumn=new DefaultTableColumnController<DeedDescription,ChallengeLevel>(DeedColumnIds.LEVEL.name(),"Level",ChallengeLevel.class,levelCell);
+      levelColumn.setWidthSpecs(100,100,100);
+      levelColumn.setComparator(new ChallengeLevelComparator());
+      ret.add(levelColumn);
+    }
     // Requirements
     {
       List<DefaultTableColumnController<UsageRequirement,?>> requirementColumns=RequirementsColumnsBuilder.buildRequirementsColumns();
@@ -212,6 +229,7 @@ public class DeedsTableController
       columnIds.add(DeedColumnIds.NAME.name());
       columnIds.add(DeedColumnIds.TYPE.name());
       columnIds.add(DeedColumnIds.CATEGORY.name());
+      columnIds.add(DeedColumnIds.LEVEL.name());
     }
     return columnIds;
   }

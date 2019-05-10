@@ -27,6 +27,10 @@ public enum DeedColumnIds
    */
   CATEGORY,
   /**
+   * Challenge level.
+   */
+  LEVEL,
+  /**
    * Objectives.
    */
   OBJECTIVES
