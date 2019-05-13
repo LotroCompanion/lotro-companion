@@ -144,6 +144,36 @@ public class RewardsColumnsBuilder
       xpColumn.setWidthSpecs(60,60,60);
       ret.add(xpColumn);
     }
+    // Item XP column
+    {
+      CellDataProvider<Rewards,Integer> itemXpCell=new CellDataProvider<Rewards,Integer>()
+      {
+        @Override
+        public Integer getData(Rewards rewards)
+        {
+          int itemXp=rewards.getItemXp();
+          return (itemXp>0)?Integer.valueOf(itemXp):null;
+        }
+      };
+      DefaultTableColumnController<Rewards,Integer> itemXpColumn=new DefaultTableColumnController<Rewards,Integer>(RewardsColumnIds.ITEM_XP.name(),"Item XP",Integer.class,itemXpCell);
+      itemXpColumn.setWidthSpecs(60,60,60);
+      ret.add(itemXpColumn);
+    }
+    // Mount XP column
+    {
+      CellDataProvider<Rewards,Integer> mountXpCell=new CellDataProvider<Rewards,Integer>()
+      {
+        @Override
+        public Integer getData(Rewards rewards)
+        {
+          int mountXp=rewards.getMountXp();
+          return (mountXp>0)?Integer.valueOf(mountXp):null;
+        }
+      };
+      DefaultTableColumnController<Rewards,Integer> mountXpColumn=new DefaultTableColumnController<Rewards,Integer>(RewardsColumnIds.MOUNT_XP.name(),"Mount XP",Integer.class,mountXpCell);
+      mountXpColumn.setWidthSpecs(60,60,60);
+      ret.add(mountXpColumn);
+    }
     return ret;
   }
 }

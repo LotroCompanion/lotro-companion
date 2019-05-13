@@ -37,5 +37,13 @@ public enum RewardsColumnIds
   /**
    * XP.
    */
-  XP
+  XP,
+  /**
+   * Item XP.
+   */
+  ITEM_XP,
+  /**
+   * Mount XP.
+   */
+  MOUNT_XP
 }
