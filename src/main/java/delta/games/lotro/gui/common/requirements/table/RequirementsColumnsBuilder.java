@@ -64,6 +64,20 @@ public class RequirementsColumnsBuilder
       minLevelColumn.setWidthSpecs(40,40,40);
       ret.add(minLevelColumn);
     }
+    // Max level column
+    {
+      CellDataProvider<UsageRequirement,Integer> maxLevelCell=new CellDataProvider<UsageRequirement,Integer>()
+      {
+        @Override
+        public Integer getData(UsageRequirement requirement)
+        {
+          return requirement.getMaxLevel();
+        }
+      };
+      DefaultTableColumnController<UsageRequirement,Integer> maxLevelColumn=new DefaultTableColumnController<UsageRequirement,Integer>(RequirementColumnIds.MAX_LEVEL.name(),"Max Level",Integer.class,maxLevelCell);
+      maxLevelColumn.setWidthSpecs(40,40,40);
+      ret.add(maxLevelColumn);
+    }
     return ret;
   }
 }

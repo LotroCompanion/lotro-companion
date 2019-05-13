@@ -18,4 +18,8 @@ public enum RequirementColumnIds
    * Required level.
    */
   REQUIRED_LEVEL,
+  /**
+   * Maximum level.
+   */
+  MAX_LEVEL
 }
