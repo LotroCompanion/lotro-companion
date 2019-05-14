@@ -3,6 +3,7 @@ package delta.games.lotro.gui.quests;
 import java.util.List;
 
 import delta.common.ui.swing.combobox.ComboBoxController;
+import delta.games.lotro.common.Repeatability;
 
 /**
  * Utility methods for quest-related UIs.
@@ -55,6 +56,24 @@ public class QuestsUiUtils
     ctrl.addEmptyItem("");
     ctrl.addItem(Boolean.TRUE,"Yes");
     ctrl.addItem(Boolean.FALSE,"No");
+    ctrl.selectItem(null);
+    return ctrl;
+  }
+
+  /**
+   * Build a combo-box controller to choose a repeatability.
+   * @return A new combo-box controller.
+   */
+  public static ComboBoxController<Repeatability> buildRepeatabilityCombo()
+  {
+    ComboBoxController<Repeatability> ctrl=new ComboBoxController<Repeatability>();
+    ctrl.addEmptyItem("");
+    List<Repeatability> repeatabilities=QuestsUtils.getRepeatabilities();
+    for(Repeatability repeatability : repeatabilities)
+    {
+      String label=repeatability.toString();
+      ctrl.addItem(repeatability,label);
+    }
     ctrl.selectItem(null);
     return ctrl;
   }

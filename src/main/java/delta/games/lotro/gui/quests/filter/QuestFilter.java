@@ -20,6 +20,7 @@ import delta.games.lotro.lore.quests.filter.QuestCategoryFilter;
 import delta.games.lotro.lore.quests.filter.QuestFactionFilter;
 import delta.games.lotro.lore.quests.filter.QuestNameFilter;
 import delta.games.lotro.lore.quests.filter.QuestSizeFilter;
+import delta.games.lotro.lore.quests.filter.RepeatabilityFilter;
 import delta.games.lotro.lore.quests.filter.SessionPlayQuestFilter;
 import delta.games.lotro.lore.quests.filter.ShareableQuestFilter;
 
@@ -40,6 +41,7 @@ public class QuestFilter implements Filter<QuestDescription>
   private ShareableQuestFilter _shareableQuestFilter;
   private SessionPlayQuestFilter _sessionPlayQuestFilter;
   private AutoBestowedQuestFilter _autoBestowedQuestFilter;
+  private RepeatabilityFilter _repeatabilityFilter;
   // Requirements
   private UsageRequirementFilter _requirementsFilter;
   // Rewards
@@ -78,6 +80,9 @@ public class QuestFilter implements Filter<QuestDescription>
     // Auto-bestowed quests
     _autoBestowedQuestFilter=new AutoBestowedQuestFilter(null);
     filters.add(_autoBestowedQuestFilter);
+    // Repeatability
+    _repeatabilityFilter=new RepeatabilityFilter(null);
+    filters.add(_repeatabilityFilter);
     // Requirements
     {
       _requirementsFilter=new UsageRequirementFilter(null,null);
@@ -186,6 +191,15 @@ public class QuestFilter implements Filter<QuestDescription>
   public AutoBestowedQuestFilter getAutoBestowedQuestFilter()
   {
     return _autoBestowedQuestFilter;
+  }
+
+  /**
+   * Get the filter on repeatability.
+   * @return a filter on repeatability.
+   */
+  public RepeatabilityFilter getRepeatabilityFilter()
+  {
+    return _repeatabilityFilter;
   }
 
   /**

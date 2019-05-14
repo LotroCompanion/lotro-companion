@@ -19,6 +19,7 @@ import delta.common.ui.swing.combobox.ItemSelectionListener;
 import delta.common.ui.swing.text.DynamicTextEditionController;
 import delta.common.ui.swing.text.TextListener;
 import delta.common.utils.collections.filters.Filter;
+import delta.games.lotro.common.Repeatability;
 import delta.games.lotro.common.rewards.RewardsExplorer;
 import delta.games.lotro.gui.common.requirements.RequirementsFilterController;
 import delta.games.lotro.gui.common.rewards.filter.RewardsFilterController;
@@ -31,6 +32,7 @@ import delta.games.lotro.lore.quests.filter.InstancedQuestFilter;
 import delta.games.lotro.lore.quests.filter.QuestArcFilter;
 import delta.games.lotro.lore.quests.filter.QuestCategoryFilter;
 import delta.games.lotro.lore.quests.filter.QuestNameFilter;
+import delta.games.lotro.lore.quests.filter.RepeatabilityFilter;
 import delta.games.lotro.lore.quests.filter.SessionPlayQuestFilter;
 import delta.games.lotro.lore.quests.filter.ShareableQuestFilter;
 
@@ -53,6 +55,7 @@ public class QuestFilterController implements ActionListener
   private ComboBoxController<Boolean> _shareable;
   private ComboBoxController<Boolean> _sessionPlay;
   private ComboBoxController<Boolean> _autoBestowed;
+  private ComboBoxController<Repeatability> _repeatability;
   // -- Requirements UI --
   private RequirementsFilterController _requirements;
   // -- Rewards UI --
@@ -119,6 +122,7 @@ public class QuestFilterController implements ActionListener
       _shareable.selectItem(null);
       _sessionPlay.selectItem(null);
       _autoBestowed.selectItem(null);
+      _repeatability.selectItem(null);
       _requirements.reset();
       _rewards.reset();
       _contains.setText("");
@@ -158,6 +162,10 @@ public class QuestFilterController implements ActionListener
     AutoBestowedQuestFilter autoBestowedFilter=_filter.getAutoBestowedQuestFilter();
     Boolean autoBestowedFlag=autoBestowedFilter.getIsAutoBestowedFlag();
     _autoBestowed.selectItem(autoBestowedFlag);
+    // Auto-bestowed
+    RepeatabilityFilter repeatabilityFilter=_filter.getRepeatabilityFilter();
+    Repeatability repeatability=repeatabilityFilter.getRepeatability();
+    _repeatability.selectItem(repeatability);
     // Requirements
     _requirements.setFilter();
     // Rewards
@@ -299,6 +307,29 @@ public class QuestFilterController implements ActionListener
       panel.add(line,c);
       y++;
     }
+    // 4th line
+    {
+      JPanel line=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
+      // Repeatability
+      line.add(GuiFactory.buildLabel("Repeatability:"));
+      _repeatability=QuestsUiUtils.buildRepeatabilityCombo();
+      line.add(_repeatability.getComboBox());
+      ItemSelectionListener<Repeatability> questArcListener=new ItemSelectionListener<Repeatability>()
+      {
+        @Override
+        public void itemSelected(Repeatability repeatability)
+        {
+          RepeatabilityFilter repeatabilityFilter=_filter.getRepeatabilityFilter();
+          repeatabilityFilter.setRepeatability(repeatability);
+          filterUpdated();
+        }
+      };
+      _repeatability.addListener(questArcListener);
+
+      c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(5,0,5,0),0,0);
+      panel.add(line,c);
+      y++;
+    }
     return panel;
   }
 
@@ -418,6 +449,11 @@ public class QuestFilterController implements ActionListener
     {
       _autoBestowed.dispose();
       _autoBestowed=null;
+    }
+    if (_repeatability!=null)
+    {
+      _repeatability.dispose();
+      _repeatability=null;
     }
     if (_requirements!=null)
     {

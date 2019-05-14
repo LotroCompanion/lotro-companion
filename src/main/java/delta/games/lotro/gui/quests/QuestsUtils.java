@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import delta.games.lotro.common.Repeatability;
+import delta.games.lotro.common.RepeatabilityComparator;
 import delta.games.lotro.lore.quests.QuestDescription;
 import delta.games.lotro.lore.quests.QuestsManager;
 
@@ -83,6 +85,25 @@ public class QuestsUtils
     List<String> ret=new ArrayList<String>(questArcs);
     ret.remove(null);
     Collections.sort(ret);
+    return ret;
+  }
+
+  /**
+   * Load available repeatabilities from the quests manager.
+   * @return A sorted list of repeatabilities.
+   */
+  public static List<Repeatability> getRepeatabilities()
+  {
+    Set<Repeatability> repeatabilities=new HashSet<Repeatability>(); 
+    List<QuestDescription> quests=QuestsManager.getInstance().getAll();
+    for(QuestDescription quest : quests)
+    {
+      Repeatability repeatability=quest.getRepeatability();
+      repeatabilities.add(repeatability);
+    }
+    List<Repeatability> ret=new ArrayList<Repeatability>(repeatabilities);
+    ret.remove(null);
+    Collections.sort(ret,new RepeatabilityComparator());
     return ret;
   }
 }
