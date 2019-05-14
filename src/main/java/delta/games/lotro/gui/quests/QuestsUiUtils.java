@@ -44,4 +44,18 @@ public class QuestsUiUtils
     ctrl.selectItem(null);
     return ctrl;
   }
+
+  /**
+   * Build a combo-box controller to choose from null, true or false.
+   * @return A new combo-box controller.
+   */
+  public static ComboBoxController<Boolean> build3StatesBooleanCombobox()
+  {
+    ComboBoxController<Boolean> ctrl=new ComboBoxController<Boolean>();
+    ctrl.addEmptyItem("");
+    ctrl.addItem(Boolean.TRUE,"Yes");
+    ctrl.addItem(Boolean.FALSE,"No");
+    ctrl.selectItem(null);
+    return ctrl;
+  }
 }

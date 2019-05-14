@@ -13,12 +13,14 @@ import delta.games.lotro.common.requirements.filters.UsageRequirementFilter;
 import delta.games.lotro.common.rewards.Rewards;
 import delta.games.lotro.gui.common.rewards.filter.RewardsFilter;
 import delta.games.lotro.lore.quests.QuestDescription;
+import delta.games.lotro.lore.quests.filter.AutoBestowedQuestFilter;
 import delta.games.lotro.lore.quests.filter.InstancedQuestFilter;
 import delta.games.lotro.lore.quests.filter.QuestArcFilter;
 import delta.games.lotro.lore.quests.filter.QuestCategoryFilter;
 import delta.games.lotro.lore.quests.filter.QuestFactionFilter;
 import delta.games.lotro.lore.quests.filter.QuestNameFilter;
 import delta.games.lotro.lore.quests.filter.QuestSizeFilter;
+import delta.games.lotro.lore.quests.filter.SessionPlayQuestFilter;
 import delta.games.lotro.lore.quests.filter.ShareableQuestFilter;
 
 /**
@@ -36,6 +38,8 @@ public class QuestFilter implements Filter<QuestDescription>
   private QuestFactionFilter _questFactionFilter;
   private InstancedQuestFilter _instancedQuestFilter;
   private ShareableQuestFilter _shareableQuestFilter;
+  private SessionPlayQuestFilter _sessionPlayQuestFilter;
+  private AutoBestowedQuestFilter _autoBestowedQuestFilter;
   // Requirements
   private UsageRequirementFilter _requirementsFilter;
   // Rewards
@@ -68,6 +72,12 @@ public class QuestFilter implements Filter<QuestDescription>
     // Shareable quests
     _shareableQuestFilter=new ShareableQuestFilter(null);
     filters.add(_shareableQuestFilter);
+    // Session-play quests
+    _sessionPlayQuestFilter=new SessionPlayQuestFilter(null);
+    filters.add(_sessionPlayQuestFilter);
+    // Auto-bestowed quests
+    _autoBestowedQuestFilter=new AutoBestowedQuestFilter(null);
+    filters.add(_autoBestowedQuestFilter);
     // Requirements
     {
       _requirementsFilter=new UsageRequirementFilter(null,null);
@@ -158,6 +168,24 @@ public class QuestFilter implements Filter<QuestDescription>
   public ShareableQuestFilter getShareableQuestFilter()
   {
     return _shareableQuestFilter;
+  }
+
+  /**
+   * Get the filter on session-play quests.
+   * @return a filter on session-play quests.
+   */
+  public SessionPlayQuestFilter getSessionPlayQuestFilter()
+  {
+    return _sessionPlayQuestFilter;
+  }
+
+  /**
+   * Get the filter on auto-bestowed quests.
+   * @return a filter on auto-bestowed quests.
+   */
+  public AutoBestowedQuestFilter getAutoBestowedQuestFilter()
+  {
+    return _autoBestowedQuestFilter;
   }
 
   /**

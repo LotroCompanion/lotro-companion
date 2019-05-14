@@ -26,9 +26,13 @@ import delta.games.lotro.gui.items.FilterUpdateListener;
 import delta.games.lotro.gui.quests.QuestsUiUtils;
 import delta.games.lotro.lore.quests.QuestDescription;
 import delta.games.lotro.lore.quests.QuestsManager;
+import delta.games.lotro.lore.quests.filter.AutoBestowedQuestFilter;
+import delta.games.lotro.lore.quests.filter.InstancedQuestFilter;
 import delta.games.lotro.lore.quests.filter.QuestArcFilter;
 import delta.games.lotro.lore.quests.filter.QuestCategoryFilter;
 import delta.games.lotro.lore.quests.filter.QuestNameFilter;
+import delta.games.lotro.lore.quests.filter.SessionPlayQuestFilter;
+import delta.games.lotro.lore.quests.filter.ShareableQuestFilter;
 
 /**
  * Controller for a quest filter edition panel.
@@ -45,6 +49,10 @@ public class QuestFilterController implements ActionListener
   private JTextField _contains;
   private ComboBoxController<String> _category;
   private ComboBoxController<String> _questArc;
+  private ComboBoxController<Boolean> _instanced;
+  private ComboBoxController<Boolean> _shareable;
+  private ComboBoxController<Boolean> _sessionPlay;
+  private ComboBoxController<Boolean> _autoBestowed;
   // -- Requirements UI --
   private RequirementsFilterController _requirements;
   // -- Rewards UI --
@@ -107,6 +115,10 @@ public class QuestFilterController implements ActionListener
     {
       _category.selectItem(null);
       _questArc.selectItem(null);
+      _instanced.selectItem(null);
+      _shareable.selectItem(null);
+      _sessionPlay.selectItem(null);
+      _autoBestowed.selectItem(null);
       _requirements.reset();
       _rewards.reset();
       _contains.setText("");
@@ -130,6 +142,22 @@ public class QuestFilterController implements ActionListener
     QuestArcFilter questArcFilter=_filter.getQuestArcFilter();
     String questArc=questArcFilter.getQuestArc();
     _questArc.selectItem(questArc);
+    // Instanced
+    InstancedQuestFilter instancedFilter=_filter.getInstancedQuestFilter();
+    Boolean instancedFlag=instancedFilter.getIsInstancedFlag();
+    _instanced.selectItem(instancedFlag);
+    // Shareable
+    ShareableQuestFilter shareableFilter=_filter.getShareableQuestFilter();
+    Boolean shareableFlag=shareableFilter.getIsShareableFlag();
+    _shareable.selectItem(shareableFlag);
+    // Session-play
+    SessionPlayQuestFilter sessionPlayFilter=_filter.getSessionPlayQuestFilter();
+    Boolean sessionPlayFlag=sessionPlayFilter.getIsSessionPlayFlag();
+    _sessionPlay.selectItem(sessionPlayFlag);
+    // Auto-bestowed
+    AutoBestowedQuestFilter autoBestowedFilter=_filter.getAutoBestowedQuestFilter();
+    Boolean autoBestowedFlag=autoBestowedFilter.getIsAutoBestowedFlag();
+    _autoBestowed.selectItem(autoBestowedFlag);
     // Requirements
     _requirements.setFilter();
     // Rewards
@@ -247,7 +275,99 @@ public class QuestFilterController implements ActionListener
     panel.add(line2Panel,c);
     y++;
 
+    // Flags line
+    {
+      JPanel line=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
+      // Instanced
+      line.add(GuiFactory.buildLabel("Instanced:"));
+      _instanced=buildInstancedCombobox();
+      line.add(_instanced.getComboBox());
+      // Shareable
+      line.add(GuiFactory.buildLabel("Shareable:"));
+      _shareable=buildShareableCombobox();
+      line.add(_shareable.getComboBox());
+      // Session-play
+      line.add(GuiFactory.buildLabel("Session-play:"));
+      _sessionPlay=buildSessionPlayCombobox();
+      line.add(_sessionPlay.getComboBox());
+      // Auto-bestowed
+      line.add(GuiFactory.buildLabel("Auto-bestowed:"));
+      _autoBestowed=buildAutoBestowedCombobox();
+      line.add(_autoBestowed.getComboBox());
+
+      c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(5,0,5,0),0,0);
+      panel.add(line,c);
+      y++;
+    }
     return panel;
+  }
+
+  private ComboBoxController<Boolean> buildInstancedCombobox()
+  {
+    ComboBoxController<Boolean> combo=QuestsUiUtils.build3StatesBooleanCombobox();
+    ItemSelectionListener<Boolean> listener=new ItemSelectionListener<Boolean>()
+    {
+      @Override
+      public void itemSelected(Boolean value)
+      {
+        InstancedQuestFilter filter=_filter.getInstancedQuestFilter();
+        filter.setIsInstancedFlag(value);
+        filterUpdated();
+      }
+    };
+    combo.addListener(listener);
+    return combo;
+  }
+
+  private ComboBoxController<Boolean> buildShareableCombobox()
+  {
+    ComboBoxController<Boolean> combo=QuestsUiUtils.build3StatesBooleanCombobox();
+    ItemSelectionListener<Boolean> listener=new ItemSelectionListener<Boolean>()
+    {
+      @Override
+      public void itemSelected(Boolean value)
+      {
+        ShareableQuestFilter filter=_filter.getShareableQuestFilter();
+        filter.setIsShareableFlag(value);
+        filterUpdated();
+      }
+    };
+    combo.addListener(listener);
+    return combo;
+  }
+
+  private ComboBoxController<Boolean> buildSessionPlayCombobox()
+  {
+    ComboBoxController<Boolean> combo=QuestsUiUtils.build3StatesBooleanCombobox();
+    ItemSelectionListener<Boolean> listener=new ItemSelectionListener<Boolean>()
+    {
+      @Override
+      public void itemSelected(Boolean value)
+      {
+        SessionPlayQuestFilter filter=_filter.getSessionPlayQuestFilter();
+        filter.setIsSessionPlayFlag(value);
+        filterUpdated();
+      }
+    };
+    combo.addListener(listener);
+    return combo;
+  }
+
+  private ComboBoxController<Boolean> buildAutoBestowedCombobox()
+  {
+    ComboBoxController<Boolean> combo=QuestsUiUtils.build3StatesBooleanCombobox();
+    ItemSelectionListener<Boolean> listener=new ItemSelectionListener<Boolean>()
+    {
+      @Override
+      public void itemSelected(Boolean value)
+      {
+        AutoBestowedQuestFilter filter=_filter.getAutoBestowedQuestFilter();
+        filter.setIsAutoBestowedFlag(value);
+        filterUpdated();
+      }
+    };
+    combo.addListener(listener);
+    return combo;
   }
 
   /**
@@ -278,6 +398,26 @@ public class QuestFilterController implements ActionListener
     {
       _questArc.dispose();
       _questArc=null;
+    }
+    if (_instanced!=null)
+    {
+      _instanced.dispose();
+      _instanced=null;
+    }
+    if (_shareable!=null)
+    {
+      _shareable.dispose();
+      _shareable=null;
+    }
+    if (_sessionPlay!=null)
+    {
+      _sessionPlay.dispose();
+      _sessionPlay=null;
+    }
+    if (_autoBestowed!=null)
+    {
+      _autoBestowed.dispose();
+      _autoBestowed=null;
     }
     if (_requirements!=null)
     {
