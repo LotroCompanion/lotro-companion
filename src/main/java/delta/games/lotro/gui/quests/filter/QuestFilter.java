@@ -13,9 +13,13 @@ import delta.games.lotro.common.requirements.filters.UsageRequirementFilter;
 import delta.games.lotro.common.rewards.Rewards;
 import delta.games.lotro.gui.common.rewards.filter.RewardsFilter;
 import delta.games.lotro.lore.quests.QuestDescription;
+import delta.games.lotro.lore.quests.filter.InstancedQuestFilter;
 import delta.games.lotro.lore.quests.filter.QuestArcFilter;
 import delta.games.lotro.lore.quests.filter.QuestCategoryFilter;
+import delta.games.lotro.lore.quests.filter.QuestFactionFilter;
 import delta.games.lotro.lore.quests.filter.QuestNameFilter;
+import delta.games.lotro.lore.quests.filter.QuestSizeFilter;
+import delta.games.lotro.lore.quests.filter.ShareableQuestFilter;
 
 /**
  * Quest filter.
@@ -28,6 +32,10 @@ public class QuestFilter implements Filter<QuestDescription>
   private QuestNameFilter _nameFilter;
   private QuestCategoryFilter _categoryFilter;
   private QuestArcFilter _questArcFilter;
+  private QuestSizeFilter _questSizeFilter;
+  private QuestFactionFilter _questFactionFilter;
+  private InstancedQuestFilter _instancedQuestFilter;
+  private ShareableQuestFilter _shareableQuestFilter;
   // Requirements
   private UsageRequirementFilter _requirementsFilter;
   // Rewards
@@ -48,6 +56,18 @@ public class QuestFilter implements Filter<QuestDescription>
     // Quest arc
     _questArcFilter=new QuestArcFilter(null);
     filters.add(_questArcFilter);
+    // Quest size
+    _questSizeFilter=new QuestSizeFilter(null);
+    filters.add(_questSizeFilter);
+    // Quest faction
+    _questFactionFilter=new QuestFactionFilter(null);
+    filters.add(_questFactionFilter);
+    // Instanced quests
+    _instancedQuestFilter=new InstancedQuestFilter(null);
+    filters.add(_instancedQuestFilter);
+    // Shareable quests
+    _shareableQuestFilter=new ShareableQuestFilter(null);
+    filters.add(_shareableQuestFilter);
     // Requirements
     {
       _requirementsFilter=new UsageRequirementFilter(null,null);
@@ -102,6 +122,42 @@ public class QuestFilter implements Filter<QuestDescription>
   public QuestArcFilter getQuestArcFilter()
   {
     return _questArcFilter;
+  }
+
+  /**
+   * Get the filter on quest size.
+   * @return a quest size filter.
+   */
+  public QuestSizeFilter getQuestSizeFilter()
+  {
+    return _questSizeFilter;
+  }
+
+  /**
+   * Get the filter on quest faction.
+   * @return a quest faction filter.
+   */
+  public QuestFactionFilter getQuestFactionFilter()
+  {
+    return _questFactionFilter;
+  }
+
+  /**
+   * Get the filter on instanced quests.
+   * @return a filter on instanced quests.
+   */
+  public InstancedQuestFilter getInstancedQuestFilter()
+  {
+    return _instancedQuestFilter;
+  }
+
+  /**
+   * Get the filter on shareable quests.
+   * @return a filter on shareable quests.
+   */
+  public ShareableQuestFilter getShareableQuestFilter()
+  {
+    return _shareableQuestFilter;
   }
 
   /**
