@@ -22,6 +22,7 @@ import delta.games.lotro.common.Size;
 import delta.games.lotro.common.requirements.UsageRequirement;
 import delta.games.lotro.common.rewards.Rewards;
 import delta.games.lotro.gui.common.requirements.table.RequirementsColumnsBuilder;
+import delta.games.lotro.gui.common.rewards.table.RewardsColumnIds;
 import delta.games.lotro.gui.common.rewards.table.RewardsColumnsBuilder;
 import delta.games.lotro.gui.items.chooser.ItemChooser;
 import delta.games.lotro.lore.quests.QuestDescription;
@@ -312,6 +313,44 @@ public class QuestsTableController
         TableColumnController<QuestDescription,Object> proxiedColumn=new ProxiedTableColumnController<QuestDescription,Rewards,Object>(c,dataProvider);
         ret.add(proxiedColumn);
       }
+    }
+    // Infamy
+    {
+      CellDataProvider<QuestDescription,Integer> infamyCell=new CellDataProvider<QuestDescription,Integer>()
+      {
+        @Override
+        public Integer getData(QuestDescription rewards)
+        {
+          if (rewards.getFaction()==FACTION.FREE_PEOPLES)
+          {
+            return null;
+          }
+          int glory=rewards.getRewards().getGlory();
+          return glory>0?Integer.valueOf(glory):null;
+        }
+      };
+      DefaultTableColumnController<QuestDescription,Integer> infamyColumn=new DefaultTableColumnController<QuestDescription,Integer>(RewardsColumnIds.INFAMY.name(),"Infamy",Integer.class,infamyCell);
+      infamyColumn.setWidthSpecs(60,60,60);
+      ret.add(infamyColumn);
+    }
+    // Renown
+    {
+      CellDataProvider<QuestDescription,Integer> renownCell=new CellDataProvider<QuestDescription,Integer>()
+      {
+        @Override
+        public Integer getData(QuestDescription rewards)
+        {
+          if (rewards.getFaction()==FACTION.MONSTER_PLAY)
+          {
+            return null;
+          }
+          int glory=rewards.getRewards().getGlory();
+          return glory>0?Integer.valueOf(glory):null;
+        }
+      };
+      DefaultTableColumnController<QuestDescription,Integer> renownColumn=new DefaultTableColumnController<QuestDescription,Integer>(RewardsColumnIds.RENOWN.name(),"Renown",Integer.class,renownCell);
+      renownColumn.setWidthSpecs(60,60,60);
+      ret.add(renownColumn);
     }
     return ret;
   }
