@@ -12,6 +12,7 @@ import delta.games.lotro.common.rewards.filters.DestinyPointsRewardFilter;
 import delta.games.lotro.common.rewards.filters.EmoteRewardFilter;
 import delta.games.lotro.common.rewards.filters.ItemRewardFilter;
 import delta.games.lotro.common.rewards.filters.LotroPointsRewardFilter;
+import delta.games.lotro.common.rewards.filters.RelicRewardFilter;
 import delta.games.lotro.common.rewards.filters.ReputationRewardFilter;
 import delta.games.lotro.common.rewards.filters.TitleRewardFilter;
 import delta.games.lotro.common.rewards.filters.TraitRewardFilter;
@@ -34,6 +35,7 @@ public class RewardsFilter implements Filter<Rewards>
   private VirtueRewardFilter _virtueFilter;
   private EmoteRewardFilter _emoteFilter;
   private ItemRewardFilter _itemFilter;
+  private RelicRewardFilter _relicFilter;
 
   /**
    * Constructor.
@@ -68,6 +70,9 @@ public class RewardsFilter implements Filter<Rewards>
     // - item
     _itemFilter=new ItemRewardFilter(null);
     filters.add(_itemFilter);
+    // - relic
+    _relicFilter=new RelicRewardFilter(null);
+    filters.add(_relicFilter);
     _filter=new CompoundFilter<Rewards>(Operator.AND,filters);
   }
 
@@ -150,6 +155,15 @@ public class RewardsFilter implements Filter<Rewards>
   public ItemRewardFilter getItemFilter()
   {
     return _itemFilter;
+  }
+
+  /**
+   * Get the filter on relic reward.
+   * @return a relic reward filter.
+   */
+  public RelicRewardFilter getRelicFilter()
+  {
+    return _relicFilter;
   }
 
   @Override

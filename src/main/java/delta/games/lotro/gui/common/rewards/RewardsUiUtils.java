@@ -5,6 +5,7 @@ import java.util.List;
 import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.games.lotro.common.rewards.RewardsExplorer;
 import delta.games.lotro.lore.items.Item;
+import delta.games.lotro.lore.items.legendary.relics.Relic;
 
 /**
  * Utility methods for reward-related UIs.
@@ -103,6 +104,23 @@ public class RewardsUiUtils
     for(Item item : items)
     {
       ctrl.addItem(Integer.valueOf(item.getIdentifier()),item.getName());
+    }
+    ctrl.selectItem(null);
+    return ctrl;
+  }
+
+  /**
+   * Build a combo-box controller to choose a relic name.
+   * @return A new combo-box controller.
+   */
+  public ComboBoxController<Integer> buildRelicsCombo()
+  {
+    ComboBoxController<Integer> ctrl=new ComboBoxController<Integer>();
+    ctrl.addEmptyItem("");
+    List<Relic> relics=_rewardsExplorer.getRelics();
+    for(Relic relic : relics)
+    {
+      ctrl.addItem(Integer.valueOf(relic.getIdentifier()),relic.getName());
     }
     ctrl.selectItem(null);
     return ctrl;

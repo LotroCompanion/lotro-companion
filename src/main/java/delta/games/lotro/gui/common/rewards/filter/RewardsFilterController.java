@@ -17,6 +17,7 @@ import delta.games.lotro.common.rewards.filters.DestinyPointsRewardFilter;
 import delta.games.lotro.common.rewards.filters.EmoteRewardFilter;
 import delta.games.lotro.common.rewards.filters.ItemRewardFilter;
 import delta.games.lotro.common.rewards.filters.LotroPointsRewardFilter;
+import delta.games.lotro.common.rewards.filters.RelicRewardFilter;
 import delta.games.lotro.common.rewards.filters.ReputationRewardFilter;
 import delta.games.lotro.common.rewards.filters.TitleRewardFilter;
 import delta.games.lotro.common.rewards.filters.TraitRewardFilter;
@@ -50,6 +51,7 @@ public class RewardsFilterController
   private ComboBoxController<VirtueId> _virtue;
   private ComboBoxController<String> _emote;
   private ComboBoxController<Integer> _item;
+  private ComboBoxController<Integer> _relic;
 
   /**
    * Constructor.
@@ -101,6 +103,7 @@ public class RewardsFilterController
     _virtue.selectItem(null);
     _emote.selectItem(null);
     _item.selectItem(null);
+    _relic.selectItem(null);
   }
 
   /**
@@ -144,6 +147,10 @@ public class RewardsFilterController
     ItemRewardFilter itemFilter=_filter.getItemFilter();
     Integer itemId=itemFilter.getItemId();
     _item.selectItem(itemId);
+    // Relic
+    RelicRewardFilter relicFilter=_filter.getRelicFilter();
+    Integer relicId=relicFilter.getRelicId();
+    _relic.selectItem(relicId);
   }
 
   private JPanel buildRewardsPanel()
@@ -192,6 +199,10 @@ public class RewardsFilterController
       line.add(GuiFactory.buildLabel("Item:"));
       _item=buildItemsCombobox();
       line.add(_item.getComboBox());
+      // Relics
+      line.add(GuiFactory.buildLabel("Relic:"));
+      _relic=buildRelicsCombobox();
+      line.add(_relic.getComboBox());
       // LOTRO points
       line.add(GuiFactory.buildLabel("LOTRO points:"));
       _lotroPoints=buildLotroPointsCombobox();
@@ -379,6 +390,23 @@ public class RewardsFilterController
     return combo;
   }
 
+  private ComboBoxController<Integer> buildRelicsCombobox()
+  {
+    ComboBoxController<Integer> combo=_uiUtils.buildRelicsCombo();
+    ItemSelectionListener<Integer> listener=new ItemSelectionListener<Integer>()
+    {
+      @Override
+      public void itemSelected(Integer itemId)
+      {
+        RelicRewardFilter filter=_filter.getRelicFilter();
+        filter.setRelicId(itemId);
+        filterUpdated();
+      }
+    };
+    combo.addListener(listener);
+    return combo;
+  }
+
   /**
    * Release all managed resources.
    */
@@ -437,6 +465,11 @@ public class RewardsFilterController
     {
       _item.dispose();
       _item=null;
+    }
+    if (_relic!=null)
+    {
+      _relic.dispose();
+      _relic=null;
     }
   }
 }
