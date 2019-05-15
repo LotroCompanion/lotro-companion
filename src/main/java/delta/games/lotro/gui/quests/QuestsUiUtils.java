@@ -4,6 +4,7 @@ import java.util.List;
 
 import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.games.lotro.common.Repeatability;
+import delta.games.lotro.common.Size;
 
 /**
  * Utility methods for quest-related UIs.
@@ -41,6 +42,22 @@ public class QuestsUiUtils
     {
       String label=(questArc.length()>0)?questArc:"(none)";
       ctrl.addItem(questArc,label);
+    }
+    ctrl.selectItem(null);
+    return ctrl;
+  }
+
+  /**
+   * Build a combo-box controller to choose a quest size.
+   * @return A new combo-box controller.
+   */
+  public static ComboBoxController<Size> buildQuestSizeCombo()
+  {
+    ComboBoxController<Size> ctrl=new ComboBoxController<Size>();
+    ctrl.addEmptyItem("");
+    for(Size size : Size.values())
+    {
+      ctrl.addItem(size,size.toString());
     }
     ctrl.selectItem(null);
     return ctrl;

@@ -20,6 +20,7 @@ import delta.common.ui.swing.text.DynamicTextEditionController;
 import delta.common.ui.swing.text.TextListener;
 import delta.common.utils.collections.filters.Filter;
 import delta.games.lotro.common.Repeatability;
+import delta.games.lotro.common.Size;
 import delta.games.lotro.common.rewards.RewardsExplorer;
 import delta.games.lotro.gui.common.requirements.RequirementsFilterController;
 import delta.games.lotro.gui.common.rewards.filter.RewardsFilterController;
@@ -32,6 +33,7 @@ import delta.games.lotro.lore.quests.filter.InstancedQuestFilter;
 import delta.games.lotro.lore.quests.filter.QuestArcFilter;
 import delta.games.lotro.lore.quests.filter.QuestCategoryFilter;
 import delta.games.lotro.lore.quests.filter.QuestNameFilter;
+import delta.games.lotro.lore.quests.filter.QuestSizeFilter;
 import delta.games.lotro.lore.quests.filter.RepeatabilityFilter;
 import delta.games.lotro.lore.quests.filter.SessionPlayQuestFilter;
 import delta.games.lotro.lore.quests.filter.ShareableQuestFilter;
@@ -56,6 +58,7 @@ public class QuestFilterController implements ActionListener
   private ComboBoxController<Boolean> _sessionPlay;
   private ComboBoxController<Boolean> _autoBestowed;
   private ComboBoxController<Repeatability> _repeatability;
+  private ComboBoxController<Size> _size;
   // -- Requirements UI --
   private RequirementsFilterController _requirements;
   // -- Rewards UI --
@@ -118,6 +121,7 @@ public class QuestFilterController implements ActionListener
     {
       _category.selectItem(null);
       _questArc.selectItem(null);
+      _size.selectItem(null);
       _instanced.selectItem(null);
       _shareable.selectItem(null);
       _sessionPlay.selectItem(null);
@@ -146,6 +150,10 @@ public class QuestFilterController implements ActionListener
     QuestArcFilter questArcFilter=_filter.getQuestArcFilter();
     String questArc=questArcFilter.getQuestArc();
     _questArc.selectItem(questArc);
+    // Size
+    QuestSizeFilter sizeFilter=_filter.getQuestSizeFilter();
+    Size size=sizeFilter.getQuestSize();
+    _size.selectItem(size);
     // Instanced
     InstancedQuestFilter instancedFilter=_filter.getInstancedQuestFilter();
     Boolean instancedFlag=instancedFilter.getIsInstancedFlag();
@@ -265,18 +273,7 @@ public class QuestFilterController implements ActionListener
     {
       JLabel label=GuiFactory.buildLabel("Quest arc:");
       line2Panel.add(label);
-      _questArc=QuestsUiUtils.buildQuestArcCombo();
-      ItemSelectionListener<String> questArcListener=new ItemSelectionListener<String>()
-      {
-        @Override
-        public void itemSelected(String questArc)
-        {
-          QuestArcFilter questArcFilter=_filter.getQuestArcFilter();
-          questArcFilter.setQuestArc(questArc);
-          filterUpdated();
-        }
-      };
-      _questArc.addListener(questArcListener);
+      _questArc=buildQuestArcCombobox();
       line2Panel.add(_questArc.getComboBox());
     }
     c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,5,0),0,0);
@@ -312,25 +309,69 @@ public class QuestFilterController implements ActionListener
       JPanel line=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
       // Repeatability
       line.add(GuiFactory.buildLabel("Repeatability:"));
-      _repeatability=QuestsUiUtils.buildRepeatabilityCombo();
+      _repeatability=buildRepeatabilityCombobox();
       line.add(_repeatability.getComboBox());
-      ItemSelectionListener<Repeatability> questArcListener=new ItemSelectionListener<Repeatability>()
-      {
-        @Override
-        public void itemSelected(Repeatability repeatability)
-        {
-          RepeatabilityFilter repeatabilityFilter=_filter.getRepeatabilityFilter();
-          repeatabilityFilter.setRepeatability(repeatability);
-          filterUpdated();
-        }
-      };
-      _repeatability.addListener(questArcListener);
+      // Size
+      line.add(GuiFactory.buildLabel("Size:"));
+      _size=buildSizeCombobox();
+      line.add(_size.getComboBox());
 
       c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(5,0,5,0),0,0);
       panel.add(line,c);
       y++;
     }
     return panel;
+  }
+
+  private ComboBoxController<String> buildQuestArcCombobox()
+  {
+    ComboBoxController<String> combo=QuestsUiUtils.buildQuestArcCombo();
+    ItemSelectionListener<String> questArcListener=new ItemSelectionListener<String>()
+    {
+      @Override
+      public void itemSelected(String questArc)
+      {
+        QuestArcFilter questArcFilter=_filter.getQuestArcFilter();
+        questArcFilter.setQuestArc(questArc);
+        filterUpdated();
+      }
+    };
+    combo.addListener(questArcListener);
+    return combo;
+  }
+
+  private ComboBoxController<Size> buildSizeCombobox()
+  {
+    ComboBoxController<Size> combo=QuestsUiUtils.buildQuestSizeCombo();
+    ItemSelectionListener<Size> questSizeListener=new ItemSelectionListener<Size>()
+    {
+      @Override
+      public void itemSelected(Size size)
+      {
+        QuestSizeFilter questSizeFilter=_filter.getQuestSizeFilter();
+        questSizeFilter.setQuestSize(size);
+        filterUpdated();
+      }
+    };
+    combo.addListener(questSizeListener);
+    return combo;
+  }
+
+  private ComboBoxController<Repeatability> buildRepeatabilityCombobox()
+  {
+    ComboBoxController<Repeatability> combo=QuestsUiUtils.buildRepeatabilityCombo();
+    ItemSelectionListener<Repeatability> questArcListener=new ItemSelectionListener<Repeatability>()
+    {
+      @Override
+      public void itemSelected(Repeatability repeatability)
+      {
+        RepeatabilityFilter repeatabilityFilter=_filter.getRepeatabilityFilter();
+        repeatabilityFilter.setRepeatability(repeatability);
+        filterUpdated();
+      }
+    };
+    combo.addListener(questArcListener);
+    return combo;
   }
 
   private ComboBoxController<Boolean> buildInstancedCombobox()
@@ -429,6 +470,11 @@ public class QuestFilterController implements ActionListener
     {
       _questArc.dispose();
       _questArc=null;
+    }
+    if (_size!=null)
+    {
+      _size.dispose();
+      _size=null;
     }
     if (_instanced!=null)
     {
