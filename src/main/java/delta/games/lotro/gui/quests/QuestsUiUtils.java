@@ -5,6 +5,7 @@ import java.util.List;
 import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.games.lotro.common.Repeatability;
 import delta.games.lotro.common.Size;
+import delta.games.lotro.lore.quests.QuestDescription.FACTION;
 
 /**
  * Utility methods for quest-related UIs.
@@ -58,6 +59,22 @@ public class QuestsUiUtils
     for(Size size : Size.values())
     {
       ctrl.addItem(size,size.toString());
+    }
+    ctrl.selectItem(null);
+    return ctrl;
+  }
+
+  /**
+   * Build a combo-box controller to choose a quest faction.
+   * @return A new combo-box controller.
+   */
+  public static ComboBoxController<FACTION> buildQuestFactionCombo()
+  {
+    ComboBoxController<FACTION> ctrl=new ComboBoxController<FACTION>();
+    ctrl.addEmptyItem("");
+    for(FACTION faction : FACTION.values())
+    {
+      ctrl.addItem(faction,faction.toString());
     }
     ctrl.selectItem(null);
     return ctrl;

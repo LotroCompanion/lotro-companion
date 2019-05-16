@@ -27,11 +27,13 @@ import delta.games.lotro.gui.common.rewards.filter.RewardsFilterController;
 import delta.games.lotro.gui.items.FilterUpdateListener;
 import delta.games.lotro.gui.quests.QuestsUiUtils;
 import delta.games.lotro.lore.quests.QuestDescription;
+import delta.games.lotro.lore.quests.QuestDescription.FACTION;
 import delta.games.lotro.lore.quests.QuestsManager;
 import delta.games.lotro.lore.quests.filter.AutoBestowedQuestFilter;
 import delta.games.lotro.lore.quests.filter.InstancedQuestFilter;
 import delta.games.lotro.lore.quests.filter.QuestArcFilter;
 import delta.games.lotro.lore.quests.filter.QuestCategoryFilter;
+import delta.games.lotro.lore.quests.filter.QuestFactionFilter;
 import delta.games.lotro.lore.quests.filter.QuestNameFilter;
 import delta.games.lotro.lore.quests.filter.QuestSizeFilter;
 import delta.games.lotro.lore.quests.filter.RepeatabilityFilter;
@@ -59,6 +61,7 @@ public class QuestFilterController implements ActionListener
   private ComboBoxController<Boolean> _autoBestowed;
   private ComboBoxController<Repeatability> _repeatability;
   private ComboBoxController<Size> _size;
+  private ComboBoxController<FACTION> _faction;
   // -- Requirements UI --
   private RequirementsFilterController _requirements;
   // -- Rewards UI --
@@ -122,6 +125,7 @@ public class QuestFilterController implements ActionListener
       _category.selectItem(null);
       _questArc.selectItem(null);
       _size.selectItem(null);
+      _faction.selectItem(null);
       _instanced.selectItem(null);
       _shareable.selectItem(null);
       _sessionPlay.selectItem(null);
@@ -154,6 +158,10 @@ public class QuestFilterController implements ActionListener
     QuestSizeFilter sizeFilter=_filter.getQuestSizeFilter();
     Size size=sizeFilter.getQuestSize();
     _size.selectItem(size);
+    // Faction
+    QuestFactionFilter factionFilter=_filter.getQuestFactionFilter();
+    FACTION faction=factionFilter.getFaction();
+    _faction.selectItem(faction);
     // Instanced
     InstancedQuestFilter instancedFilter=_filter.getInstancedQuestFilter();
     Boolean instancedFlag=instancedFilter.getIsInstancedFlag();
@@ -315,6 +323,10 @@ public class QuestFilterController implements ActionListener
       line.add(GuiFactory.buildLabel("Size:"));
       _size=buildSizeCombobox();
       line.add(_size.getComboBox());
+      // Faction
+      line.add(GuiFactory.buildLabel("Faction:"));
+      _faction=buildFactionCombobox();
+      line.add(_faction.getComboBox());
 
       c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(5,0,5,0),0,0);
       panel.add(line,c);
@@ -350,6 +362,23 @@ public class QuestFilterController implements ActionListener
       {
         QuestSizeFilter questSizeFilter=_filter.getQuestSizeFilter();
         questSizeFilter.setQuestSize(size);
+        filterUpdated();
+      }
+    };
+    combo.addListener(questSizeListener);
+    return combo;
+  }
+
+  private ComboBoxController<FACTION> buildFactionCombobox()
+  {
+    ComboBoxController<FACTION> combo=QuestsUiUtils.buildQuestFactionCombo();
+    ItemSelectionListener<FACTION> questSizeListener=new ItemSelectionListener<FACTION>()
+    {
+      @Override
+      public void itemSelected(FACTION faction)
+      {
+        QuestFactionFilter questFactionFilter=_filter.getQuestFactionFilter();
+        questFactionFilter.setFaction(faction);
         filterUpdated();
       }
     };
@@ -475,6 +504,11 @@ public class QuestFilterController implements ActionListener
     {
       _size.dispose();
       _size=null;
+    }
+    if (_faction!=null)
+    {
+      _faction.dispose();
+      _faction=null;
     }
     if (_instanced!=null)
     {
