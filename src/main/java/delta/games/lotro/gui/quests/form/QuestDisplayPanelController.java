@@ -18,12 +18,15 @@ import javax.swing.event.HyperlinkListener;
 import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.Race;
+import delta.games.lotro.common.Repeatability;
+import delta.games.lotro.common.Size;
 import delta.games.lotro.common.requirements.UsageRequirement;
 import delta.games.lotro.gui.common.navigator.NavigablePanelController;
 import delta.games.lotro.gui.common.navigator.NavigatorWindowController;
 import delta.games.lotro.gui.common.rewards.form.RewardsPanelController;
 import delta.games.lotro.gui.quests.ObjectivesHtmlBuilder;
 import delta.games.lotro.lore.quests.QuestDescription;
+import delta.games.lotro.lore.quests.QuestDescription.FACTION;
 
 /**
  * Controller for a quest display panel.
@@ -39,6 +42,7 @@ public class QuestDisplayPanelController implements NavigablePanelController
   private JLabel _category;
   private JLabel _name;
   private JLabel _questArc;
+  private JLabel _attributes;
   private JLabel _requirements;
   private JEditorPane _details;
 
@@ -119,6 +123,15 @@ public class QuestDisplayPanelController implements NavigablePanelController
       panelLine.add(GuiFactory.buildLabel("Requirements: "));
       _requirements=GuiFactory.buildLabel("");
       panelLine.add(_requirements);
+    }
+    // Line 5 (attributes)
+    {
+      JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
+      panel.add(panelLine,c);
+      c.gridy++;
+      // Attributes
+      _attributes=GuiFactory.buildLabel("");
+      panelLine.add(_attributes);
     }
 
     // Rewards
@@ -211,6 +224,9 @@ public class QuestDisplayPanelController implements NavigablePanelController
     // Requirements
     String requirements=buildRequirementString();
     _requirements.setText(requirements);
+    // Attributes
+    String attributes=buildAttributesString();
+    _attributes.setText(attributes);
     // Details
     _details.setText(buildHtml());
     _details.setCaretPosition(0);
@@ -257,6 +273,65 @@ public class QuestDisplayPanelController implements NavigablePanelController
     return ret;
   }
 
+  /**
+   * Build an attributes string.
+   * @return A string, empty if no requirement.
+   */
+  private String buildAttributesString()
+  {
+    StringBuilder sb=new StringBuilder();
+    // Size
+    Size size=_quest.getSize();
+    if ((size!=null) && (size!=Size.SOLO))
+    {
+      sb.append(size.toString());
+    }
+    // Faction
+    FACTION faction=_quest.getFaction();
+    if ((faction!=null) && (faction!=FACTION.FREE_PEOPLES))
+    {
+      if (sb.length()>0) sb.append(", ");
+      sb.append(faction.toString());
+    }
+    // Repeatability
+    Repeatability repeatability=_quest.getRepeatability();
+    if ((repeatability!=null) && (repeatability!=Repeatability.NOT_REPEATABLE))
+    {
+      if (sb.length()>0) sb.append(", ");
+      sb.append(repeatability.toString());
+    }
+    // Instanced
+    boolean instanced=_quest.isInstanced();
+    if (instanced)
+    {
+      if (sb.length()>0) sb.append(", ");
+      sb.append("Instanced");
+    }
+    // Shareable
+    boolean shareable=_quest.isShareable();
+    if (!shareable)
+    {
+      if (sb.length()>0) sb.append(", ");
+      sb.append("Not shareable");
+    }
+    // Session play
+    boolean sessionPlay=_quest.isSessionPlay();
+    if (sessionPlay)
+    {
+      if (sb.length()>0) sb.append(", ");
+      sb.append("Session play");
+    }
+    // Auto-bestowed
+    boolean autoBestowed=_quest.isAutoBestowed();
+    if (autoBestowed)
+    {
+      if (sb.length()>0) sb.append(", ");
+      sb.append("Auto-bestowed");
+    }
+    String ret=sb.toString();
+    return ret;
+  }
+
   @Override
   public void dispose()
   {
@@ -278,6 +353,7 @@ public class QuestDisplayPanelController implements NavigablePanelController
     _category=null;
     _questArc=null;
     _requirements=null;
+    _attributes=null;
     if (_panel!=null)
     {
       _panel.removeAll();
