@@ -38,6 +38,7 @@ public class QuestDisplayPanelController implements NavigablePanelController
 
   private JLabel _category;
   private JLabel _name;
+  private JLabel _questArc;
   private JLabel _requirements;
   private JEditorPane _details;
 
@@ -100,6 +101,16 @@ public class QuestDisplayPanelController implements NavigablePanelController
       panelLine.add(_category);
     }
     // Line 3
+    {
+      JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
+      panel.add(panelLine,c);
+      c.gridy++;
+      // Quest arc
+      panelLine.add(GuiFactory.buildLabel("Quest arc: "));
+      _questArc=GuiFactory.buildLabel("");
+      panelLine.add(_questArc);
+    }
+    // Line 4
     {
       JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
       panel.add(panelLine,c);
@@ -194,6 +205,9 @@ public class QuestDisplayPanelController implements NavigablePanelController
     // Category
     String category=_quest.getCategory();
     _category.setText((category!=null)?category:"");
+    // Quest arc
+    String questArc=_quest.getQuestArc();
+    _questArc.setText((questArc!=null)?questArc:"");
     // Requirements
     String requirements=buildRequirementString();
     _requirements.setText(requirements);
@@ -262,6 +276,7 @@ public class QuestDisplayPanelController implements NavigablePanelController
     _parent=null;
     // UI
     _category=null;
+    _questArc=null;
     _requirements=null;
     if (_panel!=null)
     {
