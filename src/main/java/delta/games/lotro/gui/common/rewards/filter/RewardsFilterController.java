@@ -16,12 +16,15 @@ import delta.games.lotro.common.rewards.filters.ClassPointRewardFilter;
 import delta.games.lotro.common.rewards.filters.DestinyPointsRewardFilter;
 import delta.games.lotro.common.rewards.filters.EmoteRewardFilter;
 import delta.games.lotro.common.rewards.filters.ItemRewardFilter;
+import delta.games.lotro.common.rewards.filters.ItemXpRewardFilter;
 import delta.games.lotro.common.rewards.filters.LotroPointsRewardFilter;
+import delta.games.lotro.common.rewards.filters.MountXpRewardFilter;
 import delta.games.lotro.common.rewards.filters.RelicRewardFilter;
 import delta.games.lotro.common.rewards.filters.ReputationRewardFilter;
 import delta.games.lotro.common.rewards.filters.TitleRewardFilter;
 import delta.games.lotro.common.rewards.filters.TraitRewardFilter;
 import delta.games.lotro.common.rewards.filters.VirtueRewardFilter;
+import delta.games.lotro.common.rewards.filters.XpRewardFilter;
 import delta.games.lotro.gui.common.rewards.RewardsUiUtils;
 import delta.games.lotro.gui.items.FilterUpdateListener;
 import delta.games.lotro.gui.utils.SharedUiUtils;
@@ -46,6 +49,9 @@ public class RewardsFilterController
   private ComboBoxController<Boolean> _lotroPoints;
   private ComboBoxController<Boolean> _destinyPoints;
   private ComboBoxController<Boolean> _classPoints;
+  private ComboBoxController<Boolean> _xp;
+  private ComboBoxController<Boolean> _itemXp;
+  private ComboBoxController<Boolean> _mountXp;
   private ComboBoxController<String> _trait;
   private ComboBoxController<String> _title;
   private ComboBoxController<VirtueId> _virtue;
@@ -98,6 +104,9 @@ public class RewardsFilterController
     _lotroPoints.selectItem(null);
     _destinyPoints.selectItem(null);
     _classPoints.selectItem(null);
+    _xp.selectItem(null);
+    _itemXp.selectItem(null);
+    _mountXp.selectItem(null);
     _trait.selectItem(null);
     _title.selectItem(null);
     _virtue.selectItem(null);
@@ -127,6 +136,18 @@ public class RewardsFilterController
     ClassPointRewardFilter classPointFilter=_filter.getClassPointsFilter();
     Boolean classPoint=classPointFilter.getHasClassPointFlag();
     _classPoints.selectItem(classPoint);
+    // XP
+    XpRewardFilter xpFilter=_filter.getXpFilter();
+    Boolean xp=xpFilter.getHasXpFlag();
+    _xp.selectItem(xp);
+    // Item XP
+    ItemXpRewardFilter itemXpFilter=_filter.getItemXpFilter();
+    Boolean itemXp=itemXpFilter.getHasItemXpFlag();
+    _itemXp.selectItem(itemXp);
+    // Mount XP
+    MountXpRewardFilter mountXpFilter=_filter.getMountXpFilter();
+    Boolean mountXp=mountXpFilter.getHasMountXpFlag();
+    _mountXp.selectItem(mountXp);
     // Trait
     TraitRewardFilter traitFilter=_filter.getTraitFilter();
     String trait=traitFilter.getTrait();
@@ -189,20 +210,20 @@ public class RewardsFilterController
       _emote=buildEmotesCombobox();
       linePanel.add(_emote.getComboBox());
       c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(5,0,0,0),0,0);
+      // Items
+      linePanel.add(GuiFactory.buildLabel("Item:"));
+      _item=buildItemsCombobox();
+      linePanel.add(_item.getComboBox());
+      // Relics
+      linePanel.add(GuiFactory.buildLabel("Relic:"));
+      _relic=buildRelicsCombobox();
+      linePanel.add(_relic.getComboBox());
       panel.add(linePanel,c);
       y++;
     }
 
     {
       JPanel line=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
-      // Items
-      line.add(GuiFactory.buildLabel("Item:"));
-      _item=buildItemsCombobox();
-      line.add(_item.getComboBox());
-      // Relics
-      line.add(GuiFactory.buildLabel("Relic:"));
-      _relic=buildRelicsCombobox();
-      line.add(_relic.getComboBox());
       // LOTRO points
       line.add(GuiFactory.buildLabel("LOTRO points:"));
       _lotroPoints=buildLotroPointsCombobox();
@@ -215,11 +236,23 @@ public class RewardsFilterController
       line.add(GuiFactory.buildLabel("Class point:"));
       _classPoints=buildClassPointsCombobox();
       line.add(_classPoints.getComboBox());
+      // XP
+      line.add(GuiFactory.buildLabel("XP:"));
+      _xp=buildXpCombobox();
+      line.add(_xp.getComboBox());
+      // Item XP
+      line.add(GuiFactory.buildLabel("Item XP:"));
+      _itemXp=buildItemXpCombobox();
+      line.add(_itemXp.getComboBox());
+      // Mount XP
+      line.add(GuiFactory.buildLabel("Mount XP:"));
+      _mountXp=buildMountXpCombobox();
+      line.add(_mountXp.getComboBox());
+
       c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(5,0,5,0),0,0);
       panel.add(line,c);
       y++;
     }
-
     return panel;
   }
 
@@ -267,6 +300,57 @@ public class RewardsFilterController
       {
         ClassPointRewardFilter filter=_filter.getClassPointsFilter();
         filter.setHasClassPointFlag(value);
+        filterUpdated();
+      }
+    };
+    combo.addListener(listener);
+    return combo;
+  }
+
+  private ComboBoxController<Boolean> buildXpCombobox()
+  {
+    ComboBoxController<Boolean> combo=build3StatesBooleanCombobox();
+    ItemSelectionListener<Boolean> listener=new ItemSelectionListener<Boolean>()
+    {
+      @Override
+      public void itemSelected(Boolean value)
+      {
+        XpRewardFilter filter=_filter.getXpFilter();
+        filter.setHasXpFlag(value);
+        filterUpdated();
+      }
+    };
+    combo.addListener(listener);
+    return combo;
+  }
+
+  private ComboBoxController<Boolean> buildItemXpCombobox()
+  {
+    ComboBoxController<Boolean> combo=build3StatesBooleanCombobox();
+    ItemSelectionListener<Boolean> listener=new ItemSelectionListener<Boolean>()
+    {
+      @Override
+      public void itemSelected(Boolean value)
+      {
+        ItemXpRewardFilter filter=_filter.getItemXpFilter();
+        filter.setHasItemXpFlag(value);
+        filterUpdated();
+      }
+    };
+    combo.addListener(listener);
+    return combo;
+  }
+
+  private ComboBoxController<Boolean> buildMountXpCombobox()
+  {
+    ComboBoxController<Boolean> combo=build3StatesBooleanCombobox();
+    ItemSelectionListener<Boolean> listener=new ItemSelectionListener<Boolean>()
+    {
+      @Override
+      public void itemSelected(Boolean value)
+      {
+        MountXpRewardFilter filter=_filter.getMountXpFilter();
+        filter.setHasMountXpFlag(value);
         filterUpdated();
       }
     };
@@ -440,6 +524,21 @@ public class RewardsFilterController
     {
       _classPoints.dispose();
       _classPoints=null;
+    }
+    if (_xp!=null)
+    {
+      _xp.dispose();
+      _xp=null;
+    }
+    if (_itemXp!=null)
+    {
+      _itemXp.dispose();
+      _itemXp=null;
+    }
+    if (_mountXp!=null)
+    {
+      _mountXp.dispose();
+      _mountXp=null;
     }
     if (_trait!=null)
     {

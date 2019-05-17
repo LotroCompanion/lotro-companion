@@ -11,12 +11,15 @@ import delta.games.lotro.common.rewards.filters.ClassPointRewardFilter;
 import delta.games.lotro.common.rewards.filters.DestinyPointsRewardFilter;
 import delta.games.lotro.common.rewards.filters.EmoteRewardFilter;
 import delta.games.lotro.common.rewards.filters.ItemRewardFilter;
+import delta.games.lotro.common.rewards.filters.ItemXpRewardFilter;
 import delta.games.lotro.common.rewards.filters.LotroPointsRewardFilter;
+import delta.games.lotro.common.rewards.filters.MountXpRewardFilter;
 import delta.games.lotro.common.rewards.filters.RelicRewardFilter;
 import delta.games.lotro.common.rewards.filters.ReputationRewardFilter;
 import delta.games.lotro.common.rewards.filters.TitleRewardFilter;
 import delta.games.lotro.common.rewards.filters.TraitRewardFilter;
 import delta.games.lotro.common.rewards.filters.VirtueRewardFilter;
+import delta.games.lotro.common.rewards.filters.XpRewardFilter;
 
 /**
  * Filter on rewards.
@@ -30,6 +33,9 @@ public class RewardsFilter implements Filter<Rewards>
   private LotroPointsRewardFilter _lotroPointsFilter;
   private DestinyPointsRewardFilter _destinyPointsFilter;
   private ClassPointRewardFilter _classPointsFilter;
+  private XpRewardFilter _xpFilter;
+  private ItemXpRewardFilter _itemXpFilter;
+  private MountXpRewardFilter _mountXpFilter;
   private TraitRewardFilter _traitFilter;
   private TitleRewardFilter _titleFilter;
   private VirtueRewardFilter _virtueFilter;
@@ -55,6 +61,15 @@ public class RewardsFilter implements Filter<Rewards>
     // - class points
     _classPointsFilter=new ClassPointRewardFilter(null);
     filters.add(_classPointsFilter);
+    // - XP
+    _xpFilter=new XpRewardFilter(null);
+    filters.add(_xpFilter);
+    // - item XP
+    _itemXpFilter=new ItemXpRewardFilter(null);
+    filters.add(_itemXpFilter);
+    // - mount XP
+    _mountXpFilter=new MountXpRewardFilter(null);
+    filters.add(_mountXpFilter);
     // - trait
     _traitFilter=new TraitRewardFilter(null);
     filters.add(_traitFilter);
@@ -110,6 +125,33 @@ public class RewardsFilter implements Filter<Rewards>
   public ClassPointRewardFilter getClassPointsFilter()
   {
     return _classPointsFilter;
+  }
+
+  /**
+   * Get the filter on XP reward.
+   * @return a filter.
+   */
+  public XpRewardFilter getXpFilter()
+  {
+    return _xpFilter;
+  }
+
+  /**
+   * Get the filter on item XP reward.
+   * @return a filter.
+   */
+  public ItemXpRewardFilter getItemXpFilter()
+  {
+    return _itemXpFilter;
+  }
+
+  /**
+   * Get the filter on mount XP reward.
+   * @return a filter.
+   */
+  public MountXpRewardFilter getMountXpFilter()
+  {
+    return _mountXpFilter;
   }
 
   /**
