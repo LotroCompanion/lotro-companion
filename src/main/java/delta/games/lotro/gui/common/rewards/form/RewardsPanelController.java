@@ -43,7 +43,6 @@ public class RewardsPanelController
   private JPanel _panel;
   private ClassPointRewardGadgetsController _classPoint;
   private LotroPointsRewardGadgetsController _lotroPoints;
-  private DestinyPointsRewardGadgetsController _destinyPoints;
   private List<ItemRewardGadgetsController> _itemRewards;
   private List<TitleRewardGadgetsController> _titleRewards;
   private List<VirtueRewardGadgetsController> _virtueRewards;
@@ -74,12 +73,6 @@ public class RewardsPanelController
     if (lotroPoints>0)
     {
       _lotroPoints=new LotroPointsRewardGadgetsController(lotroPoints);
-    }
-    // Destiny Points
-    int destinyPoints=rewards.getDestinyPoints();
-    if (destinyPoints>0)
-    {
-      _destinyPoints=new DestinyPointsRewardGadgetsController(destinyPoints);
     }
     // Reward elements
     _itemRewards=new ArrayList<ItemRewardGadgetsController>();
@@ -192,11 +185,6 @@ public class RewardsPanelController
     {
       addRewardGadgets(ret,_lotroPoints.getLabelIcon(),_lotroPoints.getLabel(),c);
     }
-    // Destiny Points
-    if (_destinyPoints!=null)
-    {
-      addRewardGadgets(ret,_destinyPoints.getLabelIcon(),_destinyPoints.getLabel(),c);
-    }
     // Items
     for(ItemRewardGadgetsController reward : _itemRewards)
     {
@@ -284,7 +272,6 @@ public class RewardsPanelController
     // Controllers
     _classPoint=null;
     _lotroPoints=null;
-    _destinyPoints=null;
     _itemRewards=null;
     _titleRewards=null;
     _virtueRewards=null;
