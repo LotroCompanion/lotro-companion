@@ -17,6 +17,7 @@ import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.games.lotro.common.ChallengeLevel;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.common.navigator.NavigablePanelController;
 import delta.games.lotro.gui.common.navigator.NavigatorWindowController;
@@ -41,6 +42,7 @@ public class DeedDisplayPanelController implements NavigablePanelController
   private JLabel _type;
   private JLabel _category;
   private JLabel _name;
+  private JLabel _challengeLevel;
   private JLabel _requirements;
   private JEditorPane _details;
 
@@ -94,7 +96,6 @@ public class DeedDisplayPanelController implements NavigablePanelController
       _name.setFont(_name.getFont().deriveFont(16f).deriveFont(Font.BOLD));
       panelLine.add(_name);
     }
-
     // Line 2
     {
       JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
@@ -109,7 +110,17 @@ public class DeedDisplayPanelController implements NavigablePanelController
       _type=GuiFactory.buildLabel("");
       panelLine.add(_type);
     }
-    // Line 3
+    // Line 3 (challenge level)
+    {
+      JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
+      panel.add(panelLine,c);
+      c.gridy++;
+      // Challenge level
+      panelLine.add(GuiFactory.buildLabel("Level: "));
+      _challengeLevel=GuiFactory.buildLabel("");
+      panelLine.add(_challengeLevel);
+    }
+    // Line 4
     {
       JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
       panel.add(panelLine,c);
@@ -210,6 +221,9 @@ public class DeedDisplayPanelController implements NavigablePanelController
     // Category
     String category=_deed.getCategory();
     _category.setText((category!=null)?category:"");
+    // Challenge level
+    ChallengeLevel challengeLevel=_deed.getChallengeLevel();
+    _challengeLevel.setText(challengeLevel.getLabel());
     // Requirements
     String requirements=RequirementsUtils.buildRequirementString(_deed.getUsageRequirement());
     _requirements.setText(requirements);
@@ -238,6 +252,7 @@ public class DeedDisplayPanelController implements NavigablePanelController
     // UI
     _type=null;
     _category=null;
+    _challengeLevel=null;
     _requirements=null;
     if (_panel!=null)
     {

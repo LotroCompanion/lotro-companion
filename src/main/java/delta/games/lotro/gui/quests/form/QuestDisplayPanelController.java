@@ -16,6 +16,7 @@ import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.games.lotro.common.ChallengeLevel;
 import delta.games.lotro.common.Repeatability;
 import delta.games.lotro.common.Size;
 import delta.games.lotro.gui.common.navigator.NavigablePanelController;
@@ -41,6 +42,7 @@ public class QuestDisplayPanelController implements NavigablePanelController
   private JLabel _name;
   private JLabel _questArc;
   private JLabel _attributes;
+  private JLabel _challengeLevel;
   private JLabel _requirements;
   private JEditorPane _details;
 
@@ -112,7 +114,17 @@ public class QuestDisplayPanelController implements NavigablePanelController
       _questArc=GuiFactory.buildLabel("");
       panelLine.add(_questArc);
     }
-    // Line 4
+    // Line 4 (challenge level)
+    {
+      JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
+      panel.add(panelLine,c);
+      c.gridy++;
+      // Challenge level
+      panelLine.add(GuiFactory.buildLabel("Level: "));
+      _challengeLevel=GuiFactory.buildLabel("");
+      panelLine.add(_challengeLevel);
+    }
+    // Line 5
     {
       JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
       panel.add(panelLine,c);
@@ -122,7 +134,7 @@ public class QuestDisplayPanelController implements NavigablePanelController
       _requirements=GuiFactory.buildLabel("");
       panelLine.add(_requirements);
     }
-    // Line 5 (attributes)
+    // Line 6 (attributes)
     {
       JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
       panel.add(panelLine,c);
@@ -219,6 +231,9 @@ public class QuestDisplayPanelController implements NavigablePanelController
     // Quest arc
     String questArc=_quest.getQuestArc();
     _questArc.setText((questArc!=null)?questArc:"");
+    // Challenge level
+    ChallengeLevel challengeLevel=_quest.getChallengeLevel();
+    _challengeLevel.setText(challengeLevel.getLabel());
     // Requirements
     String requirements=RequirementsUtils.buildRequirementString(_quest.getUsageRequirement());
     _requirements.setText(requirements);
@@ -309,6 +324,7 @@ public class QuestDisplayPanelController implements NavigablePanelController
     // UI
     _category=null;
     _questArc=null;
+    _challengeLevel=null;
     _requirements=null;
     _attributes=null;
     if (_panel!=null)
