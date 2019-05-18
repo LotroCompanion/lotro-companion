@@ -8,7 +8,6 @@ import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.collections.filters.Operator;
 import delta.games.lotro.common.rewards.Rewards;
 import delta.games.lotro.common.rewards.filters.ClassPointRewardFilter;
-import delta.games.lotro.common.rewards.filters.DestinyPointsRewardFilter;
 import delta.games.lotro.common.rewards.filters.EmoteRewardFilter;
 import delta.games.lotro.common.rewards.filters.ItemRewardFilter;
 import delta.games.lotro.common.rewards.filters.ItemXpRewardFilter;
@@ -31,7 +30,6 @@ public class RewardsFilter implements Filter<Rewards>
 
   private ReputationRewardFilter _reputationFilter;
   private LotroPointsRewardFilter _lotroPointsFilter;
-  private DestinyPointsRewardFilter _destinyPointsFilter;
   private ClassPointRewardFilter _classPointsFilter;
   private XpRewardFilter _xpFilter;
   private ItemXpRewardFilter _itemXpFilter;
@@ -55,9 +53,6 @@ public class RewardsFilter implements Filter<Rewards>
     // - LOTRO points
     _lotroPointsFilter=new LotroPointsRewardFilter(null);
     filters.add(_lotroPointsFilter);
-    // - destiny points
-    _destinyPointsFilter=new DestinyPointsRewardFilter(null);
-    filters.add(_destinyPointsFilter);
     // - class points
     _classPointsFilter=new ClassPointRewardFilter(null);
     filters.add(_classPointsFilter);
@@ -107,15 +102,6 @@ public class RewardsFilter implements Filter<Rewards>
   public LotroPointsRewardFilter getLotroPointsFilter()
   {
     return _lotroPointsFilter;
-  }
-
-  /**
-   * Get the filter on destiny points reward.
-   * @return a filter.
-   */
-  public DestinyPointsRewardFilter getDestinyPointsFilter()
-  {
-    return _destinyPointsFilter;
   }
 
   /**

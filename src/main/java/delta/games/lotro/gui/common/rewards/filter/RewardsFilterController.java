@@ -13,7 +13,6 @@ import delta.common.ui.swing.combobox.ItemSelectionListener;
 import delta.games.lotro.common.VirtueId;
 import delta.games.lotro.common.rewards.RewardsExplorer;
 import delta.games.lotro.common.rewards.filters.ClassPointRewardFilter;
-import delta.games.lotro.common.rewards.filters.DestinyPointsRewardFilter;
 import delta.games.lotro.common.rewards.filters.EmoteRewardFilter;
 import delta.games.lotro.common.rewards.filters.ItemRewardFilter;
 import delta.games.lotro.common.rewards.filters.ItemXpRewardFilter;
@@ -47,7 +46,6 @@ public class RewardsFilterController
   // Controllers
   private ComboBoxController<Faction> _reputation;
   private ComboBoxController<Boolean> _lotroPoints;
-  private ComboBoxController<Boolean> _destinyPoints;
   private ComboBoxController<Boolean> _classPoints;
   private ComboBoxController<Boolean> _xp;
   private ComboBoxController<Boolean> _itemXp;
@@ -102,7 +100,6 @@ public class RewardsFilterController
   {
     _reputation.selectItem(null);
     _lotroPoints.selectItem(null);
-    _destinyPoints.selectItem(null);
     _classPoints.selectItem(null);
     _xp.selectItem(null);
     _itemXp.selectItem(null);
@@ -128,10 +125,6 @@ public class RewardsFilterController
     LotroPointsRewardFilter lotroPointsFilter=_filter.getLotroPointsFilter();
     Boolean lotroPoints=lotroPointsFilter.getHasLotroPointsFlag();
     _lotroPoints.selectItem(lotroPoints);
-    // Destiny points
-    DestinyPointsRewardFilter destinyPointsFilter=_filter.getDestinyPointsFilter();
-    Boolean destinyPoints=destinyPointsFilter.getHasDestinyPointsFlag();
-    _destinyPoints.selectItem(destinyPoints);
     // Class point
     ClassPointRewardFilter classPointFilter=_filter.getClassPointsFilter();
     Boolean classPoint=classPointFilter.getHasClassPointFlag();
@@ -228,10 +221,6 @@ public class RewardsFilterController
       line.add(GuiFactory.buildLabel("LOTRO points:"));
       _lotroPoints=buildLotroPointsCombobox();
       line.add(_lotroPoints.getComboBox());
-      // Destiny points
-      line.add(GuiFactory.buildLabel("Destiny points:"));
-      _destinyPoints=buildDestinyPointsCombobox();
-      line.add(_destinyPoints.getComboBox());
       // Class point
       line.add(GuiFactory.buildLabel("Class point:"));
       _classPoints=buildClassPointsCombobox();
@@ -265,23 +254,6 @@ public class RewardsFilterController
       public void itemSelected(Boolean value)
       {
         LotroPointsRewardFilter filter=_filter.getLotroPointsFilter();
-        filter.setHasLotroPointsFlag(value);
-        filterUpdated();
-      }
-    };
-    combo.addListener(listener);
-    return combo;
-  }
-
-  private ComboBoxController<Boolean> buildDestinyPointsCombobox()
-  {
-    ComboBoxController<Boolean> combo=build3StatesBooleanCombobox();
-    ItemSelectionListener<Boolean> listener=new ItemSelectionListener<Boolean>()
-    {
-      @Override
-      public void itemSelected(Boolean value)
-      {
-        DestinyPointsRewardFilter filter=_filter.getDestinyPointsFilter();
         filter.setHasLotroPointsFlag(value);
         filterUpdated();
       }
@@ -514,11 +486,6 @@ public class RewardsFilterController
     {
       _lotroPoints.dispose();
       _lotroPoints=null;
-    }
-    if (_destinyPoints!=null)
-    {
-      _destinyPoints.dispose();
-      _destinyPoints=null;
     }
     if (_classPoints!=null)
     {
