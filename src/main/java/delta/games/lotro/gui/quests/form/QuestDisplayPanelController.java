@@ -16,13 +16,11 @@ import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 
 import delta.common.ui.swing.GuiFactory;
-import delta.games.lotro.common.CharacterClass;
-import delta.games.lotro.common.Race;
 import delta.games.lotro.common.Repeatability;
 import delta.games.lotro.common.Size;
-import delta.games.lotro.common.requirements.UsageRequirement;
 import delta.games.lotro.gui.common.navigator.NavigablePanelController;
 import delta.games.lotro.gui.common.navigator.NavigatorWindowController;
+import delta.games.lotro.gui.common.requirements.RequirementsUtils;
 import delta.games.lotro.gui.common.rewards.form.RewardsPanelController;
 import delta.games.lotro.gui.quests.ObjectivesHtmlBuilder;
 import delta.games.lotro.lore.quests.QuestDescription;
@@ -222,7 +220,7 @@ public class QuestDisplayPanelController implements NavigablePanelController
     String questArc=_quest.getQuestArc();
     _questArc.setText((questArc!=null)?questArc:"");
     // Requirements
-    String requirements=buildRequirementString();
+    String requirements=RequirementsUtils.buildRequirementString(_quest.getUsageRequirement());
     _requirements.setText(requirements);
     // Attributes
     String attributes=buildAttributesString();
@@ -230,47 +228,6 @@ public class QuestDisplayPanelController implements NavigablePanelController
     // Details
     _details.setText(buildHtml());
     _details.setCaretPosition(0);
-  }
-
-  /**
-   * Build a requirement string.
-   * @return A string, empty if no requirement.
-   */
-  private String buildRequirementString()
-  {
-    UsageRequirement requirements=_quest.getUsageRequirement();
-    CharacterClass requiredClass=requirements.getRequiredClass();
-    Race requiredRace=requirements.getRequiredRace();
-    Integer minLevel=requirements.getMinLevel();
-    StringBuilder sb=new StringBuilder();
-    if (requiredClass!=null)
-    {
-      if (sb.length()>0) sb.append(", ");
-      sb.append(requiredClass.getLabel());
-    }
-    if (requiredRace!=null)
-    {
-      if (sb.length()>0) sb.append(", ");
-      sb.append(requiredRace.getLabel());
-    }
-    if (minLevel!=null)
-    {
-      if (sb.length()>0) sb.append(", ");
-      if (minLevel.intValue()==1000)
-      {
-        sb.append("level cap");
-      }
-      else
-      {
-        sb.append("level>=").append(minLevel);
-      }
-    }
-    String ret=sb.toString();
-    if (ret.isEmpty())
-    {
-      ret="-";
-    }
-    return ret;
   }
 
   /**
