@@ -11,10 +11,6 @@ public enum RewardsColumnIds
    */
   LOTRO_POINTS,
   /**
-   * Destiny points.
-   */
-  DESTINY_POINTS,
-  /**
    * Class point.
    */
   CLASS_POINT,

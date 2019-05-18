@@ -39,21 +39,6 @@ public class RewardsColumnsBuilder
       lpColumn.setWidthSpecs(40,40,40);
       ret.add(lpColumn);
     }
-    // Destiny points column
-    {
-      CellDataProvider<Rewards,Integer> dpCell=new CellDataProvider<Rewards,Integer>()
-      {
-        @Override
-        public Integer getData(Rewards rewards)
-        {
-          int destinyPoints=rewards.getDestinyPoints();
-          return (destinyPoints>0)?Integer.valueOf(destinyPoints):null;
-        }
-      };
-      DefaultTableColumnController<Rewards,Integer> dpColumn=new DefaultTableColumnController<Rewards,Integer>(RewardsColumnIds.DESTINY_POINTS.name(),"Destiny Points",Integer.class,dpCell);
-      dpColumn.setWidthSpecs(40,40,40);
-      ret.add(dpColumn);
-    }
     // Class point column
     {
       CellDataProvider<Rewards,Boolean> cpCell=new CellDataProvider<Rewards,Boolean>()
