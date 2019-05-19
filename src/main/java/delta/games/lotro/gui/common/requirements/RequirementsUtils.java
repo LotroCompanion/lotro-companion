@@ -1,7 +1,11 @@
 package delta.games.lotro.gui.common.requirements;
 
+import java.util.List;
+
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.Race;
+import delta.games.lotro.common.requirements.ClassRequirement;
+import delta.games.lotro.common.requirements.RaceRequirement;
 import delta.games.lotro.common.requirements.UsageRequirement;
 
 /**
@@ -16,24 +20,39 @@ public class RequirementsUtils
    */
   public static String buildRequirementString(UsageRequirement requirements)
   {
-    CharacterClass requiredClass=requirements.getRequiredClass();
-    Race requiredRace=requirements.getRequiredRace();
-    Integer minLevel=requirements.getMinLevel();
-    Integer maxLevel=requirements.getMaxLevel();
     StringBuilder sb=new StringBuilder();
     // Class
-    if (requiredClass!=null)
+    ClassRequirement classRequirements=requirements.getClassRequirement();
+    if (classRequirements!=null)
     {
       if (sb.length()>0) sb.append(", ");
-      sb.append(requiredClass.getLabel());
+      List<CharacterClass> characterClasses=classRequirements.getAllowedClasses();
+      for(int i=0;i<characterClasses.size();i++)
+      {
+        if (i>0)
+        {
+          sb.append('/');
+        }
+        sb.append(characterClasses.get(i).getLabel());
+      }
     }
     // Race
-    if (requiredRace!=null)
+    RaceRequirement raceRequirements=requirements.getRaceRequirement();
+    if (raceRequirements!=null)
     {
       if (sb.length()>0) sb.append(", ");
-      sb.append(requiredRace.getLabel());
+      List<Race> races=raceRequirements.getAllowedRaces();
+      for(int i=0;i<races.size();i++)
+      {
+        if (i>0)
+        {
+          sb.append('/');
+        }
+        sb.append(races.get(i).getLabel());
+      }
     }
     // Minimum level
+    Integer minLevel=requirements.getMinLevel();
     if (minLevel!=null)
     {
       if (sb.length()>0) sb.append(", ");
@@ -47,6 +66,7 @@ public class RequirementsUtils
       }
     }
     // Maximum level
+    Integer maxLevel=requirements.getMaxLevel();
     if (maxLevel!=null)
     {
       if (sb.length()>0) sb.append(", ");
