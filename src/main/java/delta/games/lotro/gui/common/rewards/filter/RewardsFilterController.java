@@ -14,6 +14,7 @@ import delta.games.lotro.common.VirtueId;
 import delta.games.lotro.common.rewards.RewardsExplorer;
 import delta.games.lotro.common.rewards.filters.ClassPointRewardFilter;
 import delta.games.lotro.common.rewards.filters.EmoteRewardFilter;
+import delta.games.lotro.common.rewards.filters.GloryRewardFilter;
 import delta.games.lotro.common.rewards.filters.ItemRewardFilter;
 import delta.games.lotro.common.rewards.filters.ItemXpRewardFilter;
 import delta.games.lotro.common.rewards.filters.LotroPointsRewardFilter;
@@ -48,6 +49,7 @@ public class RewardsFilterController
   private ComboBoxController<Boolean> _lotroPoints;
   private ComboBoxController<Boolean> _classPoints;
   private ComboBoxController<Boolean> _xp;
+  private ComboBoxController<Boolean> _glory;
   private ComboBoxController<Boolean> _itemXp;
   private ComboBoxController<Boolean> _mountXp;
   private ComboBoxController<String> _trait;
@@ -104,6 +106,7 @@ public class RewardsFilterController
     _xp.selectItem(null);
     _itemXp.selectItem(null);
     _mountXp.selectItem(null);
+    _glory.selectItem(null);
     _trait.selectItem(null);
     _title.selectItem(null);
     _virtue.selectItem(null);
@@ -141,6 +144,10 @@ public class RewardsFilterController
     MountXpRewardFilter mountXpFilter=_filter.getMountXpFilter();
     Boolean mountXp=mountXpFilter.getHasMountXpFlag();
     _mountXp.selectItem(mountXp);
+    // Glory
+    GloryRewardFilter gloryFilter=_filter.getGloryFilter();
+    Boolean glory=gloryFilter.getHasGloryFlag();
+    _glory.selectItem(glory);
     // Trait
     TraitRewardFilter traitFilter=_filter.getTraitFilter();
     String trait=traitFilter.getTrait();
@@ -237,6 +244,10 @@ public class RewardsFilterController
       line.add(GuiFactory.buildLabel("Mount XP:"));
       _mountXp=buildMountXpCombobox();
       line.add(_mountXp.getComboBox());
+      // Glory
+      line.add(GuiFactory.buildLabel("Renown/infamy:"));
+      _glory=buildGloryCombobox();
+      line.add(_glory.getComboBox());
 
       c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(5,0,5,0),0,0);
       panel.add(line,c);
@@ -323,6 +334,23 @@ public class RewardsFilterController
       {
         MountXpRewardFilter filter=_filter.getMountXpFilter();
         filter.setHasMountXpFlag(value);
+        filterUpdated();
+      }
+    };
+    combo.addListener(listener);
+    return combo;
+  }
+
+  private ComboBoxController<Boolean> buildGloryCombobox()
+  {
+    ComboBoxController<Boolean> combo=build3StatesBooleanCombobox();
+    ItemSelectionListener<Boolean> listener=new ItemSelectionListener<Boolean>()
+    {
+      @Override
+      public void itemSelected(Boolean value)
+      {
+        GloryRewardFilter filter=_filter.getGloryFilter();
+        filter.setHasGloryFlag(value);
         filterUpdated();
       }
     };
@@ -506,6 +534,11 @@ public class RewardsFilterController
     {
       _mountXp.dispose();
       _mountXp=null;
+    }
+    if (_glory!=null)
+    {
+      _glory.dispose();
+      _glory=null;
     }
     if (_trait!=null)
     {

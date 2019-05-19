@@ -9,6 +9,7 @@ import delta.common.utils.collections.filters.Operator;
 import delta.games.lotro.common.rewards.Rewards;
 import delta.games.lotro.common.rewards.filters.ClassPointRewardFilter;
 import delta.games.lotro.common.rewards.filters.EmoteRewardFilter;
+import delta.games.lotro.common.rewards.filters.GloryRewardFilter;
 import delta.games.lotro.common.rewards.filters.ItemRewardFilter;
 import delta.games.lotro.common.rewards.filters.ItemXpRewardFilter;
 import delta.games.lotro.common.rewards.filters.LotroPointsRewardFilter;
@@ -34,6 +35,7 @@ public class RewardsFilter implements Filter<Rewards>
   private XpRewardFilter _xpFilter;
   private ItemXpRewardFilter _itemXpFilter;
   private MountXpRewardFilter _mountXpFilter;
+  private GloryRewardFilter _gloryFilter;
   private TraitRewardFilter _traitFilter;
   private TitleRewardFilter _titleFilter;
   private VirtueRewardFilter _virtueFilter;
@@ -65,6 +67,9 @@ public class RewardsFilter implements Filter<Rewards>
     // - mount XP
     _mountXpFilter=new MountXpRewardFilter(null);
     filters.add(_mountXpFilter);
+    // - glory
+    _gloryFilter=new GloryRewardFilter(null);
+    filters.add(_gloryFilter);
     // - trait
     _traitFilter=new TraitRewardFilter(null);
     filters.add(_traitFilter);
@@ -138,6 +143,15 @@ public class RewardsFilter implements Filter<Rewards>
   public MountXpRewardFilter getMountXpFilter()
   {
     return _mountXpFilter;
+  }
+
+  /**
+   * Get the filter on glory reward.
+   * @return a filter.
+   */
+  public GloryRewardFilter getGloryFilter()
+  {
+    return _gloryFilter;
   }
 
   /**
