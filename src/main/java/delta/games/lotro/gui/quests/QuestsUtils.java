@@ -23,45 +23,12 @@ public class QuestsUtils
    */
   public static List<String> getCategories()
   {
-    return getCategories(false);
-  }
-
-  /**
-   * Load available categories from the quests manager.
-   * @param strict Do not include parent categories.
-   * @return A sorted list of quest categories.
-   */
-  public static List<String> getCategories(boolean strict)
-  {
     Set<String> categories=new HashSet<String>(); 
     List<QuestDescription> quests=QuestsManager.getInstance().getAll();
     for(QuestDescription quest : quests)
     {
       String questCategory=quest.getCategory();
-      if (!strict)
-      {
-        if (!categories.contains(questCategory))
-        {
-          categories.add(questCategory);
-          if (questCategory!=null)
-          {
-            while(true)
-            {
-              int index=questCategory.lastIndexOf(':');
-              if (index==-1)
-              {
-                break;
-              }
-              questCategory=questCategory.substring(0,index);
-              categories.add(questCategory);
-            }
-          }
-        }
-      }
-      else
-      {
-        categories.add(questCategory);
-      }
+      categories.add(questCategory);
     }
     List<String> ret=new ArrayList<String>(categories);
     ret.remove(null);
