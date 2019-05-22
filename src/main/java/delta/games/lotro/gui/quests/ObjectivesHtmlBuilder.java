@@ -3,14 +3,15 @@ package delta.games.lotro.gui.quests;
 import java.util.List;
 
 import delta.games.lotro.gui.common.navigator.ReferenceConstants;
-import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.quests.Achievable;
 import delta.games.lotro.lore.quests.QuestDescription;
 import delta.games.lotro.lore.quests.objectives.DefaultObjectiveCondition;
+import delta.games.lotro.lore.quests.objectives.MonsterDiedCondition;
 import delta.games.lotro.lore.quests.objectives.Objective;
 import delta.games.lotro.lore.quests.objectives.ObjectiveCondition;
 import delta.games.lotro.lore.quests.objectives.ObjectivesManager;
 import delta.games.lotro.lore.quests.objectives.QuestCompleteCondition;
+import delta.games.lotro.lore.quests.objectives.MonsterDiedCondition.MobSelection;
 import delta.games.lotro.utils.Proxy;
 
 /**
@@ -52,6 +53,11 @@ public class ObjectivesHtmlBuilder
       QuestCompleteCondition questComplete=(QuestCompleteCondition)condition;
       handleQuestCompleteCondition(sb,questComplete);
     }
+    else if (condition instanceof MonsterDiedCondition)
+    {
+      MonsterDiedCondition monsterDied=(MonsterDiedCondition)condition;
+      handleMonsterDiedCondition(sb,monsterDied);
+    }
     else if (condition instanceof DefaultObjectiveCondition)
     {
       DefaultObjectiveCondition defaultCondition=(DefaultObjectiveCondition)condition;
@@ -61,35 +67,80 @@ public class ObjectivesHtmlBuilder
 
   private static void handleQuestCompleteCondition(StringBuilder sb, QuestCompleteCondition questComplete)
   {
-    //int count=questComplete.getCompletionCount();
-    //String questCategory=questComplete.getQuestCategory();
-    // Deed/quest
+    printSharedAttributes(sb,questComplete);
+    int count=questComplete.getCompletionCount();
+    String questCategory=questComplete.getQuestCategory();
+    sb.append("<p>");
     Proxy<Achievable> proxy=questComplete.getProxy();
     if (proxy!=null)
     {
       Achievable achievable=proxy.getObject();
-      if (achievable instanceof QuestDescription)
+      boolean isQuest=(achievable instanceof QuestDescription);
+      String type=isQuest?"quest":"deed";
+      sb.append("Complete ").append(type).append(" <b>");
+      String text=achievable.getName();
+      String to=ReferenceConstants.getAchievableReference(achievable);
+      printLink(sb,to,text);
+      sb.append("</b>");
+    }
+    else if (questCategory!=null)
+    {
+      sb.append("Complete quests in category ").append(questCategory);
+    }
+    if (count>1)
+    {
+      sb.append(" (x").append(count).append(')');
+    }
+    sb.append("</p>");
+  }
+
+  private static void handleMonsterDiedCondition(StringBuilder sb, MonsterDiedCondition monsterDied)
+  {
+    printSharedAttributes(sb,monsterDied);
+    int count=monsterDied.getCount();
+    String mobName=monsterDied.getMobName();
+    List<MobSelection> mobSelections=monsterDied.getMobSelections();
+    sb.append("<p>");
+    if (mobName!=null)
+    {
+      sb.append("Kill ").append(mobName);
+    }
+    else
+    {
+      if (mobSelections.size()>0)
       {
-        QuestDescription quest=(QuestDescription)achievable;
-        sb.append("<p>Complete quest <b>");
-        String text=quest.getName();
-        String to=ReferenceConstants.getAchievableReference(quest);
-        printLink(sb,to,text);
-        sb.append("</b></p>");
-      }
-      else if (achievable instanceof DeedDescription)
-      {
-        DeedDescription deed=(DeedDescription)achievable;
-        sb.append("<p>Complete deed <b>");
-        String text=deed.getName();
-        String to=ReferenceConstants.getAchievableReference(deed);
-        printLink(sb,to,text);
-        sb.append("</b></p>");
+        sb.append("Kill ");
+        int index=0;
+        for(MobSelection mobSelection : mobSelections)
+        {
+          String what=mobSelection.getWhat();
+          String where=mobSelection.getWhere();
+          if (what==null)
+          {
+            what="Mob";
+          }
+          if (index>0)
+          {
+            sb.append(" or ");
+          }
+          sb.append(what).append(" in ").append(where);
+          index++;
+        }
       }
     }
+    if (count>1)
+    {
+      sb.append(" (x").append(count).append(')');
+    }
+    sb.append("</p>");
   }
 
   private static void handleDefaultCondition(StringBuilder sb, DefaultObjectiveCondition condition)
+  {
+    printSharedAttributes(sb,condition);
+  }
+
+  private static void printSharedAttributes(StringBuilder sb, ObjectiveCondition condition)
   {
     String progressOverride=condition.getProgressOverride();
     if ((progressOverride!=null) && (progressOverride.length()>0))
