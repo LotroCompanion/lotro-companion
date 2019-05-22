@@ -64,13 +64,13 @@ public class MainTestVirtuesStats
         }
       }
     }
-    List<String> toShow=new ArrayList<String>();
-    toShow.add("Valour");
-    toShow.add("Loyalty");
-    toShow.add("Justice");
-    toShow.add("Honour");
-    toShow.add("Innocence");
-    toShow.add("Zeal");
+    List<VirtueId> toShow=new ArrayList<VirtueId>();
+    toShow.add(VirtueId.VALOUR);
+    toShow.add(VirtueId.LOYALTY);
+    toShow.add(VirtueId.JUSTICE);
+    toShow.add(VirtueId.HONOUR);
+    toShow.add(VirtueId.INNOCENCE);
+    toShow.add(VirtueId.ZEAL);
     List<VirtueId> virtueIds=new ArrayList<VirtueId>(virtuesMap.keySet());
     Collections.sort(virtueIds);
     for(VirtueId virtueId : virtueIds)
