@@ -3,9 +3,11 @@ package delta.games.lotro.gui.quests;
 import java.util.List;
 
 import delta.games.lotro.gui.common.navigator.ReferenceConstants;
+import delta.games.lotro.lore.geo.LandmarkDescription;
 import delta.games.lotro.lore.quests.Achievable;
 import delta.games.lotro.lore.quests.QuestDescription;
 import delta.games.lotro.lore.quests.objectives.DefaultObjectiveCondition;
+import delta.games.lotro.lore.quests.objectives.LandmarkDetectionCondition;
 import delta.games.lotro.lore.quests.objectives.MonsterDiedCondition;
 import delta.games.lotro.lore.quests.objectives.Objective;
 import delta.games.lotro.lore.quests.objectives.ObjectiveCondition;
@@ -57,6 +59,11 @@ public class ObjectivesHtmlBuilder
     {
       MonsterDiedCondition monsterDied=(MonsterDiedCondition)condition;
       handleMonsterDiedCondition(sb,monsterDied);
+    }
+    else if (condition instanceof LandmarkDetectionCondition)
+    {
+      LandmarkDetectionCondition landmarkDetection=(LandmarkDetectionCondition)condition;
+      handleLandmarkDetectionCondition(sb,landmarkDetection);
     }
     else if (condition instanceof DefaultObjectiveCondition)
     {
@@ -133,6 +140,19 @@ public class ObjectivesHtmlBuilder
       sb.append(" (x").append(count).append(')');
     }
     sb.append("</p>");
+  }
+
+  private static void handleLandmarkDetectionCondition(StringBuilder sb, LandmarkDetectionCondition condition)
+  {
+    printSharedAttributes(sb,condition);
+    Proxy<LandmarkDescription> landmark=condition.getLandmarkProxy();
+    if (landmark!=null)
+    {
+      sb.append("<p>");
+      String name=landmark.getName();
+      sb.append("Discover ").append(name);
+      sb.append("</p>");
+    }
   }
 
   private static void handleDefaultCondition(StringBuilder sb, DefaultObjectiveCondition condition)
