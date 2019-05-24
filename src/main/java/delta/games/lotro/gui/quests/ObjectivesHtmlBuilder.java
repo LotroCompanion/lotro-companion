@@ -144,15 +144,19 @@ public class ObjectivesHtmlBuilder
 
   private static void handleLandmarkDetectionCondition(StringBuilder sb, LandmarkDetectionCondition condition)
   {
-    printSharedAttributes(sb,condition);
-    Proxy<LandmarkDescription> landmark=condition.getLandmarkProxy();
-    if (landmark!=null)
+    boolean hasProgressOverride=printProgressOverride(sb,condition);
+    if (!hasProgressOverride)
     {
-      sb.append("<p>");
-      String name=landmark.getName();
-      sb.append("Discover ").append(name);
-      sb.append("</p>");
+      Proxy<LandmarkDescription> landmark=condition.getLandmarkProxy();
+      if (landmark!=null)
+      {
+        sb.append("<p>");
+        String name=landmark.getName();
+        sb.append("Find ").append(name);
+        sb.append("</p>");
+      }
     }
+    printLoreInfo(sb,condition);
   }
 
   private static void handleDefaultCondition(StringBuilder sb, DefaultObjectiveCondition condition)
@@ -162,11 +166,23 @@ public class ObjectivesHtmlBuilder
 
   private static void printSharedAttributes(StringBuilder sb, ObjectiveCondition condition)
   {
+    printProgressOverride(sb,condition);
+    printLoreInfo(sb,condition);
+  }
+
+  private static boolean printProgressOverride(StringBuilder sb, ObjectiveCondition condition)
+  {
     String progressOverride=condition.getProgressOverride();
     if ((progressOverride!=null) && (progressOverride.length()>0))
     {
       sb.append("<p>").append(toHtml(progressOverride)).append("</p>");
+      return true;
     }
+    return false;
+  }
+
+  private static void printLoreInfo(StringBuilder sb, ObjectiveCondition condition)
+  {
     String loreInfo=condition.getLoreInfo();
     if ((loreInfo!=null) && (loreInfo.length()>0))
     {
