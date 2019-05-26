@@ -2,18 +2,22 @@ package delta.games.lotro.gui.quests;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import delta.games.lotro.gui.common.navigator.ReferenceConstants;
 import delta.games.lotro.lore.geo.LandmarkDescription;
+import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.quests.Achievable;
 import delta.games.lotro.lore.quests.QuestDescription;
 import delta.games.lotro.lore.quests.objectives.DefaultObjectiveCondition;
+import delta.games.lotro.lore.quests.objectives.InventoryItemCondition;
 import delta.games.lotro.lore.quests.objectives.LandmarkDetectionCondition;
 import delta.games.lotro.lore.quests.objectives.MonsterDiedCondition;
+import delta.games.lotro.lore.quests.objectives.MonsterDiedCondition.MobSelection;
 import delta.games.lotro.lore.quests.objectives.Objective;
 import delta.games.lotro.lore.quests.objectives.ObjectiveCondition;
 import delta.games.lotro.lore.quests.objectives.ObjectivesManager;
 import delta.games.lotro.lore.quests.objectives.QuestCompleteCondition;
-import delta.games.lotro.lore.quests.objectives.MonsterDiedCondition.MobSelection;
 import delta.games.lotro.utils.Proxy;
 
 /**
@@ -22,6 +26,8 @@ import delta.games.lotro.utils.Proxy;
  */
 public class ObjectivesHtmlBuilder
 {
+  private static final Logger LOGGER=Logger.getLogger(ObjectivesHtmlBuilder.class);
+
   /**
    * Print HTML code for the objectives of an achievable.
    * @param sb Output.
@@ -50,6 +56,7 @@ public class ObjectivesHtmlBuilder
 
   private static void handleCondition(StringBuilder sb, ObjectiveCondition condition)
   {
+    //sb.append("<p>").append(condition.getIndex()+": "+condition.getType()).append("</p>");
     if (condition instanceof QuestCompleteCondition)
     {
       QuestCompleteCondition questComplete=(QuestCompleteCondition)condition;
@@ -64,6 +71,11 @@ public class ObjectivesHtmlBuilder
     {
       LandmarkDetectionCondition landmarkDetection=(LandmarkDetectionCondition)condition;
       handleLandmarkDetectionCondition(sb,landmarkDetection);
+    }
+    else if (condition instanceof InventoryItemCondition)
+    {
+      InventoryItemCondition inventoryItem=(InventoryItemCondition)condition;
+      handleInventoryItemCondition(sb,inventoryItem);
     }
     else if (condition instanceof DefaultObjectiveCondition)
     {
@@ -82,13 +94,21 @@ public class ObjectivesHtmlBuilder
     if (proxy!=null)
     {
       Achievable achievable=proxy.getObject();
-      boolean isQuest=(achievable instanceof QuestDescription);
-      String type=isQuest?"quest":"deed";
-      sb.append("Complete ").append(type).append(" <b>");
-      String text=achievable.getName();
-      String to=ReferenceConstants.getAchievableReference(achievable);
-      printLink(sb,to,text);
-      sb.append("</b>");
+      if (achievable!=null)
+      {
+        boolean isQuest=(achievable instanceof QuestDescription);
+        String type=isQuest?"quest":"deed";
+        sb.append("Complete ").append(type).append(" <b>");
+        String text=achievable.getName();
+        String to=ReferenceConstants.getAchievableReference(achievable);
+        printLink(sb,to,text);
+        sb.append("</b>");
+      }
+      else
+      {
+        LOGGER.warn("Could not resolve deed/quest ID="+proxy.getId()+", name="+proxy.getName());
+        sb.append("Complete quest/deed "+proxy.getId());
+      }
     }
     else if (questCategory!=null)
     {
@@ -159,6 +179,23 @@ public class ObjectivesHtmlBuilder
     printLoreInfo(sb,condition);
   }
 
+  private static void handleInventoryItemCondition(StringBuilder sb, InventoryItemCondition condition)
+  {
+    boolean hasProgressOverride=printProgressOverride(sb,condition);
+    if (!hasProgressOverride)
+    {
+      Proxy<Item> itemProxy=condition.getProxy();
+      if (itemProxy!=null)
+      {
+        sb.append("<p>");
+        String name=itemProxy.getName();
+        sb.append("Get ").append(name);
+        sb.append("</p>");
+      }
+    }
+    printLoreInfo(sb,condition);
+  }
+
   private static void handleDefaultCondition(StringBuilder sb, DefaultObjectiveCondition condition)
   {
     printSharedAttributes(sb,condition);
@@ -186,7 +223,7 @@ public class ObjectivesHtmlBuilder
     String loreInfo=condition.getLoreInfo();
     if ((loreInfo!=null) && (loreInfo.length()>0))
     {
-      sb.append("<p><i>").append(toHtml(loreInfo)).append("<i></p>");
+      sb.append("<p><i>").append(toHtml(loreInfo)).append("</i></p>");
     }
   }
 
