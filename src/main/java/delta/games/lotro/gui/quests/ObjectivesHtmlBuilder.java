@@ -28,6 +28,8 @@ public class ObjectivesHtmlBuilder
 {
   private static final Logger LOGGER=Logger.getLogger(ObjectivesHtmlBuilder.class);
 
+  private static final String COUNT_PATTERN="{***}/{***}";
+
   /**
    * Print HTML code for the objectives of an achievable.
    * @param sb Output.
@@ -86,80 +88,88 @@ public class ObjectivesHtmlBuilder
 
   private static void handleQuestCompleteCondition(StringBuilder sb, QuestCompleteCondition questComplete)
   {
-    printSharedAttributes(sb,questComplete);
     int count=questComplete.getCompletionCount();
-    String questCategory=questComplete.getQuestCategory();
-    sb.append("<p>");
-    Proxy<Achievable> proxy=questComplete.getProxy();
-    if (proxy!=null)
+    boolean hasProgressOverride=printProgressOverrideWithCount(sb,questComplete,count);
+    if (!hasProgressOverride)
     {
-      Achievable achievable=proxy.getObject();
-      if (achievable!=null)
+      String questCategory=questComplete.getQuestCategory();
+      sb.append("<p>");
+      Proxy<Achievable> proxy=questComplete.getProxy();
+      if (proxy!=null)
       {
-        boolean isQuest=(achievable instanceof QuestDescription);
-        String type=isQuest?"quest":"deed";
-        sb.append("Complete ").append(type).append(" <b>");
-        String text=achievable.getName();
-        String to=ReferenceConstants.getAchievableReference(achievable);
-        printLink(sb,to,text);
-        sb.append("</b>");
+        Achievable achievable=proxy.getObject();
+        if (achievable!=null)
+        {
+          boolean isQuest=(achievable instanceof QuestDescription);
+          String type=isQuest?"quest":"deed";
+          sb.append("Complete ").append(type).append(" <b>");
+          String text=achievable.getName();
+          String to=ReferenceConstants.getAchievableReference(achievable);
+          printLink(sb,to,text);
+          sb.append("</b>");
+        }
+        else
+        {
+          LOGGER.warn("Could not resolve deed/quest ID="+proxy.getId()+", name="+proxy.getName());
+          sb.append("Complete quest/deed "+proxy.getId());
+        }
       }
-      else
+      else if (questCategory!=null)
       {
-        LOGGER.warn("Could not resolve deed/quest ID="+proxy.getId()+", name="+proxy.getName());
-        sb.append("Complete quest/deed "+proxy.getId());
+        sb.append("Complete quests in category ").append(questCategory);
       }
+      if (count>1)
+      {
+        sb.append(" (x").append(count).append(')');
+      }
+      sb.append("</p>");
     }
-    else if (questCategory!=null)
-    {
-      sb.append("Complete quests in category ").append(questCategory);
-    }
-    if (count>1)
-    {
-      sb.append(" (x").append(count).append(')');
-    }
-    sb.append("</p>");
+    printLoreInfo(sb,questComplete);
   }
 
   private static void handleMonsterDiedCondition(StringBuilder sb, MonsterDiedCondition monsterDied)
   {
-    printSharedAttributes(sb,monsterDied);
     int count=monsterDied.getCount();
-    String mobName=monsterDied.getMobName();
-    List<MobSelection> mobSelections=monsterDied.getMobSelections();
-    sb.append("<p>");
-    if (mobName!=null)
+    boolean hasProgressOverride=printProgressOverrideWithCount(sb,monsterDied,count);
+    if (!hasProgressOverride)
     {
-      sb.append("Kill ").append(mobName);
-    }
-    else
-    {
-      if (mobSelections.size()>0)
+      String mobName=monsterDied.getMobName();
+      List<MobSelection> mobSelections=monsterDied.getMobSelections();
+      sb.append("<p>");
+      if (mobName!=null)
       {
-        sb.append("Kill ");
-        int index=0;
-        for(MobSelection mobSelection : mobSelections)
+        sb.append("Kill ").append(mobName);
+      }
+      else
+      {
+        if (mobSelections.size()>0)
         {
-          String what=mobSelection.getWhat();
-          String where=mobSelection.getWhere();
-          if (what==null)
+          sb.append("Kill ");
+          int index=0;
+          for(MobSelection mobSelection : mobSelections)
           {
-            what="Mob";
+            String what=mobSelection.getWhat();
+            String where=mobSelection.getWhere();
+            if (what==null)
+            {
+              what="Mob";
+            }
+            if (index>0)
+            {
+              sb.append(" or ");
+            }
+            sb.append(what).append(" in ").append(where);
+            index++;
           }
-          if (index>0)
-          {
-            sb.append(" or ");
-          }
-          sb.append(what).append(" in ").append(where);
-          index++;
         }
       }
+      if (count>1)
+      {
+        sb.append(" (x").append(count).append(')');
+      }
+      sb.append("</p>");
     }
-    if (count>1)
-    {
-      sb.append(" (x").append(count).append(')');
-    }
-    sb.append("</p>");
+    printLoreInfo(sb,monsterDied);
   }
 
   private static void handleLandmarkDetectionCondition(StringBuilder sb, LandmarkDetectionCondition condition)
@@ -181,7 +191,8 @@ public class ObjectivesHtmlBuilder
 
   private static void handleInventoryItemCondition(StringBuilder sb, InventoryItemCondition condition)
   {
-    boolean hasProgressOverride=printProgressOverride(sb,condition);
+    int count=condition.getCount();
+    boolean hasProgressOverride=printProgressOverrideWithCount(sb,condition,count);
     if (!hasProgressOverride)
     {
       Proxy<Item> itemProxy=condition.getProxy();
@@ -190,6 +201,10 @@ public class ObjectivesHtmlBuilder
         sb.append("<p>");
         String name=itemProxy.getName();
         sb.append("Get ").append(name);
+        if (count>1)
+        {
+          sb.append(" x").append(count);
+        }
         sb.append("</p>");
       }
     }
@@ -205,6 +220,22 @@ public class ObjectivesHtmlBuilder
   {
     printProgressOverride(sb,condition);
     printLoreInfo(sb,condition);
+  }
+
+  private static boolean printProgressOverrideWithCount(StringBuilder sb, ObjectiveCondition condition, int count)
+  {
+    String progressOverride=condition.getProgressOverride();
+    if ((progressOverride!=null) && (progressOverride.length()>0))
+    {
+      if (progressOverride.contains(COUNT_PATTERN))
+      {
+        String countStr="0/"+count;
+        progressOverride=progressOverride.replace(COUNT_PATTERN,countStr);
+      }
+      sb.append("<p>").append(toHtml(progressOverride)).append("</p>");
+      return true;
+    }
+    return false;
   }
 
   private static boolean printProgressOverride(StringBuilder sb, ObjectiveCondition condition)
