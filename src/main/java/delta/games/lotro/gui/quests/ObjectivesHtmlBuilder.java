@@ -4,20 +4,26 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import delta.games.lotro.character.skills.SkillDescription;
 import delta.games.lotro.gui.common.navigator.ReferenceConstants;
 import delta.games.lotro.lore.geo.LandmarkDescription;
 import delta.games.lotro.lore.items.Item;
+import delta.games.lotro.lore.npc.NpcDescription;
 import delta.games.lotro.lore.quests.Achievable;
 import delta.games.lotro.lore.quests.QuestDescription;
 import delta.games.lotro.lore.quests.objectives.DefaultObjectiveCondition;
+import delta.games.lotro.lore.quests.objectives.FactionLevelCondition;
 import delta.games.lotro.lore.quests.objectives.InventoryItemCondition;
 import delta.games.lotro.lore.quests.objectives.LandmarkDetectionCondition;
 import delta.games.lotro.lore.quests.objectives.MonsterDiedCondition;
+import delta.games.lotro.lore.quests.objectives.NpcTalkCondition;
 import delta.games.lotro.lore.quests.objectives.MonsterDiedCondition.MobSelection;
 import delta.games.lotro.lore.quests.objectives.Objective;
 import delta.games.lotro.lore.quests.objectives.ObjectiveCondition;
 import delta.games.lotro.lore.quests.objectives.ObjectivesManager;
 import delta.games.lotro.lore.quests.objectives.QuestCompleteCondition;
+import delta.games.lotro.lore.quests.objectives.SkillUsedCondition;
+import delta.games.lotro.lore.reputation.Faction;
 import delta.games.lotro.utils.Proxy;
 
 /**
@@ -78,6 +84,21 @@ public class ObjectivesHtmlBuilder
     {
       InventoryItemCondition inventoryItem=(InventoryItemCondition)condition;
       handleInventoryItemCondition(sb,inventoryItem);
+    }
+    else if (condition instanceof FactionLevelCondition)
+    {
+      FactionLevelCondition factionLevel=(FactionLevelCondition)condition;
+      handleFactionLevelCondition(sb,factionLevel);
+    }
+    else if (condition instanceof SkillUsedCondition)
+    {
+      SkillUsedCondition skillUsed=(SkillUsedCondition)condition;
+      handleSkillUsedCondition(sb,skillUsed);
+    }
+    else if (condition instanceof NpcTalkCondition)
+    {
+      NpcTalkCondition npcTalk=(NpcTalkCondition)condition;
+      handleNpcTalkCondition(sb,npcTalk);
     }
     else if (condition instanceof DefaultObjectiveCondition)
     {
@@ -211,6 +232,76 @@ public class ObjectivesHtmlBuilder
     printLoreInfo(sb,condition);
   }
 
+  private static void handleFactionLevelCondition(StringBuilder sb, FactionLevelCondition condition)
+  {
+    boolean hasProgressOverride=printProgressOverride(sb,condition);
+    if (!hasProgressOverride)
+    {
+      Proxy<Faction> factionProxy=condition.getProxy();
+      int tier=condition.getTier();
+      if (factionProxy!=null)
+      {
+        sb.append("<p>");
+        String name=factionProxy.getName();
+        sb.append("Reach reputation tier ").append(tier).append(" with ").append(name);
+        sb.append("</p>");
+      }
+    }
+    printLoreInfo(sb,condition);
+  }
+
+  private static void handleSkillUsedCondition(StringBuilder sb, SkillUsedCondition condition)
+  {
+    int count=condition.getCount();
+    boolean hasProgressOverride=printProgressOverrideWithCount(sb,condition,count);
+    if (!hasProgressOverride)
+    {
+      Proxy<SkillDescription> skillProxy=condition.getProxy();
+      if (skillProxy!=null)
+      {
+        sb.append("<p>");
+        String name=skillProxy.getName();
+        sb.append("Use skill ").append(name);
+        if (count>1)
+        {
+          sb.append(" x").append(count);
+        }
+        Integer maxPerDay=condition.getMaxPerDay();
+        if (maxPerDay!=null)
+        {
+          sb.append(" (max ").append(maxPerDay).append("/day)");
+        }
+        sb.append("</p>");
+      }
+      else
+      {
+        sb.append("<p>No skill and no progress override</p>");
+      }
+    }
+    printLoreInfo(sb,condition);
+  }
+
+  private static void handleNpcTalkCondition(StringBuilder sb, NpcTalkCondition condition)
+  {
+    boolean hasProgressOverride=printProgressOverride(sb,condition);
+    if (!hasProgressOverride)
+    {
+      Proxy<NpcDescription> npcProxy=condition.getProxy();
+      if (npcProxy!=null)
+      {
+        sb.append("<p>");
+        String name=npcProxy.getName();
+        sb.append("Talk to ").append(name);
+        sb.append("</p>");
+      }
+      else
+      {
+        sb.append("<p>No NPC and no progress override</p>");
+      }
+    }
+    printLoreInfo(sb,condition);
+  }
+
   private static void handleDefaultCondition(StringBuilder sb, DefaultObjectiveCondition condition)
   {
     printSharedAttributes(sb,condition);
@@ -231,6 +322,13 @@ public class ObjectivesHtmlBuilder
       {
         String countStr="0/"+count;
         progressOverride=progressOverride.replace(COUNT_PATTERN,countStr);
+      }
+      else
+      {
+        if (count>1)
+        {
+          progressOverride=progressOverride+" (x"+count+")";
+        }
       }
       sb.append("<p>").append(toHtml(progressOverride)).append("</p>");
       return true;
