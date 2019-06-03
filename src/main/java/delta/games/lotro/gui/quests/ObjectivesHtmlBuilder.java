@@ -64,7 +64,7 @@ public class ObjectivesHtmlBuilder
 
   private static void handleCondition(StringBuilder sb, ObjectiveCondition condition)
   {
-    //sb.append("<p>").append(condition.getIndex()+": "+condition.getType()).append("</p>");
+    sb.append("<p>").append(condition.getIndex()+": "+condition.getType()).append("</p>");
     if (condition instanceof QuestCompleteCondition)
     {
       QuestCompleteCondition questComplete=(QuestCompleteCondition)condition;
@@ -304,12 +304,11 @@ public class ObjectivesHtmlBuilder
 
   private static void handleDefaultCondition(StringBuilder sb, DefaultObjectiveCondition condition)
   {
-    printSharedAttributes(sb,condition);
-  }
-
-  private static void printSharedAttributes(StringBuilder sb, ObjectiveCondition condition)
-  {
-    printProgressOverride(sb,condition);
+    boolean hasProgressOverride=printProgressOverride(sb,condition);
+    if (!hasProgressOverride)
+    {
+      sb.append("<p>Missing data!!</p>");
+    }
     printLoreInfo(sb,condition);
   }
 
