@@ -7,8 +7,8 @@ import javax.swing.ImageIcon;
 
 import delta.common.ui.swing.icons.ApplicationIcons;
 import delta.common.ui.swing.icons.IconsManager;
-import delta.games.lotro.character.traits.TraitDescription;
-import delta.games.lotro.character.traits.TraitsManager;
+import delta.games.lotro.character.virtues.VirtueDescription;
+import delta.games.lotro.character.virtues.VirtuesManager;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.CharacterSex;
 import delta.games.lotro.common.Race;
@@ -163,11 +163,12 @@ public class LotroIconsManager
    */
   public static ImageIcon getVirtueIcon(String virtueId)
   {
-    String key="Virtue:"+virtueId;
-    TraitDescription trait=TraitsManager.getInstance().getTraitByKey(key);
-    if (trait!=null)
+    VirtueDescription virtue=VirtuesManager.getInstance().getVirtueByKey(virtueId);
+    if (virtue!=null)
     {
-      return getTraitIcon(trait.getIconId());
+      int virtueIconId=virtue.getIconId();
+      String path="/virtueIcons/"+virtueIconId+".png";
+      return IconsManager.getIcon(path);
     }
     return null;
   }
