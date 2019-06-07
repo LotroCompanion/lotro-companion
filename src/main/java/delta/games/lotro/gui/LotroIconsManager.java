@@ -8,6 +8,8 @@ import javax.swing.ImageIcon;
 import delta.common.ui.swing.icons.ApplicationIcons;
 import delta.common.ui.swing.icons.IconsManager;
 import delta.games.lotro.character.stats.STAT;
+import delta.games.lotro.character.virtues.VirtueDescription;
+import delta.games.lotro.character.virtues.VirtuesManager;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.CharacterSex;
 import delta.games.lotro.common.Race;
@@ -113,7 +115,7 @@ public class LotroIconsManager
 
   /**
    * Get the icon for a buff.
-   * @param iconFilename Filename of the relic icon.
+   * @param iconFilename Filename of the buff icon.
    * @return An icon or <code>null</code> if not found.
    */
   public static ImageIcon getBuffIcon(String iconFilename)
@@ -144,8 +146,14 @@ public class LotroIconsManager
    */
   public static ImageIcon getVirtueIcon(String virtueId)
   {
-    String path="/resources/gui/virtues/"+virtueId.toLowerCase()+".png";
-    return IconsManager.getIcon(path);
+    VirtueDescription virtue=VirtuesManager.getInstance().getVirtueByKey(virtueId);
+    if (virtue!=null)
+    {
+      int virtueIconId=virtue.getIconId();
+      String path="/virtueIcons/"+virtueIconId+".png";
+      return IconsManager.getIcon(path);
+    }
+    return null;
   }
 
   /**

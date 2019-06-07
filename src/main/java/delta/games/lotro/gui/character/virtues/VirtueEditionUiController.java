@@ -54,7 +54,7 @@ public class VirtueEditionUiController implements ActionListener
   public VirtueEditionUiController(VirtueId virtueId, JPanel panel)
   {
     _tier=0;
-    _iconController=new VirtueIconController(virtueId);
+    _iconController=new VirtueIconController(virtueId,false);
     JLabel label=_iconController.getLabel();
 
     label.setTransferHandler(new DragTransferHandler(virtueId));

@@ -24,16 +24,19 @@ public class VirtueIconController
   private static final String NO_VIRTUE_ICON="/resources/gui/virtues/noVirtue.png";
 
   private VirtueId _virtueId;
+  private boolean _active;
   private JLabel _label;
   private IconWithText _icon;
 
   /**
    * Constructor.
    * @param virtueId Virtue to use.
+   * @param active Indicates if this icon represents an active virtue or not.
    */
-  public VirtueIconController(VirtueId virtueId)
+  public VirtueIconController(VirtueId virtueId, boolean active)
   {
     _virtueId=virtueId;
+    _active=active;
     _icon=buildVirtueIcon(virtueId,0);
     _label=GuiFactory.buildIconLabel(_icon);
     _label.setSize(_icon.getIconWidth(),_icon.getIconHeight());
@@ -113,18 +116,33 @@ public class VirtueIconController
   private String buildToolTip(VirtueId virtueId, int tier)
   {
     VirtuesContributionsMgr virtuesMgr=VirtuesContributionsMgr.get();
-    BasicStatsSet stats=virtuesMgr.getContribution(virtueId,tier);
     StringBuilder sb=new StringBuilder();
     sb.append(virtueId.name()).append(EndOfLine.NATIVE_EOL);
-    for(STAT stat : stats.getStats())
+    if (_active)
     {
-      String name=stat.getName();
-      String value=stats.getStat(stat).toString();
-      sb.append(name).append(": ").append(value).append(EndOfLine.NATIVE_EOL);
+      BasicStatsSet stats=virtuesMgr.getContribution(virtueId,tier,false);
+      sb.append("Active:").append(EndOfLine.NATIVE_EOL);
+      addStatsTooltipText(stats,sb);
     }
+    BasicStatsSet passiveStats=virtuesMgr.getContribution(virtueId,tier,true);
+    sb.append("Passive:").append(EndOfLine.NATIVE_EOL);
+    addStatsTooltipText(passiveStats,sb);
     String text=sb.toString().trim();
     String html="<html>"+text.replace(EndOfLine.NATIVE_EOL,"<br>")+"</html>";
     return html;
+  }
+
+  private void addStatsTooltipText(BasicStatsSet stats, StringBuilder sb)
+  {
+    if (stats!=null)
+    {
+      for(STAT stat : stats.getStats())
+      {
+        String name=stat.getName();
+        String value=stats.getStat(stat).toString();
+        sb.append(name).append(": ").append(value).append(EndOfLine.NATIVE_EOL);
+      }
+    }
   }
 
   /**

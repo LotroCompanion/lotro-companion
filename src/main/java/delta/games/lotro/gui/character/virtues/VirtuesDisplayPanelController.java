@@ -94,7 +94,7 @@ public class VirtuesDisplayPanelController
     JPanel panel=GuiFactory.buildBackgroundPanel(new GridBagLayout());
     for(int i=0;i<MAX_VIRTUES;i++)
     {
-      _virtues[i]=new VirtueIconController(null);
+      _virtues[i]=new VirtueIconController(null,true);
       int left=(i>0)?3:0;
       GridBagConstraints c=new GridBagConstraints(i,0,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(0,left,0,0),0,0);
       _virtueLabels[i]=GuiFactory.buildLabel("");
