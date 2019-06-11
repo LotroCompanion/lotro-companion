@@ -85,7 +85,7 @@ public class StatsEditionPanelController
         Float value=NumericTools.parseFloat(valueStr,false);
         if (value!=null)
         {
-          stats.setStat(stat,value.floatValue());
+          stats.addStat(stat,new FixedDecimalsInteger(value.floatValue()));
         }
       }
     }
