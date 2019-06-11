@@ -54,9 +54,12 @@ public class StatsEditionPanelController
     for(StatDescription stat : stats.getSortedStats())
     {
       FixedDecimalsInteger value=stats.getStat(stat);
-      SingleStatController ctrl=new SingleStatController();
-      ctrl.setStat(stat,value);
-      _statControllers.add(ctrl);
+      if (value!=null)
+      {
+        SingleStatController ctrl=new SingleStatController();
+        ctrl.setStat(stat,value);
+        _statControllers.add(ctrl);
+      }
     }
     if (_statControllers.size()==0)
     {
@@ -82,7 +85,7 @@ public class StatsEditionPanelController
         Float value=NumericTools.parseFloat(valueStr,false);
         if (value!=null)
         {
-          stats.setStat(stat,value.floatValue());
+          stats.addStat(stat,new FixedDecimalsInteger(value.floatValue()));
         }
       }
     }
