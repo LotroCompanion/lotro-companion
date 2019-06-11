@@ -1,7 +1,9 @@
 package delta.games.lotro.gui.character.virtues;
 
 import java.awt.Component;
-import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.event.ActionEvent;
@@ -54,16 +56,18 @@ public class VirtuesEditionPanelController implements TierValueListener
 
   private JPanel build()
   {
-    JPanel panel=GuiFactory.buildBackgroundPanel(null);
+    JPanel panel=GuiFactory.buildBackgroundPanel(new GridBagLayout());
     // All virtues
     {
       int index=0;
       for(VirtueId virtueId : VirtueId.values())
       {
-        VirtueEditionUiController ui=new VirtueEditionUiController(virtueId,panel);
+        VirtueEditionUiController ui=new VirtueEditionUiController(virtueId);
         ui.setListener(this);
-        int[] position=getPosition(index);
-        ui.setLocation(position[0],position[1]);
+        int x=index/7;
+        int y=index%7;
+        GridBagConstraints c=new GridBagConstraints(x,y+1,1,1,1.0,1.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
+        panel.add(ui.getPanel(),c);
         _virtues.put(virtueId,ui);
         index++;
       }
@@ -79,8 +83,8 @@ public class VirtuesEditionPanelController implements TierValueListener
         TransferHandler handler=new DropTransferHandler();
         label.setTransferHandler(handler);
       }
-      panel.add(selectedVirtuesPanel);
-      layoutSelectedVirtues();
+      GridBagConstraints c=new GridBagConstraints(0,0,4,1,1.0,1.0,GridBagConstraints.CENTER,GridBagConstraints.HORIZONTAL,new Insets(5,5,5,5),0,0);
+      panel.add(selectedVirtuesPanel,c);
     }
     // Max all button
     _maxAll=GuiFactory.buildButton("Max all");
@@ -93,22 +97,8 @@ public class VirtuesEditionPanelController implements TierValueListener
       }
     };
     _maxAll.addActionListener(al);
-    panel.add(_maxAll);
-    _maxAll.setSize(_maxAll.getPreferredSize());
-    int x=CENTER_X-(_maxAll.getWidth()/2);
-    int y=CENTER_Y+10+(_selectedVirtues.getPanel().getHeight()+_maxAll.getHeight()/2);
-    _maxAll.setLocation(x,y);
-    panel.setPreferredSize(new Dimension(634,348));
+    //panel.add(_maxAll);
     return panel;
-  }
-
-  private void layoutSelectedVirtues()
-  {
-    JPanel selectedVirtuesPanel=_selectedVirtues.getPanel();
-    selectedVirtuesPanel.setSize(selectedVirtuesPanel.getPreferredSize());
-    int x=CENTER_X-(selectedVirtuesPanel.getWidth()/2);
-    int y=CENTER_Y-(selectedVirtuesPanel.getHeight()/2);
-    selectedVirtuesPanel.setLocation(x,y);
   }
 
   private class DropTransferHandler extends TransferHandler
@@ -151,7 +141,6 @@ public class VirtuesEditionPanelController implements TierValueListener
         {
           int tier=_virtues.get(virtueId).getTier();
           _selectedVirtues.setVirtue(i,virtueId,tier);
-          layoutSelectedVirtues();
           break;
         }
       }
@@ -192,7 +181,6 @@ public class VirtuesEditionPanelController implements TierValueListener
     }
     // Set selected virtues
     _selectedVirtues.setVirtues(set);
-    layoutSelectedVirtues();
   }
 
   /**
@@ -212,22 +200,6 @@ public class VirtuesEditionPanelController implements TierValueListener
     return ret;
   }
 
-  private static final int CENTER_X=300;
-  private static final int CENTER_Y=170;
-  private static final int WIDTH=250;
-  private static final int HEIGHT=150;
-
-  private int[] getPosition(int index)
-  {
-    int[] ret=new int[2];
-    double angle=90-18*index;
-    int x=CENTER_X+(int)(WIDTH*Math.cos(Math.toRadians(angle)));
-    int y=CENTER_Y-(int)(HEIGHT*Math.sin(Math.toRadians(angle)));
-    ret[0]=x;
-    ret[1]=y;
-    return ret;
-  }
-
   /**
    * Release all managed resources.
    */
@@ -244,6 +216,14 @@ public class VirtuesEditionPanelController implements TierValueListener
       _selectedVirtues=null;
     }
     _maxAll=null;
-    _virtues=null;
+    if (_virtues!=null)
+    {
+      for(VirtueEditionUiController editionUi : _virtues.values())
+      {
+        editionUi.dispose();
+      }
+      _virtues.clear();
+      _virtues=null;
+    }
   }
 }
