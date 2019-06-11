@@ -19,6 +19,10 @@ public enum ItemColumnIds
    */
   FACTORY_COMMENTS,
   /**
+   * User comments.
+   */
+  USER_COMMENTS,
+  /**
    * Icon.
    */
   ICON,

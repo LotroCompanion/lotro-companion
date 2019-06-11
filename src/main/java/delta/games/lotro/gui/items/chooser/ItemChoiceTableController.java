@@ -170,7 +170,22 @@ public class ItemChoiceTableController
       DefaultTableColumnController<Item,String> factoryCommentColumn=new DefaultTableColumnController<Item,String>(ItemColumnIds.FACTORY_COMMENTS.name(),"Comment",String.class,factoryCommentCell);
       factoryCommentColumn.setWidthSpecs(150,-1,150);
       columns.add(factoryCommentColumn);
-    }    // Level column
+    }    // User comment column
+    {
+      CellDataProvider<Item,String> commentCell=new CellDataProvider<Item,String>()
+      {
+        @Override
+        public String getData(Item item)
+        {
+          String property=item.getProperty(ItemPropertyNames.USER_COMMENT);
+          return property;
+        }
+      };
+      DefaultTableColumnController<Item,String> commentColumn=new DefaultTableColumnController<Item,String>(ItemColumnIds.USER_COMMENTS.name(),"User Comment",String.class,commentCell);
+      commentColumn.setWidthSpecs(200,-1,400);
+      columns.add(commentColumn);
+    }
+    // Level column
     {
       CellDataProvider<Item,Integer> levelCell=new CellDataProvider<Item,Integer>()
       {
