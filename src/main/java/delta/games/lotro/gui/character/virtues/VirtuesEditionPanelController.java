@@ -11,10 +11,12 @@ import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.TransferHandler;
+import javax.swing.border.TitledBorder;
 
 import org.apache.log4j.Logger;
 
@@ -34,6 +36,7 @@ public class VirtuesEditionPanelController implements TierValueListener
   private JPanel _panel;
   private HashMap<VirtueId,VirtueEditionUiController> _virtues;
   private VirtuesDisplayPanelController _selectedVirtues;
+  private VirtuesStatsPanelController _stats;
   private JButton _maxAll;
 
   /**
@@ -58,20 +61,10 @@ public class VirtuesEditionPanelController implements TierValueListener
   {
     JPanel panel=GuiFactory.buildBackgroundPanel(new GridBagLayout());
     // All virtues
-    {
-      int index=0;
-      for(VirtueId virtueId : VirtueId.values())
-      {
-        VirtueEditionUiController ui=new VirtueEditionUiController(virtueId);
-        ui.setListener(this);
-        int x=index/7;
-        int y=index%7;
-        GridBagConstraints c=new GridBagConstraints(x,y+1,1,1,1.0,1.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
-        panel.add(ui.getPanel(),c);
-        _virtues.put(virtueId,ui);
-        index++;
-      }
-    }
+    JPanel allVirtues=buildVirtuesEditionPanel();
+    GridBagConstraints c=new GridBagConstraints(0,1,1,1,0.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(5,5,5,5),0,0);
+    panel.add(allVirtues,c);
+
     // Selected virtues
     {
       _selectedVirtues=new VirtuesDisplayPanelController();
@@ -83,9 +76,52 @@ public class VirtuesEditionPanelController implements TierValueListener
         TransferHandler handler=new DropTransferHandler();
         label.setTransferHandler(handler);
       }
-      GridBagConstraints c=new GridBagConstraints(0,0,4,1,1.0,1.0,GridBagConstraints.CENTER,GridBagConstraints.HORIZONTAL,new Insets(5,5,5,5),0,0);
+      TitledBorder border=GuiFactory.buildTitledBorder("Selected Virtues");
+      selectedVirtuesPanel.setBorder(border);
+      c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
       panel.add(selectedVirtuesPanel,c);
+      //selectedVirtuesPanel.setBackground(Color.GREEN);
+      //selectedVirtuesPanel.setOpaque(true);
     }
+    // Side panel
+    JPanel sidePanel=buildSidePanel();
+    c=new GridBagConstraints(1,1,1,1,1.0,1.0,GridBagConstraints.NORTH,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    panel.add(sidePanel,c);
+    //sidePanel.setBackground(Color.PINK);
+    //sidePanel.setOpaque(true);
+    return panel;
+  }
+
+  private JPanel buildVirtuesEditionPanel()
+  {
+    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
+    int index=0;
+    for(VirtueId virtueId : VirtueId.values())
+    {
+      VirtueEditionUiController ui=new VirtueEditionUiController(virtueId);
+      ui.setListener(this);
+      int x=index/7;
+      int y=index%7;
+      GridBagConstraints c=new GridBagConstraints(x,y+1,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
+      JPanel virtuePanel=ui.getPanel();
+      //virtuePanel.setBackground(Color.RED);
+      //virtuePanel.setOpaque(true);
+      panel.add(virtuePanel,c);
+      _virtues.put(virtueId,ui);
+      index++;
+    }
+    TitledBorder border=GuiFactory.buildTitledBorder("Virtues");
+    panel.setBorder(border);
+    return panel;
+  }
+
+  private JPanel buildSidePanel()
+  {
+    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
+    // Stats
+    _stats=new VirtuesStatsPanelController();
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.HORIZONTAL,new Insets(5,5,5,5),0,0);
+    panel.add(_stats.getPanel(),c);
     // Max all button
     _maxAll=GuiFactory.buildButton("Max all");
     ActionListener al=new ActionListener()
@@ -97,7 +133,12 @@ public class VirtuesEditionPanelController implements TierValueListener
       }
     };
     _maxAll.addActionListener(al);
-    //panel.add(_maxAll);
+    c=new GridBagConstraints(0,1,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
+    panel.add(_maxAll,c);
+    // Strut
+    Component strut=Box.createHorizontalStrut(200);
+    c=new GridBagConstraints(0,2,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(1,1,1,1),0,0);
+    panel.add(strut,c);
     return panel;
   }
 
@@ -144,6 +185,7 @@ public class VirtuesEditionPanelController implements TierValueListener
           break;
         }
       }
+      updateStats();
       return true;
     }
   }
@@ -152,6 +194,13 @@ public class VirtuesEditionPanelController implements TierValueListener
   public void tierChanged(VirtueId virtueId, int tier)
   {
     _selectedVirtues.updateVirtue(virtueId,tier);
+    updateStats();
+  }
+
+  private void updateStats()
+  {
+    VirtuesSet virtues=getVirtues();
+    _stats.update(virtues);
   }
 
   private void maxAll()
@@ -181,6 +230,8 @@ public class VirtuesEditionPanelController implements TierValueListener
     }
     // Set selected virtues
     _selectedVirtues.setVirtues(set);
+    // Update stats
+    _stats.update(set);
   }
 
   /**

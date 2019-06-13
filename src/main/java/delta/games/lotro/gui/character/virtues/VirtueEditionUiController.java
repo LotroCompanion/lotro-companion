@@ -1,5 +1,6 @@
 package delta.games.lotro.gui.character.virtues;
 
+import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -12,6 +13,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 
+import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -135,6 +137,9 @@ public class VirtueEditionUiController implements ActionListener
     panel.add(_tierEdit.getTextField(),c);
     c=new GridBagConstraints(3,1,1,1,1.0,1.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(1,1,1,1),0,0);
     panel.add(_plus,c);
+    Component strut=Box.createHorizontalStrut(120);
+    c=new GridBagConstraints(0,2,4,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(1,1,1,1),0,0);
+    panel.add(strut,c);
     return panel;
   }
 
