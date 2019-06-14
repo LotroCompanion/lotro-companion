@@ -85,9 +85,9 @@ public class VirtueEditionUiController implements ActionListener
     // Virtue name
     _virtueName=GuiFactory.buildLabel(virtueId.getLabel());
     // "+" button
-    _plus=buildButton('+');
+    _plus=buildButton("circled_plus");
     // "-" button
-    _minus=buildButton('-');
+    _minus=buildButton("circled_minus");
     // Tier editor
     JTextField tierEditTextField=GuiFactory.buildTextField("");
     _tierEdit=new IntegerEditionController(tierEditTextField,3);
@@ -192,13 +192,9 @@ public class VirtueEditionUiController implements ActionListener
     _listener=listener;
   }
 
-  private JButton buildButton(char text)
+  private JButton buildButton(String key)
   {
-    JButton button=GuiFactory.buildButton(String.valueOf(text));
-    button.setSize(15,15);
-    button.setMargin(new Insets(1,1,1,1));
-    button.setContentAreaFilled(false);
-    button.setBorderPainted(true);
+    JButton button=GuiFactory.buildIconButton("/resources/gui/icons/"+key+".png");
     button.addActionListener(this);
     return button;
   }
