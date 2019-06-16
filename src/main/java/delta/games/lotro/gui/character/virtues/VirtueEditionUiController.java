@@ -1,5 +1,8 @@
 package delta.games.lotro.gui.character.virtues;
 
+import java.awt.Component;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
@@ -10,13 +13,18 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 
+import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.TransferHandler;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.text.IntegerEditionController;
+import delta.common.ui.swing.text.NumberEditionController;
+import delta.common.ui.swing.text.NumberListener;
 import delta.games.lotro.character.stats.virtues.VirtuesSet;
 import delta.games.lotro.common.VirtueId;
 
@@ -26,10 +34,16 @@ import delta.games.lotro.common.VirtueId;
  */
 public class VirtueEditionUiController implements ActionListener
 {
+  // Data
   private int _tier;
+  // Controllers/UI
   private VirtueIconController _iconController;
+  private JLabel _virtueName;
   private JButton _plus;
+  private IntegerEditionController _tierEdit;
   private JButton _minus;
+  private JPanel _panel;
+  // Listener
   private TierValueListener _listener;
 
   /**
@@ -49,14 +63,13 @@ public class VirtueEditionUiController implements ActionListener
   /**
    * Constructor.
    * @param virtueId Virtue to use.
-   * @param panel Parent panel.
    */
-  public VirtueEditionUiController(VirtueId virtueId, JPanel panel)
+  public VirtueEditionUiController(VirtueId virtueId)
   {
     _tier=0;
+    // Icon
     _iconController=new VirtueIconController(virtueId,false);
     JLabel label=_iconController.getLabel();
-
     label.setTransferHandler(new DragTransferHandler(virtueId));
     label.setName(virtueId.name());
     label.addMouseListener(new MouseAdapter()
@@ -69,13 +82,65 @@ public class VirtueEditionUiController implements ActionListener
         handle.exportAsDrag(lab,e,TransferHandler.COPY);
       }
     });
-
-    panel.add(label);
-    _plus=buildButton('+');
-    panel.add(_plus);
-    _minus=buildButton('-');
-    panel.add(_minus);
+    // Virtue name
+    _virtueName=GuiFactory.buildLabel(virtueId.getLabel());
+    // "+" button
+    _plus=buildButton("circled_plus");
+    // "-" button
+    _minus=buildButton("circled_minus");
+    // Tier editor
+    JTextField tierEditTextField=GuiFactory.buildTextField("");
+    _tierEdit=new IntegerEditionController(tierEditTextField,3);
+    _tierEdit.setValueRange(Integer.valueOf(0),Integer.valueOf(VirtuesSet.MAX_TIER));
+    NumberListener<Integer> valueListener=new NumberListener<Integer>()
+    {
+      @Override
+      public void valueChanged(NumberEditionController<Integer> source, Integer newValue)
+      {
+        if (newValue!=null)
+        {
+          _tier=newValue.intValue();
+          if (_listener!=null)
+          {
+            _listener.tierChanged(_iconController.getVirtue(),_tier);
+          }
+          updateUi();
+        }
+      }
+    };
+    _tierEdit.addValueListener(valueListener);
+    // Panel
+    _panel=buildPanel();
+    // Listener
     _listener=null;
+  }
+
+  /**
+   * Get the managed panel.
+   * @return the managed panel.
+   */
+  public JPanel getPanel()
+  {
+    return _panel;
+  }
+
+  private JPanel buildPanel()
+  {
+    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
+    GridBagConstraints c=new GridBagConstraints(0,0,1,2,1.0,1.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(1,1,1,1),0,0);
+    panel.add(_iconController.getLabel(),c);
+    c=new GridBagConstraints(1,0,3,1,1.0,1.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(1,1,1,1),0,0);
+    panel.add(_virtueName,c);
+    c=new GridBagConstraints(1,1,1,1,1.0,1.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(1,1,1,1),0,0);
+    panel.add(_minus,c);
+    c=new GridBagConstraints(2,1,1,1,1.0,1.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(1,1,1,1),0,0);
+    panel.add(_tierEdit.getTextField(),c);
+    c=new GridBagConstraints(3,1,1,1,1.0,1.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(1,1,1,1),0,0);
+    panel.add(_plus,c);
+    Component strut=Box.createHorizontalStrut(120);
+    c=new GridBagConstraints(0,2,4,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(1,1,1,1),0,0);
+    panel.add(strut,c);
+    return panel;
   }
 
   private static class DragTransferHandler extends TransferHandler
@@ -127,30 +192,9 @@ public class VirtueEditionUiController implements ActionListener
     _listener=listener;
   }
 
-  /**
-   * Set the location of the managed UI items in the parent panel.
-   * @param x Base horizontal location.
-   * @param y Base vertical location.
-   */
-  public void setLocation(int x, int y)
+  private JButton buildButton(String key)
   {
-    JLabel label=_iconController.getLabel();
-    x-=label.getWidth()/2;
-    y-=label.getHeight()/2;
-    label.setLocation(x,y);
-    int buttonX=x+label.getWidth()+2;
-    int buttonY=y+(label.getHeight()-_plus.getHeight())/2;
-    _plus.setLocation(buttonX,buttonY-7);
-    _minus.setLocation(buttonX,buttonY+7);
-  }
-
-  private JButton buildButton(char text)
-  {
-    JButton button=GuiFactory.buildButton(String.valueOf(text));
-    button.setSize(15,15);
-    button.setMargin(new Insets(1,1,1,1));
-    button.setContentAreaFilled(false);
-    button.setBorderPainted(true);
+    JButton button=GuiFactory.buildIconButton("/resources/gui/icons/"+key+".png");
     button.addActionListener(this);
     return button;
   }
@@ -207,7 +251,34 @@ public class VirtueEditionUiController implements ActionListener
   private void updateUi()
   {
     _iconController.setTier(_tier);
+    _tierEdit.setValue(Integer.valueOf(_tier));
     _minus.setEnabled(_tier>0);
     _plus.setEnabled(_tier<VirtuesSet.MAX_TIER);
+  }
+
+  /**
+   * Release all managed resources.
+   */
+  public void dispose()
+  {
+    if (_iconController!=null)
+    {
+      _iconController.dispose();
+      _iconController=null;
+    }
+    _virtueName=null;
+    _plus=null;
+    if (_tierEdit!=null)
+    {
+      _tierEdit.dispose();
+      _tierEdit=null;
+    }
+    _minus=null;
+    if (_panel!=null)
+    {
+      _panel.removeAll();
+      _panel=null;
+    }
+    _listener=null;
   }
 }

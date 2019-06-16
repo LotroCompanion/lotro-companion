@@ -17,12 +17,10 @@ import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.character.stats.base.DerivedStatsContributionsMgr;
 import delta.games.lotro.character.stats.base.io.DerivedStatContributionsIO;
 import delta.games.lotro.common.CharacterClass;
-import delta.games.lotro.common.stats.StatDescription;
 import delta.games.lotro.gui.character.essences.EssencesSummary.EssenceCount;
-import delta.games.lotro.gui.character.stats.StatLabels;
 import delta.games.lotro.gui.items.ItemUiTools;
 import delta.games.lotro.lore.items.Item;
-import delta.games.lotro.utils.FixedDecimalsInteger;
+import delta.games.lotro.utils.gui.StatsPanel;
 
 /**
  * Controller for a panel to show a summary of all the essences of a character.
@@ -129,7 +127,7 @@ public class EssencesSummaryPanelController
   {
     // Raw
     BasicStatsSet raw=_summary.getStats();
-    updateStatsPanel(_rawStatsPanel,raw);
+    StatsPanel.fillStatsPanel(_rawStatsPanel,raw,_toon.getStats());
     // Cumulated
     DerivedStatsContributionsMgr derivedStatsMgr=DerivedStatContributionsIO.load();
     CharacterClass characterClass=_toon.getCharacterClass();
@@ -137,51 +135,7 @@ public class EssencesSummaryPanelController
     BasicStatsSet cumulated=new BasicStatsSet();
     cumulated.addStats(raw);
     cumulated.addStats(derivated);
-    updateStatsPanel(_cumulatedStatsPanel,cumulated);
-  }
-
-  private void updateStatsPanel(JPanel panel, BasicStatsSet stats)
-  {
-    panel.removeAll();
-
-    int rowIndex=0;
-    GridBagConstraints strutConstraints=new GridBagConstraints(0,rowIndex,3,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,5,0,0),0,0);
-    panel.add(Box.createHorizontalStrut(100),strutConstraints);
-    rowIndex++;
-
-    int statsCount=stats.getStatsCount();
-    if (statsCount>0)
-    {
-      // Grab toon stats
-      BasicStatsSet toonStats=_toon.getStats();
-
-      // Build display
-      for(StatDescription stat : stats.getSortedStats())
-      {
-        FixedDecimalsInteger value=stats.getStat(stat);
-        // Value label
-        JLabel valueLabel=GuiFactory.buildLabel(value.toString());
-        GridBagConstraints c=new GridBagConstraints(0,rowIndex,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,5,0,0),0,0);
-        panel.add(valueLabel,c);
-        // Name label
-        String name=StatLabels.getStatLabel(stat);
-        JLabel statLabel=GuiFactory.buildLabel(name);
-        c=new GridBagConstraints(1,rowIndex,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,5,0,0),0,0);
-        panel.add(statLabel,c);
-        // Percentage
-        FixedDecimalsInteger toonStat=toonStats.getStat(stat);
-        String percentageStr="";
-        if (toonStat!=null)
-        {
-          float percentage=100*(value.floatValue()/toonStat.floatValue());
-          percentageStr=String.format("%.1f%%",Float.valueOf(percentage));
-        }
-        JLabel percentageLabel=GuiFactory.buildLabel(percentageStr);
-        c=new GridBagConstraints(2,rowIndex,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,5,0,5),0,0);
-        panel.add(percentageLabel,c);
-        rowIndex++;
-      }
-    }
+    StatsPanel.fillStatsPanel(_cumulatedStatsPanel,cumulated,_toon.getStats());
   }
 
   /**
