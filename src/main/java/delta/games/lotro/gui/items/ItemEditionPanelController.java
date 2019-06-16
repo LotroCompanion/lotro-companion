@@ -166,7 +166,7 @@ public class ItemEditionPanelController
       // Armour
       JTextField armourValue=GuiFactory.buildTextField("");
       _armourValue=new IntegerEditionController(armourValue);
-      _armourValue.setValueRange(Integer.valueOf(0),Integer.valueOf(50000));
+      _armourValue.setValueRange(Integer.valueOf(0),Integer.valueOf(100000));
       _armourPanel.add(GuiFactory.buildLabel("Armour:"));
       _armourPanel.add(_armourValue.getTextField());
       // Armour Type
