@@ -38,7 +38,7 @@ public class ItemsTableBuilder
 {
   /**
    * Build a table to show items.
-   * @param items Relics to show.
+   * @param items Items to show.
    * @return A new table controller.
    */
   public static GenericTableController<Item> buildTable(List<Item> items)
