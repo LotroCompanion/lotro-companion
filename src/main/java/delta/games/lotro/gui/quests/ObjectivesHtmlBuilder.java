@@ -14,10 +14,12 @@ import delta.games.lotro.lore.quests.QuestDescription;
 import delta.games.lotro.lore.quests.objectives.DefaultObjectiveCondition;
 import delta.games.lotro.lore.quests.objectives.FactionLevelCondition;
 import delta.games.lotro.lore.quests.objectives.InventoryItemCondition;
+import delta.games.lotro.lore.quests.objectives.ItemCondition;
+import delta.games.lotro.lore.quests.objectives.ItemUsedCondition;
 import delta.games.lotro.lore.quests.objectives.LandmarkDetectionCondition;
 import delta.games.lotro.lore.quests.objectives.MonsterDiedCondition;
-import delta.games.lotro.lore.quests.objectives.NpcTalkCondition;
 import delta.games.lotro.lore.quests.objectives.MonsterDiedCondition.MobSelection;
+import delta.games.lotro.lore.quests.objectives.NpcTalkCondition;
 import delta.games.lotro.lore.quests.objectives.Objective;
 import delta.games.lotro.lore.quests.objectives.ObjectiveCondition;
 import delta.games.lotro.lore.quests.objectives.ObjectivesManager;
@@ -84,6 +86,11 @@ public class ObjectivesHtmlBuilder
     {
       InventoryItemCondition inventoryItem=(InventoryItemCondition)condition;
       handleInventoryItemCondition(sb,inventoryItem);
+    }
+    else if (condition instanceof ItemUsedCondition)
+    {
+      ItemUsedCondition inventoryItem=(ItemUsedCondition)condition;
+      handleItemUsedCondition(sb,inventoryItem);
     }
     else if (condition instanceof FactionLevelCondition)
     {
@@ -212,6 +219,16 @@ public class ObjectivesHtmlBuilder
 
   private static void handleInventoryItemCondition(StringBuilder sb, InventoryItemCondition condition)
   {
+    handleItemCondition(sb,condition,"Get");
+  }
+
+  private static void handleItemUsedCondition(StringBuilder sb, ItemUsedCondition condition)
+  {
+    handleItemCondition(sb,condition,"Use");
+  }
+
+  private static void handleItemCondition(StringBuilder sb, ItemCondition condition, String verb)
+  {
     int count=condition.getCount();
     boolean hasProgressOverride=printProgressOverrideWithCount(sb,condition,count);
     if (!hasProgressOverride)
@@ -221,7 +238,7 @@ public class ObjectivesHtmlBuilder
       {
         sb.append("<p>");
         String name=itemProxy.getName();
-        sb.append("Get ").append(name);
+        sb.append(verb).append(' ').append(name);
         if (count>1)
         {
           sb.append(" x").append(count);
