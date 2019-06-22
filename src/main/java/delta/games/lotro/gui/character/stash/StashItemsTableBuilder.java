@@ -10,7 +10,6 @@ import delta.common.ui.swing.tables.CellDataProvider;
 import delta.common.ui.swing.tables.DataProvider;
 import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.GenericTableController;
-import delta.common.ui.swing.tables.ListDataProvider;
 import delta.common.ui.swing.tables.ProxiedTableColumnController;
 import delta.common.ui.swing.tables.TableColumnController;
 import delta.games.lotro.character.CharacterFile;
@@ -27,17 +26,6 @@ import delta.games.lotro.lore.items.ItemPropertyNames;
  */
 public class StashItemsTableBuilder
 {
-  /**
-   * Build a table to show item instances.
-   * @param instances Instances to show.
-   * @return A table to show the given item instances.
-   */
-  public static GenericTableController<ItemInstance<? extends Item>> buildTable(List<ItemInstance<? extends Item>> instances)
-  {
-    DataProvider<ItemInstance<? extends Item>> provider=new ListDataProvider<ItemInstance<? extends Item>>(instances);
-    return buildTable(provider);
-  }
-
   private static DataProvider<ItemInstance<? extends Item>> buildDataProvider(final CharacterFile toon)
   {
     DataProvider<ItemInstance<? extends Item>> ret=new DataProvider<ItemInstance<? extends Item>>()

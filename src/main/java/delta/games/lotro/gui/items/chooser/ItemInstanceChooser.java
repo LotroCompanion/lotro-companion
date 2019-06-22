@@ -9,7 +9,6 @@ import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.misc.TypedProperties;
-import delta.games.lotro.gui.character.stash.StashItemsTableBuilder;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemInstance;
 import delta.games.lotro.lore.items.filters.ItemInstanceFilter;
@@ -33,7 +32,7 @@ public class ItemInstanceChooser
   public static ObjectChoiceWindowController<ItemInstance<? extends Item>> buildChooser(WindowController parent, TypedProperties prefs, List<ItemInstance<? extends Item>> items, Filter<Item> filter, ItemFilterController filterController)
   {
     // Table
-    GenericTableController<ItemInstance<? extends Item>> itemsTable=StashItemsTableBuilder.buildTable(items);
+    GenericTableController<ItemInstance<? extends Item>> itemsTable=ItemInstancesTableBuilder.buildTable(items);
 
     // Build and configure chooser
     ObjectChoiceWindowController<ItemInstance<? extends Item>> chooser=new ObjectChoiceWindowController<ItemInstance<? extends Item>>(parent,prefs,itemsTable);

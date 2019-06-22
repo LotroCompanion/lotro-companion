@@ -9,6 +9,7 @@ import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.gui.items.chooser.ItemChoiceTableColumnsManager;
 import delta.games.lotro.gui.items.chooser.ItemChooser;
+import delta.games.lotro.gui.items.chooser.ItemInstancesTableBuilder;
 import delta.games.lotro.gui.items.essences.EssenceChoice;
 
 /**
@@ -39,6 +40,21 @@ public class CharacterPreferencesManager
           EQUIMENT_SLOT slot=EQUIMENT_SLOT.valueOf(slotKey);
           CharacterClass characterClass=toonFile.getSummary().getCharacterClass();
           columnIds=ItemChoiceTableColumnsManager.getItemChoiceColumns(characterClass,slot);
+          props.setStringList(ItemChooser.COLUMNS_PROPERTY,columnIds);
+          prefs.savePreferences(props);
+        }
+      }
+    }
+    else if (ItemChooser.ITEM_INSTANCE_CHOOSER_PROPERTIES_ID.equals(id))
+    {
+      if (toonFile!=null)
+      {
+        Preferences prefs=toonFile.getPreferences();
+        props=prefs.getPreferences(id);
+        List<String> columnIds=props.getStringList(ItemChooser.COLUMNS_PROPERTY);
+        if (columnIds==null)
+        {
+          columnIds=ItemInstancesTableBuilder.getDefaultColumnIds();
           props.setStringList(ItemChooser.COLUMNS_PROPERTY,columnIds);
           prefs.savePreferences(props);
         }

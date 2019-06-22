@@ -58,7 +58,11 @@ public class ItemInstancesTableBuilder
     return table;
   }
 
-  private static List<String> getDefaultColumnIds()
+  /**
+   * Get the default columns IDs for a table of item instances.
+   * @return a list of column IDs.
+   */
+  public static List<String> getDefaultColumnIds()
   {
     List<String> columnsIds=new ArrayList<String>();
     columnsIds.add(ItemColumnIds.ICON.name());

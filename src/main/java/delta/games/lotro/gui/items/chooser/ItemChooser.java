@@ -23,6 +23,10 @@ public class ItemChooser
    */
   public static final String ITEM_CHOOSER_PROPERTIES_ID="ItemChooserColumn";
   /**
+   * Preference file for the columns of the item instance chooser.
+   */
+  public static final String ITEM_INSTANCE_CHOOSER_PROPERTIES_ID="ItemInstanceChooserColumn";
+  /**
    * Name of the property for column IDs.
    */
   public static final String COLUMNS_PROPERTY="columns";
