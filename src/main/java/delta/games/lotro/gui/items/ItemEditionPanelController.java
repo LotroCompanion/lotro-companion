@@ -61,7 +61,7 @@ public class ItemEditionPanelController
 {
   // Data
   private ItemInstance<? extends Item> _itemInstance;
-  private Item _item;
+  //private Item _item;
   private Munging _munging;
   private CharacterSummary _character;
   // GUI
@@ -114,7 +114,6 @@ public class ItemEditionPanelController
     _parent=parent;
     _character=character;
     _itemInstance=itemInstance;
-    _item=_itemInstance.getReference();
   }
 
   /**
@@ -147,17 +146,21 @@ public class ItemEditionPanelController
       _name=GuiFactory.buildTextField("");
       _name.setFont(_name.getFont().deriveFont(16f).deriveFont(Font.BOLD));
       _name.setColumns(25);
+      _name.setEditable(false);
       panelLine.add(_name);
       // Slot
       _slot=buildSlotCombo();
+      _slot.getComboBox().setEnabled(false);
       panelLine.add(_slot.getComboBox());
       // Unicity
       _unique=GuiFactory.buildCheckbox("Unique");
       panelLine.add(_unique);
+      _unique.setEnabled(false);
     }
 
     // Armour specifics line
-    if (_item instanceof Armour)
+    Item item=_itemInstance.getReference();
+    if (item instanceof Armour)
     {
       _armourPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
       panel.add(_armourPanel,c);
@@ -172,11 +175,12 @@ public class ItemEditionPanelController
       // Armour Type
       _armourType=ItemUiTools.buildArmourTypeCombo();
       _armourPanel.add(GuiFactory.buildLabel("Armour Type:"));
+      _armourType.getComboBox().setEnabled(false);
       _armourPanel.add(_armourType.getComboBox());
     }
 
     // Weapon specifics line
-    if (_item instanceof Weapon)
+    if (item instanceof Weapon)
     {
       _weaponPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
       panel.add(_weaponPanel,c);
@@ -186,6 +190,7 @@ public class ItemEditionPanelController
       // Weapon type
       _weaponType=ItemUiTools.buildWeaponTypeCombo();
       _weaponPanel.add(GuiFactory.buildLabel("Type:"));
+      _weaponType.getComboBox().setEnabled(false);
       _weaponPanel.add(_weaponType.getComboBox());
 
       // Damage
@@ -237,6 +242,7 @@ public class ItemEditionPanelController
       // Binding
       _binding=buildBindingCombo();
       panelLine.add(GuiFactory.buildLabel("Binding:"));
+      _binding.getComboBox().setEnabled(false);
       panelLine.add(_binding.getComboBox());
     }
 
@@ -254,15 +260,18 @@ public class ItemEditionPanelController
       // Sturdiness
       _sturdiness=buildSturdinessCombo();
       panelLine.add(GuiFactory.buildLabel("Sturdiness:"));
+      _sturdiness.getComboBox().setEnabled(false);
       panelLine.add(_sturdiness.getComboBox());
       // Quality
       _quality=ItemUiTools.buildQualityCombo();
       panelLine.add(GuiFactory.buildLabel("Quality:"));
+      _quality.getComboBox().setEnabled(false);
       panelLine.add(_quality.getComboBox());
       // Stack max
       JTextField stackMax=GuiFactory.buildTextField("");
       _stackMax=new IntegerEditionController(stackMax);
       _stackMax.setValueRange(Integer.valueOf(1),Integer.valueOf(1000));
+      _stackMax.getTextField().setEditable(false);
       panelLine.add(GuiFactory.buildLabel("Stack:"));
       panelLine.add(_stackMax.getTextField());
     }
@@ -339,61 +348,62 @@ public class ItemEditionPanelController
    */
   private void setItem()
   {
-    String name=_item.getName();
+    String name=_itemInstance.getName();
     _parent.setTitle(name);
+    Item item=_itemInstance.getReference();
     // Icon
-    String iconPath=_item.getIcon();
+    String iconPath=item.getIcon();
     ImageIcon icon=LotroIconsManager.getItemIcon(iconPath);
     _icon.setIcon(icon);
     // Name
     _name.setText(name);
     // Slot
-    _slot.selectItem(_item.getEquipmentLocation());
+    _slot.selectItem(item.getEquipmentLocation());
     // Configure scaling
-    configureScaling(_item);
+    configureScaling(item);
     // Item level
-    Integer itemLevel=_item.getItemLevel();
+    Integer itemLevel=_itemInstance.getItemLevel();
     String itemLevelStr=(itemLevel!=null)?itemLevel.toString():"";
     _itemLevel.setText(itemLevelStr);
     // Minimum level
-    Integer minLevel=_item.getMinLevel();
+    Integer minLevel=_itemInstance.getMinLevel();
     _minLevel.setValue(minLevel);
     // Stats
-    setStats(_item.getStats());
+    setStats(_itemInstance.getEffectiveOwnStats());
     // Description
-    _description.setText(_item.getDescription());
+    _description.setText(item.getDescription());
     // Birth name
     _birthName.setText(_itemInstance.getBirthName());
     // Crafter name
     _crafterName.setText(_itemInstance.getCrafterName());
     // User comments
-    String userComments=_item.getProperty(ItemPropertyNames.USER_COMMENT);
+    String userComments=_itemInstance.getProperty(ItemPropertyNames.USER_COMMENT);
     if (userComments==null) userComments="";
     _userComments.setText(userComments);
     // Binding
-    _binding.selectItem(_item.getBinding());
+    _binding.selectItem(item.getBinding());
     // Unicity
-    _unique.setSelected(_item.isUnique());
+    _unique.setSelected(item.isUnique());
     // Durability
-    _durability.setValue(_item.getDurability());
+    _durability.setValue(_itemInstance.getDurability());
     // Sturdiness
-    _sturdiness.selectItem(_item.getSturdiness());
+    _sturdiness.selectItem(item.getSturdiness());
     // Stack max
-    _stackMax.setValue(_item.getStackMax());
+    _stackMax.setValue(item.getStackMax());
     // Quality
-    _quality.selectItem(_item.getQuality());
+    _quality.selectItem(item.getQuality());
 
     // Armour specifics
-    if (_item instanceof Armour)
+    if (item instanceof Armour)
     {
-      Armour armour=(Armour)_item;
+      Armour armour=(Armour)item;
       _armourType.selectItem(armour.getArmourType());
     }
 
     // Weapon specifics
-    if (_item instanceof Weapon)
+    if (item instanceof Weapon)
     {
-      Weapon weapon=(Weapon)_item;
+      Weapon weapon=(Weapon)item;
       _minDamage.setValue(Integer.valueOf(weapon.getMinDamage()));
       _maxDamage.setValue(Integer.valueOf(weapon.getMaxDamage()));
       _dps.setValue(Float.valueOf(weapon.getDPS()));
@@ -406,27 +416,38 @@ public class ItemEditionPanelController
   }
 
   /**
-   * Get the current value of the edited item.
-   * @return An item.
+   * Get the current value of the edited item instance.
    */
-  public Item getItem()
+  public void getItem()
   {
     // Name
-    _item.setName(_name.getText());
+    //_item.setName(_name.getText());
     // Slot
-    _item.setEquipmentLocation(_slot.getSelectedItem());
+    //_item.setEquipmentLocation(_slot.getSelectedItem());
     // Stats
-    BasicStatsSet stats=_item.getStats();
-    stats.clear();
-    stats.setStats(_stats.getStats());
+    BasicStatsSet stats=_stats.getStats();
+    Item item=_itemInstance.getReference();
+    // Armour specifics
+    if (item instanceof Armour)
+    {
+      //Armour armour=(Armour)item;
+      Integer armourValue=_armourValue.getValue();
+      if (armourValue!=null)
+      {
+        stats.addStat(WellKnownStat.ARMOUR,new FixedDecimalsInteger(armourValue.intValue()));
+      }
+      //armour.setArmourType(_armourType.getSelectedItem());
+    }
+    _itemInstance.setOwnStats(_stats.getStats());
+
     // Item level
     String itemLevelStr=_itemLevel.getText();
     Integer itemLevel=NumericTools.parseInteger(itemLevelStr);
-    _item.setItemLevel(itemLevel);
+    _itemInstance.setItemLevel(itemLevel);
     // Minimum level
-    _item.setMinLevel(_minLevel.getValue());
+    _itemInstance.setMinLevel(_minLevel.getValue());
     // Description
-    _item.setDescription(_description.getText());
+    //_item.setDescription(_description.getText());
     // Birth name
     _itemInstance.setBirthName(_birthName.getText());
     // Crafter name
@@ -435,24 +456,24 @@ public class ItemEditionPanelController
     String userComments=_userComments.getText();
     if (userComments.length()>0)
     {
-      _item.setProperty(ItemPropertyNames.USER_COMMENT,userComments);
+      _itemInstance.setProperty(ItemPropertyNames.USER_COMMENT,userComments);
     }
     else
     {
-      _item.removeProperty(ItemPropertyNames.USER_COMMENT);
+      _itemInstance.removeProperty(ItemPropertyNames.USER_COMMENT);
     }
     // Binding
-    _item.setBinding(_binding.getSelectedItem());
+    //_item.setBinding(_binding.getSelectedItem());
     // Unicity
-    _item.setUnique(_unique.isSelected());
+    //_item.setUnique(_unique.isSelected());
     // Durability
-    _item.setDurability(_durability.getValue());
+    _itemInstance.setDurability(_durability.getValue());
     // Sturdiness
-    _item.setSturdiness(_sturdiness.getSelectedItem());
+    //_item.setSturdiness(_sturdiness.getSelectedItem());
     // Stack max
-    _item.setStackMax(_stackMax.getValue());
+    //_item.setStackMax(_stackMax.getValue());
     // Quality
-    _item.setQuality(_quality.getSelectedItem());
+    //_item.setQuality(_quality.getSelectedItem());
     // Essences
     List<Item> selectedEssences=_essencesEditor.getEssences();
     EssencesSet essences=null;
@@ -465,22 +486,13 @@ public class ItemEditionPanelController
       }
     }
     _itemInstance.setEssences(essences);
-    // Armour specifics
-    if (_item instanceof Armour)
-    {
-      Armour armour=(Armour)_item;
-      Integer armourValue=_armourValue.getValue();
-      if (armourValue!=null)
-      {
-        stats.addStat(WellKnownStat.ARMOUR,new FixedDecimalsInteger(armourValue.intValue()));
-      }
-      armour.setArmourType(_armourType.getSelectedItem());
-    }
 
     // Weapon specifics
-    if (_item instanceof Weapon)
+    // TODO Manage weapon instance attributes
+    /*
+    if (item instanceof Weapon)
     {
-      Weapon weapon=(Weapon)_item;
+      Weapon weapon=(Weapon)item;
       Integer minDamage=_minDamage.getValue();
       if (minDamage!=null)
       {
@@ -499,6 +511,7 @@ public class ItemEditionPanelController
       weapon.setDamageType(_damageType.getSelectedItem());
       weapon.setWeaponType(_weaponType.getSelectedItem());
     }
+    */
 
     // Legendary specifics
     if (_itemInstance instanceof LegendaryInstance)
@@ -506,7 +519,6 @@ public class ItemEditionPanelController
       LegendaryInstance legendary=(LegendaryInstance)_itemInstance;
       _relicsEditor.getData(legendary.getLegendaryAttributes().getRelicsSet());
     }
-    return _item;
   }
 
   private ComboBoxController<EquipmentLocation> buildSlotCombo()
@@ -623,7 +635,8 @@ public class ItemEditionPanelController
   {
     if (itemLevel!=null)
     {
-      StatsProvider provider=_item.getStatsProvider();
+      Item item=_itemInstance.getReference();
+      StatsProvider provider=item.getStatsProvider();
       if (provider!=null)
       {
         BasicStatsSet stats=provider.getStats(1,itemLevel.intValue(),true);
@@ -635,7 +648,8 @@ public class ItemEditionPanelController
   private void setStats(BasicStatsSet stats)
   {
     FixedDecimalsInteger armourValue=null;
-    if (_item instanceof Armour)
+    Item item=_itemInstance.getReference();
+    if (item instanceof Armour)
     {
       armourValue=stats.getStat(WellKnownStat.ARMOUR);
       if (armourValue!=null)
@@ -657,7 +671,7 @@ public class ItemEditionPanelController
   public void dispose()
   {
     // Data
-    _item=null;
+    _itemInstance=null;
     // Controllers
     _parent=null;
     if (_slot!=null)
