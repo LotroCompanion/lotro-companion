@@ -438,7 +438,7 @@ public class ItemEditionPanelController
       }
       //armour.setArmourType(_armourType.getSelectedItem());
     }
-    _itemInstance.setOwnStats(_stats.getStats());
+    _itemInstance.setOwnStats(stats);
 
     // Item level
     String itemLevelStr=_itemLevel.getText();
