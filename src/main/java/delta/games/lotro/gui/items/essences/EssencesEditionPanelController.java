@@ -78,7 +78,10 @@ public class EssencesEditionPanelController
   public void initFromItem(ItemInstance<? extends Item> itemInstance)
   {
     _essenceControllers.clear();
-    int nbSlots=itemInstance.getEssencesCount();
+    Item reference=itemInstance.getReference();
+    int refSlots=reference.getEssenceSlots();
+    int nbInstanceSlots=itemInstance.getEssencesCount();
+    int nbSlots=Math.max(refSlots,nbInstanceSlots);
     for(int i=0;i<nbSlots;i++)
     {
       Item essence=itemInstance.getEssenceAt(i);
