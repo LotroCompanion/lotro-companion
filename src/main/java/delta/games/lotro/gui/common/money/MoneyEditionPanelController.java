@@ -30,17 +30,16 @@ public class MoneyEditionPanelController
    */
   public MoneyEditionPanelController()
   {
-    _gold=buildEditor(10,null);
-    _silver=buildEditor(5,Integer.valueOf(999));
-    _copper=buildEditor(5,Integer.valueOf(99));
+    _gold=buildEditor(4,Integer.valueOf(9999));
+    _silver=buildEditor(3,Integer.valueOf(999));
+    _copper=buildEditor(2,Integer.valueOf(99));
     _panel=buildPanel();
   }
 
   private IntegerEditionController buildEditor(int nbColumns, Integer max)
   {
     JTextField textField=GuiFactory.buildTextField("");
-    textField.setColumns(nbColumns);
-    IntegerEditionController editor=new IntegerEditionController(textField);
+    IntegerEditionController editor=new IntegerEditionController(textField,nbColumns);
     editor.setValueRange(Integer.valueOf(0),max);
     return editor;
   }
