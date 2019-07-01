@@ -61,7 +61,6 @@ public class ItemEditionPanelController
 {
   // Data
   private ItemInstance<? extends Item> _itemInstance;
-  //private Item _item;
   private Munging _munging;
   private CharacterSummary _character;
   // GUI
