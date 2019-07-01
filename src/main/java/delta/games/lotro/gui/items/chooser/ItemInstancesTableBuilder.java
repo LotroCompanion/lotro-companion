@@ -17,8 +17,8 @@ import delta.common.ui.swing.tables.ProxiedTableColumnController;
 import delta.common.ui.swing.tables.TableColumnController;
 import delta.common.ui.swing.tables.TableColumnsManager;
 import delta.games.lotro.common.colors.ColorDescription;
-import delta.games.lotro.common.id.AccountId;
 import delta.games.lotro.common.id.EntityId;
+import delta.games.lotro.common.id.EntityType;
 import delta.games.lotro.common.id.ItemInstanceId;
 import delta.games.lotro.common.money.Money;
 import delta.games.lotro.gui.items.ItemColumnIds;
@@ -345,13 +345,8 @@ public class ItemInstancesTableBuilder
       String text="";
       if (id!=null)
       {
-        // TODO Resolve account/character IDs
-        String prefix="";
-        if (id instanceof AccountId)
-        {
-          prefix="Account:";
-        }
-        text=prefix+id.getId1()+"/"+id.getId2();
+        EntityType type=id.getType();
+        text=type+": "+id.getId1()+"/"+id.getId2();
       }
       setText(text);
     }
