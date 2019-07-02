@@ -212,6 +212,19 @@ public class LotroIconsManager
   }
 
   /**
+   * Get the icon for a given legacy tier and type.
+   * @param tier Legacy tier.
+   * @param major Legacy type (major or minor).
+   * @return An icon or <code>null</code> if not found.
+   */
+  public static ImageIcon getLegacyIcon(int tier, boolean major)
+  {
+    String path="/resources/gui/legendary/Legacy_"+(major?"Major":"Minor")+"_Tier_"+tier+"-icon.png";
+    ImageIcon ret=IconsManager.getIcon(path);
+    return ret;
+  }
+
+  /**
    * Initialize the application icons.
    */
   public static void initApplicationIcons()

@@ -1,0 +1,17 @@
+<item key="1879219073" name="Reforged Captain's Emblem of the Second Age" instanceId="1201770405/50855939" birthName="For Display Only" crafterName="Allurwyn [Fv]" boundTo="character:2598197/34078720" time="1560632352000">
+<legendary name="Honni soit qui mal y pense">
+<passive id="1879148290"/>
+<nonImbued level="60" upgrades="0" pointsSpent="644" pointsLeft="6">
+<defaultLegacy id="1879175077" rank="82"/>
+<tieredLegacy id="1879142518" rank="55"/>
+<tieredLegacy id="1879142498" rank="49"/>
+<tieredLegacy id="1879142567" rank="55"/>
+<tieredLegacy id="1879173048" rank="47"/>
+<tieredLegacy id="1879146378" rank="54"/>
+<tieredLegacy id="1879173031" rank="47"/>
+</nonImbued>
+<relic id="1879205253" type="SETTING" name="Iron Setting of Might"/>
+<relic id="1879205225" type="GEM" name="Sapphire Gem of Endurance"/>
+<relic id="1879205198" type="RUNE" name="Profound Rune of Deflection"/>
+</legendary>
+</item>
