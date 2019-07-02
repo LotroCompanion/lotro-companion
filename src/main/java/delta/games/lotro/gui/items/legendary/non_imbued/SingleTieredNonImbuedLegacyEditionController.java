@@ -158,6 +158,7 @@ public class SingleTieredNonImbuedLegacyEditionController
   private void setLegacy(TieredNonImbuedLegacy legacy)
   {
     _legacy=legacy;
+    updateGadgetsState();
     Integer tier=_tier.getSelectedItem();
     handleTierUpdate(tier!=null?tier.intValue():1);
   }
@@ -186,19 +187,18 @@ public class SingleTieredNonImbuedLegacyEditionController
    */
   public void setUiFromLegacy()
   {
+    // Update gadgets state
+    updateGadgetsState();
     // Update UI to reflect the internal legacy data
-    _legacy=_legacyInstance.getLegacy();
     if (hasLegacy())
     {
       // - Update tier
-      _tier.getComboBox().setEnabled(true);
       NonImbuedLegacyTier legacyTier=_legacyInstance.getLegacyTier();
       if (legacyTier!=null)
       {
         _tier.selectItem(Integer.valueOf(legacyTier.getTier()));
       }
       // - Update current rank
-      _currentRank.setState(true,true);
       int rank=_legacyInstance.getRank();
       _currentRank.setValue(Integer.valueOf(rank));
       // - Update derived UI
@@ -207,12 +207,22 @@ public class SingleTieredNonImbuedLegacyEditionController
     }
     else
     {
-      // - Update tier
-      _tier.getComboBox().setEnabled(false);
-      // - Update current rank
-      _currentRank.setState(false,false);
       // - Update stats
       updateStats();
+    }
+  }
+
+  private void updateGadgetsState()
+  {
+    if (hasLegacy())
+    {
+      _tier.getComboBox().setEnabled(true);
+      _currentRank.setState(true,true);
+    }
+    else
+    {
+      _tier.getComboBox().setEnabled(false);
+      _currentRank.setState(false,false);
     }
   }
 
