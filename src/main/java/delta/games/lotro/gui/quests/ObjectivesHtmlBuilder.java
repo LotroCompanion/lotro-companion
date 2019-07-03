@@ -6,11 +6,13 @@ import org.apache.log4j.Logger;
 
 import delta.games.lotro.character.skills.SkillDescription;
 import delta.games.lotro.gui.common.navigator.ReferenceConstants;
+import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.geo.LandmarkDescription;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.npc.NpcDescription;
 import delta.games.lotro.lore.quests.Achievable;
 import delta.games.lotro.lore.quests.QuestDescription;
+import delta.games.lotro.lore.quests.objectives.ConditionType;
 import delta.games.lotro.lore.quests.objectives.DefaultObjectiveCondition;
 import delta.games.lotro.lore.quests.objectives.FactionLevelCondition;
 import delta.games.lotro.lore.quests.objectives.InventoryItemCondition;
@@ -45,6 +47,8 @@ public class ObjectivesHtmlBuilder
    */
   public static void buildHtml(StringBuilder sb, Achievable achievable)
   {
+    // Is deed?
+    boolean isDeed=(achievable instanceof DeedDescription);
     // Objectives
     ObjectivesManager objectivesMgr=achievable.getObjectives();
     List<Objective> objectives=objectivesMgr.getObjectives();
@@ -59,14 +63,25 @@ public class ObjectivesHtmlBuilder
       }
       for(ObjectiveCondition condition : objective.getConditions())
       {
-        handleCondition(sb,condition);
+        handleCondition(sb,condition,isDeed);
       }
     }
   }
 
-  private static void handleCondition(StringBuilder sb, ObjectiveCondition condition)
+  private static void handleCondition(StringBuilder sb, ObjectiveCondition condition, boolean isDeed)
   {
-    sb.append("<p>").append(condition.getIndex()+": "+condition.getType()).append("</p>");
+    ConditionType type=condition.getType();
+    if (isDeed)
+    {
+      if ((type==ConditionType.ENTER_DETECTION) || (type==ConditionType.WORLD_EVENT_CONDITION))
+      {
+        if (!hasProgressOverride(condition))
+        {
+          return;
+        }
+      }
+    }
+    sb.append("<p>").append(condition.getIndex()+": "+type).append("</p>");
     if (condition instanceof QuestCompleteCondition)
     {
       QuestCompleteCondition questComplete=(QuestCompleteCondition)condition;
@@ -327,6 +342,12 @@ public class ObjectivesHtmlBuilder
       sb.append("<p>Missing data!!</p>");
     }
     printLoreInfo(sb,condition);
+  }
+
+  private static boolean hasProgressOverride(ObjectiveCondition condition)
+  {
+    String progressOverride=condition.getProgressOverride();
+    return ((progressOverride!=null) && (progressOverride.length()>0));
   }
 
   private static boolean printProgressOverrideWithCount(StringBuilder sb, ObjectiveCondition condition, int count)
