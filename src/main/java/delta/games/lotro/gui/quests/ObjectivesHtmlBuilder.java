@@ -19,6 +19,7 @@ import delta.games.lotro.lore.quests.objectives.InventoryItemCondition;
 import delta.games.lotro.lore.quests.objectives.ItemCondition;
 import delta.games.lotro.lore.quests.objectives.ItemUsedCondition;
 import delta.games.lotro.lore.quests.objectives.LandmarkDetectionCondition;
+import delta.games.lotro.lore.quests.objectives.LevelCondition;
 import delta.games.lotro.lore.quests.objectives.MonsterDiedCondition;
 import delta.games.lotro.lore.quests.objectives.MonsterDiedCondition.MobSelection;
 import delta.games.lotro.lore.quests.objectives.NpcTalkCondition;
@@ -121,6 +122,11 @@ public class ObjectivesHtmlBuilder
     {
       NpcTalkCondition npcTalk=(NpcTalkCondition)condition;
       handleNpcTalkCondition(sb,npcTalk);
+    }
+    else if (condition instanceof LevelCondition)
+    {
+      LevelCondition level=(LevelCondition)condition;
+      handleLevelCondition(sb,level);
     }
     else if (condition instanceof DefaultObjectiveCondition)
     {
@@ -330,6 +336,19 @@ public class ObjectivesHtmlBuilder
       {
         sb.append("<p>No NPC and no progress override</p>");
       }
+    }
+    printLoreInfo(sb,condition);
+  }
+
+  private static void handleLevelCondition(StringBuilder sb, LevelCondition condition)
+  {
+    boolean hasProgressOverride=printProgressOverride(sb,condition);
+    if (!hasProgressOverride)
+    {
+      int level=condition.getLevel();
+      sb.append("<p>");
+      sb.append("Reach level ").append(level);
+      sb.append("</p>");
     }
     printLoreInfo(sb,condition);
   }
