@@ -26,6 +26,7 @@ import delta.games.lotro.lore.quests.objectives.NpcTalkCondition;
 import delta.games.lotro.lore.quests.objectives.Objective;
 import delta.games.lotro.lore.quests.objectives.ObjectiveCondition;
 import delta.games.lotro.lore.quests.objectives.ObjectivesManager;
+import delta.games.lotro.lore.quests.objectives.QuestBestowedCondition;
 import delta.games.lotro.lore.quests.objectives.QuestCompleteCondition;
 import delta.games.lotro.lore.quests.objectives.SkillUsedCondition;
 import delta.games.lotro.lore.reputation.Faction;
@@ -128,6 +129,11 @@ public class ObjectivesHtmlBuilder
       LevelCondition level=(LevelCondition)condition;
       handleLevelCondition(sb,level);
     }
+    else if (condition instanceof QuestBestowedCondition)
+    {
+      QuestBestowedCondition questBestowed=(QuestBestowedCondition)condition;
+      handleQuestBestowedCondition(sb,questBestowed);
+    }
     else if (condition instanceof DefaultObjectiveCondition)
     {
       DefaultObjectiveCondition defaultCondition=(DefaultObjectiveCondition)condition;
@@ -146,22 +152,8 @@ public class ObjectivesHtmlBuilder
       Proxy<Achievable> proxy=questComplete.getProxy();
       if (proxy!=null)
       {
-        Achievable achievable=proxy.getObject();
-        if (achievable!=null)
-        {
-          boolean isQuest=(achievable instanceof QuestDescription);
-          String type=isQuest?"quest":"deed";
-          sb.append("Complete ").append(type).append(" <b>");
-          String text=achievable.getName();
-          String to=ReferenceConstants.getAchievableReference(achievable);
-          printLink(sb,to,text);
-          sb.append("</b>");
-        }
-        else
-        {
-          LOGGER.warn("Could not resolve deed/quest ID="+proxy.getId()+", name="+proxy.getName());
-          sb.append("Complete quest/deed "+proxy.getId());
-        }
+        String link=getAchievableLink(proxy);
+        sb.append("Complete ").append(link);
       }
       else if (questCategory!=null)
       {
@@ -351,6 +343,45 @@ public class ObjectivesHtmlBuilder
       sb.append("</p>");
     }
     printLoreInfo(sb,condition);
+  }
+
+  private static void handleQuestBestowedCondition(StringBuilder sb, QuestBestowedCondition questBestowed)
+  {
+    boolean hasProgressOverride=printProgressOverride(sb,questBestowed);
+    if (!hasProgressOverride)
+    {
+      sb.append("<p>");
+      Proxy<Achievable> proxy=questBestowed.getProxy();
+      if (proxy!=null)
+      {
+        String link=getAchievableLink(proxy);
+        sb.append("Have ").append(link).append(" bestowed");
+      }
+      sb.append("</p>");
+    }
+    printLoreInfo(sb,questBestowed);
+  }
+
+  private static String getAchievableLink(Proxy<Achievable> proxy)
+  {
+    StringBuilder sb=new StringBuilder();
+    Achievable achievable=proxy.getObject();
+    if (achievable!=null)
+    {
+      boolean isQuest=(achievable instanceof QuestDescription);
+      String type=isQuest?"quest":"deed";
+      sb.append(type).append(" <b>");
+      String text=achievable.getName();
+      String to=ReferenceConstants.getAchievableReference(achievable);
+      printLink(sb,to,text);
+      sb.append("</b>");
+    }
+    else
+    {
+      LOGGER.warn("Could not resolve deed/quest ID="+proxy.getId()+", name="+proxy.getName());
+      sb.append("quest/deed "+proxy.getId());
+    }
+    return sb.toString();
   }
 
   private static void handleDefaultCondition(StringBuilder sb, DefaultObjectiveCondition condition)
