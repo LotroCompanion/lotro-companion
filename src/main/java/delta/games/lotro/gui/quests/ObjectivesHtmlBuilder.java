@@ -14,6 +14,7 @@ import delta.games.lotro.lore.quests.Achievable;
 import delta.games.lotro.lore.quests.QuestDescription;
 import delta.games.lotro.lore.quests.objectives.ConditionType;
 import delta.games.lotro.lore.quests.objectives.DefaultObjectiveCondition;
+import delta.games.lotro.lore.quests.objectives.ExternalInventoryItemCondition;
 import delta.games.lotro.lore.quests.objectives.FactionLevelCondition;
 import delta.games.lotro.lore.quests.objectives.InventoryItemCondition;
 import delta.games.lotro.lore.quests.objectives.ItemCondition;
@@ -108,6 +109,11 @@ public class ObjectivesHtmlBuilder
     {
       ItemUsedCondition inventoryItem=(ItemUsedCondition)condition;
       handleItemUsedCondition(sb,inventoryItem);
+    }
+    else if (condition instanceof ExternalInventoryItemCondition)
+    {
+      ExternalInventoryItemCondition inventoryItem=(ExternalInventoryItemCondition)condition;
+      handleExternalInventoryItemCondition(sb,inventoryItem);
     }
     else if (condition instanceof FactionLevelCondition)
     {
@@ -238,6 +244,11 @@ public class ObjectivesHtmlBuilder
   private static void handleItemUsedCondition(StringBuilder sb, ItemUsedCondition condition)
   {
     handleItemCondition(sb,condition,"Use");
+  }
+
+  private static void handleExternalInventoryItemCondition(StringBuilder sb, ExternalInventoryItemCondition condition)
+  {
+    handleItemCondition(sb,condition,"Obtain");
   }
 
   private static void handleItemCondition(StringBuilder sb, ItemCondition condition, String verb)
