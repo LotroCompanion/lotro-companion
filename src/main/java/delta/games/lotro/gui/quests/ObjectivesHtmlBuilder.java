@@ -18,6 +18,7 @@ import delta.games.lotro.lore.quests.objectives.ExternalInventoryItemCondition;
 import delta.games.lotro.lore.quests.objectives.FactionLevelCondition;
 import delta.games.lotro.lore.quests.objectives.InventoryItemCondition;
 import delta.games.lotro.lore.quests.objectives.ItemCondition;
+import delta.games.lotro.lore.quests.objectives.ItemTalkCondition;
 import delta.games.lotro.lore.quests.objectives.ItemUsedCondition;
 import delta.games.lotro.lore.quests.objectives.LandmarkDetectionCondition;
 import delta.games.lotro.lore.quests.objectives.LevelCondition;
@@ -114,6 +115,11 @@ public class ObjectivesHtmlBuilder
     {
       ExternalInventoryItemCondition inventoryItem=(ExternalInventoryItemCondition)condition;
       handleExternalInventoryItemCondition(sb,inventoryItem);
+    }
+    else if (condition instanceof ItemTalkCondition)
+    {
+      ItemTalkCondition inventoryItem=(ItemTalkCondition)condition;
+      handleItemTalkCondition(sb,inventoryItem);
     }
     else if (condition instanceof FactionLevelCondition)
     {
@@ -249,6 +255,11 @@ public class ObjectivesHtmlBuilder
   private static void handleExternalInventoryItemCondition(StringBuilder sb, ExternalInventoryItemCondition condition)
   {
     handleItemCondition(sb,condition,"Obtain");
+  }
+
+  private static void handleItemTalkCondition(StringBuilder sb, ItemTalkCondition condition)
+  {
+    handleItemCondition(sb,condition,"Use");
   }
 
   private static void handleItemCondition(StringBuilder sb, ItemCondition condition, String verb)
