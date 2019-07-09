@@ -23,7 +23,7 @@ import delta.games.lotro.lore.items.legendary.imbued.ImbuedLegacyInstance;
 import delta.games.lotro.lore.items.legendary.imbued.ImbuedLegendaryAttrs;
 
 /**
- * Panel to edit a imbued legacy instance.
+ * Panel to edit the legacies of an imbued legendary item instance.
  * @author DAM
  */
 public class ImbuedLegacyInstanceEditionPanelController
