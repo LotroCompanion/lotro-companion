@@ -23,6 +23,7 @@ public class SinglePassiveEditionController
 {
   // Data
   private Effect _passive;
+  private int _itemId;
   private int _level;
   // Controllers
   private WindowController _parent;
@@ -35,12 +36,14 @@ public class SinglePassiveEditionController
    * Constructor.
    * @param parent Parent window.
    * @param passive Current effect (may be <code>null</code>).
+   * @param itemId Item identifier.
    * @param level Item level to use for stats computations.
    */
-  public SinglePassiveEditionController(WindowController parent, Effect passive, int level)
+  public SinglePassiveEditionController(WindowController parent, Effect passive, int itemId, int level)
   {
     _parent=parent;
     _passive=passive;
+    _itemId=itemId;
     _level=level;
     // UI
     // - value display
@@ -72,7 +75,7 @@ public class SinglePassiveEditionController
 
   private void handleButtonClick(JButton button)
   {
-    Effect passive=PassiveChooser.selectPassive(_parent,_passive);
+    Effect passive=PassiveChooser.selectPassive(_parent,_itemId,_passive);
     if (passive!=null)
     {
       _passive=passive;

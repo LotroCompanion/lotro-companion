@@ -43,13 +43,14 @@ public class PassiveChooser
   /**
    * Show the passive selection dialog.
    * @param parent Parent controller.
+   * @param itemId Parent item.
    * @param selectedPassive Selected passive.
    * @return The selected passive or <code>null</code> if the window was closed or canceled.
    */
-  public static Effect selectPassive(WindowController parent, Effect selectedPassive)
+  public static Effect selectPassive(WindowController parent, int itemId, Effect selectedPassive)
   {
     PassivesManager passivesMgr=PassivesManager.getInstance();
-    List<Effect> passives=passivesMgr.getAll();
+    List<Effect> passives=passivesMgr.getPassivesForItem(itemId);
     // Build chooser
     ObjectChoiceWindowController<Effect> chooser=buildPassiveChooser(parent,passives,selectedPassive);
     // Show modal

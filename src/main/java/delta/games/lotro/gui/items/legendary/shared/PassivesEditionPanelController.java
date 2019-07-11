@@ -31,9 +31,10 @@ public class PassivesEditionPanelController
    * Constructor.
    * @param parent Parent controller.
    * @param legendaryAttrs Attributes to edit.
+   * @param itemId Item identifier.
    * @param level Item level.
    */
-  public PassivesEditionPanelController(WindowController parent, LegendaryAttrs legendaryAttrs, int level)
+  public PassivesEditionPanelController(WindowController parent, LegendaryAttrs legendaryAttrs, int itemId, int level)
   {
     _passiveGadgets=new ArrayList<SinglePassiveEditionController>();
     List<Effect> passives=legendaryAttrs.getPassives();
@@ -41,7 +42,7 @@ public class PassivesEditionPanelController
     for(int i=0;i<NB_PASSIVES_MAX;i++)
     {
       Effect passive=(i<nbPassives)?passives.get(i):null;
-      SinglePassiveEditionController controller=new SinglePassiveEditionController(parent,passive,level);
+      SinglePassiveEditionController controller=new SinglePassiveEditionController(parent,passive,itemId,level);
       _passiveGadgets.add(controller);
     }
   }

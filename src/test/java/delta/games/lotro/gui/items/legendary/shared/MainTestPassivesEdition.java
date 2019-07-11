@@ -48,7 +48,8 @@ public class MainTestPassivesEdition
       LegendaryInstance legInstance=(LegendaryInstance)testItem;
       LegendaryAttrs legAttrs=legInstance.getLegendaryAttributes();
       Integer level=testItem.getEffectiveItemLevel();
-      PassivesEditionPanelController controller=new PassivesEditionPanelController(null,legAttrs,level.intValue());
+      int itemId=testItem.getIdentifier();
+      PassivesEditionPanelController controller=new PassivesEditionPanelController(null,legAttrs,itemId,level.intValue());
 
       JFrame f=new JFrame();
       f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
