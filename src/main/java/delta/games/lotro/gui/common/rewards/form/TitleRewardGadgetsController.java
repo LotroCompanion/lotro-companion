@@ -2,8 +2,6 @@ package delta.games.lotro.gui.common.rewards.form;
 
 import java.awt.Color;
 
-import javax.swing.JLabel;
-
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.labels.LabelWithHalo;
 import delta.games.lotro.common.rewards.TitleReward;
@@ -12,11 +10,8 @@ import delta.games.lotro.common.rewards.TitleReward;
  * Controller for the UI gadgets of a title reward.
  * @author DAM
  */
-public class TitleRewardGadgetsController
+public class TitleRewardGadgetsController extends RewardGadgetsController
 {
-  private JLabel _labelIcon;
-  private JLabel _label;
-
   /**
    * Constructor.
    * @param title Title.
@@ -32,23 +27,5 @@ public class TitleRewardGadgetsController
     _label.setForeground(color);
     // Icon
     _labelIcon=GuiFactory.buildTransparentIconlabel(32);
-  }
-
-  /**
-   * Get the managed (label) icon.
-   * @return a icon label.
-   */
-  public JLabel getLabelIcon()
-  {
-    return _labelIcon;
-  }
-
-  /**
-   * Get the managed label.
-   * @return a halo label.
-   */
-  public JLabel getLabel()
-  {
-    return _label;
   }
 }

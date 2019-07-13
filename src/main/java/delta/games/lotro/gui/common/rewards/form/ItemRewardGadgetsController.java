@@ -3,7 +3,6 @@ package delta.games.lotro.gui.common.rewards.form;
 import java.awt.Color;
 
 import javax.swing.Icon;
-import javax.swing.JLabel;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.labels.LabelWithHalo;
@@ -15,11 +14,8 @@ import delta.games.lotro.lore.items.ItemQuality;
  * Controller for the UI gadgets of an item reward.
  * @author DAM
  */
-public class ItemRewardGadgetsController
+public class ItemRewardGadgetsController extends RewardGadgetsController
 {
-  private JLabel _labelIcon;
-  private JLabel _label;
-
   /**
    * Constructor.
    * @param item Item to display.
@@ -59,23 +55,5 @@ public class ItemRewardGadgetsController
     if (quality==ItemQuality.UNCOMMON) ret=new Color(241,238,123); // Yellow
     if (quality==ItemQuality.COMMON) ret=Color.WHITE; // White
     return ret;
-  }
-
-  /**
-   * Get the managed (label) icon for item icon.
-   * @return a icon label.
-   */
-  public JLabel getLabelIcon()
-  {
-    return _labelIcon;
-  }
-
-  /**
-   * Get the managed label (for item name).
-   * @return a halo label.
-   */
-  public JLabel getLabel()
-  {
-    return _label;
   }
 }
