@@ -24,7 +24,9 @@ import delta.games.lotro.lore.quests.objectives.LandmarkDetectionCondition;
 import delta.games.lotro.lore.quests.objectives.LevelCondition;
 import delta.games.lotro.lore.quests.objectives.MonsterDiedCondition;
 import delta.games.lotro.lore.quests.objectives.MonsterDiedCondition.MobSelection;
+import delta.games.lotro.lore.quests.objectives.NpcCondition;
 import delta.games.lotro.lore.quests.objectives.NpcTalkCondition;
+import delta.games.lotro.lore.quests.objectives.NpcUsedCondition;
 import delta.games.lotro.lore.quests.objectives.Objective;
 import delta.games.lotro.lore.quests.objectives.ObjectiveCondition;
 import delta.games.lotro.lore.quests.objectives.ObjectivesManager;
@@ -135,6 +137,11 @@ public class ObjectivesHtmlBuilder
     {
       NpcTalkCondition npcTalk=(NpcTalkCondition)condition;
       handleNpcTalkCondition(sb,npcTalk);
+    }
+    else if (condition instanceof NpcUsedCondition)
+    {
+      NpcUsedCondition npcUsed=(NpcUsedCondition)condition;
+      handleNpcUsedCondition(sb,npcUsed);
     }
     else if (condition instanceof LevelCondition)
     {
@@ -335,6 +342,16 @@ public class ObjectivesHtmlBuilder
 
   private static void handleNpcTalkCondition(StringBuilder sb, NpcTalkCondition condition)
   {
+    handleNpcCondition(sb,condition);
+  }
+
+  private static void handleNpcUsedCondition(StringBuilder sb, NpcUsedCondition condition)
+  {
+    handleNpcCondition(sb,condition);
+  }
+
+  private static void handleNpcCondition(StringBuilder sb, NpcCondition condition)
+  {
     boolean hasProgressOverride=printProgressOverride(sb,condition);
     if (!hasProgressOverride)
     {
@@ -343,7 +360,8 @@ public class ObjectivesHtmlBuilder
       {
         sb.append("<p>");
         String name=npcProxy.getName();
-        sb.append("Talk to ").append(name);
+        String action=condition.getAction();
+        sb.append(action).append(' ').append(name);
         sb.append("</p>");
       }
       else
