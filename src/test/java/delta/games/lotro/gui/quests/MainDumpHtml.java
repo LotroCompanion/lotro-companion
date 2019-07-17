@@ -24,6 +24,7 @@ public class MainDumpHtml
   {
     dumpQuests();
     dumpDeeds();
+    System.out.println(ObjectivesHtmlBuilder._counters);
   }
 
   private static void dumpQuests()

@@ -1,19 +1,26 @@
 package delta.games.lotro.gui.quests;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 
+import delta.common.utils.misc.IntegerHolder;
 import delta.games.lotro.character.skills.SkillDescription;
 import delta.games.lotro.gui.common.navigator.ReferenceConstants;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.geo.LandmarkDescription;
 import delta.games.lotro.lore.items.Item;
+import delta.games.lotro.lore.mobs.MobDescription;
 import delta.games.lotro.lore.npc.NpcDescription;
 import delta.games.lotro.lore.quests.Achievable;
 import delta.games.lotro.lore.quests.QuestDescription;
 import delta.games.lotro.lore.quests.objectives.ConditionType;
 import delta.games.lotro.lore.quests.objectives.DefaultObjectiveCondition;
+import delta.games.lotro.lore.quests.objectives.DetectingCondition;
+import delta.games.lotro.lore.quests.objectives.DetectionCondition;
+import delta.games.lotro.lore.quests.objectives.EnterDetectionCondition;
 import delta.games.lotro.lore.quests.objectives.ExternalInventoryItemCondition;
 import delta.games.lotro.lore.quests.objectives.FactionLevelCondition;
 import delta.games.lotro.lore.quests.objectives.InventoryItemCondition;
@@ -152,6 +159,16 @@ public class ObjectivesHtmlBuilder
     {
       QuestBestowedCondition questBestowed=(QuestBestowedCondition)condition;
       handleQuestBestowedCondition(sb,questBestowed);
+    }
+    else if (condition instanceof DetectingCondition)
+    {
+      DetectingCondition detecting=(DetectingCondition)condition;
+      handleDetectingCondition(sb,detecting);
+    }
+    else if (condition instanceof EnterDetectionCondition)
+    {
+      EnterDetectionCondition enterDetection=(EnterDetectionCondition)condition;
+      handleEnterDetectionCondition(sb,enterDetection);
     }
     else if (condition instanceof DefaultObjectiveCondition)
     {
@@ -402,6 +419,46 @@ public class ObjectivesHtmlBuilder
     printLoreInfo(sb,questBestowed);
   }
 
+  private static void handleDetectingCondition(StringBuilder sb, DetectingCondition condition)
+  {
+    handleDetectionCondition(sb,condition);
+  }
+
+  private static void handleEnterDetectionCondition(StringBuilder sb, EnterDetectionCondition condition)
+  {
+    handleDetectionCondition(sb,condition);
+  }
+
+  private static void handleDetectionCondition(StringBuilder sb, DetectionCondition condition)
+  {
+    boolean hasProgressOverride=printProgressOverride(sb,condition);
+    if (!hasProgressOverride)
+    {
+      Proxy<NpcDescription> npcProxy=condition.getNpcProxy();
+      Proxy<MobDescription> mobProxy=condition.getMobProxy();
+      if (npcProxy!=null)
+      {
+        sb.append("<p>");
+        String name=npcProxy.getName();
+        sb.append("Go near ").append(name);
+        sb.append("</p>");
+      }
+      else if (mobProxy!=null)
+      {
+        sb.append("<p>");
+        String name=mobProxy.getName();
+        sb.append("Go near ").append(' ').append(name);
+        sb.append("</p>");
+      }
+      else
+      {
+        LOGGER.warn("No NPC, no mob and no progress override");
+        sb.append("<p>No NPC, no mob and no progress override</p>");
+      }
+    }
+    printLoreInfo(sb,condition);
+  }
+
   private static String getAchievableLink(Proxy<Achievable> proxy)
   {
     StringBuilder sb=new StringBuilder();
@@ -424,12 +481,22 @@ public class ObjectivesHtmlBuilder
     return sb.toString();
   }
 
+  public static Map<ConditionType,IntegerHolder> _counters=new HashMap<ConditionType,IntegerHolder>();
+
   private static void handleDefaultCondition(StringBuilder sb, DefaultObjectiveCondition condition)
   {
     boolean hasProgressOverride=printProgressOverride(sb,condition);
     if (!hasProgressOverride)
     {
       sb.append("<p>Missing data!!</p>");
+      ConditionType type=condition.getType();
+      IntegerHolder counter=_counters.get(type);
+      if (counter==null)
+      {
+        counter=new IntegerHolder();
+        _counters.put(type,counter);
+      }
+      counter.increment();
     }
     printLoreInfo(sb,condition);
   }
