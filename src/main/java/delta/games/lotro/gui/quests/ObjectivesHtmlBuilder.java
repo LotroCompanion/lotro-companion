@@ -10,16 +10,19 @@ import delta.common.utils.misc.IntegerHolder;
 import delta.games.lotro.character.skills.SkillDescription;
 import delta.games.lotro.gui.common.navigator.ReferenceConstants;
 import delta.games.lotro.lore.deeds.DeedDescription;
+import delta.games.lotro.lore.emotes.EmoteDescription;
 import delta.games.lotro.lore.geo.LandmarkDescription;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.mobs.MobDescription;
 import delta.games.lotro.lore.npc.NpcDescription;
 import delta.games.lotro.lore.quests.Achievable;
 import delta.games.lotro.lore.quests.QuestDescription;
+import delta.games.lotro.lore.quests.objectives.ConditionTarget;
 import delta.games.lotro.lore.quests.objectives.ConditionType;
 import delta.games.lotro.lore.quests.objectives.DefaultObjectiveCondition;
 import delta.games.lotro.lore.quests.objectives.DetectingCondition;
 import delta.games.lotro.lore.quests.objectives.DetectionCondition;
+import delta.games.lotro.lore.quests.objectives.EmoteCondition;
 import delta.games.lotro.lore.quests.objectives.EnterDetectionCondition;
 import delta.games.lotro.lore.quests.objectives.ExternalInventoryItemCondition;
 import delta.games.lotro.lore.quests.objectives.FactionLevelCondition;
@@ -169,6 +172,11 @@ public class ObjectivesHtmlBuilder
     {
       EnterDetectionCondition enterDetection=(EnterDetectionCondition)condition;
       handleEnterDetectionCondition(sb,enterDetection);
+    }
+    else if (condition instanceof EmoteCondition)
+    {
+      EmoteCondition emoteCondition=(EmoteCondition)condition;
+      handleEmoteCondition(sb,emoteCondition);
     }
     else if (condition instanceof DefaultObjectiveCondition)
     {
@@ -434,29 +442,69 @@ public class ObjectivesHtmlBuilder
     boolean hasProgressOverride=printProgressOverride(sb,condition);
     if (!hasProgressOverride)
     {
-      Proxy<NpcDescription> npcProxy=condition.getNpcProxy();
-      Proxy<MobDescription> mobProxy=condition.getMobProxy();
-      if (npcProxy!=null)
+      String target=getTarget(condition.getTarget());
+      if (target!=null)
       {
         sb.append("<p>");
-        String name=npcProxy.getName();
-        sb.append("Go near ").append(name);
-        sb.append("</p>");
-      }
-      else if (mobProxy!=null)
-      {
-        sb.append("<p>");
-        String name=mobProxy.getName();
-        sb.append("Go near ").append(' ').append(name);
+        sb.append("Go near ").append(target);
         sb.append("</p>");
       }
       else
       {
         LOGGER.warn("No NPC, no mob and no progress override");
-        sb.append("<p>No NPC, no mob and no progress override</p>");
       }
     }
     printLoreInfo(sb,condition);
+  }
+
+  private static void handleEmoteCondition(StringBuilder sb, EmoteCondition condition)
+  {
+    boolean hasProgressOverride=printProgressOverride(sb,condition);
+    if (!hasProgressOverride)
+    {
+      sb.append("<p>");
+      Proxy<EmoteDescription> emote=condition.getProxy();
+      String command=emote.getName();
+      sb.append("Perform emote ").append(command);
+      int count=condition.getCount();
+      if (count>1)
+      {
+        sb.append(" x").append(count);
+      }
+      Integer maxDaily=condition.getMaxDaily();
+      if (maxDaily!=null)
+      {
+        sb.append(" (max ").append(maxDaily).append("/day");
+      }
+      ConditionTarget target=condition.getTarget();
+      String targetLabel=getTarget(target);
+      if (targetLabel!=null)
+      {
+        sb.append(" on ");
+        sb.append(targetLabel);
+      }
+      sb.append("</p>");
+    }
+    printLoreInfo(sb,condition);
+  }
+
+  private static String getTarget(ConditionTarget target)
+  {
+    String ret=null;
+    if (target!=null)
+    {
+      Proxy<NpcDescription> npcProxy=target.getNpcProxy();
+      Proxy<MobDescription> mobProxy=target.getMobProxy();
+      if (npcProxy!=null)
+      {
+        ret=npcProxy.getName();
+      }
+      else if (mobProxy!=null)
+      {
+        ret=mobProxy.getName();
+      }
+    }
+    return ret;
   }
 
   private static String getAchievableLink(Proxy<Achievable> proxy)
