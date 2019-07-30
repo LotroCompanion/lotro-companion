@@ -12,7 +12,7 @@ import delta.common.utils.xml.DOMParsingTools;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemInstance;
 import delta.games.lotro.lore.items.io.xml.ItemXMLParser;
-import delta.games.lotro.lore.items.legendary.LegendaryAttrs;
+import delta.games.lotro.lore.items.legendary.LegendaryInstanceAttrs;
 import delta.games.lotro.lore.items.legendary.LegendaryInstance;
 
 /**
@@ -46,7 +46,7 @@ public class MainTestPassivesEdition
     if (testItem instanceof LegendaryInstance)
     {
       LegendaryInstance legInstance=(LegendaryInstance)testItem;
-      LegendaryAttrs legAttrs=legInstance.getLegendaryAttributes();
+      LegendaryInstanceAttrs legAttrs=legInstance.getLegendaryAttributes();
       Integer level=testItem.getEffectiveItemLevel();
       int itemId=testItem.getIdentifier();
       PassivesEditionPanelController controller=new PassivesEditionPanelController(null,legAttrs,itemId,level.intValue());

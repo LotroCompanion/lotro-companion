@@ -16,7 +16,7 @@ import delta.games.lotro.lore.items.EquipmentLocation;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemInstance;
 import delta.games.lotro.lore.items.io.xml.ItemXMLParser;
-import delta.games.lotro.lore.items.legendary.LegendaryAttrs;
+import delta.games.lotro.lore.items.legendary.LegendaryInstanceAttrs;
 import delta.games.lotro.lore.items.legendary.LegendaryInstance;
 import delta.games.lotro.lore.items.legendary.non_imbued.NonImbuedLegendaryAttrs;
 
@@ -40,7 +40,7 @@ public class MainTestNonImbuedLegendaryAttrsEdition
       if (itemInstance instanceof LegendaryInstance)
       {
         LegendaryInstance legInstance=(LegendaryInstance)itemInstance;
-        LegendaryAttrs legAttrs=legInstance.getLegendaryAttributes();
+        LegendaryInstanceAttrs legAttrs=legInstance.getLegendaryAttributes();
         nonImbuedLegAttrs=legAttrs.getNonImbuedAttrs();
       }
     }

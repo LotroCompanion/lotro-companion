@@ -10,7 +10,7 @@ import delta.games.lotro.common.constraints.ClassAndSlot;
 import delta.games.lotro.lore.items.EquipmentLocation;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemInstance;
-import delta.games.lotro.lore.items.legendary.LegendaryAttrs;
+import delta.games.lotro.lore.items.legendary.LegendaryInstanceAttrs;
 import delta.games.lotro.lore.items.legendary.LegendaryInstance;
 import delta.games.lotro.lore.items.legendary.imbued.ImbuedLegendaryAttrs;
 import delta.games.lotro.plugins.lotrocompanion.links.ChatItemLinksDecoder;
@@ -47,7 +47,7 @@ public class MainTestImbuedLegendaryAttrsEdition
       if (itemInstance instanceof LegendaryInstance)
       {
         LegendaryInstance legInstance=(LegendaryInstance)itemInstance;
-        LegendaryAttrs legAttrs=legInstance.getLegendaryAttributes();
+        LegendaryInstanceAttrs legAttrs=legInstance.getLegendaryAttributes();
         imbuedLegAttrs=legAttrs.getImbuedAttrs();
       }
     }

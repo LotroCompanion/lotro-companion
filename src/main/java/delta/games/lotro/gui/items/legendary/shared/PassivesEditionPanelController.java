@@ -13,7 +13,7 @@ import javax.swing.JPanel;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.common.effects.Effect;
-import delta.games.lotro.lore.items.legendary.LegendaryAttrs;
+import delta.games.lotro.lore.items.legendary.LegendaryInstanceAttrs;
 
 /**
  * Panel to edit passives.
@@ -34,7 +34,7 @@ public class PassivesEditionPanelController
    * @param itemId Item identifier.
    * @param level Item level.
    */
-  public PassivesEditionPanelController(WindowController parent, LegendaryAttrs legendaryAttrs, int itemId, int level)
+  public PassivesEditionPanelController(WindowController parent, LegendaryInstanceAttrs legendaryAttrs, int itemId, int level)
   {
     _passiveGadgets=new ArrayList<SinglePassiveEditionController>();
     List<Effect> passives=legendaryAttrs.getPassives();
@@ -87,7 +87,7 @@ public class PassivesEditionPanelController
    * Get the contents of the edited data into the given storage.
    * @param legendaryAttrs Storage for data.
    */
-  public void getData(LegendaryAttrs legendaryAttrs)
+  public void getData(LegendaryInstanceAttrs legendaryAttrs)
   {
     List<Effect> passives=legendaryAttrs.getPassives();
     passives.clear();

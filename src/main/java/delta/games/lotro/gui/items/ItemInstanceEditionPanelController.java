@@ -44,7 +44,7 @@ import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemInstance;
 import delta.games.lotro.lore.items.ItemPropertyNames;
 import delta.games.lotro.lore.items.essences.EssencesSet;
-import delta.games.lotro.lore.items.legendary.LegendaryAttrs;
+import delta.games.lotro.lore.items.legendary.LegendaryInstanceAttrs;
 import delta.games.lotro.lore.items.legendary.LegendaryInstance;
 import delta.games.lotro.lore.items.scaling.Munging;
 import delta.games.lotro.utils.DateFormat;
@@ -196,7 +196,7 @@ public class ItemInstanceEditionPanelController
     if (_itemInstance instanceof LegendaryInstance)
     {
       LegendaryInstance legItem=(LegendaryInstance)_itemInstance;
-      LegendaryAttrs attrs=new LegendaryAttrs(legItem.getLegendaryAttributes());
+      LegendaryInstanceAttrs attrs=new LegendaryInstanceAttrs(legItem.getLegendaryAttributes());
       _relicsEditor=new RelicsEditionPanelController(_parent,attrs.getRelicsSet());
     }
   }
