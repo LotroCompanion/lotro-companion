@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<item key="1879311780" name="Reshaped Hunter's Crossbow of the First Age" level="198" instanceId="-1981807154/50855940" birthName="Katioucha V" crafterName="Glumlug [M]" boundTo="UNKNOWN:2253734/34078720" time="1564591194000">
+<legendary>
+<nonImbued level="60" upgrades="3" pointsSpent="0" pointsLeft="0"/>
+<imbued>
+<imbuedLegacy imbuedLegacyId="1879325265" xp="1560000" unlockedLevels="19"/>
+<imbuedLegacy imbuedLegacyId="1879321212" xp="1290000" unlockedLevels="1"/>
+<imbuedLegacy imbuedLegacyId="1879321213" xp="1410000" unlockedLevels="5"/>
+<imbuedLegacy imbuedLegacyId="1879321224" xp="1320000" unlockedLevels="2"/>
+<imbuedLegacy imbuedLegacyId="1879321222" xp="1380000" unlockedLevels="4"/>
+<imbuedLegacy imbuedLegacyId="1879321214" xp="1320000" unlockedLevels="2"/>
+<imbuedLegacy imbuedLegacyId="1879321220" xp="1320000" unlockedLevels="2"/>
+<imbuedLegacy imbuedLegacyId="1879321218" xp="1770000" unlockedLevels="17"/>
+</imbued>
+<relic id="1879384148" type="RUNE" name="Rare Mithrin Rune of Striking"/>
+</legendary>
+<money gold="0" silver="65" copper="44"/>
+</item>
