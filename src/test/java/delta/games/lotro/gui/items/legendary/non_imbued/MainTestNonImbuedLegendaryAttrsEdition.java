@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.items.legendary.nom_imbued;
+package delta.games.lotro.gui.items.legendary.non_imbued;
 
 import java.net.URL;
 
