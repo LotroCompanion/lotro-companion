@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<item key="1879311779" name="Reshaped Captain's Greatsword of the First Age" instanceId="-2065682798:50855940" crafterName="Targalion [M]" boundTo="2598197:34078720">
+<legendary name="Magic stick">
+<passive id="1879147310"/>
+<passive id="1879147291"/>
+<passive id="1879147318"/>
+<nonImbued level="60" upgrades="0" pointsSpent="0" pointsLeft="0"/>
+<imbued>
+<imbuedLegacy imbuedLegacyId="1879325265" xp="1466385" unlockedLevels="18"/>
+<imbuedLegacy imbuedLegacyId="1879321088" xp="1320000" unlockedLevels="2"/>
+<imbuedLegacy imbuedLegacyId="1879323701" xp="1380000" unlockedLevels="4"/>
+<imbuedLegacy imbuedLegacyId="1879323705" xp="1410000" unlockedLevels="5"/>
+<imbuedLegacy imbuedLegacyId="1879323704" xp="1350000" unlockedLevels="3"/>
+<imbuedLegacy imbuedLegacyId="1879321086" xp="1410000" unlockedLevels="5"/>
+<imbuedLegacy imbuedLegacyId="1879321081" xp="1380000" unlockedLevels="4"/>
+<imbuedLegacy imbuedLegacyId="1879321100" xp="1350000" unlockedLevels="3"/>
+</imbued>
+<relic id="1879350999" type="SETTING" name="Last Alliance Setting of Brutality"/>
+<relic id="1879384148" type="RUNE" name="Rare Mithrin Rune of Striking"/>
+<relic id="1879278161" type="CRAFTED_RELIC" name="Westemnet Device of Battle"/>
+</legendary>
+</item>
