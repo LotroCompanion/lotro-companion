@@ -1,6 +1,7 @@
 package delta.games.lotro.gui.items.legendary.non_imbued;
 
 import java.awt.Component;
+import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -11,6 +12,7 @@ import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import delta.common.ui.swing.GuiFactory;
@@ -29,11 +31,15 @@ import delta.games.lotro.lore.items.legendary.non_imbued.TieredNonImbuedLegacyIn
 public class NonImbuedAttrsEditionPanelController
 {
   // Data
-  //private NonImbuedLegendaryAttrs _attrs;
+  private NonImbuedLegendaryAttrs _attrs;
   // GUI
   private JPanel _panel;
   // Controllers
   private WindowController _parent;
+  private ComboBoxController<Integer> _upgrades;
+  private ComboBoxController<Integer> _level;
+  private IntegerEditionController _availablePoints;
+  private IntegerEditionController _spentPoints;
   private List<SingleTieredNonImbuedLegacyEditionController> _legacyEditors;
 
   /**
@@ -45,8 +51,14 @@ public class NonImbuedAttrsEditionPanelController
   public NonImbuedAttrsEditionPanelController(WindowController parent, NonImbuedLegendaryAttrs attrs, ClassAndSlot constraints)
   {
     _parent=parent;
-    //_attrs=attrs;
+    _attrs=attrs;
     polyfillAttrs(attrs);
+    // Gadgets
+    _upgrades=buildUpgradesCombos();
+    _level=buildLevelsCombos();
+    _availablePoints=buildIntegerEditionController(0,2000);
+    _spentPoints=buildIntegerEditionController(0,2000);
+    // Legacies
     _legacyEditors=new ArrayList<SingleTieredNonImbuedLegacyEditionController>();
     List<TieredNonImbuedLegacyInstance> legacies=attrs.getLegacies();
     int nbLegacies=legacies.size();
@@ -85,9 +97,31 @@ public class NonImbuedAttrsEditionPanelController
   private JPanel build()
   {
     JPanel panel=GuiFactory.buildBackgroundPanel(new GridBagLayout());
+    // Attributes
+    JPanel attributesPanel=buildAttrsPanel();
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    panel.add(attributesPanel,c);
+    // Legacies
     JPanel legaciesPanel=buildLegaciesPanel();
-    GridBagConstraints c=new GridBagConstraints(0,1,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    c=new GridBagConstraints(0,1,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(legaciesPanel,c);
+    return panel;
+  }
+
+  private JPanel buildAttrsPanel()
+  {
+    JPanel panel=GuiFactory.buildBackgroundPanel(new FlowLayout(FlowLayout.LEFT));
+    // Upgrades
+    panel.add(GuiFactory.buildLabel("Upgrades:"));
+    panel.add(_upgrades.getComboBox());
+    // Level
+    panel.add(GuiFactory.buildLabel("Level:"));
+    panel.add(_level.getComboBox());
+    // Points
+    panel.add(GuiFactory.buildLabel("Available:"));
+    panel.add(_availablePoints.getTextField());
+    panel.add(GuiFactory.buildLabel("Spent:"));
+    panel.add(_spentPoints.getTextField());
     return panel;
   }
 
@@ -158,11 +192,47 @@ public class NonImbuedAttrsEditionPanelController
     return label;
   }
 
+  private ComboBoxController<Integer> buildUpgradesCombos()
+  {
+    ComboBoxController<Integer> ret=new ComboBoxController<Integer>();
+    ret.addItem(Integer.valueOf(0),"None");
+    ret.addItem(Integer.valueOf(1),"1 Star");
+    ret.addItem(Integer.valueOf(2),"2 Stars");
+    ret.addItem(Integer.valueOf(3),"3 Stars");
+    return ret;
+  }
+
+  private ComboBoxController<Integer> buildLevelsCombos()
+  {
+    ComboBoxController<Integer> ret=new ComboBoxController<Integer>();
+    for(int i=1;i<=70;i++)
+    {
+      ret.addItem(Integer.valueOf(i),String.valueOf(i));
+    }
+    return ret;
+  }
+
+  private IntegerEditionController buildIntegerEditionController(int min, int max)
+  {
+    JTextField textField=GuiFactory.buildTextField("");
+    IntegerEditionController editor=new IntegerEditionController(textField,3);
+    editor.setValueRange(Integer.valueOf(min),Integer.valueOf(max));
+    return editor;
+  }
+
   /**
    * Update UI from the managed data.
    */
   private void update()
   {
+    // Attributes
+    int nbUpgrades=_attrs.getNbUpgrades();
+    _upgrades.selectItem(Integer.valueOf(nbUpgrades));
+    int level=_attrs.getLegendaryItemLevel();
+    _level.selectItem(Integer.valueOf(level));
+    _availablePoints.setValue(Integer.valueOf(_attrs.getPointsLeft()));
+    _spentPoints.setValue(Integer.valueOf(_attrs.getPointsSpent()));
+    // Legacies
     for(SingleTieredNonImbuedLegacyEditionController editor : _legacyEditors)
     {
       editor.setUiFromLegacy();
@@ -175,7 +245,7 @@ public class NonImbuedAttrsEditionPanelController
   public void dispose()
   {
     // Data
-    //_attrs=null;
+    _attrs=null;
     // GUI
     if (_panel!=null)
     {
@@ -184,6 +254,26 @@ public class NonImbuedAttrsEditionPanelController
     }
     // Controllers
     _parent=null;
+    if (_upgrades!=null)
+    {
+      _upgrades.dispose();
+      _upgrades=null;
+    }
+    if (_level!=null)
+    {
+      _level.dispose();
+      _level=null;
+    }
+    if (_availablePoints!=null)
+    {
+      _availablePoints.dispose();
+      _availablePoints=null;
+    }
+    if (_spentPoints!=null)
+    {
+      _spentPoints.dispose();
+      _spentPoints=null;
+    }
     if (_legacyEditors!=null)
     {
       for(SingleTieredNonImbuedLegacyEditionController editor : _legacyEditors)
