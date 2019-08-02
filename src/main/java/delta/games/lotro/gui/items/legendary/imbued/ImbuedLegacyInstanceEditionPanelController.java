@@ -19,6 +19,7 @@ import delta.common.ui.swing.combobox.ItemSelectionListener;
 import delta.common.ui.swing.labels.MultilineLabel2;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.common.constraints.ClassAndSlot;
+import delta.games.lotro.lore.items.legendary.LegendaryConstants;
 import delta.games.lotro.lore.items.legendary.imbued.ImbuedLegacyInstance;
 import delta.games.lotro.lore.items.legendary.imbued.ImbuedLegendaryAttrs;
 
@@ -61,7 +62,7 @@ public class ImbuedLegacyInstanceEditionPanelController
   private void polyfillAttrs(ImbuedLegendaryAttrs attrs)
   {
     int nbLegacies=attrs.getNumberOfLegacies();
-    for(int i=nbLegacies;i<8;i++)
+    for(int i=nbLegacies;i<=LegendaryConstants.MAX_LEGACIES;i++)
     {
       ImbuedLegacyInstance legacy=new ImbuedLegacyInstance();
       attrs.addLegacy(legacy);

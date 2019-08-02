@@ -21,6 +21,7 @@ import delta.common.ui.swing.labels.MultilineLabel2;
 import delta.common.ui.swing.text.IntegerEditionController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.common.constraints.ClassAndSlot;
+import delta.games.lotro.lore.items.legendary.LegendaryConstants;
 import delta.games.lotro.lore.items.legendary.non_imbued.NonImbuedLegendaryAttrs;
 import delta.games.lotro.lore.items.legendary.non_imbued.TieredNonImbuedLegacyInstance;
 
@@ -73,7 +74,7 @@ public class NonImbuedAttrsEditionPanelController
   private void polyfillAttrs(NonImbuedLegendaryAttrs attrs)
   {
     int nbLegacies=attrs.getLegacies().size();
-    for(int i=nbLegacies;i<7;i++)
+    for(int i=nbLegacies;i<=LegendaryConstants.MAX_LEGACIES;i++)
     {
       TieredNonImbuedLegacyInstance legacy=new TieredNonImbuedLegacyInstance();
       attrs.addLegacy(legacy);
@@ -205,7 +206,7 @@ public class NonImbuedAttrsEditionPanelController
   private ComboBoxController<Integer> buildLevelsCombos()
   {
     ComboBoxController<Integer> ret=new ComboBoxController<Integer>();
-    for(int i=1;i<=70;i++)
+    for(int i=1;i<=LegendaryConstants.MAX_LEVEL;i++)
     {
       ret.addItem(Integer.valueOf(i),String.valueOf(i));
     }
