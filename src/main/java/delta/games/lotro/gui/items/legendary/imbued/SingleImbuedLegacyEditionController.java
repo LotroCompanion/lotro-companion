@@ -5,7 +5,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.combobox.ComboBoxController;
@@ -16,6 +18,7 @@ import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.constraints.ClassAndSlot;
 import delta.games.lotro.common.stats.StatDescription;
+import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.character.stats.StatDisplayUtils;
 import delta.games.lotro.lore.items.EquipmentLocation;
 import delta.games.lotro.lore.items.legendary.imbued.ImbuedLegacy;
@@ -34,6 +37,7 @@ public class SingleImbuedLegacyEditionController
   // Controllers
   private WindowController _parent;
   // GUI
+  private JLabel _icon;
   private MultilineLabel2 _value;
   private JButton _chooseButton;
   // Current level
@@ -53,6 +57,8 @@ public class SingleImbuedLegacyEditionController
     _legacy=legacy;
     _constraints=constraints;
     // UI
+    // - icon
+    _icon=GuiFactory.buildTransparentIconlabel(32);
     // - value display
     _value=new MultilineLabel2();
     Dimension dimension=new Dimension(200,32);
@@ -210,6 +216,8 @@ public class SingleImbuedLegacyEditionController
       _currentLevel.getComboBox().setEnabled(true);
       int currentLevel=_legacy.getCurrentLevel();
       _currentLevel.selectItem(Integer.valueOf(currentLevel));
+      // - Update icon
+      updateIcon();
       // - Update stats
       updateStats();
     }
@@ -247,6 +255,26 @@ public class SingleImbuedLegacyEditionController
     {
       _value.setText(new String[]{});
     }
+  }
+
+  private void updateIcon()
+  {
+    ImbuedLegacy legacy=_legacy.getLegacy();
+    if (legacy!=null)
+    {
+      int iconId=legacy.getIconId();
+      ImageIcon icon=LotroIconsManager.getLegacyIcon(iconId);
+      _icon.setIcon(icon);
+    }
+  }
+
+  /**
+   * Get the icon gadget.
+   * @return the icon gadget.
+   */
+  public JLabel getIcon()
+  {
+    return _icon;
   }
 
   /**
@@ -296,6 +324,7 @@ public class SingleImbuedLegacyEditionController
     // Controllers
     _parent=null;
     // UI
+    _icon=null;
     _value=null;
     _chooseButton=null;
     if (_currentLevel!=null)

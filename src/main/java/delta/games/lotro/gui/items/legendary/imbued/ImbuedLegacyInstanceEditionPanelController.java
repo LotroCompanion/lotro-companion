@@ -110,14 +110,14 @@ public class ImbuedLegacyInstanceEditionPanelController
     // Headers
     {
       // - line 1
-      GridBagConstraints c=new GridBagConstraints(0,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+      GridBagConstraints c=new GridBagConstraints(1,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
       Component valueStrut=Box.createHorizontalStrut(200);
       panel.add(valueStrut,c);
-      c=new GridBagConstraints(1,y,2,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+      c=new GridBagConstraints(2,y,2,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
       panel.add(buildCenteredLabel("Levels"),c);
       y++;
       // - line 2
-      int x=0;
+      int x=1;
       c=new GridBagConstraints(x,0,1,2,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
       panel.add(buildCenteredLabel("Stats"),c);
       panel.add(valueStrut,c);
@@ -144,9 +144,14 @@ public class ImbuedLegacyInstanceEditionPanelController
     {
       int x=0;
       SingleImbuedLegacyEditionController editor=_editors.get(i);
+      // Icon
+      JLabel icon=editor.getIcon();
+      GridBagConstraints c=new GridBagConstraints(x,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(5,5,5,5),0,0);
+      panel.add(icon,c);
+      x++;
       // Value
       MultilineLabel2 valueLabel=editor.getValueLabel();
-      GridBagConstraints c=new GridBagConstraints(x,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(5,5,5,5),0,0);
+      c=new GridBagConstraints(x,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(5,5,5,5),0,0);
       panel.add(valueLabel,c);
       x++;
       // Current level

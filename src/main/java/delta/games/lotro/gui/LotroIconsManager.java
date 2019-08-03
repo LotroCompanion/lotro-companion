@@ -225,6 +225,18 @@ public class LotroIconsManager
   }
 
   /**
+   * Get the icon for a given legacy.
+   * @param legacyIconId Icon identifier.
+   * @return An icon or <code>null</code> if not found.
+   */
+  public static ImageIcon getLegacyIcon(int legacyIconId)
+  {
+    String path="/legaciesIcons/"+legacyIconId+".png";
+    ImageIcon ret=IconsManager.getIcon(path);
+    return ret;
+  }
+
+  /**
    * Initialize the application icons.
    */
   public static void initApplicationIcons()
