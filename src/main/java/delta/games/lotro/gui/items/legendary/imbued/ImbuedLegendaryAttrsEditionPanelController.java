@@ -24,10 +24,10 @@ import delta.games.lotro.lore.items.legendary.imbued.ImbuedLegacyInstance;
 import delta.games.lotro.lore.items.legendary.imbued.ImbuedLegendaryAttrs;
 
 /**
- * Panel to edit the legacies of an imbued legendary item instance.
+ * Panel to edit the attributes of an imbued legendary item instance (legacies).
  * @author DAM
  */
-public class ImbuedLegacyInstanceEditionPanelController
+public class ImbuedLegendaryAttrsEditionPanelController
 {
   // Data
   private ImbuedLegendaryAttrs _attrs;
@@ -44,7 +44,7 @@ public class ImbuedLegacyInstanceEditionPanelController
    * @param attrs Attributes to edit.
    * @param constraints Constraints.
    */
-  public ImbuedLegacyInstanceEditionPanelController(WindowController parent, ImbuedLegendaryAttrs attrs, ClassAndSlot constraints)
+  public ImbuedLegendaryAttrsEditionPanelController(WindowController parent, ImbuedLegendaryAttrs attrs, ClassAndSlot constraints)
   {
     _parent=parent;
     _attrs=attrs;

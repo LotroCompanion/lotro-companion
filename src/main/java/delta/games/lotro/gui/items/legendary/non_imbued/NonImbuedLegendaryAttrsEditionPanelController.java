@@ -26,10 +26,10 @@ import delta.games.lotro.lore.items.legendary.non_imbued.NonImbuedLegendaryAttrs
 import delta.games.lotro.lore.items.legendary.non_imbued.TieredNonImbuedLegacyInstance;
 
 /**
- * Panel to edit the attributed of a non-imbued legendary item instance.
+ * Panel to edit the attributes of a non-imbued legendary item instance (upgrades, level, points, legacies).
  * @author DAM
  */
-public class NonImbuedAttrsEditionPanelController
+public class NonImbuedLegendaryAttrsEditionPanelController
 {
   // Data
   private NonImbuedLegendaryAttrs _attrs;
@@ -49,7 +49,7 @@ public class NonImbuedAttrsEditionPanelController
    * @param attrs Attributes to edit.
    * @param constraints Constraints.
    */
-  public NonImbuedAttrsEditionPanelController(WindowController parent, NonImbuedLegendaryAttrs attrs, ClassAndSlot constraints)
+  public NonImbuedLegendaryAttrsEditionPanelController(WindowController parent, NonImbuedLegendaryAttrs attrs, ClassAndSlot constraints)
   {
     _parent=parent;
     _attrs=attrs;

@@ -29,7 +29,7 @@ public class MainTestImbuedLegendaryAttrsEdition
   {
     ImbuedLegendaryAttrs attrs=buildTestAttrs();
     ClassAndSlot constraints=new ClassAndSlot(CharacterClass.CAPTAIN,EquipmentLocation.MAIN_HAND);
-    ImbuedLegacyInstanceEditionPanelController controller=new ImbuedLegacyInstanceEditionPanelController(null,attrs,constraints);
+    ImbuedLegendaryAttrsEditionPanelController controller=new ImbuedLegendaryAttrsEditionPanelController(null,attrs,constraints);
 
     JFrame f=new JFrame();
     f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

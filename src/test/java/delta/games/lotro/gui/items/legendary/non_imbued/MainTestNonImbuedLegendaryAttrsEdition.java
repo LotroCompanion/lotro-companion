@@ -29,7 +29,7 @@ public class MainTestNonImbuedLegendaryAttrsEdition
   {
     NonImbuedLegendaryAttrs attrs=buildTestAttrs();
     ClassAndSlot constraints=new ClassAndSlot(CharacterClass.CAPTAIN,EquipmentLocation.CLASS_SLOT);
-    NonImbuedAttrsEditionPanelController controller=new NonImbuedAttrsEditionPanelController(null,attrs,constraints);
+    NonImbuedLegendaryAttrsEditionPanelController controller=new NonImbuedLegendaryAttrsEditionPanelController(null,attrs,constraints);
 
     JFrame f=new JFrame();
     f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
