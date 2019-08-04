@@ -9,7 +9,7 @@ import delta.games.lotro.lore.items.EquipmentLocation;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemInstance;
 import delta.games.lotro.lore.items.legendary.LegendaryInstanceAttrs;
-import delta.games.lotro.lore.items.legendary.imbued.ImbuedLegendaryAttrs;
+import delta.games.lotro.lore.items.legendary.imbued.ImbuedLegendaryInstanceAttrs;
 
 /**
  * Simple test class for the imbued legendary attributes edition panel.
@@ -17,17 +17,17 @@ import delta.games.lotro.lore.items.legendary.imbued.ImbuedLegendaryAttrs;
  */
 public class MainTestImbuedLegendaryAttrsEdition
 {
-  private ImbuedLegendaryAttrs  buildTestAttrs()
+  private ImbuedLegendaryInstanceAttrs  buildTestAttrs()
   {
     ItemInstance<? extends Item> item=LegendariesTestUtils.loadItemInstance("CaptainGreatSwordFirstAgeImbued.xml");
     LegendaryInstanceAttrs attrs=LegendariesTestUtils.getLegendaryAttrs(item);
-    ImbuedLegendaryAttrs imbuedLegAttrs=attrs.getImbuedAttrs();
+    ImbuedLegendaryInstanceAttrs imbuedLegAttrs=attrs.getImbuedAttrs();
     return imbuedLegAttrs;
   }
 
   private void doIt()
   {
-    ImbuedLegendaryAttrs attrs=buildTestAttrs();
+    ImbuedLegendaryInstanceAttrs attrs=buildTestAttrs();
     ClassAndSlot constraints=new ClassAndSlot(CharacterClass.CAPTAIN,EquipmentLocation.MAIN_HAND);
     ImbuedLegendaryAttrsEditionPanelController controller=new ImbuedLegendaryAttrsEditionPanelController(null,attrs,constraints);
 

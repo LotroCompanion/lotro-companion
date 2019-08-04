@@ -9,7 +9,7 @@ import delta.games.lotro.lore.items.EquipmentLocation;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemInstance;
 import delta.games.lotro.lore.items.legendary.LegendaryInstanceAttrs;
-import delta.games.lotro.lore.items.legendary.non_imbued.NonImbuedLegendaryAttrs;
+import delta.games.lotro.lore.items.legendary.non_imbued.NonImbuedLegendaryInstanceAttrs;
 
 /**
  * Simple test class for the non-imbued legendary attributes edition panel.
@@ -17,17 +17,17 @@ import delta.games.lotro.lore.items.legendary.non_imbued.NonImbuedLegendaryAttrs
  */
 public class MainTestNonImbuedLegendaryAttrsEdition
 {
-  private NonImbuedLegendaryAttrs  buildTestAttrs()
+  private NonImbuedLegendaryInstanceAttrs  buildTestAttrs()
   {
     ItemInstance<? extends Item> item=LegendariesTestUtils.loadItemInstance("CaptainEmblemSecondAge75NonImbued.xml");
     LegendaryInstanceAttrs attrs=LegendariesTestUtils.getLegendaryAttrs(item);
-    NonImbuedLegendaryAttrs nonImbuedLegAttrs=attrs.getNonImbuedAttrs();
+    NonImbuedLegendaryInstanceAttrs nonImbuedLegAttrs=attrs.getNonImbuedAttrs();
     return nonImbuedLegAttrs;
   }
 
   private void doIt()
   {
-    NonImbuedLegendaryAttrs attrs=buildTestAttrs();
+    NonImbuedLegendaryInstanceAttrs attrs=buildTestAttrs();
     ClassAndSlot constraints=new ClassAndSlot(CharacterClass.CAPTAIN,EquipmentLocation.CLASS_SLOT);
     NonImbuedLegendaryAttrsEditionPanelController controller=new NonImbuedLegendaryAttrsEditionPanelController(null,attrs,constraints);
 

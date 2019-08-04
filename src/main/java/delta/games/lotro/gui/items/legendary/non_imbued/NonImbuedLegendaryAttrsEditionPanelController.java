@@ -23,7 +23,7 @@ import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.common.constraints.ClassAndSlot;
 import delta.games.lotro.lore.items.legendary.LegendaryConstants;
 import delta.games.lotro.lore.items.legendary.non_imbued.DefaultNonImbuedLegacyInstance;
-import delta.games.lotro.lore.items.legendary.non_imbued.NonImbuedLegendaryAttrs;
+import delta.games.lotro.lore.items.legendary.non_imbued.NonImbuedLegendaryInstanceAttrs;
 import delta.games.lotro.lore.items.legendary.non_imbued.TieredNonImbuedLegacyInstance;
 
 /**
@@ -33,7 +33,7 @@ import delta.games.lotro.lore.items.legendary.non_imbued.TieredNonImbuedLegacyIn
 public class NonImbuedLegendaryAttrsEditionPanelController
 {
   // Data
-  private NonImbuedLegendaryAttrs _attrs;
+  private NonImbuedLegendaryInstanceAttrs _attrs;
   // GUI
   private JPanel _panel;
   // Controllers
@@ -50,7 +50,7 @@ public class NonImbuedLegendaryAttrsEditionPanelController
    * @param attrs Attributes to edit.
    * @param constraints Constraints.
    */
-  public NonImbuedLegendaryAttrsEditionPanelController(WindowController parent, NonImbuedLegendaryAttrs attrs, ClassAndSlot constraints)
+  public NonImbuedLegendaryAttrsEditionPanelController(WindowController parent, NonImbuedLegendaryInstanceAttrs attrs, ClassAndSlot constraints)
   {
     _parent=parent;
     _attrs=attrs;
@@ -77,7 +77,7 @@ public class NonImbuedLegendaryAttrsEditionPanelController
     }
   }
 
-  private void polyfillAttrs(NonImbuedLegendaryAttrs attrs)
+  private void polyfillAttrs(NonImbuedLegendaryInstanceAttrs attrs)
   {
     int nbLegacies=attrs.getLegacies().size();
     for(int i=nbLegacies;i<LegendaryConstants.MAX_LEGACIES;i++)

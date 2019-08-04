@@ -21,7 +21,7 @@ import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.common.constraints.ClassAndSlot;
 import delta.games.lotro.lore.items.legendary.LegendaryConstants;
 import delta.games.lotro.lore.items.legendary.imbued.ImbuedLegacyInstance;
-import delta.games.lotro.lore.items.legendary.imbued.ImbuedLegendaryAttrs;
+import delta.games.lotro.lore.items.legendary.imbued.ImbuedLegendaryInstanceAttrs;
 
 /**
  * Panel to edit the attributes of an imbued legendary item instance (legacies).
@@ -30,7 +30,7 @@ import delta.games.lotro.lore.items.legendary.imbued.ImbuedLegendaryAttrs;
 public class ImbuedLegendaryAttrsEditionPanelController
 {
   // Data
-  private ImbuedLegendaryAttrs _attrs;
+  private ImbuedLegendaryInstanceAttrs _attrs;
   // GUI
   private JPanel _panel;
   private JLabel _levels;
@@ -44,7 +44,7 @@ public class ImbuedLegendaryAttrsEditionPanelController
    * @param attrs Attributes to edit.
    * @param constraints Constraints.
    */
-  public ImbuedLegendaryAttrsEditionPanelController(WindowController parent, ImbuedLegendaryAttrs attrs, ClassAndSlot constraints)
+  public ImbuedLegendaryAttrsEditionPanelController(WindowController parent, ImbuedLegendaryInstanceAttrs attrs, ClassAndSlot constraints)
   {
     _parent=parent;
     _attrs=attrs;
@@ -59,7 +59,7 @@ public class ImbuedLegendaryAttrsEditionPanelController
     }
   }
 
-  private void polyfillAttrs(ImbuedLegendaryAttrs attrs)
+  private void polyfillAttrs(ImbuedLegendaryInstanceAttrs attrs)
   {
     int nbLegacies=attrs.getNumberOfLegacies();
     for(int i=nbLegacies;i<=LegendaryConstants.MAX_LEGACIES;i++)
