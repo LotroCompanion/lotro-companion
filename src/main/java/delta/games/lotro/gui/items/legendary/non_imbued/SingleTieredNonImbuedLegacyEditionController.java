@@ -17,7 +17,7 @@ import delta.games.lotro.lore.items.legendary.non_imbued.TieredNonImbuedLegacy;
 import delta.games.lotro.lore.items.legendary.non_imbued.TieredNonImbuedLegacyInstance;
 
 /**
- * Controller for the UI items of a single imbued legacy.
+ * Controller for the UI items of a single tiered non-imbued legacy.
  * @author DAM
  */
 public class SingleTieredNonImbuedLegacyEditionController extends SingleNonImbuedLegacyEditionController<TieredNonImbuedLegacyInstance>

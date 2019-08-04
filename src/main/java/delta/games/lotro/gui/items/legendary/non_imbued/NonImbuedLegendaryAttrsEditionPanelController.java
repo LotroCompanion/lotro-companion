@@ -22,6 +22,7 @@ import delta.common.ui.swing.text.IntegerEditionController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.common.constraints.ClassAndSlot;
 import delta.games.lotro.lore.items.legendary.LegendaryConstants;
+import delta.games.lotro.lore.items.legendary.non_imbued.DefaultNonImbuedLegacyInstance;
 import delta.games.lotro.lore.items.legendary.non_imbued.NonImbuedLegendaryAttrs;
 import delta.games.lotro.lore.items.legendary.non_imbued.TieredNonImbuedLegacyInstance;
 
@@ -41,7 +42,7 @@ public class NonImbuedLegendaryAttrsEditionPanelController
   private ComboBoxController<Integer> _level;
   private IntegerEditionController _availablePoints;
   private IntegerEditionController _spentPoints;
-  private List<SingleTieredNonImbuedLegacyEditionController> _legacyEditors;
+  private List<SingleNonImbuedLegacyEditionController<?>> _legacyEditors;
 
   /**
    * Constructor.
@@ -60,21 +61,26 @@ public class NonImbuedLegendaryAttrsEditionPanelController
     _availablePoints=buildIntegerEditionController(0,2000);
     _spentPoints=buildIntegerEditionController(0,2000);
     // Legacies
-    _legacyEditors=new ArrayList<SingleTieredNonImbuedLegacyEditionController>();
+    _legacyEditors=new ArrayList<SingleNonImbuedLegacyEditionController<?>>();
+    // - default legacy
+    DefaultNonImbuedLegacyInstance defaultLegacy=attrs.getDefaultLegacy();
+    SingleDefaultNonImbuedLegacyEditionController editor=new SingleDefaultNonImbuedLegacyEditionController(_parent,defaultLegacy,constraints);
+    _legacyEditors.add(editor);
+    // - tiered legacies
     List<TieredNonImbuedLegacyInstance> legacies=attrs.getLegacies();
     int nbLegacies=legacies.size();
     for(int i=0;i<nbLegacies;i++)
     {
       TieredNonImbuedLegacyInstance legacy=legacies.get(i);
-      SingleTieredNonImbuedLegacyEditionController editor=new SingleTieredNonImbuedLegacyEditionController(_parent,legacy,constraints);
-      _legacyEditors.add(editor);
+      SingleTieredNonImbuedLegacyEditionController tieredEditor=new SingleTieredNonImbuedLegacyEditionController(_parent,legacy,constraints);
+      _legacyEditors.add(tieredEditor);
     }
   }
 
   private void polyfillAttrs(NonImbuedLegendaryAttrs attrs)
   {
     int nbLegacies=attrs.getLegacies().size();
-    for(int i=nbLegacies;i<=LegendaryConstants.MAX_LEGACIES;i++)
+    for(int i=nbLegacies;i<LegendaryConstants.MAX_LEGACIES;i++)
     {
       TieredNonImbuedLegacyInstance legacy=new TieredNonImbuedLegacyInstance();
       attrs.addLegacy(legacy);
@@ -90,7 +96,7 @@ public class NonImbuedLegendaryAttrsEditionPanelController
     if (_panel==null)
     {
       _panel=build();
-      update();
+      setUiFromData();
     }
     return _panel;
   }
@@ -155,7 +161,7 @@ public class NonImbuedLegendaryAttrsEditionPanelController
     for(int i=0;i<nbEditors;i++)
     {
       int x=0;
-      SingleTieredNonImbuedLegacyEditionController editor=_legacyEditors.get(i);
+      SingleNonImbuedLegacyEditionController<?> editor=_legacyEditors.get(i);
       // Icon
       JLabel icon=editor.getIcon();
       GridBagConstraints c=new GridBagConstraints(x,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(5,5,5,5),0,0);
@@ -172,9 +178,13 @@ public class NonImbuedLegendaryAttrsEditionPanelController
       panel.add(currentRank.getTextField(),c);
       x++;
       // Tier
-      ComboBoxController<Integer> tierCombo=editor.getTierCombo();
-      c=new GridBagConstraints(x,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
-      panel.add(tierCombo.getComboBox(),c);
+      if (editor instanceof SingleTieredNonImbuedLegacyEditionController)
+      {
+        SingleTieredNonImbuedLegacyEditionController tieredEditor=(SingleTieredNonImbuedLegacyEditionController)editor;
+        ComboBoxController<Integer> tierCombo=tieredEditor.getTierCombo();
+        c=new GridBagConstraints(x,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
+        panel.add(tierCombo.getComboBox(),c);
+      }
       x++;
       // Button
       JButton chooseButton=editor.getChooseButton();
@@ -224,7 +234,7 @@ public class NonImbuedLegendaryAttrsEditionPanelController
   /**
    * Update UI from the managed data.
    */
-  private void update()
+  private void setUiFromData()
   {
     // Attributes
     int nbUpgrades=_attrs.getNbUpgrades();
@@ -234,7 +244,7 @@ public class NonImbuedLegendaryAttrsEditionPanelController
     _availablePoints.setValue(Integer.valueOf(_attrs.getPointsLeft()));
     _spentPoints.setValue(Integer.valueOf(_attrs.getPointsSpent()));
     // Legacies
-    for(SingleTieredNonImbuedLegacyEditionController editor : _legacyEditors)
+    for(SingleNonImbuedLegacyEditionController<?> editor : _legacyEditors)
     {
       editor.setUiFromLegacy();
     }
@@ -277,7 +287,7 @@ public class NonImbuedLegendaryAttrsEditionPanelController
     }
     if (_legacyEditors!=null)
     {
-      for(SingleTieredNonImbuedLegacyEditionController editor : _legacyEditors)
+      for(SingleNonImbuedLegacyEditionController<?> editor : _legacyEditors)
       {
         editor.dispose();
       }
