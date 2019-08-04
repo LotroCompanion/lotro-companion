@@ -54,7 +54,6 @@ public class NonImbuedLegendaryAttrsEditionPanelController
   {
     _parent=parent;
     _attrs=attrs;
-    polyfillAttrs(attrs);
     // Gadgets
     _upgrades=buildUpgradesCombos();
     _level=buildLevelsCombos();
@@ -74,16 +73,6 @@ public class NonImbuedLegendaryAttrsEditionPanelController
       TieredNonImbuedLegacyInstance legacy=legacies.get(i);
       SingleTieredNonImbuedLegacyEditionController tieredEditor=new SingleTieredNonImbuedLegacyEditionController(_parent,legacy,constraints);
       _legacyEditors.add(tieredEditor);
-    }
-  }
-
-  private void polyfillAttrs(NonImbuedLegendaryInstanceAttrs attrs)
-  {
-    int nbLegacies=attrs.getLegacies().size();
-    for(int i=nbLegacies;i<LegendaryConstants.MAX_LEGACIES;i++)
-    {
-      TieredNonImbuedLegacyInstance legacy=new TieredNonImbuedLegacyInstance();
-      attrs.addLegacy(legacy);
     }
   }
 
