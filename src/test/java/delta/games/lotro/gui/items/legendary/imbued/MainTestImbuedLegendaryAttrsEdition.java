@@ -1,7 +1,8 @@
 package delta.games.lotro.gui.items.legendary.imbued;
 
-import javax.swing.JFrame;
+import javax.swing.JPanel;
 
+import delta.common.ui.swing.windows.DefaultFormDialogController;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.constraints.ClassAndSlot;
 import delta.games.lotro.gui.items.legendary.shared.LegendariesTestUtils;
@@ -27,15 +28,27 @@ public class MainTestImbuedLegendaryAttrsEdition
 
   private void doIt()
   {
-    ImbuedLegendaryInstanceAttrs attrs=buildTestAttrs();
+    final ImbuedLegendaryInstanceAttrs attrs=buildTestAttrs();
     ClassAndSlot constraints=new ClassAndSlot(CharacterClass.CAPTAIN,EquipmentLocation.MAIN_HAND);
-    ImbuedLegendaryAttrsEditionPanelController controller=new ImbuedLegendaryAttrsEditionPanelController(null,attrs,constraints);
+    final ImbuedLegendaryAttrsEditionPanelController controller=new ImbuedLegendaryAttrsEditionPanelController(null,attrs,constraints);
 
-    JFrame f=new JFrame();
-    f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    f.getContentPane().add(controller.getPanel());
-    f.pack();
-    f.setVisible(true);
+    DefaultFormDialogController<ImbuedLegendaryInstanceAttrs> dialog=new DefaultFormDialogController<ImbuedLegendaryInstanceAttrs>(null,attrs)
+    {
+      @Override
+      protected JPanel buildFormPanel()
+      {
+        return controller.getPanel();
+      }
+
+      @Override
+      protected void okImpl()
+      {
+        super.okImpl();
+        controller.getData(attrs);
+      }
+    };
+    ImbuedLegendaryInstanceAttrs result=dialog.editModal();
+    System.out.println("Result: "+result);
   }
 
   /**
@@ -46,5 +59,4 @@ public class MainTestImbuedLegendaryAttrsEdition
   {
     new MainTestImbuedLegendaryAttrsEdition().doIt();
   }
-
 }

@@ -114,7 +114,9 @@ public class SingleImbuedLegacyEditionController
    */
   public void getData(ImbuedLegacyInstance storage)
   {
-    // Put UI data into the given storage
+    storage.setLegacy(_legacy.getLegacy());
+    storage.setUnlockedLevels(_legacy.getUnlockedLevels());
+    storage.setXp(_legacy.getXp());
   }
 
   private void handleButtonClick(JButton button)

@@ -19,6 +19,7 @@ import delta.common.ui.swing.combobox.ItemSelectionListener;
 import delta.common.ui.swing.labels.MultilineLabel2;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.common.constraints.ClassAndSlot;
+import delta.games.lotro.lore.items.legendary.LegendaryConstants;
 import delta.games.lotro.lore.items.legendary.imbued.ImbuedLegacyInstance;
 import delta.games.lotro.lore.items.legendary.imbued.ImbuedLegendaryInstanceAttrs;
 
@@ -74,7 +75,7 @@ public class ImbuedLegendaryAttrsEditionPanelController
     if (_panel==null)
     {
       _panel=build();
-      update();
+      setUiFromData();
     }
     return _panel;
   }
@@ -174,13 +175,27 @@ public class ImbuedLegendaryAttrsEditionPanelController
   /**
    * Update UI from the managed data.
    */
-  private void update()
+  private void setUiFromData()
   {
     for(SingleImbuedLegacyEditionController editor : _editors)
     {
       editor.setUiFromLegacy();
     }
     updateLevels();
+  }
+
+  /**
+   * Extract data from UI to the given storage.
+   * @param attrs Storage to use.
+   */
+  public void getData(ImbuedLegendaryInstanceAttrs attrs)
+  {
+    for(int i=0;i<LegendaryConstants.MAX_LEGACIES+1;i++)
+    {
+      SingleImbuedLegacyEditionController editor = _editors.get(i);
+      ImbuedLegacyInstance legacy=attrs.getLegacy(i);
+      editor.getData(legacy);
+    }
   }
 
   /**
