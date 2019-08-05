@@ -42,7 +42,8 @@ public class NonImbuedLegendaryAttrsEditionPanelController
   private ComboBoxController<Integer> _level;
   private IntegerEditionController _availablePoints;
   private IntegerEditionController _spentPoints;
-  private List<SingleNonImbuedLegacyEditionController<?>> _legacyEditors;
+  private SingleDefaultNonImbuedLegacyEditionController _defaultLegacyEditor;
+  private List<SingleTieredNonImbuedLegacyEditionController> _legacyEditors;
 
   /**
    * Constructor.
@@ -60,11 +61,10 @@ public class NonImbuedLegendaryAttrsEditionPanelController
     _availablePoints=buildIntegerEditionController(0,2000);
     _spentPoints=buildIntegerEditionController(0,2000);
     // Legacies
-    _legacyEditors=new ArrayList<SingleNonImbuedLegacyEditionController<?>>();
+    _legacyEditors=new ArrayList<SingleTieredNonImbuedLegacyEditionController>();
     // - default legacy
     DefaultNonImbuedLegacyInstance defaultLegacy=attrs.getDefaultLegacy();
-    SingleDefaultNonImbuedLegacyEditionController editor=new SingleDefaultNonImbuedLegacyEditionController(_parent,defaultLegacy,constraints);
-    _legacyEditors.add(editor);
+    _defaultLegacyEditor=new SingleDefaultNonImbuedLegacyEditionController(parent,defaultLegacy,constraints);
     // - tiered legacies
     List<TieredNonImbuedLegacyInstance> legacies=attrs.getLegacies();
     int nbLegacies=legacies.size();
@@ -146,43 +146,50 @@ public class NonImbuedLegendaryAttrsEditionPanelController
       y++;
     }
     // Rows
+    addLegacyLine(_defaultLegacyEditor,panel,y);
+    y++;
     int nbEditors=_legacyEditors.size();
     for(int i=0;i<nbEditors;i++)
     {
-      int x=0;
-      SingleNonImbuedLegacyEditionController<?> editor=_legacyEditors.get(i);
-      // Icon
-      JLabel icon=editor.getIcon();
-      GridBagConstraints c=new GridBagConstraints(x,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(5,5,5,5),0,0);
-      panel.add(icon,c);
-      x++;
-      // Value
-      MultilineLabel2 valueLabel=editor.getValueLabel();
-      c=new GridBagConstraints(x,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(5,5,5,5),0,0);
-      panel.add(valueLabel,c);
-      x++;
-      // Current rank
-      IntegerEditionController currentRank=editor.getCurrentRankEditionController();
-      c=new GridBagConstraints(x,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,0),0,0);
-      panel.add(currentRank.getTextField(),c);
-      x++;
-      // Tier
-      if (editor instanceof SingleTieredNonImbuedLegacyEditionController)
-      {
-        SingleTieredNonImbuedLegacyEditionController tieredEditor=(SingleTieredNonImbuedLegacyEditionController)editor;
-        ComboBoxController<Integer> tierCombo=tieredEditor.getTierCombo();
-        c=new GridBagConstraints(x,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
-        panel.add(tierCombo.getComboBox(),c);
-      }
-      x++;
-      // Button
-      JButton chooseButton=editor.getChooseButton();
-      c=new GridBagConstraints(x,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
-      panel.add(chooseButton,c);
-      x++;
+      SingleTieredNonImbuedLegacyEditionController editor=_legacyEditors.get(i);
+      addLegacyLine(editor,panel,y);
       y++;
     }
     return panel;
+  }
+
+  private void addLegacyLine(SingleNonImbuedLegacyEditionController<?> editor, JPanel panel, int y)
+  {
+    int x=0;
+    // Icon
+    JLabel icon=editor.getIcon();
+    GridBagConstraints c=new GridBagConstraints(x,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(5,5,5,5),0,0);
+    panel.add(icon,c);
+    x++;
+    // Value
+    MultilineLabel2 valueLabel=editor.getValueLabel();
+    c=new GridBagConstraints(x,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(5,5,5,5),0,0);
+    panel.add(valueLabel,c);
+    x++;
+    // Current rank
+    IntegerEditionController currentRank=editor.getCurrentRankEditionController();
+    c=new GridBagConstraints(x,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,0),0,0);
+    panel.add(currentRank.getTextField(),c);
+    x++;
+    // Tier
+    if (editor instanceof SingleTieredNonImbuedLegacyEditionController)
+    {
+      SingleTieredNonImbuedLegacyEditionController tieredEditor=(SingleTieredNonImbuedLegacyEditionController)editor;
+      ComboBoxController<Integer> tierCombo=tieredEditor.getTierCombo();
+      c=new GridBagConstraints(x,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
+      panel.add(tierCombo.getComboBox(),c);
+    }
+    x++;
+    // Button
+    JButton chooseButton=editor.getChooseButton();
+    c=new GridBagConstraints(x,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
+    panel.add(chooseButton,c);
+    x++;
   }
 
   private JLabel buildCenteredLabel(String text)
@@ -233,6 +240,7 @@ public class NonImbuedLegendaryAttrsEditionPanelController
     _availablePoints.setValue(Integer.valueOf(_attrs.getPointsLeft()));
     _spentPoints.setValue(Integer.valueOf(_attrs.getPointsSpent()));
     // Legacies
+    _defaultLegacyEditor.setUiFromLegacy();
     for(SingleNonImbuedLegacyEditionController<?> editor : _legacyEditors)
     {
       editor.setUiFromLegacy();
@@ -273,6 +281,11 @@ public class NonImbuedLegendaryAttrsEditionPanelController
     {
       _spentPoints.dispose();
       _spentPoints=null;
+    }
+    if (_defaultLegacyEditor!=null)
+    {
+      _defaultLegacyEditor.dispose();
+      _defaultLegacyEditor=null;
     }
     if (_legacyEditors!=null)
     {
