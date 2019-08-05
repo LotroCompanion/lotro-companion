@@ -95,6 +95,7 @@ public class NonImbuedLegendaryAttrsEditionPanelController
     panel.add(attributesPanel,c);
     // Legacies
     JPanel legaciesPanel=buildLegaciesPanel();
+    legaciesPanel.setBorder(GuiFactory.buildTitledBorder("Legacies"));
     c=new GridBagConstraints(0,1,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(legaciesPanel,c);
     return panel;
