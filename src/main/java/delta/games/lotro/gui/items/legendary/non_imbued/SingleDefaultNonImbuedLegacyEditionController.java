@@ -7,7 +7,6 @@ import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.common.constraints.ClassAndSlot;
 import delta.games.lotro.common.stats.StatsProvider;
 import delta.games.lotro.gui.LotroIconsManager;
-import delta.games.lotro.lore.items.legendary.imbued.ImbuedLegacyInstance;
 import delta.games.lotro.lore.items.legendary.non_imbued.DefaultNonImbuedLegacy;
 import delta.games.lotro.lore.items.legendary.non_imbued.DefaultNonImbuedLegacyInstance;
 
@@ -20,12 +19,11 @@ public class SingleDefaultNonImbuedLegacyEditionController extends SingleNonImbu
   /**
    * Constructor.
    * @param parent Parent window.
-   * @param legacyInstance Legacy to edit.
    * @param constraints Constraints.
    */
-  public SingleDefaultNonImbuedLegacyEditionController(WindowController parent, DefaultNonImbuedLegacyInstance legacyInstance, ClassAndSlot constraints)
+  public SingleDefaultNonImbuedLegacyEditionController(WindowController parent, ClassAndSlot constraints)
   {
-    super(parent,legacyInstance,constraints);
+    super(parent,constraints);
   }
 
   private DefaultNonImbuedLegacy getDefaultLegacy()
@@ -33,13 +31,12 @@ public class SingleDefaultNonImbuedLegacyEditionController extends SingleNonImbu
     return (DefaultNonImbuedLegacy)_legacy;
   }
 
-  /**
-   * Extract data from UI to the given storage.
-   * @param storage Storage to use.
-   */
-  public void getData(ImbuedLegacyInstance storage)
+  @Override
+  public void getData(DefaultNonImbuedLegacyInstance storage)
   {
-    // Put UI data into the given storage
+    super.getData(storage);
+    DefaultNonImbuedLegacy legacy=getDefaultLegacy();
+    storage.setLegacy(legacy);
   }
 
   protected void handleButtonClick(JButton button)

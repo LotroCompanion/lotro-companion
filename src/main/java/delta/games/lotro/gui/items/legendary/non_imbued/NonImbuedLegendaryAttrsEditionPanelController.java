@@ -63,15 +63,11 @@ public class NonImbuedLegendaryAttrsEditionPanelController
     // Legacies
     _legacyEditors=new ArrayList<SingleTieredNonImbuedLegacyEditionController>();
     // - default legacy
-    DefaultNonImbuedLegacyInstance defaultLegacy=attrs.getDefaultLegacy();
-    _defaultLegacyEditor=new SingleDefaultNonImbuedLegacyEditionController(parent,defaultLegacy,constraints);
+    _defaultLegacyEditor=new SingleDefaultNonImbuedLegacyEditionController(parent,constraints);
     // - tiered legacies
-    List<TieredNonImbuedLegacyInstance> legacies=attrs.getLegacies();
-    int nbLegacies=legacies.size();
-    for(int i=0;i<nbLegacies;i++)
+    for(int i=0;i<LegendaryConstants.MAX_LEGACIES;i++)
     {
-      TieredNonImbuedLegacyInstance legacy=legacies.get(i);
-      SingleTieredNonImbuedLegacyEditionController tieredEditor=new SingleTieredNonImbuedLegacyEditionController(_parent,legacy,constraints);
+      SingleTieredNonImbuedLegacyEditionController tieredEditor=new SingleTieredNonImbuedLegacyEditionController(_parent,constraints);
       _legacyEditors.add(tieredEditor);
     }
   }
@@ -240,10 +236,50 @@ public class NonImbuedLegendaryAttrsEditionPanelController
     _availablePoints.setValue(Integer.valueOf(_attrs.getPointsLeft()));
     _spentPoints.setValue(Integer.valueOf(_attrs.getPointsSpent()));
     // Legacies
-    _defaultLegacyEditor.setUiFromLegacy();
-    for(SingleNonImbuedLegacyEditionController<?> editor : _legacyEditors)
+    DefaultNonImbuedLegacyInstance defaultLegacy=_attrs.getDefaultLegacy();
+    _defaultLegacyEditor.setLegacyInstance(defaultLegacy);
+    List<TieredNonImbuedLegacyInstance> legacies=_attrs.getLegacies();
+    for(int i=0;i<LegendaryConstants.MAX_LEGACIES;i++)
     {
-      editor.setUiFromLegacy();
+      SingleTieredNonImbuedLegacyEditionController editor=_legacyEditors.get(i);
+      TieredNonImbuedLegacyInstance legacy=legacies.get(i);
+      editor.setLegacyInstance(legacy);
+    }
+  }
+
+  /**
+   * Extract data from UI to the given storage.
+   * @param attrs Storage to use.
+   */
+  public void getData(NonImbuedLegendaryInstanceAttrs attrs)
+  {
+    // Attributes
+    // - upgrades
+    Integer nbUpgrades=_upgrades.getSelectedItem();
+    attrs.setNbUpgrades(nbUpgrades.intValue());
+    // - level
+    Integer level=_level.getSelectedItem();
+    attrs.setLegendaryItemLevel(level.intValue());
+    // - spent points
+    Integer spentPoints=_spentPoints.getValue();
+    if (spentPoints!=null)
+    {
+      attrs.setPointsSpent(spentPoints.intValue());
+    }
+    // - available points
+    Integer availablePoints=_availablePoints.getValue();
+    if (availablePoints!=null)
+    {
+      attrs.setPointsLeft(availablePoints.intValue());
+    }
+    // Legacies
+    _defaultLegacyEditor.getData(attrs.getDefaultLegacy());
+    List<TieredNonImbuedLegacyInstance> legacies=_attrs.getLegacies();
+    for(int i=0;i<LegendaryConstants.MAX_LEGACIES;i++)
+    {
+      SingleTieredNonImbuedLegacyEditionController editor=_legacyEditors.get(i);
+      TieredNonImbuedLegacyInstance legacy=legacies.get(i);
+      editor.getData(legacy);
     }
   }
 

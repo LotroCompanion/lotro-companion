@@ -20,7 +20,6 @@ import delta.games.lotro.common.constraints.ClassAndSlot;
 import delta.games.lotro.common.stats.StatDescription;
 import delta.games.lotro.common.stats.StatsProvider;
 import delta.games.lotro.gui.character.stats.StatDisplayUtils;
-import delta.games.lotro.lore.items.legendary.imbued.ImbuedLegacyInstance;
 import delta.games.lotro.lore.items.legendary.non_imbued.AbstractNonImbuedLegacy;
 import delta.games.lotro.lore.items.legendary.non_imbued.NonImbuedLegacyInstance;
 import delta.games.lotro.utils.FixedDecimalsInteger;
@@ -33,7 +32,6 @@ import delta.games.lotro.utils.FixedDecimalsInteger;
 public abstract class SingleNonImbuedLegacyEditionController<T extends NonImbuedLegacyInstance>
 {
   // Data
-  protected T _legacyInstance;
   protected AbstractNonImbuedLegacy _legacy;
   protected ClassAndSlot _constraints;
   // Controllers
@@ -48,17 +46,11 @@ public abstract class SingleNonImbuedLegacyEditionController<T extends NonImbued
   /**
    * Constructor.
    * @param parent Parent window.
-   * @param legacyInstance Legacy to edit.
    * @param constraints Constraints.
    */
-  public SingleNonImbuedLegacyEditionController(WindowController parent, T legacyInstance, ClassAndSlot constraints)
+  public SingleNonImbuedLegacyEditionController(WindowController parent, ClassAndSlot constraints)
   {
     _parent=parent;
-    _legacyInstance=legacyInstance;
-    if (_legacyInstance!=null)
-    {
-      _legacy=_legacyInstance.getLegacy();
-    }
     _constraints=constraints;
     // UI
     // - icon
@@ -101,9 +93,14 @@ public abstract class SingleNonImbuedLegacyEditionController<T extends NonImbued
    * Extract data from UI to the given storage.
    * @param storage Storage to use.
    */
-  public void getData(ImbuedLegacyInstance storage)
+  public void getData(T storage)
   {
-    // Put UI data into the given storage
+    // Rank
+    Integer rank=_currentRank.getValue();
+    if (rank!=null)
+    {
+      storage.setRank(rank.intValue());
+    }
   }
 
   protected abstract void handleButtonClick(JButton button);
@@ -119,18 +116,20 @@ public abstract class SingleNonImbuedLegacyEditionController<T extends NonImbued
   }
 
   /**
-   * Get the managed legacy.
-   * @return the managed legacy.
+   * Update UI to show the given legacy data.
+   * @param legacyInstance Legacy instance to show.
    */
-  public T getLegacyInstance()
+  public void setLegacyInstance(T legacyInstance)
   {
-    return _legacyInstance;
+    _legacy=legacyInstance.getLegacy();
+    updateUiFromLegacy(legacyInstance);
   }
 
   /**
-   * Update UI to show the internal legacy data.
+   * Update UI display using the given legacy instance.
+   * @param legacyInstance Legacy instance to show.
    */
-  public void setUiFromLegacy()
+  protected void updateUiFromLegacy(T legacyInstance)
   {
     // Update gadgets state
     updateGadgetsState();
@@ -138,17 +137,12 @@ public abstract class SingleNonImbuedLegacyEditionController<T extends NonImbued
     if (hasLegacy())
     {
       // - Update current rank
-      int rank=_legacyInstance.getRank();
+      int rank=legacyInstance.getRank();
       _currentRank.setValue(Integer.valueOf(rank));
       // - Update derived UI
       updateIcon();
-      updateStats();
     }
-    else
-    {
-      // - Update stats
-      updateStats();
-    }
+    updateStats();
   }
 
   protected void updateGadgetsState()
@@ -242,7 +236,6 @@ public abstract class SingleNonImbuedLegacyEditionController<T extends NonImbued
   public void dispose()
   {
     // Data
-    _legacyInstance=null;
     _legacy=null;
     _constraints=null;
     // Controllers

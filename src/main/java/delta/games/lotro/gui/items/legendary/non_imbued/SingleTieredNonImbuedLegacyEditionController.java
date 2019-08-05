@@ -11,7 +11,6 @@ import delta.games.lotro.common.constraints.ClassAndSlot;
 import delta.games.lotro.common.stats.StatsProvider;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.lore.items.EquipmentLocation;
-import delta.games.lotro.lore.items.legendary.imbued.ImbuedLegacyInstance;
 import delta.games.lotro.lore.items.legendary.non_imbued.NonImbuedLegacyTier;
 import delta.games.lotro.lore.items.legendary.non_imbued.TieredNonImbuedLegacy;
 import delta.games.lotro.lore.items.legendary.non_imbued.TieredNonImbuedLegacyInstance;
@@ -29,12 +28,11 @@ public class SingleTieredNonImbuedLegacyEditionController extends SingleNonImbue
   /**
    * Constructor.
    * @param parent Parent window.
-   * @param legacyInstance Legacy to edit.
    * @param constraints Constraints.
    */
-  public SingleTieredNonImbuedLegacyEditionController(WindowController parent, TieredNonImbuedLegacyInstance legacyInstance, ClassAndSlot constraints)
+  public SingleTieredNonImbuedLegacyEditionController(WindowController parent, ClassAndSlot constraints)
   {
-    super(parent,legacyInstance,constraints);
+    super(parent,constraints);
     // UI
     // - tier
     _tier=buildTiersCombos();
@@ -57,13 +55,17 @@ public class SingleTieredNonImbuedLegacyEditionController extends SingleNonImbue
     return (TieredNonImbuedLegacy)_legacy;
   }
 
-  /**
-   * Extract data from UI to the given storage.
-   * @param storage Storage to use.
-   */
-  public void getData(ImbuedLegacyInstance storage)
+  @Override
+  public void getData(TieredNonImbuedLegacyInstance storage)
   {
-    // Put UI data into the given storage
+    super.getData(storage);
+    TieredNonImbuedLegacy legacy=getTieredLegacy();
+    if (legacy!=null)
+    {
+      int tier=_tier.getSelectedItem().intValue();
+      NonImbuedLegacyTier legacyTier=legacy.getTier(tier);
+      storage.setLegacyTier(legacyTier);
+    }
   }
 
   protected void handleButtonClick(JButton button)
@@ -102,22 +104,20 @@ public class SingleTieredNonImbuedLegacyEditionController extends SingleNonImbue
     return ret;
   }
 
-  /**
-   * Update UI to show the internal legacy data.
-   */
-  public void setUiFromLegacy()
+  @Override
+  public void updateUiFromLegacy(TieredNonImbuedLegacyInstance legacyInstance)
   {
     // Update UI to reflect the internal legacy data
     if (hasLegacy())
     {
       // - Update tier
-      NonImbuedLegacyTier legacyTier=_legacyInstance.getLegacyTier();
+      NonImbuedLegacyTier legacyTier=legacyInstance.getLegacyTier();
       if (legacyTier!=null)
       {
         _tier.selectItem(Integer.valueOf(legacyTier.getTier()));
       }
     }
-    super.setUiFromLegacy();
+    super.updateUiFromLegacy(legacyInstance);
   }
 
   protected void updateGadgetsState()
