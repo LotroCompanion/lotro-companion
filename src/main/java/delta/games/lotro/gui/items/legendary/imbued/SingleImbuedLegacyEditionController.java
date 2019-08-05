@@ -3,7 +3,6 @@ package delta.games.lotro.gui.items.legendary.imbued;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -17,13 +16,11 @@ import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.constraints.ClassAndSlot;
-import delta.games.lotro.common.stats.StatDescription;
 import delta.games.lotro.gui.LotroIconsManager;
-import delta.games.lotro.gui.character.stats.StatDisplayUtils;
+import delta.games.lotro.gui.utils.StatDisplayUtils;
 import delta.games.lotro.lore.items.EquipmentLocation;
 import delta.games.lotro.lore.items.legendary.imbued.ImbuedLegacy;
 import delta.games.lotro.lore.items.legendary.imbued.ImbuedLegacyInstance;
-import delta.games.lotro.utils.FixedDecimalsInteger;
 
 /**
  * Controller for the UI items of a single imbued legacy.
@@ -239,18 +236,7 @@ public class SingleImbuedLegacyEditionController
     if (hasLegacy())
     {
       BasicStatsSet stats=_legacy.getStats();
-      List<StatDescription> statDescriptions=stats.getSortedStats();
-      int nbStats=statDescriptions.size();
-      String[] lines=new String[nbStats];
-      for(int i=0;i<nbStats;i++)
-      {
-        StatDescription stat=statDescriptions.get(i);
-        String statName=stat.getName();
-        FixedDecimalsInteger value=stats.getStat(stat);
-        String valueStr=StatDisplayUtils.getStatDisplay(value,stat.isPercentage());
-        String line=valueStr+" "+statName;
-        lines[i]=line;
-      }
+      String[] lines=StatDisplayUtils.getStatsDisplayLines(stats);
       _value.setText(lines);
     }
     else

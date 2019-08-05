@@ -1,52 +1,48 @@
-package delta.games.lotro.gui.items.legendary.passives;
+package delta.games.lotro.gui.items.legendary.titles;
 
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
 
 import javax.swing.JButton;
-import javax.swing.JLabel;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.labels.MultilineLabel2;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.stats.BasicStatsSet;
-import delta.games.lotro.common.effects.Effect;
-import delta.games.lotro.common.stats.StatDescription;
 import delta.games.lotro.gui.utils.StatDisplayUtils;
+import delta.games.lotro.lore.items.legendary.titles.LegendaryTitle;
 
 /**
- * Controller for the UI items of a single passive.
+ * Controller for the UI items of a single legendary title.
  * @author DAM
  */
-public class SinglePassiveEditionController
+public class SingleTitleEditionController
 {
   // Data
-  private Effect _passive;
-  private int _itemId;
-  private int _level;
+  private LegendaryTitle _legendaryTitle;
   // Controllers
   private WindowController _parent;
   // GUI
-  private JLabel _value;
+  private MultilineLabel2 _value;
   private JButton _chooseButton;
   private JButton _deleteButton;
 
   /**
    * Constructor.
    * @param parent Parent window.
-   * @param passive Current effect (may be <code>null</code>).
-   * @param itemId Item identifier.
-   * @param level Item level to use for stats computations.
+   * @param legendaryTitle Current legendary title (may be <code>null</code>).
    */
-  public SinglePassiveEditionController(WindowController parent, Effect passive, int itemId, int level)
+  public SingleTitleEditionController(WindowController parent, LegendaryTitle legendaryTitle)
   {
     _parent=parent;
-    _passive=passive;
-    _itemId=itemId;
-    _level=level;
+    _legendaryTitle=legendaryTitle;
     // UI
     // - value display
-    _value=GuiFactory.buildLabel("");
+    _value=new MultilineLabel2();
+    Dimension dimension=new Dimension(200,32);
+    _value.setMinimumSize(dimension);
+    _value.setSize(dimension);
     // - chooser button
     _chooseButton=GuiFactory.buildButton("...");
     ActionListener listener=new ActionListener()
@@ -74,27 +70,27 @@ public class SinglePassiveEditionController
 
   private void handleButtonClick(JButton button)
   {
-    Effect passive=PassiveChooser.selectPassive(_parent,_itemId,_passive);
-    if (passive!=null)
+    LegendaryTitle legendaryTitle=LegendaryTitleChooser.selectLegendaryTitle(_parent,_legendaryTitle);
+    if (legendaryTitle!=null)
     {
-      _passive=passive;
+      _legendaryTitle=legendaryTitle;
       updateUi();
     }
   }
 
   private void handleDelete(JButton button)
   {
-    _passive=null;
+    _legendaryTitle=null;
     updateUi();
   }
 
   /**
-   * Get the managed passive.
-   * @return the managed passive.
+   * Get the managed legendary title.
+   * @return the managed legendary title.
    */
-  public Effect getPassive()
+  public LegendaryTitle getLegendaryTitle()
   {
-    return _passive;
+    return _legendaryTitle;
   }
 
   /**
@@ -108,28 +104,23 @@ public class SinglePassiveEditionController
 
   private void updateStats()
   {
-    if (_passive!=null)
+    if (_legendaryTitle!=null)
     {
-      BasicStatsSet stats=_passive.getStatsProvider().getStats(1,_level);
-      List<StatDescription> statDescriptions=stats.getSortedStats();
-      int nbStats=statDescriptions.size();
-      if (nbStats==1)
-      {
-        String[] lines=StatDisplayUtils.getStatsDisplayLines(stats);
-        _value.setText(lines[0]);
-      }
+      BasicStatsSet stats=_legendaryTitle.getStats();
+      String[] lines=StatDisplayUtils.getStatsDisplayLines(stats);
+      _value.setText(lines);
     }
     else
     {
-      _value.setText("");
+      _value.setText(new String[]{});
     }
   }
 
   /**
-   * Get the label to display the passive.
-   * @return a single line label.
+   * Get the label to display the legendary title.
+   * @return a multiline label.
    */
-  public JLabel getValueLabel()
+  public MultilineLabel2 getValueLabel()
   {
     return _value;
   }
@@ -158,7 +149,7 @@ public class SinglePassiveEditionController
   public void dispose()
   {
     // Data
-    _passive=null;
+    _legendaryTitle=null;
     // Controllers
     _parent=null;
     // UI

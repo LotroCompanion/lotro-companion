@@ -7,7 +7,7 @@ import javax.swing.JLabel;
 import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.common.stats.StatDescription;
-import delta.games.lotro.gui.character.stats.StatDisplayUtils;
+import delta.games.lotro.gui.utils.StatDisplayUtils;
 import delta.games.lotro.utils.FixedDecimalsInteger;
 
 /**

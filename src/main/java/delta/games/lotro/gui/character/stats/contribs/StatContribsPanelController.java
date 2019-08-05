@@ -24,7 +24,7 @@ import delta.games.lotro.character.stats.contribs.ContribsByStat;
 import delta.games.lotro.character.stats.contribs.StatContribution;
 import delta.games.lotro.character.stats.contribs.StatsContributionsManager;
 import delta.games.lotro.common.stats.StatDescription;
-import delta.games.lotro.gui.character.stats.StatDisplayUtils;
+import delta.games.lotro.gui.utils.StatDisplayUtils;
 import delta.games.lotro.utils.FixedDecimalsInteger;
 
 /**
