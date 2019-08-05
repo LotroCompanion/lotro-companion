@@ -1,7 +1,8 @@
-package delta.games.lotro.gui.items.legendary.shared;
+package delta.games.lotro.gui.items.legendary.passives;
 
 import javax.swing.JFrame;
 
+import delta.games.lotro.gui.items.legendary.shared.LegendariesTestUtils;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemInstance;
 import delta.games.lotro.lore.items.legendary.LegendaryInstance;

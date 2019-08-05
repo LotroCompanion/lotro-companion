@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.items.legendary.shared;
+package delta.games.lotro.gui.items.legendary.passives;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.common.effects.Effect;
+import delta.games.lotro.lore.items.legendary.LegendaryConstants;
 import delta.games.lotro.lore.items.legendary.LegendaryInstanceAttrs;
 
 /**
@@ -21,8 +22,6 @@ import delta.games.lotro.lore.items.legendary.LegendaryInstanceAttrs;
  */
 public class PassivesEditionPanelController
 {
-  private static final int NB_PASSIVES_MAX=3;
-
   // GUI
   private JPanel _panel;
   private List<SinglePassiveEditionController> _passiveGadgets;
@@ -39,7 +38,7 @@ public class PassivesEditionPanelController
     _passiveGadgets=new ArrayList<SinglePassiveEditionController>();
     List<Effect> passives=legendaryAttrs.getPassives();
     int nbPassives=passives.size();
-    for(int i=0;i<NB_PASSIVES_MAX;i++)
+    for(int i=0;i<LegendaryConstants.NB_PASSIVES_MAX;i++)
     {
       Effect passive=(i<nbPassives)?passives.get(i):null;
       SinglePassiveEditionController controller=new SinglePassiveEditionController(parent,passive,itemId,level);

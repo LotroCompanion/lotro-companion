@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.items.legendary.shared;
+package delta.games.lotro.gui.items.legendary.passives;
 
 import java.awt.Dimension;
 import java.util.List;

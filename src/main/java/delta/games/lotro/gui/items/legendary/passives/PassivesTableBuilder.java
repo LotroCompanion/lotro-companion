@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.items.legendary.shared;
+package delta.games.lotro.gui.items.legendary.passives;
 
 import java.util.ArrayList;
 import java.util.List;

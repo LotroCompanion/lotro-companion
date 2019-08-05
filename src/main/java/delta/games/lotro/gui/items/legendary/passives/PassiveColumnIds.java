@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.items.legendary.shared;
+package delta.games.lotro.gui.items.legendary.passives;
 
 /**
  * Column identifiers for the passives tables.
