@@ -33,10 +33,6 @@ public class MainTestLegendaryInstanceEdition
 
     LegendaryInstance legendaryInstance=(LegendaryInstance)itemInstance;
     final LegendaryInstanceAttrs legendaryAttrs=legendaryInstance.getLegendaryAttributes();
-    if (legendaryAttrs.getImbuedAttrs()==null)
-    {
-      legendaryAttrs.setImbuedAttrs(new ImbuedLegendaryInstanceAttrs());
-    }
     ClassAndSlot constraints=new ClassAndSlot(CharacterClass.CAPTAIN,EquipmentLocation.CLASS_SLOT);
     final LegendaryInstanceEditionPanelController controller=new LegendaryInstanceEditionPanelController(null,itemInstance,constraints);
 
