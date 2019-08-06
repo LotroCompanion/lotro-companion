@@ -8,10 +8,11 @@ import delta.games.lotro.common.constraints.ClassAndSlot;
 import delta.games.lotro.gui.items.legendary.shared.LegendariesTestUtils;
 import delta.games.lotro.lore.items.EquipmentLocation;
 import delta.games.lotro.lore.items.Item;
+import delta.games.lotro.lore.items.ItemFactory;
 import delta.games.lotro.lore.items.ItemInstance;
+import delta.games.lotro.lore.items.ItemsManager;
 import delta.games.lotro.lore.items.legendary.LegendaryInstance;
 import delta.games.lotro.lore.items.legendary.LegendaryInstanceAttrs;
-import delta.games.lotro.lore.items.legendary.imbued.ImbuedLegendaryInstanceAttrs;
 
 /**
  * Simple test class for the legendary instance edition panel.
@@ -19,7 +20,7 @@ import delta.games.lotro.lore.items.legendary.imbued.ImbuedLegendaryInstanceAttr
  */
 public class MainTestLegendaryInstanceEdition
 {
-  private ItemInstance<? extends Item> buildTestAttrs()
+  ItemInstance<? extends Item> buildTestItemInstance()
   {
     //String name="CaptainEmblemSecondAge75NonImbued.xml";
     String name="CaptainGreatSwordFirstAgeImbued.xml";
@@ -27,10 +28,24 @@ public class MainTestLegendaryInstanceEdition
     return item;
   }
 
+  private ItemInstance<? extends Item> buildEmptyTestItemInstance()
+  {
+    ItemsManager itemsMgr=ItemsManager.getInstance();
+    // Hunter's Crossbow of the Third Age (level 55, min level 51)
+    Item item=itemsMgr.getItem(1879132909);
+    ItemInstance<? extends Item> itemInstance=ItemFactory.buildInstance(item);
+    ItemFactory.initInstance(itemInstance);
+    return itemInstance;
+  }
+
   private void doIt()
   {
-    final ItemInstance<? extends Item> itemInstance=buildTestAttrs();
+    final ItemInstance<? extends Item> itemInstance=buildEmptyTestItemInstance();
+    edit(itemInstance);
+  }
 
+  private void edit(ItemInstance<? extends Item> itemInstance)
+  {
     LegendaryInstance legendaryInstance=(LegendaryInstance)itemInstance;
     final LegendaryInstanceAttrs legendaryAttrs=legendaryInstance.getLegendaryAttributes();
     ClassAndSlot constraints=new ClassAndSlot(CharacterClass.CAPTAIN,EquipmentLocation.CLASS_SLOT);
