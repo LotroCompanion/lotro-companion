@@ -82,6 +82,36 @@ public class QuestDisplayPanelController implements NavigablePanelController
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
 
+    GridBagConstraints c=new GridBagConstraints(0,0,2,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+
+    // Top panel
+    JPanel topPanel=buildTopPanel();
+    panel.add(topPanel,c);
+
+    // Rewards
+    _rewards=new RewardsPanelController(_quest.getRewards());
+    JPanel rewardsPanel=_rewards.getPanel();
+    TitledBorder rewardsBorder=GuiFactory.buildTitledBorder("Rewards");
+    rewardsPanel.setBorder(rewardsBorder);
+    c=new GridBagConstraints(1,1,1,1,0.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    panel.add(rewardsPanel,c);
+
+    // Details
+    _details=buildDetailsPane();
+    JScrollPane detailsPane=GuiFactory.buildScrollPane(_details);
+    detailsPane.setBorder(GuiFactory.buildTitledBorder("Details"));
+    c=new GridBagConstraints(0,1,1,1,1.0,1.0,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
+    panel.add(detailsPane,c);
+
+    _panel=panel;
+    setData();
+    return _panel;
+  }
+
+  private JPanel buildTopPanel()
+  {
+    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
+
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     // Main data line
     {
@@ -144,15 +174,6 @@ public class QuestDisplayPanelController implements NavigablePanelController
       panelLine.add(_attributes);
     }
 
-    // Rewards
-    _rewards=new RewardsPanelController(_quest.getRewards());
-    JPanel rewardsPanel=_rewards.getPanel();
-    TitledBorder rewardsBorder=GuiFactory.buildTitledBorder("Rewards");
-    rewardsPanel.setBorder(rewardsBorder);
-    c=new GridBagConstraints(0,c.gridy,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
-    panel.add(rewardsPanel,c);
-    c.gridy++;
-
     // Links
     _links=new QuestLinksDisplayPanelController(_parent,_quest);
     JPanel linksPanel=_links.getPanel();
@@ -160,19 +181,7 @@ public class QuestDisplayPanelController implements NavigablePanelController
     panel.add(linksPanel,c);
     c.gridy++;
 
-    // Details
-    _details=buildDetailsPane();
-    JScrollPane detailsPane=GuiFactory.buildScrollPane(_details);
-    detailsPane.setBorder(GuiFactory.buildTitledBorder("Details"));
-    c.fill=GridBagConstraints.BOTH;
-    c.weightx=1.0;
-    c.weighty=1.0;
-    panel.add(detailsPane,c);
-    c.gridy++;
-
-    _panel=panel;
-    setItem();
-    return _panel;
+    return panel;
   }
 
   private JEditorPane buildDetailsPane()
@@ -220,7 +229,7 @@ public class QuestDisplayPanelController implements NavigablePanelController
   /**
    * Set the quest to display.
    */
-  private void setItem()
+  private void setData()
   {
     String name=_quest.getName();
     // Name
