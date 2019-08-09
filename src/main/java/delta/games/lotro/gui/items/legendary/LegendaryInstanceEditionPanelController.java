@@ -92,8 +92,9 @@ public class LegendaryInstanceEditionPanelController
     _relics=new RelicsEditionPanelController(parent,relics);
     // Build panel
     _panel=build();
-    boolean isImbued=true; // TODO
+    boolean isImbued=attrs.isImbued();
     _isImbued.setSelected(isImbued);
+    setImbued(isImbued);
   }
 
   /**
