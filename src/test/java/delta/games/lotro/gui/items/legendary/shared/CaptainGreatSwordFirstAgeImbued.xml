@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <item key="1879311779" name="Reshaped Captain's Greatsword of the First Age" instanceId="-2065682798:50855940" crafterName="Targalion [M]" boundTo="2598197:34078720">
-<legendary name="Magic stick">
+<legendary name="Magic stick" imbued="true">
 <passive id="1879147310"/>
 <passive id="1879147291"/>
 <passive id="1879147318"/>

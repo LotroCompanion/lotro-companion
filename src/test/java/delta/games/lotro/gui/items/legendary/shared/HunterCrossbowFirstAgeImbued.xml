@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <item key="1879311780" name="Reshaped Hunter's Crossbow of the First Age" level="198" instanceId="-1981807154/50855940" birthName="Katioucha V" crafterName="Glumlug [M]" boundTo="UNKNOWN:2253734/34078720" time="1564591194000">
-<legendary>
+<legendary imbued="true">
 <nonImbued level="60" upgrades="3" pointsSpent="0" pointsLeft="0"/>
 <imbued>
 <imbuedLegacy imbuedLegacyId="1879325265" xp="1560000" unlockedLevels="19"/>

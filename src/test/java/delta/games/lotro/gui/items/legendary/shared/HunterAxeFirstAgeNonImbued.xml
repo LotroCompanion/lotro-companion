@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <item key="1879311761" name="Reshaped Hunter's Axe of the First Age" instanceId="934317080/50987015" birthName="Slash Them All" crafterName="Giswald [M]" boundTo="UNKNOWN:2253734/34078720" time="1564591197000">
-<legendary>
+<legendary imbued="false">
 <nonImbued level="60" upgrades="0" pointsSpent="710" pointsLeft="0">
 <defaultLegacy rank="0"/>
 <tieredLegacy id="1879174297" rank="55"/>
