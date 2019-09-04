@@ -80,12 +80,14 @@ public class LegendaryInstanceEditionPanelController
     // Non-imbued attributes
     NonImbuedLegendaryInstanceAttrs nonImbuedAttrs=attrs.getNonImbuedAttrs();
     _nonImbued=new NonImbuedLegendaryAttrsEditionPanelController(parent,nonImbuedAttrs,constraints);
+    Integer itemLevelInt=item.getEffectiveItemLevel();
+    int itemLevel=(itemLevelInt!=null)?itemLevelInt.intValue():1;
+    Item itemReference=item.getReference();
+    _nonImbued.setReferenceData(itemLevel,itemReference);
     // Title
     _title=new LegendaryTitleEditionPanelController(parent,attrs);
     // Passives
     int itemId=item.getIdentifier();
-    Integer itemLevelInt=item.getEffectiveItemLevel();
-    int itemLevel=(itemLevelInt!=null)?itemLevelInt.intValue():1;
     _passives=new PassivesEditionPanelController(parent,attrs,itemId,itemLevel);
     // Relics
     RelicsSet relics=attrs.getRelicsSet();

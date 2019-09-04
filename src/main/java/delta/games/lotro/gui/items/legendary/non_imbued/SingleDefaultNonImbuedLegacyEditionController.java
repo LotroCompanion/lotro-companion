@@ -7,6 +7,8 @@ import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.common.constraints.ClassAndSlot;
 import delta.games.lotro.common.stats.StatsProvider;
 import delta.games.lotro.gui.LotroIconsManager;
+import delta.games.lotro.lore.items.legendary.global.LegendarySystem;
+import delta.games.lotro.lore.items.legendary.non_imbued.AbstractNonImbuedLegacy;
 import delta.games.lotro.lore.items.legendary.non_imbued.DefaultNonImbuedLegacy;
 import delta.games.lotro.lore.items.legendary.non_imbued.DefaultNonImbuedLegacyInstance;
 
@@ -42,6 +44,18 @@ public class SingleDefaultNonImbuedLegacyEditionController extends SingleNonImbu
   protected void handleButtonClick(JButton button)
   {
     //
+  }
+
+  protected void setupLegacy(AbstractNonImbuedLegacy legacy)
+  {
+    super.setupLegacy(legacy);
+    DefaultNonImbuedLegacy defaultLegacy=getDefaultLegacy();
+    if (defaultLegacy!=null)
+    {
+      LegendarySystem legendarySystem=new LegendarySystem();
+      int[] internalRanks=legendarySystem.getRanksForMainLegacy(_itemReference,_itemLevel);
+      updateRanksCombo(internalRanks);
+    }
   }
 
   protected StatsProvider getStatsProvider()

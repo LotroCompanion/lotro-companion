@@ -6,18 +6,17 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JTextField;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.combobox.ComboBoxController;
+import delta.common.ui.swing.combobox.ItemSelectionListener;
 import delta.common.ui.swing.labels.MultilineLabel2;
-import delta.common.ui.swing.text.IntegerEditionController;
-import delta.common.ui.swing.text.NumberEditionController;
-import delta.common.ui.swing.text.NumberListener;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.common.constraints.ClassAndSlot;
 import delta.games.lotro.common.stats.StatsProvider;
 import delta.games.lotro.gui.utils.StatDisplayUtils;
+import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.legendary.non_imbued.AbstractNonImbuedLegacy;
 import delta.games.lotro.lore.items.legendary.non_imbued.NonImbuedLegacyInstance;
 
@@ -31,14 +30,17 @@ public abstract class SingleNonImbuedLegacyEditionController<T extends NonImbued
   // Data
   protected AbstractNonImbuedLegacy _legacy;
   protected ClassAndSlot _constraints;
+  protected int _itemLevel;
+  protected Item _itemReference;
+  protected int[] _internalRanks;
   // Controllers
   protected WindowController _parent;
   // GUI
   protected JLabel _icon;
   private MultilineLabel2 _value;
   private JButton _chooseButton;
-  // Current level
-  private IntegerEditionController _currentRank;
+  // Current rank
+  private ComboBoxController<Integer> _rank;
 
   /**
    * Constructor.
@@ -69,21 +71,55 @@ public abstract class SingleNonImbuedLegacyEditionController<T extends NonImbued
     };
     _chooseButton.addActionListener(listener);
     // - current level
-    JTextField rankTextField=GuiFactory.buildTextField("");
-    _currentRank=new IntegerEditionController(rankTextField);
-    NumberListener<Integer> rankListener=new NumberListener<Integer>()
+    _rank=buildRankCombo();
+  }
+
+  /**
+   * Setup reference data.
+   * @param itemLevel Item level of the edited item instance.
+   * @param item Reference item.
+   */
+  public void setReferenceData(int itemLevel, Item item)
+  {
+    _itemLevel=itemLevel;
+    _itemReference=item;
+  }
+
+  private ComboBoxController<Integer> buildRankCombo()
+  {
+    ComboBoxController<Integer> ret=new ComboBoxController<Integer>();
+    ItemSelectionListener<Integer> rankListener=new ItemSelectionListener<Integer>()
     {
       @Override
-      public void valueChanged(NumberEditionController<Integer> source, Integer newValue)
+      public void itemSelected(Integer newInternalRank)
       {
-        if (newValue!=null)
+        if (newInternalRank!=null)
         {
-          handleCurrentRankUpdate(newValue.intValue());
+          handleCurrentRankUpdate(newInternalRank.intValue());
         }
       }
     };
-    // - init listeners
-    _currentRank.addValueListener(rankListener);
+    ret.addListener(rankListener);
+    return ret;
+  }
+
+  protected void updateRanksCombo(int[] ranks)
+  {
+    _internalRanks=ranks;
+    Integer previousValue=_rank.getSelectedItem();
+    if (ranks!=null)
+    {
+      // Remove old items
+      _rank.removeAllItems();
+      // Push new items
+      for(int i=0;i<ranks.length;i++)
+      {
+        int internalRank=ranks[i];
+        int uiRank=(i+1);
+        _rank.addItem(Integer.valueOf(internalRank),"Rank "+uiRank);
+      }
+      _rank.selectItem(previousValue);
+    }
   }
 
   /**
@@ -93,7 +129,7 @@ public abstract class SingleNonImbuedLegacyEditionController<T extends NonImbued
   public void getData(T storage)
   {
     // Rank
-    Integer rank=_currentRank.getValue();
+    Integer rank=_rank.getSelectedItem();
     if (rank!=null)
     {
       storage.setRank(rank.intValue());
@@ -118,7 +154,8 @@ public abstract class SingleNonImbuedLegacyEditionController<T extends NonImbued
    */
   public void setLegacyInstance(T legacyInstance)
   {
-    _legacy=legacyInstance.getLegacy();
+    AbstractNonImbuedLegacy legacy=legacyInstance.getLegacy();
+    setupLegacy(legacy);
     updateUiFromLegacy(legacyInstance);
   }
 
@@ -135,23 +172,22 @@ public abstract class SingleNonImbuedLegacyEditionController<T extends NonImbued
     {
       // - Update current rank
       int rank=legacyInstance.getRank();
-      _currentRank.setValue(Integer.valueOf(rank));
+      _rank.selectItem(Integer.valueOf(rank));
       // - Update derived UI
       updateIcon();
     }
     updateStats();
   }
 
+  protected void setupLegacy(AbstractNonImbuedLegacy legacy)
+  {
+    _legacy=legacy;
+  }
+
   protected void updateGadgetsState()
   {
-    if (hasLegacy())
-    {
-      _currentRank.setState(true,true);
-    }
-    else
-    {
-      _currentRank.setState(false,false);
-    }
+    boolean enabled=hasLegacy();
+    _rank.getComboBox().setEnabled(enabled);
   }
 
   protected void updateStats()
@@ -176,7 +212,7 @@ public abstract class SingleNonImbuedLegacyEditionController<T extends NonImbued
 
   private int getRank()
   {
-    Integer rank=_currentRank.getValue();
+    Integer rank=_rank.getSelectedItem();
     return rank!=null?rank.intValue():1;
   }
 
@@ -208,12 +244,12 @@ public abstract class SingleNonImbuedLegacyEditionController<T extends NonImbued
   }
 
   /**
-   * Get the edition controller for the current rank.
-   * @return an integer edition controller.
+   * Get the combo controller for the current rank.
+   * @return a combobox controller.
    */
-  public IntegerEditionController getCurrentRankEditionController()
+  public ComboBoxController<Integer> getCurrentRankEditionController()
   {
-    return _currentRank;
+    return _rank;
   }
 
   /**
@@ -230,10 +266,10 @@ public abstract class SingleNonImbuedLegacyEditionController<T extends NonImbued
     _icon=null;
     _value=null;
     _chooseButton=null;
-    if (_currentRank!=null)
+    if (_rank!=null)
     {
-      _currentRank.dispose();
-      _currentRank=null;
+      _rank.dispose();
+      _rank=null;
     }
   }
 }

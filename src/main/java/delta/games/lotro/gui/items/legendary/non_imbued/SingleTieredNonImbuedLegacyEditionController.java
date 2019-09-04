@@ -11,6 +11,9 @@ import delta.games.lotro.common.constraints.ClassAndSlot;
 import delta.games.lotro.common.stats.StatsProvider;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.lore.items.EquipmentLocation;
+import delta.games.lotro.lore.items.ItemQuality;
+import delta.games.lotro.lore.items.legendary.global.LegendarySystem;
+import delta.games.lotro.lore.items.legendary.non_imbued.AbstractNonImbuedLegacy;
 import delta.games.lotro.lore.items.legendary.non_imbued.NonImbuedLegacyTier;
 import delta.games.lotro.lore.items.legendary.non_imbued.TieredNonImbuedLegacy;
 import delta.games.lotro.lore.items.legendary.non_imbued.TieredNonImbuedLegacyInstance;
@@ -88,7 +91,7 @@ public class SingleTieredNonImbuedLegacyEditionController extends SingleNonImbue
 
   private void setLegacy(TieredNonImbuedLegacy legacy)
   {
-    _legacy=legacy;
+    setupLegacy(legacy);
     updateGadgetsState();
     Integer tier=_tier.getSelectedItem();
     handleTierUpdate(tier!=null?tier.intValue():1);
@@ -118,6 +121,27 @@ public class SingleTieredNonImbuedLegacyEditionController extends SingleNonImbue
       }
     }
     super.updateUiFromLegacy(legacyInstance);
+  }
+
+  private TieredNonImbuedLegacy getLegacy()
+  {
+    return (TieredNonImbuedLegacy)_legacy;
+  }
+
+  protected void setupLegacy(AbstractNonImbuedLegacy legacy)
+  {
+    super.setupLegacy(legacy);
+    TieredNonImbuedLegacy tieredLegacy=getLegacy();
+    if (tieredLegacy!=null)
+    {
+      Integer tierInt=_tier.getSelectedItem();
+      int tier=tierInt!=null?tierInt.intValue():1;
+      NonImbuedLegacyTier legacyTier=tieredLegacy.getTier(tier);
+      LegendarySystem legendarySystem=new LegendarySystem();
+      ItemQuality quality=_itemReference.getQuality();
+      int[] internalRanks=legendarySystem.getRanksForLegacyTier(_itemLevel,quality,legacyTier);
+      updateRanksCombo(internalRanks);
+    }
   }
 
   protected void updateGadgetsState()

@@ -18,21 +18,18 @@ import delta.games.lotro.lore.items.legendary.non_imbued.NonImbuedLegendaryInsta
  */
 public class MainTestNonImbuedLegendaryAttrsEdition
 {
-  private NonImbuedLegendaryInstanceAttrs  buildTestAttrs()
-  {
-    ItemInstance<? extends Item> item=LegendariesTestUtils.loadItemInstance("CaptainEmblemSecondAge75NonImbued.xml");
-    LegendaryInstanceAttrs attrs=LegendariesTestUtils.getLegendaryAttrs(item);
-    NonImbuedLegendaryInstanceAttrs nonImbuedLegAttrs=attrs.getNonImbuedAttrs();
-    return nonImbuedLegAttrs;
-  }
-
   private void doIt()
   {
-    final NonImbuedLegendaryInstanceAttrs attrs=buildTestAttrs();
+    ItemInstance<? extends Item> itemInstance=LegendariesTestUtils.loadItemInstance("CaptainEmblemSecondAge75NonImbued.xml");
+    LegendaryInstanceAttrs attrs=LegendariesTestUtils.getLegendaryAttrs(itemInstance);
+    final NonImbuedLegendaryInstanceAttrs nonImbuedLegAttrs=attrs.getNonImbuedAttrs();
     ClassAndSlot constraints=new ClassAndSlot(CharacterClass.CAPTAIN,EquipmentLocation.CLASS_SLOT);
-    final NonImbuedLegendaryAttrsEditionPanelController controller=new NonImbuedLegendaryAttrsEditionPanelController(null,attrs,constraints);
+    final NonImbuedLegendaryAttrsEditionPanelController controller=new NonImbuedLegendaryAttrsEditionPanelController(null,nonImbuedLegAttrs,constraints);
+    int itemLevel=itemInstance.getEffectiveItemLevel().intValue();
+    Item item=itemInstance.getReference();
+    controller.setReferenceData(itemLevel,item);
 
-    DefaultFormDialogController<NonImbuedLegendaryInstanceAttrs> dialog=new DefaultFormDialogController<NonImbuedLegendaryInstanceAttrs>(null,attrs)
+    DefaultFormDialogController<NonImbuedLegendaryInstanceAttrs> dialog=new DefaultFormDialogController<NonImbuedLegendaryInstanceAttrs>(null,nonImbuedLegAttrs)
     {
       @Override
       protected JPanel buildFormPanel()
@@ -44,7 +41,7 @@ public class MainTestNonImbuedLegendaryAttrsEdition
       protected void okImpl()
       {
         super.okImpl();
-        controller.getData(attrs);
+        controller.getData(nonImbuedLegAttrs);
       }
     };
     NonImbuedLegendaryInstanceAttrs result=dialog.editModal();

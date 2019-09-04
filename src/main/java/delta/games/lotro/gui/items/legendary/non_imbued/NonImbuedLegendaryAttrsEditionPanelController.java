@@ -21,6 +21,7 @@ import delta.common.ui.swing.labels.MultilineLabel2;
 import delta.common.ui.swing.text.IntegerEditionController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.common.constraints.ClassAndSlot;
+import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.legendary.LegendaryConstants;
 import delta.games.lotro.lore.items.legendary.non_imbued.DefaultNonImbuedLegacyInstance;
 import delta.games.lotro.lore.items.legendary.non_imbued.NonImbuedLegendaryInstanceAttrs;
@@ -69,6 +70,20 @@ public class NonImbuedLegendaryAttrsEditionPanelController
     {
       SingleTieredNonImbuedLegacyEditionController tieredEditor=new SingleTieredNonImbuedLegacyEditionController(_parent,constraints);
       _legacyEditors.add(tieredEditor);
+    }
+  }
+
+  /**
+   * Setup reference data.
+   * @param itemLevel Item level of the edited item instance.
+   * @param item Reference item.
+   */
+  public void setReferenceData(int itemLevel, Item item)
+  {
+    _defaultLegacyEditor.setReferenceData(itemLevel,item);
+    for(SingleTieredNonImbuedLegacyEditionController tieredEditor : _legacyEditors)
+    {
+      tieredEditor.setReferenceData(itemLevel,item);
     }
   }
 
@@ -169,9 +184,9 @@ public class NonImbuedLegendaryAttrsEditionPanelController
     panel.add(valueLabel,c);
     x++;
     // Current rank
-    IntegerEditionController currentRank=editor.getCurrentRankEditionController();
+    ComboBoxController<Integer> currentRank=editor.getCurrentRankEditionController();
     c=new GridBagConstraints(x,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,0),0,0);
-    panel.add(currentRank.getTextField(),c);
+    panel.add(currentRank.getComboBox(),c);
     x++;
     // Tier
     if (editor instanceof SingleTieredNonImbuedLegacyEditionController)
