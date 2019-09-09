@@ -5,12 +5,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.labels.MultilineLabel2;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.gui.utils.StatDisplayUtils;
+import delta.games.lotro.lore.items.DamageType;
 import delta.games.lotro.lore.items.legendary.titles.LegendaryTitle;
 
 /**
@@ -24,7 +26,15 @@ public class SingleTitleEditionController
   // Controllers
   private WindowController _parent;
   // GUI
-  private MultilineLabel2 _value;
+  // - title name
+  private JLabel _name;
+  // - complement:
+  //    - damage type, if not COMMON
+  //    - slayer if any + tier if no stats
+  private JLabel _complement;
+  // - stats
+  private MultilineLabel2 _stats;
+  // - buttons:
   private JButton _chooseButton;
   private JButton _deleteButton;
 
@@ -38,11 +48,15 @@ public class SingleTitleEditionController
     _parent=parent;
     _legendaryTitle=legendaryTitle;
     // UI
+    // - name
+    _name=GuiFactory.buildLabel("");
+    // - complement
+    _complement=GuiFactory.buildLabel("");
     // - value display
-    _value=new MultilineLabel2();
+    _stats=new MultilineLabel2();
     Dimension dimension=new Dimension(200,32);
-    _value.setMinimumSize(dimension);
-    _value.setSize(dimension);
+    _stats.setMinimumSize(dimension);
+    _stats.setSize(dimension);
     // - chooser button
     _chooseButton=GuiFactory.buildButton("...");
     ActionListener listener=new ActionListener()
@@ -98,7 +112,36 @@ public class SingleTitleEditionController
    */
   private void updateUi()
   {
-    // - Update stats
+    // Name
+    String name=_legendaryTitle!=null?_legendaryTitle.getName():"";
+    _name.setText(name);
+    // Complement
+    StringBuilder complementSb=new StringBuilder();
+    if (_legendaryTitle!=null)
+    {
+      boolean useTier=false;
+      DamageType damageType=_legendaryTitle.getDamageType();
+      if ((damageType!=null) && (damageType!=DamageType.COMMON))
+      {
+        String damageStr=damageType.getName();
+        complementSb.append(damageStr).append(" damage");
+        useTier=true;
+      }
+      String slayerType=_legendaryTitle.getSlayerGenusType();
+      if ((slayerType!=null) && (slayerType.length()>0))
+      {
+        if (complementSb.length()>0) complementSb.append(", ");
+        complementSb.append(slayerType).append(" slayer");
+        useTier=true;
+      }
+      if (useTier)
+      {
+        int tier=_legendaryTitle.getTier();
+        complementSb.append(", tier ").append(tier);
+      }
+      _complement.setText(complementSb.toString());
+    }
+    // Stats
     updateStats();
   }
 
@@ -108,21 +151,39 @@ public class SingleTitleEditionController
     {
       BasicStatsSet stats=_legendaryTitle.getStats();
       String[] lines=StatDisplayUtils.getStatsDisplayLines(stats);
-      _value.setText(lines);
+      _stats.setText(lines);
     }
     else
     {
-      _value.setText(new String[]{});
+      _stats.setText(new String[]{});
     }
+  }
+
+  /**
+   * Get the label for the title name.
+   * @return a label.
+   */
+  public JLabel getNameLabel()
+  {
+    return _name;
+  }
+
+  /**
+   * Get the label for the complements.
+   * @return a label.
+   */
+  public JLabel getComplementLabel()
+  {
+    return _complement;
   }
 
   /**
    * Get the label to display the legendary title.
    * @return a multiline label.
    */
-  public MultilineLabel2 getValueLabel()
+  public MultilineLabel2 getStatsLabel()
   {
-    return _value;
+    return _stats;
   }
 
   /**
@@ -153,7 +214,9 @@ public class SingleTitleEditionController
     // Controllers
     _parent=null;
     // UI
-    _value=null;
+    _name=null;
+    _complement=null;
+    _stats=null;
     _chooseButton=null;
     _deleteButton=null;
   }

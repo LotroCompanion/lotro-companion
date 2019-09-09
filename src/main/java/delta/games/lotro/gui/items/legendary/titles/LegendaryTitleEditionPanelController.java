@@ -5,6 +5,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
@@ -50,10 +51,10 @@ public class LegendaryTitleEditionPanelController
   private JPanel build()
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
-    // Label
-    MultilineLabel2 label=_controller.getValueLabel();
+    // Labels
+    JPanel labels=buildLabelsPanel();
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(2,5,2,5),0,0);
-    panel.add(label,c);
+    panel.add(labels,c);
     // Choose button
     JButton chooser=_controller.getChooseButton();
     c=new GridBagConstraints(1,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,5,2,5),0,0);
@@ -62,6 +63,24 @@ public class LegendaryTitleEditionPanelController
     JButton deleteButton=_controller.getDeleteButton();
     c=new GridBagConstraints(2,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,5,2,5),0,0);
     panel.add(deleteButton,c);
+    return panel;
+  }
+
+  private JPanel buildLabelsPanel()
+  {
+    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
+    // Name
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(2,5,2,5),0,0);
+    JLabel nameLabel=_controller.getNameLabel();
+    panel.add(nameLabel,c);
+    // Complements
+    c=new GridBagConstraints(0,1,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(2,5,2,5),0,0);
+    JLabel complementsLabel=_controller.getComplementLabel();
+    panel.add(complementsLabel,c);
+    // Stats
+    MultilineLabel2 stats=_controller.getStatsLabel();
+    c=new GridBagConstraints(0,2,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(2,5,2,5),0,0);
+    panel.add(stats,c);
     return panel;
   }
 
