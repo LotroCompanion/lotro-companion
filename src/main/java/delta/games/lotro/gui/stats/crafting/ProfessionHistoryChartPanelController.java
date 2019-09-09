@@ -51,7 +51,7 @@ public class ProfessionHistoryChartPanelController
 
   private JPanel buildPanel()
   {
-    JPanel panel=GuiFactory.buildBackgroundPanel(new GridBagLayout());
+    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
 
     // Mastery label
     CraftingLevel mastery=_stats.getMasteryLevel();

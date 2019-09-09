@@ -61,7 +61,7 @@ public class PassivesEditionPanelController
 
   private JPanel build()
   {
-    JPanel panel=GuiFactory.buildBackgroundPanel(new GridBagLayout());
+    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     int y=0;
     for(SinglePassiveEditionController controller : _passiveGadgets)
     {

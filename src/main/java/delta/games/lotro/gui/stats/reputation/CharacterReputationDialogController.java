@@ -1,7 +1,6 @@
 package delta.games.lotro.gui.stats.reputation;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -93,9 +92,7 @@ public class CharacterReputationDialogController extends DefaultFormDialogContro
     {
       List<Faction> factions=registry.getFactionsForCategory(category);
       JPanel reputationPanel=buildReputationPanelForCategory(category,factions);
-      JPanel tabPanel=GuiFactory.buildPanel(new BorderLayout());
-      tabPanel.setOpaque(true);
-      tabPanel.setBackground(Color.RED);
+      JPanel tabPanel=GuiFactory.buildBackgroundPanel(new BorderLayout());
       tabPanel.add(reputationPanel,BorderLayout.CENTER);
       tabs.add(category,tabPanel);
     }
@@ -127,7 +124,7 @@ public class CharacterReputationDialogController extends DefaultFormDialogContro
 
   private JPanel buildReputationPanelForCategory(String category, List<Faction> factions)
   {
-    JPanel panel=GuiFactory.buildBackgroundPanel(new GridBagLayout());
+    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
 
     // Factions
     GridBagConstraints cLabel=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);

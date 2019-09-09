@@ -82,7 +82,7 @@ public class ImbuedLegendaryAttrsEditionPanelController
 
   private JPanel build()
   {
-    JPanel panel=GuiFactory.buildBackgroundPanel(new GridBagLayout());
+    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     _levels=GuiFactory.buildLabel("? / ?");
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(5,5,5,5),0,0);
     panel.add(_levels,c);
@@ -95,7 +95,7 @@ public class ImbuedLegendaryAttrsEditionPanelController
 
   private JPanel buildLegaciesPanel()
   {
-    JPanel panel=GuiFactory.buildBackgroundPanel(new GridBagLayout());
+    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     int y=0;
     // Headers
     {

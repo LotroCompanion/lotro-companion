@@ -62,7 +62,7 @@ public class FactionStatusEditionPanelController
 
   private JPanel buildPanel()
   {
-    JPanel panel=GuiFactory.buildBackgroundPanel(new BorderLayout());
+    JPanel panel=GuiFactory.buildPanel(new BorderLayout());
     JPanel statusEditionPanel=buildStatusEditionPanel();
     panel.add(statusEditionPanel,BorderLayout.CENTER);
     updateUi();

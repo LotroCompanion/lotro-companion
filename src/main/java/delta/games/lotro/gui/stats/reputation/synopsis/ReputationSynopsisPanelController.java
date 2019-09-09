@@ -88,7 +88,7 @@ public class ReputationSynopsisPanelController implements GenericEventsListener<
 
   private JPanel buildPanel()
   {
-    JPanel panel=GuiFactory.buildBackgroundPanel(new BorderLayout());
+    JPanel panel=GuiFactory.buildPanel(new BorderLayout());
     JPanel statsPanels=buildStatsPanel();
     panel.add(statsPanels,BorderLayout.CENTER);
     JPanel commandsPanel=buildTopPanel();
@@ -98,7 +98,7 @@ public class ReputationSynopsisPanelController implements GenericEventsListener<
 
   private JPanel buildTopPanel()
   {
-    JPanel panel=GuiFactory.buildBackgroundPanel(new GridBagLayout());
+    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(5,5,5,5),0,0);
 
     // Filter

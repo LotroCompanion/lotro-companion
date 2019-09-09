@@ -57,7 +57,7 @@ public class VirtuesStatsPanelController
 
   private JPanel build()
   {
-    JPanel panel=GuiFactory.buildBackgroundPanel(new GridBagLayout());
+    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     // - actives
     _activesPanel=GuiFactory.buildPanel(new GridBagLayout());
     TitledBorder activesBorder=GuiFactory.buildTitledBorder("Active virtues");

@@ -73,7 +73,7 @@ public class LegendaryInstanceEditionPanelController
     };
     _isImbued.getCheckbox().addActionListener(l);
     // Legacies panel
-    _legaciesPanel=GuiFactory.buildBackgroundPanel(new BorderLayout());
+    _legaciesPanel=GuiFactory.buildPanel(new BorderLayout());
     // Imbued attributes
     ImbuedLegendaryInstanceAttrs imbuedAttrs=attrs.getImbuedAttrs();
     _imbued=new ImbuedLegendaryAttrsEditionPanelController(parent,imbuedAttrs,constraints);
@@ -114,7 +114,7 @@ public class LegendaryInstanceEditionPanelController
 
   private JPanel build()
   {
-    JPanel panel=GuiFactory.buildBackgroundPanel(new GridBagLayout());
+    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     // Left
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
     JPanel leftPanel=buildLeftPanel();
@@ -128,7 +128,7 @@ public class LegendaryInstanceEditionPanelController
 
   private JPanel buildLeftPanel()
   {
-    JPanel panel=GuiFactory.buildBackgroundPanel(new GridBagLayout());
+    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     // Attributes
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(5,5,5,5),0,0);
     JPanel attributesPanel=buildAttributesPanel();
@@ -143,7 +143,7 @@ public class LegendaryInstanceEditionPanelController
 
   private JPanel buildRightPanel()
   {
-    JPanel panel=GuiFactory.buildBackgroundPanel(new GridBagLayout());
+    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     // Title
     GridBagConstraints c=new GridBagConstraints(1,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(5,5,5,5),0,0);
     JPanel titlePanel=_title.getPanel();
@@ -164,10 +164,10 @@ public class LegendaryInstanceEditionPanelController
 
   private JPanel buildAttributesPanel()
   {
-    JPanel namePanel=GuiFactory.buildBackgroundPanel(new FlowLayout());
+    JPanel namePanel=GuiFactory.buildPanel(new FlowLayout());
     namePanel.add(GuiFactory.buildLabel("Inscription:"));
     namePanel.add(_name);
-    JPanel ret=GuiFactory.buildBackgroundPanel(new GridBagLayout());
+    JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     ret.add(namePanel,c);
     c.gridy++;

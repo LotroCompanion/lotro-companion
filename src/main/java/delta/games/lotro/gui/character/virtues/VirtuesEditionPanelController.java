@@ -59,7 +59,7 @@ public class VirtuesEditionPanelController implements TierValueListener
 
   private JPanel build()
   {
-    JPanel panel=GuiFactory.buildBackgroundPanel(new GridBagLayout());
+    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     // All virtues
     JPanel allVirtues=buildVirtuesEditionPanel();
     GridBagConstraints c=new GridBagConstraints(0,1,1,1,0.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(5,5,5,5),0,0);
@@ -104,8 +104,6 @@ public class VirtuesEditionPanelController implements TierValueListener
       int y=index%7;
       GridBagConstraints c=new GridBagConstraints(x,y+1,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
       JPanel virtuePanel=ui.getPanel();
-      //virtuePanel.setBackground(Color.RED);
-      //virtuePanel.setOpaque(true);
       panel.add(virtuePanel,c);
       _virtues.put(virtueId,ui);
       index++;

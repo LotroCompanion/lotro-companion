@@ -74,7 +74,7 @@ public class CharacterMainAttrsEditionPanelController
 
   private JPanel buildPanel()
   {
-    JPanel panel=GuiFactory.buildBackgroundPanel(new GridBagLayout());
+    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     // 1st line
     JPanel firstLinePanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);

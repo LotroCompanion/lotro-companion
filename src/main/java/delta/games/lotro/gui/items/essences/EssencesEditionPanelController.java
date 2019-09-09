@@ -50,8 +50,8 @@ public class EssencesEditionPanelController
   private JPanel build()
   {
     JPanel wholePanel=GuiFactory.buildBackgroundPanel(new BorderLayout());
-    _essencesPanel=GuiFactory.buildBackgroundPanel(new GridBagLayout());
-    _essencesPanel.setOpaque(true);
+    _essencesPanel=GuiFactory.buildPanel(new GridBagLayout());
+    //_essencesPanel.setOpaque(true);
     wholePanel.add(_essencesPanel,BorderLayout.CENTER);
     JButton button=GuiFactory.buildButton("New slot");
     ActionListener al=new ActionListener()
@@ -63,7 +63,7 @@ public class EssencesEditionPanelController
       }
     };
     button.addActionListener(al);
-    JPanel buttonsPanel=GuiFactory.buildBackgroundPanel(null);
+    JPanel buttonsPanel=GuiFactory.buildPanel(null);
     BoxLayout layout=new BoxLayout(buttonsPanel,BoxLayout.Y_AXIS);
     buttonsPanel.setLayout(layout);
     buttonsPanel.add(button);

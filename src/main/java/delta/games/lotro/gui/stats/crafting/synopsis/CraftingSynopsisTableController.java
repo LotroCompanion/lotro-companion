@@ -169,7 +169,7 @@ public class CraftingSynopsisTableController
     column.setMaxWidth(300);
 
     // Header renderer
-    JPanel emptyHeaderPanel=GuiFactory.buildBackgroundPanel(new GridBagLayout());
+    JPanel emptyHeaderPanel=GuiFactory.buildPanel(new GridBagLayout());
     TableCellRenderer headerRenderer=buildSimpleCellRenderer(emptyHeaderPanel);
     column.setHeaderCellRenderer(headerRenderer);
 
@@ -213,7 +213,7 @@ public class CraftingSynopsisTableController
     DefaultTableColumnController<CraftingSynopsisItem,Profession> professionColumn=new DefaultTableColumnController<CraftingSynopsisItem,Profession>("Profession",Profession.class,professionCell);
     professionColumn.setWidthSpecs(50,50,50);
     // Header renderer
-    JPanel emptyHeaderPanel=GuiFactory.buildBackgroundPanel(new GridBagLayout());
+    JPanel emptyHeaderPanel=GuiFactory.buildPanel(new GridBagLayout());
     TableCellRenderer headerRenderer=buildSimpleCellRenderer(emptyHeaderPanel);
     professionColumn.setHeaderCellRenderer(headerRenderer);
     // Cell renderer
@@ -227,7 +227,7 @@ public class CraftingSynopsisTableController
 
   private JPanel buildCraftingTierPanel(boolean mastery)
   {
-    JPanel panel=GuiFactory.buildBackgroundPanel(new FlowLayout());
+    JPanel panel=GuiFactory.buildPanel(new FlowLayout());
     Icon tierIcon=LotroIconsManager.getCraftingTierIcon(mastery);
     panel.add(GuiFactory.buildIconLabel(tierIcon));
     String label=mastery?"Mastery":"Proficiency";
@@ -292,7 +292,7 @@ public class CraftingSynopsisTableController
 
   private JPanel buildGuildPanel()
   {
-    JPanel panel=GuiFactory.buildBackgroundPanel(new FlowLayout());
+    JPanel panel=GuiFactory.buildPanel(new FlowLayout());
     panel.add(GuiFactory.buildLabel("Guild"));
     return panel;
   }

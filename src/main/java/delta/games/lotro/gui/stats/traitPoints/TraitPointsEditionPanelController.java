@@ -101,7 +101,7 @@ public class TraitPointsEditionPanelController
 
   private JPanel buildPanel()
   {
-    JPanel panel=GuiFactory.buildBackgroundPanel(new BorderLayout());
+    JPanel panel=GuiFactory.buildPanel(new BorderLayout());
 
     // Header
     JPanel summaryPanel=_summaryController.getPanel();

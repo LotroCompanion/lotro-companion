@@ -71,7 +71,7 @@ public class BuffEditionPanelController implements ActionListener
   private void build()
   {
     _panel=GuiFactory.buildPanel(new FlowLayout());
-    _iconsPanel=GuiFactory.buildBackgroundPanel(new FlowLayout(FlowLayout.LEFT));
+    _iconsPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
     buildBuffControllers(_panel);
     _panel.add(_iconsPanel);
     JButton button=GuiFactory.buildButton("Add...");

@@ -48,7 +48,7 @@ public class DeedStatisticsSummaryPanelController
 
   private JPanel buildPanel()
   {
-    JPanel panel=GuiFactory.buildBackgroundPanel(new BorderLayout());
+    JPanel panel=GuiFactory.buildPanel(new BorderLayout());
     // Stats panel
     _statsPanel=GuiFactory.buildPanel(new GridBagLayout());
     TitledBorder border=GuiFactory.buildTitledBorder("Statistics");

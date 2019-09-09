@@ -48,7 +48,7 @@ public class AllEssencesEditionPanelController implements EssenceUpdatedListener
     _toon=toon;
     _parent=parent;
     _editors=new ArrayList<SingleItemEssencesEditionController>();
-    _panel=GuiFactory.buildBackgroundPanel(new GridBagLayout());
+    _panel=GuiFactory.buildPanel(new GridBagLayout());
     update();
   }
 

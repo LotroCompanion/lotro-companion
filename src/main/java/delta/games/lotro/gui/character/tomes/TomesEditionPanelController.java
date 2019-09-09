@@ -58,7 +58,7 @@ public class TomesEditionPanelController
   private void build()
   {
     _panel=GuiFactory.buildPanel(new FlowLayout());
-    _iconsPanel=GuiFactory.buildBackgroundPanel(new GridBagLayout());
+    _iconsPanel=GuiFactory.buildPanel(new GridBagLayout());
     buildTomesControllers(_panel);
     _panel.add(_iconsPanel);
   }

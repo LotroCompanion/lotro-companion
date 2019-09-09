@@ -34,7 +34,7 @@ public class TraitPointCellRenderer implements TableCellRenderer
 
   private JPanel buildCellPanel()
   {
-    JPanel panel=GuiFactory.buildBackgroundPanel(new GridBagLayout());
+    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     JButton button=_buttonController.getButton();
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
     panel.add(button,c);

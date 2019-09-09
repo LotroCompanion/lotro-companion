@@ -32,7 +32,7 @@ public class CreditsPanelController
 
   private JPanel build()
   {
-    JPanel panel=GuiFactory.buildBackgroundPanel(new GridBagLayout());
+    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     GridBagConstraints c;
 
     int x=0;

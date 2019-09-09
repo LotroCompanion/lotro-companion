@@ -91,7 +91,7 @@ public class VirtuesDisplayPanelController
 
   private JPanel build()
   {
-    JPanel panel=GuiFactory.buildBackgroundPanel(new GridBagLayout());
+    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     for(int i=0;i<MAX_VIRTUES;i++)
     {
       _virtues[i]=new VirtueIconController(null,true);

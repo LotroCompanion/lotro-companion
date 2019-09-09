@@ -106,7 +106,7 @@ public class ReputationSynopsisTableController
     column.setPreferredWidth(200);
 
     // Header renderer
-    JPanel emptyHeaderPanel=GuiFactory.buildBackgroundPanel(new GridBagLayout());
+    JPanel emptyHeaderPanel=GuiFactory.buildPanel(new GridBagLayout());
     TableCellRenderer headerRenderer=buildSimpleCellRenderer(emptyHeaderPanel);
     column.setHeaderCellRenderer(headerRenderer);
 
@@ -230,7 +230,7 @@ public class ReputationSynopsisTableController
 
   private JPanel buildToonHeaderPanel(CharacterFile toon)
   {
-    JPanel panel=GuiFactory.buildBackgroundPanel(new GridBagLayout());
+    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     // Class icon
     GridBagConstraints c=new GridBagConstraints(0,0,1,2,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
     ImageIcon classIcon=null;

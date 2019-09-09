@@ -111,7 +111,7 @@ public class CharacterDataWindowController extends DefaultFormDialogController<C
     // Center panel
     JPanel centerPanel;
     {
-      centerPanel=GuiFactory.buildBackgroundPanel(new GridBagLayout());
+      centerPanel=GuiFactory.buildPanel(new GridBagLayout());
       c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(0,5,0,0),0,0);
       centerPanel.add(gearingPanel,c);
       c=new GridBagConstraints(1,0,1,1,1.0,0,GridBagConstraints.CENTER,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
@@ -160,7 +160,7 @@ public class CharacterDataWindowController extends DefaultFormDialogController<C
     c=new GridBagConstraints(0,1,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
     bottomPanel.add(bottomPanel2,c);
 
-    JPanel fullPanel=GuiFactory.buildBackgroundPanel(new BorderLayout());
+    JPanel fullPanel=GuiFactory.buildPanel(new BorderLayout());
     fullPanel.add(attrsPanel,BorderLayout.NORTH);
     fullPanel.add(centerPanel,BorderLayout.CENTER);
     fullPanel.add(bottomPanel,BorderLayout.SOUTH);

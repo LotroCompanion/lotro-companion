@@ -50,7 +50,7 @@ public class FactionHistoryChartPanelController
 
   private JPanel buildPanel()
   {
-    JPanel panel=GuiFactory.buildBackgroundPanel(new GridBagLayout());
+    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
 
     // Level label
     _label=GuiFactory.buildLabel("");

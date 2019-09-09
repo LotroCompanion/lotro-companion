@@ -68,7 +68,7 @@ public class GeoDeedMapWindowController extends DefaultDialogController
   @Override
   protected JComponent buildContents()
   {
-    JPanel panel=GuiFactory.buildBackgroundPanel(new BorderLayout());
+    JPanel panel=GuiFactory.buildPanel(new BorderLayout());
     // Center
     JLayeredPane layers=_panel.getLayers();
     panel.add(layers,BorderLayout.CENTER);

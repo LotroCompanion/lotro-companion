@@ -81,7 +81,7 @@ public class StatContribsPanelController
 
   private JPanel buildPanel()
   {
-    JPanel panel=GuiFactory.buildBackgroundPanel(new BorderLayout());
+    JPanel panel=GuiFactory.buildPanel(new BorderLayout());
     // Top panel
     panel.add(buildTopPanel(),BorderLayout.NORTH);
     // Center panel

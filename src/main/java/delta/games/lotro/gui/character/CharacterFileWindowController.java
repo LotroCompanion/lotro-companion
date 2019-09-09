@@ -287,7 +287,7 @@ public class CharacterFileWindowController extends DefaultWindowController imple
 
   private JPanel buildTablePanel()
   {
-    JPanel ret=GuiFactory.buildBackgroundPanel(new BorderLayout());
+    JPanel ret=GuiFactory.buildPanel(new BorderLayout());
     _toolbar=buildToolBar();
     JToolBar toolbar=_toolbar.getToolBar();
     ret.add(toolbar,BorderLayout.NORTH);

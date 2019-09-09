@@ -68,7 +68,7 @@ public class StorageDisplayPanelController implements FilterUpdateListener
 
   private JPanel build()
   {
-    JPanel panel=GuiFactory.buildBackgroundPanel(new BorderLayout());
+    JPanel panel=GuiFactory.buildPanel(new BorderLayout());
     TitledBorder border=GuiFactory.buildTitledBorder("Items");
     panel.setBorder(border);
 

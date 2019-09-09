@@ -66,7 +66,7 @@ public class ProfessionStatusEditionPanelController
 
   private JPanel buildPanel()
   {
-    JPanel panel=GuiFactory.buildBackgroundPanel(new BorderLayout());
+    JPanel panel=GuiFactory.buildPanel(new BorderLayout());
     JPanel topPanel=buildValidityDatePanel();
     panel.add(topPanel,BorderLayout.NORTH);
     JPanel statusEditionPanel=buildStatusEditionPanel();

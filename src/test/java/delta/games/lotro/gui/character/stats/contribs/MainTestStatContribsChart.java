@@ -47,7 +47,9 @@ public class MainTestStatContribsChart
       StatContribsChartPanelController chartController=new StatContribsChartPanelController();
       chartController.setContributions(contribsForStat);
       JPanel statPanel=chartController.getPanel();
-      tabs.add(stat.getName(),statPanel);
+      JPanel tabPanel=GuiFactory.buildBackgroundPanel(new BorderLayout());
+      tabPanel.add(statPanel,BorderLayout.CENTER);
+      tabs.add(stat.getName(),tabPanel);
     }
     DefaultWindowController w=new DefaultWindowController();
     w.getFrame().add(panel);

@@ -72,7 +72,7 @@ public class MultipleToonsDatedCurvesChartPanelController<T> implements Characte
 
   private JPanel buildPanel()
   {
-    JPanel panel=GuiFactory.buildBackgroundPanel(new BorderLayout());
+    JPanel panel=GuiFactory.buildPanel(new BorderLayout());
 
     JPanel chartPanel=_chartController.getPanel();
     panel.add(chartPanel,BorderLayout.CENTER);

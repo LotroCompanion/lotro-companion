@@ -102,7 +102,7 @@ public class DetailedCharacterStatsPanelController
 
   private JPanel buildPanel()
   {
-    JPanel panel=GuiFactory.buildBackgroundPanel(new GridBagLayout());
+    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     JPanel mainStatsPanel=buildMainStatsPanel();
     JPanel offencePanel=buildOffencePanel();
     JPanel avoidancePanel=buildAvoidancePanel();
@@ -124,7 +124,7 @@ public class DetailedCharacterStatsPanelController
 
   private JPanel buildMainStatsPanel()
   {
-    JPanel panel=GuiFactory.buildBackgroundPanel(new GridBagLayout());
+    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     StatDescription[] stats={WellKnownStat.MORALE, WellKnownStat.POWER, WellKnownStat.ARMOUR, WellKnownStat.MIGHT,
         WellKnownStat.AGILITY, WellKnownStat.VITALITY, WellKnownStat.WILL, WellKnownStat.FATE,
         WellKnownStat.OCMR, WellKnownStat.ICMR, WellKnownStat.OCPR, WellKnownStat.ICPR
@@ -143,7 +143,7 @@ public class DetailedCharacterStatsPanelController
 
   private JPanel buildOffencePanel()
   {
-    JPanel panel=GuiFactory.buildBackgroundPanel(null);
+    JPanel panel=GuiFactory.buildPanel(null);
     panel.setLayout(new BoxLayout(panel,BoxLayout.Y_AXIS));
     panel.add(buildOffenceStatsPanel());
     panel.add(buildOffencePercentagePanel());
@@ -203,7 +203,7 @@ public class DetailedCharacterStatsPanelController
 
   private JPanel buildAvoidancePanel()
   {
-    JPanel panel=GuiFactory.buildBackgroundPanel(new GridBagLayout());
+    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     String[] labelsV=new String[]{"Resistance", "Block", "Parry", "Evade"};
     StatDescription[] stats={WellKnownStat.RESISTANCE, WellKnownStat.BLOCK, WellKnownStat.PARRY, WellKnownStat.EVADE};
     addHeaders(panel,0,1,labelsV,stats,false,1);
@@ -241,7 +241,7 @@ public class DetailedCharacterStatsPanelController
 
   private JPanel buildMitigationsPanel()
   {
-    JPanel panel=GuiFactory.buildBackgroundPanel(new GridBagLayout());
+    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     String[] labelsV=new String[]{"Crit.Def (melee)",
         "Crit.Def (ranged)", "Crit.Def (tactical)",
         "Physical", "Orc-craft/Fell-wrought", "Tactical",
@@ -298,7 +298,7 @@ public class DetailedCharacterStatsPanelController
 
   private JPanel buildHealingPanel()
   {
-    JPanel panel=GuiFactory.buildBackgroundPanel(new GridBagLayout());
+    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     String[] labelsV={"Incoming", "Outgoing"};
     StatDescription[] stats={WellKnownStat.INCOMING_HEALING, WellKnownStat.OUTGOING_HEALING};
     addHeaders(panel,0,1,labelsV,stats,false,1);
