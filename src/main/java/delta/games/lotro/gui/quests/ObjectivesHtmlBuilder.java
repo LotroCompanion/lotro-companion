@@ -45,6 +45,7 @@ import delta.games.lotro.lore.quests.objectives.QuestCompleteCondition;
 import delta.games.lotro.lore.quests.objectives.SkillUsedCondition;
 import delta.games.lotro.lore.reputation.Faction;
 import delta.games.lotro.utils.Proxy;
+import delta.games.lotro.utils.gui.HtmlUtils;
 
 /**
  * Build for HTML code to display objectives.
@@ -75,7 +76,7 @@ public class ObjectivesHtmlBuilder
       String text=objective.getText();
       if (text.length()>0)
       {
-        sb.append("<p>").append(toHtml(text)).append("</p>");
+        sb.append("<p>").append(HtmlUtils.toHtml(text)).append("</p>");
       }
       for(ObjectiveCondition condition : objective.getConditions())
       {
@@ -518,7 +519,7 @@ public class ObjectivesHtmlBuilder
       sb.append(type).append(" <b>");
       String text=achievable.getName();
       String to=ReferenceConstants.getAchievableReference(achievable);
-      printLink(sb,to,text);
+      HtmlUtils.printLink(sb,to,text);
       sb.append("</b>");
     }
     else
@@ -529,6 +530,9 @@ public class ObjectivesHtmlBuilder
     return sb.toString();
   }
 
+  /**
+   * Counters.
+   */
   public static Map<ConditionType,IntegerHolder> _counters=new HashMap<ConditionType,IntegerHolder>();
 
   private static void handleDefaultCondition(StringBuilder sb, DefaultObjectiveCondition condition)
@@ -572,7 +576,7 @@ public class ObjectivesHtmlBuilder
           progressOverride=progressOverride+" (x"+count+")";
         }
       }
-      sb.append("<p>").append(toHtml(progressOverride)).append("</p>");
+      sb.append("<p>").append(HtmlUtils.toHtml(progressOverride)).append("</p>");
       return true;
     }
     return false;
@@ -583,7 +587,7 @@ public class ObjectivesHtmlBuilder
     String progressOverride=condition.getProgressOverride();
     if ((progressOverride!=null) && (progressOverride.length()>0))
     {
-      sb.append("<p>").append(toHtml(progressOverride)).append("</p>");
+      sb.append("<p>").append(HtmlUtils.toHtml(progressOverride)).append("</p>");
       return true;
     }
     return false;
@@ -594,24 +598,7 @@ public class ObjectivesHtmlBuilder
     String loreInfo=condition.getLoreInfo();
     if ((loreInfo!=null) && (loreInfo.length()>0))
     {
-      sb.append("<p><i>").append(toHtml(loreInfo)).append("</i></p>");
+      sb.append("<p><i>").append(HtmlUtils.toHtml(loreInfo)).append("</i></p>");
     }
-  }
-
-  private static void printLink(StringBuilder sb, String to, String text)
-  {
-    sb.append("<a href=\"");
-    sb.append(to);
-    sb.append("\">");
-    sb.append(text);
-    sb.append("</a>");
-  }
-
-  private static String toHtml(String text)
-  {
-    text=text.trim();
-    text=text.replace("\n\n","<br>");
-    text=text.replace("\n","<br>");
-    return text;
   }
 }

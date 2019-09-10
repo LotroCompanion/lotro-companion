@@ -26,6 +26,7 @@ import delta.games.lotro.gui.common.rewards.form.RewardsPanelController;
 import delta.games.lotro.gui.quests.ObjectivesHtmlBuilder;
 import delta.games.lotro.lore.quests.QuestDescription;
 import delta.games.lotro.lore.quests.QuestDescription.FACTION;
+import delta.games.lotro.utils.gui.HtmlUtils;
 
 /**
  * Controller for a quest display panel.
@@ -211,19 +212,11 @@ public class QuestDisplayPanelController implements NavigablePanelController
     StringBuilder sb=new StringBuilder();
     sb.append("<html><body>");
     sb.append("<b>Description</b><p>");
-    sb.append(toHtml(_quest.getDescription()));
+    sb.append(HtmlUtils.toHtml(_quest.getDescription()));
     // Objectives
     ObjectivesHtmlBuilder.buildHtml(sb,_quest);
     sb.append("</body></html>");
     return sb.toString();
-  }
-
-  private String toHtml(String text)
-  {
-    text=text.trim();
-    text=text.replace("\n\n","<br>");
-    text=text.replace("\n","<br>");
-    return text;
   }
 
   /**

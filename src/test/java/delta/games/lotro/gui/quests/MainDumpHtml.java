@@ -8,6 +8,7 @@ import delta.games.lotro.lore.deeds.DeedsManager;
 import delta.games.lotro.lore.quests.AchievableProxiesResolver;
 import delta.games.lotro.lore.quests.QuestDescription;
 import delta.games.lotro.lore.quests.QuestsManager;
+import delta.games.lotro.utils.gui.HtmlUtils;
 
 /**
  * Tool to dump all quests and deeds as a HTML file.
@@ -37,7 +38,7 @@ public class MainDumpHtml
       AchievableProxiesResolver.resolve(quest);
       sb.append("<h3>").append(quest.getIdentifier()+" - "+quest.getName()).append("</h3>");
       sb.append("<b>Description</b><p>");
-      sb.append(quest.getDescription());
+      sb.append(HtmlUtils.toHtml(quest.getDescription()));
       ObjectivesHtmlBuilder.buildHtml(sb,quest);
     }
     sb.append("</body></html>");
@@ -57,7 +58,7 @@ public class MainDumpHtml
       AchievableProxiesResolver.resolve(deed);
       sb.append("<h3>").append(deed.getIdentifier()+" - "+deed.getName()).append("</h3>");
       sb.append("<b>Description</b><p>");
-      sb.append(deed.getDescription());
+      sb.append(HtmlUtils.toHtml(deed.getDescription()));
       ObjectivesHtmlBuilder.buildHtml(sb,deed);
     }
     sb.append("</body></html>");
