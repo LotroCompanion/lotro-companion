@@ -118,8 +118,25 @@ public abstract class SingleNonImbuedLegacyEditionController<T extends NonImbued
         int uiRank=(i+1);
         _rank.addItem(Integer.valueOf(internalRank),"Rank "+uiRank);
       }
-      _rank.selectItem(previousValue);
+      if (previousValue!=null)
+      {
+        _rank.selectItem(previousValue);
+      }
+      if (_rank.getSelectedItem()==null)
+      {
+        _rank.selectItem(Integer.valueOf(ranks[0]));
+      }
     }
+  }
+
+  protected void updateRanksComboWithDefaultRanks(int size)
+  {
+    int[] ranks=new int[size];
+    for(int i=0;i<size;i++)
+    {
+      ranks[i]=i+1;
+    }
+    updateRanksCombo(ranks);
   }
 
   /**

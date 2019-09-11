@@ -132,15 +132,20 @@ public class SingleTieredNonImbuedLegacyEditionController extends SingleNonImbue
   {
     super.setupLegacy(legacy);
     TieredNonImbuedLegacy tieredLegacy=getLegacy();
+    LegendarySystem legendarySystem=new LegendarySystem();
     if (tieredLegacy!=null)
     {
       Integer tierInt=_tier.getSelectedItem();
       int tier=tierInt!=null?tierInt.intValue():1;
       NonImbuedLegacyTier legacyTier=tieredLegacy.getTier(tier);
-      LegendarySystem legendarySystem=new LegendarySystem();
       ItemQuality quality=_itemReference.getQuality();
       int[] internalRanks=legendarySystem.getRanksForLegacyTier(_itemLevel,quality,legacyTier);
       updateRanksCombo(internalRanks);
+    }
+    else
+    {
+      int ranks=legendarySystem.getData().getMaxUiRank();
+      updateRanksComboWithDefaultRanks(ranks);
     }
   }
 

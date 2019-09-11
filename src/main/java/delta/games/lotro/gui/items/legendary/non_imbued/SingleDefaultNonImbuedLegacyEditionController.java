@@ -50,11 +50,16 @@ public class SingleDefaultNonImbuedLegacyEditionController extends SingleNonImbu
   {
     super.setupLegacy(legacy);
     DefaultNonImbuedLegacy defaultLegacy=getDefaultLegacy();
+    LegendarySystem legendarySystem=new LegendarySystem();
     if (defaultLegacy!=null)
     {
-      LegendarySystem legendarySystem=new LegendarySystem();
       int[] internalRanks=legendarySystem.getRanksForMainLegacy(_itemReference,_itemLevel);
       updateRanksCombo(internalRanks);
+    }
+    else
+    {
+      int ranks=legendarySystem.getData().getMaxUiRank();
+      updateRanksComboWithDefaultRanks(ranks);
     }
   }
 
