@@ -20,7 +20,13 @@ public class MainTestNonImbuedLegendaryAttrsEdition
 {
   private void doIt()
   {
-    ItemInstance<? extends Item> itemInstance=LegendariesTestUtils.loadItemInstance("CaptainEmblemSecondAge75NonImbued.xml");
+    //doIt("CaptainEmblemSecondAge75NonImbued.xml");
+    doIt("HunterCrossbowFirstAge75NonImbued.xml");
+  }
+
+  private void doIt(String sampleName)
+  {
+    ItemInstance<? extends Item> itemInstance=LegendariesTestUtils.loadItemInstance(sampleName);
     LegendaryInstanceAttrs attrs=LegendariesTestUtils.getLegendaryAttrs(itemInstance);
     final NonImbuedLegendaryInstanceAttrs nonImbuedLegAttrs=attrs.getNonImbuedAttrs();
     ClassAndSlot constraints=new ClassAndSlot(CharacterClass.CAPTAIN,EquipmentLocation.CLASS_SLOT);

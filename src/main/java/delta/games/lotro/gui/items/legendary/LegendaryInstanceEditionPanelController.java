@@ -1,7 +1,6 @@
 package delta.games.lotro.gui.items.legendary;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -58,7 +57,6 @@ public class LegendaryInstanceEditionPanelController
     LegendaryInstanceAttrs attrs=legendaryInstance.getLegendaryAttributes();
     // Name
     _name=GuiFactory.buildTextField("");
-    _name.setColumns(25);
     String legendaryName=attrs.getLegendaryName();
     _name.setText(legendaryName);
     // Is Imbued?
@@ -114,15 +112,13 @@ public class LegendaryInstanceEditionPanelController
 
   private JPanel build()
   {
-    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
+    JPanel panel=GuiFactory.buildPanel(new BorderLayout());
     // Left
-    GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
     JPanel leftPanel=buildLeftPanel();
-    panel.add(leftPanel,c);
+    panel.add(leftPanel,BorderLayout.CENTER);
     // Right
-    c=new GridBagConstraints(1,0,1,1,0.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     JPanel rightPanel=buildRightPanel();
-    panel.add(rightPanel,c);
+    panel.add(rightPanel,BorderLayout.EAST);
     return panel;
   }
 
@@ -159,18 +155,25 @@ public class LegendaryInstanceEditionPanelController
     JPanel relicsPanel=_relics.getPanel();
     relicsPanel.setBorder(GuiFactory.buildTitledBorder("Relics"));
     panel.add(relicsPanel,c);
+    // Padding on bottom
+    JPanel paddingPanel=GuiFactory.buildPanel(new BorderLayout());
+    c=new GridBagConstraints(1,3,1,1,1.0,1.0,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(5,5,5,5),0,0);
+    panel.add(paddingPanel,c);
     return panel;
   }
 
   private JPanel buildAttributesPanel()
   {
-    JPanel namePanel=GuiFactory.buildPanel(new FlowLayout());
-    namePanel.add(GuiFactory.buildLabel("Inscription:"));
-    namePanel.add(_name);
     JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
-    GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
-    ret.add(namePanel,c);
-    c.gridy++;
+    // Inscription
+    // - label
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
+    ret.add(GuiFactory.buildLabel("Inscription:"),c);
+    c=new GridBagConstraints(1,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(5,5,5,5),0,0);
+    // - editor
+    ret.add(_name,c);
+    // Imbued? check box
+    c=new GridBagConstraints(0,1,2,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     ret.add(_isImbued.getCheckbox(),c);
     return ret;
   }
