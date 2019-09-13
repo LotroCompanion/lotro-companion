@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.util.List;
 
 import javax.swing.JEditorPane;
 import javax.swing.JLabel;
@@ -24,8 +25,11 @@ import delta.games.lotro.gui.common.navigator.NavigatorWindowController;
 import delta.games.lotro.gui.common.requirements.RequirementsUtils;
 import delta.games.lotro.gui.common.rewards.form.RewardsPanelController;
 import delta.games.lotro.gui.quests.ObjectivesHtmlBuilder;
+import delta.games.lotro.lore.npc.NpcDescription;
 import delta.games.lotro.lore.quests.QuestDescription;
 import delta.games.lotro.lore.quests.QuestDescription.FACTION;
+import delta.games.lotro.lore.quests.dialogs.DialogElement;
+import delta.games.lotro.utils.Proxy;
 import delta.games.lotro.utils.gui.HtmlUtils;
 
 /**
@@ -211,8 +215,37 @@ public class QuestDisplayPanelController implements NavigablePanelController
   {
     StringBuilder sb=new StringBuilder();
     sb.append("<html><body>");
-    sb.append("<b>Description</b><p>");
+    sb.append("<b>Description</b><br>");
     sb.append(HtmlUtils.toHtml(_quest.getDescription()));
+    // Bestowers
+    List<DialogElement> bestowers=_quest.getBestowers();
+    if (bestowers.size()>0)
+    {
+      sb.append("<p><b>Bestowal dialogue</b>");
+      int index=0;
+      for(DialogElement bestower : bestowers)
+      {
+        if (index>0)
+        {
+          sb.append("<br>OR");
+        }
+        sb.append("<br>");
+        Proxy<NpcDescription> who=bestower.getWho();
+        if (who!=null)
+        {
+          String name=who.getName();
+          if (name!=null)
+          {
+            sb.append(name).append(": ");
+          }
+        }
+        String what=bestower.getWhat();
+        String htmlWhat=HtmlUtils.toHtml(what);
+        sb.append(htmlWhat);
+        index++;
+      }
+      sb.append("</p>");
+    }
     // Objectives
     ObjectivesHtmlBuilder.buildHtml(sb,_quest);
     sb.append("</body></html>");
