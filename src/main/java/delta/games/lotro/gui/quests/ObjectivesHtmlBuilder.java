@@ -17,6 +17,7 @@ import delta.games.lotro.lore.mobs.MobDescription;
 import delta.games.lotro.lore.npc.NpcDescription;
 import delta.games.lotro.lore.quests.Achievable;
 import delta.games.lotro.lore.quests.QuestDescription;
+import delta.games.lotro.lore.quests.dialogs.DialogElement;
 import delta.games.lotro.lore.quests.objectives.ConditionTarget;
 import delta.games.lotro.lore.quests.objectives.ConditionType;
 import delta.games.lotro.lore.quests.objectives.DefaultObjectiveCondition;
@@ -78,9 +79,15 @@ public class ObjectivesHtmlBuilder
       {
         sb.append("<p>").append(HtmlUtils.toHtml(text)).append("</p>");
       }
+      // Conditions
       for(ObjectiveCondition condition : objective.getConditions())
       {
         handleCondition(sb,condition,isDeed);
+      }
+      // Dialogs
+      for(DialogElement dialog : objective.getDialogs())
+      {
+        QuestsHtmlUtils.buildHtmlForDialog(sb,dialog);
       }
     }
   }
@@ -98,7 +105,7 @@ public class ObjectivesHtmlBuilder
         }
       }
     }
-    sb.append("<p>").append(condition.getIndex()+": "+type).append("</p>");
+    //sb.append("<p>").append(condition.getIndex()+": "+type).append("</p>");
     if (condition instanceof QuestCompleteCondition)
     {
       QuestCompleteCondition questComplete=(QuestCompleteCondition)condition;

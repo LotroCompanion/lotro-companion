@@ -25,11 +25,10 @@ import delta.games.lotro.gui.common.navigator.NavigatorWindowController;
 import delta.games.lotro.gui.common.requirements.RequirementsUtils;
 import delta.games.lotro.gui.common.rewards.form.RewardsPanelController;
 import delta.games.lotro.gui.quests.ObjectivesHtmlBuilder;
-import delta.games.lotro.lore.npc.NpcDescription;
+import delta.games.lotro.gui.quests.QuestsHtmlUtils;
 import delta.games.lotro.lore.quests.QuestDescription;
 import delta.games.lotro.lore.quests.QuestDescription.FACTION;
 import delta.games.lotro.lore.quests.dialogs.DialogElement;
-import delta.games.lotro.utils.Proxy;
 import delta.games.lotro.utils.gui.HtmlUtils;
 
 /**
@@ -229,25 +228,25 @@ public class QuestDisplayPanelController implements NavigablePanelController
         {
           sb.append("<br>OR");
         }
-        sb.append("<br>");
-        Proxy<NpcDescription> who=bestower.getWho();
-        if (who!=null)
-        {
-          String name=who.getName();
-          if (name!=null)
-          {
-            sb.append(name).append(": ");
-          }
-        }
-        String what=bestower.getWhat();
-        String htmlWhat=HtmlUtils.toHtml(what);
-        sb.append(htmlWhat);
+        QuestsHtmlUtils.buildHtmlForDialog(sb,bestower);
         index++;
       }
       sb.append("</p>");
     }
     // Objectives
     ObjectivesHtmlBuilder.buildHtml(sb,_quest);
+    // End dialogs
+    List<DialogElement> endDialogs=_quest.getEndDialogs();
+    if (endDialogs.size()>0)
+    {
+      sb.append("<p><b>End</b>");
+      for(DialogElement endDialog : endDialogs)
+      {
+        QuestsHtmlUtils.buildHtmlForDialog(sb,endDialog);
+      }
+      sb.append("</p>");
+    }
+    // HTML end
     sb.append("</body></html>");
     return sb.toString();
   }
