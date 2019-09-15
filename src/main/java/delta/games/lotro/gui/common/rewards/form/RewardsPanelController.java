@@ -14,6 +14,7 @@ import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.character.traits.TraitDescription;
 import delta.games.lotro.character.traits.TraitsManager;
 import delta.games.lotro.common.money.Money;
+import delta.games.lotro.common.rewards.CraftingXpReward;
 import delta.games.lotro.common.rewards.EmoteReward;
 import delta.games.lotro.common.rewards.ItemReward;
 import delta.games.lotro.common.rewards.RelicReward;
@@ -230,6 +231,11 @@ public class RewardsPanelController
       {
         ret=new TraitRewardGadgetsController(trait);
       }
+    }
+    else if (rewardElement instanceof CraftingXpReward)
+    {
+      CraftingXpReward craftingXpReward=(CraftingXpReward)rewardElement;
+      ret=new CraftingXpRewardGadgetsController(craftingXpReward);
     }
     if (ret!=null)
     {
