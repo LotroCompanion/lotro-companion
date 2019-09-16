@@ -51,7 +51,7 @@ public class ItemRewardGadgetsController extends RewardGadgetsController
     Color ret=Color.WHITE;
     if (quality==ItemQuality.LEGENDARY) ret=new Color(219,175,86); // Gold
     if (quality==ItemQuality.INCOMPARABLE) ret=new Color(40,203,210); // Teal
-    if (quality==ItemQuality.RARE) ret=new Color(154,33,148); // Mauve
+    if (quality==ItemQuality.RARE) ret=new Color(255,114,255); // Mauve (Pink)
     if (quality==ItemQuality.UNCOMMON) ret=new Color(241,238,123); // Yellow
     if (quality==ItemQuality.COMMON) ret=Color.WHITE; // White
     return ret;
