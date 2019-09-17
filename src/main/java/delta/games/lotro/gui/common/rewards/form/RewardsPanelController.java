@@ -1,5 +1,6 @@
 package delta.games.lotro.gui.common.rewards.form;
 
+import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -84,21 +85,29 @@ public class RewardsPanelController
 
   private JPanel build()
   {
-    int nbColumns=2;
+    JPanel rewardsPanel=buildRewardsPanel();
+    JPanel ret=GuiFactory.buildPanel(new BorderLayout());
+    ret.add(rewardsPanel,BorderLayout.WEST);
+    return ret;
+  }
+
+  private JPanel buildRewardsPanel()
+  {
     JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
     // Class Points
     if (_classPoint!=null)
     {
       addRewardGadgets(ret,_classPoint.getLabelIcon(),_classPoint.getLabel(),c);
-      c.gridy++;
+      updateConstraints(c);
     }
     // LOTRO Points
     if (_lotroPoints!=null)
     {
       addRewardGadgets(ret,_lotroPoints.getLabelIcon(),_lotroPoints.getLabel(),c);
-      c.gridy++;
+      updateConstraints(c);
     }
+    // Reward elements
     addRewards(ret,c,_rewards.getRewardElements());
 
     // Money
@@ -107,9 +116,9 @@ public class RewardsPanelController
     {
       _moneyController=new MoneyDisplayController();
       _moneyController.setMoney(money);
-      c.gridx=0;c.gridy++;
       c.gridwidth=2;
       ret.add(_moneyController.getPanel(),c);
+      c.gridy++;
     }
     // XP
     int xp=_rewards.getXp();
@@ -119,18 +128,14 @@ public class RewardsPanelController
     {
       _xpController=new XpRewardsDisplayController();
       _xpController.setValues(xp,itemXp,mountXp);
-      c.gridx=0;c.gridy++;
       c.gridwidth=2;
       ret.add(_xpController.getPanel(),c);
+      c.gridy++;
     }
-    // Add space on right
-    c=new GridBagConstraints(2*nbColumns,0,1,c.gridy,1.0,1.0,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
-    JPanel paddingPanel=GuiFactory.buildPanel(null);
-    ret.add(paddingPanel,c);
     return ret;
   }
 
-  private JPanel addRewards(JPanel target, GridBagConstraints c, List<RewardElement> rewardElements)
+  private void addRewards(final JPanel target, GridBagConstraints c, List<RewardElement> rewardElements)
   {
     for(RewardElement rewardElement : rewardElements)
     {
@@ -142,26 +147,38 @@ public class RewardsPanelController
         addRewards(selectablesPanel,c2,selectable.getElements());
         Border border=GuiFactory.buildTitledBorder("Select one of:");
         selectablesPanel.setBorder(border);
-        GridBagConstraints cSubPanel=new GridBagConstraints(0,c.gridy,2,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
+        int nbElements=selectable.getNbElements();
+        GridBagConstraints cSubPanel=new GridBagConstraints(c.gridx,c.gridy,2,nbElements,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
         target.add(selectablesPanel,cSubPanel);
+        c.gridy+=(nbElements-1);
       }
       else
       {
         RewardGadgetsController controller=getController(rewardElement);
         addRewardGadgets(target,controller.getLabelIcon(),controller.getLabel(),c);
       }
-      c.gridy++;
+      updateConstraints(c);
     }
-    return target;
+  }
+
+  private void updateConstraints(GridBagConstraints c)
+  {
+    c.gridy++;
+    if (c.gridy>8)
+    {
+      c.gridy=0;
+      c.gridx+=2;
+    }
   }
 
   private void addRewardGadgets(JPanel target, JLabel icon, JLabel label, GridBagConstraints c)
   {
-    c.gridx=0;
+    int gridx=c.gridx;
     target.add(icon,c);
     c.gridx++;
     target.add(label,c);
     c.gridx++;
+    c.gridx=gridx;
   }
 
   private RewardGadgetsController getController(RewardElement rewardElement)
@@ -232,6 +249,7 @@ public class RewardsPanelController
         ret=new TraitRewardGadgetsController(trait);
       }
     }
+    // Crafting XP reward
     else if (rewardElement instanceof CraftingXpReward)
     {
       CraftingXpReward craftingXpReward=(CraftingXpReward)rewardElement;
