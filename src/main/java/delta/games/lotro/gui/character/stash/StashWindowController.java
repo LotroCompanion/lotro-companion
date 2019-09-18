@@ -28,7 +28,7 @@ import delta.games.lotro.character.events.CharacterEvent;
 import delta.games.lotro.character.events.CharacterEventType;
 import delta.games.lotro.character.storage.stash.ItemsStash;
 import delta.games.lotro.gui.items.FilterUpdateListener;
-import delta.games.lotro.gui.items.ItemEditionWindowController;
+import delta.games.lotro.gui.items.ItemInstanceEditionWindowController;
 import delta.games.lotro.gui.items.chooser.ItemFilterConfiguration;
 import delta.games.lotro.gui.items.chooser.ItemFilterController;
 import delta.games.lotro.lore.items.Item;
@@ -225,7 +225,7 @@ public class StashWindowController extends DefaultWindowController implements Ac
 
   private void editItem(ItemInstance<? extends Item> item)
   {
-    ItemEditionWindowController ctrl=new ItemEditionWindowController(this,_toon.getSummary(),item);
+    ItemInstanceEditionWindowController ctrl=new ItemInstanceEditionWindowController(this,_toon.getSummary(),item);
     ctrl.show(true);
     _toon.saveStash();
   }

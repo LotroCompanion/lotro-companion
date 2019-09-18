@@ -10,10 +10,10 @@ import delta.games.lotro.lore.items.ItemInstance;
 import delta.games.lotro.lore.items.ItemsManager;
 
 /**
- * Test for item edition window.
+ * Test for item instance edition window.
  * @author DAM
  */
-public class MainTestItemEditionWindowController
+public class MainTestItemInstanceEditionWindowController
 {
   /**
    * Basic main method for test.
@@ -42,7 +42,7 @@ public class MainTestItemEditionWindowController
       //if (item instanceof Weapon)
       {
         ItemInstance<? extends Item> itemInstance=ItemFactory.buildInstance(item);
-        ItemEditionWindowController ctrl=new ItemEditionWindowController(null,summary,itemInstance);
+        ItemInstanceEditionWindowController ctrl=new ItemInstanceEditionWindowController(null,summary,itemInstance);
         ctrl.show(true);
         nbWindows++;
       }

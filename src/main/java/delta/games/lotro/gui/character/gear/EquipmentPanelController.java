@@ -35,7 +35,7 @@ import delta.games.lotro.character.events.CharacterEvent;
 import delta.games.lotro.character.events.CharacterEventType;
 import delta.games.lotro.character.storage.stash.ItemsStash;
 import delta.games.lotro.character.utils.CharacterGearUpdater;
-import delta.games.lotro.gui.items.ItemEditionWindowController;
+import delta.games.lotro.gui.items.ItemInstanceEditionWindowController;
 import delta.games.lotro.gui.items.chooser.ItemChooser;
 import delta.games.lotro.gui.items.chooser.ItemFilterConfiguration;
 import delta.games.lotro.gui.items.chooser.ItemFilterController;
@@ -323,7 +323,7 @@ public class EquipmentPanelController implements ActionListener
     ItemInstance<? extends Item> item=getItemForSlot(slot);
     if (item!=null)
     {
-      ItemEditionWindowController ctrl=new ItemEditionWindowController(_parentWindow,_toonData.getSummary(),item);
+      ItemInstanceEditionWindowController ctrl=new ItemInstanceEditionWindowController(_parentWindow,_toonData.getSummary(),item);
       ctrl.show(true);
       refreshToon();
     }

@@ -13,10 +13,10 @@ import delta.games.lotro.lore.items.ItemInstance;
  * Controller for an item edition window.
  * @author DAM
  */
-public class ItemEditionWindowController extends DefaultFormDialogController<ItemInstance<? extends Item>>
+public class ItemInstanceEditionWindowController extends DefaultFormDialogController<ItemInstance<? extends Item>>
 {
   // Controllers
-  private ItemEditionPanelController _panelController;
+  private ItemInstanceEditionPanelController _panelController;
 
   /**
    * Constructor.
@@ -24,10 +24,10 @@ public class ItemEditionWindowController extends DefaultFormDialogController<Ite
    * @param character Character data.
    * @param itemInstance Item instance.
    */
-  public ItemEditionWindowController(WindowController parent, CharacterSummary character, ItemInstance<? extends Item> itemInstance)
+  public ItemInstanceEditionWindowController(WindowController parent, CharacterSummary character, ItemInstance<? extends Item> itemInstance)
   {
     super(parent,itemInstance);
-    _panelController=new ItemEditionPanelController(this,character,itemInstance);
+    _panelController=new ItemInstanceEditionPanelController(this,character,itemInstance);
   }
 
   @Override
