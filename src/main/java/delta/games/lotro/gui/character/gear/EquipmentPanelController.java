@@ -318,7 +318,7 @@ public class EquipmentPanelController implements ActionListener
     return itemInstance;
   }
 
-  private void handleEditItem(EQUIMENT_SLOT slot)
+  private void handleEditItemInstance(EQUIMENT_SLOT slot)
   {
     ItemInstance<? extends Item> item=getItemForSlot(slot);
     if (item!=null)
@@ -341,7 +341,7 @@ public class EquipmentPanelController implements ActionListener
     return null;
   }
 
-  private void handleChooseItemFromStash(EQUIMENT_SLOT slot)
+  private void handleChooseItemInstanceFromStash(EQUIMENT_SLOT slot)
   {
     ItemInstance<? extends Item> itemInstance=chooseItemInstanceFromStash(slot);
     if (itemInstance!=null)
@@ -354,7 +354,7 @@ public class EquipmentPanelController implements ActionListener
     }
   }
 
-  private void handleChooseItemFromGame(EQUIMENT_SLOT slot)
+  private void handleChooseItemInstanceFromGame(EQUIMENT_SLOT slot)
   {
     ItemInstance<? extends Item> itemInstance=chooseItemInstanceFromGame(slot);
     if (itemInstance!=null)
@@ -367,16 +367,15 @@ public class EquipmentPanelController implements ActionListener
     }
   }
 
-  private void handleChooseItem(EQUIMENT_SLOT slot)
+  private void handleChooseItemInstance(EQUIMENT_SLOT slot)
   {
     Item item=chooseItem(slot);
     if (item!=null)
     {
       CharacterEquipment equipment=_toonData.getEquipment();
       SlotContents contents=equipment.getSlotContents(slot,true);
-      Item clonedItem=ItemFactory.clone(item);
-      ItemInstance<? extends Item> instance=ItemFactory.buildInstance(clonedItem);
-      contents.setItem(instance);
+      ItemInstance<? extends Item> itemInstance=ItemFactory.buildInstance(item);
+      contents.setItem(itemInstance);
       refreshToon();
     }
   }
@@ -457,7 +456,7 @@ public class EquipmentPanelController implements ActionListener
     return ret;
   }
 
-  private void handleRemoveItem(EQUIMENT_SLOT slot)
+  private void handleRemoveItemInstance(EQUIMENT_SLOT slot)
   {
     CharacterEquipment equipment=_toonData.getEquipment();
     SlotContents contents=equipment.getSlotContents(slot,false);
@@ -505,11 +504,11 @@ public class EquipmentPanelController implements ActionListener
         ItemInstance<? extends Item> currentItem=getItemForSlot(slot);
         if (currentItem!=null)
         {
-          handleEditItem(slot);
+          handleEditItemInstance(slot);
         }
         else
         {
-          handleChooseItem(slot);
+          handleChooseItemInstance(slot);
         }
       }
     }
@@ -528,23 +527,23 @@ public class EquipmentPanelController implements ActionListener
       {
         if (EDIT_COMMAND.equals(cmd))
         {
-          handleEditItem(slot);
+          handleEditItemInstance(slot);
         }
         else if (CHOOSE_COMMAND.equals(cmd))
         {
-          handleChooseItem(slot);
+          handleChooseItemInstance(slot);
         }
         else if (CHOOSE_FROM_STASH_COMMAND.equals(cmd))
         {
-          handleChooseItemFromStash(slot);
+          handleChooseItemInstanceFromStash(slot);
         }
         else if (CHOOSE_FROM_GAME_COMMAND.equals(cmd))
         {
-          handleChooseItemFromGame(slot);
+          handleChooseItemInstanceFromGame(slot);
         }
         else if (REMOVE_COMMAND.equals(cmd))
         {
-          handleRemoveItem(slot);
+          handleRemoveItemInstance(slot);
         }
         else if (COPY_TO_STASH_COMMAND.equals(cmd))
         {

@@ -168,17 +168,17 @@ public class StashWindowController extends DefaultWindowController implements Ac
     }
     else if (CLONE_ITEM_ID.equals(command))
     {
-      cloneItem();
+      cloneItemInstance();
     }
     else if (REMOVE_ITEM_ID.equals(command))
     {
-      removeItem();
+      removeItemInstance();
     }
     else if (GenericTableController.DOUBLE_CLICK.equals(command))
     {
       @SuppressWarnings("unchecked")
       ItemInstance<? extends Item> data=(ItemInstance<? extends Item>)e.getSource();
-      editItem(data);
+      editItemInstance(data);
     }
   }
 
@@ -223,14 +223,14 @@ public class StashWindowController extends DefaultWindowController implements Ac
     return imgLocation;
   }
 
-  private void editItem(ItemInstance<? extends Item> item)
+  private void editItemInstance(ItemInstance<? extends Item> item)
   {
     ItemInstanceEditionWindowController ctrl=new ItemInstanceEditionWindowController(this,_toon.getSummary(),item);
     ctrl.show(true);
     _toon.saveStash();
   }
 
-  private void cloneItem()
+  private void cloneItemInstance()
   {
     ItemInstance<? extends Item> item=_itemsTable.getSelectedItem();
     if (item!=null)
@@ -244,7 +244,7 @@ public class StashWindowController extends DefaultWindowController implements Ac
     }
   }
 
-  private void removeItem()
+  private void removeItemInstance()
   {
     ItemInstance<? extends Item> item=_itemsTable.getSelectedItem();
     if (item!=null)

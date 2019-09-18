@@ -34,7 +34,6 @@ public class MainTestLegendaryInstanceEdition
     // Hunter's Crossbow of the Third Age (level 55, min level 51)
     Item item=itemsMgr.getItem(1879132909);
     ItemInstance<? extends Item> itemInstance=ItemFactory.buildInstance(item);
-    ItemFactory.initInstance(itemInstance);
     return itemInstance;
   }
 

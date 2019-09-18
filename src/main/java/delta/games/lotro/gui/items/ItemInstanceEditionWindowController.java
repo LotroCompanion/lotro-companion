@@ -10,7 +10,7 @@ import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemInstance;
 
 /**
- * Controller for an item edition window.
+ * Controller for an item instance edition window.
  * @author DAM
  */
 public class ItemInstanceEditionWindowController extends DefaultFormDialogController<ItemInstance<? extends Item>>
