@@ -9,7 +9,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -47,7 +46,6 @@ import delta.games.lotro.lore.items.ItemFactory;
 import delta.games.lotro.lore.items.ItemInstance;
 import delta.games.lotro.lore.items.ItemsManager;
 import delta.games.lotro.lore.items.filters.ItemSlotFilter;
-import delta.games.lotro.plugins.PluginConstants;
 import delta.games.lotro.plugins.lotrocompanion.links.ItemsFileParser;
 import delta.games.lotro.utils.events.EventsManager;
 import delta.games.lotro.utils.gui.chooser.ObjectChoiceWindowController;
@@ -58,8 +56,6 @@ import delta.games.lotro.utils.gui.chooser.ObjectChoiceWindowController;
  */
 public class EquipmentPanelController implements ActionListener
 {
-  private static final Logger LOGGER=Logger.getLogger(EquipmentPanelController.class);
-
   private static final int ICON_SIZE=32;
   private static final Integer ICONS_DEPTH=Integer.valueOf(1);
 
@@ -393,25 +389,8 @@ public class EquipmentPanelController implements ActionListener
 
   private ItemInstance<? extends Item> chooseItemInstanceFromGame(EQUIMENT_SLOT slot)
   {
-    List<ItemInstance<? extends Item>> selectedItemInstances=new ArrayList<ItemInstance<? extends Item>>();
-    String account=_toon.getAccountName();
-    String server=_toon.getServerName();
-    String character=_toon.getName();
-    File dataDir=PluginConstants.getCharacterDir(account,server,character);
-    File dataFile=new File(dataDir,"LotroCompanionItems.plugindata");
-    if (dataFile.exists())
-    {
-      ItemsFileParser parser=new ItemsFileParser();
-      try
-      {
-        List<ItemInstance<? extends Item>> items=parser.doIt(dataFile);
-        selectedItemInstances.addAll(items);
-      }
-      catch(Exception e)
-      {
-        LOGGER.warn("Could not parse items file: "+dataFile,e);
-      }
-    }
+    ItemsFileParser parser=new ItemsFileParser();
+    List<ItemInstance<? extends Item>> selectedItemInstances=parser.getItemsForToon(_toon);
     return chooseItemInstance(selectedItemInstances,slot);
   }
 
