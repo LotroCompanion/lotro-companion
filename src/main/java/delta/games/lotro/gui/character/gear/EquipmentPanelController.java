@@ -22,6 +22,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 
+import org.apache.log4j.Logger;
+
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.collections.filters.Filter;
@@ -56,6 +58,8 @@ import delta.games.lotro.utils.gui.chooser.ObjectChoiceWindowController;
  */
 public class EquipmentPanelController implements ActionListener
 {
+  private static final Logger LOGGER=Logger.getLogger(EquipmentPanelController.class);
+
   private static final int ICON_SIZE=32;
   private static final Integer ICONS_DEPTH=Integer.valueOf(1);
 
@@ -405,7 +409,7 @@ public class EquipmentPanelController implements ActionListener
       }
       catch(Exception e)
       {
-        e.printStackTrace();
+        LOGGER.warn("Could not parse items file: "+dataFile,e);
       }
     }
     return chooseItemInstance(selectedItemInstances,slot);
