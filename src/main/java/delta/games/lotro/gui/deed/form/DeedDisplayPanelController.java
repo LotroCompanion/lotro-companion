@@ -50,7 +50,6 @@ public class DeedDisplayPanelController implements NavigablePanelController
   // Controllers
   private NavigatorWindowController _parent;
   private RewardsPanelController _rewards;
-  private DeedLinksDisplayPanelController _links;
 
   /**
    * Constructor.
@@ -162,13 +161,6 @@ public class DeedDisplayPanelController implements NavigablePanelController
       panelLine.add(_requirements);
     }
 
-    // Links
-    _links=new DeedLinksDisplayPanelController(_parent,_deed);
-    JPanel linksPanel=_links.getPanel();
-    c=new GridBagConstraints(0,c.gridy,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
-    panel.add(linksPanel,c);
-    c.gridy++;
-
     return panel;
   }
 
@@ -244,11 +236,6 @@ public class DeedDisplayPanelController implements NavigablePanelController
     {
       _rewards.dispose();
       _rewards=null;
-    }
-    if (_links!=null)
-    {
-      _links.dispose();
-      _links=null;
     }
     _parent=null;
     // UI

@@ -34,8 +34,4 @@ public enum DeedColumnIds
    * Obsolete.
    */
   OBSOLETE,
-  /**
-   * Objectives.
-   */
-  OBJECTIVES
 }

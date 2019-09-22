@@ -213,20 +213,6 @@ public class DeedsTableController
         ret.add(proxiedColumn);
       }
     }
-    // Objectives column
-    {
-      CellDataProvider<DeedDescription,String> objectivesCell=new CellDataProvider<DeedDescription,String>()
-      {
-        @Override
-        public String getData(DeedDescription deed)
-        {
-          return deed.getObjectivesString();
-        }
-      };
-      DefaultTableColumnController<DeedDescription,String> objectivesColumn=new DefaultTableColumnController<DeedDescription,String>(DeedColumnIds.OBJECTIVES.name(),"Objectives",String.class,objectivesCell);
-      objectivesColumn.setWidthSpecs(100,-1,100);
-      ret.add(objectivesColumn);
-    }
     return ret;
   }
 
