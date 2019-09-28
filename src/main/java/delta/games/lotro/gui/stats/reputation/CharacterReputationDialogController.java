@@ -46,7 +46,7 @@ public class CharacterReputationDialogController extends DefaultFormDialogContro
   // UI
   private ReputationDeedsDisplayController _deedsDisplay;
   private ReputationRewardsDisplayController _rewardsDisplay;
-  private HashMap<String,FactionEditionPanelController> _editors;
+  private HashMap<Integer,FactionEditionPanelController> _editors;
 
   /**
    * Constructor.
@@ -58,7 +58,7 @@ public class CharacterReputationDialogController extends DefaultFormDialogContro
     super(parentController,null);
     _toon=toon;
     _data=_toon.getReputation();
-    _editors=new HashMap<String,FactionEditionPanelController>();
+    _editors=new HashMap<Integer,FactionEditionPanelController>();
   }
 
   @Override
@@ -135,7 +135,8 @@ public class CharacterReputationDialogController extends DefaultFormDialogContro
     for(Faction faction : factions)
     {
       FactionEditionPanelController editionController=new FactionEditionPanelController(faction);
-      _editors.put(faction.getKey(),editionController);
+      Integer key=Integer.valueOf(faction.getIdentifier());
+      _editors.put(key,editionController);
       // Label
       JLabel label=editionController.getLabel();
       cLabel.gridy=y;
