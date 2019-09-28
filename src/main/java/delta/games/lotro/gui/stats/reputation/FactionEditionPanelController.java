@@ -37,7 +37,7 @@ public class FactionEditionPanelController
     _label=GuiFactory.buildLabel(name);
     // Bar
     FactionLevel[] levels=_faction.getLevels();
-    int min=0;
+    int min=levels[0].getValue();
     int max=levels[levels.length-1].getValue();
     _bar=new JProgressBar(SwingConstants.HORIZONTAL,min,max);
     _bar.setBackground(GuiFactory.getBackgroundColor());
@@ -113,11 +113,8 @@ public class FactionEditionPanelController
     String levelName=level.getName();
     int value=level.getValue();
     Color background=Color.BLUE;
-    if (value<0)
-    {
-      background=Color.RED;
-      value=-value;
-    }
+    if (value==-2) background=Color.RED;
+    if (value==-1) background=Color.MAGENTA;
     _bar.setForeground(background);
     _bar.setString(levelName);
     _bar.setValue(value);
