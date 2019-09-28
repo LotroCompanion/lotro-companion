@@ -74,7 +74,8 @@ public class DeedStatusTableController
         @Override
         public Boolean getData(DeedDescription item)
         {
-          DeedStatus status=_deedsStatus.get(item.getKey(),false);
+          String deedKey=item.getIdentifyingKey();
+          DeedStatus status=_deedsStatus.get(deedKey,false);
           if (status!=null)
           {
             return status.isCompleted();
@@ -91,7 +92,8 @@ public class DeedStatusTableController
         @Override
         public void setData(DeedDescription item, Object value)
         {
-          DeedStatus status=_deedsStatus.get(item.getKey(),true);
+          String deedKey=item.getIdentifyingKey();
+          DeedStatus status=_deedsStatus.get(deedKey,true);
           Boolean completed=(Boolean)value;
           status.setCompleted(completed);
         }
@@ -107,7 +109,8 @@ public class DeedStatusTableController
         public Date getData(DeedDescription item)
         {
           Long timestamp=null;
-          DeedStatus status=_deedsStatus.get(item.getKey(),false);
+          String deedKey=item.getIdentifyingKey();
+          DeedStatus status=_deedsStatus.get(deedKey,false);
           if (status!=null)
           {
             timestamp=status.getCompletionDate();

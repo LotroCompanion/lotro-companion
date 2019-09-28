@@ -99,7 +99,8 @@ public class DeedsStatistics
     reset();
     for(DeedDescription deed : deeds)
     {
-      DeedStatus deedStatus=deedsStatus.get(deed.getKey(),false);
+      String deedKey=deed.getIdentifyingKey();
+      DeedStatus deedStatus=deedsStatus.get(deedKey,false);
       if (deedStatus!=null)
       {
         useDeed(deedStatus,deed);
@@ -205,12 +206,12 @@ public class DeedsStatistics
         {
           ReputationReward reputationReward=(ReputationReward)rewardElement;
           Faction faction=reputationReward.getFaction();
-          String factionKey=faction.getKey();
+          String factionKey=faction.getIdentifyingKey();
           FactionStatsFromDeeds factionStats=_reputation.get(factionKey);
           if (factionStats==null)
           {
             factionStats=new FactionStatsFromDeeds(faction);
-            _reputation.put(faction.getKey(),factionStats);
+            _reputation.put(factionKey,factionStats);
           }
           int amount=reputationReward.getAmount();
           factionStats.add(amount);
@@ -413,7 +414,7 @@ public class DeedsStatistics
       List<Faction> factions=FactionsRegistry.getInstance().getAll();
       for(Faction faction : factions)
       {
-        FactionStatsFromDeeds factionStats=_reputation.get(faction.getKey());
+        FactionStatsFromDeeds factionStats=_reputation.get(faction.getIdentifyingKey());
         if (factionStats!=null)
         {
           int points=factionStats.getPoints();
