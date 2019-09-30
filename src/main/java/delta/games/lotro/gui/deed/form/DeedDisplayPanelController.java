@@ -1,5 +1,6 @@
 package delta.games.lotro.gui.deed.form;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -82,10 +83,9 @@ public class DeedDisplayPanelController implements NavigablePanelController
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
 
-    GridBagConstraints c=new GridBagConstraints(0,0,2,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
-
     // Top panel
     JPanel topPanel=buildTopPanel();
+    GridBagConstraints c=new GridBagConstraints(0,0,2,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(topPanel,c);
 
     // Rewards
@@ -116,8 +116,6 @@ public class DeedDisplayPanelController implements NavigablePanelController
     // Main data line
     {
       JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
-      panel.add(panelLine,c);
-      c.gridy++;
       // Icon
       _icon=GuiFactory.buildIconLabel(null);
       panelLine.add(_icon);
@@ -125,12 +123,12 @@ public class DeedDisplayPanelController implements NavigablePanelController
       _name=GuiFactory.buildLabel("");
       _name.setFont(_name.getFont().deriveFont(16f).deriveFont(Font.BOLD));
       panelLine.add(_name);
+      panel.add(panelLine,c);
+      c.gridy++;
     }
     // Line 2
     {
       JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
-      panel.add(panelLine,c);
-      c.gridy++;
       // Category
       panelLine.add(GuiFactory.buildLabel("Category: "));
       _category=GuiFactory.buildLabel("");
@@ -139,27 +137,34 @@ public class DeedDisplayPanelController implements NavigablePanelController
       panelLine.add(GuiFactory.buildLabel("Type: "));
       _type=GuiFactory.buildLabel("");
       panelLine.add(_type);
+      panel.add(panelLine,c);
+      c.gridy++;
     }
     // Line 3 (challenge level)
     {
       JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
-      panel.add(panelLine,c);
-      c.gridy++;
       // Challenge level
       panelLine.add(GuiFactory.buildLabel("Level: "));
       _challengeLevel=GuiFactory.buildLabel("");
       panelLine.add(_challengeLevel);
+      panel.add(panelLine,c);
+      c.gridy++;
     }
     // Line 4
     {
       JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
-      panel.add(panelLine,c);
-      c.gridy++;
       // Requirements
       panelLine.add(GuiFactory.buildLabel("Requirements: "));
       _requirements=GuiFactory.buildLabel("");
       panelLine.add(_requirements);
+      panel.add(panelLine,c);
+      c.gridy++;
     }
+    // Padding to push everything on left
+    JPanel paddingPanel=GuiFactory.buildPanel(new BorderLayout());
+    c.fill=GridBagConstraints.HORIZONTAL;
+    c.weightx=1.0;
+    panel.add(paddingPanel,c);
 
     return panel;
   }
