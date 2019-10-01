@@ -45,6 +45,7 @@ import delta.games.lotro.lore.quests.objectives.QuestBestowedCondition;
 import delta.games.lotro.lore.quests.objectives.QuestCompleteCondition;
 import delta.games.lotro.lore.quests.objectives.SkillUsedCondition;
 import delta.games.lotro.lore.reputation.Faction;
+import delta.games.lotro.lore.reputation.FactionLevel;
 import delta.games.lotro.utils.Proxy;
 import delta.games.lotro.utils.gui.HtmlUtils;
 
@@ -335,7 +336,15 @@ public class ObjectivesHtmlBuilder
       {
         sb.append("<p>");
         String name=factionProxy.getName();
-        sb.append("Reach reputation tier ").append(tier).append(" with ").append(name);
+        String levelName="?";
+        Faction faction=factionProxy.getObject();
+        if (faction!=null)
+        {
+          FactionLevel level=faction.getLevelByTier(tier);
+          levelName=(level!=null)?level.getName():levelName;
+        }
+        sb.append("Reach reputation '").append(levelName);
+        sb.append("' (tier ").append(tier).append(") with ").append(name);
         sb.append("</p>");
       }
     }
