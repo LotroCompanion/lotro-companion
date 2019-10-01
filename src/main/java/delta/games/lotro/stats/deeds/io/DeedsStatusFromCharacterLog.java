@@ -5,10 +5,10 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import delta.games.lotro.character.CharacterFile;
+import delta.games.lotro.character.CharactersManager;
 import delta.games.lotro.character.log.CharacterLog;
 import delta.games.lotro.character.log.CharacterLogItem;
 import delta.games.lotro.character.log.CharacterLogItem.LogItemType;
-import delta.games.lotro.character.log.LotroTestUtils;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.DeedsManager;
 import delta.games.lotro.stats.deeds.DeedStatus;
@@ -27,8 +27,8 @@ public class DeedsStatusFromCharacterLog
    */
   public void doIt()
   {
-    //List<CharacterFile> files=new ArrayList<CharacterFile>();
-    List<CharacterFile> files=new LotroTestUtils().getAllFiles();
+    CharactersManager mgr=CharactersManager.getInstance();
+    List<CharacterFile> files=mgr.getAllToons();
     for(CharacterFile file : files)
     {
       doIt(file);
