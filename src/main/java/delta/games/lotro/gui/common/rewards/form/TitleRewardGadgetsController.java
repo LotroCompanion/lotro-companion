@@ -5,6 +5,7 @@ import java.awt.Color;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.labels.LabelWithHalo;
 import delta.games.lotro.common.rewards.TitleReward;
+import delta.games.lotro.gui.common.rewards.RewardsUiUtils;
 
 /**
  * Controller for the UI gadgets of a title reward.
@@ -19,7 +20,7 @@ public class TitleRewardGadgetsController extends RewardGadgetsController
   public TitleRewardGadgetsController(TitleReward title)
   {
     // Label
-    String text=title.getName();
+    String text=RewardsUiUtils.getDisplayedTitle(title.getName());
     Color color=Color.WHITE;
     _label=new LabelWithHalo();
     _label.setText(text);

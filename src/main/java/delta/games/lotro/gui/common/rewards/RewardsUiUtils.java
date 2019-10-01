@@ -69,7 +69,8 @@ public class RewardsUiUtils
     List<String> titles=_rewardsExplorer.getTitles();
     for(String title : titles)
     {
-      ctrl.addItem(title,title);
+      String displayedTitle=getDisplayedTitle(title);
+      ctrl.addItem(title,displayedTitle);
     }
     ctrl.selectItem(null);
     return ctrl;
@@ -124,5 +125,21 @@ public class RewardsUiUtils
     }
     ctrl.selectItem(null);
     return ctrl;
+  }
+
+  /**
+   * Get a displayable title for a title.
+   * @param title Input title.
+   * @return A 'not too long' title.
+   */
+  public static String getDisplayedTitle(String title)
+  {
+    int length=title.length();
+    String displayedTitle=title;
+    if (length>70)
+    {
+      displayedTitle=displayedTitle.substring(0,70)+"...";
+    }
+    return displayedTitle;
   }
 }
