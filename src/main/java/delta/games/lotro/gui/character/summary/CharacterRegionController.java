@@ -111,6 +111,11 @@ public class CharacterRegionController
     highElvesRegions.add("Gondolin");
     highElvesRegions.add("Ossiriand");
     _regionsByRace.put(Race.HIGH_ELF,highElvesRegions);
+
+    // Stout-axe dwarf
+    List<String> stoutAxeRegions=new ArrayList<String>();
+    stoutAxeRegions.add("Mordor Mountains");
+    _regionsByRace.put(Race.STOUT_AXE_DWARF,stoutAxeRegions);
   }
 
   /**
