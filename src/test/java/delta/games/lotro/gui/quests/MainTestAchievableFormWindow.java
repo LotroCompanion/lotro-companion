@@ -2,8 +2,10 @@ package delta.games.lotro.gui.quests;
 
 import java.util.List;
 
-import delta.games.lotro.gui.common.navigator.NavigatorWindowController;
+import delta.common.ui.swing.navigator.NavigatorWindowController;
+import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.games.lotro.gui.common.navigator.ReferenceConstants;
+import delta.games.lotro.gui.navigation.NavigatorFactory;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.DeedsManager;
 import delta.games.lotro.lore.quests.Achievable;
@@ -44,8 +46,8 @@ public class MainTestAchievableFormWindow
 
   private void showAchievableWindow(Achievable achievable)
   {
-    NavigatorWindowController window=new NavigatorWindowController(null,_index);
-    String ref=ReferenceConstants.getAchievableReference(achievable);
+    NavigatorWindowController window=NavigatorFactory.buildNavigator(null,_index);
+    PageIdentifier ref=ReferenceConstants.getAchievableReference(achievable);
     window.navigateTo(ref);
     window.show(false);
     _index++;

@@ -1,6 +1,9 @@
 package delta.games.lotro.gui.common.navigator;
 
-import delta.common.utils.NumericTools;
+import delta.common.ui.swing.navigator.NavigablePanelController;
+import delta.common.ui.swing.navigator.NavigablePanelControllerFactory;
+import delta.common.ui.swing.navigator.NavigatorWindowController;
+import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.games.lotro.gui.deed.form.DeedDisplayPanelController;
 import delta.games.lotro.gui.quests.form.QuestDisplayPanelController;
 import delta.games.lotro.lore.deeds.DeedDescription;
@@ -10,10 +13,10 @@ import delta.games.lotro.lore.quests.QuestDescription;
 import delta.games.lotro.lore.quests.QuestsManager;
 
 /**
- * Resolver for navigable contents.
+ * Factory for achievable panels.
  * @author DAM
  */
-public class NavigatorContentsResolver
+public class AchievablePanelsFactory implements NavigablePanelControllerFactory
 {
   private NavigatorWindowController _parent;
 
@@ -21,29 +24,24 @@ public class NavigatorContentsResolver
    * Constructor.
    * @param parent Parent window.
    */
-  public NavigatorContentsResolver(NavigatorWindowController parent)
+  public AchievablePanelsFactory(NavigatorWindowController parent)
   {
     _parent=parent;
   }
 
-  /**
-   * Build a panel controller for the given object reference.
-   * @param reference Object reference.
-   * @return A controller or <code>null</code> if not supported.
-   */
-  public NavigablePanelController resolveReference(String reference)
+  @Override
+  public NavigablePanelController build(PageIdentifier pageId)
   {
     NavigablePanelController ret=null;
-    if (reference.startsWith(ReferenceConstants.DEED_SEED))
+    String address=pageId.getBaseAddress();
+    if (address.equals(ReferenceConstants.DEED_PAGE))
     {
-      String idStr=reference.substring(ReferenceConstants.DEED_SEED.length());
-      int id=NumericTools.parseInt(idStr,0);
+      int id=pageId.getIntParameter(PageIdentifier.ID_PARAMETER).intValue();
       ret=buildDeedPanel(id);
     }
-    else if (reference.startsWith(ReferenceConstants.QUEST_SEED))
+    else if (address.equals(ReferenceConstants.QUEST_PAGE))
     {
-      String idStr=reference.substring(ReferenceConstants.QUEST_SEED.length());
-      int id=NumericTools.parseInt(idStr,0);
+      int id=pageId.getIntParameter(PageIdentifier.ID_PARAMETER).intValue();
       ret=buildQuestPanel(id);
     }
     return ret;

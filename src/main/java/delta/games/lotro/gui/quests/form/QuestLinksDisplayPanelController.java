@@ -15,7 +15,8 @@ import org.apache.log4j.Logger;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.labels.HyperLinkController;
 import delta.common.ui.swing.labels.LocalHyperlinkAction;
-import delta.games.lotro.gui.common.navigator.NavigatorWindowController;
+import delta.common.ui.swing.navigator.NavigatorWindowController;
+import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.games.lotro.gui.common.navigator.ReferenceConstants;
 import delta.games.lotro.lore.quests.Achievable;
 import delta.games.lotro.lore.quests.AchievableProxiesResolver;
@@ -107,7 +108,7 @@ public class QuestLinksDisplayPanelController
       Achievable achievable=AchievableProxiesResolver.getInstance().findAchievable(id);
       if (achievable!=null)
       {
-        final String ref=ReferenceConstants.getAchievableReference(proxy);
+        final PageIdentifier ref=ReferenceConstants.getAchievableReference(proxy);
         ActionListener listener=new ActionListener()
         {
           @Override

@@ -1,5 +1,6 @@
 package delta.games.lotro.gui.common.navigator;
 
+import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.quests.Achievable;
 import delta.games.lotro.lore.quests.QuestDescription;
@@ -12,20 +13,20 @@ import delta.games.lotro.utils.Proxy;
 public class ReferenceConstants
 {
   /**
-   * Seed for quest display panel.
+   * Quest page identifier.
    */
-  public static final String QUEST_SEED="QUEST:";
+  public static final String QUEST_PAGE="quest";
   /**
-   * Seed for deed display panel.
+   * Deed page identifier.
    */
-  public static final String DEED_SEED="DEED:";
+  public static final String DEED_PAGE="deed";
 
   /**
-   * Get a reference string for the given achievable proxy.
+   * Get a page identifier for the given achievable proxy.
    * @param proxy Proxy to use.
-   * @return A reference string.
+   * @return A page identifier.
    */
-  public static final String getAchievableReference(Proxy<? extends Achievable> proxy)
+  public static final PageIdentifier getAchievableReference(Proxy<? extends Achievable> proxy)
   {
     if (proxy!=null)
     {
@@ -40,16 +41,16 @@ public class ReferenceConstants
    * @param achievable Achievable to use.
    * @return A reference string.
    */
-  public static final String getAchievableReference(Achievable achievable)
+  public static final PageIdentifier getAchievableReference(Achievable achievable)
   {
     int id=achievable.getIdentifier();
     if (achievable instanceof DeedDescription)
     {
-      return DEED_SEED+id;
+      return new PageIdentifier(DEED_PAGE,id);
     }
     if (achievable instanceof QuestDescription)
     {
-      return QUEST_SEED+id;
+      return new PageIdentifier(QUEST_PAGE,id);
     }
     return null;
   }

@@ -12,17 +12,19 @@ import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.navigator.NavigatorWindowController;
+import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.windows.DefaultWindowController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.ui.swing.windows.WindowsManager;
 import delta.common.utils.misc.TypedProperties;
-import delta.games.lotro.gui.common.navigator.NavigatorWindowController;
 import delta.games.lotro.gui.common.navigator.ReferenceConstants;
 import delta.games.lotro.gui.deed.filter.DeedFilter;
 import delta.games.lotro.gui.deed.filter.DeedFilterController;
 import delta.games.lotro.gui.deed.table.DeedsTableController;
 import delta.games.lotro.gui.main.GlobalPreferences;
+import delta.games.lotro.gui.navigation.NavigatorFactory;
 import delta.games.lotro.lore.deeds.DeedDescription;
 
 /**
@@ -119,8 +121,8 @@ public class DeedsExplorerWindowController extends DefaultWindowController
   private void showDeed(DeedDescription deed)
   {
     int id=_deedWindows.getAll().size();
-    NavigatorWindowController window=new NavigatorWindowController(DeedsExplorerWindowController.this,id);
-    String ref=ReferenceConstants.getAchievableReference(deed);
+    NavigatorWindowController window=NavigatorFactory.buildNavigator(DeedsExplorerWindowController.this,id);
+    PageIdentifier ref=ReferenceConstants.getAchievableReference(deed);
     window.navigateTo(ref);
     window.show(false);
     _deedWindows.registerWindow(window);

@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 
+import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.common.utils.misc.IntegerHolder;
 import delta.games.lotro.character.skills.SkillDescription;
 import delta.games.lotro.gui.common.navigator.ReferenceConstants;
@@ -534,8 +535,9 @@ public class ObjectivesHtmlBuilder
       String type=isQuest?"quest":"deed";
       sb.append(type).append(" <b>");
       String text=achievable.getName();
-      String to=ReferenceConstants.getAchievableReference(achievable);
-      HtmlUtils.printLink(sb,to,text);
+      PageIdentifier to=ReferenceConstants.getAchievableReference(achievable);
+      String toStr=to.getFullAddress();
+      HtmlUtils.printLink(sb,toStr,text);
       sb.append("</b>");
     }
     else

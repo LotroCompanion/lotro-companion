@@ -20,14 +20,16 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.checkbox.CheckboxController;
 import delta.common.ui.swing.labels.HyperLinkController;
 import delta.common.ui.swing.labels.LocalHyperlinkAction;
+import delta.common.ui.swing.navigator.NavigatorWindowController;
+import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.common.ui.swing.text.dates.DateCodec;
 import delta.common.ui.swing.text.dates.DateEditionController;
 import delta.common.ui.swing.windows.DefaultFormDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.ui.swing.windows.WindowsManager;
 import delta.games.lotro.gui.LotroIconsManager;
-import delta.games.lotro.gui.common.navigator.NavigatorWindowController;
 import delta.games.lotro.gui.common.navigator.ReferenceConstants;
+import delta.games.lotro.gui.navigation.NavigatorFactory;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.DeedType;
 import delta.games.lotro.lore.deeds.geo.DeedGeoData;
@@ -218,8 +220,8 @@ public class DeedStatusEditionDialogController extends DefaultFormDialogControll
     int nbWindows=_windowsManager.getAll().size();
     if (nbWindows==0)
     {
-      NavigatorWindowController window=new NavigatorWindowController(this,0);
-      String ref=ReferenceConstants.getAchievableReference(_deed);
+      NavigatorWindowController window=NavigatorFactory.buildNavigator(this,0);
+      PageIdentifier ref=ReferenceConstants.getAchievableReference(_deed);
       window.navigateTo(ref);
       window.show(false);
       _windowsManager.registerWindow(window);
@@ -227,7 +229,7 @@ public class DeedStatusEditionDialogController extends DefaultFormDialogControll
     else
     {
       NavigatorWindowController window=(NavigatorWindowController)_windowsManager.getAll().get(0);
-      String ref=ReferenceConstants.getAchievableReference(_deed);
+      PageIdentifier ref=ReferenceConstants.getAchievableReference(_deed);
       window.navigateTo(ref);
       window.bringToFront();
     }

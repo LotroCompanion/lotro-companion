@@ -12,14 +12,16 @@ import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.navigator.NavigatorWindowController;
+import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.windows.DefaultWindowController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.ui.swing.windows.WindowsManager;
 import delta.common.utils.misc.TypedProperties;
-import delta.games.lotro.gui.common.navigator.NavigatorWindowController;
 import delta.games.lotro.gui.common.navigator.ReferenceConstants;
 import delta.games.lotro.gui.main.GlobalPreferences;
+import delta.games.lotro.gui.navigation.NavigatorFactory;
 import delta.games.lotro.gui.quests.filter.QuestFilter;
 import delta.games.lotro.gui.quests.filter.QuestFilterController;
 import delta.games.lotro.gui.quests.table.QuestsTableController;
@@ -119,8 +121,8 @@ public class QuestsExplorerWindowController extends DefaultWindowController
   private void showQuest(QuestDescription quest)
   {
     int id=_questWindows.getAll().size();
-    NavigatorWindowController window=new NavigatorWindowController(QuestsExplorerWindowController.this,id);
-    String ref=ReferenceConstants.getAchievableReference(quest);
+    NavigatorWindowController window=NavigatorFactory.buildNavigator(QuestsExplorerWindowController.this,id);
+    PageIdentifier ref=ReferenceConstants.getAchievableReference(quest);
     window.navigateTo(ref);
     window.show(false);
     _questWindows.registerWindow(window);

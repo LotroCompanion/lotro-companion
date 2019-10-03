@@ -17,11 +17,12 @@ import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.navigator.NavigablePanelController;
+import delta.common.ui.swing.navigator.NavigatorWindowController;
+import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.games.lotro.common.ChallengeLevel;
 import delta.games.lotro.common.Repeatability;
 import delta.games.lotro.common.Size;
-import delta.games.lotro.gui.common.navigator.NavigablePanelController;
-import delta.games.lotro.gui.common.navigator.NavigatorWindowController;
 import delta.games.lotro.gui.common.requirements.RequirementsUtils;
 import delta.games.lotro.gui.common.rewards.form.RewardsPanelController;
 import delta.games.lotro.gui.quests.ObjectivesHtmlBuilder;
@@ -201,8 +202,9 @@ public class QuestDisplayPanelController implements NavigablePanelController
       {
         if(e.getEventType() == HyperlinkEvent.EventType.ACTIVATED)
         {
-          String reference=e.getDescription();
-          _parent.navigateTo(reference);
+          String referenceStr=e.getDescription();
+          PageIdentifier pageId=PageIdentifier.fromString(referenceStr);
+          _parent.navigateTo(pageId);
         }
       }
     };
