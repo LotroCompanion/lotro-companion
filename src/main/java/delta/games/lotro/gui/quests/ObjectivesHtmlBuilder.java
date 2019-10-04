@@ -198,15 +198,16 @@ public class ObjectivesHtmlBuilder
   private static void handleQuestCompleteCondition(StringBuilder sb, QuestCompleteCondition questComplete)
   {
     int count=questComplete.getCompletionCount();
-    boolean hasProgressOverride=printProgressOverrideWithCount(sb,questComplete,count);
-    if (!hasProgressOverride)
+    String progressOverride=getProgressOverrideWithCount(questComplete,count);
+    Proxy<Achievable> proxy=questComplete.getProxy();
+    String questCategory=questComplete.getQuestCategory();
+
+    sb.append("<p>");
+    if (progressOverride==null)
     {
-      String questCategory=questComplete.getQuestCategory();
-      sb.append("<p>");
-      Proxy<Achievable> proxy=questComplete.getProxy();
       if (proxy!=null)
       {
-        String link=getAchievableLink(proxy);
+        String link=getAchievableLink(proxy,null);
         sb.append("Complete ").append(link);
       }
       else if (questCategory!=null)
@@ -217,8 +218,20 @@ public class ObjectivesHtmlBuilder
       {
         sb.append(" (x").append(count).append(')');
       }
-      sb.append("</p>");
     }
+    else
+    {
+      if (proxy!=null)
+      {
+        String link=getAchievableLink(proxy,progressOverride);
+        sb.append(link);
+      }
+      else
+      {
+        sb.append(HtmlUtils.toHtml(progressOverride));
+      }
+    }
+    sb.append("</p>");
     printLoreInfo(sb,questComplete);
   }
 
@@ -437,7 +450,7 @@ public class ObjectivesHtmlBuilder
       Proxy<Achievable> proxy=questBestowed.getProxy();
       if (proxy!=null)
       {
-        String link=getAchievableLink(proxy);
+        String link=getAchievableLink(proxy,null);
         sb.append("Have ").append(link).append(" bestowed");
       }
       sb.append("</p>");
@@ -525,16 +538,20 @@ public class ObjectivesHtmlBuilder
     return ret;
   }
 
-  private static String getAchievableLink(Proxy<Achievable> proxy)
+  private static String getAchievableLink(Proxy<Achievable> proxy, String text)
   {
     StringBuilder sb=new StringBuilder();
     Achievable achievable=proxy.getObject();
     if (achievable!=null)
     {
-      boolean isQuest=(achievable instanceof QuestDescription);
-      String type=isQuest?"quest":"deed";
-      sb.append(type).append(" <b>");
-      String text=achievable.getName();
+      if (text==null)
+      {
+        boolean isQuest=(achievable instanceof QuestDescription);
+        String type=isQuest?"quest ":"deed ";
+        sb.append(type);
+        text=achievable.getName();
+      }
+      sb.append("<b>");
       PageIdentifier to=ReferenceConstants.getAchievableReference(achievable);
       String toStr=to.getFullAddress();
       HtmlUtils.printLink(sb,toStr,text);
@@ -579,6 +596,17 @@ public class ObjectivesHtmlBuilder
 
   private static boolean printProgressOverrideWithCount(StringBuilder sb, ObjectiveCondition condition, int count)
   {
+    String progressOverride=getProgressOverrideWithCount(condition,count);
+    if (progressOverride!=null)
+    {
+      sb.append("<p>").append(HtmlUtils.toHtml(progressOverride)).append("</p>");
+      return true;
+    }
+    return false;
+  }
+
+  private static String getProgressOverrideWithCount(ObjectiveCondition condition, int count)
+  {
     String progressOverride=condition.getProgressOverride();
     if ((progressOverride!=null) && (progressOverride.length()>0))
     {
@@ -594,10 +622,8 @@ public class ObjectivesHtmlBuilder
           progressOverride=progressOverride+" (x"+count+")";
         }
       }
-      sb.append("<p>").append(HtmlUtils.toHtml(progressOverride)).append("</p>");
-      return true;
     }
-    return false;
+    return progressOverride;
   }
 
   private static boolean printProgressOverride(StringBuilder sb, ObjectiveCondition condition)
