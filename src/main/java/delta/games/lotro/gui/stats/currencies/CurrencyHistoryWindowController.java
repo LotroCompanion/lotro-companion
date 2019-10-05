@@ -121,4 +121,14 @@ public class CurrencyHistoryWindowController extends DefaultWindowController
       _panelController=null;
     }
   }
+
+  /**
+   * Main method to test this window.
+   * @param args Not used.
+   */
+  public static void main(String[] args)
+  {
+    CurrencyHistoryWindowController controller=new CurrencyHistoryWindowController();
+    controller.show();
+  }
 }
