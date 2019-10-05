@@ -620,8 +620,11 @@ public class ItemFilterController extends ObjectFilterPanelController
   {
     super.dispose();
     // Data
-    ItemChooserFilterIo.saveTo(_filter,_props);
-    _props=null;
+    if (_props!=null)
+    {
+      ItemChooserFilterIo.saveTo(_filter,_props);
+      _props=null;
+    }
     _filter=null;
     // Controllers
     if (_tier!=null)
