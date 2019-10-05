@@ -6,10 +6,17 @@ import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.gui.common.navigator.AchievablePanelsFactory;
 
 /**
+ * Factory for LOTRO navigator window controllers.
  * @author DAM
  */
 public class NavigatorFactory
 {
+  /**
+   * Build a new navigator window controller.
+   * @param parent Parent window, if any.
+   * @param index Index of the navigator window.
+   * @return a new, customized navigator window.
+   */
   public static NavigatorWindowController buildNavigator(WindowController parent, int index)
   {
     NavigatorWindowController window=new NavigatorWindowController(parent,index);
