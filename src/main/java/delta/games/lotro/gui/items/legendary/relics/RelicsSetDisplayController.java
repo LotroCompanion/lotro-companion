@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.items.essences;
+package delta.games.lotro.gui.items.legendary.relics;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -11,34 +11,33 @@ import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.labels.MultilineLabel2;
-import delta.games.lotro.lore.items.Item;
-import delta.games.lotro.lore.items.essences.EssencesSet;
+import delta.games.lotro.lore.items.legendary.relics.Relic;
+import delta.games.lotro.lore.items.legendary.relics.RelicsSet;
 
 /**
- * Controller for a panel to display an essences set.
+ * Controller for a panel to display a relics set.
  * @author DAM
  */
-public class EssencesSetDisplayController
+public class RelicsSetDisplayController
 {
   // Data
-  private EssencesSet _essences;
+  private RelicsSet _relicsSet;
   // Controllers
-  private List<SingleEssenceDisplayController> _controllers;
+  private List<SingleRelicDisplayController> _controllers;
   // UI
   private JPanel _panel;
 
   /**
    * Constructor.
-   * @param essences Essences to display.
+   * @param relicsSet Relics to display.
    */
-  public EssencesSetDisplayController(EssencesSet essences)
+  public RelicsSetDisplayController(RelicsSet relicsSet)
   {
-    _essences=essences;
-    _controllers=new ArrayList<SingleEssenceDisplayController>();
-    int nbSlots=essences.getSize();
-    for(int i=0;i<nbSlots;i++)
+    _relicsSet=relicsSet;
+    _controllers=new ArrayList<SingleRelicDisplayController>();
+    for(int i=0;i<4;i++)
     {
-      SingleEssenceDisplayController controller=new SingleEssenceDisplayController();
+      SingleRelicDisplayController controller=new SingleRelicDisplayController();
       _controllers.add(controller);
     }
     _panel=build();
@@ -58,7 +57,7 @@ public class EssencesSetDisplayController
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     int baseLine=0;
-    for(SingleEssenceDisplayController controller : _controllers)
+    for(SingleRelicDisplayController controller : _controllers)
     {
       // Icon
       JLabel icon=controller.getIcon();
@@ -78,15 +77,15 @@ public class EssencesSetDisplayController
   }
 
   /**
-   * Update gadgets to reflect the current state of the associated essences set.
+   * Update gadgets to reflect the current state of the associated relics set.
    */
   public void update()
   {
-    int size=_essences.getSize();
-    for(int i=0;i<size;i++)
+    List<Relic> relics=_relicsSet.getAll();
+    for(int i=0;i<4;i++)
     {
-      Item essence=_essences.getEssence(i);
-      _controllers.get(i).setEssence(essence);
+      Relic relic=relics.get(i);
+      _controllers.get(i).setRelic(relic);
     }
   }
 
@@ -96,11 +95,11 @@ public class EssencesSetDisplayController
   public void dispose()
   {
     // Data
-    _essences=null;
+    _relicsSet=null;
     // Controllers
     if (_controllers!=null)
     {
-      for(SingleEssenceDisplayController controller : _controllers)
+      for(SingleRelicDisplayController controller : _controllers)
       {
         controller.dispose();
       }

@@ -1,0 +1,18 @@
+<item key="1879311770" name="Reshaped Champion's Sword of the First Age">
+<legendary imbued="false">
+<nonImbued level="0" upgrades="0" pointsSpent="0" pointsLeft="0">
+<defaultLegacy id="1879049778" rank="192"/>
+</nonImbued>
+<imbued>
+<imbuedLegacy index="0" imbuedLegacyId="1879325264" xp="0" unlockedLevels="0"/>
+</imbued>
+<relic id="1879288270" type="SETTING" name="Westemnet Setting of Endings"/>
+<relic id="1879262644" type="GEM" name="True Gem of the Wizard's Vale"/>
+<relic id="1879219337" type="RUNE" name="Great River Rune of Power"/>
+<relic id="1879278161" type="CRAFTED_RELIC" name="Westemnet Device of Battle"/>
+</legendary>
+<stats>
+<stat name="CRITICAL_RATING" value="46000"/>
+<stat name="PARRY_PERCENTAGE" value="100"/>
+</stats>
+</item>
