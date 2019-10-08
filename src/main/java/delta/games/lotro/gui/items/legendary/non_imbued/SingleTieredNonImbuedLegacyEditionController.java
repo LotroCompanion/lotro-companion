@@ -132,7 +132,7 @@ public class SingleTieredNonImbuedLegacyEditionController extends SingleNonImbue
   {
     super.setupLegacy(legacy);
     TieredNonImbuedLegacy tieredLegacy=getLegacy();
-    LegendarySystem legendarySystem=new LegendarySystem();
+    LegendarySystem legendarySystem=LegendarySystem.getInstance();
     if (tieredLegacy!=null)
     {
       Integer tierInt=_tier.getSelectedItem();
