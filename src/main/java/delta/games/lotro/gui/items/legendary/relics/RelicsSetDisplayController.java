@@ -20,8 +20,6 @@ import delta.games.lotro.lore.items.legendary.relics.RelicsSet;
  */
 public class RelicsSetDisplayController
 {
-  // Data
-  private RelicsSet _relicsSet;
   // Controllers
   private List<SingleRelicDisplayController> _controllers;
   // UI
@@ -29,11 +27,9 @@ public class RelicsSetDisplayController
 
   /**
    * Constructor.
-   * @param relicsSet Relics to display.
    */
-  public RelicsSetDisplayController(RelicsSet relicsSet)
+  public RelicsSetDisplayController()
   {
-    _relicsSet=relicsSet;
     _controllers=new ArrayList<SingleRelicDisplayController>();
     for(int i=0;i<4;i++)
     {
@@ -41,7 +37,6 @@ public class RelicsSetDisplayController
       _controllers.add(controller);
     }
     _panel=build();
-    update();
   }
 
   /**
@@ -77,11 +72,12 @@ public class RelicsSetDisplayController
   }
 
   /**
-   * Update gadgets to reflect the current state of the associated relics set.
+   * Set the data to display.
+   * @param relicsSet Data to display.
    */
-  public void update()
+  public void setData(RelicsSet relicsSet)
   {
-    List<Relic> relics=_relicsSet.getAll();
+    List<Relic> relics=relicsSet.getAll();
     for(int i=0;i<4;i++)
     {
       Relic relic=relics.get(i);
@@ -94,8 +90,6 @@ public class RelicsSetDisplayController
    */
   public void dispose()
   {
-    // Data
-    _relicsSet=null;
     // Controllers
     if (_controllers!=null)
     {
@@ -111,6 +105,5 @@ public class RelicsSetDisplayController
       _panel.removeAll();
       _panel=null;
     }
-    
   }
 }

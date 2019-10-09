@@ -22,7 +22,8 @@ public class MainTestRelicsSetDisplay
     LegendaryWeaponInstance weapon=(LegendaryWeaponInstance)item;
     LegendaryInstanceAttrs legendaryAttrs=weapon.getLegendaryAttributes();
     RelicsSet relics=legendaryAttrs.getRelicsSet();
-    RelicsSetDisplayController controller=new RelicsSetDisplayController(relics);
+    RelicsSetDisplayController controller=new RelicsSetDisplayController();
+    controller.setData(relics);
     JFrame frame=new JFrame();
     frame.add(controller.getPanel());
     frame.pack();
