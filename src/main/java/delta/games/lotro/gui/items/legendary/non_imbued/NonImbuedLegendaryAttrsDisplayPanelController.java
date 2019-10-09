@@ -144,4 +144,25 @@ public class NonImbuedLegendaryAttrsDisplayPanelController
     // Legacies
     fillLegaciesPanel(attrs);
   }
+
+  /**
+   * Release all managed resources.
+   */
+  public void dispose()
+  {
+    if (_panel!=null)
+    {
+      _panel.removeAll();
+      _panel=null;
+    }
+    _available=null;
+    _spent=null;
+    _level=null;
+    _upgrades=null;
+    if (_legaciesPanel!=null)
+    {
+      _legaciesPanel.removeAll();
+      _legaciesPanel=null;
+    }
+  }
 }
