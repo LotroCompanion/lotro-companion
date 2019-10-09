@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<item key="1879310386" name="Reshaped Minstrel's Songbook of the First Age" durability="76" instanceId="1867933382/50462730" crafterName="Toringe [M]" time="1570644519000">
+<legendary imbued="false">
+<passive id="1879148256"/>
+<passive id="1879148260"/>
+<nonImbued level="1" upgrades="0" pointsSpent="0" pointsLeft="0">
+<defaultLegacy id="1879175866" rank="192"/>
+<tieredLegacy index="0" id="1879146490" rank="47"/>
+<tieredLegacy index="1" id="1879142574" rank="181"/>
+<tieredLegacy index="2" id="1879176236" rank="47"/>
+</nonImbued>
+<imbued>
+<imbuedLegacy index="0" imbuedLegacyId="1879316193" xp="0" unlockedLevels="0"/>
+</imbued>
+</legendary>
+</item>
