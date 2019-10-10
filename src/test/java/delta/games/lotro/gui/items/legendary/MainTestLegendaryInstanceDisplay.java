@@ -17,8 +17,15 @@ public class MainTestLegendaryInstanceDisplay
 {
   private void doIt()
   {
-    // Build item instance
-    ItemInstance<? extends Item> item=ItemsTestUtils.loadItemInstance(LegendariesTestUtils.class,"CaptainEmblemSecondAge75NonImbued.xml");
+    doIt("toringeSongbook.xml");
+    doIt("CaptainEmblemSecondAge75NonImbued.xml");
+    doIt("CaptainGreatSwordFirstAgeImbued.xml");
+    doIt("HunterCrossbowFirstAgeImbued.xml");
+  }
+
+  private void doIt(String instanceName)
+  {
+    ItemInstance<? extends Item> item=ItemsTestUtils.loadItemInstance(LegendariesTestUtils.class,instanceName);
     LegendaryInstanceAttrs legendaryAttrs=LegendariesTestUtils.getLegendaryAttrs(item);
 
     // Build controller
@@ -30,6 +37,7 @@ public class MainTestLegendaryInstanceDisplay
 
     // Show window
     JFrame frame=new JFrame();
+    frame.setTitle(instanceName);
     frame.add(controller.getPanel());
     frame.pack();
     frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);

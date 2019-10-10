@@ -1,5 +1,6 @@
 package delta.games.lotro.gui.items.legendary;
 
+import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -12,11 +13,14 @@ import delta.common.ui.swing.labels.MultilineLabel2;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.common.effects.Effect;
 import delta.games.lotro.common.stats.StatsProvider;
+import delta.games.lotro.gui.items.legendary.imbued.ImbuedLegendaryAttrsDisplayPanelController;
 import delta.games.lotro.gui.items.legendary.non_imbued.NonImbuedLegendaryAttrsDisplayPanelController;
 import delta.games.lotro.gui.items.legendary.relics.RelicsSetDisplayController;
 import delta.games.lotro.gui.items.legendary.titles.LegendaryTitleDisplayPanelController;
 import delta.games.lotro.gui.utils.StatDisplayUtils;
 import delta.games.lotro.lore.items.legendary.LegendaryInstanceAttrs;
+import delta.games.lotro.lore.items.legendary.imbued.ImbuedLegacyInstance;
+import delta.games.lotro.lore.items.legendary.imbued.ImbuedLegendaryInstanceAttrs;
 import delta.games.lotro.lore.items.legendary.non_imbued.DefaultNonImbuedLegacy;
 import delta.games.lotro.lore.items.legendary.non_imbued.DefaultNonImbuedLegacyInstance;
 import delta.games.lotro.lore.items.legendary.non_imbued.NonImbuedLegendaryInstanceAttrs;
@@ -32,9 +36,11 @@ public class LegendaryInstanceDisplayPanelController
   private JPanel _panel;
   private MultilineLabel2 _passives;
   private MultilineLabel2 _defaultLegacyStats;
+  private JPanel _legacies;
   // Controllers
   private LegendaryTitleDisplayPanelController _title;
   private NonImbuedLegendaryAttrsDisplayPanelController _nonImbuedAttrs;
+  private ImbuedLegendaryAttrsDisplayPanelController _imbuedAttrs;
   private RelicsSetDisplayController _relics;
 
   /**
@@ -44,8 +50,10 @@ public class LegendaryInstanceDisplayPanelController
   {
     _passives=new MultilineLabel2();
     _defaultLegacyStats=new MultilineLabel2();
+    _legacies=GuiFactory.buildPanel(new BorderLayout());
     _title=new LegendaryTitleDisplayPanelController();
     _nonImbuedAttrs=new NonImbuedLegendaryAttrsDisplayPanelController();
+    _imbuedAttrs=new ImbuedLegendaryAttrsDisplayPanelController();
     _relics=new RelicsSetDisplayController();
     _panel=buildPanel();
   }
@@ -77,9 +85,8 @@ public class LegendaryInstanceDisplayPanelController
     ret.add(_defaultLegacyStats,c);
     y++;
     // Legacies
-    JPanel legaciesPanel=_nonImbuedAttrs.getPanel();
     c=new GridBagConstraints(0,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
-    ret.add(legaciesPanel,c);
+    ret.add(_legacies,c);
     y++;
     // Relics
     JPanel relicsPanel=_relics.getPanel();
@@ -107,6 +114,16 @@ public class LegendaryInstanceDisplayPanelController
     _defaultLegacyStats.setText(StatDisplayUtils.getStatsDisplayLines(defaultLegacyStats));
     // Legacies
     _nonImbuedAttrs.setData(attrs.getNonImbuedAttrs());
+    _imbuedAttrs.setData(attrs.getImbuedAttrs());
+    _legacies.removeAll();
+    if (attrs.isImbued())
+    {
+      _legacies.add(_imbuedAttrs.getPanel(),BorderLayout.CENTER);
+    }
+    else
+    {
+      _legacies.add(_nonImbuedAttrs.getPanel(),BorderLayout.CENTER);
+    }
     // Relics
     _relics.setData(attrs.getRelicsSet());
   }
@@ -126,12 +143,23 @@ public class LegendaryInstanceDisplayPanelController
 
   private BasicStatsSet getDefaultStats(LegendaryInstanceAttrs attrs)
   {
-    NonImbuedLegendaryInstanceAttrs nonImbuedAttrs=attrs.getNonImbuedAttrs();
-    DefaultNonImbuedLegacyInstance defaultLegacyInstance=nonImbuedAttrs.getDefaultLegacy();
-    DefaultNonImbuedLegacy defaultLegacy=defaultLegacyInstance.getLegacy();
-    StatsProvider statsProvider=defaultLegacy.getEffect().getStatsProvider();
-    int rank=defaultLegacyInstance.getRank();
-    BasicStatsSet ret=statsProvider.getStats(1,rank);
+    BasicStatsSet ret;
+    boolean isImbued=attrs.isImbued();
+    if (isImbued)
+    {
+      ImbuedLegendaryInstanceAttrs imbuedAttrs=attrs.getImbuedAttrs();
+      ImbuedLegacyInstance legacyInstance=imbuedAttrs.getMainLegacy();
+      ret=legacyInstance.getStats();
+    }
+    else
+    {
+      NonImbuedLegendaryInstanceAttrs nonImbuedAttrs=attrs.getNonImbuedAttrs();
+      DefaultNonImbuedLegacyInstance defaultLegacyInstance=nonImbuedAttrs.getDefaultLegacy();
+      DefaultNonImbuedLegacy defaultLegacy=defaultLegacyInstance.getLegacy();
+      StatsProvider statsProvider=defaultLegacy.getEffect().getStatsProvider();
+      int rank=defaultLegacyInstance.getRank();
+      ret=statsProvider.getStats(1,rank);
+    }
     return ret;
   }
 
@@ -147,6 +175,11 @@ public class LegendaryInstanceDisplayPanelController
     }
     _passives=null;
     _defaultLegacyStats=null;
+    if (_legacies!=null)
+    {
+      _legacies.removeAll();
+      _legacies=null;
+    }
     if (_title!=null)
     {
       _title.dispose();
@@ -156,6 +189,11 @@ public class LegendaryInstanceDisplayPanelController
     {
       _nonImbuedAttrs.dispose();
       _nonImbuedAttrs=null;
+    }
+    if (_imbuedAttrs!=null)
+    {
+      _imbuedAttrs.dispose();
+      _imbuedAttrs=null;
     }
     if (_relics!=null)
     {
