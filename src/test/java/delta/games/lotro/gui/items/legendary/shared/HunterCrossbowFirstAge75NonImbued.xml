@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<item key="1879219224" name="Reshaped Hunter's Crossbow of the First Age" level="86">
+<item key="1879219224" name="Reshaped Hunter's Crossbow of the First Age" level="86" instanceId="823191977/50855939" birthName="Katioucha" crafterName="Glumlug [M]" boundTo="UNKNOWN:2253734/34078720">
 <legendary name="Khazad's revenge" imbued="false">
 <nonImbued level="70" upgrades="1" pointsSpent="0" pointsLeft="830">
-<tieredLegacy id="1879142002" rank="47"/>
-<tieredLegacy id="1879141960" rank="47"/>
-<tieredLegacy id="1879141961" rank="47"/>
-<tieredLegacy id="1879146428" rank="72"/>
-<tieredLegacy id="1879141976" rank="47"/>
-<tieredLegacy id="1879141978" rank="47"/>
+<defaultLegacy rank="83"/>
+<tieredLegacy index="0" id="1879142002" rank="47"/>
+<tieredLegacy index="1" id="1879141960" rank="47"/>
+<tieredLegacy index="2" id="1879141961" rank="47"/>
+<tieredLegacy index="3" id="1879146428" rank="72"/>
+<tieredLegacy index="4" id="1879141976" rank="47"/>
+<tieredLegacy index="5" id="1879141978" rank="47"/>
 </nonImbued>
+<imbued/>
 <relic id="1879205231" type="SETTING" name="Gold Setting of Morale"/>
 <relic id="1879205222" type="GEM" name="Moonstone Gem of Endurance"/>
 <relic id="1879205200" type="RUNE" name="Ancient Rune of Deflection"/>

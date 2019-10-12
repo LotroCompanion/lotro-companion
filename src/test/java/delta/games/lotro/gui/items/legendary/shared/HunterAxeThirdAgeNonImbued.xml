@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?><item key="1879213368" name="Hunter's Axe of the Third Age" level="192" minLevel="100" instanceId="1527936418/50987015" boundTo="UNKNOWN:2253734/34078720">
+<legendary>
+<nonImbued level="53" upgrades="0" pointsSpent="0" pointsLeft="534">
+<defaultLegacy rank="189"/>
+<tieredLegacy index="0" id="1879146612" rank="47"/>
+<tieredLegacy index="1" id="1879141896" rank="47"/>
+<tieredLegacy index="2" id="1879174247" rank="47"/>
+<tieredLegacy index="3" id="1879146439" rank="47"/>
+<tieredLegacy index="4" id="1879141899" rank="177"/>
+<tieredLegacy index="5" id="1879141921" rank="177"/>
+</nonImbued>
+<imbued/>
+</legendary>
+<money gold="0" silver="28" copper="38"/>
+</item>

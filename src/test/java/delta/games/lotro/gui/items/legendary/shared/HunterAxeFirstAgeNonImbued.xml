@@ -2,13 +2,13 @@
 <item key="1879311761" name="Reshaped Hunter's Axe of the First Age" instanceId="934317080/50987015" birthName="Slash Them All" crafterName="Giswald [M]" boundTo="UNKNOWN:2253734/34078720" time="1564591197000">
 <legendary imbued="false">
 <nonImbued level="60" upgrades="0" pointsSpent="710" pointsLeft="0">
-<defaultLegacy rank="0"/>
-<tieredLegacy id="1879174297" rank="55"/>
-<tieredLegacy id="1879141870" rank="185"/>
-<tieredLegacy id="1879146600" rank="47"/>
-<tieredLegacy id="1879174244" rank="55"/>
-<tieredLegacy id="1879141888" rank="47"/>
-<tieredLegacy id="1879174218" rank="78"/>
+<defaultLegacy/>
+<tieredLegacy index="0" id="1879174297" rank="55"/>
+<tieredLegacy index="1" id="1879141870" rank="185"/>
+<tieredLegacy index="2" id="1879146600" rank="47"/>
+<tieredLegacy index="3" id="1879174244" rank="55"/>
+<tieredLegacy index="4" id="1879141888" rank="47"/>
+<tieredLegacy index="5" id="1879174218" rank="78"/>
 </nonImbued>
 <relic id="1879351082" type="GEM" name="Last Alliance Gem of Agility"/>
 <relic id="1879350989" type="RUNE" name="Last Alliance Rune of Force"/>

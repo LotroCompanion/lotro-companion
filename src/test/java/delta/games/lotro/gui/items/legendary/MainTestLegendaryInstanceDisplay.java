@@ -3,6 +3,8 @@ package delta.games.lotro.gui.items.legendary;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
+import org.apache.log4j.Logger;
+
 import delta.games.lotro.gui.items.ItemsTestUtils;
 import delta.games.lotro.gui.items.legendary.shared.LegendariesTestUtils;
 import delta.games.lotro.lore.items.Item;
@@ -15,12 +17,21 @@ import delta.games.lotro.lore.items.legendary.LegendaryInstanceAttrs;
  */
 public class MainTestLegendaryInstanceDisplay
 {
+  private static final Logger LOGGER=Logger.getLogger(MainTestLegendaryInstanceDisplay.class);
+
   private void doIt()
   {
-    doIt("toringeSongbook.xml");
-    doIt("CaptainEmblemSecondAge75NonImbued.xml");
-    doIt("CaptainGreatSwordFirstAgeImbued.xml");
-    doIt("HunterCrossbowFirstAgeImbued.xml");
+    for(String sample : LegendariesTestUtils.TEST_SAMPLES)
+    {
+      try
+      {
+        doIt(sample);
+      }
+      catch(Throwable t)
+      {
+        LOGGER.error("Failed to handle sample: "+sample,t);
+      }
+    }
   }
 
   private void doIt(String instanceName)
@@ -40,7 +51,7 @@ public class MainTestLegendaryInstanceDisplay
     frame.setTitle(instanceName);
     frame.add(controller.getPanel());
     frame.pack();
-    frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+    frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     frame.setVisible(true);
   }
 

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?><item key="1879310418" name="Reshaped Lore-master's Book of the First Age" durability="71" instanceId="580696772/50987014" birthName="Small Yellow Book" crafterName="Utharr [Mv]" boundTo="UNKNOWN:2968575/34078720">
+<legendary imbued="true">
+<passive id="1879148325"/>
+<passive id="1879148331"/>
+<nonImbued level="70" upgrades="0" pointsSpent="0" pointsLeft="0">
+<defaultLegacy rank="0"/>
+</nonImbued>
+<imbued>
+<imbuedLegacy index="0" imbuedLegacyId="1879316201" xp="982010" unlockedLevels="4"/>
+<imbuedLegacy index="1" imbuedLegacyId="1879321331" xp="948794" unlockedLevels="24"/>
+<imbuedLegacy index="2" imbuedLegacyId="1879321311" xp="947789" unlockedLevels="2"/>
+<imbuedLegacy index="3" imbuedLegacyId="1879321305" xp="947789" unlockedLevels="3"/>
+<imbuedLegacy index="4" imbuedLegacyId="1879321320" xp="947789" unlockedLevels="9"/>
+<imbuedLegacy index="5" imbuedLegacyId="1879321307" xp="947789" unlockedLevels="4"/>
+<imbuedLegacy index="6" imbuedLegacyId="1879321279" xp="947789" unlockedLevels="6"/>
+<imbuedLegacy index="7" imbuedLegacyId="1879321295" xp="945746" unlockedLevels="6"/>
+</imbued>
+<relic id="1879278152" type="CRAFTED_RELIC" name="Westemnet Device of Tactics"/>
+</legendary>
+</item>

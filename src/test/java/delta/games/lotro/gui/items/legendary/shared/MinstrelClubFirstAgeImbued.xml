@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?><item key="1879311750" name="Reshaped Minstrel's Club of the First Age" instanceId="1989378751/50855940" crafterName="Feroce [M]" boundTo="UNKNOWN:2475241/34078720">
+<legendary name="Perfect Pitch" titleId="1879232157" imbued="true">
+<nonImbued level="70" upgrades="0" pointsSpent="0" pointsLeft="0">
+<defaultLegacy rank="0"/>
+</nonImbued>
+<imbued>
+<imbuedLegacy index="0" imbuedLegacyId="1879316199" xp="993439" unlockedLevels="4"/>
+<imbuedLegacy index="1" imbuedLegacyId="1879321380" xp="1743357" unlockedLevels="20"/>
+<imbuedLegacy index="2" imbuedLegacyId="1879321384" xp="1743357" unlockedLevels="20"/>
+<imbuedLegacy index="3" imbuedLegacyId="1879321383" xp="1743357" unlockedLevels="20"/>
+<imbuedLegacy index="4" imbuedLegacyId="1879321373" xp="1803357" unlockedLevels="22"/>
+<imbuedLegacy index="5" imbuedLegacyId="1879323860" xp="1743357" unlockedLevels="20"/>
+<imbuedLegacy index="6" imbuedLegacyId="1879321369" xp="1443357" unlockedLevels="10"/>
+<imbuedLegacy index="7" imbuedLegacyId="1879321377" xp="1443347" unlockedLevels="10"/>
+</imbued>
+<relic id="1879350997" type="SETTING" name="Last Alliance Setting of Finesse"/>
+<relic id="1879350990" type="GEM" name="Last Alliance Gem of Will"/>
+<relic id="1879350995" type="RUNE" name="Last Alliance Rune of Power"/>
+<relic id="1879278152" type="CRAFTED_RELIC" name="Westemnet Device of Tactics"/>
+</legendary>
+</item>

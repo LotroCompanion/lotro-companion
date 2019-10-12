@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<item key="1879245544" name="Reforged Rune-keeper's Rune-satchel of the Second Age" instanceId="-1465042843/50855939" birthName="Magic Bag" crafterName="Kargarth [M]" boundTo="UNKNOWN:2703132/34078720">
+<legendary titleId="1879227109">
+<passive id="1879148265"/>
+<nonImbued level="70" upgrades="0" pointsSpent="740" pointsLeft="10">
+<defaultLegacy id="1879175749" rank="96"/>
+<tieredLegacy index="0" id="1879147556" rank="55"/>
+<tieredLegacy index="1" id="1879142859" rank="90"/>
+<tieredLegacy index="2" id="1879147557" rank="55"/>
+<tieredLegacy index="3" id="1879147696" rank="55"/>
+<tieredLegacy index="4" id="1879147555" rank="55"/>
+<tieredLegacy index="5" id="1879147610" rank="52"/>
+</nonImbued>
+<imbued/>
+<relic id="1879250074" type="SETTING" name="True Setting of the North"/>
+<relic id="1879262327" type="GEM" name="Wildermore Gem of Charity"/>
+<relic id="1879262643" type="RUNE" name="True Rune of the Swift-light"/>
+<relic id="1879249610" type="CRAFTED_RELIC" name="Eastemnet Device of Tactics"/>
+</legendary>
+</item>

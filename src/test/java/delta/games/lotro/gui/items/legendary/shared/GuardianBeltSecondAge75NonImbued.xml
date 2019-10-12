@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<item key="1879219070" name="Reforged Guardian's Belt of the Second Age" instanceId="252584980/50855939" birthName="Cherub Rock" crafterName="Isabaeux [Fv]" boundTo="UNKNOWN:2498151/34078720">
+<legendary name="Hell belt">
+<passive id="1879148313"/>
+<nonImbued level="70" upgrades="0" pointsSpent="747" pointsLeft="3">
+<defaultLegacy id="1879175066" rank="76"/>
+<tieredLegacy index="0" id="1879142386" rank="55"/>
+<tieredLegacy index="1" id="1879142365" rank="73"/>
+<tieredLegacy index="2" id="1879142357" rank="47"/>
+<tieredLegacy index="3" id="1879142369" rank="49"/>
+<tieredLegacy index="4" id="1879146290" rank="55"/>
+<tieredLegacy index="5" id="1879148556" rank="63"/>
+</nonImbued>
+<imbued/>
+<relic id="1879219321" type="SETTING" name="Westfold Setting of Stability"/>
+<relic id="1879219326" type="GEM" name="Westfold Gem of Hope"/>
+<relic id="1879219292" type="RUNE" name="Mysterious Rune of Defence"/>
+<relic id="1879229893" type="CRAFTED_RELIC" name="Westfold Device of Vitality"/>
+</legendary>
+</item>

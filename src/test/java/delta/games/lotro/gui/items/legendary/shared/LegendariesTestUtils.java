@@ -13,6 +13,24 @@ import delta.games.lotro.lore.items.legendary.LegendaryInstanceAttrs;
 public class LegendariesTestUtils
 {
   /**
+   * Test samples.
+   */
+  public static final String[] TEST_SAMPLES=
+  {
+    "CaptainEmblemSecondAge75NonImbued.xml",
+    "CaptainGreatSwordFirstAgeImbued.xml",
+    "GuardianBeltSecondAge75NonImbued.xml",
+    "HunterAxeFirstAgeNonImbued.xml",
+    "HunterAxeThirdAgeNonImbued.xml",
+    "HunterCrossbowFirstAge75NonImbued.xml",
+    "HunterCrossbowFirstAgeImbued.xml",
+    "LoreMasterBookFirstAgeImbued.xml",
+    "MinstrelClubFirstAgeImbued.xml",
+    "RuneKeeperSatchelSecondAge85NonImbued.xml",
+    "toringeSongbook.xml"
+  };
+
+  /**
    * Load an item instance for tests.
    * @param name Name of the test file.
    * @return the loaded item instance.
