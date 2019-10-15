@@ -15,18 +15,20 @@ import delta.common.ui.swing.text.dates.DateCodec;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.common.colors.ColorDescription;
+import delta.games.lotro.common.id.ItemInstanceId;
 import delta.games.lotro.common.money.Money;
 import delta.games.lotro.common.stats.WellKnownStat;
 import delta.games.lotro.gui.LotroIconsManager;
-import delta.games.lotro.gui.common.id.ItemInstanceIdEditionPanelController;
 import delta.games.lotro.gui.common.money.MoneyDisplayController;
 import delta.games.lotro.lore.items.Armour;
 import delta.games.lotro.lore.items.ArmourInstance;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemInstance;
 import delta.games.lotro.lore.items.ItemPropertyNames;
+import delta.games.lotro.lore.items.ItemSturdiness;
 import delta.games.lotro.utils.DateFormat;
 import delta.games.lotro.utils.FixedDecimalsInteger;
+import delta.games.lotro.utils.gui.HtmlUtils;
 
 /**
  * Controller for an item instance edition panel.
@@ -43,7 +45,7 @@ public class ItemInstanceDisplayPanelController
   private JLabel _icon;
   private JLabel _name;
   // - Instance ID
-  private ItemInstanceIdEditionPanelController _instanceId;
+  private JLabel _instanceId;
   // - Validity date
   private JLabel _date;
   // - Birth name
@@ -52,6 +54,8 @@ public class ItemInstanceDisplayPanelController
   private JLabel _crafterName;
   // - Durability
   private JLabel _durability;
+  // - Sturdiness
+  private JLabel _sturdiness;
   // - Item level
   private JLabel _itemLevel;
   // - Min level
@@ -62,6 +66,8 @@ public class ItemInstanceDisplayPanelController
   private JLabel _color;
   // - Bound to
   // TODO
+  // - Description
+  private JLabel _description;
   // - User comments
   private JLabel _userComments;
 
@@ -115,7 +121,7 @@ public class ItemInstanceDisplayPanelController
     _name=GuiFactory.buildLabel("");
     _name.setFont(_name.getFont().deriveFont(16f).deriveFont(Font.BOLD));
     // - Instance ID
-    _instanceId=new ItemInstanceIdEditionPanelController();
+    _instanceId=GuiFactory.buildLabel("");
     // Validity date
     _date=GuiFactory.buildLabel("");
     // Birth name
@@ -124,6 +130,8 @@ public class ItemInstanceDisplayPanelController
     _crafterName=GuiFactory.buildLabel("");
     // - Durability
     _durability=GuiFactory.buildLabel("");
+    // - Sturdiness
+    _sturdiness=GuiFactory.buildLabel("");
     // - Item level
     _itemLevel=GuiFactory.buildLabel("");
     // - Min level
@@ -134,6 +142,8 @@ public class ItemInstanceDisplayPanelController
     _color=GuiFactory.buildLabel("");
     // - Bound to
     // TODO
+    // - Description
+    _description=GuiFactory.buildLabel("");
     // - User comments
     _userComments=GuiFactory.buildLabel("");
 
@@ -174,7 +184,7 @@ public class ItemInstanceDisplayPanelController
       c.gridy++;
       // ID
       panelLine.add(GuiFactory.buildLabel("ID:"));
-      panelLine.add(_instanceId.getPanel());
+      panelLine.add(_instanceId);
       // Date
       panelLine.add(GuiFactory.buildLabel("Date:"));
       panelLine.add(_date);
@@ -211,6 +221,8 @@ public class ItemInstanceDisplayPanelController
       // Durability
       panelLine.add(GuiFactory.buildLabel("Durability:"));
       panelLine.add(_durability);
+      // Sturdiness
+      panelLine.add(_sturdiness);
     }
     // Color and value line
     {
@@ -232,6 +244,13 @@ public class ItemInstanceDisplayPanelController
       // Armour value
       _armourPanel.add(GuiFactory.buildLabel("Armour:"));
       _armourPanel.add(_armourValue);
+    }
+    // Description
+    {
+      JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
+      panel.add(panelLine,c);
+      c.gridy++;
+      panelLine.add(_description);
     }
     // User comments
     {
@@ -271,7 +290,9 @@ public class ItemInstanceDisplayPanelController
     // - name
     _name.setText(name);
     // - Instance ID
-    _instanceId.setInstanceId(_itemInstance.getInstanceId());
+    ItemInstanceId instanceId=_itemInstance.getInstanceId();
+    String instanceIdStr=(instanceId!=null)?instanceId.asSingleHexString():"-";
+    _instanceId.setText(instanceIdStr);
     // Validity date
     String validityDateStr="-";
     Long time=_itemInstance.getTime();
@@ -300,6 +321,9 @@ public class ItemInstanceDisplayPanelController
     // - Durability
     String durabilityStr=getDurabilityLabel();
     _durability.setText(durabilityStr);
+    // - Sturdiness
+    String sturdiness=getSturdinessLabel();
+    _sturdiness.setText(sturdiness);
     // - Item level
     Integer itemLevel=_itemInstance.getEffectiveItemLevel();
     String itemLevelStr=(itemLevel!=null)?itemLevel.toString():"-";
@@ -317,6 +341,17 @@ public class ItemInstanceDisplayPanelController
     ColorDescription color=_itemInstance.getColor();
     _color.setText(color!=null?color.getName():"-");
     // - Bound to
+    // Description
+    String description=item.getDescription();
+    if (description.length()>0)
+    {
+      String html="<html>"+HtmlUtils.toHtml(description)+"</html>";
+      _description.setText(html);
+    }
+    else
+    {
+      _description.setText("");
+    }
     // TODO
     // - User comments
     String userComments=_itemInstance.getProperty(ItemPropertyNames.USER_COMMENT);
@@ -339,6 +374,19 @@ public class ItemInstanceDisplayPanelController
       }
     }
     return durabilityStr;
+  }
+
+  private String getSturdinessLabel()
+  {
+    String ret="";
+    Item reference=_itemInstance.getReference();
+    ItemSturdiness sturdiness=reference.getSturdiness();
+    String label=(sturdiness!=null)?sturdiness.getLabel():null;
+    if (label!=null)
+    {
+      ret="("+label+")";
+    }
+    return ret;
   }
 
   private void setStats(BasicStatsSet stats)
@@ -372,11 +420,7 @@ public class ItemInstanceDisplayPanelController
     _icon=null;
     _name=null;
     // - Instance ID
-    if (_instanceId!=null)
-    {
-      _instanceId.dispose();
-      _instanceId=null;
-    }
+    _instanceId=null;
     // - Validity date
     _date=null;
     // - Birth name
@@ -385,6 +429,8 @@ public class ItemInstanceDisplayPanelController
     _crafterName=null;
     // - Durability
     _durability=null;
+    // - Sturdiness
+    _sturdiness=null;
     // - Item level
     _itemLevel=null;
     // - Min level
@@ -399,6 +445,8 @@ public class ItemInstanceDisplayPanelController
     _color=null;
     // - Bound to
     // TODO
+    // - Description
+    _description=null;
     // - User comments
     _userComments=null;
 
