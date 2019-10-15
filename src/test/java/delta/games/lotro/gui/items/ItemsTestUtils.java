@@ -20,6 +20,18 @@ public class ItemsTestUtils
   private static final Logger LOGGER=Logger.getLogger(ItemsTestUtils.class);
 
   /**
+   * Test samples.
+   */
+  public static final String[] TEST_SAMPLES=
+  {
+    "dyed helm.xml",
+    "helm-thorin.xml",
+    "indigo dyed gauntlets.xml",
+    "orange dye.xml",
+    "colored description.xml"
+  };
+
+  /**
    * Load an item instance for tests.
    * @param baseClass Reference class to find the test file.
    * @param name Name of the test file.

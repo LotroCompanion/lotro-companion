@@ -19,11 +19,26 @@ public class MainTestItemInstanceDisplay
 
   private void doIt()
   {
+    // Regular
+    for(String sample : ItemsTestUtils.TEST_SAMPLES)
+    {
+      try
+      {
+        ItemInstance<? extends Item> itemInstance=ItemsTestUtils.loadItemInstance(ItemsTestUtils.class,"samples/"+sample);
+        doItem(sample,itemInstance);
+      }
+      catch(Throwable t)
+      {
+        LOGGER.error("Failed to handle sample: "+sample,t);
+      }
+    }
+    // Legendaries
     for(String sample : LegendariesTestUtils.TEST_SAMPLES)
     {
       try
       {
-        doIt(sample);
+        ItemInstance<? extends Item> itemInstance=ItemsTestUtils.loadItemInstance(LegendariesTestUtils.class,sample);
+        doItem(sample,itemInstance);
       }
       catch(Throwable t)
       {
@@ -32,10 +47,8 @@ public class MainTestItemInstanceDisplay
     }
   }
 
-  private void doIt(String instanceName)
+  private void doItem(String instanceName, ItemInstance<? extends Item> itemInstance)
   {
-    ItemInstance<? extends Item> itemInstance=ItemsTestUtils.loadItemInstance(LegendariesTestUtils.class,instanceName);
-
     // Build controller
     ItemInstanceDisplayPanelController controller=new ItemInstanceDisplayPanelController(null,itemInstance);
 
