@@ -28,8 +28,11 @@ public class NonImbuedLegendaryAttrsDisplayPanelController
   private JLabel _spent;
   private JLabel _level;
   private JLabel _upgrades;
+  // Infos
+  private JPanel _infosPanel;
   // Legacies
   private JPanel _legaciesPanel;
+  private JPanel _legaciesDisplayPanel;
 
   /**
    * Constructor.
@@ -40,62 +43,66 @@ public class NonImbuedLegendaryAttrsDisplayPanelController
     _spent=GuiFactory.buildLabel("");
     _level=GuiFactory.buildLabel("");
     _upgrades=GuiFactory.buildLabel("");
-    _legaciesPanel=GuiFactory.buildPanel(new GridBagLayout());
-    _panel=buildPanel();
+    _infosPanel=buildInfoPanel();
+    _legaciesPanel=buildLegaciesPanel();
   }
 
   /**
-   * Get the managed panel.
-   * @return the managed panel.
+   * Get the infos panel.
+   * @return the infos panel.
    */
-  public JPanel getPanel()
+  public JPanel getInfosPanel()
   {
-    return _panel;
+    return _infosPanel;
   }
 
-  private JPanel buildPanel()
+  /**
+   * Get the legacies panel.
+   * @return the legacies panel.
+   */
+  public JPanel getLegaciesPanel()
   {
-    JPanel ret=GuiFactory.buildPanel(new BorderLayout());
-    // Info
-    JPanel infoPanel=buildInfoPanel();
-    ret.add(infoPanel,BorderLayout.NORTH);
-    // Legacies
-    ret.add(_legaciesPanel,BorderLayout.SOUTH);
-    return ret;
+    return _legaciesPanel;
   }
 
   private JPanel buildInfoPanel()
   {
-    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
-    GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
-
-    // Line 1: level and upgrades
-    JPanel line1Panel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
+    // Level and upgrades
+    JPanel ret=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
     // - level
-    line1Panel.add(GuiFactory.buildLabel("Level:"));
-    line1Panel.add(_level);
+    ret.add(GuiFactory.buildLabel("Level:"));
+    ret.add(_level);
     // - upgrades
-    line1Panel.add(GuiFactory.buildLabel("Upgrades:"));
-    line1Panel.add(_upgrades);
-    panel.add(line1Panel,c);
-    c.gridy++;
+    ret.add(GuiFactory.buildLabel("Upgrades:"));
+    ret.add(_upgrades);
+    return ret;
+  }
 
-    // Line 2: points
-    JPanel line2Panel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
-    // - available
-    line2Panel.add(GuiFactory.buildLabel("Available:"));
-    line2Panel.add(_available);
-    // - spent
-    line2Panel.add(GuiFactory.buildLabel("Spent:"));
-    line2Panel.add(_spent);
-    panel.add(line2Panel,c);
-    c.gridy++;
+  private JPanel buildLegaciesPanel()
+  {
+    JPanel panel=GuiFactory.buildPanel(new BorderLayout());
+    JPanel pointsPanel=buildPointsPanel();
+    panel.add(pointsPanel,BorderLayout.NORTH);
+    _legaciesDisplayPanel=GuiFactory.buildPanel(new GridBagLayout());
+    panel.add(_legaciesDisplayPanel,BorderLayout.CENTER);
     return panel;
+  }
+
+  private JPanel buildPointsPanel()
+  {
+    JPanel ret=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
+    // - available
+    ret.add(GuiFactory.buildLabel("Points: Available:"));
+    ret.add(_available);
+    // - spent
+    ret.add(GuiFactory.buildLabel(" / Spent:"));
+    ret.add(_spent);
+    return ret;
   }
 
   private void fillLegaciesPanel(NonImbuedLegendaryInstanceAttrs attrs)
   {
-    _legaciesPanel.removeAll();
+    _legaciesDisplayPanel.removeAll();
     // Legacies
     int lineIndex=0;
     List<TieredNonImbuedLegacyInstance> legacies=attrs.getLegacies();
@@ -109,15 +116,15 @@ public class NonImbuedLegendaryAttrsDisplayPanelController
         // Icon
         JLabel icon=legacyGadgets.getIcon();
         GridBagConstraints c=new GridBagConstraints(0,lineIndex,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,5,2,0),0,0);
-        _legaciesPanel.add(icon,c);
+        _legaciesDisplayPanel.add(icon,c);
         // Rank
         JLabel rank=legacyGadgets.getRankGadget();
         c=new GridBagConstraints(1,lineIndex,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,2,0,5),0,0);
-        _legaciesPanel.add(rank,c);
+        _legaciesDisplayPanel.add(rank,c);
         // Stats
         MultilineLabel2 stats=legacyGadgets.getStatsGadget();
         c=new GridBagConstraints(2,lineIndex,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
-        _legaciesPanel.add(stats,c);
+        _legaciesDisplayPanel.add(stats,c);
         lineIndex++;
       }
     }
@@ -159,10 +166,20 @@ public class NonImbuedLegendaryAttrsDisplayPanelController
     _spent=null;
     _level=null;
     _upgrades=null;
+    if (_infosPanel!=null)
+    {
+      _infosPanel.removeAll();
+      _infosPanel=null;
+    }
     if (_legaciesPanel!=null)
     {
       _legaciesPanel.removeAll();
       _legaciesPanel=null;
+    }
+    if (_legaciesDisplayPanel!=null)
+    {
+      _legaciesDisplayPanel.removeAll();
+      _legaciesDisplayPanel=null;
     }
   }
 }

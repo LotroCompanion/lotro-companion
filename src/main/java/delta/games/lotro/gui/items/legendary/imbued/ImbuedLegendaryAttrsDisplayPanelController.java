@@ -79,7 +79,7 @@ public class ImbuedLegendaryAttrsDisplayPanelController
     _legaciesPanel.removeAll();
     // Legacies
     int lineIndex=0;
-    List<ImbuedLegacyInstance> legacyInstances=attrs.getLegacies();
+    List<ImbuedLegacyInstance> legacyInstances=attrs.getStandardLegacies();
     for(ImbuedLegacyInstance legacyInstance : legacyInstances)
     {
       ImbuedLegacy legacy=legacyInstance.getLegacy();

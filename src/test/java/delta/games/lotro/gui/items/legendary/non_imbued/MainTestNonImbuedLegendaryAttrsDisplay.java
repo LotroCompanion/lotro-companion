@@ -24,7 +24,7 @@ public class MainTestNonImbuedLegendaryAttrsDisplay
     NonImbuedLegendaryAttrsDisplayPanelController controller=new NonImbuedLegendaryAttrsDisplayPanelController();
     controller.setData(nonImbuedAttrs);
     JFrame frame=new JFrame();
-    frame.add(controller.getPanel());
+    frame.add(controller.getLegaciesPanel());
     frame.pack();
     frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     frame.setVisible(true);

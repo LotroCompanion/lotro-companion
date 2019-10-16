@@ -6,6 +6,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.util.List;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
@@ -34,6 +35,7 @@ public class LegendaryInstanceDisplayPanelController
 {
   // UI
   private JPanel _panel;
+  private JLabel _name;
   private MultilineLabel2 _passives;
   private MultilineLabel2 _defaultLegacyStats;
   private JPanel _legacies;
@@ -48,13 +50,18 @@ public class LegendaryInstanceDisplayPanelController
    */
   public LegendaryInstanceDisplayPanelController()
   {
+    _name=GuiFactory.buildLabel("");
     _passives=new MultilineLabel2();
+    _passives.setBorder(GuiFactory.buildTitledBorder("Passives"));
     _defaultLegacyStats=new MultilineLabel2();
     _legacies=GuiFactory.buildPanel(new BorderLayout());
+    _legacies.setBorder(GuiFactory.buildTitledBorder("Legacies"));
     _title=new LegendaryTitleDisplayPanelController();
+    _title.getPanel().setBorder(GuiFactory.buildTitledBorder("Title"));
     _nonImbuedAttrs=new NonImbuedLegendaryAttrsDisplayPanelController();
     _imbuedAttrs=new ImbuedLegendaryAttrsDisplayPanelController();
     _relics=new RelicsSetDisplayController();
+    _relics.getPanel().setBorder(GuiFactory.buildTitledBorder("Relics"));
     _panel=buildPanel();
   }
 
@@ -71,18 +78,26 @@ public class LegendaryInstanceDisplayPanelController
   {
     JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
     int y=0;
-    // Title
-    JPanel titlePanel=_title.getPanel();
+    // Name
     GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,5,0,0),0,0);
-    ret.add(titlePanel,c);
-    y++;
-    // Passives
-    c=new GridBagConstraints(0,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,5,0,0),0,0);
-    ret.add(_passives,c);
+    ret.add(_name,c);
     y++;
     // Default legacy stats
     c=new GridBagConstraints(0,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,5,0,0),0,0);
     ret.add(_defaultLegacyStats,c);
+    y++;
+    // Info panel
+    c=new GridBagConstraints(0,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    ret.add(_nonImbuedAttrs.getInfosPanel(),c);
+    y++;
+    // Title
+    JPanel titlePanel=_title.getPanel();
+    c=new GridBagConstraints(0,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    ret.add(titlePanel,c);
+    y++;
+    // Passives
+    c=new GridBagConstraints(0,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    ret.add(_passives,c);
     y++;
     // Legacies
     c=new GridBagConstraints(0,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
@@ -103,15 +118,23 @@ public class LegendaryInstanceDisplayPanelController
    */
   public void setData(int itemLevel, LegendaryInstanceAttrs attrs)
   {
-    // Title
-    LegendaryTitle title=attrs.getTitle();
-    _title.setData(title);
-    // Passives
-    BasicStatsSet passives=getPassives(itemLevel,attrs);
-    _passives.setText(StatDisplayUtils.getStatsDisplayLines(passives));
+    // Name
+    String name=attrs.getLegendaryName();
+    _name.setText(name);
+    _name.setVisible(name.length()>0);
     // Default legacy stats
     BasicStatsSet defaultLegacyStats=getDefaultStats(attrs);
     _defaultLegacyStats.setText(StatDisplayUtils.getStatsDisplayLines(defaultLegacyStats));
+    // Info panel
+    _nonImbuedAttrs.getInfosPanel().setVisible(!attrs.isImbued());
+    // Title
+    LegendaryTitle title=attrs.getTitle();
+    _title.setData(title);
+    _title.getPanel().setVisible(title!=null);
+    // Passives
+    BasicStatsSet passives=getPassives(itemLevel,attrs);
+    _passives.setText(StatDisplayUtils.getStatsDisplayLines(passives));
+    _passives.setVisible(passives.getStatsCount()>0);
     // Legacies
     _nonImbuedAttrs.setData(attrs.getNonImbuedAttrs());
     _imbuedAttrs.setData(attrs.getImbuedAttrs());
@@ -122,7 +145,7 @@ public class LegendaryInstanceDisplayPanelController
     }
     else
     {
-      _legacies.add(_nonImbuedAttrs.getPanel(),BorderLayout.CENTER);
+      _legacies.add(_nonImbuedAttrs.getLegaciesPanel(),BorderLayout.CENTER);
     }
     // Relics
     _relics.setData(attrs.getRelicsSet());
