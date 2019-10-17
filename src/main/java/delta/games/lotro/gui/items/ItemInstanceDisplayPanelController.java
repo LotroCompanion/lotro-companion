@@ -11,6 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.form.LabeledComponent;
 import delta.common.ui.swing.text.dates.DateCodec;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.stats.BasicStatsSet;
@@ -45,13 +46,13 @@ public class ItemInstanceDisplayPanelController
   private JLabel _icon;
   private JLabel _name;
   // - Instance ID
-  private JLabel _instanceId;
+  private LabeledComponent<JLabel> _instanceId;
   // - Validity date
-  private JLabel _date;
+  private LabeledComponent<JLabel> _date;
   // - Birth name
-  private JLabel _birthName;
+  private LabeledComponent<JLabel> _birthName;
   // - Crafter name
-  private JLabel _crafterName;
+  private LabeledComponent<JLabel> _crafterName;
   // - Durability
   private JLabel _durability;
   // - Sturdiness
@@ -63,13 +64,13 @@ public class ItemInstanceDisplayPanelController
   // - Value
   private MoneyDisplayController _value;
   // - Color => only for armours?
-  private JLabel _color;
+  private LabeledComponent<JLabel> _color;
   // - Bound to
   // TODO
   // - Description
   private JLabel _description;
   // - User comments
-  private JLabel _userComments;
+  private LabeledComponent<JLabel> _userComments;
 
   // Armour specifics
   private JPanel _armourPanel;
@@ -121,13 +122,13 @@ public class ItemInstanceDisplayPanelController
     _name=GuiFactory.buildLabel("");
     _name.setFont(_name.getFont().deriveFont(16f).deriveFont(Font.BOLD));
     // - Instance ID
-    _instanceId=GuiFactory.buildLabel("");
+    _instanceId=new LabeledComponent<JLabel>("ID:",GuiFactory.buildLabel(""));
     // Validity date
-    _date=GuiFactory.buildLabel("");
+    _date=new LabeledComponent<JLabel>("Date:",GuiFactory.buildLabel(""));
     // Birth name
-    _birthName=GuiFactory.buildLabel("");
+    _birthName=new LabeledComponent<JLabel>("Name:",GuiFactory.buildLabel(""));
     // Crafter name
-    _crafterName=GuiFactory.buildLabel("");
+    _crafterName=new LabeledComponent<JLabel>("Crafter:",GuiFactory.buildLabel(""));
     // - Durability
     _durability=GuiFactory.buildLabel("");
     // - Sturdiness
@@ -139,13 +140,13 @@ public class ItemInstanceDisplayPanelController
     // - Value
     _value=new MoneyDisplayController();
     // - Color
-    _color=GuiFactory.buildLabel("");
+    _color=new LabeledComponent<JLabel>("Color:",GuiFactory.buildLabel(""));
     // - Bound to
     // TODO
     // - Description
     _description=GuiFactory.buildLabel("");
     // - User comments
-    _userComments=GuiFactory.buildLabel("");
+    _userComments=new LabeledComponent<JLabel>("Comments:",GuiFactory.buildLabel(""));
 
     // Armour specifics
     if (_itemInstance instanceof ArmourInstance)
@@ -183,11 +184,11 @@ public class ItemInstanceDisplayPanelController
       panel.add(panelLine,c);
       c.gridy++;
       // ID
-      panelLine.add(GuiFactory.buildLabel("ID:"));
-      panelLine.add(_instanceId);
+      panelLine.add(_instanceId.getLabel());
+      panelLine.add(_instanceId.getComponent());
       // Date
-      panelLine.add(GuiFactory.buildLabel("Date:"));
-      panelLine.add(_date);
+      panelLine.add(_date.getLabel());
+      panelLine.add(_date.getComponent());
     }
     // Birth line: birth name and crafter name
     {
@@ -195,11 +196,11 @@ public class ItemInstanceDisplayPanelController
       panel.add(panelLine,c);
       c.gridy++;
       // Birth name
-      panelLine.add(GuiFactory.buildLabel("Name:"));
-      panelLine.add(_birthName);
+      panelLine.add(_birthName.getLabel());
+      panelLine.add(_birthName.getComponent());
       // Crafter name
-      panelLine.add(GuiFactory.buildLabel("Crafter:"));
-      panelLine.add(_crafterName);
+      panelLine.add(_crafterName.getLabel());
+      panelLine.add(_crafterName.getComponent());
     }
     // Level line
     {
@@ -230,8 +231,8 @@ public class ItemInstanceDisplayPanelController
       panel.add(panelLine,c);
       c.gridy++;
       // Color
-      panelLine.add(GuiFactory.buildLabel("Color:"));
-      panelLine.add(_color);
+      panelLine.add(_color.getLabel());
+      panelLine.add(_color.getComponent());
       // Value
       panelLine.add(GuiFactory.buildLabel("Value:"));
       panelLine.add(_value.getPanel());
@@ -257,8 +258,8 @@ public class ItemInstanceDisplayPanelController
       JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
       panel.add(panelLine,c);
       c.gridy++;
-      panelLine.add(GuiFactory.buildLabel("Comments:"));
-      panelLine.add(_userComments);
+      panelLine.add(_userComments.getLabel());
+      panelLine.add(_userComments.getComponent());
     }
 
     JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
@@ -291,31 +292,40 @@ public class ItemInstanceDisplayPanelController
     _name.setText(name);
     // - Instance ID
     ItemInstanceId instanceId=_itemInstance.getInstanceId();
-    String instanceIdStr=(instanceId!=null)?instanceId.asSingleHexString():"-";
-    _instanceId.setText(instanceIdStr);
+    _instanceId.setVisible(instanceId!=null);
+    if (instanceId!=null)
+    {
+      _instanceId.getComponent().setText(instanceId.asSingleHexString());
+    }
     // Validity date
-    String validityDateStr="-";
     Long time=_itemInstance.getTime();
+    _date.setVisible(time!=null);
     if (time!=null)
     {
       DateCodec codec=DateFormat.getDateTimeCodec();
-      validityDateStr=codec.formatDate(time);
+      String validityDateStr=codec.formatDate(time);
+      _date.getComponent().setText(validityDateStr);
     }
-    _date.setText(validityDateStr);
+    // Adjust visibility of the parent panel
+    _date.getComponent().getParent().setVisible((instanceId!=null)||(time!=null));
     // Birth name
     String birthName=_itemInstance.getBirthName();
-    if ((birthName==null) || (birthName.length()==0))
+    boolean hasName=((birthName!=null) && (birthName.length()>0));
+    _birthName.setVisible(hasName);
+    if (hasName)
     {
-      birthName="-";
+      _birthName.getComponent().setText(birthName);
     }
-    _birthName.setText(birthName);
     // Crafter name
     String crafterName=_itemInstance.getCrafterName();
-    if ((crafterName==null) || (crafterName.length()==0))
+    boolean hasCrafter=((crafterName!=null) && (crafterName.length()>0));
+    _crafterName.setVisible(hasCrafter);
+    if (hasCrafter)
     {
-      crafterName="-";
+      _crafterName.getComponent().setText(crafterName);
     }
-    _crafterName.setText(crafterName);
+    // Adjust visibility of the parent panel
+    _crafterName.getComponent().getParent().setVisible(hasName||hasCrafter);
     // - Own stats
     setStats(_itemInstance.getEffectiveOwnStats());
     // - Durability
@@ -339,24 +349,34 @@ public class ItemInstanceDisplayPanelController
     }
     // - Color
     ColorDescription color=_itemInstance.getColor();
-    _color.setText(color!=null?color.getName():"-");
+    _color.setVisible(color!=null);
+    if (color!=null)
+    {
+      _color.getComponent().setText(color.getName());
+    }
     // - Bound to
+    // TODO
     // Description
     String description=item.getDescription();
-    if (description.length()>0)
+    boolean hasDescription=(description.length()>0);
+    _description.setVisible(hasDescription);
+    // Adjust visibility of the parent panel
+    _description.getParent().setVisible(hasDescription);
+    if (hasDescription)
     {
       String html="<html>"+HtmlUtils.toHtml(description)+"</html>";
       _description.setText(html);
     }
-    else
-    {
-      _description.setText("");
-    }
-    // TODO
     // - User comments
     String userComments=_itemInstance.getProperty(ItemPropertyNames.USER_COMMENT);
-    if (userComments==null) userComments="";
-    _userComments.setText(userComments);
+    boolean hasUserComments=(userComments!=null);
+    _userComments.setVisible(hasUserComments);
+    // Adjust visibility of the parent panel
+    _userComments.getComponent().getParent().setVisible(hasUserComments);
+    if (hasUserComments)
+    {
+      _userComments.getComponent().setText(userComments);
+    }
   }
 
   private String getDurabilityLabel()
@@ -420,13 +440,29 @@ public class ItemInstanceDisplayPanelController
     _icon=null;
     _name=null;
     // - Instance ID
-    _instanceId=null;
+    if (_instanceId!=null)
+    {
+      _instanceId.dispose();
+      _instanceId=null;
+    }
     // - Validity date
-    _date=null;
+    if (_date!=null)
+    {
+      _date.dispose();
+      _date=null;
+    }
     // - Birth name
-    _birthName=null;
+    if (_birthName!=null)
+    {
+      _birthName.dispose();
+      _birthName=null;
+    }
     // - Crafter name
-    _crafterName=null;
+    if (_crafterName!=null)
+    {
+      _crafterName.dispose();
+      _crafterName=null;
+    }
     // - Durability
     _durability=null;
     // - Sturdiness
@@ -442,14 +478,21 @@ public class ItemInstanceDisplayPanelController
       _value=null;
     }
     // - Color
-    _color=null;
+    if (_color!=null)
+    {
+      _color.dispose();
+      _color=null;
+    }
     // - Bound to
     // TODO
     // - Description
     _description=null;
     // - User comments
-    _userComments=null;
-
+    if (_userComments!=null)
+    {
+      _userComments.dispose();
+      _userComments=null;
+    }
     // Armour specifics
     _armourPanel=null;
     _armourValue=null;
