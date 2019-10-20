@@ -5,6 +5,7 @@ import delta.games.lotro.character.stats.ratings.RatingCurve;
 import delta.games.lotro.character.stats.ratings.RatingCurveId;
 import delta.games.lotro.character.stats.ratings.RatingsMgr;
 import delta.games.lotro.common.CharacterClass;
+import delta.games.lotro.common.global.CombatSystem;
 import delta.games.lotro.common.stats.WellKnownStat;
 import delta.games.lotro.lore.items.ArmourType;
 
@@ -23,7 +24,7 @@ public class StatCurvesConfigurationFactory
    */
   public StatCurvesConfigurationFactory(CharacterClass characterClass)
   {
-    _ratingsMgr=new RatingsMgr();
+    _ratingsMgr=CombatSystem.getInstance().getRatingsMgr();
     _characterClass=characterClass;
   }
 
