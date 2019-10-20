@@ -2,6 +2,7 @@ package delta.games.lotro.gui.character.stats.curves;
 
 import delta.games.lotro.character.CharacterProficiencies;
 import delta.games.lotro.character.stats.ratings.RatingCurve;
+import delta.games.lotro.character.stats.ratings.RatingCurveId;
 import delta.games.lotro.character.stats.ratings.RatingsMgr;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.stats.WellKnownStat;
@@ -32,7 +33,7 @@ public class StatCurvesConfigurationFactory
    */
   public StatCurvesChartConfiguration buildPhysicalDamageChart()
   {
-    RatingCurve damage=_ratingsMgr.getDamage();
+    RatingCurve damage=_ratingsMgr.getCurve(RatingCurveId.DAMAGE);
     StatCurvesChartConfiguration physicalDamageCfg=new StatCurvesChartConfiguration("Physical damage",WellKnownStat.PHYSICAL_MASTERY);
     SingleStatCurveConfiguration physicalDamageCurveCfg=new SingleStatCurveConfiguration("Physical damage",damage);
     physicalDamageCurveCfg.addStat(WellKnownStat.MELEE_DAMAGE_PERCENTAGE);
@@ -47,7 +48,7 @@ public class StatCurvesConfigurationFactory
    */
   public StatCurvesChartConfiguration buildTacticalDamageChart()
   {
-    RatingCurve damage=_ratingsMgr.getDamage();
+    RatingCurve damage=_ratingsMgr.getCurve(RatingCurveId.DAMAGE);
     StatCurvesChartConfiguration tacticalDamageCfg=new StatCurvesChartConfiguration("Tactical damage",WellKnownStat.TACTICAL_MASTERY);
     SingleStatCurveConfiguration tacticalDamageCurveCfg=new SingleStatCurveConfiguration("Tactical damage",damage);
     tacticalDamageCurveCfg.addStat(WellKnownStat.TACTICAL_DAMAGE_PERCENTAGE);
@@ -63,21 +64,21 @@ public class StatCurvesConfigurationFactory
   {
     StatCurvesChartConfiguration critChart=new StatCurvesChartConfiguration("Critical Rating",WellKnownStat.CRITICAL_RATING);
     // Magnitude
-    RatingCurve critDevHitMagnitude=_ratingsMgr.getCritAndDevastateHitMagnitudeCurve();
+    RatingCurve critDevHitMagnitude=_ratingsMgr.getCurve(RatingCurveId.CRIT_DEVASTATE_MAGNITUDE);
     SingleStatCurveConfiguration magnitudeCfg=new SingleStatCurveConfiguration("Critical/devastate magnitude %",critDevHitMagnitude);
     magnitudeCfg.addStat(WellKnownStat.CRIT_DEVASTATE_MAGNITUDE_MELEE_PERCENTAGE);
     magnitudeCfg.addStat(WellKnownStat.CRIT_DEVASTATE_MAGNITUDE_RANGED_PERCENTAGE);
     magnitudeCfg.addStat(WellKnownStat.CRIT_DEVASTATE_MAGNITUDE_TACTICAL_PERCENTAGE);
     critChart.addCurve(magnitudeCfg);
     // Critical hit chance
-    RatingCurve critHit=_ratingsMgr.getCriticalHitCurve();
+    RatingCurve critHit=_ratingsMgr.getCurve(RatingCurveId.CRITICAL_HIT);
     SingleStatCurveConfiguration critHitCfg=new SingleStatCurveConfiguration("Critical Hit Chance",critHit);
     critHitCfg.addStat(WellKnownStat.CRITICAL_MELEE_PERCENTAGE);
     critHitCfg.addStat(WellKnownStat.CRITICAL_RANGED_PERCENTAGE);
     critHitCfg.addStat(WellKnownStat.CRITICAL_TACTICAL_PERCENTAGE);
     critChart.addCurve(critHitCfg);
     // Devastate hit chance
-    RatingCurve devHit=_ratingsMgr.getDevastateHitCurve();
+    RatingCurve devHit=_ratingsMgr.getCurve(RatingCurveId.DEVASTATE_HIT);
     SingleStatCurveConfiguration devastateHitCfg=new SingleStatCurveConfiguration("Devastate Hit Chance",devHit);
     devastateHitCfg.addStat(WellKnownStat.DEVASTATE_MELEE_PERCENTAGE);
     devastateHitCfg.addStat(WellKnownStat.DEVASTATE_RANGED_PERCENTAGE);
@@ -92,7 +93,7 @@ public class StatCurvesConfigurationFactory
    */
   public StatCurvesChartConfiguration buildFinesseChart()
   {
-    RatingCurve finesse=_ratingsMgr.getFinesse();
+    RatingCurve finesse=_ratingsMgr.getCurve(RatingCurveId.FINESSE);
     StatCurvesChartConfiguration finesseCfg=new StatCurvesChartConfiguration("Finesse",WellKnownStat.FINESSE);
     SingleStatCurveConfiguration finesseCurveCfg=new SingleStatCurveConfiguration("Finesse",finesse);
     finesseCurveCfg.addStat(WellKnownStat.FINESSE_PERCENTAGE);
@@ -106,7 +107,7 @@ public class StatCurvesConfigurationFactory
    */
   public StatCurvesChartConfiguration buildHealingChart()
   {
-    RatingCurve healing=_ratingsMgr.getHealing();
+    RatingCurve healing=_ratingsMgr.getCurve(RatingCurveId.HEALING);
     StatCurvesChartConfiguration healingCfg=new StatCurvesChartConfiguration("Healing",WellKnownStat.OUTGOING_HEALING);
     SingleStatCurveConfiguration healingCurveCfg=new SingleStatCurveConfiguration("Healing",healing);
     healingCurveCfg.addStat(WellKnownStat.OUTGOING_HEALING_PERCENTAGE);
@@ -120,7 +121,7 @@ public class StatCurvesConfigurationFactory
    */
   public StatCurvesChartConfiguration buildIncomingHealingChart()
   {
-    RatingCurve incomingHealing=_ratingsMgr.getIncomingHealing();
+    RatingCurve incomingHealing=_ratingsMgr.getCurve(RatingCurveId.INCOMING_HEALING);
     StatCurvesChartConfiguration incomingHealingCfg=new StatCurvesChartConfiguration("Incoming Healing",WellKnownStat.INCOMING_HEALING);
     SingleStatCurveConfiguration incomingHealingCurveCfg=new SingleStatCurveConfiguration("Incoming Healing",incomingHealing);
     incomingHealingCurveCfg.addStat(WellKnownStat.INCOMING_HEALING_PERCENTAGE);
@@ -135,15 +136,15 @@ public class StatCurvesConfigurationFactory
   public StatCurvesChartConfiguration buildBlockChart()
   {
     StatCurvesChartConfiguration blockChart=new StatCurvesChartConfiguration("Block",WellKnownStat.BLOCK);
-    RatingCurve avoidance=_ratingsMgr.getAvoidance();
+    RatingCurve avoidance=_ratingsMgr.getCurve(RatingCurveId.AVOIDANCE);
     SingleStatCurveConfiguration fullBlockCfg=new SingleStatCurveConfiguration("Full Block",avoidance);
     fullBlockCfg.addStat(WellKnownStat.BLOCK_PERCENTAGE);
     blockChart.addCurve(fullBlockCfg);
-    RatingCurve partialAvoidance=_ratingsMgr.getPartialAvoidance();
+    RatingCurve partialAvoidance=_ratingsMgr.getCurve(RatingCurveId.PARTIAL_AVOIDANCE);
     SingleStatCurveConfiguration partialBlockCfg=new SingleStatCurveConfiguration("Partial Block",partialAvoidance);
     partialBlockCfg.addStat(WellKnownStat.PARTIAL_BLOCK_PERCENTAGE);
     blockChart.addCurve(partialBlockCfg);
-    RatingCurve partialMitigation=_ratingsMgr.getPartialMitigation();
+    RatingCurve partialMitigation=_ratingsMgr.getCurve(RatingCurveId.PARTIAL_MITIGATION);
     SingleStatCurveConfiguration partialMitBlockCfg=new SingleStatCurveConfiguration("Partial Block Mitigation",partialMitigation);
     partialMitBlockCfg.addStat(WellKnownStat.PARTIAL_BLOCK_MITIGATION_PERCENTAGE);
     blockChart.addCurve(partialMitBlockCfg);
@@ -157,15 +158,15 @@ public class StatCurvesConfigurationFactory
   public StatCurvesChartConfiguration buildParryChart()
   {
     StatCurvesChartConfiguration parryChart=new StatCurvesChartConfiguration("Parry",WellKnownStat.PARRY);
-    RatingCurve avoidance=_ratingsMgr.getAvoidance();
+    RatingCurve avoidance=_ratingsMgr.getCurve(RatingCurveId.AVOIDANCE);
     SingleStatCurveConfiguration fullParryCfg=new SingleStatCurveConfiguration("Full Parry",avoidance);
     fullParryCfg.addStat(WellKnownStat.PARRY_PERCENTAGE);
     parryChart.addCurve(fullParryCfg);
-    RatingCurve partialAvoidance=_ratingsMgr.getPartialAvoidance();
+    RatingCurve partialAvoidance=_ratingsMgr.getCurve(RatingCurveId.PARTIAL_AVOIDANCE);
     SingleStatCurveConfiguration partialParryCfg=new SingleStatCurveConfiguration("Partial Parry",partialAvoidance);
     partialParryCfg.addStat(WellKnownStat.PARTIAL_PARRY_PERCENTAGE);
     parryChart.addCurve(partialParryCfg);
-    RatingCurve partialMitigation=_ratingsMgr.getPartialMitigation();
+    RatingCurve partialMitigation=_ratingsMgr.getCurve(RatingCurveId.PARTIAL_MITIGATION);
     SingleStatCurveConfiguration partialMitParryCfg=new SingleStatCurveConfiguration("Partial Parry Mitigation",partialMitigation);
     partialMitParryCfg.addStat(WellKnownStat.PARTIAL_PARRY_MITIGATION_PERCENTAGE);
     parryChart.addCurve(partialMitParryCfg);
@@ -179,15 +180,15 @@ public class StatCurvesConfigurationFactory
   public StatCurvesChartConfiguration buildEvadeChart()
   {
     StatCurvesChartConfiguration evadeChart=new StatCurvesChartConfiguration("Evade",WellKnownStat.EVADE);
-    RatingCurve avoidance=_ratingsMgr.getAvoidance();
+    RatingCurve avoidance=_ratingsMgr.getCurve(RatingCurveId.AVOIDANCE);
     SingleStatCurveConfiguration fullEvadeCfg=new SingleStatCurveConfiguration("Full Evade",avoidance);
     fullEvadeCfg.addStat(WellKnownStat.EVADE_PERCENTAGE);
     evadeChart.addCurve(fullEvadeCfg);
-    RatingCurve partialAvoidance=_ratingsMgr.getPartialAvoidance();
+    RatingCurve partialAvoidance=_ratingsMgr.getCurve(RatingCurveId.PARTIAL_AVOIDANCE);
     SingleStatCurveConfiguration partialEvadeCfg=new SingleStatCurveConfiguration("Partial Evade",partialAvoidance);
     partialEvadeCfg.addStat(WellKnownStat.PARTIAL_EVADE_PERCENTAGE);
     evadeChart.addCurve(partialEvadeCfg);
-    RatingCurve partialMitigation=_ratingsMgr.getPartialMitigation();
+    RatingCurve partialMitigation=_ratingsMgr.getCurve(RatingCurveId.PARTIAL_MITIGATION);
     SingleStatCurveConfiguration partialMitEvadeCfg=new SingleStatCurveConfiguration("Partial Evade Mitigation",partialMitigation);
     partialMitEvadeCfg.addStat(WellKnownStat.PARTIAL_EVADE_MITIGATION_PERCENTAGE);
     evadeChart.addCurve(partialMitEvadeCfg);
@@ -200,7 +201,7 @@ public class StatCurvesConfigurationFactory
    */
   public StatCurvesChartConfiguration buildResistanceChart()
   {
-    RatingCurve resistance=_ratingsMgr.getResistance();
+    RatingCurve resistance=_ratingsMgr.getCurve(RatingCurveId.RESISTANCE);
     StatCurvesChartConfiguration resistanceCfg=new StatCurvesChartConfiguration("Resistance",WellKnownStat.RESISTANCE);
     SingleStatCurveConfiguration resistanceCurveCfg=new SingleStatCurveConfiguration("Resistance",resistance);
     resistanceCurveCfg.addStat(WellKnownStat.RESISTANCE_PERCENTAGE);
@@ -214,7 +215,7 @@ public class StatCurvesConfigurationFactory
    */
   public StatCurvesChartConfiguration buildCriticalDefenceChart()
   {
-    RatingCurve critDefence=_ratingsMgr.getCriticalDefence();
+    RatingCurve critDefence=_ratingsMgr.getCurve(RatingCurveId.CRITICAL_DEFENCE);
     StatCurvesChartConfiguration criticalDefenceCfg=new StatCurvesChartConfiguration("Critical Defence",WellKnownStat.CRITICAL_DEFENCE);
     SingleStatCurveConfiguration criticalDefenceCurveCfg=new SingleStatCurveConfiguration("Critical Defence",critDefence);
     criticalDefenceCurveCfg.addStat(WellKnownStat.MELEE_CRITICAL_DEFENCE);
@@ -227,9 +228,9 @@ public class StatCurvesConfigurationFactory
   private RatingCurve getArmorMitigationCurve()
   {
     ArmourType type=CharacterProficiencies.getArmourTypeForMitigations(_characterClass);
-    if (type==ArmourType.LIGHT) return _ratingsMgr.getLightArmorMitigation();
-    if (type==ArmourType.MEDIUM) return _ratingsMgr.getMediumArmorMitigation();
-    if (type==ArmourType.HEAVY) return _ratingsMgr.getHeavyArmorMitigation();
+    if (type==ArmourType.LIGHT) return _ratingsMgr.getCurve(RatingCurveId.LIGHT_MITIGATION);
+    if (type==ArmourType.MEDIUM) return _ratingsMgr.getCurve(RatingCurveId.MEDIUM_MITIGATION);
+    if (type==ArmourType.HEAVY) return _ratingsMgr.getCurve(RatingCurveId.HEAVY_MITIGATION);
     return null;
   }
 
