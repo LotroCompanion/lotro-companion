@@ -105,7 +105,7 @@ public class LegendaryInstanceDisplayPanelController
     y++;
     // Relics
     JPanel relicsPanel=_relics.getPanel();
-    c=new GridBagConstraints(0,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    c=new GridBagConstraints(1,3,1,3,1.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     ret.add(relicsPanel,c);
     y++;
     return ret;
