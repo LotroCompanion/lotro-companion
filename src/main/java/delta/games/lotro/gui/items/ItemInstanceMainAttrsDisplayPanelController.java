@@ -55,7 +55,7 @@ public class ItemInstanceMainAttrsDisplayPanelController
   private JLabel _minLevel;
   // - Value
   private MoneyDisplayController _value;
-  // - Color => only for armours?
+  // - Color
   private LabeledComponent<JLabel> _color;
   // - Bound to
   // TODO
@@ -73,13 +73,17 @@ public class ItemInstanceMainAttrsDisplayPanelController
   // - category?
   // - binding
   // - unique
-  // - sturdiness
   // - max level
   // - requirements: class, and later: race, faction, glory rank, trait
-  // - description
   // - value
   // - stack max
   // - quality
+  // Weapons:
+  // - weapon type
+  // - damage type
+  // - min damage, max damage, dps => later
+  // Armours:
+  // - armour type
 
   /**
    * Constructor.
@@ -241,14 +245,14 @@ public class ItemInstanceMainAttrsDisplayPanelController
     ret.add(panel,c);
 
     _panel=ret;
-    setItem();
+    update();
     return ret;
   }
 
   /**
-   * Set the item to display.
+   * Update display.
    */
-  private void setItem()
+  public void update()
   {
     Item item=_itemInstance.getReference();
     // Instance ID

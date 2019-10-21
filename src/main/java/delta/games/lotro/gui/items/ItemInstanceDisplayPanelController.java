@@ -37,8 +37,11 @@ public class ItemInstanceDisplayPanelController
   // - Stats
   private JPanel _stats;
   // Child panel controllers
+  // - main attributes
   private ItemInstanceMainAttrsDisplayPanelController _mainAttrs;
+  // - essences (optional)
   private EssencesSetDisplayController _essences;
+  // - legendary stuff (optional)
   private LegendaryInstanceDisplayPanelController _legendary;
 
   /**
@@ -127,7 +130,7 @@ public class ItemInstanceDisplayPanelController
       ret.add(_legendary.getPanel(),c);
     }
     _panel=ret;
-    setItem();
+    update();
     return ret;
   }
 
@@ -146,9 +149,9 @@ public class ItemInstanceDisplayPanelController
   }
 
   /**
-   * Set the item to display.
+   * Update display.
    */
-  private void setItem()
+  private void update()
   {
     Item item=_itemInstance.getReference();
     // Title
@@ -165,8 +168,9 @@ public class ItemInstanceDisplayPanelController
     // - name
     _name.setText(name);
     // Stats
-    StatsPanel.fillStatsPanel(_stats,_itemInstance.getStats(),null);
+    StatsPanel.fillStatsPanel(_stats,_itemInstance.getEffectiveOwnStats(),null);
     // Main attributes
+    _mainAttrs.update();
     // Essences
     if (_essences!=null)
     {
@@ -199,5 +203,25 @@ public class ItemInstanceDisplayPanelController
     // - Item identification (icon+name)
     _icon=null;
     _name=null;
+    if (_stats!=null)
+    {
+      _stats.removeAll();
+      _stats=null;
+    }
+    if (_mainAttrs!=null)
+    {
+      _mainAttrs.dispose();
+      _mainAttrs=null;
+    }
+    if (_essences!=null)
+    {
+      _essences.dispose();
+      _essences=null;
+    }
+    if (_legendary!=null)
+    {
+      _legendary.dispose();
+      _legendary=null;
+    }
   }
 }
