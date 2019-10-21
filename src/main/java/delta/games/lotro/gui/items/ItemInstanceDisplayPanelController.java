@@ -1,18 +1,13 @@
 package delta.games.lotro.gui.items;
 
-import java.awt.FlowLayout;
-import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.WindowController;
-import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.items.essences.EssencesSetDisplayController;
 import delta.games.lotro.gui.items.legendary.LegendaryInstanceDisplayPanelController;
 import delta.games.lotro.lore.items.Item;
@@ -31,12 +26,10 @@ public class ItemInstanceDisplayPanelController
   // GUI
   private JPanel _panel;
   private WindowController _parent;
-  // - Item identification (icon+name)
-  private JLabel _icon;
-  private JLabel _name;
+  // - Item identification
+  private ItemIdentificationPanelController _id;
   // - Stats
   private JPanel _stats;
-  // Child panel controllers
   // - main attributes
   private ItemInstanceMainAttrsDisplayPanelController _mainAttrs;
   // - essences (optional)
@@ -68,19 +61,10 @@ public class ItemInstanceDisplayPanelController
     return _panel;
   }
 
-  private void initGadgets()
-  {
-    // Item identification (icon+name)
-    // - icon
-    _icon=GuiFactory.buildIconLabel(null);
-    // - name
-    _name=GuiFactory.buildLabel("");
-    _name.setFont(_name.getFont().deriveFont(16f).deriveFont(Font.BOLD));
-  }
-
   private JPanel build()
   {
-    initGadgets();
+    // ID
+    _id=new ItemIdentificationPanelController(_itemInstance);
     // Stats
     _stats=GuiFactory.buildPanel(new GridBagLayout());
     _stats.setBorder(GuiFactory.buildTitledBorder("Stats"));
@@ -108,7 +92,7 @@ public class ItemInstanceDisplayPanelController
   {
     JPanel ret=GuiFactory.buildBackgroundPanel(new GridBagLayout());
     // ID
-    JPanel idPanel=buildIdentificationPanel();
+    JPanel idPanel=_id.getPanel();
     GridBagConstraints c=new GridBagConstraints(0,0,3,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     ret.add(idPanel,c);
     // Main attributes
@@ -134,20 +118,6 @@ public class ItemInstanceDisplayPanelController
     return ret;
   }
 
-  private JPanel buildIdentificationPanel()
-  {
-    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
-    GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
-    JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
-    panel.add(panelLine,c);
-    c.gridy++;
-    // Icon
-    panelLine.add(_icon);
-    // Name
-    panelLine.add(_name);
-    return panel;
-  }
-
   /**
    * Update display.
    */
@@ -160,13 +130,6 @@ public class ItemInstanceDisplayPanelController
     {
       _parent.setTitle(name);
     }
-    // Item identification (icon+name)
-    // - icon
-    String iconPath=item.getIcon();
-    ImageIcon icon=LotroIconsManager.getItemIcon(iconPath);
-    _icon.setIcon(icon);
-    // - name
-    _name.setText(name);
     // Stats
     StatsPanel.fillStatsPanel(_stats,_itemInstance.getEffectiveOwnStats(),null);
     // Main attributes
@@ -200,24 +163,31 @@ public class ItemInstanceDisplayPanelController
       _panel=null;
     }
     _parent=null;
-    // - Item identification (icon+name)
-    _icon=null;
-    _name=null;
+    // - item identification
+    if (_id!=null)
+    {
+      _id.dispose();
+      _id=null;
+    }
+    // - stats
     if (_stats!=null)
     {
       _stats.removeAll();
       _stats=null;
     }
+    // - main attributes
     if (_mainAttrs!=null)
     {
       _mainAttrs.dispose();
       _mainAttrs=null;
     }
+    // - essences
     if (_essences!=null)
     {
       _essences.dispose();
       _essences=null;
     }
+    // - legendary
     if (_legendary!=null)
     {
       _legendary.dispose();
