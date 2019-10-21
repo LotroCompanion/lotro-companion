@@ -12,6 +12,11 @@ import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.labels.MultilineLabel2;
+import delta.games.lotro.lore.items.Item;
+import delta.games.lotro.lore.items.ItemInstance;
+import delta.games.lotro.lore.items.legendary.LegendaryInstance;
+import delta.games.lotro.lore.items.legendary.LegendaryInstanceAttrs;
+import delta.games.lotro.lore.items.legendary.global.LegendarySystem;
 import delta.games.lotro.lore.items.legendary.non_imbued.NonImbuedLegacyTier;
 import delta.games.lotro.lore.items.legendary.non_imbued.NonImbuedLegendaryInstanceAttrs;
 import delta.games.lotro.lore.items.legendary.non_imbued.TieredNonImbuedLegacyInstance;
@@ -22,6 +27,8 @@ import delta.games.lotro.lore.items.legendary.non_imbued.TieredNonImbuedLegacyIn
  */
 public class NonImbuedLegendaryAttrsDisplayPanelController
 {
+  // Data
+  private ItemInstance<? extends Item> _itemInstance;
   // UI
   private JPanel _panel;
   private JLabel _available;
@@ -36,9 +43,11 @@ public class NonImbuedLegendaryAttrsDisplayPanelController
 
   /**
    * Constructor.
+   * @param itemInstance Item instance.
    */
-  public NonImbuedLegendaryAttrsDisplayPanelController()
+  public NonImbuedLegendaryAttrsDisplayPanelController(ItemInstance<? extends Item> itemInstance)
   {
+    _itemInstance=itemInstance;
     _available=GuiFactory.buildLabel("");
     _spent=GuiFactory.buildLabel("");
     _level=GuiFactory.buildLabel("");
@@ -102,6 +111,7 @@ public class NonImbuedLegendaryAttrsDisplayPanelController
 
   private void fillLegaciesPanel(NonImbuedLegendaryInstanceAttrs attrs)
   {
+    LegendarySystem legendary=LegendarySystem.getInstance();
     _legaciesDisplayPanel.removeAll();
     // Legacies
     int lineIndex=0;
@@ -121,6 +131,9 @@ public class NonImbuedLegendaryAttrsDisplayPanelController
         JLabel rank=legacyGadgets.getRankGadget();
         c=new GridBagConstraints(1,lineIndex,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,2,0,5),0,0);
         _legaciesDisplayPanel.add(rank,c);
+        Integer uiRank=legendary.computeUiRankForTieredLegacy(_itemInstance,legacy);
+        String rankStr=(uiRank!=null)?uiRank.toString():"?";
+        rank.setText(rankStr);
         // Stats
         MultilineLabel2 stats=legacyGadgets.getStatsGadget();
         c=new GridBagConstraints(2,lineIndex,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
@@ -131,11 +144,13 @@ public class NonImbuedLegendaryAttrsDisplayPanelController
   }
 
   /**
-   * Set the data to display.
-   * @param attrs Data to display.
+   * Update the data to display.
    */
-  public void setData(NonImbuedLegendaryInstanceAttrs attrs)
+  public void update()
   {
+    LegendaryInstance legendaryInstance=(LegendaryInstance)_itemInstance;
+    LegendaryInstanceAttrs legendaryAttrs=legendaryInstance.getLegendaryAttributes();
+    NonImbuedLegendaryInstanceAttrs attrs=legendaryAttrs.getNonImbuedAttrs();
     // Level
     int legendaryLevel=attrs.getLegendaryItemLevel();
     _level.setText(String.valueOf(legendaryLevel));
@@ -157,6 +172,9 @@ public class NonImbuedLegendaryAttrsDisplayPanelController
    */
   public void dispose()
   {
+    // Data
+    _itemInstance=null;
+    // UI
     if (_panel!=null)
     {
       _panel.removeAll();

@@ -19,6 +19,9 @@ import delta.games.lotro.gui.items.legendary.non_imbued.NonImbuedLegendaryAttrsD
 import delta.games.lotro.gui.items.legendary.relics.RelicsSetDisplayController;
 import delta.games.lotro.gui.items.legendary.titles.LegendaryTitleDisplayPanelController;
 import delta.games.lotro.gui.utils.StatDisplayUtils;
+import delta.games.lotro.lore.items.Item;
+import delta.games.lotro.lore.items.ItemInstance;
+import delta.games.lotro.lore.items.legendary.LegendaryInstance;
 import delta.games.lotro.lore.items.legendary.LegendaryInstanceAttrs;
 import delta.games.lotro.lore.items.legendary.imbued.ImbuedLegacyInstance;
 import delta.games.lotro.lore.items.legendary.imbued.ImbuedLegendaryInstanceAttrs;
@@ -33,6 +36,8 @@ import delta.games.lotro.lore.items.legendary.titles.LegendaryTitle;
  */
 public class LegendaryInstanceDisplayPanelController
 {
+  // Data
+  private ItemInstance<? extends Item> _itemInstance;
   // UI
   private JPanel _panel;
   private JLabel _name;
@@ -47,9 +52,11 @@ public class LegendaryInstanceDisplayPanelController
 
   /**
    * Constructor.
+   * @param itemInstance Item instance.
    */
-  public LegendaryInstanceDisplayPanelController()
+  public LegendaryInstanceDisplayPanelController(ItemInstance<? extends Item> itemInstance)
   {
+    _itemInstance=itemInstance;
     _name=GuiFactory.buildLabel("");
     _passives=new MultilineLabel2();
     _passives.setBorder(GuiFactory.buildTitledBorder("Passives"));
@@ -58,7 +65,7 @@ public class LegendaryInstanceDisplayPanelController
     _legacies.setBorder(GuiFactory.buildTitledBorder("Legacies"));
     _title=new LegendaryTitleDisplayPanelController();
     _title.getPanel().setBorder(GuiFactory.buildTitledBorder("Title"));
-    _nonImbuedAttrs=new NonImbuedLegendaryAttrsDisplayPanelController();
+    _nonImbuedAttrs=new NonImbuedLegendaryAttrsDisplayPanelController(itemInstance);
     _imbuedAttrs=new ImbuedLegendaryAttrsDisplayPanelController();
     _relics=new RelicsSetDisplayController();
     _relics.getPanel().setBorder(GuiFactory.buildTitledBorder("Relics"));
@@ -112,12 +119,12 @@ public class LegendaryInstanceDisplayPanelController
   }
 
   /**
-   * Set the data to display.
-   * @param itemLevel Parent item level.
-   * @param attrs Data to display.
+   * Update the data to display.
    */
-  public void setData(int itemLevel, LegendaryInstanceAttrs attrs)
+  public void update()
   {
+    LegendaryInstance legendaryInstance=(LegendaryInstance)_itemInstance;
+    LegendaryInstanceAttrs attrs=legendaryInstance.getLegendaryAttributes();
     // Name
     String name=attrs.getLegendaryName();
     _name.setText(name);
@@ -132,11 +139,13 @@ public class LegendaryInstanceDisplayPanelController
     _title.setData(title);
     _title.getPanel().setVisible(title!=null);
     // Passives
+    Integer itemLevelInt=_itemInstance.getEffectiveItemLevel();
+    int itemLevel=(itemLevelInt!=null)?itemLevelInt.intValue():1;
     BasicStatsSet passives=getPassives(itemLevel,attrs);
     _passives.setText(StatDisplayUtils.getStatsDisplayLines(passives));
     _passives.setVisible(passives.getStatsCount()>0);
     // Legacies
-    _nonImbuedAttrs.setData(attrs.getNonImbuedAttrs());
+    _nonImbuedAttrs.update();
     _imbuedAttrs.setData(attrs.getImbuedAttrs());
     _legacies.removeAll();
     if (attrs.isImbued())
@@ -191,6 +200,9 @@ public class LegendaryInstanceDisplayPanelController
    */
   public void dispose()
   {
+    // Data
+    _itemInstance=null;
+    // UI
     if (_panel!=null)
     {
       _panel.removeAll();

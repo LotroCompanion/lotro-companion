@@ -9,7 +9,6 @@ import delta.games.lotro.gui.items.ItemsTestUtils;
 import delta.games.lotro.gui.items.legendary.shared.LegendariesTestUtils;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemInstance;
-import delta.games.lotro.lore.items.legendary.LegendaryInstanceAttrs;
 
 /**
  * Test class for the legendary attributes display panel.
@@ -37,14 +36,9 @@ public class MainTestLegendaryInstanceDisplay
   private void doIt(String instanceName)
   {
     ItemInstance<? extends Item> item=ItemsTestUtils.loadItemInstance(LegendariesTestUtils.class,instanceName);
-    LegendaryInstanceAttrs legendaryAttrs=LegendariesTestUtils.getLegendaryAttrs(item);
 
     // Build controller
-    LegendaryInstanceDisplayPanelController controller=new LegendaryInstanceDisplayPanelController();
-    // Set data
-    Integer itemLevelInt=item.getEffectiveItemLevel();
-    int itemLevel=(itemLevelInt!=null)?itemLevelInt.intValue():1;
-    controller.setData(itemLevel,legendaryAttrs);
+    LegendaryInstanceDisplayPanelController controller=new LegendaryInstanceDisplayPanelController(item);
 
     // Show window
     JFrame frame=new JFrame();

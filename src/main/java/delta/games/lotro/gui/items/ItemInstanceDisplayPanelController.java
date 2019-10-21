@@ -82,7 +82,7 @@ public class ItemInstanceDisplayPanelController
     boolean isLegendary=(_itemInstance instanceof LegendaryInstance);
     if (isLegendary)
     {
-      _legendary=new LegendaryInstanceDisplayPanelController();
+      _legendary=new LegendaryInstanceDisplayPanelController(_itemInstance);
       _legendary.getPanel().setBorder(GuiFactory.buildTitledBorder("Legendary"));
     }
     return buildPanel();
@@ -142,10 +142,7 @@ public class ItemInstanceDisplayPanelController
     // Legendary
     if (_legendary!=null)
     {
-      Integer itemLevelInt=_itemInstance.getEffectiveItemLevel();
-      int itemLevel=(itemLevelInt!=null)?itemLevelInt.intValue():1;
-      LegendaryInstance legendaryInstance=(LegendaryInstance)_itemInstance;
-      _legendary.setData(itemLevel,legendaryInstance.getLegendaryAttributes());
+      _legendary.update();
     }
   }
 
