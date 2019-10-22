@@ -18,20 +18,32 @@ public class MainTestItemInstanceEditionWindowController
    */
   public static void main(String[] args)
   {
-    CharacterSummary character=new CharacterSummary();
-    character.setCharacterClass(CharacterClass.RUNE_KEEPER);
-    character.setLevel(120);
     for(String sample : ItemsTestUtils.TEST_SAMPLES)
     {
       ItemInstance<? extends Item> itemInstance=ItemsTestUtils.loadItemInstance(ItemsTestUtils.class,"samples/"+sample);
-      ItemInstanceEditionWindowController ctrl=new ItemInstanceEditionWindowController(null,character,itemInstance);
-      ctrl.show(false);
+      doSample(itemInstance);
     }
     for(String sample : LegendariesTestUtils.TEST_SAMPLES)
     {
       ItemInstance<? extends Item> itemInstance=LegendariesTestUtils.loadItemInstance(sample);
-      ItemInstanceEditionWindowController ctrl=new ItemInstanceEditionWindowController(null,character,itemInstance);
-      ctrl.show(false);
+      doSample(itemInstance);
     }
+  }
+
+  private static void doSample(ItemInstance<? extends Item> itemInstance)
+  {
+    CharacterSummary character=new CharacterSummary();
+    character.setLevel(120);
+    CharacterClass requiredClass=getRequiredClass(itemInstance);
+    CharacterClass toUse=(requiredClass!=null)?requiredClass:CharacterClass.RUNE_KEEPER;
+    character.setCharacterClass(toUse);
+    ItemInstanceEditionWindowController ctrl=new ItemInstanceEditionWindowController(null,character,itemInstance);
+    ctrl.show(false);
+  }
+
+  private static CharacterClass getRequiredClass(ItemInstance<? extends Item> itemInstance)
+  {
+    Item item=itemInstance.getReference();
+    return item.getRequiredClass();
   }
 }
