@@ -11,20 +11,15 @@ import javax.swing.JPanel;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.form.LabeledComponent;
 import delta.common.ui.swing.text.dates.DateCodec;
-import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.common.colors.ColorDescription;
 import delta.games.lotro.common.id.ItemInstanceId;
 import delta.games.lotro.common.money.Money;
-import delta.games.lotro.common.stats.WellKnownStat;
 import delta.games.lotro.gui.common.money.MoneyDisplayController;
-import delta.games.lotro.lore.items.Armour;
-import delta.games.lotro.lore.items.ArmourInstance;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemInstance;
 import delta.games.lotro.lore.items.ItemPropertyNames;
 import delta.games.lotro.lore.items.ItemSturdiness;
 import delta.games.lotro.utils.DateFormat;
-import delta.games.lotro.utils.FixedDecimalsInteger;
 import delta.games.lotro.utils.gui.HtmlUtils;
 
 /**
@@ -63,10 +58,6 @@ public class ItemInstanceMainAttrsDisplayPanelController
   private JLabel _description;
   // - User comments
   private LabeledComponent<JLabel> _userComments;
-
-  // Armour specifics
-  private JPanel _armourPanel;
-  private JLabel _armourValue;
 
   // Item model data:
   // - slot
@@ -135,14 +126,6 @@ public class ItemInstanceMainAttrsDisplayPanelController
     _description=GuiFactory.buildLabel("");
     // - User comments
     _userComments=new LabeledComponent<JLabel>("Comments:",GuiFactory.buildLabel(""));
-
-    // Armour specifics
-    if (_itemInstance instanceof ArmourInstance)
-    {
-      _armourPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
-      // Armour value
-      _armourValue=GuiFactory.buildLabel("");
-    }
   }
 
   private JPanel build()
@@ -215,15 +198,6 @@ public class ItemInstanceMainAttrsDisplayPanelController
       panelLine.add(GuiFactory.buildLabel("Value:"));
       panelLine.add(_value.getPanel());
     }
-    // Armour specifics line
-    if (_itemInstance instanceof ArmourInstance)
-    {
-      panel.add(_armourPanel,c);
-      c.gridy++;
-      // Armour value
-      _armourPanel.add(GuiFactory.buildLabel("Armour:"));
-      _armourPanel.add(_armourValue);
-    }
     // Description
     {
       JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
@@ -291,8 +265,6 @@ public class ItemInstanceMainAttrsDisplayPanelController
     }
     // Adjust visibility of the parent panel
     _crafterName.getComponent().getParent().setVisible(hasName||hasCrafter);
-    // - Own stats
-    setStats(_itemInstance.getEffectiveOwnStats());
     // - Durability
     String durabilityStr=getDurabilityLabel();
     _durability.setText(durabilityStr);
@@ -374,19 +346,6 @@ public class ItemInstanceMainAttrsDisplayPanelController
     return ret;
   }
 
-  private void setStats(BasicStatsSet stats)
-  {
-    Item item=_itemInstance.getReference();
-    if (item instanceof Armour)
-    {
-      FixedDecimalsInteger armourValue=stats.getStat(WellKnownStat.ARMOUR);
-      if (armourValue!=null)
-      {
-        _armourValue.setText(armourValue.toString());
-      }
-    }
-  }
-
   /**
    * Release all managed resources.
    */
@@ -454,8 +413,5 @@ public class ItemInstanceMainAttrsDisplayPanelController
       _userComments.dispose();
       _userComments=null;
     }
-    // Armour specifics
-    _armourPanel=null;
-    _armourValue=null;
   }
 }
