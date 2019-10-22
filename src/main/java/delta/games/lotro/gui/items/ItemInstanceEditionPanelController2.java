@@ -15,6 +15,7 @@ import delta.games.lotro.character.CharacterSummary;
 import delta.games.lotro.gui.items.essences.EssencesSetDisplayController;
 import delta.games.lotro.gui.items.essences.EssencesSetEditionWindowController;
 import delta.games.lotro.gui.items.legendary.LegendaryInstanceDisplayPanelController;
+import delta.games.lotro.gui.items.legendary.LegendaryInstanceEditionWindowController;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemInstance;
 import delta.games.lotro.lore.items.legendary.LegendaryInstance;
@@ -86,7 +87,6 @@ public class ItemInstanceEditionPanelController2
     if (isLegendary)
     {
       _legendary=new LegendaryInstanceDisplayPanelController(_itemInstance);
-      _legendary.getPanel().setBorder(GuiFactory.buildTitledBorder("Legendary"));
     }
   }
 
@@ -117,7 +117,8 @@ public class ItemInstanceEditionPanelController2
     if (_legendary!=null)
     {
       c=new GridBagConstraints(0,2,2,1,1.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
-      ret.add(_legendary.getPanel(),c);
+      JPanel legendaryPanel=buildLegendaryPanel();
+      ret.add(legendaryPanel,c);
     }
     return ret;
   }
@@ -194,6 +195,30 @@ public class ItemInstanceEditionPanelController2
     return ret;
   }
 
+  private JPanel buildLegendaryPanel()
+  {
+    JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
+    // Essences
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    ret.add(_legendary.getPanel(),c);
+    // Edit button
+    JButton editButton=GuiFactory.buildButton("Edit...");
+    ActionListener l=new ActionListener()
+    {
+      @Override
+      public void actionPerformed(ActionEvent e)
+      {
+        editLegendaryStuff();
+      }
+    };
+    editButton.addActionListener(l);
+    c=new GridBagConstraints(0,1,1,1,0.0,0.0,GridBagConstraints.SOUTHEAST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    ret.add(editButton,c);
+    // Border
+    ret.setBorder(GuiFactory.buildTitledBorder("Legendary"));
+    return ret;
+  }
+
   private void editMainAttrs()
   {
     ItemInstanceMainAttrsEditionWindowController editor=new ItemInstanceMainAttrsEditionWindowController(_parent,_itemInstance);
@@ -221,9 +246,15 @@ public class ItemInstanceEditionPanelController2
     }
   }
 
-  void editLegendaryStuff()
+  private void editLegendaryStuff()
   {
-    System.out.println("Edit legendary stuff!");
+    LegendaryInstanceEditionWindowController editor=new LegendaryInstanceEditionWindowController(_parent,_character,_itemInstance);
+    ItemInstance<? extends Item> updatedItem=editor.editModal();
+    if (updatedItem!=null)
+    {
+      _legendary.update();
+      _parent.getWindow().pack();
+    }
   }
 
   /**

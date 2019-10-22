@@ -19,7 +19,7 @@ public class MainTestItemInstanceEditionWindowController
   public static void main(String[] args)
   {
     CharacterSummary character=new CharacterSummary();
-    character.setCharacterClass(CharacterClass.HUNTER);
+    character.setCharacterClass(CharacterClass.RUNE_KEEPER);
     character.setLevel(120);
     for(String sample : ItemsTestUtils.TEST_SAMPLES)
     {
@@ -30,7 +30,7 @@ public class MainTestItemInstanceEditionWindowController
     for(String sample : LegendariesTestUtils.TEST_SAMPLES)
     {
       ItemInstance<? extends Item> itemInstance=LegendariesTestUtils.loadItemInstance(sample);
-      ItemInstanceEditionWindowController ctrl=new ItemInstanceEditionWindowController(null,null,itemInstance);
+      ItemInstanceEditionWindowController ctrl=new ItemInstanceEditionWindowController(null,character,itemInstance);
       ctrl.show(false);
     }
   }
