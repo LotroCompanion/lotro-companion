@@ -34,7 +34,6 @@ public class ItemInstanceEditionWindowController extends DefaultFormDialogContro
   protected JDialog build()
   {
     JDialog dialog=super.build();
-    dialog.setMinimumSize(dialog.getPreferredSize());
     return dialog;
   }
 
