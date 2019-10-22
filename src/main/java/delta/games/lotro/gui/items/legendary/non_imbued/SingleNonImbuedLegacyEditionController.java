@@ -1,10 +1,7 @@
 package delta.games.lotro.gui.items.legendary.non_imbued;
 
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
 import javax.swing.JLabel;
 
 import delta.common.ui.swing.GuiFactory;
@@ -38,7 +35,6 @@ public abstract class SingleNonImbuedLegacyEditionController<T extends NonImbued
   // GUI
   protected JLabel _icon;
   private MultilineLabel2 _value;
-  private JButton _chooseButton;
   // Current rank
   private ComboBoxController<Integer> _rank;
 
@@ -59,17 +55,6 @@ public abstract class SingleNonImbuedLegacyEditionController<T extends NonImbued
     Dimension dimension=new Dimension(200,32);
     _value.setMinimumSize(dimension);
     _value.setSize(dimension);
-    // - chooser button
-    _chooseButton=GuiFactory.buildButton("...");
-    ActionListener listener=new ActionListener()
-    {
-      @Override
-      public void actionPerformed(ActionEvent e)
-      {
-        handleButtonClick((JButton)e.getSource());
-      }
-    };
-    _chooseButton.addActionListener(listener);
     // - current level
     _rank=buildRankCombo();
   }
@@ -152,8 +137,6 @@ public abstract class SingleNonImbuedLegacyEditionController<T extends NonImbued
       storage.setRank(rank.intValue());
     }
   }
-
-  protected abstract void handleButtonClick(JButton button);
 
   private void handleCurrentRankUpdate(int rank)
   {
@@ -252,15 +235,6 @@ public abstract class SingleNonImbuedLegacyEditionController<T extends NonImbued
   }
 
   /**
-   * Get the managed choose button.
-   * @return the managed choose button.
-   */
-  public JButton getChooseButton()
-  {
-    return _chooseButton;
-  }
-
-  /**
    * Get the combo controller for the current rank.
    * @return a combobox controller.
    */
@@ -282,7 +256,6 @@ public abstract class SingleNonImbuedLegacyEditionController<T extends NonImbued
     // UI
     _icon=null;
     _value=null;
-    _chooseButton=null;
     if (_rank!=null)
     {
       _rank.dispose();

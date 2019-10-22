@@ -1,7 +1,6 @@
 package delta.games.lotro.gui.items.legendary.non_imbued;
 
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.common.constraints.ClassAndSlot;
@@ -39,11 +38,6 @@ public class SingleDefaultNonImbuedLegacyEditionController extends SingleNonImbu
     super.getData(storage);
     DefaultNonImbuedLegacy legacy=getDefaultLegacy();
     storage.setLegacy(legacy);
-  }
-
-  protected void handleButtonClick(JButton button)
-  {
-    //
   }
 
   protected void setupLegacy(AbstractNonImbuedLegacy legacy)

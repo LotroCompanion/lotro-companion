@@ -47,8 +47,9 @@ public class SingleImbuedLegacyEditionController
    * @param parent Parent window.
    * @param legacy Legacy to edit.
    * @param constraints Constraints.
+   * @param isMain Indicates if we're dealing with the main legacy or not.
    */
-  public SingleImbuedLegacyEditionController(WindowController parent, ImbuedLegacyInstance legacy, ClassAndSlot constraints)
+  public SingleImbuedLegacyEditionController(WindowController parent, ImbuedLegacyInstance legacy, ClassAndSlot constraints,boolean isMain)
   {
     _parent=parent;
     _legacy=legacy;
@@ -62,16 +63,19 @@ public class SingleImbuedLegacyEditionController
     _value.setMinimumSize(dimension);
     _value.setSize(dimension);
     // - chooser button
-    _chooseButton=GuiFactory.buildButton("...");
-    ActionListener listener=new ActionListener()
+    if (!isMain)
     {
-      @Override
-      public void actionPerformed(ActionEvent e)
+      _chooseButton=GuiFactory.buildButton("...");
+      ActionListener listener=new ActionListener()
       {
-        handleButtonClick((JButton)e.getSource());
-      }
-    };
-    _chooseButton.addActionListener(listener);
+        @Override
+        public void actionPerformed(ActionEvent e)
+        {
+          handleButtonClick((JButton)e.getSource());
+        }
+      };
+      _chooseButton.addActionListener(listener);
+    }
     // - current level
     _currentLevel=new ComboBoxController<Integer>();
     ItemSelectionListener<Integer> currentLevelListener=new ItemSelectionListener<Integer>()

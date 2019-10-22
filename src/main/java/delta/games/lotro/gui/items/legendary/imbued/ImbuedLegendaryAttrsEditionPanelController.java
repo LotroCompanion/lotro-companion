@@ -53,7 +53,8 @@ public class ImbuedLegendaryAttrsEditionPanelController
     for(int i=0;i<nbLegacies;i++)
     {
       ImbuedLegacyInstance legacy=attrs.getLegacy(i);
-      SingleImbuedLegacyEditionController editor=new SingleImbuedLegacyEditionController(_parent,legacy,constraints);
+      boolean isMain=(i==0);
+      SingleImbuedLegacyEditionController editor=new SingleImbuedLegacyEditionController(_parent,legacy,constraints,isMain);
       _editors.add(editor);
     }
   }
@@ -158,8 +159,11 @@ public class ImbuedLegendaryAttrsEditionPanelController
       x++;
       // Button
       JButton chooseButton=editor.getChooseButton();
-      c=new GridBagConstraints(x,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
-      panel.add(chooseButton,c);
+      if (chooseButton!=null)
+      {
+        c=new GridBagConstraints(x,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
+        panel.add(chooseButton,c);
+      }
       x++;
       y++;
     }

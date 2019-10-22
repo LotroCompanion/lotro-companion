@@ -1,8 +1,12 @@
 package delta.games.lotro.gui.items.legendary.non_imbued;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
+import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.common.ui.swing.combobox.ItemSelectionListener;
 import delta.common.ui.swing.windows.WindowController;
@@ -25,6 +29,7 @@ import delta.games.lotro.lore.items.legendary.non_imbued.TieredNonImbuedLegacyIn
 public class SingleTieredNonImbuedLegacyEditionController extends SingleNonImbuedLegacyEditionController<TieredNonImbuedLegacyInstance>
 {
   // GUI
+  private JButton _chooseButton;
   // - tier
   private ComboBoxController<Integer> _tier;
 
@@ -37,6 +42,17 @@ public class SingleTieredNonImbuedLegacyEditionController extends SingleNonImbue
   {
     super(parent,constraints);
     // UI
+    // - chooser button
+    _chooseButton=GuiFactory.buildButton("...");
+    ActionListener listener=new ActionListener()
+    {
+      @Override
+      public void actionPerformed(ActionEvent e)
+      {
+        handleButtonClick((JButton)e.getSource());
+      }
+    };
+    _chooseButton.addActionListener(listener);
     // - tier
     _tier=buildTiersCombos();
     ItemSelectionListener<Integer> tierListener=new ItemSelectionListener<Integer>()
@@ -187,6 +203,15 @@ public class SingleTieredNonImbuedLegacyEditionController extends SingleNonImbue
   }
 
   /**
+   * Get the managed choose button.
+   * @return the managed choose button.
+   */
+  public JButton getChooseButton()
+  {
+    return _chooseButton;
+  }
+
+  /**
    * Get the combo-box controller for the tier.
    * @return a combo-box controller.
    */
@@ -201,6 +226,7 @@ public class SingleTieredNonImbuedLegacyEditionController extends SingleNonImbue
   public void dispose()
   {
     super.dispose();
+    _chooseButton=null;
     if (_tier!=null)
     {
       _tier.dispose();

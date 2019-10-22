@@ -187,13 +187,13 @@ public class NonImbuedLegendaryAttrsEditionPanelController
       ComboBoxController<Integer> tierCombo=tieredEditor.getTierCombo();
       c=new GridBagConstraints(x,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
       panel.add(tierCombo.getComboBox(),c);
+      x++;
+      // Button
+      JButton chooseButton=tieredEditor.getChooseButton();
+      c=new GridBagConstraints(x,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
+      panel.add(chooseButton,c);
+      x++;
     }
-    x++;
-    // Button
-    JButton chooseButton=editor.getChooseButton();
-    c=new GridBagConstraints(x,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
-    panel.add(chooseButton,c);
-    x++;
   }
 
   private JLabel buildCenteredLabel(String text)
