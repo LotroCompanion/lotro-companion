@@ -202,7 +202,22 @@ public class LegendaryInstanceEditionPanelController
    */
   public void getData(LegendaryInstanceAttrs legendaryAttrs)
   {
-    // TODO
+    // Legendary name
+    String legendaryName=_name.getText();
+    legendaryAttrs.setLegendaryName(legendaryName);
+    // Imbued?
+    boolean imbued=_isImbued.isSelected();
+    legendaryAttrs.setImbued(imbued);
+    // Imbued data
+    _nonImbued.getData(legendaryAttrs.getNonImbuedAttrs());
+    // Non-imbued data
+    _imbued.getData(legendaryAttrs.getImbuedAttrs());
+    // Title
+    _title.getData(legendaryAttrs);
+    // Passives
+    _passives.getData(legendaryAttrs);
+    // Relics
+    _relics.getData(legendaryAttrs.getRelicsSet());
   }
 
   /**
