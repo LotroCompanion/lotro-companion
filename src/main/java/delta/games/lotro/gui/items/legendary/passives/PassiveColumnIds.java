@@ -9,5 +9,9 @@ public enum PassiveColumnIds
   /**
    * Label (stat name).
    */
-  LABEL
+  LABEL,
+  /**
+   * Value.
+   */
+  VALUE
 }

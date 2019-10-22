@@ -74,7 +74,7 @@ public class SinglePassiveEditionController
 
   private void handleButtonClick(JButton button)
   {
-    Effect passive=PassiveChooser.selectPassive(_parent,_itemId,_passive);
+    Effect passive=PassiveChooser.selectPassive(_parent,_itemId,_level,_passive);
     if (passive!=null)
     {
       _passive=passive;
