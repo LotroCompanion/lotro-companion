@@ -16,7 +16,7 @@ import delta.games.lotro.lore.items.ItemInstance;
 public class ItemInstanceEditionWindowController extends DefaultFormDialogController<ItemInstance<? extends Item>>
 {
   // Controllers
-  private ItemInstanceEditionPanelController _panelController;
+  private ItemInstanceEditionPanelController2 _panelController;
 
   /**
    * Constructor.
@@ -27,7 +27,7 @@ public class ItemInstanceEditionWindowController extends DefaultFormDialogContro
   public ItemInstanceEditionWindowController(WindowController parent, CharacterSummary character, ItemInstance<? extends Item> itemInstance)
   {
     super(parent,itemInstance);
-    _panelController=new ItemInstanceEditionPanelController(this,character,itemInstance);
+    _panelController=new ItemInstanceEditionPanelController2(this,_data);
   }
 
   @Override
@@ -48,7 +48,7 @@ public class ItemInstanceEditionWindowController extends DefaultFormDialogContro
   @Override
   protected void okImpl()
   {
-    _panelController.getItem();
+    //_panelController.getItem();
   }
 
   /**
