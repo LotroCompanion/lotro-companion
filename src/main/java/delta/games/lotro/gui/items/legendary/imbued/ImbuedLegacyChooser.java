@@ -1,6 +1,7 @@
 package delta.games.lotro.gui.items.legendary.imbued;
 
 import java.awt.Dimension;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JDialog;
@@ -10,6 +11,7 @@ import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.lore.items.EquipmentLocation;
 import delta.games.lotro.lore.items.legendary.LegaciesManager;
+import delta.games.lotro.lore.items.legendary.LegacyType;
 import delta.games.lotro.lore.items.legendary.imbued.ImbuedLegacy;
 import delta.games.lotro.utils.gui.chooser.ObjectChoiceWindowController;
 
@@ -53,7 +55,11 @@ public class ImbuedLegacyChooser
   public static ImbuedLegacy selectImbuedLegacy(WindowController parent, CharacterClass characterClass, EquipmentLocation slot, ImbuedLegacy selectedLegacy)
   {
     LegaciesManager legaciesMgr=LegaciesManager.getInstance();
-    List<ImbuedLegacy> legacies=legaciesMgr.get(characterClass,slot);
+    List<ImbuedLegacy> classLegacies=legaciesMgr.get(characterClass,slot,LegacyType.CLASS);
+    List<ImbuedLegacy> statLegacies=legaciesMgr.get(characterClass,slot,LegacyType.STAT);
+    List<ImbuedLegacy> legacies=new ArrayList<ImbuedLegacy>();
+    legacies.addAll(classLegacies);
+    legacies.addAll(statLegacies);
     // Build chooser
     ObjectChoiceWindowController<ImbuedLegacy> chooser=buildChooser(parent,legacies,selectedLegacy);
     // Show modal
