@@ -6,7 +6,6 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
@@ -46,9 +45,8 @@ import delta.games.lotro.lore.items.ItemQuality;
 import delta.games.lotro.lore.items.ItemSturdiness;
 import delta.games.lotro.lore.items.Weapon;
 import delta.games.lotro.lore.items.WeaponType;
-import delta.games.lotro.lore.items.essences.EssencesSet;
-import delta.games.lotro.lore.items.legendary.LegendaryInstanceAttrs;
 import delta.games.lotro.lore.items.legendary.LegendaryInstance;
+import delta.games.lotro.lore.items.legendary.LegendaryInstanceAttrs;
 import delta.games.lotro.lore.items.scaling.Munging;
 import delta.games.lotro.utils.FixedDecimalsInteger;
 import delta.games.lotro.utils.maths.Progression;
@@ -411,7 +409,7 @@ public class ItemEditionPanelController
     }
 
     // Essences
-    _essencesEditor.initFromItem(_itemInstance);
+    _essencesEditor.init(_itemInstance.getEssences());
   }
 
   /**
@@ -474,17 +472,7 @@ public class ItemEditionPanelController
     // Quality
     //_item.setQuality(_quality.getSelectedItem());
     // Essences
-    List<Item> selectedEssences=_essencesEditor.getEssences();
-    EssencesSet essences=null;
-    if (selectedEssences.size()>0)
-    {
-      essences=new EssencesSet(selectedEssences.size());
-      for(int i=0;i<selectedEssences.size();i++)
-      {
-        essences.setEssence(i,selectedEssences.get(i));
-      }
-    }
-    _itemInstance.setEssences(essences);
+    _essencesEditor.getEssences();
 
     // Weapon specifics
     // TODO Manage weapon instance attributes

@@ -27,7 +27,7 @@ public class ItemInstanceEditionWindowController extends DefaultFormDialogContro
   public ItemInstanceEditionWindowController(WindowController parent, CharacterSummary character, ItemInstance<? extends Item> itemInstance)
   {
     super(parent,itemInstance);
-    _panelController=new ItemInstanceEditionPanelController2(this,_data);
+    _panelController=new ItemInstanceEditionPanelController2(this,character,_data);
   }
 
   @Override
@@ -48,7 +48,7 @@ public class ItemInstanceEditionWindowController extends DefaultFormDialogContro
   @Override
   protected void okImpl()
   {
-    //_panelController.getItem();
+    System.out.println(_data.dump());
   }
 
   /**

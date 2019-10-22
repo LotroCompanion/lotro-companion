@@ -5,7 +5,6 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -43,9 +42,8 @@ import delta.games.lotro.lore.items.ArmourInstance;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemInstance;
 import delta.games.lotro.lore.items.ItemPropertyNames;
-import delta.games.lotro.lore.items.essences.EssencesSet;
-import delta.games.lotro.lore.items.legendary.LegendaryInstanceAttrs;
 import delta.games.lotro.lore.items.legendary.LegendaryInstance;
+import delta.games.lotro.lore.items.legendary.LegendaryInstanceAttrs;
 import delta.games.lotro.lore.items.scaling.Munging;
 import delta.games.lotro.utils.DateFormat;
 import delta.games.lotro.utils.FixedDecimalsInteger;
@@ -354,7 +352,7 @@ public class ItemInstanceEditionPanelController
     // - Own stats
     setStats(_itemInstance.getEffectiveOwnStats());
     // - Essences
-    _essencesEditor.initFromItem(_itemInstance);
+    _essencesEditor.init(_itemInstance.getEssences());
     // - Durability
     _durability.setValue(_itemInstance.getDurability());
     // - Scaling level
@@ -412,19 +410,7 @@ public class ItemInstanceEditionPanelController
       _itemInstance.setOwnStats(stats);
     }
     // - Essences
-    {
-      List<Item> selectedEssences=_essencesEditor.getEssences();
-      EssencesSet essences=null;
-      if (selectedEssences.size()>0)
-      {
-        essences=new EssencesSet(selectedEssences.size());
-        for(int i=0;i<selectedEssences.size();i++)
-        {
-          essences.setEssence(i,selectedEssences.get(i));
-        }
-      }
-      _itemInstance.setEssences(essences);
-    }
+    _essencesEditor.getEssences();
     // - Durability
     _itemInstance.setDurability(_durability.getValue());
     // - Scaling level

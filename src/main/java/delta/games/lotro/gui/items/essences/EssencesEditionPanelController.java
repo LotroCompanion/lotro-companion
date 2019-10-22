@@ -1,15 +1,11 @@
 package delta.games.lotro.gui.items.essences;
 
-import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
@@ -17,7 +13,7 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.CharacterSummary;
 import delta.games.lotro.lore.items.Item;
-import delta.games.lotro.lore.items.ItemInstance;
+import delta.games.lotro.lore.items.essences.EssencesSet;
 
 /**
  * Panel to edit essences.
@@ -27,8 +23,8 @@ public class EssencesEditionPanelController
 {
   // Data
   private CharacterSummary _character;
+  private EssencesSet _essences;
   // GUI
-  private JPanel _essencesPanel;
   private JPanel _panel;
   // Controllers
   private WindowController _parent;
@@ -49,42 +45,22 @@ public class EssencesEditionPanelController
 
   private JPanel build()
   {
-    JPanel wholePanel=GuiFactory.buildBackgroundPanel(new BorderLayout());
-    _essencesPanel=GuiFactory.buildPanel(new GridBagLayout());
-    //_essencesPanel.setOpaque(true);
-    wholePanel.add(_essencesPanel,BorderLayout.CENTER);
-    JButton button=GuiFactory.buildButton("New slot");
-    ActionListener al=new ActionListener()
-    {
-      @Override
-      public void actionPerformed(ActionEvent e)
-      {
-        addSlot();
-      }
-    };
-    button.addActionListener(al);
-    JPanel buttonsPanel=GuiFactory.buildPanel(null);
-    BoxLayout layout=new BoxLayout(buttonsPanel,BoxLayout.Y_AXIS);
-    buttonsPanel.setLayout(layout);
-    buttonsPanel.add(button);
-    wholePanel.add(buttonsPanel,BorderLayout.EAST);
-    return wholePanel;
+    JPanel ret=GuiFactory.buildBackgroundPanel(new GridBagLayout());
+    return ret;
   }
 
   /**
-   * Initialize the managed panel with the given item.
-   * @param itemInstance Item instance to set.
+   * Initialize the managed panel with the given essences set.
+   * @param essences Item instance to set.
    */
-  public void initFromItem(ItemInstance<? extends Item> itemInstance)
+  public void init(EssencesSet essences)
   {
+    _essences=essences;
     _essenceControllers.clear();
-    Item reference=itemInstance.getReference();
-    int refSlots=reference.getEssenceSlots();
-    int nbInstanceSlots=itemInstance.getEssencesCount();
-    int nbSlots=Math.max(refSlots,nbInstanceSlots);
+    int nbSlots=essences.getSize();
     for(int i=0;i<nbSlots;i++)
     {
-      Item essence=itemInstance.getEssenceAt(i);
+      Item essence=essences.getEssence(i);
       SingleEssenceEditionController ctrl=new SingleEssenceEditionController(_parent,1,_character);
       ctrl.setEssence(essence);
       _essenceControllers.add(ctrl);
@@ -103,11 +79,11 @@ public class EssencesEditionPanelController
 
   private void updateUi()
   {
-    _essencesPanel.removeAll();
+    _panel.removeAll();
     int index=0;
     for(SingleEssenceEditionController ctrl : _essenceControllers)
     {
-      buildStatUi(_essencesPanel,ctrl,index);
+      buildStatUi(_panel,ctrl,index);
       index++;
     }
     _panel.revalidate();
@@ -131,26 +107,18 @@ public class EssencesEditionPanelController
     panel.add(deleteButton,c);
   }
 
-  private void addSlot()
-  {
-    SingleEssenceEditionController ctrl=new SingleEssenceEditionController(_parent,1,_character);
-    _essenceControllers.add(ctrl);
-    updateUi();
-  }
-
   /**
-   * Get the selected essences.
-   * @return a list of essences (with <code>null</code> items possible).
+   * Get the current values of the edited essences set.
    */
-  public List<Item> getEssences()
+  public void getEssences()
   {
-    List<Item> essences=new ArrayList<Item>();
-    for(SingleEssenceEditionController ctrl : _essenceControllers)
+    int nbSlots=_essences.getSize();
+    for(int i=0;i<nbSlots;i++)
     {
+      SingleEssenceEditionController ctrl =_essenceControllers.get(i);
       Item essence=ctrl.getEssence();
-      essences.add(essence);
+      _essences.setEssence(i,essence);
     }
-    return essences;
   }
 
   /**
@@ -163,11 +131,6 @@ public class EssencesEditionPanelController
     {
       _panel.removeAll();
       _panel=null;
-    }
-    if (_essencesPanel!=null)
-    {
-      _essencesPanel.removeAll();
-      _essencesPanel=null;
     }
     if (_essenceControllers!=null)
     {

@@ -17,7 +17,6 @@ import delta.common.ui.swing.text.IntegerEditionController;
 import delta.common.ui.swing.text.TextListener;
 import delta.common.ui.swing.text.dates.DateCodec;
 import delta.common.ui.swing.text.dates.DateEditionController;
-import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.NumericTools;
 import delta.games.lotro.Config;
 import delta.games.lotro.character.stats.BasicStatsSet;
@@ -47,7 +46,6 @@ public class ItemInstanceMainAttrsEditionPanelController
   private Munging _munging;
   // GUI
   private JPanel _panel;
-  private WindowController _parent;
   // - Instance ID
   private ItemInstanceIdEditionPanelController _instanceId;
   // - Validity date
@@ -79,12 +77,10 @@ public class ItemInstanceMainAttrsEditionPanelController
 
   /**
    * Constructor.
-   * @param parent Parent window.
    * @param itemInstance Item instance.
    */
-  public ItemInstanceMainAttrsEditionPanelController(WindowController parent, ItemInstance<? extends Item> itemInstance)
+  public ItemInstanceMainAttrsEditionPanelController(ItemInstance<? extends Item> itemInstance)
   {
-    _parent=parent;
     _itemInstance=itemInstance;
   }
 
@@ -244,12 +240,6 @@ public class ItemInstanceMainAttrsEditionPanelController
   private void setItem()
   {
     Item item=_itemInstance.getReference();
-    // Title
-    String name=item.getName();
-    if (_parent!=null)
-    {
-      _parent.setTitle(name);
-    }
     // - Instance ID
     _instanceId.setInstanceId(_itemInstance.getInstanceId());
     // - Validity date
@@ -292,7 +282,7 @@ public class ItemInstanceMainAttrsEditionPanelController
   }
 
   /**
-   * Get the current value of the edited item instance.
+   * Get the current values of the edited item instance.
    */
   public void getItem()
   {
@@ -336,8 +326,6 @@ public class ItemInstanceMainAttrsEditionPanelController
         _itemInstance.removeProperty(ItemPropertyNames.USER_COMMENT);
       }
     }
-    // - Own stats
-    // TODO
   }
 
   private ComboBoxController<ColorDescription> buildColorCombo()
@@ -449,7 +437,6 @@ public class ItemInstanceMainAttrsEditionPanelController
       _panel.removeAll();
       _panel=null;
     }
-    _parent=null;
     // - Instance ID
     if (_instanceId!=null)
     {

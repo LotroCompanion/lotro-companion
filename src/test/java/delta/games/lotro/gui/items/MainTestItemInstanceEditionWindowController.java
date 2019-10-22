@@ -1,5 +1,7 @@
 package delta.games.lotro.gui.items;
 
+import delta.games.lotro.character.CharacterSummary;
+import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.gui.items.legendary.shared.LegendariesTestUtils;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemInstance;
@@ -16,10 +18,13 @@ public class MainTestItemInstanceEditionWindowController
    */
   public static void main(String[] args)
   {
+    CharacterSummary character=new CharacterSummary();
+    character.setCharacterClass(CharacterClass.HUNTER);
+    character.setLevel(120);
     for(String sample : ItemsTestUtils.TEST_SAMPLES)
     {
       ItemInstance<? extends Item> itemInstance=ItemsTestUtils.loadItemInstance(ItemsTestUtils.class,"samples/"+sample);
-      ItemInstanceEditionWindowController ctrl=new ItemInstanceEditionWindowController(null,null,itemInstance);
+      ItemInstanceEditionWindowController ctrl=new ItemInstanceEditionWindowController(null,character,itemInstance);
       ctrl.show(false);
     }
     for(String sample : LegendariesTestUtils.TEST_SAMPLES)

@@ -1,10 +1,11 @@
-package delta.games.lotro.gui.items;
+package delta.games.lotro.gui.items.essences;
 
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 
 import delta.common.ui.swing.windows.DefaultFormDialogController;
 import delta.common.ui.swing.windows.WindowController;
+import delta.games.lotro.character.CharacterSummary;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemInstance;
 
@@ -12,20 +13,23 @@ import delta.games.lotro.lore.items.ItemInstance;
  * Controller for an item instance edition window.
  * @author DAM
  */
-public class ItemInstanceMainAttrsEditionWindowController extends DefaultFormDialogController<ItemInstance<? extends Item>>
+public class EssencesSetEditionWindowController extends DefaultFormDialogController<ItemInstance<? extends Item>>
 {
   // Controllers
-  private ItemInstanceMainAttrsEditionPanelController _panelController;
+  private EssencesEditionPanelController _panelController;
 
   /**
    * Constructor.
    * @param parent Parent window.
+   * @param character Character.
    * @param itemInstance Item instance.
    */
-  public ItemInstanceMainAttrsEditionWindowController(WindowController parent, ItemInstance<? extends Item> itemInstance)
+  public EssencesSetEditionWindowController(WindowController parent, CharacterSummary character, ItemInstance<? extends Item> itemInstance)
   {
     super(parent,itemInstance);
-    _panelController=new ItemInstanceMainAttrsEditionPanelController(itemInstance);
+    // TODO Use character summary to filter available essences
+    _panelController=new EssencesEditionPanelController(this,character);
+    _panelController.init(itemInstance.getEssences());
   }
 
   @Override
@@ -48,14 +52,14 @@ public class ItemInstanceMainAttrsEditionWindowController extends DefaultFormDia
   {
     Item reference=_data.getReference();
     String name=reference.getName();
-    String title="Edit "+name;
+    String title="Edit essences for "+name;
     getDialog().setTitle(title);
   }
 
   @Override
   protected void okImpl()
   {
-    _panelController.getItem();
+    _panelController.getEssences();
   }
 
   /**

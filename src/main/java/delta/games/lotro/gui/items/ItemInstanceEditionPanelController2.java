@@ -11,7 +11,9 @@ import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.WindowController;
+import delta.games.lotro.character.CharacterSummary;
 import delta.games.lotro.gui.items.essences.EssencesSetDisplayController;
+import delta.games.lotro.gui.items.essences.EssencesSetEditionWindowController;
 import delta.games.lotro.gui.items.legendary.LegendaryInstanceDisplayPanelController;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemInstance;
@@ -25,6 +27,7 @@ import delta.games.lotro.utils.gui.StatsPanel;
 public class ItemInstanceEditionPanelController2
 {
   // Data
+  private CharacterSummary _character;
   private ItemInstance<? extends Item> _itemInstance;
   // GUI
   private JPanel _panel;
@@ -43,11 +46,13 @@ public class ItemInstanceEditionPanelController2
   /**
    * Constructor.
    * @param parent Parent window.
+   * @param character Character.
    * @param itemInstance Item instance.
    */
-  public ItemInstanceEditionPanelController2(WindowController parent, ItemInstance<? extends Item> itemInstance)
+  public ItemInstanceEditionPanelController2(WindowController parent, CharacterSummary character, ItemInstance<? extends Item> itemInstance)
   {
     _parent=parent;
+    _character=character;
     _itemInstance=itemInstance;
     _panel=buildPanel();
     update();
@@ -191,7 +196,13 @@ public class ItemInstanceEditionPanelController2
 
   private void editMainAttrs()
   {
-    System.out.println("Edit main attrs!");
+    ItemInstanceMainAttrsEditionWindowController editor=new ItemInstanceMainAttrsEditionWindowController(_parent,_itemInstance);
+    ItemInstance<? extends Item> updatedItem=editor.editModal();
+    if (updatedItem!=null)
+    {
+      _mainAttrs.update();
+      _parent.getWindow().pack();
+    }
   }
 
   private void editStats()
@@ -201,10 +212,16 @@ public class ItemInstanceEditionPanelController2
 
   private void editEssences()
   {
-    System.out.println("Edit essences!");
+    EssencesSetEditionWindowController editor=new EssencesSetEditionWindowController(_parent,_character,_itemInstance);
+    ItemInstance<? extends Item> updatedItem=editor.editModal();
+    if (updatedItem!=null)
+    {
+      _essences.update();
+      _parent.getWindow().pack();
+    }
   }
 
-  private void editLegendaryStuff()
+  void editLegendaryStuff()
   {
     System.out.println("Edit legendary stuff!");
   }
