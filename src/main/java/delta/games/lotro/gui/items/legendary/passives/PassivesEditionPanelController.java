@@ -88,12 +88,14 @@ public class PassivesEditionPanelController
    */
   public void getData(LegendaryInstanceAttrs legendaryAttrs)
   {
-    List<Effect> passives=legendaryAttrs.getPassives();
-    passives.clear();
+    legendaryAttrs.removeAllPassvies();
     for(SinglePassiveEditionController controller : _passiveGadgets)
     {
       Effect passive=controller.getPassive();
-      passives.add(passive);
+      if (passive!=null)
+      {
+        legendaryAttrs.addPassive(passive);
+      }
     }
   }
 
