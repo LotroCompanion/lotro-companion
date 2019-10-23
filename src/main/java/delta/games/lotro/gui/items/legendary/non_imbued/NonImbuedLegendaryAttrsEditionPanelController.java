@@ -264,10 +264,16 @@ public class NonImbuedLegendaryAttrsEditionPanelController
     // Attributes
     // - upgrades
     Integer nbUpgrades=_upgrades.getSelectedItem();
-    attrs.setNbUpgrades(nbUpgrades.intValue());
+    if (nbUpgrades!=null)
+    {
+      attrs.setNbUpgrades(nbUpgrades.intValue());
+    }
     // - level
     Integer level=_level.getSelectedItem();
-    attrs.setLegendaryItemLevel(level.intValue());
+    if (level!=null)
+    {
+      attrs.setLegendaryItemLevel(level.intValue());
+    }
     // - spent points
     Integer spentPoints=_spentPoints.getValue();
     if (spentPoints!=null)
