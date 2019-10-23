@@ -107,7 +107,7 @@ public class LegendaryInstanceDisplayPanelController
     ret.add(_passives,c);
     y++;
     // Legacies
-    c=new GridBagConstraints(0,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    c=new GridBagConstraints(0,y,1,1,1.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     ret.add(_legacies,c);
     y++;
     // Relics
