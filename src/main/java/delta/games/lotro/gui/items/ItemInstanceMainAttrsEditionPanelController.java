@@ -27,12 +27,12 @@ import delta.games.lotro.common.money.Money;
 import delta.games.lotro.common.stats.StatsProvider;
 import delta.games.lotro.gui.common.id.ItemInstanceIdEditionPanelController;
 import delta.games.lotro.gui.common.money.MoneyEditionPanelController;
+import delta.games.lotro.gui.common.stats.StatsPanel;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemInstance;
 import delta.games.lotro.lore.items.ItemPropertyNames;
 import delta.games.lotro.lore.items.scaling.Munging;
 import delta.games.lotro.utils.DateFormat;
-import delta.games.lotro.utils.gui.StatsPanel;
 import delta.games.lotro.utils.maths.Progression;
 
 /**

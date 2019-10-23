@@ -1,4 +1,4 @@
-package delta.games.lotro.utils.gui;
+package delta.games.lotro.gui.common.stats;
 
 import java.awt.GridBagConstraints;
 import java.awt.Insets;

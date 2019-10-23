@@ -11,7 +11,7 @@ import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.character.stats.virtues.VirtuesContributionsMgr;
 import delta.games.lotro.character.stats.virtues.VirtuesSet;
-import delta.games.lotro.utils.gui.StatsPanel;
+import delta.games.lotro.gui.common.stats.StatsPanel;
 
 /**
  * Controller for a panel to display the stats of virtues.

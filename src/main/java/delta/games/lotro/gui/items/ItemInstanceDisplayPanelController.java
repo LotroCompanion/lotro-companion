@@ -8,12 +8,12 @@ import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.WindowController;
+import delta.games.lotro.gui.common.stats.StatsPanel;
 import delta.games.lotro.gui.items.essences.EssencesSetDisplayController;
 import delta.games.lotro.gui.items.legendary.LegendaryInstanceDisplayPanelController;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemInstance;
 import delta.games.lotro.lore.items.legendary.LegendaryInstance;
-import delta.games.lotro.utils.gui.StatsPanel;
 
 /**
  * Controller for an item instance edition panel.
