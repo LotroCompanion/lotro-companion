@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.CharacterSummary;
+import delta.games.lotro.gui.common.stats.CustomStatsEditionWindowController;
 import delta.games.lotro.gui.common.stats.StatsPanel;
 import delta.games.lotro.gui.items.essences.EssencesSetDisplayController;
 import delta.games.lotro.gui.items.essences.EssencesSetEditionWindowController;
@@ -226,13 +227,20 @@ public class ItemInstanceEditionPanelController
     if (updatedItem!=null)
     {
       _mainAttrs.update();
-      _parent.getWindow().pack();
+      updateStats();
+      updateWindow();
     }
   }
 
   private void editStats()
   {
-    System.out.println("Edit stats!");
+    CustomStatsEditionWindowController editor=new CustomStatsEditionWindowController(_parent,_itemInstance);
+    ItemInstance<? extends Item> updatedItem=editor.editModal();
+    if (updatedItem!=null)
+    {
+      updateStats();
+      updateWindow();
+    }
   }
 
   private void editEssences()
@@ -242,7 +250,7 @@ public class ItemInstanceEditionPanelController
     if (updatedItem!=null)
     {
       _essences.update();
-      _parent.getWindow().pack();
+      updateWindow();
     }
   }
 
@@ -253,8 +261,15 @@ public class ItemInstanceEditionPanelController
     if (updatedItem!=null)
     {
       _legendary.update();
-      _parent.getWindow().pack();
+      updateWindow();
     }
+  }
+
+  private void updateWindow()
+  {
+    _panel.revalidate();
+    _panel.repaint();
+    _parent.getWindow().pack();
   }
 
   /**
@@ -263,7 +278,7 @@ public class ItemInstanceEditionPanelController
   private void update()
   {
     // Stats
-    StatsPanel.fillStatsPanel(_stats,_itemInstance.getEffectiveOwnStats(),null);
+    updateStats();
     // Main attributes
     _mainAttrs.update();
     // Essences
@@ -276,6 +291,11 @@ public class ItemInstanceEditionPanelController
     {
       _legendary.update();
     }
+  }
+
+  private void updateStats()
+  {
+    StatsPanel.fillStatsPanel(_stats,_itemInstance.getStatsManager().getResult(),null);
   }
 
   /**

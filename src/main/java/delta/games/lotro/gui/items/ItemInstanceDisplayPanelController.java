@@ -131,7 +131,7 @@ public class ItemInstanceDisplayPanelController
       _parent.setTitle(name);
     }
     // Stats
-    StatsPanel.fillStatsPanel(_stats,_itemInstance.getEffectiveOwnStats(),null);
+    StatsPanel.fillStatsPanel(_stats,_itemInstance.getStatsManager().getResult(),null);
     // Main attributes
     _mainAttrs.update();
     // Essences

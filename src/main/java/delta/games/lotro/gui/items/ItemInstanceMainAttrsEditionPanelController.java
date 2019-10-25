@@ -278,7 +278,7 @@ public class ItemInstanceMainAttrsEditionPanelController
     if (userComments==null) userComments="";
     _userComments.setText(userComments);
     // - Own stats
-    setStats(_itemInstance.getEffectiveOwnStats());
+    setStats(_itemInstance.getStatsManager().getDefault());
   }
 
   /**
@@ -326,6 +326,8 @@ public class ItemInstanceMainAttrsEditionPanelController
         _itemInstance.removeProperty(ItemPropertyNames.USER_COMMENT);
       }
     }
+    // - Own stats
+    _itemInstance.updateAutoStats();
   }
 
   private ComboBoxController<ColorDescription> buildColorCombo()
