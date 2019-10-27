@@ -47,7 +47,7 @@ public class ItemInstanceEditionWindowController extends DefaultFormDialogContro
   @Override
   protected void okImpl()
   {
-    System.out.println(_data.dump());
+    //System.out.println(_data.dump());
   }
 
   /**
