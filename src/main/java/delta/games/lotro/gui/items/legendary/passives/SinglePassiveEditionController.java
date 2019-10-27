@@ -36,14 +36,13 @@ public class SinglePassiveEditionController
    * @param parent Parent window.
    * @param passive Current effect (may be <code>null</code>).
    * @param itemId Item identifier.
-   * @param level Item level to use for stats computations.
    */
-  public SinglePassiveEditionController(WindowController parent, Effect passive, int itemId, int level)
+  public SinglePassiveEditionController(WindowController parent, Effect passive, int itemId)
   {
     _parent=parent;
     _passive=passive;
     _itemId=itemId;
-    _level=level;
+    _level=1;
     // UI
     // - value display
     _value=GuiFactory.buildLabel("");
@@ -70,6 +69,16 @@ public class SinglePassiveEditionController
     };
     _deleteButton.addActionListener(listenerDelete);
     updateUi();
+  }
+
+  /**
+   * Set the level to use for passive stats computations.
+   * @param level Level to set.
+   */
+  public void setLevel(int level)
+  {
+    _level=level;
+    updateStats();
   }
 
   private void handleButtonClick(JButton button)

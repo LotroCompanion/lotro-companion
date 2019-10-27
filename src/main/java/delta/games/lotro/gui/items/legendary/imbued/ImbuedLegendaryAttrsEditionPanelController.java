@@ -37,6 +37,8 @@ public class ImbuedLegendaryAttrsEditionPanelController
   // Controllers
   private WindowController _parent;
   private List<SingleImbuedLegacyEditionController> _editors;
+  // Listeners
+  private ItemSelectionListener<Integer> _mainLegacyTierChangeListener;
 
   /**
    * Constructor.
@@ -59,12 +61,33 @@ public class ImbuedLegendaryAttrsEditionPanelController
     }
   }
 
+  /**
+   * Set the main legacy tier listener.
+   * @param mainLegacyTierChangeListener Listener to set.
+   */
+  public void setMainLegacyTierListener(ItemSelectionListener<Integer> mainLegacyTierChangeListener)
+  {
+    _mainLegacyTierChangeListener=mainLegacyTierChangeListener;
+  }
+
   private void updateLevels()
   {
     int currentLevels=_attrs.getTotalTiers();
     int maxLevels=_attrs.getMaxTotalTiers();
     String label="Levels (current / max): "+currentLevels+" / "+maxLevels;
     _levels.setText(label);
+    if (_mainLegacyTierChangeListener!=null)
+    {
+      int tier=getMainLegacyTier();
+      _mainLegacyTierChangeListener.itemSelected(Integer.valueOf(tier));
+    }
+  }
+
+  private int getMainLegacyTier()
+  {
+    ImbuedLegacyInstance mainLegacy=_editors.get(0).getLegacyInstance();
+    int tier=mainLegacy.getCurrentLevel();
+    return tier;
   }
 
   /**
@@ -228,5 +251,7 @@ public class ImbuedLegendaryAttrsEditionPanelController
       _editors.clear();
       _editors=null;
     }
+    // Listeners
+    _mainLegacyTierChangeListener=null;
   }
 }

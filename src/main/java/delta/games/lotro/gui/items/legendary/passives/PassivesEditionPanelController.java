@@ -31,9 +31,8 @@ public class PassivesEditionPanelController
    * @param parent Parent controller.
    * @param legendaryAttrs Attributes to edit.
    * @param itemId Item identifier.
-   * @param level Item level.
    */
-  public PassivesEditionPanelController(WindowController parent, LegendaryInstanceAttrs legendaryAttrs, int itemId, int level)
+  public PassivesEditionPanelController(WindowController parent, LegendaryInstanceAttrs legendaryAttrs, int itemId)
   {
     _passiveGadgets=new ArrayList<SinglePassiveEditionController>();
     List<Effect> passives=legendaryAttrs.getPassives();
@@ -41,8 +40,20 @@ public class PassivesEditionPanelController
     for(int i=0;i<LegendaryConstants.NB_PASSIVES_MAX;i++)
     {
       Effect passive=(i<nbPassives)?passives.get(i):null;
-      SinglePassiveEditionController controller=new SinglePassiveEditionController(parent,passive,itemId,level);
+      SinglePassiveEditionController controller=new SinglePassiveEditionController(parent,passive,itemId);
       _passiveGadgets.add(controller);
+    }
+  }
+
+  /**
+   * Set the level to use for passive stats computations.
+   * @param level Level to set.
+   */
+  public void setLevel(int level)
+  {
+    for(SinglePassiveEditionController passiveGadgetsCtrl : _passiveGadgets)
+    {
+      passiveGadgetsCtrl.setLevel(level);
     }
   }
 

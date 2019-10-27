@@ -12,6 +12,7 @@ import javax.swing.JTextField;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.checkbox.CheckboxController;
+import delta.common.ui.swing.combobox.ItemSelectionListener;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.common.constraints.ClassAndSlot;
 import delta.games.lotro.gui.items.legendary.imbued.ImbuedLegendaryAttrsEditionPanelController;
@@ -79,14 +80,14 @@ public class LegendaryInstanceEditionPanelController
     NonImbuedLegendaryInstanceAttrs nonImbuedAttrs=attrs.getNonImbuedAttrs();
     _nonImbued=new NonImbuedLegendaryAttrsEditionPanelController(parent,nonImbuedAttrs,constraints);
     Integer itemLevelInt=item.getEffectiveItemLevel();
-    int itemLevel=(itemLevelInt!=null)?itemLevelInt.intValue():1;
+    final int itemLevel=(itemLevelInt!=null)?itemLevelInt.intValue():1;
     Item itemReference=item.getReference();
     _nonImbued.setReferenceData(itemLevel,itemReference);
     // Title
     _title=new LegendaryTitleEditionPanelController(parent,attrs);
     // Passives
     int itemId=item.getIdentifier();
-    _passives=new PassivesEditionPanelController(parent,attrs,itemId,itemLevel);
+    _passives=new PassivesEditionPanelController(parent,attrs,itemId);
     // Relics
     RelicsSet relics=attrs.getRelicsSet();
     _relics=new RelicsEditionPanelController(parent,relics);
@@ -95,6 +96,21 @@ public class LegendaryInstanceEditionPanelController
     boolean isImbued=attrs.isImbued();
     _isImbued.setSelected(isImbued);
     setImbued(isImbued);
+
+    // Set-up a listener to update passives level when the tier of main imbued legacy changes
+    ItemSelectionListener<Integer> mainLegacyTierChangeListener=new ItemSelectionListener<Integer>()
+    {
+      @Override
+      public void itemSelected(Integer mainLegacyTier)
+      {
+        int level=itemLevel+mainLegacyTier.intValue();
+        _passives.setLevel(level);
+      }
+    };
+    _imbued.setMainLegacyTierListener(mainLegacyTierChangeListener);
+
+    int level=attrs.findLevelForPassives(itemLevel);
+    _passives.setLevel(level);
   }
 
   /**

@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.util.List;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -12,7 +11,6 @@ import javax.swing.JPanel;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.labels.MultilineLabel2;
 import delta.games.lotro.character.stats.BasicStatsSet;
-import delta.games.lotro.common.effects.Effect;
 import delta.games.lotro.common.stats.StatsProvider;
 import delta.games.lotro.gui.items.legendary.imbued.ImbuedLegendaryAttrsDisplayPanelController;
 import delta.games.lotro.gui.items.legendary.non_imbued.NonImbuedLegendaryAttrsDisplayPanelController;
@@ -141,7 +139,7 @@ public class LegendaryInstanceDisplayPanelController
     // Passives
     Integer itemLevelInt=_itemInstance.getEffectiveItemLevel();
     int itemLevel=(itemLevelInt!=null)?itemLevelInt.intValue():1;
-    BasicStatsSet passives=getPassives(itemLevel,attrs);
+    BasicStatsSet passives=attrs.getPassivesStats(itemLevel);
     _passives.setText(StatDisplayUtils.getStatsDisplayLines(passives));
     _passives.setVisible(passives.getStatsCount()>0);
     // Legacies
@@ -158,19 +156,6 @@ public class LegendaryInstanceDisplayPanelController
     }
     // Relics
     _relics.setData(attrs.getRelicsSet());
-  }
-
-  private BasicStatsSet getPassives(int itemLevel, LegendaryInstanceAttrs attrs)
-  {
-    BasicStatsSet ret=new BasicStatsSet();
-    List<Effect> passives=attrs.getPassives();
-    for(Effect passive : passives)
-    {
-      StatsProvider statsProvider=passive.getStatsProvider();
-      BasicStatsSet singlePassiveStats=statsProvider.getStats(1,itemLevel);
-      ret.addStats(singlePassiveStats);
-    }
-    return ret;
   }
 
   private BasicStatsSet getDefaultStats(LegendaryInstanceAttrs attrs)
