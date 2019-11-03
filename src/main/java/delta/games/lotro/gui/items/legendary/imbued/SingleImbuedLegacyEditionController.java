@@ -37,6 +37,7 @@ public class SingleImbuedLegacyEditionController
   private JLabel _icon;
   private MultilineLabel2 _value;
   private JButton _chooseButton;
+  private JButton _deleteButton;
   // Current level
   private ComboBoxController<Integer> _currentLevel;
   // Max level
@@ -71,10 +72,24 @@ public class SingleImbuedLegacyEditionController
         @Override
         public void actionPerformed(ActionEvent e)
         {
-          handleButtonClick((JButton)e.getSource());
+          handleChooseLegacy((JButton)e.getSource());
         }
       };
       _chooseButton.addActionListener(listener);
+    }
+    // - delete button
+    if (!isMain)
+    {
+      _deleteButton=GuiFactory.buildIconButton("/resources/gui/icons/cross.png");
+      ActionListener listener=new ActionListener()
+      {
+        @Override
+        public void actionPerformed(ActionEvent e)
+        {
+          handleDeleteLegacy((JButton)e.getSource());
+        }
+      };
+      _deleteButton.addActionListener(listener);
     }
     // - current level
     _currentLevel=new ComboBoxController<Integer>();
@@ -120,7 +135,7 @@ public class SingleImbuedLegacyEditionController
     storage.setXp(_legacy.getXp());
   }
 
-  private void handleButtonClick(JButton button)
+  private void handleChooseLegacy(JButton button)
   {
     CharacterClass characterClass=_constraints.getCharacterClass();
     EquipmentLocation location=_constraints.getSlot();
@@ -130,6 +145,14 @@ public class SingleImbuedLegacyEditionController
       setLegacy(legacy);
       setUiFromLegacy();
     }
+  }
+
+  private void handleDeleteLegacy(JButton button)
+  {
+    setLegacy(null);
+    _legacy.setXp(0);
+    _legacy.setUnlockedLevels(0);
+    setUiFromLegacy();
   }
 
   private void handleCurrentLevelUpdate(int currentLevel)
@@ -176,6 +199,11 @@ public class SingleImbuedLegacyEditionController
       int maxLevel=legacy.getMaxLevel();
       initLevelCombo(_maxLevel,maxInitialLevel,maxLevel);
       initLevelCombo(_currentLevel,1,maxInitialLevel);
+    }
+    else
+    {
+      _currentLevel.removeAllItems();
+      _maxLevel.removeAllItems();
     }
   }
 
@@ -228,8 +256,12 @@ public class SingleImbuedLegacyEditionController
     {
       // - Update max level
       _maxLevel.getComboBox().setEnabled(false);
+      _maxLevel.selectItem(null);
       // - Update current level
       _currentLevel.getComboBox().setEnabled(false);
+      _currentLevel.selectItem(null);
+      // - Update icon
+      updateIcon();
       // - Update stats
       updateStats();
     }
@@ -258,6 +290,10 @@ public class SingleImbuedLegacyEditionController
       ImageIcon icon=LotroIconsManager.getLegacyIcon(iconId);
       _icon.setIcon(icon);
     }
+    else
+    {
+      _icon.setIcon(null);
+    }
   }
 
   /**
@@ -279,12 +315,21 @@ public class SingleImbuedLegacyEditionController
   }
 
   /**
-   * Get the managed choose button.
-   * @return the managed choose button.
+   * Get the managed 'choose' button.
+   * @return the managed 'choose' button.
    */
   public JButton getChooseButton()
   {
     return _chooseButton;
+  }
+
+  /**
+   * Get the managed 'delete' button.
+   * @return the managed 'delete' button.
+   */
+  public JButton getDeleteButton()
+  {
+    return _deleteButton;
   }
 
   /**
@@ -319,6 +364,7 @@ public class SingleImbuedLegacyEditionController
     _icon=null;
     _value=null;
     _chooseButton=null;
+    _deleteButton=null;
     if (_currentLevel!=null)
     {
       _currentLevel.dispose();

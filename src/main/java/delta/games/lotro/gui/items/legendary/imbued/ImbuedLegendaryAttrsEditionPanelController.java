@@ -180,12 +180,20 @@ public class ImbuedLegendaryAttrsEditionPanelController
       c=new GridBagConstraints(x,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
       panel.add(maxLevelCombo.getComboBox(),c);
       x++;
-      // Button
+      // Button 'Choose'
       JButton chooseButton=editor.getChooseButton();
       if (chooseButton!=null)
       {
         c=new GridBagConstraints(x,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
         panel.add(chooseButton,c);
+      }
+      x++;
+      // Button 'Delete'
+      JButton deleteButton=editor.getDeleteButton();
+      if (deleteButton!=null)
+      {
+        c=new GridBagConstraints(x,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
+        panel.add(deleteButton,c);
       }
       x++;
       y++;
