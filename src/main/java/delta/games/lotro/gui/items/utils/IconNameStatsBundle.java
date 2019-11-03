@@ -1,6 +1,6 @@
 package delta.games.lotro.gui.items.utils;
 
-import javax.swing.JLabel;
+import javax.swing.JButton;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.labels.MultilineLabel2;
@@ -14,7 +14,7 @@ public class IconNameStatsBundle
   protected static final String ITEM_WITH_NO_ICON="/resources/gui/equipment/itemNoIcon.png";
 
   // UI
-  protected JLabel _icon;
+  protected JButton _icon;
   protected MultilineLabel2 _name;
   protected MultilineLabel2 _stats;
 
@@ -24,7 +24,7 @@ public class IconNameStatsBundle
   public IconNameStatsBundle()
   {
     // Icon
-    _icon=GuiFactory.buildIconLabel(null);
+    _icon=GuiFactory.buildIconButton();
     // Label
     _name=new MultilineLabel2();
     // Stats
@@ -35,7 +35,7 @@ public class IconNameStatsBundle
    * Get the managed icon.
    * @return the managed icon.
    */
-  public JLabel getIcon()
+  public JButton getIcon()
   {
     return _icon;
   }

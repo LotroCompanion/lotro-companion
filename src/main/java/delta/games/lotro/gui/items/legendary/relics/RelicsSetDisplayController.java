@@ -6,7 +6,7 @@ import java.awt.Insets;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JLabel;
+import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
@@ -55,7 +55,7 @@ public class RelicsSetDisplayController
     for(SingleRelicDisplayController controller : _controllers)
     {
       // Icon
-      JLabel icon=controller.getIcon();
+      JButton icon=controller.getIcon();
       GridBagConstraints c=new GridBagConstraints(0,baseLine,1,2,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
       panel.add(icon,c);
       // Label

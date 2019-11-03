@@ -10,13 +10,15 @@ import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.icons.IconsManager;
+import delta.common.ui.swing.labels.MultilineLabel2;
 import delta.common.ui.swing.windows.WindowController;
+import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.gui.LotroIconsManager;
+import delta.games.lotro.gui.utils.StatDisplayUtils;
 import delta.games.lotro.lore.items.legendary.relics.Relic;
 import delta.games.lotro.lore.items.legendary.relics.RelicType;
 import delta.games.lotro.lore.items.legendary.relics.RelicsSet;
@@ -39,9 +41,7 @@ public class RelicsEditionPanelController implements ActionListener
   // GUI
   private JPanel _panel;
   private WindowController _parent;
-  private List<JButton> _buttons;
-  private List<JLabel> _relicNames;
-  private List<JButton> _deleteButtons;
+  private List<SingleRelicEditionController> _editors;
 
   /**
    * Constructor.
@@ -52,6 +52,7 @@ public class RelicsEditionPanelController implements ActionListener
   {
     _parent=parent;
     _relics=relics;
+    _editors=new ArrayList<SingleRelicEditionController>();
   }
 
   /**
@@ -70,39 +71,35 @@ public class RelicsEditionPanelController implements ActionListener
 
   private JPanel build()
   {
-    JPanel panel=GuiFactory.buildBackgroundPanel(new GridBagLayout());
+    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
+
+    int baseLine=0;
     List<Relic> relics=_relics.getRelics();
     int nbRelics=relics.size();
-    _buttons=new ArrayList<JButton>();
-    _relicNames=new ArrayList<JLabel>();
-    _deleteButtons=new ArrayList<JButton>();
     for(int i=0;i<nbRelics;i++)
     {
-      // Button
-      JButton relicIconButton=GuiFactory.buildButton("");
-      relicIconButton.setOpaque(false);
-      _buttons.add(relicIconButton);
-      relicIconButton.setBorderPainted(false);
-      relicIconButton.setMargin(new Insets(0,0,0,0));
-      GridBagConstraints c=new GridBagConstraints(0,i,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+      SingleRelicEditionController editor=new SingleRelicEditionController();
+      // Icon
+      JButton relicIconButton=editor.getIcon();
+      GridBagConstraints c=new GridBagConstraints(0,baseLine,1,2,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
       panel.add(relicIconButton,c);
       relicIconButton.addActionListener(this);
       // Label
-      JLabel relicName=GuiFactory.buildLabel("");
-      _relicNames.add(relicName);
-      c=new GridBagConstraints(1,i,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+      MultilineLabel2 relicName=editor.getNameGadget();
+      c=new GridBagConstraints(1,baseLine,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,5),0,0);
       panel.add(relicName,c);
+      // Stats
+      MultilineLabel2 stats=editor.getStatsGadget();
+      c=new GridBagConstraints(1,baseLine+1,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,5),0,0);
+      panel.add(stats,c);
       // Delete button
-      ImageIcon icon=IconsManager.getIcon("/resources/gui/icons/cross.png");
-      JButton deleteButton=GuiFactory.buildButton("");
-      deleteButton.setIcon(icon);
-      deleteButton.setMargin(new Insets(0,0,0,0));
-      deleteButton.setContentAreaFilled(false);
-      deleteButton.setBorderPainted(false);
+      JButton deleteButton=editor.getDeleteButton();
       deleteButton.addActionListener(this);
-      _deleteButtons.add(deleteButton);
-      c=new GridBagConstraints(2,i,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+      c=new GridBagConstraints(2,baseLine,1,2,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
       panel.add(deleteButton,c);
+
+      baseLine+=2;
+      _editors.add(editor);
     }
     return panel;
   }
@@ -129,8 +126,9 @@ public class RelicsEditionPanelController implements ActionListener
     for(int i=0;i<nbRelics;i++)
     {
       Relic relic=relics.get(i);
+      SingleRelicEditionController editor=_editors.get(i);
       // Set relic icon
-      JButton button=_buttons.get(i);
+      JButton button=editor.getIcon();
       ImageIcon icon=null;
       if (relic!=null)
       {
@@ -144,8 +142,20 @@ public class RelicsEditionPanelController implements ActionListener
       button.setIcon(icon);
       // Text
       String text=(relic!=null)?relic.getName():"";
-      JLabel relicName=_relicNames.get(i);
-      relicName.setText(text);
+      MultilineLabel2 relicName=editor.getNameGadget();
+      relicName.setText(new String[]{text});
+      // Stats
+      MultilineLabel2 relicStats=editor.getStatsGadget();
+      if (relic!=null)
+      {
+        BasicStatsSet stats=relic.getStats();
+        String[] lines=StatDisplayUtils.getStatsDisplayLines(stats);
+        relicStats.setText(lines);
+      }
+      else
+      {
+        relicStats.setText(new String[]{""});
+      }
     }
     // - Resize window
     _parent.pack();
@@ -155,23 +165,25 @@ public class RelicsEditionPanelController implements ActionListener
   public void actionPerformed(ActionEvent e)
   {
     Object source=e.getSource();
-    // Relic icon button
-    int index=_buttons.indexOf(source);
-    if (index!=-1)
+    int index=0;
+    for(SingleRelicEditionController editor : _editors)
     {
-      Relic initialRelic=_relics.getRelics().get(index);
-      RelicType type=RELIC_TYPES[index];
-      Relic relic=RelicChooser.selectRelic(_parent,type,initialRelic);
-      if (relic!=null)
+      // Relic icon button
+      JButton iconButton=editor.getIcon();
+      if (source==iconButton)
       {
-        _relics.slotRelic(relic);
-        update();
+        Relic initialRelic=_relics.getRelics().get(index);
+        RelicType type=RELIC_TYPES[index];
+        Relic relic=RelicChooser.selectRelic(_parent,type,initialRelic);
+        if (relic!=null)
+        {
+          _relics.slotRelic(relic);
+          update();
+        }
       }
-    }
-    else
-    {
-      index=_deleteButtons.indexOf(source);
-      if (index!=-1)
+      // Delete button
+      JButton deleteButton=editor.getDeleteButton();
+      if (source==deleteButton)
       {
         RelicType type=RELIC_TYPES[index];
         if (type==RelicType.SETTING) _relics.setSetting(null);
@@ -180,6 +192,7 @@ public class RelicsEditionPanelController implements ActionListener
         if (type==RelicType.CRAFTED_RELIC) _relics.setCraftedRelic(null);
         update();
       }
+      index++;
     }
   }
 
@@ -194,8 +207,13 @@ public class RelicsEditionPanelController implements ActionListener
       _panel.removeAll();
       _panel=null;
     }
-    _buttons.clear();
-    _relicNames.clear();
-    _deleteButtons.clear();
+    if (_editors!=null)
+    {
+      for(SingleRelicEditionController editor : _editors)
+      {
+        editor.dispose();
+      }
+      _editors=null;
+    }
   }
 }
