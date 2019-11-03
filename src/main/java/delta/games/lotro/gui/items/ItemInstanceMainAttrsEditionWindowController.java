@@ -48,7 +48,7 @@ public class ItemInstanceMainAttrsEditionWindowController extends DefaultFormDia
   {
     Item reference=_data.getReference();
     String name=reference.getName();
-    String title="Edit "+name;
+    String title="Edit main attributes of "+name;
     getDialog().setTitle(title);
   }
 

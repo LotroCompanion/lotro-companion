@@ -45,6 +45,15 @@ public class ItemInstanceEditionWindowController extends DefaultFormDialogContro
   }
 
   @Override
+  public void configureWindow()
+  {
+    Item reference=_data.getReference();
+    String name=reference.getName();
+    String title="Edit "+name;
+    getDialog().setTitle(title);
+  }
+
+  @Override
   protected void okImpl()
   {
     //System.out.println(_data.dump());
