@@ -155,11 +155,6 @@ public class AllEssencesEditionPanelController implements EssenceUpdatedListener
       {
         ItemInstance<? extends Item> itemInstance=itemEssences.getItemInstance();
         EssencesSet essences=itemInstance.getEssences();
-        if (essences==null)
-        {
-          essences=new EssencesSet(essenceCtrls.size());
-          itemInstance.setEssences(essences);
-        }
         essences.setEssence(index,source.getEssence());
         refreshToon();
         break;
