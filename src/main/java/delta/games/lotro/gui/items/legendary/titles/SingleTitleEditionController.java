@@ -141,8 +141,14 @@ public class SingleTitleEditionController
       }
       _complement.setText(complementSb.toString());
     }
+    else
+    {
+      _complement.setText("");
+    }
     // Stats
     updateStats();
+    // Resize window
+    _parent.pack();
   }
 
   private void updateStats()

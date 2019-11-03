@@ -113,6 +113,8 @@ public class SinglePassiveEditionController
   {
     // - Update stats
     updateStats();
+    // - Resize window
+    _parent.pack();
   }
 
   private void updateStats()

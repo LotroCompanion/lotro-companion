@@ -147,6 +147,8 @@ public class RelicsEditionPanelController implements ActionListener
       JLabel relicName=_relicNames.get(i);
       relicName.setText(text);
     }
+    // - Resize window
+    _parent.pack();
   }
 
   @Override
