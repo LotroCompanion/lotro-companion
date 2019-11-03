@@ -30,6 +30,7 @@ public class SingleTieredNonImbuedLegacyEditionController extends SingleNonImbue
 {
   // GUI
   private JButton _chooseButton;
+  private JButton _deleteButton;
   // - tier
   private ComboBoxController<Integer> _tier;
 
@@ -44,17 +45,32 @@ public class SingleTieredNonImbuedLegacyEditionController extends SingleNonImbue
     // UI
     // - chooser button
     _chooseButton=GuiFactory.buildButton("...");
-    ActionListener listener=new ActionListener()
     {
-      @Override
-      public void actionPerformed(ActionEvent e)
+      ActionListener listener=new ActionListener()
       {
-        handleButtonClick((JButton)e.getSource());
-      }
-    };
-    _chooseButton.addActionListener(listener);
+        @Override
+        public void actionPerformed(ActionEvent e)
+        {
+          handleChooseLegacy((JButton)e.getSource());
+        }
+      };
+      _chooseButton.addActionListener(listener);
+    }
+    // - delete button
+    _deleteButton=GuiFactory.buildIconButton("/resources/gui/icons/cross.png");
+    {
+      ActionListener listener=new ActionListener()
+      {
+        @Override
+        public void actionPerformed(ActionEvent e)
+        {
+          handleDeleteLegacy((JButton)e.getSource());
+        }
+      };
+      _deleteButton.addActionListener(listener);
+    }
     // - tier
-    _tier=buildTiersCombos();
+    _tier=buildTiersComboBox();
     ItemSelectionListener<Integer> tierListener=new ItemSelectionListener<Integer>()
     {
       @Override
@@ -85,9 +101,13 @@ public class SingleTieredNonImbuedLegacyEditionController extends SingleNonImbue
       NonImbuedLegacyTier legacyTier=legacy.getTier(tier);
       storage.setLegacyTier(legacyTier);
     }
+    else
+    {
+      storage.setLegacyTier(null);
+    }
   }
 
-  protected void handleButtonClick(JButton button)
+  private void handleChooseLegacy(JButton button)
   {
     CharacterClass characterClass=_constraints.getCharacterClass();
     EquipmentLocation location=_constraints.getSlot();
@@ -97,6 +117,11 @@ public class SingleTieredNonImbuedLegacyEditionController extends SingleNonImbue
     {
       setLegacy(legacy);
     }
+  }
+
+  private void handleDeleteLegacy(JButton button)
+  {
+    setLegacy(null);
   }
 
   private void handleTierUpdate(int tier)
@@ -113,7 +138,7 @@ public class SingleTieredNonImbuedLegacyEditionController extends SingleNonImbue
     handleTierUpdate(tier!=null?tier.intValue():1);
   }
 
-  private ComboBoxController<Integer> buildTiersCombos()
+  private ComboBoxController<Integer> buildTiersComboBox()
   {
     ComboBoxController<Integer> ret=new ComboBoxController<Integer>();
     for(int i=1;i<=6;i++)
@@ -189,10 +214,14 @@ public class SingleTieredNonImbuedLegacyEditionController extends SingleNonImbue
 
   protected void updateIcon()
   {
-    int tier=getTier();
+    ImageIcon icon=null;
     TieredNonImbuedLegacy legacy=getTieredLegacy();
-    boolean major=legacy.isMajor();
-    ImageIcon icon=LotroIconsManager.getLegacyIcon(tier,major);
+    if (legacy!=null)
+    {
+      int tier=getTier();
+      boolean major=legacy.isMajor();
+      icon=LotroIconsManager.getLegacyIcon(tier,major);
+    }
     _icon.setIcon(icon);
   }
 
@@ -212,6 +241,15 @@ public class SingleTieredNonImbuedLegacyEditionController extends SingleNonImbue
   }
 
   /**
+   * Get the managed 'delete' button.
+   * @return the managed 'delete' button.
+   */
+  public JButton getDeleteButton()
+  {
+    return _deleteButton;
+  }
+
+  /**
    * Get the combo-box controller for the tier.
    * @return a combo-box controller.
    */
@@ -227,6 +265,7 @@ public class SingleTieredNonImbuedLegacyEditionController extends SingleNonImbue
   {
     super.dispose();
     _chooseButton=null;
+    _deleteButton=null;
     if (_tier!=null)
     {
       _tier.dispose();

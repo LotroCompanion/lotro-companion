@@ -188,10 +188,18 @@ public class NonImbuedLegendaryAttrsEditionPanelController
       c=new GridBagConstraints(x,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
       panel.add(tierCombo.getComboBox(),c);
       x++;
-      // Button
+      // Button 'Choose'
       JButton chooseButton=tieredEditor.getChooseButton();
       c=new GridBagConstraints(x,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
       panel.add(chooseButton,c);
+      x++;
+      // Button 'Delete'
+      JButton deleteButton=tieredEditor.getDeleteButton();
+      if (deleteButton!=null)
+      {
+        c=new GridBagConstraints(x,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
+        panel.add(deleteButton,c);
+      }
       x++;
     }
   }
