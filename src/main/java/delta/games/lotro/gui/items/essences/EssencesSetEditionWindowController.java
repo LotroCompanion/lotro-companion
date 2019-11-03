@@ -27,7 +27,6 @@ public class EssencesSetEditionWindowController extends DefaultFormDialogControl
   public EssencesSetEditionWindowController(WindowController parent, CharacterSummary character, ItemInstance<? extends Item> itemInstance)
   {
     super(parent,itemInstance);
-    // TODO Use character summary to filter available essences
     _panelController=new EssencesEditionPanelController(this,character);
     _panelController.init(itemInstance.getEssences());
   }
@@ -59,7 +58,7 @@ public class EssencesSetEditionWindowController extends DefaultFormDialogControl
   @Override
   protected void okImpl()
   {
-    _panelController.getEssences();
+    _panelController.getEssences(_data.getEssences());
   }
 
   /**

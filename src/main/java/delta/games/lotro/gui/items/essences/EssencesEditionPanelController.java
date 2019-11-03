@@ -3,6 +3,8 @@ package delta.games.lotro.gui.items.essences;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.labels.MultilineLabel2;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.CharacterSummary;
 import delta.games.lotro.lore.items.Item;
@@ -19,11 +22,11 @@ import delta.games.lotro.lore.items.essences.EssencesSet;
  * Panel to edit essences.
  * @author DAM
  */
-public class EssencesEditionPanelController
+public class EssencesEditionPanelController implements ActionListener
 {
   // Data
   private CharacterSummary _character;
-  private EssencesSet _essences;
+  private List<Item> _essences;
   // GUI
   private JPanel _panel;
   // Controllers
@@ -40,6 +43,7 @@ public class EssencesEditionPanelController
     _parent=parent;
     _character=character;
     _essenceControllers=new ArrayList<SingleEssenceEditionController>();
+    _essences=new ArrayList<Item>();
     _panel=build();
   }
 
@@ -55,17 +59,18 @@ public class EssencesEditionPanelController
    */
   public void init(EssencesSet essences)
   {
-    _essences=essences;
+    _essences.clear();
     _essenceControllers.clear();
     int nbSlots=essences.getSize();
     for(int i=0;i<nbSlots;i++)
     {
       Item essence=essences.getEssence(i);
-      SingleEssenceEditionController ctrl=new SingleEssenceEditionController(_parent,1,_character);
+      _essences.add(essence);
+      SingleEssenceEditionController ctrl=new SingleEssenceEditionController();
       ctrl.setEssence(essence);
       _essenceControllers.add(ctrl);
     }
-    updateUi();
+    buildUi();
   }
 
   /**
@@ -77,47 +82,80 @@ public class EssencesEditionPanelController
     return _panel;
   }
 
-  private void updateUi()
+  private void buildUi()
   {
     _panel.removeAll();
-    int index=0;
-    for(SingleEssenceEditionController ctrl : _essenceControllers)
+
+    int baseLine=0;
+    int nbEssences=_essenceControllers.size();
+    for(int i=0;i<nbEssences;i++)
     {
-      buildStatUi(_panel,ctrl,index);
-      index++;
+      SingleEssenceEditionController editor=_essenceControllers.get(i);
+      // Icon
+      JButton iconButton=editor.getIcon();
+      GridBagConstraints c=new GridBagConstraints(0,baseLine,1,2,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
+      _panel.add(iconButton,c);
+      iconButton.addActionListener(this);
+      // Label
+      MultilineLabel2 name=editor.getNameGadget();
+      c=new GridBagConstraints(1,baseLine,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,5),0,0);
+      _panel.add(name,c);
+      // Stats
+      MultilineLabel2 stats=editor.getStatsGadget();
+      c=new GridBagConstraints(1,baseLine+1,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,5),0,0);
+      _panel.add(stats,c);
+      // Delete button
+      JButton deleteButton=editor.getDeleteButton();
+      deleteButton.addActionListener(this);
+      c=new GridBagConstraints(2,baseLine,1,2,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+      _panel.add(deleteButton,c);
+      baseLine+=2;
     }
     _panel.revalidate();
     _panel.repaint();
   }
 
-  private void buildStatUi(JPanel panel,SingleEssenceEditionController ctrl,int index)
+  @Override
+  public void actionPerformed(ActionEvent e)
   {
-    GridBagConstraints c=new GridBagConstraints(0,index,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
-    // Essence icon
-    JButton value=ctrl.getEssenceButton();
-    panel.add(value,c);
-    // Essence label
-    JPanel unit=ctrl.getEssenceNameLabel();
-    c=new GridBagConstraints(1,index,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
-    panel.add(unit,c);
-    // Delete button
-    JButton deleteButton=ctrl.getDeleteButton();
-    c=new GridBagConstraints(2,index,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
-    c.gridx++;
-    panel.add(deleteButton,c);
+    Object source=e.getSource();
+    int index=0;
+    for(SingleEssenceEditionController editor : _essenceControllers)
+    {
+      // Icon button
+      JButton iconButton=editor.getIcon();
+      if (source==iconButton)
+      {
+        Item essence=EssenceChoice.chooseEssence(_parent,_character);
+        if (essence!=null)
+        {
+          editor.setEssence(essence);
+          _essences.set(index,essence);
+        }
+      }
+      // Delete button
+      JButton deleteButton=editor.getDeleteButton();
+      if (source==deleteButton)
+      {
+        editor.setEssence(null);
+        _essences.set(index,null);
+      }
+      index++;
+    }
+    _parent.pack();
   }
 
   /**
    * Get the current values of the edited essences set.
+   * @param essencesSet Storage for read data.
    */
-  public void getEssences()
+  public void getEssences(EssencesSet essencesSet)
   {
-    int nbSlots=_essences.getSize();
+    int nbSlots=_essences.size();
     for(int i=0;i<nbSlots;i++)
     {
-      SingleEssenceEditionController ctrl =_essenceControllers.get(i);
-      Item essence=ctrl.getEssence();
-      _essences.setEssence(i,essence);
+      Item essence=_essences.get(i);
+      essencesSet.setEssence(i,essence);
     }
   }
 
@@ -141,5 +179,6 @@ public class EssencesEditionPanelController
       _essenceControllers.clear();
       _essenceControllers=null;
     }
+    _essences=null;
   }
 }

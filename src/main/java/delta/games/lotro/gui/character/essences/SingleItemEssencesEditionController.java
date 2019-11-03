@@ -12,7 +12,7 @@ import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.CharacterEquipment.EQUIMENT_SLOT;
 import delta.games.lotro.character.CharacterSummary;
 import delta.games.lotro.gui.character.gear.EquipmentSlotIconController;
-import delta.games.lotro.gui.items.essences.SingleEssenceEditionController;
+import delta.games.lotro.gui.items.essences.SimpleSingleEssenceEditionController;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemInstance;
 import delta.games.lotro.lore.items.essences.EssencesSet;
@@ -28,7 +28,7 @@ public class SingleItemEssencesEditionController
   private CharacterSummary _character;
   // Controllers
   private WindowController _parent;
-  private List<SingleEssenceEditionController> _controllers;
+  private List<SimpleSingleEssenceEditionController> _controllers;
   // UI
   private EquipmentSlotIconController _iconController;
   private JLabel _icon;
@@ -45,7 +45,7 @@ public class SingleItemEssencesEditionController
     _itemInstance=null;
     _character=character;
     _parent=parent;
-    _controllers=new ArrayList<SingleEssenceEditionController>();
+    _controllers=new ArrayList<SimpleSingleEssenceEditionController>();
     _iconController=new EquipmentSlotIconController(slot);
     _icon=GuiFactory.buildIconLabel(_iconController.getIcon());
     _itemName=new MultilineLabel();
@@ -86,7 +86,7 @@ public class SingleItemEssencesEditionController
       int size=Math.max(nbEssences,nbEssenceSlots);
       for(int i=0;i<size;i++)
       {
-        SingleEssenceEditionController controller=new SingleEssenceEditionController(_parent,2,_character);
+        SimpleSingleEssenceEditionController controller=new SimpleSingleEssenceEditionController(_parent,2,_character);
         Item essence=null;
         if (essences!=null)
         {
@@ -124,7 +124,7 @@ public class SingleItemEssencesEditionController
    * Get the managed controllers.
    * @return a list of essence edition controllers.
    */
-  public List<SingleEssenceEditionController> getEssenceControllers()
+  public List<SimpleSingleEssenceEditionController> getEssenceControllers()
   {
     return _controllers;
   }
@@ -140,7 +140,7 @@ public class SingleItemEssencesEditionController
     _parent=null;
     if (_controllers!=null)
     {
-      for(SingleEssenceEditionController controller : _controllers)
+      for(SimpleSingleEssenceEditionController controller : _controllers)
       {
         controller.dispose();
       }

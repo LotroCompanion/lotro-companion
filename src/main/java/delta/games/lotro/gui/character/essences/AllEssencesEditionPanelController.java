@@ -18,7 +18,7 @@ import delta.games.lotro.character.CharacterEquipment.EQUIMENT_SLOT;
 import delta.games.lotro.character.events.CharacterEvent;
 import delta.games.lotro.character.events.CharacterEventType;
 import delta.games.lotro.gui.items.essences.EssenceUpdatedListener;
-import delta.games.lotro.gui.items.essences.SingleEssenceEditionController;
+import delta.games.lotro.gui.items.essences.SimpleSingleEssenceEditionController;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemInstance;
 import delta.games.lotro.lore.items.essences.EssencesSet;
@@ -104,13 +104,13 @@ public class AllEssencesEditionPanelController implements EssenceUpdatedListener
       _panel.add(label,c);
       columnIndex++;
       // Essences
-      List<SingleEssenceEditionController> essenceEditors=controller.getEssenceControllers();
+      List<SimpleSingleEssenceEditionController> essenceEditors=controller.getEssenceControllers();
       int nbEssences=essenceEditors.size();
       for(int i=0;i<nbEssencesColumns;i++)
       {
         if (i<nbEssences)
         {
-          SingleEssenceEditionController essenceEditor=essenceEditors.get(i);
+          SimpleSingleEssenceEditionController essenceEditor=essenceEditors.get(i);
           essenceEditor.setListener(this);
           JButton essenceButton=essenceEditor.getEssenceButton();
           c=new GridBagConstraints(columnIndex,rowIndex,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
@@ -133,7 +133,7 @@ public class AllEssencesEditionPanelController implements EssenceUpdatedListener
     int nbEssences=0;
     for(SingleItemEssencesEditionController controller : _editors)
     {
-      List<SingleEssenceEditionController> essenceEditors=controller.getEssenceControllers();
+      List<SimpleSingleEssenceEditionController> essenceEditors=controller.getEssenceControllers();
       int nbEssencesForItem=essenceEditors.size();
       nbEssences=Math.max(nbEssences,nbEssencesForItem);
     }
@@ -145,11 +145,11 @@ public class AllEssencesEditionPanelController implements EssenceUpdatedListener
    * @param source Source controller.
    */
   @Override
-  public void essenceUpdated(SingleEssenceEditionController source)
+  public void essenceUpdated(SimpleSingleEssenceEditionController source)
   {
     for(SingleItemEssencesEditionController itemEssences : _editors)
     {
-      List<SingleEssenceEditionController> essenceCtrls=itemEssences.getEssenceControllers();
+      List<SimpleSingleEssenceEditionController> essenceCtrls=itemEssences.getEssenceControllers();
       int index=essenceCtrls.indexOf(source);
       if (index!=-1)
       {

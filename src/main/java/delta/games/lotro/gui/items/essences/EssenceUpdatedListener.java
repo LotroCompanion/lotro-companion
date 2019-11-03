@@ -10,5 +10,5 @@ public interface EssenceUpdatedListener
    * Called when the essence managed by the given controller was updated.
    * @param source Source controller.
    */
-  void essenceUpdated(SingleEssenceEditionController source);
+  void essenceUpdated(SimpleSingleEssenceEditionController source);
 }
