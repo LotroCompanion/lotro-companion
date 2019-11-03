@@ -17,6 +17,7 @@ import delta.common.ui.swing.text.IntegerEditionController;
 import delta.common.ui.swing.text.TextListener;
 import delta.common.ui.swing.text.dates.DateCodec;
 import delta.common.ui.swing.text.dates.DateEditionController;
+import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.NumericTools;
 import delta.games.lotro.Config;
 import delta.games.lotro.character.stats.BasicStatsSet;
@@ -44,6 +45,8 @@ public class ItemInstanceMainAttrsEditionPanelController
   // Data
   private ItemInstance<? extends Item> _itemInstance;
   private Munging _munging;
+  // Controllers
+  private WindowController _parent;
   // GUI
   private JPanel _panel;
   // - Instance ID
@@ -77,10 +80,12 @@ public class ItemInstanceMainAttrsEditionPanelController
 
   /**
    * Constructor.
+   * @param parent Parent window.
    * @param itemInstance Item instance.
    */
-  public ItemInstanceMainAttrsEditionPanelController(ItemInstance<? extends Item> itemInstance)
+  public ItemInstanceMainAttrsEditionPanelController(WindowController parent, ItemInstance<? extends Item> itemInstance)
   {
+    _parent=parent;
     _itemInstance=itemInstance;
   }
 
@@ -423,6 +428,7 @@ public class ItemInstanceMainAttrsEditionPanelController
     StatsPanel.fillStatsPanel(_stats,stats,null);
     _stats.revalidate();
     _stats.repaint();
+    _parent.getWindow().pack();
   }
 
   /**
@@ -434,6 +440,7 @@ public class ItemInstanceMainAttrsEditionPanelController
     _itemInstance=null;
     _munging=null;
     // UI/controllers
+    _parent=null;
     if (_panel!=null)
     {
       _panel.removeAll();

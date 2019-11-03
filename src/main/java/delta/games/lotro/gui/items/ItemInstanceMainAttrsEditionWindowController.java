@@ -25,7 +25,7 @@ public class ItemInstanceMainAttrsEditionWindowController extends DefaultFormDia
   public ItemInstanceMainAttrsEditionWindowController(WindowController parent, ItemInstance<? extends Item> itemInstance)
   {
     super(parent,itemInstance);
-    _panelController=new ItemInstanceMainAttrsEditionPanelController(itemInstance);
+    _panelController=new ItemInstanceMainAttrsEditionPanelController(this,itemInstance);
   }
 
   @Override
