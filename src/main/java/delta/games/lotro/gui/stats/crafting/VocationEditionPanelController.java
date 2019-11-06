@@ -14,7 +14,10 @@ import delta.games.lotro.character.crafting.CraftingStatus;
 import delta.games.lotro.character.crafting.GuildStatus;
 import delta.games.lotro.character.crafting.ProfessionStatus;
 import delta.games.lotro.gui.stats.reputation.form.FactionStatusPanelController;
+import delta.games.lotro.lore.crafting.CraftingData;
+import delta.games.lotro.lore.crafting.CraftingSystem;
 import delta.games.lotro.lore.crafting.Profession;
+import delta.games.lotro.lore.crafting.Professions;
 import delta.games.lotro.lore.crafting.Vocation;
 
 /**
@@ -79,12 +82,12 @@ public class VocationEditionPanelController
     Vocation vocation=_status.getVocation();
     _vocationPanel.removeAll();
     JComponent centerComponent=null;
-    List<Profession> professions=(vocation!=null)?vocation.getProfessions():null;
-    if ((professions!=null) && (professions.size()>0))
+    List<Profession> currentProfessions=(vocation!=null)?vocation.getProfessions():null;
+    if ((currentProfessions!=null) && (currentProfessions.size()>0))
     {
       _tabbedPane=GuiFactory.buildTabbedPane();
       // Professions
-      for(Profession profession : professions)
+      for(Profession profession : currentProfessions)
       {
         ProfessionStatus stats=_status.getProfessionStatus(profession,true);
         ProfessionStatusPanelController craftingPanelController=_panels.get(profession);
@@ -94,12 +97,14 @@ public class VocationEditionPanelController
           _panels.put(profession,craftingPanelController);
         }
         JPanel craftingPanel=craftingPanelController.getPanel();
-        _tabbedPane.add(profession.getLabel(),craftingPanel);
+        _tabbedPane.add(profession.getName(),craftingPanel);
       }
       // Clean other professions
-      for(Profession profession : Profession.getAll())
+      CraftingData crafting=CraftingSystem.getInstance().getData();
+      Professions professions=crafting.getProfessionsRegistry();
+      for(Profession profession : professions.getAll())
       {
-        if (!professions.contains(profession))
+        if (!currentProfessions.contains(profession))
         {
           _panels.remove(profession);
         }

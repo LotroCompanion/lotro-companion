@@ -1,6 +1,7 @@
 package delta.games.lotro.gui.stats.crafting.synopsis;
 
 import java.awt.FlowLayout;
+import java.util.Collections;
 import java.util.List;
 
 import javax.swing.JPanel;
@@ -8,8 +9,12 @@ import javax.swing.JPanel;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.common.ui.swing.combobox.ItemSelectionListener;
+import delta.games.lotro.lore.crafting.CraftingData;
+import delta.games.lotro.lore.crafting.CraftingSystem;
 import delta.games.lotro.lore.crafting.Profession;
+import delta.games.lotro.lore.crafting.ProfessionComparator;
 import delta.games.lotro.lore.crafting.ProfessionFilter;
+import delta.games.lotro.lore.crafting.Professions;
 
 /**
  * Controller for a crafting filter edition panel.
@@ -66,12 +71,15 @@ public class CraftingSynopsisFilterController
     JPanel panel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING));
 
     // Professions
-    List<Profession> professions=Profession.getAll();
+    CraftingData crafting=CraftingSystem.getInstance().getData();
+    Professions professionsRegistry=crafting.getProfessionsRegistry();
+    List<Profession> professions=professionsRegistry.getAll();
+    Collections.sort(professions,new ProfessionComparator());
     _professions=new ComboBoxController<Profession>();
     _professions.addEmptyItem(" ");
     for(Profession profession : professions)
     {
-      _professions.addItem(profession,profession.getLabel());
+      _professions.addItem(profession,profession.getName());
     }
     ItemSelectionListener<Profession> listener=new ItemSelectionListener<Profession>()
     {

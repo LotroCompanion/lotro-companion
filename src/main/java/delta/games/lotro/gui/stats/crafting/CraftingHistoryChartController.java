@@ -29,6 +29,7 @@ import org.jfree.data.xy.XYSeriesCollection;
 import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.character.crafting.ProfessionStatus;
 import delta.games.lotro.lore.crafting.CraftingLevel;
+import delta.games.lotro.lore.crafting.Profession;
 import delta.games.lotro.utils.Formats;
 
 /**
@@ -89,10 +90,11 @@ public class CraftingHistoryChartController
   }
 
   private JFreeChart buildChart(){
+    final Profession profession=_stats.getProfession();
     String title="";
     if (_showTitle)
     {
-      title=_stats.getProfession().getLabel();
+      title=profession.getName();
     }
     updateData();
     JFreeChart jfreechart = ChartFactory.createXYStepChart(title,
@@ -126,7 +128,7 @@ public class CraftingHistoryChartController
         }
         else
         {
-          CraftingLevel level=CraftingLevel.getByTier(tier);
+          CraftingLevel level=profession.getByTier(tier);
           if (level!=null)
           {
             if (series==0) label=level.getMastery().getLabel();
@@ -159,13 +161,13 @@ public class CraftingHistoryChartController
     valueAxis.setAxisLinePaint(foregroundColor);
     valueAxis.setLabelPaint(foregroundColor);
     valueAxis.setTickLabelPaint(foregroundColor);
-    CraftingLevel maxLevel=CraftingLevel.getMaximumLevel();
+    CraftingLevel maxLevel=profession.getMaximumLevel();
     valueAxis.setRange(0,maxLevel.getTier());
     NumberFormat nf=new NumberFormat()
     {
       private String format(int number)
       {
-        CraftingLevel level=CraftingLevel.getByTier(number);
+        CraftingLevel level=profession.getByTier(number);
         String ret=(level!=null)?level.getProficiency().getLabel():"???";
         return ret;
       }
@@ -205,7 +207,8 @@ public class CraftingHistoryChartController
     Long lastItemDate=_stats.getValidityDate();
 
     XYSeries proficiencySeries = new XYSeries("Proficiency");
-    CraftingLevel maxLevel=CraftingLevel.getMaximumLevel();
+    Profession profession=_stats.getProfession();
+    CraftingLevel maxLevel=profession.getMaximumLevel();
     int maxTier=maxLevel.getTier();
     for(int i=0;i<=maxTier;i++)
     {

@@ -192,7 +192,7 @@ public class CraftingSynopsisTableController
         Icon icon=LotroIconsManager.getProfessionIcon(profession);
         label.setHorizontalAlignment(SwingConstants.CENTER);
         label.setIcon(icon);
-        label.setToolTipText(profession.getLabel());
+        label.setToolTipText(profession.getName());
         label.setText("");
         return label;
       }
@@ -390,7 +390,7 @@ public class CraftingSynopsisTableController
     int index=level.getTier();
     if (index==0) return Color.GRAY;
     // Gradient from orange to green
-    int nbSteps=CraftingLevel.getMaximumLevel().getTier();
+    int nbSteps=12; //CraftingLevel.getMaximumLevel().getTier();
     Color[] gradient=Gradients.getOrangeToGreen(nbSteps);
     Color ret=null;
     if (gradient!=null)

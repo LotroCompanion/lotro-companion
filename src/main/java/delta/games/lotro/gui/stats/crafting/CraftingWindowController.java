@@ -5,6 +5,7 @@ import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.util.Collections;
 import java.util.List;
 
 import javax.swing.JDialog;
@@ -20,8 +21,11 @@ import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.crafting.CraftingStatus;
 import delta.games.lotro.character.events.CharacterEvent;
 import delta.games.lotro.character.events.CharacterEventType;
+import delta.games.lotro.lore.crafting.CraftingData;
+import delta.games.lotro.lore.crafting.CraftingSystem;
 import delta.games.lotro.lore.crafting.Profession;
 import delta.games.lotro.lore.crafting.Vocation;
+import delta.games.lotro.lore.crafting.VocationComparator;
 import delta.games.lotro.lore.crafting.Vocations;
 import delta.games.lotro.utils.events.EventsManager;
 
@@ -207,7 +211,10 @@ public class CraftingWindowController extends DefaultFormDialogController<Crafti
   {
     ComboBoxController<Vocation> ret=new ComboBoxController<Vocation>();
     ret.addEmptyItem("");
-    List<Vocation> vocations=Vocations.getInstance().getAll();
+    CraftingData crafting=CraftingSystem.getInstance().getData();
+    Vocations vocationsRegistry=crafting.getVocationsRegistry();
+    List<Vocation> vocations=vocationsRegistry.getAll();
+    Collections.sort(vocations,new VocationComparator());
     for(Vocation vocation : vocations)
     {
       ret.addItem(vocation,vocation.getName());
@@ -231,7 +238,7 @@ public class CraftingWindowController extends DefaultFormDialogController<Crafti
           }
           else
           {
-            _guild.addItem(profession,profession.getLabel());
+            _guild.addItem(profession,profession.getName());
           }
         }
       }

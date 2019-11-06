@@ -22,6 +22,7 @@ import delta.games.lotro.character.crafting.CraftingLevelStatus;
 import delta.games.lotro.character.crafting.CraftingLevelTierStatus;
 import delta.games.lotro.character.crafting.ProfessionStatus;
 import delta.games.lotro.lore.crafting.CraftingLevel;
+import delta.games.lotro.lore.crafting.Profession;
 import delta.games.lotro.utils.DateFormat;
 
 /**
@@ -140,8 +141,8 @@ public class ProfessionStatusEditionPanelController
     };
 
     // Data rows
-    CraftingLevel[] levels=CraftingLevel.ALL_TIERS;
-    for(CraftingLevel level : levels)
+    Profession profession=_status.getProfession();
+    for(CraftingLevel level : profession.getLevels())
     {
       CraftingLevelStatus levelStatus=_status.getLevelStatus(level);
       c.gridx=0;
@@ -179,7 +180,7 @@ public class ProfessionStatusEditionPanelController
       _masteryGadgets.add(masteryGadgets);
       c.gridy++;
 
-      if (level==CraftingLevel.BEGINNER)
+      if (level.getTier()==0) // Beginner
       {
         proficiencyGadgets.getCompleted().setState(false);
         masteryGadgets.getCompleted().setState(false);
@@ -190,9 +191,9 @@ public class ProfessionStatusEditionPanelController
 
   private void handleCompletionChange(Object source)
   {
-    CraftingLevel[] levels=CraftingLevel.ALL_TIERS;
     int index=0;
-    for(CraftingLevel level : levels)
+    Profession profession=_status.getProfession();
+    for(CraftingLevel level : profession.getLevels())
     {
       CraftingLevelTierEditionGadgets proficiency=_proficiencyGadgets.get(index);
       if (source==proficiency.getCompleted().getCheckbox())
@@ -213,9 +214,9 @@ public class ProfessionStatusEditionPanelController
 
   private void handleDateChange(DateEditionController source, long completionDate)
   {
-    CraftingLevel[] levels=CraftingLevel.ALL_TIERS;
     int index=0;
-    for(CraftingLevel level : levels)
+    Profession profession=_status.getProfession();
+    for(CraftingLevel level : profession.getLevels())
     {
       CraftingLevelTierEditionGadgets proficiency=_proficiencyGadgets.get(index);
       if (source==proficiency.getCompletionDate())
