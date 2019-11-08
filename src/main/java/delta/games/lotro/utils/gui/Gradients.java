@@ -1,6 +1,10 @@
 package delta.games.lotro.utils.gui;
 
 import java.awt.Color;
+import java.util.HashMap;
+import java.util.Map;
+
+import delta.common.ui.utils.gradients.GradientBuilder;
 
 /**
  * Gradients.
@@ -8,56 +12,7 @@ import java.awt.Color;
  */
 public class Gradients
 {
-  private static final Color[] STEPS_4={
-    Color.ORANGE,
-    new Color(215,219,0),
-    new Color(159,237,0),
-    Color.GREEN
-  };
-
-  private static final Color[] STEPS_5={
-    Color.ORANGE,
-    new Color(226,214,0),
-    new Color(190,228,0),
-    new Color(139,242,0),
-    Color.GREEN
-  };
-
-  private static final Color[] STEPS_7={
-    Color.ORANGE,
-    new Color(236,209,0),
-    new Color(215,219,0),
-    new Color(190,228,0),
-    new Color(159,237,0),
-    new Color(116,246,0),
-    Color.GREEN
-  };
-
-  private static final Color[] STEPS_8={
-    Color.ORANGE,
-    new Color(239,207,0),
-    new Color(221,216,0),
-    new Color(201,224,0),
-    new Color(177,232,0),
-    new Color(148,240,0),
-    new Color(108,247,0),
-    Color.GREEN
-  };
-
-  private static final Color[] STEPS_12={
-    Color.ORANGE,
-    new Color(244,209,0),
-    new Color(234,214,0),
-    new Color(222,219,0),
-    new Color(210,223,0),
-    new Color(196,228,0),
-    new Color(181,233,0),
-    new Color(164,237,0),
-    new Color(144,242,0),
-    new Color(119,246,0),
-    new Color(86,250,0),
-    Color.GREEN
-  };
+  private static final Map<Integer,Color[]> _gradients=new HashMap<Integer,Color[]>();
 
   /**
    * Get orange to green gradient, using the specified number of steps.
@@ -66,11 +21,13 @@ public class Gradients
    */
   public static Color[] getOrangeToGreen(int nbSteps)
   {
-    if (nbSteps==4) return STEPS_4;
-    if (nbSteps==5) return STEPS_5;
-    if (nbSteps==7) return STEPS_7;
-    if (nbSteps==8) return STEPS_8;
-    if (nbSteps==12) return STEPS_12;
-    return null;
+    Integer key=Integer.valueOf(nbSteps);
+    Color[] ret=_gradients.get(key);
+    if (ret==null)
+    {
+      ret=GradientBuilder.gradient(Color.ORANGE,Color.GREEN,nbSteps);
+      _gradients.put(key,ret);
+    }
+    return ret;
   }
 }
