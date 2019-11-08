@@ -2,6 +2,7 @@ package delta.games.lotro.gui.common.stats;
 
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.text.DecimalFormat;
 
 import javax.swing.Box;
 import javax.swing.JLabel;
@@ -10,7 +11,6 @@ import javax.swing.JPanel;
 import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.common.stats.StatDescription;
-import delta.games.lotro.gui.character.stats.StatLabels;
 import delta.games.lotro.utils.FixedDecimalsInteger;
 
 /**
@@ -44,22 +44,23 @@ public class StatsPanel
         if (value!=null)
         {
           // Value label
-          JLabel valueLabel=GuiFactory.buildLabel(value.toString());
+          String valueStr=getStatValueLabel(stat,value);
+          JLabel valueLabel=GuiFactory.buildLabel(valueStr);
           GridBagConstraints c=new GridBagConstraints(0,rowIndex,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,5,0,0),0,0);
           panel.add(valueLabel,c);
           // Name label
-          String name=StatLabels.getStatLabel(stat);
+          String name=stat.getName();
           JLabel statLabel=GuiFactory.buildLabel(name);
           c=new GridBagConstraints(1,rowIndex,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,5,0,0),0,0);
           panel.add(statLabel,c);
           if (referenceStats!=null)
           {
             // Percentage
-            FixedDecimalsInteger toonStat=referenceStats.getStat(stat);
+            FixedDecimalsInteger statValue=referenceStats.getStat(stat);
             String percentageStr="";
-            if (toonStat!=null)
+            if (statValue!=null)
             {
-              float percentage=100*(value.floatValue()/toonStat.floatValue());
+              float percentage=100*(value.floatValue()/statValue.floatValue());
               percentageStr=String.format("%.1f%%",Float.valueOf(percentage));
             }
             JLabel percentageLabel=GuiFactory.buildLabel(percentageStr);
@@ -70,5 +71,14 @@ public class StatsPanel
         }
       }
     }
+  }
+
+  private static String getStatValueLabel(StatDescription stat, FixedDecimalsInteger value)
+  {
+    if (stat.isPercentage())
+    {
+      return new DecimalFormat("#.##%").format(value.doubleValue()/100);
+    }
+    return new DecimalFormat("#.##").format(value.doubleValue());
   }
 }
