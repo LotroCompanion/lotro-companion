@@ -1,20 +1,18 @@
-package delta.games.lotro.gui.character.stats;
-
-import java.util.Set;
+package delta.games.lotro.gui.character.stats.details;
 
 import delta.common.utils.i18n.Translator;
 import delta.common.utils.i18n.TranslatorsManager;
 import delta.games.lotro.common.stats.StatDescription;
 
 /**
- * Stat labels provider.
+ * Stat labels provider for the detailed stats window.
  * @author DAM
  */
-public class StatLabels
+public class DetailedStatsLabels
 {
   private static Translator initTranslator()
   {
-    String translatorName=StatLabels.class.getPackage().getName()+".statLabels";
+    String translatorName=DetailedStatsLabels.class.getPackage().getName()+".detailedStatLabels";
     TranslatorsManager translatorsMgr=TranslatorsManager.getInstance();
     Translator translator=translatorsMgr.getTranslatorByName(translatorName,true,false);
     return translator;
@@ -29,15 +27,11 @@ public class StatLabels
    */
   public static String getStatLabel(StatDescription stat)
   {
-    return TRANSLATOR.translate(stat.getPersistenceKey());
-  }
-
-  /**
-   * Get the set of translatable stats.
-   * @return a set of stat keys.
-   */
-  public static Set<String> getTranslatedStats()
-  {
-    return TRANSLATOR.getKeys();
+    String label=TRANSLATOR.unsafeTranslate(stat.getPersistenceKey());
+    if (label==null)
+    {
+      label=stat.getName();
+    }
+    return label;
   }
 }

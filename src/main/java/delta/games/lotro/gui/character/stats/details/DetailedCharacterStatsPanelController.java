@@ -17,9 +17,7 @@ import delta.common.ui.swing.labels.HyperLinkController;
 import delta.common.ui.swing.labels.LocalHyperlinkAction;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.common.stats.StatDescription;
-import delta.games.lotro.common.stats.StatsRegistry;
 import delta.games.lotro.common.stats.WellKnownStat;
-import delta.games.lotro.gui.character.stats.StatLabels;
 import delta.games.lotro.gui.character.stats.curves.StatCurvesChartConfiguration;
 import delta.games.lotro.gui.character.stats.curves.StatCurvesWindowsManager;
 
@@ -47,7 +45,6 @@ public class DetailedCharacterStatsPanelController
   {
     _ctrls=new HashMap<StatDescription,SingleStatWidgetsController>();
     _statCurvesMgr=statCurvesMgr;
-    init();
     _panel=buildPanel();
   }
 
@@ -60,20 +57,17 @@ public class DetailedCharacterStatsPanelController
     return _panel;
   }
 
-  private void init()
+  private SingleStatWidgetsController getStatWidgetsController(StatDescription stat)
   {
-    for(String key : StatLabels.getTranslatedStats())
+    String key=stat.getPersistenceKey();
+    SingleStatWidgetsController ctrl=_ctrls.get(key);
+    if (ctrl==null)
     {
-      StatDescription stat=StatsRegistry.getInstance().getByKey(key);
-      addStat(stat);
+      boolean isPercentage=(stat!=null)?stat.isPercentage():false;
+      ctrl=new SingleStatWidgetsController(stat,isPercentage);
+      _ctrls.put(stat,ctrl);
     }
-  }
-
-  private void addStat(StatDescription stat)
-  {
-    boolean isPercentage=(stat!=null)?stat.isPercentage():false;
-    SingleStatWidgetsController singleCtrl=new SingleStatWidgetsController(stat,isPercentage);
-    _ctrls.put(stat,singleCtrl);
+    return ctrl;
   }
 
   /**
@@ -335,10 +329,10 @@ public class DetailedCharacterStatsPanelController
   private void addStatWidgets(JPanel panel, StatDescription stat, int x, int y, boolean showLabel)
   {
     GridBagConstraints c;
-    SingleStatWidgetsController ctrl=_ctrls.get(stat);
+    SingleStatWidgetsController ctrl=getStatWidgetsController(stat);
     if (showLabel)
     {
-      String text=StatLabels.getStatLabel(stat)+":";
+      String text=DetailedStatsLabels.getStatLabel(stat)+":";
       JLabel label=buildLabelForStat(text,stat);
       c=new GridBagConstraints(x,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
       panel.add(label,c);
