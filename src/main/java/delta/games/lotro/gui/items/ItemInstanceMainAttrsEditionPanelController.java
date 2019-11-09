@@ -23,7 +23,6 @@ import delta.games.lotro.Config;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.common.colors.ColorDescription;
 import delta.games.lotro.common.colors.ColorsManager;
-import delta.games.lotro.common.id.ItemInstanceId;
 import delta.games.lotro.common.money.Money;
 import delta.games.lotro.common.stats.StatsProvider;
 import delta.games.lotro.gui.common.id.ItemInstanceIdEditionPanelController;
@@ -105,7 +104,7 @@ public class ItemInstanceMainAttrsEditionPanelController
   private void initGadgets()
   {
     // - Instance ID
-    _instanceId=new ItemInstanceIdEditionPanelController();
+    //_instanceId=new ItemInstanceIdEditionPanelController();
     // - Validity date
     DateCodec codec=DateFormat.getDateTimeCodec();
     _date=new DateEditionController(codec);
@@ -161,8 +160,8 @@ public class ItemInstanceMainAttrsEditionPanelController
       panel.add(panelLine,c);
       c.gridy++;
       // ID
-      panelLine.add(GuiFactory.buildLabel("ID:"));
-      panelLine.add(_instanceId.getPanel());
+      //panelLine.add(GuiFactory.buildLabel("ID:"));
+      //panelLine.add(_instanceId.getPanel());
       // Date
       panelLine.add(GuiFactory.buildLabel("Date:"));
       panelLine.add(_date.getTextField());
@@ -246,7 +245,7 @@ public class ItemInstanceMainAttrsEditionPanelController
   {
     Item item=_itemInstance.getReference();
     // - Instance ID
-    _instanceId.setInstanceId(_itemInstance.getInstanceId());
+    //_instanceId.setInstanceId(_itemInstance.getInstanceId());
     // - Validity date
     Long time=_itemInstance.getTime();
     if (time!=null)
@@ -292,8 +291,8 @@ public class ItemInstanceMainAttrsEditionPanelController
   public void getItem()
   {
     // - Instance ID
-    ItemInstanceId id=_instanceId.getInstanceId();
-    _itemInstance.setInstanceId(id);
+    //ItemInstanceId id=_instanceId.getInstanceId();
+    //_itemInstance.setInstanceId(id);
     // - Validity date
     Long date=_date.getDate();
     _itemInstance.setTime(date);
