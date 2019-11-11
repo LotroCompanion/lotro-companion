@@ -71,7 +71,7 @@ public class TraitPointsStatus
       nb+=Math.max(0,Math.min(characterLevel,115) - 105)/3;
     }
     // Level 120
-    if (characterLevel==120)
+    if (characterLevel>=120)
     {
       nb++;
     }
