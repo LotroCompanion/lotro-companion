@@ -4,6 +4,7 @@ import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.util.Objects;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -259,14 +260,14 @@ public class ItemInstanceMainAttrsEditionPanelController
     // - Scaling level
     configureScaling(item);
     // - Item level
-    Integer itemLevel=_itemInstance.getItemLevel();
+    Integer itemLevel=_itemInstance.getEffectiveItemLevel();
     String itemLevelStr=(itemLevel!=null)?itemLevel.toString():"";
     _itemLevel.setText(itemLevelStr);
     // - Min level
-    Integer minLevel=_itemInstance.getMinLevel();
+    Integer minLevel=_itemInstance.getEffectiveMinLevel();
     _minLevel.setValue(minLevel);
     // - Durability
-    _durability.setValue(_itemInstance.getDurability());
+    _durability.setValue(_itemInstance.getEffectiveDurability());
     // - Color
     _color.selectItem(_itemInstance.getColor());
     // - Value
@@ -290,6 +291,7 @@ public class ItemInstanceMainAttrsEditionPanelController
    */
   public void getItem()
   {
+    Item reference=_itemInstance.getReference();
     // - Instance ID
     //ItemInstanceId id=_instanceId.getInstanceId();
     //_itemInstance.setInstanceId(id);
@@ -297,20 +299,32 @@ public class ItemInstanceMainAttrsEditionPanelController
     Long date=_date.getDate();
     _itemInstance.setTime(date);
     // - Birth name
-    _itemInstance.setBirthName(_birthName.getText());
+    String birthName=_birthName.getText();
+    if (birthName.length()==0) birthName=null;
+    _itemInstance.setBirthName(birthName);
     // - Crafter name
-    _itemInstance.setCrafterName(_crafterName.getText());
+    String crafterName=_crafterName.getText();
+    if (crafterName.length()==0) crafterName=null;
+    _itemInstance.setCrafterName(crafterName);
     // - Scaling level
     _mungingLabel=GuiFactory.buildLabel("Scaling level:");
     _mungingLevel=new ComboBoxController<Integer>(false,Integer.class);
     // - Item level
     String itemLevelStr=_itemLevel.getText();
     Integer itemLevel=NumericTools.parseInteger(itemLevelStr);
+    Integer refItemLevel=reference.getItemLevel();
+    if (Objects.equals(itemLevel,refItemLevel)) itemLevel=null;
     _itemInstance.setItemLevel(itemLevel);
     // - Min level
-    _itemInstance.setMinLevel(_minLevel.getValue());
+    Integer minLevel=_minLevel.getValue();
+    Integer refMinLevel=reference.getMinLevel();
+    if (Objects.equals(minLevel,refMinLevel)) minLevel=null;
+    _itemInstance.setMinLevel(minLevel);
     // - Durability
-    _itemInstance.setDurability(_durability.getValue());
+    Integer durability=_durability.getValue();
+    Integer refDurability=reference.getDurability();
+    if (Objects.equals(durability,refDurability)) durability=null;
+    _itemInstance.setDurability(durability);
     // - Color
     _itemInstance.setColor(_color.getSelectedItem());
     // - Value
