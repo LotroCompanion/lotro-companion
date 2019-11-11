@@ -322,8 +322,11 @@ public class EquipmentPanelController implements ActionListener
     if (item!=null)
     {
       ItemInstanceEditionWindowController ctrl=new ItemInstanceEditionWindowController(_parentWindow,_toonData.getSummary(),item);
-      ctrl.show(true);
-      refreshToon();
+      ItemInstance<? extends Item> resultItem=ctrl.editModal();
+      if (resultItem!=null)
+      {
+        refreshToon();
+      }
     }
   }
 
