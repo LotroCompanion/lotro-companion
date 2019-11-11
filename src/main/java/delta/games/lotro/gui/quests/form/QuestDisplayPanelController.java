@@ -30,6 +30,7 @@ import delta.games.lotro.gui.quests.QuestsHtmlUtils;
 import delta.games.lotro.lore.quests.QuestDescription;
 import delta.games.lotro.lore.quests.QuestDescription.FACTION;
 import delta.games.lotro.lore.quests.dialogs.DialogElement;
+import delta.games.lotro.lore.quests.dialogs.QuestCompletionComment;
 import delta.games.lotro.utils.gui.HtmlUtils;
 
 /**
@@ -245,6 +246,17 @@ public class QuestDisplayPanelController implements NavigablePanelController
       for(DialogElement endDialog : endDialogs)
       {
         QuestsHtmlUtils.buildHtmlForDialog(sb,endDialog);
+      }
+      sb.append("</p>");
+    }
+    // Completion comments
+    List<QuestCompletionComment> comments=_quest.getCompletionComments();
+    if (comments.size()>0)
+    {
+      sb.append("<p><b>Completion comments</b>");
+      for(QuestCompletionComment comment : comments)
+      {
+        QuestsHtmlUtils.buildHtmlForCompletionComment(sb,comment);
       }
       sb.append("</p>");
     }
