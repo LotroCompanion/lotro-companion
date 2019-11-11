@@ -2,7 +2,6 @@ package delta.games.lotro.gui.common.stats;
 
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
-import java.text.DecimalFormat;
 
 import javax.swing.Box;
 import javax.swing.JLabel;

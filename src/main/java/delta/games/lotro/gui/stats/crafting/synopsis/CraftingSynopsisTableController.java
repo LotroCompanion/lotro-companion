@@ -390,7 +390,8 @@ public class CraftingSynopsisTableController
     int index=level.getTier();
     if (index==0) return Color.GRAY;
     // Gradient from orange to green
-    int nbSteps=12; //CraftingLevel.getMaximumLevel().getTier();
+    Profession profession=level.getProfession();
+    int nbSteps=profession.getMaximumLevel().getTier();
     Color[] gradient=Gradients.getOrangeToGreen(nbSteps);
     Color ret=null;
     if (gradient!=null)
