@@ -1,5 +1,6 @@
 package delta.games.lotro.gui.utils;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import delta.games.lotro.character.stats.BasicStatsSet;
@@ -25,7 +26,7 @@ public class StatDisplayUtils
     {
       if (percentage)
       {
-        valueStr=String.format("%.1f%%",Double.valueOf(value.doubleValue()));
+        valueStr=new DecimalFormat("#.#%").format(value.doubleValue()/100);
       }
       else
       {
@@ -42,7 +43,7 @@ public class StatDisplayUtils
   /**
    * Get the display lines for some stats.
    * @param stats Stats to display.
-   * @return A possibly empty but not <code>null</code> array of stats.
+   * @return A possibly empty but not <code>null</code> array of stat lines.
    */
   public static String[] getStatsDisplayLines(BasicStatsSet stats)
   {
@@ -52,12 +53,24 @@ public class StatDisplayUtils
     for(int i=0;i<nbStats;i++)
     {
       StatDescription stat=statDescriptions.get(i);
-      String statName=stat.getName();
-      FixedDecimalsInteger value=stats.getStat(stat);
-      String valueStr=getStatDisplay(value,stat.isPercentage());
-      String line=valueStr+" "+statName;
+      String line=getStatDisplay(stat,stats);
       lines[i]=line;
     }
     return lines;
+  }
+
+  /**
+   * Get the display line for a single stat.
+   * @param stat Stat to display.
+   * @param stats Stats to get value from.
+   * @return A displayable line.
+   */
+  public static String getStatDisplay(StatDescription stat, BasicStatsSet stats)
+  {
+    String statName=stat.getName();
+    FixedDecimalsInteger value=stats.getStat(stat);
+    String valueStr=getStatDisplay(value,stat.isPercentage());
+    String line=valueStr+" "+statName;
+    return line;
   }
 }

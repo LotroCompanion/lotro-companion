@@ -27,11 +27,7 @@ public class DetailedStatsLabels
    */
   public static String getStatLabel(StatDescription stat)
   {
-    String label=TRANSLATOR.unsafeTranslate(stat.getPersistenceKey());
-    if (label==null)
-    {
-      label=stat.getName();
-    }
+    String label=TRANSLATOR.translate(stat.getPersistenceKey());
     return label;
   }
 }

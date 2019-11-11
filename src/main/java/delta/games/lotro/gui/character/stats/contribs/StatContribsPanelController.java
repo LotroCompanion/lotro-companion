@@ -175,7 +175,8 @@ public class StatContribsPanelController
     boolean found=false;
     for(StatDescription stat : _contribs.getContributingStats())
     {
-      _statChooser.addItem(stat,stat.getName());
+      String statName=stat.getName();
+      _statChooser.addItem(stat,statName);
       if (stat==currentStat)
       {
         found=true;

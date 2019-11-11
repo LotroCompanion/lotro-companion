@@ -14,6 +14,7 @@ import delta.games.lotro.character.stats.buffs.Buff;
 import delta.games.lotro.character.stats.buffs.BuffInstance;
 import delta.games.lotro.common.stats.StatDescription;
 import delta.games.lotro.gui.LotroIconsManager;
+import delta.games.lotro.gui.utils.StatDisplayUtils;
 
 /**
  * Controller for a buff icon.
@@ -99,9 +100,8 @@ public class BuffIconController
     {
       for(StatDescription stat : stats.getStats())
       {
-        String name=stat.getName();
-        String value=stats.getStat(stat).toString();
-        sb.append(name).append(": ").append(value).append(EndOfLine.NATIVE_EOL);
+        String line=StatDisplayUtils.getStatDisplay(stat,stats);
+        sb.append(line).append(EndOfLine.NATIVE_EOL);
       }
     }
     String text=sb.toString().trim();
