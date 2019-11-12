@@ -20,6 +20,7 @@ import delta.games.lotro.gui.items.legendary.non_imbued.NonImbuedLegendaryAttrsE
 import delta.games.lotro.gui.items.legendary.passives.PassivesEditionPanelController;
 import delta.games.lotro.gui.items.legendary.relics.RelicsEditionPanelController;
 import delta.games.lotro.gui.items.legendary.titles.LegendaryTitleEditionPanelController;
+import delta.games.lotro.lore.items.EquipmentLocation;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemInstance;
 import delta.games.lotro.lore.items.legendary.LegendaryInstance;
@@ -90,7 +91,8 @@ public class LegendaryInstanceEditionPanelController
     _passives=new PassivesEditionPanelController(parent,attrs,itemId);
     // Relics
     RelicsSet relics=attrs.getRelicsSet();
-    _relics=new RelicsEditionPanelController(parent,relics);
+    EquipmentLocation slot=item.getReference().getEquipmentLocation();
+    _relics=new RelicsEditionPanelController(parent,slot,relics);
     // Build panel
     _panel=build();
     boolean isImbued=attrs.isImbued();

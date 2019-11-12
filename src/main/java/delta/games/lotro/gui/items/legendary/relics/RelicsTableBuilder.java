@@ -10,6 +10,7 @@ import delta.common.ui.swing.tables.DataProvider;
 import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.ListDataProvider;
+import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.lore.items.legendary.relics.Relic;
 
@@ -46,21 +47,6 @@ public class RelicsTableBuilder
       iconColumn.setSortable(false);
       table.addColumnController(iconColumn);
     }
-    // Category column
-    /*
-    {
-      CellDataProvider<Relic,String> categoryCell=new CellDataProvider<Relic,String>()
-      {
-        public String getData(Relic item)
-        {
-          return item.getCategory();
-        }
-      };
-      TableColumnController<Relic,String> categoryColumn=new TableColumnController<Relic,String>("Category",String.class,categoryCell);
-      categoryColumn.setWidthSpecs(150,-1,150);
-      table.addColumnController(categoryColumn);
-    }
-    */
     // Name column
     {
       CellDataProvider<Relic,String> nameCell=new CellDataProvider<Relic,String>()
@@ -75,6 +61,19 @@ public class RelicsTableBuilder
       nameColumn.setWidthSpecs(100,230,210);
       table.addColumnController(nameColumn);
     }
+    // Category column
+    {
+      CellDataProvider<Relic,String> categoryCell=new CellDataProvider<Relic,String>()
+      {
+        public String getData(Relic item)
+        {
+          return item.getCategory().getName();
+        }
+      };
+      DefaultTableColumnController<Relic,String> categoryColumn=new DefaultTableColumnController<Relic,String>("Category",String.class,categoryCell);
+      categoryColumn.setWidthSpecs(80,100,100);
+      table.addColumnController(categoryColumn);
+    }
     // Level column
     {
       CellDataProvider<Relic,Integer> levelCell=new CellDataProvider<Relic,Integer>()
@@ -88,6 +87,20 @@ public class RelicsTableBuilder
       DefaultTableColumnController<Relic,Integer> levelColumn=new DefaultTableColumnController<Relic,Integer>("Level",Integer.class,levelCell);
       levelColumn.setWidthSpecs(70,70,50);
       table.addColumnController(levelColumn);
+    }
+    // Class column
+    {
+      CellDataProvider<Relic,CharacterClass> classCell=new CellDataProvider<Relic,CharacterClass>()
+      {
+        @Override
+        public CharacterClass getData(Relic item)
+        {
+          return item.getUsageRequirement().getRequiredClass();
+        }
+      };
+      DefaultTableColumnController<Relic,CharacterClass> classColumn=new DefaultTableColumnController<Relic,CharacterClass>("Class",CharacterClass.class,classCell);
+      classColumn.setWidthSpecs(100,100,100);
+      table.addColumnController(classColumn);
     }
     // Stats column
     {

@@ -4,6 +4,9 @@ import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -13,9 +16,11 @@ import javax.swing.event.DocumentListener;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.common.ui.swing.combobox.ItemSelectionListener;
+import delta.games.lotro.lore.items.legendary.relics.Relic;
 import delta.games.lotro.lore.items.legendary.relics.RelicFilter;
 import delta.games.lotro.lore.items.legendary.relics.RelicType;
-import delta.games.lotro.lore.items.legendary.relics.RelicsCategories;
+import delta.games.lotro.lore.items.legendary.relics.RelicsCategory;
+import delta.games.lotro.lore.items.legendary.relics.comparators.RelicCategoryCodeComparator;
 import delta.games.lotro.utils.gui.filter.ObjectFilterPanelController;
 
 /**
@@ -25,10 +30,11 @@ import delta.games.lotro.utils.gui.filter.ObjectFilterPanelController;
 public class RelicsFilterController extends ObjectFilterPanelController
 {
   // Data
+  private List<Relic> _relics;
   private RelicFilter _filter;
   // GUI
   private JPanel _panel;
-  private ComboBoxController<String> _category;
+  private ComboBoxController<RelicsCategory> _category;
   private ComboBoxController<RelicType> _type;
   private JTextField _nameContains;
   private JTextField _statsContains;
@@ -36,10 +42,12 @@ public class RelicsFilterController extends ObjectFilterPanelController
   /**
    * Constructor.
    * @param filter Filter.
+   * @param relics Relics to choose from.
    */
-  public RelicsFilterController(RelicFilter filter)
+  public RelicsFilterController(RelicFilter filter, List<Relic> relics)
   {
     _filter=filter;
+    _relics=relics;
   }
 
   /**
@@ -70,7 +78,7 @@ public class RelicsFilterController extends ObjectFilterPanelController
       _type.getComboBox().setEnabled(false);
     }
     // Category
-    String category=_filter.getRelicCategory();
+    RelicsCategory category=_filter.getRelicCategory();
     _category.selectItem(category);
     // Name
     String contains=_filter.getNameFilter();
@@ -152,18 +160,18 @@ public class RelicsFilterController extends ObjectFilterPanelController
     return ctrl;
   }
 
-  private ComboBoxController<String> buildCategoriesCombo()
+  private ComboBoxController<RelicsCategory> buildCategoriesCombo()
   {
-    final ComboBoxController<String> ctrl=new ComboBoxController<String>();
+    final ComboBoxController<RelicsCategory> ctrl=new ComboBoxController<RelicsCategory>();
     ctrl.addEmptyItem("");
-    for(String category : RelicsCategories.CATEGORIES)
+    for(RelicsCategory category : getCategories())
     {
-      ctrl.addItem(category,category);
+      ctrl.addItem(category,category.getName());
     }
-    ItemSelectionListener<String> l=new ItemSelectionListener<String>()
+    ItemSelectionListener<RelicsCategory> l=new ItemSelectionListener<RelicsCategory>()
     {
       @Override
-      public void itemSelected(String category)
+      public void itemSelected(RelicsCategory category)
       {
         _filter.setRelicCategory(category);
         filterUpdated();
@@ -171,6 +179,21 @@ public class RelicsFilterController extends ObjectFilterPanelController
     };
     ctrl.addListener(l);
     return ctrl;
+  }
+
+  private List<RelicsCategory> getCategories()
+  {
+    List<RelicsCategory> ret=new ArrayList<RelicsCategory>();
+    for(Relic relic : _relics)
+    {
+      RelicsCategory category=relic.getCategory();
+      if (!ret.contains(category))
+      {
+        ret.add(category);
+      }
+    }
+    Collections.sort(ret,new RelicCategoryCodeComparator());
+    return ret;
   }
 
   private JTextField buildReactiveTextField()

@@ -7,6 +7,7 @@ import javax.swing.JDialog;
 
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.windows.WindowController;
+import delta.games.lotro.lore.items.EquipmentLocation;
 import delta.games.lotro.lore.items.legendary.relics.Relic;
 import delta.games.lotro.lore.items.legendary.relics.RelicFilter;
 import delta.games.lotro.lore.items.legendary.relics.RelicType;
@@ -20,17 +21,17 @@ import delta.games.lotro.utils.gui.filter.ObjectFilterPanelController;
  */
 public class RelicChooser
 {
-  private static ObjectChoiceWindowController<Relic> buildChooser(WindowController parent, RelicType type, Relic selectedRelic)
+  private static ObjectChoiceWindowController<Relic> buildChooser(WindowController parent, RelicType type, EquipmentLocation slot, Relic selectedRelic)
   {
     // Data
     RelicsManager relicsMgr=RelicsManager.getInstance();
-    List<Relic> relics=relicsMgr.getAllRelics(false);
+    List<Relic> relics=relicsMgr.getAllRelics(type,slot);
     // Table
     GenericTableController<Relic> relicsTable=RelicsTableBuilder.buildTable(relics);
     // Filter
     RelicFilter filter=new RelicFilter();
     filter.setRelicType(type);
-    ObjectFilterPanelController filterUiController=new RelicsFilterController(filter);
+    ObjectFilterPanelController filterUiController=new RelicsFilterController(filter,relics);
 
     // Build and configure chooser
     ObjectChoiceWindowController<Relic> chooser=new ObjectChoiceWindowController<Relic>(parent,null,relicsTable);
@@ -50,13 +51,14 @@ public class RelicChooser
    * Show the relic selection dialog.
    * @param parent Parent controller.
    * @param type Relic type to use (locks filter) or <code>null</code>.
+   * @param slot Slot to use.
    * @param selectedRelic Selected relic.
    * @return The selected relic or <code>null</code> if the window was closed or canceled.
    */
-  public static Relic selectRelic(WindowController parent, RelicType type, Relic selectedRelic)
+  public static Relic selectRelic(WindowController parent, RelicType type, EquipmentLocation slot, Relic selectedRelic)
   {
     // Build chooser
-    ObjectChoiceWindowController<Relic> chooser=buildChooser(parent,type,selectedRelic);
+    ObjectChoiceWindowController<Relic> chooser=buildChooser(parent,type,slot,selectedRelic);
     // Show modal
     Relic chosenRelic=chooser.editModal();
     // Dispose...

@@ -19,6 +19,7 @@ import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.utils.StatDisplayUtils;
+import delta.games.lotro.lore.items.EquipmentLocation;
 import delta.games.lotro.lore.items.legendary.relics.Relic;
 import delta.games.lotro.lore.items.legendary.relics.RelicType;
 import delta.games.lotro.lore.items.legendary.relics.RelicsSet;
@@ -38,6 +39,7 @@ public class RelicsEditionPanelController implements ActionListener
 
   // Data
   private RelicsSet _relics;
+  private EquipmentLocation _slot;
   // GUI
   private JPanel _panel;
   private WindowController _parent;
@@ -46,11 +48,13 @@ public class RelicsEditionPanelController implements ActionListener
   /**
    * Constructor.
    * @param parent Parent controller.
+   * @param slot Slot to use.
    * @param relics Attributes to edit.
    */
-  public RelicsEditionPanelController(WindowController parent, RelicsSet relics)
+  public RelicsEditionPanelController(WindowController parent, EquipmentLocation slot, RelicsSet relics)
   {
     _parent=parent;
+    _slot=slot;
     _relics=relics;
     _editors=new ArrayList<SingleRelicEditionController>();
   }
@@ -174,10 +178,10 @@ public class RelicsEditionPanelController implements ActionListener
       {
         Relic initialRelic=_relics.getRelics().get(index);
         RelicType type=RELIC_TYPES[index];
-        Relic relic=RelicChooser.selectRelic(_parent,type,initialRelic);
+        Relic relic=RelicChooser.selectRelic(_parent,type,_slot,initialRelic);
         if (relic!=null)
         {
-          _relics.slotRelic(relic);
+          _relics.slotRelic(relic,type);
           update();
         }
       }

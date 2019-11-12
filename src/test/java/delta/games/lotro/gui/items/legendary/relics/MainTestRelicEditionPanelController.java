@@ -3,6 +3,7 @@ package delta.games.lotro.gui.items.legendary.relics;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import delta.games.lotro.lore.items.EquipmentLocation;
 import delta.games.lotro.lore.items.legendary.LegendaryInstanceAttrs;
 import delta.games.lotro.lore.items.legendary.LegendaryWeapon;
 import delta.games.lotro.lore.items.legendary.LegendaryWeaponInstance;
@@ -20,10 +21,12 @@ public class MainTestRelicEditionPanelController
   public static void main(String[] args)
   {
     LegendaryWeapon weapon=new LegendaryWeapon();
+    weapon.setEquipmentLocation(EquipmentLocation.MAIN_HAND);
     LegendaryWeaponInstance weaponInstance=new LegendaryWeaponInstance();
     weaponInstance.setReference(weapon);
     LegendaryInstanceAttrs attrs=weaponInstance.getLegendaryAttributes();
-    RelicsEditionPanelController panelCtrl=new RelicsEditionPanelController(null,attrs.getRelicsSet());
+    EquipmentLocation slot=weapon.getEquipmentLocation();
+    RelicsEditionPanelController panelCtrl=new RelicsEditionPanelController(null,slot,attrs.getRelicsSet());
     JPanel panel=panelCtrl.getPanel();
     JFrame frame=new JFrame();
     frame.add(panel);
