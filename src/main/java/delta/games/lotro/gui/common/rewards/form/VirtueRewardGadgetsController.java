@@ -7,7 +7,7 @@ import javax.swing.Icon;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.icons.IconWithText;
 import delta.common.ui.swing.labels.LabelWithHalo;
-import delta.games.lotro.common.VirtueId;
+import delta.games.lotro.character.virtues.VirtueDescription;
 import delta.games.lotro.common.rewards.VirtueReward;
 import delta.games.lotro.gui.LotroIconsManager;
 
@@ -19,21 +19,21 @@ public class VirtueRewardGadgetsController extends RewardGadgetsController
 {
   /**
    * Constructor.
-   * @param virtue Virtue.
+   * @param virtueReward Virtue reward.
    */
-  public VirtueRewardGadgetsController(VirtueReward virtue)
+  public VirtueRewardGadgetsController(VirtueReward virtueReward)
   {
+    VirtueDescription virtue=virtueReward.getVirtue();
     // Label
-    String text=virtue.getIdentifier().getLabel();
+    String text=virtue.getName();
     Color color=Color.WHITE;
     _label=new LabelWithHalo();
     _label.setText(text);
     _label.setOpaque(false);
     _label.setForeground(color);
     // Icon
-    VirtueId virtueId=virtue.getIdentifier();
-    Icon virtueIcon=LotroIconsManager.getVirtueIcon(virtueId.name());
-    int count=virtue.getCount();
+    Icon virtueIcon=LotroIconsManager.getVirtueIcon(virtue);
+    int count=virtueReward.getCount();
     Icon decoratedVirtueIcon=new IconWithText(virtueIcon,String.valueOf(count),Color.WHITE);
     _labelIcon=GuiFactory.buildIconLabel(decoratedVirtueIcon);
   }

@@ -9,6 +9,7 @@ import java.awt.datatransfer.Transferable;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.Box;
@@ -22,7 +23,8 @@ import org.apache.log4j.Logger;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.character.stats.virtues.VirtuesSet;
-import delta.games.lotro.common.VirtueId;
+import delta.games.lotro.character.virtues.VirtueDescription;
+import delta.games.lotro.character.virtues.VirtuesManager;
 import delta.games.lotro.gui.character.virtues.VirtueEditionUiController.TierValueListener;
 
 /**
@@ -34,7 +36,7 @@ public class VirtuesEditionPanelController implements TierValueListener
   private static final Logger LOGGER=Logger.getLogger(VirtuesEditionPanelController.class);
 
   private JPanel _panel;
-  private HashMap<VirtueId,VirtueEditionUiController> _virtues;
+  private HashMap<VirtueDescription,VirtueEditionUiController> _virtues;
   private VirtuesDisplayPanelController _selectedVirtues;
   private VirtuesStatsPanelController _stats;
   private JButton _maxAll;
@@ -44,7 +46,7 @@ public class VirtuesEditionPanelController implements TierValueListener
    */
   public VirtuesEditionPanelController()
   {
-    _virtues=new HashMap<VirtueId,VirtueEditionUiController>();
+    _virtues=new HashMap<VirtueDescription,VirtueEditionUiController>();
     _panel=build();
   }
 
@@ -96,16 +98,17 @@ public class VirtuesEditionPanelController implements TierValueListener
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     int index=0;
-    for(VirtueId virtueId : VirtueId.values())
+    List<VirtueDescription> virtues=VirtuesManager.getInstance().getAll();
+    for(VirtueDescription virtue : virtues)
     {
-      VirtueEditionUiController ui=new VirtueEditionUiController(virtueId);
+      VirtueEditionUiController ui=new VirtueEditionUiController(virtue);
       ui.setListener(this);
       int x=index/7;
       int y=index%7;
       GridBagConstraints c=new GridBagConstraints(x,y+1,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
       JPanel virtuePanel=ui.getPanel();
       panel.add(virtuePanel,c);
-      _virtues.put(virtueId,ui);
+      _virtues.put(virtue,ui);
       index++;
     }
     TitledBorder border=GuiFactory.buildTitledBorder("Virtues");
@@ -145,41 +148,41 @@ public class VirtuesEditionPanelController implements TierValueListener
     @Override
     public boolean canImport(TransferSupport support)
     {
-      VirtueId virtueId=getVirtue(support);
-      if (virtueId!=null)
+      VirtueDescription virtue=getVirtue(support);
+      if (virtue!=null)
       {
-        return !_selectedVirtues.hasVirtue(virtueId);
+        return !_selectedVirtues.hasVirtue(virtue);
       }
       return false;
     }
 
-    private VirtueId getVirtue(TransferSupport support)
+    private VirtueDescription getVirtue(TransferSupport support)
     {
-      VirtueId virtueId=null;
+      VirtueDescription virtue=null;
       try
       {
         Transferable t=support.getTransferable();
-        virtueId=(VirtueId)t.getTransferData(DataFlavor.stringFlavor);
+        virtue=(VirtueDescription)t.getTransferData(DataFlavor.stringFlavor);
       }
       catch(Exception e)
       {
-        LOGGER.warn("Could not get virtue ID from DnD input data", e);
+        LOGGER.warn("Could not get virtue from DnD input data", e);
       }
-      return virtueId;
+      return virtue;
     }
 
     @Override
     public boolean importData(TransferSupport support)
     {
-      VirtueId virtueId=getVirtue(support);
+      VirtueDescription virtue=getVirtue(support);
       Component target=support.getComponent();
       for(int i=0;i<VirtuesDisplayPanelController.MAX_VIRTUES;i++)
       {
         JLabel label=_selectedVirtues.getVirtue(i).getLabel();
         if (label==target)
         {
-          int tier=_virtues.get(virtueId).getTier();
-          _selectedVirtues.setVirtue(i,virtueId,tier);
+          int tier=_virtues.get(virtue).getTier();
+          _selectedVirtues.setVirtue(i,virtue,tier);
           break;
         }
       }
@@ -189,9 +192,9 @@ public class VirtuesEditionPanelController implements TierValueListener
   }
 
   @Override
-  public void tierChanged(VirtueId virtueId, int tier)
+  public void tierChanged(VirtueDescription virtue, int tier)
   {
-    _selectedVirtues.updateVirtue(virtueId,tier);
+    _selectedVirtues.updateVirtue(virtue,tier);
     updateStats();
   }
 
@@ -203,13 +206,13 @@ public class VirtuesEditionPanelController implements TierValueListener
 
   private void maxAll()
   {
-    for(Map.Entry<VirtueId,VirtueEditionUiController> entry : _virtues.entrySet())
+    for(Map.Entry<VirtueDescription,VirtueEditionUiController> entry : _virtues.entrySet())
     {
       VirtueEditionUiController controller=entry.getValue();
       int tier=VirtuesSet.MAX_TIER;
       controller.setTier(tier);
-      VirtueId virtueId=entry.getKey();
-      _selectedVirtues.updateVirtue(virtueId,tier);
+      VirtueDescription  virtue=entry.getKey();
+      _selectedVirtues.updateVirtue(virtue,tier);
     }
   }
 
@@ -220,10 +223,11 @@ public class VirtuesEditionPanelController implements TierValueListener
   public void setVirtues(VirtuesSet set)
   {
     // Set tiers
-    for(VirtueId virtueId : VirtueId.values())
+    List<VirtueDescription> virtues=VirtuesManager.getInstance().getAll();
+    for(VirtueDescription virtue : virtues)
     {
-      VirtueEditionUiController ui=_virtues.get(virtueId);
-      int tier=set.getVirtueRank(virtueId);
+      VirtueEditionUiController ui=_virtues.get(virtue);
+      int tier=set.getVirtueRank(virtue);
       ui.setTier(tier);
     }
     // Set selected virtues
@@ -239,11 +243,12 @@ public class VirtuesEditionPanelController implements TierValueListener
   public VirtuesSet getVirtues()
   {
     VirtuesSet ret=new VirtuesSet();
-    for(VirtueId virtueId : VirtueId.values())
+    List<VirtueDescription> virtues=VirtuesManager.getInstance().getAll();
+    for(VirtueDescription virtue : virtues)
     {
-      VirtueEditionUiController ui=_virtues.get(virtueId);
+      VirtueEditionUiController ui=_virtues.get(virtue);
       int tier=ui.getTier();
-      ret.setVirtueValue(virtueId,tier);
+      ret.setVirtueValue(virtue,tier);
     }
     _selectedVirtues.getSelectedVirtues(ret);
     return ret;

@@ -12,7 +12,7 @@ import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.ListDataProvider;
 import delta.common.ui.swing.tables.TableColumnsManager;
-import delta.games.lotro.common.VirtueId;
+import delta.games.lotro.character.virtues.VirtueDescription;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.stats.deeds.DeedsStatistics;
 import delta.games.lotro.stats.deeds.VirtueStatsComparator;
@@ -59,8 +59,8 @@ public class VirtuesFromDeedsTableController
         @Override
         public Icon getData(VirtueStatsFromDeeds item)
         {
-          VirtueId virtueId=item.getVirtueId();
-          Icon icon=LotroIconsManager.getVirtueIcon(virtueId.name());
+          VirtueDescription virtue=item.getVirtue();
+          Icon icon=LotroIconsManager.getVirtueIcon(virtue);
           return icon;
         }
       };
@@ -76,7 +76,7 @@ public class VirtuesFromDeedsTableController
         @Override
         public String getData(VirtueStatsFromDeeds item)
         {
-          return item.getVirtueId().getLabel();
+          return item.getVirtue().getName();
         }
       };
       DefaultTableColumnController<VirtueStatsFromDeeds,String> virtueColumn=new DefaultTableColumnController<VirtueStatsFromDeeds,String>(VIRTUE,"Virtue",String.class,virtueCell);

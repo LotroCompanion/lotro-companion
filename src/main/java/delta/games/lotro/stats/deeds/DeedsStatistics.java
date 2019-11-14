@@ -9,7 +9,8 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 
 import delta.common.utils.text.EndOfLine;
-import delta.games.lotro.common.VirtueId;
+import delta.games.lotro.character.virtues.VirtueDescription;
+import delta.games.lotro.character.virtues.VirtuesManager;
 import delta.games.lotro.common.rewards.EmoteReward;
 import delta.games.lotro.common.rewards.ItemReward;
 import delta.games.lotro.common.rewards.ReputationReward;
@@ -52,7 +53,7 @@ public class DeedsStatistics
   private List<TitleEvent> _titles;
   private List<EmoteEvent> _emotes;
   private List<TraitEvent> _traits;
-  private Map<VirtueId,VirtueStatsFromDeeds> _virtues;
+  private Map<VirtueDescription,VirtueStatsFromDeeds> _virtues;
   private Map<String,FactionStatsFromDeeds> _reputation;
   private Map<Integer,CountedItem> _items;
 
@@ -64,7 +65,7 @@ public class DeedsStatistics
     _titles=new ArrayList<TitleEvent>();
     _emotes=new ArrayList<EmoteEvent>();
     _traits=new ArrayList<TraitEvent>();
-    _virtues=new HashMap<VirtueId,VirtueStatsFromDeeds>();
+    _virtues=new HashMap<VirtueDescription,VirtueStatsFromDeeds>();
     _reputation=new HashMap<String,FactionStatsFromDeeds>();
     _items=new HashMap<Integer,CountedItem>();
     reset();
@@ -191,12 +192,12 @@ public class DeedsStatistics
         else if (rewardElement instanceof VirtueReward)
         {
           VirtueReward virtueReward=(VirtueReward)rewardElement;
-          VirtueId virtueId=virtueReward.getIdentifier();
-          VirtueStatsFromDeeds virtueStats=_virtues.get(virtueId);
+          VirtueDescription virtue=virtueReward.getVirtue();
+          VirtueStatsFromDeeds virtueStats=_virtues.get(virtue);
           if (virtueStats==null)
           {
-            virtueStats=new VirtueStatsFromDeeds(virtueId);
-            _virtues.put(virtueId,virtueStats);
+            virtueStats=new VirtueStatsFromDeeds(virtue);
+            _virtues.put(virtue,virtueStats);
           }
           int points=virtueReward.getCount();
           virtueStats.add(points);
@@ -305,7 +306,7 @@ public class DeedsStatistics
    * Get the statistics about the acquired virtues.
    * @return A map of virtues statistics.
    */
-  public Map<VirtueId,VirtueStatsFromDeeds> getVirtues()
+  public Map<VirtueDescription,VirtueStatsFromDeeds> getVirtues()
   {
     return _virtues;
   }
@@ -398,13 +399,14 @@ public class DeedsStatistics
     if (_virtues.size()>0)
     {
       sb.append("Virtues:").append(EndOfLine.NATIVE_EOL);
-      for(VirtueId virtueId : VirtueId.values())
+      List<VirtueDescription> virtues=VirtuesManager.getInstance().getAll();
+      for(VirtueDescription virtue : virtues)
       {
-        VirtueStatsFromDeeds virtueStats=_virtues.get(virtueId);
+        VirtueStatsFromDeeds virtueStats=_virtues.get(virtue);
         if (virtueStats!=null)
         {
           int points=virtueStats.getPoints();
-          sb.append('\t').append(virtueId.getLabel()).append(": ").append(points).append(EndOfLine.NATIVE_EOL);
+          sb.append('\t').append(virtue.getName()).append(": ").append(points).append(EndOfLine.NATIVE_EOL);
         }
       }
     }

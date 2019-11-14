@@ -10,7 +10,7 @@ import javax.swing.JPanel;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.common.ui.swing.combobox.ItemSelectionListener;
-import delta.games.lotro.common.VirtueId;
+import delta.games.lotro.character.virtues.VirtueDescription;
 import delta.games.lotro.common.rewards.RewardsExplorer;
 import delta.games.lotro.common.rewards.filters.ClassPointRewardFilter;
 import delta.games.lotro.common.rewards.filters.EmoteRewardFilter;
@@ -54,7 +54,7 @@ public class RewardsFilterController
   private ComboBoxController<Boolean> _mountXp;
   private ComboBoxController<String> _trait;
   private ComboBoxController<String> _title;
-  private ComboBoxController<VirtueId> _virtue;
+  private ComboBoxController<VirtueDescription> _virtue;
   private ComboBoxController<String> _emote;
   private ComboBoxController<Integer> _item;
   private ComboBoxController<Integer> _relic;
@@ -158,8 +158,8 @@ public class RewardsFilterController
     _title.selectItem(title);
     // Virtue
     VirtueRewardFilter virtueFilter=_filter.getVirtueFilter();
-    VirtueId virtueId=virtueFilter.getVirtueId();
-    _virtue.selectItem(virtueId);
+    VirtueDescription virtue=virtueFilter.getVirtue();
+    _virtue.selectItem(virtue);
     // Emote
     EmoteRewardFilter emoteFilter=_filter.getEmoteFilter();
     String emote=emoteFilter.getEmote();
@@ -423,16 +423,16 @@ public class RewardsFilterController
     return combo;
   }
 
-  private ComboBoxController<VirtueId> buildVirtuesCombobox()
+  private ComboBoxController<VirtueDescription> buildVirtuesCombobox()
   {
-    ComboBoxController<VirtueId> combo=SharedUiUtils.buildVirtueCombo();
-    ItemSelectionListener<VirtueId> listener=new ItemSelectionListener<VirtueId>()
+    ComboBoxController<VirtueDescription> combo=SharedUiUtils.buildVirtueCombo();
+    ItemSelectionListener<VirtueDescription> listener=new ItemSelectionListener<VirtueDescription>()
     {
       @Override
-      public void itemSelected(VirtueId virtueId)
+      public void itemSelected(VirtueDescription virtue)
       {
         VirtueRewardFilter filter=_filter.getVirtueFilter();
-        filter.setVirtueId(virtueId);
+        filter.setVirtue(virtue);
         filterUpdated();
       }
     };

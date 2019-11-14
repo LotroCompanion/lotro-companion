@@ -11,7 +11,7 @@ import delta.common.ui.swing.icons.IconsManager;
 import delta.common.utils.text.EndOfLine;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.character.stats.virtues.VirtuesContributionsMgr;
-import delta.games.lotro.common.VirtueId;
+import delta.games.lotro.character.virtues.VirtueDescription;
 import delta.games.lotro.common.stats.StatDescription;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.utils.StatDisplayUtils;
@@ -24,21 +24,21 @@ public class VirtueIconController
 {
   private static final String NO_VIRTUE_ICON="/resources/gui/virtues/noVirtue.png";
 
-  private VirtueId _virtueId;
+  private VirtueDescription _virtue;
   private boolean _active;
   private JLabel _label;
   private IconWithText _icon;
 
   /**
    * Constructor.
-   * @param virtueId Virtue to use.
+   * @param virtue Virtue to use.
    * @param active Indicates if this icon represents an active virtue or not.
    */
-  public VirtueIconController(VirtueId virtueId, boolean active)
+  public VirtueIconController(VirtueDescription virtue, boolean active)
   {
-    _virtueId=virtueId;
+    _virtue=virtue;
     _active=active;
-    _icon=buildVirtueIcon(virtueId,0);
+    _icon=buildVirtueIcon(virtue,0);
     _label=GuiFactory.buildIconLabel(_icon);
     _label.setSize(_icon.getIconWidth(),_icon.getIconHeight());
     setTier(0);
@@ -48,19 +48,19 @@ public class VirtueIconController
    * Get the managed virtue.
    * @return the managed virtue.
    */
-  public VirtueId getVirtue()
+  public VirtueDescription getVirtue()
   {
-    return _virtueId;
+    return _virtue;
   }
 
   /**
    * Set the managed virtue.
-   * @param virtueId Virtue to set or <code>null</code>.
+   * @param virtue Virtue to set or <code>null</code>.
    */
-  public void setVirtue(VirtueId virtueId)
+  public void setVirtue(VirtueDescription virtue)
   {
-    _virtueId=virtueId;
-    _icon=buildVirtueIcon(virtueId,0);
+    _virtue=virtue;
+    _icon=buildVirtueIcon(virtue,0);
     _label.setIcon(_icon);
     setTier(0);
   }
@@ -73,9 +73,9 @@ public class VirtueIconController
   {
     String text=(tier>0)?String.valueOf(tier):"";
     _icon.setText(text);
-    if (_virtueId!=null)
+    if (_virtue!=null)
     {
-      String tooltip=buildToolTip(_virtueId,tier);
+      String tooltip=buildToolTip(_virtue,tier);
       _label.setToolTipText(tooltip);
     }
     _label.repaint();
@@ -92,17 +92,17 @@ public class VirtueIconController
 
   /**
    * Get the icon for the given virtue.
-   * @param virtueId A virtue identifier or <code>null</code>.
+   * @param virtue A virtue identifier or <code>null</code>.
    * @param tier Tier to show.
    * @return An icon with embedded text to display tier.
    */
-  private IconWithText buildVirtueIcon(VirtueId virtueId, int tier)
+  private IconWithText buildVirtueIcon(VirtueDescription virtue, int tier)
   {
     ImageIcon icon=null;
     String text;
-    if (virtueId!=null)
+    if (virtue!=null)
     {
-      icon=LotroIconsManager.getVirtueIcon(virtueId.name());
+      icon=LotroIconsManager.getVirtueIcon(virtue);
       text=String.valueOf(tier);
     }
     else
@@ -114,18 +114,18 @@ public class VirtueIconController
     return labeledIcon;
   }
 
-  private String buildToolTip(VirtueId virtueId, int tier)
+  private String buildToolTip(VirtueDescription virtue, int tier)
   {
     VirtuesContributionsMgr virtuesMgr=VirtuesContributionsMgr.get();
     StringBuilder sb=new StringBuilder();
-    sb.append(virtueId.name()).append(EndOfLine.NATIVE_EOL);
+    sb.append(virtue.getName()).append(EndOfLine.NATIVE_EOL);
     if (_active)
     {
-      BasicStatsSet stats=virtuesMgr.getContribution(virtueId,tier,false);
+      BasicStatsSet stats=virtuesMgr.getContribution(virtue,tier,false);
       sb.append("Active:").append(EndOfLine.NATIVE_EOL);
       addStatsTooltipText(stats,sb);
     }
-    BasicStatsSet passiveStats=virtuesMgr.getContribution(virtueId,tier,true);
+    BasicStatsSet passiveStats=virtuesMgr.getContribution(virtue,tier,true);
     sb.append("Passive:").append(EndOfLine.NATIVE_EOL);
     addStatsTooltipText(passiveStats,sb);
     String text=sb.toString().trim();
@@ -150,7 +150,7 @@ public class VirtueIconController
    */
   public void dispose()
   {
-    _virtueId=null;
+    _virtue=null;
     _label=null;
     _icon=null;
   }

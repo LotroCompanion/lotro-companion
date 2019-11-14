@@ -10,7 +10,8 @@ import java.util.Set;
 import delta.games.lotro.character.log.CharacterLog;
 import delta.games.lotro.character.log.CharacterLogItem;
 import delta.games.lotro.character.log.CharacterLogItem.LogItemType;
-import delta.games.lotro.common.VirtueId;
+import delta.games.lotro.character.virtues.VirtueDescription;
+import delta.games.lotro.character.virtues.VirtueKeyComparator;
 import delta.games.lotro.common.rewards.RewardElement;
 import delta.games.lotro.common.rewards.Rewards;
 import delta.games.lotro.common.rewards.VirtueReward;
@@ -26,7 +27,7 @@ import delta.games.lotro.lore.quests.QuestsManager;
 public class VirtuesStats
 {
   private String _name;
-  private HashMap<VirtueId,List<String>> _virtues;
+  private HashMap<VirtueDescription,List<String>> _virtues;
 
   /**
    * Constructor.
@@ -46,10 +47,10 @@ public class VirtuesStats
    * Get all virtues.
    * @return An possibly empty array of virtues.
    */
-  public VirtueId[] getVirtues()
+  public VirtueDescription[] getVirtues()
   {
-    Set<VirtueId> virtues=_virtues.keySet();
-    VirtueId[] ret=virtues.toArray(new VirtueId[virtues.size()]);
+    Set<VirtueDescription> virtues=_virtues.keySet();
+    VirtueDescription[] ret=virtues.toArray(new VirtueDescription[virtues.size()]);
     return ret;
   }
 
@@ -58,7 +59,7 @@ public class VirtuesStats
    * @param virtue Virtue to use.
    * @return An array of quest/deed identifiers, or <code>null</code>.
    */
-  public String[] getIDsForAVirtue(VirtueId virtue)
+  public String[] getIDsForAVirtue(VirtueDescription virtue)
   {
     String[] ret=null;
     if (virtue!=null)
@@ -74,7 +75,7 @@ public class VirtuesStats
 
   private void reset()
   {
-    _virtues=new HashMap<VirtueId,List<String>>();
+    _virtues=new HashMap<VirtueDescription,List<String>>();
   }
 
   private List<CharacterLogItem> getLogItems(CharacterLog log, LogItemType type)
@@ -136,12 +137,12 @@ public class VirtuesStats
       if (rewardElement instanceof VirtueReward)
       {
         VirtueReward virtueReward=(VirtueReward)rewardElement;
-        VirtueId virtueId=virtueReward.getIdentifier();
-        List<String> items=_virtues.get(virtueId);
+        VirtueDescription virtue=virtueReward.getVirtue();
+        List<String> items=_virtues.get(virtue);
         if (items==null)
         {
           items=new ArrayList<String>();
-          _virtues.put(virtueId,items);
+          _virtues.put(virtue,items);
         }
         items.add(id);
       }
@@ -157,10 +158,10 @@ public class VirtuesStats
   {
     ps.println("Virtues for ["+_name+"]:");
 
-    Set<VirtueId> virtues=_virtues.keySet();
-    List<VirtueId> sortedVirtues=new ArrayList<VirtueId>(virtues);
-    Collections.sort(sortedVirtues);
-    for(VirtueId virtue : sortedVirtues)
+    Set<VirtueDescription> virtues=_virtues.keySet();
+    List<VirtueDescription> sortedVirtues=new ArrayList<VirtueDescription>(virtues);
+    Collections.sort(sortedVirtues,new VirtueKeyComparator());
+    for(VirtueDescription virtue : sortedVirtues)
     {
       List<String> items=_virtues.get(virtue);
       int nb=items.size();

@@ -9,7 +9,7 @@ import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.character.stats.virtues.VirtuesSet;
-import delta.games.lotro.common.VirtueId;
+import delta.games.lotro.character.virtues.VirtueDescription;
 
 /**
  * Controller for a panel to display selected virtues.
@@ -56,14 +56,14 @@ public class VirtuesDisplayPanelController
 
   /**
    * Indicates if this display shows the given virtue or not.
-   * @param virtueId Targeted virtue.
+   * @param virtue Targeted virtue.
    * @return <code>true</code> if it does, <code>false</code> otherwise.
    */
-  public boolean hasVirtue(VirtueId virtueId)
+  public boolean hasVirtue(VirtueDescription virtue)
   {
     for(int i=0;i<MAX_VIRTUES;i++)
     {
-      if (_virtues[i].getVirtue()==virtueId)
+      if (_virtues[i].getVirtue()==virtue)
       {
         return true;
       }
@@ -74,17 +74,17 @@ public class VirtuesDisplayPanelController
   /**
    * Set the displayed virtue.
    * @param index Index of the slot to use.
-   * @param virtueId Virtue to set.
+   * @param virtue Virtue to set.
    * @param tier Tier to set.
    */
-  public void setVirtue(int index, VirtueId virtueId, int tier)
+  public void setVirtue(int index, VirtueDescription virtue, int tier)
   {
-    _virtues[index].setVirtue(virtueId);
+    _virtues[index].setVirtue(virtue);
     _virtues[index].setTier(tier);
     String virtueLabel="";
-    if (virtueId!=null)
+    if (virtue!=null)
     {
-      virtueLabel=virtueId.getLabel();
+      virtueLabel=virtue.getName();
     }
     _virtueLabels[index].setText(virtueLabel);
   }
@@ -108,14 +108,14 @@ public class VirtuesDisplayPanelController
 
   /**
    * Update a virtue.
-   * @param virtueId Targeted virtue.
+   * @param virtue Targeted virtue.
    * @param tier New virtue tier.
    */
-  public void updateVirtue(VirtueId virtueId, int tier)
+  public void updateVirtue(VirtueDescription virtue, int tier)
   {
     for(int i=0;i<MAX_VIRTUES;i++)
     {
-      if (_virtues[i].getVirtue()==virtueId)
+      if (_virtues[i].getVirtue()==virtue)
       {
         _virtues[i].setTier(tier);
       }
@@ -130,9 +130,9 @@ public class VirtuesDisplayPanelController
   {
     for(int i=0;i<MAX_VIRTUES;i++)
     {
-      VirtueId virtueId=virtues.getSelectedVirtue(i);
-      int tier=virtues.getVirtueRank(virtueId);
-      setVirtue(i,virtueId,tier);
+      VirtueDescription virtue=virtues.getSelectedVirtue(i);
+      int tier=virtues.getVirtueRank(virtue);
+      setVirtue(i,virtue,tier);
     }
   }
 
@@ -145,7 +145,7 @@ public class VirtuesDisplayPanelController
     for(int i=0;i<MAX_VIRTUES;i++)
     {
       VirtueIconController virtueController=_virtues[i];
-      VirtueId virtue=virtueController.getVirtue();
+      VirtueDescription virtue=virtueController.getVirtue();
       virtues.setSelectedVirtue(virtue,i);
     }
   }

@@ -3,7 +3,8 @@ package delta.games.lotro.gui.utils;
 import java.util.List;
 
 import delta.common.ui.swing.combobox.ComboBoxController;
-import delta.games.lotro.common.VirtueId;
+import delta.games.lotro.character.virtues.VirtueDescription;
+import delta.games.lotro.character.virtues.VirtuesManager;
 import delta.games.lotro.lore.reputation.Faction;
 import delta.games.lotro.lore.reputation.FactionsRegistry;
 
@@ -34,13 +35,14 @@ public class SharedUiUtils
    * Build a combo-box controller to choose a virtue.
    * @return A new combo-box controller.
    */
-  public static ComboBoxController<VirtueId> buildVirtueCombo()
+  public static ComboBoxController<VirtueDescription> buildVirtueCombo()
   {
-    ComboBoxController<VirtueId> ctrl=new ComboBoxController<VirtueId>();
+    ComboBoxController<VirtueDescription> ctrl=new ComboBoxController<VirtueDescription>();
     ctrl.addEmptyItem("");
-    for(VirtueId virtue : VirtueId.values())
+    List<VirtueDescription> virtues=VirtuesManager.getInstance().getAll();
+    for(VirtueDescription virtue : virtues)
     {
-      ctrl.addItem(virtue,virtue.getLabel());
+      ctrl.addItem(virtue,virtue.getName());
     }
     ctrl.selectItem(null);
     return ctrl;

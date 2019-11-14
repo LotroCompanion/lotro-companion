@@ -26,7 +26,7 @@ import delta.common.ui.swing.text.IntegerEditionController;
 import delta.common.ui.swing.text.NumberEditionController;
 import delta.common.ui.swing.text.NumberListener;
 import delta.games.lotro.character.stats.virtues.VirtuesSet;
-import delta.games.lotro.common.VirtueId;
+import delta.games.lotro.character.virtues.VirtueDescription;
 
 /**
  * Gather UI items to edit a single virtue.
@@ -54,24 +54,24 @@ public class VirtueEditionUiController implements ActionListener
   {
     /**
      * Called when the tier of the managed virtue has changed.
-     * @param virtueId Targeted virtue.
+     * @param virtue Targeted virtue.
      * @param tier New tier value.
      */
-    void tierChanged(VirtueId virtueId, int tier);
+    void tierChanged(VirtueDescription virtue, int tier);
   }
 
   /**
    * Constructor.
-   * @param virtueId Virtue to use.
+   * @param virtue Virtue to use.
    */
-  public VirtueEditionUiController(VirtueId virtueId)
+  public VirtueEditionUiController(VirtueDescription virtue)
   {
     _tier=0;
     // Icon
-    _iconController=new VirtueIconController(virtueId,false);
+    _iconController=new VirtueIconController(virtue,false);
     JLabel label=_iconController.getLabel();
-    label.setTransferHandler(new DragTransferHandler(virtueId));
-    label.setName(virtueId.name());
+    label.setTransferHandler(new DragTransferHandler(virtue));
+    label.setName(virtue.getName());
     label.addMouseListener(new MouseAdapter()
     {
       @Override
@@ -83,7 +83,7 @@ public class VirtueEditionUiController implements ActionListener
       }
     });
     // Virtue name
-    _virtueName=GuiFactory.buildLabel(virtueId.getLabel());
+    _virtueName=GuiFactory.buildLabel(virtue.getName());
     // "+" button
     _plus=buildButton("circled_plus");
     // "-" button
@@ -145,7 +145,7 @@ public class VirtueEditionUiController implements ActionListener
 
   private static class DragTransferHandler extends TransferHandler
   {
-    private VirtueId _virtueId;
+    private VirtueDescription _virtue;
 
     @Override
     protected Transferable createTransferable(JComponent c)
@@ -165,15 +165,15 @@ public class VirtueEditionUiController implements ActionListener
         @Override
         public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException
         {
-          return _virtueId;
+          return _virtue;
         }
       };
       return t;
     }
-    public DragTransferHandler(VirtueId virtueId)
+    public DragTransferHandler(VirtueDescription virtue)
     {
       super("text");
-      _virtueId=virtueId;
+      _virtue=virtue;
     }
 
     @Override

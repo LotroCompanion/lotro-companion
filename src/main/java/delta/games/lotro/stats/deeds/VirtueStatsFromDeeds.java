@@ -1,6 +1,6 @@
 package delta.games.lotro.stats.deeds;
 
-import delta.games.lotro.common.VirtueId;
+import delta.games.lotro.character.virtues.VirtueDescription;
 
 /**
  * Deed statistics for a single virtue.
@@ -8,26 +8,26 @@ import delta.games.lotro.common.VirtueId;
  */
 public class VirtueStatsFromDeeds
 {
-  private VirtueId _virtueId;
+  private VirtueDescription _virtue;
   private int _points;
   private int _deedsCount;
 
   /**
    * Constructor.
-   * @param virtueId Managed virtue.
+   * @param virtue Managed virtue.
    */
-  public VirtueStatsFromDeeds(VirtueId virtueId)
+  public VirtueStatsFromDeeds(VirtueDescription virtue)
   {
-    _virtueId=virtueId;
+    _virtue=virtue;
   }
 
   /**
    * Get the managed virtue.
    * @return a virtue.
    */
-  public VirtueId getVirtueId()
+  public VirtueDescription getVirtue()
   {
-    return _virtueId;
+    return _virtue;
   }
 
   /**

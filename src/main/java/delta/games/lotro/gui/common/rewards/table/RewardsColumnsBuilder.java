@@ -77,7 +77,7 @@ public class RewardsColumnsBuilder
         public String getData(Rewards rewards)
         {
           List<VirtueReward> virtueRewards=rewards.getRewardElementsOfClass(VirtueReward.class);
-          return (virtueRewards.size()>0)?virtueRewards.get(0).getIdentifier().getLabel():null;
+          return (virtueRewards.size()>0)?virtueRewards.get(0).getVirtue().getName():null;
         }
       };
       DefaultTableColumnController<Rewards,String> virtueColumn=new DefaultTableColumnController<Rewards,String>(RewardsColumnIds.VIRTUE.name(),"Virtue",String.class,virtueCell);

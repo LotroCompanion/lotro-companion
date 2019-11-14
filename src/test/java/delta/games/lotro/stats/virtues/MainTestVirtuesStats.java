@@ -9,7 +9,9 @@ import java.util.List;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.log.CharacterLog;
 import delta.games.lotro.character.log.LotroTestUtils;
-import delta.games.lotro.common.VirtueId;
+import delta.games.lotro.character.virtues.VirtueDescription;
+import delta.games.lotro.character.virtues.VirtueKeyComparator;
+import delta.games.lotro.character.virtues.VirtuesManager;
 import delta.games.lotro.common.rewards.RewardElement;
 import delta.games.lotro.common.rewards.Rewards;
 import delta.games.lotro.common.rewards.VirtueReward;
@@ -39,7 +41,7 @@ public class MainTestVirtuesStats
       stats.dump(System.out,true);
     }
 
-    HashMap<VirtueId,List<String>> virtuesMap=new HashMap<VirtueId,List<String>>();
+    HashMap<VirtueDescription,List<String>> virtuesMap=new HashMap<VirtueDescription,List<String>>();
     {
       DeedsManager dm=DeedsManager.getInstance();
       List<DeedDescription> deeds=dm.getAll();
@@ -52,40 +54,41 @@ public class MainTestVirtuesStats
           if (rewardElement instanceof VirtueReward)
           {
             VirtueReward virtueReward=(VirtueReward)rewardElement;
-            VirtueId virtueId=virtueReward.getIdentifier();
-            List<String> items=virtuesMap.get(virtueId);
+            VirtueDescription virtue=virtueReward.getVirtue();
+            List<String> items=virtuesMap.get(virtue);
             if (items==null)
             {
               items=new ArrayList<String>();
-              virtuesMap.put(virtueId,items);
+              virtuesMap.put(virtue,items);
             }
             items.add("Deed:"+name);
           }
         }
       }
     }
-    List<VirtueId> toShow=new ArrayList<VirtueId>();
-    toShow.add(VirtueId.VALOUR);
-    toShow.add(VirtueId.LOYALTY);
-    toShow.add(VirtueId.JUSTICE);
-    toShow.add(VirtueId.HONOUR);
-    toShow.add(VirtueId.INNOCENCE);
-    toShow.add(VirtueId.ZEAL);
-    List<VirtueId> virtueIds=new ArrayList<VirtueId>(virtuesMap.keySet());
-    Collections.sort(virtueIds);
-    for(VirtueId virtueId : virtueIds)
+    List<VirtueDescription> toShow=new ArrayList<VirtueDescription>();
+    VirtuesManager virtuesMgr=VirtuesManager.getInstance();
+    toShow.add(virtuesMgr.getByKey("VALOUR"));
+    toShow.add(virtuesMgr.getByKey("LOYALTY"));
+    toShow.add(virtuesMgr.getByKey("JUSTICE"));
+    toShow.add(virtuesMgr.getByKey("HONOUR"));
+    toShow.add(virtuesMgr.getByKey("INNOCENCE"));
+    toShow.add(virtuesMgr.getByKey("ZEAL"));
+    List<VirtueDescription> virtues=new ArrayList<VirtueDescription>(virtuesMap.keySet());
+    Collections.sort(virtues,new VirtueKeyComparator());
+    for(VirtueDescription virtue : virtues)
     {
-      if (toShow.contains(virtueId))
+      if (toShow.contains(virtue))
       {
-        List<String> deeds=virtuesMap.get(virtueId);
-        System.out.println(virtueId+" ("+deeds.size()+"): "+deeds);
-        String[] got=stats.getIDsForAVirtue(virtueId);
+        List<String> deeds=virtuesMap.get(virtue);
+        System.out.println(virtue.getName()+" ("+deeds.size()+"): "+deeds);
+        String[] got=stats.getIDsForAVirtue(virtue);
         if (got!=null)
         {
-          System.out.println("GOT:"+virtueId+" ("+got.length+"): "+Arrays.toString(got));
+          System.out.println("GOT:"+virtue.getName()+" ("+got.length+"): "+Arrays.toString(got));
           for(String id : got) deeds.remove(id);
         }
-        System.out.println("MISSING: "+virtueId+" ("+deeds.size()+"): "+deeds);
+        System.out.println("MISSING: "+virtue.getName()+" ("+deeds.size()+"): "+deeds);
       }
     }
   }
