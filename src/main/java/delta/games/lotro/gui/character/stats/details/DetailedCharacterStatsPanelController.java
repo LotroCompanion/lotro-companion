@@ -59,8 +59,7 @@ public class DetailedCharacterStatsPanelController
 
   private SingleStatWidgetsController getStatWidgetsController(StatDescription stat)
   {
-    String key=stat.getPersistenceKey();
-    SingleStatWidgetsController ctrl=_ctrls.get(key);
+    SingleStatWidgetsController ctrl=_ctrls.get(stat);
     if (ctrl==null)
     {
       boolean isPercentage=(stat!=null)?stat.isPercentage():false;
