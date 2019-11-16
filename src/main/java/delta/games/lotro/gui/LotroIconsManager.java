@@ -206,8 +206,6 @@ public class LotroIconsManager
    */
   public static ImageIcon getDeedTypeIcon(DeedType type)
   {
-    if (type==null) type=DeedType.QUEST;
-    if (type==DeedType.QUEST) type=DeedType.REPUTATION;
     String filename=type.name().toLowerCase();
     String path="/resources/gui/deeds/"+filename+".png";
     ImageIcon ret=IconsManager.getIcon(path);
