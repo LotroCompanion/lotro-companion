@@ -67,7 +67,7 @@ public class CharacterDataWindowController extends DefaultFormDialogController<C
     _statsController=new CharacterStatsSummaryPanelController(this,toonData);
     _equipmentController=new EquipmentPanelController(this,toon,toonData);
     _virtuesController=new VirtuesDisplayPanelController();
-    _virtuesController.setVirtues(toonData.getVirtues());
+    updateVirtues();
     _buffsController=new BuffEditionPanelController(this,toonData);
     _tomesController=new TomesEditionPanelController(toonData);
   }
@@ -216,11 +216,12 @@ public class CharacterDataWindowController extends DefaultFormDialogController<C
       @Override
       public void actionPerformed(ActionEvent e)
       {
-        VirtuesSet virtues=VirtuesEditionDialogController.editVirtues(CharacterDataWindowController.this,_data.getVirtues());
+        VirtuesSet virtuesToEdit=_data.getVirtues();
+        VirtuesSet virtues=VirtuesEditionDialogController.editVirtues(CharacterDataWindowController.this,virtuesToEdit);
         if (virtues!=null)
         {
-          _data.getVirtues().copyFrom(virtues);
-          _virtuesController.setVirtues(virtues);
+          virtuesToEdit.copyFrom(virtues);
+          updateVirtues();
           // Broadcast virtues update event...
           CharacterEvent event=new CharacterEvent(CharacterEventType.CHARACTER_DATA_UPDATED,null,_data);
           EventsManager.invokeEvent(event);
@@ -289,6 +290,14 @@ public class CharacterDataWindowController extends DefaultFormDialogController<C
     summaryController.bringToFront();
   }
 
+  private void updateVirtues()
+  {
+    BasicStatsSet buffs=_data.getBuffs().getBuffs(_data);
+    VirtuesSet virtues=_data.getVirtues();
+    virtues.setBuffs(buffs);
+    _virtuesController.setVirtues(virtues);
+  }
+
   /**
    * Handle character events.
    * @param event Source event.
@@ -312,6 +321,8 @@ public class CharacterDataWindowController extends DefaultFormDialogController<C
         _statsController.update();
         // Update buffs display
         _buffsController.update();
+        // Update virtues display
+        updateVirtues();
       }
     }
     if (type==CharacterEventType.CHARACTER_SUMMARY_UPDATED)

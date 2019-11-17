@@ -40,6 +40,8 @@ public class VirtuesEditionPanelController implements TierValueListener
   private VirtuesDisplayPanelController _selectedVirtues;
   private VirtuesStatsPanelController _stats;
   private JButton _maxAll;
+  // Data
+  private VirtuesSet _virtuesSet;
 
   /**
    * Constructor.
@@ -82,15 +84,11 @@ public class VirtuesEditionPanelController implements TierValueListener
       selectedVirtuesPanel.setBorder(border);
       c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
       panel.add(selectedVirtuesPanel,c);
-      //selectedVirtuesPanel.setBackground(Color.GREEN);
-      //selectedVirtuesPanel.setOpaque(true);
     }
     // Side panel
     JPanel sidePanel=buildSidePanel();
     c=new GridBagConstraints(1,1,1,1,1.0,1.0,GridBagConstraints.NORTH,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(sidePanel,c);
-    //sidePanel.setBackground(Color.PINK);
-    //sidePanel.setOpaque(true);
     return panel;
   }
 
@@ -162,7 +160,8 @@ public class VirtuesEditionPanelController implements TierValueListener
       try
       {
         Transferable t=support.getTransferable();
-        virtue=(VirtueDescription)t.getTransferData(DataFlavor.stringFlavor);
+        Integer id=(Integer)t.getTransferData(DataFlavor.stringFlavor);
+        virtue=VirtuesManager.getInstance().getVirtue(id.intValue());
       }
       catch(Exception e)
       {
@@ -181,8 +180,10 @@ public class VirtuesEditionPanelController implements TierValueListener
         JLabel label=_selectedVirtues.getVirtue(i).getLabel();
         if (label==target)
         {
-          int tier=_virtues.get(virtue).getTier();
-          _selectedVirtues.setVirtue(i,virtue,tier);
+          VirtueEditionUiController controller=_virtues.get(virtue);
+          int tier=controller.getTier();
+          int bonus=controller.getBonus();
+          _selectedVirtues.setVirtue(i,virtue,tier,bonus);
           break;
         }
       }
@@ -222,13 +223,15 @@ public class VirtuesEditionPanelController implements TierValueListener
    */
   public void setVirtues(VirtuesSet set)
   {
+    _virtuesSet=set;
     // Set tiers
     List<VirtueDescription> virtues=VirtuesManager.getInstance().getAll();
     for(VirtueDescription virtue : virtues)
     {
       VirtueEditionUiController ui=_virtues.get(virtue);
       int tier=set.getVirtueRank(virtue);
-      ui.setTier(tier);
+      int bonus=set.getVirtueBonusRank(virtue);
+      ui.init(tier,bonus);
     }
     // Set selected virtues
     _selectedVirtues.setVirtues(set);
@@ -243,6 +246,8 @@ public class VirtuesEditionPanelController implements TierValueListener
   public VirtuesSet getVirtues()
   {
     VirtuesSet ret=new VirtuesSet();
+    // Copy to get buffs
+    ret.copyFrom(_virtuesSet);
     List<VirtueDescription> virtues=VirtuesManager.getInstance().getAll();
     for(VirtueDescription virtue : virtues)
     {

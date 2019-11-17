@@ -307,7 +307,15 @@ public class BuffEditionPanelController implements ActionListener
       _iconsPanel.removeAll();
       _iconsPanel=null;
     }
-    _buffControllers.clear();
+    if (_buffControllers!=null)
+    {
+      for(BuffIconController buffIconController : _buffControllers)
+      {
+        buffIconController.dispose();
+      }
+      _buffControllers.clear();
+      _buffControllers=null;
+    }
     _parentWindow=null;
     _toon=null;
   }

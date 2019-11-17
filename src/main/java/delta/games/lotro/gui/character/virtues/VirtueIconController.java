@@ -26,6 +26,8 @@ public class VirtueIconController
 
   private VirtueDescription _virtue;
   private boolean _active;
+  private int _tier;
+  private int _bonus;
   private JLabel _label;
   private IconWithText _icon;
 
@@ -38,10 +40,11 @@ public class VirtueIconController
   {
     _virtue=virtue;
     _active=active;
-    _icon=buildVirtueIcon(virtue,0);
+    _icon=buildVirtueIcon(virtue);
     _label=GuiFactory.buildIconLabel(_icon);
     _label.setSize(_icon.getIconWidth(),_icon.getIconHeight());
     setTier(0);
+    setBonus(0);
   }
 
   /**
@@ -60,9 +63,8 @@ public class VirtueIconController
   public void setVirtue(VirtueDescription virtue)
   {
     _virtue=virtue;
-    _icon=buildVirtueIcon(virtue,0);
+    _icon=buildVirtueIcon(virtue);
     _label.setIcon(_icon);
-    setTier(0);
   }
 
   /**
@@ -71,11 +73,35 @@ public class VirtueIconController
    */
   public void setTier(int tier)
   {
-    String text=(tier>0)?String.valueOf(tier):"";
+    _tier=tier;
+    updateUi();
+  }
+
+  /**
+   * Set the bonus of the managed virtue.
+   * @param bonus Bonus to set.
+   */
+  public void setBonus(int bonus)
+  {
+    _bonus=bonus;
+    updateUi();
+  }
+
+  private void updateUi()
+  {
+    String text="";
+    if ((_tier>0) || (_bonus>0))
+    {
+      text=String.valueOf(_tier);
+      if (_bonus>0)
+      {
+        text=text+"+"+_bonus;
+      }
+    }
     _icon.setText(text);
     if (_virtue!=null)
     {
-      String tooltip=buildToolTip(_virtue,tier);
+      String tooltip=buildToolTip(_virtue);
       _label.setToolTipText(tooltip);
     }
     _label.repaint();
@@ -93,39 +119,35 @@ public class VirtueIconController
   /**
    * Get the icon for the given virtue.
    * @param virtue A virtue identifier or <code>null</code>.
-   * @param tier Tier to show.
    * @return An icon with embedded text to display tier.
    */
-  private IconWithText buildVirtueIcon(VirtueDescription virtue, int tier)
+  private IconWithText buildVirtueIcon(VirtueDescription virtue)
   {
     ImageIcon icon=null;
-    String text;
     if (virtue!=null)
     {
       icon=LotroIconsManager.getVirtueIcon(virtue);
-      text=String.valueOf(tier);
     }
     else
     {
       icon=IconsManager.getIcon(NO_VIRTUE_ICON);
-      text="";
     }
-    IconWithText labeledIcon=new IconWithText(icon,text,Color.WHITE);
+    IconWithText labeledIcon=new IconWithText(icon,"",Color.WHITE);
     return labeledIcon;
   }
 
-  private String buildToolTip(VirtueDescription virtue, int tier)
+  private String buildToolTip(VirtueDescription virtue)
   {
     VirtuesContributionsMgr virtuesMgr=VirtuesContributionsMgr.get();
     StringBuilder sb=new StringBuilder();
     sb.append(virtue.getName()).append(EndOfLine.NATIVE_EOL);
     if (_active)
     {
-      BasicStatsSet stats=virtuesMgr.getContribution(virtue,tier,false);
+      BasicStatsSet stats=virtuesMgr.getContribution(virtue,_tier+_bonus,false);
       sb.append("Active:").append(EndOfLine.NATIVE_EOL);
       addStatsTooltipText(stats,sb);
     }
-    BasicStatsSet passiveStats=virtuesMgr.getContribution(virtue,tier,true);
+    BasicStatsSet passiveStats=virtuesMgr.getContribution(virtue,_tier,true);
     sb.append("Passive:").append(EndOfLine.NATIVE_EOL);
     addStatsTooltipText(passiveStats,sb);
     String text=sb.toString().trim();

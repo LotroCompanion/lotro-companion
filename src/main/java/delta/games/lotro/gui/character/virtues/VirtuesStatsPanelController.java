@@ -38,9 +38,9 @@ public class VirtuesStatsPanelController
   public void update(VirtuesSet virtues)
   {
     VirtuesContributionsMgr contribsMgr=VirtuesContributionsMgr.get();
-    BasicStatsSet activeStats=contribsMgr.getContribution(virtues,true,false);
+    BasicStatsSet activeStats=contribsMgr.getContribution(virtues,null,true,false);
     StatsPanel.fillStatsPanel(_activesPanel,activeStats,null);
-    BasicStatsSet passiveStats=contribsMgr.getContribution(virtues,false,true);
+    BasicStatsSet passiveStats=contribsMgr.getContribution(virtues,null,false,true);
     StatsPanel.fillStatsPanel(_passivesPanel,passiveStats,null);
     _panel.revalidate();
     _panel.repaint();

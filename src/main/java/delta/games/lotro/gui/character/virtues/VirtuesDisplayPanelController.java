@@ -76,11 +76,13 @@ public class VirtuesDisplayPanelController
    * @param index Index of the slot to use.
    * @param virtue Virtue to set.
    * @param tier Tier to set.
+   * @param bonus Bonus to set.
    */
-  public void setVirtue(int index, VirtueDescription virtue, int tier)
+  public void setVirtue(int index, VirtueDescription virtue, int tier, int bonus)
   {
     _virtues[index].setVirtue(virtue);
     _virtues[index].setTier(tier);
+    _virtues[index].setBonus(bonus);
     String virtueLabel="";
     if (virtue!=null)
     {
@@ -132,7 +134,8 @@ public class VirtuesDisplayPanelController
     {
       VirtueDescription virtue=virtues.getSelectedVirtue(i);
       int tier=virtues.getVirtueRank(virtue);
-      setVirtue(i,virtue,tier);
+      int bonus=virtues.getVirtueBonusRank(virtue);
+      setVirtue(i,virtue,tier,bonus);
     }
   }
 

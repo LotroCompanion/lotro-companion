@@ -36,6 +36,7 @@ public class VirtueEditionUiController implements ActionListener
 {
   // Data
   private int _tier;
+  private int _bonus;
   // Controllers/UI
   private VirtueIconController _iconController;
   private JLabel _virtueName;
@@ -165,7 +166,7 @@ public class VirtueEditionUiController implements ActionListener
         @Override
         public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException
         {
-          return _virtue;
+          return Integer.valueOf(_virtue.getIdentifier());
         }
       };
       return t;
@@ -239,6 +240,15 @@ public class VirtueEditionUiController implements ActionListener
   }
 
   /**
+   * Get the displayed bonus.
+   * @return a bonus value.
+   */
+  public int getBonus()
+  {
+    return _bonus;
+  }
+
+  /**
    * Set the tier for the managed virtue.
    * @param tier Tier to set.
    */
@@ -248,9 +258,22 @@ public class VirtueEditionUiController implements ActionListener
     updateUi();
   }
 
+  /**
+   * Set the tier and bonus for the managed virtue.
+   * @param tier Tier to set.
+   * @param bonus Bonus ranks for the managed virtue.
+   */
+  public void init(int tier,int bonus)
+  {
+    _tier=tier;
+    _bonus=bonus;
+    updateUi();
+  }
+
   private void updateUi()
   {
     _iconController.setTier(_tier);
+    _iconController.setBonus(_bonus);
     _tierEdit.setValue(Integer.valueOf(_tier));
     _minus.setEnabled(_tier>0);
     _plus.setEnabled(_tier<VirtuesSet.MAX_TIER);
