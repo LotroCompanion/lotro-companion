@@ -4,6 +4,9 @@ import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.Window;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +17,10 @@ import javax.swing.JTextField;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.combobox.ComboBoxController;
-import delta.common.utils.NumericTools;
+import delta.common.ui.swing.combobox.ItemSelectionListener;
+import delta.common.ui.swing.text.NumberEditionController;
+import delta.common.ui.swing.text.NumberListener;
+import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.common.stats.CustomStatsMergeMode;
 import delta.games.lotro.common.stats.StatDescription;
@@ -32,33 +38,42 @@ public class CustomStatsEditionPanelController
   private StatsManager _statsManager;
   // GUI
   private JPanel _panel;
+  private JPanel _autoStats;
+  private JPanel _resultStats;
   // Controllers
+  private WindowController _parent;
   private ComboBoxController<CustomStatsMergeMode> _mode;
   private List<SingleStatsEditionGadgetsController> _statControllers;
 
   /**
    * Constructor.
+   * @param parent Parent window.
    * @param statsManager Stats manager.
    */
-  public CustomStatsEditionPanelController(StatsManager statsManager)
+  public CustomStatsEditionPanelController(WindowController parent, StatsManager statsManager)
   {
-    _statsManager=statsManager;
     _mode=buildModesCombo();
     _statControllers=new ArrayList<SingleStatsEditionGadgetsController>();
     _panel=buildPanel();
-    init();
+    init(statsManager);
+    _parent=parent;
   }
 
   /**
    * Initialize the managed panel with the given data.
+   * @param statsManager Stats manager to use.
    */
-  private void init()
+  private void init(StatsManager statsManager)
   {
+    // Stats manager
+    _statsManager=new StatsManager(statsManager);
     // Mode
-    CustomStatsMergeMode mode=_statsManager.getMode();
+    CustomStatsMergeMode mode=statsManager.getMode();
     _mode.selectItem(mode);
-    // Stats
-    BasicStatsSet statsSet=_statsManager.getCustom();
+    // Auto stats
+    StatsPanel.fillStatsPanel(_autoStats,_statsManager.getDefault(),null);
+    // Custom stats
+    BasicStatsSet statsSet=statsManager.getCustom();
     List<StatDescription> usedStats=statsSet.getSortedStats();
     int nbStats=usedStats.size();
     for(int i=0;i<MAX_STATS;i++)
@@ -75,21 +90,24 @@ public class CustomStatsEditionPanelController
         ctrl.clear();
       }
     }
+    // Result stats
+    StatsPanel.fillStatsPanel(_resultStats,statsManager.getResult(),null);
   }
 
   /**
    * Get the data from the UI.
+   * @param storage Storage for loaded data.
    */
-  public void getData()
+  public void getData(StatsManager storage)
   {
     // Mode
     CustomStatsMergeMode mode=_mode.getSelectedItem();
-    _statsManager.setMode(mode);
+    storage.setMode(mode);
     // Stats
     BasicStatsSet stats=getStats();
-    BasicStatsSet customStats=_statsManager.getCustom();
+    BasicStatsSet customStats=storage.getCustom();
     customStats.setStats(stats);
-    _statsManager.apply();
+    storage.apply();
   }
 
   /**
@@ -101,12 +119,10 @@ public class CustomStatsEditionPanelController
     BasicStatsSet stats=new BasicStatsSet();
     for(SingleStatsEditionGadgetsController ctrl : _statControllers)
     {
-      ComboBoxController<StatDescription> comboCtrl=ctrl.getStatComboController();
-      StatDescription stat=comboCtrl.getSelectedItem();
+      StatDescription stat=ctrl.getStat();
       if (stat!=null)
       {
-        String valueStr=ctrl.getValue().getText();
-        Float value=NumericTools.parseFloat(valueStr,false);
+        Float value=ctrl.getValue();
         if (value!=null)
         {
           stats.addStat(stat,new FixedDecimalsInteger(value.floatValue()));
@@ -126,6 +142,31 @@ public class CustomStatsEditionPanelController
   }
 
   private JPanel buildPanel()
+  {
+    // Automatic stats
+    _autoStats=GuiFactory.buildPanel(new GridBagLayout());
+    _autoStats.setBorder(GuiFactory.buildTitledBorder("Automatic stats"));
+
+    // Result stats
+    _resultStats=GuiFactory.buildPanel(new GridBagLayout());
+    _resultStats.setBorder(GuiFactory.buildTitledBorder("Result stats"));
+
+    // Custom stats
+    JPanel customStatsPanel=buildCustomStatsPanel();
+    customStatsPanel.setBorder(GuiFactory.buildTitledBorder("Custom stats"));
+
+    // Assembly
+    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
+    GridBagConstraints c=new GridBagConstraints(0,0,1,2,1.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(5,5,5,0),0,0);
+    panel.add(customStatsPanel,c);
+    c=new GridBagConstraints(1,0,1,1,1.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(5,5,5,5),0,0);
+    panel.add(_autoStats,c);
+    c=new GridBagConstraints(1,1,1,1,1.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(0,5,5,5),0,0);
+    panel.add(_resultStats,c);
+    return panel;
+  }
+
+  private JPanel buildCustomStatsPanel()
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
 
@@ -147,11 +188,15 @@ public class CustomStatsEditionPanelController
     JPanel panel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
     panel.add(GuiFactory.buildLabel("Mode:"));
     panel.add(_mode.getComboBox());
+    _mode.addListener(buildModeChoiceListener());
     return panel;
   }
 
   private JPanel buildStatsPanel()
   {
+    NumberListener<Float> valueListener=buildValueListener();
+    ItemSelectionListener<StatDescription> statListener=buildStatChoiceListener();
+    ActionListener deleteListener=buildDeleteListener();
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     for(int i=0;i<MAX_STATS;i++)
     {
@@ -160,21 +205,96 @@ public class CustomStatsEditionPanelController
 
       GridBagConstraints c=new GridBagConstraints(0,i,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
       // Value editor
-      JTextField value=ctrl.getValue();
+      JTextField value=ctrl.getValueField();
       panel.add(value,c);
+      ctrl.getValueEditor().addValueListener(valueListener);
       // Stat chooser
       c.gridx++;
-      panel.add(ctrl.getStatComboController().getComboBox(),c);
+      ComboBoxController<StatDescription> statChooser=ctrl.getStatComboController();
+      panel.add(statChooser.getComboBox(),c);
+      statChooser.addListener(statListener);
       // Stat unit label
       JLabel unit=ctrl.getUnit();
       c.gridx++;
       panel.add(unit,c);
       // Delete button
       JButton deleteButton=ctrl.getDeleteButton();
+      deleteButton.addActionListener(deleteListener);
       c.gridx++;
       panel.add(deleteButton,c);
     }
     return panel;
+  }
+
+  private ItemSelectionListener<CustomStatsMergeMode> buildModeChoiceListener()
+  {
+    ItemSelectionListener<CustomStatsMergeMode> valueListener=new ItemSelectionListener<CustomStatsMergeMode>()
+    {
+      @Override
+      public void itemSelected(CustomStatsMergeMode newValue)
+      {
+        update();
+      }
+    };
+    return valueListener;
+  }
+
+  private NumberListener<Float> buildValueListener()
+  {
+    NumberListener<Float> valueListener=new NumberListener<Float>()
+    {
+      @Override
+      public void valueChanged(NumberEditionController<Float> source, Float newValue)
+      {
+        update();
+      }
+    };
+    return valueListener;
+  }
+
+  private ItemSelectionListener<StatDescription> buildStatChoiceListener()
+  {
+    ItemSelectionListener<StatDescription> valueListener=new ItemSelectionListener<StatDescription>()
+    {
+      @Override
+      public void itemSelected(StatDescription newValue)
+      {
+        update();
+      }
+    };
+    return valueListener;
+  }
+
+  private ActionListener buildDeleteListener()
+  {
+    ActionListener listener=new ActionListener()
+    {
+      @Override
+      public void actionPerformed(ActionEvent e)
+      {
+        update();
+      }
+    };
+    return listener;
+  }
+
+  private void update()
+  {
+    // Load custom stats from UI
+    getData(_statsManager);
+    // Update 'result' stats
+    StatsPanel.fillStatsPanel(_resultStats,_statsManager.getResult(),null);
+    _resultStats.revalidate();
+    _resultStats.repaint();
+    // Pack parent window
+    _panel.revalidate();
+    _panel.repaint();
+    if (_parent!=null)
+    {
+      Window window=_parent.getWindow();
+      window.setMinimumSize(window.getPreferredSize());
+      window.pack();
+    }
   }
 
   /**
@@ -182,13 +302,18 @@ public class CustomStatsEditionPanelController
    */
   public void dispose()
   {
+    // Data
+    _statsManager=null;
     // UI
     if (_panel!=null)
     {
       _panel.removeAll();
       _panel=null;
     }
+    _autoStats=null;
+    _resultStats=null;
     // Controllers
+    _parent=null;
     if (_statControllers!=null)
     {
       for(SingleStatsEditionGadgetsController controller : _statControllers)
@@ -196,6 +321,11 @@ public class CustomStatsEditionPanelController
         controller.dispose();
       }
       _statControllers=null;
+    }
+    if (_mode!=null)
+    {
+      _mode.dispose();
+      _mode=null;
     }
   }
 
@@ -207,7 +337,7 @@ public class CustomStatsEditionPanelController
   private ComboBoxController<CustomStatsMergeMode> buildModesCombo()
   {
     ComboBoxController<CustomStatsMergeMode> ctrl=new ComboBoxController<CustomStatsMergeMode>();
-    ctrl.addItem(CustomStatsMergeMode.AUTO,"Disabled");
+    ctrl.addItem(CustomStatsMergeMode.AUTO,"Automatic");
     ctrl.addItem(CustomStatsMergeMode.ADD,"Add");
     ctrl.addItem(CustomStatsMergeMode.SET,"Set");
     ctrl.addItem(CustomStatsMergeMode.MERGE,"Merge");

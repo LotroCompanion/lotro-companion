@@ -12,6 +12,7 @@ import javax.swing.JTextField;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.common.ui.swing.icons.IconsManager;
+import delta.common.ui.swing.text.FloatEditionController;
 import delta.games.lotro.common.stats.StatDescription;
 import delta.games.lotro.gui.items.ItemUiTools;
 import delta.games.lotro.utils.FixedDecimalsInteger;
@@ -22,7 +23,7 @@ import delta.games.lotro.utils.FixedDecimalsInteger;
  */
 public class SingleStatsEditionGadgetsController
 {
-  private JTextField _value;
+  private FloatEditionController _floatEditor;
   private ComboBoxController<StatDescription> _statChooser;
   private JLabel _unit;
   private JButton _deleteButton;
@@ -32,8 +33,9 @@ public class SingleStatsEditionGadgetsController
    */
   public SingleStatsEditionGadgetsController()
   {
-    _value=GuiFactory.buildTextField("");
-    _value.setColumns(6);
+    JTextField value=GuiFactory.buildTextField("");
+    _floatEditor=new FloatEditionController(value);
+    _floatEditor.setFormat("#.#");
     _statChooser=ItemUiTools.buildStatChooser();
     _unit=GuiFactory.buildLabel("");
     // Delete button
@@ -62,7 +64,7 @@ public class SingleStatsEditionGadgetsController
   public void setStat(StatDescription stat, FixedDecimalsInteger value)
   {
     _statChooser.selectItem(stat);
-    _value.setText(value.toString());
+    _floatEditor.setValue(Float.valueOf(value.floatValue()));
     boolean isPercentage=stat.isPercentage();
     String label=isPercentage?"%":" ";
     _unit.setText(label);
@@ -74,7 +76,7 @@ public class SingleStatsEditionGadgetsController
   public void clear()
   {
     _statChooser.selectItem(null);
-    _value.setText("");
+    _floatEditor.setValue(null);
     _unit.setText("");
   }
 
@@ -82,9 +84,27 @@ public class SingleStatsEditionGadgetsController
    * Get the managed text field.
    * @return the managed text field.
    */
-  public JTextField getValue()
+  public JTextField getValueField()
   {
-    return _value;
+    return _floatEditor.getTextField();
+  }
+
+  /**
+   * Get the value editor.
+   * @return the value editor.
+   */
+  public FloatEditionController getValueEditor()
+  {
+    return _floatEditor;
+  }
+
+  /**
+   * Get the current value in the value field.
+   * @return A value or <code>null</code> if parsing fails.
+   */
+  public Float getValue()
+  {
+    return _floatEditor.getValue();
   }
 
   /**
@@ -94,6 +114,15 @@ public class SingleStatsEditionGadgetsController
   public ComboBoxController<StatDescription> getStatComboController()
   {
     return _statChooser;
+  }
+
+  /**
+   * Get the currently selected stat.
+   * @return a stat or <code>null</code> if none.
+   */
+  public StatDescription getStat()
+  {
+    return _statChooser.getSelectedItem();
   }
 
   /**
@@ -119,7 +148,11 @@ public class SingleStatsEditionGadgetsController
    */
   public void dispose()
   {
-    _value=null;
+    if (_floatEditor!=null)
+    {
+      _floatEditor.dispose();
+      _floatEditor=null;
+    }
     if (_statChooser!=null)
     {
       _statChooser.dispose();

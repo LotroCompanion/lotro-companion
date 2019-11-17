@@ -30,7 +30,7 @@ public class CustomStatsEditionWindowController extends DefaultFormDialogControl
     super(parent,itemInstance);
     _itemInstance=itemInstance;
     StatsManager statsManager=_itemInstance.getStatsManager();
-    _panelController=new CustomStatsEditionPanelController(statsManager);
+    _panelController=new CustomStatsEditionPanelController(this,statsManager);
   }
 
   @Override
@@ -60,7 +60,7 @@ public class CustomStatsEditionWindowController extends DefaultFormDialogControl
   @Override
   protected void okImpl()
   {
-    _panelController.getData();
+    _panelController.getData(_data.getStatsManager());
   }
 
   /**
