@@ -1,6 +1,7 @@
 package delta.games.lotro.gui.utils;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import delta.games.lotro.character.stats.BasicStatsSet;
@@ -47,16 +48,17 @@ public class StatDisplayUtils
    */
   public static String[] getStatsDisplayLines(BasicStatsSet stats)
   {
-    List<StatDescription> statDescriptions=stats.getSortedStats();
-    int nbStats=statDescriptions.size();
-    String[] lines=new String[nbStats];
-    for(int i=0;i<nbStats;i++)
+    List<String> lines=new ArrayList<String>();
+    for(StatDescription stat : stats.getSortedStats())
     {
-      StatDescription stat=statDescriptions.get(i);
-      String line=getStatDisplay(stat,stats);
-      lines[i]=line;
+      if (stat.isVisible())
+      {
+        String line=getStatDisplay(stat,stats);
+        lines.add(line);
+      }
     }
-    return lines;
+    String[] ret=lines.toArray(new String[lines.size()]);
+    return ret;
   }
 
   /**

@@ -40,6 +40,10 @@ public class StatsPanel
       // Build display
       for(StatDescription stat : stats.getSortedStats())
       {
+        if (!stat.isVisible())
+        {
+          continue;
+        }
         FixedDecimalsInteger value=stats.getStat(stat);
         if (value!=null)
         {
