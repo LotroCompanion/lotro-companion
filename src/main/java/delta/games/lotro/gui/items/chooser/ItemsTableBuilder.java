@@ -278,7 +278,10 @@ public class ItemsTableBuilder
     StatsRegistry registry=StatsRegistry.getInstance();
     for(StatDescription stat : registry.getAll())
     {
-      columns.add(buildStatColumn(stat));
+      if (stat.isPremium())
+      {
+        columns.add(buildStatColumn(stat));
+      }
     }
     return columns;
   }
