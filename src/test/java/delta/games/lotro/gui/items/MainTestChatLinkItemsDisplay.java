@@ -69,8 +69,24 @@ public class MainTestChatLinkItemsDisplay
     List<CharacterFile> toonsToUse=AccountUtils.getCharacters(accountName,serverName);
     for(CharacterFile toon : toonsToUse)
     {
-      handleToon(toon);
+      if (useToon(toon))
+      {
+        handleToon(toon);
+      }
     }
+  }
+
+  private static boolean useToon(CharacterFile toon)
+  {
+    String toonName=toon.getName();
+    if ("Meva".equals(toonName)) return true;
+    if ("Giswald".equals(toonName)) return true;
+    if ("Kargarth".equals(toonName)) return true;
+    if ("Glumlug".equals(toonName)) return true;
+    if ("Ethell".equals(toonName)) return true;
+    if ("Utharr".equals(toonName)) return true;
+    if ("Lorewyne".equals(toonName)) return true;
+    return false;
   }
 
   /**
@@ -83,7 +99,7 @@ public class MainTestChatLinkItemsDisplay
     if (account!=null)
     {
       handleAccountOnServer(account,"Landroval");
-      handleAccountOnServer(account,"Elendilmir");
+      //handleAccountOnServer(account,"Elendilmir");
     }
   }
 }
