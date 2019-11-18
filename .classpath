@@ -34,5 +34,6 @@
 	<classpathentry kind="lib" path="/delta-lotro-data/emotes/emoteIcons.zip"/>
 	<classpathentry kind="lib" path="/delta-lotro-data/virtues/virtueIcons.zip"/>
 	<classpathentry kind="lib" path="/delta-lotro-data/legendary/legaciesIcons.zip"/>
+	<classpathentry kind="lib" path="/delta-lotro-data/effects/effectIcons.zip"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
