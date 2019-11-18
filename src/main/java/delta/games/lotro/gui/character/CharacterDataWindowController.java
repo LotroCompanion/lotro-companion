@@ -217,7 +217,8 @@ public class CharacterDataWindowController extends DefaultFormDialogController<C
       public void actionPerformed(ActionEvent e)
       {
         VirtuesSet virtuesToEdit=_data.getVirtues();
-        VirtuesSet virtues=VirtuesEditionDialogController.editVirtues(CharacterDataWindowController.this,virtuesToEdit);
+        int characterLevel=_data.getLevel();
+        VirtuesSet virtues=VirtuesEditionDialogController.editVirtues(CharacterDataWindowController.this,virtuesToEdit,characterLevel);
         if (virtues!=null)
         {
           virtuesToEdit.copyFrom(virtues);

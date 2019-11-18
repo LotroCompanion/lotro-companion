@@ -25,7 +25,7 @@ public class MainTestVirtuesEditionPanel
     CharacterData meva=mevaGenerator.buildCharacter();
     VirtuesSet virtues=meva.getVirtues();
     virtues.setSelectedVirtue(null,1);
-    VirtuesEditionPanelController panelCtrl=new VirtuesEditionPanelController();
+    VirtuesEditionPanelController panelCtrl=new VirtuesEditionPanelController(meva.getLevel());
     panelCtrl.setVirtues(virtues);
     JFrame frame=new JFrame("Virtues edition");
     frame.add(panelCtrl.getPanel());

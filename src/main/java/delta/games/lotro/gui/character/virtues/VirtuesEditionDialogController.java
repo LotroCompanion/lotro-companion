@@ -21,11 +21,12 @@ public class VirtuesEditionDialogController extends DefaultFormDialogController<
    * Constructor.
    * @param parentController Parent controller.
    * @param virtues Virtues to edit.
+   * @param characterLevel Character level.
    */
-  public VirtuesEditionDialogController(WindowController parentController, VirtuesSet virtues)
+  public VirtuesEditionDialogController(WindowController parentController, VirtuesSet virtues, int characterLevel)
   {
     super(parentController,virtues);
-    _virtuesEdition=new VirtuesEditionPanelController();
+    _virtuesEdition=new VirtuesEditionPanelController(characterLevel);
     _virtuesEdition.setVirtues(virtues);
   }
 
@@ -70,11 +71,12 @@ public class VirtuesEditionDialogController extends DefaultFormDialogController<
    * Edit virtues.
    * @param parent Parent controller.
    * @param virtues Virtues to show.
+   * @param characterLevel Character level.
    * @return The edited virtues or <code>null</code> if the window was closed or canceled.
    */
-  public static VirtuesSet editVirtues(WindowController parent, VirtuesSet virtues)
+  public static VirtuesSet editVirtues(WindowController parent, VirtuesSet virtues, int characterLevel)
   {
-    VirtuesEditionDialogController controller=new VirtuesEditionDialogController(parent,virtues);
+    VirtuesEditionDialogController controller=new VirtuesEditionDialogController(parent,virtues,characterLevel);
     VirtuesSet editedVirtues=controller.editModal();
     return editedVirtues;
   }

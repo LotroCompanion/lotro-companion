@@ -42,13 +42,16 @@ public class VirtuesEditionPanelController implements TierValueListener
   private JButton _maxAll;
   // Data
   private VirtuesSet _virtuesSet;
+  private int _characterLevel;
 
   /**
    * Constructor.
+   * @param characterLevel Character level.
    */
-  public VirtuesEditionPanelController()
+  public VirtuesEditionPanelController(int characterLevel)
   {
     _virtues=new HashMap<VirtueDescription,VirtueEditionUiController>();
+    _characterLevel=characterLevel;
     _panel=build();
   }
 
@@ -99,7 +102,7 @@ public class VirtuesEditionPanelController implements TierValueListener
     List<VirtueDescription> virtues=VirtuesManager.getInstance().getAll();
     for(VirtueDescription virtue : virtues)
     {
-      VirtueEditionUiController ui=new VirtueEditionUiController(virtue);
+      VirtueEditionUiController ui=new VirtueEditionUiController(virtue,_characterLevel);
       ui.setListener(this);
       int x=index/7;
       int y=index%7;
@@ -210,10 +213,10 @@ public class VirtuesEditionPanelController implements TierValueListener
     for(Map.Entry<VirtueDescription,VirtueEditionUiController> entry : _virtues.entrySet())
     {
       VirtueEditionUiController controller=entry.getValue();
-      int tier=VirtuesSet.MAX_TIER;
-      controller.setTier(tier);
-      VirtueDescription  virtue=entry.getKey();
-      _selectedVirtues.updateVirtue(virtue,tier);
+      VirtueDescription virtue=entry.getKey();
+      int maxRank=virtue.getMaxRank(_characterLevel);
+      controller.setTier(maxRank);
+      _selectedVirtues.updateVirtue(virtue,maxRank);
     }
   }
 

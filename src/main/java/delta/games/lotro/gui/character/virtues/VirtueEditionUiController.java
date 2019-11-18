@@ -25,7 +25,6 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.text.IntegerEditionController;
 import delta.common.ui.swing.text.NumberEditionController;
 import delta.common.ui.swing.text.NumberListener;
-import delta.games.lotro.character.stats.virtues.VirtuesSet;
 import delta.games.lotro.character.virtues.VirtueDescription;
 
 /**
@@ -35,8 +34,10 @@ import delta.games.lotro.character.virtues.VirtueDescription;
 public class VirtueEditionUiController implements ActionListener
 {
   // Data
+  private VirtueDescription _virtue;
   private int _tier;
   private int _bonus;
+  private int _characterLevel;
   // Controllers/UI
   private VirtueIconController _iconController;
   private JLabel _virtueName;
@@ -64,10 +65,13 @@ public class VirtueEditionUiController implements ActionListener
   /**
    * Constructor.
    * @param virtue Virtue to use.
+   * @param characterLevel Character level.
    */
-  public VirtueEditionUiController(VirtueDescription virtue)
+  public VirtueEditionUiController(VirtueDescription virtue, int characterLevel)
   {
+    _virtue=virtue;
     _tier=0;
+    _characterLevel=characterLevel;
     // Icon
     _iconController=new VirtueIconController(virtue,false);
     JLabel label=_iconController.getLabel();
@@ -92,7 +96,8 @@ public class VirtueEditionUiController implements ActionListener
     // Tier editor
     JTextField tierEditTextField=GuiFactory.buildTextField("");
     _tierEdit=new IntegerEditionController(tierEditTextField,3);
-    _tierEdit.setValueRange(Integer.valueOf(0),Integer.valueOf(VirtuesSet.MAX_TIER));
+    int maxRank=virtue.getMaxRank(_characterLevel);
+    _tierEdit.setValueRange(Integer.valueOf(0),Integer.valueOf(maxRank));
     NumberListener<Integer> valueListener=new NumberListener<Integer>()
     {
       @Override
@@ -206,7 +211,8 @@ public class VirtueEditionUiController implements ActionListener
     Object source=e.getSource();
     if (_plus==source)
     {
-      if (_tier<VirtuesSet.MAX_TIER)
+      int maxRank=_virtue.getMaxRank(_characterLevel);
+      if (_tier<maxRank)
       {
         _tier++;
         if (_listener!=null)
@@ -276,7 +282,8 @@ public class VirtueEditionUiController implements ActionListener
     _iconController.setBonus(_bonus);
     _tierEdit.setValue(Integer.valueOf(_tier));
     _minus.setEnabled(_tier>0);
-    _plus.setEnabled(_tier<VirtuesSet.MAX_TIER);
+    int maxRank=_virtue.getMaxRank(_characterLevel);
+    _plus.setEnabled(_tier<maxRank);
   }
 
   /**
@@ -284,6 +291,7 @@ public class VirtueEditionUiController implements ActionListener
    */
   public void dispose()
   {
+    _virtue=null;
     if (_iconController!=null)
     {
       _iconController.dispose();
