@@ -8,6 +8,9 @@ import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,7 +18,9 @@ import java.util.Map;
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.TransferHandler;
 import javax.swing.border.TitledBorder;
 
@@ -31,15 +36,18 @@ import delta.games.lotro.gui.character.virtues.VirtueEditionUiController.TierVal
  * Controller for a virtues edition panel.
  * @author DAM
  */
-public class VirtuesEditionPanelController implements TierValueListener
+public class VirtuesEditionPanelController implements TierValueListener,ActionListener
 {
   private static final Logger LOGGER=Logger.getLogger(VirtuesEditionPanelController.class);
+
+  private static final String REMOVE_COMMAND="remove";
 
   private JPanel _panel;
   private HashMap<VirtueDescription,VirtueEditionUiController> _virtues;
   private VirtuesDisplayPanelController _selectedVirtues;
   private VirtuesStatsPanelController _stats;
   private JButton _maxAll;
+  private JPopupMenu _contextMenu;
   // Data
   private VirtuesSet _virtuesSet;
   private int _characterLevel;
@@ -53,8 +61,62 @@ public class VirtuesEditionPanelController implements TierValueListener
     _virtues=new HashMap<VirtueDescription,VirtueEditionUiController>();
     _characterLevel=characterLevel;
     _panel=build();
+    _contextMenu=buildContextualMenu();
   }
 
+  private JPopupMenu buildContextualMenu()
+  {
+    JPopupMenu popup=new JPopupMenu();
+    JMenuItem remove=new JMenuItem("Remove");
+    remove.setActionCommand(REMOVE_COMMAND);
+    remove.addActionListener(this);
+    popup.add(remove);
+    return popup;
+  }
+
+  /**
+   * Callback for managed commands:
+   * <ul>
+   * <li>Remove.
+   * </ul>
+   * @param event Source event.
+   */
+  @Override
+  public void actionPerformed(ActionEvent event)
+  {
+    String cmd=event.getActionCommand();
+    if (REMOVE_COMMAND.equals(cmd))
+    {
+      // From contextual menu
+      Component invoker=_contextMenu.getInvoker();
+      handleRemove(invoker);
+    }
+  }
+
+  private MouseListener buildRightClickListener()
+  {
+    class PopClickListener extends MouseAdapter
+    {
+      @Override
+      public void mousePressed(MouseEvent e)
+      {
+        if (e.isPopupTrigger()) doPop(e);
+      }
+  
+      @Override
+      public void mouseReleased(MouseEvent e)
+      {
+        if (e.isPopupTrigger()) doPop(e);
+      }
+  
+      private void doPop(MouseEvent e)
+      {
+        _contextMenu.show(e.getComponent(),e.getX(),e.getY());
+      }
+    }
+    return new PopClickListener();
+  }
+  
   /**
    * Get the managed panel.
    * @return the managed panel.
@@ -71,28 +133,33 @@ public class VirtuesEditionPanelController implements TierValueListener
     JPanel allVirtues=buildVirtuesEditionPanel();
     GridBagConstraints c=new GridBagConstraints(0,1,1,1,0.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(5,5,5,5),0,0);
     panel.add(allVirtues,c);
-
     // Selected virtues
-    {
-      _selectedVirtues=new VirtuesDisplayPanelController();
-      JPanel selectedVirtuesPanel=_selectedVirtues.getPanel();
-      for(int i=0;i<VirtuesDisplayPanelController.MAX_VIRTUES;i++)
-      {
-        VirtueIconController iconController=_selectedVirtues.getVirtue(i);
-        JLabel label=iconController.getLabel();
-        TransferHandler handler=new DropTransferHandler();
-        label.setTransferHandler(handler);
-      }
-      TitledBorder border=GuiFactory.buildTitledBorder("Selected Virtues");
-      selectedVirtuesPanel.setBorder(border);
-      c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
-      panel.add(selectedVirtuesPanel,c);
-    }
+    JPanel selectedVirtuesPanel=buildSelectedVirtuesPanel();
+    c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
+    panel.add(selectedVirtuesPanel,c);
     // Side panel
     JPanel sidePanel=buildSidePanel();
     c=new GridBagConstraints(1,1,1,1,1.0,1.0,GridBagConstraints.NORTH,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(sidePanel,c);
     return panel;
+  }
+
+  private JPanel buildSelectedVirtuesPanel()
+  {
+    _selectedVirtues=new VirtuesDisplayPanelController();
+    JPanel selectedVirtuesPanel=_selectedVirtues.getPanel();
+    for(int i=0;i<VirtuesDisplayPanelController.MAX_VIRTUES;i++)
+    {
+      VirtueIconController iconController=_selectedVirtues.getVirtue(i);
+      JLabel label=iconController.getLabel();
+      TransferHandler handler=new DropTransferHandler();
+      label.setTransferHandler(handler);
+      MouseListener popupListener=buildRightClickListener();
+      label.addMouseListener(popupListener);
+    }
+    TitledBorder border=GuiFactory.buildTitledBorder("Selected Virtues");
+    selectedVirtuesPanel.setBorder(border);
+    return selectedVirtuesPanel;
   }
 
   private JPanel buildVirtuesEditionPanel()
@@ -199,6 +266,21 @@ public class VirtuesEditionPanelController implements TierValueListener
   public void tierChanged(VirtueDescription virtue, int tier)
   {
     _selectedVirtues.updateVirtue(virtue,tier);
+    updateStats();
+  }
+
+  private void handleRemove(Object source)
+  {
+    for(int i=0;i<VirtuesDisplayPanelController.MAX_VIRTUES;i++)
+    {
+      JLabel label=_selectedVirtues.getVirtue(i).getLabel();
+      if (label==source)
+      {
+        _virtuesSet.setSelectedVirtue(null,i);
+        _selectedVirtues.setVirtue(i,null,0,0);
+        break;
+      }
+    }
     updateStats();
   }
 
