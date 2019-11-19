@@ -385,22 +385,22 @@ public class EquipmentPanelController implements ActionListener
   {
     ItemsStash stash=_toon.getStash();
     List<ItemInstance<? extends Item>> items=stash.getAll();
-    return chooseItemInstance(items,slot);
+    return chooseItemInstance(items,slot,"ItemFilter_Stash");
   }
 
   private ItemInstance<? extends Item> chooseItemInstanceFromGame(EQUIMENT_SLOT slot)
   {
     ItemsFileParser parser=new ItemsFileParser();
     List<ItemInstance<? extends Item>> selectedItemInstances=parser.getItemsForToon(_toon);
-    return chooseItemInstance(selectedItemInstances,slot);
+    return chooseItemInstance(selectedItemInstances,slot,"ItemFilter_Game");
   }
 
-  private ItemInstance<? extends Item> chooseItemInstance(List<ItemInstance<? extends Item>> itemInstances, EQUIMENT_SLOT slot)
+  private ItemInstance<? extends Item> chooseItemInstance(List<ItemInstance<? extends Item>> itemInstances, EQUIMENT_SLOT slot, String propsId)
   {
     List<ItemInstance<? extends Item>> selectedInstances=filter(itemInstances,slot);
     ItemFilterConfiguration cfg=new ItemFilterConfiguration();
     cfg.forStashFilter();
-    TypedProperties filterProps=_parentWindow.getUserProperties("ItemFilter");
+    TypedProperties filterProps=_parentWindow.getUserProperties(propsId);
     ItemFilterController filterController=new ItemFilterController(cfg,_toonData.getSummary(),filterProps);
     Filter<Item> filter=filterController.getFilter();
     TypedProperties props=_parentWindow.getUserProperties(ItemChooser.ITEM_INSTANCE_CHOOSER_PROPERTIES_ID);
