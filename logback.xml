@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="10 seconds">
+
+	<jmxConfigurator />
+
+	<contextName>LC</contextName>
+
+	<contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator"/>
+
+	<property name="LOG_DIR" value="${HOME}/.lotrocompanion/data/logs" />
+	<property name="LOG_FILENAME" value="${LOG_DIR}/lotrocompanion" />
+
+	<!-- Rolling file appender -->
+	<appender name="TIME_BASED_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<!-- <file>${LOG_DIR}/timeBasedlogFile.log</file>  -->
+		<!-- Clean log file on start up. Seems not working !-->
+		<!--append>false</append-->
+		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+			<!-- rollover daily -->
+			<fileNamePattern>${LOG_FILENAME}.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+			<!-- each file should be at most 10MB, keep 10 days worth of history, but at most 200MB -->
+			<maxFileSize>10MB</maxFileSize>
+			<maxHistory>30</maxHistory>
+			<totalSizeCap>100MB</totalSizeCap>
+		</rollingPolicy>
+		<encoder>
+			<pattern>
+				%date{ISO8601} %-5level [%thread] %logger{0} - %msg%n
+			</pattern>
+		</encoder>
+	</appender>	
+
+	<!-- Optimisation -->
+	<appender name="ASYNC-FILE" class="ch.qos.logback.classic.AsyncAppender">
+		<!-- The maximum capacity of the blocking queue. By default, queueSize is set to 256. -->
+	    <queueSize>10000</queueSize>
+	    <!-- By default (no value or -1), when the blocking queue has 20% capacity remaining, it will drop events of level TRACE, DEBUG and INFO, keeping only events of level WARN and ERROR. To keep all events, set discardingThreshold to 0. -->
+		<!-- 
+		<discardingThreshold>1000</discardingThreshold>
+		-->
+
+	    <appender-ref ref="TIME_BASED_FILE" />
+  	</appender>
+
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<!-- By default, encoders are assigned the type ch.qos.logback.classic.encoder.PatternLayoutEncoder -->
+		<!-- deny all events with a level below INFO, that is TRACE and DEBUG -->
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>INFO</level>
+		</filter>
+		<!-- simplified display in console -->
+		<encoder>
+			<pattern>
+				%date{ISO8601} %-5level [%thread] %logger{0} - %msg%n
+			</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="SOCKET" class="ch.qos.logback.classic.net.SocketAppender">
+		<!-- The hostname or address of the remote server socket appender. -->
+		<RemoteHost>localhost</RemoteHost>
+
+		<!-- The port number of the remote server socket appender. -->
+		<Port>4560</Port>
+
+		<!-- A positive integer representing the number of milliseconds to wait before attempting to reconnect after a connection failure. The default value is 30000 (30 seconds). -->
+		<ReconnectionDelay>170</ReconnectionDelay>
+
+		<!-- The includeCallerData option takes a boolean value. If true, the caller data will be available to the remote host. By default no caller data is sent to the server. -->
+		<IncludeCallerData>true</IncludeCallerData>
+
+		<!-- The queueSize property takes an integer (greater than zero) representing the number of logging events to retain for delivery to the remote receiver. When the queue size is one, event delivery to the remote receiver is synchronous. When the queue size is greater than one, new events are enqueued, assuming that there is space available in the queue. Using a queue length greater than one can improve performance by eliminating delays caused by transient network delays.
+		
+		Default value is 128.
+		See also the eventDelayLimit property. -->
+		<!--
+		<QueueSize>500</QueueSize>
+		-->
+
+		<!-- The eventDelayLimit option takes a duration string, such "10 seconds". It represents the time to wait before dropping events in case the local queue is full, i.e. already contains queueSize events. This may occur if the remote host is persistently slow accepting events. The default value of this option is 100 milliseconds.-->
+		<!--
+		<eventDelayLimit>5 seconds</eventDelayLimit>
+		-->
+
+	</appender>
+
+	<!-- Loggers configuration -->
+	<!-- logger levels: TRACE, DEBUG, INFO, WARN, ERROR, ALL or OFF, INHERITED or NULL-->
+	<!-- Global -->
+	<logger name="delta.games.lotro"                               level="INFO"/>
+
+	<!-- ********************** COTS ****************** -->
+	<!-- logback himself -->
+	<logger name="ch.qos.logback" level="WARN"/>
+	<!-- Java -->
+	<!--
+	<logger name="java" level="OFF"/>
+	<logger name="sun" level="OFF"/>
+	-->
+	<!-- AWT... -->
+	<!--
+	<logger name="java.awt" level="OFF"/>
+	<logger name="sun.awt" level="OFF"/>
+	-->
+	<!-- Swing, activation... -->
+	<!--
+	<logger name="javax" level="OFF"/>
+	<logger name="javax.swing" level="INHERITED"/>
+	<logger name="javax.activation" level="INHERITED"/>
+	-->
+	<!-- JAXB -->
+	<logger name="com.sun.xml" level="INHERITED"/>
+
+	<!-- root logger level: TRACE, DEBUG, INFO, WARN, ERROR, ALL or OFF-->
+	<root level="INFO">
+		<appender-ref ref="STDOUT" />
+
+		<!-- Use only one at a time: ASYNC-FILE or TIME_BASED_FILE -->
+		<!-- 
+		<appender-ref ref="ASYNC-FILE" />
+		-->
+		<appender-ref ref="TIME_BASED_FILE" />
+
+		<!--
+		<appender-ref ref="SOCKET" />
+		-->
+	</root>
+</configuration>
