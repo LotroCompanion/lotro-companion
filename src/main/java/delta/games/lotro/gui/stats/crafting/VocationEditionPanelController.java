@@ -32,7 +32,7 @@ public class VocationEditionPanelController
 {
   // Controllers
   private HashMap<Profession,ProfessionStatusPanelController> _panels;
-  private FactionStatusPanelController _guildStatus;
+  private FactionStatusPanelController[] _guildStatus;
   // UI
   private JPanel _vocationPanel;
   private JTabbedPane _tabbedPane;
@@ -48,6 +48,7 @@ public class VocationEditionPanelController
     _panels=new HashMap<Profession,ProfessionStatusPanelController>();
     _status=status;
     _vocationPanel=GuiFactory.buildPanel(new BorderLayout());
+    _guildStatus=new FactionStatusPanelController[CraftingStatus.NB_GUILDS];
   }
 
   /**
@@ -65,7 +66,7 @@ public class VocationEditionPanelController
   public void updateUiFromData()
   {
     updateProfessionsUi();
-    updateGuildUi();
+    updateGuildUi(-1);
 
     // Select first tab, if any
     if (_tabbedPane!=null)
@@ -124,24 +125,44 @@ public class VocationEditionPanelController
 
   /**
    * Update the UI for guild edition.
+   * @param guildIndex Index of the updated guild.
    */
-  public void updateGuildUi()
+  public void updateGuildUi(int guildIndex)
   {
     // Cleanup
-    if ((_guildStatus!=null) && (_tabbedPane!=null))
+    if (_tabbedPane!=null)
     {
-      JPanel guildPanel=_guildStatus.getPanel();
-      _tabbedPane.remove(guildPanel);
+      for(int i=0;i<CraftingStatus.NB_GUILDS;i++)
+      {
+        if (_guildStatus[i]!=null)
+        {
+          JPanel guildPanel=_guildStatus[i].getPanel();
+          _tabbedPane.remove(guildPanel);
+          _guildStatus[i].dispose();
+          _guildStatus[i]=null;
+        }
+      }
     }
-    GuildStatus guildStatus=_status.getGuildStatus();
-    Profession guild=guildStatus.getProfession();
-    // Add tab if needed
-    if (guild!=null)
+    JPanel toSelect=null;
+    for(int i=0;i<CraftingStatus.NB_GUILDS;i++)
     {
-      _guildStatus=new FactionStatusPanelController(guildStatus.getFactionStatus());
-      JPanel guildPanel=_guildStatus.getPanel();
-      _tabbedPane.add("Guild",guildPanel);
-      _tabbedPane.setSelectedComponent(guildPanel);
+      GuildStatus guildStatus=_status.getGuildStatus(i);
+      Profession guild=guildStatus.getProfession();
+      // Add tab if needed
+      if (guild!=null)
+      {
+        _guildStatus[i]=new FactionStatusPanelController(guildStatus.getFactionStatus());
+        JPanel guildPanel=_guildStatus[i].getPanel();
+        _tabbedPane.add("Guild: "+guild.getName(),guildPanel);
+        if (i==guildIndex)
+        {
+          toSelect=guildPanel;
+        }
+      }
+    }
+    if (toSelect!=null)
+    {
+      _tabbedPane.setSelectedComponent(toSelect);
     }
   }
 
@@ -154,9 +175,12 @@ public class VocationEditionPanelController
     {
       controller.updateDataFromUi();
     }
-    if (_guildStatus!=null)
+    for(int i=0;i<CraftingStatus.NB_GUILDS;i++)
     {
-      _guildStatus.updateDataFromUi();
+      if (_guildStatus[i]!=null)
+      {
+        _guildStatus[i].updateDataFromUi();
+      }
     }
   }
 
@@ -176,7 +200,14 @@ public class VocationEditionPanelController
     }
     if (_guildStatus!=null)
     {
-      _guildStatus.dispose();
+      for(int i=0;i<CraftingStatus.NB_GUILDS;i++)
+      {
+        if (_guildStatus[i]!=null)
+        {
+          _guildStatus[i].dispose();
+          _guildStatus[i]=null;
+        }
+      }
       _guildStatus=null;
     }
     if (_vocationPanel!=null)
