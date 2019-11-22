@@ -6,6 +6,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import delta.games.lotro.common.progression.ProgressionsManager;
+import delta.games.lotro.utils.maths.Progression;
+
 /**
  * Maintains the status of trait points acquisition for a single character.
  * @author DAM
@@ -63,19 +66,9 @@ public class TraitPointsStatus
    */
   public static int getTraitPointsFromLevel(int characterLevel)
   {
-    // Every odd level from 7 to 105 (max 50)
-    int nb=Math.max(0,Math.min(characterLevel,105) - 5)/2;
-    // Every third level to 115 (108, 111, 114)
-    if (characterLevel>=105)
-    {
-      nb+=Math.max(0,Math.min(characterLevel,115) - 105)/3;
-    }
-    // Level 120
-    if (characterLevel>=120)
-    {
-      nb++;
-    }
-    return nb;
+    Progression progression=ProgressionsManager.getInstance().getProgression(1879271247);
+    Float value=progression.getValue(characterLevel);
+    return value!=null?value.intValue():0;
   }
 
   /**
