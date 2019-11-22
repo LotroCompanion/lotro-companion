@@ -17,6 +17,7 @@
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/delta-lotro-core"/>
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/delta-common-ui"/>
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/delta-common"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/delta-lotro-data"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7">
 		<attributes>
 			<attribute name="maven.pomderived" value="true"/>
@@ -27,13 +28,5 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="/delta-lotro-item-icons-db/icons.zip"/>
-	<classpathentry kind="lib" path="/delta-lotro-relics/relicIcons.zip"/>
-	<classpathentry kind="lib" path="/delta-lotro-data/traits/traitIcons.zip"/>
-	<classpathentry kind="lib" path="/delta-lotro-data/titles/titleIcons.zip"/>
-	<classpathentry kind="lib" path="/delta-lotro-data/emotes/emoteIcons.zip"/>
-	<classpathentry kind="lib" path="/delta-lotro-data/virtues/virtueIcons.zip"/>
-	<classpathentry kind="lib" path="/delta-lotro-data/legendary/legaciesIcons.zip"/>
-	<classpathentry kind="lib" path="/delta-lotro-data/effects/effectIcons.zip"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
