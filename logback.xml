@@ -6,8 +6,9 @@
 	<contextName>LC</contextName>
 
 	<contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator"/>
+	<contextListener class="delta.games.lotro.utils.logback.LoggerStartupListener"/>
 
-	<property name="LOG_DIR" value="${HOME}/.lotrocompanion/data/logs" />
+	<property name="LOG_DIR" value="${DATA_HOME}/.lotrocompanion/data/logs" />
 	<property name="LOG_FILENAME" value="${LOG_DIR}/lotrocompanion" />
 
 	<!-- Rolling file appender -->
