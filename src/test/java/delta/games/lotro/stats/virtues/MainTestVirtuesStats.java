@@ -6,9 +6,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
+import delta.games.lotro.LotroTestUtils;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.log.CharacterLog;
-import delta.games.lotro.character.log.LotroTestUtils;
 import delta.games.lotro.character.virtues.VirtueDescription;
 import delta.games.lotro.character.virtues.VirtueKeyComparator;
 import delta.games.lotro.character.virtues.VirtuesManager;

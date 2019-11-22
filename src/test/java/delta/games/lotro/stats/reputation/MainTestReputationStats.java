@@ -1,8 +1,8 @@
 package delta.games.lotro.stats.reputation;
 
+import delta.games.lotro.LotroTestUtils;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.log.CharacterLog;
-import delta.games.lotro.character.log.LotroTestUtils;
 import delta.games.lotro.character.reputation.ReputationComputer;
 import delta.games.lotro.character.reputation.ReputationStatus;
 

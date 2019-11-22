@@ -1,8 +1,8 @@
 package delta.games.lotro.gui.log;
 
+import delta.games.lotro.LotroTestUtils;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.log.CharacterLog;
-import delta.games.lotro.character.log.LotroTestUtils;
 
 /**
  * Test for character log window.

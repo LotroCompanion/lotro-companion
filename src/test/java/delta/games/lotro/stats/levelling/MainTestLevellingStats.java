@@ -6,9 +6,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
+import delta.games.lotro.LotroTestUtils;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.level.LevelHistory;
-import delta.games.lotro.character.log.LotroTestUtils;
 import delta.games.lotro.gui.stats.curves.DatedCurvesChartConfiguration;
 import delta.games.lotro.gui.stats.curves.DatedCurvesChartController;
 import delta.games.lotro.gui.stats.curves.MultipleToonsDatedCurvesProvider;

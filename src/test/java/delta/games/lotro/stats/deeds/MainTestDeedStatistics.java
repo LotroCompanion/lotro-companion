@@ -2,8 +2,8 @@ package delta.games.lotro.stats.deeds;
 
 import java.util.List;
 
+import delta.games.lotro.LotroTestUtils;
 import delta.games.lotro.character.CharacterFile;
-import delta.games.lotro.character.log.LotroTestUtils;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.DeedsManager;
 import delta.games.lotro.stats.deeds.io.DeedsStatusIo;

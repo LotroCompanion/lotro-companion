@@ -1,10 +1,10 @@
 package delta.games.lotro.gui.character.stash;
 
+import delta.games.lotro.LotroTestUtils;
 import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.CharacterEquipment;
 import delta.games.lotro.character.CharacterEquipment.EQUIMENT_SLOT;
 import delta.games.lotro.character.CharacterFile;
-import delta.games.lotro.character.log.LotroTestUtils;
 import delta.games.lotro.character.storage.stash.ItemsStash;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemFactory;

@@ -3,10 +3,10 @@ package delta.games.lotro.gui.character;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import delta.games.lotro.LotroTestUtils;
 import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharacterInfosManager;
-import delta.games.lotro.character.log.LotroTestUtils;
 import delta.games.lotro.gui.character.gear.EquipmentPanelController;
 
 /**

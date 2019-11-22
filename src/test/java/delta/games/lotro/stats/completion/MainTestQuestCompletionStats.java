@@ -2,10 +2,10 @@ package delta.games.lotro.stats.completion;
 
 import java.util.List;
 
+import delta.games.lotro.LotroTestUtils;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharacterSummary;
 import delta.games.lotro.character.log.CharacterLog;
-import delta.games.lotro.character.log.LotroTestUtils;
 import delta.games.lotro.lore.quests.QuestsManager;
 
 /**

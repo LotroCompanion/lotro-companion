@@ -2,8 +2,8 @@ package delta.games.lotro.stats.deeds.statistics.curves;
 
 import java.util.List;
 
+import delta.games.lotro.LotroTestUtils;
 import delta.games.lotro.character.CharacterFile;
-import delta.games.lotro.character.log.LotroTestUtils;
 import delta.games.lotro.utils.charts.DatedCurve;
 
 /**

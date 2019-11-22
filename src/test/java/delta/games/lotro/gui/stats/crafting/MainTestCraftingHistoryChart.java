@@ -7,10 +7,10 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
+import delta.games.lotro.LotroTestUtils;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.crafting.CraftingStatus;
 import delta.games.lotro.character.crafting.ProfessionStatus;
-import delta.games.lotro.character.log.LotroTestUtils;
 import delta.games.lotro.lore.crafting.Profession;
 
 /**
