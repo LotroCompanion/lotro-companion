@@ -321,10 +321,13 @@ public class EquipmentPanelController implements ActionListener
     ItemInstance<? extends Item> item=getItemForSlot(slot);
     if (item!=null)
     {
-      ItemInstanceEditionWindowController ctrl=new ItemInstanceEditionWindowController(_parentWindow,_toonData.getSummary(),item);
+      ItemInstance<? extends Item> editedItem=ItemFactory.cloneInstance(item);
+      ItemInstanceEditionWindowController ctrl=new ItemInstanceEditionWindowController(_parentWindow,_toonData.getSummary(),editedItem);
       ItemInstance<? extends Item> resultItem=ctrl.editModal();
       if (resultItem!=null)
       {
+        CharacterEquipment equipment=_toonData.getEquipment();
+        equipment.getSlotContents(slot,true).setItem(editedItem);
         refreshToon();
       }
     }
