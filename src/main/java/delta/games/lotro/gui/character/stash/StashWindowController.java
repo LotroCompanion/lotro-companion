@@ -225,9 +225,17 @@ public class StashWindowController extends DefaultWindowController implements Ac
 
   private void editItemInstance(ItemInstance<? extends Item> item)
   {
-    ItemInstanceEditionWindowController ctrl=new ItemInstanceEditionWindowController(this,_toon.getSummary(),item);
-    ctrl.show(true);
-    _toon.saveStash();
+    ItemInstance<? extends Item> editedItem=ItemFactory.cloneInstance(item);
+    ItemInstanceEditionWindowController ctrl=new ItemInstanceEditionWindowController(this,_toon.getSummary(),editedItem);
+
+    ItemInstance<? extends Item> resultItem=ctrl.editModal();
+    if (resultItem!=null)
+    {
+      ItemsStash stash=_toon.getStash();
+      stash.removeItem(item.getStashIdentifier());
+      stash.addItem(editedItem);
+      _toon.saveStash();
+    }
   }
 
   private void cloneItemInstance()
