@@ -19,6 +19,7 @@ import delta.games.lotro.config.DataFiles;
 import delta.games.lotro.config.LotroCoreConfig;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.items.chooser.ItemChooser;
+import delta.games.lotro.gui.utils.UiConfiguration;
 import delta.games.lotro.lore.titles.TitleDescription;
 import delta.games.lotro.lore.titles.io.xml.TitleXMLParser;
 
@@ -91,6 +92,7 @@ public class TitlesTableController
       ret.add(iconColumn);
     }
     // Identifier column
+    if (UiConfiguration.showTechnicalColumns())
     {
       CellDataProvider<TitleDescription,Integer> idCell=new CellDataProvider<TitleDescription,Integer>()
       {
@@ -160,7 +162,10 @@ public class TitlesTableController
     {
       columnIds=new ArrayList<String>();
       columnIds.add(TitleColumnIds.ICON.name());
-      columnIds.add(TitleColumnIds.ID.name());
+      if (UiConfiguration.showTechnicalColumns())
+      {
+        columnIds.add(TitleColumnIds.ID.name());
+      }
       columnIds.add(TitleColumnIds.CATEGORY.name());
       columnIds.add(TitleColumnIds.NAME.name());
       columnIds.add(TitleColumnIds.DESCRIPTION.name());

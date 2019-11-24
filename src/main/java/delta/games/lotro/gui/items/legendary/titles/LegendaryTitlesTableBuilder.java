@@ -9,6 +9,7 @@ import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.ListDataProvider;
 import delta.common.ui.swing.tables.Sort;
+import delta.games.lotro.gui.utils.UiConfiguration;
 import delta.games.lotro.lore.items.DamageType;
 import delta.games.lotro.lore.items.legendary.titles.LegendaryTitle;
 
@@ -29,7 +30,8 @@ public class LegendaryTitlesTableBuilder
     GenericTableController<LegendaryTitle> table=new GenericTableController<LegendaryTitle>(provider);
 
     // ID column
-    {
+    if (UiConfiguration.showTechnicalColumns())
+   {
       CellDataProvider<LegendaryTitle,Long> idCell=new CellDataProvider<LegendaryTitle,Long>()
       {
         @Override

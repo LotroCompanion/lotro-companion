@@ -19,6 +19,7 @@ import delta.games.lotro.config.DataFiles;
 import delta.games.lotro.config.LotroCoreConfig;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.items.chooser.ItemChooser;
+import delta.games.lotro.gui.utils.UiConfiguration;
 import delta.games.lotro.lore.emotes.EmoteDescription;
 import delta.games.lotro.lore.emotes.io.xml.EmoteXMLParser;
 
@@ -91,6 +92,7 @@ public class EmotesTableController
       ret.add(iconColumn);
     }
     // Identifier column
+    if (UiConfiguration.showTechnicalColumns())
     {
       CellDataProvider<EmoteDescription,Integer> idCell=new CellDataProvider<EmoteDescription,Integer>()
       {

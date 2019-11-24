@@ -22,6 +22,7 @@ import delta.games.lotro.config.DataFiles;
 import delta.games.lotro.config.LotroCoreConfig;
 import delta.games.lotro.gui.items.chooser.ItemChooser;
 import delta.games.lotro.gui.recipes.ItemsSummaryPanelController.Mode;
+import delta.games.lotro.gui.utils.UiConfiguration;
 import delta.games.lotro.lore.crafting.recipes.Recipe;
 import delta.games.lotro.lore.crafting.recipes.RecipesManager;
 
@@ -76,6 +77,7 @@ public class RecipesTableController
   {
     List<DefaultTableColumnController<Recipe,?>> ret=new ArrayList<DefaultTableColumnController<Recipe,?>>();
     // Identifier column
+    if (UiConfiguration.showTechnicalColumns())
     {
       CellDataProvider<Recipe,Integer> idCell=new CellDataProvider<Recipe,Integer>()
       {

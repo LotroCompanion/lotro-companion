@@ -9,6 +9,7 @@ import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.ListDataProvider;
 import delta.common.ui.swing.tables.Sort;
+import delta.games.lotro.gui.utils.UiConfiguration;
 import delta.games.lotro.lore.items.legendary.LegacyType;
 import delta.games.lotro.lore.items.legendary.imbued.ImbuedLegacy;
 
@@ -29,6 +30,7 @@ public class ImbuedLegaciesTableBuilder
     GenericTableController<ImbuedLegacy> table=new GenericTableController<ImbuedLegacy>(provider);
 
     // ID column
+    if (UiConfiguration.showTechnicalColumns())
     {
       CellDataProvider<ImbuedLegacy,Long> idCell=new CellDataProvider<ImbuedLegacy,Long>()
       {

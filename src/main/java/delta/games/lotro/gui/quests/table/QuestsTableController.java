@@ -25,6 +25,7 @@ import delta.games.lotro.gui.common.requirements.table.RequirementsColumnsBuilde
 import delta.games.lotro.gui.common.rewards.table.RewardsColumnIds;
 import delta.games.lotro.gui.common.rewards.table.RewardsColumnsBuilder;
 import delta.games.lotro.gui.items.chooser.ItemChooser;
+import delta.games.lotro.gui.utils.UiConfiguration;
 import delta.games.lotro.lore.quests.QuestDescription;
 import delta.games.lotro.lore.quests.QuestDescription.FACTION;
 import delta.games.lotro.lore.quests.QuestsManager;
@@ -80,6 +81,7 @@ public class QuestsTableController
   {
     List<TableColumnController<QuestDescription,?>> ret=new ArrayList<TableColumnController<QuestDescription,?>>();
     // Identifier column
+    if (UiConfiguration.showTechnicalColumns())
     {
       CellDataProvider<QuestDescription,Integer> idCell=new CellDataProvider<QuestDescription,Integer>()
       {
