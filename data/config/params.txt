@@ -7,7 +7,7 @@ max.character.level=130
 # Current version
 current.version.id=1100
 current.version.name=11
-current.version.date=XX/XX/2019
+current.version.date=23/11/2019
 
 # URL for updates check
 #update.check.url=http://dmorcellet.free.fr/lotrocompanion/latest.txt
