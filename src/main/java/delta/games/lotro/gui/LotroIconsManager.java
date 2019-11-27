@@ -238,6 +238,17 @@ public class LotroIconsManager
   }
 
   /**
+   * Get the icon for a mount.
+   * @param mountId Mount identifier.
+   * @return An icon or <code>null</code> if not found.
+   */
+  public static ImageIcon getMountIcon(int mountId)
+  {
+    String path="/mountIcons/"+mountId+".png";
+    return IconsManager.getIcon(path);
+  }
+
+  /**
    * Initialize the application icons.
    */
   public static void initApplicationIcons()

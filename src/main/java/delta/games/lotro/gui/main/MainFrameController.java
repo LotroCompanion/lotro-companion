@@ -31,6 +31,7 @@ import delta.games.lotro.gui.about.CreditsDialogController;
 import delta.games.lotro.gui.account.AccountsManagementController;
 import delta.games.lotro.gui.deed.explorer.DeedsExplorerWindowController;
 import delta.games.lotro.gui.emotes.explorer.EmotesExplorerWindowController;
+import delta.games.lotro.gui.mounts.explorer.MountsExplorerWindowController;
 import delta.games.lotro.gui.quests.explorer.QuestsExplorerWindowController;
 import delta.games.lotro.gui.recipes.explorer.RecipesExplorerWindowController;
 import delta.games.lotro.gui.stats.crafting.synopsis.CraftingSynopsisWindowController;
@@ -56,6 +57,7 @@ public class MainFrameController extends DefaultWindowController implements Acti
   private static final String RECIPES_ID="recipes";
   private static final String TITLES_ID="titles";
   private static final String EMOTES_ID="emotes";
+  private static final String MOUNTS_ID="mounts";
   private static final String REPUTATION_SYNOPSIS_ID="reputationSynopsis";
   private static final String CRAFTING_SYNOPSIS_ID="craftingSynopsis";
   private static final String MAP_ID="map";
@@ -157,6 +159,11 @@ public class MainFrameController extends DefaultWindowController implements Acti
     emotesExplorer.setActionCommand(EMOTES_ID);
     emotesExplorer.addActionListener(this);
     compendiumMenu.add(emotesExplorer);
+    // - mounts
+    JMenuItem mountsExplorer=GuiFactory.buildMenuItem("Mounts");
+    mountsExplorer.setActionCommand(MOUNTS_ID);
+    mountsExplorer.addActionListener(this);
+    compendiumMenu.add(mountsExplorer);
 
     // Help
     JMenu helpMenu=GuiFactory.buildMenu("Help");
@@ -256,6 +263,10 @@ public class MainFrameController extends DefaultWindowController implements Acti
     String emotesIconPath=getToolbarIconPath("emotes");
     ToolbarIconItem emotesIconItem=new ToolbarIconItem(EMOTES_ID,emotesIconPath,EMOTES_ID,"Emotes...","Emotes");
     model.addToolbarIconItem(emotesIconItem);
+    // Mounts icon
+    String mountsIconPath=getToolbarIconPath("mounts");
+    ToolbarIconItem mountsIconItem=new ToolbarIconItem(MOUNTS_ID,mountsIconPath,MOUNTS_ID,"Mounts...","Mounts");
+    model.addToolbarIconItem(mountsIconItem);
     // Register action listener
     controller.addActionListener(this);
     return controller;
@@ -377,6 +388,17 @@ public class MainFrameController extends DefaultWindowController implements Acti
     controller.bringToFront();
   }
 
+  private void doMounts()
+  {
+    WindowController controller=_windowsManager.getWindow(MountsExplorerWindowController.IDENTIFIER);
+    if (controller==null)
+    {
+      controller=new MountsExplorerWindowController(this);
+      _windowsManager.registerWindow(controller);
+    }
+    controller.bringToFront();
+  }
+
   @Override
   public void actionPerformed(ActionEvent event)
   {
@@ -420,6 +442,10 @@ public class MainFrameController extends DefaultWindowController implements Acti
     else if (EMOTES_ID.equals(cmd))
     {
       doEmotes();
+    }
+    else if (MOUNTS_ID.equals(cmd))
+    {
+      doMounts();
     }
   }
 
