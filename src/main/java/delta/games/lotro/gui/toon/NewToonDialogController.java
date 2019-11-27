@@ -3,6 +3,7 @@ package delta.games.lotro.gui.toon;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.util.List;
 
 import javax.swing.JDialog;
 import javax.swing.JPanel;
@@ -17,13 +18,24 @@ import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.Config;
 import delta.games.lotro.character.CharacterData;
+import delta.games.lotro.character.CharacterEquipment;
+import delta.games.lotro.character.CharacterEquipment.EQUIMENT_SLOT;
+import delta.games.lotro.character.CharacterEquipment.SlotContents;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharactersManager;
+import delta.games.lotro.character.classes.ClassDescription;
+import delta.games.lotro.character.classes.ClassesManager;
+import delta.games.lotro.character.classes.InitialGearDefinition;
 import delta.games.lotro.character.stats.CharacterStatsComputer;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.CharacterSex;
 import delta.games.lotro.common.Race;
 import delta.games.lotro.gui.character.summary.CharacterUiUtils;
+import delta.games.lotro.lore.items.EquipmentLocation;
+import delta.games.lotro.lore.items.Item;
+import delta.games.lotro.lore.items.ItemFactory;
+import delta.games.lotro.lore.items.ItemInstance;
+import delta.games.lotro.lore.items.ItemsManager;
 
 /**
  * Controller for the "new toon" dialog.
@@ -145,6 +157,8 @@ public class NewToonDialogController extends DefaultFormDialogController<Object>
     info.setRace(race);
     info.setLevel(1);
     info.setDate(Long.valueOf(System.currentTimeMillis()));
+    // Setup gear
+    setInitialGear(info);
     // Compute stats
     CharacterStatsComputer computer=new CharacterStatsComputer();
     info.getStats().setStats(computer.getStats(info));
@@ -153,6 +167,45 @@ public class NewToonDialogController extends DefaultFormDialogController<Object>
     if (toon==null)
     {
       showErrorMessage("Character creation failed!");
+    }
+  }
+
+  private void setInitialGear(CharacterData info)
+  {
+    Race race=info.getRace();
+    CharacterClass characterClass=info.getCharacterClass();
+    ClassDescription description=ClassesManager.getInstance().getClassDescription(characterClass);
+    if (description!=null)
+    {
+      CharacterEquipment gear=info.getEquipment();
+      ItemsManager itemsMgr=ItemsManager.getInstance();
+      InitialGearDefinition initialGear=description.getInitialGear();
+      List<Integer> itemIds=initialGear.getItems(race);
+      for(Integer itemId : itemIds)
+      {
+        Item item=itemsMgr.getItem(itemId.intValue());
+        if (item!=null)
+        {
+          EquipmentLocation location=item.getEquipmentLocation();
+          for(EQUIMENT_SLOT slot : EQUIMENT_SLOT.values())
+          {
+            if (slot.getLocation()==location)
+            {
+              SlotContents contents=gear.getSlotContents(slot,true);
+              ItemInstance<? extends Item> old=contents.getItem();
+              ItemInstance<? extends Item> itemInstance=ItemFactory.buildInstance(item);
+              if (old==null)
+              {
+                contents.setItem(itemInstance);
+              }
+              else
+              {
+                System.out.println("Would have overriden "+old+" by "+itemInstance);
+              }
+            }
+          }
+        }
+      }
     }
   }
 
