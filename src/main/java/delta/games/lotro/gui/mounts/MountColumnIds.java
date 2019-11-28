@@ -25,5 +25,25 @@ public enum MountColumnIds
   /**
    * Icon.
    */
-  ICON
+  ICON,
+  /**
+   * Initial name.
+   */
+  INITIAL_NAME,
+  /**
+   * Mount type.
+   */
+  MOUNT_TYPE,
+  /**
+   * Source description.
+   */
+  SOURCE,
+  /**
+   * Max morale.
+   */
+  MORALE,
+  /**
+   * Speed.
+   */
+  SPEED
 }

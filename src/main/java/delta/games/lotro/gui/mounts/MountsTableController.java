@@ -114,7 +114,7 @@ public class MountsTableController
         }
       };
       DefaultTableColumnController<MountDescription,String> categoryColumn=new DefaultTableColumnController<MountDescription,String>(MountColumnIds.CATEGORY.name(),"Category",String.class,categoryCell);
-      categoryColumn.setWidthSpecs(100,200,180);
+      categoryColumn.setWidthSpecs(100,140,140);
       ret.add(categoryColumn);
     }
     // Name column
@@ -128,12 +128,68 @@ public class MountsTableController
         }
       };
       DefaultTableColumnController<MountDescription,String> nameColumn=new DefaultTableColumnController<MountDescription,String>(MountColumnIds.NAME.name(),"Name",String.class,nameCell);
-      nameColumn.setWidthSpecs(100,-1,200);
+      nameColumn.setWidthSpecs(100,200,180);
       ret.add(nameColumn);
+    }
+    // Initial name column
+    {
+      CellDataProvider<MountDescription,String> initialNameCell=new CellDataProvider<MountDescription,String>()
+      {
+        @Override
+        public String getData(MountDescription mount)
+        {
+          return mount.getInitialName();
+        }
+      };
+      DefaultTableColumnController<MountDescription,String> initialNameColumn=new DefaultTableColumnController<MountDescription,String>(MountColumnIds.INITIAL_NAME.name(),"Initial Name",String.class,initialNameCell);
+      initialNameColumn.setWidthSpecs(120,120,120);
+      ret.add(initialNameColumn);
+    }
+    // Mount type column
+    {
+      CellDataProvider<MountDescription,String> mountTypeCell=new CellDataProvider<MountDescription,String>()
+      {
+        @Override
+        public String getData(MountDescription mount)
+        {
+          return mount.getMountType();
+        }
+      };
+      DefaultTableColumnController<MountDescription,String> mountTypeColumn=new DefaultTableColumnController<MountDescription,String>(MountColumnIds.MOUNT_TYPE.name(),"Mount Type",String.class,mountTypeCell);
+      mountTypeColumn.setWidthSpecs(100,100,100);
+      ret.add(mountTypeColumn);
+    }
+    // Max morale
+    {
+      CellDataProvider<MountDescription,Integer> moraleCell=new CellDataProvider<MountDescription,Integer>()
+      {
+        @Override
+        public Integer getData(MountDescription mount)
+        {
+          return Integer.valueOf(mount.getMorale());
+        }
+      };
+      DefaultTableColumnController<MountDescription,Integer> moraleColumn=new DefaultTableColumnController<MountDescription,Integer>(MountColumnIds.MORALE.name(),"Morale",Integer.class,moraleCell);
+      moraleColumn.setWidthSpecs(50,50,50);
+      ret.add(moraleColumn);
+    }
+    // Speed
+    {
+      CellDataProvider<MountDescription,Integer> speedCell=new CellDataProvider<MountDescription,Integer>()
+      {
+        @Override
+        public Integer getData(MountDescription mount)
+        {
+          return Integer.valueOf((int)(mount.getSpeed()*100));
+        }
+      };
+      DefaultTableColumnController<MountDescription,Integer> speedColumn=new DefaultTableColumnController<MountDescription,Integer>(MountColumnIds.SPEED.name(),"Speed",Integer.class,speedCell);
+      speedColumn.setWidthSpecs(50,50,50);
+      ret.add(speedColumn);
     }
     // Description column
     {
-      CellDataProvider<MountDescription,String> nameCell=new CellDataProvider<MountDescription,String>()
+      CellDataProvider<MountDescription,String> descriptionCell=new CellDataProvider<MountDescription,String>()
       {
         @Override
         public String getData(MountDescription mount)
@@ -141,9 +197,23 @@ public class MountsTableController
           return mount.getDescription();
         }
       };
-      DefaultTableColumnController<MountDescription,String> nameColumn=new DefaultTableColumnController<MountDescription,String>(MountColumnIds.DESCRIPTION.name(),"Description",String.class,nameCell);
-      nameColumn.setWidthSpecs(100,-1,200);
-      ret.add(nameColumn);
+      DefaultTableColumnController<MountDescription,String> descriptionColumn=new DefaultTableColumnController<MountDescription,String>(MountColumnIds.DESCRIPTION.name(),"Description",String.class,descriptionCell);
+      descriptionColumn.setWidthSpecs(100,-1,200);
+      ret.add(descriptionColumn);
+    }
+    // Source column
+    {
+      CellDataProvider<MountDescription,String> sourceCell=new CellDataProvider<MountDescription,String>()
+      {
+        @Override
+        public String getData(MountDescription mount)
+        {
+          return mount.getSourceDescription();
+        }
+      };
+      DefaultTableColumnController<MountDescription,String> sourceColumn=new DefaultTableColumnController<MountDescription,String>(MountColumnIds.SOURCE.name(),"Source",String.class,sourceCell);
+      sourceColumn.setWidthSpecs(100,-1,200);
+      ret.add(sourceColumn);
     }
     return ret;
   }
@@ -164,8 +234,11 @@ public class MountsTableController
         columnIds.add(MountColumnIds.ID.name());
       }
       columnIds.add(MountColumnIds.CATEGORY.name());
+      columnIds.add(MountColumnIds.MOUNT_TYPE.name());
       columnIds.add(MountColumnIds.NAME.name());
-      columnIds.add(MountColumnIds.DESCRIPTION.name());
+      columnIds.add(MountColumnIds.INITIAL_NAME.name());
+      columnIds.add(MountColumnIds.MORALE.name());
+      columnIds.add(MountColumnIds.SPEED.name());
     }
     return columnIds;
   }
