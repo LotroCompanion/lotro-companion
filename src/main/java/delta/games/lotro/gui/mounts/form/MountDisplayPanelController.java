@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.utils.text.EndOfLine;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.lore.collections.mounts.MountDescription;
 
@@ -29,8 +30,12 @@ public class MountDisplayPanelController
   private JPanel _panel;
 
   private JLabel _icon;
-  private JLabel _category;
   private JLabel _name;
+  private JLabel _category;
+  private JLabel _mountType;
+  private JLabel _initialName;
+  private JLabel _morale;
+  private JLabel _speed;
   private JEditorPane _details;
 
   /**
@@ -73,17 +78,16 @@ public class MountDisplayPanelController
       _name.setFont(_name.getFont().deriveFont(16f).deriveFont(Font.BOLD));
       panelLine.add(_name);
     }
-
-    // Line 2
-    {
-      JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
-      panel.add(panelLine,c);
-      c.gridy++;
-      // Category
-      panelLine.add(GuiFactory.buildLabel("Category: "));
-      _category=GuiFactory.buildLabel("");
-      panelLine.add(_category);
-    }
+    // Category
+    _category=buildLabelLine(panel,c,"Category: ");
+    // Mount type
+    _mountType=buildLabelLine(panel,c,"Mount type: ");
+    // Initial name
+    _initialName=buildLabelLine(panel,c,"Initial name: ");
+    // Morale
+    _morale=buildLabelLine(panel,c,"Morale: ");
+    // Speed
+    _speed=buildLabelLine(panel,c,"Speed: ");
 
     // Description
     _details=buildDescriptionPane();
@@ -100,6 +104,21 @@ public class MountDisplayPanelController
     return _panel;
   }
 
+  private JLabel buildLabelLine(JPanel parent, GridBagConstraints c, String fieldName)
+  {
+    // Build line panel
+    JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
+    // Build field label
+    panelLine.add(GuiFactory.buildLabel(fieldName));
+    // Build value label
+    JLabel label=GuiFactory.buildLabel("");
+    panelLine.add(label);
+    // Add line panel to parent
+    parent.add(panelLine,c);
+    c.gridy++;
+    return label;
+  }
+
   private JEditorPane buildDescriptionPane()
   {
     JEditorPane editor=new JEditorPane("text/html","");
@@ -113,7 +132,14 @@ public class MountDisplayPanelController
   {
     StringBuilder sb=new StringBuilder();
     sb.append("<html><body>");
-    sb.append(toHtml(_mount.getDescription()));
+    String description=_mount.getDescription();
+    String sourceDescription=_mount.getSourceDescription();
+    String text=description;
+    if (sourceDescription.length()>0)
+    {
+      text=text+EndOfLine.NATIVE_EOL+sourceDescription;
+    }
+    sb.append(toHtml(text.trim()));
     sb.append("</body></html>");
     return sb.toString();
   }
@@ -138,7 +164,23 @@ public class MountDisplayPanelController
     _icon.setIcon(icon);
     // Category
     String category=_mount.getCategory();
-    _category.setText((category!=null)?category:"");
+    _category.setText(category);
+    // Mount type
+    String mountType=_mount.getMountType();
+    _mountType.setText(mountType);
+    // Initial name
+    String initialName=_mount.getInitialName();
+    _initialName.setText(initialName);
+    // Morale
+    int morale=_mount.getMorale();
+    _morale.setText(String.valueOf(morale));
+    // Speed
+    float speed=_mount.getSpeed();
+    String speedStr=String.valueOf((int)(speed*100))+" %";
+    _speed.setText(speedStr);
+
+    _mount.getMountType();
+
     // Details
     _details.setText(buildHtml());
     _details.setCaretPosition(0);
@@ -152,7 +194,6 @@ public class MountDisplayPanelController
     // Data
     _mount=null;
     // UI
-    _category=null;
     if (_panel!=null)
     {
       _panel.removeAll();
@@ -160,6 +201,11 @@ public class MountDisplayPanelController
     }
     _icon=null;
     _name=null;
+    _category=null;
+    _mountType=null;
+    _initialName=null;
+    _morale=null;
+    _speed=null;
     _details=null;
   }
 }
