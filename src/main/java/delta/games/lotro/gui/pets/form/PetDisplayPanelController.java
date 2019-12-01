@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.mounts.form;
+package delta.games.lotro.gui.pets.form;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -16,35 +16,34 @@ import javax.swing.JScrollPane;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.utils.text.EndOfLine;
 import delta.games.lotro.gui.LotroIconsManager;
-import delta.games.lotro.lore.collections.mounts.MountDescription;
+import delta.games.lotro.lore.collections.pets.CosmeticPetDescription;
 
 /**
- * Controller for a mount display panel.
+ * Controller for a pet display panel.
  * @author DAM
  */
-public class MountDisplayPanelController
+public class PetDisplayPanelController
 {
   // Data
-  private MountDescription _mount;
+  private CosmeticPetDescription _pet;
   // GUI
   private JPanel _panel;
 
   private JLabel _icon;
   private JLabel _name;
-  private JLabel _category;
-  private JLabel _mountType;
   private JLabel _initialName;
-  private JLabel _morale;
-  private JLabel _speed;
+  private JLabel _genus;
+  private JLabel _species;
+  private JLabel _subSpecies;
   private JEditorPane _details;
 
   /**
    * Constructor.
-   * @param mount Mount to show.
+   * @param pet Pet to show.
    */
-  public MountDisplayPanelController(MountDescription mount)
+  public PetDisplayPanelController(CosmeticPetDescription pet)
   {
-    _mount=mount;
+    _pet=pet;
   }
 
   /**
@@ -78,16 +77,14 @@ public class MountDisplayPanelController
       _name.setFont(_name.getFont().deriveFont(16f).deriveFont(Font.BOLD));
       panelLine.add(_name);
     }
-    // Category
-    _category=buildLabelLine(panel,c,"Category: ");
-    // Mount type
-    _mountType=buildLabelLine(panel,c,"Mount type: ");
     // Initial name
     _initialName=buildLabelLine(panel,c,"Initial name: ");
-    // Morale
-    _morale=buildLabelLine(panel,c,"Morale: ");
-    // Speed
-    _speed=buildLabelLine(panel,c,"Speed: ");
+    // Genus
+    _genus=buildLabelLine(panel,c,"Genus: ");
+    // Species
+    _species=buildLabelLine(panel,c,"Species: ");
+    // Sub-species
+    _subSpecies=buildLabelLine(panel,c,"Sub-species: ");
 
     // Description
     _details=buildDescriptionPane();
@@ -100,7 +97,7 @@ public class MountDisplayPanelController
     c.gridy++;
 
     _panel=panel;
-    setMount();
+    setPet();
     return _panel;
   }
 
@@ -132,8 +129,8 @@ public class MountDisplayPanelController
   {
     StringBuilder sb=new StringBuilder();
     sb.append("<html><body>");
-    String description=_mount.getDescription();
-    String sourceDescription=_mount.getSourceDescription();
+    String description=_pet.getDescription();
+    String sourceDescription=_pet.getSourceDescription();
     String text=description;
     if (sourceDescription.length()>0)
     {
@@ -152,32 +149,28 @@ public class MountDisplayPanelController
   }
 
   /**
-   * Set the mount to display.
+   * Set the pet to display.
    */
-  private void setMount()
+  private void setPet()
   {
-    String name=_mount.getName();
+    String name=_pet.getName();
     // Name
     _name.setText(name);
     // Icon
-    ImageIcon icon=LotroIconsManager.getMountIcon(_mount.getIconId());
+    ImageIcon icon=LotroIconsManager.getPetIcon(_pet.getIconId());
     _icon.setIcon(icon);
-    // Category
-    String category=_mount.getCategory();
-    _category.setText(category);
-    // Mount type
-    String mountType=_mount.getMountType();
-    _mountType.setText(mountType);
     // Initial name
-    String initialName=_mount.getInitialName();
+    String initialName=_pet.getInitialName();
     _initialName.setText(initialName);
-    // Morale
-    int morale=_mount.getMorale();
-    _morale.setText(String.valueOf(morale));
-    // Speed
-    float speed=_mount.getSpeed();
-    String speedStr=String.valueOf((int)(speed*100))+" %";
-    _speed.setText(speedStr);
+    // Genus
+    String genus=_pet.getClassification().getGenus();
+    _genus.setText(genus);
+    // Species
+    String species=_pet.getClassification().getSpecies();
+    _species.setText(species);
+    // Sub-species
+    String subSpecies=_pet.getClassification().getSubSpecies();
+    _subSpecies.setText(subSpecies);
     // Details
     _details.setText(buildHtml());
     _details.setCaretPosition(0);
@@ -189,7 +182,7 @@ public class MountDisplayPanelController
   public void dispose()
   {
     // Data
-    _mount=null;
+    _pet=null;
     // UI
     if (_panel!=null)
     {
@@ -198,11 +191,10 @@ public class MountDisplayPanelController
     }
     _icon=null;
     _name=null;
-    _category=null;
-    _mountType=null;
     _initialName=null;
-    _morale=null;
-    _speed=null;
+    _genus=null;
+    _species=null;
+    _subSpecies=null;
     _details=null;
   }
 }

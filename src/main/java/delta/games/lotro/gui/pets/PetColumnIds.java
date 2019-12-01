@@ -1,10 +1,10 @@
-package delta.games.lotro.gui.mounts;
+package delta.games.lotro.gui.pets;
 
 /**
- * Some column identifiers for the mounts tables.
+ * Some column identifiers for the pets tables.
  * @author DAM
  */
-public enum MountColumnIds
+public enum PetColumnIds
 {
   /**
    * Identifier.
@@ -14,10 +14,6 @@ public enum MountColumnIds
    * Name.
    */
   NAME,
-  /**
-   * Category.
-   */
-  CATEGORY,
   /**
    * Description.
    */
@@ -31,19 +27,19 @@ public enum MountColumnIds
    */
   INITIAL_NAME,
   /**
-   * Mount type.
-   */
-  MOUNT_TYPE,
-  /**
    * Source description.
    */
   SOURCE,
   /**
-   * Max morale.
+   * Genus.
    */
-  MORALE,
+  GENUS,
   /**
-   * Speed.
+   * Species.
    */
-  SPEED
+  SPECIES,
+  /**
+   * Sub-species.
+   */
+  SUBSPECIES
 }

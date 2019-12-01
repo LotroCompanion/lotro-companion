@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.mounts;
+package delta.games.lotro.gui.pets;
 
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
@@ -8,36 +8,31 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 
 import delta.common.ui.swing.GuiFactory;
-import delta.common.ui.swing.combobox.ComboBoxController;
-import delta.common.ui.swing.combobox.ItemSelectionListener;
 import delta.common.ui.swing.text.DynamicTextEditionController;
 import delta.common.ui.swing.text.TextListener;
 import delta.common.utils.collections.filters.Filter;
 import delta.games.lotro.gui.items.FilterUpdateListener;
-import delta.games.lotro.lore.collections.mounts.MountDescription;
-import delta.games.lotro.lore.collections.mounts.filters.MountCategoryFilter;
-import delta.games.lotro.lore.collections.mounts.filters.MountNameFilter;
+import delta.games.lotro.lore.collections.pets.CosmeticPetDescription;
+import delta.games.lotro.lore.collections.pets.filters.PetNameFilter;
 
 /**
- * Controller for a mount filter edition panel.
+ * Controller for a pet filter edition panel.
  * @author DAM
  */
-public class MountFilterController implements ActionListener
+public class PetFilterController implements ActionListener
 {
   // Data
-  private MountFilter _filter;
+  private PetFilter _filter;
   // GUI
   private JPanel _panel;
   private JButton _reset;
-  // -- Mount attributes UI --
+  // -- Pet attributes UI --
   private JTextField _contains;
-  private ComboBoxController<String> _category;
   // Controllers
   private DynamicTextEditionController _textController;
   private FilterUpdateListener _filterUpdateListener;
@@ -47,7 +42,7 @@ public class MountFilterController implements ActionListener
    * @param filter Managed filter.
    * @param filterUpdateListener Filter update listener.
    */
-  public MountFilterController(MountFilter filter, FilterUpdateListener filterUpdateListener)
+  public PetFilterController(PetFilter filter, FilterUpdateListener filterUpdateListener)
   {
     _filter=filter;
     _filterUpdateListener=filterUpdateListener;
@@ -57,7 +52,7 @@ public class MountFilterController implements ActionListener
    * Get the managed filter.
    * @return the managed filter.
    */
-  public Filter<MountDescription> getFilter()
+  public Filter<CosmeticPetDescription> getFilter()
   {
     return _filter;
   }
@@ -91,7 +86,6 @@ public class MountFilterController implements ActionListener
     Object source=e.getSource();
     if (source==_reset)
     {
-      _category.selectItem(null);
       _contains.setText("");
     }
   }
@@ -99,16 +93,12 @@ public class MountFilterController implements ActionListener
   private void setFilter()
   {
     // Name
-    MountNameFilter nameFilter=_filter.getNameFilter();
+    PetNameFilter nameFilter=_filter.getNameFilter();
     String contains=nameFilter.getPattern();
     if (contains!=null)
     {
       _contains.setText(contains);
     }
-    // Category
-    MountCategoryFilter categoryFilter=_filter.getCategoryFilter();
-    String category=categoryFilter.getCategory();
-    _category.selectItem(category);
   }
 
   private JPanel build()
@@ -117,12 +107,12 @@ public class MountFilterController implements ActionListener
 
     int y=0;
 
-    // Mount attributes
-    JPanel mountPanel=buildMountPanel();
-    Border border=GuiFactory.buildTitledBorder("Mount");
-    mountPanel.setBorder(border);
+    // Pet attributes
+    JPanel petPanel=buildPetPanel();
+    Border border=GuiFactory.buildTitledBorder("Pet");
+    petPanel.setBorder(border);
     GridBagConstraints c=new GridBagConstraints(0,y,1,1,0.0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
-    panel.add(mountPanel,c);
+    panel.add(petPanel,c);
 
     // Reset
     _reset=GuiFactory.buildButton("Reset");
@@ -134,7 +124,7 @@ public class MountFilterController implements ActionListener
     return panel;
   }
 
-  private JPanel buildMountPanel()
+  private JPanel buildPetPanel()
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
 
@@ -153,31 +143,13 @@ public class MountFilterController implements ActionListener
         public void textChanged(String newText)
         {
           if (newText.length()==0) newText=null;
-          MountNameFilter nameFilter=_filter.getNameFilter();
+          PetNameFilter nameFilter=_filter.getNameFilter();
           nameFilter.setPattern(newText);
           filterUpdated();
         }
       };
       _textController=new DynamicTextEditionController(_contains,listener);
       line1Panel.add(containsPanel);
-    }
-    // Category
-    {
-      JLabel label=GuiFactory.buildLabel("Category:");
-      line1Panel.add(label);
-      _category=MountUiUtils.buildCategoryCombo();
-      ItemSelectionListener<String> categoryListener=new ItemSelectionListener<String>()
-      {
-        @Override
-        public void itemSelected(String category)
-        {
-          MountCategoryFilter categoryFilter=_filter.getCategoryFilter();
-          categoryFilter.setCategory(category);
-          filterUpdated();
-        }
-      };
-      _category.addListener(categoryListener);
-      line1Panel.add(_category.getComboBox());
     }
     GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,5,0),0,0);
     panel.add(line1Panel,c);
@@ -204,11 +176,6 @@ public class MountFilterController implements ActionListener
     {
       _panel.removeAll();
       _panel=null;
-    }
-    if (_category!=null)
-    {
-      _category.dispose();
-      _category=null;
     }
     _contains=null;
     _reset=null;

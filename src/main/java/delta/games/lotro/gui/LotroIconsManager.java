@@ -249,6 +249,17 @@ public class LotroIconsManager
   }
 
   /**
+   * Get the icon for a pet.
+   * @param petId Pet identifier.
+   * @return An icon or <code>null</code> if not found.
+   */
+  public static ImageIcon getPetIcon(int petId)
+  {
+    String path="/petIcons/"+petId+".png";
+    return IconsManager.getIcon(path);
+  }
+
+  /**
    * Initialize the application icons.
    */
   public static void initApplicationIcons()

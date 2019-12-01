@@ -32,6 +32,7 @@ import delta.games.lotro.gui.account.AccountsManagementController;
 import delta.games.lotro.gui.deed.explorer.DeedsExplorerWindowController;
 import delta.games.lotro.gui.emotes.explorer.EmotesExplorerWindowController;
 import delta.games.lotro.gui.mounts.explorer.MountsExplorerWindowController;
+import delta.games.lotro.gui.pets.explorer.PetsExplorerWindowController;
 import delta.games.lotro.gui.quests.explorer.QuestsExplorerWindowController;
 import delta.games.lotro.gui.recipes.explorer.RecipesExplorerWindowController;
 import delta.games.lotro.gui.stats.crafting.synopsis.CraftingSynopsisWindowController;
@@ -58,6 +59,7 @@ public class MainFrameController extends DefaultWindowController implements Acti
   private static final String TITLES_ID="titles";
   private static final String EMOTES_ID="emotes";
   private static final String MOUNTS_ID="mounts";
+  private static final String PETS_ID="pets";
   private static final String REPUTATION_SYNOPSIS_ID="reputationSynopsis";
   private static final String CRAFTING_SYNOPSIS_ID="craftingSynopsis";
   private static final String MAP_ID="map";
@@ -164,6 +166,11 @@ public class MainFrameController extends DefaultWindowController implements Acti
     mountsExplorer.setActionCommand(MOUNTS_ID);
     mountsExplorer.addActionListener(this);
     compendiumMenu.add(mountsExplorer);
+    // - pets
+    JMenuItem petsExplorer=GuiFactory.buildMenuItem("Pets");
+    petsExplorer.setActionCommand(PETS_ID);
+    petsExplorer.addActionListener(this);
+    compendiumMenu.add(petsExplorer);
 
     // Help
     JMenu helpMenu=GuiFactory.buildMenu("Help");
@@ -267,6 +274,10 @@ public class MainFrameController extends DefaultWindowController implements Acti
     String mountsIconPath=getToolbarIconPath("mounts");
     ToolbarIconItem mountsIconItem=new ToolbarIconItem(MOUNTS_ID,mountsIconPath,MOUNTS_ID,"Mounts...","Mounts");
     model.addToolbarIconItem(mountsIconItem);
+    // Pets icon
+    String petsIconPath=getToolbarIconPath("pets");
+    ToolbarIconItem petsIconItem=new ToolbarIconItem(PETS_ID,petsIconPath,PETS_ID,"Pets...","Pets");
+    model.addToolbarIconItem(petsIconItem);
     // Register action listener
     controller.addActionListener(this);
     return controller;
@@ -399,6 +410,17 @@ public class MainFrameController extends DefaultWindowController implements Acti
     controller.bringToFront();
   }
 
+  private void doPets()
+  {
+    WindowController controller=_windowsManager.getWindow(PetsExplorerWindowController.IDENTIFIER);
+    if (controller==null)
+    {
+      controller=new PetsExplorerWindowController(this);
+      _windowsManager.registerWindow(controller);
+    }
+    controller.bringToFront();
+  }
+
   @Override
   public void actionPerformed(ActionEvent event)
   {
@@ -446,6 +468,10 @@ public class MainFrameController extends DefaultWindowController implements Acti
     else if (MOUNTS_ID.equals(cmd))
     {
       doMounts();
+    }
+    else if (PETS_ID.equals(cmd))
+    {
+      doPets();
     }
   }
 
