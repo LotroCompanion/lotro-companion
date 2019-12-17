@@ -15,6 +15,7 @@ import delta.common.ui.swing.tables.TableColumnsManager;
 import delta.common.utils.NumericTools;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.common.CharacterClass;
+import delta.games.lotro.common.money.Money;
 import delta.games.lotro.common.stats.StatDescription;
 import delta.games.lotro.common.stats.StatsRegistry;
 import delta.games.lotro.gui.items.ItemColumnIds;
@@ -173,6 +174,21 @@ public class ItemsTableBuilder
       DefaultTableColumnController<Item,CharacterClass> requiredClassColumn=new DefaultTableColumnController<Item,CharacterClass>(ItemColumnIds.CLASS.name(),"Class",CharacterClass.class,requiredClassCell);
       requiredClassColumn.setWidthSpecs(100,100,100);
       columns.add(requiredClassColumn);
+    }
+    // Value
+    {
+      CellDataProvider<Item,Integer> valueCell=new CellDataProvider<Item,Integer>()
+      {
+        @Override
+        public Integer getData(Item item)
+        {
+          Money money=item.getValueAsMoney();
+          return (money!=null)?Integer.valueOf(money.getInternalValue()):null;
+        }
+      };
+      DefaultTableColumnController<Item,Integer> valueColumn=new DefaultTableColumnController<Item,Integer>(ItemColumnIds.VALUE.name(),"Value",Integer.class,valueCell);
+      valueColumn.setWidthSpecs(55,55,50);
+      columns.add(valueColumn);
     }
     // Slot count
     {

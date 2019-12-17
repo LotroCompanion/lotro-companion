@@ -57,5 +57,9 @@ public enum ItemColumnIds
   /**
    * Class requirement.
    */
-  CLASS
+  CLASS,
+  /**
+   * Value.
+   */
+  VALUE
 }
