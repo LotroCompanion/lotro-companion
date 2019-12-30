@@ -39,6 +39,10 @@ public enum ItemColumnIds
    */
   TIER,
   /**
+   * Category.
+   */
+  CATEGORY,
+  /**
    * Slot count.
    */
   SLOT_COUNT,

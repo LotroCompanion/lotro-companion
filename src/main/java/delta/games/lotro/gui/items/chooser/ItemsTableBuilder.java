@@ -1,10 +1,13 @@
 package delta.games.lotro.gui.items.chooser;
 
+import java.awt.Component;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.Icon;
+import javax.swing.JPanel;
 import javax.swing.JTable;
+import javax.swing.table.TableCellRenderer;
 
 import delta.common.ui.swing.tables.CellDataProvider;
 import delta.common.ui.swing.tables.DataProvider;
@@ -16,8 +19,10 @@ import delta.common.utils.NumericTools;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.money.Money;
+import delta.games.lotro.common.money.comparator.MoneyComparator;
 import delta.games.lotro.common.stats.StatDescription;
 import delta.games.lotro.common.stats.StatsRegistry;
+import delta.games.lotro.gui.common.money.MoneyDisplayController;
 import delta.games.lotro.gui.items.ItemColumnIds;
 import delta.games.lotro.gui.items.ItemUiTools;
 import delta.games.lotro.lore.items.Armour;
@@ -77,49 +82,11 @@ public class ItemsTableBuilder
   {
     List<DefaultTableColumnController<Item,?>> columns=new ArrayList<DefaultTableColumnController<Item,?>>();
     // Icon column
-    {
-      CellDataProvider<Item,Icon> iconCell=new CellDataProvider<Item,Icon>()
-      {
-        @Override
-        public Icon getData(Item item)
-        {
-          Icon icon=ItemUiTools.buildItemIcon(item);
-          return icon;
-        }
-      };
-      DefaultTableColumnController<Item,Icon> iconColumn=new DefaultTableColumnController<Item,Icon>(ItemColumnIds.ICON.name(),"Icon",Icon.class,iconCell);
-      iconColumn.setWidthSpecs(50,50,50);
-      iconColumn.setSortable(false);
-      columns.add(iconColumn);
-    }
+    columns.add(buildIconColumn());
     // ID column
-    {
-      CellDataProvider<Item,Long> idCell=new CellDataProvider<Item,Long>()
-      {
-        @Override
-        public Long getData(Item item)
-        {
-          return Long.valueOf(item.getIdentifier());
-        }
-      };
-      DefaultTableColumnController<Item,Long> idColumn=new DefaultTableColumnController<Item,Long>(ItemColumnIds.ID.name(),"ID",Long.class,idCell);
-      idColumn.setWidthSpecs(90,90,50);
-      columns.add(idColumn);
-    }
+    columns.add(buildIdColumn());
     // Name column
-    {
-      CellDataProvider<Item,String> nameCell=new CellDataProvider<Item,String>()
-      {
-        @Override
-        public String getData(Item item)
-        {
-          return item.getName();
-        }
-      };
-      DefaultTableColumnController<Item,String> nameColumn=new DefaultTableColumnController<Item,String>(ItemColumnIds.NAME.name(),"Name",String.class,nameCell);
-      nameColumn.setWidthSpecs(150,-1,150);
-      columns.add(nameColumn);
-    }
+    columns.add(buildNameColumn());
     // Factory comment column
     {
       CellDataProvider<Item,String> factoryCommentCell=new CellDataProvider<Item,String>()
@@ -133,20 +100,8 @@ public class ItemsTableBuilder
       DefaultTableColumnController<Item,String> factoryCommentColumn=new DefaultTableColumnController<Item,String>(ItemColumnIds.FACTORY_COMMENTS.name(),"Comment",String.class,factoryCommentCell);
       factoryCommentColumn.setWidthSpecs(150,-1,150);
       columns.add(factoryCommentColumn);
-    }    // Level column
-    {
-      CellDataProvider<Item,Integer> levelCell=new CellDataProvider<Item,Integer>()
-      {
-        @Override
-        public Integer getData(Item item)
-        {
-          return item.getItemLevel();
-        }
-      };
-      DefaultTableColumnController<Item,Integer> levelColumn=new DefaultTableColumnController<Item,Integer>(ItemColumnIds.ITEM_LEVEL.name(),"Item Lvl",Integer.class,levelCell);
-      levelColumn.setWidthSpecs(55,55,50);
-      columns.add(levelColumn);
-    }
+    }    // Item level column
+    columns.add(buildItemLevelColumn());
     // Required level column
     {
       CellDataProvider<Item,Integer> minLevelCell=new CellDataProvider<Item,Integer>()
@@ -176,20 +131,7 @@ public class ItemsTableBuilder
       columns.add(requiredClassColumn);
     }
     // Value
-    {
-      CellDataProvider<Item,Integer> valueCell=new CellDataProvider<Item,Integer>()
-      {
-        @Override
-        public Integer getData(Item item)
-        {
-          Money money=item.getValueAsMoney();
-          return (money!=null)?Integer.valueOf(money.getInternalValue()):null;
-        }
-      };
-      DefaultTableColumnController<Item,Integer> valueColumn=new DefaultTableColumnController<Item,Integer>(ItemColumnIds.VALUE.name(),"Value",Integer.class,valueCell);
-      valueColumn.setWidthSpecs(55,55,50);
-      columns.add(valueColumn);
-    }
+    columns.add(buildValueColumn());
     // Slot count
     {
       CellDataProvider<Item,Integer> slotsCell=new CellDataProvider<Item,Integer>()
@@ -300,6 +242,148 @@ public class ItemsTableBuilder
       }
     }
     return columns;
+  }
+
+  /**
+   * Build a column for the icon of an item.
+   * @return a column.
+   */
+  public static DefaultTableColumnController<Item,Icon> buildIconColumn()
+  {
+    CellDataProvider<Item,Icon> iconCell=new CellDataProvider<Item,Icon>()
+    {
+      @Override
+      public Icon getData(Item item)
+      {
+        Icon icon=ItemUiTools.buildItemIcon(item);
+        return icon;
+      }
+    };
+    DefaultTableColumnController<Item,Icon> iconColumn=new DefaultTableColumnController<Item,Icon>(ItemColumnIds.ICON.name(),"Icon",Icon.class,iconCell);
+    iconColumn.setWidthSpecs(50,50,50);
+    iconColumn.setSortable(false);
+    return iconColumn;
+  }
+
+  /**
+   * Build a column for the identifier of an item.
+   * @return a column.
+   */
+  public static DefaultTableColumnController<Item,Integer> buildIdColumn()
+  {
+    CellDataProvider<Item,Integer> idCell=new CellDataProvider<Item,Integer>()
+    {
+      @Override
+      public Integer getData(Item item)
+      {
+        return Integer.valueOf(item.getIdentifier());
+      }
+    };
+    DefaultTableColumnController<Item,Integer> idColumn=new DefaultTableColumnController<Item,Integer>(ItemColumnIds.ID.name(),"ID",Integer.class,idCell);
+    idColumn.setWidthSpecs(90,90,50);
+    return idColumn;
+  }
+
+  /**
+   * Build a column for the name of an item.
+   * @return a column.
+   */
+  public static DefaultTableColumnController<Item,String> buildNameColumn()
+  {
+    CellDataProvider<Item,String> nameCell=new CellDataProvider<Item,String>()
+    {
+      @Override
+      public String getData(Item item)
+      {
+        return item.getName();
+      }
+    };
+    DefaultTableColumnController<Item,String> nameColumn=new DefaultTableColumnController<Item,String>(ItemColumnIds.NAME.name(),"Name",String.class,nameCell);
+    nameColumn.setWidthSpecs(150,-1,150);
+    return nameColumn;
+  }
+
+  /**
+   * Build a column for the item level of an item.
+   * @return a column.
+   */
+  public static DefaultTableColumnController<Item,Integer> buildItemLevelColumn()
+  {
+    CellDataProvider<Item,Integer> levelCell=new CellDataProvider<Item,Integer>()
+    {
+      @Override
+      public Integer getData(Item item)
+      {
+        return item.getItemLevel();
+      }
+    };
+    DefaultTableColumnController<Item,Integer> levelColumn=new DefaultTableColumnController<Item,Integer>(ItemColumnIds.ITEM_LEVEL.name(),"Item Lvl",Integer.class,levelCell);
+    levelColumn.setWidthSpecs(55,55,50);
+    return levelColumn;
+  }
+
+  /**
+   * Build a column for the category of an item.
+   * @return a column.
+   */
+  public static DefaultTableColumnController<Item,String> buildSubCategoryColumn()
+  {
+    CellDataProvider<Item,String> categoryCell=new CellDataProvider<Item,String>()
+    {
+      @Override
+      public String getData(Item item)
+      {
+        String category=item.getSubCategory();
+        return category;
+      }
+    };
+    DefaultTableColumnController<Item,String> categoryColumn=new DefaultTableColumnController<Item,String>(ItemColumnIds.CATEGORY.name(),"Category",String.class,categoryCell);
+    categoryColumn.setWidthSpecs(150,150,150);
+    return categoryColumn;
+  }
+
+  /**
+   * Build a column for the value of an item.
+   * @return a column.
+   */
+  public static DefaultTableColumnController<Item,Money> buildValueColumn()
+  {
+    CellDataProvider<Item,Money> valueCell=new CellDataProvider<Item,Money>()
+    {
+      @Override
+      public Money getData(Item item)
+      {
+        Money money=item.getValueAsMoney();
+        return money;
+      }
+    };
+    DefaultTableColumnController<Item,Money> valueColumn=new DefaultTableColumnController<Item,Money>(ItemColumnIds.VALUE.name(),"Value",Money.class,valueCell);
+    valueColumn.setWidthSpecs(120,120,120);
+    valueColumn.setCellRenderer(buildMoneyCellRenderer());
+    valueColumn.setComparator(new MoneyComparator());
+    return valueColumn;
+  }
+
+  /**
+   * Build a cell renderer for a money cell.
+   * @return a new cell renderer.
+   */
+  public static TableCellRenderer buildMoneyCellRenderer()
+  {
+    final MoneyDisplayController moneyCtrl=new MoneyDisplayController();
+    TableCellRenderer renderer=new TableCellRenderer()
+    {
+      @Override
+      public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
+      {
+        Money money=(Money)value;
+        if (money==null) money=new Money();
+        moneyCtrl.setMoney(money);
+        JPanel panel=moneyCtrl.getPanel();
+        return panel;
+      }
+    };
+    return renderer;
   }
 
   private static DefaultTableColumnController<Item,FixedDecimalsInteger> buildStatColumn(final StatDescription stat)
