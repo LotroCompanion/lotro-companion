@@ -25,22 +25,6 @@ import delta.games.lotro.lore.items.ItemProxy;
 public class RecipeUiUtils
 {
   /**
-   * Mode (ingredients or results).
-   * @author DAM
-   */
-  public enum Mode
-  {
-    /**
-     * Ingredients.
-     */
-    INGREDIENTS,
-    /**
-     * Results.
-     */
-    RESULTS
-  }
-
-  /**
    * Build a combo-box controller to choose a recipe profession.
    * @return A new combo-box controller.
    */
