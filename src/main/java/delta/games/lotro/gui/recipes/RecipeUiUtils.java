@@ -1,5 +1,6 @@
 package delta.games.lotro.gui.recipes;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -10,6 +11,12 @@ import delta.games.lotro.lore.crafting.CraftingSystem;
 import delta.games.lotro.lore.crafting.Profession;
 import delta.games.lotro.lore.crafting.ProfessionComparator;
 import delta.games.lotro.lore.crafting.Professions;
+import delta.games.lotro.lore.crafting.recipes.CraftingResult;
+import delta.games.lotro.lore.crafting.recipes.Ingredient;
+import delta.games.lotro.lore.crafting.recipes.Recipe;
+import delta.games.lotro.lore.crafting.recipes.RecipeVersion;
+import delta.games.lotro.lore.items.CountedItem;
+import delta.games.lotro.lore.items.ItemProxy;
 
 /**
  * Utility methods for recipe-related UIs.
@@ -17,6 +24,22 @@ import delta.games.lotro.lore.crafting.Professions;
  */
 public class RecipeUiUtils
 {
+  /**
+   * Mode (ingredients or results).
+   * @author DAM
+   */
+  public enum Mode
+  {
+    /**
+     * Ingredients.
+     */
+    INGREDIENTS,
+    /**
+     * Results.
+     */
+    RESULTS
+  }
+
   /**
    * Build a combo-box controller to choose a recipe profession.
    * @return A new combo-box controller.
@@ -76,4 +99,51 @@ public class RecipeUiUtils
     ctrl.selectItem(null);
     return ctrl;
   }
+
+  /**
+   * Get a list of all ingredients.
+   * @param recipe To use.
+   * @return a list of all ingredients.
+   */
+  public static List<CountedItem> getIngredientItems(Recipe recipe)
+  {
+    List<CountedItem> items=new ArrayList<CountedItem>();
+    RecipeVersion version=recipe.getVersions().get(0);
+    List<Ingredient> ingredients=version.getIngredients();
+    int nbIngredients=ingredients.size();
+    for(int i=0;i<nbIngredients;i++)
+    {
+      Ingredient ingredient=ingredients.get(i);
+      ItemProxy item=ingredient.getItem();
+      int quantity=ingredient.getQuantity();
+      items.add(new CountedItem(item,quantity));
+    }
+    return items;
+  }
+
+  /**
+   * Get a list of all result items (first version).
+   * @param recipe To use.
+   * @return a list of all ingredients.
+   */
+  public static List<CountedItem> getResultItems(Recipe recipe)
+  {
+    List<CountedItem> items=new ArrayList<CountedItem>();
+    RecipeVersion version=recipe.getVersions().get(0);
+    CraftingResult regular=version.getRegular();
+    {
+      ItemProxy regularItem=regular.getItem();
+      int regularQuantity=regular.getQuantity();
+      items.add(new CountedItem(regularItem,regularQuantity));
+    }
+    CraftingResult critical=version.getCritical();
+    if (critical!=null)
+    {
+      ItemProxy criticalItem=critical.getItem();
+      int criticalQuantity=critical.getQuantity();
+      items.add(new CountedItem(criticalItem,criticalQuantity));
+    }
+    return items;
+  }
+
 }

@@ -20,8 +20,8 @@ import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.common.Duration;
 import delta.games.lotro.config.DataFiles;
 import delta.games.lotro.config.LotroCoreConfig;
+import delta.games.lotro.gui.items.ItemsSummaryPanelController;
 import delta.games.lotro.gui.items.chooser.ItemChooser;
-import delta.games.lotro.gui.recipes.ItemsSummaryPanelController.Mode;
 import delta.games.lotro.gui.utils.UiConfiguration;
 import delta.games.lotro.lore.crafting.recipes.Recipe;
 import delta.games.lotro.lore.crafting.recipes.RecipesManager;
@@ -73,6 +73,7 @@ public class RecipesTableController
    * Build the columns for a recipes table.
    * @return A list of columns for a recipes table.
    */
+  @SuppressWarnings("rawtypes")
   public static List<DefaultTableColumnController<Recipe,?>> buildColumns()
   {
     List<DefaultTableColumnController<Recipe,?>> ret=new ArrayList<DefaultTableColumnController<Recipe,?>>();
@@ -232,34 +233,34 @@ public class RecipesTableController
     }
     // Ingredients
     {
-      CellDataProvider<Recipe,Recipe> ingredientsCell=new CellDataProvider<Recipe,Recipe>()
+      CellDataProvider<Recipe,List> ingredientsCell=new CellDataProvider<Recipe,List>()
       {
         @Override
-        public Recipe getData(Recipe recipe)
+        public List getData(Recipe recipe)
         {
-          return recipe;
+          return RecipeUiUtils.getIngredientItems(recipe);
         }
       };
-      DefaultTableColumnController<Recipe,Recipe> ingredientsColumn=new DefaultTableColumnController<Recipe,Recipe>(RecipeColumnIds.INGREDIENTS.name(),"Ingredients",Recipe.class,ingredientsCell);
+      DefaultTableColumnController<Recipe,List> ingredientsColumn=new DefaultTableColumnController<Recipe,List>(RecipeColumnIds.INGREDIENTS.name(),"Ingredients",List.class,ingredientsCell);
       ingredientsColumn.setWidthSpecs(150,230,150);
-      ItemsSummaryPanelController panelController=new ItemsSummaryPanelController(Mode.INGREDIENTS);
+      ItemsSummaryPanelController panelController=new ItemsSummaryPanelController();
       TableCellRenderer renderer=panelController.buildRenderer();
       ingredientsColumn.setCellRenderer(renderer);
       ret.add(ingredientsColumn);
     }
     // Results
     {
-      CellDataProvider<Recipe,Recipe> resultsCell=new CellDataProvider<Recipe,Recipe>()
+      CellDataProvider<Recipe,List> resultsCell=new CellDataProvider<Recipe,List>()
       {
         @Override
-        public Recipe getData(Recipe recipe)
+        public List getData(Recipe recipe)
         {
-          return recipe;
+          return RecipeUiUtils.getResultItems(recipe);
         }
       };
-      DefaultTableColumnController<Recipe,Recipe> resultsColumn=new DefaultTableColumnController<Recipe,Recipe>(RecipeColumnIds.RESULT.name(),"Result",Recipe.class,resultsCell);
+      DefaultTableColumnController<Recipe,List> resultsColumn=new DefaultTableColumnController<Recipe,List>(RecipeColumnIds.RESULT.name(),"Result",List.class,resultsCell);
       resultsColumn.setWidthSpecs(80,80,80);
-      ItemsSummaryPanelController panelController=new ItemsSummaryPanelController(Mode.RESULTS);
+      ItemsSummaryPanelController panelController=new ItemsSummaryPanelController();
       TableCellRenderer renderer=panelController.buildRenderer();
       resultsColumn.setCellRenderer(renderer);
       ret.add(resultsColumn);
