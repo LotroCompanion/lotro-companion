@@ -92,20 +92,6 @@ public class RecipesTableController
       idColumn.setWidthSpecs(80,80,80);
       ret.add(idColumn);
     }
-    // Key column
-    {
-      CellDataProvider<Recipe,String> keyCell=new CellDataProvider<Recipe,String>()
-      {
-        @Override
-        public String getData(Recipe recipe)
-        {
-          return recipe.getKey();
-        }
-      };
-      DefaultTableColumnController<Recipe,String> keyColumn=new DefaultTableColumnController<Recipe,String>(RecipeColumnIds.KEY.name(),"Key",String.class,keyCell);
-      keyColumn.setWidthSpecs(100,200,200);
-      ret.add(keyColumn);
-    }
     // Name column
     {
       CellDataProvider<Recipe,String> nameCell=new CellDataProvider<Recipe,String>()

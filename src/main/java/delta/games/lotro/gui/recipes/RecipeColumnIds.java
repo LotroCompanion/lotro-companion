@@ -11,10 +11,6 @@ public enum RecipeColumnIds
    */
   ID,
   /**
-   * Key.
-   */
-  KEY,
-  /**
    * Name.
    */
   NAME,
