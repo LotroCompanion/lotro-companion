@@ -31,6 +31,7 @@ import delta.games.lotro.gui.about.CreditsDialogController;
 import delta.games.lotro.gui.account.AccountsManagementController;
 import delta.games.lotro.gui.deed.explorer.DeedsExplorerWindowController;
 import delta.games.lotro.gui.emotes.explorer.EmotesExplorerWindowController;
+import delta.games.lotro.gui.lore.trade.barter.explorer.BarterersExplorerWindowController;
 import delta.games.lotro.gui.lore.trade.vendor.explorer.VendorsExplorerWindowController;
 import delta.games.lotro.gui.mounts.explorer.MountsExplorerWindowController;
 import delta.games.lotro.gui.pets.explorer.PetsExplorerWindowController;
@@ -62,6 +63,7 @@ public class MainFrameController extends DefaultWindowController implements Acti
   private static final String MOUNTS_ID="mounts";
   private static final String PETS_ID="pets";
   private static final String VENDORS_ID="vendors";
+  private static final String BARTERERS_ID="barterers";
   private static final String REPUTATION_SYNOPSIS_ID="reputationSynopsis";
   private static final String CRAFTING_SYNOPSIS_ID="craftingSynopsis";
   private static final String MAP_ID="map";
@@ -178,6 +180,11 @@ public class MainFrameController extends DefaultWindowController implements Acti
     vendorsExplorer.setActionCommand(VENDORS_ID);
     vendorsExplorer.addActionListener(this);
     compendiumMenu.add(vendorsExplorer);
+    // - barterers
+    JMenuItem barterersExplorer=GuiFactory.buildMenuItem("Barterers");
+    barterersExplorer.setActionCommand(BARTERERS_ID);
+    barterersExplorer.addActionListener(this);
+    compendiumMenu.add(barterersExplorer);
 
     // Help
     JMenu helpMenu=GuiFactory.buildMenu("Help");
@@ -289,6 +296,10 @@ public class MainFrameController extends DefaultWindowController implements Acti
     String vendorsIconPath=getToolbarIconPath("vendors");
     ToolbarIconItem vendorsIconItem=new ToolbarIconItem(VENDORS_ID,vendorsIconPath,VENDORS_ID,"Vendors...","Vendors");
     model.addToolbarIconItem(vendorsIconItem);
+    // Barterers icon
+    String barterersIconPath=getToolbarIconPath("barterers");
+    ToolbarIconItem barterersIconItem=new ToolbarIconItem(BARTERERS_ID,barterersIconPath,BARTERERS_ID,"Barterers...","Barterers");
+    model.addToolbarIconItem(barterersIconItem);
     // Register action listener
     controller.addActionListener(this);
     return controller;
@@ -443,6 +454,17 @@ public class MainFrameController extends DefaultWindowController implements Acti
     controller.bringToFront();
   }
 
+  private void doBarterers()
+  {
+    WindowController controller=_windowsManager.getWindow(BarterersExplorerWindowController.IDENTIFIER);
+    if (controller==null)
+    {
+      controller=new BarterersExplorerWindowController(this);
+      _windowsManager.registerWindow(controller);
+    }
+    controller.bringToFront();
+  }
+
   @Override
   public void actionPerformed(ActionEvent event)
   {
@@ -498,6 +520,10 @@ public class MainFrameController extends DefaultWindowController implements Acti
     else if (VENDORS_ID.equals(cmd))
     {
       doVendors();
+    }
+    else if (BARTERERS_ID.equals(cmd))
+    {
+      doBarterers();
     }
   }
 
