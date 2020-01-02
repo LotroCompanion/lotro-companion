@@ -1,7 +1,6 @@
 package delta.games.lotro.gui.recipes;
 
 import java.awt.event.ActionListener;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,8 +17,6 @@ import delta.common.ui.swing.tables.TableColumnsManager;
 import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.common.Duration;
-import delta.games.lotro.config.DataFiles;
-import delta.games.lotro.config.LotroCoreConfig;
 import delta.games.lotro.gui.items.ItemsSummaryPanelController;
 import delta.games.lotro.gui.items.chooser.ItemChooser;
 import delta.games.lotro.gui.utils.UiConfiguration;
@@ -330,9 +327,7 @@ public class RecipesTableController
   private void init()
   {
     reset();
-    RecipesManager recipesManager=new RecipesManager();
-    File fromFile=LotroCoreConfig.getInstance().getFile(DataFiles.RECIPES);
-    recipesManager.loadRecipesFromFile(fromFile);
+    RecipesManager recipesManager=RecipesManager.getInstance();
     List<Recipe> recipes=recipesManager.getAll();
     for(Recipe recipe : recipes)
     {
