@@ -18,6 +18,10 @@ import delta.common.ui.swing.icons.IconWithText;
 import delta.games.lotro.common.Duration;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.recipes.RecipeIcons;
+import delta.games.lotro.lore.crafting.CraftingData;
+import delta.games.lotro.lore.crafting.CraftingLevel;
+import delta.games.lotro.lore.crafting.CraftingSystem;
+import delta.games.lotro.lore.crafting.Profession;
 import delta.games.lotro.lore.crafting.recipes.CraftingResult;
 import delta.games.lotro.lore.crafting.recipes.Ingredient;
 import delta.games.lotro.lore.crafting.recipes.Recipe;
@@ -102,23 +106,47 @@ public class RecipeDisplayPanelController
     JLabel professionAndTierLabel=GuiFactory.buildLabel(professionAndTier);
     // Category and XP
     JLabel categoryAndXpLabel=GuiFactory.buildLabel(getCategoryAndXp());
-    // Single use and cooldown
-    String singleUseAndCooldownStr=getSingleUseGuildAndCooldown();
-    JLabel singleUseAndCooldownLabel=GuiFactory.buildLabel(singleUseAndCooldownStr);
+    // Attributes
+    String attributesStr=getAttributesString();
+    JLabel attributesLabel=GuiFactory.buildLabel(attributesStr);
+    // Recipe item
+    JLabel recipeItemIconLabel=null;
+    JLabel recipeItemNameLabel=null;
+    ItemProxy recipeItemProxy=_recipe.getRecipeScroll();
+    if (recipeItemProxy!=null)
+    {
+      // - icon
+      String recipeItemIconId=recipeItemProxy.getIcon();
+      Icon recipeItemIcon=LotroIconsManager.getItemIcon(recipeItemIconId);
+      recipeItemIconLabel=GuiFactory.buildIconLabel(recipeItemIcon);
+      // - name
+      recipeItemNameLabel=GuiFactory.buildLabel(recipeItemProxy.getName(),16f);
+    }
 
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
+    // Recipe
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,2,2,2),0,0);
     panel.add(recipeIconLabel,c);
     c=new GridBagConstraints(1,0,1,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(2,2,2,2),0,0);
     panel.add(nameLabel,c);
+    // Profession and tier
     c=new GridBagConstraints(0,1,2,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,2,2,2),0,0);
     panel.add(professionAndTierLabel,c);
+    // Category and XP
     c=new GridBagConstraints(0,2,2,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,2,2,2),0,0);
     panel.add(categoryAndXpLabel,c);
-    if (singleUseAndCooldownStr.length()>0)
+    // Attributes
+    if (attributesStr.length()>0)
     {
       c=new GridBagConstraints(0,3,2,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,2,2,2),0,0);
-      panel.add(singleUseAndCooldownLabel,c);
+      panel.add(attributesLabel,c);
+    }
+    if ((recipeItemIconLabel!=null) && (recipeItemNameLabel!=null))
+    {
+      c=new GridBagConstraints(0,4,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,2,2,2),0,0);
+      panel.add(recipeItemIconLabel,c);
+      c=new GridBagConstraints(1,4,1,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(2,2,2,2),0,0);
+      panel.add(recipeItemNameLabel,c);
     }
     return panel;
   }
@@ -145,13 +173,22 @@ public class RecipeDisplayPanelController
     return sb.toString();
   }
 
-  private String getSingleUseGuildAndCooldown()
+  private String getAttributesString()
   {
     StringBuilder sb=new StringBuilder();
     boolean singleUse=_recipe.isOneTimeUse();
     if (singleUse)
     {
       sb.append("Single Use");
+    }
+    boolean autoBestowed=isAutobestowed(_recipe);
+    if (autoBestowed)
+    {
+      if (sb.length()>0)
+      {
+        sb.append(", ");
+      }
+      sb.append("Auto-bestowed");
     }
     boolean guildRequired=_recipe.isGuildRequired();
     if (guildRequired)
@@ -174,6 +211,20 @@ public class RecipeDisplayPanelController
       sb.append(cooldownStr);
     }
     return sb.toString();
+  }
+
+  private boolean isAutobestowed(Recipe recipe)
+  {
+    boolean ret=false;
+    CraftingData craftingData=CraftingSystem.getInstance().getData();
+    Profession profession=craftingData.getProfessionsRegistry().getProfessionByName(recipe.getProfession());
+    int tier=recipe.getTier();
+    CraftingLevel level=profession.getByTier(tier);
+    if (level!=null)
+    {
+      ret=level.isAutobestowed(recipe.getIdentifier());
+    }
+    return ret;
   }
 
   private JPanel buildVersionPanel(RecipeVersion version)
