@@ -58,7 +58,7 @@ public class EquipmentPanelController implements ActionListener
   private static final Integer ICONS_DEPTH=Integer.valueOf(1);
 
   private static final int ICON_FRAME_SIZE=3;
-  private static final int DELTA_X=44;
+  private static final int DELTA_X=38;
   private static final int DELTA_Y=45;
   private static final int DELTA_COLUMNS=52;
   private static final int DELTA_COLUMN_GROUPS=100;
@@ -70,7 +70,7 @@ public class EquipmentPanelController implements ActionListener
   private static final int X_COLUMN_3=X_COLUMN_2+DELTA_COLUMN_GROUPS+DELTA_COLUMNS;
   private static final int X_COLUMN_4=X_COLUMN_3+DELTA_COLUMNS;
   private static final int COLUMNS_WIDTH=X_COLUMN_4+ICON_SIZE+ICON_FRAME_SIZE-(X_COLUMN_1-ICON_FRAME_SIZE);
-  private static final int ROW_WIDTH=ICON_FRAME_SIZE+4*DELTA_X+ICON_SIZE+ICON_FRAME_SIZE;
+  private static final int ROW_WIDTH=ICON_FRAME_SIZE+7*DELTA_X+ICON_SIZE+ICON_FRAME_SIZE;
   private static final int X_ROW=X_MARGIN+(COLUMNS_WIDTH-ROW_WIDTH)/2;
   private static final int Y_MARGIN_COLUMNS_ROW=25;
   private static final int Y_ROW=Y_START+DELTA_Y*3+ICON_SIZE+ICON_FRAME_SIZE+Y_MARGIN_COLUMNS_ROW;
@@ -152,9 +152,15 @@ public class EquipmentPanelController implements ActionListener
     x=X_ROW; y=Y_ROW;
     _iconPositions.put(EQUIMENT_SLOT.MAIN_MELEE,new Dimension(x,y));
     x+=DELTA_X;
+    _iconPositions.put(EQUIMENT_SLOT.MAIN_HAND_AURA,new Dimension(x,y));
+    x+=DELTA_X;
     _iconPositions.put(EQUIMENT_SLOT.OTHER_MELEE,new Dimension(x,y));
     x+=DELTA_X;
+    _iconPositions.put(EQUIMENT_SLOT.OFF_HAND_AURA,new Dimension(x,y));
+    x+=DELTA_X;
     _iconPositions.put(EQUIMENT_SLOT.RANGED,new Dimension(x,y));
+    x+=DELTA_X;
+    _iconPositions.put(EQUIMENT_SLOT.RANGED_AURA,new Dimension(x,y));
     x+=DELTA_X;
     _iconPositions.put(EQUIMENT_SLOT.TOOL,new Dimension(x,y));
     x+=DELTA_X;
