@@ -471,7 +471,7 @@ public class MainFrameController extends DefaultWindowController implements Acti
     String cmd=event.getActionCommand();
     if (LEVELLING_ID.equals(cmd))
     {
-        doLevelling();
+      doLevelling();
     }
     else if (WARBANDS_ID.equals(cmd))
     {

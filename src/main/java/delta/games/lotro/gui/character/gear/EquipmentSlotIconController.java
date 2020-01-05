@@ -1,9 +1,6 @@
 package delta.games.lotro.gui.character.gear;
 
 import java.awt.Image;
-import java.awt.Toolkit;
-import java.awt.image.CropImageFilter;
-import java.awt.image.FilteredImageSource;
 
 import javax.swing.ImageIcon;
 
@@ -107,12 +104,6 @@ public class EquipmentSlotIconController
   {
     String iconPath=BACKGROUND_ICONS_SEED+slot.name()+".png";
     Image backgroundIcon=IconsManager.getImage(iconPath);
-    Image cropedIcon=Toolkit.getDefaultToolkit().createImage(
-        new FilteredImageSource(
-            backgroundIcon.getSource(), 
-          new CropImageFilter(3,3,32,32)
-        )
-      );
-    return new ImageIcon(cropedIcon);
+    return new ImageIcon(backgroundIcon);
   }
 }
