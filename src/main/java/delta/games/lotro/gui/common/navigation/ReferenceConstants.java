@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.common.navigator;
+package delta.games.lotro.gui.common.navigation;
 
 import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.games.lotro.lore.deeds.DeedDescription;

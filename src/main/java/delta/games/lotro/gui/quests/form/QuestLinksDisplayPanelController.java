@@ -17,7 +17,7 @@ import delta.common.ui.swing.labels.HyperLinkController;
 import delta.common.ui.swing.labels.LocalHyperlinkAction;
 import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.common.ui.swing.navigator.PageIdentifier;
-import delta.games.lotro.gui.common.navigator.ReferenceConstants;
+import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.lore.quests.Achievable;
 import delta.games.lotro.lore.quests.AchievableProxiesResolver;
 import delta.games.lotro.lore.quests.QuestDescription;

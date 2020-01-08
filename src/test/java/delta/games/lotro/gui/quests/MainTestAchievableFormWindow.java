@@ -4,7 +4,7 @@ import java.util.List;
 
 import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.common.ui.swing.navigator.PageIdentifier;
-import delta.games.lotro.gui.common.navigator.ReferenceConstants;
+import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.gui.navigation.NavigatorFactory;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.DeedsManager;

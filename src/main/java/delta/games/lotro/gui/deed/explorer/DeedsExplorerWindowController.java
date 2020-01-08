@@ -19,7 +19,7 @@ import delta.common.ui.swing.windows.DefaultWindowController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.ui.swing.windows.WindowsManager;
 import delta.common.utils.misc.TypedProperties;
-import delta.games.lotro.gui.common.navigator.ReferenceConstants;
+import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.gui.deed.filter.DeedFilter;
 import delta.games.lotro.gui.deed.filter.DeedFilterController;
 import delta.games.lotro.gui.deed.table.DeedsTableController;

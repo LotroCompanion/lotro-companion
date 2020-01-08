@@ -35,7 +35,6 @@ public class ItemRewardGadgetsController extends RewardGadgetsController
         color=getColorFromQuality(quality);
       }
     }
-    //_label=GuiFactory.buildLabel(text);
     _label=new LabelWithHalo();
     _label.setText(text);
     _label.setOpaque(false);

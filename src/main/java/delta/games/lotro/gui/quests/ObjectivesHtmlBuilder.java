@@ -9,7 +9,7 @@ import org.apache.log4j.Logger;
 import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.common.utils.misc.IntegerHolder;
 import delta.games.lotro.character.skills.SkillDescription;
-import delta.games.lotro.gui.common.navigator.ReferenceConstants;
+import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.emotes.EmoteDescription;
 import delta.games.lotro.lore.geo.LandmarkDescription;

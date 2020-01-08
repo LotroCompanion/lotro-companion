@@ -3,7 +3,8 @@ package delta.games.lotro.gui.navigation;
 import delta.common.ui.swing.navigator.NavigatorContentsResolver;
 import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.common.ui.swing.windows.WindowController;
-import delta.games.lotro.gui.common.navigator.AchievablePanelsFactory;
+import delta.games.lotro.gui.deed.DeedPanelsFactory;
+import delta.games.lotro.gui.quests.QuestPanelsFactory;
 
 /**
  * Factory for LOTRO navigator window controllers.
@@ -21,8 +22,8 @@ public class NavigatorFactory
   {
     NavigatorWindowController window=new NavigatorWindowController(parent,index);
     NavigatorContentsResolver resolver=new NavigatorContentsResolver();
-    AchievablePanelsFactory factory=new AchievablePanelsFactory(window);
-    resolver.addFactory(factory);
+    resolver.addFactory(new QuestPanelsFactory(window));
+    resolver.addFactory(new DeedPanelsFactory(window));
     window.setContentsResolver(resolver);
     return window;
   }

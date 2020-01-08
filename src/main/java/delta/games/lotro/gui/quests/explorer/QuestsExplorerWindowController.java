@@ -19,7 +19,7 @@ import delta.common.ui.swing.windows.DefaultWindowController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.ui.swing.windows.WindowsManager;
 import delta.common.utils.misc.TypedProperties;
-import delta.games.lotro.gui.common.navigator.ReferenceConstants;
+import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.gui.main.GlobalPreferences;
 import delta.games.lotro.gui.navigation.NavigatorFactory;
 import delta.games.lotro.gui.quests.filter.QuestFilter;
