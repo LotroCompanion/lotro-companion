@@ -20,6 +20,14 @@ public class ReferenceConstants
    * Deed page identifier.
    */
   public static final String DEED_PAGE="deed";
+  /**
+   * Item page identifier.
+   */
+  public static final String ITEM_PAGE="item";
+  /**
+   * Recipe page identifier.
+   */
+  public static final String RECIPE_PAGE="recipe";
 
   /**
    * Get a page identifier for the given achievable proxy.
@@ -53,5 +61,25 @@ public class ReferenceConstants
       return new PageIdentifier(QUEST_PAGE,id);
     }
     return null;
+  }
+
+  /**
+   * Get a page identifier for the given item.
+   * @param itemId Identifier of the item to use.
+   * @return A page identifier.
+   */
+  public static final PageIdentifier getItemReference(int itemId)
+  {
+    return new PageIdentifier(ITEM_PAGE,itemId);
+  }
+
+  /**
+   * Get a page identifier for the given recipe.
+   * @param recipeId Identifier of the recipe to use.
+   * @return A page identifier.
+   */
+  public static final PageIdentifier getRecipeReference(int recipeId)
+  {
+    return new PageIdentifier(RECIPE_PAGE,recipeId);
   }
 }

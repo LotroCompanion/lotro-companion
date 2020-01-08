@@ -1,6 +1,5 @@
 package delta.games.lotro.gui.recipes.form;
 
-import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -14,10 +13,12 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
 import delta.common.ui.swing.GuiFactory;
-import delta.common.ui.swing.icons.IconWithText;
+import delta.common.ui.swing.navigator.NavigablePanelController;
+import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.games.lotro.common.Duration;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.recipes.RecipeIcons;
+import delta.games.lotro.gui.utils.ItemIconController;
 import delta.games.lotro.lore.crafting.CraftingData;
 import delta.games.lotro.lore.crafting.CraftingLevel;
 import delta.games.lotro.lore.crafting.CraftingSystem;
@@ -26,26 +27,41 @@ import delta.games.lotro.lore.crafting.recipes.CraftingResult;
 import delta.games.lotro.lore.crafting.recipes.Ingredient;
 import delta.games.lotro.lore.crafting.recipes.Recipe;
 import delta.games.lotro.lore.crafting.recipes.RecipeVersion;
+import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemProxy;
+import delta.games.lotro.lore.items.ItemsManager;
 
 /**
  * Controller for a recipe display panel.
  * @author DAM
  */
-public class RecipeDisplayPanelController
+public class RecipeDisplayPanelController implements NavigablePanelController
 {
   // Data
   private Recipe _recipe;
   // GUI
   private JPanel _panel;
+  // Controllers
+  private NavigatorWindowController _parent;
+  private List<ItemDisplayGadgets> _itemIcons;
+  private ItemIconController _recipeItemIcon;
 
   /**
    * Constructor.
+   * @param parent Parent window.
    * @param recipe Recipe to show.
    */
-  public RecipeDisplayPanelController(Recipe recipe)
+  public RecipeDisplayPanelController(NavigatorWindowController parent, Recipe recipe)
   {
+    _parent=parent;
     _recipe=recipe;
+    _itemIcons=new ArrayList<ItemDisplayGadgets>();
+  }
+
+  @Override
+  public String getTitle()
+  {
+    return "Recipe: "+_recipe.getName();
   }
 
   /**
@@ -110,15 +126,14 @@ public class RecipeDisplayPanelController
     String attributesStr=getAttributesString();
     JLabel attributesLabel=GuiFactory.buildLabel(attributesStr);
     // Recipe item
-    JLabel recipeItemIconLabel=null;
     JLabel recipeItemNameLabel=null;
     ItemProxy recipeItemProxy=_recipe.getRecipeScroll();
     if (recipeItemProxy!=null)
     {
       // - icon
-      String recipeItemIconId=recipeItemProxy.getIcon();
-      Icon recipeItemIcon=LotroIconsManager.getItemIcon(recipeItemIconId);
-      recipeItemIconLabel=GuiFactory.buildIconLabel(recipeItemIcon);
+      _recipeItemIcon=new ItemIconController(_parent);
+      Item recipeItem=ItemsManager.getInstance().getItem(recipeItemProxy.getId());
+      _recipeItemIcon.setItem(recipeItem,1);
       // - name
       recipeItemNameLabel=GuiFactory.buildLabel(recipeItemProxy.getName(),16f);
     }
@@ -141,10 +156,10 @@ public class RecipeDisplayPanelController
       c=new GridBagConstraints(0,3,2,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,2,2,2),0,0);
       panel.add(attributesLabel,c);
     }
-    if ((recipeItemIconLabel!=null) && (recipeItemNameLabel!=null))
+    if ((_recipeItemIcon!=null) && (recipeItemNameLabel!=null))
     {
       c=new GridBagConstraints(0,4,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,2,2,2),0,0);
-      panel.add(recipeItemIconLabel,c);
+      panel.add(_recipeItemIcon.getIcon(),c);
       c=new GridBagConstraints(1,4,1,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(2,2,2,2),0,0);
       panel.add(recipeItemNameLabel,c);
     }
@@ -246,6 +261,7 @@ public class RecipeDisplayPanelController
   private JPanel buildIngredientsPanel(RecipeVersion version)
   {
     List<ItemDisplayGadgets> ingredientsGadgets=initIngredientsGadgets(version);
+    _itemIcons.addAll(ingredientsGadgets);
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     int y=0;
     for(ItemDisplayGadgets ingredientsGadget : ingredientsGadgets)
@@ -270,15 +286,9 @@ public class RecipeDisplayPanelController
     List<Ingredient> ingredients=version.getIngredients();
     for(Ingredient ingredient : ingredients)
     {
-      ItemDisplayGadgets gadgets=new ItemDisplayGadgets();
-      // Item and quantity
-      int quantity=ingredient.getQuantity();
       ItemProxy proxy=ingredient.getItem();
-      Icon icon=LotroIconsManager.getItemIcon(proxy.getIcon());
-      String text=(quantity!=1)?String.valueOf(quantity):"";
-      IconWithText iconWithText=new IconWithText(icon,text,Color.WHITE);
-      // Name
-      String name=ingredient.getName();
+      int itemId=proxy.getId();
+      int quantity=ingredient.getQuantity();
       // Comment
       String comment="";
       boolean optional=ingredient.isOptional();
@@ -291,7 +301,7 @@ public class RecipeDisplayPanelController
           comment=comment+", gives +"+critBonus.toString()+"% critical chance";
         }
       }
-      gadgets.set(iconWithText,name,comment);
+      ItemDisplayGadgets gadgets=new ItemDisplayGadgets(_parent,itemId,quantity,comment);
       ret.add(gadgets);
     }
     return ret;
@@ -300,6 +310,7 @@ public class RecipeDisplayPanelController
   private JPanel buildResultsPanel(RecipeVersion version)
   {
     List<ItemDisplayGadgets> resultGadgets=initResultGadgets(version);
+    _itemIcons.addAll(resultGadgets);
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
 
     int y=0;
@@ -336,18 +347,11 @@ public class RecipeDisplayPanelController
 
   private ItemDisplayGadgets buildResultGadget(CraftingResult result)
   {
-    // Icon
-    int quantity=result.getQuantity();
     ItemProxy proxy=result.getItem();
-    Icon icon=LotroIconsManager.getItemIcon(proxy.getIcon());
-    String text=(quantity!=1)?String.valueOf(quantity):"";
-    IconWithText iconWithText=new IconWithText(icon,text,Color.WHITE);
-    // Name
-    String name=proxy.getName();
-    ItemDisplayGadgets ret=new ItemDisplayGadgets();
-    // Comment
+    int itemId=proxy.getId();
+    int count=result.getQuantity();
     String comment=result.isCriticalResult()?"Critical result: ":"Regular result: ";
-    ret.set(iconWithText,name,comment);
+    ItemDisplayGadgets ret=new ItemDisplayGadgets(_parent,itemId,count,comment);
     return ret;
   }
 
@@ -363,6 +367,22 @@ public class RecipeDisplayPanelController
     {
       _panel.removeAll();
       _panel=null;
+    }
+    // Controllers
+    _parent=null;
+    if (_itemIcons!=null)
+    {
+      for(ItemDisplayGadgets itemIcon : _itemIcons)
+      {
+        itemIcon.dispose();
+      }
+      _itemIcons.clear();
+      _itemIcons=null;
+    }
+    if (_recipeItemIcon!=null)
+    {
+      _recipeItemIcon.dispose();
+      _recipeItemIcon=null;
     }
   }
 }

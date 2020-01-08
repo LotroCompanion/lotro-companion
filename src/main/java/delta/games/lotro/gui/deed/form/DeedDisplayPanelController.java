@@ -227,6 +227,7 @@ public class DeedDisplayPanelController implements NavigablePanelController
     _challengeLevel.setText(challengeLevel.getLabel());
     // Requirements
     String requirements=RequirementsUtils.buildRequirementString(_deed.getUsageRequirement());
+    if (requirements.length()==0) requirements="-";
     _requirements.setText(requirements);
     // Details
     _details.setText(buildHtml());

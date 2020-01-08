@@ -4,7 +4,9 @@ import delta.common.ui.swing.navigator.NavigatorContentsResolver;
 import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.gui.deed.DeedPanelsFactory;
+import delta.games.lotro.gui.items.ItemPanelsFactory;
 import delta.games.lotro.gui.quests.QuestPanelsFactory;
+import delta.games.lotro.gui.recipes.RecipePanelsFactory;
 
 /**
  * Factory for LOTRO navigator window controllers.
@@ -24,6 +26,8 @@ public class NavigatorFactory
     NavigatorContentsResolver resolver=new NavigatorContentsResolver();
     resolver.addFactory(new QuestPanelsFactory(window));
     resolver.addFactory(new DeedPanelsFactory(window));
+    resolver.addFactory(new ItemPanelsFactory(window));
+    resolver.addFactory(new RecipePanelsFactory(window));
     window.setContentsResolver(resolver);
     return window;
   }

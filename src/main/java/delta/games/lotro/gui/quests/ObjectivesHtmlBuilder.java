@@ -327,8 +327,11 @@ public class ObjectivesHtmlBuilder
       if (itemProxy!=null)
       {
         sb.append("<p>");
+        sb.append(verb).append(' ');
+        PageIdentifier to=ReferenceConstants.getItemReference(itemProxy.getId());
+        String toStr=to.getFullAddress();
         String name=itemProxy.getName();
-        sb.append(verb).append(' ').append(name);
+        HtmlUtils.printLink(sb,toStr,name);
         if (count>1)
         {
           sb.append(" x").append(count);

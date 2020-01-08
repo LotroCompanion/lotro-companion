@@ -1,9 +1,13 @@
 package delta.games.lotro.gui.recipes.form;
 
-import javax.swing.Icon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.navigator.NavigatorWindowController;
+import delta.games.lotro.gui.utils.ItemIconController;
+import delta.games.lotro.lore.items.Item;
+import delta.games.lotro.lore.items.ItemsManager;
 
 /**
  * Controller for a recipe display panel.
@@ -11,37 +15,35 @@ import delta.common.ui.swing.GuiFactory;
  */
 public class ItemDisplayGadgets
 {
-  private JLabel _icon; // Item icon, with optional count
+  private NavigatorWindowController _parent;
+  private ItemIconController _icon; // Item icon, with optional count
   private JLabel _name; // Item name
   private JLabel _comment; // Optional comment, either before or after icon+name
 
   /**
    * Constructor.
+   * @param parent Parent window.
+   * @param itemId Identifier of the item to show.
+   * @param count Items count.
+   * @param comment Comment.
    */
-  public ItemDisplayGadgets()
+  public ItemDisplayGadgets(NavigatorWindowController parent, int itemId, int count, String comment)
   {
-  }
-
-  /**
-   * Set contents.
-   * @param icon Icon to show.
-   * @param name Name to show.
-   * @param comment Comment to show.
-   */
-  public void set(Icon icon, String name, String comment)
-  {
-    _icon=GuiFactory.buildIconLabel(icon);
-    _name=GuiFactory.buildLabel(name);
+    _parent=parent;
+    Item item=ItemsManager.getInstance().getItem(itemId); 
+    _icon=new ItemIconController(_parent);
+    _icon.setItem(item,count);
+    _name=GuiFactory.buildLabel(item.getName());
     _comment=GuiFactory.buildLabel(comment);
   }
 
   /**
-   * Get the managed icon label.
-   * @return an icon label.
+   * Get the managed icon button.
+   * @return an icon button.
    */
-  public JLabel getIcon()
+  public JButton getIcon()
   {
-    return _icon;
+    return _icon.getIcon();
   }
 
   /**
@@ -68,7 +70,11 @@ public class ItemDisplayGadgets
   public void dispose()
   {
     // UI
-    _icon=null;
+    if (_icon!=null)
+    {
+      _icon.dispose();
+      _icon=null;
+    }
     _name=null;
     _comment=null;
   }

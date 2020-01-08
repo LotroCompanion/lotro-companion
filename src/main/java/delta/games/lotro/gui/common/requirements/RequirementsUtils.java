@@ -72,13 +72,7 @@ public class RequirementsUtils
       if (sb.length()>0) sb.append(", ");
       sb.append("level<=").append(maxLevel);
     }
-    String ret=sb.toString();
-    if (ret.isEmpty())
-    {
-      ret="-";
-    }
+    String ret=sb.toString().trim();
     return ret;
   }
-
-
 }

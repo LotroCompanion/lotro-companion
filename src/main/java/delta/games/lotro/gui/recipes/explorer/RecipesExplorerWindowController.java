@@ -12,16 +12,19 @@ import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.navigator.NavigatorWindowController;
+import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.windows.DefaultWindowController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.ui.swing.windows.WindowsManager;
 import delta.common.utils.misc.TypedProperties;
+import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.gui.main.GlobalPreferences;
+import delta.games.lotro.gui.navigation.NavigatorFactory;
 import delta.games.lotro.gui.recipes.RecipeFilter;
 import delta.games.lotro.gui.recipes.RecipeFilterController;
 import delta.games.lotro.gui.recipes.RecipesTableController;
-import delta.games.lotro.gui.recipes.form.RecipeDisplayWindowController;
 import delta.games.lotro.lore.crafting.recipes.Recipe;
 
 /**
@@ -121,8 +124,9 @@ public class RecipesExplorerWindowController extends DefaultWindowController
   private void showRecipe(Recipe recipe)
   {
     int id=_recipeWindows.getAll().size();
-    RecipeDisplayWindowController window=new RecipeDisplayWindowController(RecipesExplorerWindowController.this,id);
-    window.setRecipe(recipe);
+    NavigatorWindowController window=NavigatorFactory.buildNavigator(RecipesExplorerWindowController.this,id);
+    PageIdentifier ref=ReferenceConstants.getRecipeReference(recipe.getIdentifier());
+    window.navigateTo(ref);
     window.show(false);
     _recipeWindows.registerWindow(window);
   }
