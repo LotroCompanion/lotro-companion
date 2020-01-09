@@ -95,7 +95,7 @@ public class QuestDisplayPanelController implements NavigablePanelController
     panel.add(topPanel,c);
 
     // Rewards
-    _rewards=new RewardsPanelController(_quest.getRewards());
+    _rewards=new RewardsPanelController(_parent,_quest.getRewards());
     JPanel rewardsPanel=_rewards.getPanel();
     TitledBorder rewardsBorder=GuiFactory.buildTitledBorder("Rewards");
     rewardsPanel.setBorder(rewardsBorder);

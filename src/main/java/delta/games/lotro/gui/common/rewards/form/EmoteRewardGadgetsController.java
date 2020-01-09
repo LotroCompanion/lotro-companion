@@ -31,6 +31,6 @@ public class EmoteRewardGadgetsController extends RewardGadgetsController
     // Icon
     int id=emote.getIconId();
     Icon icon=LotroIconsManager.getEmoteIcon(id+".png");
-    _labelIcon=GuiFactory.buildIconLabel(icon);
+    _icon=GuiFactory.buildIconLabel(icon);
   }
 }

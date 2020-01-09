@@ -33,6 +33,6 @@ public class ClassPointRewardGadgetsController extends RewardGadgetsController
     _label.setForeground(color);
     // Icon
     Icon lpIcon=IconsManager.getIcon("/resources/gui/icons/ClassPoint.png");
-    _labelIcon=GuiFactory.buildIconLabel(lpIcon);
+    _icon=GuiFactory.buildIconLabel(lpIcon);
   }
 }

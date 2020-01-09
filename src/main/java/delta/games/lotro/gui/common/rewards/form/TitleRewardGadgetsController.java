@@ -27,6 +27,6 @@ public class TitleRewardGadgetsController extends RewardGadgetsController
     _label.setOpaque(false);
     _label.setForeground(color);
     // Icon
-    _labelIcon=GuiFactory.buildTransparentIconlabel(32);
+    _icon=GuiFactory.buildTransparentIconlabel(32);
   }
 }

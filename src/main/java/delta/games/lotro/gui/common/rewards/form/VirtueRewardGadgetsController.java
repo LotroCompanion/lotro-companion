@@ -35,6 +35,6 @@ public class VirtueRewardGadgetsController extends RewardGadgetsController
     Icon virtueIcon=LotroIconsManager.getVirtueIcon(virtue);
     int count=virtueReward.getCount();
     Icon decoratedVirtueIcon=new IconWithText(virtueIcon,String.valueOf(count),Color.WHITE);
-    _labelIcon=GuiFactory.buildIconLabel(decoratedVirtueIcon);
+    _icon=GuiFactory.buildIconLabel(decoratedVirtueIcon);
   }
 }

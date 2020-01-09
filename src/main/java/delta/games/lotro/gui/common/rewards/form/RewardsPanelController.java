@@ -1,6 +1,7 @@
 package delta.games.lotro.gui.common.rewards.form;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -12,6 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.border.Border;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.games.lotro.character.traits.TraitDescription;
 import delta.games.lotro.character.traits.TraitsManager;
 import delta.games.lotro.common.money.Money;
@@ -43,7 +45,10 @@ public class RewardsPanelController
 {
   // Data
   private Rewards _rewards;
+  // UI
   private JPanel _panel;
+  // Controllers
+  private NavigatorWindowController _parent;
   private ClassPointRewardGadgetsController _classPoint;
   private LotroPointsRewardGadgetsController _lotroPoints;
   private List<RewardGadgetsController> _rewardControllers;
@@ -52,10 +57,12 @@ public class RewardsPanelController
 
   /**
    * Constructor.
+   * @param parent Parent window.
    * @param rewards Rewards to display.
    */
-  public RewardsPanelController(Rewards rewards)
+  public RewardsPanelController(NavigatorWindowController parent, Rewards rewards)
   {
+    _parent=parent;
     _rewards=rewards;
     // Class Point
     int classPoints=rewards.getClassPoints();
@@ -98,13 +105,13 @@ public class RewardsPanelController
     // Class Points
     if (_classPoint!=null)
     {
-      addRewardGadgets(ret,_classPoint.getLabelIcon(),_classPoint.getLabel(),c);
+      addRewardGadgets(ret,_classPoint.getIcon(),_classPoint.getLabel(),c);
       updateConstraints(c);
     }
     // LOTRO Points
     if (_lotroPoints!=null)
     {
-      addRewardGadgets(ret,_lotroPoints.getLabelIcon(),_lotroPoints.getLabel(),c);
+      addRewardGadgets(ret,_lotroPoints.getIcon(),_lotroPoints.getLabel(),c);
       updateConstraints(c);
     }
     // Reward elements
@@ -155,7 +162,7 @@ public class RewardsPanelController
       else
       {
         RewardGadgetsController controller=getController(rewardElement);
-        addRewardGadgets(target,controller.getLabelIcon(),controller.getLabel(),c);
+        addRewardGadgets(target,controller.getIcon(),controller.getLabel(),c);
       }
       updateConstraints(c);
     }
@@ -171,7 +178,7 @@ public class RewardsPanelController
     }
   }
 
-  private void addRewardGadgets(JPanel target, JLabel icon, JLabel label, GridBagConstraints c)
+  private void addRewardGadgets(JPanel target, Component icon, JLabel label, GridBagConstraints c)
   {
     int gridx=c.gridx;
     target.add(icon,c);
@@ -192,7 +199,7 @@ public class RewardsPanelController
       int id=itemProxy.getId();
       int count=itemReward.getQuantity();
       Item item=ItemsManager.getInstance().getItem(id);
-      ret=new ItemRewardGadgetsController(item,count);
+      ret=new ItemRewardGadgetsController(_parent,item,count);
     }
     // Title reward
     else if (rewardElement instanceof TitleReward)
@@ -270,6 +277,7 @@ public class RewardsPanelController
     // Data
     _rewards=null;
     // Controllers
+    _parent=null;
     _classPoint=null;
     _lotroPoints=null;
     if (_rewardControllers!=null)

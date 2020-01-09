@@ -2,11 +2,9 @@ package delta.games.lotro.gui.common.rewards.form;
 
 import java.awt.Color;
 
-import javax.swing.Icon;
-
-import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.labels.LabelWithHalo;
-import delta.games.lotro.gui.items.ItemUiTools;
+import delta.common.ui.swing.navigator.NavigatorWindowController;
+import delta.games.lotro.gui.utils.ItemIconController;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemQuality;
 
@@ -16,12 +14,15 @@ import delta.games.lotro.lore.items.ItemQuality;
  */
 public class ItemRewardGadgetsController extends RewardGadgetsController
 {
+  private ItemIconController _itemIcon;
+
   /**
    * Constructor.
+   * @param parent Parent window.
    * @param item Item to display.
    * @param count Count of that item.
    */
-  public ItemRewardGadgetsController(Item item, int count)
+  public ItemRewardGadgetsController(NavigatorWindowController parent, Item item, int count)
   {
     // Label
     String text="???";
@@ -40,9 +41,9 @@ public class ItemRewardGadgetsController extends RewardGadgetsController
     _label.setOpaque(false);
     _label.setForeground(color);
     // Icon
-    Icon icon=ItemUiTools.buildItemIcon(item,count);
-    _labelIcon=GuiFactory.buildIconLabel(icon);
-    _labelIcon.setSize(icon.getIconWidth(),icon.getIconHeight());
+    _itemIcon=new ItemIconController(parent);
+    _itemIcon.setItem(item,count);
+    _icon=_itemIcon.getIcon();
   }
 
   private Color getColorFromQuality(ItemQuality quality)
@@ -54,5 +55,16 @@ public class ItemRewardGadgetsController extends RewardGadgetsController
     if (quality==ItemQuality.UNCOMMON) ret=new Color(241,238,123); // Yellow
     if (quality==ItemQuality.COMMON) ret=Color.WHITE; // White
     return ret;
+  }
+
+  @Override
+  public void dispose()
+  {
+    super.dispose();
+    if (_itemIcon!=null)
+    {
+      _itemIcon.dispose();
+      _itemIcon=null;
+    }
   }
 }

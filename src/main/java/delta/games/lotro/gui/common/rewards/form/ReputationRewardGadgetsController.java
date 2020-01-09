@@ -34,6 +34,6 @@ public class ReputationRewardGadgetsController extends RewardGadgetsController
     _label.setForeground(color);
     // Icon
     Icon icon=IconsManager.getIcon("/resources/gui/icons/"+iconName+".png");
-    _labelIcon=GuiFactory.buildIconLabel(icon);
+    _icon=GuiFactory.buildIconLabel(icon);
   }
 }

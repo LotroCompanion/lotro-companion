@@ -1,5 +1,7 @@
 package delta.games.lotro.gui.common.rewards.form;
 
+import java.awt.Component;
+
 import javax.swing.JLabel;
 
 /**
@@ -8,16 +10,16 @@ import javax.swing.JLabel;
  */
 public class RewardGadgetsController
 {
-  protected JLabel _labelIcon;
+  protected Component _icon;
   protected JLabel _label;
 
   /**
-   * Get the managed (label) icon.
-   * @return a icon label.
+   * Get the managed icon component.
+   * @return a icon component.
    */
-  public JLabel getLabelIcon()
+  public Component getIcon()
   {
-    return _labelIcon;
+    return _icon;
   }
 
   /**
@@ -34,7 +36,7 @@ public class RewardGadgetsController
    */
   public void dispose()
   {
-    _labelIcon=null;
+    _icon=null;
     _label=null;
   }
 }

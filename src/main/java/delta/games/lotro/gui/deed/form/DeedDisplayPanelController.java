@@ -90,7 +90,7 @@ public class DeedDisplayPanelController implements NavigablePanelController
     panel.add(topPanel,c);
 
     // Rewards
-    _rewards=new RewardsPanelController(_deed.getRewards());
+    _rewards=new RewardsPanelController(_parent,_deed.getRewards());
     JPanel rewardsPanel=_rewards.getPanel();
     TitledBorder rewardsBorder=GuiFactory.buildTitledBorder("Rewards");
     rewardsPanel.setBorder(rewardsBorder);

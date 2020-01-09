@@ -36,6 +36,6 @@ public class CraftingXpRewardGadgetsController extends RewardGadgetsController
     _label.setForeground(color);
     // Icon
     Icon lpIcon=IconsManager.getIcon("/resources/gui/rewards/crafting-xp.png");
-    _labelIcon=GuiFactory.buildIconLabel(lpIcon);
+    _icon=GuiFactory.buildIconLabel(lpIcon);
   }
 }

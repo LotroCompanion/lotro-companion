@@ -31,6 +31,6 @@ public class TraitRewardGadgetsController extends RewardGadgetsController
     // Icon
     int id=trait.getIconId();
     Icon icon=LotroIconsManager.getTraitIcon(id);
-    _labelIcon=GuiFactory.buildIconLabel(icon);
+    _icon=GuiFactory.buildIconLabel(icon);
   }
 }

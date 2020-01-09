@@ -35,7 +35,7 @@ public class MainTestRewardsDisplay
       int lotroPoints=rewards.getLotroPoints();
       if ((rewardElements.size()>0) || (lotroPoints>0))
       {
-        RewardsPanelController panelCtrl=new RewardsPanelController(rewards);
+        RewardsPanelController panelCtrl=new RewardsPanelController(null,rewards);
         JPanel panel=panelCtrl.getPanel();
         JFrame frame=new JFrame();
         JPanel background=GuiFactory.buildBackgroundPanel(new BorderLayout());

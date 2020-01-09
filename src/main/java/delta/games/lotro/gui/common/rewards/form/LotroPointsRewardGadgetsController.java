@@ -29,6 +29,6 @@ public class LotroPointsRewardGadgetsController extends RewardGadgetsController
     _label.setForeground(color);
     // Icon
     Icon lpIcon=IconsManager.getIcon("/resources/gui/icons/LP.png");
-    _labelIcon=GuiFactory.buildIconLabel(lpIcon);
+    _icon=GuiFactory.buildIconLabel(lpIcon);
   }
 }

@@ -31,7 +31,7 @@ public class RelicRewardGadgetsController extends RewardGadgetsController
     // Icon
     String iconPath=relic.getIconFilename();
     ImageIcon icon=LotroIconsManager.getRelicIcon(iconPath);
-    _labelIcon=GuiFactory.buildIconLabel(icon);
-    _labelIcon.setSize(icon.getIconWidth(),icon.getIconHeight());
+    _icon=GuiFactory.buildIconLabel(icon);
+    _icon.setSize(icon.getIconWidth(),icon.getIconHeight());
   }
 }
