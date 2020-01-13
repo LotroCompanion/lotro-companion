@@ -1,5 +1,6 @@
 package delta.games.lotro.gui.items.form;
 
+import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -7,8 +8,10 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 
 import javax.swing.ImageIcon;
+import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.navigator.NavigablePanelController;
@@ -29,6 +32,8 @@ public class ItemDisplayPanelController implements NavigablePanelController
   private Item _item;
   // GUI
   private JPanel _panel;
+  // Controllers
+  private ItemReferencesDisplayController _references;
 
   // Controllers
   //private NavigatorWindowController _parent;
@@ -42,6 +47,8 @@ public class ItemDisplayPanelController implements NavigablePanelController
   {
     //_parent=parent;
     _item=item;
+    _references=new ItemReferencesDisplayController(parent);
+    _references.setItem(item.getIdentifier());
   }
 
   @Override
@@ -64,14 +71,17 @@ public class ItemDisplayPanelController implements NavigablePanelController
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
 
-    GridBagConstraints c=new GridBagConstraints(0,0,2,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
-
     // Top panel
     JPanel topPanel=buildTopPanel();
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(topPanel,c);
-
-    _panel=panel;
-    return _panel;
+    // References panel
+    JEditorPane references=_references.getComponent();
+    JScrollPane referencesPane=GuiFactory.buildScrollPane(references);
+    referencesPane.setBorder(GuiFactory.buildTitledBorder("References"));
+    c=new GridBagConstraints(0,1,1,1,1.0,1.0,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
+    panel.add(referencesPane,c);
+    return panel;
   }
 
   private JPanel buildTopPanel()
@@ -148,6 +158,12 @@ public class ItemDisplayPanelController implements NavigablePanelController
       panelLine.add(attributesLabel);
     }
 
+    // Padding to push everything on left
+    JPanel paddingPanel=GuiFactory.buildPanel(new BorderLayout());
+    c.fill=GridBagConstraints.HORIZONTAL;
+    c.weightx=1.0;
+    panel.add(paddingPanel,c);
+
     return panel;
   }
 
@@ -196,6 +212,11 @@ public class ItemDisplayPanelController implements NavigablePanelController
     // Data
     _item=null;
     // Controllers
+    if (_references!=null)
+    {
+      _references.dispose();
+      _references=null;
+    }
     //_parent=null;
     // UI
     if (_panel!=null)
