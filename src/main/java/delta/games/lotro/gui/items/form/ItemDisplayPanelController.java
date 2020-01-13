@@ -35,9 +35,6 @@ public class ItemDisplayPanelController implements NavigablePanelController
   // Controllers
   private ItemReferencesDisplayController _references;
 
-  // Controllers
-  //private NavigatorWindowController _parent;
-
   /**
    * Constructor.
    * @param parent Parent window.

@@ -39,14 +39,14 @@ public class RecipePanelsFactory implements NavigablePanelControllerFactory
     return ret;
   }
 
-  private RecipeDisplayPanelController buildRecipePanel(int itemId)
+  private RecipeDisplayPanelController buildRecipePanel(int recipeId)
   {
     RecipesManager recipesMgr=RecipesManager.getInstance();
-    Recipe recipe=recipesMgr.getRecipeById(itemId);
+    Recipe recipe=recipesMgr.getRecipeById(recipeId);
     if (recipe!=null)
     {
-      RecipeDisplayPanelController itemPanel=new RecipeDisplayPanelController(_parent,recipe);
-      return itemPanel;
+      RecipeDisplayPanelController panel=new RecipeDisplayPanelController(_parent,recipe);
+      return panel;
     }
     return null;
   }

@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.navigator.NavigablePanelController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.gui.common.requirements.RequirementsUtils;
@@ -25,7 +26,7 @@ import delta.games.lotro.lore.trade.barter.BarterProfile;
  * Controller for a barterer display panel.
  * @author DAM
  */
-public class BarterDisplayPanelController
+public class BarterDisplayPanelController implements NavigablePanelController
 {
   // Data
   private BarterNpc _barterer;
@@ -47,6 +48,12 @@ public class BarterDisplayPanelController
   {
     _parent=parent;
     _barterer=barterer;
+  }
+
+  @Override
+  public String getTitle()
+  {
+    return "Barterer: "+_barterer.getNpc().getName();
   }
 
   /**

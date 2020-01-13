@@ -28,6 +28,10 @@ public class ReferenceConstants
    * Recipe page identifier.
    */
   public static final String RECIPE_PAGE="recipe";
+  /**
+   * Barterer page identifier.
+   */
+  public static final String BARTERER_PAGE="barterer";
 
   /**
    * Get a page identifier for the given achievable proxy.
@@ -81,5 +85,15 @@ public class ReferenceConstants
   public static final PageIdentifier getRecipeReference(int recipeId)
   {
     return new PageIdentifier(RECIPE_PAGE,recipeId);
+  }
+
+  /**
+   * Get a page identifier for the given barterer.
+   * @param bartererId Identifier of the barterer to use.
+   * @return A page identifier.
+   */
+  public static final PageIdentifier getBartererReference(int bartererId)
+  {
+    return new PageIdentifier(BARTERER_PAGE,bartererId);
   }
 }

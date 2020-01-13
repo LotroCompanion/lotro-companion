@@ -15,6 +15,7 @@ import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.lore.crafting.recipes.Recipe;
 import delta.games.lotro.lore.quests.Achievable;
 import delta.games.lotro.lore.quests.QuestDescription;
+import delta.games.lotro.lore.trade.barter.BarterNpc;
 import delta.games.lotro.lore.xrefs.items.ItemReference;
 import delta.games.lotro.lore.xrefs.items.ItemReferencesBuilder;
 import delta.games.lotro.lore.xrefs.items.ItemRole;
@@ -92,6 +93,7 @@ public class ItemReferencesDisplayController
     sb.append("<html><body>");
     buildHtmlForCrafting(sb,references);
     buildHtmlForQuestsAndDeeds(sb,references);
+    buildHtmlForBarterers(sb,references);
     sb.append("</body></html>");
     return sb.toString();
   }
@@ -186,6 +188,28 @@ public class ItemReferencesDisplayController
     sb.append("<b>");
     PageIdentifier to=ReferenceConstants.getAchievableReference(achievable);
     HtmlUtils.printLink(sb,to.getFullAddress(),achievable.getName());
+    sb.append("</b></p>");
+  }
+
+  private void buildHtmlForBarterers(StringBuilder sb, List<ItemReference<?>> references)
+  {
+    List<ItemReference<BarterNpc>> bartererReferences=getReferences(references,BarterNpc.class);
+    if (bartererReferences.size()>0)
+    {
+      sb.append("<h1>Barterers</h1>");
+      for(ItemReference<BarterNpc> bartererReference : bartererReferences)
+      {
+        buildHtmlForBartererReference(sb,bartererReference.getSource());
+      }
+    }
+  }
+
+  private void buildHtmlForBartererReference(StringBuilder sb, BarterNpc barterer)
+  {
+    sb.append("<p>Bartered by ");
+    sb.append("<b>");
+    PageIdentifier to=ReferenceConstants.getBartererReference(barterer.getIdentifier());
+    HtmlUtils.printLink(sb,to.getFullAddress(),barterer.getNpc().getName());
     sb.append("</b></p>");
   }
 

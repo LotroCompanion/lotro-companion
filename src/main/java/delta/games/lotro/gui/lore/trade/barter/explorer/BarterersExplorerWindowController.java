@@ -12,16 +12,19 @@ import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.navigator.NavigatorWindowController;
+import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.windows.DefaultWindowController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.ui.swing.windows.WindowsManager;
 import delta.common.utils.misc.TypedProperties;
+import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.gui.lore.trade.barter.BartererFilter;
 import delta.games.lotro.gui.lore.trade.barter.BartererFilterController;
 import delta.games.lotro.gui.lore.trade.barter.BarterersTableController;
-import delta.games.lotro.gui.lore.trade.barter.form.BarterDisplayWindowController;
 import delta.games.lotro.gui.main.GlobalPreferences;
+import delta.games.lotro.gui.navigation.NavigatorFactory;
 import delta.games.lotro.lore.trade.barter.BarterNpc;
 
 /**
@@ -119,14 +122,12 @@ public class BarterersExplorerWindowController extends DefaultWindowController
 
   private void showBarterer(BarterNpc barterer)
   {
-    String id=BarterDisplayWindowController.getId(barterer);
-    WindowController window=_formWindows.getWindow(id);
-    if (window==null)
-    {
-      window=new BarterDisplayWindowController(this,barterer);
-      _formWindows.registerWindow(window);
-    }
-    window.show();
+    int id=_formWindows.getAll().size();
+    NavigatorWindowController window=NavigatorFactory.buildNavigator(BarterersExplorerWindowController.this,id);
+    PageIdentifier ref=ReferenceConstants.getBartererReference(barterer.getIdentifier());
+    window.navigateTo(ref);
+    window.show(false);
+    _formWindows.registerWindow(window);
   }
 
   /**
