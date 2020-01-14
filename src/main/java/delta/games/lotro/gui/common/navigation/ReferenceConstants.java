@@ -32,6 +32,10 @@ public class ReferenceConstants
    * Barterer page identifier.
    */
   public static final String BARTERER_PAGE="barterer";
+  /**
+   * Vendor page identifier.
+   */
+  public static final String VENDOR_PAGE="vendor";
 
   /**
    * Get a page identifier for the given achievable proxy.
@@ -95,5 +99,15 @@ public class ReferenceConstants
   public static final PageIdentifier getBartererReference(int bartererId)
   {
     return new PageIdentifier(BARTERER_PAGE,bartererId);
+  }
+
+  /**
+   * Get a page identifier for the given vendor.
+   * @param vendorId Identifier of the vendor to use.
+   * @return A page identifier.
+   */
+  public static final PageIdentifier getVendorReference(int vendorId)
+  {
+    return new PageIdentifier(VENDOR_PAGE,vendorId);
   }
 }

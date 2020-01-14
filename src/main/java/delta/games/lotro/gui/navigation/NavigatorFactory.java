@@ -6,6 +6,7 @@ import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.gui.deed.DeedPanelsFactory;
 import delta.games.lotro.gui.items.ItemPanelsFactory;
 import delta.games.lotro.gui.lore.trade.barter.BartererPanelsFactory;
+import delta.games.lotro.gui.lore.trade.vendor.VendorPanelsFactory;
 import delta.games.lotro.gui.quests.QuestPanelsFactory;
 import delta.games.lotro.gui.recipes.RecipePanelsFactory;
 
@@ -30,6 +31,7 @@ public class NavigatorFactory
     resolver.addFactory(new ItemPanelsFactory(window));
     resolver.addFactory(new RecipePanelsFactory(window));
     resolver.addFactory(new BartererPanelsFactory(window));
+    resolver.addFactory(new VendorPanelsFactory(window));
     window.setContentsResolver(resolver);
     return window;
   }

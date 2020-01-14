@@ -16,6 +16,7 @@ import delta.games.lotro.lore.crafting.recipes.Recipe;
 import delta.games.lotro.lore.quests.Achievable;
 import delta.games.lotro.lore.quests.QuestDescription;
 import delta.games.lotro.lore.trade.barter.BarterNpc;
+import delta.games.lotro.lore.trade.vendor.VendorNpc;
 import delta.games.lotro.lore.xrefs.items.ItemReference;
 import delta.games.lotro.lore.xrefs.items.ItemReferencesBuilder;
 import delta.games.lotro.lore.xrefs.items.ItemRole;
@@ -94,6 +95,7 @@ public class ItemReferencesDisplayController
     buildHtmlForCrafting(sb,references);
     buildHtmlForQuestsAndDeeds(sb,references);
     buildHtmlForBarterers(sb,references);
+    buildHtmlForVendors(sb,references);
     sb.append("</body></html>");
     return sb.toString();
   }
@@ -210,6 +212,28 @@ public class ItemReferencesDisplayController
     sb.append("<b>");
     PageIdentifier to=ReferenceConstants.getBartererReference(barterer.getIdentifier());
     HtmlUtils.printLink(sb,to.getFullAddress(),barterer.getNpc().getName());
+    sb.append("</b></p>");
+  }
+
+  private void buildHtmlForVendors(StringBuilder sb, List<ItemReference<?>> references)
+  {
+    List<ItemReference<VendorNpc>> vendorReferences=getReferences(references,VendorNpc.class);
+    if (vendorReferences.size()>0)
+    {
+      sb.append("<h1>Vendors</h1>");
+      for(ItemReference<VendorNpc> vendorReference : vendorReferences)
+      {
+        buildHtmlForVendorReference(sb,vendorReference.getSource());
+      }
+    }
+  }
+
+  private void buildHtmlForVendorReference(StringBuilder sb, VendorNpc vendor)
+  {
+    sb.append("<p>Sold by ");
+    sb.append("<b>");
+    PageIdentifier to=ReferenceConstants.getVendorReference(vendor.getIdentifier());
+    HtmlUtils.printLink(sb,to.getFullAddress(),vendor.getNpc().getName());
     sb.append("</b></p>");
   }
 

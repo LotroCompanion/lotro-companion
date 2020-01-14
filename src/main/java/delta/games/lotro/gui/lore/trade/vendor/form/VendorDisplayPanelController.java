@@ -18,6 +18,7 @@ import javax.swing.JScrollPane;
 import org.apache.log4j.Logger;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.navigator.NavigablePanelController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.common.money.Money;
@@ -36,7 +37,7 @@ import delta.games.lotro.utils.comparators.DelegatingComparator;
  * Controller for a vendor display panel.
  * @author DAM
  */
-public class VendorDisplayPanelController
+public class VendorDisplayPanelController implements NavigablePanelController
 {
   private static final Logger LOGGER=Logger.getLogger(VendorDisplayPanelController.class);
 
@@ -61,6 +62,12 @@ public class VendorDisplayPanelController
   {
     _parent=parent;
     _vendor=vendor;
+  }
+
+  @Override
+  public String getTitle()
+  {
+    return "Vendor: "+_vendor.getNpc().getName();
   }
 
   /**

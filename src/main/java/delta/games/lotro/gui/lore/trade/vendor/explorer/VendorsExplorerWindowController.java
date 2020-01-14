@@ -12,16 +12,20 @@ import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.navigator.NavigatorWindowController;
+import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.windows.DefaultWindowController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.ui.swing.windows.WindowsManager;
 import delta.common.utils.misc.TypedProperties;
+import delta.games.lotro.gui.common.navigation.ReferenceConstants;
+import delta.games.lotro.gui.lore.trade.barter.explorer.BarterersExplorerWindowController;
 import delta.games.lotro.gui.lore.trade.vendor.VendorFilter;
 import delta.games.lotro.gui.lore.trade.vendor.VendorFilterController;
 import delta.games.lotro.gui.lore.trade.vendor.VendorsTableController;
-import delta.games.lotro.gui.lore.trade.vendor.form.VendorDisplayWindowController;
 import delta.games.lotro.gui.main.GlobalPreferences;
+import delta.games.lotro.gui.navigation.NavigatorFactory;
 import delta.games.lotro.lore.trade.vendor.VendorNpc;
 
 /**
@@ -119,14 +123,11 @@ public class VendorsExplorerWindowController extends DefaultWindowController
 
   private void showVendor(VendorNpc vendor)
   {
-    String id=VendorDisplayWindowController.getId(vendor);
-    WindowController window=_formWindows.getWindow(id);
-    if (window==null)
-    {
-      window=new VendorDisplayWindowController(this,vendor);
-      _formWindows.registerWindow(window);
-    }
-    window.show();
+    int id=_formWindows.getAll().size();
+    NavigatorWindowController window=NavigatorFactory.buildNavigator(VendorsExplorerWindowController.this,id);
+    PageIdentifier ref=ReferenceConstants.getVendorReference(vendor.getIdentifier());
+    window.navigateTo(ref);
+    window.show(false);
   }
 
   /**
