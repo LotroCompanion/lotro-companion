@@ -10,6 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.labels.HyperLinkController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.gui.utils.ItemIconController;
 import delta.games.lotro.lore.items.Item;
@@ -27,7 +28,7 @@ public class ItemIdentificationPanelController
   private JPanel _panel;
   // - Item identification (icon+name)
   private ItemIconController _itemIcon;
-  private JLabel _name;
+  private HyperLinkController _itemLink;
 
   /**
    * Constructor.
@@ -63,9 +64,10 @@ public class ItemIdentificationPanelController
     panelLine.add(_itemIcon.getIcon());
     // Name
     String name=item.getName();
-    _name=GuiFactory.buildLabel(name);
-    _name.setFont(_name.getFont().deriveFont(16f).deriveFont(Font.BOLD));
-    panelLine.add(_name);
+    _itemLink=ItemUiTools.buildItemLink(parent,item);
+    JLabel itemLinkLabel=_itemLink.getLabel();
+    itemLinkLabel.setFont(itemLinkLabel.getFont().deriveFont(16f).deriveFont(Font.BOLD));
+    panelLine.add(itemLinkLabel);
     return panel;
   }
 
@@ -82,12 +84,16 @@ public class ItemIdentificationPanelController
       _panel.removeAll();
       _panel=null;
     }
-    _name=null;
     // Controllers
     if (_itemIcon!=null)
     {
       _itemIcon.dispose();
       _itemIcon=null;
+    }
+    if (_itemLink!=null)
+    {
+      _itemLink.dispose();
+      _itemLink=null;
     }
   }
 }

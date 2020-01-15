@@ -1,6 +1,8 @@
 package delta.games.lotro.gui.items;
 
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 
 import javax.swing.Icon;
@@ -9,6 +11,8 @@ import javax.swing.ImageIcon;
 import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.common.ui.swing.icons.IconWithText;
 import delta.common.ui.swing.icons.IconWithText.Position;
+import delta.common.ui.swing.labels.HyperLinkController;
+import delta.common.ui.swing.labels.LocalHyperlinkAction;
 import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.common.ui.swing.windows.WindowController;
@@ -73,6 +77,28 @@ public class ItemUiTools
       ret=iconWithText;
     }
     return ret;
+  }
+
+  /**
+   * Build an item link controller.
+   * @param parent Parent window.
+   * @param item Item to use.
+   * @return a new controller.
+   */
+  public static HyperLinkController buildItemLink(final WindowController parent, final Item item)
+  {
+    ActionListener al=new ActionListener()
+    {
+      @Override
+      public void actionPerformed(ActionEvent e)
+      {
+        showItemForm(parent,item);
+      }
+    };
+    String text=item.getName();
+    LocalHyperlinkAction action=new LocalHyperlinkAction(text,al);
+    HyperLinkController controller=new HyperLinkController(action);
+    return controller;
   }
 
   /**
