@@ -2,6 +2,10 @@ package delta.games.lotro.gui.lore.trade.barter.form;
 
 import java.util.List;
 
+import delta.common.ui.swing.navigator.NavigatorWindowController;
+import delta.common.ui.swing.navigator.PageIdentifier;
+import delta.games.lotro.gui.common.navigation.ReferenceConstants;
+import delta.games.lotro.gui.navigation.NavigatorFactory;
 import delta.games.lotro.lore.trade.barter.BarterEntry;
 import delta.games.lotro.lore.trade.barter.BarterNpc;
 import delta.games.lotro.lore.trade.barter.BarterProfile;
@@ -67,8 +71,10 @@ public class MainTestBartererFormWindow
 
   private void showBartererWindow(BarterNpc barterer)
   {
-    BarterDisplayWindowController window=new BarterDisplayWindowController(null,barterer);
-    window.show();
+    NavigatorWindowController window=NavigatorFactory.buildNavigator(null,1);
+    PageIdentifier ref=ReferenceConstants.getBartererReference(barterer.getIdentifier());
+    window.navigateTo(ref);
+    window.show(false);
   }
 
   /**

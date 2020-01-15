@@ -2,6 +2,10 @@ package delta.games.lotro.gui.lore.trade.vendor.form;
 
 import java.util.List;
 
+import delta.common.ui.swing.navigator.NavigatorWindowController;
+import delta.common.ui.swing.navigator.PageIdentifier;
+import delta.games.lotro.gui.common.navigation.ReferenceConstants;
+import delta.games.lotro.gui.navigation.NavigatorFactory;
 import delta.games.lotro.lore.trade.vendor.VendorNpc;
 import delta.games.lotro.lore.trade.vendor.VendorsManager;
 
@@ -28,8 +32,10 @@ public class MainTestVendorFormWindow
 
   private void showVendorWindow(VendorNpc vendor)
   {
-    VendorDisplayWindowController window=new VendorDisplayWindowController(null,vendor);
-    window.show();
+    NavigatorWindowController window=NavigatorFactory.buildNavigator(null,1);
+    PageIdentifier ref=ReferenceConstants.getVendorReference(vendor.getIdentifier());
+    window.navigateTo(ref);
+    window.show(false);
   }
 
   /**
