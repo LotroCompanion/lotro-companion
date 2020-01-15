@@ -20,7 +20,6 @@ import delta.common.ui.swing.windows.WindowController;
 import delta.common.ui.swing.windows.WindowsManager;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
-import delta.games.lotro.gui.lore.trade.barter.explorer.BarterersExplorerWindowController;
 import delta.games.lotro.gui.lore.trade.vendor.VendorFilter;
 import delta.games.lotro.gui.lore.trade.vendor.VendorFilterController;
 import delta.games.lotro.gui.lore.trade.vendor.VendorsTableController;

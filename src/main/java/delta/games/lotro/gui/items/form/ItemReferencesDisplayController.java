@@ -13,6 +13,7 @@ import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.games.lotro.common.Identifiable;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.lore.crafting.recipes.Recipe;
+import delta.games.lotro.lore.npc.NpcDescription;
 import delta.games.lotro.lore.quests.Achievable;
 import delta.games.lotro.lore.quests.QuestDescription;
 import delta.games.lotro.lore.trade.barter.BarterNpc;
@@ -201,18 +202,30 @@ public class ItemReferencesDisplayController
       sb.append("<h1>Barterers</h1>");
       for(ItemReference<BarterNpc> bartererReference : bartererReferences)
       {
-        buildHtmlForBartererReference(sb,bartererReference.getSource());
+        buildHtmlForBartererReference(sb,bartererReference);
       }
     }
   }
 
-  private void buildHtmlForBartererReference(StringBuilder sb, BarterNpc barterer)
+  private void buildHtmlForBartererReference(StringBuilder sb, ItemReference<BarterNpc> bartererReference)
   {
-    sb.append("<p>Bartered by ");
-    sb.append("<b>");
-    PageIdentifier to=ReferenceConstants.getBartererReference(barterer.getIdentifier());
-    HtmlUtils.printLink(sb,to.getFullAddress(),barterer.getNpc().getName());
-    sb.append("</b></p>");
+    List<ItemRole> roles=bartererReference.getRoles();
+    for(ItemRole role : roles)
+    {
+      if (role==ItemRole.BARTERER_GIVEN)
+      {
+        sb.append("<p>Received from barterer ");
+      }
+      else if (role==ItemRole.BARTERER_RECEIVED)
+      {
+        sb.append("<p>Accepted by barterer ");
+      }
+      sb.append("<b>");
+      BarterNpc barterer=bartererReference.getSource();
+      PageIdentifier to=ReferenceConstants.getBartererReference(barterer.getIdentifier());
+      HtmlUtils.printLink(sb,to.getFullAddress(),getNpcLabel(barterer.getNpc()));
+      sb.append("</b></p>");
+    }
   }
 
   private void buildHtmlForVendors(StringBuilder sb, List<ItemReference<?>> references)
@@ -233,8 +246,20 @@ public class ItemReferencesDisplayController
     sb.append("<p>Sold by ");
     sb.append("<b>");
     PageIdentifier to=ReferenceConstants.getVendorReference(vendor.getIdentifier());
-    HtmlUtils.printLink(sb,to.getFullAddress(),vendor.getNpc().getName());
+    HtmlUtils.printLink(sb,to.getFullAddress(),getNpcLabel(vendor.getNpc()));
     sb.append("</b></p>");
+  }
+
+  private String getNpcLabel(NpcDescription npc)
+  {
+    String name=npc.getName();
+    String label=name;
+    String title=npc.getTitle();
+    if (title.length()>0)
+    {
+      label=label+" ("+title+")";
+    }
+    return label;
   }
 
   /**
