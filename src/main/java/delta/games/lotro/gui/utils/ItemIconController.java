@@ -14,6 +14,7 @@ import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.gui.items.ItemUiTools;
+import delta.games.lotro.gui.navigation.NavigatorFactory;
 import delta.games.lotro.lore.items.Item;
 
 /**
@@ -79,12 +80,19 @@ public class ItemIconController
     if (_item!=null)
     {
       LOGGER.info("Display form for item: "+_item);
+      NavigatorWindowController navigator=null;
       if (_parent instanceof NavigatorWindowController)
       {
-        NavigatorWindowController navigator=(NavigatorWindowController)_parent;
-        PageIdentifier ref=ReferenceConstants.getItemReference(_item.getIdentifier());
-        navigator.navigateTo(ref);
+        navigator=(NavigatorWindowController)_parent;
       }
+      else
+      {
+        int id=_parent.getWindowsManager().getAll().size();
+        navigator=NavigatorFactory.buildNavigator(_parent,id);
+      }
+      PageIdentifier ref=ReferenceConstants.getItemReference(_item.getIdentifier());
+      navigator.navigateTo(ref);
+      navigator.bringToFront();
     }
   }
 

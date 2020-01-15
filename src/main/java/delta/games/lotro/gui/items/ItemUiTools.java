@@ -9,10 +9,16 @@ import javax.swing.ImageIcon;
 import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.common.ui.swing.icons.IconWithText;
 import delta.common.ui.swing.icons.IconWithText.Position;
+import delta.common.ui.swing.navigator.NavigatorWindowController;
+import delta.common.ui.swing.navigator.PageIdentifier;
+import delta.common.ui.swing.windows.WindowController;
+import delta.common.ui.swing.windows.WindowsManager;
 import delta.common.utils.NumericTools;
 import delta.games.lotro.common.stats.StatDescription;
 import delta.games.lotro.common.stats.StatsRegistry;
 import delta.games.lotro.gui.LotroIconsManager;
+import delta.games.lotro.gui.common.navigation.ReferenceConstants;
+import delta.games.lotro.gui.navigation.NavigatorFactory;
 import delta.games.lotro.lore.items.ArmourType;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemQuality;
@@ -67,6 +73,21 @@ public class ItemUiTools
       ret=iconWithText;
     }
     return ret;
+  }
+
+  /**
+   * Show the form window for an item.
+   * @param parent Parent window.
+   * @param item Item to show.
+   */
+  public static void showItemForm(WindowController parent, Item item)
+  {
+    WindowsManager windows=parent.getWindowsManager();
+    int id=windows.getAll().size();
+    NavigatorWindowController window=NavigatorFactory.buildNavigator(parent,id);
+    PageIdentifier ref=ReferenceConstants.getItemReference(item.getIdentifier());
+    window.navigateTo(ref);
+    window.show(false);
   }
 
   /**

@@ -16,7 +16,7 @@ import delta.games.lotro.lore.items.ItemInstance;
 import delta.games.lotro.lore.items.legendary.LegendaryInstance;
 
 /**
- * Controller for an item instance edition panel.
+ * Controller for an item instance display panel.
  * @author DAM
  */
 public class ItemInstanceDisplayPanelController
@@ -64,7 +64,7 @@ public class ItemInstanceDisplayPanelController
   private JPanel build()
   {
     // ID
-    _id=new ItemIdentificationPanelController(_itemInstance);
+    _id=new ItemIdentificationPanelController(_parent,_itemInstance);
     // Stats
     _stats=GuiFactory.buildPanel(new GridBagLayout());
     _stats.setBorder(GuiFactory.buildTitledBorder("Stats"));

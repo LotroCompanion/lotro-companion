@@ -72,7 +72,7 @@ public class ItemInstanceEditionPanelController
   private void initGadgets()
   {
     // ID
-    _id=new ItemIdentificationPanelController(_itemInstance);
+    _id=new ItemIdentificationPanelController(_parent,_itemInstance);
     // Main attributes
     _mainAttrs=new ItemInstanceMainAttrsDisplayPanelController(_itemInstance);
     // Stats

@@ -7,17 +7,13 @@ import java.util.List;
 
 import javax.swing.JDialog;
 
-import delta.common.ui.swing.navigator.NavigatorWindowController;
-import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.windows.WindowController;
-import delta.common.ui.swing.windows.WindowsManager;
 import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.misc.TypedProperties;
-import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.gui.items.ItemColumnIds;
-import delta.games.lotro.gui.navigation.NavigatorFactory;
+import delta.games.lotro.gui.items.ItemUiTools;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.utils.gui.chooser.ObjectChoiceWindowController;
 
@@ -72,20 +68,10 @@ public class ItemChooser
       public void actionPerformed(ActionEvent e)
       {
         Item item=(Item)e.getSource();
-        showItemForm(chooser,item);
+        ItemUiTools.showItemForm(chooser,item);
       }
     };
     nameColumn.setActionListener(al);
     return chooser;
-  }
-
-  private static void showItemForm(WindowController parent, Item item)
-  {
-    WindowsManager windows=parent.getWindowsManager();
-    int id=windows.getAll().size();
-    NavigatorWindowController window=NavigatorFactory.buildNavigator(parent,id);
-    PageIdentifier ref=ReferenceConstants.getItemReference(item.getIdentifier());
-    window.navigateTo(ref);
-    window.show(false);
   }
 }

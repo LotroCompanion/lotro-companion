@@ -6,12 +6,12 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
-import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
-import delta.games.lotro.gui.LotroIconsManager;
+import delta.common.ui.swing.windows.WindowController;
+import delta.games.lotro.gui.utils.ItemIconController;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemInstance;
 
@@ -26,18 +26,18 @@ public class ItemIdentificationPanelController
   // GUI
   private JPanel _panel;
   // - Item identification (icon+name)
-  private JLabel _icon;
+  private ItemIconController _itemIcon;
   private JLabel _name;
 
   /**
    * Constructor.
+   * @param parent Parent window.
    * @param itemInstance Item instance.
    */
-  public ItemIdentificationPanelController(ItemInstance<? extends Item> itemInstance)
+  public ItemIdentificationPanelController(WindowController parent, ItemInstance<? extends Item> itemInstance)
   {
     _itemInstance=itemInstance;
-    _panel=buildIdentificationPanel();
-    update();
+    _panel=buildIdentificationPanel(parent);
   }
 
   /**
@@ -49,7 +49,7 @@ public class ItemIdentificationPanelController
     return _panel;
   }
 
-  private JPanel buildIdentificationPanel()
+  private JPanel buildIdentificationPanel(WindowController parent)
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
@@ -57,28 +57,16 @@ public class ItemIdentificationPanelController
     panel.add(panelLine,c);
     c.gridy++;
     // Icon
-    _icon=GuiFactory.buildIconLabel(null);
-    panelLine.add(_icon);
+    Item item=_itemInstance.getReference();
+    _itemIcon=new ItemIconController(parent);
+    _itemIcon.setItem(item,1);
+    panelLine.add(_itemIcon.getIcon());
     // Name
-    _name=GuiFactory.buildLabel("");
+    String name=item.getName();
+    _name=GuiFactory.buildLabel(name);
     _name.setFont(_name.getFont().deriveFont(16f).deriveFont(Font.BOLD));
     panelLine.add(_name);
     return panel;
-  }
-
-  /**
-   * Update display.
-   */
-  private void update()
-  {
-    Item item=_itemInstance.getReference();
-    // - icon
-    String iconPath=item.getIcon();
-    ImageIcon icon=LotroIconsManager.getItemIcon(iconPath);
-    _icon.setIcon(icon);
-    // - name
-    String name=item.getName();
-    _name.setText(name);
   }
 
   /**
@@ -94,7 +82,12 @@ public class ItemIdentificationPanelController
       _panel.removeAll();
       _panel=null;
     }
-    _icon=null;
     _name=null;
+    // Controllers
+    if (_itemIcon!=null)
+    {
+      _itemIcon.dispose();
+      _itemIcon=null;
+    }
   }
 }
