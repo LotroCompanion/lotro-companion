@@ -1,14 +1,23 @@
 package delta.games.lotro.gui.items.chooser;
 
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 
 import javax.swing.JDialog;
 
+import delta.common.ui.swing.navigator.NavigatorWindowController;
+import delta.common.ui.swing.navigator.PageIdentifier;
+import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.windows.WindowController;
+import delta.common.ui.swing.windows.WindowsManager;
 import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.misc.TypedProperties;
+import delta.games.lotro.gui.common.navigation.ReferenceConstants;
+import delta.games.lotro.gui.items.ItemColumnIds;
+import delta.games.lotro.gui.navigation.NavigatorFactory;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.utils.gui.chooser.ObjectChoiceWindowController;
 
@@ -46,15 +55,37 @@ public class ItemChooser
     GenericTableController<Item> itemsTable=ItemsTableBuilder.buildTable(items);
 
     // Build and configure chooser
-    ObjectChoiceWindowController<Item> chooser=new ObjectChoiceWindowController<Item>(parent,prefs,itemsTable);
+    final ObjectChoiceWindowController<Item> chooser=new ObjectChoiceWindowController<Item>(parent,prefs,itemsTable);
     // Filter
     chooser.setFilter(filter,filterController);
     JDialog dialog=chooser.getDialog();
-    // - title
+    // Title
     dialog.setTitle("Choose item:");
-    // - dimension
+    // Dimension
     dialog.setMinimumSize(new Dimension(400,300));
     dialog.setSize(1000,dialog.getHeight());
+    // Callbacks
+    DefaultTableColumnController<Item,?> nameColumn=(DefaultTableColumnController<Item,?>)itemsTable.getColumnsManager().getById(ItemColumnIds.NAME.name());
+    ActionListener al=new ActionListener()
+    {
+      @Override
+      public void actionPerformed(ActionEvent e)
+      {
+        Item item=(Item)e.getSource();
+        showItemForm(chooser,item);
+      }
+    };
+    nameColumn.setActionListener(al);
     return chooser;
+  }
+
+  private static void showItemForm(WindowController parent, Item item)
+  {
+    WindowsManager windows=parent.getWindowsManager();
+    int id=windows.getAll().size();
+    NavigatorWindowController window=NavigatorFactory.buildNavigator(parent,id);
+    PageIdentifier ref=ReferenceConstants.getItemReference(item.getIdentifier());
+    window.navigateTo(ref);
+    window.show(false);
   }
 }
