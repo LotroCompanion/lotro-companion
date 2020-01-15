@@ -18,6 +18,7 @@ import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.games.lotro.common.Duration;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.recipes.RecipeIcons;
+import delta.games.lotro.gui.utils.ItemDisplayGadgets;
 import delta.games.lotro.gui.utils.ItemIconController;
 import delta.games.lotro.lore.crafting.CraftingData;
 import delta.games.lotro.lore.crafting.CraftingLevel;

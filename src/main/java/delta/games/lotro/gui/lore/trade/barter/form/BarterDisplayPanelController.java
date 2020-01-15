@@ -5,7 +5,8 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.util.ArrayList;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 
 import javax.swing.JLabel;
@@ -14,13 +15,15 @@ import javax.swing.JScrollPane;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.navigator.NavigablePanelController;
-import delta.common.ui.swing.windows.WindowController;
+import delta.common.ui.swing.navigator.NavigatorWindowController;
+import delta.common.ui.swing.navigator.PageIdentifier;
+import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.utils.misc.TypedProperties;
+import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.gui.common.requirements.RequirementsUtils;
 import delta.games.lotro.lore.npc.NpcDescription;
 import delta.games.lotro.lore.trade.barter.BarterEntry;
 import delta.games.lotro.lore.trade.barter.BarterNpc;
-import delta.games.lotro.lore.trade.barter.BarterProfile;
 
 /**
  * Controller for a barterer display panel.
@@ -31,7 +34,7 @@ public class BarterDisplayPanelController implements NavigablePanelController
   // Data
   private BarterNpc _barterer;
   // Controllers
-  private WindowController _parent;
+  private NavigatorWindowController _parent;
   // GUI
   private JPanel _panel;
 
@@ -44,7 +47,7 @@ public class BarterDisplayPanelController implements NavigablePanelController
    * @param parent Parent window.
    * @param barterer Barterer to show.
    */
-  public BarterDisplayPanelController(WindowController parent, BarterNpc barterer)
+  public BarterDisplayPanelController(NavigatorWindowController parent, BarterNpc barterer)
   {
     _parent=parent;
     _barterer=barterer;
@@ -87,14 +90,9 @@ public class BarterDisplayPanelController implements NavigablePanelController
     // Buys
     _requirements=buildLabelLine(panel,c,"Requirements: ");
 
-    // Barter entries
-    TypedProperties prefs=null;
-    if (_parent!=null)
-    {
-      prefs=_parent.getUserProperties("BartererDisplay");
-    }
-    List<BarterEntry> items=buildItemsList();
-    _entries=new BarterEntriesTableController(prefs,null,items);
+    // Barter entries table
+    initBarterEntriesTable();
+    // Scroll
     JScrollPane itemsPane=GuiFactory.buildScrollPane(_entries.getTable());
     itemsPane.setBorder(GuiFactory.buildTitledBorder("Barters"));
     c.fill=GridBagConstraints.BOTH;
@@ -106,6 +104,38 @@ public class BarterDisplayPanelController implements NavigablePanelController
     _panel=panel;
     setData();
     return _panel;
+  }
+
+  private void initBarterEntriesTable()
+  {
+    TypedProperties prefs=null;
+    if (_parent!=null)
+    {
+      prefs=_parent.getUserProperties("BartererDisplay");
+    }
+    final List<BarterEntry> items=_barterer.getEntries();
+    _entries=new BarterEntriesTableController(prefs,null,items);
+    ActionListener al=new ActionListener()
+    {
+      @Override
+      public void actionPerformed(ActionEvent event)
+      {
+        String action=event.getActionCommand();
+        if (GenericTableController.DOUBLE_CLICK.equals(action))
+        {
+          BarterEntry entry=(BarterEntry)event.getSource();
+          int index=items.indexOf(entry);
+          showBarterEntry(entry,index);
+        }
+      }
+    };
+    _entries.addActionListener(al);
+  }
+
+  private void showBarterEntry(BarterEntry barterEntry, int index)
+  {
+    PageIdentifier ref=ReferenceConstants.getBarterEntryReference(_barterer.getIdentifier(),index);
+    _parent.navigateTo(ref);
   }
 
   private JLabel buildLabelLine(JPanel parent, GridBagConstraints c, String fieldName)
@@ -141,17 +171,6 @@ public class BarterDisplayPanelController implements NavigablePanelController
     String requirements=RequirementsUtils.buildRequirementString(_barterer.getRequirements());
     if (requirements.length()==0) requirements="-";
     _requirements.setText(requirements);
-  }
-
-  private List<BarterEntry> buildItemsList()
-  {
-    List<BarterEntry> ret=new ArrayList<BarterEntry>();
-    List<BarterProfile> lists=_barterer.getBarterProfiles();
-    for(BarterProfile list : lists)
-    {
-      ret.addAll(list.getEntries());
-    }
-    return ret;
   }
 
   /**

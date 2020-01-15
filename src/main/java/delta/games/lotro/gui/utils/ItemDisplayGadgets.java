@@ -1,16 +1,15 @@
-package delta.games.lotro.gui.recipes.form;
+package delta.games.lotro.gui.utils;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.navigator.NavigatorWindowController;
-import delta.games.lotro.gui.utils.ItemIconController;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemsManager;
 
 /**
- * Controller for a recipe display panel.
+ * Controller for the gadgets to display an item.
  * @author DAM
  */
 public class ItemDisplayGadgets

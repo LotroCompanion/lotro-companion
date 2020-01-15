@@ -33,6 +33,10 @@ public class ReferenceConstants
    */
   public static final String BARTERER_PAGE="barterer";
   /**
+   * Barter entry page identifier.
+   */
+  public static final String BARTER_ENTRY_PAGE="barterEntry";
+  /**
    * Vendor page identifier.
    */
   public static final String VENDOR_PAGE="vendor";
@@ -99,6 +103,19 @@ public class ReferenceConstants
   public static final PageIdentifier getBartererReference(int bartererId)
   {
     return new PageIdentifier(BARTERER_PAGE,bartererId);
+  }
+
+  /**
+   * Get a page identifier for a barter entry.
+   * @param bartererId Identifier of the barterer to use.
+   * @param index Index of barter entry in this barterer.
+   * @return A page identifier.
+   */
+  public static final PageIdentifier getBarterEntryReference(int bartererId, int index)
+  {
+    PageIdentifier pageId=new PageIdentifier(BARTER_ENTRY_PAGE,bartererId);
+    pageId.setParameter("index",String.valueOf(index));
+    return pageId;
   }
 
   /**

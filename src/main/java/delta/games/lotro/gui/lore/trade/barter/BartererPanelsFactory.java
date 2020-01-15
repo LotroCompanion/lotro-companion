@@ -6,6 +6,8 @@ import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.gui.lore.trade.barter.form.BarterDisplayPanelController;
+import delta.games.lotro.gui.lore.trade.barter.form.entry.BarterEntryDisplayPanelController;
+import delta.games.lotro.lore.trade.barter.BarterEntry;
 import delta.games.lotro.lore.trade.barter.BarterNpc;
 import delta.games.lotro.lore.trade.barter.BarterersManager;
 
@@ -33,8 +35,14 @@ public class BartererPanelsFactory implements NavigablePanelControllerFactory
     String address=pageId.getBaseAddress();
     if (address.equals(ReferenceConstants.BARTERER_PAGE))
     {
-      int id=pageId.getIntParameter(PageIdentifier.ID_PARAMETER).intValue();
-      ret=buildBartererPanel(id);
+      int bartererId=pageId.getIntParameter(PageIdentifier.ID_PARAMETER).intValue();
+      ret=buildBartererPanel(bartererId);
+    }
+    if (address.equals(ReferenceConstants.BARTER_ENTRY_PAGE))
+    {
+      int bartererId=pageId.getIntParameter(PageIdentifier.ID_PARAMETER).intValue();
+      int index=pageId.getIntParameter("index").intValue();
+      ret=buildBarterEntryPanel(bartererId,index);
     }
     return ret;
   }
@@ -46,6 +54,19 @@ public class BartererPanelsFactory implements NavigablePanelControllerFactory
     if (barterer!=null)
     {
       BarterDisplayPanelController panel=new BarterDisplayPanelController(_parent,barterer);
+      return panel;
+    }
+    return null;
+  }
+
+  private BarterEntryDisplayPanelController buildBarterEntryPanel(int bartererId, int index)
+  {
+    BarterersManager barterersMgr=BarterersManager.getInstance();
+    BarterNpc barterer=barterersMgr.getBarterer(bartererId);
+    if (barterer!=null)
+    {
+      BarterEntry entry=barterer.getEntries().get(index);
+      BarterEntryDisplayPanelController panel=new BarterEntryDisplayPanelController(_parent,entry);
       return panel;
     }
     return null;
