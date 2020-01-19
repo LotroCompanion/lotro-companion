@@ -1,6 +1,8 @@
 package delta.games.lotro.gui.items.chooser;
 
 import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +17,7 @@ import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.ListDataProvider;
 import delta.common.ui.swing.tables.TableColumnsManager;
+import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.NumericTools;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.common.CharacterClass;
@@ -72,6 +75,30 @@ public class ItemsTableBuilder
     columnsIds.add(ItemColumnIds.ID.name());
     columnsIds.add(ItemColumnIds.NAME.name());
     return columnsIds;
+  }
+
+  /**
+   * Add a details column on the given table.
+   * @param parent Parent window.
+   * @param table Table to use.
+   * @return A column controller.
+   */
+  public static DefaultTableColumnController<Item,String> addDetailsColumn(final WindowController parent, GenericTableController<Item> table)
+  {
+    DefaultTableColumnController<Item,String> column=table.buildButtonColumn(ItemColumnIds.DETAILS.name(),"Details...",90);
+    ActionListener al=new ActionListener()
+    {
+      @Override
+      public void actionPerformed(ActionEvent e)
+      {
+        Item source=(Item)e.getSource();
+        ItemUiTools.showItemForm(parent,source);
+      }
+    };
+    column.setActionListener(al);
+    table.addColumnController(column);
+    table.updateColumns();
+    return column;
   }
 
   /**

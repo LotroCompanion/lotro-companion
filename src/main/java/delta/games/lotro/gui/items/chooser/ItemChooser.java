@@ -1,19 +1,14 @@
 package delta.games.lotro.gui.items.chooser;
 
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.List;
 
 import javax.swing.JDialog;
 
-import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.misc.TypedProperties;
-import delta.games.lotro.gui.items.ItemColumnIds;
-import delta.games.lotro.gui.items.ItemUiTools;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.utils.gui.chooser.ObjectChoiceWindowController;
 
@@ -60,18 +55,8 @@ public class ItemChooser
     // Dimension
     dialog.setMinimumSize(new Dimension(400,300));
     dialog.setSize(1000,dialog.getHeight());
-    // Callbacks
-    DefaultTableColumnController<Item,?> nameColumn=(DefaultTableColumnController<Item,?>)itemsTable.getColumnsManager().getById(ItemColumnIds.NAME.name());
-    ActionListener al=new ActionListener()
-    {
-      @Override
-      public void actionPerformed(ActionEvent e)
-      {
-        Item item=(Item)e.getSource();
-        ItemUiTools.showItemForm(chooser,item);
-      }
-    };
-    nameColumn.setActionListener(al);
+    // Add details column
+    ItemsTableBuilder.addDetailsColumn(chooser,itemsTable);
     return chooser;
   }
 }

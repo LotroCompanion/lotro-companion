@@ -65,5 +65,9 @@ public enum ItemColumnIds
   /**
    * Value.
    */
-  VALUE
+  VALUE,
+  /**
+   * Details.
+   */
+  DETAILS
 }

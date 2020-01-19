@@ -63,7 +63,6 @@ public class ItemIdentificationPanelController
     _itemIcon.setItem(item,1);
     panelLine.add(_itemIcon.getIcon());
     // Name
-    String name=item.getName();
     _itemLink=ItemUiTools.buildItemLink(parent,item);
     JLabel itemLinkLabel=_itemLink.getLabel();
     itemLinkLabel.setFont(itemLinkLabel.getFont().deriveFont(16f).deriveFont(Font.BOLD));
