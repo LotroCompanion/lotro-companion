@@ -32,7 +32,6 @@ import delta.games.lotro.lore.items.Armour;
 import delta.games.lotro.lore.items.ArmourType;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemBinding;
-import delta.games.lotro.lore.items.ItemPropertyNames;
 import delta.games.lotro.lore.items.ItemQuality;
 import delta.games.lotro.lore.items.Weapon;
 import delta.games.lotro.lore.items.WeaponType;
@@ -114,20 +113,7 @@ public class ItemsTableBuilder
     columns.add(buildIdColumn());
     // Name column
     columns.add(buildNameColumn());
-    // Factory comment column
-    {
-      CellDataProvider<Item,String> factoryCommentCell=new CellDataProvider<Item,String>()
-      {
-        @Override
-        public String getData(Item item)
-        {
-          return item.getProperty(ItemPropertyNames.FACTORY_COMMENT);
-        }
-      };
-      DefaultTableColumnController<Item,String> factoryCommentColumn=new DefaultTableColumnController<Item,String>(ItemColumnIds.FACTORY_COMMENTS.name(),"Comment",String.class,factoryCommentCell);
-      factoryCommentColumn.setWidthSpecs(150,-1,150);
-      columns.add(factoryCommentColumn);
-    }    // Item level column
+    // Item level column
     columns.add(buildItemLevelColumn());
     // Required level column
     {

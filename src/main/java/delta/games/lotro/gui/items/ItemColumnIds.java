@@ -15,10 +15,6 @@ public enum ItemColumnIds
    */
   NAME,
   /**
-   * Factory comments.
-   */
-  FACTORY_COMMENTS,
-  /**
    * Icon.
    */
   ICON,
