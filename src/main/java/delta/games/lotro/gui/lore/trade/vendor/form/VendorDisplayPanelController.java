@@ -1,5 +1,6 @@
 package delta.games.lotro.gui.lore.trade.vendor.form;
 
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -103,6 +104,8 @@ public class VendorDisplayPanelController implements NavigablePanelController
     panel.add(itemsPane,c);
     c.gridy++;
 
+    // Preferred size
+    panel.setPreferredSize(new Dimension(600,500));
     _panel=panel;
     setVendor();
     return _panel;
