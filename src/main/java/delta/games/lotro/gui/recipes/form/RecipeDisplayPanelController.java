@@ -13,10 +13,12 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.labels.HyperLinkController;
 import delta.common.ui.swing.navigator.NavigablePanelController;
 import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.games.lotro.common.Duration;
 import delta.games.lotro.gui.LotroIconsManager;
+import delta.games.lotro.gui.items.ItemUiTools;
 import delta.games.lotro.gui.recipes.RecipeIcons;
 import delta.games.lotro.gui.utils.ItemDisplayGadgets;
 import delta.games.lotro.gui.utils.ItemIconController;
@@ -46,6 +48,7 @@ public class RecipeDisplayPanelController implements NavigablePanelController
   private NavigatorWindowController _parent;
   private List<ItemDisplayGadgets> _itemIcons;
   private ItemIconController _recipeItemIcon;
+  private HyperLinkController _recipeItemLabel;
 
   /**
    * Constructor.
@@ -127,7 +130,6 @@ public class RecipeDisplayPanelController implements NavigablePanelController
     String attributesStr=getAttributesString();
     JLabel attributesLabel=GuiFactory.buildLabel(attributesStr);
     // Recipe item
-    JLabel recipeItemNameLabel=null;
     ItemProxy recipeItemProxy=_recipe.getRecipeScroll();
     if (recipeItemProxy!=null)
     {
@@ -136,7 +138,7 @@ public class RecipeDisplayPanelController implements NavigablePanelController
       Item recipeItem=ItemsManager.getInstance().getItem(recipeItemProxy.getId());
       _recipeItemIcon.setItem(recipeItem,1);
       // - name
-      recipeItemNameLabel=GuiFactory.buildLabel(recipeItemProxy.getName(),16f);
+      _recipeItemLabel=ItemUiTools.buildItemLink(_parent,recipeItem);
     }
 
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
@@ -157,12 +159,12 @@ public class RecipeDisplayPanelController implements NavigablePanelController
       c=new GridBagConstraints(0,3,2,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,2,2,2),0,0);
       panel.add(attributesLabel,c);
     }
-    if ((_recipeItemIcon!=null) && (recipeItemNameLabel!=null))
+    if ((_recipeItemIcon!=null) && (_recipeItemLabel!=null))
     {
       c=new GridBagConstraints(0,4,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,2,2,2),0,0);
       panel.add(_recipeItemIcon.getIcon(),c);
       c=new GridBagConstraints(1,4,1,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(2,2,2,2),0,0);
-      panel.add(recipeItemNameLabel,c);
+      panel.add(_recipeItemLabel.getLabel(),c);
     }
     return panel;
   }
@@ -384,6 +386,11 @@ public class RecipeDisplayPanelController implements NavigablePanelController
     {
       _recipeItemIcon.dispose();
       _recipeItemIcon=null;
+    }
+    if (_recipeItemLabel!=null)
+    {
+      _recipeItemLabel.dispose();
+      _recipeItemLabel=null;
     }
   }
 }

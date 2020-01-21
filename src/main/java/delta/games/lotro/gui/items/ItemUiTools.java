@@ -108,9 +108,17 @@ public class ItemUiTools
    */
   public static void showItemForm(WindowController parent, Item item)
   {
-    WindowsManager windows=parent.getWindowsManager();
-    int id=windows.getAll().size();
-    NavigatorWindowController window=NavigatorFactory.buildNavigator(parent,id);
+    NavigatorWindowController window=null;
+    if (parent instanceof NavigatorWindowController)
+    {
+      window=(NavigatorWindowController)parent;
+    }
+    else
+    {
+      WindowsManager windows=parent.getWindowsManager();
+      int id=windows.getAll().size();
+      window=NavigatorFactory.buildNavigator(parent,id);
+    }
     PageIdentifier ref=ReferenceConstants.getItemReference(item.getIdentifier());
     window.navigateTo(ref);
     window.show(false);

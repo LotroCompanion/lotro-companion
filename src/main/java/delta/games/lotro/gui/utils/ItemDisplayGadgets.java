@@ -4,7 +4,9 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.labels.HyperLinkController;
 import delta.common.ui.swing.navigator.NavigatorWindowController;
+import delta.games.lotro.gui.items.ItemUiTools;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemsManager;
 
@@ -16,7 +18,7 @@ public class ItemDisplayGadgets
 {
   private NavigatorWindowController _parent;
   private ItemIconController _icon; // Item icon, with optional count
-  private JLabel _name; // Item name
+  private HyperLinkController _name; // Item name
   private JLabel _comment; // Optional comment, either before or after icon+name
 
   /**
@@ -32,7 +34,7 @@ public class ItemDisplayGadgets
     Item item=ItemsManager.getInstance().getItem(itemId); 
     _icon=new ItemIconController(_parent);
     _icon.setItem(item,count);
-    _name=GuiFactory.buildLabel(item.getName());
+    _name=ItemUiTools.buildItemLink(parent,item);
     _comment=GuiFactory.buildLabel(comment);
   }
 
@@ -51,7 +53,7 @@ public class ItemDisplayGadgets
    */
   public JLabel getName()
   {
-    return _name;
+    return _name.getLabel();
   }
 
   /**
@@ -73,6 +75,11 @@ public class ItemDisplayGadgets
     {
       _icon.dispose();
       _icon=null;
+    }
+    if (_name!=null)
+    {
+      _name.dispose();
+      _name=null;
     }
     _name=null;
     _comment=null;
