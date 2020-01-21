@@ -5,33 +5,24 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
-import java.util.Set;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import org.apache.log4j.Logger;
-
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.navigator.NavigablePanelController;
-import delta.common.ui.swing.windows.WindowController;
+import delta.common.ui.swing.navigator.NavigatorWindowController;
+import delta.common.ui.swing.navigator.PageIdentifier;
+import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.utils.misc.TypedProperties;
-import delta.games.lotro.common.money.Money;
-import delta.games.lotro.lore.items.Item;
-import delta.games.lotro.lore.items.ItemProxy;
-import delta.games.lotro.lore.items.comparators.ItemNameComparator;
+import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.lore.npc.NpcDescription;
-import delta.games.lotro.lore.trade.vendor.SellList;
 import delta.games.lotro.lore.trade.vendor.ValuedItem;
 import delta.games.lotro.lore.trade.vendor.VendorNpc;
-import delta.games.lotro.utils.DataProvider;
-import delta.games.lotro.utils.Proxy;
-import delta.games.lotro.utils.comparators.DelegatingComparator;
 
 /**
  * Controller for a vendor display panel.
@@ -39,12 +30,10 @@ import delta.games.lotro.utils.comparators.DelegatingComparator;
  */
 public class VendorDisplayPanelController implements NavigablePanelController
 {
-  private static final Logger LOGGER=Logger.getLogger(VendorDisplayPanelController.class);
-
   // Data
   private VendorNpc _vendor;
   // Controllers
-  private WindowController _parent;
+  private NavigatorWindowController _parent;
   // GUI
   private JPanel _panel;
 
@@ -58,7 +47,7 @@ public class VendorDisplayPanelController implements NavigablePanelController
    * @param parent Parent window.
    * @param vendor Vendor to show.
    */
-  public VendorDisplayPanelController(WindowController parent, VendorNpc vendor)
+  public VendorDisplayPanelController(NavigatorWindowController parent, VendorNpc vendor)
   {
     _parent=parent;
     _vendor=vendor;
@@ -103,14 +92,9 @@ public class VendorDisplayPanelController implements NavigablePanelController
     // Sell Factor
     _factor=buildLabelLine(panel,c,"Sell factor: ");
 
-    // Items to sell
-    TypedProperties prefs=null;
-    if (_parent!=null)
-    {
-      prefs=_parent.getUserProperties("VendorDisplay");
-    }
-    List<ValuedItem> items=buildItemsList();
-    _itemsToSell=new SellItemsTableController(prefs,null,items);
+    // Items to sell table
+    initVendorEntriesTable();
+    // Scroll
     JScrollPane itemsPane=GuiFactory.buildScrollPane(_itemsToSell.getTable());
     itemsPane.setBorder(GuiFactory.buildTitledBorder("Items to sell"));
     c.fill=GridBagConstraints.BOTH;
@@ -122,6 +106,38 @@ public class VendorDisplayPanelController implements NavigablePanelController
     _panel=panel;
     setVendor();
     return _panel;
+  }
+
+  private void initVendorEntriesTable()
+  {
+    TypedProperties prefs=null;
+    if (_parent!=null)
+    {
+      prefs=_parent.getUserProperties("VendorDisplay");
+    }
+    final List<ValuedItem> items=_vendor.getItemsList();
+    _itemsToSell=new SellItemsTableController(prefs,null,items);
+    ActionListener al=new ActionListener()
+    {
+      @Override
+      public void actionPerformed(ActionEvent event)
+      {
+        String action=event.getActionCommand();
+        if (GenericTableController.DOUBLE_CLICK.equals(action))
+        {
+          ValuedItem entry=(ValuedItem)event.getSource();
+          int index=items.indexOf(entry);
+          showVendorEntry(entry,index);
+        }
+      }
+    };
+    _itemsToSell.addActionListener(al);
+  }
+
+  private void showVendorEntry(ValuedItem barterEntry, int index)
+  {
+    PageIdentifier ref=ReferenceConstants.getVendorEntryReference(_vendor.getIdentifier(),index);
+    _parent.navigateTo(ref);
   }
 
   private JLabel buildLabelLine(JPanel parent, GridBagConstraints c, String fieldName)
@@ -159,55 +175,6 @@ public class VendorDisplayPanelController implements NavigablePanelController
     // Factor
     float sellFactor=_vendor.getSellFactor();
     _factor.setText(String.format("%.1f",Float.valueOf(sellFactor)));
-  }
-
-  private List<ValuedItem> buildItemsList()
-  {
-    List<ValuedItem> ret=new ArrayList<ValuedItem>();
-    Set<Integer> knownItemIds=new HashSet<Integer>();
-    List<SellList> lists=_vendor.getSellLists();
-    float factor=_vendor.getSellFactor();
-    for(SellList list : lists)
-    {
-      for(Proxy<Item> itemProxy : list.getItems())
-      {
-        Item item=itemProxy.getObject();
-        if (item!=null)
-        {
-          Integer key=Integer.valueOf(item.getIdentifier());
-          if (!knownItemIds.contains(key))
-          {
-            Money value=item.getValueAsMoney();
-            int rawValue=value.getInternalValue();
-            int sellRawValue=(int)(rawValue*factor);
-            Money sellValue=new Money();
-            sellValue.setRawValue(sellRawValue);
-            ItemProxy proxy=new ItemProxy();
-            proxy.setItem(item);
-            ValuedItem valuedItem=new ValuedItem(proxy,sellValue);
-            ret.add(valuedItem);
-            knownItemIds.add(key);
-          }
-        }
-        else
-        {
-          LOGGER.warn("Could not find item: "+itemProxy);
-        }
-      }
-    }
-    // Sort by name
-    ItemNameComparator nameComparator=new ItemNameComparator();
-    DataProvider<ValuedItem,Item> provider=new DataProvider<ValuedItem,Item>()
-    {
-      @Override
-      public Item getData(ValuedItem p)
-      {
-        return p.getItem();
-      }
-    };
-    DelegatingComparator<ValuedItem,Item> c=new DelegatingComparator<ValuedItem,Item>(provider,nameComparator);
-    Collections.sort(ret,c);
-    return ret;
   }
 
   /**

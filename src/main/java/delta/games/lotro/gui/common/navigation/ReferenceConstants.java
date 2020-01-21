@@ -40,6 +40,10 @@ public class ReferenceConstants
    * Vendor page identifier.
    */
   public static final String VENDOR_PAGE="vendor";
+  /**
+   * Vendor entry page identifier.
+   */
+  public static final String VENDOR_ENTRY_PAGE="vendorEntry";
 
   /**
    * Get a page identifier for the given achievable proxy.
@@ -126,5 +130,18 @@ public class ReferenceConstants
   public static final PageIdentifier getVendorReference(int vendorId)
   {
     return new PageIdentifier(VENDOR_PAGE,vendorId);
+  }
+
+  /**
+   * Get a page identifier for a vendor entry.
+   * @param vendorId Identifier of the vendor to use.
+   * @param index Index of entry in this vendor.
+   * @return A page identifier.
+   */
+  public static final PageIdentifier getVendorEntryReference(int vendorId, int index)
+  {
+    PageIdentifier pageId=new PageIdentifier(VENDOR_ENTRY_PAGE,vendorId);
+    pageId.setParameter("index",String.valueOf(index));
+    return pageId;
   }
 }
