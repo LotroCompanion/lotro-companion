@@ -1,6 +1,7 @@
 package delta.games.lotro.gui.items.form;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -12,6 +13,7 @@ import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.navigator.NavigablePanelController;
@@ -34,6 +36,7 @@ public class ItemDisplayPanelController implements NavigablePanelController
   private JPanel _panel;
   // Controllers
   private ItemReferencesDisplayController _references;
+  private ItemScalableStatsPanelController _scaling;
 
   /**
    * Constructor.
@@ -46,6 +49,7 @@ public class ItemDisplayPanelController implements NavigablePanelController
     _item=item;
     _references=new ItemReferencesDisplayController(parent);
     _references.setItem(item.getIdentifier());
+    _scaling=new ItemScalableStatsPanelController(item);
   }
 
   @Override
@@ -72,12 +76,33 @@ public class ItemDisplayPanelController implements NavigablePanelController
     JPanel topPanel=buildTopPanel();
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(topPanel,c);
-    // References panel
-    JEditorPane references=_references.getComponent();
-    JScrollPane referencesPane=GuiFactory.buildScrollPane(references);
-    referencesPane.setBorder(GuiFactory.buildTitledBorder("References"));
+    // Center: a tabbed pane
+    JTabbedPane tabbedPane=GuiFactory.buildTabbedPane();
+    // - references
+    {
+      JPanel wrapper=GuiFactory.buildBackgroundPanel(new GridBagLayout());
+      JEditorPane references=_references.getComponent();
+      JScrollPane referencesScrollPane=GuiFactory.buildScrollPane(references);
+      GridBagConstraints c2=new GridBagConstraints(0,0,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
+      wrapper.add(referencesScrollPane,c2);
+      tabbedPane.add("References",wrapper);
+    }
+    // - scaling
+    JPanel scalingPanel=_scaling.getPanel();
+    if (scalingPanel!=null)
+    {
+      scalingPanel.setBackground(Color.RED);
+      scalingPanel.setOpaque(true);
+      JPanel wrapper=GuiFactory.buildBackgroundPanel(new GridBagLayout());
+      JScrollPane scalingScrollPane=GuiFactory.buildScrollPane(scalingPanel);
+      scalingScrollPane.setBackground(Color.BLUE);
+      scalingScrollPane.setOpaque(true);
+      GridBagConstraints c2=new GridBagConstraints(0,0,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
+      wrapper.add(scalingScrollPane,c2);
+      tabbedPane.add("Scaling",wrapper);
+    }
     c=new GridBagConstraints(0,1,1,1,1.0,1.0,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
-    panel.add(referencesPane,c);
+    panel.add(tabbedPane,c);
     return panel;
   }
 
@@ -213,6 +238,11 @@ public class ItemDisplayPanelController implements NavigablePanelController
     {
       _references.dispose();
       _references=null;
+    }
+    if (_scaling!=null)
+    {
+      _scaling.dispose();
+      _scaling=null;
     }
     //_parent=null;
     // UI
