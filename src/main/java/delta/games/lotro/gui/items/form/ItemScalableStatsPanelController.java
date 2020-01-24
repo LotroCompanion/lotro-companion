@@ -1,5 +1,8 @@
 package delta.games.lotro.gui.items.form;
 
+import java.awt.BorderLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -8,6 +11,7 @@ import java.util.Set;
 
 import javax.swing.JPanel;
 
+import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.tables.RawTablePanelController;
 import delta.games.lotro.Config;
 import delta.games.lotro.character.stats.BasicStatsSet;
@@ -98,9 +102,17 @@ public class ItemScalableStatsPanelController
         }
         RawTablePanelController tableController=new RawTablePanelController(headers,rows);
         panel=tableController.getPanel();
+        padPanel(panel,headers.size(),rows.size()+1);
       }
     }
     return panel;
+  }
+
+  private void padPanel(JPanel panel, int nbCellsX, int nbCellsY)
+  {
+    JPanel paddingPanel=GuiFactory.buildPanel(new BorderLayout());
+    GridBagConstraints c=new GridBagConstraints(nbCellsX,nbCellsY,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
+    panel.add(paddingPanel,c);
   }
 
   private List<StatDescription> getStats(StatsProvider statsProvider)

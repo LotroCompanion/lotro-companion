@@ -37,11 +37,12 @@ public class ItemReferencesDisplayController
   /**
    * Constructor.
    * @param parent Parent window (a navigator).
+   * @param itemId Identifier of the item to show.
    */
-  public ItemReferencesDisplayController(NavigatorWindowController parent)
+  public ItemReferencesDisplayController(NavigatorWindowController parent, int itemId)
   {
     _parent=parent;
-    _display=buildDetailsPane();
+    _display=buildDetailsPane(itemId);
   }
 
   /**
@@ -53,7 +54,21 @@ public class ItemReferencesDisplayController
     return _display;
   }
 
-  private JEditorPane buildDetailsPane()
+  private JEditorPane buildDetailsPane(int itemId)
+  {
+    List<ItemReference<?>> references=getReferences(itemId);
+    if (references.size()==0)
+    {
+      return null;
+    }
+    String html=getHtml(references);
+    JEditorPane editor=buildEditor();
+    editor.setText(html);
+    editor.setCaretPosition(0);
+    return editor;
+  }
+
+  private JEditorPane buildEditor()
   {
     JEditorPane editor=new JEditorPane("text/html","");
     editor.setEditable(false);
@@ -76,21 +91,15 @@ public class ItemReferencesDisplayController
     return editor;
   }
 
-  /**
-   * Set the item to display.
-   * @param itemId Item identifier.
-   */
-  public void setItem(int itemId)
-  {
-    String html=getHtml(itemId);
-    _display.setText(html);
-    _display.setCaretPosition(0);
-  }
-
-  private String getHtml(int itemId)
+  private List<ItemReference<?>> getReferences(int itemId)
   {
     ItemReferencesBuilder builder=new ItemReferencesBuilder();
     List<ItemReference<?>> references=builder.inspectItem(itemId);
+    return references;
+  }
+
+  private String getHtml(List<ItemReference<?>> references)
+  {
     StringBuilder sb=new StringBuilder();
     sb.append("<html><body>");
     buildHtmlForCrafting(sb,references);

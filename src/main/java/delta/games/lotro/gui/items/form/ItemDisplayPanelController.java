@@ -1,7 +1,8 @@
 package delta.games.lotro.gui.items.form;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -47,8 +48,7 @@ public class ItemDisplayPanelController implements NavigablePanelController
   {
     //_parent=parent;
     _item=item;
-    _references=new ItemReferencesDisplayController(parent);
-    _references.setItem(item.getIdentifier());
+    _references=new ItemReferencesDisplayController(parent,item.getIdentifier());
     _scaling=new ItemScalableStatsPanelController(item);
   }
 
@@ -77,33 +77,47 @@ public class ItemDisplayPanelController implements NavigablePanelController
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(topPanel,c);
     // Center: a tabbed pane
-    JTabbedPane tabbedPane=GuiFactory.buildTabbedPane();
-    // - references
-    {
-      JPanel wrapper=GuiFactory.buildBackgroundPanel(new GridBagLayout());
-      JEditorPane references=_references.getComponent();
-      JScrollPane referencesScrollPane=GuiFactory.buildScrollPane(references);
-      GridBagConstraints c2=new GridBagConstraints(0,0,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
-      wrapper.add(referencesScrollPane,c2);
-      tabbedPane.add("References",wrapper);
-    }
-    // - scaling
-    JPanel scalingPanel=_scaling.getPanel();
-    if (scalingPanel!=null)
-    {
-      scalingPanel.setBackground(Color.RED);
-      scalingPanel.setOpaque(true);
-      JPanel wrapper=GuiFactory.buildBackgroundPanel(new GridBagLayout());
-      JScrollPane scalingScrollPane=GuiFactory.buildScrollPane(scalingPanel);
-      scalingScrollPane.setBackground(Color.BLUE);
-      scalingScrollPane.setOpaque(true);
-      GridBagConstraints c2=new GridBagConstraints(0,0,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
-      wrapper.add(scalingScrollPane,c2);
-      tabbedPane.add("Scaling",wrapper);
-    }
+    Component center=buildCenter();
     c=new GridBagConstraints(0,1,1,1,1.0,1.0,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
-    panel.add(tabbedPane,c);
+    panel.add(center,c);
+    panel.setPreferredSize(new Dimension(500,500));
     return panel;
+  }
+
+  private Component buildCenter()
+  {
+    Component ret=null;
+    // Build components for potential tabs
+    JEditorPane references=_references.getComponent();
+    JPanel scalingPanel=_scaling.getPanel();
+    if ((references!=null) || (scalingPanel!=null))
+    {
+      JTabbedPane tabbedPane=GuiFactory.buildTabbedPane();
+      // - references
+      if (references!=null)
+      {
+        tabbedPane.add("References",buildPanelForTab(references));
+      }
+      // - scaling
+      if (scalingPanel!=null)
+      {
+        tabbedPane.add("Scaling",buildPanelForTab(scalingPanel));
+      }
+      ret=tabbedPane;
+    }
+    else
+    {
+      ret=GuiFactory.buildPanel(new BorderLayout());
+    }
+    return ret;
+  }
+
+  private JPanel buildPanelForTab(Component contents)
+  {
+    JPanel wrapper=GuiFactory.buildBackgroundPanel(new BorderLayout());
+    JScrollPane scrollPane=GuiFactory.buildScrollPane(contents);
+    wrapper.add(scrollPane,BorderLayout.CENTER);
+    return wrapper;
   }
 
   private JPanel buildTopPanel()
