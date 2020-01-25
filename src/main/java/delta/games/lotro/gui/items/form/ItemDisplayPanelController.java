@@ -162,6 +162,17 @@ public class ItemDisplayPanelController implements NavigablePanelController
       JLabel slotsLabel=GuiFactory.buildLabel(String.valueOf(nbSlots));
       panelLine.add(slotsLabel);
     }
+    // Item level
+    Integer itemLevel=_item.getItemLevel();
+    if (itemLevel!=null)
+    {
+      JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
+      panel.add(panelLine,c);
+      c.gridy++;
+      panelLine.add(GuiFactory.buildLabel("Item level: "));
+      JLabel itemLevelLabel=GuiFactory.buildLabel(itemLevel.toString());
+      panelLine.add(itemLevelLabel);
+    }
     // Durability
     Integer durability=_item.getDurability();
     if (durability!=null)
