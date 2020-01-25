@@ -13,6 +13,7 @@ import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.games.lotro.common.Identifiable;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.lore.crafting.recipes.Recipe;
+import delta.games.lotro.lore.items.sets.ItemsSet;
 import delta.games.lotro.lore.npc.NpcDescription;
 import delta.games.lotro.lore.quests.Achievable;
 import delta.games.lotro.lore.quests.QuestDescription;
@@ -106,6 +107,7 @@ public class ItemReferencesDisplayController
     buildHtmlForQuestsAndDeeds(sb,references);
     buildHtmlForBarterers(sb,references);
     buildHtmlForVendors(sb,references);
+    buildHtmlForSets(sb,references);
     sb.append("</body></html>");
     return sb.toString();
   }
@@ -256,6 +258,28 @@ public class ItemReferencesDisplayController
     sb.append("<b>");
     PageIdentifier to=ReferenceConstants.getVendorReference(vendor.getIdentifier());
     HtmlUtils.printLink(sb,to.getFullAddress(),getNpcLabel(vendor.getNpc()));
+    sb.append("</b></p>");
+  }
+
+  private void buildHtmlForSets(StringBuilder sb, List<ItemReference<?>> references)
+  {
+    List<ItemReference<ItemsSet>> setReferences=getReferences(references,ItemsSet.class);
+    if (setReferences.size()>0)
+    {
+      sb.append("<h1>Sets</h1>");
+      for(ItemReference<ItemsSet> setReference : setReferences)
+      {
+        buildHtmlForSetReference(sb,setReference.getSource());
+      }
+    }
+  }
+
+  private void buildHtmlForSetReference(StringBuilder sb, ItemsSet itemsSet)
+  {
+    sb.append("<p>Member of ");
+    sb.append("<b>");
+    PageIdentifier to=ReferenceConstants.getItemsSetReference(itemsSet.getIdentifier());
+    HtmlUtils.printLink(sb,to.getFullAddress(),itemsSet.getName());
     sb.append("</b></p>");
   }
 

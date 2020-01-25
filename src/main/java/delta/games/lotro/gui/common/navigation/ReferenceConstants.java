@@ -25,6 +25,10 @@ public class ReferenceConstants
    */
   public static final String ITEM_PAGE="item";
   /**
+   * Items set page identifier.
+   */
+  public static final String ITEMS_SET_PAGE="itemsSet";
+  /**
    * Recipe page identifier.
    */
   public static final String RECIPE_PAGE="recipe";
@@ -87,6 +91,16 @@ public class ReferenceConstants
   public static final PageIdentifier getItemReference(int itemId)
   {
     return new PageIdentifier(ITEM_PAGE,itemId);
+  }
+
+  /**
+   * Get a page identifier for the given items set.
+   * @param itemsSetId Identifier of the items set to use.
+   * @return A page identifier.
+   */
+  public static final PageIdentifier getItemsSetReference(int itemsSetId)
+  {
+    return new PageIdentifier(ITEMS_SET_PAGE,itemsSetId);
   }
 
   /**

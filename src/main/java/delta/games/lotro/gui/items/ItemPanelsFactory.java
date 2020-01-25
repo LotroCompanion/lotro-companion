@@ -6,11 +6,14 @@ import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.gui.items.form.ItemDisplayPanelController;
+import delta.games.lotro.gui.items.sets.form.ItemsSetDisplayPanelController;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemsManager;
+import delta.games.lotro.lore.items.sets.ItemsSet;
+import delta.games.lotro.lore.items.sets.ItemsSetsManager;
 
 /**
- * Factory for item panels.
+ * Factory for item-related panels.
  * @author DAM
  */
 public class ItemPanelsFactory implements NavigablePanelControllerFactory
@@ -36,6 +39,11 @@ public class ItemPanelsFactory implements NavigablePanelControllerFactory
       int id=pageId.getIntParameter(PageIdentifier.ID_PARAMETER).intValue();
       ret=buildItemPanel(id);
     }
+    else if (address.equals(ReferenceConstants.ITEMS_SET_PAGE))
+    {
+      int id=pageId.getIntParameter(PageIdentifier.ID_PARAMETER).intValue();
+      ret=buildItemsSetPanel(id);
+    }
     return ret;
   }
 
@@ -47,6 +55,18 @@ public class ItemPanelsFactory implements NavigablePanelControllerFactory
     {
       ItemDisplayPanelController itemPanel=new ItemDisplayPanelController(_parent,item);
       return itemPanel;
+    }
+    return null;
+  }
+
+  private ItemsSetDisplayPanelController buildItemsSetPanel(int itemsSetId)
+  {
+    ItemsSetsManager itemsSetsMgr=ItemsSetsManager.getInstance();
+    ItemsSet set=itemsSetsMgr.getSetById(itemsSetId);
+    if (set!=null)
+    {
+      ItemsSetDisplayPanelController itemsSetPanel=new ItemsSetDisplayPanelController(_parent,set);
+      return itemsSetPanel;
     }
     return null;
   }
