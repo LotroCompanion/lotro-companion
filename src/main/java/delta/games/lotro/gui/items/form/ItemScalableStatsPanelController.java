@@ -58,53 +58,59 @@ public class ItemScalableStatsPanelController
   private JPanel build()
   {
     JPanel panel=null;
-    String mungingSpec=_item.getProperty(ItemPropertyNames.MUNGING);
-    if (mungingSpec!=null)
+    StatsProvider statsProvider=_item.getStatsProvider();
+    if (statsProvider==null)
     {
-      Munging munging=Munging.fromString(mungingSpec);
-      Progression progression=munging.getProgression();
-      if (progression!=null)
-      {
-        StatsProvider statsProvider=_item.getStatsProvider();
-        Integer min=munging.getMin();
-        int minLevel=(min!=null?min.intValue():1);
-        Integer max=munging.getMax();
-        int levelCap=Config.getInstance().getMaxCharacterLevel();
-        int maxLevel=(max!=null?max.intValue():levelCap);
-
-        List<StatDescription> stats=getStats(statsProvider);
-        List<Integer> itemLevels=getItemLevels(minLevel,maxLevel,progression);
-
-        // Headers
-        List<String> headers=new ArrayList<String>();
-        headers.add("Level(s)");
-        headers.add("Item level");
-        for(StatDescription stat : stats)
-        {
-          headers.add(stat.getName());
-        }
-        // Rows
-        List<Object[]> rows=new ArrayList<Object[]>();
-        for(Integer itemLevel : itemLevels)
-        {
-          Object[] row=new Object[headers.size()];
-          row[0]=getLevelsForItemLevel(minLevel,maxLevel,progression,itemLevel.intValue());
-          row[1]=itemLevel;
-          BasicStatsSet values=statsProvider.getStats(1,itemLevel.intValue());
-          int index=2;
-          for(StatDescription stat : stats)
-          {
-            FixedDecimalsInteger value=values.getStat(stat);
-            row[index]=StatDisplayUtils.getStatDisplay(value,stat.isPercentage());
-            index++;
-          }
-          rows.add(row);
-        }
-        RawTablePanelController tableController=new RawTablePanelController(headers,rows);
-        panel=tableController.getPanel();
-        padPanel(panel,headers.size(),rows.size()+1);
-      }
+      return null;
     }
+    String mungingSpec=_item.getProperty(ItemPropertyNames.MUNGING);
+    if (mungingSpec==null)
+    {
+      return null;
+    }
+    Munging munging=Munging.fromString(mungingSpec);
+    Progression progression=munging.getProgression();
+    if (progression==null)
+    {
+      return null;
+    }
+    Integer min=munging.getMin();
+    int minLevel=(min!=null?min.intValue():1);
+    Integer max=munging.getMax();
+    int levelCap=Config.getInstance().getMaxCharacterLevel();
+    int maxLevel=(max!=null?max.intValue():levelCap);
+
+    List<StatDescription> stats=getStats(statsProvider);
+    List<Integer> itemLevels=getItemLevels(minLevel,maxLevel,progression);
+
+    // Headers
+    List<String> headers=new ArrayList<String>();
+    headers.add("Level(s)");
+    headers.add("Item level");
+    for(StatDescription stat : stats)
+    {
+      headers.add(stat.getName());
+    }
+    // Rows
+    List<Object[]> rows=new ArrayList<Object[]>();
+    for(Integer itemLevel : itemLevels)
+    {
+      Object[] row=new Object[headers.size()];
+      row[0]=getLevelsForItemLevel(minLevel,maxLevel,progression,itemLevel.intValue());
+      row[1]=itemLevel;
+      BasicStatsSet values=statsProvider.getStats(1,itemLevel.intValue());
+      int index=2;
+      for(StatDescription stat : stats)
+      {
+        FixedDecimalsInteger value=values.getStat(stat);
+        row[index]=StatDisplayUtils.getStatDisplay(value,stat.isPercentage());
+        index++;
+      }
+      rows.add(row);
+    }
+    RawTablePanelController tableController=new RawTablePanelController(headers,rows);
+    panel=tableController.getPanel();
+    padPanel(panel,headers.size(),rows.size()+1);
     return panel;
   }
 
