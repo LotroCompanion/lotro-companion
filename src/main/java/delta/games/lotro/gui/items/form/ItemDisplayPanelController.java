@@ -19,7 +19,9 @@ import javax.swing.JTabbedPane;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.navigator.NavigablePanelController;
 import delta.common.ui.swing.navigator.NavigatorWindowController;
+import delta.games.lotro.common.money.Money;
 import delta.games.lotro.gui.LotroIconsManager;
+import delta.games.lotro.gui.common.money.MoneyDisplayController;
 import delta.games.lotro.gui.common.requirements.RequirementsUtils;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemBinding;
@@ -38,6 +40,7 @@ public class ItemDisplayPanelController implements NavigablePanelController
   // Controllers
   private ItemReferencesDisplayController _references;
   private ItemScalableStatsPanelController _scaling;
+  private MoneyDisplayController _money;
 
   /**
    * Constructor.
@@ -50,6 +53,7 @@ public class ItemDisplayPanelController implements NavigablePanelController
     _item=item;
     _references=new ItemReferencesDisplayController(parent,item.getIdentifier());
     _scaling=new ItemScalableStatsPanelController(item);
+    _money=new MoneyDisplayController();
   }
 
   @Override
@@ -203,6 +207,16 @@ public class ItemDisplayPanelController implements NavigablePanelController
       String attributes=buildAttributesString();
       JLabel attributesLabel=GuiFactory.buildLabel(attributes);
       panelLine.add(attributesLabel);
+    }
+    // Value
+    Money money=_item.getValueAsMoney();
+    if (money!=null)
+    {
+      _money.setMoney(money);
+      JPanel moneyPanel=_money.getPanel();
+      c.insets=new Insets(0,5,0,0);
+      panel.add(moneyPanel,c);
+      c.gridy++;
     }
 
     // Padding to push everything on left
