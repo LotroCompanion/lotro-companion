@@ -1,6 +1,10 @@
 package delta.games.lotro.gui.main;
 
 import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.Point;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
@@ -15,7 +19,6 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
-import javax.swing.JToolBar;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.toolbar.ToolbarController;
@@ -68,7 +71,8 @@ public class MainFrameController extends DefaultWindowController implements Acti
   private static final String CRAFTING_SYNOPSIS_ID="craftingSynopsis";
   private static final String MAP_ID="map";
 
-  private ToolbarController _toolbar;
+  private ToolbarController _toolbarTracking;
+  private ToolbarController _toolbarLore;
   private ToonsManagementController _toonsManager;
   private AccountsManagementController _accountsManager;
   private WindowsManager _windowsManager;
@@ -226,9 +230,9 @@ public class MainFrameController extends DefaultWindowController implements Acti
   protected JComponent buildContents()
   {
     JPanel ret=GuiFactory.buildPanel(new BorderLayout());
-    _toolbar=buildToolBar();
-    JToolBar toolbar=_toolbar.getToolBar();
-    ret.add(toolbar,BorderLayout.NORTH);
+    // Toolbars
+    JPanel toolbarsPanel=buildToolbarsPanel();
+    ret.add(toolbarsPanel,BorderLayout.NORTH);
     JTabbedPane tabbedPane=GuiFactory.buildTabbedPane();
     // Characters
     JPanel toonsPanel=_toonsManager.getPanel();
@@ -240,7 +244,23 @@ public class MainFrameController extends DefaultWindowController implements Acti
     return ret;
   }
 
-  private ToolbarController buildToolBar()
+  private JPanel buildToolbarsPanel()
+  {
+    _toolbarTracking=buildToolBarTracking();
+    _toolbarLore=buildToolbarLore();
+    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,5,2,0),0,0);
+    panel.add(_toolbarTracking.getToolBar(),c);
+    c.gridx++;
+    panel.add(_toolbarLore.getToolBar(),c);
+    c.gridx++;
+    JPanel padding=GuiFactory.buildPanel(new FlowLayout());
+    c.weightx=1.0;c.fill=GridBagConstraints.HORIZONTAL;
+    panel.add(padding,c);
+    return panel;
+  }
+
+  private ToolbarController buildToolBarTracking()
   {
     ToolbarController controller=new ToolbarController();
     ToolbarModel model=controller.getModel();
@@ -260,6 +280,17 @@ public class MainFrameController extends DefaultWindowController implements Acti
     String craftingSynopsisIconPath=getToolbarIconPath("crafting");
     ToolbarIconItem craftingSynopsisIconItem=new ToolbarIconItem(CRAFTING_SYNOPSIS_ID,craftingSynopsisIconPath,CRAFTING_SYNOPSIS_ID,"Crafting synopsis...","Crafting synopsis");
     model.addToolbarIconItem(craftingSynopsisIconItem);
+    // Border
+    controller.getToolBar().setBorder(GuiFactory.buildTitledBorder("Tracking Synopsis"));
+    // Register action listener
+    controller.addActionListener(this);
+    return controller;
+  }
+
+  private ToolbarController buildToolbarLore()
+  {
+    ToolbarController controller=new ToolbarController();
+    ToolbarModel model=controller.getModel();
     // Map icon
     String mapIconPath=getToolbarIconPath("globe");
     ToolbarIconItem mapIconItem=new ToolbarIconItem(MAP_ID,mapIconPath,MAP_ID,"Map...","Map");
@@ -300,6 +331,8 @@ public class MainFrameController extends DefaultWindowController implements Acti
     String barterersIconPath=getToolbarIconPath("barterers");
     ToolbarIconItem barterersIconItem=new ToolbarIconItem(BARTERERS_ID,barterersIconPath,BARTERERS_ID,"Barterers...","Barterers");
     model.addToolbarIconItem(barterersIconItem);
+    // Border
+    controller.getToolBar().setBorder(GuiFactory.buildTitledBorder("Lore Compendium"));
     // Register action listener
     controller.addActionListener(this);
     return controller;
@@ -595,10 +628,15 @@ public class MainFrameController extends DefaultWindowController implements Acti
       _windowsManager=null;
     }
     super.dispose();
-    if (_toolbar!=null)
+    if (_toolbarTracking!=null)
     {
-      _toolbar.dispose();
-      _toolbar=null;
+      _toolbarTracking.dispose();
+      _toolbarTracking=null;
+    }
+    if (_toolbarLore!=null)
+    {
+      _toolbarLore.dispose();
+      _toolbarLore=null;
     }
     if (_toonsManager!=null)
     {
