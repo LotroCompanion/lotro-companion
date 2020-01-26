@@ -121,6 +121,17 @@ public class AboutPanelController
       y++;
     }
 
+    // User Manual
+    {
+      BrowserHyperlinkAction userManualAction=new BrowserHyperlinkAction("https://github.com/dmorcellet/lotro-companion-doc/blob/master/UserManual/index.md","User Manual");
+      HyperLinkController userManualLink=new HyperLinkController(userManualAction);
+      c=new GridBagConstraints(0,y,2,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(0,5,10,5),0,0);
+      JLabel userManualLabel=userManualLink.getLabel();
+      userManualLabel.setFont(font);
+      panel.add(userManualLabel,c);
+      y++;
+    }
+
     // Contributors label contrib
     JLabel lbContributors=new JLabel("Contributors:");
     lbContributors.setFont(lbVersion.getFont().deriveFont(Font.BOLD,24));
