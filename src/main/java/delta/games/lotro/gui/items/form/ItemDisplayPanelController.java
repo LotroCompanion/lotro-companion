@@ -33,6 +33,7 @@ import delta.games.lotro.lore.items.ItemBinding;
 import delta.games.lotro.lore.items.ItemSturdiness;
 import delta.games.lotro.lore.items.Weapon;
 import delta.games.lotro.lore.items.WeaponType;
+import delta.games.lotro.utils.gui.HtmlUtils;
 
 /**
  * Controller for an item display panel.
@@ -111,11 +112,24 @@ public class ItemDisplayPanelController implements NavigablePanelController
 
   private JPanel buildCenter()
   {
-    JPanel panel=GuiFactory.buildPanel(new BorderLayout());
+    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
+
+    int y=0;
+    // Description
+    JEditorPane description=buildDescription();
+    if (description!=null)
+    {
+      GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(5,5,5,5),0,0);
+      panel.add(description,c);
+      y++;
+    }
+    // Stats
     MultilineLabel2 stats=buildStatsDisplay();
     if (stats!=null)
     {
-      panel.add(stats,BorderLayout.NORTH);
+      GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(5,5,5,5),0,0);
+      panel.add(stats,c);
+      y++;
     }
     // Build components for potential tabs
     JEditorPane references=_references.getComponent();
@@ -133,12 +147,16 @@ public class ItemDisplayPanelController implements NavigablePanelController
       {
         tabbedPane.add("Scaling",buildPanelForTab(scalingPanel));
       }
-      panel.add(tabbedPane,BorderLayout.CENTER);
+      GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(5,5,5,5),0,0);
+      panel.add(tabbedPane,c);
+      y++;
     }
     else
     {
       JPanel empty=GuiFactory.buildPanel(new BorderLayout());
-      panel.add(empty,BorderLayout.CENTER);
+      GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(5,5,5,5),0,0);
+      panel.add(empty,c);
+      y++;
     }
     return panel;
   }
@@ -302,6 +320,22 @@ public class ItemDisplayPanelController implements NavigablePanelController
     }
     String ret=sb.toString();
     return ret;
+  }
+
+  private JEditorPane buildDescription()
+  {
+    JEditorPane editor=null;
+    String description=_item.getDescription();
+    if (description.length()>0)
+    {
+      editor=GuiFactory.buildHtmlPanel();
+      StringBuilder sb=new StringBuilder();
+      sb.append("<html><body>");
+      sb.append(HtmlUtils.toHtml(description));
+      sb.append("</body></html>");
+      editor.setText(sb.toString());
+    }
+    return editor;
   }
 
   @Override
