@@ -23,9 +23,13 @@ import delta.games.lotro.common.money.Money;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.common.money.MoneyDisplayController;
 import delta.games.lotro.gui.common.requirements.RequirementsUtils;
+import delta.games.lotro.lore.items.Armour;
+import delta.games.lotro.lore.items.ArmourType;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemBinding;
 import delta.games.lotro.lore.items.ItemSturdiness;
+import delta.games.lotro.lore.items.Weapon;
+import delta.games.lotro.lore.items.WeaponType;
 
 /**
  * Controller for an item display panel.
@@ -151,9 +155,27 @@ public class ItemDisplayPanelController implements NavigablePanelController
       JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
       panel.add(panelLine,c);
       c.gridy++;
-      panelLine.add(GuiFactory.buildLabel("Category: "));
-      JLabel categoryLabel=GuiFactory.buildLabel(category);
-      panelLine.add(categoryLabel);
+      panelLine.add(GuiFactory.buildLabel("Category: "+category));
+    }
+    // Weapon type
+    if (_item instanceof Weapon)
+    {
+      Weapon weapon=(Weapon)_item;
+      WeaponType type=weapon.getWeaponType();
+      JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
+      panel.add(panelLine,c);
+      c.gridy++;
+      panelLine.add(GuiFactory.buildLabel("Weapon type: "+type.getName()));
+    }
+    // Armour type
+    if (_item instanceof Armour)
+    {
+      Armour armour=(Armour)_item;
+      ArmourType type=armour.getArmourType();
+      JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
+      panel.add(panelLine,c);
+      c.gridy++;
+      panelLine.add(GuiFactory.buildLabel("Armour type: "+type.getName()));
     }
     // Slots
     int nbSlots=_item.getEssenceSlots();
@@ -162,9 +184,7 @@ public class ItemDisplayPanelController implements NavigablePanelController
       JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
       panel.add(panelLine,c);
       c.gridy++;
-      panelLine.add(GuiFactory.buildLabel("Essence slots: "));
-      JLabel slotsLabel=GuiFactory.buildLabel(String.valueOf(nbSlots));
-      panelLine.add(slotsLabel);
+      panelLine.add(GuiFactory.buildLabel("Essence slots: "+String.valueOf(nbSlots)));
     }
     // Item level
     Integer itemLevel=_item.getItemLevel();
@@ -173,9 +193,7 @@ public class ItemDisplayPanelController implements NavigablePanelController
       JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
       panel.add(panelLine,c);
       c.gridy++;
-      panelLine.add(GuiFactory.buildLabel("Item level: "));
-      JLabel itemLevelLabel=GuiFactory.buildLabel(itemLevel.toString());
-      panelLine.add(itemLevelLabel);
+      panelLine.add(GuiFactory.buildLabel("Item level: "+itemLevel.toString()));
     }
     // Durability
     Integer durability=_item.getDurability();
@@ -184,9 +202,7 @@ public class ItemDisplayPanelController implements NavigablePanelController
       JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
       panel.add(panelLine,c);
       c.gridy++;
-      panelLine.add(GuiFactory.buildLabel("Durability: "));
-      JLabel durabilityLabel=GuiFactory.buildLabel(durability.toString());
-      panelLine.add(durabilityLabel);
+      panelLine.add(GuiFactory.buildLabel("Durability: "+durability.toString()));
     }
     // Requirements
     String requirements=RequirementsUtils.buildRequirementString(_item.getUsageRequirements());
@@ -195,9 +211,7 @@ public class ItemDisplayPanelController implements NavigablePanelController
       JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
       panel.add(panelLine,c);
       c.gridy++;
-      panelLine.add(GuiFactory.buildLabel("Requirements: "));
-      JLabel requirementsLabel=GuiFactory.buildLabel(requirements);
-      panelLine.add(requirementsLabel);
+      panelLine.add(GuiFactory.buildLabel("Requirements: "+requirements));
     }
     // Attributes
     {
