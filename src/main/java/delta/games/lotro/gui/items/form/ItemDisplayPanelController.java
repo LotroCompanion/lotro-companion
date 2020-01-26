@@ -320,6 +320,11 @@ public class ItemDisplayPanelController implements NavigablePanelController
       _scaling.dispose();
       _scaling=null;
     }
+    if (_money!=null)
+    {
+      _money.dispose();
+      _money=null;
+    }
     //_parent=null;
     // UI
     if (_panel!=null)
