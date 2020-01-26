@@ -17,12 +17,15 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.labels.MultilineLabel2;
 import delta.common.ui.swing.navigator.NavigablePanelController;
 import delta.common.ui.swing.navigator.NavigatorWindowController;
+import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.common.money.Money;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.common.money.MoneyDisplayController;
 import delta.games.lotro.gui.common.requirements.RequirementsUtils;
+import delta.games.lotro.gui.utils.StatDisplayUtils;
 import delta.games.lotro.lore.items.Armour;
 import delta.games.lotro.lore.items.ArmourType;
 import delta.games.lotro.lore.items.Item;
@@ -84,7 +87,7 @@ public class ItemDisplayPanelController implements NavigablePanelController
     JPanel topPanel=buildTopPanel();
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(topPanel,c);
-    // Center: a tabbed pane
+    // Center
     Component center=buildCenter();
     c=new GridBagConstraints(0,1,1,1,1.0,1.0,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
     panel.add(center,c);
@@ -92,9 +95,28 @@ public class ItemDisplayPanelController implements NavigablePanelController
     return panel;
   }
 
-  private Component buildCenter()
+  private MultilineLabel2 buildStatsDisplay()
   {
-    Component ret=null;
+    MultilineLabel2 statsLabel=null;
+    BasicStatsSet stats=_item.getStats();
+    if (stats.getStatsCount()>0)
+    {
+      String[] lines=StatDisplayUtils.getStatsDisplayLines(stats);
+      statsLabel=new MultilineLabel2();
+      statsLabel.setText(lines);
+      statsLabel.setBorder(GuiFactory.buildTitledBorder("Stats"));
+    }
+    return statsLabel;
+  }
+
+  private JPanel buildCenter()
+  {
+    JPanel panel=GuiFactory.buildPanel(new BorderLayout());
+    MultilineLabel2 stats=buildStatsDisplay();
+    if (stats!=null)
+    {
+      panel.add(stats,BorderLayout.NORTH);
+    }
     // Build components for potential tabs
     JEditorPane references=_references.getComponent();
     JPanel scalingPanel=_scaling.getPanel();
@@ -111,13 +133,14 @@ public class ItemDisplayPanelController implements NavigablePanelController
       {
         tabbedPane.add("Scaling",buildPanelForTab(scalingPanel));
       }
-      ret=tabbedPane;
+      panel.add(tabbedPane,BorderLayout.CENTER);
     }
     else
     {
-      ret=GuiFactory.buildPanel(new BorderLayout());
+      JPanel empty=GuiFactory.buildPanel(new BorderLayout());
+      panel.add(empty,BorderLayout.CENTER);
     }
-    return ret;
+    return panel;
   }
 
   private JPanel buildPanelForTab(Component contents)
