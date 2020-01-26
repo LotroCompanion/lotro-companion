@@ -15,7 +15,7 @@ public class TestTraitPointsStatus extends TestCase
   public void testTraitPointsFromLevel()
   {
     int[] levels={6, 7, 8, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 120, 124, 125, 129, 130};
-    int[] expected={0, 1, 1, 49, 50, 50, 50, 51, 51, 51, 52, 52, 52, 53, 53, 54, 54, 55, 55, 56};
+    int[] expected={0, 1, 1, 49, 50, 50, 50, 51, 51, 51, 52, 52, 52, 53, 53, 54, 54, 54, 54, 54};
     Assert.assertEquals(levels.length,expected.length);
     int nbItems=Math.min(levels.length,expected.length);
     for(int i=0;i<nbItems;i++)
