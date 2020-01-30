@@ -5,11 +5,18 @@ import java.util.List;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.Race;
 import delta.games.lotro.common.requirements.ClassRequirement;
+import delta.games.lotro.common.requirements.FactionRequirement;
+import delta.games.lotro.common.requirements.QuestRequirement;
 import delta.games.lotro.common.requirements.RaceRequirement;
 import delta.games.lotro.common.requirements.UsageRequirement;
+import delta.games.lotro.lore.deeds.DeedDescription;
+import delta.games.lotro.lore.deeds.DeedsManager;
+import delta.games.lotro.lore.quests.QuestDescription;
+import delta.games.lotro.lore.quests.QuestsManager;
 
 /**
- * @author dm
+ * Utility methods related to requirements.
+ * @author DAM
  */
 public class RequirementsUtils
 {
@@ -71,6 +78,34 @@ public class RequirementsUtils
     {
       if (sb.length()>0) sb.append(", ");
       sb.append("level<=").append(maxLevel);
+    }
+    // Faction
+    FactionRequirement factionReq=requirements.getFactionRequirement();
+    if (factionReq!=null)
+    {
+      if (sb.length()>0) sb.append(", ");
+      sb.append(factionReq.toString());
+    }
+    // Quest
+    QuestRequirement questReq=requirements.getQuestRequirement();
+    if (questReq!=null)
+    {
+      int questId=questReq.getQuestId();
+      QuestDescription quest=QuestsManager.getInstance().getQuest(questId);
+      if (quest!=null)
+      {
+        if (sb.length()>0) sb.append(", ");
+        sb.append("quest ").append(quest.getName()).append(' ').append(questReq.getQuestStatus());
+      }
+      else
+      {
+        DeedDescription deed=DeedsManager.getInstance().getDeed(questId);
+        if (deed!=null)
+        {
+          if (sb.length()>0) sb.append(", ");
+          sb.append("deed ").append(deed.getName()).append(' ').append(questReq.getQuestStatus());
+        }
+      }
     }
     String ret=sb.toString().trim();
     return ret;
