@@ -16,11 +16,13 @@ import delta.common.ui.swing.icons.IconWithText;
 import delta.common.ui.swing.icons.IconsManager;
 import delta.common.ui.swing.navigator.NavigablePanelController;
 import delta.common.ui.swing.navigator.NavigatorWindowController;
+import delta.games.lotro.gui.common.requirements.RequirementsUtils;
 import delta.games.lotro.gui.utils.ItemDisplayGadgets;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.reputation.Faction;
 import delta.games.lotro.lore.trade.barter.BarterEntry;
 import delta.games.lotro.lore.trade.barter.BarterEntryElement;
+import delta.games.lotro.lore.trade.barter.BarterProfile;
 import delta.games.lotro.lore.trade.barter.ItemBarterEntryElement;
 import delta.games.lotro.lore.trade.barter.ReputationBarterEntryElement;
 import delta.games.lotro.utils.Proxy;
@@ -74,17 +76,40 @@ public class BarterEntryDisplayPanelController implements NavigablePanelControll
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
 
+    int y=0;
+    BarterProfile profile=_entry.getBarterProfile();
+    // Profile
+    String profileName=profile.getName();
+    if (profileName.length()>0)
+    {
+      GridBagConstraints c=new GridBagConstraints(0,y,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,5,2,5),0,0);
+      JLabel profileLabel=GuiFactory.buildLabel("Profile: "+profileName);
+      panel.add(profileLabel,c);
+      y++;
+    }
+    // Requirements
+    String requirements=RequirementsUtils.buildRequirementString(profile.getRequirements());
+    if (requirements.length()>0)
+    {
+      GridBagConstraints c=new GridBagConstraints(0,y,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,5,2,5),0,0);
+      JLabel requirementsLabel=GuiFactory.buildLabel("Requirements: "+requirements);
+      panel.add(requirementsLabel,c);
+      y++;
+    }
+
     // To give
     JPanel toGivePanel=buildToGivePanel();
     toGivePanel.setBorder(GuiFactory.buildTitledBorder("To give"));
-    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,2,2,2),0,0);
+    GridBagConstraints c=new GridBagConstraints(0,y,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,2,2,2),0,0);
     panel.add(toGivePanel,c);
+    y++;
 
     // To receive
     JPanel toReceivePanel=buildToReceivePanel();
     toReceivePanel.setBorder(GuiFactory.buildTitledBorder("To receive"));
-    c=new GridBagConstraints(0,1,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(2,2,2,2),0,0);
+    c=new GridBagConstraints(0,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(2,2,2,2),0,0);
     panel.add(toReceivePanel,c);
+    y++;
     return panel;
   }
 

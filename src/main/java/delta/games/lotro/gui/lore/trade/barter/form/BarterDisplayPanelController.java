@@ -87,7 +87,7 @@ public class BarterDisplayPanelController implements NavigablePanelController
       _name.setFont(_name.getFont().deriveFont(16f).deriveFont(Font.BOLD));
       panelLine.add(_name);
     }
-    // Buys
+    // Requirements
     _requirements=buildLabelLine(panel,c,"Requirements: ");
 
     // Barter entries table
