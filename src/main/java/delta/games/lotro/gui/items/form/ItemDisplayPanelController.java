@@ -28,6 +28,8 @@ import delta.games.lotro.gui.common.requirements.RequirementsUtils;
 import delta.games.lotro.gui.utils.StatDisplayUtils;
 import delta.games.lotro.lore.items.Armour;
 import delta.games.lotro.lore.items.ArmourType;
+import delta.games.lotro.lore.items.DisenchantmentManager;
+import delta.games.lotro.lore.items.DisenchantmentResult;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemBinding;
 import delta.games.lotro.lore.items.ItemSturdiness;
@@ -46,9 +48,11 @@ public class ItemDisplayPanelController implements NavigablePanelController
   // GUI
   private JPanel _panel;
   // Controllers
+  private NavigatorWindowController _parent;
   private ItemReferencesDisplayController _references;
   private ItemScalableStatsPanelController _scaling;
   private MoneyDisplayController _money;
+  private DisenchantmentResultPanelController _disenchantment;
 
   /**
    * Constructor.
@@ -57,7 +61,7 @@ public class ItemDisplayPanelController implements NavigablePanelController
    */
   public ItemDisplayPanelController(NavigatorWindowController parent, Item item)
   {
-    //_parent=parent;
+    _parent=parent;
     _item=item;
     _references=new ItemReferencesDisplayController(parent,item.getIdentifier());
     _scaling=new ItemScalableStatsPanelController(item);
@@ -129,6 +133,18 @@ public class ItemDisplayPanelController implements NavigablePanelController
     {
       GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(5,5,5,5),0,0);
       panel.add(stats,c);
+      y++;
+    }
+    // Disenchantment
+    int itemId=_item.getIdentifier();
+    DisenchantmentResult disenchantment=DisenchantmentManager.getInstance().getDisenchantmentResults().getItem(itemId);
+    if (disenchantment!=null)
+    {
+      _disenchantment=new DisenchantmentResultPanelController(_parent,disenchantment);
+      JPanel disenchantmentPanel=_disenchantment.getPanel();
+      disenchantmentPanel.setBorder(GuiFactory.buildTitledBorder("Disenchantment"));
+      GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(5,5,5,5),0,0);
+      panel.add(disenchantmentPanel,c);
       y++;
     }
     // Build components for potential tabs
@@ -359,7 +375,12 @@ public class ItemDisplayPanelController implements NavigablePanelController
       _money.dispose();
       _money=null;
     }
-    //_parent=null;
+    if (_disenchantment!=null)
+    {
+      _disenchantment.dispose();
+      _disenchantment=null;
+    }
+    _parent=null;
     // UI
     if (_panel!=null)
     {

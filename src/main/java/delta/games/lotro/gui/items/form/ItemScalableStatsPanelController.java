@@ -38,7 +38,7 @@ public class ItemScalableStatsPanelController
 
   /**
    * Constructor.
-   * @param item
+   * @param item Item to show.
    */
   public ItemScalableStatsPanelController(Item item)
   {
