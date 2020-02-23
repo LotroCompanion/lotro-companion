@@ -44,6 +44,8 @@ public class RelicChooser
     dialog.setTitle("Choose relic: ");
     // - dimension
     dialog.setMinimumSize(new Dimension(900,300));
+    // Add details column
+    RelicsTableBuilder.addDetailsColumn(chooser,relicsTable);
     return chooser;
   }
 

@@ -13,8 +13,8 @@ import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.games.lotro.common.Identifiable;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.lore.crafting.recipes.Recipe;
-import delta.games.lotro.lore.items.Container;
 import delta.games.lotro.lore.items.Item;
+import delta.games.lotro.lore.items.ItemsContainer;
 import delta.games.lotro.lore.items.ItemsManager;
 import delta.games.lotro.lore.items.sets.ItemsSet;
 import delta.games.lotro.lore.npc.NpcDescription;
@@ -289,13 +289,13 @@ public class ItemReferencesDisplayController
 
   private void buildHtmlForContainers(StringBuilder sb, List<ItemReference<?>> references)
   {
-    List<ItemReference<Container>> containerReferences=getReferences(references,Container.class);
+    List<ItemReference<ItemsContainer>> containerReferences=getReferences(references,ItemsContainer.class);
     if (containerReferences.size()>0)
     {
       sb.append("<h1>Containers</h1>");
-      for(ItemReference<Container> setReference : containerReferences)
+      for(ItemReference<ItemsContainer> containerReference : containerReferences)
       {
-        buildHtmlForContainerReference(sb,setReference.getSource().getIdentifier());
+        buildHtmlForContainerReference(sb,containerReference.getSource().getIdentifier());
       }
     }
   }

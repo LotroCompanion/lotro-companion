@@ -1,5 +1,7 @@
 package delta.games.lotro.gui.items.legendary.relics;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 
 import javax.swing.ImageIcon;
@@ -10,8 +12,10 @@ import delta.common.ui.swing.tables.DataProvider;
 import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.ListDataProvider;
+import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.gui.LotroIconsManager;
+import delta.games.lotro.gui.items.ItemColumnIds;
 import delta.games.lotro.lore.items.legendary.relics.Relic;
 
 /**
@@ -121,5 +125,29 @@ public class RelicsTableBuilder
     JTable swingTable=table.getTable();
     swingTable.setRowHeight(32);
     return table;
+  }
+
+  /**
+   * Add a details column on the given table.
+   * @param parent Parent window.
+   * @param table Table to use.
+   * @return A column controller.
+   */
+  public static DefaultTableColumnController<Relic,String> addDetailsColumn(final WindowController parent, GenericTableController<Relic> table)
+  {
+    DefaultTableColumnController<Relic,String> column=table.buildButtonColumn(ItemColumnIds.DETAILS.name(),"Details...",90);
+    ActionListener al=new ActionListener()
+    {
+      @Override
+      public void actionPerformed(ActionEvent e)
+      {
+        Relic source=(Relic)e.getSource();
+        RelicUiTools.showRelicForm(parent,source);
+      }
+    };
+    column.setActionListener(al);
+    table.addColumnController(column);
+    table.updateColumns();
+    return column;
   }
 }

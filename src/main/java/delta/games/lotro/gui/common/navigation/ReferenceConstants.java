@@ -29,6 +29,10 @@ public class ReferenceConstants
    */
   public static final String ITEMS_SET_PAGE="itemsSet";
   /**
+   * Relic page identifier.
+   */
+  public static final String RELIC_PAGE="relic";
+  /**
    * Recipe page identifier.
    */
   public static final String RECIPE_PAGE="recipe";
@@ -101,6 +105,16 @@ public class ReferenceConstants
   public static final PageIdentifier getItemsSetReference(int itemsSetId)
   {
     return new PageIdentifier(ITEMS_SET_PAGE,itemsSetId);
+  }
+
+  /**
+   * Get a page identifier for the given relic.
+   * @param relicId Identifier of the item to use.
+   * @return A page identifier.
+   */
+  public static final PageIdentifier getRelicReference(int relicId)
+  {
+    return new PageIdentifier(RELIC_PAGE,relicId);
   }
 
   /**
