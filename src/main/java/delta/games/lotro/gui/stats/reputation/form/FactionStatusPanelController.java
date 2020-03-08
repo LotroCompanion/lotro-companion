@@ -60,14 +60,6 @@ public class FactionStatusPanelController
   }
 
   /**
-   * Update data from UI contents.
-   */
-  public void updateDataFromUi()
-  {
-    _editionController.updateDatafromUi();
-  }
-
-  /**
    * Release all managed resources.
    */
   public void dispose()

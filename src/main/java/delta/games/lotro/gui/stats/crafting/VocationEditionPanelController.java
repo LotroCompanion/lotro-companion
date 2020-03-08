@@ -175,13 +175,6 @@ public class VocationEditionPanelController
     {
       controller.updateDataFromUi();
     }
-    for(int i=0;i<CraftingStatus.NB_GUILDS;i++)
-    {
-      if (_guildStatus[i]!=null)
-      {
-        _guildStatus[i].updateDataFromUi();
-      }
-    }
   }
 
   /**

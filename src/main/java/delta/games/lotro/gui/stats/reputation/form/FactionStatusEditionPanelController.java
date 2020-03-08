@@ -9,17 +9,15 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import delta.common.ui.swing.GuiFactory;
-import delta.common.ui.swing.checkbox.CheckboxController;
 import delta.common.ui.swing.text.dates.DateEditionController;
 import delta.common.ui.swing.text.dates.DateListener;
-import delta.games.lotro.character.reputation.FactionStatus;
 import delta.games.lotro.character.reputation.FactionLevelStatus;
+import delta.games.lotro.character.reputation.FactionStatus;
 import delta.games.lotro.lore.reputation.Faction;
 import delta.games.lotro.lore.reputation.FactionLevel;
 
@@ -72,29 +70,15 @@ public class FactionStatusEditionPanelController
   private JPanel buildStatusEditionPanel()
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
-    // Header row 1
+    // Header row
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
     JLabel tier=GuiFactory.buildLabel("Rank");
     panel.add(tier,c);
-
-    // Header row 2
-    c.gridx=1;c.gridy=1;c.gridwidth=1;
-    panel.add(GuiFactory.buildLabel("Completed"),c);
-    c.gridx++;
-    panel.add(GuiFactory.buildLabel("XP"),c);
-    c.gridx++;
+    c=new GridBagConstraints(1,0,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
     panel.add(GuiFactory.buildLabel("Completion date"),c);
     c.gridx++;
     c.gridy++;
 
-    ActionListener l=new ActionListener()
-    {
-      @Override
-      public void actionPerformed(ActionEvent e)
-      {
-        handleCompletionChange(e.getSource());
-      }
-    };
     DateListener dateListener=new DateListener()
     {
       @Override
@@ -116,46 +100,14 @@ public class FactionStatusEditionPanelController
       panel.add(tierLabel,c);
       c.gridx++;
       FactionLevelEditionGadgets gadgets=new FactionLevelEditionGadgets(levelStatus);
-      CheckboxController checkboxCtrl=gadgets.getCompleted();
-      JCheckBox checkbox=checkboxCtrl.getCheckbox();
-      panel.add(checkbox,c);
-      checkbox.addActionListener(l);
-      c.gridx++;
-      panel.add(gadgets.getXp().getTextField(),c);
-      c.gridx++;
       DateEditionController dateCompletion=gadgets.getCompletionDate();
       dateCompletion.addListener(dateListener);
       panel.add(dateCompletion.getTextField(),c);
       c.gridx++;
       _gadgets.add(gadgets);
       c.gridy++;
-
-      if (level==faction.getInitialLevel())
-      {
-        checkboxCtrl.setState(false);
-      }
     }
     return panel;
-  }
-
-  private void handleCompletionChange(Object source)
-  {
-    int index=0;
-    Faction faction=_status.getFaction();
-    for(FactionLevel level : faction.getLevels())
-    {
-      FactionLevelEditionGadgets gadgets=_gadgets.get(index);
-      if (source==gadgets.getCompleted().getCheckbox())
-      {
-        boolean completed=gadgets.getCompleted().isSelected();
-        _status.setCompletionStatus(level,completed);
-        _status.updateCurrentLevel();
-        triggerChartUpdateTimer();
-        break;
-      }
-      index++;
-    }
-    updateUi();
   }
 
   private void handleDateChange(DateEditionController source, long completionDate)
@@ -199,18 +151,6 @@ public class FactionStatusEditionPanelController
     for(int i=0;i<nbTiers;i++)
     {
       _gadgets.get(i).updateUi();
-    }
-  }
-
-  /**
-   * Update data from UI contents.
-   */
-  public void updateDatafromUi()
-  {
-    int nbTiers=_gadgets.size();
-    for(int i=0;i<nbTiers;i++)
-    {
-      _gadgets.get(i).updateDatafromUi();
     }
   }
 

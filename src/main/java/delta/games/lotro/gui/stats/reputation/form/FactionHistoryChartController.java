@@ -203,18 +203,13 @@ public class FactionHistoryChartController
       FactionLevelStatus levelStatus=_stats.getStatusForLevel(level);
       if (levelStatus!=null)
       {
-        boolean isCompleted=levelStatus.isCompleted();
-        if (isCompleted)
+        long date=levelStatus.getCompletionDate();
+        if (date!=0)
         {
-          long date=levelStatus.getCompletionDate();
-          if (date!=0)
-          {
-            series.add(date,level.getTier());
-          }
+          series.add(date,level.getTier());
         }
       }
     }
-
     _data.addSeries(series);
   }
 
