@@ -126,7 +126,7 @@ public class FactionHistoryChartController
         int tier=(int)dataset.getYValue(series,item);
         for(FactionLevel level : levels)
         {
-          if (level.getValue()==tier)
+          if (level.getTier()==tier)
           {
             label=level.getName();
           }
@@ -151,8 +151,8 @@ public class FactionHistoryChartController
     valueAxis.setAxisLinePaint(foregroundColor);
     valueAxis.setLabelPaint(foregroundColor);
     valueAxis.setTickLabelPaint(foregroundColor);
-    final int min=levels[0].getValue();
-    int max=levels[levels.length-1].getValue();
+    final int min=levels[0].getTier();
+    int max=levels[levels.length-1].getTier();
     valueAxis.setRange(min,max);
     NumberFormat nf=new NumberFormat()
     {
@@ -209,7 +209,7 @@ public class FactionHistoryChartController
           long date=levelStatus.getCompletionDate();
           if (date!=0)
           {
-            series.add(date,level.getValue());
+            series.add(date,level.getTier());
           }
         }
       }

@@ -284,12 +284,13 @@ public class ReputationSynopsisTableController
 
   private static Color getColorForFactionLevel(Faction faction, FactionLevel level)
   {
-    int index=level.getValue();
+    int index=level.getTier();
+    // TODO Another way to get color
     if (index==-2) return Color.MAGENTA;
     if (index==-1) return Color.RED;
     if (index==0) return Color.GRAY;
     FactionLevel[] levels=faction.getLevels();
-    int max=levels[levels.length-1].getValue();
+    int max=levels[levels.length-1].getTier();
     if (max==1) return Color.GREEN;
     // Gradient from orange to green
     Color[] gradient=Gradients.getOrangeToGreen(max);
