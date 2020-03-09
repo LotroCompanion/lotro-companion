@@ -284,6 +284,7 @@ public class ReputationSynopsisTableController
 
   private static Color getColorForFactionLevel(Faction faction, FactionLevel level)
   {
+    if (level==null) return Color.GRAY;
     int index=level.getTier();
     // TODO Another way to get color
     if (index==-2) return Color.MAGENTA;
@@ -314,7 +315,7 @@ public class ReputationSynopsisTableController
     {
       FactionLevel level=factionStatus.getFactionLevel();
       backgroundColor=getColorForFactionLevel(factionStatus.getFaction(),level);
-      text=level.getName();
+      text=level!=null?level.getName():"-";
     }
     label.setForeground(Color.BLACK);
     if (backgroundColor!=null)
