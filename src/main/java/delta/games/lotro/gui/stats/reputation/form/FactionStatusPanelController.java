@@ -21,8 +21,10 @@ import delta.games.lotro.character.reputation.FactionStatus;
 public class FactionStatusPanelController
 {
   // Controllers
-  private FactionStatusEditionPanelController _editionController;
+  private FactionStatusEditionPanelController _statusController;
+  private FactionHistoryEditionPanelController _historyController;
   private FactionHistoryChartPanelController _chartController;
+
   // UI
   private JPanel _panel;
 
@@ -32,8 +34,9 @@ public class FactionStatusPanelController
    */
   public FactionStatusPanelController(FactionStatus status)
   {
+    _statusController=new FactionStatusEditionPanelController(status);
     _chartController=new FactionHistoryChartPanelController(status);
-    _editionController=new FactionStatusEditionPanelController(status,_chartController);
+    _historyController=new FactionHistoryEditionPanelController(status,_chartController);
   }
 
   /**
@@ -52,11 +55,27 @@ public class FactionStatusPanelController
   private JPanel buildPanel()
   {
     JPanel panel=GuiFactory.buildBackgroundPanel(new GridBagLayout());
-    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
-    panel.add(_editionController.getPanel(),c);
-    c=new GridBagConstraints(1,0,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(5,5,5,5),0,0);
-    panel.add(_chartController.getPanel(),c);
+    GridBagConstraints c=new GridBagConstraints(0,0,2,1,0.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
+    JPanel statusPanel=_statusController.getPanel();
+    statusPanel.setBorder(GuiFactory.buildTitledBorder("Current reputation"));
+    panel.add(statusPanel,c);
+    c=new GridBagConstraints(0,1,1,1,0.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
+    JPanel historyPanel=_historyController.getPanel();
+    historyPanel.setBorder(GuiFactory.buildTitledBorder("History"));
+    panel.add(historyPanel,c);
+    c=new GridBagConstraints(1,1,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(5,5,5,5),0,0);
+    JPanel chartPanel=_chartController.getPanel();
+    chartPanel.setBorder(GuiFactory.buildTitledBorder("History chart"));
+    panel.add(chartPanel,c);
     return panel;
+  }
+
+  /**
+   * Update data from the UI contents.
+   */
+  public void updateData()
+  {
+    _statusController.updateData();
   }
 
   /**
@@ -69,10 +88,15 @@ public class FactionStatusPanelController
       _panel.removeAll();
       _panel=null;
     }
-    if (_editionController!=null)
+    if (_statusController!=null)
     {
-      _editionController.dispose();
-      _editionController=null;
+      _statusController.dispose();
+      _statusController=null;
+    }
+    if (_historyController!=null)
+    {
+      _historyController.dispose();
+      _historyController=null;
     }
     if (_chartController!=null)
     {

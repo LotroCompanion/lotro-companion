@@ -1,28 +1,21 @@
 package delta.games.lotro.gui.stats.reputation.form;
 
-import java.awt.BorderLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
+import java.awt.FlowLayout;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.Timer;
+import javax.swing.JTextField;
 
 import delta.common.ui.swing.GuiFactory;
-import delta.common.ui.swing.text.dates.DateEditionController;
-import delta.common.ui.swing.text.dates.DateListener;
-import delta.games.lotro.character.reputation.FactionLevelStatus;
+import delta.common.ui.swing.combobox.ComboBoxController;
+import delta.common.ui.swing.combobox.ItemSelectionListener;
+import delta.common.ui.swing.text.IntegerEditionController;
 import delta.games.lotro.character.reputation.FactionStatus;
 import delta.games.lotro.lore.reputation.Faction;
 import delta.games.lotro.lore.reputation.FactionLevel;
 
 /**
- * Controller for a faction status edition panel.
+ * Controller for a panel to edition a faction status (level+reputation amount).
  * @author DAM
  */
 public class FactionStatusEditionPanelController
@@ -30,23 +23,22 @@ public class FactionStatusEditionPanelController
   // Data
   private FactionStatus _status;
   // Controllers
-  private List<FactionLevelEditionGadgets> _gadgets;
-  private FactionHistoryChartPanelController _chart;
+  private ComboBoxController<Integer> _tiers;
+  private IntegerEditionController _reputationValue;
   // UI
   private JPanel _panel;
-  private Timer _updateTimer;
+  private JPanel _reputationPanel;
+  private JLabel _reputationMax;
 
   /**
    * Constructor.
    * @param status Status to edit.
-   * @param chart Associated chart.
    */
-  public FactionStatusEditionPanelController(FactionStatus status, FactionHistoryChartPanelController chart)
+  public FactionStatusEditionPanelController(FactionStatus status)
   {
     _status=status;
-    _chart=chart;
-    _gadgets=new ArrayList<FactionLevelEditionGadgets>();
     _panel=buildPanel();
+    updateUi();
   }
 
   /**
@@ -60,98 +52,160 @@ public class FactionStatusEditionPanelController
 
   private JPanel buildPanel()
   {
-    JPanel panel=GuiFactory.buildPanel(new BorderLayout());
-    JPanel statusEditionPanel=buildStatusEditionPanel();
-    panel.add(statusEditionPanel,BorderLayout.CENTER);
-    updateUi();
-    return panel;
-  }
-
-  private JPanel buildStatusEditionPanel()
-  {
-    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
-    // Header row
-    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
-    JLabel tier=GuiFactory.buildLabel("Rank");
-    panel.add(tier,c);
-    c=new GridBagConstraints(1,0,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
-    panel.add(GuiFactory.buildLabel("Completion date"),c);
-    c.gridx++;
-    c.gridy++;
-
-    DateListener dateListener=new DateListener()
+    JPanel panel=GuiFactory.buildPanel(new FlowLayout());
+    panel.add(GuiFactory.buildLabel("Current tier: "));
+    // Tiers
+    _tiers=buildTierCombo();
+    panel.add(_tiers.getComboBox());
+    ItemSelectionListener<Integer> listener=new ItemSelectionListener<Integer>()
     {
       @Override
-      public void dateChanged(DateEditionController controller, Long newDate)
+      public void itemSelected(Integer item)
       {
-        long date=(newDate!=null)?newDate.longValue():0;
-        handleDateChange(controller,date);
+        Faction faction=_status.getFaction();
+        FactionLevel level=null;
+        if (item!=null)
+        {
+          level=faction.getLevelByTier(item.intValue());
+        }
+        updateReputationPanel(level);
       }
     };
-
-    // Data rows
-    Faction faction=_status.getFaction();
-
-    for(FactionLevel level : faction.getLevels())
-    {
-      FactionLevelStatus levelStatus=_status.getStatusForLevel(level);
-      c.gridx=0;
-      JLabel tierLabel=GuiFactory.buildLabel(level.toString());
-      panel.add(tierLabel,c);
-      c.gridx++;
-      FactionLevelEditionGadgets gadgets=new FactionLevelEditionGadgets(levelStatus);
-      DateEditionController dateCompletion=gadgets.getCompletionDate();
-      dateCompletion.addListener(dateListener);
-      panel.add(dateCompletion.getTextField(),c);
-      c.gridx++;
-      _gadgets.add(gadgets);
-      c.gridy++;
-    }
+    _tiers.addListener(listener);
+    // Reputation panel
+    _reputationPanel=buildReputationPanel();
+    panel.add(_reputationPanel);
     return panel;
   }
 
-  private void handleDateChange(DateEditionController source, long completionDate)
+  private JPanel buildReputationPanel()
   {
-    int index=0;
-    Faction faction=_status.getFaction();
-    for(FactionLevel level : faction.getLevels())
+    // Value editor
+    JTextField reputationAmount=GuiFactory.buildTextField("");
+    _reputationValue=new IntegerEditionController(reputationAmount);
+    _reputationValue.setValueRange(Integer.valueOf(0),null);
+    // Max label
+    _reputationMax=GuiFactory.buildLabel(" / 000000");
+    // Assembly
+    JPanel panel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.CENTER,5,2));
+    panel.add(GuiFactory.buildLabel("Reputation: "));
+    panel.add(_reputationValue.getTextField());
+    panel.add(_reputationMax);
+    return panel;
+  }
+
+  /**
+   * Update UI from current data.
+   */
+  public void updateUi()
+  {
+    // Level
+    FactionLevel level=_status.getFactionLevel();
+    Integer tier=(level!=null)?Integer.valueOf(level.getTier()):null;
+    _tiers.selectItem(tier);
+    updateReputationPanel(level);
+    // Reputation amount
+    Integer reputation=_status.getReputation();
+    if (reputation!=null)
     {
-      FactionLevelStatus status=_status.getStatusForLevel(level);
-      FactionLevelEditionGadgets proficiency=_gadgets.get(index);
-      if (source==proficiency.getCompletionDate())
+      if (level!=null)
       {
-        status.setCompletionDate(completionDate);
+        int requiredRep=level.getRequiredReputation();
+        int diff=reputation.intValue()-requiredRep;
+        _reputationValue.setValue(Integer.valueOf(diff));
       }
-      index++;
     }
-    triggerChartUpdateTimer();
+    else
+    {
+      _reputationValue.setValue(Integer.valueOf(0));
+    }
   }
 
-  private void triggerChartUpdateTimer()
+  private void updateReputationPanel(FactionLevel level)
   {
-    if (_updateTimer==null)
+    boolean visible=true;
+    if (level==null)
     {
-      ActionListener updateChart = new ActionListener()
+      visible=false;
+    }
+    Faction faction=_status.getFaction();
+    FactionLevel maxLevel=faction.getLevelByTier(faction.getHighestTier());
+    if (level==maxLevel)
+    {
+      visible=false;
+    }
+    _reputationPanel.setVisible(visible);
+    if (visible)
+    {
+      FactionLevel nextLevel=faction.getLevelByTier(level.getTier()+1);
+      int maxRep=nextLevel.getRequiredReputation()-level.getRequiredReputation();
+      Integer currentValue=_reputationValue.getValue();
+      if (currentValue!=null)
       {
-        @Override
-        public void actionPerformed(ActionEvent e)
+        if (currentValue.intValue()>=maxRep)
         {
-          _chart.updateData();
+          _reputationValue.setValue(Integer.valueOf(maxRep-1));
         }
-      };
-      _updateTimer=new Timer(100,updateChart);
-      _updateTimer.setRepeats(false);
+      }
+      _reputationValue.setValueRange(Integer.valueOf(0),Integer.valueOf(maxRep));
+      _reputationMax.setText(" / "+maxRep);
     }
-    _updateTimer.restart();
   }
 
-  private void updateUi()
+  /**
+   * Update data from the UI contents.
+   */
+  public void updateData()
   {
-    int nbTiers=_gadgets.size();
-    for(int i=0;i<nbTiers;i++)
+    Faction faction=_status.getFaction();
+    // Selected level
+    Integer tier=_tiers.getSelectedItem();
+    FactionLevel level;
+    if (tier!=null)
     {
-      _gadgets.get(i).updateUi();
+      level=faction.getLevelByTier(tier.intValue());
     }
+    else
+    {
+      level=null;
+    }
+    _status.setFactionLevel(level);
+    // Reputation amount
+    if (level!=null)
+    {
+      int requiredReputation=level.getRequiredReputation();
+      int totalReputation=requiredReputation;
+      if (_reputationPanel.isVisible())
+      {
+        Integer additionalReputation=_reputationValue.getValue();
+        if (additionalReputation!=null)
+        {
+          totalReputation+=additionalReputation.intValue();
+        }
+      }
+      _status.setReputation(Integer.valueOf(totalReputation));
+    }
+    else
+    {
+      _status.setReputation(null);
+    }
+  }
+
+  /**
+   * Build a combobox to select a faction level.
+   * @return a combobox.
+   */
+  private ComboBoxController<Integer> buildTierCombo()
+  {
+    ComboBoxController<Integer> ctrl=new ComboBoxController<Integer>();
+    ctrl.addEmptyItem("");
+    Faction faction=_status.getFaction();
+    FactionLevel[] levels=faction.getLevels();
+    for(FactionLevel level : levels)
+    {
+      ctrl.addItem(Integer.valueOf(level.getTier()),level.getName());
+    }
+    return ctrl;
   }
 
   /**
@@ -164,14 +218,20 @@ public class FactionStatusEditionPanelController
       _panel.removeAll();
       _panel=null;
     }
-    if (_gadgets!=null)
+    if (_reputationPanel!=null)
     {
-      for(FactionLevelEditionGadgets gadget : _gadgets)
-      {
-        gadget.dispose();
-      }
-      _gadgets.clear();
-      _gadgets=null;
+      _reputationPanel.removeAll();
+      _reputationPanel=null;
+    }
+    if (_tiers!=null)
+    {
+      _tiers.dispose();
+      _tiers=null;
+    }
+    if (_reputationValue!=null)
+    {
+      _reputationValue.dispose();
+      _reputationValue=null;
     }
     _status=null;
   }

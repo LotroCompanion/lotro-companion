@@ -57,6 +57,7 @@ public class FactionEditionDialogController extends DefaultFormDialogController<
   @Override
   protected void okImpl()
   {
+    _edition.updateData();
     _data.set(_edited);
   }
 
