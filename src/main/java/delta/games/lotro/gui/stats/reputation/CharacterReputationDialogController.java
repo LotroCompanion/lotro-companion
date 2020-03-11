@@ -7,6 +7,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -91,6 +92,11 @@ public class CharacterReputationDialogController extends DefaultFormDialogContro
     for(String category : categories)
     {
       List<Faction> factions=registry.getFactionsForCategory(category);
+      factions=filterFactions(factions);
+      if (factions.size()==0)
+      {
+        continue;
+      }
       JPanel reputationPanel=buildReputationPanelForCategory(category,factions);
       JPanel tabPanel=GuiFactory.buildBackgroundPanel(new BorderLayout());
       tabPanel.add(reputationPanel,BorderLayout.CENTER);
@@ -100,6 +106,19 @@ public class CharacterReputationDialogController extends DefaultFormDialogContro
     tabs.setBorder(factionsBorder);
     panel.add(tabs,BorderLayout.CENTER);
     return panel;
+  }
+
+  private List<Faction> filterFactions(List<Faction> factions)
+  {
+    List<Faction> ret=new ArrayList<Faction>();
+    for(Faction faction : factions)
+    {
+      if (!faction.isGuildFaction())
+      {
+        ret.add(faction);
+      }
+    }
+    return ret;
   }
 
   private JPanel buildTopPanel()
