@@ -229,7 +229,7 @@ public class CharacterReputationDialogController extends DefaultFormDialogContro
     }
     else
     {
-      current=faction.getInitialLevel();
+      current=null;
     }
     editor.setFactionLevel(current);
   }
