@@ -129,24 +129,16 @@ public class FactionStatusEditionPanelController
       visible=false;
     }
     Faction faction=_status.getFaction();
-    FactionLevel maxLevel=faction.getLevelByTier(faction.getHighestTier());
-    if (level==maxLevel)
+    FactionLevel nextLevel=faction.getNext(level);
+    if (nextLevel==null)
     {
       visible=false;
     }
     _reputationPanel.setVisible(visible);
     if (visible)
     {
-      FactionLevel nextLevel=faction.getLevelByTier(level.getTier()+1);
       int maxRep=nextLevel.getRequiredReputation()-level.getRequiredReputation();
-      Integer currentValue=_reputationValue.getValue();
-      if (currentValue!=null)
-      {
-        if (currentValue.intValue()>=maxRep)
-        {
-          _reputationValue.setValue(Integer.valueOf(maxRep-1));
-        }
-      }
+      _reputationValue.setValue(Integer.valueOf(0));
       _reputationValue.setValueRange(Integer.valueOf(0),Integer.valueOf(maxRep));
       _reputationMax.setText(" / "+maxRep);
     }

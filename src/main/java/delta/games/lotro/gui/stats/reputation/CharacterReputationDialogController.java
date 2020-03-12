@@ -29,7 +29,6 @@ import delta.games.lotro.character.reputation.FactionStatus;
 import delta.games.lotro.character.reputation.ReputationStatus;
 import delta.games.lotro.gui.stats.reputation.form.FactionEditionDialogController;
 import delta.games.lotro.lore.reputation.Faction;
-import delta.games.lotro.lore.reputation.FactionLevel;
 import delta.games.lotro.lore.reputation.FactionsRegistry;
 import delta.games.lotro.stats.deeds.DeedsStatusManager;
 import delta.games.lotro.stats.deeds.SyncDeedsStatusAndReputationStatus;
@@ -240,17 +239,8 @@ public class CharacterReputationDialogController extends DefaultFormDialogContro
   private void updateFactionDisplay(FactionEditionPanelController editor)
   {
     Faction faction=editor.getFaction();
-    FactionLevel current;
     FactionStatus factionStatus=_data.getFactionStatus(faction);
-    if (factionStatus!=null)
-    {
-      current=factionStatus.getFactionLevel();
-    }
-    else
-    {
-      current=null;
-    }
-    editor.setFactionLevel(current);
+    editor.setFactionStatus(factionStatus);
   }
 
   @Override

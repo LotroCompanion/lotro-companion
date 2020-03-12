@@ -9,6 +9,7 @@ import javax.swing.JProgressBar;
 import javax.swing.SwingConstants;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.games.lotro.character.reputation.FactionStatus;
 import delta.games.lotro.lore.reputation.Faction;
 import delta.games.lotro.lore.reputation.FactionLevel;
 
@@ -105,26 +106,60 @@ public class FactionEditionPanelController
   }
 
   /**
-   * Set the faction level.
-   * @param level Level to set.
+   * Set the faction status.
+   * @param status Status to set.
    */
-  public void setFactionLevel(FactionLevel level)
+  public void setFactionStatus(FactionStatus status)
   {
-    String levelName="-";
-    Color background=Color.GRAY;
-    int tier=0;
-    if (level!=null)
+    FactionLevel level=(status!=null)?status.getFactionLevel():null;
+    if (level==null)
     {
-      levelName=level.getName();
-      tier=level.getTier();
-      background=Color.BLUE;
-      // TODO: tier are never negative. Find another way to get color
-      if (tier==-2) background=Color.RED;
-      if (tier==-1) background=Color.MAGENTA;
+      _bar.setBackground(Color.WHITE);
+      _bar.setForeground(Color.GRAY);
+      _bar.setString("-");
+      _bar.setValue(0);
+      _bar.setMinimum(0);
+      _bar.setMaximum(0);
     }
-    _bar.setForeground(background);
-    _bar.setString(levelName);
-    _bar.setValue(tier);
+    else
+    {
+      String levelName=level.getName();
+      Faction faction=status.getFaction();
+      Integer reputation=status.getReputation();
+      int reputationValue=(reputation!=null)?reputation.intValue():level.getRequiredReputation();
+      FactionLevel initialLevel=faction.getLevelByTier(faction.getInitialTier());
+      int initialReputationValue=initialLevel.getRequiredReputation();
+      int min=0;
+      int max=0;
+      int value=reputationValue;
+      if (reputationValue<initialReputationValue)
+      {
+        FactionLevel minLevel=faction.getLevelByTier(faction.getLowestTier());
+        min=minLevel.getRequiredReputation();
+        max=initialLevel.getRequiredReputation();
+        value=reputationValue;
+        _bar.setBackground(Color.RED);
+        _bar.setForeground(Color.WHITE);
+      }
+      else
+      {
+        min=initialReputationValue;
+        FactionLevel maxLevel=faction.getLevelByTier(faction.getHighestTier());
+        max=maxLevel.getRequiredReputation();
+        _bar.setBackground(Color.WHITE);
+        _bar.setForeground(Color.BLUE);
+      }
+      _bar.setMinimum(min);
+      _bar.setMaximum(max);
+      _bar.setValue(value);
+      String label=levelName;
+      int diffReputation=reputationValue-level.getRequiredReputation();
+      if (diffReputation>0)
+      {
+        label=label+" +"+diffReputation;
+      }
+      _bar.setString(label);
+    }
   }
 
   /**
