@@ -77,7 +77,7 @@ public class CraftingSynopsisTableController
     _rowItems.clear();
     for(CharacterFile toon : _toons)
     {
-      CraftingStatus craftingStatus=toon.getCraftingStatus();
+      CraftingStatus craftingStatus=toon.getCraftingMgr().getCraftingStatus();
       List<Profession> professions=craftingStatus.getProfessions();
       for(Profession profession : professions)
       {

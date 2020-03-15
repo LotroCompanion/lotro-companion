@@ -37,7 +37,6 @@ public class CraftingWindowController extends DefaultFormDialogController<Crafti
 {
   // Data
   private CharacterFile _toon;
-  private CraftingStatus _stats;
   // Controllers
   private ComboBoxController<Vocation> _vocation;
   private ComboBoxController<Profession>[] _guilds;
@@ -50,10 +49,9 @@ public class CraftingWindowController extends DefaultFormDialogController<Crafti
    */
   public CraftingWindowController(WindowController parentController, CharacterFile toon)
   {
-    super(parentController,toon.getCraftingStatus());
+    super(parentController,toon.getCraftingMgr().getCraftingStatus());
     _toon=toon;
-    _stats=toon.getCraftingStatus();
-    _vocationController=new VocationEditionPanelController(_stats);
+    _vocationController=new VocationEditionPanelController(_data);
   }
 
   @SuppressWarnings("unchecked")
@@ -99,14 +97,14 @@ public class CraftingWindowController extends DefaultFormDialogController<Crafti
 
     // Update vocation edition panel
     _vocationController.updateUiFromData();
-    Vocation vocation=_stats.getVocation();
+    Vocation vocation=_data.getVocation();
     // Init combos
     // - vocation
     _vocation.selectItem(vocation);
     // - guilds
     for(int i=0;i<CraftingStatus.NB_GUILDS;i++)
     {
-      Profession currentGuild=_stats.getGuildStatus(i).getProfession();
+      Profession currentGuild=_data.getGuildStatus(i).getProfession();
       _guilds[i].addEmptyItem("");
       updateGuildCombo(_guilds[i],vocation);
       _guilds[i].selectItem(currentGuild);
@@ -157,11 +155,11 @@ public class CraftingWindowController extends DefaultFormDialogController<Crafti
   private boolean updateVocation(Vocation selectedVocation)
   {
     boolean changed=false;
-    Vocation currentVocation=_stats.getVocation();
+    Vocation currentVocation=_data.getVocation();
     if (currentVocation!=selectedVocation)
     {
       long now=System.currentTimeMillis();
-      _stats.changeVocation(selectedVocation,now);
+      _data.changeVocation(selectedVocation,now);
       changed=true;
     }
     return changed;
@@ -180,11 +178,11 @@ public class CraftingWindowController extends DefaultFormDialogController<Crafti
   private boolean updateGuild(int index, Profession selectedGuild)
   {
     boolean changed=false;
-    Profession currentProfession=_stats.getGuildStatus(index).getProfession();
+    Profession currentProfession=_data.getGuildStatus(index).getProfession();
     if (currentProfession!=selectedGuild)
     {
       long now=System.currentTimeMillis();
-      _stats.getGuildStatus(index).changeProfession(selectedGuild,now);
+      _data.getGuildStatus(index).changeProfession(selectedGuild,now);
       changed=true;
     }
     return changed;
@@ -215,7 +213,7 @@ public class CraftingWindowController extends DefaultFormDialogController<Crafti
   protected void okImpl()
   {
     _vocationController.updateDataFromUi();
-    _toon.saveCrafting();
+    _toon.getCraftingMgr().saveCrafting();
     // Broadcast crafting update event...
     CharacterEvent event=new CharacterEvent(CharacterEventType.CHARACTER_CRAFTING_UPDATED,_toon,null);
     EventsManager.invokeEvent(event);
@@ -224,7 +222,7 @@ public class CraftingWindowController extends DefaultFormDialogController<Crafti
   @Override
   protected void cancelImpl()
   {
-    _toon.revertCrafting();
+    _toon.getCraftingMgr().revertCrafting();
   }
 
   private ComboBoxController<Vocation> buildVocationCombo()
@@ -303,7 +301,6 @@ public class CraftingWindowController extends DefaultFormDialogController<Crafti
       }
       _guilds=null;
     }
-    _stats=null;
     _toon=null;
   }
 }
