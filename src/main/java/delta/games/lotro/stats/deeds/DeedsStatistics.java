@@ -9,6 +9,8 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 
 import delta.common.utils.text.EndOfLine;
+import delta.games.lotro.character.deeds.DeedStatus;
+import delta.games.lotro.character.deeds.DeedsStatusManager;
 import delta.games.lotro.character.virtues.VirtueDescription;
 import delta.games.lotro.character.virtues.VirtuesManager;
 import delta.games.lotro.common.rewards.EmoteReward;

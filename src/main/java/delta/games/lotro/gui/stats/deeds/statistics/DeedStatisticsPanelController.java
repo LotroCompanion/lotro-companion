@@ -8,10 +8,10 @@ import javax.swing.JTabbedPane;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.WindowController;
+import delta.games.lotro.character.deeds.DeedsStatusManager;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.DeedsManager;
 import delta.games.lotro.stats.deeds.DeedsStatistics;
-import delta.games.lotro.stats.deeds.DeedsStatusManager;
 
 /**
  * Controller for a panel to show the statistics about some deeds.

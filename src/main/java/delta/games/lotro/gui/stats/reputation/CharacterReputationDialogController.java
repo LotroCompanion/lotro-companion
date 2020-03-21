@@ -23,6 +23,8 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.DefaultFormDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.CharacterFile;
+import delta.games.lotro.character.deeds.DeedsStatusManager;
+import delta.games.lotro.character.deeds.io.DeedsStatusIo;
 import delta.games.lotro.character.events.CharacterEvent;
 import delta.games.lotro.character.events.CharacterEventType;
 import delta.games.lotro.character.reputation.FactionStatus;
@@ -30,9 +32,7 @@ import delta.games.lotro.character.reputation.ReputationStatus;
 import delta.games.lotro.gui.stats.reputation.form.FactionEditionDialogController;
 import delta.games.lotro.lore.reputation.Faction;
 import delta.games.lotro.lore.reputation.FactionsRegistry;
-import delta.games.lotro.stats.deeds.DeedsStatusManager;
 import delta.games.lotro.stats.deeds.SyncDeedsStatusAndReputationStatus;
-import delta.games.lotro.stats.deeds.io.DeedsStatusIo;
 import delta.games.lotro.utils.events.EventsManager;
 
 /**

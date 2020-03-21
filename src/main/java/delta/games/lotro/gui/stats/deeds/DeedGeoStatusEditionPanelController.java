@@ -13,6 +13,8 @@ import javax.swing.JCheckBox;
 import delta.common.ui.swing.checkbox.CheckboxController;
 import delta.common.ui.swing.text.dates.DateEditionController;
 import delta.common.ui.swing.windows.WindowController;
+import delta.games.lotro.character.deeds.geo.DeedGeoPointStatus;
+import delta.games.lotro.character.deeds.geo.DeedGeoStatus;
 import delta.games.lotro.gui.stats.deeds.map.GeoDeedMapWindowController;
 import delta.games.lotro.lore.deeds.geo.DeedGeoData;
 import delta.games.lotro.lore.deeds.geo.DeedGeoPoint;
@@ -20,8 +22,6 @@ import delta.games.lotro.maps.data.MapBundle;
 import delta.games.lotro.maps.data.MapsManager;
 import delta.games.lotro.maps.data.Marker;
 import delta.games.lotro.maps.data.MarkersManager;
-import delta.games.lotro.stats.deeds.geo.DeedGeoPointStatus;
-import delta.games.lotro.stats.deeds.geo.DeedGeoStatus;
 import delta.games.lotro.utils.maps.Maps;
 
 /**

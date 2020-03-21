@@ -2,9 +2,9 @@ package delta.games.lotro.gui.stats.deeds;
 
 import java.util.List;
 
+import delta.games.lotro.character.deeds.DeedStatus;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.DeedsManager;
-import delta.games.lotro.stats.deeds.DeedStatus;
 
 /**
  * Simple test class for the deed status edition dialog.

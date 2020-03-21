@@ -17,6 +17,8 @@ import delta.common.ui.swing.windows.DefaultFormDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.character.CharacterFile;
+import delta.games.lotro.character.deeds.DeedStatus;
+import delta.games.lotro.character.deeds.DeedsStatusManager;
 import delta.games.lotro.character.events.CharacterEvent;
 import delta.games.lotro.character.events.CharacterEventType;
 import delta.games.lotro.character.reputation.ReputationStatus;
@@ -24,8 +26,6 @@ import delta.games.lotro.gui.deed.filter.DeedFilter;
 import delta.games.lotro.gui.deed.filter.DeedFilterController;
 import delta.games.lotro.gui.main.GlobalPreferences;
 import delta.games.lotro.lore.deeds.DeedDescription;
-import delta.games.lotro.stats.deeds.DeedStatus;
-import delta.games.lotro.stats.deeds.DeedsStatusManager;
 import delta.games.lotro.stats.deeds.SyncDeedsStatusAndReputationStatus;
 import delta.games.lotro.utils.events.EventsManager;
 

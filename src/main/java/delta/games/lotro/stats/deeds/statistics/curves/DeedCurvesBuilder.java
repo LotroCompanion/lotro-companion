@@ -5,13 +5,13 @@ import java.util.Collections;
 import java.util.List;
 
 import delta.games.lotro.character.CharacterFile;
+import delta.games.lotro.character.deeds.DeedStatus;
+import delta.games.lotro.character.deeds.DeedStatusDateComparator;
+import delta.games.lotro.character.deeds.DeedsStatusManager;
+import delta.games.lotro.character.deeds.io.DeedsStatusIo;
 import delta.games.lotro.gui.stats.curves.DatedCurveProvider;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.DeedsManager;
-import delta.games.lotro.stats.deeds.DeedStatus;
-import delta.games.lotro.stats.deeds.DeedStatusDateComparator;
-import delta.games.lotro.stats.deeds.DeedsStatusManager;
-import delta.games.lotro.stats.deeds.io.DeedsStatusIo;
 import delta.games.lotro.utils.charts.DatedCurve;
 
 /**

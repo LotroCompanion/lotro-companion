@@ -16,13 +16,13 @@ import delta.common.ui.swing.tables.TableColumnController;
 import delta.common.ui.swing.tables.TableColumnsManager;
 import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.misc.TypedProperties;
+import delta.games.lotro.character.deeds.DeedStatus;
+import delta.games.lotro.character.deeds.DeedsStatusManager;
 import delta.games.lotro.gui.deed.table.DeedColumnIds;
 import delta.games.lotro.gui.deed.table.DeedsTableController;
 import delta.games.lotro.gui.items.chooser.ItemChooser;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.DeedsManager;
-import delta.games.lotro.stats.deeds.DeedStatus;
-import delta.games.lotro.stats.deeds.DeedsStatusManager;
 import delta.games.lotro.utils.Formats;
 
 /**

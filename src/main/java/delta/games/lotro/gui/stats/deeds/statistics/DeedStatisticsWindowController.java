@@ -9,11 +9,11 @@ import javax.swing.JPanel;
 import delta.common.ui.swing.windows.DefaultDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.CharacterFile;
+import delta.games.lotro.character.deeds.DeedsStatusManager;
+import delta.games.lotro.character.deeds.io.DeedsStatusIo;
 import delta.games.lotro.character.events.CharacterEvent;
 import delta.games.lotro.character.events.CharacterEventType;
 import delta.games.lotro.stats.deeds.DeedsStatistics;
-import delta.games.lotro.stats.deeds.DeedsStatusManager;
-import delta.games.lotro.stats.deeds.io.DeedsStatusIo;
 import delta.games.lotro.utils.events.EventsManager;
 import delta.games.lotro.utils.events.GenericEventsListener;
 

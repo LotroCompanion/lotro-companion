@@ -2,6 +2,8 @@ package delta.games.lotro.stats.deeds;
 
 import java.util.List;
 
+import delta.games.lotro.character.deeds.DeedStatus;
+import delta.games.lotro.character.deeds.DeedsStatusManager;
 import delta.games.lotro.character.reputation.FactionLevelStatus;
 import delta.games.lotro.character.reputation.FactionStatus;
 import delta.games.lotro.character.reputation.ReputationStatus;

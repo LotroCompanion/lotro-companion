@@ -32,6 +32,8 @@ import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharacterInfosManager;
 import delta.games.lotro.character.CharacterSummary;
+import delta.games.lotro.character.deeds.DeedsStatusManager;
+import delta.games.lotro.character.deeds.io.DeedsStatusIo;
 import delta.games.lotro.character.events.CharacterEvent;
 import delta.games.lotro.character.events.CharacterEventType;
 import delta.games.lotro.character.stats.CharacterStatsComputer;
@@ -44,8 +46,6 @@ import delta.games.lotro.gui.stats.deeds.statistics.DeedStatisticsWindowControll
 import delta.games.lotro.gui.stats.levelling.LevelHistoryEditionDialogController;
 import delta.games.lotro.gui.stats.reputation.CharacterReputationDialogController;
 import delta.games.lotro.gui.stats.traitPoints.TraitPointsEditionWindowController;
-import delta.games.lotro.stats.deeds.DeedsStatusManager;
-import delta.games.lotro.stats.deeds.io.DeedsStatusIo;
 import delta.games.lotro.stats.traitPoints.TraitPoints;
 import delta.games.lotro.stats.traitPoints.TraitPointsStatus;
 import delta.games.lotro.utils.events.EventsManager;

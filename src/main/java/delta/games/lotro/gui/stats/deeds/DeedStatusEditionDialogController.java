@@ -27,14 +27,14 @@ import delta.common.ui.swing.text.dates.DateEditionController;
 import delta.common.ui.swing.windows.DefaultFormDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.ui.swing.windows.WindowsManager;
+import delta.games.lotro.character.deeds.DeedStatus;
+import delta.games.lotro.character.deeds.geo.DeedGeoStatus;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.gui.navigation.NavigatorFactory;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.DeedType;
 import delta.games.lotro.lore.deeds.geo.DeedGeoData;
-import delta.games.lotro.stats.deeds.DeedStatus;
-import delta.games.lotro.stats.deeds.geo.DeedGeoStatus;
 import delta.games.lotro.utils.DateFormat;
 
 /**
