@@ -1,6 +1,7 @@
 package delta.games.lotro.gui.stats.crafting;
 
 import java.awt.BorderLayout;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -24,7 +25,7 @@ import delta.games.lotro.lore.crafting.Vocation;
  * Controller for the vocation edition panel. This panel contains:
  * <ul>
  * <li>3 profession panels,
- * <li>an optional guild panel.
+ * <li>0-2 guild panels.
  * </ul>
  * @author DAM
  */
@@ -32,7 +33,7 @@ public class VocationEditionPanelController
 {
   // Controllers
   private HashMap<Profession,ProfessionStatusPanelController> _panels;
-  private FactionStatusPanelController[] _guildStatus;
+  private List<FactionStatusPanelController> _guildStatus;
   // UI
   private JPanel _vocationPanel;
   private JTabbedPane _tabbedPane;
@@ -48,7 +49,7 @@ public class VocationEditionPanelController
     _panels=new HashMap<Profession,ProfessionStatusPanelController>();
     _status=status;
     _vocationPanel=GuiFactory.buildPanel(new BorderLayout());
-    _guildStatus=new FactionStatusPanelController[CraftingStatus.NB_GUILDS];
+    _guildStatus=new ArrayList<FactionStatusPanelController>();
   }
 
   /**
@@ -66,7 +67,7 @@ public class VocationEditionPanelController
   public void updateUiFromData()
   {
     updateProfessionsUi();
-    updateGuildUi(-1);
+    updateGuildUi(null);
 
     // Select first tab, if any
     if (_tabbedPane!=null)
@@ -125,39 +126,38 @@ public class VocationEditionPanelController
 
   /**
    * Update the UI for guild edition.
-   * @param guildIndex Index of the updated guild.
+   * @param toShow Profession to show.
    */
-  public void updateGuildUi(int guildIndex)
+  public void updateGuildUi(Profession toShow)
   {
     // Cleanup
     if (_tabbedPane!=null)
     {
-      for(int i=0;i<CraftingStatus.NB_GUILDS;i++)
+      for(FactionStatusPanelController guildStatus : _guildStatus)
       {
-        if (_guildStatus[i]!=null)
-        {
-          JPanel guildPanel=_guildStatus[i].getPanel();
-          _tabbedPane.remove(guildPanel);
-          _guildStatus[i].dispose();
-          _guildStatus[i]=null;
-        }
+        JPanel guildPanel=guildStatus.getPanel();
+        _tabbedPane.remove(guildPanel);
+        guildStatus.dispose();
       }
+      _guildStatus.clear();
     }
-    JPanel toSelect=null;
-    for(int i=0;i<CraftingStatus.NB_GUILDS;i++)
+    Vocation vocation=_status.getVocation();
+    if (vocation==null)
     {
-      GuildStatus guildStatus=_status.getGuildStatus(i);
-      Profession guild=guildStatus.getProfession();
-      // Add tab if needed
-      if (guild!=null)
+      return;
+    }
+    List<Profession> guildedProfessions=vocation.getAvailableGuilds();
+    JPanel toSelect=null;
+    for(Profession guildedProfession : guildedProfessions)
+    {
+      GuildStatus guildStatus=_status.getGuildStatus(guildedProfession,true);
+      FactionStatusPanelController panelController=new FactionStatusPanelController(guildStatus.getFactionStatus());
+      _guildStatus.add(panelController);
+      JPanel guildPanel=panelController.getPanel();
+      _tabbedPane.add("Guild: "+guildedProfession.getName(),guildPanel);
+      if (guildedProfession==toShow)
       {
-        _guildStatus[i]=new FactionStatusPanelController(guildStatus.getFactionStatus());
-        JPanel guildPanel=_guildStatus[i].getPanel();
-        _tabbedPane.add("Guild: "+guild.getName(),guildPanel);
-        if (i==guildIndex)
-        {
-          toSelect=guildPanel;
-        }
+        toSelect=guildPanel;
       }
     }
     if (toSelect!=null)
@@ -174,6 +174,10 @@ public class VocationEditionPanelController
     for(ProfessionStatusPanelController controller: _panels.values())
     {
       controller.updateDataFromUi();
+    }
+    for(FactionStatusPanelController controller : _guildStatus)
+    {
+      controller.updateData();
     }
   }
 
@@ -193,13 +197,9 @@ public class VocationEditionPanelController
     }
     if (_guildStatus!=null)
     {
-      for(int i=0;i<CraftingStatus.NB_GUILDS;i++)
+      for(FactionStatusPanelController controller : _guildStatus)
       {
-        if (_guildStatus[i]!=null)
-        {
-          _guildStatus[i].dispose();
-          _guildStatus[i]=null;
-        }
+        controller.dispose();
       }
       _guildStatus=null;
     }

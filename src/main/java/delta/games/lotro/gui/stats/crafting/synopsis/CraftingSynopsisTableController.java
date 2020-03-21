@@ -82,7 +82,7 @@ public class CraftingSynopsisTableController
       for(Profession profession : professions)
       {
         ProfessionStatus professionStatus=craftingStatus.getProfessionStatus(profession,true);
-        GuildStatus displayedStatus=craftingStatus.getGuildStatus(profession);
+        GuildStatus displayedStatus=craftingStatus.getGuildStatus(profession,false);
         CraftingSynopsisItem item=new CraftingSynopsisItem(toon,professionStatus,displayedStatus);
         _rowItems.add(item);
       }

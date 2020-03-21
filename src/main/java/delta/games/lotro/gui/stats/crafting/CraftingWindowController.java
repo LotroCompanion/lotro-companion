@@ -23,7 +23,6 @@ import delta.games.lotro.character.events.CharacterEvent;
 import delta.games.lotro.character.events.CharacterEventType;
 import delta.games.lotro.lore.crafting.CraftingData;
 import delta.games.lotro.lore.crafting.CraftingSystem;
-import delta.games.lotro.lore.crafting.Profession;
 import delta.games.lotro.lore.crafting.Vocation;
 import delta.games.lotro.lore.crafting.VocationComparator;
 import delta.games.lotro.lore.crafting.Vocations;
@@ -39,7 +38,6 @@ public class CraftingWindowController extends DefaultFormDialogController<Crafti
   private CharacterFile _toon;
   // Controllers
   private ComboBoxController<Vocation> _vocation;
-  private ComboBoxController<Profession>[] _guilds;
   private VocationEditionPanelController _vocationController;
 
   /**
@@ -54,7 +52,6 @@ public class CraftingWindowController extends DefaultFormDialogController<Crafti
     _vocationController=new VocationEditionPanelController(_data);
   }
 
-  @SuppressWarnings("unchecked")
   @Override
   protected JPanel buildFormPanel()
   {
@@ -67,18 +64,6 @@ public class CraftingWindowController extends DefaultFormDialogController<Crafti
       vocationPanel.add(vocationLabel);
       vocationPanel.add(_vocation.getComboBox());
     }
-    // Guild panel
-    _guilds=new ComboBoxController[CraftingStatus.NB_GUILDS];
-    JPanel[] guildPanels=new JPanel[CraftingStatus.NB_GUILDS];
-    for(int i=0;i<CraftingStatus.NB_GUILDS;i++)
-    {
-      JPanel guildPanel=GuiFactory.buildPanel(new FlowLayout());
-      _guilds[i]=new ComboBoxController<Profession>();
-      JLabel guildLabel=GuiFactory.buildLabel("Guild:");
-      guildPanel.add(guildLabel);
-      guildPanel.add(_guilds[i].getComboBox());
-      guildPanels[i]=guildPanel;
-    }
 
     // Vocation panel
     JPanel vocationEditionPanel=_vocationController.getPanel();
@@ -86,10 +71,6 @@ public class CraftingWindowController extends DefaultFormDialogController<Crafti
     // Assembly
     JPanel topPanel=GuiFactory.buildPanel(new FlowLayout());
     topPanel.add(vocationPanel);
-    for(int i=0;i<CraftingStatus.NB_GUILDS;i++)
-    {
-      topPanel.add(guildPanels[i]);
-    }
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,10,0,10),0,0);
     panel.add(topPanel,c);
     GridBagConstraints c2=new GridBagConstraints(0,1,1,1,1.0,1.0,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(5,10,5,10),0,0);
@@ -98,19 +79,8 @@ public class CraftingWindowController extends DefaultFormDialogController<Crafti
     // Update vocation edition panel
     _vocationController.updateUiFromData();
     Vocation vocation=_data.getVocation();
-    // Init combos
-    // - vocation
-    _vocation.selectItem(vocation);
-    // - guilds
-    for(int i=0;i<CraftingStatus.NB_GUILDS;i++)
-    {
-      Profession currentGuild=_data.getGuildStatus(i).getProfession();
-      _guilds[i].addEmptyItem("");
-      updateGuildCombo(_guilds[i],vocation);
-      _guilds[i].selectItem(currentGuild);
-    }
-
     // Init vocation combo
+    _vocation.selectItem(vocation);
     ItemSelectionListener<Vocation> vocationListener=new ItemSelectionListener<Vocation>()
     {
       @Override
@@ -120,34 +90,15 @@ public class CraftingWindowController extends DefaultFormDialogController<Crafti
       }
     };
     _vocation.addListener(vocationListener);
-    // Init guild combos
-    for(int i=0;i<CraftingStatus.NB_GUILDS;i++)
-    {
-      final int index=i;
-      ItemSelectionListener<Profession> guildListener=new ItemSelectionListener<Profession>()
-      {
-        @Override
-        public void itemSelected(Profession selectedGuild)
-        {
-          handleGuildUpdate(index,selectedGuild);
-        }
-      };
-      _guilds[i].addListener(guildListener);
-    }
 
     return panel;
   }
 
   private void handleVocationUpdate(Vocation selectedVocation)
   {
-    // TODO warn of possible profession history loss
-    boolean changed=updateVocation(selectedVocation);
+   boolean changed=updateVocation(selectedVocation);
     if (changed)
     {
-      for(int i=0;i<CraftingStatus.NB_GUILDS;i++)
-      {
-        updateGuildCombo(_guilds[i],selectedVocation);
-      }
       updateVocationPanel(selectedVocation);
     }
   }
@@ -160,29 +111,6 @@ public class CraftingWindowController extends DefaultFormDialogController<Crafti
     {
       long now=System.currentTimeMillis();
       _data.changeVocation(selectedVocation,now);
-      changed=true;
-    }
-    return changed;
-  }
-
-  private void handleGuildUpdate(int index, Profession selectedGuild)
-  {
-    // TODO warn of guild history loss
-    boolean changed=updateGuild(index,selectedGuild);
-    if (changed)
-    {
-      _vocationController.updateGuildUi(index);
-    }
-  }
-
-  private boolean updateGuild(int index, Profession selectedGuild)
-  {
-    boolean changed=false;
-    Profession currentProfession=_data.getGuildStatus(index).getProfession();
-    if (currentProfession!=selectedGuild)
-    {
-      long now=System.currentTimeMillis();
-      _data.getGuildStatus(index).changeProfession(selectedGuild,now);
       changed=true;
     }
     return changed;
@@ -240,42 +168,6 @@ public class CraftingWindowController extends DefaultFormDialogController<Crafti
     return ret;
   }
 
-  private void updateGuildCombo(ComboBoxController<Profession> guild, Vocation vocation)
-  {
-    List<Profession> oldProfessions=guild.getItems();
-    if (vocation!=null)
-    {
-      // Add new professions
-      for(Profession profession : vocation.getProfessions())
-      {
-        if (profession.hasGuild())
-        {
-          if (oldProfessions.contains(profession))
-          {
-            oldProfessions.remove(profession);
-          }
-          else
-          {
-            guild.addItem(profession,profession.getName());
-          }
-        }
-      }
-      // Remove obsolete professions
-      for(Profession oldProfession : oldProfessions)
-      {
-        if (oldProfession!=null)
-        {
-          guild.removeItem(oldProfession);
-        }
-      }
-    }
-    else
-    {
-      guild.removeAllItems();
-      guild.addEmptyItem("");
-    }
-  }
-
   /**
    * Release all managed resources.
    */
@@ -292,14 +184,6 @@ public class CraftingWindowController extends DefaultFormDialogController<Crafti
     {
       _vocation.dispose();
       _vocation=null;
-    }
-    if (_guilds!=null)
-    {
-      for(ComboBoxController<Profession> guild : _guilds)
-      {
-        guild.dispose();
-      }
-      _guilds=null;
     }
     _toon=null;
   }
