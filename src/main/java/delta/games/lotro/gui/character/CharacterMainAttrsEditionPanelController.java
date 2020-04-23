@@ -98,7 +98,7 @@ public class CharacterMainAttrsEditionPanelController
       @Override
       public void itemSelected(Integer level)
       {
-        _toon.setLevel(level.intValue());
+        _toon.getSummary().setLevel(level.intValue());
         // Broadcast level update event...
         CharacterEvent event=new CharacterEvent(CharacterEventType.CHARACTER_DATA_UPDATED,null,_toon);
         EventsManager.invokeEvent(event);
@@ -175,13 +175,14 @@ public class CharacterMainAttrsEditionPanelController
    */
   public void get()
   {
+    CharacterSummary summary=_toon.getSummary();
     // Name
-    _toon.setName(_name.getText());
+    summary.setName(_name.getText());
     // Level
     Integer level=_level.getSelectedItem();
     if (level!=null)
     {
-      _toon.setLevel(level.intValue());
+      summary.setLevel(level.intValue());
     }
     // Date
     Long date=_date.getDate();
