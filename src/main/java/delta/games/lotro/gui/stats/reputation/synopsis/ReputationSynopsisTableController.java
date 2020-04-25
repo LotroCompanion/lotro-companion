@@ -20,13 +20,13 @@ import javax.swing.table.TableCellRenderer;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.tables.CellDataProvider;
 import delta.common.ui.swing.tables.DataProvider;
+import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.ListDataProvider;
-import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.TableColumnController;
 import delta.common.ui.swing.tables.TableColumnsManager;
+import delta.games.lotro.character.BasicCharacterAttributes;
 import delta.games.lotro.character.CharacterFile;
-import delta.games.lotro.character.CharacterSummary;
 import delta.games.lotro.character.reputation.FactionStatus;
 import delta.games.lotro.character.reputation.ReputationStatus;
 import delta.games.lotro.common.CharacterClass;
@@ -234,10 +234,10 @@ public class ReputationSynopsisTableController
     // Class icon
     GridBagConstraints c=new GridBagConstraints(0,0,1,2,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
     ImageIcon classIcon=null;
-    CharacterSummary summary=toon.getSummary();
-    if (summary!=null)
+    BasicCharacterAttributes attrs=toon.getSummary();
+    if (attrs!=null)
     {
-      CharacterClass cClass=summary.getCharacterClass();
+      CharacterClass cClass=attrs.getCharacterClass();
       classIcon=LotroIconsManager.getClassIcon(cClass,LotroIconsManager.COMPACT_SIZE);
     }
     JLabel classLabel;

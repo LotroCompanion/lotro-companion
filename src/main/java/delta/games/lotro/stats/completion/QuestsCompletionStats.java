@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
-import delta.games.lotro.character.CharacterSummary;
+import delta.games.lotro.character.BasicCharacterAttributes;
 import delta.games.lotro.character.log.CharacterLog;
 import delta.games.lotro.character.log.CharacterLogItem;
 import delta.games.lotro.character.log.CharacterLogItem.LogItemType;
@@ -29,7 +29,7 @@ public class QuestsCompletionStats
   private static final boolean USE_INSTANCES=false;
   private String _name;
   private String _category;
-  private CharacterSummary _character;
+  private BasicCharacterAttributes _attrs;
   private int _nbExpectedQuests;
   private int _nbQuestsDone;
   private List<Integer> _expectedIds;
@@ -38,14 +38,14 @@ public class QuestsCompletionStats
   /**
    * Constructor.
    * @param category Category to use.
-   * @param summary Targeted character.
+   * @param attrs Attributes of toon to use.
    * @param log Character log to use.
    */
-  public QuestsCompletionStats(String category, CharacterSummary summary, CharacterLog log)
+  public QuestsCompletionStats(String category, BasicCharacterAttributes attrs, CharacterLog log)
   {
     _name=log.getName();
     _category=category;
-    _character=summary;
+    _attrs=attrs;
     reset();
     List<CharacterLogItem> items=getQuestItems(log);
     loadQuestIdentifiers();
@@ -76,9 +76,9 @@ public class QuestsCompletionStats
       if (USE_RESTRICTIONS)
       {
         UsageRequirement requirements=q.getUsageRequirement();
-        int level=_character.getLevel();
-        CharacterClass cClass=_character.getCharacterClass();
-        Race cRace=_character.getRace();
+        int level=_attrs.getLevel();
+        CharacterClass cClass=_attrs.getCharacterClass();
+        Race cRace=_attrs.getRace();
         if (!requirements.accepts(level,cClass,cRace))
         {
           String questName=q.getName();

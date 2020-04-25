@@ -14,7 +14,7 @@ import javax.swing.JPanel;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.labels.MultilineLabel2;
 import delta.common.ui.swing.windows.WindowController;
-import delta.games.lotro.character.CharacterSummary;
+import delta.games.lotro.character.BasicCharacterAttributes;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.essences.EssencesSet;
 
@@ -25,7 +25,7 @@ import delta.games.lotro.lore.items.essences.EssencesSet;
 public class EssencesEditionPanelController implements ActionListener
 {
   // Data
-  private CharacterSummary _character;
+  private BasicCharacterAttributes _attrs;
   private List<Item> _essences;
   // GUI
   private JPanel _panel;
@@ -36,12 +36,12 @@ public class EssencesEditionPanelController implements ActionListener
   /**
    * Constructor.
    * @param parent Parent controller.
-   * @param character Character.
+   * @param attrs Attributes of toon to use.
    */
-  public EssencesEditionPanelController(WindowController parent, CharacterSummary character)
+  public EssencesEditionPanelController(WindowController parent, BasicCharacterAttributes attrs)
   {
     _parent=parent;
-    _character=character;
+    _attrs=attrs;
     _essenceControllers=new ArrayList<SingleEssenceEditionController>();
     _essences=new ArrayList<Item>();
     _panel=build();
@@ -126,7 +126,7 @@ public class EssencesEditionPanelController implements ActionListener
       JButton iconButton=editor.getIcon();
       if (source==iconButton)
       {
-        Item essence=EssenceChoice.chooseEssence(_parent,_character);
+        Item essence=EssenceChoice.chooseEssence(_parent,_attrs);
         if (essence!=null)
         {
           editor.setEssence(essence);

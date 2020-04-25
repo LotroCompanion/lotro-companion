@@ -232,7 +232,7 @@ public class BuffEditionPanelController implements ActionListener
   private void add()
   {
     BuffsManager buffs=_toon.getBuffs();
-    List<Buff> possibleBuffs=BuffRegistry.getInstance().buildBuffSelection(_toon,buffs);
+    List<Buff> possibleBuffs=BuffRegistry.getInstance().buildBuffSelection(_toon.getSummary(),buffs);
     Buff buff=BuffChoiceWindowController.selectBuff(_parentWindow,possibleBuffs,null);
     if (buff!=null)
     {

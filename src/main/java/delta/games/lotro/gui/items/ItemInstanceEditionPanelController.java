@@ -11,7 +11,8 @@ import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.WindowController;
-import delta.games.lotro.character.CharacterSummary;
+import delta.games.lotro.character.BasicCharacterAttributes;
+import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.gui.common.stats.CustomStatsEditionWindowController;
 import delta.games.lotro.gui.common.stats.StatsPanel;
 import delta.games.lotro.gui.items.essences.EssencesSetDisplayController;
@@ -29,7 +30,7 @@ import delta.games.lotro.lore.items.legendary.LegendaryInstance;
 public class ItemInstanceEditionPanelController
 {
   // Data
-  private CharacterSummary _character;
+  private BasicCharacterAttributes _attrs;
   private ItemInstance<? extends Item> _itemInstance;
   // GUI
   private JPanel _panel;
@@ -48,13 +49,13 @@ public class ItemInstanceEditionPanelController
   /**
    * Constructor.
    * @param parent Parent window.
-   * @param character Character.
+   * @param attrs Attributes of toon to use.
    * @param itemInstance Item instance.
    */
-  public ItemInstanceEditionPanelController(WindowController parent, CharacterSummary character, ItemInstance<? extends Item> itemInstance)
+  public ItemInstanceEditionPanelController(WindowController parent, BasicCharacterAttributes attrs, ItemInstance<? extends Item> itemInstance)
   {
     _parent=parent;
-    _character=character;
+    _attrs=attrs;
     _itemInstance=itemInstance;
     _panel=buildPanel();
     update();
@@ -245,7 +246,7 @@ public class ItemInstanceEditionPanelController
 
   private void editEssences()
   {
-    EssencesSetEditionWindowController editor=new EssencesSetEditionWindowController(_parent,_character,_itemInstance);
+    EssencesSetEditionWindowController editor=new EssencesSetEditionWindowController(_parent,_attrs,_itemInstance);
     ItemInstance<? extends Item> updatedItem=editor.editModal();
     if (updatedItem!=null)
     {
@@ -256,7 +257,8 @@ public class ItemInstanceEditionPanelController
 
   private void editLegendaryStuff()
   {
-    LegendaryInstanceEditionWindowController editor=new LegendaryInstanceEditionWindowController(_parent,_character,_itemInstance);
+    CharacterClass characterClass=_attrs.getCharacterClass();
+    LegendaryInstanceEditionWindowController editor=new LegendaryInstanceEditionWindowController(_parent,characterClass,_itemInstance);
     ItemInstance<? extends Item> updatedItem=editor.editModal();
     if (updatedItem!=null)
     {

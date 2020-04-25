@@ -6,7 +6,7 @@ import java.util.List;
 import delta.common.utils.collections.filters.CompoundFilter;
 import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.collections.filters.Operator;
-import delta.games.lotro.character.CharacterSummary;
+import delta.games.lotro.character.BasicCharacterAttributes;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.lore.items.ArmourType;
 import delta.games.lotro.lore.items.Item;
@@ -14,11 +14,11 @@ import delta.games.lotro.lore.items.WeaponType;
 import delta.games.lotro.lore.items.filters.ArmourTypeFilter;
 import delta.games.lotro.lore.items.filters.CharacterProficienciesFilter;
 import delta.games.lotro.lore.items.filters.EssenceTierFilter;
+import delta.games.lotro.lore.items.filters.ItemCharacterLevelFilter;
 import delta.games.lotro.lore.items.filters.ItemLevelFilter;
 import delta.games.lotro.lore.items.filters.ItemNameFilter;
 import delta.games.lotro.lore.items.filters.ItemQualityFilter;
 import delta.games.lotro.lore.items.filters.ItemRequiredClassFilter;
-import delta.games.lotro.lore.items.filters.ItemCharacterLevelFilter;
 import delta.games.lotro.lore.items.filters.ItemStatFilter;
 import delta.games.lotro.lore.items.filters.LegendaryItemFilter;
 import delta.games.lotro.lore.items.filters.WeaponTypeFilter;
@@ -53,17 +53,17 @@ public class ItemChooserFilter implements Filter<Item>
   /**
    * Constructor.
    * @param cfg Configuration.
-   * @param character Targeted character (may be <code>null</code>).
+   * @param attrs Attributes of toon to use (may be <code>null</code>).
    */
-  public ItemChooserFilter(ItemFilterConfiguration cfg, CharacterSummary character)
+  public ItemChooserFilter(ItemFilterConfiguration cfg, BasicCharacterAttributes attrs)
   {
     _cfg=cfg;
     List<Filter<Item>> filters=new ArrayList<Filter<Item>>();
     // Character proficiencies
-    if (character!=null)
+    if (attrs!=null)
     {
-      CharacterClass characterClass=character.getCharacterClass();
-      int level=character.getLevel();
+      CharacterClass characterClass=attrs.getCharacterClass();
+      int level=attrs.getLevel();
       // Class
       boolean useClass=cfg.hasComponent(ItemChooserFilterComponent.CHAR_CLASS);
       if (useClass)

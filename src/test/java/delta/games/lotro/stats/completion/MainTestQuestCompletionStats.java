@@ -3,8 +3,8 @@ package delta.games.lotro.stats.completion;
 import java.util.List;
 
 import delta.games.lotro.LotroTestUtils;
+import delta.games.lotro.character.BasicCharacterAttributes;
 import delta.games.lotro.character.CharacterFile;
-import delta.games.lotro.character.CharacterSummary;
 import delta.games.lotro.character.log.CharacterLog;
 import delta.games.lotro.lore.quests.QuestsManager;
 
@@ -23,7 +23,7 @@ public class MainTestQuestCompletionStats
     LotroTestUtils utils=new LotroTestUtils();
     //CharacterFile mainToon=utils.getMainToon();
     CharacterFile mainToon=utils.getToonByName("Feroce");
-    CharacterSummary summary=mainToon.getSummary();
+    BasicCharacterAttributes attrs=mainToon.getSummary();
     CharacterLog log=mainToon.getLastCharacterLog();
     if (log!=null)
     {
@@ -32,7 +32,7 @@ public class MainTestQuestCompletionStats
       for(String category : categories)
       {
         //String category="Epic - Vol. I, Book 1: Stirrings in the Darkness";
-        QuestsCompletionStats stats=new QuestsCompletionStats(category,summary,log);
+        QuestsCompletionStats stats=new QuestsCompletionStats(category,attrs,log);
         stats.dump(System.out,true);
       }
     }

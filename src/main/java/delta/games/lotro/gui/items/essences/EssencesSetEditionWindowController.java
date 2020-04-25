@@ -5,7 +5,7 @@ import javax.swing.JPanel;
 
 import delta.common.ui.swing.windows.DefaultFormDialogController;
 import delta.common.ui.swing.windows.WindowController;
-import delta.games.lotro.character.CharacterSummary;
+import delta.games.lotro.character.BasicCharacterAttributes;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemInstance;
 
@@ -21,13 +21,13 @@ public class EssencesSetEditionWindowController extends DefaultFormDialogControl
   /**
    * Constructor.
    * @param parent Parent window.
-   * @param character Character.
+   * @param attrs Attributes of toon to use.
    * @param itemInstance Item instance.
    */
-  public EssencesSetEditionWindowController(WindowController parent, CharacterSummary character, ItemInstance<? extends Item> itemInstance)
+  public EssencesSetEditionWindowController(WindowController parent, BasicCharacterAttributes attrs, ItemInstance<? extends Item> itemInstance)
   {
     super(parent,itemInstance);
-    _panelController=new EssencesEditionPanelController(this,character);
+    _panelController=new EssencesEditionPanelController(this,attrs);
     _panelController.init(itemInstance.getEssences());
   }
 

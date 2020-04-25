@@ -9,8 +9,8 @@ import javax.swing.JPanel;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.labels.MultilineLabel;
 import delta.common.ui.swing.windows.WindowController;
+import delta.games.lotro.character.BasicCharacterAttributes;
 import delta.games.lotro.character.CharacterEquipment.EQUIMENT_SLOT;
-import delta.games.lotro.character.CharacterSummary;
 import delta.games.lotro.gui.character.gear.EquipmentSlotIconController;
 import delta.games.lotro.gui.items.essences.SimpleSingleEssenceEditionController;
 import delta.games.lotro.lore.items.Item;
@@ -25,7 +25,7 @@ public class SingleItemEssencesEditionController
 {
   // Data
   private ItemInstance<? extends Item> _itemInstance;
-  private CharacterSummary _character;
+  private BasicCharacterAttributes _attrs;
   // Controllers
   private WindowController _parent;
   private List<SimpleSingleEssenceEditionController> _controllers;
@@ -37,13 +37,13 @@ public class SingleItemEssencesEditionController
   /**
    * Constructor.
    * @param parent Parent window.
-   * @param character Character data.
+   * @param attrs Attributes of toon to use.
    * @param slot Managed slot.
    */
-  public SingleItemEssencesEditionController(WindowController parent, CharacterSummary character, EQUIMENT_SLOT slot)
+  public SingleItemEssencesEditionController(WindowController parent, BasicCharacterAttributes attrs, EQUIMENT_SLOT slot)
   {
     _itemInstance=null;
-    _character=character;
+    _attrs=attrs;
     _parent=parent;
     _controllers=new ArrayList<SimpleSingleEssenceEditionController>();
     _iconController=new EquipmentSlotIconController(slot);
@@ -86,7 +86,7 @@ public class SingleItemEssencesEditionController
       int size=Math.max(nbEssences,nbEssenceSlots);
       for(int i=0;i<size;i++)
       {
-        SimpleSingleEssenceEditionController controller=new SimpleSingleEssenceEditionController(_parent,2,_character);
+        SimpleSingleEssenceEditionController controller=new SimpleSingleEssenceEditionController(_parent,2,_attrs);
         Item essence=null;
         if (essences!=null)
         {

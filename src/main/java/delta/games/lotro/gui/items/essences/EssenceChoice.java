@@ -5,7 +5,7 @@ import java.util.List;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.misc.TypedProperties;
-import delta.games.lotro.character.CharacterSummary;
+import delta.games.lotro.character.BasicCharacterAttributes;
 import delta.games.lotro.gui.items.chooser.ItemChooser;
 import delta.games.lotro.gui.items.chooser.ItemFilterConfiguration;
 import delta.games.lotro.gui.items.chooser.ItemFilterController;
@@ -27,10 +27,10 @@ public class EssenceChoice
   /**
    * Choose an essence.
    * @param parent Parent controller.
-   * @param character Targeted character.
+   * @param attrs Attributes of toon to use.
    * @return An essence item or <code>null</code>.
    */
-  public static Item chooseEssence(WindowController parent, CharacterSummary character)
+  public static Item chooseEssence(WindowController parent, BasicCharacterAttributes attrs)
   {
     List<Item> essences=ItemsManager.getInstance().getEssences();
     ItemFilterConfiguration cfg=new ItemFilterConfiguration();
@@ -45,7 +45,7 @@ public class EssenceChoice
     {
       filterProps=new TypedProperties();
     }
-    ItemFilterController filterController=new ItemFilterController(cfg,character,filterProps);
+    ItemFilterController filterController=new ItemFilterController(cfg,attrs,filterProps);
     TypedProperties prefs=null;
     if (parent!=null)
     {

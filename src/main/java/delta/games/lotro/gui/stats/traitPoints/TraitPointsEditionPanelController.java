@@ -11,7 +11,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 
 import delta.common.ui.swing.GuiFactory;
-import delta.games.lotro.character.CharacterSummary;
+import delta.games.lotro.character.BasicCharacterAttributes;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.stats.traitPoints.TraitPoint;
 import delta.games.lotro.stats.traitPoints.TraitPointFilter;
@@ -31,21 +31,21 @@ public class TraitPointsEditionPanelController
   private List<TraitPointsTableController> _tableControllers;
   private TraitPointsSummaryPanelController _summaryController;
   // Data
-  private CharacterSummary _summary;
+  private BasicCharacterAttributes _attrs;
   private TraitPointsStatus _status;
   // GUI
   private JPanel _panel;
 
   /**
    * Constructor.
-   * @param summary Character summary.
+   * @param attrs Attributes of toon to use.
    * @param status Status to edit.
    */
-  public TraitPointsEditionPanelController(CharacterSummary summary, TraitPointsStatus status)
+  public TraitPointsEditionPanelController(BasicCharacterAttributes attrs, TraitPointsStatus status)
   {
-    _summary=summary;
+    _attrs=attrs;
     _status=status;
-    _summaryController=new TraitPointsSummaryPanelController(_summary,_status);
+    _summaryController=new TraitPointsSummaryPanelController(_attrs,_status);
     buildTables();
   }
 
@@ -53,7 +53,7 @@ public class TraitPointsEditionPanelController
   {
     _tableControllers=new ArrayList<TraitPointsTableController>();
     _labels=new ArrayList<String>();
-    CharacterClass characterClass=_summary.getCharacterClass();
+    CharacterClass characterClass=_attrs.getCharacterClass();
     TraitPointsRegistry registry=TraitPoints.get().getRegistry();
     List<TraitPoint> points=registry.getPointsForClass(characterClass);
     Collections.sort(points,new TraitPointLabelComparator());
@@ -150,7 +150,7 @@ public class TraitPointsEditionPanelController
       _tableControllers=null;
     }
     // Data
-    _summary=null;
+    _attrs=null;
     _status=null;
   }
 }

@@ -27,7 +27,7 @@ import delta.common.ui.swing.text.range.RangeEditorController;
 import delta.common.ui.swing.text.range.RangeListener;
 import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.misc.TypedProperties;
-import delta.games.lotro.character.CharacterSummary;
+import delta.games.lotro.character.BasicCharacterAttributes;
 import delta.games.lotro.common.stats.StatDescription;
 import delta.games.lotro.gui.items.ItemUiTools;
 import delta.games.lotro.lore.items.ArmourType;
@@ -73,13 +73,13 @@ public class ItemFilterController extends ObjectFilterPanelController
   /**
    * Constructor.
    * @param cfg Configuration.
-   * @param character Targeted character (may be <code>null</code>).
+   * @param attrs Attributes of toon to use (may be <code>null</code>).
    * @param props Filter state.
    */
-  public ItemFilterController(ItemFilterConfiguration cfg, CharacterSummary character, TypedProperties props)
+  public ItemFilterController(ItemFilterConfiguration cfg, BasicCharacterAttributes attrs, TypedProperties props)
   {
     _cfg=cfg;
-    _filter=new ItemChooserFilter(cfg,character);
+    _filter=new ItemChooserFilter(cfg,attrs);
     _props=props;
     ItemChooserFilterIo.loadFrom(_filter,props);
   }

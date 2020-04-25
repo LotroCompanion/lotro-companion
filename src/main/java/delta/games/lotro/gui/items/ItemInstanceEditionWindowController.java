@@ -5,7 +5,7 @@ import javax.swing.JPanel;
 
 import delta.common.ui.swing.windows.DefaultFormDialogController;
 import delta.common.ui.swing.windows.WindowController;
-import delta.games.lotro.character.CharacterSummary;
+import delta.games.lotro.character.BasicCharacterAttributes;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemInstance;
 
@@ -21,13 +21,13 @@ public class ItemInstanceEditionWindowController extends DefaultFormDialogContro
   /**
    * Constructor.
    * @param parent Parent window.
-   * @param character Character data.
+   * @param attrs Attributes of toon to use.
    * @param itemInstance Item instance.
    */
-  public ItemInstanceEditionWindowController(WindowController parent, CharacterSummary character, ItemInstance<? extends Item> itemInstance)
+  public ItemInstanceEditionWindowController(WindowController parent, BasicCharacterAttributes attrs, ItemInstance<? extends Item> itemInstance)
   {
     super(parent,itemInstance);
-    _panelController=new ItemInstanceEditionPanelController(this,character,_data);
+    _panelController=new ItemInstanceEditionPanelController(this,attrs,_data);
   }
 
   @Override
