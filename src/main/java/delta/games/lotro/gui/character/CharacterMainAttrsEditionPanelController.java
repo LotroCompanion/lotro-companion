@@ -16,6 +16,7 @@ import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.common.ui.swing.combobox.ItemSelectionListener;
 import delta.common.ui.swing.text.dates.DateEditionController;
 import delta.games.lotro.character.CharacterData;
+import delta.games.lotro.character.CharacterDataSummary;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharacterSummary;
 import delta.games.lotro.character.events.CharacterEvent;
@@ -175,7 +176,7 @@ public class CharacterMainAttrsEditionPanelController
    */
   public void get()
   {
-    CharacterSummary summary=_toon.getSummary();
+    CharacterDataSummary summary=_toon.getSummary();
     // Name
     summary.setName(_name.getText());
     // Level

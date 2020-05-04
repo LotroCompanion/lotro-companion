@@ -357,6 +357,7 @@ public class CharacterDataWindowController extends DefaultFormDialogController<C
   public void cancelImpl()
   {
     _data.revert();
+    _data.getSummary().setSummary(_toonFile.getSummary());
   }
 
   /**

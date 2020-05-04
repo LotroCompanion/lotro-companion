@@ -27,8 +27,8 @@ import delta.common.ui.swing.toolbar.ToolbarModel;
 import delta.common.ui.swing.windows.DefaultWindowController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.ui.swing.windows.WindowsManager;
-import delta.common.utils.files.FileCopy;
 import delta.games.lotro.character.CharacterData;
+import delta.games.lotro.character.CharacterFactory;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharacterInfosManager;
 import delta.games.lotro.character.CharacterSummary;
@@ -36,6 +36,7 @@ import delta.games.lotro.character.deeds.DeedsStatusManager;
 import delta.games.lotro.character.deeds.io.DeedsStatusIo;
 import delta.games.lotro.character.events.CharacterEvent;
 import delta.games.lotro.character.events.CharacterEventType;
+import delta.games.lotro.character.io.xml.CharacterDataIO;
 import delta.games.lotro.character.stats.CharacterStatsComputer;
 import delta.games.lotro.gui.character.stash.StashWindowController;
 import delta.games.lotro.gui.character.storage.CharacterStorageDisplayWindowController;
@@ -338,19 +339,7 @@ public class CharacterFileWindowController extends DefaultWindowController imple
 
   private void startNewCharacterData()
   {
-    CharacterData newInfos=new CharacterData();
-    CharacterSummary newSummary;
-    CharacterSummary toonSummary=_toon.getSummary();
-    if (toonSummary!=null)
-    {
-      newSummary=new CharacterSummary(toonSummary);
-    }
-    else
-    {
-      newSummary=new CharacterSummary(_toon.getSummary());
-    }
-    newInfos.setSummary(newSummary);
-    newInfos.setDate(Long.valueOf(System.currentTimeMillis()));
+    CharacterData newInfos=CharacterFactory.buildNewData(_toon.getSummary());
     // Compute stats
     CharacterStatsComputer computer=new CharacterStatsComputer();
     newInfos.getStats().setStats(computer.getStats(newInfos));
@@ -423,8 +412,7 @@ public class CharacterFileWindowController extends DefaultWindowController imple
         }
         if (doIt)
         {
-          File sourceFile=data.getFile();
-          boolean ok=FileCopy.copy(sourceFile,toFile);
+          boolean ok=CharacterDataIO.saveInfo(toFile,data);
           Window window=getWindow();
           if (ok)
           {

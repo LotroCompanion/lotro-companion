@@ -163,8 +163,7 @@ public class ToonsTableController implements GenericEventsListener<CharacterEven
         @Override
         public String getData(CharacterFile item)
         {
-          CharacterSummary data=getDataForToon(item);
-          return data.getAccountName();
+          return item.getAccountName();
         }
       };
       DefaultTableColumnController<CharacterFile,String> accountColumn=new DefaultTableColumnController<CharacterFile,String>("Account",String.class,accountCell);

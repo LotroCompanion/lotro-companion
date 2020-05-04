@@ -21,12 +21,15 @@ import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.CharacterEquipment;
 import delta.games.lotro.character.CharacterEquipment.EQUIMENT_SLOT;
 import delta.games.lotro.character.CharacterEquipment.SlotContents;
+import delta.games.lotro.character.CharacterFactory;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharacterSummary;
 import delta.games.lotro.character.CharactersManager;
 import delta.games.lotro.character.classes.ClassDescription;
 import delta.games.lotro.character.classes.ClassesManager;
 import delta.games.lotro.character.classes.InitialGearDefinition;
+import delta.games.lotro.character.events.CharacterEvent;
+import delta.games.lotro.character.events.CharacterEventType;
 import delta.games.lotro.character.stats.CharacterStatsComputer;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.CharacterSex;
@@ -37,6 +40,7 @@ import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemFactory;
 import delta.games.lotro.lore.items.ItemInstance;
 import delta.games.lotro.lore.items.ItemsManager;
+import delta.games.lotro.utils.events.EventsManager;
 
 /**
  * Controller for the "new toon" dialog.
@@ -149,26 +153,37 @@ public class NewToonDialogController extends DefaultFormDialogController<Object>
     CharacterClass cClass=_class.getComboBoxController().getSelectedItem();
     Race race=_race.getSelectedItem();
     CharacterSex sex=_sex.getSelectedItem();
-    CharacterData info=new CharacterData();
-    CharacterSummary summary=info.getSummary();
+    CharacterSummary summary=new CharacterSummary();
     summary.setName(toonName);
     summary.setServer(server);
     summary.setAccountName(account);
-    summary.setCharacterClass(cClass);
     summary.setCharacterSex(sex);
+    summary.setCharacterClass(cClass);
     summary.setRace(race);
+    summary.setRegion("");
     summary.setLevel(1);
-    info.setDate(Long.valueOf(System.currentTimeMillis()));
-    // Setup gear
-    setInitialGear(info);
-    // Compute stats
-    CharacterStatsComputer computer=new CharacterStatsComputer();
-    info.getStats().setStats(computer.getStats(info));
+
     CharactersManager manager=CharactersManager.getInstance();
-    CharacterFile toon=manager.addToon(info);
+    CharacterFile toon=manager.addToon(summary);
     if (toon==null)
     {
       showErrorMessage("Character creation failed!");
+      return;
+    }
+
+    CharacterData data=CharacterFactory.buildNewData(toon.getSummary());
+    // Setup gear
+    setInitialGear(data);
+    // Compute stats
+    CharacterStatsComputer computer=new CharacterStatsComputer();
+    data.getStats().setStats(computer.getStats(data));
+    // Save
+    boolean ok=toon.getInfosManager().writeNewCharacterData(data);
+    if (ok)
+    {
+      // Notify
+      CharacterEvent event=new CharacterEvent(CharacterEventType.CHARACTER_DATA_ADDED,toon,data);
+      EventsManager.invokeEvent(event);
     }
   }
 

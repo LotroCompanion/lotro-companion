@@ -21,8 +21,10 @@ import delta.common.ui.swing.toolbar.ToolbarModel;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.ui.swing.windows.WindowsManager;
 import delta.games.lotro.character.CharacterData;
+import delta.games.lotro.character.CharacterDataSummary;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharacterInfosManager;
+import delta.games.lotro.character.CharacterSummary;
 import delta.games.lotro.character.CharactersManager;
 import delta.games.lotro.character.events.CharacterEvent;
 import delta.games.lotro.character.events.CharacterEventType;
@@ -229,23 +231,7 @@ public class ToonsManagementController implements ActionListener,GenericEventsLi
       boolean ok=parser.parseXML(fromFile,data);
       if (ok)
       {
-        CharactersManager manager=CharactersManager.getInstance();
-        CharacterFile toon=manager.getToonById(data.getServer(),data.getName());
-        if (toon!=null)
-        {
-          CharacterInfosManager infos=toon.getInfosManager();
-          ok=infos.writeNewCharacterData(data);
-          if (ok)
-          {
-            CharacterEvent event=new CharacterEvent(CharacterEventType.CHARACTER_DATA_ADDED,toon,data);
-            EventsManager.invokeEvent(event);
-          }
-        }
-        else
-        {
-          CharacterFile newFile=manager.addToon(data);
-          ok=(newFile!=null);
-        }
+        ok=importData(data);
         if (ok)
         {
           GuiFactory.showInformationDialog(window,"Import OK!","OK!");
@@ -260,6 +246,33 @@ public class ToonsManagementController implements ActionListener,GenericEventsLi
         GuiFactory.showErrorDialog(window,"Import failed (bad XML file)!","Error!");
       }
     }
+  }
+
+  private boolean importData(CharacterData data)
+  {
+    boolean ok;
+    CharactersManager manager=CharactersManager.getInstance();
+    CharacterDataSummary dataSummary=data.getSummary();
+    CharacterSummary summary=dataSummary.getSummary();
+    CharacterFile toon=manager.getToonById(summary.getServer(),summary.getName());
+    if (toon==null)
+    {
+      CharacterSummary newSummary=new CharacterSummary(summary);
+      toon=manager.addToon(newSummary);
+    }
+    if (toon==null)
+    {
+      return false;
+    }
+    CharacterInfosManager infos=toon.getInfosManager();
+    dataSummary.setSummary(toon.getSummary());
+    ok=infos.writeNewCharacterData(data);
+    if (ok)
+    {
+      CharacterEvent event=new CharacterEvent(CharacterEventType.CHARACTER_DATA_ADDED,toon,data);
+      EventsManager.invokeEvent(event);
+    }
+    return ok;
   }
 
   /**
