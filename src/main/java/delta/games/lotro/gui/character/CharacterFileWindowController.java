@@ -346,8 +346,6 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     boolean ok=_toon.getInfosManager().writeNewCharacterData(newInfos);
     if (ok)
     {
-      CharacterEvent event=new CharacterEvent(CharacterEventType.CHARACTER_DATA_ADDED,_toon,newInfos);
-      EventsManager.invokeEvent(event);
       showCharacterData(newInfos);
     }
   }
@@ -377,12 +375,7 @@ public class CharacterFileWindowController extends DefaultWindowController imple
       newInfos.setDate(Long.valueOf(System.currentTimeMillis()));
       // Register new configuration
       CharacterInfosManager infos=_toon.getInfosManager();
-      boolean ok=infos.writeNewCharacterData(newInfos);
-      if (ok)
-      {
-        CharacterEvent event=new CharacterEvent(CharacterEventType.CHARACTER_DATA_ADDED,_toon,newInfos);
-        EventsManager.invokeEvent(event);
-      }
+      infos.writeNewCharacterData(newInfos);
     }
   }
 

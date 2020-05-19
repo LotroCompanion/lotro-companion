@@ -178,13 +178,7 @@ public class NewToonDialogController extends DefaultFormDialogController<Object>
     CharacterStatsComputer computer=new CharacterStatsComputer();
     data.getStats().setStats(computer.getStats(data));
     // Save
-    boolean ok=toon.getInfosManager().writeNewCharacterData(data);
-    if (ok)
-    {
-      // Notify
-      CharacterEvent event=new CharacterEvent(CharacterEventType.CHARACTER_DATA_ADDED,toon,data);
-      EventsManager.invokeEvent(event);
-    }
+    toon.getInfosManager().writeNewCharacterData(data);
   }
 
   private void setInitialGear(CharacterData info)

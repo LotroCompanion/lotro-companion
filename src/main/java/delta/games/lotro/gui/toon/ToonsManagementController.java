@@ -267,11 +267,6 @@ public class ToonsManagementController implements ActionListener,GenericEventsLi
     CharacterInfosManager infos=toon.getInfosManager();
     dataSummary.setSummary(toon.getSummary());
     ok=infos.writeNewCharacterData(data);
-    if (ok)
-    {
-      CharacterEvent event=new CharacterEvent(CharacterEventType.CHARACTER_DATA_ADDED,toon,data);
-      EventsManager.invokeEvent(event);
-    }
     return ok;
   }
 
