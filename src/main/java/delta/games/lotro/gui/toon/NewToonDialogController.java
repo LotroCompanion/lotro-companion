@@ -28,8 +28,6 @@ import delta.games.lotro.character.CharactersManager;
 import delta.games.lotro.character.classes.ClassDescription;
 import delta.games.lotro.character.classes.ClassesManager;
 import delta.games.lotro.character.classes.InitialGearDefinition;
-import delta.games.lotro.character.events.CharacterEvent;
-import delta.games.lotro.character.events.CharacterEventType;
 import delta.games.lotro.character.stats.CharacterStatsComputer;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.CharacterSex;
@@ -40,7 +38,6 @@ import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemFactory;
 import delta.games.lotro.lore.items.ItemInstance;
 import delta.games.lotro.lore.items.ItemsManager;
-import delta.games.lotro.utils.events.EventsManager;
 
 /**
  * Controller for the "new toon" dialog.
