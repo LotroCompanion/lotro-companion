@@ -26,7 +26,7 @@ import delta.games.lotro.common.colors.ColorDescription;
 import delta.games.lotro.common.colors.ColorsManager;
 import delta.games.lotro.common.money.Money;
 import delta.games.lotro.common.stats.StatsProvider;
-import delta.games.lotro.gui.common.id.ItemInstanceIdEditionPanelController;
+import delta.games.lotro.gui.common.id.InternalGameIdEditionPanelController;
 import delta.games.lotro.gui.common.money.MoneyEditionPanelController;
 import delta.games.lotro.gui.common.stats.StatsPanel;
 import delta.games.lotro.lore.items.Item;
@@ -50,7 +50,7 @@ public class ItemInstanceMainAttrsEditionPanelController
   // GUI
   private JPanel _panel;
   // - Instance ID
-  private ItemInstanceIdEditionPanelController _instanceId;
+  private InternalGameIdEditionPanelController _instanceId;
   // - Validity date
   private DateEditionController _date;
   // - Birth name

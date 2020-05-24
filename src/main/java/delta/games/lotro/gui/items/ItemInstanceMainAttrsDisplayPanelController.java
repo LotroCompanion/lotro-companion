@@ -12,7 +12,7 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.form.LabeledComponent;
 import delta.common.ui.swing.text.dates.DateCodec;
 import delta.games.lotro.common.colors.ColorDescription;
-import delta.games.lotro.common.id.ItemInstanceId;
+import delta.games.lotro.common.id.InternalGameId;
 import delta.games.lotro.common.money.Money;
 import delta.games.lotro.gui.common.money.MoneyDisplayController;
 import delta.games.lotro.lore.items.Item;
@@ -230,11 +230,11 @@ public class ItemInstanceMainAttrsDisplayPanelController
   {
     Item item=_itemInstance.getReference();
     // Instance ID
-    ItemInstanceId instanceId=_itemInstance.getInstanceId();
+    InternalGameId instanceId=_itemInstance.getInstanceId();
     _instanceId.setVisible(instanceId!=null);
     if (instanceId!=null)
     {
-      _instanceId.getComponent().setText(instanceId.asSingleHexString());
+      _instanceId.getComponent().setText(instanceId.asDisplayableString());
     }
     // Validity date
     Long time=_itemInstance.getTime();

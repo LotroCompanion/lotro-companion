@@ -17,12 +17,11 @@ import delta.common.ui.swing.tables.ProxiedTableColumnController;
 import delta.common.ui.swing.tables.TableColumnController;
 import delta.common.ui.swing.tables.TableColumnsManager;
 import delta.games.lotro.common.colors.ColorDescription;
-import delta.games.lotro.common.id.EntityId;
-import delta.games.lotro.common.id.EntityType;
-import delta.games.lotro.common.id.ItemInstanceId;
+import delta.games.lotro.common.id.InternalGameId;
 import delta.games.lotro.common.money.Money;
 import delta.games.lotro.gui.items.ItemColumnIds;
 import delta.games.lotro.gui.items.ItemInstanceColumnIds;
+import delta.games.lotro.gui.utils.InternalGameIdRenderer;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemInstance;
 import delta.games.lotro.lore.items.ItemPropertyNames;
@@ -124,19 +123,19 @@ public class ItemInstancesTableBuilder
 
     // Instance ID
     {
-      CellDataProvider<ItemInstance<? extends Item>,ItemInstanceId> cell=new CellDataProvider<ItemInstance<? extends Item>,ItemInstanceId>()
+      CellDataProvider<ItemInstance<? extends Item>,InternalGameId> cell=new CellDataProvider<ItemInstance<? extends Item>,InternalGameId>()
       {
         @Override
-        public ItemInstanceId getData(ItemInstance<? extends Item> item)
+        public InternalGameId getData(ItemInstance<? extends Item> item)
         {
-          ItemInstanceId instanceId=item.getInstanceId();
+          InternalGameId instanceId=item.getInstanceId();
           return instanceId;
         }
       };
-      DefaultTableColumnController<ItemInstance<? extends Item>,ItemInstanceId> column=new DefaultTableColumnController<ItemInstance<? extends Item>,ItemInstanceId>(ItemInstanceColumnIds.INSTANCE_ID.name(),"Instance ID",ItemInstanceId.class,cell);
+      DefaultTableColumnController<ItemInstance<? extends Item>,InternalGameId> column=new DefaultTableColumnController<ItemInstance<? extends Item>,InternalGameId>(ItemInstanceColumnIds.INSTANCE_ID.name(),"Instance ID",InternalGameId.class,cell);
       column.setWidthSpecs(150,150,150);
       column.setSortable(false);
-      column.setCellRenderer(new InstanceIdRenderer());
+      column.setCellRenderer(new InternalGameIdRenderer());
       columns.add(column);
     }
     // Time column
@@ -257,17 +256,17 @@ public class ItemInstancesTableBuilder
     }
     // Bound to column
     {
-      CellDataProvider<ItemInstance<? extends Item>,EntityId> cell=new CellDataProvider<ItemInstance<? extends Item>,EntityId>()
+      CellDataProvider<ItemInstance<? extends Item>,InternalGameId> cell=new CellDataProvider<ItemInstance<? extends Item>,InternalGameId>()
       {
         @Override
-        public EntityId getData(ItemInstance<? extends Item> item)
+        public InternalGameId getData(ItemInstance<? extends Item> item)
         {
           return item.getBoundTo();
         }
       };
-      DefaultTableColumnController<ItemInstance<? extends Item>,EntityId> column=new DefaultTableColumnController<ItemInstance<? extends Item>,EntityId>(ItemInstanceColumnIds.BOUND_TO.name(),"Bound to",EntityId.class,cell);
+      DefaultTableColumnController<ItemInstance<? extends Item>,InternalGameId> column=new DefaultTableColumnController<ItemInstance<? extends Item>,InternalGameId>(ItemInstanceColumnIds.BOUND_TO.name(),"Bound to",InternalGameId.class,cell);
       column.setWidthSpecs(150,150,150);
-      column.setCellRenderer(new EntityIdRenderer());
+      column.setCellRenderer(new InternalGameIdRenderer());
       columns.add(column);
     }
     // Essences column
@@ -318,42 +317,7 @@ public class ItemInstancesTableBuilder
   }
 
   /**
-   * Instance ID renderer.
-   * @author DAM
-   */
-  public static class InstanceIdRenderer extends DefaultTableCellRenderer
-  {
-    @Override
-    public void setValue(Object value)
-    {
-      ItemInstanceId id=(ItemInstanceId)value;
-      String text=(id!=null)?id.asString():"";
-      setText(text);
-    }
-  }
-
-  /**
-   * Entity ID renderer.
-   * @author DAM
-   */
-  public static class EntityIdRenderer extends DefaultTableCellRenderer
-  {
-    @Override
-    public void setValue(Object value)
-    {
-      EntityId id=(EntityId)value;
-      String text="";
-      if (id!=null)
-      {
-        EntityType type=id.getType();
-        text=type+": "+id.getId1()+"/"+id.getId2();
-      }
-      setText(text);
-    }
-  }
-
-  /**
-   * Instance ID renderer.
+   * Money renderer.
    * @author DAM
    */
   public static class MoneyRenderer extends DefaultTableCellRenderer

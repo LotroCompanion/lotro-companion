@@ -10,13 +10,13 @@ import javax.swing.JTextField;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.text.IntegerEditionController;
-import delta.games.lotro.common.id.ItemInstanceId;
+import delta.games.lotro.common.id.InternalGameId;
 
 /**
- * Controller for a panel to edit an item instance identifier.
+ * Controller for a panel to edit an internal game identifier.
  * @author DAM
  */
-public class ItemInstanceIdEditionPanelController
+public class InternalGameIdEditionPanelController
 {
   private IntegerEditionController _high;
   private IntegerEditionController _low;
@@ -25,7 +25,7 @@ public class ItemInstanceIdEditionPanelController
   /**
    * Constructor.
    */
-  public ItemInstanceIdEditionPanelController()
+  public InternalGameIdEditionPanelController()
   {
     _high=buildEditor();
     _low=buildEditor();
@@ -68,10 +68,10 @@ public class ItemInstanceIdEditionPanelController
   }
 
   /**
-   * Display an instance ID.
+   * Display an identifier ID.
    * @param id Identifier to show.
    */
-  public void setInstanceId(ItemInstanceId id)
+  public void setId(InternalGameId id)
   {
     if (id!=null)
     {
@@ -86,11 +86,11 @@ public class ItemInstanceIdEditionPanelController
 
   /**
    * Get the currently edited value.
-   * @return an instance ID value or <code>null</code> if empty or fully invalid.
+   * @return an identifier value or <code>null</code> if empty or invalid.
    */
-  public ItemInstanceId getInstanceId()
+  public InternalGameId getId()
   {
-    ItemInstanceId ret=null;
+    InternalGameId ret=null;
     // Get values
     // - high
     Integer high=_high.getValue();
@@ -98,7 +98,7 @@ public class ItemInstanceIdEditionPanelController
     Integer low=_low.getValue();
     if ((high!=null) || (low!=null))
     {
-      ret=new ItemInstanceId(high.intValue(),low.intValue());
+      ret=new InternalGameId(high.intValue(),low.intValue());
     }
     return ret;
   }
