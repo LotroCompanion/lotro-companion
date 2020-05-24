@@ -65,8 +65,8 @@ public class MountsTableController
   }
 
   /**
-   * Build the columns for a recipes table.
-   * @return A list of columns for a recipes table.
+   * Build the columns for a mounts table.
+   * @return A list of columns for a mounts table.
    */
   public static List<DefaultTableColumnController<MountDescription,?>> buildColumns()
   {
@@ -261,8 +261,8 @@ public class MountsTableController
   }
 
   /**
-   * Get the total number of recipes.
-   * @return A number of recipes.
+   * Get the total number of mounts.
+   * @return A number of mounts.
    */
   public int getNbItems()
   {
@@ -279,11 +279,6 @@ public class MountsTableController
     return ret;
   }
 
-  private void reset()
-  {
-    _mounts.clear();
-  }
-
   /**
    * Refresh table.
    */
@@ -298,7 +293,7 @@ public class MountsTableController
 
   private void init()
   {
-    reset();
+    _mounts.clear();
     List<MountDescription> mounts=MountsManager.getInstance().getAll();
     for(MountDescription mount : mounts)
     {

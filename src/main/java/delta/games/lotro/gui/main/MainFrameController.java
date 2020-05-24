@@ -34,6 +34,7 @@ import delta.games.lotro.gui.about.CreditsDialogController;
 import delta.games.lotro.gui.account.AccountsManagementController;
 import delta.games.lotro.gui.deed.explorer.DeedsExplorerWindowController;
 import delta.games.lotro.gui.emotes.explorer.EmotesExplorerWindowController;
+import delta.games.lotro.gui.interceptor.InterceptorDialogController;
 import delta.games.lotro.gui.lore.trade.barter.explorer.BarterersExplorerWindowController;
 import delta.games.lotro.gui.lore.trade.vendor.explorer.VendorsExplorerWindowController;
 import delta.games.lotro.gui.mounts.explorer.MountsExplorerWindowController;
@@ -70,9 +71,11 @@ public class MainFrameController extends DefaultWindowController implements Acti
   private static final String REPUTATION_SYNOPSIS_ID="reputationSynopsis";
   private static final String CRAFTING_SYNOPSIS_ID="craftingSynopsis";
   private static final String MAP_ID="map";
+  private static final String NETWORK_ID="network";
 
   private ToolbarController _toolbarTracking;
   private ToolbarController _toolbarLore;
+  private ToolbarController _toolbarNetwork;
   private ToonsManagementController _toonsManager;
   private AccountsManagementController _accountsManager;
   private WindowsManager _windowsManager;
@@ -248,11 +251,14 @@ public class MainFrameController extends DefaultWindowController implements Acti
   {
     _toolbarTracking=buildToolBarTracking();
     _toolbarLore=buildToolbarLore();
+    _toolbarNetwork=buildToolBarNetwork();
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,5,2,0),0,0);
     panel.add(_toolbarTracking.getToolBar(),c);
     c.gridx++;
     panel.add(_toolbarLore.getToolBar(),c);
+    c.gridx++;
+    panel.add(_toolbarNetwork.getToolBar(),c);
     c.gridx++;
     JPanel padding=GuiFactory.buildPanel(new FlowLayout());
     c.weightx=1.0;c.fill=GridBagConstraints.HORIZONTAL;
@@ -333,6 +339,21 @@ public class MainFrameController extends DefaultWindowController implements Acti
     model.addToolbarIconItem(barterersIconItem);
     // Border
     controller.getToolBar().setBorder(GuiFactory.buildTitledBorder("Lore Compendium"));
+    // Register action listener
+    controller.addActionListener(this);
+    return controller;
+  }
+
+  private ToolbarController buildToolBarNetwork()
+  {
+    ToolbarController controller=new ToolbarController();
+    ToolbarModel model=controller.getModel();
+    // Levelling icon
+    String levellingIconPath=getToolbarIconPath("levelling");
+    ToolbarIconItem levellingIconItem=new ToolbarIconItem(NETWORK_ID,levellingIconPath,NETWORK_ID,"Network...","Network");
+    model.addToolbarIconItem(levellingIconItem);
+    // Border
+    controller.getToolBar().setBorder(GuiFactory.buildTitledBorder("Network"));
     // Register action listener
     controller.addActionListener(this);
     return controller;
@@ -498,6 +519,17 @@ public class MainFrameController extends DefaultWindowController implements Acti
     controller.bringToFront();
   }
 
+  private void doNetwork()
+  {
+    WindowController controller=_windowsManager.getWindow(InterceptorDialogController.IDENTIFIER);
+    if (controller==null)
+    {
+      controller=new InterceptorDialogController(this);
+      _windowsManager.registerWindow(controller);
+    }
+    controller.bringToFront();
+  }
+
   @Override
   public void actionPerformed(ActionEvent event)
   {
@@ -557,6 +589,10 @@ public class MainFrameController extends DefaultWindowController implements Acti
     else if (BARTERERS_ID.equals(cmd))
     {
       doBarterers();
+    }
+    else if (NETWORK_ID.equals(cmd))
+    {
+      doNetwork();
     }
   }
 
@@ -637,6 +673,11 @@ public class MainFrameController extends DefaultWindowController implements Acti
     {
       _toolbarLore.dispose();
       _toolbarLore=null;
+    }
+    if (_toolbarNetwork!=null)
+    {
+      _toolbarNetwork.dispose();
+      _toolbarNetwork=null;
     }
     if (_toonsManager!=null)
     {
