@@ -85,8 +85,8 @@ public class InterceptionLogTableController
         }
       };
       DefaultTableColumnController<InterceptionLogEntry,Date> dateColumn=new DefaultTableColumnController<InterceptionLogEntry,Date>(InterceptionLogColumnIds.DATE.name(),"Date",Date.class,dateCell);
-      dateColumn.setWidthSpecs(100,100,50);
-      dateColumn.setCellRenderer(new DateRenderer(Formats.DATE_PATTERN));
+      dateColumn.setWidthSpecs(120,120,120);
+      dateColumn.setCellRenderer(new DateRenderer(Formats.DATE_TIME_PATTERN));
       ret.add(dateColumn);
     }
     // Level column

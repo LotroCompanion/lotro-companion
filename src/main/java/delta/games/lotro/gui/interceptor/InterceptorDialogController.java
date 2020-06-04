@@ -58,6 +58,9 @@ public class InterceptorDialogController extends DefaultDialogController impleme
     JDialog dialog=super.build();
     dialog.setModal(false);
     dialog.setTitle("Interceptor");
+    dialog.setResizable(true);
+    dialog.setPreferredSize(new Dimension(800,300));
+    dialog.setMinimumSize(new Dimension(400,200));
     dialog.pack();
     WindowController controller=getParentController();
     if (controller!=null)
@@ -65,8 +68,6 @@ public class InterceptorDialogController extends DefaultDialogController impleme
       Window parentWindow=controller.getWindow();
       dialog.setLocationRelativeTo(parentWindow);
     }
-    dialog.setResizable(true);
-    dialog.setMinimumSize(new Dimension(400,300));
     return dialog;
   }
 
