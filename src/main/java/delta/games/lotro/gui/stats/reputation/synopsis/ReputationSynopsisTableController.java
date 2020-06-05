@@ -75,7 +75,15 @@ public class ReputationSynopsisTableController
   {
     FactionsRegistry registry=FactionsRegistry.getInstance();
     List<Faction> factions=registry.getAll();
-    DataProvider<Faction> ret=new ListDataProvider<Faction>(factions);
+    List<Faction> selectedFactions=new ArrayList<Faction>();
+    for(Faction faction : factions)
+    {
+      if (!faction.isGuildFaction())
+      {
+        selectedFactions.add(faction);
+      }
+    }
+    DataProvider<Faction> ret=new ListDataProvider<Faction>(selectedFactions);
     return ret;
   }
 
