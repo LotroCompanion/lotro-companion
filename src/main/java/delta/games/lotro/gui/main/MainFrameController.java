@@ -71,11 +71,11 @@ public class MainFrameController extends DefaultWindowController implements Acti
   private static final String REPUTATION_SYNOPSIS_ID="reputationSynopsis";
   private static final String CRAFTING_SYNOPSIS_ID="craftingSynopsis";
   private static final String MAP_ID="map";
-  private static final String NETWORK_ID="network";
+  private static final String SYNCHRO_ID="synchro";
 
   private ToolbarController _toolbarTracking;
   private ToolbarController _toolbarLore;
-  private ToolbarController _toolbarNetwork;
+  private ToolbarController _toolbarMisc;
   private ToonsManagementController _toonsManager;
   private AccountsManagementController _accountsManager;
   private WindowsManager _windowsManager;
@@ -251,14 +251,14 @@ public class MainFrameController extends DefaultWindowController implements Acti
   {
     _toolbarTracking=buildToolBarTracking();
     _toolbarLore=buildToolbarLore();
-    _toolbarNetwork=buildToolBarNetwork();
+    _toolbarMisc=buildToolBarMisc();
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,5,2,0),0,0);
     panel.add(_toolbarTracking.getToolBar(),c);
     c.gridx++;
     panel.add(_toolbarLore.getToolBar(),c);
     c.gridx++;
-    panel.add(_toolbarNetwork.getToolBar(),c);
+    panel.add(_toolbarMisc.getToolBar(),c);
     c.gridx++;
     JPanel padding=GuiFactory.buildPanel(new FlowLayout());
     c.weightx=1.0;c.fill=GridBagConstraints.HORIZONTAL;
@@ -344,16 +344,16 @@ public class MainFrameController extends DefaultWindowController implements Acti
     return controller;
   }
 
-  private ToolbarController buildToolBarNetwork()
+  private ToolbarController buildToolBarMisc()
   {
     ToolbarController controller=new ToolbarController();
     ToolbarModel model=controller.getModel();
-    // Levelling icon
-    String levellingIconPath=getToolbarIconPath("levelling");
-    ToolbarIconItem levellingIconItem=new ToolbarIconItem(NETWORK_ID,levellingIconPath,NETWORK_ID,"Network...","Network");
-    model.addToolbarIconItem(levellingIconItem);
+    // Import from LOTRO
+    String importIconPath=getToolbarIconPath("lotro-import");
+    ToolbarIconItem importIconItem=new ToolbarIconItem(SYNCHRO_ID,importIconPath,SYNCHRO_ID,"Import from LotRO...","Import...");
+    model.addToolbarIconItem(importIconItem);
     // Border
-    controller.getToolBar().setBorder(GuiFactory.buildTitledBorder("Network"));
+    controller.getToolBar().setBorder(GuiFactory.buildTitledBorder("Misc"));
     // Register action listener
     controller.addActionListener(this);
     return controller;
@@ -519,7 +519,7 @@ public class MainFrameController extends DefaultWindowController implements Acti
     controller.bringToFront();
   }
 
-  private void doNetwork()
+  private void doSynchronizer()
   {
     WindowController controller=_windowsManager.getWindow(InterceptorDialogController.IDENTIFIER);
     if (controller==null)
@@ -590,9 +590,9 @@ public class MainFrameController extends DefaultWindowController implements Acti
     {
       doBarterers();
     }
-    else if (NETWORK_ID.equals(cmd))
+    else if (SYNCHRO_ID.equals(cmd))
     {
-      doNetwork();
+      doSynchronizer();
     }
   }
 
@@ -674,10 +674,10 @@ public class MainFrameController extends DefaultWindowController implements Acti
       _toolbarLore.dispose();
       _toolbarLore=null;
     }
-    if (_toolbarNetwork!=null)
+    if (_toolbarMisc!=null)
     {
-      _toolbarNetwork.dispose();
-      _toolbarNetwork=null;
+      _toolbarMisc.dispose();
+      _toolbarMisc=null;
     }
     if (_toonsManager!=null)
     {

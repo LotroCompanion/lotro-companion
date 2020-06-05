@@ -57,7 +57,7 @@ public class InterceptorDialogController extends DefaultDialogController impleme
   {
     JDialog dialog=super.build();
     dialog.setModal(false);
-    dialog.setTitle("Interceptor");
+    dialog.setTitle("Synchronizer");
     dialog.setResizable(true);
     dialog.setPreferredSize(new Dimension(800,300));
     dialog.setMinimumSize(new Dimension(400,200));
