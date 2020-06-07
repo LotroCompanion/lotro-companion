@@ -15,6 +15,7 @@ import delta.common.ui.swing.tables.TableColumnsManager;
 import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.character.CharacterFile;
+import delta.games.lotro.gui.items.FilterUpdateListener;
 import delta.games.lotro.gui.items.chooser.ItemChooser;
 import delta.games.lotro.interceptor.data.monitoring.InterceptionLog;
 import delta.games.lotro.interceptor.data.monitoring.InterceptionLogEntry;
@@ -25,7 +26,7 @@ import delta.games.lotro.utils.Formats;
  * Controller for a table that shows interception log entries.
  * @author DAM
  */
-public class InterceptionLogTableController
+public class InterceptionLogTableController implements FilterUpdateListener
 {
   // Data
   private TypedProperties _prefs;
@@ -169,7 +170,7 @@ public class InterceptionLogTableController
   /**
    * Update managed filter.
    */
-  public void updateFilter()
+  public void filterUpdated()
   {
     _tableController.filterUpdated();
   }

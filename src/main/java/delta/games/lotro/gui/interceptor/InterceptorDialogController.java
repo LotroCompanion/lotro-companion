@@ -3,6 +3,9 @@ package delta.games.lotro.gui.interceptor;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,6 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
+import javax.swing.border.TitledBorder;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.DefaultDialogController;
@@ -22,6 +26,7 @@ import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.gui.main.GlobalPreferences;
 import delta.games.lotro.interceptor.data.monitoring.InterceptionLog;
 import delta.games.lotro.interceptor.data.monitoring.InterceptionLogListener;
+import delta.games.lotro.interceptor.data.monitoring.filters.InterceptionLogFilter;
 
 /**
  * Basic dialog to control the network capture.
@@ -38,9 +43,17 @@ public class InterceptorDialogController extends DefaultDialogController impleme
    */
   private InterceptorController _interceptorController;
   /**
-   * Child UI controllers.
+   * Table UI controller.
    */
   private InterceptionLogTableController _tableController;
+  /**
+   * Filter UI controller.
+   */
+  private InterceptionLogFilterController _filterController;
+  /**
+   * Filter.
+   */
+  private InterceptionLogFilter _filter;
 
   /**
    * Constructor.
@@ -50,6 +63,7 @@ public class InterceptorDialogController extends DefaultDialogController impleme
   {
     super(parent);
     _interceptorController=new InterceptorController(this);
+    _filter=new InterceptionLogFilter();
   }
 
   @Override
@@ -90,15 +104,35 @@ public class InterceptorDialogController extends DefaultDialogController impleme
   protected JComponent buildContents()
   {
     JPanel buttonsPanel=buildButtonsPanel();
-    TypedProperties prefs=GlobalPreferences.getGlobalProperties("Interceptor");
-    InterceptionLog log=_interceptorController.getLog();
-    _tableController=new InterceptionLogTableController(prefs,null,log);
     JPanel ret=GuiFactory.buildBackgroundPanel(new BorderLayout());
     ret.add(buttonsPanel,BorderLayout.NORTH);
+    JPanel centerPanel=buildTablePanel();
+    ret.add(centerPanel,BorderLayout.CENTER);
+    return ret;
+  }
+
+  private JPanel buildTablePanel()
+  {
+    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
+    // Table
+    TypedProperties prefs=GlobalPreferences.getGlobalProperties("Interceptor");
+    InterceptionLog log=_interceptorController.getLog();
+    _tableController=new InterceptionLogTableController(prefs,_filter,log);
     JTable table=_tableController.getTable();
     JScrollPane scroll=GuiFactory.buildScrollPane(table);
-    ret.add(scroll,BorderLayout.CENTER);
-    return ret;
+    // Filter
+    _filterController=new InterceptionLogFilterController(_filter,_tableController, log);
+    JPanel filterPanel=_filterController.getPanel();
+    TitledBorder filterBorder=GuiFactory.buildTitledBorder("Filter");
+    filterPanel.setBorder(filterBorder);
+    // Whole panel
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    panel.add(filterPanel,c);
+    c=new GridBagConstraints(1,0,1,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    panel.add(GuiFactory.buildPanel(null),c);
+    c=new GridBagConstraints(0,1,2,1,1,1,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
+    panel.add(scroll,c);
+    return panel;
   }
 
   private JPanel buildButtonsPanel()
@@ -140,6 +174,7 @@ public class InterceptorDialogController extends DefaultDialogController impleme
       @Override
       public void run()
       {
+        _filterController.refresh();
         _tableController.refresh();
       }
     };
@@ -158,6 +193,12 @@ public class InterceptorDialogController extends DefaultDialogController impleme
       _tableController.dispose();
       _tableController=null;
     }
+    if (_filterController!=null)
+    {
+      _filterController.dispose();
+      _filterController=null;
+    }
+    _filter=null;
     if (_interceptorController!=null)
     {
       _interceptorController.dispose();
