@@ -155,7 +155,7 @@ public class DeedStatusEditionDialogController extends DefaultFormDialogControll
       panel.add(toggleMap,geoC);
     }
     // Set values
-    boolean completed=_data.isCompleted()==Boolean.TRUE;
+    boolean completed=_data.isCompleted();
     _completed.setSelected(completed);
     setCompleted(completed);
     _completionDate.setDate(_data.getCompletionDate());
@@ -204,7 +204,7 @@ public class DeedStatusEditionDialogController extends DefaultFormDialogControll
   {
     // Completed?
     boolean completed=_completed.isSelected();
-    _data.setCompleted(Boolean.valueOf(completed));
+    _data.setCompleted(completed);
     // Completion date
     Long completionDate=_completionDate.getDate();
     _data.setCompletionDate(completionDate);

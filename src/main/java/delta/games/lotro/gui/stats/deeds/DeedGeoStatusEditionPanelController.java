@@ -149,9 +149,9 @@ public class DeedGeoStatusEditionPanelController
     {
       final int pointId=pointStatus.getPointId();
       DeedGeoPointStatusGadgetsController gadgets=getGadgets(pointId);
-      Boolean isCompleted=pointStatus.isCompleted(); 
+      boolean isCompleted=pointStatus.isCompleted(); 
       final CheckboxController checkbox=gadgets.getCheckbox();
-      checkbox.setSelected(isCompleted==Boolean.TRUE);
+      checkbox.setSelected(isCompleted);
       Long completionDate=pointStatus.getCompletionDate();
       DateEditionController dateEditor=gadgets.getDateEditor();
       dateEditor.setDate(completionDate);
@@ -171,7 +171,7 @@ public class DeedGeoStatusEditionPanelController
       boolean completed=gadgets.getCheckbox().isSelected();
       Long completionDate=gadgets.getDateEditor().getDate();
       DeedGeoPointStatus pointStatus=status.getStatus(pointID,true);
-      pointStatus.setCompleted(Boolean.valueOf(completed));
+      pointStatus.setCompleted(completed);
       pointStatus.setCompletionDate(completionDate);
     }
   }

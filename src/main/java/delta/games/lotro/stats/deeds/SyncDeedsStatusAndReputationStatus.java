@@ -49,7 +49,7 @@ public class SyncDeedsStatusAndReputationStatus
         if (completed)
         {
           DeedStatus deedStatus=deedsStatus.get(deedKey,true);
-          deedStatus.setCompleted(Boolean.TRUE);
+          deedStatus.setCompleted(true);
           //System.out.println("Set deed "+deedKey+" to completed!");
           FactionLevelStatus levelStatus=factionStatus.getStatusForLevel(level);
           long date=levelStatus.getCompletionDate();
@@ -63,7 +63,7 @@ public class SyncDeedsStatusAndReputationStatus
           DeedStatus deedStatus=deedsStatus.get(deedKey,false);
           if (deedStatus!=null)
           {
-            deedStatus.setCompleted(Boolean.FALSE);
+            deedStatus.setCompleted(false);
           }
         }
       }
@@ -89,7 +89,7 @@ public class SyncDeedsStatusAndReputationStatus
         {
           Long date=null;
           DeedStatus deedStatus=deedsStatus.get(deedKey,false);
-          if ((deedStatus!=null) && (deedStatus.isCompleted()==Boolean.TRUE))
+          if ((deedStatus!=null) && (deedStatus.isCompleted()))
           {
             date=deedStatus.getCompletionDate();
           }

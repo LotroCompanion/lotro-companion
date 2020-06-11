@@ -78,7 +78,7 @@ public class DeedStatusTableController
           DeedStatus status=_deedsStatus.get(deedKey,false);
           if (status!=null)
           {
-            return status.isCompleted();
+            return Boolean.valueOf(status.isCompleted());
           }
           return Boolean.FALSE;
         }
@@ -95,7 +95,7 @@ public class DeedStatusTableController
           String deedKey=item.getIdentifyingKey();
           DeedStatus status=_deedsStatus.get(deedKey,true);
           Boolean completed=(Boolean)value;
-          status.setCompleted(completed);
+          status.setCompleted(completed.booleanValue());
         }
       };
       completedColumn.setValueUpdater(updater);

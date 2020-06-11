@@ -19,7 +19,7 @@ public class MainTestDeedStatusEdition
     {
       DeedDescription deed=deeds.get(0);
       DeedStatus status=new DeedStatus(deed.getKey());
-      status.setCompleted(Boolean.TRUE);
+      status.setCompleted(true);
       status.setCompletionDate(Long.valueOf(System.currentTimeMillis()));
       DeedStatusEditionDialogController dialog=new DeedStatusEditionDialogController(deed,status,null);
       DeedStatus newStatus=dialog.editModal();

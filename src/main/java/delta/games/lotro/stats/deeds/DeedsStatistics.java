@@ -117,8 +117,8 @@ public class DeedsStatistics
 
   private void useDeed(DeedStatus deedStatus, DeedDescription deed)
   {
-    Boolean completed=deedStatus.isCompleted();
-    if (completed==Boolean.TRUE)
+    boolean completed=deedStatus.isCompleted();
+    if (completed)
     {
       _completedCount++;
       Rewards rewards=deed.getRewards();
