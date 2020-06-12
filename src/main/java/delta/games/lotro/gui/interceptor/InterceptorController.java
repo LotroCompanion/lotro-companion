@@ -42,8 +42,12 @@ public class InterceptorController
     LotroPacketsReceiver receiver=new LotroPacketsReceiver(input.getQueue(),_log);
     //BasicPacketsReceiver receiver=new BasicPacketsReceiver(input.getQueue());
     receiver.start();
-    _interceptor=new NetworkPacketsInterceptor(input);
-    _interceptor.start();
+    _interceptor=new NetworkPacketsInterceptor(input,_log);
+    boolean startOK=_interceptor.start();
+    if (!startOK)
+    {
+      input.publishEndOfStream();
+    }
   }
 
   /**
@@ -66,7 +70,7 @@ public class InterceptorController
    */
   public boolean isStarted()
   {
-    return _interceptor!=null;
+    return (_interceptor!=null) && (_interceptor.isRunning());
   }
 
   /**

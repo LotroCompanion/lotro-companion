@@ -23,10 +23,12 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.DefaultDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.misc.TypedProperties;
+import delta.games.lotro.gui.interceptor.statistics.StatisticsPanelController;
 import delta.games.lotro.gui.main.GlobalPreferences;
 import delta.games.lotro.interceptor.data.monitoring.InterceptionLog;
 import delta.games.lotro.interceptor.data.monitoring.InterceptionLogListener;
 import delta.games.lotro.interceptor.data.monitoring.filters.InterceptionLogFilter;
+import delta.games.lotro.interceptor.protocol.PacketsStatistics;
 
 /**
  * Basic dialog to control the network capture.
@@ -42,6 +44,10 @@ public class InterceptorDialogController extends DefaultDialogController impleme
    * Interceptor.
    */
   private InterceptorController _interceptorController;
+  /**
+   * Statistics.
+   */
+  private StatisticsPanelController _statisticsController;
   /**
    * Table UI controller.
    */
@@ -103,9 +109,9 @@ public class InterceptorDialogController extends DefaultDialogController impleme
   @Override
   protected JComponent buildContents()
   {
-    JPanel buttonsPanel=buildButtonsPanel();
     JPanel ret=GuiFactory.buildBackgroundPanel(new BorderLayout());
-    ret.add(buttonsPanel,BorderLayout.NORTH);
+    JPanel northPanel=buildNorthPanel();
+    ret.add(northPanel,BorderLayout.NORTH);
     JPanel centerPanel=buildTablePanel();
     ret.add(centerPanel,BorderLayout.CENTER);
     return ret;
@@ -135,6 +141,21 @@ public class InterceptorDialogController extends DefaultDialogController impleme
     return panel;
   }
 
+  private JPanel buildNorthPanel()
+  {
+    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
+    // Buttons
+    JPanel buttonsPanel=buildButtonsPanel();
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    panel.add(buttonsPanel,c);
+    // Statistics
+    PacketsStatistics statistics=_interceptorController.getLog().getPacketsStatistics();
+    _statisticsController=new StatisticsPanelController(statistics);
+    c=new GridBagConstraints(1,0,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    panel.add(_statisticsController.getPanel(),c);
+    return panel;
+  }
+
   private JPanel buildButtonsPanel()
   {
     // Start
@@ -144,7 +165,7 @@ public class InterceptorDialogController extends DefaultDialogController impleme
       @Override
       public void actionPerformed(ActionEvent e)
       {
-        _interceptorController.start();
+        doStart();
       }
     };
     startButton.addActionListener(alStart);
@@ -155,7 +176,7 @@ public class InterceptorDialogController extends DefaultDialogController impleme
       @Override
       public void actionPerformed(ActionEvent e)
       {
-        _interceptorController.stop();
+        doStop();
       }
     };
     stopButton.addActionListener(alStop);
@@ -164,6 +185,18 @@ public class InterceptorDialogController extends DefaultDialogController impleme
     panel.add(startButton);
     panel.add(stopButton);
     return panel;
+  }
+
+  private void doStart()
+  {
+    _interceptorController.start();
+    _statisticsController.start();
+  }
+
+  private void doStop()
+  {
+    _interceptorController.stop();
+    _statisticsController.stop();
   }
 
   @Override
