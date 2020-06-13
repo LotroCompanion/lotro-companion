@@ -23,6 +23,9 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.DefaultDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.misc.TypedProperties;
+import delta.games.lotro.UserConfig;
+import delta.games.lotro.dat.data.DatConfiguration;
+import delta.games.lotro.gui.configuration.ConfigurationDialogController;
 import delta.games.lotro.gui.interceptor.statistics.StatisticsPanelController;
 import delta.games.lotro.gui.main.GlobalPreferences;
 import delta.games.lotro.interceptor.data.monitoring.InterceptionLog;
@@ -149,10 +152,23 @@ public class InterceptorDialogController extends DefaultDialogController impleme
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(buttonsPanel,c);
     // Statistics
-    PacketsStatistics statistics=_interceptorController.getLog().getPacketsStatistics();
+    PacketsStatistics statistics=_interceptorController.getSession().getPacketsStatistics();
     _statisticsController=new StatisticsPanelController(statistics);
     c=new GridBagConstraints(1,0,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(_statisticsController.getPanel(),c);
+    // Settings
+    JButton settings=GuiFactory.buildButton("Settings...");
+    c=new GridBagConstraints(2,0,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    panel.add(settings,c);
+    ActionListener al=new ActionListener()
+    {
+      @Override
+      public void actionPerformed(ActionEvent e)
+      {
+        doSettings();
+      }
+    };
+    settings.addActionListener(al);
     return panel;
   }
 
@@ -212,6 +228,14 @@ public class InterceptorDialogController extends DefaultDialogController impleme
       }
     };
     SwingUtilities.invokeLater(r);
+  }
+
+  private void doSettings()
+  {
+    DatConfiguration configuration=UserConfig.getInstance().getDatConfiguration();
+    ConfigurationDialogController dialog=new ConfigurationDialogController(this,configuration);
+    dialog.getDialog().setLocationRelativeTo(this.getDialog());
+    dialog.show(true);
   }
 
   /**

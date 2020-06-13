@@ -2,6 +2,9 @@ package delta.games.lotro.gui.interceptor;
 
 import org.apache.log4j.Logger;
 
+import delta.games.lotro.UserConfig;
+import delta.games.lotro.dat.data.DatConfiguration;
+import delta.games.lotro.interceptor.data.InterceptionSession;
 import delta.games.lotro.interceptor.data.monitoring.InterceptionLog;
 import delta.games.lotro.interceptor.data.monitoring.InterceptionLogListener;
 import delta.games.lotro.interceptor.input.NetworkPacketsInterceptor;
@@ -16,7 +19,7 @@ public class InterceptorController
 {
   private static final Logger LOGGER=Logger.getLogger(InterceptorController.class);
 
-  private InterceptionLog _log;
+  private InterceptionSession _session;
   private NetworkPacketsInterceptor _interceptor;
 
   /**
@@ -25,7 +28,18 @@ public class InterceptorController
    */
   public InterceptorController(InterceptionLogListener listener)
   {
-    _log=new InterceptionLog(listener);
+    DatConfiguration configuration=UserConfig.getInstance().getDatConfiguration();
+    _session=new InterceptionSession(configuration);
+    _session.getLog().setListener(listener);
+  }
+
+  /**
+   * Get the interception session.
+   * @return the interception session.
+   */
+  public InterceptionSession getSession()
+  {
+    return _session;
   }
 
   /**
@@ -39,10 +53,10 @@ public class InterceptorController
     }
     LOGGER.info("Starting interception");
     PacketEventsQueueManager input=new PacketEventsQueueManager();
-    LotroPacketsReceiver receiver=new LotroPacketsReceiver(input.getQueue(),_log);
+    LotroPacketsReceiver receiver=new LotroPacketsReceiver(input.getQueue(),_session);
     //BasicPacketsReceiver receiver=new BasicPacketsReceiver(input.getQueue());
     receiver.start();
-    _interceptor=new NetworkPacketsInterceptor(input,_log);
+    _interceptor=new NetworkPacketsInterceptor(input,_session.getLog());
     boolean startOK=_interceptor.start();
     if (!startOK)
     {
@@ -79,7 +93,7 @@ public class InterceptorController
    */
   public InterceptionLog getLog()
   {
-    return _log;
+    return _session.getLog();
   }
 
   /**
@@ -88,6 +102,6 @@ public class InterceptorController
   public void dispose()
   {
     stop();
-    _log=null;
+    _session=null;
   }
 }

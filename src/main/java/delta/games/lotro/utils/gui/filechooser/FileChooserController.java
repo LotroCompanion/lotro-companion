@@ -33,6 +33,35 @@ public class FileChooserController
   }
 
   /**
+   * Get the managed chooser.
+   * @return the managed chooser.
+   */
+  public JFileChooser getChooser()
+  {
+    return _chooser;
+  }
+
+  /**
+   * Choose a directory.
+   * @param parent Parent component.
+   * @param approveButtonText Title of the approve button.
+   * @return A directory or <code>null</code> if none chosen.
+   */
+  public File chooseDirectory(Component parent, String approveButtonText)
+  {
+    _chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+    File chosenDir=choose(parent,approveButtonText);
+    if (chosenDir!=null)
+    {
+      Preferences preferences=Config.getInstance().getPreferences();
+      TypedProperties props=preferences.getPreferences(_id);
+      props.setStringProperty(CURRENT_FILE_PREFERENCE,chosenDir.getAbsolutePath());
+      preferences.savePreferences(props);
+    }
+    return chosenDir;
+  }
+
+  /**
    * Choose a file.
    * @param parent Parent component.
    * @param approveButtonText Title of the approve button.
@@ -41,7 +70,20 @@ public class FileChooserController
   public File chooseFile(Component parent, String approveButtonText)
   {
     _chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+    File chosenFile=choose(parent,approveButtonText);
+    if (chosenFile!=null)
+    {
+      Preferences preferences=Config.getInstance().getPreferences();
+      TypedProperties props=preferences.getPreferences(_id);
+      File currentDir=chosenFile.getParentFile();
+      props.setStringProperty(CURRENT_FILE_PREFERENCE,currentDir.getAbsolutePath());
+      preferences.savePreferences(props);
+    }
+    return chosenFile;
+  }
 
+  private File choose(Component parent, String approveButtonText)
+  {
     Preferences preferences=Config.getInstance().getPreferences();
     TypedProperties props=preferences.getPreferences(_id);
     String dirStr=props.getStringProperty(CURRENT_FILE_PREFERENCE,null);
@@ -58,12 +100,6 @@ public class FileChooserController
     if (ok==JFileChooser.APPROVE_OPTION)
     {
       chosenFile=_chooser.getSelectedFile();
-      currentDir=_chooser.getCurrentDirectory();
-      if (currentDir!=null)
-      {
-        props.setStringProperty(CURRENT_FILE_PREFERENCE,currentDir.getAbsolutePath());
-        preferences.savePreferences(props);
-      }
     }
     return chosenFile;
   }
