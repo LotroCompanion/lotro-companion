@@ -3,11 +3,8 @@ package delta.games.lotro.gui.interceptor.statistics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.JPanel;
-import javax.swing.Timer;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.interceptor.protocol.PacketsStatistics;
@@ -26,8 +23,6 @@ public class StatisticsPanelController
   private PacketCountsPanelController _raw;
   // - data
   private PacketCountsPanelController _data;
-  // Timer
-  private Timer _timer;
 
   /**
    * Constructor.
@@ -76,32 +71,6 @@ public class StatisticsPanelController
     _panel=panel;
     update();
     return panel;
-  }
-
-  /**
-   * Start timer to refresh data.
-   */
-  public void start()
-  {
-    ActionListener al=new ActionListener()
-    {
-      @Override
-      public void actionPerformed(ActionEvent e)
-      {
-        update();
-      }
-    };
-    _timer=new Timer(2000,al);
-    _timer.setRepeats(true);
-    _timer.start();
-  }
-
-  /**
-   * Stop timer to refresh data.
-   */
-  public void stop()
-  {
-    _timer.stop();
   }
 
   /**

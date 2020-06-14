@@ -22,11 +22,12 @@ import javax.swing.border.TitledBorder;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.DefaultDialogController;
 import delta.common.ui.swing.windows.WindowController;
+import delta.common.ui.swing.windows.WindowsManager;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.UserConfig;
 import delta.games.lotro.dat.data.DatConfiguration;
 import delta.games.lotro.gui.configuration.ConfigurationDialogController;
-import delta.games.lotro.gui.interceptor.statistics.StatisticsPanelController;
+import delta.games.lotro.gui.interceptor.statistics.StatisticsWindowController;
 import delta.games.lotro.gui.main.GlobalPreferences;
 import delta.games.lotro.interceptor.data.monitoring.InterceptionLog;
 import delta.games.lotro.interceptor.data.monitoring.InterceptionLogListener;
@@ -48,10 +49,6 @@ public class InterceptorDialogController extends DefaultDialogController impleme
    * Interceptor.
    */
   private InterceptorController _interceptorController;
-  /**
-   * Statistics.
-   */
-  private StatisticsPanelController _statisticsController;
   /**
    * Table UI controller.
    */
@@ -76,6 +73,10 @@ public class InterceptorDialogController extends DefaultDialogController impleme
    * Settings button.
    */
   private JButton _settingsButton;
+  /**
+   * Child controllers.
+   */
+  private WindowsManager _childControllers;
 
   /**
    * Constructor.
@@ -84,6 +85,7 @@ public class InterceptorDialogController extends DefaultDialogController impleme
   public InterceptorDialogController(WindowController parent)
   {
     super(parent);
+    _childControllers=new WindowsManager();
     _interceptorController=new InterceptorController(this);
     _interceptorController.getSession().getLog().setListener(this);
     _filter=new InterceptionLogFilter();
@@ -129,12 +131,12 @@ public class InterceptorDialogController extends DefaultDialogController impleme
     JPanel ret=GuiFactory.buildBackgroundPanel(new BorderLayout());
     JPanel northPanel=buildNorthPanel();
     ret.add(northPanel,BorderLayout.NORTH);
-    JPanel centerPanel=buildTablePanel();
+    JPanel centerPanel=buildLogPanel();
     ret.add(centerPanel,BorderLayout.CENTER);
     return ret;
   }
 
-  private JPanel buildTablePanel()
+  private JPanel buildLogPanel()
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     // Table
@@ -155,6 +157,8 @@ public class InterceptorDialogController extends DefaultDialogController impleme
     panel.add(GuiFactory.buildPanel(null),c);
     c=new GridBagConstraints(0,1,2,1,1,1,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
     panel.add(scroll,c);
+    // Border
+    panel.setBorder(GuiFactory.buildTitledBorder("Log"));
     return panel;
   }
 
@@ -165,11 +169,6 @@ public class InterceptorDialogController extends DefaultDialogController impleme
     JPanel buttonsPanel=buildButtonsPanel();
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(buttonsPanel,c);
-    // Statistics
-    PacketsStatistics statistics=_interceptorController.getSession().getPacketsStatistics();
-    _statisticsController=new StatisticsPanelController(statistics);
-    c=new GridBagConstraints(1,0,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
-    panel.add(_statisticsController.getPanel(),c);
     return panel;
   }
 
@@ -197,10 +196,22 @@ public class InterceptorDialogController extends DefaultDialogController impleme
       }
     };
     _settingsButton.addActionListener(al);
+    // Statistics
+    JButton statisticsButton=GuiFactory.buildButton("Statistics...");
+    ActionListener al2=new ActionListener()
+    {
+      @Override
+      public void actionPerformed(ActionEvent e)
+      {
+        doStatistics();
+      }
+    };
+    statisticsButton.addActionListener(al2);
 
     JPanel panel=GuiFactory.buildPanel(new FlowLayout());
     panel.add(_startStopButton);
     panel.add(_settingsButton);
+    panel.add(statisticsButton);
     return panel;
   }
 
@@ -209,12 +220,10 @@ public class InterceptorDialogController extends DefaultDialogController impleme
     if (_started)
     {
       _interceptorController.stop();
-      _statisticsController.stop();
     }
     else
     {
       _interceptorController.start();
-      _statisticsController.start();
     }
     // Set to enabled waiting for its state to be updated by the listener
     _startStopButton.setEnabled(false);
@@ -279,6 +288,25 @@ public class InterceptorDialogController extends DefaultDialogController impleme
     dialog.show(true);
   }
 
+  private void doStatistics()
+  {
+    StatisticsWindowController statisticsController=getStatisticsController();
+    if (statisticsController==null)
+    {
+      PacketsStatistics statistics=_interceptorController.getSession().getPacketsStatistics();
+      statisticsController=new StatisticsWindowController(this,statistics);
+      _childControllers.registerWindow(statisticsController);
+      statisticsController.getWindow().setLocationRelativeTo(this.getWindow());
+    }
+    statisticsController.bringToFront();
+  }
+
+  private StatisticsWindowController getStatisticsController()
+  {
+    WindowController controller=_childControllers.getWindow(StatisticsWindowController.IDENTIFIER);
+    return (StatisticsWindowController)controller;
+  }
+
   /**
    * Release all managed resources.
    */
@@ -301,6 +329,11 @@ public class InterceptorDialogController extends DefaultDialogController impleme
     {
       _interceptorController.dispose();
       _tableController=null;
+    }
+    if (_childControllers!=null)
+    {
+      _childControllers.disposeAll();
+      _childControllers=null;
     }
   }
 }
