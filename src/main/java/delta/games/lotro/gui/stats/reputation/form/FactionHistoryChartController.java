@@ -54,7 +54,7 @@ public class FactionHistoryChartController
   {
     _stats=stats;
     _showTitle=showTitle;
-    _data = new XYSeriesCollection();
+    _data=new XYSeriesCollection();
     _panel=buildPanel();
   }
 
@@ -116,21 +116,14 @@ public class FactionHistoryChartController
     XYPlot xyplot = (XYPlot)jfreechart.getPlot();
     xyplot.setDomainPannable(false);
     XYStepAreaRenderer xysteparearenderer = new XYStepAreaRenderer(XYStepAreaRenderer.AREA_AND_SHAPES);
-    Faction faction=_stats.getFaction();
-    final FactionLevel[] levels=faction.getLevels();
+    final Faction faction=_stats.getFaction();
     XYToolTipGenerator tooltip=new StandardXYToolTipGenerator() {
       @Override
       public String generateLabelString(XYDataset dataset, int series, int item)
       {
-        String label="???";
         int tier=(int)dataset.getYValue(series,item);
-        for(FactionLevel level : levels)
-        {
-          if (level.getTier()==tier)
-          {
-            label=level.getName();
-          }
-        }
+        FactionLevel level=faction.getLevelByTier(tier);
+        String label=(level!=null)?level.getName():"?";
         double timestamp=dataset.getXValue(series,item);
         String date=Formats.getDateString(Long.valueOf((long)timestamp));
         return label+" ("+date+")";
@@ -151,6 +144,7 @@ public class FactionHistoryChartController
     valueAxis.setAxisLinePaint(foregroundColor);
     valueAxis.setLabelPaint(foregroundColor);
     valueAxis.setTickLabelPaint(foregroundColor);
+    FactionLevel[] levels=faction.getLevels();
     final int min=levels[0].getTier();
     int max=levels[levels.length-1].getTier();
     valueAxis.setRange(min,max);
@@ -158,8 +152,8 @@ public class FactionHistoryChartController
     {
       private String format(int number)
       {
-        String ret=levels[number-min].getName(); // TODO: better
-        return ret;
+        FactionLevel level=faction.getLevelByTier(number);
+        return (level!=null)?level.getName():"???";
       }
 
       @Override
