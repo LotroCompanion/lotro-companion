@@ -31,13 +31,14 @@ import delta.games.lotro.gui.main.GlobalPreferences;
 import delta.games.lotro.interceptor.data.monitoring.InterceptionLog;
 import delta.games.lotro.interceptor.data.monitoring.InterceptionLogListener;
 import delta.games.lotro.interceptor.data.monitoring.filters.InterceptionLogFilter;
+import delta.games.lotro.interceptor.input.InterceptorStateListener;
 import delta.games.lotro.interceptor.protocol.PacketsStatistics;
 
 /**
  * Basic dialog to control the network capture.
  * @author DAM
  */
-public class InterceptorDialogController extends DefaultDialogController implements InterceptionLogListener
+public class InterceptorDialogController extends DefaultDialogController implements InterceptionLogListener,InterceptorStateListener
 {
   /**
    * Identifier of this dialog.
@@ -63,6 +64,18 @@ public class InterceptorDialogController extends DefaultDialogController impleme
    * Filter.
    */
   private InterceptionLogFilter _filter;
+  /**
+   * Start/stop button.
+   */
+  private JButton _startStopButton;
+  /**
+   * Button state.
+   */
+  private boolean _started=false;
+  /**
+   * Settings button.
+   */
+  private JButton _settingsButton;
 
   /**
    * Constructor.
@@ -72,6 +85,7 @@ public class InterceptorDialogController extends DefaultDialogController impleme
   {
     super(parent);
     _interceptorController=new InterceptorController(this);
+    _interceptorController.getSession().getLog().setListener(this);
     _filter=new InterceptionLogFilter();
   }
 
@@ -82,8 +96,8 @@ public class InterceptorDialogController extends DefaultDialogController impleme
     dialog.setModal(false);
     dialog.setTitle("Synchronizer");
     dialog.setResizable(true);
-    dialog.setPreferredSize(new Dimension(800,300));
-    dialog.setMinimumSize(new Dimension(400,200));
+    dialog.setPreferredSize(new Dimension(800,500));
+    dialog.setMinimumSize(new Dimension(600,300));
     dialog.pack();
     WindowController controller=getParentController();
     if (controller!=null)
@@ -156,10 +170,24 @@ public class InterceptorDialogController extends DefaultDialogController impleme
     _statisticsController=new StatisticsPanelController(statistics);
     c=new GridBagConstraints(1,0,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(_statisticsController.getPanel(),c);
+    return panel;
+  }
+
+  private JPanel buildButtonsPanel()
+  {
+    // Start/stop
+    _startStopButton=GuiFactory.buildButton("Start");
+    ActionListener alStart=new ActionListener()
+    {
+      @Override
+      public void actionPerformed(ActionEvent e)
+      {
+        doStartStop();
+      }
+    };
+    _startStopButton.addActionListener(alStart);
     // Settings
-    JButton settings=GuiFactory.buildButton("Settings...");
-    c=new GridBagConstraints(2,0,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
-    panel.add(settings,c);
+    _settingsButton=GuiFactory.buildButton("Settings...");
     ActionListener al=new ActionListener()
     {
       @Override
@@ -168,51 +196,28 @@ public class InterceptorDialogController extends DefaultDialogController impleme
         doSettings();
       }
     };
-    settings.addActionListener(al);
-    return panel;
-  }
-
-  private JPanel buildButtonsPanel()
-  {
-    // Start
-    JButton startButton=GuiFactory.buildButton("Start");
-    ActionListener alStart=new ActionListener()
-    {
-      @Override
-      public void actionPerformed(ActionEvent e)
-      {
-        doStart();
-      }
-    };
-    startButton.addActionListener(alStart);
-    // Stop
-    JButton stopButton=GuiFactory.buildButton("Stop");
-    ActionListener alStop=new ActionListener()
-    {
-      @Override
-      public void actionPerformed(ActionEvent e)
-      {
-        doStop();
-      }
-    };
-    stopButton.addActionListener(alStop);
+    _settingsButton.addActionListener(al);
 
     JPanel panel=GuiFactory.buildPanel(new FlowLayout());
-    panel.add(startButton);
-    panel.add(stopButton);
+    panel.add(_startStopButton);
+    panel.add(_settingsButton);
     return panel;
   }
 
-  private void doStart()
+  private void doStartStop()
   {
-    _interceptorController.start();
-    _statisticsController.start();
-  }
-
-  private void doStop()
-  {
-    _interceptorController.stop();
-    _statisticsController.stop();
+    if (_started)
+    {
+      _interceptorController.stop();
+      _statisticsController.stop();
+    }
+    else
+    {
+      _interceptorController.start();
+      _statisticsController.start();
+    }
+    // Set to enabled waiting for its state to be updated by the listener
+    _startStopButton.setEnabled(false);
   }
 
   @Override
@@ -225,6 +230,42 @@ public class InterceptorDialogController extends DefaultDialogController impleme
       {
         _filterController.refresh();
         _tableController.refresh();
+      }
+    };
+    SwingUtilities.invokeLater(r);
+  }
+
+  @Override
+  public void interceptorStarted()
+  {
+    updateButtonsState(true);
+  }
+
+  @Override
+  public void interceptorEnded()
+  {
+    updateButtonsState(false);
+  }
+
+  private void updateButtonsState(final boolean running)
+  {
+    Runnable r=new Runnable()
+    {
+      @Override
+      public void run()
+      {
+        _started=running;
+        if (running)
+        {
+          _startStopButton.setText("Stop");
+          _settingsButton.setEnabled(false);
+        }
+        else
+        {
+          _startStopButton.setText("Start");
+          _settingsButton.setEnabled(true);
+        }
+        _startStopButton.setEnabled(true);
       }
     };
     SwingUtilities.invokeLater(r);

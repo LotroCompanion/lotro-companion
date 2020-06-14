@@ -6,7 +6,7 @@ import delta.games.lotro.UserConfig;
 import delta.games.lotro.dat.data.DatConfiguration;
 import delta.games.lotro.interceptor.data.InterceptionSession;
 import delta.games.lotro.interceptor.data.monitoring.InterceptionLog;
-import delta.games.lotro.interceptor.data.monitoring.InterceptionLogListener;
+import delta.games.lotro.interceptor.input.InterceptorStateListener;
 import delta.games.lotro.interceptor.input.NetworkPacketsInterceptor;
 import delta.games.lotro.interceptor.input.PacketEventsQueueManager;
 import delta.games.lotro.interceptor.protocol.LotroPacketsReceiver;
@@ -21,16 +21,17 @@ public class InterceptorController
 
   private InterceptionSession _session;
   private NetworkPacketsInterceptor _interceptor;
+  private InterceptorStateListener _listener;
 
   /**
    * Constructor.
-   * @param listener Listener.
+   * @param listener State listener.
    */
-  public InterceptorController(InterceptionLogListener listener)
+  public InterceptorController(InterceptorStateListener listener)
   {
+    _listener=listener;
     DatConfiguration configuration=UserConfig.getInstance().getDatConfiguration();
     _session=new InterceptionSession(configuration);
-    _session.getLog().setListener(listener);
   }
 
   /**
@@ -57,6 +58,7 @@ public class InterceptorController
     //BasicPacketsReceiver receiver=new BasicPacketsReceiver(input.getQueue());
     receiver.start();
     _interceptor=new NetworkPacketsInterceptor(input,_session.getLog());
+    _interceptor.setStateListener(_listener);
     boolean startOK=_interceptor.start();
     if (!startOK)
     {
@@ -103,5 +105,6 @@ public class InterceptorController
   {
     stop();
     _session=null;
+    _listener=null;
   }
 }
