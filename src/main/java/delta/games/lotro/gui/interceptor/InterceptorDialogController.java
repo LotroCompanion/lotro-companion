@@ -29,6 +29,7 @@ import delta.games.lotro.dat.data.DatConfiguration;
 import delta.games.lotro.gui.configuration.ConfigurationDialogController;
 import delta.games.lotro.gui.interceptor.statistics.StatisticsWindowController;
 import delta.games.lotro.gui.main.GlobalPreferences;
+import delta.games.lotro.interceptor.data.InterceptionSession;
 import delta.games.lotro.interceptor.data.monitoring.InterceptionLog;
 import delta.games.lotro.interceptor.data.monitoring.InterceptionLogListener;
 import delta.games.lotro.interceptor.data.monitoring.filters.InterceptionLogFilter;
@@ -225,13 +226,25 @@ public class InterceptorDialogController extends DefaultDialogController impleme
     if (_started)
     {
       _interceptorController.stop();
+      // Set to enabled waiting for its state to be updated by the listener
+      _startStopButton.setEnabled(false);
     }
     else
     {
-      _interceptorController.start();
+      boolean checksOK=checks();
+      if (checksOK)
+      {
+        _interceptorController.start();
+        // Set to enabled waiting for its state to be updated by the listener
+        _startStopButton.setEnabled(false);
+      }
     }
-    // Set to enabled waiting for its state to be updated by the listener
-    _startStopButton.setEnabled(false);
+  }
+
+  private boolean checks()
+  {
+    InterceptionSession session=_interceptorController.getSession();
+    return session.checks();
   }
 
   @Override
