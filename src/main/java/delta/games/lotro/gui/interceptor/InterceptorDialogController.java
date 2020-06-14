@@ -167,8 +167,13 @@ public class InterceptorDialogController extends DefaultDialogController impleme
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     // Buttons
     JPanel buttonsPanel=buildButtonsPanel();
+    buttonsPanel.setBorder(GuiFactory.buildTitledBorder("Synchronizer control"));
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(buttonsPanel,c);
+    // Glue
+    JPanel eastGlue=GuiFactory.buildPanel(new BorderLayout());
+    GridBagConstraints eastGlueC=new GridBagConstraints(1,0,1,1,1.0,1.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(5,5,5,5),0,0);
+    panel.add(eastGlue,eastGlueC);
     return panel;
   }
 
