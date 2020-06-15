@@ -255,8 +255,14 @@ public class InterceptorDialogController extends DefaultDialogController impleme
       @Override
       public void run()
       {
-        _filterController.refresh();
-        _tableController.refresh();
+        if (_filterController!=null)
+        {
+          _filterController.refresh();
+        }
+        if (_tableController!=null)
+        {
+          _tableController.refresh();
+        }
       }
     };
     SwingUtilities.invokeLater(r);
@@ -331,7 +337,7 @@ public class InterceptorDialogController extends DefaultDialogController impleme
   @Override
   public void dispose()
   {
-    super.dispose();
+    _interceptorController.getLog().setListener(null);
     if (_tableController!=null)
     {
       _tableController.dispose();
@@ -353,5 +359,6 @@ public class InterceptorDialogController extends DefaultDialogController impleme
       _childControllers.disposeAll();
       _childControllers=null;
     }
+    super.dispose();
   }
 }
