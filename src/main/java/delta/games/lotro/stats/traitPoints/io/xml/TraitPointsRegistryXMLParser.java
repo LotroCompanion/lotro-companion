@@ -83,6 +83,9 @@ public class TraitPointsRegistryXMLParser
           ret.addRequiredClass(characterClass);
         }
       }
+      // Achievable ID
+      int achievableId=DOMParsingTools.getIntAttribute(attrs,TraitPointsRegistryXMLConstants.TRAIT_POINT_ACHIEVABLE_ID_ATTR,0);
+      ret.setAchievableId(achievableId);
     }
     return ret;
   }

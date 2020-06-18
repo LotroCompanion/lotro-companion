@@ -15,6 +15,7 @@ public class TraitPoint
   private String _category;
   private String _label;
   private Set<CharacterClass> _requiredCharacterClasses;
+  private int _achievableId;
 
   /**
    * Constructor.
@@ -102,5 +103,23 @@ public class TraitPoint
   public boolean isEnabledForClass(CharacterClass characterClass)
   {
     return _requiredCharacterClasses.isEmpty()||_requiredCharacterClasses.contains(characterClass);
+  }
+
+  /**
+   * Get the identifier of the associated achievable.
+   * @return an achievable ID or 0.
+   */
+  public int getAchievableId()
+  {
+    return _achievableId;
+  }
+
+  /**
+   * Set the identifier of the associated achievable.
+   * @param achievableId Identifier to set.
+   */
+  public void setAchievableId(int achievableId)
+  {
+    _achievableId=achievableId;
   }
 }

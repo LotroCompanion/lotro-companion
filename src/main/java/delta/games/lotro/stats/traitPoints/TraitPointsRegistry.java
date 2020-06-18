@@ -1,11 +1,11 @@
 package delta.games.lotro.stats.traitPoints;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import delta.common.utils.collections.ListOrderedMap;
 import delta.games.lotro.common.CharacterClass;
 
 /**
@@ -16,14 +16,14 @@ public class TraitPointsRegistry
 {
   private static final Logger LOGGER=Logger.getLogger(TraitPointsRegistry.class);
 
-  private HashMap<String,TraitPoint> _traitPoints;
+  private ListOrderedMap<TraitPoint> _traitPoints;
 
   /**
    * Constructor.
    */
   public TraitPointsRegistry()
   {
-    _traitPoints=new HashMap<String,TraitPoint>();
+    _traitPoints=new ListOrderedMap<TraitPoint>();
   }
 
   /**
@@ -42,7 +42,7 @@ public class TraitPointsRegistry
 
   /**
    * Get all registered trait points.
-   * @return A list of trait point (unspecified order).
+   * @return A list of trait points.
    */
   public List<TraitPoint> getAll()
   {

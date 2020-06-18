@@ -32,4 +32,8 @@ public class TraitPointsRegistryXMLConstants
    * Tag 'traitPoint', attribute 'requiredClasses'.
    */
   public static final String TRAIT_POINT_REQUIRED_CLASSES_ATTR="requiredClasses";
+  /**
+   * Tag 'traitPoint', attribute 'achievableId'.
+   */
+  public static final String TRAIT_POINT_ACHIEVABLE_ID_ATTR="achievableId";
 }

@@ -2,7 +2,6 @@ package delta.games.lotro.gui.stats.traitPoints;
 
 import java.awt.BorderLayout;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import javax.swing.JPanel;
@@ -18,7 +17,6 @@ import delta.games.lotro.stats.traitPoints.TraitPointFilter;
 import delta.games.lotro.stats.traitPoints.TraitPoints;
 import delta.games.lotro.stats.traitPoints.TraitPointsRegistry;
 import delta.games.lotro.stats.traitPoints.TraitPointsStatus;
-import delta.games.lotro.stats.traitPoints.comparators.TraitPointLabelComparator;
 
 /**
  * Controller for a trait points edition panel.
@@ -56,7 +54,6 @@ public class TraitPointsEditionPanelController
     CharacterClass characterClass=_attrs.getCharacterClass();
     TraitPointsRegistry registry=TraitPoints.get().getRegistry();
     List<TraitPoint> points=registry.getPointsForClass(characterClass);
-    Collections.sort(points,new TraitPointLabelComparator());
 
     TraitPointsStatusListener listener=new TraitPointsStatusListener()
     {

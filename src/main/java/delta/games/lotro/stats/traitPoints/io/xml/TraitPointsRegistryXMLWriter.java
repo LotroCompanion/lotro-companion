@@ -1,6 +1,7 @@
 package delta.games.lotro.stats.traitPoints.io.xml;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -12,9 +13,9 @@ import org.xml.sax.helpers.AttributesImpl;
 import delta.common.utils.io.xml.XmlFileWriterHelper;
 import delta.common.utils.io.xml.XmlWriter;
 import delta.games.lotro.common.CharacterClass;
+import delta.games.lotro.common.CharacterClassNameComparator;
 import delta.games.lotro.stats.traitPoints.TraitPoint;
 import delta.games.lotro.stats.traitPoints.TraitPointsRegistry;
-import delta.games.lotro.stats.traitPoints.comparators.TraitPointIdComparator;
 
 /**
  * Writes a trait points registry to an XML file.
@@ -56,7 +57,6 @@ public class TraitPointsRegistryXMLWriter
     hd.startElement("","",TraitPointsRegistryXMLConstants.TRAIT_POINTS_REGISTRY_TAG,attrs);
 
     List<TraitPoint> points=registry.getAll();
-    Collections.sort(points,new TraitPointIdComparator());
 
     for(TraitPoint point : points)
     {
@@ -100,6 +100,12 @@ public class TraitPointsRegistryXMLWriter
       String classes=buildClassRequirement(requiredClasses);
       attrs.addAttribute("","",TraitPointsRegistryXMLConstants.TRAIT_POINT_REQUIRED_CLASSES_ATTR,XmlWriter.CDATA,classes);
     }
+    // Achievable ID
+    int achievableId=point.getAchievableId();
+    if (achievableId!=0)
+    {
+      attrs.addAttribute("","",TraitPointsRegistryXMLConstants.TRAIT_POINT_ACHIEVABLE_ID_ATTR,XmlWriter.CDATA,String.valueOf(achievableId));
+    }
     hd.startElement("","",TraitPointsRegistryXMLConstants.TRAIT_POINT_TAG,attrs);
     hd.endElement("","",TraitPointsRegistryXMLConstants.TRAIT_POINT_TAG);
   }
@@ -108,7 +114,9 @@ public class TraitPointsRegistryXMLWriter
   {
     StringBuilder sb=new StringBuilder();
     int index=0;
-    for(CharacterClass characterClass : classes)
+    List<CharacterClass> sortedClasses=new ArrayList<CharacterClass>(classes);
+    Collections.sort(sortedClasses,new CharacterClassNameComparator());
+    for(CharacterClass characterClass : sortedClasses)
     {
       if (index>0)
       {
