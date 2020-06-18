@@ -3,9 +3,6 @@ package delta.games.lotro.stats.traitPoints;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
-
-import delta.common.utils.collections.ListOrderedMap;
 import delta.games.lotro.common.CharacterClass;
 
 /**
@@ -14,16 +11,14 @@ import delta.games.lotro.common.CharacterClass;
  */
 public class TraitPointsRegistry
 {
-  private static final Logger LOGGER=Logger.getLogger(TraitPointsRegistry.class);
-
-  private ListOrderedMap<TraitPoint> _traitPoints;
+  private List<TraitPoint> _traitPoints;
 
   /**
    * Constructor.
    */
   public TraitPointsRegistry()
   {
-    _traitPoints=new ListOrderedMap<TraitPoint>();
+    _traitPoints=new ArrayList<TraitPoint>();
   }
 
   /**
@@ -32,12 +27,7 @@ public class TraitPointsRegistry
    */
   public void registerTraitPoint(TraitPoint point)
   {
-    String id=point.getId();
-    TraitPoint old=_traitPoints.put(id,point);
-    if (old!=null)
-    {
-      LOGGER.warn("Duplicate trait point ID: "+old);
-    }
+    _traitPoints.add(point);
   }
 
   /**
@@ -46,7 +36,7 @@ public class TraitPointsRegistry
    */
   public List<TraitPoint> getAll()
   {
-    return new ArrayList<TraitPoint>(_traitPoints.values());
+    return new ArrayList<TraitPoint>(_traitPoints);
   }
 
   /**
@@ -57,7 +47,7 @@ public class TraitPointsRegistry
   public List<TraitPoint> getPointsForClass(CharacterClass requiredClass)
   {
     List<TraitPoint> points=new ArrayList<TraitPoint>();
-    for(TraitPoint point : _traitPoints.values())
+    for(TraitPoint point : _traitPoints)
     {
       boolean enabled=point.isEnabledForClass(requiredClass);
       if (enabled)
