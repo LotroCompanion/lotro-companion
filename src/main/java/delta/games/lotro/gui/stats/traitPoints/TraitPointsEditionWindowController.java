@@ -29,7 +29,7 @@ public class TraitPointsEditionWindowController extends DefaultFormDialogControl
   {
     super(parent,status);
     _summary=summary;
-    _panelController=new TraitPointsEditionPanelController(summary,status);
+    _panelController=new TraitPointsEditionPanelController(this,summary,status);
   }
 
   @Override

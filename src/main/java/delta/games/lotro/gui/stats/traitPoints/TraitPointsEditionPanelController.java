@@ -10,6 +10,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.BasicCharacterAttributes;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.stats.traitPoints.TraitPoint;
@@ -36,18 +37,19 @@ public class TraitPointsEditionPanelController
 
   /**
    * Constructor.
+   * @param parent Parent window controller.
    * @param attrs Attributes of toon to use.
    * @param status Status to edit.
    */
-  public TraitPointsEditionPanelController(BasicCharacterAttributes attrs, TraitPointsStatus status)
+  public TraitPointsEditionPanelController(WindowController parent,BasicCharacterAttributes attrs, TraitPointsStatus status)
   {
     _attrs=attrs;
     _status=status;
     _summaryController=new TraitPointsSummaryPanelController(_attrs,_status);
-    buildTables();
+    buildTables(parent);
   }
 
-  private void buildTables()
+  private void buildTables(WindowController parent)
   {
     _tableControllers=new ArrayList<TraitPointsTableController>();
     _labels=new ArrayList<String>();
@@ -76,7 +78,7 @@ public class TraitPointsEditionPanelController
           selectedPoints.add(point);
         }
       }
-      TraitPointsTableController tableController=new TraitPointsTableController(_status,selectedPoints);
+      TraitPointsTableController tableController=new TraitPointsTableController(parent,_status,selectedPoints);
       _tableControllers.add(tableController);
       _labels.add(category);
       tableController.setListener(listener);
