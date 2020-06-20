@@ -34,15 +34,10 @@ public class TraitTreeCellController
   public TraitTreeCellController(String cellId, TraitDescription trait)
   {
     _cellId=cellId;
-    _trait=trait;
-    ImageIcon traitIcon=LotroIconsManager.getTraitIcon(trait.getIconId());
-    _traitIcon=new IconWithText(traitIcon,"",Color.WHITE);
-    Image grayImage=GrayFilter.createDisabledImage(traitIcon.getImage());
-    _grayedTraitIcon=new ImageIcon(grayImage);
-    _button=new JButton(_traitIcon);
+    _button=new JButton();
     _button.setBorderPainted(false);
     _button.setMargin(new Insets(0,0,0,0));
-    _button.setToolTipText(buildTraitTooltip());
+    setTrait(trait);
     _rank=-1;
     _enabled=true;
   }
@@ -80,6 +75,24 @@ public class TraitTreeCellController
   public JButton getButton()
   {
     return _button;
+  }
+
+  /**
+   * Set the displayed trait.
+   * @param trait
+   */
+  public void setTrait(TraitDescription trait)
+  {
+    if (_trait!=trait)
+    {
+      _trait=trait;
+      ImageIcon traitIcon=LotroIconsManager.getTraitIcon(trait.getIconId());
+      _traitIcon=new IconWithText(traitIcon,"",Color.WHITE);
+      Image grayImage=GrayFilter.createDisabledImage(traitIcon.getImage());
+      _grayedTraitIcon=new ImageIcon(grayImage);
+      _button.setIcon(_traitIcon);
+      _button.setToolTipText(buildTraitTooltip());
+    }
   }
 
   /**

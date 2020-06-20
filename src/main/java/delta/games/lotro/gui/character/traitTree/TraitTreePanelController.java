@@ -20,6 +20,7 @@ import delta.games.lotro.character.classes.TraitTreeStatus;
 public class TraitTreePanelController
 {
   private JPanel _panel;
+  private TraitTreeSidePanelController _side;
   List<TraitTreeBranchPanelController> _branches;
   // Data
   private TraitTree _tree;
@@ -32,6 +33,7 @@ public class TraitTreePanelController
   public TraitTreePanelController(TraitTree tree, TraitTreeStatus status)
   {
     _tree=tree;
+    _side=new TraitTreeSidePanelController(tree,status);
     _branches=new ArrayList<TraitTreeBranchPanelController>();
     for(TraitTreeBranch branch : _tree.getBranches())
     {
@@ -40,7 +42,7 @@ public class TraitTreePanelController
     }
   }
 
-    /**
+  /**
    * Get the managed panel.
    * @return a panel.
    */
@@ -57,10 +59,15 @@ public class TraitTreePanelController
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     int x=0;
+    // Side
+    GridBagConstraints c=new GridBagConstraints(x,0,1,1,0.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
+    panel.add(_side.getPanel(),c);
+    x++;
+    // Branches
     for(TraitTreeBranchPanelController branchCtrl : _branches)
     {
       JPanel branchPanel=branchCtrl.getPanel();
-      GridBagConstraints c=new GridBagConstraints(x,0,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
+      c=new GridBagConstraints(x,0,1,1,0.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
       panel.add(branchPanel,c);
       x++;
     }
@@ -76,6 +83,11 @@ public class TraitTreePanelController
     {
       _panel.removeAll();
       _panel=null;
+    }
+    if (_side!=null)
+    {
+      _side.dispose();
+      _side=null;
     }
     if (_branches!=null)
     {
