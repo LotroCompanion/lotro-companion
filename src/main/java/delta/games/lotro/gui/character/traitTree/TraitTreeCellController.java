@@ -1,10 +1,14 @@
 package delta.games.lotro.gui.character.traitTree;
 
+import java.awt.Color;
+import java.awt.Image;
 import java.awt.Insets;
 
+import javax.swing.GrayFilter;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
+import delta.common.ui.swing.icons.IconWithText;
 import delta.games.lotro.character.traits.TraitDescription;
 import delta.games.lotro.gui.LotroIconsManager;
 
@@ -17,6 +21,10 @@ public class TraitTreeCellController
   private String _cellId;
   private TraitDescription _trait;
   private JButton _button;
+  private IconWithText _traitIcon;
+  private ImageIcon _grayedTraitIcon;
+  private int _rank;
+  private boolean _enabled;
 
   /**
    * Constructor.
@@ -27,13 +35,16 @@ public class TraitTreeCellController
   {
     _cellId=cellId;
     _trait=trait;
-    ImageIcon icon=LotroIconsManager.getTraitIcon(trait.getIconId());
-    //Image grayImage=GrayFilter.createDisabledImage(icon.getImage());
-    //ImageIcon grayedIcon=new ImageIcon(grayImage);
-    _button=new JButton(icon);
+    ImageIcon traitIcon=LotroIconsManager.getTraitIcon(trait.getIconId());
+    _traitIcon=new IconWithText(traitIcon,"",Color.WHITE);
+    Image grayImage=GrayFilter.createDisabledImage(traitIcon.getImage());
+    _grayedTraitIcon=new ImageIcon(grayImage);
+    _button=new JButton(_traitIcon);
     _button.setBorderPainted(false);
     _button.setMargin(new Insets(0,0,0,0));
     _button.setToolTipText(buildTraitTooltip());
+    _rank=-1;
+    _enabled=true;
   }
 
   private String buildTraitTooltip()
@@ -54,12 +65,57 @@ public class TraitTreeCellController
   }
 
   /**
+   * Get the managed trait.
+   * @return a trait.
+   */
+  public TraitDescription getTrait()
+  {
+    return _trait;
+  }
+
+  /**
    * Get the managed button.
    * @return the managed button.
    */
   public JButton getButton()
   {
     return _button;
+  }
+
+  /**
+   * Set the rank to display.
+   * @param rank Rank to set.
+   */
+  public void setRank(int rank)
+  {
+    if (rank!=_rank)
+    {
+      _rank=rank;
+      String text=String.valueOf(rank);
+      _traitIcon.setText(text);
+      _button.repaint();
+    }
+  }
+
+  /**
+   * Set the 'enabled' state.
+   * @param enabled State to set.
+   */
+  public void setEnabled(boolean enabled)
+  {
+    if (_enabled!=enabled)
+    {
+      _enabled=enabled;
+      if (enabled)
+      {
+        _button.setIcon(_traitIcon);
+      }
+      else
+      {
+        _button.setIcon(_grayedTraitIcon);
+      }
+      _button.repaint();
+    }
   }
 
   /**
@@ -70,5 +126,7 @@ public class TraitTreeCellController
     _cellId=null;
     _trait=null;
     _button=null;
+    _traitIcon=null;
+    _grayedTraitIcon=null;
   }
 }

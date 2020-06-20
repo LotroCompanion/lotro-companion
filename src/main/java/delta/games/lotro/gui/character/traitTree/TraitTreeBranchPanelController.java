@@ -13,6 +13,7 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.utils.NumericTools;
 import delta.games.lotro.character.classes.TraitTreeBranch;
 import delta.games.lotro.character.classes.TraitTreeCell;
+import delta.games.lotro.character.classes.TraitTreeStatus;
 import delta.games.lotro.character.traits.TraitDescription;
 
 /**
@@ -40,16 +41,20 @@ public class TraitTreeBranchPanelController
   private HashMap<String,TraitTreeCellController> _cells;
   // Data
   private TraitTreeBranch _branch;
+  private TraitTreeStatus _status;
 
   /**
    * Constructor.
    * @param branch Branch to show.
+   * @param status Trait tree status to show.
    */
-  public TraitTreeBranchPanelController(TraitTreeBranch branch)
+  public TraitTreeBranchPanelController(TraitTreeBranch branch, TraitTreeStatus status)
   {
     _branch=branch;
+    _status=status;
     _cells=new HashMap<String,TraitTreeCellController>();
     init();
+    updateUi();
   }
 
   /**
@@ -87,7 +92,22 @@ public class TraitTreeBranchPanelController
     }
   }
 
-    /**
+  /**
+   * Update UI to reflect the current trait tree status.
+   */
+  public void updateUi()
+  {
+    for(TraitTreeCellController ctrl : _cells.values())
+    {
+      String cellId=ctrl.getCellId();
+      int rank=_status.getRankForCell(cellId);
+      ctrl.setRank(rank);
+      boolean enabled=_status.isEnabled(cellId);
+      ctrl.setEnabled(enabled);
+    }
+  }
+
+  /**
    * Get the managed panel.
    * @return a panel.
    */
