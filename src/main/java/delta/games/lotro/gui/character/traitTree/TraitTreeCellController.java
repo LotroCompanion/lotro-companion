@@ -114,7 +114,8 @@ public class TraitTreeCellController
     if (rank!=_rank)
     {
       _rank=rank;
-      String text=String.valueOf(rank);
+      int maxRank=_trait.getTiersCount();
+      String text=(rank==maxRank)?String.valueOf(rank):rank+"/"+maxRank;
       _traitIcon.setText(text);
       _button.repaint();
     }
