@@ -3,15 +3,21 @@ package delta.games.lotro.gui.character.traitTree;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.character.classes.TraitTree;
 import delta.games.lotro.character.classes.TraitTreeBranch;
 import delta.games.lotro.character.classes.TraitTreeStatus;
+import delta.games.lotro.character.traits.TraitDescription;
 
 /**
  * Controller for trait tree panel.
@@ -24,6 +30,7 @@ public class TraitTreePanelController
   List<TraitTreeBranchPanelController> _branches;
   // Data
   private TraitTree _tree;
+  private TraitTreeStatus _status;
 
   /**
    * Constructor.
@@ -33,13 +40,97 @@ public class TraitTreePanelController
   public TraitTreePanelController(TraitTree tree, TraitTreeStatus status)
   {
     _tree=tree;
+    _status=status;
     _side=new TraitTreeSidePanelController(tree,status);
     _branches=new ArrayList<TraitTreeBranchPanelController>();
+    MouseListener listener=buildMouseListener();
     for(TraitTreeBranch branch : _tree.getBranches())
     {
       TraitTreeBranchPanelController branchCtrl=new TraitTreeBranchPanelController(branch,status);
+      branchCtrl.setMouseListener(listener);
       _branches.add(branchCtrl);
     }
+  }
+
+  private MouseListener buildMouseListener()
+  {
+    MouseListener listener=new MouseAdapter()
+    {
+      @Override
+      public void mousePressed(MouseEvent e)
+      {
+        boolean rightClick=SwingUtilities.isRightMouseButton(e);
+        boolean leftClick=SwingUtilities.isLeftMouseButton(e);
+        if (leftClick || rightClick)
+        {
+          JButton source=(JButton)e.getSource();
+          String cellId=source.getActionCommand();
+          handleClick(cellId,leftClick);
+        }
+      }
+    };
+    return listener;
+  }
+
+  private void handleClick(String cellId, boolean leftClick)
+  {
+    TraitTreeCellController ctrl=getController(cellId);
+    boolean enabled=ctrl.isEnabled();
+    if (!enabled)
+    {
+      return;
+    }
+    TraitDescription trait=ctrl.getTrait();
+    int rank=ctrl.getRank();
+    int newRank=rank;
+    if (leftClick)
+    {
+      int maxRank=trait.getTiersCount();
+      if (rank<maxRank)
+      {
+        newRank=rank+1;
+      }
+    }
+    else
+    {
+      if (rank>0)
+      {
+        newRank=rank-1;
+      }
+    }
+    if (newRank!=rank)
+    {
+      ctrl.setRank(newRank);
+      _status.setRankForCell(cellId,newRank);
+      updateUi();
+    }
+  }
+
+  private void updateUi()
+  {
+    _side.updateUi();
+    for(TraitTreeBranchPanelController ctrl : _branches)
+    {
+      ctrl.updateUi();
+    }
+  }
+
+  /**
+   * Get the controller for the specified cell.
+   * @param cellId Cell identifier.
+   * @return A controller or <code>null</code> if not found.
+   */
+  private TraitTreeCellController getController(String cellId)
+  {
+    for(TraitTreeBranchPanelController ctrl : _branches)
+    {
+      TraitTreeCellController cellCtr=ctrl.getController(cellId);
+      if (cellCtr!=null)
+      {
+        return cellCtr;
+      }
+    }
+    return null;
   }
 
   /**

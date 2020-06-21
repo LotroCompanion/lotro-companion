@@ -2,6 +2,7 @@ package delta.games.lotro.gui.character.traitTree;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.event.MouseListener;
 import java.util.HashMap;
 import java.util.List;
 
@@ -58,6 +59,29 @@ public class TraitTreeBranchPanelController
   }
 
   /**
+   * Set the mouse listener for buttons.
+   * @param listener Listener to set.
+   */
+  public void setMouseListener(MouseListener listener)
+  {
+    for(TraitTreeCellController ctrl : _cells.values())
+    {
+      JButton button=ctrl.getButton();
+      button.addMouseListener(listener);
+    }
+  }
+
+  /**
+   * Get the controller for the specified cell.
+   * @param cellId Cell identifier.
+   * @return A controller or <code>null</code> if not found.
+   */
+  public TraitTreeCellController getController(String cellId)
+  {
+    return _cells.get(cellId);
+  }
+
+  /**
    * Get the position for a cell of a trait tree branch.
    * @param column Column, starting at 0.
    * @param row Row, starting at 0.
@@ -100,10 +124,18 @@ public class TraitTreeBranchPanelController
     for(TraitTreeCellController ctrl : _cells.values())
     {
       String cellId=ctrl.getCellId();
-      int rank=_status.getRankForCell(cellId);
-      ctrl.setRank(rank);
       boolean enabled=_status.isEnabled(cellId);
       ctrl.setEnabled(enabled);
+      if (enabled)
+      {
+        int rank=_status.getRankForCell(cellId);
+        ctrl.setRank(rank);
+      }
+      else
+      {
+        _status.setRankForCell(cellId,0);
+        ctrl.setRank(0);
+      }
     }
   }
 

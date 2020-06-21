@@ -37,6 +37,7 @@ public class TraitTreeCellController
     _button=new JButton();
     _button.setBorderPainted(false);
     _button.setMargin(new Insets(0,0,0,0));
+    _button.setActionCommand(cellId);
     setTrait(trait);
     _rank=-1;
     _enabled=true;
@@ -96,6 +97,15 @@ public class TraitTreeCellController
   }
 
   /**
+   * Get the current rank.
+   * @return the current rank.
+   */
+  public int getRank()
+  {
+    return _rank;
+  }
+
+  /**
    * Set the rank to display.
    * @param rank Rank to set.
    */
@@ -108,6 +118,15 @@ public class TraitTreeCellController
       _traitIcon.setText(text);
       _button.repaint();
     }
+  }
+
+  /**
+   * Indicates if this cell controller is enabled or not.
+   * @return <code>true</code> if it is, <code>false</code> otherwise.
+   */
+  public boolean isEnabled()
+  {
+    return _enabled;
   }
 
   /**
