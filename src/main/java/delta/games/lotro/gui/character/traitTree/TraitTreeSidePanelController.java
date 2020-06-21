@@ -38,7 +38,6 @@ public class TraitTreeSidePanelController
   private JLayeredPane _layeredPane;
   private List<TraitTreeCellController> _cells;
   // Data
-  //private TraitTree _tree;
   private TraitTreeBranch _selectedBranch;
   private TraitTreeStatus _status;
 
@@ -49,11 +48,20 @@ public class TraitTreeSidePanelController
    */
   public TraitTreeSidePanelController(TraitTree tree, TraitTreeStatus status)
   {
-    //_tree=tree;
     _selectedBranch=tree.getBranches().get(0);
     _status=status;
     _cells=new ArrayList<TraitTreeCellController>();
     init();
+    updateUi();
+  }
+
+  /**
+   * Set the selected branch.
+   * @param branch Branch to set.
+   */
+  public void setSelectedBranch(TraitTreeBranch branch)
+  {
+    _selectedBranch=branch;
     updateUi();
   }
 

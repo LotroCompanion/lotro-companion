@@ -93,6 +93,7 @@ public class TraitTreeCellController
       _grayedTraitIcon=new ImageIcon(grayImage);
       _button.setIcon(_traitIcon);
       _button.setToolTipText(buildTraitTooltip());
+      _enabled=true;
     }
   }
 

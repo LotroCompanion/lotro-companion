@@ -1,5 +1,7 @@
 package delta.games.lotro.gui.character.traitTree;
 
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -10,10 +12,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.combobox.ComboBoxController;
+import delta.common.ui.swing.combobox.ItemSelectionListener;
 import delta.games.lotro.character.classes.TraitTree;
 import delta.games.lotro.character.classes.TraitTreeBranch;
 import delta.games.lotro.character.classes.TraitTreeStatus;
@@ -27,7 +32,8 @@ public class TraitTreePanelController
 {
   private JPanel _panel;
   private TraitTreeSidePanelController _side;
-  List<TraitTreeBranchPanelController> _branches;
+  private List<TraitTreeBranchPanelController> _branches;
+  private ComboBoxController<TraitTreeBranch> _branchCombo;
   // Data
   private TraitTree _tree;
   private TraitTreeStatus _status;
@@ -50,6 +56,26 @@ public class TraitTreePanelController
       branchCtrl.setMouseListener(listener);
       _branches.add(branchCtrl);
     }
+    _branchCombo=buildBranchCombo();
+  }
+
+  private ComboBoxController<TraitTreeBranch> buildBranchCombo()
+  {
+    ComboBoxController<TraitTreeBranch> ret=new ComboBoxController<TraitTreeBranch>();
+    List<TraitTreeBranch> branches=_tree.getBranches();
+    for(TraitTreeBranch branch : branches)
+    {
+      ret.addItem(branch,branch.getName());
+    }
+    ItemSelectionListener<TraitTreeBranch> listener=new ItemSelectionListener<TraitTreeBranch>()
+    {
+      public void itemSelected(TraitTreeBranch branch)
+      {
+        selectBranch(branch);
+      }
+    };
+    ret.addListener(listener);
+    return ret;
   }
 
   private MouseListener buildMouseListener()
@@ -106,6 +132,13 @@ public class TraitTreePanelController
     }
   }
 
+  private void selectBranch(TraitTreeBranch branch)
+  {
+    _status.setSelectedBranch(branch);
+    _side.setSelectedBranch(branch);
+    _side.updateUi();
+  }
+
   private void updateUi()
   {
     _side.updateUi();
@@ -148,6 +181,25 @@ public class TraitTreePanelController
 
   private JPanel buildPanel()
   {
+    JPanel panel=GuiFactory.buildBackgroundPanel(new BorderLayout());
+    JPanel topPanel=buildTopPanel();
+    panel.add(topPanel,BorderLayout.NORTH);
+    JPanel centerPanel=buildCenterPanel();
+    panel.add(centerPanel,BorderLayout.CENTER);
+    return panel;
+  }
+
+  private JPanel buildTopPanel()
+  {
+    JPanel ret=GuiFactory.buildPanel(new FlowLayout());
+    JLabel label=GuiFactory.buildLabel("Main branch:");
+    ret.add(label);
+    ret.add(_branchCombo.getComboBox());
+    return ret;
+  }
+
+  private JPanel buildCenterPanel()
+  {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     int x=0;
     // Side
@@ -188,6 +240,11 @@ public class TraitTreePanelController
       }
       _branches.clear();
       _branches=null;
+    }
+    if (_branchCombo!=null)
+    {
+      _branchCombo.dispose();
+      _branchCombo=null;
     }
   }
 }
