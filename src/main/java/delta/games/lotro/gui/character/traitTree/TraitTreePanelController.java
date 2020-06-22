@@ -1,7 +1,6 @@
 package delta.games.lotro.gui.character.traitTree;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -11,6 +10,7 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -34,6 +34,7 @@ public class TraitTreePanelController
   private TraitTreeSidePanelController _side;
   private List<TraitTreeBranchPanelController> _branches;
   private ComboBoxController<TraitTreeBranch> _branchCombo;
+  private JLabel _points;
   // Data
   private TraitTree _tree;
   private TraitTreeStatus _status;
@@ -137,6 +138,7 @@ public class TraitTreePanelController
     _status.setSelectedBranch(branch);
     _side.setSelectedBranch(branch);
     _side.updateUi();
+    updatePoints();
   }
 
   private void updateUi()
@@ -146,6 +148,12 @@ public class TraitTreePanelController
     {
       ctrl.updateUi();
     }
+    updatePoints();
+  }
+
+  private void updatePoints()
+  {
+    _points.setText(String.valueOf(_status.getCost()));
   }
 
   /**
@@ -191,10 +199,23 @@ public class TraitTreePanelController
 
   private JPanel buildTopPanel()
   {
-    JPanel ret=GuiFactory.buildPanel(new FlowLayout());
+    JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
     JLabel label=GuiFactory.buildLabel("Main branch:");
-    ret.add(label);
-    ret.add(_branchCombo.getComboBox());
+    ret.add(label,c);
+    c.gridx++;
+    ret.add(_branchCombo.getComboBox(),c);
+    JLabel pointsLabel=GuiFactory.buildLabel("Cost: ");
+    c.gridx++;
+    ret.add(pointsLabel,c);
+    _points=GuiFactory.buildLabel("");
+    c.gridx++;
+    ret.add(_points,c);
+    c.gridx++;
+    c.weightx=1.0;
+    c.fill=GridBagConstraints.HORIZONTAL;
+    ret.add(Box.createGlue(),c);
+    updatePoints();
     return ret;
   }
 
