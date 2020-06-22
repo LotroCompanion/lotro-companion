@@ -6,6 +6,7 @@ import javax.swing.JPanel;
 import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharactersManager;
+import delta.games.lotro.character.classes.BuffsManagerToTraitTreeStatus;
 import delta.games.lotro.character.classes.ClassDescription;
 import delta.games.lotro.character.classes.ClassesManager;
 import delta.games.lotro.character.classes.TraitTree;
@@ -33,7 +34,7 @@ public class MainTestTraitTreeDisplay
     ClassDescription classDescription=ClassesManager.getInstance().getClassDescription(cClass);
     TraitTree traitTree=classDescription.getTraitTree();
     TraitTreeStatus status=new TraitTreeStatus(traitTree);
-    status.initFromBuffs(data.getBuffs());
+    BuffsManagerToTraitTreeStatus.initFromBuffs(status,data.getBuffs());
     TraitTreePanelController ctrl=new TraitTreePanelController(traitTree,status);
     JPanel panel=ctrl.getPanel();
     JFrame frame=new JFrame("Class: "+cClass.getLabel());

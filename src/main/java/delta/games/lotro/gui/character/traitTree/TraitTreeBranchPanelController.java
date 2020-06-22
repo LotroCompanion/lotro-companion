@@ -95,8 +95,8 @@ public class TraitTreeBranchPanelController
       ctrl.setEnabled(enabled);
       if (enabled)
       {
-        int rank=_status.getRankForCell(cellId);
-        ctrl.setRank(rank);
+        Integer rank=_status.getRankForCell(cellId);
+        ctrl.setRank(rank.intValue());
       }
       else
       {

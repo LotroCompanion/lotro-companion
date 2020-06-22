@@ -194,6 +194,8 @@ public class TraitTreePanelController
     panel.add(topPanel,BorderLayout.NORTH);
     JPanel centerPanel=buildCenterPanel();
     panel.add(centerPanel,BorderLayout.CENTER);
+    _branchCombo.selectItem(_status.getSelectedBranch());
+    updatePoints();
     return panel;
   }
 
@@ -215,7 +217,6 @@ public class TraitTreePanelController
     c.weightx=1.0;
     c.fill=GridBagConstraints.HORIZONTAL;
     ret.add(Box.createGlue(),c);
-    updatePoints();
     return ret;
   }
 
