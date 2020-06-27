@@ -7,12 +7,10 @@ import javax.swing.JLabel;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.icons.IconWithText;
-import delta.common.utils.text.EndOfLine;
 import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.character.stats.buffs.Buff;
 import delta.games.lotro.character.stats.buffs.BuffInstance;
-import delta.games.lotro.common.stats.StatDescription;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.utils.StatDisplayUtils;
 
@@ -93,19 +91,8 @@ public class BuffIconController
   private String buildToolTip()
   {
     Buff buff=_buff.getBuff();
-    StringBuilder sb=new StringBuilder();
-    sb.append(buff.getLabel()).append(EndOfLine.NATIVE_EOL);
     BasicStatsSet stats=_buff.getStats(_toon);
-    if (stats!=null)
-    {
-      for(StatDescription stat : stats.getStats())
-      {
-        String line=StatDisplayUtils.getStatDisplay(stat,stats);
-        sb.append(line).append(EndOfLine.NATIVE_EOL);
-      }
-    }
-    String text=sb.toString().trim();
-    String html="<html>"+text.replace(EndOfLine.NATIVE_EOL,"<br>")+"</html>";
+    String html=StatDisplayUtils.buildToolTip(buff.getLabel(),stats);
     return html;
   }
 

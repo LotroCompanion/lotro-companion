@@ -9,8 +9,14 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 import delta.common.ui.swing.icons.IconWithText;
+import delta.games.lotro.character.CharacterData;
+import delta.games.lotro.character.stats.BasicStatsSet;
+import delta.games.lotro.character.stats.buffs.Buff;
+import delta.games.lotro.character.stats.buffs.BuffInstance;
+import delta.games.lotro.character.stats.buffs.BuffRegistry;
 import delta.games.lotro.character.traits.TraitDescription;
 import delta.games.lotro.gui.LotroIconsManager;
+import delta.games.lotro.gui.utils.StatDisplayUtils;
 
 /**
  * Controller for the icon of an equipment slot.
@@ -18,6 +24,7 @@ import delta.games.lotro.gui.LotroIconsManager;
  */
 public class TraitTreeCellController
 {
+  private CharacterData _toon;
   private String _cellId;
   private TraitDescription _trait;
   private JButton _button;
@@ -28,11 +35,13 @@ public class TraitTreeCellController
 
   /**
    * Constructor.
+   * @param toon Character data.
    * @param cellId Identifier of the managed cell.
    * @param trait Associated trait.
    */
-  public TraitTreeCellController(String cellId, TraitDescription trait)
+  public TraitTreeCellController(CharacterData toon, String cellId, TraitDescription trait)
   {
+    _toon=toon;
     _cellId=cellId;
     _button=new JButton();
     _button.setBorderPainted(false);
@@ -43,12 +52,23 @@ public class TraitTreeCellController
     _enabled=true;
   }
 
-  private String buildTraitTooltip()
+  private String buildTraitTooltip(int rank)
   {
-    StringBuilder sb=new StringBuilder();
-    String name=_trait.getName();
-    sb.append("Trait: ").append(name);
-    return sb.toString().trim();
+    String buffId=String.valueOf(_trait.getIdentifier());
+    Buff buff=BuffRegistry.getInstance().getBuffById(buffId);
+    BasicStatsSet stats;
+    if (rank>0)
+    {
+      BuffInstance buffInstance=buff.buildInstance();
+      buffInstance.setTier(Integer.valueOf(rank));
+      stats=buffInstance.getStats(_toon);
+    }
+    else
+    {
+      stats=new BasicStatsSet();
+    }
+    String html=StatDisplayUtils.buildToolTip(buff.getLabel(),stats);
+    return html;
   }
 
   /**
@@ -92,7 +112,7 @@ public class TraitTreeCellController
       Image grayImage=GrayFilter.createDisabledImage(traitIcon.getImage());
       _grayedTraitIcon=new ImageIcon(grayImage);
       _button.setIcon(_traitIcon);
-      _button.setToolTipText(buildTraitTooltip());
+      _button.setToolTipText(buildTraitTooltip(_rank));
       _enabled=true;
     }
   }
@@ -118,6 +138,7 @@ public class TraitTreeCellController
       int maxRank=_trait.getTiersCount();
       String text=(rank==maxRank)?String.valueOf(rank):rank+"/"+maxRank;
       _traitIcon.setText(text);
+      _button.setToolTipText(buildTraitTooltip(_rank));
       _button.repaint();
     }
   }
@@ -143,10 +164,12 @@ public class TraitTreeCellController
       if (enabled)
       {
         _button.setIcon(_traitIcon);
+        _button.setToolTipText(buildTraitTooltip(_rank));
       }
       else
       {
         _button.setIcon(_grayedTraitIcon);
+        _button.setToolTipText(buildTraitTooltip(0));
       }
       _button.repaint();
     }
@@ -157,6 +180,7 @@ public class TraitTreeCellController
    */
   public void dispose()
   {
+    _toon=null;
     _cellId=null;
     _trait=null;
     _button=null;

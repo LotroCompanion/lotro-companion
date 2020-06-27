@@ -19,6 +19,7 @@ import javax.swing.SwingUtilities;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.common.ui.swing.combobox.ItemSelectionListener;
+import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.classes.TraitTree;
 import delta.games.lotro.character.classes.TraitTreeBranch;
 import delta.games.lotro.character.classes.TraitTreeStatus;
@@ -41,18 +42,19 @@ public class TraitTreePanelController
 
   /**
    * Constructor.
+   * @param toon Character data.
    * @param status Trait tree status to show.
    */
-  public TraitTreePanelController(TraitTreeStatus status)
+  public TraitTreePanelController(CharacterData toon,TraitTreeStatus status)
   {
     _tree=status.getTraitTree();
     _status=status;
-    _side=new TraitTreeSidePanelController(_tree,status);
+    _side=new TraitTreeSidePanelController(toon,_tree,status);
     _branches=new ArrayList<TraitTreeBranchPanelController>();
     MouseListener listener=buildMouseListener();
     for(TraitTreeBranch branch : _tree.getBranches())
     {
-      TraitTreeBranchPanelController branchCtrl=new TraitTreeBranchPanelController(branch,status);
+      TraitTreeBranchPanelController branchCtrl=new TraitTreeBranchPanelController(toon,branch,status);
       branchCtrl.setMouseListener(listener);
       _branches.add(branchCtrl);
     }

@@ -10,6 +10,7 @@ import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.classes.TraitTree;
 import delta.games.lotro.character.classes.TraitTreeBranch;
 import delta.games.lotro.character.classes.TraitTreeProgression;
@@ -43,15 +44,16 @@ public class TraitTreeSidePanelController
 
   /**
    * Constructor.
+   * @param toon Character data.
    * @param tree Tree to use.
    * @param status Trait tree status to show.
    */
-  public TraitTreeSidePanelController(TraitTree tree, TraitTreeStatus status)
+  public TraitTreeSidePanelController(CharacterData toon, TraitTree tree, TraitTreeStatus status)
   {
     _selectedBranch=tree.getBranches().get(0);
     _status=status;
     _cells=new ArrayList<TraitTreeCellController>();
-    init();
+    init(toon);
     updateUi();
   }
 
@@ -77,7 +79,7 @@ public class TraitTreeSidePanelController
     return new Dimension(x,y);
   }
 
-  private void init()
+  private void init(CharacterData toon)
   {
     TraitTreeProgression progression=_selectedBranch.getProgression();
     List<TraitDescription> traits=progression.getTraits();
@@ -85,7 +87,7 @@ public class TraitTreeSidePanelController
     for(int i=0;i<nbTraits;i++)
     {
       TraitDescription trait=traits.get(i);
-      TraitTreeCellController cellController=new TraitTreeCellController("",trait);
+      TraitTreeCellController cellController=new TraitTreeCellController(toon,"",trait);
       _cells.add(cellController);
     }
   }

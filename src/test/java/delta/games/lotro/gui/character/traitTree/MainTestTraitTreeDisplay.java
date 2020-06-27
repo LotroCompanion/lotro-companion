@@ -34,7 +34,7 @@ public class MainTestTraitTreeDisplay
     TraitTreeStatus status=new TraitTreeStatus(traitTree);
     BuffsManager buffs=data.getBuffs();
     BuffsManagerToTraitTreeStatus.initFromBuffs(status,buffs);
-    TraitTreeEditionDialog dialog=new TraitTreeEditionDialog(null,status);
+    TraitTreeEditionDialog dialog=new TraitTreeEditionDialog(null,data,status);
     TraitTreeStatus result=dialog.editModal();
     if (result!=null)
     {

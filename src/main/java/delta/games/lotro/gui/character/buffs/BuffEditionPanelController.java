@@ -222,7 +222,7 @@ public class BuffEditionPanelController implements ActionListener
     {
       // From contextual menu
       Component invoker=_contextMenu.getInvoker();
-      String buffId=((Component)invoker).getName();
+      String buffId=invoker.getName();
       remove(buffId);
     }
   }
@@ -235,7 +235,7 @@ public class BuffEditionPanelController implements ActionListener
     TraitTreeStatus status=new TraitTreeStatus(traitTree);
     BuffsManager buffs=_toon.getBuffs();
     BuffsManagerToTraitTreeStatus.initFromBuffs(status,buffs);
-    TraitTreeEditionDialog dialog=new TraitTreeEditionDialog(_parentWindow,status);
+    TraitTreeEditionDialog dialog=new TraitTreeEditionDialog(_parentWindow,_toon,status);
     TraitTreeStatus result=dialog.editModal();
     if (result!=null)
     {

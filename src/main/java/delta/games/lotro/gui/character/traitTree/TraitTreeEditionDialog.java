@@ -5,6 +5,7 @@ import javax.swing.JPanel;
 
 import delta.common.ui.swing.windows.DefaultFormDialogController;
 import delta.common.ui.swing.windows.WindowController;
+import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.classes.TraitTreeStatus;
 
 /**
@@ -18,12 +19,13 @@ public class TraitTreeEditionDialog extends DefaultFormDialogController<TraitTre
   /**
    * Constructor.
    * @param parentController Parent controller.
+   * @param toon Character data.
    * @param status Status to edit.
    */
-  public TraitTreeEditionDialog(WindowController parentController, TraitTreeStatus status)
+  public TraitTreeEditionDialog(WindowController parentController, CharacterData toon, TraitTreeStatus status)
   {
     super(parentController,status);
-    _treePanel=new TraitTreePanelController(status);
+    _treePanel=new TraitTreePanelController(toon,status);
   }
 
   @Override
