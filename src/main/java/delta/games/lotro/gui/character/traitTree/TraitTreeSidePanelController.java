@@ -108,6 +108,8 @@ public class TraitTreeSidePanelController
       ctrl.setTrait(traits.get(i));
       int requiredRanks=steps.get(i).intValue();
       boolean enabled=(nbRanks>=requiredRanks);
+      int rank=enabled?1:0;
+      ctrl.setRank(rank);
       ctrl.setEnabled(enabled);
     }
   }

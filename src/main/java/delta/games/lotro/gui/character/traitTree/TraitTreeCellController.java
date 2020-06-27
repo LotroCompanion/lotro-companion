@@ -107,6 +107,7 @@ public class TraitTreeCellController
     if (_trait!=trait)
     {
       _trait=trait;
+      _rank=-1;
       ImageIcon traitIcon=LotroIconsManager.getTraitIcon(trait.getIconId());
       _traitIcon=new IconWithText(traitIcon,"",Color.WHITE);
       Image grayImage=GrayFilter.createDisabledImage(traitIcon.getImage());
