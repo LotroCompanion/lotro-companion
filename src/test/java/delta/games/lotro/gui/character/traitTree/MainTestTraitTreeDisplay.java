@@ -1,8 +1,5 @@
 package delta.games.lotro.gui.character.traitTree;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-
 import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharactersManager;
@@ -11,6 +8,7 @@ import delta.games.lotro.character.classes.ClassDescription;
 import delta.games.lotro.character.classes.ClassesManager;
 import delta.games.lotro.character.classes.TraitTree;
 import delta.games.lotro.character.classes.TraitTreeStatus;
+import delta.games.lotro.character.stats.buffs.BuffsManager;
 import delta.games.lotro.common.CharacterClass;
 
 /**
@@ -34,16 +32,15 @@ public class MainTestTraitTreeDisplay
     ClassDescription classDescription=ClassesManager.getInstance().getClassDescription(cClass);
     TraitTree traitTree=classDescription.getTraitTree();
     TraitTreeStatus status=new TraitTreeStatus(traitTree);
-    BuffsManagerToTraitTreeStatus.initFromBuffs(status,data.getBuffs());
-    TraitTreePanelController ctrl=new TraitTreePanelController(traitTree,status);
-    JPanel panel=ctrl.getPanel();
-    JFrame frame=new JFrame("Class: "+cClass.getLabel());
-    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-    //Create and set up the content pane.
-    frame.setContentPane(panel);
-    //Display the window.
-    frame.pack();
-    frame.setVisible(true);
+    BuffsManager buffs=data.getBuffs();
+    BuffsManagerToTraitTreeStatus.initFromBuffs(status,buffs);
+    TraitTreeEditionDialog dialog=new TraitTreeEditionDialog(null,status);
+    TraitTreeStatus result=dialog.editModal();
+    if (result!=null)
+    {
+      BuffsManagerToTraitTreeStatus.updateBuffsFromTraitTreeStatus(result,buffs);
+      System.out.println("After: "+buffs);
+    }
   }
 
   private void doIt()

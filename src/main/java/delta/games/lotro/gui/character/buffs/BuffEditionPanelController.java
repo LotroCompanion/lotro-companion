@@ -7,7 +7,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -18,13 +17,21 @@ import javax.swing.JPopupMenu;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.WindowController;
+import delta.common.utils.collections.ListOrderedMap;
 import delta.games.lotro.character.CharacterData;
+import delta.games.lotro.character.classes.BuffsManagerToTraitTreeStatus;
+import delta.games.lotro.character.classes.ClassDescription;
+import delta.games.lotro.character.classes.ClassesManager;
+import delta.games.lotro.character.classes.TraitTree;
+import delta.games.lotro.character.classes.TraitTreeStatus;
 import delta.games.lotro.character.events.CharacterEvent;
 import delta.games.lotro.character.events.CharacterEventType;
 import delta.games.lotro.character.stats.buffs.Buff;
 import delta.games.lotro.character.stats.buffs.BuffInstance;
 import delta.games.lotro.character.stats.buffs.BuffRegistry;
 import delta.games.lotro.character.stats.buffs.BuffsManager;
+import delta.games.lotro.common.CharacterClass;
+import delta.games.lotro.gui.character.traitTree.TraitTreeEditionDialog;
 import delta.games.lotro.utils.events.EventsManager;
 
 /**
@@ -37,9 +44,10 @@ public class BuffEditionPanelController implements ActionListener
 
   // Data
   private CharacterData _toon;
-  // UI
+  // Controllers
   private WindowController _parentWindow;
-  private List<BuffIconController> _buffControllers;
+  private ListOrderedMap<BuffIconController> _buffControllers;
+  // UI
   private JPanel _panel;
   private JPanel _iconsPanel;
   private JPopupMenu _contextMenu;
@@ -54,7 +62,7 @@ public class BuffEditionPanelController implements ActionListener
   {
     _parentWindow=parent;
     _toon=character;
-    _buffControllers=new ArrayList<BuffIconController>();
+    _buffControllers=new ListOrderedMap<BuffIconController>();
     build();
     updateIconsPanel();
   }
@@ -71,6 +79,17 @@ public class BuffEditionPanelController implements ActionListener
   private void build()
   {
     _panel=GuiFactory.buildPanel(new FlowLayout());
+    JButton traitTreeButton=GuiFactory.buildButton("Trait tree...");
+    _panel.add(traitTreeButton);
+    ActionListener alTraitTree=new ActionListener()
+    {
+      @Override
+      public void actionPerformed(ActionEvent e)
+      {
+        editTraitTree();
+      }
+    };
+    traitTreeButton.addActionListener(alTraitTree);
     _iconsPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
     buildBuffControllers(_panel);
     _panel.add(_iconsPanel);
@@ -92,7 +111,7 @@ public class BuffEditionPanelController implements ActionListener
   private void updateIconsPanel()
   {
     _iconsPanel.removeAll();
-    for(BuffIconController controller : _buffControllers)
+    for(BuffIconController controller : _buffControllers.values())
     {
       controller.update();
       JLabel label=controller.getLabel();
@@ -109,12 +128,17 @@ public class BuffEditionPanelController implements ActionListener
   private void buildBuffControllers(JPanel panel)
   {
     BuffsManager buffs=_toon.getBuffs();
+    BuffRegistry registry=BuffRegistry.getInstance();
     int nbBuffs=buffs.getBuffsCount();
     for(int i=0;i<nbBuffs;i++)
     {
-      BuffInstance buff=buffs.getBuffAt(i);
-      BuffIconController controller=buildBuffController(buff);
-      _buffControllers.add(controller);
+      BuffInstance buffInstance=buffs.getBuffAt(i);
+      if (registry.isSelectable(buffInstance.getBuff()))
+      {
+        String buffId=buffInstance.getBuff().getId();
+        BuffIconController controller=buildBuffController(buffInstance);
+        _buffControllers.put(buffId,controller);
+      }
     }
   }
 
@@ -122,6 +146,7 @@ public class BuffEditionPanelController implements ActionListener
   {
     BuffIconController controller=new BuffIconController(buff,_toon);
     JLabel label=controller.getLabel();
+    label.setName(buff.getBuff().getId());
     MouseListener popupListener=buildRightClickListener();
     label.addMouseListener(popupListener);
     MouseListener listener=buildLeftClickListener();
@@ -172,7 +197,10 @@ public class BuffEditionPanelController implements ActionListener
       {
         if (e.getButton()==MouseEvent.BUTTON1)
         {
-          updateTier(e);
+          // Straight click
+          Object invoker=e.getSource();
+          String buffId=((Component)invoker).getName();
+          updateTier(buffId);
         }
       }
     }
@@ -194,39 +222,28 @@ public class BuffEditionPanelController implements ActionListener
     {
       // From contextual menu
       Component invoker=_contextMenu.getInvoker();
-      int index=getIndex(invoker);
-      if (index!=-1)
-      {
-        remove(index);
-      }
+      String buffId=((Component)invoker).getName();
+      remove(buffId);
     }
   }
 
-  private void updateTier(MouseEvent e)
+  private void editTraitTree()
   {
-    // Straight click
-    Object invoker=e.getSource();
-    int index=getIndex(invoker);
-    if (index!=-1)
+    CharacterClass cClass=_toon.getCharacterClass();
+    ClassDescription classDescription=ClassesManager.getInstance().getClassDescription(cClass);
+    TraitTree traitTree=classDescription.getTraitTree();
+    TraitTreeStatus status=new TraitTreeStatus(traitTree);
+    BuffsManager buffs=_toon.getBuffs();
+    BuffsManagerToTraitTreeStatus.initFromBuffs(status,buffs);
+    TraitTreeEditionDialog dialog=new TraitTreeEditionDialog(_parentWindow,status);
+    TraitTreeStatus result=dialog.editModal();
+    if (result!=null)
     {
-      // Update tier
-      updateTier(index);
+      BuffsManagerToTraitTreeStatus.updateBuffsFromTraitTreeStatus(result,buffs);
+      // Broadcast toon update event...
+      CharacterEvent event=new CharacterEvent(CharacterEventType.CHARACTER_DATA_UPDATED,null,_toon);
+      EventsManager.invokeEvent(event);
     }
-  }
-
-  private int getIndex(Object invoker)
-  {
-    int index=0;
-    for(BuffIconController controller : _buffControllers)
-    {
-      JLabel label=controller.getLabel();
-      if (label==invoker)
-      {
-        return index;
-      }
-      index++;
-    }
-    return -1;
   }
 
   private void add()
@@ -238,8 +255,9 @@ public class BuffEditionPanelController implements ActionListener
     {
       BuffInstance buffInstance=buff.buildInstance();
       buffs.addBuff(buffInstance);
+      String buffId=buff.getId();
       BuffIconController controller=buildBuffController(buffInstance);
-      _buffControllers.add(controller);
+      _buffControllers.put(buffId,controller);
       // Broadcast toon update event...
       CharacterEvent event=new CharacterEvent(CharacterEventType.CHARACTER_DATA_UPDATED,null,_toon);
       EventsManager.invokeEvent(event);
@@ -255,10 +273,10 @@ public class BuffEditionPanelController implements ActionListener
     updateIconsPanel();
   }
 
-  private void updateTier(int index)
+  private void updateTier(String buffId)
   {
     BuffsManager buffs=_toon.getBuffs();
-    BuffInstance buff=buffs.getBuffAt(index);
+    BuffInstance buff=buffs.getBuffById(buffId);
     List<Integer> tiers=buff.getBuff().getImpl().getTiers();
     if ((tiers!=null) && (tiers.size()>0))
     {
@@ -272,7 +290,7 @@ public class BuffEditionPanelController implements ActionListener
           currentTierIndex=0;
         }
         buff.setTier(tiers.get(currentTierIndex));
-        _buffControllers.get(index).update();
+        _buffControllers.get(buffId).update();
         // Broadcast toon update event...
         CharacterEvent event=new CharacterEvent(CharacterEventType.CHARACTER_DATA_UPDATED,null,_toon);
         EventsManager.invokeEvent(event);
@@ -280,11 +298,11 @@ public class BuffEditionPanelController implements ActionListener
     }
   }
 
-  private void remove(int index)
+  private void remove(String buffId)
   {
     BuffsManager buffs=_toon.getBuffs();
-    buffs.removeBuffAt(index);
-    _buffControllers.remove(index);
+    buffs.removeBuff(buffId);
+    _buffControllers.remove(buffId);
     // Update UI
     updateIconsPanel();
     // Broadcast toon update event...
@@ -309,7 +327,7 @@ public class BuffEditionPanelController implements ActionListener
     }
     if (_buffControllers!=null)
     {
-      for(BuffIconController buffIconController : _buffControllers)
+      for(BuffIconController buffIconController : _buffControllers.values())
       {
         buffIconController.dispose();
       }

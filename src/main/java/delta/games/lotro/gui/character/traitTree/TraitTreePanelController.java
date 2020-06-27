@@ -41,14 +41,13 @@ public class TraitTreePanelController
 
   /**
    * Constructor.
-   * @param tree Tree to show.
    * @param status Trait tree status to show.
    */
-  public TraitTreePanelController(TraitTree tree, TraitTreeStatus status)
+  public TraitTreePanelController(TraitTreeStatus status)
   {
-    _tree=tree;
+    _tree=status.getTraitTree();
     _status=status;
-    _side=new TraitTreeSidePanelController(tree,status);
+    _side=new TraitTreeSidePanelController(_tree,status);
     _branches=new ArrayList<TraitTreeBranchPanelController>();
     MouseListener listener=buildMouseListener();
     for(TraitTreeBranch branch : _tree.getBranches())
