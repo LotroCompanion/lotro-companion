@@ -63,8 +63,6 @@ public class RelicChooser
     ObjectChoiceWindowController<Relic> chooser=buildChooser(parent,type,slot,selectedRelic);
     // Show modal
     Relic chosenRelic=chooser.editModal();
-    // Dispose...
-    chooser.dispose();
     return chosenRelic;
   }
 }

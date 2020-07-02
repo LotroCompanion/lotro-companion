@@ -54,7 +54,6 @@ public class EssenceChoice
     Filter<Item> filter=filterController.getFilter();
     ObjectChoiceWindowController<Item> chooser=ItemChooser.buildChooser(parent,prefs,essences,filter,filterController);
     Item ret=chooser.editModal();
-    chooser.dispose();
     return ret;
   }
 }

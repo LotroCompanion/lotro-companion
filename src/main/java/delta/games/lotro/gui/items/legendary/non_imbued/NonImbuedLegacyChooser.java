@@ -58,8 +58,6 @@ public class NonImbuedLegacyChooser
     ObjectChoiceWindowController<TieredNonImbuedLegacy> chooser=buildTieredLegacyChooser(parent,legacies,selectedLegacy);
     // Show modal
     TieredNonImbuedLegacy chosenLegacy=chooser.editModal();
-    // Dispose...
-    chooser.dispose();
     return chosenLegacy;
   }
 }

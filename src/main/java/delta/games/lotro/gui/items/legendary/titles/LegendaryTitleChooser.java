@@ -57,8 +57,6 @@ public class LegendaryTitleChooser
     ObjectChoiceWindowController<LegendaryTitle> chooser=buildChooser(parent,selectedTitle);
     // Show modal
     LegendaryTitle chosenLegendaryTitle=chooser.editModal();
-    // Dispose...
-    chooser.dispose();
     return chosenLegendaryTitle;
   }
 }

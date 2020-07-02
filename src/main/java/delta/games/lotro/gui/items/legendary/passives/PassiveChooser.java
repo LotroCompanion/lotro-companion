@@ -56,8 +56,6 @@ public class PassiveChooser
     ObjectChoiceWindowController<Effect> chooser=buildPassiveChooser(parent,itemLevel,passives,selectedPassive);
     // Show modal
     Effect chosenPassive=chooser.editModal();
-    // Dispose...
-    chooser.dispose();
     return chosenPassive;
   }
 }

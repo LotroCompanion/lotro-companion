@@ -50,7 +50,6 @@ public class TraitTreeSetupChooser
     }
     ObjectChoiceWindowController<TraitTreeSetup> chooser=buildChooser(parent,prefs,setups);
     TraitTreeSetup ret=chooser.editModal();
-    chooser.dispose();
     return ret;
   }
 

@@ -64,8 +64,6 @@ public class ImbuedLegacyChooser
     ObjectChoiceWindowController<ImbuedLegacy> chooser=buildChooser(parent,legacies,selectedLegacy);
     // Show modal
     ImbuedLegacy chosenLegacy=chooser.editModal();
-    // Dispose...
-    chooser.dispose();
     return chosenLegacy;
   }
 }
