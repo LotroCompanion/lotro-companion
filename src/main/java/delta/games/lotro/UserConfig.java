@@ -1,10 +1,7 @@
 package delta.games.lotro;
 
-import java.io.File;
-
 import delta.common.utils.misc.Preferences;
 import delta.common.utils.misc.TypedProperties;
-import delta.games.lotro.dat.data.DatConfiguration;
 
 /**
  * User-level configuration.
@@ -12,11 +9,6 @@ import delta.games.lotro.dat.data.DatConfiguration;
  */
 public class UserConfig
 {
-  private static final String DAT_CONFIGURATION="DatConfiguration";
-  private static final String CLIENT_PATH="ClientPath";
-
-  private DatConfiguration _datConfiguration;
-
   private static UserConfig _instance=new UserConfig();
 
   /**
@@ -33,28 +25,35 @@ public class UserConfig
    */
   private UserConfig()
   {
-    _datConfiguration=new DatConfiguration();
-    load();
+    // Nothing!
   }
 
   /**
-   * Get the DAT configuration.
-   * @return the DAT configuration.
+   * Get a string value.
+   * @param category Category.
+   * @param key Key.
+   * @param defaultValue Default value.
+   * @return A string value.
    */
-  public DatConfiguration getDatConfiguration()
-  {
-    return _datConfiguration;
-  }
-
-  private void load()
+  public String getStringValue(String category, String key, String defaultValue)
   {
     Preferences preferences=Config.getInstance().getPreferences();
-    TypedProperties datProps=preferences.getPreferences(DAT_CONFIGURATION);
-    String clientPath=datProps.getStringProperty(CLIENT_PATH,null);
-    if (clientPath!=null)
-    {
-      _datConfiguration.setRootPath(new File(clientPath));
-    }
+    TypedProperties props=preferences.getPreferences(category);
+    String value=props.getStringProperty(key,defaultValue);
+    return value;
+  }
+
+  /**
+   * Set a string value.
+   * @param category Category.
+   * @param key Key.
+   * @param value Value to set.
+   */
+  public void setStringValue(String category, String key, String value)
+  {
+    Preferences preferences=Config.getInstance().getPreferences();
+    TypedProperties props=preferences.getPreferences(category);
+    props.setStringProperty(key,value);
   }
 
   /**
@@ -63,9 +62,6 @@ public class UserConfig
   public void save()
   {
     Preferences preferences=Config.getInstance().getPreferences();
-    TypedProperties datProps=preferences.getPreferences(DAT_CONFIGURATION);
-    String clientPath=_datConfiguration.getRootPath().getAbsolutePath();
-    datProps.setStringProperty(CLIENT_PATH,clientPath);
     preferences.saveAllPreferences();
   }
 }

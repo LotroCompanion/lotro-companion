@@ -2,7 +2,6 @@ package delta.games.lotro.gui.interceptor;
 
 import org.apache.log4j.Logger;
 
-import delta.games.lotro.UserConfig;
 import delta.games.lotro.dat.data.DatConfiguration;
 import delta.games.lotro.interceptor.data.InterceptionSession;
 import delta.games.lotro.interceptor.data.monitoring.InterceptionLog;
@@ -26,11 +25,11 @@ public class InterceptorController
   /**
    * Constructor.
    * @param listener State listener.
+   * @param configuration Configuration.
    */
-  public InterceptorController(InterceptorStateListener listener)
+  public InterceptorController(InterceptorStateListener listener, DatConfiguration configuration)
   {
     _listener=listener;
-    DatConfiguration configuration=UserConfig.getInstance().getDatConfiguration();
     _session=new InterceptionSession(configuration);
   }
 

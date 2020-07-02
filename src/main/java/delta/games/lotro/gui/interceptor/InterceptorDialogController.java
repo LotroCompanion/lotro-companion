@@ -24,9 +24,8 @@ import delta.common.ui.swing.windows.DefaultDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.ui.swing.windows.WindowsManager;
 import delta.common.utils.misc.TypedProperties;
-import delta.games.lotro.UserConfig;
-import delta.games.lotro.dat.data.DatConfiguration;
-import delta.games.lotro.gui.configuration.ConfigurationDialogController;
+import delta.games.lotro.gui.interceptor.configuration.InterceptorConfiguration;
+import delta.games.lotro.gui.interceptor.configuration.InterceptorConfigurationDialogController;
 import delta.games.lotro.gui.interceptor.statistics.StatisticsWindowController;
 import delta.games.lotro.gui.main.GlobalPreferences;
 import delta.games.lotro.interceptor.data.InterceptionSession;
@@ -46,6 +45,10 @@ public class InterceptorDialogController extends DefaultDialogController impleme
    * Identifier of this dialog.
    */
   public static final String IDENTIFIER="INTERCEPTOR";
+  /**
+   * Configuration.
+   */
+  private InterceptorConfiguration _configuration;
   /**
    * Interceptor.
    */
@@ -87,7 +90,8 @@ public class InterceptorDialogController extends DefaultDialogController impleme
   {
     super(parent);
     _childControllers=new WindowsManager();
-    _interceptorController=new InterceptorController(this);
+    _configuration=new InterceptorConfiguration();
+    _interceptorController=new InterceptorController(this,_configuration.getConfiguration());
     _interceptorController.getSession().getLog().setListener(this);
     _filter=new InterceptionLogFilter();
   }
@@ -306,8 +310,7 @@ public class InterceptorDialogController extends DefaultDialogController impleme
 
   private void doSettings()
   {
-    DatConfiguration configuration=UserConfig.getInstance().getDatConfiguration();
-    ConfigurationDialogController dialog=new ConfigurationDialogController(this,configuration);
+    InterceptorConfigurationDialogController dialog=new InterceptorConfigurationDialogController(this,_configuration);
     dialog.getDialog().setLocationRelativeTo(this.getDialog());
     dialog.show(true);
   }
@@ -349,16 +352,19 @@ public class InterceptorDialogController extends DefaultDialogController impleme
       _filterController=null;
     }
     _filter=null;
+    _configuration=null;
     if (_interceptorController!=null)
     {
       _interceptorController.dispose();
-      _tableController=null;
+      _interceptorController=null;
     }
     if (_childControllers!=null)
     {
       _childControllers.disposeAll();
       _childControllers=null;
     }
+    _startStopButton=null;
+    _settingsButton=null;
     super.dispose();
   }
 }
