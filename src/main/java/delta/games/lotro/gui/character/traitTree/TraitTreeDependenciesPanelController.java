@@ -10,9 +10,9 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
-import delta.games.lotro.character.classes.TraitTreeBranch;
-import delta.games.lotro.character.classes.TraitTreeCell;
-import delta.games.lotro.character.classes.TraitTreeCellDependency;
+import delta.games.lotro.character.classes.traitTree.TraitTreeBranch;
+import delta.games.lotro.character.classes.traitTree.TraitTreeCell;
+import delta.games.lotro.character.classes.traitTree.TraitTreeCellDependency;
 
 /**
  * Panel to show the dependencies between cells.

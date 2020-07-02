@@ -11,10 +11,10 @@ import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.character.CharacterData;
-import delta.games.lotro.character.classes.TraitTree;
-import delta.games.lotro.character.classes.TraitTreeBranch;
-import delta.games.lotro.character.classes.TraitTreeProgression;
-import delta.games.lotro.character.classes.TraitTreeStatus;
+import delta.games.lotro.character.classes.traitTree.TraitTree;
+import delta.games.lotro.character.classes.traitTree.TraitTreeBranch;
+import delta.games.lotro.character.classes.traitTree.TraitTreeProgression;
+import delta.games.lotro.character.classes.traitTree.TraitTreeStatus;
 import delta.games.lotro.character.traits.TraitDescription;
 
 /**

@@ -43,14 +43,4 @@ public class InterceptorInterface
     }
     controller.bringToFront();
   }
-
-  /*
-  private static WindowController buildInterceptorDialog(WindowController parent)
-  {
-    try
-    {
-      Class<?> clazz=Class.forName("")
-    }
-  }
-  */
 }

@@ -3,11 +3,11 @@ package delta.games.lotro.gui.character.traitTree;
 import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharactersManager;
-import delta.games.lotro.character.classes.BuffsManagerToTraitTreeStatus;
 import delta.games.lotro.character.classes.ClassDescription;
 import delta.games.lotro.character.classes.ClassesManager;
-import delta.games.lotro.character.classes.TraitTree;
-import delta.games.lotro.character.classes.TraitTreeStatus;
+import delta.games.lotro.character.classes.traitTree.BuffsManagerToTraitTreeStatus;
+import delta.games.lotro.character.classes.traitTree.TraitTree;
+import delta.games.lotro.character.classes.traitTree.TraitTreeStatus;
 import delta.games.lotro.character.stats.buffs.BuffsManager;
 import delta.games.lotro.common.CharacterClass;
 
