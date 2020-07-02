@@ -25,7 +25,7 @@ public class TraitTreeEditionDialog extends DefaultFormDialogController<TraitTre
   public TraitTreeEditionDialog(WindowController parentController, CharacterData toon, TraitTreeStatus status)
   {
     super(parentController,status);
-    _treePanel=new TraitTreePanelController(toon,status);
+    _treePanel=new TraitTreePanelController(this,toon,status);
   }
 
   @Override

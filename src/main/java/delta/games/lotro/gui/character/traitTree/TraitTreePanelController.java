@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -19,11 +21,16 @@ import javax.swing.SwingUtilities;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.common.ui.swing.combobox.ItemSelectionListener;
+import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.classes.traitTree.TraitTree;
 import delta.games.lotro.character.classes.traitTree.TraitTreeBranch;
 import delta.games.lotro.character.classes.traitTree.TraitTreeStatus;
+import delta.games.lotro.character.classes.traitTree.setup.TraitTreeSetup;
+import delta.games.lotro.character.classes.traitTree.setup.TraitTreeSetupsManager;
 import delta.games.lotro.character.traits.TraitDescription;
+import delta.games.lotro.common.CharacterClass;
+import delta.games.lotro.gui.character.traitTree.setup.TraitTreeSetupChooser;
 
 /**
  * Controller for trait tree panel.
@@ -31,22 +38,29 @@ import delta.games.lotro.character.traits.TraitDescription;
  */
 public class TraitTreePanelController
 {
+  // UI
   private JPanel _panel;
+  private JLabel _points;
+  // Controllers
+  private WindowController _parent;
   private TraitTreeSidePanelController _side;
   private List<TraitTreeBranchPanelController> _branches;
   private ComboBoxController<TraitTreeBranch> _branchCombo;
-  private JLabel _points;
   // Data
+  private CharacterData _toon;
   private TraitTree _tree;
   private TraitTreeStatus _status;
 
   /**
    * Constructor.
+   * @param parent Parent window controller.
    * @param toon Character data.
    * @param status Trait tree status to show.
    */
-  public TraitTreePanelController(CharacterData toon,TraitTreeStatus status)
+  public TraitTreePanelController(WindowController parent,CharacterData toon,TraitTreeStatus status)
   {
+    _parent=parent;
+    _toon=toon;
     _tree=status.getTraitTree();
     _status=status;
     _side=new TraitTreeSidePanelController(toon,_tree,status);
@@ -204,10 +218,12 @@ public class TraitTreePanelController
   {
     JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
+    // Branch chooser
     JLabel label=GuiFactory.buildLabel("Main branch:");
     ret.add(label,c);
     c.gridx++;
     ret.add(_branchCombo.getComboBox(),c);
+    // Points cost
     JLabel pointsLabel=GuiFactory.buildLabel("Cost: ");
     c.gridx++;
     ret.add(pointsLabel,c);
@@ -215,10 +231,84 @@ public class TraitTreePanelController
     c.gridx++;
     ret.add(_points,c);
     c.gridx++;
+    // Glue to push everything on left and right
     c.weightx=1.0;
     c.fill=GridBagConstraints.HORIZONTAL;
+    c.gridx++;
     ret.add(Box.createGlue(),c);
+    c.gridx++;
+    c.weightx=0.0;
+    c.fill=GridBagConstraints.NONE;
+    // Buttons
+    // - load
+    JButton load=GuiFactory.buildButton("Load from template...");
+    ActionListener alLoad=new ActionListener()
+    {
+      @Override
+      public void actionPerformed(ActionEvent e)
+      {
+        loadFromTemplate();
+      }
+    };
+    load.addActionListener(alLoad);
+    ret.add(load,c);
+    c.gridx++;
+    // - save
+    JButton save=GuiFactory.buildButton("Save as template...");
+    ActionListener alSave=new ActionListener()
+    {
+      @Override
+      public void actionPerformed(ActionEvent e)
+      {
+        saveAsTemplate();
+      }
+    };
+    save.addActionListener(alSave);
+    ret.add(save,c);
+    c.gridx++;
     return ret;
+  }
+
+  private void loadFromTemplate()
+  {
+    // Choose template
+    TraitTreeSetup setup=chooseSetup();
+    if (setup==null)
+    {
+      return;
+    }
+    TraitTreeStatus status=setup.getStatus();
+    _status.copyFrom(status);
+    _branchCombo.selectItem(_status.getSelectedBranch());
+    updateUi();
+  }
+
+  private TraitTreeSetup chooseSetup()
+  {
+    CharacterClass characterClass=_toon.getCharacterClass();
+    TraitTreeSetup setup=TraitTreeSetupChooser.chooseTraitTreeSetup(_parent,characterClass);
+    return setup;
+  }
+
+  private void saveAsTemplate()
+  {
+    TraitTreeSetup setup=buildSetupFromCurrentData();
+    TraitTreeSetupsManager setupsMgr=TraitTreeSetupsManager.getInstance();
+    setupsMgr.writeNewDataFile(setup);
+  }
+
+  private TraitTreeSetup buildSetupFromCurrentData()
+  {
+    TraitTreeSetup setup=new TraitTreeSetup(_tree);
+    // Name
+    String name="Template";
+    setup.setName(name);
+    // Status
+    TraitTreeStatus status=setup.getStatus();
+    status.copyFrom(_status);
+    // Cost
+    setup.setCost(_status.getCost());
+    return setup;
   }
 
   private JPanel buildCenterPanel()
@@ -250,6 +340,7 @@ public class TraitTreePanelController
       _panel.removeAll();
       _panel=null;
     }
+    _parent=null;
     if (_side!=null)
     {
       _side.dispose();
@@ -269,5 +360,6 @@ public class TraitTreePanelController
       _branchCombo.dispose();
       _branchCombo=null;
     }
+    _toon=null;
   }
 }
