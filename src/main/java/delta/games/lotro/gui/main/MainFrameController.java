@@ -34,7 +34,7 @@ import delta.games.lotro.gui.about.CreditsDialogController;
 import delta.games.lotro.gui.account.AccountsManagementController;
 import delta.games.lotro.gui.deed.explorer.DeedsExplorerWindowController;
 import delta.games.lotro.gui.emotes.explorer.EmotesExplorerWindowController;
-import delta.games.lotro.gui.interceptor.InterceptorDialogController;
+import delta.games.lotro.gui.interceptor.InterceptorInterface;
 import delta.games.lotro.gui.lore.trade.barter.explorer.BarterersExplorerWindowController;
 import delta.games.lotro.gui.lore.trade.vendor.explorer.VendorsExplorerWindowController;
 import delta.games.lotro.gui.mounts.explorer.MountsExplorerWindowController;
@@ -258,8 +258,11 @@ public class MainFrameController extends DefaultWindowController implements Acti
     c.gridx++;
     panel.add(_toolbarLore.getToolBar(),c);
     c.gridx++;
-    panel.add(_toolbarMisc.getToolBar(),c);
-    c.gridx++;
+    if (_toolbarMisc!=null)
+    {
+      panel.add(_toolbarMisc.getToolBar(),c);
+      c.gridx++;
+    }
     JPanel padding=GuiFactory.buildPanel(new FlowLayout());
     c.weightx=1.0;c.fill=GridBagConstraints.HORIZONTAL;
     panel.add(padding,c);
@@ -346,6 +349,11 @@ public class MainFrameController extends DefaultWindowController implements Acti
 
   private ToolbarController buildToolBarMisc()
   {
+    boolean hasSynchronizer=InterceptorInterface.checkInterceptorPresence();
+    if (!hasSynchronizer)
+    {
+      return null;
+    }
     ToolbarController controller=new ToolbarController();
     ToolbarModel model=controller.getModel();
     // Import from LOTRO
@@ -521,13 +529,7 @@ public class MainFrameController extends DefaultWindowController implements Acti
 
   private void doSynchronizer()
   {
-    WindowController controller=_windowsManager.getWindow(InterceptorDialogController.IDENTIFIER);
-    if (controller==null)
-    {
-      controller=new InterceptorDialogController(this);
-      _windowsManager.registerWindow(controller);
-    }
-    controller.bringToFront();
+    InterceptorInterface.doSynchronizer(_windowsManager,this);
   }
 
   @Override
