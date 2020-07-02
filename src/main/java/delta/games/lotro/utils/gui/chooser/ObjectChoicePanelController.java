@@ -60,7 +60,7 @@ public class ObjectChoicePanelController<T> implements FilterUpdateListener
   private JPanel build()
   {
     JPanel panel=GuiFactory.buildPanel(new BorderLayout());
-    TitledBorder itemsFrameBorder=GuiFactory.buildTitledBorder("Items");
+    TitledBorder itemsFrameBorder=GuiFactory.buildTitledBorder("Choice");
     panel.setBorder(itemsFrameBorder);
 
     // Table
