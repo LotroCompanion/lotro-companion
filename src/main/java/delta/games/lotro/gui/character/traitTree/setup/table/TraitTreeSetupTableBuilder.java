@@ -1,7 +1,11 @@
 package delta.games.lotro.gui.character.traitTree.setup.table;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.SwingUtilities;
 
 import delta.common.ui.swing.tables.CellDataProvider;
 import delta.common.ui.swing.tables.DataProvider;
@@ -9,7 +13,9 @@ import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.ListDataProvider;
 import delta.common.ui.swing.tables.TableColumnsManager;
+import delta.common.utils.collections.filters.Filter;
 import delta.games.lotro.character.classes.traitTree.setup.TraitTreeSetup;
+import delta.games.lotro.character.classes.traitTree.setup.TraitTreeSetupsManager;
 import delta.games.lotro.common.CharacterClass;
 
 /**
@@ -20,13 +26,28 @@ public class TraitTreeSetupTableBuilder
 {
   /**
    * Build a table to show trait tree setups.
-   * @param setups Setups to show.
+   * @param characterClass Character class to use.
    * @return A new table controller.
    */
-  public static GenericTableController<TraitTreeSetup> buildTable(List<TraitTreeSetup> setups)
+  public static GenericTableController<TraitTreeSetup> buildTable(final CharacterClass characterClass)
   {
+    // Provider
+    TraitTreeSetupsManager setupsMgr=TraitTreeSetupsManager.getInstance();
+    List<TraitTreeSetup> setups=setupsMgr.getAll();
     DataProvider<TraitTreeSetup> provider=new ListDataProvider<TraitTreeSetup>(setups);
     GenericTableController<TraitTreeSetup> table=new GenericTableController<TraitTreeSetup>(provider);
+    // Filter
+    Filter<TraitTreeSetup> filter=new Filter<TraitTreeSetup>()
+    {
+      @Override
+      public boolean accept(TraitTreeSetup setup)
+      {
+        CharacterClass setupClass=setup.getCharacterClass();
+        return (setupClass==characterClass);
+      }
+    };
+    table.setFilter(filter);
+    // Columns
     List<DefaultTableColumnController<TraitTreeSetup,?>> columns=initColumns();
     TableColumnsManager<TraitTreeSetup> columnsManager=table.getColumnsManager();
     for(DefaultTableColumnController<TraitTreeSetup,?> column : columns)
@@ -35,6 +56,8 @@ public class TraitTreeSetupTableBuilder
     }
     List<String> columnsIds=getDefaultColumnIds();
     columnsManager.setColumns(columnsIds);
+    DefaultTableColumnController<TraitTreeSetup,String> deleteColumn=buildDeleteColumn(table);
+    columnsManager.addColumnController(deleteColumn,true);
     // Ensure that the Swing table is built (to avoid nasty NPEs)
     table.getTable();
     return table;
@@ -54,7 +77,7 @@ public class TraitTreeSetupTableBuilder
    * Build a list of all managed columns.
    * @return A list of column controllers.
    */
-  public static List<DefaultTableColumnController<TraitTreeSetup,?>> initColumns()
+  private static List<DefaultTableColumnController<TraitTreeSetup,?>> initColumns()
   {
     List<DefaultTableColumnController<TraitTreeSetup,?>> columns=new ArrayList<DefaultTableColumnController<TraitTreeSetup,?>>();
     // Name column
@@ -72,7 +95,7 @@ public class TraitTreeSetupTableBuilder
    * Build a column for the name of a trait tree setup.
    * @return a column.
    */
-  public static DefaultTableColumnController<TraitTreeSetup,String> buildNameColumn()
+  private static DefaultTableColumnController<TraitTreeSetup,String> buildNameColumn()
   {
     CellDataProvider<TraitTreeSetup,String> nameCell=new CellDataProvider<TraitTreeSetup,String>()
     {
@@ -91,7 +114,7 @@ public class TraitTreeSetupTableBuilder
    * Build a column for the cost of a trait tree setup.
    * @return a column.
    */
-  public static DefaultTableColumnController<TraitTreeSetup,Integer> buildCostColumn()
+  private static DefaultTableColumnController<TraitTreeSetup,Integer> buildCostColumn()
   {
     CellDataProvider<TraitTreeSetup,Integer> costCell=new CellDataProvider<TraitTreeSetup,Integer>()
     {
@@ -110,7 +133,7 @@ public class TraitTreeSetupTableBuilder
    * Build a column for the class of a trait tree setup.
    * @return a column.
    */
-  public static DefaultTableColumnController<TraitTreeSetup,CharacterClass> buildClassColumn()
+  private static DefaultTableColumnController<TraitTreeSetup,CharacterClass> buildClassColumn()
   {
     CellDataProvider<TraitTreeSetup,CharacterClass> classCell=new CellDataProvider<TraitTreeSetup,CharacterClass>()
     {
@@ -129,7 +152,7 @@ public class TraitTreeSetupTableBuilder
    * Build a column for the branch of a trait tree setup.
    * @return a column.
    */
-  public static DefaultTableColumnController<TraitTreeSetup,String> buildBranchColumn()
+  private static DefaultTableColumnController<TraitTreeSetup,String> buildBranchColumn()
   {
     CellDataProvider<TraitTreeSetup,String> classCell=new CellDataProvider<TraitTreeSetup,String>()
     {
@@ -142,5 +165,38 @@ public class TraitTreeSetupTableBuilder
     DefaultTableColumnController<TraitTreeSetup,String> classColumn=new DefaultTableColumnController<TraitTreeSetup,String>(TraitTreeSetupColumnIds.MAIN_BRANCH.name(),"Branch",String.class,classCell);
     classColumn.setWidthSpecs(150,150,150);
     return classColumn;
+  }
+
+
+  /**
+   * Build a column with a 'Delete' button.
+   * @param table Table to use.
+   * @return A column controller.
+   */
+  private static DefaultTableColumnController<TraitTreeSetup,String> buildDeleteColumn(final GenericTableController<TraitTreeSetup> table)
+  {
+    DefaultTableColumnController<TraitTreeSetup,String> column=table.buildButtonColumn(TraitTreeSetupColumnIds.DELETE.name(),"Delete",80);
+    ActionListener al=new ActionListener()
+    {
+      @Override
+      public void actionPerformed(ActionEvent e)
+      {
+        final TraitTreeSetup source=(TraitTreeSetup)e.getSource();
+        // Invoke later to avoid error on click event if table becomes empty
+        Runnable r=new Runnable()
+        {
+          @Override
+          public void run()
+          {
+            TraitTreeSetupsManager setupsMgr=TraitTreeSetupsManager.getInstance();
+            setupsMgr.remove(source);
+            table.refresh();
+          }
+        };
+        SwingUtilities.invokeLater(r);
+      }
+    };
+    column.setActionListener(al);
+    return column;
   }
 }

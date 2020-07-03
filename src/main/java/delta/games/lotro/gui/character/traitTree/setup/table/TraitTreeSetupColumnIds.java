@@ -22,4 +22,8 @@ public enum TraitTreeSetupColumnIds
    * Cost.
    */
   COST,
+  /**
+   * Delete button.
+   */
+  DELETE
 }
