@@ -88,7 +88,10 @@
 	<!-- Loggers configuration -->
 	<!-- logger levels: TRACE, DEBUG, INFO, WARN, ERROR, ALL or OFF, INHERITED or NULL-->
 	<!-- Global -->
-	<logger name="delta.games.lotro"                               level="INFO"/>
+	<logger name="delta.games.lotro"                               level="WARN"/>
+	<logger name="delta.games.lotro.dat"                           level="WARN"/>
+	<logger name="delta.games.lotro.gui"                           level="WARN"/>
+	<logger name="delta.games.lotro.interceptor"                   level="WARN"/>
 
 	<!-- ********************** COTS ****************** -->
 	<!-- logback himself -->
