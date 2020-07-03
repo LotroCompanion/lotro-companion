@@ -73,6 +73,10 @@ public class TraitTreeSetupChooser
     // Dimension
     dialog.setMinimumSize(new Dimension(600,300));
     dialog.setSize(600,300);
+    if (parent!=null)
+    {
+      dialog.setLocationRelativeTo(parent.getWindow());
+    }
     return chooser;
   }
 }

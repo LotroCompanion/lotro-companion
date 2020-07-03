@@ -30,6 +30,7 @@ import delta.games.lotro.character.classes.traitTree.setup.TraitTreeSetup;
 import delta.games.lotro.character.classes.traitTree.setup.TraitTreeSetupsManager;
 import delta.games.lotro.character.traits.TraitDescription;
 import delta.games.lotro.common.CharacterClass;
+import delta.games.lotro.gui.character.traitTree.setup.TraitTreeSetupAttrsDialogController;
 import delta.games.lotro.gui.character.traitTree.setup.TraitTreeSetupChooser;
 
 /**
@@ -293,16 +294,18 @@ public class TraitTreePanelController
   private void saveAsTemplate()
   {
     TraitTreeSetup setup=buildSetupFromCurrentData();
-    TraitTreeSetupsManager setupsMgr=TraitTreeSetupsManager.getInstance();
-    setupsMgr.writeNewDataFile(setup);
+    TraitTreeSetupAttrsDialogController editDialog=new TraitTreeSetupAttrsDialogController(_parent,setup);
+    setup=editDialog.editModal();
+    if (setup!=null)
+    {
+      TraitTreeSetupsManager setupsMgr=TraitTreeSetupsManager.getInstance();
+      setupsMgr.writeNewDataFile(setup);
+    }
   }
 
   private TraitTreeSetup buildSetupFromCurrentData()
   {
     TraitTreeSetup setup=new TraitTreeSetup(_tree);
-    // Name
-    String name="Template";
-    setup.setName(name);
     // Status
     TraitTreeStatus status=setup.getStatus();
     status.copyFrom(_status);
