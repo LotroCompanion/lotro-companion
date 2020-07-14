@@ -25,6 +25,8 @@ public class ItemIconController
 {
   private static final Logger LOGGER=Logger.getLogger(ItemIconController.class);
 
+  private static final int DEFAULT_SIZE=32;
+
   private WindowController _parent;
   private ActionListener _listener;
   private JButton _icon;
@@ -38,7 +40,7 @@ public class ItemIconController
   {
     _parent=parent;
     _icon=GuiFactory.buildIconButton();
-    _icon.setSize(32,32);
+    _icon.setSize(DEFAULT_SIZE,DEFAULT_SIZE);
     _listener=new ActionListener()
     {
       @Override
@@ -67,11 +69,8 @@ public class ItemIconController
   public void setItem(Item item, int count)
   {
     Icon icon=ItemUiTools.buildItemIcon(item,count);
-    if (icon!=null)
-    {
-      _icon.setIcon(icon);
-      _icon.setSize(icon.getIconWidth(),icon.getIconHeight());
-    }
+    _icon.setIcon(icon);
+    _icon.setSize(icon.getIconWidth(),icon.getIconHeight());
     _item=item;
   }
 

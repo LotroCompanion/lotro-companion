@@ -21,6 +21,8 @@ import delta.games.lotro.lore.deeds.DeedType;
  */
 public class LotroIconsManager
 {
+  private static final String ITEM_WITH_NO_ICON="/resources/gui/items/itemNoIcon.png";
+
   /**
    * Compact size.
    */
@@ -71,12 +73,21 @@ public class LotroIconsManager
 
   /**
    * Get the icon for an item.
-   * @param icon Icon path.
+   * @param iconPath Icon path.
    * @return An icon or <code>null</code> if not found.
    */
-  public static ImageIcon getItemIcon(String icon)
+  public static ImageIcon getItemIcon(String iconPath)
   {
-    return IconsManager.getIcon("/icons/"+icon+".png");
+    ImageIcon icon=null;
+    if (iconPath!=null)
+    {
+      icon=IconsManager.getIcon("/icons/"+iconPath+".png");
+    }
+    if (icon==null)
+    {
+      icon=IconsManager.getIcon(ITEM_WITH_NO_ICON);
+    }
+    return icon;
   }
 
   /**

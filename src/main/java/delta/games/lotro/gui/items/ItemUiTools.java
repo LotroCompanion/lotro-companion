@@ -44,7 +44,7 @@ public class ItemUiTools
   public static Icon buildItemIcon(Item item)
   {
     Icon ret=null;
-    String iconPath=item.getIcon();
+    String iconPath=(item!=null)?item.getIcon():null;
     ImageIcon icon=LotroIconsManager.getItemIcon(iconPath);
     ret=icon;
     String subCategory=item.getSubCategory();
@@ -95,7 +95,7 @@ public class ItemUiTools
         showItemForm(parent,item);
       }
     };
-    String text=item.getName();
+    String text=(item!=null)?item.getName():"???";
     LocalHyperlinkAction action=new LocalHyperlinkAction(text,al);
     HyperLinkController controller=new HyperLinkController(action);
     return controller;
