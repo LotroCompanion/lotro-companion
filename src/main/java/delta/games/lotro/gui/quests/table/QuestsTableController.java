@@ -17,6 +17,7 @@ import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.common.ChallengeLevel;
 import delta.games.lotro.common.ChallengeLevelComparator;
+import delta.games.lotro.common.LockType;
 import delta.games.lotro.common.Repeatability;
 import delta.games.lotro.common.Size;
 import delta.games.lotro.common.requirements.UsageRequirement;
@@ -193,6 +194,20 @@ public class QuestsTableController
       DefaultTableColumnController<QuestDescription,Repeatability> repeatableColumn=new DefaultTableColumnController<QuestDescription,Repeatability>(QuestColumnIds.REPEATABLE.name(),"Repeatability",Repeatability.class,repeatableCell);
       repeatableColumn.setWidthSpecs(100,100,100);
       ret.add(repeatableColumn);
+    }
+    // Lock type column
+    {
+      CellDataProvider<QuestDescription,LockType> lockTypeCell=new CellDataProvider<QuestDescription,LockType>()
+      {
+        @Override
+        public LockType getData(QuestDescription quest)
+        {
+          return quest.getLockType();
+        }
+      };
+      DefaultTableColumnController<QuestDescription,LockType> lockTypeColumn=new DefaultTableColumnController<QuestDescription,LockType>(QuestColumnIds.LOCK_TYPE.name(),"Lock",LockType.class,lockTypeCell);
+      lockTypeColumn.setWidthSpecs(60,60,60);
+      ret.add(lockTypeColumn);
     }
     // Instanced column
     {

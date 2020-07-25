@@ -3,6 +3,7 @@ package delta.games.lotro.gui.quests;
 import java.util.List;
 
 import delta.common.ui.swing.combobox.ComboBoxController;
+import delta.games.lotro.common.LockType;
 import delta.games.lotro.common.Repeatability;
 import delta.games.lotro.common.Size;
 import delta.games.lotro.lore.quests.QuestDescription.FACTION;
@@ -107,6 +108,23 @@ public class QuestsUiUtils
     {
       String label=repeatability.toString();
       ctrl.addItem(repeatability,label);
+    }
+    ctrl.selectItem(null);
+    return ctrl;
+  }
+
+  /**
+   * Build a combo-box controller to choose a lock type.
+   * @return A new combo-box controller.
+   */
+  public static ComboBoxController<LockType> buildLockTypeCombo()
+  {
+    ComboBoxController<LockType> ctrl=new ComboBoxController<LockType>();
+    ctrl.addEmptyItem("");
+    for(LockType lockType : LockType.values())
+    {
+      String label=lockType.toString();
+      ctrl.addItem(lockType,label);
     }
     ctrl.selectItem(null);
     return ctrl;

@@ -39,6 +39,10 @@ public enum QuestColumnIds
    */
   REPEATABLE,
   /**
+   * Lock type.
+   */
+  LOCK_TYPE,
+  /**
    * Instanced.
    */
   INSTANCED,

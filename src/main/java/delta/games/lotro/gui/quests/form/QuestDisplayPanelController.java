@@ -21,6 +21,7 @@ import delta.common.ui.swing.navigator.NavigablePanelController;
 import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.games.lotro.common.ChallengeLevel;
+import delta.games.lotro.common.LockType;
 import delta.games.lotro.common.Repeatability;
 import delta.games.lotro.common.Size;
 import delta.games.lotro.gui.common.requirements.RequirementsUtils;
@@ -320,6 +321,13 @@ public class QuestDisplayPanelController implements NavigablePanelController
     {
       if (sb.length()>0) sb.append(", ");
       sb.append(repeatability.toString());
+    }
+    // Lock type
+    LockType lockType=_quest.getLockType();
+    if (lockType!=null)
+    {
+      if (sb.length()>0) sb.append(", ");
+      sb.append(lockType.toString());
     }
     // Instanced
     boolean instanced=_quest.isInstanced();

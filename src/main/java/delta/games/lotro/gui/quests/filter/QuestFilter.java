@@ -15,6 +15,7 @@ import delta.games.lotro.gui.common.rewards.filter.RewardsFilter;
 import delta.games.lotro.lore.quests.QuestDescription;
 import delta.games.lotro.lore.quests.filter.AutoBestowedQuestFilter;
 import delta.games.lotro.lore.quests.filter.InstancedQuestFilter;
+import delta.games.lotro.lore.quests.filter.LockTypeFilter;
 import delta.games.lotro.lore.quests.filter.QuestArcFilter;
 import delta.games.lotro.lore.quests.filter.QuestCategoryFilter;
 import delta.games.lotro.lore.quests.filter.QuestFactionFilter;
@@ -42,6 +43,7 @@ public class QuestFilter implements Filter<QuestDescription>
   private SessionPlayQuestFilter _sessionPlayQuestFilter;
   private AutoBestowedQuestFilter _autoBestowedQuestFilter;
   private RepeatabilityFilter _repeatabilityFilter;
+  private LockTypeFilter _lockTypeFilter;
   // Requirements
   private UsageRequirementFilter _requirementsFilter;
   // Rewards
@@ -83,6 +85,9 @@ public class QuestFilter implements Filter<QuestDescription>
     // Repeatability
     _repeatabilityFilter=new RepeatabilityFilter(null);
     filters.add(_repeatabilityFilter);
+    // Lock type
+    _lockTypeFilter=new LockTypeFilter(null);
+    filters.add(_lockTypeFilter);
     // Requirements
     {
       _requirementsFilter=new UsageRequirementFilter(null,null);
@@ -200,6 +205,15 @@ public class QuestFilter implements Filter<QuestDescription>
   public RepeatabilityFilter getRepeatabilityFilter()
   {
     return _repeatabilityFilter;
+  }
+
+  /**
+   * Get the filter on lock type.
+   * @return a filter on lock type.
+   */
+  public LockTypeFilter getLockTypeFilter()
+  {
+    return _lockTypeFilter;
   }
 
   /**

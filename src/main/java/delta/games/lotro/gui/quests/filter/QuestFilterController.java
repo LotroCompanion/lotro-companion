@@ -19,6 +19,7 @@ import delta.common.ui.swing.combobox.ItemSelectionListener;
 import delta.common.ui.swing.text.DynamicTextEditionController;
 import delta.common.ui.swing.text.TextListener;
 import delta.common.utils.collections.filters.Filter;
+import delta.games.lotro.common.LockType;
 import delta.games.lotro.common.Repeatability;
 import delta.games.lotro.common.Size;
 import delta.games.lotro.common.rewards.RewardsExplorer;
@@ -31,6 +32,7 @@ import delta.games.lotro.lore.quests.QuestDescription.FACTION;
 import delta.games.lotro.lore.quests.QuestsManager;
 import delta.games.lotro.lore.quests.filter.AutoBestowedQuestFilter;
 import delta.games.lotro.lore.quests.filter.InstancedQuestFilter;
+import delta.games.lotro.lore.quests.filter.LockTypeFilter;
 import delta.games.lotro.lore.quests.filter.QuestArcFilter;
 import delta.games.lotro.lore.quests.filter.QuestCategoryFilter;
 import delta.games.lotro.lore.quests.filter.QuestFactionFilter;
@@ -60,6 +62,7 @@ public class QuestFilterController implements ActionListener
   private ComboBoxController<Boolean> _sessionPlay;
   private ComboBoxController<Boolean> _autoBestowed;
   private ComboBoxController<Repeatability> _repeatability;
+  private ComboBoxController<LockType> _lockType;
   private ComboBoxController<Size> _size;
   private ComboBoxController<FACTION> _faction;
   // -- Requirements UI --
@@ -131,6 +134,7 @@ public class QuestFilterController implements ActionListener
       _sessionPlay.selectItem(null);
       _autoBestowed.selectItem(null);
       _repeatability.selectItem(null);
+      _lockType.selectItem(null);
       _requirements.reset();
       _rewards.reset();
       _contains.setText("");
@@ -178,10 +182,14 @@ public class QuestFilterController implements ActionListener
     AutoBestowedQuestFilter autoBestowedFilter=_filter.getAutoBestowedQuestFilter();
     Boolean autoBestowedFlag=autoBestowedFilter.getIsAutoBestowedFlag();
     _autoBestowed.selectItem(autoBestowedFlag);
-    // Auto-bestowed
+    // Repeatability
     RepeatabilityFilter repeatabilityFilter=_filter.getRepeatabilityFilter();
     Repeatability repeatability=repeatabilityFilter.getRepeatability();
     _repeatability.selectItem(repeatability);
+    // Lock type
+    LockTypeFilter lockTypeFilter=_filter.getLockTypeFilter();
+    LockType lockType=lockTypeFilter.getLockType();
+    _lockType.selectItem(lockType);
     // Requirements
     _requirements.setFilter();
     // Rewards
@@ -319,6 +327,10 @@ public class QuestFilterController implements ActionListener
       line.add(GuiFactory.buildLabel("Repeatability:"));
       _repeatability=buildRepeatabilityCombobox();
       line.add(_repeatability.getComboBox());
+      // Lock type
+      line.add(GuiFactory.buildLabel("Lock type:"));
+      _lockType=buildLockTypeCombobox();
+      line.add(_lockType.getComboBox());
       // Size
       line.add(GuiFactory.buildLabel("Size:"));
       _size=buildSizeCombobox();
@@ -389,7 +401,7 @@ public class QuestFilterController implements ActionListener
   private ComboBoxController<Repeatability> buildRepeatabilityCombobox()
   {
     ComboBoxController<Repeatability> combo=QuestsUiUtils.buildRepeatabilityCombo();
-    ItemSelectionListener<Repeatability> questArcListener=new ItemSelectionListener<Repeatability>()
+    ItemSelectionListener<Repeatability> listener=new ItemSelectionListener<Repeatability>()
     {
       @Override
       public void itemSelected(Repeatability repeatability)
@@ -399,7 +411,24 @@ public class QuestFilterController implements ActionListener
         filterUpdated();
       }
     };
-    combo.addListener(questArcListener);
+    combo.addListener(listener);
+    return combo;
+  }
+
+  private ComboBoxController<LockType> buildLockTypeCombobox()
+  {
+    ComboBoxController<LockType> combo=QuestsUiUtils.buildLockTypeCombo();
+    ItemSelectionListener<LockType> listener=new ItemSelectionListener<LockType>()
+    {
+      @Override
+      public void itemSelected(LockType lockType)
+      {
+        LockTypeFilter lockTypeFilter=_filter.getLockTypeFilter();
+        lockTypeFilter.setLockType(lockType);
+        filterUpdated();
+      }
+    };
+    combo.addListener(listener);
     return combo;
   }
 
@@ -534,6 +563,11 @@ public class QuestFilterController implements ActionListener
     {
       _repeatability.dispose();
       _repeatability=null;
+    }
+    if (_lockType!=null)
+    {
+      _lockType.dispose();
+      _lockType=null;
     }
     if (_requirements!=null)
     {
