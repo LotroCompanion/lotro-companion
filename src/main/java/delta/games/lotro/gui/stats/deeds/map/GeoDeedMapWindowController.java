@@ -15,7 +15,8 @@ import delta.games.lotro.maps.data.MapsManager;
 import delta.games.lotro.maps.data.Marker;
 import delta.games.lotro.maps.ui.MapCanvas;
 import delta.games.lotro.maps.ui.MapPanelController;
-import delta.games.lotro.maps.ui.layers.CustomMarkersLayers;
+import delta.games.lotro.maps.ui.layers.MarkersLayer;
+import delta.games.lotro.maps.ui.layers.SimpleMarkersProvider;
 import delta.games.lotro.utils.maps.Maps;
 
 /**
@@ -48,10 +49,10 @@ public class GeoDeedMapWindowController extends DefaultDialogController
     _panel.setMap(mapKey);
     MapCanvas canvas=_panel.getCanvas();
     _iconProvider=new CompletedOrNotMarkerIconProvider();
-    CustomMarkersLayers custom=new CustomMarkersLayers(_iconProvider,canvas);
-    custom.setMarkers(markers);
+    SimpleMarkersProvider markersProvider=new SimpleMarkersProvider();
+    markersProvider.setMarkers(markers);
+    MarkersLayer custom=new MarkersLayer(canvas,_iconProvider,markersProvider);
     canvas.addLayer(custom);
-    canvas.removeLayer(_panel.getMarkersLayer());
   }
 
   /**

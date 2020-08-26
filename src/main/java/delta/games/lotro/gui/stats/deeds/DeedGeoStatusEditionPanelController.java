@@ -54,6 +54,10 @@ public class DeedGeoStatusEditionPanelController
     for(DeedGeoPoint point : points)
     {
       Marker marker=getMarker(point);
+      if (marker==null)
+      {
+        continue;
+      }
       final DeedGeoPointStatusGadgetsController gadgets=new DeedGeoPointStatusGadgetsController(marker);
       _gadgets.add(gadgets);
       // Add a listener on the checkbox to update the map
@@ -120,12 +124,16 @@ public class DeedGeoStatusEditionPanelController
 
   private Marker getMarker(DeedGeoPoint point)
   {
+    Marker marker=null;
     MapsManager mapsManager=Maps.getMaps().getMapsManager();
     String mapKey=point.getMapKey();
     MapBundle map=mapsManager.getMapByKey(mapKey);
-    MarkersManager markers=map.getData();
-    int pointID=point.getPointId();
-    Marker marker=markers.getPoint(pointID);
+    if (map!=null)
+    {
+      MarkersManager markers=map.getData();
+      int pointID=point.getPointId();
+      marker=markers.getPoint(pointID);
+    }
     return marker;
   }
 
@@ -149,6 +157,10 @@ public class DeedGeoStatusEditionPanelController
     {
       final int pointId=pointStatus.getPointId();
       DeedGeoPointStatusGadgetsController gadgets=getGadgets(pointId);
+      if (gadgets==null)
+      {
+        continue;
+      }
       boolean isCompleted=pointStatus.isCompleted(); 
       final CheckboxController checkbox=gadgets.getCheckbox();
       checkbox.setSelected(isCompleted);
