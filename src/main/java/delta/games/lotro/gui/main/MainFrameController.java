@@ -38,6 +38,7 @@ import delta.games.lotro.gui.interceptor.InterceptorInterface;
 import delta.games.lotro.gui.lore.trade.barter.explorer.BarterersExplorerWindowController;
 import delta.games.lotro.gui.lore.trade.vendor.explorer.VendorsExplorerWindowController;
 import delta.games.lotro.gui.maps.MapUtils;
+import delta.games.lotro.gui.misc.paypal.PaypalButtonController;
 import delta.games.lotro.gui.mounts.explorer.MountsExplorerWindowController;
 import delta.games.lotro.gui.pets.explorer.PetsExplorerWindowController;
 import delta.games.lotro.gui.quests.explorer.QuestsExplorerWindowController;
@@ -75,6 +76,7 @@ public class MainFrameController extends DefaultWindowController implements Acti
   private ToolbarController _toolbarTracking;
   private ToolbarController _toolbarLore;
   private ToolbarController _toolbarMisc;
+  private PaypalButtonController _paypalButton;
   private ToonsManagementController _toonsManager;
   private AccountsManagementController _accountsManager;
   private WindowsManager _windowsManager;
@@ -251,6 +253,7 @@ public class MainFrameController extends DefaultWindowController implements Acti
     _toolbarTracking=buildToolBarTracking();
     _toolbarLore=buildToolbarLore();
     _toolbarMisc=buildToolBarMisc();
+    _paypalButton=new PaypalButtonController();
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,5,2,0),0,0);
     panel.add(_toolbarTracking.getToolBar(),c);
@@ -263,8 +266,12 @@ public class MainFrameController extends DefaultWindowController implements Acti
       c.gridx++;
     }
     JPanel padding=GuiFactory.buildPanel(new FlowLayout());
-    c.weightx=1.0;c.fill=GridBagConstraints.HORIZONTAL;
+    c=new GridBagConstraints(c.gridx,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(2,5,2,0),0,0);
+    c.gridx++;
     panel.add(padding,c);
+    c=new GridBagConstraints(c.gridx,0,1,1,0.0,0.0,GridBagConstraints.EAST,GridBagConstraints.NONE,new Insets(2,5,2,0),0,0);
+    panel.add(_paypalButton.getButton(),c);
+    c.gridx++;
     return panel;
   }
 
@@ -678,6 +685,11 @@ public class MainFrameController extends DefaultWindowController implements Acti
     {
       _toolbarMisc.dispose();
       _toolbarMisc=null;
+    }
+    if (_paypalButton!=null)
+    {
+      _paypalButton.dispose();
+      _paypalButton=null;
     }
     if (_toonsManager!=null)
     {
