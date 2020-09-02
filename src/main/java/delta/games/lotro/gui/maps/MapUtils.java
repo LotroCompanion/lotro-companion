@@ -36,6 +36,7 @@ public class MapUtils
     };
     controller.addNavigationListener(listener);
     // Radar map
+    // TODO Do not use radar map for dungeon maps
     setupRadarMapLayer(controller.getMapCanvas());
     return controller;
   }
@@ -51,6 +52,7 @@ public class MapUtils
   {
     DataFacade facade=new DataFacade();
     RadarImageProvider provider=new DatRadarImageProvider(facade);
+    // TODO Update region
     RadarMapLayer radarMap=new RadarMapLayer(canvas,1,provider);
     canvas.addLayer(radarMap);
   }
