@@ -3,10 +3,13 @@ package delta.games.lotro.gui.maps;
 import java.util.List;
 
 import delta.common.utils.NumericTools;
+import delta.games.lotro.dat.data.DataFacade;
 import delta.games.lotro.maps.data.MapsManager;
 import delta.games.lotro.maps.data.Marker;
+import delta.games.lotro.maps.ui.MapCanvas;
 import delta.games.lotro.maps.ui.MapWindowController;
 import delta.games.lotro.maps.ui.NavigationListener;
+import delta.games.lotro.maps.ui.layers.radar.RadarImageProvider;
 import delta.games.lotro.utils.maps.Maps;
 
 /**
@@ -32,6 +35,8 @@ public class MapUtils
       }
     };
     controller.addNavigationListener(listener);
+    // Radar map
+    setupRadarMapLayer(controller.getMapCanvas());
     return controller;
   }
 
@@ -40,5 +45,13 @@ public class MapUtils
     int mapId=NumericTools.parseInt(mapKey,0);
     List<Marker> markers=new MapMarkersFactory().getMarkers(mapId);
     mapController.setMarkers(markers);
+  }
+
+  private static void setupRadarMapLayer(MapCanvas canvas)
+  {
+    DataFacade facade=new DataFacade();
+    RadarImageProvider provider=new DatRadarImageProvider(facade);
+    RadarMapLayer radarMap=new RadarMapLayer(canvas,1,provider);
+    canvas.addLayer(radarMap);
   }
 }
