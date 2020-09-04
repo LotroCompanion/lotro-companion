@@ -18,10 +18,9 @@ import delta.games.lotro.character.deeds.geo.DeedGeoStatus;
 import delta.games.lotro.gui.stats.deeds.map.GeoDeedMapWindowController;
 import delta.games.lotro.lore.deeds.geo.DeedGeoData;
 import delta.games.lotro.lore.deeds.geo.DeedGeoPoint;
-import delta.games.lotro.maps.data.MapBundle;
 import delta.games.lotro.maps.data.MapsManager;
 import delta.games.lotro.maps.data.Marker;
-import delta.games.lotro.maps.data.MarkersManager;
+import delta.games.lotro.maps.data.markers.GlobalMarkersManager;
 import delta.games.lotro.utils.maps.Maps;
 
 /**
@@ -107,8 +106,11 @@ public class DeedGeoStatusEditionPanelController
       JCheckBox checkbox=gadgets.getCheckbox().getCheckbox();
       boolean completed=checkbox.isSelected();
       Marker marker=markers.get(i);
-      int pointId=marker.getId();
-      updatePoint(pointId,completed);
+      if (marker!=null)
+      {
+        int pointId=marker.getId();
+        updatePoint(pointId,completed);
+      }
     }
     Window window=_mapController.getWindow();
     WindowAdapter l=new WindowAdapter()
@@ -124,16 +126,10 @@ public class DeedGeoStatusEditionPanelController
 
   private Marker getMarker(DeedGeoPoint point)
   {
-    Marker marker=null;
     MapsManager mapsManager=Maps.getMaps().getMapsManager();
-    String mapKey=point.getMapKey();
-    MapBundle map=mapsManager.getMapByKey(mapKey);
-    if (map!=null)
-    {
-      MarkersManager markers=map.getData();
-      int pointID=point.getPointId();
-      marker=markers.getPoint(pointID);
-    }
+    GlobalMarkersManager markersMgr=mapsManager.getMarkersManager();
+    int pointID=point.getPointId();
+    Marker marker=markersMgr.getMarkerById(pointID);
     return marker;
   }
 
