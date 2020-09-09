@@ -3,16 +3,14 @@ package delta.games.lotro.gui.maps;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.util.List;
 
 import delta.games.lotro.dat.data.DatPosition;
 import delta.games.lotro.dat.loaders.PositionDecoder;
 import delta.games.lotro.maps.data.GeoBox;
 import delta.games.lotro.maps.data.GeoPoint;
 import delta.games.lotro.maps.data.GeoReference;
-import delta.games.lotro.maps.data.Marker;
 import delta.games.lotro.maps.ui.MapView;
-import delta.games.lotro.maps.ui.layers.Layer;
+import delta.games.lotro.maps.ui.layers.RasterLayer;
 import delta.games.lotro.maps.ui.layers.radar.RadarImageCache;
 import delta.games.lotro.maps.ui.layers.radar.RadarImageProvider;
 
@@ -20,7 +18,7 @@ import delta.games.lotro.maps.ui.layers.radar.RadarImageProvider;
  * Layer to display the radar map.
  * @author DAM
  */
-public class RadarMapLayer implements Layer
+public class RadarMapLayer implements RasterLayer
 {
   private MapView _view;
   private int _region;
@@ -43,12 +41,6 @@ public class RadarMapLayer implements Layer
   public int getPriority()
   {
     return 0;
-  }
-
-  @Override
-  public List<Marker> getVisibleMarkers()
-  {
-    return null;
   }
 
   @Override
