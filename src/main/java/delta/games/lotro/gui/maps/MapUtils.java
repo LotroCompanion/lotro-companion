@@ -53,7 +53,7 @@ public class MapUtils
     DataFacade facade=new DataFacade();
     RadarImageProvider provider=new DatRadarImageProvider(facade);
     // TODO Update region
-    RadarMapLayer radarMap=new RadarMapLayer(canvas,1,provider);
+    RadarMapLayer radarMap=new RadarMapLayer(1,provider);
     canvas.addLayer(radarMap);
   }
 }

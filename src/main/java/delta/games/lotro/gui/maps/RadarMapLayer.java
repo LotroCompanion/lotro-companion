@@ -20,19 +20,16 @@ import delta.games.lotro.maps.ui.layers.radar.RadarImageProvider;
  */
 public class RadarMapLayer implements RasterLayer
 {
-  private MapView _view;
   private int _region;
   private RadarImageCache _cache;
 
   /**
    * Constructor.
    * @param region to show
-   * @param view Map view.
    * @param provider Radar images provider.
    */
-  public RadarMapLayer(MapView view, int region, RadarImageProvider provider)
+  public RadarMapLayer(int region, RadarImageProvider provider)
   {
-    _view=view;
     _region=region;
     _cache=new RadarImageCache(provider);
   }
@@ -53,9 +50,9 @@ public class RadarMapLayer implements RasterLayer
   }
 
   @Override
-  public void paintLayer(Graphics g)
+  public void paintLayer(MapView view, Graphics g)
   {
-    GeoReference viewReference=_view.getViewReference();
+    GeoReference viewReference=view.getViewReference();
     GeoPoint startPoint=viewReference.getStart();
 
     // Compute block of the view start point
@@ -73,7 +70,7 @@ public class RadarMapLayer implements RasterLayer
     // - degrees for each cell
     float deltaDegrees=PositionDecoder.LANDBLOCK_SIZE*PositionDecoder.OP_TO_MP;
     // - geographic bounds of the view
-    GeoBox bounds=_view.getGeoBounds();
+    GeoBox bounds=view.getGeoBounds();
     // - number of images horizonzally
     float deltaLon=bounds.getMax().getLongitude()-bounds.getMin().getLongitude();
     int nbImagesX=(int)(deltaLon/deltaDegrees)+2;

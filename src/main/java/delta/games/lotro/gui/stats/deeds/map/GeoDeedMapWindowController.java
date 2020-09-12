@@ -51,7 +51,7 @@ public class GeoDeedMapWindowController extends DefaultDialogController
     _iconProvider=new CompletedOrNotMarkerIconProvider();
     SimpleMarkersProvider markersProvider=new SimpleMarkersProvider();
     markersProvider.setMarkers(markers);
-    MarkersLayer custom=new MarkersLayer(canvas,_iconProvider,markersProvider);
+    MarkersLayer custom=new MarkersLayer(_iconProvider,markersProvider);
     canvas.addLayer(custom);
   }
 
