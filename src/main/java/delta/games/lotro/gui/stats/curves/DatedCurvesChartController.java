@@ -12,6 +12,7 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
+import org.apache.log4j.Logger;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -41,6 +42,8 @@ import delta.games.lotro.utils.charts.DatedCurveItem;
  */
 public class DatedCurvesChartController
 {
+  private static final Logger LOGGER=Logger.getLogger(DatedCurvesChartController.class);
+
   // GUI
   private JPanel _panel;
   private JFreeChart _chart;
@@ -272,7 +275,7 @@ public class DatedCurvesChartController
     }
     else
     {
-      // TODO error
+      LOGGER.warn("Cannot find curve with id: "+curveId);
     }
   }
 

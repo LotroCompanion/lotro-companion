@@ -270,6 +270,7 @@ public class ItemInstancesTableBuilder
       columns.add(column);
     }
     // Essences column
+    // TODO
     // User comments column
     {
       CellDataProvider<ItemInstance<? extends Item>,String> cell=new CellDataProvider<ItemInstance<? extends Item>,String>()
