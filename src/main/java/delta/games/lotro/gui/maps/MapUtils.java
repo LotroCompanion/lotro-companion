@@ -8,8 +8,8 @@ import delta.games.lotro.maps.data.MapsManager;
 import delta.games.lotro.maps.data.Marker;
 import delta.games.lotro.maps.ui.MapCanvas;
 import delta.games.lotro.maps.ui.MapWindowController;
-import delta.games.lotro.maps.ui.NavigationListener;
 import delta.games.lotro.maps.ui.layers.radar.RadarImageProvider;
+import delta.games.lotro.maps.ui.navigation.NavigationListener;
 import delta.games.lotro.utils.maps.Maps;
 
 /**
@@ -34,7 +34,7 @@ public class MapUtils
         updateMarkers(controller,key);
       }
     };
-    controller.addNavigationListener(listener);
+    controller.getNavigationSupport().getNavigationListeners().addListener(listener);
     // Radar map
     // TODO Do not use radar map for dungeon maps
     setupRadarMapLayer(controller.getMapCanvas());
