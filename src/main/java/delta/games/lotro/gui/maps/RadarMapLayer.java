@@ -37,6 +37,15 @@ public class RadarMapLayer implements RasterLayer
     _cache=new RadarImageCache(provider);
   }
 
+  /**
+   * Set the region to use.
+   * @param region Region code.
+   */
+  public void setRegion(int region)
+  {
+    _region=region;
+  }
+
   @Override
   public int getPriority()
   {
