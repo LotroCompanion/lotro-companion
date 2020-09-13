@@ -89,15 +89,6 @@ public class MapWindowController extends DefaultWindowController implements Navi
     return _mapPanel.getCanvas();
   }
 
-  /**
-   * Get the navigation support.
-   * @return the navigation support.
-   */
-  public NavigationSupport getNavigationSupport()
-  {
-    return _navigation;
-  }
-
   @Override
   public void mapChangeRequest(String key)
   {
@@ -142,9 +133,8 @@ public class MapWindowController extends DefaultWindowController implements Navi
   {
     JFrame frame=super.build();
     MapsManager mapsManager=_mapPanel.getCanvas().getMapsManager();
-    MapBundle mapBundle=mapsManager.getMaps().get(0);
-    String key=mapBundle.getKey();
-    mapChangeRequest(key);
+    MapBundle mapBundle=mapsManager.getMapByKey("268437716"); // Bree
+    mapChangeRequest(mapBundle.getKey());
     frame.setTitle("Middle Earth maps");
     frame.setLocation(100,100);
     frame.pack();
