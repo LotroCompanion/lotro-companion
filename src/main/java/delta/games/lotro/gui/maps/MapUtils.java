@@ -7,7 +7,6 @@ import delta.games.lotro.dat.data.DataFacade;
 import delta.games.lotro.maps.data.MapsManager;
 import delta.games.lotro.maps.data.Marker;
 import delta.games.lotro.maps.ui.MapCanvas;
-import delta.games.lotro.maps.ui.MapWindowController;
 import delta.games.lotro.maps.ui.layers.radar.RadarImageProvider;
 import delta.games.lotro.maps.ui.navigation.NavigationListener;
 import delta.games.lotro.utils.maps.Maps;

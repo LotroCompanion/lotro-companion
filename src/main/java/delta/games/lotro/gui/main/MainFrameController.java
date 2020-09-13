@@ -38,6 +38,7 @@ import delta.games.lotro.gui.interceptor.InterceptorInterface;
 import delta.games.lotro.gui.lore.trade.barter.explorer.BarterersExplorerWindowController;
 import delta.games.lotro.gui.lore.trade.vendor.explorer.VendorsExplorerWindowController;
 import delta.games.lotro.gui.maps.MapUtils;
+import delta.games.lotro.gui.maps.MapWindowController;
 import delta.games.lotro.gui.misc.paypal.PaypalButtonController;
 import delta.games.lotro.gui.mounts.explorer.MountsExplorerWindowController;
 import delta.games.lotro.gui.pets.explorer.PetsExplorerWindowController;
@@ -49,7 +50,6 @@ import delta.games.lotro.gui.stats.reputation.synopsis.ReputationSynopsisWindowC
 import delta.games.lotro.gui.stats.warbands.WarbandsWindowController;
 import delta.games.lotro.gui.titles.explorer.TitlesExplorerWindowController;
 import delta.games.lotro.gui.toon.ToonsManagementController;
-import delta.games.lotro.maps.ui.MapWindowController;
 
 /**
  * Controller for the main frame.
