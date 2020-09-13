@@ -19,6 +19,7 @@ import delta.common.ui.swing.combobox.ComboBoxItem;
 import delta.common.ui.swing.windows.DefaultWindowController;
 import delta.common.utils.NumericTools;
 import delta.games.lotro.maps.data.MapBundle;
+import delta.games.lotro.maps.data.MapLink;
 import delta.games.lotro.maps.data.MapsManager;
 import delta.games.lotro.maps.data.Marker;
 import delta.games.lotro.maps.data.categories.CategoriesManager;
@@ -113,7 +114,14 @@ public class MapWindowController extends DefaultWindowController implements Navi
       _mapChooser.selectMap(key);
       pack();
     }
+    // Markers
     updateMarkers(key);
+    // Links
+    if (map!=null)
+    {
+      List<MapLink> links=map.getLinks();
+      _navigation.setLinks(links);
+    }
   }
 
   private void updateMarkers(String mapKey)
