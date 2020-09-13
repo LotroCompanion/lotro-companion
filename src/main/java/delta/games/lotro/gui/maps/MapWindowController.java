@@ -17,6 +17,7 @@ import javax.swing.border.TitledBorder;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.combobox.ComboBoxItem;
 import delta.common.ui.swing.windows.DefaultWindowController;
+import delta.common.utils.NumericTools;
 import delta.games.lotro.maps.data.MapBundle;
 import delta.games.lotro.maps.data.MapsManager;
 import delta.games.lotro.maps.data.Marker;
@@ -96,17 +97,13 @@ public class MapWindowController extends DefaultWindowController implements Navi
     return _navigation;
   }
 
-  /**
-   * Request a map change.
-   * @param key Key of the map to show.
-   */
-  public void requestMap(String key)
-  {
-    _navigation.requestMap(key);
-  }
-
   @Override
   public void mapChangeRequest(String key)
+  {
+    setupMap(key);
+  }
+
+  private void setupMap(String key)
   {
     MapsManager mapsManager=_mapPanel.getCanvas().getMapsManager();
     MapBundle map=mapsManager.getMapByKey(key);
@@ -116,14 +113,13 @@ public class MapWindowController extends DefaultWindowController implements Navi
       _mapChooser.selectMap(key);
       pack();
     }
+    updateMarkers(key);
   }
 
-  /**
-   * Set the markers for the current map.
-   * @param markers Markers to show.
-   */
-  public void setMarkers(List<Marker> markers)
+  private void updateMarkers(String mapKey)
   {
+    int mapId=NumericTools.parseInt(mapKey,0);
+    List<Marker> markers=new MapMarkersFactory().getMarkers(mapId);
     _markersProvider.setMarkers(markers);
   }
 
