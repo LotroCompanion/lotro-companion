@@ -12,7 +12,7 @@ import delta.games.lotro.maps.data.markers.MarkersFinder;
 import delta.games.lotro.utils.maps.Maps;
 
 /**
- * Markers layer factory.
+ * Markers factory.
  * @author DAM
  */
 public class MapMarkersFactory

@@ -88,7 +88,7 @@ public class DeedGeoStatusEditionPanelController
    */
   public void showMap()
   {
-    String mapKey=null;
+    int mapKey=0;
     List<Marker> markers=new ArrayList<Marker>();
     List<DeedGeoPoint> points=_geoData.getPoints();
     for(DeedGeoPoint point : points)

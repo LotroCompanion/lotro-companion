@@ -17,12 +17,11 @@ import javax.swing.border.TitledBorder;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.combobox.ComboBoxItem;
 import delta.common.ui.swing.windows.DefaultWindowController;
-import delta.common.utils.NumericTools;
 import delta.games.lotro.maps.data.MapBundle;
-import delta.games.lotro.maps.data.MapLink;
 import delta.games.lotro.maps.data.MapsManager;
 import delta.games.lotro.maps.data.Marker;
 import delta.games.lotro.maps.data.categories.CategoriesManager;
+import delta.games.lotro.maps.data.links.MapLink;
 import delta.games.lotro.maps.ui.DefaultMarkerIconsProvider;
 import delta.games.lotro.maps.ui.MapCanvas;
 import delta.games.lotro.maps.ui.MapChooserController;
@@ -90,12 +89,12 @@ public class MapWindowController extends DefaultWindowController implements Navi
   }
 
   @Override
-  public void mapChangeRequest(String key)
+  public void mapChangeRequest(int key)
   {
     setupMap(key);
   }
 
-  private void setupMap(String key)
+  private void setupMap(int key)
   {
     MapsManager mapsManager=_mapPanel.getCanvas().getMapsManager();
     MapBundle map=mapsManager.getMapByKey(key);
@@ -108,16 +107,12 @@ public class MapWindowController extends DefaultWindowController implements Navi
     // Markers
     updateMarkers(key);
     // Links
-    if (map!=null)
-    {
-      List<MapLink> links=map.getLinks();
-      _navigation.setLinks(links);
-    }
+    List<MapLink> links=new MapLinksFactory().getLinks(key);
+    _navigation.setLinks(links);
   }
 
-  private void updateMarkers(String mapKey)
+  private void updateMarkers(int mapId)
   {
-    int mapId=NumericTools.parseInt(mapKey,0);
     List<Marker> markers=new MapMarkersFactory().getMarkers(mapId);
     _markersProvider.setMarkers(markers);
   }
@@ -133,7 +128,7 @@ public class MapWindowController extends DefaultWindowController implements Navi
   {
     JFrame frame=super.build();
     MapsManager mapsManager=_mapPanel.getCanvas().getMapsManager();
-    MapBundle mapBundle=mapsManager.getMapByKey("268437716"); // Bree
+    MapBundle mapBundle=mapsManager.getMapByKey(268437716); // Bree
     mapChangeRequest(mapBundle.getKey());
     frame.setTitle("Middle Earth maps");
     frame.setLocation(100,100);

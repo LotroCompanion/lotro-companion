@@ -35,14 +35,14 @@ public class GeoDeedMapWindowController extends DefaultDialogController
    * @param mapKey Key of map to show.
    * @param markers Markers to show.
    */
-  public GeoDeedMapWindowController(WindowController parent, String mapKey, List<Marker> markers)
+  public GeoDeedMapWindowController(WindowController parent, int mapKey, List<Marker> markers)
   {
     super(parent);
     _mapsManager=Maps.getMaps().getMapsManager();
     initMapPanel(mapKey,markers);
   }
 
-  private void initMapPanel(String mapKey, List<Marker> markers)
+  private void initMapPanel(int mapKey, List<Marker> markers)
   {
     // Build and configure map panel
     _panel=new MapPanelController(_mapsManager);
