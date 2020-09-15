@@ -52,6 +52,10 @@ public class RadarMapLayer implements RasterLayer
   @Override
   public void paintLayer(MapView view, Graphics g)
   {
+    if (_region==0)
+    {
+      return;
+    }
     GeoReference viewReference=view.getViewReference();
     GeoPoint startPoint=viewReference.getStart();
 

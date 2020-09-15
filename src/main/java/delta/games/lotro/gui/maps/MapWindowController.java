@@ -17,6 +17,9 @@ import javax.swing.border.TitledBorder;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.combobox.ComboBoxItem;
 import delta.common.ui.swing.windows.DefaultWindowController;
+import delta.games.lotro.dat.data.DataFacade;
+import delta.games.lotro.lore.maps.ParchmentMap;
+import delta.games.lotro.lore.maps.ParchmentMapsManager;
 import delta.games.lotro.maps.data.MapBundle;
 import delta.games.lotro.maps.data.MapsManager;
 import delta.games.lotro.maps.data.Marker;
@@ -31,6 +34,7 @@ import delta.games.lotro.maps.ui.filter.MapFilterPanelController;
 import delta.games.lotro.maps.ui.filter.MapMarkersFilter;
 import delta.games.lotro.maps.ui.layers.MarkersLayer;
 import delta.games.lotro.maps.ui.layers.SimpleMarkersProvider;
+import delta.games.lotro.maps.ui.layers.radar.RadarImageProvider;
 import delta.games.lotro.maps.ui.navigation.NavigationListener;
 import delta.games.lotro.maps.ui.navigation.NavigationSupport;
 
@@ -53,6 +57,8 @@ public class MapWindowController extends DefaultWindowController implements Navi
   private MapChooserController _mapChooser;
   // Navigation
   private NavigationSupport _navigation;
+  // Layers
+  private RadarMapLayer _radarLayer;
 
   /**
    * Constructor.
@@ -62,6 +68,12 @@ public class MapWindowController extends DefaultWindowController implements Navi
   {
     _mapPanel=new MapPanelController(mapsManager);
     MapCanvas canvas=_mapPanel.getCanvas();
+    // Radar layer
+    DataFacade facade=new DataFacade();
+    RadarImageProvider provider=new DatRadarImageProvider(facade);
+    _radarLayer=new RadarMapLayer(1,provider);
+    canvas.addLayer(_radarLayer);
+
     // Setup navigation
     _navigation=new NavigationSupport(canvas);
     _navigation.getNavigationListeners().addListener(this);
@@ -104,6 +116,15 @@ public class MapWindowController extends DefaultWindowController implements Navi
       _mapChooser.selectMap(key);
       pack();
     }
+    // Radar map
+    ParchmentMapsManager parchmentMapsMgr=ParchmentMapsManager.getInstance();
+    ParchmentMap parchmentMap=parchmentMapsMgr.getMapById(key);
+    int region=0;
+    if (parchmentMap!=null)
+    {
+      region=parchmentMap.getRegion();
+    }
+    _radarLayer.setRegion(region);
     // Markers
     updateMarkers(key);
     // Links
@@ -203,6 +224,7 @@ public class MapWindowController extends DefaultWindowController implements Navi
       _navigation.dispose();
       _navigation=null;
     }
+    _radarLayer=null;
     super.dispose();
   }
 }

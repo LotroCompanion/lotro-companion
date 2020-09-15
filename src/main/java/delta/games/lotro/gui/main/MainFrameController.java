@@ -37,7 +37,6 @@ import delta.games.lotro.gui.emotes.explorer.EmotesExplorerWindowController;
 import delta.games.lotro.gui.interceptor.InterceptorInterface;
 import delta.games.lotro.gui.lore.trade.barter.explorer.BarterersExplorerWindowController;
 import delta.games.lotro.gui.lore.trade.vendor.explorer.VendorsExplorerWindowController;
-import delta.games.lotro.gui.maps.MapUtils;
 import delta.games.lotro.gui.maps.MapWindowController;
 import delta.games.lotro.gui.misc.paypal.PaypalButtonController;
 import delta.games.lotro.gui.mounts.explorer.MountsExplorerWindowController;
@@ -50,6 +49,7 @@ import delta.games.lotro.gui.stats.reputation.synopsis.ReputationSynopsisWindowC
 import delta.games.lotro.gui.stats.warbands.WarbandsWindowController;
 import delta.games.lotro.gui.titles.explorer.TitlesExplorerWindowController;
 import delta.games.lotro.gui.toon.ToonsManagementController;
+import delta.games.lotro.utils.maps.Maps;
 
 /**
  * Controller for the main frame.
@@ -426,7 +426,7 @@ public class MainFrameController extends DefaultWindowController implements Acti
     WindowController controller=_windowsManager.getWindow(MapWindowController.IDENTIFIER);
     if (controller==null)
     {
-      controller=MapUtils.buildMapWindow();
+      controller=new MapWindowController(Maps.getMaps().getMapsManager());
       _windowsManager.registerWindow(controller);
       controller.getWindow().setLocationRelativeTo(getFrame());
     }
