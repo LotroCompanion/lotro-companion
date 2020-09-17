@@ -51,14 +51,14 @@ public class MapLinksFactory
     List<MapLink> links=new ArrayList<MapLink>();
     MapsManager mapsManager=Maps.getMaps().getMapsManager();
     LinksManager linksManager=mapsManager.getLinksManager();
-    List<MapLink> mapLinks=linksManager.getLinks(parchmentMapId,0);
-    links.addAll(mapLinks);
+    links.addAll(linksManager.getLinks(parchmentMapId,0));
+    links.addAll(linksManager.getLinks(parchmentMapId,2));
     List<Area> areas=parchmentMap.getAreas();
     for(Area area : areas)
     {
       int areaId=area.getIdentifier();
-      List<MapLink> areaLinks=linksManager.getLinks(areaId,0);
-      links.addAll(areaLinks);
+      links.addAll(linksManager.getLinks(areaId,0));
+      links.addAll(linksManager.getLinks(areaId,2));
     }
     return links;
   }
