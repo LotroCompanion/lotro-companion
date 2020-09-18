@@ -35,6 +35,7 @@ import delta.games.lotro.maps.ui.filter.MapMarkersFilter;
 import delta.games.lotro.maps.ui.layers.MarkersLayer;
 import delta.games.lotro.maps.ui.layers.SimpleMarkersProvider;
 import delta.games.lotro.maps.ui.layers.radar.RadarImageProvider;
+import delta.games.lotro.maps.ui.navigation.MapViewDefinition;
 import delta.games.lotro.maps.ui.navigation.NavigationListener;
 import delta.games.lotro.maps.ui.navigation.NavigationSupport;
 
@@ -101,21 +102,30 @@ public class MapWindowController extends DefaultWindowController implements Navi
   }
 
   @Override
-  public void mapChangeRequest(int key)
+  public void mapChangeRequest(MapViewDefinition mapViewDefinition)
   {
-    setupMap(key);
+    setupMap(mapViewDefinition);
   }
 
-  private void setupMap(int key)
+  private void setMap(int mapKey)
+  {
+    MapViewDefinition newMapView=new MapViewDefinition(mapKey,null,null);
+    setupMap(newMapView);
+  }
+
+  private void setupMap(MapViewDefinition mapViewDefinition)
   {
     MapsManager mapsManager=_mapPanel.getCanvas().getMapsManager();
+    int key=mapViewDefinition.getMapKey();
     MapBundle map=mapsManager.getMapByKey(key);
-    if (map!=null)
+    if (map==null)
     {
-      _mapPanel.setMap(key);
-      _mapChooser.selectMap(key);
-      pack();
+      return;
     }
+    // Setup map
+    _mapPanel.setMap(mapViewDefinition);
+    _mapChooser.selectMap(key);
+    pack();
     // Radar map
     ParchmentMapsManager parchmentMapsMgr=ParchmentMapsManager.getInstance();
     ParchmentMap parchmentMap=parchmentMapsMgr.getMapById(key);
@@ -150,7 +160,7 @@ public class MapWindowController extends DefaultWindowController implements Navi
     JFrame frame=super.build();
     MapsManager mapsManager=_mapPanel.getCanvas().getMapsManager();
     MapBundle mapBundle=mapsManager.getMapByKey(268437716); // Bree
-    mapChangeRequest(mapBundle.getKey());
+    setMap(mapBundle.getKey());
     frame.setTitle("Middle Earth maps");
     frame.setLocation(100,100);
     frame.pack();
