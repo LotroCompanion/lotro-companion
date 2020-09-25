@@ -135,6 +135,8 @@ public class MapWindowController extends DefaultWindowController implements Navi
       region=parchmentMap.getRegion();
     }
     _radarLayer.setRegion(region);
+    // - reset radar map cache on map change to avoid too much memory consumption
+    _radarLayer.resetCache();
     // Markers
     updateMarkers(key);
     // Links

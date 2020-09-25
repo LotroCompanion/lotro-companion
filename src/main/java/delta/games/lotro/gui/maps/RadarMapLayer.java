@@ -35,6 +35,14 @@ public class RadarMapLayer implements RasterLayer
   }
 
   /**
+   * Reset cache.
+   */
+  public void resetCache()
+  {
+    _cache.reset();
+  }
+
+  /**
    * Set the region to use.
    * @param region Region code.
    */
