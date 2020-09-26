@@ -19,8 +19,6 @@ public class MainTestMapWindowController
   {
     File rootDir=new File("../lotro-maps-db");
     MapsManager mapsManager=new MapsManager(rootDir);
-    mapsManager.load();
-
     MapWindowController mapWindow=new MapWindowController(mapsManager);
     mapWindow.show();
   }

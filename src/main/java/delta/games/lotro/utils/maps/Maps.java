@@ -18,7 +18,6 @@ public class Maps
   {
     File mapsDir=Config.getInstance().getMapsDir();
     _maps=new MapsManager(mapsDir);
-    _maps.load();
   }
 
   /**

@@ -20,9 +20,10 @@ import delta.common.ui.swing.windows.DefaultWindowController;
 import delta.games.lotro.dat.data.DataFacade;
 import delta.games.lotro.lore.maps.ParchmentMap;
 import delta.games.lotro.lore.maps.ParchmentMapsManager;
-import delta.games.lotro.maps.data.MapBundle;
 import delta.games.lotro.maps.data.MapsManager;
 import delta.games.lotro.maps.data.Marker;
+import delta.games.lotro.maps.data.basemaps.GeoreferencedBasemap;
+import delta.games.lotro.maps.data.basemaps.GeoreferencedBasemapsManager;
 import delta.games.lotro.maps.data.categories.CategoriesManager;
 import delta.games.lotro.maps.data.links.MapLink;
 import delta.games.lotro.maps.ui.DefaultMarkerIconsProvider;
@@ -89,7 +90,7 @@ public class MapWindowController extends DefaultWindowController implements Navi
     markersLayer.setFilter(filter);
     canvas.addLayer(markersLayer);
     // Map chooser
-    _mapChooser=new MapChooserController(_navigation,mapsManager);
+    _mapChooser=new MapChooserController(_navigation,mapsManager.getBasemapsManager());
   }
 
   /**
@@ -115,9 +116,9 @@ public class MapWindowController extends DefaultWindowController implements Navi
 
   private void setupMap(MapViewDefinition mapViewDefinition)
   {
-    MapsManager mapsManager=_mapPanel.getCanvas().getMapsManager();
+    GeoreferencedBasemapsManager mapsManager=_mapPanel.getCanvas().getBasemapsManager();
     int key=mapViewDefinition.getMapKey();
-    MapBundle map=mapsManager.getMapByKey(key);
+    GeoreferencedBasemap map=mapsManager.getMapById(key);
     if (map==null)
     {
       return;
@@ -160,9 +161,9 @@ public class MapWindowController extends DefaultWindowController implements Navi
   protected JFrame build()
   {
     JFrame frame=super.build();
-    MapsManager mapsManager=_mapPanel.getCanvas().getMapsManager();
-    MapBundle mapBundle=mapsManager.getMapByKey(268437716); // Bree
-    setMap(mapBundle.getKey());
+    GeoreferencedBasemapsManager mapsManager=_mapPanel.getCanvas().getBasemapsManager();
+    GeoreferencedBasemap map=mapsManager.getMapById(268437716); // Bree
+    setMap(map.getIdentifier());
     frame.setTitle("Middle Earth maps");
     frame.setLocation(100,100);
     frame.pack();
@@ -188,7 +189,7 @@ public class MapWindowController extends DefaultWindowController implements Navi
   {
     JPanel topPanel=GuiFactory.buildPanel(new GridBagLayout());
     // Map chooser
-    JComboBox<ComboBoxItem<MapBundle>> mapChooserCombo=_mapChooser.getCombo();
+    JComboBox<ComboBoxItem<GeoreferencedBasemap>> mapChooserCombo=_mapChooser.getCombo();
     JPanel chooserPanel=GuiFactory.buildPanel(new BorderLayout());
     chooserPanel.add(mapChooserCombo,BorderLayout.CENTER);
     TitledBorder mapChooserBorder=GuiFactory.buildTitledBorder("Map chooser");
