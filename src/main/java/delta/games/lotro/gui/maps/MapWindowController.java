@@ -1,6 +1,7 @@
 package delta.games.lotro.gui.maps;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -10,7 +11,6 @@ import java.util.List;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
-import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
@@ -26,10 +26,10 @@ import delta.games.lotro.maps.data.basemaps.GeoreferencedBasemap;
 import delta.games.lotro.maps.data.basemaps.GeoreferencedBasemapsManager;
 import delta.games.lotro.maps.data.categories.CategoriesManager;
 import delta.games.lotro.maps.data.links.MapLink;
+import delta.games.lotro.maps.ui.BasemapPanelController;
 import delta.games.lotro.maps.ui.DefaultMarkerIconsProvider;
 import delta.games.lotro.maps.ui.MapCanvas;
 import delta.games.lotro.maps.ui.MapChooserController;
-import delta.games.lotro.maps.ui.MapPanelController;
 import delta.games.lotro.maps.ui.MarkerIconProvider;
 import delta.games.lotro.maps.ui.filter.MapFilterPanelController;
 import delta.games.lotro.maps.ui.filter.MapMarkersFilter;
@@ -52,9 +52,10 @@ public class MapWindowController extends DefaultWindowController implements Navi
   public static final String IDENTIFIER="MAP";
 
   // Data
+  private MapsManager _mapsManager;
   private SimpleMarkersProvider _markersProvider;
   // UI controllers
-  private MapPanelController _mapPanel;
+  private BasemapPanelController _mapPanel;
   private MapFilterPanelController _filter;
   private MapChooserController _mapChooser;
   // Navigation
@@ -68,7 +69,8 @@ public class MapWindowController extends DefaultWindowController implements Navi
    */
   public MapWindowController(MapsManager mapsManager)
   {
-    _mapPanel=new MapPanelController(mapsManager);
+    _mapsManager=mapsManager;
+    _mapPanel=new BasemapPanelController(mapsManager.getBasemapsManager());
     MapCanvas canvas=_mapPanel.getCanvas();
     // Radar layer
     DataFacade facade=new DataFacade();
@@ -77,12 +79,12 @@ public class MapWindowController extends DefaultWindowController implements Navi
     canvas.addLayer(_radarLayer);
 
     // Setup navigation
-    _navigation=new NavigationSupport(canvas);
+    _navigation=new NavigationSupport(_mapPanel);
     _navigation.getNavigationListeners().addListener(this);
     // Markers filter
     MapMarkersFilter filter=new MapMarkersFilter();
     CategoriesManager categoriesManager=mapsManager.getCategories();
-    _filter=new MapFilterPanelController(categoriesManager,filter,_mapPanel);
+    _filter=new MapFilterPanelController(categoriesManager,filter,_mapPanel.getCanvas());
     // Markers layer
     MarkerIconProvider iconsProvider=new DefaultMarkerIconsProvider(categoriesManager);
     _markersProvider=new SimpleMarkersProvider();
@@ -90,16 +92,12 @@ public class MapWindowController extends DefaultWindowController implements Navi
     markersLayer.setFilter(filter);
     canvas.addLayer(markersLayer);
     // Map chooser
-    _mapChooser=new MapChooserController(_navigation,mapsManager.getBasemapsManager());
+    _mapChooser=new MapChooserController(_navigation,getBasemapsManager());
   }
 
-  /**
-   * Get the managed map canvas.
-   * @return the managed map canvas.
-   */
-  public MapCanvas getMapCanvas()
+  private GeoreferencedBasemapsManager getBasemapsManager()
   {
-    return _mapPanel.getCanvas();
+    return _mapsManager.getBasemapsManager();
   }
 
   @Override
@@ -116,20 +114,20 @@ public class MapWindowController extends DefaultWindowController implements Navi
 
   private void setupMap(MapViewDefinition mapViewDefinition)
   {
-    GeoreferencedBasemapsManager mapsManager=_mapPanel.getCanvas().getBasemapsManager();
-    int key=mapViewDefinition.getMapKey();
-    GeoreferencedBasemap map=mapsManager.getMapById(key);
+    GeoreferencedBasemapsManager basemapsManager=getBasemapsManager();
+    int mapId=mapViewDefinition.getMapKey();
+    GeoreferencedBasemap map=basemapsManager.getMapById(mapId);
     if (map==null)
     {
       return;
     }
     // Setup map
     _mapPanel.setMap(mapViewDefinition);
-    _mapChooser.selectMap(key);
+    _mapChooser.selectMap(mapId);
     pack();
     // Radar map
     ParchmentMapsManager parchmentMapsMgr=ParchmentMapsManager.getInstance();
-    ParchmentMap parchmentMap=parchmentMapsMgr.getMapById(key);
+    ParchmentMap parchmentMap=parchmentMapsMgr.getMapById(mapId);
     int region=0;
     if (parchmentMap!=null)
     {
@@ -139,16 +137,11 @@ public class MapWindowController extends DefaultWindowController implements Navi
     // - reset radar map cache on map change to avoid too much memory consumption
     _radarLayer.resetCache();
     // Markers
-    updateMarkers(key);
-    // Links
-    List<MapLink> links=new MapLinksFactory().getLinks(key);
-    _navigation.setLinks(links);
-  }
-
-  private void updateMarkers(int mapId)
-  {
     List<Marker> markers=new MapMarkersFactory().getMarkers(mapId);
     _markersProvider.setMarkers(markers);
+    // Links
+    List<MapLink> links=new MapLinksFactory().getLinks(mapId);
+    _navigation.setLinks(links);
   }
 
   @Override
@@ -161,8 +154,8 @@ public class MapWindowController extends DefaultWindowController implements Navi
   protected JFrame build()
   {
     JFrame frame=super.build();
-    GeoreferencedBasemapsManager mapsManager=_mapPanel.getCanvas().getBasemapsManager();
-    GeoreferencedBasemap map=mapsManager.getMapById(268437716); // Bree
+    GeoreferencedBasemapsManager basemapsManager=getBasemapsManager();
+    GeoreferencedBasemap map=basemapsManager.getMapById(268437716); // Bree
     setMap(map.getIdentifier());
     frame.setTitle("Middle Earth maps");
     frame.setLocation(100,100);
@@ -180,8 +173,8 @@ public class MapWindowController extends DefaultWindowController implements Navi
     JPanel topPanel=buildTopPanel();
     panel.add(topPanel,BorderLayout.NORTH);
     // Center
-    JLayeredPane layers=_mapPanel.getLayers();
-    panel.add(layers,BorderLayout.CENTER);
+    Component mapComponent=_mapPanel.getComponent();
+    panel.add(mapComponent,BorderLayout.CENTER);
     return panel;
   }
 
