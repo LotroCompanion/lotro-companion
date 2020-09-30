@@ -21,7 +21,7 @@ import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.gui.common.requirements.RequirementsUtils;
-import delta.games.lotro.lore.npc.NpcDescription;
+import delta.games.lotro.lore.agents.npcs.NpcDescription;
 import delta.games.lotro.lore.trade.barter.BarterEntry;
 import delta.games.lotro.lore.trade.barter.BarterNpc;
 

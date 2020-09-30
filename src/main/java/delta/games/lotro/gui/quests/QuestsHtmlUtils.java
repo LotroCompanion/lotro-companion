@@ -2,7 +2,7 @@ package delta.games.lotro.gui.quests;
 
 import java.util.List;
 
-import delta.games.lotro.lore.npc.NpcDescription;
+import delta.games.lotro.lore.agents.npcs.NpcDescription;
 import delta.games.lotro.lore.quests.dialogs.DialogElement;
 import delta.games.lotro.lore.quests.dialogs.QuestCompletionComment;
 import delta.games.lotro.utils.Proxy;
