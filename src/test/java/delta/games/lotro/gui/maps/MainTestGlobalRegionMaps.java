@@ -10,16 +10,12 @@ import javax.swing.WindowConstants;
 import delta.games.lotro.lore.maps.ParchmentMap;
 import delta.games.lotro.lore.maps.ParchmentMapsManager;
 import delta.games.lotro.maps.data.GeoBox;
-import delta.games.lotro.maps.data.GeoPoint;
 import delta.games.lotro.maps.data.GeoReference;
 import delta.games.lotro.maps.data.MapsManager;
 import delta.games.lotro.maps.data.basemaps.GeoreferencedBasemap;
 import delta.games.lotro.maps.data.basemaps.GeoreferencedBasemapsManager;
-import delta.games.lotro.maps.data.view.BoundedZoomFilter;
-import delta.games.lotro.maps.data.view.ZoomFilter;
 import delta.games.lotro.maps.ui.MapCanvas;
 import delta.games.lotro.maps.ui.MapPanelController;
-import delta.games.lotro.maps.ui.constraints.MapBoundsConstraint;
 import delta.games.lotro.maps.ui.layers.BasemapLayer;
 import delta.games.lotro.utils.maps.Maps;
 
@@ -56,62 +52,39 @@ public class MainTestGlobalRegionMaps
     ParchmentMapsManager parchmentMapsManager=ParchmentMapsManager.getInstance();
     for(ParchmentMap parchmentMap : parchmentMapsManager.getParchmentMaps())
     {
+      // Check region
       int mapRegion=parchmentMap.getRegion();
       if (mapRegion!=_region)
       {
         continue;
       }
+      // Skip basemaps with no geographic reference (region maps)
       GeoreferencedBasemap basemap=basemapsManager.getMapById(parchmentMap.getIdentifier());
       GeoReference geoRef=basemap.getGeoReference();
       if (geoRef.getGeo2PixelFactor()<2)
       {
         continue;
       }
+      // Bounding box management
       GeoBox mapBoundingBox=basemap.getBoundingBox();
       if (globalBBox==null)
       {
+        // Initialize bounding box
         globalBBox=new GeoBox(mapBoundingBox.getMin(),mapBoundingBox.getMax());
       }
       else
       {
+        // Extend current bounding box
         globalBBox.extend(mapBoundingBox);
       }
+      // Add a basemap layer
       BasemapLayer basemapLayer=new BasemapLayer();
       basemapLayer.setMap(basemap);
       canvas.addLayer(basemapLayer);
     }
-    GeoPoint start=new GeoPoint(globalBBox.getMin().getLongitude(),globalBBox.getMax().getLatitude());
-    float geo2Pixel=computeZoom(MAX_SIZE,globalBBox);
-    GeoReference viewRef=new GeoReference(start,geo2Pixel);
-    Dimension fitSize=getFitSize(geo2Pixel,globalBBox);
-    panel.setViewSize(fitSize);
-    canvas.setViewReference(viewRef);
-    // Constraints
-    MapBoundsConstraint constraints=new MapBoundsConstraint(canvas,globalBBox);
-    panel.getCanvas().setMapConstraint(constraints);
-    ZoomFilter zoomFilter=new BoundedZoomFilter(Float.valueOf(geo2Pixel),Float.valueOf(geo2Pixel*16));
-    panel.getCanvas().setZoomFilter(zoomFilter);
+    MapUiUtils.configureMapPanel(panel,globalBBox,MAX_SIZE);
 
     return panel;
-  }
-
-  private Dimension getFitSize(float geo2Pixel, GeoBox geoBounds)
-  {
-    float deltaLon=geoBounds.getMax().getLongitude()-geoBounds.getMin().getLongitude();
-    float deltaLat=geoBounds.getMax().getLatitude()-geoBounds.getMin().getLatitude();
-    int width=(int)(deltaLon*geo2Pixel);
-    int height=(int)(deltaLat*geo2Pixel);
-    return new Dimension(width,height);
-  }
-
-  private float computeZoom(Dimension pixelMaxSize, GeoBox geoBounds)
-  {
-    float deltaLon=geoBounds.getMax().getLongitude()-geoBounds.getMin().getLongitude();
-    float deltaLat=geoBounds.getMax().getLatitude()-geoBounds.getMin().getLatitude();
-
-    float xGeo2Pixel=pixelMaxSize.width/deltaLon;
-    float yGeo2Pixel=pixelMaxSize.height/deltaLat;
-    return Math.min(xGeo2Pixel,yGeo2Pixel);
   }
 
   /**
