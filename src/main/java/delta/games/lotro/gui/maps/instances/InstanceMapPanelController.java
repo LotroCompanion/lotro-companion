@@ -5,13 +5,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import delta.games.lotro.dat.data.DataFacade;
+import delta.games.lotro.dat.loaders.PositionDecoder;
 import delta.games.lotro.gui.maps.DatRadarImageProvider;
 import delta.games.lotro.gui.maps.MapUiUtils;
 import delta.games.lotro.gui.maps.RadarMapLayer;
+import delta.games.lotro.lore.geo.BlockReference;
 import delta.games.lotro.lore.instances.InstanceMapDescription;
 import delta.games.lotro.lore.instances.PrivateEncounter;
 import delta.games.lotro.lore.maps.ParchmentMap;
 import delta.games.lotro.lore.maps.ParchmentMapsManager;
+import delta.games.lotro.maps.data.GeoBox;
+import delta.games.lotro.maps.data.GeoPoint;
 import delta.games.lotro.maps.data.MapsManager;
 import delta.games.lotro.maps.data.Marker;
 import delta.games.lotro.maps.data.basemaps.GeoreferencedBasemap;
@@ -72,6 +76,7 @@ public class InstanceMapPanelController
     MapPanelController panel=new MapPanelController();
     MapCanvas canvas=panel.getCanvas();
     MapsManager mapsManager=Maps.getMaps().getMapsManager();
+    int region=0;
     // Basemap
     Integer mapId=_mapDescription.getMapId();
     if (mapId!=null)
@@ -83,23 +88,28 @@ public class InstanceMapPanelController
         BasemapLayer basemapLayer=new BasemapLayer();
         basemapLayer.setMap(basemap);
         canvas.addLayer(basemapLayer);
-        canvas.setViewReference(basemap.getGeoReference());
+        //canvas.setViewReference(basemap.getGeoReference());
         MapUiUtils.configureMapPanel(panel,basemap.getBoundingBox(),MAX_SIZE);
-
-        // Radar map?
-        RadarImageProvider provider=new DatRadarImageProvider(facade);
-        RadarMapLayer radarLayer=new RadarMapLayer(1,provider);
-        canvas.addLayer(radarLayer);
         ParchmentMapsManager parchmentMapsMgr=ParchmentMapsManager.getInstance();
         ParchmentMap parchmentMap=parchmentMapsMgr.getMapById(mapId.intValue());
-        int region=0;
         if (parchmentMap!=null)
         {
           region=parchmentMap.getRegion();
         }
-        radarLayer.setRegion(region);
       }
     }
+    else
+    {
+      GeoBox box=buildBoundingBox();
+      MapUiUtils.configureMapPanel(panel,box,MAX_SIZE);
+      region=_mapDescription.getBlocks().get(0).getRegion();
+    }
+
+    // Radar map?
+    RadarImageProvider provider=new DatRadarImageProvider(facade);
+    RadarMapLayer radarLayer=new RadarMapLayer(1,provider);
+    canvas.addLayer(radarLayer);
+    radarLayer.setRegion(region);
 
     // Markers
     CategoriesManager categoriesManager=mapsManager.getCategories();
@@ -110,6 +120,36 @@ public class InstanceMapPanelController
     MarkersLayer markersLayer=new MarkersLayer(iconsProvider,markersProvider);
     canvas.addLayer(markersLayer);
     return panel;
+  }
+
+  private GeoBox buildBoundingBox()
+  {
+    List<BlockReference> blocks=_mapDescription.getBlocks();
+    GeoBox box=null;
+    for(BlockReference block : blocks)
+    {
+      GeoBox blockBox=buildBoxForBlock(block);
+      if (box==null)
+      {
+        box=blockBox;
+      }
+      else
+      {
+        box.extend(blockBox);
+      }
+    }
+    return box;
+  }
+
+  private GeoBox buildBoxForBlock(BlockReference block)
+  {
+    int blockX=block.getBlockX();
+    int blockY=block.getBlockY();
+    float[] startLatLon=PositionDecoder.decodePosition(blockX,blockY,0,PositionDecoder.LANDBLOCK_SIZE);
+    GeoPoint landBlockStart=new GeoPoint(startLatLon[0],startLatLon[1]);
+    float[] endLatLon=PositionDecoder.decodePosition(blockX+1,blockY-1,0,PositionDecoder.LANDBLOCK_SIZE);
+    GeoPoint landBlockEnd=new GeoPoint(endLatLon[0],endLatLon[1]);
+    return new GeoBox(landBlockStart,landBlockEnd);
   }
 
   private List<Marker> findMarkers()

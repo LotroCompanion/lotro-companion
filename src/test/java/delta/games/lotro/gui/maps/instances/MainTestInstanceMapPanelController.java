@@ -31,6 +31,7 @@ public class MainTestInstanceMapPanelController
 
   private void doIt()
   {
+    /*
     doPeMap(1879389091); // Shadow-roost 
     doPeMap(1879389963); // Eithel Gwaur, the Filth-well
     doPeMap(1879389964); // Gorthad Nûr, the Deep-barrow
@@ -47,6 +48,31 @@ public class MainTestInstanceMapPanelController
     //doPeMap(1879264104); // Ost Dunhoth - Gortheron Wing
     //doPeMap(1879264105); // Ost Dunhoth - Wound and Fear Wing
     doPeMap(1879093354); // Instance: Mordirith's Fall
+    doPeMap(1879200727); // Instance: At the Stone of Erech
+    doPeMap(1879185070);
+    */
+
+    PrivateEncountersManager peMgr=PrivateEncountersManager.getInstance();
+    for(PrivateEncounter pe : peMgr.getPrivateEncounters())
+    {
+      if (doMap(pe))
+      {
+        doPeMap(pe.getIdentifier());
+      }
+    }
+  }
+
+  private boolean doMap(PrivateEncounter pe)
+  {
+    for(InstanceMapDescription map : pe.getMapDescriptions())
+    {
+      Integer mapId=map.getMapId();
+      if (mapId==null)
+      {
+        return true;
+      }
+    }
+    return false;
   }
 
   private void doPeMap(int peId)
@@ -59,18 +85,22 @@ public class MainTestInstanceMapPanelController
     for(InstanceMapDescription map : pe.getMapDescriptions())
     {
       Integer mapId=map.getMapId();
-      if (mapId==null)
-      {
-        continue;
-      }
       InstanceMapPanelController ctrl=new InstanceMapPanelController(_facade,pe,map);
       MapPanelController panelCtrl=ctrl.getMapPanelController();
       JPanel panel=GuiFactory.buildBackgroundPanel(new GridBagLayout());
       mapPanel=panelCtrl.getLayers();
       GridBagConstraints c=new GridBagConstraints(1,1,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
       panel.add(mapPanel,c);
-      GeoreferencedBasemap basemap=basemapsMgr.getMapById(mapId.intValue());
-      String title=basemap.getName();
+      String title=null;
+      if (mapId!=null)
+      {
+        GeoreferencedBasemap basemap=basemapsMgr.getMapById(mapId.intValue());
+        title=basemap.getName();
+      }
+      else
+      {
+        title="Landscape";
+      }
       tabbedPane.add(title,panel);
     }
     JFrame f=new JFrame();
