@@ -12,8 +12,8 @@ import delta.games.lotro.gui.maps.RadarMapLayer;
 import delta.games.lotro.lore.geo.BlockReference;
 import delta.games.lotro.lore.instances.InstanceMapDescription;
 import delta.games.lotro.lore.instances.PrivateEncounter;
-import delta.games.lotro.lore.maps.ParchmentMap;
-import delta.games.lotro.lore.maps.ParchmentMapsManager;
+import delta.games.lotro.lore.maps.Dungeon;
+import delta.games.lotro.lore.maps.DungeonsManager;
 import delta.games.lotro.maps.data.GeoBox;
 import delta.games.lotro.maps.data.GeoPoint;
 import delta.games.lotro.maps.data.MapsManager;
@@ -79,7 +79,16 @@ public class InstanceMapPanelController
     int region=0;
     // Basemap
     Integer mapId=_mapDescription.getMapId();
+    boolean useMap=false;
     if (mapId!=null)
+    {
+      Dungeon dungeon=DungeonsManager.getInstance().getDungeonById(mapId.intValue());
+      if (dungeon!=null)
+      {
+        useMap=true;
+      }
+    }
+    if (useMap)
     {
       GeoreferencedBasemapsManager basemapsManager=mapsManager.getBasemapsManager();
       GeoreferencedBasemap basemap=basemapsManager.getMapById(mapId.intValue());
@@ -90,12 +99,6 @@ public class InstanceMapPanelController
         canvas.addLayer(basemapLayer);
         //canvas.setViewReference(basemap.getGeoReference());
         MapUiUtils.configureMapPanel(panel,basemap.getBoundingBox(),MAX_SIZE);
-        ParchmentMapsManager parchmentMapsMgr=ParchmentMapsManager.getInstance();
-        ParchmentMap parchmentMap=parchmentMapsMgr.getMapById(mapId.intValue());
-        if (parchmentMap!=null)
-        {
-          region=parchmentMap.getRegion();
-        }
       }
     }
     else
