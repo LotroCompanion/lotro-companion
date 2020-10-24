@@ -32,11 +32,23 @@ public class MapUiUtils
     panel.setViewSize(fitSize);
     MapCanvas canvas=panel.getCanvas();
     canvas.setViewReference(viewRef);
+    configureConstraints(canvas,globalBBox,geo2Pixel);
+  }
+
+  /**
+   * Configure map constraints.
+   * @param canvas Map canvas.
+   * @param globalBBox Geographic bounding box.
+   * @param geo2Pixel Initial zoom level.
+   */
+  public static void configureConstraints(MapCanvas canvas, GeoBox globalBBox, float geo2Pixel)
+  {
     // Constraints
     MapBoundsConstraint constraints=new MapBoundsConstraint(canvas,globalBBox);
-    panel.getCanvas().setMapConstraint(constraints);
+    canvas.setMapConstraint(constraints);
+    // Filter
     ZoomFilter zoomFilter=new BoundedZoomFilter(Float.valueOf(geo2Pixel),Float.valueOf(geo2Pixel*16));
-    panel.getCanvas().setZoomFilter(zoomFilter);
+    canvas.setZoomFilter(zoomFilter);
   }
 
   private static Dimension getFitSize(float geo2Pixel, GeoBox geoBounds)

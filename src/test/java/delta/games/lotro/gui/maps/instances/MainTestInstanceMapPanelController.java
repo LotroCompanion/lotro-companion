@@ -5,7 +5,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
-import javax.swing.JFrame;
+import javax.swing.JDialog;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
@@ -62,7 +62,7 @@ public class MainTestInstanceMapPanelController
     }
   }
 
-  private boolean doMap(PrivateEncounter pe)
+  boolean doMap(PrivateEncounter pe)
   {
     for(InstanceMapDescription map : pe.getMapDescriptions())
     {
@@ -75,7 +75,11 @@ public class MainTestInstanceMapPanelController
     return false;
   }
 
-  private void doPeMap(int peId)
+  /**
+   * Build a window with the map(s) of a private encounter.
+   * @param peId private encounter identifier.
+   */
+  public void doPeMap(int peId)
   {
     PrivateEncountersManager peManager=PrivateEncountersManager.getInstance();
     PrivateEncounter pe=peManager.getPrivateEncounterById(peId);
@@ -103,12 +107,13 @@ public class MainTestInstanceMapPanelController
       }
       tabbedPane.add(title,panel);
     }
-    JFrame f=new JFrame();
+    JDialog f=new JDialog();
     f.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     f.getContentPane().add(tabbedPane,BorderLayout.CENTER);
     f.setTitle(pe.getName());
     f.pack();
     f.setResizable(false);
+    f.setModal(true);
     f.setVisible(true);
   }
 

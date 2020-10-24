@@ -80,6 +80,7 @@ public class InstanceMapPanelController
     // Basemap
     Integer mapId=_mapDescription.getMapId();
     boolean useMap=false;
+    GeoreferencedBasemap basemap=null;
     if (mapId!=null)
     {
       Dungeon dungeon=DungeonsManager.getInstance().getDungeonById(mapId.intValue());
@@ -87,19 +88,12 @@ public class InstanceMapPanelController
       {
         useMap=true;
       }
-    }
-    if (useMap)
-    {
       GeoreferencedBasemapsManager basemapsManager=mapsManager.getBasemapsManager();
-      GeoreferencedBasemap basemap=basemapsManager.getMapById(mapId.intValue());
-      if (basemap!=null)
-      {
-        BasemapLayer basemapLayer=new BasemapLayer();
-        basemapLayer.setMap(basemap);
-        canvas.addLayer(basemapLayer);
-        //canvas.setViewReference(basemap.getGeoReference());
-        MapUiUtils.configureMapPanel(panel,basemap.getBoundingBox(),MAX_SIZE);
-      }
+      basemap=basemapsManager.getMapById(mapId.intValue());
+    }
+    if ((useMap) && (basemap!=null))
+    {
+      MapUiUtils.configureMapPanel(panel,basemap.getBoundingBox(),MAX_SIZE);
     }
     else
     {
@@ -108,6 +102,13 @@ public class InstanceMapPanelController
       region=_mapDescription.getBlocks().get(0).getRegion();
     }
 
+    // Basemap?
+    if (basemap!=null)
+    {
+      BasemapLayer basemapLayer=new BasemapLayer();
+      basemapLayer.setMap(basemap);
+      canvas.addLayer(basemapLayer);
+    }
     // Radar map?
     RadarImageProvider provider=new DatRadarImageProvider(facade);
     RadarMapLayer radarLayer=new RadarMapLayer(1,provider);
@@ -148,9 +149,9 @@ public class InstanceMapPanelController
   {
     int blockX=block.getBlockX();
     int blockY=block.getBlockY();
-    float[] startLatLon=PositionDecoder.decodePosition(blockX,blockY,0,PositionDecoder.LANDBLOCK_SIZE);
+    float[] startLatLon=PositionDecoder.decodePosition(blockX,blockY,0,0);
     GeoPoint landBlockStart=new GeoPoint(startLatLon[0],startLatLon[1]);
-    float[] endLatLon=PositionDecoder.decodePosition(blockX+1,blockY-1,0,PositionDecoder.LANDBLOCK_SIZE);
+    float[] endLatLon=PositionDecoder.decodePosition(blockX+1,blockY+1,0,0);
     GeoPoint landBlockEnd=new GeoPoint(endLatLon[0],endLatLon[1]);
     return new GeoBox(landBlockStart,landBlockEnd);
   }
@@ -164,12 +165,19 @@ public class InstanceMapPanelController
     /*
     List<Marker> markers=markersFinder.findMarkersForContentLayer(contentLayer);
     ret.addAll(markers);
+    System.out.println("Nb markers in CL: "+markers.size());
+    for(Marker marker : markers)
+    {
+      System.out.println(marker+" => "+getBlock(marker));
+    }
     */
     List<Integer> zones=_mapDescription.getZoneIds();
     for(Integer zone : zones)
     {
       List<Marker> markers=markersFinder.findMarkers(zone.intValue(),contentLayer);
       ret.addAll(markers);
+      //List<Marker> markers0=markersFinder.findMarkers(zone.intValue(),0);
+      //ret.addAll(markers0);
     }
     return ret;
   }
