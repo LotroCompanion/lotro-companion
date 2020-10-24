@@ -1,5 +1,6 @@
 package delta.games.lotro.gui.maps;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
@@ -20,6 +21,7 @@ import delta.games.lotro.maps.ui.layers.radar.RadarImageProvider;
  */
 public class RadarMapLayer implements RasterLayer
 {
+  private static final boolean USE_GRID=false;
   private int _region;
   private RadarImageCache _cache;
 
@@ -72,7 +74,7 @@ public class RadarMapLayer implements RasterLayer
     final int startBlockX=startPos.getBlockX();
     final int startBlockY=startPos.getBlockY();
 
-    // Compute lon/lat position of the south/west point of this block
+    // Compute lon/lat position of the north/west point of this block
     float[] startLatLon=PositionDecoder.decodePosition(startBlockX,startBlockY,0,PositionDecoder.LANDBLOCK_SIZE);
     GeoPoint landBlockStart=new GeoPoint(startLatLon[0],startLatLon[1]);
     // Compute the pixel of this position
@@ -110,6 +112,13 @@ public class RadarMapLayer implements RasterLayer
         if (img!=null)
         {
           g.drawImage(img,startX,startY,(int)(startX+imgSize),(int)(startY+imgSize),0,0,img.getWidth(),img.getHeight(),null);
+          if (USE_GRID)
+          {
+            g.setColor(Color.YELLOW);
+            g.drawRect(startX,startY,(int)imgSize,(int)imgSize);
+            String text="R"+_region+",X="+currentBlockX+",Y="+currentBlockY;
+            g.drawString(text,startX+(int)(imgSize/4),startY+(int)(imgSize/2));
+          }
         }
         else
         {
