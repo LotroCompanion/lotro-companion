@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -21,6 +22,7 @@ import delta.games.lotro.gui.lore.instances.InstancesFilter;
 import delta.games.lotro.gui.lore.instances.InstancesFilterController;
 import delta.games.lotro.gui.lore.instances.InstancesTableController;
 import delta.games.lotro.gui.main.GlobalPreferences;
+import delta.games.lotro.gui.maps.instances.InstanceMapsWindowController;
 import delta.games.lotro.lore.instances.SkirmishPrivateEncounter;
 
 /**
@@ -118,16 +120,16 @@ public class InstancesExplorerWindowController extends DefaultWindowController
 
   private void showInstance(SkirmishPrivateEncounter instance)
   {
-    /*
-    String id=MountDisplayWindowController.getId(instance);
+    String id=InstanceMapsWindowController.getId(instance.getIdentifier());
     WindowController window=_formWindows.getWindow(id);
     if (window==null)
     {
-      window=new MountDisplayWindowController(this,instance);
+      window=new InstanceMapsWindowController(instance);
+      Window w=window.getWindow();
+      w.setLocationRelativeTo(getWindow());
       _formWindows.registerWindow(window);
     }
     window.show();
-    */
   }
 
   /**
