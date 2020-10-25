@@ -35,6 +35,7 @@ import delta.games.lotro.gui.account.AccountsManagementController;
 import delta.games.lotro.gui.deed.explorer.DeedsExplorerWindowController;
 import delta.games.lotro.gui.emotes.explorer.EmotesExplorerWindowController;
 import delta.games.lotro.gui.interceptor.InterceptorInterface;
+import delta.games.lotro.gui.lore.instances.explorer.InstancesExplorerWindowController;
 import delta.games.lotro.gui.lore.trade.barter.explorer.BarterersExplorerWindowController;
 import delta.games.lotro.gui.lore.trade.vendor.explorer.VendorsExplorerWindowController;
 import delta.games.lotro.gui.maps.MapWindowController;
@@ -68,6 +69,7 @@ public class MainFrameController extends DefaultWindowController implements Acti
   private static final String PETS_ID="pets";
   private static final String VENDORS_ID="vendors";
   private static final String BARTERERS_ID="barterers";
+  private static final String INSTANCES_ID="instances";
   private static final String REPUTATION_SYNOPSIS_ID="reputationSynopsis";
   private static final String CRAFTING_SYNOPSIS_ID="craftingSynopsis";
   private static final String MAP_ID="map";
@@ -193,6 +195,11 @@ public class MainFrameController extends DefaultWindowController implements Acti
     barterersExplorer.setActionCommand(BARTERERS_ID);
     barterersExplorer.addActionListener(this);
     compendiumMenu.add(barterersExplorer);
+    // - instances
+    JMenuItem instancesExplorer=GuiFactory.buildMenuItem("Instances");
+    instancesExplorer.setActionCommand(INSTANCES_ID);
+    instancesExplorer.addActionListener(this);
+    compendiumMenu.add(instancesExplorer);
 
     // Help
     JMenu helpMenu=GuiFactory.buildMenu("Help");
@@ -346,6 +353,10 @@ public class MainFrameController extends DefaultWindowController implements Acti
     String barterersIconPath=getToolbarIconPath("barterers");
     ToolbarIconItem barterersIconItem=new ToolbarIconItem(BARTERERS_ID,barterersIconPath,BARTERERS_ID,"Barterers...","Barterers");
     model.addToolbarIconItem(barterersIconItem);
+    // Instances icon
+    String instancessIconPath=getToolbarIconPath("instances");
+    ToolbarIconItem instancesIconItem=new ToolbarIconItem(INSTANCES_ID,instancessIconPath,INSTANCES_ID,"Instances...","Instances");
+    model.addToolbarIconItem(instancesIconItem);
     // Border
     controller.getToolBar().setBorder(GuiFactory.buildTitledBorder("Lore Compendium"));
     // Register action listener
@@ -532,6 +543,17 @@ public class MainFrameController extends DefaultWindowController implements Acti
     controller.bringToFront();
   }
 
+  private void doInstances()
+  {
+    WindowController controller=_windowsManager.getWindow(InstancesExplorerWindowController.IDENTIFIER);
+    if (controller==null)
+    {
+      controller=new InstancesExplorerWindowController(this);
+      _windowsManager.registerWindow(controller);
+    }
+    controller.bringToFront();
+  }
+
   private void doSynchronizer()
   {
     InterceptorInterface.doSynchronizer(_windowsManager,this);
@@ -596,6 +618,10 @@ public class MainFrameController extends DefaultWindowController implements Acti
     else if (BARTERERS_ID.equals(cmd))
     {
       doBarterers();
+    }
+    else if (INSTANCES_ID.equals(cmd))
+    {
+      doInstances();
     }
     else if (SYNCHRO_ID.equals(cmd))
     {
