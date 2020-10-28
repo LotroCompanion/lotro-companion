@@ -112,17 +112,17 @@ public class RadarMapLayer implements RasterLayer
         if (img!=null)
         {
           g.drawImage(img,startX,startY,(int)(startX+imgSize),(int)(startY+imgSize),0,0,img.getWidth(),img.getHeight(),null);
-          if (USE_GRID)
-          {
-            g.setColor(Color.YELLOW);
-            g.drawRect(startX,startY,(int)imgSize,(int)imgSize);
-            String text="R"+_region+",X="+currentBlockX+",Y="+currentBlockY;
-            g.drawString(text,startX+(int)(imgSize/4),startY+(int)(imgSize/2));
-          }
         }
         else
         {
-          // If image not found, do not draw anything. The parchment/dungeon map is drawn below
+          // If image not found, do not draw anything. The parchment map is drawn below
+        }
+        if (USE_GRID)
+        {
+          g.setColor(Color.RED);
+          g.drawRect(startX,startY,(int)imgSize,(int)imgSize);
+          String text="R"+_region+",X="+currentBlockX+",Y="+currentBlockY;
+          g.drawString(text,startX+(int)(imgSize/4),startY+(int)(imgSize/2));
         }
         currentBlockX++;
         startX+=imgSize;
