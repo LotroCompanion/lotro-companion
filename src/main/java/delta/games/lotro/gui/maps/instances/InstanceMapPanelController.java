@@ -176,8 +176,19 @@ public class InstanceMapPanelController
     {
       List<Marker> markers=markersFinder.findMarkers(zone.intValue(),contentLayer);
       ret.addAll(markers);
-      //List<Marker> markers0=markersFinder.findMarkers(zone.intValue(),0);
-      //ret.addAll(markers0);
+      for(Integer contentLayerId : _privateEncounter.getAdditionalContentLayers())
+      {
+        List<Marker> clMarkers=markersFinder.findMarkers(zone.intValue(),contentLayerId.intValue());
+        ret.addAll(clMarkers);
+      }
+      List<Marker> markers2=markersFinder.findMarkers(zone.intValue(),2);
+      ret.addAll(markers2);
+      /*
+      for(Marker marker2 : markers2)
+      {
+        System.out.println(marker2);
+      }
+      */
     }
     return ret;
   }
