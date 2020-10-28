@@ -19,7 +19,9 @@ import delta.common.ui.swing.combobox.ItemSelectionListener;
 import delta.common.ui.swing.text.DynamicTextEditionController;
 import delta.common.ui.swing.text.TextListener;
 import delta.common.utils.collections.filters.Filter;
+import delta.games.lotro.gui.common.crafting.CraftingUiUtils;
 import delta.games.lotro.gui.items.FilterUpdateListener;
+import delta.games.lotro.lore.crafting.Profession;
 import delta.games.lotro.lore.crafting.recipes.Recipe;
 import delta.games.lotro.lore.crafting.recipes.filters.RecipeNameFilter;
 import delta.games.lotro.lore.crafting.recipes.filters.RecipeProfessionFilter;
@@ -38,7 +40,7 @@ public class RecipeFilterController implements ActionListener
   private JButton _reset;
   // -- Recipe attributes UI --
   private JTextField _contains;
-  private ComboBoxController<String> _profession;
+  private ComboBoxController<Profession> _profession;
   private ComboBoxController<Integer> _tier;
   //private ComboBoxController<String> _category;
   // Controllers
@@ -112,7 +114,7 @@ public class RecipeFilterController implements ActionListener
     }
     // Profession
     RecipeProfessionFilter professionFilter=_filter.getProfessionFilter();
-    String profession=professionFilter.getProfession();
+    Profession profession=professionFilter.getProfession();
     _profession.selectItem(profession);
     // Tier
     RecipeTierFilter tierFilter=_filter.getTierFilter();
@@ -185,11 +187,11 @@ public class RecipeFilterController implements ActionListener
     {
       JLabel label=GuiFactory.buildLabel("Profession:");
       line2Panel.add(label);
-      _profession=RecipeUiUtils.buildProfessionCombo();
-      ItemSelectionListener<String> professionListener=new ItemSelectionListener<String>()
+      _profession=CraftingUiUtils.buildProfessionCombo();
+      ItemSelectionListener<Profession> professionListener=new ItemSelectionListener<Profession>()
       {
         @Override
-        public void itemSelected(String profession)
+        public void itemSelected(Profession profession)
         {
           RecipeProfessionFilter professionFilter=_filter.getProfessionFilter();
           professionFilter.setProfession(profession);
@@ -203,7 +205,7 @@ public class RecipeFilterController implements ActionListener
     {
       JLabel label=GuiFactory.buildLabel("Tier:");
       line2Panel.add(label);
-      _tier=RecipeUiUtils.buildTierCombo();
+      _tier=CraftingUiUtils.buildTierCombo();
       ItemSelectionListener<Integer> typeListener=new ItemSelectionListener<Integer>()
       {
         @Override

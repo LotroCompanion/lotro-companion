@@ -13,6 +13,7 @@ import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.games.lotro.common.Identifiable;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.lore.agents.npcs.NpcDescription;
+import delta.games.lotro.lore.crafting.Profession;
 import delta.games.lotro.lore.crafting.recipes.Recipe;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemsContainer;
@@ -134,7 +135,7 @@ public class ItemReferencesDisplayController
   private void buildHtmlForCrafting(StringBuilder sb, List<ItemReference<?>> references)
   {
     List<ItemReference<Recipe>> recipeReferences=getReferences(references,Recipe.class);
-    String currentProfession=null;
+    Profession currentProfession=null;
     int currentTier=0;
     if (recipeReferences.size()>0)
     {
@@ -142,7 +143,7 @@ public class ItemReferencesDisplayController
       for(ItemReference<Recipe> recipeReference : recipeReferences)
       {
         Recipe recipe=recipeReference.getSource();
-        String profession=recipe.getProfession();
+        Profession profession=recipe.getProfession();
         int tier=recipe.getTier();
         if (!profession.equals(currentProfession))
         {

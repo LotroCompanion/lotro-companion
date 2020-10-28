@@ -22,9 +22,7 @@ import delta.games.lotro.gui.items.ItemUiTools;
 import delta.games.lotro.gui.recipes.RecipeIcons;
 import delta.games.lotro.gui.utils.ItemDisplayGadgets;
 import delta.games.lotro.gui.utils.ItemIconController;
-import delta.games.lotro.lore.crafting.CraftingData;
 import delta.games.lotro.lore.crafting.CraftingLevel;
-import delta.games.lotro.lore.crafting.CraftingSystem;
 import delta.games.lotro.lore.crafting.Profession;
 import delta.games.lotro.lore.crafting.recipes.CraftingResult;
 import delta.games.lotro.lore.crafting.recipes.Ingredient;
@@ -234,8 +232,7 @@ public class RecipeDisplayPanelController implements NavigablePanelController
   private boolean isAutobestowed(Recipe recipe)
   {
     boolean ret=false;
-    CraftingData craftingData=CraftingSystem.getInstance().getData();
-    Profession profession=craftingData.getProfessionsRegistry().getProfessionByName(recipe.getProfession());
+    Profession profession=recipe.getProfession();
     int tier=recipe.getTier();
     CraftingLevel level=profession.getByTier(tier);
     if (level!=null)

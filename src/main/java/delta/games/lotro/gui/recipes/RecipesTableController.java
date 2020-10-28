@@ -20,6 +20,7 @@ import delta.games.lotro.common.Duration;
 import delta.games.lotro.gui.items.ItemsSummaryPanelController;
 import delta.games.lotro.gui.items.chooser.ItemChooser;
 import delta.games.lotro.gui.utils.UiConfiguration;
+import delta.games.lotro.lore.crafting.Profession;
 import delta.games.lotro.lore.crafting.recipes.Recipe;
 import delta.games.lotro.lore.crafting.recipes.RecipesManager;
 
@@ -105,15 +106,15 @@ public class RecipesTableController
     }
     // Profession column
     {
-      CellDataProvider<Recipe,String> professionCell=new CellDataProvider<Recipe,String>()
+      CellDataProvider<Recipe,Profession> professionCell=new CellDataProvider<Recipe,Profession>()
       {
         @Override
-        public String getData(Recipe recipe)
+        public Profession getData(Recipe recipe)
         {
           return recipe.getProfession();
         }
       };
-      DefaultTableColumnController<Recipe,String> professionColumn=new DefaultTableColumnController<Recipe,String>(RecipeColumnIds.PROFESSION.name(),"Profession",String.class,professionCell);
+      DefaultTableColumnController<Recipe,Profession> professionColumn=new DefaultTableColumnController<Recipe,Profession>(RecipeColumnIds.PROFESSION.name(),"Profession",Profession.class,professionCell);
       professionColumn.setWidthSpecs(100,100,100);
       ret.add(professionColumn);
     }
