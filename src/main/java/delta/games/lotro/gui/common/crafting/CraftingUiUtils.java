@@ -25,18 +25,22 @@ public class CraftingUiUtils
     CraftingData crafting=CraftingSystem.getInstance().getData();
     Professions professionsRegistry=crafting.getProfessionsRegistry();
     List<Profession> professions=professionsRegistry.getAll();
-    return buildProfessionCombo(professions);
+    return buildProfessionCombo(professions,true);
   }
 
   /**
    * Build a combo-box controller to choose a profession.
    * @param professions Professions to show.
+   * @param includeEmptyItem Include empty item.
    * @return A new combo-box controller.
    */
-  public static ComboBoxController<Profession> buildProfessionCombo(List<Profession> professions)
+  public static ComboBoxController<Profession> buildProfessionCombo(List<Profession> professions, boolean includeEmptyItem)
   {
     ComboBoxController<Profession> ctrl=new ComboBoxController<Profession>();
-    ctrl.addEmptyItem("");
+    if (includeEmptyItem)
+    {
+      ctrl.addEmptyItem("");
+    }
 
     Collections.sort(professions,new ProfessionComparator());
     for(Profession profession : professions)
@@ -58,18 +62,22 @@ public class CraftingUiUtils
     Professions professionsRegistry=crafting.getProfessionsRegistry();
     Profession profession=professionsRegistry.getAll().get(0);
     List<CraftingLevel> levels=profession.getLevels();
-    return buildTierCombo(levels);
+    return buildTierCombo(levels,true);
   }
 
   /**
    * Build a combo-box controller to choose a crafting tier.
    * @param levels Tiers to show.
+   * @param includeEmptyItem Include empty item.
    * @return A new combo-box controller.
    */
-  public static ComboBoxController<Integer> buildTierCombo(List<CraftingLevel> levels)
+  public static ComboBoxController<Integer> buildTierCombo(List<CraftingLevel> levels, boolean includeEmptyItem)
   {
     ComboBoxController<Integer> ctrl=new ComboBoxController<Integer>();
-    ctrl.addEmptyItem("");
+    if (includeEmptyItem)
+    {
+      ctrl.addEmptyItem("");
+    }
 
     for(CraftingLevel level : levels)
     {

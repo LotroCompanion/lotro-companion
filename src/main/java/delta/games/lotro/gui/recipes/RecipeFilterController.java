@@ -201,7 +201,7 @@ public class RecipeFilterController implements ActionListener
       _profession.addListener(professionListener);
       line2Panel.add(_profession.getComboBox());
     }
-    // Type
+    // Tier
     {
       JLabel label=GuiFactory.buildLabel("Tier:");
       line2Panel.add(label);
