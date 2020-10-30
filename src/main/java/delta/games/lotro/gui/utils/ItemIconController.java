@@ -71,6 +71,10 @@ public class ItemIconController
     Icon icon=ItemUiTools.buildItemIcon(item,count);
     _icon.setIcon(icon);
     _icon.setSize(icon.getIconWidth(),icon.getIconHeight());
+    if (item!=null)
+    {
+      _icon.setToolTipText(item.getName());
+    }
     _item=item;
   }
 
