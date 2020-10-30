@@ -16,7 +16,7 @@ public class MainTestResourcesMapsExplorerPanelController
   private void doIt()
   {
     DataFacade facade=new DataFacade();
-    ResourcesMapsExplorerPanelController panelCtrl=new ResourcesMapsExplorerPanelController(facade);
+    ResourcesMapsExplorerPanelController panelCtrl=new ResourcesMapsExplorerPanelController(null,facade);
     JFrame f=new JFrame();
     f.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     f.getContentPane().add(panelCtrl.getPanel(),BorderLayout.CENTER);

@@ -38,24 +38,26 @@ public class ResourceNodesLootManager
   public List<Item> getLoots(CraftingLevel level)
   {
     List<Item> ret=new ArrayList<Item>();
-    System.out.println("Using: "+level);
+    //System.out.println("Using: "+level);
     ResourcesMapsManager mgr=ResourcesMapsManager.getInstance();
     ResourcesMapDescriptor descriptor=mgr.getMapForLevel(level);
     if (descriptor!=null)
     {
       Set<Integer> itemIds=new HashSet<Integer>();
       List<Proxy<Item>> items=descriptor.getItems();
-      System.out.println("\tNb nodes: "+items.size());
+      //System.out.println("\tNb nodes: "+items.size());
       for(Proxy<Item> resourceNodeProxy : items)
       {
         Item resourceNode=resourceNodeProxy.getObject();
         handleResourceNode(resourceNode,itemIds);
       }
       List<Item> sortedItems=sortItems(itemIds);
+      /*
       for(Item item : sortedItems)
       {
         System.out.println("\t"+item.getName()+" - "+item.getSubCategory());
       }
+      */
       ret.addAll(sortedItems);
     }
     return ret;
@@ -63,7 +65,7 @@ public class ResourceNodesLootManager
 
   private void handleResourceNode(Item resourceNode, Set<Integer> itemIds)
   {
-    System.out.println("Resource node: "+resourceNode);
+    //System.out.println("Resource node: "+resourceNode);
     ContainersManager containersMgr=ContainersManager.getInstance();
     Container container=containersMgr.getContainerById(resourceNode.getIdentifier());
     if (container instanceof ItemsContainer)

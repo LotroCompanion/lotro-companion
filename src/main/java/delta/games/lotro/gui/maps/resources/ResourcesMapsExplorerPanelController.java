@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.NumericTools;
 import delta.games.lotro.dat.data.DataFacade;
 import delta.games.lotro.lore.crafting.CraftingLevel;
@@ -40,15 +41,16 @@ public class ResourcesMapsExplorerPanelController implements ActionListener
 
   /**
    * Constructor.
+   * @param parent Parent window controller.
    * @param facade Data facade.
    */
-  public ResourcesMapsExplorerPanelController(DataFacade facade)
+  public ResourcesMapsExplorerPanelController(WindowController parent, DataFacade facade)
   {
     _facade=facade;
     _mapPanel=GuiFactory.buildPanel(new BorderLayout());
     _mapSelection=new MapSelectionPanelController(this);
     _craftingLevelSelection=new CraftingLevelSelectionPanelController(_mapSelection);
-    _items=new ItemsController(null); // TODO Add parent
+    _items=new ItemsController(parent);
     _panel=buildPanel();
   }
 

@@ -29,6 +29,7 @@ import delta.common.ui.swing.windows.WindowController;
 import delta.common.ui.swing.windows.WindowsManager;
 import delta.common.utils.misc.Preferences;
 import delta.games.lotro.Config;
+import delta.games.lotro.dat.data.DataFacade;
 import delta.games.lotro.gui.about.AboutDialogController;
 import delta.games.lotro.gui.about.CreditsDialogController;
 import delta.games.lotro.gui.account.AccountsManagementController;
@@ -39,6 +40,7 @@ import delta.games.lotro.gui.lore.instances.explorer.InstancesExplorerWindowCont
 import delta.games.lotro.gui.lore.trade.barter.explorer.BarterersExplorerWindowController;
 import delta.games.lotro.gui.lore.trade.vendor.explorer.VendorsExplorerWindowController;
 import delta.games.lotro.gui.maps.MapWindowController;
+import delta.games.lotro.gui.maps.resources.ResourcesMapsExplorerWindowController;
 import delta.games.lotro.gui.misc.paypal.PaypalButtonController;
 import delta.games.lotro.gui.mounts.explorer.MountsExplorerWindowController;
 import delta.games.lotro.gui.pets.explorer.PetsExplorerWindowController;
@@ -70,6 +72,7 @@ public class MainFrameController extends DefaultWindowController implements Acti
   private static final String VENDORS_ID="vendors";
   private static final String BARTERERS_ID="barterers";
   private static final String INSTANCES_ID="instances";
+  private static final String RESOURCES_MAPS_ID="resourcesMaps";
   private static final String REPUTATION_SYNOPSIS_ID="reputationSynopsis";
   private static final String CRAFTING_SYNOPSIS_ID="craftingSynopsis";
   private static final String MAP_ID="map";
@@ -77,6 +80,7 @@ public class MainFrameController extends DefaultWindowController implements Acti
 
   private ToolbarController _toolbarTracking;
   private ToolbarController _toolbarLore;
+  private ToolbarController _toolbarMaps;
   private ToolbarController _toolbarMisc;
   private PaypalButtonController _paypalButton;
   private ToonsManagementController _toonsManager;
@@ -145,11 +149,6 @@ public class MainFrameController extends DefaultWindowController implements Acti
 
     // Compendium
     JMenu compendiumMenu=GuiFactory.buildMenu("Compendium");
-    // - map
-    JMenuItem map=GuiFactory.buildMenuItem("Middle-earth Map");
-    map.setActionCommand(MAP_ID);
-    map.addActionListener(this);
-    compendiumMenu.add(map);
     // - deeds
     JMenuItem deedsExplorer=GuiFactory.buildMenuItem("Deeds");
     deedsExplorer.setActionCommand(DEEDS_ID);
@@ -195,11 +194,24 @@ public class MainFrameController extends DefaultWindowController implements Acti
     barterersExplorer.setActionCommand(BARTERERS_ID);
     barterersExplorer.addActionListener(this);
     compendiumMenu.add(barterersExplorer);
+
+    // Maps
+    JMenu mapsMenu=GuiFactory.buildMenu("Maps");
+    // - map
+    JMenuItem map=GuiFactory.buildMenuItem("Middle-earth Map");
+    map.setActionCommand(MAP_ID);
+    map.addActionListener(this);
+    mapsMenu.add(map);
     // - instances
     JMenuItem instancesExplorer=GuiFactory.buildMenuItem("Instances");
     instancesExplorer.setActionCommand(INSTANCES_ID);
     instancesExplorer.addActionListener(this);
-    compendiumMenu.add(instancesExplorer);
+    mapsMenu.add(instancesExplorer);
+    // - resources maps
+    JMenuItem resourcesMapsExplorer=GuiFactory.buildMenuItem("Resources Maps");
+    resourcesMapsExplorer.setActionCommand(RESOURCES_MAPS_ID);
+    resourcesMapsExplorer.addActionListener(this);
+    mapsMenu.add(resourcesMapsExplorer);
 
     // Help
     JMenu helpMenu=GuiFactory.buildMenu("Help");
@@ -232,6 +244,7 @@ public class MainFrameController extends DefaultWindowController implements Acti
     menuBar.add(fileMenu);
     menuBar.add(statsMenu);
     menuBar.add(compendiumMenu);
+    menuBar.add(mapsMenu);
     menuBar.add(Box.createHorizontalGlue());
     menuBar.add(helpMenu);
     return menuBar;
@@ -259,6 +272,7 @@ public class MainFrameController extends DefaultWindowController implements Acti
   {
     _toolbarTracking=buildToolBarTracking();
     _toolbarLore=buildToolbarLore();
+    _toolbarMaps=buildToolBarMaps();
     _toolbarMisc=buildToolBarMisc();
     _paypalButton=new PaypalButtonController();
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
@@ -266,6 +280,8 @@ public class MainFrameController extends DefaultWindowController implements Acti
     panel.add(_toolbarTracking.getToolBar(),c);
     c.gridx++;
     panel.add(_toolbarLore.getToolBar(),c);
+    c.gridx++;
+    panel.add(_toolbarMaps.getToolBar(),c);
     c.gridx++;
     if (_toolbarMisc!=null)
     {
@@ -313,10 +329,6 @@ public class MainFrameController extends DefaultWindowController implements Acti
   {
     ToolbarController controller=new ToolbarController();
     ToolbarModel model=controller.getModel();
-    // Map icon
-    String mapIconPath=getToolbarIconPath("globe");
-    ToolbarIconItem mapIconItem=new ToolbarIconItem(MAP_ID,mapIconPath,MAP_ID,"Map...","Map");
-    model.addToolbarIconItem(mapIconItem);
     // Deeds icon
     String deedsIconPath=getToolbarIconPath("deeds");
     ToolbarIconItem deedsIconItem=new ToolbarIconItem(DEEDS_ID,deedsIconPath,DEEDS_ID,"Deeds...","Deeds");
@@ -353,12 +365,31 @@ public class MainFrameController extends DefaultWindowController implements Acti
     String barterersIconPath=getToolbarIconPath("barterers");
     ToolbarIconItem barterersIconItem=new ToolbarIconItem(BARTERERS_ID,barterersIconPath,BARTERERS_ID,"Barterers...","Barterers");
     model.addToolbarIconItem(barterersIconItem);
+    // Border
+    controller.getToolBar().setBorder(GuiFactory.buildTitledBorder("Lore Compendium"));
+    // Register action listener
+    controller.addActionListener(this);
+    return controller;
+  }
+
+  private ToolbarController buildToolBarMaps()
+  {
+    ToolbarController controller=new ToolbarController();
+    ToolbarModel model=controller.getModel();
+    // Map icon
+    String mapIconPath=getToolbarIconPath("globe");
+    ToolbarIconItem mapIconItem=new ToolbarIconItem(MAP_ID,mapIconPath,MAP_ID,"Maps...","Maps");
+    model.addToolbarIconItem(mapIconItem);
     // Instances icon
     String instancessIconPath=getToolbarIconPath("instances");
     ToolbarIconItem instancesIconItem=new ToolbarIconItem(INSTANCES_ID,instancessIconPath,INSTANCES_ID,"Instances...","Instances");
     model.addToolbarIconItem(instancesIconItem);
+    // Resources maps icon
+    String resourcesMapsIconPath=getToolbarIconPath("resourcesMap");
+    ToolbarIconItem resourcesMapsIconItem=new ToolbarIconItem(RESOURCES_MAPS_ID,resourcesMapsIconPath,RESOURCES_MAPS_ID,"Resources maps...","Resources Maps");
+    model.addToolbarIconItem(resourcesMapsIconItem);
     // Border
-    controller.getToolBar().setBorder(GuiFactory.buildTitledBorder("Lore Compendium"));
+    controller.getToolBar().setBorder(GuiFactory.buildTitledBorder("Maps"));
     // Register action listener
     controller.addActionListener(this);
     return controller;
@@ -554,6 +585,18 @@ public class MainFrameController extends DefaultWindowController implements Acti
     controller.bringToFront();
   }
 
+  private void doResourcesMaps()
+  {
+    WindowController controller=_windowsManager.getWindow(ResourcesMapsExplorerWindowController.IDENTIFIER);
+    if (controller==null)
+    {
+      DataFacade facade=new DataFacade();
+      controller=new ResourcesMapsExplorerWindowController(this,facade); 
+      _windowsManager.registerWindow(controller);
+    }
+    controller.bringToFront();
+  }
+
   private void doSynchronizer()
   {
     InterceptorInterface.doSynchronizer(_windowsManager,this);
@@ -622,6 +665,10 @@ public class MainFrameController extends DefaultWindowController implements Acti
     else if (INSTANCES_ID.equals(cmd))
     {
       doInstances();
+    }
+    else if (RESOURCES_MAPS_ID.equals(cmd))
+    {
+      doResourcesMaps();
     }
     else if (SYNCHRO_ID.equals(cmd))
     {
@@ -706,6 +753,11 @@ public class MainFrameController extends DefaultWindowController implements Acti
     {
       _toolbarLore.dispose();
       _toolbarLore=null;
+    }
+    if (_toolbarMaps!=null)
+    {
+      _toolbarMaps.dispose();
+      _toolbarMaps=null;
     }
     if (_toolbarMisc!=null)
     {
