@@ -19,9 +19,7 @@ import delta.games.lotro.maps.data.MapsManager;
 import delta.games.lotro.maps.data.Marker;
 import delta.games.lotro.maps.data.basemaps.GeoreferencedBasemap;
 import delta.games.lotro.maps.data.basemaps.GeoreferencedBasemapsManager;
-import delta.games.lotro.maps.data.categories.CategoriesManager;
 import delta.games.lotro.maps.data.markers.MarkersFinder;
-import delta.games.lotro.maps.ui.DefaultMarkerIconsProvider;
 import delta.games.lotro.maps.ui.MapCanvas;
 import delta.games.lotro.maps.ui.MapPanelController;
 import delta.games.lotro.maps.ui.MarkerIconProvider;
@@ -101,8 +99,7 @@ public class ResourcesMapPanelController
     radarLayer.setRegion(region);
 
     // Markers
-    CategoriesManager categoriesManager=mapsManager.getCategories();
-    MarkerIconProvider iconsProvider=new DefaultMarkerIconsProvider(categoriesManager);
+    MarkerIconProvider iconsProvider=new ResourceIconProvider();
     SimpleMarkersProvider markersProvider=new SimpleMarkersProvider();
     List<Marker> markers=findMarkers();
     markersProvider.setMarkers(markers);
