@@ -30,42 +30,87 @@ public class ResourceNodesLootManager
 {
   private static final Logger LOGGER=Logger.getLogger(ResourceNodesLootManager.class);
 
+  private CraftingLevel _level;
+  private List<Item> _sourceItems;
+  private Map<Integer,List<Item>> _lootItems;
+
   /**
-   * Get the items associated to the resource nodes of a given crafting level.
-   * @param level Crafting level to use.
+   * Constructor.
+   * @param level Crafting level.
+   */
+  public ResourceNodesLootManager(CraftingLevel level)
+  {
+    _level=level;
+    _sourceItems=new ArrayList<Item>();
+    _lootItems=new HashMap<Integer,List<Item>>();
+    init();
+  }
+
+  private void init()
+  {
+    ResourcesMapsManager mgr=ResourcesMapsManager.getInstance();
+    ResourcesMapDescriptor descriptor=mgr.getMapForLevel(_level);
+    if (descriptor==null)
+    {
+      return;
+    }
+    List<Proxy<Item>> items=descriptor.getItems();
+    for(Proxy<Item> resourceNodeProxy : items)
+    {
+      Item resourceNode=resourceNodeProxy.getObject();
+      _sourceItems.add(resourceNode);
+      List<Item> lootItems=handleResourceNode(resourceNode);
+      Integer key=Integer.valueOf(resourceNode.getIdentifier());
+      _lootItems.put(key,lootItems);
+    }
+  }
+
+  /**
+   * Get the items associated to the resource nodes of the managed crafting level.
    * @return a list of items.
    */
-  public List<Item> getLoots(CraftingLevel level)
+  public List<Item> getGlobalLoots()
   {
     List<Item> ret=new ArrayList<Item>();
-    //System.out.println("Using: "+level);
-    ResourcesMapsManager mgr=ResourcesMapsManager.getInstance();
-    ResourcesMapDescriptor descriptor=mgr.getMapForLevel(level);
-    if (descriptor!=null)
+    Set<Item> items=new HashSet<Item>();
+    for(List<Item> lootItems : _lootItems.values())
     {
-      Set<Integer> itemIds=new HashSet<Integer>();
-      List<Proxy<Item>> items=descriptor.getItems();
-      //System.out.println("\tNb nodes: "+items.size());
-      for(Proxy<Item> resourceNodeProxy : items)
-      {
-        Item resourceNode=resourceNodeProxy.getObject();
-        handleResourceNode(resourceNode,itemIds);
-      }
-      List<Item> sortedItems=sortItems(itemIds);
-      /*
-      for(Item item : sortedItems)
-      {
-        System.out.println("\t"+item.getName()+" - "+item.getSubCategory());
-      }
-      */
-      ret.addAll(sortedItems);
+      items.addAll(lootItems);
     }
+    List<Item> sortedItems=sortItems(new ArrayList<Item>(items));
+    ret.addAll(sortedItems);
     return ret;
   }
 
-  private void handleResourceNode(Item resourceNode, Set<Integer> itemIds)
+  /**
+   * Get the 'source' items (the ones found as markers).
+   * @return a list of items.
+   */
+  
+  public List<Item> getSourceItems()
   {
-    //System.out.println("Resource node: "+resourceNode);
+    return _sourceItems;
+  }
+
+  /**
+   * Get the loot items for a given item.
+   * @param itemId Source item identifier.
+   * @return A list of loot items.
+   */
+  public List<Item> getLoots(int itemId)
+  {
+    List<Item> lootItems=_lootItems.get(Integer.valueOf(itemId));
+    if (lootItems!=null)
+    {
+      return sortItems(lootItems);
+    }
+    return new ArrayList<Item>();
+  }
+
+  private List<Item> handleResourceNode(Item resourceNode)
+  {
+    List<Item> ret=new ArrayList<Item>();
+    Set<Integer> itemIds=new HashSet<Integer>();
     ContainersManager containersMgr=ContainersManager.getInstance();
     Container container=containersMgr.getContainerById(resourceNode.getIdentifier());
     if (container instanceof ItemsContainer)
@@ -73,23 +118,23 @@ public class ResourceNodesLootManager
       ItemsContainer itemsContainer=(ItemsContainer)container;
       itemIds.addAll(itemsContainer.getItemIds());
     }
-    else
-    {
-      itemIds.add(Integer.valueOf(resourceNode.getIdentifier()));
-    }
-  }
-
-  private List<Item> sortItems(Set<Integer> itemIds)
-  {
-    List<Item> ret=new ArrayList<Item>();
-    Map<String,List<Item>> sortedItemsMap=new HashMap<String,List<Item>>();
     for(Integer itemId : itemIds)
     {
       Item item=ItemsManager.getInstance().getItem(itemId.intValue());
-      if (item==null)
+      if (item!=null)
       {
-        continue;
+        ret.add(item);
       }
+    }
+    return ret;
+  }
+
+  private List<Item> sortItems(List<Item> items)
+  {
+    List<Item> ret=new ArrayList<Item>();
+    Map<String,List<Item>> sortedItemsMap=new HashMap<String,List<Item>>();
+    for(Item item : items)
+    {
       String category=item.getSubCategory();
       List<Item> itemsForCategory=sortedItemsMap.get(category);
       if (itemsForCategory==null)
@@ -102,11 +147,11 @@ public class ResourceNodesLootManager
     String[] categories={"Craft: Resource", "Craft: Component", "Craft: Ingredient", "Craft: Optional Ingredient"};
     for(String category : categories)
     {
-      List<Item> items=sortedItemsMap.get(category);
-      if (items!=null)
+      List<Item> itemsForCategory=sortedItemsMap.get(category);
+      if (itemsForCategory!=null)
       {
-        Collections.sort(items,new IdentifiableComparator<Item>());
-        ret.addAll(items);
+        Collections.sort(itemsForCategory,new IdentifiableComparator<Item>());
+        ret.addAll(itemsForCategory);
         sortedItemsMap.remove(category);
       }
     }

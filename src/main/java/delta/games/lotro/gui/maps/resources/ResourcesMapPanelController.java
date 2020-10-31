@@ -104,6 +104,7 @@ public class ResourcesMapPanelController
     List<Marker> markers=findMarkers();
     markersProvider.setMarkers(markers);
     MarkersLayer markersLayer=new MarkersLayer(iconsProvider,markersProvider);
+    // TODO Add filter
     canvas.addLayer(markersLayer);
     return panel;
   }

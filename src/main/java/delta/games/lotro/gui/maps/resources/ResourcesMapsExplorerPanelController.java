@@ -83,8 +83,8 @@ public class ResourcesMapsExplorerPanelController implements ActionListener
       _mapPanelCtrl=null;
     }
     // Set items
-    ResourceNodesLootManager mgr=new ResourceNodesLootManager();
-    List<Item> items=mgr.getLoots(craftingLevel);
+    ResourceNodesLootManager mgr=new ResourceNodesLootManager(craftingLevel);
+    List<Item> items=mgr.getGlobalLoots();
     _items.setItems(items);
     // Build new map panel
     _mapPanelCtrl=new ResourcesMapPanelController(_facade,map,mapId);
