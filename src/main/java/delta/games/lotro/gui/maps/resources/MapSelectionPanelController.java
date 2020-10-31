@@ -1,18 +1,15 @@
 package delta.games.lotro.gui.maps.resources;
 
-import java.awt.Component;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-import javax.swing.Box;
-import javax.swing.JButton;
-import javax.swing.JPanel;
-
-import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.combobox.ComboBoxController;
+import delta.common.ui.swing.combobox.ComboBoxItem;
+import delta.common.ui.swing.combobox.ComboBoxItemComparator;
+import delta.common.ui.swing.combobox.ItemSelectionListener;
 import delta.games.lotro.lore.crafting.CraftingLevel;
 import delta.games.lotro.lore.maps.resources.ResourcesMapDescriptor;
 import delta.games.lotro.lore.maps.resources.ResourcesMapsManager;
@@ -27,10 +24,10 @@ import delta.games.lotro.utils.maps.Maps;
  */
 public class MapSelectionPanelController
 {
+  // Controllers
+  private ComboBoxController<Integer> _maps;
   // UI
-  private List<JButton> _mapButtons;
   private ActionListener _actionListener;
-  private JPanel _panel;
 
   /**
    * Constructor.
@@ -39,26 +36,25 @@ public class MapSelectionPanelController
   public MapSelectionPanelController(ActionListener actionListener)
   {
     _actionListener=actionListener;
-    _mapButtons=new ArrayList<JButton>();
-    _panel=GuiFactory.buildPanel(new GridBagLayout());
-  }
-
-  /**
-   * Get the managed panel.
-   * @return the managed panel.
-   */
-  public JPanel getPanel()
-  {
-    return _panel;
+    _maps=new ComboBoxController<Integer>();
+    ItemSelectionListener<Integer> listener=new ItemSelectionListener<Integer>()
+    {
+      @Override
+      public void itemSelected(Integer mapId)
+      {
+        selectMap(mapId.intValue());
+      }
+    };
+    _maps.addListener(listener);
   }
 
   /**
    * Init map buttons.
    * @param level Crafting level to use.
    */
-  public void initMapButtons(CraftingLevel level)
+  public void initMaps(CraftingLevel level)
   {
-    disposeButtons();
+    List<ComboBoxItem<Integer>> items=new ArrayList<ComboBoxItem<Integer>>();
     ResourcesMapsManager mapsMgr=ResourcesMapsManager.getInstance();
     ResourcesMapDescriptor descriptor=mapsMgr.getMapForLevel(level);
     List<Integer> mapIds=descriptor.getMapIds();
@@ -66,54 +62,31 @@ public class MapSelectionPanelController
     {
       GeoreferencedBasemap basemap=getBasemap(mapId.intValue());
       String mapName=basemap.getName();
-      /*
-      if (mapName.length()>25)
-      {
-        mapName=mapName.substring(0,25)+"...";
-      }
-      */
-      JButton button=GuiFactory.buildButton(mapName);
-      button.setActionCommand(mapId.toString());
-      button.addActionListener(_actionListener);
-      _mapButtons.add(button);
+      ComboBoxItem<Integer> item=new ComboBoxItem<Integer>(mapId,mapName);
+      items.add(item);
     }
-    fillPanel();
-    _panel.revalidate();
-    _panel.repaint();
-    if (_mapButtons.size()>0)
+    Collections.sort(items,new ComboBoxItemComparator<Integer>());
+    _maps.updateItems(items);
+    Integer selectedMap=_maps.getSelectedItem();
+    if (selectedMap!=null)
     {
-      _mapButtons.get(0).doClick();
+      selectMap(selectedMap.intValue());
     }
   }
 
-  private void fillPanel()
+  private void selectMap(int mapId)
   {
-    _panel.removeAll();
-    int y=0;
-    for(JButton button : _mapButtons)
-    {
-      GridBagConstraints c=new GridBagConstraints(0,y,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
-      _panel.add(button,c);
-      y++;
-    }
-    Component glue=Box.createGlue();
-    GridBagConstraints c=new GridBagConstraints(0,y,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
-    _panel.add(glue,c);
+    ActionEvent e=new ActionEvent(this,ActionEvent.ACTION_FIRST,String.valueOf(mapId));
+    _actionListener.actionPerformed(e);
   }
 
   /**
-   * Update UI to reflect the selected map.
-   * @param source Button of the selected map.
+   * Get the managed combo-box controller.
+   * @return a combo-box controller.
    */
-  public void selectMap(JButton source)
+  public ComboBoxController<Integer> getComboBox()
   {
-    for(JButton button : _mapButtons)
-    {
-      button.setSelected(false);
-      button.setEnabled(true);
-    }
-    source.setSelected(true);
-    source.setEnabled(false);
+    return _maps;
   }
 
   private GeoreferencedBasemap getBasemap(int mapId)
@@ -124,26 +97,16 @@ public class MapSelectionPanelController
     return basemap;
   }
 
-  private void disposeButtons()
-  {
-    _panel.removeAll();
-    for(JButton button : _mapButtons)
-    {
-      button.removeActionListener(_actionListener);
-    }
-    _mapButtons.clear();
-  }
-
   /**
    * Release all managed resources.
    */
   public void dispose()
   {
-    if (_panel!=null)
+    if (_maps!=null)
     {
-      disposeButtons();
-      _panel=null;
-      _actionListener=null;
+      _maps.dispose();
+      _maps=null;
     }
+    _actionListener=null;
   }
 }

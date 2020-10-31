@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.combobox.ComboBoxController;
+import delta.common.ui.swing.combobox.ComboBoxItem;
 import delta.common.ui.swing.combobox.ItemSelectionListener;
 import delta.games.lotro.gui.common.crafting.CraftingUiUtils;
 import delta.games.lotro.lore.crafting.CraftingLevel;
@@ -90,6 +91,7 @@ public class CraftingLevelSelectionPanelController
         public void itemSelected(Profession profession)
         {
           //System.out.println("Selected profession: "+profession);
+          updateTiersCombo(profession);
           select(profession,_tier.getSelectedItem());
         }
       };
@@ -153,6 +155,20 @@ public class CraftingLevelSelectionPanelController
     return ret;
   }
 
+  private void updateTiersCombo(Profession profession)
+  {
+    List<ComboBoxItem<Integer>> newItems=new ArrayList<ComboBoxItem<Integer>>();
+    List<CraftingLevel> levels=getSupportedLevels(profession);
+    for(CraftingLevel level : levels)
+    {
+      int tier=level.getTier();
+      String name=level.getName();
+      ComboBoxItem<Integer> item=new ComboBoxItem<Integer>(Integer.valueOf(tier),name);
+      newItems.add(item);
+    }
+    _tier.updateItems(newItems);
+  }
+
   private void select(Profession profession, Integer tier)
   {
     if ((profession==null) || (tier==null))
@@ -163,7 +179,7 @@ public class CraftingLevelSelectionPanelController
     {
       CraftingLevel level=profession.getByTier(tier.intValue());
       _currentLevel=level;
-      _mapSelectionCtrl.initMapButtons(_currentLevel);
+      _mapSelectionCtrl.initMaps(_currentLevel);
     }
   }
 

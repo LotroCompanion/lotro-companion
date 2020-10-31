@@ -29,7 +29,7 @@ public class ItemsController
   {
     _parent=parent;
     _icons=new ArrayList<ItemIconController>();
-    _panel=GuiFactory.buildPanel(new FlowLayout());
+    _panel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT,0,0));
   }
 
   /**

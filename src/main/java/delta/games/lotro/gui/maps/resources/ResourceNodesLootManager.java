@@ -73,6 +73,10 @@ public class ResourceNodesLootManager
       ItemsContainer itemsContainer=(ItemsContainer)container;
       itemIds.addAll(itemsContainer.getItemIds());
     }
+    else
+    {
+      itemIds.add(Integer.valueOf(resourceNode.getIdentifier()));
+    }
   }
 
   private List<Item> sortItems(Set<Integer> itemIds)

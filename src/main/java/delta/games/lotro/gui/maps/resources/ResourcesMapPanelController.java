@@ -36,7 +36,7 @@ import delta.games.lotro.utils.maps.Maps;
  */
 public class ResourcesMapPanelController
 {
-  private static final Dimension MAX_SIZE=new Dimension(896,672);
+  private static final Dimension MAX_SIZE=new Dimension(1024,768);
 
   private ResourcesMapDescriptor _mapDescriptor;
   private int _mapId;

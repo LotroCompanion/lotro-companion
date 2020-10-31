@@ -28,7 +28,7 @@ public class ResourcesMapsExplorerWindowController extends DefaultWindowControll
   public ResourcesMapsExplorerWindowController(WindowController parent, DataFacade facade)
   {
     super(parent);
-    _panelController=new ResourcesMapsExplorerPanelController(parent,facade);
+    _panelController=new ResourcesMapsExplorerPanelController(this,facade);
   }
 
   @Override

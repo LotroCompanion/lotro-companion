@@ -9,7 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
-import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
@@ -57,15 +57,7 @@ public class ResourcesMapsExplorerPanelController implements ActionListener
   @Override
   public void actionPerformed(ActionEvent e)
   {
-    JButton source=(JButton)e.getSource();
-    _mapSelection.selectMap(source);
-
-    String actionCommand=source.getActionCommand();
-    int mapId=NumericTools.parseInt(actionCommand,0);
-    if (mapId==0)
-    {
-      return;
-    }
+    int mapId=NumericTools.parseInt(e.getActionCommand(),0);
     //System.out.println("Select map: "+mapId);
     CraftingLevel craftingLevel=_craftingLevelSelection.getCraftingLevel();
     ResourcesMapDescriptor descriptor=ResourcesMapsManager.getInstance().getMapForLevel(craftingLevel);
@@ -109,22 +101,24 @@ public class ResourcesMapsExplorerPanelController implements ActionListener
   {
     JPanel panel=GuiFactory.buildBackgroundPanel(new GridBagLayout());
     // Crafting level selection
-    GridBagConstraints c=new GridBagConstraints(1,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
     JPanel craftingLevelSelectionPanel=_craftingLevelSelection.getPanel();
     craftingLevelSelectionPanel.setBorder(GuiFactory.buildTitledBorder("Choose crafting level:"));
     panel.add(craftingLevelSelectionPanel,c);
+    // Map selection
+    c=new GridBagConstraints(1,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
+    JPanel mapSelectionPanel=GuiFactory.buildPanel(new BorderLayout());
+    JComponent mapSelection=_mapSelection.getComboBox().getComboBox();
+    mapSelectionPanel.add(mapSelection,BorderLayout.CENTER);
+    mapSelectionPanel.setBorder(GuiFactory.buildTitledBorder("Choose map:"));
+    panel.add(mapSelectionPanel,c);
     // Items
-    c=new GridBagConstraints(2,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
+    c=new GridBagConstraints(2,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
     JPanel itemsPanel=_items.getPanel();
     itemsPanel.setBorder(GuiFactory.buildTitledBorder("Items:"));
     panel.add(itemsPanel,c);
-    // Map selection
-    c=new GridBagConstraints(0,0,1,2,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.VERTICAL,new Insets(5,5,5,5),0,0);
-    JPanel mapSelectionPanel=_mapSelection.getPanel();
-    mapSelectionPanel.setBorder(GuiFactory.buildTitledBorder("Choose map:"));
-    panel.add(mapSelectionPanel,c);
     // Map
-    c=new GridBagConstraints(1,1,2,1,1.0,1.0,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
+    c=new GridBagConstraints(0,1,3,1,1.0,1.0,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
     _mapPanel.setBorder(GuiFactory.buildTitledBorder("Map"));
     panel.add(_mapPanel,c);
     return panel;
