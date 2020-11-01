@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
+import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -17,6 +18,7 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.NumericTools;
 import delta.games.lotro.dat.data.DataFacade;
+import delta.games.lotro.gui.maps.resources.filter.ResourceNodeFilterWindowController;
 import delta.games.lotro.lore.crafting.CraftingLevel;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.maps.resources.ResourcesMapDescriptor;
@@ -33,6 +35,8 @@ public class ResourcesMapsExplorerPanelController implements ActionListener
   private ItemsController _items;
   private MapSelectionPanelController _mapSelection;
   private ResourcesMapPanelController _mapPanelCtrl;
+  private JButton _filterButton;
+  private ResourceNodeFilterWindowController _filterWindow;
   // UI
   private JPanel _mapPanel;
   private JPanel _panel;
@@ -51,7 +55,32 @@ public class ResourcesMapsExplorerPanelController implements ActionListener
     _mapSelection=new MapSelectionPanelController(this);
     _craftingLevelSelection=new CraftingLevelSelectionPanelController(_mapSelection);
     _items=new ItemsController(parent);
+    initFilter(parent);
     _panel=buildPanel();
+  }
+
+  private void initFilter(WindowController parent)
+  {
+    _filterButton=GuiFactory.buildButton("Filter...");
+    ActionListener al=new ActionListener()
+    {
+      @Override
+      public void actionPerformed(ActionEvent e)
+      {
+        if (_filterWindow.getWindow().isVisible())
+        {
+          _filterWindow.hide();
+        }
+        else
+        {
+          _filterWindow.pack();
+          _filterWindow.getWindow().setLocationRelativeTo(_filterButton);
+          _filterWindow.show(false);
+        }
+      }
+    };
+    _filterButton.addActionListener(al);
+    _filterWindow=new ResourceNodeFilterWindowController(parent);
   }
 
   @Override
@@ -86,8 +115,11 @@ public class ResourcesMapsExplorerPanelController implements ActionListener
     ResourceNodesLootManager mgr=new ResourceNodesLootManager(craftingLevel);
     List<Item> items=mgr.getGlobalLoots();
     _items.setItems(items);
+    // Update filter
+    _filterWindow.setData(mgr);
     // Build new map panel
     _mapPanelCtrl=new ResourcesMapPanelController(_facade,map,mapId);
+    _mapPanelCtrl.setFilter(_filterWindow.getFilter());
     _mapPanel.add(_mapPanelCtrl.getMapPanelController().getLayers(),BorderLayout.CENTER);
     // Pack
     Window window=(Window)SwingUtilities.getRoot(_panel);
@@ -113,12 +145,15 @@ public class ResourcesMapsExplorerPanelController implements ActionListener
     mapSelectionPanel.setBorder(GuiFactory.buildTitledBorder("Choose map:"));
     panel.add(mapSelectionPanel,c);
     // Items
-    c=new GridBagConstraints(2,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
+    c=new GridBagConstraints(2,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
     JPanel itemsPanel=_items.getPanel();
     itemsPanel.setBorder(GuiFactory.buildTitledBorder("Items:"));
     panel.add(itemsPanel,c);
+    // Filter...
+    c=new GridBagConstraints(3,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
+    panel.add(_filterButton,c);
     // Map
-    c=new GridBagConstraints(0,1,3,1,1.0,1.0,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
+    c=new GridBagConstraints(0,1,4,1,1.0,1.0,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
     _mapPanel.setBorder(GuiFactory.buildTitledBorder("Map"));
     panel.add(_mapPanel,c);
     return panel;
@@ -139,6 +174,12 @@ public class ResourcesMapsExplorerPanelController implements ActionListener
     {
       _items.dispose();
       _items=null;
+    }
+    _filterButton=null;
+    if (_filterWindow!=null)
+    {
+      _filterWindow.dispose();
+      _filterWindow=null;
     }
     if (_mapSelection!=null)
     {

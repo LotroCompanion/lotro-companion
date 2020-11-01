@@ -73,9 +73,17 @@ public class ResourceNodesLootManager
   {
     List<Item> ret=new ArrayList<Item>();
     Set<Item> items=new HashSet<Item>();
-    for(List<Item> lootItems : _lootItems.values())
+    for(Item sourceItem : _sourceItems)
     {
-      items.addAll(lootItems);
+      List<Item> lootItems=getLoots(sourceItem.getIdentifier());
+      if (lootItems.size()>0)
+      {
+        items.addAll(lootItems);
+      }
+      else
+      {
+        items.add(sourceItem);
+      }
     }
     List<Item> sortedItems=sortItems(new ArrayList<Item>(items));
     ret.addAll(sortedItems);

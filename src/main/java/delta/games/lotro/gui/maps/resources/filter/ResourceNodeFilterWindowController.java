@@ -1,0 +1,88 @@
+package delta.games.lotro.gui.maps.resources.filter;
+
+import javax.swing.JComponent;
+import javax.swing.JDialog;
+import javax.swing.JPanel;
+
+import delta.common.ui.swing.windows.DefaultDialogController;
+import delta.common.ui.swing.windows.WindowController;
+import delta.games.lotro.gui.maps.resources.ResourceNodesLootManager;
+
+/**
+ * Controller for a window to control the resource nodes filter.
+ * @author DAM
+ */
+public class ResourceNodeFilterWindowController extends DefaultDialogController
+{
+  private ResourceNodeFilterPanelController _filterPanel;
+
+  /**
+   * Constructor.
+   * @param parent
+   */
+  public ResourceNodeFilterWindowController(WindowController parent)
+  {
+    super(parent);
+    _filterPanel=new ResourceNodeFilterPanelController(parent);
+  }
+
+  /**
+   * Get the resource nodes filter.
+   * @return a filter.
+   */
+  public ResourceNodesFilter getFilter()
+  {
+    return _filterPanel.getFilter();
+  }
+
+  @Override
+  protected JComponent buildContents()
+  {
+    JPanel panel=_filterPanel.getPanel();
+    return panel;
+  }
+
+  /**
+   * Override this method to configure the window
+   * just after it has been built!
+   */
+  public void configureWindow()
+  {
+    JDialog dialog=getDialog();
+    dialog.setTitle("Resource nodes filter");
+    dialog.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
+    dialog.setResizable(false);
+  }
+
+  /**
+   * Perform window closing.
+   */
+  protected void doWindowClosing()
+  {
+    // Nothing!
+  }
+
+  /**
+   * Set the data to display.
+   * @param lootMgr Data to show.
+   */
+  public void setData(ResourceNodesLootManager lootMgr)
+  {
+    _filterPanel.setData(lootMgr);
+    pack();
+  }
+
+  /**
+   * Release all managed resources.
+   */
+  @Override
+  public void dispose()
+  {
+    super.dispose();
+    if (_filterPanel!=null)
+    {
+      _filterPanel.dispose();
+      _filterPanel=null;
+    }
+  }
+}

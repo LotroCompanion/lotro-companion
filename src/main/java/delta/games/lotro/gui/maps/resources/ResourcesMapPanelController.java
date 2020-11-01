@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.List;
 
+import delta.common.utils.collections.filters.Filter;
 import delta.games.lotro.dat.data.DataFacade;
 import delta.games.lotro.gui.maps.DatRadarImageProvider;
 import delta.games.lotro.gui.maps.MapUiUtils;
@@ -41,6 +42,7 @@ public class ResourcesMapPanelController
   private ResourcesMapDescriptor _mapDescriptor;
   private int _mapId;
   private MapPanelController _mapPanel;
+  private MarkersLayer _markersLayer;
 
   /**
    * Constructor.
@@ -103,10 +105,18 @@ public class ResourcesMapPanelController
     SimpleMarkersProvider markersProvider=new SimpleMarkersProvider();
     List<Marker> markers=findMarkers();
     markersProvider.setMarkers(markers);
-    MarkersLayer markersLayer=new MarkersLayer(iconsProvider,markersProvider);
-    // TODO Add filter
-    canvas.addLayer(markersLayer);
+    _markersLayer=new MarkersLayer(iconsProvider,markersProvider);
+    canvas.addLayer(_markersLayer);
     return panel;
+  }
+
+  /**
+   * Set the markers filter.
+   * @param filter Filter to set. 
+   */
+  public void setFilter(Filter<Marker> filter)
+  {
+    _markersLayer.setFilter(filter);
   }
 
   private List<Marker> findMarkers()
@@ -157,5 +167,6 @@ public class ResourcesMapPanelController
       _mapPanel.dispose();
       _mapPanel=null;
     }
+    _markersLayer=null;
   }
 }
