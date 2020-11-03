@@ -2,7 +2,9 @@ package delta.games.lotro.gui.maps.resources;
 
 import java.awt.Dimension;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import delta.common.utils.collections.filters.Filter;
 import delta.games.lotro.dat.data.DataFacade;
@@ -43,6 +45,7 @@ public class ResourcesMapPanelController
   private int _mapId;
   private MapPanelController _mapPanel;
   private MarkersLayer _markersLayer;
+  private SimpleMarkersProvider _markersProvider;
 
   /**
    * Constructor.
@@ -102,10 +105,10 @@ public class ResourcesMapPanelController
 
     // Markers
     MarkerIconProvider iconsProvider=new ResourceIconProvider();
-    SimpleMarkersProvider markersProvider=new SimpleMarkersProvider();
+    _markersProvider=new SimpleMarkersProvider();
     List<Marker> markers=findMarkers();
-    markersProvider.setMarkers(markers);
-    _markersLayer=new MarkersLayer(iconsProvider,markersProvider);
+    _markersProvider.setMarkers(markers);
+    _markersLayer=new MarkersLayer(iconsProvider,_markersProvider);
     canvas.addLayer(_markersLayer);
     return panel;
   }
@@ -117,6 +120,21 @@ public class ResourcesMapPanelController
   public void setFilter(Filter<Marker> filter)
   {
     _markersLayer.setFilter(filter);
+  }
+
+  /**
+   * Get the item identifiers for the markers in the map.
+   * @return a list of item identifiers.
+   */
+  public List<Integer> getItems()
+  {
+    Set<Integer> itemIds=new HashSet<Integer>();
+    List<Marker> markers=_markersProvider.getMarkers();
+    for(Marker marker : markers)
+    {
+      itemIds.add(Integer.valueOf(marker.getDid()));
+    }
+    return new ArrayList<Integer>(itemIds);
   }
 
   private List<Marker> findMarkers()
@@ -168,5 +186,6 @@ public class ResourcesMapPanelController
       _mapPanel=null;
     }
     _markersLayer=null;
+    _markersProvider=null;
   }
 }

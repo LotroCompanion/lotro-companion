@@ -1,5 +1,7 @@
 package delta.games.lotro.gui.maps.resources.filter;
 
+import java.util.List;
+
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
@@ -7,6 +9,7 @@ import javax.swing.JPanel;
 import delta.common.ui.swing.windows.DefaultDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.gui.maps.resources.ResourceNodesLootManager;
+import delta.games.lotro.lore.items.Item;
 
 /**
  * Controller for a window to control the resource nodes filter.
@@ -64,11 +67,12 @@ public class ResourceNodeFilterWindowController extends DefaultDialogController
 
   /**
    * Set the data to display.
-   * @param lootMgr Data to show.
+   * @param lootMgr Loot manager.
+   * @param items Data to show.
    */
-  public void setData(ResourceNodesLootManager lootMgr)
+  public void setItems(ResourceNodesLootManager lootMgr, List<Item> items)
   {
-    _filterPanel.setData(lootMgr);
+    _filterPanel.setItems(lootMgr,items);
     pack();
   }
 

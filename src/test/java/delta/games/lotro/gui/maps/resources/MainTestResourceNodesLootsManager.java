@@ -38,7 +38,7 @@ public class MainTestResourceNodesLootsManager
       }
       // Global loot
       System.out.println("\t\tGlobal loot:");
-      List<Item> lootItems=mgr.getGlobalLoots();
+      List<Item> lootItems=mgr.getGlobalLoots(sourceItems);
       for(Item lootItem : lootItems)
       {
         System.out.println("\t\t\t"+lootItem.getName()+" - "+lootItem.getSubCategory());

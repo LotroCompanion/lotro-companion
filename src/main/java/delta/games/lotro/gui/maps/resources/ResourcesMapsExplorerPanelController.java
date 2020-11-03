@@ -111,16 +111,19 @@ public class ResourcesMapsExplorerPanelController implements ActionListener
       _mapPanelCtrl.dispose();
       _mapPanelCtrl=null;
     }
-    // Set items
-    ResourceNodesLootManager mgr=new ResourceNodesLootManager(craftingLevel);
-    List<Item> items=mgr.getGlobalLoots();
-    _items.setItems(items);
-    // Update filter
-    _filterWindow.setData(mgr);
     // Build new map panel
     _mapPanelCtrl=new ResourcesMapPanelController(_facade,map,mapId);
     _mapPanelCtrl.setFilter(_filterWindow.getFilter());
     _mapPanel.add(_mapPanelCtrl.getMapPanelController().getLayers(),BorderLayout.CENTER);
+
+    // Set items
+    ResourceNodesLootManager mgr=new ResourceNodesLootManager(craftingLevel);
+    List<Integer> itemIds=_mapPanelCtrl.getItems();
+    List<Item> sourceItems=mgr.buildItemsList(itemIds);
+    sourceItems=mgr.sortItems(sourceItems);
+    _items.setItems(mgr.getGlobalLoots(sourceItems));
+    // Update filter
+    _filterWindow.setItems(mgr,sourceItems);
     // Pack
     Window window=(Window)SwingUtilities.getRoot(_panel);
     if (window!=null)

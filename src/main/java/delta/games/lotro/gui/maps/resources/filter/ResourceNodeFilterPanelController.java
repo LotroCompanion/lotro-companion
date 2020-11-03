@@ -65,14 +65,14 @@ public class ResourceNodeFilterPanelController
 
   /**
    * Set the data to display.
-   * @param lootMgr Data to show.
+   * @param lootMgr Loot manager.
+   * @param items Data to show.
    */
-  public void setData(ResourceNodesLootManager lootMgr)
+  public void setItems(ResourceNodesLootManager lootMgr, List<Item> items)
   {
     disposeGadgets();
-    List<Item> sourceItems=lootMgr.getSourceItems();
-    _filter.setItems(sourceItems);
-    for(final Item sourceItem : sourceItems)
+    _filter.setItems(items);
+    for(final Item sourceItem : items)
     {
       List<Item> lootItems=lootMgr.getLoots(sourceItem.getIdentifier());
       ResourceNodeFilterItemGadgets gadgets=new ResourceNodeFilterItemGadgets(_parent);

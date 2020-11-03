@@ -1,6 +1,7 @@
 package delta.games.lotro.gui.maps.resources;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -66,14 +67,15 @@ public class ResourceNodesLootManager
   }
 
   /**
-   * Get the items associated to the resource nodes of the managed crafting level.
+   * Get the items associated with the give resource nodes.
+   * @param sourceItems Source items.
    * @return a list of items.
    */
-  public List<Item> getGlobalLoots()
+  public List<Item> getGlobalLoots(List<Item> sourceItems)
   {
     List<Item> ret=new ArrayList<Item>();
     Set<Item> items=new HashSet<Item>();
-    for(Item sourceItem : _sourceItems)
+    for(Item sourceItem : sourceItems)
     {
       List<Item> lootItems=getLoots(sourceItem.getIdentifier());
       if (lootItems.size()>0)
@@ -94,7 +96,6 @@ public class ResourceNodesLootManager
    * Get the 'source' items (the ones found as markers).
    * @return a list of items.
    */
-  
   public List<Item> getSourceItems()
   {
     return _sourceItems;
@@ -137,7 +138,31 @@ public class ResourceNodesLootManager
     return ret;
   }
 
-  private List<Item> sortItems(List<Item> items)
+  /**
+   * Build an items list from a collection of item IDs.
+   * @param itemIds Item identifiers to use.
+   * @return A list of items.
+   */
+  public List<Item> buildItemsList(Collection<Integer> itemIds)
+  {
+    List<Item> items=new ArrayList<Item>();
+    for(Integer itemId : itemIds)
+    {
+      Item item=ItemsManager.getInstance().getItem(itemId.intValue());
+      if (item!=null)
+      {
+        items.add(item);
+      }
+    }
+    return items;
+  }
+
+  /**
+   * Sort items.
+   * @param items Items to sort.
+   * @return a new list of sorted items.
+   */
+  public List<Item> sortItems(List<Item> items)
   {
     List<Item> ret=new ArrayList<Item>();
     Map<String,List<Item>> sortedItemsMap=new HashMap<String,List<Item>>();
@@ -152,7 +177,7 @@ public class ResourceNodesLootManager
       }
       itemsForCategory.add(item);
     }
-    String[] categories={"Craft: Resource", "Craft: Component", "Craft: Ingredient", "Craft: Optional Ingredient"};
+    String[] categories={"Craft: Resource", "Craft: Component", "Craft: Ingredient", "Craft: Optional Ingredient", "Misc."};
     for(String category : categories)
     {
       List<Item> itemsForCategory=sortedItemsMap.get(category);
