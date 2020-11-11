@@ -16,6 +16,7 @@ import delta.games.lotro.maps.data.basemaps.GeoreferencedBasemap;
 import delta.games.lotro.maps.data.basemaps.GeoreferencedBasemapsManager;
 import delta.games.lotro.maps.ui.MapCanvas;
 import delta.games.lotro.maps.ui.MapPanelController;
+import delta.games.lotro.maps.ui.MapUiUtils;
 import delta.games.lotro.maps.ui.layers.BasemapLayer;
 import delta.games.lotro.utils.maps.Maps;
 
