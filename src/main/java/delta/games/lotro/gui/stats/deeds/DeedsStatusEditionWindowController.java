@@ -109,8 +109,7 @@ public class DeedsStatusEditionWindowController extends DefaultFormDialogControl
 
   private void editDeedStatus(DeedDescription deed)
   {
-    String deedKey=deed.getIdentifyingKey();
-    DeedStatus status=_data.get(deedKey,true);
+    DeedStatus status=_data.get(deed,true);
     DeedStatusEditionDialogController dialog=new DeedStatusEditionDialogController(deed,status,this);
     status=dialog.editModal();
     if (status!=null)

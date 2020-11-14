@@ -102,8 +102,7 @@ public class DeedsStatistics
     reset();
     for(DeedDescription deed : deeds)
     {
-      String deedKey=deed.getIdentifyingKey();
-      DeedStatus deedStatus=deedsStatus.get(deedKey,false);
+      DeedStatus deedStatus=deedsStatus.get(deed,false);
       if (deedStatus!=null)
       {
         useDeed(deedStatus,deed);

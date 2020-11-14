@@ -18,7 +18,7 @@ public class MainTestDeedStatusEdition
     List<DeedDescription> deeds=deedsManager.getAll();
     {
       DeedDescription deed=deeds.get(0);
-      DeedStatus status=new DeedStatus(deed.getKey());
+      DeedStatus status=new DeedStatus(deed);
       status.setCompleted(true);
       status.setCompletionDate(Long.valueOf(System.currentTimeMillis()));
       DeedStatusEditionDialogController dialog=new DeedStatusEditionDialogController(deed,status,null);

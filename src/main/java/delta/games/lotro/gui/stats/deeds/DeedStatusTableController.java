@@ -72,10 +72,9 @@ public class DeedStatusTableController
       CellDataProvider<DeedDescription,Boolean> completedCell=new CellDataProvider<DeedDescription,Boolean>()
       {
         @Override
-        public Boolean getData(DeedDescription item)
+        public Boolean getData(DeedDescription deed)
         {
-          String deedKey=item.getIdentifyingKey();
-          DeedStatus status=_deedsStatus.get(deedKey,false);
+          DeedStatus status=_deedsStatus.get(deed,false);
           if (status!=null)
           {
             return Boolean.valueOf(status.isCompleted());
@@ -90,10 +89,9 @@ public class DeedStatusTableController
       CellDataUpdater<DeedDescription> updater=new CellDataUpdater<DeedDescription>()
       {
         @Override
-        public void setData(DeedDescription item, Object value)
+        public void setData(DeedDescription deed, Object value)
         {
-          String deedKey=item.getIdentifyingKey();
-          DeedStatus status=_deedsStatus.get(deedKey,true);
+          DeedStatus status=_deedsStatus.get(deed,true);
           Boolean completed=(Boolean)value;
           status.setCompleted(completed.booleanValue());
         }
@@ -106,11 +104,10 @@ public class DeedStatusTableController
       CellDataProvider<DeedDescription,Date> completionDateCell=new CellDataProvider<DeedDescription,Date>()
       {
         @Override
-        public Date getData(DeedDescription item)
+        public Date getData(DeedDescription deed)
         {
           Long timestamp=null;
-          String deedKey=item.getIdentifyingKey();
-          DeedStatus status=_deedsStatus.get(deedKey,false);
+          DeedStatus status=_deedsStatus.get(deed,false);
           if (status!=null)
           {
             timestamp=status.getCompletionDate();

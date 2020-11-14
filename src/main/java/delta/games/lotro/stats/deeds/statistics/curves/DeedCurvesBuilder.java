@@ -32,8 +32,8 @@ public class DeedCurvesBuilder implements DatedCurveProvider<CharacterFile>
     Long currentDate=null;
     for(DeedStatus datedStatus : datedStatuses)
     {
-      String deedKey=datedStatus.getDeedKey();
-      DeedDescription deed=deeds.getDeed(deedKey);
+      int deedId=datedStatus.getAchievableId();
+      DeedDescription deed=deeds.getDeed(deedId);
       if (deed!=null)
       {
         int value=deed.getRewards().getLotroPoints();
