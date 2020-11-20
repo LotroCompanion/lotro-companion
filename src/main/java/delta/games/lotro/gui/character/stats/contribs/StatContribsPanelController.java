@@ -24,7 +24,7 @@ import delta.games.lotro.character.stats.contribs.ContribsByStat;
 import delta.games.lotro.character.stats.contribs.StatContribution;
 import delta.games.lotro.character.stats.contribs.StatsContributionsManager;
 import delta.games.lotro.common.stats.StatDescription;
-import delta.games.lotro.gui.utils.StatDisplayUtils;
+import delta.games.lotro.common.stats.StatUtils;
 import delta.games.lotro.utils.FixedDecimalsInteger;
 
 /**
@@ -152,9 +152,9 @@ public class StatContribsPanelController
     int actual=total.getInternalValue();
     boolean same=(actual==Math.abs(expected));
     boolean isPercentage=_statChooser.getSelectedItem().isPercentage();
-    String totalStr=StatDisplayUtils.getStatDisplay(total,isPercentage);
+    String totalStr=StatUtils.getStatDisplay(total,isPercentage);
     if (!positive) totalStr="-"+totalStr;
-    String expectedTotalStr=StatDisplayUtils.getStatDisplay(expectedTotal,isPercentage);
+    String expectedTotalStr=StatUtils.getStatDisplay(expectedTotal,isPercentage);
     String label="Total: "+(same?totalStr:totalStr + " / " + expectedTotalStr);
     _totals.setText(label);
   }

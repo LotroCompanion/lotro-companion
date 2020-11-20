@@ -10,7 +10,7 @@ import javax.swing.JPanel;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.labels.MultilineLabel2;
 import delta.games.lotro.character.stats.BasicStatsSet;
-import delta.games.lotro.gui.utils.StatDisplayUtils;
+import delta.games.lotro.common.stats.StatUtils;
 import delta.games.lotro.lore.items.DamageType;
 import delta.games.lotro.lore.items.legendary.titles.LegendaryTitle;
 
@@ -92,7 +92,7 @@ public class LegendaryTitleDisplayPanelController
       _slayer.setText(slayerStr);
       // Stats
       BasicStatsSet stats=title.getStats();
-      String[] lines=StatDisplayUtils.getStatsDisplayLines(stats);
+      String[] lines=StatUtils.getStatsDisplayLines(stats);
       _stats.setText(lines);
     }
     else

@@ -7,7 +7,7 @@ import javax.swing.JLabel;
 import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.common.stats.StatDescription;
-import delta.games.lotro.gui.utils.StatDisplayUtils;
+import delta.games.lotro.common.stats.StatUtils;
 import delta.games.lotro.utils.FixedDecimalsInteger;
 
 /**
@@ -107,7 +107,7 @@ public class SingleStatWidgetsController
 
   private void setValue(JLabel label, FixedDecimalsInteger value, boolean percentage)
   {
-    String valueStr=StatDisplayUtils.getStatDisplay(value,percentage);
+    String valueStr=StatUtils.getStatDisplay(value,percentage);
     label.setText(valueStr);
   }
 }

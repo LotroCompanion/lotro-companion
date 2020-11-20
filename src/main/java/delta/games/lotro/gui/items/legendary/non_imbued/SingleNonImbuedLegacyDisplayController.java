@@ -6,8 +6,8 @@ import javax.swing.JLabel;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.labels.MultilineLabel2;
 import delta.games.lotro.character.stats.BasicStatsSet;
+import delta.games.lotro.common.stats.StatUtils;
 import delta.games.lotro.gui.LotroIconsManager;
-import delta.games.lotro.gui.utils.StatDisplayUtils;
 import delta.games.lotro.lore.items.legendary.non_imbued.NonImbuedLegacyTier;
 import delta.games.lotro.lore.items.legendary.non_imbued.TieredNonImbuedLegacy;
 import delta.games.lotro.lore.items.legendary.non_imbued.TieredNonImbuedLegacyInstance;
@@ -94,7 +94,7 @@ public class SingleNonImbuedLegacyDisplayController
     _rank.setText(rankStr);
     // Stats
     BasicStatsSet stats=legacy.getStats();
-    String[] lines=StatDisplayUtils.getStatsDisplayLines(stats);
+    String[] lines=StatUtils.getStatsDisplayLines(stats);
     _stats.setText(lines);
   }
 }

@@ -16,8 +16,8 @@ import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.constraints.ClassAndSlot;
+import delta.games.lotro.common.stats.StatUtils;
 import delta.games.lotro.gui.LotroIconsManager;
-import delta.games.lotro.gui.utils.StatDisplayUtils;
 import delta.games.lotro.lore.items.EquipmentLocation;
 import delta.games.lotro.lore.items.legendary.imbued.ImbuedLegacy;
 import delta.games.lotro.lore.items.legendary.imbued.ImbuedLegacyInstance;
@@ -272,7 +272,7 @@ public class SingleImbuedLegacyEditionController
     if (hasLegacy())
     {
       BasicStatsSet stats=_legacy.getStats();
-      String[] lines=StatDisplayUtils.getStatsDisplayLines(stats);
+      String[] lines=StatUtils.getStatsDisplayLines(stats);
       _value.setText(lines);
     }
     else

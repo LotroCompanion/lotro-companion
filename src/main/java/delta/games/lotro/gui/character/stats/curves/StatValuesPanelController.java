@@ -16,7 +16,7 @@ import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.character.stats.ratings.RatingCurve;
 import delta.games.lotro.common.stats.StatDescription;
-import delta.games.lotro.gui.utils.StatDisplayUtils;
+import delta.games.lotro.common.stats.StatUtils;
 import delta.games.lotro.utils.FixedDecimalsInteger;
 
 /**
@@ -90,7 +90,7 @@ public class StatValuesPanelController
     // - Stat value
     c.gridx++;
     FixedDecimalsInteger baseStatValue=_values.getStat(baseStat);
-    JLabel baseStatValueLabel=GuiFactory.buildLabel(StatDisplayUtils.getStatDisplay(baseStatValue,baseStat.isPercentage()));
+    JLabel baseStatValueLabel=GuiFactory.buildLabel(StatUtils.getStatDisplay(baseStatValue,baseStat.isPercentage()));
     _panel.add(baseStatValueLabel,c);
     c.gridy++;
 
@@ -121,7 +121,7 @@ public class StatValuesPanelController
         // Stat value
         FixedDecimalsInteger statValueFromCurve=getStatValue(curveConfig,level,baseStatValue);
         FixedDecimalsInteger statValue=_values.getStat(stat);
-        String statValueFromCurveStr=StatDisplayUtils.getStatDisplay(statValueFromCurve,stat.isPercentage());
+        String statValueFromCurveStr=StatUtils.getStatDisplay(statValueFromCurve,stat.isPercentage());
         JLabel statValueFromCurveLabel=GuiFactory.buildLabel(statValueFromCurveStr);
         _panel.add(statValueFromCurveLabel,c);
         c.gridx++;
@@ -138,11 +138,11 @@ public class StatValuesPanelController
         }
         if (deltaValue!=null)
         {
-          String deltaValueStr=StatDisplayUtils.getStatDisplay(deltaValue,stat.isPercentage());
+          String deltaValueStr=StatUtils.getStatDisplay(deltaValue,stat.isPercentage());
           if (deltaValue.getInternalValue()>0) deltaValueStr="+"+deltaValueStr;
           FixedDecimalsInteger totalValue=new FixedDecimalsInteger(statValueFromCurve);
           totalValue.add(deltaValue);
-          String totalValueStr=StatDisplayUtils.getStatDisplay(totalValue,stat.isPercentage());
+          String totalValueStr=StatUtils.getStatDisplay(totalValue,stat.isPercentage());
           String bonusStr=deltaValueStr+" = "+totalValueStr;
           JLabel bonusLabel=GuiFactory.buildLabel(bonusStr);
           _panel.add(bonusLabel,c);

@@ -17,8 +17,8 @@ import delta.games.lotro.Config;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.common.stats.StatDescription;
 import delta.games.lotro.common.stats.StatProvider;
+import delta.games.lotro.common.stats.StatUtils;
 import delta.games.lotro.common.stats.StatsProvider;
-import delta.games.lotro.gui.utils.StatDisplayUtils;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemPropertyNames;
 import delta.games.lotro.lore.items.scaling.Munging;
@@ -103,7 +103,7 @@ public class ItemScalableStatsPanelController
       for(StatDescription stat : stats)
       {
         FixedDecimalsInteger value=values.getStat(stat);
-        row[index]=StatDisplayUtils.getStatDisplay(value,stat.isPercentage());
+        row[index]=StatUtils.getStatDisplay(value,stat.isPercentage());
         index++;
       }
       rows.add(row);

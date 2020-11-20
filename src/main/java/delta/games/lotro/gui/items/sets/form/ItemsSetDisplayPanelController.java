@@ -15,9 +15,9 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.navigator.NavigablePanelController;
 import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.games.lotro.character.stats.BasicStatsSet;
+import delta.games.lotro.common.stats.StatUtils;
 import delta.games.lotro.common.stats.StatsProvider;
 import delta.games.lotro.gui.utils.ItemDisplayGadgets;
-import delta.games.lotro.gui.utils.StatDisplayUtils;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.sets.ItemsSet;
 import delta.games.lotro.lore.items.sets.ItemsSetBonus;
@@ -194,7 +194,7 @@ public class ItemsSetDisplayPanelController implements NavigablePanelController
     {
       StatsProvider statsProvider=bonus.getStatsProvider();
       BasicStatsSet stats=statsProvider.getStats(1,level);
-      String[] lines=StatDisplayUtils.getStatsDisplayLines(stats);
+      String[] lines=StatUtils.getStatsDisplayLines(stats);
       if (lines.length==0)
       {
         continue;

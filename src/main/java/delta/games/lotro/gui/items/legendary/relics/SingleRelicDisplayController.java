@@ -4,9 +4,9 @@ import javax.swing.Icon;
 
 import delta.common.ui.swing.icons.IconsManager;
 import delta.games.lotro.character.stats.BasicStatsSet;
+import delta.games.lotro.common.stats.StatUtils;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.items.utils.IconNameStatsBundle;
-import delta.games.lotro.gui.utils.StatDisplayUtils;
 import delta.games.lotro.lore.items.legendary.relics.Relic;
 
 /**
@@ -54,7 +54,7 @@ public class SingleRelicDisplayController extends IconNameStatsBundle
     if (relic!=null)
     {
       BasicStatsSet stats=relic.getStats();
-      String[] lines=StatDisplayUtils.getStatsDisplayLines(stats);
+      String[] lines=StatUtils.getStatsDisplayLines(stats);
       _stats.setText(lines);
     }
     else

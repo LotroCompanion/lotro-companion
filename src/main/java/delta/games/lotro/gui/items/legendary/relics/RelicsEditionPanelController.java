@@ -17,8 +17,8 @@ import delta.common.ui.swing.icons.IconsManager;
 import delta.common.ui.swing.labels.MultilineLabel2;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.stats.BasicStatsSet;
+import delta.games.lotro.common.stats.StatUtils;
 import delta.games.lotro.gui.LotroIconsManager;
-import delta.games.lotro.gui.utils.StatDisplayUtils;
 import delta.games.lotro.lore.items.EquipmentLocation;
 import delta.games.lotro.lore.items.legendary.relics.Relic;
 import delta.games.lotro.lore.items.legendary.relics.RelicType;
@@ -153,7 +153,7 @@ public class RelicsEditionPanelController implements ActionListener
       if (relic!=null)
       {
         BasicStatsSet stats=relic.getStats();
-        String[] lines=StatDisplayUtils.getStatsDisplayLines(stats);
+        String[] lines=StatUtils.getStatsDisplayLines(stats);
         relicStats.setText(lines);
       }
       else

@@ -8,8 +8,8 @@ import delta.common.ui.swing.icons.IconsManager;
 import delta.common.utils.text.EndOfLine;
 import delta.games.lotro.character.CharacterEquipment.EQUIMENT_SLOT;
 import delta.games.lotro.character.stats.BasicStatsSet;
+import delta.games.lotro.common.stats.StatUtils;
 import delta.games.lotro.gui.LotroIconsManager;
-import delta.games.lotro.gui.utils.StatDisplayUtils;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemInstance;
 
@@ -74,7 +74,7 @@ public class EquipmentSlotIconController
     }
     sb.append(EndOfLine.NATIVE_EOL);
     BasicStatsSet stats=itemInstance.getStats();
-    String[] lines=StatDisplayUtils.getStatsDisplayLines(stats);
+    String[] lines=StatUtils.getStatsDisplayLines(stats);
     for(String line : lines)
     {
       sb.append(line).append(EndOfLine.NATIVE_EOL);

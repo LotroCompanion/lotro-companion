@@ -11,8 +11,8 @@ import delta.common.ui.swing.labels.MultilineLabel2;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.common.constraints.ClassAndSlot;
+import delta.games.lotro.common.stats.StatUtils;
 import delta.games.lotro.common.stats.StatsProvider;
-import delta.games.lotro.gui.utils.StatDisplayUtils;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.legendary.non_imbued.AbstractNonImbuedLegacy;
 import delta.games.lotro.lore.items.legendary.non_imbued.NonImbuedLegacyInstance;
@@ -197,7 +197,7 @@ public abstract class SingleNonImbuedLegacyEditionController<T extends NonImbued
       StatsProvider statsProvider=getStatsProvider();
       int rank=getRank();
       BasicStatsSet stats=statsProvider.getStats(1,rank);
-      String[] lines=StatDisplayUtils.getStatsDisplayLines(stats);
+      String[] lines=StatUtils.getStatsDisplayLines(stats);
       _value.setText(lines);
     }
     else

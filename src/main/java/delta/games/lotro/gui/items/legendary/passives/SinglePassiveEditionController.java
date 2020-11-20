@@ -12,7 +12,7 @@ import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.common.effects.Effect;
 import delta.games.lotro.common.stats.StatDescription;
-import delta.games.lotro.gui.utils.StatDisplayUtils;
+import delta.games.lotro.common.stats.StatUtils;
 
 /**
  * Controller for the UI items of a single passive.
@@ -126,7 +126,7 @@ public class SinglePassiveEditionController
       int nbStats=statDescriptions.size();
       if (nbStats==1)
       {
-        String[] lines=StatDisplayUtils.getStatsDisplayLines(stats);
+        String[] lines=StatUtils.getStatsDisplayLines(stats);
         _value.setText(lines[0]);
       }
     }

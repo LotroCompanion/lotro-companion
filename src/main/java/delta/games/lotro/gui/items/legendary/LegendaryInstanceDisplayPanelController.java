@@ -11,12 +11,12 @@ import javax.swing.JPanel;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.labels.MultilineLabel2;
 import delta.games.lotro.character.stats.BasicStatsSet;
+import delta.games.lotro.common.stats.StatUtils;
 import delta.games.lotro.common.stats.StatsProvider;
 import delta.games.lotro.gui.items.legendary.imbued.ImbuedLegendaryAttrsDisplayPanelController;
 import delta.games.lotro.gui.items.legendary.non_imbued.NonImbuedLegendaryAttrsDisplayPanelController;
 import delta.games.lotro.gui.items.legendary.relics.RelicsSetDisplayController;
 import delta.games.lotro.gui.items.legendary.titles.LegendaryTitleDisplayPanelController;
-import delta.games.lotro.gui.utils.StatDisplayUtils;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemInstance;
 import delta.games.lotro.lore.items.legendary.LegendaryInstance;
@@ -129,7 +129,7 @@ public class LegendaryInstanceDisplayPanelController
     _name.setVisible(name.length()>0);
     // Default legacy stats
     BasicStatsSet defaultLegacyStats=getDefaultStats(attrs);
-    _defaultLegacyStats.setText(StatDisplayUtils.getStatsDisplayLines(defaultLegacyStats));
+    _defaultLegacyStats.setText(StatUtils.getStatsDisplayLines(defaultLegacyStats));
     // Info panel
     _nonImbuedAttrs.getInfosPanel().setVisible(!attrs.isImbued());
     // Title
@@ -140,7 +140,7 @@ public class LegendaryInstanceDisplayPanelController
     Integer itemLevelInt=_itemInstance.getEffectiveItemLevel();
     int itemLevel=(itemLevelInt!=null)?itemLevelInt.intValue():1;
     BasicStatsSet passives=attrs.getPassivesStats(itemLevel);
-    _passives.setText(StatDisplayUtils.getStatsDisplayLines(passives));
+    _passives.setText(StatUtils.getStatsDisplayLines(passives));
     _passives.setVisible(passives.getStatsCount()>0);
     // Legacies
     _nonImbuedAttrs.update();

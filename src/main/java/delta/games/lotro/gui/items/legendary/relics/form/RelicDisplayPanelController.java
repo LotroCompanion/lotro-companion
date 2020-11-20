@@ -20,9 +20,9 @@ import delta.common.ui.swing.labels.MultilineLabel2;
 import delta.common.ui.swing.navigator.NavigablePanelController;
 import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.games.lotro.character.stats.BasicStatsSet;
+import delta.games.lotro.common.stats.StatUtils;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.common.requirements.RequirementsUtils;
-import delta.games.lotro.gui.utils.StatDisplayUtils;
 import delta.games.lotro.lore.items.legendary.relics.Relic;
 import delta.games.lotro.lore.items.legendary.relics.RelicsCategory;
 
@@ -88,7 +88,7 @@ public class RelicDisplayPanelController implements NavigablePanelController
     BasicStatsSet stats=_relic.getStats();
     if (stats.getStatsCount()>0)
     {
-      String[] lines=StatDisplayUtils.getStatsDisplayLines(stats);
+      String[] lines=StatUtils.getStatsDisplayLines(stats);
       statsLabel=new MultilineLabel2();
       statsLabel.setText(lines);
       statsLabel.setBorder(GuiFactory.buildTitledBorder("Stats"));
