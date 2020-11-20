@@ -2,7 +2,7 @@ package delta.games.lotro.gui.stats.deeds;
 
 import java.util.List;
 
-import delta.games.lotro.character.deeds.DeedStatus;
+import delta.games.lotro.character.achievables.AchievableStatus;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.DeedsManager;
 
@@ -18,11 +18,11 @@ public class MainTestDeedStatusEdition
     List<DeedDescription> deeds=deedsManager.getAll();
     {
       DeedDescription deed=deeds.get(0);
-      DeedStatus status=new DeedStatus(deed);
+      AchievableStatus status=new AchievableStatus(deed);
       status.setCompleted(true);
       status.setCompletionDate(Long.valueOf(System.currentTimeMillis()));
       DeedStatusEditionDialogController dialog=new DeedStatusEditionDialogController(deed,status,null);
-      DeedStatus newStatus=dialog.editModal();
+      AchievableStatus newStatus=dialog.editModal();
       if (newStatus!=null)
       {
         System.out.println(newStatus);

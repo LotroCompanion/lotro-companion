@@ -11,17 +11,11 @@ import java.util.List;
 import javax.swing.JCheckBox;
 
 import delta.common.ui.swing.checkbox.CheckboxController;
-import delta.common.ui.swing.text.dates.DateEditionController;
 import delta.common.ui.swing.windows.WindowController;
-import delta.games.lotro.character.deeds.geo.DeedGeoPointStatus;
-import delta.games.lotro.character.deeds.geo.DeedGeoStatus;
-import delta.games.lotro.gui.stats.deeds.map.GeoDeedMapWindowController;
-import delta.games.lotro.lore.deeds.geo.DeedGeoData;
-import delta.games.lotro.lore.deeds.geo.DeedGeoPoint;
-import delta.games.lotro.maps.data.MapsManager;
-import delta.games.lotro.maps.data.Marker;
-import delta.games.lotro.maps.data.markers.GlobalMarkersManager;
-import delta.games.lotro.utils.maps.Maps;
+import delta.games.lotro.character.achievables.AchievableStatus;
+import delta.games.lotro.character.achievables.AchievableStatusGeoItem;
+import delta.games.lotro.character.achievables.AchievableStatusManager;
+import delta.games.lotro.gui.stats.deeds.map.GeoAchievableMapWindowController;
 
 /**
  * Controller for a panel to edit a deed geographic status.
@@ -30,88 +24,71 @@ import delta.games.lotro.utils.maps.Maps;
 public class DeedGeoStatusEditionPanelController
 {
   private WindowController _parent;
-  private DeedGeoData _geoData;
+  private AchievableStatusManager _mgr;
   private List<DeedGeoPointStatusGadgetsController> _gadgets;
-  private GeoDeedMapWindowController _mapController;
+  private GeoAchievableMapWindowController _mapController;
 
   /**
    * Constructor.
    * @param parent Parent window.
-   * @param geoData Geographic data of the deed.
+   * @param status Status to edit.
    */
-  public DeedGeoStatusEditionPanelController(WindowController parent,DeedGeoData geoData)
+  public DeedGeoStatusEditionPanelController(WindowController parent, AchievableStatus status)
   {
     _parent=parent;
-    _geoData=geoData;
     _gadgets=new ArrayList<DeedGeoPointStatusGadgetsController>();
+    _mgr=new AchievableStatusManager(status);
     init();
   }
 
   private void init()
   {
-    List<DeedGeoPoint> points=_geoData.getPoints();
-    for(DeedGeoPoint point : points)
+    List<AchievableStatusGeoItem> points=_mgr.getPoints();
+    for(final AchievableStatusGeoItem point : points)
     {
-      Marker marker=getMarker(point);
-      if (marker==null)
-      {
-        continue;
-      }
-      final DeedGeoPointStatusGadgetsController gadgets=new DeedGeoPointStatusGadgetsController(marker);
+      final DeedGeoPointStatusGadgetsController gadgets=new DeedGeoPointStatusGadgetsController(point);
       _gadgets.add(gadgets);
       // Add a listener on the checkbox to update the map
       final JCheckBox checkbox=gadgets.getCheckbox().getCheckbox();
-      final int pointId=marker.getId();
       ActionListener l=new ActionListener()
       {
         @Override
         public void actionPerformed(ActionEvent e)
         {
           boolean completed=checkbox.isSelected();
-          updatePoint(pointId,completed);
+          handlePointChange(point,completed);
         }
       };
       checkbox.addActionListener(l);
     }
   }
 
-  private void updatePoint(int pointId, boolean completed)
+  private void handlePointChange(AchievableStatusGeoItem point, boolean completed)
   {
+    _mgr.handlePointChange(point,completed);
+    _mgr.updateStatusFromManagers();
+    _mgr.updateManagersFromStatus();
+    updateUiFromStatus();
+  }
+
+  private void updateUiFromStatus()
+  {
+    // Checkboxes
+    setStatusData();
+    // Maps
     if (_mapController!=null)
     {
-      _mapController.setPointStatus(pointId,completed);
+      _mapController.updateUi();
     }
   }
 
   /**
-   * Show map.
+   * Show maps.
    */
-  public void showMap()
+  public void showMaps()
   {
-    int mapKey=0;
-    List<Marker> markers=new ArrayList<Marker>();
-    List<DeedGeoPoint> points=_geoData.getPoints();
-    for(DeedGeoPoint point : points)
-    {
-      Marker marker=getMarker(point);
-      markers.add(marker);
-      mapKey=point.getMapKey();
-    }
-    _mapController=new GeoDeedMapWindowController(_parent,mapKey,markers);
-    // Update points status
-    int nbPoints=points.size();
-    for(int i=0;i<nbPoints;i++)
-    {
-      DeedGeoPointStatusGadgetsController gadgets=_gadgets.get(i);
-      JCheckBox checkbox=gadgets.getCheckbox().getCheckbox();
-      boolean completed=checkbox.isSelected();
-      Marker marker=markers.get(i);
-      if (marker!=null)
-      {
-        int pointId=marker.getId();
-        updatePoint(pointId,completed);
-      }
-    }
+    _mapController=new GeoAchievableMapWindowController(_parent,_mgr.getPoints());
+    _mapController.updateUi();
     Window window=_mapController.getWindow();
     WindowAdapter l=new WindowAdapter()
     {
@@ -122,15 +99,6 @@ public class DeedGeoStatusEditionPanelController
     };
     window.addWindowListener(l);
     _mapController.show();
-  }
-
-  private Marker getMarker(DeedGeoPoint point)
-  {
-    MapsManager mapsManager=Maps.getMaps().getMapsManager();
-    GlobalMarkersManager markersMgr=mapsManager.getMarkersManager();
-    int pointID=point.getPointId();
-    Marker marker=markersMgr.getMarkerById(pointID);
-    return marker;
   }
 
   /**
@@ -144,58 +112,29 @@ public class DeedGeoStatusEditionPanelController
 
   /**
    * Set the status data to show.
-   * @param status Status data to show.
    */
-  public void setStatusData(DeedGeoStatus status)
+  public void setStatusData()
   {
-    List<DeedGeoPointStatus> pointStatuses=status.getPointStatuses();
-    for(DeedGeoPointStatus pointStatus : pointStatuses)
+    List<AchievableStatusGeoItem> statusPoints=_mgr.getPoints();
+    for(AchievableStatusGeoItem statusPoint : statusPoints)
     {
-      final int pointId=pointStatus.getPointId();
-      DeedGeoPointStatusGadgetsController gadgets=getGadgets(pointId);
-      if (gadgets==null)
-      {
-        continue;
-      }
-      boolean isCompleted=pointStatus.isCompleted(); 
+      DeedGeoPointStatusGadgetsController gadgets=getGadgets(statusPoint);
+      boolean isCompleted=statusPoint.isCompleted(); 
       final CheckboxController checkbox=gadgets.getCheckbox();
       checkbox.setSelected(isCompleted);
+      // TODO Handle date per point?
+      /*
       Long completionDate=pointStatus.getCompletionDate();
       DateEditionController dateEditor=gadgets.getDateEditor();
       dateEditor.setDate(completionDate);
+      */
     }
   }
 
-  /**
-   * Get the status data from the UI contents.
-   * @param status Storage for the status data.
-   */
-  public void updateGeoStatus(DeedGeoStatus status)
+  private DeedGeoPointStatusGadgetsController getGadgets(AchievableStatusGeoItem statusPoint)
   {
-    status.clear();
-    for(DeedGeoPointStatusGadgetsController gadgets : _gadgets)
-    {
-      int pointID=gadgets.getPointID();
-      boolean completed=gadgets.getCheckbox().isSelected();
-      Long completionDate=gadgets.getDateEditor().getDate();
-      DeedGeoPointStatus pointStatus=status.getStatus(pointID,true);
-      pointStatus.setCompleted(completed);
-      pointStatus.setCompletionDate(completionDate);
-    }
-  }
-
-  private DeedGeoPointStatusGadgetsController getGadgets(int pointId)
-  {
-    DeedGeoPointStatusGadgetsController ret=null;
-    for(DeedGeoPointStatusGadgetsController gadget : _gadgets)
-    {
-      if (gadget.getPointID()==pointId)
-      {
-        ret=gadget;
-        break;
-      }
-    }
-    return ret;
+    int index=_mgr.getPoints().indexOf(statusPoint);
+    return _gadgets.get(index);
   }
 
   /**
@@ -204,7 +143,6 @@ public class DeedGeoStatusEditionPanelController
   public void dispose()
   {
     _parent=null;
-    _geoData=null;
     if (_gadgets!=null)
     {
       for(DeedGeoPointStatusGadgetsController gadgets : _gadgets)

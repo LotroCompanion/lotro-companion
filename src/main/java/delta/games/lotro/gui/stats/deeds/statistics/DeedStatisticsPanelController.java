@@ -8,7 +8,7 @@ import javax.swing.JTabbedPane;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.WindowController;
-import delta.games.lotro.character.deeds.DeedsStatusManager;
+import delta.games.lotro.character.achievables.DeedsStatusManager;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.DeedsManager;
 import delta.games.lotro.stats.deeds.DeedsStatistics;

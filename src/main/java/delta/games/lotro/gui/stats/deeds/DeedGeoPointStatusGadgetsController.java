@@ -2,12 +2,14 @@ package delta.games.lotro.gui.stats.deeds;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.Point2D;
 
 import delta.common.ui.swing.checkbox.CheckboxController;
 import delta.common.ui.swing.text.dates.DateCodec;
 import delta.common.ui.swing.text.dates.DateEditionController;
+import delta.games.lotro.character.achievables.AchievableStatusGeoItem;
+import delta.games.lotro.lore.quests.geo.AchievableGeoPoint;
 import delta.games.lotro.maps.data.GeoPoint;
-import delta.games.lotro.maps.data.Marker;
 import delta.games.lotro.utils.DateFormat;
 
 /**
@@ -17,28 +19,19 @@ import delta.games.lotro.utils.DateFormat;
 public class DeedGeoPointStatusGadgetsController
 {
   // Data
-  private Marker _marker;
+  private AchievableStatusGeoItem _point;
   // Controllers
   private CheckboxController _completed;
   private DateEditionController _completionDate;
 
   /**
    * Constructor.
-   * @param marker Marker to show.
+   * @param point Point to show.
    */
-  public DeedGeoPointStatusGadgetsController(Marker marker)
+  public DeedGeoPointStatusGadgetsController(AchievableStatusGeoItem point)
   {
-    _marker=marker;
+    _point=point;
     build();
-  }
-
-  /**
-   * Get the identifier of the managed point.
-   * @return a point identifier.
-   */
-  public int getPointID()
-  {
-    return _marker.getId();
   }
 
   /**
@@ -80,9 +73,11 @@ public class DeedGeoPointStatusGadgetsController
 
   private String buildLabel()
   {
-    String name=_marker.getLabel();
-    GeoPoint point=_marker.getPosition();
-    String pointStr=point.asString();
+    AchievableGeoPoint point=_point.getPoint();
+    String name=point.getLabel();
+    Point2D.Float position=point.getLonLat();
+    GeoPoint geoPoint=new GeoPoint(position.x,position.y);
+    String pointStr=geoPoint.asString();
     return name+" ("+pointStr+")";
   }
 
@@ -97,7 +92,7 @@ public class DeedGeoPointStatusGadgetsController
    */
   public void dispose()
   {
-    _marker=null;
+    _point=null;
     if (_completed!=null)
     {
       _completed.dispose();

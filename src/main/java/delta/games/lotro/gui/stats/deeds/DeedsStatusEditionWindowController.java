@@ -17,8 +17,8 @@ import delta.common.ui.swing.windows.DefaultFormDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.character.CharacterFile;
-import delta.games.lotro.character.deeds.DeedStatus;
-import delta.games.lotro.character.deeds.DeedsStatusManager;
+import delta.games.lotro.character.achievables.AchievableStatus;
+import delta.games.lotro.character.achievables.DeedsStatusManager;
 import delta.games.lotro.character.events.CharacterEvent;
 import delta.games.lotro.character.events.CharacterEventType;
 import delta.games.lotro.character.reputation.ReputationStatus;
@@ -109,7 +109,7 @@ public class DeedsStatusEditionWindowController extends DefaultFormDialogControl
 
   private void editDeedStatus(DeedDescription deed)
   {
-    DeedStatus status=_data.get(deed,true);
+    AchievableStatus status=_data.get(deed,true);
     DeedStatusEditionDialogController dialog=new DeedStatusEditionDialogController(deed,status,this);
     status=dialog.editModal();
     if (status!=null)

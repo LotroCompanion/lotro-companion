@@ -27,21 +27,20 @@ import delta.common.ui.swing.text.dates.DateEditionController;
 import delta.common.ui.swing.windows.DefaultFormDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.ui.swing.windows.WindowsManager;
-import delta.games.lotro.character.deeds.DeedStatus;
-import delta.games.lotro.character.deeds.geo.DeedGeoStatus;
+import delta.games.lotro.character.achievables.AchievableStatus;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.gui.navigation.NavigatorFactory;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.DeedType;
-import delta.games.lotro.lore.deeds.geo.DeedGeoData;
+import delta.games.lotro.lore.quests.Achievable;
 import delta.games.lotro.utils.DateFormat;
 
 /**
  * Controller for the "deed status edition" dialog.
  * @author DAM
  */
-public class DeedStatusEditionDialogController extends DefaultFormDialogController<DeedStatus>
+public class DeedStatusEditionDialogController extends DefaultFormDialogController<AchievableStatus>
 {
   // Data
   private DeedDescription _deed;
@@ -59,7 +58,7 @@ public class DeedStatusEditionDialogController extends DefaultFormDialogControll
    * @param status Status to edit.
    * @param deed Targeted deed.
    */
-  public DeedStatusEditionDialogController(DeedDescription deed, DeedStatus status, WindowController parentController)
+  public DeedStatusEditionDialogController(DeedDescription deed, AchievableStatus status, WindowController parentController)
   {
     super(parentController,status);
     _deed=deed;
@@ -135,8 +134,9 @@ public class DeedStatusEditionDialogController extends DefaultFormDialogControll
     gbc.gridx=1;
     panel.add(_completionDate.getTextField(),gbc);
 
-    DeedGeoData geoData=_deed.getGeoData();
-    if (geoData!=null)
+    Achievable achievable=_data.getAchievable();
+    boolean hasGeoData=achievable.hasGeoData();
+    if (hasGeoData)
     {
       JPanel geoPanel=buildGeoStatusEditionPanel();
       GridBagConstraints geoC=new GridBagConstraints(0,3,2,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,insets,0,0);
@@ -147,7 +147,7 @@ public class DeedStatusEditionDialogController extends DefaultFormDialogControll
         @Override
         public void actionPerformed(ActionEvent e)
         {
-          _geoEditor.showMap();
+          _geoEditor.showMaps();
         }
       };
       toggleMap.addActionListener(mapActionListener);
@@ -161,23 +161,16 @@ public class DeedStatusEditionDialogController extends DefaultFormDialogControll
     _completionDate.setDate(_data.getCompletionDate());
     if (_geoEditor!=null)
     {
-      DeedGeoStatus status=_data.getGeoStatus();
-      if (status==null)
-      {
-        status=new DeedGeoStatus();
-        _data.setGeoStatus(status);
-      }
-      _geoEditor.setStatusData(status);
+      _geoEditor.setStatusData();
     }
     return panel;
   }
 
   private JPanel buildGeoStatusEditionPanel()
   {
-    DeedGeoData geoData=_deed.getGeoData();
-    _geoEditor=new DeedGeoStatusEditionPanelController(this,geoData);
-    List<DeedGeoPointStatusGadgetsController> gadgets=_geoEditor.getGadgets();
+    _geoEditor=new DeedGeoStatusEditionPanelController(this,_data);
 
+    List<DeedGeoPointStatusGadgetsController> gadgets=_geoEditor.getGadgets();
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     TitledBorder pathsBorder=GuiFactory.buildTitledBorder("Geographic status");
     panel.setBorder(pathsBorder);
@@ -208,11 +201,6 @@ public class DeedStatusEditionDialogController extends DefaultFormDialogControll
     // Completion date
     Long completionDate=_completionDate.getDate();
     _data.setCompletionDate(completionDate);
-    // Geographic data
-    if (_geoEditor!=null)
-    {
-      _geoEditor.updateGeoStatus(_data.getGeoStatus());
-    }
   }
 
   private void showDeed()

@@ -4,8 +4,8 @@ import java.util.List;
 
 import delta.games.lotro.LotroTestUtils;
 import delta.games.lotro.character.CharacterFile;
-import delta.games.lotro.character.deeds.DeedsStatusManager;
-import delta.games.lotro.character.deeds.io.DeedsStatusIo;
+import delta.games.lotro.character.achievables.DeedsStatusManager;
+import delta.games.lotro.character.achievables.io.DeedsStatusIo;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.DeedsManager;
 

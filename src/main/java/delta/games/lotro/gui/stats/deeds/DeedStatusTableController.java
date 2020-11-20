@@ -16,8 +16,8 @@ import delta.common.ui.swing.tables.TableColumnController;
 import delta.common.ui.swing.tables.TableColumnsManager;
 import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.misc.TypedProperties;
-import delta.games.lotro.character.deeds.DeedStatus;
-import delta.games.lotro.character.deeds.DeedsStatusManager;
+import delta.games.lotro.character.achievables.AchievableStatus;
+import delta.games.lotro.character.achievables.DeedsStatusManager;
 import delta.games.lotro.gui.deed.table.DeedColumnIds;
 import delta.games.lotro.gui.deed.table.DeedsTableController;
 import delta.games.lotro.gui.items.chooser.ItemChooser;
@@ -74,7 +74,7 @@ public class DeedStatusTableController
         @Override
         public Boolean getData(DeedDescription deed)
         {
-          DeedStatus status=_deedsStatus.get(deed,false);
+          AchievableStatus status=_deedsStatus.get(deed,false);
           if (status!=null)
           {
             return Boolean.valueOf(status.isCompleted());
@@ -91,7 +91,7 @@ public class DeedStatusTableController
         @Override
         public void setData(DeedDescription deed, Object value)
         {
-          DeedStatus status=_deedsStatus.get(deed,true);
+          AchievableStatus status=_deedsStatus.get(deed,true);
           Boolean completed=(Boolean)value;
           status.setCompleted(completed.booleanValue());
         }
@@ -107,7 +107,7 @@ public class DeedStatusTableController
         public Date getData(DeedDescription deed)
         {
           Long timestamp=null;
-          DeedStatus status=_deedsStatus.get(deed,false);
+          AchievableStatus status=_deedsStatus.get(deed,false);
           if (status!=null)
           {
             timestamp=status.getCompletionDate();

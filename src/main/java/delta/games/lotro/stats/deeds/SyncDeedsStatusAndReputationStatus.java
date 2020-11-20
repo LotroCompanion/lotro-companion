@@ -2,8 +2,8 @@ package delta.games.lotro.stats.deeds;
 
 import java.util.List;
 
-import delta.games.lotro.character.deeds.DeedStatus;
-import delta.games.lotro.character.deeds.DeedsStatusManager;
+import delta.games.lotro.character.achievables.AchievableStatus;
+import delta.games.lotro.character.achievables.DeedsStatusManager;
 import delta.games.lotro.character.reputation.FactionLevelStatus;
 import delta.games.lotro.character.reputation.FactionStatus;
 import delta.games.lotro.character.reputation.ReputationStatus;
@@ -48,7 +48,7 @@ public class SyncDeedsStatusAndReputationStatus
         boolean completed=factionStatus.isCompleted(level);
         if (completed)
         {
-          DeedStatus deedStatus=deedsStatus.get(deedKey,true);
+          AchievableStatus deedStatus=deedsStatus.get(deedKey,true);
           deedStatus.setCompleted(true);
           //System.out.println("Set deed "+deedKey+" to completed!");
           FactionLevelStatus levelStatus=factionStatus.getStatusForLevel(level);
@@ -60,7 +60,7 @@ public class SyncDeedsStatusAndReputationStatus
         }
         else
         {
-          DeedStatus deedStatus=deedsStatus.get(deedKey,false);
+          AchievableStatus deedStatus=deedsStatus.get(deedKey,false);
           if (deedStatus!=null)
           {
             deedStatus.setCompleted(false);
@@ -88,7 +88,7 @@ public class SyncDeedsStatusAndReputationStatus
         if (deedKey!=null)
         {
           Long date=null;
-          DeedStatus deedStatus=deedsStatus.get(deedKey,false);
+          AchievableStatus deedStatus=deedsStatus.get(deedKey,false);
           if ((deedStatus!=null) && (deedStatus.isCompleted()))
           {
             date=deedStatus.getCompletionDate();

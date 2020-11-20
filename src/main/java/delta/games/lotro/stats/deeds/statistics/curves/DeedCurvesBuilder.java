@@ -5,10 +5,10 @@ import java.util.Collections;
 import java.util.List;
 
 import delta.games.lotro.character.CharacterFile;
-import delta.games.lotro.character.deeds.DeedStatus;
-import delta.games.lotro.character.deeds.DeedStatusDateComparator;
-import delta.games.lotro.character.deeds.DeedsStatusManager;
-import delta.games.lotro.character.deeds.io.DeedsStatusIo;
+import delta.games.lotro.character.achievables.AchievableStatus;
+import delta.games.lotro.character.achievables.AchievableStatusDateComparator;
+import delta.games.lotro.character.achievables.DeedsStatusManager;
+import delta.games.lotro.character.achievables.io.DeedsStatusIo;
 import delta.games.lotro.gui.stats.curves.DatedCurveProvider;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.DeedsManager;
@@ -26,11 +26,11 @@ public class DeedCurvesBuilder implements DatedCurveProvider<CharacterFile>
     String name=toon.getName();
     DatedCurve<Integer> curve=new DatedCurve<Integer>(name);
     DeedsStatusManager deedsStatus=DeedsStatusIo.load(toon);
-    List<DeedStatus> datedStatuses=getDeedsStatus(deedsStatus);
+    List<AchievableStatus> datedStatuses=getDeedsStatus(deedsStatus);
     DeedsManager deeds=DeedsManager.getInstance();
     int totalValue=0;
     Long currentDate=null;
-    for(DeedStatus datedStatus : datedStatuses)
+    for(AchievableStatus datedStatus : datedStatuses)
     {
       int deedId=datedStatus.getAchievableId();
       DeedDescription deed=deeds.getDeed(deedId);
@@ -73,18 +73,18 @@ public class DeedCurvesBuilder implements DatedCurveProvider<CharacterFile>
     return curve;
   }
 
-  private List<DeedStatus> getDeedsStatus(DeedsStatusManager deedsStatus)
+  private List<AchievableStatus> getDeedsStatus(DeedsStatusManager deedsStatus)
   {
-    List<DeedStatus> all=deedsStatus.getAll();
-    List<DeedStatus> datedStatuses=new ArrayList<DeedStatus>();
-    for(DeedStatus status : all)
+    List<AchievableStatus> all=deedsStatus.getAll();
+    List<AchievableStatus> datedStatuses=new ArrayList<AchievableStatus>();
+    for(AchievableStatus status : all)
     {
       if (status.getCompletionDate()!=null)
       {
         datedStatuses.add(status);
       }
     }
-    Collections.sort(datedStatuses,new DeedStatusDateComparator());
+    Collections.sort(datedStatuses,new AchievableStatusDateComparator());
     return datedStatuses;
   }
 }

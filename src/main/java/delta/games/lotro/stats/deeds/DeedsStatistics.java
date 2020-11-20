@@ -9,8 +9,8 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 
 import delta.common.utils.text.EndOfLine;
-import delta.games.lotro.character.deeds.DeedStatus;
-import delta.games.lotro.character.deeds.DeedsStatusManager;
+import delta.games.lotro.character.achievables.AchievableStatus;
+import delta.games.lotro.character.achievables.DeedsStatusManager;
 import delta.games.lotro.character.virtues.VirtueDescription;
 import delta.games.lotro.character.virtues.VirtuesManager;
 import delta.games.lotro.common.rewards.EmoteReward;
@@ -102,7 +102,7 @@ public class DeedsStatistics
     reset();
     for(DeedDescription deed : deeds)
     {
-      DeedStatus deedStatus=deedsStatus.get(deed,false);
+      AchievableStatus deedStatus=deedsStatus.get(deed,false);
       if (deedStatus!=null)
       {
         useDeed(deedStatus,deed);
@@ -114,7 +114,7 @@ public class DeedsStatistics
     Collections.sort(_traits,new TraitEventNameComparator());
   }
 
-  private void useDeed(DeedStatus deedStatus, DeedDescription deed)
+  private void useDeed(AchievableStatus deedStatus, DeedDescription deed)
   {
     boolean completed=deedStatus.isCompleted();
     if (completed)
