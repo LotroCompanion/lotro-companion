@@ -2,7 +2,6 @@ package delta.games.lotro.gui.utils;
 
 import delta.common.utils.text.EndOfLine;
 import delta.games.lotro.character.stats.BasicStatsSet;
-import delta.games.lotro.common.stats.StatDescription;
 import delta.games.lotro.common.stats.StatUtils;
 
 /**
@@ -23,9 +22,9 @@ public class StatDisplayUtils
     sb.append(firstLine).append(EndOfLine.NATIVE_EOL);
     if (stats!=null)
     {
-      for(StatDescription stat : stats.getStats())
+      String[] lines=StatUtils.getStatsDisplayLines(stats);
+      for(String line : lines)
       {
-        String line=StatUtils.getStatDisplay(stat,stats);
         sb.append(line).append(EndOfLine.NATIVE_EOL);
       }
     }

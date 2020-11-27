@@ -12,7 +12,6 @@ import delta.common.utils.text.EndOfLine;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.character.stats.virtues.VirtuesContributionsMgr;
 import delta.games.lotro.character.virtues.VirtueDescription;
-import delta.games.lotro.common.stats.StatDescription;
 import delta.games.lotro.common.stats.StatUtils;
 import delta.games.lotro.gui.LotroIconsManager;
 
@@ -159,9 +158,9 @@ public class VirtueIconController
   {
     if (stats!=null)
     {
-      for(StatDescription stat : stats.getStats())
+      String[] lines=StatUtils.getStatsDisplayLines(stats);
+      for(String line : lines)
       {
-        String line=StatUtils.getStatDisplay(stat,stats);
         sb.append(line).append(EndOfLine.NATIVE_EOL);
       }
     }
