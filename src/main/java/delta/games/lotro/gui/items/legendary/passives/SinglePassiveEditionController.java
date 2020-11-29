@@ -10,8 +10,8 @@ import javax.swing.JLabel;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.stats.BasicStatsSet;
+import delta.games.lotro.character.stats.StatsSetElement;
 import delta.games.lotro.common.effects.Effect;
-import delta.games.lotro.common.stats.StatDescription;
 import delta.games.lotro.common.stats.StatUtils;
 
 /**
@@ -122,8 +122,8 @@ public class SinglePassiveEditionController
     if (_passive!=null)
     {
       BasicStatsSet stats=_passive.getStatsProvider().getStats(1,_level);
-      List<StatDescription> statDescriptions=stats.getSortedStats();
-      int nbStats=statDescriptions.size();
+      List<StatsSetElement> statElements=stats.getStatElements();
+      int nbStats=statElements.size();
       if (nbStats==1)
       {
         String[] lines=StatUtils.getStatsDisplayLines(stats);

@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.character.stats.BasicStatsSet;
+import delta.games.lotro.character.stats.StatsSetElement;
 import delta.games.lotro.common.stats.StatDescription;
 import delta.games.lotro.common.stats.StatUtils;
 import delta.games.lotro.utils.FixedDecimalsInteger;
@@ -38,8 +39,9 @@ public class StatsPanel
     if (statsCount>0)
     {
       // Build display
-      for(StatDescription stat : stats.getSortedStats())
+      for(StatsSetElement element : stats.getStatElements())
       {
+        StatDescription stat=element.getStat();
         if (!stat.isVisible())
         {
           continue;
@@ -47,16 +49,10 @@ public class StatsPanel
         FixedDecimalsInteger value=stats.getStat(stat);
         if (value!=null)
         {
-          // Value label
-          String valueStr=StatUtils.getStatDisplay(value,stat.isPercentage());
+          String valueStr=StatUtils.getStatDisplay(element);
           JLabel valueLabel=GuiFactory.buildLabel(valueStr);
-          GridBagConstraints c=new GridBagConstraints(0,rowIndex,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,5,0,0),0,0);
+          GridBagConstraints c=new GridBagConstraints(0,rowIndex,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,5,0,0),0,0);
           panel.add(valueLabel,c);
-          // Name label
-          String name=stat.getName();
-          JLabel statLabel=GuiFactory.buildLabel(name);
-          c=new GridBagConstraints(1,rowIndex,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,5,0,0),0,0);
-          panel.add(statLabel,c);
           if (referenceStats!=null)
           {
             // Percentage

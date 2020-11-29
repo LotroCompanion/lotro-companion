@@ -22,6 +22,7 @@ import delta.common.ui.swing.text.NumberEditionController;
 import delta.common.ui.swing.text.NumberListener;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.stats.BasicStatsSet;
+import delta.games.lotro.character.stats.StatsSetElement;
 import delta.games.lotro.common.stats.CustomStatsMergeMode;
 import delta.games.lotro.common.stats.StatDescription;
 import delta.games.lotro.common.stats.StatsManager;
@@ -74,15 +75,16 @@ public class CustomStatsEditionPanelController
     StatsPanel.fillStatsPanel(_autoStats,_statsManager.getDefault(),null);
     // Custom stats
     BasicStatsSet statsSet=statsManager.getCustom();
-    List<StatDescription> usedStats=statsSet.getSortedStats();
+    List<StatsSetElement> usedStats=statsSet.getStatElements();
     int nbStats=usedStats.size();
     for(int i=0;i<MAX_STATS;i++)
     {
       SingleStatsEditionGadgetsController ctrl=_statControllers.get(i);
       if (i<nbStats)
       {
-        StatDescription stat=usedStats.get(i);
-        FixedDecimalsInteger value=statsSet.getStat(stat);
+        StatsSetElement statElement=usedStats.get(i);
+        StatDescription stat=statElement.getStat();
+        FixedDecimalsInteger value=statElement.getValue();
         ctrl.setStat(stat,value);
       }
       else
