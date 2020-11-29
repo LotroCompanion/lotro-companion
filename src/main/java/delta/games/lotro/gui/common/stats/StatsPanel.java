@@ -47,28 +47,33 @@ public class StatsPanel
           continue;
         }
         FixedDecimalsInteger value=stats.getStat(stat);
-        if (value!=null)
+        if (value==null)
         {
-          String valueStr=StatUtils.getStatDisplay(element);
-          JLabel valueLabel=GuiFactory.buildLabel(valueStr);
-          GridBagConstraints c=new GridBagConstraints(0,rowIndex,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,5,0,0),0,0);
-          panel.add(valueLabel,c);
-          if (referenceStats!=null)
-          {
-            // Percentage
-            FixedDecimalsInteger statValue=referenceStats.getStat(stat);
-            String percentageStr="";
-            if (statValue!=null)
-            {
-              float percentage=100*(value.floatValue()/statValue.floatValue());
-              percentageStr=String.format("%.1f%%",Float.valueOf(percentage));
-            }
-            JLabel percentageLabel=GuiFactory.buildLabel(percentageStr);
-            c=new GridBagConstraints(2,rowIndex,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,5,0,5),0,0);
-            panel.add(percentageLabel,c);
-          }
-          rowIndex++;
+          continue;
         }
+        String valueStr=StatUtils.getStatDisplay(element);
+        if (valueStr==null)
+        {
+          continue;
+        }
+        JLabel valueLabel=GuiFactory.buildLabel(valueStr);
+        GridBagConstraints c=new GridBagConstraints(0,rowIndex,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,5,0,0),0,0);
+        panel.add(valueLabel,c);
+        if (referenceStats!=null)
+        {
+          // Percentage
+          FixedDecimalsInteger statValue=referenceStats.getStat(stat);
+          String percentageStr="";
+          if (statValue!=null)
+          {
+            float percentage=100*(value.floatValue()/statValue.floatValue());
+            percentageStr=String.format("%.1f%%",Float.valueOf(percentage));
+          }
+          JLabel percentageLabel=GuiFactory.buildLabel(percentageStr);
+          c=new GridBagConstraints(2,rowIndex,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,5,0,5),0,0);
+          panel.add(percentageLabel,c);
+        }
+        rowIndex++;
       }
     }
   }
