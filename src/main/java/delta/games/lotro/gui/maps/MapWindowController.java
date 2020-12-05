@@ -39,6 +39,7 @@ import delta.games.lotro.maps.ui.layers.radar.RadarImageProvider;
 import delta.games.lotro.maps.ui.navigation.MapViewDefinition;
 import delta.games.lotro.maps.ui.navigation.NavigationListener;
 import delta.games.lotro.maps.ui.navigation.NavigationSupport;
+import delta.games.lotro.maps.ui.selection.SelectionManager;
 
 /**
  * Controller for a map window.
@@ -93,6 +94,9 @@ public class MapWindowController extends DefaultWindowController implements Navi
     canvas.addLayer(markersLayer);
     // Map chooser
     _mapChooser=new MapChooserController(_navigation,getBasemapsManager());
+    // Setup selection manager
+    SelectionManager selectionMgr=_mapPanel.getMapPanelController().getSelectionManager();
+    selectionMgr.addListener(new MarkerSelectionListener(this));
   }
 
   private GeoreferencedBasemapsManager getBasemapsManager()

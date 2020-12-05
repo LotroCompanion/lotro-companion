@@ -13,11 +13,13 @@ import javax.swing.JTabbedPane;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.DefaultWindowController;
 import delta.games.lotro.dat.data.DataFacade;
+import delta.games.lotro.gui.maps.MarkerSelectionListener;
 import delta.games.lotro.lore.instances.InstanceMapDescription;
 import delta.games.lotro.lore.instances.PrivateEncounter;
 import delta.games.lotro.maps.data.basemaps.GeoreferencedBasemap;
 import delta.games.lotro.maps.data.basemaps.GeoreferencedBasemapsManager;
 import delta.games.lotro.maps.ui.MapPanelController;
+import delta.games.lotro.maps.ui.selection.SelectionManager;
 import delta.games.lotro.utils.maps.Maps;
 
 /**
@@ -50,6 +52,9 @@ public class InstanceMapsWindowController extends DefaultWindowController
       Integer mapId=map.getMapId();
       InstanceMapPanelController ctrl=new InstanceMapPanelController(_facade,_pe,map);
       MapPanelController panelCtrl=ctrl.getMapPanelController();
+      // Setup selection manager
+      SelectionManager selectionMgr=panelCtrl.getSelectionManager();
+      selectionMgr.addListener(new MarkerSelectionListener(this));
       JPanel panel=GuiFactory.buildBackgroundPanel(new GridBagLayout());
       mapPanel=panelCtrl.getLayers();
       GridBagConstraints c=new GridBagConstraints(1,1,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
