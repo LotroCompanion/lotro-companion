@@ -1,5 +1,6 @@
 package delta.games.lotro.gui.maps;
 
+import delta.common.ui.swing.misc.Disposable;
 import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.common.ui.swing.windows.WindowController;
@@ -21,7 +22,7 @@ import delta.games.lotro.maps.ui.controllers.SelectionListener;
  * Shows available form for the selected marker, if any.
  * @author DAM
  */
-public class MarkerSelectionListener implements SelectionListener
+public class MarkerSelectionListener implements SelectionListener,Disposable
 {
   private WindowController _parent;
   private WindowsManager _formWindows;
@@ -104,5 +105,18 @@ public class MarkerSelectionListener implements SelectionListener
       return ref;
     }
     return null;
+  }
+
+  /**
+   * Release all managed resources.
+   */
+  public void dispose()
+  {
+    if (_formWindows!=null)
+    {
+      _formWindows.dispose();
+      _formWindows=null;
+    }
+    _parent=null;
   }
 }

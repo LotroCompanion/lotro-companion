@@ -3,6 +3,8 @@ package delta.games.lotro.gui.maps.instances;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -30,6 +32,7 @@ public class InstanceMapsWindowController extends DefaultWindowController
 {
   private DataFacade _facade;
   private PrivateEncounter _pe;
+  private List<InstanceMapPanelController> _panels;
 
   /**
    * Constructor.
@@ -38,7 +41,9 @@ public class InstanceMapsWindowController extends DefaultWindowController
   public InstanceMapsWindowController(PrivateEncounter pe)
   {
     _pe=pe;
+    // TODO Reuse the global one
     _facade=new DataFacade();
+    _panels=new ArrayList<InstanceMapPanelController>();
   }
 
   @Override
@@ -49,6 +54,7 @@ public class InstanceMapsWindowController extends DefaultWindowController
     JLayeredPane mapPanel=null;
     for(InstanceMapDescription map : _pe.getMapDescriptions())
     {
+      // Build map panel
       Integer mapId=map.getMapId();
       InstanceMapPanelController ctrl=new InstanceMapPanelController(_facade,_pe,map);
       MapPanelController panelCtrl=ctrl.getMapPanelController();
@@ -59,6 +65,7 @@ public class InstanceMapsWindowController extends DefaultWindowController
       mapPanel=panelCtrl.getLayers();
       GridBagConstraints c=new GridBagConstraints(1,1,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
       panel.add(mapPanel,c);
+      // Compute the title of the tab
       String title=null;
       if (mapId!=null)
       {
@@ -70,6 +77,7 @@ public class InstanceMapsWindowController extends DefaultWindowController
         title="Landscape";
       }
       tabbedPane.add(title,panel);
+      _panels.add(ctrl);
     }
     return tabbedPane;
   }
@@ -111,5 +119,14 @@ public class InstanceMapsWindowController extends DefaultWindowController
     super.dispose();
     _facade=null;
     _pe=null;
+    if (_panels!=null)
+    {
+      for(InstanceMapPanelController panel : _panels)
+      {
+        panel.dispose();
+      }
+      _panels.clear();
+      _panels=null;
+    }
   }
 }
