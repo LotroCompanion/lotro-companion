@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.maps;
+package delta.games.lotro.gui.maps.global;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -18,6 +18,9 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.combobox.ComboBoxItem;
 import delta.common.ui.swing.windows.DefaultWindowController;
 import delta.games.lotro.dat.data.DataFacade;
+import delta.games.lotro.gui.maps.DatRadarImageProvider;
+import delta.games.lotro.gui.maps.MarkerSelectionListener;
+import delta.games.lotro.gui.maps.RadarMapLayer;
 import delta.games.lotro.lore.maps.ParchmentMap;
 import delta.games.lotro.lore.maps.ParchmentMapsManager;
 import delta.games.lotro.maps.data.MapsManager;
@@ -102,6 +105,15 @@ public class MapWindowController extends DefaultWindowController implements Navi
   private GeoreferencedBasemapsManager getBasemapsManager()
   {
     return _mapsManager.getBasemapsManager();
+  }
+
+  /**
+   * Get the navigation support.
+   * @return the navigation support.
+   */
+  public NavigationSupport getNavigationSupport()
+  {
+    return _navigation;
   }
 
   @Override

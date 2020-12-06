@@ -39,7 +39,7 @@ import delta.games.lotro.gui.interceptor.InterceptorInterface;
 import delta.games.lotro.gui.lore.instances.explorer.InstancesExplorerWindowController;
 import delta.games.lotro.gui.lore.trade.barter.explorer.BarterersExplorerWindowController;
 import delta.games.lotro.gui.lore.trade.vendor.explorer.VendorsExplorerWindowController;
-import delta.games.lotro.gui.maps.MapWindowController;
+import delta.games.lotro.gui.maps.global.MapWindowController;
 import delta.games.lotro.gui.maps.resources.ResourcesMapsExplorerWindowController;
 import delta.games.lotro.gui.misc.paypal.PaypalButtonController;
 import delta.games.lotro.gui.mounts.explorer.MountsExplorerWindowController;

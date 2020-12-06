@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.maps;
+package delta.games.lotro.gui.maps.global;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -2,7 +2,7 @@ package delta.games.lotro.gui.maps;
 
 import java.io.File;
 
-import delta.games.lotro.gui.maps.MapWindowController;
+import delta.games.lotro.gui.maps.global.MapWindowController;
 import delta.games.lotro.maps.data.MapsManager;
 
 /**
