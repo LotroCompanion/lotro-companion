@@ -8,7 +8,6 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.util.List;
 
-import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
@@ -16,7 +15,6 @@ import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
 import delta.common.ui.swing.GuiFactory;
-import delta.common.ui.swing.combobox.ComboBoxItem;
 import delta.common.ui.swing.windows.DefaultWindowController;
 import delta.games.lotro.dat.data.DataFacade;
 import delta.games.lotro.gui.maps.DatRadarImageProvider;
@@ -33,7 +31,6 @@ import delta.games.lotro.maps.data.links.MapLink;
 import delta.games.lotro.maps.ui.BasemapPanelController;
 import delta.games.lotro.maps.ui.DefaultMarkerIconsProvider;
 import delta.games.lotro.maps.ui.MapCanvas;
-import delta.games.lotro.maps.ui.MapChooserController;
 import delta.games.lotro.maps.ui.MarkerIconProvider;
 import delta.games.lotro.maps.ui.filter.MapFilterPanelController;
 import delta.games.lotro.maps.ui.filter.MapMarkersFilter;
@@ -62,7 +59,6 @@ public class MapWindowController extends DefaultWindowController implements Navi
   // UI controllers
   private BasemapPanelController _mapPanel;
   private MapFilterPanelController _filter;
-  private MapChooserController _mapChooser;
   // Navigation
   private NavigationSupport _navigation;
   private NavigationMenuController _navigationMenuController;
@@ -97,8 +93,6 @@ public class MapWindowController extends DefaultWindowController implements Navi
     MarkersLayer markersLayer=new MarkersLayer(iconsProvider,_markersProvider);
     markersLayer.setFilter(filter);
     canvas.addLayer(markersLayer);
-    // Map chooser
-    _mapChooser=new MapChooserController(_navigation,getBasemapsManager());
     // Setup selection manager
     SelectionManager selectionMgr=_mapPanel.getMapPanelController().getSelectionManager();
     selectionMgr.addListener(new MarkerSelectionListener(this));
@@ -132,7 +126,6 @@ public class MapWindowController extends DefaultWindowController implements Navi
     }
     // Setup map
     _mapPanel.setMap(mapViewDefinition);
-    _mapChooser.selectMap(mapId);
     pack();
     // Radar map
     ParchmentMapsManager parchmentMapsMgr=ParchmentMapsManager.getInstance();
@@ -200,21 +193,13 @@ public class MapWindowController extends DefaultWindowController implements Navi
   private JPanel buildTopPanel()
   {
     JPanel topPanel=GuiFactory.buildPanel(new GridBagLayout());
-    // Map chooser
-    JComboBox<ComboBoxItem<GeoreferencedBasemap>> mapChooserCombo=_mapChooser.getCombo();
-    JPanel chooserPanel=GuiFactory.buildPanel(new BorderLayout());
-    chooserPanel.add(mapChooserCombo,BorderLayout.CENTER);
-    TitledBorder mapChooserBorder=GuiFactory.buildTitledBorder("Map chooser");
-    chooserPanel.setBorder(mapChooserBorder);
-    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,5,0,0),0,0);
-    topPanel.add(chooserPanel,c);
     // Markers filter
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,5,0,0),0,0);
     JPanel filterPanel=_filter.getPanel();
     TitledBorder filterBorder=GuiFactory.buildTitledBorder("Filter");
     filterPanel.setBorder(filterBorder);
-    c.gridx=2;
     topPanel.add(filterPanel,c);
-    c.gridx=3;
+    c.gridx++;
     c.fill=GridBagConstraints.BOTH;
     c.weightx=1.0;
     JPanel emptyPanel=GuiFactory.buildPanel(new FlowLayout());
@@ -233,11 +218,6 @@ public class MapWindowController extends DefaultWindowController implements Navi
     {
       _filter.dispose();
       _filter=null;
-    }
-    if (_mapChooser==null)
-    {
-      _mapChooser.dispose();
-      _mapChooser=null;
     }
     if (_mapPanel!=null)
     {
