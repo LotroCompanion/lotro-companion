@@ -26,6 +26,7 @@ import delta.games.lotro.maps.ui.MapCanvas;
 import delta.games.lotro.maps.ui.MapPanelController;
 import delta.games.lotro.maps.ui.MapUiUtils;
 import delta.games.lotro.maps.ui.MarkerIconProvider;
+import delta.games.lotro.maps.ui.filter.MapFilterPanelController;
 import delta.games.lotro.maps.ui.layers.BasemapLayer;
 import delta.games.lotro.maps.ui.layers.MarkersLayer;
 import delta.games.lotro.maps.ui.layers.SimpleMarkersProvider;
@@ -76,6 +77,12 @@ public class InstanceMapPanelController
     MapPanelController panel=new MapPanelController();
     MapCanvas canvas=panel.getCanvas();
     MapsManager mapsManager=Maps.getMaps().getMapsManager();
+
+    // Markers filter UI
+    CategoriesManager categoriesManager=mapsManager.getCategories();
+    MapFilterPanelController mapFilterCtrl=new MapFilterPanelController(categoriesManager,canvas);
+    panel.addFilterButton(mapFilterCtrl);
+
     int region=0;
     // Basemap
     Integer mapId=_mapDescription.getMapId();
@@ -116,12 +123,12 @@ public class InstanceMapPanelController
     radarLayer.setRegion(region);
 
     // Markers
-    CategoriesManager categoriesManager=mapsManager.getCategories();
     MarkerIconProvider iconsProvider=new DefaultMarkerIconsProvider(categoriesManager);
     SimpleMarkersProvider markersProvider=new SimpleMarkersProvider();
     List<Marker> markers=findMarkers();
     markersProvider.setMarkers(markers);
     MarkersLayer markersLayer=new MarkersLayer(iconsProvider,markersProvider);
+    markersLayer.setFilter(mapFilterCtrl.getFilter());
     canvas.addLayer(markersLayer);
     return panel;
   }
