@@ -11,6 +11,7 @@ import java.util.List;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
@@ -64,6 +65,7 @@ public class MapWindowController extends DefaultWindowController implements Navi
   private MapChooserController _mapChooser;
   // Navigation
   private NavigationSupport _navigation;
+  private NavigationMenuController _navigationMenuController;
   // Layers
   private RadarMapLayer _radarLayer;
 
@@ -105,15 +107,6 @@ public class MapWindowController extends DefaultWindowController implements Navi
   private GeoreferencedBasemapsManager getBasemapsManager()
   {
     return _mapsManager.getBasemapsManager();
-  }
-
-  /**
-   * Get the navigation support.
-   * @return the navigation support.
-   */
-  public NavigationSupport getNavigationSupport()
-  {
-    return _navigation;
   }
 
   @Override
@@ -158,6 +151,9 @@ public class MapWindowController extends DefaultWindowController implements Navi
     // Links
     List<MapLink> links=new MapLinksFactory().getLinks(mapId);
     _navigation.setLinks(links);
+    // Title
+    String title=map.getName();
+    setTitle(title);
   }
 
   @Override
@@ -170,10 +166,17 @@ public class MapWindowController extends DefaultWindowController implements Navi
   protected JFrame build()
   {
     JFrame frame=super.build();
+    // Set initial map (Middle-earth or Bree)
     GeoreferencedBasemapsManager basemapsManager=getBasemapsManager();
-    GeoreferencedBasemap map=basemapsManager.getMapById(268437716); // Bree
+    ParchmentMap rootMap=ParchmentMapsManager.getInstance().getRootMap();
+    int initialMapId=(rootMap!=null)?rootMap.getIdentifier():268437716;
+    GeoreferencedBasemap map=basemapsManager.getMapById(initialMapId);
     setMap(map.getIdentifier());
-    frame.setTitle("Middle Earth maps");
+    // Menu
+    _navigationMenuController=new NavigationMenuController(_navigation);
+    JMenuBar menuBar=_navigationMenuController.getMenuBar();
+    frame.setJMenuBar(menuBar);
+    // Size & position
     frame.setLocation(100,100);
     frame.pack();
     frame.setResizable(false);
@@ -245,6 +248,11 @@ public class MapWindowController extends DefaultWindowController implements Navi
     {
       _navigation.dispose();
       _navigation=null;
+    }
+    if (_navigationMenuController!=null)
+    {
+      _navigationMenuController.dispose();
+      _navigationMenuController=null;
     }
     _radarLayer=null;
     super.dispose();
