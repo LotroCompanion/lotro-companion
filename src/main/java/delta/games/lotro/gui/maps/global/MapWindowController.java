@@ -2,17 +2,12 @@ package delta.games.lotro.gui.maps.global;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.FlowLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
 import java.util.List;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
-import javax.swing.border.TitledBorder;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.DefaultWindowController;
@@ -33,7 +28,6 @@ import delta.games.lotro.maps.ui.DefaultMarkerIconsProvider;
 import delta.games.lotro.maps.ui.MapCanvas;
 import delta.games.lotro.maps.ui.MarkerIconProvider;
 import delta.games.lotro.maps.ui.filter.MapFilterPanelController;
-import delta.games.lotro.maps.ui.filter.MapMarkersFilter;
 import delta.games.lotro.maps.ui.layers.MarkersLayer;
 import delta.games.lotro.maps.ui.layers.SimpleMarkersProvider;
 import delta.games.lotro.maps.ui.layers.radar.RadarImageProvider;
@@ -58,7 +52,6 @@ public class MapWindowController extends DefaultWindowController implements Navi
   private SimpleMarkersProvider _markersProvider;
   // UI controllers
   private BasemapPanelController _mapPanel;
-  private MapFilterPanelController _filter;
   // Navigation
   private NavigationSupport _navigation;
   private NavigationMenuController _navigationMenuController;
@@ -83,15 +76,15 @@ public class MapWindowController extends DefaultWindowController implements Navi
     // Setup navigation
     _navigation=new NavigationSupport(_mapPanel);
     _navigation.getNavigationListeners().addListener(this);
-    // Markers filter
-    MapMarkersFilter filter=new MapMarkersFilter();
+    // Markers filter UI
     CategoriesManager categoriesManager=mapsManager.getCategories();
-    _filter=new MapFilterPanelController(categoriesManager,filter,_mapPanel.getCanvas());
+    MapFilterPanelController mapFilterCtrl=new MapFilterPanelController(categoriesManager,_mapPanel.getCanvas());
+    _mapPanel.getMapPanelController().addFilterButton(mapFilterCtrl);
     // Markers layer
     MarkerIconProvider iconsProvider=new DefaultMarkerIconsProvider(categoriesManager);
     _markersProvider=new SimpleMarkersProvider();
     MarkersLayer markersLayer=new MarkersLayer(iconsProvider,_markersProvider);
-    markersLayer.setFilter(filter);
+    markersLayer.setFilter(mapFilterCtrl.getFilter());
     canvas.addLayer(markersLayer);
     // Setup selection manager
     SelectionManager selectionMgr=_mapPanel.getMapPanelController().getSelectionManager();
@@ -181,30 +174,10 @@ public class MapWindowController extends DefaultWindowController implements Navi
   protected JComponent buildContents()
   {
     JPanel panel=GuiFactory.buildBackgroundPanel(new BorderLayout());
-    // Top
-    JPanel topPanel=buildTopPanel();
-    panel.add(topPanel,BorderLayout.NORTH);
     // Center
     Component mapComponent=_mapPanel.getComponent();
     panel.add(mapComponent,BorderLayout.CENTER);
     return panel;
-  }
-
-  private JPanel buildTopPanel()
-  {
-    JPanel topPanel=GuiFactory.buildPanel(new GridBagLayout());
-    // Markers filter
-    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,5,0,0),0,0);
-    JPanel filterPanel=_filter.getPanel();
-    TitledBorder filterBorder=GuiFactory.buildTitledBorder("Filter");
-    filterPanel.setBorder(filterBorder);
-    topPanel.add(filterPanel,c);
-    c.gridx++;
-    c.fill=GridBagConstraints.BOTH;
-    c.weightx=1.0;
-    JPanel emptyPanel=GuiFactory.buildPanel(new FlowLayout());
-    topPanel.add(emptyPanel,c);
-    return topPanel;
   }
 
   /**
@@ -214,11 +187,6 @@ public class MapWindowController extends DefaultWindowController implements Navi
   public void dispose()
   {
     _markersProvider=null;
-    if (_filter!=null)
-    {
-      _filter.dispose();
-      _filter=null;
-    }
     if (_mapPanel!=null)
     {
       _mapPanel.dispose();
