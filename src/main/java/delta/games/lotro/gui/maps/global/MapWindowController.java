@@ -21,8 +21,10 @@ import delta.games.lotro.maps.data.MapsManager;
 import delta.games.lotro.maps.data.Marker;
 import delta.games.lotro.maps.data.basemaps.GeoreferencedBasemap;
 import delta.games.lotro.maps.data.basemaps.GeoreferencedBasemapsManager;
+import delta.games.lotro.maps.data.categories.CategoriesConstants;
 import delta.games.lotro.maps.data.categories.CategoriesManager;
 import delta.games.lotro.maps.data.links.MapLink;
+import delta.games.lotro.maps.data.markers.filters.MarkerCategoryFilter;
 import delta.games.lotro.maps.ui.BasemapPanelController;
 import delta.games.lotro.maps.ui.DefaultMarkerIconsProvider;
 import delta.games.lotro.maps.ui.MapCanvas;
@@ -79,6 +81,7 @@ public class MapWindowController extends DefaultWindowController implements Navi
     // Markers filter UI
     CategoriesManager categoriesManager=mapsManager.getCategories();
     MapFilterPanelController mapFilterCtrl=new MapFilterPanelController(categoriesManager,_mapPanel.getCanvas());
+    removeCategories(mapFilterCtrl.getFilter().getCategoryFilter());
     _mapPanel.getMapPanelController().addFilterButton(mapFilterCtrl);
     // Markers layer
     MarkerIconProvider iconsProvider=new DefaultMarkerIconsProvider(categoriesManager);
@@ -89,6 +92,14 @@ public class MapWindowController extends DefaultWindowController implements Navi
     // Setup selection manager
     SelectionManager selectionMgr=_mapPanel.getMapPanelController().getSelectionManager();
     selectionMgr.addListener(new MarkerSelectionListener(this));
+  }
+
+  private void removeCategories(MarkerCategoryFilter filter)
+  {
+    filter.removeCategory(CategoriesConstants.CROP);
+    filter.removeCategory(CategoriesConstants.CRITTER);
+    filter.removeCategory(CategoriesConstants.MONSTER);
+    filter.removeCategory(CategoriesConstants.RESOURCE_NODE);
   }
 
   private GeoreferencedBasemapsManager getBasemapsManager()
