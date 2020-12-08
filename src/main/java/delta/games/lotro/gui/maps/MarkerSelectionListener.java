@@ -15,6 +15,7 @@ import delta.games.lotro.lore.trade.vendor.VendorNpc;
 import delta.games.lotro.lore.trade.vendor.VendorsManager;
 import delta.games.lotro.maps.data.MapPoint;
 import delta.games.lotro.maps.data.Marker;
+import delta.games.lotro.maps.data.categories.CategoriesConstants;
 import delta.games.lotro.maps.ui.controllers.SelectionListener;
 
 /**
@@ -52,15 +53,15 @@ public class MarkerSelectionListener implements SelectionListener,Disposable
     int categoryCode=marker.getCategoryCode();
     int did=marker.getDid();
     PageIdentifier ref=null;
-    if ((categoryCode==38) || (categoryCode==33)|| (categoryCode==42))
+    if ((categoryCode==CategoriesConstants.VENDOR) || (categoryCode==CategoriesConstants.CRAFTING_VENDOR)|| (categoryCode==CategoriesConstants.TRAINER))
     {
       ref=getVendorRef(did);
     }
-    else if ((categoryCode==58) || (categoryCode==61))
+    else if ((categoryCode==CategoriesConstants.TRADER) || (categoryCode==CategoriesConstants.FACTION_REPRESENTATIVE))
     {
       ref=getBartererRef(did);
     }
-    else if ((categoryCode==72) || (categoryCode==73))
+    else if ((categoryCode==CategoriesConstants.ITEM) || (categoryCode==CategoriesConstants.CONTAINER))
     {
       ref=getItemRef(did);
     }
