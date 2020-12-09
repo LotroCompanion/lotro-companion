@@ -1,15 +1,14 @@
 package delta.games.lotro.gui.character.traitTree;
 
-import java.awt.BasicStroke;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
-import java.awt.geom.Path2D;
 import java.util.List;
 
 import javax.swing.JPanel;
 
+import delta.common.ui.swing.draw.Arrows;
 import delta.games.lotro.character.classes.traitTree.TraitTreeBranch;
 import delta.games.lotro.character.classes.traitTree.TraitTreeCell;
 import delta.games.lotro.character.classes.traitTree.TraitTreeCellDependency;
@@ -75,37 +74,7 @@ public class TraitTreeDependenciesPanelController extends JPanel
     }
     int x=(toPosition.width+fromPosition.width)/2;
     int y=(toPosition.height+fromPosition.height)/2;
-    drawArrow((Graphics2D)g,x,y,angle);
-  }
-
-  private void drawArrow(Graphics2D g, int x, int y, double angle)
-  {
-    g=(Graphics2D)g.create();
-    g.translate(x,y);
-    g.rotate(angle);
-    float arrowRatio=0.5f;
-    float arrowLength=10.0f;
-
-    BasicStroke stroke=(BasicStroke)g.getStroke();
-
-    float endX=arrowLength/2;
-    float veeX=endX-stroke.getLineWidth()*0.5f/arrowRatio;
-
-    // Path
-    Path2D.Float path=new Path2D.Float();
-    float waisting=0.5f;
-    float waistX=endX-arrowLength*0.5f;
-    float waistY=arrowRatio*arrowLength*0.5f*waisting;
-    float arrowWidth=arrowRatio*arrowLength;
-
-    path.moveTo(veeX-arrowLength,-arrowWidth);
-    path.quadTo(waistX,-waistY,endX,0.0f);
-    path.quadTo(waistX,waistY,veeX-arrowLength,arrowWidth);
-
-    // End of arrow is pinched in
-    path.lineTo(veeX-arrowLength*0.75f,0.0f);
-    path.lineTo(veeX-arrowLength,-arrowWidth);
-    g.fill(path);
+    Arrows.drawArrow((Graphics2D)g,x,y,angle);
   }
 
   @Override
