@@ -2,6 +2,8 @@ package delta.games.lotro.gui.maps;
 
 import java.awt.image.BufferedImage;
 
+import org.apache.log4j.Logger;
+
 import delta.games.lotro.dat.data.DataFacade;
 import delta.games.lotro.dat.data.PropertiesSet;
 import delta.games.lotro.dat.utils.DatIconsUtils;
@@ -13,6 +15,8 @@ import delta.games.lotro.maps.ui.layers.radar.RadarImageProvider;
  */
 public class DatRadarImageProvider implements RadarImageProvider
 {
+  private static final Logger LOGGER=Logger.getLogger(DatRadarImageProvider.class);
+
   private DataFacade _facade;
 
   /**
@@ -34,10 +38,17 @@ public class DatRadarImageProvider implements RadarImageProvider
   public BufferedImage getImage(int region, int blockX, int blockY)
   {
     BufferedImage ret=null;
-    Integer imageId=getRadarImageId(region,blockX,blockY);
-    if (imageId!=null)
+    try
     {
-      ret=DatIconsUtils.loadImage(_facade,imageId.intValue());
+      Integer imageId=getRadarImageId(region,blockX,blockY);
+      if (imageId!=null)
+      {
+        ret=DatIconsUtils.loadImage(_facade,imageId.intValue());
+      }
+    }
+    catch(Exception e)
+    {
+      LOGGER.warn("Could not load radar image for region="+region+", bx="+blockX+", by="+blockY);
     }
     return ret;
   }
