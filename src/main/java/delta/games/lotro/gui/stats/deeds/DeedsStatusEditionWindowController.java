@@ -7,6 +7,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.Box;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
@@ -19,13 +20,13 @@ import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.achievables.AchievableStatus;
 import delta.games.lotro.character.achievables.DeedsStatusManager;
+import delta.games.lotro.character.achievables.filter.DeedStatusFilter;
 import delta.games.lotro.character.events.CharacterEvent;
 import delta.games.lotro.character.events.CharacterEventType;
 import delta.games.lotro.character.reputation.ReputationStatus;
-import delta.games.lotro.gui.deed.filter.DeedFilter;
 import delta.games.lotro.gui.deed.filter.DeedFilterController;
 import delta.games.lotro.gui.main.GlobalPreferences;
-import delta.games.lotro.lore.deeds.DeedDescription;
+import delta.games.lotro.gui.stats.deeds.filter.DeedStatusFilterController;
 import delta.games.lotro.stats.deeds.SyncDeedsStatusAndReputationStatus;
 import delta.games.lotro.utils.events.EventsManager;
 
@@ -38,10 +39,11 @@ public class DeedsStatusEditionWindowController extends DefaultFormDialogControl
   // Data
   private CharacterFile _toon;
   // Controllers
+  private DeedStatusFilterController _statusFilterController;
   private DeedFilterController _filterController;
   private DeedsStatusEditionPanelController _panelController;
   private DeedStatusTableController _tableController;
-  private DeedFilter _filter;
+  private DeedStatusFilter _filter;
 
   /**
    * Constructor.
@@ -53,7 +55,7 @@ public class DeedsStatusEditionWindowController extends DefaultFormDialogControl
   {
     super(parent,status);
     _toon=toon;
-    _filter=new DeedFilter();
+    _filter=new DeedStatusFilter();
   }
 
   @Override
@@ -71,23 +73,33 @@ public class DeedsStatusEditionWindowController extends DefaultFormDialogControl
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     // Table
-    initDeedsTable();
+    initTable();
     _panelController=new DeedsStatusEditionPanelController(this,_tableController);
     JPanel tablePanel=_panelController.getPanel();
-    // Filter
-    _filterController=new DeedFilterController(_filter,_panelController);
-    JPanel filterPanel=_filterController.getPanel();
-    TitledBorder filterBorder=GuiFactory.buildTitledBorder("Filter");
-    filterPanel.setBorder(filterBorder);
+    // Deed filter
+    _filterController=new DeedFilterController(_filter.getDeedFilter(),_panelController);
+    JPanel deedFilterPanel=_filterController.getPanel();
+    TitledBorder deedFilterBorder=GuiFactory.buildTitledBorder("Deed Filter");
+    deedFilterPanel.setBorder(deedFilterBorder);
+    // Deed status filter
+    _statusFilterController=new DeedStatusFilterController(_filter,_panelController);
+    JPanel statusFilterPanel=_statusFilterController.getPanel();
+    TitledBorder statusFilterBorder=GuiFactory.buildTitledBorder("Status Filter");
+    statusFilterPanel.setBorder(statusFilterBorder);
     // Whole panel
-    GridBagConstraints c=new GridBagConstraints(0,0,1,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
-    panel.add(filterPanel,c);
-    c.gridy=1;c.weighty=1;c.fill=GridBagConstraints.BOTH;
+    GridBagConstraints c=new GridBagConstraints(0,0,2,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    panel.add(deedFilterPanel,c);
+    c=new GridBagConstraints(0,1,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    panel.add(statusFilterPanel,c);
+    c=new GridBagConstraints(1,1,1,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    panel.add(Box.createGlue(),c);
+    c=new GridBagConstraints(0,2,2,1,1,1,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
+
     panel.add(tablePanel,c);
     return panel;
   }
 
-  private void initDeedsTable()
+  private void initTable()
   {
     TypedProperties prefs=GlobalPreferences.getGlobalProperties("DeedsStatus");
     _tableController=new DeedStatusTableController(_data,prefs,_filter);
@@ -99,22 +111,21 @@ public class DeedsStatusEditionWindowController extends DefaultFormDialogControl
         String action=event.getActionCommand();
         if (GenericTableController.DOUBLE_CLICK.equals(action))
         {
-          DeedDescription deed=(DeedDescription)event.getSource();
-          editDeedStatus(deed);
+          AchievableStatus status=(AchievableStatus)event.getSource();
+          editDeedStatus(status);
         }
       }
     };
     _tableController.getTableController().addActionListener(al);
   }
 
-  private void editDeedStatus(DeedDescription deed)
+  private void editDeedStatus(AchievableStatus status)
   {
-    AchievableStatus status=_data.get(deed,true);
-    DeedStatusEditionDialogController dialog=new DeedStatusEditionDialogController(deed,status,this);
+    DeedStatusEditionDialogController dialog=new DeedStatusEditionDialogController(status,this);
     status=dialog.editModal();
     if (status!=null)
     {
-      _tableController.getTableController().refresh(deed);
+      _tableController.getTableController().refresh(status);
     }
   }
 
@@ -140,6 +151,11 @@ public class DeedsStatusEditionWindowController extends DefaultFormDialogControl
   {
     super.dispose();
     _toon=null;
+    if (_statusFilterController!=null)
+    {
+      _statusFilterController.dispose();
+      _statusFilterController=null;
+    }
     if (_filterController!=null)
     {
       _filterController.dispose();

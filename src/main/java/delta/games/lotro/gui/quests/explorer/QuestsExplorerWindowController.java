@@ -22,10 +22,10 @@ import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.gui.main.GlobalPreferences;
 import delta.games.lotro.gui.navigation.NavigatorFactory;
-import delta.games.lotro.gui.quests.filter.QuestFilter;
 import delta.games.lotro.gui.quests.filter.QuestFilterController;
 import delta.games.lotro.gui.quests.table.QuestsTableController;
 import delta.games.lotro.lore.quests.QuestDescription;
+import delta.games.lotro.lore.quests.filter.QuestFilter;
 
 /**
  * Controller for the quests explorer window.

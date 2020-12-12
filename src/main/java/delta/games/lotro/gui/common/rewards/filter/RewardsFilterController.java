@@ -20,6 +20,7 @@ import delta.games.lotro.common.rewards.filters.LotroPointsRewardFilter;
 import delta.games.lotro.common.rewards.filters.MountXpRewardFilter;
 import delta.games.lotro.common.rewards.filters.RelicRewardFilter;
 import delta.games.lotro.common.rewards.filters.ReputationRewardFilter;
+import delta.games.lotro.common.rewards.filters.RewardsFilter;
 import delta.games.lotro.common.rewards.filters.TitleRewardFilter;
 import delta.games.lotro.common.rewards.filters.TraitRewardFilter;
 import delta.games.lotro.common.rewards.filters.VirtueXpRewardFilter;

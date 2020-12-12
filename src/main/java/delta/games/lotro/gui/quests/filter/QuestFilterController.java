@@ -36,6 +36,7 @@ import delta.games.lotro.lore.quests.filter.LockTypeFilter;
 import delta.games.lotro.lore.quests.filter.QuestArcFilter;
 import delta.games.lotro.lore.quests.filter.QuestCategoryFilter;
 import delta.games.lotro.lore.quests.filter.QuestFactionFilter;
+import delta.games.lotro.lore.quests.filter.QuestFilter;
 import delta.games.lotro.lore.quests.filter.QuestNameFilter;
 import delta.games.lotro.lore.quests.filter.QuestSizeFilter;
 import delta.games.lotro.lore.quests.filter.RepeatabilityFilter;

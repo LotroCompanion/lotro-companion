@@ -56,12 +56,11 @@ public class DeedStatusEditionDialogController extends DefaultFormDialogControll
    * Constructor.
    * @param parentController Parent controller.
    * @param status Status to edit.
-   * @param deed Targeted deed.
    */
-  public DeedStatusEditionDialogController(DeedDescription deed, AchievableStatus status, WindowController parentController)
+  public DeedStatusEditionDialogController(AchievableStatus status, WindowController parentController)
   {
     super(parentController,status);
-    _deed=deed;
+    _deed=(DeedDescription)status.getAchievable();
     _windowsManager=new WindowsManager();
   }
 

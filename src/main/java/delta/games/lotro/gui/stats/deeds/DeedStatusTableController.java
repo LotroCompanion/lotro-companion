@@ -12,12 +12,14 @@ import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.GenericTableController.DateRenderer;
 import delta.common.ui.swing.tables.ListDataProvider;
+import delta.common.ui.swing.tables.ProxiedTableColumnController;
 import delta.common.ui.swing.tables.TableColumnController;
 import delta.common.ui.swing.tables.TableColumnsManager;
-import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.misc.TypedProperties;
+import delta.games.lotro.character.achievables.AchievableElementState;
 import delta.games.lotro.character.achievables.AchievableStatus;
 import delta.games.lotro.character.achievables.DeedsStatusManager;
+import delta.games.lotro.character.achievables.filter.DeedStatusFilter;
 import delta.games.lotro.gui.deed.table.DeedColumnIds;
 import delta.games.lotro.gui.deed.table.DeedsTableController;
 import delta.games.lotro.gui.items.chooser.ItemChooser;
@@ -36,11 +38,10 @@ public class DeedStatusTableController
 
   // Data
   private TypedProperties _prefs;
-  private DeedsStatusManager _deedsStatus;
-  private List<DeedDescription> _deeds;
+  private List<AchievableStatus> _statuses;
   // GUI
   private JTable _table;
-  private GenericTableController<DeedDescription> _tableController;
+  private GenericTableController<AchievableStatus> _tableController;
 
   /**
    * Constructor.
@@ -48,50 +49,63 @@ public class DeedStatusTableController
    * @param prefs Preferences.
    * @param filter Managed filter.
    */
-  public DeedStatusTableController(DeedsStatusManager deedsStatus, TypedProperties prefs, Filter<DeedDescription> filter)
+  public DeedStatusTableController(DeedsStatusManager deedsStatus, TypedProperties prefs, DeedStatusFilter filter)
   {
     _prefs=prefs;
-    _deeds=DeedsManager.getInstance().getAll();
-    _deedsStatus=deedsStatus;
+    List<DeedDescription> deeds=DeedsManager.getInstance().getAll();
+    _statuses=new ArrayList<AchievableStatus>();
+    for(DeedDescription deed : deeds)
+    {
+      AchievableStatus status=deedsStatus.get(deed,true);
+      //if (deed.hasGeoData())
+      {
+        _statuses.add(status);
+      }
+    }
     _tableController=buildTable();
     _tableController.setFilter(filter);
   }
 
-  private GenericTableController<DeedDescription> buildTable()
+  private GenericTableController<AchievableStatus> buildTable()
   {
-    ListDataProvider<DeedDescription> provider=new ListDataProvider<DeedDescription>(_deeds);
-    GenericTableController<DeedDescription> table=new GenericTableController<DeedDescription>(provider);
+    ListDataProvider<AchievableStatus> provider=new ListDataProvider<AchievableStatus>(_statuses);
+    GenericTableController<AchievableStatus> table=new GenericTableController<AchievableStatus>(provider);
     List<TableColumnController<DeedDescription,?>> deedColumns=DeedsTableController.buildColumns();
+    CellDataProvider<AchievableStatus,DeedDescription> dataProvider=new CellDataProvider<AchievableStatus,DeedDescription>()
+    {
+      @Override
+      public DeedDescription getData(AchievableStatus deed)
+      {
+        return (DeedDescription)deed.getAchievable();
+      }
+    };
     for(TableColumnController<DeedDescription,?> deedColumn : deedColumns)
     {
-      table.addColumnController(deedColumn);
+      @SuppressWarnings("unchecked")
+      TableColumnController<DeedDescription,Object> c=(TableColumnController<DeedDescription,Object>)deedColumn;
+      TableColumnController<AchievableStatus,Object> proxiedColumn=new ProxiedTableColumnController<AchievableStatus,DeedDescription,Object>(c,dataProvider);
+      table.addColumnController(proxiedColumn);
     }
 
-    // Status
+    // State
     {
-      CellDataProvider<DeedDescription,Boolean> completedCell=new CellDataProvider<DeedDescription,Boolean>()
+      CellDataProvider<AchievableStatus,Boolean> completedCell=new CellDataProvider<AchievableStatus,Boolean>()
       {
         @Override
-        public Boolean getData(DeedDescription deed)
+        public Boolean getData(AchievableStatus status)
         {
-          AchievableStatus status=_deedsStatus.get(deed,false);
-          if (status!=null)
-          {
-            return Boolean.valueOf(status.isCompleted());
-          }
-          return Boolean.FALSE;
+          return Boolean.valueOf(status.getState()==AchievableElementState.COMPLETED);
         }
       };
-      DefaultTableColumnController<DeedDescription,Boolean> completedColumn=new DefaultTableColumnController<DeedDescription,Boolean>(COMPLETED,"Completed",Boolean.class,completedCell);
+      DefaultTableColumnController<AchievableStatus,Boolean> completedColumn=new DefaultTableColumnController<AchievableStatus,Boolean>(COMPLETED,"Completed",Boolean.class,completedCell);
       completedColumn.setWidthSpecs(30,30,30);
 
       completedColumn.setEditable(true);
-      CellDataUpdater<DeedDescription> updater=new CellDataUpdater<DeedDescription>()
+      CellDataUpdater<AchievableStatus> updater=new CellDataUpdater<AchievableStatus>()
       {
         @Override
-        public void setData(DeedDescription deed, Object value)
+        public void setData(AchievableStatus status, Object value)
         {
-          AchievableStatus status=_deedsStatus.get(deed,true);
           Boolean completed=(Boolean)value;
           status.setCompleted(completed.booleanValue());
         }
@@ -101,27 +115,22 @@ public class DeedStatusTableController
     }
     // Completion date column
     {
-      CellDataProvider<DeedDescription,Date> completionDateCell=new CellDataProvider<DeedDescription,Date>()
+      CellDataProvider<AchievableStatus,Date> completionDateCell=new CellDataProvider<AchievableStatus,Date>()
       {
         @Override
-        public Date getData(DeedDescription deed)
+        public Date getData(AchievableStatus status)
         {
-          Long timestamp=null;
-          AchievableStatus status=_deedsStatus.get(deed,false);
-          if (status!=null)
-          {
-            timestamp=status.getCompletionDate();
-          }
+          Long timestamp=status.getCompletionDate();
           return (timestamp!=null)?new Date(timestamp.longValue()):null;
         }
       };
-      DefaultTableColumnController<DeedDescription,Date> completionDateColumn=new DefaultTableColumnController<DeedDescription,Date>(COMPLETION_DATE,"Completion Date",Date.class,completionDateCell);
+      DefaultTableColumnController<AchievableStatus,Date> completionDateColumn=new DefaultTableColumnController<AchievableStatus,Date>(COMPLETION_DATE,"Completion Date",Date.class,completionDateCell);
       completionDateColumn.setWidthSpecs(120,120,120);
       completionDateColumn.setCellRenderer(new DateRenderer(Formats.DATE_TIME_PATTERN));
       table.addColumnController(completionDateColumn);
     }
 
-    TableColumnsManager<DeedDescription> columnsManager=table.getColumnsManager();
+    TableColumnsManager<AchievableStatus> columnsManager=table.getColumnsManager();
     List<String> columnsIds=getColumnIds();
     columnsManager.setColumns(columnsIds);
 
@@ -151,7 +160,7 @@ public class DeedStatusTableController
    * Get the managed table controller.
    * @return the managed table controller.
    */
-  public GenericTableController<DeedDescription> getTableController()
+  public GenericTableController<AchievableStatus> getTableController()
   {
     return _tableController;
   }
@@ -170,7 +179,7 @@ public class DeedStatusTableController
    */
   public int getNbItems()
   {
-    return _deeds.size();
+    return _statuses.size();
   }
 
   /**
@@ -216,7 +225,6 @@ public class DeedStatusTableController
       _tableController=null;
     }
     // Data
-    _deeds=null;
-    _deedsStatus=null;
+    _statuses=null;
   }
 }

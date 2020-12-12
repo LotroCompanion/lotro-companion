@@ -21,7 +21,7 @@ public class MainTestDeedStatusEdition
       AchievableStatus status=new AchievableStatus(deed);
       status.setCompleted(true);
       status.setCompletionDate(Long.valueOf(System.currentTimeMillis()));
-      DeedStatusEditionDialogController dialog=new DeedStatusEditionDialogController(deed,status,null);
+      DeedStatusEditionDialogController dialog=new DeedStatusEditionDialogController(status,null);
       AchievableStatus newStatus=dialog.editModal();
       if (newStatus!=null)
       {

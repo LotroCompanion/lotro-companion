@@ -16,8 +16,8 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.tables.TableColumnsChooserController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.ui.swing.windows.WindowsManager;
+import delta.games.lotro.character.achievables.AchievableStatus;
 import delta.games.lotro.gui.items.FilterUpdateListener;
-import delta.games.lotro.lore.deeds.DeedDescription;
 
 /**
  * Controller the deeds status edition panel.
@@ -80,7 +80,7 @@ public class DeedsStatusEditionPanelController implements FilterUpdateListener
       @Override
       public void actionPerformed(ActionEvent e)
       {
-        TableColumnsChooserController<DeedDescription> chooser=new TableColumnsChooserController<DeedDescription>(_parent,_tableController.getTableController());
+        TableColumnsChooserController<AchievableStatus> chooser=new TableColumnsChooserController<AchievableStatus>(_parent,_tableController.getTableController());
         chooser.editModal();
       }
     };

@@ -28,6 +28,7 @@ import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.DeedType;
 import delta.games.lotro.lore.deeds.DeedsManager;
 import delta.games.lotro.lore.deeds.filters.DeedCategoryFilter;
+import delta.games.lotro.lore.deeds.filters.DeedFilter;
 import delta.games.lotro.lore.deeds.filters.DeedNameFilter;
 import delta.games.lotro.lore.deeds.filters.DeedTypeFilter;
 
