@@ -24,6 +24,7 @@ import delta.games.lotro.common.rewards.filters.ReputationRewardFilter;
 import delta.games.lotro.common.rewards.filters.TitleRewardFilter;
 import delta.games.lotro.common.rewards.filters.TraitRewardFilter;
 import delta.games.lotro.common.rewards.filters.VirtueRewardFilter;
+import delta.games.lotro.common.rewards.filters.VirtueXpRewardFilter;
 import delta.games.lotro.common.rewards.filters.XpRewardFilter;
 import delta.games.lotro.gui.common.rewards.RewardsUiUtils;
 import delta.games.lotro.gui.items.FilterUpdateListener;
@@ -52,6 +53,7 @@ public class RewardsFilterController
   private ComboBoxController<Boolean> _glory;
   private ComboBoxController<Boolean> _itemXp;
   private ComboBoxController<Boolean> _mountXp;
+  private ComboBoxController<Boolean> _virtueXp;
   private ComboBoxController<String> _trait;
   private ComboBoxController<String> _title;
   private ComboBoxController<VirtueDescription> _virtue;
@@ -106,6 +108,7 @@ public class RewardsFilterController
     _xp.selectItem(null);
     _itemXp.selectItem(null);
     _mountXp.selectItem(null);
+    _virtueXp.selectItem(null);
     _glory.selectItem(null);
     _trait.selectItem(null);
     _title.selectItem(null);
@@ -144,6 +147,10 @@ public class RewardsFilterController
     MountXpRewardFilter mountXpFilter=_filter.getMountXpFilter();
     Boolean mountXp=mountXpFilter.getHasMountXpFlag();
     _mountXp.selectItem(mountXp);
+    // Virtue XP
+    VirtueXpRewardFilter virtueXpFilter=_filter.getVirtueXpFilter();
+    Boolean virtueXp=virtueXpFilter.getHasVirtueXpFlag();
+    _virtueXp.selectItem(virtueXp);
     // Glory
     GloryRewardFilter gloryFilter=_filter.getGloryFilter();
     Boolean glory=gloryFilter.getHasGloryFlag();
@@ -244,6 +251,10 @@ public class RewardsFilterController
       line.add(GuiFactory.buildLabel("Mount XP:"));
       _mountXp=buildMountXpCombobox();
       line.add(_mountXp.getComboBox());
+      // Virtue XP
+      line.add(GuiFactory.buildLabel("Virtue XP:"));
+      _virtueXp=buildVirtueXpCombobox();
+      line.add(_virtueXp.getComboBox());
       // Glory
       line.add(GuiFactory.buildLabel("Renown/infamy:"));
       _glory=buildGloryCombobox();
@@ -334,6 +345,23 @@ public class RewardsFilterController
       {
         MountXpRewardFilter filter=_filter.getMountXpFilter();
         filter.setHasMountXpFlag(value);
+        filterUpdated();
+      }
+    };
+    combo.addListener(listener);
+    return combo;
+  }
+
+  private ComboBoxController<Boolean> buildVirtueXpCombobox()
+  {
+    ComboBoxController<Boolean> combo=build3StatesBooleanCombobox();
+    ItemSelectionListener<Boolean> listener=new ItemSelectionListener<Boolean>()
+    {
+      @Override
+      public void itemSelected(Boolean value)
+      {
+        VirtueXpRewardFilter filter=_filter.getVirtueXpFilter();
+        filter.setHasVirtueXpFlag(value);
         filterUpdated();
       }
     };
@@ -534,6 +562,11 @@ public class RewardsFilterController
     {
       _mountXp.dispose();
       _mountXp=null;
+    }
+    if (_virtueXp!=null)
+    {
+      _virtueXp.dispose();
+      _virtueXp=null;
     }
     if (_glory!=null)
     {

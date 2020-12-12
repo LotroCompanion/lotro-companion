@@ -19,6 +19,7 @@ import delta.games.lotro.common.rewards.filters.ReputationRewardFilter;
 import delta.games.lotro.common.rewards.filters.TitleRewardFilter;
 import delta.games.lotro.common.rewards.filters.TraitRewardFilter;
 import delta.games.lotro.common.rewards.filters.VirtueRewardFilter;
+import delta.games.lotro.common.rewards.filters.VirtueXpRewardFilter;
 import delta.games.lotro.common.rewards.filters.XpRewardFilter;
 
 /**
@@ -35,6 +36,7 @@ public class RewardsFilter implements Filter<Rewards>
   private XpRewardFilter _xpFilter;
   private ItemXpRewardFilter _itemXpFilter;
   private MountXpRewardFilter _mountXpFilter;
+  private VirtueXpRewardFilter _virtueXpFilter;
   private GloryRewardFilter _gloryFilter;
   private TraitRewardFilter _traitFilter;
   private TitleRewardFilter _titleFilter;
@@ -67,6 +69,9 @@ public class RewardsFilter implements Filter<Rewards>
     // - mount XP
     _mountXpFilter=new MountXpRewardFilter(null);
     filters.add(_mountXpFilter);
+    // - virtue XP
+    _virtueXpFilter=new VirtueXpRewardFilter(null);
+    filters.add(_virtueXpFilter);
     // - glory
     _gloryFilter=new GloryRewardFilter(null);
     filters.add(_gloryFilter);
@@ -143,6 +148,15 @@ public class RewardsFilter implements Filter<Rewards>
   public MountXpRewardFilter getMountXpFilter()
   {
     return _mountXpFilter;
+  }
+
+  /**
+   * Get the filter on virtue XP reward.
+   * @return a filter.
+   */
+  public VirtueXpRewardFilter getVirtueXpFilter()
+  {
+    return _virtueXpFilter;
   }
 
   /**
