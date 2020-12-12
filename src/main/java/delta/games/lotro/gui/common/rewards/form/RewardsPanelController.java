@@ -52,6 +52,7 @@ public class RewardsPanelController
   private ClassPointRewardGadgetsController _classPoint;
   private LotroPointsRewardGadgetsController _lotroPoints;
   private List<RewardGadgetsController> _rewardControllers;
+  private VirtueXpRewardGadgetsController _virtueXpController;
   private MoneyDisplayController _moneyController;
   private XpRewardsDisplayController _xpController;
 
@@ -116,6 +117,14 @@ public class RewardsPanelController
     }
     // Reward elements
     addRewards(ret,c,_rewards.getRewardElements());
+    // Virtue XP
+    int virtueXp=_rewards.getVirtueXp();
+    if (virtueXp>0)
+    {
+      _virtueXpController=new VirtueXpRewardGadgetsController(virtueXp);
+      addRewardGadgets(ret,_virtueXpController.getIcon(),_virtueXpController.getLabel(),c);
+      updateConstraints(c);
+    }
 
     // Money
     Money money=_rewards.getMoney();
@@ -288,7 +297,11 @@ public class RewardsPanelController
       }
       _rewardControllers=null;
     }
-
+    if (_virtueXpController!=null)
+    {
+      _virtueXpController.dispose();
+      _virtueXpController=null;
+    }
     if (_moneyController!=null)
     {
       _moneyController.dispose();
