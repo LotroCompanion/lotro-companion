@@ -159,6 +159,21 @@ public class RewardsColumnsBuilder
       mountXpColumn.setWidthSpecs(60,60,60);
       ret.add(mountXpColumn);
     }
+    // Virtue XP column
+    {
+      CellDataProvider<Rewards,Integer> virtueXpCell=new CellDataProvider<Rewards,Integer>()
+      {
+        @Override
+        public Integer getData(Rewards rewards)
+        {
+          int virtueXp=rewards.getVirtueXp();
+          return (virtueXp>0)?Integer.valueOf(virtueXp):null;
+        }
+      };
+      DefaultTableColumnController<Rewards,Integer> virtueXpColumn=new DefaultTableColumnController<Rewards,Integer>(RewardsColumnIds.VIRTUE_XP.name(),"Virtue XP",Integer.class,virtueXpCell);
+      virtueXpColumn.setWidthSpecs(60,60,60);
+      ret.add(virtueXpColumn);
+    }
     return ret;
   }
 }

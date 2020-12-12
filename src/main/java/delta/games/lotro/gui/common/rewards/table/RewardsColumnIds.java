@@ -43,6 +43,11 @@ public enum RewardsColumnIds
    */
   MOUNT_XP,
   /**
+   * Virtue XP.
+   */
+  VIRTUE_XP,
+
+  /**
    * Renown.
    */
   RENOWN,
