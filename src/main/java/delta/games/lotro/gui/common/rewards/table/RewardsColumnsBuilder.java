@@ -9,7 +9,6 @@ import delta.games.lotro.common.rewards.EmoteReward;
 import delta.games.lotro.common.rewards.Rewards;
 import delta.games.lotro.common.rewards.TitleReward;
 import delta.games.lotro.common.rewards.TraitReward;
-import delta.games.lotro.common.rewards.VirtueReward;
 
 /**
  * Builder for columns that show rewards data.
@@ -68,21 +67,6 @@ public class RewardsColumnsBuilder
       DefaultTableColumnController<Rewards,String> titleColumn=new DefaultTableColumnController<Rewards,String>(RewardsColumnIds.TITLE.name(),"Title",String.class,titleCell);
       titleColumn.setWidthSpecs(100,300,200);
       ret.add(titleColumn);
-    }
-    // Virtue column
-    {
-      CellDataProvider<Rewards,String> virtueCell=new CellDataProvider<Rewards,String>()
-      {
-        @Override
-        public String getData(Rewards rewards)
-        {
-          List<VirtueReward> virtueRewards=rewards.getRewardElementsOfClass(VirtueReward.class);
-          return (virtueRewards.size()>0)?virtueRewards.get(0).getVirtue().getName():null;
-        }
-      };
-      DefaultTableColumnController<Rewards,String> virtueColumn=new DefaultTableColumnController<Rewards,String>(RewardsColumnIds.VIRTUE.name(),"Virtue",String.class,virtueCell);
-      virtueColumn.setWidthSpecs(100,300,200);
-      ret.add(virtueColumn);
     }
     // Emote column
     {

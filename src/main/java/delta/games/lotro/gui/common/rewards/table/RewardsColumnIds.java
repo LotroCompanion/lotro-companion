@@ -19,10 +19,6 @@ public enum RewardsColumnIds
    */
   TITLE,
   /**
-   * Virtue.
-   */
-  VIRTUE,
-  /**
    * Emote.
    */
   EMOTE,

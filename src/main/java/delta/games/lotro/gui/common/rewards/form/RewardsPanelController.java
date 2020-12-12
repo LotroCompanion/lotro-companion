@@ -27,7 +27,6 @@ import delta.games.lotro.common.rewards.Rewards;
 import delta.games.lotro.common.rewards.SelectableRewardElement;
 import delta.games.lotro.common.rewards.TitleReward;
 import delta.games.lotro.common.rewards.TraitReward;
-import delta.games.lotro.common.rewards.VirtueReward;
 import delta.games.lotro.gui.common.money.MoneyDisplayController;
 import delta.games.lotro.lore.emotes.EmoteDescription;
 import delta.games.lotro.lore.emotes.EmotesManager;
@@ -171,7 +170,10 @@ public class RewardsPanelController
       else
       {
         RewardGadgetsController controller=getController(rewardElement);
-        addRewardGadgets(target,controller.getIcon(),controller.getLabel(),c);
+        if (controller!=null)
+        {
+          addRewardGadgets(target,controller.getIcon(),controller.getLabel(),c);
+        }
       }
       updateConstraints(c);
     }
@@ -215,12 +217,6 @@ public class RewardsPanelController
     {
       TitleReward titleReward=(TitleReward)rewardElement;
       ret=new TitleRewardGadgetsController(titleReward);
-    }
-    // Virtue reward
-    else if (rewardElement instanceof VirtueReward)
-    {
-      VirtueReward virtueReward=(VirtueReward)rewardElement;
-      ret=new VirtueRewardGadgetsController(virtueReward);
     }
     // Reputation
     else if (rewardElement instanceof ReputationReward)
