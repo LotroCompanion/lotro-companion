@@ -105,7 +105,7 @@ public class RequirementsFilterController
       linePanel.add(GuiFactory.buildLabel("Race:"));
       _race=buildRaceCombobox();
       linePanel.add(_race.getComboBox());
-      c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(5,0,0,0),0,0);
+      c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(5,0,5,0),0,0);
       panel.add(linePanel,c);
       y++;
     }
