@@ -85,7 +85,7 @@ public class QuestFilterController implements ActionListener
     _filterUpdateListener=filterUpdateListener;
     _requirements=new RequirementsFilterController(filter.getRequirementsFilter(),filterUpdateListener);
     RewardsExplorer explorer=QuestsManager.getInstance().buildRewardsExplorer();
-    _rewards=new RewardsFilterController(filter.getRewardsFilter(),filterUpdateListener,explorer);
+    _rewards=new RewardsFilterController(filter.getRewardsFilter(),filterUpdateListener,explorer,true);
   }
 
   /**

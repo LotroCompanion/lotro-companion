@@ -66,7 +66,7 @@ public class DeedFilterController implements ActionListener
     _filterUpdateListener=filterUpdateListener;
     _requirements=new RequirementsFilterController(filter.getRequirementsFilter(),filterUpdateListener);
     RewardsExplorer explorer=DeedsManager.getInstance().buildRewardsExplorer();
-    _rewards=new RewardsFilterController(filter.getRewardsFilter(),filterUpdateListener,explorer);
+    _rewards=new RewardsFilterController(filter.getRewardsFilter(),filterUpdateListener,explorer,false);
   }
 
   /**

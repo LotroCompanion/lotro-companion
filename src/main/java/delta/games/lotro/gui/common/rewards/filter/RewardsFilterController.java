@@ -44,6 +44,8 @@ public class RewardsFilterController
   // GUI
   private JPanel _panel;
 
+  // Quest or deed?
+  private boolean _quest;
   // Controllers
   private ComboBoxController<Faction> _reputation;
   private ComboBoxController<Boolean> _lotroPoints;
@@ -64,12 +66,14 @@ public class RewardsFilterController
    * @param filter Managed filter.
    * @param filterUpdateListener Filter update listener.
    * @param explorer Rewards explorer.
+   * @param quest Indicates if this is for the quests filter or for the deeds filter.
    */
-  public RewardsFilterController(RewardsFilter filter, FilterUpdateListener filterUpdateListener, RewardsExplorer explorer)
+  public RewardsFilterController(RewardsFilter filter, FilterUpdateListener filterUpdateListener, RewardsExplorer explorer, boolean quest)
   {
     _filter=filter;
     _filterUpdateListener=filterUpdateListener;
     _uiUtils=new RewardsUiUtils(explorer);
+    _quest=quest;
   }
 
   /**
@@ -104,15 +108,24 @@ public class RewardsFilterController
     _lotroPoints.selectItem(null);
     _classPoints.selectItem(null);
     _xp.selectItem(null);
-    _itemXp.selectItem(null);
+    if (_itemXp!=null)
+    {
+      _itemXp.selectItem(null);
+    }
     _mountXp.selectItem(null);
     _virtueXp.selectItem(null);
-    _glory.selectItem(null);
+    if (_glory!=null)
+    {
+      _glory.selectItem(null);
+    }
     _trait.selectItem(null);
     _title.selectItem(null);
     _emote.selectItem(null);
     _item.selectItem(null);
-    _relic.selectItem(null);
+    if (_relic!=null)
+    {
+      _relic.selectItem(null);
+    }
   }
 
   /**
@@ -137,9 +150,12 @@ public class RewardsFilterController
     Boolean xp=xpFilter.getHasXpFlag();
     _xp.selectItem(xp);
     // Item XP
-    ItemXpRewardFilter itemXpFilter=_filter.getItemXpFilter();
-    Boolean itemXp=itemXpFilter.getHasItemXpFlag();
-    _itemXp.selectItem(itemXp);
+    if (_itemXp!=null)
+    {
+      ItemXpRewardFilter itemXpFilter=_filter.getItemXpFilter();
+      Boolean itemXp=itemXpFilter.getHasItemXpFlag();
+      _itemXp.selectItem(itemXp);
+    }
     // Mount XP
     MountXpRewardFilter mountXpFilter=_filter.getMountXpFilter();
     Boolean mountXp=mountXpFilter.getHasMountXpFlag();
@@ -149,9 +165,12 @@ public class RewardsFilterController
     Boolean virtueXp=virtueXpFilter.getHasVirtueXpFlag();
     _virtueXp.selectItem(virtueXp);
     // Glory
-    GloryRewardFilter gloryFilter=_filter.getGloryFilter();
-    Boolean glory=gloryFilter.getHasGloryFlag();
-    _glory.selectItem(glory);
+    if (_glory!=null)
+    {
+      GloryRewardFilter gloryFilter=_filter.getGloryFilter();
+      Boolean glory=gloryFilter.getHasGloryFlag();
+      _glory.selectItem(glory);
+    }
     // Trait
     TraitRewardFilter traitFilter=_filter.getTraitFilter();
     String trait=traitFilter.getTrait();
@@ -169,9 +188,12 @@ public class RewardsFilterController
     Integer itemId=itemFilter.getItemId();
     _item.selectItem(itemId);
     // Relic
-    RelicRewardFilter relicFilter=_filter.getRelicFilter();
-    Integer relicId=relicFilter.getRelicId();
-    _relic.selectItem(relicId);
+    if (_relic!=null)
+    {
+      RelicRewardFilter relicFilter=_filter.getRelicFilter();
+      Integer relicId=relicFilter.getRelicId();
+      _relic.selectItem(relicId);
+    }
   }
 
   private JPanel buildRewardsPanel()
@@ -211,9 +233,12 @@ public class RewardsFilterController
       _item=buildItemsCombobox();
       linePanel.add(_item.getComboBox());
       // Relics
-      linePanel.add(GuiFactory.buildLabel("Relic:"));
-      _relic=buildRelicsCombobox();
-      linePanel.add(_relic.getComboBox());
+      if (_quest)
+      {
+        linePanel.add(GuiFactory.buildLabel("Relic:"));
+        _relic=buildRelicsCombobox();
+        linePanel.add(_relic.getComboBox());
+      }
       panel.add(linePanel,c);
       y++;
     }
@@ -233,9 +258,12 @@ public class RewardsFilterController
       _xp=buildXpCombobox();
       line.add(_xp.getComboBox());
       // Item XP
-      line.add(GuiFactory.buildLabel("Item XP:"));
-      _itemXp=buildItemXpCombobox();
-      line.add(_itemXp.getComboBox());
+      if (_quest)
+      {
+        line.add(GuiFactory.buildLabel("Item XP:"));
+        _itemXp=buildItemXpCombobox();
+        line.add(_itemXp.getComboBox());
+      }
       // Mount XP
       line.add(GuiFactory.buildLabel("Mount XP:"));
       _mountXp=buildMountXpCombobox();
@@ -245,9 +273,12 @@ public class RewardsFilterController
       _virtueXp=buildVirtueXpCombobox();
       line.add(_virtueXp.getComboBox());
       // Glory
-      line.add(GuiFactory.buildLabel("Renown/infamy:"));
-      _glory=buildGloryCombobox();
-      line.add(_glory.getComboBox());
+      if (_quest)
+      {
+        line.add(GuiFactory.buildLabel("Renown/infamy:"));
+        _glory=buildGloryCombobox();
+        line.add(_glory.getComboBox());
+      }
 
       c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(5,0,5,0),0,0);
       panel.add(line,c);
