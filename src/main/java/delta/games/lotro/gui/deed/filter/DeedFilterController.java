@@ -182,14 +182,13 @@ public class DeedFilterController implements ActionListener
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
 
     int y=0;
-    JPanel line1Panel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,0,0));
+    JPanel linePanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
     // Label filter
     {
-      JPanel containsPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
-      containsPanel.add(GuiFactory.buildLabel("Name filter:"));
+      linePanel.add(GuiFactory.buildLabel("Name filter:"));
       _contains=GuiFactory.buildTextField("");
       _contains.setColumns(20);
-      containsPanel.add(_contains);
+      linePanel.add(_contains);
       TextListener listener=new TextListener()
       {
         @Override
@@ -202,17 +201,11 @@ public class DeedFilterController implements ActionListener
         }
       };
       _textController=new DynamicTextEditionController(_contains,listener);
-      line1Panel.add(containsPanel);
     }
-    GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,5,0),0,0);
-    panel.add(line1Panel,c);
-    y++;
-
-    JPanel line2Panel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
     // Type
     {
       JLabel label=GuiFactory.buildLabel("Type:");
-      line2Panel.add(label);
+      linePanel.add(label);
       _type=DeedUiUtils.buildDeedTypeCombo();
       ItemSelectionListener<DeedType> typeListener=new ItemSelectionListener<DeedType>()
       {
@@ -225,12 +218,12 @@ public class DeedFilterController implements ActionListener
         }
       };
       _type.addListener(typeListener);
-      line2Panel.add(_type.getComboBox());
+      linePanel.add(_type.getComboBox());
     }
     // Category
     {
       JLabel label=GuiFactory.buildLabel("Category:");
-      line2Panel.add(label);
+      linePanel.add(label);
       _category=DeedUiUtils.buildCategoryCombo();
       ItemSelectionListener<String> categoryListener=new ItemSelectionListener<String>()
       {
@@ -243,12 +236,11 @@ public class DeedFilterController implements ActionListener
         }
       };
       _category.addListener(categoryListener);
-      line2Panel.add(_category.getComboBox());
+      linePanel.add(_category.getComboBox());
     }
-    c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,5,0),0,0);
-    panel.add(line2Panel,c);
+    GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,5,0),0,0);
+    panel.add(linePanel,c);
     y++;
-
     return panel;
   }
 
