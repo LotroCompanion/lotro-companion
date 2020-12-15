@@ -17,7 +17,8 @@ import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
 import delta.common.ui.swing.GuiFactory;
-import delta.common.ui.swing.checkbox.CheckboxController;
+import delta.common.ui.swing.checkbox.ThreeState;
+import delta.common.ui.swing.checkbox.ThreeStateCheckbox;
 import delta.common.ui.swing.labels.HyperLinkController;
 import delta.common.ui.swing.labels.LocalHyperlinkAction;
 import delta.common.ui.swing.navigator.NavigatorWindowController;
@@ -27,6 +28,7 @@ import delta.common.ui.swing.text.dates.DateEditionController;
 import delta.common.ui.swing.windows.DefaultFormDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.ui.swing.windows.WindowsManager;
+import delta.games.lotro.character.achievables.AchievableElementState;
 import delta.games.lotro.character.achievables.AchievableStatus;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
@@ -47,7 +49,7 @@ public class DeedStatusEditionDialogController extends DefaultFormDialogControll
   // UI
   private JLabel _icon;
   // Controllers
-  private CheckboxController _completed;
+  private ThreeStateCheckbox _completed;
   private DateEditionController _completionDate;
   private WindowsManager _windowsManager;
   private DeedGeoStatusEditionPanelController _geoEditor;
@@ -109,16 +111,17 @@ public class DeedStatusEditionDialogController extends DefaultFormDialogControll
     }
 
     // Completed
-    _completed=new CheckboxController("Completed");
+    _completed=new ThreeStateCheckbox("Completed");
     ActionListener l=new ActionListener()
     {
       @Override
       public void actionPerformed(ActionEvent e)
       {
-        setCompleted(_completed.isSelected());
+        boolean state=(_completed.isSelected());
+        _completionDate.setState(state,state);
       }
     };
-    _completed.getCheckbox().addActionListener(l);
+    _completed.addActionListener(l);
     // Completion date
     DateCodec codec=DateFormat.getDateTimeCodec();
     _completionDate=new DateEditionController(codec);
@@ -126,7 +129,7 @@ public class DeedStatusEditionDialogController extends DefaultFormDialogControll
     Insets insets=new Insets(5,5,5,5);
     GridBagConstraints gbc=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,insets,0,0);
     gbc.gridx=0; gbc.gridy=1;
-    panel.add(_completed.getCheckbox(),gbc);
+    panel.add(_completed,gbc);
     gbc.gridx=0; gbc.gridy=2;
     panel.add(GuiFactory.buildLabel("Completion date:"),gbc);
     gbc.weightx=1.0; gbc.fill=GridBagConstraints.HORIZONTAL;
@@ -154,9 +157,8 @@ public class DeedStatusEditionDialogController extends DefaultFormDialogControll
       panel.add(toggleMap,geoC);
     }
     // Set values
-    boolean completed=_data.isCompleted();
-    _completed.setSelected(completed);
-    setCompleted(completed);
+    AchievableElementState state=_data.getState();
+    setState(state);
     _completionDate.setDate(_data.getCompletionDate());
     if (_geoEditor!=null)
     {
@@ -186,20 +188,42 @@ public class DeedStatusEditionDialogController extends DefaultFormDialogControll
     return panel;
   }
 
-  private void setCompleted(boolean completed)
-  {
-    _completionDate.setState(completed,completed);
-  }
-
   @Override
   protected void okImpl()
   {
     // Completed?
-    boolean completed=_completed.isSelected();
-    _data.setCompleted(completed);
+    AchievableElementState state=getState();
+    _data.setState(state);
     // Completion date
     Long completionDate=_completionDate.getDate();
     _data.setCompletionDate(completionDate);
+  }
+
+  private AchievableElementState getState()
+  {
+    ThreeState state=_completed.getState();
+    if (state==ThreeState.SELECTED) return AchievableElementState.COMPLETED;
+    if (state==ThreeState.HALF_SELECTED) return AchievableElementState.UNDERWAY;
+    return AchievableElementState.UNDEFINED;
+  }
+
+  private void setState(AchievableElementState state)
+  {
+    if (state==AchievableElementState.COMPLETED)
+    {
+      _completed.setState(ThreeState.SELECTED);
+      _completionDate.setState(true,true);
+    }
+    else if (state==AchievableElementState.UNDERWAY)
+    {
+      _completed.setState(ThreeState.HALF_SELECTED);
+      _completionDate.setState(false,false);
+    }
+    else
+    {
+      _completed.setState(ThreeState.NOT_SELECTED);
+      _completionDate.setState(false,false);
+    }
   }
 
   private void showDeed()
@@ -231,7 +255,6 @@ public class DeedStatusEditionDialogController extends DefaultFormDialogControll
     super.dispose();
     if (_completed!=null)
     {
-      _completed.dispose();
       _completed=null;
     }
     if (_completionDate!=null)

@@ -89,25 +89,27 @@ public class DeedStatusTableController
 
     // State
     {
-      CellDataProvider<AchievableStatus,Boolean> completedCell=new CellDataProvider<AchievableStatus,Boolean>()
+      CellDataProvider<AchievableStatus,AchievableElementState> completedCell=new CellDataProvider<AchievableStatus,AchievableElementState>()
       {
         @Override
-        public Boolean getData(AchievableStatus status)
+        public AchievableElementState getData(AchievableStatus status)
         {
-          return Boolean.valueOf(status.getState()==AchievableElementState.COMPLETED);
+          return status.getState();
         }
       };
-      DefaultTableColumnController<AchievableStatus,Boolean> completedColumn=new DefaultTableColumnController<AchievableStatus,Boolean>(COMPLETED,"Completed",Boolean.class,completedCell);
+      DefaultTableColumnController<AchievableStatus,AchievableElementState> completedColumn=new DefaultTableColumnController<AchievableStatus,AchievableElementState>(COMPLETED,"Completed",AchievableElementState.class,completedCell);
       completedColumn.setWidthSpecs(30,30,30);
-
       completedColumn.setEditable(true);
+      // Renderer
+      completedColumn.setCellRenderer(new AchievableElementStateTableCellRenderer());
+      completedColumn.setCellEditor(new AchievableElementStateTableCellEditor());
+      // Updater
       CellDataUpdater<AchievableStatus> updater=new CellDataUpdater<AchievableStatus>()
       {
         @Override
         public void setData(AchievableStatus status, Object value)
         {
-          Boolean completed=(Boolean)value;
-          status.setCompleted(completed.booleanValue());
+          status.setState((AchievableElementState)value);
         }
       };
       completedColumn.setValueUpdater(updater);
