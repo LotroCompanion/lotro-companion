@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.stats.deeds;
+package delta.games.lotro.gui.stats.deeds.form;
 
 import java.util.List;
 

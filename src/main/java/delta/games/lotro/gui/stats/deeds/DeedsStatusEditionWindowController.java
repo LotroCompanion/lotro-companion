@@ -27,6 +27,8 @@ import delta.games.lotro.character.reputation.ReputationStatus;
 import delta.games.lotro.gui.deed.filter.DeedFilterController;
 import delta.games.lotro.gui.main.GlobalPreferences;
 import delta.games.lotro.gui.stats.deeds.filter.DeedStatusFilterController;
+import delta.games.lotro.gui.stats.deeds.form.DeedStatusEditionDialogController;
+import delta.games.lotro.gui.stats.deeds.table.DeedStatusTableController;
 import delta.games.lotro.stats.deeds.SyncDeedsStatusAndReputationStatus;
 import delta.games.lotro.utils.events.EventsManager;
 

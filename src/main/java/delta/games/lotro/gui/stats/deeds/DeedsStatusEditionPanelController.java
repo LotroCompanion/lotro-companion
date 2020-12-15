@@ -18,6 +18,7 @@ import delta.common.ui.swing.windows.WindowController;
 import delta.common.ui.swing.windows.WindowsManager;
 import delta.games.lotro.character.achievables.AchievableStatus;
 import delta.games.lotro.gui.items.FilterUpdateListener;
+import delta.games.lotro.gui.stats.deeds.table.DeedStatusTableController;
 
 /**
  * Controller the deeds status edition panel.

@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.stats.deeds;
+package delta.games.lotro.gui.stats.deeds.table;
 
 import java.awt.Component;
 
