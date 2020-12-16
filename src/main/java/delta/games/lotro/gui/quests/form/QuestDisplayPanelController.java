@@ -26,7 +26,7 @@ import delta.games.lotro.common.Repeatability;
 import delta.games.lotro.common.Size;
 import delta.games.lotro.gui.common.requirements.RequirementsUtils;
 import delta.games.lotro.gui.common.rewards.form.RewardsPanelController;
-import delta.games.lotro.gui.quests.ObjectivesHtmlBuilder;
+import delta.games.lotro.gui.quests.ObjectivesDisplayBuilder;
 import delta.games.lotro.gui.quests.QuestsHtmlUtils;
 import delta.games.lotro.lore.quests.QuestDescription;
 import delta.games.lotro.lore.quests.QuestDescription.FACTION;
@@ -238,7 +238,7 @@ public class QuestDisplayPanelController implements NavigablePanelController
       sb.append("</p>");
     }
     // Objectives
-    ObjectivesHtmlBuilder.buildHtml(sb,_quest);
+    new ObjectivesDisplayBuilder(true).build(sb,_quest);
     // End dialogs
     List<DialogElement> endDialogs=_quest.getEndDialogs();
     if (endDialogs.size()>0)

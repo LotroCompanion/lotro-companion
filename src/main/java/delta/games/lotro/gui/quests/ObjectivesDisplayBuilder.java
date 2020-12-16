@@ -54,18 +54,29 @@ import delta.games.lotro.utils.gui.HtmlUtils;
  * Build for HTML code to display objectives.
  * @author DAM
  */
-public class ObjectivesHtmlBuilder
+public class ObjectivesDisplayBuilder
 {
-  private static final Logger LOGGER=Logger.getLogger(ObjectivesHtmlBuilder.class);
+  private static final Logger LOGGER=Logger.getLogger(ObjectivesDisplayBuilder.class);
 
   private static final String COUNT_PATTERN="{***}/{***}";
+
+  private boolean _html;
+
+  /**
+   * Constructor.
+   * @param html Use HTML output, or raw output.
+   */
+  public ObjectivesDisplayBuilder(boolean html)
+  {
+    _html=html;
+  }
 
   /**
    * Print HTML code for the objectives of an achievable.
    * @param sb Output.
    * @param achievable Achievable to display.
    */
-  public static void buildHtml(StringBuilder sb, Achievable achievable)
+  public void build(StringBuilder sb, Achievable achievable)
   {
     // Is deed?
     boolean isDeed=(achievable instanceof DeedDescription);
@@ -84,7 +95,8 @@ public class ObjectivesHtmlBuilder
       // Conditions
       for(ObjectiveCondition condition : objective.getConditions())
       {
-        handleCondition(sb,condition,isDeed);
+        sb.append(getConditionDisplay(condition,isDeed));
+        printLoreInfo(sb,condition);
       }
       // Dialogs
       for(DialogElement dialog : objective.getDialogs())
@@ -94,7 +106,34 @@ public class ObjectivesHtmlBuilder
     }
   }
 
-  private static void handleCondition(StringBuilder sb, ObjectiveCondition condition, boolean isDeed)
+  /**
+   * Get a displayable string for an objective condition.
+   * @param condition Condition to use.
+   * @param isDeed Is it part of a deed (or of a quest).
+   * @return A displayable string (HTML or raw).
+   */
+  public String getConditionDisplay(ObjectiveCondition condition, boolean isDeed)
+  {
+    StringBuilder sb=new StringBuilder();
+    handleCondition(sb,condition,isDeed);
+    if (sb.length()>0)
+    {
+      StringBuilder sb2=new StringBuilder();
+      if (_html)
+      {
+        sb2.append("<p>");
+      }
+      sb2.append(sb);
+      if (_html)
+      {
+        sb2.append("</p>");
+      }
+      return sb2.toString();
+    }
+    return "";
+  }
+
+  private void handleCondition(StringBuilder sb, ObjectiveCondition condition, boolean isDeed)
   {
     ConditionType type=condition.getType();
     if (isDeed)
@@ -195,14 +234,13 @@ public class ObjectivesHtmlBuilder
     }
   }
 
-  private static void handleQuestCompleteCondition(StringBuilder sb, QuestCompleteCondition questComplete)
+  private void handleQuestCompleteCondition(StringBuilder sb, QuestCompleteCondition questComplete)
   {
     int count=questComplete.getCompletionCount();
     String progressOverride=getProgressOverrideWithCount(questComplete,count);
     Proxy<Achievable> proxy=questComplete.getProxy();
     String questCategory=questComplete.getQuestCategory();
 
-    sb.append("<p>");
     if (progressOverride==null)
     {
       if (proxy!=null)
@@ -231,11 +269,9 @@ public class ObjectivesHtmlBuilder
         sb.append(HtmlUtils.toHtml(progressOverride));
       }
     }
-    sb.append("</p>");
-    printLoreInfo(sb,questComplete);
   }
 
-  private static void handleMonsterDiedCondition(StringBuilder sb, MonsterDiedCondition monsterDied)
+  private void handleMonsterDiedCondition(StringBuilder sb, MonsterDiedCondition monsterDied)
   {
     int count=monsterDied.getCount();
     boolean hasProgressOverride=printProgressOverrideWithCount(sb,monsterDied,count);
@@ -243,7 +279,6 @@ public class ObjectivesHtmlBuilder
     {
       String mobName=monsterDied.getMobName();
       List<MobSelection> mobSelections=monsterDied.getMobSelections();
-      sb.append("<p>");
       if (mobName!=null)
       {
         sb.append("Kill ").append(mobName);
@@ -275,12 +310,10 @@ public class ObjectivesHtmlBuilder
       {
         sb.append(" (x").append(count).append(')');
       }
-      sb.append("</p>");
     }
-    printLoreInfo(sb,monsterDied);
   }
 
-  private static void handleLandmarkDetectionCondition(StringBuilder sb, LandmarkDetectionCondition condition)
+  private void handleLandmarkDetectionCondition(StringBuilder sb, LandmarkDetectionCondition condition)
   {
     boolean hasProgressOverride=printProgressOverride(sb,condition);
     if (!hasProgressOverride)
@@ -288,36 +321,33 @@ public class ObjectivesHtmlBuilder
       Proxy<LandmarkDescription> landmark=condition.getLandmarkProxy();
       if (landmark!=null)
       {
-        sb.append("<p>");
         String name=landmark.getName();
         sb.append("Find ").append(name);
-        sb.append("</p>");
       }
     }
-    printLoreInfo(sb,condition);
   }
 
-  private static void handleInventoryItemCondition(StringBuilder sb, InventoryItemCondition condition)
+  private void handleInventoryItemCondition(StringBuilder sb, InventoryItemCondition condition)
   {
     handleItemCondition(sb,condition,"Get");
   }
 
-  private static void handleItemUsedCondition(StringBuilder sb, ItemUsedCondition condition)
+  private void handleItemUsedCondition(StringBuilder sb, ItemUsedCondition condition)
   {
     handleItemCondition(sb,condition,"Use");
   }
 
-  private static void handleExternalInventoryItemCondition(StringBuilder sb, ExternalInventoryItemCondition condition)
+  private void handleExternalInventoryItemCondition(StringBuilder sb, ExternalInventoryItemCondition condition)
   {
     handleItemCondition(sb,condition,"Obtain");
   }
 
-  private static void handleItemTalkCondition(StringBuilder sb, ItemTalkCondition condition)
+  private void handleItemTalkCondition(StringBuilder sb, ItemTalkCondition condition)
   {
     handleItemCondition(sb,condition,"Use");
   }
 
-  private static void handleItemCondition(StringBuilder sb, ItemCondition condition, String verb)
+  private void handleItemCondition(StringBuilder sb, ItemCondition condition, String verb)
   {
     int count=condition.getCount();
     boolean hasProgressOverride=printProgressOverrideWithCount(sb,condition,count);
@@ -326,7 +356,6 @@ public class ObjectivesHtmlBuilder
       Proxy<Item> itemProxy=condition.getProxy();
       if (itemProxy!=null)
       {
-        sb.append("<p>");
         sb.append(verb).append(' ');
         PageIdentifier to=ReferenceConstants.getItemReference(itemProxy.getId());
         String toStr=to.getFullAddress();
@@ -336,13 +365,11 @@ public class ObjectivesHtmlBuilder
         {
           sb.append(" x").append(count);
         }
-        sb.append("</p>");
       }
     }
-    printLoreInfo(sb,condition);
   }
 
-  private static void handleFactionLevelCondition(StringBuilder sb, FactionLevelCondition condition)
+  private void handleFactionLevelCondition(StringBuilder sb, FactionLevelCondition condition)
   {
     boolean hasProgressOverride=printProgressOverride(sb,condition);
     if (!hasProgressOverride)
@@ -351,7 +378,6 @@ public class ObjectivesHtmlBuilder
       int tier=condition.getTier();
       if (factionProxy!=null)
       {
-        sb.append("<p>");
         String name=factionProxy.getName();
         String levelName="?";
         Faction faction=factionProxy.getObject();
@@ -362,13 +388,11 @@ public class ObjectivesHtmlBuilder
         }
         sb.append("Reach reputation '").append(levelName);
         sb.append("' (tier ").append(tier).append(") with ").append(name);
-        sb.append("</p>");
       }
     }
-    printLoreInfo(sb,condition);
   }
 
-  private static void handleSkillUsedCondition(StringBuilder sb, SkillUsedCondition condition)
+  private void handleSkillUsedCondition(StringBuilder sb, SkillUsedCondition condition)
   {
     int count=condition.getCount();
     boolean hasProgressOverride=printProgressOverrideWithCount(sb,condition,count);
@@ -377,7 +401,6 @@ public class ObjectivesHtmlBuilder
       Proxy<SkillDescription> skillProxy=condition.getProxy();
       if (skillProxy!=null)
       {
-        sb.append("<p>");
         String name=skillProxy.getName();
         sb.append("Use skill ").append(name);
         if (count>1)
@@ -389,27 +412,25 @@ public class ObjectivesHtmlBuilder
         {
           sb.append(" (max ").append(maxPerDay).append("/day)");
         }
-        sb.append("</p>");
       }
       else
       {
-        sb.append("<p>No skill and no progress override</p>");
+        sb.append("No skill and no progress override");
       }
     }
-    printLoreInfo(sb,condition);
   }
 
-  private static void handleNpcTalkCondition(StringBuilder sb, NpcTalkCondition condition)
+  private void handleNpcTalkCondition(StringBuilder sb, NpcTalkCondition condition)
   {
     handleNpcCondition(sb,condition);
   }
 
-  private static void handleNpcUsedCondition(StringBuilder sb, NpcUsedCondition condition)
+  private void handleNpcUsedCondition(StringBuilder sb, NpcUsedCondition condition)
   {
     handleNpcCondition(sb,condition);
   }
 
-  private static void handleNpcCondition(StringBuilder sb, NpcCondition condition)
+  private void handleNpcCondition(StringBuilder sb, NpcCondition condition)
   {
     boolean hasProgressOverride=printProgressOverride(sb,condition);
     if (!hasProgressOverride)
@@ -417,61 +438,53 @@ public class ObjectivesHtmlBuilder
       Proxy<NpcDescription> npcProxy=condition.getProxy();
       if (npcProxy!=null)
       {
-        sb.append("<p>");
         String name=npcProxy.getName();
         String action=condition.getAction();
         sb.append(action).append(' ').append(name);
-        sb.append("</p>");
       }
       else
       {
-        sb.append("<p>No NPC and no progress override</p>");
+        LOGGER.warn("No NPC and no progress override");
+        sb.append("No NPC and no progress override");
       }
     }
-    printLoreInfo(sb,condition);
   }
 
-  private static void handleLevelCondition(StringBuilder sb, LevelCondition condition)
+  private void handleLevelCondition(StringBuilder sb, LevelCondition condition)
   {
     boolean hasProgressOverride=printProgressOverride(sb,condition);
     if (!hasProgressOverride)
     {
       int level=condition.getLevel();
-      sb.append("<p>");
       sb.append("Reach level ").append(level);
-      sb.append("</p>");
     }
-    printLoreInfo(sb,condition);
   }
 
-  private static void handleQuestBestowedCondition(StringBuilder sb, QuestBestowedCondition questBestowed)
+  private void handleQuestBestowedCondition(StringBuilder sb, QuestBestowedCondition questBestowed)
   {
     boolean hasProgressOverride=printProgressOverride(sb,questBestowed);
     if (!hasProgressOverride)
     {
-      sb.append("<p>");
       Proxy<Achievable> proxy=questBestowed.getProxy();
       if (proxy!=null)
       {
         String link=getAchievableLink(proxy,null);
         sb.append("Have ").append(link).append(" bestowed");
       }
-      sb.append("</p>");
     }
-    printLoreInfo(sb,questBestowed);
   }
 
-  private static void handleDetectingCondition(StringBuilder sb, DetectingCondition condition)
+  private void handleDetectingCondition(StringBuilder sb, DetectingCondition condition)
   {
     handleDetectionCondition(sb,condition);
   }
 
-  private static void handleEnterDetectionCondition(StringBuilder sb, EnterDetectionCondition condition)
+  private void handleEnterDetectionCondition(StringBuilder sb, EnterDetectionCondition condition)
   {
     handleDetectionCondition(sb,condition);
   }
 
-  private static void handleDetectionCondition(StringBuilder sb, DetectionCondition condition)
+  private void handleDetectionCondition(StringBuilder sb, DetectionCondition condition)
   {
     boolean hasProgressOverride=printProgressOverride(sb,condition);
     if (!hasProgressOverride)
@@ -479,24 +492,20 @@ public class ObjectivesHtmlBuilder
       String target=getTarget(condition.getTarget());
       if (target!=null)
       {
-        sb.append("<p>");
         sb.append("Go near ").append(target);
-        sb.append("</p>");
       }
       else
       {
         LOGGER.warn("No NPC, no mob and no progress override");
       }
     }
-    printLoreInfo(sb,condition);
   }
 
-  private static void handleEmoteCondition(StringBuilder sb, EmoteCondition condition)
+  private void handleEmoteCondition(StringBuilder sb, EmoteCondition condition)
   {
     boolean hasProgressOverride=printProgressOverride(sb,condition);
     if (!hasProgressOverride)
     {
-      sb.append("<p>");
       Proxy<EmoteDescription> emote=condition.getProxy();
       String command=emote.getName();
       sb.append("Perform emote ").append(command);
@@ -517,9 +526,7 @@ public class ObjectivesHtmlBuilder
         sb.append(" on ");
         sb.append(targetLabel);
       }
-      sb.append("</p>");
     }
-    printLoreInfo(sb,condition);
   }
 
   private static String getTarget(ConditionTarget target)
@@ -541,7 +548,7 @@ public class ObjectivesHtmlBuilder
     return ret;
   }
 
-  private static String getAchievableLink(Proxy<Achievable> proxy, String text)
+  private String getAchievableLink(Proxy<Achievable> proxy, String text)
   {
     StringBuilder sb=new StringBuilder();
     Achievable achievable=proxy.getObject();
@@ -554,11 +561,17 @@ public class ObjectivesHtmlBuilder
         sb.append(type);
         text=achievable.getName();
       }
-      sb.append("<b>");
-      PageIdentifier to=ReferenceConstants.getAchievableReference(achievable);
-      String toStr=to.getFullAddress();
-      HtmlUtils.printLink(sb,toStr,text);
-      sb.append("</b>");
+      if (_html)
+      {
+        sb.append("<b>");
+        PageIdentifier to=ReferenceConstants.getAchievableReference(achievable);
+        HtmlUtils.printLink(sb,to.getFullAddress(),text);
+        sb.append("</b>");
+      }
+      else
+      {
+        sb.append(text);
+      }
     }
     else
     {
@@ -573,12 +586,12 @@ public class ObjectivesHtmlBuilder
    */
   public static Map<ConditionType,IntegerHolder> _counters=new HashMap<ConditionType,IntegerHolder>();
 
-  private static void handleDefaultCondition(StringBuilder sb, DefaultObjectiveCondition condition)
+  private void handleDefaultCondition(StringBuilder sb, DefaultObjectiveCondition condition)
   {
     boolean hasProgressOverride=printProgressOverride(sb,condition);
     if (!hasProgressOverride)
     {
-      sb.append("<p>Missing data!!</p>");
+      sb.append("Missing data!!");
       ConditionType type=condition.getType();
       IntegerHolder counter=_counters.get(type);
       if (counter==null)
@@ -588,7 +601,6 @@ public class ObjectivesHtmlBuilder
       }
       counter.increment();
     }
-    printLoreInfo(sb,condition);
   }
 
   private static boolean hasProgressOverride(ObjectiveCondition condition)
@@ -597,18 +609,25 @@ public class ObjectivesHtmlBuilder
     return ((progressOverride!=null) && (progressOverride.length()>0));
   }
 
-  private static boolean printProgressOverrideWithCount(StringBuilder sb, ObjectiveCondition condition, int count)
+  private boolean printProgressOverrideWithCount(StringBuilder sb, ObjectiveCondition condition, int count)
   {
     String progressOverride=getProgressOverrideWithCount(condition,count);
     if (progressOverride!=null)
     {
-      sb.append("<p>").append(HtmlUtils.toHtml(progressOverride)).append("</p>");
+      if (_html)
+      {
+        sb.append(HtmlUtils.toHtml(progressOverride));
+      }
+      else
+      {
+        sb.append(progressOverride);
+      }
       return true;
     }
     return false;
   }
 
-  private static String getProgressOverrideWithCount(ObjectiveCondition condition, int count)
+  private String getProgressOverrideWithCount(ObjectiveCondition condition, int count)
   {
     String progressOverride=condition.getProgressOverride();
     if ((progressOverride!=null) && (progressOverride.length()>0))
@@ -629,23 +648,37 @@ public class ObjectivesHtmlBuilder
     return progressOverride;
   }
 
-  private static boolean printProgressOverride(StringBuilder sb, ObjectiveCondition condition)
+  private boolean printProgressOverride(StringBuilder sb, ObjectiveCondition condition)
   {
     String progressOverride=condition.getProgressOverride();
     if ((progressOverride!=null) && (progressOverride.length()>0))
     {
-      sb.append("<p>").append(HtmlUtils.toHtml(progressOverride)).append("</p>");
+      if (_html)
+      {
+        sb.append(HtmlUtils.toHtml(progressOverride));
+      }
+      else
+      {
+        sb.append(progressOverride);
+      }
       return true;
     }
     return false;
   }
 
-  private static void printLoreInfo(StringBuilder sb, ObjectiveCondition condition)
+  private void printLoreInfo(StringBuilder sb, ObjectiveCondition condition)
   {
     String loreInfo=condition.getLoreInfo();
-    if ((loreInfo!=null) && (loreInfo.length()>0))
+    if ((loreInfo!=null) && (loreInfo.trim().length()>0))
     {
-      sb.append("<p><i>").append(HtmlUtils.toHtml(loreInfo)).append("</i></p>");
+      if (_html)
+      {
+        sb.append("<p><i>").append(HtmlUtils.toHtml(loreInfo)).append("</i></p>");
+      }
+      else
+      {
+        sb.append(loreInfo);
+      }
     }
   }
 }

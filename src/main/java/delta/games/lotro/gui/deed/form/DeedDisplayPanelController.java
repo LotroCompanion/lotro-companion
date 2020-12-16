@@ -25,7 +25,7 @@ import delta.games.lotro.common.ChallengeLevel;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.common.requirements.RequirementsUtils;
 import delta.games.lotro.gui.common.rewards.form.RewardsPanelController;
-import delta.games.lotro.gui.quests.ObjectivesHtmlBuilder;
+import delta.games.lotro.gui.quests.ObjectivesDisplayBuilder;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.DeedType;
 import delta.games.lotro.utils.gui.HtmlUtils;
@@ -200,7 +200,7 @@ public class DeedDisplayPanelController implements NavigablePanelController
     sb.append("<b>Description</b><p>");
     sb.append(HtmlUtils.toHtml(_deed.getDescription()));
     // Objectives
-    ObjectivesHtmlBuilder.buildHtml(sb,_deed);
+    new ObjectivesDisplayBuilder(true).build(sb,_deed);
     sb.append("</body></html>");
     return sb.toString();
   }

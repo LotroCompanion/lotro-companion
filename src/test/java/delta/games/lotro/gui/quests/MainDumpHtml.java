@@ -3,6 +3,7 @@ package delta.games.lotro.gui.quests;
 import java.io.File;
 
 import delta.common.utils.files.TextFileWriter;
+import delta.common.utils.text.EndOfLine;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.DeedsManager;
 import delta.games.lotro.lore.quests.AchievableProxiesResolver;
@@ -25,7 +26,7 @@ public class MainDumpHtml
   {
     dumpQuests();
     dumpDeeds();
-    System.out.println(ObjectivesHtmlBuilder._counters);
+    System.out.println(ObjectivesDisplayBuilder._counters);
   }
 
   private static void dumpQuests()
@@ -33,13 +34,16 @@ public class MainDumpHtml
     StringBuilder sb=new StringBuilder();
     sb.append("<html><body>");
     QuestsManager questsMgr=QuestsManager.getInstance();
+    ObjectivesDisplayBuilder builder=new ObjectivesDisplayBuilder(true);
     for(QuestDescription quest : questsMgr.getAll())
     {
       AchievableProxiesResolver.resolve(quest);
       sb.append("<h3>").append(quest.getIdentifier()+" - "+quest.getName()).append("</h3>");
       sb.append("<b>Description</b><p>");
       sb.append(HtmlUtils.toHtml(quest.getDescription()));
-      ObjectivesHtmlBuilder.buildHtml(sb,quest);
+      sb.append(EndOfLine.NATIVE_EOL);
+      builder.build(sb,quest);
+      sb.append(EndOfLine.NATIVE_EOL);
     }
     sb.append("</body></html>");
     TextFileWriter w=new TextFileWriter(new File("quests.html"));
@@ -53,13 +57,16 @@ public class MainDumpHtml
     StringBuilder sb=new StringBuilder();
     sb.append("<html><body>");
     DeedsManager deedsMgr=DeedsManager.getInstance();
+    ObjectivesDisplayBuilder builder=new ObjectivesDisplayBuilder(true);
     for(DeedDescription deed : deedsMgr.getAll())
     {
       AchievableProxiesResolver.resolve(deed);
       sb.append("<h3>").append(deed.getIdentifier()+" - "+deed.getName()).append("</h3>");
       sb.append("<b>Description</b><p>");
       sb.append(HtmlUtils.toHtml(deed.getDescription()));
-      ObjectivesHtmlBuilder.buildHtml(sb,deed);
+      sb.append(EndOfLine.NATIVE_EOL);
+      builder.build(sb,deed);
+      sb.append(EndOfLine.NATIVE_EOL);
     }
     sb.append("</body></html>");
     TextFileWriter w=new TextFileWriter(new File("deeds.html"));
