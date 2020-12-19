@@ -357,10 +357,17 @@ public class ObjectivesDisplayBuilder
       if (itemProxy!=null)
       {
         sb.append(verb).append(' ');
-        PageIdentifier to=ReferenceConstants.getItemReference(itemProxy.getId());
-        String toStr=to.getFullAddress();
         String name=itemProxy.getName();
-        HtmlUtils.printLink(sb,toStr,name);
+        if (_html)
+        {
+          PageIdentifier to=ReferenceConstants.getItemReference(itemProxy.getId());
+          String toStr=to.getFullAddress();
+          HtmlUtils.printLink(sb,toStr,name);
+        }
+        else
+        {
+          sb.append(name);
+        }
         if (count>1)
         {
           sb.append(" x").append(count);
