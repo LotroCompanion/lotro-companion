@@ -6,8 +6,14 @@ package delta.games.lotro.utils.gui;
  */
 public class HtmlUtils
 {
-  private static final String RGB_START="<rgb=";
-  private static final String RGB_END="</rgb>";
+  /**
+   * RGB start.
+   */
+  public static final String RGB_START="<rgb=";
+  /**
+   * RGB end.
+   */
+  public static final String RGB_END="</rgb>";
 
   /**
    * Add an hyperlink to the given StringBuilder.
