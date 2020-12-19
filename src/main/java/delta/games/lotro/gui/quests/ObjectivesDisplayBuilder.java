@@ -87,7 +87,7 @@ public class ObjectivesDisplayBuilder
     {
       int index=objective.getIndex();
       sb.append("<p><b>Objective #").append(index).append("</b></p>");
-      String text=objective.getText();
+      String text=objective.getDescription();
       if (text.length()>0)
       {
         sb.append("<p>").append(HtmlUtils.toHtml(text)).append("</p>");
