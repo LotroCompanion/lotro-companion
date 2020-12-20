@@ -24,8 +24,8 @@ import delta.common.ui.swing.windows.DefaultDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.ui.swing.windows.WindowsManager;
 import delta.common.utils.misc.TypedProperties;
-import delta.games.lotro.gui.interceptor.configuration.InterceptorConfiguration;
-import delta.games.lotro.gui.interceptor.configuration.InterceptorConfigurationDialogController;
+import delta.games.lotro.gui.configuration.ApplicationConfiguration;
+import delta.games.lotro.gui.configuration.ConfigurationDialogController;
 import delta.games.lotro.gui.interceptor.statistics.StatisticsWindowController;
 import delta.games.lotro.gui.main.GlobalPreferences;
 import delta.games.lotro.interceptor.data.InterceptionSession;
@@ -48,7 +48,7 @@ public class InterceptorDialogController extends DefaultDialogController impleme
   /**
    * Configuration.
    */
-  private InterceptorConfiguration _configuration;
+  private ApplicationConfiguration _configuration;
   /**
    * Interceptor.
    */
@@ -90,8 +90,8 @@ public class InterceptorDialogController extends DefaultDialogController impleme
   {
     super(parent);
     _childControllers=new WindowsManager();
-    _configuration=new InterceptorConfiguration();
-    _interceptorController=new InterceptorController(this,_configuration.getConfiguration());
+    _configuration=new ApplicationConfiguration();
+    _interceptorController=new InterceptorController(this,_configuration.getDatConfiguration());
     _interceptorController.getSession().getLog().setListener(this);
     _filter=new InterceptionLogFilter();
   }
@@ -310,7 +310,7 @@ public class InterceptorDialogController extends DefaultDialogController impleme
 
   private void doSettings()
   {
-    InterceptorConfigurationDialogController dialog=new InterceptorConfigurationDialogController(this,_configuration);
+    ConfigurationDialogController dialog=new ConfigurationDialogController(this,_configuration);
     dialog.getDialog().setLocationRelativeTo(this.getDialog());
     dialog.show(true);
   }

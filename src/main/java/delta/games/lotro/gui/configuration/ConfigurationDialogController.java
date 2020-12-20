@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.interceptor.configuration;
+package delta.games.lotro.gui.configuration;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -21,10 +21,10 @@ import delta.games.lotro.dat.data.DatConfiguration;
 import delta.games.lotro.utils.gui.filechooser.FileChooserController;
 
 /**
- * Controller for the "configuration" dialog of the interceptor.
+ * Controller for the "configuration" dialog.
  * @author DAM
  */
-public class InterceptorConfigurationDialogController extends DefaultFormDialogController<InterceptorConfiguration>
+public class ConfigurationDialogController extends DefaultFormDialogController<ApplicationConfiguration>
 {
   private static final int DAT_PATH_SIZE=50;
   private JTextField _datPath;
@@ -35,7 +35,7 @@ public class InterceptorConfigurationDialogController extends DefaultFormDialogC
    * @param parentController Parent controller.
    * @param configuration Configuration to edit.
    */
-  public InterceptorConfigurationDialogController(WindowController parentController, InterceptorConfiguration configuration)
+  public ConfigurationDialogController(WindowController parentController, ApplicationConfiguration configuration)
   {
     super(parentController,configuration);
   }
@@ -90,15 +90,15 @@ public class InterceptorConfigurationDialogController extends DefaultFormDialogC
 
   private void init()
   {
-    DatConfiguration datConfiguration=_data.getConfiguration();
+    DatConfiguration datConfiguration=_data.getDatConfiguration();
     String datPathStr=datConfiguration.getRootPath().getAbsolutePath();
     _datPath.setText(datPathStr);
   }
 
   private void doChoose()
   {
-    FileChooserController ctrl=new FileChooserController("interceptorCfg", "Choose LOTRO client path...");
-    DatConfiguration datConfiguration=_data.getConfiguration();
+    FileChooserController ctrl=new FileChooserController("ApplicationConfiguration", "Choose LOTRO client path...");
+    DatConfiguration datConfiguration=_data.getDatConfiguration();
     File path=datConfiguration.getRootPath();
     ctrl.getChooser().setCurrentDirectory(path);
     File datDir=ctrl.chooseDirectory(getWindow(),"OK");
@@ -113,7 +113,7 @@ public class InterceptorConfigurationDialogController extends DefaultFormDialogC
   {
     String datPathStr=_datPath.getText();
     File datPath=new File(datPathStr);
-    _data.getConfiguration().setRootPath(datPath);
+    _data.getDatConfiguration().setRootPath(datPath);
     _data.saveConfiguration();
   }
 

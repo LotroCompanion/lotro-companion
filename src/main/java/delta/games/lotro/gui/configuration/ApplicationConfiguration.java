@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.interceptor.configuration;
+package delta.games.lotro.gui.configuration;
 
 import java.io.File;
 
@@ -6,10 +6,10 @@ import delta.games.lotro.UserConfig;
 import delta.games.lotro.dat.data.DatConfiguration;
 
 /**
- * Interceptor configuration.
+ * Configuration of the LotroCompanion application.
  * @author DAM
  */
-public class InterceptorConfiguration
+public class ApplicationConfiguration
 {
   private static final String DAT_CONFIGURATION="DatConfiguration";
   private static final String CLIENT_PATH="ClientPath";
@@ -19,7 +19,7 @@ public class InterceptorConfiguration
   /**
    * Constructor.
    */
-  public InterceptorConfiguration()
+  public ApplicationConfiguration()
   {
     _configuration=new DatConfiguration();
     initConfiguration();
@@ -29,7 +29,7 @@ public class InterceptorConfiguration
    * Get the DAT configuration. 
    * @return the DAT configuration.
    */
-  public DatConfiguration getConfiguration()
+  public DatConfiguration getDatConfiguration()
   {
     return _configuration;
   }
