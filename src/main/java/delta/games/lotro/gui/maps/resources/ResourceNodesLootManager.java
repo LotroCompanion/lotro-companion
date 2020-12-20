@@ -13,11 +13,9 @@ import org.apache.log4j.Logger;
 
 import delta.games.lotro.common.IdentifiableComparator;
 import delta.games.lotro.lore.crafting.CraftingLevel;
-import delta.games.lotro.lore.items.Container;
-import delta.games.lotro.lore.items.ContainersManager;
 import delta.games.lotro.lore.items.Item;
-import delta.games.lotro.lore.items.ItemsContainer;
 import delta.games.lotro.lore.items.ItemsManager;
+import delta.games.lotro.lore.items.containers.ContainerInspector;
 import delta.games.lotro.lore.maps.resources.ResourcesMapDescriptor;
 import delta.games.lotro.lore.maps.resources.ResourcesMapsManager;
 import delta.games.lotro.utils.Proxy;
@@ -60,7 +58,7 @@ public class ResourceNodesLootManager
     {
       Item resourceNode=resourceNodeProxy.getObject();
       _sourceItems.add(resourceNode);
-      List<Item> lootItems=handleResourceNode(resourceNode);
+      List<Item> lootItems=ContainerInspector.getContainerContents(resourceNode);
       Integer key=Integer.valueOf(resourceNode.getIdentifier());
       _lootItems.put(key,lootItems);
     }
@@ -114,28 +112,6 @@ public class ResourceNodesLootManager
       return sortItems(lootItems);
     }
     return new ArrayList<Item>();
-  }
-
-  private List<Item> handleResourceNode(Item resourceNode)
-  {
-    List<Item> ret=new ArrayList<Item>();
-    Set<Integer> itemIds=new HashSet<Integer>();
-    ContainersManager containersMgr=ContainersManager.getInstance();
-    Container container=containersMgr.getContainerById(resourceNode.getIdentifier());
-    if (container instanceof ItemsContainer)
-    {
-      ItemsContainer itemsContainer=(ItemsContainer)container;
-      itemIds.addAll(itemsContainer.getItemIds());
-    }
-    for(Integer itemId : itemIds)
-    {
-      Item item=ItemsManager.getInstance().getItem(itemId.intValue());
-      if (item!=null)
-      {
-        ret.add(item);
-      }
-    }
-    return ret;
   }
 
   /**

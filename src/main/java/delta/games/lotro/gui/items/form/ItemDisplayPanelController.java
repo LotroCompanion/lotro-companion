@@ -26,6 +26,7 @@ import delta.games.lotro.common.stats.StatUtils;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.common.money.MoneyDisplayController;
 import delta.games.lotro.gui.common.requirements.RequirementsUtils;
+import delta.games.lotro.gui.items.containers.form.ContainerDisplayPanelController;
 import delta.games.lotro.lore.items.Armour;
 import delta.games.lotro.lore.items.ArmourType;
 import delta.games.lotro.lore.items.DisenchantmentManager;
@@ -51,6 +52,7 @@ public class ItemDisplayPanelController implements NavigablePanelController
   private NavigatorWindowController _parent;
   private ItemReferencesDisplayController _references;
   private ItemScalableStatsPanelController _scaling;
+  private ContainerDisplayPanelController _container;
   private MoneyDisplayController _money;
   private DisenchantmentResultPanelController _disenchantment;
 
@@ -65,6 +67,7 @@ public class ItemDisplayPanelController implements NavigablePanelController
     _item=item;
     _references=new ItemReferencesDisplayController(parent,item.getIdentifier());
     _scaling=new ItemScalableStatsPanelController(item);
+    _container=new ContainerDisplayPanelController(parent,item);
     _money=new MoneyDisplayController();
   }
 
@@ -150,7 +153,8 @@ public class ItemDisplayPanelController implements NavigablePanelController
     // Build components for potential tabs
     JEditorPane references=_references.getComponent();
     JPanel scalingPanel=_scaling.getPanel();
-    if ((references!=null) || (scalingPanel!=null))
+    JPanel containerPanel=_container.getPanel();
+    if ((references!=null) || (scalingPanel!=null) || (containerPanel!=null))
     {
       JTabbedPane tabbedPane=GuiFactory.buildTabbedPane();
       // - references
@@ -162,6 +166,11 @@ public class ItemDisplayPanelController implements NavigablePanelController
       if (scalingPanel!=null)
       {
         tabbedPane.add("Scaling",buildPanelForTab(scalingPanel));
+      }
+      // - container
+      if (containerPanel!=null)
+      {
+        tabbedPane.add("Contents",buildPanelForTab(containerPanel));
       }
       GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(5,5,5,5),0,0);
       panel.add(tabbedPane,c);
@@ -369,6 +378,11 @@ public class ItemDisplayPanelController implements NavigablePanelController
     {
       _scaling.dispose();
       _scaling=null;
+    }
+    if (_container!=null)
+    {
+      _container.dispose();
+      _container=null;
     }
     if (_money!=null)
     {
