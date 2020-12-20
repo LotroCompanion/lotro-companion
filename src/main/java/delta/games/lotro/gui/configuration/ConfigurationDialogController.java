@@ -18,6 +18,7 @@ import delta.common.ui.swing.windows.DefaultFormDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.dat.archive.DatChecks;
 import delta.games.lotro.dat.data.DatConfiguration;
+import delta.games.lotro.utils.cfg.ApplicationConfiguration;
 import delta.games.lotro.utils.gui.filechooser.FileChooserController;
 
 /**
@@ -115,6 +116,7 @@ public class ConfigurationDialogController extends DefaultFormDialogController<A
     File datPath=new File(datPathStr);
     _data.getDatConfiguration().setRootPath(datPath);
     _data.saveConfiguration();
+    _data.configurationUpdated();
   }
 
   @Override

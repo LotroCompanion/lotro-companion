@@ -24,7 +24,6 @@ import delta.common.ui.swing.windows.DefaultDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.ui.swing.windows.WindowsManager;
 import delta.common.utils.misc.TypedProperties;
-import delta.games.lotro.gui.configuration.ApplicationConfiguration;
 import delta.games.lotro.gui.configuration.ConfigurationDialogController;
 import delta.games.lotro.gui.interceptor.statistics.StatisticsWindowController;
 import delta.games.lotro.gui.main.GlobalPreferences;
@@ -34,6 +33,7 @@ import delta.games.lotro.interceptor.data.monitoring.InterceptionLogListener;
 import delta.games.lotro.interceptor.data.monitoring.filters.InterceptionLogFilter;
 import delta.games.lotro.interceptor.input.InterceptorStateListener;
 import delta.games.lotro.interceptor.protocol.PacketsStatistics;
+import delta.games.lotro.utils.cfg.ApplicationConfiguration;
 
 /**
  * Basic dialog to control the network capture.
@@ -90,7 +90,7 @@ public class InterceptorDialogController extends DefaultDialogController impleme
   {
     super(parent);
     _childControllers=new WindowsManager();
-    _configuration=new ApplicationConfiguration();
+    _configuration=ApplicationConfiguration.getInstance();
     _interceptorController=new InterceptorController(this,_configuration.getDatConfiguration());
     _interceptorController.getSession().getLog().setListener(this);
     _filter=new InterceptionLogFilter();

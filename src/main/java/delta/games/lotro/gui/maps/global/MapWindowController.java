@@ -37,6 +37,7 @@ import delta.games.lotro.maps.ui.navigation.MapViewDefinition;
 import delta.games.lotro.maps.ui.navigation.NavigationListener;
 import delta.games.lotro.maps.ui.navigation.NavigationSupport;
 import delta.games.lotro.maps.ui.selection.SelectionManager;
+import delta.games.lotro.utils.dat.DatInterface;
 
 /**
  * Controller for a map window.
@@ -70,7 +71,7 @@ public class MapWindowController extends DefaultWindowController implements Navi
     _mapPanel=new BasemapPanelController(mapsManager.getBasemapsManager());
     MapCanvas canvas=_mapPanel.getCanvas();
     // Radar layer
-    DataFacade facade=new DataFacade();
+    DataFacade facade=DatInterface.getInstance().getFacade();
     RadarImageProvider provider=new DatRadarImageProvider(facade);
     _radarLayer=new RadarMapLayer(1,provider);
     canvas.addLayer(_radarLayer);

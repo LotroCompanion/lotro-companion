@@ -52,6 +52,7 @@ import delta.games.lotro.gui.stats.reputation.synopsis.ReputationSynopsisWindowC
 import delta.games.lotro.gui.stats.warbands.WarbandsWindowController;
 import delta.games.lotro.gui.titles.explorer.TitlesExplorerWindowController;
 import delta.games.lotro.gui.toon.ToonsManagementController;
+import delta.games.lotro.utils.dat.DatInterface;
 import delta.games.lotro.utils.maps.Maps;
 
 /**
@@ -590,8 +591,8 @@ public class MainFrameController extends DefaultWindowController implements Acti
     WindowController controller=_windowsManager.getWindow(ResourcesMapsExplorerWindowController.IDENTIFIER);
     if (controller==null)
     {
-      DataFacade facade=new DataFacade();
-      controller=new ResourcesMapsExplorerWindowController(this,facade); 
+      DataFacade facade=DatInterface.getInstance().getFacade();
+      controller=new ResourcesMapsExplorerWindowController(this,facade);
       _windowsManager.registerWindow(controller);
     }
     controller.bringToFront();
