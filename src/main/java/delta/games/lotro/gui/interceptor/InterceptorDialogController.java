@@ -91,7 +91,7 @@ public class InterceptorDialogController extends DefaultDialogController impleme
     super(parent);
     _childControllers=new WindowsManager();
     _configuration=ApplicationConfiguration.getInstance();
-    _interceptorController=new InterceptorController(this,_configuration.getDatConfiguration());
+    _interceptorController=new InterceptorController(this);
     _interceptorController.getSession().getLog().setListener(this);
     _filter=new InterceptionLogFilter();
   }

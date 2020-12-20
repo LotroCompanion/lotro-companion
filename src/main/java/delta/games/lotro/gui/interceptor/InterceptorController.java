@@ -2,13 +2,14 @@ package delta.games.lotro.gui.interceptor;
 
 import org.apache.log4j.Logger;
 
-import delta.games.lotro.dat.data.DatConfiguration;
+import delta.games.lotro.dat.data.DataFacade;
 import delta.games.lotro.interceptor.data.InterceptionSession;
 import delta.games.lotro.interceptor.data.monitoring.InterceptionLog;
 import delta.games.lotro.interceptor.input.InterceptorStateListener;
 import delta.games.lotro.interceptor.input.NetworkPacketsInterceptor;
 import delta.games.lotro.interceptor.input.PacketEventsQueueManager;
 import delta.games.lotro.interceptor.protocol.LotroPacketsReceiver;
+import delta.games.lotro.utils.dat.DatInterface;
 
 /**
  * Controller for the network interceptor.
@@ -25,12 +26,12 @@ public class InterceptorController
   /**
    * Constructor.
    * @param listener State listener.
-   * @param configuration Configuration.
    */
-  public InterceptorController(InterceptorStateListener listener, DatConfiguration configuration)
+  public InterceptorController(InterceptorStateListener listener)
   {
     _listener=listener;
-    _session=new InterceptionSession(configuration);
+    DataFacade dataFacade=DatInterface.getInstance().getFacade();
+    _session=new InterceptionSession(dataFacade);
   }
 
   /**
