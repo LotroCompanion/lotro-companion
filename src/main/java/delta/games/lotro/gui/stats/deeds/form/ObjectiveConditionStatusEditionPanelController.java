@@ -38,7 +38,7 @@ public class ObjectiveConditionStatusEditionPanelController
   {
     _conditionStatus=conditionStatus;
     _panel=build(icon);
-    setStatus();
+    updateUi();
   }
 
   /**
@@ -97,7 +97,10 @@ public class ObjectiveConditionStatusEditionPanelController
     return panel;
   }
 
-  private void setStatus()
+  /**
+   * Update UI from data.
+   */
+  public void updateUi()
   {
     // State
     _stateCtrl.setState(_conditionStatus.getState());

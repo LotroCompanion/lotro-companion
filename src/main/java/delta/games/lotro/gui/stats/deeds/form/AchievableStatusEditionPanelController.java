@@ -15,8 +15,10 @@ import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.WindowController;
+import delta.games.lotro.character.achievables.AchievableElementState;
 import delta.games.lotro.character.achievables.AchievableObjectiveStatus;
 import delta.games.lotro.character.achievables.AchievableStatus;
+import delta.games.lotro.character.achievables.ObjectiveConditionStatus;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.DeedType;
@@ -153,17 +155,42 @@ public class AchievableStatusEditionPanelController
 
   private void handleAchievableClick()
   {
-    System.out.println("Click on achievable!");
+    AchievableElementState nextState=getNextState(_status.getState());
+    _status.setState(nextState);
+    updateUi();
   }
 
   private void handleObjectiveClick(ObjectiveStatusEditionPanelController objectiveController)
   {
-    System.out.println("Click on objective!");
+    AchievableObjectiveStatus status=objectiveController.getStatus();
+    AchievableElementState nextState=getNextState(status.getState());
+    status.setState(nextState);
+    updateUi();
   }
 
   private void handleConditionClick(ObjectiveConditionStatusEditionPanelController conditionCtrl)
   {
-    System.out.println("Click on condition!");
+    ObjectiveConditionStatus status=conditionCtrl.getStatus();
+    AchievableElementState nextState=getNextState(status.getState());
+    status.setState(nextState);
+    updateUi();
+  }
+
+  private AchievableElementState getNextState(AchievableElementState state)
+  {
+    if (state==AchievableElementState.COMPLETED) return AchievableElementState.UNDEFINED;
+    if (state==AchievableElementState.UNDERWAY) return AchievableElementState.COMPLETED;
+    if (state==AchievableElementState.UNDEFINED) return AchievableElementState.UNDERWAY;
+    return null;
+  }
+
+  private void updateUi()
+  {
+    _stateCtrl.setState(_status.getState());
+    for(ObjectiveStatusEditionPanelController objectiveCtrl : _objectiveStatusEditors)
+    {
+      objectiveCtrl.updateUi();
+    }
   }
 
   /**

@@ -78,6 +78,18 @@ public class ObjectiveStatusEditionPanelController
     return _panel;
   }
 
+  /**
+   * Update UI from data.
+   */
+  public void updateUi()
+  {
+    _stateCtrl.setState(_objectiveStatus.getState());
+    for(ObjectiveConditionStatusEditionPanelController conditionCtrl : _conditionStatusEditors)
+    {
+      conditionCtrl.updateUi();
+    }
+  }
+
   private JPanel build(Icon icon)
   {
     // Head panel
