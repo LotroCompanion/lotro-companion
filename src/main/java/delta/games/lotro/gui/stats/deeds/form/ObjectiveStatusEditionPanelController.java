@@ -6,6 +6,7 @@ import java.awt.Insets;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.Icon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -20,20 +21,24 @@ import delta.games.lotro.lore.quests.objectives.Objective;
  */
 public class ObjectiveStatusEditionPanelController
 {
+  // Data
   private AchievableObjectiveStatus _objectiveStatus;
+  // Controllers
   private AchievableElementStateEditionController _stateCtrl;
   private List<ObjectiveConditionStatusEditionPanelController> _conditionStatusEditors;
+  // UI
   private JLabel _label;
   private JPanel _panel;
 
   /**
    * Constructor.
    * @param objectiveStatus Status to edit.
+   * @param icon Icon to use.
    */
-  public ObjectiveStatusEditionPanelController(AchievableObjectiveStatus objectiveStatus)
+  public ObjectiveStatusEditionPanelController(AchievableObjectiveStatus objectiveStatus, Icon icon)
   {
     _objectiveStatus=objectiveStatus;
-    _panel=build();
+    _panel=build(icon);
     setStatus();
   }
 
@@ -46,15 +51,15 @@ public class ObjectiveStatusEditionPanelController
     return _panel;
   }
 
-  private JPanel build()
+  private JPanel build(Icon icon)
   {
     // Head panel
-    JPanel headPanel=buildHeadPanel();
+    JPanel headPanel=buildHeadPanel(icon);
     // Condition editors
     _conditionStatusEditors=new ArrayList<ObjectiveConditionStatusEditionPanelController>();
     for(ObjectiveConditionStatus conditionStatus : _objectiveStatus.getConditionStatuses())
     {
-      ObjectiveConditionStatusEditionPanelController editor=new ObjectiveConditionStatusEditionPanelController(conditionStatus);
+      ObjectiveConditionStatusEditionPanelController editor=new ObjectiveConditionStatusEditionPanelController(conditionStatus,icon);
       _conditionStatusEditors.add(editor);
     }
     // Assembly
@@ -71,10 +76,10 @@ public class ObjectiveStatusEditionPanelController
     return panel;
   }
 
-  private JPanel buildHeadPanel()
+  private JPanel buildHeadPanel(Icon icon)
   {
     // State
-    _stateCtrl=new AchievableElementStateEditionController();
+    _stateCtrl=new AchievableElementStateEditionController(icon);
     // Label
     String label=getLabel();
     _label=GuiFactory.buildLabel(label);
@@ -100,5 +105,36 @@ public class ObjectiveStatusEditionPanelController
     int index=objective.getIndex();
     String label="Objective #"+index;
     return label;
+  }
+
+  /**
+   * Release all managed resources.
+   */
+  public void dispose()
+  {
+    // Data
+    _objectiveStatus=null;
+    // Controllers
+    if (_stateCtrl!=null)
+    {
+      _stateCtrl.dispose();
+      _stateCtrl=null;
+    }
+    if (_conditionStatusEditors!=null)
+    {
+      for(ObjectiveConditionStatusEditionPanelController ctrl : _conditionStatusEditors)
+      {
+        ctrl.dispose();
+      }
+      _conditionStatusEditors.clear();
+      _conditionStatusEditors=null;
+    }
+    // UI
+    _label=null;
+    if (_panel!=null)
+    {
+      _panel.removeAll();
+      _panel=null;
+    }
   }
 }

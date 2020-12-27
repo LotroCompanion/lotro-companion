@@ -26,7 +26,8 @@ public class DeedStatusEditionDialogControllerNew extends DefaultFormDialogContr
   public DeedStatusEditionDialogControllerNew(AchievableStatus status, WindowController parentController)
   {
     super(parentController,status);
-    AchievableProxiesResolver.resolve((DeedDescription)status.getAchievable());
+    DeedDescription deed=(DeedDescription)status.getAchievable();
+    AchievableProxiesResolver.resolve(deed);
   }
 
   @Override
@@ -41,7 +42,7 @@ public class DeedStatusEditionDialogControllerNew extends DefaultFormDialogContr
   @Override
   protected JPanel buildFormPanel()
   {
-    _statusEditor=new AchievableStatusEditionPanelController(_data);
+    _statusEditor=new AchievableStatusEditionPanelController(this,_data);
     return _statusEditor.getPanel();
   }
 

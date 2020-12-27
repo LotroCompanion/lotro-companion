@@ -4,6 +4,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
+import javax.swing.Icon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -19,20 +20,24 @@ import delta.games.lotro.lore.quests.objectives.ObjectivesConstants;
  */
 public class ObjectiveConditionStatusEditionPanelController
 {
+  // Data
   private ObjectiveConditionStatus _conditionStatus;
+  // Controllers
   private AchievableElementStateEditionController _stateCtrl;
   private TextFieldAndMaxLabel _countEditor;
+  // UI
   private JLabel _label;
   private JPanel _panel;
 
   /**
    * Constructor.
    * @param conditionStatus Status to edit.
+   * @param icon Icon to use.
    */
-  public ObjectiveConditionStatusEditionPanelController(ObjectiveConditionStatus conditionStatus)
+  public ObjectiveConditionStatusEditionPanelController(ObjectiveConditionStatus conditionStatus, Icon icon)
   {
     _conditionStatus=conditionStatus;
-    _panel=build();
+    _panel=build(icon);
     setStatus();
   }
 
@@ -45,10 +50,10 @@ public class ObjectiveConditionStatusEditionPanelController
     return _panel;
   }
 
-  private JPanel build()
+  private JPanel build(Icon icon)
   {
     // State
-    _stateCtrl=new AchievableElementStateEditionController();
+    _stateCtrl=new AchievableElementStateEditionController(icon);
     // Label
     String label=getLabel();
     _label=GuiFactory.buildLabel(label);
@@ -112,6 +117,33 @@ public class ObjectiveConditionStatusEditionPanelController
         String resultLabel=templateLabel.replace(ObjectivesConstants.COUNT_PATTERN,countStatus);
         _label.setText(resultLabel);
       }
+    }
+  }
+
+  /**
+   * Release all managed resources.
+   */
+  public void dispose()
+  {
+    // Data
+    _conditionStatus=null;
+    // Controllers
+    if (_stateCtrl!=null)
+    {
+      _stateCtrl.dispose();
+      _stateCtrl=null;
+    }
+    if (_countEditor!=null)
+    {
+      _countEditor.dispose();
+      _countEditor=null;
+    }
+    // UI
+    _label=null;
+    if (_panel!=null)
+    {
+      _panel.removeAll();
+      _panel=null;
     }
   }
 }

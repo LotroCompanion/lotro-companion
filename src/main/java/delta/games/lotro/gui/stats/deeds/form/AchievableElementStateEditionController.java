@@ -1,7 +1,11 @@
 package delta.games.lotro.gui.stats.deeds.form;
 
-import delta.common.ui.swing.checkbox.ThreeState;
-import delta.common.ui.swing.checkbox.ThreeStateCheckbox;
+import javax.swing.Icon;
+import javax.swing.JButton;
+import javax.swing.UIManager;
+
+import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.icons.TransparentIcon;
 import delta.games.lotro.character.achievables.AchievableElementState;
 
 /**
@@ -10,23 +14,31 @@ import delta.games.lotro.character.achievables.AchievableElementState;
  */
 public class AchievableElementStateEditionController
 {
-  private ThreeStateCheckbox _ctrl;
+  private JButton _button;
+  private Icon _icon;
+  private Icon _grayedIcon;
+  private Icon _transparentIcon;
 
   /**
    * Constructor.
+   * @param icon Icon to use.
    */
-  public AchievableElementStateEditionController()
+  public AchievableElementStateEditionController(Icon icon)
   {
-    _ctrl=new ThreeStateCheckbox();
+    _icon=icon;
+    _grayedIcon=UIManager.getLookAndFeel().getDisabledIcon(null, icon);
+    _transparentIcon=new TransparentIcon(icon,0.4f);
+    _button=GuiFactory.buildIconButton();
+    _button.setIcon(icon);
   }
 
   /**
    * Get the managed UI component.
    * @return the managed UI component.
    */
-  public ThreeStateCheckbox getComponent()
+  public JButton getComponent()
   {
-    return _ctrl;
+    return _button;
   }
 
   /**
@@ -37,28 +49,27 @@ public class AchievableElementStateEditionController
   {
     if (state==AchievableElementState.COMPLETED)
     {
-      _ctrl.setState(ThreeState.SELECTED);
+      _button.setIcon(_icon);
     }
     else if (state==AchievableElementState.UNDERWAY)
     {
-      _ctrl.setState(ThreeState.HALF_SELECTED);
+      _button.setIcon(_transparentIcon);
     }
     else if (state==AchievableElementState.UNDEFINED)
     {
-      _ctrl.setState(ThreeState.NOT_SELECTED);
+      _button.setIcon(_grayedIcon);
     }
   }
 
+
   /**
-   * Get the currently displayed state.
-   * @return the currently displayed state.
+   * Release all managed resources.
    */
-  public AchievableElementState getState()
+  public void dispose()
   {
-    ThreeState state=_ctrl.getState();
-    if (state==ThreeState.SELECTED) return AchievableElementState.COMPLETED;
-    if (state==ThreeState.HALF_SELECTED) return AchievableElementState.UNDERWAY;
-    if (state==ThreeState.NOT_SELECTED) return AchievableElementState.UNDEFINED;
-    return null;
+    _button=null;
+    _icon=null;
+    _grayedIcon=null;
+    _transparentIcon=null;
   }
 }

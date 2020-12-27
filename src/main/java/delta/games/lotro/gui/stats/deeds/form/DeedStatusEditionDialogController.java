@@ -1,7 +1,5 @@
 package delta.games.lotro.gui.stats.deeds.form;
 
-import java.awt.FlowLayout;
-import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -9,32 +7,21 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.checkbox.ThreeState;
 import delta.common.ui.swing.checkbox.ThreeStateCheckbox;
-import delta.common.ui.swing.labels.HyperLinkController;
-import delta.common.ui.swing.labels.LocalHyperlinkAction;
-import delta.common.ui.swing.navigator.NavigatorWindowController;
-import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.common.ui.swing.text.dates.DateCodec;
 import delta.common.ui.swing.text.dates.DateEditionController;
 import delta.common.ui.swing.windows.DefaultFormDialogController;
 import delta.common.ui.swing.windows.WindowController;
-import delta.common.ui.swing.windows.WindowsManager;
 import delta.games.lotro.character.achievables.AchievableElementState;
 import delta.games.lotro.character.achievables.AchievableStatus;
-import delta.games.lotro.gui.LotroIconsManager;
-import delta.games.lotro.gui.common.navigation.ReferenceConstants;
-import delta.games.lotro.gui.navigation.NavigatorFactory;
 import delta.games.lotro.lore.deeds.DeedDescription;
-import delta.games.lotro.lore.deeds.DeedType;
 import delta.games.lotro.lore.quests.Achievable;
 import delta.games.lotro.utils.DateFormat;
 
@@ -46,12 +33,10 @@ public class DeedStatusEditionDialogController extends DefaultFormDialogControll
 {
   // Data
   private DeedDescription _deed;
-  // UI
-  private JLabel _icon;
   // Controllers
   private ThreeStateCheckbox _completed;
   private DateEditionController _completionDate;
-  private WindowsManager _windowsManager;
+  private DeedSummaryPanelController _summaryPanel;
   private DeedGeoStatusEditionPanelController _geoEditor;
 
   /**
@@ -63,7 +48,7 @@ public class DeedStatusEditionDialogController extends DefaultFormDialogControll
   {
     super(parentController,status);
     _deed=(DeedDescription)status.getAchievable();
-    _windowsManager=new WindowsManager();
+    _summaryPanel=new DeedSummaryPanelController(_deed,this);
   }
 
   @Override
@@ -84,31 +69,9 @@ public class DeedStatusEditionDialogController extends DefaultFormDialogControll
 
     GridBagConstraints c=new GridBagConstraints(0,0,2,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     // Deed summary line
-    {
-      JPanel deedSummaryLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
-      // Icon
-      DeedType type=_deed.getType();
-      ImageIcon icon=LotroIconsManager.getDeedTypeIcon(type);
-      _icon=GuiFactory.buildIconLabel(icon);
-      deedSummaryLine.add(_icon);
-      // Name
-      String name=_deed.getName();
-      ActionListener al=new ActionListener()
-      {
-        @Override
-        public void actionPerformed(ActionEvent e)
-        {
-          showDeed();
-        }
-      };
-      LocalHyperlinkAction deedLinkAction=new LocalHyperlinkAction(name,al);
-      HyperLinkController deedLink=new HyperLinkController(deedLinkAction);
-      JLabel label=deedLink.getLabel();
-      label.setFont(label.getFont().deriveFont(16f).deriveFont(Font.BOLD));
-      deedSummaryLine.add(label);
-      panel.add(deedSummaryLine,c);
-      c.gridy++;
-    }
+    JPanel deedSummaryLine=_summaryPanel.getPanel();
+    panel.add(deedSummaryLine,c);
+    c.gridy++;
 
     // Completed
     _completed=new ThreeStateCheckbox("Completed");
@@ -223,26 +186,6 @@ public class DeedStatusEditionDialogController extends DefaultFormDialogControll
     {
       _completed.setState(ThreeState.NOT_SELECTED);
       _completionDate.setState(false,false);
-    }
-  }
-
-  private void showDeed()
-  {
-    int nbWindows=_windowsManager.getAll().size();
-    if (nbWindows==0)
-    {
-      NavigatorWindowController window=NavigatorFactory.buildNavigator(this,0);
-      PageIdentifier ref=ReferenceConstants.getAchievableReference(_deed);
-      window.navigateTo(ref);
-      window.show(false);
-      _windowsManager.registerWindow(window);
-    }
-    else
-    {
-      NavigatorWindowController window=(NavigatorWindowController)_windowsManager.getAll().get(0);
-      PageIdentifier ref=ReferenceConstants.getAchievableReference(_deed);
-      window.navigateTo(ref);
-      window.bringToFront();
     }
   }
 
