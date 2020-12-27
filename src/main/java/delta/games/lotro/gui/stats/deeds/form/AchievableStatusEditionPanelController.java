@@ -3,11 +3,14 @@ package delta.games.lotro.gui.stats.deeds.form;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
@@ -39,6 +42,7 @@ public class AchievableStatusEditionPanelController
   {
     _status=status;
     _panel=build(parent);
+    setupCallbacks();
     setStatus();
   }
 
@@ -105,6 +109,61 @@ public class AchievableStatusEditionPanelController
     DeedType type=deed.getType();
     ImageIcon icon=LotroIconsManager.getDeedTypeIcon(type);
     return icon;
+  }
+
+  private void setupCallbacks()
+  {
+    JButton achievableButton=_stateCtrl.getComponent();
+    ActionListener alAchievable=new ActionListener()
+    {
+      @Override
+      public void actionPerformed(ActionEvent e)
+      {
+        handleAchievableClick();
+      }
+    };
+    achievableButton.addActionListener(alAchievable);
+    for(final ObjectiveStatusEditionPanelController objectiveCtrl : _objectiveStatusEditors)
+    {
+      JButton objectiveButton=objectiveCtrl.getStateController().getComponent();
+      ActionListener alObjective=new ActionListener()
+      {
+        @Override
+        public void actionPerformed(ActionEvent e)
+        {
+          handleObjectiveClick(objectiveCtrl);
+        }
+      };
+      objectiveButton.addActionListener(alObjective);
+      for(final ObjectiveConditionStatusEditionPanelController conditionCtrl : objectiveCtrl.getConditionControllers())
+      {
+        JButton conditionButton=conditionCtrl.getStateController().getComponent();
+        ActionListener alCondition=new ActionListener()
+        {
+          @Override
+          public void actionPerformed(ActionEvent e)
+          {
+            handleConditionClick(conditionCtrl);
+          }
+        };
+        conditionButton.addActionListener(alCondition);
+      }
+    }
+  }
+
+  private void handleAchievableClick()
+  {
+    System.out.println("Click on achievable!");
+  }
+
+  private void handleObjectiveClick(ObjectiveStatusEditionPanelController objectiveController)
+  {
+    System.out.println("Click on objective!");
+  }
+
+  private void handleConditionClick(ObjectiveConditionStatusEditionPanelController conditionCtrl)
+  {
+    System.out.println("Click on condition!");
   }
 
   /**

@@ -42,6 +42,24 @@ public class ObjectiveConditionStatusEditionPanelController
   }
 
   /**
+   * Get the managed status.
+   * @return the managed status.
+   */
+  public ObjectiveConditionStatus getStatus()
+  {
+    return _conditionStatus;
+  }
+
+  /**
+   * Get the state controller.
+   * @return the state controller.
+   */
+  public AchievableElementStateEditionController getStateController()
+  {
+    return _stateCtrl;
+  }
+
+  /**
    * Get the managed panel.
    * @return the managed panel.
    */
