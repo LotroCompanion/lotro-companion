@@ -1,5 +1,6 @@
 package delta.games.lotro.gui.stats.deeds.form;
 
+import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -17,6 +18,8 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.editors.numbers.ProgressAndNumberEditorController;
 import delta.common.ui.swing.text.NumberEditionController;
 import delta.common.ui.swing.text.NumberListener;
+import delta.common.ui.swing.text.dates.DateCodec;
+import delta.common.ui.swing.text.dates.DateEditionController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.achievables.AchievableElementState;
 import delta.games.lotro.character.achievables.AchievableObjectiveStatus;
@@ -25,6 +28,7 @@ import delta.games.lotro.character.achievables.ObjectiveConditionStatus;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.DeedType;
+import delta.games.lotro.utils.DateFormat;
 
 /**
  * Controller for a panel to edit the status of an achievable.
@@ -40,6 +44,7 @@ public class AchievableStatusEditionPanelController
   private AchievableElementStateEditionController _stateCtrl;
   private List<ObjectiveStatusEditionPanelController> _objectiveStatusEditors;
   private DeedLinkController _linkCtrl;
+  private DateEditionController _completionDate;
   // UI
   private JPanel _panel;
 
@@ -100,18 +105,54 @@ public class AchievableStatusEditionPanelController
     // Deed link
     DeedDescription deed=(DeedDescription)_status.getAchievable();
     _linkCtrl=new DeedLinkController(deed,parent);
+    // Completion date
+    JPanel completionDatePanel=buildCompletionDatePanel();
     // Assembly
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.EAST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(_stateCtrl.getComponent(),c);
     c=new GridBagConstraints(1,0,1,1,1.0,0.0,GridBagConstraints.EAST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(_linkCtrl.getLabel(),c);
+    c=new GridBagConstraints(0,1,2,1,1.0,0.0,GridBagConstraints.EAST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    panel.add(completionDatePanel,c);
+    return panel;
+  }
+
+  private JPanel buildCompletionDatePanel()
+  {
+    JPanel panel=GuiFactory.buildPanel(new FlowLayout());
+    panel.add(GuiFactory.buildLabel("Completion date:"));
+    DateCodec codec=DateFormat.getDateTimeCodec();
+    _completionDate=new DateEditionController(codec);
+    panel.add(_completionDate.getTextField());
     return panel;
   }
 
   private void setStatus()
   {
-    _stateCtrl.setState(_status.getState());
+    // State
+    AchievableElementState state=_status.getState();
+    _stateCtrl.setState(state);
+    // Date
+    _completionDate.setDate(_status.getCompletionDate());
+    if (state==AchievableElementState.COMPLETED)
+    {
+      _completionDate.setState(true,true);
+    }
+    else
+    {
+      _completionDate.setState(false,false);
+    }
+  }
+
+  /**
+   * Get all current data on form validation.
+   */
+  public void onOkImpl()
+  {
+    // Completion date
+    Long completionDate=_completionDate.getDate();
+    _status.setCompletionDate(completionDate);
   }
 
   private Icon getIcon()
@@ -233,7 +274,7 @@ public class AchievableStatusEditionPanelController
 
   private void updateUi()
   {
-    _stateCtrl.setState(_status.getState());
+    setStatus();
     for(ObjectiveStatusEditionPanelController objectiveCtrl : _objectiveStatusEditors)
     {
       objectiveCtrl.updateUi();
@@ -266,6 +307,11 @@ public class AchievableStatusEditionPanelController
     {
       _linkCtrl.dispose();
       _linkCtrl=null;
+    }
+    if (_completionDate!=null)
+    {
+      _completionDate.dispose();
+      _completionDate=null;
     }
     // UI
     if (_panel!=null)
