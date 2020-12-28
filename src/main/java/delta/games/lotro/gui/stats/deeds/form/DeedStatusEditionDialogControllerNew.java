@@ -20,6 +20,8 @@ public class DeedStatusEditionDialogControllerNew extends DefaultFormDialogContr
   private static final int MAX_HEIGHT=600;
   // Controllers
   private AchievableStatusEditionPanelController _statusEditor;
+  // Data
+  private AchievableStatus _original;
 
   /**
    * Constructor.
@@ -28,9 +30,17 @@ public class DeedStatusEditionDialogControllerNew extends DefaultFormDialogContr
    */
   public DeedStatusEditionDialogControllerNew(AchievableStatus status, WindowController parentController)
   {
-    super(parentController,status);
+    super(parentController,clone(status));
+    _original=status;
     DeedDescription deed=(DeedDescription)status.getAchievable();
     AchievableProxiesResolver.resolve(deed);
+  }
+
+  private static AchievableStatus clone(AchievableStatus status)
+  {
+    AchievableStatus ret=new AchievableStatus(status.getAchievable());
+    ret.copyFrom(status);
+    return ret;
   }
 
   @Override
@@ -58,7 +68,8 @@ public class DeedStatusEditionDialogControllerNew extends DefaultFormDialogContr
   @Override
   protected void okImpl()
   {
-    System.out.println("OK");
+    _statusEditor.onOkImpl();
+    _original.copyFrom(_data);
   }
 
   /**

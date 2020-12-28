@@ -127,8 +127,8 @@ public class DeedsStatusEditionWindowController extends DefaultFormDialogControl
     DeedStatusEditionDialogControllerNew dialog=new DeedStatusEditionDialogControllerNew(status,this);
     Window parentWindow=getWindow();
     dialog.getDialog().setLocationRelativeTo(parentWindow);
-    status=dialog.editModal();
-    if (status!=null)
+    AchievableStatus notNullIfOk=dialog.editModal();
+    if (notNullIfOk!=null)
     {
       _tableController.getTableController().refresh(status);
     }
