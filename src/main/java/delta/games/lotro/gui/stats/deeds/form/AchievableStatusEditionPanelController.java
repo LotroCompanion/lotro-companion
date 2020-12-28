@@ -29,10 +29,15 @@ import delta.games.lotro.lore.deeds.DeedType;
  */
 public class AchievableStatusEditionPanelController
 {
+  // Data
   private AchievableStatus _status;
+  // Business logic
+  private AchievableStatusBusinessRules _rules;
+  // Controllers
   private AchievableElementStateEditionController _stateCtrl;
   private List<ObjectiveStatusEditionPanelController> _objectiveStatusEditors;
   private DeedLinkController _linkCtrl;
+  // UI
   private JPanel _panel;
 
   /**
@@ -43,6 +48,7 @@ public class AchievableStatusEditionPanelController
   public AchievableStatusEditionPanelController(WindowController parent, AchievableStatus status)
   {
     _status=status;
+    _rules=new AchievableStatusBusinessRules();
     _panel=build(parent);
     setupCallbacks();
     setStatus();
@@ -155,30 +161,46 @@ public class AchievableStatusEditionPanelController
 
   private void handleAchievableClick()
   {
-    AchievableElementState nextState=getNextState(_status.getState());
-    _status.setState(nextState);
+    AchievableElementState nextState=getNextAchievableState(_status.getState());
+    _rules.setAchievableState(nextState,_status);
     updateUi();
   }
 
   private void handleObjectiveClick(ObjectiveStatusEditionPanelController objectiveController)
   {
     AchievableObjectiveStatus status=objectiveController.getStatus();
-    AchievableElementState nextState=getNextState(status.getState());
-    status.setState(nextState);
+    AchievableElementState nextState=getNextObjectiveState(status.getParentStatus(),status.getState());
+    _rules.setObjectiveState(nextState,status);
     updateUi();
   }
 
   private void handleConditionClick(ObjectiveConditionStatusEditionPanelController conditionCtrl)
   {
     ObjectiveConditionStatus status=conditionCtrl.getStatus();
-    AchievableElementState nextState=getNextState(status.getState());
-    status.setState(nextState);
+    AchievableElementState nextState=getNextConditionState(status.getParentStatus(),status.getState());
+    _rules.setConditionState(nextState,status);
     updateUi();
   }
 
-  private AchievableElementState getNextState(AchievableElementState state)
+  private AchievableElementState getNextAchievableState(AchievableElementState state)
   {
     if (state==AchievableElementState.COMPLETED) return AchievableElementState.UNDEFINED;
+    if (state==AchievableElementState.UNDERWAY) return AchievableElementState.COMPLETED;
+    if (state==AchievableElementState.UNDEFINED) return AchievableElementState.UNDERWAY;
+    return null;
+  }
+
+  private AchievableElementState getNextObjectiveState(AchievableStatus parent, AchievableElementState state)
+  {
+    if (state==AchievableElementState.COMPLETED) return AchievableElementState.UNDERWAY;
+    if (state==AchievableElementState.UNDERWAY) return AchievableElementState.COMPLETED;
+    if (state==AchievableElementState.UNDEFINED) return AchievableElementState.UNDERWAY;
+    return null;
+  }
+
+  private AchievableElementState getNextConditionState(AchievableObjectiveStatus parent, AchievableElementState state)
+  {
+    if (state==AchievableElementState.COMPLETED) return AchievableElementState.UNDERWAY;
     if (state==AchievableElementState.UNDERWAY) return AchievableElementState.COMPLETED;
     if (state==AchievableElementState.UNDEFINED) return AchievableElementState.UNDERWAY;
     return null;
