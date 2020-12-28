@@ -1,5 +1,6 @@
 package delta.games.lotro.gui.stats.deeds.form;
 
+import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -13,6 +14,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.editors.numbers.ProgressAndNumberEditorController;
@@ -77,24 +79,14 @@ public class AchievableStatusEditionPanelController
     Icon icon=getIcon();
     // Head panel
     JPanel headPanel=buildHeadPanel(icon,parent);
-    // Condition editors
-    _objectiveStatusEditors=new ArrayList<ObjectiveStatusEditionPanelController>();
-    for(AchievableObjectiveStatus objectiveStatus : _status.getObjectiveStatuses())
-    {
-      ObjectiveStatusEditionPanelController editor=new ObjectiveStatusEditionPanelController(objectiveStatus,icon);
-      _objectiveStatusEditors.add(editor);
-    }
+    // Objectives panel
+    JPanel objectivesPanel=buildObjectivesPanel(icon);
     // Assembly
-    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
-    GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,0.0,GridBagConstraints.EAST,GridBagConstraints.HORIZONTAL,new Insets(2,5,2,5),0,0);
-    panel.add(headPanel,c);
-    c.gridy++;
-    for(ObjectiveStatusEditionPanelController editor : _objectiveStatusEditors)
-    {
-      c.gridy++;
-      JPanel editorPanel=editor.getPanel();
-      panel.add(editorPanel,c);
-    }
+    JPanel panel=GuiFactory.buildPanel(new BorderLayout());
+    panel.add(headPanel,BorderLayout.NORTH);
+    JScrollPane center=GuiFactory.buildScrollPane(objectivesPanel);
+    center.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+    panel.add(center,BorderLayout.CENTER);
     return panel;
   }
 
@@ -126,6 +118,22 @@ public class AchievableStatusEditionPanelController
     _completionDate=new DateEditionController(codec);
     panel.add(_completionDate.getTextField());
     return panel;
+  }
+
+  private JPanel buildObjectivesPanel(Icon icon)
+  {
+    JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,0.0,GridBagConstraints.EAST,GridBagConstraints.HORIZONTAL,new Insets(2,5,2,5),0,0);
+    // Objective editors
+    _objectiveStatusEditors=new ArrayList<ObjectiveStatusEditionPanelController>();
+    for(AchievableObjectiveStatus objectiveStatus : _status.getObjectiveStatuses())
+    {
+      ObjectiveStatusEditionPanelController editor=new ObjectiveStatusEditionPanelController(objectiveStatus,icon);
+      _objectiveStatusEditors.add(editor);
+      ret.add(editor.getPanel(),c);
+      c.gridy++;
+    }
+    return ret;
   }
 
   private void setStatus()

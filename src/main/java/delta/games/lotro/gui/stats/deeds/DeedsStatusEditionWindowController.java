@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -27,7 +28,7 @@ import delta.games.lotro.character.reputation.ReputationStatus;
 import delta.games.lotro.gui.deed.filter.DeedFilterController;
 import delta.games.lotro.gui.main.GlobalPreferences;
 import delta.games.lotro.gui.stats.deeds.filter.DeedStatusFilterController;
-import delta.games.lotro.gui.stats.deeds.form.DeedStatusEditionDialogController;
+import delta.games.lotro.gui.stats.deeds.form.DeedStatusEditionDialogControllerNew;
 import delta.games.lotro.gui.stats.deeds.table.DeedStatusTableController;
 import delta.games.lotro.stats.deeds.SyncDeedsStatusAndReputationStatus;
 import delta.games.lotro.utils.events.EventsManager;
@@ -123,7 +124,9 @@ public class DeedsStatusEditionWindowController extends DefaultFormDialogControl
 
   private void editDeedStatus(AchievableStatus status)
   {
-    DeedStatusEditionDialogController dialog=new DeedStatusEditionDialogController(status,this);
+    DeedStatusEditionDialogControllerNew dialog=new DeedStatusEditionDialogControllerNew(status,this);
+    Window parentWindow=getWindow();
+    dialog.getDialog().setLocationRelativeTo(parentWindow);
     status=dialog.editModal();
     if (status!=null)
     {

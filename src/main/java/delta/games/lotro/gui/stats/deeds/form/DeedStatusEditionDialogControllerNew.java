@@ -1,5 +1,7 @@
 package delta.games.lotro.gui.stats.deeds.form;
 
+import java.awt.Dimension;
+
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 
@@ -15,6 +17,7 @@ import delta.games.lotro.lore.quests.AchievableProxiesResolver;
  */
 public class DeedStatusEditionDialogControllerNew extends DefaultFormDialogController<AchievableStatus>
 {
+  private static final int MAX_HEIGHT=600;
   // Controllers
   private AchievableStatusEditionPanelController _statusEditor;
 
@@ -35,7 +38,13 @@ public class DeedStatusEditionDialogControllerNew extends DefaultFormDialogContr
   {
     JDialog dialog=super.build();
     dialog.setTitle("Deed status edition...");
-    dialog.setResizable(false);
+    dialog.setResizable(true);
+    dialog.pack();
+    Dimension size=dialog.getSize();
+    if (size.height>MAX_HEIGHT)
+    {
+      dialog.setSize(size.width+30,MAX_HEIGHT);
+    }
     return dialog;
   }
 
