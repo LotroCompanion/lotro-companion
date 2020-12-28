@@ -30,6 +30,7 @@ import delta.games.lotro.character.achievables.ObjectiveConditionStatus;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.DeedType;
+import delta.games.lotro.lore.quests.Achievable;
 import delta.games.lotro.utils.DateFormat;
 
 /**
@@ -47,6 +48,7 @@ public class AchievableStatusEditionPanelController
   private List<ObjectiveStatusEditionPanelController> _objectiveStatusEditors;
   private DeedLinkController _linkCtrl;
   private DateEditionController _completionDate;
+  private AchievableGeoStatusEditionController _geoController;
   // UI
   private JPanel _panel;
 
@@ -97,8 +99,8 @@ public class AchievableStatusEditionPanelController
     // Deed link
     DeedDescription deed=(DeedDescription)_status.getAchievable();
     _linkCtrl=new DeedLinkController(deed,parent);
-    // Completion date
-    JPanel completionDatePanel=buildCompletionDatePanel();
+    // Next line (completion date and map button)
+    JPanel nextLine=buildDateAndMapPanel(parent);
     // Assembly
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
@@ -106,7 +108,22 @@ public class AchievableStatusEditionPanelController
     c=new GridBagConstraints(1,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(_linkCtrl.getLabel(),c);
     c=new GridBagConstraints(0,1,2,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
-    panel.add(completionDatePanel,c);
+    panel.add(nextLine,c);
+    return panel;
+  }
+
+  private JPanel buildDateAndMapPanel(WindowController parent)
+  {
+    JPanel datePanel=buildCompletionDatePanel();
+    // Geo edition
+    JButton mapButton=buildMapsButton(parent);
+    if (mapButton==null)
+    {
+      return datePanel;
+    }
+    JPanel panel=GuiFactory.buildPanel(new FlowLayout());
+    panel.add(datePanel);
+    panel.add(mapButton);
     return panel;
   }
 
@@ -134,6 +151,28 @@ public class AchievableStatusEditionPanelController
       c.gridy++;
     }
     return ret;
+  }
+
+  private JButton buildMapsButton(WindowController parent)
+  {
+    JButton toggleMap=null;
+    Achievable achievable=_status.getAchievable();
+    boolean hasGeoData=achievable.hasGeoData();
+    if (hasGeoData)
+    {
+      _geoController=new AchievableGeoStatusEditionController(parent,_status);
+      toggleMap=GuiFactory.buildButton("Map");
+      ActionListener mapActionListener=new ActionListener()
+      {
+        @Override
+        public void actionPerformed(ActionEvent e)
+        {
+          _geoController.showMaps();
+        }
+      };
+      toggleMap.addActionListener(mapActionListener);
+    }
+    return toggleMap;
   }
 
   private void setStatus()
@@ -320,6 +359,11 @@ public class AchievableStatusEditionPanelController
     {
       _completionDate.dispose();
       _completionDate=null;
+    }
+    if (_geoController!=null)
+    {
+      _geoController.dispose();
+      _geoController=null;
     }
     // UI
     if (_panel!=null)
