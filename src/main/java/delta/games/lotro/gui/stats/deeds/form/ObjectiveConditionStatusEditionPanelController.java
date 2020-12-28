@@ -9,7 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
-import delta.common.ui.swing.editors.numbers.TextFieldAndMaxLabel;
+import delta.common.ui.swing.editors.numbers.ProgressAndNumberEditorController;
 import delta.games.lotro.character.achievables.ObjectiveConditionStatus;
 import delta.games.lotro.lore.quests.objectives.ObjectiveCondition;
 import delta.games.lotro.lore.quests.objectives.ObjectivesConstants;
@@ -24,7 +24,7 @@ public class ObjectiveConditionStatusEditionPanelController
   private ObjectiveConditionStatus _conditionStatus;
   // Controllers
   private AchievableElementStateEditionController _stateCtrl;
-  private TextFieldAndMaxLabel _countEditor;
+  private ProgressAndNumberEditorController _countEditor;
   // UI
   private JLabel _label;
   private JPanel _panel;
@@ -68,6 +68,15 @@ public class ObjectiveConditionStatusEditionPanelController
     return _panel;
   }
 
+  /**
+   * Get the count editor.
+   * @return the count editor.
+   */
+  public ProgressAndNumberEditorController getCountEditor()
+  {
+    return _countEditor;
+  }
+
   private JPanel build(Icon icon)
   {
     // State
@@ -80,8 +89,8 @@ public class ObjectiveConditionStatusEditionPanelController
     int count=condition.getCount();
     if (count>1)
     {
-      _countEditor=new TextFieldAndMaxLabel();
-      _countEditor.setMax(count);
+      _countEditor=new ProgressAndNumberEditorController();
+      _countEditor.setRange(0,count);
     }
     // Assembly
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
@@ -108,7 +117,7 @@ public class ObjectiveConditionStatusEditionPanelController
     Integer count=_conditionStatus.getCount();
     if ((_countEditor!=null) && (count!=null))
     {
-      _countEditor.setValue(count);
+      _countEditor.setValue(count.intValue());
       updateCount();
     }
   }
@@ -124,7 +133,10 @@ public class ObjectiveConditionStatusEditionPanelController
     return label;
   }
 
-  private void updateCount()
+  /**
+   * Update count display.
+   */
+  public void updateCount()
   {
     if (_countEditor!=null)
     {

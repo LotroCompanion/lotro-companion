@@ -4,6 +4,7 @@ import delta.games.lotro.character.achievables.AchievableElementState;
 import delta.games.lotro.character.achievables.AchievableObjectiveStatus;
 import delta.games.lotro.character.achievables.AchievableStatus;
 import delta.games.lotro.character.achievables.ObjectiveConditionStatus;
+import delta.games.lotro.lore.quests.objectives.ObjectiveCondition;
 
 /**
  * Implementation of business rules for achievable statuses.
@@ -164,6 +165,10 @@ public class AchievableStatusBusinessRules
     }
     else if (newState==AchievableElementState.COMPLETED)
     {
+      // Update count
+      ObjectiveCondition condition=status.getCondition();
+      int count=condition.getCount();
+      status.setCount(Integer.valueOf(count));
       // Parent is at least underway
       AchievableObjectiveStatus parent=status.getParentStatus();
       if (parent.getState()==AchievableElementState.UNDEFINED)
@@ -174,6 +179,40 @@ public class AchievableStatusBusinessRules
       if (parent.areConditionsCompleted())
       {
         setObjectiveState(AchievableElementState.COMPLETED,parent);
+      }
+    }
+    else if (newState==AchievableElementState.UNDEFINED)
+    {
+      // Update count
+      status.setCount(Integer.valueOf(0));
+    }
+  }
+
+  /**
+   * Set the count of a condition.
+   * @param newCount New count.
+   * @param status Status to update.
+   */
+  public void setConditionCount(Integer newCount, ObjectiveConditionStatus status)
+  {
+    ObjectiveCondition condition=status.getCondition();
+    int count=condition.getCount();
+    if (newCount!=null)
+    {
+      if (newCount.intValue()==count)
+      {
+        setConditionState(AchievableElementState.COMPLETED,status);
+      }
+      else
+      {
+        if ((newCount.intValue()>0) && (status.getState()==AchievableElementState.UNDEFINED))
+        {
+          setConditionState(AchievableElementState.UNDERWAY,status);
+        }
+        if (status.getState()==AchievableElementState.COMPLETED)
+        {
+          setConditionState(AchievableElementState.UNDERWAY,status);
+        }
       }
     }
   }

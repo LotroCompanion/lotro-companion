@@ -14,6 +14,9 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.editors.numbers.ProgressAndNumberEditorController;
+import delta.common.ui.swing.text.NumberEditionController;
+import delta.common.ui.swing.text.NumberListener;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.achievables.AchievableElementState;
 import delta.games.lotro.character.achievables.AchievableObjectiveStatus;
@@ -155,6 +158,19 @@ public class AchievableStatusEditionPanelController
           }
         };
         conditionButton.addActionListener(alCondition);
+        ProgressAndNumberEditorController countEditor=conditionCtrl.getCountEditor();
+        if (countEditor!=null)
+        {
+          NumberListener<Integer> listener=new NumberListener<Integer>()
+          {
+            @Override
+            public void valueChanged(NumberEditionController<Integer> source, Integer newValue)
+            {
+              handleConditionCountChange(conditionCtrl,newValue);
+            }
+          };
+          countEditor.getEditor().addValueListener(listener);
+        }
       }
     }
   }
@@ -179,6 +195,15 @@ public class AchievableStatusEditionPanelController
     ObjectiveConditionStatus status=conditionCtrl.getStatus();
     AchievableElementState nextState=getNextConditionState(status.getParentStatus(),status.getState());
     _rules.setConditionState(nextState,status);
+    updateUi();
+  }
+
+  private void handleConditionCountChange(ObjectiveConditionStatusEditionPanelController conditionCtrl, Integer newValue)
+  {
+    ObjectiveConditionStatus status=conditionCtrl.getStatus();
+    _rules.setConditionCount(newValue,status);
+    status.setCount(newValue);
+    conditionCtrl.updateCount();
     updateUi();
   }
 
