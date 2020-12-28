@@ -5,15 +5,18 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
-import delta.games.lotro.character.achievables.AchievableStatusGeoItem;
 import delta.games.lotro.lore.quests.geo.AchievableGeoPoint;
 import delta.games.lotro.maps.data.GeoPoint;
+import delta.games.lotro.maps.data.MapPoint;
 import delta.games.lotro.maps.data.MapsManager;
 import delta.games.lotro.maps.data.Marker;
 import delta.games.lotro.maps.ui.BasemapPanelController;
 import delta.games.lotro.maps.ui.MapCanvas;
+import delta.games.lotro.maps.ui.MapPanelController;
+import delta.games.lotro.maps.ui.controllers.SelectionListener;
 import delta.games.lotro.maps.ui.layers.MarkersLayer;
 import delta.games.lotro.maps.ui.layers.SimpleMarkersProvider;
+import delta.games.lotro.maps.ui.selection.SelectionManager;
 import delta.games.lotro.utils.maps.Maps;
 
 /**
@@ -27,22 +30,25 @@ public class AchievableGeoPointsMapPanelController
   private CompletedOrNotMarkerIconProvider _iconProvider;
   private List<AchievableStatusGeoItem> _points;
   private List<Marker> _markers;
+  private GeoPointChangeListener _listener;
 
   /**
    * Constructor.
    * @param mapId Identifier of the map to show.
    * @param points Points to show.
+   * @param listener Listener for point state changes.
    */
-  public AchievableGeoPointsMapPanelController(int mapId, List<AchievableStatusGeoItem> points)
+  public AchievableGeoPointsMapPanelController(int mapId, List<AchievableStatusGeoItem> points, GeoPointChangeListener listener)
   {
     _mapId=mapId;
     _points=points;
+    _listener=listener;
     _markers=buildMarkers(points);
     initMapPanel();
   }
 
   /**
-   * Ge the identifuer of the managed map.
+   * Get the identifier of the managed map.
    * @return a map identifier.
    */
   public int getMapId()
@@ -68,6 +74,7 @@ public class AchievableGeoPointsMapPanelController
       AchievableGeoPoint point=item.getPoint();
       Marker marker=new Marker();
       marker.setId(id);
+      marker.setDid(id+1);
       Point2D.Float position=point.getLonLat();
       GeoPoint geoPoint=new GeoPoint(position.x,position.y);
       marker.setPosition(geoPoint);
@@ -89,6 +96,30 @@ public class AchievableGeoPointsMapPanelController
     markersProvider.setMarkers(_markers);
     MarkersLayer custom=new MarkersLayer(_iconProvider,markersProvider);
     canvas.addLayer(custom);
+    MapPanelController mapPanel=_panel.getMapPanelController();
+    SelectionManager selectionMgr=mapPanel.getSelectionManager();
+    SelectionListener listener=new SelectionListener()
+    {
+      @Override
+      public boolean handleSelection(MapPoint point)
+      {
+        int index=_markers.indexOf(point);
+        if (index!=-1)
+        {
+          AchievableStatusGeoItem geoPoint=_points.get(index);
+          togglePoint(geoPoint);
+          return true;
+        }
+        return false;
+      }
+    };
+    selectionMgr.addListener(listener);
+  }
+
+  private void togglePoint(AchievableStatusGeoItem geoPoint)
+  {
+    boolean isCompleted=geoPoint.isCompleted();
+    _listener.handlePointChange(geoPoint,!isCompleted);
   }
 
   /**

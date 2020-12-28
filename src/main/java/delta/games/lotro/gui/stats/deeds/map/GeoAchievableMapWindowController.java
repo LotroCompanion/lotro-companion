@@ -18,7 +18,6 @@ import javax.swing.JTabbedPane;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.DefaultDialogController;
 import delta.common.ui.swing.windows.WindowController;
-import delta.games.lotro.character.achievables.AchievableStatusGeoItem;
 import delta.games.lotro.maps.data.basemaps.GeoreferencedBasemap;
 import delta.games.lotro.maps.data.basemaps.GeoreferencedBasemapsManager;
 import delta.games.lotro.utils.maps.Maps;
@@ -36,14 +35,15 @@ public class GeoAchievableMapWindowController extends DefaultDialogController
    * Constructor.
    * @param parent Parent window.
    * @param points Points to show.
+   * @param listener Listener for point state changes.
    */
-  public GeoAchievableMapWindowController(WindowController parent, List<AchievableStatusGeoItem> points)
+  public GeoAchievableMapWindowController(WindowController parent, List<AchievableStatusGeoItem> points, GeoPointChangeListener listener)
   {
     super(parent);
-    init(points);
+    init(points,listener);
   }
 
-  private void init(List<AchievableStatusGeoItem> points)
+  private void init(List<AchievableStatusGeoItem> points, GeoPointChangeListener listener)
   {
     _maps=new ArrayList<AchievableGeoPointsMapPanelController>();
     Map<Integer,List<AchievableStatusGeoItem>> pointsMap=sortByMap(points);
@@ -52,7 +52,7 @@ public class GeoAchievableMapWindowController extends DefaultDialogController
     for(Integer mapId : mapIds)
     {
       List<AchievableStatusGeoItem> mapPoints=pointsMap.get(mapId);
-      AchievableGeoPointsMapPanelController panelCtrl=new AchievableGeoPointsMapPanelController(mapId.intValue(),mapPoints);
+      AchievableGeoPointsMapPanelController panelCtrl=new AchievableGeoPointsMapPanelController(mapId.intValue(),mapPoints,listener);
       _maps.add(panelCtrl);
     }
     _ui=buildUi();

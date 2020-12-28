@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.stats.deeds.form;
+package delta.games.lotro.gui.stats.deeds.map;
 
 import java.awt.Window;
 import java.awt.event.WindowAdapter;
@@ -6,29 +6,31 @@ import java.awt.event.WindowEvent;
 
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.achievables.AchievableStatus;
-import delta.games.lotro.character.achievables.AchievableStatusGeoItem;
-import delta.games.lotro.character.achievables.AchievableStatusManager;
-import delta.games.lotro.gui.stats.deeds.map.GeoAchievableMapWindowController;
+import delta.games.lotro.gui.stats.deeds.form.AchievableStatusBusinessRules;
 
 /**
  * Controller for a panel to edit a deed geographic status.
  * @author DAM
  */
-public class AchievableGeoStatusEditionController
+public class AchievableGeoStatusEditionController implements GeoPointChangeListener
 {
   private WindowController _parent;
   private AchievableStatusManager _mgr;
   private GeoAchievableMapWindowController _mapController;
+  private GeoPointChangeListener _listener;
 
   /**
    * Constructor.
    * @param parent Parent window.
    * @param status Status to edit.
+   * @param rules Business rules.
+   * @param listener Listener for point state changes.
    */
-  public AchievableGeoStatusEditionController(WindowController parent, AchievableStatus status)
+  public AchievableGeoStatusEditionController(WindowController parent, AchievableStatus status, AchievableStatusBusinessRules rules, GeoPointChangeListener listener)
   {
     _parent=parent;
-    _mgr=new AchievableStatusManager(status);
+    _listener=listener;
+    _mgr=new AchievableStatusManager(status,rules);
   }
 
   /**
@@ -40,12 +42,15 @@ public class AchievableGeoStatusEditionController
   {
     _mgr.handlePointChange(point,completed);
     _mgr.updateStatusFromManagers();
-    _mgr.updateManagersFromStatus();
-    updateUiFromStatus();
+    _listener.handlePointChange(point,completed);
   }
 
-  private void updateUiFromStatus()
+  /**
+   * Update UI from data.
+   */
+  public void updateUi()
   {
+    _mgr.updateManagersFromStatus();
     // Maps
     if (_mapController!=null)
     {
@@ -58,7 +63,7 @@ public class AchievableGeoStatusEditionController
    */
   public void showMaps()
   {
-    _mapController=new GeoAchievableMapWindowController(_parent,_mgr.getPoints());
+    _mapController=new GeoAchievableMapWindowController(_parent,_mgr.getPoints(),this);
     _mapController.updateUi();
     Window window=_mapController.getWindow();
     WindowAdapter l=new WindowAdapter()
@@ -78,10 +83,12 @@ public class AchievableGeoStatusEditionController
   public void dispose()
   {
     _parent=null;
+    _mgr=null;
     if (_mapController!=null)
     {
       _mapController.dispose();
       _mapController=null;
     }
+    _listener=null;
   }
 }

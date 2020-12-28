@@ -195,6 +195,7 @@ public class AchievableStatusBusinessRules
    */
   public void setConditionCount(Integer newCount, ObjectiveConditionStatus status)
   {
+    status.setCount(newCount);
     ObjectiveCondition condition=status.getCondition();
     int count=condition.getCount();
     if (newCount!=null)

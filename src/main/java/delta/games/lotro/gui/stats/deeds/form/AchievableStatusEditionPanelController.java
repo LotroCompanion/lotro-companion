@@ -28,6 +28,9 @@ import delta.games.lotro.character.achievables.AchievableObjectiveStatus;
 import delta.games.lotro.character.achievables.AchievableStatus;
 import delta.games.lotro.character.achievables.ObjectiveConditionStatus;
 import delta.games.lotro.gui.LotroIconsManager;
+import delta.games.lotro.gui.stats.deeds.map.AchievableGeoStatusEditionController;
+import delta.games.lotro.gui.stats.deeds.map.AchievableStatusGeoItem;
+import delta.games.lotro.gui.stats.deeds.map.GeoPointChangeListener;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.DeedType;
 import delta.games.lotro.lore.quests.Achievable;
@@ -37,7 +40,7 @@ import delta.games.lotro.utils.DateFormat;
  * Controller for a panel to edit the status of an achievable.
  * @author DAM
  */
-public class AchievableStatusEditionPanelController
+public class AchievableStatusEditionPanelController implements GeoPointChangeListener
 {
   // Data
   private AchievableStatus _status;
@@ -63,7 +66,7 @@ public class AchievableStatusEditionPanelController
     _rules=new AchievableStatusBusinessRules();
     _panel=build(parent);
     setupCallbacks();
-    setStatus();
+    updateOwnUi();
   }
 
   /**
@@ -160,7 +163,7 @@ public class AchievableStatusEditionPanelController
     boolean hasGeoData=achievable.hasGeoData();
     if (hasGeoData)
     {
-      _geoController=new AchievableGeoStatusEditionController(parent,_status);
+      _geoController=new AchievableGeoStatusEditionController(parent,_status,_rules,this);
       toggleMap=GuiFactory.buildButton("Map");
       ActionListener mapActionListener=new ActionListener()
       {
@@ -175,7 +178,13 @@ public class AchievableStatusEditionPanelController
     return toggleMap;
   }
 
-  private void setStatus()
+  @Override
+  public void handlePointChange(AchievableStatusGeoItem point, boolean completed)
+  {
+    updateUi();
+  }
+
+  private void updateOwnUi()
   {
     // State
     AchievableElementState state=_status.getState();
@@ -290,8 +299,6 @@ public class AchievableStatusEditionPanelController
   {
     ObjectiveConditionStatus status=conditionCtrl.getStatus();
     _rules.setConditionCount(newValue,status);
-    status.setCount(newValue);
-    conditionCtrl.updateCount();
     updateUi();
   }
 
@@ -321,10 +328,14 @@ public class AchievableStatusEditionPanelController
 
   private void updateUi()
   {
-    setStatus();
+    updateOwnUi();
     for(ObjectiveStatusEditionPanelController objectiveCtrl : _objectiveStatusEditors)
     {
       objectiveCtrl.updateUi();
+    }
+    if (_geoController!=null)
+    {
+      _geoController.updateUi();
     }
   }
 
