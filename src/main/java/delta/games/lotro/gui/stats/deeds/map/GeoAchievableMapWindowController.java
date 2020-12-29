@@ -51,6 +51,10 @@ public class GeoAchievableMapWindowController extends DefaultDialogController
     Collections.sort(mapIds);
     for(Integer mapId : mapIds)
     {
+      if (mapId.intValue()==0)
+      {
+        continue;
+      }
       List<AchievableStatusGeoItem> mapPoints=pointsMap.get(mapId);
       AchievableGeoPointsMapPanelController panelCtrl=new AchievableGeoPointsMapPanelController(mapId.intValue(),mapPoints,listener);
       _maps.add(panelCtrl);
