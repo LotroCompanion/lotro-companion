@@ -34,18 +34,18 @@ public class GeoAchievableMapWindowController extends DefaultDialogController
   /**
    * Constructor.
    * @param parent Parent window.
-   * @param points Points to show.
-   * @param listener Listener for point state changes.
+   * @param mgr Geo status manager.
    */
-  public GeoAchievableMapWindowController(WindowController parent, List<AchievableStatusGeoItem> points, GeoPointChangeListener listener)
+  public GeoAchievableMapWindowController(WindowController parent, AchievableGeoStatusManager mgr)
   {
     super(parent);
-    init(points,listener);
+    init(mgr);
   }
 
-  private void init(List<AchievableStatusGeoItem> points, GeoPointChangeListener listener)
+  private void init(AchievableGeoStatusManager mgr)
   {
     _maps=new ArrayList<AchievableGeoPointsMapPanelController>();
+    List<AchievableStatusGeoItem> points=mgr.getPoints();
     Map<Integer,List<AchievableStatusGeoItem>> pointsMap=sortByMap(points);
     List<Integer> mapIds=new ArrayList<Integer>(pointsMap.keySet());
     Collections.sort(mapIds);
@@ -56,7 +56,7 @@ public class GeoAchievableMapWindowController extends DefaultDialogController
         continue;
       }
       List<AchievableStatusGeoItem> mapPoints=pointsMap.get(mapId);
-      AchievableGeoPointsMapPanelController panelCtrl=new AchievableGeoPointsMapPanelController(mapId.intValue(),mapPoints,listener);
+      AchievableGeoPointsMapPanelController panelCtrl=new AchievableGeoPointsMapPanelController(mapId.intValue(),mapPoints,mgr);
       _maps.add(panelCtrl);
     }
     _ui=buildUi();

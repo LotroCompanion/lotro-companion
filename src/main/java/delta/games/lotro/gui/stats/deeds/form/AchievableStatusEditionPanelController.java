@@ -32,6 +32,7 @@ import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.stats.deeds.map.AchievableGeoStatusEditionController;
 import delta.games.lotro.gui.stats.deeds.map.AchievableStatusGeoItem;
 import delta.games.lotro.gui.stats.deeds.map.GeoPointChangeListener;
+import delta.games.lotro.gui.stats.deeds.map.AchievableGeoStatusManager;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.DeedType;
 import delta.games.lotro.lore.quests.Achievable;
@@ -161,7 +162,8 @@ public class AchievableStatusEditionPanelController implements GeoPointChangeLis
     boolean hasGeoData=achievable.hasGeoData();
     if (hasGeoData)
     {
-      _geoController=new AchievableGeoStatusEditionController(parent,_status,this);
+      AchievableGeoStatusManager geoStatusManager=new AchievableGeoStatusManager(_status,this);
+      _geoController=new AchievableGeoStatusEditionController(parent,geoStatusManager);
       toggleMap=GuiFactory.buildButton("Map");
       ActionListener mapActionListener=new ActionListener()
       {
