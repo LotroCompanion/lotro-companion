@@ -5,6 +5,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import delta.common.ui.swing.windows.WindowController;
+import delta.games.lotro.character.achievables.edition.AchievableGeoStatusManager;
 
 /**
  * Controller for a panel to edit a deed geographic status.

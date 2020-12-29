@@ -5,7 +5,11 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
+import delta.games.lotro.character.achievables.edition.AchievableStatusGeoItem;
+import delta.games.lotro.character.achievables.edition.GeoPointChangeListener;
+import delta.games.lotro.gui.stats.deeds.form.AchievableStatusUtils;
 import delta.games.lotro.lore.quests.geo.AchievableGeoPoint;
+import delta.games.lotro.lore.quests.objectives.ObjectiveCondition;
 import delta.games.lotro.maps.data.GeoPoint;
 import delta.games.lotro.maps.data.MapPoint;
 import delta.games.lotro.maps.data.MapsManager;
@@ -75,7 +79,11 @@ public class AchievableGeoPointsMapPanelController
       Marker marker=new Marker();
       marker.setId(id);
       marker.setDid(id+1);
-      marker.setLabel(item.getLabel());
+      // Label
+      ObjectiveCondition condition=item.getCondition();
+      String label=AchievableStatusUtils.getConditionLabel(condition);
+      marker.setLabel(label);
+      // Position
       Point2D.Float position=point.getLonLat();
       GeoPoint geoPoint=new GeoPoint(position.x,position.y);
       marker.setPosition(geoPoint);

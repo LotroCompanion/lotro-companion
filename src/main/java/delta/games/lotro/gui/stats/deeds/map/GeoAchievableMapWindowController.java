@@ -18,6 +18,8 @@ import javax.swing.JTabbedPane;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.DefaultDialogController;
 import delta.common.ui.swing.windows.WindowController;
+import delta.games.lotro.character.achievables.edition.AchievableGeoStatusManager;
+import delta.games.lotro.character.achievables.edition.AchievableStatusGeoItem;
 import delta.games.lotro.maps.data.basemaps.GeoreferencedBasemap;
 import delta.games.lotro.maps.data.basemaps.GeoreferencedBasemapsManager;
 import delta.games.lotro.utils.maps.Maps;
