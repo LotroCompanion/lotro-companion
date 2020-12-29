@@ -9,15 +9,18 @@ import delta.games.lotro.lore.quests.geo.AchievableGeoPoint;
 public class AchievableStatusGeoItem
 {
   private AchievableGeoPoint _point;
+  private String _label;
   private boolean _completed;
 
   /**
    * Constructor.
    * @param point Point to use.
+   * @param label Label to use.
    */
-  public AchievableStatusGeoItem(AchievableGeoPoint point)
+  public AchievableStatusGeoItem(AchievableGeoPoint point, String label)
   {
     _point=point;
+    _label=label;
   }
 
   /**
@@ -27,6 +30,15 @@ public class AchievableStatusGeoItem
   public AchievableGeoPoint getPoint()
   {
     return _point;
+  }
+
+  /**
+   * Get the associated (condition) label.
+   * @return the associated label.
+   */
+  public String getLabel()
+  {
+    return _label;
   }
 
   /**

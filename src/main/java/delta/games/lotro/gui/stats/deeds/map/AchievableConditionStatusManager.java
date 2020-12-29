@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
 import delta.games.lotro.character.achievables.AchievableElementState;
 import delta.games.lotro.character.achievables.ObjectiveConditionStatus;
 import delta.games.lotro.gui.stats.deeds.form.AchievableStatusBusinessRules;
+import delta.games.lotro.gui.stats.deeds.form.AchievableStatusUtils;
 import delta.games.lotro.lore.quests.geo.AchievableGeoPoint;
 import delta.games.lotro.lore.quests.objectives.ObjectiveCondition;
 
@@ -54,7 +55,8 @@ public class AchievableConditionStatusManager
     List<AchievableGeoPoint> points=condition.getPoints();
     for(AchievableGeoPoint point : points)
     {
-      AchievableStatusGeoItem item=new AchievableStatusGeoItem(point);
+      String label=AchievableStatusUtils.getConditionLabel(condition);
+      AchievableStatusGeoItem item=new AchievableStatusGeoItem(point,label);
       _items.add(item);
     }
   }

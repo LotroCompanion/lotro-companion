@@ -125,11 +125,7 @@ public class ObjectiveConditionStatusEditionPanelController
   private String getLabel()
   {
     ObjectiveCondition condition=_conditionStatus.getCondition();
-    String label=condition.getProgressOverride();
-    if ((label==null) || (label.length()==0))
-    {
-      label=AchievableStatusUtils.getConditionLabel(condition);
-    }
+    String label=AchievableStatusUtils.getConditionLabel(condition);
     return label;
   }
 

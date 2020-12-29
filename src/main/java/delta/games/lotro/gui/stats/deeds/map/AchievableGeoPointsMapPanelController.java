@@ -75,6 +75,7 @@ public class AchievableGeoPointsMapPanelController
       Marker marker=new Marker();
       marker.setId(id);
       marker.setDid(id+1);
+      marker.setLabel(item.getLabel());
       Point2D.Float position=point.getLonLat();
       GeoPoint geoPoint=new GeoPoint(position.x,position.y);
       marker.setPosition(geoPoint);

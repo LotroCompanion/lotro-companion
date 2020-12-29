@@ -18,6 +18,11 @@ public class AchievableStatusUtils
    */
   public static String getConditionLabel(ObjectiveCondition condition)
   {
-    return builder.getConditionDisplay(condition,true);
+    String label=condition.getProgressOverride();
+    if ((label==null) || (label.length()==0))
+    {
+      label=builder.getConditionDisplay(condition,true);
+    }
+    return label;
   }
 }
