@@ -8,8 +8,8 @@ import java.util.Set;
 import org.apache.log4j.Logger;
 
 import delta.games.lotro.character.achievables.AchievableElementState;
+import delta.games.lotro.character.achievables.AchievableStatusBusinessRules;
 import delta.games.lotro.character.achievables.ObjectiveConditionStatus;
-import delta.games.lotro.gui.stats.deeds.form.AchievableStatusBusinessRules;
 import delta.games.lotro.gui.stats.deeds.form.AchievableStatusUtils;
 import delta.games.lotro.lore.quests.geo.AchievableGeoPoint;
 import delta.games.lotro.lore.quests.objectives.ObjectiveCondition;
@@ -24,17 +24,14 @@ public class AchievableConditionStatusManager
 
   private ObjectiveConditionStatus _status;
   private List<AchievableStatusGeoItem> _items;
-  private AchievableStatusBusinessRules _rules;
 
   /**
    * Constructor.
    * @param status Condition status to manage.
-   * @param rules Business rules.
    */
-  public AchievableConditionStatusManager(ObjectiveConditionStatus status, AchievableStatusBusinessRules rules)
+  public AchievableConditionStatusManager(ObjectiveConditionStatus status)
   {
     _status=status;
-    _rules=rules;
     buildItems();
     updateItemsFromStatus();
   }
@@ -159,7 +156,7 @@ public class AchievableConditionStatusManager
     _status.clearKeys();
     if (completedCount>=expectedCount)
     {
-      _rules.setConditionState(AchievableElementState.COMPLETED,_status);
+      AchievableStatusBusinessRules.setConditionState(AchievableElementState.COMPLETED,_status);
     }
     else
     {
@@ -179,8 +176,8 @@ public class AchievableConditionStatusManager
       {
         _status.addKey(key);
       }
-      _rules.setConditionState(AchievableElementState.UNDERWAY,_status);
-      _rules.setConditionCount(Integer.valueOf(completedCount),_status);
+      AchievableStatusBusinessRules.setConditionState(AchievableElementState.UNDERWAY,_status);
+      AchievableStatusBusinessRules.setConditionCount(Integer.valueOf(completedCount),_status);
     }
   }
 }

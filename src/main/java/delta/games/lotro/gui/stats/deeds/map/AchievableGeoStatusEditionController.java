@@ -6,7 +6,6 @@ import java.awt.event.WindowEvent;
 
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.achievables.AchievableStatus;
-import delta.games.lotro.gui.stats.deeds.form.AchievableStatusBusinessRules;
 
 /**
  * Controller for a panel to edit a deed geographic status.
@@ -23,14 +22,13 @@ public class AchievableGeoStatusEditionController implements GeoPointChangeListe
    * Constructor.
    * @param parent Parent window.
    * @param status Status to edit.
-   * @param rules Business rules.
    * @param listener Listener for point state changes.
    */
-  public AchievableGeoStatusEditionController(WindowController parent, AchievableStatus status, AchievableStatusBusinessRules rules, GeoPointChangeListener listener)
+  public AchievableGeoStatusEditionController(WindowController parent, AchievableStatus status, GeoPointChangeListener listener)
   {
     _parent=parent;
     _listener=listener;
-    _mgr=new AchievableStatusManager(status,rules);
+    _mgr=new AchievableStatusManager(status);
   }
 
   /**

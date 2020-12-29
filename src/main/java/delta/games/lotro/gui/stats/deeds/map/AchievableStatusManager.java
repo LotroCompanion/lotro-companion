@@ -8,7 +8,6 @@ import org.apache.log4j.Logger;
 import delta.games.lotro.character.achievables.AchievableElementState;
 import delta.games.lotro.character.achievables.AchievableObjectiveStatus;
 import delta.games.lotro.character.achievables.AchievableStatus;
-import delta.games.lotro.gui.stats.deeds.form.AchievableStatusBusinessRules;
 
 /**
  * Manages the status of a single achievable.
@@ -24,12 +23,11 @@ public class AchievableStatusManager
   /**
    * Constructor.
    * @param status Achievable status to manage.
-   * @param rules Business rules.
    */
-  public AchievableStatusManager(AchievableStatus status, AchievableStatusBusinessRules rules)
+  public AchievableStatusManager(AchievableStatus status)
   {
     _status=status;
-    buildManagers(rules);
+    buildManagers();
     updateManagersFromStatus();
   }
 
@@ -42,13 +40,13 @@ public class AchievableStatusManager
     return _managers;
   }
 
-  private void buildManagers(AchievableStatusBusinessRules rules)
+  private void buildManagers()
   {
     _managers=new ArrayList<AchievableObjectiveStatusManager>();
     List<AchievableObjectiveStatus> objectiveStatuses=_status.getObjectiveStatuses();
     for(AchievableObjectiveStatus objectiveStatus : objectiveStatuses)
     {
-      AchievableObjectiveStatusManager statusMgr=new AchievableObjectiveStatusManager(objectiveStatus,rules);
+      AchievableObjectiveStatusManager statusMgr=new AchievableObjectiveStatusManager(objectiveStatus);
       _managers.add(statusMgr);
     }
   }

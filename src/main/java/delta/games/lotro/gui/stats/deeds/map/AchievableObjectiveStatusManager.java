@@ -7,8 +7,8 @@ import org.apache.log4j.Logger;
 
 import delta.games.lotro.character.achievables.AchievableElementState;
 import delta.games.lotro.character.achievables.AchievableObjectiveStatus;
+import delta.games.lotro.character.achievables.AchievableStatusBusinessRules;
 import delta.games.lotro.character.achievables.ObjectiveConditionStatus;
-import delta.games.lotro.gui.stats.deeds.form.AchievableStatusBusinessRules;
 
 /**
  * Manages the status of a single objective.
@@ -20,18 +20,15 @@ public class AchievableObjectiveStatusManager
 
   private AchievableObjectiveStatus _status;
   private List<AchievableConditionStatusManager> _managers;
-  private AchievableStatusBusinessRules _rules;
 
   /**
    * Constructor.
    * @param status Objective status to manage.
-   * @param rules Business rules.
    */
-  public AchievableObjectiveStatusManager(AchievableObjectiveStatus status, AchievableStatusBusinessRules rules)
+  public AchievableObjectiveStatusManager(AchievableObjectiveStatus status)
   {
     _status=status;
-    _rules=rules;
-    buildManagers(rules);
+    buildManagers();
     updateManagersFromStatus();
   }
 
@@ -44,13 +41,13 @@ public class AchievableObjectiveStatusManager
     return _managers;
   }
 
-  private void buildManagers(AchievableStatusBusinessRules rules)
+  private void buildManagers()
   {
     _managers=new ArrayList<AchievableConditionStatusManager>();
     List<ObjectiveConditionStatus> conditionStatuses=_status.getConditionStatuses();
     for(ObjectiveConditionStatus conditionStatus : conditionStatuses)
     {
-      AchievableConditionStatusManager statusMgr=new AchievableConditionStatusManager(conditionStatus,rules);
+      AchievableConditionStatusManager statusMgr=new AchievableConditionStatusManager(conditionStatus);
       _managers.add(statusMgr);
     }
   }
@@ -126,15 +123,15 @@ public class AchievableObjectiveStatusManager
     // Update state...
     if (allCompleted)
     {
-      _rules.setObjectiveState(AchievableElementState.COMPLETED,_status);
+      AchievableStatusBusinessRules.setObjectiveState(AchievableElementState.COMPLETED,_status);
     }
     else if (allNotCompleted)
     {
-      _rules.setObjectiveState(AchievableElementState.UNDEFINED,_status);
+      AchievableStatusBusinessRules.setObjectiveState(AchievableElementState.UNDEFINED,_status);
     }
     else
     {
-      _rules.setObjectiveState(AchievableElementState.UNDERWAY,_status);
+      AchievableStatusBusinessRules.setObjectiveState(AchievableElementState.UNDERWAY,_status);
     }
   }
 }

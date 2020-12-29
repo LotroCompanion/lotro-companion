@@ -26,6 +26,7 @@ import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.achievables.AchievableElementState;
 import delta.games.lotro.character.achievables.AchievableObjectiveStatus;
 import delta.games.lotro.character.achievables.AchievableStatus;
+import delta.games.lotro.character.achievables.AchievableStatusBusinessRules;
 import delta.games.lotro.character.achievables.ObjectiveConditionStatus;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.stats.deeds.map.AchievableGeoStatusEditionController;
@@ -44,8 +45,6 @@ public class AchievableStatusEditionPanelController implements GeoPointChangeLis
 {
   // Data
   private AchievableStatus _status;
-  // Business logic
-  private AchievableStatusBusinessRules _rules;
   // Controllers
   private AchievableElementStateEditionController _stateCtrl;
   private List<ObjectiveStatusEditionPanelController> _objectiveStatusEditors;
@@ -63,7 +62,6 @@ public class AchievableStatusEditionPanelController implements GeoPointChangeLis
   public AchievableStatusEditionPanelController(WindowController parent, AchievableStatus status)
   {
     _status=status;
-    _rules=new AchievableStatusBusinessRules();
     _panel=build(parent);
     setupCallbacks();
     updateOwnUi();
@@ -163,7 +161,7 @@ public class AchievableStatusEditionPanelController implements GeoPointChangeLis
     boolean hasGeoData=achievable.hasGeoData();
     if (hasGeoData)
     {
-      _geoController=new AchievableGeoStatusEditionController(parent,_status,_rules,this);
+      _geoController=new AchievableGeoStatusEditionController(parent,_status,this);
       toggleMap=GuiFactory.buildButton("Map");
       ActionListener mapActionListener=new ActionListener()
       {
@@ -275,7 +273,7 @@ public class AchievableStatusEditionPanelController implements GeoPointChangeLis
   private void handleAchievableClick()
   {
     AchievableElementState nextState=getNextAchievableState(_status.getState());
-    _rules.setAchievableState(nextState,_status);
+    AchievableStatusBusinessRules.setAchievableState(nextState,_status);
     updateUi();
   }
 
@@ -283,7 +281,7 @@ public class AchievableStatusEditionPanelController implements GeoPointChangeLis
   {
     AchievableObjectiveStatus status=objectiveController.getStatus();
     AchievableElementState nextState=getNextObjectiveState(status.getParentStatus(),status.getState());
-    _rules.setObjectiveState(nextState,status);
+    AchievableStatusBusinessRules.setObjectiveState(nextState,status);
     updateUi();
   }
 
@@ -291,14 +289,14 @@ public class AchievableStatusEditionPanelController implements GeoPointChangeLis
   {
     ObjectiveConditionStatus status=conditionCtrl.getStatus();
     AchievableElementState nextState=getNextConditionState(status.getParentStatus(),status.getState());
-    _rules.setConditionState(nextState,status);
+    AchievableStatusBusinessRules.setConditionState(nextState,status);
     updateUi();
   }
 
   private void handleConditionCountChange(ObjectiveConditionStatusEditionPanelController conditionCtrl, Integer newValue)
   {
     ObjectiveConditionStatus status=conditionCtrl.getStatus();
-    _rules.setConditionCount(newValue,status);
+    AchievableStatusBusinessRules.setConditionCount(newValue,status);
     updateUi();
   }
 
