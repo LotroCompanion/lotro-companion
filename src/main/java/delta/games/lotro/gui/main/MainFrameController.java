@@ -64,6 +64,7 @@ public class MainFrameController extends DefaultWindowController implements Acti
   private static final String MAP_ID="map";
   private static final String SYNCHRO_ID="synchro";
   private static final String SETTINGS_ID="settings";
+  private static final String ABOUT_ID="about";
 
   private ToolbarController _toolbarTracking;
   private LoreActionsController _loreCtrl;
@@ -160,15 +161,8 @@ public class MainFrameController extends DefaultWindowController implements Acti
     JMenu helpMenu=GuiFactory.buildMenu("Help");
     // - about
     JMenuItem aboutMenuItem=GuiFactory.buildMenuItem("About...");
-    ActionListener alAbout=new ActionListener()
-    {
-      @Override
-      public void actionPerformed(ActionEvent e)
-      {
-        doAbout();
-      }
-    };
-    aboutMenuItem.addActionListener(alAbout);
+    aboutMenuItem.setActionCommand(ABOUT_ID);
+    aboutMenuItem.addActionListener(this);
     helpMenu.add(aboutMenuItem);
     // - credits
     JMenuItem creditsMenuItem=GuiFactory.buildMenuItem("Credits...");
@@ -307,6 +301,10 @@ public class MainFrameController extends DefaultWindowController implements Acti
       ToolbarIconItem importIconItem=new ToolbarIconItem(SYNCHRO_ID,importIconPath,SYNCHRO_ID,"Import from LotRO...","Import...");
       model.addToolbarIconItem(importIconItem);
     }
+    // About
+    String aboutIconPath=SharedUiUtils.getToolbarIconPath("about");
+    ToolbarIconItem aboutIconItem=new ToolbarIconItem(ABOUT_ID,aboutIconPath,ABOUT_ID,"About...","About...");
+    model.addToolbarIconItem(aboutIconItem);
     // Border
     controller.getToolBar().setBorder(GuiFactory.buildTitledBorder("Misc"));
     // Register action listener
@@ -443,6 +441,10 @@ public class MainFrameController extends DefaultWindowController implements Acti
     else if (SETTINGS_ID.equals(cmd))
     {
       doSettings();
+    }
+    else if (ABOUT_ID.equals(cmd))
+    {
+      doAbout();
     }
   }
 
