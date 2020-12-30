@@ -1,6 +1,7 @@
 package delta.games.lotro.gui.stats.deeds.map;
 
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
@@ -99,6 +100,7 @@ public class AchievableGeoPointsMapPanelController
     MapsManager mapsManager=Maps.getMaps().getMapsManager();
     _panel=new BasemapPanelController(mapsManager.getBasemapsManager());
     _panel.setMap(_mapId);
+    _panel.setMaxSize(new Dimension(768,576));
     MapCanvas canvas=_panel.getCanvas();
     _iconProvider=new CompletedOrNotMarkerIconProvider();
     SimpleMarkersProvider markersProvider=new SimpleMarkersProvider();
