@@ -236,7 +236,7 @@ public class ObjectivesDisplayBuilder
 
   private void handleQuestCompleteCondition(StringBuilder sb, QuestCompleteCondition questComplete)
   {
-    int count=questComplete.getCompletionCount();
+    int count=questComplete.getCount();
     String progressOverride=getProgressOverrideWithCount(questComplete,count);
     Proxy<Achievable> proxy=questComplete.getProxy();
     String questCategory=questComplete.getQuestCategory();
