@@ -49,6 +49,7 @@ import delta.games.lotro.lore.reputation.Faction;
 import delta.games.lotro.lore.reputation.FactionLevel;
 import delta.games.lotro.utils.Proxy;
 import delta.games.lotro.utils.gui.HtmlUtils;
+import delta.games.lotro.utils.gui.TextSanitizer;
 
 /**
  * Build for HTML code to display objectives.
@@ -666,6 +667,7 @@ public class ObjectivesDisplayBuilder
       }
       else
       {
+        progressOverride=TextSanitizer.sanitize(progressOverride);
         sb.append(progressOverride);
       }
       return true;

@@ -7,6 +7,18 @@ package delta.games.lotro.utils.gui;
 public class TextSanitizer
 {
   /**
+   * Sanitize text.
+   * @param text Input text.
+   * @return sanitized text.
+   */
+  public static String sanitize(String text)
+  {
+    text=removeColorHints(text);
+    text=text.replace("\\q","'");
+    return text;
+  }
+
+  /**
    * Remove all patterns {@code <rgb=#RRGGBB>...</rgb>"}.
    * @param text Input text.
    * @return Transformed text.
@@ -35,5 +47,4 @@ public class TextSanitizer
     }
     return text;
   }
-
 }

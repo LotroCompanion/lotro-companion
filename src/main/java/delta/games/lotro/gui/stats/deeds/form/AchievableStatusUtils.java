@@ -2,6 +2,7 @@ package delta.games.lotro.gui.stats.deeds.form;
 
 import delta.games.lotro.gui.quests.ObjectivesDisplayBuilder;
 import delta.games.lotro.lore.quests.objectives.ObjectiveCondition;
+import delta.games.lotro.utils.gui.TextSanitizer;
 
 /**
  * Utility methods related to achievable status display/edition.
@@ -23,6 +24,7 @@ public class AchievableStatusUtils
     {
       label=builder.getConditionDisplay(condition,true);
     }
+    label=TextSanitizer.sanitize(label);
     return label;
   }
 }
