@@ -78,10 +78,15 @@ public class ReputationSynopsisTableController
     List<Faction> selectedFactions=new ArrayList<Faction>();
     for(Faction faction : factions)
     {
-      if (!faction.isGuildFaction())
+      if (faction.isGuildFaction())
       {
-        selectedFactions.add(faction);
+        continue;
       }
+      if (faction.getCategory().length()==0)
+      {
+        continue;
+      }
+      selectedFactions.add(faction);
     }
     DataProvider<Faction> ret=new ListDataProvider<Faction>(selectedFactions);
     return ret;

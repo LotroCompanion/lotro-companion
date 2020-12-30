@@ -65,6 +65,7 @@ public class ReputationSynopsisFilterController
   {
     FactionsRegistry registry=FactionsRegistry.getInstance();
     List<String> categories=registry.getFactionCategories();
+    categories.remove("Guild");
     String[] ret=categories.toArray(new String[categories.size()]);
     return ret;
   }
