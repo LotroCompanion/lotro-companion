@@ -128,6 +128,10 @@ public class ObjectiveStatusEditionPanelController
     panel.add(_stateCtrl.getComponent(),c);
     c=new GridBagConstraints(1,0,1,1,1.0,0.0,GridBagConstraints.EAST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(_label,c);
+    if (label.length()==0)
+    {
+      panel.setVisible(false);
+    }
     return panel;
   }
 
@@ -140,10 +144,8 @@ public class ObjectiveStatusEditionPanelController
   private String getLabel()
   {
     Objective objective=_objectiveStatus.getObjective();
-    //String objectiveOverride=objective.getProgressOverride();
-    int index=objective.getIndex();
-    String label="Objective #"+index;
-    return label;
+    String objectiveOverride=objective.getProgressOverride();
+    return objectiveOverride;
   }
 
   /**

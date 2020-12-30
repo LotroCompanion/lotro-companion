@@ -103,6 +103,13 @@ public class ObjectiveConditionStatusEditionPanelController
       c=new GridBagConstraints(0,1,2,1,1.0,0.0,GridBagConstraints.EAST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
       panel.add(_countEditor.getPanel(),c);
     }
+    // Compute the panel visibility
+    boolean showProgress=condition.isShowProgressText();
+    boolean showBillboard=condition.isShowBillboardText();
+    String progressOverride=condition.getProgressOverride();
+    boolean hasProgressOverride=((progressOverride!=null) && (progressOverride.length()>0));
+    boolean visible=((showProgress&&showBillboard)||hasProgressOverride);
+    panel.setVisible(visible);
     return panel;
   }
 
