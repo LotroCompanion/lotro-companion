@@ -33,6 +33,7 @@ import delta.games.lotro.dat.data.DataFacade;
 import delta.games.lotro.gui.about.AboutDialogController;
 import delta.games.lotro.gui.about.CreditsDialogController;
 import delta.games.lotro.gui.account.AccountsManagementController;
+import delta.games.lotro.gui.configuration.ConfigurationDialogController;
 import delta.games.lotro.gui.interceptor.InterceptorInterface;
 import delta.games.lotro.gui.lore.instances.explorer.InstancesExplorerWindowController;
 import delta.games.lotro.gui.maps.global.MapWindowController;
@@ -44,6 +45,7 @@ import delta.games.lotro.gui.stats.reputation.synopsis.ReputationSynopsisWindowC
 import delta.games.lotro.gui.stats.warbands.WarbandsWindowController;
 import delta.games.lotro.gui.toon.ToonsManagementController;
 import delta.games.lotro.gui.utils.SharedUiUtils;
+import delta.games.lotro.utils.cfg.ApplicationConfiguration;
 import delta.games.lotro.utils.dat.DatInterface;
 import delta.games.lotro.utils.maps.Maps;
 
@@ -61,6 +63,7 @@ public class MainFrameController extends DefaultWindowController implements Acti
   private static final String CRAFTING_SYNOPSIS_ID="craftingSynopsis";
   private static final String MAP_ID="map";
   private static final String SYNCHRO_ID="synchro";
+  private static final String SETTINGS_ID="settings";
 
   private ToolbarController _toolbarTracking;
   private LoreActionsController _loreCtrl;
@@ -290,17 +293,20 @@ public class MainFrameController extends DefaultWindowController implements Acti
 
   private ToolbarController buildToolBarMisc()
   {
-    boolean hasSynchronizer=InterceptorInterface.checkInterceptorPresence();
-    if (!hasSynchronizer)
-    {
-      return null;
-    }
     ToolbarController controller=new ToolbarController();
     ToolbarModel model=controller.getModel();
+    // Settings
+    String settingsIconPath=SharedUiUtils.getToolbarIconPath("settings");
+    ToolbarIconItem settingsIconItem=new ToolbarIconItem(SETTINGS_ID,settingsIconPath,SETTINGS_ID,"Settings...","Settings...");
+    model.addToolbarIconItem(settingsIconItem);
     // Import from LOTRO
-    String importIconPath=SharedUiUtils.getToolbarIconPath("lotro-import");
-    ToolbarIconItem importIconItem=new ToolbarIconItem(SYNCHRO_ID,importIconPath,SYNCHRO_ID,"Import from LotRO...","Import...");
-    model.addToolbarIconItem(importIconItem);
+    boolean hasSynchronizer=InterceptorInterface.checkInterceptorPresence();
+    if (hasSynchronizer)
+    {
+      String importIconPath=SharedUiUtils.getToolbarIconPath("lotro-import");
+      ToolbarIconItem importIconItem=new ToolbarIconItem(SYNCHRO_ID,importIconPath,SYNCHRO_ID,"Import from LotRO...","Import...");
+      model.addToolbarIconItem(importIconItem);
+    }
     // Border
     controller.getToolBar().setBorder(GuiFactory.buildTitledBorder("Misc"));
     // Register action listener
@@ -390,6 +396,14 @@ public class MainFrameController extends DefaultWindowController implements Acti
     InterceptorInterface.doSynchronizer(_windowsManager,this);
   }
 
+  private void doSettings()
+  {
+    ApplicationConfiguration configuration=ApplicationConfiguration.getInstance();
+    ConfigurationDialogController dialog=new ConfigurationDialogController(this,configuration);
+    dialog.getDialog().setLocationRelativeTo(this.getWindow());
+    dialog.show(true);
+  }
+
   @Override
   public void actionPerformed(ActionEvent event)
   {
@@ -425,6 +439,10 @@ public class MainFrameController extends DefaultWindowController implements Acti
     else if (SYNCHRO_ID.equals(cmd))
     {
       doSynchronizer();
+    }
+    else if (SETTINGS_ID.equals(cmd))
+    {
+      doSettings();
     }
   }
 
