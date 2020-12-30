@@ -47,4 +47,15 @@ public class SharedUiUtils
     ctrl.selectItem(null);
     return ctrl;
   }
+
+  /**
+   * Get the path for a toolbar icon.
+   * @param iconName Icon name.
+   * @return A path.
+   */
+  public static String getToolbarIconPath(String iconName)
+  {
+    String imgLocation="/resources/gui/icons/"+iconName+"-icon.png";
+    return imgLocation;
+  }
 }

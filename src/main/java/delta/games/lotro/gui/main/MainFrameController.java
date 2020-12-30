@@ -33,25 +33,17 @@ import delta.games.lotro.dat.data.DataFacade;
 import delta.games.lotro.gui.about.AboutDialogController;
 import delta.games.lotro.gui.about.CreditsDialogController;
 import delta.games.lotro.gui.account.AccountsManagementController;
-import delta.games.lotro.gui.deed.explorer.DeedsExplorerWindowController;
-import delta.games.lotro.gui.emotes.explorer.EmotesExplorerWindowController;
 import delta.games.lotro.gui.interceptor.InterceptorInterface;
 import delta.games.lotro.gui.lore.instances.explorer.InstancesExplorerWindowController;
-import delta.games.lotro.gui.lore.trade.barter.explorer.BarterersExplorerWindowController;
-import delta.games.lotro.gui.lore.trade.vendor.explorer.VendorsExplorerWindowController;
 import delta.games.lotro.gui.maps.global.MapWindowController;
 import delta.games.lotro.gui.maps.resources.ResourcesMapsExplorerWindowController;
 import delta.games.lotro.gui.misc.paypal.PaypalButtonController;
-import delta.games.lotro.gui.mounts.explorer.MountsExplorerWindowController;
-import delta.games.lotro.gui.pets.explorer.PetsExplorerWindowController;
-import delta.games.lotro.gui.quests.explorer.QuestsExplorerWindowController;
-import delta.games.lotro.gui.recipes.explorer.RecipesExplorerWindowController;
 import delta.games.lotro.gui.stats.crafting.synopsis.CraftingSynopsisWindowController;
 import delta.games.lotro.gui.stats.levelling.CharacterLevelWindowController;
 import delta.games.lotro.gui.stats.reputation.synopsis.ReputationSynopsisWindowController;
 import delta.games.lotro.gui.stats.warbands.WarbandsWindowController;
-import delta.games.lotro.gui.titles.explorer.TitlesExplorerWindowController;
 import delta.games.lotro.gui.toon.ToonsManagementController;
+import delta.games.lotro.gui.utils.SharedUiUtils;
 import delta.games.lotro.utils.dat.DatInterface;
 import delta.games.lotro.utils.maps.Maps;
 
@@ -63,15 +55,6 @@ public class MainFrameController extends DefaultWindowController implements Acti
 {
   private static final String LEVELLING_ID="levelling";
   private static final String WARBANDS_ID="warbands";
-  private static final String DEEDS_ID="deeds";
-  private static final String QUESTS_ID="quests";
-  private static final String RECIPES_ID="recipes";
-  private static final String TITLES_ID="titles";
-  private static final String EMOTES_ID="emotes";
-  private static final String MOUNTS_ID="mounts";
-  private static final String PETS_ID="pets";
-  private static final String VENDORS_ID="vendors";
-  private static final String BARTERERS_ID="barterers";
   private static final String INSTANCES_ID="instances";
   private static final String RESOURCES_MAPS_ID="resourcesMaps";
   private static final String REPUTATION_SYNOPSIS_ID="reputationSynopsis";
@@ -80,7 +63,7 @@ public class MainFrameController extends DefaultWindowController implements Acti
   private static final String SYNCHRO_ID="synchro";
 
   private ToolbarController _toolbarTracking;
-  private ToolbarController _toolbarLore;
+  private LoreActionsController _loreCtrl;
   private ToolbarController _toolbarMaps;
   private ToolbarController _toolbarMisc;
   private PaypalButtonController _paypalButton;
@@ -96,6 +79,7 @@ public class MainFrameController extends DefaultWindowController implements Acti
     _toonsManager=new ToonsManagementController(this);
     _accountsManager=new AccountsManagementController(this);
     _windowsManager=new WindowsManager();
+    _loreCtrl=new LoreActionsController(this,_windowsManager);
   }
 
   @Override
@@ -148,53 +132,8 @@ public class MainFrameController extends DefaultWindowController implements Acti
     craftingSynopsis.addActionListener(this);
     statsMenu.add(craftingSynopsis);
 
-    // Compendium
-    JMenu compendiumMenu=GuiFactory.buildMenu("Compendium");
-    // - deeds
-    JMenuItem deedsExplorer=GuiFactory.buildMenuItem("Deeds");
-    deedsExplorer.setActionCommand(DEEDS_ID);
-    deedsExplorer.addActionListener(this);
-    compendiumMenu.add(deedsExplorer);
-    // - quests
-    JMenuItem questsExplorer=GuiFactory.buildMenuItem("Quests");
-    questsExplorer.setActionCommand(QUESTS_ID);
-    questsExplorer.addActionListener(this);
-    compendiumMenu.add(questsExplorer);
-    // - recipes
-    JMenuItem recipesExplorer=GuiFactory.buildMenuItem("Recipes");
-    recipesExplorer.setActionCommand(RECIPES_ID);
-    recipesExplorer.addActionListener(this);
-    compendiumMenu.add(recipesExplorer);
-    // - titles
-    JMenuItem titlesExplorer=GuiFactory.buildMenuItem("Titles");
-    titlesExplorer.setActionCommand(TITLES_ID);
-    titlesExplorer.addActionListener(this);
-    compendiumMenu.add(titlesExplorer);
-    // - emotes
-    JMenuItem emotesExplorer=GuiFactory.buildMenuItem("Emotes");
-    emotesExplorer.setActionCommand(EMOTES_ID);
-    emotesExplorer.addActionListener(this);
-    compendiumMenu.add(emotesExplorer);
-    // - mounts
-    JMenuItem mountsExplorer=GuiFactory.buildMenuItem("Mounts");
-    mountsExplorer.setActionCommand(MOUNTS_ID);
-    mountsExplorer.addActionListener(this);
-    compendiumMenu.add(mountsExplorer);
-    // - pets
-    JMenuItem petsExplorer=GuiFactory.buildMenuItem("Pets");
-    petsExplorer.setActionCommand(PETS_ID);
-    petsExplorer.addActionListener(this);
-    compendiumMenu.add(petsExplorer);
-    // - vendors
-    JMenuItem vendorsExplorer=GuiFactory.buildMenuItem("Vendors");
-    vendorsExplorer.setActionCommand(VENDORS_ID);
-    vendorsExplorer.addActionListener(this);
-    compendiumMenu.add(vendorsExplorer);
-    // - barterers
-    JMenuItem barterersExplorer=GuiFactory.buildMenuItem("Barterers");
-    barterersExplorer.setActionCommand(BARTERERS_ID);
-    barterersExplorer.addActionListener(this);
-    compendiumMenu.add(barterersExplorer);
+    // Compendium menu
+    JMenu compendiumMenu=_loreCtrl.buildCompendiumMenu();
 
     // Maps
     JMenu mapsMenu=GuiFactory.buildMenu("Maps");
@@ -272,7 +211,7 @@ public class MainFrameController extends DefaultWindowController implements Acti
   private JPanel buildToolbarsPanel()
   {
     _toolbarTracking=buildToolBarTracking();
-    _toolbarLore=buildToolbarLore();
+    ToolbarController loreToolbar=_loreCtrl.buildToolbarLore();
     _toolbarMaps=buildToolBarMaps();
     _toolbarMisc=buildToolBarMisc();
     _paypalButton=new PaypalButtonController();
@@ -280,7 +219,7 @@ public class MainFrameController extends DefaultWindowController implements Acti
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,5,2,0),0,0);
     panel.add(_toolbarTracking.getToolBar(),c);
     c.gridx++;
-    panel.add(_toolbarLore.getToolBar(),c);
+    panel.add(loreToolbar.getToolBar(),c);
     c.gridx++;
     panel.add(_toolbarMaps.getToolBar(),c);
     c.gridx++;
@@ -304,70 +243,23 @@ public class MainFrameController extends DefaultWindowController implements Acti
     ToolbarController controller=new ToolbarController();
     ToolbarModel model=controller.getModel();
     // Levelling icon
-    String levellingIconPath=getToolbarIconPath("levelling");
+    String levellingIconPath=SharedUiUtils.getToolbarIconPath("levelling");
     ToolbarIconItem levellingIconItem=new ToolbarIconItem(LEVELLING_ID,levellingIconPath,LEVELLING_ID,"Levelling...","Levelling");
     model.addToolbarIconItem(levellingIconItem);
     // Warbands icon
-    String warbandsIconPath=getToolbarIconPath("warbands");
+    String warbandsIconPath=SharedUiUtils.getToolbarIconPath("warbands");
     ToolbarIconItem warbandsIconItem=new ToolbarIconItem(WARBANDS_ID,warbandsIconPath,WARBANDS_ID,"Warbands...","Warbands");
     model.addToolbarIconItem(warbandsIconItem);
     // Reputation synopsis icon
-    String reputationSynopsisIconPath=getToolbarIconPath("reputation");
+    String reputationSynopsisIconPath=SharedUiUtils.getToolbarIconPath("reputation");
     ToolbarIconItem reputationSynopsisIconItem=new ToolbarIconItem(REPUTATION_SYNOPSIS_ID,reputationSynopsisIconPath,REPUTATION_SYNOPSIS_ID,"Reputation synopsis...","Reputation synopsis");
     model.addToolbarIconItem(reputationSynopsisIconItem);
     // Crafting synopsis icon
-    String craftingSynopsisIconPath=getToolbarIconPath("crafting");
+    String craftingSynopsisIconPath=SharedUiUtils.getToolbarIconPath("crafting");
     ToolbarIconItem craftingSynopsisIconItem=new ToolbarIconItem(CRAFTING_SYNOPSIS_ID,craftingSynopsisIconPath,CRAFTING_SYNOPSIS_ID,"Crafting synopsis...","Crafting synopsis");
     model.addToolbarIconItem(craftingSynopsisIconItem);
     // Border
     controller.getToolBar().setBorder(GuiFactory.buildTitledBorder("Tracking Synopsis"));
-    // Register action listener
-    controller.addActionListener(this);
-    return controller;
-  }
-
-  private ToolbarController buildToolbarLore()
-  {
-    ToolbarController controller=new ToolbarController();
-    ToolbarModel model=controller.getModel();
-    // Deeds icon
-    String deedsIconPath=getToolbarIconPath("deeds");
-    ToolbarIconItem deedsIconItem=new ToolbarIconItem(DEEDS_ID,deedsIconPath,DEEDS_ID,"Deeds...","Deeds");
-    model.addToolbarIconItem(deedsIconItem);
-    // Quests icon
-    String questsIconPath=getToolbarIconPath("quests");
-    ToolbarIconItem questsIconItem=new ToolbarIconItem(QUESTS_ID,questsIconPath,QUESTS_ID,"Quests...","Quests");
-    model.addToolbarIconItem(questsIconItem);
-    // Recipes icon
-    String recipesIconPath=getToolbarIconPath("recipes");
-    ToolbarIconItem recipesIconItem=new ToolbarIconItem(RECIPES_ID,recipesIconPath,RECIPES_ID,"Recipes...","Recipes");
-    model.addToolbarIconItem(recipesIconItem);
-    // Titles icon
-    String titlesIconPath=getToolbarIconPath("titles");
-    ToolbarIconItem titlesIconItem=new ToolbarIconItem(TITLES_ID,titlesIconPath,TITLES_ID,"Titles...","Titles");
-    model.addToolbarIconItem(titlesIconItem);
-    // Emotes icon
-    String emotesIconPath=getToolbarIconPath("emotes");
-    ToolbarIconItem emotesIconItem=new ToolbarIconItem(EMOTES_ID,emotesIconPath,EMOTES_ID,"Emotes...","Emotes");
-    model.addToolbarIconItem(emotesIconItem);
-    // Mounts icon
-    String mountsIconPath=getToolbarIconPath("mounts");
-    ToolbarIconItem mountsIconItem=new ToolbarIconItem(MOUNTS_ID,mountsIconPath,MOUNTS_ID,"Mounts...","Mounts");
-    model.addToolbarIconItem(mountsIconItem);
-    // Pets icon
-    String petsIconPath=getToolbarIconPath("pets");
-    ToolbarIconItem petsIconItem=new ToolbarIconItem(PETS_ID,petsIconPath,PETS_ID,"Pets...","Pets");
-    model.addToolbarIconItem(petsIconItem);
-    // Vendors icon
-    String vendorsIconPath=getToolbarIconPath("vendors");
-    ToolbarIconItem vendorsIconItem=new ToolbarIconItem(VENDORS_ID,vendorsIconPath,VENDORS_ID,"Vendors...","Vendors");
-    model.addToolbarIconItem(vendorsIconItem);
-    // Barterers icon
-    String barterersIconPath=getToolbarIconPath("barterers");
-    ToolbarIconItem barterersIconItem=new ToolbarIconItem(BARTERERS_ID,barterersIconPath,BARTERERS_ID,"Barterers...","Barterers");
-    model.addToolbarIconItem(barterersIconItem);
-    // Border
-    controller.getToolBar().setBorder(GuiFactory.buildTitledBorder("Lore Compendium"));
     // Register action listener
     controller.addActionListener(this);
     return controller;
@@ -378,15 +270,15 @@ public class MainFrameController extends DefaultWindowController implements Acti
     ToolbarController controller=new ToolbarController();
     ToolbarModel model=controller.getModel();
     // Map icon
-    String mapIconPath=getToolbarIconPath("globe");
+    String mapIconPath=SharedUiUtils.getToolbarIconPath("globe");
     ToolbarIconItem mapIconItem=new ToolbarIconItem(MAP_ID,mapIconPath,MAP_ID,"Maps...","Maps");
     model.addToolbarIconItem(mapIconItem);
     // Instances icon
-    String instancessIconPath=getToolbarIconPath("instances");
+    String instancessIconPath=SharedUiUtils.getToolbarIconPath("instances");
     ToolbarIconItem instancesIconItem=new ToolbarIconItem(INSTANCES_ID,instancessIconPath,INSTANCES_ID,"Instances...","Instances");
     model.addToolbarIconItem(instancesIconItem);
     // Resources maps icon
-    String resourcesMapsIconPath=getToolbarIconPath("resourcesMap");
+    String resourcesMapsIconPath=SharedUiUtils.getToolbarIconPath("resourcesMap");
     ToolbarIconItem resourcesMapsIconItem=new ToolbarIconItem(RESOURCES_MAPS_ID,resourcesMapsIconPath,RESOURCES_MAPS_ID,"Resources maps...","Resources Maps");
     model.addToolbarIconItem(resourcesMapsIconItem);
     // Border
@@ -406,7 +298,7 @@ public class MainFrameController extends DefaultWindowController implements Acti
     ToolbarController controller=new ToolbarController();
     ToolbarModel model=controller.getModel();
     // Import from LOTRO
-    String importIconPath=getToolbarIconPath("lotro-import");
+    String importIconPath=SharedUiUtils.getToolbarIconPath("lotro-import");
     ToolbarIconItem importIconItem=new ToolbarIconItem(SYNCHRO_ID,importIconPath,SYNCHRO_ID,"Import from LotRO...","Import...");
     model.addToolbarIconItem(importIconItem);
     // Border
@@ -414,12 +306,6 @@ public class MainFrameController extends DefaultWindowController implements Acti
     // Register action listener
     controller.addActionListener(this);
     return controller;
-  }
-
-  private String getToolbarIconPath(String iconName)
-  {
-    String imgLocation="/resources/gui/icons/"+iconName+"-icon.png";
-    return imgLocation;
   }
 
   @Override
@@ -476,105 +362,6 @@ public class MainFrameController extends DefaultWindowController implements Acti
     controller.bringToFront();
   }
 
-  private void doDeeds()
-  {
-    WindowController controller=_windowsManager.getWindow(DeedsExplorerWindowController.IDENTIFIER);
-    if (controller==null)
-    {
-      controller=new DeedsExplorerWindowController(this);
-      _windowsManager.registerWindow(controller);
-    }
-    controller.bringToFront();
-  }
-
-  private void doQuests()
-  {
-    WindowController controller=_windowsManager.getWindow(QuestsExplorerWindowController.IDENTIFIER);
-    if (controller==null)
-    {
-      controller=new QuestsExplorerWindowController(this);
-      _windowsManager.registerWindow(controller);
-    }
-    controller.bringToFront();
-  }
-
-  private void doRecipes()
-  {
-    WindowController controller=_windowsManager.getWindow(RecipesExplorerWindowController.IDENTIFIER);
-    if (controller==null)
-    {
-      controller=new RecipesExplorerWindowController(this);
-      _windowsManager.registerWindow(controller);
-    }
-    controller.bringToFront();
-  }
-
-  private void doTitles()
-  {
-    WindowController controller=_windowsManager.getWindow(TitlesExplorerWindowController.IDENTIFIER);
-    if (controller==null)
-    {
-      controller=new TitlesExplorerWindowController(this);
-      _windowsManager.registerWindow(controller);
-    }
-    controller.bringToFront();
-  }
-
-  private void doEmotes()
-  {
-    WindowController controller=_windowsManager.getWindow(EmotesExplorerWindowController.IDENTIFIER);
-    if (controller==null)
-    {
-      controller=new EmotesExplorerWindowController(this);
-      _windowsManager.registerWindow(controller);
-    }
-    controller.bringToFront();
-  }
-
-  private void doMounts()
-  {
-    WindowController controller=_windowsManager.getWindow(MountsExplorerWindowController.IDENTIFIER);
-    if (controller==null)
-    {
-      controller=new MountsExplorerWindowController(this);
-      _windowsManager.registerWindow(controller);
-    }
-    controller.bringToFront();
-  }
-
-  private void doPets()
-  {
-    WindowController controller=_windowsManager.getWindow(PetsExplorerWindowController.IDENTIFIER);
-    if (controller==null)
-    {
-      controller=new PetsExplorerWindowController(this);
-      _windowsManager.registerWindow(controller);
-    }
-    controller.bringToFront();
-  }
-
-  private void doVendors()
-  {
-    WindowController controller=_windowsManager.getWindow(VendorsExplorerWindowController.IDENTIFIER);
-    if (controller==null)
-    {
-      controller=new VendorsExplorerWindowController(this);
-      _windowsManager.registerWindow(controller);
-    }
-    controller.bringToFront();
-  }
-
-  private void doBarterers()
-  {
-    WindowController controller=_windowsManager.getWindow(BarterersExplorerWindowController.IDENTIFIER);
-    if (controller==null)
-    {
-      controller=new BarterersExplorerWindowController(this);
-      _windowsManager.registerWindow(controller);
-    }
-    controller.bringToFront();
-  }
-
   private void doInstances()
   {
     WindowController controller=_windowsManager.getWindow(InstancesExplorerWindowController.IDENTIFIER);
@@ -626,42 +413,6 @@ public class MainFrameController extends DefaultWindowController implements Acti
     else if (MAP_ID.equals(cmd))
     {
       doMap();
-    }
-    else if (DEEDS_ID.equals(cmd))
-    {
-      doDeeds();
-    }
-    else if (QUESTS_ID.equals(cmd))
-    {
-      doQuests();
-    }
-    else if (RECIPES_ID.equals(cmd))
-    {
-      doRecipes();
-    }
-    else if (TITLES_ID.equals(cmd))
-    {
-      doTitles();
-    }
-    else if (EMOTES_ID.equals(cmd))
-    {
-      doEmotes();
-    }
-    else if (MOUNTS_ID.equals(cmd))
-    {
-      doMounts();
-    }
-    else if (PETS_ID.equals(cmd))
-    {
-      doPets();
-    }
-    else if (VENDORS_ID.equals(cmd))
-    {
-      doVendors();
-    }
-    else if (BARTERERS_ID.equals(cmd))
-    {
-      doBarterers();
     }
     else if (INSTANCES_ID.equals(cmd))
     {
@@ -750,10 +501,10 @@ public class MainFrameController extends DefaultWindowController implements Acti
       _toolbarTracking.dispose();
       _toolbarTracking=null;
     }
-    if (_toolbarLore!=null)
+    if (_loreCtrl!=null)
     {
-      _toolbarLore.dispose();
-      _toolbarLore=null;
+      _loreCtrl.dispose();
+      _loreCtrl=null;
     }
     if (_toolbarMaps!=null)
     {
