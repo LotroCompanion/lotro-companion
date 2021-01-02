@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.WindowController;
+import delta.games.lotro.common.stats.StatsProvider;
 import delta.games.lotro.gui.common.stats.StatsPanel;
 import delta.games.lotro.gui.items.essences.EssencesSetDisplayController;
 import delta.games.lotro.gui.items.legendary.LegendaryInstanceDisplayPanelController;
@@ -131,7 +132,8 @@ public class ItemInstanceDisplayPanelController
       _parent.setTitle(name);
     }
     // Stats
-    StatsPanel.fillStatsPanel(_stats,_itemInstance.getStatsManager().getResult(),null);
+    StatsProvider provider=item.getStatsProvider();
+    StatsPanel.fillStatsPanel(_stats,_itemInstance.getStatsManager().getResult(),provider);
     // Main attributes
     _mainAttrs.update();
     // Essences

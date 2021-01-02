@@ -438,7 +438,9 @@ public class ItemInstanceMainAttrsEditionPanelController
 
   private void setStats(BasicStatsSet stats)
   {
-    StatsPanel.fillStatsPanel(_stats,stats,null);
+    Item item=_itemInstance.getReference();
+    StatsProvider provider=item.getStatsProvider();
+    StatsPanel.fillStatsPanel(_stats,stats,provider);
     _stats.revalidate();
     _stats.repaint();
     _parent.getWindow().pack();

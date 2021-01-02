@@ -23,6 +23,7 @@ import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.common.money.Money;
 import delta.games.lotro.common.stats.StatUtils;
+import delta.games.lotro.common.stats.StatsProvider;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.common.money.MoneyDisplayController;
 import delta.games.lotro.gui.common.requirements.RequirementsUtils;
@@ -106,10 +107,13 @@ public class ItemDisplayPanelController implements NavigablePanelController
   private MultilineLabel2 buildStatsDisplay()
   {
     MultilineLabel2 statsLabel=null;
+    StatsProvider statsProvider=_item.getStatsProvider();
     BasicStatsSet stats=_item.getStats();
-    if (stats.getStatsCount()>0)
+    int nbStats=stats.getStatsCount();
+    int nbEffects=statsProvider.getSpecialEffects().size();
+    if (nbStats+nbEffects>0)
     {
-      String[] lines=StatUtils.getStatsDisplayLines(stats);
+      String[] lines=StatUtils.getFullStatsDisplay(stats,statsProvider);
       statsLabel=new MultilineLabel2();
       statsLabel.setText(lines);
       statsLabel.setBorder(GuiFactory.buildTitledBorder("Stats"));

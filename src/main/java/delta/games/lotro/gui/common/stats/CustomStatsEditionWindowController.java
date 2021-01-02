@@ -6,6 +6,7 @@ import javax.swing.JPanel;
 import delta.common.ui.swing.windows.DefaultFormDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.common.stats.StatsManager;
+import delta.games.lotro.common.stats.StatsProvider;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemInstance;
 
@@ -30,7 +31,8 @@ public class CustomStatsEditionWindowController extends DefaultFormDialogControl
     super(parent,itemInstance);
     _itemInstance=itemInstance;
     StatsManager statsManager=_itemInstance.getStatsManager();
-    _panelController=new CustomStatsEditionPanelController(this,statsManager);
+    StatsProvider provider=itemInstance.getReference().getStatsProvider();
+    _panelController=new CustomStatsEditionPanelController(this,statsManager,provider);
   }
 
   @Override

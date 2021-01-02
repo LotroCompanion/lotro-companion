@@ -26,6 +26,7 @@ import delta.games.lotro.character.stats.StatsSetElement;
 import delta.games.lotro.common.stats.CustomStatsMergeMode;
 import delta.games.lotro.common.stats.StatDescription;
 import delta.games.lotro.common.stats.StatsManager;
+import delta.games.lotro.common.stats.StatsProvider;
 import delta.games.lotro.utils.FixedDecimalsInteger;
 
 /**
@@ -37,6 +38,7 @@ public class CustomStatsEditionPanelController
   private static final int MAX_STATS = 10;
   // Data
   private StatsManager _statsManager;
+  private StatsProvider _provider;
   // GUI
   private JPanel _panel;
   private JPanel _autoStats;
@@ -50,9 +52,11 @@ public class CustomStatsEditionPanelController
    * Constructor.
    * @param parent Parent window.
    * @param statsManager Stats manager.
+   * @param provider Stats provider.
    */
-  public CustomStatsEditionPanelController(WindowController parent, StatsManager statsManager)
+  public CustomStatsEditionPanelController(WindowController parent, StatsManager statsManager, StatsProvider provider)
   {
+    _provider=provider;
     _mode=buildModesCombo();
     _statControllers=new ArrayList<SingleStatsEditionGadgetsController>();
     _panel=buildPanel();
@@ -72,7 +76,7 @@ public class CustomStatsEditionPanelController
     CustomStatsMergeMode mode=statsManager.getMode();
     _mode.selectItem(mode);
     // Auto stats
-    StatsPanel.fillStatsPanel(_autoStats,_statsManager.getDefault(),null);
+    StatsPanel.fillStatsPanel(_autoStats,_statsManager.getDefault(),_provider);
     // Custom stats
     BasicStatsSet statsSet=statsManager.getCustom();
     List<StatsSetElement> usedStats=statsSet.getStatElements();
@@ -93,7 +97,7 @@ public class CustomStatsEditionPanelController
       }
     }
     // Result stats
-    StatsPanel.fillStatsPanel(_resultStats,statsManager.getResult(),null);
+    StatsPanel.fillStatsPanel(_resultStats,statsManager.getResult(),_provider);
   }
 
   /**
@@ -285,7 +289,7 @@ public class CustomStatsEditionPanelController
     // Load custom stats from UI
     getData(_statsManager);
     // Update 'result' stats
-    StatsPanel.fillStatsPanel(_resultStats,_statsManager.getResult(),null);
+    StatsPanel.fillStatsPanel(_resultStats,_statsManager.getResult(),_provider);
     _resultStats.revalidate();
     _resultStats.repaint();
     // Pack parent window
@@ -306,6 +310,7 @@ public class CustomStatsEditionPanelController
   {
     // Data
     _statsManager=null;
+    _provider=null;
     // UI
     if (_panel!=null)
     {

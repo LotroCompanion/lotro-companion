@@ -12,6 +12,7 @@ import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.character.stats.StatsSetElement;
 import delta.games.lotro.common.stats.StatDescription;
 import delta.games.lotro.common.stats.StatUtils;
+import delta.games.lotro.common.stats.StatsProvider;
 import delta.games.lotro.utils.FixedDecimalsInteger;
 
 /**
@@ -73,6 +74,45 @@ public class StatsPanel
           c=new GridBagConstraints(2,rowIndex,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,5,0,5),0,0);
           panel.add(percentageLabel,c);
         }
+        rowIndex++;
+      }
+    }
+  }
+
+  /**
+   * Fill a panel with stats.
+   * @param panel Panel to use.
+   * @param stats Stats to show.
+   */
+  public static void fillStatsPanel(JPanel panel, BasicStatsSet stats)
+  {
+    fillStatsPanel(panel,stats,(StatsProvider)null);
+  }
+
+  /**
+   * Fill a panel with stats.
+   * @param panel Panel to use.
+   * @param stats Stats to show.
+   * @param provider Source provider (to display special effects).
+   */
+  public static void fillStatsPanel(JPanel panel, BasicStatsSet stats, StatsProvider provider)
+  {
+    panel.removeAll();
+
+    int rowIndex=0;
+    GridBagConstraints strutConstraints=new GridBagConstraints(0,rowIndex,3,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,5,0,0),0,0);
+    panel.add(Box.createHorizontalStrut(100),strutConstraints);
+    rowIndex++;
+
+    int statsCount=stats.getStatsCount();
+    if (statsCount>0)
+    {
+      String[] lines=StatUtils.getFullStatsDisplay(stats,provider);
+      for(String line : lines)
+      {
+        JLabel label=GuiFactory.buildLabel(line);
+        GridBagConstraints c=new GridBagConstraints(0,rowIndex,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,5,0,0),0,0);
+        panel.add(label,c);
         rowIndex++;
       }
     }

@@ -13,6 +13,7 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.BasicCharacterAttributes;
 import delta.games.lotro.common.CharacterClass;
+import delta.games.lotro.common.stats.StatsProvider;
 import delta.games.lotro.gui.common.stats.CustomStatsEditionWindowController;
 import delta.games.lotro.gui.common.stats.StatsPanel;
 import delta.games.lotro.gui.items.essences.EssencesSetDisplayController;
@@ -297,7 +298,9 @@ public class ItemInstanceEditionPanelController
 
   private void updateStats()
   {
-    StatsPanel.fillStatsPanel(_stats,_itemInstance.getStatsManager().getResult(),null);
+    Item item=_itemInstance.getReference();
+    StatsProvider provider=item.getStatsProvider();
+    StatsPanel.fillStatsPanel(_stats,_itemInstance.getStatsManager().getResult(),provider);
   }
 
   /**
