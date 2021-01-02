@@ -194,7 +194,7 @@ public class ItemsSetDisplayPanelController implements NavigablePanelController
     {
       StatsProvider statsProvider=bonus.getStatsProvider();
       BasicStatsSet stats=statsProvider.getStats(1,level);
-      String[] lines=StatUtils.getStatsDisplayLines(stats);
+      String[] lines=StatUtils.getFullStatsDisplay(stats,statsProvider);
       if (lines.length==0)
       {
         continue;
