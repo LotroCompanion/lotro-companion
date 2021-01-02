@@ -110,7 +110,11 @@ public class ItemDisplayPanelController implements NavigablePanelController
     StatsProvider statsProvider=_item.getStatsProvider();
     BasicStatsSet stats=_item.getStats();
     int nbStats=stats.getStatsCount();
-    int nbEffects=statsProvider.getSpecialEffects().size();
+    int nbEffects=0;
+    if (statsProvider!=null)
+    {
+      nbEffects=statsProvider.getSpecialEffects().size();
+    }
     if (nbStats+nbEffects>0)
     {
       String[] lines=StatUtils.getFullStatsDisplay(stats,statsProvider);
