@@ -114,10 +114,10 @@ public class InstanceMapPanelController
     if (basemap!=null)
     {
       BasemapLayer basemapLayer=new BasemapLayer();
-      basemapLayer.setMap(basemap);
-      canvas.addLayer(basemapLayer);
       DatBasemapImageProvider imageProvider=new DatBasemapImageProvider(facade);
       basemapLayer.setBasemapImageProvider(imageProvider);
+      basemapLayer.setMap(basemap);
+      canvas.addLayer(basemapLayer);
     }
     // Radar map?
     RadarImageProvider provider=new DatRadarImageProvider(facade);

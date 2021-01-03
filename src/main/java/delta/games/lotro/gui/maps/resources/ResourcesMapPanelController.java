@@ -87,9 +87,9 @@ public class ResourcesMapPanelController
     if (basemap!=null)
     {
       BasemapLayer basemapLayer=new BasemapLayer();
-      basemapLayer.setMap(basemap);
       DatBasemapImageProvider imageProvider=new DatBasemapImageProvider(facade);
       basemapLayer.setBasemapImageProvider(imageProvider);
+      basemapLayer.setMap(basemap);
       canvas.addLayer(basemapLayer);
       MapUiUtils.configureMapPanel(panel,basemap.getBoundingBox(),MAX_SIZE);
       ParchmentMapsManager parchmentMapsMgr=ParchmentMapsManager.getInstance();
