@@ -8,6 +8,8 @@ import java.util.List;
 
 import delta.games.lotro.character.achievables.edition.AchievableStatusGeoItem;
 import delta.games.lotro.character.achievables.edition.GeoPointChangeListener;
+import delta.games.lotro.dat.data.DataFacade;
+import delta.games.lotro.gui.maps.basemap.DatBasemapImageProvider;
 import delta.games.lotro.gui.stats.deeds.form.AchievableStatusUtils;
 import delta.games.lotro.lore.quests.geo.AchievableGeoPoint;
 import delta.games.lotro.lore.quests.objectives.ObjectiveCondition;
@@ -19,9 +21,11 @@ import delta.games.lotro.maps.ui.BasemapPanelController;
 import delta.games.lotro.maps.ui.MapCanvas;
 import delta.games.lotro.maps.ui.MapPanelController;
 import delta.games.lotro.maps.ui.controllers.SelectionListener;
+import delta.games.lotro.maps.ui.layers.BasemapLayer;
 import delta.games.lotro.maps.ui.layers.MarkersLayer;
 import delta.games.lotro.maps.ui.layers.SimpleMarkersProvider;
 import delta.games.lotro.maps.ui.selection.SelectionManager;
+import delta.games.lotro.utils.dat.DatInterface;
 import delta.games.lotro.utils.maps.Maps;
 
 /**
@@ -99,6 +103,11 @@ public class AchievableGeoPointsMapPanelController
     // Build and configure map panel
     MapsManager mapsManager=Maps.getMaps().getMapsManager();
     _panel=new BasemapPanelController(mapsManager.getBasemapsManager());
+    // Basemap layer
+    BasemapLayer basemapLayer=_panel.getBasemapLayer();
+    DataFacade facade=DatInterface.getInstance().getFacade();
+    DatBasemapImageProvider imageProvider=new DatBasemapImageProvider(facade);
+    basemapLayer.setBasemapImageProvider(imageProvider);
     _panel.setMap(_mapId);
     _panel.setMaxSize(new Dimension(768,576));
     MapCanvas canvas=_panel.getCanvas();
