@@ -1,9 +1,11 @@
 package delta.games.lotro.gui.maps.basemap;
 
 import java.awt.image.BufferedImage;
+import java.io.File;
 
 import org.apache.log4j.Logger;
 
+import delta.common.ui.ImageUtils;
 import delta.games.lotro.dat.data.DataFacade;
 import delta.games.lotro.dat.utils.DatIconsUtils;
 import delta.games.lotro.maps.data.basemaps.GeoreferencedBasemap;
@@ -31,8 +33,18 @@ public class DatBasemapImageProvider implements BasemapImageProvider
   @Override
   public BufferedImage getImage(GeoreferencedBasemap basemap)
   {
+    File mapImageFile=basemap.getImageFile();
+    if (mapImageFile.exists())
+    {
+      return ImageUtils.loadImage(mapImageFile);
+    }
     int imageId=basemap.getImageId();
-    System.out.println("Loading image: "+imageId);
+    return loadFromLocalClient(imageId);
+  }
+
+  private BufferedImage loadFromLocalClient(int imageId)
+  {
+    LOGGER.debug("Loading image: "+imageId);
     try
     {
       return DatIconsUtils.loadImage(_facade,imageId);
