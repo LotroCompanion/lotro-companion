@@ -10,6 +10,7 @@ import delta.common.utils.collections.filters.Filter;
 import delta.games.lotro.dat.data.DataFacade;
 import delta.games.lotro.gui.maps.DatRadarImageProvider;
 import delta.games.lotro.gui.maps.RadarMapLayer;
+import delta.games.lotro.gui.maps.basemap.DatBasemapImageProvider;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.maps.Area;
 import delta.games.lotro.lore.maps.Dungeon;
@@ -87,6 +88,8 @@ public class ResourcesMapPanelController
     {
       BasemapLayer basemapLayer=new BasemapLayer();
       basemapLayer.setMap(basemap);
+      DatBasemapImageProvider imageProvider=new DatBasemapImageProvider(facade);
+      basemapLayer.setBasemapImageProvider(imageProvider);
       canvas.addLayer(basemapLayer);
       MapUiUtils.configureMapPanel(panel,basemap.getBoundingBox(),MAX_SIZE);
       ParchmentMapsManager parchmentMapsMgr=ParchmentMapsManager.getInstance();

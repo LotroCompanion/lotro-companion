@@ -15,6 +15,7 @@ import delta.games.lotro.dat.data.DataFacade;
 import delta.games.lotro.gui.maps.DatRadarImageProvider;
 import delta.games.lotro.gui.maps.MarkerSelectionListener;
 import delta.games.lotro.gui.maps.RadarMapLayer;
+import delta.games.lotro.gui.maps.basemap.DatBasemapImageProvider;
 import delta.games.lotro.lore.maps.ParchmentMap;
 import delta.games.lotro.lore.maps.ParchmentMapsManager;
 import delta.games.lotro.maps.data.MapsManager;
@@ -30,6 +31,7 @@ import delta.games.lotro.maps.ui.DefaultMarkerIconsProvider;
 import delta.games.lotro.maps.ui.MapCanvas;
 import delta.games.lotro.maps.ui.MarkerIconProvider;
 import delta.games.lotro.maps.ui.filter.MapFilterPanelController;
+import delta.games.lotro.maps.ui.layers.BasemapLayer;
 import delta.games.lotro.maps.ui.layers.MarkersLayer;
 import delta.games.lotro.maps.ui.layers.SimpleMarkersProvider;
 import delta.games.lotro.maps.ui.layers.radar.RadarImageProvider;
@@ -75,6 +77,10 @@ public class MapWindowController extends DefaultWindowController implements Navi
     RadarImageProvider provider=new DatRadarImageProvider(facade);
     _radarLayer=new RadarMapLayer(1,provider);
     canvas.addLayer(_radarLayer);
+    // Basemap layer
+    BasemapLayer basemapLayer=_mapPanel.getBasemapLayer();
+    DatBasemapImageProvider imageProvider=new DatBasemapImageProvider(facade);
+    basemapLayer.setBasemapImageProvider(imageProvider);
 
     // Setup navigation
     _navigation=new NavigationSupport(_mapPanel);

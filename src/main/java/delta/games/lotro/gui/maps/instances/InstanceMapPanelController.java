@@ -8,6 +8,7 @@ import delta.games.lotro.dat.data.DataFacade;
 import delta.games.lotro.dat.loaders.PositionDecoder;
 import delta.games.lotro.gui.maps.DatRadarImageProvider;
 import delta.games.lotro.gui.maps.RadarMapLayer;
+import delta.games.lotro.gui.maps.basemap.DatBasemapImageProvider;
 import delta.games.lotro.lore.geo.BlockReference;
 import delta.games.lotro.lore.instances.InstanceMapDescription;
 import delta.games.lotro.lore.instances.PrivateEncounter;
@@ -115,6 +116,8 @@ public class InstanceMapPanelController
       BasemapLayer basemapLayer=new BasemapLayer();
       basemapLayer.setMap(basemap);
       canvas.addLayer(basemapLayer);
+      DatBasemapImageProvider imageProvider=new DatBasemapImageProvider(facade);
+      basemapLayer.setBasemapImageProvider(imageProvider);
     }
     // Radar map?
     RadarImageProvider provider=new DatRadarImageProvider(facade);
