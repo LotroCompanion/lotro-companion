@@ -42,7 +42,7 @@ public class ItemsTestUtils
     ItemInstance<? extends Item> itemInstance=null;
     try
     {
-      URL url=URLTools.getFromClassPath(name,baseClass.getPackage());
+      URL url=URLTools.getFromClassPath(name,baseClass);
       Element root=DOMParsingTools.parse(url);
       ItemXMLParser parser=new ItemXMLParser();
       itemInstance=parser.parseItemInstance(root);
