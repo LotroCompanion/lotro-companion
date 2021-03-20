@@ -51,73 +51,83 @@ public class AboutPanelController
     int y=0;
 
     // Icon (if any)
-    String iconPath="/resources/gui/ring/ring48.png";
-    Image icon=IconsManager.getImage(iconPath);
-    c=new GridBagConstraints(x,y,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(10,20,10,5),0,0);
-    ImageIcon imageIcon=new ImageIcon(icon);
-    JLabel lbIcon=new JLabel(imageIcon);
-    panel.add(lbIcon,c);
-    x++;
+    {
+      String iconPath="/resources/gui/ring/ring48.png";
+      Image icon=IconsManager.getImage(iconPath);
+      c=new GridBagConstraints(x,y,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(10,20,10,5),0,0);
+      ImageIcon imageIcon=new ImageIcon(icon);
+      JLabel lbIcon=new JLabel(imageIcon);
+      panel.add(lbIcon,c);
+      x++;
+    }
 
-    // Project name
     JLabel lbName=new JLabel("LotRO Companion");
-    lbName.setFont(lbName.getFont().deriveFont(Font.BOLD,36));
-    c=new GridBagConstraints(x,y,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(10,5,10,20),0,0);
-    panel.add(lbName,c);
-    y++;
+    Font defaultFont=lbName.getFont();
+    Font font16=defaultFont.deriveFont(Font.BOLD,16);
+    Font font24=defaultFont.deriveFont(Font.BOLD,24);
+    // Project name
+    {
+      lbName.setFont(defaultFont.deriveFont(Font.BOLD,36));
+      c=new GridBagConstraints(x,y,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(10,5,10,20),0,0);
+      panel.add(lbName,c);
+      y++;
+    }
 
     // Project version
-    String projectVersion=buildProjectVersion();
-    JLabel lbVersion=new JLabel(projectVersion);
-    lbVersion.setFont(lbVersion.getFont().deriveFont(Font.BOLD,24));
-    c=new GridBagConstraints(0,y,2,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(10,5,10,5),0,0);
-    panel.add(lbVersion,c);
-    y++;
+    {
+      String projectVersion=buildProjectVersion();
+      JLabel lbVersion=new JLabel(projectVersion);
+      lbVersion.setFont(font24);
+      c=new GridBagConstraints(0,y,2,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(10,5,10,5),0,0);
+      panel.add(lbVersion,c);
+      y++;
+    }
 
     // Project contact
-    JPanel contactPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.CENTER));
-    JLabel contactLabel=GuiFactory.buildLabel("Contact: ");
-    Font font=lbVersion.getFont().deriveFont(Font.BOLD,16);
-    contactLabel.setFont(font);
-    contactPanel.add(contactLabel);
-    MailToHyperlinkAction mailAction=new MailToHyperlinkAction("lotrocompanion@gmail.com","Contact");
-    _mail=new HyperLinkController(mailAction);
-    JLabel lbEmail=_mail.getLabel();
-    lbEmail.setFont(font);
-    contactPanel.add(lbEmail);
-    c=new GridBagConstraints(0,y,2,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(10,5,5,5),0,0);
-    panel.add(contactPanel,c);
-    y++;
+    {
+      JPanel contactPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.CENTER));
+      JLabel contactLabel=GuiFactory.buildLabel("Contact: ");
+      contactLabel.setFont(font16);
+      contactPanel.add(contactLabel);
+      MailToHyperlinkAction mailAction=new MailToHyperlinkAction("lotrocompanion@gmail.com","Contact");
+      _mail=new HyperLinkController(mailAction);
+      JLabel lbEmail=_mail.getLabel();
+      lbEmail.setFont(font16);
+      contactPanel.add(lbEmail);
+      c=new GridBagConstraints(0,y,2,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(10,5,5,5),0,0);
+      panel.add(contactPanel,c);
+      y++;
+    }
 
     // Source code
     {
       JPanel sourcePanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.CENTER));
       JLabel sourceLabel=GuiFactory.buildLabel("Source code: ");
-      sourceLabel.setFont(font);
+      sourceLabel.setFont(font16);
       sourcePanel.add(sourceLabel);
       BrowserHyperlinkAction githubAction=new BrowserHyperlinkAction("https://github.com/dmorcellet/lotro-companion","lotro-companion@GitHub");
       HyperLinkController github=new HyperLinkController(githubAction);
       JLabel lbGitHub=github.getLabel();
-      lbGitHub.setFont(font);
+      lbGitHub.setFont(font16);
       sourcePanel.add(lbGitHub);
       c=new GridBagConstraints(0,y,2,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(0,5,5,5),0,0);
       panel.add(sourcePanel,c);
       y++;
     }
-
-    // Facebook
+    
+    // Discord
     {
-      JPanel facebookPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.CENTER));
-      JLabel seeUsLabel=GuiFactory.buildLabel("News: ");
-      seeUsLabel.setFont(font);
-      facebookPanel.add(seeUsLabel);
-      BrowserHyperlinkAction facebookAction=new BrowserHyperlinkAction("https://www.facebook.com/lotrocompanion/","lotro-companion@Facebook");
-      HyperLinkController facebook=new HyperLinkController(facebookAction);
-      JLabel lbFacebook=facebook.getLabel();
-      lbFacebook.setFont(font);
-      facebookPanel.add(lbFacebook);
+      JPanel discordPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.CENTER));
+      JLabel discordLabel=GuiFactory.buildLabel("Discord: ");
+      discordLabel.setFont(font16);
+      discordPanel.add(discordLabel);
+      BrowserHyperlinkAction discordAction=new BrowserHyperlinkAction("https://discord.gg/t2J4GDq","Lotro Companion's corner");
+      HyperLinkController discord=new HyperLinkController(discordAction);
+      JLabel lbDiscord=discord.getLabel();
+      lbDiscord.setFont(font16);
+      discordPanel.add(lbDiscord);
       c=new GridBagConstraints(0,y,2,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(0,5,10,5),0,0);
-      panel.add(facebookPanel,c);
+      panel.add(discordPanel,c);
       y++;
     }
 
@@ -127,14 +137,14 @@ public class AboutPanelController
       HyperLinkController userManualLink=new HyperLinkController(userManualAction);
       c=new GridBagConstraints(0,y,2,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(0,5,10,5),0,0);
       JLabel userManualLabel=userManualLink.getLabel();
-      userManualLabel.setFont(font);
+      userManualLabel.setFont(font16);
       panel.add(userManualLabel,c);
       y++;
     }
 
     // Contributors label contrib
     JLabel lbContributors=new JLabel("Contributors:");
-    lbContributors.setFont(lbVersion.getFont().deriveFont(Font.BOLD,24));
+    lbContributors.setFont(font24);
     c=new GridBagConstraints(0,y,2,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(10,15,10,5),0,0);
     panel.add(lbContributors,c);
     y++;
