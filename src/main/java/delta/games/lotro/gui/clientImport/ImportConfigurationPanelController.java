@@ -6,7 +6,6 @@ import java.awt.Insets;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.swing.Box;
 import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
@@ -45,9 +44,7 @@ public class ImportConfigurationPanelController implements Disposable
   private JPanel buildPanel()
   {
     JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
-    GridBagConstraints cStrut=new GridBagConstraints(1,0,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
-    ret.add(Box.createHorizontalStrut(150),cStrut);
-    int row=1;
+    int row=0;
     for(ExtractableElement element : ExtractableElement.values())
     {
       CheckboxController checkbox=new CheckboxController(element.getLabel());

@@ -47,13 +47,13 @@ public class ExtractionResultsPanelController implements Disposable
   {
     JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
     GridBagConstraints cStrut=new GridBagConstraints(1,0,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
-    ret.add(Box.createHorizontalStrut(150),cStrut);
+    ret.add(Box.createHorizontalStrut(100),cStrut);
     int row=1;
     for(ExtractableElement element : ExtractableElement.values())
     {
       // Element label
-      JLabel elementLabel=GuiFactory.buildLabel(element.getLabel());
-      GridBagConstraints c=new GridBagConstraints(0,row,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+      JLabel elementLabel=GuiFactory.buildLabel(element.getLabel()+":");
+      GridBagConstraints c=new GridBagConstraints(0,row,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,5,2,5),0,0);
       ret.add(elementLabel,c);
       // State label
       c.gridx++;

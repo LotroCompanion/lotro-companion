@@ -41,6 +41,7 @@ public class ClientImportDialogController extends DefaultDialogController implem
   private JButton _startButton;
   // Child controllers
   private ImportConfigurationPanelController _configCtrl;
+  private ClientImportHowToPanelController _howToCtrl;
   private ImportResultDisplayController _displayCtrl;
 
   /**
@@ -88,21 +89,27 @@ public class ClientImportDialogController extends DefaultDialogController implem
   protected JComponent buildContents()
   {
     JPanel ret=GuiFactory.buildBackgroundPanel(new GridBagLayout());
+    // How-to panel
+    _howToCtrl=new ClientImportHowToPanelController();
+    JComponent howTo=_howToCtrl.getHowToGadget();
+    howTo.setBorder(GuiFactory.buildTitledBorder("How To?"));
+    GridBagConstraints c=new GridBagConstraints(0,0,2,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    ret.add(howTo,c);
     // Configuration panel
     _configCtrl=new ImportConfigurationPanelController();
     JPanel configurationPanel=_configCtrl.getPanel();
     configurationPanel.setBorder(GuiFactory.buildTitledBorder("Configuration"));
-    GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    c=new GridBagConstraints(0,1,1,1,0.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     ret.add(configurationPanel,c);
     // Commands panel
     JPanel commandPanel=buildCommandsPanel();
-    c=new GridBagConstraints(1,0,1,1,1.0,1.0,GridBagConstraints.SOUTHEAST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    c=new GridBagConstraints(0,2,1,1,0.0,0.0,GridBagConstraints.NORTH,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     ret.add(commandPanel,c);
     // Display panel
     _displayCtrl=new ImportResultDisplayController();
     JPanel displayPanel=_displayCtrl.getPanel();
     displayPanel.setBorder(GuiFactory.buildTitledBorder("Results"));
-    c=new GridBagConstraints(0,1,2,1,1.0,1.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    c=new GridBagConstraints(1,1,1,2,1.0,1.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     ret.add(displayPanel,c);
     return ret;
   }
