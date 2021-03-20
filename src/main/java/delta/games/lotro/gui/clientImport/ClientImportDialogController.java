@@ -18,6 +18,7 @@ import delta.common.ui.swing.windows.DefaultDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.dat.data.DataFacade;
 import delta.games.lotro.memory.extraction.CharExtractor;
+import delta.games.lotro.memory.facade.data.ImportConfiguration;
 import delta.games.lotro.memory.facade.data.ImportStatus;
 import delta.games.lotro.memory.facade.data.ImportStatusData;
 import delta.games.lotro.memory.facade.data.ImportStatusListener;
@@ -131,11 +132,12 @@ public class ClientImportDialogController extends DefaultDialogController implem
     DataFacade dataFacade=datInterface.getFacade();
     final MemoryAccess memoryAccess=buildMemoryAccess();
     final CharExtractor extractor=new CharExtractor(dataFacade);
+    final ImportConfiguration config=_configCtrl.getConfig();
     Runnable r=new Runnable()
     {
       public void run()
       {
-        extractor.doIt(memoryAccess,ClientImportDialogController.this);
+        extractor.doIt(memoryAccess,config,ClientImportDialogController.this);
       }
     };
     Thread t=new Thread(r,"Import worker");
@@ -174,6 +176,7 @@ public class ClientImportDialogController extends DefaultDialogController implem
     // Start button
     boolean enabled=getStartButtonState(data);
     _startButton.setEnabled(enabled);
+    _configCtrl.setUiState(enabled);
   }
 
   private boolean getStartButtonState(ImportStatusData data)

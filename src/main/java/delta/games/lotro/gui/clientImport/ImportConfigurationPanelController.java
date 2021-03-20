@@ -13,6 +13,7 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.checkbox.CheckboxController;
 import delta.common.ui.swing.misc.Disposable;
 import delta.games.lotro.memory.extraction.ExtractableElement;
+import delta.games.lotro.memory.facade.data.ImportConfiguration;
 
 /**
  * Panel controller for the import configuration.
@@ -50,6 +51,7 @@ public class ImportConfigurationPanelController implements Disposable
     for(ExtractableElement element : ExtractableElement.values())
     {
       CheckboxController checkbox=new CheckboxController(element.getLabel());
+      checkbox.setSelected(true);
       _gadgets.put(element,checkbox);
       GridBagConstraints c=new GridBagConstraints(0,row,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
       ret.add(checkbox.getCheckbox(),c);
@@ -71,6 +73,33 @@ public class ImportConfigurationPanelController implements Disposable
       return checkbox.isSelected();
     }
     return false;
+  }
+
+  /**
+   * Get the edited configuration.
+   * @return a configuration.
+   */
+  public ImportConfiguration getConfig()
+  {
+    ImportConfiguration config=new ImportConfiguration();
+    for(ExtractableElement element : ExtractableElement.values())
+    {
+      boolean isEnabled=isEnabled(element);
+      config.setEnabled(element,isEnabled);
+    }
+    return config;
+  }
+
+  /**
+   * Set the UI state.
+   * @param enabled Enabled/disabled.
+   */
+  public void setUiState(boolean enabled)
+  {
+    for(CheckboxController checkbox : _gadgets.values())
+    {
+      checkbox.setState(enabled);
+    }
   }
 
   @Override
