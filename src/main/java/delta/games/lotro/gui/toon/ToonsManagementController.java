@@ -1,25 +1,31 @@
 package delta.games.lotro.gui.toon;
 
 import java.awt.BorderLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.List;
 
+import javax.swing.Box;
+import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JToolBar;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.tables.GenericTableController;
+import delta.common.ui.swing.tables.TableColumnsChooserController;
 import delta.common.ui.swing.toolbar.ToolbarController;
 import delta.common.ui.swing.toolbar.ToolbarIconItem;
 import delta.common.ui.swing.toolbar.ToolbarModel;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.ui.swing.windows.WindowsManager;
+import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.CharacterDataSummary;
 import delta.games.lotro.character.CharacterFile;
@@ -30,6 +36,7 @@ import delta.games.lotro.character.events.CharacterEvent;
 import delta.games.lotro.character.events.CharacterEventType;
 import delta.games.lotro.character.io.xml.CharacterXMLParser;
 import delta.games.lotro.gui.character.CharacterFileWindowController;
+import delta.games.lotro.gui.main.GlobalPreferences;
 import delta.games.lotro.utils.events.EventsManager;
 import delta.games.lotro.utils.events.GenericEventsListener;
 import delta.games.lotro.utils.gui.filechooser.FileChooserController;
@@ -77,14 +84,40 @@ public class ToonsManagementController implements ActionListener,GenericEventsLi
   private JPanel buildPanel()
   {
     JPanel ret=GuiFactory.buildBackgroundPanel(new BorderLayout());
-    _toolbar=buildToolBar();
-    JToolBar toolbar=_toolbar.getToolBar();
-    ret.add(toolbar,BorderLayout.NORTH);
+    JPanel topPanel=buildTopPanel();
+    ret.add(topPanel,BorderLayout.NORTH);
     _toonsTable=buildToonsTable();
     refreshTable();
     JTable table=_toonsTable.getTable();
     JScrollPane scroll=GuiFactory.buildScrollPane(table);
     ret.add(scroll,BorderLayout.CENTER);
+    return ret;
+  }
+
+  private JPanel buildTopPanel()
+  {
+    // Toolbar
+    _toolbar=buildToolBar();
+    // Columns chooser
+    JButton choose=GuiFactory.buildButton("Choose columns...");
+    ActionListener al=new ActionListener()
+    {
+      @Override
+      public void actionPerformed(ActionEvent e)
+      {
+        TableColumnsChooserController<CharacterFile> chooser=new TableColumnsChooserController<CharacterFile>(_parentController,_toonsTable.getTableController());
+        chooser.editModal();
+      }
+    };
+    choose.addActionListener(al);
+    // Assembly
+    JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,5,2,5),0,0);
+    ret.add(_toolbar.getToolBar(),c);
+    c=new GridBagConstraints(1,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,5,2,5),0,0);
+    ret.add(choose,c);
+    c=new GridBagConstraints(2,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(2,5,2,5),0,0);
+    ret.add(Box.createHorizontalGlue(),c);
     return ret;
   }
 
@@ -118,7 +151,8 @@ public class ToonsManagementController implements ActionListener,GenericEventsLi
 
   private ToonsTableController buildToonsTable()
   {
-    ToonsTableController tableController=new ToonsTableController();
+    TypedProperties prefs=GlobalPreferences.getGlobalProperties("MainCharTable");
+    ToonsTableController tableController=new ToonsTableController(prefs);
     tableController.addActionListener(this);
     return tableController;
   }

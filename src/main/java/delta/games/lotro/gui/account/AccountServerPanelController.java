@@ -14,10 +14,12 @@ import javax.swing.JTable;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.ui.swing.windows.WindowsManager;
+import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.account.Account;
 import delta.games.lotro.account.AccountUtils;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.gui.character.storage.AccountStorageDisplayWindowController;
+import delta.games.lotro.gui.main.GlobalPreferences;
 import delta.games.lotro.gui.toon.ToonsTableController;
 
 /**
@@ -90,7 +92,8 @@ public class AccountServerPanelController implements ActionListener
 
   private ToonsTableController buildToonsTable()
   {
-    ToonsTableController tableController=new ToonsTableController();
+    TypedProperties prefs=GlobalPreferences.getGlobalProperties("AccountServerCharTable");
+    ToonsTableController tableController=new ToonsTableController(prefs);
     List<CharacterFile> characters=AccountUtils.getCharacters(_account.getName(),_server);
     tableController.setToons(characters);
     return tableController;

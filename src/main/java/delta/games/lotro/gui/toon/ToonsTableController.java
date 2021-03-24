@@ -14,6 +14,8 @@ import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.GenericTableController.DateRenderer;
 import delta.common.ui.swing.tables.ListDataProvider;
 import delta.common.ui.swing.tables.Sort;
+import delta.common.ui.swing.tables.TableColumnsManager;
+import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharacterSummary;
 import delta.games.lotro.character.details.CharacterDetails;
@@ -25,6 +27,7 @@ import delta.games.lotro.common.Duration;
 import delta.games.lotro.common.Race;
 import delta.games.lotro.common.money.Money;
 import delta.games.lotro.common.money.comparator.MoneyComparator;
+import delta.games.lotro.gui.items.chooser.ItemChooser;
 import delta.games.lotro.gui.items.chooser.ItemsTableBuilder;
 import delta.games.lotro.lore.titles.TitleDescription;
 import delta.games.lotro.lore.titles.TitlesManager;
@@ -38,10 +41,8 @@ import delta.games.lotro.utils.events.GenericEventsListener;
  */
 public class ToonsTableController implements GenericEventsListener<CharacterEvent>
 {
-  private static final String NAME="NAME";
-  private static final String SERVER="SERVER";
-
   // Data
+  private TypedProperties _prefs;
   private List<CharacterFile> _toons;
   // GUI
   private JTable _table;
@@ -49,9 +50,11 @@ public class ToonsTableController implements GenericEventsListener<CharacterEven
 
   /**
    * Constructor.
+   * @param prefs Preferences.
    */
-  public ToonsTableController()
+  public ToonsTableController(TypedProperties prefs)
   {
+    _prefs=prefs;
     _toons=new ArrayList<CharacterFile>();
     _tableController=buildTable();
     EventsManager.addListener(CharacterEvent.class,this);
@@ -73,7 +76,7 @@ public class ToonsTableController implements GenericEventsListener<CharacterEven
           return data.getName();
         }
       };
-      DefaultTableColumnController<CharacterFile,String> nameColumn=new DefaultTableColumnController<CharacterFile,String>(NAME,"Name",String.class,nameCell);
+      DefaultTableColumnController<CharacterFile,String> nameColumn=new DefaultTableColumnController<CharacterFile,String>(ToonsTableColumnIds.NAME.name(),"Name",String.class,nameCell);
       nameColumn.setWidthSpecs(100,100,100);
       table.addColumnController(nameColumn);
     }
@@ -88,7 +91,7 @@ public class ToonsTableController implements GenericEventsListener<CharacterEven
           return data.getRace();
         }
       };
-      DefaultTableColumnController<CharacterFile,Race> raceColumn=new DefaultTableColumnController<CharacterFile,Race>("Race",Race.class,raceCell);
+      DefaultTableColumnController<CharacterFile,Race> raceColumn=new DefaultTableColumnController<CharacterFile,Race>(ToonsTableColumnIds.RACE.name(),"Race",Race.class,raceCell);
       raceColumn.setWidthSpecs(100,100,100);
       table.addColumnController(raceColumn);
     }
@@ -103,7 +106,7 @@ public class ToonsTableController implements GenericEventsListener<CharacterEven
           return data.getCharacterClass();
         }
       };
-      DefaultTableColumnController<CharacterFile,CharacterClass> classColumn=new DefaultTableColumnController<CharacterFile,CharacterClass>("Class",CharacterClass.class,classCell);
+      DefaultTableColumnController<CharacterFile,CharacterClass> classColumn=new DefaultTableColumnController<CharacterFile,CharacterClass>(ToonsTableColumnIds.CLASS.name(),"Class",CharacterClass.class,classCell);
       classColumn.setWidthSpecs(100,100,100);
       table.addColumnController(classColumn);
     }
@@ -118,7 +121,7 @@ public class ToonsTableController implements GenericEventsListener<CharacterEven
           return data.getCharacterSex();
         }
       };
-      DefaultTableColumnController<CharacterFile,CharacterSex> sexColumn=new DefaultTableColumnController<CharacterFile,CharacterSex>("Sex",CharacterSex.class,sexCell);
+      DefaultTableColumnController<CharacterFile,CharacterSex> sexColumn=new DefaultTableColumnController<CharacterFile,CharacterSex>(ToonsTableColumnIds.SEX.name(),"Sex",CharacterSex.class,sexCell);
       sexColumn.setWidthSpecs(80,80,80);
       table.addColumnController(sexColumn);
     }
@@ -133,7 +136,7 @@ public class ToonsTableController implements GenericEventsListener<CharacterEven
           return data.getRegion();
         }
       };
-      DefaultTableColumnController<CharacterFile,String> regionColumn=new DefaultTableColumnController<CharacterFile,String>("Region",String.class,regionCell);
+      DefaultTableColumnController<CharacterFile,String> regionColumn=new DefaultTableColumnController<CharacterFile,String>(ToonsTableColumnIds.REGION.name(),"Region",String.class,regionCell);
       regionColumn.setWidthSpecs(100,100,100);
       table.addColumnController(regionColumn);
     }
@@ -148,9 +151,9 @@ public class ToonsTableController implements GenericEventsListener<CharacterEven
           return Integer.valueOf(data.getLevel());
         }
       };
-      DefaultTableColumnController<CharacterFile,Integer> serverColumn=new DefaultTableColumnController<CharacterFile,Integer>("Level",Integer.class,levelCell);
-      serverColumn.setWidthSpecs(80,80,80);
-      table.addColumnController(serverColumn);
+      DefaultTableColumnController<CharacterFile,Integer> levelColumn=new DefaultTableColumnController<CharacterFile,Integer>(ToonsTableColumnIds.LEVEL.name(),"Level",Integer.class,levelCell);
+      levelColumn.setWidthSpecs(50,50,50);
+      table.addColumnController(levelColumn);
     }
     // Server column
     {
@@ -163,7 +166,7 @@ public class ToonsTableController implements GenericEventsListener<CharacterEven
           return data.getServer();
         }
       };
-      DefaultTableColumnController<CharacterFile,String> serverColumn=new DefaultTableColumnController<CharacterFile,String>(SERVER,"Server",String.class,serverCell);
+      DefaultTableColumnController<CharacterFile,String> serverColumn=new DefaultTableColumnController<CharacterFile,String>(ToonsTableColumnIds.SERVER.name(),"Server",String.class,serverCell);
       serverColumn.setWidthSpecs(100,100,100);
       table.addColumnController(serverColumn);
     }
@@ -177,33 +180,21 @@ public class ToonsTableController implements GenericEventsListener<CharacterEven
           return item.getAccountName();
         }
       };
-      DefaultTableColumnController<CharacterFile,String> accountColumn=new DefaultTableColumnController<CharacterFile,String>("Account",String.class,accountCell);
+      DefaultTableColumnController<CharacterFile,String> accountColumn=new DefaultTableColumnController<CharacterFile,String>(ToonsTableColumnIds.ACCOUNT.name(),"Account",String.class,accountCell);
       accountColumn.setWidthSpecs(100,100,100);
       table.addColumnController(accountColumn);
     }
-    // Last update time
-    /*
-    {
-      CellDataProvider<CharacterFile,Date> lastUpdateCell=new CellDataProvider<CharacterFile,Date>()
-      {
-        public Date getData(CharacterFile item)
-        {
-          return item.getLastInfoUpdate();
-        }
-      };
-      TableColumnController<CharacterFile,Date> lastUpdateColumn=new TableColumnController<CharacterFile,Date>("Last update",Date.class,lastUpdateCell);
-      lastUpdateColumn.setWidthSpecs(100,-1,100);
-      lastUpdateColumn.setCellRenderer(new DateRenderer(Formats.DATE_PATTERN));
-      table.addColumnController(lastUpdateColumn);
-    }
-    */
     List<DefaultTableColumnController<CharacterFile,?>> detailsColumns=getDetailsColumns();
     for(DefaultTableColumnController<CharacterFile,?> column : detailsColumns)
     {
       table.addColumnController(column);
     }
-    String sort=Sort.SORT_ASCENDING+NAME+Sort.SORT_ITEM_SEPARATOR+Sort.SORT_ASCENDING+SERVER;
+    String sort=Sort.SORT_ASCENDING+ToonsTableColumnIds.NAME+Sort.SORT_ITEM_SEPARATOR+Sort.SORT_ASCENDING+ToonsTableColumnIds.SERVER;
     table.setSort(Sort.buildFromString(sort));
+
+    TableColumnsManager<CharacterFile> columnsManager=table.getColumnsManager();
+    List<String> columnsIds=getColumnIds();
+    columnsManager.setColumns(columnsIds);
     return table;
   }
 
@@ -221,7 +212,7 @@ public class ToonsTableController implements GenericEventsListener<CharacterEven
           return Long.valueOf(data.getXp());
         }
       };
-      DefaultTableColumnController<CharacterFile,Long> xpColumn=new DefaultTableColumnController<CharacterFile,Long>("XP","XP",Long.class,xpCell);
+      DefaultTableColumnController<CharacterFile,Long> xpColumn=new DefaultTableColumnController<CharacterFile,Long>(ToonsTableColumnIds.XP.name(),"XP",Long.class,xpCell);
       xpColumn.setWidthSpecs(80,80,80);
       ret.add(xpColumn);
     }
@@ -236,7 +227,7 @@ public class ToonsTableController implements GenericEventsListener<CharacterEven
           return Integer.valueOf(data.getIngameTime());
         }
       };
-      DefaultTableColumnController<CharacterFile,Integer> cooldownColumn=new DefaultTableColumnController<CharacterFile,Integer>("INGAME_TIME","In-game Time",Integer.class,cooldownCell);
+      DefaultTableColumnController<CharacterFile,Integer> cooldownColumn=new DefaultTableColumnController<CharacterFile,Integer>(ToonsTableColumnIds.INGAME_TIME.name(),"In-game Time",Integer.class,cooldownCell);
       cooldownColumn.setWidthSpecs(120,120,120);
       DefaultTableCellRenderer renderer=new DefaultTableCellRenderer()
       {
@@ -261,8 +252,8 @@ public class ToonsTableController implements GenericEventsListener<CharacterEven
           return data.getMoney();
         }
       };
-      DefaultTableColumnController<CharacterFile,Money> moneyColumn=new DefaultTableColumnController<CharacterFile,Money>("MONEY","Money",Money.class,moneyCell);
-      moneyColumn.setWidthSpecs(120,180,180);
+      DefaultTableColumnController<CharacterFile,Money> moneyColumn=new DefaultTableColumnController<CharacterFile,Money>(ToonsTableColumnIds.MONEY.name(),"Money",Money.class,moneyCell);
+      moneyColumn.setWidthSpecs(180,180,180);
       moneyColumn.setCellRenderer(ItemsTableBuilder.buildMoneyCellRenderer());
       moneyColumn.setComparator(new MoneyComparator());
       ret.add(moneyColumn);
@@ -277,7 +268,7 @@ public class ToonsTableController implements GenericEventsListener<CharacterEven
           return data.getLastLogoutDate();
         }
       };
-      DefaultTableColumnController<CharacterFile,Long> lastLogoutColumn=new DefaultTableColumnController<CharacterFile,Long>("LAST_LOGOUT_DATE","Last logout",Long.class,lastLogoutCell);
+      DefaultTableColumnController<CharacterFile,Long> lastLogoutColumn=new DefaultTableColumnController<CharacterFile,Long>(ToonsTableColumnIds.LAST_LOGOUT_DATE.name(),"Last logout",Long.class,lastLogoutCell);
       lastLogoutColumn.setWidthSpecs(120,120,120);
       lastLogoutColumn.setCellRenderer(new DateRenderer(Formats.DATE_TIME_PATTERN));
       ret.add(lastLogoutColumn);
@@ -302,7 +293,7 @@ public class ToonsTableController implements GenericEventsListener<CharacterEven
           return titleName;
         }
       };
-      DefaultTableColumnController<CharacterFile,String> titleColumn=new DefaultTableColumnController<CharacterFile,String>("TITLE","Title",String.class,titleCell);
+      DefaultTableColumnController<CharacterFile,String> titleColumn=new DefaultTableColumnController<CharacterFile,String>(ToonsTableColumnIds.TITLE.name(),"Title",String.class,titleCell);
       titleColumn.setWidthSpecs(100,-1,200);
       ret.add(titleColumn);
     }
@@ -310,6 +301,28 @@ public class ToonsTableController implements GenericEventsListener<CharacterEven
     return ret;
   }
 
+
+  private List<String> getColumnIds()
+  {
+    List<String> columnIds=null;
+    if (_prefs!=null)
+    {
+      columnIds=_prefs.getStringList(ItemChooser.COLUMNS_PROPERTY);
+    }
+    if (columnIds==null)
+    {
+      columnIds=new ArrayList<String>();
+      columnIds.add(ToonsTableColumnIds.NAME.name());
+      columnIds.add(ToonsTableColumnIds.CLASS.name());
+      columnIds.add(ToonsTableColumnIds.RACE.name());
+      columnIds.add(ToonsTableColumnIds.LEVEL.name());
+      columnIds.add(ToonsTableColumnIds.SERVER.name());
+      columnIds.add(ToonsTableColumnIds.MONEY.name());
+      columnIds.add(ToonsTableColumnIds.INGAME_TIME.name());
+      columnIds.add(ToonsTableColumnIds.TITLE.name());
+    }
+    return columnIds;
+  }
   /**
    * Get the managed table controller.
    * @return the managed table controller.
@@ -401,6 +414,13 @@ public class ToonsTableController implements GenericEventsListener<CharacterEven
   {
     // Listeners
     EventsManager.removeListener(CharacterEvent.class,this);
+    // Preferences
+    if (_prefs!=null)
+    {
+      List<String> columnIds=_tableController.getColumnsManager().getSelectedColumnsIds();
+      _prefs.setStringList(ItemChooser.COLUMNS_PROPERTY,columnIds);
+      _prefs=null;
+    }
     // GUI
     _table=null;
     if (_tableController!=null)
