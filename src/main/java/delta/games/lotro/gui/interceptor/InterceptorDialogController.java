@@ -292,17 +292,15 @@ public class InterceptorDialogController extends DefaultDialogController impleme
       public void run()
       {
         _started=running;
-        if (running)
+        if (_settingsButton!=null)
         {
-          _startStopButton.setText("Stop");
-          _settingsButton.setEnabled(false);
+          _settingsButton.setEnabled(!running);
         }
-        else
+        if (_startStopButton!=null)
         {
-          _startStopButton.setText("Start");
-          _settingsButton.setEnabled(true);
+          _startStopButton.setText(running?"Stop":"Start");
+          _startStopButton.setEnabled(true);
         }
-        _startStopButton.setEnabled(true);
       }
     };
     SwingUtilities.invokeLater(r);
