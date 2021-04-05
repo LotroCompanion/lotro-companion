@@ -32,6 +32,8 @@ import delta.games.lotro.character.CharacterEquipment.SlotContents;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.events.CharacterEvent;
 import delta.games.lotro.character.events.CharacterEventType;
+import delta.games.lotro.character.storage.bags.BagsManager;
+import delta.games.lotro.character.storage.bags.io.BagsIo;
 import delta.games.lotro.character.storage.stash.ItemsStash;
 import delta.games.lotro.character.utils.CharacterGearUpdater;
 import delta.games.lotro.gui.items.ItemInstanceEditionWindowController;
@@ -81,6 +83,7 @@ public class EquipmentPanelController implements ActionListener
   private static final String EDIT_COMMAND="edit";
   private static final String CHOOSE_COMMAND="choose";
   private static final String CHOOSE_FROM_STASH_COMMAND="chooseFromStash";
+  private static final String CHOOSE_FROM_BAGS_COMMAND="chooseFromBags";
   private static final String CHOOSE_FROM_GAME_COMMAND="chooseFromGame";
   private static final String REMOVE_COMMAND="remove";
   private static final String COPY_TO_STASH_COMMAND="toStash";
@@ -180,6 +183,11 @@ public class EquipmentPanelController implements ActionListener
     choose.setActionCommand(CHOOSE_COMMAND);
     choose.addActionListener(this);
     popup.add(choose);
+    // Choose from bags...
+    JMenuItem choosefromBags=new JMenuItem("Choose from bags...");
+    choosefromBags.setActionCommand(CHOOSE_FROM_BAGS_COMMAND);
+    choosefromBags.addActionListener(this);
+    popup.add(choosefromBags);
     // Choose from stash...
     JMenuItem choosefromStash=new JMenuItem("Choose from stash...");
     choosefromStash.setActionCommand(CHOOSE_FROM_STASH_COMMAND);
@@ -364,6 +372,19 @@ public class EquipmentPanelController implements ActionListener
     }
   }
 
+  private void handleChooseItemInstanceFromBags(EQUIMENT_SLOT slot)
+  {
+    ItemInstance<? extends Item> itemInstance=chooseItemInstanceFromBags(slot);
+    if (itemInstance!=null)
+    {
+      CharacterEquipment equipment=_toonData.getEquipment();
+      SlotContents contents=equipment.getSlotContents(slot,true);
+      ItemInstance<? extends Item> instance=ItemFactory.cloneInstance(itemInstance);
+      contents.setItem(instance);
+      refreshToon();
+    }
+  }
+
   private void handleChooseItemInstanceFromGame(EQUIMENT_SLOT slot)
   {
     ItemInstance<? extends Item> itemInstance=chooseItemInstanceFromGame(slot);
@@ -395,6 +416,13 @@ public class EquipmentPanelController implements ActionListener
     ItemsStash stash=_toon.getStash();
     List<ItemInstance<? extends Item>> items=stash.getAll();
     return chooseItemInstance(items,slot,"ItemFilter_Stash");
+  }
+
+  private ItemInstance<? extends Item> chooseItemInstanceFromBags(EQUIMENT_SLOT slot)
+  {
+    BagsManager bags=BagsIo.load(_toon);
+    List<ItemInstance<? extends Item>> items=bags.getAll();
+    return chooseItemInstance(items,slot,"ItemFilter_Bags");
   }
 
   private ItemInstance<? extends Item> chooseItemInstanceFromGame(EQUIMENT_SLOT slot)
@@ -529,6 +557,10 @@ public class EquipmentPanelController implements ActionListener
         else if (CHOOSE_FROM_STASH_COMMAND.equals(cmd))
         {
           handleChooseItemInstanceFromStash(slot);
+        }
+        else if (CHOOSE_FROM_BAGS_COMMAND.equals(cmd))
+        {
+          handleChooseItemInstanceFromBags(slot);
         }
         else if (CHOOSE_FROM_GAME_COMMAND.equals(cmd))
         {
