@@ -9,7 +9,6 @@ import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.gui.items.chooser.ItemChoiceTableColumnsManager;
 import delta.games.lotro.gui.items.chooser.ItemChooser;
-import delta.games.lotro.gui.items.chooser.ItemInstancesTableBuilder;
 import delta.games.lotro.gui.items.essences.EssenceChoice;
 
 /**
@@ -36,16 +35,14 @@ public class CharacterPreferencesManager
         List<String> columnIds=props.getStringList(ItemChooser.COLUMNS_PROPERTY);
         if (columnIds==null)
         {
-          String slotKey=id.substring(id.indexOf("#")+1);
-          EQUIMENT_SLOT slot=EQUIMENT_SLOT.valueOf(slotKey);
-          CharacterClass characterClass=toonFile.getSummary().getCharacterClass();
-          columnIds=ItemChoiceTableColumnsManager.getItemChoiceColumns(characterClass,slot);
+          columnIds=ItemChoiceTableColumnsManager.getItemChoiceItemColumns();
+          columnIds.addAll(getDefaultItemColumnsUsingClassAndSlot(toonFile,id));
           props.setStringList(ItemChooser.COLUMNS_PROPERTY,columnIds);
           prefs.savePreferences(props);
         }
       }
     }
-    else if (ItemChooser.ITEM_INSTANCE_CHOOSER_PROPERTIES_ID.equals(id))
+    else if (id.startsWith(ItemChooser.ITEM_INSTANCE_CHOOSER_PROPERTIES_ID))
     {
       if (toonFile!=null)
       {
@@ -54,7 +51,8 @@ public class CharacterPreferencesManager
         List<String> columnIds=props.getStringList(ItemChooser.COLUMNS_PROPERTY);
         if (columnIds==null)
         {
-          columnIds=ItemInstancesTableBuilder.getDefaultColumnIds();
+          columnIds=ItemChoiceTableColumnsManager.getItemInstanceChoiceItemColumns();
+          columnIds.addAll(getDefaultItemColumnsUsingClassAndSlot(toonFile,id));
           props.setStringList(ItemChooser.COLUMNS_PROPERTY,columnIds);
           prefs.savePreferences(props);
         }
@@ -79,5 +77,14 @@ public class CharacterPreferencesManager
       props=prefs.getPreferences(id);
     }
     return props;
+  }
+
+  private static List<String> getDefaultItemColumnsUsingClassAndSlot(CharacterFile toonFile, String propsSetId)
+  {
+    String slotKey=propsSetId.substring(propsSetId.indexOf("#")+1);
+    EQUIMENT_SLOT slot=EQUIMENT_SLOT.valueOf(slotKey);
+    CharacterClass characterClass=toonFile.getSummary().getCharacterClass();
+    List<String> columnIds=ItemChoiceTableColumnsManager.getItemChoiceColumnsUsingClassAndSlot(characterClass,slot);
+    return columnIds;
   }
 }

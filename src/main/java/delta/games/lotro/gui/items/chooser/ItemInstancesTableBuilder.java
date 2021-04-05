@@ -1,5 +1,7 @@
 package delta.games.lotro.gui.items.chooser;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -16,11 +18,13 @@ import delta.common.ui.swing.tables.ListDataProvider;
 import delta.common.ui.swing.tables.ProxiedTableColumnController;
 import delta.common.ui.swing.tables.TableColumnController;
 import delta.common.ui.swing.tables.TableColumnsManager;
+import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.common.colors.ColorDescription;
 import delta.games.lotro.common.id.InternalGameId;
 import delta.games.lotro.common.money.Money;
 import delta.games.lotro.gui.items.ItemColumnIds;
 import delta.games.lotro.gui.items.ItemInstanceColumnIds;
+import delta.games.lotro.gui.items.ItemUiTools;
 import delta.games.lotro.gui.utils.InternalGameIdRenderer;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemInstance;
@@ -74,6 +78,32 @@ public class ItemInstancesTableBuilder
   }
 
   /**
+   * Add a details column on the given table.
+   * @param parent Parent window.
+   * @param table Table to use.
+   * @return A column controller.
+   */
+  public static DefaultTableColumnController<ItemInstance<? extends Item>,String> addDetailsColumn(final WindowController parent, GenericTableController<ItemInstance<? extends Item>> table)
+  {
+    DefaultTableColumnController<ItemInstance<? extends Item>,String> column=table.buildButtonColumn(ItemColumnIds.DETAILS.name(),"Details...",90);
+    ActionListener al=new ActionListener()
+    {
+      @Override
+      public void actionPerformed(ActionEvent e)
+      {
+        @SuppressWarnings("unchecked")
+        ItemInstance<? extends Item> source=(ItemInstance<? extends Item>)e.getSource();
+        Item sourceItem=source.getReference();
+        ItemUiTools.showItemForm(parent,sourceItem);
+      }
+    };
+    column.setActionListener(al);
+    table.addColumnController(column);
+    table.updateColumns();
+    return column;
+  }
+
+  /**
    * Build a list of all managed columns.
    * @return A list of column controllers.
    */
@@ -94,23 +124,12 @@ public class ItemInstancesTableBuilder
     List<DefaultTableColumnController<Item,?>> itemColumns=ItemsTableBuilder.initColumns();
     for(TableColumnController<Item,?> itemColumn : itemColumns)
     {
-      String columnId=itemColumn.getId();
-      if (acceptItemColumn(columnId))
-      {
-        @SuppressWarnings("unchecked")
-        TableColumnController<Item,Object> c=(TableColumnController<Item,Object>)itemColumn;
-        ProxiedTableColumnController<ItemInstance<? extends Item>,Item,Object> column=new ProxiedTableColumnController<ItemInstance<? extends Item>,Item,Object>(c,dataProvider);
-        columns.add(column);
-      }
+      @SuppressWarnings("unchecked")
+      TableColumnController<Item,Object> c=(TableColumnController<Item,Object>)itemColumn;
+      ProxiedTableColumnController<ItemInstance<? extends Item>,Item,Object> column=new ProxiedTableColumnController<ItemInstance<? extends Item>,Item,Object>(c,dataProvider);
+      columns.add(column);
     }
     return columns;
-  }
-
-  private static boolean acceptItemColumn(String id)
-  {
-    if (id.equals(ItemColumnIds.ICON.name())) return true;
-    if (id.equals(ItemColumnIds.NAME.name())) return true;
-    return false;
   }
 
   /**
@@ -203,7 +222,7 @@ public class ItemInstancesTableBuilder
         @Override
         public Integer getData(ItemInstance<? extends Item> item)
         {
-          return item.getItemLevel();
+          return item.getEffectiveItemLevel();
         }
       };
       DefaultTableColumnController<ItemInstance<? extends Item>,Integer> column=new DefaultTableColumnController<ItemInstance<? extends Item>,Integer>(ItemInstanceColumnIds.INSTANCE_ITEM_LEVEL.name(),"Item Level",Integer.class,cell);

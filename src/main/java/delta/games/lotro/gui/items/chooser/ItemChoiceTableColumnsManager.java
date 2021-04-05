@@ -7,6 +7,7 @@ import delta.games.lotro.character.CharacterEquipment.EQUIMENT_SLOT;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.stats.WellKnownStat;
 import delta.games.lotro.gui.items.ItemColumnIds;
+import delta.games.lotro.gui.items.ItemInstanceColumnIds;
 
 /**
  * Manages the columns to show for item/essence choice table.
@@ -32,18 +33,42 @@ public class ItemChoiceTableColumnsManager
   }
 
   /**
-   * Get the default columns to display for the item chooser.
-   * @param characterClass Targeted class.
-   * @param slot Targeted slot.
+   * Get the default item columns to display for the item chooser.
    * @return A list of column identifiers for the items chooser table.
    */
-  public static List<String> getItemChoiceColumns(CharacterClass characterClass, EQUIMENT_SLOT slot)
+  public static List<String> getItemChoiceItemColumns()
   {
     List<String> ret=new ArrayList<String>();
     ret.add(ItemColumnIds.ICON.name());
     ret.add(ItemColumnIds.ID.name());
     ret.add(ItemColumnIds.NAME.name());
     ret.add(ItemColumnIds.ITEM_LEVEL.name());
+    return ret;
+  }
+
+  /**
+   * Get the default item columns to display for the item chooser.
+   * @return A list of column identifiers for the items chooser table.
+   */
+  public static List<String> getItemInstanceChoiceItemColumns()
+  {
+    List<String> ret=new ArrayList<String>();
+    ret.add(ItemColumnIds.ICON.name());
+    ret.add(ItemColumnIds.ID.name());
+    ret.add(ItemColumnIds.NAME.name());
+    ret.add(ItemInstanceColumnIds.INSTANCE_ITEM_LEVEL.name());
+    return ret;
+  }
+
+  /**
+   * Get the default columns to display for the item chooser.
+   * @param characterClass Targeted class.
+   * @param slot Targeted slot.
+   * @return A list of column identifiers for the items chooser table.
+   */
+  public static List<String> getItemChoiceColumnsUsingClassAndSlot(CharacterClass characterClass, EQUIMENT_SLOT slot)
+  {
+    List<String> ret=new ArrayList<String>();
     if ((slot==EQUIMENT_SLOT.HEAD) || (slot==EQUIMENT_SLOT.BREAST)
         || (slot==EQUIMENT_SLOT.HANDS) || (slot==EQUIMENT_SLOT.LEGS)
         || (slot==EQUIMENT_SLOT.FEET) || (slot==EQUIMENT_SLOT.SHOULDER))

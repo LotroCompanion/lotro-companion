@@ -440,7 +440,8 @@ public class EquipmentPanelController implements ActionListener
     TypedProperties filterProps=_parentWindow.getUserProperties(propsId);
     ItemFilterController filterController=new ItemFilterController(cfg,_toonData.getSummary(),filterProps);
     Filter<Item> filter=filterController.getFilter();
-    TypedProperties props=_parentWindow.getUserProperties(ItemChooser.ITEM_INSTANCE_CHOOSER_PROPERTIES_ID);
+    String id=ItemChooser.ITEM_INSTANCE_CHOOSER_PROPERTIES_ID+"#"+slot.name();
+    TypedProperties props=_parentWindow.getUserProperties(id);
     ObjectChoiceWindowController<ItemInstance<? extends Item>> chooser=ItemInstanceChooser.buildChooser(_parentWindow,props,selectedInstances,filter,filterController);
     ItemInstance<? extends Item> ret=chooser.editModal();
     return ret;

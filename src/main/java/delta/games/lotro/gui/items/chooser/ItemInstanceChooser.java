@@ -45,6 +45,8 @@ public class ItemInstanceChooser
     // - dimension
     dialog.setMinimumSize(new Dimension(400,300));
     dialog.setSize(1000,dialog.getHeight());
+    // Add details column
+    ItemInstancesTableBuilder.addDetailsColumn(chooser,itemsTable);
     return chooser;
   }
 }
