@@ -18,6 +18,7 @@ import delta.common.ui.swing.windows.DefaultDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.dat.data.DataFacade;
 import delta.games.lotro.memory.extraction.CharExtractor;
+import delta.games.lotro.memory.extraction.MemoryExtractionSession;
 import delta.games.lotro.memory.facade.data.ImportConfiguration;
 import delta.games.lotro.memory.facade.data.ImportStatus;
 import delta.games.lotro.memory.facade.data.ImportStatusData;
@@ -138,13 +139,14 @@ public class ClientImportDialogController extends DefaultDialogController implem
     DatInterface datInterface=DatInterface.getInstance();
     DataFacade dataFacade=datInterface.getFacade();
     final MemoryAccess memoryAccess=buildMemoryAccess();
-    final CharExtractor extractor=new CharExtractor(dataFacade);
     final ImportConfiguration config=_configCtrl.getConfig();
+    MemoryExtractionSession session=new MemoryExtractionSession(memoryAccess,dataFacade,config,this);
+    final CharExtractor extractor=new CharExtractor(session);
     Runnable r=new Runnable()
     {
       public void run()
       {
-        extractor.doIt(memoryAccess,config,ClientImportDialogController.this);
+        extractor.doIt();
       }
     };
     Thread t=new Thread(r,"Import worker");
