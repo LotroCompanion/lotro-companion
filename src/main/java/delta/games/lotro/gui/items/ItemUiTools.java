@@ -25,6 +25,7 @@ import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.gui.navigation.NavigatorFactory;
 import delta.games.lotro.lore.items.ArmourType;
 import delta.games.lotro.lore.items.Item;
+import delta.games.lotro.lore.items.ItemInstance;
 import delta.games.lotro.lore.items.ItemQuality;
 import delta.games.lotro.lore.items.WeaponType;
 
@@ -118,10 +119,22 @@ public class ItemUiTools
       WindowsManager windows=parent.getWindowsManager();
       int id=windows.getAll().size();
       window=NavigatorFactory.buildNavigator(parent,id);
+      windows.registerWindow(window);
     }
     PageIdentifier ref=ReferenceConstants.getItemReference(item.getIdentifier());
     window.navigateTo(ref);
     window.show(false);
+  }
+
+  /**
+   * Show the form window for an item.
+   * @param parent Parent window.
+   * @param itemInstance Item instance to show.
+   */
+  public static void showItemInstanceWindow(WindowController parent, ItemInstance<? extends Item> itemInstance)
+  {
+    ItemInstanceDisplayWindowController newWindow=new ItemInstanceDisplayWindowController(parent,itemInstance);
+    newWindow.show();
   }
 
   /**

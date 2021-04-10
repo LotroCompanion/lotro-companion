@@ -93,8 +93,7 @@ public class ItemInstancesTableBuilder
       {
         @SuppressWarnings("unchecked")
         ItemInstance<? extends Item> source=(ItemInstance<? extends Item>)e.getSource();
-        Item sourceItem=source.getReference();
-        ItemUiTools.showItemForm(parent,sourceItem);
+        ItemUiTools.showItemInstanceWindow(parent,source);
       }
     };
     column.setActionListener(al);
