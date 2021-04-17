@@ -426,11 +426,9 @@ public class ItemInstanceMainAttrsEditionPanelController
   {
     if (itemLevel!=null)
     {
-      Item item=_itemInstance.getReference();
-      StatsProvider provider=item.getStatsProvider();
-      if (provider!=null)
+      BasicStatsSet stats=_itemInstance.getStats(itemLevel.intValue());
+      if (stats!=null)
       {
-        BasicStatsSet stats=provider.getStats(1,itemLevel.intValue(),true);
         setStats(stats);
       }
     }
