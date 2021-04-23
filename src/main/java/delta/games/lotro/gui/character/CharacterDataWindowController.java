@@ -293,9 +293,9 @@ public class CharacterDataWindowController extends DefaultFormDialogController<C
 
   private void updateVirtues()
   {
-    BasicStatsSet buffs=_data.getBuffs().getBuffs(_data);
+    BasicStatsSet stats=_data.getStats();
     VirtuesSet virtues=_data.getVirtues();
-    virtues.setBuffs(buffs);
+    virtues.setContributingStats(stats);
     _virtuesController.setVirtues(virtues);
   }
 
