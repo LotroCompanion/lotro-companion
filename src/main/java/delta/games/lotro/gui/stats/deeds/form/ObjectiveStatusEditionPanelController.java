@@ -11,6 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.games.lotro.character.achievables.AchievableElementState;
 import delta.games.lotro.character.achievables.AchievableObjectiveStatus;
 import delta.games.lotro.character.achievables.ObjectiveConditionStatus;
 import delta.games.lotro.lore.quests.objectives.Objective;
@@ -88,6 +89,26 @@ public class ObjectiveStatusEditionPanelController
     {
       conditionCtrl.updateUi();
     }
+    updateLabel();
+  }
+
+  private void updateLabel()
+  {
+    int completed=0;
+    int max=0;
+    for(ObjectiveConditionStatus conditionStatus : _objectiveStatus.getConditionStatuses())
+    {
+      AchievableElementState status=conditionStatus.getState();
+      if (status==AchievableElementState.COMPLETED)
+      {
+        completed++;
+      }
+      max++;
+    }
+    String templateLabel=getLabel();
+    String resultLabel=templateLabel.replace("${CURRENT}",String.valueOf(completed));
+    resultLabel=resultLabel.replace("${MAX}",String.valueOf(max));
+    _label.setText(resultLabel);
   }
 
   private JPanel build(Icon icon)
@@ -121,7 +142,8 @@ public class ObjectiveStatusEditionPanelController
     _stateCtrl=new AchievableElementStateEditionController(icon);
     // Label
     String label=getLabel();
-    _label=GuiFactory.buildLabel(label);
+    _label=GuiFactory.buildLabel("");
+    updateLabel();
     // Assembly
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.EAST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);

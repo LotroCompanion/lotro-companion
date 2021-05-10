@@ -12,7 +12,6 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.editors.numbers.ProgressAndNumberEditorController;
 import delta.games.lotro.character.achievables.ObjectiveConditionStatus;
 import delta.games.lotro.lore.quests.objectives.ObjectiveCondition;
-import delta.games.lotro.lore.quests.objectives.ObjectivesConstants;
 
 /**
  * Controller for a panel to edit the status of a condition of an objective.
@@ -141,18 +140,15 @@ public class ObjectiveConditionStatusEditionPanelController
    */
   public void updateCount()
   {
-    if (_countEditor!=null)
+    Integer value=_countEditor.getValue();
+    if (value!=null)
     {
-      Integer value=_countEditor.getValue();
-      if (value!=null)
-      {
-        ObjectiveCondition condition=_conditionStatus.getCondition();
-        int count=condition.getCount();
-        String countStatus=value.intValue()+"/"+count;
-        String templateLabel=getLabel();
-        String resultLabel=templateLabel.replace(ObjectivesConstants.COUNT_PATTERN,countStatus);
-        _label.setText(resultLabel);
-      }
+      ObjectiveCondition condition=_conditionStatus.getCondition();
+      int count=condition.getCount();
+      String templateLabel=getLabel();
+      String resultLabel=templateLabel.replace("${NUMBER}",value.toString());
+      resultLabel=resultLabel.replace("${TOTAL}",String.valueOf(count));
+      _label.setText(resultLabel);
     }
   }
 
