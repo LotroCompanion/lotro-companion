@@ -23,6 +23,7 @@ public class ClientDataDisplayPanelController implements Disposable
   private JLabel _serverName;
   private JLabel _language;
   private JLabel _clientType;
+  private JLabel _vault;
 
   /**
    * Constructor.
@@ -46,6 +47,7 @@ public class ClientDataDisplayPanelController implements Disposable
     _serverName=GuiFactory.buildLabel("");
     _language=GuiFactory.buildLabel("");
     _clientType=GuiFactory.buildLabel("");
+    _vault=GuiFactory.buildLabel("");
 
     JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,1.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(2,5,2,0),0,0);
@@ -66,6 +68,11 @@ public class ClientDataDisplayPanelController implements Disposable
     ret.add(GuiFactory.buildLabel("Client type:"),c);
     c.gridx++;
     ret.add(_clientType,c);
+    c.gridx=0;c.gridy++;
+    // Vault
+    ret.add(GuiFactory.buildLabel("Vault:"),c);
+    c.gridx++;
+    ret.add(_vault,c);
     c.gridx=0;c.gridy++;
     return ret;
   }
@@ -88,6 +95,10 @@ public class ClientDataDisplayPanelController implements Disposable
     String clientType=data.getClientType();
     clientType=(clientType!=null)?clientType:"?";
     _clientType.setText(clientType);
+    // Vault
+    String vaultType=data.getVaultType();
+    vaultType=(vaultType!=null)?vaultType:"?";
+    _vault.setText(vaultType);
   }
 
   @Override
@@ -96,6 +107,7 @@ public class ClientDataDisplayPanelController implements Disposable
     _serverName=null;
     _language=null;
     _clientType=null;
+    _vault=null;
     if (_panel!=null)
     {
       _panel.removeAll();
