@@ -25,7 +25,6 @@ import delta.games.lotro.gui.items.CountedItemNameComparator;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.items.CountedItem;
 import delta.games.lotro.lore.items.Item;
-import delta.games.lotro.lore.items.ItemProxy;
 import delta.games.lotro.lore.items.ItemsManager;
 import delta.games.lotro.lore.items.WellKnownItems;
 import delta.games.lotro.lore.reputation.Faction;
@@ -57,7 +56,7 @@ public class DeedsStatistics
   private List<TraitEvent> _traits;
   private Map<VirtueDescription,VirtueStatsFromDeeds> _virtues;
   private Map<String,FactionStatsFromDeeds> _reputation;
-  private Map<Integer,CountedItem> _items;
+  private Map<Integer,CountedItem<Item>> _items;
 
   /**
    * Constructor.
@@ -69,7 +68,7 @@ public class DeedsStatistics
     _traits=new ArrayList<TraitEvent>();
     _virtues=new HashMap<VirtueDescription,VirtueStatsFromDeeds>();
     _reputation=new HashMap<String,FactionStatsFromDeeds>();
-    _items=new HashMap<Integer,CountedItem>();
+    _items=new HashMap<Integer,CountedItem<Item>>();
     reset();
   }
 
@@ -150,12 +149,10 @@ public class DeedsStatistics
           if (item!=null)
           {
             Integer itemIdInteger=Integer.valueOf(itemId);
-            CountedItem count=_items.get(itemIdInteger);
+            CountedItem<Item> count=_items.get(itemIdInteger);
             if (count==null)
             {
-              ItemProxy proxy=new ItemProxy();
-              proxy.setItem(item);
-              count=new CountedItem(proxy,0);
+              count=new CountedItem<Item>(item,0);
               _items.put(itemIdInteger,count);
             }
             count.add(itemsCount);
@@ -355,10 +352,10 @@ public class DeedsStatistics
    * Get the acquired items.
    * @return A list of counted items, sorted by name.
    */
-  public List<CountedItem> getItems()
+  public List<CountedItem<Item>> getItems()
   {
-    List<CountedItem> items=new ArrayList<CountedItem>(_items.values());
-    Collections.sort(items,new CountedItemNameComparator());
+    List<CountedItem<Item>> items=new ArrayList<CountedItem<Item>>(_items.values());
+    Collections.sort(items,new CountedItemNameComparator<Item>());
     return items;
   }
 

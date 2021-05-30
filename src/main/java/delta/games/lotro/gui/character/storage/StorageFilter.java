@@ -10,9 +10,10 @@ import delta.common.utils.collections.filters.ProxyFilter;
 import delta.common.utils.collections.filters.ProxyValueResolver;
 import delta.games.lotro.character.storage.StoredItem;
 import delta.games.lotro.character.storage.filters.StoredItemLocationFilter;
-import delta.games.lotro.character.storage.filters.StoredItemNameFilter;
 import delta.games.lotro.character.storage.filters.StoredItemOwnerFilter;
+import delta.games.lotro.common.filters.NamedFilter;
 import delta.games.lotro.lore.items.Item;
+import delta.games.lotro.lore.items.ItemProvider;
 import delta.games.lotro.lore.items.filters.ItemQualityFilter;
 
 /**
@@ -25,7 +26,7 @@ public class StorageFilter implements Filter<StoredItem>
   private StorageFilterConfiguration _cfg;
   private Filter<StoredItem> _filter;
 
-  private StoredItemNameFilter _nameFilter;
+  private NamedFilter<Item> _nameFilter;
   private StoredItemOwnerFilter _ownerFilter;
   private StoredItemLocationFilter _locationFilter;
   private ItemQualityFilter _qualityFilter;
@@ -38,8 +39,21 @@ public class StorageFilter implements Filter<StoredItem>
     _cfg=new StorageFilterConfiguration();
     List<Filter<StoredItem>> filters=new ArrayList<Filter<StoredItem>>();
     // Name
-    _nameFilter=new StoredItemNameFilter();
-    filters.add(_nameFilter);
+    _nameFilter=new NamedFilter<Item>();
+    ProxyValueResolver<StoredItem,Item> itemResolver=new ProxyValueResolver<StoredItem,Item>()
+    {
+      public Item getValue(StoredItem source)
+      {
+        ItemProvider itemProvider=source.getItem();
+        if (itemProvider!=null)
+        {
+          return itemProvider.getItem();
+        }
+        return null;
+      }
+    };
+    ProxyFilter<StoredItem,Item> nameFilter=new ProxyFilter<StoredItem,Item>(itemResolver,_nameFilter);
+    filters.add(nameFilter);
     // Owner
     _ownerFilter=new StoredItemOwnerFilter(null);
     filters.add(_ownerFilter);
@@ -48,14 +62,7 @@ public class StorageFilter implements Filter<StoredItem>
     filters.add(_locationFilter);
     // Quality
     _qualityFilter=new ItemQualityFilter(null);
-    ProxyValueResolver<StoredItem,Item> resolver=new ProxyValueResolver<StoredItem,Item>()
-    {
-      public Item getValue(StoredItem source)
-      {
-        return source.getItem();
-      }
-    };
-    ProxyFilter<StoredItem,Item> qualityFilter=new ProxyFilter<StoredItem,Item>(resolver,_qualityFilter);
+    ProxyFilter<StoredItem,Item> qualityFilter=new ProxyFilter<StoredItem,Item>(itemResolver,_qualityFilter);
     filters.add(qualityFilter);
     _filter=new CompoundFilter<StoredItem>(Operator.AND,filters);
   }
@@ -73,7 +80,7 @@ public class StorageFilter implements Filter<StoredItem>
    * Get the filter on item name.
    * @return a stored item name filter.
    */
-  public StoredItemNameFilter getNameFilter()
+  public NamedFilter<Item> getNameFilter()
   {
     return _nameFilter;
   }

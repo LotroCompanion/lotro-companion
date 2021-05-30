@@ -18,7 +18,7 @@ import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.account.Account;
 import delta.games.lotro.account.AccountUtils;
 import delta.games.lotro.character.CharacterFile;
-import delta.games.lotro.gui.character.storage.AccountStorageDisplayWindowController;
+import delta.games.lotro.gui.character.storage.account.AccountStorageDisplayWindowController;
 import delta.games.lotro.gui.main.GlobalPreferences;
 import delta.games.lotro.gui.toon.ToonsTableController;
 

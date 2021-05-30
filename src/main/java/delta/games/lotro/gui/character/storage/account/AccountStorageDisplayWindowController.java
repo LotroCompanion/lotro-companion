@@ -1,14 +1,11 @@
-package delta.games.lotro.gui.character.storage;
+package delta.games.lotro.gui.character.storage.account;
 
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.List;
 
-import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
@@ -26,11 +23,16 @@ import delta.games.lotro.character.events.CharacterEvent;
 import delta.games.lotro.character.events.CharacterEventType;
 import delta.games.lotro.character.storage.AccountServerStorage;
 import delta.games.lotro.character.storage.CharacterStorage;
+import delta.games.lotro.character.storage.StoragesIO;
 import delta.games.lotro.character.storage.StoredItem;
-import delta.games.lotro.character.storage.Vault;
-import delta.games.lotro.character.storage.Wallet;
-import delta.games.lotro.character.storage.io.xml.StorageIO;
-import delta.games.lotro.plugins.updates.StorageUpdater;
+import delta.games.lotro.character.storage.vaults.Vault;
+import delta.games.lotro.character.storage.vaults.io.VaultsIo;
+import delta.games.lotro.character.storage.wallet.Wallet;
+import delta.games.lotro.character.storage.wallet.io.xml.WalletsIO;
+import delta.games.lotro.gui.character.storage.StorageDisplayPanelController;
+import delta.games.lotro.gui.character.storage.StorageFilter;
+import delta.games.lotro.gui.character.storage.StorageFilterController;
+import delta.games.lotro.gui.character.storage.StorageUtils;
 import delta.games.lotro.utils.events.EventsManager;
 import delta.games.lotro.utils.events.GenericEventsListener;
 
@@ -98,17 +100,6 @@ public class AccountStorageDisplayWindowController extends DefaultDialogControll
     _summaryController=new AccountStorageSummaryPanelController();
     // Display
     _panelController=new StorageDisplayPanelController(this,_filter);
-    // Update button
-    JButton button=GuiFactory.buildButton("Update");
-    ActionListener al=new ActionListener()
-    {
-      @Override
-      public void actionPerformed(ActionEvent e)
-      {
-        StorageUpdater.updateAccountServerStorage(_account,_serverName);
-      }
-    };
-    button.addActionListener(al);
     // Table
     JPanel tablePanel=_panelController.getPanel();
     // Filter
@@ -119,8 +110,6 @@ public class AccountStorageDisplayWindowController extends DefaultDialogControll
     // Whole panel
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(_summaryController.getPanel(),c);
-    c=new GridBagConstraints(1,0,1,1,0,0,GridBagConstraints.SOUTHEAST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
-    panel.add(button,c);
     c=new GridBagConstraints(0,1,2,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(filterPanel,c);
     c.gridy++;c.weighty=1;c.fill=GridBagConstraints.BOTH;
@@ -173,13 +162,13 @@ public class AccountStorageDisplayWindowController extends DefaultDialogControll
     getDialog().setTitle(title);
     // Update storage
     AccountServerStorage storage=new AccountServerStorage(_account.getName(),_serverName);
-    Vault sharedVault=StorageIO.loadAccountSharedVault(_account,_serverName);
+    Vault sharedVault=VaultsIo.load(_account,_serverName);
     storage.setSharedVault(sharedVault);
-    Wallet sharedWallet=StorageIO.loadAccountSharedWallet(_account,_serverName);
+    Wallet sharedWallet=WalletsIO.loadAccountSharedWallet(_account,_serverName);
     storage.setSharedWallet(sharedWallet);
     for(CharacterFile character : _characters)
     {
-      CharacterStorage characterStorage=StorageIO.loadCharacterStorage(character);
+      CharacterStorage characterStorage=StoragesIO.loadCharacterStorage(character);
       storage.addStorage(character.getName(),characterStorage);
     }
     _summaryController.update(storage);

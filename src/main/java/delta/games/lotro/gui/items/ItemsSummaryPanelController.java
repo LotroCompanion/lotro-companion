@@ -18,6 +18,7 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.icons.IconWithText;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.lore.items.CountedItem;
+import delta.games.lotro.lore.items.ItemProxy;
 
 /**
  * Controller for a panel that shows a summary of the items (for recipes, barters...).
@@ -42,7 +43,7 @@ public class ItemsSummaryPanelController
    * Configure the displayed items.
    * @param items Items to show.
    */
-  public void setupItemIcons(List<CountedItem> items)
+  public void setupItemIcons(List<CountedItem<ItemProxy>> items)
   {
     _panel.removeAll();
     int nbItems=items.size();
@@ -52,7 +53,7 @@ public class ItemsSummaryPanelController
     }
     for(int i=0;i<nbItems;i++)
     {
-      CountedItem item=items.get(i);
+      CountedItem<ItemProxy> item=items.get(i);
       JLabel label=_labels.get(i);
       _panel.add(Box.createRigidArea(new Dimension(5,0)));
       Icon icon=LotroIconsManager.getItemIcon(item.getIcon());
@@ -77,7 +78,7 @@ public class ItemsSummaryPanelController
       public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
       {
         @SuppressWarnings("unchecked")
-        List<CountedItem> items=(List<CountedItem>)value;
+        List<CountedItem<ItemProxy>> items=(List<CountedItem<ItemProxy>>)value;
         setupItemIcons(items);
         int height=_panel.getPreferredSize().height;
         if (height!=0)

@@ -421,7 +421,7 @@ public class EquipmentPanelController implements ActionListener
   private ItemInstance<? extends Item> chooseItemInstanceFromBags(EQUIMENT_SLOT slot)
   {
     BagsManager bags=BagsIo.load(_toon);
-    List<ItemInstance<? extends Item>> items=bags.getAll();
+    List<ItemInstance<? extends Item>> items=bags.getAllItemInstances();
     return chooseItemInstance(items,slot,"ItemFilter_Bags");
   }
 

@@ -21,12 +21,14 @@ import delta.games.lotro.gui.items.chooser.ItemsTableBuilder;
 import delta.games.lotro.gui.items.chooser.ItemChooser;
 import delta.games.lotro.lore.items.CountedItem;
 import delta.games.lotro.lore.items.Item;
+import delta.games.lotro.lore.items.ItemProvider;
 
 /**
  * Controller for a table that shows counted items.
  * @author DAM
+ * @param <T> Type of managed items.
  */
-public class CountedItemsTableController
+public class CountedItemsTableController<T extends ItemProvider>
 {
   /**
    * Identifier of the "Count" column.
@@ -36,9 +38,9 @@ public class CountedItemsTableController
   // Preferences
   private TypedProperties _prefs;
   // Data
-  protected List<? extends CountedItem> _items;
+  protected List<CountedItem<T>> _items;
   // GUI
-  private GenericTableController<CountedItem> _tableController;
+  private GenericTableController<CountedItem<T>> _tableController;
 
   /**
    * Constructor.
@@ -46,16 +48,16 @@ public class CountedItemsTableController
    * @param items Items to show.
    * @param filter Items filter.
    */
-  public CountedItemsTableController(TypedProperties prefs, List<? extends CountedItem> items, final Filter<Item> filter)
+  public CountedItemsTableController(TypedProperties prefs, List<CountedItem<T>> items, final Filter<Item> filter)
   {
     _prefs=prefs;
     _items=items;
     _tableController=buildTable();
     if (filter!=null)
     {
-      Filter<CountedItem> f=new Filter<CountedItem>()
+      Filter<CountedItem<T>> f=new Filter<CountedItem<T>>()
       {
-        public boolean accept(CountedItem item)
+        public boolean accept(CountedItem<T> item)
         {
           return filter.accept(item.getItem());
         }
@@ -69,18 +71,18 @@ public class CountedItemsTableController
    * Get the managed generic table controller.
    * @return the managed generic table controller.
    */
-  public GenericTableController<CountedItem> getTableController()
+  public GenericTableController<CountedItem<T>> getTableController()
   {
     return _tableController;
   }
 
-  private GenericTableController<CountedItem> buildTable()
+  private GenericTableController<CountedItem<T>> buildTable()
   {
-    DataProvider<CountedItem> provider=new ListDataProvider<CountedItem>(_items);
-    GenericTableController<CountedItem> table=new GenericTableController<CountedItem>(provider);
-    List<TableColumnController<CountedItem,?>> columns=initColumns();
-    TableColumnsManager<CountedItem> columnsManager=table.getColumnsManager();
-    for(TableColumnController<CountedItem,?> column : columns)
+    DataProvider<CountedItem<T>> provider=new ListDataProvider<CountedItem<T>>(_items);
+    GenericTableController<CountedItem<T>> table=new GenericTableController<CountedItem<T>>(provider);
+    List<TableColumnController<CountedItem<T>,?>> columns=initColumns();
+    TableColumnsManager<CountedItem<T>> columnsManager=table.getColumnsManager();
+    for(TableColumnController<CountedItem<T>,?> column : columns)
     {
       columnsManager.addColumnController(column,false);
     }
@@ -116,16 +118,16 @@ public class CountedItemsTableController
    * Build a list of all managed columns.
    * @return A list of column controllers.
    */
-  public static List<TableColumnController<CountedItem,?>> initColumns()
+  public static <T extends ItemProvider> List<TableColumnController<CountedItem<T>,?>> initColumns()
   {
-    List<TableColumnController<CountedItem,?>> ret=new ArrayList<TableColumnController<CountedItem,?>>();
+    List<TableColumnController<CountedItem<T>,?>> ret=new ArrayList<TableColumnController<CountedItem<T>,?>>();
 
     // Icon column
     {
-      CellDataProvider<CountedItem,Icon> iconCell=new CellDataProvider<CountedItem,Icon>()
+      CellDataProvider<CountedItem<T>,Icon> iconCell=new CellDataProvider<CountedItem<T>,Icon>()
       {
         @Override
-        public Icon getData(CountedItem countedItem)
+        public Icon getData(CountedItem<T> countedItem)
         {
           Item item=countedItem.getItem();
           if (item!=null)
@@ -136,17 +138,17 @@ public class CountedItemsTableController
           return LotroIconsManager.getItemIcon(icon);
         }
       };
-      DefaultTableColumnController<CountedItem,Icon> iconColumn=new DefaultTableColumnController<CountedItem,Icon>(ItemColumnIds.ICON.name(),"Icon",Icon.class,iconCell);
+      DefaultTableColumnController<CountedItem<T>,Icon> iconColumn=new DefaultTableColumnController<CountedItem<T>,Icon>(ItemColumnIds.ICON.name(),"Icon",Icon.class,iconCell);
       iconColumn.setWidthSpecs(50,50,50);
       iconColumn.setSortable(false);
       ret.add(iconColumn);
     }
     // ID column
     {
-      CellDataProvider<CountedItem,Long> idCell=new CellDataProvider<CountedItem,Long>()
+      CellDataProvider<CountedItem<T>,Long> idCell=new CellDataProvider<CountedItem<T>,Long>()
       {
         @Override
-        public Long getData(CountedItem countedItem)
+        public Long getData(CountedItem<T> countedItem)
         {
           Item item=countedItem.getItem();
           if (item!=null)
@@ -156,16 +158,16 @@ public class CountedItemsTableController
           return Long.valueOf(countedItem.getId());
         }
       };
-      DefaultTableColumnController<CountedItem,Long> idColumn=new DefaultTableColumnController<CountedItem,Long>(ItemColumnIds.ID.name(),"ID",Long.class,idCell);
+      DefaultTableColumnController<CountedItem<T>,Long> idColumn=new DefaultTableColumnController<CountedItem<T>,Long>(ItemColumnIds.ID.name(),"ID",Long.class,idCell);
       idColumn.setWidthSpecs(90,90,50);
       ret.add(idColumn);
     }
     // Name column
     {
-      CellDataProvider<CountedItem,String> nameCell=new CellDataProvider<CountedItem,String>()
+      CellDataProvider<CountedItem<T>,String> nameCell=new CellDataProvider<CountedItem<T>,String>()
       {
         @Override
-        public String getData(CountedItem countedItem)
+        public String getData(CountedItem<T> countedItem)
         {
           Item item=countedItem.getItem();
           if (item!=null)
@@ -175,7 +177,7 @@ public class CountedItemsTableController
           return countedItem.getName();
         }
       };
-      DefaultTableColumnController<CountedItem,String> nameColumn=new DefaultTableColumnController<CountedItem,String>(ItemColumnIds.NAME.name(),"Name",String.class,nameCell);
+      DefaultTableColumnController<CountedItem<T>,String> nameColumn=new DefaultTableColumnController<CountedItem<T>,String>(ItemColumnIds.NAME.name(),"Name",String.class,nameCell);
       nameColumn.setWidthSpecs(150,-1,150);
       ret.add(nameColumn);
     }
@@ -189,30 +191,30 @@ public class CountedItemsTableController
       {
         continue;
       }
-      CellDataProvider<CountedItem,Item> dataProvider=new CellDataProvider<CountedItem,Item>()
+      CellDataProvider<CountedItem<T>,Item> dataProvider=new CellDataProvider<CountedItem<T>,Item>()
       {
         @Override
-        public Item getData(CountedItem p)
+        public Item getData(CountedItem<T> p)
         {
           return p.getItem();
         }
       };
       @SuppressWarnings("unchecked")
       TableColumnController<Item,Object> c=(TableColumnController<Item,Object>)column;
-      TableColumnController<CountedItem,Object> proxiedColumn=new ProxiedTableColumnController<CountedItem,Item,Object>(c,dataProvider);
+      TableColumnController<CountedItem<T>,Object> proxiedColumn=new ProxiedTableColumnController<CountedItem<T>,Item,Object>(c,dataProvider);
       ret.add(proxiedColumn);
     }
     // Count column
     {
-      CellDataProvider<CountedItem,Integer> countCell=new CellDataProvider<CountedItem,Integer>()
+      CellDataProvider<CountedItem<T>,Integer> countCell=new CellDataProvider<CountedItem<T>,Integer>()
       {
         @Override
-        public Integer getData(CountedItem item)
+        public Integer getData(CountedItem<T> item)
         {
           return Integer.valueOf(item.getQuantity());
         }
       };
-      DefaultTableColumnController<CountedItem,Integer> countColumn=new DefaultTableColumnController<CountedItem,Integer>(COUNT_COLUMN,"Count",Integer.class,countCell);
+      DefaultTableColumnController<CountedItem<T>,Integer> countColumn=new DefaultTableColumnController<CountedItem<T>,Integer>(COUNT_COLUMN,"Count",Integer.class,countCell);
       countColumn.setWidthSpecs(55,55,50);
       ret.add(countColumn);
     }

@@ -15,6 +15,7 @@ import delta.games.lotro.common.treasure.TrophyList;
 import delta.games.lotro.gui.utils.ItemDisplayGadgets;
 import delta.games.lotro.lore.items.CountedItem;
 import delta.games.lotro.lore.items.DisenchantmentResult;
+import delta.games.lotro.lore.items.Item;
 
 /**
  * Controller for a panel to display the disenchantment result of an item.
@@ -57,7 +58,7 @@ public class DisenchantmentResultPanelController
     GridBagConstraints c;
     int y=0;
     // Counted item?
-    CountedItem countedItem=_result.getCountedItem();
+    CountedItem<Item> countedItem=_result.getCountedItem();
     if (countedItem!=null)
     {
       JPanel itemPanel=buildItemToReceivePanel(countedItem);
@@ -81,7 +82,7 @@ public class DisenchantmentResultPanelController
     return ret;
   }
 
-  private JPanel buildItemToReceivePanel(CountedItem countedItem)
+  private JPanel buildItemToReceivePanel(CountedItem<Item> countedItem)
   {
     _gadgets=buildItemGadgets(countedItem);
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
@@ -94,7 +95,7 @@ public class DisenchantmentResultPanelController
     return panel;
   }
 
-  private ItemDisplayGadgets buildItemGadgets(CountedItem countedItem)
+  private ItemDisplayGadgets buildItemGadgets(CountedItem<Item> countedItem)
   {
     int quantity=countedItem.getQuantity();
     int itemId=countedItem.getId();

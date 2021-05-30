@@ -21,14 +21,15 @@ import delta.common.ui.swing.text.TextListener;
 import delta.common.utils.collections.filters.Filter;
 import delta.games.lotro.character.storage.StoredItem;
 import delta.games.lotro.character.storage.filters.StoredItemLocationFilter;
-import delta.games.lotro.character.storage.filters.StoredItemNameFilter;
 import delta.games.lotro.character.storage.filters.StoredItemOwnerFilter;
 import delta.games.lotro.character.storage.location.StorageLocation;
+import delta.games.lotro.common.filters.NamedFilter;
 import delta.games.lotro.common.owner.AccountServerOwner;
 import delta.games.lotro.common.owner.CharacterOwner;
 import delta.games.lotro.common.owner.Owner;
 import delta.games.lotro.gui.items.FilterUpdateListener;
 import delta.games.lotro.gui.items.ItemUiTools;
+import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemQuality;
 
 /**
@@ -125,7 +126,7 @@ public class StorageFilterController implements ActionListener
   private void setFilter()
   {
     // Name
-    StoredItemNameFilter nameFilter=_filter.getNameFilter();
+    NamedFilter<Item> nameFilter=_filter.getNameFilter();
     String contains=nameFilter.getPattern();
     if (contains!=null)
     {
@@ -184,7 +185,7 @@ public class StorageFilterController implements ActionListener
         public void textChanged(String newText)
         {
           if (newText.length()==0) newText=null;
-          StoredItemNameFilter nameFilter=_filter.getNameFilter();
+          NamedFilter<Item> nameFilter=_filter.getNameFilter();
           nameFilter.setPattern(newText);
           filterUpdated();
         }

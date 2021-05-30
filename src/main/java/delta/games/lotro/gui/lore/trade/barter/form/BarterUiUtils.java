@@ -21,16 +21,16 @@ public class BarterUiUtils
    * @param entry To use.
    * @return a list of all items.
    */
-  public static List<CountedItem> getToGiveItems(BarterEntry entry)
+  public static List<CountedItem<ItemProxy>> getToGiveItems(BarterEntry entry)
   {
-    List<CountedItem> items=new ArrayList<CountedItem>();
+    List<CountedItem<ItemProxy>> items=new ArrayList<CountedItem<ItemProxy>>();
     for(ItemBarterEntryElement element : entry.getElementsToGive())
     {
       Proxy<Item> item=element.getItemProxy();
       ItemProxy proxy=new ItemProxy();
       proxy.setItem(item.getObject());
       int quantity=element.getQuantity();
-      items.add(new CountedItem(proxy,quantity));
+      items.add(new CountedItem<ItemProxy>(proxy,quantity));
     }
     return items;
   }

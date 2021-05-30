@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.character.storage;
+package delta.games.lotro.gui.character.storage.account;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -15,8 +15,9 @@ import javax.swing.border.TitledBorder;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.character.storage.AccountServerStorage;
+import delta.games.lotro.character.storage.BaseStorage;
 import delta.games.lotro.character.storage.CharacterStorage;
-import delta.games.lotro.character.storage.Vault;
+import delta.games.lotro.character.storage.vaults.Vault;
 
 /**
  * Controller for a panel that displays storage summary for an account/server.
@@ -93,10 +94,10 @@ public class AccountStorageSummaryPanelController
     Set<String> characterNames=storage.getCharacters();
     for(String characterName : characterNames)
     {
-      CharacterStorage characterStorage=storage.getStorage(characterName,false);
+      CharacterStorage characterStorage=storage.getStorage(characterName);
       if (characterStorage!=null)
       {
-        Vault toUse=bags?characterStorage.getBags():characterStorage.getOwnVault();
+        BaseStorage toUse=bags?characterStorage.getBags():characterStorage.getOwnVault();
         if (toUse!=null)
         {
           Integer used=Integer.valueOf(toUse.getUsed());

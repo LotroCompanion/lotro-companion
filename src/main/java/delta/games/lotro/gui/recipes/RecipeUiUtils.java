@@ -35,9 +35,9 @@ public class RecipeUiUtils
    * @param recipe To use.
    * @return a list of all ingredients.
    */
-  public static List<CountedItem> getIngredientItems(Recipe recipe)
+  public static List<CountedItem<ItemProxy>> getIngredientItems(Recipe recipe)
   {
-    List<CountedItem> items=new ArrayList<CountedItem>();
+    List<CountedItem<ItemProxy>> items=new ArrayList<CountedItem<ItemProxy>>();
     RecipeVersion version=recipe.getVersions().get(0);
     List<Ingredient> ingredients=version.getIngredients();
     int nbIngredients=ingredients.size();
@@ -46,7 +46,7 @@ public class RecipeUiUtils
       Ingredient ingredient=ingredients.get(i);
       ItemProxy item=ingredient.getItem();
       int quantity=ingredient.getQuantity();
-      items.add(new CountedItem(item,quantity));
+      items.add(new CountedItem<ItemProxy>(item,quantity));
     }
     return items;
   }
@@ -56,22 +56,22 @@ public class RecipeUiUtils
    * @param recipe To use.
    * @return a list of all ingredients.
    */
-  public static List<CountedItem> getResultItems(Recipe recipe)
+  public static List<CountedItem<ItemProxy>> getResultItems(Recipe recipe)
   {
-    List<CountedItem> items=new ArrayList<CountedItem>();
+    List<CountedItem<ItemProxy>> items=new ArrayList<CountedItem<ItemProxy>>();
     RecipeVersion version=recipe.getVersions().get(0);
     CraftingResult regular=version.getRegular();
     {
       ItemProxy regularItem=regular.getItem();
       int regularQuantity=regular.getQuantity();
-      items.add(new CountedItem(regularItem,regularQuantity));
+      items.add(new CountedItem<ItemProxy>(regularItem,regularQuantity));
     }
     CraftingResult critical=version.getCritical();
     if (critical!=null)
     {
       ItemProxy criticalItem=critical.getItem();
       int criticalQuantity=critical.getQuantity();
-      items.add(new CountedItem(criticalItem,criticalQuantity));
+      items.add(new CountedItem<ItemProxy>(criticalItem,criticalQuantity));
     }
     return items;
   }

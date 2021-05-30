@@ -1,18 +1,16 @@
 package delta.games.lotro.gui.character.storage;
 
-import java.util.Set;
+import java.util.List;
 
 import delta.games.lotro.account.Account;
+import delta.games.lotro.account.AccountUtils;
 import delta.games.lotro.account.AccountsManager;
 import delta.games.lotro.character.CharacterFile;
-import delta.games.lotro.character.CharactersManager;
-import delta.games.lotro.character.storage.AccountServerStorage;
-import delta.games.lotro.character.storage.CharacterStorage;
-import delta.games.lotro.character.storage.io.xml.StorageIO;
-import delta.games.lotro.plugins.StorageLoader;
+import delta.games.lotro.gui.character.storage.account.AccountStorageDisplayWindowController;
+import delta.games.lotro.gui.character.storage.own.CharacterStorageDisplayWindowController;
 
 /**
- * Test class to show the storage for a single character.
+ * Test class to show the storage for account/characters.
  * @author DAM
  */
 public class MainTestShowCharacterStorage
@@ -28,36 +26,19 @@ public class MainTestShowCharacterStorage
     String server="Landroval";
     //String toon="Meva";
     boolean showShared=true;
-    StorageLoader loader=new StorageLoader();
-    AccountServerStorage storage=loader.loadStorage(accountName,server);
-    if (storage!=null)
+    Account account=AccountsManager.getInstance().getAccountByName(accountName);
+    List<CharacterFile> characters=AccountUtils.getCharacters(account.getName(),server);
+    for(CharacterFile character : characters)
     {
-      Set<String> toons=storage.getCharacters();
-      for(String toon : toons)
-      {
-        // Store/reload
-        CharacterStorage characterStorage=storage.getStorage(toon,false);
-        CharactersManager manager=CharactersManager.getInstance();
-        CharacterFile character=manager.getToonById(server,toon);
-        if (character==null)
-        {
-          System.out.println("Character not found: "+toon);
-          continue;
-        }
-        // Store
-        StorageIO.writeCharacterStorage(characterStorage,character);
-        CharacterStorageDisplayWindowController window=new CharacterStorageDisplayWindowController(null,character);
-        window.show();
+      CharacterStorageDisplayWindowController window=new CharacterStorageDisplayWindowController(null,character);
+      window.show();
 
-        if (showShared)
-        {
-          // Store
-          Account account=AccountsManager.getInstance().getAccountByName(accountName);
-          StorageIO.writeAccountStorage(storage,account);
-          AccountStorageDisplayWindowController accountWindow=new AccountStorageDisplayWindowController(null,account,server);
-          accountWindow.show();
-          showShared=false;
-        }
+      if (showShared)
+      {
+        // Store
+        AccountStorageDisplayWindowController accountWindow=new AccountStorageDisplayWindowController(null,account,server);
+        accountWindow.show();
+        showShared=false;
       }
     }
   }

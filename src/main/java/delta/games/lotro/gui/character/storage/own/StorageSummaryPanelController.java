@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.character.storage;
+package delta.games.lotro.gui.character.storage.own;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -14,7 +14,8 @@ import javax.swing.border.TitledBorder;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.character.storage.CharacterStorage;
-import delta.games.lotro.character.storage.Vault;
+import delta.games.lotro.character.storage.bags.BagsManager;
+import delta.games.lotro.character.storage.vaults.Vault;
 
 /**
  * Controller for a panel that displays storage summary for a single character.
@@ -55,7 +56,7 @@ public class StorageSummaryPanelController
     _storage=storage;
     // Bags
     {
-      Vault bags=_storage.getBags();
+      BagsManager bags=_storage.getBags();
       if (bags!=null)
       {
         Integer used=Integer.valueOf(bags.getUsed());

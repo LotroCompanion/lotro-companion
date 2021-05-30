@@ -26,6 +26,7 @@ import delta.games.lotro.gui.items.CountedItemsTableController;
 import delta.games.lotro.gui.items.ItemColumnIds;
 import delta.games.lotro.gui.items.chooser.ItemChooser;
 import delta.games.lotro.lore.items.CountedItem;
+import delta.games.lotro.lore.items.ItemProvider;
 
 /**
  * Controller for a table that shows stored items.
@@ -45,7 +46,7 @@ public class StoredItemsTableController
   // Preferences
   private TypedProperties _prefs;
   // Data
-  protected List<? extends StoredItem> _items;
+  protected List<StoredItem> _items;
   // GUI
   private GenericTableController<StoredItem> _tableController;
 
@@ -55,7 +56,7 @@ public class StoredItemsTableController
    * @param items Items to show.
    * @param filter Managed filter.
    */
-  public StoredItemsTableController(TypedProperties prefs, List<? extends StoredItem> items, Filter<StoredItem> filter)
+  public StoredItemsTableController(TypedProperties prefs, List<StoredItem> items, Filter<StoredItem> filter)
   {
     _prefs=prefs;
     _items=items;
@@ -101,20 +102,20 @@ public class StoredItemsTableController
   {
     List<TableColumnController<StoredItem,?>> ret=new ArrayList<TableColumnController<StoredItem,?>>();
 
-    List<TableColumnController<CountedItem,?>> columns=CountedItemsTableController.initColumns();
-    for(TableColumnController<CountedItem,?> column : columns)
+    List<TableColumnController<CountedItem<ItemProvider>,?>> columns=CountedItemsTableController.initColumns();
+    for(TableColumnController<CountedItem<ItemProvider>,?> column : columns)
     {
-      CellDataProvider<StoredItem,CountedItem> dataProvider=new CellDataProvider<StoredItem,CountedItem>()
+      CellDataProvider<StoredItem,CountedItem<ItemProvider>> dataProvider=new CellDataProvider<StoredItem,CountedItem<ItemProvider>>()
       {
         @Override
-        public CountedItem getData(StoredItem p)
+        public CountedItem<ItemProvider> getData(StoredItem p)
         {
-          return p;
+          return p.getItem();
         }
       };
       @SuppressWarnings("unchecked")
-      TableColumnController<CountedItem,Object> c=(TableColumnController<CountedItem,Object>)column;
-      TableColumnController<StoredItem,Object> proxiedColumn=new ProxiedTableColumnController<StoredItem,CountedItem,Object>(c,dataProvider);
+      TableColumnController<CountedItem<ItemProvider>,Object> c=(TableColumnController<CountedItem<ItemProvider>,Object>)column;
+      TableColumnController<StoredItem,Object> proxiedColumn=new ProxiedTableColumnController<StoredItem,CountedItem<ItemProvider>,Object>(c,dataProvider);
       ret.add(proxiedColumn);
     }
     // Owner column
