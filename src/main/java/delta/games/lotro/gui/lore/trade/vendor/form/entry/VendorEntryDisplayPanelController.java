@@ -11,7 +11,6 @@ import delta.common.ui.swing.navigator.NavigablePanelController;
 import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.games.lotro.gui.common.money.MoneyDisplayController;
 import delta.games.lotro.gui.utils.ItemDisplayGadgets;
-import delta.games.lotro.lore.items.ItemProxy;
 import delta.games.lotro.lore.trade.vendor.ValuedItem;
 
 /**
@@ -92,8 +91,7 @@ public class VendorEntryDisplayPanelController implements NavigablePanelControll
 
   private ItemDisplayGadgets buildItemGadgets(ValuedItem element)
   {
-    ItemProxy proxy=element.getProxy();
-    int itemId=proxy.getId();
+    int itemId=element.getId();
     ItemDisplayGadgets gadgets=new ItemDisplayGadgets(_parent,itemId,1,"");
     return gadgets;
   }

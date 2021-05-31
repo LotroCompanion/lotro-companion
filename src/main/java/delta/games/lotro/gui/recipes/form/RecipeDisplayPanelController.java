@@ -29,8 +29,6 @@ import delta.games.lotro.lore.crafting.recipes.Ingredient;
 import delta.games.lotro.lore.crafting.recipes.Recipe;
 import delta.games.lotro.lore.crafting.recipes.RecipeVersion;
 import delta.games.lotro.lore.items.Item;
-import delta.games.lotro.lore.items.ItemProxy;
-import delta.games.lotro.lore.items.ItemsManager;
 
 /**
  * Controller for a recipe display panel.
@@ -128,12 +126,11 @@ public class RecipeDisplayPanelController implements NavigablePanelController
     String attributesStr=getAttributesString();
     JLabel attributesLabel=GuiFactory.buildLabel(attributesStr);
     // Recipe item
-    ItemProxy recipeItemProxy=_recipe.getRecipeScroll();
-    if (recipeItemProxy!=null)
+    Item recipeItem=_recipe.getRecipeScroll();
+    if (recipeItem!=null)
     {
       // - icon
       _recipeItemIcon=new ItemIconController(_parent);
-      Item recipeItem=ItemsManager.getInstance().getItem(recipeItemProxy.getId());
       _recipeItemIcon.setItem(recipeItem,1);
       // - name
       _recipeItemLabel=ItemUiTools.buildItemLink(_parent,recipeItem);
@@ -286,8 +283,8 @@ public class RecipeDisplayPanelController implements NavigablePanelController
     List<Ingredient> ingredients=version.getIngredients();
     for(Ingredient ingredient : ingredients)
     {
-      ItemProxy proxy=ingredient.getItem();
-      int itemId=proxy.getId();
+      Item item=ingredient.getItem();
+      int itemId=item.getIdentifier();
       int quantity=ingredient.getQuantity();
       // Comment
       String comment="";
@@ -347,8 +344,8 @@ public class RecipeDisplayPanelController implements NavigablePanelController
 
   private ItemDisplayGadgets buildResultGadget(CraftingResult result)
   {
-    ItemProxy proxy=result.getItem();
-    int itemId=proxy.getId();
+	Item item=result.getItem();
+    int itemId=item.getIdentifier();
     int count=result.getQuantity();
     String comment=result.isCriticalResult()?"Critical result: ":"Regular result: ";
     ItemDisplayGadgets ret=new ItemDisplayGadgets(_parent,itemId,count,comment);

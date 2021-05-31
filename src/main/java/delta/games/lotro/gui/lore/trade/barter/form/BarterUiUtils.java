@@ -5,10 +5,8 @@ import java.util.List;
 
 import delta.games.lotro.lore.items.CountedItem;
 import delta.games.lotro.lore.items.Item;
-import delta.games.lotro.lore.items.ItemProxy;
 import delta.games.lotro.lore.trade.barter.BarterEntry;
 import delta.games.lotro.lore.trade.barter.ItemBarterEntryElement;
-import delta.games.lotro.utils.Proxy;
 
 /**
  * Utility methods for barter-related UIs.
@@ -21,16 +19,14 @@ public class BarterUiUtils
    * @param entry To use.
    * @return a list of all items.
    */
-  public static List<CountedItem<ItemProxy>> getToGiveItems(BarterEntry entry)
+  public static List<CountedItem<Item>> getToGiveItems(BarterEntry entry)
   {
-    List<CountedItem<ItemProxy>> items=new ArrayList<CountedItem<ItemProxy>>();
+    List<CountedItem<Item>> items=new ArrayList<CountedItem<Item>>();
     for(ItemBarterEntryElement element : entry.getElementsToGive())
     {
-      Proxy<Item> item=element.getItemProxy();
-      ItemProxy proxy=new ItemProxy();
-      proxy.setItem(item.getObject());
+      Item item=element.getItemProxy().getObject();
       int quantity=element.getQuantity();
-      items.add(new CountedItem<ItemProxy>(proxy,quantity));
+      items.add(new CountedItem<Item>(item,quantity));
     }
     return items;
   }
