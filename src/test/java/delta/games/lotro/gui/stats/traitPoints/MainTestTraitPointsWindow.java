@@ -3,7 +3,7 @@ package delta.games.lotro.gui.stats.traitPoints;
 import delta.games.lotro.LotroTestUtils;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharacterSummary;
-import delta.games.lotro.stats.traitPoints.TraitPointsStatus;
+import delta.games.lotro.character.traitPoints.TraitPointsStatus;
 
 /**
  * Test class for the trait points edition window.

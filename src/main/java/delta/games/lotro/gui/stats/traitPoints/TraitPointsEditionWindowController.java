@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 import delta.common.ui.swing.windows.DefaultFormDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.CharacterSummary;
-import delta.games.lotro.stats.traitPoints.TraitPointsStatus;
+import delta.games.lotro.character.traitPoints.TraitPointsStatus;
 
 /**
  * Controller for a traits points edition window.

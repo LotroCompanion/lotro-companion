@@ -7,9 +7,9 @@ import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.character.BasicCharacterAttributes;
+import delta.games.lotro.character.traitPoints.TraitPoints;
+import delta.games.lotro.character.traitPoints.TraitPointsStatus;
 import delta.games.lotro.common.CharacterClass;
-import delta.games.lotro.stats.traitPoints.TraitPoints;
-import delta.games.lotro.stats.traitPoints.TraitPointsStatus;
 
 /**
  * Controller for trait points summary panel.

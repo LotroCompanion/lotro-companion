@@ -12,12 +12,12 @@ import javax.swing.JTable;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.BasicCharacterAttributes;
+import delta.games.lotro.character.traitPoints.TraitPoint;
+import delta.games.lotro.character.traitPoints.TraitPointFilter;
+import delta.games.lotro.character.traitPoints.TraitPoints;
+import delta.games.lotro.character.traitPoints.TraitPointsRegistry;
+import delta.games.lotro.character.traitPoints.TraitPointsStatus;
 import delta.games.lotro.common.CharacterClass;
-import delta.games.lotro.stats.traitPoints.TraitPoint;
-import delta.games.lotro.stats.traitPoints.TraitPointFilter;
-import delta.games.lotro.stats.traitPoints.TraitPoints;
-import delta.games.lotro.stats.traitPoints.TraitPointsRegistry;
-import delta.games.lotro.stats.traitPoints.TraitPointsStatus;
 
 /**
  * Controller for a trait points edition panel.

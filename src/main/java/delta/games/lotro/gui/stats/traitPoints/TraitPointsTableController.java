@@ -16,13 +16,13 @@ import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.ListDataProvider;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.ui.swing.windows.WindowsManager;
+import delta.games.lotro.character.traitPoints.TraitPoint;
+import delta.games.lotro.character.traitPoints.TraitPointsStatus;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.gui.navigation.NavigatorFactory;
 import delta.games.lotro.lore.deeds.DeedsManager;
 import delta.games.lotro.lore.quests.Achievable;
 import delta.games.lotro.lore.quests.QuestsManager;
-import delta.games.lotro.stats.traitPoints.TraitPoint;
-import delta.games.lotro.stats.traitPoints.TraitPointsStatus;
 
 /**
  * Controller for a table that shows the trait points status for a character.
