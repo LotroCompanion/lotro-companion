@@ -93,7 +93,7 @@ public class AccountServerPanelController implements ActionListener
   private ToonsTableController buildToonsTable()
   {
     TypedProperties prefs=GlobalPreferences.getGlobalProperties("AccountServerCharTable");
-    ToonsTableController tableController=new ToonsTableController(prefs);
+    ToonsTableController tableController=new ToonsTableController(prefs,null);
     List<CharacterFile> characters=AccountUtils.getCharacters(_account.getName(),_server);
     tableController.setToons(characters);
     return tableController;

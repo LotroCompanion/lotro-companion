@@ -15,6 +15,7 @@ import delta.common.ui.swing.tables.GenericTableController.DateRenderer;
 import delta.common.ui.swing.tables.ListDataProvider;
 import delta.common.ui.swing.tables.Sort;
 import delta.common.ui.swing.tables.TableColumnsManager;
+import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharacterSummary;
@@ -51,12 +52,14 @@ public class ToonsTableController implements GenericEventsListener<CharacterEven
   /**
    * Constructor.
    * @param prefs Preferences.
+   * @param filter Character filter.
    */
-  public ToonsTableController(TypedProperties prefs)
+  public ToonsTableController(TypedProperties prefs, Filter<CharacterFile> filter)
   {
     _prefs=prefs;
     _toons=new ArrayList<CharacterFile>();
     _tableController=buildTable();
+    _tableController.setFilter(filter);
     EventsManager.addListener(CharacterEvent.class,this);
   }
 
@@ -405,6 +408,14 @@ public class ToonsTableController implements GenericEventsListener<CharacterEven
   public void removeActionListener(ActionListener al)
   {
     _tableController.removeActionListener(al);
+  }
+
+  /**
+   * Update managed filter.
+   */
+  public void updateFilter()
+  {
+    _tableController.filterUpdated();
   }
 
   /**

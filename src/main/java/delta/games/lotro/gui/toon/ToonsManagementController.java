@@ -56,6 +56,7 @@ public class ToonsManagementController implements ActionListener,GenericEventsLi
   private ToolbarController _toolbar;
   private NewToonDialogController _newToonDialog;
   private WindowsManager _mainWindowsManager;
+  private MainCharactersSelectionManager _selectionManager;
 
   /**
    * Constructor.
@@ -65,6 +66,7 @@ public class ToonsManagementController implements ActionListener,GenericEventsLi
   {
     _parentController=parentController;
     _mainWindowsManager=new WindowsManager();
+    _selectionManager=new MainCharactersSelectionManager();
   }
 
   /**
@@ -100,23 +102,44 @@ public class ToonsManagementController implements ActionListener,GenericEventsLi
     _toolbar=buildToolBar();
     // Columns chooser
     JButton choose=GuiFactory.buildButton("Choose columns...");
-    ActionListener al=new ActionListener()
     {
-      @Override
-      public void actionPerformed(ActionEvent e)
+      ActionListener al=new ActionListener()
       {
-        TableColumnsChooserController<CharacterFile> chooser=new TableColumnsChooserController<CharacterFile>(_parentController,_toonsTable.getTableController());
-        chooser.editModal();
-      }
-    };
-    choose.addActionListener(al);
+        @Override
+        public void actionPerformed(ActionEvent e)
+        {
+          TableColumnsChooserController<CharacterFile> chooser=new TableColumnsChooserController<CharacterFile>(_parentController,_toonsTable.getTableController());
+          chooser.editModal();
+        }
+      };
+      choose.addActionListener(al);
+    }
+    // Characters chooser
+    JButton chooseCharacters=GuiFactory.buildButton("Choose characters...");
+    {
+      ActionListener al=new ActionListener()
+      {
+        @Override
+        public void actionPerformed(ActionEvent e)
+        {
+          boolean ok=_selectionManager.chooseCharacters(_parentController);
+          if (ok)
+          {
+            _toonsTable.updateFilter();
+          }
+        }
+      };
+      chooseCharacters.addActionListener(al);
+    }
     // Assembly
     JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,5,2,5),0,0);
     ret.add(_toolbar.getToolBar(),c);
     c=new GridBagConstraints(1,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,5,2,5),0,0);
     ret.add(choose,c);
-    c=new GridBagConstraints(2,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(2,5,2,5),0,0);
+    c=new GridBagConstraints(2,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,5,2,5),0,0);
+    ret.add(chooseCharacters,c);
+    c=new GridBagConstraints(3,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(2,5,2,5),0,0);
     ret.add(Box.createHorizontalGlue(),c);
     return ret;
   }
@@ -152,7 +175,7 @@ public class ToonsManagementController implements ActionListener,GenericEventsLi
   private ToonsTableController buildToonsTable()
   {
     TypedProperties prefs=GlobalPreferences.getGlobalProperties("MainCharTable");
-    ToonsTableController tableController=new ToonsTableController(prefs);
+    ToonsTableController tableController=new ToonsTableController(prefs,_selectionManager);
     tableController.addActionListener(this);
     return tableController;
   }
