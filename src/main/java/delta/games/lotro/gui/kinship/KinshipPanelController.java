@@ -3,11 +3,9 @@ package delta.games.lotro.gui.kinship;
 import java.awt.BorderLayout;
 
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
 
 import delta.common.ui.swing.GuiFactory;
-import delta.common.ui.swing.windows.WindowsManager;
+import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.gui.main.GlobalPreferences;
 import delta.games.lotro.kinship.Kinship;
@@ -22,18 +20,20 @@ public class KinshipPanelController
   private Kinship _kinship;
   // UI
   private JPanel _panel;
-  private WindowsManager _windowsManager;
   // Controllers
+  private WindowController _parent;
   private KinshipMembersTableController _membersTable;
+  private KinshipMembersPanelController _membersPanel;
 
   /**
    * Constructor.
+   * @param parent Parent window controller.
    * @param kinship Managed account.
    */
-  public KinshipPanelController(Kinship kinship)
+  public KinshipPanelController(WindowController parent, Kinship kinship)
   {
+    _parent=parent;
     _kinship=kinship;
-    _windowsManager=new WindowsManager();
   }
 
   /**
@@ -61,12 +61,9 @@ public class KinshipPanelController
 
   private JPanel buildTablePanel()
   {
-    JPanel ret=GuiFactory.buildPanel(new BorderLayout());
     _membersTable=buildMembersTable();
-    JTable table=_membersTable.getTable();
-    JScrollPane scroll=GuiFactory.buildScrollPane(table);
-    ret.add(scroll,BorderLayout.CENTER);
-    return ret;
+    _membersPanel=new KinshipMembersPanelController(_parent,_membersTable);
+    return _membersPanel.getPanel();
   }
 
   private KinshipMembersTableController buildMembersTable()
@@ -91,15 +88,16 @@ public class KinshipPanelController
       _panel=null;
     }
     // Controllers
-    if (_windowsManager!=null)
-    {
-      _windowsManager.disposeAll();
-      _windowsManager=null;
-    }
+    _parent=null;
     if (_membersTable!=null)
     {
       _membersTable.dispose();
       _membersTable=null;
+    }
+    if (_membersPanel!=null)
+    {
+      _membersPanel.dispose();
+      _membersPanel=null;
     }
   }
 }

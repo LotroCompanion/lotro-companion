@@ -28,7 +28,7 @@ public class KinshipWindowController extends DefaultWindowController
   public KinshipWindowController(Kinship kinship)
   {
     _kinship=kinship;
-    _detailsPanel=new KinshipPanelController(_kinship);
+    _detailsPanel=new KinshipPanelController(this,_kinship);
     _summaryController=new KinshipSummaryDisplayPanelController(_kinship);
   }
 

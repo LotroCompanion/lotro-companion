@@ -161,6 +161,25 @@ public class KinshipMembersTableController implements GenericEventsListener<Kins
   }
 
   /**
+   * Get the total number of members.
+   * @return A number of members.
+   */
+  public int getNbItems()
+  {
+    return _members.size();
+  }
+
+  /**
+   * Get the number of filtered items in the managed table.
+   * @return A number of items.
+   */
+  public int getNbFilteredItems()
+  {
+    int ret=_tableController.getNbFilteredItems();
+    return ret;
+  }
+
+  /**
    * Release all managed resources.
    */
   public void dispose()

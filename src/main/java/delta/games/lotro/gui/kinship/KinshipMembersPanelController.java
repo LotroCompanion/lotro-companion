@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.deed.explorer;
+package delta.games.lotro.gui.kinship;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -15,18 +15,17 @@ import javax.swing.border.TitledBorder;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.tables.TableColumnsChooserController;
 import delta.common.ui.swing.windows.WindowController;
-import delta.games.lotro.gui.deed.table.DeedsTableController;
 import delta.games.lotro.gui.items.FilterUpdateListener;
-import delta.games.lotro.lore.deeds.DeedDescription;
+import delta.games.lotro.kinship.KinshipMember;
 
 /**
- * Controller the deed explorer panel.
+ * Controller the kinship members panel.
  * @author DAM
  */
-public class DeedExplorerPanelController implements FilterUpdateListener
+public class KinshipMembersPanelController implements FilterUpdateListener
 {
   // Data
-  private DeedsTableController _tableController;
+  private KinshipMembersTableController _tableController;
   // GUI
   private JPanel _panel;
   private JLabel _statsLabel;
@@ -38,7 +37,7 @@ public class DeedExplorerPanelController implements FilterUpdateListener
    * @param parent Parent window.
    * @param tableController Associated table controller.
    */
-  public DeedExplorerPanelController(WindowController parent, DeedsTableController tableController)
+  public KinshipMembersPanelController(WindowController parent, KinshipMembersTableController tableController)
   {
     _parent=parent;
     _tableController=tableController;
@@ -60,7 +59,7 @@ public class DeedExplorerPanelController implements FilterUpdateListener
   private JPanel build()
   {
     JPanel panel=GuiFactory.buildPanel(new BorderLayout());
-    TitledBorder itemsFrameBorder=GuiFactory.buildTitledBorder("Items");
+    TitledBorder itemsFrameBorder=GuiFactory.buildTitledBorder("Members");
     panel.setBorder(itemsFrameBorder);
 
     // Table
@@ -78,13 +77,15 @@ public class DeedExplorerPanelController implements FilterUpdateListener
       @Override
       public void actionPerformed(ActionEvent e)
       {
-        TableColumnsChooserController<DeedDescription> chooser=new TableColumnsChooserController<DeedDescription>(_parent,_tableController.getTableController());
+        TableColumnsChooserController<KinshipMember> chooser=new TableColumnsChooserController<KinshipMember>(_parent,_tableController.getTableController());
         chooser.editModal();
       }
     };
     choose.addActionListener(al);
     statsPanel.add(choose);
     panel.add(statsPanel,BorderLayout.NORTH);
+    // Force counters init
+    filterUpdated();
     return panel;
   }
 
@@ -104,11 +105,11 @@ public class DeedExplorerPanelController implements FilterUpdateListener
     String label="";
     if (nbFiltered==nbItems)
     {
-      label="Deed(s): "+nbItems;
+      label="Member(s): "+nbItems;
     }
     else
     {
-      label="Deed(s): "+nbFiltered+"/"+nbItems;
+      label="Member(s): "+nbFiltered+"/"+nbItems;
     }
     _statsLabel.setText(label);
   }
