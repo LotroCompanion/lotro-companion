@@ -36,6 +36,7 @@ import delta.games.lotro.gui.account.AccountsManagementController;
 import delta.games.lotro.gui.clientImport.ClientImportDialogController;
 import delta.games.lotro.gui.configuration.ConfigurationDialogController;
 import delta.games.lotro.gui.interceptor.InterceptorInterface;
+import delta.games.lotro.gui.kinship.KinshipsManagementController;
 import delta.games.lotro.gui.lore.instances.explorer.InstancesExplorerWindowController;
 import delta.games.lotro.gui.maps.global.MapWindowController;
 import delta.games.lotro.gui.maps.resources.ResourcesMapsExplorerWindowController;
@@ -75,6 +76,7 @@ public class MainFrameController extends DefaultWindowController implements Acti
   private PaypalButtonController _paypalButton;
   private ToonsManagementController _toonsManager;
   private AccountsManagementController _accountsManager;
+  private KinshipsManagementController _kinshipsManager;
   private WindowsManager _windowsManager;
 
   /**
@@ -84,6 +86,7 @@ public class MainFrameController extends DefaultWindowController implements Acti
   {
     _toonsManager=new ToonsManagementController(this);
     _accountsManager=new AccountsManagementController(this);
+    _kinshipsManager=new KinshipsManagementController(this);
     _windowsManager=new WindowsManager();
     _loreCtrl=new LoreActionsController(this,_windowsManager);
   }
@@ -203,6 +206,9 @@ public class MainFrameController extends DefaultWindowController implements Acti
     // Accounts
     JPanel accountsPanel=_accountsManager.getPanel();
     tabbedPane.add("Accounts",accountsPanel);
+    // Kinships
+    JPanel kinshipsPanel=_kinshipsManager.getPanel();
+    tabbedPane.add("Kinships",kinshipsPanel);
     ret.add(tabbedPane,BorderLayout.CENTER);
     return ret;
   }
@@ -571,6 +577,11 @@ public class MainFrameController extends DefaultWindowController implements Acti
     {
       _accountsManager.dispose();
       _accountsManager=null;
+    }
+    if (_kinshipsManager!=null)
+    {
+      _kinshipsManager.dispose();
+      _kinshipsManager=null;
     }
   }
 }

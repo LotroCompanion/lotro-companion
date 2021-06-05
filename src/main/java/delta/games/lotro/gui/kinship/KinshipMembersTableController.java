@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.toon;
+package delta.games.lotro.gui.kinship;
 
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -13,55 +13,56 @@ import delta.common.ui.swing.tables.TableColumnController;
 import delta.common.ui.swing.tables.TableColumnsManager;
 import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.misc.TypedProperties;
-import delta.games.lotro.character.CharacterFile;
-import delta.games.lotro.character.CharacterSummary;
-import delta.games.lotro.character.events.CharacterEvent;
-import delta.games.lotro.character.events.CharacterEventType;
 import delta.games.lotro.gui.items.chooser.ItemChooser;
+import delta.games.lotro.gui.toon.ToonsTableColumnIds;
+import delta.games.lotro.kinship.Kinship;
+import delta.games.lotro.kinship.KinshipMember;
+import delta.games.lotro.kinship.events.KinshipEvent;
+import delta.games.lotro.kinship.events.KinshipEventType;
 import delta.games.lotro.utils.events.EventsManager;
 import delta.games.lotro.utils.events.GenericEventsListener;
 
 /**
- * Controller for a table that shows all available toons.
+ * Controller for a table that kinship members.
  * @author DAM
  */
-public class ToonsTableController implements GenericEventsListener<CharacterEvent>
+public class KinshipMembersTableController implements GenericEventsListener<KinshipEvent>
 {
   // Data
   private TypedProperties _prefs;
-  private List<CharacterFile> _toons;
+  private List<KinshipMember> _members;
   // GUI
   private JTable _table;
-  private GenericTableController<CharacterFile> _tableController;
+  private GenericTableController<KinshipMember> _tableController;
 
   /**
    * Constructor.
    * @param prefs Preferences.
-   * @param filter Character filter.
+   * @param filter Member filter.
    */
-  public ToonsTableController(TypedProperties prefs, Filter<CharacterFile> filter)
+  public KinshipMembersTableController(TypedProperties prefs, Filter<KinshipMember> filter)
   {
     _prefs=prefs;
-    _toons=new ArrayList<CharacterFile>();
+    _members=new ArrayList<KinshipMember>();
     _tableController=buildTable();
     _tableController.setFilter(filter);
-    EventsManager.addListener(CharacterEvent.class,this);
+    EventsManager.addListener(KinshipEvent.class,this);
   }
 
-  private GenericTableController<CharacterFile> buildTable()
+  private GenericTableController<KinshipMember> buildTable()
   {
-    ListDataProvider<CharacterFile> provider=new ListDataProvider<CharacterFile>(_toons);
-    GenericTableController<CharacterFile> table=new GenericTableController<CharacterFile>(provider);
+    ListDataProvider<KinshipMember> provider=new ListDataProvider<KinshipMember>(_members);
+    GenericTableController<KinshipMember> table=new GenericTableController<KinshipMember>(provider);
 
-    List<TableColumnController<CharacterFile,?>> columns=CharacterFileColumnsBuilder.build();
-    for(TableColumnController<CharacterFile,?> column:columns)
+    List<TableColumnController<KinshipMember,?>> columns=KinshipMemberColumnsBuilder.build();
+    for(TableColumnController<KinshipMember,?> column:columns)
     {
       table.addColumnController(column);
     }
-    String sort=Sort.SORT_ASCENDING+ToonsTableColumnIds.NAME+Sort.SORT_ITEM_SEPARATOR+Sort.SORT_ASCENDING+ToonsTableColumnIds.SERVER;
+    String sort=Sort.SORT_ASCENDING+ToonsTableColumnIds.NAME+Sort.SORT_ITEM_SEPARATOR+Sort.SORT_ASCENDING+KinshipMembersColumnIds.RANK;
     table.setSort(Sort.buildFromString(sort));
 
-    TableColumnsManager<CharacterFile> columnsManager=table.getColumnsManager();
+    TableColumnsManager<KinshipMember> columnsManager=table.getColumnsManager();
     List<String> columnsIds=getColumnIds();
     columnsManager.setColumns(columnsIds);
     return table;
@@ -78,13 +79,10 @@ public class ToonsTableController implements GenericEventsListener<CharacterEven
     {
       columnIds=new ArrayList<String>();
       columnIds.add(ToonsTableColumnIds.NAME.name());
-      columnIds.add(ToonsTableColumnIds.CLASS.name());
-      columnIds.add(ToonsTableColumnIds.RACE.name());
+      columnIds.add(KinshipMembersColumnIds.RANK.name());
       columnIds.add(ToonsTableColumnIds.LEVEL.name());
-      columnIds.add(ToonsTableColumnIds.SERVER.name());
-      columnIds.add(ToonsTableColumnIds.MONEY.name());
-      columnIds.add(ToonsTableColumnIds.INGAME_TIME.name());
-      columnIds.add(ToonsTableColumnIds.TITLE.name());
+      columnIds.add(ToonsTableColumnIds.RACE.name());
+      columnIds.add(ToonsTableColumnIds.CLASS.name());
     }
     return columnIds;
   }
@@ -92,42 +90,34 @@ public class ToonsTableController implements GenericEventsListener<CharacterEven
    * Get the managed table controller.
    * @return the managed table controller.
    */
-  public GenericTableController<CharacterFile> getTableController()
+  public GenericTableController<KinshipMember> getTableController()
   {
     return _tableController;
   }
 
   /**
-   * Handle character events.
+   * Handle kinship events.
    * @param event Source event.
    */
   @Override
-  public void eventOccurred(CharacterEvent event)
+  public void eventOccurred(KinshipEvent event)
   {
-    CharacterEventType type=event.getType();
-    if ((type==CharacterEventType.CHARACTER_SUMMARY_UPDATED)
-        || (type==CharacterEventType.CHARACTER_DETAILS_UPDATED))
+    KinshipEventType type=event.getType();
+    if (type==KinshipEventType.KINSHIP_ROSTER_UPDATED)
     {
-      CharacterFile toon=event.getToonFile();
-      _tableController.refresh(toon);
+      Kinship kinship=event.getKinship();
+      setMembers(kinship.getRoster().getAllMembers());
     }
   }
 
   /**
-   * Set the characters to show.
-   * @param toons List of characters to show.
+   * Set the members to show.
+   * @param members List of members to show.
    */
-  public void setToons(List<CharacterFile> toons)
+  public void setMembers(List<KinshipMember> members)
   {
-    _toons.clear();
-    for(CharacterFile toon : toons)
-    {
-      CharacterSummary summary=toon.getSummary();
-      if (summary!=null)
-      {
-        _toons.add(toon);
-      }
-    }
+    _members.clear();
+    _members.addAll(members);
     _tableController.refresh();
   }
 
@@ -176,7 +166,7 @@ public class ToonsTableController implements GenericEventsListener<CharacterEven
   public void dispose()
   {
     // Listeners
-    EventsManager.removeListener(CharacterEvent.class,this);
+    EventsManager.removeListener(KinshipEvent.class,this);
     // Preferences
     if (_prefs!=null)
     {
@@ -192,6 +182,6 @@ public class ToonsTableController implements GenericEventsListener<CharacterEven
       _tableController=null;
     }
     // Data
-    _toons=null;
+    _members=null;
   }
 }
