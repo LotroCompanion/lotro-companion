@@ -110,7 +110,7 @@ public class NewToonDialogController extends DefaultFormDialogController<Object>
     };
     _race.addListener(listener);
     // Sex
-    _sex=CharacterUiUtils.buildSexCombo();
+    _sex=CharacterUiUtils.buildSexCombo(false);
 
     Insets insets=new Insets(5,5,5,5);
     GridBagConstraints gbc=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,insets,0,0);

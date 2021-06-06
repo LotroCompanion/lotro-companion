@@ -59,11 +59,16 @@ public class CharacterUiUtils
 
   /**
    * Build a character sex combobox.
+   * @param includeEmptyChoice Include an empty choice or not.
    * @return a character sex combobox.
    */
-  public static ComboBoxController<CharacterSex> buildSexCombo()
+  public static ComboBoxController<CharacterSex> buildSexCombo(boolean includeEmptyChoice)
   {
     ComboBoxController<CharacterSex> ctrl=new ComboBoxController<CharacterSex>();
+    if (includeEmptyChoice)
+    {
+      ctrl.addEmptyItem("");
+    }
     for(CharacterSex characterSex : CharacterSex.ALL)
     {
       ctrl.addItem(characterSex,characterSex.getLabel());

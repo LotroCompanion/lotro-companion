@@ -64,8 +64,8 @@ public class KinshipWindowController extends DefaultWindowController
     String name=_kinship.getName();
     String title="Kinship: "+name;
     frame.setTitle(title);
-    frame.setMinimumSize(new Dimension(400,200));
-    frame.setSize(800,350);
+    frame.setMinimumSize(new Dimension(650,350));
+    frame.setSize(850,600);
     frame.setResizable(true);
     return frame;
   }

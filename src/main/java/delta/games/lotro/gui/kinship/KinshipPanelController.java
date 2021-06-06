@@ -3,12 +3,15 @@ package delta.games.lotro.gui.kinship;
 import java.awt.BorderLayout;
 
 import javax.swing.JPanel;
+import javax.swing.border.TitledBorder;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.misc.TypedProperties;
+import delta.games.lotro.gui.kinship.filter.KinshipMemberFilterController;
 import delta.games.lotro.gui.main.GlobalPreferences;
 import delta.games.lotro.kinship.Kinship;
+import delta.games.lotro.kinship.filters.KinshipMemberFilter;
 
 /**
  * Controller for a panel to display kinship data.
@@ -18,10 +21,12 @@ public class KinshipPanelController
 {
   // Data
   private Kinship _kinship;
+  private KinshipMemberFilter _filter;
   // UI
   private JPanel _panel;
   // Controllers
   private WindowController _parent;
+  private KinshipMemberFilterController _filterController;
   private KinshipMembersTableController _membersTable;
   private KinshipMembersPanelController _membersPanel;
 
@@ -34,6 +39,7 @@ public class KinshipPanelController
   {
     _parent=parent;
     _kinship=kinship;
+    _filter=new KinshipMemberFilter();
   }
 
   /**
@@ -56,6 +62,12 @@ public class KinshipPanelController
     JPanel tablePanel=buildTablePanel();
     tablePanel.setBorder(GuiFactory.buildTitledBorder("Characters"));
     panel.add(tablePanel,BorderLayout.CENTER);
+    // Top panel
+    _filterController=new KinshipMemberFilterController(_kinship,_filter,_membersPanel);
+    JPanel filterPanel=_filterController.getPanel();
+    TitledBorder filterBorder=GuiFactory.buildTitledBorder("Filter");
+    filterPanel.setBorder(filterBorder);
+    panel.add(filterPanel,BorderLayout.NORTH);
     return panel;
   }
 
@@ -69,7 +81,7 @@ public class KinshipPanelController
   private KinshipMembersTableController buildMembersTable()
   {
     TypedProperties prefs=GlobalPreferences.getGlobalProperties("KinshipMembersTable");
-    KinshipMembersTableController tableController=new KinshipMembersTableController(prefs,null);
+    KinshipMembersTableController tableController=new KinshipMembersTableController(prefs,_filter);
     tableController.setMembers(_kinship.getRoster().getAllMembers());
     return tableController;
   }
@@ -81,6 +93,7 @@ public class KinshipPanelController
   {
     // Data
     _kinship=null;
+    _filter=null;
     // UI
     if (_panel!=null)
     {
@@ -89,6 +102,11 @@ public class KinshipPanelController
     }
     // Controllers
     _parent=null;
+    if (_filterController!=null)
+    {
+      _filterController.dispose();
+      _filterController=null;
+    }
     if (_membersTable!=null)
     {
       _membersTable.dispose();

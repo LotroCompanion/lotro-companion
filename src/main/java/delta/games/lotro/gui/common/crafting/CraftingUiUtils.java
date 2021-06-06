@@ -12,7 +12,8 @@ import delta.games.lotro.lore.crafting.ProfessionComparator;
 import delta.games.lotro.lore.crafting.Professions;
 
 /**
- * @author dm
+ * Utility methods for crafting-related UIs.
+ * @author DAM
  */
 public class CraftingUiUtils
 {
