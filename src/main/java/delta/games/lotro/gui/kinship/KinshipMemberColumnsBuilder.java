@@ -3,14 +3,12 @@ package delta.games.lotro.gui.kinship;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.SwingConstants;
-import javax.swing.table.DefaultTableCellRenderer;
-
 import delta.common.ui.swing.tables.CellDataProvider;
 import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.GenericTableController.DateRenderer;
 import delta.common.ui.swing.tables.ProxiedTableColumnController;
 import delta.common.ui.swing.tables.TableColumnController;
+import delta.games.lotro.common.CharacterSex;
 import delta.games.lotro.gui.toon.CharacterSummaryColumnsBuilder;
 import delta.games.lotro.kinship.KinshipCharacterSummary;
 import delta.games.lotro.kinship.KinshipMember;
@@ -47,7 +45,7 @@ public class KinshipMemberColumnsBuilder
       TableColumnController<KinshipMember,Object> proxiedColumn=new ProxiedTableColumnController<KinshipMember,KinshipCharacterSummary,Object>(c,dataProvider);
       columns.add(proxiedColumn);
     }
-    // Details columns
+    // Members columns
     List<TableColumnController<KinshipMember,?>> detailsColumns=getKinshipMemberSpecificColumns();
     columns.addAll(detailsColumns);
     return columns;
@@ -139,24 +137,17 @@ public class KinshipMemberColumnsBuilder
     }
     // Rank
     {
-      CellDataProvider<KinshipMember,KinshipRank> rankCell=new CellDataProvider<KinshipMember,KinshipRank>()
+      CellDataProvider<KinshipMember,String> rankCell=new CellDataProvider<KinshipMember,String>()
       {
-        public KinshipRank getData(KinshipMember member)
+        public String getData(KinshipMember member)
         {
-          return member.getRank();
+          KinshipRank rank=member.getRank();
+          CharacterSex sex=member.getSummary().getCharacterSex();
+          String text=KinshipRankRenderer.render(rank,sex);
+          return text;
         }
       };
-      DefaultTableColumnController<KinshipMember,KinshipRank> rankColumn=new DefaultTableColumnController<KinshipMember,KinshipRank>(KinshipMembersColumnIds.RANK.name(),"Rank",KinshipRank.class,rankCell);
-      DefaultTableCellRenderer renderer=new DefaultTableCellRenderer()
-      {
-        @Override
-        public void setValue(Object value)
-        {
-          setHorizontalAlignment(SwingConstants.CENTER);
-          setText((value == null) ? "" : ((KinshipRank)value).getName());
-        }
-      };
-      rankColumn.setCellRenderer(renderer);
+      DefaultTableColumnController<KinshipMember,String> rankColumn=new DefaultTableColumnController<KinshipMember,String>(KinshipMembersColumnIds.RANK.name(),"Rank",String.class,rankCell);
       rankColumn.setWidthSpecs(120,120,120);
       ret.add(rankColumn);
     }
