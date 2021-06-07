@@ -10,11 +10,14 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.border.Border;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.common.ui.swing.combobox.ItemSelectionListener;
+import delta.common.ui.swing.text.DynamicTextEditionController;
+import delta.common.ui.swing.text.TextListener;
 import delta.common.utils.collections.filters.Filter;
 import delta.games.lotro.gui.items.FilterUpdateListener;
 import delta.games.lotro.kinship.Kinship;
@@ -22,6 +25,7 @@ import delta.games.lotro.kinship.KinshipMember;
 import delta.games.lotro.kinship.KinshipRank;
 import delta.games.lotro.kinship.KinshipRoster;
 import delta.games.lotro.kinship.filters.KinshipMemberFilter;
+import delta.games.lotro.kinship.filters.KinshipMemberNotesFilter;
 import delta.games.lotro.kinship.filters.KinshipRankFilter;
 
 /**
@@ -37,10 +41,12 @@ public class KinshipMemberFilterController implements ActionListener
   private JPanel _panel;
   private JButton _reset;
   // -- Member attributes UI --
+  private JTextField _contains;
   private ComboBoxController<KinshipRank> _rank;
-  // -- Requirements UI --
+  // -- Summary filter UI --
   private CharacterSummaryFilterController _summary;
   // Controllers
+  private DynamicTextEditionController _textController;
   private FilterUpdateListener _filterUpdateListener;
 
   /**
@@ -95,13 +101,29 @@ public class KinshipMemberFilterController implements ActionListener
     Object source=e.getSource();
     if (source==_reset)
     {
-      _rank.selectItem(null);
-      _summary.reset();
+      reset();
     }
+  }
+
+  /**
+   * Reset all gadgets.
+   */
+  private void reset()
+  {
+    _rank.selectItem(null);
+    _contains.setText("");
+    _summary.reset();
   }
 
   private void setFilter()
   {
+    // Notes
+    KinshipMemberNotesFilter notesFilter=_filter.getNotesFilter();
+    String contains=notesFilter.getPattern();
+    if (contains!=null)
+    {
+      _contains.setText(contains);
+    }
     // Rank
     KinshipRankFilter rankFilter=_filter.getRankFilter();
     KinshipRank rank=rankFilter.getRank();
@@ -165,6 +187,25 @@ public class KinshipMemberFilterController implements ActionListener
       _rank.addListener(rankListener);
       linePanel.add(_rank.getComboBox());
     }
+    // Notes filter
+    {
+      linePanel.add(GuiFactory.buildLabel("Notes filter:"));
+      _contains=GuiFactory.buildTextField("");
+      _contains.setColumns(10);
+      linePanel.add(_contains);
+      TextListener listener=new TextListener()
+      {
+        @Override
+        public void textChanged(String newText)
+        {
+          if (newText.length()==0) newText=null;
+          KinshipMemberNotesFilter notesFilter=_filter.getNotesFilter();
+          notesFilter.setPattern(newText);
+          filterUpdated();
+        }
+      };
+      _textController=new DynamicTextEditionController(_contains,listener);
+    }
     GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,5,0),0,0);
     panel.add(linePanel,c);
     y++;
@@ -207,11 +248,17 @@ public class KinshipMemberFilterController implements ActionListener
       _rank.dispose();
       _rank=null;
     }
+    if (_textController!=null)
+    {
+      _textController.dispose();
+      _textController=null;
+    }
     if (_summary!=null)
     {
       _summary.dispose();
       _summary=null;
     }
     _reset=null;
+    _contains=null;
   }
 }
