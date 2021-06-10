@@ -9,12 +9,16 @@ import javax.swing.JTable;
 import delta.common.ui.swing.tables.CellDataProvider;
 import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.GenericTableController;
+import delta.common.ui.swing.tables.GenericTableController.DateRenderer;
 import delta.common.ui.swing.tables.ListDataProvider;
+import delta.games.lotro.common.id.InternalGameId;
+import delta.games.lotro.gui.utils.UiConfiguration;
 import delta.games.lotro.kinship.Kinship;
 import delta.games.lotro.kinship.KinshipSummary;
 import delta.games.lotro.kinship.KinshipsManager;
 import delta.games.lotro.kinship.events.KinshipEvent;
 import delta.games.lotro.kinship.events.KinshipEventType;
+import delta.games.lotro.utils.Formats;
 import delta.games.lotro.utils.events.EventsManager;
 import delta.games.lotro.utils.events.GenericEventsListener;
 
@@ -50,20 +54,68 @@ public class KinshipsTableController implements GenericEventsListener<KinshipEve
     ListDataProvider<Kinship> provider=new ListDataProvider<Kinship>(_kinships);
     GenericTableController<Kinship> table=new GenericTableController<Kinship>(provider);
 
+    // ID column
+    if (UiConfiguration.showTechnicalColumns())
+    {
+      CellDataProvider<Kinship,String> iidCell=new CellDataProvider<Kinship,String>()
+      {
+        @Override
+        public String getData(Kinship kinship)
+        {
+          Long iid=kinship.getID();
+          if (iid!=null)
+          {
+            return new InternalGameId(iid.longValue()).asPersistedString();
+          }
+          return null;
+        }
+      };
+      DefaultTableColumnController<Kinship,String> iidColumn=new DefaultTableColumnController<Kinship,String>(KinshipColumnIds.IID.name(),"ID",String.class,iidCell);
+      iidColumn.setWidthSpecs(130,130,130);
+      table.addColumnController(iidColumn);
+    }
     // Name column
     {
       CellDataProvider<Kinship,String> nameCell=new CellDataProvider<Kinship,String>()
       {
         @Override
-        public String getData(Kinship item)
+        public String getData(Kinship kinship)
         {
-          KinshipSummary data=item.getSummary();
-          return data.getName();
+          KinshipSummary summary=kinship.getSummary();
+          return summary.getName();
         }
       };
-      DefaultTableColumnController<Kinship,String> nameColumn=new DefaultTableColumnController<Kinship,String>("Name",String.class,nameCell);
+      DefaultTableColumnController<Kinship,String> nameColumn=new DefaultTableColumnController<Kinship,String>(KinshipColumnIds.NAME.name(),"Name",String.class,nameCell);
       nameColumn.setWidthSpecs(100,100,100);
       table.addColumnController(nameColumn);
+    }
+    // Creation date
+    {
+      CellDataProvider<Kinship,Long> creationCell=new CellDataProvider<Kinship,Long>()
+      {
+        public Long getData(Kinship kinship)
+        {
+          return kinship.getSummary().getCreationDate();
+        }
+      };
+      DefaultTableColumnController<Kinship,Long> creationColumn=new DefaultTableColumnController<Kinship,Long>(KinshipColumnIds.CREATION_DATE.name(),"Creation",Long.class,creationCell);
+      creationColumn.setWidthSpecs(120,120,120);
+      creationColumn.setCellRenderer(new DateRenderer(Formats.DATE_TIME_PATTERN));
+      table.addColumnController(creationColumn);
+    }
+    // Message of the day
+    {
+      CellDataProvider<Kinship,String> motdCell=new CellDataProvider<Kinship,String>()
+      {
+        @Override
+        public String getData(Kinship kinship)
+        {
+          return kinship.getSummary().getMotd();
+        }
+      };
+      DefaultTableColumnController<Kinship,String> motdColumn=new DefaultTableColumnController<Kinship,String>(KinshipColumnIds.MOTD.name(),"Message of the day",String.class,motdCell);
+      motdColumn.setWidthSpecs(100,-1,200);
+      table.addColumnController(motdColumn);
     }
     return table;
   }
