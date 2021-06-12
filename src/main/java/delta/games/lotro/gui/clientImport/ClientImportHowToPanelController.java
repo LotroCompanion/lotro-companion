@@ -61,16 +61,19 @@ public class ClientImportHowToPanelController
     sb.append(EndOfLine.UNIX);
     sb.append("  Then it will import summary data, reputation status, virtues status and crafting status.");
     sb.append(EndOfLine.UNIX);
-    sb.append("  Current gear and deeds status are not available at this stage.");
+    sb.append("  Other data elements are not available at this stage.");
     sb.append(EndOfLine.UNIX);
     sb.append("OR");
     sb.append(EndOfLine.UNIX);
-    sb.append("b) the selected character has entered world. Then it will additionaly import current gear and deeds status.");
+    sb.append("b) the selected character has entered world. Then it will be able to import all the selected data elements.");
     sb.append(EndOfLine.UNIX);
     sb.append(EndOfLine.UNIX);
     sb.append("Option a) is fastest to get an overview: select a character then import, select another one, then import...");
     sb.append(EndOfLine.UNIX);
     sb.append("Option b) is slower but it will get all the possible data for the chosen character.");
+    sb.append(EndOfLine.UNIX);
+    sb.append(EndOfLine.UNIX);
+    sb.append("Note that vault data is available only if the corresponding vault has been opened during the session.");
     sb.append(EndOfLine.UNIX);
     return sb.toString();
   }
