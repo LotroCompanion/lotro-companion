@@ -1,5 +1,7 @@
 package delta.games.lotro.gui.character.storage;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +17,7 @@ import delta.common.ui.swing.tables.ProxiedTableColumnController;
 import delta.common.ui.swing.tables.Sort;
 import delta.common.ui.swing.tables.TableColumnController;
 import delta.common.ui.swing.tables.TableColumnsManager;
+import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.character.storage.StoredItem;
@@ -24,8 +27,11 @@ import delta.games.lotro.common.owner.Owner;
 import delta.games.lotro.common.owner.comparators.OwnerComparator;
 import delta.games.lotro.gui.items.CountedItemsTableController;
 import delta.games.lotro.gui.items.ItemColumnIds;
+import delta.games.lotro.gui.items.ItemUiTools;
 import delta.games.lotro.gui.items.chooser.ItemChooser;
 import delta.games.lotro.lore.items.CountedItem;
+import delta.games.lotro.lore.items.Item;
+import delta.games.lotro.lore.items.ItemInstance;
 import delta.games.lotro.lore.items.ItemProvider;
 
 /**
@@ -43,6 +49,8 @@ public class StoredItemsTableController
    */
   public static final String LOCATION_COLUMN="LOCATION";
 
+  // Parent controller
+  private WindowController _parent;
   // Preferences
   private TypedProperties _prefs;
   // Data
@@ -52,12 +60,14 @@ public class StoredItemsTableController
 
   /**
    * Constructor.
+   * @param parent Parent controller.
    * @param prefs User preferences.
    * @param items Items to show.
    * @param filter Managed filter.
    */
-  public StoredItemsTableController(TypedProperties prefs, List<StoredItem> items, Filter<StoredItem> filter)
+  public StoredItemsTableController(WindowController parent, TypedProperties prefs, List<StoredItem> items, Filter<StoredItem> filter)
   {
+    _parent=parent;
     _prefs=prefs;
     _items=items;
     _tableController=buildTable();
@@ -182,6 +192,39 @@ public class StoredItemsTableController
     JTable table=getTable();
     // Adjust table row height for icons (32 pixels)
     table.setRowHeight(32);
+    // Action listener
+    ActionListener al=new ActionListener()
+    {
+      @Override
+      public void actionPerformed(ActionEvent event)
+      {
+        String action=event.getActionCommand();
+        if (GenericTableController.DOUBLE_CLICK.equals(action))
+        {
+          Object sourceItem=event.getSource();
+          showItem(sourceItem);
+        }
+      }
+    };
+    _tableController.addActionListener(al);
+  }
+
+  @SuppressWarnings("unchecked")
+  private void showItem(Object sourceItem)
+  {
+    StoredItem storedItem=(StoredItem)sourceItem;
+    CountedItem<ItemProvider> countedItem=storedItem.getItem();
+    ItemProvider managedItem=countedItem.getManagedItem();
+    if (managedItem instanceof ItemInstance)
+    {
+      ItemInstance<? extends Item> item=(ItemInstance<? extends Item>)managedItem;
+      ItemUiTools.showItemInstanceWindow(_parent,item);
+    }
+    else if (managedItem instanceof Item)
+    {
+      Item item=(Item)managedItem;
+      ItemUiTools.showItemForm(_parent,item);
+    }
   }
 
   /**
@@ -233,6 +276,8 @@ public class StoredItemsTableController
    */
   public void dispose()
   {
+    // Parent controller
+    _parent=null;
     // Preferences
     if (_prefs!=null)
     {

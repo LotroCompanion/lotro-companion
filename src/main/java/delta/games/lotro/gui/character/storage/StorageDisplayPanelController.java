@@ -49,7 +49,7 @@ public class StorageDisplayPanelController implements FilterUpdateListener
     _filter=filter;
     _items=new ArrayList<StoredItem>();
     TypedProperties prefs=GlobalPreferences.getGlobalProperties("StorageDisplay");
-    _tableController=new StoredItemsTableController(prefs,_items,filter);
+    _tableController=new StoredItemsTableController(parent,prefs,_items,filter);
     getPanel();
   }
 
