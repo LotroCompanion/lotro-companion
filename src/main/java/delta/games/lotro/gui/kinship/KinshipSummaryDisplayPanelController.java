@@ -32,6 +32,7 @@ public class KinshipSummaryDisplayPanelController implements GenericEventsListen
   // UI
   private JPanel _panel;
   private JLabel _nameLabel;
+  private JLabel _statusDateLabel;
   private JLabel _founderLabel;
   private JLabel _creationDateLabel;
   private JLabel _leaderLabel;
@@ -84,6 +85,8 @@ public class KinshipSummaryDisplayPanelController implements GenericEventsListen
     Insets insets=new Insets(2,5,2,5);
     GridBagConstraints gbc=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,insets,0,0);
     // Labels
+    panel.add(GuiFactory.buildLabel("Status Date:"),gbc);
+    gbc.gridx=0; gbc.gridy++;
     panel.add(GuiFactory.buildLabel("Founder:"),gbc);
     gbc.gridx=0; gbc.gridy++;
     panel.add(GuiFactory.buildLabel("Creation Date:"),gbc);
@@ -95,6 +98,9 @@ public class KinshipSummaryDisplayPanelController implements GenericEventsListen
     // Values
     gbc.gridx=1; gbc.gridy=0;
     gbc.weightx=1.0; gbc.fill=GridBagConstraints.HORIZONTAL;
+    _statusDateLabel=GuiFactory.buildLabel("");
+    panel.add(_statusDateLabel,gbc);
+    gbc.gridx=1; gbc.gridy++;
     _founderLabel=GuiFactory.buildLabel("");
     panel.add(_founderLabel,gbc);
     gbc.gridx=1; gbc.gridy++;
@@ -137,6 +143,11 @@ public class KinshipSummaryDisplayPanelController implements GenericEventsListen
     {
       return;
     }
+    // Status date
+    String statusDateStr="";
+    long statusDate=_summary.getStatusDate();
+    statusDateStr=Formats.getDateTimeString(new Date(statusDate));
+    _statusDateLabel.setText(statusDateStr);
     // Name
     String name=_summary.getName();
     _nameLabel.setText(name);
@@ -149,7 +160,7 @@ public class KinshipSummaryDisplayPanelController implements GenericEventsListen
     if (creationDate!=null)
     {
       Date d=new Date(creationDate.longValue());
-      dateStr=Formats.getDateFormatter().format(d);
+      dateStr=Formats.getDateString(d);
     }
     _creationDateLabel.setText(dateStr);
     // Leader
