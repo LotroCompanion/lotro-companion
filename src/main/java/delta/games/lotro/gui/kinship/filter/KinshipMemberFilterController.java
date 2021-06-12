@@ -6,6 +6,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Objects;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -19,7 +20,9 @@ import delta.common.ui.swing.combobox.ItemSelectionListener;
 import delta.common.ui.swing.text.DynamicTextEditionController;
 import delta.common.ui.swing.text.TextListener;
 import delta.common.utils.collections.filters.Filter;
+import delta.games.lotro.common.CharacterSex;
 import delta.games.lotro.gui.items.FilterUpdateListener;
+import delta.games.lotro.gui.kinship.KinshipRankRenderer;
 import delta.games.lotro.kinship.Kinship;
 import delta.games.lotro.kinship.KinshipMember;
 import delta.games.lotro.kinship.KinshipRank;
@@ -42,7 +45,7 @@ public class KinshipMemberFilterController implements ActionListener
   private JButton _reset;
   // -- Member attributes UI --
   private JTextField _contains;
-  private ComboBoxController<KinshipRank> _rank;
+  private ComboBoxController<Integer> _rank;
   // -- Summary filter UI --
   private CharacterSummaryFilterController _summary;
   // Controllers
@@ -126,8 +129,8 @@ public class KinshipMemberFilterController implements ActionListener
     }
     // Rank
     KinshipRankFilter rankFilter=_filter.getRankFilter();
-    KinshipRank rank=rankFilter.getRank();
-    _rank.selectItem(rank);
+    Integer rankID=rankFilter.getRankID();
+    _rank.selectItem(rankID);
     // Summary
     _summary.setFilter();
   }
@@ -174,13 +177,13 @@ public class KinshipMemberFilterController implements ActionListener
       JLabel label=GuiFactory.buildLabel("Rank:");
       linePanel.add(label);
       _rank=buildRankCombo(_kinship.getRoster());
-      ItemSelectionListener<KinshipRank> rankListener=new ItemSelectionListener<KinshipRank>()
+      ItemSelectionListener<Integer> rankListener=new ItemSelectionListener<Integer>()
       {
         @Override
-        public void itemSelected(KinshipRank rank)
+        public void itemSelected(Integer rankID)
         {
           KinshipRankFilter rankFilter=_filter.getRankFilter();
-          rankFilter.setRank(rank);
+          rankFilter.setRankID(rankID);
           filterUpdated();
         }
       };
@@ -217,16 +220,29 @@ public class KinshipMemberFilterController implements ActionListener
    * @param roster Kinship roster.
    * @return A new combo-box controller.
    */
-  public static ComboBoxController<KinshipRank> buildRankCombo(KinshipRoster roster)
+  public static ComboBoxController<Integer> buildRankCombo(KinshipRoster roster)
   {
-    ComboBoxController<KinshipRank> ctrl=new ComboBoxController<KinshipRank>();
+    ComboBoxController<Integer> ctrl=new ComboBoxController<Integer>();
     ctrl.addEmptyItem("");
     for(KinshipRank rank : roster.getRanks())
     {
-      ctrl.addItem(rank,rank.getName());
+      Integer code=Integer.valueOf(rank.getCode());
+      String label=getRankLabel(rank);
+      ctrl.addItem(code,label);
     }
     ctrl.selectItem(null);
     return ctrl;
+  }
+
+  private static String getRankLabel(KinshipRank rank)
+  {
+    String male=KinshipRankRenderer.render(rank,CharacterSex.MALE);
+    String female=KinshipRankRenderer.render(rank,CharacterSex.FEMALE);
+    if (Objects.equals(male,female))
+    {
+      return male;
+    }
+    return female+" / "+male;
   }
 
   /**
