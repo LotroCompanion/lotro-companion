@@ -11,13 +11,13 @@ import delta.common.ui.swing.tables.ListDataProvider;
 import delta.common.ui.swing.tables.Sort;
 import delta.common.ui.swing.tables.TableColumnController;
 import delta.common.ui.swing.tables.TableColumnsManager;
+import delta.common.ui.swing.tables.TablePreferencesProperties;
 import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharacterSummary;
 import delta.games.lotro.character.events.CharacterEvent;
 import delta.games.lotro.character.events.CharacterEventType;
-import delta.games.lotro.gui.items.chooser.ItemChooser;
 import delta.games.lotro.utils.events.EventsManager;
 import delta.games.lotro.utils.events.GenericEventsListener;
 
@@ -53,18 +53,38 @@ public class ToonsTableController implements GenericEventsListener<CharacterEven
     ListDataProvider<CharacterFile> provider=new ListDataProvider<CharacterFile>(_toons);
     GenericTableController<CharacterFile> table=new GenericTableController<CharacterFile>(provider);
 
+    // Columns
+    // - build
     List<TableColumnController<CharacterFile,?>> columns=CharacterFileColumnsBuilder.build();
     for(TableColumnController<CharacterFile,?> column:columns)
     {
       table.addColumnController(column);
     }
-    String sort=Sort.SORT_ASCENDING+ToonsTableColumnIds.NAME+Sort.SORT_ITEM_SEPARATOR+Sort.SORT_ASCENDING+ToonsTableColumnIds.SERVER;
-    table.setSort(Sort.buildFromString(sort));
-
+    // - select
     TableColumnsManager<CharacterFile> columnsManager=table.getColumnsManager();
     List<String> columnsIds=getColumnIds();
     columnsManager.setColumns(columnsIds);
+
+    // Sort
+    Sort sort=getSort();
+    table.setSort(sort);
+
     return table;
+  }
+
+  private Sort getSort()
+  {
+    String sortString=null;
+    if (_prefs!=null)
+    {
+      sortString=_prefs.getStringProperty(TablePreferencesProperties.SORT_PROPERTY,null);
+    }
+    if (sortString==null)
+    {
+      sortString=Sort.SORT_ASCENDING+ToonsTableColumnIds.NAME+Sort.SORT_ITEM_SEPARATOR+Sort.SORT_ASCENDING+ToonsTableColumnIds.SERVER;
+    }
+    Sort sort=Sort.buildFromString(sortString);
+    return sort;
   }
 
   private List<String> getColumnIds()
@@ -72,22 +92,29 @@ public class ToonsTableController implements GenericEventsListener<CharacterEven
     List<String> columnIds=null;
     if (_prefs!=null)
     {
-      columnIds=_prefs.getStringList(ItemChooser.COLUMNS_PROPERTY);
+      columnIds=_prefs.getStringList(TablePreferencesProperties.COLUMNS_PROPERTY);
     }
     if (columnIds==null)
     {
-      columnIds=new ArrayList<String>();
-      columnIds.add(ToonsTableColumnIds.NAME.name());
-      columnIds.add(ToonsTableColumnIds.CLASS.name());
-      columnIds.add(ToonsTableColumnIds.RACE.name());
-      columnIds.add(ToonsTableColumnIds.LEVEL.name());
-      columnIds.add(ToonsTableColumnIds.SERVER.name());
-      columnIds.add(ToonsTableColumnIds.MONEY.name());
-      columnIds.add(ToonsTableColumnIds.INGAME_TIME.name());
-      columnIds.add(ToonsTableColumnIds.TITLE.name());
+      columnIds=getDefaultColumns();
     }
     return columnIds;
   }
+
+  private List<String> getDefaultColumns()
+  {
+    List<String> columnIds=new ArrayList<String>();
+    columnIds.add(ToonsTableColumnIds.NAME.name());
+    columnIds.add(ToonsTableColumnIds.CLASS.name());
+    columnIds.add(ToonsTableColumnIds.RACE.name());
+    columnIds.add(ToonsTableColumnIds.LEVEL.name());
+    columnIds.add(ToonsTableColumnIds.SERVER.name());
+    columnIds.add(ToonsTableColumnIds.MONEY.name());
+    columnIds.add(ToonsTableColumnIds.INGAME_TIME.name());
+    columnIds.add(ToonsTableColumnIds.TITLE.name());
+    return columnIds;
+  }
+
   /**
    * Get the managed table controller.
    * @return the managed table controller.
@@ -180,8 +207,7 @@ public class ToonsTableController implements GenericEventsListener<CharacterEven
     // Preferences
     if (_prefs!=null)
     {
-      List<String> columnIds=_tableController.getColumnsManager().getSelectedColumnsIds();
-      _prefs.setStringList(ItemChooser.COLUMNS_PROPERTY,columnIds);
+      _tableController.savePreferences(_prefs);
       _prefs=null;
     }
     // GUI
