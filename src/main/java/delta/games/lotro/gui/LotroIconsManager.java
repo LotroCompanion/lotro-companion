@@ -1,5 +1,6 @@
 package delta.games.lotro.gui;
 
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,8 +13,10 @@ import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.CharacterSex;
 import delta.games.lotro.common.Race;
 import delta.games.lotro.common.stats.StatDescription;
+import delta.games.lotro.gui.utils.icons.ItemIconBuilder;
 import delta.games.lotro.lore.crafting.Profession;
 import delta.games.lotro.lore.deeds.DeedType;
+import delta.games.lotro.utils.IconsUtils;
 
 /**
  * Access to Lotro specific icons.
@@ -31,6 +34,8 @@ public class LotroIconsManager
    * Small size.
    */
   public static final String SMALL_SIZE="small";
+
+  private static ItemIconBuilder _itemIconBuilder=new ItemIconBuilder();
 
   /**
    * Get an icon for a character class.
@@ -81,7 +86,11 @@ public class LotroIconsManager
     ImageIcon icon=null;
     if (iconPath!=null)
     {
-      icon=IconsManager.getIcon("/icons/"+iconPath+".png");
+      BufferedImage itemImage=_itemIconBuilder.getItemIcon(iconPath);
+      if (itemImage!=null)
+      {
+        icon=new ImageIcon(itemImage);
+      }
     }
     if (icon==null)
     {
@@ -140,10 +149,9 @@ public class LotroIconsManager
       // Effect icon
       return IconsManager.getIcon(iconFilename);
     }
-    if (iconFilename.startsWith("/icons"))
+    if (iconFilename.startsWith(IconsUtils.ITEM_ICON_PREFIX))
     {
-      // Item icon
-      return IconsManager.getIcon(iconFilename);
+      return getItemIcon(iconFilename.substring(IconsUtils.ITEM_ICON_PREFIX.length()));
     }
     String path="/resources/gui/buffs/"+iconFilename+".png";
     return IconsManager.getIcon(path);
