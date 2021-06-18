@@ -7,7 +7,6 @@ import javax.swing.JFrame;
 import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.main.MainFrameController;
-import delta.games.lotro.utils.updates.UpdatesChecker;
 
 /**
  * Main for LOTRO companion.
@@ -29,7 +28,5 @@ public class Main
     MainFrameController controller=new MainFrameController();
     JFrame frame=controller.getFrame();
     frame.setVisible(true);
-    // Check for updates
-    UpdatesChecker.doIt(frame);
   }
 }
