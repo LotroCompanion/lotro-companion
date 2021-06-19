@@ -11,6 +11,8 @@ import delta.common.ui.swing.lists.OrderedItemsSelectionController;
 import delta.common.ui.swing.windows.DefaultFormDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.CharacterFile;
+import delta.games.lotro.character.CharacterSummary;
+import delta.games.lotro.character.comparators.StandardSummaryComparatorsBuilder;
 
 /**
  * Controller for a characters chooser.
@@ -34,15 +36,6 @@ public final class CharactersChooserController extends DefaultFormDialogControll
     return newSelectedToons;
   }
 
-  private static class TableColumnsComparator implements Comparator<CharacterFile>
-  {
-    @Override
-    public int compare(CharacterFile o1, CharacterFile o2)
-    {
-      return o1.getName().compareTo(o2.getName());
-    }
-  }
-
   /**
    * Constructor.
    * @param parent Parent controller.
@@ -52,18 +45,36 @@ public final class CharactersChooserController extends DefaultFormDialogControll
   private CharactersChooserController(WindowController parent, List<CharacterFile> toons, List<CharacterFile> selectedToons)
   {
     super(parent,null);
-    TableColumnsComparator comparator=new TableColumnsComparator();
+    Comparator<CharacterSummary> summaryComparator=StandardSummaryComparatorsBuilder.buildAccountNameServerComparator();
+    Comparator<CharacterFile> comparator=StandardSummaryComparatorsBuilder.buildCharacterFileComparator(summaryComparator);
     LabelProvider<CharacterFile> labelProvider=new LabelProvider<CharacterFile>()
     {
       @Override
       public String getLabel(CharacterFile item)
       {
-        return item.getName();
+        return getLabelForCharacterFile(item);
       }
     };
     _selectionController=new OrderedItemsSelectionController<CharacterFile>(comparator,labelProvider);
     _selectionController.setItems(toons);
     _selectionController.selectItems(selectedToons);
+  }
+
+  private static String getLabelForCharacterFile(CharacterFile item)
+  {
+    String name=item.getName();
+    String ret=name;
+    String server=item.getServerName();
+    if (server.length()>0)
+    {
+      ret=name+"@"+server;
+    }
+    String accountName=item.getAccountName();
+    if (accountName.length()>0)
+    {
+      ret=ret+" ("+accountName+")";
+    }
+    return ret;
   }
 
   @Override

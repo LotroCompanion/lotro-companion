@@ -7,7 +7,6 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -18,10 +17,10 @@ import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharactersManager;
 import delta.games.lotro.gui.character.chooser.CharacterSelectionChangedListener;
+import delta.games.lotro.gui.character.chooser.CharactersChooserController;
 import delta.games.lotro.gui.character.chooser.CharactersSelectorPanelController;
-import delta.games.lotro.gui.character.chooser.CharactersSelectorWindowController;
-import delta.games.lotro.gui.stats.curves.DatedCurvesChartConfiguration;
 import delta.games.lotro.gui.stats.curves.DatedCurveProvider;
+import delta.games.lotro.gui.stats.curves.DatedCurvesChartConfiguration;
 import delta.games.lotro.gui.stats.curves.DatedCurvesChartController;
 import delta.games.lotro.gui.stats.curves.MultipleToonsDatedCurvesProvider;
 import delta.games.lotro.stats.MultipleToonsStats;
@@ -118,15 +117,7 @@ public class MultipleToonsDatedCurvesChartPanelController<T> implements Characte
     CharactersManager manager=CharactersManager.getInstance();
     List<CharacterFile> toons=manager.getAllToons();
     List<CharacterFile> selectedToons=_stats.getToonsList();
-    List<CharacterFile> enabledToons=new ArrayList<CharacterFile>();
-    for(CharacterFile toon : toons)
-    {
-      //if (toon.hasLog())
-      {
-        enabledToons.add(toon);
-      }
-    }
-    List<CharacterFile> newSelectedToons=CharactersSelectorWindowController.selectToons(_parentController,toons,selectedToons,enabledToons);
+    List<CharacterFile> newSelectedToons=CharactersChooserController.selectToons(_parentController,toons,selectedToons);
     if (newSelectedToons!=null)
     {
       for(CharacterFile toon : newSelectedToons)
