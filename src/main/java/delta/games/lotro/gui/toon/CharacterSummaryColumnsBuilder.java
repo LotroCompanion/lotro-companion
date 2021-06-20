@@ -1,16 +1,22 @@
 package delta.games.lotro.gui.toon;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import delta.common.ui.swing.tables.CellDataProvider;
 import delta.common.ui.swing.tables.DefaultTableColumnController;
+import delta.common.ui.swing.tables.GenericTableController.DateRenderer;
 import delta.common.ui.swing.tables.TableColumnController;
 import delta.games.lotro.character.BaseCharacterSummary;
 import delta.games.lotro.character.CharacterSummary;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.CharacterSex;
 import delta.games.lotro.common.Race;
+import delta.games.lotro.common.id.InternalGameId;
+import delta.games.lotro.kinship.Kinship;
+import delta.games.lotro.kinship.KinshipsManager;
+import delta.games.lotro.utils.Formats;
 
 /**
  * Builds column definitions for CharacterSummary data.
@@ -146,6 +152,46 @@ public class CharacterSummaryColumnsBuilder
       DefaultTableColumnController<CharacterSummary,String> regionColumn=new DefaultTableColumnController<CharacterSummary,String>(ToonsTableColumnIds.REGION.name(),"Region",String.class,regionCell);
       regionColumn.setWidthSpecs(100,100,100);
       ret.add(regionColumn);
+    }
+    // Kinship column
+    {
+      CellDataProvider<CharacterSummary,String> kinshipCell=new CellDataProvider<CharacterSummary,String>()
+      {
+        @Override
+        public String getData(CharacterSummary summary)
+        {
+          InternalGameId kinshipID=summary.getKinshipID();
+          if (kinshipID==null)
+          {
+            return null;
+          }
+          Kinship kinship=KinshipsManager.getInstance().getKinshipByID(kinshipID.asLong());
+          if (kinship!=null)
+          {
+            return kinship.getName();
+          }
+          return null;
+        }
+      };
+      DefaultTableColumnController<CharacterSummary,String> kinshipColumn=new DefaultTableColumnController<CharacterSummary,String>(ToonsTableColumnIds.KINSHIP.name(),"Kinship",String.class,kinshipCell);
+      kinshipColumn.setWidthSpecs(120,120,120);
+      ret.add(kinshipColumn);
+    }
+    // Import date column
+    {
+      CellDataProvider<CharacterSummary,Date> importDateCell=new CellDataProvider<CharacterSummary,Date>()
+      {
+        @Override
+        public Date getData(CharacterSummary summary)
+        {
+          Long importDate=summary.getImportDate();
+          return (importDate!=null)?new Date(importDate.longValue()):null;
+        }
+      };
+      DefaultTableColumnController<CharacterSummary,Date> importDateColumn=new DefaultTableColumnController<CharacterSummary,Date>(ToonsTableColumnIds.IMPORT_DATE.name(),"Import Date",Date.class,importDateCell);
+      importDateColumn.setWidthSpecs(120,120,120);
+      importDateColumn.setCellRenderer(new DateRenderer(Formats.DATE_TIME_PATTERN));
+      ret.add(importDateColumn);
     }
     return ret;
   }

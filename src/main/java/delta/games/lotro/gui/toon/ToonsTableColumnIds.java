@@ -57,5 +57,13 @@ public enum ToonsTableColumnIds
   /**
    * Title.
    */
-  TITLE
+  TITLE,
+  /**
+   * Kinship.
+   */
+  KINSHIP,
+  /**
+   * Import date.
+   */
+  IMPORT_DATE
 }
