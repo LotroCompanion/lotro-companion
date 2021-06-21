@@ -77,14 +77,14 @@ public class TitleEventsTableController
       completionDateColumn.setCellRenderer(new DateRenderer(Formats.DATE_TIME_PATTERN));
       table.addColumnController(completionDateColumn);
     }
-    // Deed name column
+    // Achievable name column
     {
       CellDataProvider<TitleEvent,String> deedCell=new CellDataProvider<TitleEvent,String>()
       {
         @Override
         public String getData(TitleEvent item)
         {
-          return item.getDeed().getName();
+          return item.getAchievable().getName();
         }
       };
       DefaultTableColumnController<TitleEvent,String> deedColumn=new DefaultTableColumnController<TitleEvent,String>(DEED_NAME,"Deed",String.class,deedCell);

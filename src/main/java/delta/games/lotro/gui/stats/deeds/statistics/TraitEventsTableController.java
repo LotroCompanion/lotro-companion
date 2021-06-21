@@ -77,14 +77,14 @@ public class TraitEventsTableController
       completionDateColumn.setCellRenderer(new DateRenderer(Formats.DATE_TIME_PATTERN));
       table.addColumnController(completionDateColumn);
     }
-    // Deed name column
+    // Achievable name column
     {
       CellDataProvider<TraitEvent,String> deedCell=new CellDataProvider<TraitEvent,String>()
       {
         @Override
         public String getData(TraitEvent item)
         {
-          return item.getDeed().getName();
+          return item.getAchievable().getName();
         }
       };
       DefaultTableColumnController<TraitEvent,String> deedColumn=new DefaultTableColumnController<TraitEvent,String>(DEED_NAME,"Deed",String.class,deedCell);

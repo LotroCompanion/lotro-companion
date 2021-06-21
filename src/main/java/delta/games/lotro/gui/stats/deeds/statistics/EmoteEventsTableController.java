@@ -77,14 +77,14 @@ public class EmoteEventsTableController
       completionDateColumn.setCellRenderer(new DateRenderer(Formats.DATE_TIME_PATTERN));
       table.addColumnController(completionDateColumn);
     }
-    // Deed name column
+    // Achievable name column
     {
       CellDataProvider<EmoteEvent,String> deedCell=new CellDataProvider<EmoteEvent,String>()
       {
         @Override
         public String getData(EmoteEvent item)
         {
-          return item.getDeed().getName();
+          return item.getAchievable().getName();
         }
       };
       DefaultTableColumnController<EmoteEvent,String> deedColumn=new DefaultTableColumnController<EmoteEvent,String>(DEED_NAME,"Deed",String.class,deedCell);

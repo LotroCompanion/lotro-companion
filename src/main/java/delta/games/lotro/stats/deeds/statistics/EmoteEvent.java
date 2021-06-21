@@ -2,7 +2,7 @@ package delta.games.lotro.stats.deeds.statistics;
 
 import java.util.Date;
 
-import delta.games.lotro.lore.deeds.DeedDescription;
+import delta.games.lotro.lore.quests.Achievable;
 
 /**
  * Emote event.
@@ -12,19 +12,19 @@ public class EmoteEvent
 {
   private Long _date;
   private String _emote;
-  private DeedDescription _deed;
+  private Achievable _achievable;
 
   /**
    * Constructor.
    * @param emote Targeted emote.
    * @param date Date of acquisition.
-   * @param deed Associated deed.
+   * @param deed Associated achievable.
    */
-  public EmoteEvent(String emote, Long date, DeedDescription deed)
+  public EmoteEvent(String emote, Long date, Achievable deed)
   {
     _emote=emote;
     _date=date;
-    _deed=deed;
+    _achievable=deed;
   }
 
   /**
@@ -46,12 +46,12 @@ public class EmoteEvent
   }
 
   /**
-   * Get the source deed.
-   * @return a deed.
+   * Get the source achievable.
+   * @return an achievable.
    */
-  public DeedDescription getDeed()
+  public Achievable getAchievable()
   {
-    return _deed;
+    return _achievable;
   }
 
   @Override
@@ -66,7 +66,7 @@ public class EmoteEvent
       sb.append(')');
     }
     sb.append(" from ");
-    sb.append(_deed.getName());
+    sb.append(_achievable.getName());
     return _emote;
   }
 }

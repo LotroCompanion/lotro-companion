@@ -2,7 +2,7 @@ package delta.games.lotro.stats.deeds.statistics;
 
 import java.util.Date;
 
-import delta.games.lotro.lore.deeds.DeedDescription;
+import delta.games.lotro.lore.quests.Achievable;
 
 /**
  * Title event.
@@ -12,19 +12,19 @@ public class TitleEvent
 {
   private Long _date;
   private String _title;
-  private DeedDescription _deed;
+  private Achievable _achievable;
 
   /**
    * Constructor.
    * @param title Targeted title.
    * @param date Date of acquisition.
-   * @param deed Associated deed.
+   * @param achievable Associated achievable.
    */
-  public TitleEvent(String title, Long date, DeedDescription deed)
+  public TitleEvent(String title, Long date, Achievable achievable)
   {
     _title=title;
     _date=date;
-    _deed=deed;
+    _achievable=achievable;
   }
 
   /**
@@ -46,12 +46,12 @@ public class TitleEvent
   }
 
   /**
-   * Get the source deed.
-   * @return a deed.
+   * Get the source achievable.
+   * @return an achievable.
    */
-  public DeedDescription getDeed()
+  public Achievable getAchievable()
   {
-    return _deed;
+    return _achievable;
   }
 
   @Override
@@ -66,7 +66,7 @@ public class TitleEvent
       sb.append(')');
     }
     sb.append(" from ");
-    sb.append(_deed.getName());
+    sb.append(_achievable.getName());
     return _title;
   }
 }

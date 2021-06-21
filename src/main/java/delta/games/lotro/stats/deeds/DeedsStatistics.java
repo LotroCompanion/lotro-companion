@@ -27,6 +27,7 @@ import delta.games.lotro.lore.items.CountedItem;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemsManager;
 import delta.games.lotro.lore.items.WellKnownItems;
+import delta.games.lotro.lore.quests.Achievable;
 import delta.games.lotro.lore.reputation.Faction;
 import delta.games.lotro.lore.reputation.FactionsRegistry;
 import delta.games.lotro.stats.deeds.statistics.EmoteEvent;
@@ -92,7 +93,7 @@ public class DeedsStatistics
   }
 
   /**
-   * Compue statistics using the given deeds status and deeds.
+   * Compute statistics using the given deeds status and deeds.
    * @param deedsStatus Deeds status.
    * @param deeds Deeds to use.
    */
@@ -104,7 +105,7 @@ public class DeedsStatistics
       AchievableStatus deedStatus=deedsStatus.get(deed,false);
       if (deedStatus!=null)
       {
-        useDeed(deedStatus,deed);
+        useAchievable(deedStatus,deed);
       }
       _total++;
     }
@@ -113,13 +114,13 @@ public class DeedsStatistics
     Collections.sort(_traits,new TraitEventNameComparator());
   }
 
-  private void useDeed(AchievableStatus deedStatus, DeedDescription deed)
+  private void useAchievable(AchievableStatus deedStatus, Achievable achievable)
   {
     boolean completed=deedStatus.isCompleted();
     if (completed)
     {
       _completedCount++;
-      Rewards rewards=deed.getRewards();
+      Rewards rewards=achievable.getRewards();
       // LOTRO points
       int lp=rewards.getLotroPoints();
       _acquiredLP+=lp;
@@ -167,7 +168,7 @@ public class DeedsStatistics
         {
           TitleReward titleReward=(TitleReward)rewardElement;
           Long date=deedStatus.getCompletionDate();
-          TitleEvent event=new TitleEvent(titleReward.getName(),date,deed);
+          TitleEvent event=new TitleEvent(titleReward.getName(),date,achievable);
           _titles.add(event);
         }
         // Emote
@@ -175,7 +176,7 @@ public class DeedsStatistics
         {
           EmoteReward emoteReward=(EmoteReward)rewardElement;
           Long date=deedStatus.getCompletionDate();
-          EmoteEvent event=new EmoteEvent(emoteReward.getName(),date,deed);
+          EmoteEvent event=new EmoteEvent(emoteReward.getName(),date,achievable);
           _emotes.add(event);
         }
         // Trait
@@ -183,7 +184,7 @@ public class DeedsStatistics
         {
           TraitReward traitReward=(TraitReward)rewardElement;
           Long date=deedStatus.getCompletionDate();
-          TraitEvent event=new TraitEvent(traitReward.getName(),date,deed);
+          TraitEvent event=new TraitEvent(traitReward.getName(),date,achievable);
           _traits.add(event);
         }
         // Virtue
