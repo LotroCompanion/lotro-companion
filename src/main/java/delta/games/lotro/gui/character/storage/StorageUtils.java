@@ -167,16 +167,15 @@ public class StorageUtils
   private static List<StoredItem> getAllItems(Owner owner, Vault container, LocationType type)
   {
     List<StoredItem> items=new ArrayList<StoredItem>();
-    int chests=container.getChestCount();
-    for(int i=0;i<chests;i++)
+    for(Integer chestId : container.getChestIds())
     {
-      Chest chest=container.getChest(i);
+      Chest chest=container.getChest(chestId.intValue());
       if (chest!=null)
       {
         String chestName=chest.getName();
         if (chestName.length()==0)
         {
-          chestName="#"+i;
+          chestName="#"+chestId;
         }
         StorageLocation location=new SimpleStorageLocation(owner,type,chestName);
         List<CountedItem<ItemInstance<? extends Item>>> chestItems=chest.getAllItemInstances();
