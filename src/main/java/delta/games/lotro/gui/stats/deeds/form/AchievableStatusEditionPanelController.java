@@ -32,7 +32,11 @@ import delta.games.lotro.character.achievables.edition.AchievableGeoStatusManage
 import delta.games.lotro.character.achievables.edition.AchievableStatusGeoItem;
 import delta.games.lotro.character.achievables.edition.GeoPointChangeListener;
 import delta.games.lotro.gui.LotroIconsManager;
-import delta.games.lotro.gui.stats.deeds.map.AchievableGeoStatusEditionController;
+import delta.games.lotro.gui.stats.achievables.form.AchievableElementStateEditionController;
+import delta.games.lotro.gui.stats.achievables.form.AchievableLinkController;
+import delta.games.lotro.gui.stats.achievables.form.ObjectiveConditionStatusEditionPanelController;
+import delta.games.lotro.gui.stats.achievables.form.ObjectiveStatusEditionPanelController;
+import delta.games.lotro.gui.stats.achievables.map.AchievableGeoStatusEditionController;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.DeedType;
 import delta.games.lotro.lore.quests.Achievable;
@@ -49,7 +53,7 @@ public class AchievableStatusEditionPanelController implements GeoPointChangeLis
   // Controllers
   private AchievableElementStateEditionController _stateCtrl;
   private List<ObjectiveStatusEditionPanelController> _objectiveStatusEditors;
-  private DeedLinkController _linkCtrl;
+  private AchievableLinkController _linkCtrl;
   private DateEditionController _completionDate;
   private AchievableGeoStatusEditionController _geoController;
   // UI
@@ -98,9 +102,9 @@ public class AchievableStatusEditionPanelController implements GeoPointChangeLis
   {
     // State
     _stateCtrl=new AchievableElementStateEditionController(icon);
-    // Deed link
-    DeedDescription deed=(DeedDescription)_status.getAchievable();
-    _linkCtrl=new DeedLinkController(deed,parent);
+    // Achievable link
+    Achievable achievable=_status.getAchievable();
+    _linkCtrl=new AchievableLinkController(achievable,parent);
     // Next line (completion date and map button)
     JPanel nextLine=buildDateAndMapPanel(parent);
     // Assembly
@@ -213,9 +217,14 @@ public class AchievableStatusEditionPanelController implements GeoPointChangeLis
 
   private Icon getIcon()
   {
-    DeedDescription deed=(DeedDescription)_status.getAchievable();
-    DeedType type=deed.getType();
-    ImageIcon icon=LotroIconsManager.getDeedTypeIcon(type);
+    ImageIcon icon=null;
+    Achievable achievable=_status.getAchievable();
+    if (achievable instanceof DeedDescription)
+    {
+      DeedDescription deed=(DeedDescription)achievable;
+      DeedType type=deed.getType();
+      icon=LotroIconsManager.getDeedTypeIcon(type);
+    }
     return icon;
   }
 

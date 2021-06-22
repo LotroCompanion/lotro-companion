@@ -32,7 +32,7 @@ import delta.games.lotro.character.CharacterFactory;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharacterInfosManager;
 import delta.games.lotro.character.CharacterSummary;
-import delta.games.lotro.character.achievables.DeedsStatusManager;
+import delta.games.lotro.character.achievables.AchievablesStatusManager;
 import delta.games.lotro.character.achievables.io.DeedsStatusIo;
 import delta.games.lotro.character.events.CharacterEvent;
 import delta.games.lotro.character.events.CharacterEventType;
@@ -478,9 +478,9 @@ public class CharacterFileWindowController extends DefaultWindowController imple
 
   private void editDeedsStatus()
   {
-    DeedsStatusManager status=DeedsStatusIo.load(_toon);
+    AchievablesStatusManager status=DeedsStatusIo.load(_toon);
     DeedsStatusEditionWindowController controller=new DeedsStatusEditionWindowController(this,status,_toon);
-    DeedsStatusManager newStatus=controller.editModal();
+    AchievablesStatusManager newStatus=controller.editModal();
     if (newStatus!=null)
     {
       boolean ok=DeedsStatusIo.save(_toon,newStatus);

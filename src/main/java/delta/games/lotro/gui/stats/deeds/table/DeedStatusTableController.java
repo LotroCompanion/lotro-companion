@@ -18,11 +18,13 @@ import delta.common.ui.swing.tables.TableColumnsManager;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.character.achievables.AchievableElementState;
 import delta.games.lotro.character.achievables.AchievableStatus;
-import delta.games.lotro.character.achievables.DeedsStatusManager;
+import delta.games.lotro.character.achievables.AchievablesStatusManager;
 import delta.games.lotro.character.achievables.filter.DeedStatusFilter;
 import delta.games.lotro.gui.deed.table.DeedColumnIds;
 import delta.games.lotro.gui.deed.table.DeedsTableController;
 import delta.games.lotro.gui.items.chooser.ItemChooser;
+import delta.games.lotro.gui.stats.achievables.table.AchievableElementStateTableCellEditor;
+import delta.games.lotro.gui.stats.achievables.table.AchievableElementStateTableCellRenderer;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.DeedsManager;
 import delta.games.lotro.utils.Formats;
@@ -49,7 +51,7 @@ public class DeedStatusTableController
    * @param prefs Preferences.
    * @param filter Managed filter.
    */
-  public DeedStatusTableController(DeedsStatusManager deedsStatus, TypedProperties prefs, DeedStatusFilter filter)
+  public DeedStatusTableController(AchievablesStatusManager deedsStatus, TypedProperties prefs, DeedStatusFilter filter)
   {
     _prefs=prefs;
     List<DeedDescription> deeds=DeedsManager.getInstance().getAll();
@@ -57,10 +59,7 @@ public class DeedStatusTableController
     for(DeedDescription deed : deeds)
     {
       AchievableStatus status=deedsStatus.get(deed,true);
-      //if (deed.hasGeoData())
-      {
-        _statuses.add(status);
-      }
+      _statuses.add(status);
     }
     _tableController=buildTable();
     _tableController.setFilter(filter);

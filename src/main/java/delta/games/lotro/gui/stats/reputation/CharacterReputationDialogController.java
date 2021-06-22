@@ -23,7 +23,7 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.DefaultFormDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.CharacterFile;
-import delta.games.lotro.character.achievables.DeedsStatusManager;
+import delta.games.lotro.character.achievables.AchievablesStatusManager;
 import delta.games.lotro.character.achievables.io.DeedsStatusIo;
 import delta.games.lotro.character.events.CharacterEvent;
 import delta.games.lotro.character.events.CharacterEventType;
@@ -249,7 +249,7 @@ public class CharacterReputationDialogController extends DefaultFormDialogContro
     _toon.saveReputation();
     // Sync deeds status
     {
-      DeedsStatusManager deedsStatus=DeedsStatusIo.load(_toon);
+      AchievablesStatusManager deedsStatus=DeedsStatusIo.load(_toon);
       SyncDeedsStatusAndReputationStatus.syncDeedsStatus(_data,deedsStatus);
       DeedsStatusIo.save(_toon,deedsStatus);
       CharacterEvent event=new CharacterEvent(CharacterEventType.DEEDS_STATUS_UPDATED,_toon,null);

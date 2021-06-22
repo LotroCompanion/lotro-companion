@@ -1,6 +1,7 @@
 package delta.games.lotro.gui.stats.deeds.statistics;
 
 import java.awt.Dimension;
+import java.util.List;
 
 import javax.swing.JComponent;
 import javax.swing.JDialog;
@@ -9,11 +10,14 @@ import javax.swing.JPanel;
 import delta.common.ui.swing.windows.DefaultDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.CharacterFile;
-import delta.games.lotro.character.achievables.DeedsStatusManager;
+import delta.games.lotro.character.achievables.AchievablesStatusManager;
 import delta.games.lotro.character.achievables.io.DeedsStatusIo;
 import delta.games.lotro.character.events.CharacterEvent;
 import delta.games.lotro.character.events.CharacterEventType;
-import delta.games.lotro.stats.deeds.DeedsStatistics;
+import delta.games.lotro.gui.stats.achievables.statistics.AchievablesStatisticsPanelController;
+import delta.games.lotro.lore.deeds.DeedDescription;
+import delta.games.lotro.lore.deeds.DeedsManager;
+import delta.games.lotro.stats.achievables.AchievablesStatistics;
 import delta.games.lotro.utils.events.EventsManager;
 import delta.games.lotro.utils.events.GenericEventsListener;
 
@@ -30,9 +34,9 @@ public class DeedStatisticsWindowController extends DefaultDialogController impl
 
   // Data
   private CharacterFile _toon;
-  private DeedsStatistics _statistics;
+  private AchievablesStatistics _statistics;
   // Controllers
-  private DeedStatisticsPanelController _panelController;
+  private AchievablesStatisticsPanelController _panelController;
 
   /**
    * Constructor.
@@ -43,8 +47,8 @@ public class DeedStatisticsWindowController extends DefaultDialogController impl
   {
     super(parent);
     _toon=toon;
-    _statistics=new DeedsStatistics();
-    _panelController=new DeedStatisticsPanelController(this,_statistics);
+    _statistics=new AchievablesStatistics();
+    _panelController=new AchievablesStatisticsPanelController(this,_statistics);
     updateStats();
     EventsManager.addListener(CharacterEvent.class,this);
   }
@@ -101,8 +105,9 @@ public class DeedStatisticsWindowController extends DefaultDialogController impl
     String title="Deeds statistics for "+name+" @ "+serverName;
     getDialog().setTitle(title);
     // Update status
-    DeedsStatusManager deedsStatus=DeedsStatusIo.load(_toon);
-    _panelController.updateStats(deedsStatus);
+    List<DeedDescription> deeds=DeedsManager.getInstance().getAll();
+    AchievablesStatusManager deedsStatus=DeedsStatusIo.load(_toon);
+    _panelController.updateStats(deedsStatus,deeds);
   }
 
   /**

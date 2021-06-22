@@ -1,6 +1,6 @@
 package delta.games.lotro.gui.quests;
 
-import delta.games.lotro.gui.stats.deeds.form.AchievableStatusUtils;
+import delta.games.lotro.gui.stats.achievables.form.AchievableStatusUtils;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.DeedsManager;
 import delta.games.lotro.lore.quests.AchievableProxiesResolver;

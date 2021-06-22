@@ -20,7 +20,7 @@ import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.achievables.AchievableStatus;
-import delta.games.lotro.character.achievables.DeedsStatusManager;
+import delta.games.lotro.character.achievables.AchievablesStatusManager;
 import delta.games.lotro.character.achievables.filter.DeedStatusFilter;
 import delta.games.lotro.character.events.CharacterEvent;
 import delta.games.lotro.character.events.CharacterEventType;
@@ -37,7 +37,7 @@ import delta.games.lotro.utils.events.EventsManager;
  * Controller for a traits points edition window.
  * @author DAM
  */
-public class DeedsStatusEditionWindowController extends DefaultFormDialogController<DeedsStatusManager>
+public class DeedsStatusEditionWindowController extends DefaultFormDialogController<AchievablesStatusManager>
 {
   // Data
   private CharacterFile _toon;
@@ -54,7 +54,7 @@ public class DeedsStatusEditionWindowController extends DefaultFormDialogControl
    * @param status Status to edit.
    * @param toon Parent toon.
    */
-  public DeedsStatusEditionWindowController(WindowController parent, DeedsStatusManager status, CharacterFile toon)
+  public DeedsStatusEditionWindowController(WindowController parent, AchievablesStatusManager status, CharacterFile toon)
   {
     super(parent,status);
     _toon=toon;

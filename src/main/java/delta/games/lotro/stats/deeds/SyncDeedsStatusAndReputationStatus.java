@@ -3,10 +3,12 @@ package delta.games.lotro.stats.deeds;
 import java.util.List;
 
 import delta.games.lotro.character.achievables.AchievableStatus;
-import delta.games.lotro.character.achievables.DeedsStatusManager;
+import delta.games.lotro.character.achievables.AchievablesStatusManager;
 import delta.games.lotro.character.reputation.FactionLevelStatus;
 import delta.games.lotro.character.reputation.FactionStatus;
 import delta.games.lotro.character.reputation.ReputationStatus;
+import delta.games.lotro.lore.deeds.DeedDescription;
+import delta.games.lotro.lore.deeds.DeedsManager;
 import delta.games.lotro.lore.reputation.Faction;
 import delta.games.lotro.lore.reputation.FactionLevel;
 import delta.games.lotro.lore.reputation.FactionsRegistry;
@@ -22,7 +24,7 @@ public class SyncDeedsStatusAndReputationStatus
    * @param repStatus Source reputation status.
    * @param deedsStatus Target deeds status.
    */
-  public static void syncDeedsStatus(ReputationStatus repStatus, DeedsStatusManager deedsStatus)
+  public static void syncDeedsStatus(ReputationStatus repStatus, AchievablesStatusManager deedsStatus)
   {
     List<Faction> factions=FactionsRegistry.getInstance().getAll();
     for(Faction faction : factions)
@@ -45,10 +47,15 @@ public class SyncDeedsStatusAndReputationStatus
         {
           continue;
         }
+        DeedDescription deed=DeedsManager.getInstance().getDeed(deedKey);
+        if (deed==null)
+        {
+          continue;
+        }
         boolean completed=factionStatus.isCompleted(level);
         if (completed)
         {
-          AchievableStatus deedStatus=deedsStatus.get(deedKey,true);
+          AchievableStatus deedStatus=deedsStatus.get(deed,true);
           deedStatus.setCompleted(true);
           //System.out.println("Set deed "+deedKey+" to completed!");
           FactionLevelStatus levelStatus=factionStatus.getStatusForLevel(level);
@@ -60,7 +67,7 @@ public class SyncDeedsStatusAndReputationStatus
         }
         else
         {
-          AchievableStatus deedStatus=deedsStatus.get(deedKey,false);
+          AchievableStatus deedStatus=deedsStatus.get(deed,false);
           if (deedStatus!=null)
           {
             deedStatus.setCompleted(false);
@@ -75,7 +82,7 @@ public class SyncDeedsStatusAndReputationStatus
    * @param deedsStatus Source deeds status.
    * @param repStatus Target reputation status.
    */
-  public static void syncReputationStatus(DeedsStatusManager deedsStatus, ReputationStatus repStatus)
+  public static void syncReputationStatus(AchievablesStatusManager deedsStatus, ReputationStatus repStatus)
   {
     List<Faction> factions=FactionsRegistry.getInstance().getAll();
     for(Faction faction : factions)
@@ -85,19 +92,25 @@ public class SyncDeedsStatusAndReputationStatus
       for(FactionLevel level : levels)
       {
         String deedKey=level.getDeedKey();
-        if (deedKey!=null)
+        if (deedKey==null)
         {
-          Long date=null;
-          AchievableStatus deedStatus=deedsStatus.get(deedKey,false);
-          if ((deedStatus!=null) && (deedStatus.isCompleted()))
-          {
-            date=deedStatus.getCompletionDate();
-          }
-          if (date!=null)
-          {
-            FactionLevelStatus factionLevelStatus=factionStatus.getStatusForLevel(level);
-            factionLevelStatus.setCompletionDate(date.longValue());
-          }
+          continue;
+        }
+        DeedDescription deed=DeedsManager.getInstance().getDeed(deedKey);
+        if (deed==null)
+        {
+          continue;
+        }
+        Long date=null;
+        AchievableStatus deedStatus=deedsStatus.get(deed,false);
+        if ((deedStatus!=null) && (deedStatus.isCompleted()))
+        {
+          date=deedStatus.getCompletionDate();
+        }
+        if (date!=null)
+        {
+          FactionLevelStatus factionLevelStatus=factionStatus.getStatusForLevel(level);
+          factionLevelStatus.setCompletionDate(date.longValue());
         }
       }
     }

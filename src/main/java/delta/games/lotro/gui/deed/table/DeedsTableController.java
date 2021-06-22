@@ -92,20 +92,6 @@ public class DeedsTableController
       idColumn.setWidthSpecs(100,100,100);
       ret.add(idColumn);
     }
-    // Key column
-    {
-      CellDataProvider<DeedDescription,String> keyCell=new CellDataProvider<DeedDescription,String>()
-      {
-        @Override
-        public String getData(DeedDescription deed)
-        {
-          return deed.getKey();
-        }
-      };
-      DefaultTableColumnController<DeedDescription,String> keyColumn=new DefaultTableColumnController<DeedDescription,String>(DeedColumnIds.KEY.name(),"Key",String.class,keyCell);
-      keyColumn.setWidthSpecs(100,200,200);
-      ret.add(keyColumn);
-    }
     // Name column
     {
       CellDataProvider<DeedDescription,String> nameCell=new CellDataProvider<DeedDescription,String>()

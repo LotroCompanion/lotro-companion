@@ -7,7 +7,7 @@ import java.util.List;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.achievables.AchievableStatus;
 import delta.games.lotro.character.achievables.AchievableStatusDateComparator;
-import delta.games.lotro.character.achievables.DeedsStatusManager;
+import delta.games.lotro.character.achievables.AchievablesStatusManager;
 import delta.games.lotro.character.achievables.io.DeedsStatusIo;
 import delta.games.lotro.gui.stats.curves.DatedCurveProvider;
 import delta.games.lotro.lore.deeds.DeedDescription;
@@ -25,7 +25,7 @@ public class DeedCurvesBuilder implements DatedCurveProvider<CharacterFile>
   {
     String name=toon.getName();
     DatedCurve<Integer> curve=new DatedCurve<Integer>(name);
-    DeedsStatusManager deedsStatus=DeedsStatusIo.load(toon);
+    AchievablesStatusManager deedsStatus=DeedsStatusIo.load(toon);
     List<AchievableStatus> datedStatuses=getDeedsStatus(deedsStatus);
     DeedsManager deeds=DeedsManager.getInstance();
     int totalValue=0;
@@ -73,7 +73,7 @@ public class DeedCurvesBuilder implements DatedCurveProvider<CharacterFile>
     return curve;
   }
 
-  private List<AchievableStatus> getDeedsStatus(DeedsStatusManager deedsStatus)
+  private List<AchievableStatus> getDeedsStatus(AchievablesStatusManager deedsStatus)
   {
     List<AchievableStatus> all=deedsStatus.getAll();
     List<AchievableStatus> datedStatuses=new ArrayList<AchievableStatus>();
