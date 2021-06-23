@@ -27,14 +27,14 @@ import delta.games.lotro.character.events.CharacterEventType;
 import delta.games.lotro.character.reputation.ReputationStatus;
 import delta.games.lotro.gui.deed.filter.DeedFilterController;
 import delta.games.lotro.gui.main.GlobalPreferences;
-import delta.games.lotro.gui.stats.deeds.filter.DeedStatusFilterController;
+import delta.games.lotro.gui.stats.achievables.filter.AchievableStatusFilterController;
 import delta.games.lotro.gui.stats.deeds.form.DeedStatusEditionDialogController;
 import delta.games.lotro.gui.stats.deeds.table.DeedStatusTableController;
 import delta.games.lotro.stats.deeds.SyncDeedsStatusAndReputationStatus;
 import delta.games.lotro.utils.events.EventsManager;
 
 /**
- * Controller for a traits points edition window.
+ * Controller for a deeds status edition window.
  * @author DAM
  */
 public class DeedsStatusEditionWindowController extends DefaultFormDialogController<AchievablesStatusManager>
@@ -42,7 +42,7 @@ public class DeedsStatusEditionWindowController extends DefaultFormDialogControl
   // Data
   private CharacterFile _toon;
   // Controllers
-  private DeedStatusFilterController _statusFilterController;
+  private AchievableStatusFilterController _statusFilterController;
   private DeedFilterController _filterController;
   private DeedsStatusEditionPanelController _panelController;
   private DeedStatusTableController _tableController;
@@ -85,7 +85,7 @@ public class DeedsStatusEditionWindowController extends DefaultFormDialogControl
     TitledBorder deedFilterBorder=GuiFactory.buildTitledBorder("Deed Filter");
     deedFilterPanel.setBorder(deedFilterBorder);
     // Deed status filter
-    _statusFilterController=new DeedStatusFilterController(_filter,_panelController);
+    _statusFilterController=new AchievableStatusFilterController(_filter,_panelController);
     JPanel statusFilterPanel=_statusFilterController.getPanel();
     TitledBorder statusFilterBorder=GuiFactory.buildTitledBorder("Status Filter");
     statusFilterPanel.setBorder(statusFilterBorder);

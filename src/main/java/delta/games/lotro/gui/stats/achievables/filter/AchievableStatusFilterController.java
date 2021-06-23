@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.stats.deeds.filter;
+package delta.games.lotro.gui.stats.achievables.filter;
 
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
@@ -17,17 +17,17 @@ import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.common.ui.swing.combobox.ItemSelectionListener;
 import delta.games.lotro.character.achievables.AchievableElementState;
 import delta.games.lotro.character.achievables.filter.AchievableElementStateFilter;
-import delta.games.lotro.character.achievables.filter.DeedStatusFilter;
+import delta.games.lotro.character.achievables.filter.AchievableStatusFilter;
 import delta.games.lotro.gui.items.FilterUpdateListener;
 
 /**
  * Controller for a deed status filter edition panel.
  * @author DAM
  */
-public class DeedStatusFilterController implements ActionListener
+public class AchievableStatusFilterController implements ActionListener
 {
   // Data
-  private DeedStatusFilter _filter;
+  private AchievableStatusFilter _filter;
   // GUI
   private JPanel _panel;
   private JButton _reset;
@@ -41,19 +41,10 @@ public class DeedStatusFilterController implements ActionListener
    * @param filter Managed filter.
    * @param filterUpdateListener Filter update listener.
    */
-  public DeedStatusFilterController(DeedStatusFilter filter, FilterUpdateListener filterUpdateListener)
+  public AchievableStatusFilterController(AchievableStatusFilter filter, FilterUpdateListener filterUpdateListener)
   {
     _filter=filter;
     _filterUpdateListener=filterUpdateListener;
-  }
-
-  /**
-   * Get the managed filter.
-   * @return the managed filter.
-   */
-  public DeedStatusFilter getFilter()
-  {
-    return _filter;
   }
 
   /**
