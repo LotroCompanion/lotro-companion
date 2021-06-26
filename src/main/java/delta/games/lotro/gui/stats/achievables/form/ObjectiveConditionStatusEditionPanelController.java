@@ -21,6 +21,7 @@ public class ObjectiveConditionStatusEditionPanelController
 {
   // Data
   private ObjectiveConditionStatus _conditionStatus;
+  private boolean _editable;
   // Controllers
   private AchievableElementStateEditionController _stateCtrl;
   private ProgressAndNumberEditorController _countEditor;
@@ -32,10 +33,12 @@ public class ObjectiveConditionStatusEditionPanelController
    * Constructor.
    * @param conditionStatus Status to edit.
    * @param icon Icon to use.
+   * @param editable Indicates if this component is editable or not.
    */
-  public ObjectiveConditionStatusEditionPanelController(ObjectiveConditionStatus conditionStatus, Icon icon)
+  public ObjectiveConditionStatusEditionPanelController(ObjectiveConditionStatus conditionStatus, Icon icon, boolean editable)
   {
     _conditionStatus=conditionStatus;
+    _editable=editable;
     _panel=build(icon);
     updateUi();
   }
@@ -79,7 +82,7 @@ public class ObjectiveConditionStatusEditionPanelController
   private JPanel build(Icon icon)
   {
     // State
-    _stateCtrl=new AchievableElementStateEditionController(icon);
+    _stateCtrl=new AchievableElementStateEditionController(icon,_editable);
     // Label
     String label=getLabel();
     _label=GuiFactory.buildLabel(label);
@@ -90,6 +93,7 @@ public class ObjectiveConditionStatusEditionPanelController
     {
       _countEditor=new ProgressAndNumberEditorController();
       _countEditor.setRange(0,count);
+      _countEditor.getEditor().setState(true,_editable);
     }
     // Assembly
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());

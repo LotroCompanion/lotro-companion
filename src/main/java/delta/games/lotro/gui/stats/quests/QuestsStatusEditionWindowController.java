@@ -4,6 +4,9 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.Window;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.Box;
 import javax.swing.JDialog;
@@ -11,15 +14,18 @@ import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.windows.DefaultFormDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.character.CharacterFile;
+import delta.games.lotro.character.achievables.AchievableStatus;
 import delta.games.lotro.character.achievables.AchievablesStatusManager;
 import delta.games.lotro.character.achievables.filter.QuestStatusFilter;
 import delta.games.lotro.gui.main.GlobalPreferences;
 import delta.games.lotro.gui.quests.filter.QuestFilterController;
 import delta.games.lotro.gui.stats.achievables.filter.AchievableStatusFilterController;
+import delta.games.lotro.gui.stats.quests.form.QuestStatusDisplayDialogController;
 import delta.games.lotro.gui.stats.quests.table.QuestStatusTableController;
 
 /**
@@ -96,6 +102,28 @@ public class QuestsStatusEditionWindowController extends DefaultFormDialogContro
   {
     TypedProperties prefs=GlobalPreferences.getGlobalProperties("QuestsStatus");
     _tableController=new QuestStatusTableController(_data,prefs,_filter);
+    ActionListener al=new ActionListener()
+    {
+      @Override
+      public void actionPerformed(ActionEvent event)
+      {
+        String action=event.getActionCommand();
+        if (GenericTableController.DOUBLE_CLICK.equals(action))
+        {
+          AchievableStatus status=(AchievableStatus)event.getSource();
+          editQuestStatus(status);
+        }
+      }
+    };
+    _tableController.getTableController().addActionListener(al);
+  }
+
+  private void editQuestStatus(AchievableStatus status)
+  {
+    QuestStatusDisplayDialogController dialog=new QuestStatusDisplayDialogController(status,this);
+    Window parentWindow=getWindow();
+    dialog.getDialog().setLocationRelativeTo(parentWindow);
+    dialog.show(false);
   }
 
   @Override

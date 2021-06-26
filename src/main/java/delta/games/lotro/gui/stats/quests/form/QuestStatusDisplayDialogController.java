@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.stats.deeds.form;
+package delta.games.lotro.gui.stats.quests.form;
 
 import java.awt.Dimension;
 
@@ -8,14 +8,15 @@ import javax.swing.JPanel;
 import delta.common.ui.swing.windows.DefaultFormDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.achievables.AchievableStatus;
-import delta.games.lotro.lore.deeds.DeedDescription;
+import delta.games.lotro.gui.stats.deeds.form.AchievableStatusEditionPanelController;
 import delta.games.lotro.lore.quests.AchievableProxiesResolver;
+import delta.games.lotro.lore.quests.QuestDescription;
 
 /**
- * Controller for the "deed status edition" dialog.
+ * Controller for the "quest status edition" dialog.
  * @author DAM
  */
-public class DeedStatusEditionDialogController extends DefaultFormDialogController<AchievableStatus>
+public class QuestStatusDisplayDialogController extends DefaultFormDialogController<AchievableStatus>
 {
   private static final int MAX_HEIGHT=600;
   // Controllers
@@ -28,26 +29,21 @@ public class DeedStatusEditionDialogController extends DefaultFormDialogControll
    * @param parentController Parent controller.
    * @param status Status to edit.
    */
-  public DeedStatusEditionDialogController(AchievableStatus status, WindowController parentController)
+  public QuestStatusDisplayDialogController(AchievableStatus status, WindowController parentController)
   {
-    super(parentController,clone(status));
+    super(parentController,status);
     _original=status;
-    DeedDescription deed=(DeedDescription)status.getAchievable();
-    AchievableProxiesResolver.resolve(deed);
-  }
-
-  private static AchievableStatus clone(AchievableStatus status)
-  {
-    AchievableStatus ret=new AchievableStatus(status.getAchievable());
-    ret.copyFrom(status);
-    return ret;
+    QuestDescription quest=(QuestDescription)status.getAchievable();
+    AchievableProxiesResolver.resolve(quest);
   }
 
   @Override
   protected JDialog build()
   {
     JDialog dialog=super.build();
-    dialog.setTitle("Deed status edition...");
+    QuestDescription quest=(QuestDescription)_data.getAchievable();
+    String questName=quest.getName();
+    dialog.setTitle("Quest status: "+questName);
     dialog.setResizable(true);
     dialog.pack();
     Dimension size=dialog.getSize();
@@ -61,7 +57,7 @@ public class DeedStatusEditionDialogController extends DefaultFormDialogControll
   @Override
   protected JPanel buildFormPanel()
   {
-    _statusEditor=new AchievableStatusEditionPanelController(this,_data,true);
+    _statusEditor=new AchievableStatusEditionPanelController(this,_data,false);
     return _statusEditor.getPanel();
   }
 

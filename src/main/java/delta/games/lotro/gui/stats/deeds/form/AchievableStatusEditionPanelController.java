@@ -50,6 +50,7 @@ public class AchievableStatusEditionPanelController implements GeoPointChangeLis
 {
   // Data
   private AchievableStatus _status;
+  private boolean _editable;
   // Controllers
   private AchievableElementStateEditionController _stateCtrl;
   private List<ObjectiveStatusEditionPanelController> _objectiveStatusEditors;
@@ -63,12 +64,17 @@ public class AchievableStatusEditionPanelController implements GeoPointChangeLis
    * Constructor.
    * @param parent Parent controller.
    * @param status Status to edit.
+   * @param editable Indicates if this component is editable or not.
    */
-  public AchievableStatusEditionPanelController(WindowController parent, AchievableStatus status)
+  public AchievableStatusEditionPanelController(WindowController parent, AchievableStatus status, boolean editable)
   {
     _status=status;
+    _editable=editable;
     _panel=build(parent);
-    setupCallbacks();
+    if (_editable)
+    {
+      setupCallbacks();
+    }
     updateOwnUi();
   }
 
@@ -101,7 +107,7 @@ public class AchievableStatusEditionPanelController implements GeoPointChangeLis
   private JPanel buildHeadPanel(Icon icon, WindowController parent)
   {
     // State
-    _stateCtrl=new AchievableElementStateEditionController(icon);
+    _stateCtrl=new AchievableElementStateEditionController(icon,_editable);
     // Achievable link
     Achievable achievable=_status.getAchievable();
     _linkCtrl=new AchievableLinkController(achievable,parent);
@@ -151,7 +157,7 @@ public class AchievableStatusEditionPanelController implements GeoPointChangeLis
     _objectiveStatusEditors=new ArrayList<ObjectiveStatusEditionPanelController>();
     for(AchievableObjectiveStatus objectiveStatus : _status.getObjectiveStatuses())
     {
-      ObjectiveStatusEditionPanelController editor=new ObjectiveStatusEditionPanelController(objectiveStatus,icon);
+      ObjectiveStatusEditionPanelController editor=new ObjectiveStatusEditionPanelController(objectiveStatus,icon,_editable);
       _objectiveStatusEditors.add(editor);
       ret.add(editor.getPanel(),c);
       c.gridy++;
@@ -225,12 +231,17 @@ public class AchievableStatusEditionPanelController implements GeoPointChangeLis
       DeedType type=deed.getType();
       icon=LotroIconsManager.getDeedTypeIcon(type);
     }
+    else
+    {
+      icon=LotroIconsManager.getDeedTypeIcon(DeedType.LORE);
+    }
     return icon;
   }
 
   private void setupCallbacks()
   {
-    JButton achievableButton=_stateCtrl.getComponent();
+    // Main status icon/button
+    JButton achievableButton=_stateCtrl.getButton();
     ActionListener alAchievable=new ActionListener()
     {
       @Override
@@ -240,9 +251,10 @@ public class AchievableStatusEditionPanelController implements GeoPointChangeLis
       }
     };
     achievableButton.addActionListener(alAchievable);
+    // For each objective: icon/button
     for(final ObjectiveStatusEditionPanelController objectiveCtrl : _objectiveStatusEditors)
     {
-      JButton objectiveButton=objectiveCtrl.getStateController().getComponent();
+      JButton objectiveButton=objectiveCtrl.getStateController().getButton();
       ActionListener alObjective=new ActionListener()
       {
         @Override
@@ -252,9 +264,10 @@ public class AchievableStatusEditionPanelController implements GeoPointChangeLis
         }
       };
       objectiveButton.addActionListener(alObjective);
+      // For each condition: icon/button
       for(final ObjectiveConditionStatusEditionPanelController conditionCtrl : objectiveCtrl.getConditionControllers())
       {
-        JButton conditionButton=conditionCtrl.getStateController().getComponent();
+        JButton conditionButton=conditionCtrl.getStateController().getButton();
         ActionListener alCondition=new ActionListener()
         {
           @Override

@@ -2,6 +2,8 @@ package delta.games.lotro.gui.stats.achievables.form;
 
 import javax.swing.Icon;
 import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
 import javax.swing.UIManager;
 
 import delta.common.ui.swing.GuiFactory;
@@ -15,6 +17,7 @@ import delta.games.lotro.character.achievables.AchievableElementState;
 public class AchievableElementStateEditionController
 {
   private JButton _button;
+  private JLabel _label;
   private Icon _icon;
   private Icon _grayedIcon;
   private Icon _transparentIcon;
@@ -22,21 +25,38 @@ public class AchievableElementStateEditionController
   /**
    * Constructor.
    * @param icon Icon to use.
+   * @param editable Indicates if this component is editable or not.
    */
-  public AchievableElementStateEditionController(Icon icon)
+  public AchievableElementStateEditionController(Icon icon, boolean editable)
   {
     _icon=icon;
     _grayedIcon=UIManager.getLookAndFeel().getDisabledIcon(null, icon);
     _transparentIcon=new TransparentIcon(icon,0.4f);
-    _button=GuiFactory.buildIconButton();
-    _button.setIcon(icon);
+    if (editable)
+    {
+      _button=GuiFactory.buildIconButton();
+      _button.setIcon(icon);
+    }
+    else
+    {
+      _label=GuiFactory.buildIconLabel(icon);
+    }
   }
 
   /**
    * Get the managed UI component.
    * @return the managed UI component.
    */
-  public JButton getComponent()
+  public JComponent getComponent()
+  {
+    return (_button!=null)?_button:_label;
+  }
+
+  /**
+   * Get the managed button.
+   * @return A button or <code>null</code> if not editable.
+   */
+  public JButton getButton()
   {
     return _button;
   }
@@ -47,17 +67,26 @@ public class AchievableElementStateEditionController
    */
   public void setState(AchievableElementState state)
   {
+    Icon iconToSet=null;
     if (state==AchievableElementState.COMPLETED)
     {
-      _button.setIcon(_icon);
+      iconToSet=_icon;
     }
     else if (state==AchievableElementState.UNDERWAY)
     {
-      _button.setIcon(_transparentIcon);
+      iconToSet=_transparentIcon;
     }
     else if (state==AchievableElementState.UNDEFINED)
     {
-      _button.setIcon(_grayedIcon);
+      iconToSet=_grayedIcon;
+    }
+    if (_button!=null)
+    {
+      _button.setIcon(iconToSet);
+    }
+    if (_label!=null)
+    {
+      _label.setIcon(iconToSet);
     }
   }
 
@@ -68,6 +97,7 @@ public class AchievableElementStateEditionController
   public void dispose()
   {
     _button=null;
+    _label=null;
     _icon=null;
     _grayedIcon=null;
     _transparentIcon=null;

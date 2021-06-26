@@ -146,6 +146,7 @@ public class DeedsStatusEditionWindowController extends DefaultFormDialogControl
       CharacterEvent event=new CharacterEvent(CharacterEventType.CHARACTER_REPUTATION_UPDATED,_toon,null);
       EventsManager.invokeEvent(event);
     }
+    // TODO Sync trait points
   }
 
   /**

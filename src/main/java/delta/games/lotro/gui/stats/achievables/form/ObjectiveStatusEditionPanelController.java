@@ -24,6 +24,7 @@ public class ObjectiveStatusEditionPanelController
 {
   // Data
   private AchievableObjectiveStatus _objectiveStatus;
+  private boolean _editable;
   // Controllers
   private AchievableElementStateEditionController _stateCtrl;
   private List<ObjectiveConditionStatusEditionPanelController> _conditionStatusEditors;
@@ -35,10 +36,12 @@ public class ObjectiveStatusEditionPanelController
    * Constructor.
    * @param objectiveStatus Status to edit.
    * @param icon Icon to use.
+   * @param editable Indicates if this component is editable or not.
    */
-  public ObjectiveStatusEditionPanelController(AchievableObjectiveStatus objectiveStatus, Icon icon)
+  public ObjectiveStatusEditionPanelController(AchievableObjectiveStatus objectiveStatus, Icon icon, boolean editable)
   {
     _objectiveStatus=objectiveStatus;
+    _editable=editable;
     _panel=build(icon);
     setStatus();
   }
@@ -119,7 +122,7 @@ public class ObjectiveStatusEditionPanelController
     _conditionStatusEditors=new ArrayList<ObjectiveConditionStatusEditionPanelController>();
     for(ObjectiveConditionStatus conditionStatus : _objectiveStatus.getConditionStatuses())
     {
-      ObjectiveConditionStatusEditionPanelController editor=new ObjectiveConditionStatusEditionPanelController(conditionStatus,icon);
+      ObjectiveConditionStatusEditionPanelController editor=new ObjectiveConditionStatusEditionPanelController(conditionStatus,icon,_editable);
       _conditionStatusEditors.add(editor);
     }
     // Assembly
@@ -139,7 +142,7 @@ public class ObjectiveStatusEditionPanelController
   private JPanel buildHeadPanel(Icon icon)
   {
     // State
-    _stateCtrl=new AchievableElementStateEditionController(icon);
+    _stateCtrl=new AchievableElementStateEditionController(icon,_editable);
     // Label
     String label=getLabel();
     _label=GuiFactory.buildLabel("");
