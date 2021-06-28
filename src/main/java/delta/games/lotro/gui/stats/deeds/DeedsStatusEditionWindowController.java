@@ -21,10 +21,13 @@ import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.achievables.AchievableStatus;
 import delta.games.lotro.character.achievables.AchievablesStatusManager;
+import delta.games.lotro.character.achievables.SyncAchievablesStatusAndTraitPoints;
 import delta.games.lotro.character.achievables.filter.DeedStatusFilter;
 import delta.games.lotro.character.events.CharacterEvent;
 import delta.games.lotro.character.events.CharacterEventType;
 import delta.games.lotro.character.reputation.ReputationStatus;
+import delta.games.lotro.character.traitPoints.TraitPoints;
+import delta.games.lotro.character.traitPoints.TraitPointsStatus;
 import delta.games.lotro.gui.deed.filter.DeedFilterController;
 import delta.games.lotro.gui.main.GlobalPreferences;
 import delta.games.lotro.gui.stats.achievables.filter.AchievableStatusFilterController;
@@ -146,7 +149,10 @@ public class DeedsStatusEditionWindowController extends DefaultFormDialogControl
       CharacterEvent event=new CharacterEvent(CharacterEventType.CHARACTER_REPUTATION_UPDATED,_toon,null);
       EventsManager.invokeEvent(event);
     }
-    // TODO Sync trait points
+    // Sync trait points
+    TraitPointsStatus pointsStatus=TraitPoints.get().load(_toon);
+    SyncAchievablesStatusAndTraitPoints.syncTraitPointsFromDeeds(pointsStatus,_data);
+    TraitPoints.get().save(_toon,pointsStatus);
   }
 
   /**

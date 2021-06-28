@@ -21,7 +21,10 @@ import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.achievables.AchievableStatus;
 import delta.games.lotro.character.achievables.AchievablesStatusManager;
+import delta.games.lotro.character.achievables.SyncAchievablesStatusAndTraitPoints;
 import delta.games.lotro.character.achievables.filter.QuestStatusFilter;
+import delta.games.lotro.character.traitPoints.TraitPoints;
+import delta.games.lotro.character.traitPoints.TraitPointsStatus;
 import delta.games.lotro.gui.main.GlobalPreferences;
 import delta.games.lotro.gui.quests.filter.QuestFilterController;
 import delta.games.lotro.gui.stats.achievables.filter.AchievableStatusFilterController;
@@ -35,7 +38,6 @@ import delta.games.lotro.gui.stats.quests.table.QuestStatusTableController;
 public class QuestsStatusEditionWindowController extends DefaultFormDialogController<AchievablesStatusManager>
 {
   // Data
-  @SuppressWarnings("unused")
   private CharacterFile _toon;
   // Controllers
   private AchievableStatusFilterController _statusFilterController;
@@ -130,7 +132,10 @@ public class QuestsStatusEditionWindowController extends DefaultFormDialogContro
   protected void okImpl()
   {
     super.okImpl();
-    // TODO Sync trait points
+    // Sync trait points
+    TraitPointsStatus pointsStatus=TraitPoints.get().load(_toon);
+    SyncAchievablesStatusAndTraitPoints.syncTraitPointsFromQuests(pointsStatus,_data);
+    TraitPoints.get().save(_toon,pointsStatus);
   }
 
   /**
