@@ -5,10 +5,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.swing.JComponent;
 import javax.swing.JDialog;
@@ -20,9 +17,8 @@ import delta.common.ui.swing.windows.DefaultDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.achievables.edition.AchievableGeoStatusManager;
 import delta.games.lotro.character.achievables.edition.AchievableStatusGeoItem;
-import delta.games.lotro.maps.data.basemaps.GeoreferencedBasemap;
-import delta.games.lotro.maps.data.basemaps.GeoreferencedBasemapsManager;
-import delta.games.lotro.utils.maps.Maps;
+import delta.games.lotro.lore.maps.MapDescription;
+import delta.games.lotro.lore.quests.Achievable;
 
 /**
  * Controller for a window to show the status of a geographic achievable.
@@ -47,52 +43,36 @@ public class GeoAchievableMapWindowController extends DefaultDialogController
   private void init(AchievableGeoStatusManager mgr)
   {
     _maps=new ArrayList<AchievableGeoPointsMapPanelController>();
+    Achievable achievable=mgr.getAchievable();
     List<AchievableStatusGeoItem> points=mgr.getPoints();
-    Map<Integer,List<AchievableStatusGeoItem>> pointsMap=sortByMap(points);
-    List<Integer> mapIds=new ArrayList<Integer>(pointsMap.keySet());
-    Collections.sort(mapIds);
-    for(Integer mapId : mapIds)
+    List<MapDescription> maps=achievable.getMaps();
+    int mapIndex=0;
+    for(MapDescription map : maps)
     {
-      if (mapId.intValue()==0)
+      List<AchievableStatusGeoItem> mapPoints=new ArrayList<AchievableStatusGeoItem>();
+      for(AchievableStatusGeoItem point : points)
       {
-        continue;
+        if (point.getPoint().getMapIndex()==mapIndex)
+        {
+          mapPoints.add(point);
+        }
       }
-      List<AchievableStatusGeoItem> mapPoints=pointsMap.get(mapId);
-      AchievableGeoPointsMapPanelController panelCtrl=new AchievableGeoPointsMapPanelController(mapId.intValue(),mapPoints,mgr);
+      AchievableGeoPointsMapPanelController panelCtrl=new AchievableGeoPointsMapPanelController(map,mapPoints,mgr);
       _maps.add(panelCtrl);
+      mapIndex++;
     }
     _ui=buildUi();
-  }
-
-  private Map<Integer,List<AchievableStatusGeoItem>> sortByMap(List<AchievableStatusGeoItem> points)
-  {
-    Map<Integer,List<AchievableStatusGeoItem>> ret=new HashMap<Integer,List<AchievableStatusGeoItem>>();
-    for(AchievableStatusGeoItem point : points)
-    {
-      Integer mapId=Integer.valueOf(point.getPoint().getMapId());
-      List<AchievableStatusGeoItem> list=ret.get(mapId);
-      if (list==null)
-      {
-        list=new ArrayList<AchievableStatusGeoItem>();
-        ret.put(mapId,list);
-      }
-      list.add(point);
-    }
-    return ret;
   }
 
   private JTabbedPane buildUi()
   {
     JTabbedPane tabbedPane=GuiFactory.buildTabbedPane();
-    GeoreferencedBasemapsManager basemapsMgr=Maps.getMaps().getMapsManager().getBasemapsManager();
     for(AchievableGeoPointsMapPanelController mapPanelCtrl : _maps)
     {
       JPanel panel=GuiFactory.buildBackgroundPanel(new GridBagLayout());
       GridBagConstraints c=new GridBagConstraints(1,1,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
       panel.add(mapPanelCtrl.getMapComponent(),c);
-      int mapId=mapPanelCtrl.getMapId();
-      GeoreferencedBasemap basemap=basemapsMgr.getMapById(mapId);
-      String title=basemap.getName();
+      String title=mapPanelCtrl.getMapTitle();
       tabbedPane.add(title,panel);
     }
     return tabbedPane;

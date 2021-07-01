@@ -12,12 +12,15 @@ import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
+import org.apache.log4j.Logger;
+
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.DefaultWindowController;
 import delta.games.lotro.dat.data.DataFacade;
 import delta.games.lotro.gui.maps.MarkerSelectionListener;
 import delta.games.lotro.lore.instances.InstanceMapDescription;
 import delta.games.lotro.lore.instances.PrivateEncounter;
+import delta.games.lotro.lore.maps.MapDescription;
 import delta.games.lotro.maps.data.basemaps.GeoreferencedBasemap;
 import delta.games.lotro.maps.data.basemaps.GeoreferencedBasemapsManager;
 import delta.games.lotro.maps.ui.MapPanelController;
@@ -31,6 +34,8 @@ import delta.games.lotro.utils.maps.Maps;
  */
 public class InstanceMapsWindowController extends DefaultWindowController
 {
+  private static final Logger LOGGER=Logger.getLogger(InstanceMapsWindowController.class);
+
   private DataFacade _facade;
   private PrivateEncounter _pe;
   private List<InstanceMapPanelController> _panels;
@@ -52,11 +57,17 @@ public class InstanceMapsWindowController extends DefaultWindowController
     JTabbedPane tabbedPane=GuiFactory.buildTabbedPane();
     GeoreferencedBasemapsManager basemapsMgr=Maps.getMaps().getMapsManager().getBasemapsManager();
     JLayeredPane mapPanel=null;
-    for(InstanceMapDescription map : _pe.getMapDescriptions())
+    for(InstanceMapDescription instanceMap : _pe.getMapDescriptions())
     {
+      MapDescription basemap=instanceMap.getMap();
+      if (basemap==null)
+      {
+        LOGGER.warn("No basemap. Skipping this instance map!");
+        continue;
+      }
       // Build map panel
-      Integer mapId=map.getMapId();
-      InstanceMapPanelController ctrl=new InstanceMapPanelController(_facade,_pe,map);
+      Integer mapId=basemap.getMapId();
+      InstanceMapPanelController ctrl=new InstanceMapPanelController(_facade,_pe,instanceMap);
       MapPanelController panelCtrl=ctrl.getMapPanelController();
       // Setup selection manager
       SelectionManager selectionMgr=panelCtrl.getSelectionManager();
@@ -69,8 +80,8 @@ public class InstanceMapsWindowController extends DefaultWindowController
       String title=null;
       if (mapId!=null)
       {
-        GeoreferencedBasemap basemap=basemapsMgr.getMapById(mapId.intValue());
-        title=basemap.getName();
+        GeoreferencedBasemap geoBasemap=basemapsMgr.getMapById(mapId.intValue());
+        title=geoBasemap.getName();
       }
       else
       {

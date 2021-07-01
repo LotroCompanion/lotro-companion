@@ -9,19 +9,23 @@ import java.util.List;
 import delta.games.lotro.character.achievables.edition.AchievableStatusGeoItem;
 import delta.games.lotro.character.achievables.edition.GeoPointChangeListener;
 import delta.games.lotro.dat.data.DataFacade;
-import delta.games.lotro.gui.maps.basemap.DatBasemapImageProvider;
+import delta.games.lotro.gui.maps.MapPanelConfigurator;
 import delta.games.lotro.gui.stats.achievables.form.AchievableStatusUtils;
+import delta.games.lotro.lore.geo.GeoBoundingBox;
+import delta.games.lotro.lore.maps.MapDescription;
 import delta.games.lotro.lore.quests.geo.AchievableGeoPoint;
 import delta.games.lotro.lore.quests.objectives.ObjectiveCondition;
+import delta.games.lotro.maps.data.GeoBox;
 import delta.games.lotro.maps.data.GeoPoint;
 import delta.games.lotro.maps.data.MapPoint;
 import delta.games.lotro.maps.data.MapsManager;
 import delta.games.lotro.maps.data.Marker;
-import delta.games.lotro.maps.ui.BasemapPanelController;
+import delta.games.lotro.maps.data.basemaps.GeoreferencedBasemap;
+import delta.games.lotro.maps.data.basemaps.GeoreferencedBasemapsManager;
 import delta.games.lotro.maps.ui.MapCanvas;
 import delta.games.lotro.maps.ui.MapPanelController;
+import delta.games.lotro.maps.ui.MapUiUtils;
 import delta.games.lotro.maps.ui.controllers.SelectionListener;
-import delta.games.lotro.maps.ui.layers.BasemapLayer;
 import delta.games.lotro.maps.ui.layers.MarkersLayer;
 import delta.games.lotro.maps.ui.layers.SimpleMarkersProvider;
 import delta.games.lotro.maps.ui.selection.SelectionManager;
@@ -34,8 +38,8 @@ import delta.games.lotro.utils.maps.Maps;
  */
 public class AchievableGeoPointsMapPanelController
 {
-  private int _mapId;
-  private BasemapPanelController _panel;
+  private MapDescription _map;
+  private MapPanelController _mapPanel;
   private CompletedOrNotMarkerIconProvider _iconProvider;
   private List<AchievableStatusGeoItem> _points;
   private List<Marker> _markers;
@@ -43,26 +47,17 @@ public class AchievableGeoPointsMapPanelController
 
   /**
    * Constructor.
-   * @param mapId Identifier of the map to show.
+   * @param map Description of map to show.
    * @param points Points to show.
    * @param listener Listener for point state changes.
    */
-  public AchievableGeoPointsMapPanelController(int mapId, List<AchievableStatusGeoItem> points, GeoPointChangeListener listener)
+  public AchievableGeoPointsMapPanelController(MapDescription map, List<AchievableStatusGeoItem> points, GeoPointChangeListener listener)
   {
-    _mapId=mapId;
+    _map=map;
     _points=points;
     _listener=listener;
     _markers=buildMarkers(points);
     initMapPanel();
-  }
-
-  /**
-   * Get the identifier of the managed map.
-   * @return a map identifier.
-   */
-  public int getMapId()
-  {
-    return _mapId;
   }
 
   /**
@@ -71,7 +66,32 @@ public class AchievableGeoPointsMapPanelController
    */
   public Component getMapComponent()
   {
-    return _panel.getComponent();
+    return _mapPanel.getLayers();
+  }
+
+  /**
+   * Get the title for the managed map.
+   * @return a title.
+   */
+  public String getMapTitle()
+  {
+    String title=null;
+    Integer mapId=_map.getMapId();
+    if (mapId!=null)
+    {
+      MapsManager mapsManager=Maps.getMaps().getMapsManager();
+      GeoreferencedBasemapsManager basemapsManager=mapsManager.getBasemapsManager();
+      GeoreferencedBasemap basemap=basemapsManager.getMapById(mapId.intValue());
+      if (basemap!=null)
+      {
+        title=basemap.getName();
+      }
+    }
+    if (title==null)
+    {
+      title="Landscape";
+    }
+    return title;
   }
 
   private List<Marker> buildMarkers(List<AchievableStatusGeoItem> points)
@@ -98,26 +118,42 @@ public class AchievableGeoPointsMapPanelController
     return ret;
   }
 
+  private GeoBox getMapBoundingBox()
+  {
+    GeoBoundingBox box=_map.getBoundingBox();
+    if (box!=null)
+    {
+      GeoPoint p1=new GeoPoint(box.getMin().x,box.getMin().y);
+      GeoPoint p2=new GeoPoint(box.getMax().x,box.getMax().y);
+      return new GeoBox(p1,p2);
+    }
+    Integer mapId=_map.getMapId();
+    if (mapId!=null)
+    {
+      MapsManager mapsManager=Maps.getMaps().getMapsManager();
+      GeoreferencedBasemapsManager basemapsManager=mapsManager.getBasemapsManager();
+      GeoreferencedBasemap basemap=basemapsManager.getMapById(mapId.intValue());
+      return basemap.getBoundingBox();
+    }
+    return null;
+  }
+
   private void initMapPanel()
   {
     // Build and configure map panel
-    MapsManager mapsManager=Maps.getMaps().getMapsManager();
-    _panel=new BasemapPanelController(mapsManager.getBasemapsManager());
-    // Basemap layer
-    BasemapLayer basemapLayer=_panel.getBasemapLayer();
+    _mapPanel=new MapPanelController();
+    // Configure map
     DataFacade facade=DatInterface.getInstance().getFacade();
-    DatBasemapImageProvider imageProvider=new DatBasemapImageProvider(facade);
-    basemapLayer.setBasemapImageProvider(imageProvider);
-    _panel.setMap(_mapId);
-    _panel.setMaxSize(new Dimension(768,576));
-    MapCanvas canvas=_panel.getCanvas();
+    MapPanelConfigurator.configureCanvas(facade,_mapPanel,_map);
+    GeoBox box=getMapBoundingBox();
+    MapUiUtils.configureMapPanel(_mapPanel,box,new Dimension(768,576));
+    MapCanvas canvas=_mapPanel.getCanvas();
     _iconProvider=new CompletedOrNotMarkerIconProvider();
     SimpleMarkersProvider markersProvider=new SimpleMarkersProvider();
     markersProvider.setMarkers(_markers);
     MarkersLayer custom=new MarkersLayer(_iconProvider,markersProvider);
     canvas.addLayer(custom);
-    MapPanelController mapPanel=_panel.getMapPanelController();
-    SelectionManager selectionMgr=mapPanel.getSelectionManager();
+    SelectionManager selectionMgr=_mapPanel.getSelectionManager();
     SelectionListener listener=new SelectionListener()
     {
       @Override
@@ -154,7 +190,7 @@ public class AchievableGeoPointsMapPanelController
       _iconProvider.setCompleted(index,completed);
       index++;
     }
-    _panel.getCanvas().repaint();
+    _mapPanel.getCanvas().repaint();
   }
 
   /**
@@ -162,10 +198,10 @@ public class AchievableGeoPointsMapPanelController
    */
   public void dispose()
   {
-    if (_panel!=null)
+    if (_mapPanel!=null)
     {
-      _panel.dispose();
-      _panel=null;
+      _mapPanel.dispose();
+      _mapPanel=null;
     }
     _iconProvider=null;
   }

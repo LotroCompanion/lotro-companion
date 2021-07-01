@@ -16,6 +16,7 @@ import delta.games.lotro.dat.data.DataFacade;
 import delta.games.lotro.lore.instances.InstanceMapDescription;
 import delta.games.lotro.lore.instances.PrivateEncounter;
 import delta.games.lotro.lore.instances.PrivateEncountersManager;
+import delta.games.lotro.lore.maps.MapDescription;
 import delta.games.lotro.maps.data.basemaps.GeoreferencedBasemap;
 import delta.games.lotro.maps.data.basemaps.GeoreferencedBasemapsManager;
 import delta.games.lotro.maps.ui.MapPanelController;
@@ -66,7 +67,7 @@ public class MainTestInstanceMapPanelController
   {
     for(InstanceMapDescription map : pe.getMapDescriptions())
     {
-      Integer mapId=map.getMapId();
+      Integer mapId=map.getMap().getMapId();
       if (mapId==null)
       {
         return true;
@@ -86,10 +87,11 @@ public class MainTestInstanceMapPanelController
     JTabbedPane tabbedPane=GuiFactory.buildTabbedPane();
     GeoreferencedBasemapsManager basemapsMgr=Maps.getMaps().getMapsManager().getBasemapsManager();
     JLayeredPane mapPanel=null;
-    for(InstanceMapDescription map : pe.getMapDescriptions())
+    for(InstanceMapDescription instanceMap : pe.getMapDescriptions())
     {
+      MapDescription map=instanceMap.getMap();
       Integer mapId=map.getMapId();
-      InstanceMapPanelController ctrl=new InstanceMapPanelController(_facade,pe,map);
+      InstanceMapPanelController ctrl=new InstanceMapPanelController(_facade,pe,instanceMap);
       MapPanelController panelCtrl=ctrl.getMapPanelController();
       JPanel panel=GuiFactory.buildBackgroundPanel(new GridBagLayout());
       mapPanel=panelCtrl.getLayers();
