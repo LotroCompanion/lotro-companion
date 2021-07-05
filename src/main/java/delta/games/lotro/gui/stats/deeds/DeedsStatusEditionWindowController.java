@@ -28,6 +28,7 @@ import delta.games.lotro.character.events.CharacterEventType;
 import delta.games.lotro.character.reputation.ReputationStatus;
 import delta.games.lotro.character.traitPoints.TraitPoints;
 import delta.games.lotro.character.traitPoints.TraitPointsStatus;
+import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.gui.deed.filter.DeedFilterController;
 import delta.games.lotro.gui.main.GlobalPreferences;
 import delta.games.lotro.gui.stats.achievables.filter.AchievableStatusFilterController;
@@ -151,7 +152,8 @@ public class DeedsStatusEditionWindowController extends DefaultFormDialogControl
     }
     // Sync trait points
     TraitPointsStatus pointsStatus=TraitPoints.get().load(_toon);
-    SyncAchievablesStatusAndTraitPoints.syncTraitPointsFromDeeds(pointsStatus,_data);
+    CharacterClass characterClass=_toon.getSummary().getCharacterClass();
+    SyncAchievablesStatusAndTraitPoints.syncTraitPointsFromDeeds(characterClass,pointsStatus,_data);
     TraitPoints.get().save(_toon,pointsStatus);
   }
 

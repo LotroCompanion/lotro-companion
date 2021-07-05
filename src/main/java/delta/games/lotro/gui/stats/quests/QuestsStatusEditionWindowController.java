@@ -25,6 +25,7 @@ import delta.games.lotro.character.achievables.SyncAchievablesStatusAndTraitPoin
 import delta.games.lotro.character.achievables.filter.QuestStatusFilter;
 import delta.games.lotro.character.traitPoints.TraitPoints;
 import delta.games.lotro.character.traitPoints.TraitPointsStatus;
+import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.gui.main.GlobalPreferences;
 import delta.games.lotro.gui.quests.filter.QuestFilterController;
 import delta.games.lotro.gui.stats.achievables.filter.AchievableStatusFilterController;
@@ -134,7 +135,8 @@ public class QuestsStatusEditionWindowController extends DefaultFormDialogContro
     super.okImpl();
     // Sync trait points
     TraitPointsStatus pointsStatus=TraitPoints.get().load(_toon);
-    SyncAchievablesStatusAndTraitPoints.syncTraitPointsFromQuests(pointsStatus,_data);
+    CharacterClass characterClass=_toon.getSummary().getCharacterClass();
+    SyncAchievablesStatusAndTraitPoints.syncTraitPointsFromQuests(characterClass,pointsStatus,_data);
     TraitPoints.get().save(_toon,pointsStatus);
   }
 
