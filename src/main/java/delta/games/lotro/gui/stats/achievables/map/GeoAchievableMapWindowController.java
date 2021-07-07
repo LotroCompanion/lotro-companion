@@ -113,6 +113,12 @@ public class GeoAchievableMapWindowController extends DefaultDialogController
   }
 
   @Override
+  public void configureWindow()
+  {
+    automaticLocationSetup();
+  }
+
+  @Override
   public String getWindowIdentifier()
   {
     return "GEODEED MAP";
