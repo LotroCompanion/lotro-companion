@@ -19,6 +19,7 @@ import javax.swing.JScrollPane;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.editors.numbers.ProgressAndNumberEditorController;
+import delta.common.ui.swing.icons.IconsManager;
 import delta.common.ui.swing.text.NumberEditionController;
 import delta.common.ui.swing.text.NumberListener;
 import delta.common.ui.swing.text.dates.DateCodec;
@@ -315,7 +316,7 @@ public class AchievableStatusEditionPanelController implements GeoPointChangeLis
     }
     else
     {
-      icon=LotroIconsManager.getDeedTypeIcon(DeedType.LORE);
+      icon=IconsManager.getIcon("/resources/gui/ring/ring32.png");
     }
     return icon;
   }
