@@ -78,7 +78,7 @@ public class QuestStatusTableController
       table.addColumnController(proxiedColumn);
     }
     // Achievable status columns
-    for(TableColumnController<AchievableStatus,?> column : AchievableStatusColumnsBuilder.buildAchievableStateColumns())
+    for(TableColumnController<AchievableStatus,?> column : AchievableStatusColumnsBuilder.buildAchievableStateColumns(false))
     {
       table.addColumnController(column);
     }

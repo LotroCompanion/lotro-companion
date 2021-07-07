@@ -21,9 +21,10 @@ public class AchievableStatusColumnsBuilder
 {
   /**
    * Build the columns to show the attributes of an AchievableStatus.
+   * @param editable Indicates if the state column is editable or not.
    * @return a list of columns.
    */
-  public static List<TableColumnController<AchievableStatus,?>> buildAchievableStateColumns()
+  public static List<TableColumnController<AchievableStatus,?>> buildAchievableStateColumns(boolean editable)
   {
     List<TableColumnController<AchievableStatus,?>> ret=new ArrayList<TableColumnController<AchievableStatus,?>>();
     // State
@@ -38,20 +39,24 @@ public class AchievableStatusColumnsBuilder
       };
       DefaultTableColumnController<AchievableStatus,AchievableElementState> completedColumn=new DefaultTableColumnController<AchievableStatus,AchievableElementState>(AchievableStatusColumnIds.COMPLETED.name(),"Completed",AchievableElementState.class,completedCell);
       completedColumn.setWidthSpecs(30,30,30);
-      completedColumn.setEditable(true);
+      completedColumn.setEditable(editable);
       // Renderer
       completedColumn.setCellRenderer(new AchievableElementStateTableCellRenderer());
-      completedColumn.setCellEditor(new AchievableElementStateTableCellEditor());
-      // Updater
-      CellDataUpdater<AchievableStatus> updater=new CellDataUpdater<AchievableStatus>()
+      if (editable)
       {
-        @Override
-        public void setData(AchievableStatus status, Object value)
+        // Editor
+        completedColumn.setCellEditor(new AchievableElementStateTableCellEditor());
+        // Updater
+        CellDataUpdater<AchievableStatus> updater=new CellDataUpdater<AchievableStatus>()
         {
-          status.setState((AchievableElementState)value);
-        }
-      };
-      completedColumn.setValueUpdater(updater);
+          @Override
+          public void setData(AchievableStatus status, Object value)
+          {
+            status.setState((AchievableElementState)value);
+          }
+        };
+        completedColumn.setValueUpdater(updater);
+      }
       ret.add(completedColumn);
     }
     // Completion date column

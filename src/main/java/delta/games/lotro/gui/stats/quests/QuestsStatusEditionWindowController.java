@@ -15,17 +15,12 @@ import javax.swing.border.TitledBorder;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.tables.GenericTableController;
-import delta.common.ui.swing.windows.DefaultFormDialogController;
+import delta.common.ui.swing.windows.DefaultDisplayDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.misc.TypedProperties;
-import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.achievables.AchievableStatus;
 import delta.games.lotro.character.achievables.AchievablesStatusManager;
-import delta.games.lotro.character.achievables.SyncAchievablesStatusAndTraitPoints;
 import delta.games.lotro.character.achievables.filter.QuestStatusFilter;
-import delta.games.lotro.character.traitPoints.TraitPoints;
-import delta.games.lotro.character.traitPoints.TraitPointsStatus;
-import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.gui.main.GlobalPreferences;
 import delta.games.lotro.gui.quests.filter.QuestFilterController;
 import delta.games.lotro.gui.stats.achievables.filter.AchievableStatusFilterController;
@@ -36,10 +31,8 @@ import delta.games.lotro.gui.stats.quests.table.QuestStatusTableController;
  * Controller for a quests status edition window.
  * @author DAM
  */
-public class QuestsStatusEditionWindowController extends DefaultFormDialogController<AchievablesStatusManager>
+public class QuestsStatusEditionWindowController extends DefaultDisplayDialogController<AchievablesStatusManager>
 {
-  // Data
-  private CharacterFile _toon;
   // Controllers
   private AchievableStatusFilterController _statusFilterController;
   private QuestFilterController _filterController;
@@ -50,13 +43,11 @@ public class QuestsStatusEditionWindowController extends DefaultFormDialogContro
   /**
    * Constructor.
    * @param parent Parent window.
-   * @param status Status to edit.
-   * @param toon Parent toon.
+   * @param status Status to show.
    */
-  public QuestsStatusEditionWindowController(WindowController parent, AchievablesStatusManager status, CharacterFile toon)
+  public QuestsStatusEditionWindowController(WindowController parent, AchievablesStatusManager status)
   {
     super(parent,status);
-    _toon=toon;
     _filter=new QuestStatusFilter();
   }
 
@@ -66,7 +57,7 @@ public class QuestsStatusEditionWindowController extends DefaultFormDialogContro
     JDialog dialog=super.build();
     dialog.setMinimumSize(new Dimension(400,300));
     dialog.setSize(900,dialog.getHeight());
-    dialog.setTitle("Quests status edition");
+    dialog.setTitle("Quests status");
     return dialog;
   }
 
@@ -129,17 +120,6 @@ public class QuestsStatusEditionWindowController extends DefaultFormDialogContro
     dialog.show(false);
   }
 
-  @Override
-  protected void okImpl()
-  {
-    super.okImpl();
-    // Sync trait points
-    TraitPointsStatus pointsStatus=TraitPoints.get().load(_toon);
-    CharacterClass characterClass=_toon.getSummary().getCharacterClass();
-    SyncAchievablesStatusAndTraitPoints.syncTraitPointsFromQuests(characterClass,pointsStatus,_data);
-    TraitPoints.get().save(_toon,pointsStatus);
-  }
-
   /**
    * Release all managed resources.
    */
@@ -147,7 +127,6 @@ public class QuestsStatusEditionWindowController extends DefaultFormDialogContro
   public void dispose()
   {
     super.dispose();
-    _toon=null;
     if (_statusFilterController!=null)
     {
       _statusFilterController.dispose();
@@ -169,5 +148,6 @@ public class QuestsStatusEditionWindowController extends DefaultFormDialogContro
       _tableController=null;
     }
     _filter=null;
+    _data=null;
   }
 }

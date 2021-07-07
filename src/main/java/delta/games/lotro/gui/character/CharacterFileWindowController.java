@@ -519,18 +519,8 @@ public class CharacterFileWindowController extends DefaultWindowController imple
   private void editQuestsStatus()
   {
     AchievablesStatusManager status=QuestsStatusIo.load(_toon);
-    QuestsStatusEditionWindowController controller=new QuestsStatusEditionWindowController(this,status,_toon);
-    AchievablesStatusManager newStatus=controller.editModal();
-    if (newStatus!=null)
-    {
-      boolean ok=QuestsStatusIo.save(_toon,newStatus);
-      if (ok)
-      {
-        // Broadcast deeds status update event...
-        CharacterEvent event=new CharacterEvent(CharacterEventType.QUESTS_STATUS_UPDATED,_toon,null);
-        EventsManager.invokeEvent(event);
-      }
-    }
+    QuestsStatusEditionWindowController controller=new QuestsStatusEditionWindowController(this,status);
+    controller.show();
   }
 
   private void showStorage()
