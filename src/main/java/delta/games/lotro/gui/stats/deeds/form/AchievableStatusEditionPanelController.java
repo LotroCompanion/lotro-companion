@@ -173,7 +173,7 @@ public class AchievableStatusEditionPanelController implements GeoPointChangeLis
     if (hasGeoData)
     {
       AchievableGeoStatusManager geoStatusManager=new AchievableGeoStatusManager(_status,this);
-      _geoController=new AchievableGeoStatusEditionController(parent,geoStatusManager);
+      _geoController=new AchievableGeoStatusEditionController(parent,geoStatusManager,_editable);
       toggleMap=GuiFactory.buildButton("Map");
       ActionListener mapActionListener=new ActionListener()
       {

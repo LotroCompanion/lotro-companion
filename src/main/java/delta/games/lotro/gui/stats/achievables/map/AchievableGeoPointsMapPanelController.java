@@ -43,18 +43,21 @@ public class AchievableGeoPointsMapPanelController
   private CompletedOrNotMarkerIconProvider _iconProvider;
   private List<AchievableStatusGeoItem> _points;
   private List<Marker> _markers;
+  private boolean _editable;
   private GeoPointChangeListener _listener;
 
   /**
    * Constructor.
    * @param map Description of map to show.
    * @param points Points to show.
+   * @param editable Editable or not.
    * @param listener Listener for point state changes.
    */
-  public AchievableGeoPointsMapPanelController(MapDescription map, List<AchievableStatusGeoItem> points, GeoPointChangeListener listener)
+  public AchievableGeoPointsMapPanelController(MapDescription map, List<AchievableStatusGeoItem> points, boolean editable, GeoPointChangeListener listener)
   {
     _map=map;
     _points=points;
+    _editable=editable;
     _listener=listener;
     _markers=buildMarkers(points);
     initMapPanel();
@@ -153,23 +156,26 @@ public class AchievableGeoPointsMapPanelController
     markersProvider.setMarkers(_markers);
     MarkersLayer custom=new MarkersLayer(_iconProvider,markersProvider);
     canvas.addLayer(custom);
-    SelectionManager selectionMgr=_mapPanel.getSelectionManager();
-    SelectionListener listener=new SelectionListener()
+    if (_editable)
     {
-      @Override
-      public boolean handleSelection(MapPoint point)
+      SelectionManager selectionMgr=_mapPanel.getSelectionManager();
+      SelectionListener listener=new SelectionListener()
       {
-        int index=_markers.indexOf(point);
-        if (index!=-1)
+        @Override
+        public boolean handleSelection(MapPoint point)
         {
-          AchievableStatusGeoItem geoPoint=_points.get(index);
-          togglePoint(geoPoint);
-          return true;
+          int index=_markers.indexOf(point);
+          if (index!=-1)
+          {
+            AchievableStatusGeoItem geoPoint=_points.get(index);
+            togglePoint(geoPoint);
+            return true;
+          }
+          return false;
         }
-        return false;
-      }
-    };
-    selectionMgr.addListener(listener);
+      };
+      selectionMgr.addListener(listener);
+    }
   }
 
   private void togglePoint(AchievableStatusGeoItem geoPoint)

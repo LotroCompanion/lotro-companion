@@ -28,15 +28,18 @@ public class GeoAchievableMapWindowController extends DefaultDialogController
 {
   private List<AchievableGeoPointsMapPanelController> _maps;
   private JTabbedPane _ui;
+  private boolean _editable;
 
   /**
    * Constructor.
    * @param parent Parent window.
    * @param mgr Geo status manager.
+   * @param editable Editable or not.
    */
-  public GeoAchievableMapWindowController(WindowController parent, AchievableGeoStatusManager mgr)
+  public GeoAchievableMapWindowController(WindowController parent, AchievableGeoStatusManager mgr, boolean editable)
   {
     super(parent);
+    _editable=editable;
     init(mgr);
   }
 
@@ -57,7 +60,7 @@ public class GeoAchievableMapWindowController extends DefaultDialogController
           mapPoints.add(point);
         }
       }
-      AchievableGeoPointsMapPanelController panelCtrl=new AchievableGeoPointsMapPanelController(map,mapPoints,mgr);
+      AchievableGeoPointsMapPanelController panelCtrl=new AchievableGeoPointsMapPanelController(map,mapPoints,_editable,mgr);
       _maps.add(panelCtrl);
       mapIndex++;
     }

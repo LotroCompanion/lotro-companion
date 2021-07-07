@@ -16,16 +16,19 @@ public class AchievableGeoStatusEditionController
   private WindowController _parent;
   private AchievableGeoStatusManager _mgr;
   private GeoAchievableMapWindowController _mapController;
+  private boolean _editable;
 
   /**
    * Constructor.
    * @param parent Parent window.
    * @param geoStatusManager Geo status manager.
+   * @param editable Editable or not.
    */
-  public AchievableGeoStatusEditionController(WindowController parent, AchievableGeoStatusManager geoStatusManager)
+  public AchievableGeoStatusEditionController(WindowController parent, AchievableGeoStatusManager geoStatusManager, boolean editable)
   {
     _parent=parent;
     _mgr=geoStatusManager;
+    _editable=editable;
   }
 
   /**
@@ -46,7 +49,7 @@ public class AchievableGeoStatusEditionController
    */
   public void showMaps()
   {
-    _mapController=new GeoAchievableMapWindowController(_parent,_mgr);
+    _mapController=new GeoAchievableMapWindowController(_parent,_mgr,_editable);
     _mapController.updateUi();
     Window window=_mapController.getWindow();
     WindowAdapter l=new WindowAdapter()
