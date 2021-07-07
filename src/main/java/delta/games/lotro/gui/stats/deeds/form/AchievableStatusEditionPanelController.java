@@ -296,8 +296,11 @@ public class AchievableStatusEditionPanelController implements GeoPointChangeLis
   public void onOkImpl()
   {
     // Completion date
-    Long completionDate=_completionDate.getDate();
-    _status.setCompletionDate(completionDate);
+    if (_completionDate!=null)
+    {
+      Long completionDate=_completionDate.getDate();
+      _status.setCompletionDate(completionDate);
+    }
   }
 
   private Icon getIcon()

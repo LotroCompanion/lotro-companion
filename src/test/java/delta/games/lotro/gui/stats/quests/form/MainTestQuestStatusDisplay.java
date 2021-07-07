@@ -23,11 +23,7 @@ public class MainTestQuestStatusDisplay
       status.setCompletionDate(Long.valueOf(System.currentTimeMillis()));
       status.updateInternalState();
       QuestStatusDisplayDialogController dialog=new QuestStatusDisplayDialogController(status,null);
-      AchievableStatus newStatus=dialog.editModal();
-      if (newStatus!=null)
-      {
-        System.out.println(newStatus);
-      }
+      dialog.show();
     }
   }
 

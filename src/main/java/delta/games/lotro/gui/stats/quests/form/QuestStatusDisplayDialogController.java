@@ -5,7 +5,7 @@ import java.awt.Dimension;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 
-import delta.common.ui.swing.windows.DefaultFormDialogController;
+import delta.common.ui.swing.windows.DefaultDisplayDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.achievables.AchievableStatus;
 import delta.games.lotro.gui.stats.deeds.form.AchievableStatusEditionPanelController;
@@ -17,13 +17,11 @@ import delta.games.lotro.lore.quests.QuestDescription;
  * Controller for the "quest status edition" dialog.
  * @author DAM
  */
-public class QuestStatusDisplayDialogController extends DefaultFormDialogController<AchievableStatus>
+public class QuestStatusDisplayDialogController extends DefaultDisplayDialogController<AchievableStatus>
 {
   private static final int MAX_HEIGHT=600;
   // Controllers
   private AchievableStatusEditionPanelController _statusEditor;
-  // Data
-  private AchievableStatus _original;
 
   /**
    * Constructor.
@@ -33,7 +31,6 @@ public class QuestStatusDisplayDialogController extends DefaultFormDialogControl
   public QuestStatusDisplayDialogController(AchievableStatus status, WindowController parentController)
   {
     super(parentController,status);
-    _original=status;
     QuestDescription quest=(QuestDescription)status.getAchievable();
     AchievableProxiesResolver.resolve(quest);
   }
@@ -60,13 +57,6 @@ public class QuestStatusDisplayDialogController extends DefaultFormDialogControl
   {
     _statusEditor=new AchievableStatusEditionPanelController(this,_data,MODE.QUEST);
     return _statusEditor.getPanel();
-  }
-
-  @Override
-  protected void okImpl()
-  {
-    _statusEditor.onOkImpl();
-    _original.copyFrom(_data);
   }
 
   /**
