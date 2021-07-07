@@ -20,45 +20,39 @@ import delta.games.lotro.utils.Formats;
 public class AchievableStatusColumnsBuilder
 {
   /**
-   * Build the columns to show the attributes of an AchievableStatus.
-   * @param editable Indicates if the state column is editable or not.
+   * Build the columns to show the attributes of a quest AchievableStatus.
    * @return a list of columns.
    */
-  public static List<TableColumnController<AchievableStatus,?>> buildAchievableStateColumns(boolean editable)
+  public static List<TableColumnController<AchievableStatus,?>> buildQuestStateColumns()
   {
     List<TableColumnController<AchievableStatus,?>> ret=new ArrayList<TableColumnController<AchievableStatus,?>>();
     // State
+    ret.add(buildAchievableStateColumn(false));
     {
-      CellDataProvider<AchievableStatus,AchievableElementState> completedCell=new CellDataProvider<AchievableStatus,AchievableElementState>()
+      CellDataProvider<AchievableStatus,Integer> countCell=new CellDataProvider<AchievableStatus,Integer>()
       {
         @Override
-        public AchievableElementState getData(AchievableStatus status)
+        public Integer getData(AchievableStatus status)
         {
-          return status.getState();
+          return status.getCompletionCount();
         }
       };
-      DefaultTableColumnController<AchievableStatus,AchievableElementState> completedColumn=new DefaultTableColumnController<AchievableStatus,AchievableElementState>(AchievableStatusColumnIds.COMPLETED.name(),"Completed",AchievableElementState.class,completedCell);
-      completedColumn.setWidthSpecs(30,30,30);
-      completedColumn.setEditable(editable);
-      // Renderer
-      completedColumn.setCellRenderer(new AchievableElementStateTableCellRenderer());
-      if (editable)
-      {
-        // Editor
-        completedColumn.setCellEditor(new AchievableElementStateTableCellEditor());
-        // Updater
-        CellDataUpdater<AchievableStatus> updater=new CellDataUpdater<AchievableStatus>()
-        {
-          @Override
-          public void setData(AchievableStatus status, Object value)
-          {
-            status.setState((AchievableElementState)value);
-          }
-        };
-        completedColumn.setValueUpdater(updater);
-      }
-      ret.add(completedColumn);
+      DefaultTableColumnController<AchievableStatus,Integer> countColumn=new DefaultTableColumnController<AchievableStatus,Integer>(AchievableStatusColumnIds.COMPLETION_COUNT.name(),"Count",Integer.class,countCell);
+      countColumn.setWidthSpecs(50,50,50);
+      ret.add(countColumn);
     }
+    return ret;
+  }
+
+  /**
+   * Build the columns to show the attributes of a deed AchievableStatus.
+   * @return a list of columns.
+   */
+  public static List<TableColumnController<AchievableStatus,?>> buildDeedStateColumns()
+  {
+    List<TableColumnController<AchievableStatus,?>> ret=new ArrayList<TableColumnController<AchievableStatus,?>>();
+    // State
+    ret.add(buildAchievableStateColumn(true));
     // Completion date column
     {
       CellDataProvider<AchievableStatus,Date> completionDateCell=new CellDataProvider<AchievableStatus,Date>()
@@ -76,5 +70,43 @@ public class AchievableStatusColumnsBuilder
       ret.add(completionDateColumn);
     }
     return ret;
+  }
+
+  /**
+   * Build a column to show an achievable state.
+   * @param editable Indicates if the state column is editable or not.
+   * @return a column.
+   */
+  private static TableColumnController<AchievableStatus,?> buildAchievableStateColumn(boolean editable)
+  {
+    CellDataProvider<AchievableStatus,AchievableElementState> completedCell=new CellDataProvider<AchievableStatus,AchievableElementState>()
+    {
+      @Override
+      public AchievableElementState getData(AchievableStatus status)
+      {
+        return status.getState();
+      }
+    };
+    DefaultTableColumnController<AchievableStatus,AchievableElementState> completedColumn=new DefaultTableColumnController<AchievableStatus,AchievableElementState>(AchievableStatusColumnIds.COMPLETED.name(),"Completed",AchievableElementState.class,completedCell);
+    completedColumn.setWidthSpecs(30,30,30);
+    completedColumn.setEditable(editable);
+    // Renderer
+    completedColumn.setCellRenderer(new AchievableElementStateTableCellRenderer());
+    if (editable)
+    {
+      // Editor
+      completedColumn.setCellEditor(new AchievableElementStateTableCellEditor());
+      // Updater
+      CellDataUpdater<AchievableStatus> updater=new CellDataUpdater<AchievableStatus>()
+      {
+        @Override
+        public void setData(AchievableStatus status, Object value)
+        {
+          status.setState((AchievableElementState)value);
+        }
+      };
+      completedColumn.setValueUpdater(updater);
+    }
+    return completedColumn;
   }
 }

@@ -78,7 +78,7 @@ public class DeedStatusTableController
       table.addColumnController(proxiedColumn);
     }
     // Achievable status columns
-    for(TableColumnController<AchievableStatus,?> column : AchievableStatusColumnsBuilder.buildAchievableStateColumns(true))
+    for(TableColumnController<AchievableStatus,?> column : AchievableStatusColumnsBuilder.buildDeedStateColumns())
     {
       table.addColumnController(column);
     }

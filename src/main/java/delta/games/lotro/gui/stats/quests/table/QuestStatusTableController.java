@@ -78,7 +78,7 @@ public class QuestStatusTableController
       table.addColumnController(proxiedColumn);
     }
     // Achievable status columns
-    for(TableColumnController<AchievableStatus,?> column : AchievableStatusColumnsBuilder.buildAchievableStateColumns(false))
+    for(TableColumnController<AchievableStatus,?> column : AchievableStatusColumnsBuilder.buildQuestStateColumns())
     {
       table.addColumnController(column);
     }
@@ -104,7 +104,7 @@ public class QuestStatusTableController
       columnIds.add(QuestColumnIds.NAME.name());
       columnIds.add(QuestColumnIds.CATEGORY.name());
       columnIds.add(QuestColumnIds.LEVEL.name());
-      columnIds.add(AchievableStatusColumnIds.COMPLETION_DATE.name());
+      columnIds.add(AchievableStatusColumnIds.COMPLETION_COUNT.name());
     }
     return columnIds;
   }
