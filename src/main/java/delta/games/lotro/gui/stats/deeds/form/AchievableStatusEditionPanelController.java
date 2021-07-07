@@ -13,6 +13,7 @@ import java.util.List;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
@@ -31,6 +32,7 @@ import delta.games.lotro.character.achievables.ObjectiveConditionStatus;
 import delta.games.lotro.character.achievables.edition.AchievableGeoStatusManager;
 import delta.games.lotro.character.achievables.edition.AchievableStatusGeoItem;
 import delta.games.lotro.character.achievables.edition.GeoPointChangeListener;
+import delta.games.lotro.common.Repeatability;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.stats.achievables.form.AchievableElementStateEditionController;
 import delta.games.lotro.gui.stats.achievables.form.AchievableLinkController;
@@ -40,6 +42,7 @@ import delta.games.lotro.gui.stats.achievables.map.AchievableGeoStatusEditionCon
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.DeedType;
 import delta.games.lotro.lore.quests.Achievable;
+import delta.games.lotro.lore.quests.QuestDescription;
 import delta.games.lotro.utils.DateFormat;
 
 /**
@@ -48,14 +51,30 @@ import delta.games.lotro.utils.DateFormat;
  */
 public class AchievableStatusEditionPanelController implements GeoPointChangeListener
 {
+  /**
+   * UI mode.
+   * @author DAM
+   */
+  public enum MODE
+  {
+    /**
+     * Deed mode: editable, show completion date, hide completion count.
+     */
+    DEED,
+    /**
+     * Quest: not editable, hide completion date, show completion count.
+     */
+    QUEST
+  }
   // Data
   private AchievableStatus _status;
-  private boolean _editable;
+  private MODE _mode;
   // Controllers
   private AchievableElementStateEditionController _stateCtrl;
   private List<ObjectiveStatusEditionPanelController> _objectiveStatusEditors;
   private AchievableLinkController _linkCtrl;
   private DateEditionController _completionDate;
+  private JLabel _completionCount;
   private AchievableGeoStatusEditionController _geoController;
   // UI
   private JPanel _panel;
@@ -64,14 +83,14 @@ public class AchievableStatusEditionPanelController implements GeoPointChangeLis
    * Constructor.
    * @param parent Parent controller.
    * @param status Status to edit.
-   * @param editable Indicates if this component is editable or not.
+   * @param mode Mode to use.
    */
-  public AchievableStatusEditionPanelController(WindowController parent, AchievableStatus status, boolean editable)
+  public AchievableStatusEditionPanelController(WindowController parent, AchievableStatus status, MODE mode)
   {
     _status=status;
-    _editable=editable;
+    _mode=mode;
     _panel=build(parent);
-    if (_editable)
+    if (mode==MODE.DEED)
     {
       setupCallbacks();
     }
@@ -104,48 +123,94 @@ public class AchievableStatusEditionPanelController implements GeoPointChangeLis
     return panel;
   }
 
+  private boolean isEditable()
+  {
+    return _mode==MODE.DEED;
+  }
+
   private JPanel buildHeadPanel(Icon icon, WindowController parent)
   {
     // State
-    _stateCtrl=new AchievableElementStateEditionController(icon,_editable);
+    _stateCtrl=new AchievableElementStateEditionController(icon,isEditable());
     // Achievable link
     Achievable achievable=_status.getAchievable();
     _linkCtrl=new AchievableLinkController(achievable,parent);
     // Next line (completion date and map button)
-    JPanel nextLine=buildDateAndMapPanel(parent);
+    JPanel nextLine=buildComplementsPanel(parent);
     // Assembly
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(_stateCtrl.getComponent(),c);
     c=new GridBagConstraints(1,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(_linkCtrl.getLabel(),c);
-    c=new GridBagConstraints(0,1,2,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
-    panel.add(nextLine,c);
+    if (nextLine!=null)
+    {
+      c=new GridBagConstraints(0,1,2,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+      panel.add(nextLine,c);
+    }
     return panel;
   }
 
-  private JPanel buildDateAndMapPanel(WindowController parent)
+  private JPanel buildComplementsPanel(WindowController parent)
   {
+    // Completion date panel (may be null)
     JPanel datePanel=buildCompletionDatePanel();
-    // Geo edition
+    // Completion count panel (may be null)
+    JPanel countPanel=buildCompletionCountPanel();
+    // Geo edition button (may be null)
     JButton mapButton=buildMapsButton(parent);
-    if (mapButton==null)
+    if ((datePanel==null) && (countPanel!=null) && (mapButton!=null))
     {
-      return datePanel;
+      return null;
     }
     JPanel panel=GuiFactory.buildPanel(new FlowLayout());
-    panel.add(datePanel);
-    panel.add(mapButton);
+    if (datePanel!=null)
+    {
+      panel.add(datePanel);
+    }
+    if (countPanel!=null)
+    {
+      panel.add(countPanel);
+    }
+    if (mapButton!=null)
+    {
+      panel.add(mapButton);
+    }
     return panel;
+  }
+
+  private JPanel buildCompletionCountPanel()
+  {
+    JPanel panel=null;
+    if (useCompletionCount())
+    {
+      panel=GuiFactory.buildPanel(new FlowLayout());
+      panel.add(GuiFactory.buildLabel("Completion count:"));
+      _completionCount=GuiFactory.buildLabel("-");
+      panel.add(_completionCount);
+    }
+    return panel;
+  }
+
+  private boolean useCompletionCount()
+  {
+    if (_mode==MODE.DEED) return false;
+    QuestDescription quest=(QuestDescription)_status.getAchievable();
+    Repeatability repeatability=quest.getRepeatability();
+    return repeatability!=Repeatability.NOT_REPEATABLE;
   }
 
   private JPanel buildCompletionDatePanel()
   {
-    JPanel panel=GuiFactory.buildPanel(new FlowLayout());
-    panel.add(GuiFactory.buildLabel("Completion date:"));
-    DateCodec codec=DateFormat.getDateTimeCodec();
-    _completionDate=new DateEditionController(codec);
-    panel.add(_completionDate.getTextField());
+    JPanel panel=null;
+    if (_mode==MODE.DEED)
+    {
+      panel=GuiFactory.buildPanel(new FlowLayout());
+      panel.add(GuiFactory.buildLabel("Completion date:"));
+      DateCodec codec=DateFormat.getDateTimeCodec();
+      _completionDate=new DateEditionController(codec);
+      panel.add(_completionDate.getTextField());
+    }
     return panel;
   }
 
@@ -157,7 +222,7 @@ public class AchievableStatusEditionPanelController implements GeoPointChangeLis
     _objectiveStatusEditors=new ArrayList<ObjectiveStatusEditionPanelController>();
     for(AchievableObjectiveStatus objectiveStatus : _status.getObjectiveStatuses())
     {
-      ObjectiveStatusEditionPanelController editor=new ObjectiveStatusEditionPanelController(objectiveStatus,icon,_editable);
+      ObjectiveStatusEditionPanelController editor=new ObjectiveStatusEditionPanelController(objectiveStatus,icon,isEditable());
       _objectiveStatusEditors.add(editor);
       ret.add(editor.getPanel(),c);
       c.gridy++;
@@ -173,7 +238,7 @@ public class AchievableStatusEditionPanelController implements GeoPointChangeLis
     if (hasGeoData)
     {
       AchievableGeoStatusManager geoStatusManager=new AchievableGeoStatusManager(_status,this);
-      _geoController=new AchievableGeoStatusEditionController(parent,geoStatusManager,_editable);
+      _geoController=new AchievableGeoStatusEditionController(parent,geoStatusManager,isEditable());
       toggleMap=GuiFactory.buildButton("Map");
       ActionListener mapActionListener=new ActionListener()
       {
@@ -200,14 +265,28 @@ public class AchievableStatusEditionPanelController implements GeoPointChangeLis
     AchievableElementState state=_status.getState();
     _stateCtrl.setState(state);
     // Date
-    _completionDate.setDate(_status.getCompletionDate());
-    if (state==AchievableElementState.COMPLETED)
+    if (_completionDate!=null)
     {
-      _completionDate.setState(true,true);
+      _completionDate.setDate(_status.getCompletionDate());
+      if (state==AchievableElementState.COMPLETED)
+      {
+        _completionDate.setState(true,true);
+      }
+      else
+      {
+        _completionDate.setState(false,false);
+      }
     }
-    else
+    // Count
+    if (_completionCount!=null)
     {
-      _completionDate.setState(false,false);
+      Integer count=_status.getCompletionCount();
+      String countStr="-";
+      if (count!=null)
+      {
+        countStr=count.toString();
+      }
+      _completionCount.setText(countStr);
     }
   }
 
