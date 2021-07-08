@@ -14,6 +14,7 @@ import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.character.achievables.AchievableElementState;
 import delta.games.lotro.character.achievables.AchievableObjectiveStatus;
 import delta.games.lotro.character.achievables.ObjectiveConditionStatus;
+import delta.games.lotro.gui.stats.achievables.form.AchievableFormConfig.MODE;
 import delta.games.lotro.lore.quests.objectives.Objective;
 
 /**
@@ -24,7 +25,7 @@ public class ObjectiveStatusEditionPanelController
 {
   // Data
   private AchievableObjectiveStatus _objectiveStatus;
-  private boolean _editable;
+  private AchievableFormConfig _config;
   // Controllers
   private AchievableElementStateEditionController _stateCtrl;
   private List<ObjectiveConditionStatusEditionPanelController> _conditionStatusEditors;
@@ -36,12 +37,12 @@ public class ObjectiveStatusEditionPanelController
    * Constructor.
    * @param objectiveStatus Status to edit.
    * @param icon Icon to use.
-   * @param editable Indicates if this component is editable or not.
+   * @param config UI configuration.
    */
-  public ObjectiveStatusEditionPanelController(AchievableObjectiveStatus objectiveStatus, Icon icon, boolean editable)
+  public ObjectiveStatusEditionPanelController(AchievableObjectiveStatus objectiveStatus, Icon icon, AchievableFormConfig config)
   {
     _objectiveStatus=objectiveStatus;
-    _editable=editable;
+    _config=config;
     _panel=build(icon);
     setStatus();
   }
@@ -122,7 +123,7 @@ public class ObjectiveStatusEditionPanelController
     _conditionStatusEditors=new ArrayList<ObjectiveConditionStatusEditionPanelController>();
     for(ObjectiveConditionStatus conditionStatus : _objectiveStatus.getConditionStatuses())
     {
-      ObjectiveConditionStatusEditionPanelController editor=new ObjectiveConditionStatusEditionPanelController(conditionStatus,icon,_editable);
+      ObjectiveConditionStatusEditionPanelController editor=new ObjectiveConditionStatusEditionPanelController(conditionStatus,icon,_config);
       _conditionStatusEditors.add(editor);
     }
     // Assembly
@@ -142,16 +143,16 @@ public class ObjectiveStatusEditionPanelController
   private JPanel buildHeadPanel(Icon icon)
   {
     // State
-    _stateCtrl=new AchievableElementStateEditionController(icon,_editable);
+    _stateCtrl=new AchievableElementStateEditionController(icon,_config);
     // Label
     String label=getLabel();
     _label=GuiFactory.buildLabel("");
     updateLabel();
     // Assembly
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
-    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.EAST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.EAST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
     panel.add(_stateCtrl.getComponent(),c);
-    c=new GridBagConstraints(1,0,1,1,1.0,0.0,GridBagConstraints.EAST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    c=new GridBagConstraints(1,0,1,1,1.0,0.0,GridBagConstraints.EAST,GridBagConstraints.HORIZONTAL,new Insets(5,0,5,5),0,0);
     panel.add(_label,c);
     if (label.length()==0)
     {
@@ -170,7 +171,16 @@ public class ObjectiveStatusEditionPanelController
   {
     Objective objective=_objectiveStatus.getObjective();
     String objectiveOverride=objective.getProgressOverride();
-    return objectiveOverride;
+    String ret=objectiveOverride;
+    if (_config.getMode()==MODE.QUEST)
+    {
+      ret="Objective #"+objective.getIndex();
+      if (objectiveOverride.length()>0)
+      {
+        ret=ret+": "+objectiveOverride;
+      }
+    }
+    return ret;
   }
 
   /**
@@ -180,6 +190,7 @@ public class ObjectiveStatusEditionPanelController
   {
     // Data
     _objectiveStatus=null;
+    _config=null;
     // Controllers
     if (_stateCtrl!=null)
     {

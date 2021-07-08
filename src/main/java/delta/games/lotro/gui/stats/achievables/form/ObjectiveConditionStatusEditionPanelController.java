@@ -21,7 +21,7 @@ public class ObjectiveConditionStatusEditionPanelController
 {
   // Data
   private ObjectiveConditionStatus _conditionStatus;
-  private boolean _editable;
+  private AchievableFormConfig _config;
   // Controllers
   private AchievableElementStateEditionController _stateCtrl;
   private ProgressAndNumberEditorController _countEditor;
@@ -33,12 +33,12 @@ public class ObjectiveConditionStatusEditionPanelController
    * Constructor.
    * @param conditionStatus Status to edit.
    * @param icon Icon to use.
-   * @param editable Indicates if this component is editable or not.
+   * @param config UI configuration.
    */
-  public ObjectiveConditionStatusEditionPanelController(ObjectiveConditionStatus conditionStatus, Icon icon, boolean editable)
+  public ObjectiveConditionStatusEditionPanelController(ObjectiveConditionStatus conditionStatus, Icon icon, AchievableFormConfig config)
   {
     _conditionStatus=conditionStatus;
-    _editable=editable;
+    _config=config;
     _panel=build(icon);
     updateUi();
   }
@@ -82,7 +82,7 @@ public class ObjectiveConditionStatusEditionPanelController
   private JPanel build(Icon icon)
   {
     // State
-    _stateCtrl=new AchievableElementStateEditionController(icon,_editable);
+    _stateCtrl=new AchievableElementStateEditionController(icon,_config);
     // Label
     String label=getLabel();
     _label=GuiFactory.buildLabel(label);
@@ -93,17 +93,17 @@ public class ObjectiveConditionStatusEditionPanelController
     {
       _countEditor=new ProgressAndNumberEditorController();
       _countEditor.setRange(0,count);
-      _countEditor.getEditor().setState(true,_editable);
+      _countEditor.getEditor().setState(true,_config.isEditable());
     }
     // Assembly
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
-    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.EAST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.EAST,GridBagConstraints.NONE,new Insets(2,5,2,2),0,0);
     panel.add(_stateCtrl.getComponent(),c);
-    c=new GridBagConstraints(1,0,1,1,1.0,0.0,GridBagConstraints.EAST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    c=new GridBagConstraints(1,0,1,1,1.0,0.0,GridBagConstraints.EAST,GridBagConstraints.HORIZONTAL,new Insets(2,2,2,5),0,0);
     panel.add(_label,c);
     if (_countEditor!=null)
     {
-      c=new GridBagConstraints(0,1,2,1,1.0,0.0,GridBagConstraints.EAST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+      c=new GridBagConstraints(0,1,2,1,1.0,0.0,GridBagConstraints.EAST,GridBagConstraints.HORIZONTAL,new Insets(0,5,2,5),0,0);
       panel.add(_countEditor.getPanel(),c);
     }
     // Compute the panel visibility
@@ -163,6 +163,7 @@ public class ObjectiveConditionStatusEditionPanelController
   {
     // Data
     _conditionStatus=null;
+    _config=null;
     // Controllers
     if (_stateCtrl!=null)
     {

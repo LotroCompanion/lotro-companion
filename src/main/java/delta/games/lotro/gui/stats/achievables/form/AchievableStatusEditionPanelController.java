@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.stats.deeds.form;
+package delta.games.lotro.gui.stats.achievables.form;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -35,10 +35,7 @@ import delta.games.lotro.character.achievables.edition.AchievableStatusGeoItem;
 import delta.games.lotro.character.achievables.edition.GeoPointChangeListener;
 import delta.games.lotro.common.Repeatability;
 import delta.games.lotro.gui.LotroIconsManager;
-import delta.games.lotro.gui.stats.achievables.form.AchievableElementStateEditionController;
-import delta.games.lotro.gui.stats.achievables.form.AchievableLinkController;
-import delta.games.lotro.gui.stats.achievables.form.ObjectiveConditionStatusEditionPanelController;
-import delta.games.lotro.gui.stats.achievables.form.ObjectiveStatusEditionPanelController;
+import delta.games.lotro.gui.stats.achievables.form.AchievableFormConfig.MODE;
 import delta.games.lotro.gui.stats.achievables.map.AchievableGeoStatusEditionController;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.DeedType;
@@ -52,24 +49,9 @@ import delta.games.lotro.utils.DateFormat;
  */
 public class AchievableStatusEditionPanelController implements GeoPointChangeListener
 {
-  /**
-   * UI mode.
-   * @author DAM
-   */
-  public enum MODE
-  {
-    /**
-     * Deed mode: editable, show completion date, hide completion count.
-     */
-    DEED,
-    /**
-     * Quest: not editable, hide completion date, show completion count.
-     */
-    QUEST
-  }
   // Data
   private AchievableStatus _status;
-  private MODE _mode;
+  private AchievableFormConfig _config;
   // Controllers
   private AchievableElementStateEditionController _stateCtrl;
   private List<ObjectiveStatusEditionPanelController> _objectiveStatusEditors;
@@ -84,14 +66,14 @@ public class AchievableStatusEditionPanelController implements GeoPointChangeLis
    * Constructor.
    * @param parent Parent controller.
    * @param status Status to edit.
-   * @param mode Mode to use.
+   * @param config UI configuration.
    */
-  public AchievableStatusEditionPanelController(WindowController parent, AchievableStatus status, MODE mode)
+  public AchievableStatusEditionPanelController(WindowController parent, AchievableStatus status, AchievableFormConfig config)
   {
     _status=status;
-    _mode=mode;
+    _config=config;
     _panel=build(parent);
-    if (mode==MODE.DEED)
+    if (_config.isEditable())
     {
       setupCallbacks();
     }
@@ -124,15 +106,10 @@ public class AchievableStatusEditionPanelController implements GeoPointChangeLis
     return panel;
   }
 
-  private boolean isEditable()
-  {
-    return _mode==MODE.DEED;
-  }
-
   private JPanel buildHeadPanel(Icon icon, WindowController parent)
   {
     // State
-    _stateCtrl=new AchievableElementStateEditionController(icon,isEditable());
+    _stateCtrl=new AchievableElementStateEditionController(icon,_config);
     // Achievable link
     Achievable achievable=_status.getAchievable();
     _linkCtrl=new AchievableLinkController(achievable,parent);
@@ -140,9 +117,9 @@ public class AchievableStatusEditionPanelController implements GeoPointChangeLis
     JPanel nextLine=buildComplementsPanel(parent);
     // Assembly
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
-    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
     panel.add(_stateCtrl.getComponent(),c);
-    c=new GridBagConstraints(1,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    c=new GridBagConstraints(1,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(5,0,5,5),0,0);
     panel.add(_linkCtrl.getLabel(),c);
     if (nextLine!=null)
     {
@@ -160,7 +137,7 @@ public class AchievableStatusEditionPanelController implements GeoPointChangeLis
     JPanel countPanel=buildCompletionCountPanel();
     // Geo edition button (may be null)
     JButton mapButton=buildMapsButton(parent);
-    if ((datePanel==null) && (countPanel!=null) && (mapButton!=null))
+    if ((datePanel==null) && (countPanel==null) && (mapButton==null))
     {
       return null;
     }
@@ -185,7 +162,7 @@ public class AchievableStatusEditionPanelController implements GeoPointChangeLis
     JPanel panel=null;
     if (useCompletionCount())
     {
-      panel=GuiFactory.buildPanel(new FlowLayout());
+      panel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
       panel.add(GuiFactory.buildLabel("Completion count:"));
       _completionCount=GuiFactory.buildLabel("-");
       panel.add(_completionCount);
@@ -195,16 +172,21 @@ public class AchievableStatusEditionPanelController implements GeoPointChangeLis
 
   private boolean useCompletionCount()
   {
-    if (_mode==MODE.DEED) return false;
-    QuestDescription quest=(QuestDescription)_status.getAchievable();
-    Repeatability repeatability=quest.getRepeatability();
-    return repeatability!=Repeatability.NOT_REPEATABLE;
+    MODE mode=_config.getMode();
+    if (mode==MODE.QUEST)
+    {
+      QuestDescription quest=(QuestDescription)_status.getAchievable();
+      Repeatability repeatability=quest.getRepeatability();
+      return repeatability!=Repeatability.NOT_REPEATABLE;
+    }
+    return false;
   }
 
   private JPanel buildCompletionDatePanel()
   {
     JPanel panel=null;
-    if (_mode==MODE.DEED)
+    MODE mode=_config.getMode();
+    if (mode==MODE.DEED)
     {
       panel=GuiFactory.buildPanel(new FlowLayout());
       panel.add(GuiFactory.buildLabel("Completion date:"));
@@ -223,7 +205,7 @@ public class AchievableStatusEditionPanelController implements GeoPointChangeLis
     _objectiveStatusEditors=new ArrayList<ObjectiveStatusEditionPanelController>();
     for(AchievableObjectiveStatus objectiveStatus : _status.getObjectiveStatuses())
     {
-      ObjectiveStatusEditionPanelController editor=new ObjectiveStatusEditionPanelController(objectiveStatus,icon,isEditable());
+      ObjectiveStatusEditionPanelController editor=new ObjectiveStatusEditionPanelController(objectiveStatus,icon,_config);
       _objectiveStatusEditors.add(editor);
       ret.add(editor.getPanel(),c);
       c.gridy++;
@@ -239,7 +221,7 @@ public class AchievableStatusEditionPanelController implements GeoPointChangeLis
     if (hasGeoData)
     {
       AchievableGeoStatusManager geoStatusManager=new AchievableGeoStatusManager(_status,this);
-      _geoController=new AchievableGeoStatusEditionController(parent,geoStatusManager,isEditable());
+      _geoController=new AchievableGeoStatusEditionController(parent,geoStatusManager,_config.isEditable());
       toggleMap=GuiFactory.buildButton("Map");
       ActionListener mapActionListener=new ActionListener()
       {

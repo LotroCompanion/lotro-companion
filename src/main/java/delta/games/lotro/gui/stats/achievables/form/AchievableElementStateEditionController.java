@@ -25,14 +25,14 @@ public class AchievableElementStateEditionController
   /**
    * Constructor.
    * @param icon Icon to use.
-   * @param editable Indicates if this component is editable or not.
+   * @param config UI configuration.
    */
-  public AchievableElementStateEditionController(Icon icon, boolean editable)
+  public AchievableElementStateEditionController(Icon icon, AchievableFormConfig config)
   {
     _icon=icon;
     _grayedIcon=UIManager.getLookAndFeel().getDisabledIcon(null, icon);
     _transparentIcon=new TransparentIcon(icon,0.4f);
-    if (editable)
+    if (config.isEditable())
     {
       _button=GuiFactory.buildIconButton();
       _button.setIcon(icon);
