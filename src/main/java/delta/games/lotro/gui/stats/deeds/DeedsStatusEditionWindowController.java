@@ -7,6 +7,7 @@ import java.awt.Insets;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.JDialog;
@@ -34,6 +35,8 @@ import delta.games.lotro.gui.main.GlobalPreferences;
 import delta.games.lotro.gui.stats.achievables.filter.AchievableStatusFilterController;
 import delta.games.lotro.gui.stats.deeds.form.DeedStatusEditionDialogController;
 import delta.games.lotro.gui.stats.deeds.table.DeedStatusTableController;
+import delta.games.lotro.lore.deeds.DeedDescription;
+import delta.games.lotro.lore.quests.AchievablesUtils;
 import delta.games.lotro.stats.deeds.SyncDeedsStatusAndReputationStatus;
 import delta.games.lotro.utils.events.EventsManager;
 
@@ -109,7 +112,8 @@ public class DeedsStatusEditionWindowController extends DefaultFormDialogControl
   private void initTable()
   {
     TypedProperties prefs=GlobalPreferences.getGlobalProperties("DeedsStatus");
-    _tableController=new DeedStatusTableController(_data,prefs,_filter);
+    List<DeedDescription> deeds=AchievablesUtils.getDeeds(_toon.getSummary());
+    _tableController=new DeedStatusTableController(_data,prefs,_filter,deeds);
     ActionListener al=new ActionListener()
     {
       @Override

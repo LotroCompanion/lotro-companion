@@ -21,7 +21,6 @@ import delta.games.lotro.gui.items.chooser.ItemChooser;
 import delta.games.lotro.gui.stats.achievables.table.AchievableStatusColumnIds;
 import delta.games.lotro.gui.stats.achievables.table.AchievableStatusColumnsBuilder;
 import delta.games.lotro.lore.deeds.DeedDescription;
-import delta.games.lotro.lore.deeds.DeedsManager;
 
 /**
  * Controller for a table that shows the status of all deeds for a single character.
@@ -41,11 +40,11 @@ public class DeedStatusTableController
    * @param deedsStatus Status to show.
    * @param prefs Preferences.
    * @param filter Managed filter.
+   * @param deeds Deeds to use.
    */
-  public DeedStatusTableController(AchievablesStatusManager deedsStatus, TypedProperties prefs, DeedStatusFilter filter)
+  public DeedStatusTableController(AchievablesStatusManager deedsStatus, TypedProperties prefs, DeedStatusFilter filter, List<DeedDescription> deeds)
   {
     _prefs=prefs;
-    List<DeedDescription> deeds=DeedsManager.getInstance().getAll();
     _statuses=new ArrayList<AchievableStatus>();
     for(DeedDescription deed : deeds)
     {

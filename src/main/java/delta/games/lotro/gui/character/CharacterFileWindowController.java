@@ -519,7 +519,7 @@ public class CharacterFileWindowController extends DefaultWindowController imple
   private void editQuestsStatus()
   {
     AchievablesStatusManager status=QuestsStatusIo.load(_toon);
-    QuestsStatusEditionWindowController controller=new QuestsStatusEditionWindowController(this,status);
+    QuestsStatusEditionWindowController controller=new QuestsStatusEditionWindowController(this,status,_toon);
     controller.show();
   }
 

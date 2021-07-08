@@ -21,7 +21,6 @@ import delta.games.lotro.gui.quests.table.QuestsTableController;
 import delta.games.lotro.gui.stats.achievables.table.AchievableStatusColumnIds;
 import delta.games.lotro.gui.stats.achievables.table.AchievableStatusColumnsBuilder;
 import delta.games.lotro.lore.quests.QuestDescription;
-import delta.games.lotro.lore.quests.QuestsManager;
 
 /**
  * Controller for a table that shows the status of all quests for a single character.
@@ -41,11 +40,11 @@ public class QuestStatusTableController
    * @param questsStatus Status to show.
    * @param prefs Preferences.
    * @param filter Managed filter.
+   * @param quests Quests to use.
    */
-  public QuestStatusTableController(AchievablesStatusManager questsStatus, TypedProperties prefs, QuestStatusFilter filter)
+  public QuestStatusTableController(AchievablesStatusManager questsStatus, TypedProperties prefs, QuestStatusFilter filter, List<QuestDescription> quests)
   {
     _prefs=prefs;
-    List<QuestDescription> quests=QuestsManager.getInstance().getAll();
     _statuses=new ArrayList<AchievableStatus>();
     for(QuestDescription quest : quests)
     {
