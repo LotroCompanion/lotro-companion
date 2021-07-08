@@ -78,12 +78,16 @@ public class QuestFilterController implements ActionListener
    * Constructor.
    * @param filter Managed filter.
    * @param filterUpdateListener Filter update listener.
+   * @param useRequirements Use requirements or not.
    */
-  public QuestFilterController(QuestFilter filter, FilterUpdateListener filterUpdateListener)
+  public QuestFilterController(QuestFilter filter, FilterUpdateListener filterUpdateListener, boolean useRequirements)
   {
     _filter=filter;
     _filterUpdateListener=filterUpdateListener;
-    _requirements=new RequirementsFilterController(filter.getRequirementsFilter(),filterUpdateListener);
+    if (useRequirements)
+    {
+      _requirements=new RequirementsFilterController(filter.getRequirementsFilter(),filterUpdateListener);
+    }
     RewardsExplorer explorer=QuestsManager.getInstance().buildRewardsExplorer();
     _rewards=new RewardsFilterController(filter.getRewardsFilter(),filterUpdateListener,explorer,true);
   }
@@ -136,7 +140,10 @@ public class QuestFilterController implements ActionListener
       _autoBestowed.selectItem(null);
       _repeatability.selectItem(null);
       _lockType.selectItem(null);
-      _requirements.reset();
+      if (_requirements!=null)
+      {
+        _requirements.reset();
+      }
       _rewards.reset();
       _contains.setText("");
     }
@@ -192,7 +199,10 @@ public class QuestFilterController implements ActionListener
     LockType lockType=lockTypeFilter.getLockType();
     _lockType.selectItem(lockType);
     // Requirements
-    _requirements.setFilter();
+    if (_requirements!=null)
+    {
+      _requirements.setFilter();
+    }
     // Rewards
     _rewards.setFilter();
   }
@@ -218,12 +228,15 @@ public class QuestFilterController implements ActionListener
     y++;
 
     // Requirements
-    JPanel requirementsPanel=_requirements.getPanel();
-    Border requirementsBorder=GuiFactory.buildTitledBorder("Requirements");
-    requirementsPanel.setBorder(requirementsBorder);
-    c=new GridBagConstraints(0,y,2,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
-    panel.add(requirementsPanel,c);
-    y++;
+    if (_requirements!=null)
+    {
+      JPanel requirementsPanel=_requirements.getPanel();
+      Border requirementsBorder=GuiFactory.buildTitledBorder("Requirements");
+      requirementsPanel.setBorder(requirementsBorder);
+      c=new GridBagConstraints(0,y,2,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+      panel.add(requirementsPanel,c);
+      y++;
+    }
 
     // Rewards
     JPanel rewardsPanel=_rewards.getPanel();

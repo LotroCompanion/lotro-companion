@@ -78,7 +78,7 @@ public class QuestsStatusEditionWindowController extends DefaultDisplayDialogCon
     _panelController=new QuestsStatusEditionPanelController(this,_tableController);
     JPanel tablePanel=_panelController.getPanel();
     // Quest filter
-    _filterController=new QuestFilterController(_filter.getQuestFilter(),_panelController);
+    _filterController=new QuestFilterController(_filter.getQuestFilter(),_panelController,false);
     JPanel questFilterPanel=_filterController.getPanel();
     TitledBorder questFilterBorder=GuiFactory.buildTitledBorder("Quest Filter");
     questFilterPanel.setBorder(questFilterBorder);
