@@ -46,7 +46,6 @@ import delta.games.lotro.gui.character.storage.own.CharacterStorageDisplayWindow
 import delta.games.lotro.gui.log.CharacterLogWindowController;
 import delta.games.lotro.gui.stats.crafting.CraftingWindowController;
 import delta.games.lotro.gui.stats.deeds.DeedsStatusEditionWindowController;
-import delta.games.lotro.gui.stats.deeds.statistics.DeedStatisticsWindowController;
 import delta.games.lotro.gui.stats.levelling.LevelHistoryEditionDialogController;
 import delta.games.lotro.gui.stats.quests.QuestsStatusEditionWindowController;
 import delta.games.lotro.gui.stats.reputation.CharacterReputationDialogController;
@@ -71,7 +70,6 @@ public class CharacterFileWindowController extends DefaultWindowController imple
   private static final String STASH_COMMAND="stash";
   private static final String TRAIT_POINTS_COMMAND="traitPoints";
   private static final String DEEDS_STATUS_COMMAND="deedsStatus";
-  private static final String DEEDS_STATISTICS_COMMAND="deedsStatistics";
   private static final String QUESTS_STATUS_COMMAND="questsStatus";
   private static final String STORAGE_COMMAND="storage";
 
@@ -181,10 +179,6 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     JButton deedsButton=buildCommandButton("Deeds",DEEDS_STATUS_COMMAND);
     panel.add(deedsButton,c);
     c.gridx++;
-    // Deeds statistics
-    JButton deedsStatisticsButton=buildCommandButton("Deeds Stats",DEEDS_STATISTICS_COMMAND);
-    panel.add(deedsStatisticsButton,c);
-    c.gridx++;
     // Quests status
     JButton questsButton=buildCommandButton("Quests",QUESTS_STATUS_COMMAND);
     panel.add(questsButton,c);
@@ -261,10 +255,6 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     else if (DEEDS_STATUS_COMMAND.equals(command))
     {
       editDeedsStatus();
-    }
-    else if (DEEDS_STATISTICS_COMMAND.equals(command))
-    {
-      showDeedsStatistics();
     }
     else if (QUESTS_STATUS_COMMAND.equals(command))
     {
@@ -502,18 +492,6 @@ public class CharacterFileWindowController extends DefaultWindowController imple
         EventsManager.invokeEvent(event);
       }
     }
-  }
-
-  private void showDeedsStatistics()
-  {
-    DeedStatisticsWindowController deedsStatistics=(DeedStatisticsWindowController)_windowsManager.getWindow(DeedStatisticsWindowController.IDENTIFIER);
-    if (deedsStatistics==null)
-    {
-      deedsStatistics=new DeedStatisticsWindowController(this,_toon);
-      _windowsManager.registerWindow(deedsStatistics);
-      deedsStatistics.getWindow().setLocationRelativeTo(getWindow());
-    }
-    deedsStatistics.bringToFront();
   }
 
   private void editQuestsStatus()

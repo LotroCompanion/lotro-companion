@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.util.List;
 
 import javax.swing.Box;
+import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
@@ -18,14 +19,17 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.windows.DefaultDisplayDialogController;
 import delta.common.ui.swing.windows.WindowController;
+import delta.common.ui.swing.windows.WindowsManager;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.achievables.AchievableStatus;
 import delta.games.lotro.character.achievables.AchievablesStatusManager;
 import delta.games.lotro.character.achievables.filter.QuestStatusFilter;
+import delta.games.lotro.gui.items.FilterUpdateListener;
 import delta.games.lotro.gui.main.GlobalPreferences;
 import delta.games.lotro.gui.quests.filter.QuestFilterController;
 import delta.games.lotro.gui.stats.achievables.filter.AchievableStatusFilterController;
+import delta.games.lotro.gui.stats.achievables.statistics.AchievablesStatisticsWindowController;
 import delta.games.lotro.gui.stats.quests.form.QuestStatusDisplayDialogController;
 import delta.games.lotro.gui.stats.quests.table.QuestStatusTableController;
 import delta.games.lotro.lore.quests.AchievablesUtils;
@@ -35,16 +39,18 @@ import delta.games.lotro.lore.quests.QuestDescription;
  * Controller for a quests status edition window.
  * @author DAM
  */
-public class QuestsStatusEditionWindowController extends DefaultDisplayDialogController<AchievablesStatusManager>
+public class QuestsStatusEditionWindowController extends DefaultDisplayDialogController<AchievablesStatusManager> implements FilterUpdateListener
 {
   // Data
   private CharacterFile _toon;
+  private List<QuestDescription> _quests;
+  private QuestStatusFilter _filter;
   // Controllers
   private AchievableStatusFilterController _statusFilterController;
   private QuestFilterController _filterController;
   private QuestsStatusEditionPanelController _panelController;
   private QuestStatusTableController _tableController;
-  private QuestStatusFilter _filter;
+  private AchievablesStatisticsWindowController<QuestDescription> _statisticsController;
 
   /**
    * Constructor.
@@ -56,6 +62,7 @@ public class QuestsStatusEditionWindowController extends DefaultDisplayDialogCon
   {
     super(parent,status);
     _toon=toon;
+    _quests=AchievablesUtils.getQuests(_toon.getSummary());
     _filter=new QuestStatusFilter();
   }
 
@@ -78,24 +85,36 @@ public class QuestsStatusEditionWindowController extends DefaultDisplayDialogCon
     _panelController=new QuestsStatusEditionPanelController(this,_tableController);
     JPanel tablePanel=_panelController.getPanel();
     // Quest filter
-    _filterController=new QuestFilterController(_filter.getQuestFilter(),_panelController,false);
+    _filterController=new QuestFilterController(_filter.getQuestFilter(),this,false);
     JPanel questFilterPanel=_filterController.getPanel();
     TitledBorder questFilterBorder=GuiFactory.buildTitledBorder("Quest Filter");
     questFilterPanel.setBorder(questFilterBorder);
     // Status filter
-    _statusFilterController=new AchievableStatusFilterController(_filter,_panelController);
+    _statusFilterController=new AchievableStatusFilterController(_filter,this);
     JPanel statusFilterPanel=_statusFilterController.getPanel();
     TitledBorder statusFilterBorder=GuiFactory.buildTitledBorder("Status Filter");
     statusFilterPanel.setBorder(statusFilterBorder);
+    // Stats button
+    JButton b=GuiFactory.buildButton("Stats");
+    ActionListener al=new ActionListener()
+    {
+      @Override
+      public void actionPerformed(ActionEvent e)
+      {
+        showStatistics();
+      }
+    };
+    b.addActionListener(al);
     // Whole panel
-    GridBagConstraints c=new GridBagConstraints(0,0,2,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    GridBagConstraints c=new GridBagConstraints(0,0,3,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(questFilterPanel,c);
     c=new GridBagConstraints(0,1,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(statusFilterPanel,c);
-    c=new GridBagConstraints(1,1,1,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    c=new GridBagConstraints(1,1,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    panel.add(b,c);
+    c=new GridBagConstraints(2,1,1,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(Box.createGlue(),c);
-    c=new GridBagConstraints(0,2,2,1,1,1,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
-
+    c=new GridBagConstraints(0,2,3,1,1,1,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
     panel.add(tablePanel,c);
     return panel;
   }
@@ -103,8 +122,7 @@ public class QuestsStatusEditionWindowController extends DefaultDisplayDialogCon
   private void initTable()
   {
     TypedProperties prefs=GlobalPreferences.getGlobalProperties("QuestsStatus");
-    List<QuestDescription> quests=AchievablesUtils.getQuests(_toon.getSummary());
-    _tableController=new QuestStatusTableController(_data,prefs,_filter,quests);
+    _tableController=new QuestStatusTableController(_data,prefs,_filter,_quests);
     ActionListener al=new ActionListener()
     {
       @Override
@@ -114,20 +132,44 @@ public class QuestsStatusEditionWindowController extends DefaultDisplayDialogCon
         if (GenericTableController.DOUBLE_CLICK.equals(action))
         {
           AchievableStatus status=(AchievableStatus)event.getSource();
-          editQuestStatus(status);
+          showQuestStatus(status);
         }
       }
     };
     _tableController.getTableController().addActionListener(al);
   }
 
-  private void editQuestStatus(AchievableStatus status)
+  @Override
+  public void filterUpdated()
+  {
+    _panelController.filterUpdated();
+    if (_statisticsController!=null)
+    {
+      _statisticsController.updateStats();
+    }
+  }
+
+
+  private void showQuestStatus(AchievableStatus status)
   {
     QuestStatusDisplayDialogController dialog=new QuestStatusDisplayDialogController(status,this);
     Window parentWindow=getWindow();
     dialog.getDialog().setLocationRelativeTo(parentWindow);
     dialog.show(false);
   }
+
+  private void showStatistics()
+  {
+    WindowsManager windowsMgr=getWindowsManager();
+    if (_statisticsController==null)
+    {
+      _statisticsController=new AchievablesStatisticsWindowController<QuestDescription>(this,_toon,_data,_quests,_filter.getQuestFilter());
+      windowsMgr.registerWindow(_statisticsController);
+      _statisticsController.getWindow().setLocationRelativeTo(getWindow());
+    }
+    _statisticsController.bringToFront();
+  }
+
 
   /**
    * Release all managed resources.
@@ -137,7 +179,10 @@ public class QuestsStatusEditionWindowController extends DefaultDisplayDialogCon
   {
     super.dispose();
     // Data
+    _data=null;
     _toon=null;
+    _quests=null;
+    _filter=null;
     // Controllers
     if (_statusFilterController!=null)
     {
@@ -159,7 +204,10 @@ public class QuestsStatusEditionWindowController extends DefaultDisplayDialogCon
       _tableController.dispose();
       _tableController=null;
     }
-    _filter=null;
-    _data=null;
+    if (_statisticsController!=null)
+    {
+      _statisticsController.dispose();
+      _statisticsController=null;
+    }
   }
 }
