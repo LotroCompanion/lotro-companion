@@ -45,9 +45,9 @@ import delta.games.lotro.gui.character.stash.StashWindowController;
 import delta.games.lotro.gui.character.storage.own.CharacterStorageDisplayWindowController;
 import delta.games.lotro.gui.log.CharacterLogWindowController;
 import delta.games.lotro.gui.stats.crafting.CraftingWindowController;
-import delta.games.lotro.gui.stats.deeds.DeedsStatusEditionWindowController;
+import delta.games.lotro.gui.stats.deeds.DeedsStatusWindowController;
 import delta.games.lotro.gui.stats.levelling.LevelHistoryEditionDialogController;
-import delta.games.lotro.gui.stats.quests.QuestsStatusEditionWindowController;
+import delta.games.lotro.gui.stats.quests.QuestsStatusWindowController;
 import delta.games.lotro.gui.stats.reputation.CharacterReputationDialogController;
 import delta.games.lotro.gui.stats.traitPoints.TraitPointsEditionWindowController;
 import delta.games.lotro.utils.events.EventsManager;
@@ -480,7 +480,7 @@ public class CharacterFileWindowController extends DefaultWindowController imple
   private void editDeedsStatus()
   {
     AchievablesStatusManager status=DeedsStatusIo.load(_toon);
-    DeedsStatusEditionWindowController controller=new DeedsStatusEditionWindowController(this,status,_toon);
+    DeedsStatusWindowController controller=new DeedsStatusWindowController(this,status,_toon);
     AchievablesStatusManager newStatus=controller.editModal();
     if (newStatus!=null)
     {
@@ -497,7 +497,7 @@ public class CharacterFileWindowController extends DefaultWindowController imple
   private void editQuestsStatus()
   {
     AchievablesStatusManager status=QuestsStatusIo.load(_toon);
-    QuestsStatusEditionWindowController controller=new QuestsStatusEditionWindowController(this,status,_toon);
+    QuestsStatusWindowController controller=new QuestsStatusWindowController(this,status,_toon);
     controller.show();
   }
 

@@ -22,7 +22,7 @@ public class MainTestQuestStatusDisplay
       status.setCompleted(true);
       status.setCompletionDate(Long.valueOf(System.currentTimeMillis()));
       status.updateInternalState();
-      QuestStatusDisplayDialogController dialog=new QuestStatusDisplayDialogController(status,null);
+      QuestStatusDialogController dialog=new QuestStatusDialogController(status,null);
       dialog.show();
     }
   }

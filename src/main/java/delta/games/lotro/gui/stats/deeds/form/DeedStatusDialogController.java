@@ -9,7 +9,7 @@ import delta.common.ui.swing.windows.DefaultFormDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.achievables.AchievableStatus;
 import delta.games.lotro.gui.stats.achievables.form.AchievableFormConfig;
-import delta.games.lotro.gui.stats.achievables.form.AchievableStatusEditionPanelController;
+import delta.games.lotro.gui.stats.achievables.form.AchievableStatusPanelController;
 import delta.games.lotro.gui.stats.achievables.form.AchievableFormConfig.MODE;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.quests.AchievableProxiesResolver;
@@ -18,11 +18,11 @@ import delta.games.lotro.lore.quests.AchievableProxiesResolver;
  * Controller for the "deed status edition" dialog.
  * @author DAM
  */
-public class DeedStatusEditionDialogController extends DefaultFormDialogController<AchievableStatus>
+public class DeedStatusDialogController extends DefaultFormDialogController<AchievableStatus>
 {
   private static final int MAX_HEIGHT=600;
   // Controllers
-  private AchievableStatusEditionPanelController _statusEditor;
+  private AchievableStatusPanelController _statusEditor;
   // Data
   private AchievableStatus _original;
 
@@ -31,7 +31,7 @@ public class DeedStatusEditionDialogController extends DefaultFormDialogControll
    * @param parentController Parent controller.
    * @param status Status to edit.
    */
-  public DeedStatusEditionDialogController(AchievableStatus status, WindowController parentController)
+  public DeedStatusDialogController(AchievableStatus status, WindowController parentController)
   {
     super(parentController,clone(status));
     _original=status;
@@ -65,7 +65,7 @@ public class DeedStatusEditionDialogController extends DefaultFormDialogControll
   protected JPanel buildFormPanel()
   {
     AchievableFormConfig config=new AchievableFormConfig(MODE.DEED,true);
-    _statusEditor=new AchievableStatusEditionPanelController(this,_data,config);
+    _statusEditor=new AchievableStatusPanelController(this,_data,config);
     return _statusEditor.getPanel();
   }
 

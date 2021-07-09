@@ -33,7 +33,7 @@ import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.gui.deed.filter.DeedFilterController;
 import delta.games.lotro.gui.main.GlobalPreferences;
 import delta.games.lotro.gui.stats.achievables.filter.AchievableStatusFilterController;
-import delta.games.lotro.gui.stats.deeds.form.DeedStatusEditionDialogController;
+import delta.games.lotro.gui.stats.deeds.form.DeedStatusDialogController;
 import delta.games.lotro.gui.stats.deeds.table.DeedStatusTableController;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.quests.AchievablesUtils;
@@ -44,14 +44,14 @@ import delta.games.lotro.utils.events.EventsManager;
  * Controller for a deeds status edition window.
  * @author DAM
  */
-public class DeedsStatusEditionWindowController extends DefaultFormDialogController<AchievablesStatusManager>
+public class DeedsStatusWindowController extends DefaultFormDialogController<AchievablesStatusManager>
 {
   // Data
   private CharacterFile _toon;
   // Controllers
   private AchievableStatusFilterController _statusFilterController;
   private DeedFilterController _filterController;
-  private DeedsStatusEditionPanelController _panelController;
+  private DeedsStatusPanelController _panelController;
   private DeedStatusTableController _tableController;
   private DeedStatusFilter _filter;
 
@@ -61,7 +61,7 @@ public class DeedsStatusEditionWindowController extends DefaultFormDialogControl
    * @param status Status to edit.
    * @param toon Parent toon.
    */
-  public DeedsStatusEditionWindowController(WindowController parent, AchievablesStatusManager status, CharacterFile toon)
+  public DeedsStatusWindowController(WindowController parent, AchievablesStatusManager status, CharacterFile toon)
   {
     super(parent,status);
     _toon=toon;
@@ -84,7 +84,7 @@ public class DeedsStatusEditionWindowController extends DefaultFormDialogControl
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     // Table
     initTable();
-    _panelController=new DeedsStatusEditionPanelController(this,_tableController);
+    _panelController=new DeedsStatusPanelController(this,_tableController);
     JPanel tablePanel=_panelController.getPanel();
     // Deed filter
     _filterController=new DeedFilterController(_filter.getDeedFilter(),_panelController,false);
@@ -132,7 +132,7 @@ public class DeedsStatusEditionWindowController extends DefaultFormDialogControl
 
   private void editDeedStatus(AchievableStatus status)
   {
-    DeedStatusEditionDialogController dialog=new DeedStatusEditionDialogController(status,this);
+    DeedStatusDialogController dialog=new DeedStatusDialogController(status,this);
     Window parentWindow=getWindow();
     dialog.getDialog().setLocationRelativeTo(parentWindow);
     AchievableStatus notNullIfOk=dialog.editModal();

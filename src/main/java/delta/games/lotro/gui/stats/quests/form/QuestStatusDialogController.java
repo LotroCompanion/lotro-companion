@@ -9,27 +9,27 @@ import delta.common.ui.swing.windows.DefaultDisplayDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.achievables.AchievableStatus;
 import delta.games.lotro.gui.stats.achievables.form.AchievableFormConfig;
-import delta.games.lotro.gui.stats.achievables.form.AchievableStatusEditionPanelController;
+import delta.games.lotro.gui.stats.achievables.form.AchievableStatusPanelController;
 import delta.games.lotro.gui.stats.achievables.form.AchievableFormConfig.MODE;
 import delta.games.lotro.lore.quests.AchievableProxiesResolver;
 import delta.games.lotro.lore.quests.QuestDescription;
 
 /**
- * Controller for the "quest status edition" dialog.
+ * Controller for the "quest status" dialog.
  * @author DAM
  */
-public class QuestStatusDisplayDialogController extends DefaultDisplayDialogController<AchievableStatus>
+public class QuestStatusDialogController extends DefaultDisplayDialogController<AchievableStatus>
 {
   private static final int MAX_HEIGHT=600;
   // Controllers
-  private AchievableStatusEditionPanelController _statusEditor;
+  private AchievableStatusPanelController _statusEditor;
 
   /**
    * Constructor.
    * @param parentController Parent controller.
    * @param status Status to edit.
    */
-  public QuestStatusDisplayDialogController(AchievableStatus status, WindowController parentController)
+  public QuestStatusDialogController(AchievableStatus status, WindowController parentController)
   {
     super(parentController,status);
     QuestDescription quest=(QuestDescription)status.getAchievable();
@@ -57,7 +57,7 @@ public class QuestStatusDisplayDialogController extends DefaultDisplayDialogCont
   protected JPanel buildFormPanel()
   {
     AchievableFormConfig config=new AchievableFormConfig(MODE.QUEST,false);
-    _statusEditor=new AchievableStatusEditionPanelController(this,_data,config);
+    _statusEditor=new AchievableStatusPanelController(this,_data,config);
     return _statusEditor.getPanel();
   }
 

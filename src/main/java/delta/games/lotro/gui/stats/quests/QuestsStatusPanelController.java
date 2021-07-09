@@ -21,10 +21,10 @@ import delta.games.lotro.gui.items.FilterUpdateListener;
 import delta.games.lotro.gui.stats.quests.table.QuestStatusTableController;
 
 /**
- * Controller the quests status edition panel.
+ * Controller the quests status display panel.
  * @author DAM
  */
-public class QuestsStatusEditionPanelController implements FilterUpdateListener
+public class QuestsStatusPanelController implements FilterUpdateListener
 {
   // Data
   private QuestStatusTableController _tableController;
@@ -40,7 +40,7 @@ public class QuestsStatusEditionPanelController implements FilterUpdateListener
    * @param parent Parent window.
    * @param tableController Associated table controller.
    */
-  public QuestsStatusEditionPanelController(WindowController parent, QuestStatusTableController tableController)
+  public QuestsStatusPanelController(WindowController parent, QuestStatusTableController tableController)
   {
     _parent=parent;
     _tableController=tableController;

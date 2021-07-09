@@ -47,7 +47,7 @@ import delta.games.lotro.utils.DateFormat;
  * Controller for a panel to edit the status of an achievable.
  * @author DAM
  */
-public class AchievableStatusEditionPanelController implements GeoPointChangeListener
+public class AchievableStatusPanelController implements GeoPointChangeListener
 {
   // Data
   private AchievableStatus _status;
@@ -68,7 +68,7 @@ public class AchievableStatusEditionPanelController implements GeoPointChangeLis
    * @param status Status to edit.
    * @param config UI configuration.
    */
-  public AchievableStatusEditionPanelController(WindowController parent, AchievableStatus status, AchievableFormConfig config)
+  public AchievableStatusPanelController(WindowController parent, AchievableStatus status, AchievableFormConfig config)
   {
     _status=status;
     _config=config;

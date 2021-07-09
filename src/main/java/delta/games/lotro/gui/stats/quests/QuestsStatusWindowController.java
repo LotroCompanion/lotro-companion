@@ -30,16 +30,16 @@ import delta.games.lotro.gui.main.GlobalPreferences;
 import delta.games.lotro.gui.quests.filter.QuestFilterController;
 import delta.games.lotro.gui.stats.achievables.filter.AchievableStatusFilterController;
 import delta.games.lotro.gui.stats.achievables.statistics.AchievablesStatisticsWindowController;
-import delta.games.lotro.gui.stats.quests.form.QuestStatusDisplayDialogController;
+import delta.games.lotro.gui.stats.quests.form.QuestStatusDialogController;
 import delta.games.lotro.gui.stats.quests.table.QuestStatusTableController;
 import delta.games.lotro.lore.quests.AchievablesUtils;
 import delta.games.lotro.lore.quests.QuestDescription;
 
 /**
- * Controller for a quests status edition window.
+ * Controller for a quests status display window.
  * @author DAM
  */
-public class QuestsStatusEditionWindowController extends DefaultDisplayDialogController<AchievablesStatusManager> implements FilterUpdateListener
+public class QuestsStatusWindowController extends DefaultDisplayDialogController<AchievablesStatusManager> implements FilterUpdateListener
 {
   // Data
   private CharacterFile _toon;
@@ -48,7 +48,7 @@ public class QuestsStatusEditionWindowController extends DefaultDisplayDialogCon
   // Controllers
   private AchievableStatusFilterController _statusFilterController;
   private QuestFilterController _filterController;
-  private QuestsStatusEditionPanelController _panelController;
+  private QuestsStatusPanelController _panelController;
   private QuestStatusTableController _tableController;
   private AchievablesStatisticsWindowController<QuestDescription> _statisticsController;
 
@@ -58,7 +58,7 @@ public class QuestsStatusEditionWindowController extends DefaultDisplayDialogCon
    * @param status Status to show.
    * @param toon Parent toon.
    */
-  public QuestsStatusEditionWindowController(WindowController parent, AchievablesStatusManager status, CharacterFile toon)
+  public QuestsStatusWindowController(WindowController parent, AchievablesStatusManager status, CharacterFile toon)
   {
     super(parent,status);
     _toon=toon;
@@ -82,7 +82,7 @@ public class QuestsStatusEditionWindowController extends DefaultDisplayDialogCon
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     // Table
     initTable();
-    _panelController=new QuestsStatusEditionPanelController(this,_tableController);
+    _panelController=new QuestsStatusPanelController(this,_tableController);
     JPanel tablePanel=_panelController.getPanel();
     // Quest filter
     _filterController=new QuestFilterController(_filter.getQuestFilter(),this,false);
@@ -152,7 +152,7 @@ public class QuestsStatusEditionWindowController extends DefaultDisplayDialogCon
 
   private void showQuestStatus(AchievableStatus status)
   {
-    QuestStatusDisplayDialogController dialog=new QuestStatusDisplayDialogController(status,this);
+    QuestStatusDialogController dialog=new QuestStatusDialogController(status,this);
     Window parentWindow=getWindow();
     dialog.getDialog().setLocationRelativeTo(parentWindow);
     dialog.show(false);

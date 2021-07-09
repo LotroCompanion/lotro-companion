@@ -24,7 +24,7 @@ import delta.games.lotro.gui.stats.deeds.table.DeedStatusTableController;
  * Controller the deeds status edition panel.
  * @author DAM
  */
-public class DeedsStatusEditionPanelController implements FilterUpdateListener
+public class DeedsStatusPanelController implements FilterUpdateListener
 {
   // Data
   private DeedStatusTableController _tableController;
@@ -40,7 +40,7 @@ public class DeedsStatusEditionPanelController implements FilterUpdateListener
    * @param parent Parent window.
    * @param tableController Associated table controller.
    */
-  public DeedsStatusEditionPanelController(WindowController parent, DeedStatusTableController tableController)
+  public DeedsStatusPanelController(WindowController parent, DeedStatusTableController tableController)
   {
     _parent=parent;
     _tableController=tableController;
