@@ -86,7 +86,7 @@ public class DeedsExplorerWindowController extends DefaultWindowController
     _panelController=new DeedExplorerPanelController(this,_tableController);
     JPanel tablePanel=_panelController.getPanel();
     // Filter
-    _filterController=new DeedFilterController(_filter,_panelController);
+    _filterController=new DeedFilterController(_filter,_panelController,true);
     JPanel filterPanel=_filterController.getPanel();
     TitledBorder filterBorder=GuiFactory.buildTitledBorder("Filter");
     filterPanel.setBorder(filterBorder);

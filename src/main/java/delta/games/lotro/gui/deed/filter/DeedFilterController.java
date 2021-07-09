@@ -59,12 +59,16 @@ public class DeedFilterController implements ActionListener
    * Constructor.
    * @param filter Managed filter.
    * @param filterUpdateListener Filter update listener.
+   * @param useRequirements Use requirements or not.
    */
-  public DeedFilterController(DeedFilter filter, FilterUpdateListener filterUpdateListener)
+  public DeedFilterController(DeedFilter filter, FilterUpdateListener filterUpdateListener, boolean useRequirements)
   {
     _filter=filter;
     _filterUpdateListener=filterUpdateListener;
-    _requirements=new RequirementsFilterController(filter.getRequirementsFilter(),filterUpdateListener);
+    if (useRequirements)
+    {
+      _requirements=new RequirementsFilterController(filter.getRequirementsFilter(),filterUpdateListener);
+    }
     RewardsExplorer explorer=DeedsManager.getInstance().buildRewardsExplorer();
     _rewards=new RewardsFilterController(filter.getRewardsFilter(),filterUpdateListener,explorer,false);
   }
@@ -109,7 +113,10 @@ public class DeedFilterController implements ActionListener
     {
       _type.selectItem(null);
       _category.selectItem(null);
-      _requirements.reset();
+      if (_requirements!=null)
+      {
+        _requirements.reset();
+      }
       _rewards.reset();
       _contains.setText("");
     }
@@ -133,7 +140,10 @@ public class DeedFilterController implements ActionListener
     String category=categoryFilter.getDeedCategory();
     _category.selectItem(category);
     // Requirements
-    _requirements.setFilter();
+    if (_requirements!=null)
+    {
+      _requirements.setFilter();
+    }
     // Rewards
     _rewards.setFilter();
   }
@@ -159,12 +169,15 @@ public class DeedFilterController implements ActionListener
     y++;
 
     // Requirements
-    JPanel requirementsPanel=_requirements.getPanel();
-    Border requirementsBorder=GuiFactory.buildTitledBorder("Requirements");
-    requirementsPanel.setBorder(requirementsBorder);
-    c=new GridBagConstraints(0,y,2,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
-    panel.add(requirementsPanel,c);
-    y++;
+    if (_requirements!=null)
+    {
+      JPanel requirementsPanel=_requirements.getPanel();
+      Border requirementsBorder=GuiFactory.buildTitledBorder("Requirements");
+      requirementsPanel.setBorder(requirementsBorder);
+      c=new GridBagConstraints(0,y,2,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+      panel.add(requirementsPanel,c);
+      y++;
+    }
 
     // Rewards
     JPanel rewardsPanel=_rewards.getPanel();

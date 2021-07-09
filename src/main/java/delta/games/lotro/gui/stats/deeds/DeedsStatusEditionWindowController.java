@@ -87,7 +87,7 @@ public class DeedsStatusEditionWindowController extends DefaultFormDialogControl
     _panelController=new DeedsStatusEditionPanelController(this,_tableController);
     JPanel tablePanel=_panelController.getPanel();
     // Deed filter
-    _filterController=new DeedFilterController(_filter.getDeedFilter(),_panelController);
+    _filterController=new DeedFilterController(_filter.getDeedFilter(),_panelController,false);
     JPanel deedFilterPanel=_filterController.getPanel();
     TitledBorder deedFilterBorder=GuiFactory.buildTitledBorder("Deed Filter");
     deedFilterPanel.setBorder(deedFilterBorder);
