@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.games.lotro.gui.stats.achievables.AchievableUIMode;
 import delta.games.lotro.stats.achievables.AchievablesStatistics;
 
 /**
@@ -20,10 +21,12 @@ public class AchievablesStatisticsSummaryPanelController
 {
   // Data
   private AchievablesStatistics _statistics;
+  private AchievableUIMode _mode;
   // UI
   private JPanel _panel;
   private JPanel _statsPanel;
   private JLabel _completed;
+  private JLabel _completionsCount;
   private JLabel _lotroPoints;
   private JLabel _classPoints;
   private JLabel _marks;
@@ -38,10 +41,12 @@ public class AchievablesStatisticsSummaryPanelController
   /**
    * Constructor.
    * @param statistics Statistics to show.
+   * @param mode UI mode.
    */
-  public AchievablesStatisticsSummaryPanelController(AchievablesStatistics statistics)
+  public AchievablesStatisticsSummaryPanelController(AchievablesStatistics statistics, AchievableUIMode mode)
   {
     _statistics=statistics;
+    _mode=mode;
     _panel=buildPanel();
     update();
   }
@@ -62,6 +67,13 @@ public class AchievablesStatisticsSummaryPanelController
     _completed=GuiFactory.buildLabel("");
     _statsPanel.add(_completed,cValues);
     cLabels.gridy++;cValues.gridy++;
+    if (_mode==AchievableUIMode.QUEST)
+    {
+      _statsPanel.add(GuiFactory.buildLabel("Completions count:"),cLabels);
+      _completionsCount=GuiFactory.buildLabel("");
+      _statsPanel.add(_completionsCount,cValues);
+      cLabels.gridy++;cValues.gridy++;
+    }
     // LOTRO points
     _statsPanel.add(GuiFactory.buildLabel("LOTRO Points:"),cLabels);
     _lotroPoints=GuiFactory.buildLabel("");
@@ -127,6 +139,12 @@ public class AchievablesStatisticsSummaryPanelController
     double percentage=(100.0*completed)/total;
     String completionStr=String.format("%d / %d (%.1f%%)",Integer.valueOf(completed),Integer.valueOf(total),Double.valueOf(percentage));
     _completed.setText(completionStr);
+    // Completions count
+    if (_completionsCount!=null)
+    {
+      int completionsCount=_statistics.getCompletionsCount();
+      _completionsCount.setText(String.valueOf(completionsCount));
+    }
     // LOTRO points
     int lotroPoints=_statistics.getAcquiredLP();
     _lotroPoints.setText(String.valueOf(lotroPoints));
@@ -179,6 +197,7 @@ public class AchievablesStatisticsSummaryPanelController
   {
     // Data
     _statistics=null;
+    _mode=null;
     // UI
     if (_panel!=null)
     {
@@ -186,6 +205,7 @@ public class AchievablesStatisticsSummaryPanelController
       _panel=null;
     }
     _completed=null;
+    _completionsCount=null;
     _lotroPoints=null;
     _classPoints=null;
     _marks=null;

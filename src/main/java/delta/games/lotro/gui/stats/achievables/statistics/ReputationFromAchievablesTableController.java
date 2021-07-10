@@ -23,6 +23,7 @@ public class ReputationFromAchievablesTableController
   private static final String FACTION="FACTION";
   private static final String AMOUNT="AMOUNT";
   private static final String COUNT="ACHIEVABLES_COUNT";
+  private static final String COMPLETIONS_COUNT="COMPLETIONS_COUNT";
 
   // Data
   private AchievablesStatistics _stats;
@@ -94,6 +95,22 @@ public class ReputationFromAchievablesTableController
       countColumn.setWidthSpecs(60,60,60);
       table.addColumnController(countColumn);
     }
+    // Achievables count column (for quests only)
+    if (_mode==AchievableUIMode.QUEST)
+    {
+      CellDataProvider<FactionStatsFromAchievables,Integer> completionsCountCell=new CellDataProvider<FactionStatsFromAchievables,Integer>()
+      {
+        @Override
+        public Integer getData(FactionStatsFromAchievables item)
+        {
+          Integer count=Integer.valueOf(item.getCompletionsCount());
+          return count;
+        }
+      };
+      DefaultTableColumnController<FactionStatsFromAchievables,Integer> completionsCountColumn=new DefaultTableColumnController<FactionStatsFromAchievables,Integer>(COMPLETIONS_COUNT,"Completions",Integer.class,completionsCountCell);
+      completionsCountColumn.setWidthSpecs(60,60,60);
+      table.addColumnController(completionsCountColumn);
+    }
 
     TableColumnsManager<FactionStatsFromAchievables> columnsManager=table.getColumnsManager();
     List<String> columnsIds=getColumnIds();
@@ -107,6 +124,7 @@ public class ReputationFromAchievablesTableController
     columnIds.add(FACTION);
     columnIds.add(AMOUNT);
     columnIds.add(COUNT);
+    columnIds.add(COMPLETIONS_COUNT);
     return columnIds;
   }
 

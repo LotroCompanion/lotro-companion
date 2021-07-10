@@ -46,6 +46,7 @@ public class AchievablesStatistics
   private static final Logger LOGGER=Logger.getLogger(AchievablesStatistics.class);
 
   private int _completedCount;
+  private int _completionsCount;
   private int _total;
   private int _acquiredLP;
   private int _classPoints;
@@ -78,6 +79,7 @@ public class AchievablesStatistics
   public void reset()
   {
     _completedCount=0;
+    _completionsCount=0;
     _total=0;
     _acquiredLP=0;
     _classPoints=0;
@@ -118,7 +120,12 @@ public class AchievablesStatistics
     boolean completed=status.isCompleted();
     if (completed)
     {
+      // Number of completed achievables
       _completedCount++;
+      // Completions count
+      Integer completionCount=status.getCompletionCount();
+      int completionCountInt=(completionCount!=null)?completionCount.intValue():1;
+      _completionsCount+=completionCountInt;
       Rewards rewards=achievable.getRewards();
       // LOTRO points
       int lp=rewards.getLotroPoints();
@@ -213,7 +220,7 @@ public class AchievablesStatistics
             _reputation.put(factionKey,factionStats);
           }
           int amount=reputationReward.getAmount();
-          factionStats.add(amount);
+          factionStats.addCompletions(completionCountInt,amount);
         }
       }
     }
@@ -226,6 +233,15 @@ public class AchievablesStatistics
   public int getCompletedCount()
   {
     return _completedCount;
+  }
+
+  /**
+   * Get the completions count.
+   * @return A number of achievable completions (including repeatables).
+   */
+  public int getCompletionsCount()
+  {
+    return _completionsCount;
   }
 
   /**

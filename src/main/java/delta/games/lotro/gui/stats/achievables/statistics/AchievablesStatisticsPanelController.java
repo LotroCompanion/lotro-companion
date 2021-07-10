@@ -41,7 +41,7 @@ public class AchievablesStatisticsPanelController
   public AchievablesStatisticsPanelController(WindowController parent, AchievablesStatistics statistics, AchievableUIMode mode)
   {
     _statistics=statistics;
-    _summary=new AchievablesStatisticsSummaryPanelController(statistics);
+    _summary=new AchievablesStatisticsSummaryPanelController(statistics,mode);
     _titles=new TitlesDisplayPanelController(parent,statistics);
     _reputation=new ReputationDisplayPanelController(parent,statistics,mode);
     _virtues=new VirtuesDisplayPanelController(parent,statistics,mode);

@@ -11,6 +11,7 @@ public class FactionStatsFromAchievables
   private Faction _faction;
   private int _points;
   private int _achievablesCount;
+  private int _completionsCount;
 
   /**
    * Constructor.
@@ -32,12 +33,14 @@ public class FactionStatsFromAchievables
 
   /**
    * Add a reputation amount for a single achievable.
-   * @param amount Amount to add.
+   * @param completionCount Completion count.
+   * @param amountByCompletion Reputation amount by completion.
    */
-  public void add(int amount)
+  public void addCompletions(int completionCount, int amountByCompletion)
   {
-    _points+=amount;
+    _points+=(amountByCompletion*completionCount);
     _achievablesCount++;
+    _completionsCount+=completionCount;
   }
 
   /**
@@ -51,11 +54,20 @@ public class FactionStatsFromAchievables
   }
 
   /**
-   * Get the number of achievables used to build this reputation.
+   * Get the number of unique achievables used to build this reputation.
    * @return A count.
    */
   public int getAchievablesCount()
   {
     return _achievablesCount;
+  }
+
+  /**
+   * Get the number of completions used to build this reputation.
+   * @return A count.
+   */
+  public int getCompletionsCount()
+  {
+    return _completionsCount;
   }
 }
