@@ -14,6 +14,7 @@ import delta.common.ui.swing.tables.ListDataProvider;
 import delta.common.ui.swing.tables.TableColumnsManager;
 import delta.games.lotro.character.virtues.VirtueDescription;
 import delta.games.lotro.gui.LotroIconsManager;
+import delta.games.lotro.gui.stats.achievables.AchievableUIMode;
 import delta.games.lotro.stats.achievables.AchievablesStatistics;
 import delta.games.lotro.stats.achievables.VirtueStatsComparator;
 import delta.games.lotro.stats.achievables.VirtueStatsFromAchievables;
@@ -27,21 +28,24 @@ public class VirtuesFromAchievablesTableController
   private static final String ICON="ICON";
   private static final String VIRTUE="VIRTUE";
   private static final String POINTS="POINTS";
-  private static final String COUNT="DEEDS_COUNT";
+  private static final String COUNT="ACHIEVABLES_COUNT";
 
   // Data
   private AchievablesStatistics _stats;
   private List<VirtueStatsFromAchievables> _virtueStats;
+  private AchievableUIMode _mode;
   // GUI
   private GenericTableController<VirtueStatsFromAchievables> _tableController;
 
   /**
    * Constructor.
    * @param stats Stats to show.
+   * @param mode UI mode.
    */
-  public VirtuesFromAchievablesTableController(AchievablesStatistics stats)
+  public VirtuesFromAchievablesTableController(AchievablesStatistics stats, AchievableUIMode mode)
   {
     _stats=stats;
+    _mode=mode;
     _tableController=buildTable();
     configureTable();
   }
@@ -98,8 +102,9 @@ public class VirtuesFromAchievablesTableController
       amountColumn.setWidthSpecs(60,60,60);
       table.addColumnController(amountColumn);
     }
-    // Count column
+    // Achievables count column
     {
+      String name=(_mode==AchievableUIMode.DEED)?"Deeds":"Quests";
       CellDataProvider<VirtueStatsFromAchievables,Integer> countCell=new CellDataProvider<VirtueStatsFromAchievables,Integer>()
       {
         @Override
@@ -109,7 +114,7 @@ public class VirtuesFromAchievablesTableController
           return count;
         }
       };
-      DefaultTableColumnController<VirtueStatsFromAchievables,Integer> countColumn=new DefaultTableColumnController<VirtueStatsFromAchievables,Integer>(COUNT,"Achievables",Integer.class,countCell);
+      DefaultTableColumnController<VirtueStatsFromAchievables,Integer> countColumn=new DefaultTableColumnController<VirtueStatsFromAchievables,Integer>(COUNT,name,Integer.class,countCell);
       countColumn.setWidthSpecs(60,60,60);
       table.addColumnController(countColumn);
     }

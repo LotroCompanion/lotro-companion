@@ -15,6 +15,7 @@ import javax.swing.border.TitledBorder;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.tables.TableColumnsChooserController;
 import delta.common.ui.swing.windows.WindowController;
+import delta.games.lotro.gui.stats.achievables.AchievableUIMode;
 import delta.games.lotro.stats.achievables.AchievablesStatistics;
 import delta.games.lotro.stats.achievables.VirtueStatsFromAchievables;
 
@@ -37,12 +38,13 @@ public class VirtuesDisplayPanelController
    * Constructor.
    * @param parent Parent window.
    * @param stats Stats to show.
+   * @param mode UI mode.
    */
-  public VirtuesDisplayPanelController(WindowController parent, AchievablesStatistics stats)
+  public VirtuesDisplayPanelController(WindowController parent, AchievablesStatistics stats, AchievableUIMode mode)
   {
     _parent=parent;
     _stats=stats;
-    _tableController=new VirtuesFromAchievablesTableController(stats);
+    _tableController=new VirtuesFromAchievablesTableController(stats,mode);
   }
 
   /**

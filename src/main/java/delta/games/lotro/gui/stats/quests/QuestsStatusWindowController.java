@@ -28,6 +28,7 @@ import delta.games.lotro.character.achievables.filter.QuestStatusFilter;
 import delta.games.lotro.gui.items.FilterUpdateListener;
 import delta.games.lotro.gui.main.GlobalPreferences;
 import delta.games.lotro.gui.quests.filter.QuestFilterController;
+import delta.games.lotro.gui.stats.achievables.AchievableUIMode;
 import delta.games.lotro.gui.stats.achievables.filter.AchievableStatusFilterController;
 import delta.games.lotro.gui.stats.achievables.statistics.AchievablesStatisticsWindowController;
 import delta.games.lotro.gui.stats.quests.form.QuestStatusDialogController;
@@ -172,7 +173,7 @@ public class QuestsStatusWindowController extends DefaultDisplayDialogController
     AchievablesStatisticsWindowController<QuestDescription> statisticsController=getStatisticsWindow();
     if (statisticsController==null)
     {
-      statisticsController=new AchievablesStatisticsWindowController<QuestDescription>(this,_toon,_data,_quests,_filter.getQuestFilter());
+      statisticsController=new AchievablesStatisticsWindowController<QuestDescription>(this,_toon,_data,_quests,_filter.getQuestFilter(),AchievableUIMode.QUEST);
       windowsMgr.registerWindow(statisticsController);
       statisticsController.getWindow().setLocationRelativeTo(getWindow());
     }

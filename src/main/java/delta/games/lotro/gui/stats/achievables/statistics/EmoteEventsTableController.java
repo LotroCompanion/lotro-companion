@@ -24,7 +24,7 @@ public class EmoteEventsTableController
 {
   private static final String EMOTE="EMOTE";
   private static final String DATE="COMPLETION_DATE";
-  private static final String DEED_NAME="DEED";
+  private static final String ACHIEVABLE_NAME="ACHIEVABLE";
 
   // Data
   private AchievablesStatistics _stats;
@@ -79,7 +79,7 @@ public class EmoteEventsTableController
     }
     // Achievable name column
     {
-      CellDataProvider<EmoteEvent,String> deedCell=new CellDataProvider<EmoteEvent,String>()
+      CellDataProvider<EmoteEvent,String> achievableCell=new CellDataProvider<EmoteEvent,String>()
       {
         @Override
         public String getData(EmoteEvent item)
@@ -87,9 +87,9 @@ public class EmoteEventsTableController
           return item.getAchievable().getName();
         }
       };
-      DefaultTableColumnController<EmoteEvent,String> deedColumn=new DefaultTableColumnController<EmoteEvent,String>(DEED_NAME,"Deed",String.class,deedCell);
-      deedColumn.setWidthSpecs(100,300,200);
-      table.addColumnController(deedColumn);
+      DefaultTableColumnController<EmoteEvent,String> achievableColumn=new DefaultTableColumnController<EmoteEvent,String>(ACHIEVABLE_NAME,"Source",String.class,achievableCell);
+      achievableColumn.setWidthSpecs(100,300,200);
+      table.addColumnController(achievableColumn);
     }
 
     TableColumnsManager<EmoteEvent> columnsManager=table.getColumnsManager();
@@ -103,7 +103,7 @@ public class EmoteEventsTableController
     List<String> columnIds=new ArrayList<String>();
     columnIds.add(EMOTE);
     columnIds.add(DATE);
-    columnIds.add(DEED_NAME);
+    columnIds.add(ACHIEVABLE_NAME);
     return columnIds;
   }
 

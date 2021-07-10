@@ -14,7 +14,7 @@ import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.character.achievables.AchievableElementState;
 import delta.games.lotro.character.achievables.AchievableObjectiveStatus;
 import delta.games.lotro.character.achievables.ObjectiveConditionStatus;
-import delta.games.lotro.gui.stats.achievables.form.AchievableFormConfig.MODE;
+import delta.games.lotro.gui.stats.achievables.AchievableUIMode;
 import delta.games.lotro.lore.quests.objectives.Objective;
 
 /**
@@ -172,7 +172,7 @@ public class ObjectiveStatusEditionPanelController
     Objective objective=_objectiveStatus.getObjective();
     String objectiveOverride=objective.getProgressOverride();
     String ret=objectiveOverride;
-    if (_config.getMode()==MODE.QUEST)
+    if (_config.getMode()==AchievableUIMode.QUEST)
     {
       ret="Objective #"+objective.getIndex();
       if (objectiveOverride.length()>0)

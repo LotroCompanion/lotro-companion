@@ -9,6 +9,7 @@ import javax.swing.JTabbedPane;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.achievables.AchievablesStatusManager;
+import delta.games.lotro.gui.stats.achievables.AchievableUIMode;
 import delta.games.lotro.lore.quests.Achievable;
 import delta.games.lotro.stats.achievables.AchievablesStatistics;
 
@@ -35,14 +36,15 @@ public class AchievablesStatisticsPanelController
    * Constructor.
    * @param parent Parent window.
    * @param statistics Statistics to show toon.
+   * @param mode UI mode.
    */
-  public AchievablesStatisticsPanelController(WindowController parent, AchievablesStatistics statistics)
+  public AchievablesStatisticsPanelController(WindowController parent, AchievablesStatistics statistics, AchievableUIMode mode)
   {
     _statistics=statistics;
     _summary=new AchievablesStatisticsSummaryPanelController(statistics);
     _titles=new TitlesDisplayPanelController(parent,statistics);
-    _reputation=new ReputationDisplayPanelController(parent,statistics);
-    _virtues=new VirtuesDisplayPanelController(parent,statistics);
+    _reputation=new ReputationDisplayPanelController(parent,statistics,mode);
+    _virtues=new VirtuesDisplayPanelController(parent,statistics,mode);
     _items=new ItemsDisplayPanelController(parent,statistics);
     _emotes=new EmotesDisplayPanelController(parent,statistics);
     _traits=new TraitsDisplayPanelController(parent,statistics);

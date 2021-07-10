@@ -8,9 +8,9 @@ import javax.swing.JPanel;
 import delta.common.ui.swing.windows.DefaultDisplayDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.achievables.AchievableStatus;
+import delta.games.lotro.gui.stats.achievables.AchievableUIMode;
 import delta.games.lotro.gui.stats.achievables.form.AchievableFormConfig;
 import delta.games.lotro.gui.stats.achievables.form.AchievableStatusPanelController;
-import delta.games.lotro.gui.stats.achievables.form.AchievableFormConfig.MODE;
 import delta.games.lotro.lore.quests.AchievableProxiesResolver;
 import delta.games.lotro.lore.quests.QuestDescription;
 
@@ -56,7 +56,7 @@ public class QuestStatusDialogController extends DefaultDisplayDialogController<
   @Override
   protected JPanel buildFormPanel()
   {
-    AchievableFormConfig config=new AchievableFormConfig(MODE.QUEST,false);
+    AchievableFormConfig config=new AchievableFormConfig(AchievableUIMode.QUEST,false);
     _statusEditor=new AchievableStatusPanelController(this,_data,config);
     return _statusEditor.getPanel();
   }

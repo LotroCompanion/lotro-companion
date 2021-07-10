@@ -35,7 +35,7 @@ import delta.games.lotro.character.achievables.edition.AchievableStatusGeoItem;
 import delta.games.lotro.character.achievables.edition.GeoPointChangeListener;
 import delta.games.lotro.common.Repeatability;
 import delta.games.lotro.gui.LotroIconsManager;
-import delta.games.lotro.gui.stats.achievables.form.AchievableFormConfig.MODE;
+import delta.games.lotro.gui.stats.achievables.AchievableUIMode;
 import delta.games.lotro.gui.stats.achievables.map.AchievableGeoStatusEditionController;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.DeedType;
@@ -172,8 +172,8 @@ public class AchievableStatusPanelController implements GeoPointChangeListener
 
   private boolean useCompletionCount()
   {
-    MODE mode=_config.getMode();
-    if (mode==MODE.QUEST)
+    AchievableUIMode mode=_config.getMode();
+    if (mode==AchievableUIMode.QUEST)
     {
       QuestDescription quest=(QuestDescription)_status.getAchievable();
       Repeatability repeatability=quest.getRepeatability();
@@ -185,8 +185,8 @@ public class AchievableStatusPanelController implements GeoPointChangeListener
   private JPanel buildCompletionDatePanel()
   {
     JPanel panel=null;
-    MODE mode=_config.getMode();
-    if (mode==MODE.DEED)
+    AchievableUIMode mode=_config.getMode();
+    if (mode==AchievableUIMode.DEED)
     {
       panel=GuiFactory.buildPanel(new FlowLayout());
       panel.add(GuiFactory.buildLabel("Completion date:"));

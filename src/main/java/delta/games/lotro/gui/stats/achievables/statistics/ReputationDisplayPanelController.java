@@ -15,6 +15,7 @@ import javax.swing.border.TitledBorder;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.tables.TableColumnsChooserController;
 import delta.common.ui.swing.windows.WindowController;
+import delta.games.lotro.gui.stats.achievables.AchievableUIMode;
 import delta.games.lotro.stats.achievables.AchievablesStatistics;
 import delta.games.lotro.stats.achievables.FactionStatsFromAchievables;
 
@@ -30,19 +31,20 @@ public class ReputationDisplayPanelController
   private JPanel _panel;
   private JLabel _statsLabel;
   // Controllers
-  private ReputationFromDeedsTableController _tableController;
+  private ReputationFromAchievablesTableController _tableController;
   private WindowController _parent;
 
   /**
    * Constructor.
    * @param parent Parent window.
    * @param stats Stats to show.
+   * @param mode UI mode.
    */
-  public ReputationDisplayPanelController(WindowController parent, AchievablesStatistics stats)
+  public ReputationDisplayPanelController(WindowController parent, AchievablesStatistics stats, AchievableUIMode mode)
   {
     _parent=parent;
     _stats=stats;
-    _tableController=new ReputationFromDeedsTableController(stats);
+    _tableController=new ReputationFromAchievablesTableController(stats,mode);
   }
 
   /**

@@ -24,7 +24,7 @@ public class TraitEventsTableController
 {
   private static final String TRAIT="TRAIT";
   private static final String DATE="COMPLETION_DATE";
-  private static final String DEED_NAME="DEED";
+  private static final String ACHIEVABLE_NAME="ACHIEVABLE";
 
   // Data
   private AchievablesStatistics _stats;
@@ -79,7 +79,7 @@ public class TraitEventsTableController
     }
     // Achievable name column
     {
-      CellDataProvider<TraitEvent,String> deedCell=new CellDataProvider<TraitEvent,String>()
+      CellDataProvider<TraitEvent,String> achievableCell=new CellDataProvider<TraitEvent,String>()
       {
         @Override
         public String getData(TraitEvent item)
@@ -87,9 +87,9 @@ public class TraitEventsTableController
           return item.getAchievable().getName();
         }
       };
-      DefaultTableColumnController<TraitEvent,String> deedColumn=new DefaultTableColumnController<TraitEvent,String>(DEED_NAME,"Deed",String.class,deedCell);
-      deedColumn.setWidthSpecs(100,300,200);
-      table.addColumnController(deedColumn);
+      DefaultTableColumnController<TraitEvent,String> achievableColumn=new DefaultTableColumnController<TraitEvent,String>(ACHIEVABLE_NAME,"Source",String.class,achievableCell);
+      achievableColumn.setWidthSpecs(100,300,200);
+      table.addColumnController(achievableColumn);
     }
 
     TableColumnsManager<TraitEvent> columnsManager=table.getColumnsManager();
@@ -103,7 +103,7 @@ public class TraitEventsTableController
     List<String> columnIds=new ArrayList<String>();
     columnIds.add(TRAIT);
     columnIds.add(DATE);
-    columnIds.add(DEED_NAME);
+    columnIds.add(ACHIEVABLE_NAME);
     return columnIds;
   }
 

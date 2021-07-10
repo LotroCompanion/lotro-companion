@@ -1,28 +1,14 @@
 package delta.games.lotro.gui.stats.achievables.form;
 
+import delta.games.lotro.gui.stats.achievables.AchievableUIMode;
+
 /**
  * Configuration of the achievable form UI.
  * @author DAM
  */
 public class AchievableFormConfig
 {
-  /**
-   * UI mode.
-   * @author DAM
-   */
-  public enum MODE
-  {
-    /**
-     * Deed mode: show completion date, hide completion count.
-     */
-    DEED,
-    /**
-     * Quest: hide completion date, show completion count.
-     */
-    QUEST
-  }
-
-  private MODE _mode;
+  private AchievableUIMode _mode;
   private boolean _editable;
 
   /**
@@ -30,7 +16,7 @@ public class AchievableFormConfig
    * @param mode Mode to use.
    * @param editable Editable or not.
    */
-  public AchievableFormConfig(MODE mode, boolean editable)
+  public AchievableFormConfig(AchievableUIMode mode, boolean editable)
   {
     _mode=mode;
     _editable=editable;
@@ -40,7 +26,7 @@ public class AchievableFormConfig
    * Get the achievable mode.
    * @return the achievable mode.
    */
-  public MODE getMode()
+  public AchievableUIMode getMode()
   {
     return _mode;
   }

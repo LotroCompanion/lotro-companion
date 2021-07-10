@@ -10,6 +10,7 @@ import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.ListDataProvider;
 import delta.common.ui.swing.tables.TableColumnsManager;
+import delta.games.lotro.gui.stats.achievables.AchievableUIMode;
 import delta.games.lotro.stats.achievables.AchievablesStatistics;
 import delta.games.lotro.stats.achievables.FactionStatsFromAchievables;
 
@@ -17,25 +18,28 @@ import delta.games.lotro.stats.achievables.FactionStatsFromAchievables;
  * Controller for a table that shows the reputations for a single character.
  * @author DAM
  */
-public class ReputationFromDeedsTableController
+public class ReputationFromAchievablesTableController
 {
   private static final String FACTION="FACTION";
   private static final String AMOUNT="AMOUNT";
-  private static final String DEEDS_COUNT="DEEDS_COUNT";
+  private static final String COUNT="ACHIEVABLES_COUNT";
 
   // Data
   private AchievablesStatistics _stats;
   private List<FactionStatsFromAchievables> _factionStats;
+  private AchievableUIMode _mode;
   // GUI
   private GenericTableController<FactionStatsFromAchievables> _tableController;
 
   /**
    * Constructor.
    * @param stats Stats to show.
+   * @param mode UI mode.
    */
-  public ReputationFromDeedsTableController(AchievablesStatistics stats)
+  public ReputationFromAchievablesTableController(AchievablesStatistics stats, AchievableUIMode mode)
   {
     _stats=stats;
+    _mode=mode;
     _tableController=buildTable();
   }
 
@@ -74,9 +78,10 @@ public class ReputationFromDeedsTableController
       amountColumn.setWidthSpecs(60,60,60);
       table.addColumnController(amountColumn);
     }
-    // Deeds count column
+    // Achievables count column
     {
-      CellDataProvider<FactionStatsFromAchievables,Integer> deedsCountCell=new CellDataProvider<FactionStatsFromAchievables,Integer>()
+      String name=(_mode==AchievableUIMode.DEED)?"Deeds":"Quests";
+      CellDataProvider<FactionStatsFromAchievables,Integer> countCell=new CellDataProvider<FactionStatsFromAchievables,Integer>()
       {
         @Override
         public Integer getData(FactionStatsFromAchievables item)
@@ -85,9 +90,9 @@ public class ReputationFromDeedsTableController
           return count;
         }
       };
-      DefaultTableColumnController<FactionStatsFromAchievables,Integer> deedsCountColumn=new DefaultTableColumnController<FactionStatsFromAchievables,Integer>(DEEDS_COUNT,"Deeds",Integer.class,deedsCountCell);
-      deedsCountColumn.setWidthSpecs(60,60,60);
-      table.addColumnController(deedsCountColumn);
+      DefaultTableColumnController<FactionStatsFromAchievables,Integer> countColumn=new DefaultTableColumnController<FactionStatsFromAchievables,Integer>(COUNT,name,Integer.class,countCell);
+      countColumn.setWidthSpecs(60,60,60);
+      table.addColumnController(countColumn);
     }
 
     TableColumnsManager<FactionStatsFromAchievables> columnsManager=table.getColumnsManager();
@@ -101,7 +106,7 @@ public class ReputationFromDeedsTableController
     List<String> columnIds=new ArrayList<String>();
     columnIds.add(FACTION);
     columnIds.add(AMOUNT);
-    columnIds.add(DEEDS_COUNT);
+    columnIds.add(COUNT);
     return columnIds;
   }
 

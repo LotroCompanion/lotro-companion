@@ -13,6 +13,7 @@ import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.collections.filters.Filter;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.achievables.AchievablesStatusManager;
+import delta.games.lotro.gui.stats.achievables.AchievableUIMode;
 import delta.games.lotro.lore.quests.Achievable;
 import delta.games.lotro.stats.achievables.AchievablesStatistics;
 
@@ -43,12 +44,13 @@ public class AchievablesStatisticsWindowController<T extends Achievable> extends
    * @param statusMgr Status manager.
    * @param achievables Achievables to use.
    * @param filter Current filter.
+   * @param mode UI mode.
    */
-  public AchievablesStatisticsWindowController(WindowController parent, CharacterFile toon, AchievablesStatusManager statusMgr, List<T> achievables, Filter<T> filter)
+  public AchievablesStatisticsWindowController(WindowController parent, CharacterFile toon, AchievablesStatusManager statusMgr, List<T> achievables, Filter<T> filter, AchievableUIMode mode)
   {
     super(parent);
     _statistics=new AchievablesStatistics();
-    _panelController=new AchievablesStatisticsPanelController(this,_statistics);
+    _panelController=new AchievablesStatisticsPanelController(this,_statistics,mode);
     _statusMgr=statusMgr;
     _achievables=new ArrayList<T>(achievables);
     _filter=filter;
