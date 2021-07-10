@@ -50,7 +50,6 @@ public class QuestsStatusWindowController extends DefaultDisplayDialogController
   private QuestFilterController _filterController;
   private QuestsStatusPanelController _panelController;
   private QuestStatusTableController _tableController;
-  private AchievablesStatisticsWindowController<QuestDescription> _statisticsController;
 
   /**
    * Constructor.
@@ -143,9 +142,10 @@ public class QuestsStatusWindowController extends DefaultDisplayDialogController
   public void filterUpdated()
   {
     _panelController.filterUpdated();
-    if (_statisticsController!=null)
+    AchievablesStatisticsWindowController<QuestDescription> statisticsController=getStatisticsWindow();
+    if (statisticsController!=null)
     {
-      _statisticsController.updateStats();
+      statisticsController.updateStats();
     }
   }
 
@@ -158,16 +158,25 @@ public class QuestsStatusWindowController extends DefaultDisplayDialogController
     dialog.show(false);
   }
 
+  @SuppressWarnings("unchecked")
+  private AchievablesStatisticsWindowController<QuestDescription> getStatisticsWindow()
+  {
+    WindowsManager windowsMgr=getWindowsManager();
+    AchievablesStatisticsWindowController<QuestDescription> ret=(AchievablesStatisticsWindowController<QuestDescription>)windowsMgr.getWindow(AchievablesStatisticsWindowController.IDENTIFIER);
+    return ret;
+  }
+
   private void showStatistics()
   {
     WindowsManager windowsMgr=getWindowsManager();
-    if (_statisticsController==null)
+    AchievablesStatisticsWindowController<QuestDescription> statisticsController=getStatisticsWindow();
+    if (statisticsController==null)
     {
-      _statisticsController=new AchievablesStatisticsWindowController<QuestDescription>(this,_toon,_data,_quests,_filter.getQuestFilter());
-      windowsMgr.registerWindow(_statisticsController);
-      _statisticsController.getWindow().setLocationRelativeTo(getWindow());
+      statisticsController=new AchievablesStatisticsWindowController<QuestDescription>(this,_toon,_data,_quests,_filter.getQuestFilter());
+      windowsMgr.registerWindow(statisticsController);
+      statisticsController.getWindow().setLocationRelativeTo(getWindow());
     }
-    _statisticsController.bringToFront();
+    statisticsController.bringToFront();
   }
 
 
@@ -203,11 +212,6 @@ public class QuestsStatusWindowController extends DefaultDisplayDialogController
     {
       _tableController.dispose();
       _tableController=null;
-    }
-    if (_statisticsController!=null)
-    {
-      _statisticsController.dispose();
-      _statisticsController=null;
     }
   }
 }
