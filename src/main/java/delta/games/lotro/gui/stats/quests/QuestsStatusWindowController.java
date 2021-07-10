@@ -163,7 +163,6 @@ public class QuestsStatusWindowController extends DefaultDisplayDialogController
     }
   }
 
-
   private void showQuestStatus(AchievableStatus status)
   {
     QuestStatusDialogController dialog=new QuestStatusDialogController(status,this);

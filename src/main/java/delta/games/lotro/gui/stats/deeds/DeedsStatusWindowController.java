@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.util.List;
 
 import javax.swing.Box;
+import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
@@ -18,6 +19,7 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.windows.DefaultFormDialogController;
 import delta.common.ui.swing.windows.WindowController;
+import delta.common.ui.swing.windows.WindowsManager;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.achievables.AchievableStatus;
@@ -31,8 +33,11 @@ import delta.games.lotro.character.traitPoints.TraitPoints;
 import delta.games.lotro.character.traitPoints.TraitPointsStatus;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.gui.deed.filter.DeedFilterController;
+import delta.games.lotro.gui.items.FilterUpdateListener;
 import delta.games.lotro.gui.main.GlobalPreferences;
+import delta.games.lotro.gui.stats.achievables.AchievableUIMode;
 import delta.games.lotro.gui.stats.achievables.filter.AchievableStatusFilterController;
+import delta.games.lotro.gui.stats.achievables.statistics.AchievablesStatisticsWindowController;
 import delta.games.lotro.gui.stats.deeds.form.DeedStatusDialogController;
 import delta.games.lotro.gui.stats.deeds.table.DeedStatusTableController;
 import delta.games.lotro.lore.deeds.DeedDescription;
@@ -44,16 +49,19 @@ import delta.games.lotro.utils.events.EventsManager;
  * Controller for a deeds status edition window.
  * @author DAM
  */
-public class DeedsStatusWindowController extends DefaultFormDialogController<AchievablesStatusManager>
+public class DeedsStatusWindowController extends DefaultFormDialogController<AchievablesStatusManager> implements FilterUpdateListener
 {
+  private static final int MAX_HEIGHT=900;
+
   // Data
   private CharacterFile _toon;
+  private List<DeedDescription> _deeds;
+  private DeedStatusFilter _filter;
   // Controllers
   private AchievableStatusFilterController _statusFilterController;
   private DeedFilterController _filterController;
   private DeedsStatusPanelController _panelController;
   private DeedStatusTableController _tableController;
-  private DeedStatusFilter _filter;
 
   /**
    * Constructor.
@@ -65,6 +73,7 @@ public class DeedsStatusWindowController extends DefaultFormDialogController<Ach
   {
     super(parent,status);
     _toon=toon;
+    _deeds=AchievablesUtils.getDeeds(_toon.getSummary());
     _filter=new DeedStatusFilter();
   }
 
@@ -73,9 +82,20 @@ public class DeedsStatusWindowController extends DefaultFormDialogController<Ach
   {
     JDialog dialog=super.build();
     dialog.setMinimumSize(new Dimension(400,300));
-    dialog.setSize(900,dialog.getHeight());
     dialog.setTitle("Deeds status edition");
+    dialog.pack();
+    Dimension size=dialog.getSize();
+    if (size.height>MAX_HEIGHT)
+    {
+      dialog.setSize(size.width,MAX_HEIGHT);
+    }
     return dialog;
+  }
+
+  @Override
+  public void configureWindow()
+  {
+    automaticLocationSetup();
   }
 
   @Override
@@ -87,24 +107,36 @@ public class DeedsStatusWindowController extends DefaultFormDialogController<Ach
     _panelController=new DeedsStatusPanelController(this,_tableController);
     JPanel tablePanel=_panelController.getPanel();
     // Deed filter
-    _filterController=new DeedFilterController(_filter.getDeedFilter(),_panelController,false);
+    _filterController=new DeedFilterController(_filter.getDeedFilter(),this,false);
     JPanel deedFilterPanel=_filterController.getPanel();
     TitledBorder deedFilterBorder=GuiFactory.buildTitledBorder("Deed Filter");
     deedFilterPanel.setBorder(deedFilterBorder);
     // Deed status filter
-    _statusFilterController=new AchievableStatusFilterController(_filter,_panelController);
+    _statusFilterController=new AchievableStatusFilterController(_filter,this);
     JPanel statusFilterPanel=_statusFilterController.getPanel();
     TitledBorder statusFilterBorder=GuiFactory.buildTitledBorder("Status Filter");
     statusFilterPanel.setBorder(statusFilterBorder);
+    // Stats button
+    JButton b=GuiFactory.buildButton("Stats");
+    ActionListener al=new ActionListener()
+    {
+      @Override
+      public void actionPerformed(ActionEvent e)
+      {
+        showStatistics();
+      }
+    };
+    b.addActionListener(al);
     // Whole panel
-    GridBagConstraints c=new GridBagConstraints(0,0,2,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    GridBagConstraints c=new GridBagConstraints(0,0,3,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(deedFilterPanel,c);
     c=new GridBagConstraints(0,1,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(statusFilterPanel,c);
-    c=new GridBagConstraints(1,1,1,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    c=new GridBagConstraints(1,1,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    panel.add(b,c);
+    c=new GridBagConstraints(2,1,1,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(Box.createGlue(),c);
-    c=new GridBagConstraints(0,2,2,1,1,1,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
-
+    c=new GridBagConstraints(0,2,3,1,1,1,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
     panel.add(tablePanel,c);
     return panel;
   }
@@ -112,8 +144,7 @@ public class DeedsStatusWindowController extends DefaultFormDialogController<Ach
   private void initTable()
   {
     TypedProperties prefs=GlobalPreferences.getGlobalProperties("DeedsStatus");
-    List<DeedDescription> deeds=AchievablesUtils.getDeeds(_toon.getSummary());
-    _tableController=new DeedStatusTableController(_data,prefs,_filter,deeds);
+    _tableController=new DeedStatusTableController(_data,prefs,_filter,_deeds);
     ActionListener al=new ActionListener()
     {
       @Override
@@ -130,6 +161,17 @@ public class DeedsStatusWindowController extends DefaultFormDialogController<Ach
     _tableController.getTableController().addActionListener(al);
   }
 
+  @Override
+  public void filterUpdated()
+  {
+    _panelController.filterUpdated();
+    AchievablesStatisticsWindowController<DeedDescription> statisticsController=getStatisticsWindow();
+    if (statisticsController!=null)
+    {
+      statisticsController.updateStats();
+    }
+  }
+
   private void editDeedStatus(AchievableStatus status)
   {
     DeedStatusDialogController dialog=new DeedStatusDialogController(status,this);
@@ -138,8 +180,30 @@ public class DeedsStatusWindowController extends DefaultFormDialogController<Ach
     AchievableStatus notNullIfOk=dialog.editModal();
     if (notNullIfOk!=null)
     {
+      filterUpdated();
       _tableController.getTableController().refresh(status);
     }
+  }
+
+  @SuppressWarnings("unchecked")
+  private AchievablesStatisticsWindowController<DeedDescription> getStatisticsWindow()
+  {
+    WindowsManager windowsMgr=getWindowsManager();
+    AchievablesStatisticsWindowController<DeedDescription> ret=(AchievablesStatisticsWindowController<DeedDescription>)windowsMgr.getWindow(AchievablesStatisticsWindowController.IDENTIFIER);
+    return ret;
+  }
+
+  private void showStatistics()
+  {
+    AchievablesStatisticsWindowController<DeedDescription> statisticsController=getStatisticsWindow();
+    if (statisticsController==null)
+    {
+      statisticsController=new AchievablesStatisticsWindowController<DeedDescription>(this,_toon,_data,_deeds,_filter.getDeedFilter(),AchievableUIMode.DEED);
+      WindowsManager windowsMgr=getWindowsManager();
+      windowsMgr.registerWindow(statisticsController);
+      statisticsController.getWindow().setLocationRelativeTo(getWindow());
+    }
+    statisticsController.bringToFront();
   }
 
   @Override
@@ -168,7 +232,11 @@ public class DeedsStatusWindowController extends DefaultFormDialogController<Ach
   public void dispose()
   {
     super.dispose();
+    // Data
     _toon=null;
+    _deeds=null;
+    _filter=null;
+    // Controllers
     if (_statusFilterController!=null)
     {
       _statusFilterController.dispose();
@@ -189,6 +257,5 @@ public class DeedsStatusWindowController extends DefaultFormDialogController<Ach
       _tableController.dispose();
       _tableController=null;
     }
-    _filter=null;
   }
 }
