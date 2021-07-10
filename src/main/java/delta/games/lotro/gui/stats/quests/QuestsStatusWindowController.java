@@ -42,6 +42,8 @@ import delta.games.lotro.lore.quests.QuestDescription;
  */
 public class QuestsStatusWindowController extends DefaultDisplayDialogController<AchievablesStatusManager> implements FilterUpdateListener
 {
+  private static final int MAX_HEIGHT=800;
+
   // Data
   private CharacterFile _toon;
   private List<QuestDescription> _quests;
@@ -71,9 +73,20 @@ public class QuestsStatusWindowController extends DefaultDisplayDialogController
   {
     JDialog dialog=super.build();
     dialog.setMinimumSize(new Dimension(400,300));
-    dialog.setSize(900,dialog.getHeight());
     dialog.setTitle("Quests status");
+    dialog.pack();
+    Dimension size=dialog.getSize();
+    if (size.height>MAX_HEIGHT)
+    {
+      dialog.setSize(size.width,MAX_HEIGHT);
+    }
     return dialog;
+  }
+
+  @Override
+  public void configureWindow()
+  {
+    automaticLocationSetup();
   }
 
   @Override
