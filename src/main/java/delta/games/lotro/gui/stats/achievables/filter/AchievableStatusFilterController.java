@@ -1,26 +1,26 @@
 package delta.games.lotro.gui.stats.achievables.filter;
 
-import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
-import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.common.ui.swing.combobox.ItemSelectionListener;
+import delta.common.ui.swing.multicheckbox.MultiCheckboxController;
 import delta.games.lotro.character.achievables.AchievableElementState;
 import delta.games.lotro.character.achievables.filter.AchievableElementStateFilter;
 import delta.games.lotro.character.achievables.filter.AchievableStatusFilter;
 import delta.games.lotro.gui.items.FilterUpdateListener;
 
 /**
- * Controller for a deed status filter edition panel.
+ * Controller for an edition panel for an achievable status filter.
  * @author DAM
  */
 public class AchievableStatusFilterController implements ActionListener
@@ -31,7 +31,7 @@ public class AchievableStatusFilterController implements ActionListener
   private JPanel _panel;
   private JButton _reset;
   // Controllers
-  private ComboBoxController<AchievableElementState> _state;
+  private MultiCheckboxController<AchievableElementState> _states;
   // Listeners
   private FilterUpdateListener _filterUpdateListener;
 
@@ -66,6 +66,7 @@ public class AchievableStatusFilterController implements ActionListener
    */
   private void filterUpdated()
   {
+    _filter.getStateFilter().setStates(new HashSet<AchievableElementState>(_states.getSelectedItems()));
     _filterUpdateListener.filterUpdated();
   }
 
@@ -75,7 +76,7 @@ public class AchievableStatusFilterController implements ActionListener
     Object source=e.getSource();
     if (source==_reset)
     {
-      _state.selectItem(null);
+      _states.selectAll();
     }
   }
 
@@ -83,8 +84,8 @@ public class AchievableStatusFilterController implements ActionListener
   {
     // State
     AchievableElementStateFilter stateFilter=_filter.getStateFilter();
-    AchievableElementState state=stateFilter.getState();
-    _state.selectItem(state);
+    Set<AchievableElementState> states=stateFilter.getSelectedStates();
+    _states.setSelectedItems(states);
   }
 
   private JPanel build()
@@ -101,7 +102,7 @@ public class AchievableStatusFilterController implements ActionListener
     // Reset
     _reset=GuiFactory.buildButton("Reset");
     _reset.addActionListener(this);
-    c=new GridBagConstraints(1,y,1,1,0.0,0,GridBagConstraints.SOUTHWEST,GridBagConstraints.NONE,new Insets(0,5,5,0),0,0);
+    c=new GridBagConstraints(1,y,1,1,0.0,0,GridBagConstraints.SOUTHWEST,GridBagConstraints.NONE,new Insets(0,0,5,5),0,0);
     panel.add(_reset,c);
     y++;
 
@@ -110,45 +111,32 @@ public class AchievableStatusFilterController implements ActionListener
 
   private JPanel buildStatusPanel()
   {
-    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
-
-    int y=0;
-    JPanel line1Panel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
-    // Category
-    {
-      JLabel label=GuiFactory.buildLabel("State:");
-      line1Panel.add(label);
-      _state=buildStateCombobox();
-      line1Panel.add(_state.getComboBox());
-    }
-    GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,5,0),0,0);
-    panel.add(line1Panel,c);
-    y++;
-    return panel;
+    _states=buildStateMultiCheckbox();
+    return _states.getPanel();
   }
 
-  private ComboBoxController<AchievableElementState> buildStateCombobox()
+  private MultiCheckboxController<AchievableElementState> buildStateMultiCheckbox()
   {
-    ComboBoxController<AchievableElementState> combo=new ComboBoxController<AchievableElementState>();
-    combo.addEmptyItem("");
+    final MultiCheckboxController<AchievableElementState> multiCheckbox=new MultiCheckboxController<AchievableElementState>();
     for(AchievableElementState state : AchievableElementState.values())
     {
       String label=state.toString();
-      combo.addItem(state,label);
+      multiCheckbox.addItem(state,label);
     }
-    combo.selectItem(null);
+    multiCheckbox.selectAll();
     ItemSelectionListener<AchievableElementState> listener=new ItemSelectionListener<AchievableElementState>()
     {
       @Override
       public void itemSelected(AchievableElementState state)
       {
+        Set<AchievableElementState> states=new HashSet<AchievableElementState>(multiCheckbox.getItems());
         AchievableElementStateFilter stateFilter=_filter.getStateFilter();
-        stateFilter.setState(state);
+        stateFilter.setStates(states);
         filterUpdated();
       }
     };
-    combo.addListener(listener);
-    return combo;
+    multiCheckbox.addListener(listener);
+    return multiCheckbox;
   }
 
   /**
@@ -165,10 +153,10 @@ public class AchievableStatusFilterController implements ActionListener
       _panel=null;
     }
     // Controllers
-    if (_state!=null)
+    if (_states!=null)
     {
-      _state.dispose();
-      _state=null;
+      _states.dispose();
+      _states=null;
     }
     _reset=null;
   }
