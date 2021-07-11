@@ -136,8 +136,12 @@ public class AchievablesStatisticsSummaryPanelController
     // Completion
     int completed=_statistics.getCompletedCount();
     int total=_statistics.getTotalCount();
-    double percentage=(100.0*completed)/total;
-    String completionStr=String.format("%d / %d (%.1f%%)",Integer.valueOf(completed),Integer.valueOf(total),Double.valueOf(percentage));
+    String completionStr="0";
+    if (total>0)
+    {
+      double percentage=(100.0*completed)/total;
+      completionStr=String.format("%d / %d (%.1f%%)",Integer.valueOf(completed),Integer.valueOf(total),Double.valueOf(percentage));
+    }
     _completed.setText(completionStr);
     // Completions count
     if (_completionsCount!=null)
