@@ -17,6 +17,7 @@ import delta.games.lotro.character.achievables.AchievablesStatusManager;
 import delta.games.lotro.character.achievables.filter.DeedStatusFilter;
 import delta.games.lotro.gui.deed.table.DeedColumnIds;
 import delta.games.lotro.gui.deed.table.DeedsTableController;
+import delta.games.lotro.gui.items.FilterUpdateListener;
 import delta.games.lotro.gui.items.chooser.ItemChooser;
 import delta.games.lotro.gui.stats.achievables.table.AchievableStatusColumnIds;
 import delta.games.lotro.gui.stats.achievables.table.AchievableStatusColumnsBuilder;
@@ -41,8 +42,9 @@ public class DeedStatusTableController
    * @param prefs Preferences.
    * @param filter Managed filter.
    * @param deeds Deeds to use.
+   * @param listener Listener for updates.
    */
-  public DeedStatusTableController(AchievablesStatusManager deedsStatus, TypedProperties prefs, DeedStatusFilter filter, List<DeedDescription> deeds)
+  public DeedStatusTableController(AchievablesStatusManager deedsStatus, TypedProperties prefs, DeedStatusFilter filter, List<DeedDescription> deeds, FilterUpdateListener listener)
   {
     _prefs=prefs;
     _statuses=new ArrayList<AchievableStatus>();
@@ -51,11 +53,11 @@ public class DeedStatusTableController
       AchievableStatus status=deedsStatus.get(deed,true);
       _statuses.add(status);
     }
-    _tableController=buildTable();
+    _tableController=buildTable(listener);
     _tableController.setFilter(filter);
   }
 
-  private GenericTableController<AchievableStatus> buildTable()
+  private GenericTableController<AchievableStatus> buildTable(FilterUpdateListener listener)
   {
     ListDataProvider<AchievableStatus> provider=new ListDataProvider<AchievableStatus>(_statuses);
     GenericTableController<AchievableStatus> table=new GenericTableController<AchievableStatus>(provider);
@@ -64,9 +66,9 @@ public class DeedStatusTableController
     CellDataProvider<AchievableStatus,DeedDescription> dataProvider=new CellDataProvider<AchievableStatus,DeedDescription>()
     {
       @Override
-      public DeedDescription getData(AchievableStatus deed)
+      public DeedDescription getData(AchievableStatus status)
       {
-        return (DeedDescription)deed.getAchievable();
+        return (DeedDescription)status.getAchievable();
       }
     };
     for(TableColumnController<DeedDescription,?> deedColumn : deedColumns)
@@ -77,7 +79,7 @@ public class DeedStatusTableController
       table.addColumnController(proxiedColumn);
     }
     // Achievable status columns
-    for(TableColumnController<AchievableStatus,?> column : AchievableStatusColumnsBuilder.buildDeedStateColumns())
+    for(TableColumnController<AchievableStatus,?> column : AchievableStatusColumnsBuilder.buildDeedStateColumns(listener))
     {
       table.addColumnController(column);
     }

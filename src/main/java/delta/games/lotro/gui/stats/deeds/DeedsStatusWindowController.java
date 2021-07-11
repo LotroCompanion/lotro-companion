@@ -144,7 +144,7 @@ public class DeedsStatusWindowController extends DefaultFormDialogController<Ach
   private void initTable()
   {
     TypedProperties prefs=GlobalPreferences.getGlobalProperties("DeedsStatus");
-    _tableController=new DeedStatusTableController(_data,prefs,_filter,_deeds);
+    _tableController=new DeedStatusTableController(_data,prefs,_filter,_deeds,this);
     ActionListener al=new ActionListener()
     {
       @Override

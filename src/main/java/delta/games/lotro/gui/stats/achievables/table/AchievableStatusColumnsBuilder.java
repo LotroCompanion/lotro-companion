@@ -11,6 +11,7 @@ import delta.common.ui.swing.tables.GenericTableController.DateRenderer;
 import delta.common.ui.swing.tables.TableColumnController;
 import delta.games.lotro.character.achievables.AchievableElementState;
 import delta.games.lotro.character.achievables.AchievableStatus;
+import delta.games.lotro.gui.items.FilterUpdateListener;
 import delta.games.lotro.utils.Formats;
 
 /**
@@ -27,7 +28,7 @@ public class AchievableStatusColumnsBuilder
   {
     List<TableColumnController<AchievableStatus,?>> ret=new ArrayList<TableColumnController<AchievableStatus,?>>();
     // State
-    ret.add(buildAchievableStateColumn(false));
+    ret.add(buildAchievableStateColumn(false,null));
     {
       CellDataProvider<AchievableStatus,Integer> countCell=new CellDataProvider<AchievableStatus,Integer>()
       {
@@ -46,13 +47,14 @@ public class AchievableStatusColumnsBuilder
 
   /**
    * Build the columns to show the attributes of a deed AchievableStatus.
+   * @param listener Listener for updates.
    * @return a list of columns.
    */
-  public static List<TableColumnController<AchievableStatus,?>> buildDeedStateColumns()
+  public static List<TableColumnController<AchievableStatus,?>> buildDeedStateColumns(FilterUpdateListener listener)
   {
     List<TableColumnController<AchievableStatus,?>> ret=new ArrayList<TableColumnController<AchievableStatus,?>>();
     // State
-    ret.add(buildAchievableStateColumn(true));
+    ret.add(buildAchievableStateColumn(true,listener));
     // Completion date column
     {
       CellDataProvider<AchievableStatus,Date> completionDateCell=new CellDataProvider<AchievableStatus,Date>()
@@ -75,9 +77,10 @@ public class AchievableStatusColumnsBuilder
   /**
    * Build a column to show an achievable state.
    * @param editable Indicates if the state column is editable or not.
+   * @param listener Listener for updates.
    * @return a column.
    */
-  private static TableColumnController<AchievableStatus,?> buildAchievableStateColumn(boolean editable)
+  private static TableColumnController<AchievableStatus,?> buildAchievableStateColumn(boolean editable, final FilterUpdateListener listener)
   {
     CellDataProvider<AchievableStatus,AchievableElementState> completedCell=new CellDataProvider<AchievableStatus,AchievableElementState>()
     {
@@ -103,6 +106,10 @@ public class AchievableStatusColumnsBuilder
         public void setData(AchievableStatus status, Object value)
         {
           status.setState((AchievableElementState)value);
+          if (listener!=null)
+          {
+            listener.filterUpdated();
+          }
         }
       };
       completedColumn.setValueUpdater(updater);
