@@ -8,7 +8,9 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 
+import delta.common.utils.misc.IntegerHolder;
 import delta.common.utils.text.EndOfLine;
+import delta.games.lotro.character.achievables.AchievableElementState;
 import delta.games.lotro.character.achievables.AchievableStatus;
 import delta.games.lotro.character.achievables.AchievablesStatusManager;
 import delta.games.lotro.character.virtues.VirtueDescription;
@@ -45,7 +47,7 @@ public class AchievablesStatistics
 {
   private static final Logger LOGGER=Logger.getLogger(AchievablesStatistics.class);
 
-  private int _completedCount;
+  private Map<AchievableElementState,IntegerHolder> _countByState;
   private int _completionsCount;
   private int _total;
   private int _acquiredLP;
@@ -64,6 +66,11 @@ public class AchievablesStatistics
    */
   public AchievablesStatistics()
   {
+    _countByState=new HashMap<AchievableElementState,IntegerHolder>();
+    for(AchievableElementState state : AchievableElementState.values())
+    {
+      _countByState.put(state,new IntegerHolder());
+    }
     _titles=new ArrayList<TitleEvent>();
     _emotes=new ArrayList<EmoteEvent>();
     _traits=new ArrayList<TraitEvent>();
@@ -78,7 +85,10 @@ public class AchievablesStatistics
    */
   public void reset()
   {
-    _completedCount=0;
+    for(IntegerHolder count : _countByState.values())
+    {
+      count.setInt(0);
+    }
     _completionsCount=0;
     _total=0;
     _acquiredLP=0;
@@ -117,11 +127,15 @@ public class AchievablesStatistics
 
   private void useAchievable(AchievableStatus status, Achievable achievable)
   {
-    boolean completed=status.isCompleted();
-    if (completed)
+    // Update count by state
+    AchievableElementState state=status.getState();
+    IntegerHolder counter=_countByState.get(state);
+    if (counter!=null)
     {
-      // Number of completed achievables
-      _completedCount++;
+      counter.increment();
+    }
+    if (state==AchievableElementState.COMPLETED)
+    {
       // Completions count
       Integer completionCount=status.getCompletionCount();
       int completionCountInt=(completionCount!=null)?completionCount.intValue():1;
@@ -227,12 +241,13 @@ public class AchievablesStatistics
   }
 
   /**
-   * Get the number of completed achievables.
+   * Get the number of achievables in the given state.
+   * @param state State to use.
    * @return A number of achievables.
    */
-  public int getCompletedCount()
+  public int getCountForState(AchievableElementState state)
   {
-    return _completedCount;
+    return _countByState.get(state).getInt();
   }
 
   /**
@@ -381,7 +396,10 @@ public class AchievablesStatistics
   public void showResults()
   {
     StringBuilder sb=new StringBuilder();
-    sb.append("Completed: ").append(_completedCount).append(" / ").append(_total).append(EndOfLine.NATIVE_EOL);
+    for(AchievableElementState state : AchievableElementState.values())
+    {
+      sb.append(state.name()).append(": ").append(getCountForState(state)).append(" / ").append(_total).append(EndOfLine.NATIVE_EOL);
+    }
     sb.append("LOTRO points: ").append(_acquiredLP).append(EndOfLine.NATIVE_EOL);
     sb.append("Class points: ").append(_classPoints).append(EndOfLine.NATIVE_EOL);
     sb.append("Marks: ").append(_marksCount).append(EndOfLine.NATIVE_EOL);

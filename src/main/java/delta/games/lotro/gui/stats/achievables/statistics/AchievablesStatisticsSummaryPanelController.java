@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.games.lotro.character.achievables.AchievableElementState;
 import delta.games.lotro.gui.stats.achievables.AchievableUIMode;
 import delta.games.lotro.stats.achievables.AchievablesStatistics;
 
@@ -25,6 +26,8 @@ public class AchievablesStatisticsSummaryPanelController
   // UI
   private JPanel _panel;
   private JPanel _statsPanel;
+  private JLabel _notStarted;
+  private JLabel _underway;
   private JLabel _completed;
   private JLabel _completionsCount;
   private JLabel _lotroPoints;
@@ -62,11 +65,23 @@ public class AchievablesStatisticsSummaryPanelController
     GridBagConstraints cLabels=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,5,2,0),0,0);
     GridBagConstraints cValues=new GridBagConstraints(1,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,5,2,5),0,0);
 
-    // Completion
-    _statsPanel.add(GuiFactory.buildLabel("Completion:"),cLabels);
+    // Counts by state:
+    // - Completed
+    _statsPanel.add(GuiFactory.buildLabel("Completed:"),cLabels);
     _completed=GuiFactory.buildLabel("");
     _statsPanel.add(_completed,cValues);
     cLabels.gridy++;cValues.gridy++;
+    // - Underway
+    _statsPanel.add(GuiFactory.buildLabel("Underway:"),cLabels);
+    _underway=GuiFactory.buildLabel("");
+    _statsPanel.add(_underway,cValues);
+    cLabels.gridy++;cValues.gridy++;
+    // - Not started
+    _statsPanel.add(GuiFactory.buildLabel("Not started:"),cLabels);
+    _notStarted=GuiFactory.buildLabel("");
+    _statsPanel.add(_notStarted,cValues);
+    cLabels.gridy++;cValues.gridy++;
+    // Completions count (quests only)
     if (_mode==AchievableUIMode.QUEST)
     {
       _statsPanel.add(GuiFactory.buildLabel("Completions count:"),cLabels);
@@ -133,16 +148,10 @@ public class AchievablesStatisticsSummaryPanelController
    */
   public void update()
   {
-    // Completion
-    int completed=_statistics.getCompletedCount();
-    int total=_statistics.getTotalCount();
-    String completionStr="0";
-    if (total>0)
-    {
-      double percentage=(100.0*completed)/total;
-      completionStr=String.format("%d / %d (%.1f%%)",Integer.valueOf(completed),Integer.valueOf(total),Double.valueOf(percentage));
-    }
-    _completed.setText(completionStr);
+    // Counts by state
+    updateStateCount(AchievableElementState.COMPLETED,_completed);
+    updateStateCount(AchievableElementState.UNDERWAY,_underway);
+    updateStateCount(AchievableElementState.UNDEFINED,_notStarted);
     // Completions count
     if (_completionsCount!=null)
     {
@@ -185,6 +194,19 @@ public class AchievablesStatisticsSummaryPanelController
     _traitsCount.setText(String.valueOf(nbTraits));
   }
 
+  private void updateStateCount(AchievableElementState state, JLabel gadget)
+  {
+    int count=_statistics.getCountForState(state);
+    int total=_statistics.getTotalCount();
+    String displayStr="0";
+    if (total>0)
+    {
+      double percentage=(100.0*count)/total;
+      displayStr=String.format("%d / %d (%.1f%%)",Integer.valueOf(count),Integer.valueOf(total),Double.valueOf(percentage));
+    }
+    gadget.setText(displayStr);
+  }
+
   /**
    * Get the managed panel.
    * @return the managed panel.
@@ -209,6 +231,8 @@ public class AchievablesStatisticsSummaryPanelController
       _panel=null;
     }
     _completed=null;
+    _underway=null;
+    _notStarted=null;
     _completionsCount=null;
     _lotroPoints=null;
     _classPoints=null;
