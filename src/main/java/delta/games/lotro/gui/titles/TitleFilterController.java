@@ -1,5 +1,6 @@
 package delta.games.lotro.gui.titles;
 
+import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -7,6 +8,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -22,6 +24,7 @@ import delta.common.utils.collections.filters.Filter;
 import delta.games.lotro.gui.items.FilterUpdateListener;
 import delta.games.lotro.lore.titles.TitleDescription;
 import delta.games.lotro.lore.titles.filters.TitleCategoryFilter;
+import delta.games.lotro.lore.titles.filters.TitleFilter;
 import delta.games.lotro.lore.titles.filters.TitleNameFilter;
 
 /**
@@ -127,8 +130,13 @@ public class TitleFilterController implements ActionListener
     // Reset
     _reset=GuiFactory.buildButton("Reset");
     _reset.addActionListener(this);
-    c=new GridBagConstraints(1,y,1,1,0.0,0,GridBagConstraints.SOUTHWEST,GridBagConstraints.NONE,new Insets(0,5,5,5),0,0);
+    c=new GridBagConstraints(1,y,1,1,0.0,0.0,GridBagConstraints.SOUTHWEST,GridBagConstraints.HORIZONTAL,new Insets(0,5,5,5),0,0);
     panel.add(_reset,c);
+
+    // Glue
+    Component glue=Box.createGlue();
+    c=new GridBagConstraints(2,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    panel.add(glue,c);
     y++;
 
     return panel;
@@ -139,7 +147,7 @@ public class TitleFilterController implements ActionListener
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
 
     int y=0;
-    JPanel line1Panel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,0,0));
+    JPanel line1Panel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
     // Label filter
     {
       JPanel containsPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));

@@ -18,11 +18,11 @@ import delta.common.ui.swing.windows.WindowController;
 import delta.common.ui.swing.windows.WindowsManager;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.gui.main.GlobalPreferences;
-import delta.games.lotro.gui.titles.TitleFilter;
 import delta.games.lotro.gui.titles.TitleFilterController;
 import delta.games.lotro.gui.titles.TitlesTableController;
 import delta.games.lotro.gui.titles.form.TitleDisplayWindowController;
 import delta.games.lotro.lore.titles.TitleDescription;
+import delta.games.lotro.lore.titles.filters.TitleFilter;
 
 /**
  * Controller for the titles explorer window.

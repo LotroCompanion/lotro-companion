@@ -39,6 +39,8 @@ import delta.games.lotro.character.events.CharacterEvent;
 import delta.games.lotro.character.events.CharacterEventType;
 import delta.games.lotro.character.io.xml.CharacterDataIO;
 import delta.games.lotro.character.stats.CharacterStatsComputer;
+import delta.games.lotro.character.titles.TitlesStatusManager;
+import delta.games.lotro.character.titles.io.TitlesStatusIo;
 import delta.games.lotro.character.traitPoints.TraitPoints;
 import delta.games.lotro.character.traitPoints.TraitPointsStatus;
 import delta.games.lotro.gui.character.stash.StashWindowController;
@@ -49,6 +51,7 @@ import delta.games.lotro.gui.stats.deeds.DeedsStatusWindowController;
 import delta.games.lotro.gui.stats.levelling.LevelHistoryEditionDialogController;
 import delta.games.lotro.gui.stats.quests.QuestsStatusWindowController;
 import delta.games.lotro.gui.stats.reputation.CharacterReputationDialogController;
+import delta.games.lotro.gui.stats.titles.TitlesStatusWindowController;
 import delta.games.lotro.gui.stats.traitPoints.TraitPointsEditionWindowController;
 import delta.games.lotro.utils.events.EventsManager;
 import delta.games.lotro.utils.gui.filechooser.FileChooserController;
@@ -71,6 +74,7 @@ public class CharacterFileWindowController extends DefaultWindowController imple
   private static final String TRAIT_POINTS_COMMAND="traitPoints";
   private static final String DEEDS_STATUS_COMMAND="deedsStatus";
   private static final String QUESTS_STATUS_COMMAND="questsStatus";
+  private static final String TITLES_STATUS_COMMAND="titlesStatus";
   private static final String STORAGE_COMMAND="storage";
 
   private CharacterSummaryPanelController _summaryController;
@@ -183,6 +187,10 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     JButton questsButton=buildCommandButton("Quests",QUESTS_STATUS_COMMAND);
     panel.add(questsButton,c);
     c.gridx++;
+    // Titles status
+    JButton titlesButton=buildCommandButton("Titles",TITLES_STATUS_COMMAND);
+    panel.add(titlesButton,c);
+    c.gridx++;
     // Storage
     JButton storageButton=buildCommandButton("Storage",STORAGE_COMMAND);
     panel.add(storageButton,c);
@@ -258,7 +266,11 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     }
     else if (QUESTS_STATUS_COMMAND.equals(command))
     {
-      editQuestsStatus();
+      showQuestsStatus();
+    }
+    else if (TITLES_STATUS_COMMAND.equals(command))
+    {
+      showTitlesStatus();
     }
     else if (STORAGE_COMMAND.equals(command))
     {
@@ -494,10 +506,17 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     }
   }
 
-  private void editQuestsStatus()
+  private void showQuestsStatus()
   {
     AchievablesStatusManager status=QuestsStatusIo.load(_toon);
     QuestsStatusWindowController controller=new QuestsStatusWindowController(this,status,_toon);
+    controller.show();
+  }
+
+  private void showTitlesStatus()
+  {
+    TitlesStatusManager status=TitlesStatusIo.load(_toon);
+    TitlesStatusWindowController controller=new TitlesStatusWindowController(this,status);
     controller.show();
   }
 
