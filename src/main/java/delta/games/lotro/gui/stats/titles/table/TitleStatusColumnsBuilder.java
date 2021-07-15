@@ -1,13 +1,16 @@
 package delta.games.lotro.gui.stats.titles.table;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import delta.common.ui.swing.tables.CellDataProvider;
 import delta.common.ui.swing.tables.DefaultTableColumnController;
+import delta.common.ui.swing.tables.GenericTableController.DateRenderer;
 import delta.common.ui.swing.tables.TableColumnController;
 import delta.games.lotro.character.titles.TitleState;
 import delta.games.lotro.character.titles.TitleStatus;
+import delta.games.lotro.utils.Formats;
 
 /**
  * Builds column definitions for TitleStatus data.
@@ -26,7 +29,7 @@ public class TitleStatusColumnsBuilder
     ret.add(buildTitleStateColumn());
     // Acquisition time column
     {
-      CellDataProvider<TitleStatus,Double> completionDateCell=new CellDataProvider<TitleStatus,Double>()
+      CellDataProvider<TitleStatus,Double> timestampCell=new CellDataProvider<TitleStatus,Double>()
       {
         @Override
         public Double getData(TitleStatus status)
@@ -35,9 +38,24 @@ public class TitleStatusColumnsBuilder
           return timestamp;
         }
       };
-      DefaultTableColumnController<TitleStatus,Double> completionDateColumn=new DefaultTableColumnController<TitleStatus,Double>(TitleStatusColumnIds.ACQUISITION_TIMESTAMP.name(),"Acquisition Timestamp",Double.class,completionDateCell);
+      DefaultTableColumnController<TitleStatus,Double> timestampColumn=new DefaultTableColumnController<TitleStatus,Double>(TitleStatusColumnIds.ACQUISITION_TIMESTAMP.name(),"Acquisition Timestamp",Double.class,timestampCell);
+      timestampColumn.setWidthSpecs(120,120,120);
+      ret.add(timestampColumn);
+    }
+    // Acquisition date column
+    {
+      CellDataProvider<TitleStatus,Date> completionDateCell=new CellDataProvider<TitleStatus,Date>()
+      {
+        @Override
+        public Date getData(TitleStatus status)
+        {
+          Long acquisitionTime=status.getAcquisitionDate();
+          return (acquisitionTime!=null)?new Date(acquisitionTime.longValue()):null;
+        }
+      };
+      DefaultTableColumnController<TitleStatus,Date> completionDateColumn=new DefaultTableColumnController<TitleStatus,Date>(TitleStatusColumnIds.ACQUISITION_DATE.name(),"Date",Date.class,completionDateCell);
       completionDateColumn.setWidthSpecs(120,120,120);
-      //completionDateColumn.setCellRenderer(new DateRenderer(Formats.DATE_TIME_PATTERN));
+      completionDateColumn.setCellRenderer(new DateRenderer(Formats.DATE_TIME_PATTERN));
       ret.add(completionDateColumn);
     }
     return ret;

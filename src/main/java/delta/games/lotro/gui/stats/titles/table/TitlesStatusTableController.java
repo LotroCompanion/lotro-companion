@@ -102,7 +102,7 @@ public class TitlesStatusTableController
     {
       columnIds=new ArrayList<String>();
       columnIds.add(TitleStatusColumnIds.ACQUIRED.name());
-      columnIds.add(TitleStatusColumnIds.ACQUISITION_TIMESTAMP.name());
+      columnIds.add(TitleStatusColumnIds.ACQUISITION_DATE.name());
       columnIds.add(TitleColumnIds.ICON.name());
       columnIds.add(TitleColumnIds.NAME.name());
       columnIds.add(TitleColumnIds.CATEGORY.name());
