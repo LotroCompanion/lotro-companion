@@ -28,6 +28,7 @@ public class AchievablesStatisticsPanelController
   private TitlesDisplayPanelController _titles;
   private ReputationDisplayPanelController _reputation;
   private VirtuesDisplayPanelController _virtues;
+  private VirtueXPDisplayPanelController _virtueXP;
   private ItemsDisplayPanelController _items;
   private EmotesDisplayPanelController _emotes;
   private TraitsDisplayPanelController _traits;
@@ -45,6 +46,7 @@ public class AchievablesStatisticsPanelController
     _titles=new TitlesDisplayPanelController(parent,statistics);
     _reputation=new ReputationDisplayPanelController(parent,statistics,mode);
     _virtues=new VirtuesDisplayPanelController(parent,statistics,mode);
+    _virtueXP=new VirtueXPDisplayPanelController(parent,statistics,mode);
     _items=new ItemsDisplayPanelController(parent,statistics);
     _emotes=new EmotesDisplayPanelController(parent,statistics);
     _traits=new TraitsDisplayPanelController(parent,statistics);
@@ -68,6 +70,9 @@ public class AchievablesStatisticsPanelController
     // Virtues
     JPanel virtuesPanel=_virtues.getPanel();
     pane.add("Virtues",virtuesPanel);
+    // Virtue XP
+    JPanel virtueXpPanel=_virtueXP.getPanel();
+    pane.add("Virtue XP",virtueXpPanel);
     // Items
     JPanel itemsPanel=_items.getPanel();
     pane.add("Items",itemsPanel);
@@ -92,6 +97,7 @@ public class AchievablesStatisticsPanelController
     _titles.update();
     _reputation.update();
     _virtues.update();
+    _virtueXP.update();
     _items.update();
     _emotes.update();
     _traits.update();
@@ -139,6 +145,11 @@ public class AchievablesStatisticsPanelController
     {
       _virtues.dispose();
       _virtues=null;
+    }
+    if (_virtueXP!=null)
+    {
+      _virtueXP.dispose();
+      _virtueXP=null;
     }
     if (_items!=null)
     {

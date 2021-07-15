@@ -58,6 +58,7 @@ public class AchievablesStatistics
   private List<EmoteEvent> _emotes;
   private List<TraitEvent> _traits;
   private Map<VirtueDescription,VirtueStatsFromAchievables> _virtues;
+  private VirtueXPStatsFromAchievables _virtueXP;
   private Map<String,FactionStatsFromAchievables> _reputation;
   private Map<Integer,CountedItem<Item>> _items;
 
@@ -75,6 +76,7 @@ public class AchievablesStatistics
     _emotes=new ArrayList<EmoteEvent>();
     _traits=new ArrayList<TraitEvent>();
     _virtues=new HashMap<VirtueDescription,VirtueStatsFromAchievables>();
+    _virtueXP=new VirtueXPStatsFromAchievables();
     _reputation=new HashMap<String,FactionStatsFromAchievables>();
     _items=new HashMap<Integer,CountedItem<Item>>();
     reset();
@@ -99,6 +101,7 @@ public class AchievablesStatistics
     _emotes.clear();
     _traits.clear();
     _virtues.clear();
+    _virtueXP.clear();
     _reputation.clear();
     _items.clear();
   }
@@ -147,6 +150,13 @@ public class AchievablesStatistics
       // Class points
       int classPoints=rewards.getClassPoints();
       _classPoints+=classPoints;
+      // Virtue XP
+      int virtueXP=rewards.getVirtueXp();
+      if (virtueXP>0)
+      {
+        _virtueXP.addAchievable(achievable,virtueXP,completionCountInt);
+      }
+      // Other rewards
       for(RewardElement rewardElement : rewards.getRewardElements())
       {
         // Item
@@ -353,6 +363,15 @@ public class AchievablesStatistics
       total+=points;
     }
     return total;
+  }
+
+  /**
+   * Get the virtue XP statistics.
+   * @return  the virtue XP statistics.
+   */
+  public VirtueXPStatsFromAchievables getVirtueXPStats()
+  {
+    return _virtueXP;
   }
 
   /**
