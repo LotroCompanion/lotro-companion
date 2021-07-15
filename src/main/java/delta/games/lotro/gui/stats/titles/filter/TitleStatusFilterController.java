@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.combobox.ItemSelectionListener;
 import delta.common.ui.swing.multicheckbox.MultiCheckboxController;
+import delta.games.lotro.character.titles.TitleState;
 import delta.games.lotro.character.titles.filter.TitleStateFilter;
 import delta.games.lotro.character.titles.filter.TitleStatusFilter;
 import delta.games.lotro.gui.items.FilterUpdateListener;
@@ -30,7 +31,7 @@ public class TitleStatusFilterController implements ActionListener
   private JPanel _panel;
   private JButton _reset;
   // Controllers
-  private MultiCheckboxController<Boolean> _states;
+  private MultiCheckboxController<TitleState> _states;
   // Listeners
   private FilterUpdateListener _filterUpdateListener;
 
@@ -65,7 +66,7 @@ public class TitleStatusFilterController implements ActionListener
    */
   private void filterUpdated()
   {
-    _filter.getStateFilter().setStates(new HashSet<Boolean>(_states.getSelectedItems()));
+    _filter.getStateFilter().setStates(new HashSet<TitleState>(_states.getSelectedItems()));
     _filterUpdateListener.filterUpdated();
   }
 
@@ -83,7 +84,7 @@ public class TitleStatusFilterController implements ActionListener
   {
     // State
     TitleStateFilter stateFilter=_filter.getStateFilter();
-    Set<Boolean> states=stateFilter.getSelectedStates();
+    Set<TitleState> states=stateFilter.getSelectedStates();
     _states.setSelectedItems(states);
   }
 
@@ -114,18 +115,22 @@ public class TitleStatusFilterController implements ActionListener
     return _states.getPanel();
   }
 
-  private MultiCheckboxController<Boolean> buildStateMultiCheckbox()
+  private MultiCheckboxController<TitleState> buildStateMultiCheckbox()
   {
-    final MultiCheckboxController<Boolean> multiCheckbox=new MultiCheckboxController<Boolean>();
-    multiCheckbox.addItem(Boolean.TRUE,"Acquired");
-    multiCheckbox.addItem(Boolean.FALSE,"Not acquired");
-    multiCheckbox.selectAll();
-    ItemSelectionListener<Boolean> listener=new ItemSelectionListener<Boolean>()
+    final MultiCheckboxController<TitleState> multiCheckbox=new MultiCheckboxController<TitleState>();
+    multiCheckbox.addItem(TitleState.ACQUIRED,"Acquired");
+    multiCheckbox.addItem(TitleState.SUPERSEDED,"Superseded");
+    multiCheckbox.addItem(TitleState.UNDEFINED,"Not acquired");
+    Set<TitleState> selectedStates=new HashSet<TitleState>();
+    selectedStates.add(TitleState.ACQUIRED);
+    selectedStates.add(TitleState.SUPERSEDED);
+    multiCheckbox.setSelectedItems(selectedStates);
+    ItemSelectionListener<TitleState> listener=new ItemSelectionListener<TitleState>()
     {
       @Override
-      public void itemSelected(Boolean state)
+      public void itemSelected(TitleState state)
       {
-        Set<Boolean> states=new HashSet<Boolean>(multiCheckbox.getItems());
+        Set<TitleState> states=new HashSet<TitleState>(multiCheckbox.getItems());
         TitleStateFilter stateFilter=_filter.getStateFilter();
         stateFilter.setStates(states);
         filterUpdated();

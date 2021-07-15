@@ -6,6 +6,7 @@ import java.util.List;
 import delta.common.ui.swing.tables.CellDataProvider;
 import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.TableColumnController;
+import delta.games.lotro.character.titles.TitleState;
 import delta.games.lotro.character.titles.TitleStatus;
 
 /**
@@ -53,7 +54,12 @@ public class TitleStatusColumnsBuilder
       @Override
       public Boolean getData(TitleStatus status)
       {
-        return Boolean.valueOf(status.isAcquired());
+        TitleState state=status.getState();
+        if ((state==TitleState.ACQUIRED) || (state==TitleState.SUPERSEDED))
+        {
+          return Boolean.TRUE;
+        }
+        return Boolean.FALSE;
       }
     };
     DefaultTableColumnController<TitleStatus,Boolean> stateColumn=new DefaultTableColumnController<TitleStatus,Boolean>(TitleStatusColumnIds.ACQUIRED.name(),"Acquired",Boolean.class,stateCell);
