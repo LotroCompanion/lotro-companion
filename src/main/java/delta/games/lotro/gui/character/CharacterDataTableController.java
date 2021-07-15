@@ -92,7 +92,7 @@ public class CharacterDataTableController implements GenericEventsListener<Chara
       };
       DefaultTableColumnController<CharacterData,Date> lastUpdateColumn=new DefaultTableColumnController<CharacterData,Date>(DATE,"Date",Date.class,lastUpdateCell);
       lastUpdateColumn.setWidthSpecs(120,120,120);
-      lastUpdateColumn.setCellRenderer(new DateRenderer(Formats.DATE_PATTERN));
+      lastUpdateColumn.setCellRenderer(new DateRenderer(Formats.DATE_TIME_PATTERN));
       table.addColumnController(lastUpdateColumn);
     }
     // Level column
