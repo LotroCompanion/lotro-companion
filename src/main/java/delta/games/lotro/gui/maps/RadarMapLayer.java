@@ -11,7 +11,7 @@ import delta.games.lotro.maps.data.GeoBox;
 import delta.games.lotro.maps.data.GeoPoint;
 import delta.games.lotro.maps.data.GeoReference;
 import delta.games.lotro.maps.ui.MapView;
-import delta.games.lotro.maps.ui.layers.RasterLayer;
+import delta.games.lotro.maps.ui.layers.BaseRasterLayer;
 import delta.games.lotro.maps.ui.layers.radar.RadarImageCache;
 import delta.games.lotro.maps.ui.layers.radar.RadarImageProvider;
 
@@ -19,7 +19,7 @@ import delta.games.lotro.maps.ui.layers.radar.RadarImageProvider;
  * Layer to display the radar map.
  * @author DAM
  */
-public class RadarMapLayer implements RasterLayer
+public class RadarMapLayer extends BaseRasterLayer
 {
   private static final boolean USE_GRID=false;
   private int _region;
@@ -32,6 +32,8 @@ public class RadarMapLayer implements RasterLayer
    */
   public RadarMapLayer(int region, RadarImageProvider provider)
   {
+    super();
+    setName("Radar Map");
     _region=region;
     _cache=new RadarImageCache(provider);
   }
