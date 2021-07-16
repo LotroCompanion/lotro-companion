@@ -13,6 +13,7 @@ import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.character.achievables.AchievableElementState;
 import delta.games.lotro.gui.stats.achievables.AchievableUIMode;
 import delta.games.lotro.stats.achievables.AchievablesStatistics;
+import delta.games.lotro.stats.achievables.VirtueXPStatsFromAchievables;
 
 /**
  * Controller for a panel to show the summary of the statistics about some achievables.
@@ -37,6 +38,7 @@ public class AchievablesStatisticsSummaryPanelController
   private JLabel _titlesCount;
   private JLabel _reputation;
   private JLabel _virtues;
+  private JLabel _virtueXP;
   private JLabel _itemsCount;
   private JLabel _emotesCount;
   private JLabel _traitsCount;
@@ -124,6 +126,11 @@ public class AchievablesStatisticsSummaryPanelController
     _virtues=GuiFactory.buildLabel("");
     _statsPanel.add(_virtues,cValues);
     cLabels.gridy++;cValues.gridy++;
+    // Virtue XP
+    _statsPanel.add(GuiFactory.buildLabel("Virtue XP:"),cLabels);
+    _virtueXP=GuiFactory.buildLabel("");
+    _statsPanel.add(_virtueXP,cValues);
+    cLabels.gridy++;cValues.gridy++;
     // Items
     _statsPanel.add(GuiFactory.buildLabel("Items:"),cLabels);
     _itemsCount=GuiFactory.buildLabel("");
@@ -183,6 +190,15 @@ public class AchievablesStatisticsSummaryPanelController
     int nbVirtuePoints=_statistics.getTotalVirtuePoints();
     String virtuesStr=String.format("%d points, %d virtues",Integer.valueOf(nbVirtuePoints),Integer.valueOf(nbVirtues));
     _virtues.setText(virtuesStr);
+    // Virtue XP
+    {
+      VirtueXPStatsFromAchievables virtueXPStats=_statistics.getVirtueXPStats();
+      int totalVirtueXP=virtueXPStats.getTotalVirtueXP();
+      int achievablesCount=virtueXPStats.getEntriesCount();
+      int completionsCount=virtueXPStats.getTotalCompletions();
+      String achievableType=(_mode==AchievableUIMode.DEED)?"deeds":"quests";
+      _virtueXP.setText(totalVirtueXP+" points from "+completionsCount+" completions ("+achievablesCount+" unique "+achievableType+")");
+    }
     // Items count
     int nbItems=_statistics.getItems().size();
     _itemsCount.setText(String.valueOf(nbItems));
@@ -241,6 +257,7 @@ public class AchievablesStatisticsSummaryPanelController
     _titlesCount=null;
     _reputation=null;
     _virtues=null;
+    _virtueXP=null;
     _itemsCount=null;
     _emotesCount=null;
     _traitsCount=null;
