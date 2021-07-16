@@ -1,6 +1,7 @@
 package delta.games.lotro.gui.stats.titles.table;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.swing.JTable;
@@ -10,11 +11,13 @@ import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.ListDataProvider;
 import delta.common.ui.swing.tables.ProxiedTableColumnController;
+import delta.common.ui.swing.tables.Sort;
 import delta.common.ui.swing.tables.TableColumnController;
 import delta.common.ui.swing.tables.TableColumnsManager;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.character.titles.TitleStatus;
 import delta.games.lotro.character.titles.TitlesStatusManager;
+import delta.games.lotro.character.titles.comparators.TitleAcquisitionTimestampComparator;
 import delta.games.lotro.character.titles.filter.TitleStatusFilter;
 import delta.games.lotro.gui.items.FilterUpdateListener;
 import delta.games.lotro.gui.items.chooser.ItemChooser;
@@ -52,6 +55,16 @@ public class TitlesStatusTableController
       TitleStatus status=titlesStatus.get(title,true);
       _statuses.add(status);
     }
+    Collections.sort(_statuses,new TitleAcquisitionTimestampComparator());
+    int index=0;
+    for(TitleStatus status : _statuses)
+    {
+      if (status.getAcquisitionTimeStamp()!=null)
+      {
+        index++;
+        status.setAcquisitionOrder(Integer.valueOf(index));
+      }
+    }
     _tableController=buildTable();
     _tableController.setFilter(filter);
     configureTable();
@@ -88,6 +101,9 @@ public class TitlesStatusTableController
     List<String> columnsIds=getColumnIds();
     columnsManager.setColumns(columnsIds);
 
+    // Sort
+    Sort sort=Sort.buildFromString(Sort.SORT_DESCENDING+TitleStatusColumnIds.ORDER);
+    table.setSort(sort);
     return table;
   }
 
@@ -102,7 +118,8 @@ public class TitlesStatusTableController
     {
       columnIds=new ArrayList<String>();
       columnIds.add(TitleStatusColumnIds.ACQUIRED.name());
-      columnIds.add(TitleStatusColumnIds.ACQUISITION_DATE.name());
+      columnIds.add(TitleStatusColumnIds.ORDER.name());
+      //columnIds.add(TitleStatusColumnIds.ACQUISITION_DATE.name());
       columnIds.add(TitleColumnIds.ICON.name());
       columnIds.add(TitleColumnIds.NAME.name());
       columnIds.add(TitleColumnIds.CATEGORY.name());

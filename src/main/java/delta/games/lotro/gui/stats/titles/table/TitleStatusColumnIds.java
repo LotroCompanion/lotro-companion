@@ -13,9 +13,13 @@ public enum TitleStatusColumnIds
   /**
    * Acquisition timestamp.
    */
-  ACQUISITION_TIMESTAMP,
+  //ACQUISITION_TIMESTAMP,
   /**
    * Acquisition date.
    */
-  ACQUISITION_DATE
+  //ACQUISITION_DATE
+  /**
+   * Order.
+   */
+  ORDER
 }

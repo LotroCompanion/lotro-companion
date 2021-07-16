@@ -1,16 +1,14 @@
 package delta.games.lotro.gui.stats.titles.table;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import delta.common.ui.swing.tables.CellDataProvider;
 import delta.common.ui.swing.tables.DefaultTableColumnController;
-import delta.common.ui.swing.tables.GenericTableController.DateRenderer;
 import delta.common.ui.swing.tables.TableColumnController;
 import delta.games.lotro.character.titles.TitleState;
 import delta.games.lotro.character.titles.TitleStatus;
-import delta.games.lotro.utils.Formats;
+import delta.games.lotro.gui.utils.UiConfiguration;
 
 /**
  * Builds column definitions for TitleStatus data.
@@ -28,6 +26,7 @@ public class TitleStatusColumnsBuilder
     // State
     ret.add(buildTitleStateColumn());
     // Acquisition time column
+    /*
     {
       CellDataProvider<TitleStatus,Double> timestampCell=new CellDataProvider<TitleStatus,Double>()
       {
@@ -57,6 +56,22 @@ public class TitleStatusColumnsBuilder
       completionDateColumn.setWidthSpecs(120,120,120);
       completionDateColumn.setCellRenderer(new DateRenderer(Formats.DATE_TIME_PATTERN));
       ret.add(completionDateColumn);
+    }
+    */
+    // Order column
+    if (UiConfiguration.showTechnicalColumns())
+    {
+      CellDataProvider<TitleStatus,Integer> orderCell=new CellDataProvider<TitleStatus,Integer>()
+      {
+        @Override
+        public Integer getData(TitleStatus status)
+        {
+          return status.getAcquisitionOrder();
+        }
+      };
+      DefaultTableColumnController<TitleStatus,Integer> orderColumn=new DefaultTableColumnController<TitleStatus,Integer>(TitleStatusColumnIds.ORDER.name(),"#",Integer.class,orderCell);
+      orderColumn.setWidthSpecs(40,40,40);
+      ret.add(orderColumn);
     }
     return ret;
   }
