@@ -59,20 +59,17 @@ public class TitleStatusColumnsBuilder
     }
     */
     // Order column
-    if (UiConfiguration.showTechnicalColumns())
+    CellDataProvider<TitleStatus,Integer> orderCell=new CellDataProvider<TitleStatus,Integer>()
     {
-      CellDataProvider<TitleStatus,Integer> orderCell=new CellDataProvider<TitleStatus,Integer>()
+      @Override
+      public Integer getData(TitleStatus status)
       {
-        @Override
-        public Integer getData(TitleStatus status)
-        {
-          return status.getAcquisitionOrder();
-        }
-      };
-      DefaultTableColumnController<TitleStatus,Integer> orderColumn=new DefaultTableColumnController<TitleStatus,Integer>(TitleStatusColumnIds.ORDER.name(),"#",Integer.class,orderCell);
-      orderColumn.setWidthSpecs(40,40,40);
-      ret.add(orderColumn);
-    }
+        return status.getAcquisitionOrder();
+      }
+    };
+    DefaultTableColumnController<TitleStatus,Integer> orderColumn=new DefaultTableColumnController<TitleStatus,Integer>(TitleStatusColumnIds.ORDER.name(),"#",Integer.class,orderCell);
+    orderColumn.setWidthSpecs(40,40,40);
+    ret.add(orderColumn);
     return ret;
   }
 
