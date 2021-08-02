@@ -8,7 +8,6 @@ import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.TableColumnController;
 import delta.games.lotro.character.titles.TitleState;
 import delta.games.lotro.character.titles.TitleStatus;
-import delta.games.lotro.gui.utils.UiConfiguration;
 
 /**
  * Builds column definitions for TitleStatus data.

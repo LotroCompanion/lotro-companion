@@ -97,19 +97,7 @@ public class QuestsTableController
       ret.add(idColumn);
     }
     // Name column
-    {
-      CellDataProvider<QuestDescription,String> nameCell=new CellDataProvider<QuestDescription,String>()
-      {
-        @Override
-        public String getData(QuestDescription quest)
-        {
-          return quest.getName();
-        }
-      };
-      DefaultTableColumnController<QuestDescription,String> nameColumn=new DefaultTableColumnController<QuestDescription,String>(QuestColumnIds.NAME.name(),"Name",String.class,nameCell);
-      nameColumn.setWidthSpecs(100,300,200);
-      ret.add(nameColumn);
-    }
+    ret.add(QuestsColumnsBuilder.buildQuestNameColumn());
     // Category column
     {
       CellDataProvider<QuestDescription,String> categoryCell=new CellDataProvider<QuestDescription,String>()

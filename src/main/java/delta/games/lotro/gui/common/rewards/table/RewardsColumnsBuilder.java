@@ -99,50 +99,11 @@ public class RewardsColumnsBuilder
       ret.add(traitColumn);
     }
     // XP column
-    {
-      CellDataProvider<Rewards,Integer> xpCell=new CellDataProvider<Rewards,Integer>()
-      {
-        @Override
-        public Integer getData(Rewards rewards)
-        {
-          int xp=rewards.getXp();
-          return (xp>0)?Integer.valueOf(xp):null;
-        }
-      };
-      DefaultTableColumnController<Rewards,Integer> xpColumn=new DefaultTableColumnController<Rewards,Integer>(RewardsColumnIds.XP.name(),"XP",Integer.class,xpCell);
-      xpColumn.setWidthSpecs(60,60,60);
-      ret.add(xpColumn);
-    }
+    ret.add(buildXPColumn());
     // Item XP column
-    {
-      CellDataProvider<Rewards,Integer> itemXpCell=new CellDataProvider<Rewards,Integer>()
-      {
-        @Override
-        public Integer getData(Rewards rewards)
-        {
-          int itemXp=rewards.getItemXp();
-          return (itemXp>0)?Integer.valueOf(itemXp):null;
-        }
-      };
-      DefaultTableColumnController<Rewards,Integer> itemXpColumn=new DefaultTableColumnController<Rewards,Integer>(RewardsColumnIds.ITEM_XP.name(),"Item XP",Integer.class,itemXpCell);
-      itemXpColumn.setWidthSpecs(60,60,60);
-      ret.add(itemXpColumn);
-    }
+    ret.add(buildItemXPColumn());
     // Mount XP column
-    {
-      CellDataProvider<Rewards,Integer> mountXpCell=new CellDataProvider<Rewards,Integer>()
-      {
-        @Override
-        public Integer getData(Rewards rewards)
-        {
-          int mountXp=rewards.getMountXp();
-          return (mountXp>0)?Integer.valueOf(mountXp):null;
-        }
-      };
-      DefaultTableColumnController<Rewards,Integer> mountXpColumn=new DefaultTableColumnController<Rewards,Integer>(RewardsColumnIds.MOUNT_XP.name(),"Mount XP",Integer.class,mountXpCell);
-      mountXpColumn.setWidthSpecs(60,60,60);
-      ret.add(mountXpColumn);
-    }
+    ret.add(buildMountXPColumn());
     // Virtue XP column
     {
       CellDataProvider<Rewards,Integer> virtueXpCell=new CellDataProvider<Rewards,Integer>()
@@ -159,5 +120,65 @@ public class RewardsColumnsBuilder
       ret.add(virtueXpColumn);
     }
     return ret;
+  }
+
+  /**
+   * Build a 'XP' column.
+   * @return a column.
+   */
+  public static DefaultTableColumnController<Rewards,Integer>  buildXPColumn()
+  {
+    CellDataProvider<Rewards,Integer> xpCell=new CellDataProvider<Rewards,Integer>()
+    {
+      @Override
+      public Integer getData(Rewards rewards)
+      {
+        int xp=rewards.getXp();
+        return (xp>0)?Integer.valueOf(xp):null;
+      }
+    };
+    DefaultTableColumnController<Rewards,Integer> xpColumn=new DefaultTableColumnController<Rewards,Integer>(RewardsColumnIds.XP.name(),"XP",Integer.class,xpCell);
+    xpColumn.setWidthSpecs(60,60,60);
+    return xpColumn;
+  }
+
+  /**
+   * Build an 'item XP' column.
+   * @return a column.
+   */
+  public static DefaultTableColumnController<Rewards,Integer> buildItemXPColumn()
+  {
+    CellDataProvider<Rewards,Integer> itemXpCell=new CellDataProvider<Rewards,Integer>()
+    {
+      @Override
+      public Integer getData(Rewards rewards)
+      {
+        int itemXp=rewards.getItemXp();
+        return (itemXp>0)?Integer.valueOf(itemXp):null;
+      }
+    };
+    DefaultTableColumnController<Rewards,Integer> itemXpColumn=new DefaultTableColumnController<Rewards,Integer>(RewardsColumnIds.ITEM_XP.name(),"Item XP",Integer.class,itemXpCell);
+    itemXpColumn.setWidthSpecs(60,60,60);
+    return itemXpColumn;
+  }
+
+  /**
+   * Build a 'mount XP' column.
+   * @return a column.
+   */
+  public static DefaultTableColumnController<Rewards,Integer> buildMountXPColumn()
+  {
+    CellDataProvider<Rewards,Integer> mountXpCell=new CellDataProvider<Rewards,Integer>()
+    {
+      @Override
+      public Integer getData(Rewards rewards)
+      {
+        int mountXp=rewards.getMountXp();
+        return (mountXp>0)?Integer.valueOf(mountXp):null;
+      }
+    };
+    DefaultTableColumnController<Rewards,Integer> mountXpColumn=new DefaultTableColumnController<Rewards,Integer>(RewardsColumnIds.MOUNT_XP.name(),"Mount XP",Integer.class,mountXpCell);
+    mountXpColumn.setWidthSpecs(60,60,60);
+    return mountXpColumn;
   }
 }

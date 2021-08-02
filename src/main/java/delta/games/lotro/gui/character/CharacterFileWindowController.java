@@ -51,6 +51,7 @@ import delta.games.lotro.gui.stats.deeds.DeedsStatusWindowController;
 import delta.games.lotro.gui.stats.levelling.LevelHistoryEditionDialogController;
 import delta.games.lotro.gui.stats.quests.QuestsStatusWindowController;
 import delta.games.lotro.gui.stats.reputation.CharacterReputationDialogController;
+import delta.games.lotro.gui.stats.tasks.TasksStatusWindowController;
 import delta.games.lotro.gui.stats.titles.TitlesStatusWindowController;
 import delta.games.lotro.gui.stats.traitPoints.TraitPointsEditionWindowController;
 import delta.games.lotro.utils.events.EventsManager;
@@ -74,6 +75,7 @@ public class CharacterFileWindowController extends DefaultWindowController imple
   private static final String TRAIT_POINTS_COMMAND="traitPoints";
   private static final String DEEDS_STATUS_COMMAND="deedsStatus";
   private static final String QUESTS_STATUS_COMMAND="questsStatus";
+  private static final String TASKS_STATUS_COMMAND="tasksStatus";
   private static final String TITLES_STATUS_COMMAND="titlesStatus";
   private static final String STORAGE_COMMAND="storage";
 
@@ -187,6 +189,10 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     JButton questsButton=buildCommandButton("Quests",QUESTS_STATUS_COMMAND);
     panel.add(questsButton,c);
     c.gridx++;
+    // Tasks status
+    JButton tasksButton=buildCommandButton("Tasks",TASKS_STATUS_COMMAND);
+    panel.add(tasksButton,c);
+    c.gridx++;
     // Titles status
     JButton titlesButton=buildCommandButton("Titles",TITLES_STATUS_COMMAND);
     panel.add(titlesButton,c);
@@ -267,6 +273,10 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     else if (QUESTS_STATUS_COMMAND.equals(command))
     {
       showQuestsStatus();
+    }
+    else if (TASKS_STATUS_COMMAND.equals(command))
+    {
+      showTasksStatus();
     }
     else if (TITLES_STATUS_COMMAND.equals(command))
     {
@@ -510,6 +520,13 @@ public class CharacterFileWindowController extends DefaultWindowController imple
   {
     AchievablesStatusManager status=QuestsStatusIo.load(_toon);
     QuestsStatusWindowController controller=new QuestsStatusWindowController(this,status,_toon);
+    controller.show();
+  }
+
+  private void showTasksStatus()
+  {
+    AchievablesStatusManager status=QuestsStatusIo.load(_toon);
+    TasksStatusWindowController controller=new TasksStatusWindowController(this,status,_toon);
     controller.show();
   }
 
