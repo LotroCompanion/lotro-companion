@@ -13,15 +13,15 @@ import delta.common.ui.swing.toolbar.ToolbarIconItem;
 import delta.common.ui.swing.toolbar.ToolbarModel;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.ui.swing.windows.WindowsManager;
-import delta.games.lotro.gui.deed.explorer.DeedsExplorerWindowController;
-import delta.games.lotro.gui.emotes.explorer.EmotesExplorerWindowController;
+import delta.games.lotro.gui.lore.collections.mounts.explorer.MountsExplorerWindowController;
+import delta.games.lotro.gui.lore.collections.pets.explorer.PetsExplorerWindowController;
+import delta.games.lotro.gui.lore.crafting.recipes.explorer.RecipesExplorerWindowController;
+import delta.games.lotro.gui.lore.deeds.explorer.DeedsExplorerWindowController;
+import delta.games.lotro.gui.lore.emotes.explorer.EmotesExplorerWindowController;
+import delta.games.lotro.gui.lore.quests.explorer.QuestsExplorerWindowController;
+import delta.games.lotro.gui.lore.titles.explorer.TitlesExplorerWindowController;
 import delta.games.lotro.gui.lore.trade.barter.explorer.BarterersExplorerWindowController;
 import delta.games.lotro.gui.lore.trade.vendor.explorer.VendorsExplorerWindowController;
-import delta.games.lotro.gui.mounts.explorer.MountsExplorerWindowController;
-import delta.games.lotro.gui.pets.explorer.PetsExplorerWindowController;
-import delta.games.lotro.gui.quests.explorer.QuestsExplorerWindowController;
-import delta.games.lotro.gui.recipes.explorer.RecipesExplorerWindowController;
-import delta.games.lotro.gui.titles.explorer.TitlesExplorerWindowController;
 import delta.games.lotro.gui.utils.SharedUiUtils;
 
 /**

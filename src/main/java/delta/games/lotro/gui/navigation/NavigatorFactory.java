@@ -3,12 +3,12 @@ package delta.games.lotro.gui.navigation;
 import delta.common.ui.swing.navigator.NavigatorContentsResolver;
 import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.common.ui.swing.windows.WindowController;
-import delta.games.lotro.gui.deed.DeedPanelsFactory;
-import delta.games.lotro.gui.items.ItemPanelsFactory;
+import delta.games.lotro.gui.lore.crafting.recipes.RecipePanelsFactory;
+import delta.games.lotro.gui.lore.deeds.DeedPanelsFactory;
+import delta.games.lotro.gui.lore.items.ItemPanelsFactory;
+import delta.games.lotro.gui.lore.quests.QuestPanelsFactory;
 import delta.games.lotro.gui.lore.trade.barter.BartererPanelsFactory;
 import delta.games.lotro.gui.lore.trade.vendor.VendorPanelsFactory;
-import delta.games.lotro.gui.quests.QuestPanelsFactory;
-import delta.games.lotro.gui.recipes.RecipePanelsFactory;
 
 /**
  * Factory for LOTRO navigator window controllers.

@@ -12,7 +12,7 @@ import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.BasicCharacterAttributes;
 import delta.games.lotro.character.CharacterEquipment.EQUIMENT_SLOT;
 import delta.games.lotro.gui.character.gear.EquipmentSlotIconController;
-import delta.games.lotro.gui.items.essences.SimpleSingleEssenceEditionController;
+import delta.games.lotro.gui.lore.items.essences.SimpleSingleEssenceEditionController;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemInstance;
 import delta.games.lotro.lore.items.essences.EssencesSet;

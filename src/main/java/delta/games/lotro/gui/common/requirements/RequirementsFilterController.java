@@ -14,7 +14,7 @@ import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.Race;
 import delta.games.lotro.common.requirements.filters.UsageRequirementFilter;
 import delta.games.lotro.gui.character.summary.CharacterUiUtils;
-import delta.games.lotro.gui.items.FilterUpdateListener;
+import delta.games.lotro.gui.lore.items.FilterUpdateListener;
 
 /**
  * Controller for a requirements filter edition panel.

@@ -7,9 +7,9 @@ import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.character.CharacterEquipment.EQUIMENT_SLOT;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.common.CharacterClass;
-import delta.games.lotro.gui.items.chooser.ItemChoiceTableColumnsManager;
-import delta.games.lotro.gui.items.chooser.ItemChooser;
-import delta.games.lotro.gui.items.essences.EssenceChoice;
+import delta.games.lotro.gui.lore.items.chooser.ItemChoiceTableColumnsManager;
+import delta.games.lotro.gui.lore.items.chooser.ItemChooser;
+import delta.games.lotro.gui.lore.items.essences.EssenceChoice;
 
 /**
  * Provides access to character level preferences.

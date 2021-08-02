@@ -19,7 +19,7 @@ import delta.common.ui.swing.tables.TableColumnsChooserController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.character.storage.StoredItem;
-import delta.games.lotro.gui.items.FilterUpdateListener;
+import delta.games.lotro.gui.lore.items.FilterUpdateListener;
 import delta.games.lotro.gui.main.GlobalPreferences;
 
 /**

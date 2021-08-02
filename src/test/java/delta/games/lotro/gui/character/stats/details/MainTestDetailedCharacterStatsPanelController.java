@@ -9,7 +9,6 @@ import javax.swing.WindowConstants;
 import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.io.xml.CharacterDataIO;
 import delta.games.lotro.character.stats.BasicStatsSet;
-import delta.games.lotro.gui.character.stats.details.DetailedCharacterStatsPanelController;
 
 /**
  * Test class for the character stats panel controller.

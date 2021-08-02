@@ -17,9 +17,9 @@ import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.common.money.Money;
 import delta.games.lotro.common.money.comparator.MoneyComparator;
-import delta.games.lotro.gui.items.ItemColumnIds;
-import delta.games.lotro.gui.items.chooser.ItemChooser;
-import delta.games.lotro.gui.items.chooser.ItemsTableBuilder;
+import delta.games.lotro.gui.lore.items.ItemColumnIds;
+import delta.games.lotro.gui.lore.items.chooser.ItemChooser;
+import delta.games.lotro.gui.lore.items.chooser.ItemsTableBuilder;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.trade.vendor.ValuedItem;
 

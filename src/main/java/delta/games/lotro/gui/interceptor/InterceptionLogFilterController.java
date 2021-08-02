@@ -19,7 +19,7 @@ import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.common.ui.swing.combobox.ItemSelectionListener;
 import delta.common.utils.collections.filters.Filter;
 import delta.games.lotro.character.CharacterFile;
-import delta.games.lotro.gui.items.FilterUpdateListener;
+import delta.games.lotro.gui.lore.items.FilterUpdateListener;
 import delta.games.lotro.interceptor.data.monitoring.InterceptionLog;
 import delta.games.lotro.interceptor.data.monitoring.InterceptionLogEntry;
 import delta.games.lotro.interceptor.data.monitoring.LogLevel;

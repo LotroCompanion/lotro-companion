@@ -7,10 +7,10 @@ import javax.swing.JTable;
 
 import delta.common.ui.swing.tables.CellDataProvider;
 import delta.common.ui.swing.tables.DataProvider;
-import delta.common.ui.swing.tables.GenericTableController;
-import delta.common.ui.swing.tables.Sort;
-import delta.common.ui.swing.tables.GenericTableController.DateRenderer;
 import delta.common.ui.swing.tables.DefaultTableColumnController;
+import delta.common.ui.swing.tables.GenericTableController;
+import delta.common.ui.swing.tables.GenericTableController.DateRenderer;
+import delta.common.ui.swing.tables.Sort;
 import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharacterInfosManager;

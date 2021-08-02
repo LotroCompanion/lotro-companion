@@ -5,11 +5,11 @@ import java.util.Collections;
 import java.util.List;
 
 import delta.games.lotro.character.CharacterFile;
-import delta.games.lotro.character.achievables.AchievableStatus;
-import delta.games.lotro.character.achievables.AchievableStatusDateComparator;
-import delta.games.lotro.character.achievables.AchievablesStatusManager;
-import delta.games.lotro.character.achievables.io.DeedsStatusIo;
-import delta.games.lotro.gui.stats.curves.DatedCurveProvider;
+import delta.games.lotro.character.status.achievables.AchievableStatus;
+import delta.games.lotro.character.status.achievables.AchievableStatusDateComparator;
+import delta.games.lotro.character.status.achievables.AchievablesStatusManager;
+import delta.games.lotro.character.status.achievables.io.DeedsStatusIo;
+import delta.games.lotro.gui.character.status.curves.DatedCurveProvider;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.DeedsManager;
 import delta.games.lotro.utils.charts.DatedCurve;

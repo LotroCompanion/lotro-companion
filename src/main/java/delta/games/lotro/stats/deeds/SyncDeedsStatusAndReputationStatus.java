@@ -2,11 +2,11 @@ package delta.games.lotro.stats.deeds;
 
 import java.util.List;
 
-import delta.games.lotro.character.achievables.AchievableStatus;
-import delta.games.lotro.character.achievables.AchievablesStatusManager;
-import delta.games.lotro.character.reputation.FactionLevelStatus;
-import delta.games.lotro.character.reputation.FactionStatus;
-import delta.games.lotro.character.reputation.ReputationStatus;
+import delta.games.lotro.character.status.achievables.AchievableStatus;
+import delta.games.lotro.character.status.achievables.AchievablesStatusManager;
+import delta.games.lotro.character.status.reputation.FactionLevelStatus;
+import delta.games.lotro.character.status.reputation.FactionStatus;
+import delta.games.lotro.character.status.reputation.ReputationStatus;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.DeedsManager;
 import delta.games.lotro.lore.reputation.Faction;

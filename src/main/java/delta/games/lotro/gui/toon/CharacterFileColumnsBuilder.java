@@ -17,7 +17,7 @@ import delta.games.lotro.character.details.CharacterDetails;
 import delta.games.lotro.common.Duration;
 import delta.games.lotro.common.money.Money;
 import delta.games.lotro.common.money.comparator.MoneyComparator;
-import delta.games.lotro.gui.items.chooser.ItemsTableBuilder;
+import delta.games.lotro.gui.lore.items.chooser.ItemsTableBuilder;
 import delta.games.lotro.lore.titles.TitleDescription;
 import delta.games.lotro.lore.titles.TitlesManager;
 import delta.games.lotro.utils.Formats;

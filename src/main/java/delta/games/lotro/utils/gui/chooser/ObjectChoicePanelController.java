@@ -16,7 +16,7 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.TableColumnsChooserController;
 import delta.common.ui.swing.windows.WindowController;
-import delta.games.lotro.gui.items.FilterUpdateListener;
+import delta.games.lotro.gui.lore.items.FilterUpdateListener;
 
 /**
  * Controller for an object choice panel.

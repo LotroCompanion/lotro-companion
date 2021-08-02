@@ -14,7 +14,7 @@ import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.common.ui.swing.icons.IconsManager;
 import delta.common.ui.swing.text.FloatEditionController;
 import delta.games.lotro.common.stats.StatDescription;
-import delta.games.lotro.gui.items.ItemUiTools;
+import delta.games.lotro.gui.lore.items.ItemUiTools;
 import delta.games.lotro.utils.FixedDecimalsInteger;
 
 /**

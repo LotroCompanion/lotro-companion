@@ -2,7 +2,7 @@ package delta.games.lotro.utils.gui.filter;
 
 import javax.swing.JPanel;
 
-import delta.games.lotro.gui.items.FilterUpdateListener;
+import delta.games.lotro.gui.lore.items.FilterUpdateListener;
 
 /**
  * Base class for item filter panel UI controller.

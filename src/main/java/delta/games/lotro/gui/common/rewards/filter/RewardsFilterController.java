@@ -26,7 +26,7 @@ import delta.games.lotro.common.rewards.filters.TraitRewardFilter;
 import delta.games.lotro.common.rewards.filters.VirtueXpRewardFilter;
 import delta.games.lotro.common.rewards.filters.XpRewardFilter;
 import delta.games.lotro.gui.common.rewards.RewardsUiUtils;
-import delta.games.lotro.gui.items.FilterUpdateListener;
+import delta.games.lotro.gui.lore.items.FilterUpdateListener;
 import delta.games.lotro.gui.utils.SharedUiUtils;
 import delta.games.lotro.lore.reputation.Faction;
 

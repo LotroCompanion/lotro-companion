@@ -27,8 +27,8 @@ import delta.games.lotro.common.filters.NamedFilter;
 import delta.games.lotro.common.owner.AccountServerOwner;
 import delta.games.lotro.common.owner.CharacterOwner;
 import delta.games.lotro.common.owner.Owner;
-import delta.games.lotro.gui.items.FilterUpdateListener;
-import delta.games.lotro.gui.items.ItemUiTools;
+import delta.games.lotro.gui.lore.items.FilterUpdateListener;
+import delta.games.lotro.gui.lore.items.ItemUiTools;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemQuality;
 

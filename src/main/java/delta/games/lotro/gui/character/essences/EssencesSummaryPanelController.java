@@ -19,7 +19,7 @@ import delta.games.lotro.character.stats.base.io.DerivedStatContributionsIO;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.gui.character.essences.EssencesSummary.EssenceCount;
 import delta.games.lotro.gui.common.stats.StatsPanel;
-import delta.games.lotro.gui.items.ItemUiTools;
+import delta.games.lotro.gui.lore.items.ItemUiTools;
 import delta.games.lotro.lore.items.Item;
 
 /**

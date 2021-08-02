@@ -6,7 +6,7 @@ import java.util.List;
 import delta.common.ui.swing.checkbox.CheckboxController;
 import delta.common.ui.swing.labels.HyperLinkController;
 import delta.common.ui.swing.windows.WindowController;
-import delta.games.lotro.gui.items.ItemUiTools;
+import delta.games.lotro.gui.lore.items.ItemUiTools;
 import delta.games.lotro.gui.utils.ItemIconController;
 import delta.games.lotro.lore.items.Item;
 

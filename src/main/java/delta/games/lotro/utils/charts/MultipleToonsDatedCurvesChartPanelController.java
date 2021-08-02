@@ -16,14 +16,14 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharactersManager;
+import delta.games.lotro.character.utils.MultipleToonsStats;
 import delta.games.lotro.gui.character.chooser.CharacterSelectionChangedListener;
 import delta.games.lotro.gui.character.chooser.CharactersChooserController;
 import delta.games.lotro.gui.character.chooser.CharactersSelectorPanelController;
-import delta.games.lotro.gui.stats.curves.DatedCurveProvider;
-import delta.games.lotro.gui.stats.curves.DatedCurvesChartConfiguration;
-import delta.games.lotro.gui.stats.curves.DatedCurvesChartController;
-import delta.games.lotro.gui.stats.curves.MultipleToonsDatedCurvesProvider;
-import delta.games.lotro.stats.MultipleToonsStats;
+import delta.games.lotro.gui.character.status.curves.DatedCurveProvider;
+import delta.games.lotro.gui.character.status.curves.DatedCurvesChartConfiguration;
+import delta.games.lotro.gui.character.status.curves.DatedCurvesChartController;
+import delta.games.lotro.gui.character.status.curves.MultipleToonsDatedCurvesProvider;
 
 /**
  * Controller for a panel to show a chart with curves for a series of characters.
