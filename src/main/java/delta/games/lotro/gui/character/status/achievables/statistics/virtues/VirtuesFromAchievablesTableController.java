@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.character.status.achievables.statistics;
+package delta.games.lotro.gui.character.status.achievables.statistics.virtues;
 
 import java.util.ArrayList;
 import java.util.Collections;

@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.character.status.achievables.statistics;
+package delta.games.lotro.gui.character.status.achievables.statistics.titles;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -16,13 +16,13 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.tables.TableColumnsChooserController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.status.achievables.statistics.AchievablesStatistics;
-import delta.games.lotro.character.status.achievables.statistics.traits.TraitEvent;
+import delta.games.lotro.character.status.achievables.statistics.titles.TitleEvent;
 
 /**
- * Controller for the traits display panel.
+ * Controller for the titles display panel.
  * @author DAM
  */
-public class TraitsDisplayPanelController
+public class TitlesDisplayPanelController
 {
   // Data
   private AchievablesStatistics _stats;
@@ -30,7 +30,7 @@ public class TraitsDisplayPanelController
   private JPanel _panel;
   private JLabel _statsLabel;
   // Controllers
-  private TraitEventsTableController _tableController;
+  private TitleEventsTableController _tableController;
   private WindowController _parent;
 
   /**
@@ -38,11 +38,11 @@ public class TraitsDisplayPanelController
    * @param parent Parent window.
    * @param stats Stats to show.
    */
-  public TraitsDisplayPanelController(WindowController parent, AchievablesStatistics stats)
+  public TitlesDisplayPanelController(WindowController parent, AchievablesStatistics stats)
   {
     _parent=parent;
     _stats=stats;
-    _tableController=new TraitEventsTableController(stats);
+    _tableController=new TitleEventsTableController(stats);
   }
 
   /**
@@ -61,8 +61,8 @@ public class TraitsDisplayPanelController
   private JPanel build()
   {
     JPanel panel=GuiFactory.buildBackgroundPanel(new BorderLayout());
-    TitledBorder border=GuiFactory.buildTitledBorder("Traits");
-    panel.setBorder(border);
+    TitledBorder itemsFrameBorder=GuiFactory.buildTitledBorder("Titles");
+    panel.setBorder(itemsFrameBorder);
 
     // Table
     JTable table=_tableController.getTable();
@@ -78,7 +78,7 @@ public class TraitsDisplayPanelController
       @Override
       public void actionPerformed(ActionEvent e)
       {
-        TableColumnsChooserController<TraitEvent> chooser=new TableColumnsChooserController<TraitEvent>(_parent,_tableController.getTableController());
+        TableColumnsChooserController<TitleEvent> chooser=new TableColumnsChooserController<TitleEvent>(_parent,_tableController.getTableController());
         chooser.editModal();
       }
     };
@@ -99,8 +99,8 @@ public class TraitsDisplayPanelController
 
   private void updateStatsLabel()
   {
-    int nbItems=_stats.getTraits().size();
-    String label="Trait(s): "+nbItems;
+    int nbItems=_stats.getTitles().size();
+    String label="Title(s): "+nbItems;
     _statsLabel.setText(label);
   }
 

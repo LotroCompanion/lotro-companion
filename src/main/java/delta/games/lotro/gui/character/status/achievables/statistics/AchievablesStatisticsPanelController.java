@@ -11,6 +11,13 @@ import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.status.achievables.AchievablesStatusManager;
 import delta.games.lotro.character.status.achievables.statistics.AchievablesStatistics;
 import delta.games.lotro.gui.character.status.achievables.AchievableUIMode;
+import delta.games.lotro.gui.character.status.achievables.statistics.emotes.EmotesDisplayPanelController;
+import delta.games.lotro.gui.character.status.achievables.statistics.titles.TitlesDisplayPanelController;
+import delta.games.lotro.gui.character.status.achievables.statistics.traits.TraitsDisplayPanelController;
+import delta.games.lotro.gui.character.status.achievables.statistics.virtues.VirtueXPDisplayPanelController;
+import delta.games.lotro.gui.character.status.achievables.statistics.virtues.VirtuesDisplayPanelController;
+import delta.games.lotro.gui.character.status.statistics.items.ItemsDisplayPanelController;
+import delta.games.lotro.gui.character.status.statistics.reputation.ReputationDisplayPanelController;
 import delta.games.lotro.lore.quests.Achievable;
 
 /**
@@ -44,7 +51,7 @@ public class AchievablesStatisticsPanelController
     _statistics=statistics;
     _summary=new AchievablesStatisticsSummaryPanelController(statistics,mode);
     _titles=new TitlesDisplayPanelController(parent,statistics);
-    _reputation=new ReputationDisplayPanelController(parent,statistics,mode);
+    _reputation=new ReputationDisplayPanelController(parent,statistics.getReputationStats(),mode);
     _virtues=new VirtuesDisplayPanelController(parent,statistics,mode);
     _virtueXP=new VirtueXPDisplayPanelController(parent,statistics,mode);
     _items=new ItemsDisplayPanelController(parent,statistics);

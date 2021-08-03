@@ -1,9 +1,11 @@
-package delta.games.lotro.gui.character.status.achievables.statistics;
+package delta.games.lotro.gui.character.status.statistics.items;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -16,21 +18,24 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.tables.TableColumnsChooserController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.status.achievables.statistics.AchievablesStatistics;
-import delta.games.lotro.character.status.achievables.statistics.emotes.EmoteEvent;
+import delta.games.lotro.gui.lore.items.CountedItemsTableController;
+import delta.games.lotro.lore.items.CountedItem;
+import delta.games.lotro.lore.items.Item;
 
 /**
- * Controller for the emotes display panel.
+ * Controller for the items display panel.
  * @author DAM
  */
-public class EmotesDisplayPanelController
+public class ItemsDisplayPanelController
 {
   // Data
   private AchievablesStatistics _stats;
+  private List<CountedItem<Item>> _items;
   // GUI
   private JPanel _panel;
   private JLabel _statsLabel;
   // Controllers
-  private EmoteEventsTableController _tableController;
+  private CountedItemsTableController<Item> _tableController;
   private WindowController _parent;
 
   /**
@@ -38,11 +43,12 @@ public class EmotesDisplayPanelController
    * @param parent Parent window.
    * @param stats Stats to show.
    */
-  public EmotesDisplayPanelController(WindowController parent, AchievablesStatistics stats)
+  public ItemsDisplayPanelController(WindowController parent, AchievablesStatistics stats)
   {
     _parent=parent;
     _stats=stats;
-    _tableController=new EmoteEventsTableController(stats);
+    _items=new ArrayList<CountedItem<Item>>();
+    _tableController=new CountedItemsTableController<Item>(null,_items,null);
   }
 
   /**
@@ -61,7 +67,7 @@ public class EmotesDisplayPanelController
   private JPanel build()
   {
     JPanel panel=GuiFactory.buildBackgroundPanel(new BorderLayout());
-    TitledBorder border=GuiFactory.buildTitledBorder("Emotes");
+    TitledBorder border=GuiFactory.buildTitledBorder("Items");
     panel.setBorder(border);
 
     // Table
@@ -78,7 +84,7 @@ public class EmotesDisplayPanelController
       @Override
       public void actionPerformed(ActionEvent e)
       {
-        TableColumnsChooserController<EmoteEvent> chooser=new TableColumnsChooserController<EmoteEvent>(_parent,_tableController.getTableController());
+        TableColumnsChooserController<CountedItem<Item>> chooser=new TableColumnsChooserController<CountedItem<Item>>(_parent,_tableController.getTableController());
         chooser.editModal();
       }
     };
@@ -99,8 +105,10 @@ public class EmotesDisplayPanelController
 
   private void updateStatsLabel()
   {
-    int nbItems=_stats.getEmotes().size();
-    String label="Emote(s): "+nbItems;
+    _items.clear();
+    _items.addAll(_stats.getItemsStats().getItems());
+    int nbItems=_items.size();
+    String label="Item(s): "+nbItems;
     _statsLabel.setText(label);
   }
 

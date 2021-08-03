@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.character.status.achievables.statistics;
+package delta.games.lotro.gui.character.status.achievables.statistics.virtues;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -16,13 +16,14 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.tables.TableColumnsChooserController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.status.achievables.statistics.AchievablesStatistics;
-import delta.games.lotro.character.status.achievables.statistics.titles.TitleEvent;
+import delta.games.lotro.character.status.achievables.statistics.virtues.VirtueStatsFromAchievables;
+import delta.games.lotro.gui.character.status.achievables.AchievableUIMode;
 
 /**
- * Controller for the titles display panel.
+ * Controller for the virtues display panel.
  * @author DAM
  */
-public class TitlesDisplayPanelController
+public class VirtuesDisplayPanelController
 {
   // Data
   private AchievablesStatistics _stats;
@@ -30,19 +31,20 @@ public class TitlesDisplayPanelController
   private JPanel _panel;
   private JLabel _statsLabel;
   // Controllers
-  private TitleEventsTableController _tableController;
+  private VirtuesFromAchievablesTableController _tableController;
   private WindowController _parent;
 
   /**
    * Constructor.
    * @param parent Parent window.
    * @param stats Stats to show.
+   * @param mode UI mode.
    */
-  public TitlesDisplayPanelController(WindowController parent, AchievablesStatistics stats)
+  public VirtuesDisplayPanelController(WindowController parent, AchievablesStatistics stats, AchievableUIMode mode)
   {
     _parent=parent;
     _stats=stats;
-    _tableController=new TitleEventsTableController(stats);
+    _tableController=new VirtuesFromAchievablesTableController(stats,mode);
   }
 
   /**
@@ -61,8 +63,8 @@ public class TitlesDisplayPanelController
   private JPanel build()
   {
     JPanel panel=GuiFactory.buildBackgroundPanel(new BorderLayout());
-    TitledBorder itemsFrameBorder=GuiFactory.buildTitledBorder("Titles");
-    panel.setBorder(itemsFrameBorder);
+    TitledBorder border=GuiFactory.buildTitledBorder("Virtues");
+    panel.setBorder(border);
 
     // Table
     JTable table=_tableController.getTable();
@@ -78,7 +80,7 @@ public class TitlesDisplayPanelController
       @Override
       public void actionPerformed(ActionEvent e)
       {
-        TableColumnsChooserController<TitleEvent> chooser=new TableColumnsChooserController<TitleEvent>(_parent,_tableController.getTableController());
+        TableColumnsChooserController<VirtueStatsFromAchievables> chooser=new TableColumnsChooserController<VirtueStatsFromAchievables>(_parent,_tableController.getTableController());
         chooser.editModal();
       }
     };
@@ -99,8 +101,8 @@ public class TitlesDisplayPanelController
 
   private void updateStatsLabel()
   {
-    int nbItems=_stats.getTitles().size();
-    String label="Title(s): "+nbItems;
+    int nbItems=_stats.getVirtues().size();
+    String label="Virtue(s): "+nbItems;
     _statsLabel.setText(label);
   }
 

@@ -1,11 +1,9 @@
-package delta.games.lotro.gui.character.status.achievables.statistics;
+package delta.games.lotro.gui.character.status.statistics.reputation;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -17,38 +15,36 @@ import javax.swing.border.TitledBorder;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.tables.TableColumnsChooserController;
 import delta.common.ui.swing.windows.WindowController;
-import delta.games.lotro.character.status.achievables.statistics.AchievablesStatistics;
-import delta.games.lotro.gui.lore.items.CountedItemsTableController;
-import delta.games.lotro.lore.items.CountedItem;
-import delta.games.lotro.lore.items.Item;
+import delta.games.lotro.character.status.statistics.reputation.FactionStats;
+import delta.games.lotro.character.status.statistics.reputation.ReputationStats;
+import delta.games.lotro.gui.character.status.achievables.AchievableUIMode;
 
 /**
- * Controller for the items display panel.
+ * Controller for the reputation display panel.
  * @author DAM
  */
-public class ItemsDisplayPanelController
+public class ReputationDisplayPanelController
 {
   // Data
-  private AchievablesStatistics _stats;
-  private List<CountedItem<Item>> _items;
+  private ReputationStats _stats;
   // GUI
   private JPanel _panel;
   private JLabel _statsLabel;
   // Controllers
-  private CountedItemsTableController<Item> _tableController;
+  private ReputationTableController _tableController;
   private WindowController _parent;
 
   /**
    * Constructor.
    * @param parent Parent window.
    * @param stats Stats to show.
+   * @param mode UI mode.
    */
-  public ItemsDisplayPanelController(WindowController parent, AchievablesStatistics stats)
+  public ReputationDisplayPanelController(WindowController parent, ReputationStats stats, AchievableUIMode mode)
   {
     _parent=parent;
     _stats=stats;
-    _items=new ArrayList<CountedItem<Item>>();
-    _tableController=new CountedItemsTableController<Item>(null,_items,null);
+    _tableController=new ReputationTableController(stats,mode);
   }
 
   /**
@@ -67,7 +63,7 @@ public class ItemsDisplayPanelController
   private JPanel build()
   {
     JPanel panel=GuiFactory.buildBackgroundPanel(new BorderLayout());
-    TitledBorder border=GuiFactory.buildTitledBorder("Items");
+    TitledBorder border=GuiFactory.buildTitledBorder("Reputation");
     panel.setBorder(border);
 
     // Table
@@ -84,7 +80,7 @@ public class ItemsDisplayPanelController
       @Override
       public void actionPerformed(ActionEvent e)
       {
-        TableColumnsChooserController<CountedItem<Item>> chooser=new TableColumnsChooserController<CountedItem<Item>>(_parent,_tableController.getTableController());
+        TableColumnsChooserController<FactionStats> chooser=new TableColumnsChooserController<FactionStats>(_parent,_tableController.getTableController());
         chooser.editModal();
       }
     };
@@ -105,10 +101,8 @@ public class ItemsDisplayPanelController
 
   private void updateStatsLabel()
   {
-    _items.clear();
-    _items.addAll(_stats.getItems());
-    int nbItems=_items.size();
-    String label="Item(s): "+nbItems;
+    int nbItems=_stats.getFactionsCount();
+    String label="Faction(s): "+nbItems;
     _statsLabel.setText(label);
   }
 

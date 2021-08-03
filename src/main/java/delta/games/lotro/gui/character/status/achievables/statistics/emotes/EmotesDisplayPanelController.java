@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.character.status.achievables.statistics;
+package delta.games.lotro.gui.character.status.achievables.statistics.emotes;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -16,14 +16,13 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.tables.TableColumnsChooserController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.status.achievables.statistics.AchievablesStatistics;
-import delta.games.lotro.character.status.achievables.statistics.virtues.VirtueStatsFromAchievables;
-import delta.games.lotro.gui.character.status.achievables.AchievableUIMode;
+import delta.games.lotro.character.status.achievables.statistics.emotes.EmoteEvent;
 
 /**
- * Controller for the virtues display panel.
+ * Controller for the emotes display panel.
  * @author DAM
  */
-public class VirtuesDisplayPanelController
+public class EmotesDisplayPanelController
 {
   // Data
   private AchievablesStatistics _stats;
@@ -31,20 +30,19 @@ public class VirtuesDisplayPanelController
   private JPanel _panel;
   private JLabel _statsLabel;
   // Controllers
-  private VirtuesFromAchievablesTableController _tableController;
+  private EmoteEventsTableController _tableController;
   private WindowController _parent;
 
   /**
    * Constructor.
    * @param parent Parent window.
    * @param stats Stats to show.
-   * @param mode UI mode.
    */
-  public VirtuesDisplayPanelController(WindowController parent, AchievablesStatistics stats, AchievableUIMode mode)
+  public EmotesDisplayPanelController(WindowController parent, AchievablesStatistics stats)
   {
     _parent=parent;
     _stats=stats;
-    _tableController=new VirtuesFromAchievablesTableController(stats,mode);
+    _tableController=new EmoteEventsTableController(stats);
   }
 
   /**
@@ -63,7 +61,7 @@ public class VirtuesDisplayPanelController
   private JPanel build()
   {
     JPanel panel=GuiFactory.buildBackgroundPanel(new BorderLayout());
-    TitledBorder border=GuiFactory.buildTitledBorder("Virtues");
+    TitledBorder border=GuiFactory.buildTitledBorder("Emotes");
     panel.setBorder(border);
 
     // Table
@@ -80,7 +78,7 @@ public class VirtuesDisplayPanelController
       @Override
       public void actionPerformed(ActionEvent e)
       {
-        TableColumnsChooserController<VirtueStatsFromAchievables> chooser=new TableColumnsChooserController<VirtueStatsFromAchievables>(_parent,_tableController.getTableController());
+        TableColumnsChooserController<EmoteEvent> chooser=new TableColumnsChooserController<EmoteEvent>(_parent,_tableController.getTableController());
         chooser.editModal();
       }
     };
@@ -101,8 +99,8 @@ public class VirtuesDisplayPanelController
 
   private void updateStatsLabel()
   {
-    int nbItems=_stats.getVirtues().size();
-    String label="Virtue(s): "+nbItems;
+    int nbItems=_stats.getEmotes().size();
+    String label="Emote(s): "+nbItems;
     _statsLabel.setText(label);
   }
 

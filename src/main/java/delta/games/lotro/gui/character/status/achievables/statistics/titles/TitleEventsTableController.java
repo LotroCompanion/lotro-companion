@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.character.status.achievables.statistics;
+package delta.games.lotro.gui.character.status.achievables.statistics.titles;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -13,16 +13,16 @@ import delta.common.ui.swing.tables.GenericTableController.DateRenderer;
 import delta.common.ui.swing.tables.ListDataProvider;
 import delta.common.ui.swing.tables.TableColumnsManager;
 import delta.games.lotro.character.status.achievables.statistics.AchievablesStatistics;
-import delta.games.lotro.character.status.achievables.statistics.traits.TraitEvent;
+import delta.games.lotro.character.status.achievables.statistics.titles.TitleEvent;
 import delta.games.lotro.utils.Formats;
 
 /**
- * Controller for a table that shows the trait events for a single character.
+ * Controller for a table that shows the title events for a single character.
  * @author DAM
  */
-public class TraitEventsTableController
+public class TitleEventsTableController
 {
-  private static final String TRAIT="TRAIT";
+  private static final String TITLE="TITLE";
   private static final String DATE="COMPLETION_DATE";
   private static final String ACHIEVABLE_NAME="ACHIEVABLE";
 
@@ -30,69 +30,69 @@ public class TraitEventsTableController
   private AchievablesStatistics _stats;
   // GUI
   private JTable _table;
-  private GenericTableController<TraitEvent> _tableController;
+  private GenericTableController<TitleEvent> _tableController;
 
   /**
    * Constructor.
    * @param stats Stats to show.
    */
-  public TraitEventsTableController(AchievablesStatistics stats)
+  public TitleEventsTableController(AchievablesStatistics stats)
   {
     _stats=stats;
     _tableController=buildTable();
   }
 
-  private GenericTableController<TraitEvent> buildTable()
+  private GenericTableController<TitleEvent> buildTable()
   {
-    ListDataProvider<TraitEvent> provider=new ListDataProvider<TraitEvent>(_stats.getTraits());
-    GenericTableController<TraitEvent> table=new GenericTableController<TraitEvent>(provider);
+    ListDataProvider<TitleEvent> provider=new ListDataProvider<TitleEvent>(_stats.getTitles());
+    GenericTableController<TitleEvent> table=new GenericTableController<TitleEvent>(provider);
 
-    // Trait name
+    // Title
     {
-      CellDataProvider<TraitEvent,String> traitCell=new CellDataProvider<TraitEvent,String>()
+      CellDataProvider<TitleEvent,String> titleCell=new CellDataProvider<TitleEvent,String>()
       {
         @Override
-        public String getData(TraitEvent item)
+        public String getData(TitleEvent item)
         {
-          return item.getTrait();
+          return item.getTitle();
         }
       };
-      DefaultTableColumnController<TraitEvent,String> traitColumn=new DefaultTableColumnController<TraitEvent,String>(TRAIT,"Trait",String.class,traitCell);
-      traitColumn.setWidthSpecs(100,300,200);
-      table.addColumnController(traitColumn);
+      DefaultTableColumnController<TitleEvent,String> titleColumn=new DefaultTableColumnController<TitleEvent,String>(TITLE,"Title",String.class,titleCell);
+      titleColumn.setWidthSpecs(100,300,200);
+      table.addColumnController(titleColumn);
     }
     // Date column
     {
-      CellDataProvider<TraitEvent,Date> completionDateCell=new CellDataProvider<TraitEvent,Date>()
+      CellDataProvider<TitleEvent,Date> completionDateCell=new CellDataProvider<TitleEvent,Date>()
       {
         @Override
-        public Date getData(TraitEvent item)
+        public Date getData(TitleEvent item)
         {
           Long timestamp=item.getDate();
           return (timestamp!=null)?new Date(timestamp.longValue()):null;
         }
       };
-      DefaultTableColumnController<TraitEvent,Date> completionDateColumn=new DefaultTableColumnController<TraitEvent,Date>(DATE,"Date",Date.class,completionDateCell);
+      DefaultTableColumnController<TitleEvent,Date> completionDateColumn=new DefaultTableColumnController<TitleEvent,Date>(DATE,"Date",Date.class,completionDateCell);
       completionDateColumn.setWidthSpecs(120,120,120);
       completionDateColumn.setCellRenderer(new DateRenderer(Formats.DATE_TIME_PATTERN));
       table.addColumnController(completionDateColumn);
     }
     // Achievable name column
     {
-      CellDataProvider<TraitEvent,String> achievableCell=new CellDataProvider<TraitEvent,String>()
+      CellDataProvider<TitleEvent,String> achievableCell=new CellDataProvider<TitleEvent,String>()
       {
         @Override
-        public String getData(TraitEvent item)
+        public String getData(TitleEvent item)
         {
           return item.getAchievable().getName();
         }
       };
-      DefaultTableColumnController<TraitEvent,String> achievableColumn=new DefaultTableColumnController<TraitEvent,String>(ACHIEVABLE_NAME,"Source",String.class,achievableCell);
+      DefaultTableColumnController<TitleEvent,String> achievableColumn=new DefaultTableColumnController<TitleEvent,String>(ACHIEVABLE_NAME,"Source",String.class,achievableCell);
       achievableColumn.setWidthSpecs(100,300,200);
       table.addColumnController(achievableColumn);
     }
 
-    TableColumnsManager<TraitEvent> columnsManager=table.getColumnsManager();
+    TableColumnsManager<TitleEvent> columnsManager=table.getColumnsManager();
     List<String> columnsIds=getColumnIds();
     columnsManager.setColumns(columnsIds);
     return table;
@@ -101,7 +101,7 @@ public class TraitEventsTableController
   private List<String> getColumnIds()
   {
     List<String> columnIds=new ArrayList<String>();
-    columnIds.add(TRAIT);
+    columnIds.add(TITLE);
     columnIds.add(DATE);
     columnIds.add(ACHIEVABLE_NAME);
     return columnIds;
@@ -111,7 +111,7 @@ public class TraitEventsTableController
    * Get the managed table controller.
    * @return the managed table controller.
    */
-  public GenericTableController<TraitEvent> getTableController()
+  public GenericTableController<TitleEvent> getTableController()
   {
     return _tableController;
   }

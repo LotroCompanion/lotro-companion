@@ -13,6 +13,8 @@ import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.character.status.achievables.AchievableElementState;
 import delta.games.lotro.character.status.achievables.statistics.AchievablesStatistics;
 import delta.games.lotro.character.status.achievables.statistics.virtues.VirtueXPStatsFromAchievables;
+import delta.games.lotro.character.status.statistics.items.ItemsStats;
+import delta.games.lotro.character.status.statistics.reputation.ReputationStats;
 import delta.games.lotro.gui.character.status.achievables.AchievableUIMode;
 
 /**
@@ -181,8 +183,9 @@ public class AchievablesStatisticsSummaryPanelController
     int nbTitles=_statistics.getTitles().size();
     _titlesCount.setText(String.valueOf(nbTitles));
     // Reputation
-    int nbFactions=_statistics.getReputation().size();
-    int nbReputationPoints=_statistics.getTotalReputationPoints();
+    ReputationStats reputation=_statistics.getReputationStats();
+    int nbFactions=reputation.getFactionsCount();
+    int nbReputationPoints=reputation.getTotalReputationPoints();
     String reputationStr=String.format("%d points, %d factions",Integer.valueOf(nbReputationPoints),Integer.valueOf(nbFactions));
     _reputation.setText(reputationStr);
     // Virtues
@@ -200,7 +203,8 @@ public class AchievablesStatisticsSummaryPanelController
       _virtueXP.setText(totalVirtueXP+" points from "+completionsCount+" completions ("+achievablesCount+" unique "+achievableType+")");
     }
     // Items count
-    int nbItems=_statistics.getItems().size();
+    ItemsStats itemsStats=_statistics.getItemsStats();
+    int nbItems=itemsStats.getDistinctItemsCount();
     _itemsCount.setText(String.valueOf(nbItems));
     // Emotes count
     int nbEmotes=_statistics.getEmotes().size();

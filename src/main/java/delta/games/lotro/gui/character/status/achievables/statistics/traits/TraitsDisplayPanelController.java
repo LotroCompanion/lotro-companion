@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.character.status.achievables.statistics;
+package delta.games.lotro.gui.character.status.achievables.statistics.traits;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -16,14 +16,13 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.tables.TableColumnsChooserController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.status.achievables.statistics.AchievablesStatistics;
-import delta.games.lotro.character.status.statistics.reputation.FactionStatsFromAchievables;
-import delta.games.lotro.gui.character.status.achievables.AchievableUIMode;
+import delta.games.lotro.character.status.achievables.statistics.traits.TraitEvent;
 
 /**
- * Controller for the reputation display panel.
+ * Controller for the traits display panel.
  * @author DAM
  */
-public class ReputationDisplayPanelController
+public class TraitsDisplayPanelController
 {
   // Data
   private AchievablesStatistics _stats;
@@ -31,20 +30,19 @@ public class ReputationDisplayPanelController
   private JPanel _panel;
   private JLabel _statsLabel;
   // Controllers
-  private ReputationFromAchievablesTableController _tableController;
+  private TraitEventsTableController _tableController;
   private WindowController _parent;
 
   /**
    * Constructor.
    * @param parent Parent window.
    * @param stats Stats to show.
-   * @param mode UI mode.
    */
-  public ReputationDisplayPanelController(WindowController parent, AchievablesStatistics stats, AchievableUIMode mode)
+  public TraitsDisplayPanelController(WindowController parent, AchievablesStatistics stats)
   {
     _parent=parent;
     _stats=stats;
-    _tableController=new ReputationFromAchievablesTableController(stats,mode);
+    _tableController=new TraitEventsTableController(stats);
   }
 
   /**
@@ -63,7 +61,7 @@ public class ReputationDisplayPanelController
   private JPanel build()
   {
     JPanel panel=GuiFactory.buildBackgroundPanel(new BorderLayout());
-    TitledBorder border=GuiFactory.buildTitledBorder("Reputation");
+    TitledBorder border=GuiFactory.buildTitledBorder("Traits");
     panel.setBorder(border);
 
     // Table
@@ -80,7 +78,7 @@ public class ReputationDisplayPanelController
       @Override
       public void actionPerformed(ActionEvent e)
       {
-        TableColumnsChooserController<FactionStatsFromAchievables> chooser=new TableColumnsChooserController<FactionStatsFromAchievables>(_parent,_tableController.getTableController());
+        TableColumnsChooserController<TraitEvent> chooser=new TableColumnsChooserController<TraitEvent>(_parent,_tableController.getTableController());
         chooser.editModal();
       }
     };
@@ -101,8 +99,8 @@ public class ReputationDisplayPanelController
 
   private void updateStatsLabel()
   {
-    int nbItems=_stats.getReputation().size();
-    String label="Faction(s): "+nbItems;
+    int nbItems=_stats.getTraits().size();
+    String label="Trait(s): "+nbItems;
     _statsLabel.setText(label);
   }
 
