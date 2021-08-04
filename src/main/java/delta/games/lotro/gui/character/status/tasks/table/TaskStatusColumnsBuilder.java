@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import delta.common.ui.swing.tables.CellDataProvider;
+import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.ProxiedTableColumnController;
 import delta.common.ui.swing.tables.TableColumnController;
 import delta.games.lotro.character.status.achievables.AchievableStatus;
@@ -11,7 +12,9 @@ import delta.games.lotro.character.status.tasks.TaskStatus;
 import delta.games.lotro.common.rewards.Rewards;
 import delta.games.lotro.gui.character.status.achievables.table.AchievableStatusColumnsBuilder;
 import delta.games.lotro.gui.common.rewards.table.RewardsColumnsBuilder;
+import delta.games.lotro.gui.lore.items.chooser.ItemsTableBuilder;
 import delta.games.lotro.gui.lore.quests.table.QuestsColumnsBuilder;
+import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.quests.QuestDescription;
 import delta.games.lotro.lore.tasks.Task;
 
@@ -21,6 +24,15 @@ import delta.games.lotro.lore.tasks.Task;
  */
 public class TaskStatusColumnsBuilder
 {
+  /**
+   * Identifier of the "Consumed item name" column.
+   */
+  public static final String CONSUMED_ITEM_NAME_COLUMN="CONSUMED_ITEM_NAME";
+  /**
+   * Identifier of the "Count" column.
+   */
+  public static final String COUNT_COLUMN="COUNT";
+
   /**
    * Build the columns to show the attributes of a task status.
    * @return a list of columns.
@@ -86,6 +98,40 @@ public class TaskStatusColumnsBuilder
       ProxiedTableColumnController<Task,QuestDescription,Object> column=new ProxiedTableColumnController<Task,QuestDescription,Object>(c,provider);
       ret.add(column);
     }
+    // Consumed items
+    List<DefaultTableColumnController<Item,?>> itemColumns=new ArrayList<DefaultTableColumnController<Item,?>>();
+    DefaultTableColumnController<Item,?> itemNameColumn=ItemsTableBuilder.buildNameColumn(CONSUMED_ITEM_NAME_COLUMN,"Consumed item");
+    itemColumns.add(itemNameColumn);
+    itemColumns.add(ItemsTableBuilder.buildIconColumn());
+    CellDataProvider<Task,Item> itemProvider=new CellDataProvider<Task,Item>()
+    {
+      @Override
+      public Item getData(Task task)
+      {
+        return task.getItem();
+      }
+    };
+    for(TableColumnController<Item,?> itemColumn : itemColumns)
+    {
+      @SuppressWarnings("unchecked")
+      TableColumnController<Item,Object> c=(TableColumnController<Item,Object>)itemColumn;
+      ProxiedTableColumnController<Task,Item,Object> column=new ProxiedTableColumnController<Task,Item,Object>(c,itemProvider);
+      ret.add(column);
+    }
+    // Consumed items count
+    {
+      CellDataProvider<Task,Integer> countCell=new CellDataProvider<Task,Integer>()
+      {
+        @Override
+        public Integer getData(Task item)
+        {
+          return Integer.valueOf(item.getItemCount());
+        }
+      };
+      DefaultTableColumnController<Task,Integer> countColumn=new DefaultTableColumnController<Task,Integer>(COUNT_COLUMN,"Items Count",Integer.class,countCell);
+      countColumn.setWidthSpecs(55,55,50);
+      ret.add(countColumn);
+    }
     return ret;
   }
 
@@ -119,6 +165,8 @@ public class TaskStatusColumnsBuilder
     ret.add(RewardsColumnsBuilder.buildXPColumn());
     ret.add(RewardsColumnsBuilder.buildItemXPColumn());
     ret.add(RewardsColumnsBuilder.buildMountXPColumn());
+    ret.add(RewardsColumnsBuilder.buildFactionNameColumn());
+    ret.add(RewardsColumnsBuilder.buildFactionAmountColumn());
     return ret;
   }
 }

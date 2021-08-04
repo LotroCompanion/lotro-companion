@@ -303,6 +303,17 @@ public class ItemsTableBuilder
    */
   public static DefaultTableColumnController<Item,String> buildNameColumn()
   {
+    return buildNameColumn(ItemColumnIds.NAME.name(),"Name");
+  }
+
+  /**
+   * Build a column for the name of an item.
+   * @param id Column identifier.
+   * @param label Column label.
+   * @return a column.
+   */
+  public static DefaultTableColumnController<Item,String> buildNameColumn(String id, String label)
+  {
     CellDataProvider<Item,String> nameCell=new CellDataProvider<Item,String>()
     {
       @Override
@@ -311,7 +322,7 @@ public class ItemsTableBuilder
         return item.getName();
       }
     };
-    DefaultTableColumnController<Item,String> nameColumn=new DefaultTableColumnController<Item,String>(ItemColumnIds.NAME.name(),"Name",String.class,nameCell);
+    DefaultTableColumnController<Item,String> nameColumn=new DefaultTableColumnController<Item,String>(id,label,String.class,nameCell);
     nameColumn.setWidthSpecs(150,-1,150);
     return nameColumn;
   }

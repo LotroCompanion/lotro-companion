@@ -15,6 +15,7 @@ import delta.games.lotro.character.status.tasks.TasksStatusManager;
 import delta.games.lotro.character.status.tasks.filter.TaskStatusFilter;
 import delta.games.lotro.gui.character.status.achievables.table.AchievableStatusColumnIds;
 import delta.games.lotro.gui.common.rewards.table.RewardsColumnIds;
+import delta.games.lotro.gui.lore.items.ItemColumnIds;
 import delta.games.lotro.gui.lore.items.chooser.ItemChooser;
 import delta.games.lotro.gui.lore.quests.table.QuestColumnIds;
 import delta.games.lotro.lore.tasks.Task;
@@ -45,6 +46,7 @@ public class TaskStatusTableController
     _statuses=new ArrayList<TaskStatus>(statusMgr.getTasksStatuses());
     _tableController=buildTable();
     _tableController.setFilter(filter);
+    configureTable();
   }
 
   private GenericTableController<TaskStatus> buildTable()
@@ -75,8 +77,13 @@ public class TaskStatusTableController
     {
       columnIds=new ArrayList<String>();
       columnIds.add(AchievableStatusColumnIds.COMPLETED.name());
-      columnIds.add(QuestColumnIds.NAME.name());
       columnIds.add(AchievableStatusColumnIds.COMPLETION_COUNT.name());
+      columnIds.add(QuestColumnIds.NAME.name());
+      columnIds.add(ItemColumnIds.ICON.name());
+      columnIds.add(TaskStatusColumnsBuilder.CONSUMED_ITEM_NAME_COLUMN);
+      columnIds.add(TaskStatusColumnsBuilder.COUNT_COLUMN);
+      columnIds.add(RewardsColumnIds.FACTION.name());
+      columnIds.add(RewardsColumnIds.REPUTATION_AMOUNT.name());
       columnIds.add(RewardsColumnIds.XP.name());
       columnIds.add(RewardsColumnIds.ITEM_XP.name());
       columnIds.add(RewardsColumnIds.MOUNT_XP.name());
@@ -118,6 +125,13 @@ public class TaskStatusTableController
   {
     int ret=_tableController.getNbFilteredItems();
     return ret;
+  }
+
+  private void configureTable()
+  {
+    JTable table=getTable();
+    // Adjust table row height for icons (32 pixels)
+    table.setRowHeight(32);
   }
 
   /**

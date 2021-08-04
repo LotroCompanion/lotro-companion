@@ -75,7 +75,7 @@ public class TasksStatusWindowController extends DefaultDisplayDialogController<
   protected JDialog build()
   {
     JDialog dialog=super.build();
-    dialog.setMinimumSize(new Dimension(400,300));
+    dialog.setMinimumSize(new Dimension(1000,300));
     dialog.setTitle("Tasks status");
     dialog.pack();
     Dimension size=dialog.getSize();
@@ -121,7 +121,7 @@ public class TasksStatusWindowController extends DefaultDisplayDialogController<
     };
     b.addActionListener(al);
     // Whole panel
-    GridBagConstraints c=new GridBagConstraints(0,0,3,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    GridBagConstraints c=new GridBagConstraints(0,0,3,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(taskFilterPanel,c);
     c=new GridBagConstraints(0,1,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(statusFilterPanel,c);

@@ -6,6 +6,7 @@ import java.util.List;
 import delta.common.ui.swing.tables.CellDataProvider;
 import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.games.lotro.common.rewards.EmoteReward;
+import delta.games.lotro.common.rewards.ReputationReward;
 import delta.games.lotro.common.rewards.Rewards;
 import delta.games.lotro.common.rewards.TitleReward;
 import delta.games.lotro.common.rewards.TraitReward;
@@ -98,6 +99,10 @@ public class RewardsColumnsBuilder
       traitColumn.setWidthSpecs(100,300,200);
       ret.add(traitColumn);
     }
+    // Faction column
+    ret.add(buildFactionNameColumn());
+    // Faction amount column
+    ret.add(buildFactionAmountColumn());
     // XP column
     ret.add(buildXPColumn());
     // Item XP column
@@ -180,5 +185,45 @@ public class RewardsColumnsBuilder
     DefaultTableColumnController<Rewards,Integer> mountXpColumn=new DefaultTableColumnController<Rewards,Integer>(RewardsColumnIds.MOUNT_XP.name(),"Mount XP",Integer.class,mountXpCell);
     mountXpColumn.setWidthSpecs(60,60,60);
     return mountXpColumn;
+  }
+
+  /**
+   * Build a 'faction name' column.
+   * @return a column.
+   */
+  public static DefaultTableColumnController<Rewards,String> buildFactionNameColumn()
+  {
+    CellDataProvider<Rewards,String> factionCell=new CellDataProvider<Rewards,String>()
+    {
+      @Override
+      public String getData(Rewards rewards)
+      {
+        List<ReputationReward> reputationRewards=rewards.getRewardElementsOfClass(ReputationReward.class);
+        return ((reputationRewards.size()>0))?reputationRewards.get(0).getFaction().getName():null;
+      }
+    };
+    DefaultTableColumnController<Rewards,String> factionColumn=new DefaultTableColumnController<Rewards,String>(RewardsColumnIds.FACTION.name(),"Faction",String.class,factionCell);
+    factionColumn.setWidthSpecs(100,300,200);
+    return factionColumn;
+  }
+
+  /**
+   * Build a 'faction amount' column.
+   * @return a column.
+   */
+  public static DefaultTableColumnController<Rewards,Integer> buildFactionAmountColumn()
+  {
+    CellDataProvider<Rewards,Integer> reputationAmountCell=new CellDataProvider<Rewards,Integer>()
+    {
+      @Override
+      public Integer getData(Rewards rewards)
+      {
+        List<ReputationReward> reputationRewards=rewards.getRewardElementsOfClass(ReputationReward.class);
+        return ((reputationRewards.size()>0))?Integer.valueOf(reputationRewards.get(0).getAmount()):null;
+      }
+    };
+    DefaultTableColumnController<Rewards,Integer> reputationAmountColumn=new DefaultTableColumnController<Rewards,Integer>(RewardsColumnIds.REPUTATION_AMOUNT.name(),"Rep Amount",Integer.class,reputationAmountCell);
+    reputationAmountColumn.setWidthSpecs(60,60,60);
+    return reputationAmountColumn;
   }
 }

@@ -27,6 +27,14 @@ public enum RewardsColumnIds
    */
   TRAIT,
   /**
+   * Faction.
+   */
+  FACTION,
+  /**
+   * Faction amount.
+   */
+  REPUTATION_AMOUNT,
+  /**
    * XP.
    */
   XP,
@@ -42,7 +50,6 @@ public enum RewardsColumnIds
    * Virtue XP.
    */
   VIRTUE_XP,
-
   /**
    * Renown.
    */
