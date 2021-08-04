@@ -39,6 +39,7 @@ import delta.games.lotro.character.stats.CharacterStatsComputer;
 import delta.games.lotro.character.status.achievables.AchievablesStatusManager;
 import delta.games.lotro.character.status.achievables.io.DeedsStatusIo;
 import delta.games.lotro.character.status.achievables.io.QuestsStatusIo;
+import delta.games.lotro.character.status.tasks.TasksStatusManager;
 import delta.games.lotro.character.status.titles.TitlesStatusManager;
 import delta.games.lotro.character.status.titles.io.TitlesStatusIo;
 import delta.games.lotro.character.status.traitPoints.TraitPoints;
@@ -526,7 +527,9 @@ public class CharacterFileWindowController extends DefaultWindowController imple
   private void showTasksStatus()
   {
     AchievablesStatusManager status=QuestsStatusIo.load(_toon);
-    TasksStatusWindowController controller=new TasksStatusWindowController(this,status,_toon);
+    TasksStatusManager tasksStatus=new TasksStatusManager();
+    tasksStatus.init(status);
+    TasksStatusWindowController controller=new TasksStatusWindowController(this,tasksStatus,_toon);
     controller.show();
   }
 

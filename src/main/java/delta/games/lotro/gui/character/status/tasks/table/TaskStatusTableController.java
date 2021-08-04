@@ -10,15 +10,13 @@ import delta.common.ui.swing.tables.ListDataProvider;
 import delta.common.ui.swing.tables.TableColumnController;
 import delta.common.ui.swing.tables.TableColumnsManager;
 import delta.common.utils.misc.TypedProperties;
-import delta.games.lotro.character.status.achievables.AchievableStatus;
-import delta.games.lotro.character.status.achievables.AchievablesStatusManager;
 import delta.games.lotro.character.status.tasks.TaskStatus;
+import delta.games.lotro.character.status.tasks.TasksStatusManager;
 import delta.games.lotro.character.status.tasks.filter.TaskStatusFilter;
 import delta.games.lotro.gui.character.status.achievables.table.AchievableStatusColumnIds;
 import delta.games.lotro.gui.common.rewards.table.RewardsColumnIds;
 import delta.games.lotro.gui.lore.items.chooser.ItemChooser;
 import delta.games.lotro.gui.lore.quests.table.QuestColumnIds;
-import delta.games.lotro.lore.quests.QuestDescription;
 import delta.games.lotro.lore.tasks.Task;
 
 /**
@@ -36,22 +34,15 @@ public class TaskStatusTableController
 
   /**
    * Constructor.
-   * @param questsStatus Status to show.
+   * @param statusMgr Status to show.
    * @param prefs Preferences.
    * @param filter Managed filter.
    * @param tasks Tasks to use.
    */
-  public TaskStatusTableController(AchievablesStatusManager questsStatus, TypedProperties prefs, TaskStatusFilter filter, List<Task> tasks)
+  public TaskStatusTableController(TasksStatusManager statusMgr, TypedProperties prefs, TaskStatusFilter filter, List<Task> tasks)
   {
     _prefs=prefs;
-    _statuses=new ArrayList<TaskStatus>();
-    for(Task task : tasks)
-    {
-     QuestDescription quest=task.getQuest();
-      AchievableStatus status=questsStatus.get(quest,true);
-      TaskStatus taskStatus=new TaskStatus(task,status);
-      _statuses.add(taskStatus);
-    }
+    _statuses=new ArrayList<TaskStatus>(statusMgr.getTasksStatuses());
     _tableController=buildTable();
     _tableController.setFilter(filter);
   }

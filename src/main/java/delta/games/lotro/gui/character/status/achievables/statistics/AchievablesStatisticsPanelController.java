@@ -54,7 +54,7 @@ public class AchievablesStatisticsPanelController
     _reputation=new ReputationDisplayPanelController(parent,statistics.getReputationStats(),mode);
     _virtues=new VirtuesDisplayPanelController(parent,statistics,mode);
     _virtueXP=new VirtueXPDisplayPanelController(parent,statistics,mode);
-    _items=new ItemsDisplayPanelController(parent,statistics);
+    _items=new ItemsDisplayPanelController(parent,statistics.getItemsStats());
     _emotes=new EmotesDisplayPanelController(parent,statistics);
     _traits=new TraitsDisplayPanelController(parent,statistics);
     _panel=buildPanel();

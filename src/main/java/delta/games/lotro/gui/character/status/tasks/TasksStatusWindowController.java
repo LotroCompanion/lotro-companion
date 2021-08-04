@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.Box;
+import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
@@ -23,11 +24,12 @@ import delta.common.ui.swing.windows.WindowController;
 import delta.common.ui.swing.windows.WindowsManager;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.character.CharacterFile;
-import delta.games.lotro.character.status.achievables.AchievablesStatusManager;
 import delta.games.lotro.character.status.tasks.TaskStatus;
+import delta.games.lotro.character.status.tasks.TasksStatusManager;
 import delta.games.lotro.character.status.tasks.filter.TaskStatusFilter;
 import delta.games.lotro.gui.character.status.achievables.filter.AchievableStatusFilterController;
 import delta.games.lotro.gui.character.status.tasks.filter.TaskFilterController;
+import delta.games.lotro.gui.character.status.tasks.statistics.TasksStatisticsWindowController;
 import delta.games.lotro.gui.character.status.tasks.table.TaskStatusTableController;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.gui.lore.items.FilterUpdateListener;
@@ -41,11 +43,12 @@ import delta.games.lotro.lore.tasks.TasksRegistry;
  * Controller for a tasks status display window.
  * @author DAM
  */
-public class TasksStatusWindowController extends DefaultDisplayDialogController<AchievablesStatusManager> implements FilterUpdateListener
+public class TasksStatusWindowController extends DefaultDisplayDialogController<TasksStatusManager> implements FilterUpdateListener
 {
   private static final int MAX_HEIGHT=800;
 
   // Data
+  private CharacterFile _toon;
   private List<Task> _tasks;
   private TaskStatusFilter _filter;
   // Controllers
@@ -60,9 +63,10 @@ public class TasksStatusWindowController extends DefaultDisplayDialogController<
    * @param status Status to show.
    * @param toon Parent toon.
    */
-  public TasksStatusWindowController(WindowController parent, AchievablesStatusManager status, CharacterFile toon)
+  public TasksStatusWindowController(WindowController parent, TasksStatusManager status, CharacterFile toon)
   {
     super(parent,status);
+    _toon=toon;
     _tasks=new ArrayList<Task>(TasksRegistry.getInstance().getTasks());
     _filter=new TaskStatusFilter();
   }
@@ -105,14 +109,27 @@ public class TasksStatusWindowController extends DefaultDisplayDialogController<
     JPanel statusFilterPanel=_statusFilterController.getPanel();
     TitledBorder statusFilterBorder=GuiFactory.buildTitledBorder("Status Filter");
     statusFilterPanel.setBorder(statusFilterBorder);
+    // Stats button
+    JButton b=GuiFactory.buildButton("Stats");
+    ActionListener al=new ActionListener()
+    {
+      @Override
+      public void actionPerformed(ActionEvent e)
+      {
+        showStatistics();
+      }
+    };
+    b.addActionListener(al);
     // Whole panel
-    GridBagConstraints c=new GridBagConstraints(0,0,2,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    GridBagConstraints c=new GridBagConstraints(0,0,3,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(taskFilterPanel,c);
     c=new GridBagConstraints(0,1,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(statusFilterPanel,c);
-    c=new GridBagConstraints(1,1,1,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    c=new GridBagConstraints(1,1,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    panel.add(b,c);
+    c=new GridBagConstraints(2,1,1,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(Box.createGlue(),c);
-    c=new GridBagConstraints(0,2,2,1,1,1,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
+    c=new GridBagConstraints(0,2,3,1,1,1,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
     panel.add(tablePanel,c);
     return panel;
   }
@@ -141,6 +158,11 @@ public class TasksStatusWindowController extends DefaultDisplayDialogController<
   public void filterUpdated()
   {
     _panelController.filterUpdated();
+    TasksStatisticsWindowController statisticsController=getStatisticsWindow();
+    if (statisticsController!=null)
+    {
+      statisticsController.updateStats();
+    }
   }
 
   private void showQuest(QuestDescription quest)
@@ -154,6 +176,26 @@ public class TasksStatusWindowController extends DefaultDisplayDialogController<
     windowsMgr.registerWindow(window);
   }
 
+
+  private TasksStatisticsWindowController getStatisticsWindow()
+  {
+    WindowsManager windowsMgr=getWindowsManager();
+    TasksStatisticsWindowController ret=(TasksStatisticsWindowController)windowsMgr.getWindow(TasksStatisticsWindowController.IDENTIFIER);
+    return ret;
+  }
+
+  private void showStatistics()
+  {
+    WindowsManager windowsMgr=getWindowsManager();
+    TasksStatisticsWindowController statisticsController=getStatisticsWindow();
+    if (statisticsController==null)
+    {
+      statisticsController=new TasksStatisticsWindowController(this,_toon,_data,_filter);
+      windowsMgr.registerWindow(statisticsController);
+      statisticsController.getWindow().setLocationRelativeTo(getWindow());
+    }
+    statisticsController.bringToFront();
+  }
   /**
    * Release all managed resources.
    */
@@ -163,6 +205,7 @@ public class TasksStatusWindowController extends DefaultDisplayDialogController<
     super.dispose();
     // Data
     _data=null;
+    _toon=null;
     _tasks=null;
     _filter=null;
     // Controllers

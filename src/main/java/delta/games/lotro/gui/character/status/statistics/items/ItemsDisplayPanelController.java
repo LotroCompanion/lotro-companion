@@ -17,7 +17,7 @@ import javax.swing.border.TitledBorder;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.tables.TableColumnsChooserController;
 import delta.common.ui.swing.windows.WindowController;
-import delta.games.lotro.character.status.achievables.statistics.AchievablesStatistics;
+import delta.games.lotro.character.status.statistics.items.ItemsStats;
 import delta.games.lotro.gui.lore.items.CountedItemsTableController;
 import delta.games.lotro.lore.items.CountedItem;
 import delta.games.lotro.lore.items.Item;
@@ -29,7 +29,7 @@ import delta.games.lotro.lore.items.Item;
 public class ItemsDisplayPanelController
 {
   // Data
-  private AchievablesStatistics _stats;
+  private ItemsStats _stats;
   private List<CountedItem<Item>> _items;
   // GUI
   private JPanel _panel;
@@ -43,7 +43,7 @@ public class ItemsDisplayPanelController
    * @param parent Parent window.
    * @param stats Stats to show.
    */
-  public ItemsDisplayPanelController(WindowController parent, AchievablesStatistics stats)
+  public ItemsDisplayPanelController(WindowController parent, ItemsStats stats)
   {
     _parent=parent;
     _stats=stats;
@@ -106,7 +106,7 @@ public class ItemsDisplayPanelController
   private void updateStatsLabel()
   {
     _items.clear();
-    _items.addAll(_stats.getItemsStats().getItems());
+    _items.addAll(_stats.getItems());
     int nbItems=_items.size();
     String label="Item(s): "+nbItems;
     _statsLabel.setText(label);

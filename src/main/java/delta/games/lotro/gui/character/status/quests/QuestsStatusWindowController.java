@@ -192,7 +192,6 @@ public class QuestsStatusWindowController extends DefaultDisplayDialogController
     statisticsController.bringToFront();
   }
 
-
   /**
    * Release all managed resources.
    */
