@@ -79,6 +79,7 @@ public class TaskStatusTableController
       columnIds.add(AchievableStatusColumnIds.COMPLETED.name());
       columnIds.add(AchievableStatusColumnIds.COMPLETION_COUNT.name());
       columnIds.add(QuestColumnIds.NAME.name());
+      columnIds.add(QuestColumnIds.LEVEL.name());
       columnIds.add(ItemColumnIds.ICON.name());
       columnIds.add(TaskStatusColumnsBuilder.CONSUMED_ITEM_NAME_COLUMN);
       columnIds.add(TaskStatusColumnsBuilder.COUNT_COLUMN);

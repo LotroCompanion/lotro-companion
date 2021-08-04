@@ -140,6 +140,8 @@ public class TaskStatusColumnsBuilder
     List<TableColumnController<QuestDescription,?>> ret=new ArrayList<TableColumnController<QuestDescription,?>>();
     // Name
     ret.add(QuestsColumnsBuilder.buildQuestNameColumn());
+    // Level
+    ret.add(QuestsColumnsBuilder.buildQuestChallengeColumn());
     // Rewards
     CellDataProvider<QuestDescription,Rewards> provider=new CellDataProvider<QuestDescription,Rewards>()
     {
