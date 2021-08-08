@@ -6,6 +6,11 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -18,12 +23,16 @@ import delta.common.ui.swing.text.DynamicTextEditionController;
 import delta.common.ui.swing.text.TextListener;
 import delta.games.lotro.character.status.achievables.filter.QuestStatusFilter;
 import delta.games.lotro.character.status.tasks.filter.TaskStatusFilter;
+import delta.games.lotro.common.rewards.ReputationReward;
+import delta.games.lotro.common.rewards.Rewards;
 import delta.games.lotro.common.rewards.filters.ReputationRewardFilter;
 import delta.games.lotro.gui.lore.items.FilterUpdateListener;
-import delta.games.lotro.gui.utils.SharedUiUtils;
 import delta.games.lotro.lore.quests.filter.QuestFilter;
 import delta.games.lotro.lore.quests.filter.QuestNameFilter;
 import delta.games.lotro.lore.reputation.Faction;
+import delta.games.lotro.lore.reputation.FactionNameComparator;
+import delta.games.lotro.lore.tasks.Task;
+import delta.games.lotro.lore.tasks.TasksRegistry;
 
 /**
  * Controller for a task filter edition panel.
@@ -178,7 +187,7 @@ public class TaskFilterController implements ActionListener
 
   private ComboBoxController<Faction> buildReputationCombobox()
   {
-    ComboBoxController<Faction> combo=SharedUiUtils.buildFactionCombo();
+    ComboBoxController<Faction> combo=buildFactionCombo();
     ItemSelectionListener<Faction> listener=new ItemSelectionListener<Faction>()
     {
       @Override
@@ -193,6 +202,44 @@ public class TaskFilterController implements ActionListener
     };
     combo.addListener(listener);
     return combo;
+  }
+
+  /**
+   * Build a combo-box controller to choose a faction.
+   * @return A new combo-box controller.
+   */
+  public static ComboBoxController<Faction> buildFactionCombo()
+  {
+    ComboBoxController<Faction> ctrl=new ComboBoxController<Faction>();
+    ctrl.addEmptyItem("");
+    List<Faction> factions=buildFactions();
+    for(Faction faction : factions)
+    {
+      ctrl.addItem(faction,faction.getName());
+    }
+    ctrl.selectItem(null);
+    return ctrl;
+  }
+
+  private static List<Faction> buildFactions()
+  {
+    Set<Faction> factions=new HashSet<Faction>();
+    List<Task> tasks=TasksRegistry.getInstance().getTasks();
+    for(Task task : tasks)
+    {
+      Rewards rewards=task.getQuest().getRewards();
+      List<ReputationReward> repRewards=rewards.getRewardElementsOfClass(ReputationReward.class);
+      if (repRewards.size()>0)
+      {
+        for(ReputationReward repReward : repRewards)
+        {
+          factions.add(repReward.getFaction());
+        }
+      }
+    }
+    List<Faction> ret=new ArrayList<Faction>(factions);
+    Collections.sort(ret,new FactionNameComparator());
+    return ret;
   }
 
   /**
