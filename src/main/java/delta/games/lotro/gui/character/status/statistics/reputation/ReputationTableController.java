@@ -1,6 +1,7 @@
 package delta.games.lotro.gui.character.status.statistics.reputation;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.swing.JTable;
@@ -13,6 +14,10 @@ import delta.common.ui.swing.tables.TableColumnsManager;
 import delta.games.lotro.character.status.statistics.reputation.FactionStats;
 import delta.games.lotro.character.status.statistics.reputation.ReputationStats;
 import delta.games.lotro.gui.character.status.achievables.AchievableUIMode;
+import delta.games.lotro.lore.reputation.Faction;
+import delta.games.lotro.lore.reputation.FactionNameComparator;
+import delta.games.lotro.utils.DataProvider;
+import delta.games.lotro.utils.comparators.DelegatingComparator;
 
 /**
  * Controller for a table that shows the reputations for a single character.
@@ -142,9 +147,24 @@ public class ReputationTableController
    */
   public void update()
   {
+    List<FactionStats> factionStats=_stats.getFactionStats();
+    sortFactionStatsByName(factionStats);
     _factionStats.clear();
-    _factionStats.addAll(_stats.getFactionStats());
+    _factionStats.addAll(factionStats);
     _tableController.refresh();
+  }
+
+  private void sortFactionStatsByName(List<FactionStats> factionStats)
+  {
+    DataProvider<FactionStats,Faction> provider=new DataProvider<FactionStats,Faction>()
+    {
+      public Faction getData(FactionStats p)
+      {
+        return p.getFaction();
+      }
+    };
+    DelegatingComparator<FactionStats,Faction> c=new DelegatingComparator<FactionStats,Faction>(provider,new FactionNameComparator());
+    Collections.sort(factionStats,c);
   }
 
   /**
