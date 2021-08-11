@@ -13,7 +13,6 @@ import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
-import javax.swing.border.TitledBorder;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.navigator.NavigatorWindowController;
@@ -56,6 +55,7 @@ public class TasksStatusWindowController extends DefaultDisplayDialogController<
   private TaskFilterController _filterController;
   private TasksStatusPanelController _panelController;
   private TaskStatusTableController _tableController;
+  private TaskDeedsStatusPanelController _taskDeedsController;
 
   /**
    * Constructor.
@@ -100,15 +100,40 @@ public class TasksStatusWindowController extends DefaultDisplayDialogController<
     initTable();
     _panelController=new TasksStatusPanelController(this,_tableController);
     JPanel tablePanel=_panelController.getPanel();
-    // Quest filter
+    // Build child controllers
     _filterController=new TaskFilterController(_filter,this,false);
+    _statusFilterController=new AchievableStatusFilterController(_filter.getQuestStatusFilter(),this);
+    _taskDeedsController=new TaskDeedsStatusPanelController();
+    _taskDeedsController.update(_data.getCompletedTasksCount());
+    // Whole panel
+    // - filter
+    JPanel filterPanel=buildFilterPanel();
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    panel.add(filterPanel,c);
+    // - deeds status
+    c=new GridBagConstraints(1,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    JPanel taskDeedsPanel=_taskDeedsController.getPanel();
+    taskDeedsPanel.setBorder(GuiFactory.buildTitledBorder("Task Deeds"));
+    panel.add(taskDeedsPanel,c);
+    // - table
+    c=new GridBagConstraints(0,1,2,1,1,1,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
+    panel.add(tablePanel,c);
+    return panel;
+  }
+
+  private JPanel buildFilterPanel()
+  {
+    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
+    GridBagConstraints c=new GridBagConstraints(0,0,3,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    // Task filter
     JPanel taskFilterPanel=_filterController.getPanel();
     taskFilterPanel.setBorder(GuiFactory.buildTitledBorder("Task Filter"));
+    panel.add(taskFilterPanel,c);
+    c=new GridBagConstraints(0,1,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     // Status filter
-    _statusFilterController=new AchievableStatusFilterController(_filter.getQuestStatusFilter(),this);
     JPanel statusFilterPanel=_statusFilterController.getPanel();
-    TitledBorder statusFilterBorder=GuiFactory.buildTitledBorder("Status Filter");
-    statusFilterPanel.setBorder(statusFilterBorder);
+    statusFilterPanel.setBorder(GuiFactory.buildTitledBorder("Status Filter"));
+    panel.add(statusFilterPanel,c);
     // Stats button
     JButton b=GuiFactory.buildButton("Stats");
     ActionListener al=new ActionListener()
@@ -120,17 +145,10 @@ public class TasksStatusWindowController extends DefaultDisplayDialogController<
       }
     };
     b.addActionListener(al);
-    // Whole panel
-    GridBagConstraints c=new GridBagConstraints(0,0,3,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
-    panel.add(taskFilterPanel,c);
-    c=new GridBagConstraints(0,1,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
-    panel.add(statusFilterPanel,c);
     c=new GridBagConstraints(1,1,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(b,c);
     c=new GridBagConstraints(2,1,1,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(Box.createGlue(),c);
-    c=new GridBagConstraints(0,2,3,1,1,1,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
-    panel.add(tablePanel,c);
     return panel;
   }
 
