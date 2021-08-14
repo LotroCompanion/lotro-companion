@@ -178,7 +178,7 @@ public class TaskFilterController implements ActionListener
     linePanel.add(GuiFactory.buildLabel("Reputation:"));
     _reputation=buildReputationCombobox();
     linePanel.add(_reputation.getComboBox());
-    GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,5,0),0,0);
+    GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,5,5,0),0,0);
     panel.add(linePanel,c);
     y++;
 

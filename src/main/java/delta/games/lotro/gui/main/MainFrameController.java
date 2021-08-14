@@ -96,7 +96,7 @@ public class MainFrameController extends DefaultWindowController implements Acti
   {
     JFrame frame=super.build();
     frame.setTitle("LOTRO Companion");
-    frame.setSize(810,400);
+    frame.setSize(850,400);
     frame.setLocation(100,100);
     frame.getContentPane().setBackground(GuiFactory.getBackgroundColor());
     return frame;
@@ -237,7 +237,7 @@ public class MainFrameController extends DefaultWindowController implements Acti
     c=new GridBagConstraints(c.gridx,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(2,5,2,0),0,0);
     c.gridx++;
     panel.add(padding,c);
-    c=new GridBagConstraints(c.gridx,0,1,1,0.0,0.0,GridBagConstraints.EAST,GridBagConstraints.NONE,new Insets(2,5,2,0),0,0);
+    c=new GridBagConstraints(c.gridx,0,1,1,0.0,0.0,GridBagConstraints.EAST,GridBagConstraints.NONE,new Insets(2,5,2,5),0,0);
     panel.add(_paypalButton.getButton(),c);
     c.gridx++;
     return panel;
