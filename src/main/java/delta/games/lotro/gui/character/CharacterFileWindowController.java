@@ -529,7 +529,7 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     AchievablesStatusManager status=QuestsStatusIo.load(_toon);
     TasksStatusManager tasksStatus=new TasksStatusManager();
     tasksStatus.init(status);
-    TasksStatusWindowController controller=new TasksStatusWindowController(this,tasksStatus,_toon);
+    TasksStatusWindowController controller=new TasksStatusWindowController(this,tasksStatus,status,_toon);
     controller.show();
   }
 

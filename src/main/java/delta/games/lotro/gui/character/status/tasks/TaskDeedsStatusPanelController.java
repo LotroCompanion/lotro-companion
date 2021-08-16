@@ -97,7 +97,7 @@ public class TaskDeedsStatusPanelController
 
   /**
    * Update the UI for the given tasks count.
-   * @param tasksCount A tasks coount.
+   * @param tasksCount A tasks count.
    */
   public void update(int tasksCount)
   {
@@ -137,5 +137,24 @@ public class TaskDeedsStatusPanelController
     bar.setValue(value);
     String label=current+"/"+max;
     bar.setString(label);
+  }
+
+  /**
+   * Release all managed resources.
+   */
+  public void dispose()
+  {
+    // Data
+    _taskDeedsMgr=null;
+    // UI
+    if (_panel!=null)
+    {
+      _panel.removeAll();
+      _panel=null;
+    }
+    _global=null;
+    _achievedDeed=null;
+    _deedInProgressPanel=null;
+    _deedInProgressProgress=null;
   }
 }

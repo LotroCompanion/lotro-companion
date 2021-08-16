@@ -23,6 +23,7 @@ import delta.common.ui.swing.windows.WindowController;
 import delta.common.ui.swing.windows.WindowsManager;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.character.CharacterFile;
+import delta.games.lotro.character.status.achievables.AchievablesStatusManager;
 import delta.games.lotro.character.status.tasks.TaskStatus;
 import delta.games.lotro.character.status.tasks.TasksStatusManager;
 import delta.games.lotro.character.status.tasks.filter.TaskStatusFilter;
@@ -48,6 +49,7 @@ public class TasksStatusWindowController extends DefaultDisplayDialogController<
 
   // Data
   private CharacterFile _toon;
+  private AchievablesStatusManager _questsStatus;
   private List<Task> _tasks;
   private TaskStatusFilter _filter;
   // Controllers
@@ -56,17 +58,20 @@ public class TasksStatusWindowController extends DefaultDisplayDialogController<
   private TasksStatusPanelController _panelController;
   private TaskStatusTableController _tableController;
   private TaskDeedsStatusPanelController _taskDeedsController;
+  private TaskQuestsStatusPanelController _taskQuestsController;
 
   /**
    * Constructor.
    * @param parent Parent window.
    * @param status Status to show.
+   * @param questsStatus Quests status.
    * @param toon Parent toon.
    */
-  public TasksStatusWindowController(WindowController parent, TasksStatusManager status, CharacterFile toon)
+  public TasksStatusWindowController(WindowController parent, TasksStatusManager status, AchievablesStatusManager questsStatus, CharacterFile toon)
   {
     super(parent,status);
     _toon=toon;
+    _questsStatus=questsStatus;
     _tasks=new ArrayList<Task>(TasksRegistry.getInstance().getTasks());
     _filter=new TaskStatusFilter();
   }
@@ -105,16 +110,28 @@ public class TasksStatusWindowController extends DefaultDisplayDialogController<
     _statusFilterController=new AchievableStatusFilterController(_filter.getQuestStatusFilter(),this);
     _taskDeedsController=new TaskDeedsStatusPanelController();
     _taskDeedsController.update(_data.getCompletedTasksCount());
+    _taskQuestsController=new TaskQuestsStatusPanelController();
+    _taskQuestsController.update(_questsStatus);
     // Whole panel
     // - filter
     JPanel filterPanel=buildFilterPanel();
-    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(filterPanel,c);
+    // - deeds and quests status
+    JPanel statusPanel=GuiFactory.buildPanel(new GridBagLayout());
     // - deeds status
-    c=new GridBagConstraints(1,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     JPanel taskDeedsPanel=_taskDeedsController.getPanel();
     taskDeedsPanel.setBorder(GuiFactory.buildTitledBorder("Task Deeds"));
-    panel.add(taskDeedsPanel,c);
+    c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    statusPanel.add(taskDeedsPanel,c);
+    // - quests status
+    JPanel taskQuestsPanel=_taskQuestsController.getPanel();
+    taskQuestsPanel.setBorder(GuiFactory.buildTitledBorder("Task Quests"));
+    c=new GridBagConstraints(0,1,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    statusPanel.add(taskQuestsPanel,c);
+
+    c=new GridBagConstraints(1,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    panel.add(statusPanel,c);
     // - table
     c=new GridBagConstraints(0,1,2,1,1,1,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
     panel.add(tablePanel,c);
@@ -246,6 +263,16 @@ public class TasksStatusWindowController extends DefaultDisplayDialogController<
     {
       _tableController.dispose();
       _tableController=null;
+    }
+    if (_taskDeedsController!=null)
+    {
+      _taskDeedsController.dispose();
+      _taskDeedsController=null;
+    }
+    if (_taskQuestsController!=null)
+    {
+      _taskQuestsController.dispose();
+      _taskQuestsController=null;
     }
   }
 }
