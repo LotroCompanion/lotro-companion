@@ -174,10 +174,12 @@ public class TaskFilterController implements ActionListener
     };
     _textController=new DynamicTextEditionController(_contains,listener);
     linePanel.add(containsPanel);
+    JPanel repPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
     // Reputation
-    linePanel.add(GuiFactory.buildLabel("Reputation:"));
+    repPanel.add(GuiFactory.buildLabel("Reputation:"));
     _reputation=buildReputationCombobox();
-    linePanel.add(_reputation.getComboBox());
+    repPanel.add(_reputation.getComboBox());
+    linePanel.add(repPanel);
     GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,5,5,0),0,0);
     panel.add(linePanel,c);
     y++;
