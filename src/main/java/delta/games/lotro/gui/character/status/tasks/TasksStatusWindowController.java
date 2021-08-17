@@ -106,7 +106,7 @@ public class TasksStatusWindowController extends DefaultDisplayDialogController<
     _panelController=new TasksStatusPanelController(this,_tableController);
     JPanel tablePanel=_panelController.getPanel();
     // Build child controllers
-    _filterController=new TaskFilterController(_filter,this,false);
+    _filterController=new TaskFilterController(_filter,this);
     _statusFilterController=new AchievableStatusFilterController(_filter.getQuestStatusFilter(),this);
     _taskDeedsController=new TaskDeedsStatusPanelController();
     _taskDeedsController.update(_data.getCompletedTasksCount());

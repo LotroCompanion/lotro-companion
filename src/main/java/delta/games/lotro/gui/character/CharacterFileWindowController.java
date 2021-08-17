@@ -39,6 +39,8 @@ import delta.games.lotro.character.stats.CharacterStatsComputer;
 import delta.games.lotro.character.status.achievables.AchievablesStatusManager;
 import delta.games.lotro.character.status.achievables.io.DeedsStatusIo;
 import delta.games.lotro.character.status.achievables.io.QuestsStatusIo;
+import delta.games.lotro.character.status.skirmishes.SkirmishStatsManager;
+import delta.games.lotro.character.status.skirmishes.io.SkirmishStatsIo;
 import delta.games.lotro.character.status.tasks.TasksStatusManager;
 import delta.games.lotro.character.status.titles.TitlesStatusManager;
 import delta.games.lotro.character.status.titles.io.TitlesStatusIo;
@@ -51,6 +53,7 @@ import delta.games.lotro.gui.character.status.deeds.DeedsStatusWindowController;
 import delta.games.lotro.gui.character.status.levelling.LevelHistoryEditionDialogController;
 import delta.games.lotro.gui.character.status.quests.QuestsStatusWindowController;
 import delta.games.lotro.gui.character.status.reputation.CharacterReputationDialogController;
+import delta.games.lotro.gui.character.status.skirmishes.SkirmishStatisticsWindowController;
 import delta.games.lotro.gui.character.status.tasks.TasksStatusWindowController;
 import delta.games.lotro.gui.character.status.titles.TitlesStatusWindowController;
 import delta.games.lotro.gui.character.status.traitPoints.TraitPointsEditionWindowController;
@@ -77,6 +80,7 @@ public class CharacterFileWindowController extends DefaultWindowController imple
   private static final String DEEDS_STATUS_COMMAND="deedsStatus";
   private static final String QUESTS_STATUS_COMMAND="questsStatus";
   private static final String TASKS_STATUS_COMMAND="tasksStatus";
+  private static final String SKIRMISH_STATS_COMMAND="skirmishStats";
   private static final String TITLES_STATUS_COMMAND="titlesStatus";
   private static final String STORAGE_COMMAND="storage";
 
@@ -194,6 +198,10 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     JButton tasksButton=buildCommandButton("Tasks",TASKS_STATUS_COMMAND);
     panel.add(tasksButton,c);
     c.gridx++;
+    // Skirmish statistics
+    JButton skirmishsButton=buildCommandButton("Skirmishs",SKIRMISH_STATS_COMMAND);
+    panel.add(skirmishsButton,c);
+    c.gridx++;
     // Titles status
     JButton titlesButton=buildCommandButton("Titles",TITLES_STATUS_COMMAND);
     panel.add(titlesButton,c);
@@ -278,6 +286,10 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     else if (TASKS_STATUS_COMMAND.equals(command))
     {
       showTasksStatus();
+    }
+    else if (SKIRMISH_STATS_COMMAND.equals(command))
+    {
+      showSkirmishStatistics();
     }
     else if (TITLES_STATUS_COMMAND.equals(command))
     {
@@ -530,6 +542,13 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     TasksStatusManager tasksStatus=new TasksStatusManager();
     tasksStatus.init(status);
     TasksStatusWindowController controller=new TasksStatusWindowController(this,tasksStatus,status,_toon);
+    controller.show();
+  }
+
+  private void showSkirmishStatistics()
+  {
+    SkirmishStatsManager status=SkirmishStatsIo.load(_toon);
+    SkirmishStatisticsWindowController controller=new SkirmishStatisticsWindowController(this,status);
     controller.show();
   }
 

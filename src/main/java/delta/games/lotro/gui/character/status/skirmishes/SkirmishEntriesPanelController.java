@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.character.status.tasks;
+package delta.games.lotro.gui.character.status.skirmishes;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -15,18 +15,18 @@ import javax.swing.border.TitledBorder;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.tables.TableColumnsChooserController;
 import delta.common.ui.swing.windows.WindowController;
-import delta.games.lotro.character.status.tasks.TaskStatus;
-import delta.games.lotro.gui.character.status.tasks.table.TaskStatusTableController;
+import delta.games.lotro.character.status.skirmishes.SkirmishEntry;
+import delta.games.lotro.gui.character.status.skirmishes.table.SkirmishEntriesTableController;
 import delta.games.lotro.gui.lore.items.FilterUpdateListener;
 
 /**
- * Controller the tasks status display panel.
+ * Controller the skirmish entries display panel.
  * @author DAM
  */
-public class TasksStatusPanelController implements FilterUpdateListener
+public class SkirmishEntriesPanelController implements FilterUpdateListener
 {
   // Data
-  private TaskStatusTableController _tableController;
+  private SkirmishEntriesTableController _tableController;
   // GUI
   private JPanel _panel;
   private JLabel _statsLabel;
@@ -38,7 +38,7 @@ public class TasksStatusPanelController implements FilterUpdateListener
    * @param parent Parent window.
    * @param tableController Associated table controller.
    */
-  public TasksStatusPanelController(WindowController parent, TaskStatusTableController tableController)
+  public SkirmishEntriesPanelController(WindowController parent, SkirmishEntriesTableController tableController)
   {
     _parent=parent;
     _tableController=tableController;
@@ -60,7 +60,7 @@ public class TasksStatusPanelController implements FilterUpdateListener
   private JPanel build()
   {
     JPanel panel=GuiFactory.buildPanel(new BorderLayout());
-    TitledBorder itemsFrameBorder=GuiFactory.buildTitledBorder("Status of tasks");
+    TitledBorder itemsFrameBorder=GuiFactory.buildTitledBorder("Skirmish statistics");
     panel.setBorder(itemsFrameBorder);
 
     // Table
@@ -78,7 +78,7 @@ public class TasksStatusPanelController implements FilterUpdateListener
       @Override
       public void actionPerformed(ActionEvent e)
       {
-        TableColumnsChooserController<TaskStatus> chooser=new TableColumnsChooserController<TaskStatus>(_parent,_tableController.getTableController());
+        TableColumnsChooserController<SkirmishEntry> chooser=new TableColumnsChooserController<SkirmishEntry>(_parent,_tableController.getTableController());
         chooser.editModal();
       }
     };
@@ -104,11 +104,11 @@ public class TasksStatusPanelController implements FilterUpdateListener
     String label="";
     if (nbFiltered==nbItems)
     {
-      label="Task(s): "+nbItems;
+      label="Element(s): "+nbItems;
     }
     else
     {
-      label="Task(s): "+nbFiltered+"/"+nbItems;
+      label="Element(s): "+nbFiltered+"/"+nbItems;
     }
     _statsLabel.setText(label);
   }

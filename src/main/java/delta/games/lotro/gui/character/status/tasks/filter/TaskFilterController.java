@@ -57,9 +57,8 @@ public class TaskFilterController implements ActionListener
    * Constructor.
    * @param filter Managed filter.
    * @param filterUpdateListener Filter update listener.
-   * @param useRequirements Use requirements or not.
    */
-  public TaskFilterController(TaskStatusFilter filter, FilterUpdateListener filterUpdateListener, boolean useRequirements)
+  public TaskFilterController(TaskStatusFilter filter, FilterUpdateListener filterUpdateListener)
   {
     _filter=filter;
     _filterUpdateListener=filterUpdateListener;
@@ -210,7 +209,7 @@ public class TaskFilterController implements ActionListener
    * Build a combo-box controller to choose a faction.
    * @return A new combo-box controller.
    */
-  public static ComboBoxController<Faction> buildFactionCombo()
+  private static ComboBoxController<Faction> buildFactionCombo()
   {
     ComboBoxController<Faction> ctrl=new ComboBoxController<Faction>();
     ctrl.addEmptyItem("");
