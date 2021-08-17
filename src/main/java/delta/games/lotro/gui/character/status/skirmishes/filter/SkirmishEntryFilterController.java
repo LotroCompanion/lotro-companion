@@ -77,6 +77,7 @@ public class SkirmishEntryFilterController implements ActionListener
    */
   private void filterUpdated()
   {
+    _filter.getSkirmishFilter().setSkirmish(_skirmish.getSelectedItem());
     _filter.getGroupSizeFilter().setSizes(new HashSet<SkirmishGroupSize>(_sizes.getSelectedItems()));
     _filter.getLevelFilter().setLevels(new HashSet<SkirmishLevel>(_levels.getSelectedItems()));
     _filterUpdateListener.filterUpdated();
@@ -88,7 +89,10 @@ public class SkirmishEntryFilterController implements ActionListener
     Object source=e.getSource();
     if (source==_reset)
     {
+      _skirmish.setSelectedItem(null);
+      _levels.selectAll();
       _sizes.selectAll();
+      filterUpdated();
     }
   }
 

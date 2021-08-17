@@ -52,7 +52,7 @@ public class SkirmishEntryColumnsBuilder
         }
       };
       DefaultTableColumnController<SkirmishEntry,String> column=new DefaultTableColumnController<SkirmishEntry,String>(SkirmishEntryColumnIds.GROUP_SIZE.name(),"Size",String.class,cell);
-      column.setWidthSpecs(50,50,50);
+      column.setWidthSpecs(100,100,100);
       ret.add(column);
     }
     // Level
@@ -67,7 +67,7 @@ public class SkirmishEntryColumnsBuilder
         }
       };
       DefaultTableColumnController<SkirmishEntry,String> column=new DefaultTableColumnController<SkirmishEntry,String>(SkirmishEntryColumnIds.LEVEL.name(),"Level",String.class,cell);
-      column.setWidthSpecs(50,50,50);
+      column.setWidthSpecs(65,65,65);
       ret.add(column);
     }
     // Statistics
@@ -236,7 +236,7 @@ public class SkirmishEntryColumnsBuilder
         }
       };
       DefaultTableColumnController<SkirmishStats,Integer> column=new DefaultTableColumnController<SkirmishStats,Integer>(SkirmishEntryColumnIds.PLAY_TIME.name(),"Play Time",Integer.class,cell);
-      column.setWidthSpecs(60,60,60);
+      column.setWidthSpecs(80,100,80);
       column.setCellRenderer(new DurationCellRenderer());
       ret.add(column);
     }
@@ -280,7 +280,7 @@ public class SkirmishEntryColumnsBuilder
         }
       };
       DefaultTableColumnController<SkirmishStats,Integer> column=new DefaultTableColumnController<SkirmishStats,Integer>(SkirmishEntryColumnIds.BEST_TIME.name(),"Best Time",Integer.class,cell);
-      column.setWidthSpecs(60,60,60);
+      column.setWidthSpecs(80,100,80);
       column.setCellRenderer(new DurationCellRenderer());
       ret.add(column);
     }
