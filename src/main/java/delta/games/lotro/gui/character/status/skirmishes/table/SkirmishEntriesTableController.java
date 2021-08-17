@@ -10,7 +10,10 @@ import delta.common.ui.swing.tables.ListDataProvider;
 import delta.common.ui.swing.tables.TableColumnController;
 import delta.common.ui.swing.tables.TableColumnsManager;
 import delta.common.utils.misc.TypedProperties;
+import delta.games.lotro.character.status.skirmishes.SkirmishEntriesUtils;
 import delta.games.lotro.character.status.skirmishes.SkirmishEntry;
+import delta.games.lotro.character.status.skirmishes.SkirmishStatsManager;
+import delta.games.lotro.character.status.skirmishes.cfg.SkirmishEntriesPolicy;
 import delta.games.lotro.character.status.skirmishes.filter.SkirmishEntryFilter;
 import delta.games.lotro.gui.lore.items.chooser.ItemChooser;
 
@@ -22,28 +25,32 @@ public class SkirmishEntriesTableController
 {
   // Data
   private TypedProperties _prefs;
-  private List<SkirmishEntry> _statuses;
+  private SkirmishStatsManager _stats;
+  private SkirmishEntryFilter _filter;
+  private List<SkirmishEntry> _entries;
   // GUI
   private JTable _table;
   private GenericTableController<SkirmishEntry> _tableController;
 
   /**
    * Constructor.
+   * @param stats Stats.
    * @param prefs Preferences.
    * @param filter Managed filter.
    */
-  public SkirmishEntriesTableController(TypedProperties prefs, SkirmishEntryFilter filter)
+  public SkirmishEntriesTableController(SkirmishStatsManager stats, TypedProperties prefs, SkirmishEntryFilter filter)
   {
     _prefs=prefs;
-    _statuses=new ArrayList<SkirmishEntry>();
+    _stats=stats;
+    _entries=new ArrayList<SkirmishEntry>();
     _tableController=buildTable();
-    _tableController.setFilter(filter);
+    _filter=filter;
     configureTable();
   }
 
   private GenericTableController<SkirmishEntry> buildTable()
   {
-    ListDataProvider<SkirmishEntry> provider=new ListDataProvider<SkirmishEntry>(_statuses);
+    ListDataProvider<SkirmishEntry> provider=new ListDataProvider<SkirmishEntry>(_entries);
     GenericTableController<SkirmishEntry> table=new GenericTableController<SkirmishEntry>(provider);
     // Columns
     List<TableColumnController<SkirmishEntry,?>> columns=SkirmishEntryColumnsBuilder.buildSkirmishEntryColumns();
@@ -103,7 +110,11 @@ public class SkirmishEntriesTableController
    */
   public void updateFilter()
   {
-    _tableController.filterUpdated();
+    SkirmishEntriesPolicy policy=new SkirmishEntriesPolicy(true,true);
+    List<SkirmishEntry> entries=SkirmishEntriesUtils.getEntries(_stats,_filter,policy);
+    _entries.clear();
+    _entries.addAll(entries);
+    _tableController.refresh();
   }
 
   /**
@@ -112,7 +123,7 @@ public class SkirmishEntriesTableController
    */
   public int getNbItems()
   {
-    return _statuses.size();
+    return _entries.size();
   }
 
   /**
@@ -165,6 +176,6 @@ public class SkirmishEntriesTableController
       _tableController=null;
     }
     // Data
-    _statuses=null;
+    _entries=null;
   }
 }

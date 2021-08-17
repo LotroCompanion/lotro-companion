@@ -37,11 +37,11 @@ public class SkirmishStatisticsWindowController extends DefaultDisplayDialogCont
   /**
    * Constructor.
    * @param parent Parent window.
-   * @param status Status to show.
+   * @param stats Status to show.
    */
-  public SkirmishStatisticsWindowController(WindowController parent, SkirmishStatsManager status)
+  public SkirmishStatisticsWindowController(WindowController parent, SkirmishStatsManager stats)
   {
-    super(parent,status);
+    super(parent,stats);
     _filter=new SkirmishEntryFilter();
   }
 
@@ -91,7 +91,7 @@ public class SkirmishStatisticsWindowController extends DefaultDisplayDialogCont
   private void initTable()
   {
     TypedProperties prefs=GlobalPreferences.getGlobalProperties("SkirmishStats");
-    _tableController=new SkirmishEntriesTableController(prefs,_filter);
+    _tableController=new SkirmishEntriesTableController(_data,prefs,_filter);
   }
 
   @Override
