@@ -189,7 +189,7 @@ public class SkirmishEntryColumnsBuilder
         @Override
         public Integer getData(SkirmishStats stats)
         {
-          return Integer.valueOf(stats.getDefendersLost());
+          return Integer.valueOf(stats.getSoldiersDeaths());
         }
       };
       DefaultTableColumnController<SkirmishStats,Integer> column=new DefaultTableColumnController<SkirmishStats,Integer>(SkirmishEntryColumnIds.SOLDIER_DEATHS.name(),"Soldier Deaths",Integer.class,cell);
@@ -217,7 +217,7 @@ public class SkirmishEntryColumnsBuilder
         @Override
         public Integer getData(SkirmishStats stats)
         {
-          return Integer.valueOf(stats.getControlPointsTaken());
+          return Integer.valueOf(stats.getEncountersCompleted());
         }
       };
       DefaultTableColumnController<SkirmishStats,Integer> column=new DefaultTableColumnController<SkirmishStats,Integer>(SkirmishEntryColumnIds.ENCOUNTERS_COMPLETED.name(),"Encounters Completed",Integer.class,cell);
@@ -275,8 +275,8 @@ public class SkirmishEntryColumnsBuilder
         @Override
         public Integer getData(SkirmishStats stats)
         {
-          float playTime=stats.getBestTime();
-          return (playTime!=-1)?Integer.valueOf((int)playTime):null;
+          float bestTime=stats.getBestTime();
+          return (bestTime!=-1)?Integer.valueOf((int)bestTime):null;
         }
       };
       DefaultTableColumnController<SkirmishStats,Integer> column=new DefaultTableColumnController<SkirmishStats,Integer>(SkirmishEntryColumnIds.BEST_TIME.name(),"Best Time",Integer.class,cell);
