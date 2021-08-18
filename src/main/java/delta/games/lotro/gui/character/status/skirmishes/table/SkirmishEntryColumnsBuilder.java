@@ -37,7 +37,7 @@ public class SkirmishEntryColumnsBuilder
         }
       };
       DefaultTableColumnController<SkirmishEntry,String> column=new DefaultTableColumnController<SkirmishEntry,String>(SkirmishEntryColumnIds.NAME.name(),"Name",String.class,cell);
-      column.setWidthSpecs(100,300,200);
+      column.setWidthSpecs(220,300,220);
       ret.add(column);
     }
     // Group size
