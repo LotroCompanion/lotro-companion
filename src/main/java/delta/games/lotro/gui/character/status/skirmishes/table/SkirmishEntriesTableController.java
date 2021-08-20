@@ -10,11 +10,8 @@ import delta.common.ui.swing.tables.ListDataProvider;
 import delta.common.ui.swing.tables.TableColumnController;
 import delta.common.ui.swing.tables.TableColumnsManager;
 import delta.common.utils.misc.TypedProperties;
-import delta.games.lotro.character.status.skirmishes.SkirmishEntriesUtils;
+import delta.games.lotro.character.status.skirmishes.SkirmishEntriesManager;
 import delta.games.lotro.character.status.skirmishes.SkirmishEntry;
-import delta.games.lotro.character.status.skirmishes.SkirmishStatsManager;
-import delta.games.lotro.character.status.skirmishes.cfg.SkirmishEntriesPolicy;
-import delta.games.lotro.character.status.skirmishes.filter.SkirmishEntryFilter;
 import delta.games.lotro.gui.lore.items.chooser.ItemChooser;
 
 /**
@@ -25,9 +22,7 @@ public class SkirmishEntriesTableController
 {
   // Data
   private TypedProperties _prefs;
-  private SkirmishStatsManager _stats;
-  private SkirmishEntryFilter _filter;
-  private SkirmishEntriesPolicy _config;
+  private SkirmishEntriesManager _entriesMgr;
   private List<SkirmishEntry> _entries;
   // GUI
   private JTable _table;
@@ -35,20 +30,15 @@ public class SkirmishEntriesTableController
 
   /**
    * Constructor.
-   * @param stats Stats.
+   * @param entriesMgr Entries manager.
    * @param prefs Preferences.
-   * @param filter Filter to use.
-   * @param config Config to use.
    */
-  public SkirmishEntriesTableController(SkirmishStatsManager stats, TypedProperties prefs, SkirmishEntryFilter filter, SkirmishEntriesPolicy config)
+  public SkirmishEntriesTableController(SkirmishEntriesManager entriesMgr, TypedProperties prefs)
   {
     _prefs=prefs;
-    _stats=stats;
+    _entriesMgr=entriesMgr;
     _entries=new ArrayList<SkirmishEntry>();
     _tableController=buildTable();
-    _filter=filter;
-    _config=config;
-    configureTable();
   }
 
   private GenericTableController<SkirmishEntry> buildTable()
@@ -113,7 +103,7 @@ public class SkirmishEntriesTableController
    */
   public void updateContents()
   {
-    List<SkirmishEntry> entries=SkirmishEntriesUtils.getEntries(_stats,_filter,_config);
+    List<SkirmishEntry> entries=_entriesMgr.getEntries();
     _entries.clear();
     _entries.addAll(entries);
     _tableController.refresh();
@@ -136,13 +126,6 @@ public class SkirmishEntriesTableController
   {
     int ret=_tableController.getNbFilteredItems();
     return ret;
-  }
-
-  private void configureTable()
-  {
-    JTable table=getTable();
-    // Adjust table row height for icons (32 pixels)
-    table.setRowHeight(32);
   }
 
   /**
@@ -178,8 +161,7 @@ public class SkirmishEntriesTableController
       _tableController=null;
     }
     // Data
-    _filter=null;
-    _config=null;
+    _entriesMgr=null;
     _entries=null;
   }
 }

@@ -39,6 +39,7 @@ import delta.games.lotro.character.stats.CharacterStatsComputer;
 import delta.games.lotro.character.status.achievables.AchievablesStatusManager;
 import delta.games.lotro.character.status.achievables.io.DeedsStatusIo;
 import delta.games.lotro.character.status.achievables.io.QuestsStatusIo;
+import delta.games.lotro.character.status.skirmishes.SkirmishEntriesManager;
 import delta.games.lotro.character.status.skirmishes.SkirmishStatsManager;
 import delta.games.lotro.character.status.skirmishes.io.SkirmishStatsIo;
 import delta.games.lotro.character.status.tasks.TasksStatusManager;
@@ -548,7 +549,8 @@ public class CharacterFileWindowController extends DefaultWindowController imple
   private void showSkirmishStatistics()
   {
     SkirmishStatsManager status=SkirmishStatsIo.load(_toon);
-    SkirmishStatisticsWindowController controller=new SkirmishStatisticsWindowController(this,status);
+    SkirmishEntriesManager entriesMgr=new SkirmishEntriesManager(status);
+    SkirmishStatisticsWindowController controller=new SkirmishStatisticsWindowController(this,entriesMgr);
     controller.show();
   }
 

@@ -12,9 +12,7 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.DefaultDisplayDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.misc.TypedProperties;
-import delta.games.lotro.character.status.skirmishes.SkirmishStatsManager;
-import delta.games.lotro.character.status.skirmishes.cfg.SkirmishEntriesPolicy;
-import delta.games.lotro.character.status.skirmishes.filter.SkirmishEntryFilter;
+import delta.games.lotro.character.status.skirmishes.SkirmishEntriesManager;
 import delta.games.lotro.gui.character.status.skirmishes.cfg.SkirmishEntryConfigController;
 import delta.games.lotro.gui.character.status.skirmishes.filter.SkirmishEntryFilterController;
 import delta.games.lotro.gui.character.status.skirmishes.table.SkirmishEntriesTableController;
@@ -26,29 +24,25 @@ import delta.games.lotro.gui.utils.ConfigUpdateListener;
  * Controller for a skirmish statistics display window.
  * @author DAM
  */
-public class SkirmishStatisticsWindowController extends DefaultDisplayDialogController<SkirmishStatsManager> implements FilterUpdateListener, ConfigUpdateListener
+public class SkirmishStatisticsWindowController extends DefaultDisplayDialogController<SkirmishEntriesManager> implements FilterUpdateListener, ConfigUpdateListener
 {
   private static final int MAX_HEIGHT=800;
 
-  // Data
-  private SkirmishEntryFilter _filter;
-  private SkirmishEntriesPolicy _config;
   // Controllers
   private SkirmishEntryFilterController _filterController;
   private SkirmishEntryConfigController _configController;
+  private SkirmishStatsDisplayPanelController _totalsController;
   private SkirmishEntriesPanelController _panelController;
   private SkirmishEntriesTableController _tableController;
 
   /**
    * Constructor.
    * @param parent Parent window.
-   * @param stats Status to show.
+   * @param entriesMgr Entries to show.
    */
-  public SkirmishStatisticsWindowController(WindowController parent, SkirmishStatsManager stats)
+  public SkirmishStatisticsWindowController(WindowController parent, SkirmishEntriesManager entriesMgr)
   {
-    super(parent,stats);
-    _filter=new SkirmishEntryFilter();
-    _config=new SkirmishEntriesPolicy(false,false);
+    super(parent,entriesMgr);
   }
 
   @Override
@@ -82,7 +76,9 @@ public class SkirmishStatisticsWindowController extends DefaultDisplayDialogCont
     _panelController=new SkirmishEntriesPanelController(this,_tableController);
     JPanel tablePanel=_panelController.getPanel();
     // Build child controllers
-    _filterController=new SkirmishEntryFilterController(_filter,this);
+    _filterController=new SkirmishEntryFilterController(_data.getFilter(),this);
+    _configController=new SkirmishEntryConfigController(_data.getConfig(),this);
+    _totalsController=new SkirmishStatsDisplayPanelController();
     // Whole panel
     // - filter
     JPanel filterPanel=_filterController.getPanel();
@@ -90,13 +86,17 @@ public class SkirmishStatisticsWindowController extends DefaultDisplayDialogCont
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(filterPanel,c);
     // - config
-    _configController=new SkirmishEntryConfigController(_config,this);
     JPanel configPanel=_configController.getPanel();
     configPanel.setBorder(GuiFactory.buildTitledBorder("Configuration"));
     c=new GridBagConstraints(1,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(configPanel,c);
+    // - totals
+    JPanel totalsPanel=_totalsController.getPanel();
+    totalsPanel.setBorder(GuiFactory.buildTitledBorder("Totals"));
+    c=new GridBagConstraints(2,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    panel.add(totalsPanel,c);
     // - table
-    c=new GridBagConstraints(0,1,2,1,1,1,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
+    c=new GridBagConstraints(0,1,3,1,1,1,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
     panel.add(tablePanel,c);
     return panel;
   }
@@ -104,19 +104,26 @@ public class SkirmishStatisticsWindowController extends DefaultDisplayDialogCont
   private void initTable()
   {
     TypedProperties prefs=GlobalPreferences.getGlobalProperties("SkirmishStats");
-    _tableController=new SkirmishEntriesTableController(_data,prefs,_filter,_config);
+    _tableController=new SkirmishEntriesTableController(_data,prefs);
   }
 
   @Override
   public void filterUpdated()
   {
-    _panelController.filterUpdated();
+    update();
   }
 
   @Override
   public void configurationUpdated()
   {
-    _panelController.configurationUpdated();
+    update();
+  }
+
+  private void update()
+  {
+    _data.update();
+    _totalsController.updateUI(_data.getTotals());
+    _panelController.updateContents();
   }
 
   /**
@@ -128,8 +135,6 @@ public class SkirmishStatisticsWindowController extends DefaultDisplayDialogCont
     super.dispose();
     // Data
     _data=null;
-    _filter=null;
-    _config=null;
     // Controllers
     if (_filterController!=null)
     {

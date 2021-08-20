@@ -17,14 +17,12 @@ import delta.common.ui.swing.tables.TableColumnsChooserController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.status.skirmishes.SkirmishEntry;
 import delta.games.lotro.gui.character.status.skirmishes.table.SkirmishEntriesTableController;
-import delta.games.lotro.gui.lore.items.FilterUpdateListener;
-import delta.games.lotro.gui.utils.ConfigUpdateListener;
 
 /**
  * Controller the skirmish entries display panel.
  * @author DAM
  */
-public class SkirmishEntriesPanelController implements FilterUpdateListener,ConfigUpdateListener
+public class SkirmishEntriesPanelController
 {
   // Data
   private SkirmishEntriesTableController _tableController;
@@ -89,19 +87,10 @@ public class SkirmishEntriesPanelController implements FilterUpdateListener,Conf
     return panel;
   }
 
-  @Override
-  public void filterUpdated()
-  {
-    updateContents();
-  }
-
-  @Override
-  public void configurationUpdated()
-  {
-    updateContents();
-  }
-
-  private void updateContents()
+  /**
+   * Update the contents of this panel.
+   */
+  public void updateContents()
   {
     _tableController.updateContents();
     updateStatsLabel();
