@@ -27,6 +27,7 @@ public class SkirmishEntriesTableController
   private TypedProperties _prefs;
   private SkirmishStatsManager _stats;
   private SkirmishEntryFilter _filter;
+  private SkirmishEntriesPolicy _config;
   private List<SkirmishEntry> _entries;
   // GUI
   private JTable _table;
@@ -36,15 +37,17 @@ public class SkirmishEntriesTableController
    * Constructor.
    * @param stats Stats.
    * @param prefs Preferences.
-   * @param filter Managed filter.
+   * @param filter Filter to use.
+   * @param config Config to use.
    */
-  public SkirmishEntriesTableController(SkirmishStatsManager stats, TypedProperties prefs, SkirmishEntryFilter filter)
+  public SkirmishEntriesTableController(SkirmishStatsManager stats, TypedProperties prefs, SkirmishEntryFilter filter, SkirmishEntriesPolicy config)
   {
     _prefs=prefs;
     _stats=stats;
     _entries=new ArrayList<SkirmishEntry>();
     _tableController=buildTable();
     _filter=filter;
+    _config=config;
     configureTable();
   }
 
@@ -106,12 +109,11 @@ public class SkirmishEntriesTableController
   }
 
   /**
-   * Update managed filter.
+   * Update displayed contents.
    */
-  public void updateFilter()
+  public void updateContents()
   {
-    SkirmishEntriesPolicy policy=new SkirmishEntriesPolicy(true,true);
-    List<SkirmishEntry> entries=SkirmishEntriesUtils.getEntries(_stats,_filter,policy);
+    List<SkirmishEntry> entries=SkirmishEntriesUtils.getEntries(_stats,_filter,_config);
     _entries.clear();
     _entries.addAll(entries);
     _tableController.refresh();
@@ -176,6 +178,8 @@ public class SkirmishEntriesTableController
       _tableController=null;
     }
     // Data
+    _filter=null;
+    _config=null;
     _entries=null;
   }
 }
