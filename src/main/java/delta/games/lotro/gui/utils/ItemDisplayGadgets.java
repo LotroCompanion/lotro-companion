@@ -7,8 +7,11 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.labels.HyperLinkController;
 import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.games.lotro.gui.lore.items.ItemUiTools;
+import delta.games.lotro.gui.lore.items.legendary.relics.RelicUiTools;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemsManager;
+import delta.games.lotro.lore.items.legendary.relics.Relic;
+import delta.games.lotro.lore.items.legendary.relics.RelicsManager;
 
 /**
  * Controller for the gadgets to display an item.
@@ -17,7 +20,7 @@ import delta.games.lotro.lore.items.ItemsManager;
 public class ItemDisplayGadgets
 {
   private NavigatorWindowController _parent;
-  private ItemIconController _icon; // Item icon, with optional count
+  private IconController _icon; // Item icon, with optional count
   private HyperLinkController _name; // Item name
   private JLabel _comment; // Optional comment, either before or after icon+name
 
@@ -32,10 +35,28 @@ public class ItemDisplayGadgets
   {
     _parent=parent;
     Item item=ItemsManager.getInstance().getItem(itemId); 
-    _icon=new ItemIconController(_parent);
-    _icon.setItem(item,count);
+    ItemIconController icon=new ItemIconController(_parent);
+    icon.setItem(item,count);
+    _icon=icon;
     _name=ItemUiTools.buildItemLink(parent,item);
     _comment=GuiFactory.buildLabel(comment);
+  }
+
+  /**
+   * Constructor.
+   * @param parent Parent window.
+   * @param relicId Identifier of the relic to show.
+   * @param count Relics count.
+   */
+  public ItemDisplayGadgets(NavigatorWindowController parent, int relicId, int count)
+  {
+    _parent=parent;
+    Relic relic=RelicsManager.getInstance().getById(relicId); 
+    RelicIconController icon=new RelicIconController(_parent);
+    icon.setRelic(relic,count);
+    _icon=icon;
+    _name=RelicUiTools.buildRelicLink(parent,relic);
+    _comment=GuiFactory.buildLabel("");
   }
 
   /**

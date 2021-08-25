@@ -13,30 +13,30 @@ import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
-import delta.games.lotro.gui.lore.items.ItemUiTools;
+import delta.games.lotro.gui.lore.items.legendary.relics.RelicUiTools;
 import delta.games.lotro.gui.navigation.NavigatorFactory;
-import delta.games.lotro.lore.items.Item;
+import delta.games.lotro.lore.items.legendary.relics.Relic;
 
 /**
- * Controller for an item icon.
+ * Controller for a relic icon.
  * @author DAM
  */
-public class ItemIconController implements IconController
+public class RelicIconController implements IconController
 {
-  private static final Logger LOGGER=Logger.getLogger(ItemIconController.class);
+  private static final Logger LOGGER=Logger.getLogger(RelicIconController.class);
 
   private static final int DEFAULT_SIZE=32;
 
   private WindowController _parent;
   private ActionListener _listener;
   private JButton _icon;
-  private Item _item;
+  private Relic _relic;
 
   /**
    * Constructor.
    * @param parent Parent window.
    */
-  public ItemIconController(WindowController parent)
+  public RelicIconController(WindowController parent)
   {
     _parent=parent;
     _icon=GuiFactory.buildIconButton();
@@ -46,7 +46,7 @@ public class ItemIconController implements IconController
       @Override
       public void actionPerformed(ActionEvent e)
       {
-        showItemForm();
+        showRelicForm();
       }
     };
     _icon.addActionListener(_listener);
@@ -62,27 +62,27 @@ public class ItemIconController implements IconController
   }
 
   /**
-   * Set the displayed item.
-   * @param item Item to display.
+   * Set the displayed relic.
+   * @param relic Relic to display.
    * @param count Count to display.
    */
-  public void setItem(Item item, int count)
+  public void setRelic(Relic relic, int count)
   {
-    Icon icon=ItemUiTools.buildItemIcon(item,count);
+    Icon icon=RelicUiTools.buildRelicIcon(relic,count);
     _icon.setIcon(icon);
     _icon.setSize(icon.getIconWidth(),icon.getIconHeight());
-    if (item!=null)
+    if (relic!=null)
     {
-      _icon.setToolTipText(item.getName());
+      _icon.setToolTipText(relic.getName());
     }
-    _item=item;
+    _relic=relic;
   }
 
-  private void showItemForm()
+  private void showRelicForm()
   {
-    if (_item!=null)
+    if (_relic!=null)
     {
-      LOGGER.info("Display form for item: "+_item);
+      LOGGER.info("Display form for relic: "+_relic);
       NavigatorWindowController navigator=null;
       if (_parent instanceof NavigatorWindowController)
       {
@@ -93,7 +93,7 @@ public class ItemIconController implements IconController
         int id=_parent.getWindowsManager().getAll().size();
         navigator=NavigatorFactory.buildNavigator(_parent,id);
       }
-      PageIdentifier ref=ReferenceConstants.getItemReference(_item.getIdentifier());
+      PageIdentifier ref=ReferenceConstants.getRelicReference(_relic.getIdentifier());
       navigator.navigateTo(ref);
       navigator.bringToFront();
     }

@@ -15,6 +15,8 @@ import delta.games.lotro.gui.utils.ItemDisplayGadgets;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.comparators.ItemNameComparator;
 import delta.games.lotro.lore.items.containers.ContainerInspector;
+import delta.games.lotro.lore.items.legendary.relics.Relic;
+import delta.games.lotro.lore.items.legendary.relics.comparators.RelicNameComparator;
 
 /**
  * Controller for a panel to display the contents of a container.
@@ -80,12 +82,23 @@ public class ContainerDisplayPanelController
   private List<ItemDisplayGadgets> initItemsGadgets()
   {
     List<ItemDisplayGadgets> ret=new ArrayList<ItemDisplayGadgets>();
+    // Items
     List<Item> items=ContainerInspector.getContainerContents(_item);
     Collections.sort(items,new ItemNameComparator());
     for(Item item : items)
     {
       int itemId=item.getIdentifier();
       ItemDisplayGadgets gadgets=new ItemDisplayGadgets(_parent,itemId,1,"");
+      ret.add(gadgets);
+      _itemIcons.add(gadgets);
+    }
+    // Relics
+    List<Relic> relics=ContainerInspector.getContainerRelics(_item);
+    Collections.sort(relics,new RelicNameComparator());
+    for(Relic relic : relics)
+    {
+      int relicId=relic.getIdentifier();
+      ItemDisplayGadgets gadgets=new ItemDisplayGadgets(_parent,relicId,1);
       ret.add(gadgets);
       _itemIcons.add(gadgets);
     }
