@@ -2,6 +2,7 @@ package delta.games.lotro.gui.lore.items.legendary.relics;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.ImageIcon;
@@ -12,6 +13,7 @@ import delta.common.ui.swing.tables.DataProvider;
 import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.ListDataProvider;
+import delta.common.ui.swing.tables.TableColumnController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.gui.LotroIconsManager;
@@ -33,7 +35,24 @@ public class RelicsTableBuilder
   {
     DataProvider<Relic> provider=new ListDataProvider<Relic>(relics);
     GenericTableController<Relic> table=new GenericTableController<Relic>(provider);
+    List<TableColumnController<Relic,?>> columns=buildColumns();
+    for(TableColumnController<Relic,?> column : columns)
+    {
+      table.addColumnController(column);
+    }
+    // Adjust table row height for icons (32 pixels)
+    JTable swingTable=table.getTable();
+    swingTable.setRowHeight(32);
+    return table;
+  }
 
+  /**
+   * Build the columns for a relics table.
+   * @return A list of columns.
+   */
+  public static List<TableColumnController<Relic,?>> buildColumns()
+  {
+    List<TableColumnController<Relic,?>> columns=new ArrayList<TableColumnController<Relic,?>>();
     // Icon column
     {
       CellDataProvider<Relic,ImageIcon> iconCell=new CellDataProvider<Relic,ImageIcon>()
@@ -46,10 +65,10 @@ public class RelicsTableBuilder
           return icon;
         }
       };
-      DefaultTableColumnController<Relic,ImageIcon> iconColumn=new DefaultTableColumnController<Relic,ImageIcon>("Icon",ImageIcon.class,iconCell);
+      DefaultTableColumnController<Relic,ImageIcon> iconColumn=new DefaultTableColumnController<Relic,ImageIcon>(RelicColumnIds.ICON.name(),"Icon",ImageIcon.class,iconCell);
       iconColumn.setWidthSpecs(50,50,50);
       iconColumn.setSortable(false);
-      table.addColumnController(iconColumn);
+      columns.add(iconColumn);
     }
     // Name column
     {
@@ -61,9 +80,9 @@ public class RelicsTableBuilder
           return item.getName();
         }
       };
-      DefaultTableColumnController<Relic,String> nameColumn=new DefaultTableColumnController<Relic,String>("Name",String.class,nameCell);
+      DefaultTableColumnController<Relic,String> nameColumn=new DefaultTableColumnController<Relic,String>(RelicColumnIds.NAME.name(),"Name",String.class,nameCell);
       nameColumn.setWidthSpecs(100,230,210);
-      table.addColumnController(nameColumn);
+      columns.add(nameColumn);
     }
     // Category column
     {
@@ -74,9 +93,9 @@ public class RelicsTableBuilder
           return item.getCategory().getName();
         }
       };
-      DefaultTableColumnController<Relic,String> categoryColumn=new DefaultTableColumnController<Relic,String>("Category",String.class,categoryCell);
+      DefaultTableColumnController<Relic,String> categoryColumn=new DefaultTableColumnController<Relic,String>(RelicColumnIds.CATEGORY.name(),"Category",String.class,categoryCell);
       categoryColumn.setWidthSpecs(80,100,100);
-      table.addColumnController(categoryColumn);
+      columns.add(categoryColumn);
     }
     // Level column
     {
@@ -88,9 +107,9 @@ public class RelicsTableBuilder
           return item.getRequiredLevel();
         }
       };
-      DefaultTableColumnController<Relic,Integer> levelColumn=new DefaultTableColumnController<Relic,Integer>("Level",Integer.class,levelCell);
+      DefaultTableColumnController<Relic,Integer> levelColumn=new DefaultTableColumnController<Relic,Integer>(RelicColumnIds.LEVEL.name(),"Level",Integer.class,levelCell);
       levelColumn.setWidthSpecs(70,70,50);
-      table.addColumnController(levelColumn);
+      columns.add(levelColumn);
     }
     // Class column
     {
@@ -102,9 +121,9 @@ public class RelicsTableBuilder
           return item.getUsageRequirement().getRequiredClass();
         }
       };
-      DefaultTableColumnController<Relic,CharacterClass> classColumn=new DefaultTableColumnController<Relic,CharacterClass>("Class",CharacterClass.class,classCell);
+      DefaultTableColumnController<Relic,CharacterClass> classColumn=new DefaultTableColumnController<Relic,CharacterClass>(RelicColumnIds.CLASS.name(),"Class",CharacterClass.class,classCell);
       classColumn.setWidthSpecs(100,100,100);
-      table.addColumnController(classColumn);
+      columns.add(classColumn);
     }
     // Stats column
     {
@@ -117,14 +136,11 @@ public class RelicsTableBuilder
           return statsStr;
         }
       };
-      DefaultTableColumnController<Relic,String> statsColumn=new DefaultTableColumnController<Relic,String>("Stats",String.class,statsCell);
+      DefaultTableColumnController<Relic,String> statsColumn=new DefaultTableColumnController<Relic,String>(RelicColumnIds.STATS.name(),"Stats",String.class,statsCell);
       statsColumn.setWidthSpecs(250,-1,250);
-      table.addColumnController(statsColumn);
+      columns.add(statsColumn);
     }
-    // Adjust table row height for icons (32 pixels)
-    JTable swingTable=table.getTable();
-    swingTable.setRowHeight(32);
-    return table;
+    return columns;
   }
 
   /**

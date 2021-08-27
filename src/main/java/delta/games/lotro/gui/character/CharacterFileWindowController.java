@@ -39,6 +39,9 @@ import delta.games.lotro.character.stats.CharacterStatsComputer;
 import delta.games.lotro.character.status.achievables.AchievablesStatusManager;
 import delta.games.lotro.character.status.achievables.io.DeedsStatusIo;
 import delta.games.lotro.character.status.achievables.io.QuestsStatusIo;
+import delta.games.lotro.character.status.relics.RelicsInventory;
+import delta.games.lotro.character.status.relics.RelicsInventoryManager;
+import delta.games.lotro.character.status.relics.io.RelicsInventoryIo;
 import delta.games.lotro.character.status.skirmishes.SkirmishEntriesManager;
 import delta.games.lotro.character.status.skirmishes.SkirmishStatsManager;
 import delta.games.lotro.character.status.skirmishes.io.SkirmishStatsIo;
@@ -53,6 +56,7 @@ import delta.games.lotro.gui.character.status.crafting.CraftingWindowController;
 import delta.games.lotro.gui.character.status.deeds.DeedsStatusWindowController;
 import delta.games.lotro.gui.character.status.levelling.LevelHistoryEditionDialogController;
 import delta.games.lotro.gui.character.status.quests.QuestsStatusWindowController;
+import delta.games.lotro.gui.character.status.relics.RelicsInventoryWindowController;
 import delta.games.lotro.gui.character.status.reputation.CharacterReputationDialogController;
 import delta.games.lotro.gui.character.status.skirmishes.SkirmishStatisticsWindowController;
 import delta.games.lotro.gui.character.status.tasks.TasksStatusWindowController;
@@ -82,6 +86,7 @@ public class CharacterFileWindowController extends DefaultWindowController imple
   private static final String QUESTS_STATUS_COMMAND="questsStatus";
   private static final String TASKS_STATUS_COMMAND="tasksStatus";
   private static final String SKIRMISH_STATS_COMMAND="skirmishStats";
+  private static final String RELICS_INVENTORY_COMMAND="relicsInventory";
   private static final String TITLES_STATUS_COMMAND="titlesStatus";
   private static final String STORAGE_COMMAND="storage";
 
@@ -203,6 +208,10 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     JButton skirmishsButton=buildCommandButton("Skirmishs",SKIRMISH_STATS_COMMAND);
     panel.add(skirmishsButton,c);
     c.gridx++;
+    // Relics inventory statistics
+    JButton relicsButton=buildCommandButton("Relics",RELICS_INVENTORY_COMMAND);
+    panel.add(relicsButton,c);
+    c.gridx++;
     // Titles status
     JButton titlesButton=buildCommandButton("Titles",TITLES_STATUS_COMMAND);
     panel.add(titlesButton,c);
@@ -291,6 +300,10 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     else if (SKIRMISH_STATS_COMMAND.equals(command))
     {
       showSkirmishStatistics();
+    }
+    else if (RELICS_INVENTORY_COMMAND.equals(command))
+    {
+      showRelicsInventory();
     }
     else if (TITLES_STATUS_COMMAND.equals(command))
     {
@@ -551,6 +564,15 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     SkirmishStatsManager status=SkirmishStatsIo.load(_toon);
     SkirmishEntriesManager entriesMgr=new SkirmishEntriesManager(status);
     SkirmishStatisticsWindowController controller=new SkirmishStatisticsWindowController(this,entriesMgr);
+    controller.show();
+  }
+
+  private void showRelicsInventory()
+  {
+    RelicsInventory status=RelicsInventoryIo.load(_toon);
+    RelicsInventoryManager relicsStatusMgr=new RelicsInventoryManager();
+    relicsStatusMgr.init(status);
+    RelicsInventoryWindowController controller=new RelicsInventoryWindowController(this,relicsStatusMgr);
     controller.show();
   }
 

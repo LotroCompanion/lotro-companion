@@ -48,7 +48,7 @@ public class DatRadarImageProvider implements RadarImageProvider
     }
     catch(Exception e)
     {
-      LOGGER.warn("Could not load radar image for region="+region+", bx="+blockX+", by="+blockY);
+      LOGGER.warn("Could not load radar image for region="+region+", bx="+blockX+", by="+blockY, e);
     }
     return ret;
   }
