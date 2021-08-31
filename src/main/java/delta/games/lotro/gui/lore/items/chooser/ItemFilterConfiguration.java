@@ -102,6 +102,21 @@ public class ItemFilterConfiguration
   }
 
   /**
+   * Configure the filter for the items database explorer.
+   */
+  public void forItemExplorerFilter()
+  {
+    _components[ItemChooserFilterComponent.NAME.ordinal()]=true;
+    _components[ItemChooserFilterComponent.QUALITY.ordinal()]=true;
+    _components[ItemChooserFilterComponent.LEGENDARY.ordinal()]=true;
+    _components[ItemChooserFilterComponent.STAT.ordinal()]=true;
+    _components[ItemChooserFilterComponent.ARMOUR_TYPE.ordinal()]=true;
+    _components[ItemChooserFilterComponent.WEAPON_TYPE.ordinal()]=true;
+    _components[ItemChooserFilterComponent.SHIELD_TYPE.ordinal()]=true;
+    _components[ItemChooserFilterComponent.ITEM_LEVEL.ordinal()]=true;
+  }
+
+  /**
    * Indicates if the specified component is enabled or not.
    * @param component Targeted component.
    * @return <code>true</code> if it is, <code>false</code> otherwise.

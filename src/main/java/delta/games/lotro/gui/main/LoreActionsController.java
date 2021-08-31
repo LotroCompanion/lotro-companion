@@ -18,6 +18,7 @@ import delta.games.lotro.gui.lore.collections.pets.explorer.PetsExplorerWindowCo
 import delta.games.lotro.gui.lore.crafting.recipes.explorer.RecipesExplorerWindowController;
 import delta.games.lotro.gui.lore.deeds.explorer.DeedsExplorerWindowController;
 import delta.games.lotro.gui.lore.emotes.explorer.EmotesExplorerWindowController;
+import delta.games.lotro.gui.lore.items.explorer.ItemsExplorerWindowController;
 import delta.games.lotro.gui.lore.quests.explorer.QuestsExplorerWindowController;
 import delta.games.lotro.gui.lore.titles.explorer.TitlesExplorerWindowController;
 import delta.games.lotro.gui.lore.trade.barter.explorer.BarterersExplorerWindowController;
@@ -30,6 +31,7 @@ import delta.games.lotro.gui.utils.SharedUiUtils;
  */
 public class LoreActionsController implements ActionListener,Disposable
 {
+  private static final String ITEMS_ID="items";
   private static final String DEEDS_ID="deeds";
   private static final String QUESTS_ID="quests";
   private static final String RECIPES_ID="recipes";
@@ -63,6 +65,11 @@ public class LoreActionsController implements ActionListener,Disposable
   {
     // Compendium
     JMenu compendiumMenu=GuiFactory.buildMenu("Compendium");
+    // - items
+    JMenuItem itemsExplorer=GuiFactory.buildMenuItem("Items");
+    itemsExplorer.setActionCommand(ITEMS_ID);
+    itemsExplorer.addActionListener(this);
+    compendiumMenu.add(itemsExplorer);
     // - deeds
     JMenuItem deedsExplorer=GuiFactory.buildMenuItem("Deeds");
     deedsExplorer.setActionCommand(DEEDS_ID);
@@ -120,6 +127,10 @@ public class LoreActionsController implements ActionListener,Disposable
   {
     ToolbarController controller=new ToolbarController();
     ToolbarModel model=controller.getModel();
+    // Items icon
+    String itemsIconPath=SharedUiUtils.getToolbarIconPath("deeds");
+    ToolbarIconItem itemsIconItem=new ToolbarIconItem(ITEMS_ID,itemsIconPath,ITEMS_ID,"Items...","Items");
+    model.addToolbarIconItem(itemsIconItem);
     // Deeds icon
     String deedsIconPath=SharedUiUtils.getToolbarIconPath("deeds");
     ToolbarIconItem deedsIconItem=new ToolbarIconItem(DEEDS_ID,deedsIconPath,DEEDS_ID,"Deeds...","Deeds");
@@ -167,7 +178,11 @@ public class LoreActionsController implements ActionListener,Disposable
   public void actionPerformed(ActionEvent event)
   {
     String cmd=event.getActionCommand();
-    if (DEEDS_ID.equals(cmd))
+    if (ITEMS_ID.equals(cmd))
+    {
+      doItems();
+    }
+    else if (DEEDS_ID.equals(cmd))
     {
       doDeeds();
     }
@@ -203,6 +218,17 @@ public class LoreActionsController implements ActionListener,Disposable
     {
       doBarterers();
     }
+  }
+
+  private void doItems()
+  {
+    WindowController controller=_windowsManager.getWindow(ItemsExplorerWindowController.IDENTIFIER);
+    if (controller==null)
+    {
+      controller=new ItemsExplorerWindowController(_parent);
+      _windowsManager.registerWindow(controller);
+    }
+    controller.bringToFront();
   }
 
   private void doDeeds()

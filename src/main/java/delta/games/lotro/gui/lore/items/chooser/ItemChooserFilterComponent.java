@@ -43,7 +43,7 @@ public enum ItemChooserFilterComponent
    */
   CHAR_CLASS,
   /**
-   * Character proficiences filter.
+   * Character proficiencies filter.
    */
   CHAR_PROFICIENCIES,
   /**
