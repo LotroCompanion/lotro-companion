@@ -17,8 +17,10 @@ import delta.games.lotro.lore.items.ItemsManager;
 import delta.games.lotro.lore.items.legendary.relics.RelicsContainer;
 import delta.games.lotro.lore.quests.Achievable;
 import delta.games.lotro.lore.quests.QuestDescription;
+import delta.games.lotro.lore.relics.melding.RelicMeldingRecipe;
 import delta.games.lotro.lore.xrefs.relics.RelicReference;
 import delta.games.lotro.lore.xrefs.relics.RelicReferencesBuilder;
+import delta.games.lotro.lore.xrefs.relics.RelicRole;
 import delta.games.lotro.utils.gui.HtmlUtils;
 
 /**
@@ -102,6 +104,7 @@ public class RelicReferencesDisplayController
     sb.append("<html><body>");
     buildHtmlForQuestsAndDeeds(sb,references);
     buildHtmlForContainers(sb,references);
+    buildHtmlForMeldingRecipes(sb,references);
     sb.append("</body></html>");
     return sb.toString();
   }
@@ -168,6 +171,43 @@ public class RelicReferencesDisplayController
     String itemName=item.getName();
     HtmlUtils.printLink(sb,to.getFullAddress(),itemName);
     sb.append("</b></p>");
+  }
+
+  private void buildHtmlForMeldingRecipes(StringBuilder sb, List<RelicReference<?>> references)
+  {
+    List<RelicReference<RelicMeldingRecipe>> recipeReferences=getReferences(references,RelicMeldingRecipe.class);
+    if (recipeReferences.size()>0)
+    {
+      sb.append("<h1>Melding recipes</h1>");
+      for(RelicReference<RelicMeldingRecipe> recipeReference : recipeReferences)
+      {
+        buildHtmlForRecipeReference(sb,recipeReference);
+      }
+    }
+  }
+
+  private void buildHtmlForRecipeReference(StringBuilder sb, RelicReference<RelicMeldingRecipe> recipeReference)
+  {
+    RelicMeldingRecipe recipe=recipeReference.getSource();
+    sb.append("<p>Found as ");
+    int index=0;
+    for(RelicRole role : recipeReference.getRoles())
+    {
+      if (index>0)
+      {
+        sb.append(" / ");
+      }
+      if (role==RelicRole.RECIPE_INGREDIENT) sb.append("ingredient");
+      if (role==RelicRole.RECIPE_RESULT) sb.append("result");
+      index++;
+    }
+    sb.append(" in recipe ");
+    sb.append("<b>");
+    PageIdentifier to=ReferenceConstants.getMeldingRecipeReference(recipe.getIdentifier());
+    String recipeName=recipe.getName();
+    HtmlUtils.printLink(sb,to.getFullAddress(),recipeName);
+    sb.append("</b></p>");
+  
   }
 
   /**
