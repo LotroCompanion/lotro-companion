@@ -21,7 +21,6 @@ import delta.common.ui.swing.windows.WindowController;
 import delta.common.ui.swing.windows.WindowsManager;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
-import delta.games.lotro.gui.lore.items.chooser.ItemChooserFilter;
 import delta.games.lotro.gui.lore.items.chooser.ItemFilterConfiguration;
 import delta.games.lotro.gui.lore.items.chooser.ItemFilterController;
 import delta.games.lotro.gui.lore.items.table.ItemsTableController;

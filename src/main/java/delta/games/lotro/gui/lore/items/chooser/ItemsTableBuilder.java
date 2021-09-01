@@ -115,20 +115,12 @@ public class ItemsTableBuilder
     columns.add(buildNameColumn());
     // Item level column
     columns.add(buildItemLevelColumn());
-    // Required level column
-    {
-      CellDataProvider<Item,Integer> minLevelCell=new CellDataProvider<Item,Integer>()
-      {
-        @Override
-        public Integer getData(Item item)
-        {
-          return item.getMinLevel();
-        }
-      };
-      DefaultTableColumnController<Item,Integer> minLevelColumn=new DefaultTableColumnController<Item,Integer>(ItemColumnIds.REQUIRED_LEVEL.name(),"Level",Integer.class,minLevelCell);
-      minLevelColumn.setWidthSpecs(55,55,50);
-      columns.add(minLevelColumn);
-    }
+    // Category column
+    columns.add(buildSubCategoryColumn());
+    // Required min level column
+    columns.add(buildMinLevelColumn());
+    // Required max level column
+    columns.add(buildMaxLevelColumn());
     // Class requirement
     {
       CellDataProvider<Item,CharacterClass> requiredClassCell=new CellDataProvider<Item,CharacterClass>()
@@ -344,6 +336,44 @@ public class ItemsTableBuilder
     DefaultTableColumnController<Item,Integer> levelColumn=new DefaultTableColumnController<Item,Integer>(ItemColumnIds.ITEM_LEVEL.name(),"Item Lvl",Integer.class,levelCell);
     levelColumn.setWidthSpecs(55,55,50);
     return levelColumn;
+  }
+
+  /**
+   * Build a column for the min required level of an item.
+   * @return a column.
+   */
+  public static DefaultTableColumnController<Item,Integer> buildMinLevelColumn()
+  {
+    CellDataProvider<Item,Integer> minLevelCell=new CellDataProvider<Item,Integer>()
+    {
+      @Override
+      public Integer getData(Item item)
+      {
+        return item.getMinLevel();
+      }
+    };
+    DefaultTableColumnController<Item,Integer> minLevelColumn=new DefaultTableColumnController<Item,Integer>(ItemColumnIds.REQUIRED_LEVEL.name(),"Level",Integer.class,minLevelCell);
+    minLevelColumn.setWidthSpecs(55,55,50);
+    return minLevelColumn;
+  }
+
+  /**
+   * Build a column for the max required level of an item.
+   * @return a column.
+   */
+  public static DefaultTableColumnController<Item,Integer> buildMaxLevelColumn()
+  {
+    CellDataProvider<Item,Integer> maxLevelCell=new CellDataProvider<Item,Integer>()
+    {
+      @Override
+      public Integer getData(Item item)
+      {
+        return item.getMaxLevel();
+      }
+    };
+    DefaultTableColumnController<Item,Integer> maxLevelColumn=new DefaultTableColumnController<Item,Integer>(ItemColumnIds.REQUIRED_MAX_LEVEL.name(),"Max Level",Integer.class,maxLevelCell);
+    maxLevelColumn.setWidthSpecs(55,55,50);
+    return maxLevelColumn;
   }
 
   /**

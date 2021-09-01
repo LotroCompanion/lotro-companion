@@ -27,9 +27,13 @@ public enum ItemColumnIds
    */
   ITEM_LEVEL,
   /**
-   * Required level.
+   * Required (min) level.
    */
   REQUIRED_LEVEL,
+  /**
+   * Required (max) level.
+   */
+  REQUIRED_MAX_LEVEL,
   /**
    * Essence tier.
    */
