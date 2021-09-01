@@ -2,6 +2,8 @@ package delta.games.lotro.gui.lore.items.chooser;
 
 import delta.common.utils.BooleanTools;
 import delta.common.utils.misc.TypedProperties;
+import delta.games.lotro.common.CharacterClass;
+import delta.games.lotro.common.Race;
 import delta.games.lotro.common.stats.StatDescription;
 import delta.games.lotro.common.stats.StatsRegistry;
 import delta.games.lotro.lore.items.ArmourType;
@@ -15,6 +17,7 @@ import delta.games.lotro.lore.items.filters.ItemLevelFilter;
 import delta.games.lotro.lore.items.filters.ItemNameFilter;
 import delta.games.lotro.lore.items.filters.ItemQualityFilter;
 import delta.games.lotro.lore.items.filters.ItemRequiredClassFilter;
+import delta.games.lotro.lore.items.filters.ItemRequiredRaceFilter;
 import delta.games.lotro.lore.items.filters.ItemStatFilter;
 import delta.games.lotro.lore.items.filters.LegendaryItemFilter;
 import delta.games.lotro.lore.items.filters.WeaponTypeFilter;
@@ -38,6 +41,8 @@ public class ItemChooserFilterIo
   private static final String STAT_SEED="stat.";
   private static final String MIN_ITEM_LEVEL="minItemLevel";
   private static final String MAX_ITEM_LEVEL="maxItemLevel";
+  private static final String CLASS_FILTER="classFilter";
+  private static final String RACE_FILTER="raceFilter";
 
   /**
    * Load filter data from the given properties.
@@ -149,6 +154,21 @@ public class ItemChooserFilterIo
       Integer minLevel=props.getIntegerProperty(MIN_ITEM_LEVEL);
       Integer maxLevel=props.getIntegerProperty(MAX_ITEM_LEVEL);
       itemLevelFilter.setRange(minLevel,maxLevel);
+    }
+    // Character class
+    if (classFilter!=null)
+    {
+      String classFilterKey=props.getStringProperty(CLASS_FILTER,null);
+      CharacterClass characterClass=CharacterClass.getByKey(classFilterKey);
+      classFilter.setCharacterClass(characterClass);
+    }
+    // Race
+    ItemRequiredRaceFilter raceFilter=filter.getRaceFilter();
+    if (raceFilter!=null)
+    {
+      String raceFilterKey=props.getStringProperty(RACE_FILTER,null);
+      Race race=Race.getByKey(raceFilterKey);
+      raceFilter.setRace(race);
     }
   }
 
@@ -308,6 +328,33 @@ public class ItemChooserFilterIo
       else
       {
         props.removeProperty(MAX_ITEM_LEVEL);
+      }
+    }
+    // Character class
+    if (classFilter!=null)
+    {
+      CharacterClass characterClass=classFilter.getCharacterClass();
+      if (characterClass!=null)
+      {
+        props.setStringProperty(CLASS_FILTER,characterClass.getKey());
+      }
+      else
+      {
+        props.removeProperty(CLASS_FILTER);
+      }
+    }
+    // Race
+    ItemRequiredRaceFilter raceFilter=filter.getRaceFilter();
+    if (raceFilter!=null)
+    {
+      Race race=raceFilter.getRace();
+      if (race!=null)
+      {
+        props.setStringProperty(RACE_FILTER,race.getKey());
+      }
+      else
+      {
+        props.removeProperty(RACE_FILTER);
       }
     }
   }

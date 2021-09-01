@@ -39,19 +39,27 @@ public enum ItemChooserFilterComponent
    */
   SHIELD_TYPE,
   /**
-   * Character class filter.
+   * Filter on the class of the current character.
    */
   CHAR_CLASS,
   /**
-   * Character proficiencies filter.
+   * Filter on the proficiencies of the current character.
    */
   CHAR_PROFICIENCIES,
   /**
-   * Character level filter.
+   * Filter on the level of the current character.
    */
   CHAR_LEVEL,
   /**
    * Item level filter.
    */
-  ITEM_LEVEL
+  ITEM_LEVEL,
+  /**
+   * Character class filter.
+   */
+  CHARACTER_CLASS,
+  /**
+   * Character race filter.
+   */
+  CHARACTER_RACE
 }

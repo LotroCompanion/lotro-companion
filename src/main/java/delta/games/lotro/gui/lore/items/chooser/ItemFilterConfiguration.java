@@ -95,9 +95,12 @@ public class ItemFilterConfiguration
     _components[ItemChooserFilterComponent.ARMOUR_TYPE.ordinal()]=true;
     _components[ItemChooserFilterComponent.WEAPON_TYPE.ordinal()]=true;
     _components[ItemChooserFilterComponent.SHIELD_TYPE.ordinal()]=true;
+    // Requirements for the current character: class, proficiencies, level
+    // TODO: add faction requirements
     _components[ItemChooserFilterComponent.CHAR_CLASS.ordinal()]=true;
     _components[ItemChooserFilterComponent.CHAR_PROFICIENCIES.ordinal()]=true;
     _components[ItemChooserFilterComponent.CHAR_LEVEL.ordinal()]=true;
+    // Item level range
     _components[ItemChooserFilterComponent.ITEM_LEVEL.ordinal()]=true;
   }
 
@@ -113,6 +116,8 @@ public class ItemFilterConfiguration
     _components[ItemChooserFilterComponent.ARMOUR_TYPE.ordinal()]=true;
     _components[ItemChooserFilterComponent.WEAPON_TYPE.ordinal()]=true;
     _components[ItemChooserFilterComponent.SHIELD_TYPE.ordinal()]=true;
+    _components[ItemChooserFilterComponent.CHARACTER_CLASS.ordinal()]=true;
+    _components[ItemChooserFilterComponent.CHARACTER_RACE.ordinal()]=true;
     _components[ItemChooserFilterComponent.ITEM_LEVEL.ordinal()]=true;
   }
 

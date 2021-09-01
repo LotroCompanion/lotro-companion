@@ -19,6 +19,7 @@ import delta.games.lotro.lore.items.filters.ItemLevelFilter;
 import delta.games.lotro.lore.items.filters.ItemNameFilter;
 import delta.games.lotro.lore.items.filters.ItemQualityFilter;
 import delta.games.lotro.lore.items.filters.ItemRequiredClassFilter;
+import delta.games.lotro.lore.items.filters.ItemRequiredRaceFilter;
 import delta.games.lotro.lore.items.filters.ItemStatFilter;
 import delta.games.lotro.lore.items.filters.LegendaryItemFilter;
 import delta.games.lotro.lore.items.filters.WeaponTypeFilter;
@@ -38,6 +39,7 @@ public class ItemChooserFilter implements Filter<Item>
   private ItemFilterConfiguration _cfg;
   private Filter<Item> _filter;
   private ItemRequiredClassFilter _classFilter;
+  private ItemRequiredRaceFilter _raceFilter;
   private CharacterProficienciesFilter _proficienciesFilter;
   private ItemCharacterLevelFilter _levelFilter;
   private EssenceTierFilter _essenceTierFilter;
@@ -65,8 +67,8 @@ public class ItemChooserFilter implements Filter<Item>
       CharacterClass characterClass=attrs.getCharacterClass();
       int level=attrs.getLevel();
       // Class
-      boolean useClass=cfg.hasComponent(ItemChooserFilterComponent.CHAR_CLASS);
-      if (useClass)
+      boolean useCurrentCharClass=cfg.hasComponent(ItemChooserFilterComponent.CHAR_CLASS);
+      if (useCurrentCharClass)
       {
         _classFilter=new ItemRequiredClassFilter(characterClass,false);
         filters.add(_classFilter);
@@ -79,8 +81,8 @@ public class ItemChooserFilter implements Filter<Item>
         filters.add(_proficienciesFilter);
       }
       // Level
-      boolean useLevel=cfg.hasComponent(ItemChooserFilterComponent.CHAR_LEVEL);
-      if (useLevel)
+      boolean useCurrentCharLevel=cfg.hasComponent(ItemChooserFilterComponent.CHAR_LEVEL);
+      if (useCurrentCharLevel)
       {
         _levelFilter=new ItemCharacterLevelFilter(level);
         filters.add(_levelFilter);
@@ -157,6 +159,20 @@ public class ItemChooserFilter implements Filter<Item>
       _itemLevelFilter=new ItemLevelFilter();
       filters.add(_itemLevelFilter);
     }
+    // Character class
+    boolean useCharacterClass=cfg.hasComponent(ItemChooserFilterComponent.CHARACTER_CLASS);
+    if (useCharacterClass)
+    {
+      _classFilter=new ItemRequiredClassFilter(null,false);
+      filters.add(_classFilter);
+    }
+    // Race
+    boolean useCharacterRace=cfg.hasComponent(ItemChooserFilterComponent.CHARACTER_RACE);
+    if (useCharacterRace)
+    {
+      _raceFilter=new ItemRequiredRaceFilter(null,false);
+      filters.add(_raceFilter);
+    }
     _filter=new CompoundFilter<Item>(Operator.AND,filters);
   }
 
@@ -185,6 +201,15 @@ public class ItemChooserFilter implements Filter<Item>
   public ItemRequiredClassFilter getClassFilter()
   {
     return _classFilter;
+  }
+
+  /**
+   * Get the managed race filter.
+   * @return a race filter or <code>null</code>.
+   */
+  public ItemRequiredRaceFilter getRaceFilter()
+  {
+    return _raceFilter;
   }
 
   /**

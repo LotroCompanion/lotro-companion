@@ -28,7 +28,10 @@ import delta.common.ui.swing.text.range.RangeListener;
 import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.character.BasicCharacterAttributes;
+import delta.games.lotro.common.CharacterClass;
+import delta.games.lotro.common.Race;
 import delta.games.lotro.common.stats.StatDescription;
+import delta.games.lotro.gui.character.summary.CharacterUiUtils;
 import delta.games.lotro.gui.lore.items.ItemUiTools;
 import delta.games.lotro.lore.items.ArmourType;
 import delta.games.lotro.lore.items.Item;
@@ -39,6 +42,7 @@ import delta.games.lotro.lore.items.filters.CharacterProficienciesFilter;
 import delta.games.lotro.lore.items.filters.ItemCharacterLevelFilter;
 import delta.games.lotro.lore.items.filters.ItemLevelFilter;
 import delta.games.lotro.lore.items.filters.ItemRequiredClassFilter;
+import delta.games.lotro.lore.items.filters.ItemRequiredRaceFilter;
 import delta.games.lotro.lore.items.filters.ItemStatFilter;
 import delta.games.lotro.lore.items.filters.WeaponTypeFilter;
 import delta.games.lotro.utils.gui.filter.ObjectFilterPanelController;
@@ -69,6 +73,8 @@ public class ItemFilterController extends ObjectFilterPanelController
   private CheckboxController _characterLevelRequirement;
   private CheckboxController _proficienciesRequirement;
   private RangeEditorController _itemLevelRange;
+  private ComboBoxController<CharacterClass> _characterClass;
+  private ComboBoxController<Race> _race;
 
   /**
    * Constructor.
@@ -191,6 +197,16 @@ public class ItemFilterController extends ObjectFilterPanelController
     {
       ItemLevelFilter itemLevelFilter=_filter.getItemLevelFilter();
       _itemLevelRange.setCurrentRange(itemLevelFilter.getMinItemLevel(),itemLevelFilter.getMaxItemLevel());
+    }
+    if (_characterClass!=null)
+    {
+      ItemRequiredClassFilter classFilter=_filter.getClassFilter();
+      _characterClass.setSelectedItem(classFilter.getCharacterClass());
+    }
+    if (_race!=null)
+    {
+      ItemRequiredRaceFilter raceFilter=_filter.getRaceFilter();
+      _race.setSelectedItem(raceFilter.getRace());
     }
   }
 
@@ -456,12 +472,19 @@ public class ItemFilterController extends ObjectFilterPanelController
   private JPanel buildLine4Panel()
   {
     JPanel panel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING));
-    boolean useClass=_cfg.hasComponent(ItemChooserFilterComponent.CHAR_CLASS);
+    boolean useCurrentCharacterClass=_cfg.hasComponent(ItemChooserFilterComponent.CHAR_CLASS);
     boolean useProficiences=_cfg.hasComponent(ItemChooserFilterComponent.CHAR_PROFICIENCIES);
     boolean useLevel=_cfg.hasComponent(ItemChooserFilterComponent.CHAR_LEVEL);
-    if (useClass || useProficiences || useLevel)
+    if (useCurrentCharacterClass || useProficiences || useLevel)
     {
-      JPanel requirementsPanel=buildRequirementsPanel(useClass,useProficiences,useLevel);
+      JPanel requirementsPanel=buildCurrentCharacterRequirementsPanel(useCurrentCharacterClass,useProficiences,useLevel);
+      panel.add(requirementsPanel);
+    }
+    boolean useCharacterClass=_cfg.hasComponent(ItemChooserFilterComponent.CHARACTER_CLASS);
+    boolean useRace=_cfg.hasComponent(ItemChooserFilterComponent.CHARACTER_RACE);
+    if (useCharacterClass || useRace)
+    {
+      JPanel requirementsPanel=buildCharacterRequirementsPanel(useCharacterClass,useRace);
       panel.add(requirementsPanel);
     }
     boolean useItemLevel=_cfg.hasComponent(ItemChooserFilterComponent.ITEM_LEVEL);
@@ -473,7 +496,7 @@ public class ItemFilterController extends ObjectFilterPanelController
     return panel;
   }
 
-  private JPanel buildRequirementsPanel(boolean useClass,boolean useProficiences,boolean useLevel)
+  private JPanel buildCurrentCharacterRequirementsPanel(boolean useClass,boolean useProficiences,boolean useLevel)
   {
     JPanel requirementsPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING));
     TitledBorder border=GuiFactory.buildTitledBorder("Character requirements");
@@ -534,6 +557,48 @@ public class ItemFilterController extends ObjectFilterPanelController
         }
       };
       levelCheckbox.addActionListener(l);
+    }
+    return requirementsPanel;
+  }
+
+  private JPanel buildCharacterRequirementsPanel(boolean useCharacterClass, boolean useRace)
+  {
+    JPanel requirementsPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING));
+    TitledBorder border=GuiFactory.buildTitledBorder("Character requirements");
+    requirementsPanel.setBorder(border);
+    // Class requirement
+    if (useCharacterClass)
+    {
+      _characterClass=CharacterUiUtils.buildClassCombo(true);
+      requirementsPanel.add(GuiFactory.buildLabel("Class:"));
+      requirementsPanel.add(_characterClass.getComboBox());
+      ItemSelectionListener<CharacterClass> l=new ItemSelectionListener<CharacterClass>()
+      {
+        @Override
+        public void itemSelected(CharacterClass selected)
+        {
+          _filter.getClassFilter().setCharacterClass(selected);
+          filterUpdated();
+        }
+      };
+      _characterClass.addListener(l);
+    }
+    // Race requirement
+    if (useRace)
+    {
+      _race=CharacterUiUtils.buildRaceCombo(true);
+      requirementsPanel.add(GuiFactory.buildLabel("Race:"));
+      requirementsPanel.add(_race.getComboBox());
+      ItemSelectionListener<Race> l=new ItemSelectionListener<Race>()
+      {
+        @Override
+        public void itemSelected(Race selected)
+        {
+          _filter.getRaceFilter().setRace(selected);
+          filterUpdated();
+        }
+      };
+      _race.addListener(l);
     }
     return requirementsPanel;
   }
