@@ -207,7 +207,6 @@ public class RelicReferencesDisplayController
     String recipeName=recipe.getName();
     HtmlUtils.printLink(sb,to.getFullAddress(),recipeName);
     sb.append("</b></p>");
-  
   }
 
   /**

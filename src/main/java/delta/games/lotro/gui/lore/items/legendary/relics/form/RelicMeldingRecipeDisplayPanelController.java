@@ -8,7 +8,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.util.List;
 
-import javax.swing.ImageIcon;
+import javax.swing.Icon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -16,9 +16,14 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.labels.HyperLinkController;
 import delta.common.ui.swing.navigator.NavigablePanelController;
 import delta.common.ui.swing.navigator.NavigatorWindowController;
+import delta.games.lotro.common.Named;
 import delta.games.lotro.gui.LotroIconsManager;
+import delta.games.lotro.gui.lore.items.ItemUiTools;
 import delta.games.lotro.gui.lore.items.legendary.relics.RelicUiTools;
+import delta.games.lotro.gui.utils.IconController;
+import delta.games.lotro.gui.utils.ItemIconController;
 import delta.games.lotro.gui.utils.RelicIconController;
+import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.legendary.relics.Relic;
 import delta.games.lotro.lore.relics.CountedRelic;
 import delta.games.lotro.lore.relics.melding.MeldingInput;
@@ -76,9 +81,12 @@ public class RelicMeldingRecipeDisplayPanelController implements NavigablePanelC
     panel.add(summaryPanel,c);
     // Input
     JPanel input=buildInputPanel(_recipe.getInput());
-    input.setBorder(GuiFactory.buildTitledBorder("Input"));
-    c=new GridBagConstraints(0,1,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,5,0,5),0,0);
-    panel.add(input,c);
+    if (input!=null)
+    {
+      input.setBorder(GuiFactory.buildTitledBorder("Input"));
+      c=new GridBagConstraints(0,1,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,5,0,5),0,0);
+      panel.add(input,c);
+    }
     // Output
     JPanel output=buildOutputPanel(_recipe.getOutput());
     output.setBorder(GuiFactory.buildTitledBorder("Output"));
@@ -96,7 +104,7 @@ public class RelicMeldingRecipeDisplayPanelController implements NavigablePanelC
     {
       JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
       // Icon
-      ImageIcon icon=LotroIconsManager.getRelicIcon(_recipe.getIconFilename());
+      Icon icon=getIcon();
       JLabel iconLabel=GuiFactory.buildIconLabel(icon);
       panelLine.add(iconLabel);
       // Name
@@ -134,8 +142,33 @@ public class RelicMeldingRecipeDisplayPanelController implements NavigablePanelC
     return panel;
   }
 
+  private Icon getIcon()
+  {
+    int iconId=_recipe.getIconOverride();
+    if (iconId==0)
+    {
+      Named result=_recipe.getOutput().getFirstResult();
+      if (result instanceof Relic)
+      {
+        Relic relic=(Relic)result;
+        return LotroIconsManager.getRelicIcon(relic.getIconFilename());
+      }
+      if (result instanceof Item)
+      {
+        Item item=(Item)result;
+        return LotroIconsManager.getItemIcon(item.getIcon());
+      }
+      return null;
+    }
+    return LotroIconsManager.getRelicIcon(iconId+".png");
+  }
+
   private JPanel buildInputPanel(MeldingInput input)
   {
+    if (input.hasNoInput())
+    {
+      return null;
+    }
     JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
     // Tiers
     JPanel tiersPanel=buildNeededTiersPanel(input);
@@ -208,15 +241,32 @@ public class RelicMeldingRecipeDisplayPanelController implements NavigablePanelC
     int y=0;
     for(RelicMeldingOutputEntry entry : output.getPossibleOutputs())
     {
+      IconController iconCtrl=null;
+      HyperLinkController link=null;
       Relic relic=entry.getRelic();
-      RelicIconController relicIconCtrl=new RelicIconController(_parent);
-      relicIconCtrl.setRelic(relic,1);
-      HyperLinkController link=RelicUiTools.buildRelicLink(_parent,relic);
-      GridBagConstraints c=new GridBagConstraints(0,y,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,5,0,5),0,0);
-      ret.add(relicIconCtrl.getIcon(),c);
-      c=new GridBagConstraints(1,y,1,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,5,0,5),0,0);
-      ret.add(link.getLabel(),c);
-      y++;
+      if (relic!=null)
+      {
+        RelicIconController relicIconCtrl=new RelicIconController(_parent);
+        relicIconCtrl.setRelic(relic,1);
+        link=RelicUiTools.buildRelicLink(_parent,relic);
+        iconCtrl=relicIconCtrl;
+      }
+      Item item=entry.getItem();
+      if (item!=null)
+      {
+        ItemIconController itemIconCtrl=new ItemIconController(_parent);
+        itemIconCtrl.setItem(item,1);
+        iconCtrl=itemIconCtrl;
+        link=ItemUiTools.buildItemLink(_parent,item);
+      }
+      if ((iconCtrl!=null) && (link!=null))
+      {
+        GridBagConstraints c=new GridBagConstraints(0,y,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,5,0,5),0,0);
+        ret.add(iconCtrl.getIcon(),c);
+        c=new GridBagConstraints(1,y,1,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,5,0,5),0,0);
+        ret.add(link.getLabel(),c);
+        y++;
+      }
     }
     return ret;
   }
