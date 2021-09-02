@@ -64,6 +64,7 @@ public class ItemFilterController extends ObjectFilterPanelController
   private DynamicTextEditionController _textController;
   private ComboBoxController<Integer> _tier;
   private ComboBoxController<ItemQuality> _quality;
+  private ComboBoxController<String> _category;
   private ComboBoxController<Boolean> _legendary;
   private ComboBoxController<WeaponType> _weaponType;
   private ComboBoxController<ArmourType> _armourType;
@@ -137,6 +138,12 @@ public class ItemFilterController extends ObjectFilterPanelController
     {
       ItemQuality quality=_filter.getQualityFilter().getQuality();
       _quality.selectItem(quality);
+    }
+    // Category
+    if (_category!=null)
+    {
+      String category=_filter.getCategoryFilter().getSubCategory();
+      _category.selectItem(category);
     }
     // Legendary
     if (_legendary!=null)
@@ -301,6 +308,26 @@ public class ItemFilterController extends ObjectFilterPanelController
       };
       _textController=new DynamicTextEditionController(_contains,listener);
       panel.add(containsPanel);
+    }
+    // Category
+    boolean useCategory=_cfg.hasComponent(ItemChooserFilterComponent.CATEGORY);
+    if (useCategory)
+    {
+      JPanel categoryPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING));
+      categoryPanel.add(GuiFactory.buildLabel("Category:"));
+      _category=ItemUiTools.buildCategoryCombo();
+      ItemSelectionListener<String> qualityListener=new ItemSelectionListener<String>()
+      {
+        @Override
+        public void itemSelected(String category)
+        {
+          _filter.getCategoryFilter().setSubCategory(category);
+          filterUpdated();
+        }
+      };
+      _category.addListener(qualityListener);
+      categoryPanel.add(_category.getComboBox());
+      panel.add(categoryPanel);
     }
     // Legendary
     boolean useLegendary=_cfg.hasComponent(ItemChooserFilterComponent.LEGENDARY);
@@ -706,6 +733,11 @@ public class ItemFilterController extends ObjectFilterPanelController
     {
       _quality.dispose();
       _quality=null;
+    }
+    if (_category!=null)
+    {
+      _category.dispose();
+      _category=null;
     }
     if (_weaponType!=null)
     {

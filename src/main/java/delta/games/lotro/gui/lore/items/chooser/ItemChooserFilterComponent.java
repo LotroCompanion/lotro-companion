@@ -19,6 +19,10 @@ public enum ItemChooserFilterComponent
    */
   QUALITY,
   /**
+   * Category filter.
+   */
+  CATEGORY,
+  /**
    * Legendary filter.
    */
   LEGENDARY,

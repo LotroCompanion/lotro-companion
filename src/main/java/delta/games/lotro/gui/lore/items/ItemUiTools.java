@@ -3,7 +3,11 @@ package delta.games.lotro.gui.lore.items;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -27,6 +31,7 @@ import delta.games.lotro.lore.items.ArmourType;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemInstance;
 import delta.games.lotro.lore.items.ItemQuality;
+import delta.games.lotro.lore.items.ItemsManager;
 import delta.games.lotro.lore.items.WeaponType;
 
 /**
@@ -148,6 +153,29 @@ public class ItemUiTools
     for(ItemQuality quality : ItemQuality.ALL)
     {
       ctrl.addItem(quality,quality.getMeaning());
+    }
+    ctrl.selectItem(null);
+    return ctrl;
+  }
+
+  /**
+   * Build a controller for a combo box to choose an item category.
+   * @return A new controller.
+   */
+  public static ComboBoxController<String> buildCategoryCombo()
+  {
+    ComboBoxController<String> ctrl=new ComboBoxController<String>();
+    ctrl.addEmptyItem("");
+    Set<String> categories=new HashSet<String>();
+    for(Item item : ItemsManager.getInstance().getAllItems())
+    {
+      categories.add(item.getSubCategory());
+    }
+    List<String> sortedCategories=new ArrayList<String>(categories);
+    Collections.sort(sortedCategories);
+    for(String sortedCategory : sortedCategories)
+    {
+      ctrl.addItem(sortedCategory,sortedCategory);
     }
     ctrl.selectItem(null);
     return ctrl;
