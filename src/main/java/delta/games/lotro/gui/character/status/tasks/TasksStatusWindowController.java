@@ -6,8 +6,6 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.JButton;
@@ -36,8 +34,6 @@ import delta.games.lotro.gui.lore.items.FilterUpdateListener;
 import delta.games.lotro.gui.main.GlobalPreferences;
 import delta.games.lotro.gui.navigation.NavigatorFactory;
 import delta.games.lotro.lore.quests.QuestDescription;
-import delta.games.lotro.lore.tasks.Task;
-import delta.games.lotro.lore.tasks.TasksRegistry;
 
 /**
  * Controller for a tasks status display window.
@@ -50,7 +46,6 @@ public class TasksStatusWindowController extends DefaultDisplayDialogController<
   // Data
   private CharacterFile _toon;
   private AchievablesStatusManager _questsStatus;
-  private List<Task> _tasks;
   private TaskStatusFilter _filter;
   // Controllers
   private AchievableStatusFilterController _statusFilterController;
@@ -72,7 +67,6 @@ public class TasksStatusWindowController extends DefaultDisplayDialogController<
     super(parent,status);
     _toon=toon;
     _questsStatus=questsStatus;
-    _tasks=new ArrayList<Task>(TasksRegistry.getInstance().getTasks());
     _filter=new TaskStatusFilter();
   }
 
@@ -172,7 +166,7 @@ public class TasksStatusWindowController extends DefaultDisplayDialogController<
   private void initTable()
   {
     TypedProperties prefs=GlobalPreferences.getGlobalProperties("TasksStatus");
-    _tableController=new TaskStatusTableController(_data,prefs,_filter,_tasks);
+    _tableController=new TaskStatusTableController(_data,prefs,_filter);
     ActionListener al=new ActionListener()
     {
       @Override
@@ -241,7 +235,6 @@ public class TasksStatusWindowController extends DefaultDisplayDialogController<
     // Data
     _data=null;
     _toon=null;
-    _tasks=null;
     _filter=null;
     // Controllers
     if (_statusFilterController!=null)

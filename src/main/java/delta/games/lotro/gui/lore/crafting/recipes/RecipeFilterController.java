@@ -23,6 +23,7 @@ import delta.games.lotro.gui.common.crafting.CraftingUiUtils;
 import delta.games.lotro.gui.lore.items.FilterUpdateListener;
 import delta.games.lotro.lore.crafting.Profession;
 import delta.games.lotro.lore.crafting.recipes.Recipe;
+import delta.games.lotro.lore.crafting.recipes.filters.RecipeFilter;
 import delta.games.lotro.lore.crafting.recipes.filters.RecipeNameFilter;
 import delta.games.lotro.lore.crafting.recipes.filters.RecipeProfessionFilter;
 import delta.games.lotro.lore.crafting.recipes.filters.RecipeTierFilter;

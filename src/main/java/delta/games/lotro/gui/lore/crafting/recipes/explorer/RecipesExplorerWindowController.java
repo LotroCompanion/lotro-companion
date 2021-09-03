@@ -20,12 +20,12 @@ import delta.common.ui.swing.windows.WindowController;
 import delta.common.ui.swing.windows.WindowsManager;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
-import delta.games.lotro.gui.lore.crafting.recipes.RecipeFilter;
 import delta.games.lotro.gui.lore.crafting.recipes.RecipeFilterController;
 import delta.games.lotro.gui.lore.crafting.recipes.RecipesTableController;
 import delta.games.lotro.gui.main.GlobalPreferences;
 import delta.games.lotro.gui.navigation.NavigatorFactory;
 import delta.games.lotro.lore.crafting.recipes.Recipe;
+import delta.games.lotro.lore.crafting.recipes.filters.RecipeFilter;
 
 /**
  * Controller for the recipes explorer window.

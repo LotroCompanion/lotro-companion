@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.character.status.tasks.table;
+package delta.games.lotro.gui.character.status.recipes.table;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,27 +10,24 @@ import delta.common.ui.swing.tables.ListDataProvider;
 import delta.common.ui.swing.tables.TableColumnController;
 import delta.common.ui.swing.tables.TableColumnsManager;
 import delta.common.utils.misc.TypedProperties;
-import delta.games.lotro.character.status.tasks.TaskStatus;
-import delta.games.lotro.character.status.tasks.TasksStatusManager;
-import delta.games.lotro.character.status.tasks.filter.TaskStatusFilter;
-import delta.games.lotro.gui.character.status.achievables.table.AchievableStatusColumnIds;
-import delta.games.lotro.gui.common.rewards.table.RewardsColumnIds;
-import delta.games.lotro.gui.lore.items.ItemColumnIds;
+import delta.games.lotro.character.status.recipes.RecipeStatus;
+import delta.games.lotro.character.status.recipes.RecipesStatusManager;
+import delta.games.lotro.character.status.recipes.filter.RecipeStatusFilter;
+import delta.games.lotro.gui.lore.crafting.recipes.RecipeColumnIds;
 import delta.games.lotro.gui.lore.items.chooser.ItemChooser;
-import delta.games.lotro.gui.lore.quests.table.QuestColumnIds;
 
 /**
- * Controller for a table that shows the status of all tasks for a single character.
+ * Controller for a table that shows the status of recipes for a single character.
  * @author DAM
  */
-public class TaskStatusTableController
+public class RecipeStatusTableController
 {
   // Data
   private TypedProperties _prefs;
-  private List<TaskStatus> _statuses;
+  private List<RecipeStatus> _statuses;
   // GUI
   private JTable _table;
-  private GenericTableController<TaskStatus> _tableController;
+  private GenericTableController<RecipeStatus> _tableController;
 
   /**
    * Constructor.
@@ -38,27 +35,27 @@ public class TaskStatusTableController
    * @param prefs Preferences.
    * @param filter Managed filter.
    */
-  public TaskStatusTableController(TasksStatusManager statusMgr, TypedProperties prefs, TaskStatusFilter filter)
+  public RecipeStatusTableController(RecipesStatusManager statusMgr, TypedProperties prefs, RecipeStatusFilter filter)
   {
     _prefs=prefs;
-    _statuses=new ArrayList<TaskStatus>(statusMgr.getTasksStatuses());
+    _statuses=new ArrayList<RecipeStatus>(statusMgr.getRecipeStatuses());
     _tableController=buildTable();
     _tableController.setFilter(filter);
     configureTable();
   }
 
-  private GenericTableController<TaskStatus> buildTable()
+  private GenericTableController<RecipeStatus> buildTable()
   {
-    ListDataProvider<TaskStatus> provider=new ListDataProvider<TaskStatus>(_statuses);
-    GenericTableController<TaskStatus> table=new GenericTableController<TaskStatus>(provider);
+    ListDataProvider<RecipeStatus> provider=new ListDataProvider<RecipeStatus>(_statuses);
+    GenericTableController<RecipeStatus> table=new GenericTableController<RecipeStatus>(provider);
     // Columns
-    List<TableColumnController<TaskStatus,?>> columns=TaskStatusColumnsBuilder.buildTaskStatusColumns();
-    for(TableColumnController<TaskStatus,?> column : columns)
+    List<TableColumnController<RecipeStatus,?>> columns=RecipesStatusColumnsBuilder.buildRecipeStatusColumns();
+    for(TableColumnController<RecipeStatus,?> column : columns)
     {
       table.addColumnController(column);
     }
     List<String> columnsIds=getColumnIds();
-    TableColumnsManager<TaskStatus> columnsManager=table.getColumnsManager();
+    TableColumnsManager<RecipeStatus> columnsManager=table.getColumnsManager();
     columnsManager.setColumns(columnsIds);
 
     return table;
@@ -74,18 +71,11 @@ public class TaskStatusTableController
     if (columnIds==null)
     {
       columnIds=new ArrayList<String>();
-      columnIds.add(AchievableStatusColumnIds.COMPLETED.name());
-      columnIds.add(AchievableStatusColumnIds.COMPLETION_COUNT.name());
-      columnIds.add(QuestColumnIds.NAME.name());
-      columnIds.add(QuestColumnIds.LEVEL.name());
-      columnIds.add(ItemColumnIds.ICON.name());
-      columnIds.add(TaskStatusColumnsBuilder.CONSUMED_ITEM_NAME_COLUMN);
-      columnIds.add(TaskStatusColumnsBuilder.COUNT_COLUMN);
-      columnIds.add(RewardsColumnIds.FACTION.name());
-      columnIds.add(RewardsColumnIds.REPUTATION_AMOUNT.name());
-      columnIds.add(RewardsColumnIds.XP.name());
-      columnIds.add(RewardsColumnIds.ITEM_XP.name());
-      columnIds.add(RewardsColumnIds.MOUNT_XP.name());
+      columnIds.add(RecipeColumnIds.NAME.name());
+      columnIds.add(RecipeColumnIds.PROFESSION.name());
+      columnIds.add(RecipeColumnIds.TIER.name());
+      columnIds.add(RecipeColumnIds.CATEGORY.name());
+      columnIds.add(RecipeStatusColumnIds.STATE.name());
     }
     return columnIds;
   }
@@ -94,7 +84,7 @@ public class TaskStatusTableController
    * Get the managed table controller.
    * @return the managed table controller.
    */
-  public GenericTableController<TaskStatus> getTableController()
+  public GenericTableController<RecipeStatus> getTableController()
   {
     return _tableController;
   }
@@ -108,8 +98,8 @@ public class TaskStatusTableController
   }
 
   /**
-   * Get the total number of quests.
-   * @return A number of quests.
+   * Get the total number of elements.
+   * @return A number of elements.
    */
   public int getNbItems()
   {
