@@ -246,7 +246,14 @@ public class ItemChooserFilterIo
     if (categoryFilter!=null)
     {
       String category=categoryFilter.getSubCategory();
-      props.setStringProperty(CATEGORY,category);
+      if (category!=null)
+      {
+        props.setStringProperty(CATEGORY,category);
+      }
+      else
+      {
+        props.removeProperty(CATEGORY);
+      }
     }
     // Quality
     ItemQualityFilter qualityFilter=filter.getQualityFilter();
