@@ -19,7 +19,9 @@ import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.windows.DefaultWindowController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.ui.swing.windows.WindowsManager;
+import delta.common.utils.misc.Preferences;
 import delta.common.utils.misc.TypedProperties;
+import delta.games.lotro.Config;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.gui.lore.items.chooser.ItemFilterConfiguration;
 import delta.games.lotro.gui.lore.items.chooser.ItemFilterController;
@@ -84,8 +86,8 @@ public class ItemsExplorerWindowController extends DefaultWindowController
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     // Filter
-    WindowController parentWindow=getParentController();
-    TypedProperties filterProps=parentWindow.getUserProperties("ItemExplorerFilter");
+    Preferences preferences=Config.getInstance().getPreferences();
+    TypedProperties filterProps=preferences.getPreferences("ItemExplorerFilter");
     _filterController=new ItemFilterController(_cfg,null,filterProps);
     JPanel filterPanel=_filterController.getPanel();
     TitledBorder filterBorder=GuiFactory.buildTitledBorder("Filter");
