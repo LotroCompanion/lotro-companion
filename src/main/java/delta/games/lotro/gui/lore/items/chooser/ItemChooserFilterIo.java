@@ -1,5 +1,7 @@
 package delta.games.lotro.gui.lore.items.chooser;
 
+import java.util.List;
+
 import delta.common.utils.BooleanTools;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.common.CharacterClass;
@@ -13,12 +15,14 @@ import delta.games.lotro.lore.items.filters.ArmourTypeFilter;
 import delta.games.lotro.lore.items.filters.CharacterProficienciesFilter;
 import delta.games.lotro.lore.items.filters.EssenceTierFilter;
 import delta.games.lotro.lore.items.filters.ItemCharacterLevelFilter;
+import delta.games.lotro.lore.items.filters.ItemEquipmentLocationFilter;
 import delta.games.lotro.lore.items.filters.ItemLevelFilter;
 import delta.games.lotro.lore.items.filters.ItemNameFilter;
 import delta.games.lotro.lore.items.filters.ItemQualityFilter;
 import delta.games.lotro.lore.items.filters.ItemRequiredClassFilter;
 import delta.games.lotro.lore.items.filters.ItemRequiredRaceFilter;
 import delta.games.lotro.lore.items.filters.ItemStatFilter;
+import delta.games.lotro.lore.items.filters.ItemSubCategoryFilter;
 import delta.games.lotro.lore.items.filters.LegendaryItemFilter;
 import delta.games.lotro.lore.items.filters.WeaponTypeFilter;
 
@@ -33,8 +37,10 @@ public class ItemChooserFilterIo
   private static final String LEVEL_FILTER_ENABLED="levelFilterEnabled";
   private static final String ESSENCE_TIER="essenceTier";
   private static final String NAME_PATTERN="namePattern";
+  private static final String CATEGORY="category";
   private static final String QUALITY="quality";
   private static final String LEGENDARY="legendary";
+  private static final String LOCATION="location";
   private static final String WEAPON_TYPE="weaponType";
   private static final String ARMOUR_TYPE="armourType";
   private static final String SHIELD_TYPE="shieldType";
@@ -90,6 +96,13 @@ public class ItemChooserFilterIo
       String namePattern=props.getStringProperty(NAME_PATTERN,null);
       nameFilter.setPattern(namePattern);
     }
+    // Category
+    ItemSubCategoryFilter categoryFilter=filter.getCategoryFilter();
+    if (categoryFilter!=null)
+    {
+      String category=props.getStringProperty(CATEGORY,null);
+      categoryFilter.setSubCategory(category);
+    }
     // Quality
     ItemQualityFilter qualityFilter=filter.getQualityFilter();
     if (qualityFilter!=null)
@@ -109,6 +122,16 @@ public class ItemChooserFilterIo
         legendary=BooleanTools.parseBoolean(legendaryKey);
       }
       legendaryFilter.setLegendary(legendary);
+    }
+    // Location
+    ItemEquipmentLocationFilter locationFilter=filter.getLocationFilter();
+    if (locationFilter!=null)
+    {
+      List<String> locationKeys=props.getStringList(LOCATION);
+      if (locationKeys!=null)
+      {
+        locationFilter.loadFromString(locationKeys);
+      }
     }
     // Weapon type
     WeaponTypeFilter weaponTypeFilter=filter.getWeaponTypeFilter();
@@ -218,6 +241,13 @@ public class ItemChooserFilterIo
       String namePattern=nameFilter.getPattern();
       props.setStringProperty(NAME_PATTERN,namePattern);
     }
+    // Category
+    ItemSubCategoryFilter categoryFilter=filter.getCategoryFilter();
+    if (categoryFilter!=null)
+    {
+      String category=categoryFilter.getSubCategory();
+      props.setStringProperty(CATEGORY,category);
+    }
     // Quality
     ItemQualityFilter qualityFilter=filter.getQualityFilter();
     if (qualityFilter!=null)
@@ -245,6 +275,12 @@ public class ItemChooserFilterIo
       {
         props.removeProperty(LEGENDARY);
       }
+    }
+    // Location
+    ItemEquipmentLocationFilter locationFilter=filter.getLocationFilter();
+    if (locationFilter!=null)
+    {
+      props.setStringList(LOCATION,locationFilter.asString());
     }
     // Weapon type
     WeaponTypeFilter weaponTypeFilter=filter.getWeaponTypeFilter();
