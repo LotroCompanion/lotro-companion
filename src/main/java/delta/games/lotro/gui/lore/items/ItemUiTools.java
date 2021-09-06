@@ -28,6 +28,7 @@ import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.gui.navigation.NavigatorFactory;
 import delta.games.lotro.lore.items.ArmourType;
+import delta.games.lotro.lore.items.EquipmentLocation;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemInstance;
 import delta.games.lotro.lore.items.ItemQuality;
@@ -249,5 +250,30 @@ public class ItemUiTools
     }
     controller.selectItem(null);
     return controller;
+  }
+
+  /**
+   * Build a controller for a combo box to choose a location.
+   * @return A new controller.
+   */
+  public static ComboBoxController<Set<EquipmentLocation>> buildLocationsCombo()
+  {
+    ComboBoxController<Set<EquipmentLocation>> ctrl=new ComboBoxController<Set<EquipmentLocation>>();
+    ctrl.addEmptyItem("(all)");
+    // No location
+    {
+      Set<EquipmentLocation> noLocation=new HashSet<EquipmentLocation>();
+      noLocation.add(null);
+      ctrl.addItem(noLocation,"No location");
+    }
+    // One location
+    for(EquipmentLocation location : EquipmentLocation.getAll())
+    {
+      Set<EquipmentLocation> locations=new HashSet<EquipmentLocation>();
+      locations.add(location);
+      ctrl.addItem(locations,location.getLabel());
+    }
+    ctrl.selectItem(null);
+    return ctrl;
   }
 }

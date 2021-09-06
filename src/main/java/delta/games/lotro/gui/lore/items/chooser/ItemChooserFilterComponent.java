@@ -65,5 +65,9 @@ public enum ItemChooserFilterComponent
   /**
    * Character race filter.
    */
-  CHARACTER_RACE
+  CHARACTER_RACE,
+  /**
+   * Equipment location.
+   */
+  LOCATION
 }

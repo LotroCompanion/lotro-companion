@@ -34,12 +34,14 @@ import delta.games.lotro.common.stats.StatDescription;
 import delta.games.lotro.gui.character.summary.CharacterUiUtils;
 import delta.games.lotro.gui.lore.items.ItemUiTools;
 import delta.games.lotro.lore.items.ArmourType;
+import delta.games.lotro.lore.items.EquipmentLocation;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemQuality;
 import delta.games.lotro.lore.items.WeaponType;
 import delta.games.lotro.lore.items.filters.ArmourTypeFilter;
 import delta.games.lotro.lore.items.filters.CharacterProficienciesFilter;
 import delta.games.lotro.lore.items.filters.ItemCharacterLevelFilter;
+import delta.games.lotro.lore.items.filters.ItemEquipmentLocationFilter;
 import delta.games.lotro.lore.items.filters.ItemLevelFilter;
 import delta.games.lotro.lore.items.filters.ItemRequiredClassFilter;
 import delta.games.lotro.lore.items.filters.ItemRequiredRaceFilter;
@@ -66,6 +68,7 @@ public class ItemFilterController extends ObjectFilterPanelController
   private ComboBoxController<ItemQuality> _quality;
   private ComboBoxController<String> _category;
   private ComboBoxController<Boolean> _legendary;
+  private ComboBoxController<Set<EquipmentLocation>> _location;
   private ComboBoxController<WeaponType> _weaponType;
   private ComboBoxController<ArmourType> _armourType;
   private ComboBoxController<ArmourType> _shieldType;
@@ -150,6 +153,13 @@ public class ItemFilterController extends ObjectFilterPanelController
     {
       Boolean legendary=_filter.getLegendaryFilter().getLegendary();
       _legendary.selectItem(legendary);
+    }
+    // Location
+    if (_location!=null)
+    {
+      ItemEquipmentLocationFilter locationFilter=_filter.getLocationFilter();
+      Set<EquipmentLocation> selectedLocations=locationFilter.getSelectedLocations();
+      _location.selectItem(selectedLocations);
     }
     // Weapon type
     if (_weaponType!=null)
@@ -385,6 +395,36 @@ public class ItemFilterController extends ObjectFilterPanelController
   private JPanel buildLine3()
   {
     JPanel panel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING));
+    // Location
+    final ItemEquipmentLocationFilter locationFilter=_filter.getLocationFilter();
+    boolean useLocation=_cfg.hasComponent(ItemChooserFilterComponent.LOCATION);
+    if ((locationFilter!=null) && (useLocation))
+    {
+      _location=ItemUiTools.buildLocationsCombo();
+      JPanel locationPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
+      locationPanel.add(GuiFactory.buildLabel("Location:"));
+      ItemSelectionListener<Set<EquipmentLocation>> locationListener=new ItemSelectionListener<Set<EquipmentLocation>>()
+      {
+        @Override
+        public void itemSelected(Set<EquipmentLocation> locations)
+        {
+          if (locations!=null)
+          {
+            Set<EquipmentLocation> selectedLocations=new HashSet<EquipmentLocation>();
+            selectedLocations.addAll(locations);
+            locationFilter.setLocations(selectedLocations);
+          }
+          else
+          {
+            locationFilter.selectAll();
+          }
+          filterUpdated();
+        }
+      };
+      _location.addListener(locationListener);
+      locationPanel.add(_location.getComboBox());
+      panel.add(locationPanel);
+    }
     // Weapon type
     final WeaponTypeFilter weaponTypeFilter=_filter.getWeaponTypeFilter();
     boolean useWeaponType=_cfg.hasComponent(ItemChooserFilterComponent.WEAPON_TYPE);
@@ -738,6 +778,11 @@ public class ItemFilterController extends ObjectFilterPanelController
     {
       _category.dispose();
       _category=null;
+    }
+    if (_location!=null)
+    {
+      _location.dispose();
+      _location=null;
     }
     if (_weaponType!=null)
     {

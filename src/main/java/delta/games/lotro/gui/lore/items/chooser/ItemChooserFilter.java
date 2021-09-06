@@ -15,6 +15,7 @@ import delta.games.lotro.lore.items.filters.ArmourTypeFilter;
 import delta.games.lotro.lore.items.filters.CharacterProficienciesFilter;
 import delta.games.lotro.lore.items.filters.EssenceTierFilter;
 import delta.games.lotro.lore.items.filters.ItemCharacterLevelFilter;
+import delta.games.lotro.lore.items.filters.ItemEquipmentLocationFilter;
 import delta.games.lotro.lore.items.filters.ItemLevelFilter;
 import delta.games.lotro.lore.items.filters.ItemNameFilter;
 import delta.games.lotro.lore.items.filters.ItemQualityFilter;
@@ -48,6 +49,7 @@ public class ItemChooserFilter implements Filter<Item>
   private ItemQualityFilter _qualityFilter;
   private ItemSubCategoryFilter _categoryFilter;
   private LegendaryItemFilter _legendaryFilter;
+  private ItemEquipmentLocationFilter _locationFilter;
   private WeaponTypeFilter _weaponTypeFilter;
   private ArmourTypeFilter _armourTypeFilter;
   private ArmourTypeFilter _shieldTypeFilter;
@@ -121,6 +123,13 @@ public class ItemChooserFilter implements Filter<Item>
     // Legendary
     _legendaryFilter=new LegendaryItemFilter(null);
     filters.add(_legendaryFilter);
+    // Location
+    boolean useLocation=cfg.hasComponent(ItemChooserFilterComponent.LOCATION);
+    if (useLocation)
+    {
+      _locationFilter=new ItemEquipmentLocationFilter();
+      filters.add(_locationFilter);
+    }
     // Weapon type
     boolean useWeaponType=cfg.hasComponent(ItemChooserFilterComponent.WEAPON_TYPE);
     if (useWeaponType)
@@ -273,6 +282,15 @@ public class ItemChooserFilter implements Filter<Item>
   public LegendaryItemFilter getLegendaryFilter()
   {
     return _legendaryFilter;
+  }
+
+  /**
+   * Get the location filter.
+   * @return a location filter or <code>null</code>.
+   */
+  public ItemEquipmentLocationFilter getLocationFilter()
+  {
+    return _locationFilter;
   }
 
   /**
