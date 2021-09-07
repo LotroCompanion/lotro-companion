@@ -97,6 +97,7 @@ public class ItemsExplorerWindowController extends DefaultWindowController
     _panelController=new ItemsExplorerPanelController(this,_tableController);
     JPanel tablePanel=_panelController.getPanel();
     _filterController.setFilterUpdateListener(_panelController);
+    _panelController.filterUpdated();
     // Whole panel
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(filterPanel,c);
