@@ -259,7 +259,16 @@ public class ItemUiTools
   public static ComboBoxController<Set<EquipmentLocation>> buildLocationsCombo()
   {
     ComboBoxController<Set<EquipmentLocation>> ctrl=new ComboBoxController<Set<EquipmentLocation>>();
-    ctrl.addEmptyItem("(all)");
+    // All
+    {
+      Set<EquipmentLocation> locations=new HashSet<EquipmentLocation>();
+      locations.add(null);
+      for(EquipmentLocation location : EquipmentLocation.getAll())
+      {
+        locations.add(location);
+      }
+      ctrl.addItem(locations,"(all)");
+    }
     // No location
     {
       Set<EquipmentLocation> noLocation=new HashSet<EquipmentLocation>();
