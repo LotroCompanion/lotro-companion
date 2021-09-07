@@ -128,7 +128,7 @@ public class LoreActionsController implements ActionListener,Disposable
     ToolbarController controller=new ToolbarController();
     ToolbarModel model=controller.getModel();
     // Items icon
-    String itemsIconPath=SharedUiUtils.getToolbarIconPath("deeds");
+    String itemsIconPath=SharedUiUtils.getToolbarIconPath("items");
     ToolbarIconItem itemsIconItem=new ToolbarIconItem(ITEMS_ID,itemsIconPath,ITEMS_ID,"Items...","Items");
     model.addToolbarIconItem(itemsIconItem);
     // Deeds icon
