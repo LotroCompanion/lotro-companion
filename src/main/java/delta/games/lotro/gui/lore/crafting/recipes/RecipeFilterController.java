@@ -7,7 +7,9 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -258,7 +260,7 @@ public class RecipeFilterController implements ActionListener
 
   private void buildProfessionFilter()
   {
-    _profession=CraftingUiUtils.buildProfessionCombo();
+    _profession=CraftingUiUtils.buildProfessionCombo(getProfessions(),true);
     ItemSelectionListener<Profession> professionListener=new ItemSelectionListener<Profession>()
     {
       @Override
@@ -270,6 +272,16 @@ public class RecipeFilterController implements ActionListener
       }
     };
     _profession.addListener(professionListener);
+  }
+
+  private List<Profession> getProfessions()
+  {
+    Set<Profession> ret=new HashSet<Profession>();
+    for(Recipe recipe : _recipes)
+    {
+      ret.add(recipe.getProfession());
+    }
+    return new ArrayList<Profession>(ret);
   }
 
   private void buildTierFilter()
