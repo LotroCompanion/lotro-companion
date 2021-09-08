@@ -12,6 +12,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -53,7 +54,7 @@ import delta.games.lotro.utils.gui.filter.ObjectFilterPanelController;
  * Controller for a item filter edition panel.
  * @author DAM
  */
-public class ItemFilterController extends ObjectFilterPanelController
+public class ItemFilterController extends ObjectFilterPanelController implements ActionListener
 {
   // Data
   private ItemFilterConfiguration _cfg;
@@ -62,6 +63,7 @@ public class ItemFilterController extends ObjectFilterPanelController
   // GUI
   private JPanel _panel;
   private JTextField _contains;
+  private JButton _reset;
   // Controllers
   private DynamicTextEditionController _textController;
   private ComboBoxController<Integer> _tier;
@@ -117,6 +119,94 @@ public class ItemFilterController extends ObjectFilterPanelController
       filterUpdated();
     }
     return _panel;
+  }
+
+  @Override
+  public void actionPerformed(ActionEvent e)
+  {
+    Object source=e.getSource();
+    if (source==_reset)
+    {
+      if (_tier!=null)
+      {
+        _tier.selectItem(null);
+      }
+      // Name
+      if (_contains!=null)
+      {
+        _contains.setText("");
+      }
+      // Quality
+      if (_quality!=null)
+      {
+        _quality.selectItem(null);
+      }
+      // Category
+      if (_category!=null)
+      {
+        _category.selectItem(null);
+      }
+      // Legendary
+      if (_legendary!=null)
+      {
+        _legendary.selectItem(null);
+      }
+      // Location
+      if (_location!=null)
+      {
+        _location.selectItem(new ItemEquipmentLocationFilter().getSelectedLocations());
+      }
+      // Weapon type
+      if (_weaponType!=null)
+      {
+        _weaponType.selectItem(null);
+      }
+      // Armour type
+      if (_armourType!=null)
+      {
+        _armourType.selectItem(null);
+      }
+      // Shield type
+      if (_shieldType!=null)
+      {
+        _shieldType.selectItem(null);
+      }
+      // Stats
+      if (_stats!=null)
+      {
+        int nbUiStats=_stats.size();
+        for(int i=0;i<nbUiStats;i++)
+        {
+          _stats.get(i).selectItem(null);
+        }
+      }
+      // Character requirements
+      if (_classRequirement!=null)
+      {
+        _classRequirement.setSelected(true);
+      }
+      if (_proficienciesRequirement!=null)
+      {
+        _proficienciesRequirement.setSelected(true);
+      }
+      if (_characterLevelRequirement!=null)
+      {
+        _characterLevelRequirement.setSelected(true);
+      }
+      // Item level range
+      if (_itemLevelRange!=null)
+      {
+        _itemLevelRange.setCurrentRange(null,null);
+      }
+      if (_characterClass!=null)
+      {
+        _characterClass.selectItem(null);
+      }
+      if (_race!=null)
+      {
+        _race.selectItem(null);
+      }
+    }
   }
 
   private void setFilter()
@@ -232,24 +322,31 @@ public class ItemFilterController extends ObjectFilterPanelController
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     // Line 1: quality, name
     JPanel line1Panel=buildLine1();
-    GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    GridBagConstraints c=new GridBagConstraints(0,0,2,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(line1Panel,c);
     // Line 2: stats
     boolean useStats=_cfg.hasComponent(ItemChooserFilterComponent.STAT);
     if (useStats)
     {
       JPanel line2Panel=buildLine2();
-      c=new GridBagConstraints(0,1,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+      c=new GridBagConstraints(0,1,2,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
       panel.add(line2Panel,c);
     }
     // Line 3: weapon type, armour type, shield type
     JPanel line3Panel=buildLine3();
-    c=new GridBagConstraints(0,2,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    c=new GridBagConstraints(0,2,2,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(line3Panel,c);
     // Line 4: character-related requirements ; item level range
     JPanel line4Panel=buildLine4Panel();
     c=new GridBagConstraints(0,3,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(line4Panel,c);
+
+    // Reset
+    _reset=GuiFactory.buildButton("Reset");
+    _reset.addActionListener(this);
+    c=new GridBagConstraints(1,3,1,1,0.0,0,GridBagConstraints.SOUTHWEST,GridBagConstraints.NONE,new Insets(0,5,5,5),0,0);
+    panel.add(_reset,c);
+
     return panel;
   }
 
@@ -832,5 +929,6 @@ public class ItemFilterController extends ObjectFilterPanelController
       _panel=null;
     }
     _contains=null;
+    _reset=null;
   }
 }

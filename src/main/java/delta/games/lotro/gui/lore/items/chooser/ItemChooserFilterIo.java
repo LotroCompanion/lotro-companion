@@ -65,21 +65,21 @@ public class ItemChooserFilterIo
     ItemRequiredClassFilter classFilter=filter.getClassFilter();
     if (classFilter!=null)
     {
-      boolean enabled=props.getBooleanProperty(CLASS_FILTER_ENABLED,false);
+      boolean enabled=props.getBooleanProperty(CLASS_FILTER_ENABLED,classFilter.isEnabled());
       classFilter.setEnabled(enabled);
     }
     // Proficiencies
     CharacterProficienciesFilter proficienciesFilter=filter.getProficienciesFilter();
     if (proficienciesFilter!=null)
     {
-      boolean enabled=props.getBooleanProperty(PROFICIENCIES_FILTER_ENABLED,false);
+      boolean enabled=props.getBooleanProperty(PROFICIENCIES_FILTER_ENABLED,proficienciesFilter.isEnabled());
       proficienciesFilter.setEnabled(enabled);
     }
     // Level
     ItemCharacterLevelFilter levelFilter=filter.getLevelFilter();
     if (levelFilter!=null)
     {
-      boolean enabled=props.getBooleanProperty(LEVEL_FILTER_ENABLED,false);
+      boolean enabled=props.getBooleanProperty(LEVEL_FILTER_ENABLED,levelFilter.isEnabled());
       levelFilter.setEnabled(enabled);
     }
     // Essence Tier
