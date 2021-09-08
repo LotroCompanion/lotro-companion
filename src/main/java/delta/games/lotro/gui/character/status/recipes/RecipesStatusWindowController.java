@@ -88,7 +88,7 @@ public class RecipesStatusWindowController extends DefaultDisplayDialogControlle
     _panelController=new RecipesStatusPanelController(this,_tableController);
     JPanel tablePanel=_panelController.getPanel();
     // Build child controllers
-    _filterController=new RecipeFilterController(_filter.getRecipeFilter(),this);
+    _filterController=new RecipeFilterController(_data.getRecipes(),_filter.getRecipeFilter(),this);
     _statusFilterController=new RecipeStateFilterController(_filter.getStateFilter(),this);
     // Whole panel
     // - filter

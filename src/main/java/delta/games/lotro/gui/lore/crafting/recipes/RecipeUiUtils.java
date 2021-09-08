@@ -1,7 +1,10 @@
 package delta.games.lotro.gui.lore.crafting.recipes;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.games.lotro.lore.crafting.recipes.CraftingResult;
@@ -10,6 +13,7 @@ import delta.games.lotro.lore.crafting.recipes.Recipe;
 import delta.games.lotro.lore.crafting.recipes.RecipeVersion;
 import delta.games.lotro.lore.items.CountedItem;
 import delta.games.lotro.lore.items.Item;
+import delta.games.lotro.lore.items.comparators.ItemNameComparator;
 
 /**
  * Utility methods for recipe-related UIs.
@@ -19,15 +23,32 @@ public class RecipeUiUtils
 {
   /**
    * Build a combo-box controller to choose a recipe category.
+   * @param recipes Recipes to use.
    * @return A new combo-box controller.
    */
-  public static ComboBoxController<String> buildCategoryCombo()
+  public static ComboBoxController<String> buildCategoryCombo(List<Recipe> recipes)
   {
     ComboBoxController<String> ctrl=new ComboBoxController<String>();
     ctrl.addEmptyItem("");
-    // TODO
+    for(String category : getCategories(recipes))
+    {
+      ctrl.addItem(category,category);
+    }
     ctrl.selectItem(null);
     return ctrl;
+  }
+
+  private static List<String> getCategories(List<Recipe> recipes)
+  {
+    Set<String> categories=new HashSet<String>();
+    for(Recipe recipe : recipes)
+    {
+      String category=recipe.getCategory();
+      categories.add(category);
+    }
+    ArrayList<String> ret=new ArrayList<String>(categories);
+    Collections.sort(ret);
+    return ret;
   }
 
   /**
@@ -76,4 +97,39 @@ public class RecipeUiUtils
     return items;
   }
 
+  /**
+   * Build a combo-box controller to choose an ingredient name.
+   * @param recipes Recipes to use.
+   * @return A new combo-box controller.
+   */
+  public static ComboBoxController<Integer> buildIngredientsCombo(List<Recipe> recipes)
+  {
+    ComboBoxController<Integer> ctrl=new ComboBoxController<Integer>();
+    ctrl.addEmptyItem("");
+    List<Item> items=getIngredients(recipes);
+    for(Item item : items)
+    {
+      ctrl.addItem(Integer.valueOf(item.getIdentifier()),item.getName());
+    }
+    ctrl.selectItem(null);
+    return ctrl;
+  }
+
+  private static List<Item> getIngredients(List<Recipe> recipes)
+  {
+    Set<Item> items=new HashSet<Item>();
+    for(Recipe recipe : recipes)
+    {
+      RecipeVersion version=recipe.getVersions().get(0);
+      List<Ingredient> ingredients=version.getIngredients();
+      for(Ingredient ingredient : ingredients)
+      {
+        Item item=ingredient.getItem();
+        items.add(item);
+      }
+    }
+    ArrayList<Item> ret=new ArrayList<Item>(items);
+    Collections.sort(ret,new ItemNameComparator());
+    return ret;
+  }
 }

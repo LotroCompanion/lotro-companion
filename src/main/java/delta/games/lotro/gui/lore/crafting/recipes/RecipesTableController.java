@@ -47,6 +47,7 @@ public class RecipesTableController
     init();
     _tableController=buildTable();
     _tableController.setFilter(filter);
+    configureTable();
   }
 
   private GenericTableController<Recipe> buildTable()
@@ -295,6 +296,13 @@ public class RecipesTableController
   {
     int ret=_tableController.getNbFilteredItems();
     return ret;
+  }
+
+  private void configureTable()
+  {
+    JTable table=getTable();
+    // Adjust table row height for icons (32 pixels)
+    table.setRowHeight(32);
   }
 
   private void reset()

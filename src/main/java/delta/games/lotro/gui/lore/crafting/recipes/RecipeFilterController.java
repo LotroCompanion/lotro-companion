@@ -6,9 +6,10 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
@@ -23,7 +24,9 @@ import delta.games.lotro.gui.common.crafting.CraftingUiUtils;
 import delta.games.lotro.gui.lore.items.FilterUpdateListener;
 import delta.games.lotro.lore.crafting.Profession;
 import delta.games.lotro.lore.crafting.recipes.Recipe;
+import delta.games.lotro.lore.crafting.recipes.filters.RecipeCategoryFilter;
 import delta.games.lotro.lore.crafting.recipes.filters.RecipeFilter;
+import delta.games.lotro.lore.crafting.recipes.filters.RecipeIngredientFilter;
 import delta.games.lotro.lore.crafting.recipes.filters.RecipeNameFilter;
 import delta.games.lotro.lore.crafting.recipes.filters.RecipeProfessionFilter;
 import delta.games.lotro.lore.crafting.recipes.filters.RecipeTierFilter;
@@ -35,6 +38,7 @@ import delta.games.lotro.lore.crafting.recipes.filters.RecipeTierFilter;
 public class RecipeFilterController implements ActionListener
 {
   // Data
+  private List<Recipe> _recipes;
   private RecipeFilter _filter;
   // GUI
   private JPanel _panel;
@@ -43,18 +47,21 @@ public class RecipeFilterController implements ActionListener
   private JTextField _contains;
   private ComboBoxController<Profession> _profession;
   private ComboBoxController<Integer> _tier;
-  //private ComboBoxController<String> _category;
+  private ComboBoxController<String> _category;
+  private ComboBoxController<Integer> _ingredient;
   // Controllers
   private DynamicTextEditionController _textController;
   private FilterUpdateListener _filterUpdateListener;
 
   /**
    * Constructor.
+   * @param recipes Recipes to use.
    * @param filter Managed filter.
    * @param filterUpdateListener Filter update listener.
    */
-  public RecipeFilterController(RecipeFilter filter, FilterUpdateListener filterUpdateListener)
+  public RecipeFilterController(List<Recipe> recipes, RecipeFilter filter, FilterUpdateListener filterUpdateListener)
   {
+    _recipes=new ArrayList<Recipe>(recipes);
     _filter=filter;
     _filterUpdateListener=filterUpdateListener;
   }
@@ -97,10 +104,11 @@ public class RecipeFilterController implements ActionListener
     Object source=e.getSource();
     if (source==_reset)
     {
+      _contains.setText("");
       _profession.selectItem(null);
       _tier.selectItem(null);
-      //_category.selectItem(null);
-      _contains.setText("");
+      _category.selectItem(null);
+      _ingredient.selectItem(null);
     }
   }
 
@@ -154,97 +162,125 @@ public class RecipeFilterController implements ActionListener
 
   private JPanel buildRecipePanel()
   {
+    buildNameFilter();
+    buildProfessionFilter();
+    buildTierFilter();
+    buildCategoryFilter();
+    _ingredient=buildIngredientsCombobox();
+
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
 
     int y=0;
-    JPanel line1Panel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,0,0));
     // Label filter
-    {
-      JPanel containsPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
-      containsPanel.add(GuiFactory.buildLabel("Name filter:"));
-      _contains=GuiFactory.buildTextField("");
-      _contains.setColumns(20);
-      containsPanel.add(_contains);
-      TextListener listener=new TextListener()
-      {
-        @Override
-        public void textChanged(String newText)
-        {
-          if (newText.length()==0) newText=null;
-          RecipeNameFilter nameFilter=_filter.getNameFilter();
-          nameFilter.setPattern(newText);
-          filterUpdated();
-        }
-      };
-      _textController=new DynamicTextEditionController(_contains,listener);
-      line1Panel.add(containsPanel);
-    }
+    JPanel line1Panel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
+    line1Panel.add(GuiFactory.buildLabel("Name filter:"));
+    line1Panel.add(_contains);
+    // Profession
+    line1Panel.add(GuiFactory.buildLabel("Profession:"));
+    line1Panel.add(_profession.getComboBox());
+    // Tier
+    line1Panel.add(GuiFactory.buildLabel("Tier:"));
+    line1Panel.add(_tier.getComboBox());
+
     GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,5,0),0,0);
     panel.add(line1Panel,c);
     y++;
 
     JPanel line2Panel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
-    // Profession
-    {
-      JLabel label=GuiFactory.buildLabel("Profession:");
-      line2Panel.add(label);
-      _profession=CraftingUiUtils.buildProfessionCombo();
-      ItemSelectionListener<Profession> professionListener=new ItemSelectionListener<Profession>()
-      {
-        @Override
-        public void itemSelected(Profession profession)
-        {
-          RecipeProfessionFilter professionFilter=_filter.getProfessionFilter();
-          professionFilter.setProfession(profession);
-          filterUpdated();
-        }
-      };
-      _profession.addListener(professionListener);
-      line2Panel.add(_profession.getComboBox());
-    }
-    // Tier
-    {
-      JLabel label=GuiFactory.buildLabel("Tier:");
-      line2Panel.add(label);
-      _tier=CraftingUiUtils.buildTierCombo();
-      ItemSelectionListener<Integer> typeListener=new ItemSelectionListener<Integer>()
-      {
-        @Override
-        public void itemSelected(Integer tier)
-        {
-          RecipeTierFilter tierFilter=_filter.getTierFilter();
-          tierFilter.setTier(tier);
-          filterUpdated();
-        }
-      };
-      _tier.addListener(typeListener);
-      line2Panel.add(_tier.getComboBox());
-    }
     // Category
-    /*
-    {
-      JLabel label=GuiFactory.buildLabel("Category:");
-      line2Panel.add(label);
-      _category=RecipeUiUtils.buildCategoryCombo();
-      ItemSelectionListener<String> categoryListener=new ItemSelectionListener<String>()
-      {
-        @Override
-        public void itemSelected(String category)
-        {
-          RecipeCategoryFilter categoryFilter=_filter.getCategoryFilter();
-          categoryFilter.setCategory(category);
-          filterUpdated();
-        }
-      };
-      _category.addListener(categoryListener);
-      line2Panel.add(_category.getComboBox());
-    }
-    */
+    line2Panel.add(GuiFactory.buildLabel("Category:"));
+    line2Panel.add(_category.getComboBox());
+    // Ingredient
+    line2Panel.add(GuiFactory.buildLabel("Ingredient:"));
+    line2Panel.add(_ingredient.getComboBox());
     c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,5,0),0,0);
     panel.add(line2Panel,c);
     y++;
 
     return panel;
+  }
+
+  private void buildNameFilter()
+  {
+    _contains=GuiFactory.buildTextField("");
+    _contains.setColumns(20);
+    TextListener listener=new TextListener()
+    {
+      @Override
+      public void textChanged(String newText)
+      {
+        if (newText.length()==0) newText=null;
+        RecipeNameFilter nameFilter=_filter.getNameFilter();
+        nameFilter.setPattern(newText);
+        filterUpdated();
+      }
+    };
+    _textController=new DynamicTextEditionController(_contains,listener);
+  }
+
+  private void buildProfessionFilter()
+  {
+    _profession=CraftingUiUtils.buildProfessionCombo();
+    ItemSelectionListener<Profession> professionListener=new ItemSelectionListener<Profession>()
+    {
+      @Override
+      public void itemSelected(Profession profession)
+      {
+        RecipeProfessionFilter professionFilter=_filter.getProfessionFilter();
+        professionFilter.setProfession(profession);
+        filterUpdated();
+      }
+    };
+    _profession.addListener(professionListener);
+  }
+
+  private void buildTierFilter()
+  {
+    _tier=CraftingUiUtils.buildTierCombo();
+    ItemSelectionListener<Integer> typeListener=new ItemSelectionListener<Integer>()
+    {
+      @Override
+      public void itemSelected(Integer tier)
+      {
+        RecipeTierFilter tierFilter=_filter.getTierFilter();
+        tierFilter.setTier(tier);
+        filterUpdated();
+      }
+    };
+    _tier.addListener(typeListener);
+  }
+
+  private void buildCategoryFilter()
+  {
+    _category=RecipeUiUtils.buildCategoryCombo(_recipes);
+    ItemSelectionListener<String> categoryListener=new ItemSelectionListener<String>()
+    {
+      @Override
+      public void itemSelected(String category)
+      {
+        RecipeCategoryFilter categoryFilter=_filter.getCategoryFilter();
+        categoryFilter.setCategory(category);
+        filterUpdated();
+      }
+    };
+    _category.addListener(categoryListener);
+  }
+
+  private ComboBoxController<Integer> buildIngredientsCombobox()
+  {
+    ComboBoxController<Integer> combo=RecipeUiUtils.buildIngredientsCombo(_recipes);
+    ItemSelectionListener<Integer> listener=new ItemSelectionListener<Integer>()
+    {
+      @Override
+      public void itemSelected(Integer itemId)
+      {
+        RecipeIngredientFilter filter=_filter.getIngredientFilter();
+        filter.setItemId(itemId);
+        filterUpdated();
+      }
+    };
+    combo.addListener(listener);
+    return combo;
   }
 
   /**
@@ -276,13 +312,16 @@ public class RecipeFilterController implements ActionListener
       _tier.dispose();
       _tier=null;
     }
-    /*
     if (_category!=null)
     {
       _category.dispose();
       _category=null;
     }
-    */
+    if (_ingredient!=null)
+    {
+      _ingredient.dispose();
+      _ingredient=null;
+    }
     _contains=null;
     _reset=null;
   }

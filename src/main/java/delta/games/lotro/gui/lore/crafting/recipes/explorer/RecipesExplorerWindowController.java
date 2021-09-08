@@ -6,6 +6,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -25,6 +26,7 @@ import delta.games.lotro.gui.lore.crafting.recipes.RecipesTableController;
 import delta.games.lotro.gui.main.GlobalPreferences;
 import delta.games.lotro.gui.navigation.NavigatorFactory;
 import delta.games.lotro.lore.crafting.recipes.Recipe;
+import delta.games.lotro.lore.crafting.recipes.RecipesManager;
 import delta.games.lotro.lore.crafting.recipes.filters.RecipeFilter;
 
 /**
@@ -86,7 +88,8 @@ public class RecipesExplorerWindowController extends DefaultWindowController
     _panelController=new RecipeExplorerPanelController(this,_tableController);
     JPanel tablePanel=_panelController.getPanel();
     // Filter
-    _filterController=new RecipeFilterController(_filter,_panelController);
+    List<Recipe> recipes=RecipesManager.getInstance().getAll();
+    _filterController=new RecipeFilterController(recipes,_filter,_panelController);
     JPanel filterPanel=_filterController.getPanel();
     TitledBorder filterBorder=GuiFactory.buildTitledBorder("Filter");
     filterPanel.setBorder(filterBorder);
