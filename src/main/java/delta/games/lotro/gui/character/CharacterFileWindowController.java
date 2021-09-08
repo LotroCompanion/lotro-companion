@@ -171,63 +171,55 @@ public class CharacterFileWindowController extends DefaultWindowController imple
   private JPanel buildCommandsPanel()
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
-    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
-    // Log
-    JButton logButton=buildCommandButton("Log",LOG_COMMAND);
-    panel.add(logButton,c);
-    c.gridx++;
+
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,5,2,0),0,0);
     // Reputation
     JButton reputationButton=buildCommandButton("Reputation",REPUTATION_COMMAND);
-    panel.add(reputationButton,c);
-    c.gridx++;
-    // Levels
-    JButton levelsButton=buildCommandButton("Levels",LEVEL_COMMAND);
-    panel.add(levelsButton,c);
-    c.gridx++;
+    panel.add(reputationButton,c);c.gridx++;
     // Crafting
     JButton craftingButton=buildCommandButton("Crafting",CRAFTING_COMMAND);
-    panel.add(craftingButton,c);
-    c.gridx++;
-    // Stash
-    JButton stashButton=buildCommandButton("Stash",STASH_COMMAND);
-    panel.add(stashButton,c);
-    c.gridx++;
-    // Trait points
-    JButton traitPointsButton=buildCommandButton("Trait points",TRAIT_POINTS_COMMAND);
-    panel.add(traitPointsButton,c);
-    c.gridx++;
-    // Deeds status
-    JButton deedsButton=buildCommandButton("Deeds",DEEDS_STATUS_COMMAND);
-    panel.add(deedsButton,c);
-    c.gridx++;
-    // Quests status
-    JButton questsButton=buildCommandButton("Quests",QUESTS_STATUS_COMMAND);
-    panel.add(questsButton,c);
-    c.gridx++;
-    // Tasks status
-    JButton tasksButton=buildCommandButton("Tasks",TASKS_STATUS_COMMAND);
-    panel.add(tasksButton,c);
-    c.gridx++;
-    // Skirmish statistics
-    JButton skirmishsButton=buildCommandButton("Skirmishs",SKIRMISH_STATS_COMMAND);
-    panel.add(skirmishsButton,c);
-    c.gridx++;
-    // Relics inventory statistics
-    JButton relicsButton=buildCommandButton("Relics",RELICS_INVENTORY_COMMAND);
-    panel.add(relicsButton,c);
-    c.gridx++;
-    // Recipes status
-    JButton recipesButton=buildCommandButton("Recipes",RECIPES_STATUS_COMMAND);
-    panel.add(recipesButton,c);
-    c.gridx++;
-    // Titles status
-    JButton titlesButton=buildCommandButton("Titles",TITLES_STATUS_COMMAND);
-    panel.add(titlesButton,c);
-    c.gridx++;
+    panel.add(craftingButton,c);c.gridx++;
     // Storage
     JButton storageButton=buildCommandButton("Storage",STORAGE_COMMAND);
-    panel.add(storageButton,c);
-    c.gridx++;
+    panel.add(storageButton,c);c.gridx++;
+    // Relics inventory statistics
+    JButton relicsButton=buildCommandButton("Relics",RELICS_INVENTORY_COMMAND);
+    panel.add(relicsButton,c);c.gridx++;
+    // Stash
+    JButton stashButton=buildCommandButton("Stash",STASH_COMMAND);
+    panel.add(stashButton,c);c.gridx++;
+    // Levels
+    JButton levelsButton=buildCommandButton("Levels",LEVEL_COMMAND);
+    panel.add(levelsButton,c);c.gridx++;
+    // Log
+    JButton logButton=buildCommandButton("Log",LOG_COMMAND);
+    c.insets.right=5;
+    panel.add(logButton,c);c.gridx++;
+
+    c.insets.right=0;
+    c.gridx=0;c.gridy++;
+    // Trait points
+    JButton traitPointsButton=buildCommandButton("Trait points",TRAIT_POINTS_COMMAND);
+    panel.add(traitPointsButton,c);c.gridx++;
+    // Deeds status
+    JButton deedsButton=buildCommandButton("Deeds",DEEDS_STATUS_COMMAND);
+    panel.add(deedsButton,c);c.gridx++;
+    // Quests status
+    JButton questsButton=buildCommandButton("Quests",QUESTS_STATUS_COMMAND);
+    panel.add(questsButton,c);c.gridx++;
+    // Titles status
+    JButton titlesButton=buildCommandButton("Titles",TITLES_STATUS_COMMAND);
+    panel.add(titlesButton,c);c.gridx++;
+    // Tasks status
+    JButton tasksButton=buildCommandButton("Tasks",TASKS_STATUS_COMMAND);
+    panel.add(tasksButton,c);c.gridx++;
+    // Skirmish statistics
+    JButton skirmishsButton=buildCommandButton("Skirmishs",SKIRMISH_STATS_COMMAND);
+    panel.add(skirmishsButton,c);c.gridx++;
+    // Recipes status
+    JButton recipesButton=buildCommandButton("Recipes",RECIPES_STATUS_COMMAND);
+    c.insets.right=5;
+    panel.add(recipesButton,c);c.gridx++;
 
     // Disable buttons if no log
     boolean hasLog=_toon.hasLog();
