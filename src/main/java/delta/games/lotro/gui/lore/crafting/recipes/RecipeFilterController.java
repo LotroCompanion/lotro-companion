@@ -130,11 +130,13 @@ public class RecipeFilterController implements ActionListener
     Integer tier=tierFilter.getTier();
     _tier.selectItem(tier);
     // Category
-    /*
     RecipeCategoryFilter categoryFilter=_filter.getCategoryFilter();
     String category=categoryFilter.getCategory();
     _category.selectItem(category);
-    */
+    // Ingredient
+    RecipeIngredientFilter ingredientFilter=_filter.getIngredientFilter();
+    Integer itemId=ingredientFilter.getItemId();
+    _ingredient.selectItem(itemId);
   }
 
   private JPanel build()
