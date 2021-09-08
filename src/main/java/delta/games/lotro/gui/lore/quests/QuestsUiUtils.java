@@ -6,6 +6,7 @@ import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.games.lotro.common.LockType;
 import delta.games.lotro.common.Repeatability;
 import delta.games.lotro.common.Size;
+import delta.games.lotro.gui.utils.SharedUiUtils;
 import delta.games.lotro.lore.quests.QuestDescription.FACTION;
 
 /**
@@ -87,12 +88,7 @@ public class QuestsUiUtils
    */
   public static ComboBoxController<Boolean> build3StatesBooleanCombobox()
   {
-    ComboBoxController<Boolean> ctrl=new ComboBoxController<Boolean>();
-    ctrl.addEmptyItem("");
-    ctrl.addItem(Boolean.TRUE,"Yes");
-    ctrl.addItem(Boolean.FALSE,"No");
-    ctrl.selectItem(null);
-    return ctrl;
+    return SharedUiUtils.build3StatesBooleanCombobox("","Yes","No");
   }
 
   /**

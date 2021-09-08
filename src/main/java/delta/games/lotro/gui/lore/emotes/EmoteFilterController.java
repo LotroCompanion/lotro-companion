@@ -20,6 +20,7 @@ import delta.common.ui.swing.text.DynamicTextEditionController;
 import delta.common.ui.swing.text.TextListener;
 import delta.common.utils.collections.filters.Filter;
 import delta.games.lotro.gui.lore.items.FilterUpdateListener;
+import delta.games.lotro.gui.utils.SharedUiUtils;
 import delta.games.lotro.lore.emotes.EmoteDescription;
 import delta.games.lotro.lore.emotes.filters.EmoteAutoFilter;
 import delta.games.lotro.lore.emotes.filters.EmoteCommandFilter;
@@ -177,7 +178,7 @@ public class EmoteFilterController implements ActionListener
 
   private ComboBoxController<Boolean> buildAutoCombobox()
   {
-    ComboBoxController<Boolean> combo=build3StatesBooleanCombobox();
+    ComboBoxController<Boolean> combo=SharedUiUtils.build3StatesBooleanCombobox("","Auto","Earned");
     ItemSelectionListener<Boolean> listener=new ItemSelectionListener<Boolean>()
     {
       @Override
@@ -190,20 +191,6 @@ public class EmoteFilterController implements ActionListener
     };
     combo.addListener(listener);
     return combo;
-  }
-
-  /**
-   * Build a combo-box controller to choose from null, true or false.
-   * @return A new combo-box controller.
-   */
-  private ComboBoxController<Boolean> build3StatesBooleanCombobox()
-  {
-    ComboBoxController<Boolean> ctrl=new ComboBoxController<Boolean>();
-    ctrl.addEmptyItem("");
-    ctrl.addItem(Boolean.TRUE,"Auto");
-    ctrl.addItem(Boolean.FALSE,"Earned");
-    ctrl.selectItem(null);
-    return ctrl;
   }
 
  /**

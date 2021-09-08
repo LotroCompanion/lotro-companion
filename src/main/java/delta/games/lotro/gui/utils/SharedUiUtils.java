@@ -58,4 +58,21 @@ public class SharedUiUtils
     String imgLocation="/resources/gui/icons/"+iconName+"-icon.png";
     return imgLocation;
   }
+
+  /**
+   * Build a combo-box controller to choose from null, true or false.
+   * @param nullLabel Label for null case.
+   * @param trueLabel Label for true case.
+   * @param falseLabel Label for false case.
+   * @return A new combo-box controller.
+   */
+  public static ComboBoxController<Boolean> build3StatesBooleanCombobox(String nullLabel, String trueLabel, String falseLabel)
+  {
+    ComboBoxController<Boolean> ctrl=new ComboBoxController<Boolean>();
+    ctrl.addEmptyItem(nullLabel);
+    ctrl.addItem(Boolean.TRUE,trueLabel);
+    ctrl.addItem(Boolean.FALSE,falseLabel);
+    ctrl.selectItem(null);
+    return ctrl;
+  }
 }

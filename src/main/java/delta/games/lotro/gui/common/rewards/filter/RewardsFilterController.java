@@ -412,12 +412,7 @@ public class RewardsFilterController
    */
   private ComboBoxController<Boolean> build3StatesBooleanCombobox()
   {
-    ComboBoxController<Boolean> ctrl=new ComboBoxController<Boolean>();
-    ctrl.addEmptyItem("");
-    ctrl.addItem(Boolean.TRUE,"With");
-    ctrl.addItem(Boolean.FALSE,"Without");
-    ctrl.selectItem(null);
-    return ctrl;
+    return SharedUiUtils.build3StatesBooleanCombobox("","With","Without");
   }
 
   private ComboBoxController<Faction> buildReputationCombobox()
