@@ -46,6 +46,7 @@ public class RecipesStatusWindowController extends DefaultDisplayDialogControlle
   private RecipeFilterController _filterController;
   private RecipesStatusPanelController _panelController;
   private RecipeStatusTableController _tableController;
+  private RecipesStatsDisplayPanelController _statsController;
 
   /**
    * Constructor.
@@ -56,6 +57,8 @@ public class RecipesStatusWindowController extends DefaultDisplayDialogControlle
   {
     super(parent,status);
     _filter=new RecipeStatusFilter();
+    _statsController=new RecipesStatsDisplayPanelController();
+    updateStatistics();
   }
 
   @Override
@@ -95,6 +98,11 @@ public class RecipesStatusWindowController extends DefaultDisplayDialogControlle
     JPanel filterPanel=buildFilterPanel();
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(filterPanel,c);
+    // - stats
+    JPanel statsPanel=_statsController.getPanel();
+    c=new GridBagConstraints(1,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    statsPanel.setBorder(GuiFactory.buildTitledBorder("Statistics"));
+    panel.add(statsPanel,c);
     // - table
     c=new GridBagConstraints(0,1,2,1,1,1,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
     panel.add(tablePanel,c);
@@ -143,6 +151,13 @@ public class RecipesStatusWindowController extends DefaultDisplayDialogControlle
   public void filterUpdated()
   {
     _panelController.filterUpdated();
+    updateStatistics();
+  }
+
+  private void updateStatistics()
+  {
+    _data.update(_filter.getRecipeFilter());
+    _statsController.updateUI(_data.getStatistics());
   }
 
   private void showRecipe(Recipe recipe)
@@ -187,6 +202,11 @@ public class RecipesStatusWindowController extends DefaultDisplayDialogControlle
     {
       _tableController.dispose();
       _tableController=null;
+    }
+    if (_statsController!=null)
+    {
+      _statsController.dispose();
+      _statsController=null;
     }
   }
 }
