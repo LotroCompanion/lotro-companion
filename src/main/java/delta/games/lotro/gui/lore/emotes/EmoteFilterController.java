@@ -140,14 +140,13 @@ public class EmoteFilterController implements ActionListener
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
 
     int y=0;
-    JPanel line1Panel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,0,0));
+    JPanel line1Panel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
     // Label filter
     {
-      JPanel containsPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
-      containsPanel.add(GuiFactory.buildLabel("Command filter:"));
+      line1Panel.add(GuiFactory.buildLabel("Command filter:"));
       _contains=GuiFactory.buildTextField("");
       _contains.setColumns(20);
-      containsPanel.add(_contains);
+      line1Panel.add(_contains);
       TextListener listener=new TextListener()
       {
         @Override
@@ -160,7 +159,6 @@ public class EmoteFilterController implements ActionListener
         }
       };
       _textController=new DynamicTextEditionController(_contains,listener);
-      line1Panel.add(containsPanel);
     }
     // Profession
     {
