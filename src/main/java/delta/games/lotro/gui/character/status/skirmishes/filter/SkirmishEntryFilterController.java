@@ -23,9 +23,10 @@ import delta.games.lotro.character.status.skirmishes.filter.SkirmishEntryFilter;
 import delta.games.lotro.character.status.skirmishes.filter.SkirmishEntryLevelFilter;
 import delta.games.lotro.character.status.skirmishes.filter.SkirmishEntrySizeFilter;
 import delta.games.lotro.character.status.skirmishes.filter.SkirmishEntrySkirmishFilter;
+import delta.games.lotro.common.groupSize.GroupSize;
+import delta.games.lotro.common.groupSize.GroupSizesManager;
 import delta.games.lotro.gui.lore.items.FilterUpdateListener;
 import delta.games.lotro.lore.instances.PrivateEncountersManager;
-import delta.games.lotro.lore.instances.SkirmishGroupSize;
 import delta.games.lotro.lore.instances.SkirmishPrivateEncounter;
 
 /**
@@ -40,7 +41,7 @@ public class SkirmishEntryFilterController implements ActionListener
   private JPanel _panel;
   private JButton _reset;
   // Controllers
-  private MultiCheckboxController<SkirmishGroupSize> _sizes;
+  private MultiCheckboxController<GroupSize> _sizes;
   private MultiCheckboxController<SkirmishLevel> _levels;
   private ComboBoxController<SkirmishPrivateEncounter> _skirmish;
   // Listeners
@@ -78,7 +79,7 @@ public class SkirmishEntryFilterController implements ActionListener
   private void filterUpdated()
   {
     _filter.getSkirmishFilter().setSkirmish(_skirmish.getSelectedItem());
-    _filter.getGroupSizeFilter().setSizes(new HashSet<SkirmishGroupSize>(_sizes.getSelectedItems()));
+    _filter.getGroupSizeFilter().setSizes(new HashSet<GroupSize>(_sizes.getSelectedItems()));
     _filter.getLevelFilter().setLevels(new HashSet<SkirmishLevel>(_levels.getSelectedItems()));
     _filterUpdateListener.filterUpdated();
   }
@@ -104,7 +105,7 @@ public class SkirmishEntryFilterController implements ActionListener
     _skirmish.selectItem(skirmish);
     // Size
     SkirmishEntrySizeFilter sizeFilter=_filter.getGroupSizeFilter();
-    Set<SkirmishGroupSize> sizes=sizeFilter.getSelectedSizes();
+    Set<GroupSize> sizes=sizeFilter.getSelectedSizes();
     _sizes.setSelectedItems(sizes);
     // Level
     SkirmishEntryLevelFilter levelFilter=_filter.getLevelFilter();
@@ -192,21 +193,21 @@ public class SkirmishEntryFilterController implements ActionListener
     return ctrl;
   }
 
-  private MultiCheckboxController<SkirmishGroupSize> buildSizeMultiCheckbox()
+  private MultiCheckboxController<GroupSize> buildSizeMultiCheckbox()
   {
-    final MultiCheckboxController<SkirmishGroupSize> multiCheckbox=new MultiCheckboxController<SkirmishGroupSize>();
-    for(SkirmishGroupSize size : SkirmishGroupSize.values())
+    final MultiCheckboxController<GroupSize> multiCheckbox=new MultiCheckboxController<GroupSize>();
+    for(GroupSize size : GroupSizesManager.getInstance().getAll())
     {
       String label=size.toString();
       multiCheckbox.addItem(size,label);
     }
     multiCheckbox.selectAll();
-    ItemSelectionListener<SkirmishGroupSize> listener=new ItemSelectionListener<SkirmishGroupSize>()
+    ItemSelectionListener<GroupSize> listener=new ItemSelectionListener<GroupSize>()
     {
       @Override
-      public void itemSelected(SkirmishGroupSize size)
+      public void itemSelected(GroupSize size)
       {
-        Set<SkirmishGroupSize> sizes=new HashSet<SkirmishGroupSize>(multiCheckbox.getItems());
+        Set<GroupSize> sizes=new HashSet<GroupSize>(multiCheckbox.getItems());
         SkirmishEntrySizeFilter sizeFilter=_filter.getGroupSizeFilter();
         sizeFilter.setSizes(sizes);
         filterUpdated();

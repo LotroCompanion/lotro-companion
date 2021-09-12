@@ -10,8 +10,8 @@ import delta.common.ui.swing.tables.TableColumnController;
 import delta.games.lotro.character.status.skirmishes.SkirmishEntry;
 import delta.games.lotro.character.status.skirmishes.SkirmishLevel;
 import delta.games.lotro.character.status.skirmishes.SkirmishStats;
+import delta.games.lotro.common.groupSize.GroupSize;
 import delta.games.lotro.gui.utils.DurationCellRenderer;
-import delta.games.lotro.lore.instances.SkirmishGroupSize;
 
 /**
  * Builds column definitions for {@link SkirmishEntry} data.
@@ -47,7 +47,7 @@ public class SkirmishEntryColumnsBuilder
         @Override
         public String getData(SkirmishEntry entry)
         {
-          SkirmishGroupSize size=entry.getSize();
+          GroupSize size=entry.getSize();
           return (size!=null)?size.toString():"Mixed";
         }
       };
