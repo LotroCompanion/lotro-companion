@@ -72,12 +72,9 @@ public class KinshipMemberColumnsBuilder
       CellDataProvider<KinshipCharacterSummary,String> vocationCell=new CellDataProvider<KinshipCharacterSummary,String>()
       {
         @Override
-        public String getData(KinshipCharacterSummary file)
+        public String getData(KinshipCharacterSummary summary)
         {
-          Integer vocationId=file.getVocationID();
-          // TODO Display
-          String vocationName=vocationId!=null?vocationId.toString():null;
-          return vocationName;
+          return summary.getVocation();
         }
       };
       DefaultTableColumnController<KinshipCharacterSummary,String> vocationColumn=new DefaultTableColumnController<KinshipCharacterSummary,String>(KinshipMembersColumnIds.VOCATION.name(),"Vocation",String.class,vocationCell);
@@ -88,9 +85,9 @@ public class KinshipMemberColumnsBuilder
     {
       CellDataProvider<KinshipCharacterSummary,Long> lastLogoutCell=new CellDataProvider<KinshipCharacterSummary,Long>()
       {
-        public Long getData(KinshipCharacterSummary file)
+        public Long getData(KinshipCharacterSummary summary)
         {
-          return file.getLastLogoutDate();
+          return summary.getLastLogoutDate();
         }
       };
       DefaultTableColumnController<KinshipCharacterSummary,Long> lastLogoutColumn=new DefaultTableColumnController<KinshipCharacterSummary,Long>(KinshipMembersColumnIds.LAST_LOGOUT_DATE.name(),"Last logout",Long.class,lastLogoutCell);
@@ -103,16 +100,13 @@ public class KinshipMemberColumnsBuilder
       CellDataProvider<KinshipCharacterSummary,String> areaCell=new CellDataProvider<KinshipCharacterSummary,String>()
       {
         @Override
-        public String getData(KinshipCharacterSummary file)
+        public String getData(KinshipCharacterSummary summary)
         {
-          Integer areaId=file.getAreaID();
-          // TODO Display
-          String areaName=areaId!=null?areaId.toString():null;
-          return areaName;
+          return summary.getArea();
         }
       };
       DefaultTableColumnController<KinshipCharacterSummary,String> areaColumn=new DefaultTableColumnController<KinshipCharacterSummary,String>(KinshipMembersColumnIds.AREA.name(),"Area",String.class,areaCell);
-      areaColumn.setWidthSpecs(80,80,80);
+      areaColumn.setWidthSpecs(80,250,250);
       ret.add(areaColumn);
     }
     return ret;
