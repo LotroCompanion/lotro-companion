@@ -10,7 +10,7 @@ import delta.common.ui.swing.tables.TableColumnController;
 import delta.games.lotro.character.status.skirmishes.SkirmishEntry;
 import delta.games.lotro.character.status.skirmishes.SkirmishLevel;
 import delta.games.lotro.character.status.skirmishes.SkirmishStats;
-import delta.games.lotro.common.groupSize.GroupSize;
+import delta.games.lotro.common.enums.GroupSize;
 import delta.games.lotro.gui.utils.DurationCellRenderer;
 
 /**

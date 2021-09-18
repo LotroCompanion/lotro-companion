@@ -23,8 +23,9 @@ import delta.games.lotro.character.status.skirmishes.filter.SkirmishEntryFilter;
 import delta.games.lotro.character.status.skirmishes.filter.SkirmishEntryLevelFilter;
 import delta.games.lotro.character.status.skirmishes.filter.SkirmishEntrySizeFilter;
 import delta.games.lotro.character.status.skirmishes.filter.SkirmishEntrySkirmishFilter;
-import delta.games.lotro.common.groupSize.GroupSize;
-import delta.games.lotro.common.groupSize.GroupSizesManager;
+import delta.games.lotro.common.enums.GroupSize;
+import delta.games.lotro.common.enums.LotroEnum;
+import delta.games.lotro.common.enums.LotroEnumsRegistry;
 import delta.games.lotro.gui.lore.items.FilterUpdateListener;
 import delta.games.lotro.lore.instances.PrivateEncountersManager;
 import delta.games.lotro.lore.instances.SkirmishPrivateEncounter;
@@ -196,7 +197,8 @@ public class SkirmishEntryFilterController implements ActionListener
   private MultiCheckboxController<GroupSize> buildSizeMultiCheckbox()
   {
     final MultiCheckboxController<GroupSize> multiCheckbox=new MultiCheckboxController<GroupSize>();
-    for(GroupSize size : GroupSizesManager.getInstance().getAll())
+    LotroEnum<GroupSize> groupSizesMgr=LotroEnumsRegistry.getInstance().get(GroupSize.class);
+    for(GroupSize size : groupSizesMgr.getAll())
     {
       String label=size.toString();
       multiCheckbox.addItem(size,label);
