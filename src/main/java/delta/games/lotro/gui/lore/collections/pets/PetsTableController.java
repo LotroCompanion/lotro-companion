@@ -138,7 +138,7 @@ public class PetsTableController
         @Override
         public String getData(CosmeticPetDescription pet)
         {
-          return pet.getClassification().getGenus();
+          return pet.getClassification().getGenusLabel();
         }
       };
       DefaultTableColumnController<CosmeticPetDescription,String> genusColumn=new DefaultTableColumnController<CosmeticPetDescription,String>(PetColumnIds.GENUS.name(),"Genus",String.class,genusCell);
@@ -152,7 +152,7 @@ public class PetsTableController
         @Override
         public String getData(CosmeticPetDescription pet)
         {
-          return pet.getClassification().getSpecies();
+          return pet.getClassification().getSpeciesLabel();
         }
       };
       DefaultTableColumnController<CosmeticPetDescription,String> speciesColumn=new DefaultTableColumnController<CosmeticPetDescription,String>(PetColumnIds.SPECIES.name(),"Species",String.class,speciesCell);
@@ -166,7 +166,7 @@ public class PetsTableController
         @Override
         public String getData(CosmeticPetDescription pet)
         {
-          return pet.getClassification().getSubSpecies();
+          return pet.getClassification().getSubSpeciesLabel();
         }
       };
       DefaultTableColumnController<CosmeticPetDescription,String> subSpeciesColumn=new DefaultTableColumnController<CosmeticPetDescription,String>(PetColumnIds.SUBSPECIES.name(),"Sub-species",String.class,subSpeciesCell);

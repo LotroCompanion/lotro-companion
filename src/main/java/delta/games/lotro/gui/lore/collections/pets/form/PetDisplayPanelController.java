@@ -15,7 +15,10 @@ import javax.swing.JScrollPane;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.utils.text.EndOfLine;
+import delta.games.lotro.common.enums.Species;
+import delta.games.lotro.common.enums.SubSpecies;
 import delta.games.lotro.gui.LotroIconsManager;
+import delta.games.lotro.lore.agents.EntityClassification;
 import delta.games.lotro.lore.collections.pets.CosmeticPetDescription;
 
 /**
@@ -162,15 +165,20 @@ public class PetDisplayPanelController
     // Initial name
     String initialName=_pet.getInitialName();
     _initialName.setText(initialName);
+    // Classification
+    EntityClassification classification=_pet.getClassification();
     // Genus
-    String genus=_pet.getClassification().getGenus();
-    _genus.setText(genus);
+    String genus=classification.getGenusLabel();
+    String genusStr=(genus!=null)?genus:"-";
+    _genus.setText(genusStr);
     // Species
-    String species=_pet.getClassification().getSpecies();
-    _species.setText(species);
+    Species species=classification.getSpecies();
+    String speciesStr=(species!=null)?species.toString():"-";
+    _species.setText(speciesStr);
     // Sub-species
-    String subSpecies=_pet.getClassification().getSubSpecies();
-    _subSpecies.setText(subSpecies);
+    SubSpecies subSpecies=classification.getSubSpecies();
+    String subSpeciesStr=(subSpecies!=null)?subSpecies.toString():"-";
+    _subSpecies.setText(subSpeciesStr);
     // Details
     _details.setText(buildHtml());
     _details.setCaretPosition(0);

@@ -10,6 +10,7 @@ import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.common.utils.misc.IntegerHolder;
 import delta.games.lotro.character.skills.SkillDescription;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
+import delta.games.lotro.lore.agents.EntityClassification;
 import delta.games.lotro.lore.agents.mobs.MobDescription;
 import delta.games.lotro.lore.agents.npcs.NpcDescription;
 import delta.games.lotro.lore.deeds.DeedDescription;
@@ -292,17 +293,14 @@ public class ObjectivesDisplayBuilder
           int index=0;
           for(MobSelection mobSelection : mobSelections)
           {
-            String what=mobSelection.getWhat();
+            EntityClassification what=mobSelection.getWhat();
             String where=mobSelection.getWhere();
-            if (what==null)
-            {
-              what="Mob";
-            }
+            String whatStr=(what!=null)?what.getLabel():"Mob";
             if (index>0)
             {
               sb.append(" or ");
             }
-            sb.append(what).append(" in ").append(where);
+            sb.append(whatStr).append(" in ").append(where);
             index++;
           }
         }
