@@ -199,8 +199,16 @@ public class AchievablesStatisticsSummaryPanelController
       int totalVirtueXP=virtueXPStats.getTotalVirtueXP();
       int achievablesCount=virtueXPStats.getEntriesCount();
       int completionsCount=virtueXPStats.getTotalCompletions();
-      String achievableType=(_mode==AchievableUIMode.DEED)?"deeds":"quests";
-      _virtueXP.setText(totalVirtueXP+" points from "+completionsCount+" completions ("+achievablesCount+" unique "+achievableType+")");
+      String virtueXPLabel;
+      if (_mode==AchievableUIMode.DEED)
+      {
+        virtueXPLabel=totalVirtueXP+" points from "+achievablesCount+" deeds";
+      }
+      else
+      {
+        virtueXPLabel=totalVirtueXP+" points from "+completionsCount+" completions ("+achievablesCount+" unique quests)";
+      }
+      _virtueXP.setText(virtueXPLabel);
     }
     // Items count
     ItemsStats itemsStats=_statistics.getItemsStats();
