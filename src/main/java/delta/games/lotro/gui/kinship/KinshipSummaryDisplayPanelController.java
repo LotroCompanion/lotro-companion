@@ -148,9 +148,15 @@ public class KinshipSummaryDisplayPanelController implements GenericEventsListen
     long statusDate=_summary.getStatusDate();
     statusDateStr=Formats.getDateTimeString(new Date(statusDate));
     _statusDateLabel.setText(statusDateStr);
-    // Name
+    // Name & server
     String name=_summary.getName();
-    _nameLabel.setText(name);
+    String server=_summary.getServerName();
+    String label=name;
+    if (server.length()>0)
+    {
+      label=label+" ("+server+")";
+    }
+    _nameLabel.setText(label);
     // Founder
     String founder=resolveMemberName(_summary.getFounderID());
     _founderLabel.setText(founder);
