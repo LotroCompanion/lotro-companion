@@ -15,7 +15,7 @@ public enum TitleColumnIds
    */
   NAME,
   /**
-   * Type.
+   * Category.
    */
   CATEGORY,
   /**

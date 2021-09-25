@@ -136,7 +136,7 @@ public class TitlesTableController
     }
     // Description column
     {
-      CellDataProvider<TitleDescription,String> nameCell=new CellDataProvider<TitleDescription,String>()
+      CellDataProvider<TitleDescription,String> descriptionCell=new CellDataProvider<TitleDescription,String>()
       {
         @Override
         public String getData(TitleDescription title)
@@ -144,9 +144,9 @@ public class TitlesTableController
           return title.getDescription();
         }
       };
-      DefaultTableColumnController<TitleDescription,String> nameColumn=new DefaultTableColumnController<TitleDescription,String>(TitleColumnIds.DESCRIPTION.name(),"Description",String.class,nameCell);
-      nameColumn.setWidthSpecs(100,-1,200);
-      ret.add(nameColumn);
+      DefaultTableColumnController<TitleDescription,String> descriptionColumn=new DefaultTableColumnController<TitleDescription,String>(TitleColumnIds.DESCRIPTION.name(),"Description",String.class,descriptionCell);
+      descriptionColumn.setWidthSpecs(100,-1,200);
+      ret.add(descriptionColumn);
     }
     return ret;
   }

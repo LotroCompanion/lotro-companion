@@ -13,6 +13,7 @@ import delta.common.ui.swing.toolbar.ToolbarIconItem;
 import delta.common.ui.swing.toolbar.ToolbarModel;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.ui.swing.windows.WindowsManager;
+import delta.games.lotro.gui.lore.agents.mobs.explorer.MobsExplorerWindowController;
 import delta.games.lotro.gui.lore.collections.mounts.explorer.MountsExplorerWindowController;
 import delta.games.lotro.gui.lore.collections.pets.explorer.PetsExplorerWindowController;
 import delta.games.lotro.gui.lore.crafting.recipes.explorer.RecipesExplorerWindowController;
@@ -32,6 +33,7 @@ import delta.games.lotro.gui.utils.SharedUiUtils;
 public class LoreActionsController implements ActionListener,Disposable
 {
   private static final String ITEMS_ID="items";
+  private static final String MOBS_ID="mobs";
   private static final String DEEDS_ID="deeds";
   private static final String QUESTS_ID="quests";
   private static final String RECIPES_ID="recipes";
@@ -69,6 +71,11 @@ public class LoreActionsController implements ActionListener,Disposable
     JMenuItem itemsExplorer=GuiFactory.buildMenuItem("Items");
     itemsExplorer.setActionCommand(ITEMS_ID);
     itemsExplorer.addActionListener(this);
+    compendiumMenu.add(itemsExplorer);
+    // - mobs
+    JMenuItem mobsExplorer=GuiFactory.buildMenuItem("Mobs");
+    mobsExplorer.setActionCommand(MOBS_ID);
+    mobsExplorer.addActionListener(this);
     compendiumMenu.add(itemsExplorer);
     // - deeds
     JMenuItem deedsExplorer=GuiFactory.buildMenuItem("Deeds");
@@ -131,6 +138,10 @@ public class LoreActionsController implements ActionListener,Disposable
     String itemsIconPath=SharedUiUtils.getToolbarIconPath("items");
     ToolbarIconItem itemsIconItem=new ToolbarIconItem(ITEMS_ID,itemsIconPath,ITEMS_ID,"Items...","Items");
     model.addToolbarIconItem(itemsIconItem);
+    // Mobs icon
+    String mobsIconPath=SharedUiUtils.getToolbarIconPath("mobs");
+    ToolbarIconItem mobsIconItem=new ToolbarIconItem(MOBS_ID,mobsIconPath,MOBS_ID,"Mobs...","Mobs");
+    model.addToolbarIconItem(mobsIconItem);
     // Deeds icon
     String deedsIconPath=SharedUiUtils.getToolbarIconPath("deeds");
     ToolbarIconItem deedsIconItem=new ToolbarIconItem(DEEDS_ID,deedsIconPath,DEEDS_ID,"Deeds...","Deeds");
@@ -182,6 +193,10 @@ public class LoreActionsController implements ActionListener,Disposable
     {
       doItems();
     }
+    else if (MOBS_ID.equals(cmd))
+    {
+      doMobs();
+    }
     else if (DEEDS_ID.equals(cmd))
     {
       doDeeds();
@@ -226,6 +241,17 @@ public class LoreActionsController implements ActionListener,Disposable
     if (controller==null)
     {
       controller=new ItemsExplorerWindowController(_parent);
+      _windowsManager.registerWindow(controller);
+    }
+    controller.bringToFront();
+  }
+
+  private void doMobs()
+  {
+    WindowController controller=_windowsManager.getWindow(MobsExplorerWindowController.IDENTIFIER);
+    if (controller==null)
+    {
+      controller=new MobsExplorerWindowController(_parent);
       _windowsManager.registerWindow(controller);
     }
     controller.bringToFront();
