@@ -1,7 +1,9 @@
 package delta.games.lotro.gui.maps.instances;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import delta.games.lotro.dat.data.DataFacade;
 import delta.games.lotro.gui.maps.MapPanelConfigurator;
@@ -83,7 +85,6 @@ public class InstanceMapPanelController
 
   private List<Marker> findMarkers()
   {
-    List<Marker> ret=new ArrayList<Marker>();
     MapsManager mapsManager=Maps.getMaps().getMapsManager();
     MarkersFinder markersFinder=mapsManager.getMarkersFinder();
     int contentLayer=_privateEncounter.getContentLayerId();
@@ -96,18 +97,19 @@ public class InstanceMapPanelController
       System.out.println(marker+" => "+getBlock(marker));
     }
     */
+    List<Marker> selectedMarkers=new ArrayList<Marker>();
     List<Integer> zones=_mapDescription.getZoneIds();
     for(Integer zone : zones)
     {
       List<Marker> markers=markersFinder.findMarkers(zone.intValue(),contentLayer);
-      ret.addAll(markers);
+      selectedMarkers.addAll(markers);
       for(Integer contentLayerId : _privateEncounter.getAdditionalContentLayers())
       {
         List<Marker> clMarkers=markersFinder.findMarkers(zone.intValue(),contentLayerId.intValue());
-        ret.addAll(clMarkers);
+        selectedMarkers.addAll(clMarkers);
       }
       List<Marker> markers2=markersFinder.findMarkers(zone.intValue(),2);
-      ret.addAll(markers2);
+      selectedMarkers.addAll(markers2);
       /*
       for(Marker marker2 : markers2)
       {
@@ -115,7 +117,12 @@ public class InstanceMapPanelController
       }
       */
     }
-    return ret;
+    Map<Integer,Marker> ret=new HashMap<Integer,Marker>();
+    for(Marker marker : selectedMarkers)
+    {
+      ret.put(Integer.valueOf(marker.getId()),marker);
+    }
+    return new ArrayList<Marker>(ret.values());
   }
 
   /**
