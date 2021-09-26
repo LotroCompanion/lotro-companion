@@ -25,6 +25,7 @@ import delta.games.lotro.maps.data.basemaps.GeoreferencedBasemap;
 import delta.games.lotro.maps.data.basemaps.GeoreferencedBasemapsManager;
 import delta.games.lotro.maps.ui.MapPanelController;
 import delta.games.lotro.maps.ui.selection.SelectionManager;
+import delta.games.lotro.utils.ContextPropertyNames;
 import delta.games.lotro.utils.dat.DatInterface;
 import delta.games.lotro.utils.maps.Maps;
 
@@ -47,6 +48,7 @@ public class InstanceMapsWindowController extends DefaultWindowController
   public InstanceMapsWindowController(PrivateEncounter pe)
   {
     _pe=pe;
+    setContextProperty(ContextPropertyNames.PRIVATE_ENCOUNTER,pe);
     _facade=DatInterface.getInstance().getFacade();
     _panels=new ArrayList<InstanceMapPanelController>();
   }

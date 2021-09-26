@@ -59,21 +59,21 @@ public class ContainerDisplayPanelController
 
   private JPanel build()
   {
-    List<ItemDisplayGadgets> ingredientsGadgets=initItemsGadgets();
-    if (ingredientsGadgets.size()==0)
+    List<ItemDisplayGadgets> allItemGadgets=initItemsGadgets();
+    if (allItemGadgets.size()==0)
     {
       return null;
     }
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     int y=0;
-    for(ItemDisplayGadgets ingredientsGadget : ingredientsGadgets)
+    for(ItemDisplayGadgets itemGadgets : allItemGadgets)
     {
       GridBagConstraints c=new GridBagConstraints(0,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,2,2,2),0,0);
       // Icon
-      panel.add(ingredientsGadget.getIcon(),c);
+      panel.add(itemGadgets.getIcon(),c);
       // Name
       c=new GridBagConstraints(1,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(2,2,2,2),0,0);
-      panel.add(ingredientsGadget.getName(),c);
+      panel.add(itemGadgets.getName(),c);
       y++;
     }
     return panel;
