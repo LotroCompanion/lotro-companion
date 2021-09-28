@@ -96,7 +96,7 @@ public class MainFrameController extends DefaultWindowController implements Acti
   {
     JFrame frame=super.build();
     frame.setTitle("LOTRO Companion");
-    frame.setSize(850,400);
+    frame.setSize(920,400);
     frame.setLocation(100,100);
     frame.getContentPane().setBackground(GuiFactory.getBackgroundColor());
     return frame;
