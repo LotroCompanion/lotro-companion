@@ -30,6 +30,7 @@ import delta.games.lotro.common.enums.Species;
 import delta.games.lotro.common.enums.SubSpecies;
 import delta.games.lotro.common.enums.filter.LotroEnumValueFilter;
 import delta.games.lotro.gui.lore.items.FilterUpdateListener;
+import delta.games.lotro.gui.utils.enums.EnumUiUtils;
 import delta.games.lotro.lore.agents.mobs.MobDescription;
 import delta.games.lotro.lore.agents.mobs.filter.MobFilter;
 import delta.games.lotro.lore.agents.mobs.filter.MobNameFilter;
@@ -258,7 +259,7 @@ public class MobsFilterController implements ActionListener
 
   private <T extends LotroEnumEntry> ComboBoxController<T> buildAlignmentCombo(List<T> values, final LotroEnumValueFilter<T,MobDescription> filter)
   {
-    ComboBoxController<T> ret=MobsUiUtils.buildEnumCombo(values);
+    ComboBoxController<T> ret=EnumUiUtils.buildEnumCombo(values,true);
     ItemSelectionListener<T> listener=new ItemSelectionListener<T>()
     {
       @Override

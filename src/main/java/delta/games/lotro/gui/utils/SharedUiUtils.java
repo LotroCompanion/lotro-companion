@@ -31,6 +31,27 @@ public class SharedUiUtils
     return ctrl;
   }
 
+
+  /**
+   * Build a combobox with integer values.
+   * @param values Values to show.
+   * @param includeEmpty Include an empty choice or not.
+   * @return a combobox.
+   */
+  public static ComboBoxController<Integer> buildIntegerCombo(List<Integer> values, boolean includeEmpty)
+  {
+    ComboBoxController<Integer> ctrl=new ComboBoxController<Integer>();
+    if (includeEmpty)
+    {
+      ctrl.addEmptyItem("");
+    }
+    for(Integer value : values)
+    {
+      ctrl.addItem(value,value.toString());
+    }
+    return ctrl;
+  }
+
   /**
    * Build a combo-box controller to choose a virtue.
    * @return A new combo-box controller.

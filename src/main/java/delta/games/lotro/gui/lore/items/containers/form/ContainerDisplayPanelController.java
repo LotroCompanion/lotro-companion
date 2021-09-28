@@ -105,7 +105,6 @@ public class ContainerDisplayPanelController
     return ret;
   }
 
-  
   /**
    * Release all managed resources.
    */

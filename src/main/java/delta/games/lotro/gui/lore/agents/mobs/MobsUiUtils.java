@@ -6,12 +6,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.games.lotro.common.enums.AgentClass;
 import delta.games.lotro.common.enums.Alignment;
 import delta.games.lotro.common.enums.ClassificationFilter;
 import delta.games.lotro.common.enums.Genus;
-import delta.games.lotro.common.enums.LotroEnumEntry;
 import delta.games.lotro.common.enums.Species;
 import delta.games.lotro.common.enums.SubSpecies;
 import delta.games.lotro.common.enums.comparator.LotroEnumEntryNameComparator;
@@ -23,26 +21,6 @@ import delta.games.lotro.lore.agents.mobs.MobDescription;
  */
 public class MobsUiUtils
 {
-  /**
-   * Build a combo-box controller to choose a mob enum value.
-   * @param entries Type of enum entries.
-   * @return A new combo-box controller.
-   */
-  public static <T extends LotroEnumEntry> ComboBoxController<T> buildEnumCombo(List<T> entries)
-  {
-    ComboBoxController<T> ctrl=new ComboBoxController<T>();
-    ctrl.addEmptyItem("");
-    for(T entry : entries)
-    {
-      if (entry!=null)
-      {
-        ctrl.addItem(entry,entry.getLabel());
-      }
-    }
-    ctrl.selectItem(null);
-    return ctrl;
-  }
-
   /**
    * Get the alignments used by the given mobs.
    * @param mobs List of mobs to use.

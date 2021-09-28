@@ -12,6 +12,7 @@ import delta.games.lotro.account.AccountsManager;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.CharacterSex;
 import delta.games.lotro.common.Race;
+import delta.games.lotro.gui.utils.SharedUiUtils;
 
 /**
  * Utility methods for character UI.
@@ -123,17 +124,13 @@ public class CharacterUiUtils
    */
   public static ComboBoxController<Integer> buildLevelCombo()
   {
-    ComboBoxController<Integer> ctrl=new ComboBoxController<Integer>();
     int maxLevel=Config.getInstance().getMaxCharacterLevel();
     List<Integer> levels=new ArrayList<Integer>();
     for(int i=1;i<=maxLevel;i++)
     {
       levels.add(Integer.valueOf(i));
     }
-    for(Integer level : levels)
-    {
-      ctrl.addItem(level,level.toString());
-    }
+    ComboBoxController<Integer> ctrl=SharedUiUtils.buildIntegerCombo(levels,false);
     ctrl.selectItem(Integer.valueOf(maxLevel));
     return ctrl;
   }
