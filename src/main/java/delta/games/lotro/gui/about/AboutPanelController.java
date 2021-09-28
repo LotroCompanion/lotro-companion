@@ -105,7 +105,7 @@ public class AboutPanelController
       JLabel sourceLabel=GuiFactory.buildLabel("Source code: ");
       sourceLabel.setFont(font16);
       sourcePanel.add(sourceLabel);
-      BrowserHyperlinkAction githubAction=new BrowserHyperlinkAction("https://github.com/dmorcellet/lotro-companion","lotro-companion@GitHub");
+      BrowserHyperlinkAction githubAction=new BrowserHyperlinkAction("https://github.com/LotroCompanion/lotro-companion","lotro-companion@GitHub");
       HyperLinkController github=new HyperLinkController(githubAction);
       JLabel lbGitHub=github.getLabel();
       lbGitHub.setFont(font16);
@@ -133,7 +133,7 @@ public class AboutPanelController
 
     // User Manual
     {
-      BrowserHyperlinkAction userManualAction=new BrowserHyperlinkAction("https://github.com/dmorcellet/lotro-companion-doc/blob/master/UserManual/index.md","User Manual");
+      BrowserHyperlinkAction userManualAction=new BrowserHyperlinkAction("https://github.com/LotroCompanion/lotro-companion-doc/blob/master/UserManual/index.md","User Manual");
       HyperLinkController userManualLink=new HyperLinkController(userManualAction);
       c=new GridBagConstraints(0,y,2,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(0,5,10,5),0,0);
       JLabel userManualLabel=userManualLink.getLabel();
