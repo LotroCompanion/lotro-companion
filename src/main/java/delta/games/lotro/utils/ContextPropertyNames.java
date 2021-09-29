@@ -7,11 +7,11 @@ package delta.games.lotro.utils;
 public class ContextPropertyNames
 {
   /**
-   * Item.
+   * Item. Class=Item.
    */
   public static final String ITEM="ITEM";
   /**
-   * Private encounter.
+   * Private encounter. Class=PrivateEncounter.
    */
   public static final String PRIVATE_ENCOUNTER="PRIVATE_ENCOUNTER";
 }

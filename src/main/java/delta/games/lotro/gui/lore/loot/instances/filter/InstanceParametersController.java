@@ -27,7 +27,7 @@ import delta.games.lotro.gui.utils.enums.EnumUiUtils;
  * Controller for a panel to edit instance parameters.
  * @author DAM
  */
-public class InstanceParametersController implements ActionListener
+public class InstanceParametersController
 {
   // Data
   private InstanceParameters _parameters;
@@ -38,7 +38,6 @@ public class InstanceParametersController implements ActionListener
   private ComboBoxController<Integer> _level;
   // GUI
   private JPanel _panel;
-  private JButton _reset;
   // Listeners
   private FilterUpdateListener _updateListener;
 
@@ -53,6 +52,15 @@ public class InstanceParametersController implements ActionListener
     _parameters=parameters;
     _cfg=cfg;
     _updateListener=updateListener;
+  }
+
+  /**
+   * Get the current parameters.
+   * @return some parameters.
+   */
+  public InstanceParameters getParameters()
+  {
+    return _parameters;
   }
 
   /**
@@ -81,18 +89,6 @@ public class InstanceParametersController implements ActionListener
     }
   }
 
-  @Override
-  public void actionPerformed(ActionEvent e)
-  {
-    Object source=e.getSource();
-    if (source==_reset)
-    {
-      _difficulty.selectItem(null);
-      _size.selectItem(null);
-      _level.selectItem(null);
-    }
-  }
-
   private void setParameters()
   {
     // Difficulty
@@ -117,12 +113,6 @@ public class InstanceParametersController implements ActionListener
     parametersPanel.setBorder(border);
     GridBagConstraints c=new GridBagConstraints(0,y,1,1,0.0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(parametersPanel,c);
-
-    // Reset
-    _reset=GuiFactory.buildButton("Reset");
-    _reset.addActionListener(this);
-    c=new GridBagConstraints(1,y,1,1,0.0,0.0,GridBagConstraints.SOUTHWEST,GridBagConstraints.HORIZONTAL,new Insets(0,5,5,5),0,0);
-    panel.add(_reset,c);
 
     // Glue
     Component glue=Box.createGlue();
@@ -248,6 +238,5 @@ public class InstanceParametersController implements ActionListener
       _level.dispose();
       _level=null;
     }
-    _reset=null;
   }
 }
