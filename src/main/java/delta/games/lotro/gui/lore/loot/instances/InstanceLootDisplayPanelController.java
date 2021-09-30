@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.WindowController;
@@ -182,7 +183,8 @@ public class InstanceLootDisplayPanelController implements FilterUpdateListener
     JPanel parametersPanel=_parameters.getPanel();
     panel.add(parametersPanel,BorderLayout.NORTH);
     JPanel itemsPanel=_itemsList.getPanel();
-    panel.add(itemsPanel,BorderLayout.CENTER);
+    JScrollPane scrollPane=GuiFactory.buildScrollPane(itemsPanel);
+    panel.add(scrollPane,BorderLayout.CENTER);
     return panel;
   }
 

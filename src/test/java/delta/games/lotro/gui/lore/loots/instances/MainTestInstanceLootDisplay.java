@@ -7,8 +7,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
-import org.apache.log4j.Logger;
-
 import delta.common.ui.swing.windows.DefaultWindowController;
 import delta.games.lotro.gui.lore.loot.instances.InstanceLootDisplayPanelController;
 import delta.games.lotro.lore.instances.PrivateEncounter;
@@ -23,8 +21,6 @@ import delta.games.lotro.utils.ContextPropertyNames;
  */
 public class MainTestInstanceLootDisplay
 {
-  private static final Logger LOGGER=Logger.getLogger(MainTestInstanceLootDisplay.class);
-
   private void doIt()
   {
     DefaultWindowController window=new DefaultWindowController();
