@@ -20,9 +20,11 @@ import delta.games.lotro.gui.lore.items.essences.EssencesSetDisplayController;
 import delta.games.lotro.gui.lore.items.essences.EssencesSetEditionWindowController;
 import delta.games.lotro.gui.lore.items.legendary.LegendaryInstanceDisplayPanelController;
 import delta.games.lotro.gui.lore.items.legendary.LegendaryInstanceEditionWindowController;
+import delta.games.lotro.gui.lore.items.legendary2.LegendaryInstance2DisplayPanelController;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemInstance;
 import delta.games.lotro.lore.items.legendary.LegendaryInstance;
+import delta.games.lotro.lore.items.legendary2.LegendaryInstance2;
 
 /**
  * Controller for an item instance edition panel.
@@ -46,6 +48,7 @@ public class ItemInstanceEditionPanelController
   private EssencesSetDisplayController _essences;
   // - legendary stuff (optional)
   private LegendaryInstanceDisplayPanelController _legendary;
+  private LegendaryInstance2DisplayPanelController _legendary2;
 
   /**
    * Constructor.
@@ -91,6 +94,11 @@ public class ItemInstanceEditionPanelController
     {
       _legendary=new LegendaryInstanceDisplayPanelController(_itemInstance);
     }
+    boolean isLegendary2=(_itemInstance instanceof LegendaryInstance2);
+    if (isLegendary2)
+    {
+      _legendary2=new LegendaryInstance2DisplayPanelController(_itemInstance);
+    }
   }
 
   private JPanel buildPanel()
@@ -120,7 +128,13 @@ public class ItemInstanceEditionPanelController
     if (_legendary!=null)
     {
       c=new GridBagConstraints(0,2,2,1,1.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
-      JPanel legendaryPanel=buildLegendaryPanel();
+      JPanel legendaryPanel=buildLegendaryPanel(_legendary.getPanel());
+      ret.add(legendaryPanel,c);
+    }
+    if (_legendary2!=null)
+    {
+      c=new GridBagConstraints(0,2,2,1,1.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+      JPanel legendaryPanel=buildLegendaryPanel(_legendary2.getPanel());
       ret.add(legendaryPanel,c);
     }
     return ret;
@@ -198,12 +212,12 @@ public class ItemInstanceEditionPanelController
     return ret;
   }
 
-  private JPanel buildLegendaryPanel()
+  private JPanel buildLegendaryPanel(JPanel innerPanel)
   {
     JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
-    // Essences
+    // Legendary data
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
-    ret.add(_legendary.getPanel(),c);
+    ret.add(innerPanel,c);
     // Edit button
     JButton editButton=GuiFactory.buildButton("Edit...");
     ActionListener l=new ActionListener()
@@ -259,12 +273,19 @@ public class ItemInstanceEditionPanelController
   private void editLegendaryStuff()
   {
     CharacterClass characterClass=_attrs.getCharacterClass();
-    LegendaryInstanceEditionWindowController editor=new LegendaryInstanceEditionWindowController(_parent,characterClass,_itemInstance);
-    ItemInstance<? extends Item> updatedItem=editor.editModal();
-    if (updatedItem!=null)
+    if (_legendary!=null)
     {
-      _legendary.update();
-      updateWindow();
+      LegendaryInstanceEditionWindowController editor=new LegendaryInstanceEditionWindowController(_parent,characterClass,_itemInstance);
+      ItemInstance<? extends Item> updatedItem=editor.editModal();
+      if (updatedItem!=null)
+      {
+        _legendary.update();
+        updateWindow();
+      }
+    }
+    if (_legendary2!=null)
+    {
+      // TODO
     }
   }
 
@@ -346,6 +367,11 @@ public class ItemInstanceEditionPanelController
     {
       _legendary.dispose();
       _legendary=null;
+    }
+    if (_legendary2!=null)
+    {
+      _legendary2.dispose();
+      _legendary2=null;
     }
   }
 }
