@@ -11,7 +11,6 @@ import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.labels.MultilineLabel2;
-import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.legendary2.SocketEntryInstance;
 import delta.games.lotro.lore.items.legendary2.SocketsSetup;
 import delta.games.lotro.lore.items.legendary2.SocketsSetupInstance;

@@ -5,7 +5,6 @@ import javax.swing.JPanel;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemInstance;
 import delta.games.lotro.lore.items.legendary2.LegendaryInstance2;
-import delta.games.lotro.lore.items.legendary2.LegendaryInstanceAttrs2;
 
 /**
  * Panel to display the a legendary instance (reloaded).
@@ -14,6 +13,7 @@ import delta.games.lotro.lore.items.legendary2.LegendaryInstanceAttrs2;
 public class LegendaryInstance2DisplayPanelController
 {
   // Data
+  @SuppressWarnings("unused")
   private ItemInstance<? extends Item> _itemInstance;
   // UI
   private JPanel _panel;
@@ -52,8 +52,6 @@ public class LegendaryInstance2DisplayPanelController
    */
   public void update()
   {
-    LegendaryInstance2 legendaryInstance2=(LegendaryInstance2)_itemInstance;
-    LegendaryInstanceAttrs2 attrs=legendaryInstance2.getLegendaryAttributes();
     _traceries.update();
   }
 

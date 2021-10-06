@@ -34,6 +34,7 @@ import delta.games.lotro.lore.items.ItemsManager;
 import delta.games.lotro.utils.ContextPropertyNames;
 
 /**
+ * Controller for a panel to display loot data for an instance/chest.
  * @author DAM
  */
 public class InstanceLootDisplayPanelController implements FilterUpdateListener
@@ -41,6 +42,7 @@ public class InstanceLootDisplayPanelController implements FilterUpdateListener
   // Data
   private InstanceLoots _loots;
   // Controllers
+  @SuppressWarnings("unused")
   private WindowController _parent;
   private ItemsListDisplayPanelController _itemsList;
   private InstanceParametersController _parameters;
