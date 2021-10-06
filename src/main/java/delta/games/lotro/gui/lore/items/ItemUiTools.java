@@ -41,7 +41,7 @@ import delta.games.lotro.lore.items.WeaponType;
  */
 public class ItemUiTools
 {
-  private static final String ESSENCE_SEED="Essence:Tier";
+  private static final String TIER_PATTERN=":Tier";
 
   /**
    * Build an icon for an item.
@@ -55,9 +55,11 @@ public class ItemUiTools
     ImageIcon icon=LotroIconsManager.getItemIcon(iconPath);
     ret=icon;
     String subCategory=item.getSubCategory();
-    if ((subCategory!=null) && (subCategory.startsWith(ESSENCE_SEED)))
+    if ((subCategory!=null) && (subCategory.contains(TIER_PATTERN)))
     {
-      Integer tier=NumericTools.parseInteger(subCategory.substring(ESSENCE_SEED.length()));
+      int index=subCategory.indexOf(TIER_PATTERN);
+      String tierStr=subCategory.substring(index+TIER_PATTERN.length());
+      Integer tier=NumericTools.parseInteger(tierStr);
       if (tier!=null)
       {
         IconWithText iconWithText=new IconWithText(icon,tier.toString(),Color.WHITE);

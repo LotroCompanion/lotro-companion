@@ -1,10 +1,7 @@
 package delta.games.lotro.gui.lore.items.legendary2;
 
-import java.awt.GridBagLayout;
-
 import javax.swing.JPanel;
 
-import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemInstance;
 import delta.games.lotro.lore.items.legendary2.LegendaryInstance2;
@@ -20,6 +17,8 @@ public class LegendaryInstance2DisplayPanelController
   private ItemInstance<? extends Item> _itemInstance;
   // UI
   private JPanel _panel;
+  // Controller
+  private TraceriesSetDisplayController _traceries;
 
   /**
    * Constructor.
@@ -28,6 +27,8 @@ public class LegendaryInstance2DisplayPanelController
   public LegendaryInstance2DisplayPanelController(ItemInstance<? extends Item> itemInstance)
   {
     _itemInstance=itemInstance;
+    LegendaryInstance2 leg2=(LegendaryInstance2)itemInstance;
+    _traceries=new TraceriesSetDisplayController(leg2.getLegendaryAttributes().getSocketsSetup());
     _panel=buildPanel();
   }
 
@@ -42,8 +43,8 @@ public class LegendaryInstance2DisplayPanelController
 
   private JPanel buildPanel()
   {
-    JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
-    return ret;
+    JPanel traceries=_traceries.getPanel();
+    return traceries;
   }
 
   /**
@@ -53,6 +54,7 @@ public class LegendaryInstance2DisplayPanelController
   {
     LegendaryInstance2 legendaryInstance2=(LegendaryInstance2)_itemInstance;
     LegendaryInstanceAttrs2 attrs=legendaryInstance2.getLegendaryAttributes();
+    _traceries.update();
   }
 
   /**
@@ -62,6 +64,12 @@ public class LegendaryInstance2DisplayPanelController
   {
     // Data
     _itemInstance=null;
+    // Controllers
+    if (_traceries!=null)
+    {
+      _traceries.dispose();
+      _traceries=null;
+    }
     // UI
     if (_panel!=null)
     {

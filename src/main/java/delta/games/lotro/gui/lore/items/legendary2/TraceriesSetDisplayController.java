@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.lore.items.essences;
+package delta.games.lotro.gui.lore.items.legendary2;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -12,33 +12,36 @@ import javax.swing.JPanel;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.labels.MultilineLabel2;
 import delta.games.lotro.lore.items.Item;
-import delta.games.lotro.lore.items.essences.EssencesSet;
+import delta.games.lotro.lore.items.legendary2.SocketEntryInstance;
+import delta.games.lotro.lore.items.legendary2.SocketsSetup;
+import delta.games.lotro.lore.items.legendary2.SocketsSetupInstance;
 
 /**
- * Controller for a panel to display an essences set.
+ * Controller for a panel to display a traceries set.
  * @author DAM
  */
-public class EssencesSetDisplayController
+public class TraceriesSetDisplayController
 {
   // Data
-  private EssencesSet _essences;
+  private SocketsSetupInstance _traceries;
   // Controllers
-  private List<SingleEssenceDisplayController> _controllers;
+  private List<SingleTraceryDisplayController> _controllers;
   // UI
   private JPanel _panel;
 
   /**
    * Constructor.
-   * @param essences Essences to display.
+   * @param traceries Essences to display.
    */
-  public EssencesSetDisplayController(EssencesSet essences)
+  public TraceriesSetDisplayController(SocketsSetupInstance traceries)
   {
-    _essences=essences;
-    _controllers=new ArrayList<SingleEssenceDisplayController>();
-    int nbSlots=essences.getSize();
+    _traceries=traceries;
+    _controllers=new ArrayList<SingleTraceryDisplayController>();
+    SocketsSetup socketsSetup=traceries.getSetupTemplate();
+    int nbSlots=socketsSetup.getSocketsCount();
     for(int i=0;i<nbSlots;i++)
     {
-      SingleEssenceDisplayController controller=new SingleEssenceDisplayController();
+      SingleTraceryDisplayController controller=new SingleTraceryDisplayController();
       _controllers.add(controller);
     }
     _panel=build();
@@ -58,7 +61,7 @@ public class EssencesSetDisplayController
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     int baseLine=0;
-    for(SingleEssenceDisplayController controller : _controllers)
+    for(SingleTraceryDisplayController controller : _controllers)
     {
       // Icon
       JButton icon=controller.getIcon();
@@ -78,15 +81,15 @@ public class EssencesSetDisplayController
   }
 
   /**
-   * Update gadgets to reflect the current state of the associated essences set.
+   * Update gadgets to reflect the current state of the associated sockets setup.
    */
   public void update()
   {
-    int size=_essences.getSize();
+    int size=_controllers.size();
     for(int i=0;i<size;i++)
     {
-      Item essence=_essences.getEssence(i);
-      _controllers.get(i).setEssence(essence);
+      SocketEntryInstance entry=_traceries.getEntry(i);
+      _controllers.get(i).setTracery(entry);
     }
   }
 
@@ -96,11 +99,11 @@ public class EssencesSetDisplayController
   public void dispose()
   {
     // Data
-    _essences=null;
+    _traceries=null;
     // Controllers
     if (_controllers!=null)
     {
-      for(SingleEssenceDisplayController controller : _controllers)
+      for(SingleTraceryDisplayController controller : _controllers)
       {
         controller.dispose();
       }

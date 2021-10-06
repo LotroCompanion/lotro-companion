@@ -28,7 +28,6 @@ import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.common.money.MoneyDisplayController;
 import delta.games.lotro.gui.common.requirements.RequirementsUtils;
 import delta.games.lotro.gui.lore.items.containers.form.ContainerDisplayPanelController;
-import delta.games.lotro.lore.instances.PrivateEncounter;
 import delta.games.lotro.lore.items.Armour;
 import delta.games.lotro.lore.items.ArmourType;
 import delta.games.lotro.lore.items.DisenchantmentManager;
@@ -38,7 +37,6 @@ import delta.games.lotro.lore.items.ItemBinding;
 import delta.games.lotro.lore.items.ItemSturdiness;
 import delta.games.lotro.lore.items.Weapon;
 import delta.games.lotro.lore.items.WeaponType;
-import delta.games.lotro.utils.ContextPropertyNames;
 import delta.games.lotro.utils.gui.HtmlUtils;
 
 /**
@@ -72,8 +70,6 @@ public class ItemDisplayPanelController implements NavigablePanelController
     _scaling=new ItemScalableStatsPanelController(item);
     _container=new ContainerDisplayPanelController(parent,item);
     _money=new MoneyDisplayController();
-    PrivateEncounter pe=parent.getContextProperty(ContextPropertyNames.PRIVATE_ENCOUNTER,PrivateEncounter.class);
-    System.out.println("PE: "+pe);
   }
 
   @Override
