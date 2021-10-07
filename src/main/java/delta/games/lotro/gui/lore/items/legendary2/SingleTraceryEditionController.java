@@ -232,6 +232,15 @@ public class SingleTraceryEditionController
     {
       _value.setText(new String[]{});
     }
+    updateWindow();
+  }
+
+  private void updateWindow()
+  {
+    if (_parent!=null)
+    {
+      _parent.getWindow().pack();
+    }
   }
 
   private void updateIcon()

@@ -21,6 +21,7 @@ import delta.games.lotro.gui.lore.items.essences.EssencesSetEditionWindowControl
 import delta.games.lotro.gui.lore.items.legendary.LegendaryInstanceDisplayPanelController;
 import delta.games.lotro.gui.lore.items.legendary.LegendaryInstanceEditionWindowController;
 import delta.games.lotro.gui.lore.items.legendary2.LegendaryInstance2DisplayPanelController;
+import delta.games.lotro.gui.lore.items.legendary2.LegendaryInstance2EditionWindowController;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemInstance;
 import delta.games.lotro.lore.items.legendary.LegendaryInstance;
@@ -285,7 +286,13 @@ public class ItemInstanceEditionPanelController
     }
     if (_legendary2!=null)
     {
-      // TODO
+      LegendaryInstance2EditionWindowController editor=new LegendaryInstance2EditionWindowController(_parent,_itemInstance);
+      ItemInstance<? extends Item> updatedItem=editor.editModal();
+      if (updatedItem!=null)
+      {
+        _legendary2.update();
+        updateWindow();
+      }
     }
   }
 

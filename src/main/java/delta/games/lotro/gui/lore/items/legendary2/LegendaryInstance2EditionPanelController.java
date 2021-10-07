@@ -17,7 +17,10 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.common.ui.swing.labels.MultilineLabel2;
 import delta.common.ui.swing.windows.WindowController;
+import delta.games.lotro.lore.items.Item;
+import delta.games.lotro.lore.items.ItemInstance;
 import delta.games.lotro.lore.items.legendary.LegendaryConstants;
+import delta.games.lotro.lore.items.legendary2.LegendaryInstance2;
 import delta.games.lotro.lore.items.legendary2.LegendaryInstanceAttrs2;
 import delta.games.lotro.lore.items.legendary2.SocketEntryInstance;
 import delta.games.lotro.lore.items.legendary2.SocketsSetup;
@@ -38,11 +41,13 @@ public class LegendaryInstance2EditionPanelController
   /**
    * Constructor.
    * @param parent Parent controller.
-   * @param attrs Attributes to edit.
+   * @param item Item to edit.
    */
-  public LegendaryInstance2EditionPanelController(WindowController parent, LegendaryInstanceAttrs2 attrs)
+  public LegendaryInstance2EditionPanelController(WindowController parent, ItemInstance<? extends Item> item)
   {
     _parent=parent;
+    LegendaryInstance2 legendaryInstance=(LegendaryInstance2)item;
+    LegendaryInstanceAttrs2 attrs=legendaryInstance.getLegendaryAttributes();
     _editors=new ArrayList<SingleTraceryEditionController>();
     SocketsSetupInstance setupInstance=attrs.getSocketsSetup();
     SocketsSetup setup=setupInstance.getSetupTemplate();

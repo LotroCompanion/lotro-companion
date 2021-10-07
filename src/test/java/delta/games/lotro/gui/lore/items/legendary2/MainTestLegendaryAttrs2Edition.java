@@ -14,17 +14,11 @@ import delta.games.lotro.lore.items.legendary2.LegendaryInstanceAttrs2;
  */
 public class MainTestLegendaryAttrs2Edition
 {
-  private LegendaryInstanceAttrs2  buildTestAttrs()
-  {
-    ItemInstance<? extends Item> item=LegendariesTestUtils.loadItemInstance("BurglarNewLegWeapon.xml");
-    LegendaryInstanceAttrs2 attrs=LegendariesTestUtils.getLegendaryAttrs2(item);
-    return attrs;
-  }
-
   private void doIt()
   {
-    final LegendaryInstanceAttrs2 attrs=buildTestAttrs();
-    final LegendaryInstance2EditionPanelController controller=new LegendaryInstance2EditionPanelController(null,attrs);
+    ItemInstance<? extends Item> item=LegendariesTestUtils.loadItemInstance("BurglarNewLegWeapon.xml");
+    final LegendaryInstance2EditionPanelController controller=new LegendaryInstance2EditionPanelController(null,item);
+    final LegendaryInstanceAttrs2 attrs=LegendariesTestUtils.getLegendaryAttrs2(item);
 
     DefaultFormDialogController<LegendaryInstanceAttrs2> dialog=new DefaultFormDialogController<LegendaryInstanceAttrs2>(null,attrs)
     {
