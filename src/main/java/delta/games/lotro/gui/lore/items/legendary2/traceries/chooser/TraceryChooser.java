@@ -9,7 +9,7 @@ import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.misc.TypedProperties;
-import delta.games.lotro.gui.lore.items.chooser.ItemFilterController;
+import delta.games.lotro.gui.lore.items.legendary2.traceries.TraceriesFilterController;
 import delta.games.lotro.gui.lore.items.legendary2.traceries.table.TraceriesTableBuilder;
 import delta.games.lotro.lore.items.legendary2.Tracery;
 import delta.games.lotro.utils.gui.chooser.ObjectChoiceWindowController;
@@ -38,7 +38,7 @@ public class TraceryChooser
    * @param filterController Filter UI to use.
    * @return the newly built chooser.
    */
-  public static ObjectChoiceWindowController<Tracery> buildChooser(WindowController parent, TypedProperties prefs, List<Tracery> traceries, Filter<Tracery> filter, ItemFilterController filterController)
+  public static ObjectChoiceWindowController<Tracery> buildChooser(WindowController parent, TypedProperties prefs, List<Tracery> traceries, Filter<Tracery> filter, TraceriesFilterController filterController)
   {
     // Table
     GenericTableController<Tracery> traceriesTable=TraceriesTableBuilder.buildTable(traceries);

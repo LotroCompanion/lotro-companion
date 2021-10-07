@@ -12,13 +12,11 @@ import delta.common.ui.swing.tables.ListDataProvider;
 import delta.common.ui.swing.tables.ProxiedTableColumnController;
 import delta.common.ui.swing.tables.TableColumnController;
 import delta.common.ui.swing.tables.TableColumnsManager;
-import delta.common.utils.NumericTools;
 import delta.games.lotro.gui.lore.items.ItemColumnIds;
 import delta.games.lotro.gui.lore.items.chooser.ItemsTableBuilder;
 import delta.games.lotro.gui.utils.UiConfiguration;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.legendary2.Tracery;
-import delta.games.lotro.lore.items.legendary2.filters.TraceryTierFilter;
 
 /**
  * Builder for traceries tables.
@@ -93,22 +91,7 @@ public class TraceriesTableBuilder
         @Override
         public Integer getData(Tracery tracery)
         {
-          Item item=tracery.getItem();
-          if (item==null)
-          {
-            return null;
-          }
-          String category=item.getSubCategory();
-          if (category!=null)
-          {
-            int index=category.indexOf(TraceryTierFilter.TIER_PATTERN);
-            if (index!=-1)
-            {
-              String tierStr=category.substring(index+TraceryTierFilter.TIER_PATTERN.length());
-              return NumericTools.parseInteger(tierStr);
-            }
-          }
-          return null;
+          return tracery.getTier();
         }
       };
       DefaultTableColumnController<Tracery,Integer> tierColumn=new DefaultTableColumnController<Tracery,Integer>(TraceryColumnIds.TIER.name(),"Tier",Integer.class,tierCell);
@@ -181,6 +164,8 @@ public class TraceriesTableBuilder
     columnIds.add(ItemColumnIds.ICON.name());
     columnIds.add(TraceryColumnIds.NAME.name());
     columnIds.add(TraceryColumnIds.TIER.name());
+    columnIds.add(ItemColumnIds.REQUIRED_LEVEL.name());
+    columnIds.add(ItemColumnIds.REQUIRED_MAX_LEVEL.name());
     columnIds.add(TraceryColumnIds.MIN_ITEM_LEVEL.name());
     columnIds.add(TraceryColumnIds.MAX_ITEM_LEVEL.name());
     return columnIds;
