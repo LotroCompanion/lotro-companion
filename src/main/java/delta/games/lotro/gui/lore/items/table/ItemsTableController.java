@@ -36,14 +36,8 @@ public class ItemsTableController
   {
     _prefs=prefs;
     _items=new ArrayList<Item>(items);
-    _tableController=buildTable();
+    _tableController=ItemsTableBuilder.buildTable(_items);
     _tableController.setFilter(filter);
-    configureTable();
-  }
-
-  private GenericTableController<Item> buildTable()
-  {
-    return ItemsTableBuilder.buildTable(_items);
   }
 
   /**
@@ -80,13 +74,6 @@ public class ItemsTableController
   {
     int ret=_tableController.getNbFilteredItems();
     return ret;
-  }
-
-  private void configureTable()
-  {
-    JTable table=getTable();
-    // Adjust table row height for icons (32 pixels)
-    table.setRowHeight(32);
   }
 
   /**
