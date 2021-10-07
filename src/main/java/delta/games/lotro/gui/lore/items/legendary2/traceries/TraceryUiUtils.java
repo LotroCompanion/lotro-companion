@@ -24,7 +24,11 @@ public class TraceryUiUtils
     Set<Integer> values=new HashSet<Integer>();
     for(Tracery tracery : traceries)
     {
-      values.add(tracery.getTier());
+      Integer tier=tracery.getTier();
+      if (tier!=null)
+      {
+        values.add(tier);
+      }
     }
     List<Integer> ret=new ArrayList<Integer>(values);
     Collections.sort(ret);

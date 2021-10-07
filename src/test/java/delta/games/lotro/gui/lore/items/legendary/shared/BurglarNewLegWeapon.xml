@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<item key="1879424237" name="Burglar's Club of Legends" level="445" instanceId="03120000036259FC" boundTo="02080000002DC079">
+<legendary2>
+<socket index="0" traceryId="1879425377" traceryName="Heraldry of the Lion" itemLevel="440"/>
+<socket index="1" traceryId="1879425395" traceryName="Damage Over Time" itemLevel="403"/>
+<socket index="2" traceryId="1879425357" traceryName="Damage Over Time Criticals" itemLevel="400"/>
+<socket index="3" traceryId="1879425603" traceryName="Chain Skill Critical Multiplier" itemLevel="410"/>
+<socket index="4" traceryId="1879426003" traceryName="Coup de Grâce Damage" itemLevel="400"/>
+<socket index="6" traceryId="1879425289" traceryName="Critical Response Skill Damage" itemLevel="400"/>
+<socket index="7" traceryId="1879425901" traceryName="Cunning Attack Bleed Damage" itemLevel="400"/>
+<socket index="8" traceryId="1879425515" traceryName="Chain Skills Critical Chance" itemLevel="410"/>
+<socket index="9" traceryId="1879425741" traceryName="Empowered Blades" itemLevel="400"/>
+<socket index="10" traceryId="1879425796" traceryName="Empowered Blades" itemLevel="400"/>
+</legendary2>
+<stats mode="AUTO"/>
+</item>
