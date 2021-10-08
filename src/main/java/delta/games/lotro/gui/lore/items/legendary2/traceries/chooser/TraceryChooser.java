@@ -70,8 +70,16 @@ public class TraceryChooser
   {
     List<Tracery> traceries=TraceriesManager.getInstance().getTracery(type);
     TraceryFilter filter=new TraceryFilter();
-    // TODO Use props
-    TraceriesFilterController filterController=new TraceriesFilterController(filter,traceries,null);
+    TypedProperties filterProps=null;
+    if (parent!=null)
+    {
+      filterProps=parent.getUserProperties("TraceryChooserFilter");
+    }
+    else
+    {
+      filterProps=new TypedProperties();
+    }
+    TraceriesFilterController filterController=new TraceriesFilterController(filter,traceries,filterProps);
     // Build chooser
     ObjectChoiceWindowController<Tracery> chooser=TraceryChooser.buildChooser(parent,null,traceries,filter,filterController);
     // Show modal

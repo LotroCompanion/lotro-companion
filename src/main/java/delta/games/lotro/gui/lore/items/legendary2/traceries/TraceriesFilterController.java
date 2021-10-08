@@ -20,7 +20,7 @@ import delta.common.ui.swing.combobox.ItemSelectionListener;
 import delta.common.ui.swing.text.DynamicTextEditionController;
 import delta.common.ui.swing.text.TextListener;
 import delta.common.utils.collections.filters.Filter;
-import delta.games.lotro.gui.lore.items.FilterUpdateListener;
+import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.gui.lore.items.ItemUiTools;
 import delta.games.lotro.gui.utils.SharedUiUtils;
 import delta.games.lotro.lore.items.ItemQuality;
@@ -28,6 +28,7 @@ import delta.games.lotro.lore.items.filters.ItemNameFilter;
 import delta.games.lotro.lore.items.filters.ItemQualityFilter;
 import delta.games.lotro.lore.items.legendary2.Tracery;
 import delta.games.lotro.lore.items.legendary2.filters.TraceryFilter;
+import delta.games.lotro.lore.items.legendary2.filters.TraceryFilterIo;
 import delta.games.lotro.lore.items.legendary2.filters.TraceryTierFilter;
 import delta.games.lotro.utils.gui.filter.ObjectFilterPanelController;
 
@@ -40,6 +41,7 @@ public class TraceriesFilterController extends ObjectFilterPanelController imple
   // Data
   private TraceryFilter _filter;
   private List<Tracery> _traceries;
+  private TypedProperties _props;
   // GUI
   private JPanel _panel;
   private JButton _reset;
@@ -54,14 +56,15 @@ public class TraceriesFilterController extends ObjectFilterPanelController imple
    * Constructor.
    * @param filter Managed filter.
    * @param traceries Managed traceries.
-   * @param filterUpdateListener Filter update listener.
+   * @param props Filter state.
    */
-  public TraceriesFilterController(TraceryFilter filter, List<Tracery> traceries, FilterUpdateListener filterUpdateListener)
+  public TraceriesFilterController(TraceryFilter filter, List<Tracery> traceries, TypedProperties props)
   {
     super();
     _filter=filter;
     _traceries=traceries;
-    setFilterUpdateListener(filterUpdateListener);
+    _props=props;
+    TraceryFilterIo.loadFrom(_filter,_props);
   }
 
   /**
@@ -230,6 +233,11 @@ public class TraceriesFilterController extends ObjectFilterPanelController imple
   public void dispose()
   {
     // Data
+    if (_props!=null)
+    {
+      TraceryFilterIo.saveTo(_filter,_props);
+      _props=null;
+    }
     _filter=null;
     // Controllers
     if (_textController!=null)
