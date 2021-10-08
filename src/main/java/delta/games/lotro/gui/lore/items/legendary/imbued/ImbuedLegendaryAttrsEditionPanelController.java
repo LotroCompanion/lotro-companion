@@ -134,7 +134,6 @@ public class ImbuedLegendaryAttrsEditionPanelController
       int x=1;
       c=new GridBagConstraints(x,0,1,2,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
       panel.add(buildCenteredLabel("Stats"),c);
-      panel.add(valueStrut,c);
       x++;
       c=new GridBagConstraints(x,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,5),0,0);
       panel.add(buildCenteredLabel("Current"),c);

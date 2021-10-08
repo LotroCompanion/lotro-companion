@@ -90,17 +90,19 @@ public class LegendaryInstance2EditionPanelController
     int y=0;
     // Headers
     {
-      Component valueStrut=Box.createHorizontalStrut(200);
       int x=1;
-      GridBagConstraints c=new GridBagConstraints(x,y,1,2,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+      GridBagConstraints c=new GridBagConstraints(x,y,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
       panel.add(buildCenteredLabel("Stats"),c);
-      panel.add(valueStrut,c);
       x++;
       c=new GridBagConstraints(x,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,5),0,0);
-      panel.add(buildCenteredLabel("Current"),c);
+      panel.add(buildCenteredLabel("Item Level"),c);
       x++;
       y++;
+      Component valueStrut=Box.createHorizontalStrut(200);
+      c=new GridBagConstraints(1,y,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+      panel.add(valueStrut,c);
     }
+    y++;
     // Rows
     int nbEditors=_editors.size();
     for(int i=0;i<nbEditors;i++)
@@ -117,7 +119,7 @@ public class LegendaryInstance2EditionPanelController
       c=new GridBagConstraints(x,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(5,5,5,5),0,0);
       panel.add(valueLabel,c);
       x++;
-      // Current level
+      // Item level
       ComboBoxController<Integer> currentLevelCombo=editor.getCurrentLevelCombo();
       c=new GridBagConstraints(x,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,0),0,0);
       panel.add(currentLevelCombo.getComboBox(),c);
