@@ -12,9 +12,11 @@ import delta.games.lotro.common.stats.StatsProvider;
 import delta.games.lotro.gui.common.stats.StatsPanel;
 import delta.games.lotro.gui.lore.items.essences.EssencesSetDisplayController;
 import delta.games.lotro.gui.lore.items.legendary.LegendaryInstanceDisplayPanelController;
+import delta.games.lotro.gui.lore.items.legendary2.LegendaryInstance2DisplayPanelController;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemInstance;
 import delta.games.lotro.lore.items.legendary.LegendaryInstance;
+import delta.games.lotro.lore.items.legendary2.LegendaryInstance2;
 
 /**
  * Controller for an item instance display panel.
@@ -37,6 +39,7 @@ public class ItemInstanceDisplayPanelController
   private EssencesSetDisplayController _essences;
   // - legendary stuff (optional)
   private LegendaryInstanceDisplayPanelController _legendary;
+  private LegendaryInstance2DisplayPanelController _legendary2;
 
   /**
    * Constructor.
@@ -84,7 +87,11 @@ public class ItemInstanceDisplayPanelController
     if (isLegendary)
     {
       _legendary=new LegendaryInstanceDisplayPanelController(_itemInstance);
-      _legendary.getPanel().setBorder(GuiFactory.buildTitledBorder("Legendary"));
+    }
+    boolean isLegendary2=(_itemInstance instanceof LegendaryInstance2);
+    if (isLegendary2)
+    {
+      _legendary2=new LegendaryInstance2DisplayPanelController(_itemInstance);
     }
     return buildPanel();
   }
@@ -109,10 +116,20 @@ public class ItemInstanceDisplayPanelController
       ret.add(_essences.getPanel(),c);
     }
     // Legendary
+    JPanel legendaryPanel=null;
     if (_legendary!=null)
     {
+      legendaryPanel=_legendary.getPanel();
+    }
+    else if (_legendary2!=null)
+    {
+      legendaryPanel=_legendary2.getPanel();
+    }
+    if (legendaryPanel!=null)
+    {
       c=new GridBagConstraints(0,2,3,1,1.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
-      ret.add(_legendary.getPanel(),c);
+      ret.add(legendaryPanel,c);
+      legendaryPanel.setBorder(GuiFactory.buildTitledBorder("Legendary"));
     }
     _panel=ret;
     update();
@@ -145,6 +162,10 @@ public class ItemInstanceDisplayPanelController
     if (_legendary!=null)
     {
       _legendary.update();
+    }
+    if (_legendary2!=null)
+    {
+      _legendary2.update();
     }
   }
 
