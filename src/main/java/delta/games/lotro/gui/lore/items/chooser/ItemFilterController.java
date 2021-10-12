@@ -286,17 +286,17 @@ public class ItemFilterController extends ObjectFilterPanelController implements
     // Character requirements
     if (_classRequirement!=null)
     {
-      ItemRequiredClassFilter classFilter=_filter.getClassFilter();
+      ItemRequiredClassFilter classFilter=_filter.getCurrentCharacterClassFilter();
       _classRequirement.setSelected(classFilter.isEnabled());
     }
     if (_proficienciesRequirement!=null)
     {
-      CharacterProficienciesFilter proficienciesFilter=_filter.getProficienciesFilter();
+      CharacterProficienciesFilter proficienciesFilter=_filter.getCurrentCharacterProficienciesFilter();
       _proficienciesRequirement.setSelected(proficienciesFilter.isEnabled());
     }
     if (_characterLevelRequirement!=null)
     {
-      ItemCharacterLevelFilter levelFilter=_filter.getLevelFilter();
+      ItemCharacterLevelFilter levelFilter=_filter.getCurrentCharacterLevelFilter();
       _characterLevelRequirement.setSelected(levelFilter.isEnabled());
     }
     // Item level range
@@ -307,12 +307,12 @@ public class ItemFilterController extends ObjectFilterPanelController implements
     }
     if (_characterClass!=null)
     {
-      ItemRequiredClassFilter classFilter=_filter.getClassFilter();
+      ItemRequiredClassFilter classFilter=_filter.getGenericClassFilter();
       _characterClass.setSelectedItem(classFilter.getCharacterClass());
     }
     if (_race!=null)
     {
-      ItemRequiredRaceFilter raceFilter=_filter.getRaceFilter();
+      ItemRequiredRaceFilter raceFilter=_filter.getGenericRaceFilter();
       _race.setSelectedItem(raceFilter.getRace());
     }
   }
@@ -636,19 +636,19 @@ public class ItemFilterController extends ObjectFilterPanelController implements
   private JPanel buildLine4Panel()
   {
     JPanel panel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING));
-    boolean useCurrentCharacterClass=_cfg.hasComponent(ItemChooserFilterComponent.CHAR_CLASS);
-    boolean useProficiences=_cfg.hasComponent(ItemChooserFilterComponent.CHAR_PROFICIENCIES);
-    boolean useLevel=_cfg.hasComponent(ItemChooserFilterComponent.CHAR_LEVEL);
-    if (useCurrentCharacterClass || useProficiences || useLevel)
+    boolean useCurrentCharacterClass=_cfg.hasComponent(ItemChooserFilterComponent.CURRENT_CHAR_CLASS);
+    boolean useCurrentCharacterProficiences=_cfg.hasComponent(ItemChooserFilterComponent.CURRENT_CHAR_PROFICIENCIES);
+    boolean useCurrentCharacterLevel=_cfg.hasComponent(ItemChooserFilterComponent.CURRENT_CHAR_LEVEL);
+    if (useCurrentCharacterClass || useCurrentCharacterProficiences || useCurrentCharacterLevel)
     {
-      JPanel requirementsPanel=buildCurrentCharacterRequirementsPanel(useCurrentCharacterClass,useProficiences,useLevel);
+      JPanel requirementsPanel=buildCurrentCharacterRequirementsPanel(useCurrentCharacterClass,useCurrentCharacterProficiences,useCurrentCharacterLevel);
       panel.add(requirementsPanel);
     }
-    boolean useCharacterClass=_cfg.hasComponent(ItemChooserFilterComponent.CHARACTER_CLASS);
-    boolean useRace=_cfg.hasComponent(ItemChooserFilterComponent.CHARACTER_RACE);
-    if (useCharacterClass || useRace)
+    boolean useGenericClass=_cfg.hasComponent(ItemChooserFilterComponent.GENERIC_CHARACTER_CLASS);
+    boolean useGenericRace=_cfg.hasComponent(ItemChooserFilterComponent.GENERIC_CHARACTER_RACE);
+    if (useGenericClass || useGenericRace)
     {
-      JPanel requirementsPanel=buildCharacterRequirementsPanel(useCharacterClass,useRace);
+      JPanel requirementsPanel=buildCharacterRequirementsPanel(useGenericClass,useGenericRace);
       panel.add(requirementsPanel);
     }
     boolean useItemLevel=_cfg.hasComponent(ItemChooserFilterComponent.ITEM_LEVEL);
@@ -678,7 +678,7 @@ public class ItemFilterController extends ObjectFilterPanelController implements
         public void actionPerformed(ActionEvent e)
         {
           boolean selected=classCheckbox.isSelected();
-          _filter.getClassFilter().setEnabled(selected);
+          _filter.getCurrentCharacterClassFilter().setEnabled(selected);
           filterUpdated();
         }
       };
@@ -697,7 +697,7 @@ public class ItemFilterController extends ObjectFilterPanelController implements
         public void actionPerformed(ActionEvent e)
         {
           boolean selected=proficienciesCheckbox.isSelected();
-          _filter.getProficienciesFilter().setEnabled(selected);
+          _filter.getCurrentCharacterProficienciesFilter().setEnabled(selected);
           filterUpdated();
         }
       };
@@ -716,7 +716,7 @@ public class ItemFilterController extends ObjectFilterPanelController implements
         public void actionPerformed(ActionEvent e)
         {
           boolean selected=levelCheckbox.isSelected();
-          _filter.getLevelFilter().setEnabled(selected);
+          _filter.getCurrentCharacterLevelFilter().setEnabled(selected);
           filterUpdated();
         }
       };
@@ -741,7 +741,7 @@ public class ItemFilterController extends ObjectFilterPanelController implements
         @Override
         public void itemSelected(CharacterClass selected)
         {
-          _filter.getClassFilter().setCharacterClass(selected);
+          _filter.getGenericClassFilter().setCharacterClass(selected);
           filterUpdated();
         }
       };
@@ -758,7 +758,7 @@ public class ItemFilterController extends ObjectFilterPanelController implements
         @Override
         public void itemSelected(Race selected)
         {
-          _filter.getRaceFilter().setRace(selected);
+          _filter.getGenericRaceFilter().setRace(selected);
           filterUpdated();
         }
       };

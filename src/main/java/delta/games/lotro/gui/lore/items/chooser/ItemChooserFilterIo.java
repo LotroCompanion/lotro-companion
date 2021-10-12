@@ -32,9 +32,10 @@ import delta.games.lotro.lore.items.filters.WeaponTypeFilter;
  */
 public class ItemChooserFilterIo
 {
-  private static final String CLASS_FILTER_ENABLED="classFilterEnabled";
-  private static final String PROFICIENCIES_FILTER_ENABLED="proficienciesFilterEnabled";
-  private static final String LEVEL_FILTER_ENABLED="levelFilterEnabled";
+  // Current character class/proficiences/level filters
+  private static final String CURRENT_CHAR_CLASS_FILTER_ENABLED="classFilterEnabled";
+  private static final String CURRENT_CHAR_PROFICIENCIES_FILTER_ENABLED="proficienciesFilterEnabled";
+  private static final String CURRENT_CHAR_LEVEL_FILTER_ENABLED="levelFilterEnabled";
   private static final String ESSENCE_TIER="essenceTier";
   private static final String NAME_PATTERN="namePattern";
   private static final String CATEGORY="category";
@@ -47,8 +48,9 @@ public class ItemChooserFilterIo
   private static final String STAT_SEED="stat.";
   private static final String MIN_ITEM_LEVEL="minItemLevel";
   private static final String MAX_ITEM_LEVEL="maxItemLevel";
-  private static final String CLASS_FILTER="classFilter";
-  private static final String RACE_FILTER="raceFilter";
+  // Generic class/race filters
+  private static final String GENERIC_CLASS_FILTER="classFilter";
+  private static final String GENERIC_RACE_FILTER="raceFilter";
 
   /**
    * Load filter data from the given properties.
@@ -62,24 +64,24 @@ public class ItemChooserFilterIo
       return;
     }
     // Class
-    ItemRequiredClassFilter classFilter=filter.getClassFilter();
+    ItemRequiredClassFilter classFilter=filter.getCurrentCharacterClassFilter();
     if (classFilter!=null)
     {
-      boolean enabled=props.getBooleanProperty(CLASS_FILTER_ENABLED,classFilter.isEnabled());
+      boolean enabled=props.getBooleanProperty(CURRENT_CHAR_CLASS_FILTER_ENABLED,classFilter.isEnabled());
       classFilter.setEnabled(enabled);
     }
     // Proficiencies
-    CharacterProficienciesFilter proficienciesFilter=filter.getProficienciesFilter();
+    CharacterProficienciesFilter proficienciesFilter=filter.getCurrentCharacterProficienciesFilter();
     if (proficienciesFilter!=null)
     {
-      boolean enabled=props.getBooleanProperty(PROFICIENCIES_FILTER_ENABLED,proficienciesFilter.isEnabled());
+      boolean enabled=props.getBooleanProperty(CURRENT_CHAR_PROFICIENCIES_FILTER_ENABLED,proficienciesFilter.isEnabled());
       proficienciesFilter.setEnabled(enabled);
     }
     // Level
-    ItemCharacterLevelFilter levelFilter=filter.getLevelFilter();
+    ItemCharacterLevelFilter levelFilter=filter.getCurrentCharacterLevelFilter();
     if (levelFilter!=null)
     {
-      boolean enabled=props.getBooleanProperty(LEVEL_FILTER_ENABLED,levelFilter.isEnabled());
+      boolean enabled=props.getBooleanProperty(CURRENT_CHAR_LEVEL_FILTER_ENABLED,levelFilter.isEnabled());
       levelFilter.setEnabled(enabled);
     }
     // Essence Tier
@@ -179,19 +181,20 @@ public class ItemChooserFilterIo
       itemLevelFilter.setRange(minLevel,maxLevel);
     }
     // Character class
-    if (classFilter!=null)
+    ItemRequiredClassFilter genericClassFilter=filter.getGenericClassFilter();
+    if (genericClassFilter!=null)
     {
-      String classFilterKey=props.getStringProperty(CLASS_FILTER,null);
+      String classFilterKey=props.getStringProperty(GENERIC_CLASS_FILTER,null);
       CharacterClass characterClass=CharacterClass.getByKey(classFilterKey);
-      classFilter.setCharacterClass(characterClass);
+      genericClassFilter.setCharacterClass(characterClass);
     }
     // Race
-    ItemRequiredRaceFilter raceFilter=filter.getRaceFilter();
-    if (raceFilter!=null)
+    ItemRequiredRaceFilter genericRaceFilter=filter.getGenericRaceFilter();
+    if (genericRaceFilter!=null)
     {
-      String raceFilterKey=props.getStringProperty(RACE_FILTER,null);
+      String raceFilterKey=props.getStringProperty(GENERIC_RACE_FILTER,null);
       Race race=Race.getByKey(raceFilterKey);
-      raceFilter.setRace(race);
+      genericRaceFilter.setRace(race);
     }
   }
 
@@ -203,22 +206,22 @@ public class ItemChooserFilterIo
   public static void saveTo(ItemChooserFilter filter, TypedProperties props)
   {
     // Class
-    ItemRequiredClassFilter classFilter=filter.getClassFilter();
+    ItemRequiredClassFilter classFilter=filter.getCurrentCharacterClassFilter();
     if (classFilter!=null)
     {
-      props.setStringProperty(CLASS_FILTER_ENABLED,Boolean.toString(classFilter.isEnabled()));
+      props.setStringProperty(CURRENT_CHAR_CLASS_FILTER_ENABLED,Boolean.toString(classFilter.isEnabled()));
     }
     // Proficiencies
-    CharacterProficienciesFilter proficienciesFilter=filter.getProficienciesFilter();
+    CharacterProficienciesFilter proficienciesFilter=filter.getCurrentCharacterProficienciesFilter();
     if (proficienciesFilter!=null)
     {
-      props.setStringProperty(PROFICIENCIES_FILTER_ENABLED,Boolean.toString(proficienciesFilter.isEnabled()));
+      props.setStringProperty(CURRENT_CHAR_PROFICIENCIES_FILTER_ENABLED,Boolean.toString(proficienciesFilter.isEnabled()));
     }
     // Level
-    ItemCharacterLevelFilter levelFilter=filter.getLevelFilter();
+    ItemCharacterLevelFilter levelFilter=filter.getCurrentCharacterLevelFilter();
     if (levelFilter!=null)
     {
-      props.setStringProperty(LEVEL_FILTER_ENABLED,Boolean.toString(levelFilter.isEnabled()));
+      props.setStringProperty(CURRENT_CHAR_LEVEL_FILTER_ENABLED,Boolean.toString(levelFilter.isEnabled()));
     }
     // Essence Tier
     EssenceTierFilter tierFilter=filter.getEssenceTierFilter();
@@ -374,30 +377,31 @@ public class ItemChooserFilterIo
       }
     }
     // Character class
-    if (classFilter!=null)
+    ItemRequiredClassFilter genericClassFilter=filter.getGenericClassFilter();
+    if (genericClassFilter!=null)
     {
-      CharacterClass characterClass=classFilter.getCharacterClass();
+      CharacterClass characterClass=genericClassFilter.getCharacterClass();
       if (characterClass!=null)
       {
-        props.setStringProperty(CLASS_FILTER,characterClass.getKey());
+        props.setStringProperty(GENERIC_CLASS_FILTER,characterClass.getKey());
       }
       else
       {
-        props.removeProperty(CLASS_FILTER);
+        props.removeProperty(GENERIC_CLASS_FILTER);
       }
     }
     // Race
-    ItemRequiredRaceFilter raceFilter=filter.getRaceFilter();
-    if (raceFilter!=null)
+    ItemRequiredRaceFilter genericRaceFilter=filter.getGenericRaceFilter();
+    if (genericRaceFilter!=null)
     {
-      Race race=raceFilter.getRace();
+      Race race=genericRaceFilter.getRace();
       if (race!=null)
       {
-        props.setStringProperty(RACE_FILTER,race.getKey());
+        props.setStringProperty(GENERIC_RACE_FILTER,race.getKey());
       }
       else
       {
-        props.removeProperty(RACE_FILTER);
+        props.removeProperty(GENERIC_RACE_FILTER);
       }
     }
   }

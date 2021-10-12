@@ -40,10 +40,13 @@ public class ItemChooserFilter implements Filter<Item>
   // Data
   private ItemFilterConfiguration _cfg;
   private Filter<Item> _filter;
-  private ItemRequiredClassFilter _classFilter;
-  private ItemRequiredRaceFilter _raceFilter;
-  private CharacterProficienciesFilter _proficienciesFilter;
-  private ItemCharacterLevelFilter _levelFilter;
+  // Generic class/race filter
+  private ItemRequiredClassFilter _genericClassFilter;
+  private ItemRequiredRaceFilter _genericRaceFilter;
+  // Class/proficiencies/level filter on CURRENT character (if any)
+  private ItemRequiredClassFilter _characterClassFilter;
+  private CharacterProficienciesFilter _characterProficienciesFilter;
+  private ItemCharacterLevelFilter _characterLevelFilter;
   private EssenceTierFilter _essenceTierFilter;
   private ItemNameFilter _nameFilter;
   private ItemQualityFilter _qualityFilter;
@@ -65,31 +68,31 @@ public class ItemChooserFilter implements Filter<Item>
   {
     _cfg=cfg;
     List<Filter<Item>> filters=new ArrayList<Filter<Item>>();
-    // Character proficiencies
+    // Current character requirements
     if (attrs!=null)
     {
+      // - class
       CharacterClass characterClass=attrs.getCharacterClass();
-      int level=attrs.getLevel();
-      // Class
-      boolean useCurrentCharClass=cfg.hasComponent(ItemChooserFilterComponent.CHAR_CLASS);
+      boolean useCurrentCharClass=cfg.hasComponent(ItemChooserFilterComponent.CURRENT_CHAR_CLASS);
       if (useCurrentCharClass)
       {
-        _classFilter=new ItemRequiredClassFilter(characterClass,false);
-        filters.add(_classFilter);
+        _characterClassFilter=new ItemRequiredClassFilter(characterClass,false);
+        filters.add(_characterClassFilter);
       }
-      // Proficiencies
-      boolean useProficiencies=cfg.hasComponent(ItemChooserFilterComponent.CHAR_PROFICIENCIES);
+      // - proficiencies
+      int level=attrs.getLevel();
+      boolean useProficiencies=cfg.hasComponent(ItemChooserFilterComponent.CURRENT_CHAR_PROFICIENCIES);
       if (useProficiencies)
       {
-        _proficienciesFilter=new CharacterProficienciesFilter(characterClass,level);
-        filters.add(_proficienciesFilter);
+        _characterProficienciesFilter=new CharacterProficienciesFilter(characterClass,level);
+        filters.add(_characterProficienciesFilter);
       }
       // Level
-      boolean useCurrentCharLevel=cfg.hasComponent(ItemChooserFilterComponent.CHAR_LEVEL);
+      boolean useCurrentCharLevel=cfg.hasComponent(ItemChooserFilterComponent.CURRENT_CHAR_LEVEL);
       if (useCurrentCharLevel)
       {
-        _levelFilter=new ItemCharacterLevelFilter(level);
-        filters.add(_levelFilter);
+        _characterLevelFilter=new ItemCharacterLevelFilter(level);
+        filters.add(_characterLevelFilter);
       }
     }
     // Tier
@@ -178,18 +181,18 @@ public class ItemChooserFilter implements Filter<Item>
       filters.add(_itemLevelFilter);
     }
     // Character class
-    boolean useCharacterClass=cfg.hasComponent(ItemChooserFilterComponent.CHARACTER_CLASS);
+    boolean useCharacterClass=cfg.hasComponent(ItemChooserFilterComponent.GENERIC_CHARACTER_CLASS);
     if (useCharacterClass)
     {
-      _classFilter=new ItemRequiredClassFilter(null,false);
-      filters.add(_classFilter);
+      _genericClassFilter=new ItemRequiredClassFilter(null,false);
+      filters.add(_genericClassFilter);
     }
     // Race
-    boolean useCharacterRace=cfg.hasComponent(ItemChooserFilterComponent.CHARACTER_RACE);
+    boolean useCharacterRace=cfg.hasComponent(ItemChooserFilterComponent.GENERIC_CHARACTER_RACE);
     if (useCharacterRace)
     {
-      _raceFilter=new ItemRequiredRaceFilter(null,false);
-      filters.add(_raceFilter);
+      _genericRaceFilter=new ItemRequiredRaceFilter(null,false);
+      filters.add(_genericRaceFilter);
     }
     _filter=new CompoundFilter<Item>(Operator.AND,filters);
   }
@@ -213,39 +216,48 @@ public class ItemChooserFilter implements Filter<Item>
   }
 
   /**
-   * Get the managed class filter.
+   * Get the managed generic class filter.
    * @return a class filter or <code>null</code>.
    */
-  public ItemRequiredClassFilter getClassFilter()
+  public ItemRequiredClassFilter getGenericClassFilter()
   {
-    return _classFilter;
+    return _genericClassFilter;
   }
 
   /**
-   * Get the managed race filter.
+   * Get the managed generic race filter.
    * @return a race filter or <code>null</code>.
    */
-  public ItemRequiredRaceFilter getRaceFilter()
+  public ItemRequiredRaceFilter getGenericRaceFilter()
   {
-    return _raceFilter;
+    return _genericRaceFilter;
   }
 
   /**
-   * Get the managed proficiencies filter.
+   * Get the managed current character class filter.
+   * @return a class filter or <code>null</code>.
+   */
+  public ItemRequiredClassFilter getCurrentCharacterClassFilter()
+  {
+    return _characterClassFilter;
+  }
+
+  /**
+   * Get the managed current character proficiencies filter.
    * @return a proficiencies filter or <code>null</code>.
    */
-  public CharacterProficienciesFilter getProficienciesFilter()
+  public CharacterProficienciesFilter getCurrentCharacterProficienciesFilter()
   {
-    return _proficienciesFilter;
+    return _characterProficienciesFilter;
   }
 
   /**
-   * Get the managed level filter.
+   * Get the managed current character level filter.
    * @return a level filter or <code>null</code>.
    */
-  public ItemCharacterLevelFilter getLevelFilter()
+  public ItemCharacterLevelFilter getCurrentCharacterLevelFilter()
   {
-    return _levelFilter;
+    return _characterLevelFilter;
   }
 
   /**
