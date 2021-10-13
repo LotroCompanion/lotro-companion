@@ -102,20 +102,6 @@ public class CraftingLevelTierEditionGadgets
   }
 
   /**
-   * Get the currently displayed state into the given status.
-   * @param status Storage status.
-   */
-  public void getState(CraftingLevelTierStatus status)
-  {
-    Integer xp=_xp.getValue();
-    status.setAcquiredXP((xp!=null)?xp.intValue():0);
-    boolean completed=_completed.isSelected();
-    status.setCompleted(completed);
-    Long date=_completionDate.getDate();
-    status.setCompletionDate((date!=null)?date.longValue():0);
-  }
-
-  /**
    * Release all managed resources.
    */
   public void dispose()
