@@ -123,7 +123,8 @@ public class ItemChoiceTableColumnsManager
       ret.add(WellKnownStat.TACTICAL_MASTERY.getLegacyKey());
     }
     else if ((characterClass==CharacterClass.BEORNING) || (characterClass==CharacterClass.CAPTAIN)
-        || (characterClass==CharacterClass.CHAMPION) || (characterClass==CharacterClass.GUARDIAN))
+        || (characterClass==CharacterClass.CHAMPION) || (characterClass==CharacterClass.GUARDIAN)
+        || (characterClass==CharacterClass.BRAWLER))
     {
       // Might
       ret.add(WellKnownStat.MIGHT.getLegacyKey());
