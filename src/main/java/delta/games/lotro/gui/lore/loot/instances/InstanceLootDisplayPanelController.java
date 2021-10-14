@@ -62,8 +62,8 @@ public class InstanceLootDisplayPanelController implements FilterUpdateListener
     {
       InstanceParameters parameters=initParameters(cfg);
       _parameters=new InstanceParametersController(parameters,cfg,this);
+      _panel=buildPanel();
     }
-    _panel=buildPanel();
   }
 
   /**
@@ -177,10 +177,6 @@ public class InstanceLootDisplayPanelController implements FilterUpdateListener
 
   private JPanel buildPanel()
   {
-    if (_parameters==null)
-    {
-      return null;
-    }
     JPanel panel=GuiFactory.buildPanel(new BorderLayout());
     JPanel parametersPanel=_parameters.getPanel();
     panel.add(parametersPanel,BorderLayout.NORTH);
