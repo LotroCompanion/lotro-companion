@@ -20,7 +20,7 @@ import delta.games.lotro.common.stats.StatsProvider;
 import delta.games.lotro.gui.utils.ItemDisplayGadgets;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.sets.ItemsSet;
-import delta.games.lotro.lore.items.sets.ItemsSetBonus;
+import delta.games.lotro.lore.items.sets.SetBonus;
 import delta.games.lotro.utils.Proxy;
 import delta.games.lotro.utils.gui.HtmlUtils;
 
@@ -110,10 +110,10 @@ public class ItemsSetDisplayPanelController implements NavigablePanelController
     // Name
     JLabel nameLabel=GuiFactory.buildLabel(_set.getName(), 28f);
     // Set level
-    String setLevel="Set level: "+_set.getLevel();
+    String setLevel="Set level: "+_set.getSetLevel();
     JLabel setLevelLabel=GuiFactory.buildLabel(setLevel);
     // Required level
-    String requiredLevel="Required level: "+_set.getRequiredLevel();
+    String requiredLevel="Required level: "+_set.getRequiredMinLevel();
     JLabel requiredLevelLabel=GuiFactory.buildLabel(requiredLevel);
 
     // Result panel
@@ -172,7 +172,7 @@ public class ItemsSetDisplayPanelController implements NavigablePanelController
 
   private boolean hasBonus()
   {
-    for(ItemsSetBonus bonus : _set.getBonuses())
+    for(SetBonus bonus : _set.getBonuses())
     {
       StatsProvider statsProvider=bonus.getStatsProvider();
       if (statsProvider.getNumberOfStatProviders()>0)
@@ -188,9 +188,9 @@ public class ItemsSetDisplayPanelController implements NavigablePanelController
     JEditorPane editor=GuiFactory.buildHtmlPanel();
     StringBuilder sb=new StringBuilder();
     sb.append("<html><body>");
-    int level=_set.getLevel();
+    int level=_set.getSetLevel();
     int index=0;
-    for(ItemsSetBonus bonus : _set.getBonuses())
+    for(SetBonus bonus : _set.getBonuses())
     {
       StatsProvider statsProvider=bonus.getStatsProvider();
       BasicStatsSet stats=statsProvider.getStats(1,level);
