@@ -21,7 +21,6 @@ import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.ui.swing.windows.WindowsManager;
-import delta.common.utils.NumericTools;
 import delta.games.lotro.common.stats.StatDescription;
 import delta.games.lotro.common.stats.StatsRegistry;
 import delta.games.lotro.gui.LotroIconsManager;
@@ -41,8 +40,6 @@ import delta.games.lotro.lore.items.WeaponType;
  */
 public class ItemUiTools
 {
-  private static final String TIER_PATTERN=":Tier";
-
   /**
    * Build an icon for an item.
    * @param item Item to use.
@@ -54,18 +51,12 @@ public class ItemUiTools
     String iconPath=(item!=null)?item.getIcon():null;
     ImageIcon icon=LotroIconsManager.getItemIcon(iconPath);
     ret=icon;
-    String subCategory=item.getSubCategory();
-    if ((subCategory!=null) && (subCategory.contains(TIER_PATTERN)))
+    Integer tier=item.getTier();
+    if (tier!=null)
     {
-      int index=subCategory.indexOf(TIER_PATTERN);
-      String tierStr=subCategory.substring(index+TIER_PATTERN.length());
-      Integer tier=NumericTools.parseInteger(tierStr);
-      if (tier!=null)
-      {
-        IconWithText iconWithText=new IconWithText(icon,tier.toString(),Color.WHITE);
-        iconWithText.setPosition(Position.TOP_LEFT);
-        ret=iconWithText;
-      }
+      IconWithText iconWithText=new IconWithText(icon,tier.toString(),Color.WHITE);
+      iconWithText.setPosition(Position.TOP_LEFT);
+      ret=iconWithText;
     }
     return ret;
   }
