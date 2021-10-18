@@ -1,10 +1,17 @@
 package delta.games.lotro.gui.lore.items.legendary2;
 
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemInstance;
 import delta.games.lotro.lore.items.legendary2.LegendaryInstance2;
+import delta.games.lotro.lore.items.legendary2.LegendaryInstanceAttrs2;
 
 /**
  * Panel to display the a legendary instance (reloaded).
@@ -13,10 +20,10 @@ import delta.games.lotro.lore.items.legendary2.LegendaryInstance2;
 public class LegendaryInstance2DisplayPanelController
 {
   // Data
-  @SuppressWarnings("unused")
   private ItemInstance<? extends Item> _itemInstance;
   // UI
   private JPanel _panel;
+  private JLabel _name;
   // Controller
   private TraceriesSetDisplayController _traceries;
 
@@ -27,9 +34,11 @@ public class LegendaryInstance2DisplayPanelController
   public LegendaryInstance2DisplayPanelController(ItemInstance<? extends Item> itemInstance)
   {
     _itemInstance=itemInstance;
+    _name=GuiFactory.buildLabel("");
     LegendaryInstance2 leg2=(LegendaryInstance2)itemInstance;
     _traceries=new TraceriesSetDisplayController(leg2.getLegendaryAttributes().getSocketsSetup());
     _panel=buildPanel();
+    update();
   }
 
   /**
@@ -43,8 +52,17 @@ public class LegendaryInstance2DisplayPanelController
 
   private JPanel buildPanel()
   {
+    JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
+    int y=0;
+    // Name
+    GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(5,5,5,0),0,0);
+    ret.add(_name,c);
+    y++;
     JPanel traceries=_traceries.getPanel();
-    return traceries;
+    c=new GridBagConstraints(0,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,5,0,0),0,0);
+    ret.add(traceries,c);
+    y++;
+    return ret;
   }
 
   /**
@@ -52,6 +70,13 @@ public class LegendaryInstance2DisplayPanelController
    */
   public void update()
   {
+    LegendaryInstance2 legendaryInstance=(LegendaryInstance2)_itemInstance;
+    LegendaryInstanceAttrs2 attrs=legendaryInstance.getLegendaryAttributes();
+    // Name
+    String name=attrs.getLegendaryName();
+    _name.setText(name);
+    _name.setVisible(name.length()>0);
+    // Traceries
     _traceries.update();
   }
 
@@ -74,5 +99,6 @@ public class LegendaryInstance2DisplayPanelController
       _panel.removeAll();
       _panel=null;
     }
+    _name=null;
   }
 }

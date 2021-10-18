@@ -11,6 +11,7 @@ import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import delta.common.ui.swing.GuiFactory;
@@ -34,6 +35,7 @@ public class LegendaryInstance2EditionPanelController
 {
   // GUI
   private JPanel _panel;
+  private JTextField _name;
   // Controllers
   private WindowController _parent;
   private List<SingleTraceryEditionController> _editors;
@@ -48,6 +50,10 @@ public class LegendaryInstance2EditionPanelController
     _parent=parent;
     LegendaryInstance2 legendaryInstance=(LegendaryInstance2)item;
     LegendaryInstanceAttrs2 attrs=legendaryInstance.getLegendaryAttributes();
+    // Name
+    _name=GuiFactory.buildTextField("");
+    String legendaryName=attrs.getLegendaryName();
+    _name.setText(legendaryName);
     _editors=new ArrayList<SingleTraceryEditionController>();
     SocketsSetupInstance setupInstance=attrs.getSocketsSetup();
     SocketsSetup setup=setupInstance.getSetupTemplate();
@@ -77,11 +83,30 @@ public class LegendaryInstance2EditionPanelController
   private JPanel build()
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
+    // Attributes
+    JPanel attributesPanel=buildAttributesPanel();
+    attributesPanel.setBorder(GuiFactory.buildTitledBorder("Attributes"));
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    panel.add(attributesPanel,c);
+    // Traceries
     JPanel traceriesPanel=buildTraceriesPanel();
     traceriesPanel.setBorder(GuiFactory.buildTitledBorder("Traceries"));
-    GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    c=new GridBagConstraints(0,1,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(traceriesPanel,c);
     return panel;
+  }
+
+  private JPanel buildAttributesPanel()
+  {
+    JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
+    // Inscription
+    // - label
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
+    ret.add(GuiFactory.buildLabel("Inscription:"),c);
+    c=new GridBagConstraints(1,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(5,5,5,5),0,0);
+    // - editor
+    ret.add(_name,c);
+    return ret;
   }
 
   private JPanel buildTraceriesPanel()
@@ -169,6 +194,10 @@ public class LegendaryInstance2EditionPanelController
    */
   public void getData(LegendaryInstanceAttrs2 attrs)
   {
+    // Legendary name
+    String legendaryName=_name.getText();
+    attrs.setLegendaryName(legendaryName);
+    // Traceries
     SocketsSetupInstance setup=attrs.getSocketsSetup();
     for(int i=0;i<LegendaryConstants.MAX_LEGACIES+1;i++)
     {
@@ -189,6 +218,7 @@ public class LegendaryInstance2EditionPanelController
       _panel.removeAll();
       _panel=null;
     }
+    _name=null;
     // Controllers
     _parent=null;
     if (_editors!=null)

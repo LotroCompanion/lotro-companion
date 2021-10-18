@@ -193,6 +193,7 @@ public class LegendaryInstanceDisplayPanelController
       _panel.removeAll();
       _panel=null;
     }
+    _name=null;
     _passives=null;
     _defaultLegacyStats=null;
     if (_legacies!=null)

@@ -44,7 +44,6 @@ public class TraceriesSetDisplayController
       _controllers.add(controller);
     }
     _panel=build();
-    update();
   }
 
   /**
