@@ -1,6 +1,7 @@
 package delta.games.lotro.gui.lore.items.legendary2.traceries.chooser;
 
 import java.awt.Dimension;
+import java.util.Collections;
 import java.util.List;
 
 import javax.swing.JDialog;
@@ -9,6 +10,7 @@ import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.misc.TypedProperties;
+import delta.games.lotro.common.comparators.NamedComparator;
 import delta.games.lotro.common.enums.SocketType;
 import delta.games.lotro.gui.lore.items.legendary2.traceries.TraceriesFilterController;
 import delta.games.lotro.gui.lore.items.legendary2.traceries.table.TraceriesTableBuilder;
@@ -69,6 +71,7 @@ public class TraceryChooser
   public static Tracery selectTracery(WindowController parent, Tracery selectedTracery, SocketType type)
   {
     List<Tracery> traceries=TraceriesManager.getInstance().getTracery(type);
+    Collections.sort(traceries,new NamedComparator());
     TraceryFilter filter=new TraceryFilter();
     TypedProperties filterProps=null;
     if (parent!=null)
