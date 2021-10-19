@@ -5,6 +5,8 @@ import java.util.List;
 import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.games.lotro.character.virtues.VirtueDescription;
 import delta.games.lotro.character.virtues.VirtuesManager;
+import delta.games.lotro.common.stats.StatDescription;
+import delta.games.lotro.common.stats.StatsRegistry;
 import delta.games.lotro.lore.reputation.Faction;
 import delta.games.lotro.lore.reputation.FactionsRegistry;
 
@@ -95,5 +97,33 @@ public class SharedUiUtils
     ctrl.addItem(Boolean.FALSE,falseLabel);
     ctrl.selectItem(null);
     return ctrl;
+  }
+
+  /**
+   * Build a controller for combo box to choose a stat.
+   * @return A new controller.
+   */
+  public static ComboBoxController<StatDescription> buildStatChooser()
+  {
+    List<StatDescription> indexedStats=StatsRegistry.getInstance().getIndexedStats();
+    return buildStatChooser(indexedStats);
+  }
+
+  /**
+   * Build a controller for combo box to choose a stat.
+   * @param stats Stats to choose from.
+   * @return A new controller.
+   */
+  public static ComboBoxController<StatDescription> buildStatChooser(List<StatDescription> stats)
+  {
+    ComboBoxController<StatDescription> controller=new ComboBoxController<StatDescription>();
+    controller.addEmptyItem("");
+    for(StatDescription stat : stats)
+    {
+      String label=stat.getName();
+      controller.addItem(stat,label);
+    }
+    controller.selectItem(null);
+    return controller;
   }
 }

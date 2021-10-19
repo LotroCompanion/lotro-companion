@@ -6,6 +6,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import delta.games.lotro.common.stats.StatDescription;
+import delta.games.lotro.common.stats.StatDescriptionNameComparator;
+import delta.games.lotro.common.stats.StatProvider;
+import delta.games.lotro.common.stats.StatsProvider;
+import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.legendary2.Tracery;
 
 /**
@@ -32,6 +37,31 @@ public class TraceryUiUtils
     }
     List<Integer> ret=new ArrayList<Integer>(values);
     Collections.sort(ret);
+    return ret;
+  }
+
+  /**
+   * Get the stats used by the given traceries.
+   * @param traceries List of traceries to use.
+   * @return A list of stats.
+   */
+  public static List<StatDescription> getStats(List<Tracery> traceries)
+  {
+    Set<StatDescription> values=new HashSet<StatDescription>();
+    for(Tracery tracery : traceries)
+    {
+      Item item=tracery.getItem();
+      StatsProvider statsProvider=item.getStatsProvider();
+      int nbProviders=statsProvider.getNumberOfStatProviders();
+      for(int i=0;i<nbProviders;i++)
+      {
+        StatProvider statProvider=statsProvider.getStatProvider(i);
+        StatDescription statDescription=statProvider.getStat();
+        values.add(statDescription);
+      }
+    }
+    List<StatDescription> ret=new ArrayList<StatDescription>(values);
+    Collections.sort(ret,new StatDescriptionNameComparator());
     return ret;
   }
 }

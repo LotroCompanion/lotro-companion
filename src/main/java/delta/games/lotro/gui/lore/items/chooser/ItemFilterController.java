@@ -34,6 +34,7 @@ import delta.games.lotro.common.Race;
 import delta.games.lotro.common.stats.StatDescription;
 import delta.games.lotro.gui.character.summary.CharacterUiUtils;
 import delta.games.lotro.gui.lore.items.ItemUiTools;
+import delta.games.lotro.gui.utils.SharedUiUtils;
 import delta.games.lotro.lore.items.ArmourType;
 import delta.games.lotro.lore.items.EquipmentLocation;
 import delta.games.lotro.lore.items.Item;
@@ -469,7 +470,7 @@ public class ItemFilterController extends ObjectFilterPanelController implements
       for(int i=0;i<ItemChooserFilter.NB_STATS;i++)
       {
         statPanel.add(GuiFactory.buildLabel("Stat:"));
-        ComboBoxController<StatDescription> statChooser=ItemUiTools.buildStatChooser();
+        ComboBoxController<StatDescription> statChooser=SharedUiUtils.buildStatChooser();
         final int statIndex=i;
         ItemSelectionListener<StatDescription> statListener=new ItemSelectionListener<StatDescription>()
         {

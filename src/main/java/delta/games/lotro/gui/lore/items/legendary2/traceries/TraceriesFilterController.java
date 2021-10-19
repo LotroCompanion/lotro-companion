@@ -21,11 +21,13 @@ import delta.common.ui.swing.text.DynamicTextEditionController;
 import delta.common.ui.swing.text.TextListener;
 import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.misc.TypedProperties;
+import delta.games.lotro.common.stats.StatDescription;
 import delta.games.lotro.gui.lore.items.ItemUiTools;
 import delta.games.lotro.gui.utils.SharedUiUtils;
 import delta.games.lotro.lore.items.ItemQuality;
 import delta.games.lotro.lore.items.filters.ItemNameFilter;
 import delta.games.lotro.lore.items.filters.ItemQualityFilter;
+import delta.games.lotro.lore.items.filters.ItemStatFilter;
 import delta.games.lotro.lore.items.legendary2.Tracery;
 import delta.games.lotro.lore.items.legendary2.filters.TraceryFilter;
 import delta.games.lotro.lore.items.legendary2.filters.TraceryFilterIo;
@@ -45,10 +47,11 @@ public class TraceriesFilterController extends ObjectFilterPanelController imple
   // GUI
   private JPanel _panel;
   private JButton _reset;
-  // -- Mob attributes UI --
+  // -- Tracery attributes UI --
   private JTextField _contains;
   private ComboBoxController<Integer> _tier;
   private ComboBoxController<ItemQuality> _quality;
+  private ComboBoxController<StatDescription> _stat;
   // Controllers
   private DynamicTextEditionController _textController;
 
@@ -100,6 +103,7 @@ public class TraceriesFilterController extends ObjectFilterPanelController imple
       _quality.selectItem(null);
       _tier.selectItem(null);
       _contains.setText("");
+      _stat.selectItem(null);
     }
   }
 
@@ -120,6 +124,9 @@ public class TraceriesFilterController extends ObjectFilterPanelController imple
     ItemQualityFilter qualityFilter=_filter.getQualityFilter();
     ItemQuality quality=qualityFilter.getQuality();
     _quality.selectItem(quality);
+    // Stat
+    ItemStatFilter statFilter=_filter.getStatFilter();
+    _stat.selectItem(statFilter.getStat(0));
   }
 
   private JPanel build()
@@ -191,6 +198,35 @@ public class TraceriesFilterController extends ObjectFilterPanelController imple
     panel.add(line1Panel,c);
     y++;
 
+    JPanel line2Panel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
+    // Stats filter
+    JPanel statsPanel=buildStatsFilterPanel();
+    line2Panel.add(statsPanel);
+    c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,5,0),0,0);
+    panel.add(line2Panel,c);
+    y++;
+
+    return panel;
+  }
+
+  private JPanel buildStatsFilterPanel()
+  {
+    JPanel panel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
+    {
+      panel.add(GuiFactory.buildLabel("Stat:"));
+      _stat=SharedUiUtils.buildStatChooser(TraceryUiUtils.getStats(_traceries));
+      ItemSelectionListener<StatDescription> statListener=new ItemSelectionListener<StatDescription>()
+      {
+        @Override
+        public void itemSelected(StatDescription stat)
+        {
+          _filter.getStatFilter().setStat(0,stat);
+          filterUpdated();
+        }
+      };
+      _stat.addListener(statListener);
+      panel.add(_stat.getComboBox());
+    }
     return panel;
   }
 
@@ -260,6 +296,11 @@ public class TraceriesFilterController extends ObjectFilterPanelController imple
     {
       _tier.dispose();
       _tier=null;
+    }
+    if (_stat!=null)
+    {
+      _stat.dispose();
+      _stat=null;
     }
     _contains=null;
     _reset=null;

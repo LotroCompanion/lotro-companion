@@ -14,7 +14,7 @@ import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.common.ui.swing.icons.IconsManager;
 import delta.common.ui.swing.text.FloatEditionController;
 import delta.games.lotro.common.stats.StatDescription;
-import delta.games.lotro.gui.lore.items.ItemUiTools;
+import delta.games.lotro.gui.utils.SharedUiUtils;
 import delta.games.lotro.utils.FixedDecimalsInteger;
 
 /**
@@ -36,7 +36,7 @@ public class SingleStatsEditionGadgetsController
     JTextField value=GuiFactory.buildTextField("");
     _floatEditor=new FloatEditionController(value);
     _floatEditor.setFormat("#.#");
-    _statChooser=ItemUiTools.buildStatChooser();
+    _statChooser=SharedUiUtils.buildStatChooser();
     _unit=GuiFactory.buildLabel("");
     // Delete button
     ImageIcon icon=IconsManager.getIcon("/resources/gui/icons/cross.png");

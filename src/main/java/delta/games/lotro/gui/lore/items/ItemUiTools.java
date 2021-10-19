@@ -21,8 +21,6 @@ import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.ui.swing.windows.WindowsManager;
-import delta.games.lotro.common.stats.StatDescription;
-import delta.games.lotro.common.stats.StatsRegistry;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.gui.navigation.NavigatorFactory;
@@ -225,24 +223,6 @@ public class ItemUiTools
     }
     ctrl.selectItem(null);
     return ctrl;
-  }
-
-  /**
-   * Build a controller for combo box to choose a stat.
-   * @return A new controller.
-   */
-  public static ComboBoxController<StatDescription> buildStatChooser()
-  {
-    ComboBoxController<StatDescription> controller=new ComboBoxController<StatDescription>();
-    controller.addEmptyItem("");
-    List<StatDescription> indexedStats=StatsRegistry.getInstance().getIndexedStats();
-    for(StatDescription stat : indexedStats)
-    {
-      String label=stat.getName();
-      controller.addItem(stat,label);
-    }
-    controller.selectItem(null);
-    return controller;
   }
 
   /**
