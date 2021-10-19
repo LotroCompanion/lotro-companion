@@ -37,6 +37,8 @@ import delta.games.lotro.lore.items.ItemBinding;
 import delta.games.lotro.lore.items.ItemSturdiness;
 import delta.games.lotro.lore.items.Weapon;
 import delta.games.lotro.lore.items.WeaponType;
+import delta.games.lotro.lore.items.legendary2.TraceriesManager;
+import delta.games.lotro.lore.items.legendary2.Tracery;
 import delta.games.lotro.utils.gui.HtmlUtils;
 
 /**
@@ -222,6 +224,8 @@ public class ItemDisplayPanelController implements NavigablePanelController
       panel.add(panelLine,c);
       c.gridy++;
     }
+    // Quality
+    // TODO
     // Category
     String category=_item.getSubCategory();
     if ((category!=null) && (category.length()>0))
@@ -268,6 +272,22 @@ public class ItemDisplayPanelController implements NavigablePanelController
       panel.add(panelLine,c);
       c.gridy++;
       panelLine.add(GuiFactory.buildLabel("Item level: "+itemLevel.toString()));
+    }
+    // Tracery complements
+    Tracery tracery=TraceriesManager.getInstance().getTracery(_item.getIdentifier());
+    if (tracery!=null)
+    {
+      int maxItemLevel=tracery.getMaxItemLevel();
+      int increment=tracery.getLevelUpIncrement();
+      String label="Enhancement limit: "+maxItemLevel;
+      if (increment>1)
+      {
+        label=label+" (increment: "+increment+")";
+      }
+      JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
+      panel.add(panelLine,c);
+      c.gridy++;
+      panelLine.add(GuiFactory.buildLabel(label));
     }
     // Durability
     Integer durability=_item.getDurability();
