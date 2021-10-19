@@ -5,6 +5,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.WindowController;
@@ -127,9 +128,10 @@ public class ItemInstanceDisplayPanelController
     }
     if (legendaryPanel!=null)
     {
-      c=new GridBagConstraints(0,2,3,1,1.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
-      ret.add(legendaryPanel,c);
-      legendaryPanel.setBorder(GuiFactory.buildTitledBorder("Legendary"));
+      JScrollPane scrollPane=GuiFactory.buildScrollPane(legendaryPanel);
+      c=new GridBagConstraints(0,2,3,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
+      ret.add(scrollPane,c);
+      scrollPane.setBorder(GuiFactory.buildTitledBorder("Legendary"));
     }
     _panel=ret;
     update();

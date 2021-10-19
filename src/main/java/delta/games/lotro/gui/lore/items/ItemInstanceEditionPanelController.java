@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.WindowController;
@@ -126,16 +127,18 @@ public class ItemInstanceEditionPanelController
       ret.add(essencesPanel,c);
     }
     // Legendary
+    JPanel legendaryPanel=null;
     if (_legendary!=null)
     {
-      c=new GridBagConstraints(0,2,2,1,1.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
-      JPanel legendaryPanel=buildLegendaryPanel(_legendary.getPanel());
-      ret.add(legendaryPanel,c);
+      legendaryPanel=buildLegendaryPanel(_legendary.getPanel());
     }
-    if (_legendary2!=null)
+    else if (_legendary2!=null)
     {
-      c=new GridBagConstraints(0,2,2,1,1.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
-      JPanel legendaryPanel=buildLegendaryPanel(_legendary2.getPanel());
+      legendaryPanel=buildLegendaryPanel(_legendary2.getPanel());
+    }
+    if (legendaryPanel!=null)
+    {
+      c=new GridBagConstraints(0,2,2,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
       ret.add(legendaryPanel,c);
     }
     return ret;
@@ -217,8 +220,9 @@ public class ItemInstanceEditionPanelController
   {
     JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
     // Legendary data
-    GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
-    ret.add(innerPanel,c);
+    JScrollPane scrollPane=GuiFactory.buildScrollPane(innerPanel);
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
+    ret.add(scrollPane,c);
     // Edit button
     JButton editButton=GuiFactory.buildButton("Edit...");
     ActionListener l=new ActionListener()
@@ -232,7 +236,6 @@ public class ItemInstanceEditionPanelController
     editButton.addActionListener(l);
     c=new GridBagConstraints(0,1,1,1,0.0,0.0,GridBagConstraints.SOUTHEAST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     ret.add(editButton,c);
-    // Border
     ret.setBorder(GuiFactory.buildTitledBorder("Legendary"));
     return ret;
   }
