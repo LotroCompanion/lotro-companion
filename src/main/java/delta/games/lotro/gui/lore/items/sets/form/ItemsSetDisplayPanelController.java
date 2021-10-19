@@ -10,6 +10,7 @@ import java.util.List;
 import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.navigator.NavigablePanelController;
@@ -88,10 +89,11 @@ public class ItemsSetDisplayPanelController implements NavigablePanelController
     }
 
     // Members
-    c=new GridBagConstraints(0,2,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(2,2,2,2),0,0);
+    c=new GridBagConstraints(0,2,1,1,1.0,1.0,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(2,2,2,2),0,0);
     JPanel membersPanel=buildMembersPanel();
-    membersPanel.setBorder(GuiFactory.buildTitledBorder("Members"));
-    panel.add(membersPanel,c);
+    JScrollPane scrollPane=GuiFactory.buildScrollPane(membersPanel);
+    scrollPane.setBorder(GuiFactory.buildTitledBorder("Members"));
+    panel.add(scrollPane,c);
 
     // Bonus
     if (hasBonus())
@@ -101,6 +103,10 @@ public class ItemsSetDisplayPanelController implements NavigablePanelController
       c=new GridBagConstraints(0,3,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(2,2,2,2),0,0);
       panel.add(bonus,c);
     }
+    Dimension prefSize=panel.getPreferredSize();
+    int height=Math.min(600,prefSize.height);
+    prefSize.height=height;
+    panel.setPreferredSize(prefSize);
 
     return panel;
   }
