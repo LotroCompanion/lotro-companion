@@ -224,13 +224,23 @@ public class SingleTraceryEditionController
   {
     if (hasTracery())
     {
+      // Name
+      Tracery tracery=_data.getTracery();
+      String name=tracery.getName();
+      // Stats
       BasicStatsSet stats=_data.getStats();
       String[] lines=StatUtils.getStatsDisplayLines(stats);
-      _value.setText(lines);
+      String[] toShow=new String[lines.length+1];
+      System.arraycopy(lines,0,toShow,1,lines.length);
+      toShow[0]=name;
+      _value.setText(toShow);
     }
     else
     {
-      _value.setText(new String[]{});
+      // Nothing slotted. Give a hint on the expected socket type
+      SocketType type=_data.getTemplate().getType();
+      String hint="( "+type.getLabel()+" )";
+      _value.setText(new String[]{hint});
     }
     updateWindow();
   }
