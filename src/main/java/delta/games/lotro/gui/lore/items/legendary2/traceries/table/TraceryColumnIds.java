@@ -32,5 +32,9 @@ public enum TraceryColumnIds
   /**
    * Max item level.
    */
-  MAX_ITEM_LEVEL
+  MAX_ITEM_LEVEL,
+  /**
+   * Stats.
+   */
+  STATS
 }

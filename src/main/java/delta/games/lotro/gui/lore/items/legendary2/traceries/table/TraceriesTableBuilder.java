@@ -126,6 +126,20 @@ public class TraceriesTableBuilder
       maxItemLevelColumn.setWidthSpecs(60,60,60);
       ret.add(maxItemLevelColumn);
     }
+    // Stats column
+    {
+      CellDataProvider<Tracery,String> statsCell=new CellDataProvider<Tracery,String>()
+      {
+        @Override
+        public String getData(Tracery tracery)
+        {
+          return tracery.getItem().getStats().toString();
+        }
+      };
+      DefaultTableColumnController<Tracery,String> statsColumn=new DefaultTableColumnController<Tracery,String>(TraceryColumnIds.STATS.name(),"Stats",String.class,statsCell);
+      statsColumn.setWidthSpecs(100,-1,100);
+      ret.add(statsColumn);
+    }
     // Item columns
     CellDataProvider<Tracery,Item> provider=new CellDataProvider<Tracery,Item>()
     {
@@ -151,6 +165,7 @@ public class TraceriesTableBuilder
     ret.add(ItemsTableBuilder.buildIconColumn());
     ret.add(ItemsTableBuilder.buildMinLevelColumn());
     ret.add(ItemsTableBuilder.buildMaxLevelColumn());
+    ret.add(ItemsTableBuilder.buildQualityColumn());
     return ret;
   }
 
@@ -163,7 +178,9 @@ public class TraceriesTableBuilder
     }
     columnIds.add(ItemColumnIds.ICON.name());
     columnIds.add(TraceryColumnIds.NAME.name());
+    columnIds.add(TraceryColumnIds.STATS.name());
     columnIds.add(TraceryColumnIds.TIER.name());
+    columnIds.add(ItemColumnIds.QUALITY.name());
     columnIds.add(ItemColumnIds.REQUIRED_LEVEL.name());
     columnIds.add(ItemColumnIds.REQUIRED_MAX_LEVEL.name());
     columnIds.add(TraceryColumnIds.MIN_ITEM_LEVEL.name());

@@ -165,19 +165,7 @@ public class ItemsTableBuilder
       columns.add(tierColumn);
     }
     // Quality
-    {
-      CellDataProvider<Item,ItemQuality> qualityCell=new CellDataProvider<Item,ItemQuality>()
-      {
-        @Override
-        public ItemQuality getData(Item item)
-        {
-          return item.getQuality();
-        }
-      };
-      DefaultTableColumnController<Item,ItemQuality> qualityColumn=new DefaultTableColumnController<Item,ItemQuality>(ItemColumnIds.QUALITY.name(),"Quality",ItemQuality.class,qualityCell);
-      qualityColumn.setWidthSpecs(100,100,100);
-      columns.add(qualityColumn);
-    }
+    columns.add(buildQualityColumn());
     // Armour type
     {
       CellDataProvider<Item,ArmourType> armourTypeCell=new CellDataProvider<Item,ArmourType>()
@@ -367,6 +355,25 @@ public class ItemsTableBuilder
     DefaultTableColumnController<Item,Integer> maxLevelColumn=new DefaultTableColumnController<Item,Integer>(ItemColumnIds.REQUIRED_MAX_LEVEL.name(),"Max Level",Integer.class,maxLevelCell);
     maxLevelColumn.setWidthSpecs(55,55,50);
     return maxLevelColumn;
+  }
+
+  /**
+   * Build a column for the quality of an item.
+   * @return a column.
+   */
+  public static DefaultTableColumnController<Item,ItemQuality> buildQualityColumn()
+  {
+    CellDataProvider<Item,ItemQuality> qualityCell=new CellDataProvider<Item,ItemQuality>()
+    {
+      @Override
+      public ItemQuality getData(Item item)
+      {
+        return item.getQuality();
+      }
+    };
+    DefaultTableColumnController<Item,ItemQuality> qualityColumn=new DefaultTableColumnController<Item,ItemQuality>(ItemColumnIds.QUALITY.name(),"Quality",ItemQuality.class,qualityCell);
+    qualityColumn.setWidthSpecs(100,100,100);
+    return qualityColumn;
   }
 
   /**
