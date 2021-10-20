@@ -84,7 +84,9 @@ public class TraceryChooser
     }
     TraceriesFilterController filterController=new TraceriesFilterController(filter,traceries,filterProps);
     // Build chooser
-    ObjectChoiceWindowController<Tracery> chooser=TraceryChooser.buildChooser(parent,null,traceries,filter,filterController);
+    String id=TRACERY_CHOOSER_PROPERTIES_ID+"#"+type.getCode();
+    TypedProperties props=parent.getUserProperties(id);
+    ObjectChoiceWindowController<Tracery> chooser=TraceryChooser.buildChooser(parent,props,traceries,filter,filterController);
     // Show modal
     Tracery ret=chooser.editModal();
     return ret;
