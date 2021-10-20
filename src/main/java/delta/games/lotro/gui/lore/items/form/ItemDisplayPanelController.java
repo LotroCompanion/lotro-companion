@@ -37,6 +37,8 @@ import delta.games.lotro.lore.items.ItemBinding;
 import delta.games.lotro.lore.items.ItemSturdiness;
 import delta.games.lotro.lore.items.Weapon;
 import delta.games.lotro.lore.items.WeaponType;
+import delta.games.lotro.lore.items.legendary2.EnhancementRune;
+import delta.games.lotro.lore.items.legendary2.EnhancementRunesManager;
 import delta.games.lotro.lore.items.legendary2.TraceriesManager;
 import delta.games.lotro.lore.items.legendary2.Tracery;
 import delta.games.lotro.utils.gui.HtmlUtils;
@@ -280,6 +282,23 @@ public class ItemDisplayPanelController implements NavigablePanelController
       int maxItemLevel=tracery.getMaxItemLevel();
       int increment=tracery.getLevelUpIncrement();
       String label="Enhancement limit: "+maxItemLevel;
+      if (increment>1)
+      {
+        label=label+" (increment: "+increment+")";
+      }
+      JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
+      panel.add(panelLine,c);
+      c.gridy++;
+      panelLine.add(GuiFactory.buildLabel(label));
+    }
+    // Enhancement rune complements
+    EnhancementRune enhancementRune=EnhancementRunesManager.getInstance().getEnhancementRune(_item.getIdentifier());
+    if (enhancementRune!=null)
+    {
+      int minItemLevel=enhancementRune.getMinItemLevel();
+      int maxItemLevel=enhancementRune.getMaxItemLevel();
+      int increment=enhancementRune.getLevelUpIncrement();
+      String label="Enhancement item levels: "+minItemLevel+"-"+maxItemLevel;
       if (increment>1)
       {
         label=label+" (increment: "+increment+")";
