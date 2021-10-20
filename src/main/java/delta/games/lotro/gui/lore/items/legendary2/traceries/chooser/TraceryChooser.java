@@ -41,9 +41,10 @@ public class TraceryChooser
    * @param traceries Traceries to use.
    * @param filter Filter to use.
    * @param filterController Filter UI to use.
+   * @param selectedTracery Selected tracery.
    * @return the newly built chooser.
    */
-  public static ObjectChoiceWindowController<Tracery> buildChooser(WindowController parent, TypedProperties prefs, List<Tracery> traceries, Filter<Tracery> filter, TraceriesFilterController filterController)
+  public static ObjectChoiceWindowController<Tracery> buildChooser(WindowController parent, TypedProperties prefs, List<Tracery> traceries, Filter<Tracery> filter, TraceriesFilterController filterController, Tracery selectedTracery)
   {
     // Table
     GenericTableController<Tracery> traceriesTable=TraceriesTableBuilder.buildTable(traceries);
@@ -52,6 +53,13 @@ public class TraceryChooser
     final ObjectChoiceWindowController<Tracery> chooser=new ObjectChoiceWindowController<Tracery>(parent,prefs,traceriesTable);
     // Filter
     chooser.setFilter(filter,filterController);
+    // Force the creation of the dialog, so that the selection works!
+    chooser.getDialog();
+    // Selection
+    if (selectedTracery!=null)
+    {
+      traceriesTable.selectItem(selectedTracery);
+    }
     JDialog dialog=chooser.getDialog();
     // Title
     dialog.setTitle("Choose tracery:");
@@ -86,7 +94,7 @@ public class TraceryChooser
     // Build chooser
     String id=TRACERY_CHOOSER_PROPERTIES_ID+"#"+type.getCode();
     TypedProperties props=parent.getUserProperties(id);
-    ObjectChoiceWindowController<Tracery> chooser=TraceryChooser.buildChooser(parent,props,traceries,filter,filterController);
+    ObjectChoiceWindowController<Tracery> chooser=TraceryChooser.buildChooser(parent,props,traceries,filter,filterController,selectedTracery);
     // Show modal
     Tracery ret=chooser.editModal();
     return ret;

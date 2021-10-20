@@ -24,9 +24,10 @@ public class MainTestTraceriesChooser
     SocketType type=typesMgr.getEntry(3);
     List<Tracery> traceries=TraceriesManager.getInstance().getTracery(type);
     TraceryFilter filter=new TraceryFilter();
+    filter.getTierFilter().setTier(Integer.valueOf(14));
     TypedProperties props=new TypedProperties();
     TraceriesFilterController filterController=new TraceriesFilterController(filter,traceries,null);
-    ObjectChoiceWindowController<Tracery> chooser=TraceryChooser.buildChooser(null,props,traceries,filter,filterController);
+    ObjectChoiceWindowController<Tracery> chooser=TraceryChooser.buildChooser(null,props,traceries,filter,filterController,traceries.get(0));
     Tracery ret=chooser.editModal();
     System.out.println(ret);
     return ret;
