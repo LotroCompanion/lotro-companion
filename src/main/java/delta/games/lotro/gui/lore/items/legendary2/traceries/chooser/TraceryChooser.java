@@ -54,13 +54,14 @@ public class TraceryChooser
     // Filter
     chooser.setFilter(filter,filterController);
     // Force the creation of the dialog, so that the selection works!
-    chooser.getDialog();
+    JDialog dialog=chooser.getDialog();
+    // Add details column
+    TraceriesTableBuilder.addDetailsColumn(chooser,traceriesTable);
     // Selection
     if (selectedTracery!=null)
     {
       traceriesTable.selectItem(selectedTracery);
     }
-    JDialog dialog=chooser.getDialog();
     // Title
     dialog.setTitle("Choose tracery:");
     // Dimension
@@ -84,7 +85,8 @@ public class TraceryChooser
     TypedProperties filterProps=null;
     if (parent!=null)
     {
-      filterProps=parent.getUserProperties("TraceryChooserFilter");
+      String id="TraceryChooserFilter"+"#"+type.getCode();
+      filterProps=parent.getUserProperties(id);
     }
     else
     {

@@ -1,5 +1,7 @@
 package delta.games.lotro.gui.lore.items.legendary2.traceries.table;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +14,9 @@ import delta.common.ui.swing.tables.ListDataProvider;
 import delta.common.ui.swing.tables.ProxiedTableColumnController;
 import delta.common.ui.swing.tables.TableColumnController;
 import delta.common.ui.swing.tables.TableColumnsManager;
+import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.gui.lore.items.ItemColumnIds;
+import delta.games.lotro.gui.lore.items.ItemUiTools;
 import delta.games.lotro.gui.lore.items.chooser.ItemsTableBuilder;
 import delta.games.lotro.gui.utils.UiConfiguration;
 import delta.games.lotro.lore.items.Item;
@@ -186,5 +190,29 @@ public class TraceriesTableBuilder
     columnIds.add(TraceryColumnIds.MIN_ITEM_LEVEL.name());
     columnIds.add(TraceryColumnIds.MAX_ITEM_LEVEL.name());
     return columnIds;
+  }
+
+  /**
+   * Add a details column on the given table.
+   * @param parent Parent window.
+   * @param table Table to use.
+   * @return A column controller.
+   */
+  public static DefaultTableColumnController<Tracery,String> addDetailsColumn(final WindowController parent, GenericTableController<Tracery> table)
+  {
+    DefaultTableColumnController<Tracery,String> column=table.buildButtonColumn(ItemColumnIds.DETAILS.name(),"Details...",90);
+    ActionListener al=new ActionListener()
+    {
+      @Override
+      public void actionPerformed(ActionEvent e)
+      {
+        Tracery source=(Tracery)e.getSource();
+        ItemUiTools.showItemForm(parent,source.getItem());
+      }
+    };
+    column.setActionListener(al);
+    table.addColumnController(column);
+    table.updateColumns();
+    return column;
   }
 }
