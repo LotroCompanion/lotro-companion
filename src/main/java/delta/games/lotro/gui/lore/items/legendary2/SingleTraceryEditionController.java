@@ -1,8 +1,6 @@
 package delta.games.lotro.gui.lore.items.legendary2;
 
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.Icon;
 import javax.swing.JButton;
@@ -59,31 +57,9 @@ public class SingleTraceryEditionController
     _value.setMinimumSize(dimension);
     _value.setSize(dimension);
     // - chooser button
-    {
-      _chooseButton=GuiFactory.buildButton("...");
-      ActionListener listener=new ActionListener()
-      {
-        @Override
-        public void actionPerformed(ActionEvent e)
-        {
-          handleChooseTracery((JButton)e.getSource());
-        }
-      };
-      _chooseButton.addActionListener(listener);
-    }
+    _chooseButton=GuiFactory.buildButton("...");
     // - delete button
-    {
-      _deleteButton=GuiFactory.buildIconButton("/resources/gui/icons/cross.png");
-      ActionListener listener=new ActionListener()
-      {
-        @Override
-        public void actionPerformed(ActionEvent e)
-        {
-          handleDeleteTracery((JButton)e.getSource());
-        }
-      };
-      _deleteButton.addActionListener(listener);
-    }
+    _deleteButton=GuiFactory.buildIconButton("/resources/gui/icons/cross.png");
     // - current level
     _currentLevel=new ComboBoxController<Integer>();
     ItemSelectionListener<Integer> currentLevelListener=new ItemSelectionListener<Integer>()
@@ -113,7 +89,11 @@ public class SingleTraceryEditionController
     storage.setItemLevel(_data.getItemLevel());
   }
 
-  private void handleChooseTracery(JButton button)
+  /**
+   * Handle 'choose'.
+   * @return <code>true</code> if a tracery was chosen, <code>false</code> otherwise.
+   */
+  public boolean handleChooseTracery()
   {
     SocketEntry template=_data.getTemplate();
     SocketType type=template.getType();
@@ -123,9 +103,13 @@ public class SingleTraceryEditionController
       setTracery(tracery);
       setUiFromTracery();
     }
+    return (tracery!=null);
   }
 
-  private void handleDeleteTracery(JButton button)
+  /**
+   * Handle 'delete'.
+   */
+  public void handleDeleteTracery()
   {
     setTracery(null);
     _data.setItemLevel(1);
@@ -242,15 +226,6 @@ public class SingleTraceryEditionController
       String hint="( "+type.getLabel()+" )";
       _value.setText(new String[]{hint});
     }
-    updateWindow();
-  }
-
-  private void updateWindow()
-  {
-    if (_parent!=null)
-    {
-      _parent.getWindow().pack();
-    }
   }
 
   private void updateIcon()
@@ -311,6 +286,17 @@ public class SingleTraceryEditionController
   public ComboBoxController<Integer> getCurrentLevelCombo()
   {
     return _currentLevel;
+  }
+
+  /**
+   * Indicates if this socket is enabled or not.
+   * @param itemLevel Item level to use.
+   * @return <code>true</code> if it is, <code>false</code> otherwise.
+   */
+  public boolean isEnabled(int itemLevel)
+  {
+    int unlockItemLevel=_data.getTemplate().getUnlockItemLevel();
+    return itemLevel>=unlockItemLevel;
   }
 
   /**

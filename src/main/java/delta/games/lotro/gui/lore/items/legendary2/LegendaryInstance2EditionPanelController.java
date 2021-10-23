@@ -4,8 +4,11 @@ import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import javax.swing.Box;
 import javax.swing.JButton;
@@ -18,6 +21,7 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.common.ui.swing.labels.MultilineLabel2;
 import delta.common.ui.swing.windows.WindowController;
+import delta.games.lotro.gui.utils.SharedUiUtils;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemInstance;
 import delta.games.lotro.lore.items.legendary.LegendaryConstants;
@@ -26,6 +30,7 @@ import delta.games.lotro.lore.items.legendary2.LegendaryInstanceAttrs2;
 import delta.games.lotro.lore.items.legendary2.SocketEntryInstance;
 import delta.games.lotro.lore.items.legendary2.SocketsSetup;
 import delta.games.lotro.lore.items.legendary2.SocketsSetupInstance;
+import delta.games.lotro.lore.items.legendary2.global.LegendarySystem2;
 
 /**
  * Panel to edit the traceries of an instance of legendary item (reloaded).
@@ -33,9 +38,15 @@ import delta.games.lotro.lore.items.legendary2.SocketsSetupInstance;
  */
 public class LegendaryInstance2EditionPanelController
 {
+  // Data
+  private int _characterLevel;
+  private int _itemLevel;
   // GUI
   private JPanel _panel;
+  private ComboBoxController<Integer> _reforgeLevelCombo;
   private JTextField _name;
+  private JLabel _itemLevelLabel;
+  private JPanel _traceriesPanel;
   // Controllers
   private WindowController _parent;
   private List<SingleTraceryEditionController> _editors;
@@ -43,11 +54,16 @@ public class LegendaryInstance2EditionPanelController
   /**
    * Constructor.
    * @param parent Parent controller.
+   * @param characterLevel Character level.
    * @param item Item to edit.
    */
-  public LegendaryInstance2EditionPanelController(WindowController parent, ItemInstance<? extends Item> item)
+  public LegendaryInstance2EditionPanelController(WindowController parent, int characterLevel, ItemInstance<? extends Item> item)
   {
     _parent=parent;
+    _characterLevel=characterLevel;
+    Integer itemLevel=item.getEffectiveItemLevel();
+    _itemLevel=(itemLevel!=null)?itemLevel.intValue():1;
+    _itemLevelLabel=GuiFactory.buildLabel(String.valueOf(_itemLevel));
     LegendaryInstance2 legendaryInstance=(LegendaryInstance2)item;
     LegendaryInstanceAttrs2 attrs=legendaryInstance.getLegendaryAttributes();
     // Name
@@ -75,7 +91,7 @@ public class LegendaryInstance2EditionPanelController
     if (_panel==null)
     {
       _panel=build();
-      setUiFromData();
+      updateEditorsFromData();
     }
     return _panel;
   }
@@ -88,44 +104,101 @@ public class LegendaryInstance2EditionPanelController
     attributesPanel.setBorder(GuiFactory.buildTitledBorder("Attributes"));
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(attributesPanel,c);
+    // Reforge
+    JPanel reforgePanel=buildReforgePanel();
+    reforgePanel.setBorder(GuiFactory.buildTitledBorder("Reforge"));
+    c=new GridBagConstraints(0,1,1,1,0.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    panel.add(reforgePanel,c);
     // Traceries
-    JPanel traceriesPanel=buildTraceriesPanel();
-    traceriesPanel.setBorder(GuiFactory.buildTitledBorder("Traceries"));
-    c=new GridBagConstraints(0,1,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
-    panel.add(traceriesPanel,c);
+    _traceriesPanel=GuiFactory.buildPanel(new GridBagLayout());
+    _traceriesPanel.setBorder(GuiFactory.buildTitledBorder("Traceries"));
+    fillTraceriesPanel();
+    c=new GridBagConstraints(0,2,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    panel.add(_traceriesPanel,c);
+    initListeners();
     return panel;
   }
 
   private JPanel buildAttributesPanel()
   {
     JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
-    // Inscription
-    // - label
+    // Name
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
     ret.add(GuiFactory.buildLabel("Inscription:"),c);
     c=new GridBagConstraints(1,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(5,5,5,5),0,0);
-    // - editor
     ret.add(_name,c);
+    // Item level
+    c=new GridBagConstraints(0,1,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
+    ret.add(GuiFactory.buildLabel("Item Level:"),c);
+    c=new GridBagConstraints(1,1,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(5,5,5,5),0,0);
+    ret.add(_itemLevelLabel,c);
     return ret;
   }
 
-  private JPanel buildTraceriesPanel()
+  private JPanel buildReforgePanel()
   {
-    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
+    _reforgeLevelCombo=buildLevelCombo();
+    JButton reforgeButton=GuiFactory.buildButton("Reforge");
+    ActionListener al=new ActionListener()
+    {
+      @Override
+      public void actionPerformed(ActionEvent e)
+      {
+        doReforge();
+      }
+    };
+    reforgeButton.addActionListener(al);
+    JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
+    // Assembly
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
+    ret.add(GuiFactory.buildLabel("Character level:"),c);
+    c=new GridBagConstraints(1,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(5,0,5,5),0,0);
+    ret.add(_reforgeLevelCombo.getComboBox(),c);
+    c=new GridBagConstraints(2,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,0,5,5),0,0);
+    ret.add(reforgeButton,c);
+    return ret;
+  }
+
+  private ComboBoxController<Integer> buildLevelCombo()
+  {
+    List<Integer> levels=new ArrayList<Integer>();
+    for(int i=1;i<=_characterLevel;i++)
+    {
+      levels.add(Integer.valueOf(i));
+    }
+    ComboBoxController<Integer> ctrl=SharedUiUtils.buildIntegerCombo(levels,false);
+    ctrl.selectItem(Integer.valueOf(_characterLevel));
+    return ctrl;
+  }
+
+  private void doReforge()
+  {
+    int reforgeLevel=_reforgeLevelCombo.getSelectedItem().intValue();
+    int itemLevel=LegendarySystem2.getInstance().getItemLevelForCharacterLevel(reforgeLevel);
+    _itemLevel=itemLevel;
+    _itemLevelLabel.setText(String.valueOf(itemLevel));
+    fillTraceriesPanel();
+    updateEditorsFromData();
+    updateWindow();
+  }
+
+  private void fillTraceriesPanel()
+  {
+    _traceriesPanel.removeAll();
     int y=0;
     // Headers
     {
       int x=1;
       GridBagConstraints c=new GridBagConstraints(x,y,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
-      panel.add(buildCenteredLabel("Stats"),c);
+      _traceriesPanel.add(buildCenteredLabel("Stats"),c);
       x++;
       c=new GridBagConstraints(x,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,5),0,0);
-      panel.add(buildCenteredLabel("Item Level"),c);
+      _traceriesPanel.add(buildCenteredLabel("Item Level"),c);
       x++;
       y++;
       Component valueStrut=Box.createHorizontalStrut(200);
       c=new GridBagConstraints(1,y,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
-      panel.add(valueStrut,c);
+      _traceriesPanel.add(valueStrut,c);
     }
     y++;
     // Rows
@@ -134,27 +207,32 @@ public class LegendaryInstance2EditionPanelController
     {
       int x=0;
       SingleTraceryEditionController editor=_editors.get(i);
+      boolean enabled=editor.isEnabled(_itemLevel);
+      if (!enabled)
+      {
+        continue;
+      }
       // Icon
       JLabel icon=editor.getIcon();
       GridBagConstraints c=new GridBagConstraints(x,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(5,5,5,5),0,0);
-      panel.add(icon,c);
+      _traceriesPanel.add(icon,c);
       x++;
       // Value
       MultilineLabel2 valueLabel=editor.getValueLabel();
       c=new GridBagConstraints(x,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(5,5,5,5),0,0);
-      panel.add(valueLabel,c);
+      _traceriesPanel.add(valueLabel,c);
       x++;
       // Item level
       ComboBoxController<Integer> currentLevelCombo=editor.getCurrentLevelCombo();
       c=new GridBagConstraints(x,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,0),0,0);
-      panel.add(currentLevelCombo.getComboBox(),c);
+      _traceriesPanel.add(currentLevelCombo.getComboBox(),c);
       x++;
       // Button 'Choose'
       JButton chooseButton=editor.getChooseButton();
       if (chooseButton!=null)
       {
         c=new GridBagConstraints(x,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
-        panel.add(chooseButton,c);
+        _traceriesPanel.add(chooseButton,c);
       }
       x++;
       // Button 'Delete'
@@ -162,12 +240,49 @@ public class LegendaryInstance2EditionPanelController
       if (deleteButton!=null)
       {
         c=new GridBagConstraints(x,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
-        panel.add(deleteButton,c);
+        _traceriesPanel.add(deleteButton,c);
       }
       x++;
       y++;
     }
-    return panel;
+  }
+
+  private void initListeners()
+  {
+    int nbEditors=_editors.size();
+    for(int i=0;i<nbEditors;i++)
+    {
+      final SingleTraceryEditionController editor=_editors.get(i);
+      {
+        JButton chooseButton=editor.getChooseButton();
+        ActionListener listener=new ActionListener()
+        {
+          @Override
+          public void actionPerformed(ActionEvent e)
+          {
+            boolean done=editor.handleChooseTracery();
+            if (done)
+            {
+              updateWindow();
+            }
+          }
+        };
+        chooseButton.addActionListener(listener);
+      }
+      JButton deleteButton=editor.getDeleteButton();
+      {
+        ActionListener listener=new ActionListener()
+        {
+          @Override
+          public void actionPerformed(ActionEvent e)
+          {
+            editor.handleDeleteTracery();
+            updateWindow();
+          }
+        };
+        deleteButton.addActionListener(listener);
+      }
+    }
   }
 
   private JLabel buildCenteredLabel(String text)
@@ -178,22 +293,38 @@ public class LegendaryInstance2EditionPanelController
   }
 
   /**
-   * Update UI from the managed data.
+   * Update editors from the managed data.
    */
-  private void setUiFromData()
+  private void updateEditorsFromData()
   {
     for(SingleTraceryEditionController editor : _editors)
     {
       editor.setUiFromTracery();
     }
+    updateWindow();
+  }
+
+  private void updateWindow()
+  {
+    if (_parent!=null)
+    {
+      _parent.getWindow().pack();
+    }
   }
 
   /**
    * Extract data from UI to the given storage.
+   * @param itemInstance Item instance.
    * @param attrs Storage to use.
    */
-  public void getData(LegendaryInstanceAttrs2 attrs)
+  public void getData(ItemInstance<? extends Item> itemInstance, LegendaryInstanceAttrs2 attrs)
   {
+    // Item level
+    Item reference=itemInstance.getReference();
+    Integer refItemLevel=reference.getItemLevel();
+    Integer itemLevel=Integer.valueOf(_itemLevel);
+    if (Objects.equals(itemLevel,refItemLevel)) itemLevel=null;
+    itemInstance.setItemLevel(itemLevel);
     // Legendary name
     String legendaryName=_name.getText();
     attrs.setLegendaryName(legendaryName);

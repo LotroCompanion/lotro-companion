@@ -293,6 +293,9 @@ public class ItemInstanceEditionPanelController
       ItemInstance<? extends Item> updatedItem=editor.editModal();
       if (updatedItem!=null)
       {
+        // Edition may have changed the item level => update the display
+        _mainAttrs.update();
+        // Update traceries display
         _legendary2.update();
         updateWindow();
       }
