@@ -35,8 +35,7 @@ public class LegendaryInstance2DisplayPanelController
   {
     _itemInstance=itemInstance;
     _name=GuiFactory.buildLabel("");
-    LegendaryInstance2 leg2=(LegendaryInstance2)itemInstance;
-    _traceries=new TraceriesSetDisplayController(leg2.getLegendaryAttributes().getSocketsSetup());
+    _traceries=new TraceriesSetDisplayController(itemInstance);
     _panel=buildPanel();
     update();
   }

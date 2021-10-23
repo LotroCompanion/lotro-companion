@@ -11,6 +11,9 @@ import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.labels.MultilineLabel2;
+import delta.games.lotro.lore.items.Item;
+import delta.games.lotro.lore.items.ItemInstance;
+import delta.games.lotro.lore.items.legendary2.LegendaryInstance2;
 import delta.games.lotro.lore.items.legendary2.SocketEntryInstance;
 import delta.games.lotro.lore.items.legendary2.SocketsSetup;
 import delta.games.lotro.lore.items.legendary2.SocketsSetupInstance;
@@ -22,6 +25,7 @@ import delta.games.lotro.lore.items.legendary2.SocketsSetupInstance;
 public class TraceriesSetDisplayController
 {
   // Data
+  private ItemInstance<? extends Item> _itemInstance;
   private SocketsSetupInstance _traceries;
   // Controllers
   private List<SingleTraceryDisplayController> _controllers;
@@ -30,20 +34,23 @@ public class TraceriesSetDisplayController
 
   /**
    * Constructor.
-   * @param traceries Essences to display.
+   * @param itemInstance Item to display.
    */
-  public TraceriesSetDisplayController(SocketsSetupInstance traceries)
+  public TraceriesSetDisplayController(ItemInstance<? extends Item> itemInstance)
   {
-    _traceries=traceries;
+    _itemInstance=itemInstance;
+    LegendaryInstance2 leg2=(LegendaryInstance2)itemInstance;
+    _traceries=leg2.getLegendaryAttributes().getSocketsSetup();
     _controllers=new ArrayList<SingleTraceryDisplayController>();
-    SocketsSetup socketsSetup=traceries.getSetupTemplate();
+    SocketsSetup socketsSetup=_traceries.getSetupTemplate();
     int nbSlots=socketsSetup.getSocketsCount();
     for(int i=0;i<nbSlots;i++)
     {
       SingleTraceryDisplayController controller=new SingleTraceryDisplayController();
       _controllers.add(controller);
     }
-    _panel=build();
+    _panel=GuiFactory.buildPanel(new GridBagLayout());
+    fillPanel();
   }
 
   /**
@@ -55,27 +62,46 @@ public class TraceriesSetDisplayController
     return _panel;
   }
 
-  private JPanel build()
+  private void fillPanel()
   {
-    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
+    _panel.removeAll();
     int baseLine=0;
+    int index=0;
     for(SingleTraceryDisplayController controller : _controllers)
     {
+      SocketEntryInstance socketInstance=_traceries.getEntry(index);
+      index++;
+      if (!isEnabled(socketInstance))
+      {
+        continue;
+      }
       // Icon
       JButton icon=controller.getIcon();
       GridBagConstraints c=new GridBagConstraints(0,baseLine,1,2,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
-      panel.add(icon,c);
+      _panel.add(icon,c);
       // Label
       MultilineLabel2 label=controller.getNameGadget();
       c=new GridBagConstraints(1,baseLine,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,5),0,0);
-      panel.add(label,c);
+      _panel.add(label,c);
       // Stats
       MultilineLabel2 stats=controller.getStatsGadget();
       c=new GridBagConstraints(1,baseLine+1,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,5),0,0);
-      panel.add(stats,c);
+      _panel.add(stats,c);
       baseLine+=2;
     }
-    return panel;
+  }
+
+  /**
+   * Indicates if the given socket is enabled or not.
+   * @param socketInstance Socket to use.
+   * @return <code>true</code> if it is, <code>false</code> otherwise.
+   */
+  public boolean isEnabled(SocketEntryInstance socketInstance)
+  {
+    Integer itemLevel=_itemInstance.getEffectiveItemLevel();
+    int itemLevelInt=(itemLevel!=null)?itemLevel.intValue():1;
+    int unlockItemLevel=socketInstance.getTemplate().getUnlockItemLevel();
+    return itemLevelInt>=unlockItemLevel;
   }
 
   /**
@@ -89,6 +115,7 @@ public class TraceriesSetDisplayController
       SocketEntryInstance entry=_traceries.getEntry(i);
       _controllers.get(i).setTracery(entry);
     }
+    fillPanel();
   }
 
   /**
@@ -97,6 +124,7 @@ public class TraceriesSetDisplayController
   public void dispose()
   {
     // Data
+    _itemInstance=null;
     _traceries=null;
     // Controllers
     if (_controllers!=null)
