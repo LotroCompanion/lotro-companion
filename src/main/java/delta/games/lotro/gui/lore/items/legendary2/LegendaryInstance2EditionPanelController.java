@@ -21,6 +21,7 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.common.ui.swing.labels.MultilineLabel2;
 import delta.common.ui.swing.windows.WindowController;
+import delta.games.lotro.Config;
 import delta.games.lotro.gui.utils.SharedUiUtils;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemInstance;
@@ -31,6 +32,7 @@ import delta.games.lotro.lore.items.legendary2.SocketEntryInstance;
 import delta.games.lotro.lore.items.legendary2.SocketsSetup;
 import delta.games.lotro.lore.items.legendary2.SocketsSetupInstance;
 import delta.games.lotro.lore.items.legendary2.global.LegendarySystem2;
+import delta.games.lotro.utils.ContextPropertyNames;
 
 /**
  * Panel to edit the traceries of an instance of legendary item (reloaded).
@@ -54,13 +56,13 @@ public class LegendaryInstance2EditionPanelController
   /**
    * Constructor.
    * @param parent Parent controller.
-   * @param characterLevel Character level.
    * @param item Item to edit.
    */
-  public LegendaryInstance2EditionPanelController(WindowController parent, int characterLevel, ItemInstance<? extends Item> item)
+  public LegendaryInstance2EditionPanelController(WindowController parent, ItemInstance<? extends Item> item)
   {
     _parent=parent;
-    _characterLevel=characterLevel;
+    Integer characterLevel=parent.getContextProperty(ContextPropertyNames.CHARACTER_LEVEL,Integer.class);
+    _characterLevel=(characterLevel!=null)?characterLevel.intValue():Config.getInstance().getMaxCharacterLevel();
     Integer itemLevel=item.getEffectiveItemLevel();
     _itemLevel=(itemLevel!=null)?itemLevel.intValue():1;
     _itemLevelLabel=GuiFactory.buildLabel(String.valueOf(_itemLevel));

@@ -33,6 +33,7 @@ import delta.games.lotro.gui.character.gear.EquipmentPanelController;
 import delta.games.lotro.gui.character.tomes.TomesEditionPanelController;
 import delta.games.lotro.gui.character.virtues.VirtuesDisplayPanelController;
 import delta.games.lotro.gui.character.virtues.VirtuesEditionDialogController;
+import delta.games.lotro.utils.ContextPropertyNames;
 import delta.games.lotro.utils.events.EventsManager;
 import delta.games.lotro.utils.events.GenericEventsListener;
 
@@ -70,6 +71,8 @@ public class CharacterDataWindowController extends DefaultFormDialogController<C
     updateVirtues();
     _buffsController=new BuffEditionPanelController(this,toonData);
     _tomesController=new TomesEditionPanelController(toonData);
+    // Set context
+    setContext();
   }
 
   /**
@@ -324,6 +327,8 @@ public class CharacterDataWindowController extends DefaultFormDialogController<C
         _buffsController.update();
         // Update virtues display
         updateVirtues();
+        // Set context
+        setContext();
       }
     }
     if (type==CharacterEventType.CHARACTER_SUMMARY_UPDATED)
@@ -335,6 +340,12 @@ public class CharacterDataWindowController extends DefaultFormDialogController<C
         _attrsController.updateSexDisplay();
       }
     }
+  }
+
+  private void setContext()
+  {
+    int level=_data.getLevel();
+    setContextProperty(ContextPropertyNames.CHARACTER_LEVEL,Integer.valueOf(level));
   }
 
   @Override

@@ -5,7 +5,6 @@ import javax.swing.JPanel;
 
 import delta.common.ui.swing.windows.DefaultFormDialogController;
 import delta.common.ui.swing.windows.WindowController;
-import delta.games.lotro.Config;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemInstance;
 import delta.games.lotro.lore.items.legendary2.LegendaryInstance2;
@@ -28,8 +27,7 @@ public class LegendaryInstance2EditionWindowController extends DefaultFormDialog
   public LegendaryInstance2EditionWindowController(WindowController parent, ItemInstance<? extends Item> itemInstance)
   {
     super(parent,itemInstance);
-    int maxLevel=Config.getInstance().getMaxCharacterLevel();
-    _panelController=new LegendaryInstance2EditionPanelController(this,maxLevel,itemInstance);
+    _panelController=new LegendaryInstance2EditionPanelController(this,itemInstance);
   }
 
   @Override

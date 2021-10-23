@@ -14,4 +14,8 @@ public class ContextPropertyNames
    * Private encounter. Class=PrivateEncounter.
    */
   public static final String PRIVATE_ENCOUNTER="PRIVATE_ENCOUNTER";
+  /**
+   * Character level. Class=Integer.
+   */
+  public static final String CHARACTER_LEVEL="CHARACTER_LEVEL";
 }
