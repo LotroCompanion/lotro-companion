@@ -8,6 +8,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemInstance;
 import delta.games.lotro.lore.items.legendary2.LegendaryInstance2;
@@ -29,13 +30,14 @@ public class LegendaryInstance2DisplayPanelController
 
   /**
    * Constructor.
+   * @param parent Parent window.
    * @param itemInstance Item instance.
    */
-  public LegendaryInstance2DisplayPanelController(ItemInstance<? extends Item> itemInstance)
+  public LegendaryInstance2DisplayPanelController(WindowController parent, ItemInstance<? extends Item> itemInstance)
   {
     _itemInstance=itemInstance;
     _name=GuiFactory.buildLabel("");
-    _traceries=new TraceriesSetDisplayController(itemInstance);
+    _traceries=new TraceriesSetDisplayController(parent,itemInstance);
     _panel=buildPanel();
     update();
   }

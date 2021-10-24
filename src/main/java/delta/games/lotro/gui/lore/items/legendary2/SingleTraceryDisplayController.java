@@ -1,8 +1,12 @@
 package delta.games.lotro.gui.lore.items.legendary2;
 
+import java.awt.Color;
+
 import javax.swing.Icon;
 
 import delta.common.ui.swing.icons.IconsManager;
+import delta.common.ui.swing.windows.WindowController;
+import delta.games.lotro.Config;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.common.stats.StatUtils;
 import delta.games.lotro.gui.lore.items.ItemUiTools;
@@ -10,6 +14,7 @@ import delta.games.lotro.gui.lore.items.utils.IconNameStatsBundle;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.legendary2.SocketEntryInstance;
 import delta.games.lotro.lore.items.legendary2.Tracery;
+import delta.games.lotro.utils.ContextPropertyNames;
 
 /**
  * Controller for the UI items to display a single tracery.
@@ -17,12 +22,18 @@ import delta.games.lotro.lore.items.legendary2.Tracery;
  */
 public class SingleTraceryDisplayController extends IconNameStatsBundle
 {
+  // Data
+  private int _characterLevel;
+
   /**
    * Constructor.
+   * @param parent Parent window.
    */
-  public SingleTraceryDisplayController()
+  public SingleTraceryDisplayController(WindowController parent)
   {
     super();
+    Integer characterLevel=parent.getContextProperty(ContextPropertyNames.CHARACTER_LEVEL,Integer.class);
+    _characterLevel=(characterLevel!=null)?characterLevel.intValue():Config.getInstance().getMaxCharacterLevel();
     // Initialize with nothing slotted
     setTracery(null);
   }
@@ -47,7 +58,15 @@ public class SingleTraceryDisplayController extends IconNameStatsBundle
       icon=IconsManager.getIcon(ITEM_WITH_NO_ICON);
     }
     _icon.setIcon(icon);
+    // Color
+    Color foreground=Color.BLACK;
+    if (tracery!=null)
+    {
+      boolean ok=tracery.isTraceryApplicable(_characterLevel);
+      foreground=ok?Color.BLACK:Color.RED;
+    }
     // Text
+    _name.setForegroundColor(foreground);
     String text="";
     if (item!=null)
     {
@@ -57,6 +76,8 @@ public class SingleTraceryDisplayController extends IconNameStatsBundle
     // Stats
     if (tracery!=null)
     {
+      _stats.setForegroundColor(foreground);
+      // Stats
       BasicStatsSet stats=traceryInstance.getStats();
       String[] lines=StatUtils.getStatsDisplayLines(stats);
       _stats.setText(lines);

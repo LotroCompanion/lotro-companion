@@ -99,7 +99,7 @@ public class ItemInstanceEditionPanelController
     boolean isLegendary2=(_itemInstance instanceof LegendaryInstance2);
     if (isLegendary2)
     {
-      _legendary2=new LegendaryInstance2DisplayPanelController(_itemInstance);
+      _legendary2=new LegendaryInstance2DisplayPanelController(_parent,_itemInstance);
     }
   }
 

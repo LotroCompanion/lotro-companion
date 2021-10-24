@@ -86,11 +86,12 @@ public class SingleTraceryEditionController
     Integer selectedLevel=_currentLevel.getSelectedItem();
     if (selectedLevel==null)
     {
-      System.out.println("Bad selected level");
+      //System.out.println("Bad selected level");
       return false;
     }
     // Check character level
-    return isTraceryApplicable();
+    Tracery tracery=_data.getTracery();
+    return tracery.isTraceryApplicable(_characterLevel);
   }
 
   /**
@@ -253,7 +254,7 @@ public class SingleTraceryEditionController
       System.arraycopy(lines,0,toShow,1,lines.length);
       toShow[0]=name;
       _value.setText(toShow);
-      boolean ok=isTraceryApplicable();
+      boolean ok=tracery.isTraceryApplicable(_characterLevel);
       Color foreground=ok?Color.BLACK:Color.RED;
       _value.setForegroundColor(foreground);
     }
@@ -265,23 +266,6 @@ public class SingleTraceryEditionController
       _value.setText(new String[]{hint});
       _value.setForegroundColor(Color.BLACK);
     }
-  }
-
-  private boolean isTraceryApplicable()
-  {
-    Tracery tracery=_data.getTracery();
-    Item item=tracery.getItem();
-    Integer minLevel=item.getMinLevel();
-    if ((minLevel!=null) && (minLevel.intValue()>_characterLevel))
-    {
-      return false;
-    }
-    Integer maxLevel=item.getMaxLevel();
-    if ((maxLevel!=null) && (maxLevel.intValue()<_characterLevel))
-    {
-      return false;
-    }
-    return true;
   }
 
   private void updateIcon()

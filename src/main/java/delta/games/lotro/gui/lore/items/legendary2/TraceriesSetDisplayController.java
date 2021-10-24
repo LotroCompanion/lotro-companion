@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.labels.MultilineLabel2;
+import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemInstance;
 import delta.games.lotro.lore.items.legendary2.LegendaryInstance2;
@@ -34,9 +35,10 @@ public class TraceriesSetDisplayController
 
   /**
    * Constructor.
+   * @param parent Parent window.
    * @param itemInstance Item to display.
    */
-  public TraceriesSetDisplayController(ItemInstance<? extends Item> itemInstance)
+  public TraceriesSetDisplayController(WindowController parent, ItemInstance<? extends Item> itemInstance)
   {
     _itemInstance=itemInstance;
     LegendaryInstance2 leg2=(LegendaryInstance2)itemInstance;
@@ -46,7 +48,7 @@ public class TraceriesSetDisplayController
     int nbSlots=socketsSetup.getSocketsCount();
     for(int i=0;i<nbSlots;i++)
     {
-      SingleTraceryDisplayController controller=new SingleTraceryDisplayController();
+      SingleTraceryDisplayController controller=new SingleTraceryDisplayController(parent);
       _controllers.add(controller);
     }
     _panel=GuiFactory.buildPanel(new GridBagLayout());
