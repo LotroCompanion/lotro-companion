@@ -396,6 +396,7 @@ public class LegendaryInstance2EditionPanelController
     Integer itemLevel=Integer.valueOf(_itemLevel);
     if (Objects.equals(itemLevel,refItemLevel)) itemLevel=null;
     itemInstance.setItemLevel(itemLevel);
+    itemInstance.updateAutoStats();
     // Legendary name
     String legendaryName=_name.getText();
     attrs.setLegendaryName(legendaryName);
