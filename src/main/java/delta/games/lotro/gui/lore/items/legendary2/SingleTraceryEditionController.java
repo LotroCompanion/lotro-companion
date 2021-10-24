@@ -70,6 +70,7 @@ public class SingleTraceryEditionController
     _currentLevel=new ComboBoxController<Integer>();
     // - init combo contents
     initLevelCombo();
+    setUiFromTracery();
   }
 
   /**

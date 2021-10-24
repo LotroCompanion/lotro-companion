@@ -1,6 +1,7 @@
 package delta.games.lotro.gui.lore.items.legendary2;
 
 import java.awt.Component;
+import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -23,7 +24,6 @@ import delta.common.ui.swing.combobox.ItemSelectionListener;
 import delta.common.ui.swing.labels.MultilineLabel2;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.Config;
-import delta.games.lotro.gui.utils.SharedUiUtils;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemInstance;
 import delta.games.lotro.lore.items.legendary.LegendaryConstants;
@@ -46,7 +46,6 @@ public class LegendaryInstance2EditionPanelController
   private int _itemLevel;
   // GUI
   private JPanel _panel;
-  private ComboBoxController<Integer> _reforgeLevelCombo;
   private JTextField _name;
   private JLabel _itemLevelLabel;
   private JPanel _traceriesPanel;
@@ -94,7 +93,6 @@ public class LegendaryInstance2EditionPanelController
     if (_panel==null)
     {
       _panel=build();
-      updateEditorsFromData();
     }
     return _panel;
   }
@@ -107,11 +105,10 @@ public class LegendaryInstance2EditionPanelController
     attributesPanel.setBorder(GuiFactory.buildTitledBorder("Attributes"));
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(attributesPanel,c);
-    // Reforge
-    JPanel reforgePanel=buildReforgePanel();
-    reforgePanel.setBorder(GuiFactory.buildTitledBorder("Reforge"));
+    // Buttons
+    JPanel buttonsPanel=buildButtonsPanel();
     c=new GridBagConstraints(0,1,1,1,0.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
-    panel.add(reforgePanel,c);
+    panel.add(buttonsPanel,c);
     // Traceries
     _traceriesPanel=GuiFactory.buildPanel(new GridBagLayout());
     _traceriesPanel.setBorder(GuiFactory.buildTitledBorder("Traceries"));
@@ -120,6 +117,14 @@ public class LegendaryInstance2EditionPanelController
     panel.add(_traceriesPanel,c);
     initListeners();
     return panel;
+  }
+
+  private JPanel buildButtonsPanel()
+  {
+    JPanel ret=GuiFactory.buildPanel(new FlowLayout());
+    JButton reforgeButton=buildReforgeButton();
+    ret.add(reforgeButton);
+    return ret;
   }
 
   private JPanel buildAttributesPanel()
@@ -138,9 +143,8 @@ public class LegendaryInstance2EditionPanelController
     return ret;
   }
 
-  private JPanel buildReforgePanel()
+  private JButton buildReforgeButton()
   {
-    _reforgeLevelCombo=buildLevelCombo();
     JButton reforgeButton=GuiFactory.buildButton("Reforge");
     ActionListener al=new ActionListener()
     {
@@ -151,33 +155,17 @@ public class LegendaryInstance2EditionPanelController
       }
     };
     reforgeButton.addActionListener(al);
-    JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
-    // Assembly
-    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
-    ret.add(GuiFactory.buildLabel("Character level:"),c);
-    c=new GridBagConstraints(1,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(5,0,5,5),0,0);
-    ret.add(_reforgeLevelCombo.getComboBox(),c);
-    c=new GridBagConstraints(2,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,0,5,5),0,0);
-    ret.add(reforgeButton,c);
-    return ret;
-  }
-
-  private ComboBoxController<Integer> buildLevelCombo()
-  {
-    List<Integer> levels=new ArrayList<Integer>();
-    for(int i=1;i<=_characterLevel;i++)
-    {
-      levels.add(Integer.valueOf(i));
-    }
-    ComboBoxController<Integer> ctrl=SharedUiUtils.buildIntegerCombo(levels,false);
-    ctrl.selectItem(Integer.valueOf(_characterLevel));
-    return ctrl;
+    return reforgeButton;
   }
 
   private void doReforge()
   {
-    int reforgeLevel=_reforgeLevelCombo.getSelectedItem().intValue();
+    int reforgeLevel=_characterLevel;
     int itemLevel=LegendarySystem2.getInstance().getItemLevelForCharacterLevel(reforgeLevel);
+    if (itemLevel==_itemLevel)
+    {
+      return;
+    }
     _itemLevel=itemLevel;
     _itemLevelLabel.setText(String.valueOf(itemLevel));
     for(SingleTraceryEditionController editor : _editors)
@@ -314,19 +302,6 @@ public class LegendaryInstance2EditionPanelController
     JLabel label=GuiFactory.buildLabel(text);
     label.setHorizontalAlignment(SwingConstants.CENTER);
     return label;
-  }
-
-  /**
-   * Update editors from the managed data.
-   */
-  private void updateEditorsFromData()
-  {
-    for(SingleTraceryEditionController editor : _editors)
-    {
-      editor.setLIItemLevel(_itemLevel);
-      editor.setUiFromTracery();
-    }
-    updateWindow();
   }
 
   private void updateWindow()
