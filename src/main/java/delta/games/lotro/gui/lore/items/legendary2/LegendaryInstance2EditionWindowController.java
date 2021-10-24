@@ -55,6 +55,12 @@ public class LegendaryInstance2EditionWindowController extends DefaultFormDialog
   }
 
   @Override
+  protected boolean checkInput()
+  {
+    return _panelController.checkInput();
+  }
+
+  @Override
   protected void okImpl()
   {
     LegendaryInstance2 legendaryInstance=(LegendaryInstance2)_data;

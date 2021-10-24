@@ -19,6 +19,7 @@ import javax.swing.SwingConstants;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.combobox.ComboBoxController;
+import delta.common.ui.swing.combobox.ItemSelectionListener;
 import delta.common.ui.swing.labels.MultilineLabel2;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.Config;
@@ -79,7 +80,7 @@ public class LegendaryInstance2EditionPanelController
     for(int i=0;i<nbSockets;i++)
     {
       SocketEntryInstance entry=setupInstance.getEntry(i);
-      SingleTraceryEditionController editor=new SingleTraceryEditionController(_parent,entry);
+      SingleTraceryEditionController editor=new SingleTraceryEditionController(_parent,entry,_characterLevel,_itemLevel);
       _editors.add(editor);
     }
   }
@@ -179,8 +180,11 @@ public class LegendaryInstance2EditionPanelController
     int itemLevel=LegendarySystem2.getInstance().getItemLevelForCharacterLevel(reforgeLevel);
     _itemLevel=itemLevel;
     _itemLevelLabel.setText(String.valueOf(itemLevel));
+    for(SingleTraceryEditionController editor : _editors)
+    {
+      editor.setLIItemLevel(_itemLevel);
+    }
     fillTraceriesPanel();
-    updateEditorsFromData();
     updateWindow();
   }
 
@@ -255,6 +259,7 @@ public class LegendaryInstance2EditionPanelController
     for(int i=0;i<nbEditors;i++)
     {
       final SingleTraceryEditionController editor=_editors.get(i);
+      // Choose button
       {
         JButton chooseButton=editor.getChooseButton();
         ActionListener listener=new ActionListener()
@@ -271,6 +276,7 @@ public class LegendaryInstance2EditionPanelController
         };
         chooseButton.addActionListener(listener);
       }
+      // Delete button
       JButton deleteButton=editor.getDeleteButton();
       {
         ActionListener listener=new ActionListener()
@@ -284,6 +290,21 @@ public class LegendaryInstance2EditionPanelController
         };
         deleteButton.addActionListener(listener);
       }
+      // Level chooser
+      ItemSelectionListener<Integer> currentLevelListener=new ItemSelectionListener<Integer>()
+      {
+        @Override
+        public void itemSelected(Integer item)
+        {
+          if (item!=null)
+          {
+            editor.handleCurrentLevelUpdate(item.intValue());
+            updateWindow();
+          }
+        }
+      };
+      ComboBoxController<Integer> currentLevel=editor.getCurrentLevelCombo();
+      currentLevel.addListener(currentLevelListener);
     }
   }
 
@@ -301,6 +322,7 @@ public class LegendaryInstance2EditionPanelController
   {
     for(SingleTraceryEditionController editor : _editors)
     {
+      editor.setLIItemLevel(_itemLevel);
       editor.setUiFromTracery();
     }
     updateWindow();
@@ -312,6 +334,23 @@ public class LegendaryInstance2EditionPanelController
     {
       _parent.getWindow().pack();
     }
+  }
+
+  /**
+   * Check input.
+   * @return <code>true</code> if OK, <code>false</code> otherwise.
+   */
+  public boolean checkInput()
+  {
+    for(SingleTraceryEditionController editor : _editors)
+    {
+      boolean checkInput=editor.checkInput();
+      if (!checkInput)
+      {
+        return false;
+      }
+    }
+    return true;
   }
 
   /**

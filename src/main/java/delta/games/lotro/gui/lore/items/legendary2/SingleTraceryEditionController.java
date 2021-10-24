@@ -1,5 +1,6 @@
 package delta.games.lotro.gui.lore.items.legendary2;
 
+import java.awt.Color;
 import java.awt.Dimension;
 
 import javax.swing.Icon;
@@ -8,7 +9,6 @@ import javax.swing.JLabel;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.combobox.ComboBoxController;
-import delta.common.ui.swing.combobox.ItemSelectionListener;
 import delta.common.ui.swing.labels.MultilineLabel2;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.stats.BasicStatsSet;
@@ -29,6 +29,8 @@ public class SingleTraceryEditionController
 {
   // Data
   private SocketEntryInstance _data;
+  private int _characterLevel;
+  private int _liItemLevel;
   // Controllers
   private WindowController _parent;
   // GUI
@@ -42,12 +44,16 @@ public class SingleTraceryEditionController
   /**
    * Constructor.
    * @param parent Parent window.
+   * @param characterLevel Character level.
+   * @param liItemLevel Item level of the parent LI.
    * @param data Entry to edit.
    */
-  public SingleTraceryEditionController(WindowController parent, SocketEntryInstance data)
+  public SingleTraceryEditionController(WindowController parent, SocketEntryInstance data, int characterLevel, int liItemLevel)
   {
     _parent=parent;
     _data=data;
+    _characterLevel=characterLevel;
+    _liItemLevel=liItemLevel;
     // UI
     // - icon
     _icon=GuiFactory.buildTransparentIconlabel(32);
@@ -62,21 +68,29 @@ public class SingleTraceryEditionController
     _deleteButton=GuiFactory.buildIconButton("/resources/gui/icons/cross.png");
     // - current level
     _currentLevel=new ComboBoxController<Integer>();
-    ItemSelectionListener<Integer> currentLevelListener=new ItemSelectionListener<Integer>()
-    {
-      @Override
-      public void itemSelected(Integer item)
-      {
-        if (item!=null)
-        {
-          handleCurrentLevelUpdate(item.intValue());
-        }
-      }
-    };
     // - init combo contents
-    initLevelCombos();
-    // - init listeners
-    _currentLevel.addListener(currentLevelListener);
+    initLevelCombo();
+  }
+
+  /**
+   * Check input.
+   * @return <code>true</code> if OK, <code>false</code> otherwise.
+   */
+  public boolean checkInput()
+  {
+    if (!hasTracery())
+    {
+      return true;
+    }
+    // Check tracery level
+    Integer selectedLevel=_currentLevel.getSelectedItem();
+    if (selectedLevel==null)
+    {
+      System.out.println("Bad selected level");
+      return false;
+    }
+    // Check character level
+    return isTraceryApplicable();
   }
 
   /**
@@ -116,7 +130,11 @@ public class SingleTraceryEditionController
     setUiFromTracery();
   }
 
-  private void handleCurrentLevelUpdate(int currentLevel)
+  /**
+   * Handle level change.
+   * @param currentLevel New level.
+   */
+  public void handleCurrentLevelUpdate(int currentLevel)
   {
     _data.setItemLevel(currentLevel);
     updateStats();
@@ -130,17 +148,28 @@ public class SingleTraceryEditionController
   private void setTracery(Tracery tracery)
   {
     _data.setTracery(tracery);
-    initLevelCombos();
+    initLevelCombo();
   }
 
-  private void initLevelCombos()
+  /**
+   * Set the item level of the parent LI.
+   * @param liItemLevel Item level to set.
+   */
+  public void setLIItemLevel(int liItemLevel)
+  {
+    _liItemLevel=liItemLevel;
+    initLevelCombo();
+  }
+
+  private void initLevelCombo()
   {
     Tracery tracery=_data.getTracery();
     if (tracery!=null)
     {
       int minItemLevel=tracery.getMinItemLevel();
       int maxItemLevel=tracery.getMaxItemLevel();
-      initLevelCombo(_currentLevel,minItemLevel,maxItemLevel);
+      int maxLevel=Math.min(maxItemLevel,_liItemLevel);
+      initLevelCombo(_currentLevel,minItemLevel,maxLevel);
     }
     else
     {
@@ -159,10 +188,16 @@ public class SingleTraceryEditionController
     }
     if (previousValue!=null)
     {
-      if ((previousValue.intValue()>=min) && (previousValue.intValue()<=max))
+      int selectedValue=previousValue.intValue();
+      if (selectedValue<min)
       {
-        levelCombo.selectItem(previousValue);
+        selectedValue=min;
       }
+      if (selectedValue>max)
+      {
+        selectedValue=max;
+      }
+      levelCombo.selectItem(Integer.valueOf(selectedValue));
     }
   }
 
@@ -218,6 +253,9 @@ public class SingleTraceryEditionController
       System.arraycopy(lines,0,toShow,1,lines.length);
       toShow[0]=name;
       _value.setText(toShow);
+      boolean ok=isTraceryApplicable();
+      Color foreground=ok?Color.BLACK:Color.RED;
+      _value.setForegroundColor(foreground);
     }
     else
     {
@@ -225,7 +263,25 @@ public class SingleTraceryEditionController
       SocketType type=_data.getTemplate().getType();
       String hint="( "+type.getLabel()+" )";
       _value.setText(new String[]{hint});
+      _value.setForegroundColor(Color.BLACK);
     }
+  }
+
+  private boolean isTraceryApplicable()
+  {
+    Tracery tracery=_data.getTracery();
+    Item item=tracery.getItem();
+    Integer minLevel=item.getMinLevel();
+    if ((minLevel!=null) && (minLevel.intValue()>_characterLevel))
+    {
+      return false;
+    }
+    Integer maxLevel=item.getMaxLevel();
+    if ((maxLevel!=null) && (maxLevel.intValue()<_characterLevel))
+    {
+      return false;
+    }
+    return true;
   }
 
   private void updateIcon()
