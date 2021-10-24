@@ -2,6 +2,7 @@ package delta.games.lotro.gui.lore.items.legendary2;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.util.List;
 
 import javax.swing.Icon;
 import javax.swing.JButton;
@@ -220,6 +221,34 @@ public class SingleTraceryEditionController
   public SocketEntryInstance getData()
   {
     return _data;
+  }
+
+  /**
+   * Minimize the item level.
+   */
+  public void minimizeLevel()
+  {
+    List<Integer> levels=_currentLevel.getItems();
+    int nbLevels=levels.size();
+    if (nbLevels>0)
+    {
+      Integer minLevel=levels.get(0);
+      _currentLevel.selectItem(minLevel);
+    }
+  }
+
+  /**
+   * Maximize the item level.
+   */
+  public void maximizeLevel()
+  {
+    List<Integer> levels=_currentLevel.getItems();
+    int nbLevels=levels.size();
+    if (nbLevels>0)
+    {
+      Integer maxLevel=levels.get(nbLevels-1);
+      _currentLevel.selectItem(maxLevel);
+    }
   }
 
   /**

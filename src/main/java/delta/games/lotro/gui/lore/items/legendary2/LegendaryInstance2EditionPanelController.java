@@ -26,7 +26,6 @@ import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.Config;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemInstance;
-import delta.games.lotro.lore.items.legendary.LegendaryConstants;
 import delta.games.lotro.lore.items.legendary2.LegendaryInstance2;
 import delta.games.lotro.lore.items.legendary2.LegendaryInstanceAttrs2;
 import delta.games.lotro.lore.items.legendary2.SocketEntryInstance;
@@ -79,7 +78,8 @@ public class LegendaryInstance2EditionPanelController
     for(int i=0;i<nbSockets;i++)
     {
       SocketEntryInstance entry=setupInstance.getEntry(i);
-      SingleTraceryEditionController editor=new SingleTraceryEditionController(_parent,entry,_characterLevel,_itemLevel);
+      SocketEntryInstance clone=new SocketEntryInstance(entry);
+      SingleTraceryEditionController editor=new SingleTraceryEditionController(_parent,clone,_characterLevel,_itemLevel);
       _editors.add(editor);
     }
   }
@@ -124,6 +124,10 @@ public class LegendaryInstance2EditionPanelController
     JPanel ret=GuiFactory.buildPanel(new FlowLayout());
     JButton reforgeButton=buildReforgeButton();
     ret.add(reforgeButton);
+    JButton minButton=buildMinButton();
+    ret.add(minButton);
+    JButton maxButton=buildMaxButton();
+    ret.add(maxButton);
     return ret;
   }
 
@@ -174,6 +178,56 @@ public class LegendaryInstance2EditionPanelController
       editor.setUiFromTracery();
     }
     fillTraceriesPanel();
+    updateWindow();
+  }
+
+  private JButton buildMinButton()
+  {
+    JButton minButton=GuiFactory.buildButton("Min");
+    ActionListener al=new ActionListener()
+    {
+      @Override
+      public void actionPerformed(ActionEvent e)
+      {
+        doMin();
+      }
+    };
+    minButton.addActionListener(al);
+    return minButton;
+  }
+
+  private JButton buildMaxButton()
+  {
+    JButton maxButton=GuiFactory.buildButton("Max");
+    ActionListener al=new ActionListener()
+    {
+      @Override
+      public void actionPerformed(ActionEvent e)
+      {
+        doMax();
+      }
+    };
+    maxButton.addActionListener(al);
+    return maxButton;
+  }
+
+  private void doMin()
+  {
+    for(SingleTraceryEditionController editor : _editors)
+    {
+      editor.minimizeLevel();
+      editor.setUiFromTracery();
+    }
+    updateWindow();
+  }
+
+  private void doMax()
+  {
+    for(SingleTraceryEditionController editor : _editors)
+    {
+      editor.maximizeLevel();
+      editor.setUiFromTracery();
+    }
     updateWindow();
   }
 
@@ -347,7 +401,8 @@ public class LegendaryInstance2EditionPanelController
     attrs.setLegendaryName(legendaryName);
     // Traceries
     SocketsSetupInstance setup=attrs.getSocketsSetup();
-    for(int i=0;i<LegendaryConstants.MAX_LEGACIES+1;i++)
+    int nbSlots=setup.getSocketsCount();
+    for(int i=0;i<nbSlots;i++)
     {
       SingleTraceryEditionController editor = _editors.get(i);
       SocketEntryInstance entry=setup.getEntry(i);
