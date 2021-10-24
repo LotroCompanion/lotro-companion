@@ -75,11 +75,13 @@ public class TraceryChooser
    * @param parent Parent controller.
    * @param selectedTracery Selected tracery.
    * @param type Type.
+   * @param characterLevel Parent character level.
+   * @param itemLevel Parent item level.
    * @return The selected tracery or <code>null</code> if the window was closed or canceled.
    */
-  public static Tracery selectTracery(WindowController parent, Tracery selectedTracery, SocketType type)
+  public static Tracery selectTracery(WindowController parent, Tracery selectedTracery, SocketType type, int characterLevel, int itemLevel)
   {
-    List<Tracery> traceries=TraceriesManager.getInstance().getTracery(type);
+    List<Tracery> traceries=TraceriesManager.getInstance().getTracery(type,characterLevel,itemLevel);
     Collections.sort(traceries,new NamedComparator());
     TraceryFilter filter=new TraceryFilter();
     TypedProperties filterProps=null;

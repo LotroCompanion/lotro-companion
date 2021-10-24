@@ -35,14 +35,15 @@ public class SingleTraceryDisplayController extends IconNameStatsBundle
     Integer characterLevel=parent.getContextProperty(ContextPropertyNames.CHARACTER_LEVEL,Integer.class);
     _characterLevel=(characterLevel!=null)?characterLevel.intValue():Config.getInstance().getMaxCharacterLevel();
     // Initialize with nothing slotted
-    setTracery(null);
+    setTracery(null,1);
   }
 
   /**
    * Set current essence.
    * @param traceryInstance Essence to set.
+   * @param itemLevel Item level.
    */
-  public void setTracery(SocketEntryInstance traceryInstance)
+  public void setTracery(SocketEntryInstance traceryInstance, int itemLevel)
   {
     // Set icon
     Icon icon=null;
@@ -62,7 +63,7 @@ public class SingleTraceryDisplayController extends IconNameStatsBundle
     Color foreground=Color.BLACK;
     if (tracery!=null)
     {
-      boolean ok=tracery.isTraceryApplicable(_characterLevel);
+      boolean ok=tracery.isApplicable(_characterLevel,itemLevel);
       foreground=ok?Color.BLACK:Color.RED;
     }
     // Text

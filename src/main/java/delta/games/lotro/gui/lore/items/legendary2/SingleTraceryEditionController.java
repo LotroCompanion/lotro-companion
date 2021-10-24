@@ -82,7 +82,17 @@ public class SingleTraceryEditionController
     {
       return true;
     }
+    if (!isEnabled(_liItemLevel))
+    {
+      return true;
+    }
     // Check tracery level
+    Tracery tracery=_data.getTracery();
+    boolean ok=tracery.isApplicableForItemLevel(_liItemLevel);
+    if (!ok)
+    {
+      return false;
+    }
     Integer selectedLevel=_currentLevel.getSelectedItem();
     if (selectedLevel==null)
     {
@@ -90,8 +100,8 @@ public class SingleTraceryEditionController
       return false;
     }
     // Check character level
-    Tracery tracery=_data.getTracery();
-    return tracery.isTraceryApplicable(_characterLevel);
+    ok=tracery.isApplicableForCharacterLevel(_characterLevel);
+    return ok;
   }
 
   /**
@@ -112,7 +122,7 @@ public class SingleTraceryEditionController
   {
     SocketEntry template=_data.getTemplate();
     SocketType type=template.getType();
-    Tracery tracery=TraceryChooser.selectTracery(_parent,_data.getTracery(),type);
+    Tracery tracery=TraceryChooser.selectTracery(_parent,_data.getTracery(),type,_characterLevel,_liItemLevel);
     if (tracery!=null)
     {
       setTracery(tracery);
@@ -244,8 +254,12 @@ public class SingleTraceryEditionController
   {
     if (hasTracery())
     {
-      // Name
+      // Color
       Tracery tracery=_data.getTracery();
+      boolean ok=tracery.isApplicable(_characterLevel,_liItemLevel);
+      Color foreground=ok?Color.BLACK:Color.RED;
+      _value.setForegroundColor(foreground);
+      // Name
       String name=tracery.getName();
       // Stats
       BasicStatsSet stats=_data.getStats();
@@ -254,17 +268,14 @@ public class SingleTraceryEditionController
       System.arraycopy(lines,0,toShow,1,lines.length);
       toShow[0]=name;
       _value.setText(toShow);
-      boolean ok=tracery.isTraceryApplicable(_characterLevel);
-      Color foreground=ok?Color.BLACK:Color.RED;
-      _value.setForegroundColor(foreground);
     }
     else
     {
+      _value.setForegroundColor(Color.BLACK);
       // Nothing slotted. Give a hint on the expected socket type
       SocketType type=_data.getTemplate().getType();
       String hint="( "+type.getLabel()+" )";
       _value.setText(new String[]{hint});
-      _value.setForegroundColor(Color.BLACK);
     }
   }
 

@@ -183,6 +183,7 @@ public class LegendaryInstance2EditionPanelController
     for(SingleTraceryEditionController editor : _editors)
     {
       editor.setLIItemLevel(_itemLevel);
+      editor.setUiFromTracery();
     }
     fillTraceriesPanel();
     updateWindow();

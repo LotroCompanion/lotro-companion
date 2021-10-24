@@ -111,11 +111,13 @@ public class TraceriesSetDisplayController
    */
   public void update()
   {
+    Integer itemLevel=_itemInstance.getEffectiveItemLevel();
+    int itemLevelInt=(itemLevel!=null)?itemLevel.intValue():1;
     int size=_controllers.size();
     for(int i=0;i<size;i++)
     {
       SocketEntryInstance entry=_traceries.getEntry(i);
-      _controllers.get(i).setTracery(entry);
+      _controllers.get(i).setTracery(entry,itemLevelInt);
     }
     fillPanel();
   }
