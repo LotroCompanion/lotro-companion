@@ -46,6 +46,7 @@ import delta.games.lotro.lore.items.ItemFactory;
 import delta.games.lotro.lore.items.ItemInstance;
 import delta.games.lotro.lore.items.ItemsManager;
 import delta.games.lotro.lore.items.filters.ItemSlotFilter;
+import delta.games.lotro.utils.ContextPropertyNames;
 import delta.games.lotro.utils.events.EventsManager;
 import delta.games.lotro.utils.gui.chooser.ObjectChoiceWindowController;
 
@@ -330,6 +331,7 @@ public class EquipmentPanelController implements ActionListener
     {
       ItemInstance<? extends Item> editedItem=ItemFactory.cloneInstance(item);
       ItemInstanceEditionWindowController ctrl=new ItemInstanceEditionWindowController(_parentWindow,_toonData.getSummary(),editedItem);
+      ctrl.setContextProperty(ContextPropertyNames.EQUIMENT_SLOT,slot);
       ItemInstance<? extends Item> resultItem=ctrl.editModal();
       if (resultItem!=null)
       {

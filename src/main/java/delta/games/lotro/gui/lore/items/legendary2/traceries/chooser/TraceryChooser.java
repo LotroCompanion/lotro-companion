@@ -14,7 +14,6 @@ import delta.games.lotro.common.comparators.NamedComparator;
 import delta.games.lotro.common.enums.SocketType;
 import delta.games.lotro.gui.lore.items.legendary2.traceries.TraceriesFilterController;
 import delta.games.lotro.gui.lore.items.legendary2.traceries.table.TraceriesTableBuilder;
-import delta.games.lotro.lore.items.legendary2.TraceriesManager;
 import delta.games.lotro.lore.items.legendary2.Tracery;
 import delta.games.lotro.lore.items.legendary2.filters.TraceryFilter;
 import delta.games.lotro.utils.gui.chooser.ObjectChoiceWindowController;
@@ -75,13 +74,11 @@ public class TraceryChooser
    * @param parent Parent controller.
    * @param selectedTracery Selected tracery.
    * @param type Type.
-   * @param characterLevel Parent character level.
-   * @param itemLevel Parent item level.
+   * @param traceries Traceries to choose from.
    * @return The selected tracery or <code>null</code> if the window was closed or canceled.
    */
-  public static Tracery selectTracery(WindowController parent, Tracery selectedTracery, SocketType type, int characterLevel, int itemLevel)
+  public static Tracery selectTracery(WindowController parent, Tracery selectedTracery, SocketType type, List<Tracery> traceries)
   {
-    List<Tracery> traceries=TraceriesManager.getInstance().getTracery(type,characterLevel,itemLevel);
     Collections.sort(traceries,new NamedComparator());
     TraceryFilter filter=new TraceryFilter();
     TypedProperties filterProps=null;

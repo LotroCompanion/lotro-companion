@@ -344,8 +344,11 @@ public class CharacterDataWindowController extends DefaultFormDialogController<C
 
   private void setContext()
   {
+    // Character level
     int level=_data.getLevel();
     setContextProperty(ContextPropertyNames.CHARACTER_LEVEL,Integer.valueOf(level));
+    // Current character
+    setContextProperty(ContextPropertyNames.CHARACTER_DATA,_data);
   }
 
   @Override

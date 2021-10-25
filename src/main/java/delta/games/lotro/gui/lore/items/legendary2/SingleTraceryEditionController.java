@@ -118,13 +118,14 @@ public class SingleTraceryEditionController
 
   /**
    * Handle 'choose'.
+   * @param availableTraceries Traceries to choose from.
    * @return <code>true</code> if a tracery was chosen, <code>false</code> otherwise.
    */
-  public boolean handleChooseTracery()
+  public boolean handleChooseTracery(List<Tracery> availableTraceries)
   {
     SocketEntry template=_data.getTemplate();
     SocketType type=template.getType();
-    Tracery tracery=TraceryChooser.selectTracery(_parent,_data.getTracery(),type,_characterLevel,_liItemLevel);
+    Tracery tracery=TraceryChooser.selectTracery(_parent,_data.getTracery(),type,availableTraceries);
     if (tracery!=null)
     {
       setTracery(tracery);
@@ -376,8 +377,7 @@ public class SingleTraceryEditionController
    */
   public boolean isEnabled(int itemLevel)
   {
-    int unlockItemLevel=_data.getTemplate().getUnlockItemLevel();
-    return itemLevel>=unlockItemLevel;
+    return _data.getTemplate().isEnabled(itemLevel);
   }
 
   /**

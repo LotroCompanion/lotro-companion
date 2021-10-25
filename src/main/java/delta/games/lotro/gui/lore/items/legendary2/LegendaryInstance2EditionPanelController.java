@@ -24,13 +24,22 @@ import delta.common.ui.swing.combobox.ItemSelectionListener;
 import delta.common.ui.swing.labels.MultilineLabel2;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.Config;
+import delta.games.lotro.character.CharacterData;
+import delta.games.lotro.character.CharacterEquipment;
+import delta.games.lotro.character.CharacterEquipment.EQUIMENT_SLOT;
+import delta.games.lotro.common.enums.SocketType;
+import delta.games.lotro.gui.lore.items.legendary2.traceries.TraceriesConstraintsMgr;
+import delta.games.lotro.gui.lore.items.legendary2.traceries.TraceryUtils;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemInstance;
 import delta.games.lotro.lore.items.legendary2.LegendaryInstance2;
 import delta.games.lotro.lore.items.legendary2.LegendaryInstanceAttrs2;
+import delta.games.lotro.lore.items.legendary2.SocketEntry;
 import delta.games.lotro.lore.items.legendary2.SocketEntryInstance;
 import delta.games.lotro.lore.items.legendary2.SocketsSetup;
 import delta.games.lotro.lore.items.legendary2.SocketsSetupInstance;
+import delta.games.lotro.lore.items.legendary2.TraceriesManager;
+import delta.games.lotro.lore.items.legendary2.Tracery;
 import delta.games.lotro.lore.items.legendary2.global.LegendarySystem2;
 import delta.games.lotro.utils.ContextPropertyNames;
 
@@ -310,11 +319,7 @@ public class LegendaryInstance2EditionPanelController
           @Override
           public void actionPerformed(ActionEvent e)
           {
-            boolean done=editor.handleChooseTracery();
-            if (done)
-            {
-              updateWindow();
-            }
+            handleChooseTracery(editor);
           }
         };
         chooseButton.addActionListener(listener);
@@ -349,6 +354,58 @@ public class LegendaryInstance2EditionPanelController
       ComboBoxController<Integer> currentLevel=editor.getCurrentLevelCombo();
       currentLevel.addListener(currentLevelListener);
     }
+  }
+
+  private void handleChooseTracery(SingleTraceryEditionController editor)
+  {
+    List<Tracery> availableTraceries=getAvailableTraceries(editor);
+    boolean done=editor.handleChooseTracery(availableTraceries);
+    if (done)
+    {
+      updateWindow();
+    }
+  }
+
+  private List<Tracery> getAvailableTraceries(SingleTraceryEditionController editor)
+  {
+    SocketEntryInstance data=editor.getData();
+    SocketEntry template=data.getTemplate();
+    SocketType type=template.getType();
+    List<Tracery> traceries=TraceriesManager.getInstance().getTracery(type,_characterLevel,_itemLevel);
+
+    List<Tracery> availableTraceries=new ArrayList<Tracery>();
+    TraceriesConstraintsMgr mgr=buildTraceryChooserContext(editor);
+    for(Tracery tracery : traceries)
+    {
+      if (mgr.canBeUsed(tracery))
+      {
+        availableTraceries.add(tracery);
+      }
+    }
+    return availableTraceries;
+  }
+
+  private TraceriesConstraintsMgr buildTraceryChooserContext(SingleTraceryEditionController currentEditor)
+  {
+    CharacterData characterData=_parent.getContextProperty(ContextPropertyNames.CHARACTER_DATA,CharacterData.class);
+    CharacterEquipment gear=characterData.getEquipment();
+    EQUIMENT_SLOT slot=_parent.getContextProperty(ContextPropertyNames.EQUIMENT_SLOT,EQUIMENT_SLOT.class);
+    TraceriesConstraintsMgr otherLIsMgr=TraceryUtils.build(gear,slot);
+    TraceriesConstraintsMgr ret=new TraceriesConstraintsMgr(otherLIsMgr);
+    for(SingleTraceryEditionController editor : _editors)
+    {
+      if (editor==currentEditor)
+      {
+        continue;
+      }
+      boolean enabled=editor.isEnabled(_itemLevel);
+      if (enabled)
+      {
+        Tracery tracery=editor.getData().getTracery();
+        ret.use(tracery);
+      }
+    }
+    return ret;
   }
 
   private JLabel buildCenteredLabel(String text)

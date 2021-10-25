@@ -73,7 +73,7 @@ public class TraceriesSetDisplayController
     {
       SocketEntryInstance socketInstance=_traceries.getEntry(index);
       index++;
-      if (!isEnabled(socketInstance))
+      if (!socketInstance.getTemplate().isEnabled(_itemInstance))
       {
         continue;
       }
@@ -91,19 +91,6 @@ public class TraceriesSetDisplayController
       _panel.add(stats,c);
       baseLine+=2;
     }
-  }
-
-  /**
-   * Indicates if the given socket is enabled or not.
-   * @param socketInstance Socket to use.
-   * @return <code>true</code> if it is, <code>false</code> otherwise.
-   */
-  public boolean isEnabled(SocketEntryInstance socketInstance)
-  {
-    Integer itemLevel=_itemInstance.getEffectiveItemLevel();
-    int itemLevelInt=(itemLevel!=null)?itemLevel.intValue():1;
-    int unlockItemLevel=socketInstance.getTemplate().getUnlockItemLevel();
-    return itemLevelInt>=unlockItemLevel;
   }
 
   /**

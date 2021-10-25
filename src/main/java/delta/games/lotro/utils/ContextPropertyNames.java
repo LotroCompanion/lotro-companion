@@ -18,4 +18,12 @@ public class ContextPropertyNames
    * Character level. Class=Integer.
    */
   public static final String CHARACTER_LEVEL="CHARACTER_LEVEL";
+  /**
+   * Character configuration. Class=CharacterData.
+   */
+  public static final String CHARACTER_DATA="CHARACTER_DATA";
+  /**
+   * Current equipment slot. Class=EQUIMENT_SLOT.
+   */
+  public static final String EQUIMENT_SLOT="EQUIMENT_SLOT";
 }
