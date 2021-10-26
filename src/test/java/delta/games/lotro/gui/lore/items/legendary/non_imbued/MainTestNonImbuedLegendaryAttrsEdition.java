@@ -31,7 +31,7 @@ public class MainTestNonImbuedLegendaryAttrsEdition
     final NonImbuedLegendaryInstanceAttrs nonImbuedLegAttrs=attrs.getNonImbuedAttrs();
     ClassAndSlot constraints=new ClassAndSlot(CharacterClass.CAPTAIN,EquipmentLocation.CLASS_SLOT);
     final NonImbuedLegendaryAttrsEditionPanelController controller=new NonImbuedLegendaryAttrsEditionPanelController(null,nonImbuedLegAttrs,constraints);
-    int itemLevel=itemInstance.getEffectiveItemLevel().intValue();
+    int itemLevel=itemInstance.getApplicableItemLevel();
     Item item=itemInstance.getReference();
     controller.setReferenceData(itemLevel,item);
 

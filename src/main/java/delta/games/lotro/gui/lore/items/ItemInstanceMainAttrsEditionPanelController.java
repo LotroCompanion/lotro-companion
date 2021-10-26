@@ -426,7 +426,7 @@ public class ItemInstanceMainAttrsEditionPanelController
   {
     if (itemLevel!=null)
     {
-      BasicStatsSet stats=_itemInstance.getStats(itemLevel.intValue());
+      BasicStatsSet stats=_itemInstance.getStatsForItemLevel(itemLevel.intValue());
       if (stats!=null)
       {
         setStats(stats);
