@@ -4,9 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.util.List;
 
-import javax.swing.Icon;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.combobox.ComboBoxController;
@@ -15,8 +13,8 @@ import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.common.enums.SocketType;
 import delta.games.lotro.common.stats.StatUtils;
-import delta.games.lotro.gui.lore.items.ItemUiTools;
 import delta.games.lotro.gui.lore.items.legendary2.traceries.chooser.TraceryChooser;
+import delta.games.lotro.gui.utils.ItemIconController;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.legendary2.SocketEntry;
 import delta.games.lotro.lore.items.legendary2.SocketEntryInstance;
@@ -35,7 +33,7 @@ public class SingleTraceryEditionController
   // Controllers
   private WindowController _parent;
   // GUI
-  private JLabel _icon;
+  private ItemIconController _icon;
   private MultilineLabel2 _value;
   private JButton _chooseButton;
   private JButton _deleteButton;
@@ -57,7 +55,7 @@ public class SingleTraceryEditionController
     _liItemLevel=liItemLevel;
     // UI
     // - icon
-    _icon=GuiFactory.buildTransparentIconlabel(32);
+    _icon=new ItemIconController(_parent);
     // - value display
     _value=new MultilineLabel2();
     Dimension dimension=new Dimension(200,32);
@@ -316,12 +314,11 @@ public class SingleTraceryEditionController
     if (tracery!=null)
     {
       Item item=tracery.getItem();
-      Icon icon=ItemUiTools.buildItemIcon(item);
-      _icon.setIcon(icon);
+      _icon.setItem(item,1);
     }
     else
     {
-      _icon.setIcon(null);
+      _icon.clear();
     }
   }
 
@@ -329,9 +326,9 @@ public class SingleTraceryEditionController
    * Get the icon gadget.
    * @return the icon gadget.
    */
-  public JLabel getIcon()
+  public JButton getIcon()
   {
-    return _icon;
+    return _icon.getIcon();
   }
 
   /**
@@ -389,6 +386,11 @@ public class SingleTraceryEditionController
     _data=null;
     // Controllers
     _parent=null;
+    if (_icon!=null)
+    {
+      _icon.dispose();
+      _icon=null;
+    }
     // UI
     _icon=null;
     _value=null;

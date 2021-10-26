@@ -2,8 +2,10 @@ package delta.games.lotro.gui.utils;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 
 import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 import org.apache.log4j.Logger;
@@ -76,6 +78,18 @@ public class ItemIconController implements IconController
       _icon.setToolTipText(item.getName());
     }
     _item=item;
+  }
+
+  /**
+   * Clear the contents.
+   */
+  public void clear()
+  {
+    BufferedImage image=new BufferedImage(DEFAULT_SIZE, DEFAULT_SIZE, BufferedImage.TYPE_INT_ARGB);
+    ImageIcon icon=new ImageIcon(image);
+    _icon.setIcon(icon);
+    _icon.setSize(DEFAULT_SIZE,DEFAULT_SIZE);
+    _item=null;
   }
 
   private void showItemForm()

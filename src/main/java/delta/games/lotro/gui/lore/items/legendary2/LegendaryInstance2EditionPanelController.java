@@ -271,7 +271,7 @@ public class LegendaryInstance2EditionPanelController
         continue;
       }
       // Icon
-      JLabel icon=editor.getIcon();
+      JButton icon=editor.getIcon();
       GridBagConstraints c=new GridBagConstraints(x,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(5,5,5,5),0,0);
       _traceriesPanel.add(icon,c);
       x++;

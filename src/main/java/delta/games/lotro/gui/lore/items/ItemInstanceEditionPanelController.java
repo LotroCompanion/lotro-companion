@@ -290,7 +290,7 @@ public class ItemInstanceEditionPanelController
     if (_legendary2!=null)
     {
       LegendaryInstance2EditionWindowController editor=new LegendaryInstance2EditionWindowController(_parent,_itemInstance);
-      editor.pack();
+      editor.getWindow().pack();
       ItemInstance<? extends Item> updatedItem=editor.editModal();
       if (updatedItem!=null)
       {
