@@ -80,6 +80,10 @@ public class ItemIconBuilder
     int height=0;
     for(int i=0;i<nbImages;i++)
     {
+      if ("0".equals(imageIds[i]))
+      {
+        continue;
+      }
       String iconPath=IconsUtils.buildItemIcon(imageIds[i]);
       images[i]=IconsManager.getImage(iconPath);
       if (images[i]!=null)
