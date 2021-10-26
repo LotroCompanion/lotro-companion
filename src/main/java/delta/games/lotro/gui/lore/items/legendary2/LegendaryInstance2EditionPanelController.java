@@ -247,10 +247,10 @@ public class LegendaryInstance2EditionPanelController
     // Headers
     {
       int x=1;
-      GridBagConstraints c=new GridBagConstraints(x,y,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+      GridBagConstraints c=new GridBagConstraints(x,y,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.HORIZONTAL,new Insets(0,0,5,0),0,0);
       _traceriesPanel.add(buildCenteredLabel("Stats"),c);
       x++;
-      c=new GridBagConstraints(x,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,5),0,0);
+      c=new GridBagConstraints(x,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,5,0),0,0);
       _traceriesPanel.add(buildCenteredLabel("Item Level"),c);
       x++;
       y++;
@@ -272,24 +272,24 @@ public class LegendaryInstance2EditionPanelController
       }
       // Icon
       JButton icon=editor.getIcon();
-      GridBagConstraints c=new GridBagConstraints(x,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(5,5,5,5),0,0);
+      GridBagConstraints c=new GridBagConstraints(x,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,5,5,0),0,0);
       _traceriesPanel.add(icon,c);
       x++;
       // Value
       MultilineLabel2 valueLabel=editor.getValueLabel();
-      c=new GridBagConstraints(x,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(5,5,5,5),0,0);
+      c=new GridBagConstraints(x,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,5,5,0),0,0);
       _traceriesPanel.add(valueLabel,c);
       x++;
       // Item level
       ComboBoxController<Integer> currentLevelCombo=editor.getCurrentLevelCombo();
-      c=new GridBagConstraints(x,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,0),0,0);
+      c=new GridBagConstraints(x,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,5,5,0),0,0);
       _traceriesPanel.add(currentLevelCombo.getComboBox(),c);
       x++;
       // Button 'Choose'
       JButton chooseButton=editor.getChooseButton();
       if (chooseButton!=null)
       {
-        c=new GridBagConstraints(x,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
+        c=new GridBagConstraints(x,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,5,5,0),0,0);
         _traceriesPanel.add(chooseButton,c);
       }
       x++;
@@ -297,7 +297,7 @@ public class LegendaryInstance2EditionPanelController
       JButton deleteButton=editor.getDeleteButton();
       if (deleteButton!=null)
       {
-        c=new GridBagConstraints(x,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
+        c=new GridBagConstraints(x,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,5,5,5),0,0);
         _traceriesPanel.add(deleteButton,c);
       }
       x++;

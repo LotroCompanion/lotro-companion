@@ -58,6 +58,8 @@ public class SingleTraceryEditionController
     _icon=new ItemIconController(_parent);
     // - value display
     _value=new MultilineLabel2();
+    _value.setFirstLineFontSize(null);
+    _value.setNextLinesFontSize(Float.valueOf(10));
     Dimension dimension=new Dimension(200,32);
     _value.setMinimumSize(dimension);
     _value.setSize(dimension);
