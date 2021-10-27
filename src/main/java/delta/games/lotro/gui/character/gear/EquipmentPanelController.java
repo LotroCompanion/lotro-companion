@@ -337,6 +337,7 @@ public class EquipmentPanelController implements ActionListener
       {
         CharacterEquipment equipment=_toonData.getEquipment();
         equipment.getSlotContents(slot,true).setItem(editedItem);
+        editedItem.setWearer(_toonData.getSummary());
         refreshToon();
       }
     }
@@ -363,6 +364,7 @@ public class EquipmentPanelController implements ActionListener
       SlotContents contents=equipment.getSlotContents(slot,true);
       ItemInstance<? extends Item> instance=ItemFactory.cloneInstance(itemInstance);
       contents.setItem(instance);
+      itemInstance.setWearer(_toonData.getSummary());
       refreshToon();
     }
   }
@@ -376,6 +378,7 @@ public class EquipmentPanelController implements ActionListener
       SlotContents contents=equipment.getSlotContents(slot,true);
       ItemInstance<? extends Item> instance=ItemFactory.cloneInstance(itemInstance);
       contents.setItem(instance);
+      itemInstance.setWearer(_toonData.getSummary());
       refreshToon();
     }
   }
@@ -389,6 +392,7 @@ public class EquipmentPanelController implements ActionListener
       SlotContents contents=equipment.getSlotContents(slot,true);
       ItemInstance<? extends Item> itemInstance=ItemFactory.buildInstance(item);
       contents.setItem(itemInstance);
+      itemInstance.setWearer(_toonData.getSummary());
       refreshToon();
     }
   }
@@ -476,6 +480,7 @@ public class EquipmentPanelController implements ActionListener
       {
         ItemsStash stash=_toon.getStash();
         ItemInstance<? extends Item> newItemInstance=ItemFactory.cloneInstance(item);
+        newItemInstance.setWearer(null);
         stash.addItem(newItemInstance);
         Integer stashId=newItemInstance.getStashIdentifier();
         item.setStashIdentifier(stashId);

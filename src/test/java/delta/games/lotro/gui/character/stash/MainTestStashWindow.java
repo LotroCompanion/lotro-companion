@@ -34,6 +34,7 @@ public class MainTestStashWindow
       if (item!=null)
       {
         ItemInstance<? extends Item> clone=ItemFactory.cloneInstance(item);
+        clone.setWearer(null);
         stash.addItem(clone);
       }
     }

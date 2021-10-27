@@ -233,6 +233,7 @@ public class StashWindowController extends DefaultWindowController implements Ac
     {
       ItemsStash stash=_toon.getStash();
       stash.removeItem(item.getStashIdentifier());
+      editedItem.setWearer(null);
       stash.addItem(editedItem);
       _toon.saveStash();
     }
@@ -244,6 +245,7 @@ public class StashWindowController extends DefaultWindowController implements Ac
     if (item!=null)
     {
       ItemInstance<? extends Item> clone=ItemFactory.cloneInstance(item);
+      clone.setWearer(null);
       clone.setStashIdentifier(null);
       ItemsStash stash=_toon.getStash();
       stash.addItem(clone);
