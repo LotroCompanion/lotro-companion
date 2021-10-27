@@ -2,15 +2,13 @@ package delta.games.lotro.gui.lore.items.legendary2;
 
 import java.awt.Color;
 
-import javax.swing.Icon;
-
-import delta.common.ui.swing.icons.IconsManager;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.Config;
 import delta.games.lotro.character.stats.BasicStatsSet;
+import delta.games.lotro.common.enums.SocketType;
 import delta.games.lotro.common.stats.StatUtils;
-import delta.games.lotro.gui.lore.items.ItemUiTools;
-import delta.games.lotro.gui.lore.items.utils.IconNameStatsBundle;
+import delta.games.lotro.gui.lore.items.utils.IconControllerNameStatsBundle;
+import delta.games.lotro.gui.utils.IconControllerFactory;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.legendary2.SocketEntryInstance;
 import delta.games.lotro.lore.items.legendary2.Tracery;
@@ -20,7 +18,7 @@ import delta.games.lotro.utils.ContextPropertyNames;
  * Controller for the UI items to display a single tracery.
  * @author DAM
  */
-public class SingleTraceryDisplayController extends IconNameStatsBundle
+public class SingleTraceryDisplayController extends IconControllerNameStatsBundle
 {
   // Data
   private int _characterLevel;
@@ -31,7 +29,7 @@ public class SingleTraceryDisplayController extends IconNameStatsBundle
    */
   public SingleTraceryDisplayController(WindowController parent)
   {
-    super();
+    super(parent);
     Integer characterLevel=parent.getContextProperty(ContextPropertyNames.CHARACTER_LEVEL,Integer.class);
     _characterLevel=(characterLevel!=null)?characterLevel.intValue():Config.getInstance().getMaxCharacterLevel();
     // Initialize with nothing slotted
@@ -46,19 +44,17 @@ public class SingleTraceryDisplayController extends IconNameStatsBundle
   public void setTracery(SocketEntryInstance traceryInstance, int itemLevel)
   {
     // Set icon
-    Icon icon=null;
     Item item=null;
     Tracery tracery=(traceryInstance!=null)?traceryInstance.getTracery():null;
     if (tracery!=null)
     {
       item=tracery.getItem();
-      icon=ItemUiTools.buildItemIcon(item);
+      IconControllerFactory.updateItemIcon(_icon,item,1);
     }
     else
     {
-      icon=IconsManager.getIcon(ITEM_WITH_NO_ICON);
+      _icon.clear();
     }
-    _icon.setIcon(icon);
     // Color
     Color foreground=Color.BLACK;
     if (tracery!=null)
@@ -73,6 +69,12 @@ public class SingleTraceryDisplayController extends IconNameStatsBundle
     {
       text=item.getName();
     }
+    else if (traceryInstance!=null)
+    {
+      // Nothing slotted. Give a hint on the expected socket type
+      SocketType type=traceryInstance.getTemplate().getType();
+      text="( "+type.getLabel()+" )";
+    }
     _name.setText(text,1);
     // Stats
     if (tracery!=null)
@@ -85,7 +87,8 @@ public class SingleTraceryDisplayController extends IconNameStatsBundle
     }
     else
     {
-      _stats.setText(new String[0]);
+      _name.setForegroundColor(Color.BLACK);
+      _stats.setText(new String[]{});
     }
   }
 }
