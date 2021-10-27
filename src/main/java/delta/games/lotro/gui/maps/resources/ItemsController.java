@@ -8,7 +8,8 @@ import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.WindowController;
-import delta.games.lotro.gui.utils.ItemIconController;
+import delta.games.lotro.gui.utils.IconController;
+import delta.games.lotro.gui.utils.IconControllerFactory;
 import delta.games.lotro.lore.items.Item;
 
 /**
@@ -18,7 +19,7 @@ import delta.games.lotro.lore.items.Item;
 public class ItemsController
 {
   private WindowController _parent;
-  private List<ItemIconController> _icons;
+  private List<IconController> _icons;
   private JPanel _panel;
 
   /**
@@ -28,7 +29,7 @@ public class ItemsController
   public ItemsController(WindowController parent)
   {
     _parent=parent;
-    _icons=new ArrayList<ItemIconController>();
+    _icons=new ArrayList<IconController>();
     _panel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT,0,0));
   }
 
@@ -50,8 +51,7 @@ public class ItemsController
     disposeItems();
     for(Item item : items)
     {
-      ItemIconController icon=new ItemIconController(_parent);
-      icon.setItem(item,1);
+      IconController icon=IconControllerFactory.buildItemIcon(_parent,item,1);
       _icons.add(icon);
       _panel.add(icon.getIcon());
     }
@@ -62,7 +62,7 @@ public class ItemsController
   private void disposeItems()
   {
     _panel.removeAll();
-    for(ItemIconController icon : _icons)
+    for(IconController icon : _icons)
     {
       icon.dispose();
     }

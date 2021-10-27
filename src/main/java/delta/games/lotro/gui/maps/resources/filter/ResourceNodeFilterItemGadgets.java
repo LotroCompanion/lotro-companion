@@ -7,7 +7,8 @@ import delta.common.ui.swing.checkbox.CheckboxController;
 import delta.common.ui.swing.labels.HyperLinkController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.gui.lore.items.ItemUiTools;
-import delta.games.lotro.gui.utils.ItemIconController;
+import delta.games.lotro.gui.utils.IconController;
+import delta.games.lotro.gui.utils.IconControllerFactory;
 import delta.games.lotro.lore.items.Item;
 
 /**
@@ -20,8 +21,8 @@ public class ResourceNodeFilterItemGadgets
   private WindowController _parent;
   private CheckboxController _checkbox;
   private HyperLinkController _sourceItemLink;
-  private ItemIconController _sourceItemIcon;
-  private List<ItemIconController> _lootItemIcons;
+  private IconController _sourceItemIcon;
+  private List<IconController> _lootItemIcons;
 
   /**
    * Constructor.
@@ -33,7 +34,7 @@ public class ResourceNodeFilterItemGadgets
     _checkbox=new CheckboxController("");
     _sourceItemLink=null;
     _sourceItemIcon=null;
-    _lootItemIcons=new ArrayList<ItemIconController>();
+    _lootItemIcons=new ArrayList<IconController>();
   }
 
   /**
@@ -50,14 +51,12 @@ public class ResourceNodeFilterItemGadgets
       String icon=sourceItem.getIcon();
       if ((icon!=null) && (icon.length()>0))
       {
-        _sourceItemIcon=new ItemIconController(_parent);
-        _sourceItemIcon.setItem(sourceItem,1);
+        _sourceItemIcon=IconControllerFactory.buildItemIcon(_parent,sourceItem,1);
       }
     }
     for(Item lootItem : lootItems)
     {
-      ItemIconController lootItemIcon=new ItemIconController(_parent);
-      lootItemIcon.setItem(lootItem,1);
+      IconController lootItemIcon=IconControllerFactory.buildItemIcon(_parent,lootItem,1);
       _lootItemIcons.add(lootItemIcon);
     }
   }
@@ -84,7 +83,7 @@ public class ResourceNodeFilterItemGadgets
    * Get the managed source item icon.
    * @return an item icon or <code>null</code> if not source item.
    */
-  public ItemIconController getSourceItemIcon()
+  public IconController getSourceItemIcon()
   {
     return _sourceItemIcon;
   }
@@ -93,14 +92,14 @@ public class ResourceNodeFilterItemGadgets
    * Get the list of loot item icons.
    * @return a list of item icons.
    */
-  public List<ItemIconController> getLootItemIcons()
+  public List<IconController> getLootItemIcons()
   {
     return _lootItemIcons;
   }
 
   private void disposeItems()
   {
-    for(ItemIconController lootItemIcon : _lootItemIcons)
+    for(IconController lootItemIcon : _lootItemIcons)
     {
       lootItemIcon.dispose();
     }

@@ -12,7 +12,8 @@ import javax.swing.JPanel;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.labels.HyperLinkController;
 import delta.common.ui.swing.windows.WindowController;
-import delta.games.lotro.gui.utils.ItemIconController;
+import delta.games.lotro.gui.utils.IconController;
+import delta.games.lotro.gui.utils.IconControllerFactory;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemInstance;
 
@@ -27,7 +28,7 @@ public class ItemIdentificationPanelController
   // GUI
   private JPanel _panel;
   // - Item identification (icon+name)
-  private ItemIconController _itemIcon;
+  private IconController _itemIcon;
   private HyperLinkController _itemLink;
 
   /**
@@ -59,8 +60,7 @@ public class ItemIdentificationPanelController
     c.gridy++;
     // Icon
     Item item=_itemInstance.getReference();
-    _itemIcon=new ItemIconController(parent);
-    _itemIcon.setItem(item,1);
+    _itemIcon=IconControllerFactory.buildItemIcon(parent,item,1);
     panelLine.add(_itemIcon.getIcon());
     // Name
     _itemLink=ItemUiTools.buildItemLink(parent,item);

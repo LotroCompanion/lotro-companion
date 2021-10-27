@@ -21,8 +21,7 @@ import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.lore.items.ItemUiTools;
 import delta.games.lotro.gui.lore.items.legendary.relics.RelicUiTools;
 import delta.games.lotro.gui.utils.IconController;
-import delta.games.lotro.gui.utils.ItemIconController;
-import delta.games.lotro.gui.utils.RelicIconController;
+import delta.games.lotro.gui.utils.IconControllerFactory;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.legendary.relics.Relic;
 import delta.games.lotro.lore.relics.CountedRelic;
@@ -223,8 +222,7 @@ public class RelicMeldingRecipeDisplayPanelController implements NavigablePanelC
     {
       int count=countedRelic.getCount();
       Relic relic=countedRelic.getRelic();
-      RelicIconController relicIconCtrl=new RelicIconController(_parent);
-      relicIconCtrl.setRelic(relic,count);
+      IconController relicIconCtrl=IconControllerFactory.buildRelicIcon(_parent,relic,count);
       HyperLinkController link=RelicUiTools.buildRelicLink(_parent,relic);
       GridBagConstraints c=new GridBagConstraints(0,y,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,5,0,5),0,0);
       ret.add(relicIconCtrl.getIcon(),c);
@@ -246,17 +244,13 @@ public class RelicMeldingRecipeDisplayPanelController implements NavigablePanelC
       Relic relic=entry.getRelic();
       if (relic!=null)
       {
-        RelicIconController relicIconCtrl=new RelicIconController(_parent);
-        relicIconCtrl.setRelic(relic,1);
+        iconCtrl=IconControllerFactory.buildRelicIcon(_parent,relic,1);
         link=RelicUiTools.buildRelicLink(_parent,relic);
-        iconCtrl=relicIconCtrl;
       }
       Item item=entry.getItem();
       if (item!=null)
       {
-        ItemIconController itemIconCtrl=new ItemIconController(_parent);
-        itemIconCtrl.setItem(item,1);
-        iconCtrl=itemIconCtrl;
+        iconCtrl=IconControllerFactory.buildItemIcon(_parent,item,1);
         link=ItemUiTools.buildItemLink(_parent,item);
       }
       if ((iconCtrl!=null) && (link!=null))

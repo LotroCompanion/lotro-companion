@@ -35,8 +35,7 @@ public class ItemDisplayGadgets
   {
     _parent=parent;
     Item item=ItemsManager.getInstance().getItem(itemId); 
-    ItemIconController icon=new ItemIconController(_parent);
-    icon.setItem(item,count);
+    IconController icon=IconControllerFactory.buildItemIcon(_parent,item,count);
     _icon=icon;
     _name=ItemUiTools.buildItemLink(parent,item);
     _comment=GuiFactory.buildLabel(comment);
@@ -52,8 +51,7 @@ public class ItemDisplayGadgets
   {
     _parent=parent;
     Relic relic=RelicsManager.getInstance().getById(relicId); 
-    RelicIconController icon=new RelicIconController(_parent);
-    icon.setRelic(relic,count);
+    IconController icon=IconControllerFactory.buildRelicIcon(_parent,relic,count);
     _icon=icon;
     _name=RelicUiTools.buildRelicLink(parent,relic);
     _comment=GuiFactory.buildLabel("");

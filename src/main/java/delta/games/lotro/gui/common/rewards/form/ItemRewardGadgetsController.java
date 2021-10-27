@@ -4,7 +4,8 @@ import java.awt.Color;
 
 import delta.common.ui.swing.labels.LabelWithHalo;
 import delta.common.ui.swing.navigator.NavigatorWindowController;
-import delta.games.lotro.gui.utils.ItemIconController;
+import delta.games.lotro.gui.utils.IconController;
+import delta.games.lotro.gui.utils.IconControllerFactory;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemQuality;
 
@@ -14,7 +15,7 @@ import delta.games.lotro.lore.items.ItemQuality;
  */
 public class ItemRewardGadgetsController extends RewardGadgetsController
 {
-  private ItemIconController _itemIcon;
+  private IconController _itemIcon;
 
   /**
    * Constructor.
@@ -41,8 +42,7 @@ public class ItemRewardGadgetsController extends RewardGadgetsController
     _label.setOpaque(false);
     _label.setForeground(color);
     // Icon
-    _itemIcon=new ItemIconController(parent);
-    _itemIcon.setItem(item,count);
+    _itemIcon=IconControllerFactory.buildItemIcon(parent,item,count);
     _icon=_itemIcon.getIcon();
   }
 

@@ -20,8 +20,9 @@ import delta.games.lotro.common.Duration;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.lore.crafting.recipes.RecipeIcons;
 import delta.games.lotro.gui.lore.items.ItemUiTools;
+import delta.games.lotro.gui.utils.IconController;
+import delta.games.lotro.gui.utils.IconControllerFactory;
 import delta.games.lotro.gui.utils.ItemDisplayGadgets;
-import delta.games.lotro.gui.utils.ItemIconController;
 import delta.games.lotro.lore.crafting.CraftingLevel;
 import delta.games.lotro.lore.crafting.Profession;
 import delta.games.lotro.lore.crafting.recipes.CraftingResult;
@@ -43,7 +44,7 @@ public class RecipeDisplayPanelController implements NavigablePanelController
   // Controllers
   private NavigatorWindowController _parent;
   private List<ItemDisplayGadgets> _itemIcons;
-  private ItemIconController _recipeItemIcon;
+  private IconController _recipeItemIcon;
   private HyperLinkController _recipeItemLabel;
 
   /**
@@ -130,8 +131,7 @@ public class RecipeDisplayPanelController implements NavigablePanelController
     if (recipeItem!=null)
     {
       // - icon
-      _recipeItemIcon=new ItemIconController(_parent);
-      _recipeItemIcon.setItem(recipeItem,1);
+      _recipeItemIcon=IconControllerFactory.buildItemIcon(_parent,recipeItem,1);
       // - name
       _recipeItemLabel=ItemUiTools.buildItemLink(_parent,recipeItem);
     }

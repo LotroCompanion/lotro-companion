@@ -16,7 +16,7 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.labels.HyperLinkController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.gui.maps.resources.ResourceNodesLootManager;
-import delta.games.lotro.gui.utils.ItemIconController;
+import delta.games.lotro.gui.utils.IconController;
 import delta.games.lotro.lore.items.Item;
 
 /**
@@ -118,7 +118,7 @@ public class ResourceNodeFilterPanelController
       c=new GridBagConstraints(0,y,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
       _panel.add(gadgets.getCheckbox().getCheckbox(),c);
       // Source item
-      ItemIconController sourceItemIcon=gadgets.getSourceItemIcon();
+      IconController sourceItemIcon=gadgets.getSourceItemIcon();
       if (sourceItemIcon!=null)
       {
         c=new GridBagConstraints(1,y,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
@@ -134,7 +134,7 @@ public class ResourceNodeFilterPanelController
       if (hasLootableItems)
       {
         JPanel lootItemsPanel=GuiFactory.buildPanel(new FlowLayout());
-        for(ItemIconController lootItemIcon : gadgets.getLootItemIcons())
+        for(IconController lootItemIcon : gadgets.getLootItemIcons())
         {
           lootItemsPanel.add(lootItemIcon.getIcon());
         }
