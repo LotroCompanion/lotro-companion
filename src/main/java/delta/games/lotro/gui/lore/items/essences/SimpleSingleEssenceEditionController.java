@@ -14,6 +14,7 @@ import delta.common.ui.swing.icons.IconsManager;
 import delta.common.ui.swing.labels.MultilineLabel;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.BasicCharacterAttributes;
+import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.lore.items.ItemUiTools;
 import delta.games.lotro.lore.items.Item;
 
@@ -23,8 +24,6 @@ import delta.games.lotro.lore.items.Item;
  */
 public class SimpleSingleEssenceEditionController
 {
-  private static final String ITEM_WITH_NO_ICON="/resources/gui/equipment/itemNoIcon.png";
-
   // Data
   private BasicCharacterAttributes _attrs;
   private Item _essence;
@@ -135,7 +134,7 @@ public class SimpleSingleEssenceEditionController
     }
     else
     {
-      icon=IconsManager.getIcon(ITEM_WITH_NO_ICON);
+      icon=LotroIconsManager.getDefaultItemIcon();
     }
     _essenceIconButton.setIcon(icon);
     // Text

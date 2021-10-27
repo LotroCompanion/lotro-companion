@@ -2,7 +2,6 @@ package delta.games.lotro.gui.lore.items.legendary.relics;
 
 import javax.swing.Icon;
 
-import delta.common.ui.swing.icons.IconsManager;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.common.stats.StatUtils;
 import delta.games.lotro.gui.LotroIconsManager;
@@ -40,7 +39,7 @@ public class SingleRelicDisplayController extends IconNameStatsBundle
     }
     else
     {
-      icon=IconsManager.getIcon(ITEM_WITH_NO_ICON);
+      icon=LotroIconsManager.getDefaultItemIcon();
     }
     _icon.setIcon(icon);
     // Text
@@ -49,17 +48,17 @@ public class SingleRelicDisplayController extends IconNameStatsBundle
     {
       text=relic.getName();
     }
-    _name.setText(text,1);
+    setName(text);
     // Stats
     if (relic!=null)
     {
       BasicStatsSet stats=relic.getStats();
       String[] lines=StatUtils.getStatsDisplayLines(stats);
-      _stats.setText(lines);
+      setStats(lines);
     }
     else
     {
-      _stats.setText(new String[0]);
+      setStats(new String[0]);
     }
   }
 }

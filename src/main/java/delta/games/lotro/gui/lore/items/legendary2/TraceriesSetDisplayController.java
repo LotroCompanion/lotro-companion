@@ -67,7 +67,7 @@ public class TraceriesSetDisplayController
   private void fillPanel()
   {
     _panel.removeAll();
-    int baseLine=0;
+    int y=0;
     int index=0;
     for(SingleTraceryDisplayController controller : _controllers)
     {
@@ -79,17 +79,13 @@ public class TraceriesSetDisplayController
       }
       // Icon
       JButton icon=controller.getIcon();
-      GridBagConstraints c=new GridBagConstraints(0,baseLine,1,2,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
+      GridBagConstraints c=new GridBagConstraints(0,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
       _panel.add(icon,c);
-      // Label
-      MultilineLabel2 label=controller.getNameGadget();
-      c=new GridBagConstraints(1,baseLine,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,5),0,0);
-      _panel.add(label,c);
-      // Stats
-      MultilineLabel2 stats=controller.getStatsGadget();
-      c=new GridBagConstraints(1,baseLine+1,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,5),0,0);
-      _panel.add(stats,c);
-      baseLine+=2;
+      // Text
+      MultilineLabel2 text=controller.getLinesGadget();
+      c=new GridBagConstraints(1,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,5),0,0);
+      _panel.add(text,c);
+      y++;
     }
   }
 

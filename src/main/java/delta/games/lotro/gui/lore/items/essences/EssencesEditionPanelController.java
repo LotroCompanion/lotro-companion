@@ -86,30 +86,26 @@ public class EssencesEditionPanelController implements ActionListener
   {
     _panel.removeAll();
 
-    int baseLine=0;
+    int y=0;
     int nbEssences=_essenceControllers.size();
     for(int i=0;i<nbEssences;i++)
     {
       SingleEssenceEditionController editor=_essenceControllers.get(i);
       // Icon
       JButton iconButton=editor.getIcon();
-      GridBagConstraints c=new GridBagConstraints(0,baseLine,1,2,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
+      GridBagConstraints c=new GridBagConstraints(0,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
       _panel.add(iconButton,c);
       iconButton.addActionListener(this);
-      // Label
-      MultilineLabel2 name=editor.getNameGadget();
-      c=new GridBagConstraints(1,baseLine,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,5),0,0);
-      _panel.add(name,c);
-      // Stats
-      MultilineLabel2 stats=editor.getStatsGadget();
-      c=new GridBagConstraints(1,baseLine+1,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,5),0,0);
-      _panel.add(stats,c);
+      // Text
+      MultilineLabel2 text=editor.getLinesGadget();
+      c=new GridBagConstraints(1,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,5),0,0);
+      _panel.add(text,c);
       // Delete button
       JButton deleteButton=editor.getDeleteButton();
       deleteButton.addActionListener(this);
-      c=new GridBagConstraints(2,baseLine,1,2,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+      c=new GridBagConstraints(2,y,1,2,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
       _panel.add(deleteButton,c);
-      baseLine+=2;
+      y++;
     }
     _panel.revalidate();
     _panel.repaint();

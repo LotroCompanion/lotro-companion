@@ -7,6 +7,7 @@ import delta.games.lotro.Config;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.common.enums.SocketType;
 import delta.games.lotro.common.stats.StatUtils;
+import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.lore.items.utils.IconControllerNameStatsBundle;
 import delta.games.lotro.gui.utils.IconControllerFactory;
 import delta.games.lotro.lore.items.Item;
@@ -53,7 +54,7 @@ public class SingleTraceryDisplayController extends IconControllerNameStatsBundl
     }
     else
     {
-      _icon.clear();
+      _icon.clear(LotroIconsManager.getDefaultItemIcon());
     }
     // Color
     Color foreground=Color.BLACK;
@@ -62,33 +63,31 @@ public class SingleTraceryDisplayController extends IconControllerNameStatsBundl
       boolean ok=tracery.isApplicable(_characterLevel,itemLevel);
       foreground=ok?Color.BLACK:Color.RED;
     }
+    getLinesGadget().setForegroundColor(foreground);
     // Text
-    _name.setForegroundColor(foreground);
-    String text="";
+    String name="";
     if (item!=null)
     {
-      text=item.getName();
+      name=item.getName();
     }
     else if (traceryInstance!=null)
     {
       // Nothing slotted. Give a hint on the expected socket type
       SocketType type=traceryInstance.getTemplate().getType();
-      text="( "+type.getLabel()+" )";
+      name="( "+type.getLabel()+" )";
     }
-    _name.setText(text,1);
+    setName(name);
     // Stats
     if (tracery!=null)
     {
-      _stats.setForegroundColor(foreground);
       // Stats
       BasicStatsSet stats=traceryInstance.getStats();
       String[] lines=StatUtils.getStatsDisplayLines(stats);
-      _stats.setText(lines);
+      setStats(lines);
     }
     else
     {
-      _name.setForegroundColor(Color.BLACK);
-      _stats.setText(new String[]{});
+      setStats(new String[]{});
     }
   }
 }

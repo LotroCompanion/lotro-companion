@@ -14,6 +14,7 @@ import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.common.enums.SocketType;
 import delta.games.lotro.common.stats.StatUtils;
+import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.lore.items.legendary2.traceries.chooser.TraceryChooser;
 import delta.games.lotro.gui.utils.IconController;
 import delta.games.lotro.gui.utils.IconControllerFactory;
@@ -327,7 +328,7 @@ public class SingleTraceryEditionController
     }
     else
     {
-      _icon.clear();
+      _icon.clear(LotroIconsManager.getDefaultItemIcon());
     }
   }
 

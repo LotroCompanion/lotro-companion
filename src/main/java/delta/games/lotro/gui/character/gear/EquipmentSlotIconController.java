@@ -20,7 +20,6 @@ import delta.games.lotro.lore.items.ItemInstance;
 public class EquipmentSlotIconController
 {
   private static final String BACKGROUND_ICONS_SEED="/resources/gui/equipment/";
-  private static final String ITEM_WITH_NO_ICON="/resources/gui/equipment/itemNoIcon.png";
 
   private EQUIMENT_SLOT _slot;
   private ImageIcon _icon;
@@ -51,7 +50,7 @@ public class EquipmentSlotIconController
       _tooltip="<html>"+text.replace(EndOfLine.NATIVE_EOL,"<br>")+"</html>";
       if (_icon==null)
       {
-        _icon=IconsManager.getIcon(ITEM_WITH_NO_ICON);
+        _icon=LotroIconsManager.getDefaultItemIcon();
       }
     }
     else

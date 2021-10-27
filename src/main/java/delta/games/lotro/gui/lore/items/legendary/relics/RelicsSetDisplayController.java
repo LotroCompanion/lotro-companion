@@ -51,22 +51,18 @@ public class RelicsSetDisplayController
   private JPanel build()
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
-    int baseLine=0;
+    int y=0;
     for(SingleRelicDisplayController controller : _controllers)
     {
       // Icon
       JButton icon=controller.getIcon();
-      GridBagConstraints c=new GridBagConstraints(0,baseLine,1,2,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
+      GridBagConstraints c=new GridBagConstraints(0,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
       panel.add(icon,c);
-      // Label
-      MultilineLabel2 label=controller.getNameGadget();
-      c=new GridBagConstraints(1,baseLine,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,5),0,0);
-      panel.add(label,c);
-      // Stats
-      MultilineLabel2 stats=controller.getStatsGadget();
-      c=new GridBagConstraints(1,baseLine+1,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,5),0,0);
-      panel.add(stats,c);
-      baseLine+=2;
+      // Text
+      MultilineLabel2 text=controller.getLinesGadget();
+      c=new GridBagConstraints(1,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,5),0,0);
+      panel.add(text,c);
+      y++;
     }
     return panel;
   }

@@ -3,6 +3,7 @@ package delta.games.lotro.gui.utils;
 import javax.swing.Icon;
 
 import delta.common.ui.swing.windows.WindowController;
+import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.gui.lore.items.ItemUiTools;
 import delta.games.lotro.gui.lore.items.legendary.relics.RelicUiTools;
@@ -31,7 +32,7 @@ public class IconControllerFactory
     }
     else
     {
-      ret.clear();
+      ret.clear(LotroIconsManager.getDefaultItemIcon());
     }
     return ret;
   }

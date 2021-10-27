@@ -90,11 +90,15 @@ public class IconController
 
   /**
    * Clear the contents.
+   * @param icon Default icon.
    */
-  public void clear()
+  public void clear(Icon icon)
   {
-    BufferedImage image=new BufferedImage(DEFAULT_SIZE, DEFAULT_SIZE, BufferedImage.TYPE_INT_ARGB);
-    ImageIcon icon=new ImageIcon(image);
+    if (icon==null)
+    {
+      BufferedImage image=new BufferedImage(DEFAULT_SIZE, DEFAULT_SIZE, BufferedImage.TYPE_INT_ARGB);
+      icon=new ImageIcon(image);
+    }
     setIcon(icon);
     _icon.setFocusable(false);
     _icon.setEnabled(false);

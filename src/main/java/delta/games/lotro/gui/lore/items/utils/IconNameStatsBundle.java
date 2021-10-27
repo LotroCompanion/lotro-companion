@@ -10,8 +10,6 @@ import delta.common.ui.swing.GuiFactory;
  */
 public class IconNameStatsBundle extends NameStatsBundle
 {
-  protected static final String ITEM_WITH_NO_ICON="/resources/gui/equipment/itemNoIcon.png";
-
   // UI
   protected JButton _icon;
 

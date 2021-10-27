@@ -94,9 +94,18 @@ public class LotroIconsManager
     }
     if (icon==null)
     {
-      icon=IconsManager.getIcon(ITEM_WITH_NO_ICON);
+      icon=getDefaultItemIcon();
     }
     return icon;
+  }
+
+  /**
+   * Get the default icon for items.
+   * @return An icon.
+   */
+  public static ImageIcon getDefaultItemIcon()
+  {
+    return IconsManager.getIcon(ITEM_WITH_NO_ICON);
   }
 
   /**

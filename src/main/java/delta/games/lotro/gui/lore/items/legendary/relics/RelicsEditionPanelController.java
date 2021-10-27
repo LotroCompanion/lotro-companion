@@ -13,7 +13,6 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
-import delta.common.ui.swing.icons.IconsManager;
 import delta.common.ui.swing.labels.MultilineLabel2;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.stats.BasicStatsSet;
@@ -30,8 +29,6 @@ import delta.games.lotro.lore.items.legendary.relics.RelicsSet;
  */
 public class RelicsEditionPanelController implements ActionListener
 {
-  private static final String ITEM_WITH_NO_ICON="/resources/gui/equipment/itemNoIcon.png";
-
   /**
    * Relic types, ordered like in the LOTRO UI.
    */
@@ -77,7 +74,7 @@ public class RelicsEditionPanelController implements ActionListener
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
 
-    int baseLine=0;
+    int y=0;
     List<Relic> relics=_relics.getRelics();
     int nbRelics=relics.size();
     for(int i=0;i<nbRelics;i++)
@@ -85,24 +82,19 @@ public class RelicsEditionPanelController implements ActionListener
       SingleRelicEditionController editor=new SingleRelicEditionController();
       // Icon
       JButton relicIconButton=editor.getIcon();
-      GridBagConstraints c=new GridBagConstraints(0,baseLine,1,2,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
+      GridBagConstraints c=new GridBagConstraints(0,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
       panel.add(relicIconButton,c);
       relicIconButton.addActionListener(this);
-      // Label
-      MultilineLabel2 relicName=editor.getNameGadget();
-      c=new GridBagConstraints(1,baseLine,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,5),0,0);
-      panel.add(relicName,c);
-      // Stats
-      MultilineLabel2 stats=editor.getStatsGadget();
-      c=new GridBagConstraints(1,baseLine+1,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,5),0,0);
-      panel.add(stats,c);
+      // Text
+      MultilineLabel2 text=editor.getLinesGadget();
+      c=new GridBagConstraints(1,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,5),0,0);
+      panel.add(text,c);
       // Delete button
       JButton deleteButton=editor.getDeleteButton();
       deleteButton.addActionListener(this);
-      c=new GridBagConstraints(2,baseLine,1,2,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+      c=new GridBagConstraints(2,y,1,2,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
       panel.add(deleteButton,c);
-
-      baseLine+=2;
+      y++;
       _editors.add(editor);
     }
     return panel;
@@ -141,24 +133,22 @@ public class RelicsEditionPanelController implements ActionListener
       }
       else
       {
-        icon=IconsManager.getIcon(ITEM_WITH_NO_ICON);
+        icon=LotroIconsManager.getDefaultItemIcon();
       }
       button.setIcon(icon);
       // Text
-      String text=(relic!=null)?relic.getName():"";
-      MultilineLabel2 relicName=editor.getNameGadget();
-      relicName.setText(new String[]{text});
+      String name=(relic!=null)?relic.getName():"";
+      editor.setName(name);
       // Stats
-      MultilineLabel2 relicStats=editor.getStatsGadget();
       if (relic!=null)
       {
         BasicStatsSet stats=relic.getStats();
         String[] lines=StatUtils.getStatsDisplayLines(stats);
-        relicStats.setText(lines);
+        editor.setStats(lines);
       }
       else
       {
-        relicStats.setText(new String[]{""});
+        editor.setStats(new String[]{""});
       }
     }
     // - Resize window
