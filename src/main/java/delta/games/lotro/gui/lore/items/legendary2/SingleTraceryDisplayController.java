@@ -86,6 +86,7 @@ public class SingleTraceryDisplayController extends IconControllerNameStatsBundl
     // Stats
     LabelLineStyle defaultLineStyle=LabelLineStyle.DEFAULT_LINE_STYLE;
     defaultLineStyle=defaultLineStyle.setForegroundColor(foreground);
+    defaultLineStyle=defaultLineStyle.setFontSize(10);
     _lines.setDefaultStyle(defaultLineStyle);
     if (tracery!=null)
     {
