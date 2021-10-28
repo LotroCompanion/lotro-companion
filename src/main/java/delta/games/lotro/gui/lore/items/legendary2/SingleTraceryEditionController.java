@@ -8,6 +8,7 @@ import javax.swing.JButton;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.combobox.ComboBoxController;
+import delta.common.ui.swing.labels.LabelLineStyle;
 import delta.common.ui.swing.labels.MultilineLabel2;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.stats.BasicStatsSet;
@@ -59,8 +60,10 @@ public class SingleTraceryEditionController
     _icon=IconControllerFactory.buildItemIcon(_parent,null,1);
     // - value display
     _value=new MultilineLabel2();
-    _value.setFirstLineFontSize(null);
-    _value.setNextLinesFontSize(Float.valueOf(10));
+    LabelLineStyle defaultStyle=_value.getDefaultStyle();
+    LabelLineStyle newDefaultStyle=defaultStyle.setFontSize(10);
+    _value.setDefaultStyle(newDefaultStyle);
+    _value.setLineStyle(0,defaultStyle);
     Dimension dimension=new Dimension(200,32);
     _value.setMinimumSize(dimension);
     _value.setSize(dimension);
@@ -293,6 +296,9 @@ public class SingleTraceryEditionController
       _value.setForegroundColor(foreground);
       // Name
       String name=tracery.getName();
+      LabelLineStyle nameStyle=LabelLineStyle.DEFAULT_LINE_STYLE.setHalo(true);
+      nameStyle=nameStyle.setForegroundColor(Color.WHITE);
+      _value.setLineStyle(0,nameStyle);
       // Stats
       BasicStatsSet stats=_data.getStats();
       String[] lines=StatUtils.getStatsDisplayLines(stats);
@@ -303,7 +309,7 @@ public class SingleTraceryEditionController
     }
     else
     {
-      _value.setForegroundColor(Color.BLACK);
+      _value.setLineStyle(0,LabelLineStyle.DEFAULT_LINE_STYLE);
       // Nothing slotted. Give a hint on the expected socket type
       SocketType type=_data.getTemplate().getType();
       String hint="( "+type.getLabel()+" )";
