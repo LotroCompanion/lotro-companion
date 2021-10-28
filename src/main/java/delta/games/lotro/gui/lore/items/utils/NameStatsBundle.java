@@ -3,6 +3,7 @@ package delta.games.lotro.gui.lore.items.utils;
 import java.util.ArrayList;
 import java.util.List;
 
+import delta.common.ui.swing.labels.LabelLineStyle;
 import delta.common.ui.swing.labels.MultilineLabel2;
 
 /**
@@ -24,8 +25,9 @@ public class NameStatsBundle
   {
     _stats=new ArrayList<String>();
     _lines=new MultilineLabel2();
-    _lines.setFirstLineFontSize(null);
-    _lines.setNextLinesFontSize(Float.valueOf(10));
+    LabelLineStyle defaultStyle=LabelLineStyle.DEFAULT_LINE_STYLE.setFontSize(10);
+    _lines.setDefaultStyle(defaultStyle);
+    _lines.setLineStyle(0,LabelLineStyle.DEFAULT_LINE_STYLE);
   }
 
   /**

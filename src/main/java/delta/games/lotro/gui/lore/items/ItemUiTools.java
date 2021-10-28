@@ -258,4 +258,34 @@ public class ItemUiTools
     ctrl.selectItem(null);
     return ctrl;
   }
+
+  /**
+   * Get the color for an item.
+   * @param item Item to use.
+   * @param defaultColor Default color.
+   * @return A color.
+   */
+  public static Color getColorForItem(Item item, Color defaultColor)
+  {
+    ItemQuality quality=item.getQuality();
+    Color color=getColorFromQuality(quality,defaultColor);
+    return color;
+  }
+
+  /**
+   * Get the color for an item quality.
+   * @param quality Quality to use.
+   * @param defaultColor Default color.
+   * @return A color.
+   */
+  public static Color getColorFromQuality(ItemQuality quality, Color defaultColor)
+  {
+    Color ret=defaultColor;
+    if (quality==ItemQuality.LEGENDARY) ret=new Color(219,175,86); // Gold
+    if (quality==ItemQuality.INCOMPARABLE) ret=new Color(40,203,210); // Teal
+    if (quality==ItemQuality.RARE) ret=new Color(255,114,255); // Mauve (Pink)
+    if (quality==ItemQuality.UNCOMMON) ret=new Color(241,238,123); // Yellow
+    if (quality==ItemQuality.COMMON) ret=defaultColor; // Default
+    return ret;
+  }
 }

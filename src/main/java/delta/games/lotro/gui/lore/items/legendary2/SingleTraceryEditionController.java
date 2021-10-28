@@ -15,6 +15,7 @@ import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.common.enums.SocketType;
 import delta.games.lotro.common.stats.StatUtils;
 import delta.games.lotro.gui.LotroIconsManager;
+import delta.games.lotro.gui.lore.items.ItemUiTools;
 import delta.games.lotro.gui.lore.items.legendary2.traceries.chooser.TraceryChooser;
 import delta.games.lotro.gui.utils.IconController;
 import delta.games.lotro.gui.utils.IconControllerFactory;
@@ -298,7 +299,8 @@ public class SingleTraceryEditionController
       // Name
       String name=tracery.getName();
       LabelLineStyle nameStyle=LabelLineStyle.DEFAULT_LINE_STYLE.setHalo(true);
-      nameStyle=nameStyle.setForegroundColor(Color.WHITE);
+      Color nameColor=ItemUiTools.getColorForItem(tracery.getItem(),Color.WHITE);
+      nameStyle=nameStyle.setForegroundColor(nameColor);
       _value.setLineStyle(0,nameStyle);
       // Stats
       BasicStatsSet stats=_data.getStats();

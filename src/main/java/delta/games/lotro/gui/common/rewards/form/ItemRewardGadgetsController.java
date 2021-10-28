@@ -4,10 +4,10 @@ import java.awt.Color;
 
 import delta.common.ui.swing.labels.LabelWithHalo;
 import delta.common.ui.swing.navigator.NavigatorWindowController;
+import delta.games.lotro.gui.lore.items.ItemUiTools;
 import delta.games.lotro.gui.utils.IconController;
 import delta.games.lotro.gui.utils.IconControllerFactory;
 import delta.games.lotro.lore.items.Item;
-import delta.games.lotro.lore.items.ItemQuality;
 
 /**
  * Controller for the UI gadgets of an item reward.
@@ -31,11 +31,7 @@ public class ItemRewardGadgetsController extends RewardGadgetsController
     if (item!=null)
     {
       text=item.getName();
-      ItemQuality quality=item.getQuality();
-      if (quality!=null)
-      {
-        color=getColorFromQuality(quality);
-      }
+      color=ItemUiTools.getColorForItem(item,color);
     }
     _label=new LabelWithHalo();
     _label.setText(text);
@@ -44,17 +40,6 @@ public class ItemRewardGadgetsController extends RewardGadgetsController
     // Icon
     _itemIcon=IconControllerFactory.buildItemIcon(parent,item,count);
     _icon=_itemIcon.getIcon();
-  }
-
-  private Color getColorFromQuality(ItemQuality quality)
-  {
-    Color ret=Color.WHITE;
-    if (quality==ItemQuality.LEGENDARY) ret=new Color(219,175,86); // Gold
-    if (quality==ItemQuality.INCOMPARABLE) ret=new Color(40,203,210); // Teal
-    if (quality==ItemQuality.RARE) ret=new Color(255,114,255); // Mauve (Pink)
-    if (quality==ItemQuality.UNCOMMON) ret=new Color(241,238,123); // Yellow
-    if (quality==ItemQuality.COMMON) ret=Color.WHITE; // White
-    return ret;
   }
 
   @Override

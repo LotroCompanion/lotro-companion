@@ -2,12 +2,14 @@ package delta.games.lotro.gui.lore.items.legendary2;
 
 import java.awt.Color;
 
+import delta.common.ui.swing.labels.LabelLineStyle;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.Config;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.common.enums.SocketType;
 import delta.games.lotro.common.stats.StatUtils;
 import delta.games.lotro.gui.LotroIconsManager;
+import delta.games.lotro.gui.lore.items.ItemUiTools;
 import delta.games.lotro.gui.lore.items.utils.IconControllerNameStatsBundle;
 import delta.games.lotro.gui.utils.IconControllerFactory;
 import delta.games.lotro.lore.items.Item;
@@ -63,12 +65,15 @@ public class SingleTraceryDisplayController extends IconControllerNameStatsBundl
       boolean ok=tracery.isApplicable(_characterLevel,itemLevel);
       foreground=ok?Color.BLACK:Color.RED;
     }
-    getLinesGadget().setForegroundColor(foreground);
-    // Text
+    // Name
+    LabelLineStyle firstLineStyle=LabelLineStyle.DEFAULT_LINE_STYLE;
     String name="";
     if (item!=null)
     {
       name=item.getName();
+      firstLineStyle=firstLineStyle.setHalo(true);
+      Color nameColor=ItemUiTools.getColorForItem(item,Color.WHITE);
+      firstLineStyle=firstLineStyle.setForegroundColor(nameColor);
     }
     else if (traceryInstance!=null)
     {
@@ -76,8 +81,12 @@ public class SingleTraceryDisplayController extends IconControllerNameStatsBundl
       SocketType type=traceryInstance.getTemplate().getType();
       name="( "+type.getLabel()+" )";
     }
+    _lines.setLineStyle(0,firstLineStyle);
     setName(name);
     // Stats
+    LabelLineStyle defaultLineStyle=LabelLineStyle.DEFAULT_LINE_STYLE;
+    defaultLineStyle=defaultLineStyle.setForegroundColor(foreground);
+    _lines.setDefaultStyle(defaultLineStyle);
     if (tracery!=null)
     {
       // Stats
