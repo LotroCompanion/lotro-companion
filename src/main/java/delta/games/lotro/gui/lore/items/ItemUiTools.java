@@ -281,10 +281,10 @@ public class ItemUiTools
   public static Color getColorFromQuality(ItemQuality quality, Color defaultColor)
   {
     Color ret=defaultColor;
-    if (quality==ItemQuality.LEGENDARY) ret=new Color(219,175,86); // Gold
-    if (quality==ItemQuality.INCOMPARABLE) ret=new Color(40,203,210); // Teal
-    if (quality==ItemQuality.RARE) ret=new Color(255,114,255); // Mauve (Pink)
-    if (quality==ItemQuality.UNCOMMON) ret=new Color(241,238,123); // Yellow
+    if (quality==ItemQuality.LEGENDARY) ret=new Color(223,178,0); // Gold
+    if (quality==ItemQuality.INCOMPARABLE) ret=new Color(0,165,218); // Teal
+    if (quality==ItemQuality.RARE) ret=new Color(244,74,178); // Mauve (Pink)
+    if (quality==ItemQuality.UNCOMMON) ret=new Color(111,145,2); // Yellow
     if (quality==ItemQuality.COMMON) ret=defaultColor; // Default
     return ret;
   }
