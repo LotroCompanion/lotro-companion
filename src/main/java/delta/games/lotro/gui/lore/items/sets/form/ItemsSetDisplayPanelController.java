@@ -5,6 +5,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.swing.JEditorPane;
@@ -20,13 +21,14 @@ import delta.games.lotro.common.stats.StatUtils;
 import delta.games.lotro.common.stats.StatsProvider;
 import delta.games.lotro.gui.utils.ItemDisplayGadgets;
 import delta.games.lotro.lore.items.Item;
+import delta.games.lotro.lore.items.legendary2.comparators.TraceryComparators;
 import delta.games.lotro.lore.items.sets.ItemsSet;
+import delta.games.lotro.lore.items.sets.ItemsSet.SetType;
 import delta.games.lotro.lore.items.sets.SetBonus;
-import delta.games.lotro.utils.Proxy;
 import delta.games.lotro.utils.gui.HtmlUtils;
 
 /**
- * Controller for a panel to display an items set.
+ * Controller for a panel to display an items/traceries set.
  * @author DAM
  */
 public class ItemsSetDisplayPanelController implements NavigablePanelController
@@ -54,7 +56,9 @@ public class ItemsSetDisplayPanelController implements NavigablePanelController
   @Override
   public String getTitle()
   {
-    return "Items set: "+_set.getName();
+    SetType type=_set.getSetType();
+    String prefix=(type==SetType.ITEMS)?"Items set":"Traceries set";
+    return prefix+": "+_set.getName();
   }
 
   /**
@@ -188,9 +192,14 @@ public class ItemsSetDisplayPanelController implements NavigablePanelController
   private List<ItemDisplayGadgets> initMembersGadgets()
   {
     List<ItemDisplayGadgets> ret=new ArrayList<ItemDisplayGadgets>();
-    for(Proxy<Item> member : _set.getMembers())
+    List<Item> members=new ArrayList<Item>(_set.getMembers());
+    if (_set.getSetType()==SetType.TRACERIES)
     {
-      int itemId=member.getId();
+      Collections.sort(members,TraceryComparators.buildTraceryItemsComparator());
+    }
+    for(Item member : members)
+    {
+      int itemId=member.getIdentifier();
       ItemDisplayGadgets gadgets=new ItemDisplayGadgets(_parent,itemId,1,"");
       ret.add(gadgets);
       _itemIcons.add(gadgets);
