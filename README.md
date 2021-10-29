@@ -10,7 +10,8 @@ Character data can be synchronized with the local LOTRO Client (Windows only).
 
 ![Screenshot of main window](doc/screenshots/main.png)
 
-Detailed documentation [here](https://github.com/dmorcellet/lotro-companion-doc/blob/master/README.md).
+Detailed documentation [here](https://github.com/LotroCompanion/lotro-companion-doc/blob/master/README.md).
+Quick start guide [here](https://github.com/LotroCompanion/lotro-companion-doc/blob/master/UserManual/QuickStartGuide/main.md).
 
 Discord is [here](https://discord.gg/t2J4GDq) (Lotro Companion's corner).
 
@@ -19,7 +20,7 @@ Facebook group is [here](https://www.facebook.com/groups/1165974713535183).
 
 Threads in the LOTRO Forum:
 
-[Version 17.0](https://www.lotro.com/forums/showthread.php?688936-LotRO-Companion-17-0-(character-planner-character-status-tracker-lore-compendium))
+[Version 17.0 and 17.5](https://www.lotro.com/forums/showthread.php?688936-LotRO-Companion-17-0-(character-planner-character-status-tracker-lore-compendium))
 
 [Version 16.0](https://www.lotro.com/forums/showthread.php?687808-LotRO-Companion-16-0-(character-planner-character-status-tracker-lore-compendium))
 
