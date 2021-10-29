@@ -116,7 +116,16 @@ public class ItemsSetDisplayPanelController implements NavigablePanelController
     // Name
     JLabel nameLabel=GuiFactory.buildLabel(_set.getName(), 28f);
     // Set level
-    String setLevel="Set level: "+_set.getSetLevel();
+    String setLevelStr;
+    if (_set.useAverageItemLevelForSetLevel())
+    {
+      setLevelStr="use average item level";
+    }
+    else
+    {
+      setLevelStr=String.valueOf(_set.getSetLevel());
+    }
+    String setLevel="Set level: "+setLevelStr;
     JLabel setLevelLabel=GuiFactory.buildLabel(setLevel);
     // Required level
     String requiredLevel="Required level: "+_set.getRequiredMinLevel();
@@ -160,17 +169,17 @@ public class ItemsSetDisplayPanelController implements NavigablePanelController
 
   private JPanel buildMembersPanel()
   {
-    List<ItemDisplayGadgets> ingredientsGadgets=initMembersGadgets();
+    List<ItemDisplayGadgets> membersGadgets=initMembersGadgets();
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     int y=0;
-    for(ItemDisplayGadgets ingredientsGadget : ingredientsGadgets)
+    for(ItemDisplayGadgets memberGadgets : membersGadgets)
     {
       GridBagConstraints c=new GridBagConstraints(0,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,2,2,2),0,0);
       // Icon
-      panel.add(ingredientsGadget.getIcon(),c);
+      panel.add(memberGadgets.getIcon(),c);
       // Name
       c=new GridBagConstraints(1,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(2,2,2,2),0,0);
-      panel.add(ingredientsGadget.getName(),c);
+      panel.add(memberGadgets.getName(),c);
       y++;
     }
     return panel;
