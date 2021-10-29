@@ -121,6 +121,14 @@ public class ItemsSetDisplayPanelController implements NavigablePanelController
     // Required level
     String requiredLevel="Required level: "+_set.getRequiredMinLevel();
     JLabel requiredLevelLabel=GuiFactory.buildLabel(requiredLevel);
+    // Max level
+    JLabel requiredMaxLevelLabel=null;
+    Integer maxLevel=_set.getRequiredMaxLevel();
+    if (maxLevel!=null)
+    {
+      String requiredMaxLevel="Max level: "+maxLevel;
+      requiredMaxLevelLabel=GuiFactory.buildLabel(requiredMaxLevel);
+    }
 
     // Result panel
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
@@ -130,6 +138,11 @@ public class ItemsSetDisplayPanelController implements NavigablePanelController
     panel.add(setLevelLabel,c);
     c=new GridBagConstraints(0,2,2,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,2,2,2),0,0);
     panel.add(requiredLevelLabel,c);
+    if (requiredMaxLevelLabel!=null)
+    {
+      c=new GridBagConstraints(0,3,2,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,2,2,2),0,0);
+      panel.add(requiredMaxLevelLabel,c);
+    }
     return panel;
   }
 
