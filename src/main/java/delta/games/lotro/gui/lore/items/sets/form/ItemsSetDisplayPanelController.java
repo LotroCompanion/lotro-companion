@@ -1,46 +1,18 @@
 package delta.games.lotro.gui.lore.items.sets.form;
 
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-import javax.swing.JEditorPane;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-
-import delta.common.ui.swing.GuiFactory;
-import delta.common.ui.swing.navigator.NavigablePanelController;
 import delta.common.ui.swing.navigator.NavigatorWindowController;
-import delta.games.lotro.character.stats.BasicStatsSet;
-import delta.games.lotro.common.stats.StatUtils;
-import delta.games.lotro.common.stats.StatsProvider;
-import delta.games.lotro.gui.utils.ItemDisplayGadgets;
 import delta.games.lotro.lore.items.Item;
-import delta.games.lotro.lore.items.legendary2.comparators.TraceryComparators;
 import delta.games.lotro.lore.items.sets.ItemsSet;
-import delta.games.lotro.lore.items.sets.ItemsSet.SetType;
-import delta.games.lotro.lore.items.sets.SetBonus;
-import delta.games.lotro.utils.gui.HtmlUtils;
 
 /**
- * Controller for a panel to display an items/traceries set.
+ * Controller for a panel to display an items set.
  * @author DAM
  */
-public class ItemsSetDisplayPanelController implements NavigablePanelController
+public class ItemsSetDisplayPanelController extends AbstractSetDisplayPanelController
 {
-  // Data
-  private ItemsSet _set;
-  // GUI
-  private JPanel _panel;
-  // Controllers
-  private NavigatorWindowController _parent;
-  private List<ItemDisplayGadgets> _itemIcons;
-
   /**
    * Constructor.
    * @param parent Parent window.
@@ -48,234 +20,19 @@ public class ItemsSetDisplayPanelController implements NavigablePanelController
    */
   public ItemsSetDisplayPanelController(NavigatorWindowController parent, ItemsSet set)
   {
-    _parent=parent;
-    _set=set;
-    _itemIcons=new ArrayList<ItemDisplayGadgets>();
+    super(parent,set);
   }
 
   @Override
-  public String getTitle()
+  protected String getTitlePrefix()
   {
-    SetType type=_set.getSetType();
-    String prefix=(type==SetType.ITEMS)?"Items set":"Traceries set";
-    return prefix+": "+_set.getName();
+    return "Items set";
   }
 
-  /**
-   * Get the managed panel.
-   * @return the managed panel.
-   */
-  public JPanel getPanel()
+  @Override
+  protected List<Item> getMembers()
   {
-    if (_panel==null)
-    {
-      _panel=build();
-    }
-    return _panel;
-  }
-
-  private JPanel build()
-  {
-    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
-
-    // Attributes
-    JPanel attributesPanel=buildAttributesPanel();
-    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,2,2,2),0,0);
-    panel.add(attributesPanel,c);
-
-    // Description
-    if (_set.getDescription().length()>0)
-    {
-      JEditorPane description=buildDescription();
-      description.setBorder(GuiFactory.buildTitledBorder("Description"));
-      c=new GridBagConstraints(0,1,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(2,2,2,2),0,0);
-      panel.add(description,c);
-    }
-
-    // Members
-    c=new GridBagConstraints(0,2,1,1,1.0,1.0,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(2,2,2,2),0,0);
-    JPanel membersPanel=buildMembersPanel();
-    JScrollPane scrollPane=GuiFactory.buildScrollPane(membersPanel);
-    scrollPane.setBorder(GuiFactory.buildTitledBorder("Members"));
-    panel.add(scrollPane,c);
-
-    // Bonus
-    if (hasBonus())
-    {
-      JEditorPane bonus=buildBonus();
-      bonus.setBorder(GuiFactory.buildTitledBorder("Bonuses"));
-      c=new GridBagConstraints(0,3,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(2,2,2,2),0,0);
-      panel.add(bonus,c);
-    }
-    Dimension prefSize=panel.getPreferredSize();
-    int height=Math.min(600,prefSize.height);
-    prefSize.height=height;
-    panel.setPreferredSize(prefSize);
-
-    return panel;
-  }
-
-  private JPanel buildAttributesPanel()
-  {
-    // Name
-    JLabel nameLabel=GuiFactory.buildLabel(_set.getName(), 28f);
-    // Set level
-    String setLevelStr;
-    if (_set.useAverageItemLevelForSetLevel())
-    {
-      setLevelStr="use average item level";
-    }
-    else
-    {
-      setLevelStr=String.valueOf(_set.getSetLevel());
-    }
-    String setLevel="Set level: "+setLevelStr;
-    JLabel setLevelLabel=GuiFactory.buildLabel(setLevel);
-    // Required level
-    String requiredLevel="Required level: "+_set.getRequiredMinLevel();
-    JLabel requiredLevelLabel=GuiFactory.buildLabel(requiredLevel);
-    // Max level
-    JLabel requiredMaxLevelLabel=null;
-    Integer maxLevel=_set.getRequiredMaxLevel();
-    if (maxLevel!=null)
-    {
-      String requiredMaxLevel="Max level: "+maxLevel;
-      requiredMaxLevelLabel=GuiFactory.buildLabel(requiredMaxLevel);
-    }
-
-    // Result panel
-    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
-    GridBagConstraints c=new GridBagConstraints(0,0,1,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(2,2,2,2),0,0);
-    panel.add(nameLabel,c);
-    c=new GridBagConstraints(0,1,2,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,2,2,2),0,0);
-    panel.add(setLevelLabel,c);
-    c=new GridBagConstraints(0,2,2,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,2,2,2),0,0);
-    panel.add(requiredLevelLabel,c);
-    if (requiredMaxLevelLabel!=null)
-    {
-      c=new GridBagConstraints(0,3,2,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,2,2,2),0,0);
-      panel.add(requiredMaxLevelLabel,c);
-    }
-    return panel;
-  }
-
-  private JEditorPane buildDescription()
-  {
-    JEditorPane editor=GuiFactory.buildHtmlPanel();
-    editor.setPreferredSize(new Dimension(500,100));
-    StringBuilder sb=new StringBuilder();
-    sb.append("<html><body>");
-    sb.append(HtmlUtils.toHtml(_set.getDescription()));
-    sb.append("</body></html>");
-    editor.setText(sb.toString());
-    return editor;
-  }
-
-  private JPanel buildMembersPanel()
-  {
-    List<ItemDisplayGadgets> membersGadgets=initMembersGadgets();
-    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
-    int y=0;
-    for(ItemDisplayGadgets memberGadgets : membersGadgets)
-    {
-      GridBagConstraints c=new GridBagConstraints(0,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,2,2,2),0,0);
-      // Icon
-      panel.add(memberGadgets.getIcon(),c);
-      // Name
-      c=new GridBagConstraints(1,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(2,2,2,2),0,0);
-      panel.add(memberGadgets.getName(),c);
-      y++;
-    }
-    return panel;
-  }
-
-  private List<ItemDisplayGadgets> initMembersGadgets()
-  {
-    List<ItemDisplayGadgets> ret=new ArrayList<ItemDisplayGadgets>();
     List<Item> members=new ArrayList<Item>(_set.getMembers());
-    if (_set.getSetType()==SetType.TRACERIES)
-    {
-      Collections.sort(members,TraceryComparators.buildTraceryItemsComparator());
-    }
-    for(Item member : members)
-    {
-      int itemId=member.getIdentifier();
-      ItemDisplayGadgets gadgets=new ItemDisplayGadgets(_parent,itemId,1,"");
-      ret.add(gadgets);
-      _itemIcons.add(gadgets);
-    }
-    return ret;
-  }
-
-  private boolean hasBonus()
-  {
-    for(SetBonus bonus : _set.getBonuses())
-    {
-      StatsProvider statsProvider=bonus.getStatsProvider();
-      if (statsProvider.getNumberOfStatProviders()>0)
-      {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  private JEditorPane buildBonus()
-  {
-    JEditorPane editor=GuiFactory.buildHtmlPanel();
-    StringBuilder sb=new StringBuilder();
-    sb.append("<html><body>");
-    int level=_set.getSetLevel();
-    int index=0;
-    for(SetBonus bonus : _set.getBonuses())
-    {
-      StatsProvider statsProvider=bonus.getStatsProvider();
-      BasicStatsSet stats=statsProvider.getStats(1,level);
-      String[] lines=StatUtils.getFullStatsDisplay(stats,statsProvider);
-      if (lines.length==0)
-      {
-        continue;
-      }
-      if (index>0)
-      {
-        sb.append("<p>");
-      }
-      int nbPieces=bonus.getPiecesCount();
-      sb.append("<b>").append(nbPieces).append(" pieces</b>");
-      for(String line : lines)
-      {
-        sb.append("<br>").append(HtmlUtils.toHtml(line));
-      }
-      index++;
-    }
-    sb.append("</body></html>");
-    editor.setText(sb.toString());
-    return editor;
-  }
-
-  /**
-   * Release all managed resources.
-   */
-  public void dispose()
-  {
-    // Data
-    _set=null;
-    // UI
-    if (_panel!=null)
-    {
-      _panel.removeAll();
-      _panel=null;
-    }
-    // Controllers
-    _parent=null;
-    if (_itemIcons!=null)
-    {
-      for(ItemDisplayGadgets itemIcon : _itemIcons)
-      {
-        itemIcon.dispose();
-      }
-      _itemIcons.clear();
-      _itemIcons=null;
-    }
+    return members;
   }
 }

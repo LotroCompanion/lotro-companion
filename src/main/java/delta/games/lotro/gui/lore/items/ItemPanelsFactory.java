@@ -8,12 +8,15 @@ import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.gui.lore.items.form.ItemDisplayPanelController;
 import delta.games.lotro.gui.lore.items.legendary.relics.form.RelicDisplayPanelController;
 import delta.games.lotro.gui.lore.items.legendary.relics.form.RelicMeldingRecipeDisplayPanelController;
+import delta.games.lotro.gui.lore.items.sets.form.AbstractSetDisplayPanelController;
 import delta.games.lotro.gui.lore.items.sets.form.ItemsSetDisplayPanelController;
+import delta.games.lotro.gui.lore.items.sets.form.TraceriesSetDisplayPanelController;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemsManager;
 import delta.games.lotro.lore.items.legendary.relics.Relic;
 import delta.games.lotro.lore.items.legendary.relics.RelicsManager;
 import delta.games.lotro.lore.items.sets.ItemsSet;
+import delta.games.lotro.lore.items.sets.ItemsSet.SetType;
 import delta.games.lotro.lore.items.sets.ItemsSetsManager;
 import delta.games.lotro.lore.relics.melding.RelicMeldingRecipe;
 import delta.games.lotro.lore.relics.melding.RelicMeldingRecipesManager;
@@ -48,7 +51,7 @@ public class ItemPanelsFactory implements NavigablePanelControllerFactory
     else if (address.equals(ReferenceConstants.ITEMS_SET_PAGE))
     {
       int id=pageId.getIntParameter(PageIdentifier.ID_PARAMETER).intValue();
-      ret=buildItemsSetPanel(id);
+      ret=buildSetPanel(id);
     }
     else if (address.equals(ReferenceConstants.RELIC_PAGE))
     {
@@ -75,14 +78,23 @@ public class ItemPanelsFactory implements NavigablePanelControllerFactory
     return null;
   }
 
-  private ItemsSetDisplayPanelController buildItemsSetPanel(int itemsSetId)
+  private AbstractSetDisplayPanelController buildSetPanel(int itemsSetId)
   {
     ItemsSetsManager itemsSetsMgr=ItemsSetsManager.getInstance();
     ItemsSet set=itemsSetsMgr.getSetById(itemsSetId);
     if (set!=null)
     {
-      ItemsSetDisplayPanelController itemsSetPanel=new ItemsSetDisplayPanelController(_parent,set);
-      return itemsSetPanel;
+      SetType type=set.getSetType();
+      if (type==SetType.ITEMS)
+      {
+        ItemsSetDisplayPanelController itemsSetPanel=new ItemsSetDisplayPanelController(_parent,set);
+        return itemsSetPanel;
+      }
+      if (type==SetType.TRACERIES)
+      {
+        TraceriesSetDisplayPanelController traceriesSetPanel=new TraceriesSetDisplayPanelController(_parent,set);
+        return traceriesSetPanel;
+      }
     }
     return null;
   }
