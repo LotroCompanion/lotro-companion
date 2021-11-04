@@ -320,6 +320,8 @@ public abstract class AbstractSetDisplayPanelController implements NavigablePane
       _panel.removeAll();
       _panel=null;
     }
+    _bonus=null;
+    _membersPanel=null;
     // Controllers
     _parent=null;
     if (_itemIcons!=null)
