@@ -776,7 +776,7 @@ public class ItemFilterController extends ObjectFilterPanelController implements
   {
     ComboBoxController<Integer> ctrl=new ComboBoxController<Integer>();
     ctrl.addEmptyItem("");
-    for(int tier=1;tier<=12;tier++)
+    for(int tier=1;tier<=14;tier++)
     {
       ctrl.addItem(Integer.valueOf(tier),"Tier "+tier);
     }
