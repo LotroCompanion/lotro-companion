@@ -373,10 +373,9 @@ public class ItemInstanceMainAttrsEditionPanelController
     };
     _itemLevelController=new DynamicTextEditionController(_itemLevel,listener);
     boolean hide=true;
-    String mungingSpec=item.getProperty(ItemPropertyNames.MUNGING);
-    if (mungingSpec!=null)
+    _munging=item.getMunging();
+    if (_munging!=null)
     {
-      _munging=Munging.fromString(mungingSpec);
       Progression progression=_munging.getProgression();
       if (progression!=null)
       {
@@ -413,11 +412,10 @@ public class ItemInstanceMainAttrsEditionPanelController
   {
     if (mungingLevel!=null)
     {
-      Progression progression=_munging.getProgression();
-      Float itemLevel=progression.getValue(mungingLevel.intValue());
+      Integer itemLevel=_munging.getItemLevel(mungingLevel.intValue());
       if (itemLevel!=null)
       {
-        _itemLevel.setText(String.valueOf(itemLevel.intValue()));
+        _itemLevel.setText(itemLevel.toString());
       }
     }
   }

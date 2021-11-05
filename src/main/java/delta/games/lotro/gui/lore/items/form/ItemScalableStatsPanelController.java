@@ -20,7 +20,6 @@ import delta.games.lotro.common.stats.StatProvider;
 import delta.games.lotro.common.stats.StatUtils;
 import delta.games.lotro.common.stats.StatsProvider;
 import delta.games.lotro.lore.items.Item;
-import delta.games.lotro.lore.items.ItemPropertyNames;
 import delta.games.lotro.lore.items.scaling.Munging;
 import delta.games.lotro.utils.FixedDecimalsInteger;
 import delta.games.lotro.utils.maths.Progression;
@@ -63,12 +62,11 @@ public class ItemScalableStatsPanelController
     {
       return null;
     }
-    String mungingSpec=_item.getProperty(ItemPropertyNames.MUNGING);
-    if (mungingSpec==null)
+    Munging munging=_item.getMunging();
+    if (munging==null)
     {
       return null;
     }
-    Munging munging=Munging.fromString(mungingSpec);
     Progression progression=munging.getProgression();
     if (progression==null)
     {
