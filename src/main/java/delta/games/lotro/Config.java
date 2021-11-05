@@ -68,9 +68,7 @@ public final class Config
    */
   public int getMaxCharacterLevel()
   {
-    TypedProperties props=getParameters();
-    int maxLevel=props.getIntProperty("max.character.level",115);
-    return maxLevel;
+    return LotroCoreConfig.getInstance().getMaxCharacterLevel();
   }
 
   /**
