@@ -66,8 +66,11 @@ public class RecipeUiUtils
     {
       Ingredient ingredient=ingredients.get(i);
       Item item=ingredient.getItem();
-      int quantity=ingredient.getQuantity();
-      items.add(new CountedItem<Item>(item,quantity));
+      if (item!=null)
+      {
+        int quantity=ingredient.getQuantity();
+        items.add(new CountedItem<Item>(item,quantity));
+      }
     }
     return items;
   }
@@ -125,7 +128,10 @@ public class RecipeUiUtils
       for(Ingredient ingredient : ingredients)
       {
         Item item=ingredient.getItem();
-        items.add(item);
+        if (item!=null)
+        {
+          items.add(item);
+        }
       }
     }
     ArrayList<Item> ret=new ArrayList<Item>(items);

@@ -284,6 +284,10 @@ public class RecipeDisplayPanelController implements NavigablePanelController
     for(Ingredient ingredient : ingredients)
     {
       Item item=ingredient.getItem();
+      if (item==null)
+      {
+        continue;
+      }
       int itemId=item.getIdentifier();
       int quantity=ingredient.getQuantity();
       // Comment
