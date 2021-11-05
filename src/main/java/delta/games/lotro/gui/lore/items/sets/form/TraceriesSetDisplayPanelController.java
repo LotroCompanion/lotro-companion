@@ -22,7 +22,7 @@ import delta.games.lotro.lore.items.sets.ItemsSet;
 public class TraceriesSetDisplayPanelController extends AbstractSetDisplayPanelController
 {
   // UI
-  private TracerySetDisplayConfigurationGadgets _cfgGadgets;
+  private TraceriesSetDisplayConfigurationGadgets _cfgGadgets;
   private JPanel _characterLevelCfgPanel;
   private JPanel _itemLevelCfgPanel;
 
@@ -34,7 +34,7 @@ public class TraceriesSetDisplayPanelController extends AbstractSetDisplayPanelC
   public TraceriesSetDisplayPanelController(NavigatorWindowController parent, ItemsSet set)
   {
     super(parent,set);
-    _cfgGadgets=new TracerySetDisplayConfigurationGadgets(set,this);
+    _cfgGadgets=new TraceriesSetDisplayConfigurationGadgets(set,this);
   }
 
   @Override

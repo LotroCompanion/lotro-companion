@@ -9,10 +9,10 @@ import delta.games.lotro.lore.items.legendary2.Tracery;
 import delta.games.lotro.lore.items.sets.ItemsSet;
 
 /**
- * Gadgets for the configuration of the display of traceries sets.
+ * Gadgets for the configuration of the display of a traceries set.
  * @author DAM
  */
-public class TracerySetDisplayConfigurationGadgets
+public class TraceriesSetDisplayConfigurationGadgets
 {
   // Data
   private ItemsSet _set;
@@ -27,7 +27,7 @@ public class TracerySetDisplayConfigurationGadgets
    * @param set Set to use.
    * @param parent Parent panel.
    */
-  public TracerySetDisplayConfigurationGadgets(ItemsSet set, AbstractSetDisplayPanelController parent)
+  public TraceriesSetDisplayConfigurationGadgets(ItemsSet set, AbstractSetDisplayPanelController parent)
   {
     _set=set;
     _parent=parent;
