@@ -29,8 +29,9 @@ import delta.games.lotro.lore.instances.loot.InstanceLootsTable;
 import delta.games.lotro.lore.items.Container;
 import delta.games.lotro.lore.items.ContainersManager;
 import delta.games.lotro.lore.items.Item;
-import delta.games.lotro.lore.items.ItemsContainer;
 import delta.games.lotro.lore.items.ItemsManager;
+import delta.games.lotro.lore.items.containers.ItemsContainer;
+import delta.games.lotro.lore.items.containers.LootTables;
 import delta.games.lotro.utils.ContextPropertyNames;
 
 /**
@@ -94,7 +95,8 @@ public class InstanceLootDisplayPanelController implements FilterUpdateListener
     {
       return null;
     }
-    Integer tableId=container.getCustomSkirmishLootTableId();
+    LootTables lootTables=container.getLootTables();
+    Integer tableId=lootTables.getCustomSkirmishLootTableId();
     if (tableId==null)
     {
       return null;
