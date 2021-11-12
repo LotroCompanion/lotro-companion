@@ -52,10 +52,12 @@ public class LegendaryInstance2EditionPanelController
   // Data
   private int _characterLevel;
   private int _itemLevel;
+  private int _minLevel;
   // GUI
   private JPanel _panel;
   private JTextField _name;
   private JLabel _itemLevelLabel;
+  private JLabel _minLevelLabel;
   private JPanel _traceriesPanel;
   // Controllers
   private WindowController _parent;
@@ -74,6 +76,9 @@ public class LegendaryInstance2EditionPanelController
     Integer itemLevel=item.getEffectiveItemLevel();
     _itemLevel=(itemLevel!=null)?itemLevel.intValue():1;
     _itemLevelLabel=GuiFactory.buildLabel(String.valueOf(_itemLevel));
+    Integer minLevel=item.getEffectiveMinLevel();
+    _minLevel=(minLevel!=null)?minLevel.intValue():1;
+    _minLevelLabel=GuiFactory.buildLabel(String.valueOf(_minLevel));
     LegendaryInstance2 legendaryInstance=(LegendaryInstance2)item;
     LegendaryInstanceAttrs2 attrs=legendaryInstance.getLegendaryAttributes();
     // Name
@@ -153,6 +158,11 @@ public class LegendaryInstance2EditionPanelController
     ret.add(GuiFactory.buildLabel("Item Level:"),c);
     c=new GridBagConstraints(1,1,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(5,5,5,5),0,0);
     ret.add(_itemLevelLabel,c);
+    // Min level
+    c=new GridBagConstraints(0,2,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
+    ret.add(GuiFactory.buildLabel("Min Level:"),c);
+    c=new GridBagConstraints(1,2,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(5,5,5,5),0,0);
+    ret.add(_minLevelLabel,c);
     return ret;
   }
 
@@ -181,6 +191,8 @@ public class LegendaryInstance2EditionPanelController
     }
     _itemLevel=itemLevel;
     _itemLevelLabel.setText(String.valueOf(itemLevel));
+    _minLevel=reforgeLevel;
+    _minLevelLabel.setText(String.valueOf(_minLevel));
     for(SingleTraceryEditionController editor : _editors)
     {
       editor.setLIItemLevel(_itemLevel);
@@ -447,13 +459,18 @@ public class LegendaryInstance2EditionPanelController
    */
   public void getData(ItemInstance<? extends Item> itemInstance, LegendaryInstanceAttrs2 attrs)
   {
-    // Item level
     Item reference=itemInstance.getReference();
+    // Item level
     Integer refItemLevel=reference.getItemLevel();
     Integer itemLevel=Integer.valueOf(_itemLevel);
     if (Objects.equals(itemLevel,refItemLevel)) itemLevel=null;
     itemInstance.setItemLevel(itemLevel);
     itemInstance.updateAutoStats();
+    // Minimum level
+    Integer refMinLevel=reference.getMinLevel();
+    Integer minLevel=Integer.valueOf(_minLevel);
+    if (Objects.equals(minLevel,refMinLevel)) minLevel=null;
+    itemInstance.setMinLevel(minLevel);
     // Legendary name
     String legendaryName=_name.getText();
     attrs.setLegendaryName(legendaryName);
@@ -480,6 +497,9 @@ public class LegendaryInstance2EditionPanelController
       _panel=null;
     }
     _name=null;
+    _itemLevelLabel=null;
+    _minLevelLabel=null;
+    _traceriesPanel=null;
     // Controllers
     _parent=null;
     if (_editors!=null)
