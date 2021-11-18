@@ -288,6 +288,18 @@ public class LotroIconsManager
   }
 
   /**
+   * Get the icon for a given allegiance.
+   * @param iconId Icon identifier.
+   * @return An icon or <code>null</code> if not found.
+   */
+  public static ImageIcon getAllegianceIcon(int iconId)
+  {
+    String path="/allegianceIcons/"+iconId+".png";
+    ImageIcon ret=IconsManager.getIcon(path);
+    return ret;
+  }
+
+  /**
    * Initialize the application icons.
    */
   public static void initApplicationIcons()
