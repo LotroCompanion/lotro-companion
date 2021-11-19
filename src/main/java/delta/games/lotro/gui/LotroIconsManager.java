@@ -292,11 +292,11 @@ public class LotroIconsManager
    * @param iconId Icon identifier.
    * @return An icon or <code>null</code> if not found.
    */
-  public static ImageIcon getAllegianceIcon(int iconId)
+  public static BufferedImage getAllegianceImage(int iconId)
   {
     String path="/allegianceIcons/"+iconId+".png";
-    ImageIcon ret=IconsManager.getIcon(path);
-    return ret;
+    BufferedImage image=IconsManager.getImage(path);
+    return image;
   }
 
   /**

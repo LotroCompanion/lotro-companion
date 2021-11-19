@@ -50,13 +50,13 @@ public class AllegiancesGroupStatusPanelController
 
   private JPanel buildPanel()
   {
-    JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
+    JPanel ret=GuiFactory.buildBackgroundPanel(new GridBagLayout());
     int y=0;
     for(SingleAllegianceGadgetsController gadgets : _gadgets)
     {
       GridBagConstraints c=new GridBagConstraints(0,y,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(2,5,2,5),0,0);
       ret.add(gadgets.getIcon(),c);
-      c=new GridBagConstraints(1,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(2,5,2,5),0,0);
+      c=new GridBagConstraints(1,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(2,5,2,5),0,0);
       ret.add(gadgets.getNameGadget(),c);
       c=new GridBagConstraints(2,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,5,2,5),0,0);
       ret.add(gadgets.getStateGadget(),c);
