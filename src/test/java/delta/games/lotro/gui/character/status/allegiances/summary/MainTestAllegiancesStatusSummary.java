@@ -10,7 +10,8 @@ import delta.games.lotro.character.status.allegiances.AllegiancesStatusManager;
 import delta.games.lotro.character.status.allegiances.io.AllegiancesStatusIo;
 
 /**
- * @author dm
+ * Test class for the allegiances status summary.
+ * @author DAM
  */
 public class MainTestAllegiancesStatusSummary
 {
@@ -19,18 +20,19 @@ public class MainTestAllegiancesStatusSummary
     CharactersManager charsMgr=CharactersManager.getInstance();
     CharacterFile toon=charsMgr.getToonById("Landroval","Giswald");
     AllegiancesStatusManager allegiancesStatusMgr=AllegiancesStatusIo.load(toon);
-    AllegiancesGroupStatusPanelController panelCtrl=new AllegiancesGroupStatusPanelController("Mordor");
+    AllegiancesStatusSummaryPanelController panelCtrl=new AllegiancesStatusSummaryPanelController();
     panelCtrl.setStatus(allegiancesStatusMgr);
     JPanel panel=panelCtrl.getPanel();
     JFrame f=new JFrame();
     f.getContentPane().add(panel);
     f.pack();
     f.setVisible(true);
-    f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+    f.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
   }
 
   /**
-   * @param args
+   * Main method for this test.
+   * @param args Not used.
    */
   public static void main(String[] args)
   {

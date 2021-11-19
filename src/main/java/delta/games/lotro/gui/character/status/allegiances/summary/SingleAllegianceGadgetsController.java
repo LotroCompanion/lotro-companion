@@ -6,7 +6,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 import delta.common.ui.swing.GuiFactory;
-import delta.common.ui.swing.icons.IconsManager;
 import delta.games.lotro.character.status.allegiances.AllegianceStatus;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.lore.allegiances.AllegianceDescription;
@@ -96,7 +95,8 @@ public class SingleAllegianceGadgetsController
     // Icon
     int iconId=allegiance.getIconId();
     Image image=LotroIconsManager.getAllegianceImage(iconId);
-    Image scaledImage=IconsManager.getScaledImage(image,64,64);
+    Image scaledImage=image.getScaledInstance(64,64,Image.SCALE_SMOOTH);
+    //Image scaledImage=IconsManager.getScaledImage(image,64,64);
     ImageIcon icon=new ImageIcon(scaledImage);
     _icon.setIcon(icon);
     // Name
