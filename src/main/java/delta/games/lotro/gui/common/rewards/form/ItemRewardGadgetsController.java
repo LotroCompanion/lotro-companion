@@ -3,7 +3,7 @@ package delta.games.lotro.gui.common.rewards.form;
 import java.awt.Color;
 
 import delta.common.ui.swing.labels.LabelWithHalo;
-import delta.common.ui.swing.navigator.NavigatorWindowController;
+import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.gui.lore.items.ItemUiTools;
 import delta.games.lotro.gui.utils.IconController;
 import delta.games.lotro.gui.utils.IconControllerFactory;
@@ -23,7 +23,7 @@ public class ItemRewardGadgetsController extends RewardGadgetsController
    * @param item Item to display.
    * @param count Count of that item.
    */
-  public ItemRewardGadgetsController(NavigatorWindowController parent, Item item, int count)
+  public ItemRewardGadgetsController(WindowController parent, Item item, int count)
   {
     // Label
     String text="???";

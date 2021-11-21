@@ -1,6 +1,5 @@
 package delta.games.lotro.gui.character.status.allegiances.form;
 
-import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
@@ -13,6 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.skills.SkillDescription;
 import delta.games.lotro.character.status.allegiances.AllegianceStatus;
 import delta.games.lotro.gui.LotroIconsManager;
@@ -30,15 +30,19 @@ public class AllegianceStatusFormController
   private AllegianceDescription _allegiance;
   // UI
   private JPanel _panel;
+  // Controllers
+  private AllegianceStatusRewardsPanelController _rewards;
 
   /**
    * Constructor.
+   * @param parent Parent controller.
    * @param allegianceStatus Allegiance status to show.
    */
-  public AllegianceStatusFormController(AllegianceStatus allegianceStatus)
+  public AllegianceStatusFormController(WindowController parent, AllegianceStatus allegianceStatus)
   {
     _status=allegianceStatus;
     _allegiance=_status.getAllegiance();
+    _rewards=new AllegianceStatusRewardsPanelController(parent,allegianceStatus);
     _panel=buildPanel();
   }
 
@@ -55,14 +59,17 @@ public class AllegianceStatusFormController
   {
     // Summary panel
     JPanel summaryPanel=buildAllegianceSummaryPanel();
+    // Rewards panel
+    JPanel rewardsPanel=_rewards.getPanel();
+    rewardsPanel.setBorder(GuiFactory.buildTitledBorder("Rewards"));
 
-    /*
+    // Assembly
     JPanel ret=GuiFactory.buildBackgroundPanel(new GridBagLayout());
-    GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
     ret.add(summaryPanel,c);
-    */
-    JPanel ret=GuiFactory.buildBackgroundPanel(new BorderLayout());
-    ret.add(summaryPanel,BorderLayout.NORTH);
+    c=new GridBagConstraints(0,1,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
+    ret.add(rewardsPanel,c);
+
     return ret;
   }
 

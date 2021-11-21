@@ -13,7 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.border.Border;
 
 import delta.common.ui.swing.GuiFactory;
-import delta.common.ui.swing.navigator.NavigatorWindowController;
+import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.traits.TraitDescription;
 import delta.games.lotro.character.traits.TraitsManager;
 import delta.games.lotro.common.money.Money;
@@ -47,7 +47,7 @@ public class RewardsPanelController
   // UI
   private JPanel _panel;
   // Controllers
-  private NavigatorWindowController _parent;
+  private WindowController _parent;
   private ClassPointRewardGadgetsController _classPoint;
   private LotroPointsRewardGadgetsController _lotroPoints;
   private List<RewardGadgetsController> _rewardControllers;
@@ -60,7 +60,7 @@ public class RewardsPanelController
    * @param parent Parent window.
    * @param rewards Rewards to display.
    */
-  public RewardsPanelController(NavigatorWindowController parent, Rewards rewards)
+  public RewardsPanelController(WindowController parent, Rewards rewards)
   {
     _parent=parent;
     _rewards=rewards;
