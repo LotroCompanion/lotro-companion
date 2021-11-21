@@ -31,6 +31,7 @@ public class AllegianceStatusFormController
   // UI
   private JPanel _panel;
   // Controllers
+  private AllegianceStatusSummaryPanelController _statusSummary;
   private AllegianceStatusRewardsPanelController _rewards;
 
   /**
@@ -42,6 +43,7 @@ public class AllegianceStatusFormController
   {
     _status=allegianceStatus;
     _allegiance=_status.getAllegiance();
+    _statusSummary=new AllegianceStatusSummaryPanelController(allegianceStatus);
     _rewards=new AllegianceStatusRewardsPanelController(parent,allegianceStatus);
     _panel=buildPanel();
   }
@@ -62,12 +64,23 @@ public class AllegianceStatusFormController
     // Rewards panel
     JPanel rewardsPanel=_rewards.getPanel();
     rewardsPanel.setBorder(GuiFactory.buildTitledBorder("Rewards"));
+    // Status summary panel
+    JPanel statusSummaryPanel=_statusSummary.getPanel();
 
     // Assembly
     JPanel ret=GuiFactory.buildBackgroundPanel(new GridBagLayout());
-    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
+    int y=0;
+    GridBagConstraints c=new GridBagConstraints(0,y,1,1,0.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
     ret.add(summaryPanel,c);
-    c=new GridBagConstraints(0,1,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
+    y++;
+    if (statusSummaryPanel!=null)
+    {
+      statusSummaryPanel.setBorder(GuiFactory.buildTitledBorder("Status Summary"));
+      c=new GridBagConstraints(0,y,1,1,0.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
+      ret.add(statusSummaryPanel,c);
+      y++;
+    }
+    c=new GridBagConstraints(0,y,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
     ret.add(rewardsPanel,c);
 
     return ret;
@@ -153,6 +166,17 @@ public class AllegianceStatusFormController
     {
       _panel.removeAll();
       _panel=null;
+    }
+    // Controllers
+    if (_statusSummary!=null)
+    {
+      _statusSummary.dispose();
+      _statusSummary=null;
+    }
+    if (_rewards!=null)
+    {
+      _rewards.dispose();
+      _rewards=null;
     }
   }
 }
