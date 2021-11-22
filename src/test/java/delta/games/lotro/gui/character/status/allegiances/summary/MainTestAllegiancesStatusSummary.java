@@ -1,9 +1,5 @@
 package delta.games.lotro.gui.character.status.allegiances.summary;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.WindowConstants;
-
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharactersManager;
 import delta.games.lotro.character.status.allegiances.AllegiancesStatusManager;
@@ -20,14 +16,8 @@ public class MainTestAllegiancesStatusSummary
     CharactersManager charsMgr=CharactersManager.getInstance();
     CharacterFile toon=charsMgr.getToonById("Landroval","Giswald");
     AllegiancesStatusManager allegiancesStatusMgr=AllegiancesStatusIo.load(toon);
-    AllegiancesStatusSummaryPanelController panelCtrl=new AllegiancesStatusSummaryPanelController();
-    panelCtrl.setStatus(allegiancesStatusMgr);
-    JPanel panel=panelCtrl.getPanel();
-    JFrame f=new JFrame();
-    f.getContentPane().add(panel);
-    f.pack();
-    f.setVisible(true);
-    f.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+    AllegiancesStatusSummaryWindowController ctrl=new AllegiancesStatusSummaryWindowController(null,allegiancesStatusMgr);
+    ctrl.show();
   }
 
   /**

@@ -23,7 +23,7 @@ import delta.games.lotro.utils.gui.HtmlUtils;
  * Controller for a panel to show and allegiance status.
  * @author DAM
  */
-public class AllegianceStatusFormController
+public class AllegianceStatusPanelController
 {
   // Data
   private AllegianceStatus _status;
@@ -39,7 +39,7 @@ public class AllegianceStatusFormController
    * @param parent Parent controller.
    * @param allegianceStatus Allegiance status to show.
    */
-  public AllegianceStatusFormController(WindowController parent, AllegianceStatus allegianceStatus)
+  public AllegianceStatusPanelController(WindowController parent, AllegianceStatus allegianceStatus)
   {
     _status=allegianceStatus;
     _allegiance=_status.getAllegiance();

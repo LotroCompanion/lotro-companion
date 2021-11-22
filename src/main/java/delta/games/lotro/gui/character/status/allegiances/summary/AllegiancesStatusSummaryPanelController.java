@@ -9,6 +9,7 @@ import java.util.List;
 import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.status.allegiances.AllegiancesStatusManager;
 import delta.games.lotro.lore.allegiances.AllegiancesManager;
 
@@ -21,24 +22,28 @@ public class AllegiancesStatusSummaryPanelController
   // UI
   private JPanel _panel;
   // Controllers
+  private WindowController _parent;
   private List<AllegiancesGroupStatusPanelController> _groups;
 
   /**
    * Constructor.
+   * @param parent Parent window.
+   * @param statusMgr Data to show.
    */
-  public AllegiancesStatusSummaryPanelController()
+  public AllegiancesStatusSummaryPanelController(WindowController parent, AllegiancesStatusManager statusMgr)
   {
+    _parent=parent;
     _groups=new ArrayList<AllegiancesGroupStatusPanelController>();
-    init();
+    init(statusMgr);
     _panel=buildPanel();
   }
 
-  private void init()
+  private void init(AllegiancesStatusManager statusMgr)
   {
     AllegiancesManager mgr=AllegiancesManager.getInstance();
     for(String group : mgr.getAllegiancesGroups())
     {
-      AllegiancesGroupStatusPanelController ctrl=new AllegiancesGroupStatusPanelController(group);
+      AllegiancesGroupStatusPanelController ctrl=new AllegiancesGroupStatusPanelController(_parent,group,statusMgr);
       _groups.add(ctrl);
     }
   }
@@ -68,18 +73,6 @@ public class AllegiancesStatusSummaryPanelController
   }
 
   /**
-   * Set the status to display.
-   * @param statusMgr Allegiances status manager.
-   */
-  public void setStatus(AllegiancesStatusManager statusMgr)
-  {
-    for(AllegiancesGroupStatusPanelController group : _groups)
-    {
-      group.setStatus(statusMgr);
-    }
-  }
-
-  /**
    * Release all managed resources.
    */
   public void dispose()
@@ -89,6 +82,7 @@ public class AllegiancesStatusSummaryPanelController
       _panel.removeAll();
       _panel=null;
     }
+    _parent=null;
     if (_groups!=null)
     {
       for(AllegiancesGroupStatusPanelController groupCtrl : _groups)

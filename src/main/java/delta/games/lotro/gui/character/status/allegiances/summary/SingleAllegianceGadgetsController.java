@@ -3,6 +3,7 @@ package delta.games.lotro.gui.character.status.allegiances.summary;
 import java.awt.Image;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 
 import delta.common.ui.swing.GuiFactory;
@@ -17,7 +18,7 @@ import delta.games.lotro.lore.allegiances.AllegianceDescription;
 public class SingleAllegianceGadgetsController
 {
   // Data
-  private AllegianceDescription _allegiance;
+  private AllegianceStatus _status;
   // UI
   // - allegiance icon (small size)
   private JLabel _icon;
@@ -25,31 +26,36 @@ public class SingleAllegianceGadgetsController
   private JLabel _name;
   // - allegiance state
   private JLabel _state;
+  // - details button
+  private JButton _button;
 
   /**
    * Constructor.
-   * @param allegiance Allegiance to use.
+   * @param status Allegiance status to use.
    */
-  public SingleAllegianceGadgetsController(AllegianceDescription allegiance)
+  public SingleAllegianceGadgetsController(AllegianceStatus status)
   {
-    _allegiance=allegiance;
+    _status=status;
     // Icon
     _icon=GuiFactory.buildIconLabel(null);
     // Name
     _name=GuiFactory.buildLabel("?");
     // State
     _state=GuiFactory.buildLabel("?");
+    // Button
+    _button=GuiFactory.buildButton("Details...");
     // Init
-    setAllegiance(allegiance);
+    setAllegiance(status.getAllegiance());
+    setAllegianceStatus(status);
   }
 
   /**
    * Get the managed allegiance.
    * @return an allegiance.
    */
-  public AllegianceDescription getAllegiance()
+  public AllegianceStatus getStatus()
   {
-    return _allegiance;
+    return _status;
   }
 
   /**
@@ -77,6 +83,15 @@ public class SingleAllegianceGadgetsController
   public JLabel getStateGadget()
   {
     return _state;
+  }
+
+  /**
+   * Get the details button.
+   * @return a button.
+   */
+  public JButton getDetailsButton()
+  {
+    return _button;
   }
 
   /**
@@ -108,7 +123,7 @@ public class SingleAllegianceGadgetsController
    * Set the data to display.
    * @param status Status to display.
    */
-  public void setAllegianceStatus(AllegianceStatus status)
+  private void setAllegianceStatus(AllegianceStatus status)
   {
     // State
     String stateLabel=buildStateLabel(status);

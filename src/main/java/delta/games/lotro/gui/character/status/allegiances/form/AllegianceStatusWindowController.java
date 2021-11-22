@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import delta.common.ui.swing.windows.DefaultDisplayDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.status.allegiances.AllegianceStatus;
+import delta.games.lotro.lore.allegiances.AllegianceDescription;
 
 /**
  * Controller for a skirmish statistics display window.
@@ -16,7 +17,7 @@ import delta.games.lotro.character.status.allegiances.AllegianceStatus;
 public class AllegianceStatusWindowController extends DefaultDisplayDialogController<AllegianceStatus>
 {
   // Controllers
-  private AllegianceStatusFormController _statusController;
+  private AllegianceStatusPanelController _statusController;
 
   /**
    * Constructor.
@@ -26,7 +27,7 @@ public class AllegianceStatusWindowController extends DefaultDisplayDialogContro
   public AllegianceStatusWindowController(WindowController parent, AllegianceStatus status)
   {
     super(parent,status);
-    _statusController=new AllegianceStatusFormController(this,status);
+    _statusController=new AllegianceStatusPanelController(this,status);
   }
 
   @Override
@@ -46,6 +47,22 @@ public class AllegianceStatusWindowController extends DefaultDisplayDialogContro
   public void configureWindow()
   {
     automaticLocationSetup();
+  }
+
+  @Override
+  public String getWindowIdentifier()
+  {
+    return getIdentifier(_data.getAllegiance());
+  }
+
+  /**
+   * Get the window identifier for an allegiance.
+   * @param allegiance Allegiance to use.
+   * @return An identifier.
+   */
+  public static final String getIdentifier(AllegianceDescription allegiance)
+  {
+    return String.valueOf(allegiance.getIdentifier());
   }
 
   @Override
