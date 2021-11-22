@@ -39,6 +39,8 @@ import delta.games.lotro.character.stats.CharacterStatsComputer;
 import delta.games.lotro.character.status.achievables.AchievablesStatusManager;
 import delta.games.lotro.character.status.achievables.io.DeedsStatusIo;
 import delta.games.lotro.character.status.achievables.io.QuestsStatusIo;
+import delta.games.lotro.character.status.allegiances.AllegiancesStatusManager;
+import delta.games.lotro.character.status.allegiances.io.AllegiancesStatusIo;
 import delta.games.lotro.character.status.crafting.CraftingStatus;
 import delta.games.lotro.character.status.recipes.RecipesStatusManager;
 import delta.games.lotro.character.status.relics.RelicsInventory;
@@ -54,6 +56,7 @@ import delta.games.lotro.character.status.traitPoints.TraitPoints;
 import delta.games.lotro.character.status.traitPoints.TraitPointsStatus;
 import delta.games.lotro.gui.character.log.CharacterLogWindowController;
 import delta.games.lotro.gui.character.stash.StashWindowController;
+import delta.games.lotro.gui.character.status.allegiances.summary.AllegiancesStatusSummaryWindowController;
 import delta.games.lotro.gui.character.status.crafting.CraftingWindowController;
 import delta.games.lotro.gui.character.status.deeds.DeedsStatusWindowController;
 import delta.games.lotro.gui.character.status.levelling.LevelHistoryEditionDialogController;
@@ -93,6 +96,7 @@ public class CharacterFileWindowController extends DefaultWindowController imple
   private static final String RECIPES_STATUS_COMMAND="recipesStatus";
   private static final String TITLES_STATUS_COMMAND="titlesStatus";
   private static final String STORAGE_COMMAND="storage";
+  private static final String ALLEGIANCES_COMMAND="allegiances";
 
   private CharacterSummaryPanelController _summaryController;
   private CharacterDataTableController _toonsTable;
@@ -173,6 +177,12 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
 
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,5,2,0),0,0);
+    // Deeds status
+    JButton deedsButton=buildCommandButton("Deeds",DEEDS_STATUS_COMMAND);
+    panel.add(deedsButton,c);c.gridx++;
+    // Titles status
+    JButton titlesButton=buildCommandButton("Titles",TITLES_STATUS_COMMAND);
+    panel.add(titlesButton,c);c.gridx++;
     // Reputation
     JButton reputationButton=buildCommandButton("Reputation",REPUTATION_COMMAND);
     panel.add(reputationButton,c);c.gridx++;
@@ -182,15 +192,12 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     // Storage
     JButton storageButton=buildCommandButton("Storage",STORAGE_COMMAND);
     panel.add(storageButton,c);c.gridx++;
+    // Tasks status
+    JButton tasksButton=buildCommandButton("Tasks",TASKS_STATUS_COMMAND);
+    panel.add(tasksButton,c);c.gridx++;
     // Relics inventory statistics
     JButton relicsButton=buildCommandButton("Relics",RELICS_INVENTORY_COMMAND);
     panel.add(relicsButton,c);c.gridx++;
-    // Stash
-    JButton stashButton=buildCommandButton("Stash",STASH_COMMAND);
-    panel.add(stashButton,c);c.gridx++;
-    // Levels
-    JButton levelsButton=buildCommandButton("Levels",LEVEL_COMMAND);
-    panel.add(levelsButton,c);c.gridx++;
     // Log
     JButton logButton=buildCommandButton("Log",LOG_COMMAND);
     c.insets.right=5;
@@ -198,28 +205,28 @@ public class CharacterFileWindowController extends DefaultWindowController imple
 
     c.insets.right=0;
     c.gridx=0;c.gridy++;
-    // Trait points
-    JButton traitPointsButton=buildCommandButton("Trait points",TRAIT_POINTS_COMMAND);
-    panel.add(traitPointsButton,c);c.gridx++;
-    // Deeds status
-    JButton deedsButton=buildCommandButton("Deeds",DEEDS_STATUS_COMMAND);
-    panel.add(deedsButton,c);c.gridx++;
     // Quests status
     JButton questsButton=buildCommandButton("Quests",QUESTS_STATUS_COMMAND);
     panel.add(questsButton,c);c.gridx++;
-    // Titles status
-    JButton titlesButton=buildCommandButton("Titles",TITLES_STATUS_COMMAND);
-    panel.add(titlesButton,c);c.gridx++;
-    // Tasks status
-    JButton tasksButton=buildCommandButton("Tasks",TASKS_STATUS_COMMAND);
-    panel.add(tasksButton,c);c.gridx++;
+    // Trait points
+    JButton traitPointsButton=buildCommandButton("Trait points",TRAIT_POINTS_COMMAND);
+    panel.add(traitPointsButton,c);c.gridx++;
+    // Allegiances status
+    JButton allegiancesButton=buildCommandButton("Allegiances",ALLEGIANCES_COMMAND);
+    panel.add(allegiancesButton,c);c.gridx++;
+    // Recipes status
+    JButton recipesButton=buildCommandButton("Recipes",RECIPES_STATUS_COMMAND);
+    panel.add(recipesButton,c);c.gridx++;
+    // Stash
+    JButton stashButton=buildCommandButton("Stash",STASH_COMMAND);
+    panel.add(stashButton,c);c.gridx++;
     // Skirmish statistics
     JButton skirmishsButton=buildCommandButton("Skirmishs",SKIRMISH_STATS_COMMAND);
     panel.add(skirmishsButton,c);c.gridx++;
-    // Recipes status
-    JButton recipesButton=buildCommandButton("Recipes",RECIPES_STATUS_COMMAND);
+    // Levels
+    JButton levelsButton=buildCommandButton("Levels",LEVEL_COMMAND);
     c.insets.right=5;
-    panel.add(recipesButton,c);c.gridx++;
+    panel.add(levelsButton,c);c.gridx++;
 
     // Disable buttons if no log
     boolean hasLog=_toon.hasLog();
@@ -316,6 +323,10 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     else if (STORAGE_COMMAND.equals(command))
     {
       showStorage();
+    }
+    else if (ALLEGIANCES_COMMAND.equals(command))
+    {
+      showAllegiancesStatus();
     }
     else if (NEW_TOON_DATA_ID.equals(command))
     {
@@ -606,6 +617,13 @@ public class CharacterFileWindowController extends DefaultWindowController imple
       summaryController.getWindow().setLocationRelativeTo(getWindow());
     }
     summaryController.bringToFront();
+  }
+
+  private void showAllegiancesStatus()
+  {
+    AllegiancesStatusManager status=AllegiancesStatusIo.load(_toon);
+    AllegiancesStatusSummaryWindowController controller=new AllegiancesStatusSummaryWindowController(this,status);
+    controller.show();
   }
 
   /**
