@@ -1,0 +1,139 @@
+package delta.games.lotro.gui.character.storage.bags;
+
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.Box;
+import javax.swing.JPanel;
+
+import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.windows.WindowController;
+import delta.games.lotro.character.storage.bags.BagsManager;
+import delta.games.lotro.character.storage.bags.SingleBagSetup;
+import delta.games.lotro.gui.utils.IconController;
+import delta.games.lotro.gui.utils.IconControllerFactory;
+import delta.games.lotro.lore.items.CountedItem;
+import delta.games.lotro.lore.items.Item;
+import delta.games.lotro.lore.items.ItemInstance;
+
+/**
+ * Controller for a panel to display a single bag.
+ * @author DAM
+ */
+public class BagDisplayPanelController
+{
+  private static final int DEFAULT_WIDTH=10;
+
+  // Data
+  private SingleBagSetup _setup;
+  private BagsManager _bagsMgr;
+  // UI
+  private JPanel _panel;
+  // Controllers
+  private WindowController _parent;
+  private List<IconController> _iconControllers;
+
+  /**
+   * Constructor.
+   * @param parent Parent window.
+   * @param bagsMgr Bags manager.
+   * @param bag Bag to display.
+   */
+  public BagDisplayPanelController(WindowController parent, BagsManager bagsMgr, SingleBagSetup bag)
+  {
+    _parent=parent;
+    _setup=bag;
+    _bagsMgr=bagsMgr;
+    _iconControllers=new ArrayList<IconController>();
+    _panel=buildPanel();
+  }
+
+  /**
+   * Get the managed panel.
+   * @return the managed panel.
+   */
+  public JPanel getPanel()
+  {
+    return _panel;
+  }
+
+  private JPanel buildPanel()
+  {
+    int width=_setup.getWidth();
+    if (width==0)
+    {
+      width=DEFAULT_WIDTH;
+    }
+    JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
+
+    int size=_setup.getSize();
+    for(int i=0;i<size;i++)
+    {
+      Component component=buildComponent(i);
+      int x=i%width;
+      int y=i/width;
+      GridBagConstraints c=new GridBagConstraints(x,y,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(2,2,2,2),0,0);
+      ret.add(component,c);
+    }
+    return ret;
+  }
+
+  private Component buildComponent(int index)
+  {
+    Component ret=buildItemComponent(index);
+    if (ret==null)
+    {
+      ret=Box.createRigidArea(new Dimension(32,32));
+    }
+    return ret;
+  }
+
+  private Component buildItemComponent(int index)
+  {
+    Integer itemIndex=_setup.getItemIndexAt(index);
+    if (itemIndex==null)
+    {
+      return null;
+    }
+    CountedItem<ItemInstance<? extends Item>> countedItemInstance=_bagsMgr.getSlotContent(itemIndex.intValue());
+    if (countedItemInstance==null)
+    {
+      return null;
+    }
+    Item item=countedItemInstance.getItem();
+    int count=countedItemInstance.getQuantity();
+    IconController ctrl=IconControllerFactory.buildItemIcon(_parent,item,count);
+    _iconControllers.add(ctrl);
+    return ctrl.getIcon();
+  }
+  /**
+   * Release all resources.
+   */
+  public void dispose()
+  {
+    // Data
+    _setup=null;
+    _bagsMgr=null;
+    // UI
+    if (_panel!=null)
+    {
+      _panel.removeAll();
+      _panel=null;
+    }
+    // Controllers
+    _parent=null;
+    if (_iconControllers!=null)
+    {
+      for(IconController ctrl : _iconControllers)
+      {
+        ctrl.dispose();
+      }
+      _iconControllers=null;
+    }
+  }
+}
