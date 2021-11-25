@@ -15,8 +15,7 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.storage.bags.BagsManager;
 import delta.games.lotro.character.storage.bags.SingleBagSetup;
-import delta.games.lotro.gui.utils.IconController;
-import delta.games.lotro.gui.utils.IconControllerFactory;
+import delta.games.lotro.gui.utils.ItemInstanceIconController;
 import delta.games.lotro.lore.items.CountedItem;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemInstance;
@@ -36,7 +35,7 @@ public class BagDisplayPanelController
   private JPanel _panel;
   // Controllers
   private WindowController _parent;
-  private List<IconController> _iconControllers;
+  private List<ItemInstanceIconController> _iconControllers;
 
   /**
    * Constructor.
@@ -49,7 +48,7 @@ public class BagDisplayPanelController
     _parent=parent;
     _setup=bag;
     _bagsMgr=bagsMgr;
-    _iconControllers=new ArrayList<IconController>();
+    _iconControllers=new ArrayList<ItemInstanceIconController>();
     _panel=buildPanel();
   }
 
@@ -105,9 +104,9 @@ public class BagDisplayPanelController
     {
       return null;
     }
-    Item item=countedItemInstance.getItem();
+    ItemInstance<? extends Item> itemInstance=countedItemInstance.getManagedItem();
     int count=countedItemInstance.getQuantity();
-    IconController ctrl=IconControllerFactory.buildItemIcon(_parent,item,count);
+    ItemInstanceIconController ctrl=new ItemInstanceIconController(_parent,itemInstance,count);
     _iconControllers.add(ctrl);
     return ctrl.getIcon();
   }
@@ -129,7 +128,7 @@ public class BagDisplayPanelController
     _parent=null;
     if (_iconControllers!=null)
     {
-      for(IconController ctrl : _iconControllers)
+      for(ItemInstanceIconController ctrl : _iconControllers)
       {
         ctrl.dispose();
       }

@@ -2,15 +2,11 @@ package delta.games.lotro.gui.utils;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 
 import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
 
 import org.apache.log4j.Logger;
 
-import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.common.ui.swing.windows.WindowController;
@@ -20,15 +16,10 @@ import delta.games.lotro.gui.navigation.NavigatorFactory;
  * Controller for an icon that brings a page.
  * @author DAM
  */
-public class IconController
+public class IconController extends AbstractIconController
 {
   private static final Logger LOGGER=Logger.getLogger(IconController.class);
 
-  private static final int DEFAULT_SIZE=32;
-
-  private WindowController _parent;
-  private ActionListener _listener;
-  protected JButton _icon;
   protected PageIdentifier _pageId;
 
   /**
@@ -37,9 +28,7 @@ public class IconController
    */
   public IconController(WindowController parent)
   {
-    _parent=parent;
-    _icon=GuiFactory.buildIconButton();
-    _icon.setSize(DEFAULT_SIZE,DEFAULT_SIZE);
+    super(parent);
     _listener=new ActionListener()
     {
       @Override
@@ -49,15 +38,6 @@ public class IconController
       }
     };
     _icon.addActionListener(_listener);
-  }
-
-  /**
-   * Get the managed item icon.
-   * @return an icon.
-   */
-  public JButton getIcon()
-  {
-    return _icon;
   }
 
   private void showForm()
@@ -80,29 +60,13 @@ public class IconController
     }
   }
 
-  protected void setIcon(Icon icon)
-  {
-    _icon.setIcon(icon);
-    _icon.setSize(icon.getIconWidth(),icon.getIconHeight());
-    _icon.setEnabled(true);
-    _icon.setFocusable(true);
-  }
-
   /**
    * Clear the contents.
    * @param icon Default icon.
    */
   public void clear(Icon icon)
   {
-    if (icon==null)
-    {
-      BufferedImage image=new BufferedImage(DEFAULT_SIZE, DEFAULT_SIZE, BufferedImage.TYPE_INT_ARGB);
-      icon=new ImageIcon(image);
-    }
-    setIcon(icon);
-    _icon.setFocusable(false);
-    _icon.setEnabled(false);
-    _icon.setToolTipText("");
+    super.clear(icon);
     _pageId=null;
   }
 
@@ -110,18 +74,9 @@ public class IconController
    * Set the page to use.
    * @param pageId Page identifier.
    */
-  public void setPageId(PageIdentifier pageId)
+  protected void setPageId(PageIdentifier pageId)
   {
     _pageId=pageId;
-  }
-
-  /**
-   * Set the tooltip text.
-   * @param text Text to set.
-   */
-  public void setTooltipText(String text)
-  {
-    _icon.setToolTipText(text);
   }
 
   /**
@@ -129,15 +84,7 @@ public class IconController
    */
   public void dispose()
   {
-    if (_icon!=null)
-    {
-      if (_listener!=null)
-      {
-        _icon.removeActionListener(_listener);
-      }
-      _icon=null;
-    }
-    _listener=null;
+    super.dispose();
     _pageId=null;
   }
 }

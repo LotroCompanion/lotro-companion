@@ -5,11 +5,9 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 
 import delta.common.ui.swing.icons.IconsManager;
-import delta.common.utils.text.EndOfLine;
 import delta.games.lotro.character.CharacterEquipment.EQUIMENT_SLOT;
-import delta.games.lotro.character.stats.BasicStatsSet;
-import delta.games.lotro.common.stats.StatUtils;
 import delta.games.lotro.gui.LotroIconsManager;
+import delta.games.lotro.gui.lore.items.ItemUiTools;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemInstance;
 
@@ -46,8 +44,7 @@ public class EquipmentSlotIconController
       Item item=itemInstance.getReference();
       String icon=item.getIcon();
       _icon=LotroIconsManager.getItemIcon(icon);
-      String text=buildItemTooltip(itemInstance);
-      _tooltip="<html>"+text.replace(EndOfLine.NATIVE_EOL,"<br>")+"</html>";
+      _tooltip=ItemUiTools.buildItemTooltip(itemInstance,true);
       if (_icon==null)
       {
         _icon=LotroIconsManager.getDefaultItemIcon();
@@ -58,27 +55,6 @@ public class EquipmentSlotIconController
       _icon=getDefaultIcon(_slot);
       _tooltip="";
     }
-  }
-
-  private String buildItemTooltip(ItemInstance<? extends Item> itemInstance)
-  {
-    Item item=itemInstance.getReference();
-    StringBuilder sb=new StringBuilder();
-    String name=item.getName();
-    sb.append("Name: ").append(name);
-    Integer itemLevel=itemInstance.getEffectiveItemLevel();
-    if (itemLevel!=null)
-    {
-      sb.append(" (item level ").append(itemLevel).append(')');
-    }
-    sb.append(EndOfLine.NATIVE_EOL);
-    BasicStatsSet stats=itemInstance.getStats();
-    String[] lines=StatUtils.getStatsDisplayLines(stats);
-    for(String line : lines)
-    {
-      sb.append(line).append(EndOfLine.NATIVE_EOL);
-    }
-    return sb.toString().trim();
   }
 
   /**

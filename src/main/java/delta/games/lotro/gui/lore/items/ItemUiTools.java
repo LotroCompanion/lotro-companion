@@ -21,6 +21,9 @@ import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.ui.swing.windows.WindowsManager;
+import delta.common.utils.text.EndOfLine;
+import delta.games.lotro.character.stats.BasicStatsSet;
+import delta.games.lotro.common.stats.StatUtils;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.gui.navigation.NavigatorFactory;
@@ -286,6 +289,38 @@ public class ItemUiTools
     if (quality==ItemQuality.RARE) ret=new Color(244,74,178); // Mauve (Pink)
     if (quality==ItemQuality.UNCOMMON) ret=new Color(111,145,2); // Yellow
     if (quality==ItemQuality.COMMON) ret=defaultColor; // Default
+    return ret;
+  }
+
+  /**
+   * Build a tooltip for the given item instance.
+   * @param itemInstance Item instance.
+   * @param html Use HTML output or not.
+   * @return A tooltip.
+   */
+  public static String buildItemTooltip(ItemInstance<? extends Item> itemInstance, boolean html)
+  {
+    Item item=itemInstance.getReference();
+    StringBuilder sb=new StringBuilder();
+    String name=item.getName();
+    sb.append("Name: ").append(name);
+    Integer itemLevel=itemInstance.getEffectiveItemLevel();
+    if (itemLevel!=null)
+    {
+      sb.append(" (item level ").append(itemLevel).append(')');
+    }
+    sb.append(EndOfLine.NATIVE_EOL);
+    BasicStatsSet stats=itemInstance.getStats();
+    String[] lines=StatUtils.getStatsDisplayLines(stats);
+    for(String line : lines)
+    {
+      sb.append(line).append(EndOfLine.NATIVE_EOL);
+    }
+    String ret=sb.toString().trim();
+    if (html)
+    {
+      ret="<html>"+ret.replace(EndOfLine.NATIVE_EOL,"<br>")+"</html>";
+    }
     return ret;
   }
 }
