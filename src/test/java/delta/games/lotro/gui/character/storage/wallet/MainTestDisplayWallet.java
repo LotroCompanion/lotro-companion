@@ -24,19 +24,27 @@ public class MainTestDisplayWallet
       {
         //CharacterFile toon=mgr.getToonById("Landroval","Meva");
         Wallet wallet=WalletsIO.loadCharacterWallet(toon);
-        WalletWindow window=new WalletWindow(wallet);
-        window.setTitle(toon.getName());
-        window.pack();
-        window.show();
+        int nbItems=wallet.getAllItemsSortedByID().size();
+        if (nbItems>0)
+        {
+          WalletWindow window=new WalletWindow(wallet);
+          window.setTitle(toon.getName());
+          window.pack();
+          window.show();
+        }
       }
     }
     {
       AccountsManager accountsMgr=AccountsManager.getInstance();
       Account account=accountsMgr.getAccountByName("glorfindel666");
       Wallet wallet=WalletsIO.loadAccountSharedWallet(account,"Landroval");
-      WalletWindow window=new WalletWindow(wallet);
-      window.pack();
-      window.show();
+      int nbItems=wallet.getAllItemsSortedByID().size();
+      if (nbItems>0)
+      {
+        WalletWindow window=new WalletWindow(wallet);
+        window.pack();
+        window.show();
+      }
     }
   }
 

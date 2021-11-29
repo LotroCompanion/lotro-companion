@@ -25,19 +25,25 @@ public class MainTestDisplayVault
       {
         //CharacterFile toon=mgr.getToonById("Landroval","Meva");
         Vault vault=VaultsIo.load(toon);
-        VaultWindow window=new VaultWindow(vault);
-        window.setTitle(toon.getName());
-        window.pack();
-        window.show();
+        if (vault.getUsed()>0)
+        {
+          VaultWindow window=new VaultWindow(vault);
+          window.setTitle(toon.getName());
+          window.pack();
+          window.show();
+        }
       }
     }
     {
       AccountsManager accountsMgr=AccountsManager.getInstance();
       Account account=accountsMgr.getAccountByName("glorfindel666");
       Vault vault=VaultsIo.load(account,"Landroval");
-      VaultWindow window=new VaultWindow(vault);
-      window.pack();
-      window.show();
+      if (vault.getUsed()>0)
+      {
+        VaultWindow window=new VaultWindow(vault);
+        window.pack();
+        window.show();
+      }
     }
   }
 
@@ -55,7 +61,7 @@ public class MainTestDisplayVault
       _vault=vault;
     }
 
-  @Override
+    @Override
     protected JPanel buildFormPanel()
     {
       VaultDisplayPanelController ctrl=new VaultDisplayPanelController(this,_vault);
