@@ -1,15 +1,8 @@
 package delta.games.lotro.gui.character.storage.vaults;
 
-import javax.swing.JPanel;
-
-import delta.common.ui.swing.windows.DefaultDisplayDialogController;
-import delta.games.lotro.account.Account;
-import delta.games.lotro.account.AccountsManager;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharactersManager;
-import delta.games.lotro.character.storage.vaults.Vault;
-import delta.games.lotro.character.storage.vaults.io.VaultsIo;
-import delta.games.lotro.gui.character.storage.vault.VaultDisplayPanelController;
+import delta.games.lotro.gui.character.storage.vault.VaultWindowController;
 
 /**
  * Simple test class for the vault display panel controller.
@@ -19,54 +12,12 @@ public class MainTestDisplayVault
 {
   private void doIt()
   {
-    {
-      CharactersManager mgr=CharactersManager.getInstance();
-      for(CharacterFile toon : mgr.getAllToons())
-      {
-        //CharacterFile toon=mgr.getToonById("Landroval","Meva");
-        Vault vault=VaultsIo.load(toon);
-        if (vault.getUsed()>0)
-        {
-          VaultWindow window=new VaultWindow(vault);
-          window.setTitle(toon.getName());
-          window.pack();
-          window.show();
-        }
-      }
-    }
-    {
-      AccountsManager accountsMgr=AccountsManager.getInstance();
-      Account account=accountsMgr.getAccountByName("glorfindel666");
-      Vault vault=VaultsIo.load(account,"Landroval");
-      if (vault.getUsed()>0)
-      {
-        VaultWindow window=new VaultWindow(vault);
-        window.pack();
-        window.show();
-      }
-    }
-  }
-
-  private static class VaultWindow extends DefaultDisplayDialogController<Void>
-  {
-    private Vault _vault;
-
-    /**
-     * Constructor.
-     * @param vault Vault.
-     */
-    public VaultWindow(Vault vault)
-    {
-      super(null,null);
-      _vault=vault;
-    }
-
-    @Override
-    protected JPanel buildFormPanel()
-    {
-      VaultDisplayPanelController ctrl=new VaultDisplayPanelController(this,_vault);
-      return ctrl.getPanel();
-    }
+    CharactersManager mgr=CharactersManager.getInstance();
+    CharacterFile toon=mgr.getToonById("Landroval","Backstaba");
+    VaultWindowController ctrl=new VaultWindowController(null,toon,false);
+    ctrl.show();
+    VaultWindowController sharedCtrl=new VaultWindowController(null,toon,true);
+    sharedCtrl.show();
   }
 
   /**

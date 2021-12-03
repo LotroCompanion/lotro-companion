@@ -7,15 +7,18 @@ import java.awt.Insets;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.storage.vaults.Chest;
 import delta.games.lotro.character.storage.vaults.Vault;
+import delta.games.lotro.gui.character.storage.StorageUiUtils;
 import delta.games.lotro.gui.utils.ItemInstanceIconController;
 import delta.games.lotro.lore.items.CountedItem;
 import delta.games.lotro.lore.items.Item;
@@ -31,6 +34,7 @@ public class VaultDisplayPanelController
   private Vault _vault;
   // UI
   private JPanel _panel;
+  private JProgressBar _capacity;
   // Controllers
   private WindowController _parent;
   private List<ItemInstanceIconController> _iconControllers;
@@ -59,10 +63,36 @@ public class VaultDisplayPanelController
 
   private JPanel buildPanel()
   {
-    JPanel itemsPanel=buildItemsPanel();
-    JScrollPane scrollPane=GuiFactory.buildScrollPane(itemsPanel);
+    JPanel panel=privateBuildPanel();
+    JScrollPane scrollPane=GuiFactory.buildScrollPane(panel);
     JPanel ret=GuiFactory.buildBackgroundPanel(new BorderLayout());
     ret.add(scrollPane,BorderLayout.CENTER);
+    return ret;
+  }
+
+  private JPanel privateBuildPanel()
+  {
+    JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    JPanel capacityPanel=buildCapacityPanel();
+    ret.add(capacityPanel,c);
+    c=new GridBagConstraints(0,1,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
+    JPanel itemsPanel=buildItemsPanel();
+    ret.add(itemsPanel,c);
+    return ret;
+  }
+
+  private JPanel buildCapacityPanel()
+  {
+    _capacity=StorageUiUtils.buildProgressBar();
+    int used=_vault.getUsed();
+    int capacity=_vault.getCapacity();
+    StorageUiUtils.updateProgressBar(_capacity,Integer.valueOf(used),Integer.valueOf(capacity));
+    JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
+    ret.add(GuiFactory.buildLabel("Capacity:"),c);
+    c=new GridBagConstraints(0,1,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,5,5,5),0,0);
+    ret.add(_capacity,c);
     return ret;
   }
 
@@ -75,11 +105,7 @@ public class VaultDisplayPanelController
     {
       Chest chest=_vault.getChest(chestID.intValue());
       JPanel chestPanel=buildPanelForChest(chest);
-      if (chestPanel==null)
-      {
-        continue;
-      }
-      GridBagConstraints c=new GridBagConstraints(0,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+      GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
       ret.add(chestPanel,c);
       y++;
     }
@@ -89,12 +115,12 @@ public class VaultDisplayPanelController
   private JPanel buildPanelForChest(Chest chest)
   {
     JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
-
     int width=10;
     String chestName=chest.getName();
-    JLabel nameLabel=GuiFactory.buildLabel("Chest: "+chestName);
-    GridBagConstraints c=new GridBagConstraints(0,0,width,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(5,5,5,5),0,0);
-    ret.add(nameLabel,c);
+    String label="Chest: "+chestName;
+    ret.setBorder(GuiFactory.buildTitledBorder(label));
+    GridBagConstraints c=new GridBagConstraints(0,0,width+1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    ret.add(Box.createHorizontalStrut(width*32),c);
 
     int i=0;
     for(CountedItem<ItemInstance<? extends Item>> countedItem : chest.getAllItemInstances())
@@ -113,6 +139,7 @@ public class VaultDisplayPanelController
       ItemInstanceIconController iconCtrl=new ItemInstanceIconController(_parent,itemInstance,count);
       _iconControllers.add(iconCtrl);
       JButton icon=iconCtrl.getIcon();
+      icon.setBorder(BorderFactory.createEmptyBorder());
       int x=i%width;
       int y=1+(i/width);
       int top=(y==1)?0:2;
@@ -121,11 +148,12 @@ public class VaultDisplayPanelController
       int right=(x==(width-1))?5:0;
       c=new GridBagConstraints(x,y,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(top,left,bottom,right),0,0);
       ret.add(icon,c);
+      if (i==0)
+      {
+        c=new GridBagConstraints(width,y,1,1,1.0,0.0,GridBagConstraints.EAST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+        ret.add(Box.createGlue(),c);
+      }
       i++;
-    }
-    if (i==0)
-    {
-      return null;
     }
     return ret;
   }
@@ -143,6 +171,7 @@ public class VaultDisplayPanelController
       _panel.removeAll();
       _panel=null;
     }
+    _capacity=null;
     // Controllers
     _parent=null;
     if (_iconControllers!=null)

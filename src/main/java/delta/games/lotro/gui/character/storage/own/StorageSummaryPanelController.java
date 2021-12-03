@@ -1,7 +1,5 @@
 package delta.games.lotro.gui.character.storage.own;
 
-import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -9,13 +7,13 @@ import java.awt.Insets;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
-import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.character.storage.CharacterStorage;
 import delta.games.lotro.character.storage.bags.BagsManager;
 import delta.games.lotro.character.storage.vaults.Vault;
+import delta.games.lotro.gui.character.storage.StorageUiUtils;
 
 /**
  * Controller for a panel that displays storage summary for a single character.
@@ -61,11 +59,11 @@ public class StorageSummaryPanelController
       {
         Integer used=Integer.valueOf(bags.getUsed());
         Integer max=Integer.valueOf(bags.getCapacity());
-        updateProgressBar(_bags,used,max);
+        StorageUiUtils.updateProgressBar(_bags,used,max);
       }
       else
       {
-        updateProgressBar(_bags,null,null);
+        StorageUiUtils.updateProgressBar(_bags,null,null);
       }
     }
     // Vault
@@ -75,50 +73,13 @@ public class StorageSummaryPanelController
       {
         Integer used=Integer.valueOf(ownVault.getUsed());
         Integer max=Integer.valueOf(ownVault.getCapacity());
-        updateProgressBar(_vault,used,max);
+        StorageUiUtils.updateProgressBar(_vault,used,max);
       }
       else
       {
-        updateProgressBar(_vault,null,null);
+        StorageUiUtils.updateProgressBar(_vault,null,null);
       }
     }
-  }
-
-  private JProgressBar buildProgressBar()
-  {
-    JProgressBar bar=new JProgressBar(SwingConstants.HORIZONTAL,0,100);
-    bar.setBackground(GuiFactory.getBackgroundColor());
-    bar.setBorderPainted(true);
-    bar.setStringPainted(true);
-    bar.setPreferredSize(new Dimension(200,25));
-    bar.setMinimumSize(new Dimension(200,25));
-    return bar;
-  }
-
-  private void updateProgressBar(JProgressBar bar, Integer value, Integer maxValue)
-  {
-    if ((value!=null) && (maxValue!=null))
-    {
-      Color color=getColor(value.intValue(),maxValue.intValue());
-      bar.setForeground(color);
-      bar.setString(value+" / "+maxValue);
-      bar.setMaximum(maxValue.intValue());
-      bar.setValue(value.intValue());
-    }
-    else
-    {
-      bar.setForeground(Color.LIGHT_GRAY);
-      bar.setString("(unknown)");
-      bar.setMaximum(100);
-      bar.setValue(100);
-    }
-  }
-
-  private Color getColor(int value, int maxValue)
-  {
-    if (value * 100 > maxValue * 80) return Color.RED; // > 80%
-    if (value * 100 > maxValue * 50) return Color.YELLOW; // > 80%
-    return Color.GREEN;
   }
 
   private JPanel buildPanel()
@@ -129,14 +90,14 @@ public class StorageSummaryPanelController
     JLabel bagsLabel=GuiFactory.buildLabel("Bags:");
     panel.add(bagsLabel,c);
     c.gridx++;
-    _bags=buildProgressBar();
+    _bags=StorageUiUtils.buildProgressBar();
     panel.add(_bags,c);
     c.gridy++;c.gridx=0;
     // Vault
     JLabel vaultLabel=GuiFactory.buildLabel("Vault:");
     panel.add(vaultLabel,c);
     c.gridx++;
-    _vault=buildProgressBar();
+    _vault=StorageUiUtils.buildProgressBar();
     panel.add(_vault,c);
     TitledBorder border=GuiFactory.buildTitledBorder("Capacity");
     panel.setBorder(border);
