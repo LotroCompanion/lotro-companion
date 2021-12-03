@@ -279,7 +279,7 @@ public class ItemInstanceMainAttrsDisplayPanelController
     Integer minLevel=_itemInstance.getEffectiveMinLevel();
     _minLevel.setText(minLevel!=null?minLevel.toString():"-");
     // - Value
-    Money value=_itemInstance.getValue();
+    Money value=_itemInstance.getEffectiveValue();
     if (value!=null)
     {
       _value.setMoney(value);

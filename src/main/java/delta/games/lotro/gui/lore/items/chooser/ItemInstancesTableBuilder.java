@@ -249,7 +249,7 @@ public class ItemInstancesTableBuilder
         @Override
         public Money getData(ItemInstance<? extends Item> item)
         {
-          return item.getValue();
+          return item.getEffectiveValue();
         }
       };
       DefaultTableColumnController<ItemInstance<? extends Item>,Money> column=new DefaultTableColumnController<ItemInstance<? extends Item>,Money>(ItemInstanceColumnIds.INSTANCE_VALUE.name(),"Value",Money.class,cell);

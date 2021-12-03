@@ -271,7 +271,7 @@ public class ItemInstanceMainAttrsEditionPanelController
     // - Color
     _color.selectItem(_itemInstance.getColor());
     // - Value
-    Money value=_itemInstance.getValue();
+    Money value=_itemInstance.getEffectiveValue();
     if (value!=null)
     {
       _value.setMoney(value);
