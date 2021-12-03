@@ -8,9 +8,12 @@ import java.awt.Insets;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.SwingConstants;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.WindowController;
@@ -113,8 +116,12 @@ public class WalletDisplayPanelController
       }
       // Icon
       IconController iconCtrl=IconControllerFactory.buildItemIcon(_parent,item,1);
+      JButton button=iconCtrl.getIcon();
+      button.setBorder(BorderFactory.createEmptyBorder());
       _iconControllers.add(iconCtrl);
-      GridBagConstraints c=new GridBagConstraints(0,y,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(2,2,2,2),0,0);
+      int top=(y==0)?2:0;
+      int bottom=2;
+      GridBagConstraints c=new GridBagConstraints(0,y,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(top,2,bottom,2),0,0);
       ret.add(iconCtrl.getIcon(),c);
       // Name
       String itemName=item.getName();
@@ -124,7 +131,7 @@ public class WalletDisplayPanelController
       {
         nameLabel.setForeground(new Color(30,168,97));
       }
-      c=new GridBagConstraints(1,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(2,2,2,2),0,0);
+      c=new GridBagConstraints(1,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(top,2,bottom,2),0,0);
       ret.add(nameLabel,c);
       // Count
       Integer cap=paperItem.getCap();
@@ -134,11 +141,12 @@ public class WalletDisplayPanelController
         countText=countText+"/"+cap.toString();
       }
       JLabel countLabel=GuiFactory.buildLabel(countText);
+      countLabel.setHorizontalAlignment(SwingConstants.RIGHT);
       if ((cap!=null) && (count==cap.intValue()))
       {
         countLabel.setForeground(Color.RED);
       }
-      c=new GridBagConstraints(2,y,1,1,0.0,0.0,GridBagConstraints.EAST,GridBagConstraints.HORIZONTAL,new Insets(2,2,2,2),0,0);
+      c=new GridBagConstraints(2,y,1,1,0.0,0.0,GridBagConstraints.EAST,GridBagConstraints.HORIZONTAL,new Insets(top,2,bottom,2),0,0);
       ret.add(countLabel,c);
       y++;
     }
