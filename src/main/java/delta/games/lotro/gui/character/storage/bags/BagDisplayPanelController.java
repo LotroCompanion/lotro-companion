@@ -8,7 +8,9 @@ import java.awt.Insets;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
+import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
@@ -76,7 +78,11 @@ public class BagDisplayPanelController
       Component component=buildComponent(i);
       int x=i%width;
       int y=i/width;
-      GridBagConstraints c=new GridBagConstraints(x,y,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(2,2,2,2),0,0);
+      int top=(y==0)?5:2;
+      int left=(x==0)?5:2;
+      int bottom=2;
+      int right=(x==(width-1))?5:0;
+      GridBagConstraints c=new GridBagConstraints(x,y,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(top,left,bottom,right),0,0);
       ret.add(component,c);
     }
     return ret;
@@ -108,7 +114,9 @@ public class BagDisplayPanelController
     int count=countedItemInstance.getQuantity();
     ItemInstanceIconController ctrl=new ItemInstanceIconController(_parent,itemInstance,count);
     _iconControllers.add(ctrl);
-    return ctrl.getIcon();
+    JButton icon=ctrl.getIcon();
+    icon.setBorder(BorderFactory.createEmptyBorder());
+    return icon;
   }
   /**
    * Release all resources.
