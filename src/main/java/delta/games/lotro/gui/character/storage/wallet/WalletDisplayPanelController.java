@@ -30,6 +30,7 @@ public class WalletDisplayPanelController
 {
   // Data
   private Wallet _wallet;
+  private Wallet _sharedWallet;
   // UI
   private JPanel _panel;
   // Controllers
@@ -39,12 +40,14 @@ public class WalletDisplayPanelController
   /**
    * Constructor.
    * @param parent Parent window.
-   * @param wallet Wallet.
+   * @param wallet Own wallet.
+   * @param sharedWallet Shared wallet.
    */
-  public WalletDisplayPanelController(WindowController parent, Wallet wallet)
+  public WalletDisplayPanelController(WindowController parent, Wallet wallet, Wallet sharedWallet)
   {
     _parent=parent;
     _wallet=wallet;
+    _sharedWallet=sharedWallet;
     _iconControllers=new ArrayList<IconController>();
     _panel=buildPanel();
   }
@@ -97,8 +100,7 @@ public class WalletDisplayPanelController
     int y=0;
     for(PaperItem paperItem : paperItems)
     {
-      int id=paperItem.getIdentifier();
-      CountedItem<Item> countedItem=_wallet.getById(id);
+      CountedItem<Item> countedItem=getPaperItem(paperItem);
       if (countedItem==null)
       {
         continue;
@@ -143,6 +145,19 @@ public class WalletDisplayPanelController
     if (y==0)
     {
       return null;
+    }
+    return ret;
+  }
+
+  private CountedItem<Item> getPaperItem(PaperItem paperItem)
+  {
+    boolean shared=paperItem.isShared();
+    Wallet toUse=shared?_sharedWallet:_wallet;
+    CountedItem<Item> ret=null;
+    if (toUse!=null)
+    {
+      int id=paperItem.getIdentifier();
+      ret=toUse.getById(id);
     }
     return ret;
   }
