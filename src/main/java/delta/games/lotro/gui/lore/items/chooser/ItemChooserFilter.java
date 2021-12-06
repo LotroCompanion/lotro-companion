@@ -22,7 +22,7 @@ import delta.games.lotro.lore.items.filters.ItemQualityFilter;
 import delta.games.lotro.lore.items.filters.ItemRequiredClassFilter;
 import delta.games.lotro.lore.items.filters.ItemRequiredRaceFilter;
 import delta.games.lotro.lore.items.filters.ItemStatFilter;
-import delta.games.lotro.lore.items.filters.ItemSubCategoryFilter;
+import delta.games.lotro.lore.items.filters.ItemClassFilter;
 import delta.games.lotro.lore.items.filters.LegendaryItemFilter;
 import delta.games.lotro.lore.items.filters.WeaponTypeFilter;
 
@@ -50,7 +50,7 @@ public class ItemChooserFilter implements Filter<Item>
   private EssenceTierFilter _essenceTierFilter;
   private ItemNameFilter _nameFilter;
   private ItemQualityFilter _qualityFilter;
-  private ItemSubCategoryFilter _categoryFilter;
+  private ItemClassFilter _categoryFilter;
   private LegendaryItemFilter _legendaryFilter;
   private ItemEquipmentLocationFilter _locationFilter;
   private WeaponTypeFilter _weaponTypeFilter;
@@ -120,7 +120,7 @@ public class ItemChooserFilter implements Filter<Item>
     boolean useCategory=cfg.hasComponent(ItemChooserFilterComponent.CATEGORY);
     if (useCategory)
     {
-      _categoryFilter=new ItemSubCategoryFilter(null);
+      _categoryFilter=new ItemClassFilter(null);
       filters.add(_categoryFilter);
     }
     // Legendary
@@ -282,7 +282,7 @@ public class ItemChooserFilter implements Filter<Item>
    * Get the category filter.
    * @return A filter for item category.
    */
-  public ItemSubCategoryFilter getCategoryFilter()
+  public ItemClassFilter getCategoryFilter()
   {
     return _categoryFilter;
   }

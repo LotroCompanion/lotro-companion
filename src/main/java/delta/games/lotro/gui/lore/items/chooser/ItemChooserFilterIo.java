@@ -3,9 +3,13 @@ package delta.games.lotro.gui.lore.items.chooser;
 import java.util.List;
 
 import delta.common.utils.BooleanTools;
+import delta.common.utils.NumericTools;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.Race;
+import delta.games.lotro.common.enums.ItemClass;
+import delta.games.lotro.common.enums.LotroEnum;
+import delta.games.lotro.common.enums.LotroEnumsRegistry;
 import delta.games.lotro.common.stats.StatDescription;
 import delta.games.lotro.common.stats.StatsRegistry;
 import delta.games.lotro.lore.items.ArmourType;
@@ -15,6 +19,7 @@ import delta.games.lotro.lore.items.filters.ArmourTypeFilter;
 import delta.games.lotro.lore.items.filters.CharacterProficienciesFilter;
 import delta.games.lotro.lore.items.filters.EssenceTierFilter;
 import delta.games.lotro.lore.items.filters.ItemCharacterLevelFilter;
+import delta.games.lotro.lore.items.filters.ItemClassFilter;
 import delta.games.lotro.lore.items.filters.ItemEquipmentLocationFilter;
 import delta.games.lotro.lore.items.filters.ItemLevelFilter;
 import delta.games.lotro.lore.items.filters.ItemNameFilter;
@@ -22,7 +27,6 @@ import delta.games.lotro.lore.items.filters.ItemQualityFilter;
 import delta.games.lotro.lore.items.filters.ItemRequiredClassFilter;
 import delta.games.lotro.lore.items.filters.ItemRequiredRaceFilter;
 import delta.games.lotro.lore.items.filters.ItemStatFilter;
-import delta.games.lotro.lore.items.filters.ItemSubCategoryFilter;
 import delta.games.lotro.lore.items.filters.LegendaryItemFilter;
 import delta.games.lotro.lore.items.filters.WeaponTypeFilter;
 
@@ -99,11 +103,25 @@ public class ItemChooserFilterIo
       nameFilter.setPattern(namePattern);
     }
     // Category
-    ItemSubCategoryFilter categoryFilter=filter.getCategoryFilter();
+    ItemClassFilter categoryFilter=filter.getCategoryFilter();
     if (categoryFilter!=null)
     {
       String category=props.getStringProperty(CATEGORY,null);
-      categoryFilter.setSubCategory(category);
+      ItemClass itemClass=null;
+      if (category!=null)
+      {
+        LotroEnum<ItemClass> itemClassEnum=LotroEnumsRegistry.getInstance().get(ItemClass.class);
+        Integer itemClassCode=NumericTools.parseInteger(category,false);
+        if (itemClassCode!=null)
+        {
+          itemClass=itemClassEnum.getEntry(itemClassCode.intValue());
+        }
+        else
+        {
+          itemClass=itemClassEnum.getByLabel(category);
+        }
+        categoryFilter.setItemClass(itemClass);
+      }
     }
     // Quality
     ItemQualityFilter qualityFilter=filter.getQualityFilter();
@@ -245,13 +263,13 @@ public class ItemChooserFilterIo
       props.setStringProperty(NAME_PATTERN,namePattern);
     }
     // Category
-    ItemSubCategoryFilter categoryFilter=filter.getCategoryFilter();
+    ItemClassFilter categoryFilter=filter.getCategoryFilter();
     if (categoryFilter!=null)
     {
-      String category=categoryFilter.getSubCategory();
+      ItemClass category=categoryFilter.getItemClass();
       if (category!=null)
       {
-        props.setStringProperty(CATEGORY,category);
+        props.setStringProperty(CATEGORY,String.valueOf(category.getCode()));
       }
       else
       {

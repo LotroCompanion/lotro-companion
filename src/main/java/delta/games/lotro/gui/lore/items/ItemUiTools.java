@@ -23,6 +23,8 @@ import delta.common.ui.swing.windows.WindowController;
 import delta.common.ui.swing.windows.WindowsManager;
 import delta.common.utils.text.EndOfLine;
 import delta.games.lotro.character.stats.BasicStatsSet;
+import delta.games.lotro.common.enums.ItemClass;
+import delta.games.lotro.common.enums.comparator.LotroEnumEntryNameComparator;
 import delta.games.lotro.common.stats.StatUtils;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
@@ -157,20 +159,24 @@ public class ItemUiTools
    * Build a controller for a combo box to choose an item category.
    * @return A new controller.
    */
-  public static ComboBoxController<String> buildCategoryCombo()
+  public static ComboBoxController<ItemClass> buildCategoryCombo()
   {
-    ComboBoxController<String> ctrl=new ComboBoxController<String>();
+    ComboBoxController<ItemClass> ctrl=new ComboBoxController<ItemClass>();
     ctrl.addEmptyItem("");
-    Set<String> categories=new HashSet<String>();
+    Set<ItemClass> categories=new HashSet<ItemClass>();
     for(Item item : ItemsManager.getInstance().getAllItems())
     {
-      categories.add(item.getSubCategory());
+      ItemClass itemClass=item.getItemClass();
+      if (itemClass!=null)
+      {
+        categories.add(itemClass);
+      }
     }
-    List<String> sortedCategories=new ArrayList<String>(categories);
-    Collections.sort(sortedCategories);
-    for(String sortedCategory : sortedCategories)
+    List<ItemClass> sortedCategories=new ArrayList<ItemClass>(categories);
+    Collections.sort(sortedCategories,new LotroEnumEntryNameComparator<ItemClass>());
+    for(ItemClass sortedCategory : sortedCategories)
     {
-      ctrl.addItem(sortedCategory,sortedCategory);
+      ctrl.addItem(sortedCategory,sortedCategory.getLabel());
     }
     ctrl.selectItem(null);
     return ctrl;

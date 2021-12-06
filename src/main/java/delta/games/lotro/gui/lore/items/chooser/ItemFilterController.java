@@ -31,6 +31,7 @@ import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.character.BasicCharacterAttributes;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.Race;
+import delta.games.lotro.common.enums.ItemClass;
 import delta.games.lotro.common.stats.StatDescription;
 import delta.games.lotro.gui.character.summary.CharacterUiUtils;
 import delta.games.lotro.gui.lore.items.ItemUiTools;
@@ -69,7 +70,7 @@ public class ItemFilterController extends ObjectFilterPanelController implements
   private DynamicTextEditionController _textController;
   private ComboBoxController<Integer> _tier;
   private ComboBoxController<ItemQuality> _quality;
-  private ComboBoxController<String> _category;
+  private ComboBoxController<ItemClass> _itemClass;
   private ComboBoxController<Boolean> _legendary;
   private ComboBoxController<Set<EquipmentLocation>> _location;
   private ComboBoxController<WeaponType> _weaponType;
@@ -142,10 +143,10 @@ public class ItemFilterController extends ObjectFilterPanelController implements
       {
         _quality.selectItem(null);
       }
-      // Category
-      if (_category!=null)
+      // Item class
+      if (_itemClass!=null)
       {
-        _category.selectItem(null);
+        _itemClass.selectItem(null);
       }
       // Legendary
       if (_legendary!=null)
@@ -233,11 +234,11 @@ public class ItemFilterController extends ObjectFilterPanelController implements
       ItemQuality quality=_filter.getQualityFilter().getQuality();
       _quality.selectItem(quality);
     }
-    // Category
-    if (_category!=null)
+    // Item class
+    if (_itemClass!=null)
     {
-      String category=_filter.getCategoryFilter().getSubCategory();
-      _category.selectItem(category);
+      ItemClass category=_filter.getCategoryFilter().getItemClass();
+      _itemClass.selectItem(category);
     }
     // Legendary
     if (_legendary!=null)
@@ -423,18 +424,18 @@ public class ItemFilterController extends ObjectFilterPanelController implements
     {
       JPanel categoryPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING));
       categoryPanel.add(GuiFactory.buildLabel("Category:"));
-      _category=ItemUiTools.buildCategoryCombo();
-      ItemSelectionListener<String> qualityListener=new ItemSelectionListener<String>()
+      _itemClass=ItemUiTools.buildCategoryCombo();
+      ItemSelectionListener<ItemClass> itemClassListener=new ItemSelectionListener<ItemClass>()
       {
         @Override
-        public void itemSelected(String category)
+        public void itemSelected(ItemClass category)
         {
-          _filter.getCategoryFilter().setSubCategory(category);
+          _filter.getCategoryFilter().setItemClass(category);
           filterUpdated();
         }
       };
-      _category.addListener(qualityListener);
-      categoryPanel.add(_category.getComboBox());
+      _itemClass.addListener(itemClassListener);
+      categoryPanel.add(_itemClass.getComboBox());
       panel.add(categoryPanel);
     }
     // Legendary
@@ -872,10 +873,10 @@ public class ItemFilterController extends ObjectFilterPanelController implements
       _quality.dispose();
       _quality=null;
     }
-    if (_category!=null)
+    if (_itemClass!=null)
     {
-      _category.dispose();
-      _category=null;
+      _itemClass.dispose();
+      _itemClass=null;
     }
     if (_location!=null)
     {
