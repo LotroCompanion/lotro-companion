@@ -44,6 +44,7 @@ public class CharacterStorageDisplayWindowController extends DefaultDialogContro
   // Controllers
   private StorageSummaryPanelController _summaryController;
   private StorageDisplayPanelController _panelController;
+  private DetailedStorageAccessPanelController _detailedAccessController;
   private StorageFilterController _filterController;
 
   /**
@@ -68,6 +69,8 @@ public class CharacterStorageDisplayWindowController extends DefaultDialogContro
     _summaryController=new StorageSummaryPanelController();
     // Display
     _panelController=new StorageDisplayPanelController(this,_filter);
+    // Details
+    _detailedAccessController=new DetailedStorageAccessPanelController(this,_toon);
     // Table
     JPanel tablePanel=_panelController.getPanel();
     // Filter
@@ -80,8 +83,10 @@ public class CharacterStorageDisplayWindowController extends DefaultDialogContro
     panel.add(_summaryController.getPanel(),c);
     c=new GridBagConstraints(0,1,2,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(filterPanel,c);
-    c.gridy++;c.weighty=1;c.fill=GridBagConstraints.BOTH;
+    c=new GridBagConstraints(0,2,2,1,1,0,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
     panel.add(tablePanel,c);
+    c=new GridBagConstraints(2,0,1,3,0,1,GridBagConstraints.NORTHWEST,GridBagConstraints.VERTICAL,new Insets(0,0,0,0),0,0);
+    panel.add(_detailedAccessController.getPanel(),c);
     return panel;
   }
 
@@ -162,6 +167,11 @@ public class CharacterStorageDisplayWindowController extends DefaultDialogContro
     {
       _filterController.dispose();
       _filterController=null;
+    }
+    if (_detailedAccessController!=null)
+    {
+      _detailedAccessController.dispose();
+      _detailedAccessController=null;
     }
     super.dispose();
   }
