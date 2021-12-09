@@ -58,6 +58,7 @@ public class LegendaryInstance2EditionPanelController
   private JTextField _name;
   private JLabel _itemLevelLabel;
   private JLabel _minLevelLabel;
+  private JLabel _nextReforgeLabel;
   private JPanel _traceriesPanel;
   // Controllers
   private WindowController _parent;
@@ -71,14 +72,21 @@ public class LegendaryInstance2EditionPanelController
   public LegendaryInstance2EditionPanelController(WindowController parent, ItemInstance<? extends Item> item)
   {
     _parent=parent;
+    // Character level
     Integer characterLevel=parent.getContextProperty(ContextPropertyNames.CHARACTER_LEVEL,Integer.class);
     _characterLevel=(characterLevel!=null)?characterLevel.intValue():Config.getInstance().getMaxCharacterLevel();
+    // Item level
     Integer itemLevel=item.getEffectiveItemLevel();
     _itemLevel=(itemLevel!=null)?itemLevel.intValue():1;
     _itemLevelLabel=GuiFactory.buildLabel(String.valueOf(_itemLevel));
+    // Min level
     Integer minLevel=item.getEffectiveMinLevel();
     _minLevel=(minLevel!=null)?minLevel.intValue():1;
     _minLevelLabel=GuiFactory.buildLabel(String.valueOf(_minLevel));
+    // Next reforge
+    _nextReforgeLabel=GuiFactory.buildLabel("");
+    updateNextReforgeLabel();
+
     LegendaryInstance2 legendaryInstance=(LegendaryInstance2)item;
     LegendaryInstanceAttrs2 attrs=legendaryInstance.getLegendaryAttributes();
     // Name
@@ -163,6 +171,11 @@ public class LegendaryInstance2EditionPanelController
     ret.add(GuiFactory.buildLabel("Min Level:"),c);
     c=new GridBagConstraints(1,2,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(5,5,5,5),0,0);
     ret.add(_minLevelLabel,c);
+    // Next reforge
+    c=new GridBagConstraints(0,3,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
+    ret.add(GuiFactory.buildLabel("Next reforge:"),c);
+    c=new GridBagConstraints(1,3,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(5,5,5,5),0,0);
+    ret.add(_nextReforgeLabel,c);
     return ret;
   }
 
@@ -193,6 +206,7 @@ public class LegendaryInstance2EditionPanelController
     _itemLevelLabel.setText(String.valueOf(itemLevel));
     _minLevel=reforgeLevel;
     _minLevelLabel.setText(String.valueOf(_minLevel));
+    updateNextReforgeLabel();
     for(SingleTraceryEditionController editor : _editors)
     {
       editor.setLIItemLevel(_itemLevel);
@@ -200,6 +214,26 @@ public class LegendaryInstance2EditionPanelController
     }
     fillTraceriesPanel();
     updateWindow();
+  }
+
+  private void updateNextReforgeLabel()
+  {
+    String text=buildNextReforgeLabel();
+    _nextReforgeLabel.setText(text);
+  }
+
+  private String buildNextReforgeLabel()
+  {
+    int maxLevel=Config.getInstance().getMaxCharacterLevel();
+    for(int level=_minLevel;level<=maxLevel;level++)
+    {
+      int itemLevel=LegendarySystem2.getInstance().getItemLevelForCharacterLevel(level);
+      if (itemLevel>_itemLevel)
+      {
+        return "at "+level+" (item level "+itemLevel+")";
+      }
+    }
+    return "none";
   }
 
   private JButton buildMinButton()
@@ -499,6 +533,7 @@ public class LegendaryInstance2EditionPanelController
     _name=null;
     _itemLevelLabel=null;
     _minLevelLabel=null;
+    _nextReforgeLabel=null;
     _traceriesPanel=null;
     // Controllers
     _parent=null;
