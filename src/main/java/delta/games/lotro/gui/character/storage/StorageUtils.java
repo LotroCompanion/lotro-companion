@@ -26,6 +26,7 @@ import delta.games.lotro.lore.items.CountedItem;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemInstance;
 import delta.games.lotro.lore.items.ItemProvider;
+import delta.games.lotro.lore.items.carryalls.CarryAllInstance;
 
 /**
  * Utility methods for storage management.
@@ -65,6 +66,12 @@ public class StorageUtils
     {
       Wallet ownWallet=characterStorage.getWallet();
       List<StoredItem> storedItems=getAllItems(owner,ownWallet,LocationType.WALLET);
+      items.addAll(storedItems);
+    }
+    // Carry-alls
+    for(CarryAllInstance carryAllInstance : characterStorage.getCarryAlls())
+    {
+      List<StoredItem> storedItems=getAllItems(owner,carryAllInstance,LocationType.CARRY_ALL);
       items.addAll(storedItems);
     }
     return items;
@@ -110,6 +117,14 @@ public class StorageUtils
         Wallet ownWallet=characterStorage.getWallet();
         List<StoredItem> storedItems=getAllItems(owner,ownWallet,LocationType.WALLET);
         items.addAll(storedItems);
+      }
+      // Carry-alls
+      {
+        for(CarryAllInstance carryAllInstance : characterStorage.getCarryAlls())
+        {
+          List<StoredItem> storedItems=getAllItems(owner,carryAllInstance,LocationType.CARRY_ALL);
+          items.addAll(storedItems);
+        }
       }
     }
     // Account/server storage
@@ -188,6 +203,21 @@ public class StorageUtils
           items.add(storedItem);
         }
       }
+    }
+    return items;
+  }
+
+  private static List<StoredItem> getAllItems(Owner owner, CarryAllInstance container, LocationType type)
+  {
+    StorageLocation location=new SimpleStorageLocation(owner,type,null);
+    List<StoredItem> items=new ArrayList<StoredItem>();
+    for(CountedItem<Item> walletItem : container.getItems())
+    {
+      CountedItem<ItemProvider> countedItem=new CountedItem<ItemProvider>(walletItem.getManagedItem(),walletItem.getQuantity());
+      StoredItem storedItem=new StoredItem(countedItem);
+      storedItem.setOwner(owner);
+      storedItem.setLocation(location);
+      items.add(storedItem);
     }
     return items;
   }
