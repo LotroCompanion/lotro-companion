@@ -7,11 +7,8 @@ import javax.swing.JPanel;
 
 import delta.common.ui.swing.windows.DefaultDisplayDialogController;
 import delta.common.ui.swing.windows.WindowController;
-import delta.games.lotro.account.Account;
-import delta.games.lotro.account.AccountsManager;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.storage.wallet.Wallet;
-import delta.games.lotro.character.storage.wallet.io.xml.WalletsIO;
 
 /**
  * Controller for a window to display the wallet of a single character.
@@ -31,25 +28,15 @@ public class WalletWindowController extends DefaultDisplayDialogController<Void>
    * Constructor.
    * @param parent Parent window.
    * @param character Character to use.
+   * @param ownWallet Own wallet.
+   * @param sharedWallet Shared wallet.
    */
-  public WalletWindowController(WindowController parent, CharacterFile character)
+  public WalletWindowController(WindowController parent, CharacterFile character, Wallet ownWallet, Wallet sharedWallet)
   {
     super(parent,null);
     _character=character;
-    initData(character);
-  }
-
-  private void initData(CharacterFile toon)
-  {
-    _ownWallet=WalletsIO.loadCharacterWallet(toon);
-    String accountName=toon.getAccountName();
-    String serverName=toon.getServerName();
-    if ((accountName.length()>0) && (serverName.length()>0))
-    {
-      AccountsManager accountsMgr=AccountsManager.getInstance();
-      Account account=accountsMgr.getAccountByName(accountName);
-      _accountWallet=WalletsIO.loadAccountSharedWallet(account,serverName);
-    }
+    _ownWallet=ownWallet;
+    _accountWallet=sharedWallet;
   }
 
   @Override

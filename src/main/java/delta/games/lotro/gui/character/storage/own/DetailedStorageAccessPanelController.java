@@ -14,13 +14,17 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.NumericTools;
 import delta.games.lotro.character.CharacterFile;
+import delta.games.lotro.character.storage.CharacterStorage;
 import delta.games.lotro.character.storage.bags.BagsManager;
 import delta.games.lotro.character.storage.bags.BagsSetup;
 import delta.games.lotro.character.storage.bags.SingleBagSetup;
-import delta.games.lotro.character.storage.bags.io.BagsIo;
+import delta.games.lotro.character.storage.vaults.Vault;
+import delta.games.lotro.character.storage.wallet.Wallet;
 import delta.games.lotro.gui.character.storage.bags.BagWindowController;
+import delta.games.lotro.gui.character.storage.carryAlls.CarryAllWindowController;
 import delta.games.lotro.gui.character.storage.vault.VaultWindowController;
 import delta.games.lotro.gui.character.storage.wallet.WalletWindowController;
+import delta.games.lotro.lore.items.carryalls.CarryAllInstance;
 
 /**
  * Controller for a panel to provide access to all the detailed
@@ -34,10 +38,12 @@ public class DetailedStorageAccessPanelController implements ActionListener
   private static final String WALLET="WALLET";
   private static final String VAULT="VAULT";
   private static final String SHARED_VAULT="SHARED_VAULT";
+  private static final String CARRY_ALL_SEED="CARRY_ALL_";
   // Controllers
   private WindowController _parent;
   // Data
   private CharacterFile _character;
+  private CharacterStorage _storage;
   // UI
   private JPanel _panel;
 
@@ -50,7 +56,8 @@ public class DetailedStorageAccessPanelController implements ActionListener
   {
     _parent=parent;
     _character=character;
-    _panel=buildPanel();
+    _storage=null;
+    _panel=GuiFactory.buildPanel(new GridBagLayout());
   }
 
   /**
@@ -62,12 +69,17 @@ public class DetailedStorageAccessPanelController implements ActionListener
     return _panel;
   }
 
-  private JPanel buildPanel()
+  /**
+   * Update the contents of this panel using the given storage.
+   * @param characterStorage Character storage.
+   */
+  public void update(CharacterStorage characterStorage)
   {
-    JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
+    _storage=characterStorage;
+    _panel.removeAll();
     int y=0;
     // Bags
-    BagsManager bags=BagsIo.load(_character);
+    BagsManager bags=characterStorage.getBags();
     BagsSetup setup=bags.getBagsSetup();
     List<Integer> indexes=setup.getBagIndexes();
     for(Integer index : indexes)
@@ -81,21 +93,21 @@ public class DetailedStorageAccessPanelController implements ActionListener
       String command=BAG_SEED+index;
       JButton button=buildButton("Bag #"+index,command);
       GridBagConstraints c=new GridBagConstraints(0,y,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
-      ret.add(button,c);
+      _panel.add(button,c);
       y++;
     }
     // Wallet
     {
       JButton button=buildButton("Wallet",WALLET);
       GridBagConstraints c=new GridBagConstraints(0,y,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
-      ret.add(button,c);
+      _panel.add(button,c);
       y++;
     }
     // Own vault
     {
       JButton button=buildButton("Vault",VAULT);
       GridBagConstraints c=new GridBagConstraints(0,y,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
-      ret.add(button,c);
+      _panel.add(button,c);
       y++;
     }
     // Shared vault
@@ -104,10 +116,20 @@ public class DetailedStorageAccessPanelController implements ActionListener
     {
       JButton button=buildButton("Shared Vault",SHARED_VAULT);
       GridBagConstraints c=new GridBagConstraints(0,y,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
-      ret.add(button,c);
+      _panel.add(button,c);
       y++;
     }
-    return ret;
+    // Carry-alls
+    List<CarryAllInstance> carryAlls=characterStorage.getCarryAlls(true);
+    int nbCarryAlls=carryAlls.size();
+    for(int i=0;i<nbCarryAlls;i++)
+    {
+      String command=CARRY_ALL_SEED+i;
+      JButton button=buildButton("Carry All #"+(i+1),command);
+      GridBagConstraints c=new GridBagConstraints(0,y,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+      _panel.add(button,c);
+      y++;
+    }
   }
 
   private JButton buildButton(String label, String command)
@@ -124,21 +146,36 @@ public class DetailedStorageAccessPanelController implements ActionListener
     String command=event.getActionCommand();
     if (WALLET.equals(command))
     {
-      WalletWindowController walletCtrl=new WalletWindowController(_parent,_character);
+      Wallet ownWallet=_storage.getWallet();
+      Wallet sharedWallet=_storage.getSharedWallet();
+      WalletWindowController walletCtrl=new WalletWindowController(_parent,_character,ownWallet,sharedWallet);
       walletCtrl.show();
     }
-    else if ((VAULT.equals(command)) || (SHARED_VAULT.equals(command)))
+    else if (VAULT.equals(command))
     {
-      boolean shared=(SHARED_VAULT.equals(command));
-      VaultWindowController vaultCtrl=new VaultWindowController(_parent,_character,shared);
+      Vault vault=_storage.getOwnVault();
+      VaultWindowController vaultCtrl=new VaultWindowController(_parent,_character,false,vault);
+      vaultCtrl.show();
+    } 
+    else if (SHARED_VAULT.equals(command))
+    {
+      Vault vault=_storage.getSharedVault();
+      VaultWindowController vaultCtrl=new VaultWindowController(_parent,_character,true,vault);
       vaultCtrl.show();
     } 
     else if (command.startsWith(BAG_SEED))
     {
       int index=NumericTools.parseInt(command.substring(BAG_SEED.length()),0);
-      BagsManager bagsMgr=BagsIo.load(_character);
+      BagsManager bagsMgr=_storage.getBags();
       BagWindowController bagCtrl=new BagWindowController(_parent,bagsMgr,index);
       bagCtrl.show();
+    }
+    else if (command.startsWith(CARRY_ALL_SEED))
+    {
+      int index=NumericTools.parseInt(command.substring(CARRY_ALL_SEED.length()),0);
+      CarryAllInstance carryAll=_storage.getCarryAlls(true).get(index);
+      CarryAllWindowController carryAllCtrl=new CarryAllWindowController(_parent,carryAll);
+      carryAllCtrl.show();
     }
   }
 

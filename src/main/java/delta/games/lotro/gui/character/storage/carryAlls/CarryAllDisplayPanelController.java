@@ -77,9 +77,12 @@ public class CarryAllDisplayPanelController
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     JPanel capacityPanel=buildCapacityPanel();
     ret.add(capacityPanel,c);
-    c=new GridBagConstraints(0,1,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
     JPanel itemsPanel=buildItemsPanel();
-    ret.add(itemsPanel,c);
+    if (itemsPanel!=null)
+    {
+      c=new GridBagConstraints(0,1,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
+      ret.add(itemsPanel,c); 
+    }
     return ret;
   }
 

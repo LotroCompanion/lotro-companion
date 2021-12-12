@@ -7,11 +7,8 @@ import javax.swing.JPanel;
 
 import delta.common.ui.swing.windows.DefaultDisplayDialogController;
 import delta.common.ui.swing.windows.WindowController;
-import delta.games.lotro.account.Account;
-import delta.games.lotro.account.AccountsManager;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.storage.vaults.Vault;
-import delta.games.lotro.character.storage.vaults.io.VaultsIo;
 
 /**
  * Controller for a window to display the (shared?) vault of a single character.
@@ -32,35 +29,14 @@ public class VaultWindowController extends DefaultDisplayDialogController<Void>
    * @param parent Parent window.
    * @param character Character to use.
    * @param shared <code>true</code> to use the shared vault, use the own vault otherwise.
+   * @param vault Vault to show.
    */
-  public VaultWindowController(WindowController parent, CharacterFile character, boolean shared)
+  public VaultWindowController(WindowController parent, CharacterFile character, boolean shared, Vault vault)
   {
     super(parent,null);
     _character=character;
     _shared=shared;
-    initData();
-  }
-
-  private void initData()
-  {
-    if (_shared)
-    {
-      String accountName=_character.getAccountName();
-      String serverName=_character.getServerName();
-      if ((accountName.length()>0) && (serverName.length()>0))
-      {
-        AccountsManager accountsMgr=AccountsManager.getInstance();
-        Account account=accountsMgr.getAccountByName(accountName);
-        if (account!=null)
-        {
-          _vault=VaultsIo.load(account,serverName);
-        }
-      }
-    }
-    else
-    {
-      _vault=VaultsIo.load(_character);
-    }
+    _vault=vault;
   }
 
   @Override

@@ -52,14 +52,14 @@ public class StorageUtils
 
     // Own bags
     {
-      BagsManager container=characterStorage.getBags();
-      List<StoredItem> storedItems=getAllItems(owner,container,LocationType.BAG);
+      BagsManager bags=characterStorage.getBags();
+      List<StoredItem> storedItems=getAllItems(owner,bags,LocationType.BAG);
       items.addAll(storedItems);
     }
     // Own vault
     {
-      Vault container=characterStorage.getOwnVault();
-      List<StoredItem> storedItems=getAllItems(owner,container,LocationType.VAULT);
+      Vault ownVault=characterStorage.getOwnVault();
+      List<StoredItem> storedItems=getAllItems(owner,ownVault,LocationType.VAULT);
       items.addAll(storedItems);
     }
     // Own wallet
@@ -68,8 +68,26 @@ public class StorageUtils
       List<StoredItem> storedItems=getAllItems(owner,ownWallet,LocationType.WALLET);
       items.addAll(storedItems);
     }
+    // Shared vault
+    {
+      Vault sharedVault=characterStorage.getSharedVault();
+      if (sharedVault!=null)
+      {
+        List<StoredItem> storedItems=getAllItems(accountServer,sharedVault,LocationType.SHARED_VAULT);
+        items.addAll(storedItems);
+      }
+    }
+    // Shared wallet
+    {
+      Wallet sharedWallet=characterStorage.getSharedWallet();
+      if (sharedWallet!=null)
+      {
+        List<StoredItem> storedItems=getAllItems(accountServer,sharedWallet,LocationType.SHARED_WALLET);
+        items.addAll(storedItems);
+      }
+    }
     // Carry-alls
-    for(CarryAllInstance carryAllInstance : characterStorage.getCarryAlls())
+    for(CarryAllInstance carryAllInstance : characterStorage.getCarryAlls(true))
     {
       List<StoredItem> storedItems=getAllItems(owner,carryAllInstance,LocationType.CARRY_ALL);
       items.addAll(storedItems);
@@ -120,7 +138,7 @@ public class StorageUtils
       }
       // Carry-alls
       {
-        for(CarryAllInstance carryAllInstance : characterStorage.getCarryAlls())
+        for(CarryAllInstance carryAllInstance : characterStorage.getCarryAlls(false))
         {
           List<StoredItem> storedItems=getAllItems(owner,carryAllInstance,LocationType.CARRY_ALL);
           items.addAll(storedItems);
@@ -136,6 +154,12 @@ public class StorageUtils
       {
         List<StoredItem> storedItems=getAllItems(accountServer,sharedVault,LocationType.SHARED_VAULT);
         items.addAll(storedItems);
+        // Carry-alls
+        for(CarryAllInstance carryAllInstance : sharedVault.getCarryAlls())
+        {
+          storedItems=getAllItems(accountServer,carryAllInstance,LocationType.CARRY_ALL);
+          items.addAll(storedItems);
+        }
       }
       // Shared wallet
       Wallet sharedWallet=WalletsIO.loadAccountSharedWallet(account,serverName);

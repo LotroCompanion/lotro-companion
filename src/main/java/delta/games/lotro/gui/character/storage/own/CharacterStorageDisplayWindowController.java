@@ -137,6 +137,7 @@ public class CharacterStorageDisplayWindowController extends DefaultDialogContro
     // Update storage
     CharacterStorage characterStorage=StoragesIO.loadCharacterStorage(_toon);
     _summaryController.update(characterStorage);
+    _detailedAccessController.update(characterStorage);
     List<StoredItem> items=StorageUtils.buildCharacterItems(_toon,characterStorage);
     _panelController.update(items);
     _filterController.update();

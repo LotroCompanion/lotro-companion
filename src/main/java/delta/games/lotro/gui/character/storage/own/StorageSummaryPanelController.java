@@ -25,6 +25,7 @@ public class StorageSummaryPanelController
   private CharacterStorage _storage;
   // UI
   private JPanel _panel;
+  private JProgressBar _sharedVault;
   private JProgressBar _vault;
   private JProgressBar _bags;
 
@@ -80,6 +81,20 @@ public class StorageSummaryPanelController
         StorageUiUtils.updateProgressBar(_vault,null,null);
       }
     }
+    // Shared Vault
+    {
+      Vault sharedVault=_storage.getSharedVault();
+      if (sharedVault!=null)
+      {
+        Integer used=Integer.valueOf(sharedVault.getUsed());
+        Integer max=Integer.valueOf(sharedVault.getCapacity());
+        StorageUiUtils.updateProgressBar(_sharedVault,used,max);
+      }
+      else
+      {
+        StorageUiUtils.updateProgressBar(_sharedVault,null,null);
+      }
+    }
   }
 
   private JPanel buildPanel()
@@ -99,6 +114,14 @@ public class StorageSummaryPanelController
     c.gridx++;
     _vault=StorageUiUtils.buildProgressBar();
     panel.add(_vault,c);
+    c.gridy++;c.gridx=0;
+    // Shared Vault
+    JLabel sharedVaultLabel=GuiFactory.buildLabel("Shared Vault:");
+    panel.add(sharedVaultLabel,c);
+    c.gridx++;
+    _sharedVault=StorageUiUtils.buildProgressBar();
+    panel.add(_sharedVault,c);
+    c.gridy++;c.gridx=0;
     TitledBorder border=GuiFactory.buildTitledBorder("Capacity");
     panel.setBorder(border);
     return panel;
@@ -119,5 +142,6 @@ public class StorageSummaryPanelController
     }
     _bags=null;
     _vault=null;
+    _sharedVault=null;
   }
 }

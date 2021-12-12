@@ -1,7 +1,11 @@
 package delta.games.lotro.gui.character.storage.vaults;
 
+import delta.games.lotro.account.Account;
+import delta.games.lotro.account.AccountsManager;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharactersManager;
+import delta.games.lotro.character.storage.vaults.Vault;
+import delta.games.lotro.character.storage.vaults.io.VaultsIo;
 import delta.games.lotro.gui.character.storage.vault.VaultWindowController;
 
 /**
@@ -14,10 +18,28 @@ public class MainTestDisplayVault
   {
     CharactersManager mgr=CharactersManager.getInstance();
     CharacterFile toon=mgr.getToonById("Landroval","Backstaba");
-    VaultWindowController ctrl=new VaultWindowController(null,toon,false);
+
+    Vault sharedVault=null;
+    String accountName=toon.getAccountName();
+    String serverName=toon.getServerName();
+    if ((accountName.length()>0) && (serverName.length()>0))
+    {
+      AccountsManager accountsMgr=AccountsManager.getInstance();
+      Account account=accountsMgr.getAccountByName(accountName);
+      if (account!=null)
+      {
+        sharedVault=VaultsIo.load(account,serverName);
+      }
+    }
+    Vault ownVault=VaultsIo.load(toon);
+
+    VaultWindowController ctrl=new VaultWindowController(null,toon,false,ownVault);
     ctrl.show();
-    VaultWindowController sharedCtrl=new VaultWindowController(null,toon,true);
-    sharedCtrl.show();
+    if (sharedVault!=null)
+    {
+      VaultWindowController sharedCtrl=new VaultWindowController(null,toon,true,sharedVault);
+      sharedCtrl.show();
+    }
   }
 
   /**

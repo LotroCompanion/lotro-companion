@@ -17,7 +17,7 @@ public class MainTestDisplayCarryAll
     CharactersManager mgr=CharactersManager.getInstance();
     CharacterFile toon=mgr.getToonById("Landroval","Kargarth");
     CharacterStorage characterStorage=StoragesIO.loadCharacterStorage(toon);
-    for(CarryAllInstance carryAll : characterStorage.getCarryAlls())
+    for(CarryAllInstance carryAll : characterStorage.getCarryAlls(true))
     {
       CarryAllWindowController ctrl=new CarryAllWindowController(null,carryAll);
       ctrl.show();
