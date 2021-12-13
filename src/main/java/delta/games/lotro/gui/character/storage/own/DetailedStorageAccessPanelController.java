@@ -204,18 +204,21 @@ public class DetailedStorageAccessPanelController implements ActionListener
       Wallet ownWallet=_storage.getWallet();
       Wallet sharedWallet=_storage.getSharedWallet();
       WalletWindowController walletCtrl=new WalletWindowController(_parent,_character,ownWallet,sharedWallet);
+      walletCtrl.getDialog().setLocationRelativeTo(_parent.getWindow());
       walletCtrl.show();
     }
     else if (VAULT.equals(command))
     {
       Vault vault=_storage.getOwnVault();
       VaultWindowController vaultCtrl=new VaultWindowController(_parent,_character,false,vault);
+      vaultCtrl.getDialog().setLocationRelativeTo(_parent.getWindow());
       vaultCtrl.show();
     } 
     else if (SHARED_VAULT.equals(command))
     {
       Vault vault=_storage.getSharedVault();
       VaultWindowController vaultCtrl=new VaultWindowController(_parent,_character,true,vault);
+      vaultCtrl.getDialog().setLocationRelativeTo(_parent.getWindow());
       vaultCtrl.show();
     } 
     else if (command.startsWith(BAG_SEED))
@@ -223,6 +226,7 @@ public class DetailedStorageAccessPanelController implements ActionListener
       int index=NumericTools.parseInt(command.substring(BAG_SEED.length()),0);
       BagsManager bagsMgr=_storage.getBags();
       BagWindowController bagCtrl=new BagWindowController(_parent,bagsMgr,index);
+      bagCtrl.getDialog().setLocationRelativeTo(_parent.getWindow());
       bagCtrl.show();
     }
     else if (command.startsWith(CARRY_ALL_SEED))
@@ -230,6 +234,7 @@ public class DetailedStorageAccessPanelController implements ActionListener
       int index=NumericTools.parseInt(command.substring(CARRY_ALL_SEED.length()),0);
       CarryAllInstance carryAll=_storage.getCarryAlls(true).get(index);
       CarryAllWindowController carryAllCtrl=new CarryAllWindowController(_parent,carryAll);
+      carryAllCtrl.getDialog().setLocationRelativeTo(_parent.getWindow());
       carryAllCtrl.show();
     }
   }
