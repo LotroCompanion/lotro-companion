@@ -39,6 +39,8 @@ import delta.games.lotro.lore.items.carryalls.CarryAllInstance;
  */
 public class DetailedStorageAccessPanelController implements ActionListener
 {
+  // Constants
+  private static final int MAX_CARRY_ALLS_IN_A_ROW=10;
   // Commands
   private static final String BAG_SEED="BAG_";
   private static final String WALLET="WALLET";
@@ -163,6 +165,7 @@ public class DetailedStorageAccessPanelController implements ActionListener
     }
     JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
     int x=0;
+    int y=0;
     for(int i=0;i<nbCarryAlls;i++)
     {
       String command=CARRY_ALL_SEED+i;
@@ -170,11 +173,17 @@ public class DetailedStorageAccessPanelController implements ActionListener
       CarryAll carryAll=carryAllInstance.getReference();
       String name=carryAll.getName();
       JButton button=buildButton(name,command,true);
-      GridBagConstraints c=new GridBagConstraints(x,0,1,1,0.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+      GridBagConstraints c=new GridBagConstraints(x,y,1,1,0.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
       ret.add(button,c);
       x++;
+      if (x==MAX_CARRY_ALLS_IN_A_ROW)
+      {
+        x=0;
+        y++;
+      }
     }
-    GridBagConstraints c=new GridBagConstraints(x,0,1,1,1.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    y++;
+    GridBagConstraints c=new GridBagConstraints(0,y,MAX_CARRY_ALLS_IN_A_ROW+1,1,1.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     ret.add(Box.createHorizontalGlue(),c);
     return ret;
   }
