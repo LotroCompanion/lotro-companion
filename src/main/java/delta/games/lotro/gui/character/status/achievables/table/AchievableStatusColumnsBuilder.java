@@ -10,7 +10,9 @@ import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.GenericTableController.DateRenderer;
 import delta.common.ui.swing.tables.TableColumnController;
 import delta.games.lotro.character.status.achievables.AchievableElementState;
+import delta.games.lotro.character.status.achievables.Progress;
 import delta.games.lotro.character.status.achievables.AchievableStatus;
+import delta.games.lotro.character.status.achievables.comparators.ProgressComparator;
 import delta.games.lotro.gui.lore.items.FilterUpdateListener;
 import delta.games.lotro.utils.Formats;
 
@@ -55,6 +57,8 @@ public class AchievableStatusColumnsBuilder
     List<TableColumnController<AchievableStatus,?>> ret=new ArrayList<TableColumnController<AchievableStatus,?>>();
     // State
     ret.add(buildAchievableStateColumn(true,listener));
+    // Progress
+    ret.add(buildAchievableProgressColumn());
     // Completion date column
     {
       CellDataProvider<AchievableStatus,Date> completionDateCell=new CellDataProvider<AchievableStatus,Date>()
@@ -115,5 +119,30 @@ public class AchievableStatusColumnsBuilder
       completedColumn.setValueUpdater(updater);
     }
     return completedColumn;
+  }
+
+
+  /**
+   * Build a column to show an achievable progress.
+   * @return a column.
+   */
+  private static TableColumnController<AchievableStatus,?> buildAchievableProgressColumn()
+  {
+    CellDataProvider<AchievableStatus,Progress> progressCell=new CellDataProvider<AchievableStatus,Progress>()
+    {
+      @Override
+      public Progress getData(AchievableStatus status)
+      {
+        return status.getProgress();
+      }
+    };
+    DefaultTableColumnController<AchievableStatus,Progress> progressColumn=new DefaultTableColumnController<AchievableStatus,Progress>(AchievableStatusColumnIds.PROGRESS.name(),"Progress",Progress.class,progressCell);
+    progressColumn.setWidthSpecs(70,70,70);
+    progressColumn.setEditable(false);
+    // Renderer
+    progressColumn.setCellRenderer(new ProgressTableCellRenderer());
+    // Comparator
+    progressColumn.setComparator(new ProgressComparator());
+    return progressColumn;
   }
 }

@@ -15,6 +15,10 @@ public enum AchievableStatusColumnIds
    */
   COMPLETION_DATE,
   /**
+   * Progress.
+   */
+  PROGRESS,
+  /**
    * Completion count.
    */
   COMPLETION_COUNT
