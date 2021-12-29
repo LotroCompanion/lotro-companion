@@ -33,7 +33,7 @@ import delta.games.lotro.lore.quests.QuestsManager;
 import delta.games.lotro.lore.quests.filter.AutoBestowedQuestFilter;
 import delta.games.lotro.lore.quests.filter.InstancedQuestFilter;
 import delta.games.lotro.lore.quests.filter.LockTypeFilter;
-import delta.games.lotro.lore.quests.filter.ObsoleteAchievableFilter;
+import delta.games.lotro.lore.quests.filter.HiddenAchievableFilter;
 import delta.games.lotro.lore.quests.filter.QuestArcFilter;
 import delta.games.lotro.lore.quests.filter.QuestCategoryFilter;
 import delta.games.lotro.lore.quests.filter.QuestFactionFilter;
@@ -63,7 +63,7 @@ public class QuestFilterController implements ActionListener
   private ComboBoxController<Boolean> _shareable;
   private ComboBoxController<Boolean> _sessionPlay;
   private ComboBoxController<Boolean> _autoBestowed;
-  private ComboBoxController<Boolean> _obsolete;
+  private ComboBoxController<Boolean> _hidden;
   private ComboBoxController<Repeatability> _repeatability;
   private ComboBoxController<LockType> _lockType;
   private ComboBoxController<Size> _size;
@@ -140,7 +140,7 @@ public class QuestFilterController implements ActionListener
       _shareable.selectItem(null);
       _sessionPlay.selectItem(null);
       _autoBestowed.selectItem(null);
-      _obsolete.selectItem(null);
+      _hidden.selectItem(null);
       _repeatability.selectItem(null);
       _lockType.selectItem(null);
       if (_requirements!=null)
@@ -193,10 +193,10 @@ public class QuestFilterController implements ActionListener
     AutoBestowedQuestFilter autoBestowedFilter=_filter.getAutoBestowedQuestFilter();
     Boolean autoBestowedFlag=autoBestowedFilter.getIsAutoBestowedFlag();
     _autoBestowed.selectItem(autoBestowedFlag);
-    // Obsolete
-    ObsoleteAchievableFilter<QuestDescription> obsoleteFilter=_filter.getObsoleteFilter();
-    Boolean obsoleteFlag=obsoleteFilter.getIsObsoleteFlag();
-    _obsolete.selectItem(obsoleteFlag);
+    // Hidden
+    HiddenAchievableFilter<QuestDescription> hiddenFilter=_filter.getHiddenFilter();
+    Boolean hiddenFlag=hiddenFilter.getIsHiddenFlag();
+    _hidden.selectItem(hiddenFlag);
     // Repeatability
     RepeatabilityFilter repeatabilityFilter=_filter.getRepeatabilityFilter();
     Repeatability repeatability=repeatabilityFilter.getRepeatability();
@@ -336,10 +336,10 @@ public class QuestFilterController implements ActionListener
       line.add(GuiFactory.buildLabel("Auto-bestowed:"));
       _autoBestowed=buildAutoBestowedCombobox();
       line.add(_autoBestowed.getComboBox());
-      // Obsolete
-      line.add(GuiFactory.buildLabel("Obsolete:"));
-      _obsolete=buildObsoleteCombobox();
-      line.add(_obsolete.getComboBox());
+      // Hidden
+      line.add(GuiFactory.buildLabel("Hidden:"));
+      _hidden=buildHiddenCombobox();
+      line.add(_hidden.getComboBox());
 
       c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(5,0,5,0),0,0);
       panel.add(line,c);
@@ -525,7 +525,7 @@ public class QuestFilterController implements ActionListener
     return combo;
   }
 
-  private ComboBoxController<Boolean> buildObsoleteCombobox()
+  private ComboBoxController<Boolean> buildHiddenCombobox()
   {
     ComboBoxController<Boolean> combo=QuestsUiUtils.build3StatesBooleanCombobox();
     ItemSelectionListener<Boolean> listener=new ItemSelectionListener<Boolean>()
@@ -533,8 +533,8 @@ public class QuestFilterController implements ActionListener
       @Override
       public void itemSelected(Boolean value)
       {
-        ObsoleteAchievableFilter<QuestDescription> filter=_filter.getObsoleteFilter();
-        filter.setIsObsoleteFlag(value);
+        HiddenAchievableFilter<QuestDescription> filter=_filter.getHiddenFilter();
+        filter.setIsHiddenFlag(value);
         filterUpdated();
       }
     };
@@ -601,10 +601,10 @@ public class QuestFilterController implements ActionListener
       _autoBestowed.dispose();
       _autoBestowed=null;
     }
-    if (_obsolete!=null)
+    if (_hidden!=null)
     {
-      _obsolete.dispose();
-      _obsolete=null;
+      _hidden.dispose();
+      _hidden=null;
     }
     if (_repeatability!=null)
     {

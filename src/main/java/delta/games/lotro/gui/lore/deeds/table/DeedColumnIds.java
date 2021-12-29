@@ -31,7 +31,7 @@ public enum DeedColumnIds
    */
   LEVEL,
   /**
-   * Obsolete.
+   * Obsolete/hidden.
    */
   OBSOLETE,
 }

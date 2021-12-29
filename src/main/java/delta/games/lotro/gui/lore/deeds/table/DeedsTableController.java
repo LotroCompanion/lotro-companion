@@ -149,19 +149,19 @@ public class DeedsTableController
       levelColumn.setComparator(new ChallengeLevelComparator());
       ret.add(levelColumn);
     }
-    // Obsolete column
+    // Hidden column
     {
-      CellDataProvider<DeedDescription,Boolean> obsoleteCell=new CellDataProvider<DeedDescription,Boolean>()
+      CellDataProvider<DeedDescription,Boolean> hiddenCell=new CellDataProvider<DeedDescription,Boolean>()
       {
         @Override
         public Boolean getData(DeedDescription deed)
         {
-          return Boolean.valueOf(deed.isObsolete());
+          return Boolean.valueOf(deed.isHidden());
         }
       };
-      DefaultTableColumnController<DeedDescription,Boolean> obsoleteColumn=new DefaultTableColumnController<DeedDescription,Boolean>(DeedColumnIds.OBSOLETE.name(),"Obsolete",Boolean.class,obsoleteCell);
-      obsoleteColumn.setWidthSpecs(100,100,100);
-      ret.add(obsoleteColumn);
+      DefaultTableColumnController<DeedDescription,Boolean> hiddenColumn=new DefaultTableColumnController<DeedDescription,Boolean>(DeedColumnIds.OBSOLETE.name(),"Hidden",Boolean.class,hiddenCell);
+      hiddenColumn.setWidthSpecs(100,100,100);
+      ret.add(hiddenColumn);
     }
     // Requirements
     {

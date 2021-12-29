@@ -59,7 +59,7 @@ public enum QuestColumnIds
    */
   AUTO_BESTOWED,
   /**
-   * Obsolete.
+   * Obsolete/hidden.
    */
   OBSOLETE,
   /**
