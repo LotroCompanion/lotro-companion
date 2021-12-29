@@ -335,9 +335,9 @@ public class EquipmentPanelController implements ActionListener
       ItemInstance<? extends Item> resultItem=ctrl.editModal();
       if (resultItem!=null)
       {
+        editedItem.setWearer(_toonData.getSummary());
         CharacterEquipment equipment=_toonData.getEquipment();
         equipment.getSlotContents(slot,true).setItem(editedItem);
-        editedItem.setWearer(_toonData.getSummary());
         refreshToon();
       }
     }
@@ -363,8 +363,8 @@ public class EquipmentPanelController implements ActionListener
       CharacterEquipment equipment=_toonData.getEquipment();
       SlotContents contents=equipment.getSlotContents(slot,true);
       ItemInstance<? extends Item> instance=ItemFactory.cloneInstance(itemInstance);
+      instance.setWearer(_toonData.getSummary());
       contents.setItem(instance);
-      itemInstance.setWearer(_toonData.getSummary());
       refreshToon();
     }
   }
@@ -377,8 +377,8 @@ public class EquipmentPanelController implements ActionListener
       CharacterEquipment equipment=_toonData.getEquipment();
       SlotContents contents=equipment.getSlotContents(slot,true);
       ItemInstance<? extends Item> instance=ItemFactory.cloneInstance(itemInstance);
+      instance.setWearer(_toonData.getSummary());
       contents.setItem(instance);
-      itemInstance.setWearer(_toonData.getSummary());
       refreshToon();
     }
   }
@@ -391,8 +391,8 @@ public class EquipmentPanelController implements ActionListener
       CharacterEquipment equipment=_toonData.getEquipment();
       SlotContents contents=equipment.getSlotContents(slot,true);
       ItemInstance<? extends Item> itemInstance=ItemFactory.buildInstance(item);
-      contents.setItem(itemInstance);
       itemInstance.setWearer(_toonData.getSummary());
+      contents.setItem(itemInstance);
       refreshToon();
     }
   }
@@ -464,7 +464,6 @@ public class EquipmentPanelController implements ActionListener
     if (contents!=null)
     {
       contents.setItem(null);
-      contents.setItemId(null);
     }
     refreshToon();
   }

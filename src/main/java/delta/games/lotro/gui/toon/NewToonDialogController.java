@@ -10,6 +10,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
+import org.apache.log4j.Logger;
+
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.common.ui.swing.combobox.ItemSelectionListener;
@@ -45,6 +47,8 @@ import delta.games.lotro.lore.items.ItemsManager;
  */
 public class NewToonDialogController extends DefaultFormDialogController<Object>
 {
+  private static final Logger LOGGER=Logger.getLogger(NewToonDialogController.class);
+
   private static final int TOON_NAME_SIZE=32;
   private JTextField _toonName;
   private ComboBoxController<String> _server;
@@ -208,12 +212,13 @@ public class NewToonDialogController extends DefaultFormDialogController<Object>
               }
               else
               {
-                System.out.println("Would have overriden "+old+" by "+itemInstance);
+                LOGGER.warn("Would have overriden "+old+" by "+itemInstance);
               }
             }
           }
         }
       }
+      gear.setWearer(info.getSummary());
     }
   }
 
