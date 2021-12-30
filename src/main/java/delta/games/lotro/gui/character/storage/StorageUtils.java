@@ -245,4 +245,28 @@ public class StorageUtils
     }
     return items;
   }
+
+  /**
+   * Get the item instances from a vault.
+   * @param vault Input vault.
+   * @return A list of item instances.
+   */
+  public static List<ItemInstance<? extends Item>> getVaultItems(Vault vault)
+  {
+    List<ItemInstance<? extends Item>> ret=new ArrayList<ItemInstance<? extends Item>>();
+    for(Integer chestId : vault.getChestIds())
+    {
+      Chest chest=vault.getChest(chestId.intValue());
+      if (chest==null)
+      {
+        continue;
+      }
+      List<CountedItem<ItemInstance<? extends Item>>> chestItems=chest.getAllItemInstances();
+      for(CountedItem<ItemInstance<? extends Item>> chestItem : chestItems)
+      {
+        ret.add(chestItem.getManagedItem());
+      }
+    }
+    return ret;
+  }
 }

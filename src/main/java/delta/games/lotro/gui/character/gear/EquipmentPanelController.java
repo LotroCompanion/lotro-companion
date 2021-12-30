@@ -32,10 +32,13 @@ import delta.games.lotro.character.CharacterEquipment.SlotContents;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.events.CharacterEvent;
 import delta.games.lotro.character.events.CharacterEventType;
+import delta.games.lotro.character.storage.StoragesIO;
 import delta.games.lotro.character.storage.bags.BagsManager;
 import delta.games.lotro.character.storage.bags.io.BagsIo;
 import delta.games.lotro.character.storage.stash.ItemsStash;
+import delta.games.lotro.character.storage.vaults.Vault;
 import delta.games.lotro.character.utils.CharacterGearUpdater;
+import delta.games.lotro.gui.character.storage.StorageUtils;
 import delta.games.lotro.gui.lore.items.ItemInstanceEditionWindowController;
 import delta.games.lotro.gui.lore.items.chooser.ItemChooser;
 import delta.games.lotro.gui.lore.items.chooser.ItemFilterConfiguration;
@@ -84,6 +87,7 @@ public class EquipmentPanelController implements ActionListener
   private static final String CHOOSE_COMMAND="choose";
   private static final String CHOOSE_FROM_STASH_COMMAND="chooseFromStash";
   private static final String CHOOSE_FROM_BAGS_COMMAND="chooseFromBags";
+  private static final String CHOOSE_FROM_SHARED_VAULT_COMMAND="chooseFromSharedVault";
   private static final String REMOVE_COMMAND="remove";
   private static final String COPY_TO_STASH_COMMAND="toStash";
   private static final String SLOT_SEED="slot_";
@@ -187,6 +191,11 @@ public class EquipmentPanelController implements ActionListener
     choosefromBags.setActionCommand(CHOOSE_FROM_BAGS_COMMAND);
     choosefromBags.addActionListener(this);
     popup.add(choosefromBags);
+    // Choose from sharedVault...
+    JMenuItem choosefromSharedVault=new JMenuItem("Choose from shared vault...");
+    choosefromSharedVault.setActionCommand(CHOOSE_FROM_SHARED_VAULT_COMMAND);
+    choosefromSharedVault.addActionListener(this);
+    popup.add(choosefromSharedVault);
     // Choose from stash...
     JMenuItem choosefromStash=new JMenuItem("Choose from stash...");
     choosefromStash.setActionCommand(CHOOSE_FROM_STASH_COMMAND);
@@ -383,6 +392,20 @@ public class EquipmentPanelController implements ActionListener
     }
   }
 
+  private void handleChooseItemInstanceFromSharedVault(EQUIMENT_SLOT slot)
+  {
+    ItemInstance<? extends Item> itemInstance=chooseItemInstanceFromSharedVault(slot);
+    if (itemInstance!=null)
+    {
+      CharacterEquipment equipment=_toonData.getEquipment();
+      SlotContents contents=equipment.getSlotContents(slot,true);
+      ItemInstance<? extends Item> instance=ItemFactory.cloneInstance(itemInstance);
+      instance.setWearer(_toonData.getSummary());
+      contents.setItem(instance);
+      refreshToon();
+    }
+  }
+
   private void handleChooseItemInstance(EQUIMENT_SLOT slot)
   {
     Item item=chooseItem(slot);
@@ -409,6 +432,17 @@ public class EquipmentPanelController implements ActionListener
     BagsManager bags=BagsIo.load(_toon);
     List<ItemInstance<? extends Item>> items=bags.getAllItemInstances();
     return chooseItemInstance(items,slot,"ItemFilter_Bags");
+  }
+
+  private ItemInstance<? extends Item> chooseItemInstanceFromSharedVault(EQUIMENT_SLOT slot)
+  {
+    Vault sharedVault=StoragesIO.loadSharedVault(_toon);
+    if (sharedVault==null)
+    {
+      return null;
+    }
+    List<ItemInstance<? extends Item>> items=StorageUtils.getVaultItems(sharedVault);
+    return chooseItemInstance(items,slot,"ItemFilter_SharedVault");
   }
 
   private ItemInstance<? extends Item> chooseItemInstance(List<ItemInstance<? extends Item>> itemInstances, EQUIMENT_SLOT slot, String propsId)
@@ -541,6 +575,10 @@ public class EquipmentPanelController implements ActionListener
         else if (CHOOSE_FROM_BAGS_COMMAND.equals(cmd))
         {
           handleChooseItemInstanceFromBags(slot);
+        }
+        else if (CHOOSE_FROM_SHARED_VAULT_COMMAND.equals(cmd))
+        {
+          handleChooseItemInstanceFromSharedVault(slot);
         }
         else if (REMOVE_COMMAND.equals(cmd))
         {
