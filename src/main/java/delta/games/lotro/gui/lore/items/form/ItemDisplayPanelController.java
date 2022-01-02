@@ -22,6 +22,7 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.labels.MultilineLabel2;
 import delta.common.ui.swing.navigator.NavigablePanelController;
 import delta.common.ui.swing.navigator.NavigatorWindowController;
+import delta.games.lotro.character.skills.SkillDescription;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.common.money.Money;
 import delta.games.lotro.common.stats.StatUtils;
@@ -30,6 +31,7 @@ import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.common.money.MoneyDisplayController;
 import delta.games.lotro.gui.common.requirements.RequirementsUtils;
 import delta.games.lotro.gui.lore.items.containers.form.ContainerDisplayPanelController;
+import delta.games.lotro.gui.utils.SharedPanels;
 import delta.games.lotro.lore.items.Armour;
 import delta.games.lotro.lore.items.ArmourType;
 import delta.games.lotro.lore.items.DisenchantmentManager;
@@ -39,6 +41,8 @@ import delta.games.lotro.lore.items.ItemBinding;
 import delta.games.lotro.lore.items.ItemSturdiness;
 import delta.games.lotro.lore.items.Weapon;
 import delta.games.lotro.lore.items.WeaponType;
+import delta.games.lotro.lore.items.details.GrantedElement;
+import delta.games.lotro.lore.items.details.ItemDetailsManager;
 import delta.games.lotro.lore.items.legendary2.EnhancementRune;
 import delta.games.lotro.lore.items.legendary2.EnhancementRunesManager;
 import delta.games.lotro.lore.items.legendary2.TraceriesManager;
@@ -236,13 +240,20 @@ public class ItemDisplayPanelController implements NavigablePanelController
       c.gridy++;
       panelLine.add(GuiFactory.buildLabel(line));
     }
+    c.insets=new Insets(0,5,0,0);
+    // Details
+    JPanel detailPanel=buildDetailsPanel();
+    if (detailPanel!=null)
+    {
+      panel.add(detailPanel,c);
+      c.gridy++;
+    }
     // Value
     Money money=_item.getValueAsMoney();
     if (money!=null)
     {
       _money.setMoney(money);
       JPanel moneyPanel=_money.getPanel();
-      c.insets=new Insets(0,5,0,0);
       panel.add(moneyPanel,c);
       c.gridy++;
     }
@@ -393,6 +404,48 @@ public class ItemDisplayPanelController implements NavigablePanelController
       editor.setText(sb.toString());
     }
     return editor;
+  }
+
+  private JPanel buildDetailsPanel()
+  {
+    ItemDetailsManager mgr=_item.getDetails();
+    if (mgr==null)
+    {
+      return null;
+    }
+    JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
+    int y=0;
+    @SuppressWarnings("rawtypes")
+    List<GrantedElement> grantedElements=mgr.getItemDetails(GrantedElement.class);
+    if (grantedElements.size()>0)
+    {
+      GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+      ret.add(GuiFactory.buildLabel("Grants:"),c);
+      y++;
+      for(GrantedElement<?> grantedElement : grantedElements)
+      {
+        JPanel panel=buildGrantedElementPanel(grantedElement);
+        if (panel!=null)
+        {
+          c=new GridBagConstraints(0,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+          ret.add(panel,c);
+          y++;
+        }
+      }
+    }
+    return ret;
+  }
+
+  private JPanel buildGrantedElementPanel(GrantedElement<?> grantedElement)
+  {
+    Object element=grantedElement.getGrantedElement();
+    if (element instanceof SkillDescription)
+    {
+      SkillDescription skill=(SkillDescription)element;
+      return SharedPanels.buildSkillPanel(skill);
+    }
+    // TODO Traits
+    return null;
   }
 
   @Override
