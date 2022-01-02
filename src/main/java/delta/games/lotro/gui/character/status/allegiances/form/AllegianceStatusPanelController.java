@@ -13,9 +13,9 @@ import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.WindowController;
-import delta.games.lotro.character.skills.SkillDescription;
 import delta.games.lotro.character.status.allegiances.AllegianceStatus;
 import delta.games.lotro.gui.LotroIconsManager;
+import delta.games.lotro.gui.utils.SharedPanels;
 import delta.games.lotro.lore.allegiances.AllegianceDescription;
 import delta.games.lotro.utils.gui.HtmlUtils;
 
@@ -99,34 +99,12 @@ public class AllegianceStatusPanelController
     c=new GridBagConstraints(1,1,1,1,1.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,5,5),0,0);
     ret.add(buildDescriptionGadget(),c);
     // Travel skill
-    JPanel travelSkillPanel=buildTravelSkillPanel();
+    JPanel travelSkillPanel=SharedPanels.buildSkillPanel(_allegiance.getTravelSkill());
     if (travelSkillPanel!=null)
     {
       c=new GridBagConstraints(1,2,1,1,1.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,5,5),0,0);
       ret.add(travelSkillPanel,c);
     }
-    return ret;
-  }
-
-  private JPanel buildTravelSkillPanel()
-  {
-    SkillDescription skill=_allegiance.getTravelSkill();
-    if (skill==null)
-    {
-      return null;
-    }
-    // Icon
-    int iconID=skill.getIconId();
-    ImageIcon icon=LotroIconsManager.getSkillIcon(iconID);
-    JLabel skillIconLabel=GuiFactory.buildIconLabel(icon);
-    // Text
-    JLabel skillName=GuiFactory.buildLabel(skill.getName());
-    // Result panel;
-    JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
-    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,5),0,0);
-    ret.add(skillIconLabel,c);
-    c=new GridBagConstraints(1,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
-    ret.add(skillName,c);
     return ret;
   }
 

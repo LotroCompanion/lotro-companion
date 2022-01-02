@@ -8,6 +8,8 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JEditorPane;
@@ -226,114 +228,13 @@ public class ItemDisplayPanelController implements NavigablePanelController
       panel.add(panelLine,c);
       c.gridy++;
     }
-    // Quality
-    // TODO
-    // Category
-    String category=_item.getSubCategory();
-    if ((category!=null) && (category.length()>0))
+    List<String> lines=getAttributesLines();
+    for(String line : lines)
     {
       JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
       panel.add(panelLine,c);
       c.gridy++;
-      panelLine.add(GuiFactory.buildLabel("Category: "+category));
-    }
-    // Weapon type
-    if (_item instanceof Weapon)
-    {
-      Weapon weapon=(Weapon)_item;
-      WeaponType type=weapon.getWeaponType();
-      JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
-      panel.add(panelLine,c);
-      c.gridy++;
-      panelLine.add(GuiFactory.buildLabel("Weapon type: "+type.getName()));
-    }
-    // Armour type
-    if (_item instanceof Armour)
-    {
-      Armour armour=(Armour)_item;
-      ArmourType type=armour.getArmourType();
-      JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
-      panel.add(panelLine,c);
-      c.gridy++;
-      panelLine.add(GuiFactory.buildLabel("Armour type: "+type.getName()));
-    }
-    // Slots
-    int nbSlots=_item.getEssenceSlots();
-    if (nbSlots>0)
-    {
-      JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
-      panel.add(panelLine,c);
-      c.gridy++;
-      panelLine.add(GuiFactory.buildLabel("Essence slots: "+String.valueOf(nbSlots)));
-    }
-    // Item level
-    Integer itemLevel=_item.getItemLevel();
-    if (itemLevel!=null)
-    {
-      JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
-      panel.add(panelLine,c);
-      c.gridy++;
-      panelLine.add(GuiFactory.buildLabel("Item level: "+itemLevel.toString()));
-    }
-    // Tracery complements
-    Tracery tracery=TraceriesManager.getInstance().getTracery(_item.getIdentifier());
-    if (tracery!=null)
-    {
-      int maxItemLevel=tracery.getMaxItemLevel();
-      int increment=tracery.getLevelUpIncrement();
-      String label="Enhancement limit: "+maxItemLevel;
-      if (increment>1)
-      {
-        label=label+" (increment: "+increment+")";
-      }
-      JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
-      panel.add(panelLine,c);
-      c.gridy++;
-      panelLine.add(GuiFactory.buildLabel(label));
-    }
-    // Enhancement rune complements
-    EnhancementRune enhancementRune=EnhancementRunesManager.getInstance().getEnhancementRune(_item.getIdentifier());
-    if (enhancementRune!=null)
-    {
-      int minItemLevel=enhancementRune.getMinItemLevel();
-      int maxItemLevel=enhancementRune.getMaxItemLevel();
-      int increment=enhancementRune.getLevelUpIncrement();
-      String label="Enhancement item levels: "+minItemLevel+"-"+maxItemLevel;
-      if (increment>1)
-      {
-        label=label+" (increment: "+increment+")";
-      }
-      JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
-      panel.add(panelLine,c);
-      c.gridy++;
-      panelLine.add(GuiFactory.buildLabel(label));
-    }
-    // Durability
-    Integer durability=_item.getDurability();
-    if (durability!=null)
-    {
-      JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
-      panel.add(panelLine,c);
-      c.gridy++;
-      panelLine.add(GuiFactory.buildLabel("Durability: "+durability.toString()));
-    }
-    // Requirements
-    String requirements=RequirementsUtils.buildRequirementString(_item.getUsageRequirements());
-    if (requirements.length()>0)
-    {
-      JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
-      panel.add(panelLine,c);
-      c.gridy++;
-      panelLine.add(GuiFactory.buildLabel("Requirements: "+requirements));
-    }
-    // Attributes
-    {
-      JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
-      panel.add(panelLine,c);
-      c.gridy++;
-      String attributes=buildAttributesString();
-      JLabel attributesLabel=GuiFactory.buildLabel(attributes);
-      panelLine.add(attributesLabel);
+      panelLine.add(GuiFactory.buildLabel(line));
     }
     // Value
     Money money=_item.getValueAsMoney();
@@ -353,6 +254,90 @@ public class ItemDisplayPanelController implements NavigablePanelController
     panel.add(paddingPanel,c);
 
     return panel;
+  }
+
+  private List<String> getAttributesLines()
+  {
+    List<String> ret=new ArrayList<String>();
+    // Quality
+    // TODO
+    // Category
+    String category=_item.getSubCategory();
+    if ((category!=null) && (category.length()>0))
+    {
+      ret.add("Category: "+category);
+    }
+    // Weapon type
+    if (_item instanceof Weapon)
+    {
+      Weapon weapon=(Weapon)_item;
+      WeaponType type=weapon.getWeaponType();
+      ret.add("Weapon type: "+type.getName());
+    }
+    // Armour type
+    if (_item instanceof Armour)
+    {
+      Armour armour=(Armour)_item;
+      ArmourType type=armour.getArmourType();
+      ret.add("Armour type: "+type.getName());
+    }
+    // Slots
+    int nbSlots=_item.getEssenceSlots();
+    if (nbSlots>0)
+    {
+      ret.add("Essence slots: "+String.valueOf(nbSlots));
+    }
+    // Item level
+    Integer itemLevel=_item.getItemLevel();
+    if (itemLevel!=null)
+    {
+      ret.add("Item level: "+itemLevel.toString());
+    }
+    // Tracery complements
+    Tracery tracery=TraceriesManager.getInstance().getTracery(_item.getIdentifier());
+    if (tracery!=null)
+    {
+      int maxItemLevel=tracery.getMaxItemLevel();
+      int increment=tracery.getLevelUpIncrement();
+      String label="Enhancement limit: "+maxItemLevel;
+      if (increment>1)
+      {
+        label=label+" (increment: "+increment+")";
+      }
+      ret.add(label);
+    }
+    // Enhancement rune complements
+    EnhancementRune enhancementRune=EnhancementRunesManager.getInstance().getEnhancementRune(_item.getIdentifier());
+    if (enhancementRune!=null)
+    {
+      int minItemLevel=enhancementRune.getMinItemLevel();
+      int maxItemLevel=enhancementRune.getMaxItemLevel();
+      int increment=enhancementRune.getLevelUpIncrement();
+      String label="Enhancement item levels: "+minItemLevel+"-"+maxItemLevel;
+      if (increment>1)
+      {
+        label=label+" (increment: "+increment+")";
+      }
+      ret.add(label);
+    }
+    // Durability
+    Integer durability=_item.getDurability();
+    if (durability!=null)
+    {
+      ret.add("Durability: "+durability.toString());
+    }
+    // Requirements
+    String requirements=RequirementsUtils.buildRequirementString(_item.getUsageRequirements());
+    if (requirements.length()>0)
+    {
+      ret.add("Requirements: "+requirements);
+    }
+    // Attributes
+    {
+      String attributes=buildAttributesString();
+      ret.add(attributes);
+    }
+    return ret;
   }
 
   /**
