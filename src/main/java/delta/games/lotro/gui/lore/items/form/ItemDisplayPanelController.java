@@ -24,6 +24,7 @@ import delta.common.ui.swing.navigator.NavigablePanelController;
 import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.games.lotro.character.skills.SkillDescription;
 import delta.games.lotro.character.stats.BasicStatsSet;
+import delta.games.lotro.character.traits.TraitDescription;
 import delta.games.lotro.common.money.Money;
 import delta.games.lotro.common.stats.StatUtils;
 import delta.games.lotro.common.stats.StatsProvider;
@@ -444,7 +445,11 @@ public class ItemDisplayPanelController implements NavigablePanelController
       SkillDescription skill=(SkillDescription)element;
       return SharedPanels.buildSkillPanel(skill);
     }
-    // TODO Traits
+    if (element instanceof TraitDescription)
+    {
+      TraitDescription trait=(TraitDescription)element;
+      return SharedPanels.buildTraitPanel(trait);
+    }
     return null;
   }
 

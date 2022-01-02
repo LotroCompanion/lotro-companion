@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.character.skills.SkillDescription;
+import delta.games.lotro.character.traits.TraitDescription;
 import delta.games.lotro.gui.LotroIconsManager;
 
 /**
@@ -41,6 +42,32 @@ public class SharedPanels
     ret.add(skillIconLabel,c);
     c=new GridBagConstraints(1,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     ret.add(skillName,c);
+    return ret;
+  }
+
+  /**
+   * Build a trait link panel.
+   * @param trait Trait to show.
+   * @return A panel.
+   */
+  public static JPanel buildTraitPanel(TraitDescription trait)
+  {
+    if (trait==null)
+    {
+      return null;
+    }
+    // Icon
+    int iconID=trait.getIconId();
+    ImageIcon icon=LotroIconsManager.getTraitIcon(iconID);
+    JLabel traitIconLabel=GuiFactory.buildIconLabel(icon);
+    // Text
+    JLabel traitName=GuiFactory.buildLabel(trait.getName());
+    // Result panel;
+    JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,5),0,0);
+    ret.add(traitIconLabel,c);
+    c=new GridBagConstraints(1,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    ret.add(traitName,c);
     return ret;
   }
 }
