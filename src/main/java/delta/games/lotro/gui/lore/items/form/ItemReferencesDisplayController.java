@@ -22,6 +22,7 @@ import delta.games.lotro.lore.items.sets.ItemsSet;
 import delta.games.lotro.lore.quests.Achievable;
 import delta.games.lotro.lore.quests.QuestDescription;
 import delta.games.lotro.lore.relics.melding.RelicMeldingRecipe;
+import delta.games.lotro.lore.tasks.Task;
 import delta.games.lotro.lore.trade.barter.BarterNpc;
 import delta.games.lotro.lore.trade.vendor.VendorNpc;
 import delta.games.lotro.lore.xrefs.items.ItemReference;
@@ -109,6 +110,7 @@ public class ItemReferencesDisplayController
     StringBuilder sb=new StringBuilder();
     sb.append("<html><body>");
     buildHtmlForCrafting(sb,references);
+    buildHtmlForTaskItems(sb,references);
     buildHtmlForQuestsAndDeeds(sb,references);
     buildHtmlForBarterers(sb,references);
     buildHtmlForVendors(sb,references);
@@ -184,6 +186,27 @@ public class ItemReferencesDisplayController
     sb.append("<b>");
     PageIdentifier to=ReferenceConstants.getRecipeReference(recipe.getIdentifier());
     HtmlUtils.printLink(sb,to.getFullAddress(),recipe.getName());
+    sb.append("</b></p>");
+  }
+
+  private void buildHtmlForTaskItems(StringBuilder sb, List<ItemReference<?>> references)
+  {
+    List<ItemReference<Task>> taskReferences=getReferences(references,Task.class);
+    if (taskReferences.size()>0)
+    {
+      sb.append("<h1>Tasks</h1>");
+      for(ItemReference<Task> taskReference : taskReferences)
+      {
+        buildHtmlForTaskReference(sb,taskReference.getSource());
+      }
+    }
+  }
+
+  private void buildHtmlForTaskReference(StringBuilder sb, Task task)
+  {
+    sb.append("<p>Required for task: <b>");
+    PageIdentifier to=ReferenceConstants.getAchievableReference(task.getQuest());
+    HtmlUtils.printLink(sb,to.getFullAddress(),task.getQuest().getName());
     sb.append("</b></p>");
   }
 
