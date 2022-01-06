@@ -57,6 +57,11 @@ import delta.games.lotro.utils.maps.Maps;
  */
 public class MainFrameController extends DefaultWindowController implements ActionListener
 {
+  /**
+   * Identifier for this window.
+   */
+  public static final String IDENTIFIER="MAIN_WINDOW";
+
   private static final String LEVELLING_ID="levelling";
   private static final String WARBANDS_ID="warbands";
   private static final String INSTANCES_ID="instances";
@@ -190,6 +195,18 @@ public class MainFrameController extends DefaultWindowController implements Acti
     menuBar.add(Box.createHorizontalGlue());
     menuBar.add(helpMenu);
     return menuBar;
+  }
+
+  @Override
+  public void configureWindow()
+  {
+    automaticLocationSetup();
+  }
+
+  @Override
+  public String getWindowIdentifier()
+  {
+    return IDENTIFIER;
   }
 
   @Override
@@ -537,6 +554,7 @@ public class MainFrameController extends DefaultWindowController implements Acti
   @Override
   public void dispose()
   {
+    saveBoundsPreferences();
     if (_windowsManager!=null)
     {
       _windowsManager.disposeAll();
