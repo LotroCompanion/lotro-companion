@@ -42,7 +42,11 @@ public class AbstractIconController
     return _icon;
   }
 
-  protected void setIcon(Icon icon)
+  /**
+   * Set the icon.
+   * @param icon Icon to set.
+   */
+  public void setIcon(Icon icon)
   {
     _icon.setIcon(icon);
     _icon.setSize(icon.getIconWidth(),icon.getIconHeight());

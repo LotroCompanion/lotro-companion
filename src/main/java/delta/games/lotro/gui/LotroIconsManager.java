@@ -311,6 +311,17 @@ public class LotroIconsManager
   }
 
   /**
+   * Get the icon for an area.
+   * @param areaId Area identifier.
+   * @return An icon or <code>null</code> if not found.
+   */
+  public static ImageIcon getAreaIcon(int areaId)
+  {
+    String path="/areaIcons/"+areaId+".png";
+    return IconsManager.getIcon(path);
+  }
+
+  /**
    * Initialize the application icons.
    */
   public static void initApplicationIcons()

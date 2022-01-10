@@ -56,6 +56,10 @@ public class ReferenceConstants
    * Relic melding recipe page identifier.
    */
   public static final String RELIC_MELDING_RECIPE_PAGE="relicMeldingRecipe";
+  /**
+   * Skill page identifier.
+   */
+  public static final String SKILL_PAGE="skill";
 
   /**
    * Get a page identifier for the given achievable proxy.
@@ -186,5 +190,15 @@ public class ReferenceConstants
   {
     PageIdentifier pageId=new PageIdentifier(RELIC_MELDING_RECIPE_PAGE,recipeId);
     return pageId;
+  }
+
+  /**
+   * Get a page identifier for the given skill.
+   * @param skillID Identifier of the skill to use.
+   * @return A page identifier.
+   */
+  public static final PageIdentifier getSkillReference(int skillID)
+  {
+    return new PageIdentifier(SKILL_PAGE,skillID);
   }
 }

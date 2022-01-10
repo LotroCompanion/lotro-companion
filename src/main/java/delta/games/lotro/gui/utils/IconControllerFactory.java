@@ -3,6 +3,7 @@ package delta.games.lotro.gui.utils;
 import javax.swing.Icon;
 
 import delta.common.ui.swing.windows.WindowController;
+import delta.games.lotro.character.skills.SkillDescription;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.gui.lore.items.ItemUiTools;
@@ -64,12 +65,31 @@ public class IconControllerFactory
   public static IconController buildRelicIcon(WindowController parent, Relic relic, int count)
   {
     IconController ret=new IconController(parent);
-    Icon icon=RelicUiTools.buildRelicIcon(relic,count);
-    ret.setIcon(icon);
-    ret.setPageId(ReferenceConstants.getRelicReference(relic.getIdentifier()));
     if (relic!=null)
     {
+      Icon icon=RelicUiTools.buildRelicIcon(relic,count);
+      ret.setIcon(icon);
+      ret.setPageId(ReferenceConstants.getRelicReference(relic.getIdentifier()));
       ret.setTooltipText(relic.getName());
+    }
+    return ret;
+  }
+
+  /**
+   * Build a skill icon.
+   * @param parent Parent window.
+   * @param skill Skill to use.
+   * @return A new controller.
+   */
+  public static IconController buildSkillIcon(WindowController parent, SkillDescription skill)
+  {
+    IconController ret=new IconController(parent);
+    if (skill!=null)
+    {
+      Icon icon=LotroIconsManager.getSkillIcon(skill.getIconId());
+      ret.setIcon(icon);
+      ret.setPageId(ReferenceConstants.getSkillReference(skill.getIdentifier()));
+      ret.setTooltipText(skill.getName());
     }
     return ret;
   }
