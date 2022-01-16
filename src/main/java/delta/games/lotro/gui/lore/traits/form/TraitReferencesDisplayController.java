@@ -10,6 +10,7 @@ import javax.swing.event.HyperlinkListener;
 
 import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.common.ui.swing.navigator.PageIdentifier;
+import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.Race;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.lore.quests.Achievable;
@@ -98,6 +99,7 @@ public class TraitReferencesDisplayController
     StringBuilder sb=new StringBuilder();
     sb.append("<html><body>");
     buildHtmlForRace(sb,references);
+    buildHtmlForClass(sb,references);
     buildHtmlForQuestsAndDeeds(sb,references);
     sb.append("</body></html>");
     return sb.toString();
@@ -137,6 +139,28 @@ public class TraitReferencesDisplayController
     sb.append("<b>");
     PageIdentifier to=ReferenceConstants.getRaceReference(race);
     HtmlUtils.printLink(sb,to.getFullAddress(),race.getLabel());
+    sb.append("</b></p>");
+  }
+
+  private void buildHtmlForClass(StringBuilder sb, List<TraitReference<?>> references)
+  {
+    List<TraitReference<CharacterClass>> classReferences=getReferences(references,CharacterClass.class);
+    if (classReferences.size()>0)
+    {
+      for(TraitReference<CharacterClass> classReference : classReferences)
+      {
+        CharacterClass characterClass=classReference.getSource();
+        buildHtmlForClassReference(sb,characterClass);
+      }
+    }
+  }
+
+  private void buildHtmlForClassReference(StringBuilder sb, CharacterClass cClass)
+  {
+    sb.append("<p>Trait for class ");
+    sb.append("<b>");
+    PageIdentifier to=ReferenceConstants.getClassReference(cClass);
+    HtmlUtils.printLink(sb,to.getFullAddress(),cClass.getLabel());
     sb.append("</b></p>");
   }
 
