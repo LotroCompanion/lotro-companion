@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.character.status.travels.filter;
+package delta.games.lotro.gui.character.status.skills.filter;
 
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;

@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.character.status.travels;
+package delta.games.lotro.gui.character.status.skills;
 
 import java.util.List;
 
@@ -16,6 +16,7 @@ import delta.games.lotro.character.status.skills.io.SkillsStatusIo;
 import delta.games.lotro.common.enums.LotroEnum;
 import delta.games.lotro.common.enums.LotroEnumsRegistry;
 import delta.games.lotro.common.enums.SkillCategory;
+import delta.games.lotro.gui.character.status.skills.SkillsStatusDisplayPanelController;
 
 /**
  * Test class for the anchors status panel.
@@ -33,7 +34,7 @@ public class MainTestSkillsStatusPanel
     LotroEnum<SkillCategory> categories=LotroEnumsRegistry.getInstance().get(SkillCategory.class);
     SkillCategory travelSkills=categories.getEntry(88);
     List<SkillDescription> skills=SkillsManager.getInstance().getSkillsByCategory(travelSkills);
-    SkillStatusDisplayPanel panelCtrl=new SkillStatusDisplayPanel(null,skills,statusMgr,filter);
+    SkillsStatusDisplayPanelController panelCtrl=new SkillsStatusDisplayPanelController(null,skills,statusMgr,filter);
     DefaultWindowController w=new DefaultWindowController();
     JScrollPane scroll=GuiFactory.buildScrollPane(panelCtrl.getPanel());
     w.getFrame().add(scroll);

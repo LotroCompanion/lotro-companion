@@ -6,6 +6,7 @@ import java.awt.Insets;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -131,7 +132,7 @@ public class AnchorsStatusDisplayPanelController
 
   private JPanel buildPanel()
   {
-    JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
+    JPanel ret=GuiFactory.buildBackgroundPanel(new GridBagLayout());
     int y=0;
     for(SkillGadgetsController gadgets : _gadgets)
     {
@@ -144,6 +145,8 @@ public class AnchorsStatusDisplayPanelController
       ret.add(gadgets.getComplement(),c);
       y++;
     }
+    GridBagConstraints c=new GridBagConstraints(0,y,1,1,0.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.VERTICAL,new Insets(0,0,0,0),0,0);
+    ret.add(Box.createVerticalGlue(),c);
     return ret;
   }
 

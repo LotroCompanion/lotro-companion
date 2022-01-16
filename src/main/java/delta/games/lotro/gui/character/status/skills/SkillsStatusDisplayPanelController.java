@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.character.status.travels;
+package delta.games.lotro.gui.character.status.skills;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -7,9 +7,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.swing.Box;
+import javax.swing.Icon;
 import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.icons.TransparentIcon;
 import delta.common.ui.swing.labels.HyperLinkController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.skills.SkillDescription;
@@ -25,7 +28,7 @@ import delta.games.lotro.gui.utils.skills.SkillGadgetsController;
  * A panel to display the status of a collection of skills.
  * @author DAM
  */
-public class SkillStatusDisplayPanel implements FilterUpdateListener
+public class SkillsStatusDisplayPanelController implements FilterUpdateListener
 {
   // Data
   private List<SkillDescription> _skills;
@@ -44,7 +47,7 @@ public class SkillStatusDisplayPanel implements FilterUpdateListener
    * @param status Status to show.
    * @param filter Filter to use.
    */
-  public SkillStatusDisplayPanel(WindowController parent, List<SkillDescription> skills, SkillsStatusManager status, SkillStatusFilter filter)
+  public SkillsStatusDisplayPanelController(WindowController parent, List<SkillDescription> skills, SkillsStatusManager status, SkillStatusFilter filter)
   {
     _parent=parent;
     _skills=new ArrayList<SkillDescription>(skills);
@@ -78,6 +81,15 @@ public class SkillStatusDisplayPanel implements FilterUpdateListener
     {
       SkillGadgetsController ctrl=new SkillGadgetsController(_parent,skill);
       _gadgets.add(ctrl);
+      // Configure
+      SkillStatus skillStatus=_status.get(skill,true);
+      boolean available=skillStatus.isAvailable();
+      if (!available)
+      {
+        Icon icon=ctrl.getIcon().getIcon().getIcon();
+        Icon otherIcon=new TransparentIcon(icon,0.5f);
+        ctrl.getIcon().setIcon(otherIcon);
+      }
     }
   }
 
@@ -99,10 +111,14 @@ public class SkillStatusDisplayPanel implements FilterUpdateListener
       HyperLinkController link=ctrl.getLink();
       GridBagConstraints c=new GridBagConstraints(0,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
       _panel.add(icon.getIcon(),c);
-      c=new GridBagConstraints(1,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+      c=new GridBagConstraints(1,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
       _panel.add(link.getLabel(),c);
       y++;
     }
+    GridBagConstraints c=new GridBagConstraints(2,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    _panel.add(Box.createGlue(),c);
+    c=new GridBagConstraints(0,y+1,1,1,0.0,1.0,GridBagConstraints.WEST,GridBagConstraints.VERTICAL,new Insets(0,0,0,0),0,0);
+    _panel.add(Box.createVerticalGlue(),c);
     _panel.revalidate();
     _panel.repaint();
   }
