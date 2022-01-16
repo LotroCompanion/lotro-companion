@@ -40,6 +40,7 @@ public class TraitDisplayPanelController implements NavigablePanelController
   @SuppressWarnings("unused")
   private NavigatorWindowController _parent;
   private TraitReferencesDisplayController _references;
+  private TraitStatsPanelController _stats;
 
   /**
    * Constructor.
@@ -51,6 +52,7 @@ public class TraitDisplayPanelController implements NavigablePanelController
     _parent=parent;
     _trait=trait;
     _references=new TraitReferencesDisplayController(parent,trait.getIdentifier());
+    _stats=new TraitStatsPanelController(trait);
   }
 
   @Override
@@ -108,11 +110,20 @@ public class TraitDisplayPanelController implements NavigablePanelController
     }
     // Build components for potential tabs
     JEditorPane references=_references.getComponent();
-    if (references!=null)
+    JPanel statsPanel=_stats.getPanel();
+    if ((references!=null) || (statsPanel!=null))
     {
       JTabbedPane tabbedPane=GuiFactory.buildTabbedPane();
+      // - scaling
+      if (statsPanel!=null)
+      {
+        tabbedPane.add("Stats",buildPanelForTab(statsPanel));
+      }
       // - references
-      tabbedPane.add("References",buildPanelForTab(references));
+      if (references!=null)
+      {
+        tabbedPane.add("References",buildPanelForTab(references));
+      }
       GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(5,5,5,5),0,0);
       panel.add(tabbedPane,c);
       y++;
@@ -221,6 +232,11 @@ public class TraitDisplayPanelController implements NavigablePanelController
     {
       _references.dispose();
       _references=null;
+    }
+    if (_stats!=null)
+    {
+      _stats.dispose();
+      _stats=null;
     }
     _parent=null;
     // UI
