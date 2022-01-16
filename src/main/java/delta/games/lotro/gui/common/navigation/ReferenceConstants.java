@@ -2,6 +2,7 @@ package delta.games.lotro.gui.common.navigation;
 
 import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.games.lotro.common.CharacterClass;
+import delta.games.lotro.common.Race;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.quests.Achievable;
 import delta.games.lotro.lore.quests.QuestDescription;
@@ -69,6 +70,10 @@ public class ReferenceConstants
    * Trait page identifier.
    */
   public static final String TRAIT_PAGE="trait";
+  /**
+   * Race page identifier.
+   */
+  public static final String RACE_PAGE="race";
 
   /**
    * Get a page identifier for the given achievable proxy.
@@ -232,5 +237,18 @@ public class ReferenceConstants
   public static final PageIdentifier getTraitReference(int traitID)
   {
     return new PageIdentifier(TRAIT_PAGE,traitID);
+  }
+
+  /**
+   * Get a page identifier for the given race.
+   * @param race Identifier of the race to use.
+   * @return A page identifier.
+   */
+  public static final PageIdentifier getRaceReference(Race race)
+  {
+    PageIdentifier id=new PageIdentifier();
+    id.setBaseAddress(RACE_PAGE);
+    id.setParameter(PageIdentifier.ID_PARAMETER,race.getKey());
+    return id;
   }
 }
