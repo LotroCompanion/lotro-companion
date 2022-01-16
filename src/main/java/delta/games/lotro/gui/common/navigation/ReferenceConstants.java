@@ -1,6 +1,7 @@
 package delta.games.lotro.gui.common.navigation;
 
 import delta.common.ui.swing.navigator.PageIdentifier;
+import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.quests.Achievable;
 import delta.games.lotro.lore.quests.QuestDescription;
@@ -60,6 +61,14 @@ public class ReferenceConstants
    * Skill page identifier.
    */
   public static final String SKILL_PAGE="skill";
+  /**
+   * Class page identifier.
+   */
+  public static final String CLASS_PAGE="class";
+  /**
+   * Trait page identifier.
+   */
+  public static final String TRAIT_PAGE="trait";
 
   /**
    * Get a page identifier for the given achievable proxy.
@@ -200,5 +209,28 @@ public class ReferenceConstants
   public static final PageIdentifier getSkillReference(int skillID)
   {
     return new PageIdentifier(SKILL_PAGE,skillID);
+  }
+
+  /**
+   * Get a page identifier for the given class.
+   * @param characterClass Identifier of the class to use.
+   * @return A page identifier.
+   */
+  public static final PageIdentifier getClassReference(CharacterClass characterClass)
+  {
+    PageIdentifier id=new PageIdentifier();
+    id.setBaseAddress(CLASS_PAGE);
+    id.setParameter(PageIdentifier.ID_PARAMETER,characterClass.getKey());
+    return id;
+  }
+
+  /**
+   * Get a page identifier for the given trait.
+   * @param traitID Identifier of the trait to use.
+   * @return A page identifier.
+   */
+  public static final PageIdentifier getTraitReference(int traitID)
+  {
+    return new PageIdentifier(TRAIT_PAGE,traitID);
   }
 }
