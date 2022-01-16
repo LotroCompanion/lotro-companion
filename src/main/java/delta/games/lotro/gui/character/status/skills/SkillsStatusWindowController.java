@@ -40,7 +40,7 @@ public class SkillsStatusWindowController extends DefaultWindowController
   {
     super(parent);
     SkillsStatusManager status=SkillsStatusIo.load(toon);
-    _panelController=new SkillsStatusPanelController(parent,skills,status);
+    _panelController=new SkillsStatusPanelController(this,skills,status);
   }
 
   @Override
