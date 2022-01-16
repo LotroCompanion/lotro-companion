@@ -1,5 +1,6 @@
 package delta.games.lotro.gui.character.status.skills;
 
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -89,6 +90,7 @@ public class SkillsStatusDisplayPanelController implements FilterUpdateListener
         Icon icon=ctrl.getIcon().getIcon().getIcon();
         Icon otherIcon=new TransparentIcon(icon,0.5f);
         ctrl.getIcon().setIcon(otherIcon);
+        ctrl.getLink().setColor(Color.GRAY);
       }
     }
   }
