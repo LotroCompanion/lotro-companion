@@ -26,6 +26,7 @@ import delta.games.lotro.common.geo.PositionUtils;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.utils.skills.SkillGadgetsController;
 import delta.games.lotro.lore.maps.Area;
+import delta.games.lotro.lore.maps.Dungeon;
 import delta.games.lotro.lore.maps.Zone;
 
 /**
@@ -125,6 +126,16 @@ public class AnchorsStatusDisplayPanelController
       if (iconID!=null)
       {
         return LotroIconsManager.getAreaIcon(iconID.intValue());
+      }
+    }
+    else if (zone instanceof Dungeon)
+    {
+      Dungeon dungeon=(Dungeon)zone;
+      ExtendedPosition position=dungeon.getMapPosition();
+      if (position!=null)
+      {
+        Zone parentZone=position.getZone();
+        return getIcon(parentZone);
       }
     }
     return null;
