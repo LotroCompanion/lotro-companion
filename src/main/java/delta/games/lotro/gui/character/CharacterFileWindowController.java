@@ -68,6 +68,7 @@ import delta.games.lotro.gui.character.status.skirmishes.SkirmishStatisticsWindo
 import delta.games.lotro.gui.character.status.tasks.TasksStatusWindowController;
 import delta.games.lotro.gui.character.status.titles.TitlesStatusWindowController;
 import delta.games.lotro.gui.character.status.traitPoints.TraitPointsEditionWindowController;
+import delta.games.lotro.gui.character.status.travels.TravelsStatusWindowController;
 import delta.games.lotro.gui.character.storage.own.CharacterStorageDisplayWindowController;
 import delta.games.lotro.utils.events.EventsManager;
 import delta.games.lotro.utils.gui.filechooser.FileChooserController;
@@ -97,6 +98,7 @@ public class CharacterFileWindowController extends DefaultWindowController imple
   private static final String TITLES_STATUS_COMMAND="titlesStatus";
   private static final String STORAGE_COMMAND="storage";
   private static final String ALLEGIANCES_COMMAND="allegiances";
+  private static final String TRAVELS_COMMAND="travels";
 
   private CharacterSummaryPanelController _summaryController;
   private CharacterDataTableController _toonsTable;
@@ -227,6 +229,9 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     JButton levelsButton=buildCommandButton("Levels",LEVEL_COMMAND);
     c.insets.right=5;
     panel.add(levelsButton,c);c.gridx++;
+    // Travels status
+    JButton travelsButton=buildCommandButton("Travels",TRAVELS_COMMAND);
+    panel.add(travelsButton,c);c.gridx++;
 
     // Disable buttons if no log
     boolean hasLog=_toon.hasLog();
@@ -327,6 +332,10 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     else if (ALLEGIANCES_COMMAND.equals(command))
     {
       showAllegiancesStatus();
+    }
+    else if (TRAVELS_COMMAND.equals(command))
+    {
+      showTravelsStatus();
     }
     else if (NEW_TOON_DATA_ID.equals(command))
     {
@@ -623,6 +632,12 @@ public class CharacterFileWindowController extends DefaultWindowController imple
   {
     AllegiancesStatusManager status=AllegiancesStatusIo.load(_toon);
     AllegiancesStatusSummaryWindowController controller=new AllegiancesStatusSummaryWindowController(this,status);
+    controller.show();
+  }
+
+  private void showTravelsStatus()
+  {
+    TravelsStatusWindowController controller=new TravelsStatusWindowController(this,_toon);
     controller.show();
   }
 
