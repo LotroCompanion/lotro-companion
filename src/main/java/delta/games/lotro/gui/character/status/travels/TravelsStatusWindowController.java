@@ -2,6 +2,7 @@ package delta.games.lotro.gui.character.status.travels;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JFrame;
@@ -62,7 +63,15 @@ public class TravelsStatusWindowController extends DefaultWindowController
     filter.setCategory(102);
     SkillsFinder finder=new SkillsFinder(filter,character);
     List<SkillDescription> skills=finder.find();
-    return skills;
+    List<SkillDescription> ret=new ArrayList<SkillDescription>();
+    for(SkillDescription skill : skills)
+    {
+      if (skill.getIdentifier()!=1879276393) // Skip "Smell the Roses"
+      {
+        ret.add(skill);
+      }
+    }
+    return ret;
   }
 
   @Override
