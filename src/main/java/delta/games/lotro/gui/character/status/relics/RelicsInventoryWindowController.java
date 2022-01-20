@@ -38,6 +38,11 @@ import delta.games.lotro.lore.items.legendary.relics.RelicsManager;
  */
 public class RelicsInventoryWindowController extends DefaultDisplayDialogController<RelicsInventoryManager> implements FilterUpdateListener
 {
+  /**
+   * Window identifier.
+   */
+  public static final String IDENTIFIER="RELICS_STATUS";
+
   private static final int MAX_HEIGHT=800;
 
   // Data
@@ -73,6 +78,12 @@ public class RelicsInventoryWindowController extends DefaultDisplayDialogControl
       dialog.setSize(size.width,MAX_HEIGHT);
     }
     return dialog;
+  }
+
+  @Override
+  public String getWindowIdentifier()
+  {
+    return IDENTIFIER;
   }
 
   @Override

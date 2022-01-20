@@ -41,6 +41,11 @@ import delta.games.lotro.lore.quests.QuestDescription;
  */
 public class TasksStatusWindowController extends DefaultDisplayDialogController<TasksStatusManager> implements FilterUpdateListener
 {
+  /**
+   * Window identifier.
+   */
+  public static final String IDENTIFIER="TASKS_STATUS";
+
   private static final int MAX_HEIGHT=800;
 
   // Data
@@ -83,6 +88,12 @@ public class TasksStatusWindowController extends DefaultDisplayDialogController<
       dialog.setSize(size.width,MAX_HEIGHT);
     }
     return dialog;
+  }
+
+  @Override
+  public String getWindowIdentifier()
+  {
+    return IDENTIFIER;
   }
 
   @Override

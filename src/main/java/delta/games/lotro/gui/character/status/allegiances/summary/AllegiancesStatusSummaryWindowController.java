@@ -13,6 +13,11 @@ import delta.games.lotro.character.status.allegiances.AllegiancesStatusManager;
  */
 public class AllegiancesStatusSummaryWindowController extends DefaultDisplayDialogController<AllegiancesStatusManager>
 {
+  /**
+   * Window identifier.
+   */
+  public static final String IDENTIFIER="ALLEGIANCES_STATUS";
+
   // Controllers
   private AllegiancesStatusSummaryPanelController _statusController;
 
@@ -35,6 +40,12 @@ public class AllegiancesStatusSummaryWindowController extends DefaultDisplayDial
     dialog.pack();
     dialog.setResizable(false);
     return dialog;
+  }
+
+  @Override
+  public String getWindowIdentifier()
+  {
+    return IDENTIFIER;
   }
 
   @Override

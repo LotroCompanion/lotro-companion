@@ -86,15 +86,15 @@ public class TravelsStatusWindowController extends DefaultWindowController
   }
 
   @Override
-  public void configureWindow()
-  {
-    automaticLocationSetup();
-  }
-
-  @Override
   public String getWindowIdentifier()
   {
     return IDENTIFIER;
+  }
+
+  @Override
+  public void configureWindow()
+  {
+    automaticLocationSetup();
   }
 
   @Override

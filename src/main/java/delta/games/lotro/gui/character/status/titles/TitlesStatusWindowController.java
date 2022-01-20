@@ -37,6 +37,11 @@ import delta.games.lotro.lore.titles.TitlesManager;
  */
 public class TitlesStatusWindowController extends DefaultDisplayDialogController<TitlesStatusManager> implements FilterUpdateListener
 {
+  /**
+   * Window identifier.
+   */
+  public static final String IDENTIFIER="TITLES_STATUS";
+
   private static final int MAX_HEIGHT=900;
 
   // Data
@@ -73,6 +78,12 @@ public class TitlesStatusWindowController extends DefaultDisplayDialogController
       dialog.setSize(size.width,MAX_HEIGHT);
     }
     return dialog;
+  }
+
+  @Override
+  public String getWindowIdentifier()
+  {
+    return IDENTIFIER;
   }
 
   @Override

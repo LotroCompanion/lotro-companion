@@ -26,6 +26,11 @@ import delta.games.lotro.gui.utils.ConfigUpdateListener;
  */
 public class SkirmishStatisticsWindowController extends DefaultDisplayDialogController<SkirmishEntriesManager> implements FilterUpdateListener, ConfigUpdateListener
 {
+  /**
+   * Window identifier.
+   */
+  public static final String IDENTIFIER="SKIRMISH_STATUS";
+
   private static final int MAX_HEIGHT=800;
 
   // Controllers
@@ -59,6 +64,12 @@ public class SkirmishStatisticsWindowController extends DefaultDisplayDialogCont
       dialog.setSize(size.width,MAX_HEIGHT);
     }
     return dialog;
+  }
+
+  @Override
+  public String getWindowIdentifier()
+  {
+    return IDENTIFIER;
   }
 
   @Override

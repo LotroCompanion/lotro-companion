@@ -104,7 +104,6 @@ public class CharacterFileWindowController extends DefaultWindowController imple
   private CharacterDataTableController _toonsTable;
   private ToolbarController _toolbar;
   private CharacterFile _toon;
-  private WindowsManager _windowsManager;
 
   /**
    * Constructor.
@@ -113,7 +112,6 @@ public class CharacterFileWindowController extends DefaultWindowController imple
   public CharacterFileWindowController(CharacterFile toon)
   {
     _toon=toon;
-    _windowsManager=new WindowsManager();
     _summaryController=new CharacterSummaryPanelController(this,_toon);
   }
 
@@ -262,11 +260,12 @@ public class CharacterFileWindowController extends DefaultWindowController imple
       String serverName=_toon.getServerName();
       String toonName=_toon.getName();
       String id=CharacterLogWindowController.getIdentifier(serverName,toonName);
-      WindowController controller=_windowsManager.getWindow(id);
+      WindowsManager windowsManager=getWindowsManager();
+      WindowController controller=windowsManager.getWindow(id);
       if (controller==null)
       {
         controller=new CharacterLogWindowController(_toon);
-        _windowsManager.registerWindow(controller);
+        windowsManager.registerWindow(controller);
         controller.getWindow().setLocationRelativeTo(getFrame());
       }
       controller.bringToFront();
@@ -427,11 +426,12 @@ public class CharacterFileWindowController extends DefaultWindowController imple
   private void showCharacterData(CharacterData data)
   {
     String id=CharacterDataWindowController.getIdentifier(data);
-    WindowController controller=_windowsManager.getWindow(id);
+    WindowsManager windowsManager=getWindowsManager();
+    WindowController controller=windowsManager.getWindow(id);
     if (controller==null)
     {
       controller=new CharacterDataWindowController(this,_toon,data);
-      _windowsManager.registerWindow(controller);
+      windowsManager.registerWindow(controller);
       Window thisWindow=SwingUtilities.getWindowAncestor(_toonsTable.getTable());
       controller.getWindow().setLocationRelativeTo(thisWindow);
     }
@@ -507,7 +507,8 @@ public class CharacterFileWindowController extends DefaultWindowController imple
       if (result==JOptionPane.OK_OPTION)
       {
         String id=CharacterDataWindowController.getIdentifier(data);
-        WindowController windowController=_windowsManager.getWindow(id);
+        WindowsManager windowsManager=getWindowsManager();
+        WindowController windowController=windowsManager.getWindow(id);
         if (windowController!=null)
         {
           windowController.dispose();
@@ -528,11 +529,12 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     String serverName=_toon.getServerName();
     String toonName=_toon.getName();
     String id=StashWindowController.getIdentifier(serverName,toonName);
-    WindowController controller=_windowsManager.getWindow(id);
+    WindowsManager windowsManager=getWindowsManager();
+    WindowController controller=windowsManager.getWindow(id);
     if (controller==null)
     {
       controller=new StashWindowController(_toon);
-      _windowsManager.registerWindow(controller);
+      windowsManager.registerWindow(controller);
       controller.getWindow().setLocationRelativeTo(getFrame());
     }
     controller.bringToFront();
@@ -569,60 +571,97 @@ public class CharacterFileWindowController extends DefaultWindowController imple
 
   private void showQuestsStatus()
   {
-    AchievablesStatusManager status=QuestsStatusIo.load(_toon);
-    QuestsStatusWindowController controller=new QuestsStatusWindowController(this,status,_toon);
-    controller.show();
+    WindowsManager windowsManager=getWindowsManager();
+    QuestsStatusWindowController windowCtrl=(QuestsStatusWindowController)windowsManager.getWindow(QuestsStatusWindowController.IDENTIFIER);
+    if (windowCtrl==null)
+    {
+      AchievablesStatusManager status=QuestsStatusIo.load(_toon);
+      windowCtrl=new QuestsStatusWindowController(this,status,_toon);
+      windowsManager.registerWindow(windowCtrl);
+    }
+    windowCtrl.bringToFront();
   }
 
   private void showTasksStatus()
   {
-    AchievablesStatusManager status=QuestsStatusIo.load(_toon);
-    TasksStatusManager tasksStatus=new TasksStatusManager();
-    tasksStatus.init(status);
-    TasksStatusWindowController controller=new TasksStatusWindowController(this,tasksStatus,status,_toon);
-    controller.show();
+    WindowsManager windowsManager=getWindowsManager();
+    TasksStatusWindowController windowCtrl=(TasksStatusWindowController)windowsManager.getWindow(TasksStatusWindowController.IDENTIFIER);
+    if (windowCtrl==null)
+    {
+      AchievablesStatusManager status=QuestsStatusIo.load(_toon);
+      TasksStatusManager tasksStatus=new TasksStatusManager();
+      tasksStatus.init(status);
+      windowCtrl=new TasksStatusWindowController(this,tasksStatus,status,_toon);
+      windowsManager.registerWindow(windowCtrl);
+    }
+    windowCtrl.bringToFront();
   }
 
   private void showSkirmishStatistics()
   {
-    SkirmishStatsManager status=SkirmishStatsIo.load(_toon);
-    SkirmishEntriesManager entriesMgr=new SkirmishEntriesManager(status);
-    SkirmishStatisticsWindowController controller=new SkirmishStatisticsWindowController(this,entriesMgr);
-    controller.show();
+    WindowsManager windowsManager=getWindowsManager();
+    SkirmishStatisticsWindowController windowCtrl=(SkirmishStatisticsWindowController)windowsManager.getWindow(SkirmishStatisticsWindowController.IDENTIFIER);
+    if (windowCtrl==null)
+    {
+      SkirmishStatsManager status=SkirmishStatsIo.load(_toon);
+      SkirmishEntriesManager entriesMgr=new SkirmishEntriesManager(status);
+      windowCtrl=new SkirmishStatisticsWindowController(this,entriesMgr);
+      windowsManager.registerWindow(windowCtrl);
+    }
+    windowCtrl.bringToFront();
   }
 
   private void showRelicsInventory()
   {
-    RelicsInventory status=RelicsInventoryIo.load(_toon);
-    RelicsInventoryManager relicsStatusMgr=new RelicsInventoryManager();
-    relicsStatusMgr.init(status);
-    RelicsInventoryWindowController controller=new RelicsInventoryWindowController(this,relicsStatusMgr);
-    controller.show();
+    WindowsManager windowsManager=getWindowsManager();
+    RelicsInventoryWindowController windowCtrl=(RelicsInventoryWindowController)windowsManager.getWindow(RelicsInventoryWindowController.IDENTIFIER);
+    if (windowCtrl==null)
+    {
+      RelicsInventory status=RelicsInventoryIo.load(_toon);
+      RelicsInventoryManager relicsStatusMgr=new RelicsInventoryManager();
+      relicsStatusMgr.init(status);
+      windowCtrl=new RelicsInventoryWindowController(this,relicsStatusMgr);
+      windowsManager.registerWindow(windowCtrl);
+    }
+    windowCtrl.bringToFront();
   }
 
   private void showRecipesStatus()
   {
-    CraftingStatus status=_toon.getCraftingMgr().getCraftingStatus();
-    RecipesStatusManager recipesStatusMgr=new RecipesStatusManager();
-    recipesStatusMgr.init(status);
-    RecipesStatusWindowController controller=new RecipesStatusWindowController(this,recipesStatusMgr);
-    controller.show();
+    WindowsManager windowsManager=getWindowsManager();
+    RecipesStatusWindowController windowCtrl=(RecipesStatusWindowController)windowsManager.getWindow(RecipesStatusWindowController.IDENTIFIER);
+    if (windowCtrl==null)
+    {
+      CraftingStatus status=_toon.getCraftingMgr().getCraftingStatus();
+      RecipesStatusManager recipesStatusMgr=new RecipesStatusManager();
+      recipesStatusMgr.init(status);
+      windowCtrl=new RecipesStatusWindowController(this,recipesStatusMgr);
+      windowsManager.registerWindow(windowCtrl);
+    }
+    windowCtrl.bringToFront();
   }
 
   private void showTitlesStatus()
   {
-    TitlesStatusManager status=TitlesStatusIo.load(_toon);
-    TitlesStatusWindowController controller=new TitlesStatusWindowController(this,status);
-    controller.show();
+    WindowsManager windowsManager=getWindowsManager();
+    TitlesStatusWindowController windowCtrl=(TitlesStatusWindowController)windowsManager.getWindow(TitlesStatusWindowController.IDENTIFIER);
+    if (windowCtrl==null)
+    {
+      TitlesStatusManager status=TitlesStatusIo.load(_toon);
+      windowCtrl=new TitlesStatusWindowController(this,status);
+      windowsManager.registerWindow(windowCtrl);
+    }
+    windowCtrl.bringToFront();
   }
 
   private void showStorage()
   {
-    CharacterStorageDisplayWindowController summaryController=(CharacterStorageDisplayWindowController)_windowsManager.getWindow(CharacterStorageDisplayWindowController.IDENTIFIER);
+    WindowsManager windowsManager=getWindowsManager();
+    CharacterStorageDisplayWindowController summaryController=(CharacterStorageDisplayWindowController)windowsManager.getWindow(CharacterStorageDisplayWindowController.IDENTIFIER);
     if (summaryController==null)
     {
       summaryController=new CharacterStorageDisplayWindowController(this,_toon);
-      _windowsManager.registerWindow(summaryController);
+      windowsManager.registerWindow(summaryController);
       summaryController.getWindow().setLocationRelativeTo(getWindow());
     }
     summaryController.bringToFront();
@@ -630,15 +669,27 @@ public class CharacterFileWindowController extends DefaultWindowController imple
 
   private void showAllegiancesStatus()
   {
-    AllegiancesStatusManager status=AllegiancesStatusIo.load(_toon);
-    AllegiancesStatusSummaryWindowController controller=new AllegiancesStatusSummaryWindowController(this,status);
-    controller.show();
+    WindowsManager windowsManager=getWindowsManager();
+    AllegiancesStatusSummaryWindowController windowCtrl=(AllegiancesStatusSummaryWindowController)windowsManager.getWindow(AllegiancesStatusSummaryWindowController.IDENTIFIER);
+    if (windowCtrl==null)
+    {
+      AllegiancesStatusManager status=AllegiancesStatusIo.load(_toon);
+      windowCtrl=new AllegiancesStatusSummaryWindowController(this,status);
+      windowsManager.registerWindow(windowCtrl);
+    }
+    windowCtrl.bringToFront();
   }
 
   private void showTravelsStatus()
   {
-    TravelsStatusWindowController controller=new TravelsStatusWindowController(this,_toon);
-    controller.show();
+    WindowsManager windowsManager=getWindowsManager();
+    TravelsStatusWindowController windowCtrl=(TravelsStatusWindowController)windowsManager.getWindow(TravelsStatusWindowController.IDENTIFIER);
+    if (windowCtrl==null)
+    {
+      windowCtrl=new TravelsStatusWindowController(this,_toon);
+      windowsManager.registerWindow(windowCtrl);
+    }
+    windowCtrl.show();
   }
 
   /**
@@ -647,11 +698,6 @@ public class CharacterFileWindowController extends DefaultWindowController imple
   @Override
   public void dispose()
   {
-    if (_windowsManager!=null)
-    {
-      _windowsManager.disposeAll();
-      _windowsManager=null;
-    }
     super.dispose();
     if (_summaryController!=null)
     {

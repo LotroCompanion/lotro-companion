@@ -37,6 +37,11 @@ import delta.games.lotro.lore.crafting.recipes.Recipe;
  */
 public class RecipesStatusWindowController extends DefaultDisplayDialogController<RecipesStatusManager> implements FilterUpdateListener
 {
+  /**
+   * Window identifier.
+   */
+  public static final String IDENTIFIER="RECIPES_STATUS";
+
   private static final int MAX_HEIGHT=800;
 
   // Data
@@ -74,6 +79,12 @@ public class RecipesStatusWindowController extends DefaultDisplayDialogControlle
       dialog.setSize(size.width,MAX_HEIGHT);
     }
     return dialog;
+  }
+
+  @Override
+  public String getWindowIdentifier()
+  {
+    return IDENTIFIER;
   }
 
   @Override
