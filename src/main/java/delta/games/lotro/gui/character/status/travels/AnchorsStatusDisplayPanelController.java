@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.Box;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -87,6 +88,7 @@ public class AnchorsStatusDisplayPanelController
       newLabel="Return to "+name;
     }
     // Use position
+    Icon newIcon=null;
     ExtendedPosition extendedPosition=status.getPosition();
     if (extendedPosition!=null)
     {
@@ -94,11 +96,7 @@ public class AnchorsStatusDisplayPanelController
       Zone zone=extendedPosition.getZone();
       if (zone!=null)
       {
-        ImageIcon icon=getIcon(zone);
-        if (icon!=null)
-        {
-          skillGadgets.getIcon().setIcon(icon);
-        }
+        newIcon=getIcon(zone);
         if (newLabel==null)
         {
           newLabel=travelSkill.getName()+" ("+zone.getName()+")";
@@ -113,6 +111,11 @@ public class AnchorsStatusDisplayPanelController
     {
       HyperLinkController link=skillGadgets.getLink();
       link.setText(newLabel);
+    }
+    // Set new icon
+    if ((newIcon!=null) && (name!=null))
+    {
+      skillGadgets.getIcon().setIcon(newIcon);
     }
     return skillGadgets;
   }
