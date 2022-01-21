@@ -1,17 +1,11 @@
 package delta.games.lotro.gui.utils;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
-
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-
-import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.labels.HyperLinkController;
+import delta.common.ui.swing.navigator.PageIdentifier;
+import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.skills.SkillDescription;
 import delta.games.lotro.character.traits.TraitDescription;
-import delta.games.lotro.gui.LotroIconsManager;
+import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 
 /**
  * Factory for shared panels.
@@ -20,54 +14,44 @@ import delta.games.lotro.gui.LotroIconsManager;
 public class SharedPanels
 {
   /**
-   * Build a skill link panel.
+   * Build a skill link panel controller.
+   * @param parent Parent window.
    * @param skill Skill to show.
    * @return A panel.
    */
-  public static JPanel buildSkillPanel(SkillDescription skill)
+  public static IconAndLinkPanelController buildSkillPanel(WindowController parent, SkillDescription skill)
   {
     if (skill==null)
     {
       return null;
     }
     // Icon
-    int iconID=skill.getIconId();
-    ImageIcon icon=LotroIconsManager.getSkillIcon(iconID);
-    JLabel skillIconLabel=GuiFactory.buildIconLabel(icon);
-    // Text
-    JLabel skillName=GuiFactory.buildLabel(skill.getName());
-    // Result panel;
-    JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
-    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,5),0,0);
-    ret.add(skillIconLabel,c);
-    c=new GridBagConstraints(1,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
-    ret.add(skillName,c);
-    return ret;
+    IconController iconCtrl=IconControllerFactory.buildSkillIcon(parent,skill);
+    // Link
+    PageIdentifier pageId=ReferenceConstants.getSkillReference(skill.getIdentifier());
+    String text=skill.getName();
+    HyperLinkController linkCtrl=NavigationUtils.buildNavigationLink(parent,text,pageId);
+    return new IconAndLinkPanelController(iconCtrl,linkCtrl);
   }
 
   /**
-   * Build a trait link panel.
+   * Build a trait link panel controller.
+   * @param parent Parent window.
    * @param trait Trait to show.
    * @return A panel.
    */
-  public static JPanel buildTraitPanel(TraitDescription trait)
+  public static IconAndLinkPanelController buildTraitPanel(WindowController parent, TraitDescription trait)
   {
     if (trait==null)
     {
       return null;
     }
     // Icon
-    int iconID=trait.getIconId();
-    ImageIcon icon=LotroIconsManager.getTraitIcon(iconID);
-    JLabel traitIconLabel=GuiFactory.buildIconLabel(icon);
-    // Text
-    JLabel traitName=GuiFactory.buildLabel(trait.getName());
-    // Result panel;
-    JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
-    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,5),0,0);
-    ret.add(traitIconLabel,c);
-    c=new GridBagConstraints(1,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
-    ret.add(traitName,c);
-    return ret;
+    IconController iconCtrl=IconControllerFactory.buildTraitIcon(parent,trait);
+    // Link
+    PageIdentifier pageId=ReferenceConstants.getTraitReference(trait.getIdentifier());
+    String text=trait.getName();
+    HyperLinkController linkCtrl=NavigationUtils.buildNavigationLink(parent,text,pageId);
+    return new IconAndLinkPanelController(iconCtrl,linkCtrl);
   }
 }

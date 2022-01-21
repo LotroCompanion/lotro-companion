@@ -15,6 +15,7 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.status.allegiances.AllegianceStatus;
 import delta.games.lotro.gui.LotroIconsManager;
+import delta.games.lotro.gui.utils.IconAndLinkPanelController;
 import delta.games.lotro.gui.utils.SharedPanels;
 import delta.games.lotro.lore.allegiances.AllegianceDescription;
 import delta.games.lotro.utils.gui.HtmlUtils;
@@ -33,6 +34,7 @@ public class AllegianceStatusPanelController
   // Controllers
   private AllegianceStatusSummaryPanelController _statusSummary;
   private AllegianceStatusRewardsPanelController _rewards;
+  private IconAndLinkPanelController _travelSkillPanel;
 
   /**
    * Constructor.
@@ -45,6 +47,7 @@ public class AllegianceStatusPanelController
     _allegiance=_status.getAllegiance();
     _statusSummary=new AllegianceStatusSummaryPanelController(allegianceStatus);
     _rewards=new AllegianceStatusRewardsPanelController(parent,allegianceStatus);
+    _travelSkillPanel=SharedPanels.buildSkillPanel(parent,_allegiance.getTravelSkill());
     _panel=buildPanel();
   }
 
@@ -99,11 +102,10 @@ public class AllegianceStatusPanelController
     c=new GridBagConstraints(1,1,1,1,1.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,5,5),0,0);
     ret.add(buildDescriptionGadget(),c);
     // Travel skill
-    JPanel travelSkillPanel=SharedPanels.buildSkillPanel(_allegiance.getTravelSkill());
-    if (travelSkillPanel!=null)
+    if (_travelSkillPanel!=null)
     {
       c=new GridBagConstraints(1,2,1,1,1.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,5,5),0,0);
-      ret.add(travelSkillPanel,c);
+      ret.add(_travelSkillPanel.getPanel(),c);
     }
     return ret;
   }
@@ -155,6 +157,11 @@ public class AllegianceStatusPanelController
     {
       _rewards.dispose();
       _rewards=null;
+    }
+    if (_travelSkillPanel!=null)
+    {
+      _travelSkillPanel.dispose();
+      _travelSkillPanel=null;
     }
   }
 }

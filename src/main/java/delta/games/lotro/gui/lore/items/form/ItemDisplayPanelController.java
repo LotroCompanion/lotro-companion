@@ -32,6 +32,7 @@ import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.common.money.MoneyDisplayController;
 import delta.games.lotro.gui.common.requirements.RequirementsUtils;
 import delta.games.lotro.gui.lore.items.containers.form.ContainerDisplayPanelController;
+import delta.games.lotro.gui.utils.IconAndLinkPanelController;
 import delta.games.lotro.gui.utils.SharedPanels;
 import delta.games.lotro.lore.items.Armour;
 import delta.games.lotro.lore.items.ArmourType;
@@ -67,6 +68,7 @@ public class ItemDisplayPanelController implements NavigablePanelController
   private ContainerDisplayPanelController _container;
   private MoneyDisplayController _money;
   private DisenchantmentResultPanelController _disenchantment;
+  private List<IconAndLinkPanelController> _grantedCtrls;
 
   /**
    * Constructor.
@@ -81,6 +83,7 @@ public class ItemDisplayPanelController implements NavigablePanelController
     _scaling=new ItemScalableStatsPanelController(item);
     _container=new ContainerDisplayPanelController(parent,item);
     _money=new MoneyDisplayController();
+    _grantedCtrls=new ArrayList<IconAndLinkPanelController>();
   }
 
   @Override
@@ -425,11 +428,12 @@ public class ItemDisplayPanelController implements NavigablePanelController
       y++;
       for(GrantedElement<?> grantedElement : grantedElements)
       {
-        JPanel panel=buildGrantedElementPanel(grantedElement);
-        if (panel!=null)
+        IconAndLinkPanelController panelCtrl=buildGrantedElementPanel(grantedElement);
+        if (panelCtrl!=null)
         {
+          _grantedCtrls.add(panelCtrl);
           c=new GridBagConstraints(0,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
-          ret.add(panel,c);
+          ret.add(panelCtrl.getPanel(),c);
           y++;
         }
       }
@@ -437,18 +441,18 @@ public class ItemDisplayPanelController implements NavigablePanelController
     return ret;
   }
 
-  private JPanel buildGrantedElementPanel(GrantedElement<?> grantedElement)
+  private IconAndLinkPanelController buildGrantedElementPanel(GrantedElement<?> grantedElement)
   {
     Object element=grantedElement.getGrantedElement();
     if (element instanceof SkillDescription)
     {
       SkillDescription skill=(SkillDescription)element;
-      return SharedPanels.buildSkillPanel(skill);
+      return SharedPanels.buildSkillPanel(_parent,skill);
     }
     if (element instanceof TraitDescription)
     {
       TraitDescription trait=(TraitDescription)element;
-      return SharedPanels.buildTraitPanel(trait);
+      return SharedPanels.buildTraitPanel(_parent,trait);
     }
     return null;
   }
@@ -483,6 +487,14 @@ public class ItemDisplayPanelController implements NavigablePanelController
     {
       _disenchantment.dispose();
       _disenchantment=null;
+    }
+    if (_grantedCtrls!=null)
+    {
+      for(IconAndLinkPanelController ctrl : _grantedCtrls)
+      {
+        ctrl.dispose();
+      }
+      _grantedCtrls=null;
     }
     _parent=null;
     // UI

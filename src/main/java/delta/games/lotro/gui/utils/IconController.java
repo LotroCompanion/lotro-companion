@@ -5,12 +5,8 @@ import java.awt.event.ActionListener;
 
 import javax.swing.Icon;
 
-import org.apache.log4j.Logger;
-
-import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.common.ui.swing.windows.WindowController;
-import delta.games.lotro.gui.navigation.NavigatorFactory;
 
 /**
  * Controller for an icon that brings a page.
@@ -18,9 +14,7 @@ import delta.games.lotro.gui.navigation.NavigatorFactory;
  */
 public class IconController extends AbstractIconController
 {
-  private static final Logger LOGGER=Logger.getLogger(IconController.class);
-
-  protected PageIdentifier _pageId;
+  private PageIdentifier _pageId;
 
   /**
    * Constructor.
@@ -34,30 +28,10 @@ public class IconController extends AbstractIconController
       @Override
       public void actionPerformed(ActionEvent e)
       {
-        showForm();
+        NavigationUtils.navigateTo(_pageId,_parent);
       }
     };
     _icon.addActionListener(_listener);
-  }
-
-  private void showForm()
-  {
-    if (_pageId!=null)
-    {
-      LOGGER.info("Display page: "+_pageId);
-      NavigatorWindowController navigator=null;
-      if (_parent instanceof NavigatorWindowController)
-      {
-        navigator=(NavigatorWindowController)_parent;
-      }
-      else
-      {
-        int id=_parent.getWindowsManager().getAll().size();
-        navigator=NavigatorFactory.buildNavigator(_parent,id);
-      }
-      navigator.navigateTo(_pageId);
-      navigator.bringToFront();
-    }
   }
 
   /**
