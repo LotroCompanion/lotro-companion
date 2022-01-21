@@ -21,7 +21,10 @@ public class MainTestTraitDisplayPanel
     {
         1879269704, // Physical Mastery
         1879269705, // Careful Shield-work
-        1879269715 // Impressive Flourish
+        1879269715, // Impressive Flourish
+        1879215547, // Lightly Armoured Fire Orc Appearance"
+        1879272589, // Hands of Healing (several stats with same name)
+        1879062819  // Track Mines// (with skills, no stats)
     };
     for(int traitID : traitIDs)
     {

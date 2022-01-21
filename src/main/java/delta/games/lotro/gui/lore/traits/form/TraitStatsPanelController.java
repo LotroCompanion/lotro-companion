@@ -35,7 +35,7 @@ public class TraitStatsPanelController
 
   /**
    * Constructor.
-   * @param trait
+   * @param trait Trait to use.
    */
   public TraitStatsPanelController(TraitDescription trait)
   {
@@ -54,17 +54,25 @@ public class TraitStatsPanelController
 
   private JPanel build()
   {
+    StatsProvider statsProvider=_trait.getStatsProvider();
+    int nbStats=statsProvider.getNumberOfStatProviders();
+    if (nbStats<1)
+    {
+      return null;
+    }
     int nbTiers=_trait.getTiersCount();
     List<RawTablePanelController> tables=new ArrayList<RawTablePanelController>();
     for(int i=0;i<nbTiers;i++)
     {
-      DataTable table=buildTable(_trait.getStatsProvider(),i+1,nbTiers);
+      DataTable table=buildTable(statsProvider,i+1,nbTiers);
       RawTablePanelController tableController=new RawTablePanelController(table);
       tables.add(tableController);
     }
     if (nbTiers==1)
     {
-      return tables.get(0).getPanel();
+      JPanel ret=GuiFactory.buildPanel(new BorderLayout());
+      ret.add(tables.get(0).getPanel(),BorderLayout.WEST);
+      return ret;
     }
     JTabbedPane tab=GuiFactory.buildTabbedPane();
     for(int i=0;i<nbTiers;i++)
@@ -88,13 +96,13 @@ public class TraitStatsPanelController
     DataTable ret=new DataTable();
     int nbStats=statsProvider.getNumberOfStatProviders();
     // Columns
-    ret.addColumn("Level",Integer.class);
+    ret.addColumn("0","Level",Integer.class,null);
     for(int i=0;i<nbStats;i++)
     {
       StatProvider statProvider=statsProvider.getStatProvider(i);
       StatDescription stat=statProvider.getStat();
       String statName=stat.getName();
-      ret.addColumn(statName,String.class);
+      ret.addColumn(String.valueOf(i+1),statName,String.class,null);
     }
     // Rows
     int levelCap=Config.getInstance().getMaxCharacterLevel();
