@@ -4,6 +4,7 @@ import javax.swing.Icon;
 
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.skills.SkillDescription;
+import delta.games.lotro.character.traits.TraitDescription;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.gui.lore.items.ItemUiTools;
@@ -90,6 +91,25 @@ public class IconControllerFactory
       ret.setIcon(icon);
       ret.setPageId(ReferenceConstants.getSkillReference(skill.getIdentifier()));
       ret.setTooltipText(skill.getName());
+    }
+    return ret;
+  }
+
+  /**
+   * Build a trait icon.
+   * @param parent Parent window.
+   * @param trait Trait to use.
+   * @return A new controller.
+   */
+  public static IconController buildTraitIcon(WindowController parent, TraitDescription trait)
+  {
+    IconController ret=new IconController(parent);
+    if (trait!=null)
+    {
+      Icon icon=LotroIconsManager.getTraitIcon(trait.getIconId());
+      ret.setIcon(icon);
+      ret.setPageId(ReferenceConstants.getTraitReference(trait.getIdentifier()));
+      ret.setTooltipText(trait.getName());
     }
     return ret;
   }

@@ -258,7 +258,7 @@ public class RewardsPanelController
       TraitDescription trait=TraitsManager.getInstance().getTrait(id);
       if (trait!=null)
       {
-        ret=new TraitRewardGadgetsController(trait);
+        ret=new TraitRewardGadgetsController(_parent,trait);
       }
     }
     // Crafting XP reward
