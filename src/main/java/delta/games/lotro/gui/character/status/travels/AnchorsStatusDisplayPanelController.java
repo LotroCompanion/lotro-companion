@@ -183,6 +183,16 @@ public class AnchorsStatusDisplayPanelController
    */
   public void dispose()
   {
+    // Controllers
+    if (_gadgets!=null)
+    {
+      for(SkillGadgetsController gadget : _gadgets)
+      {
+        gadget.dispose();
+      }
+      _gadgets=null;
+    }
+    // UI
     if (_panel!=null)
     {
       _panel.removeAll();
