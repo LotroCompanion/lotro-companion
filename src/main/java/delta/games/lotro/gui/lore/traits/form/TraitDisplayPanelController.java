@@ -21,9 +21,12 @@ import javax.swing.JTabbedPane;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.navigator.NavigablePanelController;
 import delta.common.ui.swing.navigator.NavigatorWindowController;
+import delta.games.lotro.character.skills.SkillDescription;
 import delta.games.lotro.character.traits.TraitDescription;
 import delta.games.lotro.common.enums.SkillCategory;
+import delta.games.lotro.common.enums.TraitNature;
 import delta.games.lotro.gui.LotroIconsManager;
+import delta.games.lotro.gui.utils.skills.SkillGadgetsController;
 import delta.games.lotro.utils.gui.HtmlUtils;
 
 /**
@@ -37,10 +40,10 @@ public class TraitDisplayPanelController implements NavigablePanelController
   // GUI
   private JPanel _panel;
   // Controllers
-  @SuppressWarnings("unused")
   private NavigatorWindowController _parent;
   private TraitReferencesDisplayController _references;
   private TraitStatsPanelController _stats;
+  private List<SkillGadgetsController> _skills;
 
   /**
    * Constructor.
@@ -166,13 +169,21 @@ public class TraitDisplayPanelController implements NavigablePanelController
       panel.add(panelLine,c);
       c.gridy++;
     }
+    // Attributes
     List<String> lines=getAttributesLines();
     for(String line : lines)
     {
       JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
+      panelLine.add(GuiFactory.buildLabel(line));
       panel.add(panelLine,c);
       c.gridy++;
-      panelLine.add(GuiFactory.buildLabel(line));
+    }
+    // Skills
+    JPanel skillsPanel=buildSkillsPanel();
+    if (skillsPanel!=null)
+    {
+      panel.add(skillsPanel,c);
+      c.gridy++;
     }
     // Padding to push everything on left
     JPanel paddingPanel=GuiFactory.buildPanel(new BorderLayout());
@@ -197,13 +208,44 @@ public class TraitDisplayPanelController implements NavigablePanelController
       }
       ret.add("Category: "+categoryLabel);
     }
-    // TODO:
-    _trait.getMinLevel();
-    _trait.getNature();
-    _trait.getSkills();
-    _trait.getStatsProvider();
-    _trait.getTiersCount();
-    _trait.getTooltip();
+    // Minimum Level
+    int minLevel=_trait.getMinLevel();
+    if (minLevel>1)
+    {
+      ret.add("Minimum Level: "+minLevel);
+    }
+    TraitNature nature=_trait.getNature();
+    if (nature!=null)
+    {
+      ret.add("Nature: "+nature.getLabel());
+    }
+    int tiers=_trait.getTiersCount();
+    if (tiers>1)
+    {
+      ret.add("Tiers: "+tiers);
+    }
+    return ret;
+  }
+
+  private JPanel buildSkillsPanel()
+  {
+    List<SkillDescription> skills=_trait.getSkills();
+    if (skills.size()==0)
+    {
+      return null;
+    }
+    JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
+    _skills=new ArrayList<SkillGadgetsController>();
+    int y=0;
+    for(SkillDescription skill : skills)
+    {
+      SkillGadgetsController gadget=new SkillGadgetsController(_parent,skill);
+      _skills.add(gadget);
+      GridBagConstraints c=new GridBagConstraints(0,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+      ret.add(gadget.getIcon().getIcon(),c);
+      c=new GridBagConstraints(1,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+      ret.add(gadget.getLink().getLabel(),c);
+    }
     return ret;
   }
 
@@ -228,6 +270,7 @@ public class TraitDisplayPanelController implements NavigablePanelController
     // Data
     _trait=null;
     // Controllers
+    _parent=null;
     if (_references!=null)
     {
       _references.dispose();
@@ -238,7 +281,14 @@ public class TraitDisplayPanelController implements NavigablePanelController
       _stats.dispose();
       _stats=null;
     }
-    _parent=null;
+    if (_skills!=null)
+    {
+      for(SkillGadgetsController gadget : _skills)
+      {
+        gadget.dispose();
+      }
+      _skills=null;
+    }
     // UI
     if (_panel!=null)
     {
