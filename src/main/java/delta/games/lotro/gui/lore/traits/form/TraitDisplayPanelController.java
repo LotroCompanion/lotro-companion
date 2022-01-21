@@ -230,18 +230,23 @@ public class TraitDisplayPanelController implements NavigablePanelController
   private JPanel buildSkillsPanel()
   {
     List<SkillDescription> skills=_trait.getSkills();
-    if (skills.size()==0)
+    int nbSkills=skills.size(); 
+    if (nbSkills==0)
     {
       return null;
     }
     JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
     _skills=new ArrayList<SkillGadgetsController>();
     int y=0;
+    String label=(nbSkills>1)?"Grants skills:":"Grants skill:";
+    GridBagConstraints c=new GridBagConstraints(0,y,2,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,5,0,0),0,0);
+    ret.add(GuiFactory.buildLabel(label),c);
+    y++;
     for(SkillDescription skill : skills)
     {
       SkillGadgetsController gadget=new SkillGadgetsController(_parent,skill);
       _skills.add(gadget);
-      GridBagConstraints c=new GridBagConstraints(0,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+      c=new GridBagConstraints(0,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,5,0,5),0,0);
       ret.add(gadget.getIcon().getIcon(),c);
       c=new GridBagConstraints(1,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
       ret.add(gadget.getLink().getLabel(),c);
