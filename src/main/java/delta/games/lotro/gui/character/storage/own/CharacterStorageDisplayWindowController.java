@@ -18,12 +18,12 @@ import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.events.CharacterEvent;
 import delta.games.lotro.character.events.CharacterEventType;
 import delta.games.lotro.character.storage.CharacterStorage;
+import delta.games.lotro.character.storage.StorageUtils;
 import delta.games.lotro.character.storage.StoragesIO;
 import delta.games.lotro.character.storage.StoredItem;
 import delta.games.lotro.gui.character.storage.StorageDisplayPanelController;
 import delta.games.lotro.gui.character.storage.StorageFilter;
 import delta.games.lotro.gui.character.storage.StorageFilterController;
-import delta.games.lotro.gui.character.storage.StorageUtils;
 import delta.games.lotro.utils.events.EventsManager;
 import delta.games.lotro.utils.events.GenericEventsListener;
 
