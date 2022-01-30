@@ -30,6 +30,7 @@ import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.character.stats.virtues.VirtuesSet;
 import delta.games.lotro.character.virtues.VirtueDescription;
 import delta.games.lotro.character.virtues.VirtuesManager;
+import delta.games.lotro.character.virtues.VirtuesStatus;
 import delta.games.lotro.gui.character.virtues.VirtueEditionUiController.TierValueListener;
 
 /**
@@ -42,24 +43,30 @@ public class VirtuesEditionPanelController implements TierValueListener,ActionLi
 
   private static final String REMOVE_COMMAND="remove";
 
-  private JPanel _panel;
+  // Controllers
   private HashMap<VirtueDescription,VirtueEditionUiController> _virtues;
   private VirtuesDisplayPanelController _selectedVirtues;
   private VirtuesStatsPanelController _stats;
+  private VirtuesStatisticsPanelController _statistics;
+  // UI
+  private JPanel _panel;
   private JButton _maxAll;
   private JPopupMenu _contextMenu;
   // Data
+  private VirtuesStatus _status;
   private VirtuesSet _virtuesSet;
   private int _characterLevel;
 
   /**
    * Constructor.
    * @param characterLevel Character level.
+   * @param status Current virtues status.
    */
-  public VirtuesEditionPanelController(int characterLevel)
+  public VirtuesEditionPanelController(int characterLevel, VirtuesStatus status)
   {
     _virtues=new HashMap<VirtueDescription,VirtueEditionUiController>();
     _characterLevel=characterLevel;
+    _status=status;
     _panel=build();
     _contextMenu=buildContextualMenu();
   }
@@ -187,10 +194,17 @@ public class VirtuesEditionPanelController implements TierValueListener,ActionLi
   private JPanel buildSidePanel()
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
+    int y=0;
     // Stats
     _stats=new VirtuesStatsPanelController();
-    GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.HORIZONTAL,new Insets(5,5,5,5),0,0);
+    GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.HORIZONTAL,new Insets(5,5,5,5),0,0);
     panel.add(_stats.getPanel(),c);
+    y++;
+    // Statistics
+    _statistics=new VirtuesStatisticsPanelController(_status);
+    c=new GridBagConstraints(0,y,1,1,1.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.HORIZONTAL,new Insets(5,5,5,5),0,0);
+    panel.add(_statistics.getPanel(),c);
+    y++;
     // Max all button
     _maxAll=GuiFactory.buildButton("Max all");
     ActionListener al=new ActionListener()
@@ -202,12 +216,14 @@ public class VirtuesEditionPanelController implements TierValueListener,ActionLi
       }
     };
     _maxAll.addActionListener(al);
-    c=new GridBagConstraints(0,1,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
+    c=new GridBagConstraints(0,y,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
     panel.add(_maxAll,c);
+    y++;
     // Strut
     Component strut=Box.createHorizontalStrut(200);
-    c=new GridBagConstraints(0,2,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(1,1,1,1),0,0);
+    c=new GridBagConstraints(0,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(1,1,1,1),0,0);
     panel.add(strut,c);
+    y++;
     return panel;
   }
 
@@ -288,6 +304,7 @@ public class VirtuesEditionPanelController implements TierValueListener,ActionLi
   {
     VirtuesSet virtues=getVirtues();
     _stats.update(virtues);
+    _statistics.update(virtues);
   }
 
   private void maxAll()
@@ -322,6 +339,8 @@ public class VirtuesEditionPanelController implements TierValueListener,ActionLi
     _selectedVirtues.setVirtues(set);
     // Update stats
     _stats.update(set);
+    // Update statistics
+    _statistics.update(set);
   }
 
   /**
@@ -349,17 +368,22 @@ public class VirtuesEditionPanelController implements TierValueListener,ActionLi
    */
   public void dispose()
   {
-    if (_panel!=null)
-    {
-      _panel.removeAll();
-      _panel=null;
-    }
+    // Controllers
     if (_selectedVirtues!=null)
     {
       _selectedVirtues.dispose();
       _selectedVirtues=null;
     }
-    _maxAll=null;
+    if (_stats!=null)
+    {
+      _stats.dispose();
+      _stats=null;
+    }
+    if (_statistics!=null)
+    {
+      _statistics.dispose();
+      _statistics=null;
+    }
     if (_virtues!=null)
     {
       for(VirtueEditionUiController editionUi : _virtues.values())
@@ -369,5 +393,16 @@ public class VirtuesEditionPanelController implements TierValueListener,ActionLi
       _virtues.clear();
       _virtues=null;
     }
+    // UI
+    if (_panel!=null)
+    {
+      _panel.removeAll();
+      _panel=null;
+    }
+    _maxAll=null;
+    _contextMenu=null;
+    // Data
+    _status=null;
+    _virtuesSet=null;
   }
 }

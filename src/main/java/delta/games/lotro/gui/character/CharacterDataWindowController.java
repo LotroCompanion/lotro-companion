@@ -26,6 +26,8 @@ import delta.games.lotro.character.io.xml.CharacterDataIO;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.character.stats.CharacterStatsComputer;
 import delta.games.lotro.character.stats.virtues.VirtuesSet;
+import delta.games.lotro.character.virtues.VirtuesStatus;
+import delta.games.lotro.character.virtues.io.VirtuesStatusIO;
 import delta.games.lotro.gui.character.buffs.BuffEditionPanelController;
 import delta.games.lotro.gui.character.essences.AllEssencesEditionWindowController;
 import delta.games.lotro.gui.character.essences.EssencesSummaryWindowController;
@@ -221,7 +223,8 @@ public class CharacterDataWindowController extends DefaultFormDialogController<C
       {
         VirtuesSet virtuesToEdit=_data.getVirtues();
         int characterLevel=_data.getLevel();
-        VirtuesSet virtues=VirtuesEditionDialogController.editVirtues(CharacterDataWindowController.this,virtuesToEdit,characterLevel);
+        VirtuesStatus status=VirtuesStatusIO.load(_toonFile);
+        VirtuesSet virtues=VirtuesEditionDialogController.editVirtues(CharacterDataWindowController.this,virtuesToEdit,characterLevel,status);
         if (virtues!=null)
         {
           virtuesToEdit.copyFrom(virtues);

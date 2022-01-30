@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import delta.common.ui.swing.windows.DefaultFormDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.stats.virtues.VirtuesSet;
+import delta.games.lotro.character.virtues.VirtuesStatus;
 
 /**
  * Controller for the virtues edition dialog.
@@ -22,11 +23,12 @@ public class VirtuesEditionDialogController extends DefaultFormDialogController<
    * @param parentController Parent controller.
    * @param virtues Virtues to edit.
    * @param characterLevel Character level.
+   * @param status Current virtues status.
    */
-  public VirtuesEditionDialogController(WindowController parentController, VirtuesSet virtues, int characterLevel)
+  public VirtuesEditionDialogController(WindowController parentController, VirtuesSet virtues, int characterLevel, VirtuesStatus status)
   {
     super(parentController,virtues);
-    _virtuesEdition=new VirtuesEditionPanelController(characterLevel);
+    _virtuesEdition=new VirtuesEditionPanelController(characterLevel,status);
     _virtuesEdition.setVirtues(virtues);
   }
 
@@ -72,11 +74,12 @@ public class VirtuesEditionDialogController extends DefaultFormDialogController<
    * @param parent Parent controller.
    * @param virtues Virtues to show.
    * @param characterLevel Character level.
+   * @param status Current virtues status.
    * @return The edited virtues or <code>null</code> if the window was closed or canceled.
    */
-  public static VirtuesSet editVirtues(WindowController parent, VirtuesSet virtues, int characterLevel)
+  public static VirtuesSet editVirtues(WindowController parent, VirtuesSet virtues, int characterLevel, VirtuesStatus status)
   {
-    VirtuesEditionDialogController controller=new VirtuesEditionDialogController(parent,virtues,characterLevel);
+    VirtuesEditionDialogController controller=new VirtuesEditionDialogController(parent,virtues,characterLevel,status);
     VirtuesSet editedVirtues=controller.editModal();
     return editedVirtues;
   }
