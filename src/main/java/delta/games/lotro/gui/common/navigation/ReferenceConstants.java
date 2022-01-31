@@ -74,6 +74,10 @@ public class ReferenceConstants
    * Race page identifier.
    */
   public static final String RACE_PAGE="race";
+  /**
+   * Virtues page identifier.
+   */
+  public static final String VIRTUE_PAGE="virtue";
 
   /**
    * Get a page identifier for the given achievable proxy.
@@ -250,5 +254,15 @@ public class ReferenceConstants
     id.setBaseAddress(RACE_PAGE);
     id.setParameter(PageIdentifier.ID_PARAMETER,race.getKey());
     return id;
+  }
+
+  /**
+   * Get a page identifier for the given virtue.
+   * @param virtueID Identifier of the virtue to use.
+   * @return A page identifier.
+   */
+  public static final PageIdentifier getVirtueReference(int virtueID)
+  {
+    return new PageIdentifier(VIRTUE_PAGE,virtueID);
   }
 }

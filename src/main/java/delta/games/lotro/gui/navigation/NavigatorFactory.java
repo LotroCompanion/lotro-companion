@@ -11,6 +11,7 @@ import delta.games.lotro.gui.lore.skills.SkillPanelsFactory;
 import delta.games.lotro.gui.lore.trade.barter.BartererPanelsFactory;
 import delta.games.lotro.gui.lore.trade.vendor.VendorPanelsFactory;
 import delta.games.lotro.gui.lore.traits.TraitPanelsFactory;
+import delta.games.lotro.gui.lore.virtues.VirtuePanelsFactory;
 
 /**
  * Factory for LOTRO navigator window controllers.
@@ -36,6 +37,7 @@ public class NavigatorFactory
     resolver.addFactory(new VendorPanelsFactory(window));
     resolver.addFactory(new SkillPanelsFactory(window));
     resolver.addFactory(new TraitPanelsFactory(window));
+    resolver.addFactory(new VirtuePanelsFactory(window));
     window.setContentsResolver(resolver);
     return window;
   }
