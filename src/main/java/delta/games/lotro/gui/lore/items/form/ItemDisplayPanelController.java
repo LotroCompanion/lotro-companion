@@ -441,32 +441,32 @@ public class ItemDisplayPanelController implements NavigablePanelController
           y++;
         }
       }
-      // Item XP
-      List<ItemXP> itemXPs=mgr.getItemDetails(ItemXP.class);
-      if (itemXPs.size()>0)
+    }
+    // Item XP
+    List<ItemXP> itemXPs=mgr.getItemDetails(ItemXP.class);
+    if (itemXPs.size()>0)
+    {
+      for(ItemXP itemXP : itemXPs)
       {
-        for(ItemXP itemXP : itemXPs)
-        {
-          c=new GridBagConstraints(0,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
-          String label="Gives "+itemXP.getAmount()+" item XP.";
-          ret.add(GuiFactory.buildLabel(label),c);
-          y++;
-        }
+        GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+        String label="Gives "+itemXP.getAmount()+" item XP.";
+        ret.add(GuiFactory.buildLabel(label),c);
+        y++;
       }
-      // Reputation
-      List<ItemReputation> reputations=mgr.getItemDetails(ItemReputation.class);
-      if (reputations.size()>0)
+    }
+    // Reputation
+    List<ItemReputation> reputations=mgr.getItemDetails(ItemReputation.class);
+    if (reputations.size()>0)
+    {
+      for(ItemReputation reputation : reputations)
       {
-        for(ItemReputation reputation : reputations)
-        {
-          c=new GridBagConstraints(0,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
-          Faction faction=reputation.getFaction();
-          int amount=reputation.getAmount();
-          String verb=(amount>0)?"Gives":"Removes";
-          String label=verb+" "+amount+" reputation points in faction "+faction.getName()+".";
-          ret.add(GuiFactory.buildLabel(label),c);
-          y++;
-        }
+        GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+        Faction faction=reputation.getFaction();
+        int amount=reputation.getAmount();
+        String verb=(amount>0)?"Gives":"Removes";
+        String label=verb+" "+amount+" reputation points in faction "+faction.getName()+".";
+        ret.add(GuiFactory.buildLabel(label),c);
+        y++;
       }
     }
     return ret;
