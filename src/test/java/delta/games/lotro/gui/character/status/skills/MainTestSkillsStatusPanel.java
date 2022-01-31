@@ -16,7 +16,6 @@ import delta.games.lotro.character.status.skills.io.SkillsStatusIo;
 import delta.games.lotro.common.enums.LotroEnum;
 import delta.games.lotro.common.enums.LotroEnumsRegistry;
 import delta.games.lotro.common.enums.SkillCategory;
-import delta.games.lotro.gui.character.status.skills.SkillsStatusDisplayPanelController;
 
 /**
  * Test class for the anchors status panel.

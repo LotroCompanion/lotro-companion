@@ -7,7 +7,6 @@ import delta.games.lotro.character.CharactersManager;
 import delta.games.lotro.character.skills.SkillDescription;
 import delta.games.lotro.character.skills.SkillsFinder;
 import delta.games.lotro.character.skills.filters.SkillCategoryFilter;
-import delta.games.lotro.gui.character.status.skills.SkillsStatusWindowController;
 
 /**
  * Test class for the skill status window.

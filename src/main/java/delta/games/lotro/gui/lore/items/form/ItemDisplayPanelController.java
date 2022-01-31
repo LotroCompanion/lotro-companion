@@ -45,10 +45,13 @@ import delta.games.lotro.lore.items.Weapon;
 import delta.games.lotro.lore.items.WeaponType;
 import delta.games.lotro.lore.items.details.GrantedElement;
 import delta.games.lotro.lore.items.details.ItemDetailsManager;
+import delta.games.lotro.lore.items.details.ItemReputation;
+import delta.games.lotro.lore.items.details.ItemXP;
 import delta.games.lotro.lore.items.legendary2.EnhancementRune;
 import delta.games.lotro.lore.items.legendary2.EnhancementRunesManager;
 import delta.games.lotro.lore.items.legendary2.TraceriesManager;
 import delta.games.lotro.lore.items.legendary2.Tracery;
+import delta.games.lotro.lore.reputation.Faction;
 import delta.games.lotro.utils.gui.HtmlUtils;
 
 /**
@@ -419,6 +422,7 @@ public class ItemDisplayPanelController implements NavigablePanelController
     }
     JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
     int y=0;
+    // Granted elements
     @SuppressWarnings("rawtypes")
     List<GrantedElement> grantedElements=mgr.getItemDetails(GrantedElement.class);
     if (grantedElements.size()>0)
@@ -434,6 +438,33 @@ public class ItemDisplayPanelController implements NavigablePanelController
           _grantedCtrls.add(panelCtrl);
           c=new GridBagConstraints(0,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
           ret.add(panelCtrl.getPanel(),c);
+          y++;
+        }
+      }
+      // Item XP
+      List<ItemXP> itemXPs=mgr.getItemDetails(ItemXP.class);
+      if (itemXPs.size()>0)
+      {
+        for(ItemXP itemXP : itemXPs)
+        {
+          c=new GridBagConstraints(0,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+          String label="Gives "+itemXP.getAmount()+" item XP.";
+          ret.add(GuiFactory.buildLabel(label),c);
+          y++;
+        }
+      }
+      // Reputation
+      List<ItemReputation> reputations=mgr.getItemDetails(ItemReputation.class);
+      if (reputations.size()>0)
+      {
+        for(ItemReputation reputation : reputations)
+        {
+          c=new GridBagConstraints(0,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+          Faction faction=reputation.getFaction();
+          int amount=reputation.getAmount();
+          String verb=(amount>0)?"Gives":"Removes";
+          String label=verb+" "+amount+" reputation points in faction "+faction.getName()+".";
+          ret.add(GuiFactory.buildLabel(label),c);
           y++;
         }
       }
