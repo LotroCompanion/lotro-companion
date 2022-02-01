@@ -3,24 +3,11 @@ default.server=Landroval
 
 # Max character level
 max.character.level=140
+# Max virtue rank
+max.virtue.rank=80
+# Max item level for a legendary item
+max.li.itemLevel=470
 
 # Current version
-current.version.id=1100
-current.version.name=11
-current.version.date=23/11/2019
-
-# URL for updates check
-#update.check.url=http://dmorcellet.free.fr/lotrocompanion/latest.txt
-# Period of update checks (hours)
-update.check.period=24
-
-# Configuration of directories
-# Path of the LOTRO client data directory. Uncomment to use your own path instead of the standard one:
-# <user.home>/Documents/The Lord of the Rings Online
-# For instance:
-#lotro.data.dir=c:/tmp
-
-# Path of the data directory of the LOTRO client plugins. Uncomment to use your own path instead of the standard one:
-# <user.home>/Documents/The Lord of the Rings Online/PluginData
-# For instance:
-#lotro.plugins.data.dir=c:/tmp/PluginData
+current.version.name=18.2.31.1.3
+current.version.date=22/01/2022
