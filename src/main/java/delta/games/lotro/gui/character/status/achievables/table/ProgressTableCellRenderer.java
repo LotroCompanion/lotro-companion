@@ -73,6 +73,5 @@ public class ProgressTableCellRenderer extends DefaultTableCellRenderer
   public void setValue(Object value)
   {
     super.setValue(value);
-    //System.out.println("Set value: "+value);
   }
 }

@@ -28,6 +28,7 @@ import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.CharacterEquipment;
 import delta.games.lotro.character.CharacterEquipment.EQUIMENT_SLOT;
 import delta.games.lotro.common.enums.SocketType;
+import delta.games.lotro.config.LotroCoreConfig;
 import delta.games.lotro.gui.lore.items.legendary2.traceries.TraceriesConstraintsMgr;
 import delta.games.lotro.gui.lore.items.legendary2.traceries.TraceryUtils;
 import delta.games.lotro.lore.items.Item;
@@ -198,12 +199,14 @@ public class LegendaryInstance2EditionPanelController
   {
     int reforgeLevel=_characterLevel;
     int itemLevel=LegendarySystem2.getInstance().getItemLevelForCharacterLevel(reforgeLevel);
-    if (itemLevel==_itemLevel)
+    int maxItemLevel=LotroCoreConfig.getInstance().getMaxItemLevelForLI();
+    int nextItemLevel=Math.min(itemLevel,maxItemLevel);
+    if (nextItemLevel==_itemLevel)
     {
       return;
     }
-    _itemLevel=itemLevel;
-    _itemLevelLabel.setText(String.valueOf(itemLevel));
+    _itemLevel=nextItemLevel;
+    _itemLevelLabel.setText(String.valueOf(nextItemLevel));
     _minLevel=reforgeLevel;
     _minLevelLabel.setText(String.valueOf(_minLevel));
     updateNextReforgeLabel();
@@ -228,9 +231,11 @@ public class LegendaryInstance2EditionPanelController
     for(int level=_minLevel;level<=maxLevel;level++)
     {
       int itemLevel=LegendarySystem2.getInstance().getItemLevelForCharacterLevel(level);
-      if (itemLevel>_itemLevel)
+      int maxItemLevel=LotroCoreConfig.getInstance().getMaxItemLevelForLI();
+      int nextItemLevel=Math.min(itemLevel,maxItemLevel);
+      if (nextItemLevel>_itemLevel)
       {
-        return "at "+level+" (item level "+itemLevel+")";
+        return "at "+level+" (item level "+nextItemLevel+")";
       }
     }
     return "none";
