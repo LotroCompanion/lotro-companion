@@ -31,6 +31,7 @@ import delta.games.lotro.character.stats.virtues.VirtuesSet;
 import delta.games.lotro.character.virtues.VirtueDescription;
 import delta.games.lotro.character.virtues.VirtuesManager;
 import delta.games.lotro.character.virtues.VirtuesStatus;
+import delta.games.lotro.config.LotroCoreConfig;
 import delta.games.lotro.gui.character.virtues.VirtueEditionUiController.TierValueListener;
 
 /**
@@ -309,13 +310,15 @@ public class VirtuesEditionPanelController implements TierValueListener,ActionLi
 
   private void maxAll()
   {
+    int globalMaxRank=LotroCoreConfig.getInstance().getMaxVirtueRank();
     for(Map.Entry<VirtueDescription,VirtueEditionUiController> entry : _virtues.entrySet())
     {
       VirtueEditionUiController controller=entry.getValue();
       VirtueDescription virtue=entry.getKey();
       int maxRank=virtue.getMaxRank(_characterLevel);
-      controller.setTier(maxRank);
-      _selectedVirtues.updateVirtue(virtue,maxRank);
+      int rankToUse=Math.min(maxRank,globalMaxRank);
+      controller.setTier(rankToUse);
+      _selectedVirtues.updateVirtue(virtue,rankToUse);
     }
   }
 
