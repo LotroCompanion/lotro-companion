@@ -11,8 +11,8 @@ import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.ListDataProvider;
 import delta.common.ui.swing.tables.TableColumnsManager;
-import delta.games.lotro.character.status.statistics.reputation.FactionStats;
-import delta.games.lotro.character.status.statistics.reputation.ReputationStats;
+import delta.games.lotro.character.status.achievables.statistics.reputation.AchievablesFactionStats;
+import delta.games.lotro.character.status.achievables.statistics.reputation.AchievablesReputationStats;
 import delta.games.lotro.gui.character.status.achievables.AchievableUIMode;
 import delta.games.lotro.lore.reputation.Faction;
 import delta.games.lotro.lore.reputation.FactionNameComparator;
@@ -31,93 +31,93 @@ public class ReputationTableController
   private static final String COMPLETIONS_COUNT="COMPLETIONS_COUNT";
 
   // Data
-  private ReputationStats _stats;
-  private List<FactionStats> _factionStats;
+  private AchievablesReputationStats _stats;
+  private List<AchievablesFactionStats> _factionStats;
   private AchievableUIMode _mode;
   // GUI
-  private GenericTableController<FactionStats> _tableController;
+  private GenericTableController<AchievablesFactionStats> _tableController;
 
   /**
    * Constructor.
    * @param stats Stats to show.
    * @param mode UI mode.
    */
-  public ReputationTableController(ReputationStats stats, AchievableUIMode mode)
+  public ReputationTableController(AchievablesReputationStats stats, AchievableUIMode mode)
   {
     _stats=stats;
     _mode=mode;
     _tableController=buildTable();
   }
 
-  private GenericTableController<FactionStats> buildTable()
+  private GenericTableController<AchievablesFactionStats> buildTable()
   {
-    _factionStats=new ArrayList<FactionStats>();
-    ListDataProvider<FactionStats> provider=new ListDataProvider<FactionStats>(_factionStats);
-    GenericTableController<FactionStats> table=new GenericTableController<FactionStats>(provider);
+    _factionStats=new ArrayList<AchievablesFactionStats>();
+    ListDataProvider<AchievablesFactionStats> provider=new ListDataProvider<AchievablesFactionStats>(_factionStats);
+    GenericTableController<AchievablesFactionStats> table=new GenericTableController<AchievablesFactionStats>(provider);
 
     // Faction
     {
-      CellDataProvider<FactionStats,String> factionCell=new CellDataProvider<FactionStats,String>()
+      CellDataProvider<AchievablesFactionStats,String> factionCell=new CellDataProvider<AchievablesFactionStats,String>()
       {
         @Override
-        public String getData(FactionStats item)
+        public String getData(AchievablesFactionStats item)
         {
           return item.getFaction().getName();
         }
       };
-      DefaultTableColumnController<FactionStats,String> factionColumn=new DefaultTableColumnController<FactionStats,String>(FACTION,"Faction",String.class,factionCell);
+      DefaultTableColumnController<AchievablesFactionStats,String> factionColumn=new DefaultTableColumnController<AchievablesFactionStats,String>(FACTION,"Faction",String.class,factionCell);
       factionColumn.setWidthSpecs(200,-1,200);
       table.addColumnController(factionColumn);
     }
     // Amount column
     {
-      CellDataProvider<FactionStats,Integer> amountCell=new CellDataProvider<FactionStats,Integer>()
+      CellDataProvider<AchievablesFactionStats,Integer> amountCell=new CellDataProvider<AchievablesFactionStats,Integer>()
       {
         @Override
-        public Integer getData(FactionStats item)
+        public Integer getData(AchievablesFactionStats item)
         {
           Integer amount=Integer.valueOf(item.getPoints());
           return amount;
         }
       };
-      DefaultTableColumnController<FactionStats,Integer> amountColumn=new DefaultTableColumnController<FactionStats,Integer>(AMOUNT,"Points",Integer.class,amountCell);
+      DefaultTableColumnController<AchievablesFactionStats,Integer> amountColumn=new DefaultTableColumnController<AchievablesFactionStats,Integer>(AMOUNT,"Points",Integer.class,amountCell);
       amountColumn.setWidthSpecs(60,60,60);
       table.addColumnController(amountColumn);
     }
     // Achievables count column
     {
       String name=(_mode==AchievableUIMode.DEED)?"Deeds":"Quests";
-      CellDataProvider<FactionStats,Integer> countCell=new CellDataProvider<FactionStats,Integer>()
+      CellDataProvider<AchievablesFactionStats,Integer> countCell=new CellDataProvider<AchievablesFactionStats,Integer>()
       {
         @Override
-        public Integer getData(FactionStats item)
+        public Integer getData(AchievablesFactionStats item)
         {
           Integer count=Integer.valueOf(item.getAchievablesCount());
           return count;
         }
       };
-      DefaultTableColumnController<FactionStats,Integer> countColumn=new DefaultTableColumnController<FactionStats,Integer>(COUNT,name,Integer.class,countCell);
+      DefaultTableColumnController<AchievablesFactionStats,Integer> countColumn=new DefaultTableColumnController<AchievablesFactionStats,Integer>(COUNT,name,Integer.class,countCell);
       countColumn.setWidthSpecs(60,60,60);
       table.addColumnController(countColumn);
     }
     // Achievables count column (for quests only)
     if (_mode==AchievableUIMode.QUEST)
     {
-      CellDataProvider<FactionStats,Integer> completionsCountCell=new CellDataProvider<FactionStats,Integer>()
+      CellDataProvider<AchievablesFactionStats,Integer> completionsCountCell=new CellDataProvider<AchievablesFactionStats,Integer>()
       {
         @Override
-        public Integer getData(FactionStats item)
+        public Integer getData(AchievablesFactionStats item)
         {
           Integer count=Integer.valueOf(item.getCompletionsCount());
           return count;
         }
       };
-      DefaultTableColumnController<FactionStats,Integer> completionsCountColumn=new DefaultTableColumnController<FactionStats,Integer>(COMPLETIONS_COUNT,"Completions",Integer.class,completionsCountCell);
+      DefaultTableColumnController<AchievablesFactionStats,Integer> completionsCountColumn=new DefaultTableColumnController<AchievablesFactionStats,Integer>(COMPLETIONS_COUNT,"Completions",Integer.class,completionsCountCell);
       completionsCountColumn.setWidthSpecs(60,60,60);
       table.addColumnController(completionsCountColumn);
     }
 
-    TableColumnsManager<FactionStats> columnsManager=table.getColumnsManager();
+    TableColumnsManager<AchievablesFactionStats> columnsManager=table.getColumnsManager();
     List<String> columnsIds=getColumnIds();
     columnsManager.setColumns(columnsIds);
     return table;
@@ -137,7 +137,7 @@ public class ReputationTableController
    * Get the managed table controller.
    * @return the managed table controller.
    */
-  public GenericTableController<FactionStats> getTableController()
+  public GenericTableController<AchievablesFactionStats> getTableController()
   {
     return _tableController;
   }
@@ -147,23 +147,23 @@ public class ReputationTableController
    */
   public void update()
   {
-    List<FactionStats> factionStats=_stats.getFactionStats();
+    List<AchievablesFactionStats> factionStats=_stats.getFactionStats();
     sortFactionStatsByName(factionStats);
     _factionStats.clear();
     _factionStats.addAll(factionStats);
     _tableController.refresh();
   }
 
-  private void sortFactionStatsByName(List<FactionStats> factionStats)
+  private void sortFactionStatsByName(List<AchievablesFactionStats> factionStats)
   {
-    DataProvider<FactionStats,Faction> provider=new DataProvider<FactionStats,Faction>()
+    DataProvider<AchievablesFactionStats,Faction> provider=new DataProvider<AchievablesFactionStats,Faction>()
     {
-      public Faction getData(FactionStats p)
+      public Faction getData(AchievablesFactionStats p)
       {
         return p.getFaction();
       }
     };
-    DelegatingComparator<FactionStats,Faction> c=new DelegatingComparator<FactionStats,Faction>(provider,new FactionNameComparator());
+    DelegatingComparator<AchievablesFactionStats,Faction> c=new DelegatingComparator<AchievablesFactionStats,Faction>(provider,new FactionNameComparator());
     Collections.sort(factionStats,c);
   }
 

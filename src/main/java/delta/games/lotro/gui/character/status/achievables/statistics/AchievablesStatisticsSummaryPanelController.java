@@ -12,9 +12,9 @@ import javax.swing.border.TitledBorder;
 import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.character.status.achievables.AchievableElementState;
 import delta.games.lotro.character.status.achievables.statistics.AchievablesStatistics;
+import delta.games.lotro.character.status.achievables.statistics.reputation.AchievablesReputationStats;
 import delta.games.lotro.character.status.achievables.statistics.virtues.VirtueXPStatsFromAchievables;
 import delta.games.lotro.character.status.statistics.items.ItemsStats;
-import delta.games.lotro.character.status.statistics.reputation.ReputationStats;
 import delta.games.lotro.gui.character.status.achievables.AchievableUIMode;
 
 /**
@@ -183,7 +183,7 @@ public class AchievablesStatisticsSummaryPanelController
     int nbTitles=_statistics.getTitles().size();
     _titlesCount.setText(String.valueOf(nbTitles));
     // Reputation
-    ReputationStats reputation=_statistics.getReputationStats();
+    AchievablesReputationStats reputation=_statistics.getReputationStats();
     int nbFactions=reputation.getFactionsCount();
     int nbReputationPoints=reputation.getTotalReputationPoints();
     String reputationStr=String.format("%d points, %d factions",Integer.valueOf(nbReputationPoints),Integer.valueOf(nbFactions));

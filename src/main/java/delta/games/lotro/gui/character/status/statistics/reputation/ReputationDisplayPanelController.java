@@ -15,8 +15,8 @@ import javax.swing.border.TitledBorder;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.tables.TableColumnsChooserController;
 import delta.common.ui.swing.windows.WindowController;
-import delta.games.lotro.character.status.statistics.reputation.FactionStats;
-import delta.games.lotro.character.status.statistics.reputation.ReputationStats;
+import delta.games.lotro.character.status.achievables.statistics.reputation.AchievablesFactionStats;
+import delta.games.lotro.character.status.achievables.statistics.reputation.AchievablesReputationStats;
 import delta.games.lotro.gui.character.status.achievables.AchievableUIMode;
 
 /**
@@ -26,7 +26,7 @@ import delta.games.lotro.gui.character.status.achievables.AchievableUIMode;
 public class ReputationDisplayPanelController
 {
   // Data
-  private ReputationStats _stats;
+  private AchievablesReputationStats _stats;
   // GUI
   private JPanel _panel;
   private JLabel _statsLabel;
@@ -40,7 +40,7 @@ public class ReputationDisplayPanelController
    * @param stats Stats to show.
    * @param mode UI mode.
    */
-  public ReputationDisplayPanelController(WindowController parent, ReputationStats stats, AchievableUIMode mode)
+  public ReputationDisplayPanelController(WindowController parent, AchievablesReputationStats stats, AchievableUIMode mode)
   {
     _parent=parent;
     _stats=stats;
@@ -80,7 +80,7 @@ public class ReputationDisplayPanelController
       @Override
       public void actionPerformed(ActionEvent e)
       {
-        TableColumnsChooserController<FactionStats> chooser=new TableColumnsChooserController<FactionStats>(_parent,_tableController.getTableController());
+        TableColumnsChooserController<AchievablesFactionStats> chooser=new TableColumnsChooserController<AchievablesFactionStats>(_parent,_tableController.getTableController());
         chooser.editModal();
       }
     };
