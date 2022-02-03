@@ -10,14 +10,17 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.status.achievables.AchievablesStatusManager;
 import delta.games.lotro.character.status.achievables.statistics.AchievablesStatistics;
+import delta.games.lotro.character.status.achievables.statistics.reputation.AchievablesFactionStats;
 import delta.games.lotro.gui.character.status.achievables.AchievableUIMode;
 import delta.games.lotro.gui.character.status.achievables.statistics.emotes.EmotesDisplayPanelController;
+import delta.games.lotro.gui.character.status.achievables.statistics.reputation.AchievablesReputationTableController;
 import delta.games.lotro.gui.character.status.achievables.statistics.titles.TitlesDisplayPanelController;
 import delta.games.lotro.gui.character.status.achievables.statistics.traits.TraitsDisplayPanelController;
 import delta.games.lotro.gui.character.status.achievables.statistics.virtues.VirtueXPDisplayPanelController;
 import delta.games.lotro.gui.character.status.achievables.statistics.virtues.VirtuesDisplayPanelController;
 import delta.games.lotro.gui.character.status.statistics.items.ItemsDisplayPanelController;
-import delta.games.lotro.gui.character.status.statistics.reputation.ReputationDisplayPanelController;
+import delta.games.lotro.gui.common.statistics.reputation.ReputationDisplayPanelController;
+import delta.games.lotro.gui.common.statistics.reputation.ReputationTableController;
 import delta.games.lotro.lore.quests.Achievable;
 
 /**
@@ -33,7 +36,7 @@ public class AchievablesStatisticsPanelController
   // Controllers
   private AchievablesStatisticsSummaryPanelController _summary;
   private TitlesDisplayPanelController _titles;
-  private ReputationDisplayPanelController _reputation;
+  private ReputationDisplayPanelController<AchievablesFactionStats> _reputation;
   private VirtuesDisplayPanelController _virtues;
   private VirtueXPDisplayPanelController _virtueXP;
   private ItemsDisplayPanelController _items;
@@ -51,7 +54,8 @@ public class AchievablesStatisticsPanelController
     _statistics=statistics;
     _summary=new AchievablesStatisticsSummaryPanelController(statistics,mode);
     _titles=new TitlesDisplayPanelController(parent,statistics);
-    _reputation=new ReputationDisplayPanelController(parent,statistics.getReputationStats(),mode);
+    ReputationTableController<AchievablesFactionStats> tableController=new AchievablesReputationTableController(statistics.getReputationStats(),mode);
+    _reputation=new ReputationDisplayPanelController<AchievablesFactionStats>(parent,statistics.getReputationStats(),tableController);
     _virtues=new VirtuesDisplayPanelController(parent,statistics,mode);
     _virtueXP=new VirtueXPDisplayPanelController(parent,statistics,mode);
     _items=new ItemsDisplayPanelController(parent,statistics.getItemsStats());

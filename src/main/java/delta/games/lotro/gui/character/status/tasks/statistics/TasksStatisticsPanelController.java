@@ -8,11 +8,14 @@ import javax.swing.JTabbedPane;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.WindowController;
+import delta.games.lotro.character.status.achievables.statistics.reputation.AchievablesFactionStats;
 import delta.games.lotro.character.status.tasks.TaskStatus;
 import delta.games.lotro.character.status.tasks.statistics.TasksStatistics;
 import delta.games.lotro.gui.character.status.achievables.AchievableUIMode;
+import delta.games.lotro.gui.character.status.achievables.statistics.reputation.AchievablesReputationTableController;
 import delta.games.lotro.gui.character.status.statistics.items.ItemsDisplayPanelController;
-import delta.games.lotro.gui.character.status.statistics.reputation.ReputationDisplayPanelController;
+import delta.games.lotro.gui.common.statistics.reputation.ReputationDisplayPanelController;
+import delta.games.lotro.gui.common.statistics.reputation.ReputationTableController;
 
 /**
  * Controller for a panel to show the statistics about some tasks.
@@ -26,7 +29,7 @@ public class TasksStatisticsPanelController
   private JPanel _panel;
   // Controllers
   private TasksStatisticsSummaryPanelController _summary;
-  private ReputationDisplayPanelController _reputation;
+  private ReputationDisplayPanelController<AchievablesFactionStats> _reputation;
   private ItemsDisplayPanelController _consumedItems;
   private ItemsDisplayPanelController _earnedItems;
 
@@ -39,7 +42,8 @@ public class TasksStatisticsPanelController
   {
     _statistics=statistics;
     _summary=new TasksStatisticsSummaryPanelController(statistics);
-    _reputation=new ReputationDisplayPanelController(parent,statistics.getReputationStats(),AchievableUIMode.QUEST);
+    ReputationTableController<AchievablesFactionStats> tableController=new AchievablesReputationTableController(statistics.getReputationStats(),AchievableUIMode.QUEST);
+    _reputation=new ReputationDisplayPanelController<AchievablesFactionStats>(parent,statistics.getReputationStats(),tableController);
     _consumedItems=new ItemsDisplayPanelController(parent,statistics.getConsumedItemsStats());
     _earnedItems=new ItemsDisplayPanelController(parent,statistics.getEarnedItemsStats());
     _panel=buildPanel();

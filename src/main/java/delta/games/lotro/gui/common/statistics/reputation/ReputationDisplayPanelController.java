@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.character.status.statistics.reputation;
+package delta.games.lotro.gui.common.statistics.reputation;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -15,36 +15,36 @@ import javax.swing.border.TitledBorder;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.tables.TableColumnsChooserController;
 import delta.common.ui.swing.windows.WindowController;
-import delta.games.lotro.character.status.achievables.statistics.reputation.AchievablesFactionStats;
-import delta.games.lotro.character.status.achievables.statistics.reputation.AchievablesReputationStats;
-import delta.games.lotro.gui.character.status.achievables.AchievableUIMode;
+import delta.games.lotro.common.statistics.FactionStats;
+import delta.games.lotro.common.statistics.ReputationStats;
 
 /**
  * Controller for the reputation display panel.
+ * @param <T> Type of managed faction stats.
  * @author DAM
  */
-public class ReputationDisplayPanelController
+public class ReputationDisplayPanelController<T extends FactionStats>
 {
   // Data
-  private AchievablesReputationStats _stats;
+  private ReputationStats<T> _stats;
   // GUI
   private JPanel _panel;
   private JLabel _statsLabel;
   // Controllers
-  private ReputationTableController _tableController;
+  private ReputationTableController<T> _tableController;
   private WindowController _parent;
 
   /**
    * Constructor.
    * @param parent Parent window.
    * @param stats Stats to show.
-   * @param mode UI mode.
+   * @param tableController Table controller to use.
    */
-  public ReputationDisplayPanelController(WindowController parent, AchievablesReputationStats stats, AchievableUIMode mode)
+  public ReputationDisplayPanelController(WindowController parent, ReputationStats<T> stats, ReputationTableController<T> tableController)
   {
     _parent=parent;
     _stats=stats;
-    _tableController=new ReputationTableController(stats,mode);
+    _tableController=tableController;
   }
 
   /**
@@ -80,7 +80,7 @@ public class ReputationDisplayPanelController
       @Override
       public void actionPerformed(ActionEvent e)
       {
-        TableColumnsChooserController<AchievablesFactionStats> chooser=new TableColumnsChooserController<AchievablesFactionStats>(_parent,_tableController.getTableController());
+        TableColumnsChooserController<T> chooser=new TableColumnsChooserController<T>(_parent,_tableController.getTableController());
         chooser.editModal();
       }
     };

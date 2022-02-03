@@ -38,7 +38,6 @@ public class VirtueDisplayPanelController implements NavigablePanelController
   // GUI
   private JPanel _panel;
   // Controllers
-  private NavigatorWindowController _parent;
   private TraitReferencesDisplayController _references;
   private VirtueStatsPanelController _stats;
 
@@ -49,7 +48,6 @@ public class VirtueDisplayPanelController implements NavigablePanelController
    */
   public VirtueDisplayPanelController(NavigatorWindowController parent, VirtueDescription virtue)
   {
-    _parent=parent;
     _virtue=virtue;
     _references=new TraitReferencesDisplayController(parent,virtue.getIdentifier());
     _stats=new VirtueStatsPanelController(virtue);
@@ -58,7 +56,7 @@ public class VirtueDisplayPanelController implements NavigablePanelController
   @Override
   public String getTitle()
   {
-    return "Trait: "+_virtue.getName();
+    return "Virtue: "+_virtue.getName();
   }
 
   @Override
@@ -238,7 +236,6 @@ public class VirtueDisplayPanelController implements NavigablePanelController
     // Data
     _virtue=null;
     // Controllers
-    _parent=null;
     if (_references!=null)
     {
       _references.dispose();
