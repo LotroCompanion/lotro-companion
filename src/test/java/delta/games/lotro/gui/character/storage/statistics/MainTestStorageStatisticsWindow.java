@@ -29,7 +29,7 @@ public class MainTestStorageStatisticsWindow
     Account account=AccountsManager.getInstance().getAccountByName(accountName);
     List<StoredItem> items=StorageUtils.buildAccountItems(account,serverName);
 
-    StorageStatisticsWindowController ctrl=new StorageStatisticsWindowController(null,items);
+    StorageStatisticsWindowController ctrl=new StorageStatisticsWindowController(null,null,items);
     ctrl.show();
   }
 }

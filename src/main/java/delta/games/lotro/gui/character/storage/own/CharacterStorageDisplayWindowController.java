@@ -4,8 +4,11 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 
+import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
@@ -14,6 +17,7 @@ import javax.swing.border.TitledBorder;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.DefaultDialogController;
 import delta.common.ui.swing.windows.WindowController;
+import delta.common.ui.swing.windows.WindowsManager;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.events.CharacterEvent;
 import delta.games.lotro.character.events.CharacterEventType;
@@ -24,6 +28,8 @@ import delta.games.lotro.character.storage.StoredItem;
 import delta.games.lotro.gui.character.storage.StorageDisplayPanelController;
 import delta.games.lotro.gui.character.storage.StorageFilter;
 import delta.games.lotro.gui.character.storage.StorageFilterController;
+import delta.games.lotro.gui.character.storage.statistics.StorageStatisticsWindowController;
+import delta.games.lotro.gui.lore.items.FilterUpdateListener;
 import delta.games.lotro.utils.events.EventsManager;
 import delta.games.lotro.utils.events.GenericEventsListener;
 
@@ -31,7 +37,7 @@ import delta.games.lotro.utils.events.GenericEventsListener;
  * Controller for a "character storage" window.
  * @author DAM
  */
-public class CharacterStorageDisplayWindowController extends DefaultDialogController implements GenericEventsListener<CharacterEvent>
+public class CharacterStorageDisplayWindowController extends DefaultDialogController implements GenericEventsListener<CharacterEvent>,FilterUpdateListener
 {
   /**
    * Window identifier.
@@ -41,6 +47,7 @@ public class CharacterStorageDisplayWindowController extends DefaultDialogContro
   // Data
   private CharacterFile _toon;
   private StorageFilter _filter;
+  private List<StoredItem> _items;
   // Controllers
   private StorageSummaryPanelController _summaryController;
   private StorageDisplayPanelController _panelController;
@@ -74,17 +81,36 @@ public class CharacterStorageDisplayWindowController extends DefaultDialogContro
     // Table
     JPanel tablePanel=_panelController.getPanel();
     // Filter
-    _filterController=new StorageFilterController(_filter,_panelController);
+    _filterController=new StorageFilterController(_filter,this);
     JPanel filterPanel=_filterController.getPanel();
     TitledBorder filterBorder=GuiFactory.buildTitledBorder("Filter");
     filterPanel.setBorder(filterBorder);
+    // Stats button
+    JButton b=GuiFactory.buildButton("Stats");
+    ActionListener al=new ActionListener()
+    {
+      @Override
+      public void actionPerformed(ActionEvent e)
+      {
+        showStatistics();
+      }
+    };
+    b.addActionListener(al);
     // Whole panel
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(_summaryController.getPanel(),c);
     c=new GridBagConstraints(1,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(_detailedAccessController.getPanel(),c);
+    // - filter+stats panel
+    JPanel filterAndStatsPanel=GuiFactory.buildPanel(new GridBagLayout());
+    {
+      c=new GridBagConstraints(0,0,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+      filterAndStatsPanel.add(filterPanel,c);
+      c=new GridBagConstraints(1,0,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,5,0,5),0,0);
+      filterAndStatsPanel.add(b,c);
+    }
     c=new GridBagConstraints(0,1,2,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
-    panel.add(filterPanel,c);
+    panel.add(filterAndStatsPanel,c);
     c=new GridBagConstraints(0,2,2,1,1,1,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
     panel.add(tablePanel,c);
     return panel;
@@ -94,8 +120,8 @@ public class CharacterStorageDisplayWindowController extends DefaultDialogContro
   protected JDialog build()
   {
     JDialog dialog=super.build();
-    dialog.setMinimumSize(new Dimension(700,350));
-    dialog.setSize(750,700);
+    dialog.setMinimumSize(new Dimension(800,350));
+    dialog.setSize(800,700);
     dialog.setResizable(true);
     return dialog;
   }
@@ -124,6 +150,17 @@ public class CharacterStorageDisplayWindowController extends DefaultDialogContro
     }
   }
 
+  @Override
+  public void filterUpdated()
+  {
+    _panelController.filterUpdated();
+    StorageStatisticsWindowController statisticsWindow=getStatisticsWindow();
+    if (statisticsWindow!=null)
+    {
+      statisticsWindow.filterUpdated();
+    }
+  }
+
   /**
    * Update contents.
    */
@@ -138,9 +175,29 @@ public class CharacterStorageDisplayWindowController extends DefaultDialogContro
     CharacterStorage characterStorage=StoragesIO.loadCharacterStorage(_toon);
     _summaryController.update(characterStorage);
     _detailedAccessController.update(characterStorage);
-    List<StoredItem> items=StorageUtils.buildCharacterItems(_toon,characterStorage);
-    _panelController.update(items);
+    _items=StorageUtils.buildCharacterItems(_toon,characterStorage);
+    _panelController.update(_items);
     _filterController.update();
+  }
+
+  private StorageStatisticsWindowController getStatisticsWindow()
+  {
+    WindowsManager windowsMgr=getWindowsManager();
+    StorageStatisticsWindowController ret=(StorageStatisticsWindowController)windowsMgr.getWindow(StorageStatisticsWindowController.IDENTIFIER);
+    return ret;
+  }
+
+  private void showStatistics()
+  {
+    StorageStatisticsWindowController statisticsController=getStatisticsWindow();
+    if (statisticsController==null)
+    {
+      statisticsController=new StorageStatisticsWindowController(this,_filter,_items);
+      WindowsManager windowsMgr=getWindowsManager();
+      windowsMgr.registerWindow(statisticsController);
+      statisticsController.getWindow().setLocationRelativeTo(getWindow());
+    }
+    statisticsController.bringToFront();
   }
 
   /**
@@ -153,6 +210,7 @@ public class CharacterStorageDisplayWindowController extends DefaultDialogContro
     // Data
     _toon=null;
     _filter=null;
+    _items=null;
     // Controllers
     if (_summaryController!=null)
     {

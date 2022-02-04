@@ -216,7 +216,6 @@ public class TasksStatusWindowController extends DefaultDisplayDialogController<
     windowsMgr.registerWindow(window);
   }
 
-
   private TasksStatisticsWindowController getStatisticsWindow()
   {
     WindowsManager windowsMgr=getWindowsManager();
@@ -226,16 +225,17 @@ public class TasksStatusWindowController extends DefaultDisplayDialogController<
 
   private void showStatistics()
   {
-    WindowsManager windowsMgr=getWindowsManager();
     TasksStatisticsWindowController statisticsController=getStatisticsWindow();
     if (statisticsController==null)
     {
       statisticsController=new TasksStatisticsWindowController(this,_toon,_data,_filter);
+      WindowsManager windowsMgr=getWindowsManager();
       windowsMgr.registerWindow(statisticsController);
       statisticsController.getWindow().setLocationRelativeTo(getWindow());
     }
     statisticsController.bringToFront();
   }
+
   /**
    * Release all managed resources.
    */
