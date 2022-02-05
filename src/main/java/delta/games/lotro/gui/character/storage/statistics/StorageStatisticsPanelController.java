@@ -56,7 +56,7 @@ public class StorageStatisticsPanelController
     panel.add(pane,BorderLayout.CENTER);
     // Items
     JPanel itemsPanel=_items.getPanel();
-    pane.add("Items",itemsPanel);
+    pane.add("Disenchantment",itemsPanel);
     // Reputation
     JPanel reputationPanel=_reputation.getPanel();
     pane.add("Reputation",reputationPanel);
