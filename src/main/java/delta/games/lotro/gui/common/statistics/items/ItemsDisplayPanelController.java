@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.character.status.statistics.items;
+package delta.games.lotro.gui.common.statistics.items;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -17,7 +17,7 @@ import javax.swing.border.TitledBorder;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.tables.TableColumnsChooserController;
 import delta.common.ui.swing.windows.WindowController;
-import delta.games.lotro.character.status.statistics.items.ItemsStats;
+import delta.games.lotro.common.statistics.items.ItemsStats;
 import delta.games.lotro.gui.lore.items.CountedItemsTableController;
 import delta.games.lotro.lore.items.CountedItem;
 import delta.games.lotro.lore.items.Item;

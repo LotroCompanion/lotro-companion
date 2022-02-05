@@ -14,7 +14,7 @@ import delta.games.lotro.character.status.achievables.AchievableElementState;
 import delta.games.lotro.character.status.achievables.statistics.AchievablesStatistics;
 import delta.games.lotro.character.status.achievables.statistics.reputation.AchievablesReputationStats;
 import delta.games.lotro.character.status.achievables.statistics.virtues.VirtueXPStatsFromAchievables;
-import delta.games.lotro.character.status.statistics.items.ItemsStats;
+import delta.games.lotro.common.statistics.items.ItemsStats;
 import delta.games.lotro.gui.character.status.achievables.AchievableUIMode;
 
 /**

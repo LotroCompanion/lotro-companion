@@ -18,7 +18,7 @@ import delta.games.lotro.gui.character.status.achievables.statistics.titles.Titl
 import delta.games.lotro.gui.character.status.achievables.statistics.traits.TraitsDisplayPanelController;
 import delta.games.lotro.gui.character.status.achievables.statistics.virtues.VirtueXPDisplayPanelController;
 import delta.games.lotro.gui.character.status.achievables.statistics.virtues.VirtuesDisplayPanelController;
-import delta.games.lotro.gui.character.status.statistics.items.ItemsDisplayPanelController;
+import delta.games.lotro.gui.common.statistics.items.ItemsDisplayPanelController;
 import delta.games.lotro.gui.common.statistics.reputation.ReputationDisplayPanelController;
 import delta.games.lotro.gui.common.statistics.reputation.ReputationTableController;
 import delta.games.lotro.lore.quests.Achievable;

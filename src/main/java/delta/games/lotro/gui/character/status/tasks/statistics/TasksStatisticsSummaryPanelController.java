@@ -11,8 +11,8 @@ import javax.swing.border.TitledBorder;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.character.status.achievables.statistics.reputation.AchievablesReputationStats;
-import delta.games.lotro.character.status.statistics.items.ItemsStats;
 import delta.games.lotro.character.status.tasks.statistics.TasksStatistics;
+import delta.games.lotro.common.statistics.items.ItemsStats;
 import delta.games.lotro.gui.common.money.MoneyDisplayController;
 
 /**

@@ -12,6 +12,7 @@ import delta.games.lotro.character.storage.StoredItem;
 import delta.games.lotro.character.storage.statistics.StorageStatistics;
 import delta.games.lotro.character.storage.statistics.StorageStatisticsComputer;
 import delta.games.lotro.character.storage.statistics.reputation.StorageFactionStats;
+import delta.games.lotro.gui.common.statistics.items.ItemsDisplayPanelController;
 import delta.games.lotro.gui.common.statistics.reputation.ReputationDisplayPanelController;
 import delta.games.lotro.gui.common.statistics.reputation.ReputationTableController;
 
@@ -27,6 +28,7 @@ public class StorageStatisticsPanelController
   private JPanel _panel;
   // Controllers
   private StorageStatisticsSummaryPanelController _summary;
+  private ItemsDisplayPanelController _items;
   private ReputationDisplayPanelController<StorageFactionStats> _reputation;
 
   /**
@@ -38,6 +40,7 @@ public class StorageStatisticsPanelController
   {
     _statistics=statistics;
     _summary=new StorageStatisticsSummaryPanelController(statistics);
+    _items=new ItemsDisplayPanelController(parent,statistics.getItemStats());
     ReputationTableController<StorageFactionStats> tableController=new StorageReputationTableController(statistics.getReputationStats());
     _reputation=new ReputationDisplayPanelController<StorageFactionStats>(parent,statistics.getReputationStats(),tableController);
     _panel=buildPanel();
@@ -51,6 +54,9 @@ public class StorageStatisticsPanelController
     panel.add(summaryPanel,BorderLayout.NORTH);
     JTabbedPane pane=GuiFactory.buildTabbedPane();
     panel.add(pane,BorderLayout.CENTER);
+    // Items
+    JPanel itemsPanel=_items.getPanel();
+    pane.add("Items",itemsPanel);
     // Reputation
     JPanel reputationPanel=_reputation.getPanel();
     pane.add("Reputation",reputationPanel);
@@ -67,6 +73,7 @@ public class StorageStatisticsPanelController
     computer.computeStatistics(storedItems,_statistics);
     _summary.update();
     _reputation.update();
+    _items.update();
   }
 
   /**
@@ -96,6 +103,11 @@ public class StorageStatisticsPanelController
     {
       _summary.dispose();
       _summary=null;
+    }
+    if (_items!=null)
+    {
+      _items.dispose();
+      _items=null;
     }
     if (_reputation!=null)
     {

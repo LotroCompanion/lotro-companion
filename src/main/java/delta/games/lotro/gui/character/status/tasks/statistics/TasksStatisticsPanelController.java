@@ -13,7 +13,7 @@ import delta.games.lotro.character.status.tasks.TaskStatus;
 import delta.games.lotro.character.status.tasks.statistics.TasksStatistics;
 import delta.games.lotro.gui.character.status.achievables.AchievableUIMode;
 import delta.games.lotro.gui.character.status.achievables.statistics.reputation.AchievablesReputationTableController;
-import delta.games.lotro.gui.character.status.statistics.items.ItemsDisplayPanelController;
+import delta.games.lotro.gui.common.statistics.items.ItemsDisplayPanelController;
 import delta.games.lotro.gui.common.statistics.reputation.ReputationDisplayPanelController;
 import delta.games.lotro.gui.common.statistics.reputation.ReputationTableController;
 
