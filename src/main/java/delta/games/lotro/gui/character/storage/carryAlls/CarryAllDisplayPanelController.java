@@ -17,13 +17,13 @@ import javax.swing.JScrollPane;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.WindowController;
+import delta.games.lotro.character.storage.carryAlls.CarryAllInstance;
 import delta.games.lotro.gui.character.storage.StorageUiUtils;
 import delta.games.lotro.gui.utils.IconController;
 import delta.games.lotro.gui.utils.IconControllerFactory;
 import delta.games.lotro.lore.items.CountedItem;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.carryalls.CarryAll;
-import delta.games.lotro.lore.items.carryalls.CarryAllInstance;
 import delta.games.lotro.lore.items.comparators.CountedItemNameComparator;
 
 /**

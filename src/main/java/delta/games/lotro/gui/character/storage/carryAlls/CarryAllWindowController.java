@@ -7,7 +7,8 @@ import javax.swing.JPanel;
 
 import delta.common.ui.swing.windows.DefaultDisplayDialogController;
 import delta.common.ui.swing.windows.WindowController;
-import delta.games.lotro.lore.items.carryalls.CarryAllInstance;
+import delta.games.lotro.character.storage.carryAlls.CarryAllInstance;
+import delta.games.lotro.lore.items.Item;
 
 /**
  * Controller for a window to display a single carry-all.
@@ -44,7 +45,8 @@ public class CarryAllWindowController extends DefaultDisplayDialogController<Voi
   {
     super.configureWindow();
     // Title
-    String itemName=_carryAll.getName();
+    Item carryAllItem=_carryAll.getReference();
+    String itemName=(carryAllItem!=null)?carryAllItem.getName():"?";
     String title="Carry-all: "+itemName;
     setTitle(title);
     // Dimensions

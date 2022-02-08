@@ -4,7 +4,7 @@ import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharactersManager;
 import delta.games.lotro.character.storage.CharacterStorage;
 import delta.games.lotro.character.storage.StoragesIO;
-import delta.games.lotro.lore.items.carryalls.CarryAllInstance;
+import delta.games.lotro.character.storage.carryAlls.CarryAllInstance;
 
 /**
  * Simple test class for the carry-all display panel controller.

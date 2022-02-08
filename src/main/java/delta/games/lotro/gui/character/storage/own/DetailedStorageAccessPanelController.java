@@ -22,6 +22,7 @@ import delta.games.lotro.character.storage.CharacterStorage;
 import delta.games.lotro.character.storage.bags.BagsManager;
 import delta.games.lotro.character.storage.bags.BagsSetup;
 import delta.games.lotro.character.storage.bags.SingleBagSetup;
+import delta.games.lotro.character.storage.carryAlls.CarryAllInstance;
 import delta.games.lotro.character.storage.vaults.Vault;
 import delta.games.lotro.character.storage.wallet.Wallet;
 import delta.games.lotro.gui.LotroIconsManager;
@@ -30,7 +31,6 @@ import delta.games.lotro.gui.character.storage.carryAlls.CarryAllWindowControlle
 import delta.games.lotro.gui.character.storage.vault.VaultWindowController;
 import delta.games.lotro.gui.character.storage.wallet.WalletWindowController;
 import delta.games.lotro.lore.items.carryalls.CarryAll;
-import delta.games.lotro.lore.items.carryalls.CarryAllInstance;
 
 /**
  * Controller for a panel to provide access to all the detailed
@@ -52,6 +52,7 @@ public class DetailedStorageAccessPanelController implements ActionListener
   // Data
   private CharacterFile _character;
   private CharacterStorage _storage;
+  private List<CarryAllInstance> _carryAlls;
   // UI
   private JPanel _panel;
 
@@ -85,6 +86,7 @@ public class DetailedStorageAccessPanelController implements ActionListener
   public void update(CharacterStorage characterStorage)
   {
     _storage=characterStorage;
+    _carryAlls=_storage.getCarryAlls(true);
     _panel.removeAll();
     // Bags
     JPanel bagsPanel=buildBagsPanel();
@@ -157,8 +159,7 @@ public class DetailedStorageAccessPanelController implements ActionListener
 
   private JPanel buildCarryAllsPanel()
   {
-    List<CarryAllInstance> carryAlls=_storage.getCarryAlls(true);
-    int nbCarryAlls=carryAlls.size();
+    int nbCarryAlls=_carryAlls.size();
     if (nbCarryAlls==0)
     {
       return null;
@@ -169,7 +170,7 @@ public class DetailedStorageAccessPanelController implements ActionListener
     for(int i=0;i<nbCarryAlls;i++)
     {
       String command=CARRY_ALL_SEED+i;
-      CarryAllInstance carryAllInstance=carryAlls.get(i);
+      CarryAllInstance carryAllInstance=_carryAlls.get(i);
       CarryAll carryAll=carryAllInstance.getReference();
       String name=carryAll.getName();
       JButton button=buildButton(name,command,true);
@@ -241,8 +242,8 @@ public class DetailedStorageAccessPanelController implements ActionListener
     else if (command.startsWith(CARRY_ALL_SEED))
     {
       int index=NumericTools.parseInt(command.substring(CARRY_ALL_SEED.length()),0);
-      CarryAllInstance carryAll=_storage.getCarryAlls(true).get(index);
-      CarryAllWindowController carryAllCtrl=new CarryAllWindowController(_parent,carryAll);
+      CarryAllInstance carryAllInstance=_carryAlls.get(index);
+      CarryAllWindowController carryAllCtrl=new CarryAllWindowController(_parent,carryAllInstance);
       carryAllCtrl.getDialog().setLocationRelativeTo(_parent.getWindow());
       carryAllCtrl.show();
     }
@@ -261,7 +262,7 @@ public class DetailedStorageAccessPanelController implements ActionListener
     else if (command.startsWith(CARRY_ALL_SEED))
     {
       int index=NumericTools.parseInt(command.substring(CARRY_ALL_SEED.length()),0);
-      CarryAllInstance carryAllInstance=_storage.getCarryAlls(true).get(index);
+      CarryAllInstance carryAllInstance=_carryAlls.get(index);
       CarryAll carryAll=carryAllInstance.getReference();
       return LotroIconsManager.getItemIcon(carryAll.getIcon());
     }
