@@ -26,7 +26,6 @@ import delta.games.lotro.gui.common.rewards.table.RewardsColumnsBuilder;
 import delta.games.lotro.gui.lore.items.chooser.ItemChooser;
 import delta.games.lotro.gui.utils.UiConfiguration;
 import delta.games.lotro.lore.quests.QuestDescription;
-import delta.games.lotro.lore.quests.QuestDescription.FACTION;
 import delta.games.lotro.lore.quests.QuestsManager;
 
 /**
@@ -140,19 +139,19 @@ public class QuestsTableController
       sizeColumn.setWidthSpecs(100,100,100);
       ret.add(sizeColumn);
     }
-    // Faction column
+    // Monster Play column
     {
-      CellDataProvider<QuestDescription,FACTION> factionCell=new CellDataProvider<QuestDescription,FACTION>()
+      CellDataProvider<QuestDescription,Boolean> monsterPlayCell=new CellDataProvider<QuestDescription,Boolean>()
       {
         @Override
-        public FACTION getData(QuestDescription quest)
+        public Boolean getData(QuestDescription quest)
         {
-          return quest.getFaction();
+          return Boolean.valueOf(quest.isMonsterPlay());
         }
       };
-      DefaultTableColumnController<QuestDescription,FACTION> factionColumn=new DefaultTableColumnController<QuestDescription,FACTION>(QuestColumnIds.FACTION.name(),"Faction",FACTION.class,factionCell);
-      factionColumn.setWidthSpecs(100,100,100);
-      ret.add(factionColumn);
+      DefaultTableColumnController<QuestDescription,Boolean> monsterPlayColumn=new DefaultTableColumnController<QuestDescription,Boolean>(QuestColumnIds.MONSTER_PLAY.name(),"Monster Play",Boolean.class,monsterPlayCell);
+      monsterPlayColumn.setWidthSpecs(100,100,100);
+      ret.add(monsterPlayColumn);
     }
     // Repeatable column
     {
@@ -309,14 +308,14 @@ public class QuestsTableController
       CellDataProvider<QuestDescription,Integer> infamyCell=new CellDataProvider<QuestDescription,Integer>()
       {
         @Override
-        public Integer getData(QuestDescription rewards)
+        public Integer getData(QuestDescription quest)
         {
-          if (rewards.getFaction()==FACTION.FREE_PEOPLES)
+          if (quest.isMonsterPlay())
           {
-            return null;
+            int glory=quest.getRewards().getGlory();
+            return glory>0?Integer.valueOf(glory):null;
           }
-          int glory=rewards.getRewards().getGlory();
-          return glory>0?Integer.valueOf(glory):null;
+          return null;
         }
       };
       DefaultTableColumnController<QuestDescription,Integer> infamyColumn=new DefaultTableColumnController<QuestDescription,Integer>(RewardsColumnIds.INFAMY.name(),"Infamy",Integer.class,infamyCell);
@@ -328,13 +327,13 @@ public class QuestsTableController
       CellDataProvider<QuestDescription,Integer> renownCell=new CellDataProvider<QuestDescription,Integer>()
       {
         @Override
-        public Integer getData(QuestDescription rewards)
+        public Integer getData(QuestDescription quest)
         {
-          if (rewards.getFaction()==FACTION.MONSTER_PLAY)
+          if (quest.isMonsterPlay())
           {
             return null;
           }
-          int glory=rewards.getRewards().getGlory();
+          int glory=quest.getRewards().getGlory();
           return glory>0?Integer.valueOf(glory):null;
         }
       };

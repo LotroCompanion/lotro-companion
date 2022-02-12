@@ -31,9 +31,9 @@ public enum QuestColumnIds
    */
   SIZE,
   /**
-   * Free peoples/Monster Play.
+   * Monster Play.
    */
-  FACTION,
+  MONSTER_PLAY,
   /**
    * Repeatable.
    */

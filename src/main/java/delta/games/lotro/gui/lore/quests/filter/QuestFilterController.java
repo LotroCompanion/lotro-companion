@@ -27,16 +27,16 @@ import delta.games.lotro.gui.common.requirements.RequirementsFilterController;
 import delta.games.lotro.gui.common.rewards.filter.RewardsFilterController;
 import delta.games.lotro.gui.lore.items.FilterUpdateListener;
 import delta.games.lotro.gui.lore.quests.QuestsUiUtils;
+import delta.games.lotro.gui.utils.SharedUiUtils;
 import delta.games.lotro.lore.quests.QuestDescription;
-import delta.games.lotro.lore.quests.QuestDescription.FACTION;
 import delta.games.lotro.lore.quests.QuestsManager;
+import delta.games.lotro.lore.quests.filter.AchievableMonsterPlayFilter;
 import delta.games.lotro.lore.quests.filter.AutoBestowedQuestFilter;
+import delta.games.lotro.lore.quests.filter.HiddenAchievableFilter;
 import delta.games.lotro.lore.quests.filter.InstancedQuestFilter;
 import delta.games.lotro.lore.quests.filter.LockTypeFilter;
-import delta.games.lotro.lore.quests.filter.HiddenAchievableFilter;
 import delta.games.lotro.lore.quests.filter.QuestArcFilter;
 import delta.games.lotro.lore.quests.filter.QuestCategoryFilter;
-import delta.games.lotro.lore.quests.filter.QuestFactionFilter;
 import delta.games.lotro.lore.quests.filter.QuestFilter;
 import delta.games.lotro.lore.quests.filter.QuestNameFilter;
 import delta.games.lotro.lore.quests.filter.QuestSizeFilter;
@@ -67,7 +67,7 @@ public class QuestFilterController implements ActionListener
   private ComboBoxController<Repeatability> _repeatability;
   private ComboBoxController<LockType> _lockType;
   private ComboBoxController<Size> _size;
-  private ComboBoxController<FACTION> _faction;
+  private ComboBoxController<Boolean> _monsterPlay;
   // -- Requirements UI --
   private RequirementsFilterController _requirements;
   // -- Rewards UI --
@@ -135,7 +135,7 @@ public class QuestFilterController implements ActionListener
       _category.selectItem(null);
       _questArc.selectItem(null);
       _size.selectItem(null);
-      _faction.selectItem(null);
+      _monsterPlay.selectItem(null);
       _instanced.selectItem(null);
       _shareable.selectItem(null);
       _sessionPlay.selectItem(null);
@@ -173,10 +173,10 @@ public class QuestFilterController implements ActionListener
     QuestSizeFilter sizeFilter=_filter.getQuestSizeFilter();
     Size size=sizeFilter.getQuestSize();
     _size.selectItem(size);
-    // Faction
-    QuestFactionFilter factionFilter=_filter.getQuestFactionFilter();
-    FACTION faction=factionFilter.getFaction();
-    _faction.selectItem(faction);
+    // Monster play
+    AchievableMonsterPlayFilter<QuestDescription> monsterPlayFilter=_filter.getMonsterPlayFilter();
+    Boolean monsterPlayFlag=monsterPlayFilter.getIsMonsterPlayFlag();
+    _monsterPlay.selectItem(monsterPlayFlag);
     // Instanced
     InstancedQuestFilter instancedFilter=_filter.getInstancedQuestFilter();
     Boolean instancedFlag=instancedFilter.getIsInstancedFlag();
@@ -362,8 +362,8 @@ public class QuestFilterController implements ActionListener
       line.add(_size.getComboBox());
       // Faction
       line.add(GuiFactory.buildLabel("Faction:"));
-      _faction=buildFactionCombobox();
-      line.add(_faction.getComboBox());
+      _monsterPlay=buildMonsterPlayCombobox();
+      line.add(_monsterPlay.getComboBox());
 
       c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(5,0,5,0),0,0);
       panel.add(line,c);
@@ -406,16 +406,16 @@ public class QuestFilterController implements ActionListener
     return combo;
   }
 
-  private ComboBoxController<FACTION> buildFactionCombobox()
+  private ComboBoxController<Boolean> buildMonsterPlayCombobox()
   {
-    ComboBoxController<FACTION> combo=QuestsUiUtils.buildQuestFactionCombo();
-    ItemSelectionListener<FACTION> questSizeListener=new ItemSelectionListener<FACTION>()
+    ComboBoxController<Boolean> combo=SharedUiUtils.build3StatesBooleanCombobox("","Monster Play","Free Peoples");
+    ItemSelectionListener<Boolean> questSizeListener=new ItemSelectionListener<Boolean>()
     {
       @Override
-      public void itemSelected(FACTION faction)
+      public void itemSelected(Boolean monsterPlayFlag)
       {
-        QuestFactionFilter questFactionFilter=_filter.getQuestFactionFilter();
-        questFactionFilter.setFaction(faction);
+        AchievableMonsterPlayFilter<QuestDescription> monsterPlayFilter=_filter.getMonsterPlayFilter();
+        monsterPlayFilter.setIsMonsterPlayFlag(monsterPlayFlag);
         filterUpdated();
       }
     };
@@ -576,10 +576,10 @@ public class QuestFilterController implements ActionListener
       _size.dispose();
       _size=null;
     }
-    if (_faction!=null)
+    if (_monsterPlay!=null)
     {
-      _faction.dispose();
-      _faction=null;
+      _monsterPlay.dispose();
+      _monsterPlay=null;
     }
     if (_instanced!=null)
     {

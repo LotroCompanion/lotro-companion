@@ -29,7 +29,6 @@ import delta.games.lotro.gui.common.rewards.form.RewardsPanelController;
 import delta.games.lotro.gui.lore.quests.ObjectivesDisplayBuilder;
 import delta.games.lotro.gui.lore.quests.QuestsHtmlUtils;
 import delta.games.lotro.lore.quests.QuestDescription;
-import delta.games.lotro.lore.quests.QuestDescription.FACTION;
 import delta.games.lotro.lore.quests.dialogs.DialogElement;
 import delta.games.lotro.lore.quests.dialogs.QuestCompletionComment;
 import delta.games.lotro.utils.gui.HtmlUtils;
@@ -308,12 +307,12 @@ public class QuestDisplayPanelController implements NavigablePanelController
     {
       sb.append(size.toString());
     }
-    // Faction
-    FACTION faction=_quest.getFaction();
-    if ((faction!=null) && (faction!=FACTION.FREE_PEOPLES))
+    // Monster play
+    boolean isMonsterPlay=_quest.isMonsterPlay();
+    if (isMonsterPlay)
     {
       if (sb.length()>0) sb.append(", ");
-      sb.append(faction.toString());
+      sb.append("Monster Play");
     }
     // Repeatability
     Repeatability repeatability=_quest.getRepeatability();
@@ -356,6 +355,13 @@ public class QuestDisplayPanelController implements NavigablePanelController
     {
       if (sb.length()>0) sb.append(", ");
       sb.append("Auto-bestowed");
+    }
+    // Hidden
+    boolean hidden=_quest.isHidden();
+    if (hidden)
+    {
+      if (sb.length()>0) sb.append(", ");
+      sb.append("Hidden");
     }
     String ret=sb.toString();
     return ret;
