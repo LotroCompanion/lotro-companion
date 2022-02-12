@@ -348,7 +348,7 @@ public class RecipeDisplayPanelController implements NavigablePanelController
 
   private ItemDisplayGadgets buildResultGadget(CraftingResult result)
   {
-	Item item=result.getItem();
+    Item item=result.getItem();
     int itemId=item.getIdentifier();
     int count=result.getQuantity();
     String comment=result.isCriticalResult()?"Critical result: ":"Regular result: ";
