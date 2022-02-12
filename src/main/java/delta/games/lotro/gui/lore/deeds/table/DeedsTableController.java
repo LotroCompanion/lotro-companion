@@ -163,6 +163,20 @@ public class DeedsTableController
       hiddenColumn.setWidthSpecs(100,100,100);
       ret.add(hiddenColumn);
     }
+    // Monster Play column
+    {
+      CellDataProvider<DeedDescription,Boolean> monsterPlayCell=new CellDataProvider<DeedDescription,Boolean>()
+      {
+        @Override
+        public Boolean getData(DeedDescription deed)
+        {
+          return Boolean.valueOf(deed.isMonsterPlay());
+        }
+      };
+      DefaultTableColumnController<DeedDescription,Boolean> monsterPlayColumn=new DefaultTableColumnController<DeedDescription,Boolean>(DeedColumnIds.MONSTER_PLAY.name(),"Monster Play",Boolean.class,monsterPlayCell);
+      monsterPlayColumn.setWidthSpecs(100,100,100);
+      ret.add(monsterPlayColumn);
+    }
     // Requirements
     {
       List<DefaultTableColumnController<UsageRequirement,?>> requirementColumns=RequirementsColumnsBuilder.buildRequirementsColumns();

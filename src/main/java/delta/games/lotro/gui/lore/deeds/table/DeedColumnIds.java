@@ -34,4 +34,8 @@ public enum DeedColumnIds
    * Obsolete/hidden.
    */
   OBSOLETE,
+  /**
+   * Monster Play.
+   */
+  MONSTER_PLAY
 }

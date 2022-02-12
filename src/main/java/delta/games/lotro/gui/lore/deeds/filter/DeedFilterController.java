@@ -24,6 +24,7 @@ import delta.games.lotro.gui.common.requirements.RequirementsFilterController;
 import delta.games.lotro.gui.common.rewards.filter.RewardsFilterController;
 import delta.games.lotro.gui.lore.deeds.DeedUiUtils;
 import delta.games.lotro.gui.lore.items.FilterUpdateListener;
+import delta.games.lotro.gui.utils.SharedUiUtils;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.DeedType;
 import delta.games.lotro.lore.deeds.DeedsManager;
@@ -31,6 +32,7 @@ import delta.games.lotro.lore.deeds.filters.DeedCategoryFilter;
 import delta.games.lotro.lore.deeds.filters.DeedFilter;
 import delta.games.lotro.lore.deeds.filters.DeedNameFilter;
 import delta.games.lotro.lore.deeds.filters.DeedTypeFilter;
+import delta.games.lotro.lore.quests.filter.AchievableMonsterPlayFilter;
 
 /**
  * Controller for a deed filter edition panel.
@@ -47,6 +49,7 @@ public class DeedFilterController implements ActionListener
   private JTextField _contains;
   private ComboBoxController<DeedType> _type;
   private ComboBoxController<String> _category;
+  private ComboBoxController<Boolean> _monsterPlay;
   // -- Requirements UI --
   private RequirementsFilterController _requirements;
   // -- Rewards UI --
@@ -113,6 +116,7 @@ public class DeedFilterController implements ActionListener
     {
       _type.selectItem(null);
       _category.selectItem(null);
+      _monsterPlay.selectItem(null);
       if (_requirements!=null)
       {
         _requirements.reset();
@@ -139,6 +143,10 @@ public class DeedFilterController implements ActionListener
     DeedCategoryFilter categoryFilter=_filter.getCategoryFilter();
     String category=categoryFilter.getDeedCategory();
     _category.selectItem(category);
+    // Monster play
+    AchievableMonsterPlayFilter<DeedDescription> monsterPlayFilter=_filter.getMonsterPlayFilter();
+    Boolean monsterPlayFlag=monsterPlayFilter.getIsMonsterPlayFlag();
+    _monsterPlay.selectItem(monsterPlayFlag);
     // Requirements
     if (_requirements!=null)
     {
@@ -251,10 +259,33 @@ public class DeedFilterController implements ActionListener
       _category.addListener(categoryListener);
       linePanel.add(_category.getComboBox());
     }
+    // Faction
+    {
+      linePanel.add(GuiFactory.buildLabel("Faction:"));
+      _monsterPlay=buildMonsterPlayCombobox();
+      linePanel.add(_monsterPlay.getComboBox());
+    }
     GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,5,0),0,0);
     panel.add(linePanel,c);
     y++;
     return panel;
+  }
+
+  private ComboBoxController<Boolean> buildMonsterPlayCombobox()
+  {
+    ComboBoxController<Boolean> combo=SharedUiUtils.build3StatesBooleanCombobox("","Monster Play","Free Peoples");
+    ItemSelectionListener<Boolean> questSizeListener=new ItemSelectionListener<Boolean>()
+    {
+      @Override
+      public void itemSelected(Boolean monsterPlayFlag)
+      {
+        AchievableMonsterPlayFilter<DeedDescription> monsterPlayFilter=_filter.getMonsterPlayFilter();
+        monsterPlayFilter.setIsMonsterPlayFlag(monsterPlayFlag);
+        filterUpdated();
+      }
+    };
+    combo.addListener(questSizeListener);
+    return combo;
   }
 
   /**
@@ -285,6 +316,11 @@ public class DeedFilterController implements ActionListener
     {
       _category.dispose();
       _category=null;
+    }
+    if (_monsterPlay!=null)
+    {
+      _monsterPlay.dispose();
+      _monsterPlay=null;
     }
     if (_requirements!=null)
     {

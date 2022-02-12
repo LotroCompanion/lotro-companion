@@ -45,6 +45,7 @@ public class DeedDisplayPanelController implements NavigablePanelController
   private JLabel _type;
   private JLabel _category;
   private JLabel _name;
+  private JLabel _attributes;
   private JLabel _challengeLevel;
   private JLabel _requirements;
   private JEditorPane _details;
@@ -84,9 +85,10 @@ public class DeedDisplayPanelController implements NavigablePanelController
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
 
+    GridBagConstraints c=new GridBagConstraints(0,0,2,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+
     // Top panel
     JPanel topPanel=buildTopPanel();
-    GridBagConstraints c=new GridBagConstraints(0,0,2,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(topPanel,c);
 
     // Rewards
@@ -127,6 +129,7 @@ public class DeedDisplayPanelController implements NavigablePanelController
       panel.add(panelLine,c);
       c.gridy++;
     }
+
     // Line 2
     {
       JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
@@ -160,6 +163,15 @@ public class DeedDisplayPanelController implements NavigablePanelController
       panelLine.add(_requirements);
       panel.add(panelLine,c);
       c.gridy++;
+    }
+    // Line 5 (attributes)
+    {
+      JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
+      panel.add(panelLine,c);
+      c.gridy++;
+      // Attributes
+      _attributes=GuiFactory.buildLabel("");
+      panelLine.add(_attributes);
     }
     // Padding to push everything on left
     JPanel paddingPanel=GuiFactory.buildPanel(new BorderLayout());
@@ -229,9 +241,37 @@ public class DeedDisplayPanelController implements NavigablePanelController
     String requirements=RequirementsUtils.buildRequirementString(_deed.getUsageRequirement());
     if (requirements.length()==0) requirements="-";
     _requirements.setText(requirements);
+    // Attributes
+    String attributes=buildAttributesString();
+    _attributes.setText(attributes);
     // Details
     _details.setText(buildHtml());
     _details.setCaretPosition(0);
+  }
+
+  /**
+   * Build an attributes string.
+   * @return A string, empty if no requirement.
+   */
+  private String buildAttributesString()
+  {
+    StringBuilder sb=new StringBuilder();
+    // Monster play
+    boolean isMonsterPlay=_deed.isMonsterPlay();
+    if (isMonsterPlay)
+    {
+      if (sb.length()>0) sb.append(", ");
+      sb.append("Monster Play");
+    }
+    // Hidden
+    boolean hidden=_deed.isHidden();
+    if (hidden)
+    {
+      if (sb.length()>0) sb.append(", ");
+      sb.append("Hidden");
+    }
+    String ret=sb.toString();
+    return ret;
   }
 
   @Override
