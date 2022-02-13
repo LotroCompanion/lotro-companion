@@ -313,7 +313,7 @@ public class StorageFilterController implements ActionListener
     List<StorageLocation> locations=_filter.getConfiguration().getLocations();
     for(StorageLocation location : locations)
     {
-      ctrl.addItem(location,location.getLabel());
+      ctrl.addItem(location,location.toString());
     }
   }
 
