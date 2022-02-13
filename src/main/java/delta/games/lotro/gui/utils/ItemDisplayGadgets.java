@@ -9,6 +9,7 @@ import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.gui.lore.items.ItemUiTools;
 import delta.games.lotro.gui.lore.items.legendary.relics.RelicUiTools;
 import delta.games.lotro.lore.items.Item;
+import delta.games.lotro.lore.items.ItemInstance;
 import delta.games.lotro.lore.items.ItemsManager;
 import delta.games.lotro.lore.items.legendary.relics.Relic;
 import delta.games.lotro.lore.items.legendary.relics.RelicsManager;
@@ -20,7 +21,7 @@ import delta.games.lotro.lore.items.legendary.relics.RelicsManager;
 public class ItemDisplayGadgets
 {
   private WindowController _parent;
-  private IconController _icon; // Item icon, with optional count
+  private AbstractIconController _icon; // Item icon, with optional count
   private HyperLinkController _name; // Item name
   private JLabel _comment; // Optional comment, either before or after icon+name
 
@@ -38,6 +39,21 @@ public class ItemDisplayGadgets
     IconController icon=IconControllerFactory.buildItemIcon(_parent,item,count);
     _icon=icon;
     _name=ItemUiTools.buildItemLink(parent,item);
+    _comment=GuiFactory.buildLabel(comment);
+  }
+
+  /**
+   * Constructor.
+   * @param parent Parent window.
+   * @param itemInstance Identifier of the item to show.
+   * @param count Items count.
+   * @param comment Comment.
+   */
+  public ItemDisplayGadgets(WindowController parent, ItemInstance<? extends Item> itemInstance, int count, String comment)
+  {
+    _parent=parent;
+    _icon=new ItemInstanceIconController(_parent,itemInstance,count);
+    _name=ItemUiTools.buildItemInstanceLink(parent,itemInstance);
     _comment=GuiFactory.buildLabel(comment);
   }
 
@@ -89,7 +105,8 @@ public class ItemDisplayGadgets
    */
   public void dispose()
   {
-    // UI
+    // Controllers
+    _parent=null;
     if (_icon!=null)
     {
       _icon.dispose();
@@ -100,7 +117,7 @@ public class ItemDisplayGadgets
       _name.dispose();
       _name=null;
     }
-    _name=null;
+    // UI
     _comment=null;
   }
 }

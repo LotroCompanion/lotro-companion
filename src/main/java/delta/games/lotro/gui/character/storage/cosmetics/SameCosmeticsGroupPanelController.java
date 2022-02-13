@@ -14,6 +14,8 @@ import delta.games.lotro.character.storage.StoredItem;
 import delta.games.lotro.character.storage.cosmetics.CosmeticItemsGroup;
 import delta.games.lotro.gui.utils.ItemDisplayGadgets;
 import delta.games.lotro.lore.items.CountedItem;
+import delta.games.lotro.lore.items.Item;
+import delta.games.lotro.lore.items.ItemInstance;
 import delta.games.lotro.lore.items.ItemProvider;
 
 /**
@@ -43,10 +45,22 @@ public class SameCosmeticsGroupPanelController
     for(StoredItem storedItem : group.getItems())
     {
       CountedItem<ItemProvider> countedItem=storedItem.getItem();
-      int itemID=countedItem.getId();
       int count=countedItem.getQuantity();
       String comment=storedItem.getLocation().toString();
-      ItemDisplayGadgets gadgets=new ItemDisplayGadgets(parent,itemID,count,comment);
+
+      ItemDisplayGadgets gadgets;
+      ItemProvider itemProvider=countedItem.getManagedItem();
+      if (itemProvider instanceof ItemInstance)
+      {
+        @SuppressWarnings("unchecked")
+        ItemInstance<? extends Item> itemInstance=(ItemInstance<? extends Item>)itemProvider;
+        gadgets=new ItemDisplayGadgets(parent,itemInstance,count,comment);
+      }
+      else
+      {
+        int itemID=countedItem.getId();
+        gadgets=new ItemDisplayGadgets(parent,itemID,count,comment);
+      }
       _gadgets.add(gadgets);
     }
   }

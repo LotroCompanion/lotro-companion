@@ -105,6 +105,29 @@ public class ItemUiTools
   }
 
   /**
+   * Build an item instance link controller.
+   * @param parent Parent window.
+   * @param itemInstance Item instance to use.
+   * @return a new controller.
+   */
+  public static HyperLinkController buildItemInstanceLink(final WindowController parent, final ItemInstance<? extends Item> itemInstance)
+  {
+    ActionListener al=new ActionListener()
+    {
+      @Override
+      public void actionPerformed(ActionEvent e)
+      {
+        showItemInstanceWindow(parent,itemInstance);
+      }
+    };
+    Item item=itemInstance.getReference();
+    String text=(item!=null)?item.getName():"???";
+    LocalHyperlinkAction action=new LocalHyperlinkAction(text,al);
+    HyperLinkController controller=new HyperLinkController(action);
+    return controller;
+  }
+
+  /**
    * Show the form window for an item.
    * @param parent Parent window.
    * @param item Item to show.
