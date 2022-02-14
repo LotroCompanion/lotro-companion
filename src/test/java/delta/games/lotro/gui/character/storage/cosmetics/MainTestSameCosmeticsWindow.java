@@ -33,9 +33,8 @@ public class MainTestSameCosmeticsWindow
 
   private void doIt(List<StoredItem> items)
   {
-    SameCosmeticsFinder finder=new SameCosmeticsFinder();
-    List<CosmeticItemsGroup> groups=finder.findGroups(items);
-    SameCosmeticsWindowController windowCtrl=new SameCosmeticsWindowController(null,groups);
+    SameCosmeticsWindowController windowCtrl=new SameCosmeticsWindowController(null,null,items);
+    windowCtrl.filterUpdated();
     windowCtrl.show();
   }
 

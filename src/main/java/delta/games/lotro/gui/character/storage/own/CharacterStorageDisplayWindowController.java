@@ -28,6 +28,7 @@ import delta.games.lotro.character.storage.StoredItem;
 import delta.games.lotro.gui.character.storage.StorageDisplayPanelController;
 import delta.games.lotro.gui.character.storage.StorageFilter;
 import delta.games.lotro.gui.character.storage.StorageFilterController;
+import delta.games.lotro.gui.character.storage.cosmetics.SameCosmeticsWindowController;
 import delta.games.lotro.gui.character.storage.statistics.StorageStatisticsWindowController;
 import delta.games.lotro.gui.lore.items.FilterUpdateListener;
 import delta.games.lotro.utils.events.EventsManager;
@@ -86,28 +87,55 @@ public class CharacterStorageDisplayWindowController extends DefaultDialogContro
     TitledBorder filterBorder=GuiFactory.buildTitledBorder("Filter");
     filterPanel.setBorder(filterBorder);
     // Stats button
-    JButton b=GuiFactory.buildButton("Stats");
-    ActionListener al=new ActionListener()
+    JButton statsButton;
     {
-      @Override
-      public void actionPerformed(ActionEvent e)
+      statsButton=GuiFactory.buildButton("Statistics");
+      statsButton.setToolTipText("Statistics on the selected items...");
+      ActionListener al=new ActionListener()
       {
-        showStatistics();
-      }
-    };
-    b.addActionListener(al);
+        @Override
+        public void actionPerformed(ActionEvent e)
+        {
+          showStatistics();
+        }
+      };
+      statsButton.addActionListener(al);
+    }
+    // Cosmetics button
+    JButton cosmeticsButton;
+    {
+      cosmeticsButton=GuiFactory.buildButton("Cosmetics");
+      cosmeticsButton.setToolTipText("A tool to find items with same look among the selected items...");
+      ActionListener al=new ActionListener()
+      {
+        @Override
+        public void actionPerformed(ActionEvent e)
+        {
+          showSameCosmetics();
+        }
+      };
+      cosmeticsButton.addActionListener(al);
+    }
     // Whole panel
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(_summaryController.getPanel(),c);
     c=new GridBagConstraints(1,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(_detailedAccessController.getPanel(),c);
+    // Buttons panel
+    JPanel buttonsPanel=GuiFactory.buildPanel(new GridBagLayout());
+    {
+      c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,5,0),0,0);
+      buttonsPanel.add(statsButton,c);
+      c=new GridBagConstraints(0,1,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+      buttonsPanel.add(cosmeticsButton,c);
+    }
     // - filter+stats panel
     JPanel filterAndStatsPanel=GuiFactory.buildPanel(new GridBagLayout());
     {
       c=new GridBagConstraints(0,0,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
       filterAndStatsPanel.add(filterPanel,c);
       c=new GridBagConstraints(1,0,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,5,0,5),0,0);
-      filterAndStatsPanel.add(b,c);
+      filterAndStatsPanel.add(buttonsPanel,c);
     }
     c=new GridBagConstraints(0,1,2,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(filterAndStatsPanel,c);
@@ -159,6 +187,11 @@ public class CharacterStorageDisplayWindowController extends DefaultDialogContro
     {
       statisticsWindow.filterUpdated();
     }
+    SameCosmeticsWindowController sameCosmeticsWindow=getSameCosmeticsWindow();
+    if (sameCosmeticsWindow!=null)
+    {
+      sameCosmeticsWindow.filterUpdated();
+    }
   }
 
   /**
@@ -198,6 +231,26 @@ public class CharacterStorageDisplayWindowController extends DefaultDialogContro
       statisticsController.getWindow().setLocationRelativeTo(getWindow());
     }
     statisticsController.bringToFront();
+  }
+
+  private SameCosmeticsWindowController getSameCosmeticsWindow()
+  {
+    WindowsManager windowsMgr=getWindowsManager();
+    SameCosmeticsWindowController ret=(SameCosmeticsWindowController)windowsMgr.getWindow(SameCosmeticsWindowController.IDENTIFIER);
+    return ret;
+  }
+
+  private void showSameCosmetics()
+  {
+    SameCosmeticsWindowController sameCosmeticsController=getSameCosmeticsWindow();
+    if (sameCosmeticsController==null)
+    {
+      sameCosmeticsController=new SameCosmeticsWindowController(this,_filter,_items);
+      WindowsManager windowsMgr=getWindowsManager();
+      windowsMgr.registerWindow(sameCosmeticsController);
+      sameCosmeticsController.getWindow().setLocationRelativeTo(getWindow());
+    }
+    sameCosmeticsController.bringToFront();
   }
 
   /**

@@ -2,22 +2,27 @@ package delta.games.lotro.gui.character.storage.cosmetics;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JFrame;
+import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import delta.common.ui.swing.GuiFactory;
-import delta.common.ui.swing.windows.DefaultWindowController;
+import delta.common.ui.swing.windows.DefaultDialogController;
 import delta.common.ui.swing.windows.WindowController;
+import delta.games.lotro.character.storage.StoredItem;
 import delta.games.lotro.character.storage.cosmetics.CosmeticItemsGroup;
+import delta.games.lotro.character.storage.cosmetics.SameCosmeticsFinder;
+import delta.games.lotro.gui.character.storage.StorageFilter;
+import delta.games.lotro.gui.lore.items.FilterUpdateListener;
 
 /**
  * Controller for a window that shows a collection of 'same cosmetics' groups.
  * @author DAM
  */
-public class SameCosmeticsWindowController extends DefaultWindowController
+public class SameCosmeticsWindowController extends DefaultDialogController implements FilterUpdateListener
 {
   private static final int MIN_HEIGHT=300;
   private static final int INITIAL_HEIGHT=700;
@@ -27,35 +32,59 @@ public class SameCosmeticsWindowController extends DefaultWindowController
    */
   public static final String IDENTIFIER="SAME_COSMETICS_WINDOW";
 
+  // Data
+  private StorageFilter _filter;
+  private List<StoredItem> _storedItems;
   // Controllers
   private SameCosmeticsPanelController _groupsPanelCtrl;
 
   /**
    * Constructor.
    * @param parent Parent window.
-   * @param groups Groups to show.
+   * @param filter Filter to use.
+   * @param storedItems Stored items.
    */
-  public SameCosmeticsWindowController(WindowController parent, List<CosmeticItemsGroup> groups)
+  public SameCosmeticsWindowController(WindowController parent, StorageFilter filter, List<StoredItem> storedItems)
   {
     super(parent);
-    _groupsPanelCtrl=new SameCosmeticsPanelController(this,groups);
+    _filter=filter;
+    _storedItems=storedItems;
+    _groupsPanelCtrl=new SameCosmeticsPanelController(this);
+    filterUpdated();
   }
 
   @Override
-  protected JFrame build()
+  protected JDialog build()
   {
-    JFrame frame=super.build();
-    frame.setTitle("Same cosmetics");
-    frame.pack();
-    frame.setSize(frame.getWidth(),INITIAL_HEIGHT);
-    frame.setMinimumSize(new Dimension(frame.getWidth(),MIN_HEIGHT));
-    return frame;
+    JDialog dialog=super.build();
+    dialog.setTitle("Same cosmetics");
+    dialog.pack();
+    int width=dialog.getWidth()+20;
+    dialog.setSize(width,INITIAL_HEIGHT);
+    dialog.setMinimumSize(new Dimension(width,MIN_HEIGHT));
+    return dialog;
   }
 
   @Override
   public String getWindowIdentifier()
   {
     return IDENTIFIER;
+  }
+
+  @Override
+  public void filterUpdated()
+  {
+    List<StoredItem> toUse=new ArrayList<StoredItem>();
+    for(StoredItem item : _storedItems)
+    {
+      if ((_filter==null) || (_filter.accept(item)))
+      {
+        toUse.add(item);
+      }
+    }
+    SameCosmeticsFinder finder=new SameCosmeticsFinder();
+    List<CosmeticItemsGroup> groups=finder.findGroups(toUse);
+    _groupsPanelCtrl.updateDisplay(groups);
   }
 
   @Override

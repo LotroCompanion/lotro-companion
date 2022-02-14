@@ -46,7 +46,7 @@ public class StorageStatisticsWindowController extends DefaultDialogController i
     _filter=filter;
     _storedItems=storedItems;
     _panelController=new StorageStatisticsPanelController(this,_statistics);
-    updateStats(storedItems);
+    filterUpdated();
   }
 
   @Override

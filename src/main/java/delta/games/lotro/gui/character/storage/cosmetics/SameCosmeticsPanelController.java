@@ -6,6 +6,7 @@ import java.awt.Insets;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.Box;
 import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
@@ -21,43 +22,51 @@ public class SameCosmeticsPanelController
   // UI
   private JPanel _panel;
   // Controllers
+  private WindowController _parent;
   private List<SameCosmeticsGroupPanelController> _groups;
 
   /**
    * Constructor.
    * @param parent Parent window.
-   * @param groups Groups to show.
    */
-  public SameCosmeticsPanelController(WindowController parent, List<CosmeticItemsGroup> groups)
+  public SameCosmeticsPanelController(WindowController parent)
   {
-    init(parent,groups);
-    _panel=buildPanel();
+    _parent=parent;
+    _panel=GuiFactory.buildPanel(new GridBagLayout());
+    _groups=new ArrayList<SameCosmeticsGroupPanelController>();
   }
 
-  private void init(WindowController parent, List<CosmeticItemsGroup> groups)
+  /**
+   * Update the display.
+   * @param groups Groups to display.
+   */
+  public void updateDisplay(List<CosmeticItemsGroup> groups)
   {
-    _groups=new ArrayList<SameCosmeticsGroupPanelController>();
+    disposeGroups();
     for(CosmeticItemsGroup group : groups)
     {
-      SameCosmeticsGroupPanelController ctrl=new SameCosmeticsGroupPanelController(parent,group);
+      SameCosmeticsGroupPanelController ctrl=new SameCosmeticsGroupPanelController(_parent,group);
       _groups.add(ctrl);
     }
-    _panel=buildPanel();
+    fillPanel();
+    _panel.revalidate();
+    _panel.repaint();
   }
 
-  private JPanel buildPanel()
+  private void fillPanel()
   {
-    JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
+    _panel.removeAll();
     int y=0;
     for(SameCosmeticsGroupPanelController ctrl : _groups)
     {
       JPanel groupPanel=ctrl.getPanel();
       groupPanel.setBorder(GuiFactory.buildTitledBorder(""));
-      GridBagConstraints c=new GridBagConstraints(0,y,1,1,0.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
-      ret.add(groupPanel,c);
+      GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+      _panel.add(groupPanel,c);
       y++;
     }
-    return ret;
+    GridBagConstraints c=new GridBagConstraints(0,y,1,1,0.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.VERTICAL,new Insets(0,0,0,0),0,0);
+    _panel.add(Box.createVerticalGlue(),c);
   }
 
   /**
@@ -76,10 +85,7 @@ public class SameCosmeticsPanelController
   {
     if (_groups!=null)
     {
-      for(SameCosmeticsGroupPanelController group : _groups)
-      {
-        group.dispose();
-      }
+      disposeGroups();
       _groups=null;
     }
     if (_panel!=null)
@@ -87,5 +93,14 @@ public class SameCosmeticsPanelController
       _panel.removeAll();
       _panel=null;
     }
+  }
+
+  private void disposeGroups()
+  {
+    for(SameCosmeticsGroupPanelController group : _groups)
+    {
+      group.dispose();
+    }
+    _groups.clear();
   }
 }
