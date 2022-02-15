@@ -10,8 +10,6 @@ import delta.games.lotro.character.storage.CharacterStorage;
 import delta.games.lotro.character.storage.StorageUtils;
 import delta.games.lotro.character.storage.StoragesIO;
 import delta.games.lotro.character.storage.StoredItem;
-import delta.games.lotro.character.storage.cosmetics.CosmeticItemsGroup;
-import delta.games.lotro.character.storage.cosmetics.SameCosmeticsFinder;
 
 /**
  * Test class for the 'same cosmetics' window.
@@ -33,8 +31,8 @@ public class MainTestSameCosmeticsWindow
 
   private void doIt(List<StoredItem> items)
   {
-    SameCosmeticsWindowController windowCtrl=new SameCosmeticsWindowController(null,null,items);
-    windowCtrl.filterUpdated();
+    SameCosmeticsWindowController windowCtrl=new SameCosmeticsWindowController(null);
+    windowCtrl.updateDisplay(items);
     windowCtrl.show();
   }
 

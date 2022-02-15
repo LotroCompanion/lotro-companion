@@ -4,11 +4,9 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
@@ -17,7 +15,6 @@ import javax.swing.border.TitledBorder;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.DefaultDialogController;
 import delta.common.ui.swing.windows.WindowController;
-import delta.common.ui.swing.windows.WindowsManager;
 import delta.games.lotro.account.Account;
 import delta.games.lotro.account.AccountUtils;
 import delta.games.lotro.account.events.AccountEvent;
@@ -37,7 +34,7 @@ import delta.games.lotro.character.storage.wallet.io.xml.WalletsIO;
 import delta.games.lotro.gui.character.storage.StorageDisplayPanelController;
 import delta.games.lotro.gui.character.storage.StorageFilter;
 import delta.games.lotro.gui.character.storage.StorageFilterController;
-import delta.games.lotro.gui.character.storage.statistics.StorageStatisticsWindowController;
+import delta.games.lotro.gui.character.storage.own.StorageButtonsPanelController;
 import delta.games.lotro.gui.lore.items.FilterUpdateListener;
 import delta.games.lotro.utils.events.EventsManager;
 import delta.games.lotro.utils.events.GenericEventsListener;
@@ -63,6 +60,7 @@ public class AccountStorageDisplayWindowController extends DefaultDialogControll
   private AccountStorageSummaryPanelController _summaryController;
   private StorageDisplayPanelController _panelController;
   private StorageFilterController _filterController;
+  private StorageButtonsPanelController _buttonsController;
   // Listeners
   private GenericEventsListener<AccountEvent> _accountEventsListener;
 
@@ -79,6 +77,7 @@ public class AccountStorageDisplayWindowController extends DefaultDialogControll
     _serverName=server;
     _characters=AccountUtils.getCharacters(account.getName(),server);
     _filter=new StorageFilter();
+    _items=new ArrayList<StoredItem>();
     updateContents();
     EventsManager.addListener(CharacterEvent.class,this);
     _accountEventsListener=new GenericEventsListener<AccountEvent>()
@@ -109,35 +108,28 @@ public class AccountStorageDisplayWindowController extends DefaultDialogControll
     _panelController=new StorageDisplayPanelController(this,_filter);
     // Table
     JPanel tablePanel=_panelController.getPanel();
+    // Buttons
+    _buttonsController=new StorageButtonsPanelController(this,_filter,_items);
     // Filter
     _filterController=new StorageFilterController(_filter,this);
     JPanel filterPanel=_filterController.getPanel();
     TitledBorder filterBorder=GuiFactory.buildTitledBorder("Filter");
     filterPanel.setBorder(filterBorder);
-    // Stats button
-    JButton b=GuiFactory.buildButton("Stats");
-    ActionListener al=new ActionListener()
-    {
-      @Override
-      public void actionPerformed(ActionEvent e)
-      {
-        showStatistics();
-      }
-    };
-    b.addActionListener(al);
     // Whole panel
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(_summaryController.getPanel(),c);
-    // - filter+stats panel
-    JPanel filterAndStatsPanel=GuiFactory.buildPanel(new GridBagLayout());
+    // Buttons panel
+    JPanel buttonsPanel=_buttonsController.getPanel();
+    // - filter+buttons panel
+    JPanel filterAndButtonsPanel=GuiFactory.buildPanel(new GridBagLayout());
     {
       c=new GridBagConstraints(0,0,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
-      filterAndStatsPanel.add(filterPanel,c);
+      filterAndButtonsPanel.add(filterPanel,c);
       c=new GridBagConstraints(1,0,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,5,0,5),0,0);
-      filterAndStatsPanel.add(b,c);
+      filterAndButtonsPanel.add(buttonsPanel,c);
     }
     c=new GridBagConstraints(0,1,2,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
-    panel.add(filterAndStatsPanel,c);
+    panel.add(filterAndButtonsPanel,c);
     c=new GridBagConstraints(0,2,2,1,1,1,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
     panel.add(tablePanel,c);
     return panel;
@@ -147,8 +139,8 @@ public class AccountStorageDisplayWindowController extends DefaultDialogControll
   protected JDialog build()
   {
     JDialog dialog=super.build();
-    dialog.setMinimumSize(new Dimension(800,350));
-    dialog.setSize(800,700);
+    dialog.setMinimumSize(new Dimension(850,350));
+    dialog.setSize(850,700);
     dialog.setResizable(true);
     return dialog;
   }
@@ -181,11 +173,7 @@ public class AccountStorageDisplayWindowController extends DefaultDialogControll
   public void filterUpdated()
   {
     _panelController.filterUpdated();
-    StorageStatisticsWindowController statisticsWindow=getStatisticsWindow();
-    if (statisticsWindow!=null)
-    {
-      statisticsWindow.filterUpdated();
-    }
+    _buttonsController.filterUpdated();
   }
 
   /**
@@ -211,27 +199,8 @@ public class AccountStorageDisplayWindowController extends DefaultDialogControll
     _summaryController.update(storage);
     _items=StorageUtils.buildAccountItems(_account,_serverName);
     _panelController.update(_items);
+    _buttonsController.update(_items);
     _filterController.update();
-  }
-
-  private StorageStatisticsWindowController getStatisticsWindow()
-  {
-    WindowsManager windowsMgr=getWindowsManager();
-    StorageStatisticsWindowController ret=(StorageStatisticsWindowController)windowsMgr.getWindow(StorageStatisticsWindowController.IDENTIFIER);
-    return ret;
-  }
-
-  private void showStatistics()
-  {
-    StorageStatisticsWindowController statisticsController=getStatisticsWindow();
-    if (statisticsController==null)
-    {
-      statisticsController=new StorageStatisticsWindowController(this,_filter,_items);
-      WindowsManager windowsMgr=getWindowsManager();
-      windowsMgr.registerWindow(statisticsController);
-      statisticsController.getWindow().setLocationRelativeTo(getWindow());
-    }
-    statisticsController.bringToFront();
   }
 
   /**
@@ -265,6 +234,11 @@ public class AccountStorageDisplayWindowController extends DefaultDialogControll
     {
       _filterController.dispose();
       _filterController=null;
+    }
+    if (_buttonsController!=null)
+    {
+      _buttonsController.dispose();
+      _buttonsController=null;
     }
     super.dispose();
   }

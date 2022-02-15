@@ -4,11 +4,9 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
@@ -17,7 +15,6 @@ import javax.swing.border.TitledBorder;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.DefaultDialogController;
 import delta.common.ui.swing.windows.WindowController;
-import delta.common.ui.swing.windows.WindowsManager;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.events.CharacterEvent;
 import delta.games.lotro.character.events.CharacterEventType;
@@ -28,8 +25,6 @@ import delta.games.lotro.character.storage.StoredItem;
 import delta.games.lotro.gui.character.storage.StorageDisplayPanelController;
 import delta.games.lotro.gui.character.storage.StorageFilter;
 import delta.games.lotro.gui.character.storage.StorageFilterController;
-import delta.games.lotro.gui.character.storage.cosmetics.SameCosmeticsWindowController;
-import delta.games.lotro.gui.character.storage.statistics.StorageStatisticsWindowController;
 import delta.games.lotro.gui.lore.items.FilterUpdateListener;
 import delta.games.lotro.utils.events.EventsManager;
 import delta.games.lotro.utils.events.GenericEventsListener;
@@ -54,6 +49,7 @@ public class CharacterStorageDisplayWindowController extends DefaultDialogContro
   private StorageDisplayPanelController _panelController;
   private DetailedStorageAccessPanelController _detailedAccessController;
   private StorageFilterController _filterController;
+  private StorageButtonsPanelController _buttonsController;
 
   /**
    * Constructor.
@@ -65,6 +61,7 @@ public class CharacterStorageDisplayWindowController extends DefaultDialogContro
     super(parent);
     _toon=toon;
     _filter=new StorageFilter();
+    _items=new ArrayList<StoredItem>();
     updateContents();
     EventsManager.addListener(CharacterEvent.class,this);
   }
@@ -81,64 +78,30 @@ public class CharacterStorageDisplayWindowController extends DefaultDialogContro
     _detailedAccessController=new DetailedStorageAccessPanelController(this,_toon);
     // Table
     JPanel tablePanel=_panelController.getPanel();
+    // Buttons
+    _buttonsController=new StorageButtonsPanelController(this,_filter,_items);
     // Filter
     _filterController=new StorageFilterController(_filter,this);
     JPanel filterPanel=_filterController.getPanel();
     TitledBorder filterBorder=GuiFactory.buildTitledBorder("Filter");
     filterPanel.setBorder(filterBorder);
-    // Stats button
-    JButton statsButton;
-    {
-      statsButton=GuiFactory.buildButton("Statistics");
-      statsButton.setToolTipText("Statistics on the selected items...");
-      ActionListener al=new ActionListener()
-      {
-        @Override
-        public void actionPerformed(ActionEvent e)
-        {
-          showStatistics();
-        }
-      };
-      statsButton.addActionListener(al);
-    }
-    // Cosmetics button
-    JButton cosmeticsButton;
-    {
-      cosmeticsButton=GuiFactory.buildButton("Cosmetics");
-      cosmeticsButton.setToolTipText("A tool to find items with same look among the selected items...");
-      ActionListener al=new ActionListener()
-      {
-        @Override
-        public void actionPerformed(ActionEvent e)
-        {
-          showSameCosmetics();
-        }
-      };
-      cosmeticsButton.addActionListener(al);
-    }
     // Whole panel
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(_summaryController.getPanel(),c);
     c=new GridBagConstraints(1,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(_detailedAccessController.getPanel(),c);
     // Buttons panel
-    JPanel buttonsPanel=GuiFactory.buildPanel(new GridBagLayout());
-    {
-      c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,5,0),0,0);
-      buttonsPanel.add(statsButton,c);
-      c=new GridBagConstraints(0,1,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
-      buttonsPanel.add(cosmeticsButton,c);
-    }
-    // - filter+stats panel
-    JPanel filterAndStatsPanel=GuiFactory.buildPanel(new GridBagLayout());
+    JPanel buttonsPanel=_buttonsController.getPanel();
+    // - filter+buttons panel
+    JPanel filterAndButtonsPanel=GuiFactory.buildPanel(new GridBagLayout());
     {
       c=new GridBagConstraints(0,0,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
-      filterAndStatsPanel.add(filterPanel,c);
+      filterAndButtonsPanel.add(filterPanel,c);
       c=new GridBagConstraints(1,0,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,5,0,5),0,0);
-      filterAndStatsPanel.add(buttonsPanel,c);
+      filterAndButtonsPanel.add(buttonsPanel,c);
     }
     c=new GridBagConstraints(0,1,2,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
-    panel.add(filterAndStatsPanel,c);
+    panel.add(filterAndButtonsPanel,c);
     c=new GridBagConstraints(0,2,2,1,1,1,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
     panel.add(tablePanel,c);
     return panel;
@@ -182,16 +145,7 @@ public class CharacterStorageDisplayWindowController extends DefaultDialogContro
   public void filterUpdated()
   {
     _panelController.filterUpdated();
-    StorageStatisticsWindowController statisticsWindow=getStatisticsWindow();
-    if (statisticsWindow!=null)
-    {
-      statisticsWindow.filterUpdated();
-    }
-    SameCosmeticsWindowController sameCosmeticsWindow=getSameCosmeticsWindow();
-    if (sameCosmeticsWindow!=null)
-    {
-      sameCosmeticsWindow.filterUpdated();
-    }
+    _buttonsController.filterUpdated();
   }
 
   /**
@@ -210,47 +164,8 @@ public class CharacterStorageDisplayWindowController extends DefaultDialogContro
     _detailedAccessController.update(characterStorage);
     _items=StorageUtils.buildCharacterItems(_toon,characterStorage);
     _panelController.update(_items);
+    _buttonsController.update(_items);
     _filterController.update();
-  }
-
-  private StorageStatisticsWindowController getStatisticsWindow()
-  {
-    WindowsManager windowsMgr=getWindowsManager();
-    StorageStatisticsWindowController ret=(StorageStatisticsWindowController)windowsMgr.getWindow(StorageStatisticsWindowController.IDENTIFIER);
-    return ret;
-  }
-
-  private void showStatistics()
-  {
-    StorageStatisticsWindowController statisticsController=getStatisticsWindow();
-    if (statisticsController==null)
-    {
-      statisticsController=new StorageStatisticsWindowController(this,_filter,_items);
-      WindowsManager windowsMgr=getWindowsManager();
-      windowsMgr.registerWindow(statisticsController);
-      statisticsController.getWindow().setLocationRelativeTo(getWindow());
-    }
-    statisticsController.bringToFront();
-  }
-
-  private SameCosmeticsWindowController getSameCosmeticsWindow()
-  {
-    WindowsManager windowsMgr=getWindowsManager();
-    SameCosmeticsWindowController ret=(SameCosmeticsWindowController)windowsMgr.getWindow(SameCosmeticsWindowController.IDENTIFIER);
-    return ret;
-  }
-
-  private void showSameCosmetics()
-  {
-    SameCosmeticsWindowController sameCosmeticsController=getSameCosmeticsWindow();
-    if (sameCosmeticsController==null)
-    {
-      sameCosmeticsController=new SameCosmeticsWindowController(this,_filter,_items);
-      WindowsManager windowsMgr=getWindowsManager();
-      windowsMgr.registerWindow(sameCosmeticsController);
-      sameCosmeticsController.getWindow().setLocationRelativeTo(getWindow());
-    }
-    sameCosmeticsController.bringToFront();
   }
 
   /**
@@ -275,15 +190,20 @@ public class CharacterStorageDisplayWindowController extends DefaultDialogContro
       _panelController.dispose();
       _panelController=null;
     }
+    if (_detailedAccessController!=null)
+    {
+      _detailedAccessController.dispose();
+      _detailedAccessController=null;
+    }
     if (_filterController!=null)
     {
       _filterController.dispose();
       _filterController=null;
     }
-    if (_detailedAccessController!=null)
+    if (_buttonsController!=null)
     {
-      _detailedAccessController.dispose();
-      _detailedAccessController=null;
+      _buttonsController.dispose();
+      _buttonsController=null;
     }
     super.dispose();
   }

@@ -2,7 +2,6 @@ package delta.games.lotro.gui.character.storage.cosmetics;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JDialog;
@@ -15,14 +14,12 @@ import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.storage.StoredItem;
 import delta.games.lotro.character.storage.cosmetics.CosmeticItemsGroup;
 import delta.games.lotro.character.storage.cosmetics.SameCosmeticsFinder;
-import delta.games.lotro.gui.character.storage.StorageFilter;
-import delta.games.lotro.gui.lore.items.FilterUpdateListener;
 
 /**
  * Controller for a window that shows a collection of 'same cosmetics' groups.
  * @author DAM
  */
-public class SameCosmeticsWindowController extends DefaultDialogController implements FilterUpdateListener
+public class SameCosmeticsWindowController extends DefaultDialogController
 {
   private static final int MIN_HEIGHT=300;
   private static final int INITIAL_HEIGHT=700;
@@ -32,25 +29,17 @@ public class SameCosmeticsWindowController extends DefaultDialogController imple
    */
   public static final String IDENTIFIER="SAME_COSMETICS_WINDOW";
 
-  // Data
-  private StorageFilter _filter;
-  private List<StoredItem> _storedItems;
   // Controllers
   private SameCosmeticsPanelController _groupsPanelCtrl;
 
   /**
    * Constructor.
    * @param parent Parent window.
-   * @param filter Filter to use.
-   * @param storedItems Stored items.
    */
-  public SameCosmeticsWindowController(WindowController parent, StorageFilter filter, List<StoredItem> storedItems)
+  public SameCosmeticsWindowController(WindowController parent)
   {
     super(parent);
-    _filter=filter;
-    _storedItems=storedItems;
     _groupsPanelCtrl=new SameCosmeticsPanelController(this);
-    filterUpdated();
   }
 
   @Override
@@ -71,19 +60,14 @@ public class SameCosmeticsWindowController extends DefaultDialogController imple
     return IDENTIFIER;
   }
 
-  @Override
-  public void filterUpdated()
+  /**
+   * Update display.
+   * @param storedItems Items to use.
+   */
+  public void updateDisplay(List<StoredItem> storedItems)
   {
-    List<StoredItem> toUse=new ArrayList<StoredItem>();
-    for(StoredItem item : _storedItems)
-    {
-      if ((_filter==null) || (_filter.accept(item)))
-      {
-        toUse.add(item);
-      }
-    }
     SameCosmeticsFinder finder=new SameCosmeticsFinder();
-    List<CosmeticItemsGroup> groups=finder.findGroups(toUse);
+    List<CosmeticItemsGroup> groups=finder.findGroups(storedItems);
     _groupsPanelCtrl.updateDisplay(groups);
   }
 
