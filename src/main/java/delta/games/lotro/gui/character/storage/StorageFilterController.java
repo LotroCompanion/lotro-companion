@@ -23,6 +23,7 @@ import delta.games.lotro.character.storage.StoredItem;
 import delta.games.lotro.character.storage.filters.StoredItemLocationFilter;
 import delta.games.lotro.character.storage.filters.StoredItemOwnerFilter;
 import delta.games.lotro.character.storage.location.StorageLocation;
+import delta.games.lotro.common.enums.ItemClass;
 import delta.games.lotro.common.filters.NamedFilter;
 import delta.games.lotro.common.owner.AccountServerOwner;
 import delta.games.lotro.common.owner.CharacterOwner;
@@ -31,6 +32,7 @@ import delta.games.lotro.gui.lore.items.FilterUpdateListener;
 import delta.games.lotro.gui.lore.items.ItemUiTools;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemQuality;
+import delta.games.lotro.lore.items.filters.ItemClassFilter;
 
 /**
  * Controller for a storage filter edition panel.
@@ -48,6 +50,7 @@ public class StorageFilterController implements ActionListener
   private ComboBoxController<Owner> _owner;
   private ComboBoxController<StorageLocation> _location;
   private ComboBoxController<ItemQuality> _quality;
+  private ComboBoxController<ItemClass> _category;
   // Controllers
   private DynamicTextEditionController _textController;
   private FilterUpdateListener _filterUpdateListener;
@@ -100,6 +103,10 @@ public class StorageFilterController implements ActionListener
     StorageLocation location=_location.getSelectedItem();
     updateLocationCombobox(_location);
     _location.selectItem(location);
+    // Category
+    ItemClass category=_category.getSelectedItem();
+    updateCategoryCombobox(_category);
+    _category.selectItem(category);
   }
 
   /**
@@ -119,6 +126,7 @@ public class StorageFilterController implements ActionListener
       _owner.selectItem(null);
       _location.selectItem(null);
       _quality.selectItem(null);
+      _category.selectItem(null);
       _contains.setText("");
     }
   }
@@ -143,6 +151,9 @@ public class StorageFilterController implements ActionListener
     // Quality
     ItemQuality quality=_filter.getQualityFilter().getQuality();
     _quality.selectItem(quality);
+    // Category
+    ItemClass itemClass=_filter.getCategoryFilter().getItemClass();
+    _category.selectItem(itemClass);
   }
 
   private JPanel build()
@@ -193,6 +204,14 @@ public class StorageFilterController implements ActionListener
       _textController=new DynamicTextEditionController(_contains,listener);
       line1Panel.add(containsPanel);
     }
+    // Category
+    {
+      JPanel categoryPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING));
+      categoryPanel.add(GuiFactory.buildLabel("Category:"));
+      _category=buildCategoryCombobox();
+      categoryPanel.add(_category.getComboBox());
+      line1Panel.add(categoryPanel);
+    }
     GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,5,0),0,0);
     panel.add(line1Panel,c);
     y++;
@@ -203,17 +222,6 @@ public class StorageFilterController implements ActionListener
       JLabel label=GuiFactory.buildLabel("Owner:");
       line2Panel.add(label);
       _owner=buildOwnerCombobox();
-      ItemSelectionListener<Owner> ownerListener=new ItemSelectionListener<Owner>()
-      {
-        @Override
-        public void itemSelected(Owner owner)
-        {
-          StoredItemOwnerFilter ownerFilter=_filter.getOwnerFilter();
-          ownerFilter.setOwner(owner);
-          filterUpdated();
-        }
-      };
-      _owner.addListener(ownerListener);
       line2Panel.add(_owner.getComboBox());
     }
     // Location
@@ -221,34 +229,13 @@ public class StorageFilterController implements ActionListener
       JLabel label=GuiFactory.buildLabel("Location:");
       line2Panel.add(label);
       _location=buildLocationCombobox();
-      ItemSelectionListener<StorageLocation> categoryListener=new ItemSelectionListener<StorageLocation>()
-      {
-        @Override
-        public void itemSelected(StorageLocation location)
-        {
-          StoredItemLocationFilter locationFilter=_filter.getLocationFilter();
-          locationFilter.setLocation(location);
-          filterUpdated();
-        }
-      };
-      _location.addListener(categoryListener);
       line2Panel.add(_location.getComboBox());
     }
     // Quality
     {
       JPanel qualityPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING));
       qualityPanel.add(GuiFactory.buildLabel("Quality:"));
-      _quality=ItemUiTools.buildQualityCombo();
-      ItemSelectionListener<ItemQuality> qualityListener=new ItemSelectionListener<ItemQuality>()
-      {
-        @Override
-        public void itemSelected(ItemQuality quality)
-        {
-          _filter.getQualityFilter().setQuality(quality);
-          filterUpdated();
-        }
-      };
-      _quality.addListener(qualityListener);
+      _quality=buildQualityCombobox();
       qualityPanel.add(_quality.getComboBox());
       line2Panel.add(qualityPanel);
     }
@@ -265,6 +252,17 @@ public class StorageFilterController implements ActionListener
     ComboBoxController<Owner> ctrl=new ComboBoxController<Owner>();
     updateOwnerCombobox(ctrl);
     ctrl.selectItem(null);
+    ItemSelectionListener<Owner> ownerListener=new ItemSelectionListener<Owner>()
+    {
+      @Override
+      public void itemSelected(Owner owner)
+      {
+        StoredItemOwnerFilter ownerFilter=_filter.getOwnerFilter();
+        ownerFilter.setOwner(owner);
+        filterUpdated();
+      }
+    };
+    ctrl.addListener(ownerListener);
     return ctrl;
   }
 
@@ -303,6 +301,17 @@ public class StorageFilterController implements ActionListener
     ComboBoxController<StorageLocation> ctrl=new ComboBoxController<StorageLocation>();
     updateLocationCombobox(ctrl);
     ctrl.selectItem(null);
+    ItemSelectionListener<StorageLocation> categoryListener=new ItemSelectionListener<StorageLocation>()
+    {
+      @Override
+      public void itemSelected(StorageLocation location)
+      {
+        StoredItemLocationFilter locationFilter=_filter.getLocationFilter();
+        locationFilter.setLocation(location);
+        filterUpdated();
+      }
+    };
+    ctrl.addListener(categoryListener);
     return ctrl;
   }
 
@@ -314,6 +323,52 @@ public class StorageFilterController implements ActionListener
     for(StorageLocation location : locations)
     {
       ctrl.addItem(location,location.toString());
+    }
+  }
+
+  private ComboBoxController<ItemQuality> buildQualityCombobox()
+  {
+    ComboBoxController<ItemQuality> ctrl=ItemUiTools.buildQualityCombo();
+    ItemSelectionListener<ItemQuality> qualityListener=new ItemSelectionListener<ItemQuality>()
+    {
+      @Override
+      public void itemSelected(ItemQuality quality)
+      {
+        _filter.getQualityFilter().setQuality(quality);
+        filterUpdated();
+      }
+    };
+    ctrl.addListener(qualityListener);
+    return ctrl;
+  }
+
+  private ComboBoxController<ItemClass> buildCategoryCombobox()
+  {
+    ComboBoxController<ItemClass> ctrl=new ComboBoxController<ItemClass>();
+    updateCategoryCombobox(ctrl);
+    ctrl.selectItem(null);
+    ItemSelectionListener<ItemClass> categoryListener=new ItemSelectionListener<ItemClass>()
+    {
+      @Override
+      public void itemSelected(ItemClass category)
+      {
+        ItemClassFilter categoryFilter=_filter.getCategoryFilter();
+        categoryFilter.setItemClass(category);
+        filterUpdated();
+      }
+    };
+    ctrl.addListener(categoryListener);
+    return ctrl;
+  }
+
+  private void updateCategoryCombobox(ComboBoxController<ItemClass> ctrl)
+  {
+    ctrl.removeAllItems();
+    ctrl.addEmptyItem("");
+    List<ItemClass> categories=_filter.getConfiguration().getCategories();
+    for(ItemClass category : categories)
+    {
+      ctrl.addItem(category,category.getLabel());
     }
   }
 
@@ -330,12 +385,6 @@ public class StorageFilterController implements ActionListener
       _textController.dispose();
       _textController=null;
     }
-    // GUI
-    if (_panel!=null)
-    {
-      _panel.removeAll();
-      _panel=null;
-    }
     if (_owner!=null)
     {
       _owner.dispose();
@@ -350,6 +399,17 @@ public class StorageFilterController implements ActionListener
     {
       _quality.dispose();
       _quality=null;
+    }
+    if (_category!=null)
+    {
+      _category.dispose();
+      _category=null;
+    }
+    // GUI
+    if (_panel!=null)
+    {
+      _panel.removeAll();
+      _panel=null;
     }
     _contains=null;
     _reset=null;

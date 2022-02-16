@@ -9,8 +9,11 @@ import java.util.Set;
 import delta.games.lotro.character.storage.StoredItem;
 import delta.games.lotro.character.storage.location.StorageLocation;
 import delta.games.lotro.character.storage.location.comparators.LocationComparator;
+import delta.games.lotro.common.enums.ItemClass;
+import delta.games.lotro.common.enums.comparator.LotroEnumEntryNameComparator;
 import delta.games.lotro.common.owner.Owner;
 import delta.games.lotro.common.owner.comparators.OwnerComparator;
+import delta.games.lotro.lore.items.Item;
 
 /**
  * Configuration of the storage filter.
@@ -22,11 +25,14 @@ public class StorageFilterConfiguration
    * Possible owners.
    */
   private Set<Owner> _owners;
-
   /**
    * Possible locations.
    */
   private Set<StorageLocation> _locations;
+  /**
+   * Possible categories.
+   */
+  private Set<ItemClass> _categories;
 
   /**
    * Constructor.
@@ -35,20 +41,24 @@ public class StorageFilterConfiguration
   {
     _owners=new HashSet<Owner>();
     _locations=new HashSet<StorageLocation>();
+    _categories=new HashSet<ItemClass>();
   }
 
   /**
    * Set owners/locations from the storage items to display.
-   * @param items Items to show.
+   * @param storedItems Items to show.
    */
-  public void setItems(List<StoredItem> items)
+  public void setItems(List<StoredItem> storedItems)
   {
     _owners.clear();
     _locations.clear();
-    for(StoredItem item : items)
+    _categories.clear();
+    for(StoredItem storedItem : storedItems)
     {
-      _owners.add(item.getOwner());
-      _locations.add(item.getLocation());
+      _owners.add(storedItem.getOwner());
+      _locations.add(storedItem.getLocation());
+      Item item=storedItem.getItem().getItem();
+      _categories.add(item.getItemClass());
     }
   }
 
@@ -74,5 +84,17 @@ public class StorageFilterConfiguration
     locations.addAll(_locations);
     Collections.sort(locations,new LocationComparator());
     return locations;
+  }
+
+  /**
+   * Get an ordered list of known categories.
+   * @return A list of categories.
+   */
+  public List<ItemClass> getCategories()
+  {
+    List<ItemClass> sortedCategories=new ArrayList<ItemClass>();
+    sortedCategories.addAll(_categories);
+    Collections.sort(sortedCategories,new LotroEnumEntryNameComparator<ItemClass>());
+    return sortedCategories;
   }
 }

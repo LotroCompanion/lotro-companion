@@ -14,6 +14,7 @@ import delta.games.lotro.character.storage.filters.StoredItemOwnerFilter;
 import delta.games.lotro.common.filters.NamedFilter;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemProvider;
+import delta.games.lotro.lore.items.filters.ItemClassFilter;
 import delta.games.lotro.lore.items.filters.ItemQualityFilter;
 
 /**
@@ -30,6 +31,7 @@ public class StorageFilter implements Filter<StoredItem>
   private StoredItemOwnerFilter _ownerFilter;
   private StoredItemLocationFilter _locationFilter;
   private ItemQualityFilter _qualityFilter;
+  private ItemClassFilter _categoryFilter;
 
   /**
    * Constructor.
@@ -64,6 +66,10 @@ public class StorageFilter implements Filter<StoredItem>
     _qualityFilter=new ItemQualityFilter(null);
     ProxyFilter<StoredItem,Item> qualityFilter=new ProxyFilter<StoredItem,Item>(itemResolver,_qualityFilter);
     filters.add(qualityFilter);
+    // Category
+    _categoryFilter=new ItemClassFilter(null);
+    ProxyFilter<StoredItem,Item> categoryFilter=new ProxyFilter<StoredItem,Item>(itemResolver,_categoryFilter);
+    filters.add(categoryFilter);
     _filter=new CompoundFilter<StoredItem>(Operator.AND,filters);
   }
 
@@ -110,6 +116,15 @@ public class StorageFilter implements Filter<StoredItem>
   public ItemQualityFilter getQualityFilter()
   {
     return _qualityFilter;
+  }
+
+  /**
+   * Get the filter on category.
+   * @return A category filter.
+   */
+  public ItemClassFilter getCategoryFilter()
+  {
+    return _categoryFilter;
   }
 
   @Override
