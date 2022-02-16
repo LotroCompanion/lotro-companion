@@ -6,7 +6,7 @@ max.character.level=140
 # Max virtue rank
 max.virtue.rank=80
 # Max item level for a legendary item
-max.li.itemLevel=470
+max.li.itemLevel=475
 
 # Current version
 current.version.name=18.2.31.1.3
