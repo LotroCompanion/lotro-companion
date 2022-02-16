@@ -117,20 +117,29 @@ public class ItemReferencesDisplayController
     buildHtmlForSets(sb,references);
     buildHtmlForContainers(sb,references);
     buildHtmlForMeldingRecipes(sb,references);
+    buildHtmlForSameCosmetics(sb,references);
     sb.append("</body></html>");
     return sb.toString();
   }
 
-  @SuppressWarnings("unchecked")
   private <T extends Identifiable> List<ItemReference<T>> getReferences(List<ItemReference<?>> references, Class<T> clazz)
+  {
+    return getReferences(references,clazz,null);
+  }
+
+  @SuppressWarnings("unchecked")
+  private <T extends Identifiable> List<ItemReference<T>> getReferences(List<ItemReference<?>> references, Class<T> clazz, ItemRole role)
   {
     List<ItemReference<T>> recipes=new ArrayList<ItemReference<T>>();
     for(ItemReference<?> reference : references)
     {
-      Identifiable source=reference.getSource();
-      if (clazz.isAssignableFrom(source.getClass()))
+      if ((role==null) || (reference.getRoles().contains(role)))
       {
-        recipes.add((ItemReference<T>)reference);
+        Identifiable source=reference.getSource();
+        if (clazz.isAssignableFrom(source.getClass()))
+        {
+          recipes.add((ItemReference<T>)reference);
+        }
       }
     }
     return recipes;
@@ -382,6 +391,28 @@ public class ItemReferencesDisplayController
       label=label+" ("+title+")";
     }
     return label;
+  }
+
+  private void buildHtmlForSameCosmetics(StringBuilder sb, List<ItemReference<?>> references)
+  {
+    List<ItemReference<Item>> sameCosmeticsReferences=getReferences(references,Item.class,ItemRole.SAME_COSMETICS);
+    if (sameCosmeticsReferences.size()>0)
+    {
+      sb.append("<h1>Items with same cosmetics</h1>");
+      for(ItemReference<Item> sameCosmeticsReference : sameCosmeticsReferences)
+      {
+        buildHtmlForSameCosmeticsReference(sb,sameCosmeticsReference.getSource());
+      }
+    }
+  }
+
+  private void buildHtmlForSameCosmeticsReference(StringBuilder sb, Item item)
+  {
+    sb.append("<p>");
+    sb.append("<b>");
+    PageIdentifier to=ReferenceConstants.getItemReference(item.getIdentifier());
+    HtmlUtils.printLink(sb,to.getFullAddress(),item.getName());
+    sb.append("</b></p>");
   }
 
   /**
