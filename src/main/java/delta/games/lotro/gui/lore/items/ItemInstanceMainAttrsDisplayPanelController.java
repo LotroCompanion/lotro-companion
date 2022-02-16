@@ -1,10 +1,12 @@
 package delta.games.lotro.gui.lore.items;
 
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
+import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -55,7 +57,7 @@ public class ItemInstanceMainAttrsDisplayPanelController
   // - Bound to
   // TODO
   // - Description
-  private JLabel _description;
+  private JEditorPane _description;
   // - User comments
   private LabeledComponent<JLabel> _userComments;
 
@@ -123,9 +125,26 @@ public class ItemInstanceMainAttrsDisplayPanelController
     // - Bound to
     // TODO
     // - Description
-    _description=GuiFactory.buildLabel("");
+    _description=GuiFactory.buildHtmlPanel();
+    _description.setPreferredSize(new Dimension(300,90));
     // - User comments
     _userComments=new LabeledComponent<JLabel>("Comments:",GuiFactory.buildLabel(""));
+  }
+
+  private void updateDescription()
+  {
+    Item item=_itemInstance.getReference();
+    String description=item.getDescription();
+    boolean hasDescription=(description.length()>0);
+    _description.setVisible(hasDescription);
+    if (hasDescription)
+    {
+      StringBuilder sb=new StringBuilder();
+      sb.append("<html><body>");
+      sb.append(HtmlUtils.toHtml(description));
+      sb.append("</body></html>");
+      _description.setText(sb.toString());
+    }
   }
 
   private JPanel build()
@@ -200,10 +219,8 @@ public class ItemInstanceMainAttrsDisplayPanelController
     }
     // Description
     {
-      JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
-      panel.add(panelLine,c);
+      panel.add(_description,c);
       c.gridy++;
-      panelLine.add(_description);
     }
     // User comments
     {
@@ -228,7 +245,6 @@ public class ItemInstanceMainAttrsDisplayPanelController
    */
   public void update()
   {
-    Item item=_itemInstance.getReference();
     // Instance ID
     InternalGameId instanceId=_itemInstance.getInstanceId();
     _instanceId.setVisible(instanceId!=null);
@@ -294,16 +310,7 @@ public class ItemInstanceMainAttrsDisplayPanelController
     // - Bound to
     // TODO
     // Description
-    String description=item.getDescription();
-    boolean hasDescription=(description.length()>0);
-    _description.setVisible(hasDescription);
-    // Adjust visibility of the parent panel
-    _description.getParent().setVisible(hasDescription);
-    if (hasDescription)
-    {
-      String html="<html>"+HtmlUtils.toHtml(description)+"</html>";
-      _description.setText(html);
-    }
+    updateDescription();
     // - User comments
     String userComments=_itemInstance.getProperty(ItemPropertyNames.USER_COMMENT);
     boolean hasUserComments=(userComments!=null);
