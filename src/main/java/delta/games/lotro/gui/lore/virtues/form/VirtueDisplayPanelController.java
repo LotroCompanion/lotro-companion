@@ -78,7 +78,8 @@ public class VirtueDisplayPanelController implements NavigablePanelController
     Component center=buildCenter();
     c=new GridBagConstraints(0,1,1,1,1.0,1.0,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
     panel.add(center,c);
-    panel.setPreferredSize(new Dimension(500,500));
+    Dimension preferredSize=panel.getPreferredSize();
+    panel.setPreferredSize(new Dimension(preferredSize.width+40,500));
     return panel;
   }
 

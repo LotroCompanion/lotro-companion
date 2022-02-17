@@ -1,6 +1,7 @@
 package delta.games.lotro.gui.lore.virtues.form;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 
 import javax.swing.JPanel;
 
@@ -47,11 +48,6 @@ public class VirtueStatsPanelController
 
   private JPanel build()
   {
-    /*
-    private StatsProvider _passives;
-    private Progression _maxRankForCharacterLevel;
-    private Map<Integer,Integer> _xpForTiers;
-    */
     StatsProvider statsProvider=_virtue.getStatsProvider();
     int nbStats=statsProvider.getNumberOfStatProviders();
     if (nbStats<1)
@@ -60,6 +56,23 @@ public class VirtueStatsPanelController
     }
     DataTable table=buildTable();
     RawTablePanelController tableController=new RawTablePanelController(table);
+    // Header cells
+    {
+      StatsProvider activeStatsProvider=_virtue.getStatsProvider();
+      int nbActiveStats=activeStatsProvider.getNumberOfStatProviders();
+      if (nbActiveStats>0)
+      {
+        String label=(nbActiveStats>1)?"Active bonuses":"Passive bonus";
+        tableController.setHeaderCell(1,nbActiveStats,label,Color.LIGHT_GRAY);
+      }
+      StatsProvider passiveStatsProvider=_virtue.getPassiveStatsProvider();
+      int nbPassiveStats=passiveStatsProvider.getNumberOfStatProviders();
+      if (nbPassiveStats>0)
+      {
+        String label=(nbPassiveStats>1)?"Passive bonuses":"Passive bonus";
+        tableController.setHeaderCell(1+nbActiveStats,nbPassiveStats,label,Color.LIGHT_GRAY);
+      }
+    }
     JPanel ret=GuiFactory.buildPanel(new BorderLayout());
     ret.add(tableController.getPanel(),BorderLayout.WEST);
     return ret;
@@ -91,7 +104,6 @@ public class VirtueStatsPanelController
 
     VirtuesContributionsMgr mgr=VirtuesContributionsMgr.get();
     // Rows
-
     int maxTier=80;
     for(int i=0;i<=maxTier;i++)
     {
