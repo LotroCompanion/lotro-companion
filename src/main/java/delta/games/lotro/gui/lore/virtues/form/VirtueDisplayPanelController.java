@@ -16,7 +16,6 @@ import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTabbedPane;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.navigator.NavigablePanelController;
@@ -38,7 +37,6 @@ public class VirtueDisplayPanelController implements NavigablePanelController
   // GUI
   private JPanel _panel;
   // Controllers
-  private TraitReferencesDisplayController _references;
   private VirtueStatsPanelController _stats;
 
   /**
@@ -49,7 +47,6 @@ public class VirtueDisplayPanelController implements NavigablePanelController
   public VirtueDisplayPanelController(NavigatorWindowController parent, VirtueDescription virtue)
   {
     _virtue=virtue;
-    _references=new TraitReferencesDisplayController(parent,virtue.getIdentifier());
     _stats=new VirtueStatsPanelController(virtue);
   }
 
@@ -107,41 +104,12 @@ public class VirtueDisplayPanelController implements NavigablePanelController
       y++;
     }
     // Build components for potential tabs
-    JEditorPane references=_references.getComponent();
     JPanel statsPanel=_stats.getPanel();
-    if ((references!=null) || (statsPanel!=null))
-    {
-      JTabbedPane tabbedPane=GuiFactory.buildTabbedPane();
-      // - scaling
-      if (statsPanel!=null)
-      {
-        tabbedPane.add("Stats",buildPanelForTab(statsPanel));
-      }
-      // - references
-      if (references!=null)
-      {
-        tabbedPane.add("References",buildPanelForTab(references));
-      }
-      GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(5,5,5,5),0,0);
-      panel.add(tabbedPane,c);
-      y++;
-    }
-    else
-    {
-      JPanel empty=GuiFactory.buildPanel(new BorderLayout());
-      GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(5,5,5,5),0,0);
-      panel.add(empty,c);
-      y++;
-    }
+    JScrollPane scrollPane=GuiFactory.buildScrollPane(statsPanel);
+    GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(5,5,5,5),0,0);
+    panel.add(scrollPane,c);
+    y++;
     return panel;
-  }
-
-  private JPanel buildPanelForTab(Component contents)
-  {
-    JPanel wrapper=GuiFactory.buildBackgroundPanel(new BorderLayout());
-    JScrollPane scrollPane=GuiFactory.buildScrollPane(contents);
-    wrapper.add(scrollPane,BorderLayout.CENTER);
-    return wrapper;
   }
 
   private JPanel buildTopPanel()
@@ -236,11 +204,6 @@ public class VirtueDisplayPanelController implements NavigablePanelController
     // Data
     _virtue=null;
     // Controllers
-    if (_references!=null)
-    {
-      _references.dispose();
-      _references=null;
-    }
     if (_stats!=null)
     {
       _stats.dispose();
