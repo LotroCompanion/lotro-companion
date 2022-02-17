@@ -22,10 +22,13 @@ import javax.swing.JTextField;
 import javax.swing.TransferHandler;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.labels.HyperLinkController;
 import delta.common.ui.swing.text.IntegerEditionController;
 import delta.common.ui.swing.text.NumberEditionController;
 import delta.common.ui.swing.text.NumberListener;
+import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.virtues.VirtueDescription;
+import delta.games.lotro.gui.lore.virtues.VirtueUiTools;
 
 /**
  * Gather UI items to edit a single virtue.
@@ -40,7 +43,7 @@ public class VirtueEditionUiController implements ActionListener
   private int _characterLevel;
   // Controllers/UI
   private VirtueIconController _iconController;
-  private JLabel _virtueName;
+  private HyperLinkController _virtueName;
   private JButton _plus;
   private IntegerEditionController _tierEdit;
   private JButton _minus;
@@ -64,10 +67,11 @@ public class VirtueEditionUiController implements ActionListener
 
   /**
    * Constructor.
+   * @param parent Parent window.
    * @param virtue Virtue to use.
    * @param characterLevel Character level.
    */
-  public VirtueEditionUiController(VirtueDescription virtue, int characterLevel)
+  public VirtueEditionUiController(WindowController parent, VirtueDescription virtue, int characterLevel)
   {
     _virtue=virtue;
     _tier=0;
@@ -88,7 +92,7 @@ public class VirtueEditionUiController implements ActionListener
       }
     });
     // Virtue name
-    _virtueName=GuiFactory.buildLabel(virtue.getName());
+    _virtueName=VirtueUiTools.buildVirtueLink(parent,virtue);
     // "+" button
     _plus=buildButton("circled_plus");
     // "-" button
@@ -136,7 +140,7 @@ public class VirtueEditionUiController implements ActionListener
     GridBagConstraints c=new GridBagConstraints(0,0,1,2,1.0,1.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(1,1,1,1),0,0);
     panel.add(_iconController.getLabel(),c);
     c=new GridBagConstraints(1,0,3,1,1.0,1.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(1,1,1,1),0,0);
-    panel.add(_virtueName,c);
+    panel.add(_virtueName.getLabel(),c);
     c=new GridBagConstraints(1,1,1,1,1.0,1.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(1,1,1,1),0,0);
     panel.add(_minus,c);
     c=new GridBagConstraints(2,1,1,1,1.0,1.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(1,1,1,1),0,0);
@@ -297,7 +301,11 @@ public class VirtueEditionUiController implements ActionListener
       _iconController.dispose();
       _iconController=null;
     }
-    _virtueName=null;
+    if (_virtueName!=null)
+    {
+      _virtueName.dispose();
+      _virtueName=null;
+    }
     _plus=null;
     if (_tierEdit!=null)
     {

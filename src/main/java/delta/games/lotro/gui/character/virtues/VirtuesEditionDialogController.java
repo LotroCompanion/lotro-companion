@@ -28,7 +28,7 @@ public class VirtuesEditionDialogController extends DefaultFormDialogController<
   public VirtuesEditionDialogController(WindowController parentController, VirtuesSet virtues, int characterLevel, VirtuesStatus status)
   {
     super(parentController,virtues);
-    _virtuesEdition=new VirtuesEditionPanelController(characterLevel,status);
+    _virtuesEdition=new VirtuesEditionPanelController(this,characterLevel,status);
     _virtuesEdition.setVirtues(virtues);
   }
 

@@ -27,6 +27,7 @@ import javax.swing.border.TitledBorder;
 import org.apache.log4j.Logger;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.stats.virtues.VirtuesSet;
 import delta.games.lotro.character.virtues.VirtueDescription;
 import delta.games.lotro.character.virtues.VirtuesManager;
@@ -45,6 +46,7 @@ public class VirtuesEditionPanelController implements TierValueListener,ActionLi
   private static final String REMOVE_COMMAND="remove";
 
   // Controllers
+  private WindowController _parent;
   private HashMap<VirtueDescription,VirtueEditionUiController> _virtues;
   private VirtuesDisplayPanelController _selectedVirtues;
   private VirtuesStatsPanelController _stats;
@@ -60,11 +62,13 @@ public class VirtuesEditionPanelController implements TierValueListener,ActionLi
 
   /**
    * Constructor.
+   * @param parent Parent window.
    * @param characterLevel Character level.
    * @param status Current virtues status.
    */
-  public VirtuesEditionPanelController(int characterLevel, VirtuesStatus status)
+  public VirtuesEditionPanelController(WindowController parent, int characterLevel, VirtuesStatus status)
   {
+    _parent=parent;
     _virtues=new HashMap<VirtueDescription,VirtueEditionUiController>();
     _characterLevel=characterLevel;
     _status=status;
@@ -177,7 +181,7 @@ public class VirtuesEditionPanelController implements TierValueListener,ActionLi
     List<VirtueDescription> virtues=VirtuesManager.getInstance().getAll();
     for(VirtueDescription virtue : virtues)
     {
-      VirtueEditionUiController ui=new VirtueEditionUiController(virtue,_characterLevel);
+      VirtueEditionUiController ui=new VirtueEditionUiController(_parent,virtue,_characterLevel);
       ui.setListener(this);
       int x=index/7;
       int y=index%7;
@@ -372,6 +376,7 @@ public class VirtuesEditionPanelController implements TierValueListener,ActionLi
   public void dispose()
   {
     // Controllers
+    _parent=null;
     if (_selectedVirtues!=null)
     {
       _selectedVirtues.dispose();

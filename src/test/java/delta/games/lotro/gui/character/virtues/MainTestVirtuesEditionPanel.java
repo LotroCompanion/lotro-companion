@@ -1,8 +1,6 @@
 package delta.games.lotro.gui.character.virtues;
 
-import javax.swing.JFrame;
-import javax.swing.WindowConstants;
-
+import delta.common.ui.swing.windows.DefaultDialogController;
 import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharactersManager;
@@ -31,12 +29,11 @@ public class MainTestVirtuesEditionPanel
     virtues.setSelectedVirtue(null,1);
     CharacterFile toon=CharactersManager.getInstance().getToonById("Landroval","Meva");
     VirtuesStatus status=VirtuesStatusIO.load(toon);
-    VirtuesEditionPanelController panelCtrl=new VirtuesEditionPanelController(meva.getLevel(),status);
+    DefaultDialogController window=new DefaultDialogController(null);
+    VirtuesEditionPanelController panelCtrl=new VirtuesEditionPanelController(window,meva.getLevel(),status);
     panelCtrl.setVirtues(virtues);
-    JFrame frame=new JFrame("Virtues edition");
-    frame.add(panelCtrl.getPanel());
-    frame.pack();
-    frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-    frame.setVisible(true);
+    window.getDialog().getContentPane().add(panelCtrl.getPanel());
+    window.pack();
+    window.show();
   }
 }
