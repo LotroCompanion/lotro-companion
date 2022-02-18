@@ -9,5 +9,5 @@ max.virtue.rank=80
 max.li.itemLevel=475
 
 # Current version
-current.version.name=18.2.31.1.3
-current.version.date=22/01/2022
+current.version.name=18.5.32.0
+current.version.date=18/02/2022
