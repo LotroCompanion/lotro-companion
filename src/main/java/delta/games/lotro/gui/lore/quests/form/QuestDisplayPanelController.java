@@ -8,6 +8,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.util.List;
 
+import javax.swing.Box;
 import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -24,6 +25,7 @@ import delta.games.lotro.common.ChallengeLevel;
 import delta.games.lotro.common.LockType;
 import delta.games.lotro.common.Repeatability;
 import delta.games.lotro.common.Size;
+import delta.games.lotro.common.requirements.AbstractAchievableRequirement;
 import delta.games.lotro.gui.common.requirements.RequirementsUtils;
 import delta.games.lotro.gui.common.rewards.form.RewardsPanelController;
 import delta.games.lotro.gui.lore.quests.ObjectivesDisplayBuilder;
@@ -55,7 +57,7 @@ public class QuestDisplayPanelController implements NavigablePanelController
   // Controllers
   private NavigatorWindowController _parent;
   private RewardsPanelController _rewards;
-  private QuestLinksDisplayPanelController _links;
+  private AbstractAchievableRequirementPanelController _achievablesRequirements;
 
   /**
    * Constructor.
@@ -180,13 +182,20 @@ public class QuestDisplayPanelController implements NavigablePanelController
       panelLine.add(_attributes);
     }
 
-    // Links
-    _links=new QuestLinksDisplayPanelController(_parent,_quest);
-    JPanel linksPanel=_links.getPanel();
+    // Achievables requirements
+    AbstractAchievableRequirement requirement=_quest.getQuestRequirements();
+    if (requirement!=null)
+    {
+      _achievablesRequirements=AchievableRequirementsPanelFactory.buildAchievableRequirementPanelController(_parent,requirement);
+      JPanel achievablesRequirementsPanel=_achievablesRequirements.getPanel();
+      c=new GridBagConstraints(0,c.gridy,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+      panel.add(achievablesRequirementsPanel,c);
+      achievablesRequirementsPanel.setBorder(GuiFactory.buildTitledBorder("Quests/deeds Requirements"));
+      c.gridy++;
+    }
+    // Push everything on left
     c=new GridBagConstraints(0,c.gridy,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
-    panel.add(linksPanel,c);
-    c.gridy++;
-
+    panel.add(Box.createHorizontalGlue(),c);
     return panel;
   }
 
@@ -378,10 +387,10 @@ public class QuestDisplayPanelController implements NavigablePanelController
       _rewards.dispose();
       _rewards=null;
     }
-    if (_links!=null)
+    if (_achievablesRequirements!=null)
     {
-      _links.dispose();
-      _links=null;
+      _achievablesRequirements.dispose();
+      _achievablesRequirements=null;
     }
     _parent=null;
     // UI
