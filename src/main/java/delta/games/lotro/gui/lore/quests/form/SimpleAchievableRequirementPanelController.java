@@ -115,6 +115,7 @@ public class SimpleAchievableRequirementPanelController extends AbstractAchievab
     if (operator==ComparisonOperator.NOT_EQUAL) return buildNotEqualRequirementLabel(questStatus);
     if (operator==ComparisonOperator.GREATER_OR_EQUAL) return buildGreaterOrEqualsRequirementLabel(questStatus);
     if (operator==ComparisonOperator.LESS) return buildLessRequirementLabel(questStatus);
+    LOGGER.warn("Unmanaged quest requirement operator: "+operator);
     return "??? "+ACHIEVABLE_LINK_SEED+" ???";
   }
 
@@ -123,6 +124,11 @@ public class SimpleAchievableRequirementPanelController extends AbstractAchievab
     if (status==QuestStatus.COMPLETED) return ACHIEVABLE_LINK_SEED+" is completed";
     if (status==QuestStatus.UNDERWAY) return ACHIEVABLE_LINK_SEED+" is underway";
     if (status==QuestStatus.FAILED) return ACHIEVABLE_LINK_SEED+" is failed";
+    int objectiveIndex=status.getObjectiveIndex();
+    if (objectiveIndex>0)
+    {
+      return ACHIEVABLE_LINK_SEED+" is underway (at objective "+objectiveIndex+")";
+    }
     return ACHIEVABLE_LINK_SEED+" is ???";
   }
 
@@ -142,6 +148,12 @@ public class SimpleAchievableRequirementPanelController extends AbstractAchievab
     {
       LOGGER.warn("Unexpected requirement combinaison: greater or equal "+status+" for "+_requirement.getQuestId());
     }
+    int objectiveIndex=status.getObjectiveIndex();
+    if (objectiveIndex>0)
+    {
+      return ACHIEVABLE_LINK_SEED+" is completed or underway (at least objective "+objectiveIndex+" done)";
+    }
+    LOGGER.warn("Unmanaged quest status: "+status);
     return "??? "+ACHIEVABLE_LINK_SEED+" ???";
   }
 
@@ -153,6 +165,7 @@ public class SimpleAchievableRequirementPanelController extends AbstractAchievab
     {
       LOGGER.warn("Unexpected requirement combinaison: greater or equal "+status+" for "+_requirement.getQuestId());
     }
+    LOGGER.warn("Unmanaged quest status: "+status);
     return "??? "+ACHIEVABLE_LINK_SEED+" ???";
   }
 
