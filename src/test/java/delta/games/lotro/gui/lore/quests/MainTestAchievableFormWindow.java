@@ -29,6 +29,9 @@ public class MainTestAchievableFormWindow
       quests.add(questsManager.getQuest(1879381530)); // Complex requirement
       quests.add(questsManager.getQuest(1879215269)); // Simple requirements
       quests.add(questsManager.getQuest(1879164570)); // No requirements
+      quests.add(questsManager.getQuest(1879385134)); // UnderwayX requirement
+      quests.add(questsManager.getQuest(1879386578)); // UnderwayX requirement
+      quests.add(questsManager.getQuest(1879198767)); // UnderwayX requirement: The Biggest Stomach of Them All
       for(QuestDescription quest : quests)
       {
         showAchievableWindow(quest);

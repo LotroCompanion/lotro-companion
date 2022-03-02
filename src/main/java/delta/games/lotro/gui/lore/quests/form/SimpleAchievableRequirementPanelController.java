@@ -127,8 +127,9 @@ public class SimpleAchievableRequirementPanelController extends AbstractAchievab
     int objectiveIndex=status.getObjectiveIndex();
     if (objectiveIndex>0)
     {
-      return ACHIEVABLE_LINK_SEED+" is underway (at objective "+objectiveIndex+")";
+      return ACHIEVABLE_LINK_SEED+" is underway at objective "+objectiveIndex;
     }
+    LOGGER.warn("Unmanaged quest status: "+status);
     return ACHIEVABLE_LINK_SEED+" is ???";
   }
 
@@ -137,6 +138,12 @@ public class SimpleAchievableRequirementPanelController extends AbstractAchievab
     if (status==QuestStatus.COMPLETED) return ACHIEVABLE_LINK_SEED+" is not completed";
     if (status==QuestStatus.UNDERWAY) return ACHIEVABLE_LINK_SEED+" is not underway";
     if (status==QuestStatus.FAILED) return ACHIEVABLE_LINK_SEED+" is not failed";
+    int objectiveIndex=status.getObjectiveIndex();
+    if (objectiveIndex>0)
+    {
+      return ACHIEVABLE_LINK_SEED+" is not underway at objective "+objectiveIndex;
+    }
+    LOGGER.warn("Unmanaged quest status: "+status);
     return ACHIEVABLE_LINK_SEED+" is not ???";
   }
 
@@ -151,7 +158,7 @@ public class SimpleAchievableRequirementPanelController extends AbstractAchievab
     int objectiveIndex=status.getObjectiveIndex();
     if (objectiveIndex>0)
     {
-      return ACHIEVABLE_LINK_SEED+" is completed or underway (at least objective "+objectiveIndex+" done)";
+      return ACHIEVABLE_LINK_SEED+" is completed or underway with at least objective "+objectiveIndex+" done";
     }
     LOGGER.warn("Unmanaged quest status: "+status);
     return "??? "+ACHIEVABLE_LINK_SEED+" ???";
