@@ -1,9 +1,9 @@
 package delta.games.lotro.gui.character.status.currencies;
 
 import delta.games.lotro.character.CharacterFile;
+import delta.games.lotro.character.storage.currencies.CurrenciesManager;
 import delta.games.lotro.character.storage.currencies.Currency;
 import delta.games.lotro.character.storage.currencies.CurrencyHistory;
-import delta.games.lotro.character.storage.currencies.io.CurrenciesIo;
 import delta.games.lotro.character.utils.MultipleToonsStats;
 
 /**
@@ -26,6 +26,7 @@ public class MultipleToonsCurrencyHistory extends MultipleToonsStats<CurrencyHis
   @Override
   protected CurrencyHistory loadToonStats(CharacterFile toon)
   {
-    return CurrenciesIo.load(toon,_currency);
+    CurrenciesManager mgr=new CurrenciesManager(toon);
+    return mgr.getHistory(_currency);
   }
 }
