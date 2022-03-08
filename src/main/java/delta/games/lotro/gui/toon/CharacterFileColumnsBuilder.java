@@ -1,5 +1,6 @@
 package delta.games.lotro.gui.toon;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,6 +9,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 import delta.common.ui.swing.tables.CellDataProvider;
 import delta.common.ui.swing.tables.DefaultTableColumnController;
+import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.GenericTableController.DateRenderer;
 import delta.common.ui.swing.tables.ProxiedTableColumnController;
 import delta.common.ui.swing.tables.TableColumnController;
@@ -21,6 +23,7 @@ import delta.games.lotro.gui.lore.items.chooser.ItemsTableBuilder;
 import delta.games.lotro.lore.titles.TitleDescription;
 import delta.games.lotro.lore.titles.TitlesManager;
 import delta.games.lotro.utils.Formats;
+import delta.games.lotro.utils.l10n.LocalizedFormats;
 
 /**
  * Builds column definitions for CharacterFile data.
@@ -79,6 +82,8 @@ public class CharacterFileColumnsBuilder
       };
       DefaultTableColumnController<CharacterFile,Long> xpColumn=new DefaultTableColumnController<CharacterFile,Long>(ToonsTableColumnIds.XP.name(),"XP",Long.class,xpCell);
       xpColumn.setWidthSpecs(80,80,80);
+      NumberFormat format=LocalizedFormats.getIntegerNumberFormat();
+      xpColumn.setCellRenderer(new GenericTableController.NumberRenderer(format));
       ret.add(xpColumn);
     }
     // In-game time column

@@ -13,6 +13,7 @@ import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.character.storage.statistics.StorageStatistics;
 import delta.games.lotro.character.storage.statistics.reputation.StorageReputationStats;
 import delta.games.lotro.gui.common.money.MoneyDisplayController;
+import delta.games.lotro.utils.l10n.L10n;
 
 /**
  * Controller for a panel to show the summary of the statistics about stored items.
@@ -79,12 +80,14 @@ public class StorageStatisticsSummaryPanelController
     StorageReputationStats reputation=_statistics.getReputationStats();
     int nbFactions=reputation.getFactionsCount();
     int nbReputationPoints=reputation.getTotalReputationPoints();
-    String reputationStr=String.format("%d points, %d factions",Integer.valueOf(nbReputationPoints),Integer.valueOf(nbFactions));
+    String nbReputationPointsStr=L10n.getString(nbReputationPoints);
+    String reputationStr=String.format("%s points, %d factions",nbReputationPointsStr,Integer.valueOf(nbFactions));
     _reputation.setText(reputationStr);
     // Price
     _priceDisplay.setMoney(_statistics.getTotalValue());
     // XP
-    _totalItemXP.setText(String.valueOf(_statistics.getTotalItemXP()));
+    long totalItemXP=_statistics.getTotalItemXP();
+    _totalItemXP.setText(L10n.getString(totalItemXP));
   }
 
   /**

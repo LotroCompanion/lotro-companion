@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.icons.IconsManager;
 import delta.games.lotro.common.money.Money;
+import delta.games.lotro.utils.l10n.L10n;
 
 /**
  * Controller for a panel to display a money amount.
@@ -79,13 +80,13 @@ public class MoneyDisplayController
   {
     // Gold
     int gold=money.getGoldCoins();
-    _gold.setText(String.valueOf(gold));
+    _gold.setText(L10n.getString(gold));
     // Silver
     int silver=money.getSilverCoins();
-    _silver.setText(String.valueOf(silver));
+    _silver.setText(L10n.getString(silver));
     // Copper
     int copper=money.getCopperCoins();
-    _copper.setText(String.valueOf(copper));
+    _copper.setText(L10n.getString(copper));
   }
 
   /**
