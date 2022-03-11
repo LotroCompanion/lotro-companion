@@ -12,6 +12,7 @@ import delta.games.lotro.character.status.skirmishes.SkirmishLevel;
 import delta.games.lotro.character.status.skirmishes.SkirmishStats;
 import delta.games.lotro.common.enums.GroupSize;
 import delta.games.lotro.gui.utils.DurationCellRenderer;
+import delta.games.lotro.gui.utils.l10n.ColumnsUtils;
 
 /**
  * Builds column definitions for {@link SkirmishEntry} data.
@@ -109,7 +110,7 @@ public class SkirmishEntryColumnsBuilder
         }
       };
       DefaultTableColumnController<SkirmishStats,Integer> column=new DefaultTableColumnController<SkirmishStats,Integer>(SkirmishEntryColumnIds.MONSTER_KILLS.name(),"Mob Kills",Integer.class,cell);
-      column.setWidthSpecs(50,50,50);
+      ColumnsUtils.configureIntegerColumn(column,50);
       ret.add(column);
     }
     // Lieutenant kills
@@ -123,7 +124,7 @@ public class SkirmishEntryColumnsBuilder
         }
       };
       DefaultTableColumnController<SkirmishStats,Integer> column=new DefaultTableColumnController<SkirmishStats,Integer>(SkirmishEntryColumnIds.LIEUTENANT_KILLS.name(),"Lt Kills",Integer.class,cell);
-      column.setWidthSpecs(50,50,50);
+      ColumnsUtils.configureIntegerColumn(column,50);
       ret.add(column);
     }
     // Boss kills
@@ -137,7 +138,7 @@ public class SkirmishEntryColumnsBuilder
         }
       };
       DefaultTableColumnController<SkirmishStats,Integer> column=new DefaultTableColumnController<SkirmishStats,Integer>(SkirmishEntryColumnIds.BOSS_KILLS.name(),"Boss Kills",Integer.class,cell);
-      column.setWidthSpecs(50,50,50);
+      ColumnsUtils.configureIntegerColumn(column,50);
       ret.add(column);
     }
     // Boss resets
@@ -151,7 +152,7 @@ public class SkirmishEntryColumnsBuilder
         }
       };
       DefaultTableColumnController<SkirmishStats,Integer> column=new DefaultTableColumnController<SkirmishStats,Integer>(SkirmishEntryColumnIds.BOSS_RESETS.name(),"Boss Resets",Integer.class,cell);
-      column.setWidthSpecs(50,50,50);
+      ColumnsUtils.configureIntegerColumn(column,50);
       ret.add(column);
     }
     // Defenders lost
@@ -165,7 +166,7 @@ public class SkirmishEntryColumnsBuilder
         }
       };
       DefaultTableColumnController<SkirmishStats,Integer> column=new DefaultTableColumnController<SkirmishStats,Integer>(SkirmishEntryColumnIds.DEFENDERS_LOST.name(),"Def.Lost",Integer.class,cell);
-      column.setWidthSpecs(50,50,50);
+      ColumnsUtils.configureIntegerColumn(column,50);
       ret.add(column);
     }
     // Defenders saved
@@ -179,7 +180,7 @@ public class SkirmishEntryColumnsBuilder
         }
       };
       DefaultTableColumnController<SkirmishStats,Integer> column=new DefaultTableColumnController<SkirmishStats,Integer>(SkirmishEntryColumnIds.DEFENDERS_SAVED.name(),"Def.Saved",Integer.class,cell);
-      column.setWidthSpecs(50,50,50);
+      ColumnsUtils.configureIntegerColumn(column,50);
       ret.add(column);
     }
     // Soldier deaths
@@ -193,7 +194,7 @@ public class SkirmishEntryColumnsBuilder
         }
       };
       DefaultTableColumnController<SkirmishStats,Integer> column=new DefaultTableColumnController<SkirmishStats,Integer>(SkirmishEntryColumnIds.SOLDIER_DEATHS.name(),"Soldier Deaths",Integer.class,cell);
-      column.setWidthSpecs(50,50,50);
+      ColumnsUtils.configureIntegerColumn(column,50);
       ret.add(column);
     }
     // Control Points taken
@@ -207,7 +208,7 @@ public class SkirmishEntryColumnsBuilder
         }
       };
       DefaultTableColumnController<SkirmishStats,Integer> column=new DefaultTableColumnController<SkirmishStats,Integer>(SkirmishEntryColumnIds.CONTROL_POINTS_TAKEN.name(),"CP Taken",Integer.class,cell);
-      column.setWidthSpecs(50,50,50);
+      ColumnsUtils.configureIntegerColumn(column,50);
       ret.add(column);
     }
     // Encounters completed
@@ -221,7 +222,7 @@ public class SkirmishEntryColumnsBuilder
         }
       };
       DefaultTableColumnController<SkirmishStats,Integer> column=new DefaultTableColumnController<SkirmishStats,Integer>(SkirmishEntryColumnIds.ENCOUNTERS_COMPLETED.name(),"Encounters Completed",Integer.class,cell);
-      column.setWidthSpecs(50,50,50);
+      ColumnsUtils.configureIntegerColumn(column,50);
       ret.add(column);
     }
     // Play time
@@ -251,7 +252,7 @@ public class SkirmishEntryColumnsBuilder
         }
       };
       DefaultTableColumnController<SkirmishStats,Integer> column=new DefaultTableColumnController<SkirmishStats,Integer>(SkirmishEntryColumnIds.SKIRMISHES_COMPLETED.name(),"Completed",Integer.class,cell);
-      column.setWidthSpecs(50,50,50);
+      ColumnsUtils.configureIntegerColumn(column,50);
       ret.add(column);
     }
     // Skirmishes attempted
@@ -265,7 +266,7 @@ public class SkirmishEntryColumnsBuilder
         }
       };
       DefaultTableColumnController<SkirmishStats,Integer> column=new DefaultTableColumnController<SkirmishStats,Integer>(SkirmishEntryColumnIds.SKIRMISHES_ATTEMPTED.name(),"Attempted",Integer.class,cell);
-      column.setWidthSpecs(50,50,50);
+      ColumnsUtils.configureIntegerColumn(column,50);
       ret.add(column);
     }
     // Best time
@@ -295,7 +296,7 @@ public class SkirmishEntryColumnsBuilder
         }
       };
       DefaultTableColumnController<SkirmishStats,Integer> column=new DefaultTableColumnController<SkirmishStats,Integer>(SkirmishEntryColumnIds.TOTAL_MARKS_EARNED.name(),"Marks",Integer.class,cell);
-      column.setWidthSpecs(50,50,50);
+      ColumnsUtils.configureIntegerColumn(column,50);
       ret.add(column);
     }
     return ret;

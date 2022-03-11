@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.character.status.recipes.RecipesStatistics;
+import delta.games.lotro.utils.l10n.L10n;
 
 /**
  * Controller for a "recipes stats" display panel.
@@ -95,7 +96,7 @@ public class RecipesStatsDisplayPanelController
     if (total>0)
     {
       double percentage=(100.0*count)/total;
-      displayStr=String.format("%d / %d (%.1f%%)",Integer.valueOf(count),Integer.valueOf(total),Double.valueOf(percentage));
+      displayStr=String.format("%s / %s (%.1f%%)",L10n.getString(count),L10n.getString(total),Double.valueOf(percentage));
     }
     gadget.setText(displayStr);
   }

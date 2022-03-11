@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.character.status.skirmishes.SkirmishStats;
 import delta.games.lotro.common.Duration;
+import delta.games.lotro.utils.l10n.L10n;
 
 /**
  * Controller for a "skirmish stats" display panel.
@@ -117,33 +118,33 @@ public class SkirmishStatsDisplayPanelController
   public void updateUI(SkirmishStats stats)
   {
     // Monster kills
-    _monsterKills.setText(String.valueOf(stats.getMonsterKills()));
+    _monsterKills.setText(L10n.getString(stats.getMonsterKills()));
     // Lieutenant kills
-    _lieutenantKills.setText(String.valueOf(stats.getLieutenantKills()));
+    _lieutenantKills.setText(L10n.getString(stats.getLieutenantKills()));
     // Boss kills
-    _bossKills.setText(String.valueOf(stats.getBossKills()));
+    _bossKills.setText(L10n.getString(stats.getBossKills()));
     // Boss resets
-    _bossResets.setText(String.valueOf(stats.getBossResets()));
+    _bossResets.setText(L10n.getString(stats.getBossResets()));
     // Defenders lost
-    _defendersLost.setText(String.valueOf(stats.getDefendersLost()));
+    _defendersLost.setText(L10n.getString(stats.getDefendersLost()));
     // Defenders saved
-    _defendersSaved.setText(String.valueOf(stats.getDefendersSaved()));
+    _defendersSaved.setText(L10n.getString(stats.getDefendersSaved()));
     // Soldier deaths
-    _soldiersDeaths.setText(String.valueOf(stats.getSoldiersDeaths()));
+    _soldiersDeaths.setText(L10n.getString(stats.getSoldiersDeaths()));
     // Control points taken
-    _controlPointsTaken.setText(String.valueOf(stats.getControlPointsTaken()));
+    _controlPointsTaken.setText(L10n.getString(stats.getControlPointsTaken()));
     // Encounters completed
-    _encountersCompleted.setText(String.valueOf(stats.getEncountersCompleted()));
+    _encountersCompleted.setText(L10n.getString(stats.getEncountersCompleted()));
     // Play time
     _playTime.setText(Duration.getDurationString((int)stats.getPlayTime()));
     // Skirmishes completed
-    _skirmishesCompleted.setText(String.valueOf(stats.getSkirmishesCompleted()));
+    _skirmishesCompleted.setText(L10n.getString(stats.getSkirmishesCompleted()));
     // Skirmishes attempted
-    _skirmishesAttempted.setText(String.valueOf(stats.getSkirmishesAttempted()));
+    _skirmishesAttempted.setText(L10n.getString(stats.getSkirmishesAttempted()));
     // Best time
     _bestTime.setText(Duration.getDurationString((int)stats.getBestTime()));
     // Total marks earned
-    _totalMarksEarned.setText(String.valueOf(stats.getTotalMarksEarned()));
+    _totalMarksEarned.setText(L10n.getString(stats.getTotalMarksEarned()));
   }
 
   /**

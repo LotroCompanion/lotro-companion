@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.icons.IconsManager;
+import delta.games.lotro.utils.l10n.L10n;
 
 /**
  * Controller for a panel to display XP rewards.
@@ -84,15 +85,16 @@ public class XpRewardsDisplayController
     // XP
     _xp.setVisible(xp>0);
     _xpIcon.setVisible(xp>0);
-    _xp.setText(String.valueOf(xp));
+    
+    _xp.setText(L10n.getString(xp));
     // Item XP
     _itemXp.setVisible(itemXp>0);
     _itemXpIcon.setVisible(itemXp>0);
-    _itemXp.setText(String.valueOf(itemXp));
+    _itemXp.setText(L10n.getString(itemXp));
     // Mount XP
     _mountXp.setVisible(mountXp>0);
     _mountXpIcon.setVisible(mountXp>0);
-    _mountXp.setText(String.valueOf(mountXp));
+    _mountXp.setText(L10n.getString(mountXp));
   }
 
   /**

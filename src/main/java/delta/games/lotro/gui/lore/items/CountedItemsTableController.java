@@ -19,10 +19,10 @@ import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.lore.items.chooser.ItemChooser;
 import delta.games.lotro.gui.lore.items.chooser.ItemsTableBuilder;
+import delta.games.lotro.gui.utils.l10n.ColumnsUtils;
 import delta.games.lotro.lore.items.CountedItem;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemProvider;
-import delta.games.lotro.utils.l10n.LocalizedFormats;
 
 /**
  * Controller for a table that shows counted items.
@@ -216,8 +216,7 @@ public class CountedItemsTableController<T extends ItemProvider>
         }
       };
       DefaultTableColumnController<CountedItem<T>,Integer> countColumn=new DefaultTableColumnController<CountedItem<T>,Integer>(COUNT_COLUMN,"Count",Integer.class,countCell);
-      countColumn.setWidthSpecs(55,55,50);
-      countColumn.setCellRenderer(new GenericTableController.NumberRenderer(LocalizedFormats.getIntegerNumberFormat()));
+      ColumnsUtils.configureIntegerColumn(countColumn,55);
       ret.add(countColumn);
     }
     return ret;

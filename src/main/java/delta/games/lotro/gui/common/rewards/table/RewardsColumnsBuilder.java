@@ -10,6 +10,7 @@ import delta.games.lotro.common.rewards.ReputationReward;
 import delta.games.lotro.common.rewards.Rewards;
 import delta.games.lotro.common.rewards.TitleReward;
 import delta.games.lotro.common.rewards.TraitReward;
+import delta.games.lotro.gui.utils.l10n.ColumnsUtils;
 
 /**
  * Builder for columns that show rewards data.
@@ -121,7 +122,7 @@ public class RewardsColumnsBuilder
         }
       };
       DefaultTableColumnController<Rewards,Integer> virtueXpColumn=new DefaultTableColumnController<Rewards,Integer>(RewardsColumnIds.VIRTUE_XP.name(),"Virtue XP",Integer.class,virtueXpCell);
-      virtueXpColumn.setWidthSpecs(60,60,60);
+      ColumnsUtils.configureIntegerColumn(virtueXpColumn);
       ret.add(virtueXpColumn);
     }
     return ret;
@@ -143,7 +144,7 @@ public class RewardsColumnsBuilder
       }
     };
     DefaultTableColumnController<Rewards,Integer> xpColumn=new DefaultTableColumnController<Rewards,Integer>(RewardsColumnIds.XP.name(),"XP",Integer.class,xpCell);
-    xpColumn.setWidthSpecs(60,60,60);
+    ColumnsUtils.configureIntegerColumn(xpColumn);
     return xpColumn;
   }
 
@@ -163,7 +164,7 @@ public class RewardsColumnsBuilder
       }
     };
     DefaultTableColumnController<Rewards,Integer> itemXpColumn=new DefaultTableColumnController<Rewards,Integer>(RewardsColumnIds.ITEM_XP.name(),"Item XP",Integer.class,itemXpCell);
-    itemXpColumn.setWidthSpecs(60,60,60);
+    ColumnsUtils.configureIntegerColumn(itemXpColumn);
     return itemXpColumn;
   }
 
@@ -183,7 +184,7 @@ public class RewardsColumnsBuilder
       }
     };
     DefaultTableColumnController<Rewards,Integer> mountXpColumn=new DefaultTableColumnController<Rewards,Integer>(RewardsColumnIds.MOUNT_XP.name(),"Mount XP",Integer.class,mountXpCell);
-    mountXpColumn.setWidthSpecs(60,60,60);
+    ColumnsUtils.configureIntegerColumn(mountXpColumn);
     return mountXpColumn;
   }
 
