@@ -10,16 +10,16 @@ import delta.games.lotro.utils.charts.DatedCurve;
  * Provider for currency history curves.
  * @author DAM
  */
-public class CurrencyHistoryCurveProvider implements DatedCurveProvider<CurrencyHistory>
+public class CurrencyHistoryCurveProvider implements DatedCurveProvider<CurrencyHistoryCurve>
 {
-  private static int count=0;
   @Override
-  public DatedCurve<?> getCurve(CurrencyHistory source)
+  public DatedCurve<?> getCurve(CurrencyHistoryCurve source)
   {
-    Currency currency=source.getCurrency();
-    CurrencyStorage storage=source.getStorage();
-    String name=currency.getName()+" #"+count;
-    count++;
+    CurrencyHistory history=source.getHistory();
+    Currency currency=history.getCurrency();
+    int factor=currency.getFactor();
+    CurrencyStorage storage=history.getStorage();
+    String name=source.getName();
     DatedCurve<Float> curve=new DatedCurve<Float>(name);
     int nbPoints=storage.getPoints();
     for(int i=0;i<nbPoints;i++)
@@ -28,7 +28,7 @@ public class CurrencyHistoryCurveProvider implements DatedCurveProvider<Currency
       Integer intValue=storage.getValueAtIndex(i);
       if (intValue!=null)
       {
-        Float value=Float.valueOf(intValue.floatValue()/100/1000);
+        Float value=Float.valueOf(intValue.floatValue()/factor);
         curve.addValue(time.longValue(),value);
       }
     }

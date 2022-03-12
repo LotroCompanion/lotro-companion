@@ -10,7 +10,7 @@ import delta.games.lotro.character.utils.MultipleToonsStats;
  * Currency history for several toons.
  * @author DAM
  */
-public class MultipleToonsCurrencyHistory extends MultipleToonsStats<CurrencyHistory>
+public class MultipleToonsCurrencyHistory extends MultipleToonsStats<CurrencyHistoryCurve>
 {
   private Currency _currency;
 
@@ -24,9 +24,12 @@ public class MultipleToonsCurrencyHistory extends MultipleToonsStats<CurrencyHis
   }
 
   @Override
-  protected CurrencyHistory loadToonStats(CharacterFile toon)
+  protected CurrencyHistoryCurve loadToonStats(CharacterFile toon)
   {
     CurrenciesManager mgr=new CurrenciesManager(toon);
-    return mgr.getHistory(_currency);
+    CurrencyHistory history=mgr.getHistory(_currency);
+    String name=toon.getName();
+    CurrencyHistoryCurve curve=new CurrencyHistoryCurve(name,history);
+    return curve;
   }
 }

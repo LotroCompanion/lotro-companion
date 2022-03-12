@@ -16,7 +16,6 @@ import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharactersManager;
 import delta.games.lotro.character.storage.currencies.Currencies;
 import delta.games.lotro.character.storage.currencies.Currency;
-import delta.games.lotro.character.storage.currencies.CurrencyHistory;
 import delta.games.lotro.character.storage.currencies.CurrencyKeys;
 import delta.games.lotro.gui.character.status.curves.DatedCurvesChartConfiguration;
 import delta.games.lotro.utils.charts.MultipleToonsDatedCurvesChartPanelController;
@@ -30,7 +29,7 @@ public class CurrencyHistoryWindowController extends DefaultWindowController
   private static final String PREFERENCES_NAME="currencyHistory";
   private static final String TOON_NAMES_PREFERENCE="currencyHistory.registered.toon";
 
-  private MultipleToonsDatedCurvesChartPanelController<CurrencyHistory> _panelController;
+  private MultipleToonsDatedCurvesChartPanelController<CurrencyHistoryCurve> _panelController;
   private MultipleToonsCurrencyHistory _stats;
   private Currency _currency=Currencies.get().getByKey(CurrencyKeys.GOLD);
 
@@ -60,7 +59,7 @@ public class CurrencyHistoryWindowController extends DefaultWindowController
     configuration.setChartTitle(_currency.getName());
     configuration.setValueAxisLabel("Amount");
     configuration.setValueAxisTicks(new double[]{1,10,100,1000});
-    _panelController=new MultipleToonsDatedCurvesChartPanelController<CurrencyHistory>(this,_stats,provider,configuration);
+    _panelController=new MultipleToonsDatedCurvesChartPanelController<CurrencyHistoryCurve>(this,_stats,provider,configuration);
   }
 
   @Override
@@ -76,7 +75,7 @@ public class CurrencyHistoryWindowController extends DefaultWindowController
    */
   public static String getIdentifier()
   {
-    return "LEVELLING";
+    return "CURRENCY_HISTORY";
   }
 
   @Override
@@ -84,7 +83,7 @@ public class CurrencyHistoryWindowController extends DefaultWindowController
   {
     JFrame frame=super.build();
     // Title
-    String title="Characters levelling";
+    String title="Currency history";
     frame.setTitle(title);
     frame.pack();
     frame.setMinimumSize(new Dimension(500,380));
