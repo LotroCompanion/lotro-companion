@@ -1,6 +1,5 @@
 package delta.games.lotro.gui.lore.deeds.form;
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -8,6 +7,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
+import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JEditorPane;
 import javax.swing.JLabel;
@@ -22,10 +22,13 @@ import delta.common.ui.swing.navigator.NavigablePanelController;
 import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.games.lotro.common.ChallengeLevel;
+import delta.games.lotro.common.requirements.AbstractAchievableRequirement;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.common.requirements.RequirementsUtils;
 import delta.games.lotro.gui.common.rewards.form.RewardsPanelController;
 import delta.games.lotro.gui.lore.quests.ObjectivesDisplayBuilder;
+import delta.games.lotro.gui.lore.quests.form.AbstractAchievableRequirementPanelController;
+import delta.games.lotro.gui.lore.quests.form.AchievableRequirementsPanelFactory;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.DeedType;
 import delta.games.lotro.utils.gui.HtmlUtils;
@@ -53,6 +56,7 @@ public class DeedDisplayPanelController implements NavigablePanelController
   // Controllers
   private NavigatorWindowController _parent;
   private RewardsPanelController _rewards;
+  private AbstractAchievableRequirementPanelController _achievablesRequirements;
 
   /**
    * Constructor.
@@ -122,17 +126,19 @@ public class DeedDisplayPanelController implements NavigablePanelController
       // Icon
       _icon=GuiFactory.buildIconLabel(null);
       panelLine.add(_icon);
+      panel.add(panelLine,c);
+      c.gridy++;
       // Name
       _name=GuiFactory.buildLabel("");
       _name.setFont(_name.getFont().deriveFont(16f).deriveFont(Font.BOLD));
       panelLine.add(_name);
-      panel.add(panelLine,c);
-      c.gridy++;
     }
 
     // Line 2
     {
       JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
+      panel.add(panelLine,c);
+      c.gridy++;
       // Category
       panelLine.add(GuiFactory.buildLabel("Category: "));
       _category=GuiFactory.buildLabel("");
@@ -141,28 +147,26 @@ public class DeedDisplayPanelController implements NavigablePanelController
       panelLine.add(GuiFactory.buildLabel("Type: "));
       _type=GuiFactory.buildLabel("");
       panelLine.add(_type);
-      panel.add(panelLine,c);
-      c.gridy++;
     }
     // Line 3 (challenge level)
     {
       JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
+      panel.add(panelLine,c);
+      c.gridy++;
       // Challenge level
       panelLine.add(GuiFactory.buildLabel("Level: "));
       _challengeLevel=GuiFactory.buildLabel("");
       panelLine.add(_challengeLevel);
-      panel.add(panelLine,c);
-      c.gridy++;
     }
     // Line 4
     {
       JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
+      panel.add(panelLine,c);
+      c.gridy++;
       // Requirements
       panelLine.add(GuiFactory.buildLabel("Requirements: "));
       _requirements=GuiFactory.buildLabel("");
       panelLine.add(_requirements);
-      panel.add(panelLine,c);
-      c.gridy++;
     }
     // Line 5 (attributes)
     {
@@ -173,12 +177,21 @@ public class DeedDisplayPanelController implements NavigablePanelController
       _attributes=GuiFactory.buildLabel("");
       panelLine.add(_attributes);
     }
-    // Padding to push everything on left
-    JPanel paddingPanel=GuiFactory.buildPanel(new BorderLayout());
-    c.fill=GridBagConstraints.HORIZONTAL;
-    c.weightx=1.0;
-    panel.add(paddingPanel,c);
 
+    // Achievables requirements
+    AbstractAchievableRequirement requirement=_deed.getQuestRequirements();
+    if (requirement!=null)
+    {
+      _achievablesRequirements=AchievableRequirementsPanelFactory.buildAchievableRequirementPanelController(_parent,requirement);
+      JPanel achievablesRequirementsPanel=_achievablesRequirements.getPanel();
+      c=new GridBagConstraints(0,c.gridy,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+      panel.add(achievablesRequirementsPanel,c);
+      achievablesRequirementsPanel.setBorder(GuiFactory.buildTitledBorder("Quests/deeds Requirements"));
+      c.gridy++;
+    }
+    // Padding to push everything on left
+    c=new GridBagConstraints(0,c.gridy,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    panel.add(Box.createHorizontalGlue(),c);
     return panel;
   }
 
@@ -284,6 +297,11 @@ public class DeedDisplayPanelController implements NavigablePanelController
     {
       _rewards.dispose();
       _rewards=null;
+    }
+    if (_achievablesRequirements!=null)
+    {
+      _achievablesRequirements.dispose();
+      _achievablesRequirements=null;
     }
     _parent=null;
     // UI
