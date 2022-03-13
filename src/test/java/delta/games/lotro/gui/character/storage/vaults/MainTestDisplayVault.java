@@ -1,11 +1,11 @@
 package delta.games.lotro.gui.character.storage.vaults;
 
 import delta.games.lotro.account.Account;
-import delta.games.lotro.account.AccountsManager;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharactersManager;
 import delta.games.lotro.character.storage.vaults.Vault;
 import delta.games.lotro.character.storage.vaults.io.VaultsIo;
+import delta.games.lotro.character.utils.CharacterUtils;
 import delta.games.lotro.gui.character.storage.vault.VaultWindowController;
 
 /**
@@ -20,16 +20,11 @@ public class MainTestDisplayVault
     CharacterFile toon=mgr.getToonById("Landroval","Backstaba");
 
     Vault sharedVault=null;
-    String accountName=toon.getAccountName();
     String serverName=toon.getServerName();
-    if ((accountName.length()>0) && (serverName.length()>0))
+    Account account=CharacterUtils.getAccount(toon);
+    if (account!=null)
     {
-      AccountsManager accountsMgr=AccountsManager.getInstance();
-      Account account=accountsMgr.getAccountByName(accountName);
-      if (account!=null)
-      {
-        sharedVault=VaultsIo.load(account,serverName);
-      }
+      sharedVault=VaultsIo.load(account,serverName);
     }
     Vault ownVault=VaultsIo.load(toon);
 
