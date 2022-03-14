@@ -80,6 +80,7 @@ public class SingleCurrencyHistoryPanelController
     configuration.setChartTitle(currency.getName());
     configuration.setValueAxisLabel("Amount");
     configuration.setValueAxisTicks(new double[]{1,10,100,1000,10000,100000});
+    configuration.setUseSquareMoves(false);
     _panelController=new DatedCurvesChartController(provider,configuration);
   }
 

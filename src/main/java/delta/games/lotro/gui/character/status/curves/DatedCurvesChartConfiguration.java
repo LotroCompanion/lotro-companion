@@ -10,15 +10,18 @@ public class DatedCurvesChartConfiguration
   private String _timeAxisLabel;
   private String _valueAxisLabel;
   private double[] _valueAxisTicks;
+  private boolean _useSquareMoves;
 
   /**
    * Constructor.
    */
-  public DatedCurvesChartConfiguration() {
-    _chartTitle = "???";
-    _timeAxisLabel = "Time";
-    _valueAxisLabel = "Values";
-    _valueAxisTicks = null;
+  public DatedCurvesChartConfiguration()
+  {
+    _chartTitle="???";
+    _timeAxisLabel="Time";
+    _valueAxisLabel="Values";
+    _valueAxisTicks=null;
+    _useSquareMoves=true;
   }
 
   /**
@@ -82,5 +85,23 @@ public class DatedCurvesChartConfiguration
   public void setValueAxisTicks(double[] ticks)
   {
     _valueAxisTicks = ticks;
+  }
+
+  /**
+   * Get the the 'use square moves' flag.
+   * @return a boolean value.
+   */
+  public boolean useSquareMoves()
+  {
+    return _useSquareMoves;
+  }
+
+  /**
+   * Set the the 'use square moves' flag.
+   * @param useSquareMoves Value to set.
+   */
+  public void setUseSquareMoves(boolean useSquareMoves)
+  {
+    _useSquareMoves=useSquareMoves;
   }
 }

@@ -51,7 +51,6 @@ public class DatedCurvesChartController
   private DatedCurvesProvider _provider;
   // Configuration
   private DatedCurvesChartConfiguration _configuration; 
-  private boolean _fluent=false;
   // Internal cooking
   private HashMap<String,Integer> _curveIds2SeriesIndex;
 
@@ -243,6 +242,7 @@ public class DatedCurvesChartController
 
   private void addSeriesForCurve(XYSeriesCollection data, String curveId)
   {
+    boolean useSquareMoves=_configuration.useSquareMoves();
     DatedCurve<?> curve=_provider.getCurve(curveId);
     if (curve!=null)
     {
@@ -257,7 +257,7 @@ public class DatedCurvesChartController
         if (objectValue instanceof Number)
         {
           double value=((Number)objectValue).doubleValue();
-          if (!_fluent)
+          if (useSquareMoves)
           {
             if ((lastDate!=0) && (lastDate!=date))
             {
