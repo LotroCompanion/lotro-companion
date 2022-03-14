@@ -81,7 +81,6 @@ public class SingleCurrencyHistoryWindowController extends DefaultDialogControll
     super(parent);
     _panelController=panelController;
     _currencyChoice=new CurrencyChoicePanelController(scopes);
-    _panelController.setCurve(_currencyChoice.getCurrencySelector().getSelectedItem());
   }
 
   @Override
@@ -102,18 +101,19 @@ public class SingleCurrencyHistoryWindowController extends DefaultDialogControll
     _chartHostPanel=GuiFactory.buildPanel(new BorderLayout());
     c=new GridBagConstraints(0,1,1,1,1.0,1.0,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
     ret.add(_chartHostPanel,c);
+    Currency toShow=_currencyChoice.getCurrencySelector().getSelectedItem();
+    handleCurrencyChange(toShow);
     return ret;
   }
 
   private void handleCurrencyChange(Currency currency)
   {
-    System.out.println("Using currency: "+currency);
     _panelController.setCurve(currency);
     // Update contents
     _chartHostPanel.removeAll();
-   _chartHostPanel.add(_panelController.getPanelController().getPanel(),BorderLayout.CENTER);
-   _chartHostPanel.revalidate();
-   _chartHostPanel.repaint();
+    _chartHostPanel.add(_panelController.getPanelController().getPanel(),BorderLayout.CENTER);
+    _chartHostPanel.revalidate();
+    _chartHostPanel.repaint();
   }
 
   /**
