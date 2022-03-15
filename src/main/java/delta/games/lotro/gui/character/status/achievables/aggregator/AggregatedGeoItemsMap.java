@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.character.status.achievables;
+package delta.games.lotro.gui.character.status.achievables.aggregator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,29 +7,46 @@ import delta.games.lotro.character.status.achievables.edition.AchievableStatusGe
 import delta.games.lotro.lore.maps.MapDescription;
 
 /**
- * @author dm
+ * A map that contains an aggregation of achievable geo points.
+ * @author DAM
  */
-public class MarkersMapDescriptor
+public class AggregatedGeoItemsMap
 {
   private MapDescription _map;
   private List<AchievableStatusGeoItem> _points;
 
-  public MarkersMapDescriptor(MapDescription map)
+  /**
+   * Constructor.
+   * @param map Targeted map.
+   */
+  public AggregatedGeoItemsMap(MapDescription map)
   {
     _map=map;
     _points=new ArrayList<AchievableStatusGeoItem>();
   }
 
+  /**
+   * Get the targeted map.
+   * @return A map description.
+   */
   public MapDescription getMap()
   {
     return _map;
   }
 
+  /**
+   * Add a point to show.
+   * @param point Point to add.
+   */
   public void addPoint(AchievableStatusGeoItem point)
   {
     _points.add(point);
   }
 
+  /**
+   * Get the managed points.
+   * @return a list of points.
+   */
   public List<AchievableStatusGeoItem> getPoints()
   {
     return _points;
