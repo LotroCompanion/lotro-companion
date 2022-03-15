@@ -5,7 +5,10 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.swing.JComponent;
@@ -18,9 +21,12 @@ import delta.common.ui.swing.windows.DefaultDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.account.Account;
 import delta.games.lotro.character.CharacterFile;
+import delta.games.lotro.character.storage.currencies.Currencies;
 import delta.games.lotro.character.storage.currencies.CurrenciesFacade;
 import delta.games.lotro.character.storage.currencies.Currency;
+import delta.games.lotro.character.storage.currencies.CurrencyKeys;
 import delta.games.lotro.common.Scope;
+import delta.games.lotro.common.comparators.NamedComparator;
 
 /**
  * Controller for a "currency history" window.
@@ -48,7 +54,9 @@ public class SingleCurrencyHistoryWindowController extends DefaultDialogControll
     Set<Scope> scopes=new HashSet<Scope>();
     scopes.add(Scope.SERVER);
     scopes.add(Scope.ACCOUNT);
-    SingleCurrencyHistoryWindowController ret=new SingleCurrencyHistoryWindowController(parent,panel,scopes);
+    List<Currency> currencies=getCurrencies(scopes);
+    List<Currency> selectedCurrencies=getSelectedCurrencies(scopes);
+    SingleCurrencyHistoryWindowController ret=new SingleCurrencyHistoryWindowController(parent,panel,currencies,selectedCurrencies);
     return ret;
   }
 
@@ -66,7 +74,51 @@ public class SingleCurrencyHistoryWindowController extends DefaultDialogControll
     scopes.add(Scope.CHARACTER);
     scopes.add(Scope.SERVER);
     scopes.add(Scope.ACCOUNT);
-    SingleCurrencyHistoryWindowController ret=new SingleCurrencyHistoryWindowController(parent,panel,scopes);
+    List<Currency> currencies=getCurrencies(scopes);
+    List<Currency> selectedCurrencies=getSelectedCurrencies(scopes);
+    SingleCurrencyHistoryWindowController ret=new SingleCurrencyHistoryWindowController(parent,panel,currencies,selectedCurrencies);
+    return ret;
+  }
+
+  private static List<Currency> getCurrencies(Set<Scope> scopes)
+  {
+    List<Currency> ret=new ArrayList<Currency>();
+    for(Currency currency : Currencies.get().getCurrencies())
+    {
+      if (scopes.contains(currency.getScope()))
+      {
+        ret.add(currency);
+      }
+    }
+    Collections.sort(ret,new NamedComparator());
+    return ret;
+  }
+
+  private static List<Currency> getSelectedCurrencies(Set<Scope> scopes)
+  {
+    List<String> keys=new ArrayList<String>();
+    if (scopes.contains(Scope.CHARACTER))
+    {
+      keys.add(CurrencyKeys.GOLD);
+    }
+    if (scopes.contains(Scope.SERVER))
+    {
+      keys.add(CurrencyKeys.MEDALLIONS);
+      keys.add(CurrencyKeys.MARKS);
+      keys.add(CurrencyKeys.SEALS);
+      keys.add("1879352247"); // Motes of Enchantment
+      keys.add("1879377205"); // Embers of Enchantment
+    }
+    List<Currency> ret=new ArrayList<Currency>();
+    for(String key : keys)
+    {
+      Currency currency=Currencies.get().getByKey(key);
+      if ((currency!=null) && (scopes.contains(currency.getScope())))
+      {
+        ret.add(currency);
+      }
+    }
+    //Collections.sort(ret,new NamedComparator());
     return ret;
   }
 
@@ -74,13 +126,14 @@ public class SingleCurrencyHistoryWindowController extends DefaultDialogControll
    * Constructor.
    * @param parent Parent window.
    * @param panelController Currency history display panel.
-   * @param scopes Scopes to use.
+   * @param currencies Currencies to use.
+   * @param selectedCurrencies Selected currencies.
    */
-  public SingleCurrencyHistoryWindowController(WindowController parent, SingleCurrencyHistoryPanelController panelController, Set<Scope> scopes)
+  public SingleCurrencyHistoryWindowController(WindowController parent, SingleCurrencyHistoryPanelController panelController, List<Currency> currencies, List<Currency> selectedCurrencies)
   {
     super(parent);
     _panelController=panelController;
-    _currencyChoice=new CurrencyChoicePanelController(scopes);
+    _currencyChoice=new CurrencyChoicePanelController(this,currencies,selectedCurrencies);
   }
 
   @Override
@@ -108,10 +161,18 @@ public class SingleCurrencyHistoryWindowController extends DefaultDialogControll
 
   private void handleCurrencyChange(Currency currency)
   {
-    _panelController.setCurve(currency);
-    // Update contents
     _chartHostPanel.removeAll();
-    _chartHostPanel.add(_panelController.getPanelController().getPanel(),BorderLayout.CENTER);
+    JPanel toUse=null;
+    if (currency!=null)
+    {
+      _panelController.setCurve(currency);
+      toUse=_panelController.getPanelController().getPanel();
+    }
+    else
+    {
+      toUse=GuiFactory.buildPanel(new BorderLayout());
+    }
+    _chartHostPanel.add(toUse,BorderLayout.CENTER);
     _chartHostPanel.revalidate();
     _chartHostPanel.repaint();
   }

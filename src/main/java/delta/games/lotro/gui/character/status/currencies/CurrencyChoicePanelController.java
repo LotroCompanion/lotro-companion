@@ -1,19 +1,19 @@
 package delta.games.lotro.gui.character.status.currencies;
 
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
+import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.combobox.ComboBoxController;
-import delta.games.lotro.character.storage.currencies.Currencies;
+import delta.common.ui.swing.combobox.ComboBoxItem;
+import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.storage.currencies.Currency;
-import delta.games.lotro.common.Scope;
-import delta.games.lotro.common.comparators.NamedComparator;
 
 /**
  * Controller for a currency choice panel.
@@ -21,45 +21,71 @@ import delta.games.lotro.common.comparators.NamedComparator;
  */
 public class CurrencyChoicePanelController
 {
+  // Data
+  private List<Currency> _currencies;
+  private List<Currency> _selectedCurrencies;
   // Controllers
+  private WindowController _parent;
   private ComboBoxController<Currency> _currencySelector;
   // UI
   private JPanel _panel;
 
   /**
    * Constructor.
-   * @param scopes Scopes to use.
+   * @param parent Parent window.
+   * @param currencies Currencies to use.
+   * @param selectedCurrencies Selected currencies.
    */
-  public CurrencyChoicePanelController(Set<Scope> scopes)
+  public CurrencyChoicePanelController(WindowController parent, List<Currency> currencies, List<Currency> selectedCurrencies)
   {
-    List<Currency> currencies=getCurrencies(scopes);
-    _currencySelector=buildCurrencyCombo(currencies);
+    _parent=parent;
+    _currencies=new ArrayList<Currency>(currencies);
+    _selectedCurrencies=new ArrayList<Currency>(selectedCurrencies);
+    _currencySelector=buildCurrencyCombo(selectedCurrencies);
     _panel=buildPanel();
-  }
-
-  private List<Currency> getCurrencies(Set<Scope> scopes)
-  {
-    List<Currency> ret=new ArrayList<Currency>();
-    for(Currency currency : Currencies.get().getCurrencies())
-    {
-      if (scopes.contains(currency.getScope()))
-      {
-        ret.add(currency);
-      }
-    }
-    Collections.sort(ret,new NamedComparator());
-    return ret;
   }
 
   private ComboBoxController<Currency> buildCurrencyCombo(List<Currency> currencies)
   {
     ComboBoxController<Currency> ctrl=new ComboBoxController<Currency>();
+    updateCurrencyCombo(ctrl,currencies);
+    if (currencies.size()>0)
+    {
+      ctrl.selectItem(currencies.get(0));
+    }
+    return ctrl;
+  }
+
+  private void updateCurrencyCombo(ComboBoxController<Currency> ctrl, List<Currency> currencies)
+  {
+    List<ComboBoxItem<Currency>> items=new ArrayList<ComboBoxItem<Currency>>();
     for(Currency currency : currencies)
     {
-      ctrl.addItem(currency,currency.getName());
+      ComboBoxItem<Currency> item=new ComboBoxItem<Currency>(currency,currency.getName());
+      items.add(item);
     }
-    ctrl.selectItem(currencies.get(0));
-    return ctrl;
+    ctrl.updateItems(items);
+  }
+
+  private JButton buildCurrenciesChooserButton()
+  {
+    JButton ret=GuiFactory.buildButton("Choose currencies...");
+    ActionListener al=new ActionListener()
+    {
+      @Override
+      public void actionPerformed(ActionEvent e)
+      {
+        List<Currency> selectedCurrencies=CurrenciesChooserController.selectCurrencies(_parent,_currencies,_selectedCurrencies);
+        if (selectedCurrencies!=null)
+        {
+          _selectedCurrencies.clear();
+          _selectedCurrencies.addAll(selectedCurrencies);
+          updateCurrencyCombo(_currencySelector,_selectedCurrencies);
+        }
+      }
+    };
+    ret.addActionListener(al);
+    return ret;
   }
 
   private JPanel buildPanel()
@@ -67,6 +93,8 @@ public class CurrencyChoicePanelController
     JPanel ret=GuiFactory.buildPanel(new FlowLayout());
     ret.add(GuiFactory.buildLabel("Currency: "));
     ret.add(_currencySelector.getComboBox());
+    JButton chooser=buildCurrenciesChooserButton();
+    ret.add(chooser);
     return ret;
   }
 
