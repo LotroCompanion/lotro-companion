@@ -57,6 +57,7 @@ public class QuestDisplayPanelController implements NavigablePanelController
   // Controllers
   private NavigatorWindowController _parent;
   private RewardsPanelController _rewards;
+  private QuestLinksDisplayPanelController _links;
   private AbstractAchievableRequirementPanelController _achievablesRequirements;
 
   /**
@@ -181,6 +182,13 @@ public class QuestDisplayPanelController implements NavigablePanelController
       _attributes=GuiFactory.buildLabel("");
       panelLine.add(_attributes);
     }
+
+    // Links
+    _links=new QuestLinksDisplayPanelController(_parent,_quest);
+    JPanel linksPanel=_links.getPanel();
+    c=new GridBagConstraints(0,c.gridy,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    panel.add(linksPanel,c);
+    c.gridy++;
 
     // Achievables requirements
     AbstractAchievableRequirement requirement=_quest.getQuestRequirements();
@@ -386,6 +394,11 @@ public class QuestDisplayPanelController implements NavigablePanelController
     {
       _rewards.dispose();
       _rewards=null;
+    }
+    if (_links!=null)
+    {
+      _links.dispose();
+      _links=null;
     }
     if (_achievablesRequirements!=null)
     {
