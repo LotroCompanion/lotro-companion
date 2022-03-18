@@ -40,46 +40,6 @@ public class SingleCurrencyHistoryWindowController extends DefaultDialogControll
   // UI
   private JPanel _chartHostPanel;
 
-  /**
-   * Build a window controller to show account/server currencies.
-   * @param parent Parent window.
-   * @param account Account.
-   * @param serverName Server name.
-   * @return A window controller.
-   */
-  public static SingleCurrencyHistoryWindowController buildAccountServerWindow(WindowController parent, Account account, String serverName)
-  {
-    CurrenciesFacade facade=new CurrenciesFacade(account,serverName);
-    SingleCurrencyHistoryPanelController panel=new SingleCurrencyHistoryPanelController(facade);
-    Set<Scope> scopes=new HashSet<Scope>();
-    scopes.add(Scope.SERVER);
-    scopes.add(Scope.ACCOUNT);
-    List<Currency> currencies=getCurrencies(scopes);
-    List<Currency> selectedCurrencies=getSelectedCurrencies(scopes);
-    SingleCurrencyHistoryWindowController ret=new SingleCurrencyHistoryWindowController(parent,panel,currencies,selectedCurrencies);
-    return ret;
-  }
-
-  /**
-   * Build a window controller to show character currencies.
-   * @param parent Parent window.
-   * @param toon Character to use.
-   * @return A window controller.
-   */
-  public static SingleCurrencyHistoryWindowController buildCharacterWindow(WindowController parent, CharacterFile toon)
-  {
-    CurrenciesFacade facade=new CurrenciesFacade(toon);
-    SingleCurrencyHistoryPanelController panel=new SingleCurrencyHistoryPanelController(facade);
-    Set<Scope> scopes=new HashSet<Scope>();
-    scopes.add(Scope.CHARACTER);
-    scopes.add(Scope.SERVER);
-    scopes.add(Scope.ACCOUNT);
-    List<Currency> currencies=getCurrencies(scopes);
-    List<Currency> selectedCurrencies=getSelectedCurrencies(scopes);
-    SingleCurrencyHistoryWindowController ret=new SingleCurrencyHistoryWindowController(parent,panel,currencies,selectedCurrencies);
-    return ret;
-  }
-
   private static List<Currency> getCurrencies(Set<Scope> scopes)
   {
     List<Currency> ret=new ArrayList<Currency>();
@@ -125,16 +85,43 @@ public class SingleCurrencyHistoryWindowController extends DefaultDialogControll
   /**
    * Constructor.
    * @param parent Parent window.
-   * @param panelController Currency history display panel.
-   * @param currencies Currencies to use.
-   * @param selectedCurrencies Selected currencies.
+   * @param toon Character to use.
    */
-  public SingleCurrencyHistoryWindowController(WindowController parent, SingleCurrencyHistoryPanelController panelController, List<Currency> currencies, List<Currency> selectedCurrencies)
+  public SingleCurrencyHistoryWindowController(WindowController parent, CharacterFile toon)
   {
     super(parent);
-    _panelController=panelController;
+    CurrenciesFacade facade=new CurrenciesFacade(toon);
+    _panelController=new SingleCurrencyHistoryPanelController(facade);
+    Set<Scope> scopes=new HashSet<Scope>();
+    scopes.add(Scope.CHARACTER);
+    scopes.add(Scope.SERVER);
+    scopes.add(Scope.ACCOUNT);
+    List<Currency> currencies=getCurrencies(scopes);
+    // TODO Use preferences
+    List<Currency> selectedCurrencies=getSelectedCurrencies(scopes);
     _currencyChoice=new CurrencyChoicePanelController(this,currencies,selectedCurrencies);
   }
+
+  /**
+   * Constructor.
+   * @param parent Parent window.
+   * @param account Account to use.
+   * @param serverName Server name.
+   */
+  public SingleCurrencyHistoryWindowController(WindowController parent, Account account, String serverName)
+  {
+    super(parent);
+    CurrenciesFacade facade=new CurrenciesFacade(account,serverName);
+    _panelController=new SingleCurrencyHistoryPanelController(facade);
+    Set<Scope> scopes=new HashSet<Scope>();
+    scopes.add(Scope.SERVER);
+    scopes.add(Scope.ACCOUNT);
+    List<Currency> currencies=getCurrencies(scopes);
+    // TODO Use preferences
+    List<Currency> selectedCurrencies=getSelectedCurrencies(scopes);
+    _currencyChoice=new CurrencyChoicePanelController(this,currencies,selectedCurrencies);
+  }
+
 
   @Override
   protected JComponent buildContents()

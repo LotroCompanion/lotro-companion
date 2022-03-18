@@ -20,11 +20,11 @@ public class MainTestSingleCurrencyHistoryWindowController
     // Account/server
     Account account=AccountsManager.getInstance().getAccountByName("glorfindel666");
     String serverName="Landroval";
-    SingleCurrencyHistoryWindowController controller=SingleCurrencyHistoryWindowController.buildAccountServerWindow(null,account,serverName);
+    SingleCurrencyHistoryWindowController controller=new SingleCurrencyHistoryWindowController(null,account,serverName);
     controller.show();
     // Character
     CharacterFile toon=CharactersManager.getInstance().getToonById(serverName,"Meva");
-    SingleCurrencyHistoryWindowController controller2=SingleCurrencyHistoryWindowController.buildCharacterWindow(null,toon);
+    SingleCurrencyHistoryWindowController controller2=new SingleCurrencyHistoryWindowController(null,toon);
     controller2.show();
   }
 }
