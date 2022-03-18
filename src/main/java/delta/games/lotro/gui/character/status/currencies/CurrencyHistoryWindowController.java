@@ -59,6 +59,7 @@ public class CurrencyHistoryWindowController extends DefaultWindowController
     configuration.setChartTitle(_currency.getName());
     configuration.setValueAxisLabel("Amount");
     configuration.setValueAxisTicks(new double[]{1,10,100,1000});
+    configuration.setUseSquareMoves(false);
     _panelController=new MultipleToonsDatedCurvesChartPanelController<CurrencyHistoryCurve>(this,_stats,provider,configuration);
   }
 
