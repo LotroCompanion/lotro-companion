@@ -13,6 +13,7 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.common.ui.swing.combobox.ComboBoxItem;
 import delta.common.ui.swing.windows.WindowController;
+import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.character.storage.currencies.Currency;
 
 /**
@@ -24,6 +25,7 @@ public class CurrencyChoicePanelController
   // Data
   private List<Currency> _currencies;
   private List<Currency> _selectedCurrencies;
+  private TypedProperties _preferences;
   // Controllers
   private WindowController _parent;
   private ComboBoxController<Currency> _currencySelector;
@@ -34,14 +36,15 @@ public class CurrencyChoicePanelController
    * Constructor.
    * @param parent Parent window.
    * @param currencies Currencies to use.
-   * @param selectedCurrencies Selected currencies.
+   * @param preferences Preferences to use.
    */
-  public CurrencyChoicePanelController(WindowController parent, List<Currency> currencies, List<Currency> selectedCurrencies)
+  public CurrencyChoicePanelController(WindowController parent, List<Currency> currencies, TypedProperties preferences)
   {
     _parent=parent;
     _currencies=new ArrayList<Currency>(currencies);
-    _selectedCurrencies=new ArrayList<Currency>(selectedCurrencies);
-    _currencySelector=buildCurrencyCombo(selectedCurrencies);
+    _preferences=preferences;
+    _selectedCurrencies=CurrenciesPreferences.getSelectedCurrencies(_preferences);
+    _currencySelector=buildCurrencyCombo(_selectedCurrencies);
     _panel=buildPanel();
   }
 
@@ -121,10 +124,22 @@ public class CurrencyChoicePanelController
    */
   public void dispose()
   {
+    // Data
+    CurrenciesPreferences.saveSelectedCurrencies(_selectedCurrencies,_preferences);
+    _currencies=null;
+    _selectedCurrencies=null;
+    // Controllers
+    _parent=null;
     if (_currencySelector!=null)
     {
       _currencySelector.dispose();
       _currencySelector=null;
+    }
+    // UI
+    if (_panel!=null)
+    {
+      _panel.removeAll();
+      _panel=null;
     }
   }
 }

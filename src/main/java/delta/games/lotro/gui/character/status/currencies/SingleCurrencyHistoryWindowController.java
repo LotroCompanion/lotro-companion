@@ -19,14 +19,16 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.combobox.ItemSelectionListener;
 import delta.common.ui.swing.windows.DefaultDialogController;
 import delta.common.ui.swing.windows.WindowController;
+import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.account.Account;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.storage.currencies.Currencies;
 import delta.games.lotro.character.storage.currencies.CurrenciesFacade;
 import delta.games.lotro.character.storage.currencies.Currency;
-import delta.games.lotro.character.storage.currencies.CurrencyKeys;
 import delta.games.lotro.common.Scope;
 import delta.games.lotro.common.comparators.NamedComparator;
+import delta.games.lotro.gui.account.AccountPreferencesManager;
+import delta.games.lotro.gui.character.CharacterPreferencesManager;
 
 /**
  * Controller for a "currency history" window.
@@ -39,6 +41,8 @@ public class SingleCurrencyHistoryWindowController extends DefaultDialogControll
   private CurrencyChoicePanelController _currencyChoice;
   // UI
   private JPanel _chartHostPanel;
+  // Data
+  private TypedProperties _preferences;
 
   private static List<Currency> getCurrencies(Set<Scope> scopes)
   {
@@ -51,34 +55,6 @@ public class SingleCurrencyHistoryWindowController extends DefaultDialogControll
       }
     }
     Collections.sort(ret,new NamedComparator());
-    return ret;
-  }
-
-  private static List<Currency> getSelectedCurrencies(Set<Scope> scopes)
-  {
-    List<String> keys=new ArrayList<String>();
-    if (scopes.contains(Scope.CHARACTER))
-    {
-      keys.add(CurrencyKeys.GOLD);
-    }
-    if (scopes.contains(Scope.SERVER))
-    {
-      keys.add(CurrencyKeys.MEDALLIONS);
-      keys.add(CurrencyKeys.MARKS);
-      keys.add(CurrencyKeys.SEALS);
-      keys.add("1879352247"); // Motes of Enchantment
-      keys.add("1879377205"); // Embers of Enchantment
-    }
-    List<Currency> ret=new ArrayList<Currency>();
-    for(String key : keys)
-    {
-      Currency currency=Currencies.get().getByKey(key);
-      if ((currency!=null) && (scopes.contains(currency.getScope())))
-      {
-        ret.add(currency);
-      }
-    }
-    //Collections.sort(ret,new NamedComparator());
     return ret;
   }
 
@@ -97,9 +73,8 @@ public class SingleCurrencyHistoryWindowController extends DefaultDialogControll
     scopes.add(Scope.SERVER);
     scopes.add(Scope.ACCOUNT);
     List<Currency> currencies=getCurrencies(scopes);
-    // TODO Use preferences
-    List<Currency> selectedCurrencies=getSelectedCurrencies(scopes);
-    _currencyChoice=new CurrencyChoicePanelController(this,currencies,selectedCurrencies);
+    _preferences=CharacterPreferencesManager.getUserProperties(toon,CurrenciesPreferences.CURRENCIES_PREFERENCES_ID);
+    _currencyChoice=new CurrencyChoicePanelController(this,currencies,_preferences);
   }
 
   /**
@@ -117,9 +92,8 @@ public class SingleCurrencyHistoryWindowController extends DefaultDialogControll
     scopes.add(Scope.SERVER);
     scopes.add(Scope.ACCOUNT);
     List<Currency> currencies=getCurrencies(scopes);
-    // TODO Use preferences
-    List<Currency> selectedCurrencies=getSelectedCurrencies(scopes);
-    _currencyChoice=new CurrencyChoicePanelController(this,currencies,selectedCurrencies);
+    _preferences=AccountPreferencesManager.getPreferencesProperties(account,serverName,CurrenciesPreferences.CURRENCIES_PREFERENCES_ID);
+    _currencyChoice=new CurrencyChoicePanelController(this,currencies,_preferences);
   }
 
 

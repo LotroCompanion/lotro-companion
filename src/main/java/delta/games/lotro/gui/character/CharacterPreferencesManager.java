@@ -7,6 +7,7 @@ import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.character.CharacterEquipment.EQUIMENT_SLOT;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.common.CharacterClass;
+import delta.games.lotro.gui.character.status.currencies.CurrenciesPreferences;
 import delta.games.lotro.gui.lore.items.chooser.ItemChoiceTableColumnsManager;
 import delta.games.lotro.gui.lore.items.chooser.ItemChooser;
 import delta.games.lotro.gui.lore.items.essences.EssenceChoice;
@@ -25,43 +26,32 @@ public class CharacterPreferencesManager
    */
   public static TypedProperties getUserProperties(CharacterFile toonFile, String id)
   {
-    TypedProperties props=null;
+    Preferences prefs=toonFile.getPreferences();
+    TypedProperties props=prefs.getPreferences(id);
     if (id.startsWith(ItemChooser.ITEM_CHOOSER_PROPERTIES_ID))
     {
-      if (toonFile!=null)
+      List<String> columnIds=props.getStringList(ItemChooser.COLUMNS_PROPERTY);
+      if (columnIds==null)
       {
-        Preferences prefs=toonFile.getPreferences();
-        props=prefs.getPreferences(id);
-        List<String> columnIds=props.getStringList(ItemChooser.COLUMNS_PROPERTY);
-        if (columnIds==null)
-        {
-          columnIds=ItemChoiceTableColumnsManager.getItemChoiceItemColumns();
-          columnIds.addAll(getDefaultItemColumnsUsingClassAndSlot(toonFile,id));
-          props.setStringList(ItemChooser.COLUMNS_PROPERTY,columnIds);
-          prefs.savePreferences(props);
-        }
+        columnIds=ItemChoiceTableColumnsManager.getItemChoiceItemColumns();
+        columnIds.addAll(getDefaultItemColumnsUsingClassAndSlot(toonFile,id));
+        props.setStringList(ItemChooser.COLUMNS_PROPERTY,columnIds);
+        prefs.savePreferences(props);
       }
     }
     else if (id.startsWith(ItemChooser.ITEM_INSTANCE_CHOOSER_PROPERTIES_ID))
     {
-      if (toonFile!=null)
+      List<String> columnIds=props.getStringList(ItemChooser.COLUMNS_PROPERTY);
+      if (columnIds==null)
       {
-        Preferences prefs=toonFile.getPreferences();
-        props=prefs.getPreferences(id);
-        List<String> columnIds=props.getStringList(ItemChooser.COLUMNS_PROPERTY);
-        if (columnIds==null)
-        {
-          columnIds=ItemChoiceTableColumnsManager.getItemInstanceChoiceItemColumns();
-          columnIds.addAll(getDefaultItemColumnsUsingClassAndSlot(toonFile,id));
-          props.setStringList(ItemChooser.COLUMNS_PROPERTY,columnIds);
-          prefs.savePreferences(props);
-        }
+        columnIds=ItemChoiceTableColumnsManager.getItemInstanceChoiceItemColumns();
+        columnIds.addAll(getDefaultItemColumnsUsingClassAndSlot(toonFile,id));
+        props.setStringList(ItemChooser.COLUMNS_PROPERTY,columnIds);
+        prefs.savePreferences(props);
       }
     }
     else if (EssenceChoice.ESSENCE_CHOOSER_PROPERTIES_ID.equals(id))
     {
-      Preferences prefs=toonFile.getPreferences();
-      props=prefs.getPreferences(id);
       List<String> columnIds=props.getStringList(ItemChooser.COLUMNS_PROPERTY);
       if (columnIds==null)
       {
@@ -71,10 +61,15 @@ public class CharacterPreferencesManager
         prefs.savePreferences(props);
       }
     }
-    else
+    else if (CurrenciesPreferences.CURRENCIES_PREFERENCES_ID.equals(id))
     {
-      Preferences prefs=toonFile.getPreferences();
-      props=prefs.getPreferences(id);
+      List<String> currencyKeys=props.getStringList(CurrenciesPreferences.SELECTED_CURRENCIES_PROPERTY_NAME);
+      if (currencyKeys==null)
+      {
+        currencyKeys=CurrenciesPreferences.getDefaultCurrenciesForCharacter();
+        props.setStringList(CurrenciesPreferences.SELECTED_CURRENCIES_PROPERTY_NAME,currencyKeys);
+        prefs.savePreferences(props);
+      }
     }
     return props;
   }
