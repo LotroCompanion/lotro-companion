@@ -11,7 +11,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 
@@ -98,7 +97,7 @@ public class SingleCurrencyHistoryWindowController extends DefaultDisplayDialogC
 
 
   @Override
-  protected JComponent buildContents()
+  protected JPanel buildFormPanel()
   {
     ItemSelectionListener<Currency> listener=new ItemSelectionListener<Currency>()
     {
@@ -152,6 +151,7 @@ public class SingleCurrencyHistoryWindowController extends DefaultDisplayDialogC
   {
     JDialog dialog=super.build();
     dialog.setMinimumSize(new Dimension(500,380));
+    dialog.setTitle("Currencies");
     dialog.pack();
     return dialog;
   }

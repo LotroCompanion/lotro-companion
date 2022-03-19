@@ -14,10 +14,12 @@ import javax.swing.JTable;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.ui.swing.windows.WindowsManager;
+import delta.common.utils.misc.Preferences;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.account.Account;
 import delta.games.lotro.account.AccountUtils;
 import delta.games.lotro.character.CharacterFile;
+import delta.games.lotro.gui.character.status.currencies.SingleCurrencyHistoryWindowController;
 import delta.games.lotro.gui.character.storage.account.AccountStorageDisplayWindowController;
 import delta.games.lotro.gui.main.GlobalPreferences;
 import delta.games.lotro.gui.toon.ToonsTableController;
@@ -29,6 +31,7 @@ import delta.games.lotro.gui.toon.ToonsTableController;
 public class AccountServerPanelController implements ActionListener
 {
   private static final String STORAGE_COMMAND="storage";
+  private static final String CURRENCIES_COMMAND="currencies";
 
   // Data
   private Account _account;
@@ -105,6 +108,9 @@ public class AccountServerPanelController implements ActionListener
     // Storage
     JButton storageButton=buildCommandButton("Storage",STORAGE_COMMAND);
     panel.add(storageButton);
+    // Currencies
+    JButton currenciesButton=buildCommandButton("Currencies",CURRENCIES_COMMAND);
+    panel.add(currenciesButton);
 
     return panel;
   }
@@ -129,6 +135,10 @@ public class AccountServerPanelController implements ActionListener
     {
       showStorage();
     }
+    else if (CURRENCIES_COMMAND.equals(command))
+    {
+      showCurrencies();
+    }
   }
 
   private void showStorage()
@@ -143,14 +153,23 @@ public class AccountServerPanelController implements ActionListener
     summaryController.bringToFront();
   }
 
+  private void showCurrencies()
+  {
+    SingleCurrencyHistoryWindowController summaryController=(SingleCurrencyHistoryWindowController)_windowsManager.getWindow(SingleCurrencyHistoryWindowController.getIdentifier());
+    if (summaryController==null)
+    {
+      summaryController=new SingleCurrencyHistoryWindowController(_parent,_account,_server);
+      _windowsManager.registerWindow(summaryController);
+      summaryController.getWindow().setLocationRelativeTo(_parent.getWindow());
+    }
+    summaryController.bringToFront();
+  }
+
   /**
    * Release all managed resources.
    */
   public void dispose()
   {
-    // Data
-    _account=null;
-    _server=null;
     // UI
     if (_panel!=null)
     {
@@ -168,5 +187,10 @@ public class AccountServerPanelController implements ActionListener
       _toonsTable.dispose();
       _toonsTable=null;
     }
+    // Data
+    Preferences preferences=_account.getServer(_server).getPreferences();
+    preferences.saveAllPreferences();
+    _account=null;
+    _server=null;
   }
 }
