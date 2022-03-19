@@ -58,6 +58,7 @@ import delta.games.lotro.gui.character.log.CharacterLogWindowController;
 import delta.games.lotro.gui.character.stash.StashWindowController;
 import delta.games.lotro.gui.character.status.allegiances.summary.AllegiancesStatusSummaryWindowController;
 import delta.games.lotro.gui.character.status.crafting.CraftingWindowController;
+import delta.games.lotro.gui.character.status.currencies.SingleCurrencyHistoryWindowController;
 import delta.games.lotro.gui.character.status.deeds.DeedsStatusWindowController;
 import delta.games.lotro.gui.character.status.levelling.LevelHistoryEditionDialogController;
 import delta.games.lotro.gui.character.status.quests.QuestsStatusWindowController;
@@ -99,6 +100,7 @@ public class CharacterFileWindowController extends DefaultWindowController imple
   private static final String STORAGE_COMMAND="storage";
   private static final String ALLEGIANCES_COMMAND="allegiances";
   private static final String TRAVELS_COMMAND="travels";
+  private static final String CURRENCIES_COMMAND="currencies";
 
   private CharacterSummaryPanelController _summaryController;
   private CharacterDataTableController _toonsTable;
@@ -202,6 +204,9 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     JButton logButton=buildCommandButton("Log",LOG_COMMAND);
     c.insets.right=5;
     panel.add(logButton,c);c.gridx++;
+    // Currencies
+    JButton currenciesButton=buildCommandButton("Currencies",CURRENCIES_COMMAND);
+    panel.add(currenciesButton,c);c.gridx++;
 
     c.insets.right=0;
     c.gridx=0;c.gridy++;
@@ -335,6 +340,10 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     else if (TRAVELS_COMMAND.equals(command))
     {
       showTravelsStatus();
+    }
+    else if (CURRENCIES_COMMAND.equals(command))
+    {
+      showCurrencies();
     }
     else if (NEW_TOON_DATA_ID.equals(command))
     {
@@ -692,6 +701,18 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     windowCtrl.show();
   }
 
+  private void showCurrencies()
+  {
+    WindowsManager windowsManager=getWindowsManager();
+    SingleCurrencyHistoryWindowController windowCtrl=(SingleCurrencyHistoryWindowController)windowsManager.getWindow(SingleCurrencyHistoryWindowController.getIdentifier());
+    if (windowCtrl==null)
+    {
+      windowCtrl=new SingleCurrencyHistoryWindowController(this,_toon);
+      windowsManager.registerWindow(windowCtrl);
+    }
+    windowCtrl.show();
+  }
+
   /**
    * Release all managed resources.
    */
@@ -716,6 +737,7 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     }
     if (_toon!=null)
     {
+      _toon.getPreferences().saveAllPreferences();
       _toon.gc();
       _toon=null;
     }

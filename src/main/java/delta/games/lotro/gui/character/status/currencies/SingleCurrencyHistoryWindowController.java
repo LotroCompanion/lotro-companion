@@ -17,7 +17,7 @@ import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.combobox.ItemSelectionListener;
-import delta.common.ui.swing.windows.DefaultDialogController;
+import delta.common.ui.swing.windows.DefaultDisplayDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.account.Account;
@@ -34,7 +34,7 @@ import delta.games.lotro.gui.character.CharacterPreferencesManager;
  * Controller for a "currency history" window.
  * @author DAM
  */
-public class SingleCurrencyHistoryWindowController extends DefaultDialogController
+public class SingleCurrencyHistoryWindowController extends DefaultDisplayDialogController<Void>
 {
   // Controllers
   private SingleCurrencyHistoryPanelController _panelController;
@@ -65,7 +65,7 @@ public class SingleCurrencyHistoryWindowController extends DefaultDialogControll
    */
   public SingleCurrencyHistoryWindowController(WindowController parent, CharacterFile toon)
   {
-    super(parent);
+    super(parent,null);
     CurrenciesFacade facade=new CurrenciesFacade(toon);
     _panelController=new SingleCurrencyHistoryPanelController(facade);
     Set<Scope> scopes=new HashSet<Scope>();
@@ -85,7 +85,7 @@ public class SingleCurrencyHistoryWindowController extends DefaultDialogControll
    */
   public SingleCurrencyHistoryWindowController(WindowController parent, Account account, String serverName)
   {
-    super(parent);
+    super(parent,null);
     CurrenciesFacade facade=new CurrenciesFacade(account,serverName);
     _panelController=new SingleCurrencyHistoryPanelController(facade);
     Set<Scope> scopes=new HashSet<Scope>();
