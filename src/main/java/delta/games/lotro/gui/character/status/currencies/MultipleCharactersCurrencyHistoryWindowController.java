@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.combobox.ItemSelectionListener;
 import delta.common.ui.swing.windows.DefaultWindowController;
+import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.misc.Preferences;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.Config;
@@ -39,9 +40,11 @@ public class MultipleCharactersCurrencyHistoryWindowController extends DefaultWi
 
   /**
    * Constructor.
+   * @param parent Parent window.
    */
-  public MultipleCharactersCurrencyHistoryWindowController()
+  public MultipleCharactersCurrencyHistoryWindowController(WindowController parent)
   {
+    super(parent);
     _stats=new MultipleToonsCurrencyHistory();
     Preferences preferences=Config.getInstance().getPreferences();
     TypedProperties props=preferences.getPreferences(PREFERENCES_NAME);
@@ -136,6 +139,12 @@ public class MultipleCharactersCurrencyHistoryWindowController extends DefaultWi
   }
 
   @Override
+  public void configureWindow()
+  {
+    automaticLocationSetup();
+  }
+
+  @Override
   public String getWindowIdentifier()
   {
     return getIdentifier();
@@ -147,6 +156,7 @@ public class MultipleCharactersCurrencyHistoryWindowController extends DefaultWi
   @Override
   public void dispose()
   {
+    saveBoundsPreferences();
     super.dispose();
     List<CharacterFile> toons=_stats.getToonsList();
     Preferences preferences=Config.getInstance().getPreferences();
@@ -163,7 +173,7 @@ public class MultipleCharactersCurrencyHistoryWindowController extends DefaultWi
       _panelController.dispose();
       _panelController=null;
     }
-    if (_panelController!=null)
+    if (_currencyChoice!=null)
     {
       _currencyChoice.dispose();
       _currencyChoice=null;

@@ -34,6 +34,7 @@ import delta.games.lotro.gui.about.AboutDialogController;
 import delta.games.lotro.gui.about.CreditsDialogController;
 import delta.games.lotro.gui.account.AccountsManagementController;
 import delta.games.lotro.gui.character.status.crafting.synopsis.CraftingSynopsisWindowController;
+import delta.games.lotro.gui.character.status.currencies.MultipleCharactersCurrencyHistoryWindowController;
 import delta.games.lotro.gui.character.status.levelling.CharacterLevelWindowController;
 import delta.games.lotro.gui.character.status.reputation.synopsis.ReputationSynopsisWindowController;
 import delta.games.lotro.gui.character.status.warbands.WarbandsWindowController;
@@ -68,6 +69,7 @@ public class MainFrameController extends DefaultWindowController implements Acti
   private static final String RESOURCES_MAPS_ID="resourcesMaps";
   private static final String REPUTATION_SYNOPSIS_ID="reputationSynopsis";
   private static final String CRAFTING_SYNOPSIS_ID="craftingSynopsis";
+  private static final String CURRENCIES_SYNOPSIS_ID="currencies";
   private static final String MAP_ID="map";
   private static final String NETWORK_SYNCHRO_ID="networkSynchro";
   private static final String CLIENT_SYNCHRO_ID="clientSynchro";
@@ -145,6 +147,11 @@ public class MainFrameController extends DefaultWindowController implements Acti
     craftingSynopsis.setActionCommand(CRAFTING_SYNOPSIS_ID);
     craftingSynopsis.addActionListener(this);
     statsMenu.add(craftingSynopsis);
+    // - currencies
+    JMenuItem currenciesSynopsis=GuiFactory.buildMenuItem("Currencies synopsis");
+    currenciesSynopsis.setActionCommand(CURRENCIES_SYNOPSIS_ID);
+    currenciesSynopsis.addActionListener(this);
+    statsMenu.add(currenciesSynopsis);
 
     // Compendium menu
     JMenu compendiumMenu=_loreCtrl.buildCompendiumMenu();
@@ -280,6 +287,10 @@ public class MainFrameController extends DefaultWindowController implements Acti
     String craftingSynopsisIconPath=SharedUiUtils.getToolbarIconPath("crafting");
     ToolbarIconItem craftingSynopsisIconItem=new ToolbarIconItem(CRAFTING_SYNOPSIS_ID,craftingSynopsisIconPath,CRAFTING_SYNOPSIS_ID,"Crafting synopsis...","Crafting synopsis");
     model.addToolbarIconItem(craftingSynopsisIconItem);
+    // Currencies synopsis icon
+    String currenciesSynopsisIconPath=SharedUiUtils.getToolbarIconPath("currencies");
+    ToolbarIconItem currenciesSynopsisIconItem=new ToolbarIconItem(CURRENCIES_SYNOPSIS_ID,currenciesSynopsisIconPath,CURRENCIES_SYNOPSIS_ID,"Currencies synopsis...","Currencies synopsis");
+    model.addToolbarIconItem(currenciesSynopsisIconItem);
     // Border
     controller.getToolBar().setBorder(GuiFactory.buildTitledBorder("Tracking Synopsis"));
     // Register action listener
@@ -383,6 +394,18 @@ public class MainFrameController extends DefaultWindowController implements Acti
     controller.bringToFront();
   }
 
+  private void doCurrenciesSynopsis()
+  {
+    String id=MultipleCharactersCurrencyHistoryWindowController.getIdentifier();
+    WindowController controller=_windowsManager.getWindow(id);
+    if (controller==null)
+    {
+      controller=new MultipleCharactersCurrencyHistoryWindowController(this);
+      _windowsManager.registerWindow(controller);
+    }
+    controller.bringToFront();
+  }
+
   private void doMap()
   {
     WindowController controller=_windowsManager.getWindow(MapWindowController.IDENTIFIER);
@@ -461,6 +484,10 @@ public class MainFrameController extends DefaultWindowController implements Acti
     else if (CRAFTING_SYNOPSIS_ID.equals(cmd))
     {
       doCraftingSynopsis();
+    }
+    else if (CURRENCIES_SYNOPSIS_ID.equals(cmd))
+    {
+      doCurrenciesSynopsis();
     }
     else if (MAP_ID.equals(cmd))
     {

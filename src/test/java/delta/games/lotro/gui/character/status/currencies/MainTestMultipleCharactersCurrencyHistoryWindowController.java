@@ -12,7 +12,7 @@ public class MainTestMultipleCharactersCurrencyHistoryWindowController
    */
   public static void main(String[] args)
   {
-    MultipleCharactersCurrencyHistoryWindowController controller=new MultipleCharactersCurrencyHistoryWindowController();
+    MultipleCharactersCurrencyHistoryWindowController controller=new MultipleCharactersCurrencyHistoryWindowController(null);
     controller.show();
   }
 }
