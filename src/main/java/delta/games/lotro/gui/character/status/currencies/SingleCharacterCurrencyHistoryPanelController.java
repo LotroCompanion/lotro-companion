@@ -15,7 +15,7 @@ import delta.games.lotro.utils.charts.DatedCurve;
  * Controller for a "currency history" chart panel.
  * @author DAM
  */
-public class SingleCurrencyHistoryPanelController
+public class SingleCharacterCurrencyHistoryPanelController
 {
   // Data
   private CurrenciesFacade _facade;
@@ -26,7 +26,7 @@ public class SingleCurrencyHistoryPanelController
    * Constructor.
    * @param facade Facade for data access.
    */
-  public SingleCurrencyHistoryPanelController(CurrenciesFacade facade)
+  public SingleCharacterCurrencyHistoryPanelController(CurrenciesFacade facade)
   {
     _facade=facade;
     _panelController=null;

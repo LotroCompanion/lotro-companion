@@ -27,6 +27,20 @@ public class CurrenciesPreferences
   public static final String SELECTED_CURRENCIES_PROPERTY_NAME="selectedCurrencies";
 
   /**
+   * Initialize the given properties with the default currencies for character only (if needed).
+   * @param props Properties to update.
+   */
+  public static void initCurrenciesPreferencesForCharacterOnly(TypedProperties props)
+  {
+    List<String> currencyKeys=props.getStringList(SELECTED_CURRENCIES_PROPERTY_NAME);
+    if (currencyKeys==null)
+    {
+      currencyKeys=getDefaultCurrenciesForCharacterOnly();
+      props.setStringList(SELECTED_CURRENCIES_PROPERTY_NAME,currencyKeys);
+    }
+  }
+
+  /**
    * Get the default currencies for account/server.
    * @return A list of currency keys.
    */
@@ -35,11 +49,11 @@ public class CurrenciesPreferences
     Set<Scope> scopes=new HashSet<Scope>();
     scopes.add(Scope.ACCOUNT);
     scopes.add(Scope.SERVER);
-    return CurrenciesPreferences.getDefaultCurrencies(scopes);
+    return getDefaultCurrencies(scopes);
   }
 
   /**
-   * Get the default currencies for account/server.
+   * Get the default currencies for a character (including account and server).
    * @return A list of currency keys.
    */
   public static List<String> getDefaultCurrenciesForCharacter()
@@ -48,7 +62,18 @@ public class CurrenciesPreferences
     scopes.add(Scope.CHARACTER);
     scopes.add(Scope.ACCOUNT);
     scopes.add(Scope.SERVER);
-    return CurrenciesPreferences.getDefaultCurrencies(scopes);
+    return getDefaultCurrencies(scopes);
+  }
+
+  /**
+   * Get the default currencies for a character (only).
+   * @return A list of currency keys.
+   */
+  public static List<String> getDefaultCurrenciesForCharacterOnly()
+  {
+    Set<Scope> scopes=new HashSet<Scope>();
+    scopes.add(Scope.CHARACTER);
+    return getDefaultCurrencies(scopes);
   }
 
   /**
@@ -62,6 +87,7 @@ public class CurrenciesPreferences
     if (scopes.contains(Scope.CHARACTER))
     {
       keys.add(CurrencyKeys.GOLD);
+      keys.add(CurrencyKeys.XP);
     }
     if (scopes.contains(Scope.SERVER))
     {

@@ -19,7 +19,7 @@ import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.account.Account;
 import delta.games.lotro.account.AccountUtils;
 import delta.games.lotro.character.CharacterFile;
-import delta.games.lotro.gui.character.status.currencies.SingleCurrencyHistoryWindowController;
+import delta.games.lotro.gui.character.status.currencies.SingleCharacterCurrencyHistoryWindowController;
 import delta.games.lotro.gui.character.storage.account.AccountStorageDisplayWindowController;
 import delta.games.lotro.gui.main.GlobalPreferences;
 import delta.games.lotro.gui.toon.ToonsTableController;
@@ -155,10 +155,10 @@ public class AccountServerPanelController implements ActionListener
 
   private void showCurrencies()
   {
-    SingleCurrencyHistoryWindowController summaryController=(SingleCurrencyHistoryWindowController)_windowsManager.getWindow(SingleCurrencyHistoryWindowController.getIdentifier());
+    SingleCharacterCurrencyHistoryWindowController summaryController=(SingleCharacterCurrencyHistoryWindowController)_windowsManager.getWindow(SingleCharacterCurrencyHistoryWindowController.getIdentifier());
     if (summaryController==null)
     {
-      summaryController=new SingleCurrencyHistoryWindowController(_parent,_account,_server);
+      summaryController=new SingleCharacterCurrencyHistoryWindowController(_parent,_account,_server);
       _windowsManager.registerWindow(summaryController);
       summaryController.getWindow().setLocationRelativeTo(_parent.getWindow());
     }

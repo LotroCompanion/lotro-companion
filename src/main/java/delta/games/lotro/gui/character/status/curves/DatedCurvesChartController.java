@@ -4,11 +4,10 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Paint;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.swing.JPanel;
 
@@ -190,44 +189,42 @@ public class DatedCurvesChartController
    */
   public void refresh()
   {
+    if (_chart==null)
+    {
+      return;
+    }
     XYSeriesCollection data=(XYSeriesCollection)_chart.getXYPlot().getDataset();
     List<String> curveIds=_provider.getCurveIds();
-    List<String> newCurveIds=new ArrayList<String>(curveIds);
 
-    // Find added/removed curves
-    ArrayList<Integer> indexesToRemove=new ArrayList<Integer>();
-    HashSet<String> curveIdsToRemove=new HashSet<String>();
+    Set<String> hiddenCurves=getHiddenCurves();
+
+    _curveIds2SeriesIndex.clear();
+    data.removeAllSeries();
+    // Added new curves
+    for(String curveID : curveIds)
+    {
+      addSeriesForCurve(data,curveID);
+      boolean hidden=hiddenCurves.contains(curveID);
+      setVisible(curveID,!hidden);
+    }
+  }
+
+  private Set<String> getHiddenCurves()
+  {
+    Set<String> ret=new HashSet<String>();
+    XYPlot plot=_chart.getXYPlot();
+    XYItemRenderer renderer=plot.getRenderer();
     for(String curveId : _curveIds2SeriesIndex.keySet())
     {
-      if (curveIds.contains(curveId))
+      int index=_curveIds2SeriesIndex.get(curveId).intValue();
+      boolean visible=renderer.isSeriesVisible(index);
+      if (!visible)
       {
-        newCurveIds.remove(curveId);
-      }
-      else
-      {
-        Integer index=_curveIds2SeriesIndex.get(curveId);
-        indexesToRemove.add(index);
-        curveIdsToRemove.add(curveId);
+        ret.add(curveId);
       }
     }
-    // Remove no more used curves
-    for(String curveId : curveIdsToRemove)
-    {
-      _curveIds2SeriesIndex.remove(curveId);
-    }
-    Collections.sort(indexesToRemove);
-    for(int i=indexesToRemove.size()-1;i>=0;i--)
-    {
-      int index=indexesToRemove.get(i).intValue();
-      data.removeSeries(index);
-    }
-    // Added new curves
-    for(String newCurveId : newCurveIds)
-    {
-      addSeriesForCurve(data,newCurveId);
-      setVisible(newCurveId,true);
-    }
- }
+    return ret;
+  }
 
   private XYSeriesCollection createDataset()
   {

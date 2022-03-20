@@ -104,6 +104,15 @@ public class MultipleToonsDatedCurvesChartPanelController<T> implements Characte
   }
 
   /**
+   * Get the managed chart controller.
+   * @return the managed chart controller.
+   */
+  public DatedCurvesChartController getChartController()
+  {
+    return _chartController;
+  }
+
+  /**
    * Release all managed resources.
    */
   public void dispose()

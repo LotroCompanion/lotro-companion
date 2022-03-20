@@ -15,10 +15,10 @@ public class MultipleToonsCurrencyHistory extends MultipleToonsStats<CurrencyHis
   private Currency _currency;
 
   /**
-   * Constructor.
-   * @param currency Targeted currency.
+   * Set the currency to use.
+   * @param currency A currency.
    */
-  public MultipleToonsCurrencyHistory(Currency currency)
+  public void setCurrency(Currency currency)
   {
     _currency=currency;
   }

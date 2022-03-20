@@ -6,10 +6,10 @@ import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharactersManager;
 
 /**
- * Test class for the single currency history window controller.
+ * Test class for the single character currency history window controller.
  * @author DAM
  */
-public class MainTestSingleCurrencyHistoryWindowController
+public class MainTestSingleCharacterCurrencyHistoryWindowController
 {
   /**
    * Main method to test this window.
@@ -20,11 +20,11 @@ public class MainTestSingleCurrencyHistoryWindowController
     // Account/server
     Account account=AccountsManager.getInstance().getAccountByName("glorfindel666");
     String serverName="Landroval";
-    SingleCurrencyHistoryWindowController controller=new SingleCurrencyHistoryWindowController(null,account,serverName);
+    SingleCharacterCurrencyHistoryWindowController controller=new SingleCharacterCurrencyHistoryWindowController(null,account,serverName);
     controller.show();
     // Character
     CharacterFile toon=CharactersManager.getInstance().getToonById(serverName,"Meva");
-    SingleCurrencyHistoryWindowController controller2=new SingleCurrencyHistoryWindowController(null,toon);
+    SingleCharacterCurrencyHistoryWindowController controller2=new SingleCharacterCurrencyHistoryWindowController(null,toon);
     controller2.show();
   }
 }

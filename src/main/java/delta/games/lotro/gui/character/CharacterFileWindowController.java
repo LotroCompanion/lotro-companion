@@ -58,7 +58,7 @@ import delta.games.lotro.gui.character.log.CharacterLogWindowController;
 import delta.games.lotro.gui.character.stash.StashWindowController;
 import delta.games.lotro.gui.character.status.allegiances.summary.AllegiancesStatusSummaryWindowController;
 import delta.games.lotro.gui.character.status.crafting.CraftingWindowController;
-import delta.games.lotro.gui.character.status.currencies.SingleCurrencyHistoryWindowController;
+import delta.games.lotro.gui.character.status.currencies.SingleCharacterCurrencyHistoryWindowController;
 import delta.games.lotro.gui.character.status.deeds.DeedsStatusWindowController;
 import delta.games.lotro.gui.character.status.levelling.LevelHistoryEditionDialogController;
 import delta.games.lotro.gui.character.status.quests.QuestsStatusWindowController;
@@ -704,10 +704,10 @@ public class CharacterFileWindowController extends DefaultWindowController imple
   private void showCurrencies()
   {
     WindowsManager windowsManager=getWindowsManager();
-    SingleCurrencyHistoryWindowController windowCtrl=(SingleCurrencyHistoryWindowController)windowsManager.getWindow(SingleCurrencyHistoryWindowController.getIdentifier());
+    SingleCharacterCurrencyHistoryWindowController windowCtrl=(SingleCharacterCurrencyHistoryWindowController)windowsManager.getWindow(SingleCharacterCurrencyHistoryWindowController.getIdentifier());
     if (windowCtrl==null)
     {
-      windowCtrl=new SingleCurrencyHistoryWindowController(this,_toon);
+      windowCtrl=new SingleCharacterCurrencyHistoryWindowController(this,_toon);
       windowsManager.registerWindow(windowCtrl);
     }
     windowCtrl.show();

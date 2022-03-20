@@ -5,11 +5,7 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.swing.JDialog;
 import javax.swing.JPanel;
@@ -24,54 +20,34 @@ import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.storage.currencies.Currencies;
 import delta.games.lotro.character.storage.currencies.CurrenciesFacade;
 import delta.games.lotro.character.storage.currencies.Currency;
-import delta.games.lotro.common.Scope;
-import delta.games.lotro.common.comparators.NamedComparator;
 import delta.games.lotro.gui.account.AccountPreferencesManager;
 import delta.games.lotro.gui.character.CharacterPreferencesManager;
 
 /**
- * Controller for a "currency history" window.
+ * Controller for a "currency history" window for a single character.
  * @author DAM
  */
-public class SingleCurrencyHistoryWindowController extends DefaultDisplayDialogController<Void>
+public class SingleCharacterCurrencyHistoryWindowController extends DefaultDisplayDialogController<Void>
 {
   // Controllers
-  private SingleCurrencyHistoryPanelController _panelController;
+  private SingleCharacterCurrencyHistoryPanelController _panelController;
   private CurrencyChoicePanelController _currencyChoice;
   // UI
   private JPanel _chartHostPanel;
   // Data
   private TypedProperties _preferences;
 
-  private static List<Currency> getCurrencies(Set<Scope> scopes)
-  {
-    List<Currency> ret=new ArrayList<Currency>();
-    for(Currency currency : Currencies.get().getCurrencies())
-    {
-      if (scopes.contains(currency.getScope()))
-      {
-        ret.add(currency);
-      }
-    }
-    Collections.sort(ret,new NamedComparator());
-    return ret;
-  }
-
   /**
    * Constructor.
    * @param parent Parent window.
    * @param toon Character to use.
    */
-  public SingleCurrencyHistoryWindowController(WindowController parent, CharacterFile toon)
+  public SingleCharacterCurrencyHistoryWindowController(WindowController parent, CharacterFile toon)
   {
     super(parent,null);
     CurrenciesFacade facade=new CurrenciesFacade(toon);
-    _panelController=new SingleCurrencyHistoryPanelController(facade);
-    Set<Scope> scopes=new HashSet<Scope>();
-    scopes.add(Scope.CHARACTER);
-    scopes.add(Scope.SERVER);
-    scopes.add(Scope.ACCOUNT);
-    List<Currency> currencies=getCurrencies(scopes);
+    _panelController=new SingleCharacterCurrencyHistoryPanelController(facade);
+    List<Currency> currencies=Currencies.getAvailableCurrencies(true,true,true);
     _preferences=CharacterPreferencesManager.getUserProperties(toon,CurrenciesPreferences.CURRENCIES_PREFERENCES_ID);
     _currencyChoice=new CurrencyChoicePanelController(this,currencies,_preferences);
   }
@@ -82,15 +58,12 @@ public class SingleCurrencyHistoryWindowController extends DefaultDisplayDialogC
    * @param account Account to use.
    * @param serverName Server name.
    */
-  public SingleCurrencyHistoryWindowController(WindowController parent, Account account, String serverName)
+  public SingleCharacterCurrencyHistoryWindowController(WindowController parent, Account account, String serverName)
   {
     super(parent,null);
     CurrenciesFacade facade=new CurrenciesFacade(account,serverName);
-    _panelController=new SingleCurrencyHistoryPanelController(facade);
-    Set<Scope> scopes=new HashSet<Scope>();
-    scopes.add(Scope.SERVER);
-    scopes.add(Scope.ACCOUNT);
-    List<Currency> currencies=getCurrencies(scopes);
+    _panelController=new SingleCharacterCurrencyHistoryPanelController(facade);
+    List<Currency> currencies=Currencies.getAvailableCurrencies(false,true,true);
     _preferences=AccountPreferencesManager.getPreferencesProperties(account,serverName,CurrenciesPreferences.CURRENCIES_PREFERENCES_ID);
     _currencyChoice=new CurrencyChoicePanelController(this,currencies,_preferences);
   }
