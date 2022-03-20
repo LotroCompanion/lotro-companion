@@ -1,25 +1,18 @@
 package delta.games.lotro.utils.charts;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.List;
 
-import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.CharacterFile;
-import delta.games.lotro.character.CharactersManager;
 import delta.games.lotro.character.utils.MultipleToonsStats;
-import delta.games.lotro.gui.character.chooser.CharacterSelectionChangedListener;
-import delta.games.lotro.gui.character.chooser.CharactersChooserController;
-import delta.games.lotro.gui.character.chooser.CharactersSelectorPanelController;
+import delta.games.lotro.gui.character.chooser.CharacterSelectionStateListener;
+import delta.games.lotro.gui.character.chooser.CharacterSelectionStructureChangeEvent;
+import delta.games.lotro.gui.character.chooser.CharacterSelectionStructureListener;
+import delta.games.lotro.gui.character.chooser.CharactersSelectionPanelController;
 import delta.games.lotro.gui.character.status.curves.DatedCurveProvider;
 import delta.games.lotro.gui.character.status.curves.DatedCurvesChartConfiguration;
 import delta.games.lotro.gui.character.status.curves.DatedCurvesChartController;
@@ -30,14 +23,14 @@ import delta.games.lotro.gui.character.status.curves.MultipleToonsDatedCurvesPro
  * @param <T> Type of managed stats.
  * @author DAM
  */
-public class MultipleToonsDatedCurvesChartPanelController<T> implements CharacterSelectionChangedListener
+public class MultipleToonsDatedCurvesChartPanelController<T> implements CharacterSelectionStateListener,CharacterSelectionStructureListener
 {
   // GUI
   private JPanel _panel;
   // Controllers
   private WindowController _parentController;
   private DatedCurvesChartController _chartController;
-  private CharactersSelectorPanelController _toonSelectionController;
+  private CharactersSelectionPanelController _toonSelectionController;
   // Data
   private MultipleToonsStats<T> _stats;
 
@@ -73,83 +66,36 @@ public class MultipleToonsDatedCurvesChartPanelController<T> implements Characte
   {
     JPanel panel=GuiFactory.buildPanel(new BorderLayout());
 
+    // Chart
     JPanel chartPanel=_chartController.getPanel();
     panel.add(chartPanel,BorderLayout.CENTER);
 
-    JPanel toonsControlPanel=GuiFactory.buildPanel(new GridBagLayout());
-    {
-      // Toons show/hide
-      List<CharacterFile> toons=_stats.getToonsList();
-      _toonSelectionController=new CharactersSelectorPanelController(toons);
-      for(CharacterFile toon : toons)
-      {
-        _toonSelectionController.setToonSelected(toon,true);
-        _toonSelectionController.setToonEnabled(toon,true);
-      }
-
-      _toonSelectionController.setGridConfiguration(1,10);
-      JPanel selectionPanel=_toonSelectionController.getPanel();
-      GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
-      toonsControlPanel.add(selectionPanel,c);
-      _toonSelectionController.getListenersManager().addListener(this);
-
-      // Choose toons button
-      JButton chooser=GuiFactory.buildButton("Choose characters...");
-      ActionListener al=new ActionListener()
-      {
-        @Override
-        public void actionPerformed(ActionEvent e)
-        {
-          doChooseToons();
-        }
-      };
-      chooser.addActionListener(al);
-      chooser.setAlignmentY(Component.CENTER_ALIGNMENT);
-      c.gridy++;
-      toonsControlPanel.add(chooser,c);
-    }
+    // Toons selection
+    List<CharacterFile> toons=_stats.getToonsList();
+    _toonSelectionController=new CharactersSelectionPanelController(_parentController,toons);
+    _toonSelectionController.getStateListenersManager().addListener(this);
+    _toonSelectionController.getStructureListenersManager().addListener(this);
+    JPanel toonsControlPanel=_toonSelectionController.getPanel();
     panel.add(toonsControlPanel,BorderLayout.EAST);
     return panel;
   }
 
-  private void doChooseToons()
+  @Override
+  public void selectionStructureChanged(CharacterSelectionStructureChangeEvent event)
   {
-    CharactersManager manager=CharactersManager.getInstance();
-    List<CharacterFile> toons=manager.getAllToons();
-    List<CharacterFile> selectedToons=_stats.getToonsList();
-    List<CharacterFile> newSelectedToons=CharactersChooserController.selectToons(_parentController,toons,selectedToons);
-    if (newSelectedToons!=null)
+    for(CharacterFile addedToon : event.getAddedToons())
     {
-      for(CharacterFile toon : newSelectedToons)
-      {
-        if (selectedToons.contains(toon))
-        {
-          selectedToons.remove(toon);
-        }
-        else
-        {
-          _stats.addToon(toon);
-          _toonSelectionController.addToon(toon,true);
-          _toonSelectionController.setToonEnabled(toon,true);
-        }
-      }
-      for(CharacterFile removedToon : selectedToons)
-      {
-        _stats.removeToon(removedToon);
-        _toonSelectionController.removeToon(removedToon);
-      }
-      _toonSelectionController.refresh();
-      _chartController.refresh();
+      _stats.addToon(addedToon);
     }
+    for(CharacterFile removedToon : event.getRemovedToons())
+    {
+      _stats.removeToon(removedToon);
+    }
+    _chartController.refresh();
   }
 
-  /**
-   * Called when the selection of characters has changed.
-   * @param toonId Targeted character identifier.
-   * @param selected New state for this character (visible if selected, hidden otherwise).
-   */
   @Override
-  public void selectionChanged(String toonId, boolean selected)
+  public void selectionStateChanged(String toonId, boolean selected)
   {
     if (_chartController!=null)
     {

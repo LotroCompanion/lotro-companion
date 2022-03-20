@@ -21,10 +21,10 @@ import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharacterSummary;
 
 /**
- * Controller for characters selector panel.
+ * Controller for panel to show/edit the characters selection state.
  * @author DAM
  */
-public class CharactersSelectorPanelController implements ItemListener
+public class CharactersSelectionStateEditionPanelController implements ItemListener
 {
   // Constants
   private static final int NB_MAX_COLUMNS=2;
@@ -42,17 +42,17 @@ public class CharactersSelectorPanelController implements ItemListener
   private int _nbMaxColumns;
   private int _nbPreferredNbItemsPerColumn;
   // Listeners
-  private ListenersManager<CharacterSelectionChangedListener> _listeners;
+  private ListenersManager<CharacterSelectionStateListener> _listeners;
 
   /**
    * Constructor.
    * @param toons Managed toons.
    */
-  public CharactersSelectorPanelController(List<CharacterFile> toons)
+  public CharactersSelectionStateEditionPanelController(List<CharacterFile> toons)
   {
     _nbMaxColumns=NB_MAX_COLUMNS;
     _nbPreferredNbItemsPerColumn=PREFERRED_NB_ITEMS_PER_COLUMN;
-    _listeners=new ListenersManager<CharacterSelectionChangedListener>();
+    _listeners=new ListenersManager<CharacterSelectionStateListener>();
     _toons=new ArrayList<CharacterFile>();
     _toonsMap=new HashMap<String,CharacterFile>();
     _selectedToons=new HashSet<CharacterFile>();
@@ -111,10 +111,10 @@ public class CharactersSelectorPanelController implements ItemListener
   }
 
   /**
-   * Get the 'character selection change' listeners manager.
+   * Get the 'character selection state change' listeners manager.
    * @return A listeners manager.
    */
-  public ListenersManager<CharacterSelectionChangedListener> getListenersManager()
+  public ListenersManager<CharacterSelectionStateListener> getListenersManager()
   {
     return _listeners;
   }
@@ -139,17 +139,17 @@ public class CharactersSelectorPanelController implements ItemListener
         {
           _selectedToons.remove(toon);
         }
-        broadcastToonSelectionChange(id,selected);
+        broadcastToonSelectionStateChange(id,selected);
         break;
       }
     }
   }
 
-  private void broadcastToonSelectionChange(String toonId, boolean selected)
+  private void broadcastToonSelectionStateChange(String toonId, boolean selected)
   {
-    for(CharacterSelectionChangedListener listener : _listeners)
+    for(CharacterSelectionStateListener listener : _listeners)
     {
-      listener.selectionChanged(toonId,selected);
+      listener.selectionStateChanged(toonId,selected);
     }
   }
 
