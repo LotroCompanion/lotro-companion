@@ -4,15 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import delta.games.lotro.character.status.achievables.edition.AchievableStatusGeoItem;
+import delta.games.lotro.common.Named;
+import delta.games.lotro.gui.maps.MapUtils;
 import delta.games.lotro.lore.maps.MapDescription;
 
 /**
  * A map that contains an aggregation of achievable geo points.
  * @author DAM
  */
-public class AggregatedGeoItemsMap
+public class AggregatedGeoItemsMap implements Named
 {
   private MapDescription _map;
+  private String _title;
   private List<AchievableStatusGeoItem> _points;
 
   /**
@@ -22,7 +25,14 @@ public class AggregatedGeoItemsMap
   public AggregatedGeoItemsMap(MapDescription map)
   {
     _map=map;
+    _title=MapUtils.getMapTitle(map);
     _points=new ArrayList<AchievableStatusGeoItem>();
+  }
+
+  @Override
+  public String getName()
+  {
+    return _title;
   }
 
   /**

@@ -1,6 +1,7 @@
 package delta.games.lotro.gui.character.status.achievables.aggregator;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +10,7 @@ import delta.games.lotro.character.status.achievables.AchievableElementState;
 import delta.games.lotro.character.status.achievables.AchievableStatus;
 import delta.games.lotro.character.status.achievables.edition.AchievableGeoStatusManager;
 import delta.games.lotro.character.status.achievables.edition.AchievableStatusGeoItem;
+import delta.games.lotro.common.comparators.NamedComparator;
 import delta.games.lotro.lore.maps.MapDescription;
 import delta.games.lotro.lore.quests.Achievable;
 
@@ -90,6 +92,7 @@ public class AggregatedGeoItemsManager
   {
     List<AggregatedGeoItemsMap> ret=new ArrayList<AggregatedGeoItemsMap>();
     ret.addAll(_mapsWithId.values());
+    Collections.sort(ret,new NamedComparator());
     ret.addAll(_mapsWithNoId);
     return ret;
   }

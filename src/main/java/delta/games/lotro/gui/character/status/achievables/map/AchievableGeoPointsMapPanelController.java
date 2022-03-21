@@ -11,6 +11,7 @@ import delta.games.lotro.character.status.achievables.edition.GeoPointChangeList
 import delta.games.lotro.dat.data.DataFacade;
 import delta.games.lotro.gui.character.status.achievables.form.AchievableStatusUtils;
 import delta.games.lotro.gui.maps.MapPanelConfigurator;
+import delta.games.lotro.gui.maps.MapUtils;
 import delta.games.lotro.lore.geo.GeoBoundingBox;
 import delta.games.lotro.lore.maps.MapDescription;
 import delta.games.lotro.lore.quests.geo.AchievableGeoPoint;
@@ -78,23 +79,7 @@ public class AchievableGeoPointsMapPanelController
    */
   public String getMapTitle()
   {
-    String title=null;
-    Integer mapId=_map.getMapId();
-    if (mapId!=null)
-    {
-      MapsManager mapsManager=Maps.getMaps().getMapsManager();
-      GeoreferencedBasemapsManager basemapsManager=mapsManager.getBasemapsManager();
-      GeoreferencedBasemap basemap=basemapsManager.getMapById(mapId.intValue());
-      if (basemap!=null)
-      {
-        title=basemap.getName();
-      }
-    }
-    if (title==null)
-    {
-      title="Landscape";
-    }
-    return title;
+    return MapUtils.getMapTitle(_map);
   }
 
   private List<Marker> buildMarkers(List<AchievableStatusGeoItem> points)
