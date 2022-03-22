@@ -1,7 +1,6 @@
 package delta.games.lotro.gui.character.status.achievables.statistics;
 
 import java.awt.Dimension;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JComponent;
@@ -10,7 +9,6 @@ import javax.swing.JPanel;
 
 import delta.common.ui.swing.windows.DefaultDialogController;
 import delta.common.ui.swing.windows.WindowController;
-import delta.common.utils.collections.filters.Filter;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.status.achievables.AchievablesStatusManager;
 import delta.games.lotro.character.status.achievables.statistics.AchievablesStatistics;
@@ -32,8 +30,6 @@ public class AchievablesStatisticsWindowController<T extends Achievable> extends
   // Data
   private AchievablesStatistics _statistics;
   private AchievablesStatusManager _statusMgr;
-  private List<T> _achievables;
-  private Filter<T> _filter;
   // Controllers
   private AchievablesStatisticsPanelController _panelController;
 
@@ -42,19 +38,14 @@ public class AchievablesStatisticsWindowController<T extends Achievable> extends
    * @param parent Parent controller.
    * @param toon Character file.
    * @param statusMgr Status manager.
-   * @param achievables Achievables to use.
-   * @param filter Current filter.
    * @param mode UI mode.
    */
-  public AchievablesStatisticsWindowController(WindowController parent, CharacterFile toon, AchievablesStatusManager statusMgr, List<T> achievables, Filter<T> filter, AchievableUIMode mode)
+  public AchievablesStatisticsWindowController(WindowController parent, CharacterFile toon, AchievablesStatusManager statusMgr, AchievableUIMode mode)
   {
     super(parent);
     _statistics=new AchievablesStatistics();
     _panelController=new AchievablesStatisticsPanelController(this,_statistics,mode);
     _statusMgr=statusMgr;
-    _achievables=new ArrayList<T>(achievables);
-    _filter=filter;
-    updateStats();
     updateTitle(toon);
   }
 
@@ -97,18 +88,11 @@ public class AchievablesStatisticsWindowController<T extends Achievable> extends
 
   /**
    * Update statistics.
+   * @param selectedAchievables Achievables to use.
    */
-  public void updateStats()
+  public void updateStats(List<T> selectedAchievables)
   {
     // Update status
-    List<T> selectedAchievables=new ArrayList<T>();
-    for(T achievable : _achievables)
-    {
-      if (_filter.accept(achievable))
-      {
-        selectedAchievables.add(achievable);
-      }
-    }
     _panelController.updateStats(_statusMgr,selectedAchievables);
   }
 
@@ -121,8 +105,6 @@ public class AchievablesStatisticsWindowController<T extends Achievable> extends
     // Data
     _statistics=null;
     _statusMgr=null;
-    _achievables=null;
-    _filter=null;
     // Controllers
     if (_panelController!=null)
     {

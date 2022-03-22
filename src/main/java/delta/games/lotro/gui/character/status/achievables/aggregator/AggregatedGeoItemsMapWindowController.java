@@ -9,13 +9,13 @@ import java.awt.Insets;
 import java.util.List;
 import java.util.Objects;
 
-import javax.swing.JFrame;
+import javax.swing.JDialog;
 import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.common.ui.swing.combobox.ItemSelectionListener;
-import delta.common.ui.swing.windows.DefaultWindowController;
+import delta.common.ui.swing.windows.DefaultDisplayDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.status.achievables.AchievableStatus;
 import delta.games.lotro.character.status.achievables.AchievablesStatusManager;
@@ -27,7 +27,7 @@ import delta.games.lotro.lore.quests.Achievable;
  * Controller for a window to show aggregated maps of achievables geo items.
  * @author DAM
  */
-public class AggregatedGeoItemsMapWindowController extends DefaultWindowController
+public class AggregatedGeoItemsMapWindowController extends DefaultDisplayDialogController<Void>
 {
   /**
    * Identifier for this window.
@@ -50,6 +50,7 @@ public class AggregatedGeoItemsMapWindowController extends DefaultWindowControll
    */
   public AggregatedGeoItemsMapWindowController(WindowController parent, AchievablesStatusManager statusMgr)
   {
+    super(parent,null);
     _statusMgr=statusMgr;
     _mapChooser=buildMapChooser();
     _mapPanel=GuiFactory.buildPanel(new BorderLayout());
@@ -57,13 +58,13 @@ public class AggregatedGeoItemsMapWindowController extends DefaultWindowControll
   }
 
   @Override
-  protected JFrame build()
+  protected JDialog build()
   {
-    JFrame frame=super.build();
-    frame.setTitle("Aggregated geographic items map");
-    frame.setMinimumSize(new Dimension(400,300));
-    frame.pack();
-    return frame;
+    JDialog ret=super.build();
+    ret.setTitle("Aggregated geographic items map");
+    ret.setMinimumSize(new Dimension(400,300));
+    ret.pack();
+    return ret;
   }
 
   @Override
@@ -79,7 +80,7 @@ public class AggregatedGeoItemsMapWindowController extends DefaultWindowControll
   }
 
   @Override
-  protected JPanel buildContents()
+  protected JPanel buildFormPanel()
   {
     return _mainPanel;
   }
@@ -124,7 +125,7 @@ public class AggregatedGeoItemsMapWindowController extends DefaultWindowControll
    * Set the achievables to show.
    * @param achievables Achievables to show.
    */
-  public void setAchievables(List<Achievable> achievables)
+  public void setAchievables(List<? extends Achievable> achievables)
   {
     AggregatedGeoItemsManager mgr=new AggregatedGeoItemsManager();
     for(Achievable achievable : achievables)
@@ -133,6 +134,7 @@ public class AggregatedGeoItemsMapWindowController extends DefaultWindowControll
       mgr.addAchievableStatus(status);
     }
     updateMapChooser(mgr);
+    pack();
   }
 
   private void updateMapChooser(AggregatedGeoItemsManager mgr)
@@ -146,7 +148,7 @@ public class AggregatedGeoItemsMapWindowController extends DefaultWindowControll
     }
     // Attempt to select the previous map
     AggregatedGeoItemsMap toSelect=chooseMapToShow(currentMap,maps);
-    selectMap(toSelect);
+    _mapChooser.selectItem(toSelect);
   }
 
   private AggregatedGeoItemsMap chooseMapToShow(AggregatedGeoItemsMap currentMap, List<AggregatedGeoItemsMap> maps)

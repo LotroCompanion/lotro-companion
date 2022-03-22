@@ -1,12 +1,14 @@
 package delta.games.lotro.gui.character.status.deeds;
 
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.Box;
@@ -20,6 +22,7 @@ import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.windows.DefaultFormDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.ui.swing.windows.WindowsManager;
+import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.events.CharacterEvent;
@@ -33,6 +36,7 @@ import delta.games.lotro.character.status.traitPoints.TraitPoints;
 import delta.games.lotro.character.status.traitPoints.TraitPointsStatus;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.gui.character.status.achievables.AchievableUIMode;
+import delta.games.lotro.gui.character.status.achievables.aggregator.AggregatedGeoItemsMapWindowController;
 import delta.games.lotro.gui.character.status.achievables.filter.AchievableStatusFilterController;
 import delta.games.lotro.gui.character.status.achievables.statistics.AchievablesStatisticsWindowController;
 import delta.games.lotro.gui.character.status.deeds.form.DeedStatusDialogController;
@@ -116,29 +120,54 @@ public class DeedsStatusWindowController extends DefaultFormDialogController<Ach
     JPanel statusFilterPanel=_statusFilterController.getPanel();
     TitledBorder statusFilterBorder=GuiFactory.buildTitledBorder("Status Filter");
     statusFilterPanel.setBorder(statusFilterBorder);
-    // Stats button
-    JButton b=GuiFactory.buildButton("Stats");
-    ActionListener al=new ActionListener()
-    {
-      @Override
-      public void actionPerformed(ActionEvent e)
-      {
-        showStatistics();
-      }
-    };
-    b.addActionListener(al);
+    // Buttons panel
+    JPanel buttonsPanel=buildButtonsPanel();
     // Whole panel
     GridBagConstraints c=new GridBagConstraints(0,0,3,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(deedFilterPanel,c);
     c=new GridBagConstraints(0,1,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(statusFilterPanel,c);
     c=new GridBagConstraints(1,1,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
-    panel.add(b,c);
+    panel.add(buttonsPanel,c);
     c=new GridBagConstraints(2,1,1,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(Box.createGlue(),c);
     c=new GridBagConstraints(0,2,3,1,1,1,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
     panel.add(tablePanel,c);
     return panel;
+  }
+
+  private JPanel buildButtonsPanel()
+  {
+    JPanel ret=GuiFactory.buildPanel(new FlowLayout());
+    // Stats button
+    {
+      JButton statsButton=GuiFactory.buildButton("Stats");
+      ActionListener alStats=new ActionListener()
+      {
+        @Override
+        public void actionPerformed(ActionEvent e)
+        {
+          showStatistics();
+        }
+      };
+      statsButton.addActionListener(alStats);
+      ret.add(statsButton);
+    }
+    // Maps button
+    {
+      JButton mapsButton=GuiFactory.buildButton("Maps");
+      ActionListener alMaps=new ActionListener()
+      {
+        @Override
+        public void actionPerformed(ActionEvent e)
+        {
+          showMaps();
+        }
+      };
+      mapsButton.addActionListener(alMaps);
+      ret.add(mapsButton);
+    }
+    return ret;
   }
 
   private void initTable()
@@ -165,11 +194,31 @@ public class DeedsStatusWindowController extends DefaultFormDialogController<Ach
   public void filterUpdated()
   {
     _panelController.filterUpdated();
+    List<DeedDescription> selectedDeeds=getSelectedDeeds();
     AchievablesStatisticsWindowController<DeedDescription> statisticsController=getStatisticsWindow();
     if (statisticsController!=null)
     {
-      statisticsController.updateStats();
+      statisticsController.updateStats(selectedDeeds);
     }
+    AggregatedGeoItemsMapWindowController mapsController=getMapsWindow();
+    if (mapsController!=null)
+    {
+      mapsController.setAchievables(selectedDeeds);
+    }
+  }
+
+  private List<DeedDescription> getSelectedDeeds()
+  {
+    List<DeedDescription> ret=new ArrayList<DeedDescription>();
+    Filter<DeedDescription> filter=_filter.getDeedFilter();
+    for(DeedDescription deed : _deeds)
+    {
+      if (filter.accept(deed))
+      {
+        ret.add(deed);
+      }
+    }
+    return ret;
   }
 
   private void editDeedStatus(AchievableStatus status)
@@ -198,12 +247,34 @@ public class DeedsStatusWindowController extends DefaultFormDialogController<Ach
     AchievablesStatisticsWindowController<DeedDescription> statisticsController=getStatisticsWindow();
     if (statisticsController==null)
     {
-      statisticsController=new AchievablesStatisticsWindowController<DeedDescription>(this,_toon,_data,_deeds,_filter.getDeedFilter(),AchievableUIMode.DEED);
+      statisticsController=new AchievablesStatisticsWindowController<DeedDescription>(this,_toon,_data,AchievableUIMode.DEED);
+      statisticsController.updateStats(getSelectedDeeds());
       WindowsManager windowsMgr=getWindowsManager();
       windowsMgr.registerWindow(statisticsController);
       statisticsController.getWindow().setLocationRelativeTo(getWindow());
     }
     statisticsController.bringToFront();
+  }
+
+  private AggregatedGeoItemsMapWindowController getMapsWindow()
+  {
+    WindowsManager windowsMgr=getWindowsManager();
+    AggregatedGeoItemsMapWindowController ret=(AggregatedGeoItemsMapWindowController)windowsMgr.getWindow(AggregatedGeoItemsMapWindowController.IDENTIFIER);
+    return ret;
+  }
+
+  private void showMaps()
+  {
+    AggregatedGeoItemsMapWindowController mapsController=getMapsWindow();
+    if (mapsController==null)
+    {
+      mapsController=new AggregatedGeoItemsMapWindowController(this,_data);
+      mapsController.setAchievables(getSelectedDeeds());
+      WindowsManager windowsMgr=getWindowsManager();
+      windowsMgr.registerWindow(mapsController);
+      mapsController.getWindow().setLocationRelativeTo(getWindow());
+    }
+    mapsController.bringToFront();
   }
 
   @Override

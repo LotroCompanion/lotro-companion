@@ -7,6 +7,7 @@ import java.awt.Insets;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.Box;
@@ -20,6 +21,7 @@ import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.windows.DefaultDisplayDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.ui.swing.windows.WindowsManager;
+import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.status.achievables.AchievableStatus;
@@ -167,11 +169,26 @@ public class QuestsStatusWindowController extends DefaultDisplayDialogController
   public void filterUpdated()
   {
     _panelController.filterUpdated();
+    List<QuestDescription> selectedQuests=getSelectedQuests();
     AchievablesStatisticsWindowController<QuestDescription> statisticsController=getStatisticsWindow();
     if (statisticsController!=null)
     {
-      statisticsController.updateStats();
+      statisticsController.updateStats(selectedQuests);
     }
+  }
+
+  private List<QuestDescription> getSelectedQuests()
+  {
+    List<QuestDescription> ret=new ArrayList<QuestDescription>();
+    Filter<QuestDescription> filter=_filter.getQuestFilter();
+    for(QuestDescription quest : _quests)
+    {
+      if (filter.accept(quest))
+      {
+        ret.add(quest);
+      }
+    }
+    return ret;
   }
 
   private void showQuestStatus(AchievableStatus status)
@@ -196,7 +213,8 @@ public class QuestsStatusWindowController extends DefaultDisplayDialogController
     AchievablesStatisticsWindowController<QuestDescription> statisticsController=getStatisticsWindow();
     if (statisticsController==null)
     {
-      statisticsController=new AchievablesStatisticsWindowController<QuestDescription>(this,_toon,_data,_quests,_filter.getQuestFilter(),AchievableUIMode.QUEST);
+      statisticsController=new AchievablesStatisticsWindowController<QuestDescription>(this,_toon,_data,AchievableUIMode.QUEST);
+      statisticsController.updateStats(getSelectedQuests());
       windowsMgr.registerWindow(statisticsController);
       statisticsController.getWindow().setLocationRelativeTo(getWindow());
     }
