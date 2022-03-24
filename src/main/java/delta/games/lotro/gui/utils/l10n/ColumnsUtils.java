@@ -1,9 +1,11 @@
 package delta.games.lotro.gui.utils.l10n;
 
+import java.text.DateFormat;
 import java.text.NumberFormat;
 
 import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.GenericTableController;
+import delta.common.ui.swing.tables.GenericTableController.DateRenderer;
 import delta.games.lotro.utils.l10n.LocalizedFormats;
 
 /**
@@ -52,5 +54,47 @@ public class ColumnsUtils
     column.setWidthSpecs(width,width,width);
     NumberFormat format=LocalizedFormats.getIntegerNumberFormat();
     column.setCellRenderer(new GenericTableController.NumberRenderer(format));
+  }
+
+  /**
+   * Configure a column to show a date/time value.
+   * @param column Column to use.
+   */
+  public static final void configureDateTimeColumn(DefaultTableColumnController<?,?> column)
+  {
+    configureDateTimeColumn(column,110);
+  }
+
+  /**
+   * Configure a column to show a date/time value.
+   * @param column Column to use.
+   * @param width Width to use.
+   */
+  public static final void configureDateTimeColumn(DefaultTableColumnController<?,?> column, int width)
+  {
+    column.setWidthSpecs(width,width,width);
+    DateFormat format=LocalizedFormats.getDateTimeFormat();
+    column.setCellRenderer(new DateRenderer(format));
+  }
+
+  /**
+   * Configure a column to show a date value.
+   * @param column Column to use.
+   */
+  public static final void configureDateColumn(DefaultTableColumnController<?,?> column)
+  {
+    configureDateColumn(column,75);
+  }
+
+  /**
+   * Configure a column to show a date value.
+   * @param column Column to use.
+   * @param width Width to use.
+   */
+  public static final void configureDateColumn(DefaultTableColumnController<?,?> column, int width)
+  {
+    column.setWidthSpecs(width,width,width);
+    DateFormat format=LocalizedFormats.getDateFormat();
+    column.setCellRenderer(new DateRenderer(format));
   }
 }

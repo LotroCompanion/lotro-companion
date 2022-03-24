@@ -9,7 +9,6 @@ import javax.swing.JTable;
 import delta.common.ui.swing.tables.CellDataProvider;
 import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.GenericTableController;
-import delta.common.ui.swing.tables.GenericTableController.DateRenderer;
 import delta.common.ui.swing.tables.ListDataProvider;
 import delta.common.ui.swing.tables.TableColumnsManager;
 import delta.common.utils.collections.filters.Filter;
@@ -17,10 +16,10 @@ import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.gui.lore.items.FilterUpdateListener;
 import delta.games.lotro.gui.lore.items.chooser.ItemChooser;
+import delta.games.lotro.gui.utils.l10n.ColumnsUtils;
 import delta.games.lotro.interceptor.data.monitoring.InterceptionLog;
 import delta.games.lotro.interceptor.data.monitoring.InterceptionLogEntry;
 import delta.games.lotro.interceptor.data.monitoring.LogLevel;
-import delta.games.lotro.utils.Formats;
 
 /**
  * Controller for a table that shows interception log entries.
@@ -86,8 +85,7 @@ public class InterceptionLogTableController implements FilterUpdateListener
         }
       };
       DefaultTableColumnController<InterceptionLogEntry,Date> dateColumn=new DefaultTableColumnController<InterceptionLogEntry,Date>(InterceptionLogColumnIds.DATE.name(),"Date",Date.class,dateCell);
-      dateColumn.setWidthSpecs(120,120,120);
-      dateColumn.setCellRenderer(new DateRenderer(Formats.DATE_TIME_PATTERN));
+      ColumnsUtils.configureDateTimeColumn(dateColumn);
       ret.add(dateColumn);
     }
     // Level column

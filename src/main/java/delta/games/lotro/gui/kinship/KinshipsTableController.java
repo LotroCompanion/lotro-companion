@@ -9,16 +9,15 @@ import javax.swing.JTable;
 import delta.common.ui.swing.tables.CellDataProvider;
 import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.GenericTableController;
-import delta.common.ui.swing.tables.GenericTableController.DateRenderer;
 import delta.common.ui.swing.tables.ListDataProvider;
 import delta.games.lotro.common.id.InternalGameId;
 import delta.games.lotro.gui.utils.UiConfiguration;
+import delta.games.lotro.gui.utils.l10n.ColumnsUtils;
 import delta.games.lotro.kinship.Kinship;
 import delta.games.lotro.kinship.KinshipSummary;
 import delta.games.lotro.kinship.KinshipsManager;
 import delta.games.lotro.kinship.events.KinshipEvent;
 import delta.games.lotro.kinship.events.KinshipEventType;
-import delta.games.lotro.utils.Formats;
 import delta.games.lotro.utils.events.EventsManager;
 import delta.games.lotro.utils.events.GenericEventsListener;
 
@@ -99,8 +98,7 @@ public class KinshipsTableController implements GenericEventsListener<KinshipEve
         }
       };
       DefaultTableColumnController<Kinship,Long> creationColumn=new DefaultTableColumnController<Kinship,Long>(KinshipColumnIds.CREATION_DATE.name(),"Creation",Long.class,creationCell);
-      creationColumn.setWidthSpecs(120,120,120);
-      creationColumn.setCellRenderer(new DateRenderer(Formats.DATE_TIME_PATTERN));
+      ColumnsUtils.configureDateTimeColumn(creationColumn);
       table.addColumnController(creationColumn);
     }
     // Message of the day

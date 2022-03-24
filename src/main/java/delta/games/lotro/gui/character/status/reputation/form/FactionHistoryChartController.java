@@ -3,10 +3,10 @@ package delta.games.lotro.gui.character.status.reputation.form;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Paint;
+import java.text.DateFormat;
 import java.text.FieldPosition;
 import java.text.NumberFormat;
 import java.text.ParsePosition;
-import java.text.SimpleDateFormat;
 
 import javax.swing.JPanel;
 
@@ -32,6 +32,7 @@ import delta.games.lotro.character.status.reputation.FactionStatus;
 import delta.games.lotro.lore.reputation.Faction;
 import delta.games.lotro.lore.reputation.FactionLevel;
 import delta.games.lotro.utils.Formats;
+import delta.games.lotro.utils.l10n.LocalizedFormats;
 
 /**
  * Controller for faction history chart.
@@ -134,7 +135,7 @@ public class FactionHistoryChartController
     xyplot.setRenderer(xysteparearenderer);
 
     DateAxis axis = (DateAxis) xyplot.getDomainAxis();
-    SimpleDateFormat sdf=Formats.getDateFormatter();
+    DateFormat sdf=LocalizedFormats.getGMTDateFormat();
     axis.setDateFormatOverride(sdf);
     axis.setAxisLinePaint(foregroundColor);
     axis.setLabelPaint(foregroundColor);

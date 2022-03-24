@@ -13,7 +13,6 @@ import delta.common.ui.swing.tables.CellDataProvider;
 import delta.common.ui.swing.tables.DataProvider;
 import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.GenericTableController;
-import delta.common.ui.swing.tables.GenericTableController.DateRenderer;
 import delta.common.ui.swing.tables.ListDataProvider;
 import delta.common.ui.swing.tables.ProxiedTableColumnController;
 import delta.common.ui.swing.tables.TableColumnController;
@@ -26,10 +25,10 @@ import delta.games.lotro.gui.lore.items.ItemColumnIds;
 import delta.games.lotro.gui.lore.items.ItemInstanceColumnIds;
 import delta.games.lotro.gui.lore.items.ItemUiTools;
 import delta.games.lotro.gui.utils.InternalGameIdRenderer;
+import delta.games.lotro.gui.utils.l10n.ColumnsUtils;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemInstance;
 import delta.games.lotro.lore.items.ItemPropertyNames;
-import delta.games.lotro.utils.Formats;
 
 /**
  * Builder for a table that shows items.
@@ -168,8 +167,7 @@ public class ItemInstancesTableBuilder
         }
       };
       DefaultTableColumnController<ItemInstance<? extends Item>,Date> column=new DefaultTableColumnController<ItemInstance<? extends Item>,Date>(ItemInstanceColumnIds.TIME.name(),"Time",Date.class,cell);
-      column.setWidthSpecs(110,110,110);
-      column.setCellRenderer(new DateRenderer(Formats.DATE_TIME_PATTERN));
+      ColumnsUtils.configureDateTimeColumn(column,110);
       columns.add(column);
     }
     // Birth name column

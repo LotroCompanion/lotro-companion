@@ -3,10 +3,10 @@ package delta.games.lotro.gui.character.status.crafting;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Paint;
+import java.text.DateFormat;
 import java.text.FieldPosition;
 import java.text.NumberFormat;
 import java.text.ParsePosition;
-import java.text.SimpleDateFormat;
 
 import javax.swing.JPanel;
 
@@ -31,6 +31,7 @@ import delta.games.lotro.character.status.crafting.ProfessionStatus;
 import delta.games.lotro.lore.crafting.CraftingLevel;
 import delta.games.lotro.lore.crafting.Profession;
 import delta.games.lotro.utils.Formats;
+import delta.games.lotro.utils.l10n.LocalizedFormats;
 
 /**
  * Controller for crafting history chart.
@@ -151,7 +152,7 @@ public class CraftingHistoryChartController
     xyplot.setRenderer(xysteparearenderer);
 
     DateAxis axis = (DateAxis) xyplot.getDomainAxis();
-    SimpleDateFormat sdf=Formats.getDateFormatter();
+    DateFormat sdf=LocalizedFormats.getGMTDateFormat();
     axis.setDateFormatOverride(sdf);
     axis.setAxisLinePaint(foregroundColor);
     axis.setLabelPaint(foregroundColor);

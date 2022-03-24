@@ -8,7 +8,6 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 import delta.common.ui.swing.tables.CellDataProvider;
 import delta.common.ui.swing.tables.DefaultTableColumnController;
-import delta.common.ui.swing.tables.GenericTableController.DateRenderer;
 import delta.common.ui.swing.tables.ProxiedTableColumnController;
 import delta.common.ui.swing.tables.TableColumnController;
 import delta.games.lotro.character.CharacterFile;
@@ -21,7 +20,6 @@ import delta.games.lotro.gui.lore.items.chooser.ItemsTableBuilder;
 import delta.games.lotro.gui.utils.l10n.ColumnsUtils;
 import delta.games.lotro.lore.titles.TitleDescription;
 import delta.games.lotro.lore.titles.TitlesManager;
-import delta.games.lotro.utils.Formats;
 
 /**
  * Builds column definitions for CharacterFile data.
@@ -135,8 +133,7 @@ public class CharacterFileColumnsBuilder
         }
       };
       DefaultTableColumnController<CharacterFile,Long> lastLogoutColumn=new DefaultTableColumnController<CharacterFile,Long>(ToonsTableColumnIds.LAST_LOGOUT_DATE.name(),"Last logout",Long.class,lastLogoutCell);
-      lastLogoutColumn.setWidthSpecs(120,120,120);
-      lastLogoutColumn.setCellRenderer(new DateRenderer(Formats.DATE_TIME_PATTERN));
+      ColumnsUtils.configureDateTimeColumn(lastLogoutColumn);
       ret.add(lastLogoutColumn);
     }
     // Title column

@@ -3,7 +3,7 @@ package delta.games.lotro.gui.character.status.curves;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Paint;
-import java.text.SimpleDateFormat;
+import java.text.DateFormat;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -34,6 +34,7 @@ import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.utils.Formats;
 import delta.games.lotro.utils.charts.DatedCurve;
 import delta.games.lotro.utils.charts.DatedCurveItem;
+import delta.games.lotro.utils.l10n.LocalizedFormats;
 
 /**
  * Controller for a chart with a set of dated curves.
@@ -135,7 +136,7 @@ public class DatedCurvesChartController
 
     // Time axis
     DateAxis axis = (DateAxis) plot.getDomainAxis();
-    SimpleDateFormat sdf=Formats.getDateFormatter();
+    DateFormat sdf=LocalizedFormats.getGMTDateFormat();
     axis.setDateFormatOverride(sdf);
     axis.setAxisLinePaint(foregroundColor);
     axis.setLabelPaint(foregroundColor);
