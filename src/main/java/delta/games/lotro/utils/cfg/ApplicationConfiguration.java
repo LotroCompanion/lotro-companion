@@ -72,9 +72,12 @@ public class ApplicationConfiguration
    */
   public void saveConfiguration()
   {
-    String clientPath=_configuration.getRootPath().getAbsolutePath();
     UserConfig userCfg=UserConfig.getInstance();
+    // LOTRO client path
+    String clientPath=_configuration.getRootPath().getAbsolutePath();
     userCfg.setStringValue(DAT_CONFIGURATION,CLIENT_PATH,clientPath);
+    // Default formats
+    // Save configuration
     UserConfig.getInstance().save();
   }
 

@@ -22,7 +22,6 @@ import delta.common.ui.swing.editors.numbers.ProgressAndNumberEditorController;
 import delta.common.ui.swing.icons.IconsManager;
 import delta.common.ui.swing.text.NumberEditionController;
 import delta.common.ui.swing.text.NumberListener;
-import delta.common.ui.swing.text.dates.DateCodec;
 import delta.common.ui.swing.text.dates.DateEditionController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.status.achievables.AchievableElementState;
@@ -190,8 +189,7 @@ public class AchievableStatusPanelController implements GeoPointChangeListener
     {
       panel=GuiFactory.buildPanel(new FlowLayout());
       panel.add(GuiFactory.buildLabel("Completion date:"));
-      DateCodec codec=DateFormat.getDateTimeCodec();
-      _completionDate=new DateEditionController(codec);
+      _completionDate=new DateEditionController(DateFormat.getDateTimeCodec());
       panel.add(_completionDate.getTextField());
     }
     return panel;

@@ -5,6 +5,7 @@ import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.util.Date;
 
 import javax.swing.JEditorPane;
 import javax.swing.JLabel;
@@ -12,7 +13,6 @@ import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.form.LabeledComponent;
-import delta.common.ui.swing.text.dates.DateCodec;
 import delta.games.lotro.common.colors.ColorDescription;
 import delta.games.lotro.common.id.InternalGameId;
 import delta.games.lotro.common.money.Money;
@@ -21,7 +21,7 @@ import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemInstance;
 import delta.games.lotro.lore.items.ItemPropertyNames;
 import delta.games.lotro.lore.items.ItemSturdiness;
-import delta.games.lotro.utils.DateFormat;
+import delta.games.lotro.utils.Formats;
 import delta.games.lotro.utils.gui.HtmlUtils;
 
 /**
@@ -257,8 +257,7 @@ public class ItemInstanceMainAttrsDisplayPanelController
     _date.setVisible(time!=null);
     if (time!=null)
     {
-      DateCodec codec=DateFormat.getDateTimeCodec();
-      String validityDateStr=codec.formatDate(time);
+      String validityDateStr=Formats.getDateTimeString(new Date(time.longValue()));
       _date.getComponent().setText(validityDateStr);
     }
     // Adjust visibility of the parent panel
