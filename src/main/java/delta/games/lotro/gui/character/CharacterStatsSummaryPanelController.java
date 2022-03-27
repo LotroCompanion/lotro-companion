@@ -25,6 +25,7 @@ import delta.games.lotro.common.stats.WellKnownStat;
 import delta.games.lotro.gui.character.stats.contribs.StatContribsWindowController;
 import delta.games.lotro.gui.character.stats.details.DetailedCharacterStatsWindowController;
 import delta.games.lotro.utils.FixedDecimalsInteger;
+import delta.games.lotro.utils.l10n.L10n;
 
 /**
  * Controller for the character stats summary panel.
@@ -179,7 +180,7 @@ public class CharacterStatsSummaryPanelController
         FixedDecimalsInteger value=characterStats.getStat(stat);
         if (value!=null)
         {
-          statValue=String.valueOf(value.intValue());
+          statValue=L10n.getString(value.intValue());
         }
         else
         {
@@ -251,7 +252,7 @@ public class CharacterStatsSummaryPanelController
     JLabel label=_statValues.get(stat);
     if (label==null)
     {
-      label=GuiFactory.buildLabel("99999");
+      label=GuiFactory.buildLabel("9999999");
       _statValues.put(stat,label);
     }
     return label;
