@@ -153,7 +153,7 @@ public class ItemInstanceMainAttrsEditionPanelController
   private JPanel buildPanel()
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
-
+    panel.setBorder(GuiFactory.buildTitledBorder("Main attributes"));
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
 
     {

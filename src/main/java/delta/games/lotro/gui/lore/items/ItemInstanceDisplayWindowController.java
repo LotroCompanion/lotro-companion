@@ -45,6 +45,7 @@ public class ItemInstanceDisplayWindowController extends DefaultDialogController
     windowsMgr.registerWindow(this);
     pack();
     automaticLocationSetup();
+    getDialog().setResizable(false);
   }
 
   @Override

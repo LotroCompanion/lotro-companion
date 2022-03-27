@@ -94,7 +94,7 @@ public class StatContribsTableController
         }
       };
       DefaultTableColumnController<StatContribution,FixedDecimalsInteger> statColumn=new DefaultTableColumnController<StatContribution,FixedDecimalsInteger>("Value",FixedDecimalsInteger.class,statCell);
-      statColumn.setWidthSpecs(55,55,50);
+      statColumn.setWidthSpecs(70,70,70);
       columnsManager.addColumnController(statColumn,true);
     }
   }
