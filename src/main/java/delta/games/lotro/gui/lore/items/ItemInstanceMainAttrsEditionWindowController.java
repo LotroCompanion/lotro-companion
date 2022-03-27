@@ -33,6 +33,7 @@ public class ItemInstanceMainAttrsEditionWindowController extends DefaultFormDia
   {
     JDialog dialog=super.build();
     dialog.setMinimumSize(dialog.getPreferredSize());
+    dialog.setResizable(false);
     return dialog;
   }
 

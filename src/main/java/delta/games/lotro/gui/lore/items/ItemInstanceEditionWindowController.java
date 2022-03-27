@@ -31,13 +31,6 @@ public class ItemInstanceEditionWindowController extends DefaultFormDialogContro
   }
 
   @Override
-  protected JDialog build()
-  {
-    JDialog dialog=super.build();
-    return dialog;
-  }
-
-  @Override
   protected JPanel buildFormPanel()
   {
     JPanel dataPanel=_panelController.getPanel();
@@ -50,7 +43,10 @@ public class ItemInstanceEditionWindowController extends DefaultFormDialogContro
     Item reference=_data.getReference();
     String name=reference.getName();
     String title="Edit "+name;
-    getDialog().setTitle(title);
+    JDialog dialog=getDialog();
+    dialog.setTitle(title);
+    dialog.pack();
+    dialog.setMinimumSize(dialog.getSize());
   }
 
   @Override

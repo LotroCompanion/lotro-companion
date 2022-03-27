@@ -3,6 +3,7 @@ package delta.games.lotro.gui.lore.items;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -113,16 +114,16 @@ public class ItemInstanceEditionPanelController
     ret.add(idPanel,c);
     // Main attributes
     JPanel mainAttrsPanel=buildMainAttrsPanel();
-    c=new GridBagConstraints(0,1,1,1,1.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    c=new GridBagConstraints(0,1,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
     ret.add(mainAttrsPanel,c);
     // Stats
     JPanel statsPanel=buildStatsPanel();
-    c=new GridBagConstraints(1,1,1,1,1.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    c=new GridBagConstraints(1,1,1,1,0.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     ret.add(statsPanel,c);
     // Essences
     if (_essences!=null)
     {
-      c=new GridBagConstraints(2,1,1,1,1.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+      c=new GridBagConstraints(2,1,1,1,0.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
       JPanel essencesPanel=buildEssencesPanel();
       ret.add(essencesPanel,c);
     }
@@ -148,7 +149,7 @@ public class ItemInstanceEditionPanelController
   {
     JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
     // Main attributes
-    GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
     ret.add(_mainAttrs.getPanel(),c);
     // Edit main attrs
     JButton editButton=GuiFactory.buildButton("Edit...");
@@ -172,7 +173,7 @@ public class ItemInstanceEditionPanelController
   {
     JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
     // Stats
-    GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     ret.add(_stats,c);
     // Edit stats
     JButton editButton=GuiFactory.buildButton("Edit...");
@@ -196,7 +197,7 @@ public class ItemInstanceEditionPanelController
   {
     JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
     // Essences
-    GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     ret.add(_essences.getPanel(),c);
     // Edit button
     JButton editButton=GuiFactory.buildButton("Edit...");
@@ -309,7 +310,9 @@ public class ItemInstanceEditionPanelController
   {
     _panel.revalidate();
     _panel.repaint();
-    _parent.getWindow().pack();
+    Window parent=_parent.getWindow();
+    parent.pack();
+    parent.setMinimumSize(parent.getPreferredSize());
   }
 
   /**

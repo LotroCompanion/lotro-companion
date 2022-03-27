@@ -66,7 +66,7 @@ public class EssencesSetDisplayController
       panel.add(icon,c);
       // Text
       MultilineLabel2 text=controller.getLinesGadget();
-      c=new GridBagConstraints(1,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,5),0,0);
+      c=new GridBagConstraints(1,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,5),0,0);
       panel.add(text,c);
       y++;
     }

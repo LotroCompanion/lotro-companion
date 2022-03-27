@@ -150,14 +150,16 @@ public class ItemInstanceMainAttrsDisplayPanelController
   private JPanel build()
   {
     initGadgets();
-    return buildPanel();
+    _panel=buildPanel();
+    update();
+    return _panel;
   }
 
   private JPanel buildPanel()
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
 
-    GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     // Identification line: ID and validity date
     {
       JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
@@ -217,11 +219,6 @@ public class ItemInstanceMainAttrsDisplayPanelController
       panelLine.add(GuiFactory.buildLabel("Value:"));
       panelLine.add(_value.getPanel());
     }
-    // Description
-    {
-      panel.add(_description,c);
-      c.gridy++;
-    }
     // User comments
     {
       JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
@@ -230,14 +227,15 @@ public class ItemInstanceMainAttrsDisplayPanelController
       panelLine.add(_userComments.getLabel());
       panelLine.add(_userComments.getComponent());
     }
+    // Description
+    {
+      c.weighty=1.0;
+      c.fill=GridBagConstraints.BOTH;
+      panel.add(_description,c);
+      c.gridy++;
+    }
 
-    JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
-    c=new GridBagConstraints(0,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
-    ret.add(panel,c);
-
-    _panel=ret;
-    update();
-    return ret;
+    return panel;
   }
 
   /**

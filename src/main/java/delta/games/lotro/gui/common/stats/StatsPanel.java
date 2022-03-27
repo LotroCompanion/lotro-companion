@@ -100,7 +100,7 @@ public class StatsPanel
     panel.removeAll();
 
     int rowIndex=0;
-    GridBagConstraints strutConstraints=new GridBagConstraints(0,rowIndex,3,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,5,0,0),0,0);
+    GridBagConstraints strutConstraints=new GridBagConstraints(0,rowIndex,1,1,0.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,5,0,0),0,0);
     panel.add(Box.createHorizontalStrut(100),strutConstraints);
     rowIndex++;
 
@@ -111,7 +111,7 @@ public class StatsPanel
       for(String line : lines)
       {
         JLabel label=GuiFactory.buildLabel(line);
-        GridBagConstraints c=new GridBagConstraints(0,rowIndex,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,5,0,0),0,0);
+        GridBagConstraints c=new GridBagConstraints(0,rowIndex,1,1,0.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,5,0,0),0,0);
         panel.add(label,c);
         rowIndex++;
       }
