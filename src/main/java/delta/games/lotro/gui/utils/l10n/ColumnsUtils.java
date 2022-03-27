@@ -7,6 +7,7 @@ import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.GenericTableController.DateRenderer;
 import delta.games.lotro.utils.l10n.LocalizedFormats;
+import delta.games.lotro.utils.l10n.dates.DateFormatSpecification;
 
 /**
  * Columns configuration utilities.
@@ -62,7 +63,9 @@ public class ColumnsUtils
    */
   public static final void configureDateTimeColumn(DefaultTableColumnController<?,?> column)
   {
-    configureDateTimeColumn(column,110);
+    DateFormatSpecification spec=LocalizedFormats.getDateTimeFormatSpecification();
+    int columnSize=spec.getColumnSize();
+    configureDateTimeColumn(column,columnSize);
   }
 
   /**
@@ -70,7 +73,7 @@ public class ColumnsUtils
    * @param column Column to use.
    * @param width Width to use.
    */
-  public static final void configureDateTimeColumn(DefaultTableColumnController<?,?> column, int width)
+  private static final void configureDateTimeColumn(DefaultTableColumnController<?,?> column, int width)
   {
     column.setWidthSpecs(width,width,width);
     DateFormat format=LocalizedFormats.getDateTimeFormat();
@@ -83,7 +86,9 @@ public class ColumnsUtils
    */
   public static final void configureDateColumn(DefaultTableColumnController<?,?> column)
   {
-    configureDateColumn(column,75);
+    DateFormatSpecification spec=LocalizedFormats.getDateFormatSpecification();
+    int columnSize=spec.getColumnSize();
+    configureDateColumn(column,columnSize);
   }
 
   /**
@@ -91,7 +96,7 @@ public class ColumnsUtils
    * @param column Column to use.
    * @param width Width to use.
    */
-  public static final void configureDateColumn(DefaultTableColumnController<?,?> column, int width)
+  private static final void configureDateColumn(DefaultTableColumnController<?,?> column, int width)
   {
     column.setWidthSpecs(width,width,width);
     DateFormat format=LocalizedFormats.getDateFormat();

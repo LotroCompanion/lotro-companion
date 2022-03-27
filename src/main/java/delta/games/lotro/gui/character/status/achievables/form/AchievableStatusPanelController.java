@@ -36,11 +36,11 @@ import delta.games.lotro.common.Repeatability;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.character.status.achievables.AchievableUIMode;
 import delta.games.lotro.gui.character.status.achievables.map.AchievableGeoStatusEditionController;
+import delta.games.lotro.gui.utils.l10n.DateFormat;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.DeedType;
 import delta.games.lotro.lore.quests.Achievable;
 import delta.games.lotro.lore.quests.QuestDescription;
-import delta.games.lotro.utils.DateFormat;
 
 /**
  * Controller for a panel to edit the status of an achievable.

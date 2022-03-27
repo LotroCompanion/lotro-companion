@@ -135,7 +135,7 @@ public class FactionHistoryChartController
     xyplot.setRenderer(xysteparearenderer);
 
     DateAxis axis = (DateAxis) xyplot.getDomainAxis();
-    DateFormat sdf=LocalizedFormats.getGMTDateFormat();
+    DateFormat sdf=LocalizedFormats.getDateFormat();
     axis.setDateFormatOverride(sdf);
     axis.setAxisLinePaint(foregroundColor);
     axis.setLabelPaint(foregroundColor);

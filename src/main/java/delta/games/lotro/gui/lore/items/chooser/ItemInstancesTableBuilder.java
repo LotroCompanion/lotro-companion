@@ -167,7 +167,7 @@ public class ItemInstancesTableBuilder
         }
       };
       DefaultTableColumnController<ItemInstance<? extends Item>,Date> column=new DefaultTableColumnController<ItemInstance<? extends Item>,Date>(ItemInstanceColumnIds.TIME.name(),"Time",Date.class,cell);
-      ColumnsUtils.configureDateTimeColumn(column,110);
+      ColumnsUtils.configureDateTimeColumn(column);
       columns.add(column);
     }
     // Birth name column

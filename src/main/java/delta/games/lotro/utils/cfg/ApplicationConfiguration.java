@@ -5,6 +5,8 @@ import java.io.File;
 import delta.common.utils.ListenersManager;
 import delta.games.lotro.UserConfig;
 import delta.games.lotro.dat.data.DatConfiguration;
+import delta.games.lotro.utils.l10n.L10nConfiguration;
+import delta.games.lotro.utils.l10n.dates.DateFormatID;
 
 /**
  * Configuration of the LotroCompanion application.
@@ -14,9 +16,13 @@ public class ApplicationConfiguration
 {
   private static final String DAT_CONFIGURATION="DatConfiguration";
   private static final String CLIENT_PATH="ClientPath";
+  private static final String L10N_CONFIGURATION="Localization";
+  private static final String DATE_FORMAT="DateFormat";
+  private static final String DATETIME_FORMAT="DateTimeFormat";
 
   private static final ApplicationConfiguration _instance=new ApplicationConfiguration();
-  private DatConfiguration _configuration;
+  private DatConfiguration _datConfiguration;
+  private L10nConfiguration _l10nConfiguration;
   private ListenersManager<ConfigurationListener> _listeners;
 
   /**
@@ -33,7 +39,6 @@ public class ApplicationConfiguration
    */
   private ApplicationConfiguration()
   {
-    _configuration=new DatConfiguration();
     initConfiguration();
     _listeners=new ListenersManager<ConfigurationListener>();
   }
@@ -44,7 +49,16 @@ public class ApplicationConfiguration
    */
   public DatConfiguration getDatConfiguration()
   {
-    return _configuration;
+    return _datConfiguration;
+  }
+
+  /**
+   * Get the localization configuration. 
+   * @return the localization configuration.
+   */
+  public L10nConfiguration getL10nConfiguration()
+  {
+    return _l10nConfiguration;
   }
 
   /**
@@ -58,13 +72,23 @@ public class ApplicationConfiguration
 
   private void initConfiguration()
   {
-    _configuration=new DatConfiguration();
-    String clientPath=UserConfig.getInstance().getStringValue(DAT_CONFIGURATION,CLIENT_PATH,null);
+    _datConfiguration=new DatConfiguration();
+    UserConfig config=UserConfig.getInstance();
+    // DAT
+    String clientPath=config.getStringValue(DAT_CONFIGURATION,CLIENT_PATH,null);
     if (clientPath!=null)
     {
       File rootPath=new File(clientPath);
-      _configuration.setRootPath(rootPath);
+      _datConfiguration.setRootPath(rootPath);
     }
+    // Localization
+    _l10nConfiguration=new L10nConfiguration();
+    String dateFormat=config.getStringValue(L10N_CONFIGURATION,DATE_FORMAT,DateFormatID.AUTO);
+    _l10nConfiguration.setDateFormatID(dateFormat);
+    String dateTimeFormat=config.getStringValue(L10N_CONFIGURATION,DATETIME_FORMAT,DateFormatID.AUTO);
+    _l10nConfiguration.setDateTimeFormatID(dateTimeFormat);
+    // Save...
+    saveConfiguration();
   }
 
   /**
@@ -74,9 +98,13 @@ public class ApplicationConfiguration
   {
     UserConfig userCfg=UserConfig.getInstance();
     // LOTRO client path
-    String clientPath=_configuration.getRootPath().getAbsolutePath();
+    String clientPath=_datConfiguration.getRootPath().getAbsolutePath();
     userCfg.setStringValue(DAT_CONFIGURATION,CLIENT_PATH,clientPath);
     // Default formats
+    String dateFormat=_l10nConfiguration.getDateFormatID();
+    userCfg.setStringValue(L10N_CONFIGURATION,DATE_FORMAT,dateFormat);
+    String dateTimeFormat=_l10nConfiguration.getDateTimeFormatID();
+    userCfg.setStringValue(L10N_CONFIGURATION,DATETIME_FORMAT,dateTimeFormat);
     // Save configuration
     UserConfig.getInstance().save();
   }

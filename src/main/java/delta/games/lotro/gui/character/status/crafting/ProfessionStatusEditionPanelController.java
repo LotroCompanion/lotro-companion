@@ -21,9 +21,9 @@ import delta.common.ui.swing.text.dates.DateListener;
 import delta.games.lotro.character.status.crafting.CraftingLevelStatus;
 import delta.games.lotro.character.status.crafting.CraftingLevelTierStatus;
 import delta.games.lotro.character.status.crafting.ProfessionStatus;
+import delta.games.lotro.gui.utils.l10n.DateFormat;
 import delta.games.lotro.lore.crafting.CraftingLevel;
 import delta.games.lotro.lore.crafting.Profession;
-import delta.games.lotro.utils.DateFormat;
 
 /**
  * Controller for a profession status edition panel.

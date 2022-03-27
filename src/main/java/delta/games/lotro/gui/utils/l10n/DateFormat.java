@@ -1,8 +1,11 @@
-package delta.games.lotro.utils;
+package delta.games.lotro.gui.utils.l10n;
 
 import java.util.Date;
 
 import delta.common.ui.swing.text.dates.DateCodec;
+import delta.games.lotro.utils.Formats;
+import delta.games.lotro.utils.l10n.LocalizedFormats;
+import delta.games.lotro.utils.l10n.dates.DateFormatSpecification;
 
 /**
  * Date format utils.
@@ -51,8 +54,11 @@ public class DateFormat
     }
     if (strict)
     {
+      DateFormatSpecification spec=LocalizedFormats.getDateTimeFormatSpecification();
+      int minLength=spec.getMinLength();
+      int maxLength=spec.getMaxLength();
       int length=dateStr.length();
-      if (length!=16) // DD/MM/YYYY HH:MM
+      if ((length<minLength) || (length>maxLength))
       {
         return null;
       }
@@ -102,8 +108,11 @@ public class DateFormat
     }
     if (strict)
     {
+      DateFormatSpecification spec=LocalizedFormats.getDateFormatSpecification();
+      int minLength=spec.getMinLength();
+      int maxLength=spec.getMaxLength();
       int length=dateStr.length();
-      if (length!=10) // DD/MM/YYYY
+      if ((length<minLength) || (length>maxLength))
       {
         return null;
       }

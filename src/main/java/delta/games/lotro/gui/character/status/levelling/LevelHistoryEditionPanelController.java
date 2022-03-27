@@ -14,7 +14,7 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.text.dates.DateCodec;
 import delta.common.ui.swing.text.dates.DateEditionController;
 import delta.games.lotro.character.status.levelling.LevelHistory;
-import delta.games.lotro.utils.DateFormat;
+import delta.games.lotro.gui.utils.l10n.DateFormat;
 
 /**
  * Controller for a level history edition panel.

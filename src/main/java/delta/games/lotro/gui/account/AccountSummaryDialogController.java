@@ -16,7 +16,7 @@ import delta.common.ui.swing.windows.DefaultFormDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.account.AccountSummary;
 import delta.games.lotro.account.AccountType;
-import delta.games.lotro.utils.DateFormat;
+import delta.games.lotro.gui.utils.l10n.DateFormat;
 
 /**
  * Controller for the "account summary" dialog.

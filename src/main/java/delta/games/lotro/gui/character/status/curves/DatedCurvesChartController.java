@@ -136,7 +136,7 @@ public class DatedCurvesChartController
 
     // Time axis
     DateAxis axis = (DateAxis) plot.getDomainAxis();
-    DateFormat sdf=LocalizedFormats.getGMTDateFormat();
+    DateFormat sdf=LocalizedFormats.getDateFormat();
     axis.setDateFormatOverride(sdf);
     axis.setAxisLinePaint(foregroundColor);
     axis.setLabelPaint(foregroundColor);

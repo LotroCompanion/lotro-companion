@@ -7,6 +7,9 @@ import javax.swing.JFrame;
 import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.main.MainFrameController;
+import delta.games.lotro.utils.cfg.ApplicationConfiguration;
+import delta.games.lotro.utils.l10n.L10nConfiguration;
+import delta.games.lotro.utils.l10n.LocalizedFormats;
 
 /**
  * Main for LOTRO companion.
@@ -22,6 +25,8 @@ public class Main
   {
     GuiFactory.init();
     GuiFactory.setPreferences(Config.getInstance().getPreferences());
+    L10nConfiguration l10nCfg=ApplicationConfiguration.getInstance().getL10nConfiguration();
+    LocalizedFormats.init(l10nCfg);
     Locale.setDefault(Locale.US);
     LotroCore.init();
     LotroIconsManager.initApplicationIcons();

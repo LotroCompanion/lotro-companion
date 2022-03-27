@@ -7,7 +7,7 @@ import delta.common.ui.swing.checkbox.CheckboxController;
 import delta.common.ui.swing.text.IntegerEditionController;
 import delta.common.ui.swing.text.dates.DateEditionController;
 import delta.games.lotro.character.status.crafting.CraftingLevelTierStatus;
-import delta.games.lotro.utils.DateFormat;
+import delta.games.lotro.gui.utils.l10n.DateFormat;
 
 /**
  * Gathers the gadgets used to edit a crafting level tier of a profession.

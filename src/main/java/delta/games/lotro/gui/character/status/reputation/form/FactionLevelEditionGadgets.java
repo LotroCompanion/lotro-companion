@@ -2,7 +2,7 @@ package delta.games.lotro.gui.character.status.reputation.form;
 
 import delta.common.ui.swing.text.dates.DateEditionController;
 import delta.games.lotro.character.status.reputation.FactionLevelStatus;
-import delta.games.lotro.utils.DateFormat;
+import delta.games.lotro.gui.utils.l10n.DateFormat;
 
 /**
  * Gathers the gadgets used to edit a faction level of a reputation.

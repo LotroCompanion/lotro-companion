@@ -26,7 +26,7 @@ import delta.games.lotro.common.CharacterSex;
 import delta.games.lotro.common.Race;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.character.summary.CharacterUiUtils;
-import delta.games.lotro.utils.DateFormat;
+import delta.games.lotro.gui.utils.l10n.DateFormat;
 import delta.games.lotro.utils.events.EventsManager;
 
 /**
