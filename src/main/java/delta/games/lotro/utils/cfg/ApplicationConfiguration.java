@@ -7,6 +7,7 @@ import delta.games.lotro.UserConfig;
 import delta.games.lotro.dat.data.DatConfiguration;
 import delta.games.lotro.utils.l10n.L10nConfiguration;
 import delta.games.lotro.utils.l10n.dates.DateFormatID;
+import delta.games.lotro.utils.l10n.numbers.NumberFormatID;
 
 /**
  * Configuration of the LotroCompanion application.
@@ -19,6 +20,7 @@ public class ApplicationConfiguration
   private static final String L10N_CONFIGURATION="Localization";
   private static final String DATE_FORMAT="DateFormat";
   private static final String DATETIME_FORMAT="DateTimeFormat";
+  private static final String INTEGER_FORMAT="IntegerFormat";
 
   private static final ApplicationConfiguration _instance=new ApplicationConfiguration();
   private DatConfiguration _datConfiguration;
@@ -87,6 +89,8 @@ public class ApplicationConfiguration
     _l10nConfiguration.setDateFormatID(dateFormat);
     String dateTimeFormat=config.getStringValue(L10N_CONFIGURATION,DATETIME_FORMAT,DateFormatID.AUTO);
     _l10nConfiguration.setDateTimeFormatID(dateTimeFormat);
+    String integerFormat=config.getStringValue(L10N_CONFIGURATION,INTEGER_FORMAT,NumberFormatID.AUTO);
+    _l10nConfiguration.setIntegerFormatID(integerFormat);
     // Save...
     saveConfiguration();
   }
@@ -105,6 +109,8 @@ public class ApplicationConfiguration
     userCfg.setStringValue(L10N_CONFIGURATION,DATE_FORMAT,dateFormat);
     String dateTimeFormat=_l10nConfiguration.getDateTimeFormatID();
     userCfg.setStringValue(L10N_CONFIGURATION,DATETIME_FORMAT,dateTimeFormat);
+    String integerFormat=_l10nConfiguration.getIntegerFormatID();
+    userCfg.setStringValue(L10N_CONFIGURATION,INTEGER_FORMAT,integerFormat);
     // Save configuration
     UserConfig.getInstance().save();
   }
