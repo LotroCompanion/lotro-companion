@@ -81,7 +81,8 @@ public class StorageStatisticsSummaryPanelController
     int nbFactions=reputation.getFactionsCount();
     int nbReputationPoints=reputation.getTotalReputationPoints();
     String nbReputationPointsStr=L10n.getString(nbReputationPoints);
-    String reputationStr=String.format("%s points, %d factions",nbReputationPointsStr,Integer.valueOf(nbFactions));
+    String nbFactionsStr=L10n.getString(nbFactions);
+    String reputationStr=String.format("%s points, %s factions",nbReputationPointsStr,nbFactionsStr);
     _reputation.setText(reputationStr);
     // Price
     _priceDisplay.setMoney(_statistics.getTotalValue());

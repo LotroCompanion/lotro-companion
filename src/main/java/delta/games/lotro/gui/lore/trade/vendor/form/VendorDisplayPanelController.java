@@ -24,6 +24,7 @@ import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.lore.agents.npcs.NpcDescription;
 import delta.games.lotro.lore.trade.vendor.ValuedItem;
 import delta.games.lotro.lore.trade.vendor.VendorNpc;
+import delta.games.lotro.utils.l10n.L10n;
 
 /**
  * Controller for a vendor display panel.
@@ -177,7 +178,8 @@ public class VendorDisplayPanelController implements NavigablePanelController
     _buys.setText(buys);
     // Factor
     float sellFactor=_vendor.getSellFactor();
-    _factor.setText(String.format("%.1f",Float.valueOf(sellFactor)));
+    String sellFactorStr=L10n.getString(sellFactor,1);
+    _factor.setText(sellFactorStr);
   }
 
   /**

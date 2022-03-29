@@ -3,6 +3,7 @@ package delta.games.lotro.gui.common.stats;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.NumberFormat;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -35,7 +36,10 @@ public class SingleStatsEditionGadgetsController
   {
     JTextField value=GuiFactory.buildTextField("");
     _floatEditor=new FloatEditionController(value);
-    _floatEditor.setFormat("#.#");
+    NumberFormat format=NumberFormat.getNumberInstance();
+    format.setMaximumFractionDigits(1);
+    format.setMinimumFractionDigits(0);
+    _floatEditor.setFormat(format);
     _statChooser=SharedUiUtils.buildStatChooser();
     _unit=GuiFactory.buildLabel("");
     // Delete button

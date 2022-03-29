@@ -16,6 +16,7 @@ import delta.games.lotro.character.status.achievables.statistics.reputation.Achi
 import delta.games.lotro.character.status.achievables.statistics.virtues.VirtueXPStatsFromAchievables;
 import delta.games.lotro.common.statistics.items.ItemsStats;
 import delta.games.lotro.gui.character.status.achievables.AchievableUIMode;
+import delta.games.lotro.utils.l10n.L10n;
 
 /**
  * Controller for a panel to show the summary of the statistics about some achievables.
@@ -165,61 +166,68 @@ public class AchievablesStatisticsSummaryPanelController
     if (_completionsCount!=null)
     {
       int completionsCount=_statistics.getCompletionsCount();
-      _completionsCount.setText(String.valueOf(completionsCount));
+      _completionsCount.setText(L10n.getString(completionsCount));
     }
     // LOTRO points
     int lotroPoints=_statistics.getAcquiredLP();
-    _lotroPoints.setText(String.valueOf(lotroPoints));
+    _lotroPoints.setText(L10n.getString(lotroPoints));
     // Class points
     int classPoints=_statistics.getClassPoints();
-    _classPoints.setText(String.valueOf(classPoints));
+    _classPoints.setText(L10n.getString(classPoints));
     // Marks
     int marks=_statistics.getMarksCount();
-    _marks.setText(String.valueOf(marks));
+    _marks.setText(L10n.getString(marks));
     // Medallions
     int medallions=_statistics.getMedallionsCount();
-    _medallions.setText(String.valueOf(medallions));
+    _medallions.setText(L10n.getString(medallions));
     // Titles count
     int nbTitles=_statistics.getTitles().size();
-    _titlesCount.setText(String.valueOf(nbTitles));
+    _titlesCount.setText(L10n.getString(nbTitles));
     // Reputation
     AchievablesReputationStats reputation=_statistics.getReputationStats();
     int nbFactions=reputation.getFactionsCount();
+    String nbFactionsStr=L10n.getString(nbFactions);
     int nbReputationPoints=reputation.getTotalReputationPoints();
-    String reputationStr=String.format("%d points, %d factions",Integer.valueOf(nbReputationPoints),Integer.valueOf(nbFactions));
+    String nbReputationPointsStr=L10n.getString(nbReputationPoints);
+    String reputationStr=String.format("%s points, %s factions",nbReputationPointsStr,nbFactionsStr);
     _reputation.setText(reputationStr);
     // Virtues
     int nbVirtues=_statistics.getVirtues().size();
+    String nbVirtuesStr=L10n.getString(nbVirtues);
     int nbVirtuePoints=_statistics.getTotalVirtuePoints();
-    String virtuesStr=String.format("%d points, %d virtues",Integer.valueOf(nbVirtuePoints),Integer.valueOf(nbVirtues));
+    String nbVirtuePointsStr=L10n.getString(nbVirtuePoints);
+    String virtuesStr=String.format("%s points, %s virtues",nbVirtuePointsStr,nbVirtuesStr);
     _virtues.setText(virtuesStr);
     // Virtue XP
     {
       VirtueXPStatsFromAchievables virtueXPStats=_statistics.getVirtueXPStats();
       int totalVirtueXP=virtueXPStats.getTotalVirtueXP();
+      String totalVirtueXPStr=L10n.getString(totalVirtueXP);
       int achievablesCount=virtueXPStats.getEntriesCount();
+      String achievablesCountStr=L10n.getString(achievablesCount);
       int completionsCount=virtueXPStats.getTotalCompletions();
+      String completionsCountStr=L10n.getString(completionsCount);
       String virtueXPLabel;
       if (_mode==AchievableUIMode.DEED)
       {
-        virtueXPLabel=totalVirtueXP+" points from "+achievablesCount+" deeds";
+        virtueXPLabel=totalVirtueXPStr+" points from "+achievablesCountStr+" deeds";
       }
       else
       {
-        virtueXPLabel=totalVirtueXP+" points from "+completionsCount+" completions ("+achievablesCount+" unique quests)";
+        virtueXPLabel=totalVirtueXPStr+" points from "+completionsCountStr+" completions ("+achievablesCountStr+" unique quests)";
       }
       _virtueXP.setText(virtueXPLabel);
     }
     // Items count
     ItemsStats itemsStats=_statistics.getItemsStats();
     int nbItems=itemsStats.getDistinctItemsCount();
-    _itemsCount.setText(String.valueOf(nbItems));
+    _itemsCount.setText(L10n.getString(nbItems));
     // Emotes count
     int nbEmotes=_statistics.getEmotes().size();
-    _emotesCount.setText(String.valueOf(nbEmotes));
+    _emotesCount.setText(L10n.getString(nbEmotes));
     // Traits count
     int nbTraits=_statistics.getTraits().size();
-    _traitsCount.setText(String.valueOf(nbTraits));
+    _traitsCount.setText(L10n.getString(nbTraits));
   }
 
   private void updateStateCount(AchievableElementState state, JLabel gadget)
@@ -230,7 +238,8 @@ public class AchievablesStatisticsSummaryPanelController
     if (total>0)
     {
       double percentage=(100.0*count)/total;
-      displayStr=String.format("%d / %d (%.1f%%)",Integer.valueOf(count),Integer.valueOf(total),Double.valueOf(percentage));
+      String percentageStr=L10n.getString(percentage,1);
+      displayStr=String.format("%s / %s (%s%%)",L10n.getString(count),L10n.getString(total),percentageStr);
     }
     gadget.setText(displayStr);
   }

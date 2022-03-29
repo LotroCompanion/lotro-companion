@@ -14,6 +14,7 @@ import delta.games.lotro.character.status.achievables.statistics.reputation.Achi
 import delta.games.lotro.character.status.tasks.statistics.TasksStatistics;
 import delta.games.lotro.common.statistics.items.ItemsStats;
 import delta.games.lotro.gui.common.money.MoneyDisplayController;
+import delta.games.lotro.utils.l10n.L10n;
 
 /**
  * Controller for a panel to show the summary of the statistics about some achievables.
@@ -114,15 +115,19 @@ public class TasksStatisticsSummaryPanelController
   {
     // Distinct tasks count
     int distinctTasksCount=_statistics.getDistinctCompletedTasksCount();
-    _distinctTasksCount.setText(String.valueOf(distinctTasksCount));
+    String distinctTasksCountStr=L10n.getString(distinctTasksCount);
+    _distinctTasksCount.setText(distinctTasksCountStr);
     // Completions count
     int completionsCount=_statistics.getTaskCompletionsCount();
-    _completionsCount.setText(String.valueOf(completionsCount));
+    String completionsCountStr=L10n.getString(completionsCount);
+    _completionsCount.setText(completionsCountStr);
     // Reputation
     AchievablesReputationStats reputation=_statistics.getReputationStats();
     int nbFactions=reputation.getFactionsCount();
+    String nbFactionsStr=L10n.getString(nbFactions);
     int nbReputationPoints=reputation.getTotalReputationPoints();
-    String reputationStr=String.format("%d points, %d factions",Integer.valueOf(nbReputationPoints),Integer.valueOf(nbFactions));
+    String nbReputationPointsStr=L10n.getString(nbReputationPoints);
+    String reputationStr=String.format("%d points, %d factions",nbReputationPointsStr,nbFactionsStr);
     _reputation.setText(reputationStr);
     // Consumed items
     ItemsStats consumedItemsStats=_statistics.getConsumedItemsStats();
@@ -133,16 +138,21 @@ public class TasksStatisticsSummaryPanelController
     ItemsStats earnedItemsStats=_statistics.getEarnedItemsStats();
     _earnedItemsCount.setText(getItemsLabel(earnedItemsStats));
     // XP
-    _totalXP.setText(String.valueOf(_statistics.getTotalXP()));
-    _totalItemXP.setText(String.valueOf(_statistics.getTotalItemXP()));
-    _totalMountXP.setText(String.valueOf(_statistics.getTotalMountXP()));
+    String totalXPStr=L10n.getString(_statistics.getTotalXP());
+    _totalXP.setText(totalXPStr);
+    String totalItemXPStr=L10n.getString(_statistics.getTotalItemXP());
+    _totalItemXP.setText(totalItemXPStr);
+    String totalMountXPStr=L10n.getString(_statistics.getTotalMountXP());
+    _totalMountXP.setText(totalMountXPStr);
   }
 
   private String getItemsLabel(ItemsStats stats)
   {
-    int nbDistinctItems=stats.getDistinctItemsCount();
     int nbItems=stats.getItemsCount();
-    String ret=String.format("%d items, (%d distinct)",Integer.valueOf(nbItems),Integer.valueOf(nbDistinctItems));
+    String nbItemsStr=L10n.getString(nbItems);
+    int nbDistinctItems=stats.getDistinctItemsCount();
+    String nbDistinctItemsStr=L10n.getString(nbDistinctItems);
+    String ret=String.format("%s items, (%s distinct)",nbItemsStr,nbDistinctItemsStr);
     return ret;
   }
 

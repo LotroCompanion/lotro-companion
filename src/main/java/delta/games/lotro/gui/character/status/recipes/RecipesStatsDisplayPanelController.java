@@ -96,7 +96,8 @@ public class RecipesStatsDisplayPanelController
     if (total>0)
     {
       double percentage=(100.0*count)/total;
-      displayStr=String.format("%s / %s (%.1f%%)",L10n.getString(count),L10n.getString(total),Double.valueOf(percentage));
+      String percentageStr=L10n.getString(percentage,1);
+      displayStr=String.format("%s / %s (%s%%)",L10n.getString(count),L10n.getString(total),percentageStr);
     }
     gadget.setText(displayStr);
   }

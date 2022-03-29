@@ -41,6 +41,7 @@ public class StatContribsChartPanelController
     Paint backgroundPaint=GuiFactory.getBackgroundPaint();
     _pieChart.setBackgroundPaint(backgroundPaint);
     PiePlot plot=(PiePlot)_pieChart.getPlot();
+    // TODO L10n
     plot.setLabelGenerator(new StandardPieSectionLabelGenerator("{0}={1} ({2})",new DecimalFormat("#0.#"),new DecimalFormat("#0.##%")));
     _panel = new ChartPanel(_pieChart);
     _panel.setOpaque(false);

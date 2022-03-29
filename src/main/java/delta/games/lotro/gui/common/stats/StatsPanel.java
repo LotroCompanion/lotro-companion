@@ -14,6 +14,7 @@ import delta.games.lotro.common.stats.StatDescription;
 import delta.games.lotro.common.stats.StatUtils;
 import delta.games.lotro.common.stats.StatsProvider;
 import delta.games.lotro.utils.FixedDecimalsInteger;
+import delta.games.lotro.utils.l10n.L10n;
 
 /**
  * Stats panel utilities.
@@ -68,7 +69,7 @@ public class StatsPanel
           if (statValue!=null)
           {
             float percentage=100*(value.floatValue()/statValue.floatValue());
-            percentageStr=String.format("%.1f%%",Float.valueOf(percentage));
+            percentageStr=L10n.getString(percentage,1)+"%";
           }
           JLabel percentageLabel=GuiFactory.buildLabel(percentageStr);
           c=new GridBagConstraints(2,rowIndex,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,5,0,5),0,0);
