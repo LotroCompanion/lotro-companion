@@ -1,7 +1,7 @@
 package delta.games.lotro.gui.character.stats.contribs;
 
 import java.awt.Paint;
-import java.text.DecimalFormat;
+import java.text.NumberFormat;
 
 import javax.swing.JPanel;
 
@@ -16,6 +16,7 @@ import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.character.stats.contribs.ContribsByStat;
 import delta.games.lotro.character.stats.contribs.StatContribution;
 import delta.games.lotro.utils.FixedDecimalsInteger;
+import delta.games.lotro.utils.l10n.LocalizedFormats;
 
 /**
  * Controller for a chart that show stat contributions.
@@ -41,8 +42,9 @@ public class StatContribsChartPanelController
     Paint backgroundPaint=GuiFactory.getBackgroundPaint();
     _pieChart.setBackgroundPaint(backgroundPaint);
     PiePlot plot=(PiePlot)_pieChart.getPlot();
-    // TODO L10n
-    plot.setLabelGenerator(new StandardPieSectionLabelGenerator("{0}={1} ({2})",new DecimalFormat("#0.#"),new DecimalFormat("#0.##%")));
+    NumberFormat statFormat=LocalizedFormats.getRealNumberFormat(0,2);
+    NumberFormat percentageFormat=LocalizedFormats.getRealNumberFormat(0,2);
+    plot.setLabelGenerator(new StandardPieSectionLabelGenerator("{0}={1} ({2}%)",statFormat,percentageFormat));
     _panel = new ChartPanel(_pieChart);
     _panel.setOpaque(false);
   }

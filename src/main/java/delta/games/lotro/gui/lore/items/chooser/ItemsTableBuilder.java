@@ -27,6 +27,8 @@ import delta.games.lotro.common.stats.StatsRegistry;
 import delta.games.lotro.gui.common.money.MoneyDisplayController;
 import delta.games.lotro.gui.lore.items.ItemColumnIds;
 import delta.games.lotro.gui.lore.items.ItemUiTools;
+import delta.games.lotro.gui.utils.l10n.ColumnsUtils;
+import delta.games.lotro.gui.utils.l10n.StatRenderer;
 import delta.games.lotro.lore.items.Armour;
 import delta.games.lotro.lore.items.ArmourType;
 import delta.games.lotro.lore.items.Item;
@@ -455,7 +457,8 @@ public class ItemsTableBuilder
     String id=stat.getPersistenceKey();
     String name=stat.getName();
     DefaultTableColumnController<Item,FixedDecimalsInteger> statColumn=new DefaultTableColumnController<Item,FixedDecimalsInteger>(id,name,FixedDecimalsInteger.class,statCell);
-    statColumn.setWidthSpecs(55,55,50);
+    StatRenderer renderer=new StatRenderer(stat);
+    ColumnsUtils.configureStatValueColumn(statColumn,renderer,55);
     return statColumn;
   }
 }

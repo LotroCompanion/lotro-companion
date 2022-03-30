@@ -102,4 +102,16 @@ public class ColumnsUtils
     DateFormat format=LocalizedFormats.getDateFormat();
     column.setCellRenderer(new DateRenderer(format));
   }
+
+  /**
+   * Configure a stat column.
+   * @param statColumn Column to use.
+   * @param renderer Renderer to set.
+   * @param width Width to use.
+   */
+  public static final void configureStatValueColumn(DefaultTableColumnController<?,?> statColumn, StatRenderer renderer, int width)
+  {
+    statColumn.setCellRenderer(renderer);
+    statColumn.setWidthSpecs(width,width,width);
+  }
 }
