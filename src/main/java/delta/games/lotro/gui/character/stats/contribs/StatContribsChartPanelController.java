@@ -43,8 +43,8 @@ public class StatContribsChartPanelController
     _pieChart.setBackgroundPaint(backgroundPaint);
     PiePlot plot=(PiePlot)_pieChart.getPlot();
     NumberFormat statFormat=LocalizedFormats.getRealNumberFormat(0,2);
-    NumberFormat percentageFormat=LocalizedFormats.getRealNumberFormat(0,2);
-    plot.setLabelGenerator(new StandardPieSectionLabelGenerator("{0}={1} ({2}%)",statFormat,percentageFormat));
+    NumberFormat percentageFormat=LocalizedFormats.getRealNumberFormat(0,2,true);
+    plot.setLabelGenerator(new StandardPieSectionLabelGenerator("{0}={1} ({2})",statFormat,percentageFormat));
     _panel = new ChartPanel(_pieChart);
     _panel.setOpaque(false);
   }

@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Paint;
 import java.text.DateFormat;
+import java.text.NumberFormat;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -151,10 +152,11 @@ public class DatedCurvesChartController
     double[] valueAxisTicks=_configuration.getValueAxisTicks();
     if (valueAxisTicks!=null)
     {
+      NumberFormat format=LocalizedFormats.getIntegerNumberFormat();
       TickUnits ticks=new TickUnits();
       for(double tick : valueAxisTicks)
       {
-        ticks.add(new NumberTickUnit(tick));
+        ticks.add(new NumberTickUnit(tick,format));
       }
       valueAxis.setStandardTickUnits(ticks);
     }
