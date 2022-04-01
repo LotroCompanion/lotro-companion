@@ -17,6 +17,7 @@ import delta.common.ui.swing.text.FloatEditionController;
 import delta.games.lotro.common.stats.StatDescription;
 import delta.games.lotro.gui.utils.SharedUiUtils;
 import delta.games.lotro.utils.FixedDecimalsInteger;
+import delta.games.lotro.utils.l10n.LocalizedFormats;
 
 /**
  * Controller for the UI items of a single stat.
@@ -36,9 +37,7 @@ public class SingleStatsEditionGadgetsController
   {
     JTextField value=GuiFactory.buildTextField("");
     _floatEditor=new FloatEditionController(value);
-    NumberFormat format=NumberFormat.getNumberInstance();
-    format.setMaximumFractionDigits(1);
-    format.setMinimumFractionDigits(0);
+    NumberFormat format=LocalizedFormats.getRealNumberFormat(0,2);
     _floatEditor.setFormat(format);
     _statChooser=SharedUiUtils.buildStatChooser();
     _unit=GuiFactory.buildLabel("");
