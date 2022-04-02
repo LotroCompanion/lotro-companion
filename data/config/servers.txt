@@ -30,3 +30,5 @@ Estel
 Anor
 Ithil
 Bullroarer
+Shadowfax
+Treebeard
