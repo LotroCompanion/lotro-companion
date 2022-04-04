@@ -4,6 +4,7 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import org.apache.log4j.Logger;
@@ -48,7 +49,7 @@ public class SimpleAchievableRequirementPanelController extends AbstractAchievab
   {
     _parent=parent;
     _requirement=requirement;
-    buildLinkController();
+    _link=buildLinkController();
     _panel=buildPanel();
   }
 
@@ -61,8 +62,9 @@ public class SimpleAchievableRequirementPanelController extends AbstractAchievab
     return _panel;
   }
 
-  private void buildLinkController()
+  private HyperLinkController buildLinkController()
   {
+    HyperLinkController ret=null;
     Proxy<Achievable> proxy=_requirement.getRequiredAchievable();
     if (proxy!=null)
     {
@@ -80,13 +82,14 @@ public class SimpleAchievableRequirementPanelController extends AbstractAchievab
         };
         String name=achievable.getName();
         LocalHyperlinkAction action=new LocalHyperlinkAction(name,listener);
-        _link=new HyperLinkController(action);
+        ret=new HyperLinkController(action);
       }
       else
       {
         LOGGER.warn("Achievable not managed: "+achievable);
       }
     }
+    return ret;
   }
 
   private JPanel buildPanel()
@@ -98,7 +101,8 @@ public class SimpleAchievableRequirementPanelController extends AbstractAchievab
     {
       ret.add(GuiFactory.buildLabel(before));
     }
-    ret.add(_link.getLabel());
+    JLabel linkLabel=((_link!=null)?_link.getLabel():GuiFactory.buildLabel("???"));
+    ret.add(linkLabel);
     String after=StringTools.findAfter(label,ACHIEVABLE_LINK_SEED);
     if ((after!=null) && (after.length()>0))
     {
