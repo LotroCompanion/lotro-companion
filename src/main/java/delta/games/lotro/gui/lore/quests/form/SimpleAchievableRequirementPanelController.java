@@ -154,8 +154,9 @@ public class SimpleAchievableRequirementPanelController extends AbstractAchievab
   private String buildGreaterOrEqualsRequirementLabel(QuestStatus status)
   {
     if (status==QuestStatus.UNDERWAY) return ACHIEVABLE_LINK_SEED+" is underway/completed";
+    if (status==QuestStatus.COMPLETED) return ACHIEVABLE_LINK_SEED+" is completed";
     if (status==null) return ACHIEVABLE_LINK_SEED+" is at least ???";
-    if ((status==QuestStatus.COMPLETED) || (status==QuestStatus.FAILED))
+    if (status==QuestStatus.FAILED)
     {
       LOGGER.warn("Unexpected requirement combinaison: greater or equal "+status+" for "+_requirement.getQuestId());
     }
