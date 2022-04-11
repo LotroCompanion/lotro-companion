@@ -37,7 +37,7 @@ public class KinshipMemberColumnsBuilder
         return kinshipMember.getSummary();
       }
     };
-    for(TableColumnController<KinshipCharacterSummary,?> summaryColumn:summaryColumns)
+    for(TableColumnController<KinshipCharacterSummary,?> summaryColumn : summaryColumns)
     {
       @SuppressWarnings("unchecked")
       TableColumnController<KinshipCharacterSummary,Object> c=(TableColumnController<KinshipCharacterSummary,Object>)summaryColumn;
@@ -57,7 +57,7 @@ public class KinshipMemberColumnsBuilder
   public static List<TableColumnController<KinshipCharacterSummary,?>> buildSummaryColumns()
   {
     List<TableColumnController<KinshipCharacterSummary,?>> columns=new ArrayList<TableColumnController<KinshipCharacterSummary,?>>();
-    List<TableColumnController<KinshipCharacterSummary,?>> summaryColumns=CharacterSummaryColumnsBuilder.buildBaseCharacterSummaryColumns();
+    List<TableColumnController<KinshipCharacterSummary,?>> summaryColumns=CharacterSummaryColumnsBuilder.buildBaseCharacterSummaryColumns(KinshipCharacterSummary.class);
     columns.addAll(summaryColumns);
     columns.addAll(getSummarySpecificColumns());
     return columns;

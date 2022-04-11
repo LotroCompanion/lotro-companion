@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.kinship.filter;
+package delta.games.lotro.gui.friends.filter;
 
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
@@ -15,33 +15,27 @@ import delta.common.ui.swing.combobox.ItemSelectionListener;
 import delta.common.ui.swing.text.DynamicTextEditionController;
 import delta.common.ui.swing.text.TextListener;
 import delta.common.utils.collections.filters.Filter;
-import delta.games.lotro.character.BaseCharacterSummary;
 import delta.games.lotro.character.filters.CharacterClassFilter;
 import delta.games.lotro.character.filters.CharacterNameFilter;
-import delta.games.lotro.character.filters.CharacterSexFilter;
-import delta.games.lotro.character.filters.CharacterSummaryFilter;
-import delta.games.lotro.character.filters.RaceFilter;
+import delta.games.lotro.character.social.friends.Friend;
+import delta.games.lotro.character.social.friends.filters.FriendFilter;
 import delta.games.lotro.common.CharacterClass;
-import delta.games.lotro.common.CharacterSex;
-import delta.games.lotro.common.Race;
 import delta.games.lotro.gui.character.summary.CharacterUiUtils;
 import delta.games.lotro.gui.lore.items.FilterUpdateListener;
 
 /**
- * Controller for a kinship member filter edition panel.
+ * Controller for a friend filter edition panel.
  * @author DAM
  */
-public class CharacterSummaryFilterController
+public class FriendSummaryFilterController
 {
   // Data
-  private CharacterSummaryFilter _filter;
+  private FriendFilter _filter;
   // GUI
   private JPanel _panel;
   // -- Character attributes UI --
   private JTextField _contains;
   private ComboBoxController<CharacterClass> _class;
-  private ComboBoxController<Race> _race;
-  private ComboBoxController<CharacterSex> _sex;
   // Controllers
   private DynamicTextEditionController _textController;
   private FilterUpdateListener _filterUpdateListener;
@@ -51,7 +45,7 @@ public class CharacterSummaryFilterController
    * @param filter Managed filter.
    * @param filterUpdateListener Filter update listener.
    */
-  public CharacterSummaryFilterController(CharacterSummaryFilter filter, FilterUpdateListener filterUpdateListener)
+  public FriendSummaryFilterController(FriendFilter filter, FilterUpdateListener filterUpdateListener)
   {
     _filter=filter;
     _filterUpdateListener=filterUpdateListener;
@@ -61,7 +55,7 @@ public class CharacterSummaryFilterController
    * Get the managed filter.
    * @return the managed filter.
    */
-  public Filter<BaseCharacterSummary> getFilter()
+  public Filter<Friend> getFilter()
   {
     return _filter;
   }
@@ -95,8 +89,6 @@ public class CharacterSummaryFilterController
   public void reset()
   {
     _class.selectItem(null);
-    _race.selectItem(null);
-    _sex.selectItem(null);
     _contains.setText("");
   }
 
@@ -106,24 +98,16 @@ public class CharacterSummaryFilterController
   public void setFilter()
   {
     // Name
-    CharacterNameFilter<BaseCharacterSummary> nameFilter=_filter.getNameFilter();
+    CharacterNameFilter<Friend> nameFilter=_filter.getNameFilter();
     String contains=nameFilter.getPattern();
     if (contains!=null)
     {
       _contains.setText(contains);
     }
     // Class
-    CharacterClassFilter<BaseCharacterSummary> classFilter=_filter.getClassFilter();
+    CharacterClassFilter<Friend> classFilter=_filter.getClassFilter();
     CharacterClass characterClass=classFilter.getCharacterClass();
     _class.selectItem(characterClass);
-    // Race
-    RaceFilter raceFilter=_filter.getRaceFilter();
-    Race race=raceFilter.getRace();
-    _race.selectItem(race);
-    // Sex
-    CharacterSexFilter sexFilter=_filter.getSexFilter();
-    CharacterSex sex=sexFilter.getSex();
-    _sex.selectItem(sex);
   }
 
   private JPanel build()
@@ -158,7 +142,7 @@ public class CharacterSummaryFilterController
         public void textChanged(String newText)
         {
           if (newText.length()==0) newText=null;
-          CharacterNameFilter<BaseCharacterSummary> nameFilter=_filter.getNameFilter();
+          CharacterNameFilter<Friend> nameFilter=_filter.getNameFilter();
           nameFilter.setPattern(newText);
           filterUpdated();
         }
@@ -175,49 +159,13 @@ public class CharacterSummaryFilterController
         @Override
         public void itemSelected(CharacterClass characterClass)
         {
-          CharacterClassFilter<BaseCharacterSummary> classFilter=_filter.getClassFilter();
+          CharacterClassFilter<Friend> classFilter=_filter.getClassFilter();
           classFilter.setCharacterClass(characterClass);
           filterUpdated();
         }
       };
       _class.addListener(classListener);
       linePanel.add(_class.getComboBox());
-    }
-    // Race
-    {
-      JLabel label=GuiFactory.buildLabel("Race:");
-      linePanel.add(label);
-      _race=CharacterUiUtils.buildRaceCombo(true);
-      ItemSelectionListener<Race> raceListener=new ItemSelectionListener<Race>()
-      {
-        @Override
-        public void itemSelected(Race race)
-        {
-          RaceFilter raceFilter=_filter.getRaceFilter();
-          raceFilter.setRace(race);
-          filterUpdated();
-        }
-      };
-      _race.addListener(raceListener);
-      linePanel.add(_race.getComboBox());
-    }
-    // Sex
-    {
-      JLabel label=GuiFactory.buildLabel("Sex:");
-      linePanel.add(label);
-      _sex=CharacterUiUtils.buildSexCombo(true);
-      ItemSelectionListener<CharacterSex> sexListener=new ItemSelectionListener<CharacterSex>()
-      {
-        @Override
-        public void itemSelected(CharacterSex sex)
-        {
-          CharacterSexFilter sexFilter=_filter.getSexFilter();
-          sexFilter.setSex(sex);
-          filterUpdated();
-        }
-      };
-      _sex.addListener(sexListener);
-      linePanel.add(_sex.getComboBox());
     }
     GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,5,0),0,0);
     panel.add(linePanel,c);
@@ -248,16 +196,6 @@ public class CharacterSummaryFilterController
     {
       _class.dispose();
       _class=null;
-    }
-    if (_race!=null)
-    {
-      _race.dispose();
-      _race=null;
-    }
-    if (_sex!=null)
-    {
-      _sex.dispose();
-      _sex=null;
     }
     _contains=null;
   }

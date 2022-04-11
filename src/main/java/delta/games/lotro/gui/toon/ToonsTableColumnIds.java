@@ -7,6 +7,10 @@ package delta.games.lotro.gui.toon;
 public enum ToonsTableColumnIds
 {
   /**
+   * IID.
+   */
+  IID,
+  /**
    * Name.
    */
   NAME,

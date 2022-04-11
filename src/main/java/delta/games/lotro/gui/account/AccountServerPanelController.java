@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -19,8 +20,11 @@ import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.account.Account;
 import delta.games.lotro.account.AccountUtils;
 import delta.games.lotro.character.CharacterFile;
+import delta.games.lotro.character.social.friends.FriendsManager;
+import delta.games.lotro.character.social.friends.io.xml.FriendsIO;
 import delta.games.lotro.gui.character.status.currencies.SingleCharacterCurrencyHistoryWindowController;
 import delta.games.lotro.gui.character.storage.account.AccountStorageDisplayWindowController;
+import delta.games.lotro.gui.friends.FriendsWindowController;
 import delta.games.lotro.gui.main.GlobalPreferences;
 import delta.games.lotro.gui.toon.ToonsTableController;
 
@@ -32,6 +36,7 @@ public class AccountServerPanelController implements ActionListener
 {
   private static final String STORAGE_COMMAND="storage";
   private static final String CURRENCIES_COMMAND="currencies";
+  private static final String FRIENDS_COMMAND="friends";
 
   // Data
   private Account _account;
@@ -111,6 +116,9 @@ public class AccountServerPanelController implements ActionListener
     // Currencies
     JButton currenciesButton=buildCommandButton("Currencies",CURRENCIES_COMMAND);
     panel.add(currenciesButton);
+    // Friends
+    JButton friendsButton=buildCommandButton("Friends",FRIENDS_COMMAND);
+    panel.add(friendsButton);
 
     return panel;
   }
@@ -139,6 +147,10 @@ public class AccountServerPanelController implements ActionListener
     {
       showCurrencies();
     }
+    else if (FRIENDS_COMMAND.equals(command))
+    {
+      showFriends();
+    }
   }
 
   private void showStorage()
@@ -163,6 +175,25 @@ public class AccountServerPanelController implements ActionListener
       summaryController.getWindow().setLocationRelativeTo(_parent.getWindow());
     }
     summaryController.bringToFront();
+  }
+
+  private void showFriends()
+  {
+    FriendsWindowController friendsWindow=(FriendsWindowController)_windowsManager.getWindow(FriendsWindowController.getIdentifier());
+    if (friendsWindow==null)
+    {
+      File rootDir=_account.getServer(_server).getRootDir();
+      File friendsFile=FriendsIO.getFriendsFile(rootDir);
+      FriendsManager friendsMgr=FriendsIO.loadFriends(friendsFile);
+      if (friendsMgr==null)
+      {
+        friendsMgr=new FriendsManager();
+      }
+      friendsWindow=new FriendsWindowController(_parent,friendsMgr);
+      _windowsManager.registerWindow(friendsWindow);
+      friendsWindow.getWindow().setLocationRelativeTo(_parent.getWindow());
+    }
+    friendsWindow.bringToFront();
   }
 
   /**
