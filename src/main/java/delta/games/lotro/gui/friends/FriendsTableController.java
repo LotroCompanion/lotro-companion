@@ -76,6 +76,10 @@ public class FriendsTableController //implements GenericEventsListener<KinshipEv
       columnIds.add(ToonsTableColumnIds.NAME.name());
       columnIds.add(ToonsTableColumnIds.LEVEL.name());
       columnIds.add(ToonsTableColumnIds.CLASS.name());
+      columnIds.add(FriendsColumnIds.AREA.name());
+      columnIds.add(FriendsColumnIds.VOCATION.name());
+      columnIds.add(FriendsColumnIds.LAST_LOGOUT_DATE.name());
+      columnIds.add(FriendsColumnIds.NOTES.name());
     }
     return columnIds;
   }

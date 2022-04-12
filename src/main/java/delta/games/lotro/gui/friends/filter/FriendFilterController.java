@@ -120,34 +120,32 @@ public class FriendFilterController implements ActionListener
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
 
-    int y=0;
-
+    int x=0;
     // Summary
     JPanel summaryPanel=_summary.getPanel();
     Border summaryBorder=GuiFactory.buildTitledBorder("Character");
     summaryPanel.setBorder(summaryBorder);
-    GridBagConstraints c=new GridBagConstraints(0,y,2,1,0.0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    GridBagConstraints c=new GridBagConstraints(x,0,1,1,0.0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(summaryPanel,c);
-    y++;
+    x++;
 
-    // Member attributes
-    JPanel memberPanel=buildMemberPanel();
-    Border memberBorder=GuiFactory.buildTitledBorder("Member");
-    memberPanel.setBorder(memberBorder);
-    c=new GridBagConstraints(0,y,1,1,0.0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
-    panel.add(memberPanel,c);
+    // Friend attributes
+    JPanel friendFilterPanel=buildFriendPanel();
+    friendFilterPanel.setBorder(GuiFactory.buildTitledBorder("Friend"));
+    c=new GridBagConstraints(x,0,1,1,0.0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    panel.add(friendFilterPanel,c);
+    x++;
 
     // Reset
     _reset=GuiFactory.buildButton("Reset");
     _reset.addActionListener(this);
-    c=new GridBagConstraints(1,y,1,1,1.0,0,GridBagConstraints.SOUTHEAST,GridBagConstraints.NONE,new Insets(0,5,5,5),0,0);
+    c=new GridBagConstraints(x,0,1,1,1.0,0,GridBagConstraints.SOUTHEAST,GridBagConstraints.NONE,new Insets(0,5,5,5),0,0);
     panel.add(_reset,c);
-    y++;
-
+ 
     return panel;
   }
 
-  private JPanel buildMemberPanel()
+  private JPanel buildFriendPanel()
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
 
