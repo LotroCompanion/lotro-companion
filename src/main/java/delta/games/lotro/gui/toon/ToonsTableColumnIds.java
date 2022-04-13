@@ -63,6 +63,14 @@ public enum ToonsTableColumnIds
    */
   TITLE,
   /**
+   * Area.
+   */
+  AREA,
+  /**
+   * Dungeon.
+   */
+  DUNGEON,
+  /**
    * Kinship.
    */
   KINSHIP,
