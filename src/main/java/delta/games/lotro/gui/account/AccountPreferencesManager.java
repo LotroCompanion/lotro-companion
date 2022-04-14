@@ -16,14 +16,12 @@ public class AccountPreferencesManager
 {
   /**
    * Get the preferences for an account and server.
-   * @param account Account.
-   * @param serverName Server name.
+   * @param accountOnServer Account/server to use.
    * @param id Identifier of the preferences set.
    * @return Some properties, may be empty.
    */
-  public static TypedProperties getPreferencesProperties(Account account, String serverName, String id)
+  public static TypedProperties getPreferencesProperties(AccountOnServer accountOnServer, String id)
   {
-    AccountOnServer accountOnServer=account.getServer(serverName);
     Preferences prefs=accountOnServer.getPreferences();
     TypedProperties props=prefs.getPreferences(id);
     if (CurrenciesPreferences.CURRENCIES_PREFERENCES_ID.equals(id))

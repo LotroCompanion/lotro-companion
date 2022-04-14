@@ -1,6 +1,7 @@
 package delta.games.lotro.gui.friends;
 
 import java.awt.BorderLayout;
+import java.io.File;
 
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
@@ -8,19 +9,26 @@ import javax.swing.border.TitledBorder;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.misc.TypedProperties;
+import delta.games.lotro.account.AccountOnServer;
+import delta.games.lotro.account.events.AccountEvent;
+import delta.games.lotro.account.events.AccountEventProperties;
+import delta.games.lotro.account.events.AccountEventType;
 import delta.games.lotro.character.social.friends.FriendsManager;
 import delta.games.lotro.character.social.friends.filters.FriendFilter;
+import delta.games.lotro.character.social.friends.io.xml.FriendsIO;
 import delta.games.lotro.gui.friends.filter.FriendFilterController;
 import delta.games.lotro.gui.main.GlobalPreferences;
+import delta.games.lotro.utils.events.EventsManager;
+import delta.games.lotro.utils.events.GenericEventsListener;
 
 /**
  * Controller for a panel to display friends.
  * @author DAM
  */
-public class FriendsPanelController
+public class FriendsPanelController implements GenericEventsListener<AccountEvent>
 {
   // Data
-  private FriendsManager _friendsMgr;
+  private AccountOnServer _accountOnServer;
   private FriendFilter _filter;
   // UI
   private JPanel _panel;
@@ -33,13 +41,14 @@ public class FriendsPanelController
   /**
    * Constructor.
    * @param parent Parent window controller.
-   * @param friendsMgr Managed friends.
+   * @param accountOnServer Managed account/server.
    */
-  public FriendsPanelController(WindowController parent, FriendsManager friendsMgr)
+  public FriendsPanelController(WindowController parent, AccountOnServer accountOnServer)
   {
     _parent=parent;
-    _friendsMgr=friendsMgr;
+    _accountOnServer=accountOnServer;
     _filter=new FriendFilter();
+    EventsManager.addListener(AccountEvent.class,this);
   }
 
   /**
@@ -73,17 +82,47 @@ public class FriendsPanelController
 
   private JPanel buildTablePanel()
   {
-    _membersTable=buildMembersTable();
+    _membersTable=buildFriendsTable();
+    updateFriends();
     _membersPanel=new FriendsTablePanelController(_parent,_membersTable);
     return _membersPanel.getPanel();
   }
 
-  private FriendsTableController buildMembersTable()
+  private FriendsTableController buildFriendsTable()
   {
     TypedProperties prefs=GlobalPreferences.getGlobalProperties("FriendsTable");
     FriendsTableController tableController=new FriendsTableController(prefs,_filter);
-    tableController.setFriends(_friendsMgr.getAll());
     return tableController;
+  }
+
+  /**
+   * Handle friends events.
+   * @param event Source event.
+   */
+  @Override
+  public void eventOccurred(AccountEvent event)
+  {
+    AccountEventType type=event.getType();
+    if (type==AccountEventType.FRIENDS_UPDATED)
+    {
+      String serverName=event.getProperties().getStringProperty(AccountEventProperties.SERVER_NAME,null);
+      if (_accountOnServer.getServerName().equals(serverName))
+      {
+        updateFriends();
+      }
+    }
+  }
+
+  private void updateFriends()
+  {
+    File rootDir=_accountOnServer.getRootDir();
+    File friendsFile=FriendsIO.getFriendsFile(rootDir);
+    FriendsManager friendsMgr=FriendsIO.loadFriends(friendsFile);
+    if (friendsMgr==null)
+    {
+      friendsMgr=new FriendsManager();
+    }
+    _membersTable.setFriends(friendsMgr.getAll());
   }
 
   /**
@@ -91,8 +130,10 @@ public class FriendsPanelController
    */
   public void dispose()
   {
+    // Listeners
+    EventsManager.removeListener(AccountEvent.class,this);
     // Data
-    _friendsMgr=null;
+    _accountOnServer=null;
     _filter=null;
     // UI
     if (_panel!=null)

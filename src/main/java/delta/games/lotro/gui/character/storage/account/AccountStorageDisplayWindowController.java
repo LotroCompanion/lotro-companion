@@ -16,6 +16,7 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.DefaultDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.account.Account;
+import delta.games.lotro.account.AccountOnServer;
 import delta.games.lotro.account.AccountUtils;
 import delta.games.lotro.account.events.AccountEvent;
 import delta.games.lotro.account.events.AccountEventType;
@@ -51,8 +52,7 @@ public class AccountStorageDisplayWindowController extends DefaultDialogControll
   public static final String IDENTIFIER="ACCOUNT_STORAGE";
 
   // Data
-  private Account _account;
-  private String _serverName;
+  private AccountOnServer _accountOnServer;
   private List<CharacterFile> _characters;
   private StorageFilter _filter;
   private List<StoredItem> _items;
@@ -67,15 +67,13 @@ public class AccountStorageDisplayWindowController extends DefaultDialogControll
   /**
    * Constructor.
    * @param parent Parent controller.
-   * @param account Account to use.
-   * @param server Server to use.
+   * @param accountOnServer Account/server to use.
    */
-  public AccountStorageDisplayWindowController(WindowController parent, Account account, String server)
+  public AccountStorageDisplayWindowController(WindowController parent, AccountOnServer accountOnServer)
   {
     super(parent);
-    _account=account;
-    _serverName=server;
-    _characters=AccountUtils.getCharacters(account.getName(),server);
+    _accountOnServer=accountOnServer;
+    _characters=AccountUtils.getCharacters(accountOnServer);
     _filter=new StorageFilter();
     _items=new ArrayList<StoredItem>();
     updateContents();
@@ -88,7 +86,7 @@ public class AccountStorageDisplayWindowController extends DefaultDialogControll
         AccountEventType type=event.getType();
         if (type==AccountEventType.STORAGE_UPDATED)
         {
-          if (event.getAccount()==_account)
+          if (event.getAccount()==_accountOnServer.getAccount())
           {
             updateContents();
           }
@@ -182,14 +180,16 @@ public class AccountStorageDisplayWindowController extends DefaultDialogControll
   private void updateContents()
   {
     // Title
-    String name=_account.getName();
-    String title="Storage for account "+name+" @ "+_serverName;
+    Account account=_accountOnServer.getAccount();
+    String accountName=account.getName();
+    String serverName=_accountOnServer.getServerName();
+    String title="Storage for account "+accountName+" @ "+serverName;
     getDialog().setTitle(title);
     // Update storage
-    AccountServerStorage storage=new AccountServerStorage(_account.getName(),_serverName);
-    Vault sharedVault=VaultsIo.load(_account,_serverName);
+    AccountServerStorage storage=new AccountServerStorage(accountName,serverName);
+    Vault sharedVault=VaultsIo.load(account,serverName);
     storage.setSharedVault(sharedVault);
-    Wallet sharedWallet=WalletsIO.loadAccountSharedWallet(_account,_serverName);
+    Wallet sharedWallet=WalletsIO.loadAccountSharedWallet(account,serverName);
     storage.setSharedWallet(sharedWallet);
     for(CharacterFile character : _characters)
     {
@@ -197,7 +197,8 @@ public class AccountStorageDisplayWindowController extends DefaultDialogControll
       storage.addStorage(character.getName(),characterStorage);
     }
     _summaryController.update(storage);
-    _items=StorageUtils.buildAccountItems(_account,_serverName);
+    AccountOnServer accountOnServer=account.getServer(serverName);
+    _items=StorageUtils.buildAccountItems(accountOnServer);
     _panelController.update(_items);
     _buttonsController.update(_items);
     _filterController.update();
@@ -214,8 +215,7 @@ public class AccountStorageDisplayWindowController extends DefaultDialogControll
     EventsManager.removeListener(AccountEvent.class,_accountEventsListener);
     _accountEventsListener=null;
     // Data
-    _account=null;
-    _serverName=null;
+    _accountOnServer=null;
     _characters=null;
     _filter=null;
     _items=null;

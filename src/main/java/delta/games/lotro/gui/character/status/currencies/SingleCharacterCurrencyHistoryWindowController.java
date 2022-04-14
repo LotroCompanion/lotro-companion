@@ -15,7 +15,7 @@ import delta.common.ui.swing.combobox.ItemSelectionListener;
 import delta.common.ui.swing.windows.DefaultDisplayDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.misc.TypedProperties;
-import delta.games.lotro.account.Account;
+import delta.games.lotro.account.AccountOnServer;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.storage.currencies.Currencies;
 import delta.games.lotro.character.storage.currencies.CurrenciesFacade;
@@ -55,16 +55,15 @@ public class SingleCharacterCurrencyHistoryWindowController extends DefaultDispl
   /**
    * Constructor.
    * @param parent Parent window.
-   * @param account Account to use.
-   * @param serverName Server name.
+   * @param accountOnServer Account/server to use.
    */
-  public SingleCharacterCurrencyHistoryWindowController(WindowController parent, Account account, String serverName)
+  public SingleCharacterCurrencyHistoryWindowController(WindowController parent, AccountOnServer accountOnServer)
   {
     super(parent,null);
-    CurrenciesFacade facade=new CurrenciesFacade(account,serverName);
+    CurrenciesFacade facade=new CurrenciesFacade(accountOnServer);
     _panelController=new SingleCharacterCurrencyHistoryPanelController(facade);
     List<Currency> currencies=Currencies.getAvailableCurrencies(false,true,true);
-    _preferences=AccountPreferencesManager.getPreferencesProperties(account,serverName,CurrenciesPreferences.CURRENCIES_PREFERENCES_ID);
+    _preferences=AccountPreferencesManager.getPreferencesProperties(accountOnServer,CurrenciesPreferences.CURRENCIES_PREFERENCES_ID);
     _currencyChoice=new CurrencyChoicePanelController(this,currencies,_preferences);
   }
 

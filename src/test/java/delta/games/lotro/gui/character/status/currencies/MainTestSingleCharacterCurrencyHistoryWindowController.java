@@ -1,6 +1,7 @@
 package delta.games.lotro.gui.character.status.currencies;
 
 import delta.games.lotro.account.Account;
+import delta.games.lotro.account.AccountOnServer;
 import delta.games.lotro.account.AccountsManager;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharactersManager;
@@ -20,7 +21,8 @@ public class MainTestSingleCharacterCurrencyHistoryWindowController
     // Account/server
     Account account=AccountsManager.getInstance().getAccountByName("glorfindel666");
     String serverName="Landroval";
-    SingleCharacterCurrencyHistoryWindowController controller=new SingleCharacterCurrencyHistoryWindowController(null,account,serverName);
+    AccountOnServer accountOnServer=account.getServer(serverName);
+    SingleCharacterCurrencyHistoryWindowController controller=new SingleCharacterCurrencyHistoryWindowController(null,accountOnServer);
     controller.show();
     // Character
     CharacterFile toon=CharactersManager.getInstance().getToonById(serverName,"Meva");

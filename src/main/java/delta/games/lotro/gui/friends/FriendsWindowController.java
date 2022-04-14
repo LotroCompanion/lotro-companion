@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 
 import delta.common.ui.swing.windows.DefaultDisplayDialogController;
 import delta.common.ui.swing.windows.WindowController;
+import delta.games.lotro.account.AccountOnServer;
 import delta.games.lotro.character.social.friends.FriendsManager;
 
 /**
@@ -15,19 +16,17 @@ import delta.games.lotro.character.social.friends.FriendsManager;
  */
 public class FriendsWindowController extends DefaultDisplayDialogController<FriendsManager>
 {
-  private FriendsManager _friendsMgr;
   private FriendsPanelController _detailsPanel;
 
   /**
    * Constructor.
    * @param parent Parent window.
-   * @param friendsMgr Managed friends.
+   * @param accountOnServer Managed account/server.
    */
-  public FriendsWindowController(WindowController parent, FriendsManager friendsMgr)
+  public FriendsWindowController(WindowController parent, AccountOnServer accountOnServer)
   {
-    super(parent,friendsMgr);
-    _friendsMgr=friendsMgr;
-    _detailsPanel=new FriendsPanelController(this,_friendsMgr);
+    super(parent,null);
+    _detailsPanel=new FriendsPanelController(this,accountOnServer);
   }
 
   /**

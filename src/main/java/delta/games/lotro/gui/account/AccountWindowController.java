@@ -14,6 +14,7 @@ import javax.swing.JTabbedPane;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.DefaultWindowController;
 import delta.games.lotro.account.Account;
+import delta.games.lotro.account.AccountOnServer;
 import delta.games.lotro.account.AccountUtils;
 
 /**
@@ -70,7 +71,8 @@ public class AccountWindowController extends DefaultWindowController
 
   private JPanel buildServerPanel(String serverName)
   {
-    AccountServerPanelController controller=new AccountServerPanelController(this,_account,serverName);
+    AccountOnServer accountOnServer=_account.getServer(serverName);
+    AccountServerPanelController controller=new AccountServerPanelController(this,accountOnServer);
     _serverPanels.put(serverName,controller);
     JPanel panel=controller.getPanel();
     return panel;

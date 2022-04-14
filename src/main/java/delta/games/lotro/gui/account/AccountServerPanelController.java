@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -18,10 +17,9 @@ import delta.common.ui.swing.windows.WindowsManager;
 import delta.common.utils.misc.Preferences;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.account.Account;
+import delta.games.lotro.account.AccountOnServer;
 import delta.games.lotro.account.AccountUtils;
 import delta.games.lotro.character.CharacterFile;
-import delta.games.lotro.character.social.friends.FriendsManager;
-import delta.games.lotro.character.social.friends.io.xml.FriendsIO;
 import delta.games.lotro.gui.character.status.currencies.SingleCharacterCurrencyHistoryWindowController;
 import delta.games.lotro.gui.character.storage.account.AccountStorageDisplayWindowController;
 import delta.games.lotro.gui.friends.FriendsWindowController;
@@ -39,8 +37,7 @@ public class AccountServerPanelController implements ActionListener
   private static final String FRIENDS_COMMAND="friends";
 
   // Data
-  private Account _account;
-  private String _server;
+  private AccountOnServer _accountOnServer;
   // UI
   private JPanel _panel;
   private WindowsManager _windowsManager;
@@ -51,14 +48,12 @@ public class AccountServerPanelController implements ActionListener
   /**
    * Constructor.
    * @param parent Parent window.
-   * @param account Managed account.
-   * @param serverName Managed server.
+   * @param accountOnServer Managed account/server.
    */
-  public AccountServerPanelController(WindowController parent, Account account, String serverName)
+  public AccountServerPanelController(WindowController parent, AccountOnServer accountOnServer)
   {
     _parent=parent;
-    _account=account;
-    _server=serverName;
+    _accountOnServer=accountOnServer;
     _windowsManager=new WindowsManager();
   }
 
@@ -102,7 +97,10 @@ public class AccountServerPanelController implements ActionListener
   {
     TypedProperties prefs=GlobalPreferences.getGlobalProperties("AccountServerCharTable");
     ToonsTableController tableController=new ToonsTableController(prefs,null);
-    List<CharacterFile> characters=AccountUtils.getCharacters(_account.getName(),_server);
+    Account account=_accountOnServer.getAccount();
+    String accountName=account.getName();
+    String serverName=_accountOnServer.getServerName();
+    List<CharacterFile> characters=AccountUtils.getCharacters(accountName,serverName);
     tableController.setToons(characters);
     return tableController;
   }
@@ -158,7 +156,7 @@ public class AccountServerPanelController implements ActionListener
     AccountStorageDisplayWindowController summaryController=(AccountStorageDisplayWindowController)_windowsManager.getWindow(AccountStorageDisplayWindowController.IDENTIFIER);
     if (summaryController==null)
     {
-      summaryController=new AccountStorageDisplayWindowController(_parent,_account,_server);
+      summaryController=new AccountStorageDisplayWindowController(_parent,_accountOnServer);
       _windowsManager.registerWindow(summaryController);
       summaryController.getWindow().setLocationRelativeTo(_parent.getWindow());
     }
@@ -170,7 +168,7 @@ public class AccountServerPanelController implements ActionListener
     SingleCharacterCurrencyHistoryWindowController summaryController=(SingleCharacterCurrencyHistoryWindowController)_windowsManager.getWindow(SingleCharacterCurrencyHistoryWindowController.getIdentifier());
     if (summaryController==null)
     {
-      summaryController=new SingleCharacterCurrencyHistoryWindowController(_parent,_account,_server);
+      summaryController=new SingleCharacterCurrencyHistoryWindowController(_parent,_accountOnServer);
       _windowsManager.registerWindow(summaryController);
       summaryController.getWindow().setLocationRelativeTo(_parent.getWindow());
     }
@@ -182,14 +180,7 @@ public class AccountServerPanelController implements ActionListener
     FriendsWindowController friendsWindow=(FriendsWindowController)_windowsManager.getWindow(FriendsWindowController.getIdentifier());
     if (friendsWindow==null)
     {
-      File rootDir=_account.getServer(_server).getRootDir();
-      File friendsFile=FriendsIO.getFriendsFile(rootDir);
-      FriendsManager friendsMgr=FriendsIO.loadFriends(friendsFile);
-      if (friendsMgr==null)
-      {
-        friendsMgr=new FriendsManager();
-      }
-      friendsWindow=new FriendsWindowController(_parent,friendsMgr);
+      friendsWindow=new FriendsWindowController(_parent,_accountOnServer);
       _windowsManager.registerWindow(friendsWindow);
       friendsWindow.getWindow().setLocationRelativeTo(_parent.getWindow());
     }
@@ -219,9 +210,8 @@ public class AccountServerPanelController implements ActionListener
       _toonsTable=null;
     }
     // Data
-    Preferences preferences=_account.getServer(_server).getPreferences();
+    Preferences preferences=_accountOnServer.getPreferences();
     preferences.saveAllPreferences();
-    _account=null;
-    _server=null;
+    _accountOnServer=null;
   }
 }

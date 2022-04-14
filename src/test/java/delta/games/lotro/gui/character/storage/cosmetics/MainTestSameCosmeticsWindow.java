@@ -3,6 +3,7 @@ package delta.games.lotro.gui.character.storage.cosmetics;
 import java.util.List;
 
 import delta.games.lotro.account.Account;
+import delta.games.lotro.account.AccountOnServer;
 import delta.games.lotro.account.AccountsManager;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharactersManager;
@@ -25,7 +26,8 @@ public class MainTestSameCosmeticsWindow
     doIt(items);
 
     Account account=AccountsManager.getInstance().getAccountByName("glorfindel666");
-    List<StoredItem> items2=StorageUtils.buildAccountItems(account,"Landroval");
+    AccountOnServer accountOnServer=account.getServer("Landroval");
+    List<StoredItem> items2=StorageUtils.buildAccountItems(accountOnServer);
     doIt(items2);
   }
 

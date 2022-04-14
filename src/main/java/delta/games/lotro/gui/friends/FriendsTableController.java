@@ -21,7 +21,7 @@ import delta.games.lotro.gui.toon.ToonsTableColumnIds;
  * Controller for a table that friends.
  * @author DAM
  */
-public class FriendsTableController //implements GenericEventsListener<KinshipEvent>
+public class FriendsTableController
 {
   // Data
   private TypedProperties _prefs;
@@ -41,7 +41,6 @@ public class FriendsTableController //implements GenericEventsListener<KinshipEv
     _friends=new ArrayList<Friend>();
     _tableController=buildTable();
     _tableController.setFilter(filter);
-    //EventsManager.addListener(KinshipEvent.class,this);
   }
 
   private GenericTableController<Friend> buildTable()
@@ -92,23 +91,6 @@ public class FriendsTableController //implements GenericEventsListener<KinshipEv
   {
     return _tableController;
   }
-
-  /**
-   * Handle friends events.
-   * @param event Source event.
-   */
-  /*
-  @Override
-  public void eventOccurred(KinshipEvent event)
-  {
-    KinshipEventType type=event.getType();
-    if (type==KinshipEventType.KINSHIP_ROSTER_UPDATED)
-    {
-      Kinship kinship=event.getKinship();
-      setMembers(kinship.getRoster().getAllMembers());
-    }
-  }
-   */
 
   /**
    * Set the members to show.
@@ -184,8 +166,6 @@ public class FriendsTableController //implements GenericEventsListener<KinshipEv
    */
   public void dispose()
   {
-    // Listeners
-    //EventsManager.removeListener(KinshipEvent.class,this);
     // Preferences
     if (_prefs!=null)
     {

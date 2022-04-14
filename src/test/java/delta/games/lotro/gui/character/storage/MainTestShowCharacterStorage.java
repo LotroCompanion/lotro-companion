@@ -3,6 +3,7 @@ package delta.games.lotro.gui.character.storage;
 import java.util.List;
 
 import delta.games.lotro.account.Account;
+import delta.games.lotro.account.AccountOnServer;
 import delta.games.lotro.account.AccountUtils;
 import delta.games.lotro.account.AccountsManager;
 import delta.games.lotro.character.CharacterFile;
@@ -36,7 +37,8 @@ public class MainTestShowCharacterStorage
       if (showShared)
       {
         // Store
-        AccountStorageDisplayWindowController accountWindow=new AccountStorageDisplayWindowController(null,account,server);
+        AccountOnServer accountOnServer=account.getServer(server);
+        AccountStorageDisplayWindowController accountWindow=new AccountStorageDisplayWindowController(null,accountOnServer);
         accountWindow.show();
         showShared=false;
       }
