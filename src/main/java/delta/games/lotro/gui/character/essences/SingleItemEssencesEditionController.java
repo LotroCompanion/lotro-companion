@@ -10,7 +10,7 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.labels.MultilineLabel;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.BasicCharacterAttributes;
-import delta.games.lotro.character.CharacterEquipment.EQUIMENT_SLOT;
+import delta.games.lotro.character.gear.GearSlot;
 import delta.games.lotro.gui.character.gear.EquipmentSlotIconController;
 import delta.games.lotro.gui.lore.items.essences.SimpleSingleEssenceEditionController;
 import delta.games.lotro.lore.items.Item;
@@ -40,7 +40,7 @@ public class SingleItemEssencesEditionController
    * @param attrs Attributes of toon to use.
    * @param slot Managed slot.
    */
-  public SingleItemEssencesEditionController(WindowController parent, BasicCharacterAttributes attrs, EQUIMENT_SLOT slot)
+  public SingleItemEssencesEditionController(WindowController parent, BasicCharacterAttributes attrs, GearSlot slot)
   {
     _itemInstance=null;
     _attrs=attrs;

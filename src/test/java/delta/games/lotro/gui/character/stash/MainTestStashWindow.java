@@ -2,9 +2,9 @@ package delta.games.lotro.gui.character.stash;
 
 import delta.games.lotro.LotroTestUtils;
 import delta.games.lotro.character.CharacterData;
-import delta.games.lotro.character.CharacterEquipment;
-import delta.games.lotro.character.CharacterEquipment.EQUIMENT_SLOT;
 import delta.games.lotro.character.CharacterFile;
+import delta.games.lotro.character.gear.CharacterGear;
+import delta.games.lotro.character.gear.GearSlot;
 import delta.games.lotro.character.storage.stash.ItemsStash;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemFactory;
@@ -27,8 +27,8 @@ public class MainTestStashWindow
     // Copy gear to stash
     ItemsStash stash=toon.getStash();
     CharacterData data=toon.getInfosManager().getLastCharacterDescription();
-    CharacterEquipment gear=data.getEquipment();
-    for(EQUIMENT_SLOT slot : EQUIMENT_SLOT.values())
+    CharacterGear gear=data.getEquipment();
+    for(GearSlot slot : GearSlot.values())
     {
       ItemInstance<? extends Item> item=gear.getItemForSlot(slot);
       if (item!=null)

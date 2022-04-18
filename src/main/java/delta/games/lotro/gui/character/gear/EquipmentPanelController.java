@@ -26,12 +26,12 @@ import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.character.CharacterData;
-import delta.games.lotro.character.CharacterEquipment;
-import delta.games.lotro.character.CharacterEquipment.EQUIMENT_SLOT;
-import delta.games.lotro.character.CharacterEquipment.SlotContents;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.events.CharacterEvent;
 import delta.games.lotro.character.events.CharacterEventType;
+import delta.games.lotro.character.gear.CharacterGear;
+import delta.games.lotro.character.gear.GearSlot;
+import delta.games.lotro.character.gear.GearSlotContents;
 import delta.games.lotro.character.storage.StorageUtils;
 import delta.games.lotro.character.storage.StoragesIO;
 import delta.games.lotro.character.storage.bags.BagsManager;
@@ -95,11 +95,11 @@ public class EquipmentPanelController implements ActionListener
   private WindowController _parentWindow;
   private JPanel _panel;
   private JLayeredPane _layeredPane;
-  private HashMap<EQUIMENT_SLOT,Dimension> _iconPositions;
+  private HashMap<GearSlot,Dimension> _iconPositions;
   private CharacterFile _toon;
   private CharacterData _toonData;
-  private HashMap<EQUIMENT_SLOT,JButton> _buttons;
-  private HashMap<EQUIMENT_SLOT,EquipmentSlotIconController> _icons;
+  private HashMap<GearSlot,JButton> _buttons;
+  private HashMap<GearSlot,EquipmentSlotIconController> _icons;
   private JPopupMenu _contextMenu;
 
   /**
@@ -113,64 +113,64 @@ public class EquipmentPanelController implements ActionListener
     _parentWindow=parent;
     _toon=toon;
     _toonData=toonData;
-    _buttons=new HashMap<EQUIMENT_SLOT,JButton>();
-    _icons=new HashMap<EQUIMENT_SLOT,EquipmentSlotIconController>();
+    _buttons=new HashMap<GearSlot,JButton>();
+    _icons=new HashMap<GearSlot,EquipmentSlotIconController>();
     _contextMenu=buildContextualMenu();
     initPositions();
   }
 
   private void initPositions()
   {
-    _iconPositions=new HashMap<EQUIMENT_SLOT,Dimension>();
+    _iconPositions=new HashMap<GearSlot,Dimension>();
     int x=X_COLUMN_1;
     int y=Y_START;
-    _iconPositions.put(EQUIMENT_SLOT.LEFT_EAR,new Dimension(x,y));
+    _iconPositions.put(GearSlot.LEFT_EAR,new Dimension(x,y));
     y+=DELTA_Y;
-    _iconPositions.put(EQUIMENT_SLOT.NECK,new Dimension(x,y));
+    _iconPositions.put(GearSlot.NECK,new Dimension(x,y));
     y+=DELTA_Y;
-    _iconPositions.put(EQUIMENT_SLOT.LEFT_WRIST,new Dimension(x,y));
+    _iconPositions.put(GearSlot.LEFT_WRIST,new Dimension(x,y));
     y+=DELTA_Y;
-    _iconPositions.put(EQUIMENT_SLOT.LEFT_FINGER,new Dimension(x,y));
+    _iconPositions.put(GearSlot.LEFT_FINGER,new Dimension(x,y));
     x=X_COLUMN_2; y=Y_START;
-    _iconPositions.put(EQUIMENT_SLOT.RIGHT_EAR,new Dimension(x,y));
+    _iconPositions.put(GearSlot.RIGHT_EAR,new Dimension(x,y));
     y+=DELTA_Y;
-    _iconPositions.put(EQUIMENT_SLOT.POCKET,new Dimension(x,y));
+    _iconPositions.put(GearSlot.POCKET,new Dimension(x,y));
     y+=DELTA_Y;
-    _iconPositions.put(EQUIMENT_SLOT.RIGHT_WRIST,new Dimension(x,y));
+    _iconPositions.put(GearSlot.RIGHT_WRIST,new Dimension(x,y));
     y+=DELTA_Y;
-    _iconPositions.put(EQUIMENT_SLOT.RIGHT_FINGER,new Dimension(x,y));
+    _iconPositions.put(GearSlot.RIGHT_FINGER,new Dimension(x,y));
     x=X_COLUMN_3; y=Y_START;
-    _iconPositions.put(EQUIMENT_SLOT.HEAD,new Dimension(x,y));
+    _iconPositions.put(GearSlot.HEAD,new Dimension(x,y));
     y+=DELTA_Y;
-    _iconPositions.put(EQUIMENT_SLOT.BREAST,new Dimension(x,y));
+    _iconPositions.put(GearSlot.BREAST,new Dimension(x,y));
     y+=DELTA_Y;
-    _iconPositions.put(EQUIMENT_SLOT.HANDS,new Dimension(x,y));
+    _iconPositions.put(GearSlot.HANDS,new Dimension(x,y));
     y+=DELTA_Y;
-    _iconPositions.put(EQUIMENT_SLOT.LEGS,new Dimension(x,y));
+    _iconPositions.put(GearSlot.LEGS,new Dimension(x,y));
     x=X_COLUMN_4; y=Y_START;
-    _iconPositions.put(EQUIMENT_SLOT.SHOULDER,new Dimension(x,y));
+    _iconPositions.put(GearSlot.SHOULDER,new Dimension(x,y));
     y+=DELTA_Y;
-    _iconPositions.put(EQUIMENT_SLOT.BACK,new Dimension(x,y));
+    _iconPositions.put(GearSlot.BACK,new Dimension(x,y));
     y+=DELTA_Y;
     y+=DELTA_Y;
-    _iconPositions.put(EQUIMENT_SLOT.FEET,new Dimension(x,y));
+    _iconPositions.put(GearSlot.FEET,new Dimension(x,y));
 
     x=X_ROW; y=Y_ROW;
-    _iconPositions.put(EQUIMENT_SLOT.MAIN_MELEE,new Dimension(x,y));
+    _iconPositions.put(GearSlot.MAIN_MELEE,new Dimension(x,y));
     x+=DELTA_X;
-    _iconPositions.put(EQUIMENT_SLOT.MAIN_HAND_AURA,new Dimension(x,y));
+    _iconPositions.put(GearSlot.MAIN_HAND_AURA,new Dimension(x,y));
     x+=DELTA_X;
-    _iconPositions.put(EQUIMENT_SLOT.OTHER_MELEE,new Dimension(x,y));
+    _iconPositions.put(GearSlot.OTHER_MELEE,new Dimension(x,y));
     x+=DELTA_X;
-    _iconPositions.put(EQUIMENT_SLOT.OFF_HAND_AURA,new Dimension(x,y));
+    _iconPositions.put(GearSlot.OFF_HAND_AURA,new Dimension(x,y));
     x+=DELTA_X;
-    _iconPositions.put(EQUIMENT_SLOT.RANGED,new Dimension(x,y));
+    _iconPositions.put(GearSlot.RANGED,new Dimension(x,y));
     x+=DELTA_X;
-    _iconPositions.put(EQUIMENT_SLOT.RANGED_AURA,new Dimension(x,y));
+    _iconPositions.put(GearSlot.RANGED_AURA,new Dimension(x,y));
     x+=DELTA_X;
-    _iconPositions.put(EQUIMENT_SLOT.TOOL,new Dimension(x,y));
+    _iconPositions.put(GearSlot.TOOL,new Dimension(x,y));
     x+=DELTA_X;
-    _iconPositions.put(EQUIMENT_SLOT.CLASS_ITEM,new Dimension(x,y));
+    _iconPositions.put(GearSlot.CLASS_ITEM,new Dimension(x,y));
   }
 
   private JPopupMenu buildContextualMenu()
@@ -232,7 +232,7 @@ public class EquipmentPanelController implements ActionListener
 
       private void doPop(MouseEvent e)
       {
-        EQUIMENT_SLOT slot=findSlotForButton((Component)e.getSource());
+        GearSlot slot=findSlotForButton((Component)e.getSource());
         ItemInstance<? extends Item> item=getItemForSlot(slot);
         _contextMenu.getComponent(0).setEnabled(item!=null);
         _contextMenu.show(e.getComponent(),e.getX(),e.getY());
@@ -282,7 +282,7 @@ public class EquipmentPanelController implements ActionListener
     updateButton.addActionListener(this);
 
     MouseListener listener=buildRightClickListener();
-    for(EQUIMENT_SLOT slot : EQUIMENT_SLOT.values())
+    for(GearSlot slot : GearSlot.values())
     {
       // Position for item
       Dimension position=_iconPositions.get(slot);
@@ -313,7 +313,7 @@ public class EquipmentPanelController implements ActionListener
    */
   private void updateIcons()
   {
-    for(EQUIMENT_SLOT slot : EQUIMENT_SLOT.values())
+    for(GearSlot slot : GearSlot.values())
     {
       ItemInstance<? extends Item> itemInstance=getItemForSlot(slot);
       EquipmentSlotIconController iconController=_icons.get(slot);
@@ -326,14 +326,14 @@ public class EquipmentPanelController implements ActionListener
     }
   }
 
-  private ItemInstance<? extends Item> getItemForSlot(EQUIMENT_SLOT slot)
+  private ItemInstance<? extends Item> getItemForSlot(GearSlot slot)
   {
-    CharacterEquipment equipment=_toonData.getEquipment();
+    CharacterGear equipment=_toonData.getEquipment();
     ItemInstance<? extends Item> itemInstance=equipment.getItemForSlot(slot);
     return itemInstance;
   }
 
-  private void handleEditItemInstance(EQUIMENT_SLOT slot)
+  private void handleEditItemInstance(GearSlot slot)
   {
     ItemInstance<? extends Item> item=getItemForSlot(slot);
     if (item!=null)
@@ -345,16 +345,16 @@ public class EquipmentPanelController implements ActionListener
       if (resultItem!=null)
       {
         editedItem.setWearer(_toonData.getSummary());
-        CharacterEquipment equipment=_toonData.getEquipment();
+        CharacterGear equipment=_toonData.getEquipment();
         equipment.getSlotContents(slot,true).setItem(editedItem);
         refreshToon();
       }
     }
   }
 
-  private EQUIMENT_SLOT findSlotForButton(Component c)
+  private GearSlot findSlotForButton(Component c)
   {
-    for(Map.Entry<EQUIMENT_SLOT,JButton> entry : _buttons.entrySet())
+    for(Map.Entry<GearSlot,JButton> entry : _buttons.entrySet())
     {
       if (c==entry.getValue())
       {
@@ -364,13 +364,13 @@ public class EquipmentPanelController implements ActionListener
     return null;
   }
 
-  private void handleChooseItemInstanceFromStash(EQUIMENT_SLOT slot)
+  private void handleChooseItemInstanceFromStash(GearSlot slot)
   {
     ItemInstance<? extends Item> itemInstance=chooseItemInstanceFromStash(slot);
     if (itemInstance!=null)
     {
-      CharacterEquipment equipment=_toonData.getEquipment();
-      SlotContents contents=equipment.getSlotContents(slot,true);
+      CharacterGear equipment=_toonData.getEquipment();
+      GearSlotContents contents=equipment.getSlotContents(slot,true);
       ItemInstance<? extends Item> instance=ItemFactory.cloneInstance(itemInstance);
       instance.setWearer(_toonData.getSummary());
       contents.setItem(instance);
@@ -378,13 +378,13 @@ public class EquipmentPanelController implements ActionListener
     }
   }
 
-  private void handleChooseItemInstanceFromBags(EQUIMENT_SLOT slot)
+  private void handleChooseItemInstanceFromBags(GearSlot slot)
   {
     ItemInstance<? extends Item> itemInstance=chooseItemInstanceFromBags(slot);
     if (itemInstance!=null)
     {
-      CharacterEquipment equipment=_toonData.getEquipment();
-      SlotContents contents=equipment.getSlotContents(slot,true);
+      CharacterGear equipment=_toonData.getEquipment();
+      GearSlotContents contents=equipment.getSlotContents(slot,true);
       ItemInstance<? extends Item> instance=ItemFactory.cloneInstance(itemInstance);
       instance.setWearer(_toonData.getSummary());
       contents.setItem(instance);
@@ -392,13 +392,13 @@ public class EquipmentPanelController implements ActionListener
     }
   }
 
-  private void handleChooseItemInstanceFromSharedVault(EQUIMENT_SLOT slot)
+  private void handleChooseItemInstanceFromSharedVault(GearSlot slot)
   {
     ItemInstance<? extends Item> itemInstance=chooseItemInstanceFromSharedVault(slot);
     if (itemInstance!=null)
     {
-      CharacterEquipment equipment=_toonData.getEquipment();
-      SlotContents contents=equipment.getSlotContents(slot,true);
+      CharacterGear equipment=_toonData.getEquipment();
+      GearSlotContents contents=equipment.getSlotContents(slot,true);
       ItemInstance<? extends Item> instance=ItemFactory.cloneInstance(itemInstance);
       instance.setWearer(_toonData.getSummary());
       contents.setItem(instance);
@@ -406,13 +406,13 @@ public class EquipmentPanelController implements ActionListener
     }
   }
 
-  private void handleChooseItemInstance(EQUIMENT_SLOT slot)
+  private void handleChooseItemInstance(GearSlot slot)
   {
     Item item=chooseItem(slot);
     if (item!=null)
     {
-      CharacterEquipment equipment=_toonData.getEquipment();
-      SlotContents contents=equipment.getSlotContents(slot,true);
+      CharacterGear equipment=_toonData.getEquipment();
+      GearSlotContents contents=equipment.getSlotContents(slot,true);
       ItemInstance<? extends Item> itemInstance=ItemFactory.buildInstance(item);
       itemInstance.setWearer(_toonData.getSummary());
       contents.setItem(itemInstance);
@@ -420,21 +420,21 @@ public class EquipmentPanelController implements ActionListener
     }
   }
 
-  private ItemInstance<? extends Item> chooseItemInstanceFromStash(EQUIMENT_SLOT slot)
+  private ItemInstance<? extends Item> chooseItemInstanceFromStash(GearSlot slot)
   {
     ItemsStash stash=_toon.getStash();
     List<ItemInstance<? extends Item>> items=stash.getAll();
     return chooseItemInstance(items,slot,"ItemFilter_Stash");
   }
 
-  private ItemInstance<? extends Item> chooseItemInstanceFromBags(EQUIMENT_SLOT slot)
+  private ItemInstance<? extends Item> chooseItemInstanceFromBags(GearSlot slot)
   {
     BagsManager bags=BagsIo.load(_toon);
     List<ItemInstance<? extends Item>> items=bags.getAllItemInstances();
     return chooseItemInstance(items,slot,"ItemFilter_Bags");
   }
 
-  private ItemInstance<? extends Item> chooseItemInstanceFromSharedVault(EQUIMENT_SLOT slot)
+  private ItemInstance<? extends Item> chooseItemInstanceFromSharedVault(GearSlot slot)
   {
     Vault sharedVault=StoragesIO.loadSharedVault(_toon);
     if (sharedVault==null)
@@ -445,7 +445,7 @@ public class EquipmentPanelController implements ActionListener
     return chooseItemInstance(items,slot,"ItemFilter_SharedVault");
   }
 
-  private ItemInstance<? extends Item> chooseItemInstance(List<ItemInstance<? extends Item>> itemInstances, EQUIMENT_SLOT slot, String propsId)
+  private ItemInstance<? extends Item> chooseItemInstance(List<ItemInstance<? extends Item>> itemInstances, GearSlot slot, String propsId)
   {
     List<ItemInstance<? extends Item>> selectedInstances=filter(itemInstances,slot);
     ItemFilterConfiguration cfg=new ItemFilterConfiguration();
@@ -460,7 +460,7 @@ public class EquipmentPanelController implements ActionListener
     return ret;
   }
 
-  private List<ItemInstance<? extends Item>> filter(List<ItemInstance<? extends Item>> itemInstances, EQUIMENT_SLOT slot)
+  private List<ItemInstance<? extends Item>> filter(List<ItemInstance<? extends Item>> itemInstances, GearSlot slot)
   {
     List<ItemInstance<? extends Item>> selectedInstances=new ArrayList<ItemInstance<? extends Item>>();
     ItemSlotFilter filter=new ItemSlotFilter(slot);
@@ -475,7 +475,7 @@ public class EquipmentPanelController implements ActionListener
     return selectedInstances;
   }
 
-  private Item chooseItem(EQUIMENT_SLOT slot)
+  private Item chooseItem(GearSlot slot)
   {
     List<Item> selectedItems=ItemsManager.getInstance().getItems(slot.getLocation());
     ItemFilterConfiguration cfg=new ItemFilterConfiguration();
@@ -491,10 +491,10 @@ public class EquipmentPanelController implements ActionListener
     return ret;
   }
 
-  private void handleRemoveItemInstance(EQUIMENT_SLOT slot)
+  private void handleRemoveItemInstance(GearSlot slot)
   {
-    CharacterEquipment equipment=_toonData.getEquipment();
-    SlotContents contents=equipment.getSlotContents(slot,false);
+    CharacterGear equipment=_toonData.getEquipment();
+    GearSlotContents contents=equipment.getSlotContents(slot,false);
     if (contents!=null)
     {
       contents.setItem(null);
@@ -502,10 +502,10 @@ public class EquipmentPanelController implements ActionListener
     refreshToon();
   }
 
-  private void handleCopyToStash(EQUIMENT_SLOT slot)
+  private void handleCopyToStash(GearSlot slot)
   {
-    CharacterEquipment equipment=_toonData.getEquipment();
-    SlotContents contents=equipment.getSlotContents(slot,false);
+    CharacterGear equipment=_toonData.getEquipment();
+    GearSlotContents contents=equipment.getSlotContents(slot,false);
     if (contents!=null)
     {
       ItemInstance<? extends Item> item=contents.getItem();
@@ -533,7 +533,7 @@ public class EquipmentPanelController implements ActionListener
     {
       cmd=cmd.substring(SLOT_SEED.length());
       // Straight click
-      EQUIMENT_SLOT slot=EQUIMENT_SLOT.valueOf(cmd);
+      GearSlot slot=GearSlot.valueOf(cmd);
       if (slot!=null)
       {
         ItemInstance<? extends Item> currentItem=getItemForSlot(slot);
@@ -557,7 +557,7 @@ public class EquipmentPanelController implements ActionListener
     {
       // From contextual menu
       Component invoker=_contextMenu.getInvoker();
-      EQUIMENT_SLOT slot=findSlotForButton(invoker);
+      GearSlot slot=findSlotForButton(invoker);
       if (slot!=null)
       {
         if (EDIT_COMMAND.equals(cmd))

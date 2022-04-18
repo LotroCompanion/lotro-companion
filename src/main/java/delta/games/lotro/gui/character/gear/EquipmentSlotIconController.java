@@ -5,7 +5,7 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 
 import delta.common.ui.swing.icons.IconsManager;
-import delta.games.lotro.character.CharacterEquipment.EQUIMENT_SLOT;
+import delta.games.lotro.character.gear.GearSlot;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.lore.items.ItemUiTools;
 import delta.games.lotro.lore.items.Item;
@@ -19,7 +19,7 @@ public class EquipmentSlotIconController
 {
   private static final String BACKGROUND_ICONS_SEED="/resources/gui/equipment/";
 
-  private EQUIMENT_SLOT _slot;
+  private GearSlot _slot;
   private ImageIcon _icon;
   private String _tooltip;
 
@@ -27,7 +27,7 @@ public class EquipmentSlotIconController
    * Constructor.
    * @param slot Managed slot.
    */
-  public EquipmentSlotIconController(EQUIMENT_SLOT slot)
+  public EquipmentSlotIconController(GearSlot slot)
   {
     _slot=slot;
     setItem(null);
@@ -75,7 +75,7 @@ public class EquipmentSlotIconController
     return _tooltip;
   }
 
-  private ImageIcon getDefaultIcon(EQUIMENT_SLOT slot)
+  private ImageIcon getDefaultIcon(GearSlot slot)
   {
     String iconPath=BACKGROUND_ICONS_SEED+slot.name()+".png";
     Image backgroundIcon=IconsManager.getImage(iconPath);

@@ -25,8 +25,8 @@ import delta.common.ui.swing.labels.MultilineLabel2;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.Config;
 import delta.games.lotro.character.CharacterData;
-import delta.games.lotro.character.CharacterEquipment;
-import delta.games.lotro.character.CharacterEquipment.EQUIMENT_SLOT;
+import delta.games.lotro.character.gear.CharacterGear;
+import delta.games.lotro.character.gear.GearSlot;
 import delta.games.lotro.common.enums.SocketType;
 import delta.games.lotro.config.LotroCoreConfig;
 import delta.games.lotro.gui.lore.items.legendary2.traceries.TraceriesConstraintsMgr;
@@ -439,8 +439,8 @@ public class LegendaryInstance2EditionPanelController
   private TraceriesConstraintsMgr buildTraceryChooserContext(SingleTraceryEditionController currentEditor)
   {
     CharacterData characterData=_parent.getContextProperty(ContextPropertyNames.CHARACTER_DATA,CharacterData.class);
-    CharacterEquipment gear=characterData.getEquipment();
-    EQUIMENT_SLOT slot=_parent.getContextProperty(ContextPropertyNames.EQUIMENT_SLOT,EQUIMENT_SLOT.class);
+    CharacterGear gear=characterData.getEquipment();
+    GearSlot slot=_parent.getContextProperty(ContextPropertyNames.EQUIMENT_SLOT,GearSlot.class);
     TraceriesConstraintsMgr otherLIsMgr=TraceryUtils.build(gear,slot);
     TraceriesConstraintsMgr ret=new TraceriesConstraintsMgr(otherLIsMgr);
     for(SingleTraceryEditionController editor : _editors)

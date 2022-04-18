@@ -20,9 +20,6 @@ import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.Config;
 import delta.games.lotro.character.CharacterData;
-import delta.games.lotro.character.CharacterEquipment;
-import delta.games.lotro.character.CharacterEquipment.EQUIMENT_SLOT;
-import delta.games.lotro.character.CharacterEquipment.SlotContents;
 import delta.games.lotro.character.CharacterFactory;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharacterSummary;
@@ -30,6 +27,9 @@ import delta.games.lotro.character.CharactersManager;
 import delta.games.lotro.character.classes.ClassDescription;
 import delta.games.lotro.character.classes.ClassesManager;
 import delta.games.lotro.character.classes.InitialGearDefinition;
+import delta.games.lotro.character.gear.CharacterGear;
+import delta.games.lotro.character.gear.GearSlot;
+import delta.games.lotro.character.gear.GearSlotContents;
 import delta.games.lotro.character.stats.CharacterStatsComputer;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.CharacterSex;
@@ -189,7 +189,7 @@ public class NewToonDialogController extends DefaultFormDialogController<Object>
     ClassDescription description=ClassesManager.getInstance().getClassDescription(characterClass);
     if (description!=null)
     {
-      CharacterEquipment gear=info.getEquipment();
+      CharacterGear gear=info.getEquipment();
       ItemsManager itemsMgr=ItemsManager.getInstance();
       InitialGearDefinition initialGear=description.getInitialGear();
       List<Integer> itemIds=initialGear.getItems(race);
@@ -199,11 +199,11 @@ public class NewToonDialogController extends DefaultFormDialogController<Object>
         if (item!=null)
         {
           EquipmentLocation location=item.getEquipmentLocation();
-          for(EQUIMENT_SLOT slot : EQUIMENT_SLOT.values())
+          for(GearSlot slot : GearSlot.values())
           {
             if (slot.getLocation()==location)
             {
-              SlotContents contents=gear.getSlotContents(slot,true);
+              GearSlotContents contents=gear.getSlotContents(slot,true);
               ItemInstance<? extends Item> old=contents.getItem();
               ItemInstance<? extends Item> itemInstance=ItemFactory.buildInstance(item);
               if (old==null)

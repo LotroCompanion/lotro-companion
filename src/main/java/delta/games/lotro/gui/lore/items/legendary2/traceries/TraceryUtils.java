@@ -1,7 +1,7 @@
 package delta.games.lotro.gui.lore.items.legendary2.traceries;
 
-import delta.games.lotro.character.CharacterEquipment;
-import delta.games.lotro.character.CharacterEquipment.EQUIMENT_SLOT;
+import delta.games.lotro.character.gear.CharacterGear;
+import delta.games.lotro.character.gear.GearSlot;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemInstance;
 import delta.games.lotro.lore.items.legendary2.LegendaryInstance2;
@@ -23,10 +23,10 @@ public class TraceryUtils
    * @param currentSlot Slot to skip.
    * @return A constraints manager or <code>null</code> if no other LI slotted.
    */
-  public static TraceriesConstraintsMgr build(CharacterEquipment gear, EQUIMENT_SLOT currentSlot)
+  public static TraceriesConstraintsMgr build(CharacterGear gear, GearSlot currentSlot)
   {
     TraceriesConstraintsMgr ret=null;
-    for(EQUIMENT_SLOT slot : EQUIMENT_SLOT.values())
+    for(GearSlot slot : GearSlot.values())
     {
       if (slot==currentSlot)
       {

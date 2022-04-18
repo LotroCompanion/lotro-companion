@@ -5,8 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import delta.games.lotro.character.CharacterData;
-import delta.games.lotro.character.CharacterEquipment;
-import delta.games.lotro.character.CharacterEquipment.EQUIMENT_SLOT;
+import delta.games.lotro.character.gear.CharacterGear;
+import delta.games.lotro.character.gear.GearSlot;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemInstance;
@@ -81,8 +81,8 @@ public class EssencesSummary
     _essencesCount=0;
     _slotsCount=0;
     _stats.clear();
-    CharacterEquipment equipment=_toon.getEquipment();
-    for(EQUIMENT_SLOT slot : EQUIMENT_SLOT.values())
+    CharacterGear equipment=_toon.getEquipment();
+    for(GearSlot slot : GearSlot.values())
     {
       ItemInstance<? extends Item> itemInstance=equipment.getItemForSlot(slot);
       if (itemInstance!=null)

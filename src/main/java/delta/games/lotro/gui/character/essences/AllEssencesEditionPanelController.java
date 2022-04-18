@@ -13,10 +13,10 @@ import javax.swing.JPanel;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.CharacterData;
-import delta.games.lotro.character.CharacterEquipment;
-import delta.games.lotro.character.CharacterEquipment.EQUIMENT_SLOT;
 import delta.games.lotro.character.events.CharacterEvent;
 import delta.games.lotro.character.events.CharacterEventType;
+import delta.games.lotro.character.gear.CharacterGear;
+import delta.games.lotro.character.gear.GearSlot;
 import delta.games.lotro.gui.lore.items.essences.EssenceUpdatedListener;
 import delta.games.lotro.gui.lore.items.essences.SimpleSingleEssenceEditionController;
 import delta.games.lotro.lore.items.Item;
@@ -54,8 +54,8 @@ public class AllEssencesEditionPanelController implements EssenceUpdatedListener
 
   private void initEditors()
   {
-    CharacterEquipment equipment=_toon.getEquipment();
-    for(EQUIMENT_SLOT slot : EQUIMENT_SLOT.values())
+    CharacterGear equipment=_toon.getEquipment();
+    for(GearSlot slot : GearSlot.values())
     {
       SingleItemEssencesEditionController controller=new SingleItemEssencesEditionController(_parent,_toon.getSummary(),slot);
       ItemInstance<? extends Item> item=equipment.getItemForSlot(slot);
