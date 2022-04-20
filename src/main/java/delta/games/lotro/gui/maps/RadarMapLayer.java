@@ -87,7 +87,7 @@ public class RadarMapLayer extends BaseRasterLayer
     float deltaDegrees=PositionDecoder.LANDBLOCK_SIZE*PositionDecoder.OP_TO_MP;
     // - geographic bounds of the view
     GeoBox bounds=view.getGeoBounds();
-    // - number of images horizonzally
+    // - number of images horizontally
     float deltaLon=bounds.getMax().getLongitude()-bounds.getMin().getLongitude();
     int nbImagesX=(int)(deltaLon/deltaDegrees)+2;
     if (nbImagesX>20) return;

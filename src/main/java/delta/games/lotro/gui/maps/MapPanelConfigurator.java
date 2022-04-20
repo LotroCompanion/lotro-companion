@@ -50,7 +50,7 @@ public class MapPanelConfigurator
     }
     else
     {
-      // Use the bouding box of the map, if any
+      // Use the bounding box of the map, if any
       Integer mapId=mapDescription.getMapId();
       if (mapId!=null)
       {

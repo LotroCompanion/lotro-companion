@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.character.storage;
+package delta.games.lotro.gui.character.storage.wardrobe;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -18,7 +18,7 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.tables.TableColumnsChooserController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.misc.TypedProperties;
-import delta.games.lotro.character.storage.StoredItem;
+import delta.games.lotro.character.storage.wardrobe.WardrobeItem;
 import delta.games.lotro.gui.lore.items.FilterUpdateListener;
 import delta.games.lotro.gui.main.GlobalPreferences;
 
@@ -26,16 +26,16 @@ import delta.games.lotro.gui.main.GlobalPreferences;
  * Controller for the storage display panel.
  * @author DAM
  */
-public class StorageDisplayPanelController implements FilterUpdateListener
+public class WardrobeDisplayPanelController implements FilterUpdateListener
 {
   // Data
-  private List<StoredItem> _items;
-  private StorageFilter _filter;
+  private List<WardrobeItem> _items;
+  private WardrobeFilter _filter;
   // GUI
   private JPanel _panel;
   private JLabel _statsLabel;
   // Controllers
-  private StoredItemsTableController _tableController;
+  private WardrobeItemsTableController _tableController;
   private WindowController _parent;
 
   /**
@@ -43,13 +43,13 @@ public class StorageDisplayPanelController implements FilterUpdateListener
    * @param parent Parent window.
    * @param filter FIlter of stored items.
    */
-  public StorageDisplayPanelController(WindowController parent, StorageFilter filter)
+  public WardrobeDisplayPanelController(WindowController parent, WardrobeFilter filter)
   {
     _parent=parent;
     _filter=filter;
-    _items=new ArrayList<StoredItem>();
-    TypedProperties prefs=GlobalPreferences.getGlobalProperties("StorageDisplay");
-    _tableController=new StoredItemsTableController(parent,prefs,_items,filter);
+    _items=new ArrayList<WardrobeItem>();
+    TypedProperties prefs=GlobalPreferences.getGlobalProperties("Wardrobe");
+    _tableController=new WardrobeItemsTableController(parent,prefs,_items,filter);
     getPanel();
   }
 
@@ -86,7 +86,7 @@ public class StorageDisplayPanelController implements FilterUpdateListener
       @Override
       public void actionPerformed(ActionEvent e)
       {
-        TableColumnsChooserController<StoredItem> chooser=new TableColumnsChooserController<StoredItem>(_parent,_tableController.getTableController());
+        TableColumnsChooserController<WardrobeItem> chooser=new TableColumnsChooserController<WardrobeItem>(_parent,_tableController.getTableController());
         chooser.editModal();
       }
     };
@@ -100,9 +100,9 @@ public class StorageDisplayPanelController implements FilterUpdateListener
    * Update display.
    * @param items Items to show.
    */
-  public void update(List<StoredItem> items)
+  public void update(List<WardrobeItem> items)
   {
-    updateStorage(items);
+    updateContents(items);
     updateStatsLabel();
     _tableController.update();
   }
@@ -132,7 +132,7 @@ public class StorageDisplayPanelController implements FilterUpdateListener
     _statsLabel.setText(label);
   }
 
-  private void updateStorage(List<StoredItem> items)
+  private void updateContents(List<WardrobeItem> items)
   {
     _items.clear();
     _items.addAll(items);
