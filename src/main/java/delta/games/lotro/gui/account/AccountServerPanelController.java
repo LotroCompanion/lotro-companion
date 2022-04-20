@@ -22,6 +22,7 @@ import delta.games.lotro.account.AccountUtils;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.gui.character.status.currencies.SingleCharacterCurrencyHistoryWindowController;
 import delta.games.lotro.gui.character.storage.account.AccountStorageDisplayWindowController;
+import delta.games.lotro.gui.character.storage.wardrobe.WardrobeDisplayWindowController;
 import delta.games.lotro.gui.friends.FriendsWindowController;
 import delta.games.lotro.gui.main.GlobalPreferences;
 import delta.games.lotro.gui.toon.ToonsTableController;
@@ -35,6 +36,7 @@ public class AccountServerPanelController implements ActionListener
   private static final String STORAGE_COMMAND="storage";
   private static final String CURRENCIES_COMMAND="currencies";
   private static final String FRIENDS_COMMAND="friends";
+  private static final String WARDROBE_COMMAND="wardrobe";
 
   // Data
   private AccountOnServer _accountOnServer;
@@ -117,6 +119,9 @@ public class AccountServerPanelController implements ActionListener
     // Friends
     JButton friendsButton=buildCommandButton("Friends",FRIENDS_COMMAND);
     panel.add(friendsButton);
+    // Wardrobe
+    JButton wardrobeButton=buildCommandButton("Wardrobe",WARDROBE_COMMAND);
+    panel.add(wardrobeButton);
 
     return panel;
   }
@@ -148,6 +153,10 @@ public class AccountServerPanelController implements ActionListener
     else if (FRIENDS_COMMAND.equals(command))
     {
       showFriends();
+    }
+    else if (WARDROBE_COMMAND.equals(command))
+    {
+      showWardrobe();
     }
   }
 
@@ -185,6 +194,18 @@ public class AccountServerPanelController implements ActionListener
       friendsWindow.getWindow().setLocationRelativeTo(_parent.getWindow());
     }
     friendsWindow.bringToFront();
+  }
+
+  private void showWardrobe()
+  {
+    WardrobeDisplayWindowController wardrobeWindow=(WardrobeDisplayWindowController)_windowsManager.getWindow(WardrobeDisplayWindowController.IDENTIFIER);
+    if (wardrobeWindow==null)
+    {
+      wardrobeWindow=new WardrobeDisplayWindowController(_parent,_accountOnServer);
+      _windowsManager.registerWindow(wardrobeWindow);
+      wardrobeWindow.getWindow().setLocationRelativeTo(_parent.getWindow());
+    }
+    wardrobeWindow.bringToFront();
   }
 
   /**

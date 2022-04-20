@@ -136,6 +136,10 @@ public class WardrobeDisplayWindowController extends DefaultDialogController imp
     getDialog().setTitle(title);
     // Update storage
     Wardrobe wardrobe=WardrobeIO.loadWardrobe(_accountOnServer);
+    if (wardrobe==null)
+    {
+      wardrobe=new Wardrobe();
+    }
     _items=new ArrayList<WardrobeItem>();
     _items.addAll(wardrobe.getAll());
     _panelController.update(_items);
