@@ -123,7 +123,7 @@ public class WardrobeItemsTableController
         @Override
         public String getData(WardrobeItem wardrobeItem)
         {
-          return wardrobeItem.getColor().getName();
+          return wardrobeItem.getColorsLabel();
         }
       };
       DefaultTableColumnController<WardrobeItem,String> colorColumn=new DefaultTableColumnController<WardrobeItem,String>(COLOR_COLUMN,"Color",String.class,colorCell);
