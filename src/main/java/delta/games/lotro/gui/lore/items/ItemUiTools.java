@@ -141,7 +141,7 @@ public class ItemUiTools
     }
     else
     {
-      WindowsManager windows=parent.getWindowsManager();
+      WindowsManager windows=(parent!=null)?parent.getWindowsManager():new WindowsManager();
       int id=windows.getAll().size();
       window=NavigatorFactory.buildNavigator(parent,id);
       windows.registerWindow(window);
