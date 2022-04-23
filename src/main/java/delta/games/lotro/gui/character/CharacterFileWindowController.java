@@ -54,6 +54,7 @@ import delta.games.lotro.character.status.titles.TitlesStatusManager;
 import delta.games.lotro.character.status.titles.io.TitlesStatusIo;
 import delta.games.lotro.character.status.traitPoints.TraitPoints;
 import delta.games.lotro.character.status.traitPoints.TraitPointsStatus;
+import delta.games.lotro.gui.character.cosmetics.OutfitsDisplayWindowController;
 import delta.games.lotro.gui.character.log.CharacterLogWindowController;
 import delta.games.lotro.gui.character.stash.StashWindowController;
 import delta.games.lotro.gui.character.status.allegiances.summary.AllegiancesStatusSummaryWindowController;
@@ -101,6 +102,7 @@ public class CharacterFileWindowController extends DefaultWindowController imple
   private static final String ALLEGIANCES_COMMAND="allegiances";
   private static final String TRAVELS_COMMAND="travels";
   private static final String CURRENCIES_COMMAND="currencies";
+  private static final String OUTFITS_COMMAND="outfits";
 
   private CharacterSummaryPanelController _summaryController;
   private CharacterDataTableController _toonsTable;
@@ -235,6 +237,9 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     // Travels status
     JButton travelsButton=buildCommandButton("Travels",TRAVELS_COMMAND);
     panel.add(travelsButton,c);c.gridx++;
+    // Outfits
+    JButton outfitsButton=buildCommandButton("Outfits",OUTFITS_COMMAND);
+    panel.add(outfitsButton,c);c.gridx++;
 
     // Disable buttons if no log
     boolean hasLog=_toon.hasLog();
@@ -344,6 +349,10 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     else if (CURRENCIES_COMMAND.equals(command))
     {
       showCurrencies();
+    }
+    else if (OUTFITS_COMMAND.equals(command))
+    {
+      showOutfits();
     }
     else if (NEW_TOON_DATA_ID.equals(command))
     {
@@ -708,6 +717,18 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     if (windowCtrl==null)
     {
       windowCtrl=new SingleCharacterCurrencyHistoryWindowController(this,_toon);
+      windowsManager.registerWindow(windowCtrl);
+    }
+    windowCtrl.show();
+  }
+
+  private void showOutfits()
+  {
+    WindowsManager windowsManager=getWindowsManager();
+    OutfitsDisplayWindowController windowCtrl=(OutfitsDisplayWindowController)windowsManager.getWindow(OutfitsDisplayWindowController.IDENTIFIER);
+    if (windowCtrl==null)
+    {
+      windowCtrl=new OutfitsDisplayWindowController(this,_toon);
       windowsManager.registerWindow(windowCtrl);
     }
     windowCtrl.show();

@@ -38,7 +38,7 @@ public class OutfitPanelController implements ActionListener
   private static final int Y_MARGIN=20;
   private static final int Y_START=Y_MARGIN+ICON_FRAME_SIZE;
   private static final int X_COLUMN_1=X_MARGIN+ICON_FRAME_SIZE;
-  private static final int X_COLUMN_2=X_COLUMN_1+DELTA_COLUMNS;
+  private static final int X_COLUMN_2=X_COLUMN_1+DELTA_COLUMNS+30;
   private static final int COLUMNS_WIDTH=X_COLUMN_2+ICON_SIZE+ICON_FRAME_SIZE-(X_COLUMN_1-ICON_FRAME_SIZE);
   private static final int ROW_WIDTH=ICON_FRAME_SIZE+2*DELTA_X+ICON_SIZE+ICON_FRAME_SIZE;
   private static final int X_ROW=X_MARGIN+(COLUMNS_WIDTH-ROW_WIDTH)/2;
