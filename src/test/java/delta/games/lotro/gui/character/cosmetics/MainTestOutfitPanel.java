@@ -1,12 +1,10 @@
 package delta.games.lotro.gui.character.cosmetics;
 
-import java.util.List;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import delta.games.lotro.LotroTestUtils;
 import delta.games.lotro.character.CharacterFile;
+import delta.games.lotro.character.CharactersManager;
 import delta.games.lotro.character.cosmetics.Outfit;
 import delta.games.lotro.character.cosmetics.OutfitsManager;
 import delta.games.lotro.character.cosmetics.io.xml.OutfitsIO;
@@ -23,17 +21,14 @@ public class MainTestOutfitPanel
    */
   public static void main(String[] args)
   {
-    LotroTestUtils utils=new LotroTestUtils();
-    List<CharacterFile> toons=utils.getAllFiles();
-    //CharacterFile toon=utils.getMainToon();
-    for(CharacterFile toon : toons)
+    CharacterFile toon=CharactersManager.getInstance().getToonById("Landroval","Kargarth");
     {
       String name=toon.getName();
       System.out.println("Loading toon ["+name+"]");
       OutfitsManager mgr=OutfitsIO.loadOutfits(toon);
       if (mgr==null)
       {
-        continue;
+        return;
       }
       for(Integer outfitIndex : mgr.getOutfitIndexes())
       {

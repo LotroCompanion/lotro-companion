@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLayeredPane;
@@ -290,7 +291,7 @@ public class EquipmentPanelController implements ActionListener
       // - icon controller
       EquipmentSlotIconController iconController=new EquipmentSlotIconController(slot);
       _icons.put(slot,iconController);
-      ImageIcon icon=iconController.getIcon();
+      Icon icon=iconController.getIcon();
       // - button
       JButton button=new JButton(icon);
       button.setBorderPainted(false);
@@ -319,7 +320,7 @@ public class EquipmentPanelController implements ActionListener
       EquipmentSlotIconController iconController=_icons.get(slot);
       iconController.setItem(itemInstance);
       JButton button=_buttons.get(slot);
-      ImageIcon icon=iconController.getIcon();
+      Icon icon=iconController.getIcon();
       button.setIcon(icon);
       String tooltipText=iconController.getTooltip();
       button.setToolTipText(tooltipText);

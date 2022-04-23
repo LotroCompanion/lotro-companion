@@ -2,10 +2,11 @@ package delta.games.lotro.gui.character.gear;
 
 import java.awt.Image;
 
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
+import delta.common.ui.swing.icons.IconWithSmallIcon;
 import delta.common.ui.swing.icons.IconsManager;
-import delta.common.utils.text.EndOfLine;
 import delta.games.lotro.character.gear.GearSlot;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.lore.items.ItemUiTools;
@@ -21,7 +22,7 @@ public class EquipmentSlotIconController
   private static final String BACKGROUND_ICONS_SEED="/resources/gui/equipment/";
 
   private GearSlot _slot;
-  private ImageIcon _icon;
+  private Icon _icon;
   private String _tooltip;
 
   /**
@@ -31,7 +32,7 @@ public class EquipmentSlotIconController
   public EquipmentSlotIconController(GearSlot slot)
   {
     _slot=slot;
-    setItem((Item)null);
+    setItem((ItemInstance<? extends Item>)null);
   }
 
   /**
@@ -41,7 +42,7 @@ public class EquipmentSlotIconController
   public void setItem(ItemInstance<? extends Item> itemInstance)
   {
     Item item=(itemInstance!=null)?itemInstance.getReference():null;
-    setIcon(item);
+    setIcon(item,null);
     if (itemInstance!=null)
     {
       _tooltip=ItemUiTools.buildItemTooltip(itemInstance,true);
@@ -55,27 +56,37 @@ public class EquipmentSlotIconController
   /**
    * Set the associated item.
    * @param item Item to set (may be <code>null</code>).
+   * @param visible Indicate the "visible" icon to use (or no icon).
    */
-  public void setItem(Item item)
+  public void setItem(Item item, Boolean visible)
   {
-    setIcon(item);
+    setIcon(item,visible);
     _tooltip=buildItemTooltip(item);
   }
 
-  private void setIcon(Item item)
+  private void setIcon(Item item, Boolean visible)
   {
+    ImageIcon baseIcon=null;
     if (item!=null)
     {
       String icon=item.getIcon();
-      _icon=LotroIconsManager.getItemIcon(icon);
-      if (_icon==null)
+      baseIcon=LotroIconsManager.getItemIcon(icon);
+      if (baseIcon==null)
       {
-        _icon=LotroIconsManager.getDefaultItemIcon();
+        baseIcon=LotroIconsManager.getDefaultItemIcon();
       }
     }
     else
     {
-      _icon=getDefaultIcon(_slot);
+      baseIcon=getDefaultIcon(_slot);
+    }
+    _icon=baseIcon;
+    if (visible!=null)
+    {
+      String iconName=visible.booleanValue()?"visible":"invisible";
+      Image visibilityImage=IconsManager.getImage("/resources/gui/outfits/icon_"+iconName+".png");
+      IconWithSmallIcon iconWithVisibility=new IconWithSmallIcon(baseIcon,visibilityImage);
+      _icon=iconWithVisibility;
     }
   }
 
@@ -88,12 +99,8 @@ public class EquipmentSlotIconController
   {
     if (item!=null)
     {
-      StringBuilder sb=new StringBuilder();
       String name=item.getName();
-      sb.append("Name: ").append(name);
-      String ret=sb.toString().trim();
-      ret="<html>"+ret.replace(EndOfLine.NATIVE_EOL,"<br>")+"</html>";
-      return ret;
+      return "<html>"+name+"</html>";
     }
     return "";
   }
@@ -102,7 +109,7 @@ public class EquipmentSlotIconController
    * Get the icon to use.
    * @return an icon.
    */
-  public ImageIcon getIcon()
+  public Icon getIcon()
   {
     return _icon;
   }

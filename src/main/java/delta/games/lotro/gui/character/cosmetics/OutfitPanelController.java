@@ -7,7 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 
-import javax.swing.ImageIcon;
+import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
@@ -150,7 +150,7 @@ public class OutfitPanelController implements ActionListener
       // - icon controller
       EquipmentSlotIconController iconController=new EquipmentSlotIconController(slot);
       _icons.put(slot,iconController);
-      ImageIcon icon=iconController.getIcon();
+      Icon icon=iconController.getIcon();
       // - button
       JButton button=new JButton(icon);
       button.setBorderPainted(false);
@@ -167,6 +167,16 @@ public class OutfitPanelController implements ActionListener
     return panel;
   }
 
+  private boolean showVisibilityIcon(GearSlot slot)
+  {
+    if (slot==GearSlot.BREAST) return false;
+    if (slot==GearSlot.LEGS) return false;
+    if (slot==GearSlot.MAIN_HAND_AURA) return false;
+    if (slot==GearSlot.OFF_HAND_AURA) return false;
+    if (slot==GearSlot.RANGED_AURA) return false;
+    return true;
+  }
+
   /**
    * Update contents.
    */
@@ -179,10 +189,21 @@ public class OutfitPanelController implements ActionListener
       {
         continue;
       }
-      Item item=getItemForSlot(slot);
-      iconController.setItem(item);
+      Item item=null;
+      OutfitElement element=_outfit.getSlot(slot);
+      if (element!=null)
+      {
+        item=element.getItem();
+      }
+      Boolean visibilityIcon=null;
+      boolean showVisibilityIcon=showVisibilityIcon(slot);
+      if (showVisibilityIcon)
+      {
+        visibilityIcon=Boolean.valueOf(_outfit.isSlotVisible(slot));
+      }
+      iconController.setItem(item,visibilityIcon);
       JButton button=_buttons.get(slot);
-      ImageIcon icon=iconController.getIcon();
+      Icon icon=iconController.getIcon();
       button.setIcon(icon);
       String tooltipText=iconController.getTooltip();
       button.setToolTipText(tooltipText);
