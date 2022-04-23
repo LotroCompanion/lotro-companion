@@ -29,6 +29,7 @@ public class StorageStatisticsSummaryPanelController
   private JLabel _reputation;
   private MoneyDisplayController _priceDisplay;
   private JLabel _totalItemXP;
+  private JLabel _totalVirtueXP;
 
   /**
    * Constructor.
@@ -67,6 +68,11 @@ public class StorageStatisticsSummaryPanelController
     _totalItemXP=GuiFactory.buildLabel("");
     _statsPanel.add(_totalItemXP,cValues);
     cLabels.gridy++;cValues.gridy++;
+    // Virtue XP
+    _statsPanel.add(GuiFactory.buildLabel("Total Virtue XP:"),cLabels);
+    _totalVirtueXP=GuiFactory.buildLabel("");
+    _statsPanel.add(_totalVirtueXP,cValues);
+    cLabels.gridy++;cValues.gridy++;
 
     return panel;
   }
@@ -86,9 +92,12 @@ public class StorageStatisticsSummaryPanelController
     _reputation.setText(reputationStr);
     // Price
     _priceDisplay.setMoney(_statistics.getTotalValue());
-    // XP
+    // Item XP
     long totalItemXP=_statistics.getTotalItemXP();
     _totalItemXP.setText(L10n.getString(totalItemXP));
+    // Virtue XP
+    long totalVirtueXP=_statistics.getTotalVirtueXP();
+    _totalVirtueXP.setText(L10n.getString(totalVirtueXP));
   }
 
   /**
@@ -120,5 +129,6 @@ public class StorageStatisticsSummaryPanelController
       _priceDisplay=null;
     }
     _totalItemXP=null;
+    _totalVirtueXP=null;
   }
 }

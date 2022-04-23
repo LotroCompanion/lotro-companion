@@ -47,6 +47,7 @@ import delta.games.lotro.lore.items.details.GrantedElement;
 import delta.games.lotro.lore.items.details.ItemDetailsManager;
 import delta.games.lotro.lore.items.details.ItemReputation;
 import delta.games.lotro.lore.items.details.ItemXP;
+import delta.games.lotro.lore.items.details.VirtueXP;
 import delta.games.lotro.lore.items.legendary2.EnhancementRune;
 import delta.games.lotro.lore.items.legendary2.EnhancementRunesManager;
 import delta.games.lotro.lore.items.legendary2.TraceriesManager;
@@ -450,6 +451,18 @@ public class ItemDisplayPanelController implements NavigablePanelController
       {
         GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
         String label="Gives "+itemXP.getAmount()+" item XP.";
+        ret.add(GuiFactory.buildLabel(label),c);
+        y++;
+      }
+    }
+    // Virtue XP
+    List<VirtueXP> virtueXPs=mgr.getItemDetails(VirtueXP.class);
+    if (virtueXPs.size()>0)
+    {
+      for(VirtueXP virtueXP : virtueXPs)
+      {
+        GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+        String label="Gives "+virtueXP.getAmount()+" virtue XP.";
         ret.add(GuiFactory.buildLabel(label),c);
         y++;
       }
