@@ -17,6 +17,7 @@ import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.traits.TraitDescription;
 import delta.games.lotro.character.traits.TraitsManager;
 import delta.games.lotro.common.money.Money;
+import delta.games.lotro.common.rewards.BillingTokenReward;
 import delta.games.lotro.common.rewards.CraftingXpReward;
 import delta.games.lotro.common.rewards.EmoteReward;
 import delta.games.lotro.common.rewards.ItemReward;
@@ -266,6 +267,12 @@ public class RewardsPanelController
     {
       CraftingXpReward craftingXpReward=(CraftingXpReward)rewardElement;
       ret=new CraftingXpRewardGadgetsController(craftingXpReward);
+    }
+    // Billing token
+    else if (rewardElement instanceof BillingTokenReward)
+    {
+      BillingTokenReward billingTokenReward=(BillingTokenReward)rewardElement;
+      ret=new BillingTokenRewardGadgetsController(billingTokenReward.getBillingGroup());
     }
     if (ret!=null)
     {
