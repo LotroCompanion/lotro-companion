@@ -18,8 +18,8 @@ import delta.common.ui.swing.windows.WindowController;
 import delta.common.ui.swing.windows.WindowsManager;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.gui.lore.titles.TitleFilterController;
+import delta.games.lotro.gui.lore.titles.TitleUiUtils;
 import delta.games.lotro.gui.lore.titles.TitlesTableController;
-import delta.games.lotro.gui.lore.titles.form.TitleDisplayWindowController;
 import delta.games.lotro.gui.main.GlobalPreferences;
 import delta.games.lotro.lore.titles.TitleDescription;
 import delta.games.lotro.lore.titles.filters.TitleFilter;
@@ -119,14 +119,7 @@ public class TitlesExplorerWindowController extends DefaultWindowController
 
   private void showTitle(TitleDescription title)
   {
-    String id=TitleDisplayWindowController.getId(title);
-    WindowController window=_titleWindows.getWindow(id);
-    if (window==null)
-    {
-      window=new TitleDisplayWindowController(this,title);
-      _titleWindows.registerWindow(window);
-    }
-    window.show();
+    TitleUiUtils.showTitleWindow(this,title.getIdentifier());
   }
 
   /**

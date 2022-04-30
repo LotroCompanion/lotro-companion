@@ -78,6 +78,10 @@ public class ReferenceConstants
    * Virtues page identifier.
    */
   public static final String VIRTUE_PAGE="virtue";
+  /**
+   * Title page identifier.
+   */
+  public static final String TITLE_PAGE="title";
 
   /**
    * Get a page identifier for the given achievable proxy.
@@ -264,5 +268,15 @@ public class ReferenceConstants
   public static final PageIdentifier getVirtueReference(int virtueID)
   {
     return new PageIdentifier(VIRTUE_PAGE,virtueID);
+  }
+
+  /**
+   * Get a page identifier for the given title.
+   * @param titleID Identifier of the title to use.
+   * @return A page identifier.
+   */
+  public static final PageIdentifier getTitleReference(int titleID)
+  {
+    return new PageIdentifier(TITLE_PAGE,titleID);
   }
 }

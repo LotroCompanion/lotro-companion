@@ -17,7 +17,6 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.windows.DefaultDisplayDialogController;
 import delta.common.ui.swing.windows.WindowController;
-import delta.common.ui.swing.windows.WindowsManager;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.character.status.titles.TitleStatus;
 import delta.games.lotro.character.status.titles.TitlesStatusManager;
@@ -26,7 +25,7 @@ import delta.games.lotro.gui.character.status.titles.filter.TitleStatusFilterCon
 import delta.games.lotro.gui.character.status.titles.table.TitlesStatusTableController;
 import delta.games.lotro.gui.lore.items.FilterUpdateListener;
 import delta.games.lotro.gui.lore.titles.TitleFilterController;
-import delta.games.lotro.gui.lore.titles.form.TitleDisplayWindowController;
+import delta.games.lotro.gui.lore.titles.TitleUiUtils;
 import delta.games.lotro.gui.main.GlobalPreferences;
 import delta.games.lotro.lore.titles.TitleDescription;
 import delta.games.lotro.lore.titles.TitlesManager;
@@ -150,15 +149,8 @@ public class TitlesStatusWindowController extends DefaultDisplayDialogController
 
   private void showTitleStatus(TitleStatus status)
   {
-    WindowsManager windowsManager=getWindowsManager();
-    String id=TitleDisplayWindowController.getId(status.getTitle());
-    WindowController window=windowsManager.getWindow(id);
-    if (window==null)
-    {
-      window=new TitleDisplayWindowController(this,status.getTitle());
-      windowsManager.registerWindow(window);
-    }
-    window.show();
+    TitleDescription title=status.getTitle();
+    TitleUiUtils.showTitleWindow(this,title.getIdentifier());
   }
 
   /**

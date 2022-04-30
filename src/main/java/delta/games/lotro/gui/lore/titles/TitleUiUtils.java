@@ -3,6 +3,12 @@ package delta.games.lotro.gui.lore.titles;
 import java.util.List;
 
 import delta.common.ui.swing.combobox.ComboBoxController;
+import delta.common.ui.swing.navigator.NavigatorWindowController;
+import delta.common.ui.swing.navigator.PageIdentifier;
+import delta.common.ui.swing.windows.WindowController;
+import delta.common.ui.swing.windows.WindowsManager;
+import delta.games.lotro.gui.common.navigation.ReferenceConstants;
+import delta.games.lotro.gui.navigation.NavigatorFactory;
 import delta.games.lotro.lore.titles.TitlesManager;
 
 /**
@@ -26,5 +32,21 @@ public class TitleUiUtils
     }
     ctrl.selectItem(null);
     return ctrl;
+  }
+
+  /**
+   * Show a title display window.
+   * @param parent Parent window.
+   * @param titleID Title identifier.
+   */
+  public static void showTitleWindow(WindowController parent, int titleID)
+  {
+    WindowsManager windowsMgr=parent.getWindowsManager();
+    int id=windowsMgr.getAll().size();
+    NavigatorWindowController window=NavigatorFactory.buildNavigator(parent,id);
+    PageIdentifier ref=ReferenceConstants.getTitleReference(titleID);
+    window.navigateTo(ref);
+    window.show(false);
+    windowsMgr.registerWindow(window);
   }
 }

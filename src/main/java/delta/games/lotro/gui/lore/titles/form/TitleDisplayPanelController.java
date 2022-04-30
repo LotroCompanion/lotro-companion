@@ -1,5 +1,7 @@
 package delta.games.lotro.gui.lore.titles.form;
 
+import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -14,6 +16,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.navigator.NavigablePanelController;
+import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.lore.titles.TitleDescription;
 
@@ -21,7 +25,7 @@ import delta.games.lotro.lore.titles.TitleDescription;
  * Controller for a title display panel.
  * @author DAM
  */
-public class TitleDisplayPanelController
+public class TitleDisplayPanelController implements NavigablePanelController
 {
   // Data
   private TitleDescription _title;
@@ -32,14 +36,24 @@ public class TitleDisplayPanelController
   private JLabel _category;
   private JLabel _name;
   private JEditorPane _details;
+  // Controllers
+  private TitleReferencesDisplayController _references;
 
   /**
    * Constructor.
+   * @param parent Parent window.
    * @param title Title to show.
    */
-  public TitleDisplayPanelController(TitleDescription title)
+  public TitleDisplayPanelController(NavigatorWindowController parent, TitleDescription title)
   {
     _title=title;
+    _references=new TitleReferencesDisplayController(parent,title.getIdentifier());
+  }
+
+  @Override
+  public String getTitle()
+  {
+    return "Title: "+_title.getName();
   }
 
   /**
@@ -56,6 +70,37 @@ public class TitleDisplayPanelController
   }
 
   private JPanel build()
+  {
+    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
+
+    // Top panel
+    JPanel topPanel=buildTopPanel();
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,1.0,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
+    panel.add(topPanel,c);
+    // Center
+    Component center=buildCenter();
+    if (center!=null)
+    {
+      c=new GridBagConstraints(0,1,1,1,1.0,1.0,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
+      panel.add(center,c);
+    }
+    return panel;
+  }
+
+  private JPanel buildCenter()
+  {
+    JPanel panel=null;
+    JEditorPane references=_references.getComponent();
+    if (references!=null)
+    {
+      panel=GuiFactory.buildPanel(new BorderLayout());
+      panel.add(references,BorderLayout.CENTER);
+      panel.setBorder(GuiFactory.buildTitledBorder("References"));
+    }
+    return panel;
+  }
+
+  private JPanel buildTopPanel()
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
 
@@ -144,13 +189,17 @@ public class TitleDisplayPanelController
     _details.setCaretPosition(0);
   }
 
-  /**
-   * Release all managed resources.
-   */
+  @Override
   public void dispose()
   {
     // Data
     _title=null;
+    // Controllers
+    if (_references!=null)
+    {
+      _references.dispose();
+      _references=null;
+    }
     // UI
     _category=null;
     if (_panel!=null)
