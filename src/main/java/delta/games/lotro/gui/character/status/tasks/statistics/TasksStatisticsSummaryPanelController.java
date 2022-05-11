@@ -127,7 +127,7 @@ public class TasksStatisticsSummaryPanelController
     String nbFactionsStr=L10n.getString(nbFactions);
     int nbReputationPoints=reputation.getTotalReputationPoints();
     String nbReputationPointsStr=L10n.getString(nbReputationPoints);
-    String reputationStr=String.format("%d points, %d factions",nbReputationPointsStr,nbFactionsStr);
+    String reputationStr=String.format("%s points, %s factions",nbReputationPointsStr,nbFactionsStr);
     _reputation.setText(reputationStr);
     // Consumed items
     ItemsStats consumedItemsStats=_statistics.getConsumedItemsStats();

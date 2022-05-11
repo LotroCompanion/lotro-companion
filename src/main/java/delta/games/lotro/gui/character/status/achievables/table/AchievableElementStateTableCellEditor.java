@@ -3,8 +3,8 @@ package delta.games.lotro.gui.character.status.achievables.table;
 import java.awt.Component;
 
 import javax.swing.DefaultCellEditor;
-import javax.swing.JCheckBox;
 import javax.swing.JTable;
+import javax.swing.SwingConstants;
 
 import delta.common.ui.swing.checkbox.ThreeState;
 import delta.common.ui.swing.checkbox.ThreeStateCheckbox;
@@ -25,7 +25,7 @@ public class AchievableElementStateTableCellEditor extends DefaultCellEditor
   {
     super(new ThreeStateCheckbox());
     _editor=(ThreeStateCheckbox)getComponent();
-    _editor.setHorizontalAlignment(JCheckBox.CENTER);
+    _editor.setHorizontalAlignment(SwingConstants.CENTER);
   }
 
   public Object getCellEditorValue()

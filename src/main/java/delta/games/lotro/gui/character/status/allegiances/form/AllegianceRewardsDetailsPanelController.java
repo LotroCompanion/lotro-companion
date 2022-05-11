@@ -87,11 +87,8 @@ public class AllegianceRewardsDetailsPanelController
       // Label
       String text=getLabel(i,state);
       int top=(y==0)?5:0;
-      GridBagConstraints c=new GridBagConstraints(0,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(top,5,5,5),0,0);
-      //_panel.add(GuiFactory.buildLabel(text),c);
-      //y++;
       // Rewards
-      c=new GridBagConstraints(0,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(top,5,5,5),0,0);
+      GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(top,5,5,5),0,0);
       JPanel rewardsPanel=_rewards.get(i-1).getPanel();
       rewardsPanel.setBorder(GuiFactory.buildTitledBorder(text));
       _panel.add(rewardsPanel,c);
@@ -114,7 +111,7 @@ public class AllegianceRewardsDetailsPanelController
     {
       sb.append("claimed");
     }
-    else if (state==AllegianceRewardState.CLAIMED)
+    else if (state==AllegianceRewardState.UNLOCKED)
     {
       sb.append("unlocked");
     }

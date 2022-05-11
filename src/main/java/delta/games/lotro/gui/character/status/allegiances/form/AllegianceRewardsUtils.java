@@ -11,7 +11,7 @@ import delta.games.lotro.character.status.allegiances.AllegianceStatus;
 public class AllegianceRewardsUtils
 {
   /**
-   * Get the state of an alllegiance reward.
+   * Get the state of an allegiance reward.
    * @param status Status to use.
    * @param level Level to use.
    * @return A state.

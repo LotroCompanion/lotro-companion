@@ -5,6 +5,7 @@ import java.util.List;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
+import javax.swing.WindowConstants;
 
 import delta.common.ui.swing.windows.DefaultDialogController;
 import delta.common.ui.swing.windows.WindowController;
@@ -53,7 +54,7 @@ public class ResourceNodeFilterWindowController extends DefaultDialogController
   {
     JDialog dialog=getDialog();
     dialog.setTitle("Resource nodes filter");
-    dialog.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
+    dialog.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
     dialog.setResizable(false);
   }
 

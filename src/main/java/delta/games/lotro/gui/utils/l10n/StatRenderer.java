@@ -1,6 +1,6 @@
 package delta.games.lotro.gui.utils.l10n;
 
-import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 
 import delta.games.lotro.common.stats.StatDescription;
@@ -22,7 +22,7 @@ public class StatRenderer extends DefaultTableCellRenderer
   public StatRenderer(StatDescription stat)
   {
     _stat=stat;
-    setHorizontalAlignment(JLabel.RIGHT);
+    setHorizontalAlignment(SwingConstants.RIGHT);
   }
 
   /**

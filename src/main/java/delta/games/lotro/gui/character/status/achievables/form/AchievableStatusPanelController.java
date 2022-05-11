@@ -16,6 +16,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.editors.numbers.ProgressAndNumberEditorController;
@@ -100,7 +101,7 @@ public class AchievableStatusPanelController implements GeoPointChangeListener
     JPanel panel=GuiFactory.buildPanel(new BorderLayout());
     panel.add(headPanel,BorderLayout.NORTH);
     JScrollPane center=GuiFactory.buildScrollPane(objectivesPanel);
-    center.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+    center.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
     panel.add(center,BorderLayout.CENTER);
     return panel;
   }
