@@ -30,7 +30,9 @@ public class ProgressTableCellRenderer extends DefaultTableCellRenderer
     _progressBar.setStringPainted(true);
     _progressBar.setUI(new BasicProgressBarUI()
     {
+      @Override
       protected Color getSelectionBackground() { return Color.black; }
+      @Override
       protected Color getSelectionForeground() { return Color.black; }
     });
   }

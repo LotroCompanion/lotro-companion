@@ -53,7 +53,7 @@ public class SinglePassiveEditionController
       @Override
       public void actionPerformed(ActionEvent e)
       {
-        handleButtonClick((JButton)e.getSource());
+        handleButtonClick();
       }
     };
     _chooseButton.addActionListener(listener);
@@ -64,7 +64,7 @@ public class SinglePassiveEditionController
       @Override
       public void actionPerformed(ActionEvent e)
       {
-        handleDelete((JButton)e.getSource());
+        handleDelete();
       }
     };
     _deleteButton.addActionListener(listenerDelete);
@@ -81,7 +81,7 @@ public class SinglePassiveEditionController
     updateStats();
   }
 
-  private void handleButtonClick(JButton button)
+  private void handleButtonClick()
   {
     Effect passive=PassiveChooser.selectPassive(_parent,_itemId,_level,_passive);
     if (passive!=null)
@@ -91,7 +91,7 @@ public class SinglePassiveEditionController
     }
   }
 
-  private void handleDelete(JButton button)
+  private void handleDelete()
   {
     _passive=null;
     updateUi();

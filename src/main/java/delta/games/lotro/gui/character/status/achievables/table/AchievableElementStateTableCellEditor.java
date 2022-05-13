@@ -28,6 +28,7 @@ public class AchievableElementStateTableCellEditor extends DefaultCellEditor
     _editor.setHorizontalAlignment(SwingConstants.CENTER);
   }
 
+  @Override
   public Object getCellEditorValue()
   {
     ThreeStateCheckbox checkBox=(ThreeStateCheckbox)getComponent();

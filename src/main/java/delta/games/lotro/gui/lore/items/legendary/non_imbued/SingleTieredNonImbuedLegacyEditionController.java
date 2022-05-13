@@ -169,6 +169,7 @@ public class SingleTieredNonImbuedLegacyEditionController extends SingleNonImbue
     return (TieredNonImbuedLegacy)_legacy;
   }
 
+  @Override
   protected void setupLegacy(AbstractNonImbuedLegacy legacy)
   {
     super.setupLegacy(legacy);
@@ -190,6 +191,7 @@ public class SingleTieredNonImbuedLegacyEditionController extends SingleNonImbue
     }
   }
 
+  @Override
   protected void updateGadgetsState()
   {
     super.updateGadgetsState();
@@ -203,6 +205,7 @@ public class SingleTieredNonImbuedLegacyEditionController extends SingleNonImbue
     }
   }
 
+  @Override
   protected StatsProvider getStatsProvider()
   {
     int tier=getTier();
@@ -212,6 +215,7 @@ public class SingleTieredNonImbuedLegacyEditionController extends SingleNonImbue
     return statsProvider;
   }
 
+  @Override
   protected void updateIcon()
   {
     ImageIcon icon=null;
@@ -261,6 +265,7 @@ public class SingleTieredNonImbuedLegacyEditionController extends SingleNonImbue
   /**
    * Release all managed resources.
    */
+  @Override
   public void dispose()
   {
     super.dispose();

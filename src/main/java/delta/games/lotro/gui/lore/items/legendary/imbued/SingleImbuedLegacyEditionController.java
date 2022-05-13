@@ -72,7 +72,7 @@ public class SingleImbuedLegacyEditionController
         @Override
         public void actionPerformed(ActionEvent e)
         {
-          handleChooseLegacy((JButton)e.getSource());
+          handleChooseLegacy();
         }
       };
       _chooseButton.addActionListener(listener);
@@ -86,7 +86,7 @@ public class SingleImbuedLegacyEditionController
         @Override
         public void actionPerformed(ActionEvent e)
         {
-          handleDeleteLegacy((JButton)e.getSource());
+          handleDeleteLegacy();
         }
       };
       _deleteButton.addActionListener(listener);
@@ -135,7 +135,7 @@ public class SingleImbuedLegacyEditionController
     storage.setXp(_legacy.getXp());
   }
 
-  private void handleChooseLegacy(JButton button)
+  private void handleChooseLegacy()
   {
     CharacterClass characterClass=_constraints.getCharacterClass();
     EquipmentLocation location=_constraints.getSlot();
@@ -147,7 +147,7 @@ public class SingleImbuedLegacyEditionController
     }
   }
 
-  private void handleDeleteLegacy(JButton button)
+  private void handleDeleteLegacy()
   {
     setLegacy(null);
     _legacy.setXp(0);

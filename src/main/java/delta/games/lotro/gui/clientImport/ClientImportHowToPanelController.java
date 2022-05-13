@@ -77,4 +77,12 @@ public class ClientImportHowToPanelController
     sb.append(EndOfLine.UNIX);
     return sb.toString();
   }
+
+  /**
+   * Release all managed resources.
+   */
+  public void dispose()
+  {
+    _howTo=null;
+  }
 }

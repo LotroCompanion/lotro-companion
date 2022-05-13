@@ -63,6 +63,7 @@ public class CarryAllWindowController extends DefaultDisplayDialogController<Voi
   /**
    * Release all managed resources.
    */
+  @Override
   public void dispose()
   {
     super.dispose();

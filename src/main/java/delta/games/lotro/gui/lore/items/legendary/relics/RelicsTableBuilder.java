@@ -88,6 +88,7 @@ public class RelicsTableBuilder
     {
       CellDataProvider<Relic,String> categoryCell=new CellDataProvider<Relic,String>()
       {
+        @Override
         public String getData(Relic item)
         {
           return item.getCategory().getName();

@@ -40,6 +40,7 @@ public class AboutPanelController
    */
   public AboutPanelController()
   {
+    // Nothing!
   }
 
   private JPanel build()
@@ -170,7 +171,8 @@ public class AboutPanelController
   {
     JPanel ret=GuiFactory.buildPanel(null);
     final List<JPanel> panels=buildToonPanels();
-    int maxWidth=0,maxHeight=0;
+    int maxWidth=0;
+    int maxHeight=0;
     for(JPanel panel : panels)
     {
       Dimension d=panel.getPreferredSize();

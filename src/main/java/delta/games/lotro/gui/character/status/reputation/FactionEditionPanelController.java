@@ -137,7 +137,6 @@ public class FactionEditionPanelController
         FactionLevel minLevel=faction.getLevelByTier(faction.getLowestTier());
         min=minLevel.getRequiredReputation();
         max=initialLevel.getRequiredReputation();
-        value=reputationValue;
         _bar.setBackground(Color.RED);
         _bar.setForeground(Color.WHITE);
       }

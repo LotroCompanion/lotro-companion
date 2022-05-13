@@ -13,7 +13,7 @@ import delta.games.lotro.utils.l10n.dates.DateFormatSpecification;
  */
 public class DateFormat
 {
-  private static DateCodec _dateTimeCodec=new DateCodec()
+  private static final DateCodec DATE_TIME_CODEC=new DateCodec()
   {
     @Override
     public Long parseDate(String dateStr)
@@ -34,7 +34,7 @@ public class DateFormat
    */
   public static DateCodec getDateTimeCodec()
   {
-    return _dateTimeCodec;
+    return DATE_TIME_CODEC;
   }
 
   private static String formatDateTime(Long date)
@@ -67,7 +67,7 @@ public class DateFormat
     return (date!=null)?Long.valueOf(date.getTime()):null;
   }
 
-  private static DateCodec _dateCodec=new DateCodec()
+  private static final DateCodec DATE_CODEC=new DateCodec()
   {
     @Override
     public Long parseDate(String dateStr)
@@ -88,7 +88,7 @@ public class DateFormat
    */
   public static DateCodec getDateCodec()
   {
-    return _dateCodec;
+    return DATE_CODEC;
   }
 
   private static String formatDate(Long date)

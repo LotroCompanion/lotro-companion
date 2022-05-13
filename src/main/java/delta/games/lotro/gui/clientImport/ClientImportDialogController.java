@@ -210,6 +210,11 @@ public class ClientImportDialogController extends DefaultDialogController implem
       _displayCtrl.dispose();
       _displayCtrl=null;
     }
+    if (_howToCtrl!=null)
+    {
+      _howToCtrl.dispose();
+      _howToCtrl=null;
+    }
     if (_configCtrl!=null)
     {
       _configCtrl.dispose();

@@ -28,6 +28,7 @@ public class CreditsPanelController
    */
   public CreditsPanelController()
   {
+    // Nothing!
   }
 
   private JPanel build()

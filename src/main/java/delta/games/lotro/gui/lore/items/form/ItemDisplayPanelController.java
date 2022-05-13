@@ -304,7 +304,7 @@ public class ItemDisplayPanelController implements NavigablePanelController
     int nbSlots=_item.getEssenceSlots();
     if (nbSlots>0)
     {
-      ret.add("Essence slots: "+String.valueOf(nbSlots));
+      ret.add("Essence slots: "+nbSlots);
     }
     // Item level
     Integer itemLevel=_item.getItemLevel();

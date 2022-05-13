@@ -5,7 +5,8 @@ import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.HashMap;
+import java.util.EnumMap;
+import java.util.Map;
 
 import javax.swing.Icon;
 import javax.swing.JButton;
@@ -50,12 +51,12 @@ public class OutfitPanelController implements ActionListener
 
   // Controllers
   private WindowController _parentWindow;
-  private HashMap<GearSlot,EquipmentSlotIconController> _icons;
+  private Map<GearSlot,EquipmentSlotIconController> _icons;
   // UI
   private JPanel _panel;
   private JLayeredPane _layeredPane;
-  private HashMap<GearSlot,Dimension> _iconPositions;
-  private HashMap<GearSlot,JButton> _buttons;
+  private Map<GearSlot,Dimension> _iconPositions;
+  private Map<GearSlot,JButton> _buttons;
   // Data
   private Outfit _outfit;
 
@@ -68,14 +69,14 @@ public class OutfitPanelController implements ActionListener
   {
     _parentWindow=parent;
     _outfit=outfit;
-    _buttons=new HashMap<GearSlot,JButton>();
-    _icons=new HashMap<GearSlot,EquipmentSlotIconController>();
+    _buttons=new EnumMap<GearSlot,JButton>(GearSlot.class);
+    _icons=new EnumMap<GearSlot,EquipmentSlotIconController>(GearSlot.class);
     initPositions();
   }
 
   private void initPositions()
   {
-    _iconPositions=new HashMap<GearSlot,Dimension>();
+    _iconPositions=new EnumMap<GearSlot,Dimension>(GearSlot.class);
     int x=X_COLUMN_1;
     int y=Y_START;
     _iconPositions.put(GearSlot.HEAD,new Dimension(x,y));
@@ -121,10 +122,9 @@ public class OutfitPanelController implements ActionListener
 
   private Dimension computeDimensions()
   {
-    Dimension d=new Dimension();
     int width=X_COLUMN_2+ICON_SIZE+ICON_FRAME_SIZE+X_MARGIN;
     int height=Y_ROW2+ICON_SIZE+ICON_FRAME_SIZE+Y_MARGIN;
-    d=new Dimension(width,height);
+    Dimension d=new Dimension(width,height);
     return d;
   }
 

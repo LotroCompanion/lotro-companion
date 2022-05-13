@@ -50,6 +50,7 @@ public class ResourceNodeFilterWindowController extends DefaultDialogController
    * Override this method to configure the window
    * just after it has been built!
    */
+  @Override
   public void configureWindow()
   {
     JDialog dialog=getDialog();
@@ -61,6 +62,7 @@ public class ResourceNodeFilterWindowController extends DefaultDialogController
   /**
    * Perform window closing.
    */
+  @Override
   protected void doWindowClosing()
   {
     // Nothing!

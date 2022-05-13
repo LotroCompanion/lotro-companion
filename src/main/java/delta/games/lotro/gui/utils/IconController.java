@@ -38,6 +38,7 @@ public class IconController extends AbstractIconController
    * Clear the contents.
    * @param icon Default icon.
    */
+  @Override
   public void clear(Icon icon)
   {
     super.clear(icon);
@@ -56,6 +57,7 @@ public class IconController extends AbstractIconController
   /**
    * Release all managed resources.
    */
+  @Override
   public void dispose()
   {
     super.dispose();

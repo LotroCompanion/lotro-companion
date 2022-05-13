@@ -63,7 +63,7 @@ public class RewardsColumnsBuilder
         public String getData(Rewards rewards)
         {
           List<TitleReward> titleRewards=rewards.getRewardElementsOfClass(TitleReward.class);
-          return ((titleRewards.size()>0))?titleRewards.get(0).getName():null;
+          return (titleRewards.size()>0)?titleRewards.get(0).getName():null;
         }
       };
       DefaultTableColumnController<Rewards,String> titleColumn=new DefaultTableColumnController<Rewards,String>(RewardsColumnIds.TITLE.name(),"Title",String.class,titleCell);
@@ -78,7 +78,7 @@ public class RewardsColumnsBuilder
         public String getData(Rewards rewards)
         {
           List<EmoteReward> emoteRewards=rewards.getRewardElementsOfClass(EmoteReward.class);
-          return ((emoteRewards.size()>0))?emoteRewards.get(0).getName():null;
+          return (emoteRewards.size()>0)?emoteRewards.get(0).getName():null;
         }
       };
       DefaultTableColumnController<Rewards,String> emoteColumn=new DefaultTableColumnController<Rewards,String>(RewardsColumnIds.EMOTE.name(),"Emote",String.class,emoteCell);
@@ -93,7 +93,7 @@ public class RewardsColumnsBuilder
         public String getData(Rewards rewards)
         {
           List<TraitReward> traitRewards=rewards.getRewardElementsOfClass(TraitReward.class);
-          return ((traitRewards.size()>0))?traitRewards.get(0).getName():null;
+          return (traitRewards.size()>0)?traitRewards.get(0).getName():null;
         }
       };
       DefaultTableColumnController<Rewards,String> traitColumn=new DefaultTableColumnController<Rewards,String>(RewardsColumnIds.TRAIT.name(),"Trait",String.class,traitCell);
@@ -200,7 +200,7 @@ public class RewardsColumnsBuilder
       public String getData(Rewards rewards)
       {
         List<ReputationReward> reputationRewards=rewards.getRewardElementsOfClass(ReputationReward.class);
-        return ((reputationRewards.size()>0))?reputationRewards.get(0).getFaction().getName():null;
+        return (reputationRewards.size()>0)?reputationRewards.get(0).getFaction().getName():null;
       }
     };
     DefaultTableColumnController<Rewards,String> factionColumn=new DefaultTableColumnController<Rewards,String>(RewardsColumnIds.FACTION.name(),"Faction",String.class,factionCell);
@@ -220,7 +220,7 @@ public class RewardsColumnsBuilder
       public Integer getData(Rewards rewards)
       {
         List<ReputationReward> reputationRewards=rewards.getRewardElementsOfClass(ReputationReward.class);
-        return ((reputationRewards.size()>0))?Integer.valueOf(reputationRewards.get(0).getAmount()):null;
+        return (reputationRewards.size()>0)?Integer.valueOf(reputationRewards.get(0).getAmount()):null;
       }
     };
     DefaultTableColumnController<Rewards,Integer> reputationAmountColumn=new DefaultTableColumnController<Rewards,Integer>(RewardsColumnIds.REPUTATION_AMOUNT.name(),"Rep Amount",Integer.class,reputationAmountCell);

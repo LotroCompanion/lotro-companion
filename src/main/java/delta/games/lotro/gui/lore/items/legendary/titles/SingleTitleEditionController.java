@@ -64,7 +64,7 @@ public class SingleTitleEditionController
       @Override
       public void actionPerformed(ActionEvent e)
       {
-        handleButtonClick((JButton)e.getSource());
+        handleButtonClick();
       }
     };
     _chooseButton.addActionListener(listener);
@@ -75,14 +75,14 @@ public class SingleTitleEditionController
       @Override
       public void actionPerformed(ActionEvent e)
       {
-        handleDelete((JButton)e.getSource());
+        handleDelete();
       }
     };
     _deleteButton.addActionListener(listenerDelete);
     updateUi();
   }
 
-  private void handleButtonClick(JButton button)
+  private void handleButtonClick()
   {
     LegendaryTitle legendaryTitle=LegendaryTitleChooser.selectLegendaryTitle(_parent,_legendaryTitle);
     if (legendaryTitle!=null)
@@ -92,7 +92,7 @@ public class SingleTitleEditionController
     }
   }
 
-  private void handleDelete(JButton button)
+  private void handleDelete()
   {
     _legendaryTitle=null;
     updateUi();

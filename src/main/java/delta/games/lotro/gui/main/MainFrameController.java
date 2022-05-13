@@ -252,11 +252,8 @@ public class MainFrameController extends DefaultWindowController implements Acti
     c.gridx++;
     panel.add(_toolbarMaps.getToolBar(),c);
     c.gridx++;
-    if (_toolbarMisc!=null)
-    {
-      panel.add(_toolbarMisc.getToolBar(),c);
-      c.gridx++;
-    }
+    panel.add(_toolbarMisc.getToolBar(),c);
+    c.gridx++;
     JPanel padding=GuiFactory.buildPanel(new FlowLayout());
     c=new GridBagConstraints(c.gridx,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(2,5,2,0),0,0);
     c.gridx++;
@@ -271,7 +268,7 @@ public class MainFrameController extends DefaultWindowController implements Acti
   {
     ToolbarController controller=new ToolbarController();
     ToolbarModel model=controller.getModel();
-    // Levelling icon
+    // Leveling icon
     String levellingIconPath=SharedUiUtils.getToolbarIconPath("levelling");
     ToolbarIconItem levellingIconItem=new ToolbarIconItem(LEVELLING_ID,levellingIconPath,LEVELLING_ID,"Levelling...","Levelling");
     model.addToolbarIconItem(levellingIconItem);

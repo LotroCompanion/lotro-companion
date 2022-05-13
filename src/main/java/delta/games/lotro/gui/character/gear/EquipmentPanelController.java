@@ -256,10 +256,9 @@ public class EquipmentPanelController implements ActionListener
 
   private Dimension computeDimensions()
   {
-    Dimension d=new Dimension();
     int width=X_COLUMN_4+ICON_SIZE+ICON_FRAME_SIZE+X_MARGIN;
     int height=Y_ROW+ICON_SIZE+ICON_FRAME_SIZE+Y_MARGIN;
-    d=new Dimension(width,height);
+    Dimension d=new Dimension(width,height);
     return d;
   }
 

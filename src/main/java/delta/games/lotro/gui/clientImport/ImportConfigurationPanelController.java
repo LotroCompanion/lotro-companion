@@ -3,7 +3,7 @@ package delta.games.lotro.gui.clientImport;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Map;
 
 import javax.swing.JPanel;
@@ -28,7 +28,7 @@ public class ImportConfigurationPanelController implements Disposable
    */
   public ImportConfigurationPanelController()
   {
-    _gadgets=new HashMap<ExtractableElement,CheckboxController>();
+    _gadgets=new EnumMap<ExtractableElement,CheckboxController>(ExtractableElement.class);
     _panel=buildPanel();
   }
 

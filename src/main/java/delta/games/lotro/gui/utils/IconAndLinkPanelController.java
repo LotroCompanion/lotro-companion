@@ -57,6 +57,7 @@ public class IconAndLinkPanelController implements Disposable
   /**
    * Release all managed resources.
    */
+  @Override
   public void dispose()
   {
     if (_link!=null)

@@ -29,12 +29,12 @@ public class ItemIconBuilder
       if (ret!=null)
       {
         //System.out.println("Loaded into cache: "+iconName);
-        _icons.put(new String(iconName),ret);
+        _icons.put(iconName,ret);
       }
     }
     else
     {
-      //System.out.println("Successfull cache: "+iconName);
+      //System.out.println("Successful cache: "+iconName);
     }
     return ret;
   }
@@ -69,7 +69,7 @@ public class ItemIconBuilder
       // Foreground-Background-Shadow-Underlay
       return new String[]{paths[1],paths[3],paths[2],paths[0]};
     }
-    return null;
+    return new String[0];
   }
 
   private BufferedImage buildImage(String[] imageIds)

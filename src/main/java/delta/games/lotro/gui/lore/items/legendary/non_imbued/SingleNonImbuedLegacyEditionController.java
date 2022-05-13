@@ -80,7 +80,7 @@ public abstract class SingleNonImbuedLegacyEditionController<T extends NonImbued
       {
         if (newInternalRank!=null)
         {
-          handleCurrentRankUpdate(newInternalRank.intValue());
+          handleCurrentRankUpdate();
         }
       }
     };
@@ -138,7 +138,7 @@ public abstract class SingleNonImbuedLegacyEditionController<T extends NonImbued
     }
   }
 
-  private void handleCurrentRankUpdate(int rank)
+  private void handleCurrentRankUpdate()
   {
     updateStats();
   }

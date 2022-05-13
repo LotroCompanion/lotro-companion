@@ -129,7 +129,7 @@ public class LevelHistoryEditionPanelController
     GridBagConstraints eastGlueC=new GridBagConstraints(nbColumns*2,0,1,LEVELS_BY_COLUMNS,1.0,1.0,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(5,5,5,5),0,0);
     panel.add(eastGlue,eastGlueC);
     // Add tab
-    String title=String.valueOf(startLevel)+"-"+String.valueOf(endLevel);
+    String title=String.valueOf(startLevel)+"-"+endLevel;
     pane.add(title,panel);
   }
 

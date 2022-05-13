@@ -36,6 +36,7 @@ public class SingleRelicEditionController extends SingleRelicDisplayController
     return _deleteButton;
   }
 
+  @Override
   public void dispose()
   {
     super.dispose();
