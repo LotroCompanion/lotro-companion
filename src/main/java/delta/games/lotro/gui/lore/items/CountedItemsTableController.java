@@ -188,7 +188,7 @@ public class CountedItemsTableController<T extends ItemProvider>
     {
       String id=column.getId();
       // Ignore ID, icon and name
-      if ((ItemColumnIds.ID.equals(id)) || (ItemColumnIds.ICON.equals(id)) || (ItemColumnIds.NAME.equals(id)))
+      if ((ItemColumnIds.ID.name().equals(id)) || (ItemColumnIds.ICON.name().equals(id)) || (ItemColumnIds.NAME.name().equals(id)))
       {
         continue;
       }

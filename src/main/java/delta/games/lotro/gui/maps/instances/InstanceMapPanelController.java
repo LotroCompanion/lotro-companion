@@ -88,15 +88,6 @@ public class InstanceMapPanelController
     MapsManager mapsManager=Maps.getMaps().getMapsManager();
     MarkersFinder markersFinder=mapsManager.getMarkersFinder();
     int contentLayer=_privateEncounter.getContentLayerId();
-    /*
-    List<Marker> markers=markersFinder.findMarkersForContentLayer(contentLayer);
-    ret.addAll(markers);
-    System.out.println("Nb markers in CL: "+markers.size());
-    for(Marker marker : markers)
-    {
-      System.out.println(marker+" => "+getBlock(marker));
-    }
-    */
     List<Marker> selectedMarkers=new ArrayList<Marker>();
     List<Integer> zones=_mapDescription.getZoneIds();
     for(Integer zone : zones)
@@ -110,12 +101,6 @@ public class InstanceMapPanelController
       }
       List<Marker> markers2=markersFinder.findMarkers(zone.intValue(),2);
       selectedMarkers.addAll(markers2);
-      /*
-      for(Marker marker2 : markers2)
-      {
-        System.out.println(marker2);
-      }
-      */
     }
     Map<Integer,Marker> ret=new HashMap<Integer,Marker>();
     for(Marker marker : selectedMarkers)

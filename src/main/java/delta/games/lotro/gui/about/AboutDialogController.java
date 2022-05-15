@@ -41,7 +41,6 @@ public class AboutDialogController extends DefaultDialogController
       dialog.setLocationRelativeTo(parentWindow);
     }
     dialog.setResizable(false);
-    //dialog.setMinimumSize(new Dimension(400,300));
     return dialog;
   }
 

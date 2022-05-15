@@ -35,6 +35,10 @@ import delta.games.lotro.lore.items.legendary2.LegendaryInstance2;
  */
 public class ItemInstanceEditionPanelController
 {
+  /**
+   * 
+   */
+  private static final String EDIT="Edit...";
   // Data
   private BasicCharacterAttributes _attrs;
   private ItemInstance<? extends Item> _itemInstance;
@@ -152,7 +156,7 @@ public class ItemInstanceEditionPanelController
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
     ret.add(_mainAttrs.getPanel(),c);
     // Edit main attrs
-    JButton editButton=GuiFactory.buildButton("Edit...");
+    JButton editButton=GuiFactory.buildButton(EDIT);
     ActionListener l=new ActionListener()
     {
       @Override
@@ -176,7 +180,7 @@ public class ItemInstanceEditionPanelController
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     ret.add(_stats,c);
     // Edit stats
-    JButton editButton=GuiFactory.buildButton("Edit...");
+    JButton editButton=GuiFactory.buildButton(EDIT);
     ActionListener l=new ActionListener()
     {
       @Override
@@ -200,7 +204,7 @@ public class ItemInstanceEditionPanelController
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     ret.add(_essences.getPanel(),c);
     // Edit button
-    JButton editButton=GuiFactory.buildButton("Edit...");
+    JButton editButton=GuiFactory.buildButton(EDIT);
     ActionListener l=new ActionListener()
     {
       @Override
@@ -225,7 +229,7 @@ public class ItemInstanceEditionPanelController
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
     ret.add(scrollPane,c);
     // Edit button
-    JButton editButton=GuiFactory.buildButton("Edit...");
+    JButton editButton=GuiFactory.buildButton(EDIT);
     ActionListener l=new ActionListener()
     {
       @Override

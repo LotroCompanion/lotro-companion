@@ -16,6 +16,11 @@ import delta.games.lotro.character.social.friends.FriendsManager;
  */
 public class FriendsWindowController extends DefaultDisplayDialogController<FriendsManager>
 {
+  /**
+   * Identifier for this window.
+   */
+  public static final String WINDOW_ID="FRIENDS";
+
   private FriendsPanelController _detailsPanel;
 
   /**
@@ -27,15 +32,6 @@ public class FriendsWindowController extends DefaultDisplayDialogController<Frie
   {
     super(parent,null);
     _detailsPanel=new FriendsPanelController(this,accountOnServer);
-  }
-
-  /**
-   * Get the window identifier.
-   * @return A window identifier.
-   */
-  public static String getIdentifier()
-  {
-    return "FRIENDS";
   }
 
   @Override
@@ -59,7 +55,7 @@ public class FriendsWindowController extends DefaultDisplayDialogController<Frie
   @Override
   public String getWindowIdentifier()
   {
-    return getIdentifier();
+    return WINDOW_ID;
   }
 
   /**

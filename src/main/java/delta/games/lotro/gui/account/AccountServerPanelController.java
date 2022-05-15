@@ -186,7 +186,7 @@ public class AccountServerPanelController implements ActionListener
 
   private void showFriends()
   {
-    FriendsWindowController friendsWindow=(FriendsWindowController)_windowsManager.getWindow(FriendsWindowController.getIdentifier());
+    FriendsWindowController friendsWindow=(FriendsWindowController)_windowsManager.getWindow(FriendsWindowController.WINDOW_ID);
     if (friendsWindow==null)
     {
       friendsWindow=new FriendsWindowController(_parent,_accountOnServer);

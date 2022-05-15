@@ -32,17 +32,17 @@ import delta.games.lotro.gui.utils.SharedUiUtils;
  */
 public class LoreActionsController implements ActionListener,Disposable
 {
-  private static final String ITEMS_ID="items";
-  private static final String MOBS_ID="mobs";
-  private static final String DEEDS_ID="deeds";
-  private static final String QUESTS_ID="quests";
-  private static final String RECIPES_ID="recipes";
-  private static final String TITLES_ID="titles";
-  private static final String EMOTES_ID="emotes";
-  private static final String MOUNTS_ID="mounts";
-  private static final String PETS_ID="pets";
-  private static final String VENDORS_ID="vendors";
-  private static final String BARTERERS_ID="barterers";
+  private static final String ITEMS_ID="itemsCommand";
+  private static final String MOBS_ID="mobsCommand";
+  private static final String DEEDS_ID="deedsCommand";
+  private static final String QUESTS_ID="questsCommand";
+  private static final String RECIPES_ID="recipesCommand";
+  private static final String TITLES_ID="titlesCommand";
+  private static final String EMOTES_ID="emotesCommand";
+  private static final String MOUNTS_ID="mountsCommand";
+  private static final String PETS_ID="petsCommand";
+  private static final String VENDORS_ID="vendorsCommand";
+  private static final String BARTERERS_ID="barterersCommand";
 
   private WindowController _parent;
   private WindowsManager _windowsManager;

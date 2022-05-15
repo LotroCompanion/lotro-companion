@@ -50,10 +50,7 @@ public class IconControllerFactory
     Icon icon=ItemUiTools.buildItemIcon(item,count);
     iconController.setIcon(icon);
     iconController.setPageId(ReferenceConstants.getItemReference(item.getIdentifier()));
-    if (item!=null)
-    {
-      iconController.setTooltipText(item.getName());
-    }
+    iconController.setTooltipText(item.getName());
   }
 
   /**
