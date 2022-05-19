@@ -39,7 +39,6 @@ public class AllegianceStatusWindowController extends DefaultDisplayDialogContro
     dialog.setTitle("Allegiance status: "+allegianceName);
     dialog.setSize(new Dimension(800,700));
     dialog.setMaximumSize(new Dimension(1000,700));
-    //dialog.pack();
     return dialog;
   }
 

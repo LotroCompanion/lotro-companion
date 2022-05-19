@@ -8,6 +8,8 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
+import org.apache.log4j.Logger;
+
 import delta.common.ui.swing.draw.Arrows;
 import delta.games.lotro.character.classes.traitTree.TraitTreeBranch;
 import delta.games.lotro.character.classes.traitTree.TraitTreeCell;
@@ -19,6 +21,7 @@ import delta.games.lotro.character.classes.traitTree.TraitTreeCellDependency;
  */
 public class TraitTreeDependenciesPanelController extends JPanel
 {
+  private static final Logger LOGGER=Logger.getLogger(TraitTreeDependenciesPanelController.class);
   private TraitTreeBranch _branch;
 
   /**
@@ -62,7 +65,10 @@ public class TraitTreeDependenciesPanelController extends JPanel
     String to=dependency.getCellId();
     Dimension toPosition=TraitTreeBranchGeometryUtils.getCenterPosition(to);
     g.drawLine(fromPosition.width,fromPosition.height,toPosition.width,toPosition.height);
-    //System.out.println("From: "+fromPosition+", to: "+toPosition);
+    if (LOGGER.isDebugEnabled())
+    {
+      LOGGER.debug("From: "+fromPosition+", to: "+toPosition);
+    }
     double angle=0;
     if (toPosition.width==fromPosition.width)
     {

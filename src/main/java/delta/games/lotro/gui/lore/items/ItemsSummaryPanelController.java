@@ -80,16 +80,6 @@ public class ItemsSummaryPanelController
         @SuppressWarnings("unchecked")
         List<CountedItem<Item>> items=(List<CountedItem<Item>>)value;
         setupItemIcons(items);
-        /*
-        int height=_panel.getPreferredSize().height;
-        if (height!=0)
-        {
-          if (table.getRowHeight()!=height)
-          {
-            table.setRowHeight(height);
-          }
-        }
-        */
         return _panel;
       }
     };

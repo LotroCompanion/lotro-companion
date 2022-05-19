@@ -40,15 +40,14 @@ public final class FontsManager
   {
     try {
       URL ufont=FontsManager.class.getResource(FONT);
-      URLConnection con = ufont.openConnection();
+      URLConnection con=ufont.openConnection();
       con.connect();
-      InputStream is = con.getInputStream();
-      Font f = Font.createFont(Font.TRUETYPE_FONT, is);
-      GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+      InputStream is=con.getInputStream();
+      Font f=Font.createFont(Font.TRUETYPE_FONT,is);
+      GraphicsEnvironment ge=GraphicsEnvironment.getLocalGraphicsEnvironment();
       ge.registerFont(f);
-      String s = f.getFamily();
-      //System.out.println(s);
-      _font = new Font(s, Font.PLAIN, 12);
+      String s=f.getFamily();
+      _font=new Font(s,Font.PLAIN,12);
     }
     catch(Exception e)
     {

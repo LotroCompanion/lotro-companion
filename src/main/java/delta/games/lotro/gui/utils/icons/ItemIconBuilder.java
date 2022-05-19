@@ -4,6 +4,8 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.WeakHashMap;
 
+import org.apache.log4j.Logger;
+
 import delta.common.ui.swing.icons.IconsManager;
 import delta.games.lotro.utils.IconsUtils;
 
@@ -13,6 +15,7 @@ import delta.games.lotro.utils.IconsUtils;
  */
 public class ItemIconBuilder
 {
+  private static final Logger LOGGER=Logger.getLogger(ItemIconBuilder.class);
   private static final WeakHashMap<String,BufferedImage> _icons=new WeakHashMap<String,BufferedImage>();
 
   /**
@@ -28,13 +31,19 @@ public class ItemIconBuilder
       ret=buildImage(iconName);
       if (ret!=null)
       {
-        //System.out.println("Loaded into cache: "+iconName);
+        if (LOGGER.isDebugEnabled())
+        {
+          LOGGER.debug("Loaded into cache: "+iconName);
+        }
         _icons.put(iconName,ret);
       }
     }
     else
     {
-      //System.out.println("Successful cache: "+iconName);
+      if (LOGGER.isDebugEnabled())
+      {
+        LOGGER.debug("Successful cache hit: "+iconName);
+      }
     }
     return ret;
   }

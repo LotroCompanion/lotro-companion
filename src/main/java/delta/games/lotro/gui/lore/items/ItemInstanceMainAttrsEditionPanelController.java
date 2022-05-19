@@ -104,8 +104,6 @@ public class ItemInstanceMainAttrsEditionPanelController
 
   private void initGadgets()
   {
-    // - Instance ID
-    //_instanceId=new ItemInstanceIdEditionPanelController();
     // - Validity date
     DateCodec codec=DateFormat.getDateTimeCodec();
     _date=new DateEditionController(codec);
@@ -160,9 +158,6 @@ public class ItemInstanceMainAttrsEditionPanelController
       JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
       panel.add(panelLine,c);
       c.gridy++;
-      // ID
-      //panelLine.add(GuiFactory.buildLabel("ID:"));
-      //panelLine.add(_instanceId.getPanel());
       // Date
       panelLine.add(GuiFactory.buildLabel("Date:"));
       panelLine.add(_date.getTextField());
@@ -245,8 +240,6 @@ public class ItemInstanceMainAttrsEditionPanelController
   private void setItem()
   {
     Item item=_itemInstance.getReference();
-    // - Instance ID
-    //_instanceId.setInstanceId(_itemInstance.getInstanceId());
     // - Validity date
     Long time=_itemInstance.getTime();
     if (time!=null)
@@ -292,9 +285,6 @@ public class ItemInstanceMainAttrsEditionPanelController
   public void getItem()
   {
     Item reference=_itemInstance.getReference();
-    // - Instance ID
-    //ItemInstanceId id=_instanceId.getInstanceId();
-    //_itemInstance.setInstanceId(id);
     // - Validity date
     Long date=_date.getDate();
     _itemInstance.setTime(date);

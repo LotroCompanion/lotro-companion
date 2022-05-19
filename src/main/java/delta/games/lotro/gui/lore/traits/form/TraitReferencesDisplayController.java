@@ -53,7 +53,7 @@ public class TraitReferencesDisplayController
   private JEditorPane buildDetailsPane(int traitID)
   {
     List<TraitReference<?>> references=getReferences(traitID);
-    if (references.size()==0)
+    if (references.isEmpty())
     {
       return null;
     }
@@ -123,7 +123,7 @@ public class TraitReferencesDisplayController
   private void buildHtmlForRace(StringBuilder sb, List<TraitReference<?>> references)
   {
     List<TraitReference<Race>> raceReferences=getReferences(references,Race.class);
-    if (raceReferences.size()>0)
+    if (!raceReferences.isEmpty())
     {
       for(TraitReference<Race> raceReference : raceReferences)
       {
@@ -145,7 +145,7 @@ public class TraitReferencesDisplayController
   private void buildHtmlForClass(StringBuilder sb, List<TraitReference<?>> references)
   {
     List<TraitReference<CharacterClass>> classReferences=getReferences(references,CharacterClass.class);
-    if (classReferences.size()>0)
+    if (!classReferences.isEmpty())
     {
       for(TraitReference<CharacterClass> classReference : classReferences)
       {
@@ -167,7 +167,7 @@ public class TraitReferencesDisplayController
   private void buildHtmlForQuestsAndDeeds(StringBuilder sb, List<TraitReference<?>> references)
   {
     List<TraitReference<Achievable>> achievableReferences=getReferences(references,Achievable.class);
-    if (achievableReferences.size()>0)
+    if (!achievableReferences.isEmpty())
     {
       sb.append("<h1>Quests and deeds</h1>");
       for(TraitReference<Achievable> achievableReference : achievableReferences)

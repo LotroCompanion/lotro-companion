@@ -44,7 +44,6 @@ import delta.games.lotro.utils.events.GenericEventsListener;
  */
 public class StashWindowController extends DefaultWindowController implements ActionListener,FilterUpdateListener,GenericEventsListener<CharacterEvent>
 {
-  private static final String NEW_ITEM_ID="newItem";
   private static final String CLONE_ITEM_ID="cloneItem";
   private static final String REMOVE_ITEM_ID="removeItem";
 
@@ -162,11 +161,7 @@ public class StashWindowController extends DefaultWindowController implements Ac
   public void actionPerformed(ActionEvent e)
   {
     String command=e.getActionCommand();
-    if (NEW_ITEM_ID.equals(command))
-    {
-      //startNewCharacterData();
-    }
-    else if (CLONE_ITEM_ID.equals(command))
+    if (CLONE_ITEM_ID.equals(command))
     {
       cloneItemInstance();
     }
@@ -200,17 +195,13 @@ public class StashWindowController extends DefaultWindowController implements Ac
   {
     ToolbarController controller=new ToolbarController();
     ToolbarModel model=controller.getModel();
-    // New icon
-    String newIconPath=getToolbarIconPath("new");
-    ToolbarIconItem newIconItem=new ToolbarIconItem(NEW_ITEM_ID,newIconPath,NEW_ITEM_ID,"Create a new character configuration...","New");
-    model.addToolbarIconItem(newIconItem);
     // Clone icon
     String cloneIconPath=getToolbarIconPath("copy");
-    ToolbarIconItem cloneIconItem=new ToolbarIconItem(CLONE_ITEM_ID,cloneIconPath,CLONE_ITEM_ID,"Clone the selected character configuration...","Clone");
+    ToolbarIconItem cloneIconItem=new ToolbarIconItem(CLONE_ITEM_ID,cloneIconPath,CLONE_ITEM_ID,"Clone the selected item...","Clone");
     model.addToolbarIconItem(cloneIconItem);
     // Remove icon
     String deleteIconPath=getToolbarIconPath("delete");
-    ToolbarIconItem deleteIconItem=new ToolbarIconItem(REMOVE_ITEM_ID,deleteIconPath,REMOVE_ITEM_ID,"Remove the selected character...","Remove");
+    ToolbarIconItem deleteIconItem=new ToolbarIconItem(REMOVE_ITEM_ID,deleteIconPath,REMOVE_ITEM_ID,"Remove the selected item...","Remove");
     model.addToolbarIconItem(deleteIconItem);
     // Register action listener
     controller.addActionListener(this);

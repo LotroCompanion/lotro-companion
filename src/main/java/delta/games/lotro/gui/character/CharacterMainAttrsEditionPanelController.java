@@ -43,7 +43,6 @@ public class CharacterMainAttrsEditionPanelController
   private ComboBoxController<Integer> _level;
   private DateEditionController _date;
   private JTextField _shortDescription;
-  //private JTextArea _description;
 
   // Data
   private CharacterFile _toonFile;

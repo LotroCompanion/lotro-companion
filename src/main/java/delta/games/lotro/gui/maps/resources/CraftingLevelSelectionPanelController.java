@@ -90,7 +90,6 @@ public class CraftingLevelSelectionPanelController
         @Override
         public void itemSelected(Profession profession)
         {
-          //System.out.println("Selected profession: "+profession);
           updateTiersCombo(profession);
           select(profession,_tier.getSelectedItem());
         }
@@ -109,7 +108,6 @@ public class CraftingLevelSelectionPanelController
         @Override
         public void itemSelected(Integer tier)
         {
-          //System.out.println("Selected tier: "+tier);
           select(_profession.getSelectedItem(),tier);
         }
       };

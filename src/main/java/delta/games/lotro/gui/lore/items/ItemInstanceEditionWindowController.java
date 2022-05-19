@@ -49,12 +49,6 @@ public class ItemInstanceEditionWindowController extends DefaultFormDialogContro
     dialog.setMinimumSize(dialog.getSize());
   }
 
-  @Override
-  protected void okImpl()
-  {
-    //System.out.println(_data.dump());
-  }
-
   /**
    * Release all managed resources.
    */

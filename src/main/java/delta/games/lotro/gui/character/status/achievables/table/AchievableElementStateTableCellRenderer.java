@@ -50,6 +50,6 @@ public class AchievableElementStateTableCellRenderer extends DefaultTableCellRen
   @Override
   public void setValue(Object value)
   {
-    System.out.println("Set value: "+value);
+    // Nothing!
   }
 }

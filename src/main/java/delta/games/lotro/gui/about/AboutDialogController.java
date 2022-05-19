@@ -15,6 +15,11 @@ import delta.common.ui.swing.windows.WindowController;
  */
 public class AboutDialogController extends DefaultDialogController
 {
+  /**
+   * Window identifier.
+   */
+  public static final String IDENTIFIER="ABOUT";
+
   // Controllers
   private AboutPanelController _controller;
 
@@ -44,19 +49,10 @@ public class AboutDialogController extends DefaultDialogController
     return dialog;
   }
 
-  /**
-   * Get the window identifier for a given toon.
-   * @return A window identifier.
-   */
-  public static String getIdentifier()
-  {
-    return "ABOUT";
-  }
-
   @Override
   public String getWindowIdentifier()
   {
-    return getIdentifier();
+    return IDENTIFIER;
   }
 
   @Override

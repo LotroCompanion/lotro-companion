@@ -60,7 +60,7 @@ public class TraceriesTableBuilder
   {
     List<TableColumnController<Tracery,?>> ret=new ArrayList<TableColumnController<Tracery,?>>();
     // Identifier column
-    //if (UiConfiguration.showTechnicalColumns())
+    if (UiConfiguration.showTechnicalColumns())
     {
       CellDataProvider<Tracery,Integer> idCell=new CellDataProvider<Tracery,Integer>()
       {

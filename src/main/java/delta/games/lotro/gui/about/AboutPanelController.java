@@ -53,8 +53,7 @@ public class AboutPanelController
 
     // Icon (if any)
     {
-      String iconPath="/resources/gui/ring/ring48.png";
-      Image icon=IconsManager.getImage(iconPath);
+      Image icon=IconsManager.getImage("/resources/gui/ring/ring48.png");
       c=new GridBagConstraints(x,y,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(10,20,10,5),0,0);
       ImageIcon imageIcon=new ImageIcon(icon);
       JLabel lbIcon=new JLabel(imageIcon);
@@ -241,7 +240,7 @@ public class AboutPanelController
       JPanel warthal=buildToonContribPanel("Warthal","warthal",contrib);
       panels.add(warthal);
     }
-    JPanel groupPanel=buildGroupContribPanel("Ever Watchful","group");
+    JPanel groupPanel=buildGroupContribPanel("group");
     panels.add(groupPanel);
     // Tegyr
     {
@@ -252,7 +251,7 @@ public class AboutPanelController
     return panels;
   }
 
-  private JPanel buildGroupContribPanel(String groupName, String groupIconName)
+  private JPanel buildGroupContribPanel(String groupIconName)
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
 
@@ -271,7 +270,8 @@ public class AboutPanelController
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     GridBagConstraints c;
 
-    int x=0,y=0;
+    int x=0;
+    int y=0;
 
     // Icon
     String iconPath="/resources/gui/toons/"+toonIconName+".png";

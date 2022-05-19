@@ -14,16 +14,16 @@ import ch.qos.logback.core.spi.LifeCycle;
  */
 public class LoggerStartupListener extends ContextAwareBase implements LoggerContextListener, LifeCycle
 {
-  private boolean started=false;
+  private boolean _started=false;
 
   @Override
   public void start()
   {
-    if (started) return;
+    if (_started) return;
     String userHome=System.getProperty("user.home");
     Context loggerContext=getContext();
     loggerContext.putProperty("DATA_HOME",userHome);
-    started=true;
+    _started=true;
   }
 
   @Override
@@ -35,7 +35,7 @@ public class LoggerStartupListener extends ContextAwareBase implements LoggerCon
   @Override
   public boolean isStarted()
   {
-    return started;
+    return _started;
   }
 
   @Override

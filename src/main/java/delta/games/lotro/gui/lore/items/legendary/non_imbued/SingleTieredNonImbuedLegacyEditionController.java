@@ -195,14 +195,8 @@ public class SingleTieredNonImbuedLegacyEditionController extends SingleNonImbue
   protected void updateGadgetsState()
   {
     super.updateGadgetsState();
-    if (hasLegacy())
-    {
-      _tier.getComboBox().setEnabled(true);
-    }
-    else
-    {
-      _tier.getComboBox().setEnabled(false);
-    }
+    boolean enabled=hasLegacy();
+    _tier.getComboBox().setEnabled(enabled);
   }
 
   @Override

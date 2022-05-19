@@ -39,7 +39,6 @@ public class StatContribsTableController
     _statContribs=new ArrayList<StatContribution>();
     _renderer=new StatRenderer(null);
     _tableController=buildTable();
-    configureTable();
   }
 
   /**
@@ -103,13 +102,6 @@ public class StatContribsTableController
       ColumnsUtils.configureStatValueColumn(statColumn,_renderer,70);
       columnsManager.addColumnController(statColumn,true);
     }
-  }
-
-  private void configureTable()
-  {
-    //JTable table=getTable();
-    // Adjust table row height for icons (32 pixels)
-    //table.setRowHeight(32);
   }
 
   /**

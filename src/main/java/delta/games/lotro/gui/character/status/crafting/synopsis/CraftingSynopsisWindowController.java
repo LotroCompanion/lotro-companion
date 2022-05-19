@@ -21,6 +21,11 @@ import delta.games.lotro.character.CharactersManager;
  */
 public class CraftingSynopsisWindowController extends DefaultWindowController
 {
+  /**
+   * Window identifier.
+   */
+  public static final String IDENTIFIER="CRAFTING_SYNOPSIS";
+
   private static final String CRAFTING_PREFERENCES_NAME="craftingSynopsis";
   private static final String TOON_NAME_PREFERENCE="crafting.synopsis.registered.toon";
 
@@ -36,7 +41,7 @@ public class CraftingSynopsisWindowController extends DefaultWindowController
     TypedProperties props=preferences.getPreferences(CRAFTING_PREFERENCES_NAME);
     List<String> toonIds=props.getStringList(TOON_NAME_PREFERENCE);
     CharactersManager manager=CharactersManager.getInstance();
-    if ((toonIds!=null) && (toonIds.size()>0))
+    if (toonIds!=null)
     {
       for(String toonID : toonIds)
       {
@@ -49,15 +54,6 @@ public class CraftingSynopsisWindowController extends DefaultWindowController
     }
     _panelController=new CraftingSynopsisPanelController(this);
     _panelController.getTableController().setToons(toons);
-  }
-
-  /**
-   * Get the window identifier.
-   * @return A window identifier.
-   */
-  public static String getIdentifier()
-  {
-    return "CRAFTING_SYNOPSIS";
   }
 
   @Override
@@ -90,7 +86,7 @@ public class CraftingSynopsisWindowController extends DefaultWindowController
   @Override
   public String getWindowIdentifier()
   {
-    return getIdentifier();
+    return IDENTIFIER;
   }
 
   /**

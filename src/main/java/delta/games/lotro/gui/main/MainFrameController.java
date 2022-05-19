@@ -63,18 +63,18 @@ public class MainFrameController extends DefaultWindowController implements Acti
    */
   public static final String IDENTIFIER="MAIN_WINDOW";
 
-  private static final String LEVELLING_ID="levelling";
-  private static final String WARBANDS_ID="warbands";
-  private static final String INSTANCES_ID="instances";
-  private static final String RESOURCES_MAPS_ID="resourcesMaps";
-  private static final String REPUTATION_SYNOPSIS_ID="reputationSynopsis";
-  private static final String CRAFTING_SYNOPSIS_ID="craftingSynopsis";
-  private static final String CURRENCIES_SYNOPSIS_ID="currencies";
-  private static final String MAP_ID="map";
-  private static final String NETWORK_SYNCHRO_ID="networkSynchro";
-  private static final String CLIENT_SYNCHRO_ID="clientSynchro";
-  private static final String SETTINGS_ID="settings";
-  private static final String ABOUT_ID="about";
+  private static final String LEVELLING_COMMAND="levellingCommand";
+  private static final String WARBANDS_COMMAND="warbandsCommand";
+  private static final String INSTANCES_COMMAND="instancesCommand";
+  private static final String RESOURCES_MAPS_COMMAND="resourcesMapsCommand";
+  private static final String REPUTATION_SYNOPSIS_COMMAND="reputationSynopsisCommand";
+  private static final String CRAFTING_SYNOPSIS_COMMAND="craftingSynopsisCommand";
+  private static final String CURRENCIES_SYNOPSIS_COMMAND="currenciesCommand";
+  private static final String MAP_COMMAND="mapCommand";
+  private static final String NETWORK_SYNCHRO_COMMAND="networkSynchroCommand";
+  private static final String CLIENT_SYNCHRO_COMMAND="clientSynchroCommand";
+  private static final String SETTINGS_COMMAND="settingsCommand";
+  private static final String ABOUT_COMMAND="aboutCommand";
 
   private ToolbarController _toolbarTracking;
   private LoreActionsController _loreCtrl;
@@ -129,27 +129,27 @@ public class MainFrameController extends DefaultWindowController implements Acti
     JMenu statsMenu=GuiFactory.buildMenu("Statistics");
     // - levelling
     JMenuItem levellingStats=GuiFactory.buildMenuItem("Levelling");
-    levellingStats.setActionCommand(LEVELLING_ID);
+    levellingStats.setActionCommand(LEVELLING_COMMAND);
     levellingStats.addActionListener(this);
     statsMenu.add(levellingStats);
     // - warbands
     JMenuItem warbandsStats=GuiFactory.buildMenuItem("Warbands");
-    warbandsStats.setActionCommand(WARBANDS_ID);
+    warbandsStats.setActionCommand(WARBANDS_COMMAND);
     warbandsStats.addActionListener(this);
     statsMenu.add(warbandsStats);
     // - reputation
     JMenuItem reputationSynopsis=GuiFactory.buildMenuItem("Reputation synopsis");
-    reputationSynopsis.setActionCommand(REPUTATION_SYNOPSIS_ID);
+    reputationSynopsis.setActionCommand(REPUTATION_SYNOPSIS_COMMAND);
     reputationSynopsis.addActionListener(this);
     statsMenu.add(reputationSynopsis);
     // - crafting
     JMenuItem craftingSynopsis=GuiFactory.buildMenuItem("Crafting synopsis");
-    craftingSynopsis.setActionCommand(CRAFTING_SYNOPSIS_ID);
+    craftingSynopsis.setActionCommand(CRAFTING_SYNOPSIS_COMMAND);
     craftingSynopsis.addActionListener(this);
     statsMenu.add(craftingSynopsis);
     // - currencies
     JMenuItem currenciesSynopsis=GuiFactory.buildMenuItem("Currencies synopsis");
-    currenciesSynopsis.setActionCommand(CURRENCIES_SYNOPSIS_ID);
+    currenciesSynopsis.setActionCommand(CURRENCIES_SYNOPSIS_COMMAND);
     currenciesSynopsis.addActionListener(this);
     statsMenu.add(currenciesSynopsis);
 
@@ -160,17 +160,17 @@ public class MainFrameController extends DefaultWindowController implements Acti
     JMenu mapsMenu=GuiFactory.buildMenu("Maps");
     // - map
     JMenuItem map=GuiFactory.buildMenuItem("Middle-earth Map");
-    map.setActionCommand(MAP_ID);
+    map.setActionCommand(MAP_COMMAND);
     map.addActionListener(this);
     mapsMenu.add(map);
     // - instances
     JMenuItem instancesExplorer=GuiFactory.buildMenuItem("Instances");
-    instancesExplorer.setActionCommand(INSTANCES_ID);
+    instancesExplorer.setActionCommand(INSTANCES_COMMAND);
     instancesExplorer.addActionListener(this);
     mapsMenu.add(instancesExplorer);
     // - resources maps
     JMenuItem resourcesMapsExplorer=GuiFactory.buildMenuItem("Resources Maps");
-    resourcesMapsExplorer.setActionCommand(RESOURCES_MAPS_ID);
+    resourcesMapsExplorer.setActionCommand(RESOURCES_MAPS_COMMAND);
     resourcesMapsExplorer.addActionListener(this);
     mapsMenu.add(resourcesMapsExplorer);
 
@@ -178,7 +178,7 @@ public class MainFrameController extends DefaultWindowController implements Acti
     JMenu helpMenu=GuiFactory.buildMenu("Help");
     // - about
     JMenuItem aboutMenuItem=GuiFactory.buildMenuItem("About...");
-    aboutMenuItem.setActionCommand(ABOUT_ID);
+    aboutMenuItem.setActionCommand(ABOUT_COMMAND);
     aboutMenuItem.addActionListener(this);
     helpMenu.add(aboutMenuItem);
     // - credits
@@ -270,23 +270,23 @@ public class MainFrameController extends DefaultWindowController implements Acti
     ToolbarModel model=controller.getModel();
     // Leveling icon
     String levellingIconPath=SharedUiUtils.getToolbarIconPath("levelling");
-    ToolbarIconItem levellingIconItem=new ToolbarIconItem(LEVELLING_ID,levellingIconPath,LEVELLING_ID,"Levelling...","Levelling");
+    ToolbarIconItem levellingIconItem=new ToolbarIconItem(LEVELLING_COMMAND,levellingIconPath,LEVELLING_COMMAND,"Levelling...","Levelling");
     model.addToolbarIconItem(levellingIconItem);
     // Warbands icon
     String warbandsIconPath=SharedUiUtils.getToolbarIconPath("warbands");
-    ToolbarIconItem warbandsIconItem=new ToolbarIconItem(WARBANDS_ID,warbandsIconPath,WARBANDS_ID,"Warbands...","Warbands");
+    ToolbarIconItem warbandsIconItem=new ToolbarIconItem(WARBANDS_COMMAND,warbandsIconPath,WARBANDS_COMMAND,"Warbands...","Warbands");
     model.addToolbarIconItem(warbandsIconItem);
     // Reputation synopsis icon
     String reputationSynopsisIconPath=SharedUiUtils.getToolbarIconPath("reputation");
-    ToolbarIconItem reputationSynopsisIconItem=new ToolbarIconItem(REPUTATION_SYNOPSIS_ID,reputationSynopsisIconPath,REPUTATION_SYNOPSIS_ID,"Reputation synopsis...","Reputation synopsis");
+    ToolbarIconItem reputationSynopsisIconItem=new ToolbarIconItem(REPUTATION_SYNOPSIS_COMMAND,reputationSynopsisIconPath,REPUTATION_SYNOPSIS_COMMAND,"Reputation synopsis...","Reputation synopsis");
     model.addToolbarIconItem(reputationSynopsisIconItem);
     // Crafting synopsis icon
     String craftingSynopsisIconPath=SharedUiUtils.getToolbarIconPath("crafting");
-    ToolbarIconItem craftingSynopsisIconItem=new ToolbarIconItem(CRAFTING_SYNOPSIS_ID,craftingSynopsisIconPath,CRAFTING_SYNOPSIS_ID,"Crafting synopsis...","Crafting synopsis");
+    ToolbarIconItem craftingSynopsisIconItem=new ToolbarIconItem(CRAFTING_SYNOPSIS_COMMAND,craftingSynopsisIconPath,CRAFTING_SYNOPSIS_COMMAND,"Crafting synopsis...","Crafting synopsis");
     model.addToolbarIconItem(craftingSynopsisIconItem);
     // Currencies synopsis icon
     String currenciesSynopsisIconPath=SharedUiUtils.getToolbarIconPath("currencies");
-    ToolbarIconItem currenciesSynopsisIconItem=new ToolbarIconItem(CURRENCIES_SYNOPSIS_ID,currenciesSynopsisIconPath,CURRENCIES_SYNOPSIS_ID,"Currencies synopsis...","Currencies synopsis");
+    ToolbarIconItem currenciesSynopsisIconItem=new ToolbarIconItem(CURRENCIES_SYNOPSIS_COMMAND,currenciesSynopsisIconPath,CURRENCIES_SYNOPSIS_COMMAND,"Currencies synopsis...","Currencies synopsis");
     model.addToolbarIconItem(currenciesSynopsisIconItem);
     // Border
     controller.getToolBar().setBorder(GuiFactory.buildTitledBorder("Tracking Synopsis"));
@@ -301,15 +301,15 @@ public class MainFrameController extends DefaultWindowController implements Acti
     ToolbarModel model=controller.getModel();
     // Map icon
     String mapIconPath=SharedUiUtils.getToolbarIconPath("globe");
-    ToolbarIconItem mapIconItem=new ToolbarIconItem(MAP_ID,mapIconPath,MAP_ID,"Maps...","Maps");
+    ToolbarIconItem mapIconItem=new ToolbarIconItem(MAP_COMMAND,mapIconPath,MAP_COMMAND,"Maps...","Maps");
     model.addToolbarIconItem(mapIconItem);
     // Instances icon
     String instancessIconPath=SharedUiUtils.getToolbarIconPath("instances");
-    ToolbarIconItem instancesIconItem=new ToolbarIconItem(INSTANCES_ID,instancessIconPath,INSTANCES_ID,"Instances...","Instances");
+    ToolbarIconItem instancesIconItem=new ToolbarIconItem(INSTANCES_COMMAND,instancessIconPath,INSTANCES_COMMAND,"Instances...","Instances");
     model.addToolbarIconItem(instancesIconItem);
     // Resources maps icon
     String resourcesMapsIconPath=SharedUiUtils.getToolbarIconPath("resourcesMap");
-    ToolbarIconItem resourcesMapsIconItem=new ToolbarIconItem(RESOURCES_MAPS_ID,resourcesMapsIconPath,RESOURCES_MAPS_ID,"Resources maps...","Resources Maps");
+    ToolbarIconItem resourcesMapsIconItem=new ToolbarIconItem(RESOURCES_MAPS_COMMAND,resourcesMapsIconPath,RESOURCES_MAPS_COMMAND,"Resources maps...","Resources Maps");
     model.addToolbarIconItem(resourcesMapsIconItem);
     // Border
     controller.getToolBar().setBorder(GuiFactory.buildTitledBorder("Maps"));
@@ -324,23 +324,23 @@ public class MainFrameController extends DefaultWindowController implements Acti
     ToolbarModel model=controller.getModel();
     // Settings
     String settingsIconPath=SharedUiUtils.getToolbarIconPath("settings");
-    ToolbarIconItem settingsIconItem=new ToolbarIconItem(SETTINGS_ID,settingsIconPath,SETTINGS_ID,"Settings...","Settings...");
+    ToolbarIconItem settingsIconItem=new ToolbarIconItem(SETTINGS_COMMAND,settingsIconPath,SETTINGS_COMMAND,"Settings...","Settings...");
     model.addToolbarIconItem(settingsIconItem);
     // Import from LOTRO (network)
     boolean hasSynchronizer=InterceptorInterface.checkInterceptorPresence();
     if (hasSynchronizer)
     {
       String importIconPath=SharedUiUtils.getToolbarIconPath("lotro-import");
-      ToolbarIconItem importIconItem=new ToolbarIconItem(NETWORK_SYNCHRO_ID,importIconPath,NETWORK_SYNCHRO_ID,"Import from LotRO...","Import...");
+      ToolbarIconItem importIconItem=new ToolbarIconItem(NETWORK_SYNCHRO_COMMAND,importIconPath,NETWORK_SYNCHRO_COMMAND,"Import from LotRO...","Import...");
       model.addToolbarIconItem(importIconItem);
     }
     // Import from LOTRO (client)
     String importIconPath=SharedUiUtils.getToolbarIconPath("lotro-import");
-    ToolbarIconItem importIconItem=new ToolbarIconItem(CLIENT_SYNCHRO_ID,importIconPath,CLIENT_SYNCHRO_ID,"Import from LotRO...","Import...");
+    ToolbarIconItem importIconItem=new ToolbarIconItem(CLIENT_SYNCHRO_COMMAND,importIconPath,CLIENT_SYNCHRO_COMMAND,"Import from LotRO...","Import...");
     model.addToolbarIconItem(importIconItem);
     // About
     String aboutIconPath=SharedUiUtils.getToolbarIconPath("about");
-    ToolbarIconItem aboutIconItem=new ToolbarIconItem(ABOUT_ID,aboutIconPath,ABOUT_ID,"About...","About...");
+    ToolbarIconItem aboutIconItem=new ToolbarIconItem(ABOUT_COMMAND,aboutIconPath,ABOUT_COMMAND,"About Lotro Companion...","About...");
     model.addToolbarIconItem(aboutIconItem);
     // Border
     controller.getToolBar().setBorder(GuiFactory.buildTitledBorder("Misc"));
@@ -381,7 +381,7 @@ public class MainFrameController extends DefaultWindowController implements Acti
 
   private void doCraftingSynopsis()
   {
-    String id=CraftingSynopsisWindowController.getIdentifier();
+    String id=CraftingSynopsisWindowController.IDENTIFIER;
     WindowController controller=_windowsManager.getWindow(id);
     if (controller==null)
     {
@@ -466,51 +466,51 @@ public class MainFrameController extends DefaultWindowController implements Acti
   public void actionPerformed(ActionEvent event)
   {
     String cmd=event.getActionCommand();
-    if (LEVELLING_ID.equals(cmd))
+    if (LEVELLING_COMMAND.equals(cmd))
     {
       doLevelling();
     }
-    else if (WARBANDS_ID.equals(cmd))
+    else if (WARBANDS_COMMAND.equals(cmd))
     {
       doWarbands();
     }
-    else if (REPUTATION_SYNOPSIS_ID.equals(cmd))
+    else if (REPUTATION_SYNOPSIS_COMMAND.equals(cmd))
     {
       doReputationSynopsis();
     }
-    else if (CRAFTING_SYNOPSIS_ID.equals(cmd))
+    else if (CRAFTING_SYNOPSIS_COMMAND.equals(cmd))
     {
       doCraftingSynopsis();
     }
-    else if (CURRENCIES_SYNOPSIS_ID.equals(cmd))
+    else if (CURRENCIES_SYNOPSIS_COMMAND.equals(cmd))
     {
       doCurrenciesSynopsis();
     }
-    else if (MAP_ID.equals(cmd))
+    else if (MAP_COMMAND.equals(cmd))
     {
       doMap();
     }
-    else if (INSTANCES_ID.equals(cmd))
+    else if (INSTANCES_COMMAND.equals(cmd))
     {
       doInstances();
     }
-    else if (RESOURCES_MAPS_ID.equals(cmd))
+    else if (RESOURCES_MAPS_COMMAND.equals(cmd))
     {
       doResourcesMaps();
     }
-    else if (NETWORK_SYNCHRO_ID.equals(cmd))
+    else if (NETWORK_SYNCHRO_COMMAND.equals(cmd))
     {
       doNetworkSynchronizer();
     }
-    else if (CLIENT_SYNCHRO_ID.equals(cmd))
+    else if (CLIENT_SYNCHRO_COMMAND.equals(cmd))
     {
       doClientSynchronizer();
     }
-    else if (SETTINGS_ID.equals(cmd))
+    else if (SETTINGS_COMMAND.equals(cmd))
     {
       doSettings();
     }
-    else if (ABOUT_ID.equals(cmd))
+    else if (ABOUT_COMMAND.equals(cmd))
     {
       doAbout();
     }
@@ -531,7 +531,7 @@ public class MainFrameController extends DefaultWindowController implements Acti
 
   private void doAbout()
   {
-    String id=AboutDialogController.getIdentifier();
+    String id=AboutDialogController.IDENTIFIER;
     WindowController controller=_windowsManager.getWindow(id);
     if (controller==null)
     {
@@ -548,7 +548,7 @@ public class MainFrameController extends DefaultWindowController implements Acti
 
   private void doCredits()
   {
-    String id=CreditsDialogController.getIdentifier();
+    String id=CreditsDialogController.IDENTIFIER;
     WindowController controller=_windowsManager.getWindow(id);
     if (controller==null)
     {
