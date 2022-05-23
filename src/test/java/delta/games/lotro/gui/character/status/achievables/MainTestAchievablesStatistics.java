@@ -6,7 +6,7 @@ import delta.games.lotro.LotroTestUtils;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.status.achievables.AchievablesStatusManager;
 import delta.games.lotro.character.status.achievables.io.DeedsStatusIo;
-import delta.games.lotro.character.status.achievables.statistics.AchievablesStatistics;
+import delta.games.lotro.character.status.achievables.statistics.GlobalAchievablesStatistics;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.DeedsManager;
 
@@ -32,9 +32,9 @@ public class MainTestAchievablesStatistics
       if (nbDeeds>0)
       {
         System.out.println(toon.getName());
-        AchievablesStatistics stats=new AchievablesStatistics();
+        GlobalAchievablesStatistics stats=new GlobalAchievablesStatistics();
         stats.useAchievables(deedsStatus,deeds);
-        stats.showResults();
+        System.out.println(stats.dumpResults());
       }
     }
   }

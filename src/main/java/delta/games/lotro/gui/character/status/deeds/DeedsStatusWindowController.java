@@ -22,7 +22,6 @@ import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.windows.DefaultFormDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.ui.swing.windows.WindowsManager;
-import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.events.CharacterEvent;
@@ -210,10 +209,10 @@ public class DeedsStatusWindowController extends DefaultFormDialogController<Ach
   private List<DeedDescription> getSelectedDeeds()
   {
     List<DeedDescription> ret=new ArrayList<DeedDescription>();
-    Filter<DeedDescription> filter=_filter.getDeedFilter();
     for(DeedDescription deed : _deeds)
     {
-      if (filter.accept(deed))
+      AchievableStatus status=_data.get(deed,false);
+      if (_filter.accept(status))
       {
         ret.add(deed);
       }

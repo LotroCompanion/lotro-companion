@@ -11,7 +11,7 @@ import delta.common.ui.swing.windows.DefaultDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.status.achievables.AchievablesStatusManager;
-import delta.games.lotro.character.status.achievables.statistics.AchievablesStatistics;
+import delta.games.lotro.character.status.achievables.statistics.GlobalAchievablesStatistics;
 import delta.games.lotro.gui.character.status.achievables.AchievableUIMode;
 import delta.games.lotro.lore.quests.Achievable;
 
@@ -28,7 +28,7 @@ public class AchievablesStatisticsWindowController<T extends Achievable> extends
   public static final String IDENTIFIER="ACHIEVABLE_STATISTICS";
 
   // Data
-  private AchievablesStatistics _statistics;
+  private GlobalAchievablesStatistics _statistics;
   private AchievablesStatusManager _statusMgr;
   // Controllers
   private AchievablesStatisticsPanelController _panelController;
@@ -43,7 +43,7 @@ public class AchievablesStatisticsWindowController<T extends Achievable> extends
   public AchievablesStatisticsWindowController(WindowController parent, CharacterFile toon, AchievablesStatusManager statusMgr, AchievableUIMode mode)
   {
     super(parent);
-    _statistics=new AchievablesStatistics();
+    _statistics=new GlobalAchievablesStatistics();
     _panelController=new AchievablesStatisticsPanelController(this,_statistics,mode);
     _statusMgr=statusMgr;
     updateTitle(toon);

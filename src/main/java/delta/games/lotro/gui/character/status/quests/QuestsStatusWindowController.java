@@ -1,6 +1,7 @@
 package delta.games.lotro.gui.character.status.quests;
 
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -21,7 +22,6 @@ import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.windows.DefaultDisplayDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.ui.swing.windows.WindowsManager;
-import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.status.achievables.AchievableStatus;
@@ -120,29 +120,40 @@ public class QuestsStatusWindowController extends DefaultDisplayDialogController
     JPanel statusFilterPanel=_statusFilterController.getPanel();
     TitledBorder statusFilterBorder=GuiFactory.buildTitledBorder("Status Filter");
     statusFilterPanel.setBorder(statusFilterBorder);
-    // Stats button
-    JButton b=GuiFactory.buildButton("Stats");
-    ActionListener al=new ActionListener()
-    {
-      @Override
-      public void actionPerformed(ActionEvent e)
-      {
-        showStatistics();
-      }
-    };
-    b.addActionListener(al);
+    // Buttons panel
+    JPanel buttonsPanel=buildButtonsPanel();
     // Whole panel
     GridBagConstraints c=new GridBagConstraints(0,0,3,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(questFilterPanel,c);
     c=new GridBagConstraints(0,1,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(statusFilterPanel,c);
     c=new GridBagConstraints(1,1,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
-    panel.add(b,c);
+    panel.add(buttonsPanel,c);
     c=new GridBagConstraints(2,1,1,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(Box.createGlue(),c);
     c=new GridBagConstraints(0,2,3,1,1,1,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
     panel.add(tablePanel,c);
     return panel;
+  }
+
+  private JPanel buildButtonsPanel()
+  {
+    JPanel ret=GuiFactory.buildPanel(new FlowLayout());
+    // Stats button
+    {
+      JButton statsButton=GuiFactory.buildButton("Stats");
+      ActionListener alStats=new ActionListener()
+      {
+        @Override
+        public void actionPerformed(ActionEvent e)
+        {
+          showStatistics();
+        }
+      };
+      statsButton.addActionListener(alStats);
+      ret.add(statsButton);
+    }
+    return ret;
   }
 
   private void initTable()
@@ -180,10 +191,10 @@ public class QuestsStatusWindowController extends DefaultDisplayDialogController
   private List<QuestDescription> getSelectedQuests()
   {
     List<QuestDescription> ret=new ArrayList<QuestDescription>();
-    Filter<QuestDescription> filter=_filter.getQuestFilter();
     for(QuestDescription quest : _quests)
     {
-      if (filter.accept(quest))
+      AchievableStatus status=_data.get(quest,false);
+      if (_filter.accept(status))
       {
         ret.add(quest);
       }
@@ -209,12 +220,12 @@ public class QuestsStatusWindowController extends DefaultDisplayDialogController
 
   private void showStatistics()
   {
-    WindowsManager windowsMgr=getWindowsManager();
     AchievablesStatisticsWindowController<QuestDescription> statisticsController=getStatisticsWindow();
     if (statisticsController==null)
     {
       statisticsController=new AchievablesStatisticsWindowController<QuestDescription>(this,_toon,_data,AchievableUIMode.QUEST);
       statisticsController.updateStats(getSelectedQuests());
+      WindowsManager windowsMgr=getWindowsManager();
       windowsMgr.registerWindow(statisticsController);
       statisticsController.getWindow().setLocationRelativeTo(getWindow());
     }

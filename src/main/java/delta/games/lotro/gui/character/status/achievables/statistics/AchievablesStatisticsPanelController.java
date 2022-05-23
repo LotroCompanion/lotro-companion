@@ -9,18 +9,8 @@ import javax.swing.JTabbedPane;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.status.achievables.AchievablesStatusManager;
-import delta.games.lotro.character.status.achievables.statistics.AchievablesStatistics;
-import delta.games.lotro.character.status.achievables.statistics.reputation.AchievablesFactionStats;
+import delta.games.lotro.character.status.achievables.statistics.GlobalAchievablesStatistics;
 import delta.games.lotro.gui.character.status.achievables.AchievableUIMode;
-import delta.games.lotro.gui.character.status.achievables.statistics.emotes.EmotesDisplayPanelController;
-import delta.games.lotro.gui.character.status.achievables.statistics.reputation.AchievablesReputationTableController;
-import delta.games.lotro.gui.character.status.achievables.statistics.titles.TitlesDisplayPanelController;
-import delta.games.lotro.gui.character.status.achievables.statistics.traits.TraitsDisplayPanelController;
-import delta.games.lotro.gui.character.status.achievables.statistics.virtues.VirtueXPDisplayPanelController;
-import delta.games.lotro.gui.character.status.achievables.statistics.virtues.VirtuesDisplayPanelController;
-import delta.games.lotro.gui.common.statistics.items.ItemsDisplayPanelController;
-import delta.games.lotro.gui.common.statistics.reputation.ReputationDisplayPanelController;
-import delta.games.lotro.gui.common.statistics.reputation.ReputationTableController;
 import delta.games.lotro.lore.quests.Achievable;
 
 /**
@@ -30,18 +20,13 @@ import delta.games.lotro.lore.quests.Achievable;
 public class AchievablesStatisticsPanelController
 {
   // Data
-  private AchievablesStatistics _statistics;
+  private GlobalAchievablesStatistics _statistics;
   // UI
   private JPanel _panel;
   // Controllers
   private AchievablesStatisticsSummaryPanelController _summary;
-  private TitlesDisplayPanelController _titles;
-  private ReputationDisplayPanelController<AchievablesFactionStats> _reputation;
-  private VirtuesDisplayPanelController _virtues;
-  private VirtueXPDisplayPanelController _virtueXP;
-  private ItemsDisplayPanelController _items;
-  private EmotesDisplayPanelController _emotes;
-  private TraitsDisplayPanelController _traits;
+  private AchievablesStatisticsDetailsPanelController _acquired;
+  private AchievablesStatisticsDetailsPanelController _toGet;
 
   /**
    * Constructor.
@@ -49,18 +34,12 @@ public class AchievablesStatisticsPanelController
    * @param statistics Statistics to show toon.
    * @param mode UI mode.
    */
-  public AchievablesStatisticsPanelController(WindowController parent, AchievablesStatistics statistics, AchievableUIMode mode)
+  public AchievablesStatisticsPanelController(WindowController parent, GlobalAchievablesStatistics statistics, AchievableUIMode mode)
   {
     _statistics=statistics;
     _summary=new AchievablesStatisticsSummaryPanelController(statistics,mode);
-    _titles=new TitlesDisplayPanelController(parent,statistics);
-    ReputationTableController<AchievablesFactionStats> tableController=new AchievablesReputationTableController(statistics.getReputationStats(),mode);
-    _reputation=new ReputationDisplayPanelController<AchievablesFactionStats>(parent,statistics.getReputationStats(),tableController);
-    _virtues=new VirtuesDisplayPanelController(parent,statistics,mode);
-    _virtueXP=new VirtueXPDisplayPanelController(parent,statistics,mode);
-    _items=new ItemsDisplayPanelController(parent,statistics.getItemsStats());
-    _emotes=new EmotesDisplayPanelController(parent,statistics);
-    _traits=new TraitsDisplayPanelController(parent,statistics);
+    _acquired=new AchievablesStatisticsDetailsPanelController(parent,statistics.getAcquiredStats(),mode);
+    _toGet=new AchievablesStatisticsDetailsPanelController(parent,statistics.getToGetStats(),mode);
     _panel=buildPanel();
   }
 
@@ -72,27 +51,12 @@ public class AchievablesStatisticsPanelController
     panel.add(summaryPanel,BorderLayout.NORTH);
     JTabbedPane pane=GuiFactory.buildTabbedPane();
     panel.add(pane,BorderLayout.CENTER);
-    // Titles
-    JPanel titlesPanel=_titles.getPanel();
-    pane.add("Titles",titlesPanel);
-    // Reputation
-    JPanel reputationPanel=_reputation.getPanel();
-    pane.add("Reputation",reputationPanel);
-    // Virtues
-    JPanel virtuesPanel=_virtues.getPanel();
-    pane.add("Virtues",virtuesPanel);
-    // Virtue XP
-    JPanel virtueXpPanel=_virtueXP.getPanel();
-    pane.add("Virtue XP",virtueXpPanel);
-    // Items
-    JPanel itemsPanel=_items.getPanel();
-    pane.add("Items",itemsPanel);
-    // Emotes
-    JPanel emotesPanel=_emotes.getPanel();
-    pane.add("Emotes",emotesPanel);
-    // Traits
-    JPanel traitsPanel=_traits.getPanel();
-    pane.add("Traits",traitsPanel);
+    // Acquired
+    JPanel acquiredPanel=_acquired.getPanel();
+    pane.add("Acquired",acquiredPanel);
+    // To Get
+    JPanel toGetPanel=_toGet.getPanel();
+    pane.add("To Get",toGetPanel);
     return panel;
   }
 
@@ -105,13 +69,8 @@ public class AchievablesStatisticsPanelController
   {
     _statistics.useAchievables(status,achievables);
     _summary.update();
-    _titles.update();
-    _reputation.update();
-    _virtues.update();
-    _virtueXP.update();
-    _items.update();
-    _emotes.update();
-    _traits.update();
+    _acquired.updateStats();
+    _toGet.updateStats();
   }
 
   /**
@@ -142,40 +101,15 @@ public class AchievablesStatisticsPanelController
       _summary.dispose();
       _summary=null;
     }
-    if (_titles!=null)
+    if (_acquired!=null)
     {
-      _titles.dispose();
-      _titles=null;
+      _acquired.dispose();
+      _acquired=null;
     }
-    if (_reputation!=null)
+    if (_toGet!=null)
     {
-      _reputation.dispose();
-      _reputation=null;
-    }
-    if (_virtues!=null)
-    {
-      _virtues.dispose();
-      _virtues=null;
-    }
-    if (_virtueXP!=null)
-    {
-      _virtueXP.dispose();
-      _virtueXP=null;
-    }
-    if (_items!=null)
-    {
-      _items.dispose();
-      _items=null;
-    }
-    if (_emotes!=null)
-    {
-      _emotes.dispose();
-      _emotes=null;
-    }
-    if (_traits!=null)
-    {
-      _traits.dispose();
-      _traits=null;
+      _toGet.dispose();
+      _toGet=null;
     }
   }
 }
