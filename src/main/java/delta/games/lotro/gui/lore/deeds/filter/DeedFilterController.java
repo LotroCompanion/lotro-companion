@@ -24,6 +24,7 @@ import delta.games.lotro.gui.common.requirements.RequirementsFilterController;
 import delta.games.lotro.gui.common.rewards.filter.RewardsFilterController;
 import delta.games.lotro.gui.lore.deeds.DeedUiUtils;
 import delta.games.lotro.gui.lore.items.FilterUpdateListener;
+import delta.games.lotro.gui.lore.quests.QuestsUiUtils;
 import delta.games.lotro.gui.utils.SharedUiUtils;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.DeedType;
@@ -33,6 +34,7 @@ import delta.games.lotro.lore.deeds.filters.DeedFilter;
 import delta.games.lotro.lore.deeds.filters.DeedNameFilter;
 import delta.games.lotro.lore.deeds.filters.DeedTypeFilter;
 import delta.games.lotro.lore.quests.filter.AchievableMonsterPlayFilter;
+import delta.games.lotro.lore.quests.filter.HiddenAchievableFilter;
 
 /**
  * Controller for a deed filter edition panel.
@@ -50,6 +52,7 @@ public class DeedFilterController implements ActionListener
   private ComboBoxController<DeedType> _type;
   private ComboBoxController<String> _category;
   private ComboBoxController<Boolean> _monsterPlay;
+  private ComboBoxController<Boolean> _hidden;
   // -- Requirements UI --
   private RequirementsFilterController _requirements;
   // -- Rewards UI --
@@ -117,6 +120,7 @@ public class DeedFilterController implements ActionListener
       _type.selectItem(null);
       _category.selectItem(null);
       _monsterPlay.selectItem(null);
+      _hidden.selectItem(null);
       if (_requirements!=null)
       {
         _requirements.reset();
@@ -147,6 +151,10 @@ public class DeedFilterController implements ActionListener
     AchievableMonsterPlayFilter<DeedDescription> monsterPlayFilter=_filter.getMonsterPlayFilter();
     Boolean monsterPlayFlag=monsterPlayFilter.getIsMonsterPlayFlag();
     _monsterPlay.selectItem(monsterPlayFlag);
+    // Hidden
+    HiddenAchievableFilter<DeedDescription> hiddenFilter=_filter.getHiddenFilter();
+    Boolean hiddenFlag=hiddenFilter.getIsHiddenFlag();
+    _hidden.selectItem(hiddenFlag);
     // Requirements
     if (_requirements!=null)
     {
@@ -265,6 +273,12 @@ public class DeedFilterController implements ActionListener
       _monsterPlay=buildMonsterPlayCombobox();
       linePanel.add(_monsterPlay.getComboBox());
     }
+    // Hidden
+    {
+      linePanel.add(GuiFactory.buildLabel("Hidden:"));
+      _hidden=buildHiddenCombobox();
+      linePanel.add(_hidden.getComboBox());
+    }
     GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,5,0),0,0);
     panel.add(linePanel,c);
     y++;
@@ -285,6 +299,23 @@ public class DeedFilterController implements ActionListener
       }
     };
     combo.addListener(questSizeListener);
+    return combo;
+  }
+
+  private ComboBoxController<Boolean> buildHiddenCombobox()
+  {
+    ComboBoxController<Boolean> combo=QuestsUiUtils.build3StatesBooleanCombobox();
+    ItemSelectionListener<Boolean> listener=new ItemSelectionListener<Boolean>()
+    {
+      @Override
+      public void itemSelected(Boolean value)
+      {
+        HiddenAchievableFilter<DeedDescription> filter=_filter.getHiddenFilter();
+        filter.setIsHiddenFlag(value);
+        filterUpdated();
+      }
+    };
+    combo.addListener(listener);
     return combo;
   }
 
@@ -321,6 +352,11 @@ public class DeedFilterController implements ActionListener
     {
       _monsterPlay.dispose();
       _monsterPlay=null;
+    }
+    if (_hidden!=null)
+    {
+      _hidden.dispose();
+      _hidden=null;
     }
     if (_requirements!=null)
     {
