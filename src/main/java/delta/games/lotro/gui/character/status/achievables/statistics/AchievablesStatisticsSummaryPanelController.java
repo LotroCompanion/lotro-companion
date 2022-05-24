@@ -1,6 +1,5 @@
 package delta.games.lotro.gui.character.status.achievables.statistics;
 
-import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -26,7 +25,6 @@ public class AchievablesStatisticsSummaryPanelController
   private AchievableUIMode _mode;
   // UI
   private JPanel _panel;
-  private JPanel _statsPanel;
   private JLabel _notStarted;
   private JLabel _underway;
   private JLabel _completed;
@@ -47,40 +45,37 @@ public class AchievablesStatisticsSummaryPanelController
 
   private JPanel buildPanel()
   {
-    JPanel panel=GuiFactory.buildPanel(new BorderLayout());
-    // Stats panel
-    _statsPanel=GuiFactory.buildPanel(new GridBagLayout());
+    JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
     TitledBorder border=GuiFactory.buildTitledBorder("Statistics");
-    _statsPanel.setBorder(border);
-    panel.add(_statsPanel,BorderLayout.CENTER);
+    ret.setBorder(border);
     GridBagConstraints cLabels=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,5,2,0),0,0);
     GridBagConstraints cValues=new GridBagConstraints(1,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,5,2,5),0,0);
 
     // Counts by state:
     // - Completed
-    _statsPanel.add(GuiFactory.buildLabel("Completed:"),cLabels);
+    ret.add(GuiFactory.buildLabel("Completed:"),cLabels);
     _completed=GuiFactory.buildLabel("");
-    _statsPanel.add(_completed,cValues);
+    ret.add(_completed,cValues);
     cLabels.gridy++;cValues.gridy++;
     // - Underway
-    _statsPanel.add(GuiFactory.buildLabel("Underway:"),cLabels);
+    ret.add(GuiFactory.buildLabel("Underway:"),cLabels);
     _underway=GuiFactory.buildLabel("");
-    _statsPanel.add(_underway,cValues);
+    ret.add(_underway,cValues);
     cLabels.gridy++;cValues.gridy++;
     // - Not started
-    _statsPanel.add(GuiFactory.buildLabel("Not started:"),cLabels);
+    ret.add(GuiFactory.buildLabel("Not started:"),cLabels);
     _notStarted=GuiFactory.buildLabel("");
-    _statsPanel.add(_notStarted,cValues);
+    ret.add(_notStarted,cValues);
     cLabels.gridy++;cValues.gridy++;
     // Completions count (quests only)
     if (_mode==AchievableUIMode.QUEST)
     {
-      _statsPanel.add(GuiFactory.buildLabel("Completions count:"),cLabels);
+      ret.add(GuiFactory.buildLabel("Completions count:"),cLabels);
       _completionsCount=GuiFactory.buildLabel("");
-      _statsPanel.add(_completionsCount,cValues);
+      ret.add(_completionsCount,cValues);
       cLabels.gridy++;cValues.gridy++;
     }
-    return panel;
+    return ret;
   }
 
   /**

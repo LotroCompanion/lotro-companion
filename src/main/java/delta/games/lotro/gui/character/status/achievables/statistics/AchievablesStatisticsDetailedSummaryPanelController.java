@@ -27,7 +27,6 @@ public class AchievablesStatisticsDetailedSummaryPanelController
   private AchievableUIMode _mode;
   // UI
   private JPanel _panel;
-  private JPanel _statsPanel;
   private JLabel _lotroPoints;
   private JLabel _classPoints;
   private JLabel _marks;
@@ -55,70 +54,69 @@ public class AchievablesStatisticsDetailedSummaryPanelController
 
   private JPanel buildPanel()
   {
-    // Stats panel
-    _statsPanel=GuiFactory.buildPanel(new GridBagLayout());
+    JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
     TitledBorder border=GuiFactory.buildTitledBorder("Statistics");
-    _statsPanel.setBorder(border);
+    ret.setBorder(border);
     GridBagConstraints cLabels=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,5,2,0),0,0);
     GridBagConstraints cValues=new GridBagConstraints(1,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,5,2,5),0,0);
 
     // LOTRO points
-    _statsPanel.add(GuiFactory.buildLabel("LOTRO Points:"),cLabels);
+    ret.add(GuiFactory.buildLabel("LOTRO Points:"),cLabels);
     _lotroPoints=GuiFactory.buildLabel("");
-    _statsPanel.add(_lotroPoints,cValues);
+    ret.add(_lotroPoints,cValues);
     cLabels.gridy++;cValues.gridy++;
     // Class points
-    _statsPanel.add(GuiFactory.buildLabel("Class Points:"),cLabels);
+    ret.add(GuiFactory.buildLabel("Class Points:"),cLabels);
     _classPoints=GuiFactory.buildLabel("");
-    _statsPanel.add(_classPoints,cValues);
+    ret.add(_classPoints,cValues);
     cLabels.gridy++;cValues.gridy++;
     // Marks
-    _statsPanel.add(GuiFactory.buildLabel("Marks:"),cLabels);
+    ret.add(GuiFactory.buildLabel("Marks:"),cLabels);
     _marks=GuiFactory.buildLabel("");
-    _statsPanel.add(_marks,cValues);
+    ret.add(_marks,cValues);
     cLabels.gridy++;cValues.gridy++;
     // Medallions
-    _statsPanel.add(GuiFactory.buildLabel("Medallions:"),cLabels);
+    ret.add(GuiFactory.buildLabel("Medallions:"),cLabels);
     _medallions=GuiFactory.buildLabel("");
-    _statsPanel.add(_medallions,cValues);
+    ret.add(_medallions,cValues);
     cLabels.gridy++;cValues.gridy++;
     // Titles
-    _statsPanel.add(GuiFactory.buildLabel("Titles:"),cLabels);
+    ret.add(GuiFactory.buildLabel("Titles:"),cLabels);
     _titlesCount=GuiFactory.buildLabel("");
-    _statsPanel.add(_titlesCount,cValues);
+    ret.add(_titlesCount,cValues);
     cLabels.gridy++;cValues.gridy++;
     // Reputation
-    _statsPanel.add(GuiFactory.buildLabel("Reputation:"),cLabels);
+    ret.add(GuiFactory.buildLabel("Reputation:"),cLabels);
     _reputation=GuiFactory.buildLabel("");
-    _statsPanel.add(_reputation,cValues);
+    ret.add(_reputation,cValues);
     cLabels.gridy++;cValues.gridy++;
     // Virtues
-    _statsPanel.add(GuiFactory.buildLabel("Virtues:"),cLabels);
+    ret.add(GuiFactory.buildLabel("Virtues:"),cLabels);
     _virtues=GuiFactory.buildLabel("");
-    _statsPanel.add(_virtues,cValues);
+    ret.add(_virtues,cValues);
     cLabels.gridy++;cValues.gridy++;
     // Virtue XP
-    _statsPanel.add(GuiFactory.buildLabel("Virtue XP:"),cLabels);
+    ret.add(GuiFactory.buildLabel("Virtue XP:"),cLabels);
     _virtueXP=GuiFactory.buildLabel("");
-    _statsPanel.add(_virtueXP,cValues);
+    ret.add(_virtueXP,cValues);
     cLabels.gridy++;cValues.gridy++;
     // Items
-    _statsPanel.add(GuiFactory.buildLabel("Items:"),cLabels);
+    ret.add(GuiFactory.buildLabel("Items:"),cLabels);
     _itemsCount=GuiFactory.buildLabel("");
-    _statsPanel.add(_itemsCount,cValues);
+    ret.add(_itemsCount,cValues);
     cLabels.gridy++;cValues.gridy++;
     // Emotes
-    _statsPanel.add(GuiFactory.buildLabel("Emotes:"),cLabels);
+    ret.add(GuiFactory.buildLabel("Emotes:"),cLabels);
     _emotesCount=GuiFactory.buildLabel("");
-    _statsPanel.add(_emotesCount,cValues);
+    ret.add(_emotesCount,cValues);
     cLabels.gridy++;cValues.gridy++;
     // Traits
-    _statsPanel.add(GuiFactory.buildLabel("Traits:"),cLabels);
+    ret.add(GuiFactory.buildLabel("Traits:"),cLabels);
     _traitsCount=GuiFactory.buildLabel("");
-    _statsPanel.add(_traitsCount,cValues);
+    ret.add(_traitsCount,cValues);
     cLabels.gridy++;cValues.gridy++;
 
-    return _statsPanel;
+    return ret;
   }
 
   /**
