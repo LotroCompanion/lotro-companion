@@ -27,6 +27,7 @@ public class AchievablesStatisticsPanelController
   private AchievablesStatisticsSummaryPanelController _summary;
   private AchievablesStatisticsDetailsPanelController _acquired;
   private AchievablesStatisticsDetailsPanelController _toGet;
+  private AchievablesStatisticsDetailsPanelController _total;
 
   /**
    * Constructor.
@@ -40,6 +41,7 @@ public class AchievablesStatisticsPanelController
     _summary=new AchievablesStatisticsSummaryPanelController(statistics,mode);
     _acquired=new AchievablesStatisticsDetailsPanelController(parent,statistics.getAcquiredStats(),mode);
     _toGet=new AchievablesStatisticsDetailsPanelController(parent,statistics.getToGetStats(),mode);
+    _total=new AchievablesStatisticsDetailsPanelController(parent,statistics.getTotalStats(),mode);
     _panel=buildPanel();
   }
 
@@ -57,6 +59,9 @@ public class AchievablesStatisticsPanelController
     // To Get
     JPanel toGetPanel=_toGet.getPanel();
     pane.add("To Get",toGetPanel);
+    // Total
+    JPanel totalPanel=_total.getPanel();
+    pane.add("Total",totalPanel);
     return panel;
   }
 
@@ -71,6 +76,7 @@ public class AchievablesStatisticsPanelController
     _summary.update();
     _acquired.updateStats();
     _toGet.updateStats();
+    _total.updateStats();
   }
 
   /**
@@ -110,6 +116,11 @@ public class AchievablesStatisticsPanelController
     {
       _toGet.dispose();
       _toGet=null;
+    }
+    if (_total!=null)
+    {
+      _total.dispose();
+      _total=null;
     }
   }
 }
