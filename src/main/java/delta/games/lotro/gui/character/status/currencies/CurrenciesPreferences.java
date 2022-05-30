@@ -88,6 +88,7 @@ public class CurrenciesPreferences
     {
       keys.add(CurrencyKeys.GOLD);
       keys.add(CurrencyKeys.XP);
+      keys.add(CurrencyKeys.IN_GAME_TIME);
     }
     if (scopes.contains(Scope.SERVER))
     {
