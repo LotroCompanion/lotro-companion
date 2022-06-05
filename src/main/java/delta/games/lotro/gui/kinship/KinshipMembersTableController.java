@@ -1,6 +1,5 @@
 package delta.games.lotro.gui.kinship;
 
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -138,24 +137,6 @@ public class KinshipMembersTableController implements GenericEventsListener<Kins
       _table=_tableController.getTable();
     }
     return _table;
-  }
-
-  /**
-   * Add an action listener.
-   * @param al Action listener to add.
-   */
-  public void addActionListener(ActionListener al)
-  {
-    _tableController.addActionListener(al);
-  }
-
-  /**
-   * Remove an action listener.
-   * @param al Action listener to remove.
-   */
-  public void removeActionListener(ActionListener al)
-  {
-    _tableController.removeActionListener(al);
   }
 
   /**
