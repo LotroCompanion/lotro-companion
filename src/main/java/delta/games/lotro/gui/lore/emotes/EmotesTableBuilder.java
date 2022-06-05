@@ -1,6 +1,5 @@
 package delta.games.lotro.gui.lore.emotes;
 
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,47 +12,30 @@ import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.ListDataProvider;
 import delta.common.ui.swing.tables.TableColumnsManager;
-import delta.common.utils.collections.filters.Filter;
-import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.config.DataFiles;
 import delta.games.lotro.config.LotroCoreConfig;
 import delta.games.lotro.gui.LotroIconsManager;
-import delta.games.lotro.gui.lore.items.chooser.ItemChooser;
 import delta.games.lotro.gui.utils.UiConfiguration;
 import delta.games.lotro.lore.emotes.EmoteDescription;
 import delta.games.lotro.lore.emotes.io.xml.EmoteXMLParser;
 
 /**
- * Controller for a table that shows emotes.
+ * Builder for a table that shows emotes.
  * @author DAM
  */
-public class EmotesTableController
+public class EmotesTableBuilder
 {
-  // Data
-  private TypedProperties _prefs;
-  private List<EmoteDescription> _emotes;
-  // GUI
-  private JTable _table;
-  private GenericTableController<EmoteDescription> _tableController;
-
   /**
-   * Constructor.
-   * @param prefs Preferences.
-   * @param filter Managed filter.
+   * Build a table with emotes.
+   * @return the new table.
    */
-  public EmotesTableController(TypedProperties prefs, Filter<EmoteDescription> filter)
+  public static GenericTableController<EmoteDescription> buildTable()
   {
-    _prefs=prefs;
-    _emotes=new ArrayList<EmoteDescription>();
-    init();
-    _tableController=buildTable();
-    _tableController.setFilter(filter);
-    configureTable();
-  }
+    // Load data
+    List<EmoteDescription> emotes=loadEmotes();
 
-  private GenericTableController<EmoteDescription> buildTable()
-  {
-    ListDataProvider<EmoteDescription> provider=new ListDataProvider<EmoteDescription>(_emotes);
+    // Build table
+    ListDataProvider<EmoteDescription> provider=new ListDataProvider<EmoteDescription>(emotes);
     GenericTableController<EmoteDescription> table=new GenericTableController<EmoteDescription>(provider);
     List<DefaultTableColumnController<EmoteDescription,?>> columns=buildColumns();
     for(DefaultTableColumnController<EmoteDescription,?> column : columns)
@@ -61,17 +43,25 @@ public class EmotesTableController
       table.addColumnController(column);
     }
 
+    // Setup columns
     TableColumnsManager<EmoteDescription> columnsManager=table.getColumnsManager();
-    List<String> columnsIds=getColumnIds();
-    columnsManager.setColumns(columnsIds);
+    List<String> columnIds=getDefaultColumnIds();
+    columnsManager.setDefaultColumnsIds(columnIds);
+    columnsManager.setColumns(columnIds);
+
+    // Configure table
+    JTable jtable=table.getTable();
+    // Adjust table row height for icons (32 pixels)
+    jtable.setRowHeight(32);
+
     return table;
   }
 
   /**
-   * Build the columns for a recipes table.
-   * @return A list of columns for a recipes table.
+   * Build the columns for a table of emotes.
+   * @return A list of columns for a table of emotes.
    */
-  public static List<DefaultTableColumnController<EmoteDescription,?>> buildColumns()
+  private static List<DefaultTableColumnController<EmoteDescription,?>> buildColumns()
   {
     List<DefaultTableColumnController<EmoteDescription,?>> ret=new ArrayList<DefaultTableColumnController<EmoteDescription,?>>();
     // Icon column
@@ -151,147 +141,21 @@ public class EmotesTableController
     return ret;
   }
 
-  private List<String> getColumnIds()
+  private static List<String> getDefaultColumnIds()
   {
-    List<String> columnIds=null;
-    if (_prefs!=null)
-    {
-      columnIds=_prefs.getStringList(ItemChooser.COLUMNS_PROPERTY);
-    }
-    if (columnIds==null)
-    {
-      columnIds=new ArrayList<String>();
-      columnIds.add(EmoteColumnIds.ICON.name());
-      columnIds.add(EmoteColumnIds.ID.name());
-      columnIds.add(EmoteColumnIds.AUTO.name());
-      columnIds.add(EmoteColumnIds.COMMAND.name());
-      columnIds.add(EmoteColumnIds.DESCRIPTION.name());
-    }
+    List<String> columnIds=new ArrayList<String>();
+    columnIds.add(EmoteColumnIds.ICON.name());
+    columnIds.add(EmoteColumnIds.ID.name());
+    columnIds.add(EmoteColumnIds.AUTO.name());
+    columnIds.add(EmoteColumnIds.COMMAND.name());
+    columnIds.add(EmoteColumnIds.DESCRIPTION.name());
     return columnIds;
   }
 
-  /**
-   * Get the managed table controller.
-   * @return the managed table controller.
-   */
-  public GenericTableController<EmoteDescription> getTableController()
+  private static List<EmoteDescription> loadEmotes()
   {
-    return _tableController;
-  }
-
-  /**
-   * Update managed filter.
-   */
-  public void updateFilter()
-  {
-    _tableController.filterUpdated();
-  }
-
-  /**
-   * Get the total number of recipes.
-   * @return A number of recipes.
-   */
-  public int getNbItems()
-  {
-    return _emotes.size();
-  }
-
-  /**
-   * Get the number of filtered items in the managed table.
-   * @return A number of items.
-   */
-  public int getNbFilteredItems()
-  {
-    int ret=_tableController.getNbFilteredItems();
-    return ret;
-  }
-
-  private void reset()
-  {
-    _emotes.clear();
-  }
-
-  /**
-   * Refresh table.
-   */
-  public void refresh()
-  {
-    init();
-    if (_table!=null)
-    {
-      _tableController.refresh();
-    }
-  }
-
-  private void init()
-  {
-    reset();
     File fromFile=LotroCoreConfig.getInstance().getFile(DataFiles.EMOTES);
     List<EmoteDescription> emotes=new EmoteXMLParser().parseXML(fromFile);
-    for(EmoteDescription emote : emotes)
-    {
-      _emotes.add(emote);
-    }
-  }
-
-  private void configureTable()
-  {
-    JTable table=getTable();
-    // Adjust table row height for icons (32 pixels)
-    table.setRowHeight(32);
-  }
-
-  /**
-   * Get the managed table.
-   * @return the managed table.
-   */
-  public JTable getTable()
-  {
-    if (_table==null)
-    {
-      _table=_tableController.getTable();
-    }
-    return _table;
-  }
-
-  /**
-   * Add an action listener.
-   * @param al Action listener to add.
-   */
-  public void addActionListener(ActionListener al)
-  {
-    _tableController.addActionListener(al);
-  }
-
-  /**
-   * Remove an action listener.
-   * @param al Action listener to remove.
-   */
-  public void removeActionListener(ActionListener al)
-  {
-    _tableController.removeActionListener(al);
-  }
-
-  /**
-   * Release all managed resources.
-   */
-  public void dispose()
-  {
-    // Preferences
-    if (_prefs!=null)
-    {
-      List<String> columnIds=_tableController.getColumnsManager().getSelectedColumnsIds();
-      _prefs.setStringList(ItemChooser.COLUMNS_PROPERTY,columnIds);
-      _prefs=null;
-    }
-    // GUI
-    _table=null;
-    if (_tableController!=null)
-    {
-      _tableController.dispose();
-      _tableController=null;
-    }
-    // Data
-    _emotes=null;
+    return emotes;
   }
 }

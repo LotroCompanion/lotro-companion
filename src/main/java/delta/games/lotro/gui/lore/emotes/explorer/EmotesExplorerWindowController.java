@@ -10,14 +10,17 @@ import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.tables.GenericTableController;
+import delta.common.ui.swing.tables.panel.GenericTablePanelController;
 import delta.common.ui.swing.windows.DefaultWindowController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.ui.swing.windows.WindowsManager;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.gui.lore.emotes.EmoteFilter;
 import delta.games.lotro.gui.lore.emotes.EmoteFilterController;
-import delta.games.lotro.gui.lore.emotes.EmotesTableController;
+import delta.games.lotro.gui.lore.emotes.EmotesTableBuilder;
 import delta.games.lotro.gui.main.GlobalPreferences;
+import delta.games.lotro.lore.emotes.EmoteDescription;
 
 /**
  * Controller for the emotes explorer window.
@@ -31,8 +34,8 @@ public class EmotesExplorerWindowController extends DefaultWindowController
   public static final String IDENTIFIER="EMOTES_EXPLORER";
 
   private EmoteFilterController _filterController;
-  private EmotesExplorerPanelController _panelController;
-  private EmotesTableController _tableController;
+  private GenericTablePanelController<EmoteDescription> _panelController;
+  private GenericTableController<EmoteDescription> _tableController;
   private EmoteFilter _filter;
   private WindowsManager _emoteWindows;
 
@@ -74,10 +77,17 @@ public class EmotesExplorerWindowController extends DefaultWindowController
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     // Table
-    initEmotesTable();
-    _panelController=new EmotesExplorerPanelController(this,_tableController);
+    _tableController=EmotesTableBuilder.buildTable();
+    // - filter
+    _tableController.setFilter(_filter);
+    // - preferences
+    TypedProperties prefs=GlobalPreferences.getGlobalProperties("EmotesExplorer");
+    _tableController.getPreferencesManager().setPreferences(prefs);
+    // Table panel
+    _panelController=new GenericTablePanelController<EmoteDescription>(this,_tableController);
+    _panelController.getConfiguration().setBorderTitle("Emotes");
     JPanel tablePanel=_panelController.getPanel();
-    // Filter
+    // Filter UI
     _filterController=new EmoteFilterController(_filter,_panelController);
     JPanel filterPanel=_filterController.getPanel();
     TitledBorder filterBorder=GuiFactory.buildTitledBorder("Filter");
@@ -90,12 +100,6 @@ public class EmotesExplorerWindowController extends DefaultWindowController
     c=new GridBagConstraints(0,1,2,1,1,1,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
     panel.add(tablePanel,c);
     return panel;
-  }
-
-  private void initEmotesTable()
-  {
-    TypedProperties prefs=GlobalPreferences.getGlobalProperties("EmotesExplorer");
-    _tableController=new EmotesTableController(prefs,_filter);
   }
 
   /**
