@@ -31,6 +31,7 @@ import delta.games.lotro.gui.lore.quests.form.AbstractAchievableRequirementPanel
 import delta.games.lotro.gui.lore.quests.form.AchievableRequirementsPanelFactory;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.DeedType;
+import delta.games.lotro.lore.webStore.WebStoreItem;
 import delta.games.lotro.utils.gui.HtmlUtils;
 
 /**
@@ -51,6 +52,7 @@ public class DeedDisplayPanelController implements NavigablePanelController
   private JLabel _attributes;
   private JLabel _challengeLevel;
   private JLabel _requirements;
+  private JLabel _questPack;
   private JEditorPane _details;
 
   // Controllers
@@ -177,6 +179,16 @@ public class DeedDisplayPanelController implements NavigablePanelController
       _attributes=GuiFactory.buildLabel("");
       panelLine.add(_attributes);
     }
+    // Line 6 (quest pack)
+    {
+      JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
+      panel.add(panelLine,c);
+      c.gridy++;
+      // Quest pack
+      panelLine.add(GuiFactory.buildLabel("Contents pack: "));
+      _questPack=GuiFactory.buildLabel("");
+      panelLine.add(_questPack);
+    }
 
     // Achievables requirements
     AbstractAchievableRequirement requirement=_deed.getQuestRequirements();
@@ -208,8 +220,8 @@ public class DeedDisplayPanelController implements NavigablePanelController
       {
         if(e.getEventType() == HyperlinkEvent.EventType.ACTIVATED)
         {
-          String reference=e.getDescription();
-          PageIdentifier pageId=PageIdentifier.fromString(reference);
+          String referenceStr=e.getDescription();
+          PageIdentifier pageId=PageIdentifier.fromString(referenceStr);
           _parent.navigateTo(pageId);
         }
       }
@@ -256,7 +268,24 @@ public class DeedDisplayPanelController implements NavigablePanelController
     _requirements.setText(requirements);
     // Attributes
     String attributes=buildAttributesString();
-    _attributes.setText(attributes);
+    if (attributes.length()>0)
+    {
+      _attributes.setText(attributes);
+    }
+    else
+    {
+      _attributes.getParent().setVisible(false);
+    }
+    // Quest pack
+    WebStoreItem webStoreItem=_deed.getWebStoreItem();
+    if (webStoreItem!=null)
+    {
+      _questPack.setText(webStoreItem.getName());
+    }
+    else
+    {
+      _questPack.getParent().setVisible(false);
+    }
     // Details
     _details.setText(buildHtml());
     _details.setCaretPosition(0);
@@ -309,6 +338,8 @@ public class DeedDisplayPanelController implements NavigablePanelController
     _category=null;
     _challengeLevel=null;
     _requirements=null;
+    _attributes=null;
+    _questPack=null;
     if (_panel!=null)
     {
       _panel.removeAll();

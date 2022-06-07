@@ -33,6 +33,7 @@ import delta.games.lotro.gui.lore.quests.QuestsHtmlUtils;
 import delta.games.lotro.lore.quests.QuestDescription;
 import delta.games.lotro.lore.quests.dialogs.DialogElement;
 import delta.games.lotro.lore.quests.dialogs.QuestCompletionComment;
+import delta.games.lotro.lore.webStore.WebStoreItem;
 import delta.games.lotro.utils.gui.HtmlUtils;
 
 /**
@@ -52,6 +53,7 @@ public class QuestDisplayPanelController implements NavigablePanelController
   private JLabel _attributes;
   private JLabel _challengeLevel;
   private JLabel _requirements;
+  private JLabel _questPack;
   private JEditorPane _details;
 
   // Controllers
@@ -132,7 +134,6 @@ public class QuestDisplayPanelController implements NavigablePanelController
       _name.setFont(_name.getFont().deriveFont(16f).deriveFont(Font.BOLD));
       panelLine.add(_name);
     }
-
     // Line 2
     {
       JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
@@ -163,7 +164,7 @@ public class QuestDisplayPanelController implements NavigablePanelController
       _challengeLevel=GuiFactory.buildLabel("");
       panelLine.add(_challengeLevel);
     }
-    // Line 5
+    // Line 5 (requirements)
     {
       JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
       panel.add(panelLine,c);
@@ -181,6 +182,16 @@ public class QuestDisplayPanelController implements NavigablePanelController
       // Attributes
       _attributes=GuiFactory.buildLabel("");
       panelLine.add(_attributes);
+    }
+    // Line 7 (quest pack)
+    {
+      JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
+      panel.add(panelLine,c);
+      c.gridy++;
+      // Quest pack
+      panelLine.add(GuiFactory.buildLabel("Contents pack: "));
+      _questPack=GuiFactory.buildLabel("");
+      panelLine.add(_questPack);
     }
 
     // Links
@@ -201,7 +212,7 @@ public class QuestDisplayPanelController implements NavigablePanelController
       achievablesRequirementsPanel.setBorder(GuiFactory.buildTitledBorder("Quests/deeds Requirements"));
       c.gridy++;
     }
-    // Push everything on left
+    // Padding to push everything on left
     c=new GridBagConstraints(0,c.gridy,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(Box.createHorizontalGlue(),c);
     return panel;
@@ -306,6 +317,16 @@ public class QuestDisplayPanelController implements NavigablePanelController
     // Attributes
     String attributes=buildAttributesString();
     _attributes.setText(attributes);
+    // Quest pack
+    WebStoreItem webStoreItem=_quest.getWebStoreItem();
+    if (webStoreItem!=null)
+    {
+      _questPack.setText(webStoreItem.getName());
+    }
+    else
+    {
+      _questPack.getParent().setVisible(false);
+    }
     // Details
     _details.setText(buildHtml());
     _details.setCaretPosition(0);
@@ -412,6 +433,7 @@ public class QuestDisplayPanelController implements NavigablePanelController
     _challengeLevel=null;
     _requirements=null;
     _attributes=null;
+    _questPack=null;
     if (_panel!=null)
     {
       _panel.removeAll();
