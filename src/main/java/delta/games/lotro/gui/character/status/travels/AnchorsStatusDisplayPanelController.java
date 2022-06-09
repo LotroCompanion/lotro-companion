@@ -25,7 +25,8 @@ import delta.games.lotro.common.geo.ExtendedPosition;
 import delta.games.lotro.common.geo.Position;
 import delta.games.lotro.common.geo.PositionUtils;
 import delta.games.lotro.gui.LotroIconsManager;
-import delta.games.lotro.gui.utils.skills.SkillGadgetsController;
+import delta.games.lotro.gui.utils.GadgetsControllersFactory;
+import delta.games.lotro.gui.utils.IconLinkLabelGadgetsController;
 import delta.games.lotro.lore.maps.Area;
 import delta.games.lotro.lore.maps.Dungeon;
 import delta.games.lotro.lore.maps.Zone;
@@ -37,7 +38,7 @@ import delta.games.lotro.lore.maps.Zone;
 public class AnchorsStatusDisplayPanelController
 {
   // Controllers
-  private List<SkillGadgetsController> _gadgets;
+  private List<IconLinkLabelGadgetsController> _gadgets;
   // UI
   private JPanel _panel;
 
@@ -48,7 +49,7 @@ public class AnchorsStatusDisplayPanelController
    */
   public AnchorsStatusDisplayPanelController(WindowController parent, AnchorsStatusManager statusMgr)
   {
-    _gadgets=new ArrayList<SkillGadgetsController>();
+    _gadgets=new ArrayList<IconLinkLabelGadgetsController>();
     init(parent,statusMgr);
     _panel=buildPanel();
   }
@@ -71,15 +72,15 @@ public class AnchorsStatusDisplayPanelController
       AnchorStatus status=statusMgr.get(type,false);
       if (status!=null)
       {
-        SkillGadgetsController skillGadgets=buildGadgets(parent,travelSkill,status);
+        IconLinkLabelGadgetsController skillGadgets=buildGadgets(parent,travelSkill,status);
         _gadgets.add(skillGadgets);
       }
     }
   }
 
-  private SkillGadgetsController buildGadgets(WindowController parent, SkillDescription travelSkill, AnchorStatus status)
+  private IconLinkLabelGadgetsController buildGadgets(WindowController parent, SkillDescription travelSkill, AnchorStatus status)
   {
-    SkillGadgetsController skillGadgets=new SkillGadgetsController(parent,travelSkill);
+    IconLinkLabelGadgetsController skillGadgets=GadgetsControllersFactory.build(parent,travelSkill);
     String newLabel=null;
     // Use name
     String name=status.getName();
@@ -148,7 +149,7 @@ public class AnchorsStatusDisplayPanelController
   {
     JPanel ret=GuiFactory.buildBackgroundPanel(new GridBagLayout());
     int y=0;
-    for(SkillGadgetsController gadgets : _gadgets)
+    for(IconLinkLabelGadgetsController gadgets : _gadgets)
     {
       GridBagConstraints c=new GridBagConstraints(0,y,1,2,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE, new Insets(0,0,0,0),5,5);
       ret.add(gadgets.getIcon().getIcon(),c);
@@ -186,7 +187,7 @@ public class AnchorsStatusDisplayPanelController
     // Controllers
     if (_gadgets!=null)
     {
-      for(SkillGadgetsController gadget : _gadgets)
+      for(IconLinkLabelGadgetsController gadget : _gadgets)
       {
         gadget.dispose();
       }

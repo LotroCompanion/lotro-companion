@@ -7,6 +7,7 @@ import delta.games.lotro.gui.lore.crafting.recipes.RecipePanelsFactory;
 import delta.games.lotro.gui.lore.deeds.DeedPanelsFactory;
 import delta.games.lotro.gui.lore.items.ItemPanelsFactory;
 import delta.games.lotro.gui.lore.quests.QuestPanelsFactory;
+import delta.games.lotro.gui.lore.races.RacePanelsFactory;
 import delta.games.lotro.gui.lore.skills.SkillPanelsFactory;
 import delta.games.lotro.gui.lore.titles.TitlePanelFactory;
 import delta.games.lotro.gui.lore.trade.barter.BartererPanelsFactory;
@@ -40,6 +41,7 @@ public class NavigatorFactory
     resolver.addFactory(new TraitPanelsFactory(window));
     resolver.addFactory(new VirtuePanelsFactory(window));
     resolver.addFactory(new TitlePanelFactory(window));
+    resolver.addFactory(new RacePanelsFactory(window));
     window.setContentsResolver(resolver);
     return window;
   }

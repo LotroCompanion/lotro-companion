@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.lore.traits.form;
+package delta.games.lotro.gui.lore.races.form;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -11,6 +11,7 @@ import java.awt.Insets;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JEditorPane;
 import javax.swing.JLabel;
@@ -21,48 +22,47 @@ import javax.swing.JTabbedPane;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.navigator.NavigablePanelController;
 import delta.common.ui.swing.navigator.NavigatorWindowController;
-import delta.games.lotro.character.skills.SkillDescription;
+import delta.games.lotro.character.races.RaceDescription;
+import delta.games.lotro.character.races.RaceGender;
+import delta.games.lotro.character.races.RaceTrait;
 import delta.games.lotro.character.traits.TraitDescription;
-import delta.games.lotro.common.enums.SkillCategory;
-import delta.games.lotro.common.enums.TraitNature;
+import delta.games.lotro.common.CharacterSex;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.utils.GadgetsControllersFactory;
 import delta.games.lotro.gui.utils.IconLinkLabelGadgetsController;
 import delta.games.lotro.utils.gui.HtmlUtils;
 
 /**
- * Controller for a trait display panel.
+ * Controller for a race display panel.
  * @author DAM
  */
-public class TraitDisplayPanelController implements NavigablePanelController
+public class RaceDisplayPanelController implements NavigablePanelController
 {
   // Data
-  private TraitDescription _trait;
+  private RaceDescription _race;
   // GUI
   private JPanel _panel;
   // Controllers
   private NavigatorWindowController _parent;
-  private TraitReferencesDisplayController _references;
-  private TraitStatsPanelController _stats;
-  private List<IconLinkLabelGadgetsController> _skills;
+  private RaceReferencesDisplayController _references;
+  private List<IconLinkLabelGadgetsController> _traits;
 
   /**
    * Constructor.
    * @param parent Parent window.
-   * @param trait Trait to show.
+   * @param race Race to show.
    */
-  public TraitDisplayPanelController(NavigatorWindowController parent, TraitDescription trait)
+  public RaceDisplayPanelController(NavigatorWindowController parent, RaceDescription race)
   {
     _parent=parent;
-    _trait=trait;
-    _references=new TraitReferencesDisplayController(parent,trait.getIdentifier());
-    _stats=new TraitStatsPanelController(trait);
+    _race=race;
+    _references=new RaceReferencesDisplayController(parent,race.getRace());
   }
 
   @Override
   public String getTitle()
   {
-    return "Trait: "+_trait.getName();
+    return "Race: "+_race.getRace().getLabel();
   }
 
   @Override
@@ -97,48 +97,24 @@ public class TraitDisplayPanelController implements NavigablePanelController
 
     int y=0;
     // Description
-    JEditorPane description=buildEditorPane(_trait.getDescription());
+    JEditorPane description=buildEditorPane(_race.getDescription());
     if (description!=null)
     {
       GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(5,5,5,5),0,0);
       panel.add(description,c);
       y++;
     }
-    // Tooltip
-    JEditorPane tooltip=buildEditorPane(_trait.getTooltip());
-    if (tooltip!=null)
-    {
-      GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(5,5,5,5),0,0);
-      panel.add(tooltip,c);
-      y++;
-    }
-    // Build components for potential tabs
+    // Build components for tabs
     JEditorPane references=_references.getComponent();
-    JPanel statsPanel=_stats.getPanel();
-    if ((references!=null) || (statsPanel!=null))
-    {
-      JTabbedPane tabbedPane=GuiFactory.buildTabbedPane();
-      // - scaling
-      if (statsPanel!=null)
-      {
-        tabbedPane.add("Stats",buildPanelForTab(statsPanel));
-      }
-      // - references
-      if (references!=null)
-      {
-        tabbedPane.add("References",buildPanelForTab(references));
-      }
-      GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(5,5,5,5),0,0);
-      panel.add(tabbedPane,c);
-      y++;
-    }
-    else
-    {
-      JPanel empty=GuiFactory.buildPanel(new BorderLayout());
-      GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(5,5,5,5),0,0);
-      panel.add(empty,c);
-      y++;
-    }
+    JTabbedPane tabbedPane=GuiFactory.buildTabbedPane();
+    // - traits
+    JPanel traitsPanel=buildTraitsPanel();
+    tabbedPane.add("Traits", buildPanelForTab(traitsPanel));
+    // - references
+    tabbedPane.add("References",buildPanelForTab(references));
+    GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(5,5,5,5),0,0);
+    panel.add(tabbedPane,c);
+    y++;
     return panel;
   }
 
@@ -159,11 +135,22 @@ public class TraitDisplayPanelController implements NavigablePanelController
     {
       JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
       // Icon
-      ImageIcon icon=LotroIconsManager.getTraitIcon(_trait.getIconId());
-      JLabel iconLabel=GuiFactory.buildIconLabel(icon);
-      panelLine.add(iconLabel);
+      RaceGender maleGender=_race.getMaleGender();
+      if (maleGender!=null)
+      {
+        ImageIcon icon=LotroIconsManager.getCharacterIcon(_race.getRace(),CharacterSex.MALE);
+        JLabel iconLabel=GuiFactory.buildIconLabel(icon);
+        panelLine.add(iconLabel);
+      }
+      RaceGender femaleGender=_race.getFemaleGender();
+      if (femaleGender!=null)
+      {
+        ImageIcon icon=LotroIconsManager.getCharacterIcon(_race.getRace(),CharacterSex.FEMALE);
+        JLabel iconLabel=GuiFactory.buildIconLabel(icon);
+        panelLine.add(iconLabel);
+      }
       // Name
-      String name=_trait.getName();
+      String name=_race.getRace().getLabel();
       JLabel nameLabel=GuiFactory.buildLabel(name);
       nameLabel.setFont(nameLabel.getFont().deriveFont(16f).deriveFont(Font.BOLD));
       panelLine.add(nameLabel);
@@ -179,13 +166,12 @@ public class TraitDisplayPanelController implements NavigablePanelController
       panel.add(panelLine,c);
       c.gridy++;
     }
-    // Skills
-    JPanel skillsPanel=buildSkillsPanel();
-    if (skillsPanel!=null)
-    {
-      panel.add(skillsPanel,c);
-      c.gridy++;
-    }
+    // Traits
+    /*
+    JPanel traitsPanel=buildTraitsPanel();
+    panel.add(traitsPanel,c);
+    c.gridy++;
+    */
     // Padding to push everything on left
     JPanel paddingPanel=GuiFactory.buildPanel(new BorderLayout());
     c.fill=GridBagConstraints.HORIZONTAL;
@@ -198,62 +184,60 @@ public class TraitDisplayPanelController implements NavigablePanelController
   private List<String> getAttributesLines()
   {
     List<String> ret=new ArrayList<String>();
-    // Category
-    SkillCategory category=_trait.getCategory();
-    if (category!=null)
-    {
-      String categoryLabel=category.getLabel().trim();
-      if (categoryLabel.endsWith(":"))
-      {
-        categoryLabel=categoryLabel.substring(0,categoryLabel.length()-1);
-      }
-      ret.add("Category: "+categoryLabel);
-    }
-    // Minimum Level
-    int minLevel=_trait.getMinLevel();
-    if (minLevel>1)
-    {
-      ret.add("Minimum Level: "+minLevel);
-    }
-    TraitNature nature=_trait.getNature();
-    if (nature!=null)
-    {
-      ret.add("Nature: "+nature.getLabel());
-    }
-    int tiers=_trait.getTiersCount();
-    if (tiers>1)
-    {
-      ret.add("Tiers: "+tiers);
-    }
+    // Tall?
+    boolean isTall=_race.isTall();
+    ret.add(isTall?"Tall":"Small");
     return ret;
   }
 
-  private JPanel buildSkillsPanel()
+  private JPanel buildTraitsPanel()
   {
-    List<SkillDescription> skills=_trait.getSkills();
-    int nbSkills=skills.size(); 
-    if (nbSkills==0)
+    // Build traits gadgets controllers
+    _traits=new ArrayList<IconLinkLabelGadgetsController>();
+
+    // Traits acquired with level
+    List<RaceTrait> traits=_race.getTraits();
+    for(RaceTrait raceTrait : traits)
     {
-      return null;
+      TraitDescription trait=raceTrait.getTrait();
+      IconLinkLabelGadgetsController gadget=GadgetsControllersFactory.build(_parent,trait);
+      int level=raceTrait.getRequiredLevel();
+      if (level>1)
+      {
+        gadget.getComplement().setText("at level "+level);
+        _traits.add(gadget);
+      }
     }
-    JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
-    _skills=new ArrayList<IconLinkLabelGadgetsController>();
+    // Earnable traits
+    List<TraitDescription> earnableTraits=_race.getEarnableTraits();
+    for(TraitDescription earnableTrait : earnableTraits)
+    {
+      IconLinkLabelGadgetsController gadget=GadgetsControllersFactory.build(_parent,earnableTrait);
+      _traits.add(gadget);
+    }
+    return buildPanel();
+  }
+
+  private JPanel buildPanel()
+  {
+    JPanel ret=GuiFactory.buildBackgroundPanel(new GridBagLayout());
     int y=0;
-    String label=(nbSkills>1)?"Grants skills:":"Grants skill:";
-    GridBagConstraints c=new GridBagConstraints(0,y,2,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,5,0,0),0,0);
-    ret.add(GuiFactory.buildLabel(label),c);
-    y++;
-    for(SkillDescription skill : skills)
+    for(IconLinkLabelGadgetsController gadgets : _traits)
     {
-      IconLinkLabelGadgetsController gadget=GadgetsControllersFactory.build(_parent,skill);
-      _skills.add(gadget);
-      c=new GridBagConstraints(0,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,5,0,5),0,0);
-      ret.add(gadget.getIcon().getIcon(),c);
-      c=new GridBagConstraints(1,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
-      ret.add(gadget.getLink().getLabel(),c);
+      GridBagConstraints c=new GridBagConstraints(0,y,1,2,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE, new Insets(0,0,0,0),5,5);
+      ret.add(gadgets.getIcon().getIcon(),c);
+      c=new GridBagConstraints(1,y,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL, new Insets(0,0,0,0),5,5);
+      ret.add(gadgets.getLink().getLabel(),c);
+      y++;
+      c=new GridBagConstraints(1,y,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL, new Insets(0,0,0,0),5,5);
+      ret.add(gadgets.getComplement(),c);
+      y++;
     }
+    GridBagConstraints c=new GridBagConstraints(0,y,1,1,0.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.VERTICAL,new Insets(0,0,0,0),0,0);
+    ret.add(Box.createVerticalGlue(),c);
     return ret;
   }
+
 
   private JEditorPane buildEditorPane(String input)
   {
@@ -274,7 +258,7 @@ public class TraitDisplayPanelController implements NavigablePanelController
   public void dispose()
   {
     // Data
-    _trait=null;
+    _race=null;
     // Controllers
     _parent=null;
     if (_references!=null)
@@ -282,18 +266,13 @@ public class TraitDisplayPanelController implements NavigablePanelController
       _references.dispose();
       _references=null;
     }
-    if (_stats!=null)
+    if (_traits!=null)
     {
-      _stats.dispose();
-      _stats=null;
-    }
-    if (_skills!=null)
-    {
-      for(IconLinkLabelGadgetsController gadget : _skills)
+      for(IconLinkLabelGadgetsController gadget : _traits)
       {
         gadget.dispose();
       }
-      _skills=null;
+      _traits=null;
     }
     // UI
     if (_panel!=null)

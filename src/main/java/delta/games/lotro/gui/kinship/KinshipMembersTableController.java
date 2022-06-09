@@ -91,6 +91,7 @@ public class KinshipMembersTableController implements GenericEventsListener<Kins
     }
     return columnIds;
   }
+
   /**
    * Get the managed table controller.
    * @return the managed table controller.

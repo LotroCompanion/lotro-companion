@@ -22,8 +22,9 @@ import delta.games.lotro.character.status.skills.SkillsStatusManager;
 import delta.games.lotro.character.status.skills.filters.SkillStatusFilter;
 import delta.games.lotro.common.comparators.NamedComparator;
 import delta.games.lotro.gui.lore.items.FilterUpdateListener;
+import delta.games.lotro.gui.utils.GadgetsControllersFactory;
 import delta.games.lotro.gui.utils.IconController;
-import delta.games.lotro.gui.utils.skills.SkillGadgetsController;
+import delta.games.lotro.gui.utils.IconLinkLabelGadgetsController;
 
 /**
  * A panel to display the status of a collection of skills.
@@ -37,7 +38,7 @@ public class SkillsStatusDisplayPanelController implements FilterUpdateListener
   private SkillStatusFilter _filter;
   // Controllers
   private WindowController _parent;
-  private List<SkillGadgetsController> _gadgets;
+  private List<IconLinkLabelGadgetsController> _gadgets;
   // UI
   private JPanel _panel;
 
@@ -55,7 +56,7 @@ public class SkillsStatusDisplayPanelController implements FilterUpdateListener
     Collections.sort(_skills,new NamedComparator());
     _status=status;
     _filter=filter;
-    _gadgets=new ArrayList<SkillGadgetsController>();
+    _gadgets=new ArrayList<IconLinkLabelGadgetsController>();
     _panel=buildPanel();
     updatePanel();
   }
@@ -80,7 +81,7 @@ public class SkillsStatusDisplayPanelController implements FilterUpdateListener
   {
     for(SkillDescription skill : _skills)
     {
-      SkillGadgetsController ctrl=new SkillGadgetsController(_parent,skill);
+      IconLinkLabelGadgetsController ctrl=GadgetsControllersFactory.build(_parent,skill);
       _gadgets.add(ctrl);
       // Configure
       SkillStatus skillStatus=_status.get(skill,true);
@@ -108,7 +109,7 @@ public class SkillsStatusDisplayPanelController implements FilterUpdateListener
       {
         continue;
       }
-      SkillGadgetsController ctrl=_gadgets.get(i);
+      IconLinkLabelGadgetsController ctrl=_gadgets.get(i);
       IconController icon=ctrl.getIcon();
       HyperLinkController link=ctrl.getLink();
       GridBagConstraints c=new GridBagConstraints(0,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
@@ -144,7 +145,7 @@ public class SkillsStatusDisplayPanelController implements FilterUpdateListener
     _parent=null;
     if (_gadgets!=null)
     {
-      for(SkillGadgetsController gadgets : _gadgets)
+      for(IconLinkLabelGadgetsController gadgets : _gadgets)
       {
         gadgets.dispose();
       }
