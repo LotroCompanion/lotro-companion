@@ -100,8 +100,8 @@ public class SingleStatWidgetsController
       double diff=currentValue-reference.doubleValue();
       return new FixedDecimalsInteger((float)diff);
     }
-    int currentValue=(value!=null)?value.intValue():0;
-    int diff=currentValue-reference.intValue();
+    int currentValue=(value!=null)?Math.round(value.floatValue()):0;
+    int diff=currentValue-Math.round(reference.floatValue());
     return new FixedDecimalsInteger(diff);
   }
 

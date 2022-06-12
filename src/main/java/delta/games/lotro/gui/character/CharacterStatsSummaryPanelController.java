@@ -21,11 +21,11 @@ import delta.common.ui.swing.windows.WindowsManager;
 import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.common.stats.StatDescription;
+import delta.games.lotro.common.stats.StatUtils;
 import delta.games.lotro.common.stats.WellKnownStat;
 import delta.games.lotro.gui.character.stats.contribs.StatContribsWindowController;
 import delta.games.lotro.gui.character.stats.details.DetailedCharacterStatsWindowController;
 import delta.games.lotro.utils.FixedDecimalsInteger;
-import delta.games.lotro.utils.l10n.L10n;
 
 /**
  * Controller for the character stats summary panel.
@@ -180,7 +180,7 @@ public class CharacterStatsSummaryPanelController
         FixedDecimalsInteger value=characterStats.getStat(stat);
         if (value!=null)
         {
-          statValue=L10n.getString(value.intValue());
+          statValue=StatUtils.getStatDisplay(value,stat.isPercentage());
         }
         else
         {
