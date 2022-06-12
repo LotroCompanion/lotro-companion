@@ -166,12 +166,6 @@ public class RaceDisplayPanelController implements NavigablePanelController
       panel.add(panelLine,c);
       c.gridy++;
     }
-    // Traits
-    /*
-    JPanel traitsPanel=buildTraitsPanel();
-    panel.add(traitsPanel,c);
-    c.gridy++;
-    */
     // Padding to push everything on left
     JPanel paddingPanel=GuiFactory.buildPanel(new BorderLayout());
     c.fill=GridBagConstraints.HORIZONTAL;
@@ -205,8 +199,8 @@ public class RaceDisplayPanelController implements NavigablePanelController
       if (level>1)
       {
         gadget.getComplement().setText("at level "+level);
-        _traits.add(gadget);
       }
+      _traits.add(gadget);
     }
     // Earnable traits
     List<TraitDescription> earnableTraits=_race.getEarnableTraits();
