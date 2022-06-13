@@ -218,14 +218,20 @@ public class RaceDisplayPanelController implements NavigablePanelController
     int y=0;
     for(IconLinkLabelGadgetsController gadgets : _traits)
     {
+      // Icon
       GridBagConstraints c=new GridBagConstraints(0,y,1,2,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE, new Insets(0,0,0,0),5,5);
       ret.add(gadgets.getIcon().getIcon(),c);
-      c=new GridBagConstraints(1,y,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL, new Insets(0,0,0,0),5,5);
+      // Text
+      boolean hasComplements=(gadgets.getComplement().getText().length()>0);
+      int height=(hasComplements?1:2);
+      c=new GridBagConstraints(1,y,1,height,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL, new Insets(0,0,0,0),5,5);
       ret.add(gadgets.getLink().getLabel(),c);
-      y++;
-      c=new GridBagConstraints(1,y,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL, new Insets(0,0,0,0),5,5);
-      ret.add(gadgets.getComplement(),c);
-      y++;
+      if (hasComplements)
+      {
+        c=new GridBagConstraints(1,y+1,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL, new Insets(0,0,0,0),5,5);
+        ret.add(gadgets.getComplement(),c);
+      }
+      y+=2;
     }
     GridBagConstraints c=new GridBagConstraints(0,y,1,1,0.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.VERTICAL,new Insets(0,0,0,0),0,0);
     ret.add(Box.createVerticalGlue(),c);
