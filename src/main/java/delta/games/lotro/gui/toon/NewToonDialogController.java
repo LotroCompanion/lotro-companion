@@ -161,7 +161,7 @@ public class NewToonDialogController extends DefaultFormDialogController<Object>
     summary.setCharacterSex(sex);
     summary.setCharacterClass(cClass);
     summary.setRace(race);
-    summary.setRegion("");
+    summary.setNationality(null);
     summary.setLevel(1);
 
     CharactersManager manager=CharactersManager.getInstance();

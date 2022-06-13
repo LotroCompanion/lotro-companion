@@ -14,6 +14,7 @@ import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.common.ui.swing.windows.DefaultFormDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.CharacterSummary;
+import delta.games.lotro.character.races.NationalityDescription;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.CharacterSex;
 import delta.games.lotro.common.Race;
@@ -32,7 +33,7 @@ public class CharacterSummaryDialogController extends DefaultFormDialogControlle
   private ComboBoxController<CharacterClass> _class;
   private ComboBoxController<Race> _race;
   private ComboBoxController<CharacterSex> _sex;
-  private CharacterRegionController _region;
+  private CharacterNationalityController _nationality;
   private ComboBoxController<Integer> _level;
 
   /**
@@ -83,8 +84,8 @@ public class CharacterSummaryDialogController extends DefaultFormDialogControlle
     // Sex
     _sex=CharacterUiUtils.buildSexCombo(false);
     _sex.getComboBox().setEnabled(true);
-    // Region
-    _region=new CharacterRegionController();
+    // Nationality
+    _nationality=new CharacterNationalityController();
     // Level
     _level=CharacterUiUtils.buildLevelCombo();
 
@@ -119,7 +120,7 @@ public class CharacterSummaryDialogController extends DefaultFormDialogControlle
     gbc.gridx=1; gbc.gridy++;
     panel.add(_sex.getComboBox(),gbc);
     gbc.gridx=1; gbc.gridy++;
-    panel.add(_region.getComboBoxController().getComboBox(),gbc);
+    panel.add(_nationality.getComboBoxController().getComboBox(),gbc);
     gbc.gridx=1; gbc.gridy++;
     panel.add(_level.getComboBox(),gbc);
     return panel;
@@ -142,13 +143,13 @@ public class CharacterSummaryDialogController extends DefaultFormDialogControlle
     // Race
     Race race=_data.getRace();
     _race.selectItem(race);
-    _region.setRace(race);
+    _nationality.setRace(race);
     // Sex
     CharacterSex sex=_data.getCharacterSex();
     _sex.selectItem(sex);
-    // Region
-    String region=_data.getRegion();
-    _region.getComboBoxController().selectItem(region);
+    // Nationality
+    NationalityDescription nationality=_data.getNationality();
+    _nationality.getComboBoxController().selectItem(nationality);
     // Level
     int level=_data.getLevel();
     _level.selectItem(Integer.valueOf(level));
@@ -169,8 +170,8 @@ public class CharacterSummaryDialogController extends DefaultFormDialogControlle
     _data.setRace(race);
     CharacterSex sex=_sex.getSelectedItem();
     _data.setCharacterSex(sex);
-    String region=_region.getComboBoxController().getSelectedItem();
-    _data.setRegion(region);
+    NationalityDescription nationality=_nationality.getComboBoxController().getSelectedItem();
+    _data.setNationality(nationality);
     int level=_level.getSelectedItem().intValue();
     _data.setLevel(level);
   }
@@ -208,10 +209,10 @@ public class CharacterSummaryDialogController extends DefaultFormDialogControlle
       _sex.dispose();
       _sex=null;
     }
-    if (_region!=null)
+    if (_nationality!=null)
     {
-      _region.dispose();
-      _region=null;
+      _nationality.dispose();
+      _nationality=null;
     }
     if (_level!=null)
     {
