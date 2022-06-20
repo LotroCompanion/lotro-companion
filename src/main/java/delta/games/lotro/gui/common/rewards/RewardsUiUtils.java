@@ -117,9 +117,13 @@ public class RewardsUiUtils
    */
   public ComboBoxController<Integer> buildRelicsCombo()
   {
+    List<Relic> relics=_rewardsExplorer.getRelics();
+    if (relics.isEmpty())
+    {
+      return null;
+    }
     ComboBoxController<Integer> ctrl=new ComboBoxController<Integer>();
     ctrl.addEmptyItem("");
-    List<Relic> relics=_rewardsExplorer.getRelics();
     for(Relic relic : relics)
     {
       ctrl.addItem(Integer.valueOf(relic.getIdentifier()),relic.getName());

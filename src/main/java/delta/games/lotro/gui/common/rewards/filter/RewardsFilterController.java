@@ -259,10 +259,10 @@ public class RewardsFilterController
       _item=buildItemsCombobox();
       linePanel.add(_item.getComboBox());
       // Relics
-      if (_quest)
+      _relic=buildRelicsCombobox();
+      if (_relic!=null)
       {
         linePanel.add(GuiFactory.buildLabel("Relic:"));
-        _relic=buildRelicsCombobox();
         linePanel.add(_relic.getComboBox());
       }
       panel.add(linePanel,c);
@@ -529,6 +529,10 @@ public class RewardsFilterController
   private ComboBoxController<Integer> buildRelicsCombobox()
   {
     ComboBoxController<Integer> combo=_uiUtils.buildRelicsCombo();
+    if (combo==null)
+    {
+      return null;
+    }
     ItemSelectionListener<Integer> listener=new ItemSelectionListener<Integer>()
     {
       @Override
