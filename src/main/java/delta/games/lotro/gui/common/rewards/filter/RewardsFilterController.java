@@ -10,7 +10,9 @@ import javax.swing.JPanel;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.common.ui.swing.combobox.ItemSelectionListener;
+import delta.games.lotro.common.enums.BillingGroup;
 import delta.games.lotro.common.rewards.RewardsExplorer;
+import delta.games.lotro.common.rewards.filters.BillingGroupRewardFilter;
 import delta.games.lotro.common.rewards.filters.ClassPointRewardFilter;
 import delta.games.lotro.common.rewards.filters.EmoteRewardFilter;
 import delta.games.lotro.common.rewards.filters.GloryRewardFilter;
@@ -60,6 +62,7 @@ public class RewardsFilterController
   private ComboBoxController<String> _emote;
   private ComboBoxController<Integer> _item;
   private ComboBoxController<Integer> _relic;
+  private ComboBoxController<BillingGroup> _billingGroup;
 
   /**
    * Constructor.
@@ -125,6 +128,10 @@ public class RewardsFilterController
     if (_relic!=null)
     {
       _relic.selectItem(null);
+    }
+    if (_billingGroup!=null)
+    {
+      _billingGroup.selectItem(null);
     }
   }
 
@@ -194,6 +201,13 @@ public class RewardsFilterController
       Integer relicId=relicFilter.getRelicId();
       _relic.selectItem(relicId);
     }
+    // Billing group
+    if (_billingGroup!=null)
+    {
+      BillingGroupRewardFilter billingGroupFilter=_filter.getBillingGroupFilter();
+      BillingGroup billingGroup=billingGroupFilter.getBillingGroup();
+      _billingGroup.selectItem(billingGroup);
+    }
   }
 
   private JPanel buildRewardsPanel()
@@ -212,6 +226,18 @@ public class RewardsFilterController
       linePanel.add(GuiFactory.buildLabel("Title:"));
       _title=buildTitlesCombobox();
       linePanel.add(_title.getComboBox());
+      c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(5,0,0,0),0,0);
+      panel.add(linePanel,c);
+      y++;
+    }
+
+    _billingGroup=buildBillingGroupsCombobox();
+    if (_billingGroup!=null)
+    {
+      JPanel linePanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
+      // Billing Group
+      linePanel.add(GuiFactory.buildLabel("Account-wide token:"));
+      linePanel.add(_billingGroup.getComboBox());
       c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(5,0,0,0),0,0);
       panel.add(linePanel,c);
       y++;
@@ -510,6 +536,27 @@ public class RewardsFilterController
       {
         RelicRewardFilter filter=_filter.getRelicFilter();
         filter.setRelicId(itemId);
+        filterUpdated();
+      }
+    };
+    combo.addListener(listener);
+    return combo;
+  }
+
+  private ComboBoxController<BillingGroup> buildBillingGroupsCombobox()
+  {
+    ComboBoxController<BillingGroup> combo=_uiUtils.buildBillingGroupsCombo();
+    if (combo==null)
+    {
+      return null;
+    }
+    ItemSelectionListener<BillingGroup> listener=new ItemSelectionListener<BillingGroup>()
+    {
+      @Override
+      public void itemSelected(BillingGroup billingGroup)
+      {
+        BillingGroupRewardFilter filter=_filter.getBillingGroupFilter();
+        filter.setBillingGroup(billingGroup);
         filterUpdated();
       }
     };

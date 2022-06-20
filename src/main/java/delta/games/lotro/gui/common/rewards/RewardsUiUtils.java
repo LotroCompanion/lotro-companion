@@ -3,6 +3,7 @@ package delta.games.lotro.gui.common.rewards;
 import java.util.List;
 
 import delta.common.ui.swing.combobox.ComboBoxController;
+import delta.games.lotro.common.enums.BillingGroup;
 import delta.games.lotro.common.rewards.RewardsExplorer;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.legendary.relics.Relic;
@@ -122,6 +123,27 @@ public class RewardsUiUtils
     for(Relic relic : relics)
     {
       ctrl.addItem(Integer.valueOf(relic.getIdentifier()),relic.getName());
+    }
+    ctrl.selectItem(null);
+    return ctrl;
+  }
+
+  /**
+   * Build a combo-box controller to choose a billing group.
+   * @return A new combo-box controller.
+   */
+  public ComboBoxController<BillingGroup> buildBillingGroupsCombo()
+  {
+    List<BillingGroup> billingGroups=_rewardsExplorer.getBillingGroups();
+    if (billingGroups.isEmpty())
+    {
+      return null;
+    }
+    ComboBoxController<BillingGroup> ctrl=new ComboBoxController<BillingGroup>();
+    ctrl.addEmptyItem("");
+    for(BillingGroup billingGroup : billingGroups)
+    {
+      ctrl.addItem(billingGroup,billingGroup.getLabel());
     }
     ctrl.selectItem(null);
     return ctrl;
