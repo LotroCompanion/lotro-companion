@@ -149,12 +149,11 @@ public class StatContribsPanelController
     }
     int expected=(expectedTotal!=null)?expectedTotal.getInternalValue():0;
     boolean positive=(expected>=0);
-    int actual=total.getInternalValue();
-    boolean same=(actual==Math.abs(expected));
     boolean isPercentage=_statChooser.getSelectedItem().isPercentage();
     String totalStr=StatUtils.getStatDisplay(total,isPercentage);
     if (!positive) totalStr="-"+totalStr;
     String expectedTotalStr=StatUtils.getStatDisplay(expectedTotal,isPercentage);
+    boolean same=(totalStr.equals(expectedTotalStr));
     String label="Total: "+(same?totalStr:totalStr + " / " + expectedTotalStr);
     _totals.setText(label);
   }
