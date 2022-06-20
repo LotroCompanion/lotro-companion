@@ -9,7 +9,11 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.Box;
 import javax.swing.ImageIcon;
@@ -27,6 +31,9 @@ import delta.games.lotro.character.races.RaceGender;
 import delta.games.lotro.character.races.RaceTrait;
 import delta.games.lotro.character.traits.TraitDescription;
 import delta.games.lotro.common.CharacterSex;
+import delta.games.lotro.common.comparators.NamedComparator;
+import delta.games.lotro.common.enums.TraitNature;
+import delta.games.lotro.common.enums.comparator.LotroEnumEntryNameComparator;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.utils.GadgetsControllersFactory;
 import delta.games.lotro.gui.utils.IconLinkLabelGadgetsController;
@@ -189,19 +196,32 @@ public class RaceDisplayPanelController implements NavigablePanelController
     // Build traits gadgets controllers
     _traits=new ArrayList<IconLinkLabelGadgetsController>();
 
-    // Traits acquired with level
+    // Fetch traits
+    Map<Integer,TraitDescription> traitsMap=getTraits();
+    // Build gadgets
+    Map<Integer,IconLinkLabelGadgetsController> gadgets=new HashMap<Integer,IconLinkLabelGadgetsController>();
+    for(Map.Entry<Integer,TraitDescription> entry : traitsMap.entrySet())
+    {
+      IconLinkLabelGadgetsController gadget=GadgetsControllersFactory.build(_parent,entry.getValue());
+      gadgets.put(entry.getKey(),gadget);
+    }
+    // Update level data
     List<RaceTrait> traits=_race.getTraits();
     for(RaceTrait raceTrait : traits)
     {
       TraitDescription trait=raceTrait.getTrait();
-      IconLinkLabelGadgetsController gadget=GadgetsControllersFactory.build(_parent,trait);
+      Integer key=Integer.valueOf(trait.getIdentifier());
       int level=raceTrait.getRequiredLevel();
       if (level>1)
       {
+        IconLinkLabelGadgetsController gadget=gadgets.get(key);
         gadget.getComplement().setText("at level "+level);
       }
-      _traits.add(gadget);
     }
+    _traits.addAll(gadgets.values());
+
+    // Sort by trait nature
+    Map<TraitNature,List<TraitDescription>> mapByNature=sortTraitsByNature(traitsMap.values());
     // Earnable traits
     List<TraitDescription> earnableTraits=_race.getEarnableTraits();
     for(TraitDescription earnableTrait : earnableTraits)
@@ -209,14 +229,83 @@ public class RaceDisplayPanelController implements NavigablePanelController
       IconLinkLabelGadgetsController gadget=GadgetsControllersFactory.build(_parent,earnableTrait);
       _traits.add(gadget);
     }
-    return buildPanel();
+    return buildPanel(mapByNature,gadgets);
   }
 
-  private JPanel buildPanel()
+  private Map<Integer,TraitDescription> getTraits()
   {
+    Map<Integer,TraitDescription> map=new HashMap<Integer,TraitDescription>();
+    List<RaceTrait> traits=_race.getTraits();
+    for(RaceTrait raceTrait : traits)
+    {
+      TraitDescription trait=raceTrait.getTrait();
+      Integer key=Integer.valueOf(trait.getIdentifier());
+      map.put(key,trait);
+    }
+    // Earnable traits
+    List<TraitDescription> earnableTraits=_race.getEarnableTraits();
+    for(TraitDescription earnableTrait : earnableTraits)
+    {
+      Integer key=Integer.valueOf(earnableTrait.getIdentifier());
+      map.put(key,earnableTrait);
+    }
+    return map;
+  }
+
+  private Map<TraitNature,List<TraitDescription>> sortTraitsByNature(Collection<TraitDescription> traits)
+  {
+    Map<TraitNature,List<TraitDescription>> ret=new HashMap<TraitNature,List<TraitDescription>>();
+    for(TraitDescription trait : traits)
+    {
+      TraitNature nature=trait.getNature();
+      List<TraitDescription> list=ret.get(nature);
+      if (list==null)
+      {
+        list=new ArrayList<TraitDescription>();
+        ret.put(nature,list);
+      }
+      list.add(trait);
+    }
+    for(List<TraitDescription> list : ret.values())
+    {
+      Collections.sort(list,new NamedComparator());
+    }
+    return ret;
+  }
+
+  private JPanel buildPanel(Map<TraitNature,List<TraitDescription>> mapByNature, Map<Integer,IconLinkLabelGadgetsController> gadgetsMap)
+  {
+    List<TraitNature> natures=new ArrayList<TraitNature>();
+    natures.addAll(mapByNature.keySet());
+    Collections.sort(natures,new LotroEnumEntryNameComparator<TraitNature>());
+
     JPanel ret=GuiFactory.buildBackgroundPanel(new GridBagLayout());
     int y=0;
-    for(IconLinkLabelGadgetsController gadgets : _traits)
+    for(TraitNature nature : natures)
+    {
+      List<IconLinkLabelGadgetsController> gadgetsList=new ArrayList<IconLinkLabelGadgetsController>();
+      for(TraitDescription trait : mapByNature.get(nature))
+      {
+        Integer key=Integer.valueOf(trait.getIdentifier());
+        IconLinkLabelGadgetsController gadgets=gadgetsMap.get(key);
+        gadgetsList.add(gadgets);
+      }
+      JPanel panel=buildPanel(gadgetsList);
+      GridBagConstraints c=new GridBagConstraints(0,y,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL, new Insets(0,0,0,0),5,5);
+      panel.setBorder(GuiFactory.buildTitledBorder(nature.getLabel()));
+      ret.add(panel,c);
+      y++;
+    }
+    GridBagConstraints c=new GridBagConstraints(1,0,1,1,1.0,1.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL, new Insets(0,0,0,0),0,0);
+    ret.add(GuiFactory.buildPanel(null),c);
+    return ret;
+  }
+
+  private JPanel buildPanel(List<IconLinkLabelGadgetsController> gadgetsList)
+  {
+    JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
+    int y=0;
+    for(IconLinkLabelGadgetsController gadgets : gadgetsList)
     {
       // Icon
       GridBagConstraints c=new GridBagConstraints(0,y,1,2,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE, new Insets(0,0,0,0),5,5);
