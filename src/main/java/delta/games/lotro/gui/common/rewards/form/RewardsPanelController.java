@@ -35,6 +35,8 @@ import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemsManager;
 import delta.games.lotro.lore.items.legendary.relics.Relic;
 import delta.games.lotro.lore.items.legendary.relics.RelicsManager;
+import delta.games.lotro.lore.titles.TitleDescription;
+import delta.games.lotro.lore.titles.TitlesManager;
 import delta.games.lotro.utils.Proxy;
 
 /**
@@ -217,7 +219,13 @@ public class RewardsPanelController
     else if (rewardElement instanceof TitleReward)
     {
       TitleReward titleReward=(TitleReward)rewardElement;
-      ret=new TitleRewardGadgetsController(titleReward);
+      Proxy<TitleDescription> titleProxy=titleReward.getTitleProxy();
+      int id=titleProxy.getId();
+      TitleDescription title=TitlesManager.getInstance().getTitle(id);
+      if (title!=null)
+      {
+        ret=new TitleRewardGadgetsController(_parent,title);
+      }
     }
     // Reputation
     else if (rewardElement instanceof ReputationReward)
