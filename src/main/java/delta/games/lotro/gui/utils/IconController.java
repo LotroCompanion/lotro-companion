@@ -1,5 +1,6 @@
 package delta.games.lotro.gui.utils;
 
+import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -32,6 +33,7 @@ public class IconController extends AbstractIconController
       }
     };
     _icon.addActionListener(_listener);
+    _icon.setCursor(new Cursor(Cursor.HAND_CURSOR));
   }
 
   /**
