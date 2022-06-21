@@ -280,7 +280,7 @@ public class RewardsPanelController
     else if (rewardElement instanceof BillingTokenReward)
     {
       BillingTokenReward billingTokenReward=(BillingTokenReward)rewardElement;
-      ret=new BillingTokenRewardGadgetsController(billingTokenReward.getBillingGroup());
+      ret=new BillingTokenRewardGadgetsController(_parent,billingTokenReward.getBillingGroup());
     }
     if (ret!=null)
     {
