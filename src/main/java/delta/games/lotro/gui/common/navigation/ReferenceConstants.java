@@ -82,6 +82,10 @@ public class ReferenceConstants
    * Title page identifier.
    */
   public static final String TITLE_PAGE="title";
+  /**
+   * Billing group page identifier.
+   */
+  public static final String BILLING_GROUP_PAGE="billingGroup";
 
   /**
    * Get a page identifier for the given achievable proxy.
@@ -278,5 +282,15 @@ public class ReferenceConstants
   public static final PageIdentifier getTitleReference(int titleID)
   {
     return new PageIdentifier(TITLE_PAGE,titleID);
+  }
+
+  /**
+   * Get a page identifier for the given billing group.
+   * @param billingGroupID Identifier of the billing group to use.
+   * @return A page identifier.
+   */
+  public static final PageIdentifier getBillingGroupReference(int billingGroupID)
+  {
+    return new PageIdentifier(BILLING_GROUP_PAGE,billingGroupID);
   }
 }

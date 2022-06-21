@@ -3,6 +3,7 @@ package delta.games.lotro.gui.navigation;
 import delta.common.ui.swing.navigator.NavigatorContentsResolver;
 import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.common.ui.swing.windows.WindowController;
+import delta.games.lotro.gui.lore.billingGroups.BillingGroupPanelFactory;
 import delta.games.lotro.gui.lore.crafting.recipes.RecipePanelsFactory;
 import delta.games.lotro.gui.lore.deeds.DeedPanelsFactory;
 import delta.games.lotro.gui.lore.items.ItemPanelsFactory;
@@ -42,6 +43,7 @@ public class NavigatorFactory
     resolver.addFactory(new VirtuePanelsFactory(window));
     resolver.addFactory(new TitlePanelFactory(window));
     resolver.addFactory(new RacePanelsFactory(window));
+    resolver.addFactory(new BillingGroupPanelFactory(window));
     window.setContentsResolver(resolver);
     return window;
   }
