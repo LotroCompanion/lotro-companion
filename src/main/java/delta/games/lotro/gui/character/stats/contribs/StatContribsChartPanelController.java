@@ -15,7 +15,6 @@ import org.jfree.data.general.DefaultPieDataset;
 import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.character.stats.contribs.ContribsByStat;
 import delta.games.lotro.character.stats.contribs.StatContribution;
-import delta.games.lotro.utils.FixedDecimalsInteger;
 import delta.games.lotro.utils.l10n.LocalizedFormats;
 
 /**
@@ -69,7 +68,7 @@ public class StatContribsChartPanelController
     for(StatContribution contrib : contribs.getContribs())
     {
       String source=contrib.getSource().getLabel();
-      FixedDecimalsInteger value=contrib.getValue();
+      Number value=contrib.getValue();
       _data.setValue(source,value.doubleValue());
     }
   }

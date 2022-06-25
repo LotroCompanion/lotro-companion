@@ -13,7 +13,6 @@ import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.common.effects.Effect;
 import delta.games.lotro.common.stats.StatDescription;
 import delta.games.lotro.common.stats.StatsProvider;
-import delta.games.lotro.utils.FixedDecimalsInteger;
 
 /**
  * Builder for a table that shows passives.
@@ -49,19 +48,18 @@ public class PassivesTableBuilder
     }
     // Value column
     {
-      CellDataProvider<Effect,Float> valueCell=new CellDataProvider<Effect,Float>()
+      CellDataProvider<Effect,Number> valueCell=new CellDataProvider<Effect,Number>()
       {
         @Override
-        public Float getData(Effect item)
+        public Number getData(Effect item)
         {
           StatsProvider statsProvider=item.getStatsProvider();
           BasicStatsSet stats=statsProvider.getStats(1,itemLevel);
           StatDescription stat=statsProvider.getFirstStat();
-          FixedDecimalsInteger value=stats.getStat(stat);
-          return Float.valueOf(value.floatValue());
+          return stats.getStat(stat);
         }
       };
-      DefaultTableColumnController<Effect,Float> valueColumn=new DefaultTableColumnController<Effect,Float>(PassiveColumnIds.VALUE.name(),"Value",Float.class,valueCell);
+      DefaultTableColumnController<Effect,Number> valueColumn=new DefaultTableColumnController<Effect,Number>(PassiveColumnIds.VALUE.name(),"Value",Number.class,valueCell);
       valueColumn.setWidthSpecs(100,100,100);
       table.addColumnController(valueColumn);
     }

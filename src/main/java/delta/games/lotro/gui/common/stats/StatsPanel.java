@@ -13,7 +13,6 @@ import delta.games.lotro.character.stats.StatsSetElement;
 import delta.games.lotro.common.stats.StatDescription;
 import delta.games.lotro.common.stats.StatUtils;
 import delta.games.lotro.common.stats.StatsProvider;
-import delta.games.lotro.utils.FixedDecimalsInteger;
 import delta.games.lotro.utils.l10n.L10n;
 
 /**
@@ -48,7 +47,7 @@ public class StatsPanel
         {
           continue;
         }
-        FixedDecimalsInteger value=stats.getStat(stat);
+        Number value=stats.getStat(stat);
         if (value==null)
         {
           continue;
@@ -64,7 +63,7 @@ public class StatsPanel
         if (referenceStats!=null)
         {
           // Percentage
-          FixedDecimalsInteger statValue=referenceStats.getStat(stat);
+          Number statValue=referenceStats.getStat(stat);
           String percentageStr="";
           if (statValue!=null)
           {

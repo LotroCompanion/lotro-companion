@@ -26,7 +26,6 @@ import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.character.stats.ratings.RatingCurve;
 import delta.games.lotro.common.stats.StatDescription;
-import delta.games.lotro.utils.FixedDecimalsInteger;
 
 /**
  * Controller for a stat curve chart.
@@ -47,7 +46,7 @@ public class StatCurveChartPanelController
   private List<XYSeries> _currentValueSeries;
   // Data
   private StatCurvesChartConfiguration _config;
-  private FixedDecimalsInteger _statValue;
+  private Number _statValue;
 
   /**
    * Constructor.

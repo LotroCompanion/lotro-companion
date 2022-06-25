@@ -17,7 +17,7 @@ import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.character.stats.ratings.RatingCurve;
 import delta.games.lotro.common.stats.StatDescription;
 import delta.games.lotro.common.stats.StatUtils;
-import delta.games.lotro.utils.FixedDecimalsInteger;
+import delta.games.lotro.utils.NumericUtils;
 
 /**
  * Controller for a panel to display stat values.
@@ -29,7 +29,7 @@ public class StatValuesPanelController
   private JPanel _panel;
   // Data
   private StatCurvesChartConfiguration _config;
-  private List<FixedDecimalsInteger> _deltaValues;
+  private List<Number> _deltaValues;
   private BasicStatsSet _values;
 
   /**
@@ -40,7 +40,7 @@ public class StatValuesPanelController
   {
     _config=config;
     _panel=GuiFactory.buildPanel(new GridBagLayout());
-    _deltaValues=new ArrayList<FixedDecimalsInteger>();
+    _deltaValues=new ArrayList<Number>();
     _values=new BasicStatsSet();
   }
 
@@ -89,7 +89,7 @@ public class StatValuesPanelController
     _panel.add(baseStatNameLabel,c);
     // - Stat value
     c.gridx++;
-    FixedDecimalsInteger baseStatValue=_values.getStat(baseStat);
+    Number baseStatValue=_values.getStat(baseStat);
     JLabel baseStatValueLabel=GuiFactory.buildLabel(StatUtils.getStatDisplay(baseStatValue,baseStat.isPercentage()));
     _panel.add(baseStatValueLabel,c);
     c.gridy++;
@@ -119,14 +119,14 @@ public class StatValuesPanelController
         _panel.add(statNameLabel,c);
         c.gridx++;
         // Stat value
-        FixedDecimalsInteger statValueFromCurve=getStatValue(curveConfig,level,baseStatValue);
-        FixedDecimalsInteger statValue=_values.getStat(stat);
+        Float statValueFromCurve=getStatValue(curveConfig,level,baseStatValue);
+        Number statValue=_values.getStat(stat);
         String statValueFromCurveStr=StatUtils.getStatDisplay(statValueFromCurve,stat.isPercentage());
         JLabel statValueFromCurveLabel=GuiFactory.buildLabel(statValueFromCurveStr);
         _panel.add(statValueFromCurveLabel,c);
         c.gridx++;
         // Bonus
-        FixedDecimalsInteger deltaValue=null;
+        Number deltaValue=null;
         if (doComputeDelta)
         {
           deltaValue=getDeltaValue(statValueFromCurve,statValue);
@@ -139,9 +139,12 @@ public class StatValuesPanelController
         if (deltaValue!=null)
         {
           String deltaValueStr=StatUtils.getStatDisplay(deltaValue,stat.isPercentage());
-          if (deltaValue.getInternalValue()>0) deltaValueStr="+"+deltaValueStr;
-          FixedDecimalsInteger totalValue=new FixedDecimalsInteger(statValueFromCurve);
-          totalValue.add(deltaValue);
+          boolean isPositive=NumericUtils.isStrictlyPositive(deltaValue);
+          if (isPositive)
+          {
+            deltaValueStr="+"+deltaValueStr;
+          }
+          Number totalValue=NumericUtils.add(statValueFromCurve,deltaValue);
           String totalValueStr=StatUtils.getStatDisplay(totalValue,stat.isPercentage());
           String bonusStr=deltaValueStr+" = "+totalValueStr;
           JLabel bonusLabel=GuiFactory.buildLabel(bonusStr);
@@ -162,27 +165,26 @@ public class StatValuesPanelController
     }
   }
 
-  private FixedDecimalsInteger getDeltaValue(FixedDecimalsInteger statValueFromCurve, FixedDecimalsInteger statValue)
+  private Number getDeltaValue(Number statValueFromCurve, Number statValue)
   {
-    FixedDecimalsInteger deltaValue=null;
+    Number deltaValue=null;
     if ((statValueFromCurve!=null) && (statValue!=null))
     {
-      int delta=statValue.getInternalValue()-statValueFromCurve.getInternalValue();
-      if (delta!=0)
+      deltaValue=NumericUtils.diff(statValue,statValueFromCurve);
+      if (NumericUtils.isZero(deltaValue))
       {
-        deltaValue=new FixedDecimalsInteger();
-        deltaValue.setRawValue(delta);
+        deltaValue=null;
       }
     }
     return deltaValue;
   }
 
-  private FixedDecimalsInteger getStatValue(SingleStatCurveConfiguration config, int level, FixedDecimalsInteger baseStatValue)
+  private Float getStatValue(SingleStatCurveConfiguration config, int level, Number baseStatValue)
   {
     RatingCurve curve=config.getCurve();
     double value=(baseStatValue!=null)?baseStatValue.doubleValue():0.0;
     Double result=curve.getPercentage(value,level);
-    FixedDecimalsInteger ret=(result!=null)?new FixedDecimalsInteger(result.floatValue()):null;
+    Float ret=(result!=null)?Float.valueOf(result.floatValue()):null;
     return ret;
   }
 

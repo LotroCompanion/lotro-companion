@@ -16,7 +16,6 @@ import delta.games.lotro.character.stats.contribs.ContribsByStat;
 import delta.games.lotro.character.stats.contribs.StatContribution;
 import delta.games.lotro.gui.utils.l10n.ColumnsUtils;
 import delta.games.lotro.gui.utils.l10n.StatRenderer;
-import delta.games.lotro.utils.FixedDecimalsInteger;
 
 /**
  * Controller for a table that shows the contributions to a stat.
@@ -90,15 +89,15 @@ public class StatContribsTableController
     }
     // Value column
     {
-      CellDataProvider<StatContribution,FixedDecimalsInteger> statCell=new CellDataProvider<StatContribution,FixedDecimalsInteger>()
+      CellDataProvider<StatContribution,Number> statCell=new CellDataProvider<StatContribution,Number>()
       {
         @Override
-        public FixedDecimalsInteger getData(StatContribution item)
+        public Number getData(StatContribution item)
         {
           return item.getValue();
         }
       };
-      DefaultTableColumnController<StatContribution,FixedDecimalsInteger> statColumn=new DefaultTableColumnController<StatContribution,FixedDecimalsInteger>("Value",FixedDecimalsInteger.class,statCell);
+      DefaultTableColumnController<StatContribution,Number> statColumn=new DefaultTableColumnController<StatContribution,Number>("Value",Number.class,statCell);
       ColumnsUtils.configureStatValueColumn(statColumn,_renderer,70);
       columnsManager.addColumnController(statColumn,true);
     }

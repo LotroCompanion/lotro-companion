@@ -22,7 +22,6 @@ import delta.games.lotro.common.stats.StatProvider;
 import delta.games.lotro.common.stats.StatUtils;
 import delta.games.lotro.common.stats.StatsProvider;
 import delta.games.lotro.common.stats.TieredScalableStatProvider;
-import delta.games.lotro.utils.FixedDecimalsInteger;
 
 /**
  * Controller for a panel to display the stats of a trait.
@@ -117,8 +116,7 @@ public class TraitStatsPanelController
         if (rawValue!=null)
         {
           StatDescription stat=statProvider.getStat();
-          FixedDecimalsInteger value=new FixedDecimalsInteger(rawValue.floatValue());
-          String cell=StatUtils.getStatDisplay(value,stat.isPercentage());
+          String cell=StatUtils.getStatDisplay(rawValue,stat.isPercentage());
           row.setData(statIndex+1,cell);
         }
       }

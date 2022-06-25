@@ -21,7 +21,6 @@ import delta.games.lotro.common.stats.StatUtils;
 import delta.games.lotro.common.stats.StatsProvider;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.scaling.Munging;
-import delta.games.lotro.utils.FixedDecimalsInteger;
 import delta.games.lotro.utils.maths.Progression;
 
 /**
@@ -100,7 +99,7 @@ public class ItemScalableStatsPanelController
       int index=2;
       for(StatDescription stat : stats)
       {
-        FixedDecimalsInteger value=values.getStat(stat);
+        Number value=values.getStat(stat);
         row[index]=StatUtils.getStatDisplay(value,stat.isPercentage());
         index++;
       }

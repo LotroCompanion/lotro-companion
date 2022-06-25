@@ -25,7 +25,6 @@ import delta.games.lotro.common.stats.StatUtils;
 import delta.games.lotro.common.stats.WellKnownStat;
 import delta.games.lotro.gui.character.stats.contribs.StatContribsWindowController;
 import delta.games.lotro.gui.character.stats.details.DetailedCharacterStatsWindowController;
-import delta.games.lotro.utils.FixedDecimalsInteger;
 
 /**
  * Controller for the character stats summary panel.
@@ -177,7 +176,7 @@ public class CharacterStatsSummaryPanelController
       if (_toon!=null)
       {
         BasicStatsSet characterStats=_toon.getStats();
-        FixedDecimalsInteger value=characterStats.getStat(stat);
+        Number value=characterStats.getStat(stat);
         if (value!=null)
         {
           statValue=StatUtils.getStatDisplay(value,stat.isPercentage());

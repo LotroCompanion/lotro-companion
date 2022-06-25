@@ -25,7 +25,7 @@ import delta.games.lotro.character.stats.contribs.StatContribution;
 import delta.games.lotro.character.stats.contribs.StatsContributionsManager;
 import delta.games.lotro.common.stats.StatDescription;
 import delta.games.lotro.common.stats.StatUtils;
-import delta.games.lotro.utils.FixedDecimalsInteger;
+import delta.games.lotro.utils.NumericUtils;
 
 /**
  * Controller for a panel that displays the contributions of to stats.
@@ -139,19 +139,16 @@ public class StatContribsPanelController
     return panel;
   }
 
-  private void updateTotals(ContribsByStat contribs, FixedDecimalsInteger expectedTotal)
+  private void updateTotals(ContribsByStat contribs, Number expectedTotal)
   {
-    FixedDecimalsInteger total=new FixedDecimalsInteger();
     List<StatContribution> statContribs=contribs.getContribs();
+    Number total=Integer.valueOf(0);
     for(StatContribution statContrib : statContribs)
     {
-      total.add(statContrib.getValue());
+      total=NumericUtils.add(total,statContrib.getValue());
     }
-    int expected=(expectedTotal!=null)?expectedTotal.getInternalValue():0;
-    boolean positive=(expected>=0);
     boolean isPercentage=_statChooser.getSelectedItem().isPercentage();
     String totalStr=StatUtils.getStatDisplay(total,isPercentage);
-    if (!positive) totalStr="-"+totalStr;
     String expectedTotalStr=StatUtils.getStatDisplay(expectedTotal,isPercentage);
     boolean same=(totalStr.equals(expectedTotalStr));
     String label="Total: "+(same?totalStr:totalStr + " / " + expectedTotalStr);
@@ -215,7 +212,7 @@ public class StatContribsPanelController
     }
     _chartPanel.setContributions(contribs);
     _table.setContributions(contribs);
-    FixedDecimalsInteger statValue=_toon.getStats().getStat(stat);
+    Number statValue=_toon.getStats().getStat(stat);
     updateTotals(contribs,statValue);
   }
 

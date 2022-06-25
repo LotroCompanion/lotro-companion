@@ -36,7 +36,6 @@ import delta.games.lotro.lore.items.ItemBinding;
 import delta.games.lotro.lore.items.ItemQuality;
 import delta.games.lotro.lore.items.Weapon;
 import delta.games.lotro.lore.items.WeaponType;
-import delta.games.lotro.utils.FixedDecimalsInteger;
 
 /**
  * Builder for a table that shows items.
@@ -442,21 +441,21 @@ public class ItemsTableBuilder
     return renderer;
   }
 
-  private static DefaultTableColumnController<Item,FixedDecimalsInteger> buildStatColumn(final StatDescription stat)
+  private static DefaultTableColumnController<Item,Number> buildStatColumn(final StatDescription stat)
   {
-    CellDataProvider<Item,FixedDecimalsInteger> statCell=new CellDataProvider<Item,FixedDecimalsInteger>()
+    CellDataProvider<Item,Number> statCell=new CellDataProvider<Item,Number>()
     {
       @Override
-      public FixedDecimalsInteger getData(Item item)
+      public Number getData(Item item)
       {
         BasicStatsSet stats=item.getStats();
-        FixedDecimalsInteger value=stats.getStat(stat);
+        Number value=stats.getStat(stat);
         return value;
       }
     };
     String id=stat.getPersistenceKey();
     String name=stat.getName();
-    DefaultTableColumnController<Item,FixedDecimalsInteger> statColumn=new DefaultTableColumnController<Item,FixedDecimalsInteger>(id,name,FixedDecimalsInteger.class,statCell);
+    DefaultTableColumnController<Item,Number> statColumn=new DefaultTableColumnController<Item,Number>(id,name,Number.class,statCell);
     StatRenderer renderer=new StatRenderer(stat);
     ColumnsUtils.configureStatValueColumn(statColumn,renderer,55);
     return statColumn;

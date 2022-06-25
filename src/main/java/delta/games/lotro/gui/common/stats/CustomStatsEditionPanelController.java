@@ -27,7 +27,6 @@ import delta.games.lotro.common.stats.CustomStatsMergeMode;
 import delta.games.lotro.common.stats.StatDescription;
 import delta.games.lotro.common.stats.StatsManager;
 import delta.games.lotro.common.stats.StatsProvider;
-import delta.games.lotro.utils.FixedDecimalsInteger;
 
 /**
  * Controller for a panel to edit custom stats.
@@ -88,7 +87,7 @@ public class CustomStatsEditionPanelController
       {
         StatsSetElement statElement=usedStats.get(i);
         StatDescription stat=statElement.getStat();
-        FixedDecimalsInteger value=statElement.getValue();
+        Number value=statElement.getValue();
         ctrl.setStat(stat,value);
       }
       else
@@ -131,7 +130,7 @@ public class CustomStatsEditionPanelController
         Float value=ctrl.getValue();
         if (value!=null)
         {
-          stats.addStat(stat,new FixedDecimalsInteger(value.floatValue()));
+          stats.addStat(stat,value);
         }
       }
     }

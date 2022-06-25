@@ -5,7 +5,6 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 import delta.games.lotro.common.stats.StatDescription;
 import delta.games.lotro.common.stats.StatUtils;
-import delta.games.lotro.utils.FixedDecimalsInteger;
 
 /**
  * Renderer for stat columns.
@@ -38,9 +37,9 @@ public class StatRenderer extends DefaultTableCellRenderer
   public void setValue(Object value)
   {
     String label="";
-    if (value instanceof FixedDecimalsInteger)
+    if (value instanceof Number)
     {
-      FixedDecimalsInteger statValue=(FixedDecimalsInteger)value;
+      Number statValue=(Number)value;
       label=StatUtils.getStatDisplay(statValue,_stat.isPercentage());
     }
     setText(label);

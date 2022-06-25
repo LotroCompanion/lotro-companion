@@ -16,7 +16,6 @@ import delta.common.ui.swing.icons.IconsManager;
 import delta.common.ui.swing.text.FloatEditionController;
 import delta.games.lotro.common.stats.StatDescription;
 import delta.games.lotro.gui.utils.SharedUiUtils;
-import delta.games.lotro.utils.FixedDecimalsInteger;
 import delta.games.lotro.utils.l10n.LocalizedFormats;
 
 /**
@@ -64,7 +63,7 @@ public class SingleStatsEditionGadgetsController
    * @param stat Stat to set.
    * @param value Value to set.
    */
-  public void setStat(StatDescription stat, FixedDecimalsInteger value)
+  public void setStat(StatDescription stat, Number value)
   {
     _statChooser.selectItem(stat);
     _floatEditor.setValue(Float.valueOf(value.floatValue()));

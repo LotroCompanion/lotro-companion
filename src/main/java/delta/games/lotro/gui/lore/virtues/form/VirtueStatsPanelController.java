@@ -17,7 +17,6 @@ import delta.games.lotro.common.stats.StatProvider;
 import delta.games.lotro.common.stats.StatUtils;
 import delta.games.lotro.common.stats.StatsProvider;
 import delta.games.lotro.config.LotroCoreConfig;
-import delta.games.lotro.utils.FixedDecimalsInteger;
 
 /**
  * Controller for a panel to display the stats of a virtue.
@@ -115,7 +114,7 @@ public class VirtueStatsPanelController
       {
         StatProvider statProvider=activeStatsProvider.getStatProvider(statIndex);
         StatDescription stat=statProvider.getStat();
-        FixedDecimalsInteger value=activeStats.getStat(stat);
+        Number value=activeStats.getStat(stat);
         if (value!=null)
         {
           String cell=StatUtils.getStatDisplay(value,stat.isPercentage());
@@ -127,7 +126,7 @@ public class VirtueStatsPanelController
       {
         StatProvider statProvider=passiveStatsProvider.getStatProvider(statIndex);
         StatDescription stat=statProvider.getStat();
-        FixedDecimalsInteger value=passiveStats.getStat(stat);
+        Number value=passiveStats.getStat(stat);
         if (value!=null)
         {
           String cell=StatUtils.getStatDisplay(value,stat.isPercentage());

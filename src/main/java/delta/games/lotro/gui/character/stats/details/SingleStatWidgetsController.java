@@ -8,7 +8,7 @@ import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.common.stats.StatDescription;
 import delta.games.lotro.common.stats.StatUtils;
-import delta.games.lotro.utils.FixedDecimalsInteger;
+import delta.games.lotro.utils.NumericUtils;
 
 /**
  * Controller for the widgets associated to a single stat.
@@ -60,27 +60,26 @@ public class SingleStatWidgetsController
   public void updateStats(BasicStatsSet reference, BasicStatsSet current)
   {
     // Update current value
-    FixedDecimalsInteger currentValue=current.getStat(_stat);
+    Number currentValue=current.getStat(_stat);
     setValue(_value,currentValue,_isPercentage);
     // Handle reference
-    FixedDecimalsInteger referenceValue=null;
+    Number referenceValue=null;
     if (reference!=null)
     {
       referenceValue=reference.getStat(_stat);
     }
     if (referenceValue!=null)
     {
-      FixedDecimalsInteger delta=delta(currentValue,referenceValue);
+      Number delta=delta(currentValue,referenceValue);
       setValue(_deltaValue,delta,_isPercentage);
       Color color=Color.BLACK;
-      int internalDeltaValue=delta.getInternalValue();
-      if (internalDeltaValue>0)
+      int sign=NumericUtils.sign(delta);
+      if (sign==1) // Positive
       {
         _deltaValue.setText("+"+_deltaValue.getText());
-        //color=Color.GREEN;
-        color=new Color(0,153,0);
+        color=new Color(0,153,0); // Greenish
       }
-      else if (internalDeltaValue<0)
+      else if (sign==-1) // Negative
       {
         color=Color.RED;
       }
@@ -92,20 +91,20 @@ public class SingleStatWidgetsController
     }
   }
 
-  private FixedDecimalsInteger delta(FixedDecimalsInteger value, FixedDecimalsInteger reference)
+  private Number delta(Number value, Number reference)
   {
     if (_isPercentage)
     {
-      double currentValue=(value!=null)?value.doubleValue():0;
-      double diff=currentValue-reference.doubleValue();
-      return new FixedDecimalsInteger((float)diff);
+      float currentValue=(value!=null)?value.floatValue():0;
+      float diff=currentValue-reference.floatValue();
+      return Float.valueOf(diff);
     }
     int currentValue=(value!=null)?Math.round(value.floatValue()):0;
     int diff=currentValue-Math.round(reference.floatValue());
-    return new FixedDecimalsInteger(diff);
+    return Integer.valueOf(diff);
   }
 
-  private void setValue(JLabel label, FixedDecimalsInteger value, boolean percentage)
+  private void setValue(JLabel label, Number value, boolean percentage)
   {
     String valueStr=StatUtils.getStatDisplay(value,percentage);
     label.setText(valueStr);
