@@ -69,7 +69,7 @@ public class StatContribsChartPanelController
     {
       String source=contrib.getSource().getLabel();
       Number value=contrib.getValue();
-      _data.setValue(source,value.doubleValue());
+      _data.setValue(source,Math.abs(value.doubleValue()));
     }
   }
 
