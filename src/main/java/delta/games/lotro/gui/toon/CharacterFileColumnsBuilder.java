@@ -18,6 +18,9 @@ import delta.games.lotro.common.money.Money;
 import delta.games.lotro.common.money.comparator.MoneyComparator;
 import delta.games.lotro.gui.lore.items.chooser.ItemsTableBuilder;
 import delta.games.lotro.gui.utils.l10n.ColumnsUtils;
+import delta.games.lotro.lore.crafting.CraftingData;
+import delta.games.lotro.lore.crafting.CraftingSystem;
+import delta.games.lotro.lore.crafting.Vocation;
 import delta.games.lotro.lore.maps.Zone;
 import delta.games.lotro.lore.maps.ZoneUtils;
 import delta.games.lotro.lore.titles.TitleDescription;
@@ -209,6 +212,31 @@ public class CharacterFileColumnsBuilder
       DefaultTableColumnController<CharacterFile,String> dungeonColumn=new DefaultTableColumnController<CharacterFile,String>(ToonsTableColumnIds.DUNGEON.name(),"Dungeon",String.class,dungeonCell);
       dungeonColumn.setWidthSpecs(80,250,250);
       ret.add(dungeonColumn);
+    }
+    // Vocation column
+    {
+      CellDataProvider<CharacterFile,String> vocationCell=new CellDataProvider<CharacterFile,String>()
+      {
+        @Override
+        public String getData(CharacterFile file)
+        {
+          String vocationName=null;
+          Integer vocationId=file.getDetails().getCurrentVocationId();
+          if (vocationId!=null)
+          {
+            CraftingData craftingData=CraftingSystem.getInstance().getData();
+            Vocation vocation=craftingData.getVocationsRegistry().getVocationById(vocationId.intValue());
+            if (vocation!=null)
+            {
+              vocationName=vocation.getName();
+            }
+          }
+          return vocationName;
+        }
+      };
+      DefaultTableColumnController<CharacterFile,String> vocationColumn=new DefaultTableColumnController<CharacterFile,String>(ToonsTableColumnIds.VOCATION.name(),"Vocation",String.class,vocationCell);
+      vocationColumn.setWidthSpecs(100,-1,200);
+      ret.add(vocationColumn);
     }
 
     return ret;

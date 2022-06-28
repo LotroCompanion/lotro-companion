@@ -63,6 +63,10 @@ public enum ToonsTableColumnIds
    */
   TITLE,
   /**
+   * Vocation.
+   */
+  VOCATION,
+  /**
    * Area.
    */
   AREA,
