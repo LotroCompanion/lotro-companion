@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import delta.games.lotro.character.status.achievables.AchievableElementState;
 import delta.games.lotro.character.status.achievables.AchievableStatus;
 import delta.games.lotro.character.status.achievables.edition.AchievableGeoStatusManager;
 import delta.games.lotro.character.status.achievables.edition.AchievableStatusGeoItem;
@@ -34,11 +33,6 @@ public class AggregatedGeoItemsManager
 
   private boolean useStatus(AchievableStatus status)
   {
-    AchievableElementState state=status.getState();
-    if (state!=AchievableElementState.UNDERWAY)
-    {
-      return false;
-    }
     return true;
   }
 
@@ -59,10 +53,12 @@ public class AggregatedGeoItemsManager
 
     for(AchievableStatusGeoItem point : points)
     {
+      /*
       if (point.isCompleted())
       {
         continue;
       }
+      */
       MapDescription map=maps.get(point.getPoint().getMapIndex());
       Integer mapId=map.getMapId();
       AggregatedGeoItemsMap aggregatedMap=null;

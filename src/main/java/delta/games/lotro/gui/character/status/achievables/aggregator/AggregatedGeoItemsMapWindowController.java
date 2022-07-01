@@ -193,6 +193,7 @@ public class AggregatedGeoItemsMapWindowController extends DefaultDisplayDialogC
       MapDescription map=aggregatedMap.getMap();
       _mapPanelCtrl=new AchievableGeoPointsMapPanelController(map,aggregatedMap.getPoints(),false,null);
       _mapPanel.add(_mapPanelCtrl.getMapComponent(),BorderLayout.CENTER);
+      _mapPanelCtrl.updateUi();
     }
     _mainPanel.revalidate();
     _mainPanel.repaint();
