@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.character.status.allegiances.form;
+package delta.games.lotro.gui.account.status.rewardsTracks.form;
 
 import java.awt.Dimension;
 
@@ -7,27 +7,27 @@ import javax.swing.JPanel;
 
 import delta.common.ui.swing.windows.DefaultDisplayDialogController;
 import delta.common.ui.swing.windows.WindowController;
-import delta.games.lotro.character.status.allegiances.AllegianceStatus;
-import delta.games.lotro.lore.allegiances.AllegianceDescription;
+import delta.games.lotro.account.status.rewardsTrack.RewardsTrackStatus;
+import delta.games.lotro.lore.rewardsTrack.RewardsTrack;
 
 /**
- * Controller for an allegiance status display window.
+ * Controller for a rewards track status display window.
  * @author DAM
  */
-public class AllegianceStatusWindowController extends DefaultDisplayDialogController<AllegianceStatus>
+public class RewardsTrackStatusWindowController extends DefaultDisplayDialogController<RewardsTrackStatus>
 {
   // Controllers
-  private AllegianceStatusPanelController _statusController;
+  private RewardsTrackStatusPanelController _statusController;
 
   /**
    * Constructor.
    * @param parent Parent window.
    * @param status Data to show.
    */
-  public AllegianceStatusWindowController(WindowController parent, AllegianceStatus status)
+  public RewardsTrackStatusWindowController(WindowController parent, RewardsTrackStatus status)
   {
     super(parent,status);
-    _statusController=new AllegianceStatusPanelController(this,status);
+    _statusController=new RewardsTrackStatusPanelController(this,status);
   }
 
   @Override
@@ -35,8 +35,8 @@ public class AllegianceStatusWindowController extends DefaultDisplayDialogContro
   {
     JDialog dialog=super.build();
     dialog.setMinimumSize(new Dimension(800,500));
-    String allegianceName=_data.getAllegiance().getName();
-    dialog.setTitle("Allegiance status: "+allegianceName);
+    String rewardsTrackName=_data.getRewardsTrack().getName();
+    dialog.setTitle("Rewards track status: "+rewardsTrackName);
     dialog.setSize(new Dimension(800,700));
     dialog.setMaximumSize(new Dimension(1000,700));
     return dialog;
@@ -51,17 +51,17 @@ public class AllegianceStatusWindowController extends DefaultDisplayDialogContro
   @Override
   public String getWindowIdentifier()
   {
-    return getIdentifier(_data.getAllegiance());
+    return getIdentifier(_data.getRewardsTrack());
   }
 
   /**
-   * Get the window identifier for an allegiance.
-   * @param allegiance Allegiance to use.
+   * Get the window identifier for a rewards track.
+   * @param rewardsTrack Rewards track to use.
    * @return An identifier.
    */
-  public static final String getIdentifier(AllegianceDescription allegiance)
+  public static final String getIdentifier(RewardsTrack rewardsTrack)
   {
-    return String.valueOf(allegiance.getIdentifier());
+    return String.valueOf(rewardsTrack.getIdentifier());
   }
 
   @Override
