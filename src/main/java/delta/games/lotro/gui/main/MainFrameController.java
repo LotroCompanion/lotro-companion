@@ -40,7 +40,6 @@ import delta.games.lotro.gui.character.status.reputation.synopsis.ReputationSyno
 import delta.games.lotro.gui.character.status.warbands.WarbandsWindowController;
 import delta.games.lotro.gui.clientImport.ClientImportDialogController;
 import delta.games.lotro.gui.configuration.ConfigurationDialogController;
-import delta.games.lotro.gui.interceptor.InterceptorInterface;
 import delta.games.lotro.gui.kinship.KinshipsManagementController;
 import delta.games.lotro.gui.lore.instances.explorer.InstancesExplorerWindowController;
 import delta.games.lotro.gui.maps.global.MapWindowController;
@@ -71,7 +70,6 @@ public class MainFrameController extends DefaultWindowController implements Acti
   private static final String CRAFTING_SYNOPSIS_COMMAND="craftingSynopsisCommand";
   private static final String CURRENCIES_SYNOPSIS_COMMAND="currenciesCommand";
   private static final String MAP_COMMAND="mapCommand";
-  private static final String NETWORK_SYNCHRO_COMMAND="networkSynchroCommand";
   private static final String CLIENT_SYNCHRO_COMMAND="clientSynchroCommand";
   private static final String SETTINGS_COMMAND="settingsCommand";
   private static final String ABOUT_COMMAND="aboutCommand";
@@ -326,14 +324,6 @@ public class MainFrameController extends DefaultWindowController implements Acti
     String settingsIconPath=SharedUiUtils.getToolbarIconPath("settings");
     ToolbarIconItem settingsIconItem=new ToolbarIconItem(SETTINGS_COMMAND,settingsIconPath,SETTINGS_COMMAND,"Settings...","Settings...");
     model.addToolbarIconItem(settingsIconItem);
-    // Import from LOTRO (network)
-    boolean hasSynchronizer=InterceptorInterface.checkInterceptorPresence();
-    if (hasSynchronizer)
-    {
-      String importIconPath=SharedUiUtils.getToolbarIconPath("lotro-import");
-      ToolbarIconItem importIconItem=new ToolbarIconItem(NETWORK_SYNCHRO_COMMAND,importIconPath,NETWORK_SYNCHRO_COMMAND,"Import from LotRO...","Import...");
-      model.addToolbarIconItem(importIconItem);
-    }
     // Import from LOTRO (client)
     String importIconPath=SharedUiUtils.getToolbarIconPath("lotro-import");
     ToolbarIconItem importIconItem=new ToolbarIconItem(CLIENT_SYNCHRO_COMMAND,importIconPath,CLIENT_SYNCHRO_COMMAND,"Import from LotRO...","Import...");
@@ -438,11 +428,6 @@ public class MainFrameController extends DefaultWindowController implements Acti
     controller.bringToFront();
   }
 
-  private void doNetworkSynchronizer()
-  {
-    InterceptorInterface.doSynchronizer(_windowsManager,this);
-  }
-
   private void doClientSynchronizer()
   {
     WindowController controller=_windowsManager.getWindow(ClientImportDialogController.IDENTIFIER);
@@ -497,10 +482,6 @@ public class MainFrameController extends DefaultWindowController implements Acti
     else if (RESOURCES_MAPS_COMMAND.equals(cmd))
     {
       doResourcesMaps();
-    }
-    else if (NETWORK_SYNCHRO_COMMAND.equals(cmd))
-    {
-      doNetworkSynchronizer();
     }
     else if (CLIENT_SYNCHRO_COMMAND.equals(cmd))
     {

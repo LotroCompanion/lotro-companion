@@ -13,11 +13,6 @@
   <dependencies>
     <dependency>
       <groupId>com.dam.delta4j</groupId>
-      <artifactId>delta-lotro-interceptor</artifactId>
-      <version>1.8.3</version>
-    </dependency>
-    <dependency>
-      <groupId>com.dam.delta4j</groupId>
       <artifactId>delta-lotro-memory</artifactId>
       <version>5.7</version>
     </dependency>
