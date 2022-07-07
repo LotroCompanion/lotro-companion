@@ -57,6 +57,8 @@ public class RewardsPanelController
   private VirtueXpRewardGadgetsController _virtueXpController;
   private MoneyDisplayController _moneyController;
   private XpRewardsDisplayController _xpController;
+  // Configuration
+  private int _maxRows;
 
   /**
    * Constructor.
@@ -64,6 +66,17 @@ public class RewardsPanelController
    * @param rewards Rewards to display.
    */
   public RewardsPanelController(WindowController parent, Rewards rewards)
+  {
+    this(parent,rewards,8);
+  }
+
+  /**
+   * Constructor.
+   * @param parent Parent window.
+   * @param rewards Rewards to display.
+   * @param maxRows Maximum number of rows.
+   */
+  public RewardsPanelController(WindowController parent, Rewards rewards, int maxRows)
   {
     _parent=parent;
     _rewards=rewards;
@@ -80,7 +93,7 @@ public class RewardsPanelController
       _lotroPoints=new LotroPointsRewardGadgetsController(lotroPoints);
     }
     _rewardControllers=new ArrayList<RewardGadgetsController>();
-
+    _maxRows=maxRows;
     _panel=build();
   }
 
@@ -185,7 +198,7 @@ public class RewardsPanelController
   private void updateConstraints(GridBagConstraints c)
   {
     c.gridy++;
-    if (c.gridy>8)
+    if (c.gridy>_maxRows)
     {
       c.gridy=0;
       c.gridx+=2;

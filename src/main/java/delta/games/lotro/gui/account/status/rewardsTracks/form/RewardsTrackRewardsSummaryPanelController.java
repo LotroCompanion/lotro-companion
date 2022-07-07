@@ -44,7 +44,7 @@ public class RewardsTrackRewardsSummaryPanelController
     _parent=parent;
     _status=status;
     _filter=filter;
-    _rewards=new RewardsPanelController(parent,new Rewards());
+    _rewards=new RewardsPanelController(parent,new Rewards(),100);
     _panel=GuiFactory.buildPanel(new GridBagLayout());
     updatePanel();
   }
@@ -81,7 +81,7 @@ public class RewardsTrackRewardsSummaryPanelController
     }
     Rewards total=RewardsUtils.buildTotalRewards(selectedRewards);
     _rewards.dispose();
-    _rewards=new RewardsPanelController(_parent,total);
+    _rewards=new RewardsPanelController(_parent,total,100);
     // Assembly
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     _panel.add(_rewards.getPanel(),c);
