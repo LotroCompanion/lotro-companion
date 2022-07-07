@@ -66,17 +66,17 @@ public class RewardsTrackStatusPanelController
     // Assembly
     JPanel ret=GuiFactory.buildBackgroundPanel(new GridBagLayout());
     int y=0;
-    GridBagConstraints c=new GridBagConstraints(0,y,1,1,0.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
+    GridBagConstraints c=new GridBagConstraints(0,y,1,1,0.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(0,5,0,5),0,0);
     ret.add(summaryPanel,c);
     y++;
     if (statusSummaryPanel!=null)
     {
       statusSummaryPanel.setBorder(GuiFactory.buildTitledBorder("Status Summary"));
-      c=new GridBagConstraints(0,y,1,1,0.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
+      c=new GridBagConstraints(0,y,1,1,0.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(0,5,0,5),0,0);
       ret.add(statusSummaryPanel,c);
       y++;
     }
-    c=new GridBagConstraints(0,y,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
+    c=new GridBagConstraints(0,y,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(0,5,0,5),0,0);
     ret.add(rewardsPanel,c);
 
     return ret;
