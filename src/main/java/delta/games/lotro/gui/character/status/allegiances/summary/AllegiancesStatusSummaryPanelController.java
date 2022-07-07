@@ -14,7 +14,7 @@ import delta.games.lotro.character.status.allegiances.AllegiancesStatusManager;
 import delta.games.lotro.lore.allegiances.AllegiancesManager;
 
 /**
- * Controller for a panel that display the status of allegiances for a character.
+ * Controller for a panel that displays the status of allegiances for a character.
  * @author DAM
  */
 public class AllegiancesStatusSummaryPanelController

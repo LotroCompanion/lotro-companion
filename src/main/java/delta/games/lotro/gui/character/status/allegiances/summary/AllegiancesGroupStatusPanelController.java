@@ -61,7 +61,7 @@ public class AllegiancesGroupStatusPanelController
 
   private JPanel buildPanel()
   {
-    JPanel ret=GuiFactory.buildBackgroundPanel(new GridBagLayout());
+    JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
     int y=0;
     for(SingleAllegianceGadgetsController gadgets : _gadgets)
     {

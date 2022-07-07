@@ -1,42 +1,42 @@
-package delta.games.lotro.gui.character.status.allegiances.summary;
+package delta.games.lotro.gui.account.status.rewardsTracks.summary;
 
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 
 import delta.common.ui.swing.windows.DefaultDisplayDialogController;
 import delta.common.ui.swing.windows.WindowController;
-import delta.games.lotro.character.status.allegiances.AllegiancesStatusManager;
+import delta.games.lotro.account.status.rewardsTrack.RewardsTracksStatusManager;
 
 /**
- * Controller for a window that displays the status of allegiances for a character.
+ * Controller for a window that displays the status of rewards tracks for an account/server.
  * @author DAM
  */
-public class AllegiancesStatusSummaryWindowController extends DefaultDisplayDialogController<AllegiancesStatusManager>
+public class RewardsTracksStatusSummaryWindowController extends DefaultDisplayDialogController<RewardsTracksStatusManager>
 {
   /**
    * Window identifier.
    */
-  public static final String IDENTIFIER="ALLEGIANCES_STATUS";
+  public static final String IDENTIFIER="REWARDS_TRACKS_STATUS";
 
   // Controllers
-  private AllegiancesStatusSummaryPanelController _statusController;
+  private RewardsTracksStatusSummaryPanelController _statusController;
 
   /**
    * Constructor.
    * @param parent Parent window.
    * @param status Data to show.
    */
-  public AllegiancesStatusSummaryWindowController(WindowController parent, AllegiancesStatusManager status)
+  public RewardsTracksStatusSummaryWindowController(WindowController parent, RewardsTracksStatusManager status)
   {
     super(parent,status);
-    _statusController=new AllegiancesStatusSummaryPanelController(this,status);
+    _statusController=new RewardsTracksStatusSummaryPanelController(this,status);
   }
 
   @Override
   protected JDialog build()
   {
     JDialog dialog=super.build();
-    dialog.setTitle("Allegiances status");
+    dialog.setTitle("Rewards tracks status");
     dialog.pack();
     dialog.setResizable(false);
     return dialog;
