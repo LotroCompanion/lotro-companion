@@ -100,6 +100,17 @@ public class LotroIconsManager
   }
 
   /**
+   * Get the large icon for an item.
+   * @param largeIconID Icon identifier.
+   * @return An icon or <code>null</code> if not found.
+   */
+  public static ImageIcon getLargeItemIcon(int largeIconID)
+  {
+    String path="/largeItems/"+largeIconID+".png";
+    return IconsManager.getIcon(path);
+  }
+
+  /**
    * Get the default icon for items.
    * @return An icon.
    */

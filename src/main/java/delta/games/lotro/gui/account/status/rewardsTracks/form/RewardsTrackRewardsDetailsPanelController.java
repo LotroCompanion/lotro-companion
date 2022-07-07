@@ -8,12 +8,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.Box;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.account.status.rewardsTrack.RewardsTrackStatus;
 import delta.games.lotro.common.rewards.Rewards;
+import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.common.rewards.form.RewardsPanelController;
 import delta.games.lotro.lore.rewardsTrack.RewardsTrack;
 import delta.games.lotro.lore.rewardsTrack.RewardsTrackStep;
@@ -30,6 +33,7 @@ public class RewardsTrackRewardsDetailsPanelController
   // Controllers
   private List<RewardsPanelController> _rewards;
   // UI
+  private List<JLabel> _largeIcons;
   private JPanel _panel;
 
   /**
@@ -43,6 +47,7 @@ public class RewardsTrackRewardsDetailsPanelController
     _status=status;
     _filter=filter;
     _rewards=new ArrayList<RewardsPanelController>();
+    _largeIcons=new ArrayList<JLabel>();
     _panel=GuiFactory.buildPanel(new GridBagLayout());
     buildRewardsPanels(parent,status.getRewardsTrack());
     updatePanel();
@@ -62,9 +67,19 @@ public class RewardsTrackRewardsDetailsPanelController
     List<RewardsTrackStep> steps=rewardsTrack.getSteps();
     for(RewardsTrackStep step : steps)
     {
+      // Rewards
       Rewards rewards=RewardsTracksUtils.buildRewards(step);
       RewardsPanelController panel=new RewardsPanelController(parent,rewards);
       _rewards.add(panel);
+      // Large icon
+      JLabel iconLabel=null;
+      int largeIconID=step.getLargeIconID();
+      if (largeIconID!=0)
+      {
+        ImageIcon icon=LotroIconsManager.getLargeItemIcon(largeIconID);
+        iconLabel=GuiFactory.buildIconLabel(icon);
+      }
+      _largeIcons.add(iconLabel);
     }
   }
 
@@ -87,12 +102,24 @@ public class RewardsTrackRewardsDetailsPanelController
       }
       // Label
       String text=getLabel(i,state);
+      JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
+      {
+        GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+        // Large icon
+        JLabel largeIconLabel=_largeIcons.get(i-1);
+        if (largeIconLabel!=null)
+        {
+          panel.add(largeIconLabel,c);
+        }
+        // Rewards
+        JPanel rewardsPanel=_rewards.get(i-1).getPanel();
+        c=new GridBagConstraints(1,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+        panel.add(rewardsPanel,c);
+        panel.setBorder(GuiFactory.buildTitledBorder(text));
+      }
       int top=(y==0)?5:0;
-      // Rewards
       GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(top,5,5,5),0,0);
-      JPanel rewardsPanel=_rewards.get(i-1).getPanel();
-      rewardsPanel.setBorder(GuiFactory.buildTitledBorder(text));
-      _panel.add(rewardsPanel,c);
+      _panel.add(panel,c);
       y++;
     }
     // Push everything on left
@@ -158,5 +185,6 @@ public class RewardsTrackRewardsDetailsPanelController
       _panel.removeAll();
       _panel=null;
     }
+    _largeIcons=null;
   }
 }
