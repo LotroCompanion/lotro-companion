@@ -19,7 +19,10 @@ import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.account.Account;
 import delta.games.lotro.account.AccountOnServer;
 import delta.games.lotro.account.AccountUtils;
+import delta.games.lotro.account.status.rewardsTrack.RewardsTracksStatusManager;
+import delta.games.lotro.account.status.rewardsTrack.io.RewardsTracksStatusIo;
 import delta.games.lotro.character.CharacterFile;
+import delta.games.lotro.gui.account.status.rewardsTracks.summary.RewardsTracksStatusSummaryWindowController;
 import delta.games.lotro.gui.character.status.currencies.SingleCharacterCurrencyHistoryWindowController;
 import delta.games.lotro.gui.character.storage.account.AccountStorageDisplayWindowController;
 import delta.games.lotro.gui.character.storage.wardrobe.WardrobeDisplayWindowController;
@@ -37,6 +40,7 @@ public class AccountServerPanelController implements ActionListener
   private static final String CURRENCIES_COMMAND="currencies";
   private static final String FRIENDS_COMMAND="friends";
   private static final String WARDROBE_COMMAND="wardrobe";
+  private static final String REWARDS_TRACKS_COMMAND="rewardsTracks";
 
   // Data
   private AccountOnServer _accountOnServer;
@@ -122,6 +126,9 @@ public class AccountServerPanelController implements ActionListener
     // Wardrobe
     JButton wardrobeButton=buildCommandButton("Wardrobe",WARDROBE_COMMAND);
     panel.add(wardrobeButton);
+    // Rewards tracks
+    JButton rewardsTracksButton=buildCommandButton("Rewards Tracks",REWARDS_TRACKS_COMMAND);
+    panel.add(rewardsTracksButton);
 
     return panel;
   }
@@ -157,6 +164,10 @@ public class AccountServerPanelController implements ActionListener
     else if (WARDROBE_COMMAND.equals(command))
     {
       showWardrobe();
+    }
+    else if (REWARDS_TRACKS_COMMAND.equals(command))
+    {
+      showRewardsTracks();
     }
   }
 
@@ -206,6 +217,19 @@ public class AccountServerPanelController implements ActionListener
       wardrobeWindow.getWindow().setLocationRelativeTo(_parent.getWindow());
     }
     wardrobeWindow.bringToFront();
+  }
+
+  private void showRewardsTracks()
+  {
+    RewardsTracksStatusSummaryWindowController window=(RewardsTracksStatusSummaryWindowController)_windowsManager.getWindow(RewardsTracksStatusSummaryWindowController.IDENTIFIER);
+    if (window==null)
+    {
+      RewardsTracksStatusManager statusMgr=RewardsTracksStatusIo.load(_accountOnServer);
+      window=new RewardsTracksStatusSummaryWindowController(_parent,statusMgr);
+      _windowsManager.registerWindow(window);
+      window.getWindow().setLocationRelativeTo(_parent.getWindow());
+    }
+    window.bringToFront();
   }
 
   /**
