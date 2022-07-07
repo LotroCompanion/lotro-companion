@@ -4,19 +4,26 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.Box;
 import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.WindowController;
+import delta.common.utils.misc.IntegerHolder;
 import delta.games.lotro.account.status.rewardsTrack.RewardsTrackStatus;
+import delta.games.lotro.common.comparators.NamedComparator;
+import delta.games.lotro.common.rewards.ItemReward;
 import delta.games.lotro.common.rewards.Rewards;
-import delta.games.lotro.common.rewards.RewardsUtils;
 import delta.games.lotro.gui.common.rewards.form.RewardsPanelController;
+import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.rewardsTrack.RewardsTrack;
 import delta.games.lotro.lore.rewardsTrack.RewardsTrackStep;
+import delta.games.lotro.utils.Proxy;
 
 /**
  * Controller for a panel to display rewards summary.
@@ -64,7 +71,7 @@ public class RewardsTrackRewardsSummaryPanelController
   public void updatePanel()
   {
     _panel.removeAll();
-    List<Rewards> selectedRewards=new ArrayList<Rewards>(); 
+    List<Item> itemRewards=new ArrayList<Item>();
     RewardsTrack rewardsTrack=_status.getRewardsTrack();
     int nbSteps=rewardsTrack.getSize();
     List<RewardsTrackStep> steps=rewardsTrack.getSteps();
@@ -75,11 +82,14 @@ public class RewardsTrackRewardsSummaryPanelController
       if (ok)
       {
         RewardsTrackStep step=steps.get(i-1);
-        Rewards stepRewards=RewardsTracksUtils.buildRewards(step);
-        selectedRewards.add(stepRewards);
+        Item itemReward=step.getReward();
+        if (itemReward!=null)
+        {
+          itemRewards.add(itemReward);
+        }
       }
     }
-    Rewards total=RewardsUtils.buildTotalRewards(selectedRewards);
+    Rewards total=buildTotalRewards(itemRewards);
     _rewards.dispose();
     _rewards=new RewardsPanelController(_parent,total,100);
     // Assembly
@@ -90,6 +100,41 @@ public class RewardsTrackRewardsSummaryPanelController
     _panel.add(Box.createGlue(),c);
     _panel.revalidate();
     _panel.repaint();
+  }
+
+  private Rewards buildTotalRewards(List<Item> itemRewards)
+  {
+    Collections.sort(itemRewards,new NamedComparator());
+    Map<Integer,IntegerHolder> counters=new HashMap<Integer,IntegerHolder>();
+    for(Item itemReward : itemRewards)
+    {
+      Integer key=Integer.valueOf(itemReward.getIdentifier());
+      IntegerHolder counter=counters.get(key);
+      if (counter==null)
+      {
+        counter=new IntegerHolder();
+        counters.put(key,counter);
+      }
+      counter.increment();
+    }
+    int lastItemId=0;
+    Rewards ret=new Rewards();
+    for(Item item : itemRewards)
+    {
+      int itemId=item.getIdentifier();
+      if (itemId!=lastItemId)
+      {
+        int quantity=counters.get(Integer.valueOf(itemId)).getInt();
+        Proxy<Item> proxy=new Proxy<Item>();
+        proxy.setId(itemId);
+        proxy.setName(item.getName());
+        proxy.setObject(item);
+        ItemReward itemReward=new ItemReward(proxy,quantity);
+        ret.addRewardElement(itemReward);
+        lastItemId=itemId;
+      }
+    }
+    return ret;
   }
 
   /**
