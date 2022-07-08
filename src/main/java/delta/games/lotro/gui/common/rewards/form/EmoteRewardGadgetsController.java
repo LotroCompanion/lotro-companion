@@ -2,11 +2,12 @@ package delta.games.lotro.gui.common.rewards.form;
 
 import java.awt.Color;
 
-import javax.swing.Icon;
-
-import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.labels.HyperLinkController;
 import delta.common.ui.swing.labels.LabelWithHalo;
-import delta.games.lotro.gui.LotroIconsManager;
+import delta.common.ui.swing.windows.WindowController;
+import delta.games.lotro.gui.lore.emotes.EmoteUiUtils;
+import delta.games.lotro.gui.utils.IconController;
+import delta.games.lotro.gui.utils.IconControllerFactory;
 import delta.games.lotro.lore.emotes.EmoteDescription;
 
 /**
@@ -15,22 +16,39 @@ import delta.games.lotro.lore.emotes.EmoteDescription;
  */
 public class EmoteRewardGadgetsController extends RewardGadgetsController
 {
+  private HyperLinkController _emoteLink;
+  private IconController _emoteIcon;
+
   /**
    * Constructor.
+   * @param parent Parent window.
    * @param emote Emote.
    */
-  public EmoteRewardGadgetsController(EmoteDescription emote)
+  public EmoteRewardGadgetsController(WindowController parent, EmoteDescription emote)
   {
     // Label
-    String text=emote.getCommand();
-    Color color=Color.WHITE;
     _label=new LabelWithHalo();
-    _label.setText(text);
-    _label.setOpaque(false);
-    _label.setForeground(color);
+    _label.setForeground(Color.WHITE);
+    // Link
+    _emoteLink=EmoteUiUtils.buildEmoteLink(parent,emote,_label);
     // Icon
-    int id=emote.getIconId();
-    Icon icon=LotroIconsManager.getEmoteIcon(id);
-    _icon=GuiFactory.buildIconLabel(icon);
+    _emoteIcon=IconControllerFactory.buildEmoteIcon(parent,emote);
+    _icon=_emoteIcon.getIcon();
+  }
+
+  @Override
+  public void dispose()
+  {
+    super.dispose();
+    if (_emoteLink!=null)
+    {
+      _emoteLink.dispose();
+      _emoteLink=null;
+    }
+    if (_emoteIcon!=null)
+    {
+      _emoteIcon.dispose();
+      _emoteIcon=null;
+    }
   }
 }

@@ -268,7 +268,7 @@ public class RewardsPanelController
       EmoteDescription emote=EmotesManager.getInstance().getEmote(id);
       if (emote!=null)
       {
-        ret=new EmoteRewardGadgetsController(emote);
+        ret=new EmoteRewardGadgetsController(_parent,emote);
       }
     }
     // Trait reward
