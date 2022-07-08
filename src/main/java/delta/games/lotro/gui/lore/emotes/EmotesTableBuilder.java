@@ -72,7 +72,7 @@ public class EmotesTableBuilder
         public Icon getData(EmoteDescription emote)
         {
           int id=emote.getIconId();
-          Icon icon=LotroIconsManager.getEmoteIcon(id+".png");
+          Icon icon=LotroIconsManager.getEmoteIcon(id);
           return icon;
         }
       };

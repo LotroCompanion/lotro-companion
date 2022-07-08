@@ -123,7 +123,7 @@ public class IconControllerFactory
     IconController ret=new IconController(parent);
     if (emote!=null)
     {
-      Icon icon=LotroIconsManager.getEmoteIcon(emote.getIconId()+".png");
+      Icon icon=LotroIconsManager.getEmoteIcon(emote.getIconId());
       ret.setIcon(icon);
       ret.setPageId(ReferenceConstants.getEmoteReference(emote.getIdentifier()));
       ret.setTooltipText(emote.getName());

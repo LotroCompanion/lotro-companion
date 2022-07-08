@@ -132,12 +132,12 @@ public class LotroIconsManager
 
   /**
    * Get the icon for a emote.
-   * @param iconFilename Filename of the emote icon.
+   * @param iconID Icon identifier.
    * @return An icon or <code>null</code> if not found.
    */
-  public static ImageIcon getEmoteIcon(String iconFilename)
+  public static ImageIcon getEmoteIcon(int iconID)
   {
-    String path="/emoteIcons/"+iconFilename;
+    String path="/emoteIcons/"+iconID+".png";
     return IconsManager.getIcon(path);
   }
 

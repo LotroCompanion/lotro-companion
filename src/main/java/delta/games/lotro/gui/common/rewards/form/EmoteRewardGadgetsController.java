@@ -30,7 +30,7 @@ public class EmoteRewardGadgetsController extends RewardGadgetsController
     _label.setForeground(color);
     // Icon
     int id=emote.getIconId();
-    Icon icon=LotroIconsManager.getEmoteIcon(id+".png");
+    Icon icon=LotroIconsManager.getEmoteIcon(id);
     _icon=GuiFactory.buildIconLabel(icon);
   }
 }
