@@ -116,9 +116,9 @@ public class EmoteStatusFilterController
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
 
     int y=0;
-    JPanel linePanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
     // Label filter
     {
+      JPanel linePanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
       linePanel.add(GuiFactory.buildLabel("Name filter:"));
       _contains=GuiFactory.buildTextField("");
       _contains.setColumns(10);
@@ -135,17 +135,21 @@ public class EmoteStatusFilterController
         }
       };
       _textController=new DynamicTextEditionController(_contains,listener);
+      GridBagConstraints c=new GridBagConstraints(0,y,1,1,0.0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+      panel.add(linePanel,c);
+      y++;
     }
     // State
     {
+      JPanel linePanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
       JLabel label=GuiFactory.buildLabel("State:");
       linePanel.add(label);
       _states=buildStateMultiCheckbox();
       linePanel.add(_states.getPanel());
+      GridBagConstraints c=new GridBagConstraints(0,y,1,1,0.0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+      panel.add(linePanel,c);
+      y++;
     }
-    GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
-    panel.add(linePanel,c);
-    y++;
     return panel;
   }
 

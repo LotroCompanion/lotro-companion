@@ -70,7 +70,7 @@ public class EmotesStatusPanelController
     JPanel filterPanel=_filterController.getPanel();
     filterPanel.setBorder(GuiFactory.buildTitledBorder("Filter"));
     // Whole panel
-    GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(filterPanel,c);
     c=new GridBagConstraints(0,1,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
     panel.add(scroll,c);
