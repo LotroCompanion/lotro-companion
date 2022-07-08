@@ -6,6 +6,7 @@ import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.skills.SkillDescription;
 import delta.games.lotro.character.traits.TraitDescription;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
+import delta.games.lotro.lore.emotes.EmoteDescription;
 
 /**
  * Factory for shared panels.
@@ -51,6 +52,27 @@ public class SharedPanels
     // Link
     PageIdentifier pageId=ReferenceConstants.getTraitReference(trait.getIdentifier());
     String text=trait.getName();
+    HyperLinkController linkCtrl=NavigationUtils.buildNavigationLink(parent,text,pageId);
+    return new IconAndLinkPanelController(iconCtrl,linkCtrl);
+  }
+
+  /**
+   * Build an emote link panel controller.
+   * @param parent Parent window.
+   * @param emote Emote to show.
+   * @return A panel.
+   */
+  public static IconAndLinkPanelController buildEmotePanel(WindowController parent, EmoteDescription emote)
+  {
+    if (emote==null)
+    {
+      return null;
+    }
+    // Icon
+    IconController iconCtrl=IconControllerFactory.buildEmoteIcon(parent,emote);
+    // Link
+    PageIdentifier pageId=ReferenceConstants.getEmoteReference(emote.getIdentifier());
+    String text=emote.getName();
     HyperLinkController linkCtrl=NavigationUtils.buildNavigationLink(parent,text,pageId);
     return new IconAndLinkPanelController(iconCtrl,linkCtrl);
   }

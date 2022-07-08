@@ -34,6 +34,7 @@ import delta.games.lotro.gui.common.requirements.RequirementsUtils;
 import delta.games.lotro.gui.lore.items.containers.form.ContainerDisplayPanelController;
 import delta.games.lotro.gui.utils.IconAndLinkPanelController;
 import delta.games.lotro.gui.utils.SharedPanels;
+import delta.games.lotro.lore.emotes.EmoteDescription;
 import delta.games.lotro.lore.items.Armour;
 import delta.games.lotro.lore.items.ArmourType;
 import delta.games.lotro.lore.items.DisenchantmentManager;
@@ -497,6 +498,11 @@ public class ItemDisplayPanelController implements NavigablePanelController
     {
       TraitDescription trait=(TraitDescription)element;
       return SharedPanels.buildTraitPanel(_parent,trait);
+    }
+    if (element instanceof EmoteDescription)
+    {
+      EmoteDescription emote=(EmoteDescription)element;
+      return SharedPanels.buildEmotePanel(_parent,emote);
     }
     return null;
   }

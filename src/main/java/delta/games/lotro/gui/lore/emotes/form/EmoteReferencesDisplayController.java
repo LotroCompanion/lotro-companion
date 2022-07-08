@@ -11,6 +11,7 @@ import javax.swing.event.HyperlinkListener;
 import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
+import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.quests.Achievable;
 import delta.games.lotro.lore.quests.QuestDescription;
 import delta.games.lotro.lore.xrefs.emotes.EmoteReference;
@@ -97,6 +98,7 @@ public class EmoteReferencesDisplayController
     StringBuilder sb=new StringBuilder();
     sb.append("<html><body>");
     buildHtmlForQuestsAndDeeds(sb,references);
+    buildHtmlForItems(sb,references);
     sb.append("</body></html>");
     return sb.toString();
   }
@@ -138,6 +140,28 @@ public class EmoteReferencesDisplayController
     sb.append("<b>");
     PageIdentifier to=ReferenceConstants.getAchievableReference(achievable);
     HtmlUtils.printLink(sb,to.getFullAddress(),achievable.getName());
+    sb.append("</b></p>");
+  }
+
+  private void buildHtmlForItems(StringBuilder sb, List<EmoteReference<?>> references)
+  {
+    List<EmoteReference<Item>> itemReferences=getReferences(references,Item.class);
+    if (itemReferences.size()>0)
+    {
+      for(EmoteReference<Item> itemReference : itemReferences)
+      {
+        Item item=itemReference.getSource();
+        buildHtmlForItem(sb,item);
+      }
+    }
+  }
+
+  private void buildHtmlForItem(StringBuilder sb, Item item)
+  {
+    sb.append("<p>Granted by item ");
+    sb.append("<b>");
+    PageIdentifier to=ReferenceConstants.getItemReference(item.getIdentifier());
+    HtmlUtils.printLink(sb,to.getFullAddress(),item.getName());
     sb.append("</b></p>");
   }
 
