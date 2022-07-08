@@ -4,23 +4,25 @@ import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import delta.common.ui.swing.GuiFactory;
-import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.common.ui.swing.combobox.ItemSelectionListener;
+import delta.common.ui.swing.multicheckbox.MultiCheckboxController;
 import delta.common.ui.swing.text.DynamicTextEditionController;
 import delta.common.ui.swing.text.TextListener;
 import delta.common.utils.collections.filters.Filter;
+import delta.games.lotro.character.status.emotes.EmoteState;
 import delta.games.lotro.character.status.emotes.EmoteStatus;
+import delta.games.lotro.character.status.emotes.filters.EmoteStateFilter;
 import delta.games.lotro.character.status.emotes.filters.EmoteStatusFilter;
-import delta.games.lotro.character.status.emotes.filters.KnownEmoteFilter;
 import delta.games.lotro.common.filters.NamedFilter;
 import delta.games.lotro.gui.lore.items.FilterUpdateListener;
-import delta.games.lotro.gui.utils.SharedUiUtils;
 import delta.games.lotro.lore.emotes.EmoteDescription;
 
 /**
@@ -35,8 +37,8 @@ public class EmoteStatusFilterController
   private JPanel _panel;
   // -- Filter UI --
   private JTextField _contains;
-  private ComboBoxController<Boolean> _known;
   // Controllers
+  private MultiCheckboxController<EmoteState> _states;
   private DynamicTextEditionController _textController;
   private FilterUpdateListener _filterUpdateListener;
 
@@ -88,7 +90,7 @@ public class EmoteStatusFilterController
    */
   public void reset()
   {
-    _known.selectItem(null);
+    _states.selectAll();
     _contains.setText("");
   }
 
@@ -104,9 +106,9 @@ public class EmoteStatusFilterController
     {
       _contains.setText(contains);
     }
-    // Known
-    KnownEmoteFilter knownFilter=_filter.getKnownFilter();
-    _known.selectItem(knownFilter.getIsKnownFlag());
+    // State
+    EmoteStateFilter stateFilter=_filter.getStateFilter();
+    _states.setSelectedItems(stateFilter.getSelectedStates());
   }
 
   private JPanel build()
@@ -134,12 +136,12 @@ public class EmoteStatusFilterController
       };
       _textController=new DynamicTextEditionController(_contains,listener);
     }
-    // Known
+    // State
     {
-      JLabel label=GuiFactory.buildLabel("Known:");
+      JLabel label=GuiFactory.buildLabel("State:");
       linePanel.add(label);
-      _known=buildKnownCombobox();
-      linePanel.add(_known.getComboBox());
+      _states=buildStateMultiCheckbox();
+      linePanel.add(_states.getPanel());
     }
     GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(linePanel,c);
@@ -147,21 +149,28 @@ public class EmoteStatusFilterController
     return panel;
   }
 
-  private ComboBoxController<Boolean> buildKnownCombobox()
+  private MultiCheckboxController<EmoteState> buildStateMultiCheckbox()
   {
-    ComboBoxController<Boolean> combo=SharedUiUtils.build3StatesBooleanCombobox("","Yes","No");
-    ItemSelectionListener<Boolean> listener=new ItemSelectionListener<Boolean>()
+    final MultiCheckboxController<EmoteState> multiCheckbox=new MultiCheckboxController<EmoteState>();
+    for(EmoteState state : EmoteState.values())
+    {
+      String label=state.toString();
+      multiCheckbox.addItem(state,label);
+    }
+    multiCheckbox.selectAll();
+    ItemSelectionListener<EmoteState> listener=new ItemSelectionListener<EmoteState>()
     {
       @Override
-      public void itemSelected(Boolean value)
+      public void itemSelected(EmoteState state)
       {
-        KnownEmoteFilter filter=_filter.getKnownFilter();
-        filter.setIsKnownFlag(value);
+        Set<EmoteState> states=new HashSet<EmoteState>(_states.getSelectedItems());
+        EmoteStateFilter stateFilter=_filter.getStateFilter();
+        stateFilter.setStates(states);
         filterUpdated();
       }
     };
-    combo.addListener(listener);
-    return combo;
+    multiCheckbox.addListener(listener);
+    return multiCheckbox;
   }
 
   /**
@@ -183,10 +192,10 @@ public class EmoteStatusFilterController
       _textController.dispose();
       _textController=null;
     }
-    if (_known!=null)
+    if (_states!=null)
     {
-      _known.dispose();
-      _known=null;
+      _states.dispose();
+      _states=null;
     }
     _contains=null;
   }
