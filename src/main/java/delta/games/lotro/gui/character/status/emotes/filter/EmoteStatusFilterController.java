@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.character.status.skills.filter;
+package delta.games.lotro.gui.character.status.emotes.filter;
 
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
@@ -15,22 +15,22 @@ import delta.common.ui.swing.combobox.ItemSelectionListener;
 import delta.common.ui.swing.text.DynamicTextEditionController;
 import delta.common.ui.swing.text.TextListener;
 import delta.common.utils.collections.filters.Filter;
-import delta.games.lotro.character.skills.SkillDescription;
-import delta.games.lotro.character.status.skills.SkillStatus;
-import delta.games.lotro.character.status.skills.filters.KnownSkillFilter;
-import delta.games.lotro.character.status.skills.filters.SkillStatusFilter;
+import delta.games.lotro.character.status.emotes.EmoteStatus;
+import delta.games.lotro.character.status.emotes.filters.EmoteStatusFilter;
+import delta.games.lotro.character.status.emotes.filters.KnownEmoteFilter;
 import delta.games.lotro.common.filters.NamedFilter;
 import delta.games.lotro.gui.lore.items.FilterUpdateListener;
 import delta.games.lotro.gui.utils.SharedUiUtils;
+import delta.games.lotro.lore.emotes.EmoteDescription;
 
 /**
- * Controller for a skill status filter edition panel.
+ * Controller for an emote status filter edition panel.
  * @author DAM
  */
-public class SkillStatusFilterController
+public class EmoteStatusFilterController
 {
   // Data
-  private SkillStatusFilter _filter;
+  private EmoteStatusFilter _filter;
   // GUI
   private JPanel _panel;
   // -- Filter UI --
@@ -45,7 +45,7 @@ public class SkillStatusFilterController
    * @param filter Managed filter.
    * @param filterUpdateListener Filter update listener.
    */
-  public SkillStatusFilterController(SkillStatusFilter filter, FilterUpdateListener filterUpdateListener)
+  public EmoteStatusFilterController(EmoteStatusFilter filter, FilterUpdateListener filterUpdateListener)
   {
     _filter=filter;
     _filterUpdateListener=filterUpdateListener;
@@ -55,7 +55,7 @@ public class SkillStatusFilterController
    * Get the managed filter.
    * @return the managed filter.
    */
-  public Filter<SkillStatus> getFilter()
+  public Filter<EmoteStatus> getFilter()
   {
     return _filter;
   }
@@ -98,14 +98,14 @@ public class SkillStatusFilterController
   public void setFilter()
   {
     // Name
-    NamedFilter<SkillDescription> nameFilter=_filter.getNameFilter();
+    NamedFilter<EmoteDescription> nameFilter=_filter.getNameFilter();
     String contains=nameFilter.getPattern();
     if (contains!=null)
     {
       _contains.setText(contains);
     }
     // Known
-    KnownSkillFilter knownFilter=_filter.getKnownFilter();
+    KnownEmoteFilter knownFilter=_filter.getKnownFilter();
     _known.selectItem(knownFilter.getIsKnownFlag());
   }
 
@@ -127,7 +127,7 @@ public class SkillStatusFilterController
         public void textChanged(String newText)
         {
           if (newText.length()==0) newText=null;
-          NamedFilter<SkillDescription> nameFilter=_filter.getNameFilter();
+          NamedFilter<EmoteDescription> nameFilter=_filter.getNameFilter();
           nameFilter.setPattern(newText);
           filterUpdated();
         }
@@ -155,7 +155,7 @@ public class SkillStatusFilterController
       @Override
       public void itemSelected(Boolean value)
       {
-        KnownSkillFilter filter=_filter.getKnownFilter();
+        KnownEmoteFilter filter=_filter.getKnownFilter();
         filter.setIsKnownFlag(value);
         filterUpdated();
       }

@@ -9,6 +9,7 @@ import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.gui.lore.items.ItemUiTools;
 import delta.games.lotro.gui.lore.items.legendary.relics.RelicUiTools;
+import delta.games.lotro.lore.emotes.EmoteDescription;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.legendary.relics.Relic;
 
@@ -107,6 +108,25 @@ public class IconControllerFactory
       ret.setIcon(icon);
       ret.setPageId(ReferenceConstants.getTraitReference(trait.getIdentifier()));
       ret.setTooltipText(trait.getName());
+    }
+    return ret;
+  }
+
+  /**
+   * Build an emote icon.
+   * @param parent Parent window.
+   * @param emote Emote to use.
+   * @return A new controller.
+   */
+  public static IconController buildEmoteIcon(WindowController parent, EmoteDescription emote)
+  {
+    IconController ret=new IconController(parent);
+    if (emote!=null)
+    {
+      Icon icon=LotroIconsManager.getEmoteIcon(emote.getIconId()+".png");
+      ret.setIcon(icon);
+      ret.setPageId(ReferenceConstants.getEmoteReference(emote.getIdentifier()));
+      ret.setTooltipText(emote.getName());
     }
     return ret;
   }

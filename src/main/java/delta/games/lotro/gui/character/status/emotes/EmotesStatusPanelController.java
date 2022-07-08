@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.character.status.skills;
+package delta.games.lotro.gui.character.status.emotes;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -11,39 +11,39 @@ import javax.swing.JScrollPane;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.WindowController;
-import delta.games.lotro.character.skills.SkillDescription;
-import delta.games.lotro.character.status.skills.SkillsStatusManager;
-import delta.games.lotro.character.status.skills.filters.SkillStatusFilter;
-import delta.games.lotro.gui.character.status.skills.filter.SkillStatusFilterController;
+import delta.games.lotro.character.status.emotes.EmotesStatusManager;
+import delta.games.lotro.character.status.emotes.filters.EmoteStatusFilter;
+import delta.games.lotro.gui.character.status.emotes.filter.EmoteStatusFilterController;
+import delta.games.lotro.lore.emotes.EmoteDescription;
 
 /**
- * Controller for a window that show the status of skills.
+ * Controller for a window that show the status of emotes.
  * @author DAM
  */
-public class SkillsStatusPanelController
+public class EmotesStatusPanelController
 {
   // Controllers
   private WindowController _parent;
-  private SkillStatusFilterController _filterController;
-  private SkillsStatusDisplayPanelController _panelController;
+  private EmoteStatusFilterController _filterController;
+  private EmotesStatusDisplayPanelController _panelController;
   // Data
-  private SkillsStatusManager _status;
-  private SkillStatusFilter _filter;
-  private List<SkillDescription> _skills;
+  private EmotesStatusManager _status;
+  private EmoteStatusFilter _filter;
+  private List<EmoteDescription> _emotes;
   // UI
   private JPanel _panel;
 
   /**
    * Constructor.
    * @param parent Parent window.
-   * @param skills Skills to show.
+   * @param emotes Emotes to show.
    * @param status Status to show.
    */
-  public SkillsStatusPanelController(WindowController parent, List<SkillDescription> skills, SkillsStatusManager status)
+  public EmotesStatusPanelController(WindowController parent, List<EmoteDescription> emotes, EmotesStatusManager status)
   {
     _parent=parent;
-    _skills=new ArrayList<SkillDescription>(skills);
-    _filter=new SkillStatusFilter();
+    _emotes=new ArrayList<EmoteDescription>(emotes);
+    _filter=new EmoteStatusFilter();
     _status=status;
     _panel=buildPanel();
   }
@@ -61,12 +61,12 @@ public class SkillsStatusPanelController
   {
     JPanel panel=GuiFactory.buildBackgroundPanel(new GridBagLayout());
     // Display
-    _panelController=new SkillsStatusDisplayPanelController(_parent,_skills,_status,_filter);
+    _panelController=new EmotesStatusDisplayPanelController(_parent,_emotes,_status,_filter);
     JPanel displayPanel=_panelController.getPanel();
     JScrollPane scroll=GuiFactory.buildScrollPane(displayPanel);
-    scroll.setBorder(GuiFactory.buildTitledBorder("Skills"));
+    scroll.setBorder(GuiFactory.buildTitledBorder("Emotes"));
     // Filter
-    _filterController=new SkillStatusFilterController(_filter,_panelController);
+    _filterController=new EmoteStatusFilterController(_filter,_panelController);
     JPanel filterPanel=_filterController.getPanel();
     filterPanel.setBorder(GuiFactory.buildTitledBorder("Filter"));
     // Whole panel
@@ -96,6 +96,6 @@ public class SkillsStatusPanelController
     // Data
     _status=null;
     _filter=null;
-    _skills=null;
+    _emotes=null;
   }
 }

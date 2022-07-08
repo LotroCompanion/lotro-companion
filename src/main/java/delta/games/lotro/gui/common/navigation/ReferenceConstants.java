@@ -63,6 +63,10 @@ public class ReferenceConstants
    */
   public static final String SKILL_PAGE="skill";
   /**
+   * Emote page identifier.
+   */
+  public static final String EMOTE_PAGE="emote";
+  /**
    * Class page identifier.
    */
   public static final String CLASS_PAGE="class";
@@ -226,6 +230,16 @@ public class ReferenceConstants
   public static final PageIdentifier getSkillReference(int skillID)
   {
     return new PageIdentifier(SKILL_PAGE,skillID);
+  }
+
+  /**
+   * Get a page identifier for the given emote.
+   * @param emoteID Identifier of the emote to use.
+   * @return A page identifier.
+   */
+  public static final PageIdentifier getEmoteReference(int emoteID)
+  {
+    return new PageIdentifier(EMOTE_PAGE,emoteID);
   }
 
   /**

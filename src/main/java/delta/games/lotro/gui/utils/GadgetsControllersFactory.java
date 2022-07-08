@@ -5,6 +5,7 @@ import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.skills.SkillDescription;
 import delta.games.lotro.character.traits.TraitDescription;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
+import delta.games.lotro.lore.emotes.EmoteDescription;
 
 /**
  * Factory for some commonly used gadgets controllers.
@@ -37,6 +38,20 @@ public class GadgetsControllersFactory
     IconController icon=IconControllerFactory.buildTraitIcon(parent,trait);
     PageIdentifier pageId=ReferenceConstants.getTraitReference(trait.getIdentifier());
     String text=trait.getName();
+    return new IconLinkLabelGadgetsController(parent,icon,text,pageId);
+  }
+
+  /**
+   * Build a gadgets controller for an emote.
+   * @param parent Parent window.
+   * @param emote Emote to use.
+   * @return the new gadgets controller.
+   */
+  public static IconLinkLabelGadgetsController build(WindowController parent, EmoteDescription emote)
+  {
+    IconController icon=IconControllerFactory.buildEmoteIcon(parent,emote);
+    PageIdentifier pageId=ReferenceConstants.getEmoteReference(emote.getIdentifier());
+    String text=emote.getName();
     return new IconLinkLabelGadgetsController(parent,icon,text,pageId);
   }
 }
