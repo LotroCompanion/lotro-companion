@@ -12,6 +12,7 @@ import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.status.emotes.EmotesStatusManager;
 import delta.games.lotro.character.status.emotes.io.EmotesStatusIo;
 import delta.games.lotro.lore.emotes.EmoteDescription;
+import delta.games.lotro.lore.emotes.EmotesManager;
 
 /**
  * Controller for a window that shows the status of some emotes.
@@ -33,13 +34,13 @@ public class EmotesStatusWindowController extends DefaultWindowController
   /**
    * Constructor.
    * @param parent Parent window.
-   * @param emotes Emotes to show.
    * @param toon Character file.
    */
-  public EmotesStatusWindowController(WindowController parent, List<EmoteDescription> emotes, CharacterFile toon)
+  public EmotesStatusWindowController(WindowController parent, CharacterFile toon)
   {
     super(parent);
     EmotesStatusManager status=EmotesStatusIo.load(toon);
+    List<EmoteDescription> emotes=EmotesManager.getInstance().getAll();
     _panelController=new EmotesStatusPanelController(this,emotes,status);
   }
 

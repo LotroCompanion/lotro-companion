@@ -61,6 +61,7 @@ import delta.games.lotro.gui.character.status.allegiances.summary.AllegiancesSta
 import delta.games.lotro.gui.character.status.crafting.CraftingWindowController;
 import delta.games.lotro.gui.character.status.currencies.SingleCharacterCurrencyHistoryWindowController;
 import delta.games.lotro.gui.character.status.deeds.DeedsStatusWindowController;
+import delta.games.lotro.gui.character.status.emotes.EmotesStatusWindowController;
 import delta.games.lotro.gui.character.status.levelling.LevelHistoryEditionDialogController;
 import delta.games.lotro.gui.character.status.quests.QuestsStatusWindowController;
 import delta.games.lotro.gui.character.status.recipes.RecipesStatusWindowController;
@@ -103,6 +104,7 @@ public class CharacterFileWindowController extends DefaultWindowController imple
   private static final String TRAVELS_COMMAND="travels";
   private static final String CURRENCIES_COMMAND="currencies";
   private static final String OUTFITS_COMMAND="outfits";
+  private static final String EMOTES_COMMAND="emotes";
 
   private CharacterSummaryPanelController _summaryController;
   private CharacterDataTableController _toonsTable;
@@ -209,6 +211,9 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     // Currencies
     JButton currenciesButton=buildCommandButton("Currencies",CURRENCIES_COMMAND);
     panel.add(currenciesButton,c);c.gridx++;
+    // Emotes status
+    JButton emotesButton=buildCommandButton("Emotes",EMOTES_COMMAND);
+    panel.add(emotesButton,c);c.gridx++;
 
     c.insets.right=0;
     c.gridx=0;c.gridy++;
@@ -353,6 +358,10 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     else if (OUTFITS_COMMAND.equals(command))
     {
       showOutfits();
+    }
+    else if (EMOTES_COMMAND.equals(command))
+    {
+      showEmotesStatus();
     }
     else if (NEW_TOON_DATA_ID.equals(command))
     {
@@ -729,6 +738,18 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     if (windowCtrl==null)
     {
       windowCtrl=new OutfitsDisplayWindowController(this,_toon);
+      windowsManager.registerWindow(windowCtrl);
+    }
+    windowCtrl.show();
+  }
+
+  private void showEmotesStatus()
+  {
+    WindowsManager windowsManager=getWindowsManager();
+    EmotesStatusWindowController windowCtrl=(EmotesStatusWindowController)windowsManager.getWindow(EmotesStatusWindowController.IDENTIFIER);
+    if (windowCtrl==null)
+    {
+      windowCtrl=new EmotesStatusWindowController(this,_toon);
       windowsManager.registerWindow(windowCtrl);
     }
     windowCtrl.show();

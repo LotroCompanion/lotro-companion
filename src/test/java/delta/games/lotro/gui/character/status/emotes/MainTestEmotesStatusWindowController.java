@@ -1,11 +1,7 @@
 package delta.games.lotro.gui.character.status.emotes;
 
-import java.util.List;
-
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharactersManager;
-import delta.games.lotro.lore.emotes.EmoteDescription;
-import delta.games.lotro.lore.emotes.EmotesManager;
 
 /**
  * Test class for the emotes status window.
@@ -17,8 +13,7 @@ public class MainTestEmotesStatusWindowController
   {
     CharactersManager charsMgr=CharactersManager.getInstance();
     CharacterFile toon=charsMgr.getToonById("Landroval","Meva");
-    List<EmoteDescription> emotes=EmotesManager.getInstance().getAll();
-    EmotesStatusWindowController window=new EmotesStatusWindowController(null,emotes,toon);
+    EmotesStatusWindowController window=new EmotesStatusWindowController(null,toon);
     window.show();
   }
 
