@@ -27,6 +27,22 @@ public class CollectionStatusWindowController extends DefaultDisplayDialogContro
     _displayPanel=new CollectionStatusDisplayPanelController(this,status);
   }
 
+  /**
+   * Get the identifier of the collection status window for the given collection status.
+   * @param status Status to use.
+   * @return An identifier.
+   */
+  public static String getIdentifier(CollectionStatus status)
+  {
+    return "COLLECTION_STATUS#"+status.getCollection().getIdentifier();
+  }
+
+  @Override
+  public String getWindowIdentifier()
+  {
+    return getIdentifier(_data);
+  }
+
   @Override
   protected JPanel buildFormPanel()
   {

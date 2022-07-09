@@ -16,7 +16,7 @@ public class MainTestCollectionStatusWindowController
   {
     CharactersManager charsMgr=CharactersManager.getInstance();
     CharacterFile toon=charsMgr.getToonById("Landroval","Meva");
-    CollectionsStatusManager mgr=new CollectionsStatusBuilder().build(toon);
+    CollectionsStatusManager mgr=new CollectionsStatusBuilder().build(toon,null);
     for(CollectionStatus collectionStatus : mgr.getAll())
     {
       //if (collectionStatus.getCompletedCount()>0)
