@@ -36,6 +36,7 @@ public class MountDisplayPanelController
   private JLabel _initialName;
   private JLabel _morale;
   private JLabel _speed;
+  private JLabel _size;
   private JEditorPane _details;
 
   /**
@@ -88,6 +89,8 @@ public class MountDisplayPanelController
     _morale=buildLabelLine(panel,c,"Morale: ");
     // Speed
     _speed=buildLabelLine(panel,c,"Speed: ");
+    // Tall
+    _size=buildLabelLine(panel,c,"Size: ");
 
     // Description
     _details=buildDescriptionPane();
@@ -178,6 +181,9 @@ public class MountDisplayPanelController
     float speed=_mount.getSpeed();
     String speedStr=String.valueOf((int)(speed*100))+" %";
     _speed.setText(speedStr);
+    // Size
+    boolean tall=_mount.isTall();
+    _size.setText(tall?"Tall":"Short");
     // Details
     _details.setText(buildHtml());
     _details.setCaretPosition(0);

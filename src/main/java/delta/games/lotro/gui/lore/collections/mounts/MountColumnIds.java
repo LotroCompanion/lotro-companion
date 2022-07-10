@@ -45,5 +45,9 @@ public enum MountColumnIds
   /**
    * Speed.
    */
-  SPEED
+  SPEED,
+  /**
+   * Size.
+   */
+  SIZE
 }

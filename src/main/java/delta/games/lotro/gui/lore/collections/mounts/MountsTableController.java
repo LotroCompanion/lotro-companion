@@ -187,6 +187,20 @@ public class MountsTableController
       speedColumn.setWidthSpecs(50,50,50);
       ret.add(speedColumn);
     }
+    // Size
+    {
+      CellDataProvider<MountDescription,String> sizeCell=new CellDataProvider<MountDescription,String>()
+      {
+        @Override
+        public String getData(MountDescription mount)
+        {
+          return mount.isTall()?"Tall":"Short";
+        }
+      };
+      DefaultTableColumnController<MountDescription,String> sizeColumn=new DefaultTableColumnController<MountDescription,String>(MountColumnIds.SIZE.name(),"Size",String.class,sizeCell);
+      sizeColumn.setWidthSpecs(50,50,50);
+      ret.add(sizeColumn);
+    }
     // Description column
     {
       CellDataProvider<MountDescription,String> descriptionCell=new CellDataProvider<MountDescription,String>()
