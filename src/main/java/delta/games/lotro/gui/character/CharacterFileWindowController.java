@@ -58,6 +58,8 @@ import delta.games.lotro.gui.character.cosmetics.OutfitsDisplayWindowController;
 import delta.games.lotro.gui.character.log.CharacterLogWindowController;
 import delta.games.lotro.gui.character.stash.StashWindowController;
 import delta.games.lotro.gui.character.status.allegiances.summary.AllegiancesStatusSummaryWindowController;
+import delta.games.lotro.gui.character.status.collections.CollectablesStatusWindowController;
+import delta.games.lotro.gui.character.status.collections.CollectablesStatusWindowController.STATUS_TYPE;
 import delta.games.lotro.gui.character.status.crafting.CraftingWindowController;
 import delta.games.lotro.gui.character.status.currencies.SingleCharacterCurrencyHistoryWindowController;
 import delta.games.lotro.gui.character.status.deeds.DeedsStatusWindowController;
@@ -105,6 +107,8 @@ public class CharacterFileWindowController extends DefaultWindowController imple
   private static final String CURRENCIES_COMMAND="currencies";
   private static final String OUTFITS_COMMAND="outfits";
   private static final String EMOTES_COMMAND="emotes";
+  private static final String MOUNTS_COMMAND="mounts";
+  private static final String PETS_COMMAND="pets";
 
   private CharacterSummaryPanelController _summaryController;
   private CharacterDataTableController _toonsTable;
@@ -214,6 +218,9 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     // Emotes status
     JButton emotesButton=buildCommandButton("Emotes",EMOTES_COMMAND);
     panel.add(emotesButton,c);c.gridx++;
+    // Mounts status
+    JButton mountsButton=buildCommandButton("Mounts",MOUNTS_COMMAND);
+    panel.add(mountsButton,c);c.gridx++;
 
     c.insets.right=0;
     c.gridx=0;c.gridy++;
@@ -245,6 +252,9 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     // Outfits
     JButton outfitsButton=buildCommandButton("Outfits",OUTFITS_COMMAND);
     panel.add(outfitsButton,c);c.gridx++;
+    // Pets status
+    JButton petsButton=buildCommandButton("Pets",PETS_COMMAND);
+    panel.add(petsButton,c);c.gridx++;
 
     // Disable buttons if no log
     boolean hasLog=_toon.hasLog();
@@ -362,6 +372,14 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     else if (EMOTES_COMMAND.equals(command))
     {
       showEmotesStatus();
+    }
+    else if (MOUNTS_COMMAND.equals(command))
+    {
+      showCollectablesStatus(STATUS_TYPE.MOUNTS);
+    }
+    else if (PETS_COMMAND.equals(command))
+    {
+      showCollectablesStatus(STATUS_TYPE.PETS);
     }
     else if (NEW_TOON_DATA_ID.equals(command))
     {
@@ -750,6 +768,19 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     if (windowCtrl==null)
     {
       windowCtrl=new EmotesStatusWindowController(this,_toon);
+      windowsManager.registerWindow(windowCtrl);
+    }
+    windowCtrl.show();
+  }
+
+  private void showCollectablesStatus(STATUS_TYPE type)
+  {
+    WindowsManager windowsManager=getWindowsManager();
+    String id=CollectablesStatusWindowController.getWindowIdentifier(type);
+    CollectablesStatusWindowController windowCtrl=(CollectablesStatusWindowController)windowsManager.getWindow(id);
+    if (windowCtrl==null)
+    {
+      windowCtrl=new CollectablesStatusWindowController(this,_toon,type);
       windowsManager.registerWindow(windowCtrl);
     }
     windowCtrl.show();
