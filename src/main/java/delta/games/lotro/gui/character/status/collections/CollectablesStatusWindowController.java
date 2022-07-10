@@ -15,6 +15,9 @@ import delta.common.ui.swing.windows.DefaultDisplayDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.collections.filters.Filter;
 import delta.games.lotro.character.CharacterFile;
+import delta.games.lotro.character.CharacterSummary;
+import delta.games.lotro.character.races.RaceDescription;
+import delta.games.lotro.character.races.RacesManager;
 import delta.games.lotro.character.skills.SkillDescription;
 import delta.games.lotro.character.skills.SkillsManager;
 import delta.games.lotro.character.skills.filters.SkillCategoryFilter;
@@ -22,6 +25,7 @@ import delta.games.lotro.character.status.collections.CollectionsStatusBuilder;
 import delta.games.lotro.character.status.collections.CollectionsStatusManager;
 import delta.games.lotro.character.status.skills.SkillsStatusManager;
 import delta.games.lotro.character.status.skills.io.SkillsStatusIo;
+import delta.games.lotro.common.Race;
 import delta.games.lotro.common.enums.CollectionCategory;
 import delta.games.lotro.common.enums.LotroEnum;
 import delta.games.lotro.common.enums.LotroEnumsRegistry;
@@ -29,6 +33,8 @@ import delta.games.lotro.gui.character.status.collections.summary.CollectionsSta
 import delta.games.lotro.gui.character.status.skills.SkillsStatusPanelController;
 import delta.games.lotro.lore.collections.CollectionDescription;
 import delta.games.lotro.lore.collections.filters.CollectionCategoryFilter;
+import delta.games.lotro.lore.collections.mounts.MountDescription;
+import delta.games.lotro.lore.collections.mounts.MountsManager;
 
 /**
  * Controller for a "collectables status" window (mounts or pets).
@@ -72,7 +78,7 @@ public class CollectablesStatusWindowController extends DefaultDisplayDialogCont
     super(parent,null);
     _type=type;
     SkillsStatusManager skillsStatusMgr=SkillsStatusIo.load(file);
-    List<SkillDescription> skills=findSkills();
+    List<SkillDescription> skills=findSkills(file);
     _skills=new SkillsStatusPanelController(this,skills,skillsStatusMgr);
     CollectionsStatusManager collectionsStatusMgr=findStatus(file);
     _collections=new CollectionsStatusSummaryPanelController(this,collectionsStatusMgr);
@@ -86,6 +92,34 @@ public class CollectablesStatusWindowController extends DefaultDisplayDialogCont
     Filter<CollectionDescription> filter=new CollectionCategoryFilter(category);
     CollectionsStatusManager collectionsStatusMgr=new CollectionsStatusBuilder().build(file,filter);
     return collectionsStatusMgr;
+  }
+
+  private List<SkillDescription> findSkills(CharacterFile file)
+  {
+    List<SkillDescription> ret=findSkills();
+    if (_type==STATUS_TYPE.PETS)
+    {
+      return ret;
+    }
+    // Filter mounts using size (tall mounts for tall races)
+    CharacterSummary summary=file.getSummary();
+    Race race=summary.getRace();
+    RaceDescription raceDescription=RacesManager.getInstance().getRaceDescription(race);
+    boolean tall=raceDescription.isTall();
+    List<SkillDescription> filtered=new ArrayList<SkillDescription>();
+    MountsManager mountsMgr=MountsManager.getInstance();
+    for(SkillDescription skill : ret)
+    {
+      MountDescription mount=mountsMgr.getMount(skill.getIdentifier());
+      if (mount!=null)
+      {
+        if (mount.isTall()==tall)
+        {
+          filtered.add(skill);
+        }
+      }
+    }
+    return filtered;
   }
 
   private List<SkillDescription> findSkills()
