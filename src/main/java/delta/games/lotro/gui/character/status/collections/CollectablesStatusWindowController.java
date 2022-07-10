@@ -31,19 +31,32 @@ import delta.games.lotro.lore.collections.CollectionDescription;
 import delta.games.lotro.lore.collections.filters.CollectionCategoryFilter;
 
 /**
- * Controller for a "mounts status" window.
+ * Controller for a "collectables status" window (mounts or pets).
  * @author DAM
  */
-public class MountsStatusWindowController extends DefaultDisplayDialogController<Void>
+public class CollectablesStatusWindowController extends DefaultDisplayDialogController<Void>
 {
   private static final int MIN_HEIGHT=300;
   private static final int INITIAL_HEIGHT=700;
 
   /**
-   * Identifier for this window.
+   * Status type.
+   * @author DAM
    */
-  public static final String IDENTIFIER="MOUNTS_STATUS_WINDOW";
+  public enum STATUS_TYPE
+  {
+    /**
+     * Mounts.
+     */
+    MOUNTS,
+    /**
+     * Pets.
+     */
+    PETS
+  }
 
+  // Data
+  private STATUS_TYPE _type;
   // Controllers
   private SkillsStatusPanelController _skills;
   private CollectionsStatusSummaryPanelController _collections;
@@ -52,10 +65,12 @@ public class MountsStatusWindowController extends DefaultDisplayDialogController
    * Constructor.
    * @param parent Parent window.
    * @param file Character to use.
+   * @param type Status type.
    */
-  public MountsStatusWindowController(WindowController parent, CharacterFile file)
+  public CollectablesStatusWindowController(WindowController parent, CharacterFile file, STATUS_TYPE type)
   {
     super(parent,null);
+    _type=type;
     SkillsStatusManager skillsStatusMgr=SkillsStatusIo.load(file);
     List<SkillDescription> skills=findSkills();
     _skills=new SkillsStatusPanelController(this,skills,skillsStatusMgr);
@@ -66,7 +81,8 @@ public class MountsStatusWindowController extends DefaultDisplayDialogController
   private CollectionsStatusManager findStatus(CharacterFile file)
   {
     LotroEnum<CollectionCategory> categoryEnum=LotroEnumsRegistry.getInstance().get(CollectionCategory.class);
-    CollectionCategory category=categoryEnum.getEntry(1);
+    int code=(_type==STATUS_TYPE.PETS)?2:1;
+    CollectionCategory category=categoryEnum.getEntry(code);
     Filter<CollectionDescription> filter=new CollectionCategoryFilter(category);
     CollectionsStatusManager collectionsStatusMgr=new CollectionsStatusBuilder().build(file,filter);
     return collectionsStatusMgr;
@@ -75,7 +91,8 @@ public class MountsStatusWindowController extends DefaultDisplayDialogController
   private List<SkillDescription> findSkills()
   {
     SkillCategoryFilter filter=new SkillCategoryFilter();
-    filter.setCategory(88);
+    int code=(_type==STATUS_TYPE.PETS)?145:88;
+    filter.setCategory(code);
     List<SkillDescription> skills=SkillsManager.getInstance().getAll();
     List<SkillDescription> ret=new ArrayList<SkillDescription>();
     for(SkillDescription skill : skills)
@@ -92,7 +109,7 @@ public class MountsStatusWindowController extends DefaultDisplayDialogController
   protected JDialog build()
   {
     JDialog window=super.build();
-    window.setTitle("Mounts Status");
+    window.setTitle((_type==STATUS_TYPE.PETS)?"Pets Status":"Mounts Status");
     window.pack();
     window.setSize(window.getWidth(),INITIAL_HEIGHT);
     window.setMinimumSize(new Dimension(window.getWidth(),MIN_HEIGHT));
@@ -102,7 +119,19 @@ public class MountsStatusWindowController extends DefaultDisplayDialogController
   @Override
   public String getWindowIdentifier()
   {
-    return IDENTIFIER;
+    return getWindowIdentifier(_type);
+  }
+
+  /**
+   * Get the window identifier for the given status type.
+   * @param type Status type.
+   * @return A window identifier.
+   */
+  public static String getWindowIdentifier(STATUS_TYPE type)
+  {
+    if (type==STATUS_TYPE.MOUNTS) return "MOUNTS_STATUS_WINDOW";
+    if (type==STATUS_TYPE.PETS) return "PETS_STATUS_WINDOW";
+    return "?";
   }
 
   @Override
@@ -116,7 +145,8 @@ public class MountsStatusWindowController extends DefaultDisplayDialogController
   {
     JTabbedPane tabs=GuiFactory.buildTabbedPane();
     JPanel skillsPanel=_skills.getPanel();
-    tabs.add("Mounts",skillsPanel);
+    String tabName=(_type==STATUS_TYPE.PETS)?"Pets":"Mounts";
+    tabs.add(tabName,skillsPanel);
     JPanel collectionsPanel=_collections.getPanel();
     JScrollPane scroll=GuiFactory.buildScrollPane(collectionsPanel);
     tabs.add("Collections",scroll);
@@ -129,7 +159,6 @@ public class MountsStatusWindowController extends DefaultDisplayDialogController
   public void dispose()
   {
     super.dispose();
-    
     if (_collections!=null)
     {
       _collections.dispose();

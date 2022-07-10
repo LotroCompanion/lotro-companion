@@ -2,19 +2,22 @@ package delta.games.lotro.gui.character.status.collections;
 
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharactersManager;
+import delta.games.lotro.gui.character.status.collections.CollectablesStatusWindowController.STATUS_TYPE;
 
 /**
  * Test class for the collection status window.
  * @author DAM
  */
-public class MainTestMountsStatusWindowController
+public class MainTestCollectablesStatusWindowController
 {
   private void doIt()
   {
     CharactersManager charsMgr=CharactersManager.getInstance();
     CharacterFile toon=charsMgr.getToonById("Landroval","Meva");
-    MountsStatusWindowController window=new MountsStatusWindowController(null,toon);
-    window.show();
+    CollectablesStatusWindowController mountsWindow=new CollectablesStatusWindowController(null,toon,STATUS_TYPE.MOUNTS);
+    mountsWindow.show();
+    CollectablesStatusWindowController petsWindow=new CollectablesStatusWindowController(null,toon,STATUS_TYPE.PETS);
+    petsWindow.show();
   }
 
   /**
@@ -23,6 +26,6 @@ public class MainTestMountsStatusWindowController
    */
   public static void main(String[] args)
   {
-    new MainTestMountsStatusWindowController().doIt();
+    new MainTestCollectablesStatusWindowController().doIt();
   }
 }
