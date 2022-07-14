@@ -1,11 +1,13 @@
 package delta.games.lotro.gui.lore.deeds.filter;
 
+import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -25,6 +27,7 @@ import delta.games.lotro.gui.common.rewards.filter.RewardsFilterController;
 import delta.games.lotro.gui.lore.deeds.DeedUiUtils;
 import delta.games.lotro.gui.lore.items.FilterUpdateListener;
 import delta.games.lotro.gui.lore.quests.QuestsUiUtils;
+import delta.games.lotro.gui.lore.worldEvents.WorldEventsFilterController;
 import delta.games.lotro.gui.utils.SharedUiUtils;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.DeedType;
@@ -57,6 +60,8 @@ public class DeedFilterController implements ActionListener
   private RequirementsFilterController _requirements;
   // -- Rewards UI --
   private RewardsFilterController _rewards;
+  // -- World Events UI --
+  private WorldEventsFilterController _worldEvents;
   // Controllers
   private DynamicTextEditionController _textController;
   private FilterUpdateListener _filterUpdateListener;
@@ -77,6 +82,9 @@ public class DeedFilterController implements ActionListener
     }
     RewardsExplorer explorer=DeedsManager.getInstance().buildRewardsExplorer();
     _rewards=new RewardsFilterController(filter.getRewardsFilter(),filterUpdateListener,explorer,false);
+    // World events
+    List<DeedDescription> deeds=DeedsManager.getInstance().getAll();
+    _worldEvents=new WorldEventsFilterController(deeds,filter.getWorldEventsFilter(),filterUpdateListener);
   }
 
   /**
@@ -126,6 +134,7 @@ public class DeedFilterController implements ActionListener
         _requirements.reset();
       }
       _rewards.reset();
+      _worldEvents.reset();
       _contains.setText("");
     }
   }
@@ -162,6 +171,8 @@ public class DeedFilterController implements ActionListener
     }
     // Rewards
     _rewards.setFilter();
+    // World Events
+    _worldEvents.setFilter();
   }
 
   private JPanel build()
@@ -170,38 +181,56 @@ public class DeedFilterController implements ActionListener
 
     int y=0;
 
+    // Line 1
+    JPanel line1Panel=GuiFactory.buildPanel(new GridBagLayout());
     // Deed attributes
     JPanel deedPanel=buildDeedPanel();
     Border deedBorder=GuiFactory.buildTitledBorder("Deed");
     deedPanel.setBorder(deedBorder);
-    GridBagConstraints c=new GridBagConstraints(0,y,1,1,0.0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
-    panel.add(deedPanel,c);
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    line1Panel.add(deedPanel,c);
 
     // Reset
     _reset=GuiFactory.buildButton("Reset");
     _reset.addActionListener(this);
-    c=new GridBagConstraints(1,y,1,1,0.0,0,GridBagConstraints.SOUTHWEST,GridBagConstraints.NONE,new Insets(0,5,5,0),0,0);
-    panel.add(_reset,c);
+    c=new GridBagConstraints(1,0,1,1,0.0,0,GridBagConstraints.SOUTHWEST,GridBagConstraints.NONE,new Insets(0,5,5,0),0,0);
+    line1Panel.add(_reset,c);
+    c=new GridBagConstraints(0,y,1,1,0.0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    panel.add(line1Panel,c);
     y++;
 
+    // Line 2
+    JPanel line2Panel=GuiFactory.buildPanel(new GridBagLayout());
     // Requirements
     if (_requirements!=null)
     {
       JPanel requirementsPanel=_requirements.getPanel();
       Border requirementsBorder=GuiFactory.buildTitledBorder("Requirements");
       requirementsPanel.setBorder(requirementsBorder);
-      c=new GridBagConstraints(0,y,2,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
-      panel.add(requirementsPanel,c);
-      y++;
+      c=new GridBagConstraints(0,0,1,1,0.0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+      line2Panel.add(requirementsPanel,c);
     }
+    // World Events
+    {
+      JPanel contextsPanel=_worldEvents.getPanel();
+      Border border=GuiFactory.buildTitledBorder("Context");
+      contextsPanel.setBorder(border);
+      c=new GridBagConstraints(1,0,1,1,0.0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+      line2Panel.add(contextsPanel,c);
+    }
+    c=new GridBagConstraints(0,y,1,1,0.0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    panel.add(line2Panel,c);
+    y++;
 
     // Rewards
     JPanel rewardsPanel=_rewards.getPanel();
     Border rewardsBorder=GuiFactory.buildTitledBorder("Rewards");
     rewardsPanel.setBorder(rewardsBorder);
-    c=new GridBagConstraints(0,y,2,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    c=new GridBagConstraints(0,y,1,1,0.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(rewardsPanel,c);
-    y++;
+    // Push everything on left
+    c=new GridBagConstraints(1,y,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    panel.add(GuiFactory.buildPanel(new BorderLayout()),c);
 
     return panel;
   }
@@ -362,6 +391,11 @@ public class DeedFilterController implements ActionListener
     {
       _requirements.dispose();
       _requirements=null;
+    }
+    if (_worldEvents!=null)
+    {
+      _worldEvents.dispose();
+      _worldEvents=null;
     }
     if (_rewards!=null)
     {
