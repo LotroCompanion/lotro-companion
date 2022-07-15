@@ -21,6 +21,7 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.navigator.NavigablePanelController;
 import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.common.ui.swing.navigator.PageIdentifier;
+import delta.common.utils.expressions.logical.AbstractLogicalExpression;
 import delta.games.lotro.common.ChallengeLevel;
 import delta.games.lotro.common.LockType;
 import delta.games.lotro.common.Repeatability;
@@ -30,10 +31,14 @@ import delta.games.lotro.gui.common.requirements.RequirementsUtils;
 import delta.games.lotro.gui.common.rewards.form.RewardsPanelController;
 import delta.games.lotro.gui.lore.quests.ObjectivesDisplayBuilder;
 import delta.games.lotro.gui.lore.quests.QuestsHtmlUtils;
+import delta.games.lotro.gui.lore.worldEvents.form.LogicalExpressionsPanelFactory;
+import delta.games.lotro.gui.lore.worldEvents.form.PanelProvider;
 import delta.games.lotro.lore.quests.QuestDescription;
 import delta.games.lotro.lore.quests.dialogs.DialogElement;
 import delta.games.lotro.lore.quests.dialogs.QuestCompletionComment;
 import delta.games.lotro.lore.webStore.WebStoreItem;
+import delta.games.lotro.lore.worldEvents.AbstractWorldEventCondition;
+import delta.games.lotro.lore.worldEvents.WorldEventConditionsUtils;
 import delta.games.lotro.utils.gui.HtmlUtils;
 
 /**
@@ -61,6 +66,7 @@ public class QuestDisplayPanelController implements NavigablePanelController
   private RewardsPanelController _rewards;
   private QuestLinksDisplayPanelController _links;
   private AbstractAchievableRequirementPanelController _achievablesRequirements;
+  private PanelProvider _worldEventConditions;
 
   /**
    * Constructor.
@@ -211,6 +217,21 @@ public class QuestDisplayPanelController implements NavigablePanelController
       panel.add(achievablesRequirementsPanel,c);
       achievablesRequirementsPanel.setBorder(GuiFactory.buildTitledBorder("Quests/deeds Requirements"));
       c.gridy++;
+    }
+    // World events conditions
+    AbstractWorldEventCondition worldEventsConditions=_quest.getWorldEventsRequirement();
+    if (worldEventsConditions!=null)
+    {
+      AbstractLogicalExpression<String> expression=WorldEventConditionsUtils.renderWorldEventCondition(worldEventsConditions);
+      if (expression!=null)
+      {
+        _worldEventConditions=LogicalExpressionsPanelFactory.buildPanelController(expression);
+        JPanel worldEventConditionsPanel=_worldEventConditions.getPanel();
+        c=new GridBagConstraints(0,c.gridy,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+        panel.add(worldEventConditionsPanel,c);
+        worldEventConditionsPanel.setBorder(GuiFactory.buildTitledBorder("Context"));
+        c.gridy++;
+      }
     }
     // Padding to push everything on left
     c=new GridBagConstraints(0,c.gridy,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
@@ -425,6 +446,11 @@ public class QuestDisplayPanelController implements NavigablePanelController
     {
       _achievablesRequirements.dispose();
       _achievablesRequirements=null;
+    }
+    if (_worldEventConditions!=null)
+    {
+      _worldEventConditions.dispose();
+      _worldEventConditions=null;
     }
     _parent=null;
     // UI

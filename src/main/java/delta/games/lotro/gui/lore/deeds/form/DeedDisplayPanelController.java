@@ -21,6 +21,7 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.navigator.NavigablePanelController;
 import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.common.ui.swing.navigator.PageIdentifier;
+import delta.common.utils.expressions.logical.AbstractLogicalExpression;
 import delta.games.lotro.common.ChallengeLevel;
 import delta.games.lotro.common.requirements.AbstractAchievableRequirement;
 import delta.games.lotro.gui.LotroIconsManager;
@@ -29,9 +30,13 @@ import delta.games.lotro.gui.common.rewards.form.RewardsPanelController;
 import delta.games.lotro.gui.lore.quests.ObjectivesDisplayBuilder;
 import delta.games.lotro.gui.lore.quests.form.AbstractAchievableRequirementPanelController;
 import delta.games.lotro.gui.lore.quests.form.AchievableRequirementsPanelFactory;
+import delta.games.lotro.gui.lore.worldEvents.form.LogicalExpressionsPanelFactory;
+import delta.games.lotro.gui.lore.worldEvents.form.PanelProvider;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.DeedType;
 import delta.games.lotro.lore.webStore.WebStoreItem;
+import delta.games.lotro.lore.worldEvents.AbstractWorldEventCondition;
+import delta.games.lotro.lore.worldEvents.WorldEventConditionsUtils;
 import delta.games.lotro.utils.gui.HtmlUtils;
 
 /**
@@ -59,6 +64,7 @@ public class DeedDisplayPanelController implements NavigablePanelController
   private NavigatorWindowController _parent;
   private RewardsPanelController _rewards;
   private AbstractAchievableRequirementPanelController _achievablesRequirements;
+  private PanelProvider _worldEventConditions;
 
   /**
    * Constructor.
@@ -201,6 +207,21 @@ public class DeedDisplayPanelController implements NavigablePanelController
       achievablesRequirementsPanel.setBorder(GuiFactory.buildTitledBorder("Quests/deeds Requirements"));
       c.gridy++;
     }
+    // World events conditions
+    AbstractWorldEventCondition worldEventsConditions=_deed.getWorldEventsRequirement();
+    if (worldEventsConditions!=null)
+    {
+      AbstractLogicalExpression<String> expression=WorldEventConditionsUtils.renderWorldEventCondition(worldEventsConditions);
+      if (expression!=null)
+      {
+        _worldEventConditions=LogicalExpressionsPanelFactory.buildPanelController(expression);
+        JPanel worldEventConditionsPanel=_worldEventConditions.getPanel();
+        c=new GridBagConstraints(0,c.gridy,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+        panel.add(worldEventConditionsPanel,c);
+        worldEventConditionsPanel.setBorder(GuiFactory.buildTitledBorder("Context"));
+        c.gridy++;
+      }
+    }
     // Padding to push everything on left
     c=new GridBagConstraints(0,c.gridy,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(Box.createHorizontalGlue(),c);
@@ -331,6 +352,11 @@ public class DeedDisplayPanelController implements NavigablePanelController
     {
       _achievablesRequirements.dispose();
       _achievablesRequirements=null;
+    }
+    if (_worldEventConditions!=null)
+    {
+      _worldEventConditions.dispose();
+      _worldEventConditions=null;
     }
     _parent=null;
     // UI
