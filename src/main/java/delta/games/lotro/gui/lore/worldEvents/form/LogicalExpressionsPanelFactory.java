@@ -1,8 +1,8 @@
 package delta.games.lotro.gui.lore.worldEvents.form;
 
-import delta.common.utils.expressions.logical.AbstractLogicalExpression;
-import delta.common.utils.expressions.logical.CompoundLogicalExpression;
-import delta.common.utils.expressions.logical.SimpleLogicalExpression;
+import delta.common.utils.expressions.logical.LogicalTreeNode;
+import delta.common.utils.expressions.logical.CompoundLogicalTreeNode;
+import delta.common.utils.expressions.logical.SimpleLogicalTreeNode;
 
 /**
  * Factory for logical expressions panel controllers.
@@ -15,17 +15,17 @@ public class LogicalExpressionsPanelFactory
    * @param data Data to display.
    * @return A panel controller.
    */
-  public static PanelProvider buildPanelController(AbstractLogicalExpression<String> data)
+  public static PanelProvider buildPanelController(LogicalTreeNode<String> data)
   {
     PanelProvider ctrl=null;
-    if (data instanceof SimpleLogicalExpression)
+    if (data instanceof SimpleLogicalTreeNode)
     {
-      SimpleLogicalExpression<String> simple=(SimpleLogicalExpression<String>)data;
+      SimpleLogicalTreeNode<String> simple=(SimpleLogicalTreeNode<String>)data;
       ctrl=new SimpleLogicalExpressionPanelController(simple);
     }
-    else if (data instanceof CompoundLogicalExpression)
+    else if (data instanceof CompoundLogicalTreeNode)
     {
-      CompoundLogicalExpression<String> compound=(CompoundLogicalExpression<String>)data;
+      CompoundLogicalTreeNode<String> compound=(CompoundLogicalTreeNode<String>)data;
       ctrl=new CompoundLogicalExpressionPanelController(compound);
     }
     return ctrl;

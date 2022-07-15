@@ -5,7 +5,7 @@ import java.awt.FlowLayout;
 import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
-import delta.common.utils.expressions.logical.SimpleLogicalExpression;
+import delta.common.utils.expressions.logical.SimpleLogicalTreeNode;
 
 /**
  * Controller for a panel to show a simple logical expression.
@@ -16,13 +16,13 @@ public class SimpleLogicalExpressionPanelController implements PanelProvider
   // UI
   private JPanel _panel;
   // Data
-  private SimpleLogicalExpression<String> _data;
+  private SimpleLogicalTreeNode<String> _data;
 
   /**
    * Constructor.
    * @param data Data to show.
    */
-  public SimpleLogicalExpressionPanelController(SimpleLogicalExpression<String> data)
+  public SimpleLogicalExpressionPanelController(SimpleLogicalTreeNode<String> data)
   {
     _data=data;
     _panel=buildPanel();

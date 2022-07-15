@@ -21,7 +21,7 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.navigator.NavigablePanelController;
 import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.common.ui.swing.navigator.PageIdentifier;
-import delta.common.utils.expressions.logical.AbstractLogicalExpression;
+import delta.common.utils.expressions.logical.LogicalTreeNode;
 import delta.games.lotro.common.ChallengeLevel;
 import delta.games.lotro.common.requirements.AbstractAchievableRequirement;
 import delta.games.lotro.gui.LotroIconsManager;
@@ -211,7 +211,7 @@ public class DeedDisplayPanelController implements NavigablePanelController
     AbstractWorldEventCondition worldEventsConditions=_deed.getWorldEventsRequirement();
     if (worldEventsConditions!=null)
     {
-      AbstractLogicalExpression<String> expression=WorldEventConditionsUtils.renderWorldEventCondition(worldEventsConditions);
+      LogicalTreeNode<String> expression=WorldEventConditionsUtils.renderWorldEventCondition(worldEventsConditions);
       if (expression!=null)
       {
         _worldEventConditions=LogicalExpressionsPanelFactory.buildPanelController(expression);

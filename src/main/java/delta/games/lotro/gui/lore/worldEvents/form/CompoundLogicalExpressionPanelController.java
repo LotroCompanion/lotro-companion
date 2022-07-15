@@ -13,8 +13,8 @@ import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.utils.collections.filters.Operator;
-import delta.common.utils.expressions.logical.AbstractLogicalExpression;
-import delta.common.utils.expressions.logical.CompoundLogicalExpression;
+import delta.common.utils.expressions.logical.LogicalTreeNode;
+import delta.common.utils.expressions.logical.CompoundLogicalTreeNode;
 
 /**
  * Controller for a panel to show a compound logical expression.
@@ -27,13 +27,13 @@ public class CompoundLogicalExpressionPanelController implements PanelProvider
   // UI
   private JPanel _panel;
   // Data
-  private CompoundLogicalExpression<String> _data;
+  private CompoundLogicalTreeNode<String> _data;
 
   /**
    * Constructor.
    * @param data Data to show.
    */
-  public CompoundLogicalExpressionPanelController(CompoundLogicalExpression<String> data)
+  public CompoundLogicalExpressionPanelController(CompoundLogicalTreeNode<String> data)
   {
     _data=data;
     _childPanels=new ArrayList<PanelProvider>();
@@ -77,7 +77,7 @@ public class CompoundLogicalExpressionPanelController implements PanelProvider
   {
     JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
-    for(AbstractLogicalExpression<String> childItem : _data.getItems())
+    for(LogicalTreeNode<String> childItem : _data.getItems())
     {
       PanelProvider ctrl=LogicalExpressionsPanelFactory.buildPanelController(childItem);
       _childPanels.add(ctrl);
