@@ -15,6 +15,8 @@ import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
+import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.border.TitledBorder;
 
 import delta.common.ui.swing.GuiFactory;
@@ -27,6 +29,8 @@ import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.status.achievables.AchievableStatus;
 import delta.games.lotro.character.status.achievables.AchievablesStatusManager;
 import delta.games.lotro.character.status.achievables.filter.QuestStatusFilter;
+import delta.games.lotro.common.blacklist.BlackListIO;
+import delta.games.lotro.common.blacklist.Blacklist;
 import delta.games.lotro.gui.character.status.achievables.AchievableUIMode;
 import delta.games.lotro.gui.character.status.achievables.filter.AchievableStatusFilterController;
 import delta.games.lotro.gui.character.status.achievables.statistics.AchievablesStatisticsWindowController;
@@ -60,6 +64,7 @@ public class QuestsStatusWindowController extends DefaultDisplayDialogController
   private QuestFilterController _filterController;
   private QuestsStatusPanelController _panelController;
   private QuestStatusTableController _tableController;
+  private BlacklistController<AchievableStatus> _blacklistController;
 
   /**
    * Constructor.
@@ -120,18 +125,26 @@ public class QuestsStatusWindowController extends DefaultDisplayDialogController
     JPanel statusFilterPanel=_statusFilterController.getPanel();
     TitledBorder statusFilterBorder=GuiFactory.buildTitledBorder("Status Filter");
     statusFilterPanel.setBorder(statusFilterBorder);
+    // Blacklist
+    Blacklist blacklist=BlackListIO.load(_toon,true);
+    _filter.setBlacklist(blacklist);
+    _blacklistController=new BlacklistController<AchievableStatus>(blacklist,_tableController.getTableController(),this,_filter.getBlacklistFilter());
+    JPanel blacklistPanel=_blacklistController.getPanel();
+    filterUpdated();
     // Buttons panel
     JPanel buttonsPanel=buildButtonsPanel();
     // Whole panel
-    GridBagConstraints c=new GridBagConstraints(0,0,3,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    GridBagConstraints c=new GridBagConstraints(0,0,3,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(questFilterPanel,c);
-    c=new GridBagConstraints(0,1,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    c=new GridBagConstraints(0,1,1,1,0.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(statusFilterPanel,c);
-    c=new GridBagConstraints(1,1,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    c=new GridBagConstraints(1,1,1,1,0.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    panel.add(blacklistPanel,c);
+    c=new GridBagConstraints(2,1,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(buttonsPanel,c);
-    c=new GridBagConstraints(2,1,1,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    c=new GridBagConstraints(3,1,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(Box.createGlue(),c);
-    c=new GridBagConstraints(0,2,3,1,1,1,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
+    c=new GridBagConstraints(0,2,4,1,1.0,1.0,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
     panel.add(tablePanel,c);
     return panel;
   }
@@ -160,6 +173,9 @@ public class QuestsStatusWindowController extends DefaultDisplayDialogController
   {
     TypedProperties prefs=GlobalPreferences.getGlobalProperties("QuestsStatus");
     _tableController=new QuestStatusTableController(_data,prefs,_filter,_quests);
+    GenericTableController<AchievableStatus> tableController=_tableController.getTableController();
+    JTable table=tableController.getTable();
+    table.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
     ActionListener al=new ActionListener()
     {
       @Override
@@ -173,7 +189,7 @@ public class QuestsStatusWindowController extends DefaultDisplayDialogController
         }
       }
     };
-    _tableController.getTableController().addActionListener(al);
+    tableController.addActionListener(al);
   }
 
   @Override
@@ -264,6 +280,11 @@ public class QuestsStatusWindowController extends DefaultDisplayDialogController
     {
       _tableController.dispose();
       _tableController=null;
+    }
+    if (_blacklistController!=null)
+    {
+      _blacklistController.dispose();
+      _blacklistController=null;
     }
   }
 }
