@@ -15,7 +15,6 @@ import delta.games.lotro.gui.character.status.achievables.statistics.reputation.
 import delta.games.lotro.gui.character.status.achievables.statistics.titles.TitlesDisplayPanelController;
 import delta.games.lotro.gui.character.status.achievables.statistics.traits.TraitsDisplayPanelController;
 import delta.games.lotro.gui.character.status.achievables.statistics.virtues.VirtueXPDisplayPanelController;
-import delta.games.lotro.gui.character.status.achievables.statistics.virtues.VirtuesDisplayPanelController;
 import delta.games.lotro.gui.common.statistics.items.ItemsDisplayPanelController;
 import delta.games.lotro.gui.common.statistics.reputation.ReputationDisplayPanelController;
 import delta.games.lotro.gui.common.statistics.reputation.ReputationTableController;
@@ -32,7 +31,6 @@ public class AchievablesStatisticsDetailsPanelController
   private AchievablesStatisticsDetailedSummaryPanelController _summary;
   private TitlesDisplayPanelController _titles;
   private ReputationDisplayPanelController<AchievablesFactionStats> _reputation;
-  private VirtuesDisplayPanelController _virtues;
   private VirtueXPDisplayPanelController _virtueXP;
   private ItemsDisplayPanelController _items;
   private EmotesDisplayPanelController _emotes;
@@ -50,7 +48,6 @@ public class AchievablesStatisticsDetailsPanelController
     _titles=new TitlesDisplayPanelController(parent,statistics);
     ReputationTableController<AchievablesFactionStats> tableController=new AchievablesReputationTableController(statistics.getReputationStats(),mode);
     _reputation=new ReputationDisplayPanelController<AchievablesFactionStats>(parent,statistics.getReputationStats(),tableController);
-    _virtues=new VirtuesDisplayPanelController(parent,statistics,mode);
     _virtueXP=new VirtueXPDisplayPanelController(parent,statistics,mode);
     _items=new ItemsDisplayPanelController(parent,statistics.getItemsStats());
     _emotes=new EmotesDisplayPanelController(parent,statistics);
@@ -72,9 +69,6 @@ public class AchievablesStatisticsDetailsPanelController
     // Reputation
     JPanel reputationPanel=_reputation.getPanel();
     pane.add("Reputation",reputationPanel);
-    // Virtues
-    JPanel virtuesPanel=_virtues.getPanel();
-    pane.add("Virtues",virtuesPanel);
     // Virtue XP
     JPanel virtueXpPanel=_virtueXP.getPanel();
     pane.add("Virtue XP",virtueXpPanel);
@@ -98,7 +92,6 @@ public class AchievablesStatisticsDetailsPanelController
     _summary.update();
     _titles.update();
     _reputation.update();
-    _virtues.update();
     _virtueXP.update();
     _items.update();
     _emotes.update();
@@ -140,11 +133,6 @@ public class AchievablesStatisticsDetailsPanelController
     {
       _reputation.dispose();
       _reputation=null;
-    }
-    if (_virtues!=null)
-    {
-      _virtues.dispose();
-      _virtues=null;
     }
     if (_virtueXP!=null)
     {
