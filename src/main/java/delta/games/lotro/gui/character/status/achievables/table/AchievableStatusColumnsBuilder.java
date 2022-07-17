@@ -30,6 +30,7 @@ public class AchievableStatusColumnsBuilder
     List<TableColumnController<AchievableStatus,?>> ret=new ArrayList<TableColumnController<AchievableStatus,?>>();
     // State
     ret.add(buildAchievableStateColumn(false,null));
+    // Count
     {
       CellDataProvider<AchievableStatus,Integer> countCell=new CellDataProvider<AchievableStatus,Integer>()
       {

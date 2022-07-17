@@ -21,5 +21,9 @@ public enum AchievableStatusColumnIds
   /**
    * Completion count.
    */
-  COMPLETION_COUNT
+  COMPLETION_COUNT,
+  /**
+   * Blacklisted.
+   */
+  BLACKLISTED
 }

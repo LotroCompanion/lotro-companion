@@ -112,7 +112,8 @@ public class QuestsStatusWindowController extends DefaultDisplayDialogController
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     // Table
-    initTable();
+    Blacklist blacklist=BlackListIO.load(_toon,true);
+    initTable(blacklist);
     _panelController=new QuestsStatusPanelController(this,_tableController);
     JPanel tablePanel=_panelController.getPanel();
     // Quest filter
@@ -126,7 +127,6 @@ public class QuestsStatusWindowController extends DefaultDisplayDialogController
     TitledBorder statusFilterBorder=GuiFactory.buildTitledBorder("Status Filter");
     statusFilterPanel.setBorder(statusFilterBorder);
     // Blacklist
-    Blacklist blacklist=BlackListIO.load(_toon,true);
     _filter.setBlacklist(blacklist);
     _blacklistController=new BlacklistController<AchievableStatus>(blacklist,_tableController.getTableController(),this,_filter.getBlacklistFilter());
     JPanel blacklistPanel=_blacklistController.getPanel();
@@ -169,10 +169,10 @@ public class QuestsStatusWindowController extends DefaultDisplayDialogController
     return ret;
   }
 
-  private void initTable()
+  private void initTable(Blacklist blacklist)
   {
     TypedProperties prefs=GlobalPreferences.getGlobalProperties("QuestsStatus");
-    _tableController=new QuestStatusTableController(_data,prefs,_filter,_quests);
+    _tableController=new QuestStatusTableController(_data,prefs,_filter,_quests,blacklist);
     GenericTableController<AchievableStatus> tableController=_tableController.getTableController();
     JTable table=tableController.getTable();
     table.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);

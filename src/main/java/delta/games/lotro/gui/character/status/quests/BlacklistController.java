@@ -13,6 +13,9 @@ import javax.swing.JPanel;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.checkbox.CheckboxController;
 import delta.common.ui.swing.misc.Disposable;
+import delta.common.ui.swing.selection.SelectionChangedEvent;
+import delta.common.ui.swing.selection.SelectionChangedListener;
+import delta.common.ui.swing.selection.SelectionManager;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.games.lotro.common.Identifiable;
 import delta.games.lotro.common.blacklist.BlackListIO;
@@ -55,6 +58,7 @@ public class BlacklistController<T extends Identifiable> implements Disposable
     _table=table;
     _listener=listener;
     _filter=filter;
+    // Setup buttons
     ActionListener alButtons=new ActionListener()
     {
       @Override
@@ -82,8 +86,46 @@ public class BlacklistController<T extends Identifiable> implements Disposable
     };
     _active.getCheckbox().addActionListener(alCheckbox);
     _panel=buildButtonsPanel();
+    // Setup selection listener
+    setupSelectionListener();
   }
 
+  private void setupSelectionListener()
+  {
+    SelectionChangedListener<T> listener=new SelectionChangedListener<T>()
+    {
+      public void selectionChanged(SelectionChangedEvent<T> event)
+      {
+        handleSelectionChange(event.getSelectedElements());
+      }
+    };
+    SelectionManager<T> selectionMgr=_table.getSelectionManager();
+    selectionMgr.getListeners().addListener(listener);
+    handleSelectionChange(selectionMgr.getSelection());
+  }
+
+  private void handleSelectionChange(List<T> selectedItems)
+  {
+    boolean useAdd=false;
+    boolean useRemove=false;
+    for(T selectedItem : selectedItems)
+    {
+      int id=selectedItem.getIdentifier();
+      boolean blacklisted=_blacklist.isBlacklisted(id);
+      if (blacklisted)
+      {
+        useRemove=true;
+      }
+      else
+      {
+        useAdd=true;
+      }
+    }
+    _add.setEnabled(useAdd);
+    _remove.setEnabled(useRemove);
+  }
+
+  
   private void setActive(boolean active)
   {
     if (_filter.isEnabled()!=active)
@@ -153,10 +195,16 @@ public class BlacklistController<T extends Identifiable> implements Disposable
       BlackListIO.save(_blacklist);
       _blacklist=null;
     }
-    _listener=null;
     _filter=null;
     _table=null;
+    if (_panel!=null)
+    {
+      _panel.removeAll();
+      _panel=null;
+    }
     _add=null;
     _remove=null;
+    _active=null;
+    _listener=null;
   }
 }

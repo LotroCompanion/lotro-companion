@@ -6,6 +6,7 @@ import java.util.List;
 import javax.swing.JTable;
 
 import delta.common.ui.swing.tables.CellDataProvider;
+import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.ListDataProvider;
 import delta.common.ui.swing.tables.ProxiedTableColumnController;
@@ -15,6 +16,7 @@ import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.character.status.achievables.AchievableStatus;
 import delta.games.lotro.character.status.achievables.AchievablesStatusManager;
 import delta.games.lotro.character.status.achievables.filter.QuestStatusFilter;
+import delta.games.lotro.common.blacklist.Blacklist;
 import delta.games.lotro.gui.character.status.achievables.table.AchievableStatusColumnIds;
 import delta.games.lotro.gui.character.status.achievables.table.AchievableStatusColumnsBuilder;
 import delta.games.lotro.gui.lore.items.chooser.ItemChooser;
@@ -31,6 +33,7 @@ public class QuestStatusTableController
   // Data
   private TypedProperties _prefs;
   private List<AchievableStatus> _statuses;
+  private Blacklist _blacklist;
   // GUI
   private JTable _table;
   private GenericTableController<AchievableStatus> _tableController;
@@ -41,10 +44,12 @@ public class QuestStatusTableController
    * @param prefs Preferences.
    * @param filter Managed filter.
    * @param quests Quests to use.
+   * @param blacklist Blacklist.
    */
-  public QuestStatusTableController(AchievablesStatusManager questsStatus, TypedProperties prefs, QuestStatusFilter filter, List<QuestDescription> quests)
+  public QuestStatusTableController(AchievablesStatusManager questsStatus, TypedProperties prefs, QuestStatusFilter filter, List<QuestDescription> quests, Blacklist blacklist)
   {
     _prefs=prefs;
+    _blacklist=blacklist;
     _statuses=new ArrayList<AchievableStatus>();
     for(QuestDescription quest : quests)
     {
@@ -81,12 +86,30 @@ public class QuestStatusTableController
     {
       table.addColumnController(column);
     }
-
+    // Blacklisted column
+    table.addColumnController(buildBlacklistedColumn());
     TableColumnsManager<AchievableStatus> columnsManager=table.getColumnsManager();
+
+    // Setup
     List<String> columnsIds=getColumnIds();
     columnsManager.setColumns(columnsIds);
 
     return table;
+  }
+
+  private TableColumnController<AchievableStatus,String> buildBlacklistedColumn()
+  {
+    CellDataProvider<AchievableStatus,String> countCell=new CellDataProvider<AchievableStatus,String>()
+    {
+      @Override
+      public String getData(AchievableStatus status)
+      {
+        return (_blacklist.isBlacklisted(status.getIdentifier()))?"Yes":"No";
+      }
+    };
+    DefaultTableColumnController<AchievableStatus,String> countColumn=new DefaultTableColumnController<AchievableStatus,String>(AchievableStatusColumnIds.BLACKLISTED.name(),"Blacklisted",String.class,countCell);
+    countColumn.setWidthSpecs(50,50,50);
+    return countColumn;
   }
 
   private List<String> getColumnIds()
