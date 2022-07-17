@@ -15,6 +15,8 @@ import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
+import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.border.TitledBorder;
 
 import delta.common.ui.swing.GuiFactory;
@@ -34,12 +36,15 @@ import delta.games.lotro.character.status.reputation.ReputationStatus;
 import delta.games.lotro.character.status.traitPoints.TraitPoints;
 import delta.games.lotro.character.status.traitPoints.TraitPointsStatus;
 import delta.games.lotro.common.CharacterClass;
+import delta.games.lotro.common.blacklist.Blacklist;
+import delta.games.lotro.common.blacklist.io.BlackListIO;
 import delta.games.lotro.gui.character.status.achievables.AchievableUIMode;
 import delta.games.lotro.gui.character.status.achievables.aggregator.AggregatedGeoItemsMapWindowController;
 import delta.games.lotro.gui.character.status.achievables.filter.AchievableStatusFilterController;
 import delta.games.lotro.gui.character.status.achievables.statistics.AchievablesStatisticsWindowController;
 import delta.games.lotro.gui.character.status.deeds.form.DeedStatusDialogController;
 import delta.games.lotro.gui.character.status.deeds.table.DeedStatusTableController;
+import delta.games.lotro.gui.character.status.quests.BlacklistController;
 import delta.games.lotro.gui.lore.deeds.filter.DeedFilterController;
 import delta.games.lotro.gui.lore.items.FilterUpdateListener;
 import delta.games.lotro.gui.main.GlobalPreferences;
@@ -65,6 +70,7 @@ public class DeedsStatusWindowController extends DefaultFormDialogController<Ach
   private DeedFilterController _filterController;
   private DeedsStatusPanelController _panelController;
   private DeedStatusTableController _tableController;
+  private BlacklistController<AchievableStatus> _blacklistController;
 
   /**
    * Constructor.
@@ -106,7 +112,8 @@ public class DeedsStatusWindowController extends DefaultFormDialogController<Ach
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     // Table
-    initTable();
+    Blacklist blacklist=BlackListIO.load(_toon,false);
+    initTable(blacklist);
     _panelController=new DeedsStatusPanelController(this,_tableController);
     JPanel tablePanel=_panelController.getPanel();
     // Deed filter
@@ -119,18 +126,25 @@ public class DeedsStatusWindowController extends DefaultFormDialogController<Ach
     JPanel statusFilterPanel=_statusFilterController.getPanel();
     TitledBorder statusFilterBorder=GuiFactory.buildTitledBorder("Status Filter");
     statusFilterPanel.setBorder(statusFilterBorder);
+    // Blacklist
+    _filter.setBlacklist(blacklist);
+    _blacklistController=new BlacklistController<AchievableStatus>(blacklist,_tableController.getTableController(),this,_filter.getBlacklistFilter());
+    JPanel blacklistPanel=_blacklistController.getPanel();
+    filterUpdated();
     // Buttons panel
     JPanel buttonsPanel=buildButtonsPanel();
     // Whole panel
-    GridBagConstraints c=new GridBagConstraints(0,0,3,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    GridBagConstraints c=new GridBagConstraints(0,0,3,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(deedFilterPanel,c);
-    c=new GridBagConstraints(0,1,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    c=new GridBagConstraints(0,1,1,1,0.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(statusFilterPanel,c);
-    c=new GridBagConstraints(1,1,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    c=new GridBagConstraints(1,1,1,1,0.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    panel.add(blacklistPanel,c);
+    c=new GridBagConstraints(2,1,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(buttonsPanel,c);
-    c=new GridBagConstraints(2,1,1,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    c=new GridBagConstraints(3,1,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(Box.createGlue(),c);
-    c=new GridBagConstraints(0,2,3,1,1,1,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
+    c=new GridBagConstraints(0,2,4,1,1.0,1.0,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
     panel.add(tablePanel,c);
     return panel;
   }
@@ -169,10 +183,13 @@ public class DeedsStatusWindowController extends DefaultFormDialogController<Ach
     return ret;
   }
 
-  private void initTable()
+  private void initTable(Blacklist blacklist)
   {
     TypedProperties prefs=GlobalPreferences.getGlobalProperties("DeedsStatus");
-    _tableController=new DeedStatusTableController(_data,prefs,_filter,_deeds,this);
+    _tableController=new DeedStatusTableController(_data,prefs,_filter,_deeds,this,blacklist);
+    GenericTableController<AchievableStatus> tableController=_tableController.getTableController();
+    JTable table=tableController.getTable();
+    table.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
     ActionListener al=new ActionListener()
     {
       @Override
@@ -326,6 +343,11 @@ public class DeedsStatusWindowController extends DefaultFormDialogController<Ach
     {
       _tableController.dispose();
       _tableController=null;
+    }
+    if (_blacklistController!=null)
+    {
+      _blacklistController.dispose();
+      _blacklistController=null;
     }
   }
 }
