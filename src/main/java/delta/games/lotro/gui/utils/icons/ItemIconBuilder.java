@@ -65,17 +65,17 @@ public class ItemIconBuilder
     String[] paths=iconName.split("-");
     if (paths.length==2)
     {
-      // Foreground-Background
+      // Background-Foreground
       return new String[]{paths[1],paths[0]};
     }
     else if (paths.length==3)
     {
-      // Foreground-Background-Shadow
+      // Background-Shadow-Foreground
       return new String[]{paths[1],paths[2],paths[0]};
     }
     else if (paths.length==4)
     {
-      // Foreground-Background-Shadow-Underlay
+      // Background-Underlay-Shadow-Foreground
       return new String[]{paths[1],paths[3],paths[2],paths[0]};
     }
     return new String[0];
