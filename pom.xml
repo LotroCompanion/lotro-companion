@@ -42,7 +42,7 @@
     <dependency>
       <groupId>com.dam.delta4j</groupId>
       <artifactId>delta-common-ui</artifactId>
-      <version>1.20</version>
+      <version>1.21-SNAPSHOT</version>
     </dependency>
     <dependency>
         <groupId>jfree</groupId>

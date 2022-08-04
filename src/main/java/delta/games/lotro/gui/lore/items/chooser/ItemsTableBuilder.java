@@ -11,6 +11,8 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
 
+import org.apache.log4j.Logger;
+
 import delta.common.ui.swing.tables.CellDataProvider;
 import delta.common.ui.swing.tables.DataProvider;
 import delta.common.ui.swing.tables.DefaultTableColumnController;
@@ -23,6 +25,7 @@ import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.money.Money;
 import delta.games.lotro.common.money.comparator.MoneyComparator;
 import delta.games.lotro.common.stats.StatDescription;
+import delta.games.lotro.common.stats.StatType;
 import delta.games.lotro.common.stats.StatsRegistry;
 import delta.games.lotro.gui.common.money.MoneyDisplayController;
 import delta.games.lotro.gui.lore.items.ItemColumnIds;
@@ -43,6 +46,8 @@ import delta.games.lotro.lore.items.WeaponType;
  */
 public class ItemsTableBuilder
 {
+  private static final Logger LOGGER=Logger.getLogger(ItemsTableBuilder.class);
+
   /**
    * Build a table to show items.
    * @param items Items to show.
@@ -455,7 +460,22 @@ public class ItemsTableBuilder
     };
     String id=stat.getPersistenceKey();
     String name=stat.getName();
-    DefaultTableColumnController<Item,Number> statColumn=new DefaultTableColumnController<Item,Number>(id,name,Number.class,statCell);
+    StatType type=stat.getType();
+    Class<? extends Number> valueClass;
+    if (type==StatType.INTEGER)
+    {
+      valueClass=Integer.class;
+    }
+    else if (type==StatType.FLOAT)
+    {
+      valueClass=Float.class;
+    }
+    else
+    {
+      valueClass=Integer.class;
+      LOGGER.warn("Unmanaged stat type: "+type);
+    }
+    DefaultTableColumnController<Item,Number> statColumn=new DefaultTableColumnController<Item,Number>(id,name,valueClass,statCell);
     StatRenderer renderer=new StatRenderer(stat);
     ColumnsUtils.configureStatValueColumn(statColumn,renderer,55);
     return statColumn;
