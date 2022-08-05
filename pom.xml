@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <artifactId>delta-lotro-companion</artifactId>
   <packaging>jar</packaging>
-  <version>20.0</version>
+  <version>20.1</version>
   <name>lotro-companion</name>
   <parent>
     <groupId>com.dam.delta4j</groupId>
@@ -24,14 +24,14 @@
     <dependency>
       <groupId>com.dam.delta4j</groupId>
       <artifactId>delta-lotro-core</artifactId>
-      <version>20.0</version>
+      <version>20.1</version>
     </dependency>
     <dependency>
       <groupId>com.dam.delta4j</groupId>
       <artifactId>delta-lotro-core</artifactId>
       <classifier>tests</classifier>
       <type>test-jar</type>
-      <version>20.0</version>
+      <version>20.1</version>
       <scope>test</scope>
      </dependency>
      <dependency>
@@ -42,7 +42,7 @@
     <dependency>
       <groupId>com.dam.delta4j</groupId>
       <artifactId>delta-common-ui</artifactId>
-      <version>1.21-SNAPSHOT</version>
+      <version>1.21</version>
     </dependency>
     <dependency>
         <groupId>jfree</groupId>
