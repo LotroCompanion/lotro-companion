@@ -16,7 +16,6 @@ import delta.common.ui.swing.tables.TableColumnsManager;
 import delta.common.utils.collections.filters.Filter;
 import delta.games.lotro.character.classes.traitTree.setup.TraitTreeSetup;
 import delta.games.lotro.character.classes.traitTree.setup.TraitTreeSetupsManager;
-import delta.games.lotro.common.CharacterClass;
 
 /**
  * Builder for a table that shows trait tree setups.
@@ -26,10 +25,10 @@ public class TraitTreeSetupTableBuilder
 {
   /**
    * Build a table to show trait tree setups.
-   * @param characterClass Character class to use.
+   * @param traitTreeKey Trait tree key to use.
    * @return A new table controller.
    */
-  public static GenericTableController<TraitTreeSetup> buildTable(final CharacterClass characterClass)
+  public static GenericTableController<TraitTreeSetup> buildTable(final String traitTreeKey)
   {
     // Provider
     TraitTreeSetupsManager setupsMgr=TraitTreeSetupsManager.getInstance();
@@ -42,8 +41,8 @@ public class TraitTreeSetupTableBuilder
       @Override
       public boolean accept(TraitTreeSetup setup)
       {
-        CharacterClass setupClass=setup.getCharacterClass();
-        return (setupClass==characterClass);
+        String setupKey=setup.getKey();
+        return (setupKey.equals(traitTreeKey));
       }
     };
     table.setFilter(filter);
@@ -133,19 +132,19 @@ public class TraitTreeSetupTableBuilder
    * Build a column for the class of a trait tree setup.
    * @return a column.
    */
-  private static DefaultTableColumnController<TraitTreeSetup,CharacterClass> buildClassColumn()
+  private static DefaultTableColumnController<TraitTreeSetup,String> buildClassColumn()
   {
-    CellDataProvider<TraitTreeSetup,CharacterClass> classCell=new CellDataProvider<TraitTreeSetup,CharacterClass>()
+    CellDataProvider<TraitTreeSetup,String> keyCell=new CellDataProvider<TraitTreeSetup,String>()
     {
       @Override
-      public CharacterClass getData(TraitTreeSetup setup)
+      public String getData(TraitTreeSetup setup)
       {
-        return setup.getCharacterClass();
+        return setup.getKey();
       }
     };
-    DefaultTableColumnController<TraitTreeSetup,CharacterClass> classColumn=new DefaultTableColumnController<TraitTreeSetup,CharacterClass>(TraitTreeSetupColumnIds.CLASS.name(),"Class",CharacterClass.class,classCell);
-    classColumn.setWidthSpecs(80,100,80);
-    return classColumn;
+    DefaultTableColumnController<TraitTreeSetup,String> keyColumn=new DefaultTableColumnController<TraitTreeSetup,String>(TraitTreeSetupColumnIds.CLASS.name(),"Class",String.class,keyCell);
+    keyColumn.setWidthSpecs(80,100,80);
+    return keyColumn;
   }
 
   /**

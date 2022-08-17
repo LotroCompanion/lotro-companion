@@ -29,7 +29,6 @@ import delta.games.lotro.character.classes.traitTree.TraitTreeStatus;
 import delta.games.lotro.character.classes.traitTree.setup.TraitTreeSetup;
 import delta.games.lotro.character.classes.traitTree.setup.TraitTreeSetupsManager;
 import delta.games.lotro.character.traits.TraitDescription;
-import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.gui.character.traitTree.setup.TraitTreeSetupAttrsDialogController;
 import delta.games.lotro.gui.character.traitTree.setup.TraitTreeSetupChooser;
 
@@ -48,7 +47,7 @@ public class TraitTreePanelController
   private List<TraitTreeBranchPanelController> _branches;
   private ComboBoxController<TraitTreeBranch> _branchCombo;
   // Data
-  private CharacterData _toon;
+  private String _traitTreeKey;
   private TraitTree _tree;
   private TraitTreeStatus _status;
 
@@ -61,7 +60,7 @@ public class TraitTreePanelController
   public TraitTreePanelController(WindowController parent,CharacterData toon,TraitTreeStatus status)
   {
     _parent=parent;
-    _toon=toon;
+    _traitTreeKey=toon.getCharacterClass().getKey();
     _tree=status.getTraitTree();
     _status=status;
     _side=new TraitTreeSidePanelController(toon,_tree,status);
@@ -286,8 +285,7 @@ public class TraitTreePanelController
 
   private TraitTreeSetup chooseSetup()
   {
-    CharacterClass characterClass=_toon.getCharacterClass();
-    TraitTreeSetup setup=TraitTreeSetupChooser.chooseTraitTreeSetup(_parent,characterClass);
+    TraitTreeSetup setup=TraitTreeSetupChooser.chooseTraitTreeSetup(_parent,_traitTreeKey);
     return setup;
   }
 
@@ -363,6 +361,6 @@ public class TraitTreePanelController
       _branchCombo.dispose();
       _branchCombo=null;
     }
-    _toon=null;
+    _traitTreeKey=null;
   }
 }

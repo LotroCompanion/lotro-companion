@@ -8,7 +8,6 @@ import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.character.classes.traitTree.setup.TraitTreeSetup;
-import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.gui.character.traitTree.setup.table.TraitTreeSetupTableBuilder;
 import delta.games.lotro.utils.gui.chooser.ObjectChoiceWindowController;
 
@@ -34,17 +33,17 @@ public class TraitTreeSetupChooser
   /**
    * Choose an essence.
    * @param parent Parent controller.
-   * @param characterClass Character class to use.
+   * @param traitTreeKey Trait tree key to use.
    * @return A trait tree setup or <code>null</code>.
    */
-  public static TraitTreeSetup chooseTraitTreeSetup(WindowController parent, CharacterClass characterClass)
+  public static TraitTreeSetup chooseTraitTreeSetup(WindowController parent, String traitTreeKey)
   {
     TypedProperties prefs=null;
     if (parent!=null)
     {
       prefs=parent.getUserProperties(TRAIT_TREE_SETUP_CHOOSER);
     }
-    ObjectChoiceWindowController<TraitTreeSetup> chooser=buildChooser(parent,prefs,characterClass);
+    ObjectChoiceWindowController<TraitTreeSetup> chooser=buildChooser(parent,prefs,traitTreeKey);
     TraitTreeSetup ret=chooser.editModal();
     return ret;
   }
@@ -53,13 +52,13 @@ public class TraitTreeSetupChooser
    * Build a trait tree setup chooser window.
    * @param parent Parent controller.
    * @param prefs Preferences for this window.
-   * @param characterClass Character class to use.
+   * @param traitTreeKey Trait tree key to use.
    * @return the newly built chooser.
    */
-  public static ObjectChoiceWindowController<TraitTreeSetup> buildChooser(WindowController parent, TypedProperties prefs, CharacterClass characterClass)
+  public static ObjectChoiceWindowController<TraitTreeSetup> buildChooser(WindowController parent, TypedProperties prefs, String traitTreeKey)
   {
     // Table
-    GenericTableController<TraitTreeSetup> table=TraitTreeSetupTableBuilder.buildTable(characterClass);
+    GenericTableController<TraitTreeSetup> table=TraitTreeSetupTableBuilder.buildTable(traitTreeKey);
 
     // Build and configure chooser
     final ObjectChoiceWindowController<TraitTreeSetup> chooser=new ObjectChoiceWindowController<TraitTreeSetup>(parent,prefs,table);

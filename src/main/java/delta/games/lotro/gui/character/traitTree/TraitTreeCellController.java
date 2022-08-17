@@ -72,7 +72,7 @@ public class TraitTreeCellController
   }
 
   /**
-   * Get the identififer of the managed cell.
+   * Get the identifier of the managed cell.
    * @return a cell identifier.
    */
   public String getCellId()
