@@ -14,9 +14,9 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.common.ui.swing.icons.IconsManager;
 import delta.common.ui.swing.text.FloatEditionController;
+import delta.common.utils.l10n.LocalizedFormats;
 import delta.games.lotro.common.stats.StatDescription;
 import delta.games.lotro.gui.utils.SharedUiUtils;
-import delta.games.lotro.utils.l10n.LocalizedFormats;
 
 /**
  * Controller for the UI items of a single stat.

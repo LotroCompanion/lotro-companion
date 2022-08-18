@@ -13,9 +13,9 @@ import org.jfree.chart.plot.PiePlot;
 import org.jfree.data.general.DefaultPieDataset;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.utils.l10n.LocalizedFormats;
 import delta.games.lotro.character.stats.contribs.ContribsByStat;
 import delta.games.lotro.character.stats.contribs.StatContribution;
-import delta.games.lotro.utils.l10n.LocalizedFormats;
 
 /**
  * Controller for a chart that show stat contributions.

@@ -1,7 +1,7 @@
 package delta.games.lotro.gui.lore.worldEvents.form;
 
-import delta.common.utils.expressions.logical.LogicalTreeNode;
 import delta.common.utils.expressions.logical.CompoundLogicalTreeNode;
+import delta.common.utils.expressions.logical.LogicalTreeNode;
 import delta.common.utils.expressions.logical.SimpleLogicalTreeNode;
 
 /**

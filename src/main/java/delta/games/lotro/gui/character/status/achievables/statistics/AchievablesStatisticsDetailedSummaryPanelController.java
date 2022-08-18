@@ -9,12 +9,12 @@ import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.utils.l10n.L10n;
 import delta.games.lotro.character.status.achievables.statistics.AchievablesStatistics;
 import delta.games.lotro.character.status.achievables.statistics.reputation.AchievablesReputationStats;
 import delta.games.lotro.character.status.achievables.statistics.virtues.VirtueXPStatsFromAchievables;
 import delta.games.lotro.common.statistics.items.ItemsStats;
 import delta.games.lotro.gui.character.status.achievables.AchievableUIMode;
-import delta.games.lotro.utils.l10n.L10n;
 
 /**
  * Controller for a panel to show the detailed summary of the statistics about some achievables.

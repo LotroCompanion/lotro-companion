@@ -7,7 +7,7 @@ import javax.swing.Icon;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.icons.IconsManager;
 import delta.common.ui.swing.labels.LabelWithHalo;
-import delta.games.lotro.utils.l10n.L10n;
+import delta.common.utils.l10n.L10n;
 
 /**
  * Controller for the UI gadgets of a virtue XP reward.

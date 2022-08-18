@@ -32,10 +32,10 @@ import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.RectangleEdge;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.utils.l10n.LocalizedFormats;
 import delta.games.lotro.utils.Formats;
 import delta.games.lotro.utils.charts.DatedCurve;
 import delta.games.lotro.utils.charts.DatedCurveItem;
-import delta.games.lotro.utils.l10n.LocalizedFormats;
 
 /**
  * Controller for a chart with a set of dated curves.

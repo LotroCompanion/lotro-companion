@@ -27,11 +27,11 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.utils.l10n.LocalizedFormats;
 import delta.games.lotro.character.status.crafting.ProfessionStatus;
 import delta.games.lotro.lore.crafting.CraftingLevel;
 import delta.games.lotro.lore.crafting.Profession;
 import delta.games.lotro.utils.Formats;
-import delta.games.lotro.utils.l10n.LocalizedFormats;
 
 /**
  * Controller for crafting history chart.

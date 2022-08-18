@@ -15,6 +15,7 @@ import delta.games.lotro.lore.items.filters.ArmourTypeFilter;
 import delta.games.lotro.lore.items.filters.CharacterProficienciesFilter;
 import delta.games.lotro.lore.items.filters.EssenceTierFilter;
 import delta.games.lotro.lore.items.filters.ItemCharacterLevelFilter;
+import delta.games.lotro.lore.items.filters.ItemClassFilter;
 import delta.games.lotro.lore.items.filters.ItemEquipmentLocationFilter;
 import delta.games.lotro.lore.items.filters.ItemLevelFilter;
 import delta.games.lotro.lore.items.filters.ItemNameFilter;
@@ -22,7 +23,6 @@ import delta.games.lotro.lore.items.filters.ItemQualityFilter;
 import delta.games.lotro.lore.items.filters.ItemRequiredClassFilter;
 import delta.games.lotro.lore.items.filters.ItemRequiredRaceFilter;
 import delta.games.lotro.lore.items.filters.ItemStatFilter;
-import delta.games.lotro.lore.items.filters.ItemClassFilter;
 import delta.games.lotro.lore.items.filters.LegendaryItemFilter;
 import delta.games.lotro.lore.items.filters.WeaponTypeFilter;
 

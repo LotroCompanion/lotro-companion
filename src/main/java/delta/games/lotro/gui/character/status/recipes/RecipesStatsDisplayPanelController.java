@@ -9,8 +9,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.utils.l10n.L10n;
 import delta.games.lotro.character.status.recipes.RecipesStatistics;
-import delta.games.lotro.utils.l10n.L10n;
 
 /**
  * Controller for a "recipes stats" display panel.

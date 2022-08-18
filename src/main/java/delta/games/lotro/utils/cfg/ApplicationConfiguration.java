@@ -3,11 +3,11 @@ package delta.games.lotro.utils.cfg;
 import java.io.File;
 
 import delta.common.utils.ListenersManager;
+import delta.common.utils.l10n.L10nConfiguration;
+import delta.common.utils.l10n.dates.DateFormatID;
+import delta.common.utils.l10n.numbers.NumberFormatID;
 import delta.games.lotro.UserConfig;
 import delta.games.lotro.dat.data.DatConfiguration;
-import delta.games.lotro.utils.l10n.L10nConfiguration;
-import delta.games.lotro.utils.l10n.dates.DateFormatID;
-import delta.games.lotro.utils.l10n.numbers.NumberFormatID;
 
 /**
  * Configuration of the LotroCompanion application.

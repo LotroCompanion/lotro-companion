@@ -10,10 +10,10 @@ import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.utils.l10n.L10n;
 import delta.games.lotro.character.storage.statistics.StorageStatistics;
 import delta.games.lotro.character.storage.statistics.reputation.StorageReputationStats;
 import delta.games.lotro.gui.common.money.MoneyDisplayController;
-import delta.games.lotro.utils.l10n.L10n;
 
 /**
  * Controller for a panel to show the summary of the statistics about stored items.

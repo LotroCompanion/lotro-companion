@@ -9,9 +9,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.utils.l10n.L10n;
 import delta.games.lotro.character.status.skirmishes.SkirmishStats;
 import delta.games.lotro.common.Duration;
-import delta.games.lotro.utils.l10n.L10n;
 
 /**
  * Controller for a "skirmish stats" display panel.

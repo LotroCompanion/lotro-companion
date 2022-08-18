@@ -8,12 +8,12 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.utils.l10n.L10n;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.character.stats.StatsSetElement;
 import delta.games.lotro.common.stats.StatDescription;
 import delta.games.lotro.common.stats.StatUtils;
 import delta.games.lotro.common.stats.StatsProvider;
-import delta.games.lotro.utils.l10n.L10n;
 
 /**
  * Stats panel utilities.

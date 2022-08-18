@@ -13,8 +13,8 @@ import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.utils.collections.filters.Operator;
-import delta.common.utils.expressions.logical.LogicalTreeNode;
 import delta.common.utils.expressions.logical.CompoundLogicalTreeNode;
+import delta.common.utils.expressions.logical.LogicalTreeNode;
 
 /**
  * Controller for a panel to show a compound logical expression.

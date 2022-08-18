@@ -10,7 +10,7 @@ import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.icons.IconsManager;
-import delta.games.lotro.utils.l10n.L10n;
+import delta.common.utils.l10n.L10n;
 
 /**
  * Controller for a panel to display XP rewards.

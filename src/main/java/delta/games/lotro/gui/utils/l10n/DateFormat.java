@@ -3,9 +3,9 @@ package delta.games.lotro.gui.utils.l10n;
 import java.util.Date;
 
 import delta.common.ui.swing.text.dates.DateCodec;
+import delta.common.utils.l10n.LocalizedFormats;
+import delta.common.utils.l10n.dates.DateFormatSpecification;
 import delta.games.lotro.utils.Formats;
-import delta.games.lotro.utils.l10n.LocalizedFormats;
-import delta.games.lotro.utils.l10n.dates.DateFormatSpecification;
 
 /**
  * Date format utils.

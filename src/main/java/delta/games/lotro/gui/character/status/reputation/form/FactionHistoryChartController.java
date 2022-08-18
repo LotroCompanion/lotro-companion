@@ -27,12 +27,12 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.utils.l10n.LocalizedFormats;
 import delta.games.lotro.character.status.reputation.FactionLevelStatus;
 import delta.games.lotro.character.status.reputation.FactionStatus;
 import delta.games.lotro.lore.reputation.Faction;
 import delta.games.lotro.lore.reputation.FactionLevel;
 import delta.games.lotro.utils.Formats;
-import delta.games.lotro.utils.l10n.LocalizedFormats;
 
 /**
  * Controller for faction history chart.

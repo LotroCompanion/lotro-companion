@@ -19,12 +19,12 @@ import delta.common.ui.swing.navigator.NavigablePanelController;
 import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.common.ui.swing.tables.GenericTableController;
+import delta.common.utils.l10n.L10n;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.lore.agents.npcs.NpcDescription;
 import delta.games.lotro.lore.trade.vendor.ValuedItem;
 import delta.games.lotro.lore.trade.vendor.VendorNpc;
-import delta.games.lotro.utils.l10n.L10n;
 
 /**
  * Controller for a vendor display panel.

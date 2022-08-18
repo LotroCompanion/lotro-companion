@@ -6,8 +6,8 @@ import java.text.NumberFormat;
 import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.GenericTableController.DateRenderer;
-import delta.games.lotro.utils.l10n.LocalizedFormats;
-import delta.games.lotro.utils.l10n.dates.DateFormatSpecification;
+import delta.common.utils.l10n.LocalizedFormats;
+import delta.common.utils.l10n.dates.DateFormatSpecification;
 
 /**
  * Columns configuration utilities.
