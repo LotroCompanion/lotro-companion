@@ -54,6 +54,7 @@ public class VirtuesEditionPanelController implements TierValueListener,ActionLi
   // UI
   private JPanel _panel;
   private JButton _maxAll;
+  private JButton _maxAllSlotted;
   private JPopupMenu _contextMenu;
   // Data
   private VirtuesStatus _status;
@@ -210,6 +211,22 @@ public class VirtuesEditionPanelController implements TierValueListener,ActionLi
     c=new GridBagConstraints(0,y,1,1,1.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.HORIZONTAL,new Insets(5,5,5,5),0,0);
     panel.add(_statistics.getPanel(),c);
     y++;
+    // Buttons
+    JPanel buttonsPanel=buildButtonsPanel();
+    c=new GridBagConstraints(0,y,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
+    panel.add(buttonsPanel,c);
+    y++;
+    // Strut
+    Component strut=Box.createHorizontalStrut(200);
+    c=new GridBagConstraints(0,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(1,1,1,1),0,0);
+    panel.add(strut,c);
+    y++;
+    return panel;
+  }
+
+  private JPanel buildButtonsPanel()
+  {
+    JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
     // Max all button
     _maxAll=GuiFactory.buildButton("Max all");
     ActionListener al=new ActionListener()
@@ -221,15 +238,22 @@ public class VirtuesEditionPanelController implements TierValueListener,ActionLi
       }
     };
     _maxAll.addActionListener(al);
-    c=new GridBagConstraints(0,y,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
-    panel.add(_maxAll,c);
-    y++;
-    // Strut
-    Component strut=Box.createHorizontalStrut(200);
-    c=new GridBagConstraints(0,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(1,1,1,1),0,0);
-    panel.add(strut,c);
-    y++;
-    return panel;
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
+    ret.add(_maxAll,c);
+    // Max all slotted button
+    _maxAllSlotted=GuiFactory.buildButton("Max all slotted");
+    ActionListener al2=new ActionListener()
+    {
+      @Override
+      public void actionPerformed(ActionEvent e)
+      {
+        maxAllSlotted();
+      }
+    };
+    _maxAllSlotted.addActionListener(al2);
+    c=new GridBagConstraints(1,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,0,5,5),0,0);
+    ret.add(_maxAllSlotted,c);
+    return ret;
   }
 
   private class DropTransferHandler extends TransferHandler
@@ -326,6 +350,25 @@ public class VirtuesEditionPanelController implements TierValueListener,ActionLi
     }
   }
 
+  private void maxAllSlotted()
+  {
+    VirtuesSet selectedVirtues=new VirtuesSet();
+    _selectedVirtues.getSelectedVirtues(selectedVirtues);
+    int globalMaxRank=LotroCoreConfig.getInstance().getMaxVirtueRank();
+    for(int i=0;i<VirtuesSet.MAX_VIRTUES;i++)
+    {
+      VirtueDescription virtue=selectedVirtues.getSelectedVirtue(i);
+      if (virtue!=null)
+      {
+        int maxRank=virtue.getMaxRank(_characterLevel);
+        int rankToUse=Math.min(maxRank,globalMaxRank);
+        VirtueEditionUiController controller=_virtues.get(virtue);
+        controller.setTier(rankToUse);
+        _selectedVirtues.updateVirtue(virtue,rankToUse);
+      }
+    }
+  }
+
   /**
    * Set the virtues to show.
    * @param set Virtues to show.
@@ -408,6 +451,7 @@ public class VirtuesEditionPanelController implements TierValueListener,ActionLi
       _panel=null;
     }
     _maxAll=null;
+    _maxAllSlotted=null;
     _contextMenu=null;
     // Data
     _status=null;
