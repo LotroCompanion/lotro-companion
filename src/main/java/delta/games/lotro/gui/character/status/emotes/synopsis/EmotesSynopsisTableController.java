@@ -5,6 +5,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -151,18 +152,15 @@ public class EmotesSynopsisTableController
     column.setPreferredWidth(minWidth);
 
     // Comparator
-    /*
-    final FactionLevelComparator factionLevelComparator=new FactionLevelComparator();
-    Comparator<FactionStatus> statsComparator=new Comparator<FactionStatus>()
+    Comparator<EmoteStatus> stateComparator=new Comparator<EmoteStatus>()
     {
       @Override
-      public int compare(FactionStatus data1, FactionStatus data2)
+      public int compare(EmoteStatus data1, EmoteStatus data2)
       {
-        return factionLevelComparator.compare(data1.getFactionLevel(),data2.getFactionLevel());
+        return Boolean.compare(data1.isAvailable(),data2.isAvailable());
       }
     };
-    column.setComparator(statsComparator);
-    */
+    column.setComparator(stateComparator);
     return column;
   }
 
