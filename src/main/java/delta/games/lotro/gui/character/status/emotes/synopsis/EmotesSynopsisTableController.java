@@ -5,6 +5,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -27,10 +28,12 @@ import delta.common.ui.swing.tables.TableColumnController;
 import delta.common.ui.swing.tables.TableColumnsManager;
 import delta.games.lotro.character.BasicCharacterAttributes;
 import delta.games.lotro.character.CharacterFile;
+import delta.games.lotro.character.status.achievables.statistics.emotes.EmoteEventNameComparator;
 import delta.games.lotro.character.status.emotes.EmoteStatus;
 import delta.games.lotro.character.status.emotes.EmotesStatusManager;
 import delta.games.lotro.character.status.emotes.io.EmotesStatusIo;
 import delta.games.lotro.common.CharacterClass;
+import delta.games.lotro.common.comparators.NamedComparator;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.lore.emotes.EmoteFilter;
 import delta.games.lotro.lore.emotes.EmoteDescription;
@@ -76,6 +79,7 @@ public class EmotesSynopsisTableController
   {
     EmotesManager emotesMgr=EmotesManager.getInstance();
     List<EmoteDescription> emotes=emotesMgr.getAll();
+    Collections.sort(emotes,new NamedComparator());
     DataProvider<EmoteDescription> ret=new ListDataProvider<EmoteDescription>(emotes);
     return ret;
   }
