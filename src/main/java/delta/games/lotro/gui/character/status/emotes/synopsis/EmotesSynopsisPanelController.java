@@ -98,7 +98,7 @@ public class EmotesSynopsisPanelController implements GenericEventsListener<Char
   private JPanel buildPanel()
   {
     JPanel panel=GuiFactory.buildPanel(new BorderLayout());
-    JPanel statsPanels=buildStatsPanel();
+    JPanel statsPanels=buildSynopsisPanel();
     panel.add(statsPanels,BorderLayout.CENTER);
     JPanel commandsPanel=buildTopPanel();
     panel.add(commandsPanel,BorderLayout.NORTH);
@@ -132,7 +132,7 @@ public class EmotesSynopsisPanelController implements GenericEventsListener<Char
     return panel;
   }
 
-  private JPanel buildStatsPanel()
+  private JPanel buildSynopsisPanel()
   {
     JPanel panel=GuiFactory.buildPanel(new BorderLayout());
     TitledBorder border=GuiFactory.buildTitledBorder("Emotes synopsis");

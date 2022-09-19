@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -84,6 +85,10 @@ public class EmotesSynopsisTableController
     DataProvider<EmoteDescription> provider=buildDataProvider();
     GenericTableController<EmoteDescription> table=new GenericTableController<EmoteDescription>(provider);
     table.setFilter(_filter);
+    // Emote icon column
+    DefaultTableColumnController<EmoteDescription,Icon> iconColumn=buildIconColumn();
+    table.addColumnController(iconColumn);
+    // Emote name column
     DefaultTableColumnController<EmoteDescription,String> emotesColumn=buildEmoteColumn();
     table.addColumnController(emotesColumn);
     return table;
@@ -94,16 +99,16 @@ public class EmotesSynopsisTableController
     CellDataProvider<EmoteDescription,String> cell=new CellDataProvider<EmoteDescription,String>()
     {
       @Override
-      public String getData(EmoteDescription item)
+      public String getData(EmoteDescription emote)
       {
-        return item.getName();
+        return emote.getName();
       }
     };
     DefaultTableColumnController<EmoteDescription,String> column=new DefaultTableColumnController<EmoteDescription,String>("Emotes",String.class,cell);
 
     // Init panels
-    column.setMinWidth(200);
-    column.setPreferredWidth(200);
+    column.setMinWidth(100);
+    column.setPreferredWidth(100);
 
     // Header renderer
     JPanel emptyHeaderPanel=GuiFactory.buildPanel(new GridBagLayout());
@@ -124,6 +129,30 @@ public class EmotesSynopsisTableController
       }
     };
     return renderer;
+  }
+
+  /**
+   * Build a column for the icon of an emote.
+   * @return a column.
+   */
+  private DefaultTableColumnController<EmoteDescription,Icon> buildIconColumn()
+  {
+    CellDataProvider<EmoteDescription,Icon> iconCell=new CellDataProvider<EmoteDescription,Icon>()
+    {
+      @Override
+      public Icon getData(EmoteDescription item)
+      {
+        return LotroIconsManager.getEmoteIcon(item.getIconId());
+      }
+    };
+    DefaultTableColumnController<EmoteDescription,Icon> iconColumn=new DefaultTableColumnController<EmoteDescription,Icon>("Icon",Icon.class,iconCell);
+    iconColumn.setWidthSpecs(50,50,50);
+    iconColumn.setSortable(false);
+    // Header renderer
+    JPanel emptyHeaderPanel=GuiFactory.buildPanel(new GridBagLayout());
+    TableCellRenderer headerRenderer=buildSimpleCellRenderer(emptyHeaderPanel);
+    iconColumn.setHeaderCellRenderer(headerRenderer);
+    return iconColumn;
   }
 
   private DefaultTableColumnController<EmoteDescription,EmoteStatus> buildCharacterColumn(CharacterFile character)
