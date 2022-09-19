@@ -28,7 +28,6 @@ import delta.common.ui.swing.tables.TableColumnController;
 import delta.common.ui.swing.tables.TableColumnsManager;
 import delta.games.lotro.character.BasicCharacterAttributes;
 import delta.games.lotro.character.CharacterFile;
-import delta.games.lotro.character.status.achievables.statistics.emotes.EmoteEventNameComparator;
 import delta.games.lotro.character.status.emotes.EmoteStatus;
 import delta.games.lotro.character.status.emotes.EmotesStatusManager;
 import delta.games.lotro.character.status.emotes.io.EmotesStatusIo;

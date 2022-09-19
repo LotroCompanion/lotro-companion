@@ -12,22 +12,17 @@ import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
 import delta.common.ui.swing.GuiFactory;
-import delta.common.ui.swing.navigator.NavigatorWindowController;
-import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.panel.GenericTablePanelController;
 import delta.common.ui.swing.windows.DefaultWindowController;
 import delta.common.ui.swing.windows.WindowController;
-import delta.common.ui.swing.windows.WindowsManager;
 import delta.common.utils.misc.TypedProperties;
-import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.gui.lore.emotes.EmoteFilter;
 import delta.games.lotro.gui.lore.emotes.EmoteFilterConfiguration;
 import delta.games.lotro.gui.lore.emotes.EmoteFilterController;
 import delta.games.lotro.gui.lore.emotes.EmoteUiUtils;
 import delta.games.lotro.gui.lore.emotes.EmotesTableBuilder;
 import delta.games.lotro.gui.main.GlobalPreferences;
-import delta.games.lotro.gui.navigation.NavigatorFactory;
 import delta.games.lotro.lore.emotes.EmoteDescription;
 
 /**
