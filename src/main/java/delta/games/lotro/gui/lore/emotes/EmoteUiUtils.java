@@ -12,6 +12,7 @@ import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.ui.swing.windows.WindowsManager;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
+import delta.games.lotro.gui.lore.emotes.explorer.EmotesExplorerWindowController;
 import delta.games.lotro.gui.navigation.NavigatorFactory;
 import delta.games.lotro.lore.emotes.EmoteDescription;
 
@@ -68,4 +69,3 @@ public class EmoteUiUtils
     window.show(false);
   }
 }
-

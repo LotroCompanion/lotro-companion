@@ -84,8 +84,8 @@ public class EmotesSynopsisTableController
     DataProvider<EmoteDescription> provider=buildDataProvider();
     GenericTableController<EmoteDescription> table=new GenericTableController<EmoteDescription>(provider);
     table.setFilter(_filter);
-    DefaultTableColumnController<EmoteDescription,String> factionsColumn=buildEmoteColumn();
-    table.addColumnController(factionsColumn);
+    DefaultTableColumnController<EmoteDescription,String> emotesColumn=buildEmoteColumn();
+    table.addColumnController(emotesColumn);
     return table;
   }
 
@@ -246,6 +246,15 @@ public class EmotesSynopsisTableController
     c=new GridBagConstraints(1,0,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(5,2,2,2),0,0);
     panel.add(nameLabel,c);
     return panel;
+  }
+
+  /**
+   * Get the managed generic table.
+   * @return the managed generic table.
+   */
+  public GenericTableController<EmoteDescription> getGenericTable()
+  {
+    return _table;
   }
 
   /**

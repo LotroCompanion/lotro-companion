@@ -15,6 +15,7 @@ import javax.swing.JTable;
 import javax.swing.border.TitledBorder;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.panel.FilterUpdateListener;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharactersManager;
@@ -25,6 +26,8 @@ import delta.games.lotro.gui.lore.emotes.EmoteFilter;
 import delta.games.lotro.gui.lore.emotes.EmoteFilterConfiguration;
 import delta.games.lotro.gui.lore.emotes.EmoteFilterConfiguration.State;
 import delta.games.lotro.gui.lore.emotes.EmoteFilterController;
+import delta.games.lotro.gui.lore.emotes.EmoteUiUtils;
+import delta.games.lotro.lore.emotes.EmoteDescription;
 import delta.games.lotro.utils.events.EventsManager;
 import delta.games.lotro.utils.events.GenericEventsListener;
 
@@ -132,13 +135,29 @@ public class EmotesSynopsisPanelController implements GenericEventsListener<Char
   private JPanel buildStatsPanel()
   {
     JPanel panel=GuiFactory.buildPanel(new BorderLayout());
-    TitledBorder border=GuiFactory.buildTitledBorder("Reputation synopsis");
+    TitledBorder border=GuiFactory.buildTitledBorder("Emotes synopsis");
     panel.setBorder(border);
 
     // Table
     JTable table=_tableController.getTable();
     JScrollPane scroll=GuiFactory.buildScrollPane(table);
     panel.add(scroll,BorderLayout.CENTER);
+
+    // Action listener to show the emote form
+    ActionListener al=new ActionListener()
+    {
+      @Override
+      public void actionPerformed(ActionEvent event)
+      {
+        String action=event.getActionCommand();
+        if (GenericTableController.DOUBLE_CLICK.equals(action))
+        {
+          EmoteDescription emote=(EmoteDescription)event.getSource();
+          EmoteUiUtils.showEmoteWindow(EmotesSynopsisPanelController.this._parent,emote.getIdentifier());
+        }
+      }
+    };
+    _tableController.getGenericTable().addActionListener(al);
     return panel;
   }
 

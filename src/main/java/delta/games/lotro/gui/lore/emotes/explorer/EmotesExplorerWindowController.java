@@ -24,6 +24,7 @@ import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.gui.lore.emotes.EmoteFilter;
 import delta.games.lotro.gui.lore.emotes.EmoteFilterConfiguration;
 import delta.games.lotro.gui.lore.emotes.EmoteFilterController;
+import delta.games.lotro.gui.lore.emotes.EmoteUiUtils;
 import delta.games.lotro.gui.lore.emotes.EmotesTableBuilder;
 import delta.games.lotro.gui.main.GlobalPreferences;
 import delta.games.lotro.gui.navigation.NavigatorFactory;
@@ -120,22 +121,11 @@ public class EmotesExplorerWindowController extends DefaultWindowController
         if (GenericTableController.DOUBLE_CLICK.equals(action))
         {
           EmoteDescription emote=(EmoteDescription)event.getSource();
-          showEmote(emote);
+          EmoteUiUtils.showEmoteWindow(EmotesExplorerWindowController.this,emote.getIdentifier());
         }
       }
     };
     _tableController.addActionListener(al);
-  }
-
-  private void showEmote(EmoteDescription emote)
-  {
-    WindowsManager windowsMgr=getWindowsManager();
-    int id=windowsMgr.getAll().size();
-    NavigatorWindowController window=NavigatorFactory.buildNavigator(EmotesExplorerWindowController.this,id);
-    PageIdentifier ref=ReferenceConstants.getEmoteReference(emote.getIdentifier());
-    window.navigateTo(ref);
-    window.show(false);
-    windowsMgr.registerWindow(window);
   }
 
   /**
