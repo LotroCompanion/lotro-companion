@@ -22,6 +22,8 @@ import delta.games.lotro.character.events.CharacterEvent;
 import delta.games.lotro.character.events.CharacterEventType;
 import delta.games.lotro.gui.character.chooser.CharactersChooserController;
 import delta.games.lotro.gui.lore.emotes.EmoteFilter;
+import delta.games.lotro.gui.lore.emotes.EmoteFilterConfiguration;
+import delta.games.lotro.gui.lore.emotes.EmoteFilterConfiguration.State;
 import delta.games.lotro.gui.lore.emotes.EmoteFilterController;
 import delta.games.lotro.utils.events.EventsManager;
 import delta.games.lotro.utils.events.GenericEventsListener;
@@ -49,7 +51,9 @@ public class EmotesSynopsisPanelController implements GenericEventsListener<Char
   {
     _parent=parentController;
     _filter=new EmoteFilter();
-    _filterController=new EmoteFilterController(_filter,this);
+    _filter.getAutoFilter().setAutoFlag(Boolean.FALSE);
+    EmoteFilterConfiguration config=new EmoteFilterConfiguration(State.VISIBLE);
+    _filterController=new EmoteFilterController(_filter,config,this);
     _tableController=new EmotesSynopsisTableController(_filter);
     EventsManager.addListener(CharacterEvent.class,this);
   }

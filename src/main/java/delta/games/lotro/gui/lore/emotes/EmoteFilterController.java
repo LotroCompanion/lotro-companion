@@ -20,6 +20,7 @@ import delta.common.ui.swing.tables.panel.FilterUpdateListener;
 import delta.common.ui.swing.text.DynamicTextEditionController;
 import delta.common.ui.swing.text.TextListener;
 import delta.common.utils.collections.filters.Filter;
+import delta.games.lotro.gui.lore.emotes.EmoteFilterConfiguration.State;
 import delta.games.lotro.gui.utils.SharedUiUtils;
 import delta.games.lotro.lore.emotes.EmoteDescription;
 import delta.games.lotro.lore.emotes.filters.EmoteAutoFilter;
@@ -33,6 +34,7 @@ public class EmoteFilterController implements ActionListener
 {
   // Data
   private EmoteFilter _filter;
+  private EmoteFilterConfiguration _config;
   // GUI
   private JPanel _panel;
   private JButton _reset;
@@ -46,11 +48,13 @@ public class EmoteFilterController implements ActionListener
   /**
    * Constructor.
    * @param filter Managed filter.
+   * @param configuration Configuration.
    * @param filterUpdateListener Filter update listener.
    */
-  public EmoteFilterController(EmoteFilter filter, FilterUpdateListener filterUpdateListener)
+  public EmoteFilterController(EmoteFilter filter, EmoteFilterConfiguration configuration, FilterUpdateListener filterUpdateListener)
   {
     _filter=filter;
+    _config=configuration;
     _filterUpdateListener=filterUpdateListener;
   }
 
@@ -160,12 +164,18 @@ public class EmoteFilterController implements ActionListener
       };
       _textController=new DynamicTextEditionController(_contains,listener);
     }
-    // Profession
+    // Auto
+    State autoState=_config.getAutoState();
+    if (autoState!=State.HIDDEN)
     {
       JLabel label=GuiFactory.buildLabel("Auto:");
       line1Panel.add(label);
       _auto=buildAutoCombobox();
       line1Panel.add(_auto.getComboBox());
+      if (autoState==State.VISIBLE)
+      {
+        _auto.getComboBox().setEnabled(false);
+      }
     }
     GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,5,0),0,0);
     panel.add(line1Panel,c);

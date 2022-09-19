@@ -22,6 +22,7 @@ import delta.common.ui.swing.windows.WindowsManager;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.gui.lore.emotes.EmoteFilter;
+import delta.games.lotro.gui.lore.emotes.EmoteFilterConfiguration;
 import delta.games.lotro.gui.lore.emotes.EmoteFilterController;
 import delta.games.lotro.gui.lore.emotes.EmotesTableBuilder;
 import delta.games.lotro.gui.main.GlobalPreferences;
@@ -43,7 +44,6 @@ public class EmotesExplorerWindowController extends DefaultWindowController
   private GenericTablePanelController<EmoteDescription> _panelController;
   private GenericTableController<EmoteDescription> _tableController;
   private EmoteFilter _filter;
-  private WindowsManager _emoteWindows;
 
   /**
    * Constructor.
@@ -53,7 +53,6 @@ public class EmotesExplorerWindowController extends DefaultWindowController
   {
     super(parent);
     _filter=new EmoteFilter();
-    _emoteWindows=new WindowsManager();
   }
 
   @Override
@@ -89,7 +88,8 @@ public class EmotesExplorerWindowController extends DefaultWindowController
     _panelController.getConfiguration().setBorderTitle("Emotes");
     JPanel tablePanel=_panelController.getPanel();
     // Filter UI
-    _filterController=new EmoteFilterController(_filter,_panelController);
+    EmoteFilterConfiguration config=new EmoteFilterConfiguration();
+    _filterController=new EmoteFilterController(_filter,config,_panelController);
     JPanel filterPanel=_filterController.getPanel();
     TitledBorder filterBorder=GuiFactory.buildTitledBorder("Filter");
     filterPanel.setBorder(filterBorder);
@@ -146,11 +146,6 @@ public class EmotesExplorerWindowController extends DefaultWindowController
   {
     saveBoundsPreferences();
     super.dispose();
-    if (_emoteWindows!=null)
-    {
-      _emoteWindows.disposeAll();
-      _emoteWindows=null;
-    }
     if (_tableController!=null)
     {
       _tableController.dispose();
