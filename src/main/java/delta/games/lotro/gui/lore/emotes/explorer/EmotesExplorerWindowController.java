@@ -4,22 +4,28 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.navigator.NavigatorWindowController;
+import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.panel.GenericTablePanelController;
 import delta.common.ui.swing.windows.DefaultWindowController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.ui.swing.windows.WindowsManager;
 import delta.common.utils.misc.TypedProperties;
+import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.gui.lore.emotes.EmoteFilter;
 import delta.games.lotro.gui.lore.emotes.EmoteFilterController;
 import delta.games.lotro.gui.lore.emotes.EmotesTableBuilder;
 import delta.games.lotro.gui.main.GlobalPreferences;
+import delta.games.lotro.gui.navigation.NavigatorFactory;
 import delta.games.lotro.lore.emotes.EmoteDescription;
 
 /**
@@ -77,12 +83,7 @@ public class EmotesExplorerWindowController extends DefaultWindowController
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     // Table
-    _tableController=EmotesTableBuilder.buildTable();
-    // - filter
-    _tableController.setFilter(_filter);
-    // - preferences
-    TypedProperties prefs=GlobalPreferences.getGlobalProperties("EmotesExplorer");
-    _tableController.getPreferencesManager().setPreferences(prefs);
+    initEmotesTable();
     // Table panel
     _panelController=new GenericTablePanelController<EmoteDescription>(this,_tableController);
     _panelController.getConfiguration().setBorderTitle("Emotes");
@@ -100,6 +101,41 @@ public class EmotesExplorerWindowController extends DefaultWindowController
     c=new GridBagConstraints(0,1,2,1,1,1,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
     panel.add(tablePanel,c);
     return panel;
+  }
+
+  private void initEmotesTable()
+  {
+    _tableController=EmotesTableBuilder.buildTable();
+    // - filter
+    _tableController.setFilter(_filter);
+    // - preferences
+    TypedProperties prefs=GlobalPreferences.getGlobalProperties("EmotesExplorer");
+    _tableController.getPreferencesManager().setPreferences(prefs);
+    ActionListener al=new ActionListener()
+    {
+      @Override
+      public void actionPerformed(ActionEvent event)
+      {
+        String action=event.getActionCommand();
+        if (GenericTableController.DOUBLE_CLICK.equals(action))
+        {
+          EmoteDescription emote=(EmoteDescription)event.getSource();
+          showEmote(emote);
+        }
+      }
+    };
+    _tableController.addActionListener(al);
+  }
+
+  private void showEmote(EmoteDescription emote)
+  {
+    WindowsManager windowsMgr=getWindowsManager();
+    int id=windowsMgr.getAll().size();
+    NavigatorWindowController window=NavigatorFactory.buildNavigator(EmotesExplorerWindowController.this,id);
+    PageIdentifier ref=ReferenceConstants.getEmoteReference(emote.getIdentifier());
+    window.navigateTo(ref);
+    window.show(false);
+    windowsMgr.registerWindow(window);
   }
 
   /**
