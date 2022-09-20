@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.character.status.emotes.synopsis;
+package delta.games.lotro.gui.character.status.skills.synopsis;
 
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
@@ -21,43 +21,40 @@ import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharactersManager;
 import delta.games.lotro.character.events.CharacterEvent;
 import delta.games.lotro.character.events.CharacterEventType;
+import delta.games.lotro.character.skills.SkillDescription;
 import delta.games.lotro.gui.character.chooser.CharactersChooserController;
-import delta.games.lotro.gui.lore.emotes.EmoteFilter;
-import delta.games.lotro.gui.lore.emotes.EmoteFilterConfiguration;
-import delta.games.lotro.gui.lore.emotes.EmoteFilterConfiguration.State;
-import delta.games.lotro.gui.lore.emotes.EmoteFilterController;
-import delta.games.lotro.gui.lore.emotes.EmoteUiUtils;
-import delta.games.lotro.lore.emotes.EmoteDescription;
+import delta.games.lotro.gui.lore.skills.SkillFilterController;
+import delta.games.lotro.gui.lore.skills.SkillUiUtils;
+import delta.games.lotro.gui.lore.skills.form.SkillFilter;
 import delta.games.lotro.utils.events.EventsManager;
 import delta.games.lotro.utils.events.GenericEventsListener;
 
 /**
- * Controller for an emotes synopsis panel.
+ * Controller for a skills synopsis panel.
  * @author DAM
  */
-public class EmotesSynopsisPanelController implements GenericEventsListener<CharacterEvent>,FilterUpdateListener
+public class SkillsSynopsisPanelController implements GenericEventsListener<CharacterEvent>,FilterUpdateListener
 {
   // Controllers
-  private EmotesSynopsisWindowController _parent;
-  private EmoteFilterController _filterController;
-  private EmotesSynopsisTableController _tableController;
+  private SkillsSynopsisWindowController _parent;
+  private SkillFilterController _filterController;
+  private SkillsSynopsisTableController _tableController;
   // Data
-  private EmoteFilter _filter;
+  private SkillFilter _filter;
   // GUI
   private JPanel _panel;
 
   /**
    * Constructor.
    * @param parentController Parent controller.
+   * @param skills Skills to use.
    */
-  public EmotesSynopsisPanelController(EmotesSynopsisWindowController parentController)
+  public SkillsSynopsisPanelController(SkillsSynopsisWindowController parentController, List<SkillDescription> skills)
   {
     _parent=parentController;
-    _filter=new EmoteFilter();
-    _filter.getAutoFilter().setAutoFlag(Boolean.FALSE);
-    EmoteFilterConfiguration config=new EmoteFilterConfiguration(State.VISIBLE);
-    _filterController=new EmoteFilterController(_filter,config,this);
-    _tableController=new EmotesSynopsisTableController(_filter);
+    _filter=new SkillFilter();
+    _filterController=new SkillFilterController(_filter,this);
+    _tableController=new SkillsSynopsisTableController(skills,_filter);
     EventsManager.addListener(CharacterEvent.class,this);
   }
 
@@ -65,7 +62,7 @@ public class EmotesSynopsisPanelController implements GenericEventsListener<Char
    * Get the table controller.
    * @return the table controller.
    */
-  public EmotesSynopsisTableController getTableController()
+  public SkillsSynopsisTableController getTableController()
   {
     return _tableController;
   }
@@ -135,7 +132,7 @@ public class EmotesSynopsisPanelController implements GenericEventsListener<Char
   private JPanel buildSynopsisPanel()
   {
     JPanel panel=GuiFactory.buildPanel(new BorderLayout());
-    TitledBorder border=GuiFactory.buildTitledBorder("Emotes synopsis");
+    TitledBorder border=GuiFactory.buildTitledBorder("Skills synopsis");
     panel.setBorder(border);
 
     // Table
@@ -152,8 +149,8 @@ public class EmotesSynopsisPanelController implements GenericEventsListener<Char
         String action=event.getActionCommand();
         if (GenericTableController.DOUBLE_CLICK.equals(action))
         {
-          EmoteDescription emote=(EmoteDescription)event.getSource();
-          EmoteUiUtils.showEmoteWindow(EmotesSynopsisPanelController.this._parent,emote.getIdentifier());
+          SkillDescription skill=(SkillDescription)event.getSource();
+          SkillUiUtils.showSkillWindow(SkillsSynopsisPanelController.this._parent,skill.getIdentifier());
         }
       }
     };
@@ -177,7 +174,7 @@ public class EmotesSynopsisPanelController implements GenericEventsListener<Char
   public void eventOccurred(CharacterEvent event)
   {
     CharacterEventType type=event.getType();
-    if (type==CharacterEventType.CHARACTER_EMOTES_UPDATED)
+    if (type==CharacterEventType.CHARACTER_SKILLS_UPDATED)
     {
       CharacterFile toon=event.getToonFile();
       List<CharacterFile> currentToons=_tableController.getToons();
