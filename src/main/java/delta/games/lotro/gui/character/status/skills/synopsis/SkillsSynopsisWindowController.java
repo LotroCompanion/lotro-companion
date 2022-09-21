@@ -62,7 +62,7 @@ public class SkillsSynopsisWindowController extends DefaultWindowController
    */
   public static String getIdentifier()
   {
-    return "EMOTES_SYNOPSIS";
+    return "SKILLS_SYNOPSIS";
   }
 
   @Override
