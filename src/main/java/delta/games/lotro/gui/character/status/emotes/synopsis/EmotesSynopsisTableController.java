@@ -1,9 +1,7 @@
 package delta.games.lotro.gui.character.status.emotes.synopsis;
 
 import java.awt.Component;
-import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Insets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -12,8 +10,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
@@ -26,15 +22,14 @@ import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.ListDataProvider;
 import delta.common.ui.swing.tables.TableColumnController;
 import delta.common.ui.swing.tables.TableColumnsManager;
-import delta.games.lotro.character.BasicCharacterAttributes;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.status.emotes.EmoteStatus;
 import delta.games.lotro.character.status.emotes.EmotesStatusManager;
 import delta.games.lotro.character.status.emotes.io.EmotesStatusIo;
-import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.comparators.NamedComparator;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.lore.emotes.EmoteFilter;
+import delta.games.lotro.gui.utils.SharedPanels;
 import delta.games.lotro.lore.emotes.EmoteDescription;
 import delta.games.lotro.lore.emotes.EmotesManager;
 
@@ -176,7 +171,7 @@ public class EmotesSynopsisTableController
     TableCellRenderer renderer=new EmoteStatusCellRenderer();
     column.setCellRenderer(renderer);
     // Header renderer
-    JPanel headerPanel=buildToonHeaderPanel(character);
+    JPanel headerPanel=SharedPanels.buildToonHeaderPanel(character);
     TableCellRenderer headerRenderer=buildSimpleCellRenderer(headerPanel);
     column.setHeaderCellRenderer(headerRenderer);
     int minWidth=headerPanel.getPreferredSize().width;
@@ -248,36 +243,6 @@ public class EmotesSynopsisTableController
       _cache.put(key,ret);
     }
     return ret;
-  }
-
-  private JPanel buildToonHeaderPanel(CharacterFile toon)
-  {
-    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
-    // Class icon
-    GridBagConstraints c=new GridBagConstraints(0,0,1,2,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
-    ImageIcon classIcon=null;
-    BasicCharacterAttributes attrs=toon.getSummary();
-    if (attrs!=null)
-    {
-      CharacterClass cClass=attrs.getCharacterClass();
-      classIcon=LotroIconsManager.getClassIcon(cClass,LotroIconsManager.COMPACT_SIZE);
-    }
-    JLabel classLabel;
-    if (classIcon!=null)
-    {
-      classLabel=new JLabel(classIcon);
-    }
-    else
-    {
-      classLabel=new JLabel("(class)");
-    }
-    panel.add(classLabel,c);
-    // Toon name
-    String name=toon.getName();
-    JLabel nameLabel=GuiFactory.buildLabel(name,16.0f);
-    c=new GridBagConstraints(1,0,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(5,2,2,2),0,0);
-    panel.add(nameLabel,c);
-    return panel;
   }
 
   /**

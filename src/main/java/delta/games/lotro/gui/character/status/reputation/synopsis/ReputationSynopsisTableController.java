@@ -3,14 +3,11 @@ package delta.games.lotro.gui.character.status.reputation.synopsis;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Insets;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
@@ -25,12 +22,10 @@ import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.ListDataProvider;
 import delta.common.ui.swing.tables.TableColumnController;
 import delta.common.ui.swing.tables.TableColumnsManager;
-import delta.games.lotro.character.BasicCharacterAttributes;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.status.reputation.FactionStatus;
 import delta.games.lotro.character.status.reputation.ReputationStatus;
-import delta.games.lotro.common.CharacterClass;
-import delta.games.lotro.gui.LotroIconsManager;
+import delta.games.lotro.gui.utils.SharedPanels;
 import delta.games.lotro.lore.reputation.Faction;
 import delta.games.lotro.lore.reputation.FactionFilter;
 import delta.games.lotro.lore.reputation.FactionLevel;
@@ -178,7 +173,7 @@ public class ReputationSynopsisTableController
     TableCellRenderer renderer=buildFactionStatusCellRenderer();
     column.setCellRenderer(renderer);
     // Header renderer
-    JPanel headerPanel=buildToonHeaderPanel(character);
+    JPanel headerPanel=SharedPanels.buildToonHeaderPanel(character);
     TableCellRenderer headerRenderer=buildSimpleCellRenderer(headerPanel);
     column.setHeaderCellRenderer(headerRenderer);
     int minWidth=headerPanel.getPreferredSize().width;
@@ -239,36 +234,6 @@ public class ReputationSynopsisTableController
     TableColumnsManager<Faction> mgr=_table.getColumnsManager();
     TableColumnController<Faction,?> column=mgr.getById(id);
     mgr.removeColumn(column);
-  }
-
-  private JPanel buildToonHeaderPanel(CharacterFile toon)
-  {
-    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
-    // Class icon
-    GridBagConstraints c=new GridBagConstraints(0,0,1,2,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
-    ImageIcon classIcon=null;
-    BasicCharacterAttributes attrs=toon.getSummary();
-    if (attrs!=null)
-    {
-      CharacterClass cClass=attrs.getCharacterClass();
-      classIcon=LotroIconsManager.getClassIcon(cClass,LotroIconsManager.COMPACT_SIZE);
-    }
-    JLabel classLabel;
-    if (classIcon!=null)
-    {
-      classLabel=new JLabel(classIcon);
-    }
-    else
-    {
-      classLabel=new JLabel("(class)");
-    }
-    panel.add(classLabel,c);
-    // Toon name
-    String name=toon.getName();
-    JLabel nameLabel=GuiFactory.buildLabel(name,16.0f);
-    c=new GridBagConstraints(1,0,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(5,2,2,2),0,0);
-    panel.add(nameLabel,c);
-    return panel;
   }
 
   /**
