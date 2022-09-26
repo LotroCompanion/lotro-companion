@@ -22,6 +22,7 @@ public class WalletWindowController extends DefaultDisplayDialogController<Void>
   private Wallet _ownWallet;
   private Wallet _accountWallet;
   // Controllers
+  private WalletPanelController _fullPanel;
   private WalletDisplayPanelController _displayPanel;
 
   /**
@@ -43,7 +44,8 @@ public class WalletWindowController extends DefaultDisplayDialogController<Void>
   protected JPanel buildFormPanel()
   {
     _displayPanel=new WalletDisplayPanelController(this,_ownWallet,_accountWallet);
-    return _displayPanel.getPanel();
+    _fullPanel=new WalletPanelController(_displayPanel);
+    return _fullPanel.getPanel();
   }
 
   @Override
@@ -58,6 +60,7 @@ public class WalletWindowController extends DefaultDisplayDialogController<Void>
     setTitle(title);
     // Dimensions
     JDialog dialog=getDialog();
+    dialog.setMinimumSize(new Dimension(450,300));
     dialog.setResizable(true);
     pack();
     Dimension size=dialog.getSize();
@@ -82,6 +85,11 @@ public class WalletWindowController extends DefaultDisplayDialogController<Void>
     {
       _displayPanel.dispose();
       _displayPanel=null;
+    }
+    if (_fullPanel!=null)
+    {
+      _fullPanel.dispose();
+      _fullPanel=null;
     }
   }
 }

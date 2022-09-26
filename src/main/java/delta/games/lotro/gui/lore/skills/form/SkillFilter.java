@@ -25,7 +25,7 @@ public class SkillFilter implements Filter<SkillDescription>
   public SkillFilter()
   {
     List<Filter<SkillDescription>> filters=new ArrayList<Filter<SkillDescription>>();
-    // Command
+    // Name
     _nameFilter=new SkillNameFilter();
     filters.add(_nameFilter);
     _filter=new CompoundFilter<SkillDescription>(Operator.AND,filters);
@@ -33,7 +33,7 @@ public class SkillFilter implements Filter<SkillDescription>
 
   /**
    * Get the filter on skill name.
-   * @return a skill name command filter.
+   * @return a skill name filter.
    */
   public SkillNameFilter getNameFilter()
   {
