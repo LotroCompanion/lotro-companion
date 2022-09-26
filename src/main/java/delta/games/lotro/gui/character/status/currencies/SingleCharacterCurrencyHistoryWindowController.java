@@ -123,9 +123,16 @@ public class SingleCharacterCurrencyHistoryWindowController extends DefaultDispl
   {
     JDialog dialog=super.build();
     dialog.setMinimumSize(new Dimension(500,380));
+    dialog.setPreferredSize(new Dimension(700,500));
     dialog.setTitle("Currencies");
     dialog.pack();
     return dialog;
+  }
+
+  @Override
+  public void configureWindow()
+  {
+    automaticLocationSetup();
   }
 
   @Override
@@ -140,6 +147,7 @@ public class SingleCharacterCurrencyHistoryWindowController extends DefaultDispl
   @Override
   public void dispose()
   {
+    saveBoundsPreferences();
     super.dispose();
     if (_panelController!=null)
     {
