@@ -96,7 +96,10 @@ public class EmoteFilterController implements ActionListener
     Object source=e.getSource();
     if (source==_reset)
     {
-      _auto.selectItem(null);
+      if (_config.getAutoState()==State.ENABLED)
+      {
+        _auto.selectItem(null);
+      }
       _contains.setText("");
     }
   }
