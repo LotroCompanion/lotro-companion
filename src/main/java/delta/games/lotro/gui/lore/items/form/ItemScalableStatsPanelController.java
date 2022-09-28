@@ -1,13 +1,21 @@
 package delta.games.lotro.gui.lore.items.form;
 
-import java.awt.BorderLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.tables.GenericTableController;
+import delta.common.ui.swing.tables.export.DataExport;
+import delta.common.ui.swing.tables.export.StringExportDataOutput;
+import delta.common.ui.utils.clipboard.ClipboardIO;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.scaling.ItemScaling;
 import delta.games.lotro.lore.items.scaling.ItemScalingBuilder;
@@ -52,13 +60,42 @@ public class ItemScalableStatsPanelController
     {
       return null;
     }
-
+    // Table
     _table=ItemScalingTableBuilder.buildTable(scaling);
     JTable table=_table.getTable();
     JScrollPane scroll=GuiFactory.buildScrollPane(table);
-    JPanel panel=GuiFactory.buildPanel(new BorderLayout());
-    panel.add(scroll,BorderLayout.CENTER);
+    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
+    GridBagConstraints c=new GridBagConstraints(0,1,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
+    panel.add(scroll,c);
+    // Export
+    JButton exportButton=buildExportButton();
+    c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(2,5,2,5),0,0);
+    panel.add(exportButton,c);
     return panel;
+  }
+
+  private JButton buildExportButton()
+  {
+    JButton ret=GuiFactory.buildButton("Export to clipboard");
+    ActionListener al=new ActionListener()
+    {
+      @Override
+      public void actionPerformed(ActionEvent e)
+      {
+        exportToClipboardAsCSV();
+      }
+    };
+    ret.addActionListener(al);
+    return ret;
+  }
+
+  private void exportToClipboardAsCSV()
+  {
+    StringExportDataOutput output=new StringExportDataOutput();
+    DataExport<ItemScalingEntry> exporter=new DataExport<ItemScalingEntry>(output);
+    exporter.export(_table);
+    String result=output.getResult();
+    ClipboardIO.writeText(result);
   }
 
   /**
