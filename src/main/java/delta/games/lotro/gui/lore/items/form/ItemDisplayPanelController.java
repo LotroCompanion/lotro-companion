@@ -116,7 +116,7 @@ public class ItemDisplayPanelController implements NavigablePanelController
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(topPanel,c);
     // Center
-    Component center=buildCenter();
+    Component center=buildCenterPanel();
     c=new GridBagConstraints(0,1,1,1,1.0,1.0,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
     panel.add(center,c);
     panel.setPreferredSize(new Dimension(500,500));
@@ -144,72 +144,47 @@ public class ItemDisplayPanelController implements NavigablePanelController
     return statsLabel;
   }
 
-  private JPanel buildCenter()
+  private JPanel buildCenterPanel()
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
 
-    int y=0;
-    // Description
-    JEditorPane description=buildDescription();
-    if (description!=null)
-    {
-      GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(5,5,5,5),0,0);
-      panel.add(description,c);
-      y++;
-    }
-    // Stats
-    MultilineLabel2 stats=buildStatsDisplay();
-    if (stats!=null)
-    {
-      GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(5,5,5,5),0,0);
-      panel.add(stats,c);
-      y++;
-    }
-    // Disenchantment
-    int itemId=_item.getIdentifier();
-    DisenchantmentResult disenchantment=DisenchantmentManager.getInstance().getDisenchantmentResults().getItem(itemId);
-    if (disenchantment!=null)
-    {
-      _disenchantment=new DisenchantmentResultPanelController(_parent,disenchantment);
-      JPanel disenchantmentPanel=_disenchantment.getPanel();
-      disenchantmentPanel.setBorder(GuiFactory.buildTitledBorder("Disenchantment"));
-      GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(5,5,5,5),0,0);
-      panel.add(disenchantmentPanel,c);
-      y++;
-    }
-    // Build components for potential tabs
+    // Build components for tabs
+    JPanel mainAttrs=buildMainAttrsPanel();
+    JTabbedPane tabbedPane=GuiFactory.buildTabbedPane();
+    tabbedPane.add("Main",buildPanelForTab(mainAttrs));
+    // - references
     JEditorPane references=_references.getComponent();
+    if (references!=null)
+    {
+      tabbedPane.add("References",buildPanelForTab(references));
+    }
+    // - scaling
     JPanel scalingPanel=_scaling.getPanel();
+    if (scalingPanel!=null)
+    {
+      tabbedPane.add("Scaling",buildPanelForTab(scalingPanel));
+    }
+    // - container
     JPanel containerPanel=_container.getPanel();
-    if ((references!=null) || (scalingPanel!=null) || (containerPanel!=null))
+    if (containerPanel!=null)
     {
-      JTabbedPane tabbedPane=GuiFactory.buildTabbedPane();
-      // - references
-      if (references!=null)
-      {
-        tabbedPane.add("References",buildPanelForTab(references));
-      }
-      // - scaling
-      if (scalingPanel!=null)
-      {
-        tabbedPane.add("Scaling",buildPanelForTab(scalingPanel));
-      }
-      // - container
-      if (containerPanel!=null)
-      {
-        tabbedPane.add("Contents",buildPanelForTab(containerPanel));
-      }
-      GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(5,5,5,5),0,0);
-      panel.add(tabbedPane,c);
-      y++;
+      tabbedPane.add("Contents",buildPanelForTab(buildContainerPanel(containerPanel)));
     }
-    else
-    {
-      JPanel empty=GuiFactory.buildPanel(new BorderLayout());
-      GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(5,5,5,5),0,0);
-      panel.add(empty,c);
-      y++;
-    }
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(5,5,5,5),0,0);
+    panel.add(tabbedPane,c);
+    return panel;
+  }
+
+  private JPanel buildContainerPanel(JPanel containerPanel)
+  {
+    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    panel.add(containerPanel,c);
+
+    // Padding to push everything on top
+    JPanel paddingPanel=GuiFactory.buildPanel(new BorderLayout());
+    c=new GridBagConstraints(0,1,1,1,0.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.VERTICAL,new Insets(0,0,0,0),0,0);
+    panel.add(paddingPanel,c);
     return panel;
   }
 
@@ -225,22 +200,25 @@ public class ItemDisplayPanelController implements NavigablePanelController
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
 
+    // Icon
+    ImageIcon icon=LotroIconsManager.getItemIcon(_item.getIcon());
+    JLabel iconLabel=GuiFactory.buildIconLabel(icon);
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,5,0,5),0,0);
+    panel.add(iconLabel,c);
+    // Name
+    String name=_item.getName();
+    JLabel nameLabel=GuiFactory.buildLabel(name);
+    nameLabel.setFont(nameLabel.getFont().deriveFont(16f).deriveFont(Font.BOLD));
+    c=new GridBagConstraints(1,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    panel.add(nameLabel,c);
+    return panel;
+  }
+
+  private JPanel buildMainAttrsPanel()
+  {
+    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
+
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
-    // Main data line
-    {
-      JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
-      // Icon
-      ImageIcon icon=LotroIconsManager.getItemIcon(_item.getIcon());
-      JLabel iconLabel=GuiFactory.buildIconLabel(icon);
-      panelLine.add(iconLabel);
-      // Name
-      String name=_item.getName();
-      JLabel nameLabel=GuiFactory.buildLabel(name);
-      nameLabel.setFont(nameLabel.getFont().deriveFont(16f).deriveFont(Font.BOLD));
-      panelLine.add(nameLabel);
-      panel.add(panelLine,c);
-      c.gridy++;
-    }
     List<String> lines=getAttributesLines();
     for(String line : lines)
     {
@@ -266,13 +244,41 @@ public class ItemDisplayPanelController implements NavigablePanelController
       panel.add(moneyPanel,c);
       c.gridy++;
     }
-
-    // Padding to push everything on left
+    int y=c.gridy;
+    // Description
+    JEditorPane description=buildDescription();
+    if (description!=null)
+    {
+      c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(5,5,5,5),0,0);
+      panel.add(description,c);
+      y++;
+    }
+    // Stats
+    MultilineLabel2 stats=buildStatsDisplay();
+    if (stats!=null)
+    {
+      c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(5,5,5,5),0,0);
+      panel.add(stats,c);
+      y++;
+    }
+    // Disenchantment
+    int itemId=_item.getIdentifier();
+    DisenchantmentResult disenchantment=DisenchantmentManager.getInstance().getDisenchantmentResults().getItem(itemId);
+    if (disenchantment!=null)
+    {
+      _disenchantment=new DisenchantmentResultPanelController(_parent,disenchantment);
+      JPanel disenchantmentPanel=_disenchantment.getPanel();
+      disenchantmentPanel.setBorder(GuiFactory.buildTitledBorder("Disenchantment"));
+      c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(5,5,5,5),0,0);
+      panel.add(disenchantmentPanel,c);
+      y++;
+    }
+    // Padding to push everything on left and top
     JPanel paddingPanel=GuiFactory.buildPanel(new BorderLayout());
-    c.fill=GridBagConstraints.HORIZONTAL;
+    c.fill=GridBagConstraints.BOTH;
     c.weightx=1.0;
+    c.weighty=1.0;
     panel.add(paddingPanel,c);
-
     return panel;
   }
 
@@ -411,6 +417,7 @@ public class ItemDisplayPanelController implements NavigablePanelController
       sb.append(HtmlUtils.toHtml(description));
       sb.append("</body></html>");
       editor.setText(sb.toString());
+      editor.setPreferredSize(new Dimension(400,300));
     }
     return editor;
   }
