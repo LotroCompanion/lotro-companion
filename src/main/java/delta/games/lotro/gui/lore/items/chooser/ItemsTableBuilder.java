@@ -1,15 +1,12 @@
 package delta.games.lotro.gui.lore.items.chooser;
 
-import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.Icon;
-import javax.swing.JPanel;
 import javax.swing.JTable;
-import javax.swing.table.TableCellRenderer;
 
 import org.apache.log4j.Logger;
 
@@ -27,9 +24,9 @@ import delta.games.lotro.common.money.comparator.MoneyComparator;
 import delta.games.lotro.common.stats.StatDescription;
 import delta.games.lotro.common.stats.StatType;
 import delta.games.lotro.common.stats.StatsRegistry;
-import delta.games.lotro.gui.common.money.MoneyDisplayController;
 import delta.games.lotro.gui.lore.items.ItemColumnIds;
 import delta.games.lotro.gui.lore.items.ItemUiTools;
+import delta.games.lotro.gui.utils.MoneyCellRenderer;
 import delta.games.lotro.gui.utils.l10n.ColumnsUtils;
 import delta.games.lotro.gui.utils.l10n.StatRenderer;
 import delta.games.lotro.lore.items.Armour;
@@ -419,31 +416,9 @@ public class ItemsTableBuilder
     };
     DefaultTableColumnController<Item,Money> valueColumn=new DefaultTableColumnController<Item,Money>(ItemColumnIds.VALUE.name(),"Value",Money.class,valueCell);
     valueColumn.setWidthSpecs(120,120,120);
-    valueColumn.setCellRenderer(buildMoneyCellRenderer());
+    valueColumn.setCellRenderer(new MoneyCellRenderer());
     valueColumn.setComparator(new MoneyComparator());
     return valueColumn;
-  }
-
-  /**
-   * Build a cell renderer for a money cell.
-   * @return a new cell renderer.
-   */
-  public static TableCellRenderer buildMoneyCellRenderer()
-  {
-    final MoneyDisplayController moneyCtrl=new MoneyDisplayController();
-    TableCellRenderer renderer=new TableCellRenderer()
-    {
-      @Override
-      public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
-      {
-        Money money=(Money)value;
-        if (money==null) money=new Money();
-        moneyCtrl.setMoney(money);
-        JPanel panel=moneyCtrl.getPanel();
-        return panel;
-      }
-    };
-    return renderer;
   }
 
   private static DefaultTableColumnController<Item,Number> buildStatColumn(final StatDescription stat)
