@@ -119,7 +119,6 @@ public class ItemDisplayPanelController implements NavigablePanelController
     Component center=buildCenterPanel();
     c=new GridBagConstraints(0,1,1,1,1.0,1.0,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
     panel.add(center,c);
-    panel.setPreferredSize(new Dimension(500,500));
     return panel;
   }
 
@@ -168,7 +167,10 @@ public class ItemDisplayPanelController implements NavigablePanelController
     JPanel containerPanel=_container.getPanel();
     if (containerPanel!=null)
     {
-      tabbedPane.add("Contents",buildPanelForTab(buildContainerPanel(containerPanel)));
+      containerPanel=buildContainerPanel(containerPanel);
+      JPanel tabPanel=buildPanelForTab(containerPanel);
+      tabPanel.setPreferredSize(new Dimension(500,300));
+      tabbedPane.add("Contents",tabPanel);
     }
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(5,5,5,5),0,0);
     panel.add(tabbedPane,c);
@@ -269,7 +271,7 @@ public class ItemDisplayPanelController implements NavigablePanelController
       _disenchantment=new DisenchantmentResultPanelController(_parent,disenchantment);
       JPanel disenchantmentPanel=_disenchantment.getPanel();
       disenchantmentPanel.setBorder(GuiFactory.buildTitledBorder("Disenchantment"));
-      c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(5,5,5,5),0,0);
+      c=new GridBagConstraints(0,y,1,1,0.0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
       panel.add(disenchantmentPanel,c);
       y++;
     }
@@ -413,11 +415,10 @@ public class ItemDisplayPanelController implements NavigablePanelController
     {
       editor=GuiFactory.buildHtmlPanel();
       StringBuilder sb=new StringBuilder();
-      sb.append("<html><body>");
+      sb.append("<html><body style='width: 400px'>");
       sb.append(HtmlUtils.toHtml(description));
       sb.append("</body></html>");
       editor.setText(sb.toString());
-      editor.setPreferredSize(new Dimension(400,300));
     }
     return editor;
   }

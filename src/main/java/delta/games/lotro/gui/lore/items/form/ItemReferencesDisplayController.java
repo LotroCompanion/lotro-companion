@@ -108,7 +108,7 @@ public class ItemReferencesDisplayController
   private String getHtml(List<ItemReference<?>> references)
   {
     StringBuilder sb=new StringBuilder();
-    sb.append("<html><body>");
+    sb.append("<html><body style='width: 500px'>");
     buildHtmlForCrafting(sb,references);
     buildHtmlForTaskItems(sb,references);
     buildHtmlForQuestsAndDeeds(sb,references);

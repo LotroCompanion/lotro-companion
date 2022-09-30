@@ -41,7 +41,6 @@ public class HtmlUtils
     text=text.replace("\n\n","<br>");
     text=text.replace("\n","<br>");
     text=text.replace("\\q","&quot;");
-    //text=encodeDelimitedText(text,"\\q","<blockquote>","</blockquote>");
     text=encodeColoredText(text);
     return text;
   }
@@ -69,27 +68,6 @@ public class HtmlUtils
             String between=text.substring(tagClosureIndex+1,indexRgbEnd);
             text=text.substring(0,index)+"<font color=\""+color+"\">"+between+"</font>"+text.substring(indexRgbEnd);
           }
-          exit=false;
-        }
-      }
-      if (exit) break;
-    }
-    return text;
-  }
-
-  static String encodeDelimitedText(String text, String delimiters, String start, String end)
-  {
-    while(true)
-    {
-      boolean exit=true;
-      int indexStart=text.indexOf(delimiters);
-      if (indexStart!=-1)
-      {
-        int indexEnd=text.indexOf(delimiters,indexStart+delimiters.length());
-        if (indexEnd!=-1)
-        {
-          String between=text.substring(indexStart+delimiters.length(),indexEnd);
-          text=text.substring(0,indexStart)+start+between+end+text.substring(indexEnd+delimiters.length());
           exit=false;
         }
       }
