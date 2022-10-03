@@ -59,7 +59,8 @@ public class HobbiesStatusPanelController
       HobbyStatus hobbyStatus=statusMgr.get(hobby,false);
       if (hobbyStatus==null)
       {
-        continue;
+        hobbyStatus=new HobbyStatus(hobby);
+        hobbyStatus.setValue(-1);
       }
       HobbyStatusPanelController statusCtrl=new HobbyStatusPanelController(parent,hobbyStatus);
       JPanel statusPanel=statusCtrl.getPanel();

@@ -59,7 +59,8 @@ public class HobbyStatusPanelController
     ret.add(_hobby.getPanel(),c);
     // Proficiency
     int proficiency=status.getValue();
-    JLabel proficiencyLabel=GuiFactory.buildLabel("Proficiency: "+L10n.getString(proficiency));
+    String proficiencyValue=(proficiency>=0)?L10n.getString(proficiency):"unknown";
+    JLabel proficiencyLabel=GuiFactory.buildLabel("Proficiency: "+proficiencyValue);
     c=new GridBagConstraints(1,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,5,0,0),0,0);
     ret.add(proficiencyLabel,c);
     // Title
