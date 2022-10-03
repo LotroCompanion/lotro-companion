@@ -49,7 +49,10 @@ public class AbstractIconController
   public void setIcon(Icon icon)
   {
     _icon.setIcon(icon);
-    _icon.setSize(icon.getIconWidth(),icon.getIconHeight());
+    if (icon!=null)
+    {
+      _icon.setSize(icon.getIconWidth(),icon.getIconHeight());
+    }
     _icon.setEnabled(true);
     _icon.setFocusable(true);
   }

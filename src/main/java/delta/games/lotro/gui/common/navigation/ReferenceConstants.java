@@ -90,6 +90,10 @@ public class ReferenceConstants
    * Billing group page identifier.
    */
   public static final String BILLING_GROUP_PAGE="billingGroup";
+  /**
+   * Hobby page identifier.
+   */
+  public static final String HOBBY_PAGE="hobby";
 
   /**
    * Get a page identifier for the given achievable proxy.
@@ -306,5 +310,15 @@ public class ReferenceConstants
   public static final PageIdentifier getBillingGroupReference(int billingGroupID)
   {
     return new PageIdentifier(BILLING_GROUP_PAGE,billingGroupID);
+  }
+
+  /**
+   * Get a page identifier for the given hobby.
+   * @param hobbyID Identifier of the hobby to use.
+   * @return A page identifier.
+   */
+  public static final PageIdentifier getHobbyReference(int hobbyID)
+  {
+    return new PageIdentifier(HOBBY_PAGE,hobbyID);
   }
 }

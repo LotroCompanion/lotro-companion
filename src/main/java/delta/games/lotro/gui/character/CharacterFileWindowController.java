@@ -64,6 +64,7 @@ import delta.games.lotro.gui.character.status.crafting.CraftingWindowController;
 import delta.games.lotro.gui.character.status.currencies.SingleCharacterCurrencyHistoryWindowController;
 import delta.games.lotro.gui.character.status.deeds.DeedsStatusWindowController;
 import delta.games.lotro.gui.character.status.emotes.EmotesStatusWindowController;
+import delta.games.lotro.gui.character.status.hobbies.HobbiesStatusWindowController;
 import delta.games.lotro.gui.character.status.levelling.LevelHistoryEditionDialogController;
 import delta.games.lotro.gui.character.status.quests.QuestsStatusWindowController;
 import delta.games.lotro.gui.character.status.recipes.RecipesStatusWindowController;
@@ -109,6 +110,7 @@ public class CharacterFileWindowController extends DefaultWindowController imple
   private static final String EMOTES_COMMAND="emotes";
   private static final String MOUNTS_COMMAND="mounts";
   private static final String PETS_COMMAND="pets";
+  private static final String HOBBIES_COMMAND="hobbies";
 
   private CharacterSummaryPanelController _summaryController;
   private CharacterDataTableController _toonsTable;
@@ -255,6 +257,9 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     // Pets status
     JButton petsButton=buildCommandButton("Pets",PETS_COMMAND);
     panel.add(petsButton,c);c.gridx++;
+    // Hobbies status
+    JButton hobbiesButton=buildCommandButton("Hobbies",HOBBIES_COMMAND);
+    panel.add(hobbiesButton,c);c.gridx++;
 
     // Disable buttons if no log
     boolean hasLog=_toon.hasLog();
@@ -380,6 +385,10 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     else if (PETS_COMMAND.equals(command))
     {
       showCollectablesStatus(STATUS_TYPE.PETS);
+    }
+    else if (HOBBIES_COMMAND.equals(command))
+    {
+      showHobbiesStatus();
     }
     else if (NEW_TOON_DATA_ID.equals(command))
     {
@@ -781,6 +790,18 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     if (windowCtrl==null)
     {
       windowCtrl=new CollectablesStatusWindowController(this,_toon,type);
+      windowsManager.registerWindow(windowCtrl);
+    }
+    windowCtrl.show();
+  }
+
+  private void showHobbiesStatus()
+  {
+    WindowsManager windowsManager=getWindowsManager();
+    HobbiesStatusWindowController windowCtrl=(HobbiesStatusWindowController)windowsManager.getWindow(HobbiesStatusWindowController.IDENTIFIER);
+    if (windowCtrl==null)
+    {
+      windowCtrl=new HobbiesStatusWindowController(this,_toon);
       windowsManager.registerWindow(windowCtrl);
     }
     windowCtrl.show();

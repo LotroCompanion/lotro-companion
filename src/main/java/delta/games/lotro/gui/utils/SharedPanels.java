@@ -20,6 +20,7 @@ import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.lore.emotes.EmoteDescription;
+import delta.games.lotro.lore.hobbies.HobbyDescription;
 
 /**
  * Factory for shared panels.
@@ -86,6 +87,27 @@ public class SharedPanels
     // Link
     PageIdentifier pageId=ReferenceConstants.getEmoteReference(emote.getIdentifier());
     String text=emote.getName();
+    HyperLinkController linkCtrl=NavigationUtils.buildNavigationLink(parent,text,pageId);
+    return new IconAndLinkPanelController(iconCtrl,linkCtrl);
+  }
+
+  /**
+   * Build a hobby link panel controller.
+   * @param parent Parent window.
+   * @param hobby Hobby to show.
+   * @return A panel.
+   */
+  public static IconAndLinkPanelController buildHobbyPanel(WindowController parent, HobbyDescription hobby)
+  {
+    if (hobby==null)
+    {
+      return null;
+    }
+    // Icon
+    IconController iconCtrl=IconControllerFactory.buildHobbyIcon(parent,hobby);
+    // Link
+    PageIdentifier pageId=ReferenceConstants.getHobbyReference(hobby.getIdentifier());
+    String text=hobby.getName();
     HyperLinkController linkCtrl=NavigationUtils.buildNavigationLink(parent,text,pageId);
     return new IconAndLinkPanelController(iconCtrl,linkCtrl);
   }

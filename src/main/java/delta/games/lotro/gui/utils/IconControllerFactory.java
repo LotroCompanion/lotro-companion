@@ -10,6 +10,7 @@ import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.gui.lore.items.ItemUiTools;
 import delta.games.lotro.gui.lore.items.legendary.relics.RelicUiTools;
 import delta.games.lotro.lore.emotes.EmoteDescription;
+import delta.games.lotro.lore.hobbies.HobbyDescription;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.legendary.relics.Relic;
 
@@ -127,6 +128,25 @@ public class IconControllerFactory
       ret.setIcon(icon);
       ret.setPageId(ReferenceConstants.getEmoteReference(emote.getIdentifier()));
       ret.setTooltipText(emote.getName());
+    }
+    return ret;
+  }
+
+  /**
+   * Build a hobby icon.
+   * @param parent Parent window.
+   * @param hobby Hobby to use.
+   * @return A new controller.
+   */
+  public static IconController buildHobbyIcon(WindowController parent, HobbyDescription hobby)
+  {
+    IconController ret=new IconController(parent);
+    if (hobby!=null)
+    {
+      Icon icon=LotroIconsManager.getHobbyIcon(hobby.getIconId());
+      ret.setIcon(icon);
+      ret.setPageId(ReferenceConstants.getHobbyReference(hobby.getIdentifier()));
+      ret.setTooltipText(hobby.getName());
     }
     return ret;
   }

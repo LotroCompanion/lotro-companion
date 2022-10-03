@@ -35,6 +35,24 @@ public class IconAndLinkPanelController implements Disposable
   }
 
   /**
+   * Get the managed icon controller.
+   * @return an icon controller.
+   */
+  public IconController getIconController()
+  {
+    return _icon;
+  }
+
+  /**
+   * Get the managed link controller.
+   * @return a link controller.
+   */
+  public HyperLinkController getLinkController()
+  {
+    return _link;
+  }
+
+  /**
    * Get the managed panel.
    * @return the managed panel.
    */
