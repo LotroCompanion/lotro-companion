@@ -26,6 +26,7 @@ import javax.swing.JTabbedPane;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.navigator.NavigablePanelController;
 import delta.common.ui.swing.navigator.NavigatorWindowController;
+import delta.games.lotro.character.races.NationalityDescription;
 import delta.games.lotro.character.races.RaceDescription;
 import delta.games.lotro.character.races.RaceGender;
 import delta.games.lotro.character.races.RaceTrait;
@@ -112,12 +113,12 @@ public class RaceDisplayPanelController implements NavigablePanelController
       y++;
     }
     // Build components for tabs
-    JEditorPane references=_references.getComponent();
     JTabbedPane tabbedPane=GuiFactory.buildTabbedPane();
     // - traits
     JPanel traitsPanel=buildTraitsPanel();
     tabbedPane.add("Traits", buildPanelForTab(traitsPanel));
     // - references
+    JEditorPane references=_references.getComponent();
     tabbedPane.add("References",buildPanelForTab(references));
     GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(5,5,5,5),0,0);
     panel.add(tabbedPane,c);
@@ -173,6 +174,12 @@ public class RaceDisplayPanelController implements NavigablePanelController
       panel.add(panelLine,c);
       c.gridy++;
     }
+    // Nationalities
+    JPanel nationalitiesPanel=buildNationalitiesPanel();
+    nationalitiesPanel.setBorder(GuiFactory.buildTitledBorder("Nationalities"));
+    panel.add(nationalitiesPanel,c);
+    c.gridy++;
+
     // Padding to push everything on left
     JPanel paddingPanel=GuiFactory.buildPanel(new BorderLayout());
     c.fill=GridBagConstraints.HORIZONTAL;
@@ -188,6 +195,25 @@ public class RaceDisplayPanelController implements NavigablePanelController
     // Tall?
     boolean isTall=_race.isTall();
     ret.add(isTall?"Tall":"Small");
+    return ret;
+  }
+
+  private JPanel buildNationalitiesPanel()
+  {
+    JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
+    List<NationalityDescription> nationalities=new ArrayList<NationalityDescription>(_race.getNationalities());
+    Collections.sort(nationalities,new NamedComparator());
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    for(NationalityDescription nationality : nationalities)
+    {
+      String name=nationality.getName();
+      JLabel label=GuiFactory.buildLabel(name);
+      c.insets=new Insets((c.gridy==0)?2:0,5,2,5);
+      ret.add(label,c);
+      c.gridy++;
+    }
+    Component minWidthComponent=Box.createHorizontalStrut(100);
+    ret.add(minWidthComponent,c);
     return ret;
   }
 
