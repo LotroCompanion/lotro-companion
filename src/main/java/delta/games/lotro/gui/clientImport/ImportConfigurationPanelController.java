@@ -44,15 +44,24 @@ public class ImportConfigurationPanelController implements Disposable
   private JPanel buildPanel()
   {
     JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
+    int nbColumns=2;
+    int nbItems=ExtractableElement.values().length;
+    int nbItemsPerColumns=(nbItems/nbColumns)+((nbItems%nbColumns!=0)?1:0);
     int row=0;
+    int column=0;
     for(ExtractableElement element : ExtractableElement.values())
     {
       CheckboxController checkbox=new CheckboxController(element.getLabel());
       checkbox.setSelected(true);
       _gadgets.put(element,checkbox);
-      GridBagConstraints c=new GridBagConstraints(0,row,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+      GridBagConstraints c=new GridBagConstraints(column,row,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
       ret.add(checkbox.getCheckbox(),c);
       row++;
+      if (row==nbItemsPerColumns)
+      {
+        row=0;
+        column++;
+      }
     }
     return ret;
   }

@@ -46,14 +46,16 @@ public class ExtractionResultsPanelController implements Disposable
   private JPanel buildPanel()
   {
     JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
-    GridBagConstraints cStrut=new GridBagConstraints(1,0,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
-    ret.add(Box.createHorizontalStrut(100),cStrut);
+    int nbColumns=2;
+    int nbItems=ExtractableElement.values().length;
+    int nbItemsPerColumns=(nbItems/nbColumns)+((nbItems%nbColumns!=0)?1:0);
     int row=1;
+    int column=0;
     for(ExtractableElement element : ExtractableElement.values())
     {
       // Element label
       JLabel elementLabel=GuiFactory.buildLabel(element.getLabel()+":");
-      GridBagConstraints c=new GridBagConstraints(0,row,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,5,2,5),0,0);
+      GridBagConstraints c=new GridBagConstraints(column*2,row,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,5,2,5),0,0);
       ret.add(elementLabel,c);
       // State label
       c.gridx++;
@@ -61,6 +63,16 @@ public class ExtractionResultsPanelController implements Disposable
       _gadgets.put(element,stateLabel);
       ret.add(stateLabel,c);
       row++;
+      if (row==nbItemsPerColumns+1)
+      {
+        row=1;
+        column++;
+      }
+    }
+    for(int i=0;i<nbColumns;i++)
+    {
+      GridBagConstraints cStrut=new GridBagConstraints((2*i)+1,0,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+      ret.add(Box.createHorizontalStrut(100),cStrut);
     }
     return ret;
   }
