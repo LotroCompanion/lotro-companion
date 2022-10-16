@@ -6,7 +6,7 @@ import javax.swing.JPanel;
 import delta.common.ui.swing.windows.DefaultFormDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.CharacterData;
-import delta.games.lotro.character.classes.traitTree.TraitTreeStatus;
+import delta.games.lotro.character.status.traitTree.TraitTreeStatus;
 
 /**
  * Controller for the "trait tree edition" dialog.
