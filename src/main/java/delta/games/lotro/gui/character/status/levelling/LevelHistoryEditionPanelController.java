@@ -94,6 +94,7 @@ public class LevelHistoryEditionPanelController
       initTab(pane,currentLevel,endLevel);
       currentLevel=endLevel+1;
     }
+    pane.setSelectedIndex(nbTabs-1);
     panel.add(pane,BorderLayout.CENTER);
     return panel;
   }
