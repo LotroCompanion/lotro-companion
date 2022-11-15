@@ -283,8 +283,7 @@ public class LotroIconsManager
    */
   public static ImageIcon getMountIcon(int mountId)
   {
-    String path="/mountIcons/"+mountId+".png";
-    return IconsManager.getIcon(path);
+    return getSkillIcon(mountId);
   }
 
   /**
@@ -294,8 +293,7 @@ public class LotroIconsManager
    */
   public static ImageIcon getPetIcon(int petId)
   {
-    String path="/petIcons/"+petId+".png";
-    return IconsManager.getIcon(path);
+    return getSkillIcon(petId);
   }
 
   /**
@@ -317,7 +315,7 @@ public class LotroIconsManager
    */
   public static ImageIcon getSkillIcon(int skillIconId)
   {
-    String path="/skillIcons/"+skillIconId+".png";
+    String path="/skills/"+skillIconId+".png";
     return IconsManager.getIcon(path);
   }
 
