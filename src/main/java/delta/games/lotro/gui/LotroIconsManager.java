@@ -148,7 +148,7 @@ public class LotroIconsManager
    */
   public static ImageIcon getRelicIcon(String iconFilename)
   {
-    String path="/relicIcons/"+iconFilename;
+    String path="/relics/"+iconFilename;
     return IconsManager.getIcon(path);
   }
 
