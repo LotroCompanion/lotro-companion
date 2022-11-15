@@ -137,7 +137,7 @@ public class LotroIconsManager
    */
   public static ImageIcon getEmoteIcon(int iconID)
   {
-    String path="/emoteIcons/"+iconID+".png";
+    String path="/emotes/"+iconID+".png";
     return IconsManager.getIcon(path);
   }
 
