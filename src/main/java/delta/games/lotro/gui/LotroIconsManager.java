@@ -159,7 +159,7 @@ public class LotroIconsManager
    */
   public static ImageIcon getBuffIcon(String iconFilename)
   {
-    if (iconFilename.startsWith("/traitIcons"))
+    if (iconFilename.startsWith("/traits"))
     {
       // Trait icon
       return IconsManager.getIcon(iconFilename);
@@ -184,7 +184,7 @@ public class LotroIconsManager
    */
   public static ImageIcon getTraitIcon(int traitIconId)
   {
-    String path="/traitIcons/"+traitIconId+".png";
+    String path="/traits/"+traitIconId+".png";
     return IconsManager.getIcon(path);
   }
 
@@ -209,7 +209,7 @@ public class LotroIconsManager
     if (virtue!=null)
     {
       int virtueIconId=virtue.getIconId();
-      String path="/virtueIcons/"+virtueIconId+".png";
+      String path="/traits/"+virtueIconId+".png";
       return IconsManager.getIcon(path);
     }
     return null;
