@@ -65,7 +65,7 @@ public class TraitPointsEditionPanelController
         _summaryController.update();
       }
     };
-    String[] categories={"Class", "Epic", "Quests", "Deeds"};
+    List<String> categories=getCategories();
     for(String category : categories)
     {
       TraitPointFilter filter=new TraitPointFilter();
@@ -83,6 +83,21 @@ public class TraitPointsEditionPanelController
       _labels.add(category);
       tableController.setListener(listener);
     }
+  }
+
+  private List<String> getCategories()
+  {
+    List<String> ret=new ArrayList<String>();
+    List<TraitPoint> traitPoints=TraitPoints.get().getRegistry().getPointsForClass(_attrs.getCharacterClass());
+    for(TraitPoint traitPoint : traitPoints)
+    {
+      String id=traitPoint.getId();
+      if (!ret.contains(id))
+      {
+        ret.add(id);
+      }
+    }
+    return ret;
   }
 
   /**
