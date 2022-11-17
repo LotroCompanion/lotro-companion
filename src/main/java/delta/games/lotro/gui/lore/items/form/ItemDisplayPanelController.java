@@ -25,6 +25,7 @@ import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.games.lotro.character.skills.SkillDescription;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.character.traits.TraitDescription;
+import delta.games.lotro.common.enums.EquipmentCategory;
 import delta.games.lotro.common.money.Money;
 import delta.games.lotro.common.stats.StatUtils;
 import delta.games.lotro.common.stats.StatsProvider;
@@ -35,15 +36,12 @@ import delta.games.lotro.gui.lore.items.containers.form.ContainerDisplayPanelCon
 import delta.games.lotro.gui.utils.IconAndLinkPanelController;
 import delta.games.lotro.gui.utils.SharedPanels;
 import delta.games.lotro.lore.emotes.EmoteDescription;
-import delta.games.lotro.lore.items.Armour;
-import delta.games.lotro.lore.items.ArmourType;
 import delta.games.lotro.lore.items.DisenchantmentManager;
 import delta.games.lotro.lore.items.DisenchantmentResult;
+import delta.games.lotro.lore.items.EquipmentLocation;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemBinding;
 import delta.games.lotro.lore.items.ItemSturdiness;
-import delta.games.lotro.lore.items.Weapon;
-import delta.games.lotro.lore.items.WeaponType;
 import delta.games.lotro.lore.items.details.GrantedElement;
 import delta.games.lotro.lore.items.details.ItemDetailsManager;
 import delta.games.lotro.lore.items.details.ItemReputation;
@@ -289,25 +287,26 @@ public class ItemDisplayPanelController implements NavigablePanelController
     List<String> ret=new ArrayList<String>();
     // Quality
     // TODO
+    // Equipment category
+    EquipmentCategory equipmentCategory=_item.getEquipmentCategory();
+    if (equipmentCategory!=null)
+    {
+      ret.add("Equipment Category: "+equipmentCategory.getLabel());
+    }
+    // Slot
+    EquipmentLocation location=_item.getEquipmentLocation();
+    if (location!=null)
+    {
+      ret.add("Location: "+location.getLabel());
+    }
     // Category
-    String category=_item.getSubCategory();
-    if ((category!=null) && (category.length()>0))
+    if ((equipmentCategory==null) && (location==null))
     {
-      ret.add("Category: "+category);
-    }
-    // Weapon type
-    if (_item instanceof Weapon)
-    {
-      Weapon weapon=(Weapon)_item;
-      WeaponType type=weapon.getWeaponType();
-      ret.add("Weapon type: "+type.getName());
-    }
-    // Armour type
-    if (_item instanceof Armour)
-    {
-      Armour armour=(Armour)_item;
-      ArmourType type=armour.getArmourType();
-      ret.add("Armour type: "+type.getName());
+      String category=_item.getSubCategory();
+      if ((category!=null) && (category.length()>0))
+      {
+        ret.add("Category: "+category);
+      }
     }
     // Slots
     int nbSlots=_item.getEssenceSlots();
