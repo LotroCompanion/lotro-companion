@@ -9,8 +9,8 @@ import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.character.stats.virtues.VirtuesSet;
-import delta.games.lotro.character.virtues.VirtuesStatus;
-import delta.games.lotro.character.virtues.VirtuesStatusUtils;
+import delta.games.lotro.character.status.virtues.VirtuesStatus;
+import delta.games.lotro.character.status.virtues.VirtuesStatusUtils;
 
 /**
  * Controller for a panel to display the statistics of virtues.

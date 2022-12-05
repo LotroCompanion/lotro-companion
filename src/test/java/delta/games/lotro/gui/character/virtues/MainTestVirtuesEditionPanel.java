@@ -7,8 +7,8 @@ import delta.games.lotro.character.CharactersManager;
 import delta.games.lotro.character.stats.CharacterGenerationTools;
 import delta.games.lotro.character.stats.CharacterGeneratorMeva;
 import delta.games.lotro.character.stats.virtues.VirtuesSet;
-import delta.games.lotro.character.virtues.VirtuesStatus;
-import delta.games.lotro.character.virtues.io.VirtuesStatusIO;
+import delta.games.lotro.character.status.virtues.VirtuesStatus;
+import delta.games.lotro.character.status.virtues.io.VirtuesStatusIO;
 
 /**
  * Test for virtues edition panel.

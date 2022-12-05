@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 import delta.common.ui.swing.windows.DefaultFormDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.stats.virtues.VirtuesSet;
-import delta.games.lotro.character.virtues.VirtuesStatus;
+import delta.games.lotro.character.status.virtues.VirtuesStatus;
 
 /**
  * Controller for the virtues edition dialog.

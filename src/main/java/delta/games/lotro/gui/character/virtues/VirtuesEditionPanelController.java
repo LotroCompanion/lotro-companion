@@ -29,9 +29,9 @@ import org.apache.log4j.Logger;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.stats.virtues.VirtuesSet;
+import delta.games.lotro.character.status.virtues.VirtuesStatus;
 import delta.games.lotro.character.virtues.VirtueDescription;
 import delta.games.lotro.character.virtues.VirtuesManager;
-import delta.games.lotro.character.virtues.VirtuesStatus;
 import delta.games.lotro.config.LotroCoreConfig;
 import delta.games.lotro.gui.character.virtues.VirtueEditionUiController.TierValueListener;
 
