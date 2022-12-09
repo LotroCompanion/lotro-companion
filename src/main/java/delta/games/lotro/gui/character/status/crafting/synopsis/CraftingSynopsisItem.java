@@ -6,6 +6,7 @@ import delta.games.lotro.character.status.crafting.ProfessionStatus;
 import delta.games.lotro.character.status.reputation.FactionStatus;
 import delta.games.lotro.lore.crafting.CraftingLevel;
 import delta.games.lotro.lore.crafting.Profession;
+import delta.games.lotro.lore.crafting.Vocation;
 
 /**
  * Gathers crafting data for a single toon and a single profession.
@@ -14,18 +15,21 @@ import delta.games.lotro.lore.crafting.Profession;
 public class CraftingSynopsisItem
 {
   private CharacterFile _character;
+  private Vocation _vocation;
   private ProfessionStatus _status;
   private GuildStatus _guildStatus;
 
   /**
    * Constructor.
    * @param character Targeted character.
+   * @param vocation Vocation.
    * @param professionStatus Profession status.
    * @param guildStatus Guild status.
    */
-  public CraftingSynopsisItem(CharacterFile character, ProfessionStatus professionStatus, GuildStatus guildStatus)
+  public CraftingSynopsisItem(CharacterFile character, Vocation vocation, ProfessionStatus professionStatus, GuildStatus guildStatus)
   {
     _character=character;
+    _vocation=vocation;
     _status=professionStatus;
     _guildStatus=guildStatus;
   }
@@ -37,6 +41,15 @@ public class CraftingSynopsisItem
   public CharacterFile getCharacter()
   {
     return _character;
+  }
+
+  /**
+   * Get the vocation.
+   * @return a vocation.
+   */
+  public Vocation getVocation()
+  {
+    return _vocation;
   }
 
   /**

@@ -34,6 +34,7 @@ import delta.games.lotro.lore.crafting.CraftingLevelTier;
 import delta.games.lotro.lore.crafting.Profession;
 import delta.games.lotro.lore.crafting.ProfessionComparator;
 import delta.games.lotro.lore.crafting.ProfessionFilter;
+import delta.games.lotro.lore.crafting.Vocation;
 import delta.games.lotro.lore.reputation.FactionLevelComparator;
 import delta.games.lotro.utils.gui.Gradients;
 
@@ -78,12 +79,13 @@ public class CraftingSynopsisTableController
     for(CharacterFile toon : _toons)
     {
       CraftingStatus craftingStatus=toon.getCraftingMgr().getCraftingStatus();
+      Vocation vocation=craftingStatus.getVocation();
       List<Profession> professions=craftingStatus.getProfessions();
       for(Profession profession : professions)
       {
         ProfessionStatus professionStatus=craftingStatus.getProfessionStatus(profession,true);
         GuildStatus displayedStatus=craftingStatus.getGuildStatus(profession,false);
-        CraftingSynopsisItem item=new CraftingSynopsisItem(toon,professionStatus,displayedStatus);
+        CraftingSynopsisItem item=new CraftingSynopsisItem(toon,vocation,professionStatus,displayedStatus);
         _rowItems.add(item);
       }
     }
@@ -100,12 +102,18 @@ public class CraftingSynopsisTableController
     DataProvider<CraftingSynopsisItem> provider=buildDataProvider();
     GenericTableController<CraftingSynopsisItem> table=new GenericTableController<CraftingSynopsisItem>(provider);
     table.setFilter(_filter);
-    // Row header column
-    DefaultTableColumnController<CraftingSynopsisItem,String> rowHeaderColumn=buildRowHeaderColumn();
-    table.addColumnController(rowHeaderColumn);
-    // Profession column
+    // Profession icon
     DefaultTableColumnController<CraftingSynopsisItem,Profession> professionColumn=buildProfessionColumn();
     table.addColumnController(professionColumn);
+    // Character name
+    DefaultTableColumnController<CraftingSynopsisItem,String> characterNameColumn=buildCharacterNameColumn();
+    table.addColumnController(characterNameColumn);
+    // Profession name
+    DefaultTableColumnController<CraftingSynopsisItem,String> professionNameColumn=buildProfessionNameColumn();
+    table.addColumnController(professionNameColumn);
+    // Vocation name
+    DefaultTableColumnController<CraftingSynopsisItem,String> vocationNameColumn=buildVocationColumn();
+    table.addColumnController(vocationNameColumn);
     // Proficiency
     DefaultTableColumnController<CraftingSynopsisItem,CraftingLevel> proficiencyColumn=buildCraftingTierColumn(false);
     table.addColumnController(proficiencyColumn);
@@ -131,23 +139,7 @@ public class CraftingSynopsisTableController
     return renderer;
   }
 
-  private TableCellRenderer buildCharacterNameCellRenderer()
-  {
-    final JLabel label=GuiFactory.buildLabel("");
-    label.setHorizontalAlignment(SwingConstants.CENTER);
-    TableCellRenderer renderer=new TableCellRenderer()
-    {
-      @Override
-      public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
-      {
-        label.setText((String)value);
-        return label;
-      }
-    };
-    return renderer;
-  }
-
-  private DefaultTableColumnController<CraftingSynopsisItem,String> buildRowHeaderColumn()
+  private DefaultTableColumnController<CraftingSynopsisItem,String> buildCharacterNameColumn()
   {
     CellDataProvider<CraftingSynopsisItem,String> cell=new CellDataProvider<CraftingSynopsisItem,String>()
     {
@@ -159,21 +151,12 @@ public class CraftingSynopsisTableController
         return name;
       }
     };
-    DefaultTableColumnController<CraftingSynopsisItem,String> column=new DefaultTableColumnController<CraftingSynopsisItem,String>("Name",String.class,cell);
+    DefaultTableColumnController<CraftingSynopsisItem,String> column=new DefaultTableColumnController<CraftingSynopsisItem,String>(CraftingSynopsisColumnIds.CHARACTER_NAME.name(),"Name",String.class,cell);
 
     // Init widths
     column.setMinWidth(100);
     column.setPreferredWidth(150);
     column.setMaxWidth(300);
-
-    // Header renderer
-    JPanel emptyHeaderPanel=GuiFactory.buildPanel(new GridBagLayout());
-    TableCellRenderer headerRenderer=buildSimpleCellRenderer(emptyHeaderPanel);
-    column.setHeaderCellRenderer(headerRenderer);
-
-    // Cell renderer
-    TableCellRenderer renderer=buildCharacterNameCellRenderer();
-    column.setCellRenderer(renderer);
 
     return column;
   }
@@ -208,7 +191,7 @@ public class CraftingSynopsisTableController
         return item.getProfession();
       }
     };
-    DefaultTableColumnController<CraftingSynopsisItem,Profession> professionColumn=new DefaultTableColumnController<CraftingSynopsisItem,Profession>("Profession",Profession.class,professionCell);
+    DefaultTableColumnController<CraftingSynopsisItem,Profession> professionColumn=new DefaultTableColumnController<CraftingSynopsisItem,Profession>(CraftingSynopsisColumnIds.PROFESSION_ICON.name(),"",Profession.class,professionCell);
     professionColumn.setWidthSpecs(50,50,50);
     // Header renderer
     JPanel emptyHeaderPanel=GuiFactory.buildPanel(new GridBagLayout());
@@ -221,6 +204,36 @@ public class CraftingSynopsisTableController
     ProfessionComparator comparator=new ProfessionComparator();
     professionColumn.setComparator(comparator);
     return professionColumn;
+  }
+
+  private DefaultTableColumnController<CraftingSynopsisItem,String> buildProfessionNameColumn()
+  {
+    CellDataProvider<CraftingSynopsisItem,String> professionCell=new CellDataProvider<CraftingSynopsisItem,String>()
+    {
+      @Override
+      public String getData(CraftingSynopsisItem item)
+      {
+        return item.getProfession().getName();
+      }
+    };
+    DefaultTableColumnController<CraftingSynopsisItem,String> professionColumn=new DefaultTableColumnController<CraftingSynopsisItem,String>(CraftingSynopsisColumnIds.PROFESSION_NAME.name(),"Profession",String.class,professionCell);
+    professionColumn.setWidthSpecs(100,100,100);
+    return professionColumn;
+  }
+
+  private DefaultTableColumnController<CraftingSynopsisItem,String> buildVocationColumn()
+  {
+    CellDataProvider<CraftingSynopsisItem,String> vocationCell=new CellDataProvider<CraftingSynopsisItem,String>()
+    {
+      @Override
+      public String getData(CraftingSynopsisItem item)
+      {
+        return item.getVocation().getName();
+      }
+    };
+    DefaultTableColumnController<CraftingSynopsisItem,String> vocationColumn=new DefaultTableColumnController<CraftingSynopsisItem,String>(CraftingSynopsisColumnIds.VOCATION.name(),"Vocation",String.class,vocationCell);
+    vocationColumn.setWidthSpecs(100,100,100);
+    return vocationColumn;
   }
 
   private JPanel buildCraftingTierPanel(boolean mastery)
@@ -260,7 +273,7 @@ public class CraftingSynopsisTableController
       }
     };
     String columnName=mastery?"Mastery":"Proficiency";
-    String id=columnName;
+    String id=mastery?CraftingSynopsisColumnIds.MASTERY.name():CraftingSynopsisColumnIds.PROFICIENCY.name();
     DefaultTableColumnController<CraftingSynopsisItem,CraftingLevel> column=new DefaultTableColumnController<CraftingSynopsisItem,CraftingLevel>(id,columnName,CraftingLevel.class,cell);
     // Header cell renderer
     JPanel panel=buildCraftingTierPanel(mastery);
@@ -305,9 +318,7 @@ public class CraftingSynopsisTableController
         return item.getGuildFaction();
       }
     };
-    String columnName="Guild";
-    String id=columnName;
-    DefaultTableColumnController<CraftingSynopsisItem,FactionStatus> column=new DefaultTableColumnController<CraftingSynopsisItem,FactionStatus>(id,columnName,FactionStatus.class,cell);
+    DefaultTableColumnController<CraftingSynopsisItem,FactionStatus> column=new DefaultTableColumnController<CraftingSynopsisItem,FactionStatus>(CraftingSynopsisColumnIds.GUILD.name(),"Guild",FactionStatus.class,cell);
     // Header cell renderer
     JPanel panel=buildGuildPanel();
     TableCellRenderer headerRenderer=buildSimpleCellRenderer(panel);
@@ -369,7 +380,7 @@ public class CraftingSynopsisTableController
   private void configureTable(final JTable table)
   {
     table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-    table.setShowGrid(false);
+    //table.setShowGrid(false);
     table.getTableHeader().setReorderingAllowed(false);
     // Adjust table row height for icons (30 pixels)
     table.setRowHeight(30);
