@@ -21,19 +21,28 @@ import delta.games.lotro.maps.ui.layers.radar.RadarImageProvider;
  */
 public class RadarMapLayer extends BaseRasterLayer
 {
+  /**
+   * Satellite map.
+   */
+  public static final String SATELLITE_MAP="Satellite Map";
+  /**
+   * Height map.
+   */
+  public static final String HEIGHT_MAP="Height Map";
   private static final boolean USE_GRID=false;
   private int _region;
   private RadarImageCache _cache;
 
   /**
    * Constructor.
+   * @param name Layer name.
    * @param region to show
    * @param provider Radar images provider.
    */
-  public RadarMapLayer(int region, RadarImageProvider provider)
+  public RadarMapLayer(String name, int region, RadarImageProvider provider)
   {
     super();
-    setName("Radar Map");
+    setName(name);
     _region=region;
     _cache=new RadarImageCache(provider);
   }

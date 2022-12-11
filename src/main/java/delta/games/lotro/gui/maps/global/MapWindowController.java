@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.DefaultWindowController;
 import delta.games.lotro.dat.data.DataFacade;
+import delta.games.lotro.gui.maps.DatHeightMapImageProvider;
 import delta.games.lotro.gui.maps.DatRadarImageProvider;
 import delta.games.lotro.gui.maps.MarkerSelectionListener;
 import delta.games.lotro.gui.maps.RadarMapLayer;
@@ -62,6 +63,7 @@ public class MapWindowController extends DefaultWindowController implements Navi
   private NavigationMenuController _navigationMenuController;
   // Layers
   private RadarMapLayer _radarLayer;
+  private RadarMapLayer _heightMapLayer;
 
   /**
    * Constructor.
@@ -72,11 +74,17 @@ public class MapWindowController extends DefaultWindowController implements Navi
     _mapsManager=mapsManager;
     _mapPanel=new BasemapPanelController(mapsManager.getBasemapsManager());
     MapCanvas canvas=_mapPanel.getCanvas();
-    // Radar layer
+    // Satellite map
     DataFacade facade=DatInterface.getInstance().getFacade();
     RadarImageProvider provider=new DatRadarImageProvider(facade);
-    _radarLayer=new RadarMapLayer(1,provider);
+    _radarLayer=new RadarMapLayer(RadarMapLayer.SATELLITE_MAP,1,provider);
     canvas.addLayer(_radarLayer);
+    // Height map
+    RadarImageProvider heightMapProvider=new DatHeightMapImageProvider(facade);
+    _heightMapLayer=new RadarMapLayer(RadarMapLayer.HEIGHT_MAP,1,heightMapProvider);
+    _heightMapLayer.setVisible(false);
+    canvas.addLayer(_heightMapLayer);
+
     // Basemap layer
     BasemapLayer basemapLayer=_mapPanel.getBasemapLayer();
     DatBasemapImageProvider imageProvider=new DatBasemapImageProvider(facade);
@@ -147,8 +155,10 @@ public class MapWindowController extends DefaultWindowController implements Navi
       region=parchmentMap.getRegion();
     }
     _radarLayer.setRegion(region);
-    // - reset radar map cache on map change to avoid too much memory consumption
+    _heightMapLayer.setRegion(region);
+    // - reset caches on map change to avoid too much memory consumption
     _radarLayer.resetCache();
+    _heightMapLayer.resetCache();
     // Markers
     List<Marker> markers=new MapMarkersFactory().getMarkers(mapId);
     _markersProvider.setMarkers(markers);
@@ -221,6 +231,7 @@ public class MapWindowController extends DefaultWindowController implements Navi
       _navigationMenuController=null;
     }
     _radarLayer=null;
+    _heightMapLayer=null;
     super.dispose();
   }
 }

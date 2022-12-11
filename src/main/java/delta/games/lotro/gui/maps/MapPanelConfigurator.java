@@ -73,13 +73,19 @@ public class MapPanelConfigurator
       basemapLayer.setMap(basemap);
       canvas.addLayer(basemapLayer);
     }
-    // Radar map?
-    RadarImageProvider provider=new DatRadarImageProvider(facade);
+    // Satellite and height map?
     int region=mapDescription.getRegion();
     if (region!=0)
     {
-      RadarMapLayer radarLayer=new RadarMapLayer(region,provider);
+      // Satellite map
+      RadarImageProvider provider=new DatRadarImageProvider(facade);
+      RadarMapLayer radarLayer=new RadarMapLayer(RadarMapLayer.SATELLITE_MAP,region,provider);
       canvas.addLayer(radarLayer);
+      // Height map
+      RadarImageProvider heightMapProvider=new DatHeightMapImageProvider(facade);
+      RadarMapLayer heightMapLayer=new RadarMapLayer(RadarMapLayer.HEIGHT_MAP,region,heightMapProvider);
+      heightMapLayer.setVisible(false);
+      canvas.addLayer(heightMapLayer);
     }
   }
 }

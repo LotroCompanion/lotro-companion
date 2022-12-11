@@ -8,6 +8,7 @@ import java.util.Set;
 
 import delta.common.utils.collections.filters.Filter;
 import delta.games.lotro.dat.data.DataFacade;
+import delta.games.lotro.gui.maps.DatHeightMapImageProvider;
 import delta.games.lotro.gui.maps.DatRadarImageProvider;
 import delta.games.lotro.gui.maps.RadarMapLayer;
 import delta.games.lotro.gui.maps.basemap.DatBasemapImageProvider;
@@ -100,11 +101,17 @@ public class ResourcesMapPanelController
       }
     }
 
-    // Radar map?
+    // Satellite map
     RadarImageProvider provider=new DatRadarImageProvider(facade);
-    RadarMapLayer radarLayer=new RadarMapLayer(1,provider);
+    RadarMapLayer radarLayer=new RadarMapLayer(RadarMapLayer.SATELLITE_MAP,1,provider);
     canvas.addLayer(radarLayer);
     radarLayer.setRegion(region);
+    // Height map
+    RadarImageProvider heightMapProvider=new DatHeightMapImageProvider(facade);
+    RadarMapLayer heightMapLayer=new RadarMapLayer(RadarMapLayer.HEIGHT_MAP,1,heightMapProvider);
+    heightMapLayer.setVisible(false);
+    canvas.addLayer(heightMapLayer);
+    heightMapLayer.setRegion(region);
 
     // Markers
     MarkerIconProvider iconsProvider=new ResourceIconProvider();
