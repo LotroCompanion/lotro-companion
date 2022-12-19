@@ -12,6 +12,7 @@ import java.util.Set;
 import org.apache.log4j.Logger;
 
 import delta.games.lotro.common.IdentifiableComparator;
+import delta.games.lotro.config.LotroCoreConfig;
 import delta.games.lotro.lore.crafting.CraftingLevel;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemsManager;
@@ -153,7 +154,7 @@ public class ResourceNodesLootManager
       }
       itemsForCategory.add(item);
     }
-    String[] categories={"Craft: Resource", "Craft: Component", "Craft: Ingredient", "Craft: Optional Ingredient", "Misc."};
+    String[] categories=getCategories();
     for(String category : categories)
     {
       List<Item> itemsForCategory=sortedItemsMap.get(category);
@@ -169,5 +170,17 @@ public class ResourceNodesLootManager
       LOGGER.warn("Unmanaged categories: "+sortedItemsMap.keySet());
     }
     return ret;
+  }
+
+  private String[] getCategories()
+  {
+    boolean live=LotroCoreConfig.isLive();
+    if (live)
+    {
+      String[] liveCategories={"Craft: Resource", "Craft: Component", "Craft: Ingredient", "Craft: Optional Ingredient", "Misc."};
+      return liveCategories;
+    }
+    String[] categories={"NonInventory", "Ingredient", "Resource"};
+    return categories;
   }
 }
