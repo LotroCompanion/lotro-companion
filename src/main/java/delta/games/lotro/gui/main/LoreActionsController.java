@@ -61,9 +61,10 @@ public class LoreActionsController implements ActionListener,Disposable
 
   /**
    * Build the 'compendium' menu.
+   * @param isLive Live mode or not.
    * @return a new menu.
    */
-  public JMenu buildCompendiumMenu()
+  public JMenu buildCompendiumMenu(boolean isLive)
   {
     // Compendium
     JMenu compendiumMenu=GuiFactory.buildMenu("Compendium");
@@ -102,16 +103,19 @@ public class LoreActionsController implements ActionListener,Disposable
     emotesExplorer.setActionCommand(EMOTES_ID);
     emotesExplorer.addActionListener(this);
     compendiumMenu.add(emotesExplorer);
-    // - mounts
-    JMenuItem mountsExplorer=GuiFactory.buildMenuItem("Mounts");
-    mountsExplorer.setActionCommand(MOUNTS_ID);
-    mountsExplorer.addActionListener(this);
-    compendiumMenu.add(mountsExplorer);
-    // - pets
-    JMenuItem petsExplorer=GuiFactory.buildMenuItem("Pets");
-    petsExplorer.setActionCommand(PETS_ID);
-    petsExplorer.addActionListener(this);
-    compendiumMenu.add(petsExplorer);
+    if (isLive)
+    {
+      // - mounts
+      JMenuItem mountsExplorer=GuiFactory.buildMenuItem("Mounts");
+      mountsExplorer.setActionCommand(MOUNTS_ID);
+      mountsExplorer.addActionListener(this);
+      compendiumMenu.add(mountsExplorer);
+      // - pets
+      JMenuItem petsExplorer=GuiFactory.buildMenuItem("Pets");
+      petsExplorer.setActionCommand(PETS_ID);
+      petsExplorer.addActionListener(this);
+      compendiumMenu.add(petsExplorer);
+    }
     // - vendors
     JMenuItem vendorsExplorer=GuiFactory.buildMenuItem("Vendors");
     vendorsExplorer.setActionCommand(VENDORS_ID);
@@ -128,9 +132,10 @@ public class LoreActionsController implements ActionListener,Disposable
 
   /**
    * Build the 'lore' toolbar.
+   * @param isLive Live mode or not.
    * @return a new toobar.
    */
-  public ToolbarController buildToolbarLore()
+  public ToolbarController buildToolbarLore(boolean isLive)
   {
     ToolbarController controller=new ToolbarController();
     ToolbarModel model=controller.getModel();
@@ -162,14 +167,17 @@ public class LoreActionsController implements ActionListener,Disposable
     String emotesIconPath=SharedUiUtils.getToolbarIconPath("emotes");
     ToolbarIconItem emotesIconItem=new ToolbarIconItem(EMOTES_ID,emotesIconPath,EMOTES_ID,"Emotes...","Emotes");
     model.addToolbarIconItem(emotesIconItem);
-    // Mounts icon
-    String mountsIconPath=SharedUiUtils.getToolbarIconPath("mounts");
-    ToolbarIconItem mountsIconItem=new ToolbarIconItem(MOUNTS_ID,mountsIconPath,MOUNTS_ID,"Mounts...","Mounts");
-    model.addToolbarIconItem(mountsIconItem);
-    // Pets icon
-    String petsIconPath=SharedUiUtils.getToolbarIconPath("pets");
-    ToolbarIconItem petsIconItem=new ToolbarIconItem(PETS_ID,petsIconPath,PETS_ID,"Pets...","Pets");
-    model.addToolbarIconItem(petsIconItem);
+    if (isLive)
+    {
+      // Mounts icon
+      String mountsIconPath=SharedUiUtils.getToolbarIconPath("mounts");
+      ToolbarIconItem mountsIconItem=new ToolbarIconItem(MOUNTS_ID,mountsIconPath,MOUNTS_ID,"Mounts...","Mounts");
+      model.addToolbarIconItem(mountsIconItem);
+      // Pets icon
+      String petsIconPath=SharedUiUtils.getToolbarIconPath("pets");
+      ToolbarIconItem petsIconItem=new ToolbarIconItem(PETS_ID,petsIconPath,PETS_ID,"Pets...","Pets");
+      model.addToolbarIconItem(petsIconItem);
+    }
     // Vendors icon
     String vendorsIconPath=SharedUiUtils.getToolbarIconPath("vendors");
     ToolbarIconItem vendorsIconItem=new ToolbarIconItem(VENDORS_ID,vendorsIconPath,VENDORS_ID,"Vendors...","Vendors");

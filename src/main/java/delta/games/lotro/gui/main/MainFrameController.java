@@ -29,6 +29,7 @@ import delta.common.ui.swing.windows.WindowController;
 import delta.common.ui.swing.windows.WindowsManager;
 import delta.common.utils.misc.Preferences;
 import delta.games.lotro.Config;
+import delta.games.lotro.config.LotroCoreConfig;
 import delta.games.lotro.dat.data.DataFacade;
 import delta.games.lotro.gui.about.AboutDialogController;
 import delta.games.lotro.gui.about.CreditsDialogController;
@@ -103,7 +104,15 @@ public class MainFrameController extends DefaultWindowController implements Acti
   {
     JFrame frame=super.build();
     frame.setTitle("LOTRO Companion");
-    frame.setSize(920,400);
+    boolean isLive=LotroCoreConfig.isLive();
+    if (isLive)
+    {
+      frame.setSize(920,400);
+    }
+    else
+    {
+      frame.setSize(600,130);
+    }
     frame.setLocation(100,100);
     frame.getContentPane().setBackground(GuiFactory.getBackgroundColor());
     return frame;
@@ -112,6 +121,7 @@ public class MainFrameController extends DefaultWindowController implements Acti
   @Override
   protected JMenuBar buildMenuBar()
   {
+    JMenuBar menuBar=GuiFactory.buildMenuBar();
     JMenu fileMenu=GuiFactory.buildMenu("File");
     JMenuItem quit=GuiFactory.buildMenuItem("Quit");
     ActionListener alQuit=new ActionListener()
@@ -124,7 +134,67 @@ public class MainFrameController extends DefaultWindowController implements Acti
     };
     quit.addActionListener(alQuit);
     fileMenu.add(quit);
+    menuBar.add(fileMenu);
 
+    boolean isLive=LotroCoreConfig.isLive();
+    if (isLive)
+    {
+      // Statistics
+      JMenu statsMenu=buildStatisticsMenu();
+      menuBar.add(statsMenu);
+    }
+    // Compendium menu
+    JMenu compendiumMenu=_loreCtrl.buildCompendiumMenu(isLive);
+    // Maps
+    JMenu mapsMenu=GuiFactory.buildMenu("Maps");
+    // - map
+    JMenuItem map=GuiFactory.buildMenuItem("Middle-earth Map");
+    map.setActionCommand(MAP_COMMAND);
+    map.addActionListener(this);
+    mapsMenu.add(map);
+    if (isLive)
+    {
+      // - instances
+      JMenuItem instancesExplorer=GuiFactory.buildMenuItem("Instances");
+      instancesExplorer.setActionCommand(INSTANCES_COMMAND);
+      instancesExplorer.addActionListener(this);
+      mapsMenu.add(instancesExplorer);
+    }
+    // - resources maps
+    JMenuItem resourcesMapsExplorer=GuiFactory.buildMenuItem("Resources Maps");
+    resourcesMapsExplorer.setActionCommand(RESOURCES_MAPS_COMMAND);
+    resourcesMapsExplorer.addActionListener(this);
+    mapsMenu.add(resourcesMapsExplorer);
+
+    // Help
+    JMenu helpMenu=GuiFactory.buildMenu("Help");
+    // - about
+    JMenuItem aboutMenuItem=GuiFactory.buildMenuItem("About...");
+    aboutMenuItem.setActionCommand(ABOUT_COMMAND);
+    aboutMenuItem.addActionListener(this);
+    helpMenu.add(aboutMenuItem);
+    // - credits
+    JMenuItem creditsMenuItem=GuiFactory.buildMenuItem("Credits...");
+    ActionListener alCredits=new ActionListener()
+    {
+      @Override
+      public void actionPerformed(ActionEvent e)
+      {
+        doCredits();
+      }
+    };
+    creditsMenuItem.addActionListener(alCredits);
+    helpMenu.add(creditsMenuItem);
+
+    menuBar.add(compendiumMenu);
+    menuBar.add(mapsMenu);
+    menuBar.add(Box.createHorizontalGlue());
+    menuBar.add(helpMenu);
+    return menuBar;
+  }
+
+  private JMenu buildStatisticsMenu()
+  {
     // Statistics
     JMenu statsMenu=GuiFactory.buildMenu("Statistics");
     // - levelling
@@ -157,56 +227,7 @@ public class MainFrameController extends DefaultWindowController implements Acti
     emotesSynopsis.setActionCommand(EMOTES_SYNOPSIS_COMMAND);
     emotesSynopsis.addActionListener(this);
     statsMenu.add(emotesSynopsis);
-
-    // Compendium menu
-    JMenu compendiumMenu=_loreCtrl.buildCompendiumMenu();
-
-    // Maps
-    JMenu mapsMenu=GuiFactory.buildMenu("Maps");
-    // - map
-    JMenuItem map=GuiFactory.buildMenuItem("Middle-earth Map");
-    map.setActionCommand(MAP_COMMAND);
-    map.addActionListener(this);
-    mapsMenu.add(map);
-    // - instances
-    JMenuItem instancesExplorer=GuiFactory.buildMenuItem("Instances");
-    instancesExplorer.setActionCommand(INSTANCES_COMMAND);
-    instancesExplorer.addActionListener(this);
-    mapsMenu.add(instancesExplorer);
-    // - resources maps
-    JMenuItem resourcesMapsExplorer=GuiFactory.buildMenuItem("Resources Maps");
-    resourcesMapsExplorer.setActionCommand(RESOURCES_MAPS_COMMAND);
-    resourcesMapsExplorer.addActionListener(this);
-    mapsMenu.add(resourcesMapsExplorer);
-
-    // Help
-    JMenu helpMenu=GuiFactory.buildMenu("Help");
-    // - about
-    JMenuItem aboutMenuItem=GuiFactory.buildMenuItem("About...");
-    aboutMenuItem.setActionCommand(ABOUT_COMMAND);
-    aboutMenuItem.addActionListener(this);
-    helpMenu.add(aboutMenuItem);
-    // - credits
-    JMenuItem creditsMenuItem=GuiFactory.buildMenuItem("Credits...");
-    ActionListener alCredits=new ActionListener()
-    {
-      @Override
-      public void actionPerformed(ActionEvent e)
-      {
-        doCredits();
-      }
-    };
-    creditsMenuItem.addActionListener(alCredits);
-    helpMenu.add(creditsMenuItem);
-
-    JMenuBar menuBar=GuiFactory.buildMenuBar();
-    menuBar.add(fileMenu);
-    menuBar.add(statsMenu);
-    menuBar.add(compendiumMenu);
-    menuBar.add(mapsMenu);
-    menuBar.add(Box.createHorizontalGlue());
-    menuBar.add(helpMenu);
-    return menuBar;
+    return statsMenu;
   }
 
   @Override
@@ -228,35 +249,42 @@ public class MainFrameController extends DefaultWindowController implements Acti
     // Toolbars
     JPanel toolbarsPanel=buildToolbarsPanel();
     ret.add(toolbarsPanel,BorderLayout.NORTH);
-    JTabbedPane tabbedPane=GuiFactory.buildTabbedPane();
-    // Characters
-    JPanel toonsPanel=_toonsManager.getPanel();
-    tabbedPane.add("Characters",toonsPanel);
-    // Accounts
-    JPanel accountsPanel=_accountsManager.getPanel();
-    tabbedPane.add("Accounts",accountsPanel);
-    // Kinships
-    JPanel kinshipsPanel=_kinshipsManager.getPanel();
-    tabbedPane.add("Kinships",kinshipsPanel);
-    ret.add(tabbedPane,BorderLayout.CENTER);
+    boolean isLive=LotroCoreConfig.isLive();
+    if (isLive)
+    {
+      JTabbedPane tabbedPane=GuiFactory.buildTabbedPane();
+      // Characters
+      JPanel toonsPanel=_toonsManager.getPanel();
+      tabbedPane.add("Characters",toonsPanel);
+      // Accounts
+      JPanel accountsPanel=_accountsManager.getPanel();
+      tabbedPane.add("Accounts",accountsPanel);
+      // Kinships
+      JPanel kinshipsPanel=_kinshipsManager.getPanel();
+      tabbedPane.add("Kinships",kinshipsPanel);
+      ret.add(tabbedPane,BorderLayout.CENTER);
+    }
     return ret;
   }
 
   private JPanel buildToolbarsPanel()
   {
-    _toolbarTracking=buildToolBarTracking();
-    ToolbarController loreToolbar=_loreCtrl.buildToolbarLore();
-    _toolbarMaps=buildToolBarMaps();
-    _toolbarMisc=buildToolBarMisc();
-    _paypalButton=new PaypalButtonController();
+    boolean isLive=LotroCoreConfig.isLive();
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,5,2,0),0,0);
-    panel.add(_toolbarTracking.getToolBar(),c);
-    c.gridx++;
+    if (isLive)
+    {
+      _toolbarTracking=buildToolBarTracking();
+      panel.add(_toolbarTracking.getToolBar(),c);
+      c.gridx++;
+    }
+    ToolbarController loreToolbar=_loreCtrl.buildToolbarLore(isLive);
     panel.add(loreToolbar.getToolBar(),c);
     c.gridx++;
+    _toolbarMaps=buildToolBarMaps(isLive);
     panel.add(_toolbarMaps.getToolBar(),c);
     c.gridx++;
+    _toolbarMisc=buildToolBarMisc(isLive);
     panel.add(_toolbarMisc.getToolBar(),c);
     c.gridx++;
     JPanel padding=GuiFactory.buildPanel(new FlowLayout());
@@ -264,6 +292,7 @@ public class MainFrameController extends DefaultWindowController implements Acti
     c.gridx++;
     panel.add(padding,c);
     c=new GridBagConstraints(c.gridx,0,1,1,0.0,0.0,GridBagConstraints.EAST,GridBagConstraints.NONE,new Insets(2,5,2,5),0,0);
+    _paypalButton=new PaypalButtonController();
     panel.add(_paypalButton.getButton(),c);
     c.gridx++;
     return panel;
@@ -304,7 +333,7 @@ public class MainFrameController extends DefaultWindowController implements Acti
     return controller;
   }
 
-  private ToolbarController buildToolBarMaps()
+  private ToolbarController buildToolBarMaps(boolean isLive)
   {
     ToolbarController controller=new ToolbarController();
     ToolbarModel model=controller.getModel();
@@ -312,10 +341,13 @@ public class MainFrameController extends DefaultWindowController implements Acti
     String mapIconPath=SharedUiUtils.getToolbarIconPath("globe");
     ToolbarIconItem mapIconItem=new ToolbarIconItem(MAP_COMMAND,mapIconPath,MAP_COMMAND,"Maps...","Maps");
     model.addToolbarIconItem(mapIconItem);
-    // Instances icon
-    String instancessIconPath=SharedUiUtils.getToolbarIconPath("instances");
-    ToolbarIconItem instancesIconItem=new ToolbarIconItem(INSTANCES_COMMAND,instancessIconPath,INSTANCES_COMMAND,"Instances...","Instances");
-    model.addToolbarIconItem(instancesIconItem);
+    if (isLive)
+    {
+      // Instances icon
+      String instancessIconPath=SharedUiUtils.getToolbarIconPath("instances");
+      ToolbarIconItem instancesIconItem=new ToolbarIconItem(INSTANCES_COMMAND,instancessIconPath,INSTANCES_COMMAND,"Instances...","Instances");
+      model.addToolbarIconItem(instancesIconItem);
+    }
     // Resources maps icon
     String resourcesMapsIconPath=SharedUiUtils.getToolbarIconPath("resourcesMap");
     ToolbarIconItem resourcesMapsIconItem=new ToolbarIconItem(RESOURCES_MAPS_COMMAND,resourcesMapsIconPath,RESOURCES_MAPS_COMMAND,"Resources maps...","Resources Maps");
@@ -327,7 +359,7 @@ public class MainFrameController extends DefaultWindowController implements Acti
     return controller;
   }
 
-  private ToolbarController buildToolBarMisc()
+  private ToolbarController buildToolBarMisc(boolean isLive)
   {
     ToolbarController controller=new ToolbarController();
     ToolbarModel model=controller.getModel();
@@ -335,10 +367,13 @@ public class MainFrameController extends DefaultWindowController implements Acti
     String settingsIconPath=SharedUiUtils.getToolbarIconPath("settings");
     ToolbarIconItem settingsIconItem=new ToolbarIconItem(SETTINGS_COMMAND,settingsIconPath,SETTINGS_COMMAND,"Settings...","Settings...");
     model.addToolbarIconItem(settingsIconItem);
-    // Import from LOTRO (client)
-    String importIconPath=SharedUiUtils.getToolbarIconPath("lotro-import");
-    ToolbarIconItem importIconItem=new ToolbarIconItem(CLIENT_SYNCHRO_COMMAND,importIconPath,CLIENT_SYNCHRO_COMMAND,"Import from LotRO...","Import...");
-    model.addToolbarIconItem(importIconItem);
+    if (isLive)
+    {
+      // Import from LOTRO (client)
+      String importIconPath=SharedUiUtils.getToolbarIconPath("lotro-import");
+      ToolbarIconItem importIconItem=new ToolbarIconItem(CLIENT_SYNCHRO_COMMAND,importIconPath,CLIENT_SYNCHRO_COMMAND,"Import from LotRO...","Import...");
+      model.addToolbarIconItem(importIconItem);
+    }
     // About
     String aboutIconPath=SharedUiUtils.getToolbarIconPath("about");
     ToolbarIconItem aboutIconItem=new ToolbarIconItem(ABOUT_COMMAND,aboutIconPath,ABOUT_COMMAND,"About Lotro Companion...","About...");
