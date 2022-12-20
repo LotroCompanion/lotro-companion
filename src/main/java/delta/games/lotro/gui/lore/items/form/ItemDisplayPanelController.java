@@ -36,12 +36,14 @@ import delta.games.lotro.gui.lore.items.containers.form.ContainerDisplayPanelCon
 import delta.games.lotro.gui.utils.IconAndLinkPanelController;
 import delta.games.lotro.gui.utils.SharedPanels;
 import delta.games.lotro.lore.emotes.EmoteDescription;
+import delta.games.lotro.lore.items.DamageType;
 import delta.games.lotro.lore.items.DisenchantmentManager;
 import delta.games.lotro.lore.items.DisenchantmentResult;
 import delta.games.lotro.lore.items.EquipmentLocation;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemBinding;
 import delta.games.lotro.lore.items.ItemSturdiness;
+import delta.games.lotro.lore.items.Weapon;
 import delta.games.lotro.lore.items.details.GrantedElement;
 import delta.games.lotro.lore.items.details.ItemDetailsManager;
 import delta.games.lotro.lore.items.details.ItemReputation;
@@ -308,6 +310,11 @@ public class ItemDisplayPanelController implements NavigablePanelController
         ret.add("Category: "+category);
       }
     }
+    if (_item instanceof Weapon)
+    {
+      List<String> weaponLines=getWeaponAttributeLines((Weapon)_item);
+      ret.addAll(weaponLines);
+    }
     // Slots
     int nbSlots=_item.getEssenceSlots();
     if (nbSlots>0)
@@ -364,6 +371,26 @@ public class ItemDisplayPanelController implements NavigablePanelController
       String attributes=buildAttributesString();
       ret.add(attributes);
     }
+    return ret;
+  }
+
+  private List<String> getWeaponAttributeLines(Weapon weapon)
+  {
+    List<String> ret=new ArrayList<String>();
+    // Damage type
+    DamageType damageType=weapon.getDamageType();
+    if (damageType!=null)
+    {
+      ret.add("Damage type: "+damageType.getName());
+    }
+    // Damage range
+    int minDamage=weapon.getMinDamage();
+    int maxDamage=weapon.getMaxDamage();
+    ret.add("Damage: "+minDamage+" - "+maxDamage);
+    // DPS
+    float dps=weapon.getDPS();
+    String dpsStr=String.format("%.1f",Float.valueOf(dps));
+    ret.add("DPS: "+dpsStr);
     return ret;
   }
 
