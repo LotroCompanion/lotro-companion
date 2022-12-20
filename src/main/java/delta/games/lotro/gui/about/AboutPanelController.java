@@ -24,6 +24,7 @@ import delta.common.ui.swing.labels.HyperLinkController;
 import delta.common.ui.swing.labels.MailToHyperlinkAction;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.Config;
+import delta.games.lotro.config.LotroCoreConfig;
 
 /**
  * Controller for a 'about' panel.
@@ -61,7 +62,9 @@ public class AboutPanelController
       x++;
     }
 
-    JLabel lbName=new JLabel("LotRO Companion");
+    boolean isLive=LotroCoreConfig.isLive();
+    String appName=isLive?"LotRO Companion":"LotRO Lore Database";
+    JLabel lbName=new JLabel(appName);
     Font defaultFont=lbName.getFont();
     Font font16=defaultFont.deriveFont(Font.BOLD,16);
     Font font24=defaultFont.deriveFont(Font.BOLD,24);
@@ -89,7 +92,8 @@ public class AboutPanelController
       JLabel contactLabel=GuiFactory.buildLabel("Contact: ");
       contactLabel.setFont(font16);
       contactPanel.add(contactLabel);
-      MailToHyperlinkAction mailAction=new MailToHyperlinkAction("lotrocompanion@gmail.com","Contact");
+      String email=isLive?"lotrocompanion@gmail.com":"lotroloredatabase@gmail.com";
+      MailToHyperlinkAction mailAction=new MailToHyperlinkAction(email,"Contact");
       _mail=new HyperLinkController(mailAction);
       JLabel lbEmail=_mail.getLabel();
       lbEmail.setFont(font16);
@@ -100,6 +104,7 @@ public class AboutPanelController
     }
 
     // Source code
+    if (isLive)
     {
       JPanel sourcePanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.CENTER));
       JLabel sourceLabel=GuiFactory.buildLabel("Source code: ");
@@ -114,14 +119,15 @@ public class AboutPanelController
       panel.add(sourcePanel,c);
       y++;
     }
-    
+
     // Discord
     {
       JPanel discordPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.CENTER));
       JLabel discordLabel=GuiFactory.buildLabel("Discord: ");
       discordLabel.setFont(font16);
       discordPanel.add(discordLabel);
-      BrowserHyperlinkAction discordAction=new BrowserHyperlinkAction("https://discord.gg/t2J4GDq","Lotro Companion's corner");
+      String discordText=isLive?"Lotro Companion's corner":"Discord";
+      BrowserHyperlinkAction discordAction=new BrowserHyperlinkAction("https://discord.gg/t2J4GDq",discordText);
       HyperLinkController discord=new HyperLinkController(discordAction);
       JLabel lbDiscord=discord.getLabel();
       lbDiscord.setFont(font16);
@@ -142,18 +148,21 @@ public class AboutPanelController
       y++;
     }
 
-    // Contributors label contrib
-    JLabel lbContributors=new JLabel("Contributors:");
-    lbContributors.setFont(font24);
-    c=new GridBagConstraints(0,y,2,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(10,15,10,5),0,0);
-    panel.add(lbContributors,c);
-    y++;
+    if (isLive)
+    {
+      // Contributors label contrib
+      JLabel lbContributors=new JLabel("Contributors:");
+      lbContributors.setFont(font24);
+      c=new GridBagConstraints(0,y,2,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(10,15,10,5),0,0);
+      panel.add(lbContributors,c);
+      y++;
 
-    // Project contributors
-    JPanel contributorsPanel=buildContributorsPanel();
-    c=new GridBagConstraints(0,y,2,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(5,5,5,5),0,0);
-    panel.add(contributorsPanel,c);
-    y++;
+      // Project contributors
+      JPanel contributorsPanel=buildContributorsPanel();
+      c=new GridBagConstraints(0,y,2,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(5,5,5,5),0,0);
+      panel.add(contributorsPanel,c);
+      y++;
+    }
 
     return panel;
   }

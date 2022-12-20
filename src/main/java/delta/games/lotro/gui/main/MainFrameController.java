@@ -103,8 +103,9 @@ public class MainFrameController extends DefaultWindowController implements Acti
   protected JFrame build()
   {
     JFrame frame=super.build();
-    frame.setTitle("LOTRO Companion");
     boolean isLive=LotroCoreConfig.isLive();
+    String appName=isLive?"LotRO Companion":"LotRO Lore Database";
+    frame.setTitle(appName);
     if (isLive)
     {
       frame.setSize(920,400);
