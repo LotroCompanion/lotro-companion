@@ -172,7 +172,7 @@ public class ResourceNodesLootManager
     }
     if (sortedItemsMap.size()>0)
     {
-      //LOGGER.warn("Unmanaged categories: "+sortedItemsMap.keySet());
+      LOGGER.warn("Unmanaged categories: "+sortedItemsMap.keySet());
       List<String> missingCategories=new ArrayList<String>(sortedItemsMap.keySet());
       Collections.sort(missingCategories);
       for(String missingCategory : missingCategories)
