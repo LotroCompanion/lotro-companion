@@ -6,6 +6,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.Objects;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -176,9 +177,21 @@ public class ConfigurationDialogController extends DefaultFormDialogController<A
     // Data
     String dataPathStr=_dataPath.getText();
     File dataPath=new File(dataPathStr);
+    File oldDataPath=_data.getDataConfiguration().getRootPath();
     _data.getDataConfiguration().setRootPath(dataPath);
     _data.saveConfiguration();
+    if (!Objects.equals(dataPath,oldDataPath))
+    {
+      warnOnDataPathChange(oldDataPath,dataPath);
+    }
     _data.configurationUpdated();
+  }
+
+  private void warnOnDataPathChange(File oldPath, File newPath)
+  {
+    String message="User data path has changed.\nPlease restart the application so that it takes effect!";
+    String title="Restart application";
+    GuiFactory.showInformationDialog(_dataPath,message,title);
   }
 
   @Override
