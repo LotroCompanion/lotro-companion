@@ -12,6 +12,9 @@ import java.util.Set;
 import org.apache.log4j.Logger;
 
 import delta.games.lotro.common.IdentifiableComparator;
+import delta.games.lotro.common.enums.ItemClass;
+import delta.games.lotro.common.enums.LotroEnum;
+import delta.games.lotro.common.enums.LotroEnumsRegistry;
 import delta.games.lotro.config.LotroCoreConfig;
 import delta.games.lotro.lore.crafting.CraftingLevel;
 import delta.games.lotro.lore.items.Item;
@@ -66,7 +69,7 @@ public class ResourceNodesLootManager
   }
 
   /**
-   * Get the items associated with the give resource nodes.
+   * Get the items associated with the given resource nodes.
    * @param sourceItems Source items.
    * @return a list of items.
    */
@@ -141,6 +144,7 @@ public class ResourceNodesLootManager
    */
   public List<Item> sortItems(List<Item> items)
   {
+    //System.out.println("Sorting items: "+items);
     List<Item> ret=new ArrayList<Item>();
     Map<String,List<Item>> sortedItemsMap=new HashMap<String,List<Item>>();
     for(Item item : items)
@@ -161,26 +165,70 @@ public class ResourceNodesLootManager
       if (itemsForCategory!=null)
       {
         Collections.sort(itemsForCategory,new IdentifiableComparator<Item>());
+        //System.out.println("\tFound items: "+itemsForCategory+" for category: "+category);
         ret.addAll(itemsForCategory);
         sortedItemsMap.remove(category);
       }
     }
     if (sortedItemsMap.size()>0)
     {
-      LOGGER.warn("Unmanaged categories: "+sortedItemsMap.keySet());
+      //LOGGER.warn("Unmanaged categories: "+sortedItemsMap.keySet());
+      List<String> missingCategories=new ArrayList<String>(sortedItemsMap.keySet());
+      Collections.sort(missingCategories);
+      for(String missingCategory : missingCategories)
+      {
+        List<Item> itemsForCategory=sortedItemsMap.get(missingCategory);
+        if (itemsForCategory!=null)
+        {
+          Collections.sort(itemsForCategory,new IdentifiableComparator<Item>());
+          //System.out.println("\tFound items: "+itemsForCategory+" for missing category: "+missingCategory);
+          ret.addAll(itemsForCategory);
+        }
+      }
     }
     return ret;
   }
 
   private String[] getCategories()
   {
+    int[] categoryCodes;
     boolean live=LotroCoreConfig.isLive();
     if (live)
     {
-      String[] liveCategories={"Craft: Resource", "Craft: Component", "Craft: Ingredient", "Craft: Optional Ingredient", "Misc."};
-      return liveCategories;
+      categoryCodes=new int[]
+      {
+        56,  // "Craft: Resource"
+        37,  // "Craft: Component"
+        38,  // "Craft: Ingredient"
+        188, // "Craft: Optional Ingredient"
+        164  // "Misc."
+      };
     }
-    String[] categories={"NonInventory", "Ingredient", "Resource"};
-    return categories;
+    else
+    {
+      categoryCodes=new int[]
+      {
+        53, // "NonInventory" for resource nodes
+        38, // "Ingredient"
+        56  // "Resource"
+      };
+    }
+    return getCategories(categoryCodes);
+  }
+
+  private String[] getCategories(int[] codes)
+  {
+    LotroEnum<ItemClass> classEnum=LotroEnumsRegistry.getInstance().get(ItemClass.class);
+    List<String> categories=new ArrayList<String>();
+    for(int code : codes)
+    {
+      ItemClass entry=classEnum.getEntry(code);
+      if (entry!=null)
+      {
+        String category=entry.getLabel();
+        categories.add(category);
+      }
+    }
+    return categories.toArray(new String[categories.size()]);
   }
 }
