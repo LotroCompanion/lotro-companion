@@ -21,7 +21,6 @@ public final class Config
   private static Config _instance=new Config();
 
   private File _mapsDir;
-  private Preferences _preferences;
   private List<String> _servers;
 
   /**
@@ -42,12 +41,6 @@ public final class Config
 
     // Lore
     _mapsDir=coreConfig.getFile(DataFiles.MAPS);
-
-    // User data
-    File userDir=coreConfig.getUserDataDir();
-    // - preferences
-    File preferencesDir=new File(userDir,"preferences");
-    _preferences=new Preferences(preferencesDir);
 
     // Load servers
     loadServers();
@@ -86,7 +79,7 @@ public final class Config
    */
   public Preferences getPreferences()
   {
-    return _preferences;
+    return LotroCoreConfig.getInstance().getPreferences();
   }
 
   /**

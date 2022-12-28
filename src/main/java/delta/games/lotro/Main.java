@@ -25,14 +25,19 @@ public class Main
    */
   public static void main(String[] args)
   {
+    // Init UI
     GuiFactory.init();
+    // Init preferences
     GuiFactory.setPreferences(Config.getInstance().getPreferences());
+    // Init l10n
     L10nConfiguration l10nCfg=ApplicationConfiguration.getInstance().getL10nConfiguration();
     LocalizedFormats.init(l10nCfg);
     Locale.setDefault(Locale.US);
+    // Init app context
     Context.init(LotroCoreConfig.getMode());
     LotroCore.init();
     LotroIconsManager.initApplicationIcons();
+    // Build main window
     MainFrameController controller=new MainFrameController();
     JFrame frame=controller.getFrame();
     frame.setVisible(true);

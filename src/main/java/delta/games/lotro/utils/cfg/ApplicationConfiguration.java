@@ -6,7 +6,9 @@ import delta.common.utils.ListenersManager;
 import delta.common.utils.l10n.L10nConfiguration;
 import delta.common.utils.l10n.dates.DateFormatID;
 import delta.common.utils.l10n.numbers.NumberFormatID;
-import delta.games.lotro.UserConfig;
+import delta.games.lotro.config.DataConfiguration;
+import delta.games.lotro.config.LotroCoreConfig;
+import delta.games.lotro.config.UserConfig;
 import delta.games.lotro.dat.data.DatConfiguration;
 
 /**
@@ -15,8 +17,10 @@ import delta.games.lotro.dat.data.DatConfiguration;
  */
 public class ApplicationConfiguration
 {
+  // DAT
   private static final String DAT_CONFIGURATION="DatConfiguration";
   private static final String CLIENT_PATH="ClientPath";
+  // L10n
   private static final String L10N_CONFIGURATION="Localization";
   private static final String DATE_FORMAT="DateFormat";
   private static final String DATETIME_FORMAT="DateTimeFormat";
@@ -25,6 +29,7 @@ public class ApplicationConfiguration
   private static final ApplicationConfiguration _instance=new ApplicationConfiguration();
   private DatConfiguration _datConfiguration;
   private L10nConfiguration _l10nConfiguration;
+  private DataConfiguration _dataConfiguration;
   private ListenersManager<ConfigurationListener> _listeners;
 
   /**
@@ -64,6 +69,15 @@ public class ApplicationConfiguration
   }
 
   /**
+   * Get the data configuration. 
+   * @return the data configuration.
+   */
+  public DataConfiguration getDataConfiguration()
+  {
+    return _dataConfiguration;
+  }
+
+  /**
    * Get the configuration listeners.
    * @return the configuration listeners.
    */
@@ -91,6 +105,8 @@ public class ApplicationConfiguration
     _l10nConfiguration.setDateTimeFormatID(dateTimeFormat);
     String integerFormat=config.getStringValue(L10N_CONFIGURATION,NUMBER_FORMAT,NumberFormatID.AUTO);
     _l10nConfiguration.setNumberFormatID(integerFormat);
+    // Data
+    _dataConfiguration=LotroCoreConfig.getInstance().getDataConfiguration();
     // Save...
     saveConfiguration();
   }
@@ -111,6 +127,8 @@ public class ApplicationConfiguration
     userCfg.setStringValue(L10N_CONFIGURATION,DATETIME_FORMAT,dateTimeFormat);
     String numberFormat=_l10nConfiguration.getNumberFormatID();
     userCfg.setStringValue(L10N_CONFIGURATION,NUMBER_FORMAT,numberFormat);
+    // Data
+    _dataConfiguration.save(userCfg);
     // Save configuration
     UserConfig.getInstance().save();
   }
