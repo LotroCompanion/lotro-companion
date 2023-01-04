@@ -19,18 +19,14 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.collections.ListOrderedMap;
 import delta.games.lotro.character.CharacterData;
-import delta.games.lotro.character.classes.ClassDescription;
-import delta.games.lotro.character.classes.ClassesManager;
-import delta.games.lotro.character.classes.traitTree.TraitTree;
 import delta.games.lotro.character.events.CharacterEvent;
 import delta.games.lotro.character.events.CharacterEventType;
 import delta.games.lotro.character.stats.buffs.Buff;
 import delta.games.lotro.character.stats.buffs.BuffInstance;
 import delta.games.lotro.character.stats.buffs.BuffRegistry;
 import delta.games.lotro.character.stats.buffs.BuffsManager;
-import delta.games.lotro.character.status.traitTree.BuffsManagerToTraitTreeStatus;
 import delta.games.lotro.character.status.traitTree.TraitTreeStatus;
-import delta.games.lotro.common.CharacterClass;
+import delta.games.lotro.character.status.traits.TraitsStatus;
 import delta.games.lotro.gui.character.traitTree.TraitTreeEditionDialog;
 import delta.games.lotro.utils.events.EventsManager;
 
@@ -128,17 +124,13 @@ public class BuffEditionPanelController implements ActionListener
   private void buildBuffControllers(JPanel panel)
   {
     BuffsManager buffs=_toon.getBuffs();
-    BuffRegistry registry=BuffRegistry.getInstance();
     int nbBuffs=buffs.getBuffsCount();
     for(int i=0;i<nbBuffs;i++)
     {
       BuffInstance buffInstance=buffs.getBuffAt(i);
-      if (registry.isSelectable(buffInstance.getBuff()))
-      {
-        String buffId=buffInstance.getBuff().getId();
-        BuffIconController controller=buildBuffController(buffInstance);
-        _buffControllers.put(buffId,controller);
-      }
+      String buffId=buffInstance.getBuff().getId();
+      BuffIconController controller=buildBuffController(buffInstance);
+      _buffControllers.put(buffId,controller);
     }
   }
 
@@ -229,17 +221,15 @@ public class BuffEditionPanelController implements ActionListener
 
   private void editTraitTree()
   {
-    CharacterClass cClass=_toon.getCharacterClass();
-    ClassDescription classDescription=ClassesManager.getInstance().getClassDescription(cClass);
-    TraitTree traitTree=classDescription.getTraitTree();
-    TraitTreeStatus status=new TraitTreeStatus(traitTree);
-    BuffsManager buffs=_toon.getBuffs();
-    BuffsManagerToTraitTreeStatus.initFromBuffs(status,buffs);
-    TraitTreeEditionDialog dialog=new TraitTreeEditionDialog(_parentWindow,_toon,status);
+    TraitTreeStatus status=_toon.getTraits().getTraitTreeStatus();
+    TraitTreeStatus toEdit=new TraitTreeStatus(status);
+    TraitTreeEditionDialog dialog=new TraitTreeEditionDialog(_parentWindow,_toon,toEdit);
     TraitTreeStatus result=dialog.editModal();
     if (result!=null)
     {
-      BuffsManagerToTraitTreeStatus.updateBuffsFromTraitTreeStatus(result,buffs);
+      TraitsStatus traitsStatus=_toon.getTraits();
+      TraitTreeStatus newStatus=new TraitTreeStatus(result);
+      traitsStatus.setTraitTreeStatus(newStatus);
       // Broadcast toon update event...
       CharacterEvent event=new CharacterEvent(CharacterEventType.CHARACTER_DATA_UPDATED,null,_toon);
       EventsManager.invokeEvent(event);

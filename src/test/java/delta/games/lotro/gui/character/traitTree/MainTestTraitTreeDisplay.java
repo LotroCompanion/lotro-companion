@@ -3,13 +3,7 @@ package delta.games.lotro.gui.character.traitTree;
 import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharactersManager;
-import delta.games.lotro.character.classes.ClassDescription;
-import delta.games.lotro.character.classes.ClassesManager;
-import delta.games.lotro.character.classes.traitTree.TraitTree;
-import delta.games.lotro.character.stats.buffs.BuffsManager;
-import delta.games.lotro.character.status.traitTree.BuffsManagerToTraitTreeStatus;
 import delta.games.lotro.character.status.traitTree.TraitTreeStatus;
-import delta.games.lotro.common.CharacterClass;
 
 /**
  * Test for trait tree display.
@@ -28,18 +22,12 @@ public class MainTestTraitTreeDisplay
 
   private void showTree(CharacterData data)
   {
-    CharacterClass cClass=data.getCharacterClass();
-    ClassDescription classDescription=ClassesManager.getInstance().getClassDescription(cClass);
-    TraitTree traitTree=classDescription.getTraitTree();
-    TraitTreeStatus status=new TraitTreeStatus(traitTree);
-    BuffsManager buffs=data.getBuffs();
-    BuffsManagerToTraitTreeStatus.initFromBuffs(status,buffs);
+    TraitTreeStatus status=data.getTraits().getTraitTreeStatus();
     TraitTreeEditionDialog dialog=new TraitTreeEditionDialog(null,data,status);
     TraitTreeStatus result=dialog.editModal();
     if (result!=null)
     {
-      BuffsManagerToTraitTreeStatus.updateBuffsFromTraitTreeStatus(result,buffs);
-      System.out.println("After: "+buffs);
+      System.out.println("After: "+result);
     }
   }
 

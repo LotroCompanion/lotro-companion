@@ -11,6 +11,7 @@ import javax.swing.JButton;
 import delta.common.ui.swing.icons.IconWithText;
 import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.stats.BasicStatsSet;
+import delta.games.lotro.character.stats.StatsComputer;
 import delta.games.lotro.character.stats.buffs.Buff;
 import delta.games.lotro.character.stats.buffs.BuffInstance;
 import delta.games.lotro.character.stats.buffs.BuffRegistry;
@@ -54,20 +55,16 @@ public class TraitTreeCellController
 
   private String buildTraitTooltip(int rank)
   {
-    String buffId=String.valueOf(_trait.getIdentifier());
-    Buff buff=BuffRegistry.getInstance().getBuffById(buffId);
     BasicStatsSet stats;
     if (rank>0)
     {
-      BuffInstance buffInstance=buff.buildInstance();
-      buffInstance.setTier(Integer.valueOf(rank));
-      stats=buffInstance.getStats(_toon);
+      stats=StatsComputer.getStats(_toon,_trait,rank);
     }
     else
     {
       stats=new BasicStatsSet();
     }
-    String html=StatDisplayUtils.buildToolTip(buff.getLabel(),stats);
+    String html=StatDisplayUtils.buildToolTip(_trait.getName(),stats);
     return html;
   }
 
