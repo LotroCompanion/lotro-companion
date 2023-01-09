@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.common.ui.swing.combobox.ItemSelectionListener;
+import delta.games.lotro.character.virtues.VirtueDescription;
 import delta.games.lotro.common.enums.BillingGroup;
 import delta.games.lotro.common.rewards.RewardsExplorer;
 import delta.games.lotro.common.rewards.filters.BillingGroupRewardFilter;
@@ -25,6 +26,7 @@ import delta.games.lotro.common.rewards.filters.ReputationRewardFilter;
 import delta.games.lotro.common.rewards.filters.RewardsFilter;
 import delta.games.lotro.common.rewards.filters.TitleRewardFilter;
 import delta.games.lotro.common.rewards.filters.TraitRewardFilter;
+import delta.games.lotro.common.rewards.filters.VirtueRewardFilter;
 import delta.games.lotro.common.rewards.filters.VirtueXpRewardFilter;
 import delta.games.lotro.common.rewards.filters.XpRewardFilter;
 import delta.games.lotro.gui.common.rewards.RewardsUiUtils;
@@ -59,6 +61,7 @@ public class RewardsFilterController
   private ComboBoxController<Boolean> _virtueXp;
   private ComboBoxController<String> _trait;
   private ComboBoxController<String> _title;
+  private ComboBoxController<VirtueDescription> _virtue;
   private ComboBoxController<String> _emote;
   private ComboBoxController<Integer> _item;
   private ComboBoxController<Integer> _relic;
@@ -123,6 +126,7 @@ public class RewardsFilterController
     }
     _trait.selectItem(null);
     _title.selectItem(null);
+    _virtue.selectItem(null);
     _emote.selectItem(null);
     _item.selectItem(null);
     if (_relic!=null)
@@ -186,6 +190,10 @@ public class RewardsFilterController
     TitleRewardFilter titleFilter=_filter.getTitleFilter();
     String title=titleFilter.getTitle();
     _title.selectItem(title);
+    // Virtue
+    VirtueRewardFilter virtueFilter=_filter.getVirtueFilter();
+    VirtueDescription virtue=virtueFilter.getVirtue();
+    _virtue.selectItem(virtue);
     // Emote
     EmoteRewardFilter emoteFilter=_filter.getEmoteFilter();
     String emote=emoteFilter.getEmote();
@@ -226,6 +234,10 @@ public class RewardsFilterController
       linePanel.add(GuiFactory.buildLabel("Title:"));
       _title=buildTitlesCombobox();
       linePanel.add(_title.getComboBox());
+      // Virtue
+      linePanel.add(GuiFactory.buildLabel("Virtue:"));
+      _virtue=buildVirtuesCombobox();
+      linePanel.add(_virtue.getComboBox());
       c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(5,0,0,0),0,0);
       panel.add(linePanel,c);
       y++;
@@ -492,6 +504,23 @@ public class RewardsFilterController
     return combo;
   }
 
+  private ComboBoxController<VirtueDescription> buildVirtuesCombobox()
+  {
+    ComboBoxController<VirtueDescription> combo=SharedUiUtils.buildVirtueCombo();
+    ItemSelectionListener<VirtueDescription> listener=new ItemSelectionListener<VirtueDescription>()
+    {
+      @Override
+      public void itemSelected(VirtueDescription virtue)
+      {
+        VirtueRewardFilter filter=_filter.getVirtueFilter();
+        filter.setVirtue(virtue);
+        filterUpdated();
+      }
+    };
+    combo.addListener(listener);
+    return combo;
+  }
+
   private ComboBoxController<String> buildEmotesCombobox()
   {
     ComboBoxController<String> combo=_uiUtils.buildEmotesCombo();
@@ -631,6 +660,11 @@ public class RewardsFilterController
     {
       _title.dispose();
       _title=null;
+    }
+    if (_virtue!=null)
+    {
+      _virtue.dispose();
+      _virtue=null;
     }
     if (_emote!=null)
     {
