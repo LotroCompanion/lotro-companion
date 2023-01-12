@@ -25,6 +25,7 @@ import delta.games.lotro.common.LockType;
 import delta.games.lotro.common.Repeatability;
 import delta.games.lotro.common.Size;
 import delta.games.lotro.common.rewards.RewardsExplorer;
+import delta.games.lotro.config.LotroCoreConfig;
 import delta.games.lotro.gui.common.requirements.RequirementsFilterController;
 import delta.games.lotro.gui.common.rewards.filter.RewardsFilterController;
 import delta.games.lotro.gui.lore.items.FilterUpdateListener;
@@ -61,14 +62,14 @@ public class QuestFilterController implements ActionListener
   // -- Quest attributes UI --
   private JTextField _contains;
   private ComboBoxController<String> _category;
-  private ComboBoxController<String> _questArc;
+  private ComboBoxController<String> _questArc; // Live only
   private ComboBoxController<Boolean> _instanced;
-  private ComboBoxController<Boolean> _shareable;
+  private ComboBoxController<Boolean> _shareable; // Live only
   private ComboBoxController<Boolean> _sessionPlay;
-  private ComboBoxController<Boolean> _autoBestowed;
+  private ComboBoxController<Boolean> _autoBestowed; // Live only
   private ComboBoxController<Boolean> _hidden;
   private ComboBoxController<Repeatability> _repeatability;
-  private ComboBoxController<LockType> _lockType;
+  private ComboBoxController<LockType> _lockType; // Live only!
   private ComboBoxController<Size> _size;
   private ComboBoxController<Boolean> _monsterPlay;
   // -- Requirements UI --
@@ -143,16 +144,28 @@ public class QuestFilterController implements ActionListener
     if (source==_reset)
     {
       _category.selectItem(null);
-      _questArc.selectItem(null);
+      if (_questArc!=null)
+      {
+        _questArc.selectItem(null);
+      }
       _size.selectItem(null);
       _monsterPlay.selectItem(null);
       _instanced.selectItem(null);
-      _shareable.selectItem(null);
+      if (_shareable!=null)
+      {
+        _shareable.selectItem(null);
+      }
       _sessionPlay.selectItem(null);
-      _autoBestowed.selectItem(null);
+      if (_autoBestowed!=null)
+      {
+        _autoBestowed.selectItem(null);
+      }
       _hidden.selectItem(null);
       _repeatability.selectItem(null);
-      _lockType.selectItem(null);
+      if (_lockType!=null)
+      {
+        _lockType.selectItem(null);
+      }
       if (_requirements!=null)
       {
         _requirements.reset();
@@ -177,9 +190,12 @@ public class QuestFilterController implements ActionListener
     String category=categoryFilter.getQuestCategory();
     _category.selectItem(category);
     // Quest arc
-    QuestArcFilter questArcFilter=_filter.getQuestArcFilter();
-    String questArc=questArcFilter.getQuestArc();
-    _questArc.selectItem(questArc);
+    if (_questArc!=null)
+    {
+      QuestArcFilter questArcFilter=_filter.getQuestArcFilter();
+      String questArc=questArcFilter.getQuestArc();
+      _questArc.selectItem(questArc);
+    }
     // Size
     QuestSizeFilter sizeFilter=_filter.getQuestSizeFilter();
     Size size=sizeFilter.getQuestSize();
@@ -193,17 +209,23 @@ public class QuestFilterController implements ActionListener
     Boolean instancedFlag=instancedFilter.getIsInstancedFlag();
     _instanced.selectItem(instancedFlag);
     // Shareable
-    ShareableQuestFilter shareableFilter=_filter.getShareableQuestFilter();
-    Boolean shareableFlag=shareableFilter.getIsShareableFlag();
-    _shareable.selectItem(shareableFlag);
+    if (_shareable!=null)
+    {
+      ShareableQuestFilter shareableFilter=_filter.getShareableQuestFilter();
+      Boolean shareableFlag=shareableFilter.getIsShareableFlag();
+      _shareable.selectItem(shareableFlag);
+    }
     // Session-play
     SessionPlayQuestFilter sessionPlayFilter=_filter.getSessionPlayQuestFilter();
     Boolean sessionPlayFlag=sessionPlayFilter.getIsSessionPlayFlag();
     _sessionPlay.selectItem(sessionPlayFlag);
     // Auto-bestowed
-    AutoBestowedQuestFilter autoBestowedFilter=_filter.getAutoBestowedQuestFilter();
-    Boolean autoBestowedFlag=autoBestowedFilter.getIsAutoBestowedFlag();
-    _autoBestowed.selectItem(autoBestowedFlag);
+    if (_autoBestowed!=null)
+    {
+      AutoBestowedQuestFilter autoBestowedFilter=_filter.getAutoBestowedQuestFilter();
+      Boolean autoBestowedFlag=autoBestowedFilter.getIsAutoBestowedFlag();
+      _autoBestowed.selectItem(autoBestowedFlag);
+    }
     // Hidden
     HiddenAchievableFilter<QuestDescription> hiddenFilter=_filter.getHiddenFilter();
     Boolean hiddenFlag=hiddenFilter.getIsHiddenFlag();
@@ -213,9 +235,12 @@ public class QuestFilterController implements ActionListener
     Repeatability repeatability=repeatabilityFilter.getRepeatability();
     _repeatability.selectItem(repeatability);
     // Lock type
-    LockTypeFilter lockTypeFilter=_filter.getLockTypeFilter();
-    LockType lockType=lockTypeFilter.getLockType();
-    _lockType.selectItem(lockType);
+    if (_lockType!=null)
+    {
+      LockTypeFilter lockTypeFilter=_filter.getLockTypeFilter();
+      LockType lockType=lockTypeFilter.getLockType();
+      _lockType.selectItem(lockType);
+    }
     // Requirements
     if (_requirements!=null)
     {
@@ -289,6 +314,7 @@ public class QuestFilterController implements ActionListener
 
   private JPanel buildQuestPanel()
   {
+    boolean isLive=LotroCoreConfig.isLive();
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
 
     int y=0;
@@ -338,6 +364,7 @@ public class QuestFilterController implements ActionListener
       line2Panel.add(_category.getComboBox());
     }
     // Quest arc
+    if (isLive)
     {
       JLabel label=GuiFactory.buildLabel("Quest arc:");
       line2Panel.add(label);
@@ -356,17 +383,23 @@ public class QuestFilterController implements ActionListener
       _instanced=buildInstancedCombobox();
       line.add(_instanced.getComboBox());
       // Shareable
-      line.add(GuiFactory.buildLabel("Shareable:"));
-      _shareable=buildShareableCombobox();
-      line.add(_shareable.getComboBox());
+      if (isLive)
+      {
+        line.add(GuiFactory.buildLabel("Shareable:"));
+        _shareable=buildShareableCombobox();
+        line.add(_shareable.getComboBox());
+      }
       // Session-play
       line.add(GuiFactory.buildLabel("Session-play:"));
       _sessionPlay=buildSessionPlayCombobox();
       line.add(_sessionPlay.getComboBox());
       // Auto-bestowed
-      line.add(GuiFactory.buildLabel("Auto-bestowed:"));
-      _autoBestowed=buildAutoBestowedCombobox();
-      line.add(_autoBestowed.getComboBox());
+      if (isLive)
+      {
+        line.add(GuiFactory.buildLabel("Auto-bestowed:"));
+        _autoBestowed=buildAutoBestowedCombobox();
+        line.add(_autoBestowed.getComboBox());
+      }
       // Hidden
       line.add(GuiFactory.buildLabel("Hidden:"));
       _hidden=buildHiddenCombobox();
@@ -384,9 +417,12 @@ public class QuestFilterController implements ActionListener
       _repeatability=buildRepeatabilityCombobox();
       line.add(_repeatability.getComboBox());
       // Lock type
-      line.add(GuiFactory.buildLabel("Lock type:"));
-      _lockType=buildLockTypeCombobox();
-      line.add(_lockType.getComboBox());
+      if (isLive)
+      {
+        line.add(GuiFactory.buildLabel("Lock type:"));
+        _lockType=buildLockTypeCombobox();
+        line.add(_lockType.getComboBox());
+      }
       // Size
       line.add(GuiFactory.buildLabel("Size:"));
       _size=buildSizeCombobox();
