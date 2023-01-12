@@ -29,6 +29,7 @@ import delta.games.lotro.common.rewards.filters.TraitRewardFilter;
 import delta.games.lotro.common.rewards.filters.VirtueRewardFilter;
 import delta.games.lotro.common.rewards.filters.VirtueXpRewardFilter;
 import delta.games.lotro.common.rewards.filters.XpRewardFilter;
+import delta.games.lotro.config.LotroCoreConfig;
 import delta.games.lotro.gui.common.rewards.RewardsUiUtils;
 import delta.games.lotro.gui.lore.items.FilterUpdateListener;
 import delta.games.lotro.gui.utils.SharedUiUtils;
@@ -111,22 +112,37 @@ public class RewardsFilterController
   public void reset()
   {
     _reputation.selectItem(null);
-    _lotroPoints.selectItem(null);
-    _classPoints.selectItem(null);
+    if (_lotroPoints!=null)
+    {
+      _lotroPoints.selectItem(null);
+    }
+    if (_classPoints!=null)
+    {
+      _classPoints.selectItem(null);
+    }
     _xp.selectItem(null);
     if (_itemXp!=null)
     {
       _itemXp.selectItem(null);
     }
-    _mountXp.selectItem(null);
-    _virtueXp.selectItem(null);
+    if (_mountXp!=null)
+    {
+      _mountXp.selectItem(null);
+    }
+    if (_virtueXp!=null)
+    {
+      _virtueXp.selectItem(null);
+    }
     if (_glory!=null)
     {
       _glory.selectItem(null);
     }
     _trait.selectItem(null);
     _title.selectItem(null);
-    _virtue.selectItem(null);
+    if (_virtue!=null)
+    {
+      _virtue.selectItem(null);
+    }
     _emote.selectItem(null);
     _item.selectItem(null);
     if (_relic!=null)
@@ -149,13 +165,19 @@ public class RewardsFilterController
     Faction faction=factionFilter.getFaction();
     _reputation.selectItem(faction);
     // LOTRO points
-    LotroPointsRewardFilter lotroPointsFilter=_filter.getLotroPointsFilter();
-    Boolean lotroPoints=lotroPointsFilter.getHasLotroPointsFlag();
-    _lotroPoints.selectItem(lotroPoints);
+    if (_lotroPoints!=null)
+    {
+      LotroPointsRewardFilter lotroPointsFilter=_filter.getLotroPointsFilter();
+      Boolean lotroPoints=lotroPointsFilter.getHasLotroPointsFlag();
+      _lotroPoints.selectItem(lotroPoints);
+    }
     // Class point
-    ClassPointRewardFilter classPointFilter=_filter.getClassPointsFilter();
-    Boolean classPoint=classPointFilter.getHasClassPointFlag();
-    _classPoints.selectItem(classPoint);
+    if (_classPoints!=null)
+    {
+      ClassPointRewardFilter classPointFilter=_filter.getClassPointsFilter();
+      Boolean classPoint=classPointFilter.getHasClassPointFlag();
+      _classPoints.selectItem(classPoint);
+    }
     // XP
     XpRewardFilter xpFilter=_filter.getXpFilter();
     Boolean xp=xpFilter.getHasXpFlag();
@@ -168,13 +190,19 @@ public class RewardsFilterController
       _itemXp.selectItem(itemXp);
     }
     // Mount XP
-    MountXpRewardFilter mountXpFilter=_filter.getMountXpFilter();
-    Boolean mountXp=mountXpFilter.getHasMountXpFlag();
-    _mountXp.selectItem(mountXp);
+    if (_mountXp!=null)
+    {
+      MountXpRewardFilter mountXpFilter=_filter.getMountXpFilter();
+      Boolean mountXp=mountXpFilter.getHasMountXpFlag();
+      _mountXp.selectItem(mountXp);
+    }
     // Virtue XP
-    VirtueXpRewardFilter virtueXpFilter=_filter.getVirtueXpFilter();
-    Boolean virtueXp=virtueXpFilter.getHasVirtueXpFlag();
-    _virtueXp.selectItem(virtueXp);
+    if (_virtueXp!=null)
+    {
+      VirtueXpRewardFilter virtueXpFilter=_filter.getVirtueXpFilter();
+      Boolean virtueXp=virtueXpFilter.getHasVirtueXpFlag();
+      _virtueXp.selectItem(virtueXp);
+    }
     // Glory
     if (_glory!=null)
     {
@@ -191,9 +219,12 @@ public class RewardsFilterController
     String title=titleFilter.getTitle();
     _title.selectItem(title);
     // Virtue
-    VirtueRewardFilter virtueFilter=_filter.getVirtueFilter();
-    VirtueDescription virtue=virtueFilter.getVirtue();
-    _virtue.selectItem(virtue);
+    if (_virtue!=null)
+    {
+      VirtueRewardFilter virtueFilter=_filter.getVirtueFilter();
+      VirtueDescription virtue=virtueFilter.getVirtue();
+      _virtue.selectItem(virtue);
+    }
     // Emote
     EmoteRewardFilter emoteFilter=_filter.getEmoteFilter();
     String emote=emoteFilter.getEmote();
@@ -220,6 +251,7 @@ public class RewardsFilterController
 
   private JPanel buildRewardsPanel()
   {
+    boolean isLive=LotroCoreConfig.isLive();
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     int y=0;
 
@@ -235,9 +267,12 @@ public class RewardsFilterController
       _title=buildTitlesCombobox();
       linePanel.add(_title.getComboBox());
       // Virtue
-      linePanel.add(GuiFactory.buildLabel("Virtue:"));
-      _virtue=buildVirtuesCombobox();
-      linePanel.add(_virtue.getComboBox());
+      if ((!isLive) && (!_quest))
+      {
+        linePanel.add(GuiFactory.buildLabel("Virtue:"));
+        _virtue=buildVirtuesCombobox();
+        linePanel.add(_virtue.getComboBox());
+      }
       c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(5,0,0,0),0,0);
       panel.add(linePanel,c);
       y++;
@@ -284,34 +319,43 @@ public class RewardsFilterController
     {
       JPanel line=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
       // LOTRO points
-      line.add(GuiFactory.buildLabel("LOTRO points:"));
-      _lotroPoints=buildLotroPointsCombobox();
-      line.add(_lotroPoints.getComboBox());
-      // Class point
-      line.add(GuiFactory.buildLabel("Class point:"));
-      _classPoints=buildClassPointsCombobox();
-      line.add(_classPoints.getComboBox());
+      if (isLive)
+      {
+        line.add(GuiFactory.buildLabel("LOTRO points:"));
+        _lotroPoints=buildLotroPointsCombobox();
+        line.add(_lotroPoints.getComboBox());
+        // Class point
+        line.add(GuiFactory.buildLabel("Class point:"));
+        _classPoints=buildClassPointsCombobox();
+        line.add(_classPoints.getComboBox());
+      }
       // XP
       line.add(GuiFactory.buildLabel("XP:"));
       _xp=buildXpCombobox();
       line.add(_xp.getComboBox());
       // Item XP
-      if (_quest)
+      if ((_quest) && (isLive))
       {
         line.add(GuiFactory.buildLabel("Item XP:"));
         _itemXp=buildItemXpCombobox();
         line.add(_itemXp.getComboBox());
       }
       // Mount XP
-      line.add(GuiFactory.buildLabel("Mount XP:"));
-      _mountXp=buildMountXpCombobox();
-      line.add(_mountXp.getComboBox());
+      if (isLive)
+      {
+        line.add(GuiFactory.buildLabel("Mount XP:"));
+        _mountXp=buildMountXpCombobox();
+        line.add(_mountXp.getComboBox());
+      }
       // Virtue XP
-      line.add(GuiFactory.buildLabel("Virtue XP:"));
-      _virtueXp=buildVirtueXpCombobox();
-      line.add(_virtueXp.getComboBox());
+      if (isLive)
+      {
+        line.add(GuiFactory.buildLabel("Virtue XP:"));
+        _virtueXp=buildVirtueXpCombobox();
+        line.add(_virtueXp.getComboBox());
+      }
       // Glory
-      if (_quest)
+      if ((_quest) && (isLive))
       {
         line.add(GuiFactory.buildLabel("Renown/infamy:"));
         _glory=buildGloryCombobox();

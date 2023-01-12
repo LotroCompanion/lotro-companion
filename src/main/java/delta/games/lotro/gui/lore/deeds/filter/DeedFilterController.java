@@ -22,6 +22,7 @@ import delta.common.ui.swing.text.DynamicTextEditionController;
 import delta.common.ui.swing.text.TextListener;
 import delta.common.utils.collections.filters.Filter;
 import delta.games.lotro.common.rewards.RewardsExplorer;
+import delta.games.lotro.config.LotroCoreConfig;
 import delta.games.lotro.gui.common.requirements.RequirementsFilterController;
 import delta.games.lotro.gui.common.rewards.filter.RewardsFilterController;
 import delta.games.lotro.gui.lore.deeds.DeedUiUtils;
@@ -83,8 +84,12 @@ public class DeedFilterController implements ActionListener
     RewardsExplorer explorer=DeedsManager.getInstance().buildRewardsExplorer();
     _rewards=new RewardsFilterController(filter.getRewardsFilter(),filterUpdateListener,explorer,false);
     // World events
-    List<DeedDescription> deeds=DeedsManager.getInstance().getAll();
-    _worldEvents=new WorldEventsFilterController(deeds,filter.getWorldEventsFilter(),filterUpdateListener);
+    boolean isLive=LotroCoreConfig.isLive();
+    if (isLive)
+    {
+      List<DeedDescription> deeds=DeedsManager.getInstance().getAll();
+      _worldEvents=new WorldEventsFilterController(deeds,filter.getWorldEventsFilter(),filterUpdateListener);
+    }
   }
 
   /**
@@ -127,14 +132,23 @@ public class DeedFilterController implements ActionListener
     {
       _type.selectItem(null);
       _category.selectItem(null);
-      _monsterPlay.selectItem(null);
-      _hidden.selectItem(null);
+      if (_monsterPlay!=null)
+      {
+        _monsterPlay.selectItem(null);
+      }
+      if (_hidden!=null)
+      {
+        _hidden.selectItem(null);
+      }
       if (_requirements!=null)
       {
         _requirements.reset();
       }
       _rewards.reset();
-      _worldEvents.reset();
+      if (_worldEvents!=null)
+      {
+        _worldEvents.reset();
+      }
       _contains.setText("");
     }
   }
@@ -157,13 +171,19 @@ public class DeedFilterController implements ActionListener
     String category=categoryFilter.getDeedCategory();
     _category.selectItem(category);
     // Monster play
-    AchievableMonsterPlayFilter<DeedDescription> monsterPlayFilter=_filter.getMonsterPlayFilter();
-    Boolean monsterPlayFlag=monsterPlayFilter.getIsMonsterPlayFlag();
-    _monsterPlay.selectItem(monsterPlayFlag);
+    if (_monsterPlay!=null)
+    {
+      AchievableMonsterPlayFilter<DeedDescription> monsterPlayFilter=_filter.getMonsterPlayFilter();
+      Boolean monsterPlayFlag=monsterPlayFilter.getIsMonsterPlayFlag();
+      _monsterPlay.selectItem(monsterPlayFlag);
+    }
     // Hidden
-    HiddenAchievableFilter<DeedDescription> hiddenFilter=_filter.getHiddenFilter();
-    Boolean hiddenFlag=hiddenFilter.getIsHiddenFlag();
-    _hidden.selectItem(hiddenFlag);
+    if (_hidden!=null)
+    {
+      HiddenAchievableFilter<DeedDescription> hiddenFilter=_filter.getHiddenFilter();
+      Boolean hiddenFlag=hiddenFilter.getIsHiddenFlag();
+      _hidden.selectItem(hiddenFlag);
+    }
     // Requirements
     if (_requirements!=null)
     {
@@ -172,7 +192,10 @@ public class DeedFilterController implements ActionListener
     // Rewards
     _rewards.setFilter();
     // World Events
-    _worldEvents.setFilter();
+    if (_worldEvents!=null)
+    {
+      _worldEvents.setFilter();
+    }
   }
 
   private JPanel build()
@@ -211,6 +234,7 @@ public class DeedFilterController implements ActionListener
       line2Panel.add(requirementsPanel,c);
     }
     // World Events
+    if (_worldEvents!=null)
     {
       JPanel contextsPanel=_worldEvents.getPanel();
       Border border=GuiFactory.buildTitledBorder("Context");
@@ -297,12 +321,15 @@ public class DeedFilterController implements ActionListener
       linePanel.add(_category.getComboBox());
     }
     // Faction
+    boolean isLive=LotroCoreConfig.isLive();
+    if (isLive)
     {
       linePanel.add(GuiFactory.buildLabel("Faction:"));
       _monsterPlay=buildMonsterPlayCombobox();
       linePanel.add(_monsterPlay.getComboBox());
     }
     // Hidden
+    if (isLive)
     {
       linePanel.add(GuiFactory.buildLabel("Hidden:"));
       _hidden=buildHiddenCombobox();
