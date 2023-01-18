@@ -16,6 +16,7 @@ import delta.common.ui.swing.windows.WindowController;
 import delta.common.ui.swing.windows.WindowsManager;
 import delta.games.lotro.character.status.allegiances.AllegianceStatus;
 import delta.games.lotro.character.status.allegiances.AllegiancesStatusManager;
+import delta.games.lotro.common.enums.AllegianceGroup;
 import delta.games.lotro.gui.character.status.allegiances.form.AllegianceStatusWindowController;
 import delta.games.lotro.lore.allegiances.AllegianceDescription;
 import delta.games.lotro.lore.allegiances.AllegiancesManager;
@@ -38,16 +39,16 @@ public class AllegiancesGroupStatusPanelController
    * @param group Group to show.
    * @param statusMgr Status to show.
    */
-  public AllegiancesGroupStatusPanelController(WindowController parent, String group, AllegiancesStatusManager statusMgr)
+  public AllegiancesGroupStatusPanelController(WindowController parent, AllegianceGroup group, AllegiancesStatusManager statusMgr)
   {
     _parent=parent;
     _gadgets=new ArrayList<SingleAllegianceGadgetsController>();
     init(group,statusMgr);
     _panel=buildPanel();
-    _panel.setBorder(GuiFactory.buildTitledBorder(group));
+    _panel.setBorder(GuiFactory.buildTitledBorder(group.getLabel()));
   }
 
-  private void init(String group, AllegiancesStatusManager statusMgr)
+  private void init(AllegianceGroup group, AllegiancesStatusManager statusMgr)
   {
     AllegiancesManager mgr=AllegiancesManager.getInstance();
     List<AllegianceDescription> allegiances=mgr.getAllegiances(group);

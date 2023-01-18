@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.status.allegiances.AllegiancesStatusManager;
+import delta.games.lotro.common.enums.AllegianceGroup;
 import delta.games.lotro.lore.allegiances.AllegiancesManager;
 
 /**
@@ -41,7 +42,7 @@ public class AllegiancesStatusSummaryPanelController
   private void init(AllegiancesStatusManager statusMgr)
   {
     AllegiancesManager mgr=AllegiancesManager.getInstance();
-    for(String group : mgr.getAllegiancesGroups())
+    for(AllegianceGroup group : mgr.getAllegiancesGroups())
     {
       AllegiancesGroupStatusPanelController ctrl=new AllegiancesGroupStatusPanelController(_parent,group,statusMgr);
       _groups.add(ctrl);
