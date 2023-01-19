@@ -21,9 +21,9 @@ import delta.games.lotro.character.filters.CharacterNameFilter;
 import delta.games.lotro.character.filters.CharacterSexFilter;
 import delta.games.lotro.character.filters.CharacterSummaryFilter;
 import delta.games.lotro.character.filters.RaceFilter;
+import delta.games.lotro.character.races.RaceDescription;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.CharacterSex;
-import delta.games.lotro.common.Race;
 import delta.games.lotro.gui.character.summary.CharacterUiUtils;
 import delta.games.lotro.gui.lore.items.FilterUpdateListener;
 
@@ -40,7 +40,7 @@ public class CharacterSummaryFilterController
   // -- Character attributes UI --
   private JTextField _contains;
   private ComboBoxController<CharacterClass> _class;
-  private ComboBoxController<Race> _race;
+  private ComboBoxController<RaceDescription> _race;
   private ComboBoxController<CharacterSex> _sex;
   // Controllers
   private DynamicTextEditionController _textController;
@@ -118,7 +118,7 @@ public class CharacterSummaryFilterController
     _class.selectItem(characterClass);
     // Race
     RaceFilter raceFilter=_filter.getRaceFilter();
-    Race race=raceFilter.getRace();
+    RaceDescription race=raceFilter.getRace();
     _race.selectItem(race);
     // Sex
     CharacterSexFilter sexFilter=_filter.getSexFilter();
@@ -188,10 +188,10 @@ public class CharacterSummaryFilterController
       JLabel label=GuiFactory.buildLabel("Race:");
       linePanel.add(label);
       _race=CharacterUiUtils.buildRaceCombo(true);
-      ItemSelectionListener<Race> raceListener=new ItemSelectionListener<Race>()
+      ItemSelectionListener<RaceDescription> raceListener=new ItemSelectionListener<RaceDescription>()
       {
         @Override
-        public void itemSelected(Race race)
+        public void itemSelected(RaceDescription race)
         {
           RaceFilter raceFilter=_filter.getRaceFilter();
           raceFilter.setRace(race);

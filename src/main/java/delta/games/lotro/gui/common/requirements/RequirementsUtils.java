@@ -2,8 +2,8 @@ package delta.games.lotro.gui.common.requirements;
 
 import java.util.List;
 
+import delta.games.lotro.character.races.RaceDescription;
 import delta.games.lotro.common.CharacterClass;
-import delta.games.lotro.common.Race;
 import delta.games.lotro.common.requirements.ClassRequirement;
 import delta.games.lotro.common.requirements.FactionRequirement;
 import delta.games.lotro.common.requirements.QuestRequirement;
@@ -48,14 +48,14 @@ public class RequirementsUtils
     if (raceRequirements!=null)
     {
       if (sb.length()>0) sb.append(", ");
-      List<Race> races=raceRequirements.getAllowedRaces();
+      List<RaceDescription> races=raceRequirements.getAllowedRaces();
       for(int i=0;i<races.size();i++)
       {
         if (i>0)
         {
           sb.append('/');
         }
-        sb.append(races.get(i).getLabel());
+        sb.append(races.get(i).getName());
       }
     }
     // Minimum level

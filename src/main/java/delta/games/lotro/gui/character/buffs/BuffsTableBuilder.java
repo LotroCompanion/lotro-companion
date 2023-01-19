@@ -10,9 +10,9 @@ import delta.common.ui.swing.tables.DataProvider;
 import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.ListDataProvider;
+import delta.games.lotro.character.races.RaceDescription;
 import delta.games.lotro.character.stats.buffs.Buff;
 import delta.games.lotro.common.CharacterClass;
-import delta.games.lotro.common.Race;
 import delta.games.lotro.gui.LotroIconsManager;
 
 /**
@@ -78,15 +78,15 @@ public class BuffsTableBuilder
     }
     // Race column
     {
-      CellDataProvider<Buff,Race> classCell=new CellDataProvider<Buff,Race>()
+      CellDataProvider<Buff,RaceDescription> classCell=new CellDataProvider<Buff,RaceDescription>()
       {
         @Override
-        public Race getData(Buff buff)
+        public RaceDescription getData(Buff buff)
         {
           return buff.getRequiredRace();
         }
       };
-      DefaultTableColumnController<Buff,Race> classColumn=new DefaultTableColumnController<Buff,Race>("Race",Race.class,classCell);
+      DefaultTableColumnController<Buff,RaceDescription> classColumn=new DefaultTableColumnController<Buff,RaceDescription>("Race",RaceDescription.class,classCell);
       classColumn.setWidthSpecs(100,100,50);
       table.addColumnController(classColumn);
     }

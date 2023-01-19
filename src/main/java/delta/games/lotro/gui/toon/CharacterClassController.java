@@ -7,7 +7,6 @@ import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.games.lotro.character.races.RaceDescription;
 import delta.games.lotro.character.races.RacesManager;
 import delta.games.lotro.common.CharacterClass;
-import delta.games.lotro.common.Race;
 
 /**
  * Controller for a character class combo box.
@@ -16,7 +15,7 @@ import delta.games.lotro.common.Race;
 public class CharacterClassController
 {
   private ComboBoxController<CharacterClass> _classController;
-  private Race _race;
+  private RaceDescription _race;
 
   /**
    * Constructor.
@@ -24,7 +23,7 @@ public class CharacterClassController
   public CharacterClassController()
   {
     _classController=new ComboBoxController<CharacterClass>();
-    setRace(Race.ALL_RACES[0]);
+    setRace(RacesManager.getInstance().getAll().get(0));
   }
 
   /**
@@ -40,7 +39,7 @@ public class CharacterClassController
    * Set the current race.
    * @param race Race to set.
    */
-  public void setRace(Race race)
+  public void setRace(RaceDescription race)
   {
     if (_race!=race)
     {
@@ -61,14 +60,10 @@ public class CharacterClassController
     }
   }
 
-  private List<CharacterClass> getClassesForRace(Race race)
+  private List<CharacterClass> getClassesForRace(RaceDescription race)
   {
     List<CharacterClass> ret=new ArrayList<CharacterClass>();
-    RaceDescription description=RacesManager.getInstance().getRaceDescription(race);
-    if (description!=null)
-    {
-      ret.addAll(description.getAllowedClasses());
-    }
+    ret.addAll(race.getAllowedClasses());
     return ret;
   }
 

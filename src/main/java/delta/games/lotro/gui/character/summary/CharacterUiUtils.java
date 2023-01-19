@@ -9,9 +9,10 @@ import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.Config;
 import delta.games.lotro.account.Account;
 import delta.games.lotro.account.AccountsManager;
+import delta.games.lotro.character.races.RaceDescription;
+import delta.games.lotro.character.races.RacesManager;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.CharacterSex;
-import delta.games.lotro.common.Race;
 import delta.games.lotro.gui.utils.SharedUiUtils;
 
 /**
@@ -44,16 +45,16 @@ public class CharacterUiUtils
    * @param includeEmptyChoice Include an empty choice or not.
    * @return a character race combobox.
    */
-  public static ComboBoxController<Race> buildRaceCombo(boolean includeEmptyChoice)
+  public static ComboBoxController<RaceDescription> buildRaceCombo(boolean includeEmptyChoice)
   {
-    ComboBoxController<Race> ctrl=new ComboBoxController<Race>();
+    ComboBoxController<RaceDescription> ctrl=new ComboBoxController<RaceDescription>();
     if (includeEmptyChoice)
     {
       ctrl.addEmptyItem("");
     }
-    for(Race race : Race.ALL_RACES)
+    for(RaceDescription race : RacesManager.getInstance().getAll())
     {
-      ctrl.addItem(race,race.getLabel());
+      ctrl.addItem(race,race.getName());
     }
     return ctrl;
   }

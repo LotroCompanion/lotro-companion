@@ -10,9 +10,9 @@ import delta.common.ui.swing.tables.TableColumnController;
 import delta.games.lotro.character.BaseCharacterSummary;
 import delta.games.lotro.character.CharacterReference;
 import delta.games.lotro.character.CharacterSummary;
+import delta.games.lotro.character.races.RaceDescription;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.CharacterSex;
-import delta.games.lotro.common.Race;
 import delta.games.lotro.common.id.InternalGameId;
 import delta.games.lotro.gui.utils.UiConfiguration;
 import delta.games.lotro.gui.utils.l10n.ColumnsUtils;
@@ -113,15 +113,15 @@ public class CharacterSummaryColumnsBuilder
     }
     // Race column
     {
-      CellDataProvider<T,Race> raceCell=new CellDataProvider<T,Race>()
+      CellDataProvider<T,RaceDescription> raceCell=new CellDataProvider<T,RaceDescription>()
       {
         @Override
-        public Race getData(T item)
+        public RaceDescription getData(T item)
         {
           return item.getRace();
         }
       };
-      DefaultTableColumnController<T,Race> raceColumn=new DefaultTableColumnController<T,Race>(ToonsTableColumnIds.RACE.name(),"Race",Race.class,raceCell);
+      DefaultTableColumnController<T,RaceDescription> raceColumn=new DefaultTableColumnController<T,RaceDescription>(ToonsTableColumnIds.RACE.name(),"Race",RaceDescription.class,raceCell);
       raceColumn.setWidthSpecs(100,100,100);
       ret.add(raceColumn);
     }

@@ -10,8 +10,8 @@ import javax.swing.JPanel;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.common.ui.swing.combobox.ItemSelectionListener;
+import delta.games.lotro.character.races.RaceDescription;
 import delta.games.lotro.common.CharacterClass;
-import delta.games.lotro.common.Race;
 import delta.games.lotro.common.requirements.filters.UsageRequirementFilter;
 import delta.games.lotro.gui.character.summary.CharacterUiUtils;
 import delta.games.lotro.gui.lore.items.FilterUpdateListener;
@@ -31,7 +31,7 @@ public class RequirementsFilterController
 
   // Controllers
   private ComboBoxController<CharacterClass> _class;
-  private ComboBoxController<Race> _race;
+  private ComboBoxController<RaceDescription> _race;
 
   /**
    * Constructor.
@@ -85,7 +85,7 @@ public class RequirementsFilterController
     CharacterClass requiredClass=_filter.getCharacterClass();
     _class.selectItem(requiredClass);
     // - race
-    Race requiredRace=_filter.getRace();
+    RaceDescription requiredRace=_filter.getRace();
     _race.selectItem(requiredRace);
   }
 
@@ -129,13 +129,13 @@ public class RequirementsFilterController
     return combo;
   }
 
-  private ComboBoxController<Race> buildRaceCombobox()
+  private ComboBoxController<RaceDescription> buildRaceCombobox()
   {
-    ComboBoxController<Race> combo=CharacterUiUtils.buildRaceCombo(true);
-    ItemSelectionListener<Race> listener=new ItemSelectionListener<Race>()
+    ComboBoxController<RaceDescription> combo=CharacterUiUtils.buildRaceCombo(true);
+    ItemSelectionListener<RaceDescription> listener=new ItemSelectionListener<RaceDescription>()
     {
       @Override
-      public void itemSelected(Race requiredRace)
+      public void itemSelected(RaceDescription requiredRace)
       {
         _filter.setRace(requiredRace);
         filterUpdated();

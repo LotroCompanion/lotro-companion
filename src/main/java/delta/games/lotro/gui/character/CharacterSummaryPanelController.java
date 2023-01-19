@@ -17,9 +17,9 @@ import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharacterSummary;
 import delta.games.lotro.character.events.CharacterEvent;
 import delta.games.lotro.character.events.CharacterEventType;
+import delta.games.lotro.character.races.RaceDescription;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.CharacterSex;
-import delta.games.lotro.common.Race;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.character.summary.CharacterSummaryDialogController;
 import delta.games.lotro.utils.events.EventsManager;
@@ -75,7 +75,7 @@ public class CharacterSummaryPanelController implements GenericEventsListener<Ch
 
     // Grab data
     CharacterClass cClass=null;
-    Race race=null;
+    RaceDescription race=null;
     CharacterSex sex=null;
     if (_summary!=null)
     {
@@ -166,7 +166,7 @@ public class CharacterSummaryPanelController implements GenericEventsListener<Ch
       int level=_summary.getLevel();
       _levelLabel.setText(String.valueOf(level));
       // Character icon
-      Race race=_summary.getRace();
+      RaceDescription race=_summary.getRace();
       CharacterSex sex=_summary.getCharacterSex();
       ImageIcon characterIcon=LotroIconsManager.getCharacterIcon(race,sex);
       _characterIconLabel.setIcon(characterIcon);

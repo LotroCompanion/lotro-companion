@@ -5,8 +5,8 @@ import java.util.List;
 
 import delta.common.ui.swing.tables.CellDataProvider;
 import delta.common.ui.swing.tables.DefaultTableColumnController;
+import delta.games.lotro.character.races.RaceDescription;
 import delta.games.lotro.common.CharacterClass;
-import delta.games.lotro.common.Race;
 import delta.games.lotro.common.requirements.UsageRequirement;
 
 /**
@@ -38,15 +38,15 @@ public class RequirementsColumnsBuilder
     }
     // Race column
     {
-      CellDataProvider<UsageRequirement,Race> raceCell=new CellDataProvider<UsageRequirement,Race>()
+      CellDataProvider<UsageRequirement,RaceDescription> raceCell=new CellDataProvider<UsageRequirement,RaceDescription>()
       {
         @Override
-        public Race getData(UsageRequirement requirement)
+        public RaceDescription getData(UsageRequirement requirement)
         {
           return requirement.getRequiredRace();
         }
       };
-      DefaultTableColumnController<UsageRequirement,Race> raceColumn=new DefaultTableColumnController<UsageRequirement,Race>(RequirementColumnIds.REQUIRED_RACE.name(),"Race",Race.class,raceCell);
+      DefaultTableColumnController<UsageRequirement,RaceDescription> raceColumn=new DefaultTableColumnController<UsageRequirement,RaceDescription>(RequirementColumnIds.REQUIRED_RACE.name(),"Race",RaceDescription.class,raceCell);
       raceColumn.setWidthSpecs(80,100,80);
       ret.add(raceColumn);
     }

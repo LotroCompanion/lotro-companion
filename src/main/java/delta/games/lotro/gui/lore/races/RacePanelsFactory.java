@@ -6,7 +6,6 @@ import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.games.lotro.character.races.RaceDescription;
 import delta.games.lotro.character.races.RacesManager;
-import delta.games.lotro.common.Race;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.gui.lore.races.form.RaceDisplayPanelController;
 
@@ -35,21 +34,15 @@ public class RacePanelsFactory implements NavigablePanelControllerFactory
     if (address.equals(ReferenceConstants.RACE_PAGE))
     {
       String key=pageId.getStringParameter(PageIdentifier.ID_PARAMETER);
-      Race race=Race.getByKey(key);
+      RaceDescription race=RacesManager.getInstance().getByKey(key);
       ret=buildRacePanel(race);
     }
     return ret;
   }
 
-  private RaceDisplayPanelController buildRacePanel(Race race)
+  private RaceDisplayPanelController buildRacePanel(RaceDescription race)
   {
-    RacesManager racesMgr=RacesManager.getInstance();
-    RaceDescription raceDescription=racesMgr.getRaceDescription(race);
-    if (raceDescription!=null)
-    {
-      RaceDisplayPanelController traitPanel=new RaceDisplayPanelController(_parent,raceDescription);
-      return traitPanel;
-    }
-    return null;
+    RaceDisplayPanelController traitPanel=new RaceDisplayPanelController(_parent,race);
+    return traitPanel;
   }
 }

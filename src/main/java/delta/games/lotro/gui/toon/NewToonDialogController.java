@@ -30,10 +30,10 @@ import delta.games.lotro.character.classes.InitialGearDefinition;
 import delta.games.lotro.character.gear.CharacterGear;
 import delta.games.lotro.character.gear.GearSlot;
 import delta.games.lotro.character.gear.GearSlotContents;
+import delta.games.lotro.character.races.RaceDescription;
 import delta.games.lotro.character.stats.CharacterStatsComputer;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.CharacterSex;
-import delta.games.lotro.common.Race;
 import delta.games.lotro.gui.character.summary.CharacterUiUtils;
 import delta.games.lotro.lore.items.EquipmentLocation;
 import delta.games.lotro.lore.items.Item;
@@ -54,7 +54,7 @@ public class NewToonDialogController extends DefaultFormDialogController<Object>
   private ComboBoxController<String> _server;
   private ComboBoxController<String> _account;
   private CharacterClassController _class;
-  private ComboBoxController<Race> _race;
+  private ComboBoxController<RaceDescription> _race;
   private ComboBoxController<CharacterSex> _sex;
 
   /**
@@ -104,10 +104,10 @@ public class NewToonDialogController extends DefaultFormDialogController<Object>
     _class=new CharacterClassController();
     // Race
     _race=CharacterUiUtils.buildRaceCombo(false);
-    ItemSelectionListener<Race> listener=new ItemSelectionListener<Race>()
+    ItemSelectionListener<RaceDescription> listener=new ItemSelectionListener<RaceDescription>()
     {
       @Override
-      public void itemSelected(Race race)
+      public void itemSelected(RaceDescription race)
       {
         _class.setRace(race);
       }
@@ -152,7 +152,7 @@ public class NewToonDialogController extends DefaultFormDialogController<Object>
     String server=_server.getSelectedItem();
     String account=_account.getSelectedItem();
     CharacterClass cClass=_class.getComboBoxController().getSelectedItem();
-    Race race=_race.getSelectedItem();
+    RaceDescription race=_race.getSelectedItem();
     CharacterSex sex=_sex.getSelectedItem();
     CharacterSummary summary=new CharacterSummary();
     summary.setName(toonName);
@@ -184,7 +184,7 @@ public class NewToonDialogController extends DefaultFormDialogController<Object>
 
   private void setInitialGear(CharacterData info)
   {
-    Race race=info.getRace();
+    RaceDescription race=info.getRace();
     CharacterClass characterClass=info.getCharacterClass();
     ClassDescription description=ClassesManager.getInstance().getClassDescription(characterClass);
     if (description!=null)

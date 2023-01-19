@@ -21,9 +21,9 @@ import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharacterSummary;
 import delta.games.lotro.character.events.CharacterEvent;
 import delta.games.lotro.character.events.CharacterEventType;
+import delta.games.lotro.character.races.RaceDescription;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.CharacterSex;
-import delta.games.lotro.common.Race;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.character.summary.CharacterUiUtils;
 import delta.games.lotro.gui.utils.l10n.DateFormat;
@@ -150,7 +150,7 @@ public class CharacterMainAttrsEditionPanelController
    */
   public void updateSexDisplay()
   {
-    Race race=_toon.getRace();
+    RaceDescription race=_toon.getRace();
     CharacterSex sex=getCharacterSex();
     ImageIcon characterIcon=LotroIconsManager.getCharacterIcon(race,sex);
     _raceIcon.setIcon(characterIcon);

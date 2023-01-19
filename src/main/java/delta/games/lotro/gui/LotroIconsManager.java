@@ -8,10 +8,10 @@ import javax.swing.ImageIcon;
 
 import delta.common.ui.swing.icons.ApplicationIcons;
 import delta.common.ui.swing.icons.IconsManager;
+import delta.games.lotro.character.races.RaceDescription;
 import delta.games.lotro.character.virtues.VirtueDescription;
 import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.CharacterSex;
-import delta.games.lotro.common.Race;
 import delta.games.lotro.common.stats.StatDescription;
 import delta.games.lotro.gui.utils.icons.ItemIconBuilder;
 import delta.games.lotro.lore.crafting.Profession;
@@ -61,7 +61,7 @@ public class LotroIconsManager
    * @param sex Character sex.
    * @return An icon or <code>null</code> if not found.
    */
-  public static ImageIcon getCharacterIcon(Race race, CharacterSex sex)
+  public static ImageIcon getCharacterIcon(RaceDescription race, CharacterSex sex)
   {
     ImageIcon ret=null;
     if (race!=null)
@@ -70,7 +70,7 @@ public class LotroIconsManager
       {
         sex=CharacterSex.MALE;
       }
-      String iconPath=race.getIconPath()+"_"+sex.getKey().toLowerCase();
+      String iconPath=race.getKey()+"_"+sex.getKey().toLowerCase();
       ret=IconsManager.getIcon("/resources/gui/races/"+iconPath+".png");
     }
     return ret;

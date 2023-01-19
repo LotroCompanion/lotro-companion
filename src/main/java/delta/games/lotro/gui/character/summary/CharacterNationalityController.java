@@ -8,7 +8,6 @@ import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.games.lotro.character.races.NationalityDescription;
 import delta.games.lotro.character.races.RaceDescription;
 import delta.games.lotro.character.races.RacesManager;
-import delta.games.lotro.common.Race;
 import delta.games.lotro.common.comparators.NamedComparator;
 
 /**
@@ -18,7 +17,7 @@ import delta.games.lotro.common.comparators.NamedComparator;
 public class CharacterNationalityController
 {
   private ComboBoxController<NationalityDescription> _nationalityController;
-  private Race _race;
+  private RaceDescription _race;
 
   /**
    * Constructor.
@@ -26,7 +25,7 @@ public class CharacterNationalityController
   public CharacterNationalityController()
   {
     _nationalityController=new ComboBoxController<NationalityDescription>();
-    setRace(Race.ALL_RACES[0]);
+    setRace(RacesManager.getInstance().getAll().get(0));
   }
 
   /**
@@ -42,7 +41,7 @@ public class CharacterNationalityController
    * Set the current race.
    * @param race Race to set.
    */
-  public void setRace(Race race)
+  public void setRace(RaceDescription race)
   {
     if (_race!=race)
     {
@@ -63,17 +62,12 @@ public class CharacterNationalityController
     }
   }
 
-  private List<NationalityDescription> getNationalitiesForRace(Race race)
+  private List<NationalityDescription> getNationalitiesForRace(RaceDescription race)
   {
     List<NationalityDescription> ret=new ArrayList<NationalityDescription>();
-    RacesManager raceMgr=RacesManager.getInstance();
-    RaceDescription raceDescription=raceMgr.getRaceDescription(race);
-    if (raceDescription!=null)
+    for(NationalityDescription nationality : race.getNationalities())
     {
-      for(NationalityDescription nationality : raceDescription.getNationalities())
-      {
-        ret.add(nationality);
-      }
+      ret.add(nationality);
     }
     Collections.sort(ret,new NamedComparator());
     return ret;

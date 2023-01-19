@@ -5,8 +5,9 @@ import java.util.List;
 import delta.common.utils.BooleanTools;
 import delta.common.utils.NumericTools;
 import delta.common.utils.misc.TypedProperties;
+import delta.games.lotro.character.races.RaceDescription;
+import delta.games.lotro.character.races.RacesManager;
 import delta.games.lotro.common.CharacterClass;
-import delta.games.lotro.common.Race;
 import delta.games.lotro.common.enums.ItemClass;
 import delta.games.lotro.common.enums.LotroEnum;
 import delta.games.lotro.common.enums.LotroEnumsRegistry;
@@ -211,7 +212,7 @@ public class ItemChooserFilterIo
     if (genericRaceFilter!=null)
     {
       String raceFilterKey=props.getStringProperty(GENERIC_RACE_FILTER,null);
-      Race race=Race.getByKey(raceFilterKey);
+      RaceDescription race=RacesManager.getInstance().getByKey(raceFilterKey);
       genericRaceFilter.setRace(race);
     }
   }
@@ -412,7 +413,7 @@ public class ItemChooserFilterIo
     ItemRequiredRaceFilter genericRaceFilter=filter.getGenericRaceFilter();
     if (genericRaceFilter!=null)
     {
-      Race race=genericRaceFilter.getRace();
+      RaceDescription race=genericRaceFilter.getRace();
       if (race!=null)
       {
         props.setStringProperty(GENERIC_RACE_FILTER,race.getKey());

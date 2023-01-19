@@ -3,11 +3,12 @@ package delta.games.lotro.gui.character.buffs;
 import java.util.List;
 
 import delta.games.lotro.character.CharacterSummary;
+import delta.games.lotro.character.races.RaceDescription;
+import delta.games.lotro.character.races.RacesManager;
 import delta.games.lotro.character.stats.buffs.Buff;
 import delta.games.lotro.character.stats.buffs.BuffRegistry;
 import delta.games.lotro.character.stats.buffs.BuffsManager;
 import delta.games.lotro.common.CharacterClass;
-import delta.games.lotro.common.Race;
 
 /**
  * Test for buff choice window.
@@ -23,7 +24,8 @@ public class MainTestShowBuffChoiceWindow
   {
     CharacterSummary summary=new CharacterSummary();
     summary.setCharacterClass(CharacterClass.CAPTAIN);
-    summary.setRace(Race.MAN);
+    RaceDescription man=RacesManager.getInstance().getByKey("man");
+    summary.setRace(man);
     BuffsManager buffs=new BuffsManager();
     List<Buff> possibleBuffs=BuffRegistry.getInstance().buildBuffSelection(summary,buffs);
     Buff initialBuff=possibleBuffs.get(3);

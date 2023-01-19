@@ -10,8 +10,8 @@ import javax.swing.event.HyperlinkListener;
 
 import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.common.ui.swing.navigator.PageIdentifier;
+import delta.games.lotro.character.races.RaceDescription;
 import delta.games.lotro.common.CharacterClass;
-import delta.games.lotro.common.Race;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.lore.xrefs.races.RaceReference;
 import delta.games.lotro.lore.xrefs.races.RaceReferencesBuilder;
@@ -33,7 +33,7 @@ public class RaceReferencesDisplayController
    * @param parent Parent window (a navigator).
    * @param race Race to use.
    */
-  public RaceReferencesDisplayController(NavigatorWindowController parent, Race race)
+  public RaceReferencesDisplayController(NavigatorWindowController parent, RaceDescription race)
   {
     _parent=parent;
     _display=buildDetailsPane(race);
@@ -48,7 +48,7 @@ public class RaceReferencesDisplayController
     return _display;
   }
 
-  private JEditorPane buildDetailsPane(Race race)
+  private JEditorPane buildDetailsPane(RaceDescription race)
   {
     List<RaceReference<?>> references=getReferences(race);
     if (references.isEmpty())
@@ -85,7 +85,7 @@ public class RaceReferencesDisplayController
     return editor;
   }
 
-  private List<RaceReference<?>> getReferences(Race race)
+  private List<RaceReference<?>> getReferences(RaceDescription race)
   {
     RaceReferencesBuilder builder=new RaceReferencesBuilder();
     List<RaceReference<?>> references=builder.inspectRace(race);

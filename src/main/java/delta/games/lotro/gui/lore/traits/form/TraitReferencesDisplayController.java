@@ -10,8 +10,8 @@ import javax.swing.event.HyperlinkListener;
 
 import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.common.ui.swing.navigator.PageIdentifier;
+import delta.games.lotro.character.races.RaceDescription;
 import delta.games.lotro.common.CharacterClass;
-import delta.games.lotro.common.Race;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.lore.quests.Achievable;
 import delta.games.lotro.lore.quests.QuestDescription;
@@ -122,23 +122,23 @@ public class TraitReferencesDisplayController
 
   private void buildHtmlForRace(StringBuilder sb, List<TraitReference<?>> references)
   {
-    List<TraitReference<Race>> raceReferences=getReferences(references,Race.class);
+    List<TraitReference<RaceDescription>> raceReferences=getReferences(references,RaceDescription.class);
     if (!raceReferences.isEmpty())
     {
-      for(TraitReference<Race> raceReference : raceReferences)
+      for(TraitReference<RaceDescription> raceReference : raceReferences)
       {
-        Race race=raceReference.getSource();
+        RaceDescription race=raceReference.getSource();
         buildHtmlForRaceReference(sb,race);
       }
     }
   }
 
-  private void buildHtmlForRaceReference(StringBuilder sb, Race race)
+  private void buildHtmlForRaceReference(StringBuilder sb, RaceDescription race)
   {
     sb.append("<p>Trait for race ");
     sb.append("<b>");
     PageIdentifier to=ReferenceConstants.getRaceReference(race);
-    HtmlUtils.printLink(sb,to.getFullAddress(),race.getLabel());
+    HtmlUtils.printLink(sb,to.getFullAddress(),race.getName());
     sb.append("</b></p>");
   }
 

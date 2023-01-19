@@ -64,13 +64,13 @@ public class RaceDisplayPanelController implements NavigablePanelController
   {
     _parent=parent;
     _race=race;
-    _references=new RaceReferencesDisplayController(parent,race.getRace());
+    _references=new RaceReferencesDisplayController(parent,race);
   }
 
   @Override
   public String getTitle()
   {
-    return "Race: "+_race.getRace().getLabel();
+    return "Race: "+_race.getName();
   }
 
   @Override
@@ -146,19 +146,19 @@ public class RaceDisplayPanelController implements NavigablePanelController
       RaceGender maleGender=_race.getMaleGender();
       if (maleGender!=null)
       {
-        ImageIcon icon=LotroIconsManager.getCharacterIcon(_race.getRace(),CharacterSex.MALE);
+        ImageIcon icon=LotroIconsManager.getCharacterIcon(_race,CharacterSex.MALE);
         JLabel iconLabel=GuiFactory.buildIconLabel(icon);
         panelLine.add(iconLabel);
       }
       RaceGender femaleGender=_race.getFemaleGender();
       if (femaleGender!=null)
       {
-        ImageIcon icon=LotroIconsManager.getCharacterIcon(_race.getRace(),CharacterSex.FEMALE);
+        ImageIcon icon=LotroIconsManager.getCharacterIcon(_race,CharacterSex.FEMALE);
         JLabel iconLabel=GuiFactory.buildIconLabel(icon);
         panelLine.add(iconLabel);
       }
       // Name
-      String name=_race.getRace().getLabel();
+      String name=_race.getName();
       JLabel nameLabel=GuiFactory.buildLabel(name);
       nameLabel.setFont(nameLabel.getFont().deriveFont(16f).deriveFont(Font.BOLD));
       panelLine.add(nameLabel);
