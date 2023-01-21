@@ -7,14 +7,20 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.games.lotro.gui.utils.ItemDisplayGadgets;
+import delta.games.lotro.lore.items.Container;
+import delta.games.lotro.lore.items.ContainersManager;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.comparators.ItemNameComparator;
+import delta.games.lotro.lore.items.containers.ContainerBindingPolicy;
 import delta.games.lotro.lore.items.containers.ContainerInspector;
+import delta.games.lotro.lore.items.containers.ContainerOpenPolicy;
+import delta.games.lotro.lore.items.containers.ItemsContainer;
 import delta.games.lotro.lore.items.legendary.relics.Relic;
 import delta.games.lotro.lore.items.legendary.relics.comparators.RelicNameComparator;
 
@@ -64,6 +70,22 @@ public class ContainerDisplayPanelController
     {
       return null;
     }
+    JPanel attributesPanel=buildAttributesPanel();
+    JPanel itemsPanel=buildItemsPanel(allItemGadgets);
+    // Assembly
+    JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
+    if (attributesPanel!=null)
+    {
+      GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,2,2,2),0,0);
+      ret.add(attributesPanel,c);
+    }
+    GridBagConstraints c=new GridBagConstraints(0,1,1,1,1.0,1.0,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(5,0,0,0),0,0);
+    ret.add(itemsPanel,c);
+    return ret;
+  }
+
+  private JPanel buildItemsPanel(List<ItemDisplayGadgets> allItemGadgets)
+  {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     int y=0;
     for(ItemDisplayGadgets itemGadgets : allItemGadgets)
@@ -77,6 +99,68 @@ public class ContainerDisplayPanelController
       y++;
     }
     return panel;
+  }
+
+  private JPanel buildAttributesPanel()
+  {
+    JPanel ret=null;
+    Container container=ContainersManager.getInstance().getContainerById(_item.getIdentifier());
+    if (container instanceof ItemsContainer)
+    {
+      ItemsContainer itemsContainer=(ItemsContainer)container;
+      ContainerBindingPolicy bindingPolicy=itemsContainer.getBindingPolicy();
+      ret=GuiFactory.buildPanel(new GridBagLayout());
+      int y=0;
+      GridBagConstraints c=new GridBagConstraints(0,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,0,5),0,0);
+      if (bindingPolicy!=ContainerBindingPolicy.NONE)
+      {
+        JLabel l=GuiFactory.buildLabel(buildBindingLabel(bindingPolicy));
+        ret.add(l,c);
+        c.gridy++;
+      }
+      ContainerOpenPolicy openPolicy=itemsContainer.getOpenPolicy();
+      {
+        JLabel l=GuiFactory.buildLabel(buildOpenPolicyLabel(openPolicy));
+        ret.add(l,c);
+        c.gridy++;
+      }
+      boolean useScalingOnCharacter=itemsContainer.isUseCharacterForMunging();
+      if (useScalingOnCharacter)
+      {
+        JLabel l=GuiFactory.buildLabel("Contents scales using character level");
+        ret.add(l,c);
+        c.gridy++;
+      }
+    }
+    return ret;
+  }
+
+  private String buildBindingLabel(ContainerBindingPolicy bindingPolicy)
+  {
+    String value="?";
+    if (bindingPolicy==ContainerBindingPolicy.BIND_ON_ACCOUNT)
+    {
+      value="on account";
+    }
+    else if (bindingPolicy==ContainerBindingPolicy.BIND_ON_CHARACTER)
+    {
+      value="on character";
+    }
+    return "Contents binding: "+value;
+  }
+
+  private String buildOpenPolicyLabel(ContainerOpenPolicy openPolicy)
+  {
+    String value="?";
+    if (openPolicy==ContainerOpenPolicy.USER_SELECTION)
+    {
+      value="user selection";
+    }
+    else if (openPolicy==ContainerOpenPolicy.AUTOMATIC)
+    {
+      value="deliver item(s)";
+    }
+    return "On open: "+value;
   }
 
   private List<ItemDisplayGadgets> initItemsGadgets()
