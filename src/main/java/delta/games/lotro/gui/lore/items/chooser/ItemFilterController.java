@@ -29,8 +29,8 @@ import delta.common.ui.swing.text.range.RangeListener;
 import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.character.BasicCharacterAttributes;
+import delta.games.lotro.character.classes.ClassDescription;
 import delta.games.lotro.character.races.RaceDescription;
-import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.enums.ItemClass;
 import delta.games.lotro.common.stats.StatDescription;
 import delta.games.lotro.gui.character.summary.CharacterUiUtils;
@@ -81,7 +81,7 @@ public class ItemFilterController extends ObjectFilterPanelController implements
   private CheckboxController _characterLevelRequirement;
   private CheckboxController _proficienciesRequirement;
   private RangeEditorController _itemLevelRange;
-  private ComboBoxController<CharacterClass> _characterClass;
+  private ComboBoxController<ClassDescription> _characterClass;
   private ComboBoxController<RaceDescription> _race;
 
   /**
@@ -738,10 +738,10 @@ public class ItemFilterController extends ObjectFilterPanelController implements
       _characterClass=CharacterUiUtils.buildClassCombo(true);
       requirementsPanel.add(GuiFactory.buildLabel("Class:"));
       requirementsPanel.add(_characterClass.getComboBox());
-      ItemSelectionListener<CharacterClass> l=new ItemSelectionListener<CharacterClass>()
+      ItemSelectionListener<ClassDescription> l=new ItemSelectionListener<ClassDescription>()
       {
         @Override
-        public void itemSelected(CharacterClass selected)
+        public void itemSelected(ClassDescription selected)
         {
           _filter.getGenericClassFilter().setCharacterClass(selected);
           filterUpdated();

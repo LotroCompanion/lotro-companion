@@ -8,7 +8,7 @@ import javax.swing.JDialog;
 
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.windows.WindowController;
-import delta.games.lotro.common.CharacterClass;
+import delta.games.lotro.character.classes.ClassDescription;
 import delta.games.lotro.lore.items.EquipmentLocation;
 import delta.games.lotro.lore.items.legendary.LegaciesManager;
 import delta.games.lotro.lore.items.legendary.LegacyType;
@@ -52,7 +52,7 @@ public class ImbuedLegacyChooser
    * @param selectedLegacy Selected legacy.
    * @return The selected imbued legacy or <code>null</code> if the window was closed or canceled.
    */
-  public static ImbuedLegacy selectImbuedLegacy(WindowController parent, CharacterClass characterClass, EquipmentLocation slot, ImbuedLegacy selectedLegacy)
+  public static ImbuedLegacy selectImbuedLegacy(WindowController parent, ClassDescription characterClass, EquipmentLocation slot, ImbuedLegacy selectedLegacy)
   {
     LegaciesManager legaciesMgr=LegaciesManager.getInstance();
     List<ImbuedLegacy> classLegacies=legaciesMgr.get(characterClass,slot,LegacyType.CLASS);

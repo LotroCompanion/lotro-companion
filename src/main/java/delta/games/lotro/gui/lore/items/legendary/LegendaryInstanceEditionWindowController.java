@@ -5,7 +5,7 @@ import javax.swing.JPanel;
 
 import delta.common.ui.swing.windows.DefaultFormDialogController;
 import delta.common.ui.swing.windows.WindowController;
-import delta.games.lotro.common.CharacterClass;
+import delta.games.lotro.character.classes.ClassDescription;
 import delta.games.lotro.common.constraints.ClassAndSlot;
 import delta.games.lotro.lore.items.EquipmentLocation;
 import delta.games.lotro.lore.items.Item;
@@ -28,7 +28,7 @@ public class LegendaryInstanceEditionWindowController extends DefaultFormDialogC
    * @param characterClass Character class to use.
    * @param itemInstance Item instance.
    */
-  public LegendaryInstanceEditionWindowController(WindowController parent, CharacterClass characterClass, ItemInstance<? extends Item> itemInstance)
+  public LegendaryInstanceEditionWindowController(WindowController parent, ClassDescription characterClass, ItemInstance<? extends Item> itemInstance)
   {
     super(parent,itemInstance);
     EquipmentLocation slot=itemInstance.getReference().getEquipmentLocation();

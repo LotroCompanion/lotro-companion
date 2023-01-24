@@ -13,10 +13,10 @@ import javax.swing.border.TitledBorder;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.character.CharacterData;
+import delta.games.lotro.character.classes.ClassDescription;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.character.stats.base.DerivedStatsContributionsMgr;
 import delta.games.lotro.character.stats.base.io.DerivedStatContributionsIO;
-import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.gui.character.essences.EssencesSummary.EssenceCount;
 import delta.games.lotro.gui.common.stats.StatsPanel;
 import delta.games.lotro.gui.lore.items.ItemUiTools;
@@ -130,7 +130,7 @@ public class EssencesSummaryPanelController
     StatsPanel.fillStatsPanel(_rawStatsPanel,raw,_toon.getStats());
     // Cumulated
     DerivedStatsContributionsMgr derivedStatsMgr=DerivedStatContributionsIO.load();
-    CharacterClass characterClass=_toon.getCharacterClass();
+    ClassDescription characterClass=_toon.getCharacterClass();
     BasicStatsSet derivated=derivedStatsMgr.getContribution(characterClass,raw);
     BasicStatsSet cumulated=new BasicStatsSet();
     cumulated.addStats(raw);

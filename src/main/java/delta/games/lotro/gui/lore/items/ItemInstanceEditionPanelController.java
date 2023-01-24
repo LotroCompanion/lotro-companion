@@ -14,7 +14,7 @@ import javax.swing.JScrollPane;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.BasicCharacterAttributes;
-import delta.games.lotro.common.CharacterClass;
+import delta.games.lotro.character.classes.ClassDescription;
 import delta.games.lotro.common.stats.StatsProvider;
 import delta.games.lotro.gui.common.stats.CustomStatsEditionWindowController;
 import delta.games.lotro.gui.common.stats.StatsPanel;
@@ -281,7 +281,7 @@ public class ItemInstanceEditionPanelController
 
   private void editLegendaryStuff()
   {
-    CharacterClass characterClass=_attrs.getCharacterClass();
+    ClassDescription characterClass=_attrs.getCharacterClass();
     if (_legendary!=null)
     {
       LegendaryInstanceEditionWindowController editor=new LegendaryInstanceEditionWindowController(_parent,characterClass,_itemInstance);

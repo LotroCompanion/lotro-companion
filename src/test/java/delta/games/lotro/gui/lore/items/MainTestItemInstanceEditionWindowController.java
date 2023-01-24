@@ -1,7 +1,9 @@
 package delta.games.lotro.gui.lore.items;
 
 import delta.games.lotro.character.CharacterSummary;
-import delta.games.lotro.common.CharacterClass;
+import delta.games.lotro.character.classes.ClassDescription;
+import delta.games.lotro.character.classes.ClassesManager;
+import delta.games.lotro.character.classes.WellKnownCharacterClassKeys;
 import delta.games.lotro.gui.lore.items.legendary.shared.LegendariesTestUtils;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemInstance;
@@ -34,14 +36,18 @@ public class MainTestItemInstanceEditionWindowController
   {
     CharacterSummary character=new CharacterSummary();
     character.setLevel(120);
-    CharacterClass requiredClass=getRequiredClass(itemInstance);
-    CharacterClass toUse=(requiredClass!=null)?requiredClass:CharacterClass.RUNE_KEEPER;
+    ClassDescription requiredClass=getRequiredClass(itemInstance);
+    ClassDescription toUse=requiredClass;
+    if (toUse==null)
+    {
+      toUse=ClassesManager.getInstance().getByKey(WellKnownCharacterClassKeys.RUNE_KEEPER);
+    }
     character.setCharacterClass(toUse);
     ItemInstanceEditionWindowController ctrl=new ItemInstanceEditionWindowController(null,character,itemInstance);
     ctrl.show(false);
   }
 
-  private static CharacterClass getRequiredClass(ItemInstance<? extends Item> itemInstance)
+  private static ClassDescription getRequiredClass(ItemInstance<? extends Item> itemInstance)
   {
     Item item=itemInstance.getReference();
     return item.getRequiredClass();

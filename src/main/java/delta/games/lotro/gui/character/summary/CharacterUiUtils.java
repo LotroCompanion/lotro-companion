@@ -9,9 +9,10 @@ import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.Config;
 import delta.games.lotro.account.Account;
 import delta.games.lotro.account.AccountsManager;
+import delta.games.lotro.character.classes.ClassDescription;
+import delta.games.lotro.character.classes.ClassesManager;
 import delta.games.lotro.character.races.RaceDescription;
 import delta.games.lotro.character.races.RacesManager;
-import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.CharacterSex;
 import delta.games.lotro.gui.utils.SharedUiUtils;
 
@@ -26,16 +27,16 @@ public class CharacterUiUtils
    * @param includeEmptyChoice Include an empty choice or not.
    * @return a character class combobox.
    */
-  public static ComboBoxController<CharacterClass> buildClassCombo(boolean includeEmptyChoice)
+  public static ComboBoxController<ClassDescription> buildClassCombo(boolean includeEmptyChoice)
   {
-    ComboBoxController<CharacterClass> ctrl=new ComboBoxController<CharacterClass>();
+    ComboBoxController<ClassDescription> ctrl=new ComboBoxController<ClassDescription>();
     if (includeEmptyChoice)
     {
       ctrl.addEmptyItem("");
     }
-    for(CharacterClass characterClass : CharacterClass.ALL_CLASSES)
+    for(ClassDescription characterClass : ClassesManager.getInstance().getAll())
     {
-      ctrl.addItem(characterClass,characterClass.getLabel());
+      ctrl.addItem(characterClass,characterClass.getName());
     }
     return ctrl;
   }

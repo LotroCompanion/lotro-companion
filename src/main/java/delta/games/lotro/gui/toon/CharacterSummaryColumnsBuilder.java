@@ -10,8 +10,8 @@ import delta.common.ui.swing.tables.TableColumnController;
 import delta.games.lotro.character.BaseCharacterSummary;
 import delta.games.lotro.character.CharacterReference;
 import delta.games.lotro.character.CharacterSummary;
+import delta.games.lotro.character.classes.ClassDescription;
 import delta.games.lotro.character.races.RaceDescription;
-import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.CharacterSex;
 import delta.games.lotro.common.id.InternalGameId;
 import delta.games.lotro.gui.utils.UiConfiguration;
@@ -69,15 +69,15 @@ public class CharacterSummaryColumnsBuilder
     }
     // Class column
     {
-      CellDataProvider<T,CharacterClass> classCell=new CellDataProvider<T,CharacterClass>()
+      CellDataProvider<T,ClassDescription> classCell=new CellDataProvider<T,ClassDescription>()
       {
         @Override
-        public CharacterClass getData(T item)
+        public ClassDescription getData(T item)
         {
           return item.getCharacterClass();
         }
       };
-      DefaultTableColumnController<T,CharacterClass> classColumn=new DefaultTableColumnController<T,CharacterClass>(ToonsTableColumnIds.CLASS.name(),"Class",CharacterClass.class,classCell);
+      DefaultTableColumnController<T,ClassDescription> classColumn=new DefaultTableColumnController<T,ClassDescription>(ToonsTableColumnIds.CLASS.name(),"Class",ClassDescription.class,classCell);
       classColumn.setWidthSpecs(100,100,100);
       ret.add(classColumn);
     }

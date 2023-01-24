@@ -13,8 +13,8 @@ import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.common.ui.swing.combobox.ItemSelectionListener;
 import delta.common.ui.swing.labels.MultilineLabel2;
 import delta.common.ui.swing.windows.WindowController;
+import delta.games.lotro.character.classes.ClassDescription;
 import delta.games.lotro.character.stats.BasicStatsSet;
-import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.constraints.ClassAndSlot;
 import delta.games.lotro.common.stats.StatUtils;
 import delta.games.lotro.gui.LotroIconsManager;
@@ -137,7 +137,7 @@ public class SingleImbuedLegacyEditionController
 
   private void handleChooseLegacy()
   {
-    CharacterClass characterClass=_constraints.getCharacterClass();
+    ClassDescription characterClass=_constraints.getCharacterClass();
     EquipmentLocation location=_constraints.getSlot();
     ImbuedLegacy legacy=ImbuedLegacyChooser.selectImbuedLegacy(_parent,characterClass,location,_legacy.getLegacy());
     if (legacy!=null)

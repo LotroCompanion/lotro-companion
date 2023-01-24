@@ -7,7 +7,7 @@ import javax.swing.JDialog;
 
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.windows.WindowController;
-import delta.games.lotro.common.CharacterClass;
+import delta.games.lotro.character.classes.ClassDescription;
 import delta.games.lotro.lore.items.EquipmentLocation;
 import delta.games.lotro.lore.items.legendary.non_imbued.NonImbuedLegaciesManager;
 import delta.games.lotro.lore.items.legendary.non_imbued.TieredNonImbuedLegacy;
@@ -50,7 +50,7 @@ public class NonImbuedLegacyChooser
    * @param selectedLegacy Selected legacy.
    * @return The selected tiered non-imbued legacy or <code>null</code> if the window was closed or canceled.
    */
-  public static TieredNonImbuedLegacy selectTieredNonImbuedLegacy(WindowController parent, CharacterClass characterClass, EquipmentLocation slot, TieredNonImbuedLegacy selectedLegacy)
+  public static TieredNonImbuedLegacy selectTieredNonImbuedLegacy(WindowController parent, ClassDescription characterClass, EquipmentLocation slot, TieredNonImbuedLegacy selectedLegacy)
   {
     NonImbuedLegaciesManager legaciesMgr=NonImbuedLegaciesManager.getInstance();
     List<TieredNonImbuedLegacy> legacies=legaciesMgr.getTieredLegacies(characterClass,slot);

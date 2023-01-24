@@ -1,6 +1,8 @@
 package delta.games.lotro.gui.lore.items.legendary.imbued;
 
-import delta.games.lotro.common.CharacterClass;
+import delta.games.lotro.character.classes.ClassDescription;
+import delta.games.lotro.character.classes.ClassesManager;
+import delta.games.lotro.character.classes.WellKnownCharacterClassKeys;
 import delta.games.lotro.lore.items.EquipmentLocation;
 import delta.games.lotro.lore.items.legendary.imbued.ImbuedLegacy;
 
@@ -16,8 +18,8 @@ public class MainTestImbuedLegacyChoiceWindow
    */
   public static void main(String[] args)
   {
-    ImbuedLegacy legcy=ImbuedLegacyChooser.selectImbuedLegacy(null,CharacterClass.MINSTREL,EquipmentLocation.CLASS_SLOT,null);
-    //Relic relic=RelicChoiceWindowController.selectRelic(null,null,initialRelic);
+    ClassDescription minstrel=ClassesManager.getInstance().getByKey(WellKnownCharacterClassKeys.MINSTREL);
+    ImbuedLegacy legcy=ImbuedLegacyChooser.selectImbuedLegacy(null,minstrel,EquipmentLocation.CLASS_SLOT,null);
     System.out.println(legcy);
   }
 }

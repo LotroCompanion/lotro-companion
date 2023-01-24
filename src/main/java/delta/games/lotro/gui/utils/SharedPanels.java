@@ -14,9 +14,9 @@ import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.BasicCharacterAttributes;
 import delta.games.lotro.character.CharacterFile;
+import delta.games.lotro.character.classes.ClassDescription;
 import delta.games.lotro.character.skills.SkillDescription;
 import delta.games.lotro.character.traits.TraitDescription;
-import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.lore.emotes.EmoteDescription;
@@ -126,7 +126,7 @@ public class SharedPanels
     BasicCharacterAttributes attrs=toon.getSummary();
     if (attrs!=null)
     {
-      CharacterClass cClass=attrs.getCharacterClass();
+      ClassDescription cClass=attrs.getCharacterClass();
       classIcon=LotroIconsManager.getClassIcon(cClass,LotroIconsManager.COMPACT_SIZE);
     }
     JLabel classLabel;

@@ -15,7 +15,7 @@ import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.ListDataProvider;
 import delta.common.ui.swing.tables.TableColumnController;
 import delta.common.ui.swing.windows.WindowController;
-import delta.games.lotro.common.CharacterClass;
+import delta.games.lotro.character.classes.ClassDescription;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.lore.items.ItemColumnIds;
 import delta.games.lotro.lore.items.legendary.relics.Relic;
@@ -114,15 +114,15 @@ public class RelicsTableBuilder
     }
     // Class column
     {
-      CellDataProvider<Relic,CharacterClass> classCell=new CellDataProvider<Relic,CharacterClass>()
+      CellDataProvider<Relic,ClassDescription> classCell=new CellDataProvider<Relic,ClassDescription>()
       {
         @Override
-        public CharacterClass getData(Relic item)
+        public ClassDescription getData(Relic item)
         {
           return item.getUsageRequirement().getRequiredClass();
         }
       };
-      DefaultTableColumnController<Relic,CharacterClass> classColumn=new DefaultTableColumnController<Relic,CharacterClass>(RelicColumnIds.CLASS.name(),"Class",CharacterClass.class,classCell);
+      DefaultTableColumnController<Relic,ClassDescription> classColumn=new DefaultTableColumnController<Relic,ClassDescription>(RelicColumnIds.CLASS.name(),"Class",ClassDescription.class,classCell);
       classColumn.setWidthSpecs(100,100,100);
       columns.add(classColumn);
     }

@@ -10,8 +10,8 @@ import javax.swing.JPanel;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.common.ui.swing.combobox.ItemSelectionListener;
+import delta.games.lotro.character.classes.ClassDescription;
 import delta.games.lotro.character.races.RaceDescription;
-import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.requirements.filters.UsageRequirementFilter;
 import delta.games.lotro.gui.character.summary.CharacterUiUtils;
 import delta.games.lotro.gui.lore.items.FilterUpdateListener;
@@ -30,7 +30,7 @@ public class RequirementsFilterController
   private JPanel _panel;
 
   // Controllers
-  private ComboBoxController<CharacterClass> _class;
+  private ComboBoxController<ClassDescription> _class;
   private ComboBoxController<RaceDescription> _race;
 
   /**
@@ -82,7 +82,7 @@ public class RequirementsFilterController
   public void setFilter()
   {
     // - class
-    CharacterClass requiredClass=_filter.getCharacterClass();
+    ClassDescription requiredClass=_filter.getCharacterClass();
     _class.selectItem(requiredClass);
     // - race
     RaceDescription requiredRace=_filter.getRace();
@@ -113,13 +113,13 @@ public class RequirementsFilterController
     return panel;
   }
 
-  private ComboBoxController<CharacterClass> buildCharacterClassCombobox()
+  private ComboBoxController<ClassDescription> buildCharacterClassCombobox()
   {
-    ComboBoxController<CharacterClass> combo=CharacterUiUtils.buildClassCombo(true);
-    ItemSelectionListener<CharacterClass> listener=new ItemSelectionListener<CharacterClass>()
+    ComboBoxController<ClassDescription> combo=CharacterUiUtils.buildClassCombo(true);
+    ItemSelectionListener<ClassDescription> listener=new ItemSelectionListener<ClassDescription>()
     {
       @Override
-      public void itemSelected(CharacterClass requiredClass)
+      public void itemSelected(ClassDescription requiredClass)
       {
         _filter.setCharacterClass(requiredClass);
         filterUpdated();

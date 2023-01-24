@@ -12,12 +12,12 @@ import javax.swing.JTable;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.BasicCharacterAttributes;
+import delta.games.lotro.character.classes.ClassDescription;
 import delta.games.lotro.character.status.traitPoints.TraitPoint;
 import delta.games.lotro.character.status.traitPoints.TraitPointFilter;
 import delta.games.lotro.character.status.traitPoints.TraitPoints;
 import delta.games.lotro.character.status.traitPoints.TraitPointsRegistry;
 import delta.games.lotro.character.status.traitPoints.TraitPointsStatus;
-import delta.games.lotro.common.CharacterClass;
 
 /**
  * Controller for a trait points edition panel.
@@ -53,7 +53,7 @@ public class TraitPointsEditionPanelController
   {
     _tableControllers=new ArrayList<TraitPointsTableController>();
     _labels=new ArrayList<String>();
-    CharacterClass characterClass=_attrs.getCharacterClass();
+    ClassDescription characterClass=_attrs.getCharacterClass();
     TraitPointsRegistry registry=TraitPoints.get().getRegistry();
     List<TraitPoint> points=registry.getPointsForClass(characterClass);
 

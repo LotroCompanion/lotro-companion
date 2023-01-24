@@ -10,7 +10,7 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.common.ui.swing.combobox.ItemSelectionListener;
 import delta.common.ui.swing.windows.WindowController;
-import delta.games.lotro.common.CharacterClass;
+import delta.games.lotro.character.classes.ClassDescription;
 import delta.games.lotro.common.constraints.ClassAndSlot;
 import delta.games.lotro.common.stats.StatsProvider;
 import delta.games.lotro.gui.LotroIconsManager;
@@ -109,7 +109,7 @@ public class SingleTieredNonImbuedLegacyEditionController extends SingleNonImbue
 
   private void handleChooseLegacy(JButton button)
   {
-    CharacterClass characterClass=_constraints.getCharacterClass();
+    ClassDescription characterClass=_constraints.getCharacterClass();
     EquipmentLocation location=_constraints.getSlot();
     TieredNonImbuedLegacy oldLegacy=getTieredLegacy();
     TieredNonImbuedLegacy legacy=NonImbuedLegacyChooser.selectTieredNonImbuedLegacy(_parent,characterClass,location,oldLegacy);

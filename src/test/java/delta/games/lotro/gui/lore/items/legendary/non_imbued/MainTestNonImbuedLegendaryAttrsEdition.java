@@ -3,7 +3,9 @@ package delta.games.lotro.gui.lore.items.legendary.non_imbued;
 import javax.swing.JPanel;
 
 import delta.common.ui.swing.windows.DefaultFormDialogController;
-import delta.games.lotro.common.CharacterClass;
+import delta.games.lotro.character.classes.ClassDescription;
+import delta.games.lotro.character.classes.ClassesManager;
+import delta.games.lotro.character.classes.WellKnownCharacterClassKeys;
 import delta.games.lotro.common.constraints.ClassAndSlot;
 import delta.games.lotro.gui.lore.items.legendary.shared.LegendariesTestUtils;
 import delta.games.lotro.lore.items.EquipmentLocation;
@@ -29,7 +31,8 @@ public class MainTestNonImbuedLegendaryAttrsEdition
     ItemInstance<? extends Item> itemInstance=LegendariesTestUtils.loadItemInstance(sampleName);
     LegendaryInstanceAttrs attrs=LegendariesTestUtils.getLegendaryAttrs(itemInstance);
     final NonImbuedLegendaryInstanceAttrs nonImbuedLegAttrs=attrs.getNonImbuedAttrs();
-    ClassAndSlot constraints=new ClassAndSlot(CharacterClass.CAPTAIN,EquipmentLocation.CLASS_SLOT);
+    ClassDescription captain=ClassesManager.getInstance().getByKey(WellKnownCharacterClassKeys.CAPTAIN);
+    ClassAndSlot constraints=new ClassAndSlot(captain,EquipmentLocation.CLASS_SLOT);
     final NonImbuedLegendaryAttrsEditionPanelController controller=new NonImbuedLegendaryAttrsEditionPanelController(null,nonImbuedLegAttrs,constraints);
     int itemLevel=itemInstance.getApplicableItemLevel();
     Item item=itemInstance.getReference();

@@ -1,10 +1,9 @@
 package delta.games.lotro.gui.character.stats.curves;
 
-import delta.games.lotro.character.CharacterProficiencies;
+import delta.games.lotro.character.classes.ClassDescription;
 import delta.games.lotro.character.stats.ratings.RatingCurve;
 import delta.games.lotro.character.stats.ratings.RatingCurveId;
 import delta.games.lotro.character.stats.ratings.RatingsMgr;
-import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.global.CombatSystem;
 import delta.games.lotro.common.stats.WellKnownStat;
 import delta.games.lotro.lore.items.ArmourType;
@@ -16,13 +15,13 @@ import delta.games.lotro.lore.items.ArmourType;
 public class StatCurvesConfigurationFactory
 {
   private RatingsMgr _ratingsMgr;
-  private CharacterClass _characterClass;
+  private ClassDescription _characterClass;
 
   /**
    * Constructor.
    * @param characterClass Targeted character class.
    */
-  public StatCurvesConfigurationFactory(CharacterClass characterClass)
+  public StatCurvesConfigurationFactory(ClassDescription characterClass)
   {
     _ratingsMgr=CombatSystem.getInstance().getRatingsMgr();
     _characterClass=characterClass;
@@ -228,7 +227,7 @@ public class StatCurvesConfigurationFactory
 
   private RatingCurve getArmorMitigationCurve()
   {
-    ArmourType type=CharacterProficiencies.getArmourTypeForMitigations(_characterClass);
+    ArmourType type=_characterClass.getProficiencies().getArmourTypeForMitigations();
     if (type==ArmourType.LIGHT) return _ratingsMgr.getCurve(RatingCurveId.LIGHT_MITIGATION);
     if (type==ArmourType.MEDIUM) return _ratingsMgr.getCurve(RatingCurveId.MEDIUM_MITIGATION);
     if (type==ArmourType.HEAVY) return _ratingsMgr.getCurve(RatingCurveId.HEAVY_MITIGATION);

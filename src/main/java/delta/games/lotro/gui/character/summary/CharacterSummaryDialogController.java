@@ -14,9 +14,9 @@ import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.common.ui.swing.windows.DefaultFormDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.CharacterSummary;
+import delta.games.lotro.character.classes.ClassDescription;
 import delta.games.lotro.character.races.NationalityDescription;
 import delta.games.lotro.character.races.RaceDescription;
-import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.CharacterSex;
 
 /**
@@ -30,7 +30,7 @@ public class CharacterSummaryDialogController extends DefaultFormDialogControlle
   private JTextField _toonName;
   private ComboBoxController<String> _server;
   private ComboBoxController<String> _account;
-  private ComboBoxController<CharacterClass> _class;
+  private ComboBoxController<ClassDescription> _class;
   private ComboBoxController<RaceDescription> _race;
   private ComboBoxController<CharacterSex> _sex;
   private CharacterNationalityController _nationality;
@@ -138,7 +138,7 @@ public class CharacterSummaryDialogController extends DefaultFormDialogControlle
     String account=_data.getAccountName();
     _account.selectItem(account);
     // Class
-    CharacterClass characterClass=_data.getCharacterClass();
+    ClassDescription characterClass=_data.getCharacterClass();
     _class.selectItem(characterClass);
     // Race
     RaceDescription race=_data.getRace();
@@ -164,7 +164,7 @@ public class CharacterSummaryDialogController extends DefaultFormDialogControlle
     _data.setServer(server);
     String accountName=_account.getSelectedItem();
     _data.setAccountName(accountName);
-    CharacterClass cClass=_class.getSelectedItem();
+    ClassDescription cClass=_class.getSelectedItem();
     _data.setCharacterClass(cClass);
     RaceDescription race=_race.getSelectedItem();
     _data.setRace(race);

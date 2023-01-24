@@ -10,8 +10,8 @@ import javax.swing.event.HyperlinkListener;
 
 import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.common.ui.swing.navigator.PageIdentifier;
+import delta.games.lotro.character.classes.ClassDescription;
 import delta.games.lotro.character.races.RaceDescription;
-import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.lore.xrefs.races.RaceReference;
 import delta.games.lotro.lore.xrefs.races.RaceReferencesBuilder;
@@ -118,23 +118,23 @@ public class RaceReferencesDisplayController
 
   private void buildHtmlForClass(StringBuilder sb, List<RaceReference<?>> references)
   {
-    List<RaceReference<CharacterClass>> classReferences=getReferences(references,CharacterClass.class);
+    List<RaceReference<ClassDescription>> classReferences=getReferences(references,ClassDescription.class);
     if (!classReferences.isEmpty())
     {
-      for(RaceReference<CharacterClass> classReference : classReferences)
+      for(RaceReference<ClassDescription> classReference : classReferences)
       {
-        CharacterClass characterClass=classReference.getSource();
+        ClassDescription characterClass=classReference.getSource();
         buildHtmlForClassReference(sb,characterClass);
       }
     }
   }
 
-  private void buildHtmlForClassReference(StringBuilder sb, CharacterClass cClass)
+  private void buildHtmlForClassReference(StringBuilder sb, ClassDescription characterClass)
   {
     sb.append("<p>Allowed class: ");
     sb.append("<b>");
-    PageIdentifier to=ReferenceConstants.getClassReference(cClass);
-    HtmlUtils.printLink(sb,to.getFullAddress(),cClass.getLabel());
+    PageIdentifier to=ReferenceConstants.getClassReference(characterClass);
+    HtmlUtils.printLink(sb,to.getFullAddress(),characterClass.getName());
     sb.append("</b></p>");
   }
 

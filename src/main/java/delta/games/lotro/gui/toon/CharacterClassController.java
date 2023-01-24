@@ -1,12 +1,15 @@
 package delta.games.lotro.gui.toon;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import delta.common.ui.swing.combobox.ComboBoxController;
+import delta.games.lotro.character.classes.ClassDescription;
+import delta.games.lotro.character.classes.ClassesManager;
 import delta.games.lotro.character.races.RaceDescription;
 import delta.games.lotro.character.races.RacesManager;
-import delta.games.lotro.common.CharacterClass;
+import delta.games.lotro.common.comparators.NamedComparator;
 
 /**
  * Controller for a character class combo box.
@@ -14,7 +17,7 @@ import delta.games.lotro.common.CharacterClass;
  */
 public class CharacterClassController
 {
-  private ComboBoxController<CharacterClass> _classController;
+  private ComboBoxController<ClassDescription> _classController;
   private RaceDescription _race;
 
   /**
@@ -22,7 +25,7 @@ public class CharacterClassController
    */
   public CharacterClassController()
   {
-    _classController=new ComboBoxController<CharacterClass>();
+    _classController=new ComboBoxController<ClassDescription>();
     setRace(RacesManager.getInstance().getAll().get(0));
   }
 
@@ -30,7 +33,7 @@ public class CharacterClassController
    * Get the managed combobox controller.
    * @return a combobox controller.
    */
-  public ComboBoxController<CharacterClass> getComboBoxController()
+  public ComboBoxController<ClassDescription> getComboBoxController()
   {
     return _classController;
   }
@@ -43,15 +46,15 @@ public class CharacterClassController
   {
     if (_race!=race)
     {
-      List<CharacterClass> classes=getClassesForRace(race);
-      for(CharacterClass cClass : classes)
+      List<ClassDescription> characterClasses=getClassesForRace(race);
+      for(ClassDescription characterClass : characterClasses)
       {
-        _classController.addItem(cClass,cClass.getLabel());
+        _classController.addItem(characterClass,characterClass.getName());
       }
       if (_race!=null)
       {
-        List<CharacterClass> oldClasses=getClassesForRace(_race);
-        for(CharacterClass cClass : oldClasses)
+        List<ClassDescription> oldClasses=getClassesForRace(_race);
+        for(ClassDescription cClass : oldClasses)
         {
           _classController.removeItem(cClass);
         }
@@ -60,10 +63,19 @@ public class CharacterClassController
     }
   }
 
-  private List<CharacterClass> getClassesForRace(RaceDescription race)
+  private List<ClassDescription> getClassesForRace(RaceDescription race)
   {
-    List<CharacterClass> ret=new ArrayList<CharacterClass>();
-    ret.addAll(race.getAllowedClasses());
+    List<ClassDescription> ret=new ArrayList<ClassDescription>();
+    ClassesManager mgr=ClassesManager.getInstance();
+    for(String classKey : race.getAllowedClasses())
+    {
+      ClassDescription characterClass=mgr.getByKey(classKey);
+      if (characterClass!=null)
+      {
+        ret.add(characterClass);
+      }
+    }
+    Collections.sort(ret,new NamedComparator());
     return ret;
   }
 

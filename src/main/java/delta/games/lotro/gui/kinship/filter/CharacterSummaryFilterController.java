@@ -16,13 +16,13 @@ import delta.common.ui.swing.text.DynamicTextEditionController;
 import delta.common.ui.swing.text.TextListener;
 import delta.common.utils.collections.filters.Filter;
 import delta.games.lotro.character.BaseCharacterSummary;
+import delta.games.lotro.character.classes.ClassDescription;
 import delta.games.lotro.character.filters.CharacterClassFilter;
 import delta.games.lotro.character.filters.CharacterNameFilter;
 import delta.games.lotro.character.filters.CharacterSexFilter;
 import delta.games.lotro.character.filters.CharacterSummaryFilter;
 import delta.games.lotro.character.filters.RaceFilter;
 import delta.games.lotro.character.races.RaceDescription;
-import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.CharacterSex;
 import delta.games.lotro.gui.character.summary.CharacterUiUtils;
 import delta.games.lotro.gui.lore.items.FilterUpdateListener;
@@ -39,7 +39,7 @@ public class CharacterSummaryFilterController
   private JPanel _panel;
   // -- Character attributes UI --
   private JTextField _contains;
-  private ComboBoxController<CharacterClass> _class;
+  private ComboBoxController<ClassDescription> _class;
   private ComboBoxController<RaceDescription> _race;
   private ComboBoxController<CharacterSex> _sex;
   // Controllers
@@ -114,7 +114,7 @@ public class CharacterSummaryFilterController
     }
     // Class
     CharacterClassFilter<BaseCharacterSummary> classFilter=_filter.getClassFilter();
-    CharacterClass characterClass=classFilter.getCharacterClass();
+    ClassDescription characterClass=classFilter.getCharacterClass();
     _class.selectItem(characterClass);
     // Race
     RaceFilter raceFilter=_filter.getRaceFilter();
@@ -170,10 +170,10 @@ public class CharacterSummaryFilterController
       JLabel label=GuiFactory.buildLabel("Class:");
       linePanel.add(label);
       _class=CharacterUiUtils.buildClassCombo(true);
-      ItemSelectionListener<CharacterClass> classListener=new ItemSelectionListener<CharacterClass>()
+      ItemSelectionListener<ClassDescription> classListener=new ItemSelectionListener<ClassDescription>()
       {
         @Override
-        public void itemSelected(CharacterClass characterClass)
+        public void itemSelected(ClassDescription characterClass)
         {
           CharacterClassFilter<BaseCharacterSummary> classFilter=_filter.getClassFilter();
           classFilter.setCharacterClass(characterClass);

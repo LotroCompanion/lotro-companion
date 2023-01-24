@@ -10,8 +10,8 @@ import javax.swing.event.HyperlinkListener;
 
 import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.common.ui.swing.navigator.PageIdentifier;
+import delta.games.lotro.character.classes.ClassDescription;
 import delta.games.lotro.character.traits.TraitDescription;
-import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.xrefs.skills.SkillReference;
@@ -121,23 +121,23 @@ public class SkillReferencesDisplayController
 
   private void buildHtmlForClass(StringBuilder sb, List<SkillReference<?>> references)
   {
-    List<SkillReference<CharacterClass>> classReferences=getReferences(references,CharacterClass.class);
-    if (classReferences.size()>0)
+    List<SkillReference<ClassDescription>> classReferences=getReferences(references,ClassDescription.class);
+    if (!classReferences.isEmpty())
     {
-      for(SkillReference<CharacterClass> classReference : classReferences)
+      for(SkillReference<ClassDescription> classReference : classReferences)
       {
-        CharacterClass cClass=classReference.getSource();
-        buildHtmlForClassReference(sb,cClass);
+        ClassDescription characterClass=classReference.getSource();
+        buildHtmlForClassReference(sb,characterClass);
       }
     }
   }
 
-  private void buildHtmlForClassReference(StringBuilder sb, CharacterClass cClass)
+  private void buildHtmlForClassReference(StringBuilder sb, ClassDescription characterClass)
   {
     sb.append("<p>Skill for class ");
     sb.append("<b>");
-    PageIdentifier to=ReferenceConstants.getClassReference(cClass);
-    HtmlUtils.printLink(sb,to.getFullAddress(),cClass.getLabel());
+    PageIdentifier to=ReferenceConstants.getClassReference(characterClass);
+    HtmlUtils.printLink(sb,to.getFullAddress(),characterClass.getName());
     sb.append("</b></p>");
   }
 

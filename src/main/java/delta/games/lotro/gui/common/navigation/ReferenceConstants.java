@@ -1,8 +1,8 @@
 package delta.games.lotro.gui.common.navigation;
 
 import delta.common.ui.swing.navigator.PageIdentifier;
+import delta.games.lotro.character.classes.ClassDescription;
 import delta.games.lotro.character.races.RaceDescription;
-import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.quests.Achievable;
 import delta.games.lotro.lore.quests.QuestDescription;
@@ -251,7 +251,7 @@ public class ReferenceConstants
    * @param characterClass Identifier of the class to use.
    * @return A page identifier.
    */
-  public static final PageIdentifier getClassReference(CharacterClass characterClass)
+  public static final PageIdentifier getClassReference(ClassDescription characterClass)
   {
     PageIdentifier id=new PageIdentifier();
     id.setBaseAddress(CLASS_PAGE);

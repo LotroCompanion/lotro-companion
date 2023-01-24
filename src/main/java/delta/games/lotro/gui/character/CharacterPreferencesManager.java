@@ -5,8 +5,8 @@ import java.util.List;
 import delta.common.utils.misc.Preferences;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.character.CharacterFile;
+import delta.games.lotro.character.classes.ClassDescription;
 import delta.games.lotro.character.gear.GearSlot;
-import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.gui.character.status.currencies.CurrenciesPreferences;
 import delta.games.lotro.gui.lore.items.chooser.ItemChoiceTableColumnsManager;
 import delta.games.lotro.gui.lore.items.chooser.ItemChooser;
@@ -55,7 +55,7 @@ public class CharacterPreferencesManager
       List<String> columnIds=props.getStringList(ItemChooser.COLUMNS_PROPERTY);
       if (columnIds==null)
       {
-        CharacterClass characterClass=toonFile.getSummary().getCharacterClass();
+        ClassDescription characterClass=toonFile.getSummary().getCharacterClass();
         columnIds=ItemChoiceTableColumnsManager.getEssenceChoiceColumns(characterClass);
         props.setStringList(ItemChooser.COLUMNS_PROPERTY,columnIds);
         prefs.savePreferences(props);
@@ -78,7 +78,7 @@ public class CharacterPreferencesManager
   {
     String slotKey=propsSetId.substring(propsSetId.indexOf("#")+1);
     GearSlot slot=GearSlot.valueOf(slotKey);
-    CharacterClass characterClass=toonFile.getSummary().getCharacterClass();
+    ClassDescription characterClass=toonFile.getSummary().getCharacterClass();
     List<String> columnIds=ItemChoiceTableColumnsManager.getItemChoiceColumnsUsingClassAndSlot(characterClass,slot);
     return columnIds;
   }

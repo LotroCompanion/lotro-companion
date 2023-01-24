@@ -7,7 +7,7 @@ import delta.common.utils.collections.filters.CompoundFilter;
 import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.collections.filters.Operator;
 import delta.games.lotro.character.BasicCharacterAttributes;
-import delta.games.lotro.common.CharacterClass;
+import delta.games.lotro.character.classes.ClassDescription;
 import delta.games.lotro.lore.items.ArmourType;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.WeaponType;
@@ -72,7 +72,7 @@ public class ItemChooserFilter implements Filter<Item>
     if (attrs!=null)
     {
       // - class
-      CharacterClass characterClass=attrs.getCharacterClass();
+      ClassDescription characterClass=attrs.getCharacterClass();
       boolean useCurrentCharClass=cfg.hasComponent(ItemChooserFilterComponent.CURRENT_CHAR_CLASS);
       if (useCurrentCharClass)
       {

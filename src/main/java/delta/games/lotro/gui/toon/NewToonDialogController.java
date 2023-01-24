@@ -25,14 +25,12 @@ import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharacterSummary;
 import delta.games.lotro.character.CharactersManager;
 import delta.games.lotro.character.classes.ClassDescription;
-import delta.games.lotro.character.classes.ClassesManager;
 import delta.games.lotro.character.classes.InitialGearDefinition;
 import delta.games.lotro.character.gear.CharacterGear;
 import delta.games.lotro.character.gear.GearSlot;
 import delta.games.lotro.character.gear.GearSlotContents;
 import delta.games.lotro.character.races.RaceDescription;
 import delta.games.lotro.character.stats.CharacterStatsComputer;
-import delta.games.lotro.common.CharacterClass;
 import delta.games.lotro.common.CharacterSex;
 import delta.games.lotro.gui.character.summary.CharacterUiUtils;
 import delta.games.lotro.lore.items.EquipmentLocation;
@@ -151,7 +149,7 @@ public class NewToonDialogController extends DefaultFormDialogController<Object>
     String toonName=_toonName.getText();
     String server=_server.getSelectedItem();
     String account=_account.getSelectedItem();
-    CharacterClass cClass=_class.getComboBoxController().getSelectedItem();
+    ClassDescription characterClass=_class.getComboBoxController().getSelectedItem();
     RaceDescription race=_race.getSelectedItem();
     CharacterSex sex=_sex.getSelectedItem();
     CharacterSummary summary=new CharacterSummary();
@@ -159,7 +157,7 @@ public class NewToonDialogController extends DefaultFormDialogController<Object>
     summary.setServer(server);
     summary.setAccountName(account);
     summary.setCharacterSex(sex);
-    summary.setCharacterClass(cClass);
+    summary.setCharacterClass(characterClass);
     summary.setRace(race);
     summary.setNationality(null);
     summary.setLevel(1);
@@ -185,8 +183,7 @@ public class NewToonDialogController extends DefaultFormDialogController<Object>
   private void setInitialGear(CharacterData info)
   {
     RaceDescription race=info.getRace();
-    CharacterClass characterClass=info.getCharacterClass();
-    ClassDescription description=ClassesManager.getInstance().getClassDescription(characterClass);
+    ClassDescription description=info.getCharacterClass();
     if (description!=null)
     {
       CharacterGear gear=info.getEquipment();
