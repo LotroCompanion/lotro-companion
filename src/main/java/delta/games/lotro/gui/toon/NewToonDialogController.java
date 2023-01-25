@@ -25,7 +25,8 @@ import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharacterSummary;
 import delta.games.lotro.character.CharactersManager;
 import delta.games.lotro.character.classes.ClassDescription;
-import delta.games.lotro.character.classes.InitialGearDefinition;
+import delta.games.lotro.character.classes.initialGear.InitialGearDefinition;
+import delta.games.lotro.character.classes.initialGear.InitialGearManager;
 import delta.games.lotro.character.gear.CharacterGear;
 import delta.games.lotro.character.gear.GearSlot;
 import delta.games.lotro.character.gear.GearSlotContents;
@@ -37,7 +38,6 @@ import delta.games.lotro.lore.items.EquipmentLocation;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemFactory;
 import delta.games.lotro.lore.items.ItemInstance;
-import delta.games.lotro.lore.items.ItemsManager;
 
 /**
  * Controller for the "new toon" dialog.
@@ -187,30 +187,25 @@ public class NewToonDialogController extends DefaultFormDialogController<Object>
     if (description!=null)
     {
       CharacterGear gear=info.getEquipment();
-      ItemsManager itemsMgr=ItemsManager.getInstance();
-      InitialGearDefinition initialGear=description.getInitialGear();
-      List<Integer> itemIds=initialGear.getItems(race);
-      for(Integer itemId : itemIds)
+      InitialGearDefinition initialGear=InitialGearManager.getInstance().getByKey(description.getKey());
+      List<Item> items=initialGear.getItems(race);
+      for(Item item : items)
       {
-        Item item=itemsMgr.getItem(itemId.intValue());
-        if (item!=null)
+        EquipmentLocation location=item.getEquipmentLocation();
+        for(GearSlot slot : GearSlot.values())
         {
-          EquipmentLocation location=item.getEquipmentLocation();
-          for(GearSlot slot : GearSlot.values())
+          if (slot.getLocation()==location)
           {
-            if (slot.getLocation()==location)
+            GearSlotContents contents=gear.getSlotContents(slot,true);
+            ItemInstance<? extends Item> old=contents.getItem();
+            ItemInstance<? extends Item> itemInstance=ItemFactory.buildInstance(item);
+            if (old==null)
             {
-              GearSlotContents contents=gear.getSlotContents(slot,true);
-              ItemInstance<? extends Item> old=contents.getItem();
-              ItemInstance<? extends Item> itemInstance=ItemFactory.buildInstance(item);
-              if (old==null)
-              {
-                contents.setItem(itemInstance);
-              }
-              else
-              {
-                LOGGER.warn("Would have overriden "+old+" by "+itemInstance);
-              }
+              contents.setItem(itemInstance);
+            }
+            else
+            {
+              LOGGER.warn("Would have overriden "+old+" by "+itemInstance);
             }
           }
         }
