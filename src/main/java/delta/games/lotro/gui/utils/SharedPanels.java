@@ -126,8 +126,8 @@ public class SharedPanels
     BasicCharacterAttributes attrs=toon.getSummary();
     if (attrs!=null)
     {
-      ClassDescription cClass=attrs.getCharacterClass();
-      classIcon=LotroIconsManager.getClassIcon(cClass,LotroIconsManager.COMPACT_SIZE);
+      ClassDescription characterClass=attrs.getCharacterClass();
+      classIcon=LotroIconsManager.getClassIcon(characterClass.getIconId());
     }
     JLabel classLabel;
     if (classIcon!=null)

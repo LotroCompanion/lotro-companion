@@ -8,7 +8,6 @@ import javax.swing.ImageIcon;
 
 import delta.common.ui.swing.icons.ApplicationIcons;
 import delta.common.ui.swing.icons.IconsManager;
-import delta.games.lotro.character.classes.ClassDescription;
 import delta.games.lotro.character.races.RaceDescription;
 import delta.games.lotro.character.virtues.VirtueDescription;
 import delta.games.lotro.common.CharacterSex;
@@ -26,32 +25,17 @@ public class LotroIconsManager
 {
   private static final String ITEM_WITH_NO_ICON="/resources/gui/items/itemNoIcon.png";
 
-  /**
-   * Compact size.
-   */
-  public static final String COMPACT_SIZE="compact";
-  /**
-   * Small size.
-   */
-  public static final String SMALL_SIZE="small";
-
   private static ItemIconBuilder _itemIconBuilder=new ItemIconBuilder();
 
   /**
    * Get an icon for a character class.
-   * @param characterClass Character class.
-   * @param size Icon size. Use <code>MEDIUM</code> or <code>SMALL</code>.
+   * @param iconID Icon identifier.
    * @return An icon or <code>null</code> if not found.
    */
-  public static ImageIcon getClassIcon(ClassDescription characterClass, String size)
+  public static ImageIcon getClassIcon(int iconID)
   {
-    ImageIcon ret=null;
-    if (characterClass!=null)
-    {
-      String classIconPath=characterClass.getKey().toLowerCase();
-      String iconPath="/resources/gui/classes/"+size+"/"+classIconPath+".png";
-      ret=IconsManager.getIcon(iconPath);
-    }
+    String iconPath="/classes/"+iconID+".png";
+    ImageIcon ret=IconsManager.getIcon(iconPath);
     return ret;
   }
 

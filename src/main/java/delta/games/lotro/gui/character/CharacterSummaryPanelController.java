@@ -74,17 +74,21 @@ public class CharacterSummaryPanelController implements GenericEventsListener<Ch
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,2,2,2),0,0);
 
     // Grab data
-    ClassDescription cClass=null;
+    ClassDescription characterClass=null;
     RaceDescription race=null;
     CharacterSex sex=null;
     if (_summary!=null)
     {
-      cClass=_summary.getCharacterClass();
+      characterClass=_summary.getCharacterClass();
       race=_summary.getRace();
       sex=_summary.getCharacterSex();
     }
     // Class
-    ImageIcon classIcon=LotroIconsManager.getClassIcon(cClass,LotroIconsManager.COMPACT_SIZE);
+    ImageIcon classIcon=null;
+    if (characterClass!=null)
+    {
+      classIcon=LotroIconsManager.getClassIcon(characterClass.getIconId());
+    }
     panel.add(GuiFactory.buildIconLabel(classIcon),c);
     // Character icon
     ImageIcon characterIcon=LotroIconsManager.getCharacterIcon(race,sex);
