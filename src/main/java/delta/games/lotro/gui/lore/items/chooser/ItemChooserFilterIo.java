@@ -5,7 +5,7 @@ import java.util.List;
 import delta.common.utils.BooleanTools;
 import delta.common.utils.NumericTools;
 import delta.common.utils.misc.TypedProperties;
-import delta.games.lotro.character.classes.ClassDescription;
+import delta.games.lotro.character.classes.AbstractClassDescription;
 import delta.games.lotro.character.classes.ClassesManager;
 import delta.games.lotro.character.races.RaceDescription;
 import delta.games.lotro.character.races.RacesManager;
@@ -200,13 +200,13 @@ public class ItemChooserFilterIo
       Integer maxLevel=props.getIntegerProperty(MAX_ITEM_LEVEL);
       itemLevelFilter.setRange(minLevel,maxLevel);
     }
-    // Character class
+    // Character/monster class
     ItemRequiredClassFilter genericClassFilter=filter.getGenericClassFilter();
     if (genericClassFilter!=null)
     {
       String classFilterKey=props.getStringProperty(GENERIC_CLASS_FILTER,null);
-      ClassDescription characterClass=ClassesManager.getInstance().getByKey(classFilterKey);
-      genericClassFilter.setCharacterClass(characterClass);
+      AbstractClassDescription clazz=ClassesManager.getInstance().getClassByKey(classFilterKey);
+      genericClassFilter.setClass(clazz);
     }
     // Race
     ItemRequiredRaceFilter genericRaceFilter=filter.getGenericRaceFilter();
@@ -396,14 +396,14 @@ public class ItemChooserFilterIo
         props.removeProperty(MAX_ITEM_LEVEL);
       }
     }
-    // Character class
+    // Character/monster class
     ItemRequiredClassFilter genericClassFilter=filter.getGenericClassFilter();
     if (genericClassFilter!=null)
     {
-      ClassDescription characterClass=genericClassFilter.getCharacterClass();
-      if (characterClass!=null)
+      AbstractClassDescription clazz=genericClassFilter.getCharacterClass();
+      if (clazz!=null)
       {
-        props.setStringProperty(GENERIC_CLASS_FILTER,characterClass.getKey());
+        props.setStringProperty(GENERIC_CLASS_FILTER,clazz.getKey());
       }
       else
       {

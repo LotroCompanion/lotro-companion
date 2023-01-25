@@ -2,7 +2,7 @@ package delta.games.lotro.gui.common.requirements;
 
 import java.util.List;
 
-import delta.games.lotro.character.classes.ClassDescription;
+import delta.games.lotro.character.classes.AbstractClassDescription;
 import delta.games.lotro.character.races.RaceDescription;
 import delta.games.lotro.common.requirements.ClassRequirement;
 import delta.games.lotro.common.requirements.FactionRequirement;
@@ -33,14 +33,14 @@ public class RequirementsUtils
     if (classRequirements!=null)
     {
       if (sb.length()>0) sb.append(", ");
-      List<ClassDescription> characterClasses=classRequirements.getAllowedClasses();
-      for(int i=0;i<characterClasses.size();i++)
+      List<AbstractClassDescription> classes=classRequirements.getAllowedClasses();
+      for(int i=0;i<classes.size();i++)
       {
         if (i>0)
         {
           sb.append('/');
         }
-        sb.append(characterClasses.get(i).getName());
+        sb.append(classes.get(i).getName());
       }
     }
     // Race

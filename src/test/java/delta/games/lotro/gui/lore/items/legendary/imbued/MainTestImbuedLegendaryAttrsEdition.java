@@ -31,7 +31,7 @@ public class MainTestImbuedLegendaryAttrsEdition
   private void doIt()
   {
     final ImbuedLegendaryInstanceAttrs attrs=buildTestAttrs();
-    ClassDescription captain=ClassesManager.getInstance().getByKey(WellKnownCharacterClassKeys.CAPTAIN);
+    ClassDescription captain=ClassesManager.getInstance().getCharacterClassByKey(WellKnownCharacterClassKeys.CAPTAIN);
     ClassAndSlot constraints=new ClassAndSlot(captain,EquipmentLocation.MAIN_HAND);
     final ImbuedLegendaryAttrsEditionPanelController controller=new ImbuedLegendaryAttrsEditionPanelController(null,attrs,constraints);
 

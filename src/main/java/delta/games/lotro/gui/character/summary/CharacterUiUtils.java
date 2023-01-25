@@ -9,6 +9,7 @@ import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.Config;
 import delta.games.lotro.account.Account;
 import delta.games.lotro.account.AccountsManager;
+import delta.games.lotro.character.classes.AbstractClassDescription;
 import delta.games.lotro.character.classes.ClassDescription;
 import delta.games.lotro.character.classes.ClassesManager;
 import delta.games.lotro.character.races.RaceDescription;
@@ -27,16 +28,50 @@ public class CharacterUiUtils
    * @param includeEmptyChoice Include an empty choice or not.
    * @return a character class combobox.
    */
-  public static ComboBoxController<ClassDescription> buildClassCombo(boolean includeEmptyChoice)
+  public static ComboBoxController<ClassDescription> buildCharacterClassCombo(boolean includeEmptyChoice)
   {
-    ComboBoxController<ClassDescription> ctrl=new ComboBoxController<ClassDescription>();
+    List<ClassDescription> classes=ClassesManager.getInstance().getAllCharacterClasses();
+    return buildClassCombo(includeEmptyChoice,classes);
+  }
+
+  /**
+   * Build a class combobox.
+   * @param includeEmptyChoice Include an empty choice or not.
+   * @param includeMonsterClasses Use monster classes or not.
+   * @return a class combobox.
+   */
+  public static ComboBoxController<AbstractClassDescription> buildClassCombo(boolean includeEmptyChoice, boolean includeMonsterClasses)
+  {
+    List<AbstractClassDescription> classes=new ArrayList<AbstractClassDescription>();
+    if (includeMonsterClasses)
+    {
+      List<AbstractClassDescription> allClasses=ClassesManager.getInstance().getAllClasses();
+      classes.addAll(allClasses);
+    }
+    else
+    {
+      List<ClassDescription> characterClasses=ClassesManager.getInstance().getAllCharacterClasses();
+      classes.addAll(characterClasses);
+    }
+    return buildClassCombo(includeEmptyChoice,classes);
+  }
+
+  /**
+   * Build a class combobox.
+   * @param includeEmptyChoice Include an empty choice or not.
+   * @param classes Classes to use.
+   * @return a class combobox.
+   */
+  private static <T extends AbstractClassDescription> ComboBoxController<T> buildClassCombo(boolean includeEmptyChoice, List<T> classes)
+  {
+    ComboBoxController<T> ctrl=new ComboBoxController<T>();
     if (includeEmptyChoice)
     {
       ctrl.addEmptyItem("");
     }
-    for(ClassDescription characterClass : ClassesManager.getInstance().getAll())
+    for(T currentClass : classes)
     {
-      ctrl.addItem(characterClass,characterClass.getName());
+      ctrl.addItem(currentClass,currentClass.getName());
     }
     return ctrl;
   }

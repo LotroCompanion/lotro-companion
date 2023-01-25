@@ -115,7 +115,7 @@ public class RequirementsFilterController
 
   private ComboBoxController<ClassDescription> buildCharacterClassCombobox()
   {
-    ComboBoxController<ClassDescription> combo=CharacterUiUtils.buildClassCombo(true);
+    ComboBoxController<ClassDescription> combo=CharacterUiUtils.buildCharacterClassCombo(true);
     ItemSelectionListener<ClassDescription> listener=new ItemSelectionListener<ClassDescription>()
     {
       @Override

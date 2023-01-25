@@ -69,7 +69,7 @@ public class CharacterClassController
     ClassesManager mgr=ClassesManager.getInstance();
     for(String classKey : race.getAllowedClasses())
     {
-      ClassDescription characterClass=mgr.getByKey(classKey);
+      ClassDescription characterClass=mgr.getCharacterClassByKey(classKey);
       if (characterClass!=null)
       {
         ret.add(characterClass);

@@ -17,7 +17,7 @@ import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.ListDataProvider;
 import delta.common.ui.swing.tables.TableColumnsManager;
 import delta.common.ui.swing.windows.WindowController;
-import delta.games.lotro.character.classes.ClassDescription;
+import delta.games.lotro.character.classes.AbstractClassDescription;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.common.money.Money;
 import delta.games.lotro.common.money.comparator.MoneyComparator;
@@ -124,15 +124,15 @@ public class ItemsTableBuilder
     columns.add(buildMaxLevelColumn());
     // Class requirement
     {
-      CellDataProvider<Item,ClassDescription> requiredClassCell=new CellDataProvider<Item,ClassDescription>()
+      CellDataProvider<Item,AbstractClassDescription> requiredClassCell=new CellDataProvider<Item,AbstractClassDescription>()
       {
         @Override
-        public ClassDescription getData(Item item)
+        public AbstractClassDescription getData(Item item)
         {
           return item.getRequiredClass();
         }
       };
-      DefaultTableColumnController<Item,ClassDescription> requiredClassColumn=new DefaultTableColumnController<Item,ClassDescription>(ItemColumnIds.CLASS.name(),"Class",ClassDescription.class,requiredClassCell);
+      DefaultTableColumnController<Item,AbstractClassDescription> requiredClassColumn=new DefaultTableColumnController<Item,AbstractClassDescription>(ItemColumnIds.CLASS.name(),"Class",AbstractClassDescription.class,requiredClassCell);
       requiredClassColumn.setWidthSpecs(100,100,100);
       columns.add(requiredClassColumn);
     }

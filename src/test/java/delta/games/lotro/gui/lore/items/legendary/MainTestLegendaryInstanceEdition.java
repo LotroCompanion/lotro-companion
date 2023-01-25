@@ -49,7 +49,7 @@ public class MainTestLegendaryInstanceEdition
   {
     LegendaryInstance legendaryInstance=(LegendaryInstance)itemInstance;
     final LegendaryInstanceAttrs legendaryAttrs=legendaryInstance.getLegendaryAttributes();
-    ClassDescription captain=ClassesManager.getInstance().getByKey(WellKnownCharacterClassKeys.CAPTAIN);
+    ClassDescription captain=ClassesManager.getInstance().getCharacterClassByKey(WellKnownCharacterClassKeys.CAPTAIN);
     ClassAndSlot constraints=new ClassAndSlot(captain,EquipmentLocation.CLASS_SLOT);
     final LegendaryInstanceEditionPanelController controller=new LegendaryInstanceEditionPanelController(null,itemInstance,constraints);
 

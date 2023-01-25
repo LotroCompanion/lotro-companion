@@ -153,7 +153,7 @@ public class FriendSummaryFilterController
     {
       JLabel label=GuiFactory.buildLabel("Class:");
       linePanel.add(label);
-      _class=CharacterUiUtils.buildClassCombo(true);
+      _class=CharacterUiUtils.buildCharacterClassCombo(true);
       ItemSelectionListener<ClassDescription> classListener=new ItemSelectionListener<ClassDescription>()
       {
         @Override

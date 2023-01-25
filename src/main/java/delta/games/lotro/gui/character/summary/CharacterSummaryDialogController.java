@@ -76,7 +76,7 @@ public class CharacterSummaryDialogController extends DefaultFormDialogControlle
     // Account
     _account=CharacterUiUtils.buildAccountCombo();
     // Class
-    _class=CharacterUiUtils.buildClassCombo(false);
+    _class=CharacterUiUtils.buildCharacterClassCombo(false);
     _class.getComboBox().setEnabled(false);
     // Race
     _race=CharacterUiUtils.buildRaceCombo(false);

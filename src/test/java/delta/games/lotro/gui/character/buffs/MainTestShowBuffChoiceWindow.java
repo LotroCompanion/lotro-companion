@@ -25,7 +25,7 @@ public class MainTestShowBuffChoiceWindow
   public static void main(String[] args)
   {
     CharacterSummary summary=new CharacterSummary();
-    ClassDescription captain=ClassesManager.getInstance().getByKey(WellKnownCharacterClassKeys.CAPTAIN);
+    ClassDescription captain=ClassesManager.getInstance().getCharacterClassByKey(WellKnownCharacterClassKeys.CAPTAIN);
     summary.setCharacterClass(captain);
     RaceDescription man=RacesManager.getInstance().getByKey("man");
     summary.setRace(man);

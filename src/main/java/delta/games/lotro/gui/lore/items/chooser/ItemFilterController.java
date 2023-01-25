@@ -29,7 +29,7 @@ import delta.common.ui.swing.text.range.RangeListener;
 import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.character.BasicCharacterAttributes;
-import delta.games.lotro.character.classes.ClassDescription;
+import delta.games.lotro.character.classes.AbstractClassDescription;
 import delta.games.lotro.character.races.RaceDescription;
 import delta.games.lotro.common.enums.ItemClass;
 import delta.games.lotro.common.stats.StatDescription;
@@ -81,7 +81,7 @@ public class ItemFilterController extends ObjectFilterPanelController implements
   private CheckboxController _characterLevelRequirement;
   private CheckboxController _proficienciesRequirement;
   private RangeEditorController _itemLevelRange;
-  private ComboBoxController<ClassDescription> _characterClass;
+  private ComboBoxController<AbstractClassDescription> _class;
   private ComboBoxController<RaceDescription> _race;
 
   /**
@@ -200,9 +200,9 @@ public class ItemFilterController extends ObjectFilterPanelController implements
       {
         _itemLevelRange.setCurrentRange(null,null);
       }
-      if (_characterClass!=null)
+      if (_class!=null)
       {
-        _characterClass.selectItem(null);
+        _class.selectItem(null);
       }
       if (_race!=null)
       {
@@ -307,10 +307,10 @@ public class ItemFilterController extends ObjectFilterPanelController implements
       ItemLevelFilter itemLevelFilter=_filter.getItemLevelFilter();
       _itemLevelRange.setCurrentRange(itemLevelFilter.getMinItemLevel(),itemLevelFilter.getMaxItemLevel());
     }
-    if (_characterClass!=null)
+    if (_class!=null)
     {
       ItemRequiredClassFilter classFilter=_filter.getGenericClassFilter();
-      _characterClass.setSelectedItem(classFilter.getCharacterClass());
+      _class.setSelectedItem(classFilter.getCharacterClass());
     }
     if (_race!=null)
     {
@@ -650,7 +650,7 @@ public class ItemFilterController extends ObjectFilterPanelController implements
     boolean useGenericRace=_cfg.hasComponent(ItemChooserFilterComponent.GENERIC_CHARACTER_RACE);
     if (useGenericClass || useGenericRace)
     {
-      JPanel requirementsPanel=buildCharacterRequirementsPanel(useGenericClass,useGenericRace);
+      JPanel requirementsPanel=buildCharacterRequirementsPanel(useGenericClass,useGenericRace,true);
       panel.add(requirementsPanel);
     }
     boolean useItemLevel=_cfg.hasComponent(ItemChooserFilterComponent.ITEM_LEVEL);
@@ -727,7 +727,7 @@ public class ItemFilterController extends ObjectFilterPanelController implements
     return requirementsPanel;
   }
 
-  private JPanel buildCharacterRequirementsPanel(boolean useCharacterClass, boolean useRace)
+  private JPanel buildCharacterRequirementsPanel(boolean useCharacterClass, boolean useRace, boolean useMonsterClasses)
   {
     JPanel requirementsPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING));
     TitledBorder border=GuiFactory.buildTitledBorder("Character requirements");
@@ -735,19 +735,19 @@ public class ItemFilterController extends ObjectFilterPanelController implements
     // Class requirement
     if (useCharacterClass)
     {
-      _characterClass=CharacterUiUtils.buildClassCombo(true);
+      _class=CharacterUiUtils.buildClassCombo(true,useMonsterClasses);
       requirementsPanel.add(GuiFactory.buildLabel("Class:"));
-      requirementsPanel.add(_characterClass.getComboBox());
-      ItemSelectionListener<ClassDescription> l=new ItemSelectionListener<ClassDescription>()
+      requirementsPanel.add(_class.getComboBox());
+      ItemSelectionListener<AbstractClassDescription> l=new ItemSelectionListener<AbstractClassDescription>()
       {
         @Override
-        public void itemSelected(ClassDescription selected)
+        public void itemSelected(AbstractClassDescription selected)
         {
-          _filter.getGenericClassFilter().setCharacterClass(selected);
+          _filter.getGenericClassFilter().setClass(selected);
           filterUpdated();
         }
       };
-      _characterClass.addListener(l);
+      _class.addListener(l);
     }
     // Race requirement
     if (useRace)

@@ -18,7 +18,7 @@ public class MainTestImbuedLegacyChoiceWindow
    */
   public static void main(String[] args)
   {
-    ClassDescription minstrel=ClassesManager.getInstance().getByKey(WellKnownCharacterClassKeys.MINSTREL);
+    ClassDescription minstrel=ClassesManager.getInstance().getCharacterClassByKey(WellKnownCharacterClassKeys.MINSTREL);
     ImbuedLegacy legcy=ImbuedLegacyChooser.selectImbuedLegacy(null,minstrel,EquipmentLocation.CLASS_SLOT,null);
     System.out.println(legcy);
   }

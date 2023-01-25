@@ -15,7 +15,7 @@ public class MainTestEssenceChoice
   private void doIt()
   {
     CharacterSummary c=new CharacterSummary();
-    ClassDescription minstrel=ClassesManager.getInstance().getByKey(WellKnownCharacterClassKeys.MINSTREL);
+    ClassDescription minstrel=ClassesManager.getInstance().getCharacterClassByKey(WellKnownCharacterClassKeys.MINSTREL);
     c.setCharacterClass(minstrel);
     c.setLevel(110);
     Item ret=EssenceChoice.chooseEssence(null,c);

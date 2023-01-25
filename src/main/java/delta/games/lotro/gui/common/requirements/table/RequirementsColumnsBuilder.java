@@ -5,7 +5,7 @@ import java.util.List;
 
 import delta.common.ui.swing.tables.CellDataProvider;
 import delta.common.ui.swing.tables.DefaultTableColumnController;
-import delta.games.lotro.character.classes.ClassDescription;
+import delta.games.lotro.character.classes.AbstractClassDescription;
 import delta.games.lotro.character.races.RaceDescription;
 import delta.games.lotro.common.requirements.UsageRequirement;
 
@@ -24,15 +24,15 @@ public class RequirementsColumnsBuilder
     List<DefaultTableColumnController<UsageRequirement,?>> ret=new ArrayList<DefaultTableColumnController<UsageRequirement,?>>();
     // Class column
     {
-      CellDataProvider<UsageRequirement,ClassDescription> classCell=new CellDataProvider<UsageRequirement,ClassDescription>()
+      CellDataProvider<UsageRequirement,AbstractClassDescription> classCell=new CellDataProvider<UsageRequirement,AbstractClassDescription>()
       {
         @Override
-        public ClassDescription getData(UsageRequirement requirement)
+        public AbstractClassDescription getData(UsageRequirement requirement)
         {
           return requirement.getRequiredClass();
         }
       };
-      DefaultTableColumnController<UsageRequirement,ClassDescription> classColumn=new DefaultTableColumnController<UsageRequirement,ClassDescription>(RequirementColumnIds.REQUIRED_CLASS.name(),"Class",ClassDescription.class,classCell);
+      DefaultTableColumnController<UsageRequirement,AbstractClassDescription> classColumn=new DefaultTableColumnController<UsageRequirement,AbstractClassDescription>(RequirementColumnIds.REQUIRED_CLASS.name(),"Class",AbstractClassDescription.class,classCell);
       classColumn.setWidthSpecs(80,100,80);
       ret.add(classColumn);
     }
