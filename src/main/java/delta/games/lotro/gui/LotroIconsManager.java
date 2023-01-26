@@ -9,6 +9,7 @@ import javax.swing.ImageIcon;
 import delta.common.ui.swing.icons.ApplicationIcons;
 import delta.common.ui.swing.icons.IconsManager;
 import delta.games.lotro.character.races.RaceDescription;
+import delta.games.lotro.character.races.RaceGender;
 import delta.games.lotro.character.virtues.VirtueDescription;
 import delta.games.lotro.common.CharacterSex;
 import delta.games.lotro.common.stats.StatDescription;
@@ -54,8 +55,12 @@ public class LotroIconsManager
       {
         sex=CharacterSex.MALE;
       }
-      String iconPath=race.getKey()+"_"+sex.getKey().toLowerCase();
-      ret=IconsManager.getIcon("/resources/gui/races/"+iconPath+".png");
+      RaceGender gender=(sex==CharacterSex.MALE)?race.getMaleGender():race.getFemaleGender();
+      if (gender!=null)
+      {
+        int iconID=gender.getLargeIconId();
+        ret=IconsManager.getIcon("/races/"+iconID+".png");
+      }
     }
     return ret;
   }
