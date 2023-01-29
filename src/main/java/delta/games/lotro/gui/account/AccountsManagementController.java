@@ -144,8 +144,7 @@ public class AccountsManagementController implements ActionListener,GenericEvent
 
   private void showAccount(Account account)
   {
-    String accountName=account.getName();
-    String id=AccountWindowController.getIdentifier(accountName);
+    String id=AccountWindowController.getIdentifier(account.getSummary());
     WindowController controller=_mainWindowsManager.getWindow(id);
     if (controller==null)
     {
@@ -172,12 +171,12 @@ public class AccountsManagementController implements ActionListener,GenericEvent
     Account account=controller.getSelectedItem();
     if (account!=null)
     {
-      String accountName=account.getName();
+      String accountName=account.getDisplayName();
       // Check deletion
       int result=GuiFactory.showQuestionDialog(_parentController.getWindow(),"Do you really want to delete account " + accountName + "?","Delete?",JOptionPane.YES_NO_OPTION);
       if (result==JOptionPane.OK_OPTION)
       {
-        String id=AccountWindowController.getIdentifier(accountName);
+        String id=AccountWindowController.getIdentifier(account.getSummary());
         WindowController windowController=_mainWindowsManager.getWindow(id);
         if (windowController!=null)
         {

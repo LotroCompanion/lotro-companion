@@ -27,8 +27,8 @@ public class MainTestShowCharacterStorage
     String server="Landroval";
     //String toon="Meva";
     boolean showShared=true;
-    Account account=AccountsManager.getInstance().getAccountByName(accountName);
-    List<CharacterFile> characters=AccountUtils.getCharacters(account.getName(),server);
+    Account account=AccountsManager.getInstance().getAccountByAccountName(accountName);
+    List<CharacterFile> characters=AccountUtils.getCharacters(account.getSummary(),server);
     for(CharacterFile character : characters)
     {
       CharacterStorageDisplayWindowController window=new CharacterStorageDisplayWindowController(null,character);

@@ -15,6 +15,7 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.DefaultWindowController;
 import delta.games.lotro.account.Account;
 import delta.games.lotro.account.AccountOnServer;
+import delta.games.lotro.account.AccountSummary;
 import delta.games.lotro.account.AccountUtils;
 
 /**
@@ -40,12 +41,13 @@ public class AccountWindowController extends DefaultWindowController
 
   /**
    * Get the window identifier for a given account.
-   * @param accountName Account name.
+   * @param accountSummary Account summary.
    * @return A window identifier.
    */
-  public static String getIdentifier(String accountName)
+  public static String getIdentifier(AccountSummary accountSummary)
   {
-    String id="ACCOUNT#"+accountName;
+    String accountID=accountSummary.getAccountID().getExternalID();
+    String id="ACCOUNT#"+accountID;
     return id;
   }
 
@@ -59,7 +61,7 @@ public class AccountWindowController extends DefaultWindowController
     panel.add(summaryPanel,BorderLayout.NORTH);
     // Servers tab
     JTabbedPane tabbedPane=GuiFactory.buildTabbedPane();
-    List<String> servers=AccountUtils.getServers(_account.getName());
+    List<String> servers=AccountUtils.getServers(_account.getSummary());
     for(String server : servers)
     {
       JPanel serverPanel=buildServerPanel(server);
@@ -83,7 +85,7 @@ public class AccountWindowController extends DefaultWindowController
   {
     JFrame frame=super.build();
     // Title
-    String name=_account.getName();
+    String name=_account.getDisplayName();
     String title="Account: "+name;
     frame.setTitle(title);
     frame.setMinimumSize(new Dimension(400,200));
@@ -95,9 +97,7 @@ public class AccountWindowController extends DefaultWindowController
   @Override
   public String getWindowIdentifier()
   {
-    String accountName=_account.getName();
-    String id=getIdentifier(accountName);
-    return id;
+    return getIdentifier(_account.getSummary());
   }
 
   /**

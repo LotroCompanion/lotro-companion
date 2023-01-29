@@ -130,7 +130,7 @@ public class WardrobeDisplayWindowController extends DefaultDialogController imp
   private void updateContents()
   {
     // Title
-    String name=_accountOnServer.getAccount().getName();
+    String name=_accountOnServer.getAccount().getAccountName();
     String serverName=_accountOnServer.getServerName();
     String title="Wardrobe for "+name+" @ "+serverName;
     getDialog().setTitle(title);

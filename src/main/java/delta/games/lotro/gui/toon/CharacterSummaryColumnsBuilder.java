@@ -7,6 +7,7 @@ import java.util.List;
 import delta.common.ui.swing.tables.CellDataProvider;
 import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.TableColumnController;
+import delta.games.lotro.account.AccountReference;
 import delta.games.lotro.character.BaseCharacterSummary;
 import delta.games.lotro.character.CharacterReference;
 import delta.games.lotro.character.CharacterSummary;
@@ -153,18 +154,34 @@ public class CharacterSummaryColumnsBuilder
       serverColumn.setWidthSpecs(100,100,100);
       ret.add(serverColumn);
     }
-    // Account column
+    // Account name column
     {
       CellDataProvider<T,String> accountCell=new CellDataProvider<T,String>()
       {
         @Override
         public String getData(T item)
         {
-          return item.getAccountName();
+          AccountReference id=item.getAccountID();
+          return (id!=null)?id.getAccountName():"";
         }
       };
       DefaultTableColumnController<T,String> accountColumn=new DefaultTableColumnController<T,String>(ToonsTableColumnIds.ACCOUNT.name(),"Account",String.class,accountCell);
       accountColumn.setWidthSpecs(100,100,100);
+      ret.add(accountColumn);
+    }
+    // Subscription column
+    {
+      CellDataProvider<T,String> subscriptionCell=new CellDataProvider<T,String>()
+      {
+        @Override
+        public String getData(T item)
+        {
+          AccountReference id=item.getAccountID();
+          return (id!=null)?id.getSubscriptionKey():"";
+        }
+      };
+      DefaultTableColumnController<T,String> accountColumn=new DefaultTableColumnController<T,String>(ToonsTableColumnIds.SUBSCRIPTION.name(),"Subscription",String.class,subscriptionCell);
+      accountColumn.setWidthSpecs(230,230,230);
       ret.add(accountColumn);
     }
     return ret;

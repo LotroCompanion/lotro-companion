@@ -25,8 +25,10 @@ import delta.games.lotro.gui.utils.l10n.DateFormat;
 public class AccountSummaryDialogController extends DefaultFormDialogController<AccountSummary>
 {
   private static final int ACCOUNT_NAME_SIZE=16;
+  private static final int SUBSCRIPTION_KEY_SIZE=32;
   // UI
   private JTextField _accountName;
+  private JTextField _subscription;
   private DateEditionController _signupDate;
   private ComboBoxController<AccountType> _accountType;
 
@@ -66,6 +68,10 @@ public class AccountSummaryDialogController extends DefaultFormDialogController<
     _accountName=GuiFactory.buildTextField("");
     _accountName.setColumns(ACCOUNT_NAME_SIZE);
     _accountName.setEditable(false);
+    // Subscription key
+    _subscription=GuiFactory.buildTextField("");
+    _subscription.setColumns(SUBSCRIPTION_KEY_SIZE);
+    _subscription.setEditable(false);
     // Signup date
     _signupDate=new DateEditionController(DateFormat.getDateCodec());
     // Account type
@@ -76,6 +82,8 @@ public class AccountSummaryDialogController extends DefaultFormDialogController<
     GridBagConstraints gbc=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,insets,0,0);
     panel.add(GuiFactory.buildLabel("Name:"),gbc);
     gbc.gridy++;
+    panel.add(GuiFactory.buildLabel("Subscription:"),gbc);
+    gbc.gridy++;
     panel.add(GuiFactory.buildLabel("Signup date:"),gbc);
     gbc.gridy++;
     panel.add(GuiFactory.buildLabel("Account type:"),gbc);
@@ -84,6 +92,8 @@ public class AccountSummaryDialogController extends DefaultFormDialogController<
     gbc.gridx=1; gbc.gridy=0;
     gbc.weightx=1.0; gbc.fill=GridBagConstraints.HORIZONTAL;
     panel.add(_accountName,gbc);
+    gbc.gridy++;
+    panel.add(_subscription,gbc);
     gbc.gridy++;
     panel.add(_signupDate.getTextField(),gbc);
     gbc.gridy++;
@@ -111,8 +121,11 @@ public class AccountSummaryDialogController extends DefaultFormDialogController<
   private void initData()
   {
     // Account name
-    String name=_data.getName();
-    _accountName.setText(name);
+    String accountName=_data.getName();
+    _accountName.setText(accountName);
+    // Subscription key
+    String subscriptionKey=_data.getSubscriptionKey();
+    _subscription.setText(subscriptionKey);
     // Signup date
     Long signupDate=_data.getSignupDate();
     _signupDate.setDate(signupDate);
@@ -124,9 +137,6 @@ public class AccountSummaryDialogController extends DefaultFormDialogController<
   @Override
   protected void okImpl()
   {
-    // Name
-    String accountName=_accountName.getText();
-    _data.setName(accountName);
     // Signup date
     Long signupDate=_signupDate.getDate();
     _data.setSignupDate(signupDate);

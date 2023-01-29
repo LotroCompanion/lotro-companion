@@ -2,12 +2,16 @@ package delta.games.lotro.gui.character.summary;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import delta.common.ui.swing.combobox.ComboBoxController;
+import delta.common.utils.misc.IntegerHolder;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.Config;
 import delta.games.lotro.account.Account;
+import delta.games.lotro.account.AccountComparator;
 import delta.games.lotro.account.AccountsManager;
 import delta.games.lotro.character.classes.AbstractClassDescription;
 import delta.games.lotro.character.classes.ClassDescription;
@@ -136,23 +140,42 @@ public class CharacterUiUtils
    * Build an account combobox.
    * @return an account combobox.
    */
-  public static ComboBoxController<String> buildAccountCombo()
+  public static ComboBoxController<Account> buildAccountCombo()
   {
     List<Account> accounts=AccountsManager.getInstance().getAllAccounts();
-    List<String> accountNames=new ArrayList<String>();
+    Collections.sort(accounts,new AccountComparator());
+    ComboBoxController<Account> ctrl=new ComboBoxController<Account>();
+    ctrl.addEmptyItem("");
+    Map<String,IntegerHolder> counts=countAccountsByName(accounts);
     for(Account account : accounts)
     {
-      String accountName=account.getName();
-      accountNames.add(accountName);
-    }
-    Collections.sort(accountNames);
-    ComboBoxController<String> ctrl=new ComboBoxController<String>();
-    ctrl.addEmptyItem("");
-    for(String accountName : accountNames)
-    {
-      ctrl.addItem(accountName,accountName);
+      String label=account.getAccountName();
+      int count=counts.get(label).getInt();
+      if (count>1)
+      {
+        String gameAccountName=account.getSubscriptionKey();
+        label=label+" / "+gameAccountName;
+      }
+      ctrl.addItem(account,label);
     }
     return ctrl;
+  }
+
+  private static Map<String,IntegerHolder> countAccountsByName(List<Account> accounts)
+  {
+    Map<String,IntegerHolder> counts=new HashMap<String,IntegerHolder>();
+    for(Account account : accounts)
+    {
+      String name=account.getAccountName();
+      IntegerHolder counter=counts.get(name);
+      if (counter==null)
+      {
+        counter=new IntegerHolder();
+        counts.put(name,counter);
+      }
+      counter.increment();
+    }
+    return counts;
   }
 
   /**

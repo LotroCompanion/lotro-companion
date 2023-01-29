@@ -13,6 +13,9 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.common.ui.swing.windows.DefaultFormDialogController;
 import delta.common.ui.swing.windows.WindowController;
+import delta.games.lotro.account.Account;
+import delta.games.lotro.account.AccountReference;
+import delta.games.lotro.account.AccountsManager;
 import delta.games.lotro.character.CharacterSummary;
 import delta.games.lotro.character.classes.ClassDescription;
 import delta.games.lotro.character.races.NationalityDescription;
@@ -29,7 +32,7 @@ public class CharacterSummaryDialogController extends DefaultFormDialogControlle
   // UI
   private JTextField _toonName;
   private ComboBoxController<String> _server;
-  private ComboBoxController<String> _account;
+  private ComboBoxController<Account> _account;
   private ComboBoxController<ClassDescription> _class;
   private ComboBoxController<RaceDescription> _race;
   private ComboBoxController<CharacterSex> _sex;
@@ -135,7 +138,8 @@ public class CharacterSummaryDialogController extends DefaultFormDialogControlle
     String server=_data.getServer();
     _server.selectItem(server);
     // Account
-    String account=_data.getAccountName();
+    AccountReference accountID=_data.getAccountID();
+    Account account=AccountsManager.getInstance().getAccountByID(accountID);
     _account.selectItem(account);
     // Class
     ClassDescription characterClass=_data.getCharacterClass();
@@ -162,8 +166,9 @@ public class CharacterSummaryDialogController extends DefaultFormDialogControlle
     _data.setName(toonName);
     String server=_server.getSelectedItem();
     _data.setServer(server);
-    String accountName=_account.getSelectedItem();
-    _data.setAccountName(accountName);
+    Account account=_account.getSelectedItem();
+    AccountReference accountID=(account!=null)?account.getID():null;
+    _data.setAccountID(accountID);
     ClassDescription cClass=_class.getSelectedItem();
     _data.setCharacterClass(cClass);
     RaceDescription race=_race.getSelectedItem();

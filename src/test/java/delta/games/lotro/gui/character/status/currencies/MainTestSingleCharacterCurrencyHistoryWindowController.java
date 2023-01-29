@@ -19,7 +19,7 @@ public class MainTestSingleCharacterCurrencyHistoryWindowController
   public static void main(String[] args)
   {
     // Account/server
-    Account account=AccountsManager.getInstance().getAccountByName("glorfindel666");
+    Account account=AccountsManager.getInstance().getAccountByAccountName("glorfindel666");
     String serverName="Landroval";
     AccountOnServer accountOnServer=account.getServer(serverName);
     SingleCharacterCurrencyHistoryWindowController controller=new SingleCharacterCurrencyHistoryWindowController(null,accountOnServer);

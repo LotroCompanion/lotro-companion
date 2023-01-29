@@ -43,6 +43,10 @@ public enum ToonsTableColumnIds
    */
   ACCOUNT,
   /**
+   * Subscription.
+   */
+  SUBSCRIPTION,
+  /**
    * XP
    */
   XP,

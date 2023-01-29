@@ -181,7 +181,7 @@ public class AccountStorageDisplayWindowController extends DefaultDialogControll
   {
     // Title
     Account account=_accountOnServer.getAccount();
-    String accountName=account.getName();
+    String accountName=account.getAccountName();
     String serverName=_accountOnServer.getServerName();
     String title="Storage for account "+accountName+" @ "+serverName;
     getDialog().setTitle(title);

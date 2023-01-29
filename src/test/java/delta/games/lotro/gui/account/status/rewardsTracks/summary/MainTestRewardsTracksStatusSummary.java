@@ -15,7 +15,7 @@ public class MainTestRewardsTracksStatusSummary
   private void doIt()
   {
     AccountsManager accountsMgr=AccountsManager.getInstance();
-    Account account=accountsMgr.getAccountByName("glorfindel666");
+    Account account=accountsMgr.getAccountByAccountName("glorfindel666");
     AccountOnServer accountOnServer=account.getServer("Landroval");
     RewardsTracksStatusManager rewardsTracksStatusMgr=RewardsTracksStatusIo.load(accountOnServer);
     RewardsTracksStatusSummaryWindowController ctrl=new RewardsTracksStatusSummaryWindowController(null,rewardsTracksStatusMgr);

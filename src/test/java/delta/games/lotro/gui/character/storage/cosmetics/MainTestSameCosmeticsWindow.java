@@ -25,7 +25,7 @@ public class MainTestSameCosmeticsWindow
     List<StoredItem> items=StorageUtils.buildCharacterItems(toon,characterStorage);
     doIt(items);
 
-    Account account=AccountsManager.getInstance().getAccountByName("glorfindel666");
+    Account account=AccountsManager.getInstance().getAccountByAccountName("glorfindel666");
     AccountOnServer accountOnServer=account.getServer("Landroval");
     List<StoredItem> items2=StorageUtils.buildAccountItems(accountOnServer);
     doIt(items2);

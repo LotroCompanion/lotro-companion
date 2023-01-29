@@ -60,16 +60,16 @@ public final class CharactersChooserController extends DefaultFormDialogControll
     _selectionController.selectItems(selectedToons);
   }
 
-  private static String getLabelForCharacterFile(CharacterFile item)
+  private static String getLabelForCharacterFile(CharacterFile character)
   {
-    String name=item.getName();
+    String name=character.getName();
     String ret=name;
-    String server=item.getServerName();
+    String server=character.getServerName();
     if (server.length()>0)
     {
       ret=name+"@"+server;
     }
-    String accountName=item.getAccountName();
+    String accountName=character.getAccountName();
     if (accountName.length()>0)
     {
       ret=ret+" ("+accountName+")";

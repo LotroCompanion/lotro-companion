@@ -32,7 +32,7 @@ public class AccountSummaryPanelController implements GenericEventsListener<Acco
   private WindowController _parent;
   // UI
   private JPanel _panel;
-  private JLabel _nameLabel;
+  private JLabel _accountNameLabel;
 
   /**
    * Constructor.
@@ -66,8 +66,8 @@ public class AccountSummaryPanelController implements GenericEventsListener<Acco
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(2,2,2,2),0,0);
 
     // Name
-    _nameLabel=GuiFactory.buildLabel("",28.0f);
-    panel.add(_nameLabel,c);
+    _accountNameLabel=GuiFactory.buildLabel("",28.0f);
+    panel.add(_accountNameLabel,c);
     // Edit...
     JButton edit=GuiFactory.buildButton("Edit...");
     ActionListener al=new ActionListener()
@@ -123,9 +123,9 @@ public class AccountSummaryPanelController implements GenericEventsListener<Acco
   {
     if (_summary!=null)
     {
-      // Name
+      // Account name
       String name=_summary.getName();
-      _nameLabel.setText(name);
+      _accountNameLabel.setText(name);
     }
   }
 

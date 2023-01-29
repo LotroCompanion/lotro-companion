@@ -19,6 +19,8 @@ import delta.common.ui.swing.windows.DefaultFormDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.Config;
+import delta.games.lotro.account.Account;
+import delta.games.lotro.account.AccountReference;
 import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.CharacterFactory;
 import delta.games.lotro.character.CharacterFile;
@@ -50,7 +52,7 @@ public class NewToonDialogController extends DefaultFormDialogController<Object>
   private static final int TOON_NAME_SIZE=32;
   private JTextField _toonName;
   private ComboBoxController<String> _server;
-  private ComboBoxController<String> _account;
+  private ComboBoxController<Account> _account;
   private CharacterClassController _class;
   private ComboBoxController<RaceDescription> _race;
   private ComboBoxController<CharacterSex> _sex;
@@ -148,14 +150,15 @@ public class NewToonDialogController extends DefaultFormDialogController<Object>
   {
     String toonName=_toonName.getText();
     String server=_server.getSelectedItem();
-    String account=_account.getSelectedItem();
+    Account account=_account.getSelectedItem();
     ClassDescription characterClass=_class.getComboBoxController().getSelectedItem();
     RaceDescription race=_race.getSelectedItem();
     CharacterSex sex=_sex.getSelectedItem();
     CharacterSummary summary=new CharacterSummary();
     summary.setName(toonName);
     summary.setServer(server);
-    summary.setAccountName(account);
+    AccountReference accountID=(account!=null)?account.getID():null;
+    summary.setAccountID(accountID);
     summary.setCharacterSex(sex);
     summary.setCharacterClass(characterClass);
     summary.setRace(race);

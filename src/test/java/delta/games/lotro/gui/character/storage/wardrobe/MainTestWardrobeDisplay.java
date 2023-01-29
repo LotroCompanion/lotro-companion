@@ -19,7 +19,7 @@ public class MainTestWardrobeDisplay
   {
     String accountName="glorfindel666";
     String server="Landroval";
-    Account account=AccountsManager.getInstance().getAccountByName(accountName);
+    Account account=AccountsManager.getInstance().getAccountByAccountName(accountName);
     // Store
     AccountOnServer accountOnServer=account.getServer(server);
     WardrobeDisplayWindowController window=new WardrobeDisplayWindowController(null,accountOnServer);
