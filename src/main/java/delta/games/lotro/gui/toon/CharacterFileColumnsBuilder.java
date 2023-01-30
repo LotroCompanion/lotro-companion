@@ -235,7 +235,7 @@ public class CharacterFileColumnsBuilder
         }
       };
       DefaultTableColumnController<CharacterFile,String> vocationColumn=new DefaultTableColumnController<CharacterFile,String>(ToonsTableColumnIds.VOCATION.name(),"Vocation",String.class,vocationCell);
-      vocationColumn.setWidthSpecs(100,-1,200);
+      vocationColumn.setWidthSpecs(100,100,100);
       ret.add(vocationColumn);
     }
 
