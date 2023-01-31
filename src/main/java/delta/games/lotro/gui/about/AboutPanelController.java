@@ -28,7 +28,6 @@ import delta.games.lotro.config.LotroCoreConfig;
 public class AboutPanelController
 {
   private JPanel _panel;
-  private Timer _timer;
   private HyperLinkController _mail;
 
   /**
@@ -176,11 +175,6 @@ public class AboutPanelController
     {
       _panel.removeAll();
       _panel=null;
-    }
-    if (_timer!=null)
-    {
-      _timer.stop();
-      _timer=null;
     }
     if (_mail!=null)
     {
