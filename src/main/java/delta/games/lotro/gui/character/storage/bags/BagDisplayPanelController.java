@@ -17,6 +17,7 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.storage.bags.BagsManager;
 import delta.games.lotro.character.storage.bags.SingleBagSetup;
+import delta.games.lotro.gui.common.status.StatusMetadataPanelController;
 import delta.games.lotro.gui.utils.ItemInstanceIconController;
 import delta.games.lotro.lore.items.CountedItem;
 import delta.games.lotro.lore.items.Item;
@@ -37,6 +38,7 @@ public class BagDisplayPanelController
   private JPanel _panel;
   // Controllers
   private WindowController _parent;
+  private StatusMetadataPanelController _status;
   private List<ItemInstanceIconController> _iconControllers;
 
   /**
@@ -64,6 +66,21 @@ public class BagDisplayPanelController
   }
 
   private JPanel buildPanel()
+  {
+    JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
+    // Status date
+    _status=new StatusMetadataPanelController();
+    _status.setData(_bagsMgr.getStatusMetadata());
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    ret.add(_status.getPanel(),c);
+    // Contents
+    c=new GridBagConstraints(0,1,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
+    JPanel contentsPanel=buildContentsPanel();
+    ret.add(contentsPanel,c);
+    return ret;
+  }
+
+  private JPanel buildContentsPanel()
   {
     int width=_setup.getWidth();
     if (width==0)
@@ -134,6 +151,11 @@ public class BagDisplayPanelController
     }
     // Controllers
     _parent=null;
+    if (_status!=null)
+    {
+      _status.dispose();
+      _status=null;
+    }
     if (_iconControllers!=null)
     {
       for(ItemInstanceIconController ctrl : _iconControllers)

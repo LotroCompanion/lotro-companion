@@ -1,6 +1,5 @@
 package delta.games.lotro.gui.character.storage.carryAlls;
 
-import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -19,6 +18,7 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.storage.carryAlls.CarryAllInstance;
 import delta.games.lotro.gui.character.storage.StorageUiUtils;
+import delta.games.lotro.gui.common.status.StatusMetadataPanelController;
 import delta.games.lotro.gui.utils.IconController;
 import delta.games.lotro.gui.utils.IconControllerFactory;
 import delta.games.lotro.lore.items.CountedItem;
@@ -38,6 +38,7 @@ public class CarryAllDisplayPanelController
   private JPanel _panel;
   // Controllers
   private WindowController _parent;
+  private StatusMetadataPanelController _status;
   private List<IconController> _iconControllers;
 
   /**
@@ -64,24 +65,23 @@ public class CarryAllDisplayPanelController
 
   private JPanel buildPanel()
   {
-    JPanel panel=privateBuildPanel();
-    JScrollPane scrollPane=GuiFactory.buildScrollPane(panel);
-    JPanel ret=GuiFactory.buildBackgroundPanel(new BorderLayout());
-    ret.add(scrollPane,BorderLayout.CENTER);
-    return ret;
-  }
-
-  private JPanel privateBuildPanel()
-  {
     JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
-    GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    // Status date
+    _status=new StatusMetadataPanelController();
+    _status.setData(_carryAllInstance.getStatusMetadata());
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    ret.add(_status.getPanel(),c);
+    // Capacity
+    c=new GridBagConstraints(0,1,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     JPanel capacityPanel=buildCapacityPanel();
     ret.add(capacityPanel,c);
+    // Contents
     JPanel itemsPanel=buildItemsPanel();
     if (itemsPanel!=null)
     {
-      c=new GridBagConstraints(0,1,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
-      ret.add(itemsPanel,c);
+      c=new GridBagConstraints(0,2,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
+      JScrollPane scrollPane=GuiFactory.buildScrollPane(itemsPanel);
+      ret.add(scrollPane,c);
     }
     return ret;
   }
@@ -168,6 +168,11 @@ public class CarryAllDisplayPanelController
     }
     // Controllers
     _parent=null;
+    if (_status!=null)
+    {
+      _status.dispose();
+      _status=null;
+    }
     if (_iconControllers!=null)
     {
       for(IconController ctrl : _iconControllers)

@@ -1,6 +1,5 @@
 package delta.games.lotro.gui.character.storage.vault;
 
-import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -19,6 +18,7 @@ import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.storage.vaults.Chest;
 import delta.games.lotro.character.storage.vaults.Vault;
 import delta.games.lotro.gui.character.storage.StorageUiUtils;
+import delta.games.lotro.gui.common.status.StatusMetadataPanelController;
 import delta.games.lotro.gui.utils.ItemInstanceIconController;
 import delta.games.lotro.lore.items.CountedItem;
 import delta.games.lotro.lore.items.Item;
@@ -37,6 +37,7 @@ public class VaultDisplayPanelController
   private JProgressBar _capacity;
   // Controllers
   private WindowController _parent;
+  private StatusMetadataPanelController _status;
   private List<ItemInstanceIconController> _iconControllers;
 
   /**
@@ -63,22 +64,21 @@ public class VaultDisplayPanelController
 
   private JPanel buildPanel()
   {
-    JPanel panel=privateBuildPanel();
-    JScrollPane scrollPane=GuiFactory.buildScrollPane(panel);
-    JPanel ret=GuiFactory.buildBackgroundPanel(new BorderLayout());
-    ret.add(scrollPane,BorderLayout.CENTER);
-    return ret;
-  }
-
-  private JPanel privateBuildPanel()
-  {
     JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
-    GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    // Status date
+    _status=new StatusMetadataPanelController();
+    _status.setData(_vault.getStatusMetadata());
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    ret.add(_status.getPanel(),c);
+    // Capacity
+    c=new GridBagConstraints(0,1,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     JPanel capacityPanel=buildCapacityPanel();
     ret.add(capacityPanel,c);
-    c=new GridBagConstraints(0,1,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
+    // Contents
+    c=new GridBagConstraints(0,2,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
     JPanel itemsPanel=buildItemsPanel();
-    ret.add(itemsPanel,c);
+    JScrollPane scrollPane=GuiFactory.buildScrollPane(itemsPanel);
+    ret.add(scrollPane,c);
     return ret;
   }
 
@@ -174,6 +174,11 @@ public class VaultDisplayPanelController
     _capacity=null;
     // Controllers
     _parent=null;
+    if (_status!=null)
+    {
+      _status.dispose();
+      _status=null;
+    }
     if (_iconControllers!=null)
     {
       for(ItemInstanceIconController ctrl : _iconControllers)
