@@ -79,6 +79,10 @@ public enum ToonsTableColumnIds
    */
   DUNGEON,
   /**
+   * Position.
+   */
+  POSITION,
+  /**
    * Kinship.
    */
   KINSHIP,

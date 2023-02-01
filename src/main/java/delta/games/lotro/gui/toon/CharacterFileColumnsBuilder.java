@@ -14,6 +14,8 @@ import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharacterSummary;
 import delta.games.lotro.character.details.CharacterDetails;
 import delta.games.lotro.common.Duration;
+import delta.games.lotro.common.geo.Position;
+import delta.games.lotro.common.geo.PositionUtils;
 import delta.games.lotro.common.money.Money;
 import delta.games.lotro.common.money.comparator.MoneyComparator;
 import delta.games.lotro.gui.utils.MoneyCellRenderer;
@@ -238,7 +240,29 @@ public class CharacterFileColumnsBuilder
       vocationColumn.setWidthSpecs(100,100,100);
       ret.add(vocationColumn);
     }
-
+    // Position
+    ret.add(getPositionColumn());
     return ret;
+  }
+
+  private static DefaultTableColumnController<CharacterFile,String> getPositionColumn()
+  {
+    CellDataProvider<CharacterFile,String> positionCell=new CellDataProvider<CharacterFile,String>()
+    {
+      @Override
+      public String getData(CharacterFile file)
+      {
+        String positionStr=null;
+        Position position=file.getDetails().getPosition();
+        if (position!=null)
+        {
+          positionStr=PositionUtils.getLabel(position);
+        }
+        return positionStr;
+      }
+    };
+    DefaultTableColumnController<CharacterFile,String> positionColumn=new DefaultTableColumnController<CharacterFile,String>(ToonsTableColumnIds.POSITION.name(),"Position",String.class,positionCell);
+    positionColumn.setWidthSpecs(100,200,200);
+    return positionColumn;
   }
 }
