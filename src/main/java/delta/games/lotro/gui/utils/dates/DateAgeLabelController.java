@@ -54,6 +54,7 @@ public class DateAgeLabelController
       }
     };
     _timer=new Timer(1000,al);
+    _timer.start();
   }
 
   /**
