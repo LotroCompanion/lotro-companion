@@ -1,11 +1,15 @@
 package delta.games.lotro.gui.clientImport;
 
+import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.EnumMap;
 import java.util.Map;
 
+import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
@@ -44,6 +48,18 @@ public class ImportConfigurationPanelController implements Disposable
   private JPanel buildPanel()
   {
     JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
+    JPanel checkboxesPanel=buildCheckboxesPanel();
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    ret.add(checkboxesPanel,c);
+    JPanel buttonsPanel=buildButtonsPanel();
+    c=new GridBagConstraints(0,1,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    ret.add(buttonsPanel,c);
+    return ret;
+  }
+
+  private JPanel buildCheckboxesPanel()
+  {
+    JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
     int nbColumns=2;
     int nbItems=ExtractableElement.values().length;
     int nbItemsPerColumns=(nbItems/nbColumns)+((nbItems%nbColumns!=0)?1:0);
@@ -64,6 +80,42 @@ public class ImportConfigurationPanelController implements Disposable
       }
     }
     return ret;
+  }
+
+  private JPanel buildButtonsPanel()
+  {
+    JButton checkAll=GuiFactory.buildButton("Check all");
+    ActionListener alCheckAll=new ActionListener()
+    {
+      @Override
+      public void actionPerformed(ActionEvent e)
+      {
+        setAll(true);
+      }
+    };
+    checkAll.addActionListener(alCheckAll);
+    JButton uncheckAll=GuiFactory.buildButton("Uncheck all");
+    ActionListener alUncheckAll=new ActionListener()
+    {
+      @Override
+      public void actionPerformed(ActionEvent e)
+      {
+        setAll(false);
+      }
+    };
+    uncheckAll.addActionListener(alUncheckAll);
+    JPanel ret=GuiFactory.buildPanel(new FlowLayout());
+    ret.add(checkAll);
+    ret.add(uncheckAll);
+    return ret;
+  }
+
+  private void setAll(boolean selected)
+  {
+    for(CheckboxController ctrl : _gadgets.values())
+    {
+      ctrl.setSelected(selected);
+    }
   }
 
   /**
