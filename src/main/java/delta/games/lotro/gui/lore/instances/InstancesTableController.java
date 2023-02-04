@@ -13,6 +13,8 @@ import delta.common.ui.swing.tables.ListDataProvider;
 import delta.common.ui.swing.tables.TableColumnsManager;
 import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.misc.TypedProperties;
+import delta.games.lotro.common.enums.WJEncounterCategory;
+import delta.games.lotro.common.enums.WJEncounterType;
 import delta.games.lotro.gui.lore.items.chooser.ItemChooser;
 import delta.games.lotro.gui.utils.UiConfiguration;
 import delta.games.lotro.lore.instances.InstancesTree;
@@ -100,29 +102,29 @@ public class InstancesTableController
     }
     // Type column
     {
-      CellDataProvider<SkirmishPrivateEncounter,String> typeCell=new CellDataProvider<SkirmishPrivateEncounter,String>()
+      CellDataProvider<SkirmishPrivateEncounter,WJEncounterType> typeCell=new CellDataProvider<SkirmishPrivateEncounter,WJEncounterType>()
       {
         @Override
-        public String getData(SkirmishPrivateEncounter instance)
+        public WJEncounterType getData(SkirmishPrivateEncounter instance)
         {
           return instance.getType();
         }
       };
-      DefaultTableColumnController<SkirmishPrivateEncounter,String> typeColumn=new DefaultTableColumnController<SkirmishPrivateEncounter,String>(InstanceColumnIds.TYPE.name(),"Type",String.class,typeCell);
+      DefaultTableColumnController<SkirmishPrivateEncounter,WJEncounterType> typeColumn=new DefaultTableColumnController<SkirmishPrivateEncounter,WJEncounterType>(InstanceColumnIds.TYPE.name(),"Type",WJEncounterType.class,typeCell);
       typeColumn.setWidthSpecs(100,140,140);
       ret.add(typeColumn);
     }
     // Category column
     {
-      CellDataProvider<SkirmishPrivateEncounter,String> categoryCell=new CellDataProvider<SkirmishPrivateEncounter,String>()
+      CellDataProvider<SkirmishPrivateEncounter,WJEncounterCategory> categoryCell=new CellDataProvider<SkirmishPrivateEncounter,WJEncounterCategory>()
       {
         @Override
-        public String getData(SkirmishPrivateEncounter instance)
+        public WJEncounterCategory getData(SkirmishPrivateEncounter instance)
         {
           return instance.getCategory();
         }
       };
-      DefaultTableColumnController<SkirmishPrivateEncounter,String> categoryColumn=new DefaultTableColumnController<SkirmishPrivateEncounter,String>(InstanceColumnIds.CATEGORY.name(),"Category",String.class,categoryCell);
+      DefaultTableColumnController<SkirmishPrivateEncounter,WJEncounterCategory> categoryColumn=new DefaultTableColumnController<SkirmishPrivateEncounter,WJEncounterCategory>(InstanceColumnIds.CATEGORY.name(),"Category",WJEncounterCategory.class,categoryCell);
       categoryColumn.setWidthSpecs(100,220,220);
       ret.add(categoryColumn);
     }

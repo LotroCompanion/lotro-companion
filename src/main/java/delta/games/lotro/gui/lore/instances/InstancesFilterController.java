@@ -19,6 +19,7 @@ import delta.common.ui.swing.combobox.ItemSelectionListener;
 import delta.common.ui.swing.text.DynamicTextEditionController;
 import delta.common.ui.swing.text.TextListener;
 import delta.common.utils.collections.filters.Filter;
+import delta.games.lotro.common.enums.WJEncounterCategory;
 import delta.games.lotro.gui.lore.items.FilterUpdateListener;
 import delta.games.lotro.lore.instances.SkirmishPrivateEncounter;
 import delta.games.lotro.lore.instances.filters.PrivateEncounterCategoryFilter;
@@ -37,7 +38,7 @@ public class InstancesFilterController implements ActionListener
   private JButton _reset;
   // -- Instances attributes UI --
   private JTextField _contains;
-  private ComboBoxController<String> _category;
+  private ComboBoxController<WJEncounterCategory> _category;
   // Controllers
   private DynamicTextEditionController _textController;
   private FilterUpdateListener _filterUpdateListener;
@@ -107,7 +108,7 @@ public class InstancesFilterController implements ActionListener
     }
     // Category
     PrivateEncounterCategoryFilter categoryFilter=_filter.getCategoryFilter();
-    String category=categoryFilter.getCategory();
+    WJEncounterCategory category=categoryFilter.getCategory();
     _category.selectItem(category);
   }
 
@@ -164,10 +165,10 @@ public class InstancesFilterController implements ActionListener
       JLabel label=GuiFactory.buildLabel("Category:");
       line1Panel.add(label);
       _category=InstancesUiUtils.buildCategoryCombo();
-      ItemSelectionListener<String> categoryListener=new ItemSelectionListener<String>()
+      ItemSelectionListener<WJEncounterCategory> categoryListener=new ItemSelectionListener<WJEncounterCategory>()
       {
         @Override
-        public void itemSelected(String category)
+        public void itemSelected(WJEncounterCategory category)
         {
           PrivateEncounterCategoryFilter categoryFilter=_filter.getCategoryFilter();
           categoryFilter.setCategory(category);
