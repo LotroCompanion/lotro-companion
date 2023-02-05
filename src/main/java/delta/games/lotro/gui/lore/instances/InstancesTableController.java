@@ -68,7 +68,7 @@ public class InstancesTableController
    * Build the columns for an instances table.
    * @return A list of columns for an instances table.
    */
-  public static List<DefaultTableColumnController<SkirmishPrivateEncounter,?>> buildColumns()
+  private static List<DefaultTableColumnController<SkirmishPrivateEncounter,?>> buildColumns()
   {
     List<DefaultTableColumnController<SkirmishPrivateEncounter,?>> ret=new ArrayList<DefaultTableColumnController<SkirmishPrivateEncounter,?>>();
     // Identifier column
@@ -184,6 +184,20 @@ public class InstancesTableController
       scalingColumn.setWidthSpecs(50,50,50);
       ret.add(scalingColumn);
     }
+    // Scalable
+    {
+      CellDataProvider<SkirmishPrivateEncounter,Boolean> scalableCell=new CellDataProvider<SkirmishPrivateEncounter,Boolean>()
+      {
+        @Override
+        public Boolean getData(SkirmishPrivateEncounter instance)
+        {
+          return Boolean.valueOf(instance.isScalable());
+        }
+      };
+      DefaultTableColumnController<SkirmishPrivateEncounter,Boolean> scalableColumn=new DefaultTableColumnController<SkirmishPrivateEncounter,Boolean>(InstanceColumnIds.SCALABLE.name(),"Scalable",Boolean.class,scalableCell);
+      scalableColumn.setWidthSpecs(30,30,30);
+      ret.add(scalableColumn);
+    }
     return ret;
   }
 
@@ -208,6 +222,7 @@ public class InstancesTableController
       columnIds.add(InstanceColumnIds.MIN_LEVEL.name());
       columnIds.add(InstanceColumnIds.MAX_LEVEL.name());
       columnIds.add(InstanceColumnIds.LEVEL_SCALING.name());
+      columnIds.add(InstanceColumnIds.SCALABLE.name());
     }
     return columnIds;
   }
