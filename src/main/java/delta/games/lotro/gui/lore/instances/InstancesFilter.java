@@ -9,6 +9,7 @@ import delta.common.utils.collections.filters.Operator;
 import delta.games.lotro.lore.instances.SkirmishPrivateEncounter;
 import delta.games.lotro.lore.instances.filters.PrivateEncounterCategoryFilter;
 import delta.games.lotro.lore.instances.filters.PrivateEncounterNameFilter;
+import delta.games.lotro.lore.instances.filters.PrivateEncounterScalableFilter;
 
 /**
  * Instance filter.
@@ -20,6 +21,7 @@ public class InstancesFilter implements Filter<SkirmishPrivateEncounter>
 
   private PrivateEncounterNameFilter _nameFilter;
   private PrivateEncounterCategoryFilter _categoryFilter;
+  private PrivateEncounterScalableFilter _scalableFilter;
 
   /**
    * Constructor.
@@ -33,6 +35,9 @@ public class InstancesFilter implements Filter<SkirmishPrivateEncounter>
     // Category
     _categoryFilter=new PrivateEncounterCategoryFilter(null);
     filters.add(_categoryFilter);
+    // Scalable
+    _scalableFilter=new PrivateEncounterScalableFilter();
+    filters.add(_scalableFilter);
     _filter=new CompoundFilter<SkirmishPrivateEncounter>(Operator.AND,filters);
   }
 
@@ -52,6 +57,15 @@ public class InstancesFilter implements Filter<SkirmishPrivateEncounter>
   public PrivateEncounterCategoryFilter getCategoryFilter()
   {
     return _categoryFilter;
+  }
+
+  /**
+   * Get the filter on scalable nature.
+   * @return an instance 'scalable' filter.
+   */
+  public PrivateEncounterScalableFilter getScalableFilter()
+  {
+    return _scalableFilter;
   }
 
   @Override

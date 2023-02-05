@@ -21,9 +21,11 @@ import delta.common.ui.swing.text.TextListener;
 import delta.common.utils.collections.filters.Filter;
 import delta.games.lotro.common.enums.WJEncounterCategory;
 import delta.games.lotro.gui.lore.items.FilterUpdateListener;
+import delta.games.lotro.gui.utils.SharedUiUtils;
 import delta.games.lotro.lore.instances.SkirmishPrivateEncounter;
 import delta.games.lotro.lore.instances.filters.PrivateEncounterCategoryFilter;
 import delta.games.lotro.lore.instances.filters.PrivateEncounterNameFilter;
+import delta.games.lotro.lore.instances.filters.PrivateEncounterScalableFilter;
 
 /**
  * Controller for an instances filter edition panel.
@@ -39,6 +41,7 @@ public class InstancesFilterController implements ActionListener
   // -- Instances attributes UI --
   private JTextField _contains;
   private ComboBoxController<WJEncounterCategory> _category;
+  private ComboBoxController<Boolean> _scalable;
   // Controllers
   private DynamicTextEditionController _textController;
   private FilterUpdateListener _filterUpdateListener;
@@ -94,6 +97,7 @@ public class InstancesFilterController implements ActionListener
     {
       _category.selectItem(null);
       _contains.setText("");
+      _scalable.selectItem(null);
     }
   }
 
@@ -110,6 +114,9 @@ public class InstancesFilterController implements ActionListener
     PrivateEncounterCategoryFilter categoryFilter=_filter.getCategoryFilter();
     WJEncounterCategory category=categoryFilter.getCategory();
     _category.selectItem(category);
+    // Scalable
+    PrivateEncounterScalableFilter scalableFilter=_filter.getScalableFilter();
+    _scalable.selectItem(scalableFilter.getScalable());
   }
 
   private JPanel build()
@@ -178,6 +185,24 @@ public class InstancesFilterController implements ActionListener
       _category.addListener(categoryListener);
       line1Panel.add(_category.getComboBox());
     }
+    // Scalable
+    {
+      JLabel label=GuiFactory.buildLabel("Scalable:");
+      line1Panel.add(label);
+      _scalable=SharedUiUtils.build3StatesBooleanCombobox("","Yes","No");
+      ItemSelectionListener<Boolean> scalableListener=new ItemSelectionListener<Boolean>()
+      {
+        @Override
+        public void itemSelected(Boolean scalable)
+        {
+          PrivateEncounterScalableFilter scalableFilter=_filter.getScalableFilter();
+          scalableFilter.setScalable(scalable);
+          filterUpdated();
+        }
+      };
+      _scalable.addListener(scalableListener);
+      line1Panel.add(_scalable.getComboBox());
+    }
     GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,5,0),0,0);
     panel.add(line1Panel,c);
     y++;
@@ -208,6 +233,11 @@ public class InstancesFilterController implements ActionListener
     {
       _category.dispose();
       _category=null;
+    }
+    if (_scalable!=null)
+    {
+      _scalable.dispose();
+      _scalable=null;
     }
     _contains=null;
     _reset=null;
