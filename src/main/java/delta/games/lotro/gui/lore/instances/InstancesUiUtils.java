@@ -13,7 +13,23 @@ import delta.games.lotro.lore.instances.InstancesTree;
 public class InstancesUiUtils
 {
   /**
-   * Build a combo-box controller to choose a mount category.
+   * Build a combo-box controller to choose an instance category.
+   * @return A new combo-box controller.
+   */
+  public static ComboBoxController<String> buildInstanceCategoriesCombo()
+  {
+    ComboBoxController<String> ctrl=new ComboBoxController<String>();
+    ctrl.addEmptyItem("");
+    List<String> categories=InstancesTree.getInstance().getCategoryNames();
+    for(String category : categories)
+    {
+      ctrl.addItem(category,category);
+    }
+    ctrl.selectItem(null);
+    return ctrl;
+  }
+  /**
+   * Build a combo-box controller to choose an instance category.
    * @return A new combo-box controller.
    */
   public static ComboBoxController<WJEncounterCategory> buildCategoryCombo()

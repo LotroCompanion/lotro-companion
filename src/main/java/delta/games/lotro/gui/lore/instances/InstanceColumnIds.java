@@ -41,5 +41,9 @@ public enum InstanceColumnIds
   /**
    * Scalable.
    */
-  SCALABLE
+  SCALABLE,
+  /**
+   * Group.
+   */
+  GROUP_NAME
 }

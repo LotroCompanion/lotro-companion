@@ -10,13 +10,15 @@ import delta.common.ui.swing.tables.CellDataProvider;
 import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.ListDataProvider;
+import delta.common.ui.swing.tables.ProxiedTableColumnController;
+import delta.common.ui.swing.tables.TableColumnController;
 import delta.common.ui.swing.tables.TableColumnsManager;
-import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.common.enums.WJEncounterCategory;
 import delta.games.lotro.common.enums.WJEncounterType;
 import delta.games.lotro.gui.lore.items.chooser.ItemChooser;
 import delta.games.lotro.gui.utils.UiConfiguration;
+import delta.games.lotro.lore.instances.InstanceTreeEntry;
 import delta.games.lotro.lore.instances.InstancesTree;
 import delta.games.lotro.lore.instances.SkirmishPrivateEncounter;
 
@@ -28,40 +30,65 @@ public class InstancesTableController
 {
   // Data
   private TypedProperties _prefs;
-  private List<SkirmishPrivateEncounter> _instances;
+  private List<InstanceTreeEntry> _instances;
   // GUI
   private JTable _table;
-  private GenericTableController<SkirmishPrivateEncounter> _tableController;
+  private GenericTableController<InstanceTreeEntry> _tableController;
 
   /**
    * Constructor.
    * @param prefs Preferences.
    * @param filter Managed filter.
    */
-  public InstancesTableController(TypedProperties prefs, Filter<SkirmishPrivateEncounter> filter)
+  public InstancesTableController(TypedProperties prefs, InstanceEntriesFilter filter)
   {
     _prefs=prefs;
-    _instances=new ArrayList<SkirmishPrivateEncounter>();
+    _instances=new ArrayList<InstanceTreeEntry>();
     init();
     _tableController=buildTable();
     _tableController.setFilter(filter);
     getTable();
   }
 
-  private GenericTableController<SkirmishPrivateEncounter> buildTable()
+  private GenericTableController<InstanceTreeEntry> buildTable()
   {
-    ListDataProvider<SkirmishPrivateEncounter> provider=new ListDataProvider<SkirmishPrivateEncounter>(_instances);
-    GenericTableController<SkirmishPrivateEncounter> table=new GenericTableController<SkirmishPrivateEncounter>(provider);
+    ListDataProvider<InstanceTreeEntry> provider=new ListDataProvider<InstanceTreeEntry>(_instances);
+    GenericTableController<InstanceTreeEntry> table=new GenericTableController<InstanceTreeEntry>(provider);
+    // Private encounter columns
+    CellDataProvider<InstanceTreeEntry,SkirmishPrivateEncounter> peProvider=new CellDataProvider<InstanceTreeEntry,SkirmishPrivateEncounter>()
+    {
+      public SkirmishPrivateEncounter getData(InstanceTreeEntry entry)
+      {
+        return entry.getInstance();
+      }
+    };
     List<DefaultTableColumnController<SkirmishPrivateEncounter,?>> columns=buildColumns();
     for(DefaultTableColumnController<SkirmishPrivateEncounter,?> column : columns)
     {
-      table.addColumnController(column);
+      ProxiedTableColumnController<InstanceTreeEntry,SkirmishPrivateEncounter,?> proxyColumn=new ProxiedTableColumnController<>(column,peProvider);
+      table.addColumnController(proxyColumn);
     }
-
-    TableColumnsManager<SkirmishPrivateEncounter> columnsManager=table.getColumnsManager();
+    // Instance category column
+    table.addColumnController(buildCategoryColumn());
+    TableColumnsManager<InstanceTreeEntry> columnsManager=table.getColumnsManager();
     List<String> columnsIds=getColumnIds();
     columnsManager.setColumns(columnsIds);
     return table;
+  }
+
+  private TableColumnController<InstanceTreeEntry,String> buildCategoryColumn()
+  {
+    CellDataProvider<InstanceTreeEntry,String> groupNameCell=new CellDataProvider<InstanceTreeEntry,String>()
+    {
+      @Override
+      public String getData(InstanceTreeEntry instance)
+      {
+        return instance.getName();
+      }
+    };
+    DefaultTableColumnController<InstanceTreeEntry,String> groupNameColumn=new DefaultTableColumnController<InstanceTreeEntry,String>(InstanceColumnIds.GROUP_NAME.name(),"Group",String.class,groupNameCell);
+    groupNameColumn.setWidthSpecs(100,150,150);
+    return groupNameColumn;
   }
 
   /**
@@ -216,7 +243,7 @@ public class InstancesTableController
         columnIds.add(InstanceColumnIds.ID.name());
       }
       columnIds.add(InstanceColumnIds.NAME.name());
-      columnIds.add(InstanceColumnIds.TYPE.name());
+      columnIds.add(InstanceColumnIds.GROUP_NAME.name());
       columnIds.add(InstanceColumnIds.CATEGORY.name());
       columnIds.add(InstanceColumnIds.MAX_PLAYERS.name());
       columnIds.add(InstanceColumnIds.MIN_LEVEL.name());
@@ -231,7 +258,7 @@ public class InstancesTableController
    * Get the managed table controller.
    * @return the managed table controller.
    */
-  public GenericTableController<SkirmishPrivateEncounter> getTableController()
+  public GenericTableController<InstanceTreeEntry> getTableController()
   {
     return _tableController;
   }
@@ -278,7 +305,7 @@ public class InstancesTableController
   private void init()
   {
     _instances.clear();
-    List<SkirmishPrivateEncounter> instances=InstancesTree.getInstance().getInstances();
+    List<InstanceTreeEntry> instances=InstancesTree.getInstance().getEntries();
     _instances.addAll(instances);
   }
 

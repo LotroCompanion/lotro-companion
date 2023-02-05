@@ -18,11 +18,12 @@ import delta.common.ui.swing.windows.DefaultWindowController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.ui.swing.windows.WindowsManager;
 import delta.common.utils.misc.TypedProperties;
-import delta.games.lotro.gui.lore.instances.InstancesFilter;
+import delta.games.lotro.gui.lore.instances.InstanceEntriesFilter;
 import delta.games.lotro.gui.lore.instances.InstancesFilterController;
 import delta.games.lotro.gui.lore.instances.InstancesTableController;
 import delta.games.lotro.gui.main.GlobalPreferences;
 import delta.games.lotro.gui.maps.instances.InstanceMapsWindowController;
+import delta.games.lotro.lore.instances.InstanceTreeEntry;
 import delta.games.lotro.lore.instances.SkirmishPrivateEncounter;
 
 /**
@@ -39,7 +40,7 @@ public class InstancesExplorerWindowController extends DefaultWindowController
   private InstancesFilterController _filterController;
   private InstancesExplorerPanelController _panelController;
   private InstancesTableController _tableController;
-  private InstancesFilter _filter;
+  private InstanceEntriesFilter _filter;
   private WindowsManager _formWindows;
 
   /**
@@ -49,7 +50,7 @@ public class InstancesExplorerWindowController extends DefaultWindowController
   public InstancesExplorerWindowController(WindowController parent)
   {
     super(parent);
-    _filter=new InstancesFilter();
+    _filter=new InstanceEntriesFilter();
     _formWindows=new WindowsManager();
   }
 
@@ -110,7 +111,8 @@ public class InstancesExplorerWindowController extends DefaultWindowController
         String action=event.getActionCommand();
         if (GenericTableController.DOUBLE_CLICK.equals(action))
         {
-          SkirmishPrivateEncounter instance=(SkirmishPrivateEncounter)event.getSource();
+          InstanceTreeEntry entry=(InstanceTreeEntry)event.getSource();
+          SkirmishPrivateEncounter instance=entry.getInstance();
           showInstance(instance);
         }
       }

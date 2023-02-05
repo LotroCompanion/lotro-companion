@@ -18,11 +18,10 @@ import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.common.ui.swing.combobox.ItemSelectionListener;
 import delta.common.ui.swing.text.DynamicTextEditionController;
 import delta.common.ui.swing.text.TextListener;
-import delta.common.utils.collections.filters.Filter;
 import delta.games.lotro.common.enums.WJEncounterCategory;
 import delta.games.lotro.gui.lore.items.FilterUpdateListener;
 import delta.games.lotro.gui.utils.SharedUiUtils;
-import delta.games.lotro.lore.instances.SkirmishPrivateEncounter;
+import delta.games.lotro.lore.instances.filters.InstanceTreeEntryCategoryNameFilter;
 import delta.games.lotro.lore.instances.filters.PrivateEncounterCategoryFilter;
 import delta.games.lotro.lore.instances.filters.PrivateEncounterNameFilter;
 import delta.games.lotro.lore.instances.filters.PrivateEncounterScalableFilter;
@@ -34,12 +33,13 @@ import delta.games.lotro.lore.instances.filters.PrivateEncounterScalableFilter;
 public class InstancesFilterController implements ActionListener
 {
   // Data
-  private InstancesFilter _filter;
+  private InstanceEntriesFilter _filter;
   // GUI
   private JPanel _panel;
   private JButton _reset;
   // -- Instances attributes UI --
   private JTextField _contains;
+  private ComboBoxController<String> _group;
   private ComboBoxController<WJEncounterCategory> _category;
   private ComboBoxController<Boolean> _scalable;
   // Controllers
@@ -51,7 +51,7 @@ public class InstancesFilterController implements ActionListener
    * @param filter Managed filter.
    * @param filterUpdateListener Filter update listener.
    */
-  public InstancesFilterController(InstancesFilter filter, FilterUpdateListener filterUpdateListener)
+  public InstancesFilterController(InstanceEntriesFilter filter, FilterUpdateListener filterUpdateListener)
   {
     _filter=filter;
     _filterUpdateListener=filterUpdateListener;
@@ -61,7 +61,7 @@ public class InstancesFilterController implements ActionListener
    * Get the managed filter.
    * @return the managed filter.
    */
-  public Filter<SkirmishPrivateEncounter> getFilter()
+  public InstanceEntriesFilter getFilter()
   {
     return _filter;
   }
@@ -95,6 +95,7 @@ public class InstancesFilterController implements ActionListener
     Object source=e.getSource();
     if (source==_reset)
     {
+      _group.selectItem(null);
       _category.selectItem(null);
       _contains.setText("");
       _scalable.selectItem(null);
@@ -103,19 +104,24 @@ public class InstancesFilterController implements ActionListener
 
   private void setFilter()
   {
+    // Category name filter:
+    InstanceTreeEntryCategoryNameFilter categoryNameFilter=_filter.getNameFilter();
+    categoryNameFilter.setCategoryName(null);
+    // Instances filter:
+    InstancesFilter filter=_filter.getInstancesFilter();
     // Name
-    PrivateEncounterNameFilter nameFilter=_filter.getNameFilter();
+    PrivateEncounterNameFilter nameFilter=filter.getNameFilter();
     String contains=nameFilter.getPattern();
     if (contains!=null)
     {
       _contains.setText(contains);
     }
     // Category
-    PrivateEncounterCategoryFilter categoryFilter=_filter.getCategoryFilter();
+    PrivateEncounterCategoryFilter categoryFilter=filter.getCategoryFilter();
     WJEncounterCategory category=categoryFilter.getCategory();
     _category.selectItem(category);
     // Scalable
-    PrivateEncounterScalableFilter scalableFilter=_filter.getScalableFilter();
+    PrivateEncounterScalableFilter scalableFilter=filter.getScalableFilter();
     _scalable.selectItem(scalableFilter.getScalable());
   }
 
@@ -146,6 +152,7 @@ public class InstancesFilterController implements ActionListener
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
 
+    InstancesFilter filter=_filter.getInstancesFilter();
     int y=0;
     JPanel line1Panel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
     // Label filter
@@ -160,12 +167,30 @@ public class InstancesFilterController implements ActionListener
         public void textChanged(String newText)
         {
           if (newText.length()==0) newText=null;
-          PrivateEncounterNameFilter nameFilter=_filter.getNameFilter();
+          PrivateEncounterNameFilter nameFilter=filter.getNameFilter();
           nameFilter.setPattern(newText);
           filterUpdated();
         }
       };
       _textController=new DynamicTextEditionController(_contains,listener);
+    }
+    // Group
+    {
+      JLabel label=GuiFactory.buildLabel("Group:");
+      line1Panel.add(label);
+      _group=InstancesUiUtils.buildInstanceCategoriesCombo();
+      ItemSelectionListener<String> categoryListener=new ItemSelectionListener<String>()
+      {
+        @Override
+        public void itemSelected(String category)
+        {
+          InstanceTreeEntryCategoryNameFilter categoryFilter=_filter.getNameFilter();
+          categoryFilter.setCategoryName(category);
+          filterUpdated();
+        }
+      };
+      _group.addListener(categoryListener);
+      line1Panel.add(_group.getComboBox());
     }
     // Category
     {
@@ -177,7 +202,7 @@ public class InstancesFilterController implements ActionListener
         @Override
         public void itemSelected(WJEncounterCategory category)
         {
-          PrivateEncounterCategoryFilter categoryFilter=_filter.getCategoryFilter();
+          PrivateEncounterCategoryFilter categoryFilter=filter.getCategoryFilter();
           categoryFilter.setCategory(category);
           filterUpdated();
         }
@@ -195,7 +220,7 @@ public class InstancesFilterController implements ActionListener
         @Override
         public void itemSelected(Boolean scalable)
         {
-          PrivateEncounterScalableFilter scalableFilter=_filter.getScalableFilter();
+          PrivateEncounterScalableFilter scalableFilter=filter.getScalableFilter();
           scalableFilter.setScalable(scalable);
           filterUpdated();
         }

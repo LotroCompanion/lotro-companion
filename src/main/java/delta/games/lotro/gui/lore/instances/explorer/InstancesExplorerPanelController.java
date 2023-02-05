@@ -17,7 +17,7 @@ import delta.common.ui.swing.tables.TableColumnsChooserController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.gui.lore.instances.InstancesTableController;
 import delta.games.lotro.gui.lore.items.FilterUpdateListener;
-import delta.games.lotro.lore.instances.SkirmishPrivateEncounter;
+import delta.games.lotro.lore.instances.InstanceTreeEntry;
 
 /**
  * Controller the instances explorer panel.
@@ -77,7 +77,7 @@ public class InstancesExplorerPanelController implements FilterUpdateListener
       @Override
       public void actionPerformed(ActionEvent e)
       {
-        TableColumnsChooserController<SkirmishPrivateEncounter> chooser=new TableColumnsChooserController<SkirmishPrivateEncounter>(_parent,_tableController.getTableController());
+        TableColumnsChooserController<InstanceTreeEntry> chooser=new TableColumnsChooserController<InstanceTreeEntry>(_parent,_tableController.getTableController());
         chooser.editModal();
       }
     };
