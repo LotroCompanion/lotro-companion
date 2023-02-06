@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.labels.MultilineLabel2;
 import delta.games.lotro.character.stats.BasicStatsSet;
+import delta.games.lotro.common.enums.Genus;
 import delta.games.lotro.common.stats.StatUtils;
 import delta.games.lotro.lore.items.DamageType;
 import delta.games.lotro.lore.items.legendary.titles.LegendaryTitle;
@@ -87,7 +88,7 @@ public class LegendaryTitleDisplayPanelController
       }
       _damageType.setText(damageTypeStr);
       // Slayer
-      String slayer=title.getSlayerGenusType();
+      Genus slayer=title.getSlayerGenusType();
       String slayerStr=(slayer!=null)?"Slayer: "+slayer:"";
       _slayer.setText(slayerStr);
       // Stats

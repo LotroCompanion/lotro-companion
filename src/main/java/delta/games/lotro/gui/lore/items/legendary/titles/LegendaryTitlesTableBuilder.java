@@ -9,6 +9,9 @@ import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.ListDataProvider;
 import delta.common.ui.swing.tables.Sort;
+import delta.games.lotro.common.enums.Genus;
+import delta.games.lotro.common.enums.LegendaryTitleCategory;
+import delta.games.lotro.common.enums.LegendaryTitleTier;
 import delta.games.lotro.gui.utils.UiConfiguration;
 import delta.games.lotro.lore.items.DamageType;
 import delta.games.lotro.lore.items.legendary.titles.LegendaryTitle;
@@ -60,29 +63,29 @@ public class LegendaryTitlesTableBuilder
     }
     // Category column
     {
-      CellDataProvider<LegendaryTitle,String> categoryCell=new CellDataProvider<LegendaryTitle,String>()
+      CellDataProvider<LegendaryTitle,LegendaryTitleCategory> categoryCell=new CellDataProvider<LegendaryTitle,LegendaryTitleCategory>()
       {
         @Override
-        public String getData(LegendaryTitle item)
+        public LegendaryTitleCategory getData(LegendaryTitle item)
         {
           return item.getCategory();
         }
       };
-      DefaultTableColumnController<LegendaryTitle,String> categoryColumn=new DefaultTableColumnController<LegendaryTitle,String>(LegendaryTitleColumnIds.CATEGORY.name(),"Category",String.class,categoryCell);
+      DefaultTableColumnController<LegendaryTitle,LegendaryTitleCategory> categoryColumn=new DefaultTableColumnController<LegendaryTitle,LegendaryTitleCategory>(LegendaryTitleColumnIds.CATEGORY.name(),"Category",LegendaryTitleCategory.class,categoryCell);
       categoryColumn.setWidthSpecs(250,300,250);
       table.addColumnController(categoryColumn);
     }
     // Tier column
     {
-      CellDataProvider<LegendaryTitle,Integer> tierCell=new CellDataProvider<LegendaryTitle,Integer>()
+      CellDataProvider<LegendaryTitle,LegendaryTitleTier> tierCell=new CellDataProvider<LegendaryTitle,LegendaryTitleTier>()
       {
         @Override
-        public Integer getData(LegendaryTitle item)
+        public LegendaryTitleTier getData(LegendaryTitle item)
         {
-          return Integer.valueOf(item.getTier());
+          return item.getTier();
         }
       };
-      DefaultTableColumnController<LegendaryTitle,Integer> tierColumn=new DefaultTableColumnController<LegendaryTitle,Integer>(LegendaryTitleColumnIds.TIER.name(),"Tier",Integer.class,tierCell);
+      DefaultTableColumnController<LegendaryTitle,LegendaryTitleTier> tierColumn=new DefaultTableColumnController<LegendaryTitle,LegendaryTitleTier>(LegendaryTitleColumnIds.TIER.name(),"Tier",LegendaryTitleTier.class,tierCell);
       tierColumn.setWidthSpecs(40,40,40);
       table.addColumnController(tierColumn);
     }
@@ -102,15 +105,15 @@ public class LegendaryTitlesTableBuilder
     }
     // Slayer column
     {
-      CellDataProvider<LegendaryTitle,String> slayerCell=new CellDataProvider<LegendaryTitle,String>()
+      CellDataProvider<LegendaryTitle,Genus> slayerCell=new CellDataProvider<LegendaryTitle,Genus>()
       {
         @Override
-        public String getData(LegendaryTitle item)
+        public Genus getData(LegendaryTitle item)
         {
           return item.getSlayerGenusType();
         }
       };
-      DefaultTableColumnController<LegendaryTitle,String> slayerColumn=new DefaultTableColumnController<LegendaryTitle,String>(LegendaryTitleColumnIds.SLAYER.name(),"Slayer",String.class,slayerCell);
+      DefaultTableColumnController<LegendaryTitle,Genus> slayerColumn=new DefaultTableColumnController<LegendaryTitle,Genus>(LegendaryTitleColumnIds.SLAYER.name(),"Slayer",Genus.class,slayerCell);
       slayerColumn.setWidthSpecs(120,120,120);
       table.addColumnController(slayerColumn);
     }

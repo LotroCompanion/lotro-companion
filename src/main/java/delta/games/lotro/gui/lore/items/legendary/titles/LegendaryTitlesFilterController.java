@@ -18,6 +18,8 @@ import javax.swing.event.DocumentListener;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.common.ui.swing.combobox.ItemSelectionListener;
+import delta.games.lotro.common.enums.LegendaryTitleCategory;
+import delta.games.lotro.common.enums.comparator.LotroEnumEntryNameComparator;
 import delta.games.lotro.lore.items.legendary.titles.LegendaryTitle;
 import delta.games.lotro.lore.items.legendary.titles.LegendaryTitleFilter;
 import delta.games.lotro.lore.items.legendary.titles.LegendaryTitlesManager;
@@ -33,7 +35,7 @@ public class LegendaryTitlesFilterController extends ObjectFilterPanelController
   private LegendaryTitleFilter _filter;
   // GUI
   private JPanel _panel;
-  private ComboBoxController<String> _category;
+  private ComboBoxController<LegendaryTitleCategory> _category;
   private JTextField _nameContains;
   private JTextField _statsContains;
 
@@ -68,7 +70,7 @@ public class LegendaryTitlesFilterController extends ObjectFilterPanelController
   public void setFilter()
   {
     // Category
-    String category=_filter.getCategory();
+    LegendaryTitleCategory category=_filter.getCategory();
     _category.selectItem(category);
     // Name
     String contains=_filter.getNameFilter();
@@ -121,19 +123,19 @@ public class LegendaryTitlesFilterController extends ObjectFilterPanelController
     return panel;
   }
 
-  private ComboBoxController<String> buildCategoriesCombo()
+  private ComboBoxController<LegendaryTitleCategory> buildCategoriesCombo()
   {
-    final ComboBoxController<String> ctrl=new ComboBoxController<String>();
+    final ComboBoxController<LegendaryTitleCategory> ctrl=new ComboBoxController<LegendaryTitleCategory>();
     ctrl.addEmptyItem("");
-    List<String> categories=getCategories();
-    for(String category : categories)
+    List<LegendaryTitleCategory> categories=getCategories();
+    for(LegendaryTitleCategory category : categories)
     {
-      ctrl.addItem(category,category);
+      ctrl.addItem(category,category.getLabel());
     }
-    ItemSelectionListener<String> l=new ItemSelectionListener<String>()
+    ItemSelectionListener<LegendaryTitleCategory> l=new ItemSelectionListener<LegendaryTitleCategory>()
     {
       @Override
-      public void itemSelected(String category)
+      public void itemSelected(LegendaryTitleCategory category)
       {
         _filter.setCategory(category);
         filterUpdated();
@@ -143,16 +145,16 @@ public class LegendaryTitlesFilterController extends ObjectFilterPanelController
     return ctrl;
   }
 
-  private List<String> getCategories()
+  private List<LegendaryTitleCategory> getCategories()
   {
     LegendaryTitlesManager titlesMgr=LegendaryTitlesManager.getInstance();
-    Set<String> categories=new HashSet<String>();
+    Set<LegendaryTitleCategory> categories=new HashSet<LegendaryTitleCategory>();
     for(LegendaryTitle title : titlesMgr.getAll())
     {
       categories.add(title.getCategory());
     }
-    List<String> ret=new ArrayList<String>(categories);
-    Collections.sort(ret);
+    List<LegendaryTitleCategory> ret=new ArrayList<LegendaryTitleCategory>(categories);
+    Collections.sort(ret,new LotroEnumEntryNameComparator<LegendaryTitleCategory>());
     return ret;
   }
 
