@@ -20,6 +20,7 @@ import delta.common.ui.swing.tables.panel.FilterUpdateListener;
 import delta.common.ui.swing.text.DynamicTextEditionController;
 import delta.common.ui.swing.text.TextListener;
 import delta.common.utils.collections.filters.Filter;
+import delta.games.lotro.common.enums.PaperItemCategory;
 import delta.games.lotro.common.filters.NamedFilter;
 import delta.games.lotro.gui.utils.SharedUiUtils;
 import delta.games.lotro.lore.items.paper.PaperItem;
@@ -41,7 +42,7 @@ public class WalletFilterController implements ActionListener
   // -- Paper item attributes UI --
   private JTextField _contains;
   private ComboBoxController<Boolean> _shared;
-  private ComboBoxController<String> _category;
+  private ComboBoxController<PaperItemCategory> _category;
   // Controllers
   private DynamicTextEditionController _textController;
   private FilterUpdateListener _filterUpdateListener;
@@ -116,7 +117,7 @@ public class WalletFilterController implements ActionListener
     _shared.selectItem(shared);
     // Category
     PaperItemCategoryFilter categoryFilter=_filter.getCategoryFilter();
-    String category=categoryFilter.getCategory();
+    PaperItemCategory category=categoryFilter.getCategory();
     _category.selectItem(category);
   }
 
@@ -181,10 +182,10 @@ public class WalletFilterController implements ActionListener
       JLabel label=GuiFactory.buildLabel("Category:");
       categoryPanel.add(label);
       _category=WalletUiUtils.buildCategoryCombo();
-      ItemSelectionListener<String> categoryListener=new ItemSelectionListener<String>()
+      ItemSelectionListener<PaperItemCategory> categoryListener=new ItemSelectionListener<PaperItemCategory>()
       {
         @Override
-        public void itemSelected(String category)
+        public void itemSelected(PaperItemCategory category)
         {
           PaperItemCategoryFilter categoryFilter=_filter.getCategoryFilter();
           categoryFilter.setCategory(category);

@@ -20,6 +20,7 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.storage.wallet.Wallet;
 import delta.games.lotro.common.comparators.NamedComparator;
+import delta.games.lotro.common.enums.PaperItemCategory;
 import delta.games.lotro.gui.common.status.StatusMetadataPanelController;
 import delta.games.lotro.gui.utils.IconController;
 import delta.games.lotro.gui.utils.IconControllerFactory;
@@ -128,9 +129,9 @@ public class WalletDisplayPanelController
   {
     _elementsPanel.removeAll();
     PaperItemsManager paperItemsMgr=PaperItemsManager.getInstance();
-    List<String> categories=paperItemsMgr.getCategories(_paperItems);
+    List<PaperItemCategory> categories=paperItemsMgr.getCategories(_paperItems);
     int y=0;
-    for(String category : categories)
+    for(PaperItemCategory category : categories)
     {
       JPanel categoryPanel=buildPanelForCategory(category);
       if (categoryPanel==null)
@@ -138,7 +139,7 @@ public class WalletDisplayPanelController
         continue;
       }
       GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
-      categoryPanel.setBorder(GuiFactory.buildTitledBorder(category));
+      categoryPanel.setBorder(GuiFactory.buildTitledBorder(category.getLabel()));
       _elementsPanel.add(categoryPanel,c);
       y++;
     }
@@ -146,7 +147,7 @@ public class WalletDisplayPanelController
     _elementsPanel.add(GuiFactory.buildPanel(new BorderLayout()),c);
   }
 
-  private JPanel buildPanelForCategory(String category)
+  private JPanel buildPanelForCategory(PaperItemCategory category)
   {
     JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
     int y=0;

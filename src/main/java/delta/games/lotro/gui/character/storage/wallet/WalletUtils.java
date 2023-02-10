@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import delta.games.lotro.common.enums.PaperItemCategory;
+import delta.games.lotro.common.enums.comparator.LotroEnumEntryNameComparator;
 import delta.games.lotro.lore.items.paper.PaperItem;
 import delta.games.lotro.lore.items.paper.PaperItemsManager;
 
@@ -19,18 +21,18 @@ public class WalletUtils
    * Load available categories for paper items.
    * @return A sorted list of categories.
    */
-  public static List<String> getCategories()
+  public static List<PaperItemCategory> getCategories()
   {
-    Set<String> categories=new HashSet<String>(); 
+    Set<PaperItemCategory> categories=new HashSet<PaperItemCategory>(); 
     List<PaperItem> paperItems=PaperItemsManager.getInstance().getAll();
     for(PaperItem paperItem : paperItems)
     {
-      String category=paperItem.getCategory();
+      PaperItemCategory category=paperItem.getCategory();
       categories.add(category);
     }
-    List<String> ret=new ArrayList<String>(categories);
+    List<PaperItemCategory> ret=new ArrayList<PaperItemCategory>(categories);
     ret.remove(null);
-    Collections.sort(ret);
+    Collections.sort(ret,new LotroEnumEntryNameComparator<PaperItemCategory>());
     return ret;
   }
 }
