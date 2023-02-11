@@ -3,6 +3,7 @@ package delta.games.lotro.gui.lore.items.legendary2.traceries;
 import java.util.HashSet;
 import java.util.Set;
 
+import delta.games.lotro.common.enums.ItemUniquenessChannel;
 import delta.games.lotro.lore.items.legendary2.Tracery;
 
 /**
@@ -12,7 +13,7 @@ import delta.games.lotro.lore.items.legendary2.Tracery;
 public class TraceriesConstraintsMgr
 {
   private TraceriesConstraintsMgr _parentMgr;
-  private Set<String> _usedChannels;
+  private Set<ItemUniquenessChannel> _usedChannels;
 
   /**
    * Constructor.
@@ -21,7 +22,7 @@ public class TraceriesConstraintsMgr
   public TraceriesConstraintsMgr(TraceriesConstraintsMgr parentMgr)
   {
     _parentMgr=parentMgr;
-    _usedChannels=new HashSet<String>();
+    _usedChannels=new HashSet<ItemUniquenessChannel>();
   }
 
   /**
@@ -33,7 +34,7 @@ public class TraceriesConstraintsMgr
   public boolean canBeUsed(Tracery tracery)
   {
     // Check for a uniqueness channel
-    String uniquenessChannel=tracery.getUniquenessChannel();
+    ItemUniquenessChannel uniquenessChannel=tracery.getUniquenessChannel();
     if (uniquenessChannel==null)
     {
       return true;
@@ -72,7 +73,7 @@ public class TraceriesConstraintsMgr
     {
       return;
     }
-    String uniquenessChannel=tracery.getUniquenessChannel();
+    ItemUniquenessChannel uniquenessChannel=tracery.getUniquenessChannel();
     if (uniquenessChannel==null)
     {
       return;
