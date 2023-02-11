@@ -3,6 +3,7 @@ package delta.games.lotro.gui.lore.deeds;
 import java.util.List;
 
 import delta.common.ui.swing.combobox.ComboBoxController;
+import delta.games.lotro.common.enums.DeedCategory;
 import delta.games.lotro.lore.deeds.DeedType;
 
 /**
@@ -15,14 +16,14 @@ public class DeedUiUtils
    * Build a combo-box controller to choose a deed category.
    * @return A new combo-box controller.
    */
-  public static ComboBoxController<String> buildCategoryCombo()
+  public static ComboBoxController<DeedCategory> buildCategoryCombo()
   {
-    ComboBoxController<String> ctrl=new ComboBoxController<String>();
+    ComboBoxController<DeedCategory> ctrl=new ComboBoxController<DeedCategory>();
     ctrl.addEmptyItem("");
-    List<String> categories=DeedUtils.getCategories();
-    for(String category : categories)
+    List<DeedCategory> categories=DeedUtils.getCategories();
+    for(DeedCategory category : categories)
     {
-      ctrl.addItem(category,category);
+      ctrl.addItem(category,category.getLabel());
     }
     ctrl.selectItem(null);
     return ctrl;

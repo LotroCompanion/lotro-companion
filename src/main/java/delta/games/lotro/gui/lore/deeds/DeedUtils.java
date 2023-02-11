@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import delta.games.lotro.common.enums.DeedCategory;
+import delta.games.lotro.common.enums.comparator.LotroEnumEntryNameComparator;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.DeedsManager;
 
@@ -19,51 +21,18 @@ public class DeedUtils
    * Load available categories from deeds manager.
    * @return A sorted list of deed categories.
    */
-  public static List<String> getCategories()
+  public static List<DeedCategory> getCategories()
   {
-    return getCategories(false);
-  }
-
-  /**
-   * Load available categories from deeds manager.
-   * @param strict Do not include parent categories.
-   * @return A sorted list of deed categories.
-   */
-  public static List<String> getCategories(boolean strict)
-  {
-    Set<String> categories=new HashSet<String>(); 
+    Set<DeedCategory> categories=new HashSet<DeedCategory>(); 
     List<DeedDescription> deeds=DeedsManager.getInstance().getAll();
     for(DeedDescription deed : deeds)
     {
-      String deedCategory=deed.getCategory();
-      if (!strict)
-      {
-        if (!categories.contains(deedCategory))
-        {
-          categories.add(deedCategory);
-          if (deedCategory!=null)
-          {
-            while(true)
-            {
-              int index=deedCategory.lastIndexOf(':');
-              if (index==-1)
-              {
-                break;
-              }
-              deedCategory=deedCategory.substring(0,index);
-              categories.add(deedCategory);
-            }
-          }
-        }
-      }
-      else
-      {
-        categories.add(deedCategory);
-      }
+      DeedCategory deedCategory=deed.getCategory();
+      categories.add(deedCategory);
     }
-    List<String> ret=new ArrayList<String>(categories);
+    List<DeedCategory> ret=new ArrayList<DeedCategory>(categories);
     ret.remove(null);
-    Collections.sort(ret);
+    Collections.sort(ret,new LotroEnumEntryNameComparator<DeedCategory>());
     return ret;
   }
 }

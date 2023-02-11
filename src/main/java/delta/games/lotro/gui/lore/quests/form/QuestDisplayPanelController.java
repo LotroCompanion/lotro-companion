@@ -26,6 +26,7 @@ import delta.games.lotro.common.ChallengeLevel;
 import delta.games.lotro.common.LockType;
 import delta.games.lotro.common.Repeatability;
 import delta.games.lotro.common.Size;
+import delta.games.lotro.common.enums.QuestCategory;
 import delta.games.lotro.common.requirements.AbstractAchievableRequirement;
 import delta.games.lotro.gui.common.requirements.RequirementsUtils;
 import delta.games.lotro.gui.common.rewards.form.RewardsPanelController;
@@ -323,8 +324,8 @@ public class QuestDisplayPanelController implements NavigablePanelController
     // Name
     _name.setText(name);
     // Category
-    String category=_quest.getCategory();
-    _category.setText((category!=null)?category:"");
+    QuestCategory category=_quest.getCategory();
+    _category.setText((category!=null)?category.getLabel():"");
     // Quest arc
     String questArc=_quest.getQuestArc();
     _questArc.setText((questArc!=null)?questArc:"");

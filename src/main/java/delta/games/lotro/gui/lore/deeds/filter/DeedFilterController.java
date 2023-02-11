@@ -21,6 +21,7 @@ import delta.common.ui.swing.combobox.ItemSelectionListener;
 import delta.common.ui.swing.text.DynamicTextEditionController;
 import delta.common.ui.swing.text.TextListener;
 import delta.common.utils.collections.filters.Filter;
+import delta.games.lotro.common.enums.DeedCategory;
 import delta.games.lotro.common.rewards.RewardsExplorer;
 import delta.games.lotro.config.LotroCoreConfig;
 import delta.games.lotro.gui.common.requirements.RequirementsFilterController;
@@ -54,7 +55,7 @@ public class DeedFilterController implements ActionListener
   // -- Deed attributes UI --
   private JTextField _contains;
   private ComboBoxController<DeedType> _type;
-  private ComboBoxController<String> _category;
+  private ComboBoxController<DeedCategory> _category;
   private ComboBoxController<Boolean> _monsterPlay;
   private ComboBoxController<Boolean> _hidden;
   // -- Requirements UI --
@@ -168,7 +169,7 @@ public class DeedFilterController implements ActionListener
     _type.selectItem(type);
     // Category
     DeedCategoryFilter categoryFilter=_filter.getCategoryFilter();
-    String category=categoryFilter.getDeedCategory();
+    DeedCategory category=categoryFilter.getDeedCategory();
     _category.selectItem(category);
     // Monster play
     if (_monsterPlay!=null)
@@ -307,10 +308,10 @@ public class DeedFilterController implements ActionListener
       JLabel label=GuiFactory.buildLabel("Category:");
       linePanel.add(label);
       _category=DeedUiUtils.buildCategoryCombo();
-      ItemSelectionListener<String> categoryListener=new ItemSelectionListener<String>()
+      ItemSelectionListener<DeedCategory> categoryListener=new ItemSelectionListener<DeedCategory>()
       {
         @Override
-        public void itemSelected(String category)
+        public void itemSelected(DeedCategory category)
         {
           DeedCategoryFilter categoryFilter=_filter.getCategoryFilter();
           categoryFilter.setDeedCategory(category);

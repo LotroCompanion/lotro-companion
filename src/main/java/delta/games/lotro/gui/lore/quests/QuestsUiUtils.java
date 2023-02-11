@@ -6,6 +6,7 @@ import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.games.lotro.common.LockType;
 import delta.games.lotro.common.Repeatability;
 import delta.games.lotro.common.Size;
+import delta.games.lotro.common.enums.QuestCategory;
 import delta.games.lotro.gui.utils.SharedUiUtils;
 
 /**
@@ -18,14 +19,14 @@ public class QuestsUiUtils
    * Build a combo-box controller to choose a quest category.
    * @return A new combo-box controller.
    */
-  public static ComboBoxController<String> buildCategoryCombo()
+  public static ComboBoxController<QuestCategory> buildCategoryCombo()
   {
-    ComboBoxController<String> ctrl=new ComboBoxController<String>();
+    ComboBoxController<QuestCategory> ctrl=new ComboBoxController<QuestCategory>();
     ctrl.addEmptyItem("");
-    List<String> categories=QuestsUtils.getCategories();
-    for(String category : categories)
+    List<QuestCategory> categories=QuestsUtils.getCategories();
+    for(QuestCategory category : categories)
     {
-      ctrl.addItem(category,category);
+      ctrl.addItem(category,category.getLabel());
     }
     ctrl.selectItem(null);
     return ctrl;

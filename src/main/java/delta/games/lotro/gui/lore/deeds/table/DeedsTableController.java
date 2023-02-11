@@ -17,6 +17,7 @@ import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.common.ChallengeLevel;
 import delta.games.lotro.common.ChallengeLevelComparator;
+import delta.games.lotro.common.enums.DeedCategory;
 import delta.games.lotro.common.requirements.UsageRequirement;
 import delta.games.lotro.common.rewards.Rewards;
 import delta.games.lotro.gui.common.requirements.table.RequirementsColumnsBuilder;
@@ -122,15 +123,15 @@ public class DeedsTableController
     }
     // Category column
     {
-      CellDataProvider<DeedDescription,String> categoryCell=new CellDataProvider<DeedDescription,String>()
+      CellDataProvider<DeedDescription,DeedCategory> categoryCell=new CellDataProvider<DeedDescription,DeedCategory>()
       {
         @Override
-        public String getData(DeedDescription deed)
+        public DeedCategory getData(DeedDescription deed)
         {
           return deed.getCategory();
         }
       };
-      DefaultTableColumnController<DeedDescription,String> categoryColumn=new DefaultTableColumnController<DeedDescription,String>(DeedColumnIds.CATEGORY.name(),"Category",String.class,categoryCell);
+      DefaultTableColumnController<DeedDescription,DeedCategory> categoryColumn=new DefaultTableColumnController<DeedDescription,DeedCategory>(DeedColumnIds.CATEGORY.name(),"Category",DeedCategory.class,categoryCell);
       categoryColumn.setWidthSpecs(80,350,80);
       ret.add(categoryColumn);
     }

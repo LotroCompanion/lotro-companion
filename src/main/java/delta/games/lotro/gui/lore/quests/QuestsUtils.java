@@ -8,6 +8,8 @@ import java.util.Set;
 
 import delta.games.lotro.common.Repeatability;
 import delta.games.lotro.common.RepeatabilityComparator;
+import delta.games.lotro.common.enums.QuestCategory;
+import delta.games.lotro.common.enums.comparator.LotroEnumEntryNameComparator;
 import delta.games.lotro.lore.quests.QuestDescription;
 import delta.games.lotro.lore.quests.QuestsManager;
 
@@ -21,18 +23,18 @@ public class QuestsUtils
    * Load available categories from the quests manager.
    * @return A sorted list of quest categories.
    */
-  public static List<String> getCategories()
+  public static List<QuestCategory> getCategories()
   {
-    Set<String> categories=new HashSet<String>(); 
+    Set<QuestCategory> categories=new HashSet<QuestCategory>(); 
     List<QuestDescription> quests=QuestsManager.getInstance().getAll();
     for(QuestDescription quest : quests)
     {
-      String questCategory=quest.getCategory();
+      QuestCategory questCategory=quest.getCategory();
       categories.add(questCategory);
     }
-    List<String> ret=new ArrayList<String>(categories);
+    List<QuestCategory> ret=new ArrayList<QuestCategory>(categories);
     ret.remove(null);
-    Collections.sort(ret);
+    Collections.sort(ret,new LotroEnumEntryNameComparator<QuestCategory>());
     return ret;
   }
 

@@ -18,6 +18,7 @@ import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.common.LockType;
 import delta.games.lotro.common.Repeatability;
 import delta.games.lotro.common.Size;
+import delta.games.lotro.common.enums.QuestCategory;
 import delta.games.lotro.common.requirements.UsageRequirement;
 import delta.games.lotro.common.rewards.Rewards;
 import delta.games.lotro.gui.common.requirements.table.RequirementsColumnsBuilder;
@@ -97,15 +98,15 @@ public class QuestsTableController
     ret.add(QuestsColumnsBuilder.buildQuestNameColumn());
     // Category column
     {
-      CellDataProvider<QuestDescription,String> categoryCell=new CellDataProvider<QuestDescription,String>()
+      CellDataProvider<QuestDescription,QuestCategory> categoryCell=new CellDataProvider<QuestDescription,QuestCategory>()
       {
         @Override
-        public String getData(QuestDescription quest)
+        public QuestCategory getData(QuestDescription quest)
         {
           return quest.getCategory();
         }
       };
-      DefaultTableColumnController<QuestDescription,String> categoryColumn=new DefaultTableColumnController<QuestDescription,String>(QuestColumnIds.CATEGORY.name(),"Category",String.class,categoryCell);
+      DefaultTableColumnController<QuestDescription,QuestCategory> categoryColumn=new DefaultTableColumnController<QuestDescription,QuestCategory>(QuestColumnIds.CATEGORY.name(),"Category",QuestCategory.class,categoryCell);
       categoryColumn.setWidthSpecs(80,350,80);
       ret.add(categoryColumn);
     }

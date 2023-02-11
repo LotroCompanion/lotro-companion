@@ -24,6 +24,7 @@ import delta.common.utils.collections.filters.Filter;
 import delta.games.lotro.common.LockType;
 import delta.games.lotro.common.Repeatability;
 import delta.games.lotro.common.Size;
+import delta.games.lotro.common.enums.QuestCategory;
 import delta.games.lotro.common.rewards.RewardsExplorer;
 import delta.games.lotro.config.LotroCoreConfig;
 import delta.games.lotro.gui.common.requirements.RequirementsFilterController;
@@ -61,7 +62,7 @@ public class QuestFilterController implements ActionListener
   private JButton _reset;
   // -- Quest attributes UI --
   private JTextField _contains;
-  private ComboBoxController<String> _category;
+  private ComboBoxController<QuestCategory> _category;
   private ComboBoxController<String> _questArc; // Live only
   private ComboBoxController<Boolean> _instanced;
   private ComboBoxController<Boolean> _shareable; // Live only
@@ -187,7 +188,7 @@ public class QuestFilterController implements ActionListener
     }
     // Category
     QuestCategoryFilter categoryFilter=_filter.getCategoryFilter();
-    String category=categoryFilter.getQuestCategory();
+    QuestCategory category=categoryFilter.getQuestCategory();
     _category.selectItem(category);
     // Quest arc
     if (_questArc!=null)
@@ -350,10 +351,10 @@ public class QuestFilterController implements ActionListener
       JLabel label=GuiFactory.buildLabel("Category:");
       line2Panel.add(label);
       _category=QuestsUiUtils.buildCategoryCombo();
-      ItemSelectionListener<String> categoryListener=new ItemSelectionListener<String>()
+      ItemSelectionListener<QuestCategory> categoryListener=new ItemSelectionListener<QuestCategory>()
       {
         @Override
-        public void itemSelected(String category)
+        public void itemSelected(QuestCategory category)
         {
           QuestCategoryFilter categoryFilter=_filter.getCategoryFilter();
           categoryFilter.setQuestCategory(category);

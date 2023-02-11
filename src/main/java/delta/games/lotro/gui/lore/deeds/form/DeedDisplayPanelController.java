@@ -23,6 +23,7 @@ import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.common.utils.expressions.logical.LogicalTreeNode;
 import delta.games.lotro.common.ChallengeLevel;
+import delta.games.lotro.common.enums.DeedCategory;
 import delta.games.lotro.common.requirements.AbstractAchievableRequirement;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.common.requirements.RequirementsUtils;
@@ -278,8 +279,8 @@ public class DeedDisplayPanelController implements NavigablePanelController
     ImageIcon icon=LotroIconsManager.getDeedTypeIcon(type);
     _icon.setIcon(icon);
     // Category
-    String category=_deed.getCategory();
-    _category.setText((category!=null)?category:"");
+    DeedCategory category=_deed.getCategory();
+    _category.setText((category!=null)?category.getLabel():"");
     // Challenge level
     ChallengeLevel challengeLevel=_deed.getChallengeLevel();
     _challengeLevel.setText(challengeLevel.getLabel());
