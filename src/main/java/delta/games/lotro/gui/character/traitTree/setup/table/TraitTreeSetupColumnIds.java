@@ -11,9 +11,9 @@ public enum TraitTreeSetupColumnIds
    */
   NAME,
   /**
-   * Character class.
+   * Trait tree type.
    */
-  CLASS,
+  TYPE,
   /**
    * Branch.
    */

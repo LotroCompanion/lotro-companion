@@ -47,7 +47,6 @@ public class TraitTreePanelController
   private List<TraitTreeBranchPanelController> _branches;
   private ComboBoxController<TraitTreeBranch> _branchCombo;
   // Data
-  private String _traitTreeKey;
   private TraitTree _tree;
   private TraitTreeStatus _status;
 
@@ -60,7 +59,6 @@ public class TraitTreePanelController
   public TraitTreePanelController(WindowController parent,CharacterData toon,TraitTreeStatus status)
   {
     _parent=parent;
-    _traitTreeKey=toon.getCharacterClass().getKey();
     _tree=status.getTraitTree();
     _status=status;
     _side=new TraitTreeSidePanelController(toon,_tree,status);
@@ -286,7 +284,7 @@ public class TraitTreePanelController
 
   private TraitTreeSetup chooseSetup()
   {
-    TraitTreeSetup setup=TraitTreeSetupChooser.chooseTraitTreeSetup(_parent,_traitTreeKey);
+    TraitTreeSetup setup=TraitTreeSetupChooser.chooseTraitTreeSetup(_parent,_tree.getType());
     return setup;
   }
 
@@ -362,6 +360,5 @@ public class TraitTreePanelController
       _branchCombo.dispose();
       _branchCombo=null;
     }
-    _traitTreeKey=null;
   }
 }

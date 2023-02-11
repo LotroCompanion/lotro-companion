@@ -16,6 +16,7 @@ import delta.common.ui.swing.tables.TableColumnsManager;
 import delta.common.utils.collections.filters.Filter;
 import delta.games.lotro.character.classes.traitTree.setup.TraitTreeSetup;
 import delta.games.lotro.character.classes.traitTree.setup.TraitTreeSetupsManager;
+import delta.games.lotro.common.enums.TraitTreeType;
 
 /**
  * Builder for a table that shows trait tree setups.
@@ -25,10 +26,10 @@ public class TraitTreeSetupTableBuilder
 {
   /**
    * Build a table to show trait tree setups.
-   * @param traitTreeKey Trait tree key to use.
+   * @param traitTreeType Trait tree type to use.
    * @return A new table controller.
    */
-  public static GenericTableController<TraitTreeSetup> buildTable(final String traitTreeKey)
+  public static GenericTableController<TraitTreeSetup> buildTable(final TraitTreeType traitTreeType)
   {
     // Provider
     TraitTreeSetupsManager setupsMgr=TraitTreeSetupsManager.getInstance();
@@ -41,8 +42,8 @@ public class TraitTreeSetupTableBuilder
       @Override
       public boolean accept(TraitTreeSetup setup)
       {
-        String setupKey=setup.getKey();
-        return (setupKey.equals(traitTreeKey));
+        TraitTreeType setupType=setup.getType();
+        return (setupType==traitTreeType);
       }
     };
     table.setFilter(filter);
@@ -66,7 +67,7 @@ public class TraitTreeSetupTableBuilder
   {
     List<String> columnsIds=new ArrayList<String>();
     columnsIds.add(TraitTreeSetupColumnIds.NAME.name());
-    columnsIds.add(TraitTreeSetupColumnIds.CLASS.name());
+    columnsIds.add(TraitTreeSetupColumnIds.TYPE.name());
     columnsIds.add(TraitTreeSetupColumnIds.MAIN_BRANCH.name());
     columnsIds.add(TraitTreeSetupColumnIds.COST.name());
     return columnsIds;
@@ -81,8 +82,8 @@ public class TraitTreeSetupTableBuilder
     List<DefaultTableColumnController<TraitTreeSetup,?>> columns=new ArrayList<DefaultTableColumnController<TraitTreeSetup,?>>();
     // Name column
     columns.add(buildNameColumn());
-    // Class column
-    columns.add(buildClassColumn());
+    // Type column
+    columns.add(buildTypeColumn());
     // Branch column
     columns.add(buildBranchColumn());
     // Cost column
@@ -129,20 +130,20 @@ public class TraitTreeSetupTableBuilder
   }
 
   /**
-   * Build a column for the class of a trait tree setup.
+   * Build a column for the type of a trait tree setup.
    * @return a column.
    */
-  private static DefaultTableColumnController<TraitTreeSetup,String> buildClassColumn()
+  private static DefaultTableColumnController<TraitTreeSetup,TraitTreeType> buildTypeColumn()
   {
-    CellDataProvider<TraitTreeSetup,String> keyCell=new CellDataProvider<TraitTreeSetup,String>()
+    CellDataProvider<TraitTreeSetup,TraitTreeType> keyCell=new CellDataProvider<TraitTreeSetup,TraitTreeType>()
     {
       @Override
-      public String getData(TraitTreeSetup setup)
+      public TraitTreeType getData(TraitTreeSetup setup)
       {
-        return setup.getKey();
+        return setup.getType();
       }
     };
-    DefaultTableColumnController<TraitTreeSetup,String> keyColumn=new DefaultTableColumnController<TraitTreeSetup,String>(TraitTreeSetupColumnIds.CLASS.name(),"Class",String.class,keyCell);
+    DefaultTableColumnController<TraitTreeSetup,TraitTreeType> keyColumn=new DefaultTableColumnController<TraitTreeSetup,TraitTreeType>(TraitTreeSetupColumnIds.TYPE.name(),"Type",TraitTreeType.class,keyCell);
     keyColumn.setWidthSpecs(80,100,80);
     return keyColumn;
   }
