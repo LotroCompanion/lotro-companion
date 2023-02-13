@@ -24,6 +24,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.labels.HyperLinkController;
 import delta.common.ui.swing.navigator.NavigablePanelController;
 import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.games.lotro.character.races.NationalityDescription;
@@ -38,6 +39,7 @@ import delta.games.lotro.common.enums.comparator.LotroEnumEntryNameComparator;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.utils.GadgetsControllersFactory;
 import delta.games.lotro.gui.utils.IconLinkLabelGadgetsController;
+import delta.games.lotro.gui.utils.SharedLinks;
 import delta.games.lotro.utils.gui.HtmlUtils;
 
 /**
@@ -54,6 +56,7 @@ public class RaceDisplayPanelController implements NavigablePanelController
   private NavigatorWindowController _parent;
   private RaceReferencesDisplayController _references;
   private List<IconLinkLabelGadgetsController> _traits;
+  private List<HyperLinkController> _nationalities;
 
   /**
    * Constructor.
@@ -65,6 +68,7 @@ public class RaceDisplayPanelController implements NavigablePanelController
     _parent=parent;
     _race=race;
     _references=new RaceReferencesDisplayController(parent,race);
+    _nationalities=new ArrayList<HyperLinkController>();
   }
 
   @Override
@@ -160,7 +164,7 @@ public class RaceDisplayPanelController implements NavigablePanelController
       // Name
       String name=_race.getName();
       JLabel nameLabel=GuiFactory.buildLabel(name);
-      nameLabel.setFont(nameLabel.getFont().deriveFont(16f).deriveFont(Font.BOLD));
+      nameLabel.setFont(nameLabel.getFont().deriveFont(28f).deriveFont(Font.BOLD));
       panelLine.add(nameLabel);
       panel.add(panelLine,c);
       c.gridy++;
@@ -206,10 +210,10 @@ public class RaceDisplayPanelController implements NavigablePanelController
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     for(NationalityDescription nationality : nationalities)
     {
-      String name=nationality.getName();
-      JLabel label=GuiFactory.buildLabel(name);
       c.insets=new Insets((c.gridy==0)?2:0,5,2,5);
-      ret.add(label,c);
+      HyperLinkController ctrl=SharedLinks.buildNationalityLink(_parent,nationality);
+      _nationalities.add(ctrl);
+      ret.add(ctrl.getLabel(),c);
       c.gridy++;
     }
     Component minWidthComponent=Box.createHorizontalStrut(100);
@@ -388,6 +392,14 @@ public class RaceDisplayPanelController implements NavigablePanelController
         gadget.dispose();
       }
       _traits=null;
+    }
+    if (_nationalities!=null)
+    {
+      for(HyperLinkController ctrl : _nationalities)
+      {
+        ctrl.dispose();
+      }
+      _nationalities=null;
     }
     // UI
     if (_panel!=null)

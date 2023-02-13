@@ -3,8 +3,10 @@ package delta.games.lotro.gui.utils;
 import javax.swing.Icon;
 
 import delta.common.ui.swing.windows.WindowController;
+import delta.games.lotro.character.races.RaceDescription;
 import delta.games.lotro.character.skills.SkillDescription;
 import delta.games.lotro.character.traits.TraitDescription;
+import delta.games.lotro.common.CharacterSex;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.gui.lore.items.ItemUiTools;
@@ -13,6 +15,7 @@ import delta.games.lotro.lore.emotes.EmoteDescription;
 import delta.games.lotro.lore.hobbies.HobbyDescription;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.legendary.relics.Relic;
+import delta.games.lotro.lore.titles.TitleDescription;
 
 /**
  * Factory of icon controllers.
@@ -147,6 +150,44 @@ public class IconControllerFactory
       ret.setIcon(icon);
       ret.setPageId(ReferenceConstants.getHobbyReference(hobby.getIdentifier()));
       ret.setTooltipText(hobby.getName());
+    }
+    return ret;
+  }
+
+  /**
+   * Build a race icon.
+   * @param parent Parent window.
+   * @param race Race to use.
+   * @return A new controller.
+   */
+  public static IconController buildRaceIcon(WindowController parent, RaceDescription race)
+  {
+    IconController ret=new IconController(parent);
+    if (race!=null)
+    {
+      Icon icon=LotroIconsManager.getCharacterIcon(race,CharacterSex.MALE);
+      ret.setIcon(icon);
+      ret.setPageId(ReferenceConstants.getRaceReference(race));
+      ret.setTooltipText(race.getName());
+    }
+    return ret;
+  }
+
+  /**
+   * Build a title icon.
+   * @param parent Parent window.
+   * @param title Title to use.
+   * @return A new controller.
+   */
+  public static IconController buildTitleIcon(WindowController parent, TitleDescription title)
+  {
+    IconController ret=new IconController(parent);
+    if (title!=null)
+    {
+      Icon icon=LotroIconsManager.getTitleIcon(title.getIconId());
+      ret.setIcon(icon);
+      ret.setPageId(ReferenceConstants.getTitleReference(title.getIdentifier()));
+      ret.setTooltipText(title.getName());
     }
     return ret;
   }

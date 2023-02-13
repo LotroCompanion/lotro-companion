@@ -8,6 +8,7 @@ import delta.games.lotro.gui.lore.crafting.recipes.RecipePanelsFactory;
 import delta.games.lotro.gui.lore.deeds.DeedPanelsFactory;
 import delta.games.lotro.gui.lore.emotes.EmotePanelFactory;
 import delta.games.lotro.gui.lore.items.ItemPanelsFactory;
+import delta.games.lotro.gui.lore.nationalities.NationalityPanelsFactory;
 import delta.games.lotro.gui.lore.quests.QuestPanelsFactory;
 import delta.games.lotro.gui.lore.races.RacePanelsFactory;
 import delta.games.lotro.gui.lore.skills.SkillPanelsFactory;
@@ -46,6 +47,7 @@ public class NavigatorFactory
     resolver.addFactory(new RacePanelsFactory(window));
     resolver.addFactory(new BillingGroupPanelFactory(window));
     resolver.addFactory(new EmotePanelFactory(window));
+    resolver.addFactory(new NationalityPanelsFactory(window));
     window.setContentsResolver(resolver);
     return window;
   }
