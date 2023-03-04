@@ -77,6 +77,7 @@ public class TraitTreePanelController
   {
     ComboBoxController<TraitTreeBranch> ret=new ComboBoxController<TraitTreeBranch>();
     List<TraitTreeBranch> branches=_tree.getBranches();
+    ret.addEmptyItem("(none)");
     for(TraitTreeBranch branch : branches)
     {
       ret.addItem(branch,branch.getName());

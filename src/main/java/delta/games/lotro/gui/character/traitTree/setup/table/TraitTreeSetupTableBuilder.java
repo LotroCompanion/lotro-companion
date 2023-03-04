@@ -14,6 +14,7 @@ import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.ListDataProvider;
 import delta.common.ui.swing.tables.TableColumnsManager;
 import delta.common.utils.collections.filters.Filter;
+import delta.games.lotro.character.classes.traitTree.TraitTreeBranch;
 import delta.games.lotro.character.classes.traitTree.setup.TraitTreeSetup;
 import delta.games.lotro.character.classes.traitTree.setup.TraitTreeSetupsManager;
 import delta.games.lotro.common.enums.TraitTreeType;
@@ -159,7 +160,8 @@ public class TraitTreeSetupTableBuilder
       @Override
       public String getData(TraitTreeSetup setup)
       {
-        return setup.getSelectedBranch().getName();
+        TraitTreeBranch branch=setup.getSelectedBranch();
+        return (branch!=null)?branch.getName():null;
       }
     };
     DefaultTableColumnController<TraitTreeSetup,String> classColumn=new DefaultTableColumnController<TraitTreeSetup,String>(TraitTreeSetupColumnIds.MAIN_BRANCH.name(),"Branch",String.class,classCell);

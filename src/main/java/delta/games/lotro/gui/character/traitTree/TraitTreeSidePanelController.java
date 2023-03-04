@@ -35,10 +35,13 @@ public class TraitTreeSidePanelController
   private static final int WIDTH=X_MARGIN+FRAMED_ICON_SIZE+X_MARGIN;
   private static final int HEIGHT=Y_MARGIN+(NB_ROWS+1)*FRAMED_ICON_SIZE+NB_ROWS*DELTA_Y+Y_MARGIN;
 
+  // UI
   private JPanel _panel;
   private JLayeredPane _layeredPane;
+  // Controllers
   private List<TraitTreeCellController> _cells;
   // Data
+  private CharacterData _toon;
   private TraitTreeBranch _selectedBranch;
   private TraitTreeStatus _status;
 
@@ -50,10 +53,11 @@ public class TraitTreeSidePanelController
    */
   public TraitTreeSidePanelController(CharacterData toon, TraitTree tree, TraitTreeStatus status)
   {
-    _selectedBranch=tree.getBranches().get(0);
+    _toon=toon;
+    _selectedBranch=status.getSelectedBranch();
     _status=status;
     _cells=new ArrayList<TraitTreeCellController>();
-    init(toon);
+    _panel=buildPanel();
     updateUi();
   }
 
@@ -79,7 +83,22 @@ public class TraitTreeSidePanelController
     return new Dimension(x,y);
   }
 
-  private void init(CharacterData toon)
+  /**
+   * Update UI to reflect the current trait tree status.
+   */
+  public void updateUi()
+  {
+    disposeCells();
+    _cells=new ArrayList<TraitTreeCellController>();
+    if (_selectedBranch!=null)
+    {
+      initCells();
+      updateUiWithSelectedBranch();
+    }
+    layoutCells();
+  }
+
+  private void initCells()
   {
     TraitTreeProgression progression=_selectedBranch.getProgression();
     List<TraitDescription> traits=progression.getTraits();
@@ -87,15 +106,12 @@ public class TraitTreeSidePanelController
     for(int i=0;i<nbTraits;i++)
     {
       TraitDescription trait=traits.get(i);
-      TraitTreeCellController cellController=new TraitTreeCellController(toon,"",trait);
+      TraitTreeCellController cellController=new TraitTreeCellController(_toon,"",trait);
       _cells.add(cellController);
     }
   }
 
-  /**
-   * Update UI to reflect the current trait tree status.
-   */
-  public void updateUi()
+  private void updateUiWithSelectedBranch()
   {
     int nbRanks=_status.getTotalRanksInTree();
     TraitTreeProgression progression=_selectedBranch.getProgression();
@@ -120,10 +136,6 @@ public class TraitTreeSidePanelController
    */
   public JPanel getPanel()
   {
-    if (_panel==null)
-    {
-      _panel=buildPanel();
-    }
     return _panel;
   }
 
@@ -136,7 +148,12 @@ public class TraitTreeSidePanelController
     panel.setPreferredSize(d);
     panel.setMinimumSize(d);
     _layeredPane.setSize(d);
+    return panel;
+  }
 
+  private void layoutCells()
+  {
+    _layeredPane.removeAll();
     int nbCells=_cells.size();
     for(int i=0;i<nbCells;i++)
     {
@@ -146,7 +163,8 @@ public class TraitTreeSidePanelController
       button.setBounds(position.width,position.height,ICON_SIZE,ICON_SIZE);
       _layeredPane.add(button,ICONS_DEPTH);
     }
-    return panel;
+    _layeredPane.revalidate();
+    _layeredPane.repaint();
   }
 
   /**
@@ -154,6 +172,7 @@ public class TraitTreeSidePanelController
    */
   public void dispose()
   {
+    // UI
     if (_panel!=null)
     {
       _panel.removeAll();
@@ -164,6 +183,16 @@ public class TraitTreeSidePanelController
       _layeredPane.removeAll();
       _layeredPane=null;
     }
+    // Controllers
+    disposeCells();
+    // Data
+    _toon=null;
+    _selectedBranch=null;
+    _status=null;
+  }
+
+  private void disposeCells()
+  {
     if (_cells!=null)
     {
       for(TraitTreeCellController cellController : _cells)
