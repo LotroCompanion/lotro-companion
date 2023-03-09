@@ -1,4 +1,8 @@
 /target/
+/bin/
+/.settings/
+/.classpath
+/.project
 /data/characters/toon*
 /data/lore/characters/traits.xml
 /data/lore/deeds-from-lorebook.xml
