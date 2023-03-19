@@ -110,7 +110,7 @@ public class MountsTableController
         @Override
         public String getData(MountDescription mount)
         {
-          return mount.getCategory();
+          return mount.getMountCategory();
         }
       };
       DefaultTableColumnController<MountDescription,String> categoryColumn=new DefaultTableColumnController<MountDescription,String>(MountColumnIds.CATEGORY.name(),"Category",String.class,categoryCell);

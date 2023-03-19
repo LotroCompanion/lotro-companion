@@ -166,7 +166,7 @@ public class MountDisplayPanelController
     ImageIcon icon=LotroIconsManager.getMountIcon(_mount.getIconId());
     _icon.setIcon(icon);
     // Category
-    String category=_mount.getCategory();
+    String category=_mount.getMountCategory();
     _category.setText(category);
     // Mount type
     String mountType=_mount.getMountType();
