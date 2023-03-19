@@ -15,6 +15,8 @@ import javax.swing.JScrollPane;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.utils.text.EndOfLine;
+import delta.games.lotro.common.enums.MountType;
+import delta.games.lotro.common.enums.SkillCharacteristicSubCategory;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.lore.collections.mounts.MountDescription;
 
@@ -166,11 +168,13 @@ public class MountDisplayPanelController
     ImageIcon icon=LotroIconsManager.getMountIcon(_mount.getIconId());
     _icon.setIcon(icon);
     // Category
-    String category=_mount.getMountCategory();
-    _category.setText(category);
+    SkillCharacteristicSubCategory category=_mount.getMountCategory();
+    String categoryText=(category!=null)?category.getLabel():"";
+    _category.setText(categoryText);
     // Mount type
-    String mountType=_mount.getMountType();
-    _mountType.setText(mountType);
+    MountType mountType=_mount.getMountType();
+    String mountTypeText=(mountType!=null)?mountType.getLabel():"";
+    _mountType.setText(mountTypeText);
     // Initial name
     String initialName=_mount.getInitialName();
     _initialName.setText(initialName);

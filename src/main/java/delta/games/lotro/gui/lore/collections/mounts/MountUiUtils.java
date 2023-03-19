@@ -3,6 +3,7 @@ package delta.games.lotro.gui.lore.collections.mounts;
 import java.util.List;
 
 import delta.common.ui.swing.combobox.ComboBoxController;
+import delta.games.lotro.common.enums.SkillCharacteristicSubCategory;
 import delta.games.lotro.lore.collections.mounts.MountsManager;
 
 /**
@@ -15,14 +16,14 @@ public class MountUiUtils
    * Build a combo-box controller to choose a mount category.
    * @return A new combo-box controller.
    */
-  public static ComboBoxController<String> buildCategoryCombo()
+  public static ComboBoxController<SkillCharacteristicSubCategory> buildCategoryCombo()
   {
-    ComboBoxController<String> ctrl=new ComboBoxController<String>();
+    ComboBoxController<SkillCharacteristicSubCategory> ctrl=new ComboBoxController<SkillCharacteristicSubCategory>();
     ctrl.addEmptyItem("");
-    List<String> categories=MountsManager.getInstance().getCategories();
-    for(String category : categories)
+    List<SkillCharacteristicSubCategory> categories=MountsManager.getInstance().getCategories();
+    for(SkillCharacteristicSubCategory category : categories)
     {
-      ctrl.addItem(category,category);
+      ctrl.addItem(category,category.getLabel());
     }
     ctrl.selectItem(null);
     return ctrl;

@@ -14,6 +14,8 @@ import delta.common.ui.swing.tables.ListDataProvider;
 import delta.common.ui.swing.tables.TableColumnsManager;
 import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.misc.TypedProperties;
+import delta.games.lotro.common.enums.MountType;
+import delta.games.lotro.common.enums.SkillCharacteristicSubCategory;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.lore.items.chooser.ItemChooser;
 import delta.games.lotro.gui.utils.UiConfiguration;
@@ -105,15 +107,15 @@ public class MountsTableController
     }
     // Category column
     {
-      CellDataProvider<MountDescription,String> categoryCell=new CellDataProvider<MountDescription,String>()
+      CellDataProvider<MountDescription,SkillCharacteristicSubCategory> categoryCell=new CellDataProvider<MountDescription,SkillCharacteristicSubCategory>()
       {
         @Override
-        public String getData(MountDescription mount)
+        public SkillCharacteristicSubCategory getData(MountDescription mount)
         {
           return mount.getMountCategory();
         }
       };
-      DefaultTableColumnController<MountDescription,String> categoryColumn=new DefaultTableColumnController<MountDescription,String>(MountColumnIds.CATEGORY.name(),"Category",String.class,categoryCell);
+      DefaultTableColumnController<MountDescription,SkillCharacteristicSubCategory> categoryColumn=new DefaultTableColumnController<MountDescription,SkillCharacteristicSubCategory>(MountColumnIds.CATEGORY.name(),"Category",SkillCharacteristicSubCategory.class,categoryCell);
       categoryColumn.setWidthSpecs(100,140,140);
       ret.add(categoryColumn);
     }
@@ -147,15 +149,15 @@ public class MountsTableController
     }
     // Mount type column
     {
-      CellDataProvider<MountDescription,String> mountTypeCell=new CellDataProvider<MountDescription,String>()
+      CellDataProvider<MountDescription,MountType> mountTypeCell=new CellDataProvider<MountDescription,MountType>()
       {
         @Override
-        public String getData(MountDescription mount)
+        public MountType getData(MountDescription mount)
         {
           return mount.getMountType();
         }
       };
-      DefaultTableColumnController<MountDescription,String> mountTypeColumn=new DefaultTableColumnController<MountDescription,String>(MountColumnIds.MOUNT_TYPE.name(),"Mount Type",String.class,mountTypeCell);
+      DefaultTableColumnController<MountDescription,MountType> mountTypeColumn=new DefaultTableColumnController<MountDescription,MountType>(MountColumnIds.MOUNT_TYPE.name(),"Mount Type",MountType.class,mountTypeCell);
       mountTypeColumn.setWidthSpecs(100,100,100);
       ret.add(mountTypeColumn);
     }

@@ -19,6 +19,7 @@ import delta.common.ui.swing.combobox.ItemSelectionListener;
 import delta.common.ui.swing.text.DynamicTextEditionController;
 import delta.common.ui.swing.text.TextListener;
 import delta.common.utils.collections.filters.Filter;
+import delta.games.lotro.common.enums.SkillCharacteristicSubCategory;
 import delta.games.lotro.gui.lore.items.FilterUpdateListener;
 import delta.games.lotro.lore.collections.mounts.MountDescription;
 import delta.games.lotro.lore.collections.mounts.filters.MountCategoryFilter;
@@ -37,7 +38,7 @@ public class MountFilterController implements ActionListener
   private JButton _reset;
   // -- Mount attributes UI --
   private JTextField _contains;
-  private ComboBoxController<String> _category;
+  private ComboBoxController<SkillCharacteristicSubCategory> _category;
   // Controllers
   private DynamicTextEditionController _textController;
   private FilterUpdateListener _filterUpdateListener;
@@ -107,7 +108,7 @@ public class MountFilterController implements ActionListener
     }
     // Category
     MountCategoryFilter categoryFilter=_filter.getCategoryFilter();
-    String category=categoryFilter.getCategory();
+    SkillCharacteristicSubCategory category=categoryFilter.getCategory();
     _category.selectItem(category);
   }
 
@@ -164,10 +165,10 @@ public class MountFilterController implements ActionListener
       JLabel label=GuiFactory.buildLabel("Category:");
       line1Panel.add(label);
       _category=MountUiUtils.buildCategoryCombo();
-      ItemSelectionListener<String> categoryListener=new ItemSelectionListener<String>()
+      ItemSelectionListener<SkillCharacteristicSubCategory> categoryListener=new ItemSelectionListener<SkillCharacteristicSubCategory>()
       {
         @Override
-        public void itemSelected(String category)
+        public void itemSelected(SkillCharacteristicSubCategory category)
         {
           MountCategoryFilter categoryFilter=_filter.getCategoryFilter();
           categoryFilter.setCategory(category);
