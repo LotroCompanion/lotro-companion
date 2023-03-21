@@ -13,12 +13,10 @@ import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
 import delta.common.ui.swing.GuiFactory;
-import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.windows.DefaultWindowController;
 import delta.common.ui.swing.windows.WindowController;
-import delta.common.ui.swing.windows.WindowsManager;
 import delta.common.utils.misc.Preferences;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.Config;
@@ -27,7 +25,7 @@ import delta.games.lotro.gui.lore.items.chooser.ItemFilterConfiguration;
 import delta.games.lotro.gui.lore.items.chooser.ItemFilterController;
 import delta.games.lotro.gui.lore.items.table.ItemsTableController;
 import delta.games.lotro.gui.main.GlobalPreferences;
-import delta.games.lotro.gui.navigation.NavigatorFactory;
+import delta.games.lotro.gui.utils.NavigationUtils;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemsManager;
 
@@ -129,14 +127,9 @@ public class ItemsExplorerWindowController extends DefaultWindowController
 
   private void showItem(Item item)
   {
-    WindowsManager windowsMgr=getWindowsManager();
-    int id=windowsMgr.getAll().size();
-    NavigatorWindowController window=NavigatorFactory.buildNavigator(ItemsExplorerWindowController.this,id);
     int itemId=item.getIdentifier();
     PageIdentifier ref=ReferenceConstants.getItemReference(itemId);
-    window.navigateTo(ref);
-    window.show(false);
-    windowsMgr.registerWindow(window);
+    NavigationUtils.navigateTo(ref,this);
   }
 
   /**

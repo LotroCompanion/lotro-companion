@@ -12,19 +12,17 @@ import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
 import delta.common.ui.swing.GuiFactory;
-import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.windows.DefaultWindowController;
 import delta.common.ui.swing.windows.WindowController;
-import delta.common.ui.swing.windows.WindowsManager;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.gui.lore.trade.barter.BartererFilter;
 import delta.games.lotro.gui.lore.trade.barter.BartererFilterController;
 import delta.games.lotro.gui.lore.trade.barter.BarterersTableController;
 import delta.games.lotro.gui.main.GlobalPreferences;
-import delta.games.lotro.gui.navigation.NavigatorFactory;
+import delta.games.lotro.gui.utils.NavigationUtils;
 import delta.games.lotro.lore.trade.barter.BarterNpc;
 
 /**
@@ -42,7 +40,6 @@ public class BarterersExplorerWindowController extends DefaultWindowController
   private BarterersExplorerPanelController _panelController;
   private BarterersTableController _tableController;
   private BartererFilter _filter;
-  private WindowsManager _formWindows;
 
   /**
    * Constructor.
@@ -52,7 +49,6 @@ public class BarterersExplorerWindowController extends DefaultWindowController
   {
     super(parent);
     _filter=new BartererFilter();
-    _formWindows=new WindowsManager();
   }
 
   @Override
@@ -122,12 +118,8 @@ public class BarterersExplorerWindowController extends DefaultWindowController
 
   private void showBarterer(BarterNpc barterer)
   {
-    int id=_formWindows.getAll().size();
-    NavigatorWindowController window=NavigatorFactory.buildNavigator(BarterersExplorerWindowController.this,id);
     PageIdentifier ref=ReferenceConstants.getBartererReference(barterer.getIdentifier());
-    window.navigateTo(ref);
-    window.show(false);
-    _formWindows.registerWindow(window);
+    NavigationUtils.navigateTo(ref,this);
   }
 
   /**
@@ -138,11 +130,6 @@ public class BarterersExplorerWindowController extends DefaultWindowController
   {
     saveBoundsPreferences();
     super.dispose();
-    if (_formWindows!=null)
-    {
-      _formWindows.disposeAll();
-      _formWindows=null;
-    }
     if (_tableController!=null)
     {
       _tableController.dispose();

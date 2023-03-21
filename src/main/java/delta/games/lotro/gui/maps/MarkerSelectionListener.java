@@ -1,12 +1,10 @@
 package delta.games.lotro.gui.maps;
 
 import delta.common.ui.swing.misc.Disposable;
-import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.common.ui.swing.windows.WindowController;
-import delta.common.ui.swing.windows.WindowsManager;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
-import delta.games.lotro.gui.navigation.NavigatorFactory;
+import delta.games.lotro.gui.utils.NavigationUtils;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemsManager;
 import delta.games.lotro.lore.trade.barter.BarterNpc;
@@ -26,7 +24,6 @@ import delta.games.lotro.maps.ui.controllers.SelectionListener;
 public class MarkerSelectionListener implements SelectionListener,Disposable
 {
   private WindowController _parent;
-  private WindowsManager _formWindows;
 
   /**
    * Constructor.
@@ -35,7 +32,6 @@ public class MarkerSelectionListener implements SelectionListener,Disposable
   public MarkerSelectionListener(WindowController parent)
   {
     _parent=parent;
-    _formWindows=new WindowsManager();
   }
 
   @Override
@@ -67,10 +63,7 @@ public class MarkerSelectionListener implements SelectionListener,Disposable
     }
     if (ref!=null)
     {
-      int id=_formWindows.getAll().size();
-      NavigatorWindowController window=NavigatorFactory.buildNavigator(_parent,id);
-      window.navigateTo(ref);
-      window.show(false);
+      NavigationUtils.navigateTo(ref,_parent);
     }
     return (ref!=null);
   }
@@ -113,11 +106,6 @@ public class MarkerSelectionListener implements SelectionListener,Disposable
    */
   public void dispose()
   {
-    if (_formWindows!=null)
-    {
-      _formWindows.dispose();
-      _formWindows=null;
-    }
     _parent=null;
   }
 }

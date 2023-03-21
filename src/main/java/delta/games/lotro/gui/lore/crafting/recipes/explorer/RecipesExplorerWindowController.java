@@ -13,18 +13,16 @@ import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
 import delta.common.ui.swing.GuiFactory;
-import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.windows.DefaultWindowController;
 import delta.common.ui.swing.windows.WindowController;
-import delta.common.ui.swing.windows.WindowsManager;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.gui.lore.crafting.recipes.RecipeFilterController;
 import delta.games.lotro.gui.lore.crafting.recipes.RecipesTableController;
 import delta.games.lotro.gui.main.GlobalPreferences;
-import delta.games.lotro.gui.navigation.NavigatorFactory;
+import delta.games.lotro.gui.utils.NavigationUtils;
 import delta.games.lotro.lore.crafting.recipes.Recipe;
 import delta.games.lotro.lore.crafting.recipes.RecipesManager;
 import delta.games.lotro.lore.crafting.recipes.filters.RecipeFilter;
@@ -44,7 +42,6 @@ public class RecipesExplorerWindowController extends DefaultWindowController
   private RecipeExplorerPanelController _panelController;
   private RecipesTableController _tableController;
   private RecipeFilter _filter;
-  private WindowsManager _recipeWindows;
 
   /**
    * Constructor.
@@ -54,7 +51,6 @@ public class RecipesExplorerWindowController extends DefaultWindowController
   {
     super(parent);
     _filter=new RecipeFilter();
-    _recipeWindows=new WindowsManager();
   }
 
   @Override
@@ -126,12 +122,8 @@ public class RecipesExplorerWindowController extends DefaultWindowController
 
   private void showRecipe(Recipe recipe)
   {
-    int id=_recipeWindows.getAll().size();
-    NavigatorWindowController window=NavigatorFactory.buildNavigator(RecipesExplorerWindowController.this,id);
     PageIdentifier ref=ReferenceConstants.getRecipeReference(recipe.getIdentifier());
-    window.navigateTo(ref);
-    window.show(false);
-    _recipeWindows.registerWindow(window);
+    NavigationUtils.navigateTo(ref,this);
   }
 
   /**
@@ -142,11 +134,6 @@ public class RecipesExplorerWindowController extends DefaultWindowController
   {
     saveBoundsPreferences();
     super.dispose();
-    if (_recipeWindows!=null)
-    {
-      _recipeWindows.disposeAll();
-      _recipeWindows=null;
-    }
     if (_tableController!=null)
     {
       _tableController.dispose();

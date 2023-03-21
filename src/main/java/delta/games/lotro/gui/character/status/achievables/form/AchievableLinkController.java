@@ -9,12 +9,10 @@ import javax.swing.JLabel;
 import delta.common.ui.swing.labels.HyperLinkController;
 import delta.common.ui.swing.labels.LocalHyperlinkAction;
 import delta.common.ui.swing.misc.Disposable;
-import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.common.ui.swing.windows.WindowController;
-import delta.common.ui.swing.windows.WindowsManager;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
-import delta.games.lotro.gui.navigation.NavigatorFactory;
+import delta.games.lotro.gui.utils.NavigationUtils;
 import delta.games.lotro.lore.quests.Achievable;
 
 /**
@@ -27,7 +25,6 @@ public class AchievableLinkController implements Disposable
   private Achievable _achievable;
   // Controllers
   private WindowController _parent;
-  private WindowsManager _windowsManager;
   private HyperLinkController _linkCtrl;
 
   /**
@@ -39,7 +36,6 @@ public class AchievableLinkController implements Disposable
   {
     _achievable=achievable;
     _parent=parentController;
-    _windowsManager=new WindowsManager();
     _linkCtrl=buildLinkController();
   }
 
@@ -76,22 +72,8 @@ public class AchievableLinkController implements Disposable
 
   private void showAchievable()
   {
-    int nbWindows=_windowsManager.getAll().size();
-    if (nbWindows==0)
-    {
-      NavigatorWindowController window=NavigatorFactory.buildNavigator(_parent,0);
-      PageIdentifier ref=ReferenceConstants.getAchievableReference(_achievable);
-      window.navigateTo(ref);
-      window.show(false);
-      _windowsManager.registerWindow(window);
-    }
-    else
-    {
-      NavigatorWindowController window=(NavigatorWindowController)_windowsManager.getAll().get(0);
-      PageIdentifier ref=ReferenceConstants.getAchievableReference(_achievable);
-      window.navigateTo(ref);
-      window.bringToFront();
-    }
+    PageIdentifier ref=ReferenceConstants.getAchievableReference(_achievable);
+    NavigationUtils.navigateToSingleChild(ref,_parent);
   }
 
   /**

@@ -9,13 +9,11 @@ import javax.swing.JLabel;
 import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.common.ui.swing.labels.HyperLinkController;
 import delta.common.ui.swing.labels.LocalHyperlinkAction;
-import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.common.ui.swing.windows.WindowController;
-import delta.common.ui.swing.windows.WindowsManager;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.gui.common.rewards.RewardsUiUtils;
-import delta.games.lotro.gui.navigation.NavigatorFactory;
+import delta.games.lotro.gui.utils.NavigationUtils;
 import delta.games.lotro.lore.titles.TitleDescription;
 import delta.games.lotro.lore.titles.TitlesManager;
 
@@ -73,21 +71,8 @@ public class TitleUiUtils
    */
   public static void showTitleWindow(WindowController parent, int titleID)
   {
-    NavigatorWindowController window=null;
-    if (parent instanceof NavigatorWindowController)
-    {
-      window=(NavigatorWindowController)parent;
-    }
-    else
-    {
-      WindowsManager windowsMgr=parent.getWindowsManager();
-      int id=windowsMgr.getAll().size();
-      window=NavigatorFactory.buildNavigator(parent,id);
-      windowsMgr.registerWindow(window);
-    }
     PageIdentifier ref=ReferenceConstants.getTitleReference(titleID);
-    window.navigateTo(ref);
-    window.show(false);
+    NavigationUtils.navigateTo(ref,parent);
   }
 }
 

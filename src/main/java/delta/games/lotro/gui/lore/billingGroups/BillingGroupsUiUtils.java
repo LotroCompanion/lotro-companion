@@ -7,13 +7,11 @@ import javax.swing.JLabel;
 
 import delta.common.ui.swing.labels.HyperLinkController;
 import delta.common.ui.swing.labels.LocalHyperlinkAction;
-import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.common.ui.swing.windows.WindowController;
-import delta.common.ui.swing.windows.WindowsManager;
 import delta.games.lotro.common.enums.BillingGroup;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
-import delta.games.lotro.gui.navigation.NavigatorFactory;
+import delta.games.lotro.gui.utils.NavigationUtils;
 
 /**
  * Utility methods for billing groups-related UIs.
@@ -51,20 +49,7 @@ public class BillingGroupsUiUtils
    */
   public static void showBillingGroupWindow(WindowController parent, int billingGroupID)
   {
-    NavigatorWindowController window=null;
-    if (parent instanceof NavigatorWindowController)
-    {
-      window=(NavigatorWindowController)parent;
-    }
-    else
-    {
-      WindowsManager windowsMgr=parent.getWindowsManager();
-      int id=windowsMgr.getAll().size();
-      window=NavigatorFactory.buildNavigator(parent,id);
-      windowsMgr.registerWindow(window);
-    }
     PageIdentifier ref=ReferenceConstants.getBillingGroupReference(billingGroupID);
-    window.navigateTo(ref);
-    window.show(false);
+    NavigationUtils.navigateTo(ref,parent);
   }
 }

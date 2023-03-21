@@ -6,7 +6,6 @@ import java.util.List;
 
 import javax.swing.JTable;
 
-import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.common.ui.swing.tables.CellDataProvider;
 import delta.common.ui.swing.tables.CellDataUpdater;
@@ -15,11 +14,10 @@ import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.ListDataProvider;
 import delta.common.ui.swing.windows.WindowController;
-import delta.common.ui.swing.windows.WindowsManager;
 import delta.games.lotro.character.status.traitPoints.TraitPoint;
 import delta.games.lotro.character.status.traitPoints.TraitPointsStatus;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
-import delta.games.lotro.gui.navigation.NavigatorFactory;
+import delta.games.lotro.gui.utils.NavigationUtils;
 import delta.games.lotro.lore.deeds.DeedsManager;
 import delta.games.lotro.lore.quests.Achievable;
 import delta.games.lotro.lore.quests.QuestsManager;
@@ -34,7 +32,6 @@ public class TraitPointsTableController
   private TraitPointsStatus _pointsStatus;
   private List<TraitPoint> _points;
   // Controllers
-  private WindowsManager _achievableWindows;
   private GenericTableController<TraitPoint> _tableController;
   private TraitPointsStatusListener _listener;
   // GUI
@@ -50,7 +47,6 @@ public class TraitPointsTableController
   {
     _pointsStatus=pointsStatus;
     _points=points;
-    _achievableWindows=new WindowsManager();
     _tableController=buildTable(parent);
     initTable();
   }
@@ -136,12 +132,8 @@ public class TraitPointsTableController
     {
       return;
     }
-    int id=_achievableWindows.getAll().size();
-    NavigatorWindowController window=NavigatorFactory.buildNavigator(parent,id);
     PageIdentifier ref=ReferenceConstants.getAchievableReference(achievable);
-    window.navigateTo(ref);
-    window.show(false);
-    _achievableWindows.registerWindow(window);
+    NavigationUtils.navigateTo(ref,parent);
   }
 
   private Achievable getAchievable(int id)
@@ -197,11 +189,6 @@ public class TraitPointsTableController
       _tableController=null;
     }
     _listener=null;
-    if (_achievableWindows!=null)
-    {
-      _achievableWindows.dispose();
-      _achievableWindows=null;
-    }
     // GUI
     _table=null;
     // Data

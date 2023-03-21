@@ -5,13 +5,11 @@ import java.awt.event.ActionListener;
 
 import delta.common.ui.swing.labels.HyperLinkController;
 import delta.common.ui.swing.labels.LocalHyperlinkAction;
-import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.common.ui.swing.windows.WindowController;
-import delta.common.ui.swing.windows.WindowsManager;
 import delta.games.lotro.character.virtues.VirtueDescription;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
-import delta.games.lotro.gui.navigation.NavigatorFactory;
+import delta.games.lotro.gui.utils.NavigationUtils;
 
 /**
  * Tools related to virtues UI.
@@ -48,20 +46,7 @@ public class VirtueUiTools
    */
   public static void showVirtueForm(WindowController parent, VirtueDescription virtue)
   {
-    NavigatorWindowController window=null;
-    if (parent instanceof NavigatorWindowController)
-    {
-      window=(NavigatorWindowController)parent;
-    }
-    else
-    {
-      WindowsManager windows=parent.getWindowsManager();
-      int id=windows.getAll().size();
-      window=NavigatorFactory.buildNavigator(parent,id);
-      windows.registerWindow(window);
-    }
     PageIdentifier ref=ReferenceConstants.getVirtueReference(virtue.getIdentifier());
-    window.navigateTo(ref);
-    window.show(false);
+    NavigationUtils.navigateTo(ref,parent);
   }
 }

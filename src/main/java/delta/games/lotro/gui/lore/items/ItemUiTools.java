@@ -17,10 +17,8 @@ import delta.common.ui.swing.icons.IconWithText;
 import delta.common.ui.swing.icons.IconWithText.Position;
 import delta.common.ui.swing.labels.HyperLinkController;
 import delta.common.ui.swing.labels.LocalHyperlinkAction;
-import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.common.ui.swing.windows.WindowController;
-import delta.common.ui.swing.windows.WindowsManager;
 import delta.common.utils.text.EndOfLine;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.common.enums.ItemClass;
@@ -28,7 +26,7 @@ import delta.games.lotro.common.enums.comparator.LotroEnumEntryNameComparator;
 import delta.games.lotro.common.stats.StatUtils;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
-import delta.games.lotro.gui.navigation.NavigatorFactory;
+import delta.games.lotro.gui.utils.NavigationUtils;
 import delta.games.lotro.lore.items.ArmourType;
 import delta.games.lotro.lore.items.EquipmentLocation;
 import delta.games.lotro.lore.items.Item;
@@ -134,21 +132,8 @@ public class ItemUiTools
    */
   public static void showItemForm(WindowController parent, Item item)
   {
-    NavigatorWindowController window=null;
-    if (parent instanceof NavigatorWindowController)
-    {
-      window=(NavigatorWindowController)parent;
-    }
-    else
-    {
-      WindowsManager windows=(parent!=null)?parent.getWindowsManager():new WindowsManager();
-      int id=windows.getAll().size();
-      window=NavigatorFactory.buildNavigator(parent,id);
-      windows.registerWindow(window);
-    }
     PageIdentifier ref=ReferenceConstants.getItemReference(item.getIdentifier());
-    window.navigateTo(ref);
-    window.show(false);
+    NavigationUtils.navigateTo(ref,parent);
   }
 
   /**

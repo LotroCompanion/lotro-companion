@@ -13,7 +13,6 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
-import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.windows.DefaultDisplayDialogController;
@@ -32,7 +31,7 @@ import delta.games.lotro.gui.character.status.tasks.table.TaskStatusTableControl
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.gui.lore.items.FilterUpdateListener;
 import delta.games.lotro.gui.main.GlobalPreferences;
-import delta.games.lotro.gui.navigation.NavigatorFactory;
+import delta.games.lotro.gui.utils.NavigationUtils;
 import delta.games.lotro.lore.quests.QuestDescription;
 
 /**
@@ -207,13 +206,8 @@ public class TasksStatusWindowController extends DefaultDisplayDialogController<
 
   private void showQuest(QuestDescription quest)
   {
-    WindowsManager windowsMgr=getWindowsManager();
-    int id=windowsMgr.getAll().size();
-    NavigatorWindowController window=NavigatorFactory.buildNavigator(TasksStatusWindowController.this,id);
     PageIdentifier ref=ReferenceConstants.getAchievableReference(quest);
-    window.navigateTo(ref);
-    window.show(false);
-    windowsMgr.registerWindow(window);
+    NavigationUtils.navigateTo(ref,this);
   }
 
   private TasksStatisticsWindowController getStatisticsWindow()

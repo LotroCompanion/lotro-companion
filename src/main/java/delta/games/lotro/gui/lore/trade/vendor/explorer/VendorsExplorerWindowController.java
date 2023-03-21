@@ -12,19 +12,17 @@ import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
 import delta.common.ui.swing.GuiFactory;
-import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.windows.DefaultWindowController;
 import delta.common.ui.swing.windows.WindowController;
-import delta.common.ui.swing.windows.WindowsManager;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.gui.lore.trade.vendor.VendorFilter;
 import delta.games.lotro.gui.lore.trade.vendor.VendorFilterController;
 import delta.games.lotro.gui.lore.trade.vendor.VendorsTableController;
 import delta.games.lotro.gui.main.GlobalPreferences;
-import delta.games.lotro.gui.navigation.NavigatorFactory;
+import delta.games.lotro.gui.utils.NavigationUtils;
 import delta.games.lotro.lore.trade.vendor.VendorNpc;
 
 /**
@@ -42,7 +40,6 @@ public class VendorsExplorerWindowController extends DefaultWindowController
   private VendorsExplorerPanelController _panelController;
   private VendorsTableController _tableController;
   private VendorFilter _filter;
-  private WindowsManager _formWindows;
 
   /**
    * Constructor.
@@ -52,7 +49,6 @@ public class VendorsExplorerWindowController extends DefaultWindowController
   {
     super(parent);
     _filter=new VendorFilter();
-    _formWindows=new WindowsManager();
   }
 
   @Override
@@ -122,11 +118,8 @@ public class VendorsExplorerWindowController extends DefaultWindowController
 
   private void showVendor(VendorNpc vendor)
   {
-    int id=_formWindows.getAll().size();
-    NavigatorWindowController window=NavigatorFactory.buildNavigator(VendorsExplorerWindowController.this,id);
     PageIdentifier ref=ReferenceConstants.getVendorReference(vendor.getIdentifier());
-    window.navigateTo(ref);
-    window.show(false);
+    NavigationUtils.navigateTo(ref,this);
   }
 
   /**
@@ -137,11 +130,6 @@ public class VendorsExplorerWindowController extends DefaultWindowController
   {
     saveBoundsPreferences();
     super.dispose();
-    if (_formWindows!=null)
-    {
-      _formWindows.disposeAll();
-      _formWindows=null;
-    }
     if (_tableController!=null)
     {
       _tableController.dispose();

@@ -12,18 +12,16 @@ import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
 import delta.common.ui.swing.GuiFactory;
-import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.windows.DefaultWindowController;
 import delta.common.ui.swing.windows.WindowController;
-import delta.common.ui.swing.windows.WindowsManager;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.gui.lore.quests.filter.QuestFilterController;
 import delta.games.lotro.gui.lore.quests.table.QuestsTableController;
 import delta.games.lotro.gui.main.GlobalPreferences;
-import delta.games.lotro.gui.navigation.NavigatorFactory;
+import delta.games.lotro.gui.utils.NavigationUtils;
 import delta.games.lotro.lore.quests.QuestDescription;
 import delta.games.lotro.lore.quests.filter.QuestFilter;
 
@@ -42,7 +40,6 @@ public class QuestsExplorerWindowController extends DefaultWindowController
   private QuestsExplorerPanelController _panelController;
   private QuestsTableController _tableController;
   private QuestFilter _filter;
-  private WindowsManager _questWindows;
 
   /**
    * Constructor.
@@ -52,7 +49,6 @@ public class QuestsExplorerWindowController extends DefaultWindowController
   {
     super(parent);
     _filter=new QuestFilter();
-    _questWindows=new WindowsManager();
   }
 
   @Override
@@ -120,12 +116,8 @@ public class QuestsExplorerWindowController extends DefaultWindowController
 
   private void showQuest(QuestDescription quest)
   {
-    int id=_questWindows.getAll().size();
-    NavigatorWindowController window=NavigatorFactory.buildNavigator(QuestsExplorerWindowController.this,id);
     PageIdentifier ref=ReferenceConstants.getAchievableReference(quest);
-    window.navigateTo(ref);
-    window.show(false);
-    _questWindows.registerWindow(window);
+    NavigationUtils.navigateTo(ref,this);
   }
 
   /**
@@ -136,11 +128,6 @@ public class QuestsExplorerWindowController extends DefaultWindowController
   {
     saveBoundsPreferences();
     super.dispose();
-    if (_questWindows!=null)
-    {
-      _questWindows.disposeAll();
-      _questWindows=null;
-    }
     if (_tableController!=null)
     {
       _tableController.dispose();
