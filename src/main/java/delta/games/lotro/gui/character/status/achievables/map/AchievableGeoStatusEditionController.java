@@ -49,6 +49,10 @@ public class AchievableGeoStatusEditionController
    */
   public void showMaps()
   {
+    if (_mapController!=null)
+    {
+      return;
+    }
     _mapController=new GeoAchievableMapWindowController(_parent,_mgr,_editable);
     _mapController.updateUi();
     Window window=_mapController.getWindow();
