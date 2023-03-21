@@ -9,9 +9,9 @@ max.virtue.rank=85
 max.li.itemLevel=485
 
 # Current version
-current.version.id=2030
-current.version.name=20.3 Update 34.0
-current.version.date=17/11/2022
+current.version.id=2050
+current.version.name=20.5 Update 34.3
+current.version.date=13/03/2023
 
 # User data
 user.data.root.dir=${user.home}/.lotrocompanion/data
