@@ -85,6 +85,7 @@ public class DeedStatusDialogController extends DefaultFormDialogController<Achi
     super.dispose();
     if (_statusEditor!=null)
     {
+      _statusEditor.dispose();
       _statusEditor=null;
     }
   }

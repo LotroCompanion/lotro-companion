@@ -70,6 +70,7 @@ public class QuestStatusDialogController extends DefaultDisplayDialogController<
     super.dispose();
     if (_statusEditor!=null)
     {
+      _statusEditor.dispose();
       _statusEditor=null;
     }
   }
