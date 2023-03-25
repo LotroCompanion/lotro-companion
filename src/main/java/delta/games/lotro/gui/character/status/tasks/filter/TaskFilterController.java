@@ -23,12 +23,13 @@ import delta.common.ui.swing.text.DynamicTextEditionController;
 import delta.common.ui.swing.text.TextListener;
 import delta.games.lotro.character.status.achievables.filter.QuestStatusFilter;
 import delta.games.lotro.character.status.tasks.filter.TaskStatusFilter;
+import delta.games.lotro.common.filters.NamedFilter;
 import delta.games.lotro.common.rewards.ReputationReward;
 import delta.games.lotro.common.rewards.Rewards;
 import delta.games.lotro.common.rewards.filters.ReputationRewardFilter;
 import delta.games.lotro.gui.lore.items.FilterUpdateListener;
+import delta.games.lotro.lore.quests.QuestDescription;
 import delta.games.lotro.lore.quests.filter.QuestFilter;
-import delta.games.lotro.lore.quests.filter.QuestNameFilter;
 import delta.games.lotro.lore.reputation.Faction;
 import delta.games.lotro.lore.reputation.FactionNameComparator;
 import delta.games.lotro.lore.tasks.Task;
@@ -112,7 +113,7 @@ public class TaskFilterController implements ActionListener
     QuestStatusFilter questStatusFilter=_filter.getQuestStatusFilter();
     QuestFilter questFilter=questStatusFilter.getQuestFilter();
     // Name
-    QuestNameFilter nameFilter=questFilter.getNameFilter();
+    NamedFilter<QuestDescription> nameFilter=questFilter.getNameFilter();
     String contains=nameFilter.getPattern();
     if (contains!=null)
     {
@@ -166,7 +167,7 @@ public class TaskFilterController implements ActionListener
         if (newText.length()==0) newText=null;
         QuestStatusFilter questStatusFilter=_filter.getQuestStatusFilter();
         QuestFilter questFilter=questStatusFilter.getQuestFilter();
-        QuestNameFilter nameFilter=questFilter.getNameFilter();
+        NamedFilter<QuestDescription> nameFilter=questFilter.getNameFilter();
         nameFilter.setPattern(newText);
         filterUpdated();
       }

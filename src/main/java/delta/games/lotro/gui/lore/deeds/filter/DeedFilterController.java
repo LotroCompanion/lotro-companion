@@ -22,6 +22,7 @@ import delta.common.ui.swing.text.DynamicTextEditionController;
 import delta.common.ui.swing.text.TextListener;
 import delta.common.utils.collections.filters.Filter;
 import delta.games.lotro.common.enums.DeedCategory;
+import delta.games.lotro.common.filters.NamedFilter;
 import delta.games.lotro.common.rewards.RewardsExplorer;
 import delta.games.lotro.config.LotroCoreConfig;
 import delta.games.lotro.gui.common.requirements.RequirementsFilterController;
@@ -36,7 +37,6 @@ import delta.games.lotro.lore.deeds.DeedType;
 import delta.games.lotro.lore.deeds.DeedsManager;
 import delta.games.lotro.lore.deeds.filters.DeedCategoryFilter;
 import delta.games.lotro.lore.deeds.filters.DeedFilter;
-import delta.games.lotro.lore.deeds.filters.DeedNameFilter;
 import delta.games.lotro.lore.deeds.filters.DeedTypeFilter;
 import delta.games.lotro.lore.quests.filter.AchievableMonsterPlayFilter;
 import delta.games.lotro.lore.quests.filter.HiddenAchievableFilter;
@@ -157,7 +157,7 @@ public class DeedFilterController implements ActionListener
   private void setFilter()
   {
     // Name
-    DeedNameFilter nameFilter=_filter.getNameFilter();
+    NamedFilter<DeedDescription> nameFilter=_filter.getNameFilter();
     String contains=nameFilter.getPattern();
     if (contains!=null)
     {
@@ -278,7 +278,7 @@ public class DeedFilterController implements ActionListener
         public void textChanged(String newText)
         {
           if (newText.length()==0) newText=null;
-          DeedNameFilter nameFilter=_filter.getNameFilter();
+          NamedFilter<DeedDescription> nameFilter=_filter.getNameFilter();
           nameFilter.setPattern(newText);
           filterUpdated();
         }

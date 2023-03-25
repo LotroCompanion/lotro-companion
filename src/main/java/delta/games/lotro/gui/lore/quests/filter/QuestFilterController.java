@@ -25,6 +25,7 @@ import delta.games.lotro.common.LockType;
 import delta.games.lotro.common.Repeatability;
 import delta.games.lotro.common.Size;
 import delta.games.lotro.common.enums.QuestCategory;
+import delta.games.lotro.common.filters.NamedFilter;
 import delta.games.lotro.common.rewards.RewardsExplorer;
 import delta.games.lotro.config.LotroCoreConfig;
 import delta.games.lotro.gui.common.requirements.RequirementsFilterController;
@@ -43,7 +44,6 @@ import delta.games.lotro.lore.quests.filter.LockTypeFilter;
 import delta.games.lotro.lore.quests.filter.QuestArcFilter;
 import delta.games.lotro.lore.quests.filter.QuestCategoryFilter;
 import delta.games.lotro.lore.quests.filter.QuestFilter;
-import delta.games.lotro.lore.quests.filter.QuestNameFilter;
 import delta.games.lotro.lore.quests.filter.QuestSizeFilter;
 import delta.games.lotro.lore.quests.filter.RepeatabilityFilter;
 import delta.games.lotro.lore.quests.filter.SessionPlayQuestFilter;
@@ -180,7 +180,7 @@ public class QuestFilterController implements ActionListener
   private void setFilter()
   {
     // Name
-    QuestNameFilter nameFilter=_filter.getNameFilter();
+    NamedFilter<QuestDescription> nameFilter=_filter.getNameFilter();
     String contains=nameFilter.getPattern();
     if (contains!=null)
     {
@@ -333,7 +333,7 @@ public class QuestFilterController implements ActionListener
         public void textChanged(String newText)
         {
           if (newText.length()==0) newText=null;
-          QuestNameFilter nameFilter=_filter.getNameFilter();
+          NamedFilter<QuestDescription> nameFilter=_filter.getNameFilter();
           nameFilter.setPattern(newText);
           filterUpdated();
         }
