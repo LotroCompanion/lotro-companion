@@ -30,6 +30,7 @@ import delta.games.lotro.gui.common.rewards.filter.RewardsFilterController;
 import delta.games.lotro.gui.lore.deeds.DeedUiUtils;
 import delta.games.lotro.gui.lore.items.FilterUpdateListener;
 import delta.games.lotro.gui.lore.quests.QuestsUiUtils;
+import delta.games.lotro.gui.lore.webStoreItems.WebStoreItemsFilterController;
 import delta.games.lotro.gui.lore.worldEvents.WorldEventsFilterController;
 import delta.games.lotro.gui.utils.SharedUiUtils;
 import delta.games.lotro.lore.deeds.DeedDescription;
@@ -64,6 +65,8 @@ public class DeedFilterController implements ActionListener
   private RewardsFilterController _rewards;
   // -- World Events UI --
   private WorldEventsFilterController _worldEvents;
+  // -- Web Store Items UI --
+  private WebStoreItemsFilterController<DeedDescription> _webStoreItems;
   // Controllers
   private DynamicTextEditionController _textController;
   private FilterUpdateListener _filterUpdateListener;
@@ -84,12 +87,14 @@ public class DeedFilterController implements ActionListener
     }
     RewardsExplorer explorer=DeedsManager.getInstance().buildRewardsExplorer();
     _rewards=new RewardsFilterController(filter.getRewardsFilter(),filterUpdateListener,explorer,false);
-    // World events
     boolean isLive=LotroCoreConfig.isLive();
     if (isLive)
     {
+      // World events
       List<DeedDescription> deeds=DeedsManager.getInstance().getAll();
       _worldEvents=new WorldEventsFilterController(deeds,filter.getWorldEventsFilter(),filterUpdateListener);
+      // Web Store items
+      _webStoreItems=new WebStoreItemsFilterController<DeedDescription>(deeds,filter.getWebStoreItemsFilter(),filterUpdateListener);
     }
   }
 
@@ -150,6 +155,10 @@ public class DeedFilterController implements ActionListener
       {
         _worldEvents.reset();
       }
+      if (_webStoreItems!=null)
+      {
+        _webStoreItems.reset();
+      }
       _contains.setText("");
     }
   }
@@ -197,6 +206,11 @@ public class DeedFilterController implements ActionListener
     {
       _worldEvents.setFilter();
     }
+    // Web store items
+    if (_webStoreItems!=null)
+    {
+      _webStoreItems.setFilter();
+    }
   }
 
   private JPanel build()
@@ -242,6 +256,15 @@ public class DeedFilterController implements ActionListener
       contextsPanel.setBorder(border);
       c=new GridBagConstraints(1,0,1,1,0.0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
       line2Panel.add(contextsPanel,c);
+    }
+    // Web Store Items
+    if (_webStoreItems!=null)
+    {
+      JPanel webStoreItemsPanel=_webStoreItems.getPanel();
+      Border border=GuiFactory.buildTitledBorder("Contents Pack");
+      webStoreItemsPanel.setBorder(border);
+      c=new GridBagConstraints(2,0,1,1,0.0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+      line2Panel.add(webStoreItemsPanel,c);
     }
     c=new GridBagConstraints(0,y,1,1,0.0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(line2Panel,c);
@@ -424,6 +447,11 @@ public class DeedFilterController implements ActionListener
     {
       _worldEvents.dispose();
       _worldEvents=null;
+    }
+    if (_webStoreItems!=null)
+    {
+      _webStoreItems.dispose();
+      _webStoreItems=null;
     }
     if (_rewards!=null)
     {
