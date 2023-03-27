@@ -26,11 +26,13 @@ public class AccountSummaryDialogController extends DefaultFormDialogController<
 {
   private static final int ACCOUNT_NAME_SIZE=16;
   private static final int SUBSCRIPTION_KEY_SIZE=32;
+  private static final int USER_DATA_SIZE=32;
   // UI
   private JTextField _accountName;
   private JTextField _subscription;
   private DateEditionController _signupDate;
   private ComboBoxController<AccountType> _accountType;
+  private JTextField _userData;
 
   /**
    * Constructor.
@@ -76,6 +78,9 @@ public class AccountSummaryDialogController extends DefaultFormDialogController<
     _signupDate=new DateEditionController(DateFormat.getDateCodec());
     // Account type
     _accountType=buildAccountTypeCombo();
+    // User data
+    _userData=GuiFactory.buildTextField("");
+    _userData.setColumns(USER_DATA_SIZE);
 
     Insets insets=new Insets(5,5,5,5);
     // Labels
@@ -88,6 +93,8 @@ public class AccountSummaryDialogController extends DefaultFormDialogController<
     gbc.gridy++;
     panel.add(GuiFactory.buildLabel("Account type:"),gbc);
     gbc.gridy++;
+    panel.add(GuiFactory.buildLabel("Comments:"),gbc);
+    gbc.gridy++;
     // Editors
     gbc.gridx=1; gbc.gridy=0;
     gbc.weightx=1.0; gbc.fill=GridBagConstraints.HORIZONTAL;
@@ -98,6 +105,8 @@ public class AccountSummaryDialogController extends DefaultFormDialogController<
     panel.add(_signupDate.getTextField(),gbc);
     gbc.gridy++;
     panel.add(_accountType.getComboBox(),gbc);
+    gbc.gridy++;
+    panel.add(_userData,gbc);
     gbc.gridy++;
     return panel;
   }
@@ -132,6 +141,9 @@ public class AccountSummaryDialogController extends DefaultFormDialogController<
     // Account type
     AccountType accountType=_data.getAccountType();
     _accountType.selectItem(accountType);
+    // User data
+    String userData=_data.getUserData();
+    _userData.setText(userData);
   }
 
   @Override
@@ -143,6 +155,9 @@ public class AccountSummaryDialogController extends DefaultFormDialogController<
     // Account type
     AccountType accountType=_accountType.getSelectedItem();
     _data.setAccountType(accountType);
+    // User data
+    String userData=_userData.getText();
+    _data.setUserData(userData);
   }
 
   /**
@@ -163,5 +178,6 @@ public class AccountSummaryDialogController extends DefaultFormDialogController<
       _accountType.dispose();
       _accountType=null;
     }
+    _userData=null;
   }
 }

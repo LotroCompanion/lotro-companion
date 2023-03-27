@@ -114,6 +114,21 @@ public class AccountsTableController implements GenericEventsListener<AccountEve
       accountTypeColumn.setWidthSpecs(100,100,100);
       table.addColumnController(accountTypeColumn);
     }
+    // User data
+    {
+      CellDataProvider<Account,String> userDataCell=new CellDataProvider<Account,String>()
+      {
+        @Override
+        public String getData(Account item)
+        {
+          AccountSummary data=item.getSummary();
+          return data.getUserData();
+        }
+      };
+      DefaultTableColumnController<Account,String> userDataColumn=new DefaultTableColumnController<Account,String>(AccountColumnIds.USER_DATA.name(),"Comments",String.class,userDataCell);
+      userDataColumn.setWidthSpecs(100,-1,200);
+      table.addColumnController(userDataColumn);
+    }
     return table;
   }
 

@@ -21,5 +21,9 @@ public enum AccountColumnIds
   /**
    * Type.
    */
-  TYPE
+  TYPE,
+  /**
+   * User data.
+   */
+  USER_DATA
 }
