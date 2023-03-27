@@ -9,7 +9,6 @@ import delta.common.utils.collections.filters.Operator;
 import delta.games.lotro.common.filters.NamedFilter;
 import delta.games.lotro.lore.collections.mounts.MountDescription;
 import delta.games.lotro.lore.collections.mounts.filters.MountCategoryFilter;
-import delta.games.lotro.lore.collections.mounts.filters.MountNameFilter;
 import delta.games.lotro.lore.collections.mounts.filters.MountTypeFilter;
 
 /**
