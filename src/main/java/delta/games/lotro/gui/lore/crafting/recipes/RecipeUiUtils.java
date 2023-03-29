@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Set;
 
 import delta.common.ui.swing.combobox.ComboBoxController;
+import delta.games.lotro.common.enums.CraftingUICategory;
+import delta.games.lotro.common.enums.comparator.LotroEnumEntryNameComparator;
 import delta.games.lotro.lore.crafting.recipes.CraftingResult;
 import delta.games.lotro.lore.crafting.recipes.Ingredient;
 import delta.games.lotro.lore.crafting.recipes.Recipe;
@@ -26,28 +28,28 @@ public class RecipeUiUtils
    * @param recipes Recipes to use.
    * @return A new combo-box controller.
    */
-  public static ComboBoxController<String> buildCategoryCombo(List<Recipe> recipes)
+  public static ComboBoxController<CraftingUICategory> buildCategoryCombo(List<Recipe> recipes)
   {
-    ComboBoxController<String> ctrl=new ComboBoxController<String>();
+    ComboBoxController<CraftingUICategory> ctrl=new ComboBoxController<CraftingUICategory>();
     ctrl.addEmptyItem("");
-    for(String category : getCategories(recipes))
+    for(CraftingUICategory category : getCategories(recipes))
     {
-      ctrl.addItem(category,category);
+      ctrl.addItem(category,category.getLabel());
     }
     ctrl.selectItem(null);
     return ctrl;
   }
 
-  private static List<String> getCategories(List<Recipe> recipes)
+  private static List<CraftingUICategory> getCategories(List<Recipe> recipes)
   {
-    Set<String> categories=new HashSet<String>();
+    Set<CraftingUICategory> categories=new HashSet<CraftingUICategory>();
     for(Recipe recipe : recipes)
     {
-      String category=recipe.getCategory();
+      CraftingUICategory category=recipe.getCategory();
       categories.add(category);
     }
-    ArrayList<String> ret=new ArrayList<String>(categories);
-    Collections.sort(ret);
+    ArrayList<CraftingUICategory> ret=new ArrayList<CraftingUICategory>(categories);
+    Collections.sort(ret,new LotroEnumEntryNameComparator<CraftingUICategory>());
     return ret;
   }
 

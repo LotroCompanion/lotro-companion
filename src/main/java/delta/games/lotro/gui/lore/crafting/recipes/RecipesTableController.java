@@ -14,6 +14,7 @@ import delta.common.ui.swing.tables.ListDataProvider;
 import delta.common.ui.swing.tables.TableColumnsManager;
 import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.misc.TypedProperties;
+import delta.games.lotro.common.enums.CraftingUICategory;
 import delta.games.lotro.gui.lore.items.ItemsSummaryPanelController;
 import delta.games.lotro.gui.lore.items.chooser.ItemChooser;
 import delta.games.lotro.gui.utils.DurationCellRenderer;
@@ -133,15 +134,15 @@ public class RecipesTableController
     }
     // Category column
     {
-      CellDataProvider<Recipe,String> categoryCell=new CellDataProvider<Recipe,String>()
+      CellDataProvider<Recipe,CraftingUICategory> categoryCell=new CellDataProvider<Recipe,CraftingUICategory>()
       {
         @Override
-        public String getData(Recipe recipe)
+        public CraftingUICategory getData(Recipe recipe)
         {
           return recipe.getCategory();
         }
       };
-      DefaultTableColumnController<Recipe,String> categoryColumn=new DefaultTableColumnController<Recipe,String>(RecipeColumnIds.CATEGORY.name(),"Category",String.class,categoryCell);
+      DefaultTableColumnController<Recipe,CraftingUICategory> categoryColumn=new DefaultTableColumnController<Recipe,CraftingUICategory>(RecipeColumnIds.CATEGORY.name(),"Category",CraftingUICategory.class,categoryCell);
       categoryColumn.setWidthSpecs(80,270,80);
       ret.add(categoryColumn);
     }

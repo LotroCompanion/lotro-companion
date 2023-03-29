@@ -22,6 +22,7 @@ import delta.common.ui.swing.combobox.ItemSelectionListener;
 import delta.common.ui.swing.text.DynamicTextEditionController;
 import delta.common.ui.swing.text.TextListener;
 import delta.common.utils.collections.filters.Filter;
+import delta.games.lotro.common.enums.CraftingUICategory;
 import delta.games.lotro.gui.common.crafting.CraftingUiUtils;
 import delta.games.lotro.gui.lore.items.FilterUpdateListener;
 import delta.games.lotro.gui.utils.SharedUiUtils;
@@ -53,7 +54,7 @@ public class RecipeFilterController implements ActionListener
   private JTextField _contains;
   private ComboBoxController<Profession> _profession;
   private ComboBoxController<Integer> _tier;
-  private ComboBoxController<String> _category;
+  private ComboBoxController<CraftingUICategory> _category;
   private ComboBoxController<Integer> _ingredient;
   private ComboBoxController<Boolean> _singleUse;
   private ComboBoxController<Boolean> _cooldown;
@@ -143,7 +144,7 @@ public class RecipeFilterController implements ActionListener
     _tier.selectItem(tier);
     // Category
     RecipeCategoryFilter categoryFilter=_filter.getCategoryFilter();
-    String category=categoryFilter.getCategory();
+    CraftingUICategory category=categoryFilter.getCategory();
     _category.selectItem(category);
     // Ingredient
     RecipeIngredientFilter ingredientFilter=_filter.getIngredientFilter();
@@ -303,10 +304,10 @@ public class RecipeFilterController implements ActionListener
   private void buildCategoryFilter()
   {
     _category=RecipeUiUtils.buildCategoryCombo(_recipes);
-    ItemSelectionListener<String> categoryListener=new ItemSelectionListener<String>()
+    ItemSelectionListener<CraftingUICategory> categoryListener=new ItemSelectionListener<CraftingUICategory>()
     {
       @Override
-      public void itemSelected(String category)
+      public void itemSelected(CraftingUICategory category)
       {
         RecipeCategoryFilter categoryFilter=_filter.getCategoryFilter();
         categoryFilter.setCategory(category);

@@ -17,6 +17,7 @@ import delta.common.ui.swing.labels.HyperLinkController;
 import delta.common.ui.swing.navigator.NavigablePanelController;
 import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.games.lotro.common.Duration;
+import delta.games.lotro.common.enums.CraftingUICategory;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.lore.crafting.recipes.RecipeIcons;
 import delta.games.lotro.gui.lore.items.ItemUiTools;
@@ -196,11 +197,11 @@ public class RecipeDisplayPanelController implements NavigablePanelController
   private String getCategoryAndXp()
   {
     StringBuilder sb=new StringBuilder();
-    String category=_recipe.getCategory();
-    if (category.length()>0)
+    CraftingUICategory category=_recipe.getCategory();
+    if (category!=null)
     {
       sb.append("Category: ");
-      sb.append(category);
+      sb.append(category.getLabel());
     }
     int xp=_recipe.getXP();
     if (xp>0)
