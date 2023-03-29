@@ -27,6 +27,7 @@ import delta.games.lotro.lore.crafting.CraftingLevel;
 import delta.games.lotro.lore.crafting.Profession;
 import delta.games.lotro.lore.crafting.recipes.CraftingResult;
 import delta.games.lotro.lore.crafting.recipes.Ingredient;
+import delta.games.lotro.lore.crafting.recipes.IngredientPack;
 import delta.games.lotro.lore.crafting.recipes.Recipe;
 import delta.games.lotro.lore.crafting.recipes.RecipeVersion;
 import delta.games.lotro.lore.items.Item;
@@ -46,6 +47,8 @@ public class RecipeDisplayPanelController implements NavigablePanelController
   private List<ItemDisplayGadgets> _itemIcons;
   private IconController _recipeItemIcon;
   private HyperLinkController _recipeItemLabel;
+  private IconController _ingredientPackIcon;
+  private HyperLinkController _ingredientPackLabel;
 
   /**
    * Constructor.
@@ -135,6 +138,17 @@ public class RecipeDisplayPanelController implements NavigablePanelController
       // - name
       _recipeItemLabel=ItemUiTools.buildItemLink(_parent,recipeItem);
     }
+    // Ingredient pack
+    IngredientPack ingredientPack=_recipe.getIngredientPack();
+    if (ingredientPack!=null)
+    {
+      Item ingredientPackItem=ingredientPack.getItem();
+      int count=ingredientPack.getCount();
+      // - icon
+      _ingredientPackIcon=IconControllerFactory.buildItemIcon(_parent,ingredientPackItem,count);
+      // - name
+      _ingredientPackLabel=ItemUiTools.buildItemLink(_parent,ingredientPackItem);
+    }
 
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     // Recipe
@@ -156,10 +170,25 @@ public class RecipeDisplayPanelController implements NavigablePanelController
     }
     if ((_recipeItemIcon!=null) && (_recipeItemLabel!=null))
     {
-      c=new GridBagConstraints(0,4,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,2,2,2),0,0);
-      panel.add(_recipeItemIcon.getIcon(),c);
-      c=new GridBagConstraints(1,4,1,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(2,2,2,2),0,0);
-      panel.add(_recipeItemLabel.getLabel(),c);
+      JPanel scrollPanel=GuiFactory.buildPanel(new GridBagLayout());
+      c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,2,2,2),0,0);
+      scrollPanel.add(_recipeItemIcon.getIcon(),c);
+      c=new GridBagConstraints(1,0,1,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(2,2,2,2),0,0);
+      scrollPanel.add(_recipeItemLabel.getLabel(),c);
+      scrollPanel.setBorder(GuiFactory.buildTitledBorder("Scroll"));
+      c=new GridBagConstraints(0,4,2,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,2,2,2),0,0);
+      panel.add(scrollPanel,c);
+    }
+    if ((_ingredientPackIcon!=null) && (_ingredientPackLabel!=null))
+    {
+      JPanel ingredientPackPanel=GuiFactory.buildPanel(new GridBagLayout());
+      c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,2,2,2),0,0);
+      ingredientPackPanel.add(_ingredientPackIcon.getIcon(),c);
+      c=new GridBagConstraints(1,0,1,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(2,2,2,2),0,0);
+      ingredientPackPanel.add(_ingredientPackLabel.getLabel(),c);
+      ingredientPackPanel.setBorder(GuiFactory.buildTitledBorder("Ingredient Pack"));
+      c=new GridBagConstraints(0,5,2,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,2,2,2),0,0);
+      panel.add(ingredientPackPanel,c);
     }
     return panel;
   }
@@ -389,6 +418,16 @@ public class RecipeDisplayPanelController implements NavigablePanelController
     {
       _recipeItemLabel.dispose();
       _recipeItemLabel=null;
+    }
+    if (_ingredientPackIcon!=null)
+    {
+      _ingredientPackIcon.dispose();
+      _ingredientPackIcon=null;
+    }
+    if (_ingredientPackLabel!=null)
+    {
+      _ingredientPackLabel.dispose();
+      _ingredientPackLabel=null;
     }
   }
 }
