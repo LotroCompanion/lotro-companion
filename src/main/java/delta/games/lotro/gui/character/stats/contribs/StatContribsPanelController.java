@@ -147,9 +147,9 @@ public class StatContribsPanelController
     {
       total=NumericUtils.add(total,statContrib.getValue());
     }
-    boolean isPercentage=_statChooser.getSelectedItem().isPercentage();
-    String totalStr=StatUtils.getStatDisplay(total,isPercentage);
-    String expectedTotalStr=StatUtils.getStatDisplay(expectedTotal,isPercentage);
+    StatDescription stat=_statChooser.getSelectedItem();
+    String totalStr=StatUtils.getStatDisplay(total,stat);
+    String expectedTotalStr=StatUtils.getStatDisplay(expectedTotal,stat);
     boolean same=(totalStr.equals(expectedTotalStr));
     String label="Total: "+(same?totalStr:totalStr + " / " + expectedTotalStr);
     _totals.setText(label);

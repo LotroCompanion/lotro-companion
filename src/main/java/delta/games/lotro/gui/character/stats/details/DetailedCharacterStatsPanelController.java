@@ -62,8 +62,7 @@ public class DetailedCharacterStatsPanelController
     SingleStatWidgetsController ctrl=_ctrls.get(stat);
     if (ctrl==null)
     {
-      boolean isPercentage=(stat!=null)?stat.isPercentage():false;
-      ctrl=new SingleStatWidgetsController(stat,isPercentage);
+      ctrl=new SingleStatWidgetsController(stat);
       _ctrls.put(stat,ctrl);
     }
     return ctrl;

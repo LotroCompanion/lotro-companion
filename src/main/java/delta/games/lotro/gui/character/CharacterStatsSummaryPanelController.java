@@ -179,7 +179,7 @@ public class CharacterStatsSummaryPanelController
         Number value=characterStats.getStat(stat);
         if (value!=null)
         {
-          statValue=StatUtils.getStatDisplay(value,stat.isPercentage());
+          statValue=StatUtils.getStatDisplay(value,stat);
         }
         else
         {

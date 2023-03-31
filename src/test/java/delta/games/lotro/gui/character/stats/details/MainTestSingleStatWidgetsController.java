@@ -27,11 +27,11 @@ public class MainTestSingleStatWidgetsController
     reference.addStat(WellKnownStat.CRITICAL_MELEE_PERCENTAGE,Float.valueOf(13.3f));
 
     JLabel morale=GuiFactory.buildLabel("Morale");
-    SingleStatWidgetsController moraleCtrl=new SingleStatWidgetsController(WellKnownStat.MORALE,false);
+    SingleStatWidgetsController moraleCtrl=new SingleStatWidgetsController(WellKnownStat.MORALE);
     moraleCtrl.updateStats(reference,value);
     showFrameForStat(morale,moraleCtrl);
     JLabel critMelee=GuiFactory.buildLabel("Crit Melee %");
-    SingleStatWidgetsController critCtrl=new SingleStatWidgetsController(WellKnownStat.CRITICAL_MELEE_PERCENTAGE,true);
+    SingleStatWidgetsController critCtrl=new SingleStatWidgetsController(WellKnownStat.CRITICAL_MELEE_PERCENTAGE);
     critCtrl.updateStats(reference,value);
     showFrameForStat(critMelee,critCtrl);
   }

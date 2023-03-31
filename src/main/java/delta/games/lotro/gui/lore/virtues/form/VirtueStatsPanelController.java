@@ -117,7 +117,7 @@ public class VirtueStatsPanelController
         Number value=activeStats.getStat(stat);
         if (value!=null)
         {
-          String cell=StatUtils.getStatDisplay(value,stat.isPercentage());
+          String cell=StatUtils.getStatDisplay(value,stat);
           row.setData(statIndex+1,cell);
         }
       }
@@ -129,7 +129,7 @@ public class VirtueStatsPanelController
         Number value=passiveStats.getStat(stat);
         if (value!=null)
         {
-          String cell=StatUtils.getStatDisplay(value,stat.isPercentage());
+          String cell=StatUtils.getStatDisplay(value,stat);
           row.setData(statIndex+1+nbActiveStats,cell);
         }
       }

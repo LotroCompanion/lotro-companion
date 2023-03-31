@@ -116,7 +116,7 @@ public class TraitStatsPanelController
         if (rawValue!=null)
         {
           StatDescription stat=statProvider.getStat();
-          String cell=StatUtils.getStatDisplay(rawValue,stat.isPercentage());
+          String cell=StatUtils.getStatDisplay(rawValue,stat);
           row.setData(statIndex+1,cell);
         }
       }

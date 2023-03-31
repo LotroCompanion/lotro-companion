@@ -24,12 +24,10 @@ public class SingleStatWidgetsController
   /**
    * Constructor.
    * @param stat Stat to use.
-   * @param isPercentage Stat is a percentage or not.
    */
-  public SingleStatWidgetsController(StatDescription stat, boolean isPercentage)
+  public SingleStatWidgetsController(StatDescription stat)
   {
     _stat=stat;
-    _isPercentage=isPercentage;
     _value=GuiFactory.buildLabel("");
     _deltaValue=GuiFactory.buildLabel("");
   }
@@ -106,7 +104,7 @@ public class SingleStatWidgetsController
 
   private void setValue(JLabel label, Number value, boolean percentage)
   {
-    String valueStr=StatUtils.getStatDisplay(value,percentage);
+    String valueStr=StatUtils.getStatDisplay(value,_stat);
     label.setText(valueStr);
   }
 }

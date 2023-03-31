@@ -40,7 +40,7 @@ public class StatRenderer extends DefaultTableCellRenderer
     if (value instanceof Number)
     {
       Number statValue=(Number)value;
-      label=StatUtils.getStatDisplay(statValue,_stat.isPercentage());
+      label=StatUtils.getStatDisplay(statValue,_stat);
     }
     setText(label);
   }

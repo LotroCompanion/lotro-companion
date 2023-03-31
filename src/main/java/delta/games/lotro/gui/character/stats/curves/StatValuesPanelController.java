@@ -90,7 +90,7 @@ public class StatValuesPanelController
     // - Stat value
     c.gridx++;
     Number baseStatValue=_values.getStat(baseStat);
-    JLabel baseStatValueLabel=GuiFactory.buildLabel(StatUtils.getStatDisplay(baseStatValue,baseStat.isPercentage()));
+    JLabel baseStatValueLabel=GuiFactory.buildLabel(StatUtils.getStatDisplay(baseStatValue,baseStat));
     _panel.add(baseStatValueLabel,c);
     c.gridy++;
 
@@ -121,7 +121,7 @@ public class StatValuesPanelController
         // Stat value
         Float statValueFromCurve=getStatValue(curveConfig,level,baseStatValue);
         Number statValue=_values.getStat(stat);
-        String statValueFromCurveStr=StatUtils.getStatDisplay(statValueFromCurve,stat.isPercentage());
+        String statValueFromCurveStr=StatUtils.getStatDisplay(statValueFromCurve,stat);
         JLabel statValueFromCurveLabel=GuiFactory.buildLabel(statValueFromCurveStr);
         _panel.add(statValueFromCurveLabel,c);
         c.gridx++;
@@ -138,14 +138,14 @@ public class StatValuesPanelController
         }
         if (deltaValue!=null)
         {
-          String deltaValueStr=StatUtils.getStatDisplay(deltaValue,stat.isPercentage());
+          String deltaValueStr=StatUtils.getStatDisplay(deltaValue,stat);
           boolean isPositive=NumericUtils.isStrictlyPositive(deltaValue);
           if (isPositive)
           {
             deltaValueStr="+"+deltaValueStr;
           }
           Number totalValue=NumericUtils.add(statValueFromCurve,deltaValue);
-          String totalValueStr=StatUtils.getStatDisplay(totalValue,stat.isPercentage());
+          String totalValueStr=StatUtils.getStatDisplay(totalValue,stat);
           String bonusStr=deltaValueStr+" = "+totalValueStr;
           JLabel bonusLabel=GuiFactory.buildLabel(bonusStr);
           _panel.add(bonusLabel,c);
