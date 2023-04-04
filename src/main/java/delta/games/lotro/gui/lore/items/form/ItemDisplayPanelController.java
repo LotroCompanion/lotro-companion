@@ -22,6 +22,7 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.labels.MultilineLabel2;
 import delta.common.ui.swing.navigator.NavigablePanelController;
 import delta.common.ui.swing.navigator.NavigatorWindowController;
+import delta.common.utils.l10n.L10n;
 import delta.games.lotro.character.skills.SkillDescription;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.character.traits.TraitDescription;
@@ -389,7 +390,7 @@ public class ItemDisplayPanelController implements NavigablePanelController
     ret.add("Damage: "+minDamage+" - "+maxDamage);
     // DPS
     float dps=weapon.getDPS();
-    String dpsStr=String.format("%.1f",Float.valueOf(dps));
+    String dpsStr=L10n.getString(dps,1);
     ret.add("DPS: "+dpsStr);
     return ret;
   }
