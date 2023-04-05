@@ -36,6 +36,7 @@ import delta.games.lotro.gui.common.requirements.RequirementsUtils;
 import delta.games.lotro.gui.lore.items.containers.form.ContainerDisplayPanelController;
 import delta.games.lotro.gui.utils.IconAndLinkPanelController;
 import delta.games.lotro.gui.utils.SharedPanels;
+import delta.games.lotro.gui.utils.items.SaveItemIconController;
 import delta.games.lotro.lore.emotes.EmoteDescription;
 import delta.games.lotro.lore.items.DamageType;
 import delta.games.lotro.lore.items.DisenchantmentManager;
@@ -75,6 +76,7 @@ public class ItemDisplayPanelController implements NavigablePanelController
   private MoneyDisplayController _money;
   private DisenchantmentResultPanelController _disenchantment;
   private List<IconAndLinkPanelController> _grantedCtrls;
+  private SaveItemIconController _saveItemIcon;
 
   /**
    * Constructor.
@@ -208,6 +210,7 @@ public class ItemDisplayPanelController implements NavigablePanelController
     JLabel iconLabel=GuiFactory.buildIconLabel(icon);
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,5,0,5),0,0);
     panel.add(iconLabel,c);
+    _saveItemIcon=new SaveItemIconController(_item,iconLabel);
     // Name
     String name=_item.getName();
     JLabel nameLabel=GuiFactory.buildLabel(name);
@@ -580,6 +583,11 @@ public class ItemDisplayPanelController implements NavigablePanelController
         ctrl.dispose();
       }
       _grantedCtrls=null;
+    }
+    if (_saveItemIcon!=null)
+    {
+      _saveItemIcon.dispose();
+      _saveItemIcon=null;
     }
     _parent=null;
     // UI
