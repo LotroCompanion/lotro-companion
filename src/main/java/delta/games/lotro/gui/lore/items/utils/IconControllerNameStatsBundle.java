@@ -2,27 +2,24 @@ package delta.games.lotro.gui.lore.items.utils;
 
 import javax.swing.JButton;
 
-import delta.common.ui.swing.windows.WindowController;
-import delta.games.lotro.gui.utils.IconController;
+import delta.games.lotro.gui.utils.AbstractIconController;
 
 /**
  * Controller for the UI items to display an icon, a name, and some stats.
+ * @param <T> Type of managed icon controller.
  * @author DAM
  */
-public class IconControllerNameStatsBundle extends NameStatsBundle
+public class IconControllerNameStatsBundle<T extends AbstractIconController> extends NameStatsBundle
 {
   // UI
-  protected IconController _icon;
+  protected T _icon;
 
   /**
    * Constructor.
-   * @param parent Parent window.
    */
-  public IconControllerNameStatsBundle(WindowController parent)
+  public IconControllerNameStatsBundle()
   {
     super();
-    // Icon
-    _icon=new IconController(parent);
   }
 
   /**
@@ -38,18 +35,17 @@ public class IconControllerNameStatsBundle extends NameStatsBundle
    * Get the managed icon controller.
    * @return the managed icon controller.
    */
-  public IconController getIconController()
+  public T getIconController()
   {
     return _icon;
   }
 
   /**
-   * Release all managed resources.
+   * Set the icon controller.
+   * @param icon Icon controller.
    */
-  public void dispose()
+  public void setIconController(T icon)
   {
-    super.dispose();
-    // UI
-    _icon=null;
+    _icon=icon;
   }
 }

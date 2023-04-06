@@ -9,8 +9,8 @@ import delta.games.lotro.character.traits.TraitDescription;
 import delta.games.lotro.common.CharacterSex;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
-import delta.games.lotro.gui.lore.items.ItemUiTools;
 import delta.games.lotro.gui.lore.items.legendary.relics.RelicUiTools;
+import delta.games.lotro.gui.utils.items.ItemIconController;
 import delta.games.lotro.lore.emotes.EmoteDescription;
 import delta.games.lotro.lore.hobbies.HobbyDescription;
 import delta.games.lotro.lore.items.Item;
@@ -30,32 +30,11 @@ public class IconControllerFactory
    * @param count Count.
    * @return A new controller.
    */
-  public static IconController buildItemIcon(WindowController parent, Item item, int count)
+  public static ItemIconController buildItemIcon(WindowController parent, Item item, int count)
   {
-    IconController ret=new IconController(parent);
-    if (item!=null)
-    {
-      updateItemIcon(ret,item,count);
-    }
-    else
-    {
-      ret.clear(LotroIconsManager.getDefaultItemIcon());
-    }
+    ItemIconController ret=new ItemIconController(parent);
+    ret.setItem(item,count);
     return ret;
-  }
-
-  /**
-   * Update an item icon.
-   * @param iconController Targeted controller.
-   * @param item Item to show.
-   * @param count Count.
-   */
-  public static void updateItemIcon(IconController iconController, Item item, int count)
-  {
-    Icon icon=ItemUiTools.buildItemIcon(item,count);
-    iconController.setIcon(icon);
-    iconController.setPageId(ReferenceConstants.getItemReference(item.getIdentifier()));
-    iconController.setTooltipText(item.getName());
   }
 
   /**

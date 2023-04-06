@@ -17,8 +17,8 @@ import delta.games.lotro.common.stats.StatUtils;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.lore.items.ItemUiTools;
 import delta.games.lotro.gui.lore.items.legendary2.traceries.chooser.TraceryChooser;
-import delta.games.lotro.gui.utils.IconController;
 import delta.games.lotro.gui.utils.IconControllerFactory;
+import delta.games.lotro.gui.utils.items.ItemIconController;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.legendary2.SocketEntry;
 import delta.games.lotro.lore.items.legendary2.SocketEntryInstance;
@@ -37,7 +37,7 @@ public class SingleTraceryEditionController
   // Controllers
   private WindowController _parent;
   // GUI
-  private IconController _icon;
+  private ItemIconController _icon;
   private MultilineLabel2 _value;
   private JButton _chooseButton;
   private JButton _deleteButton;
@@ -326,7 +326,7 @@ public class SingleTraceryEditionController
     if (tracery!=null)
     {
       Item item=tracery.getItem();
-      IconControllerFactory.updateItemIcon(_icon,item,1);
+      _icon.setItem(item,1);
     }
     else
     {
