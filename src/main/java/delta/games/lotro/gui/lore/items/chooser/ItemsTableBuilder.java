@@ -60,21 +60,10 @@ public class ItemsTableBuilder
     {
       columnsManager.addColumnController(column,false);
     }
-    List<String> columnsIds=getDefaultColumnIds();
-    columnsManager.setColumns(columnsIds);
     // Adjust table row height for icons (32 pixels)
     JTable swingTable=table.getTable();
     swingTable.setRowHeight(32);
     return table;
-  }
-
-  private static List<String> getDefaultColumnIds()
-  {
-    List<String> columnsIds=new ArrayList<String>();
-    columnsIds.add(ItemColumnIds.ICON.name());
-    columnsIds.add(ItemColumnIds.ID.name());
-    columnsIds.add(ItemColumnIds.NAME.name());
-    return columnsIds;
   }
 
   /**

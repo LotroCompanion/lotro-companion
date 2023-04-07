@@ -7,8 +7,10 @@ import java.util.List;
 import javax.swing.JTable;
 
 import delta.common.ui.swing.tables.GenericTableController;
+import delta.common.ui.swing.tables.TableColumnsManager;
 import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.misc.TypedProperties;
+import delta.games.lotro.gui.lore.items.ItemColumnIds;
 import delta.games.lotro.gui.lore.items.chooser.ItemChooser;
 import delta.games.lotro.gui.lore.items.chooser.ItemsTableBuilder;
 import delta.games.lotro.lore.items.Item;
@@ -36,8 +38,35 @@ public class ItemsTableController
   {
     _prefs=prefs;
     _items=new ArrayList<Item>(items);
-    _tableController=ItemsTableBuilder.buildTable(_items);
+    _tableController=buildTable();
     _tableController.setFilter(filter);
+  }
+
+  private GenericTableController<Item> buildTable()
+  {
+    GenericTableController<Item> table=ItemsTableBuilder.buildTable(_items);
+    TableColumnsManager<Item> columnsManager=table.getColumnsManager();
+    List<String> columnsIds=getColumnIds();
+    columnsManager.setColumns(columnsIds);
+    table.updateColumns();
+    return table;
+  }
+
+  private List<String> getColumnIds()
+  {
+    List<String> columnIds=null;
+    if (_prefs!=null)
+    {
+      columnIds=_prefs.getStringList(ItemChooser.COLUMNS_PROPERTY);
+    }
+    if (columnIds==null)
+    {
+      columnIds=new ArrayList<String>();
+      columnIds.add(ItemColumnIds.ICON.name());
+      columnIds.add(ItemColumnIds.ID.name());
+      columnIds.add(ItemColumnIds.NAME.name());
+    }
+    return columnIds;
   }
 
   /**
