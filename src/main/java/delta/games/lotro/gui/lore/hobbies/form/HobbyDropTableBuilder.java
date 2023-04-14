@@ -127,6 +127,7 @@ public class HobbyDropTableBuilder
       }
     };
     DefaultTableColumnController<HobbyDropTableEntry,Float> dropColumn=new DefaultTableColumnController<HobbyDropTableEntry,Float>(HobbyDropTableColumnIds.DROP_PERCENTAGE.name(),"Drop %",Float.class,dropCell);
+    dropColumn.setCellRenderer(new PercentageRenderer(2));
     dropColumn.setWidthSpecs(55,55,50);
     return dropColumn;
   }
