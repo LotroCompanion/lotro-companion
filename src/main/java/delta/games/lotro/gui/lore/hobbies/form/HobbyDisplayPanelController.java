@@ -1,7 +1,5 @@
 package delta.games.lotro.gui.lore.hobbies.form;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -20,7 +18,6 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.labels.HyperLinkController;
 import delta.common.ui.swing.navigator.NavigablePanelController;
 import delta.common.ui.swing.navigator.NavigatorWindowController;
-import delta.games.lotro.gui.lore.billingGroups.form.BillingGroupReferencesDisplayController;
 import delta.games.lotro.gui.lore.titles.TitleUiUtils;
 import delta.games.lotro.gui.utils.ItemDisplayGadgets;
 import delta.games.lotro.lore.hobbies.HobbyDescription;
@@ -38,6 +35,7 @@ public class HobbyDisplayPanelController implements NavigablePanelController
   private NavigatorWindowController _parent;
   private List<HyperLinkController> _links;
   private List<ItemDisplayGadgets> _items;
+  private HobbyRewardsPanelController _rewards;
   // Data
   private HobbyDescription _hobby;
   // GUI
@@ -45,8 +43,6 @@ public class HobbyDisplayPanelController implements NavigablePanelController
 
   private JLabel _name;
   private JEditorPane _details;
-  // Controllers
-  private BillingGroupReferencesDisplayController _references;
 
   /**
    * Constructor.
@@ -59,7 +55,7 @@ public class HobbyDisplayPanelController implements NavigablePanelController
     _links=new ArrayList<HyperLinkController>();
     _items=new ArrayList<ItemDisplayGadgets>();
     _hobby=hobby;
-    _references=new BillingGroupReferencesDisplayController(parent,_hobby.getIdentifier());
+    _rewards=new HobbyRewardsPanelController(parent,hobby);
     _panel=build();
   }
 
@@ -82,34 +78,19 @@ public class HobbyDisplayPanelController implements NavigablePanelController
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
 
-    // Top panel
-    JPanel topPanel=buildTopPanel();
-    GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,1.0,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
-    panel.add(topPanel,c);
-    // Center
-    Component center=buildCenter();
-    if (center!=null)
-    {
-      c=new GridBagConstraints(0,1,1,1,1.0,1.0,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
-      panel.add(center,c);
-    }
+    // Left panel
+    JPanel leftPanel=buildLeftPanel();
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,1.0,GridBagConstraints.WEST,GridBagConstraints.VERTICAL,new Insets(0,0,0,0),0,0);
+    panel.add(leftPanel,c);
+    // Right panel (rewards)
+    JPanel rewardsPanel=_rewards.getPanel();
+    rewardsPanel.setBorder(GuiFactory.buildTitledBorder("Rewards"));
+    c=new GridBagConstraints(1,0,1,1,1.0,1.0,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
+    panel.add(rewardsPanel,c);
     return panel;
   }
 
-  private JPanel buildCenter()
-  {
-    JPanel panel=null;
-    JEditorPane references=_references.getComponent();
-    if (references!=null)
-    {
-      panel=GuiFactory.buildPanel(new BorderLayout());
-      panel.add(references,BorderLayout.CENTER);
-      panel.setBorder(GuiFactory.buildTitledBorder("References"));
-    }
-    return panel;
-  }
-
-  private JPanel buildTopPanel()
+  private JPanel buildLeftPanel()
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
 
@@ -263,10 +244,10 @@ public class HobbyDisplayPanelController implements NavigablePanelController
       _items.clear();
       _items=null;
     }
-    if (_references!=null)
+    if (_rewards!=null)
     {
-      _references.dispose();
-      _references=null;
+      _rewards.dispose();
+      _rewards=null;
     }
     // UI
     if (_panel!=null)
