@@ -100,8 +100,6 @@ public class WebStoreItemsFilterController<T extends Achievable>
     GridBagConstraints c;
     {
       JPanel linePanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
-      // Class
-      linePanel.add(GuiFactory.buildLabel("Context:"));
       _contentPacks=buildContextCombobox();
       linePanel.add(_contentPacks.getComboBox());
       c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(5,0,5,0),0,0);
