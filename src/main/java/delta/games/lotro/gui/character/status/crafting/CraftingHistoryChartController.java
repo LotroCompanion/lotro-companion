@@ -189,6 +189,8 @@ public class CraftingHistoryChartController
   {
     _data.removeAllSeries();
     Long lastItemDate=_stats.getValidityDate();
+    long lastProficiency=0;
+    long lastMastery=0;
 
     XYSeries proficiencySeries = new XYSeries("Proficiency");
     Profession profession=_stats.getProfession();
@@ -200,6 +202,10 @@ public class CraftingHistoryChartController
       if (date!=0)
       {
         proficiencySeries.add(date,i);
+        if (lastProficiency<date)
+        {
+          lastProficiency=date;
+        }
       }
     }
     XYSeries masterySeries = new XYSeries("Mastery");
@@ -209,16 +215,26 @@ public class CraftingHistoryChartController
       if (date!=0)
       {
         masterySeries.add(date,i);
+        if (lastMastery<date)
+        {
+          lastMastery=date;
+        }
       }
     }
 
     // Set last point
     if (lastItemDate!=null)
     {
-      CraftingLevel currentProficiency=_stats.getProficiencyLevel();
-      proficiencySeries.add(lastItemDate.longValue(),currentProficiency.getTier());
-      CraftingLevel currentMastery=_stats.getMasteryLevel();
-      masterySeries.add(lastItemDate.longValue(),currentMastery.getTier());
+      if (lastItemDate.longValue()>lastProficiency)
+      {
+        CraftingLevel currentProficiency=_stats.getProficiencyLevel();
+        proficiencySeries.add(lastItemDate.longValue(),currentProficiency.getTier());
+      }
+      if (lastItemDate.longValue()>lastMastery)
+      {
+        CraftingLevel currentMastery=_stats.getMasteryLevel();
+        masterySeries.add(lastItemDate.longValue(),currentMastery.getTier());
+      }
     }
 
     _data.addSeries(masterySeries);
