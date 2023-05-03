@@ -146,7 +146,8 @@ public class ProfessionStatusEditionPanelController
     {
       CraftingLevelStatus levelStatus=_status.getLevelStatus(level);
       c.gridx=0;
-      JLabel tierLabel=GuiFactory.buildLabel(level.toString());
+      String tierName=level.getCraftTier().getLabel();
+      JLabel tierLabel=GuiFactory.buildLabel(tierName);
       panel.add(tierLabel,c);
       c.gridx++;
       // Proficiency

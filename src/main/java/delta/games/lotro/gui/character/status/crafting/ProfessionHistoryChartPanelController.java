@@ -55,11 +55,11 @@ public class ProfessionHistoryChartPanelController
 
     // Mastery label
     CraftingLevel mastery=_stats.getMasteryLevel();
-    String masteryStr=mastery.getMastery().getLabel()+" ("+mastery.getTier()+")";
+    String masteryStr=mastery.getCraftTier().getLabel()+" ("+mastery.getTier()+")";
     _masteryLabel=GuiFactory.buildLabel("Mastery: "+masteryStr);
     // Proficiency label
     CraftingLevel proficiency=_stats.getProficiencyLevel();
-    String proficiencyStr=proficiency.getProficiency().getLabel()+" ("+proficiency.getTier()+")";
+    String proficiencyStr=proficiency.getCraftTier().getLabel()+" ("+proficiency.getTier()+")";
     _proficiencyLabel=GuiFactory.buildLabel("Proficiency: "+proficiencyStr);
     // History chart
     _history=new CraftingHistoryChartController(_stats,false);

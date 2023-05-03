@@ -121,26 +121,9 @@ public class CraftingHistoryChartController
       @Override
       public String generateLabelString(XYDataset dataset, int series, int item)
       {
-        String label;
         int tier=(int)dataset.getYValue(series,item);
-        if (tier==0)
-        {
-          label="Started profession";
-        }
-        else
-        {
-          CraftingLevel level=profession.getByTier(tier);
-          if (level!=null)
-          {
-            if (series==0) label=level.getMastery().getLabel();
-            else if (series==1) label=level.getProficiency().getLabel();
-            else label="???";
-          }
-          else
-          {
-            label="???";
-          }
-        }
+        CraftingLevel level=profession.getByTier(tier);
+        String label=level.getCraftTier().getLabel();
         double timestamp=dataset.getXValue(series,item);
         String date=Formats.getDateString(Long.valueOf((long)timestamp));
         return label+" ("+date+")";
@@ -169,7 +152,7 @@ public class CraftingHistoryChartController
       private String format(int number)
       {
         CraftingLevel level=profession.getByTier(number);
-        String ret=(level!=null)?level.getProficiency().getLabel():"???";
+        String ret=(level!=null)?level.getCraftTier().getLabel():"???";
         return ret;
       }
 
