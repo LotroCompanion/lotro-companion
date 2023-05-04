@@ -1,11 +1,15 @@
 package delta.games.lotro.utils.gui;
 
+import delta.games.lotro.utils.gui.themes.ColorMapping;
+
 /**
  * Utility methods related to HTML generation.
  * @author DAM
  */
 public class HtmlUtils
 {
+  private static ColorMapping _colorMapping=new ColorMapping();
+
   /**
    * RGB start.
    */
@@ -62,6 +66,7 @@ public class HtmlUtils
         if (tagClosureIndex!=-1)
         {
           String color=text.substring(index+RGB_START.length(),tagClosureIndex);
+          color=_colorMapping.mapColor(color);
           int indexRgbEnd=text.indexOf(RGB_END,tagClosureIndex+1);
           if (indexRgbEnd!=-1)
           {
