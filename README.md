@@ -13,7 +13,7 @@ Character data can be synchronized with the local LOTRO Client (Windows only).
 Detailed documentation [here](https://github.com/LotroCompanion/lotro-companion-doc/blob/master/README.md).
 Quick start guide [here](https://github.com/LotroCompanion/lotro-companion-doc/blob/master/UserManual/QuickStartGuide/main.md).
 
-Discord: [![Discord](https://img.shields.io/discord/743892421460361287?color=%237289DA&label=Lotro Companion's corner)](https://discord.gg/t2J4GDq).
+Discord: [![Discord](https://img.shields.io/discord/743892421460361287?color=%237289DA&label=Lotro%20Companion's%20corner)](https://discord.gg/t2J4GDq)
 Facebook page is [here](https://www.facebook.com/lotrocompanion/).
 Facebook group is [here](https://www.facebook.com/groups/1165974713535183).
 
