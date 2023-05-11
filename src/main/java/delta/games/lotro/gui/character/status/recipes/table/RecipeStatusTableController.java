@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.swing.JTable;
 
+import delta.common.ui.swing.tables.CellDataProvider;
+import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.ListDataProvider;
 import delta.common.ui.swing.tables.TableColumnController;
@@ -13,6 +15,8 @@ import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.character.status.recipes.RecipeStatus;
 import delta.games.lotro.character.status.recipes.RecipesStatusManager;
 import delta.games.lotro.character.status.recipes.filter.RecipeStatusFilter;
+import delta.games.lotro.common.blacklist.Blacklist;
+import delta.games.lotro.gui.character.status.achievables.table.AchievableStatusColumnIds;
 import delta.games.lotro.gui.lore.crafting.recipes.RecipeColumnIds;
 import delta.games.lotro.gui.lore.items.chooser.ItemChooser;
 
@@ -25,6 +29,7 @@ public class RecipeStatusTableController
   // Data
   private TypedProperties _prefs;
   private List<RecipeStatus> _statuses;
+  private Blacklist _blacklist;
   // GUI
   private JTable _table;
   private GenericTableController<RecipeStatus> _tableController;
@@ -34,11 +39,13 @@ public class RecipeStatusTableController
    * @param statusMgr Status to show.
    * @param prefs Preferences.
    * @param filter Managed filter.
+   * @param blacklist Blacklist.
    */
-  public RecipeStatusTableController(RecipesStatusManager statusMgr, TypedProperties prefs, RecipeStatusFilter filter)
+  public RecipeStatusTableController(RecipesStatusManager statusMgr, TypedProperties prefs, RecipeStatusFilter filter, Blacklist blacklist)
   {
     _prefs=prefs;
     _statuses=new ArrayList<RecipeStatus>(statusMgr.getRecipeStatuses());
+    _blacklist=blacklist;
     _tableController=buildTable();
     _tableController.setFilter(filter);
     configureTable();
@@ -54,11 +61,28 @@ public class RecipeStatusTableController
     {
       table.addColumnController(column);
     }
+    // Blacklisted column
+    table.addColumnController(buildBlacklistedColumn());
     List<String> columnsIds=getColumnIds();
     TableColumnsManager<RecipeStatus> columnsManager=table.getColumnsManager();
     columnsManager.setColumns(columnsIds);
 
     return table;
+  }
+
+  private TableColumnController<RecipeStatus,String> buildBlacklistedColumn()
+  {
+    CellDataProvider<RecipeStatus,String> countCell=new CellDataProvider<RecipeStatus,String>()
+    {
+      @Override
+      public String getData(RecipeStatus status)
+      {
+        return (_blacklist.isBlacklisted(status.getIdentifier()))?"Yes":"No";
+      }
+    };
+    DefaultTableColumnController<RecipeStatus,String> countColumn=new DefaultTableColumnController<RecipeStatus,String>(AchievableStatusColumnIds.BLACKLISTED.name(),"Blacklisted",String.class,countCell);
+    countColumn.setWidthSpecs(50,50,50);
+    return countColumn;
   }
 
   private List<String> getColumnIds()
@@ -76,6 +100,7 @@ public class RecipeStatusTableController
       columnIds.add(RecipeColumnIds.TIER.name());
       columnIds.add(RecipeColumnIds.CATEGORY.name());
       columnIds.add(RecipeStatusColumnIds.STATE.name());
+      columnIds.add(AchievableStatusColumnIds.BLACKLISTED.name());
     }
     return columnIds;
   }
@@ -148,6 +173,7 @@ public class RecipeStatusTableController
       _prefs.setStringList(ItemChooser.COLUMNS_PROPERTY,columnIds);
       _prefs=null;
     }
+    _blacklist=null;
     // GUI
     _table=null;
     if (_tableController!=null)

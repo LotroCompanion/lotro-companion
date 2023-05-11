@@ -689,7 +689,7 @@ public class CharacterFileWindowController extends DefaultWindowController imple
       CraftingStatus status=_toon.getCraftingMgr().getCraftingStatus();
       RecipesStatusManager recipesStatusMgr=new RecipesStatusManager();
       recipesStatusMgr.init(status);
-      windowCtrl=new RecipesStatusWindowController(this,recipesStatusMgr);
+      windowCtrl=new RecipesStatusWindowController(this,_toon,recipesStatusMgr);
       windowsManager.registerWindow(windowCtrl);
     }
     windowCtrl.bringToFront();

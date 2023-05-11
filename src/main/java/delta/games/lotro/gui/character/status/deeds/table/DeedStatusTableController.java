@@ -194,6 +194,7 @@ public class DeedStatusTableController
       _prefs.setStringList(ItemChooser.COLUMNS_PROPERTY,columnIds);
       _prefs=null;
     }
+    _blacklist=null;
     // GUI
     _table=null;
     if (_tableController!=null)
