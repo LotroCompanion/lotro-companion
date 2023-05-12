@@ -188,7 +188,7 @@ public class RecipesStatusWindowController extends DefaultDisplayDialogControlle
 
   private void updateStatistics()
   {
-    _data.update(_filter.getRecipeFilter());
+    _data.update(_filter);
     _statsController.updateUI(_data.getStatistics());
   }
 
