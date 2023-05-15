@@ -19,6 +19,8 @@ import delta.games.lotro.character.classes.ClassesManager;
 import delta.games.lotro.character.races.RaceDescription;
 import delta.games.lotro.character.races.RacesManager;
 import delta.games.lotro.common.CharacterSex;
+import delta.games.lotro.common.enums.LotroEnum;
+import delta.games.lotro.common.enums.LotroEnumsRegistry;
 import delta.games.lotro.gui.utils.SharedUiUtils;
 
 /**
@@ -111,7 +113,8 @@ public class CharacterUiUtils
     {
       ctrl.addEmptyItem("");
     }
-    for(CharacterSex characterSex : CharacterSex.ALL)
+    LotroEnum<CharacterSex> genderEnum=LotroEnumsRegistry.getInstance().get(CharacterSex.class);
+    for(CharacterSex characterSex : genderEnum.getAll())
     {
       ctrl.addItem(characterSex,characterSex.getLabel());
     }
