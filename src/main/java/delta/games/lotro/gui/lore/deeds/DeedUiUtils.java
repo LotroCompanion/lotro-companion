@@ -4,6 +4,7 @@ import java.util.List;
 
 import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.games.lotro.common.enums.DeedCategory;
+import delta.games.lotro.common.enums.LotroEnumsRegistry;
 import delta.games.lotro.lore.deeds.DeedType;
 
 /**
@@ -37,7 +38,7 @@ public class DeedUiUtils
   {
     ComboBoxController<DeedType> ctrl=new ComboBoxController<DeedType>();
     ctrl.addEmptyItem("");
-    for(DeedType deedType : DeedType.values())
+    for(DeedType deedType : LotroEnumsRegistry.getInstance().get(DeedType.class).getAll())
     {
       ctrl.addItem(deedType,deedType.toString());
     }

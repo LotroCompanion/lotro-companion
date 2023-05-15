@@ -7,6 +7,7 @@ import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharactersManager;
 import delta.games.lotro.character.status.achievables.AchievablesStatusManager;
 import delta.games.lotro.character.status.achievables.io.DeedsStatusIo;
+import delta.games.lotro.common.enums.LotroEnumsRegistry;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.DeedType;
 import delta.games.lotro.lore.deeds.DeedsManager;
@@ -30,7 +31,8 @@ public class MainTestAggregatedGeoItemsMapWindow
     AchievablesStatusManager deedsStatusMgr=DeedsStatusIo.load(toon);
     List<DeedDescription> deeds=DeedsManager.getInstance().getAll();
     DeedFilter filter=new DeedFilter();
-    filter.getTypeFilter().setDeedType(DeedType.EXPLORER);
+    DeedType deedType=LotroEnumsRegistry.getInstance().get(DeedType.class).getByKey("EXPLORER");
+    filter.getTypeFilter().setDeedType(deedType);
     List<Achievable> deedsToUse=new ArrayList<Achievable>();
     for(DeedDescription deed : deeds)
     {
