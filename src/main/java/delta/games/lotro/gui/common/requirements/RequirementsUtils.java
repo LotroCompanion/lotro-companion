@@ -4,11 +4,14 @@ import java.util.List;
 
 import delta.games.lotro.character.classes.AbstractClassDescription;
 import delta.games.lotro.character.races.RaceDescription;
+import delta.games.lotro.common.enums.CraftTier;
 import delta.games.lotro.common.requirements.ClassRequirement;
 import delta.games.lotro.common.requirements.FactionRequirement;
+import delta.games.lotro.common.requirements.ProfessionRequirement;
 import delta.games.lotro.common.requirements.QuestRequirement;
 import delta.games.lotro.common.requirements.RaceRequirement;
 import delta.games.lotro.common.requirements.UsageRequirement;
+import delta.games.lotro.lore.crafting.Profession;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.DeedsManager;
 import delta.games.lotro.lore.quests.QuestDescription;
@@ -105,6 +108,20 @@ public class RequirementsUtils
           if (sb.length()>0) sb.append(", ");
           sb.append("deed ").append(deed.getName()).append(' ').append(questReq.getQuestStatus());
         }
+      }
+    }
+    // Profession
+    ProfessionRequirement professionReq=requirements.getProfessionRequirement();
+    if (professionReq!=null)
+    {
+      Profession profession=professionReq.getProfession();
+      CraftTier tier=professionReq.getTier();
+      if (sb.length()>0) sb.append(", ");
+      sb.append(profession.getName());
+      if (tier!=null)
+      {
+        sb.append('/');
+        sb.append(tier.getLabel());
       }
     }
     String ret=sb.toString().trim();
