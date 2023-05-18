@@ -32,7 +32,7 @@ import delta.games.lotro.character.races.RaceDescription;
 import delta.games.lotro.character.races.RaceGender;
 import delta.games.lotro.character.races.RaceTrait;
 import delta.games.lotro.character.traits.TraitDescription;
-import delta.games.lotro.common.CharacterSex;
+import delta.games.lotro.common.Genders;
 import delta.games.lotro.common.comparators.NamedComparator;
 import delta.games.lotro.common.enums.TraitNature;
 import delta.games.lotro.common.enums.comparator.LotroEnumEntryNameComparator;
@@ -150,14 +150,14 @@ public class RaceDisplayPanelController implements NavigablePanelController
       RaceGender maleGender=_race.getMaleGender();
       if (maleGender!=null)
       {
-        ImageIcon icon=LotroIconsManager.getCharacterIcon(_race,CharacterSex.MALE);
+        ImageIcon icon=LotroIconsManager.getCharacterIcon(_race,Genders.MALE);
         JLabel iconLabel=GuiFactory.buildIconLabel(icon);
         panelLine.add(iconLabel);
       }
       RaceGender femaleGender=_race.getFemaleGender();
       if (femaleGender!=null)
       {
-        ImageIcon icon=LotroIconsManager.getCharacterIcon(_race,CharacterSex.FEMALE);
+        ImageIcon icon=LotroIconsManager.getCharacterIcon(_race,Genders.FEMALE);
         JLabel iconLabel=GuiFactory.buildIconLabel(icon);
         panelLine.add(iconLabel);
       }

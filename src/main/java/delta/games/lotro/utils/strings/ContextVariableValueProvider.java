@@ -4,6 +4,7 @@ import delta.games.lotro.character.BaseCharacterSummary;
 import delta.games.lotro.character.classes.ClassDescription;
 import delta.games.lotro.character.races.RaceDescription;
 import delta.games.lotro.common.CharacterSex;
+import delta.games.lotro.common.Genders;
 import delta.games.lotro.dat.data.strings.renderer.VariableValueProvider;
 
 /**
@@ -48,7 +49,7 @@ public class ContextVariableValueProvider implements VariableValueProvider
   {
     // Gender
     CharacterSex gender=attrs.getCharacterSex();
-    char genderTag=(gender==CharacterSex.FEMALE)?'f':'m';
+    char genderTag=(gender==Genders.FEMALE)?'f':'m';
     // Name
     String name=attrs.getName();
     _name=name+"["+genderTag+"]";

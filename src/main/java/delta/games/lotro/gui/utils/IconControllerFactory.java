@@ -6,7 +6,7 @@ import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.races.RaceDescription;
 import delta.games.lotro.character.skills.SkillDescription;
 import delta.games.lotro.character.traits.TraitDescription;
-import delta.games.lotro.common.CharacterSex;
+import delta.games.lotro.common.Genders;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.gui.lore.items.legendary.relics.RelicUiTools;
@@ -144,7 +144,7 @@ public class IconControllerFactory
     IconController ret=new IconController(parent);
     if (race!=null)
     {
-      Icon icon=LotroIconsManager.getCharacterIcon(race,CharacterSex.MALE);
+      Icon icon=LotroIconsManager.getCharacterIcon(race,Genders.MALE);
       ret.setIcon(icon);
       ret.setPageId(ReferenceConstants.getRaceReference(race));
       ret.setTooltipText(race.getName());

@@ -15,6 +15,7 @@ import delta.games.lotro.common.enums.Genus;
 import delta.games.lotro.common.enums.LegendaryTitleTier;
 import delta.games.lotro.common.stats.StatUtils;
 import delta.games.lotro.lore.items.DamageType;
+import delta.games.lotro.lore.items.DamageTypes;
 import delta.games.lotro.lore.items.legendary.titles.LegendaryTitle;
 
 /**
@@ -123,7 +124,7 @@ public class SingleTitleEditionController
     {
       boolean useTier=false;
       DamageType damageType=_legendaryTitle.getDamageType();
-      if ((damageType!=null) && (damageType!=DamageType.COMMON))
+      if ((damageType!=null) && (damageType!=DamageTypes.COMMON))
       {
         String damageStr=damageType.getName();
         complementSb.append(damageStr).append(" damage");

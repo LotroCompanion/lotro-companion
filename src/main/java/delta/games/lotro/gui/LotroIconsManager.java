@@ -12,6 +12,7 @@ import delta.games.lotro.character.races.RaceDescription;
 import delta.games.lotro.character.races.RaceGender;
 import delta.games.lotro.character.virtues.VirtueDescription;
 import delta.games.lotro.common.CharacterSex;
+import delta.games.lotro.common.Genders;
 import delta.games.lotro.common.stats.StatDescription;
 import delta.games.lotro.gui.utils.icons.ItemIconBuilder;
 import delta.games.lotro.lore.crafting.Profession;
@@ -53,9 +54,9 @@ public class LotroIconsManager
     {
       if (sex==null)
       {
-        sex=CharacterSex.MALE;
+        sex=Genders.MALE;
       }
-      RaceGender gender=(sex==CharacterSex.MALE)?race.getMaleGender():race.getFemaleGender();
+      RaceGender gender=(sex==Genders.MALE)?race.getMaleGender():race.getFemaleGender();
       if (gender!=null)
       {
         int iconID=gender.getLargeIconId();
