@@ -8,7 +8,9 @@ import java.util.Set;
 
 import delta.games.lotro.lore.items.Armour;
 import delta.games.lotro.lore.items.ArmourType;
+import delta.games.lotro.lore.items.ArmourTypes;
 import delta.games.lotro.lore.items.Item;
+import delta.games.lotro.lore.items.ShieldTypes;
 import delta.games.lotro.lore.items.Weapon;
 import delta.games.lotro.lore.items.WeaponType;
 import delta.games.lotro.lore.items.comparators.ArmourTypeComparator;
@@ -42,11 +44,11 @@ public class ItemFilterConfiguration
   {
     int nbComponents=ItemChooserFilterComponent.values().length;
     _components=new boolean[nbComponents];
-    for(ArmourType armourType : ArmourType.ARMOUR_TYPES) 
+    for(ArmourType armourType : ArmourTypes.ARMOUR_TYPES) 
     {
       _armourTypes.add(armourType);
     }
-    for(ArmourType shieldType : ArmourType.SHIELD_ARMOUR_TYPES) 
+    for(ArmourType shieldType : ShieldTypes.SHIELD_TYPES) 
     {
       _shieldTypes.add(shieldType);
     }
@@ -148,13 +150,16 @@ public class ItemFilterConfiguration
       // Armour
       if (item instanceof Armour)
       {
-        Armour weapon=(Armour)item;
-        ArmourType type=weapon.getArmourType();
+        Armour armour=(Armour)item;
+        ArmourType type=armour.getArmourType();
         if (type!=null)
         {
-          if (type.isShield()) {
+          if (type.isShield())
+          {
             _shieldTypes.add(type);
-          } else {
+          }
+          else
+          {
             _armourTypes.add(type);
           }
         }

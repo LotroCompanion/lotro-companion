@@ -7,6 +7,7 @@ import delta.games.lotro.character.stats.ratings.RatingsMgr;
 import delta.games.lotro.common.global.CombatSystem;
 import delta.games.lotro.common.stats.WellKnownStat;
 import delta.games.lotro.lore.items.ArmourType;
+import delta.games.lotro.lore.items.ArmourTypes;
 
 /**
  * Factory for stat curves configurations.
@@ -228,9 +229,9 @@ public class StatCurvesConfigurationFactory
   private RatingCurve getArmorMitigationCurve()
   {
     ArmourType type=_characterClass.getProficiencies().getArmourTypeForMitigations();
-    if (type==ArmourType.LIGHT) return _ratingsMgr.getCurve(RatingCurveId.LIGHT_MITIGATION);
-    if (type==ArmourType.MEDIUM) return _ratingsMgr.getCurve(RatingCurveId.MEDIUM_MITIGATION);
-    if (type==ArmourType.HEAVY) return _ratingsMgr.getCurve(RatingCurveId.HEAVY_MITIGATION);
+    if (type==ArmourTypes.LIGHT) return _ratingsMgr.getCurve(RatingCurveId.LIGHT_MITIGATION);
+    if (type==ArmourTypes.MEDIUM) return _ratingsMgr.getCurve(RatingCurveId.MEDIUM_MITIGATION);
+    if (type==ArmourTypes.HEAVY) return _ratingsMgr.getCurve(RatingCurveId.HEAVY_MITIGATION);
     return null;
   }
 
