@@ -145,6 +145,11 @@ public class ItemFilterConfiguration
     _shieldTypes.clear();
     _weaponTypes.clear();
     _itemLevels.clear();
+    Set<ArmourType> shieldTypes=new HashSet<ArmourType>();
+    for(ArmourType shieldType : ShieldTypes.SHIELD_TYPES)
+    {
+      shieldTypes.add(shieldType);
+    }
     for(Item item : items)
     {
       // Armour
@@ -154,7 +159,7 @@ public class ItemFilterConfiguration
         ArmourType type=armour.getArmourType();
         if (type!=null)
         {
-          if (type.isShield())
+          if (shieldTypes.contains(type))
           {
             _shieldTypes.add(type);
           }
@@ -213,10 +218,10 @@ public class ItemFilterConfiguration
    */
   public List<ArmourType> getShieldTypes()
   {
-    List<ArmourType> weaponTypes=new ArrayList<ArmourType>();
-    weaponTypes.addAll(_shieldTypes);
-    Collections.sort(weaponTypes,new ArmourTypeComparator());
-    return weaponTypes;
+    List<ArmourType> shieldTypes=new ArrayList<ArmourType>();
+    shieldTypes.addAll(_shieldTypes);
+    Collections.sort(shieldTypes,new ArmourTypeComparator());
+    return shieldTypes;
   }
 
   /**
