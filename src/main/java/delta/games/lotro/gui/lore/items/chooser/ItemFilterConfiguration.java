@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import delta.games.lotro.common.enums.comparator.LotroEnumEntryNameComparator;
 import delta.games.lotro.lore.items.Armour;
 import delta.games.lotro.lore.items.ArmourType;
 import delta.games.lotro.lore.items.ArmourTypes;
@@ -14,7 +15,6 @@ import delta.games.lotro.lore.items.ShieldTypes;
 import delta.games.lotro.lore.items.Weapon;
 import delta.games.lotro.lore.items.WeaponType;
 import delta.games.lotro.lore.items.comparators.ArmourTypeComparator;
-import delta.games.lotro.lore.items.comparators.WeaponTypeComparator;
 
 /**
  * Configuration of an items filter.
@@ -196,7 +196,7 @@ public class ItemFilterConfiguration
   {
     List<WeaponType> weaponTypes=new ArrayList<WeaponType>();
     weaponTypes.addAll(_weaponTypes);
-    Collections.sort(weaponTypes,new WeaponTypeComparator());
+    Collections.sort(weaponTypes,new LotroEnumEntryNameComparator<WeaponType>());
     return weaponTypes;
   }
 

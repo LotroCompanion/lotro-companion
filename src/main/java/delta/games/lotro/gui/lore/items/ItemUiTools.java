@@ -201,7 +201,7 @@ public class ItemUiTools
     ctrl.addEmptyItem("");
     for(WeaponType weaponType : weaponTypes)
     {
-      ctrl.addItem(weaponType,weaponType.getName());
+      ctrl.addItem(weaponType,weaponType.getLabel());
     }
     ctrl.selectItem(null);
     return ctrl;
