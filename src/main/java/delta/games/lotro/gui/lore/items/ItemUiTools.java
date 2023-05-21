@@ -31,6 +31,7 @@ import delta.games.lotro.lore.items.ArmourType;
 import delta.games.lotro.lore.items.EquipmentLocation;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemInstance;
+import delta.games.lotro.lore.items.ItemQualities;
 import delta.games.lotro.lore.items.ItemQuality;
 import delta.games.lotro.lore.items.ItemsManager;
 import delta.games.lotro.lore.items.WeaponType;
@@ -155,7 +156,7 @@ public class ItemUiTools
   {
     ComboBoxController<ItemQuality> ctrl=new ComboBoxController<ItemQuality>();
     ctrl.addEmptyItem("");
-    for(ItemQuality quality : ItemQuality.ALL)
+    for(ItemQuality quality : ItemQualities.ALL)
     {
       ctrl.addItem(quality,quality.getMeaning());
     }
@@ -280,11 +281,11 @@ public class ItemUiTools
   public static Color getColorFromQuality(ItemQuality quality, Color defaultColor)
   {
     Color ret=defaultColor;
-    if (quality==ItemQuality.LEGENDARY) ret=new Color(223,178,0); // Gold
-    if (quality==ItemQuality.INCOMPARABLE) ret=new Color(0,165,218); // Teal
-    if (quality==ItemQuality.RARE) ret=new Color(244,74,178); // Mauve (Pink)
-    if (quality==ItemQuality.UNCOMMON) ret=new Color(111,145,2); // Yellow
-    if (quality==ItemQuality.COMMON) ret=defaultColor; // Default
+    if (quality==ItemQualities.LEGENDARY) ret=new Color(223,178,0); // Gold
+    if (quality==ItemQualities.INCOMPARABLE) ret=new Color(0,165,218); // Teal
+    if (quality==ItemQualities.RARE) ret=new Color(244,74,178); // Mauve (Pink)
+    if (quality==ItemQualities.UNCOMMON) ret=new Color(111,145,2); // Yellow
+    if (quality==ItemQualities.COMMON) ret=defaultColor; // Default
     return ret;
   }
 
