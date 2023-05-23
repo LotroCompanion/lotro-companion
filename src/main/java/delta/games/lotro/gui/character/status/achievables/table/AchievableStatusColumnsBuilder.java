@@ -37,7 +37,7 @@ public class AchievableStatusColumnsBuilder
         @Override
         public Integer getData(AchievableStatus status)
         {
-          return status.getCompletionCount();
+          return status.getCompletionCountForDisplay();
         }
       };
       DefaultTableColumnController<AchievableStatus,Integer> countColumn=new DefaultTableColumnController<AchievableStatus,Integer>(AchievableStatusColumnIds.COMPLETION_COUNT.name(),"Count",Integer.class,countCell);
