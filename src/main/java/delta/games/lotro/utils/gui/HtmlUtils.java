@@ -1,5 +1,7 @@
 package delta.games.lotro.utils.gui;
 
+import org.apache.log4j.Logger;
+
 import delta.games.lotro.utils.gui.themes.ColorMapping;
 
 /**
@@ -8,6 +10,7 @@ import delta.games.lotro.utils.gui.themes.ColorMapping;
  */
 public class HtmlUtils
 {
+  private static final Logger LOGGER=Logger.getLogger(HtmlUtils.class);
   private static ColorMapping _colorMapping=new ColorMapping();
 
   /**
@@ -58,25 +61,31 @@ public class HtmlUtils
   {
     while(true)
     {
-      boolean exit=true;
       int index=text.indexOf(RGB_START);
-      if (index!=-1)
+      if (index==-1)
       {
-        int tagClosureIndex=text.indexOf(">",index+1);
-        if (tagClosureIndex!=-1)
-        {
-          String color=text.substring(index+RGB_START.length(),tagClosureIndex);
-          color=_colorMapping.mapColor(color);
-          int indexRgbEnd=text.indexOf(RGB_END,tagClosureIndex+1);
-          if (indexRgbEnd!=-1)
-          {
-            String between=text.substring(tagClosureIndex+1,indexRgbEnd);
-            text=text.substring(0,index)+"<font color=\""+color+"\">"+between+"</font>"+text.substring(indexRgbEnd);
-          }
-          exit=false;
-        }
+        break;
       }
-      if (exit) break;
+      int tagClosureIndex=text.indexOf(">",index+1);
+      if (tagClosureIndex==-1)
+      {
+        LOGGER.warn("Expected a > to close a RGB tag. Not found!");
+        break;
+      }
+      String color=text.substring(index+RGB_START.length(),tagClosureIndex);
+      color=_colorMapping.mapColor(color);
+      int indexRgbEnd=text.indexOf(RGB_END,tagClosureIndex+1);
+      if (indexRgbEnd!=-1)
+      {
+        String between=text.substring(tagClosureIndex+1,indexRgbEnd);
+        text=text.substring(0,index)+"<font color=\""+color+"\">"+between+"</font>"+text.substring(indexRgbEnd);
+      }
+      else
+      {
+        LOGGER.warn("Expected a RGB Tag end. Not found!");
+        String end=text.substring(tagClosureIndex+1);
+        text=text.substring(0,index)+"<font color=\""+color+"\">"+end+"</font>";
+      }
     }
     return text;
   }
