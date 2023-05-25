@@ -9,6 +9,7 @@ import org.apache.log4j.Logger;
 import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.common.utils.misc.IntegerHolder;
 import delta.games.lotro.character.skills.SkillDescription;
+import delta.games.lotro.common.Interactable;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.lore.agents.EntityClassification;
 import delta.games.lotro.lore.agents.mobs.MobDescription;
@@ -441,7 +442,7 @@ public class ObjectivesDisplayBuilder
     boolean hasProgressOverride=printProgressOverride(sb,condition);
     if (!hasProgressOverride)
     {
-      Proxy<NpcDescription> npcProxy=condition.getProxy();
+      Proxy<Interactable> npcProxy=condition.getProxy();
       if (npcProxy!=null)
       {
         String name=npcProxy.getName();
