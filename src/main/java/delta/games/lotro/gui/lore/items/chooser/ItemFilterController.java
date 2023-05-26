@@ -37,12 +37,14 @@ import delta.games.lotro.gui.character.summary.CharacterUiUtils;
 import delta.games.lotro.gui.lore.items.ItemUiTools;
 import delta.games.lotro.gui.utils.SharedUiUtils;
 import delta.games.lotro.lore.items.ArmourType;
+import delta.games.lotro.lore.items.DamageType;
 import delta.games.lotro.lore.items.EquipmentLocation;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemQuality;
 import delta.games.lotro.lore.items.WeaponType;
 import delta.games.lotro.lore.items.filters.ArmourTypeFilter;
 import delta.games.lotro.lore.items.filters.CharacterProficienciesFilter;
+import delta.games.lotro.lore.items.filters.DamageTypeFilter;
 import delta.games.lotro.lore.items.filters.ItemCharacterLevelFilter;
 import delta.games.lotro.lore.items.filters.ItemEquipmentLocationFilter;
 import delta.games.lotro.lore.items.filters.ItemLevelFilter;
@@ -74,6 +76,7 @@ public class ItemFilterController extends ObjectFilterPanelController implements
   private ComboBoxController<Boolean> _legendary;
   private ComboBoxController<Set<EquipmentLocation>> _location;
   private ComboBoxController<WeaponType> _weaponType;
+  private ComboBoxController<DamageType> _damageType;
   private ComboBoxController<ArmourType> _armourType;
   private ComboBoxController<ArmourType> _shieldType;
   private List<ComboBoxController<StatDescription>> _stats;
@@ -162,6 +165,11 @@ public class ItemFilterController extends ObjectFilterPanelController implements
       if (_weaponType!=null)
       {
         _weaponType.selectItem(null);
+      }
+      // Damage type
+      if (_damageType!=null)
+      {
+        _damageType.selectItem(null);
       }
       // Armour type
       if (_armourType!=null)
@@ -259,6 +267,13 @@ public class ItemFilterController extends ObjectFilterPanelController implements
       WeaponTypeFilter weaponTypeFilter=_filter.getWeaponTypeFilter();
       WeaponType weaponType=weaponTypeFilter.getWeaponType();
       _weaponType.selectItem(weaponType);
+    }
+    // Damage type
+    if (_damageType!=null)
+    {
+      DamageTypeFilter damageTypeFilter=_filter.getDamageTypeFilter();
+      DamageType damageType=damageTypeFilter.getDamageType();
+      _damageType.selectItem(damageType);
     }
     // Armour type
     if (_armourType!=null)
@@ -495,6 +510,20 @@ public class ItemFilterController extends ObjectFilterPanelController implements
   {
     JPanel panel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING));
     // Location
+    initLocation(panel);
+    // Weapon type
+    initWeaponType(panel);
+    // Damage type
+    initDamageType(panel);
+    // Armour type
+    initArmourType(panel);
+    // Shield type
+    initShieldType(panel);
+    return panel;
+  }
+
+  private void initLocation(JPanel panel)
+  {
     final ItemEquipmentLocationFilter locationFilter=_filter.getLocationFilter();
     boolean useLocation=_cfg.hasComponent(ItemChooserFilterComponent.LOCATION);
     if ((locationFilter!=null) && (useLocation))
@@ -524,7 +553,10 @@ public class ItemFilterController extends ObjectFilterPanelController implements
       locationPanel.add(_location.getComboBox());
       panel.add(locationPanel);
     }
-    // Weapon type
+  }
+
+  private void initWeaponType(JPanel panel)
+  {
     final WeaponTypeFilter weaponTypeFilter=_filter.getWeaponTypeFilter();
     boolean useWeaponType=_cfg.hasComponent(ItemChooserFilterComponent.WEAPON_TYPE);
     if ((weaponTypeFilter!=null) && (useWeaponType))
@@ -560,7 +592,49 @@ public class ItemFilterController extends ObjectFilterPanelController implements
       weaponTypePanel.add(_weaponType.getComboBox());
       panel.add(weaponTypePanel);
     }
-    // Armour type
+  }
+
+  private void initDamageType(JPanel panel)
+  {
+    final DamageTypeFilter damageTypeFilter=_filter.getDamageTypeFilter();
+    boolean useDamageType=_cfg.hasComponent(ItemChooserFilterComponent.DAMAGE_TYPE);
+    if ((damageTypeFilter!=null) && (useDamageType))
+    {
+      List<DamageType> damageTypes=_filter.getConfiguration().getDamageTypes();
+      _damageType=ItemUiTools.buildDamageTypeCombo(damageTypes);
+      JPanel damageTypePanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
+      damageTypePanel.add(GuiFactory.buildLabel("Damage type:"));
+      ItemSelectionListener<DamageType> damageTypeListener=new ItemSelectionListener<DamageType>()
+      {
+        @Override
+        public void itemSelected(DamageType type)
+        {
+          damageTypeFilter.setDamageType(type);
+          // If a weapon type is selected,
+          if (type!=null)
+          {
+            // Reset the shield type combo
+            if (_armourType!=null)
+            {
+              _armourType.selectItem(null);
+            }
+            // Reset the shield type combo
+            if (_shieldType!=null)
+            {
+              _shieldType.selectItem(null);
+            }
+          }
+          filterUpdated();
+        }
+      };
+      _damageType.addListener(damageTypeListener);
+      damageTypePanel.add(_damageType.getComboBox());
+      panel.add(damageTypePanel);
+    }
+  }
+
+  private void initArmourType(JPanel panel)
+  {
     final ArmourTypeFilter armourTypeFilter=_filter.getArmourTypeFilter();
     boolean useArmourType=_cfg.hasComponent(ItemChooserFilterComponent.ARMOUR_TYPE);
     if ((armourTypeFilter!=null) && (useArmourType))
@@ -583,6 +657,11 @@ public class ItemFilterController extends ObjectFilterPanelController implements
             {
               _weaponType.selectItem(null);
             }
+            // Reset the damage type combo
+            if (_damageType!=null)
+            {
+              _damageType.selectItem(null);
+            }
             // Reset the shield type combo
             if (_shieldType!=null)
             {
@@ -596,7 +675,10 @@ public class ItemFilterController extends ObjectFilterPanelController implements
       armourTypePanel.add(_armourType.getComboBox());
       panel.add(armourTypePanel);
     }
-    // Shield type
+  }
+
+  private void initShieldType(JPanel panel)
+  {
     final ArmourTypeFilter shieldTypeFilter=_filter.getShieldTypeFilter();
     boolean useShieldType=_cfg.hasComponent(ItemChooserFilterComponent.SHIELD_TYPE);
     if ((shieldTypeFilter!=null) && (useShieldType))
@@ -619,6 +701,11 @@ public class ItemFilterController extends ObjectFilterPanelController implements
             {
               _weaponType.selectItem(null);
             }
+            // Reset the damage type combo
+            if (_damageType!=null)
+            {
+              _damageType.selectItem(null);
+            }
             // Reset the armour type combo
             if (_armourType!=null)
             {
@@ -632,7 +719,6 @@ public class ItemFilterController extends ObjectFilterPanelController implements
       shieldTypePanel.add(_shieldType.getComboBox());
       panel.add(shieldTypePanel);
     }
-    return panel;
   }
 
   private JPanel buildLine4Panel()
@@ -887,6 +973,11 @@ public class ItemFilterController extends ObjectFilterPanelController implements
     {
       _weaponType.dispose();
       _weaponType=null;
+    }
+    if (_damageType!=null)
+    {
+      _damageType.dispose();
+      _damageType=null;
     }
     if (_armourType!=null)
     {

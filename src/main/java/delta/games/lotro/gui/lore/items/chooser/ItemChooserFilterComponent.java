@@ -35,13 +35,17 @@ public enum ItemChooserFilterComponent
    */
   ARMOUR_TYPE,
   /**
+   * Shield type filter.
+   */
+  SHIELD_TYPE,
+  /**
    * Weapon type filter.
    */
   WEAPON_TYPE,
   /**
-   * Shield type filter.
+   * Damage type filter.
    */
-  SHIELD_TYPE,
+  DAMAGE_TYPE,
   /**
    * Filter on the class of the current character.
    */

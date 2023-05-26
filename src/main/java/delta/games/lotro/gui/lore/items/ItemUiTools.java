@@ -28,6 +28,7 @@ import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.gui.utils.NavigationUtils;
 import delta.games.lotro.lore.items.ArmourType;
+import delta.games.lotro.lore.items.DamageType;
 import delta.games.lotro.lore.items.EquipmentLocation;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemInstance;
@@ -203,6 +204,23 @@ public class ItemUiTools
     for(WeaponType weaponType : weaponTypes)
     {
       ctrl.addItem(weaponType,weaponType.getLabel());
+    }
+    ctrl.selectItem(null);
+    return ctrl;
+  }
+
+  /**
+   * Build a controller for a combo box to choose a damage type.
+   * @param damageTypes Damage types to use.
+   * @return A new controller.
+   */
+  public static ComboBoxController<DamageType> buildDamageTypeCombo(Iterable<DamageType> damageTypes)
+  {
+    ComboBoxController<DamageType> ctrl=new ComboBoxController<DamageType>();
+    ctrl.addEmptyItem("");
+    for(DamageType damageType : damageTypes)
+    {
+      ctrl.addItem(damageType,damageType.getLabel());
     }
     ctrl.selectItem(null);
     return ctrl;

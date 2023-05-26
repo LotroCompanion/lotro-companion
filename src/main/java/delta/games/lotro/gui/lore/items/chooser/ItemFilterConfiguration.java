@@ -10,6 +10,7 @@ import delta.games.lotro.common.enums.comparator.LotroEnumEntryNameComparator;
 import delta.games.lotro.lore.items.Armour;
 import delta.games.lotro.lore.items.ArmourType;
 import delta.games.lotro.lore.items.ArmourTypes;
+import delta.games.lotro.lore.items.DamageType;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ShieldTypes;
 import delta.games.lotro.lore.items.Weapon;
@@ -25,6 +26,7 @@ public class ItemFilterConfiguration
   private Set<ArmourType> _armourTypes;
   private Set<ArmourType> _shieldTypes;
   private Set<WeaponType> _weaponTypes;
+  private Set<DamageType> _damageTypes;
   private Set<Integer> _itemLevels;
   private boolean[] _components;
 
@@ -36,6 +38,7 @@ public class ItemFilterConfiguration
     _armourTypes=new HashSet<ArmourType>();
     _shieldTypes=new HashSet<ArmourType>();
     _weaponTypes=new HashSet<WeaponType>();
+    _damageTypes=new HashSet<DamageType>();
     _itemLevels=new HashSet<Integer>();
     defaultInit();
   }
@@ -55,6 +58,10 @@ public class ItemFilterConfiguration
     for(WeaponType weaponType : WeaponType.getAll()) 
     {
       _weaponTypes.add(weaponType);
+    }
+    for(DamageType damageType : DamageType.getAll()) 
+    {
+      _damageTypes.add(damageType);
     }
     for(int i=1;i<400;i++)
     {
@@ -94,8 +101,9 @@ public class ItemFilterConfiguration
     _components[ItemChooserFilterComponent.QUALITY.ordinal()]=true;
     _components[ItemChooserFilterComponent.LEGENDARY.ordinal()]=true;
     _components[ItemChooserFilterComponent.STAT.ordinal()]=true;
-    _components[ItemChooserFilterComponent.ARMOUR_TYPE.ordinal()]=true;
     _components[ItemChooserFilterComponent.WEAPON_TYPE.ordinal()]=true;
+    _components[ItemChooserFilterComponent.DAMAGE_TYPE.ordinal()]=true;
+    _components[ItemChooserFilterComponent.ARMOUR_TYPE.ordinal()]=true;
     _components[ItemChooserFilterComponent.SHIELD_TYPE.ordinal()]=true;
     // Requirements for the current character: class, proficiencies, level
     // TODO: add faction requirements
@@ -117,8 +125,9 @@ public class ItemFilterConfiguration
     _components[ItemChooserFilterComponent.LEGENDARY.ordinal()]=true;
     _components[ItemChooserFilterComponent.STAT.ordinal()]=true;
     _components[ItemChooserFilterComponent.LOCATION.ordinal()]=true;
-    _components[ItemChooserFilterComponent.ARMOUR_TYPE.ordinal()]=true;
     _components[ItemChooserFilterComponent.WEAPON_TYPE.ordinal()]=true;
+    _components[ItemChooserFilterComponent.DAMAGE_TYPE.ordinal()]=true;
+    _components[ItemChooserFilterComponent.ARMOUR_TYPE.ordinal()]=true;
     _components[ItemChooserFilterComponent.SHIELD_TYPE.ordinal()]=true;
     _components[ItemChooserFilterComponent.GENERIC_CHARACTER_CLASS.ordinal()]=true;
     _components[ItemChooserFilterComponent.GENERIC_CHARACTER_RACE.ordinal()]=true;
@@ -144,6 +153,7 @@ public class ItemFilterConfiguration
     _armourTypes.clear();
     _shieldTypes.clear();
     _weaponTypes.clear();
+    _damageTypes.clear();
     _itemLevels.clear();
     Set<ArmourType> shieldTypes=new HashSet<ArmourType>();
     for(ArmourType shieldType : ShieldTypes.SHIELD_TYPES)
@@ -178,6 +188,11 @@ public class ItemFilterConfiguration
         {
           _weaponTypes.add(type);
         }
+        DamageType damageType=weapon.getDamageType();
+        if (damageType!=null)
+        {
+          _damageTypes.add(damageType);
+        }
       }
       // Item Level
       Integer itemLevel=item.getItemLevel();
@@ -198,6 +213,18 @@ public class ItemFilterConfiguration
     weaponTypes.addAll(_weaponTypes);
     Collections.sort(weaponTypes,new LotroEnumEntryNameComparator<WeaponType>());
     return weaponTypes;
+  }
+
+  /**
+   * Get the selected damage types.
+   * @return a possibly empty but not <code>null</code> list of sorted damage types.
+   */
+  public List<DamageType> getDamageTypes()
+  {
+    List<DamageType> damageTypes=new ArrayList<DamageType>();
+    damageTypes.addAll(_damageTypes);
+    Collections.sort(damageTypes,new LotroEnumEntryNameComparator<DamageType>());
+    return damageTypes;
   }
 
   /**

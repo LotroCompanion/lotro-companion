@@ -9,10 +9,12 @@ import delta.common.utils.collections.filters.Operator;
 import delta.games.lotro.character.BasicCharacterAttributes;
 import delta.games.lotro.character.classes.ClassDescription;
 import delta.games.lotro.lore.items.ArmourType;
+import delta.games.lotro.lore.items.DamageType;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.WeaponType;
 import delta.games.lotro.lore.items.filters.ArmourTypeFilter;
 import delta.games.lotro.lore.items.filters.CharacterProficienciesFilter;
+import delta.games.lotro.lore.items.filters.DamageTypeFilter;
 import delta.games.lotro.lore.items.filters.EssenceTierFilter;
 import delta.games.lotro.lore.items.filters.ItemCharacterLevelFilter;
 import delta.games.lotro.lore.items.filters.ItemClassFilter;
@@ -54,6 +56,7 @@ public class ItemChooserFilter implements Filter<Item>
   private LegendaryItemFilter _legendaryFilter;
   private ItemEquipmentLocationFilter _locationFilter;
   private WeaponTypeFilter _weaponTypeFilter;
+  private DamageTypeFilter _damageTypeFilter;
   private ArmourTypeFilter _armourTypeFilter;
   private ArmourTypeFilter _shieldTypeFilter;
   private ItemStatFilter _statFilter;
@@ -142,6 +145,17 @@ public class ItemChooserFilter implements Filter<Item>
       {
         _weaponTypeFilter=new WeaponTypeFilter(null);
         filters.add(_weaponTypeFilter);
+      }
+    }
+    // Damage type
+    boolean useDamageType=cfg.hasComponent(ItemChooserFilterComponent.DAMAGE_TYPE);
+    if (useDamageType)
+    {
+      List<DamageType> damageTypes=cfg.getDamageTypes();
+      if (!damageTypes.isEmpty())
+      {
+        _damageTypeFilter=new DamageTypeFilter(null);
+        filters.add(_damageTypeFilter);
       }
     }
     // Armour type
@@ -312,6 +326,15 @@ public class ItemChooserFilter implements Filter<Item>
   public WeaponTypeFilter getWeaponTypeFilter()
   {
     return _weaponTypeFilter;
+  }
+
+  /**
+   * Get the damage type filter.
+   * @return a damage type filter or <code>null</code>.
+   */
+  public DamageTypeFilter getDamageTypeFilter()
+  {
+    return _damageTypeFilter;
   }
 
   /**
