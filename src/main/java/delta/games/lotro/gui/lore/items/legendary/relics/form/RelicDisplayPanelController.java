@@ -167,7 +167,7 @@ public class RelicDisplayPanelController implements NavigablePanelController
       panelLine.add(GuiFactory.buildLabel("Type: "+types));
     }
     // Allowed slot(s)
-    String slots=_relic.getAllowedSlotsStr();
+    String slots=_relic.getAllowedSlotsForUI();
     if ((slots!=null) && (slots.length()>0))
     {
       JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));

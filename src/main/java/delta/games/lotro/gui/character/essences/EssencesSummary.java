@@ -82,7 +82,7 @@ public class EssencesSummary
     _slotsCount=0;
     _stats.clear();
     CharacterGear equipment=_toon.getEquipment();
-    for(GearSlot slot : GearSlot.values())
+    for(GearSlot slot : GearSlot.getAll())
     {
       ItemInstance<? extends Item> itemInstance=equipment.getItemForSlot(slot);
       if (itemInstance!=null)

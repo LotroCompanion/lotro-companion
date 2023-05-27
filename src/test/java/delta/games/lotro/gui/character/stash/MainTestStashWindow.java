@@ -28,7 +28,7 @@ public class MainTestStashWindow
     ItemsStash stash=toon.getStash();
     CharacterData data=toon.getInfosManager().getLastCharacterDescription();
     CharacterGear gear=data.getEquipment();
-    for(GearSlot slot : GearSlot.values())
+    for(GearSlot slot : GearSlot.getAll())
     {
       ItemInstance<? extends Item> item=gear.getItemForSlot(slot);
       if (item!=null)

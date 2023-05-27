@@ -125,7 +125,7 @@ public class EquipmentSlotIconController
 
   private ImageIcon getDefaultIcon(GearSlot slot)
   {
-    String iconPath=BACKGROUND_ICONS_SEED+slot.name()+".png";
+    String iconPath=BACKGROUND_ICONS_SEED+slot.getKey()+".png";
     Image backgroundIcon=IconsManager.getImage(iconPath);
     return new ImageIcon(backgroundIcon);
   }

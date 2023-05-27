@@ -77,7 +77,7 @@ public class CharacterPreferencesManager
   private static List<String> getDefaultItemColumnsUsingClassAndSlot(CharacterFile toonFile, String propsSetId)
   {
     String slotKey=propsSetId.substring(propsSetId.indexOf("#")+1);
-    GearSlot slot=GearSlot.valueOf(slotKey);
+    GearSlot slot=GearSlot.getByKey(slotKey);
     ClassDescription characterClass=toonFile.getSummary().getCharacterClass();
     List<String> columnIds=ItemChoiceTableColumnsManager.getItemChoiceColumnsUsingClassAndSlot(characterClass,slot);
     return columnIds;

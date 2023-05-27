@@ -5,7 +5,7 @@ import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.Icon;
@@ -18,6 +18,7 @@ import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.cosmetics.Outfit;
 import delta.games.lotro.character.cosmetics.OutfitElement;
 import delta.games.lotro.character.gear.GearSlot;
+import delta.games.lotro.character.gear.GearSlots;
 import delta.games.lotro.gui.character.gear.EquipmentSlotIconController;
 import delta.games.lotro.gui.lore.items.ItemUiTools;
 import delta.games.lotro.lore.items.Item;
@@ -69,42 +70,42 @@ public class OutfitPanelController implements ActionListener
   {
     _parentWindow=parent;
     _outfit=outfit;
-    _buttons=new EnumMap<GearSlot,JButton>(GearSlot.class);
-    _icons=new EnumMap<GearSlot,EquipmentSlotIconController>(GearSlot.class);
+    _buttons=new HashMap<GearSlot,JButton>();
+    _icons=new HashMap<GearSlot,EquipmentSlotIconController>();
     initPositions();
   }
 
   private void initPositions()
   {
-    _iconPositions=new EnumMap<GearSlot,Dimension>(GearSlot.class);
+    _iconPositions=new HashMap<GearSlot,Dimension>();
     int x=X_COLUMN_1;
     int y=Y_START;
-    _iconPositions.put(GearSlot.HEAD,new Dimension(x,y));
+    _iconPositions.put(GearSlots.HEAD,new Dimension(x,y));
     y+=DELTA_Y;
-    _iconPositions.put(GearSlot.SHOULDER,new Dimension(x,y));
+    _iconPositions.put(GearSlots.SHOULDER,new Dimension(x,y));
     y+=DELTA_Y;
-    _iconPositions.put(GearSlot.BACK,new Dimension(x,y));
+    _iconPositions.put(GearSlots.BACK,new Dimension(x,y));
     y+=DELTA_Y;
-    _iconPositions.put(GearSlot.BREAST,new Dimension(x,y));
+    _iconPositions.put(GearSlots.BREAST,new Dimension(x,y));
     x=X_COLUMN_2; y=Y_START;
-    _iconPositions.put(GearSlot.HANDS,new Dimension(x,y));
+    _iconPositions.put(GearSlots.HANDS,new Dimension(x,y));
     y+=DELTA_Y;
-    _iconPositions.put(GearSlot.LEGS,new Dimension(x,y));
+    _iconPositions.put(GearSlots.LEGS,new Dimension(x,y));
     y+=DELTA_Y;
-    _iconPositions.put(GearSlot.FEET,new Dimension(x,y));
+    _iconPositions.put(GearSlots.FEET,new Dimension(x,y));
 
     x=X_ROW; y=Y_ROW1;
-    _iconPositions.put(GearSlot.MAIN_HAND_AURA,new Dimension(x,y));
+    _iconPositions.put(GearSlots.MAIN_HAND_AURA,new Dimension(x,y));
     x+=DELTA_X;
-    _iconPositions.put(GearSlot.OFF_HAND_AURA,new Dimension(x,y));
+    _iconPositions.put(GearSlots.OFF_HAND_AURA,new Dimension(x,y));
     x+=DELTA_X;
-    _iconPositions.put(GearSlot.RANGED_AURA,new Dimension(x,y));
+    _iconPositions.put(GearSlots.RANGED_AURA,new Dimension(x,y));
     x=X_ROW; y=Y_ROW2;
-    _iconPositions.put(GearSlot.MAIN_MELEE,new Dimension(x,y));
+    _iconPositions.put(GearSlots.MAIN_MELEE,new Dimension(x,y));
     x+=DELTA_X;
-    _iconPositions.put(GearSlot.OTHER_MELEE,new Dimension(x,y));
+    _iconPositions.put(GearSlots.OTHER_MELEE,new Dimension(x,y));
     x+=DELTA_X;
-    _iconPositions.put(GearSlot.RANGED,new Dimension(x,y));
+    _iconPositions.put(GearSlots.RANGED,new Dimension(x,y));
   }
 
     /**
@@ -138,7 +139,7 @@ public class OutfitPanelController implements ActionListener
     panel.setMinimumSize(d);
     _layeredPane.setSize(d);
 
-    for(GearSlot slot : GearSlot.values())
+    for(GearSlot slot : GearSlot.getAll())
     {
       // Position for item
       Dimension position=_iconPositions.get(slot);
@@ -158,7 +159,7 @@ public class OutfitPanelController implements ActionListener
       button.setBounds(position.width,position.height,ICON_SIZE,ICON_SIZE);
       _layeredPane.add(button,ICONS_DEPTH);
       _buttons.put(slot,button);
-      button.setActionCommand(SLOT_SEED+slot.name());
+      button.setActionCommand(SLOT_SEED+slot.getKey());
       button.addActionListener(this);
       button.setToolTipText("");
     }
@@ -169,11 +170,11 @@ public class OutfitPanelController implements ActionListener
 
   private boolean showVisibilityIcon(GearSlot slot)
   {
-    if (slot==GearSlot.BREAST) return false;
-    if (slot==GearSlot.LEGS) return false;
-    if (slot==GearSlot.MAIN_HAND_AURA) return false;
-    if (slot==GearSlot.OFF_HAND_AURA) return false;
-    if (slot==GearSlot.RANGED_AURA) return false;
+    if (slot==GearSlots.BREAST) return false;
+    if (slot==GearSlots.LEGS) return false;
+    if (slot==GearSlots.MAIN_HAND_AURA) return false;
+    if (slot==GearSlots.OFF_HAND_AURA) return false;
+    if (slot==GearSlots.RANGED_AURA) return false;
     return true;
   }
 
@@ -182,7 +183,7 @@ public class OutfitPanelController implements ActionListener
    */
   private void updateIcons()
   {
-    for(GearSlot slot : GearSlot.values())
+    for(GearSlot slot : GearSlot.getAll())
     {
       EquipmentSlotIconController iconController=_icons.get(slot);
       if (iconController==null)
@@ -228,7 +229,7 @@ public class OutfitPanelController implements ActionListener
     {
       cmd=cmd.substring(SLOT_SEED.length());
       // Straight click
-      GearSlot slot=GearSlot.valueOf(cmd);
+      GearSlot slot=GearSlot.getByKey(cmd);
       if (slot!=null)
       {
         Item currentItem=getItemForSlot(slot);

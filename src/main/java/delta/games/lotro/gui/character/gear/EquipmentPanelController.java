@@ -32,6 +32,8 @@ import delta.games.lotro.character.events.CharacterEventType;
 import delta.games.lotro.character.gear.CharacterGear;
 import delta.games.lotro.character.gear.GearSlot;
 import delta.games.lotro.character.gear.GearSlotContents;
+import delta.games.lotro.character.gear.GearSlotUtils;
+import delta.games.lotro.character.gear.GearSlots;
 import delta.games.lotro.character.storage.StorageUtils;
 import delta.games.lotro.character.storage.StoragesIO;
 import delta.games.lotro.character.storage.bags.BagsManager;
@@ -44,6 +46,7 @@ import delta.games.lotro.gui.lore.items.chooser.ItemChooser;
 import delta.games.lotro.gui.lore.items.chooser.ItemFilterConfiguration;
 import delta.games.lotro.gui.lore.items.chooser.ItemFilterController;
 import delta.games.lotro.gui.lore.items.chooser.ItemInstanceChooser;
+import delta.games.lotro.lore.items.EquipmentLocation;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemFactory;
 import delta.games.lotro.lore.items.ItemInstance;
@@ -124,53 +127,53 @@ public class EquipmentPanelController implements ActionListener
     _iconPositions=new HashMap<GearSlot,Dimension>();
     int x=X_COLUMN_1;
     int y=Y_START;
-    _iconPositions.put(GearSlot.LEFT_EAR,new Dimension(x,y));
+    _iconPositions.put(GearSlots.LEFT_EAR,new Dimension(x,y));
     y+=DELTA_Y;
-    _iconPositions.put(GearSlot.NECK,new Dimension(x,y));
+    _iconPositions.put(GearSlots.NECK,new Dimension(x,y));
     y+=DELTA_Y;
-    _iconPositions.put(GearSlot.LEFT_WRIST,new Dimension(x,y));
+    _iconPositions.put(GearSlots.LEFT_WRIST,new Dimension(x,y));
     y+=DELTA_Y;
-    _iconPositions.put(GearSlot.LEFT_FINGER,new Dimension(x,y));
+    _iconPositions.put(GearSlots.LEFT_FINGER,new Dimension(x,y));
     x=X_COLUMN_2; y=Y_START;
-    _iconPositions.put(GearSlot.RIGHT_EAR,new Dimension(x,y));
+    _iconPositions.put(GearSlots.RIGHT_EAR,new Dimension(x,y));
     y+=DELTA_Y;
-    _iconPositions.put(GearSlot.POCKET,new Dimension(x,y));
+    _iconPositions.put(GearSlots.POCKET,new Dimension(x,y));
     y+=DELTA_Y;
-    _iconPositions.put(GearSlot.RIGHT_WRIST,new Dimension(x,y));
+    _iconPositions.put(GearSlots.RIGHT_WRIST,new Dimension(x,y));
     y+=DELTA_Y;
-    _iconPositions.put(GearSlot.RIGHT_FINGER,new Dimension(x,y));
+    _iconPositions.put(GearSlots.RIGHT_FINGER,new Dimension(x,y));
     x=X_COLUMN_3; y=Y_START;
-    _iconPositions.put(GearSlot.HEAD,new Dimension(x,y));
+    _iconPositions.put(GearSlots.HEAD,new Dimension(x,y));
     y+=DELTA_Y;
-    _iconPositions.put(GearSlot.BREAST,new Dimension(x,y));
+    _iconPositions.put(GearSlots.BREAST,new Dimension(x,y));
     y+=DELTA_Y;
-    _iconPositions.put(GearSlot.HANDS,new Dimension(x,y));
+    _iconPositions.put(GearSlots.HANDS,new Dimension(x,y));
     y+=DELTA_Y;
-    _iconPositions.put(GearSlot.LEGS,new Dimension(x,y));
+    _iconPositions.put(GearSlots.LEGS,new Dimension(x,y));
     x=X_COLUMN_4; y=Y_START;
-    _iconPositions.put(GearSlot.SHOULDER,new Dimension(x,y));
+    _iconPositions.put(GearSlots.SHOULDER,new Dimension(x,y));
     y+=DELTA_Y;
-    _iconPositions.put(GearSlot.BACK,new Dimension(x,y));
+    _iconPositions.put(GearSlots.BACK,new Dimension(x,y));
     y+=DELTA_Y;
     y+=DELTA_Y;
-    _iconPositions.put(GearSlot.FEET,new Dimension(x,y));
+    _iconPositions.put(GearSlots.FEET,new Dimension(x,y));
 
     x=X_ROW; y=Y_ROW;
-    _iconPositions.put(GearSlot.MAIN_MELEE,new Dimension(x,y));
+    _iconPositions.put(GearSlots.MAIN_MELEE,new Dimension(x,y));
     x+=DELTA_X;
-    _iconPositions.put(GearSlot.MAIN_HAND_AURA,new Dimension(x,y));
+    _iconPositions.put(GearSlots.MAIN_HAND_AURA,new Dimension(x,y));
     x+=DELTA_X;
-    _iconPositions.put(GearSlot.OTHER_MELEE,new Dimension(x,y));
+    _iconPositions.put(GearSlots.OTHER_MELEE,new Dimension(x,y));
     x+=DELTA_X;
-    _iconPositions.put(GearSlot.OFF_HAND_AURA,new Dimension(x,y));
+    _iconPositions.put(GearSlots.OFF_HAND_AURA,new Dimension(x,y));
     x+=DELTA_X;
-    _iconPositions.put(GearSlot.RANGED,new Dimension(x,y));
+    _iconPositions.put(GearSlots.RANGED,new Dimension(x,y));
     x+=DELTA_X;
-    _iconPositions.put(GearSlot.RANGED_AURA,new Dimension(x,y));
+    _iconPositions.put(GearSlots.RANGED_AURA,new Dimension(x,y));
     x+=DELTA_X;
-    _iconPositions.put(GearSlot.TOOL,new Dimension(x,y));
+    _iconPositions.put(GearSlots.TOOL,new Dimension(x,y));
     x+=DELTA_X;
-    _iconPositions.put(GearSlot.CLASS_ITEM,new Dimension(x,y));
+    _iconPositions.put(GearSlots.CLASS_ITEM,new Dimension(x,y));
   }
 
   private JPopupMenu buildContextualMenu()
@@ -281,7 +284,7 @@ public class EquipmentPanelController implements ActionListener
     updateButton.addActionListener(this);
 
     MouseListener listener=buildRightClickListener();
-    for(GearSlot slot : GearSlot.values())
+    for(GearSlot slot : GearSlot.getAll())
     {
       // Position for item
       Dimension position=_iconPositions.get(slot);
@@ -297,7 +300,7 @@ public class EquipmentPanelController implements ActionListener
       button.setBounds(position.width,position.height,ICON_SIZE,ICON_SIZE);
       _layeredPane.add(button,ICONS_DEPTH);
       _buttons.put(slot,button);
-      button.setActionCommand(SLOT_SEED+slot.name());
+      button.setActionCommand(SLOT_SEED+slot.getKey());
       button.addActionListener(this);
       button.addMouseListener(listener);
       button.setToolTipText("");
@@ -312,7 +315,7 @@ public class EquipmentPanelController implements ActionListener
    */
   private void updateIcons()
   {
-    for(GearSlot slot : GearSlot.values())
+    for(GearSlot slot : GearSlot.getAll())
     {
       ItemInstance<? extends Item> itemInstance=getItemForSlot(slot);
       EquipmentSlotIconController iconController=_icons.get(slot);
@@ -452,7 +455,7 @@ public class EquipmentPanelController implements ActionListener
     TypedProperties filterProps=_parentWindow.getUserProperties(propsId);
     ItemFilterController filterController=new ItemFilterController(cfg,_toonData.getSummary(),filterProps);
     Filter<Item> filter=filterController.getFilter();
-    String id=ItemChooser.ITEM_INSTANCE_CHOOSER_PROPERTIES_ID+"#"+slot.name();
+    String id=ItemChooser.ITEM_INSTANCE_CHOOSER_PROPERTIES_ID+"#"+slot.getKey();
     TypedProperties props=_parentWindow.getUserProperties(id);
     ObjectChoiceWindowController<ItemInstance<? extends Item>> chooser=ItemInstanceChooser.buildChooser(_parentWindow,props,selectedInstances,filter,filterController);
     ItemInstance<? extends Item> ret=chooser.editModal();
@@ -476,14 +479,15 @@ public class EquipmentPanelController implements ActionListener
 
   private Item chooseItem(GearSlot slot)
   {
-    List<Item> selectedItems=ItemsManager.getInstance().getItems(slot.getLocation());
+    EquipmentLocation location=GearSlotUtils.getEquipmentSlot(slot);
+    List<Item> selectedItems=ItemsManager.getInstance().getItems(location);
     ItemFilterConfiguration cfg=new ItemFilterConfiguration();
     cfg.initFromItems(selectedItems);
     cfg.forItemFilter();
     TypedProperties filterProps=_parentWindow.getUserProperties("ItemFilter");
     ItemFilterController filterController=new ItemFilterController(cfg,_toonData.getSummary(),filterProps);
     Filter<Item> filter=filterController.getFilter();
-    String id=ItemChooser.ITEM_CHOOSER_PROPERTIES_ID+"#"+slot.name();
+    String id=ItemChooser.ITEM_CHOOSER_PROPERTIES_ID+"#"+slot.getKey();
     TypedProperties props=_parentWindow.getUserProperties(id);
     ObjectChoiceWindowController<Item> chooser=ItemChooser.buildChooser(_parentWindow,props,selectedItems,filter,filterController);
     Item ret=chooser.editModal();
@@ -532,7 +536,7 @@ public class EquipmentPanelController implements ActionListener
     {
       cmd=cmd.substring(SLOT_SEED.length());
       // Straight click
-      GearSlot slot=GearSlot.valueOf(cmd);
+      GearSlot slot=GearSlot.getByKey(cmd);
       if (slot!=null)
       {
         ItemInstance<? extends Item> currentItem=getItemForSlot(slot);

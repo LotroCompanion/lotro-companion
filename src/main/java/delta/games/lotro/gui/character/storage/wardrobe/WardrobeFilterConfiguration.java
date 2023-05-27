@@ -8,10 +8,10 @@ import java.util.Set;
 
 import delta.games.lotro.character.storage.wardrobe.WardrobeItem;
 import delta.games.lotro.common.enums.ItemClass;
+import delta.games.lotro.common.enums.comparator.LotroEnumEntryCodeComparator;
 import delta.games.lotro.common.enums.comparator.LotroEnumEntryNameComparator;
 import delta.games.lotro.lore.items.EquipmentLocation;
 import delta.games.lotro.lore.items.Item;
-import delta.games.lotro.lore.items.comparators.EquipmentLocationComparator;
 
 /**
  * Configuration of the wardrobe filter.
@@ -61,7 +61,7 @@ public class WardrobeFilterConfiguration
   {
     List<EquipmentLocation> locations=new ArrayList<EquipmentLocation>();
     locations.addAll(_slots);
-    Collections.sort(locations,new EquipmentLocationComparator());
+    Collections.sort(locations,new LotroEnumEntryCodeComparator<EquipmentLocation>());
     return locations;
   }
 

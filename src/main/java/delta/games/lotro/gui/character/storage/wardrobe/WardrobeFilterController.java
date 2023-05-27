@@ -235,7 +235,7 @@ public class WardrobeFilterController implements ActionListener
     List<EquipmentLocation> slots=_filter.getConfiguration().getSlots();
     for(EquipmentLocation slot : slots)
     {
-      ctrl.addItem(slot,slot.toString());
+      ctrl.addItem(slot,slot.getLabel());
     }
   }
 

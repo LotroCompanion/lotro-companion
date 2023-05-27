@@ -32,6 +32,7 @@ import delta.games.lotro.character.classes.initialGear.InitialGearManager;
 import delta.games.lotro.character.gear.CharacterGear;
 import delta.games.lotro.character.gear.GearSlot;
 import delta.games.lotro.character.gear.GearSlotContents;
+import delta.games.lotro.character.gear.GearSlotUtils;
 import delta.games.lotro.character.races.RaceDescription;
 import delta.games.lotro.character.stats.CharacterStatsComputer;
 import delta.games.lotro.common.CharacterSex;
@@ -194,10 +195,11 @@ public class NewToonDialogController extends DefaultFormDialogController<Object>
       List<Item> items=initialGear.getItems(race);
       for(Item item : items)
       {
-        EquipmentLocation location=item.getEquipmentLocation();
-        for(GearSlot slot : GearSlot.values())
+        EquipmentLocation itemLocation=item.getEquipmentLocation();
+        for(GearSlot slot : GearSlot.getAll())
         {
-          if (slot.getLocation()==location)
+          EquipmentLocation slotLocation=GearSlotUtils.getEquipmentSlot(slot);
+          if (slotLocation==itemLocation)
           {
             GearSlotContents contents=gear.getSlotContents(slot,true);
             ItemInstance<? extends Item> old=contents.getItem();

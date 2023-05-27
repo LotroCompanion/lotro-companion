@@ -6,6 +6,7 @@ import java.util.List;
 import delta.games.lotro.character.classes.ClassDescription;
 import delta.games.lotro.character.classes.WellKnownCharacterClassKeys;
 import delta.games.lotro.character.gear.GearSlot;
+import delta.games.lotro.character.gear.GearSlots;
 import delta.games.lotro.common.stats.WellKnownStat;
 import delta.games.lotro.gui.lore.items.ItemColumnIds;
 import delta.games.lotro.gui.lore.items.ItemInstanceColumnIds;
@@ -70,20 +71,20 @@ public class ItemChoiceTableColumnsManager
   public static List<String> getItemChoiceColumnsUsingClassAndSlot(ClassDescription characterClass, GearSlot slot)
   {
     List<String> ret=new ArrayList<String>();
-    if ((slot==GearSlot.HEAD) || (slot==GearSlot.BREAST)
-        || (slot==GearSlot.HANDS) || (slot==GearSlot.LEGS)
-        || (slot==GearSlot.FEET) || (slot==GearSlot.SHOULDER))
+    if ((slot==GearSlots.HEAD) || (slot==GearSlots.BREAST)
+        || (slot==GearSlots.HANDS) || (slot==GearSlots.LEGS)
+        || (slot==GearSlots.FEET) || (slot==GearSlots.SHOULDER))
     {
       ret.add(ItemColumnIds.SLOT_COUNT.name());
       ret.add(WellKnownStat.ARMOUR.getLegacyKey());
       ret.add(ItemColumnIds.ARMOUR_TYPE.name());
     }
-    else if (slot==GearSlot.BACK)
+    else if (slot==GearSlots.BACK)
     {
       ret.add(ItemColumnIds.SLOT_COUNT.name());
       ret.add(WellKnownStat.ARMOUR.getLegacyKey());
     }
-    else if (slot==GearSlot.MAIN_MELEE)
+    else if (slot==GearSlots.MAIN_MELEE)
     {
       String classKey=characterClass.getKey();
       if (!WellKnownCharacterClassKeys.RUNE_KEEPER.equals(classKey))
@@ -91,20 +92,20 @@ public class ItemChoiceTableColumnsManager
         ret.add(ItemColumnIds.WEAPON_TYPE.name());
       }
     }
-    else if (slot==GearSlot.OTHER_MELEE)
+    else if (slot==GearSlots.OTHER_MELEE)
     {
       ret.add(ItemColumnIds.WEAPON_TYPE.name());
       ret.add(WellKnownStat.ARMOUR.getLegacyKey());
       ret.add(ItemColumnIds.ARMOUR_TYPE.name());
     }
-    else if (slot==GearSlot.RANGED)
+    else if (slot==GearSlots.RANGED)
     {
       ret.add(ItemColumnIds.WEAPON_TYPE.name());
     }
-    else if ((slot==GearSlot.NECK) || (slot==GearSlot.POCKET)
-        || (slot==GearSlot.LEFT_EAR) || (slot==GearSlot.RIGHT_EAR)
-        || (slot==GearSlot.LEFT_WRIST) || (slot==GearSlot.RIGHT_WRIST)
-        || (slot==GearSlot.LEFT_FINGER) || (slot==GearSlot.RIGHT_FINGER))
+    else if ((slot==GearSlots.NECK) || (slot==GearSlots.POCKET)
+        || (slot==GearSlots.LEFT_EAR) || (slot==GearSlots.RIGHT_EAR)
+        || (slot==GearSlots.LEFT_WRIST) || (slot==GearSlots.RIGHT_WRIST)
+        || (slot==GearSlots.LEFT_FINGER) || (slot==GearSlots.RIGHT_FINGER))
     {
       ret.add(ItemColumnIds.SLOT_COUNT.name());
     }

@@ -26,7 +26,7 @@ public class TraceryUtils
   public static TraceriesConstraintsMgr build(CharacterGear gear, GearSlot currentSlot)
   {
     TraceriesConstraintsMgr ret=null;
-    for(GearSlot slot : GearSlot.values())
+    for(GearSlot slot : GearSlot.getAll())
     {
       if (slot==currentSlot)
       {

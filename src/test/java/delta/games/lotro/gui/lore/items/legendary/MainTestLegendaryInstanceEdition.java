@@ -8,7 +8,7 @@ import delta.games.lotro.character.classes.ClassesManager;
 import delta.games.lotro.character.classes.WellKnownCharacterClassKeys;
 import delta.games.lotro.common.constraints.ClassAndSlot;
 import delta.games.lotro.gui.lore.items.legendary.shared.LegendariesTestUtils;
-import delta.games.lotro.lore.items.EquipmentLocation;
+import delta.games.lotro.lore.items.EquipmentLocations;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemFactory;
 import delta.games.lotro.lore.items.ItemInstance;
@@ -50,7 +50,7 @@ public class MainTestLegendaryInstanceEdition
     LegendaryInstance legendaryInstance=(LegendaryInstance)itemInstance;
     final LegendaryInstanceAttrs legendaryAttrs=legendaryInstance.getLegendaryAttributes();
     ClassDescription captain=ClassesManager.getInstance().getCharacterClassByKey(WellKnownCharacterClassKeys.CAPTAIN);
-    ClassAndSlot constraints=new ClassAndSlot(captain,EquipmentLocation.CLASS_SLOT);
+    ClassAndSlot constraints=new ClassAndSlot(captain,EquipmentLocations.CLASS_SLOT);
     final LegendaryInstanceEditionPanelController controller=new LegendaryInstanceEditionPanelController(null,itemInstance,constraints);
 
     DefaultFormDialogController<LegendaryInstanceAttrs> dialog=new DefaultFormDialogController<LegendaryInstanceAttrs>(null,legendaryAttrs)

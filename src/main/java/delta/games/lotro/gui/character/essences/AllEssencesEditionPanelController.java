@@ -55,7 +55,7 @@ public class AllEssencesEditionPanelController implements EssenceUpdatedListener
   private void initEditors()
   {
     CharacterGear equipment=_toon.getEquipment();
-    for(GearSlot slot : GearSlot.values())
+    for(GearSlot slot : GearSlot.getAll())
     {
       SingleItemEssencesEditionController controller=new SingleItemEssencesEditionController(_parent,_toon.getSummary(),slot);
       ItemInstance<? extends Item> item=equipment.getItemForSlot(slot);
