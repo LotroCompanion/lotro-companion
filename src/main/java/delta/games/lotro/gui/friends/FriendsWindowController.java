@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 import delta.common.ui.swing.windows.DefaultDisplayDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.account.AccountOnServer;
-import delta.games.lotro.character.social.friends.FriendsManager;
+import delta.games.lotro.account.status.friends.FriendsManager;
 
 /**
  * Controller for a "friends" window.

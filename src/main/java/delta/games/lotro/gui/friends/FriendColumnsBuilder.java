@@ -6,7 +6,7 @@ import java.util.List;
 import delta.common.ui.swing.tables.CellDataProvider;
 import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.TableColumnController;
-import delta.games.lotro.character.social.friends.Friend;
+import delta.games.lotro.account.status.friends.Friend;
 import delta.games.lotro.gui.toon.CharacterSummaryColumnsBuilder;
 import delta.games.lotro.gui.utils.l10n.ColumnsUtils;
 

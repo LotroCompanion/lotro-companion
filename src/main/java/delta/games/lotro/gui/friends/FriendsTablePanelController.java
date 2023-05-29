@@ -15,7 +15,7 @@ import javax.swing.border.TitledBorder;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.tables.TableColumnsChooserController;
 import delta.common.ui.swing.windows.WindowController;
-import delta.games.lotro.character.social.friends.Friend;
+import delta.games.lotro.account.status.friends.Friend;
 import delta.games.lotro.gui.lore.items.FilterUpdateListener;
 
 /**
