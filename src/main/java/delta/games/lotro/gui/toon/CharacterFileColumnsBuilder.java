@@ -27,6 +27,7 @@ import delta.games.lotro.lore.maps.Zone;
 import delta.games.lotro.lore.maps.ZoneUtils;
 import delta.games.lotro.lore.titles.TitleDescription;
 import delta.games.lotro.lore.titles.TitlesManager;
+import delta.games.lotro.utils.strings.ContextRendering;
 
 /**
  * Builds column definitions for CharacterFile data.
@@ -157,7 +158,7 @@ public class CharacterFileColumnsBuilder
             TitleDescription title=TitlesManager.getInstance().getTitle(titleId.intValue());
             if (title!=null)
             {
-              titleName=title.getName();
+              titleName=ContextRendering.render(file.getSummary(),title.getRawName());
             }
           }
           return titleName;
@@ -230,7 +231,7 @@ public class CharacterFileColumnsBuilder
             Vocation vocation=craftingData.getVocationsRegistry().getVocationById(vocationId.intValue());
             if (vocation!=null)
             {
-              vocationName=vocation.getName();
+              vocationName=ContextRendering.render(file.getSummary(),vocation.getName());
             }
           }
           return vocationName;
