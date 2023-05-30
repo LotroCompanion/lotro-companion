@@ -23,6 +23,7 @@ import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.ListDataProvider;
 import delta.games.lotro.character.CharacterFile;
+import delta.games.lotro.character.CharacterSummary;
 import delta.games.lotro.character.status.crafting.CraftingStatus;
 import delta.games.lotro.character.status.crafting.GuildStatus;
 import delta.games.lotro.character.status.crafting.ProfessionStatus;
@@ -37,6 +38,7 @@ import delta.games.lotro.lore.crafting.ProfessionFilter;
 import delta.games.lotro.lore.crafting.Vocation;
 import delta.games.lotro.lore.reputation.FactionLevelComparator;
 import delta.games.lotro.utils.gui.Gradients;
+import delta.games.lotro.utils.strings.ContextRendering;
 
 /**
  * Controller for a table that shows crafting status for several toons.
@@ -228,7 +230,9 @@ public class CraftingSynopsisTableController
       @Override
       public String getData(CraftingSynopsisItem item)
       {
-        return item.getVocation().getName();
+        CharacterSummary summary=item.getCharacter().getSummary();
+        String vocation=item.getVocation().getName();
+        return ContextRendering.render(summary,vocation);
       }
     };
     DefaultTableColumnController<CraftingSynopsisItem,String> vocationColumn=new DefaultTableColumnController<CraftingSynopsisItem,String>(CraftingSynopsisColumnIds.VOCATION.name(),"Vocation",String.class,vocationCell);

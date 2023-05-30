@@ -27,6 +27,7 @@ import delta.games.lotro.lore.crafting.Vocation;
 import delta.games.lotro.lore.crafting.VocationComparator;
 import delta.games.lotro.lore.crafting.Vocations;
 import delta.games.lotro.utils.events.EventsManager;
+import delta.games.lotro.utils.strings.ContextRendering;
 
 /**
  * Controller for a "crafting stats" window.
@@ -163,7 +164,9 @@ public class CraftingWindowController extends DefaultFormDialogController<Crafti
     Collections.sort(vocations,new VocationComparator());
     for(Vocation vocation : vocations)
     {
-      ret.addItem(vocation,vocation.getName());
+      String vocationName=vocation.getName();
+      vocationName=ContextRendering.render(_toon.getSummary(),vocationName);
+      ret.addItem(vocation,vocationName);
     }
     return ret;
   }
