@@ -42,6 +42,8 @@ import delta.games.lotro.character.status.achievables.io.QuestsStatusIo;
 import delta.games.lotro.character.status.allegiances.AllegiancesStatusManager;
 import delta.games.lotro.character.status.allegiances.io.AllegiancesStatusIo;
 import delta.games.lotro.character.status.crafting.CraftingStatus;
+import delta.games.lotro.character.status.notes.CharacterNotes;
+import delta.games.lotro.character.status.notes.io.CharacterNotesIo;
 import delta.games.lotro.character.status.recipes.RecipesStatusManager;
 import delta.games.lotro.character.status.relics.RelicsInventory;
 import delta.games.lotro.character.status.relics.RelicsInventoryManager;
@@ -66,6 +68,7 @@ import delta.games.lotro.gui.character.status.deeds.DeedsStatusWindowController;
 import delta.games.lotro.gui.character.status.emotes.EmotesStatusWindowController;
 import delta.games.lotro.gui.character.status.hobbies.HobbiesStatusWindowController;
 import delta.games.lotro.gui.character.status.levelling.LevelHistoryEditionDialogController;
+import delta.games.lotro.gui.character.status.notes.CharacterNotesEditionDialogController;
 import delta.games.lotro.gui.character.status.quests.QuestsStatusWindowController;
 import delta.games.lotro.gui.character.status.recipes.RecipesStatusWindowController;
 import delta.games.lotro.gui.character.status.relics.RelicsInventoryWindowController;
@@ -111,6 +114,7 @@ public class CharacterFileWindowController extends DefaultWindowController imple
   private static final String MOUNTS_COMMAND="mounts";
   private static final String PETS_COMMAND="pets";
   private static final String HOBBIES_COMMAND="hobbies";
+  private static final String NOTES_COMMAND="notes";
 
   private CharacterSummaryPanelController _summaryController;
   private CharacterDataTableController _toonsTable;
@@ -223,6 +227,9 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     // Mounts status
     JButton mountsButton=buildCommandButton("Mounts",MOUNTS_COMMAND);
     panel.add(mountsButton,c);c.gridx++;
+    // Notes
+    JButton notesButton=buildCommandButton("Notes",NOTES_COMMAND);
+    panel.add(notesButton,c);c.gridx++;
 
     c.insets.right=0;
     c.gridx=0;c.gridy++;
@@ -389,6 +396,10 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     else if (HOBBIES_COMMAND.equals(command))
     {
       showHobbiesStatus();
+    }
+    else if (NOTES_COMMAND.equals(command))
+    {
+      editNotes();
     }
     else if (NEW_TOON_DATA_ID.equals(command))
     {
@@ -805,6 +816,17 @@ public class CharacterFileWindowController extends DefaultWindowController imple
       windowsManager.registerWindow(windowCtrl);
     }
     windowCtrl.show();
+  }
+
+  private void editNotes()
+  {
+    CharacterNotes notes=CharacterNotesIo.load(_toon);
+    CharacterNotesEditionDialogController editDialog=new CharacterNotesEditionDialogController(this,notes);
+    notes=editDialog.editModal();
+    if (notes!=null)
+    {
+      CharacterNotesIo.save(_toon,notes);
+    }
   }
 
   /**
