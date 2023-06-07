@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.navigator.NavigatorWindowController;
+import delta.games.lotro.common.comparators.NamedComparator;
 import delta.games.lotro.gui.utils.ItemDisplayGadgets;
 import delta.games.lotro.lore.items.Container;
 import delta.games.lotro.lore.items.ContainersManager;
@@ -22,7 +23,6 @@ import delta.games.lotro.lore.items.containers.ContainerInspector;
 import delta.games.lotro.lore.items.containers.ContainerOpenPolicy;
 import delta.games.lotro.lore.items.containers.ItemsContainer;
 import delta.games.lotro.lore.items.legendary.relics.Relic;
-import delta.games.lotro.lore.items.legendary.relics.comparators.RelicNameComparator;
 
 /**
  * Controller for a panel to display the contents of a container.
@@ -178,7 +178,7 @@ public class ContainerDisplayPanelController
     }
     // Relics
     List<Relic> relics=ContainerInspector.getContainerRelics(_item);
-    Collections.sort(relics,new RelicNameComparator());
+    Collections.sort(relics,new NamedComparator());
     for(Relic relic : relics)
     {
       int relicId=relic.getIdentifier();

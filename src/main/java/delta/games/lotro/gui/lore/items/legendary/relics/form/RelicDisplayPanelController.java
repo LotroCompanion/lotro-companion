@@ -20,11 +20,11 @@ import delta.common.ui.swing.labels.MultilineLabel2;
 import delta.common.ui.swing.navigator.NavigablePanelController;
 import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.games.lotro.character.stats.BasicStatsSet;
+import delta.games.lotro.common.enums.RunicTier;
 import delta.games.lotro.common.stats.StatUtils;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.common.requirements.RequirementsUtils;
 import delta.games.lotro.lore.items.legendary.relics.Relic;
-import delta.games.lotro.lore.items.legendary.relics.RelicsCategory;
 
 /**
  * Controller for a relic display panel.
@@ -149,13 +149,13 @@ public class RelicDisplayPanelController implements NavigablePanelController
       c.gridy++;
     }
     // Category
-    RelicsCategory category=_relic.getCategory();
-    if (category!=null)
+    RunicTier tier=_relic.getTier();
+    if (tier!=null)
     {
       JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
       panel.add(panelLine,c);
       c.gridy++;
-      panelLine.add(GuiFactory.buildLabel("Category: "+category.getName()));
+      panelLine.add(GuiFactory.buildLabel("Tier: "+tier.getLabel()));
     }
     // Type(s)
     String types=_relic.getTypesStr();

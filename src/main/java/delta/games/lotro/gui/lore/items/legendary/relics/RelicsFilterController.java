@@ -16,11 +16,11 @@ import javax.swing.event.DocumentListener;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.common.ui.swing.combobox.ItemSelectionListener;
+import delta.games.lotro.common.enums.RunicTier;
+import delta.games.lotro.common.enums.comparator.LotroEnumEntryCodeComparator;
 import delta.games.lotro.lore.items.legendary.relics.Relic;
 import delta.games.lotro.lore.items.legendary.relics.RelicFilter;
 import delta.games.lotro.lore.items.legendary.relics.RelicType;
-import delta.games.lotro.lore.items.legendary.relics.RelicsCategory;
-import delta.games.lotro.lore.items.legendary.relics.comparators.RelicCategoryCodeComparator;
 import delta.games.lotro.utils.gui.filter.ObjectFilterPanelController;
 
 /**
@@ -34,7 +34,7 @@ public class RelicsFilterController extends ObjectFilterPanelController
   private RelicFilter _filter;
   // GUI
   private JPanel _panel;
-  private ComboBoxController<RelicsCategory> _category;
+  private ComboBoxController<RunicTier> _tier;
   private ComboBoxController<RelicType> _type;
   private JTextField _nameContains;
   private JTextField _statsContains;
@@ -79,8 +79,8 @@ public class RelicsFilterController extends ObjectFilterPanelController
       _type.getComboBox().setEnabled(false);
     }
     // Category
-    RelicsCategory category=_filter.getRelicCategory();
-    _category.selectItem(category);
+    RunicTier tier=_filter.getRelicTier();
+    _tier.selectItem(tier);
     // Name
     String contains=_filter.getNameFilter();
     if (contains!=null)
@@ -102,7 +102,7 @@ public class RelicsFilterController extends ObjectFilterPanelController
     // Type
     _type=buildTypesCombo();
     // Category
-    _category=buildCategoriesCombo();
+    _tier=buildTiersCombo();
     // Name filter
     JPanel nameContainsPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING));
     {
@@ -128,7 +128,7 @@ public class RelicsFilterController extends ObjectFilterPanelController
     // Category panel
     JPanel categoryPanel=GuiFactory.buildPanel(new FlowLayout());
     categoryPanel.add(GuiFactory.buildLabel("Category:"));
-    categoryPanel.add(_category.getComboBox());
+    categoryPanel.add(_tier.getComboBox());
 
     // Global assembly
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
@@ -161,20 +161,20 @@ public class RelicsFilterController extends ObjectFilterPanelController
     return ctrl;
   }
 
-  private ComboBoxController<RelicsCategory> buildCategoriesCombo()
+  private ComboBoxController<RunicTier> buildTiersCombo()
   {
-    final ComboBoxController<RelicsCategory> ctrl=new ComboBoxController<RelicsCategory>();
+    final ComboBoxController<RunicTier> ctrl=new ComboBoxController<RunicTier>();
     ctrl.addEmptyItem("");
-    for(RelicsCategory category : getCategories())
+    for(RunicTier tier  : getTiers())
     {
-      ctrl.addItem(category,category.getName());
+      ctrl.addItem(tier,tier.getLabel());
     }
-    ItemSelectionListener<RelicsCategory> l=new ItemSelectionListener<RelicsCategory>()
+    ItemSelectionListener<RunicTier> l=new ItemSelectionListener<RunicTier>()
     {
       @Override
-      public void itemSelected(RelicsCategory category)
+      public void itemSelected(RunicTier tier)
       {
-        _filter.setRelicCategory(category);
+        _filter.setRelicTier(tier);
         filterUpdated();
       }
     };
@@ -182,18 +182,18 @@ public class RelicsFilterController extends ObjectFilterPanelController
     return ctrl;
   }
 
-  private List<RelicsCategory> getCategories()
+  private List<RunicTier> getTiers()
   {
-    List<RelicsCategory> ret=new ArrayList<RelicsCategory>();
+    List<RunicTier> ret=new ArrayList<RunicTier>();
     for(Relic relic : _relics)
     {
-      RelicsCategory category=relic.getCategory();
-      if (!ret.contains(category))
+      RunicTier tier=relic.getTier();
+      if (!ret.contains(tier))
       {
-        ret.add(category);
+        ret.add(tier);
       }
     }
-    Collections.sort(ret,new RelicCategoryCodeComparator());
+    Collections.sort(ret,new LotroEnumEntryCodeComparator<RunicTier>());
     return ret;
   }
 
@@ -252,7 +252,7 @@ public class RelicsFilterController extends ObjectFilterPanelController
       _panel.removeAll();
       _panel=null;
     }
-    _category=null;
+    _tier=null;
     _type=null;
     _nameContains=null;
     _statsContains=null;
