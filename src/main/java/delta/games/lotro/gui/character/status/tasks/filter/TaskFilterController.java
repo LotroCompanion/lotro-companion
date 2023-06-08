@@ -23,6 +23,7 @@ import delta.common.ui.swing.text.DynamicTextEditionController;
 import delta.common.ui.swing.text.TextListener;
 import delta.games.lotro.character.status.achievables.filter.QuestStatusFilter;
 import delta.games.lotro.character.status.tasks.filter.TaskStatusFilter;
+import delta.games.lotro.common.comparators.NamedComparator;
 import delta.games.lotro.common.filters.NamedFilter;
 import delta.games.lotro.common.rewards.ReputationReward;
 import delta.games.lotro.common.rewards.Rewards;
@@ -31,7 +32,6 @@ import delta.games.lotro.gui.lore.items.FilterUpdateListener;
 import delta.games.lotro.lore.quests.QuestDescription;
 import delta.games.lotro.lore.quests.filter.QuestFilter;
 import delta.games.lotro.lore.reputation.Faction;
-import delta.games.lotro.lore.reputation.FactionNameComparator;
 import delta.games.lotro.lore.tasks.Task;
 import delta.games.lotro.lore.tasks.TasksRegistry;
 
@@ -240,7 +240,7 @@ public class TaskFilterController implements ActionListener
       }
     }
     List<Faction> ret=new ArrayList<Faction>(factions);
-    Collections.sort(ret,new FactionNameComparator());
+    Collections.sort(ret,new NamedComparator());
     return ret;
   }
 

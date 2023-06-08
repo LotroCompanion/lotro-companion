@@ -11,10 +11,10 @@ import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.ListDataProvider;
 import delta.common.ui.swing.tables.TableColumnsManager;
+import delta.games.lotro.common.Named;
+import delta.games.lotro.common.comparators.NamedComparator;
 import delta.games.lotro.common.statistics.FactionStats;
 import delta.games.lotro.common.statistics.ReputationStats;
-import delta.games.lotro.lore.reputation.Faction;
-import delta.games.lotro.lore.reputation.FactionNameComparator;
 import delta.games.lotro.utils.DataProvider;
 import delta.games.lotro.utils.comparators.DelegatingComparator;
 
@@ -122,14 +122,14 @@ public abstract class ReputationTableController<T extends FactionStats>
 
   private void sortFactionStatsByName(List<T> factionStats)
   {
-    DataProvider<T,Faction> provider=new DataProvider<T,Faction>()
+    DataProvider<T,Named> provider=new DataProvider<T,Named>()
     {
-      public Faction getData(T p)
+      public Named getData(T p)
       {
         return p.getFaction();
       }
     };
-    DelegatingComparator<T,Faction> c=new DelegatingComparator<T,Faction>(provider,new FactionNameComparator());
+    DelegatingComparator<T,Named> c=new DelegatingComparator<T,Named>(provider,new NamedComparator());
     Collections.sort(factionStats,c);
   }
 
