@@ -141,7 +141,7 @@ public class NavigationMenuController implements Disposable
 
   private boolean useMap(ParchmentMap map)
   {
-    if ("?".equals(map.getName()))
+    if ("".equals(map.getName()))
     {
       return false;
     }
