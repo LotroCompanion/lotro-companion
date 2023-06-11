@@ -21,6 +21,7 @@ import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.lore.items.EquipmentLocation;
 import delta.games.lotro.lore.items.legendary.relics.Relic;
 import delta.games.lotro.lore.items.legendary.relics.RelicType;
+import delta.games.lotro.lore.items.legendary.relics.RelicTypes;
 import delta.games.lotro.lore.items.legendary.relics.RelicsSet;
 
 /**
@@ -32,7 +33,7 @@ public class RelicsEditionPanelController implements ActionListener
   /**
    * Relic types, ordered like in the LOTRO UI.
    */
-  private static final RelicType[] RELIC_TYPES={RelicType.SETTING,RelicType.GEM,RelicType.RUNE,RelicType.CRAFTED_RELIC};
+  private static final RelicType[] RELIC_TYPES={RelicTypes.SETTING,RelicTypes.GEM,RelicTypes.RUNE,RelicTypes.CRAFTED_RELIC};
 
   // Data
   private RelicsSet _relics;
@@ -180,10 +181,10 @@ public class RelicsEditionPanelController implements ActionListener
       if (source==deleteButton)
       {
         RelicType type=RELIC_TYPES[index];
-        if (type==RelicType.SETTING) _relics.setSetting(null);
-        if (type==RelicType.GEM) _relics.setGem(null);
-        if (type==RelicType.RUNE) _relics.setRune(null);
-        if (type==RelicType.CRAFTED_RELIC) _relics.setCraftedRelic(null);
+        if (type==RelicTypes.SETTING) _relics.setSetting(null);
+        if (type==RelicTypes.GEM) _relics.setGem(null);
+        if (type==RelicTypes.RUNE) _relics.setRune(null);
+        if (type==RelicTypes.CRAFTED_RELIC) _relics.setCraftedRelic(null);
         update();
       }
       index++;

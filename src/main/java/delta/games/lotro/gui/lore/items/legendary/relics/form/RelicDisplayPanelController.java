@@ -158,7 +158,7 @@ public class RelicDisplayPanelController implements NavigablePanelController
       panelLine.add(GuiFactory.buildLabel("Tier: "+tier.getLabel()));
     }
     // Type(s)
-    String types=_relic.getTypesStr();
+    String types=_relic.getTypesForDisplay();
     if ((types!=null) && (types.length()>0))
     {
       JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));

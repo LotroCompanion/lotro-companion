@@ -4,6 +4,7 @@ import delta.games.lotro.lore.items.EquipmentLocation;
 import delta.games.lotro.lore.items.EquipmentLocations;
 import delta.games.lotro.lore.items.legendary.relics.Relic;
 import delta.games.lotro.lore.items.legendary.relics.RelicType;
+import delta.games.lotro.lore.items.legendary.relics.RelicTypes;
 import delta.games.lotro.lore.items.legendary.relics.RelicsManager;
 
 /**
@@ -20,7 +21,7 @@ public class MainTestShowRelicChoiceWindow
   {
     RelicsManager relicsMgr=RelicsManager.getInstance();
     EquipmentLocation slot=EquipmentLocations.CLASS_SLOT;
-    RelicType type=RelicType.SETTING;
+    RelicType type=RelicTypes.SETTING;
     Relic initialRelic=relicsMgr.getAllRelics(type,slot).get(10);
     System.out.println(initialRelic);
     Relic relic=RelicChooser.selectRelic(null,type,slot,initialRelic);

@@ -144,7 +144,7 @@ public class RelicsFilterController extends ObjectFilterPanelController
   {
     final ComboBoxController<RelicType> ctrl=new ComboBoxController<RelicType>();
     ctrl.addEmptyItem("");
-    for(RelicType type : RelicType.values())
+    for(RelicType type : RelicType.getAll())
     {
       ctrl.addItem(type,type.getName());
     }
