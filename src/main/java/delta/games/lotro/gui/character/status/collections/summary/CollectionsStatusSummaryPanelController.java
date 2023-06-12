@@ -57,12 +57,13 @@ public class CollectionsStatusSummaryPanelController
       c=new GridBagConstraints(1,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
       ret.add(gadgets.getProgressGadget(),c);
       c=new GridBagConstraints(2,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
+      final CollectionStatus cs=collectionStatus;
       ActionListener al=new ActionListener()
       {
         @Override
         public void actionPerformed(ActionEvent e)
         {
-          showCollectionStatusDetails(collectionStatus);
+          showCollectionStatusDetails(cs);
         }
       };
       JButton button=gadgets.getDetailsButton();

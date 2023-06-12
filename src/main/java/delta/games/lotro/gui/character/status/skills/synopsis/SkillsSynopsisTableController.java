@@ -153,7 +153,7 @@ public class SkillsSynopsisTableController
     return iconColumn;
   }
 
-  private DefaultTableColumnController<SkillDescription,SkillStatus> buildCharacterColumn(CharacterFile character)
+  private DefaultTableColumnController<SkillDescription,SkillStatus> buildCharacterColumn(final CharacterFile character)
   {
     CellDataProvider<SkillDescription,SkillStatus> cell=new CellDataProvider<SkillDescription,SkillStatus>()
     {

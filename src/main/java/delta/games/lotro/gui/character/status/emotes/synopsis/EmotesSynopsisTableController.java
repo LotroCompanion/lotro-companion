@@ -153,7 +153,7 @@ public class EmotesSynopsisTableController
     return iconColumn;
   }
 
-  private DefaultTableColumnController<EmoteDescription,EmoteStatus> buildCharacterColumn(CharacterFile character)
+  private DefaultTableColumnController<EmoteDescription,EmoteStatus> buildCharacterColumn(final CharacterFile character)
   {
     CellDataProvider<EmoteDescription,EmoteStatus> cell=new CellDataProvider<EmoteDescription,EmoteStatus>()
     {

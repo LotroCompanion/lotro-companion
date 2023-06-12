@@ -152,7 +152,7 @@ public class InstancesFilterController implements ActionListener
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
 
-    InstancesFilter filter=_filter.getInstancesFilter();
+    final InstancesFilter filter=_filter.getInstancesFilter();
     int y=0;
     JPanel line1Panel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
     // Label filter
