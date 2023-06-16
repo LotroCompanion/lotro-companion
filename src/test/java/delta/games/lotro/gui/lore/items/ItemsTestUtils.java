@@ -9,7 +9,7 @@ import delta.common.utils.url.URLTools;
 import delta.common.utils.xml.DOMParsingTools;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemInstance;
-import delta.games.lotro.lore.items.io.xml.ItemXMLParser;
+import delta.games.lotro.lore.items.io.xml.ItemInstanceXMLParser;
 
 /**
  * Utility methods related to items test code.
@@ -44,7 +44,7 @@ public class ItemsTestUtils
     {
       URL url=URLTools.getFromClassPath(name,baseClass);
       Element root=DOMParsingTools.parse(url);
-      ItemXMLParser parser=new ItemXMLParser();
+      ItemInstanceXMLParser parser=new ItemInstanceXMLParser();
       itemInstance=parser.parseItemInstance(root);
     }
     catch(Exception e)

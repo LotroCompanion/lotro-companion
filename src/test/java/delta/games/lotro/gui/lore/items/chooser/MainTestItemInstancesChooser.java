@@ -14,7 +14,7 @@ import delta.common.utils.xml.DOMParsingTools;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemInstance;
 import delta.games.lotro.lore.items.io.xml.ItemXMLConstants;
-import delta.games.lotro.lore.items.io.xml.ItemXMLParser;
+import delta.games.lotro.lore.items.io.xml.ItemInstanceXMLParser;
 import delta.games.lotro.utils.gui.chooser.ObjectChoiceWindowController;
 
 /**
@@ -29,7 +29,7 @@ public class MainTestItemInstancesChooser
     Element root=DOMParsingTools.parse(input);
     if (root!=null)
     {
-      ItemXMLParser parser=new ItemXMLParser();
+      ItemInstanceXMLParser parser=new ItemInstanceXMLParser();
       List<Element> itemTags=DOMParsingTools.getChildTagsByName(root,ItemXMLConstants.ITEM_TAG,false);
       for(Element itemTag : itemTags)
       {
