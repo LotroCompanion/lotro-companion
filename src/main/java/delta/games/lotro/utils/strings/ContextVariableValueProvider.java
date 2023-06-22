@@ -22,7 +22,6 @@ import delta.games.lotro.dat.data.strings.renderer.VariableValueProvider;
  */
 public class ContextVariableValueProvider implements VariableValueProvider
 {
-  private VariableValueProvider _parent;
   // Character name + tag for gender
   private String _name;
   private String _surname;
@@ -34,11 +33,10 @@ public class ContextVariableValueProvider implements VariableValueProvider
 
   /**
    * Constructor.
-   * @param parent Parent provider.
    */
-  public ContextVariableValueProvider(VariableValueProvider parent)
+  public ContextVariableValueProvider()
   {
-    _parent=parent;
+    // Nothing!
   }
 
   /**

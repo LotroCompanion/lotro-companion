@@ -7,18 +7,21 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.area.AreaController;
 import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.common.ui.swing.combobox.ItemSelectionListener;
+import delta.common.ui.swing.panels.AbstractPanelController;
 import delta.common.ui.swing.text.IntegerEditionController;
 import delta.games.lotro.character.status.reputation.FactionStatus;
 import delta.games.lotro.lore.reputation.Faction;
 import delta.games.lotro.lore.reputation.FactionLevel;
+import delta.games.lotro.utils.strings.ContextRendering;
 
 /**
  * Controller for a panel to edition a faction status (level+reputation amount).
  * @author DAM
  */
-public class FactionStatusEditionPanelController
+public class FactionStatusEditionPanelController extends AbstractPanelController
 {
   // Data
   private FactionStatus _status;
@@ -26,28 +29,21 @@ public class FactionStatusEditionPanelController
   private ComboBoxController<Integer> _tiers;
   private IntegerEditionController _reputationValue;
   // UI
-  private JPanel _panel;
   private JPanel _reputationPanel;
   private JLabel _reputationMax;
 
   /**
    * Constructor.
+   * @param parent Parent controller.
    * @param status Status to edit.
    */
-  public FactionStatusEditionPanelController(FactionStatus status)
+  public FactionStatusEditionPanelController(AreaController parent, FactionStatus status)
   {
+    super(parent);
     _status=status;
-    _panel=buildPanel();
+    JPanel panel=buildPanel();
+    setPanel(panel);
     updateUi();
-  }
-
-  /**
-   * Get the managed panel.
-   * @return the managed panel.
-   */
-  public JPanel getPanel()
-  {
-    return _panel;
   }
 
   private JPanel buildPanel()
@@ -195,7 +191,9 @@ public class FactionStatusEditionPanelController
     FactionLevel[] levels=faction.getLevels();
     for(FactionLevel level : levels)
     {
-      ctrl.addItem(Integer.valueOf(level.getTier()),level.getName());
+      String rawName=level.getName();
+      String name=ContextRendering.render(this,rawName);
+      ctrl.addItem(Integer.valueOf(level.getTier()),name);
     }
     return ctrl;
   }
@@ -205,11 +203,7 @@ public class FactionStatusEditionPanelController
    */
   public void dispose()
   {
-    if (_panel!=null)
-    {
-      _panel.removeAll();
-      _panel=null;
-    }
+    super.dispose();
     if (_reputationPanel!=null)
     {
       _reputationPanel.removeAll();

@@ -27,20 +27,22 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.area.AreaController;
+import delta.common.ui.swing.panels.AbstractPanelController;
 import delta.common.utils.l10n.LocalizedFormats;
 import delta.games.lotro.character.status.reputation.FactionLevelStatus;
 import delta.games.lotro.character.status.reputation.FactionStatus;
 import delta.games.lotro.lore.reputation.Faction;
 import delta.games.lotro.lore.reputation.FactionLevel;
 import delta.games.lotro.utils.Formats;
+import delta.games.lotro.utils.strings.ContextRendering;
 
 /**
  * Controller for faction history chart.
  * @author DAM
  */
-public class FactionHistoryChartController
+public class FactionHistoryChartController extends AbstractPanelController
 {
-  private JPanel _panel;
   private JFreeChart _chart;
   private FactionStatus _stats;
   private boolean _showTitle;
@@ -48,15 +50,18 @@ public class FactionHistoryChartController
 
   /**
    * Constructor.
+   * @param parent Parent controller.
    * @param stats Data to display.
    * @param showTitle Show title or not.
    */
-  public FactionHistoryChartController(FactionStatus stats, boolean showTitle)
+  public FactionHistoryChartController(AreaController parent, FactionStatus stats, boolean showTitle)
   {
+    super(parent);
     _stats=stats;
     _showTitle=showTitle;
     _data=new XYSeriesCollection();
-    _panel=buildPanel();
+    JPanel panel=buildPanel();
+    setPanel(panel);
   }
 
   /**
@@ -65,18 +70,20 @@ public class FactionHistoryChartController
    */
   public JPanel getPanel()
   {
-    if (_panel==null)
+    JPanel panel=super.getPanel();
+    if (panel==null)
     {
-      _panel=buildPanel();
+      panel=buildPanel();
+      setPanel(panel);
     }
-    return _panel;
+    return panel;
   }
 
   private JPanel buildPanel()
   {
     _chart=buildChart();
-    _panel=buildChartPanel();
-    return _panel;
+    JPanel panel=buildChartPanel();
+    return panel;
   }
 
   private JPanel buildChartPanel()
@@ -91,7 +98,8 @@ public class FactionHistoryChartController
     return chartPanel;
   }
 
-  private JFreeChart buildChart(){
+  private JFreeChart buildChart()
+  {
     String title="";
     if (_showTitle)
     {
@@ -118,13 +126,14 @@ public class FactionHistoryChartController
     xyplot.setDomainPannable(false);
     XYStepAreaRenderer xysteparearenderer = new XYStepAreaRenderer(XYStepAreaRenderer.AREA_AND_SHAPES);
     final Faction faction=_stats.getFaction();
-    XYToolTipGenerator tooltip=new StandardXYToolTipGenerator() {
+    XYToolTipGenerator tooltip=new StandardXYToolTipGenerator()
+    {
       @Override
       public String generateLabelString(XYDataset dataset, int series, int item)
       {
         int tier=(int)dataset.getYValue(series,item);
         FactionLevel level=faction.getLevelByTier(tier);
-        String label=(level!=null)?level.getName():"?";
+        String label=getTierName(level);
         double timestamp=dataset.getXValue(series,item);
         String date=Formats.getDateString(Long.valueOf((long)timestamp));
         return label+" ("+date+")";
@@ -154,7 +163,7 @@ public class FactionHistoryChartController
       private String format(int number)
       {
         FactionLevel level=faction.getLevelByTier(number);
-        return (level!=null)?level.getName():"???";
+        return getTierName(level);
       }
 
       @Override
@@ -181,6 +190,21 @@ public class FactionHistoryChartController
     legend.setBackgroundPaint(backgroundPaint);
 
     return jfreechart;
+  }
+
+  private String getTierName(FactionLevel level)
+  {
+    String tierName=null;
+    if (level!=null)
+    {
+      String rawName=level.getName();
+      tierName=ContextRendering.render(this,rawName);
+    }
+    else
+    {
+      tierName="?";
+    }
+    return tierName;
   }
 
   /**
@@ -213,11 +237,7 @@ public class FactionHistoryChartController
    */
   public void dispose()
   {
-    if (_panel!=null)
-    {
-      _panel.removeAll();
-      _panel=null;
-    }
+    super.dispose();
     _chart=null;
     _stats=null;
   }

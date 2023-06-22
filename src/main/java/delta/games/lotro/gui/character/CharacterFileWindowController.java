@@ -79,6 +79,7 @@ import delta.games.lotro.gui.character.status.titles.TitlesStatusWindowControlle
 import delta.games.lotro.gui.character.status.traitPoints.TraitPointsEditionWindowController;
 import delta.games.lotro.gui.character.status.travels.TravelsStatusWindowController;
 import delta.games.lotro.gui.character.storage.own.CharacterStorageDisplayWindowController;
+import delta.games.lotro.utils.ContextPropertyNames;
 import delta.games.lotro.utils.events.EventsManager;
 import delta.games.lotro.utils.gui.filechooser.FileChooserController;
 
@@ -129,6 +130,7 @@ public class CharacterFileWindowController extends DefaultWindowController imple
   {
     _toon=toon;
     _summaryController=new CharacterSummaryPanelController(this,_toon);
+    setContextProperty(ContextPropertyNames.BASE_CHARACTER_SUMMARY,toon.getSummary());
   }
 
   /**

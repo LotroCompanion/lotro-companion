@@ -46,7 +46,7 @@ public class CharacterReputationDialogController extends DefaultFormDialogContro
   // UI
   private ReputationDeedsDisplayController _deedsDisplay;
   private ReputationRewardsDisplayController _rewardsDisplay;
-  private HashMap<Integer,FactionEditionPanelController> _editors;
+  private HashMap<Integer,FactionStatusEditionGagdgetsController> _editors;
 
   /**
    * Constructor.
@@ -58,7 +58,7 @@ public class CharacterReputationDialogController extends DefaultFormDialogContro
     super(parentController,null);
     _toon=toon;
     _data=_toon.getReputation();
-    _editors=new HashMap<Integer,FactionEditionPanelController>();
+    _editors=new HashMap<Integer,FactionStatusEditionGagdgetsController>();
   }
 
   @Override
@@ -152,7 +152,7 @@ public class CharacterReputationDialogController extends DefaultFormDialogContro
     int y=0;
     for(Faction faction : factions)
     {
-      FactionEditionPanelController editionController=new FactionEditionPanelController(faction);
+      FactionStatusEditionGagdgetsController editionController=new FactionStatusEditionGagdgetsController(this,faction);
       Integer key=Integer.valueOf(faction.getIdentifier());
       _editors.put(key,editionController);
       // Label
@@ -192,7 +192,7 @@ public class CharacterReputationDialogController extends DefaultFormDialogContro
 
   private void initData()
   {
-    for(FactionEditionPanelController editor : _editors.values())
+    for(FactionStatusEditionGagdgetsController editor : _editors.values())
     {
       updateFactionDisplay(editor);
     }
@@ -205,7 +205,7 @@ public class CharacterReputationDialogController extends DefaultFormDialogContro
   {
     // +/- buttons
     Object source=event.getSource();
-    for(FactionEditionPanelController editor : _editors.values())
+    for(FactionStatusEditionGagdgetsController editor : _editors.values())
     {
       if (source==editor.getMinusButton())
       {
@@ -236,7 +236,7 @@ public class CharacterReputationDialogController extends DefaultFormDialogContro
     }
   }
 
-  private void updateFactionDisplay(FactionEditionPanelController editor)
+  private void updateFactionDisplay(FactionStatusEditionGagdgetsController editor)
   {
     Faction faction=editor.getFaction();
     FactionStatus factionStatus=_data.getFactionStatus(faction);
@@ -275,7 +275,7 @@ public class CharacterReputationDialogController extends DefaultFormDialogContro
     super.dispose();
     if (_editors!=null)
     {
-      for(FactionEditionPanelController editor : _editors.values())
+      for(FactionStatusEditionGagdgetsController editor : _editors.values())
       {
         editor.dispose();
       }

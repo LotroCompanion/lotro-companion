@@ -50,7 +50,7 @@ public class CraftingWindowController extends DefaultFormDialogController<Crafti
   {
     super(parentController,toon.getCraftingMgr().getCraftingStatus());
     _toon=toon;
-    _vocationController=new VocationEditionPanelController(_data);
+    _vocationController=new VocationEditionPanelController(this,_data);
   }
 
   @Override

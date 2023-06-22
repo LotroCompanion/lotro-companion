@@ -14,18 +14,21 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.area.AreaController;
+import delta.common.ui.swing.panels.AbstractPanelController;
 import delta.common.ui.swing.text.dates.DateEditionController;
 import delta.common.ui.swing.text.dates.DateListener;
 import delta.games.lotro.character.status.reputation.FactionLevelStatus;
 import delta.games.lotro.character.status.reputation.FactionStatus;
 import delta.games.lotro.lore.reputation.Faction;
 import delta.games.lotro.lore.reputation.FactionLevel;
+import delta.games.lotro.utils.strings.ContextRendering;
 
 /**
  * Controller for a faction status edition panel.
  * @author DAM
  */
-public class FactionHistoryEditionPanelController
+public class FactionHistoryEditionPanelController extends AbstractPanelController
 {
   // Data
   private FactionStatus _status;
@@ -33,29 +36,22 @@ public class FactionHistoryEditionPanelController
   private List<FactionLevelEditionGadgets> _gadgets;
   private FactionHistoryChartPanelController _chart;
   // UI
-  private JPanel _panel;
   private Timer _updateTimer;
 
   /**
    * Constructor.
+   * @param parent Parent controller.
    * @param status Status to edit.
    * @param chart Associated chart.
    */
-  public FactionHistoryEditionPanelController(FactionStatus status, FactionHistoryChartPanelController chart)
+  public FactionHistoryEditionPanelController(AreaController parent, FactionStatus status, FactionHistoryChartPanelController chart)
   {
+    super(parent);
     _status=status;
     _chart=chart;
     _gadgets=new ArrayList<FactionLevelEditionGadgets>();
-    _panel=buildPanel();
-  }
-
-  /**
-   * Get the managed panel.
-   * @return the managed panel.
-   */
-  public JPanel getPanel()
-  {
-    return _panel;
+    JPanel panel=buildPanel();
+    setPanel(panel);
   }
 
   private JPanel buildPanel()
@@ -96,7 +92,9 @@ public class FactionHistoryEditionPanelController
     {
       FactionLevelStatus levelStatus=_status.getStatusForLevel(level);
       c.gridx=0;
-      JLabel tierLabel=GuiFactory.buildLabel(level.toString());
+      String rawTierName=level.getName();
+      String tierName=ContextRendering.render(this,rawTierName);
+      JLabel tierLabel=GuiFactory.buildLabel(tierName);
       panel.add(tierLabel,c);
       c.gridx++;
       FactionLevelEditionGadgets gadgets=new FactionLevelEditionGadgets(levelStatus);
@@ -159,11 +157,7 @@ public class FactionHistoryEditionPanelController
    */
   public void dispose()
   {
-    if (_panel!=null)
-    {
-      _panel.removeAll();
-      _panel=null;
-    }
+    super.dispose();
     if (_gadgets!=null)
     {
       for(FactionLevelEditionGadgets gadget : _gadgets)

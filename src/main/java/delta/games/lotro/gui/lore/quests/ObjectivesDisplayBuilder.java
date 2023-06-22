@@ -392,6 +392,7 @@ public class ObjectivesDisplayBuilder
         {
           FactionLevel level=faction.getLevelByTier(tier);
           levelName=(level!=null)?level.getName():levelName;
+          // TODO Context rendering
         }
         sb.append("Reach reputation '").append(levelName);
         sb.append("' (tier ").append(tier).append(") with ").append(name);

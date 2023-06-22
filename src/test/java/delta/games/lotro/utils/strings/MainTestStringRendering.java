@@ -25,7 +25,7 @@ public class MainTestStringRendering
 {
   private StringRenderer buildRenderer()
   {
-    ContextVariableValueProvider p=new ContextVariableValueProvider(null);
+    ContextVariableValueProvider p=new ContextVariableValueProvider();
     CharacterFile toon=new LotroTestUtils().getToonByName("Meva");
     CharacterSummary summary=toon.getSummary();
     p.setup(summary);
@@ -36,15 +36,14 @@ public class MainTestStringRendering
   private void doIt()
   {
     StringRenderer r= buildRenderer();
-    renderTitles(r);
-    renderVocations(r);
-    renderDeeds(r);
-    renderQuests(r);
+    //renderTitles(r);
+    //renderVocations(r);
+    //renderDeeds(r);
+    //renderQuests(r);
     doAllLabels(r);
   }
 
-
-  private void renderTitles(StringRenderer r)
+  void renderTitles(StringRenderer r)
   {
     for(TitleDescription title : TitlesManager.getInstance().getAll())
     {
@@ -54,7 +53,7 @@ public class MainTestStringRendering
     }
   }
 
-  private void renderVocations(StringRenderer r)
+  void renderVocations(StringRenderer r)
   {
     for(Vocation vocation : CraftingSystem.getInstance().getData().getVocationsRegistry().getAll())
     {
@@ -64,7 +63,7 @@ public class MainTestStringRendering
     }
   }
 
-  private void renderDeeds(StringRenderer r)
+  void renderDeeds(StringRenderer r)
   {
     for(DeedDescription deed : DeedsManager.getInstance().getAll())
     {
@@ -74,7 +73,7 @@ public class MainTestStringRendering
     }
   }
 
-  private void renderQuests(StringRenderer r)
+  void renderQuests(StringRenderer r)
   {
     for(QuestDescription quest : QuestsManager.getInstance().getAll())
     {
@@ -97,9 +96,19 @@ public class MainTestStringRendering
         String value=mgr.getLabel(key);
         if (value.contains("${"))
         {
-          r.render(value);
+          render(r,value);
         }
       }
+    }
+  }
+
+  private void render(StringRenderer r, String value)
+  {
+    String rendered=r.render(value);
+    if (rendered.indexOf('{')!=-1)
+    {
+      System.out.println("Warning: format="+value);
+      System.out.println("Warning: rendered="+rendered);
     }
   }
 

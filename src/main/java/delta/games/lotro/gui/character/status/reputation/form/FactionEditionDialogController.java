@@ -28,7 +28,7 @@ public class FactionEditionDialogController extends DefaultFormDialogController<
   {
     super(parentController,status);
     _edited=new FactionStatus(status);
-    _edition=new FactionStatusPanelController(_edited);
+    _edition=new FactionStatusPanelController(this,_edited);
   }
 
   @Override

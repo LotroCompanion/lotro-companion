@@ -11,6 +11,8 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.area.AreaController;
+import delta.common.ui.swing.panels.AbstractPanelController;
 import delta.games.lotro.character.status.crafting.CraftingStatus;
 import delta.games.lotro.character.status.crafting.GuildStatus;
 import delta.games.lotro.character.status.crafting.ProfessionStatus;
@@ -29,36 +31,29 @@ import delta.games.lotro.lore.crafting.Vocation;
  * </ul>
  * @author DAM
  */
-public class VocationEditionPanelController
+public class VocationEditionPanelController extends AbstractPanelController
 {
   // Controllers
   private HashMap<Profession,ProfessionStatusPanelController> _panels;
   private List<FactionStatusPanelController> _guildStatus;
   // UI
-  private JPanel _vocationPanel;
   private JTabbedPane _tabbedPane;
   // Data
   private CraftingStatus _status;
 
   /**
    * Constructor.
+   * @param parent Parent controller.
    * @param status Crafting status to edit.
    */
-  public VocationEditionPanelController(CraftingStatus status)
+  public VocationEditionPanelController(AreaController parent, CraftingStatus status)
   {
+    super(parent);
     _panels=new HashMap<Profession,ProfessionStatusPanelController>();
     _status=status;
-    _vocationPanel=GuiFactory.buildPanel(new BorderLayout());
+    JPanel vocationPanel=GuiFactory.buildPanel(new BorderLayout());
+    setPanel(vocationPanel);
     _guildStatus=new ArrayList<FactionStatusPanelController>();
-  }
-
-  /**
-   * Get the managed panel.
-   * @return the managed panel.
-   */
-  public JPanel getPanel()
-  {
-    return _vocationPanel;
   }
 
   /**
@@ -82,7 +77,8 @@ public class VocationEditionPanelController
   private void updateProfessionsUi()
   {
     Vocation vocation=_status.getVocation();
-    _vocationPanel.removeAll();
+    JPanel panel=getPanel();
+    panel.removeAll();
     JComponent centerComponent=null;
     List<Profession> currentProfessions=(vocation!=null)?vocation.getProfessions():null;
     if ((currentProfessions!=null) && (currentProfessions.size()>0))
@@ -119,9 +115,9 @@ public class VocationEditionPanelController
       centerComponent=centerLabel;
       _tabbedPane=null;
     }
-    _vocationPanel.add(centerComponent,BorderLayout.CENTER);
-    _vocationPanel.revalidate();
-    _vocationPanel.repaint();
+    panel.add(centerComponent,BorderLayout.CENTER);
+    panel.revalidate();
+    panel.repaint();
   }
 
   /**
@@ -151,7 +147,7 @@ public class VocationEditionPanelController
     for(Profession guildedProfession : guildedProfessions)
     {
       GuildStatus guildStatus=_status.getGuildStatus(guildedProfession,true);
-      FactionStatusPanelController panelController=new FactionStatusPanelController(guildStatus.getFactionStatus());
+      FactionStatusPanelController panelController=new FactionStatusPanelController(this,guildStatus.getFactionStatus());
       _guildStatus.add(panelController);
       JPanel guildPanel=panelController.getPanel();
       _tabbedPane.add("Guild: "+guildedProfession.getName(),guildPanel);
@@ -203,12 +199,8 @@ public class VocationEditionPanelController
       }
       _guildStatus=null;
     }
-    if (_vocationPanel!=null)
-    {
-      _vocationPanel.removeAll();
-      _vocationPanel=null;
-    }
     _tabbedPane=null;
     _status=null;
+    super.dispose();
   }
 }

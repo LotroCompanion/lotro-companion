@@ -15,6 +15,10 @@ public class ContextPropertyNames
    */
   public static final String PRIVATE_ENCOUNTER="PRIVATE_ENCOUNTER";
   /**
+   * Base character summary. Class=BaseCharacterSummary.
+   */
+  public static final String BASE_CHARACTER_SUMMARY="BASE_CHARACTER_SUMMARY";
+  /**
    * Character level. Class=Integer.
    */
   public static final String CHARACTER_LEVEL="CHARACTER_LEVEL";

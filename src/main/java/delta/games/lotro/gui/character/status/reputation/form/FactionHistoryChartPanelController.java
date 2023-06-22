@@ -7,26 +7,29 @@ import java.awt.Insets;
 import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.area.AreaController;
+import delta.common.ui.swing.panels.AbstractPanelController;
 import delta.games.lotro.character.status.reputation.FactionStatus;
 
 /**
  * Controller for a panel that displays the history of a single faction.
  * @author DAM
  */
-public class FactionHistoryChartPanelController
+public class FactionHistoryChartPanelController extends AbstractPanelController
 {
   // GUI
-  private JPanel _panel;
   private FactionHistoryChartController _history;
   // Data
   private FactionStatus _stats;
 
   /**
    * Constructor.
+   * @param parent Parent controller.
    * @param stats Faction stats to display.
    */
-  public FactionHistoryChartPanelController(FactionStatus stats)
+  public FactionHistoryChartPanelController(AreaController parent, FactionStatus stats)
   {
+    super(parent);
     _stats=stats;
   }
 
@@ -36,18 +39,20 @@ public class FactionHistoryChartPanelController
    */
   public JPanel getPanel()
   {
-    if (_panel==null)
+    JPanel panel=super.getPanel();
+    if (panel==null)
     {
-      _panel=buildPanel();
+      panel=buildPanel();
+      setPanel(panel);
     }
-    return _panel;
+    return panel;
   }
 
   private JPanel buildPanel()
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     // History chart
-    _history=new FactionHistoryChartController(_stats,false);
+    _history=new FactionHistoryChartController(this,_stats,false);
     JPanel historyPanel=_history.getPanel();
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,1.0,GridBagConstraints.CENTER,GridBagConstraints.BOTH,new Insets(5,10,5,10),0,0);
     panel.add(historyPanel,c);
@@ -71,11 +76,7 @@ public class FactionHistoryChartPanelController
    */
   public void dispose()
   {
-    if (_panel!=null)
-    {
-      _panel.removeAll();
-      _panel=null;
-    }
+    super.dispose();
     if (_history!=null)
     {
       _history.dispose();

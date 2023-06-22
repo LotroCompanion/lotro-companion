@@ -9,15 +9,18 @@ import javax.swing.JProgressBar;
 import javax.swing.SwingConstants;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.area.AbstractAreaController;
+import delta.common.ui.swing.area.AreaController;
 import delta.games.lotro.character.status.reputation.FactionStatus;
 import delta.games.lotro.lore.reputation.Faction;
 import delta.games.lotro.lore.reputation.FactionLevel;
+import delta.games.lotro.utils.strings.ContextRendering;
 
 /**
- * Controller for a reputation panel.
+ * Controller for a set of gadgets to edit a reputation status.
  * @author DAM
  */
-public class FactionEditionPanelController
+public class FactionStatusEditionGagdgetsController extends AbstractAreaController
 {
   private Faction _faction;
   private JLabel _label;
@@ -28,10 +31,12 @@ public class FactionEditionPanelController
 
   /**
    * Constructor.
-   * @param faction Faction to display.
+   * @param parent Parent controller.
+   * @param faction Faction to use.
    */
-  public FactionEditionPanelController(Faction faction)
+  public FactionStatusEditionGagdgetsController(AreaController parent, Faction faction)
   {
+    super(parent);
     _faction=faction;
     // Label
     String name=_faction.getName();
@@ -123,7 +128,7 @@ public class FactionEditionPanelController
     }
     else
     {
-      String levelName=level.getName();
+      String tierName=level.getName();
       Faction faction=status.getFaction();
       Integer reputation=status.getReputation();
       int reputationValue=(reputation!=null)?reputation.intValue():level.getRequiredReputation();
@@ -151,7 +156,7 @@ public class FactionEditionPanelController
       _bar.setMinimum(min);
       _bar.setMaximum(max);
       _bar.setValue(value);
-      String label=levelName;
+      String label=ContextRendering.render(this,tierName);
       int diffReputation=reputationValue-level.getRequiredReputation();
       if (diffReputation>0)
       {
@@ -166,6 +171,7 @@ public class FactionEditionPanelController
    */
   public void dispose()
   {
+    super.dispose();
     _faction=null;
     _label=null;
     _bar=null;

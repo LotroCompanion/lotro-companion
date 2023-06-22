@@ -7,6 +7,8 @@ import java.awt.Insets;
 import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.area.AreaController;
+import delta.common.ui.swing.panels.AbstractPanelController;
 import delta.games.lotro.character.status.reputation.FactionStatus;
 
 /**
@@ -18,25 +20,24 @@ import delta.games.lotro.character.status.reputation.FactionStatus;
  * </ul>
  * @author DAM
  */
-public class FactionStatusPanelController
+public class FactionStatusPanelController extends AbstractPanelController
 {
   // Controllers
   private FactionStatusEditionPanelController _statusController;
   private FactionHistoryEditionPanelController _historyController;
   private FactionHistoryChartPanelController _chartController;
 
-  // UI
-  private JPanel _panel;
-
   /**
    * Constructor.
+   * @param parent Parent controller.
    * @param status Faction status to display.
    */
-  public FactionStatusPanelController(FactionStatus status)
+  public FactionStatusPanelController(AreaController parent, FactionStatus status)
   {
-    _statusController=new FactionStatusEditionPanelController(status);
-    _chartController=new FactionHistoryChartPanelController(status);
-    _historyController=new FactionHistoryEditionPanelController(status,_chartController);
+    super(parent);
+    _statusController=new FactionStatusEditionPanelController(this,status);
+    _chartController=new FactionHistoryChartPanelController(this,status);
+    _historyController=new FactionHistoryEditionPanelController(this,status,_chartController);
   }
 
   /**
@@ -45,11 +46,13 @@ public class FactionStatusPanelController
    */
   public JPanel getPanel()
   {
-    if (_panel==null)
+    JPanel panel=super.getPanel();
+    if (panel==null)
     {
-      _panel=buildPanel();
+      panel=buildPanel();
+      setPanel(panel);
     }
-    return _panel;
+    return panel;
   }
 
   private JPanel buildPanel()
@@ -83,11 +86,7 @@ public class FactionStatusPanelController
    */
   public void dispose()
   {
-    if (_panel!=null)
-    {
-      _panel.removeAll();
-      _panel=null;
-    }
+    super.dispose();
     if (_statusController!=null)
     {
       _statusController.dispose();
