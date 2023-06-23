@@ -14,10 +14,11 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import delta.common.ui.swing.GuiFactory;
-import delta.common.ui.swing.navigator.NavigablePanelController;
+import delta.common.ui.swing.navigator.AbstractNavigablePanelController;
 import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.common.ui.swing.tables.GenericTableController;
+import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.gui.common.requirements.RequirementsUtils;
@@ -29,15 +30,11 @@ import delta.games.lotro.lore.trade.barter.BarterNpc;
  * Controller for a barterer display panel.
  * @author DAM
  */
-public class BarterDisplayPanelController implements NavigablePanelController
+public class BarterDisplayPanelController extends AbstractNavigablePanelController
 {
   // Data
   private BarterNpc _barterer;
-  // Controllers
-  private NavigatorWindowController _parent;
   // GUI
-  private JPanel _panel;
-
   private JLabel _name;
   private JLabel _requirements;
   private BarterEntriesTableController _entries;
@@ -49,27 +46,17 @@ public class BarterDisplayPanelController implements NavigablePanelController
    */
   public BarterDisplayPanelController(NavigatorWindowController parent, BarterNpc barterer)
   {
-    _parent=parent;
+    super(parent);
     _barterer=barterer;
+    JPanel panel=build();
+    setPanel(panel);
+    setData();
   }
 
   @Override
   public String getTitle()
   {
     return "Barterer: "+_barterer.getNpc().getName();
-  }
-
-  /**
-   * Get the managed panel.
-   * @return the managed panel.
-   */
-  public JPanel getPanel()
-  {
-    if (_panel==null)
-    {
-      _panel=build();
-    }
-    return _panel;
   }
 
   private JPanel build()
@@ -101,17 +88,17 @@ public class BarterDisplayPanelController implements NavigablePanelController
     panel.add(itemsPane,c);
     c.gridy++;
 
-    _panel=panel;
     setData();
-    return _panel;
+    return panel;
   }
 
   private void initBarterEntriesTable()
   {
     TypedProperties prefs=null;
-    if (_parent!=null)
+    WindowController parent=getParentWindowController();
+    if (parent!=null)
     {
-      prefs=_parent.getUserProperties("BartererDisplay");
+      prefs=parent.getUserProperties("BartererDisplay");
     }
     final List<BarterEntry> items=_barterer.getEntries();
     _entries=new BarterEntriesTableController(prefs,null,items);
@@ -135,7 +122,7 @@ public class BarterDisplayPanelController implements NavigablePanelController
   private void showBarterEntry(BarterEntry barterEntry, int index)
   {
     PageIdentifier ref=ReferenceConstants.getBarterEntryReference(_barterer.getIdentifier(),index);
-    _parent.navigateTo(ref);
+    getParent().navigateTo(ref);
   }
 
   private JLabel buildLabelLine(JPanel parent, GridBagConstraints c, String fieldName)
@@ -178,18 +165,17 @@ public class BarterDisplayPanelController implements NavigablePanelController
    */
   public void dispose()
   {
+    super.dispose();
     // Data
     _barterer=null;
-    // Controllers
-    _parent=null;
-    // UI
-    if (_panel!=null)
-    {
-      _panel.removeAll();
-      _panel=null;
-    }
+    // GUI
     _name=null;
     _requirements=null;
-    _entries=null;
+    // Controllers
+    if (_entries!=null)
+    {
+      _entries.dispose();
+      _entries=null;
+    }
   }
 }

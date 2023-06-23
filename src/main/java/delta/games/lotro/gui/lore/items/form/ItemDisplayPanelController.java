@@ -20,7 +20,7 @@ import javax.swing.JTabbedPane;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.labels.MultilineLabel2;
-import delta.common.ui.swing.navigator.NavigablePanelController;
+import delta.common.ui.swing.navigator.AbstractNavigablePanelController;
 import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.common.utils.l10n.L10n;
 import delta.games.lotro.character.skills.SkillDescription;
@@ -62,14 +62,11 @@ import delta.games.lotro.utils.gui.HtmlUtils;
  * Controller for an item display panel.
  * @author DAM
  */
-public class ItemDisplayPanelController implements NavigablePanelController
+public class ItemDisplayPanelController extends AbstractNavigablePanelController
 {
   // Data
   private Item _item;
-  // GUI
-  private JPanel _panel;
   // Controllers
-  private NavigatorWindowController _parent;
   private ItemReferencesDisplayController _references;
   private ItemScalableStatsPanelController _scaling;
   private ContainerDisplayPanelController _container;
@@ -85,29 +82,20 @@ public class ItemDisplayPanelController implements NavigablePanelController
    */
   public ItemDisplayPanelController(NavigatorWindowController parent, Item item)
   {
-    _parent=parent;
+    super(parent);
     _item=item;
     _references=new ItemReferencesDisplayController(parent,item.getIdentifier());
     _scaling=new ItemScalableStatsPanelController(item);
     _container=new ContainerDisplayPanelController(parent,item);
     _money=new MoneyDisplayController();
     _grantedCtrls=new ArrayList<IconAndLinkPanelController>();
+    setPanel(build());
   }
 
   @Override
   public String getTitle()
   {
     return "Item: "+_item.getName();
-  }
-
-  @Override
-  public JPanel getPanel()
-  {
-    if (_panel==null)
-    {
-      _panel=build();
-    }
-    return _panel;
   }
 
   private JPanel build()
@@ -272,7 +260,7 @@ public class ItemDisplayPanelController implements NavigablePanelController
     DisenchantmentResult disenchantment=DisenchantmentManager.getInstance().getDisenchantmentResults().getItem(itemId);
     if (disenchantment!=null)
     {
-      _disenchantment=new DisenchantmentResultPanelController(_parent,disenchantment);
+      _disenchantment=new DisenchantmentResultPanelController(getParent(),disenchantment);
       JPanel disenchantmentPanel=_disenchantment.getPanel();
       disenchantmentPanel.setBorder(GuiFactory.buildTitledBorder("Disenchantment"));
       c=new GridBagConstraints(0,y,1,1,0.0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
@@ -365,7 +353,7 @@ public class ItemDisplayPanelController implements NavigablePanelController
       ret.add("Durability: "+durability.toString());
     }
     // Requirements
-    String requirements=RequirementsUtils.buildRequirementString(_item.getUsageRequirements());
+    String requirements=RequirementsUtils.buildRequirementString(this,_item.getUsageRequirements());
     if (requirements.length()>0)
     {
       ret.add("Requirements: "+requirements);
@@ -530,17 +518,17 @@ public class ItemDisplayPanelController implements NavigablePanelController
     if (element instanceof SkillDescription)
     {
       SkillDescription skill=(SkillDescription)element;
-      return SharedPanels.buildSkillPanel(_parent,skill);
+      return SharedPanels.buildSkillPanel(getParent(),skill);
     }
     if (element instanceof TraitDescription)
     {
       TraitDescription trait=(TraitDescription)element;
-      return SharedPanels.buildTraitPanel(_parent,trait);
+      return SharedPanels.buildTraitPanel(getParent(),trait);
     }
     if (element instanceof EmoteDescription)
     {
       EmoteDescription emote=(EmoteDescription)element;
-      return SharedPanels.buildEmotePanel(_parent,emote);
+      return SharedPanels.buildEmotePanel(getParent(),emote);
     }
     return null;
   }
@@ -548,6 +536,7 @@ public class ItemDisplayPanelController implements NavigablePanelController
   @Override
   public void dispose()
   {
+    super.dispose();
     // Data
     _item=null;
     // Controllers
@@ -588,13 +577,6 @@ public class ItemDisplayPanelController implements NavigablePanelController
     {
       _saveItemIcon.dispose();
       _saveItemIcon=null;
-    }
-    _parent=null;
-    // UI
-    if (_panel!=null)
-    {
-      _panel.removeAll();
-      _panel=null;
     }
   }
 }

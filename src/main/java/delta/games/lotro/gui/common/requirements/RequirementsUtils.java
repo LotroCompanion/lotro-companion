@@ -2,6 +2,7 @@ package delta.games.lotro.gui.common.requirements;
 
 import java.util.List;
 
+import delta.common.ui.swing.area.AreaController;
 import delta.games.lotro.character.classes.AbstractClassDescription;
 import delta.games.lotro.character.races.RaceDescription;
 import delta.games.lotro.common.enums.CraftTier;
@@ -16,6 +17,9 @@ import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.DeedsManager;
 import delta.games.lotro.lore.quests.QuestDescription;
 import delta.games.lotro.lore.quests.QuestsManager;
+import delta.games.lotro.lore.reputation.Faction;
+import delta.games.lotro.lore.reputation.FactionLevel;
+import delta.games.lotro.utils.strings.ContextRendering;
 
 /**
  * Utility methods related to requirements.
@@ -29,6 +33,17 @@ public class RequirementsUtils
    * @return A string, empty if no requirement.
    */
   public static String buildRequirementString(UsageRequirement requirements)
+  {
+    return buildRequirementString(null,requirements);
+  }
+
+  /**
+   * Build a requirement string.
+   * @param controller Parent controller.
+   * @param requirements Requirements to use.
+   * @return A string, empty if no requirement.
+   */
+  public static String buildRequirementString(AreaController controller, UsageRequirement requirements)
   {
     StringBuilder sb=new StringBuilder();
     // Class
@@ -87,7 +102,8 @@ public class RequirementsUtils
     if (factionReq!=null)
     {
       if (sb.length()>0) sb.append(", ");
-      sb.append(factionReq.toString());
+      String factionRequirementLabel=getFactionRequirementLabel(controller,factionReq);
+      sb.append(factionRequirementLabel);
     }
     // Quest
     QuestRequirement questReq=requirements.getQuestRequirement();
@@ -126,5 +142,24 @@ public class RequirementsUtils
     }
     String ret=sb.toString().trim();
     return ret;
+  }
+
+  private static String getFactionRequirementLabel(AreaController controller, FactionRequirement factionReq)
+  {
+    Faction faction=factionReq.getFaction();
+    if (faction!=null)
+    {
+      int tier=factionReq.getTier();
+      FactionLevel level=faction.getLevelByTier(tier);
+      if (level!=null)
+      {
+        String rawTierName=level.getName();
+        String tierName=ContextRendering.render(controller,rawTierName);
+        String rawFactionName=faction.getName();
+        String factionName=ContextRendering.render(controller,rawFactionName);
+        return factionName+":"+tierName;
+      }
+    }
+    return "";
   }
 }

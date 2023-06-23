@@ -18,7 +18,7 @@ import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 
 import delta.common.ui.swing.GuiFactory;
-import delta.common.ui.swing.navigator.NavigablePanelController;
+import delta.common.ui.swing.navigator.AbstractNavigablePanelController;
 import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.common.utils.expressions.logical.LogicalTreeNode;
@@ -44,12 +44,10 @@ import delta.games.lotro.utils.gui.HtmlUtils;
  * Controller for an deed display panel.
  * @author DAM
  */
-public class DeedDisplayPanelController implements NavigablePanelController
+public class DeedDisplayPanelController extends AbstractNavigablePanelController
 {
   // Data
   private DeedDescription _deed;
-  // GUI
-  private JPanel _panel;
 
   private JLabel _icon;
   private JLabel _type;
@@ -62,7 +60,6 @@ public class DeedDisplayPanelController implements NavigablePanelController
   private JEditorPane _details;
 
   // Controllers
-  private NavigatorWindowController _parent;
   private RewardsPanelController _rewards;
   private AbstractAchievableRequirementPanelController _achievablesRequirements;
   private PanelProvider _worldEventConditions;
@@ -74,24 +71,15 @@ public class DeedDisplayPanelController implements NavigablePanelController
    */
   public DeedDisplayPanelController(NavigatorWindowController parent, DeedDescription deed)
   {
-    _parent=parent;
+    super(parent);
     _deed=deed;
+    setPanel(build());
   }
 
   @Override
   public String getTitle()
   {
     return "Deed: "+_deed.getName();
-  }
-
-  @Override
-  public JPanel getPanel()
-  {
-    if (_panel==null)
-    {
-      _panel=build();
-    }
-    return _panel;
   }
 
   private JPanel build()
@@ -105,7 +93,7 @@ public class DeedDisplayPanelController implements NavigablePanelController
     panel.add(topPanel,c);
 
     // Rewards
-    _rewards=new RewardsPanelController(_parent,_deed.getRewards());
+    _rewards=new RewardsPanelController(getParent(),_deed.getRewards());
     JPanel rewardsPanel=_rewards.getPanel();
     TitledBorder rewardsBorder=GuiFactory.buildTitledBorder("Rewards");
     rewardsPanel.setBorder(rewardsBorder);
@@ -118,10 +106,8 @@ public class DeedDisplayPanelController implements NavigablePanelController
     detailsPane.setBorder(GuiFactory.buildTitledBorder("Details"));
     c=new GridBagConstraints(0,1,1,1,1.0,1.0,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
     panel.add(detailsPane,c);
-
-    _panel=panel;
     setData();
-    return _panel;
+    return panel;
   }
 
   private JPanel buildTopPanel()
@@ -201,7 +187,7 @@ public class DeedDisplayPanelController implements NavigablePanelController
     AbstractAchievableRequirement requirement=_deed.getQuestRequirements();
     if (requirement!=null)
     {
-      _achievablesRequirements=AchievableRequirementsPanelFactory.buildAchievableRequirementPanelController(_parent,requirement);
+      _achievablesRequirements=AchievableRequirementsPanelFactory.buildAchievableRequirementPanelController(getParent(),requirement);
       JPanel achievablesRequirementsPanel=_achievablesRequirements.getPanel();
       c=new GridBagConstraints(0,c.gridy,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
       panel.add(achievablesRequirementsPanel,c);
@@ -244,7 +230,7 @@ public class DeedDisplayPanelController implements NavigablePanelController
         {
           String referenceStr=e.getDescription();
           PageIdentifier pageId=PageIdentifier.fromString(referenceStr);
-          _parent.navigateTo(pageId);
+          getParent().navigateTo(pageId);
         }
       }
     };
@@ -285,7 +271,7 @@ public class DeedDisplayPanelController implements NavigablePanelController
     ChallengeLevel challengeLevel=_deed.getChallengeLevel();
     _challengeLevel.setText(challengeLevel.getLabel());
     // Requirements
-    String requirements=RequirementsUtils.buildRequirementString(_deed.getUsageRequirement());
+    String requirements=RequirementsUtils.buildRequirementString(this,_deed.getUsageRequirement());
     if (requirements.length()==0) requirements="-";
     _requirements.setText(requirements);
     // Attributes
@@ -341,6 +327,7 @@ public class DeedDisplayPanelController implements NavigablePanelController
   @Override
   public void dispose()
   {
+    super.dispose();
     // Data
     _deed=null;
     // Controllers
@@ -359,7 +346,6 @@ public class DeedDisplayPanelController implements NavigablePanelController
       _worldEventConditions.dispose();
       _worldEventConditions=null;
     }
-    _parent=null;
     // UI
     _type=null;
     _category=null;
@@ -367,11 +353,6 @@ public class DeedDisplayPanelController implements NavigablePanelController
     _requirements=null;
     _attributes=null;
     _questPack=null;
-    if (_panel!=null)
-    {
-      _panel.removeAll();
-      _panel=null;
-    }
     _icon=null;
     _name=null;
     _details=null;
