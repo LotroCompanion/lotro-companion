@@ -153,7 +153,7 @@ public class DeedDisplayPanelController extends AbstractNavigablePanelController
       _challengeLevel=GuiFactory.buildLabel("");
       panelLine.add(_challengeLevel);
     }
-    // Line 4
+    // Line 4 (requirements)
     {
       JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
       panel.add(panelLine,c);

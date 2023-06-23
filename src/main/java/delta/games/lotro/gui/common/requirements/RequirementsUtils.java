@@ -29,16 +29,6 @@ public class RequirementsUtils
 {
   /**
    * Build a requirement string.
-   * @param requirements Requirements to use.
-   * @return A string, empty if no requirement.
-   */
-  public static String buildRequirementString(UsageRequirement requirements)
-  {
-    return buildRequirementString(null,requirements);
-  }
-
-  /**
-   * Build a requirement string.
    * @param controller Parent controller.
    * @param requirements Requirements to use.
    * @return A string, empty if no requirement.

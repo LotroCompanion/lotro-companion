@@ -155,7 +155,7 @@ public class BarterDisplayPanelController extends AbstractNavigablePanelControll
     }
     _name.setText(fullName);
     // Requirements
-    String requirements=RequirementsUtils.buildRequirementString(_barterer.getRequirements());
+    String requirements=RequirementsUtils.buildRequirementString(this,_barterer.getRequirements());
     if (requirements.length()==0) requirements="-";
     _requirements.setText(requirements);
   }
