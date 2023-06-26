@@ -5,7 +5,6 @@ import delta.games.lotro.common.rewards.ItemReward;
 import delta.games.lotro.common.rewards.Rewards;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.rewardsTrack.RewardsTrackStep;
-import delta.games.lotro.utils.Proxy;
 
 /**
  * Utility methods for the display of rewards tracks.
@@ -42,11 +41,7 @@ public class RewardsTracksUtils
     Item rewardItem=step.getReward();
     if (rewardItem!=null)
     {
-      Proxy<Item> proxy=new Proxy<Item>();
-      proxy.setId(rewardItem.getIdentifier());
-      proxy.setName(rewardItem.getName());
-      proxy.setObject(rewardItem);
-      ItemReward reward=new ItemReward(proxy,1);
+      ItemReward reward=new ItemReward(rewardItem,1);
       ret.addRewardElement(reward);
     }
     return ret;

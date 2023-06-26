@@ -23,7 +23,6 @@ import delta.games.lotro.gui.common.rewards.form.RewardsPanelController;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.rewardsTrack.RewardsTrack;
 import delta.games.lotro.lore.rewardsTrack.RewardsTrackStep;
-import delta.games.lotro.utils.Proxy;
 
 /**
  * Controller for a panel to display rewards summary.
@@ -125,11 +124,7 @@ public class RewardsTrackRewardsSummaryPanelController
       if (itemId!=lastItemId)
       {
         int quantity=counters.get(Integer.valueOf(itemId)).getInt();
-        Proxy<Item> proxy=new Proxy<Item>();
-        proxy.setId(itemId);
-        proxy.setName(item.getName());
-        proxy.setObject(item);
-        ItemReward itemReward=new ItemReward(proxy,quantity);
+        ItemReward itemReward=new ItemReward(item,quantity);
         ret.addRewardElement(itemReward);
         lastItemId=itemId;
       }

@@ -15,7 +15,6 @@ import javax.swing.border.Border;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.traits.TraitDescription;
-import delta.games.lotro.character.traits.TraitsManager;
 import delta.games.lotro.common.money.Money;
 import delta.games.lotro.common.rewards.BillingTokenReward;
 import delta.games.lotro.common.rewards.CraftingXpReward;
@@ -31,14 +30,9 @@ import delta.games.lotro.common.rewards.TraitReward;
 import delta.games.lotro.common.rewards.VirtueReward;
 import delta.games.lotro.gui.common.money.MoneyDisplayController;
 import delta.games.lotro.lore.emotes.EmoteDescription;
-import delta.games.lotro.lore.emotes.EmotesManager;
 import delta.games.lotro.lore.items.Item;
-import delta.games.lotro.lore.items.ItemsManager;
 import delta.games.lotro.lore.items.legendary.relics.Relic;
-import delta.games.lotro.lore.items.legendary.relics.RelicsManager;
 import delta.games.lotro.lore.titles.TitleDescription;
-import delta.games.lotro.lore.titles.TitlesManager;
-import delta.games.lotro.utils.Proxy;
 
 /**
  * Controller for a panel to display rewards.
@@ -220,23 +214,16 @@ public class RewardsPanelController
     if (rewardElement instanceof ItemReward)
     {
       ItemReward itemReward=(ItemReward)rewardElement;
-      Proxy<Item> itemProxy=itemReward.getItemProxy();
-      int id=itemProxy.getId();
+      Item item=itemReward.getItem();
       int count=itemReward.getQuantity();
-      Item item=ItemsManager.getInstance().getItem(id);
       ret=new ItemRewardGadgetsController(_parent,item,count);
     }
     // Title reward
     else if (rewardElement instanceof TitleReward)
     {
       TitleReward titleReward=(TitleReward)rewardElement;
-      Proxy<TitleDescription> titleProxy=titleReward.getTitleProxy();
-      int id=titleProxy.getId();
-      TitleDescription title=TitlesManager.getInstance().getTitle(id);
-      if (title!=null)
-      {
-        ret=new TitleRewardGadgetsController(_parent,title);
-      }
+      TitleDescription title=titleReward.getTitle();
+      ret=new TitleRewardGadgetsController(_parent,title);
     }
     // Virtue reward
     else if (rewardElement instanceof VirtueReward)
@@ -254,38 +241,23 @@ public class RewardsPanelController
     else if (rewardElement instanceof RelicReward)
     {
       RelicReward relicReward=(RelicReward)rewardElement;
-      Proxy<Relic> relicProxy=relicReward.getRelicProxy();
-      int id=relicProxy.getId();
+      Relic relic=relicReward.getRelic();
       int count=relicReward.getQuantity();
-      Relic relic=RelicsManager.getInstance().getById(id);
-      if (relic!=null)
-      {
-        ret=new RelicRewardGadgetsController(relic,count);
-      }
+      ret=new RelicRewardGadgetsController(relic,count);
     }
     // Emote reward
     else if (rewardElement instanceof EmoteReward)
     {
       EmoteReward emoteReward=(EmoteReward)rewardElement;
-      Proxy<EmoteDescription> emoteProxy=emoteReward.getEmoteProxy();
-      int id=emoteProxy.getId();
-      EmoteDescription emote=EmotesManager.getInstance().getEmote(id);
-      if (emote!=null)
-      {
-        ret=new EmoteRewardGadgetsController(_parent,emote);
-      }
+      EmoteDescription emote=emoteReward.getEmote();
+      ret=new EmoteRewardGadgetsController(_parent,emote);
     }
     // Trait reward
     else if (rewardElement instanceof TraitReward)
     {
       TraitReward traitReward=(TraitReward)rewardElement;
-      Proxy<TraitDescription> traitProxy=traitReward.getTraitProxy();
-      int id=traitProxy.getId();
-      TraitDescription trait=TraitsManager.getInstance().getTrait(id);
-      if (trait!=null)
-      {
-        ret=new TraitRewardGadgetsController(_parent,trait);
-      }
+      TraitDescription trait=traitReward.getTrait();
+      ret=new TraitRewardGadgetsController(_parent,trait);
     }
     // Crafting XP reward
     else if (rewardElement instanceof CraftingXpReward)
