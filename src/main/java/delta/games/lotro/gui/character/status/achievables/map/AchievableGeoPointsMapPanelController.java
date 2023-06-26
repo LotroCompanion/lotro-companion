@@ -6,6 +6,8 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
+import delta.common.ui.swing.area.AbstractAreaController;
+import delta.common.ui.swing.area.AreaController;
 import delta.games.lotro.character.status.achievables.edition.AchievableStatusGeoItem;
 import delta.games.lotro.character.status.achievables.edition.GeoPointChangeListener;
 import delta.games.lotro.dat.data.DataFacade;
@@ -37,25 +39,30 @@ import delta.games.lotro.utils.maps.Maps;
  * Controller for a panel to show a single map for the geo points of a single achievable.
  * @author DAM
  */
-public class AchievableGeoPointsMapPanelController
+public class AchievableGeoPointsMapPanelController extends AbstractAreaController
 {
+  // Data
   private MapDescription _map;
-  private MapPanelController _mapPanel;
-  private CompletedOrNotMarkerIconProvider _iconProvider;
   private List<AchievableStatusGeoItem> _points;
   private List<Marker> _markers;
   private boolean _editable;
+  // Controllers
+  private MapPanelController _mapPanel;
+  // UI
+  private CompletedOrNotMarkerIconProvider _iconProvider;
   private GeoPointChangeListener _listener;
 
   /**
    * Constructor.
+   * @param parent Parent controller.
    * @param map Description of map to show.
    * @param points Points to show.
    * @param editable Editable or not.
    * @param listener Listener for point state changes.
    */
-  public AchievableGeoPointsMapPanelController(MapDescription map, List<AchievableStatusGeoItem> points, boolean editable, GeoPointChangeListener listener)
+  public AchievableGeoPointsMapPanelController(AreaController parent, MapDescription map, List<AchievableStatusGeoItem> points, boolean editable, GeoPointChangeListener listener)
   {
+    super(parent);
     _map=map;
     _points=points;
     _editable=editable;
@@ -85,6 +92,7 @@ public class AchievableGeoPointsMapPanelController
   private List<Marker> buildMarkers(List<AchievableStatusGeoItem> points)
   {
     int id=0;
+    AchievableStatusUtils utils=new AchievableStatusUtils(this);
     List<Marker> ret=new ArrayList<Marker>();
     for(AchievableStatusGeoItem item : points)
     {
@@ -94,7 +102,7 @@ public class AchievableGeoPointsMapPanelController
       marker.setDid(id+1);
       // Label
       ObjectiveCondition condition=item.getCondition();
-      String label=AchievableStatusUtils.getConditionLabel(condition);
+      String label=utils.getConditionLabel(condition);
       marker.setLabel(label);
       // Position
       Point2D.Float position=point.getLonLat();
@@ -189,11 +197,19 @@ public class AchievableGeoPointsMapPanelController
    */
   public void dispose()
   {
+    super.dispose();
+    // Data
+    _map=null;
+    _points=null;
+    _markers=null;
+    // Controllers
     if (_mapPanel!=null)
     {
       _mapPanel.dispose();
       _mapPanel=null;
     }
+    // UI
     _iconProvider=null;
+    _listener=null;
   }
 }

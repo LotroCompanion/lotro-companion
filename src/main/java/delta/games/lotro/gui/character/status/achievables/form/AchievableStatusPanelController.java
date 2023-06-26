@@ -21,6 +21,7 @@ import javax.swing.ScrollPaneConstants;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.editors.numbers.ProgressAndNumberEditorController;
 import delta.common.ui.swing.icons.IconsManager;
+import delta.common.ui.swing.panels.AbstractPanelController;
 import delta.common.ui.swing.text.NumberEditionController;
 import delta.common.ui.swing.text.NumberListener;
 import delta.common.ui.swing.text.dates.DateEditionController;
@@ -47,7 +48,7 @@ import delta.games.lotro.lore.quests.QuestDescription;
  * Controller for a panel to edit the status of an achievable.
  * @author DAM
  */
-public class AchievableStatusPanelController implements GeoPointChangeListener
+public class AchievableStatusPanelController extends AbstractPanelController implements GeoPointChangeListener
 {
   // Data
   private AchievableStatus _status;
@@ -59,8 +60,6 @@ public class AchievableStatusPanelController implements GeoPointChangeListener
   private DateEditionController _completionDate;
   private JLabel _completionCount;
   private AchievableGeoStatusEditionController _geoController;
-  // UI
-  private JPanel _panel;
 
   /**
    * Constructor.
@@ -70,23 +69,16 @@ public class AchievableStatusPanelController implements GeoPointChangeListener
    */
   public AchievableStatusPanelController(WindowController parent, AchievableStatus status, AchievableFormConfig config)
   {
+    super(parent);
     _status=status;
     _config=config;
-    _panel=build(parent);
+    JPanel panel=build(parent);
+    setPanel(panel);
     if (_config.isEditable())
     {
       setupCallbacks();
     }
     updateOwnUi();
-  }
-
-  /**
-   * Get the managed panel.
-   * @return the managed panel.
-   */
-  public JPanel getPanel()
-  {
-    return _panel;
   }
 
   private JPanel build(WindowController parent)
@@ -204,7 +196,7 @@ public class AchievableStatusPanelController implements GeoPointChangeListener
     _objectiveStatusEditors=new ArrayList<ObjectiveStatusEditionPanelController>();
     for(AchievableObjectiveStatus objectiveStatus : _status.getObjectiveStatuses())
     {
-      ObjectiveStatusEditionPanelController editor=new ObjectiveStatusEditionPanelController(objectiveStatus,icon,_config);
+      ObjectiveStatusEditionPanelController editor=new ObjectiveStatusEditionPanelController(this,objectiveStatus,icon,_config);
       _objectiveStatusEditors.add(editor);
       ret.add(editor.getPanel(),c);
       c.gridy++;
@@ -430,6 +422,7 @@ public class AchievableStatusPanelController implements GeoPointChangeListener
    */
   public void dispose()
   {
+    super.dispose();
     // Data
     _status=null;
     // Controllers
@@ -461,12 +454,6 @@ public class AchievableStatusPanelController implements GeoPointChangeListener
     {
       _geoController.dispose();
       _geoController=null;
-    }
-    // UI
-    if (_panel!=null)
-    {
-      _panel.removeAll();
-      _panel=null;
     }
   }
 }

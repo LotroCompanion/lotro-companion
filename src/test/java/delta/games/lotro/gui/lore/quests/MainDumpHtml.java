@@ -40,7 +40,7 @@ public class MainDumpHtml
     StringBuilder sb=new StringBuilder();
     sb.append("<html><body>");
     QuestsManager questsMgr=QuestsManager.getInstance();
-    ObjectivesDisplayBuilder builder=new ObjectivesDisplayBuilder(true);
+    ObjectivesDisplayBuilder builder=new ObjectivesDisplayBuilder(null,true);
     for(QuestDescription quest : questsMgr.getAll())
     {
       AchievableProxiesResolver.resolve(quest);
@@ -62,7 +62,7 @@ public class MainDumpHtml
   {
     StringBuilder sb=new StringBuilder();
     DeedsManager deedsMgr=DeedsManager.getInstance();
-    ObjectivesDisplayBuilder builder=new ObjectivesDisplayBuilder(false);
+    ObjectivesDisplayBuilder builder=new ObjectivesDisplayBuilder(null,false);
     for(DeedDescription deed : deedsMgr.getAll())
     {
       AchievableProxiesResolver.resolve(deed);
@@ -102,7 +102,7 @@ public class MainDumpHtml
     StringBuilder sb=new StringBuilder();
     sb.append("<html><body>");
     DeedsManager deedsMgr=DeedsManager.getInstance();
-    ObjectivesDisplayBuilder builder=new ObjectivesDisplayBuilder(true);
+    ObjectivesDisplayBuilder builder=new ObjectivesDisplayBuilder(null,true);
     for(DeedDescription deed : deedsMgr.getAll())
     {
       AchievableProxiesResolver.resolve(deed);

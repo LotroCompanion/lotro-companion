@@ -9,7 +9,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.area.AreaController;
 import delta.common.ui.swing.editors.numbers.ProgressAndNumberEditorController;
+import delta.common.ui.swing.panels.AbstractPanelController;
 import delta.games.lotro.character.status.achievables.ObjectiveConditionStatus;
 import delta.games.lotro.lore.quests.objectives.ObjectiveCondition;
 
@@ -17,7 +19,7 @@ import delta.games.lotro.lore.quests.objectives.ObjectiveCondition;
  * Controller for a panel to edit the status of a condition of an objective.
  * @author DAM
  */
-public class ObjectiveConditionStatusEditionPanelController
+public class ObjectiveConditionStatusEditionPanelController extends AbstractPanelController
 {
   // Data
   private ObjectiveConditionStatus _conditionStatus;
@@ -27,19 +29,24 @@ public class ObjectiveConditionStatusEditionPanelController
   private ProgressAndNumberEditorController _countEditor;
   // UI
   private JLabel _label;
-  private JPanel _panel;
+  // Utils
+  private AchievableStatusUtils _utils;
 
   /**
    * Constructor.
+   * @param parent Parent controller.
    * @param conditionStatus Status to edit.
    * @param icon Icon to use.
    * @param config UI configuration.
    */
-  public ObjectiveConditionStatusEditionPanelController(ObjectiveConditionStatus conditionStatus, Icon icon, AchievableFormConfig config)
+  public ObjectiveConditionStatusEditionPanelController(AreaController parent, ObjectiveConditionStatus conditionStatus, Icon icon, AchievableFormConfig config)
   {
+    super(parent);
     _conditionStatus=conditionStatus;
     _config=config;
-    _panel=build(icon);
+    _utils=new AchievableStatusUtils(null);
+    JPanel panel=build(icon);
+    setPanel(panel);
     updateUi();
   }
 
@@ -59,15 +66,6 @@ public class ObjectiveConditionStatusEditionPanelController
   public AchievableElementStateEditionController getStateController()
   {
     return _stateCtrl;
-  }
-
-  /**
-   * Get the managed panel.
-   * @return the managed panel.
-   */
-  public JPanel getPanel()
-  {
-    return _panel;
   }
 
   /**
@@ -135,7 +133,7 @@ public class ObjectiveConditionStatusEditionPanelController
   private String getLabel()
   {
     ObjectiveCondition condition=_conditionStatus.getCondition();
-    String label=AchievableStatusUtils.getConditionLabel(condition);
+    String label=_utils.getConditionLabel(condition);
     return label;
   }
 
@@ -161,6 +159,7 @@ public class ObjectiveConditionStatusEditionPanelController
    */
   public void dispose()
   {
+    super.dispose();
     // Data
     _conditionStatus=null;
     _config=null;
@@ -177,10 +176,7 @@ public class ObjectiveConditionStatusEditionPanelController
     }
     // UI
     _label=null;
-    if (_panel!=null)
-    {
-      _panel.removeAll();
-      _panel=null;
-    }
+    // Utils
+    _utils=null;
   }
 }

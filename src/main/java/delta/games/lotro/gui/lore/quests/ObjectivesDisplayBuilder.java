@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 
+import delta.common.ui.swing.area.AreaController;
 import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.common.utils.misc.IntegerHolder;
 import delta.games.lotro.character.skills.SkillDescription;
@@ -52,6 +53,7 @@ import delta.games.lotro.lore.reputation.FactionLevel;
 import delta.games.lotro.utils.Proxy;
 import delta.games.lotro.utils.gui.HtmlUtils;
 import delta.games.lotro.utils.gui.TextSanitizer;
+import delta.games.lotro.utils.strings.ContextRendering;
 
 /**
  * Build for HTML code to display objectives.
@@ -64,13 +66,16 @@ public class ObjectivesDisplayBuilder
   private static final String COUNT_PATTERN="{***}/{***}";
 
   private boolean _html;
+  private AreaController _controller;
 
   /**
    * Constructor.
+   * @param controller Parent controller.
    * @param html Use HTML output, or raw output.
    */
-  public ObjectivesDisplayBuilder(boolean html)
+  public ObjectivesDisplayBuilder(AreaController controller, boolean html)
   {
+    _controller=controller;
     _html=html;
   }
 
@@ -391,8 +396,10 @@ public class ObjectivesDisplayBuilder
         if (faction!=null)
         {
           FactionLevel level=faction.getLevelByTier(tier);
-          levelName=(level!=null)?level.getName():levelName;
-          // TODO Context rendering
+          if (level!=null)
+          {
+            levelName=ContextRendering.render(_controller,level.getName());
+          }
         }
         sb.append("Reach reputation '").append(levelName);
         sb.append("' (tier ").append(tier).append(") with ").append(name);

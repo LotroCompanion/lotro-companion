@@ -273,7 +273,7 @@ public class QuestDisplayPanelController extends AbstractNavigablePanelControlle
       sb.append("</p>");
     }
     // Objectives
-    new ObjectivesDisplayBuilder(true).build(sb,_quest);
+    new ObjectivesDisplayBuilder(this,true).build(sb,_quest);
     // End dialogs
     List<DialogElement> endDialogs=_quest.getEndDialogs();
     if (endDialogs.size()>0)

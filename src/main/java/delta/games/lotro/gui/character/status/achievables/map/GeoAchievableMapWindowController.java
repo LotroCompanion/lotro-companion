@@ -60,7 +60,7 @@ public class GeoAchievableMapWindowController extends DefaultDialogController
           mapPoints.add(point);
         }
       }
-      AchievableGeoPointsMapPanelController panelCtrl=new AchievableGeoPointsMapPanelController(map,mapPoints,_editable,mgr);
+      AchievableGeoPointsMapPanelController panelCtrl=new AchievableGeoPointsMapPanelController(this,map,mapPoints,_editable,mgr);
       _maps.add(panelCtrl);
       mapIndex++;
     }

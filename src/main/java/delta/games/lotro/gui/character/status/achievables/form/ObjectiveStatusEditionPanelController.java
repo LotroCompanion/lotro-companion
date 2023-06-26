@@ -11,6 +11,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.area.AreaController;
+import delta.common.ui.swing.panels.AbstractPanelController;
 import delta.games.lotro.character.status.achievables.AchievableElementState;
 import delta.games.lotro.character.status.achievables.AchievableObjectiveStatus;
 import delta.games.lotro.character.status.achievables.ObjectiveConditionStatus;
@@ -21,7 +23,7 @@ import delta.games.lotro.lore.quests.objectives.Objective;
  * Controller for a panel to edit the status of an objective of an achievable.
  * @author DAM
  */
-public class ObjectiveStatusEditionPanelController
+public class ObjectiveStatusEditionPanelController extends AbstractPanelController
 {
   // Data
   private AchievableObjectiveStatus _objectiveStatus;
@@ -31,19 +33,21 @@ public class ObjectiveStatusEditionPanelController
   private List<ObjectiveConditionStatusEditionPanelController> _conditionStatusEditors;
   // UI
   private JLabel _label;
-  private JPanel _panel;
 
   /**
    * Constructor.
+   * @param parent Parent controller.
    * @param objectiveStatus Status to edit.
    * @param icon Icon to use.
    * @param config UI configuration.
    */
-  public ObjectiveStatusEditionPanelController(AchievableObjectiveStatus objectiveStatus, Icon icon, AchievableFormConfig config)
+  public ObjectiveStatusEditionPanelController(AreaController parent, AchievableObjectiveStatus objectiveStatus, Icon icon, AchievableFormConfig config)
   {
+    super(parent);
     _objectiveStatus=objectiveStatus;
     _config=config;
-    _panel=build(icon);
+    JPanel panel=build(icon);
+    setPanel(panel);
     setStatus();
   }
 
@@ -72,15 +76,6 @@ public class ObjectiveStatusEditionPanelController
   public List<ObjectiveConditionStatusEditionPanelController> getConditionControllers()
   {
     return _conditionStatusEditors;
-  }
-
-  /**
-   * Get the managed panel.
-   * @return the managed panel.
-   */
-  public JPanel getPanel()
-  {
-    return _panel;
   }
 
   /**
@@ -123,7 +118,7 @@ public class ObjectiveStatusEditionPanelController
     _conditionStatusEditors=new ArrayList<ObjectiveConditionStatusEditionPanelController>();
     for(ObjectiveConditionStatus conditionStatus : _objectiveStatus.getConditionStatuses())
     {
-      ObjectiveConditionStatusEditionPanelController editor=new ObjectiveConditionStatusEditionPanelController(conditionStatus,icon,_config);
+      ObjectiveConditionStatusEditionPanelController editor=new ObjectiveConditionStatusEditionPanelController(this,conditionStatus,icon,_config);
       _conditionStatusEditors.add(editor);
     }
     // Assembly
@@ -188,6 +183,7 @@ public class ObjectiveStatusEditionPanelController
    */
   public void dispose()
   {
+    super.dispose();
     // Data
     _objectiveStatus=null;
     _config=null;
@@ -208,10 +204,5 @@ public class ObjectiveStatusEditionPanelController
     }
     // UI
     _label=null;
-    if (_panel!=null)
-    {
-      _panel.removeAll();
-      _panel=null;
-    }
   }
 }

@@ -245,7 +245,7 @@ public class DeedDisplayPanelController extends AbstractNavigablePanelController
     sb.append("<b>Description</b><p>");
     sb.append(HtmlUtils.toHtml(_deed.getDescription()));
     // Objectives
-    new ObjectivesDisplayBuilder(true).build(sb,_deed);
+    new ObjectivesDisplayBuilder(this,true).build(sb,_deed);
     sb.append("</body></html>");
     return sb.toString();
   }

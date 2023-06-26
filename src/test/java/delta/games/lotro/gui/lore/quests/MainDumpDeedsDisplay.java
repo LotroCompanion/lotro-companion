@@ -14,6 +14,16 @@ import delta.games.lotro.lore.quests.objectives.ObjectivesManager;
  */
 public class MainDumpDeedsDisplay
 {
+  private AchievableStatusUtils _utils;
+
+  /**
+   * Constructor.
+   */
+  public MainDumpDeedsDisplay()
+  {
+    _utils=new AchievableStatusUtils(null);
+  }
+
   private void doIt()
   {
     DeedsManager deedsMgr=DeedsManager.getInstance();
@@ -39,7 +49,7 @@ public class MainDumpDeedsDisplay
       }
       for(ObjectiveCondition condition : objective.getConditions())
       {
-        String label=AchievableStatusUtils.getConditionLabel(condition);
+        String label=_utils.getConditionLabel(condition);
         // Compute the panel visibility
         boolean showProgress=condition.isShowProgressText();
         boolean showBillboard=condition.isShowBillboardText();
