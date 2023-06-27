@@ -14,8 +14,9 @@ import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.quests.Achievable;
 import delta.games.lotro.lore.quests.QuestDescription;
-import delta.games.lotro.lore.xrefs.emotes.EmoteReference;
+import delta.games.lotro.lore.xrefs.Reference;
 import delta.games.lotro.lore.xrefs.emotes.EmoteReferencesBuilder;
+import delta.games.lotro.lore.xrefs.emotes.EmoteRole;
 import delta.games.lotro.utils.gui.HtmlUtils;
 
 /**
@@ -51,7 +52,7 @@ public class EmoteReferencesDisplayController
 
   private JEditorPane buildDetailsPane(int emoteID)
   {
-    List<EmoteReference<?>> references=getReferences(emoteID);
+    List<Reference<?,EmoteRole>> references=getReferences(emoteID);
     if (references.size()==0)
     {
       return null;
@@ -86,14 +87,14 @@ public class EmoteReferencesDisplayController
     return editor;
   }
 
-  private List<EmoteReference<?>> getReferences(int emoteID)
+  private List<Reference<?,EmoteRole>> getReferences(int emoteID)
   {
     EmoteReferencesBuilder builder=new EmoteReferencesBuilder();
-    List<EmoteReference<?>> references=builder.inspectEmote(emoteID);
+    List<Reference<?,EmoteRole>> references=builder.inspectEmote(emoteID);
     return references;
   }
 
-  private String getHtml(List<EmoteReference<?>> references)
+  private String getHtml(List<Reference<?,EmoteRole>> references)
   {
     StringBuilder sb=new StringBuilder();
     sb.append("<html><body>");
@@ -104,27 +105,27 @@ public class EmoteReferencesDisplayController
   }
 
   @SuppressWarnings("unchecked")
-  private <T> List<EmoteReference<T>> getReferences(List<EmoteReference<?>> references, Class<T> clazz)
+  private <T> List<Reference<T,EmoteRole>> getReferences(List<Reference<?,EmoteRole>> references, Class<T> clazz)
   {
-    List<EmoteReference<T>> ret=new ArrayList<EmoteReference<T>>();
-    for(EmoteReference<?> reference : references)
+    List<Reference<T,EmoteRole>> ret=new ArrayList<Reference<T,EmoteRole>>();
+    for(Reference<?,EmoteRole> reference : references)
     {
       Object source=reference.getSource();
       if (clazz.isAssignableFrom(source.getClass()))
       {
-        ret.add((EmoteReference<T>)reference);
+        ret.add((Reference<T,EmoteRole>)reference);
       }
     }
     return ret;
   }
 
-  private void buildHtmlForQuestsAndDeeds(StringBuilder sb, List<EmoteReference<?>> references)
+  private void buildHtmlForQuestsAndDeeds(StringBuilder sb, List<Reference<?,EmoteRole>> references)
   {
-    List<EmoteReference<Achievable>> achievableReferences=getReferences(references,Achievable.class);
+    List<Reference<Achievable,EmoteRole>> achievableReferences=getReferences(references,Achievable.class);
     if (achievableReferences.size()>0)
     {
       sb.append("<h1>Quests and deeds</h1>");
-      for(EmoteReference<Achievable> achievableReference : achievableReferences)
+      for(Reference<Achievable,EmoteRole> achievableReference : achievableReferences)
       {
         buildHtmlForAchievableReference(sb,achievableReference.getSource());
       }
@@ -143,12 +144,12 @@ public class EmoteReferencesDisplayController
     sb.append("</b></p>");
   }
 
-  private void buildHtmlForItems(StringBuilder sb, List<EmoteReference<?>> references)
+  private void buildHtmlForItems(StringBuilder sb, List<Reference<?,EmoteRole>> references)
   {
-    List<EmoteReference<Item>> itemReferences=getReferences(references,Item.class);
+    List<Reference<Item,EmoteRole>> itemReferences=getReferences(references,Item.class);
     if (itemReferences.size()>0)
     {
-      for(EmoteReference<Item> itemReference : itemReferences)
+      for(Reference<Item,EmoteRole> itemReference : itemReferences)
       {
         Item item=itemReference.getSource();
         buildHtmlForItem(sb,item);

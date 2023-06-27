@@ -18,7 +18,7 @@ import delta.games.lotro.lore.items.legendary.relics.RelicsContainer;
 import delta.games.lotro.lore.quests.Achievable;
 import delta.games.lotro.lore.quests.QuestDescription;
 import delta.games.lotro.lore.relics.melding.RelicMeldingRecipe;
-import delta.games.lotro.lore.xrefs.relics.RelicReference;
+import delta.games.lotro.lore.xrefs.Reference;
 import delta.games.lotro.lore.xrefs.relics.RelicReferencesBuilder;
 import delta.games.lotro.lore.xrefs.relics.RelicRole;
 import delta.games.lotro.utils.gui.HtmlUtils;
@@ -56,7 +56,7 @@ public class RelicReferencesDisplayController
 
   private JEditorPane buildDetailsPane(int relicId)
   {
-    List<RelicReference<?>> references=getReferences(relicId);
+    List<Reference<?,RelicRole>> references=getReferences(relicId);
     if (references.size()==0)
     {
       return null;
@@ -91,14 +91,14 @@ public class RelicReferencesDisplayController
     return editor;
   }
 
-  private List<RelicReference<?>> getReferences(int itemId)
+  private List<Reference<?,RelicRole>> getReferences(int itemId)
   {
     RelicReferencesBuilder builder=new RelicReferencesBuilder();
-    List<RelicReference<?>> references=builder.inspectItem(itemId);
+    List<Reference<?,RelicRole>> references=builder.inspectItem(itemId);
     return references;
   }
 
-  private String getHtml(List<RelicReference<?>> references)
+  private String getHtml(List<Reference<?,RelicRole>> references)
   {
     StringBuilder sb=new StringBuilder();
     sb.append("<html><body>");
@@ -110,27 +110,27 @@ public class RelicReferencesDisplayController
   }
 
   @SuppressWarnings("unchecked")
-  private <T extends Identifiable> List<RelicReference<T>> getReferences(List<RelicReference<?>> references, Class<T> clazz)
+  private <T extends Identifiable> List<Reference<T,RelicRole>> getReferences(List<Reference<?,RelicRole>> references, Class<T> clazz)
   {
-    List<RelicReference<T>> ret=new ArrayList<RelicReference<T>>();
-    for(RelicReference<?> reference : references)
+    List<Reference<T,RelicRole>> ret=new ArrayList<Reference<T,RelicRole>>();
+    for(Reference<?,RelicRole> reference : references)
     {
-      Identifiable source=reference.getSource();
+      Object source=reference.getSource();
       if (clazz.isAssignableFrom(source.getClass()))
       {
-        ret.add((RelicReference<T>)reference);
+        ret.add((Reference<T,RelicRole>)reference);
       }
     }
     return ret;
   }
 
-  private void buildHtmlForQuestsAndDeeds(StringBuilder sb, List<RelicReference<?>> references)
+  private void buildHtmlForQuestsAndDeeds(StringBuilder sb, List<Reference<?,RelicRole>> references)
   {
-    List<RelicReference<Achievable>> achievableReferences=getReferences(references,Achievable.class);
+    List<Reference<Achievable,RelicRole>> achievableReferences=getReferences(references,Achievable.class);
     if (achievableReferences.size()>0)
     {
       sb.append("<h1>Quests and deeds</h1>");
-      for(RelicReference<Achievable> achievableReference : achievableReferences)
+      for(Reference<Achievable,RelicRole> achievableReference : achievableReferences)
       {
         buildHtmlForAchievableReference(sb,achievableReference.getSource());
       }
@@ -149,13 +149,13 @@ public class RelicReferencesDisplayController
     sb.append("</b></p>");
   }
 
-  private void buildHtmlForContainers(StringBuilder sb, List<RelicReference<?>> references)
+  private void buildHtmlForContainers(StringBuilder sb, List<Reference<?,RelicRole>> references)
   {
-    List<RelicReference<RelicsContainer>> containerReferences=getReferences(references,RelicsContainer.class);
+    List<Reference<RelicsContainer,RelicRole>> containerReferences=getReferences(references,RelicsContainer.class);
     if (containerReferences.size()>0)
     {
       sb.append("<h1>Containers</h1>");
-      for(RelicReference<RelicsContainer> setReference : containerReferences)
+      for(Reference<RelicsContainer,RelicRole> setReference : containerReferences)
       {
         buildHtmlForContainerReference(sb,setReference.getSource().getIdentifier());
       }
@@ -173,20 +173,20 @@ public class RelicReferencesDisplayController
     sb.append("</b></p>");
   }
 
-  private void buildHtmlForMeldingRecipes(StringBuilder sb, List<RelicReference<?>> references)
+  private void buildHtmlForMeldingRecipes(StringBuilder sb, List<Reference<?,RelicRole>> references)
   {
-    List<RelicReference<RelicMeldingRecipe>> recipeReferences=getReferences(references,RelicMeldingRecipe.class);
+    List<Reference<RelicMeldingRecipe,RelicRole>> recipeReferences=getReferences(references,RelicMeldingRecipe.class);
     if (recipeReferences.size()>0)
     {
       sb.append("<h1>Melding recipes</h1>");
-      for(RelicReference<RelicMeldingRecipe> recipeReference : recipeReferences)
+      for(Reference<RelicMeldingRecipe,RelicRole> recipeReference : recipeReferences)
       {
         buildHtmlForRecipeReference(sb,recipeReference);
       }
     }
   }
 
-  private void buildHtmlForRecipeReference(StringBuilder sb, RelicReference<RelicMeldingRecipe> recipeReference)
+  private void buildHtmlForRecipeReference(StringBuilder sb, Reference<RelicMeldingRecipe,RelicRole> recipeReference)
   {
     RelicMeldingRecipe recipe=recipeReference.getSource();
     sb.append("<p>Found as ");

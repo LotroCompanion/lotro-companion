@@ -14,8 +14,9 @@ import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.lore.billingGroups.BillingGroupDescription;
 import delta.games.lotro.lore.quests.Achievable;
 import delta.games.lotro.lore.quests.QuestDescription;
-import delta.games.lotro.lore.xrefs.titles.TitleReference;
+import delta.games.lotro.lore.xrefs.Reference;
 import delta.games.lotro.lore.xrefs.titles.TitleReferencesBuilder;
+import delta.games.lotro.lore.xrefs.titles.TitleRole;
 import delta.games.lotro.utils.gui.HtmlUtils;
 
 /**
@@ -51,7 +52,7 @@ public class TitleReferencesDisplayController
 
   private JEditorPane buildDetailsPane(int titleID)
   {
-    List<TitleReference<?>> references=getReferences(titleID);
+    List<Reference<?,TitleRole>> references=getReferences(titleID);
     if (references.size()==0)
     {
       return null;
@@ -86,14 +87,14 @@ public class TitleReferencesDisplayController
     return editor;
   }
 
-  private List<TitleReference<?>> getReferences(int titleID)
+  private List<Reference<?,TitleRole>> getReferences(int titleID)
   {
     TitleReferencesBuilder builder=new TitleReferencesBuilder();
-    List<TitleReference<?>> references=builder.inspectTitle(titleID);
+    List<Reference<?,TitleRole>> references=builder.inspectTitle(titleID);
     return references;
   }
 
-  private String getHtml(List<TitleReference<?>> references)
+  private String getHtml(List<Reference<?,TitleRole>> references)
   {
     StringBuilder sb=new StringBuilder();
     sb.append("<html><body>");
@@ -104,26 +105,26 @@ public class TitleReferencesDisplayController
   }
 
   @SuppressWarnings("unchecked")
-  private <T> List<TitleReference<T>> getReferences(List<TitleReference<?>> references, Class<T> clazz)
+  private <T> List<Reference<T,TitleRole>> getReferences(List<Reference<?,TitleRole>> references, Class<T> clazz)
   {
-    List<TitleReference<T>> ret=new ArrayList<TitleReference<T>>();
-    for(TitleReference<?> reference : references)
+    List<Reference<T,TitleRole>> ret=new ArrayList<Reference<T,TitleRole>>();
+    for(Reference<?,TitleRole> reference : references)
     {
       Object source=reference.getSource();
       if (clazz.isAssignableFrom(source.getClass()))
       {
-        ret.add((TitleReference<T>)reference);
+        ret.add((Reference<T,TitleRole>)reference);
       }
     }
     return ret;
   }
 
-  private void buildHtmlForBillingGroups(StringBuilder sb, List<TitleReference<?>> references)
+  private void buildHtmlForBillingGroups(StringBuilder sb, List<Reference<?,TitleRole>> references)
   {
-    List<TitleReference<BillingGroupDescription>> billingGroupsReferences=getReferences(references,BillingGroupDescription.class);
+    List<Reference<BillingGroupDescription,TitleRole>> billingGroupsReferences=getReferences(references,BillingGroupDescription.class);
     if (billingGroupsReferences.size()>0)
     {
-      for(TitleReference<BillingGroupDescription> billingGroupsReference : billingGroupsReferences)
+      for(Reference<BillingGroupDescription,TitleRole> billingGroupsReference : billingGroupsReferences)
       {
         BillingGroupDescription billingGroup=billingGroupsReference.getSource();
         buildHtmlForBillingGroupReference(sb,billingGroup);
@@ -142,13 +143,13 @@ public class TitleReferencesDisplayController
     sb.append("</b></p>");
   }
 
-  private void buildHtmlForQuestsAndDeeds(StringBuilder sb, List<TitleReference<?>> references)
+  private void buildHtmlForQuestsAndDeeds(StringBuilder sb, List<Reference<?,TitleRole>> references)
   {
-    List<TitleReference<Achievable>> achievableReferences=getReferences(references,Achievable.class);
+    List<Reference<Achievable,TitleRole>> achievableReferences=getReferences(references,Achievable.class);
     if (achievableReferences.size()>0)
     {
       sb.append("<h1>Quests and deeds</h1>");
-      for(TitleReference<Achievable> achievableReference : achievableReferences)
+      for(Reference<Achievable,TitleRole> achievableReference : achievableReferences)
       {
         buildHtmlForAchievableReference(sb,achievableReference.getSource());
       }

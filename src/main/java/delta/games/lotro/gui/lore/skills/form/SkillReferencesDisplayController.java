@@ -14,8 +14,9 @@ import delta.games.lotro.character.classes.ClassDescription;
 import delta.games.lotro.character.traits.TraitDescription;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.lore.items.Item;
-import delta.games.lotro.lore.xrefs.skills.SkillReference;
+import delta.games.lotro.lore.xrefs.Reference;
 import delta.games.lotro.lore.xrefs.skills.SkillReferencesBuilder;
+import delta.games.lotro.lore.xrefs.skills.SkillRole;
 import delta.games.lotro.utils.gui.HtmlUtils;
 
 /**
@@ -51,7 +52,7 @@ public class SkillReferencesDisplayController
 
   private JEditorPane buildDetailsPane(int skillID)
   {
-    List<SkillReference<?>> references=getReferences(skillID);
+    List<Reference<?,SkillRole>> references=getReferences(skillID);
     if (references.size()==0)
     {
       return null;
@@ -86,14 +87,14 @@ public class SkillReferencesDisplayController
     return editor;
   }
 
-  private List<SkillReference<?>> getReferences(int skillID)
+  private List<Reference<?,SkillRole>> getReferences(int skillID)
   {
     SkillReferencesBuilder builder=new SkillReferencesBuilder();
-    List<SkillReference<?>> references=builder.inspectSkill(skillID);
+    List<Reference<?,SkillRole>> references=builder.inspectSkill(skillID);
     return references;
   }
 
-  private String getHtml(List<SkillReference<?>> references)
+  private String getHtml(List<Reference<?,SkillRole>> references)
   {
     StringBuilder sb=new StringBuilder();
     sb.append("<html><body>");
@@ -105,26 +106,26 @@ public class SkillReferencesDisplayController
   }
 
   @SuppressWarnings("unchecked")
-  private <T> List<SkillReference<T>> getReferences(List<SkillReference<?>> references, Class<T> clazz)
+  private <T> List<Reference<T,SkillRole>> getReferences(List<Reference<?,SkillRole>> references, Class<T> clazz)
   {
-    List<SkillReference<T>> ret=new ArrayList<SkillReference<T>>();
-    for(SkillReference<?> reference : references)
+    List<Reference<T,SkillRole>> ret=new ArrayList<Reference<T,SkillRole>>();
+    for(Reference<?,SkillRole> reference : references)
     {
       Object source=reference.getSource();
       if (clazz.isAssignableFrom(source.getClass()))
       {
-        ret.add((SkillReference<T>)reference);
+        ret.add((Reference<T,SkillRole>)reference);
       }
     }
     return ret;
   }
 
-  private void buildHtmlForClass(StringBuilder sb, List<SkillReference<?>> references)
+  private void buildHtmlForClass(StringBuilder sb, List<Reference<?,SkillRole>> references)
   {
-    List<SkillReference<ClassDescription>> classReferences=getReferences(references,ClassDescription.class);
+    List<Reference<ClassDescription,SkillRole>> classReferences=getReferences(references,ClassDescription.class);
     if (!classReferences.isEmpty())
     {
-      for(SkillReference<ClassDescription> classReference : classReferences)
+      for(Reference<ClassDescription,SkillRole> classReference : classReferences)
       {
         ClassDescription characterClass=classReference.getSource();
         buildHtmlForClassReference(sb,characterClass);
@@ -141,12 +142,12 @@ public class SkillReferencesDisplayController
     sb.append("</b></p>");
   }
 
-  private void buildHtmlForItems(StringBuilder sb, List<SkillReference<?>> references)
+  private void buildHtmlForItems(StringBuilder sb, List<Reference<?,SkillRole>> references)
   {
-    List<SkillReference<Item>> itemReferences=getReferences(references,Item.class);
+    List<Reference<Item,SkillRole>> itemReferences=getReferences(references,Item.class);
     if (itemReferences.size()>0)
     {
-      for(SkillReference<Item> itemReference : itemReferences)
+      for(Reference<Item,SkillRole> itemReference : itemReferences)
       {
         Item item=itemReference.getSource();
         buildHtmlForItem(sb,item);
@@ -163,12 +164,12 @@ public class SkillReferencesDisplayController
     sb.append("</b></p>");
   }
 
-  private void buildHtmlForTraits(StringBuilder sb, List<SkillReference<?>> references)
+  private void buildHtmlForTraits(StringBuilder sb, List<Reference<?,SkillRole>> references)
   {
-    List<SkillReference<TraitDescription>> classReferences=getReferences(references,TraitDescription.class);
+    List<Reference<TraitDescription,SkillRole>> classReferences=getReferences(references,TraitDescription.class);
     if (classReferences.size()>0)
     {
-      for(SkillReference<TraitDescription> classReference : classReferences)
+      for(Reference<TraitDescription,SkillRole> classReference : classReferences)
       {
         TraitDescription trait=classReference.getSource();
         buildHtmlForTraitReference(sb,trait);

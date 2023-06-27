@@ -13,8 +13,9 @@ import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.lore.quests.Achievable;
 import delta.games.lotro.lore.quests.QuestDescription;
-import delta.games.lotro.lore.xrefs.billingGroups.BillingGroupReference;
+import delta.games.lotro.lore.xrefs.Reference;
 import delta.games.lotro.lore.xrefs.billingGroups.BillingGroupReferencesBuilder;
+import delta.games.lotro.lore.xrefs.billingGroups.BillingGroupRole;
 import delta.games.lotro.utils.gui.HtmlUtils;
 
 /**
@@ -50,7 +51,7 @@ public class BillingGroupReferencesDisplayController
 
   private JEditorPane buildDetailsPane(int billingGroupID)
   {
-    List<BillingGroupReference<?>> references=getReferences(billingGroupID);
+    List<Reference<?,BillingGroupRole>> references=getReferences(billingGroupID);
     if (references.size()==0)
     {
       return null;
@@ -85,14 +86,14 @@ public class BillingGroupReferencesDisplayController
     return editor;
   }
 
-  private List<BillingGroupReference<?>> getReferences(int billingGroupID)
+  private List<Reference<?,BillingGroupRole>> getReferences(int billingGroupID)
   {
     BillingGroupReferencesBuilder builder=new BillingGroupReferencesBuilder();
-    List<BillingGroupReference<?>> references=builder.inspectBillingGroup(billingGroupID);
+    List<Reference<?,BillingGroupRole>> references=builder.inspectBillingGroup(billingGroupID);
     return references;
   }
 
-  private String getHtml(List<BillingGroupReference<?>> references)
+  private String getHtml(List<Reference<?,BillingGroupRole>> references)
   {
     StringBuilder sb=new StringBuilder();
     sb.append("<html><body>");
@@ -102,27 +103,27 @@ public class BillingGroupReferencesDisplayController
   }
 
   @SuppressWarnings("unchecked")
-  private <T> List<BillingGroupReference<T>> getReferences(List<BillingGroupReference<?>> references, Class<T> clazz)
+  private <T> List<Reference<T,BillingGroupRole>> getReferences(List<Reference<?,BillingGroupRole>> references, Class<T> clazz)
   {
-    List<BillingGroupReference<T>> ret=new ArrayList<BillingGroupReference<T>>();
-    for(BillingGroupReference<?> reference : references)
+    List<Reference<T,BillingGroupRole>> ret=new ArrayList<Reference<T,BillingGroupRole>>();
+    for(Reference<?,BillingGroupRole> reference : references)
     {
       Object source=reference.getSource();
       if (clazz.isAssignableFrom(source.getClass()))
       {
-        ret.add((BillingGroupReference<T>)reference);
+        ret.add((Reference<T,BillingGroupRole>)reference);
       }
     }
     return ret;
   }
 
-  private void buildHtmlForQuestsAndDeeds(StringBuilder sb, List<BillingGroupReference<?>> references)
+  private void buildHtmlForQuestsAndDeeds(StringBuilder sb, List<Reference<?,BillingGroupRole>> references)
   {
-    List<BillingGroupReference<Achievable>> achievableReferences=getReferences(references,Achievable.class);
+    List<Reference<Achievable,BillingGroupRole>> achievableReferences=getReferences(references,Achievable.class);
     if (achievableReferences.size()>0)
     {
       sb.append("<h1>Quests and deeds</h1>");
-      for(BillingGroupReference<Achievable> achievableReference : achievableReferences)
+      for(Reference<Achievable,BillingGroupRole> achievableReference : achievableReferences)
       {
         buildHtmlForAchievableReference(sb,achievableReference.getSource());
       }

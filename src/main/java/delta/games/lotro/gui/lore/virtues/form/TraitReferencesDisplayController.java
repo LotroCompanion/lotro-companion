@@ -15,8 +15,9 @@ import delta.games.lotro.character.races.RaceDescription;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.lore.quests.Achievable;
 import delta.games.lotro.lore.quests.QuestDescription;
-import delta.games.lotro.lore.xrefs.traits.TraitReference;
+import delta.games.lotro.lore.xrefs.Reference;
 import delta.games.lotro.lore.xrefs.traits.TraitReferencesBuilder;
+import delta.games.lotro.lore.xrefs.traits.TraitRole;
 import delta.games.lotro.utils.gui.HtmlUtils;
 
 /**
@@ -52,7 +53,7 @@ public class TraitReferencesDisplayController
 
   private JEditorPane buildDetailsPane(int traitID)
   {
-    List<TraitReference<?>> references=getReferences(traitID);
+    List<Reference<?,TraitRole>> references=getReferences(traitID);
     if (references.isEmpty())
     {
       return null;
@@ -87,14 +88,14 @@ public class TraitReferencesDisplayController
     return editor;
   }
 
-  private List<TraitReference<?>> getReferences(int traitID)
+  private List<Reference<?,TraitRole>> getReferences(int traitID)
   {
     TraitReferencesBuilder builder=new TraitReferencesBuilder();
-    List<TraitReference<?>> references=builder.inspectTrait(traitID);
+    List<Reference<?,TraitRole>> references=builder.inspectTrait(traitID);
     return references;
   }
 
-  private String getHtml(List<TraitReference<?>> references)
+  private String getHtml(List<Reference<?,TraitRole>> references)
   {
     StringBuilder sb=new StringBuilder();
     sb.append("<html><body>");
@@ -106,26 +107,26 @@ public class TraitReferencesDisplayController
   }
 
   @SuppressWarnings("unchecked")
-  private <T> List<TraitReference<T>> getReferences(List<TraitReference<?>> references, Class<T> clazz)
+  private <T> List<Reference<T,TraitRole>> getReferences(List<Reference<?,TraitRole>> references, Class<T> clazz)
   {
-    List<TraitReference<T>> ret=new ArrayList<TraitReference<T>>();
-    for(TraitReference<?> reference : references)
+    List<Reference<T,TraitRole>> ret=new ArrayList<Reference<T,TraitRole>>();
+    for(Reference<?,TraitRole> reference : references)
     {
       Object source=reference.getSource();
       if (clazz.isAssignableFrom(source.getClass()))
       {
-        ret.add((TraitReference<T>)reference);
+        ret.add((Reference<T,TraitRole>)reference);
       }
     }
     return ret;
   }
 
-  private void buildHtmlForRace(StringBuilder sb, List<TraitReference<?>> references)
+  private void buildHtmlForRace(StringBuilder sb, List<Reference<?,TraitRole>> references)
   {
-    List<TraitReference<RaceDescription>> raceReferences=getReferences(references,RaceDescription.class);
+    List<Reference<RaceDescription,TraitRole>> raceReferences=getReferences(references,RaceDescription.class);
     if (!raceReferences.isEmpty())
     {
-      for(TraitReference<RaceDescription> raceReference : raceReferences)
+      for(Reference<RaceDescription,TraitRole> raceReference : raceReferences)
       {
         RaceDescription race=raceReference.getSource();
         buildHtmlForRaceReference(sb,race);
@@ -142,12 +143,12 @@ public class TraitReferencesDisplayController
     sb.append("</b></p>");
   }
 
-  private void buildHtmlForClass(StringBuilder sb, List<TraitReference<?>> references)
+  private void buildHtmlForClass(StringBuilder sb, List<Reference<?,TraitRole>> references)
   {
-    List<TraitReference<ClassDescription>> classReferences=getReferences(references,ClassDescription.class);
+    List<Reference<ClassDescription,TraitRole>> classReferences=getReferences(references,ClassDescription.class);
     if (!classReferences.isEmpty())
     {
-      for(TraitReference<ClassDescription> classReference : classReferences)
+      for(Reference<ClassDescription,TraitRole> classReference : classReferences)
       {
         ClassDescription characterClass=classReference.getSource();
         buildHtmlForClassReference(sb,characterClass);
@@ -164,13 +165,13 @@ public class TraitReferencesDisplayController
     sb.append("</b></p>");
   }
 
-  private void buildHtmlForQuestsAndDeeds(StringBuilder sb, List<TraitReference<?>> references)
+  private void buildHtmlForQuestsAndDeeds(StringBuilder sb, List<Reference<?,TraitRole>> references)
   {
-    List<TraitReference<Achievable>> achievableReferences=getReferences(references,Achievable.class);
+    List<Reference<Achievable,TraitRole>> achievableReferences=getReferences(references,Achievable.class);
     if (!achievableReferences.isEmpty())
     {
       sb.append("<h1>Quests and deeds</h1>");
-      for(TraitReference<Achievable> achievableReference : achievableReferences)
+      for(Reference<Achievable,TraitRole> achievableReference : achievableReferences)
       {
         buildHtmlForAchievableReference(sb,achievableReference.getSource());
       }

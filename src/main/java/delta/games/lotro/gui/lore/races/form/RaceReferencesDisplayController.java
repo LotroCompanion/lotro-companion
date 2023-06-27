@@ -13,8 +13,9 @@ import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.games.lotro.character.classes.ClassDescription;
 import delta.games.lotro.character.races.RaceDescription;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
-import delta.games.lotro.lore.xrefs.races.RaceReference;
+import delta.games.lotro.lore.xrefs.Reference;
 import delta.games.lotro.lore.xrefs.races.RaceReferencesBuilder;
+import delta.games.lotro.lore.xrefs.races.RaceRole;
 import delta.games.lotro.utils.gui.HtmlUtils;
 
 /**
@@ -50,7 +51,7 @@ public class RaceReferencesDisplayController
 
   private JEditorPane buildDetailsPane(RaceDescription race)
   {
-    List<RaceReference<?>> references=getReferences(race);
+    List<Reference<?,RaceRole>> references=getReferences(race);
     if (references.isEmpty())
     {
       return null;
@@ -85,14 +86,14 @@ public class RaceReferencesDisplayController
     return editor;
   }
 
-  private List<RaceReference<?>> getReferences(RaceDescription race)
+  private List<Reference<?,RaceRole>> getReferences(RaceDescription race)
   {
     RaceReferencesBuilder builder=new RaceReferencesBuilder();
-    List<RaceReference<?>> references=builder.inspectRace(race);
+    List<Reference<?,RaceRole>> references=builder.inspectRace(race);
     return references;
   }
 
-  private String getHtml(List<RaceReference<?>> references)
+  private String getHtml(List<Reference<?,RaceRole>> references)
   {
     StringBuilder sb=new StringBuilder();
     sb.append("<html><body>");
@@ -102,26 +103,26 @@ public class RaceReferencesDisplayController
   }
 
   @SuppressWarnings("unchecked")
-  private <T> List<RaceReference<T>> getReferences(List<RaceReference<?>> references, Class<T> clazz)
+  private <T> List<Reference<T,RaceRole>> getReferences(List<Reference<?,RaceRole>> references, Class<T> clazz)
   {
-    List<RaceReference<T>> ret=new ArrayList<RaceReference<T>>();
-    for(RaceReference<?> reference : references)
+    List<Reference<T,RaceRole>> ret=new ArrayList<Reference<T,RaceRole>>();
+    for(Reference<?,RaceRole> reference : references)
     {
       Object source=reference.getSource();
       if (clazz.isAssignableFrom(source.getClass()))
       {
-        ret.add((RaceReference<T>)reference);
+        ret.add((Reference<T,RaceRole>)reference);
       }
     }
     return ret;
   }
 
-  private void buildHtmlForClass(StringBuilder sb, List<RaceReference<?>> references)
+  private void buildHtmlForClass(StringBuilder sb, List<Reference<?,RaceRole>> references)
   {
-    List<RaceReference<ClassDescription>> classReferences=getReferences(references,ClassDescription.class);
+    List<Reference<ClassDescription,RaceRole>> classReferences=getReferences(references,ClassDescription.class);
     if (!classReferences.isEmpty())
     {
-      for(RaceReference<ClassDescription> classReference : classReferences)
+      for(Reference<ClassDescription,RaceRole> classReference : classReferences)
       {
         ClassDescription characterClass=classReference.getSource();
         buildHtmlForClassReference(sb,characterClass);

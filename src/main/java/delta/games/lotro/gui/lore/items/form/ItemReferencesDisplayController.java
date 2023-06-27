@@ -25,7 +25,7 @@ import delta.games.lotro.lore.relics.melding.RelicMeldingRecipe;
 import delta.games.lotro.lore.tasks.Task;
 import delta.games.lotro.lore.trade.barter.BarterNpc;
 import delta.games.lotro.lore.trade.vendor.VendorNpc;
-import delta.games.lotro.lore.xrefs.items.ItemReference;
+import delta.games.lotro.lore.xrefs.Reference;
 import delta.games.lotro.lore.xrefs.items.ItemReferencesBuilder;
 import delta.games.lotro.lore.xrefs.items.ItemRole;
 import delta.games.lotro.utils.gui.HtmlUtils;
@@ -63,7 +63,7 @@ public class ItemReferencesDisplayController
 
   private JEditorPane buildDetailsPane(int itemId)
   {
-    List<ItemReference<?>> references=getReferences(itemId);
+    List<Reference<?,ItemRole>> references=getReferences(itemId);
     if (references.size()==0)
     {
       return null;
@@ -98,14 +98,14 @@ public class ItemReferencesDisplayController
     return editor;
   }
 
-  private List<ItemReference<?>> getReferences(int itemId)
+  private List<Reference<?,ItemRole>> getReferences(int itemId)
   {
     ItemReferencesBuilder builder=new ItemReferencesBuilder();
-    List<ItemReference<?>> references=builder.inspectItem(itemId);
+    List<Reference<?,ItemRole>> references=builder.inspectItem(itemId);
     return references;
   }
 
-  private String getHtml(List<ItemReference<?>> references)
+  private String getHtml(List<Reference<?,ItemRole>> references)
   {
     StringBuilder sb=new StringBuilder();
     sb.append("<html><body style='width: 500px'>");
@@ -122,38 +122,38 @@ public class ItemReferencesDisplayController
     return sb.toString();
   }
 
-  private <T extends Identifiable> List<ItemReference<T>> getReferences(List<ItemReference<?>> references, Class<T> clazz)
+  private <T extends Identifiable> List<Reference<T,ItemRole>> getReferences(List<Reference<?,ItemRole>> references, Class<T> clazz)
   {
     return getReferences(references,clazz,null);
   }
 
   @SuppressWarnings("unchecked")
-  private <T extends Identifiable> List<ItemReference<T>> getReferences(List<ItemReference<?>> references, Class<T> clazz, ItemRole role)
+  private <T extends Identifiable> List<Reference<T,ItemRole>> getReferences(List<Reference<?,ItemRole>> references, Class<T> clazz, ItemRole role)
   {
-    List<ItemReference<T>> recipes=new ArrayList<ItemReference<T>>();
-    for(ItemReference<?> reference : references)
+    List<Reference<T,ItemRole>> recipes=new ArrayList<Reference<T,ItemRole>>();
+    for(Reference<?,ItemRole> reference : references)
     {
       if ((role==null) || (reference.getRoles().contains(role)))
       {
-        Identifiable source=reference.getSource();
+        Object source=reference.getSource();
         if (clazz.isAssignableFrom(source.getClass()))
         {
-          recipes.add((ItemReference<T>)reference);
+          recipes.add((Reference<T,ItemRole>)reference);
         }
       }
     }
     return recipes;
   }
 
-  private void buildHtmlForCrafting(StringBuilder sb, List<ItemReference<?>> references)
+  private void buildHtmlForCrafting(StringBuilder sb, List<Reference<?,ItemRole>> references)
   {
-    List<ItemReference<Recipe>> recipeReferences=getReferences(references,Recipe.class);
+    List<Reference<Recipe,ItemRole>> recipeReferences=getReferences(references,Recipe.class);
     Profession currentProfession=null;
     int currentTier=0;
     if (recipeReferences.size()>0)
     {
       sb.append("<h1>Crafting</h1>");
-      for(ItemReference<Recipe> recipeReference : recipeReferences)
+      for(Reference<Recipe,ItemRole> recipeReference : recipeReferences)
       {
         Recipe recipe=recipeReference.getSource();
         Profession profession=recipe.getProfession();
@@ -198,13 +198,13 @@ public class ItemReferencesDisplayController
     sb.append("</b></p>");
   }
 
-  private void buildHtmlForTaskItems(StringBuilder sb, List<ItemReference<?>> references)
+  private void buildHtmlForTaskItems(StringBuilder sb, List<Reference<?,ItemRole>> references)
   {
-    List<ItemReference<Task>> taskReferences=getReferences(references,Task.class);
+    List<Reference<Task,ItemRole>> taskReferences=getReferences(references,Task.class);
     if (taskReferences.size()>0)
     {
       sb.append("<h1>Tasks</h1>");
-      for(ItemReference<Task> taskReference : taskReferences)
+      for(Reference<Task,ItemRole> taskReference : taskReferences)
       {
         buildHtmlForTaskReference(sb,taskReference.getSource());
       }
@@ -219,13 +219,13 @@ public class ItemReferencesDisplayController
     sb.append("</b></p>");
   }
 
-  private void buildHtmlForQuestsAndDeeds(StringBuilder sb, List<ItemReference<?>> references)
+  private void buildHtmlForQuestsAndDeeds(StringBuilder sb, List<Reference<?,ItemRole>> references)
   {
-    List<ItemReference<Achievable>> achievableReferences=getReferences(references,Achievable.class);
+    List<Reference<Achievable,ItemRole>> achievableReferences=getReferences(references,Achievable.class);
     if (achievableReferences.size()>0)
     {
       sb.append("<h1>Quests and deeds</h1>");
-      for(ItemReference<Achievable> achievableReference : achievableReferences)
+      for(Reference<Achievable,ItemRole> achievableReference : achievableReferences)
       {
         buildHtmlForAchievableReference(sb,achievableReference.getSource());
       }
@@ -244,20 +244,20 @@ public class ItemReferencesDisplayController
     sb.append("</b></p>");
   }
 
-  private void buildHtmlForBarterers(StringBuilder sb, List<ItemReference<?>> references)
+  private void buildHtmlForBarterers(StringBuilder sb, List<Reference<?,ItemRole>> references)
   {
-    List<ItemReference<BarterNpc>> bartererReferences=getReferences(references,BarterNpc.class);
+    List<Reference<BarterNpc,ItemRole>> bartererReferences=getReferences(references,BarterNpc.class);
     if (bartererReferences.size()>0)
     {
       sb.append("<h1>Barterers</h1>");
-      for(ItemReference<BarterNpc> bartererReference : bartererReferences)
+      for(Reference<BarterNpc,ItemRole> bartererReference : bartererReferences)
       {
         buildHtmlForBartererReference(sb,bartererReference);
       }
     }
   }
 
-  private void buildHtmlForBartererReference(StringBuilder sb, ItemReference<BarterNpc> bartererReference)
+  private void buildHtmlForBartererReference(StringBuilder sb, Reference<BarterNpc,ItemRole> bartererReference)
   {
     List<ItemRole> roles=bartererReference.getRoles();
     for(ItemRole role : roles)
@@ -278,13 +278,13 @@ public class ItemReferencesDisplayController
     }
   }
 
-  private void buildHtmlForVendors(StringBuilder sb, List<ItemReference<?>> references)
+  private void buildHtmlForVendors(StringBuilder sb, List<Reference<?,ItemRole>> references)
   {
-    List<ItemReference<VendorNpc>> vendorReferences=getReferences(references,VendorNpc.class);
+    List<Reference<VendorNpc,ItemRole>> vendorReferences=getReferences(references,VendorNpc.class);
     if (vendorReferences.size()>0)
     {
       sb.append("<h1>Vendors</h1>");
-      for(ItemReference<VendorNpc> vendorReference : vendorReferences)
+      for(Reference<VendorNpc,ItemRole> vendorReference : vendorReferences)
       {
         buildHtmlForVendorReference(sb,vendorReference.getSource());
       }
@@ -300,13 +300,13 @@ public class ItemReferencesDisplayController
     sb.append("</b></p>");
   }
 
-  private void buildHtmlForSets(StringBuilder sb, List<ItemReference<?>> references)
+  private void buildHtmlForSets(StringBuilder sb, List<Reference<?,ItemRole>> references)
   {
-    List<ItemReference<ItemsSet>> setReferences=getReferences(references,ItemsSet.class);
+    List<Reference<ItemsSet,ItemRole>> setReferences=getReferences(references,ItemsSet.class);
     if (setReferences.size()>0)
     {
       sb.append("<h1>Sets</h1>");
-      for(ItemReference<ItemsSet> setReference : setReferences)
+      for(Reference<ItemsSet,ItemRole> setReference : setReferences)
       {
         buildHtmlForSetReference(sb,setReference.getSource());
       }
@@ -322,13 +322,13 @@ public class ItemReferencesDisplayController
     sb.append("</b></p>");
   }
 
-  private void buildHtmlForContainers(StringBuilder sb, List<ItemReference<?>> references)
+  private void buildHtmlForContainers(StringBuilder sb, List<Reference<?,ItemRole>> references)
   {
-    List<ItemReference<ItemsContainer>> containerReferences=getReferences(references,ItemsContainer.class);
+    List<Reference<ItemsContainer,ItemRole>> containerReferences=getReferences(references,ItemsContainer.class);
     if (containerReferences.size()>0)
     {
       sb.append("<h1>Containers</h1>");
-      for(ItemReference<ItemsContainer> containerReference : containerReferences)
+      for(Reference<ItemsContainer,ItemRole> containerReference : containerReferences)
       {
         buildHtmlForContainerReference(sb,containerReference.getSource().getIdentifier());
       }
@@ -346,20 +346,20 @@ public class ItemReferencesDisplayController
     sb.append("</b></p>");
   }
 
-  private void buildHtmlForMeldingRecipes(StringBuilder sb, List<ItemReference<?>> references)
+  private void buildHtmlForMeldingRecipes(StringBuilder sb, List<Reference<?,ItemRole>> references)
   {
-    List<ItemReference<RelicMeldingRecipe>> recipeReferences=getReferences(references,RelicMeldingRecipe.class);
+    List<Reference<RelicMeldingRecipe,ItemRole>> recipeReferences=getReferences(references,RelicMeldingRecipe.class);
     if (recipeReferences.size()>0)
     {
       sb.append("<h1>Melding recipes</h1>");
-      for(ItemReference<RelicMeldingRecipe> recipeReference : recipeReferences)
+      for(Reference<RelicMeldingRecipe,ItemRole> recipeReference : recipeReferences)
       {
         buildHtmlForMeldingRecipeReference(sb,recipeReference);
       }
     }
   }
 
-  private void buildHtmlForMeldingRecipeReference(StringBuilder sb, ItemReference<RelicMeldingRecipe> recipeReference)
+  private void buildHtmlForMeldingRecipeReference(StringBuilder sb, Reference<RelicMeldingRecipe,ItemRole> recipeReference)
   {
     RelicMeldingRecipe recipe=recipeReference.getSource();
     sb.append("<p>Found as ");
@@ -393,13 +393,13 @@ public class ItemReferencesDisplayController
     return label;
   }
 
-  private void buildHtmlForSameCosmetics(StringBuilder sb, List<ItemReference<?>> references)
+  private void buildHtmlForSameCosmetics(StringBuilder sb, List<Reference<?,ItemRole>> references)
   {
-    List<ItemReference<Item>> sameCosmeticsReferences=getReferences(references,Item.class,ItemRole.SAME_COSMETICS);
+    List<Reference<Item,ItemRole>> sameCosmeticsReferences=getReferences(references,Item.class,ItemRole.SAME_COSMETICS);
     if (sameCosmeticsReferences.size()>0)
     {
       sb.append("<h1>Items with same cosmetics</h1>");
-      for(ItemReference<Item> sameCosmeticsReference : sameCosmeticsReferences)
+      for(Reference<Item,ItemRole> sameCosmeticsReference : sameCosmeticsReferences)
       {
         buildHtmlForSameCosmeticsReference(sb,sameCosmeticsReference.getSource());
       }
