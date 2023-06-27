@@ -5,7 +5,6 @@ import java.util.List;
 import delta.games.lotro.common.Interactable;
 import delta.games.lotro.lore.quests.dialogs.DialogElement;
 import delta.games.lotro.lore.quests.dialogs.QuestCompletionComment;
-import delta.games.lotro.utils.Proxy;
 import delta.games.lotro.utils.gui.HtmlUtils;
 
 /**
@@ -22,7 +21,7 @@ public class QuestsHtmlUtils
   public static void buildHtmlForDialog(StringBuilder sb, DialogElement dialog)
   {
     sb.append("<br>");
-    Proxy<Interactable> who=dialog.getWho();
+    Interactable who=dialog.getWho();
     if (who!=null)
     {
       String name=who.getName();
@@ -44,11 +43,11 @@ public class QuestsHtmlUtils
   public static void buildHtmlForCompletionComment(StringBuilder sb, QuestCompletionComment comment)
   {
     sb.append("<br>");
-    List<Proxy<Interactable>> whos=comment.getWhos();
-    if (whos.size()>0)
+    List<Interactable> whos=comment.getWhos();
+    if (!whos.isEmpty())
     {
       boolean first=true;
-      for(Proxy<Interactable> who : whos)
+      for(Interactable who : whos)
       {
         String name=who.getName();
         if (name!=null)

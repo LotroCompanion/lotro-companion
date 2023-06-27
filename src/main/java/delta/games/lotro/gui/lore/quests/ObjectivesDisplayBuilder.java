@@ -12,9 +12,8 @@ import delta.common.utils.misc.IntegerHolder;
 import delta.games.lotro.character.skills.SkillDescription;
 import delta.games.lotro.common.Interactable;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
+import delta.games.lotro.lore.agents.AgentDescription;
 import delta.games.lotro.lore.agents.EntityClassification;
-import delta.games.lotro.lore.agents.mobs.MobDescription;
-import delta.games.lotro.lore.agents.npcs.NpcDescription;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.emotes.EmoteDescription;
 import delta.games.lotro.lore.geo.LandmarkDescription;
@@ -358,14 +357,14 @@ public class ObjectivesDisplayBuilder
     boolean hasProgressOverride=printProgressOverrideWithCount(sb,condition,count);
     if (!hasProgressOverride)
     {
-      Proxy<Item> itemProxy=condition.getProxy();
-      if (itemProxy!=null)
+      Item item=condition.getItem();
+      if (item!=null)
       {
         sb.append(verb).append(' ');
-        String name=itemProxy.getName();
+        String name=item.getName();
         if (_html)
         {
-          PageIdentifier to=ReferenceConstants.getItemReference(itemProxy.getId());
+          PageIdentifier to=ReferenceConstants.getItemReference(item.getIdentifier());
           String toStr=to.getFullAddress();
           HtmlUtils.printLink(sb,toStr,name);
         }
@@ -386,20 +385,16 @@ public class ObjectivesDisplayBuilder
     boolean hasProgressOverride=printProgressOverride(sb,condition);
     if (!hasProgressOverride)
     {
-      Proxy<Faction> factionProxy=condition.getProxy();
+      Faction faction=condition.getFaction();
       int tier=condition.getTier();
-      if (factionProxy!=null)
+      if (faction!=null)
       {
-        String name=factionProxy.getName();
+        String name=faction.getName();
         String levelName="?";
-        Faction faction=factionProxy.getObject();
-        if (faction!=null)
+        FactionLevel level=faction.getLevelByTier(tier);
+        if (level!=null)
         {
-          FactionLevel level=faction.getLevelByTier(tier);
-          if (level!=null)
-          {
-            levelName=ContextRendering.render(_controller,level.getName());
-          }
+          levelName=ContextRendering.render(_controller,level.getName());
         }
         sb.append("Reach reputation '").append(levelName);
         sb.append("' (tier ").append(tier).append(") with ").append(name);
@@ -413,10 +408,10 @@ public class ObjectivesDisplayBuilder
     boolean hasProgressOverride=printProgressOverrideWithCount(sb,condition,count);
     if (!hasProgressOverride)
     {
-      Proxy<SkillDescription> skillProxy=condition.getProxy();
-      if (skillProxy!=null)
+      SkillDescription skill=condition.getSkill();
+      if (skill!=null)
       {
-        String name=skillProxy.getName();
+        String name=skill.getName();
         sb.append("Use skill ").append(name);
         if (count>1)
         {
@@ -450,10 +445,10 @@ public class ObjectivesDisplayBuilder
     boolean hasProgressOverride=printProgressOverride(sb,condition);
     if (!hasProgressOverride)
     {
-      Proxy<Interactable> npcProxy=condition.getProxy();
-      if (npcProxy!=null)
+      Interactable npc=condition.getNpc();
+      if (npc!=null)
       {
-        String name=npcProxy.getName();
+        String name=npc.getName();
         String action=condition.getAction();
         sb.append(action).append(' ').append(name);
       }
@@ -521,7 +516,7 @@ public class ObjectivesDisplayBuilder
     boolean hasProgressOverride=printProgressOverride(sb,condition);
     if (!hasProgressOverride)
     {
-      Proxy<EmoteDescription> emote=condition.getProxy();
+      EmoteDescription emote=condition.getEmote();
       String command=emote.getName();
       sb.append("Perform emote ").append(command);
       int count=condition.getCount();
@@ -549,15 +544,10 @@ public class ObjectivesDisplayBuilder
     String ret=null;
     if (target!=null)
     {
-      Proxy<NpcDescription> npcProxy=target.getNpcProxy();
-      Proxy<MobDescription> mobProxy=target.getMobProxy();
-      if (npcProxy!=null)
+      AgentDescription agent=target.getAgent();
+      if (agent!=null)
       {
-        ret=npcProxy.getName();
-      }
-      else if (mobProxy!=null)
-      {
-        ret=mobProxy.getName();
+        ret=agent.getName();
       }
     }
     return ret;
