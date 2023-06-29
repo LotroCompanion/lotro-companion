@@ -96,10 +96,10 @@ public class CraftingSynopsisTableController
         GuildStatus displayedStatus=craftingStatus.getGuildStatus(profession,false);
         CraftingSynopsisItem item=new CraftingSynopsisItem(toon,vocation,professionStatus,displayedStatus);
         _rowItems.add(item);
+        // Context
+        contextMgr.setRowContext(row,ContextPropertyNames.BASE_CHARACTER_SUMMARY,toon.getSummary());
+        row++;
       }
-      // Context
-      contextMgr.setRowContext(row,ContextPropertyNames.BASE_CHARACTER_SUMMARY,toon.getSummary());
-      row++;
     }
   }
 

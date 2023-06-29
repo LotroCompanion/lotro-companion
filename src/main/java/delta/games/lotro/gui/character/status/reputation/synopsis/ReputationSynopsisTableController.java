@@ -205,6 +205,7 @@ public class ReputationSynopsisTableController
    */
   public void setToons(List<CharacterFile> toons)
   {
+    // Cleanup
     for(CharacterFile toon : _toons)
     {
       removeToon(toon);
@@ -212,8 +213,9 @@ public class ReputationSynopsisTableController
     _toons.clear();
     TableContextManager contextMgr=_table.getContextManager();
     contextMgr.clear();
+    // Add columns
     _toons.addAll(toons);
-    int column=0;
+    int column=1;
     for(CharacterFile toon : _toons)
     {
       addToon(toon);
