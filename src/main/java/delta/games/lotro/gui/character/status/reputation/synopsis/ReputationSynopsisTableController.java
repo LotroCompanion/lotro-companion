@@ -22,7 +22,10 @@ import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.ListDataProvider;
 import delta.common.ui.swing.tables.TableColumnController;
 import delta.common.ui.swing.tables.TableColumnsManager;
-import delta.games.lotro.character.BaseCharacterSummary;
+import delta.common.ui.swing.tables.context.TableContextManager;
+import delta.common.ui.swing.tables.renderers.CustomLabelCellRenderer;
+import delta.common.ui.swing.tables.renderers.LabelTableCellRenderer;
+import delta.common.utils.context.Context;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.status.reputation.FactionStatus;
 import delta.games.lotro.character.status.reputation.ReputationStatus;
@@ -32,6 +35,7 @@ import delta.games.lotro.lore.reputation.FactionFilter;
 import delta.games.lotro.lore.reputation.FactionLevel;
 import delta.games.lotro.lore.reputation.FactionLevelComparator;
 import delta.games.lotro.lore.reputation.FactionsRegistry;
+import delta.games.lotro.utils.ContextPropertyNames;
 import delta.games.lotro.utils.gui.Gradients;
 import delta.games.lotro.utils.strings.ContextRendering;
 
@@ -106,7 +110,7 @@ public class ReputationSynopsisTableController
       @Override
       public String getData(Faction item)
       {
-        return item.getName();
+        return item.getName(); // L10n
       }
     };
     DefaultTableColumnController<Faction,String> column=new DefaultTableColumnController<Faction,String>("Factions",String.class,cell);
@@ -125,24 +129,21 @@ public class ReputationSynopsisTableController
 
   /**
    * Build a cell renderer for a faction status.
-   * @param toon Character to use.
+   * @param parentTable Table to use.
    * @return A renderer.
    */
-  public static TableCellRenderer buildFactionStatusCellRenderer(final CharacterFile toon)
+  public static <T> TableCellRenderer buildFactionStatusCellRenderer(GenericTableController<T> parentTable)
   {
-    final JLabel label=GuiFactory.buildLabel("");
-    TableCellRenderer renderer=new TableCellRenderer()
+    CustomLabelCellRenderer<T,FactionStatus> customRenderer=new CustomLabelCellRenderer<T,FactionStatus>()
     {
-      @Override
-      public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
+      public void configure(GenericTableController<T> table, FactionStatus value, boolean isSelected, boolean hasFocus, int row, int column, JLabel label)
       {
-        FactionStatus status=(FactionStatus)value;
-        BaseCharacterSummary summary=(toon!=null)?toon.getSummary():null;
-        configureFactionLabel(label,status,summary);
-        return label;
+        Context context=table.getContextManager().getContext(row,column);
+        configureFactionLabel(label,value,context);
       }
     };
-    return renderer;
+    LabelTableCellRenderer<T,FactionStatus> r=new LabelTableCellRenderer<T,FactionStatus>(parentTable,customRenderer);
+    return r;
   }
 
   private TableCellRenderer buildSimpleCellRenderer(final JPanel panel)
@@ -158,7 +159,7 @@ public class ReputationSynopsisTableController
     return renderer;
   }
 
-  private DefaultTableColumnController<Faction,FactionStatus> buildCharacterColumn(CharacterFile character)
+  private DefaultTableColumnController<Faction,FactionStatus> buildCharacterColumn(CharacterFile character, GenericTableController<Faction> table)
   {
     final CharacterFile toon=character;
     CellDataProvider<Faction,FactionStatus> cell=new CellDataProvider<Faction,FactionStatus>()
@@ -174,7 +175,7 @@ public class ReputationSynopsisTableController
     DefaultTableColumnController<Faction,FactionStatus> column=new DefaultTableColumnController<Faction,FactionStatus>(id,"Faction",FactionStatus.class,cell);
 
     // Cell renderer
-    TableCellRenderer renderer=buildFactionStatusCellRenderer(character);
+    TableCellRenderer renderer=buildFactionStatusCellRenderer(table);
     column.setCellRenderer(renderer);
     // Header renderer
     JPanel headerPanel=SharedPanels.buildToonHeaderPanel(character);
@@ -209,17 +210,22 @@ public class ReputationSynopsisTableController
       removeToon(toon);
     }
     _toons.clear();
+    TableContextManager contextMgr=_table.getContextManager();
+    contextMgr.clear();
     _toons.addAll(toons);
+    int column=0;
     for(CharacterFile toon : _toons)
     {
       addToon(toon);
+      contextMgr.setColumnContext(column,ContextPropertyNames.BASE_CHARACTER_SUMMARY,toon.getSummary());
+      column++;
     }
     _table.updateColumns();
   }
 
   private void addToon(CharacterFile toon)
   {
-    DefaultTableColumnController<Faction,FactionStatus> column=buildCharacterColumn(toon);
+    DefaultTableColumnController<Faction,FactionStatus> column=buildCharacterColumn(toon,_table);
     _table.addColumnController(column);
   }
 
@@ -289,7 +295,7 @@ public class ReputationSynopsisTableController
     return ret;
   }
 
-  private static void configureFactionLabel(JLabel label, FactionStatus factionStatus, BaseCharacterSummary summary)
+  private static void configureFactionLabel(JLabel label, FactionStatus factionStatus, Context context)
   {
     Color backgroundColor=null;
     String text="";
@@ -300,10 +306,7 @@ public class ReputationSynopsisTableController
       if (level!=null)
       {
         text=level.getName();
-        if (summary!=null)
-        {
-          text=ContextRendering.render(summary,text);
-        }
+        text=ContextRendering.render(context,text);
       }
       else
       {

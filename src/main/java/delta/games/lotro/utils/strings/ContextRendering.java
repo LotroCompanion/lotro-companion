@@ -53,13 +53,34 @@ public class ContextRendering
     return render(summary,rawFormat);
   }
 
+  /**
+   * Render a given string using the given context.
+   * @param context Context to use.
+   * @param rawFormat Input string.
+   * @return the rendered string.
+   */
+  public static String render(Context context, String rawFormat)
+  {
+    BaseCharacterSummary summary=getSummaryFromContext(context);
+    return render(summary,rawFormat);
+  }
+
   private static BaseCharacterSummary getSummaryFromContext(AreaController areaController)
   {
-    BaseCharacterSummary ret=DEFAULT_SUMMARY;
+    Context context=null;
     WindowController parentController=AreaUtils.findParentWindowController(areaController);
     if (parentController!=null)
     {
-      Context context=parentController.getContext();
+      context=parentController.getContext();
+    }
+    return getSummaryFromContext(context);
+  }
+  
+  private static BaseCharacterSummary getSummaryFromContext(Context context)
+  {
+    BaseCharacterSummary ret=DEFAULT_SUMMARY;
+    if (context!=null)
+    {
       BaseCharacterSummary summary=ContextUtils.getValue(context,ContextPropertyNames.BASE_CHARACTER_SUMMARY,BaseCharacterSummary.class);
       if (summary!=null)
       {

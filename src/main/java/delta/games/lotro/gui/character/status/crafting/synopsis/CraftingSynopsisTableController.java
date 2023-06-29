@@ -13,7 +13,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 
 import delta.common.ui.swing.GuiFactory;
@@ -22,6 +21,10 @@ import delta.common.ui.swing.tables.DataProvider;
 import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.ListDataProvider;
+import delta.common.ui.swing.tables.context.TableContextManager;
+import delta.common.ui.swing.tables.renderers.CustomLabelCellRenderer;
+import delta.common.ui.swing.tables.renderers.LabelTableCellRenderer;
+import delta.common.utils.context.Context;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharacterSummary;
 import delta.games.lotro.character.status.crafting.CraftingStatus;
@@ -37,6 +40,7 @@ import delta.games.lotro.lore.crafting.ProfessionComparator;
 import delta.games.lotro.lore.crafting.ProfessionFilter;
 import delta.games.lotro.lore.crafting.Vocation;
 import delta.games.lotro.lore.reputation.FactionLevelComparator;
+import delta.games.lotro.utils.ContextPropertyNames;
 import delta.games.lotro.utils.gui.Gradients;
 import delta.games.lotro.utils.strings.ContextRendering;
 
@@ -78,6 +82,9 @@ public class CraftingSynopsisTableController
   private void updateRowItems()
   {
     _rowItems.clear();
+    TableContextManager contextMgr=_table.getContextManager();
+    contextMgr.clear();
+    int row=0;
     for(CharacterFile toon : _toons)
     {
       CraftingStatus craftingStatus=toon.getCraftingMgr().getCraftingStatus();
@@ -90,6 +97,9 @@ public class CraftingSynopsisTableController
         CraftingSynopsisItem item=new CraftingSynopsisItem(toon,vocation,professionStatus,displayedStatus);
         _rowItems.add(item);
       }
+      // Context
+      contextMgr.setRowContext(row,ContextPropertyNames.BASE_CHARACTER_SUMMARY,toon.getSummary());
+      row++;
     }
   }
 
@@ -105,7 +115,7 @@ public class CraftingSynopsisTableController
     GenericTableController<CraftingSynopsisItem> table=new GenericTableController<CraftingSynopsisItem>(provider);
     table.setFilter(_filter);
     // Profession icon
-    DefaultTableColumnController<CraftingSynopsisItem,Profession> professionColumn=buildProfessionColumn();
+    DefaultTableColumnController<CraftingSynopsisItem,Profession> professionColumn=buildProfessionColumn(table);
     table.addColumnController(professionColumn);
     // Character name
     DefaultTableColumnController<CraftingSynopsisItem,String> characterNameColumn=buildCharacterNameColumn();
@@ -123,7 +133,7 @@ public class CraftingSynopsisTableController
     DefaultTableColumnController<CraftingSynopsisItem,CraftingLevel> masteryColumn=buildCraftingTierColumn(true);
     table.addColumnController(masteryColumn);
     // Guild
-    DefaultTableColumnController<CraftingSynopsisItem,FactionStatus> guildColumn=buildGuildColumn();
+    DefaultTableColumnController<CraftingSynopsisItem,FactionStatus> guildColumn=buildGuildColumn(table);
     table.addColumnController(guildColumn);
     return table;
   }
@@ -163,27 +173,27 @@ public class CraftingSynopsisTableController
     return column;
   }
 
-  private TableCellRenderer buildProfessionCellRenderer()
+  private TableCellRenderer buildProfessionCellRenderer(GenericTableController<CraftingSynopsisItem> parentTable)
   {
-    TableCellRenderer renderer=new DefaultTableCellRenderer()
+    CustomLabelCellRenderer<CraftingSynopsisItem,Profession> customRenderer=new CustomLabelCellRenderer<CraftingSynopsisItem,Profession>()
     {
-      @Override
-      public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
+      public void configure(GenericTableController<CraftingSynopsisItem> table, Profession value, boolean isSelected, boolean hasFocus, int row, int column, JLabel label)
       {
-        JLabel label=(JLabel)super.getTableCellRendererComponent(table,value,isSelected,hasFocus,row,column);
-        Profession profession=(Profession)value;
-        Icon icon=LotroIconsManager.getProfessionIcon(profession);
+        Icon icon=LotroIconsManager.getProfessionIcon(value);
         label.setHorizontalAlignment(SwingConstants.CENTER);
         label.setIcon(icon);
-        label.setToolTipText(profession.getName());
+        String rawProfession=value.getName();
+        Context context=table.getContextManager().getContext(row,column);
+        String profession=ContextRendering.render(context,rawProfession);
+        label.setToolTipText(profession);
         label.setText("");
-        return label;
       }
     };
-    return renderer;
+    LabelTableCellRenderer<CraftingSynopsisItem,Profession> r=new LabelTableCellRenderer<CraftingSynopsisItem,Profession>(parentTable,customRenderer);
+    return r;
   }
 
-  private DefaultTableColumnController<CraftingSynopsisItem,Profession> buildProfessionColumn()
+  private DefaultTableColumnController<CraftingSynopsisItem,Profession> buildProfessionColumn(GenericTableController<CraftingSynopsisItem> table)
   {
     CellDataProvider<CraftingSynopsisItem,Profession> professionCell=new CellDataProvider<CraftingSynopsisItem,Profession>()
     {
@@ -200,7 +210,7 @@ public class CraftingSynopsisTableController
     TableCellRenderer headerRenderer=buildSimpleCellRenderer(emptyHeaderPanel);
     professionColumn.setHeaderCellRenderer(headerRenderer);
     // Cell renderer
-    TableCellRenderer cellRenderer=buildProfessionCellRenderer();
+    TableCellRenderer cellRenderer=buildProfessionCellRenderer(table);
     professionColumn.setCellRenderer(cellRenderer);
     // Comparator
     ProfessionComparator comparator=new ProfessionComparator();
@@ -312,7 +322,7 @@ public class CraftingSynopsisTableController
     return panel;
   }
 
-  private DefaultTableColumnController<CraftingSynopsisItem,FactionStatus> buildGuildColumn()
+  private DefaultTableColumnController<CraftingSynopsisItem,FactionStatus> buildGuildColumn(GenericTableController<CraftingSynopsisItem> table)
   {
     CellDataProvider<CraftingSynopsisItem,FactionStatus> cell=new CellDataProvider<CraftingSynopsisItem,FactionStatus>()
     {
@@ -328,7 +338,7 @@ public class CraftingSynopsisTableController
     TableCellRenderer headerRenderer=buildSimpleCellRenderer(panel);
     column.setHeaderCellRenderer(headerRenderer);
     // Cell renderer
-    TableCellRenderer renderer=ReputationSynopsisTableController.buildFactionStatusCellRenderer(null);
+    TableCellRenderer renderer=ReputationSynopsisTableController.buildFactionStatusCellRenderer(table);
     column.setCellRenderer(renderer);
 
     // Init widths
