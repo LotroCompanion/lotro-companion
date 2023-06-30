@@ -3,6 +3,7 @@ package delta.games.lotro.gui.character.status.tasks.table;
 import java.util.ArrayList;
 import java.util.List;
 
+import delta.common.ui.swing.area.AreaController;
 import delta.common.ui.swing.tables.CellDataProvider;
 import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.ProxiedTableColumnController;
@@ -35,9 +36,10 @@ public class TaskStatusColumnsBuilder
 
   /**
    * Build the columns to show the attributes of a task status.
+   * @param parent Parent controller.
    * @return a list of columns.
    */
-  public static List<TableColumnController<TaskStatus,?>> buildTaskStatusColumns()
+  public static List<TableColumnController<TaskStatus,?>> buildTaskStatusColumns(AreaController parent)
   {
     List<TableColumnController<TaskStatus,?>> ret=new ArrayList<TableColumnController<TaskStatus,?>>();
     // Task
@@ -50,7 +52,7 @@ public class TaskStatusColumnsBuilder
           return taskStatus.getTask();
         }
       };
-      for(TableColumnController<Task,?> taskColumn : buildTaskColumns())
+      for(TableColumnController<Task,?> taskColumn : buildTaskColumns(parent))
       {
         @SuppressWarnings("unchecked")
         TableColumnController<Task,Object> c=(TableColumnController<Task,Object>)taskColumn;
@@ -79,7 +81,7 @@ public class TaskStatusColumnsBuilder
     return ret;
   }
 
-  private static List<TableColumnController<Task,?>> buildTaskColumns()
+  private static List<TableColumnController<Task,?>> buildTaskColumns(AreaController parent)
   {
     List<TableColumnController<Task,?>> ret=new ArrayList<TableColumnController<Task,?>>();
     // Quest
@@ -91,7 +93,7 @@ public class TaskStatusColumnsBuilder
         return task.getQuest();
       }
     };
-    for(TableColumnController<QuestDescription,?> questColumn : buildQuestColumns())
+    for(TableColumnController<QuestDescription,?> questColumn : buildQuestColumns(parent))
     {
       @SuppressWarnings("unchecked")
       TableColumnController<QuestDescription,Object> c=(TableColumnController<QuestDescription,Object>)questColumn;
@@ -135,7 +137,7 @@ public class TaskStatusColumnsBuilder
     return ret;
   }
 
-  private static List<TableColumnController<QuestDescription,?>> buildQuestColumns()
+  private static List<TableColumnController<QuestDescription,?>> buildQuestColumns(AreaController parent)
   {
     List<TableColumnController<QuestDescription,?>> ret=new ArrayList<TableColumnController<QuestDescription,?>>();
     // Name
@@ -151,7 +153,7 @@ public class TaskStatusColumnsBuilder
         return quest.getRewards();
       }
     };
-    for(TableColumnController<Rewards,?> rewardColumn : buildRewardsColumns())
+    for(TableColumnController<Rewards,?> rewardColumn : buildRewardsColumns(parent))
     {
       @SuppressWarnings("unchecked")
       TableColumnController<Rewards,Object> c=(TableColumnController<Rewards,Object>)rewardColumn;
@@ -161,13 +163,13 @@ public class TaskStatusColumnsBuilder
     return ret;
   }
 
-  private static List<TableColumnController<Rewards,?>> buildRewardsColumns()
+  private static List<TableColumnController<Rewards,?>> buildRewardsColumns(AreaController parent)
   {
     List<TableColumnController<Rewards,?>> ret=new ArrayList<TableColumnController<Rewards,?>>();
     ret.add(RewardsColumnsBuilder.buildXPColumn());
     ret.add(RewardsColumnsBuilder.buildItemXPColumn());
     ret.add(RewardsColumnsBuilder.buildMountXPColumn());
-    ret.add(RewardsColumnsBuilder.buildFactionNameColumn());
+    ret.add(RewardsColumnsBuilder.buildFactionNameColumn(parent));
     ret.add(RewardsColumnsBuilder.buildFactionAmountColumn());
     return ret;
   }

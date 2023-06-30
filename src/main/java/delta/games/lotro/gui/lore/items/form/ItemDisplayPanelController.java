@@ -57,6 +57,7 @@ import delta.games.lotro.lore.items.legendary2.TraceriesManager;
 import delta.games.lotro.lore.items.legendary2.Tracery;
 import delta.games.lotro.lore.reputation.Faction;
 import delta.games.lotro.utils.gui.HtmlUtils;
+import delta.games.lotro.utils.strings.ContextRendering;
 
 /**
  * Controller for an item display panel.
@@ -504,7 +505,9 @@ public class ItemDisplayPanelController extends AbstractNavigablePanelController
         Faction faction=reputation.getFaction();
         int amount=reputation.getAmount();
         String verb=(amount>0)?"Gives":"Removes";
-        String label=verb+" "+amount+" reputation points in faction "+faction.getName()+".";
+        String rawFactionName=faction.getName();
+        String factionName=ContextRendering.render(this,rawFactionName);
+        String label=verb+" "+amount+" reputation points in faction "+factionName+".";
         ret.add(GuiFactory.buildLabel(label),c);
         y++;
       }

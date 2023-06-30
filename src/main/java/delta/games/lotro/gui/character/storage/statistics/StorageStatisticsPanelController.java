@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.panels.AbstractPanelController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.storage.StoredItem;
 import delta.games.lotro.character.storage.statistics.StorageStatistics;
@@ -20,12 +21,10 @@ import delta.games.lotro.gui.common.statistics.reputation.ReputationTableControl
  * Controller for a panel to show the statistics about stored items.
  * @author DAM
  */
-public class StorageStatisticsPanelController
+public class StorageStatisticsPanelController extends AbstractPanelController
 {
   // Data
   private StorageStatistics _statistics;
-  // UI
-  private JPanel _panel;
   // Controllers
   private StorageStatisticsSummaryPanelController _summary;
   private ItemsDisplayPanelController _items;
@@ -38,12 +37,14 @@ public class StorageStatisticsPanelController
    */
   public StorageStatisticsPanelController(WindowController parent, StorageStatistics statistics)
   {
+    super(parent);
     _statistics=statistics;
     _summary=new StorageStatisticsSummaryPanelController(statistics);
     _items=new ItemsDisplayPanelController(parent,statistics.getItemStats());
-    ReputationTableController<StorageFactionStats> tableController=new StorageReputationTableController(statistics.getReputationStats());
+    ReputationTableController<StorageFactionStats> tableController=new StorageReputationTableController(this,statistics.getReputationStats());
     _reputation=new ReputationDisplayPanelController<StorageFactionStats>(parent,statistics.getReputationStats(),tableController);
-    _panel=buildPanel();
+    JPanel panel=buildPanel();
+    setPanel(panel);
   }
 
   private JPanel buildPanel()
@@ -77,27 +78,13 @@ public class StorageStatisticsPanelController
   }
 
   /**
-   * Get the managed panel.
-   * @return the managed panel.
-   */
-  public JPanel getPanel()
-  {
-    return _panel;
-  }
-
-  /**
    * Release all managed resources.
    */
   public void dispose()
   {
+    super.dispose();
     // Data
     _statistics=null;
-    // UI
-    if (_panel!=null)
-    {
-      _panel.removeAll();
-      _panel=null;
-    }
     // Controllers
     if (_summary!=null)
     {

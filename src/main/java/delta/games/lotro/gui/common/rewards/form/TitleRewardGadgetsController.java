@@ -24,6 +24,7 @@ public class TitleRewardGadgetsController extends RewardGadgetsController
    */
   public TitleRewardGadgetsController(WindowController parent, TitleDescription title)
   {
+    super(parent);
     // Label
     _label=new LabelWithHalo();
     _label.setForeground(Color.WHITE);

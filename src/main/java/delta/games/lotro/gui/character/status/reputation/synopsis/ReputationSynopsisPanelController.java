@@ -48,7 +48,7 @@ public class ReputationSynopsisPanelController implements GenericEventsListener<
     _parent=parentController;
     _filter=new FactionFilter();
     _filterController=new ReputationSynopsisFilterController(_filter,this);
-    _tableController=new ReputationSynopsisTableController(_filter);
+    _tableController=new ReputationSynopsisTableController(parentController,_filter);
     EventsManager.addListener(CharacterEvent.class,this);
   }
 

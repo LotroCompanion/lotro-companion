@@ -82,7 +82,7 @@ public class QuestsExplorerWindowController extends DefaultWindowController
     _panelController=new QuestsExplorerPanelController(this,_tableController);
     JPanel tablePanel=_panelController.getPanel();
     // Filter
-    _filterController=new QuestFilterController(_filter,_panelController,true);
+    _filterController=new QuestFilterController(this,_filter,_panelController,true);
     JPanel filterPanel=_filterController.getPanel();
     TitledBorder filterBorder=GuiFactory.buildTitledBorder("Filter");
     filterPanel.setBorder(filterBorder);
@@ -97,7 +97,7 @@ public class QuestsExplorerWindowController extends DefaultWindowController
   private void initQuestsTable()
   {
     TypedProperties prefs=GlobalPreferences.getGlobalProperties("QuestsExplorer");
-    _tableController=new QuestsTableController(prefs,_filter);
+    _tableController=new QuestsTableController(this,prefs,_filter);
     ActionListener al=new ActionListener()
     {
       @Override

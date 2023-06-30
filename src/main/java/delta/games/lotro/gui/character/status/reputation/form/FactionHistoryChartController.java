@@ -21,7 +21,6 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYStepAreaRenderer;
 import org.jfree.chart.title.LegendTitle;
-import org.jfree.chart.title.TextTitle;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
@@ -45,20 +44,17 @@ public class FactionHistoryChartController extends AbstractPanelController
 {
   private JFreeChart _chart;
   private FactionStatus _stats;
-  private boolean _showTitle;
   private XYSeriesCollection _data;
 
   /**
    * Constructor.
    * @param parent Parent controller.
    * @param stats Data to display.
-   * @param showTitle Show title or not.
    */
-  public FactionHistoryChartController(AreaController parent, FactionStatus stats, boolean showTitle)
+  public FactionHistoryChartController(AreaController parent, FactionStatus stats)
   {
     super(parent);
     _stats=stats;
-    _showTitle=showTitle;
     _data=new XYSeriesCollection();
     JPanel panel=buildPanel();
     setPanel(panel);
@@ -100,13 +96,8 @@ public class FactionHistoryChartController extends AbstractPanelController
 
   private JFreeChart buildChart()
   {
-    String title="";
-    if (_showTitle)
-    {
-      title=_stats.getFaction().getName();
-    }
     updateData();
-    JFreeChart jfreechart = ChartFactory.createXYStepChart(title,
+    JFreeChart jfreechart = ChartFactory.createXYStepChart("",
                         "Time",
                         "Level",
                         _data,
@@ -118,10 +109,6 @@ public class FactionHistoryChartController extends AbstractPanelController
     Color foregroundColor=GuiFactory.getForegroundColor();
     Paint backgroundPaint=GuiFactory.getBackgroundPaint();
     jfreechart.setBackgroundPaint(backgroundPaint);
-    TextTitle t=new TextTitle(title);
-    t.setFont(t.getFont().deriveFont(24.0f));
-    t.setPaint(foregroundColor);
-    jfreechart.setTitle(t);
     XYPlot xyplot = (XYPlot)jfreechart.getPlot();
     xyplot.setDomainPannable(false);
     XYStepAreaRenderer xysteparearenderer = new XYStepAreaRenderer(XYStepAreaRenderer.AREA_AND_SHAPES);

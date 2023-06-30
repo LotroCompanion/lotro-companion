@@ -20,11 +20,11 @@ public class MainTestReputationSynopsis
   {
     CharactersManager mgr=CharactersManager.getInstance();
     List<CharacterFile> allToons=mgr.getAllToons();
-    ReputationSynopsisTableController table=new ReputationSynopsisTableController(null);
+    DefaultWindowController w=new DefaultWindowController();
+    ReputationSynopsisTableController table=new ReputationSynopsisTableController(w,null);
     table.setToons(allToons);
     JTable jtable=table.getTable();
     JScrollPane scroll=GuiFactory.buildScrollPane(jtable);
-    DefaultWindowController w=new DefaultWindowController();
     w.getFrame().add(scroll);
     w.getFrame().pack();
     w.show();

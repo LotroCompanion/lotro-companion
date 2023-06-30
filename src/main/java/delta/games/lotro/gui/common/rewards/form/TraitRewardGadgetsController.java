@@ -23,6 +23,7 @@ public class TraitRewardGadgetsController extends RewardGadgetsController
    */
   public TraitRewardGadgetsController(WindowController parent, TraitDescription trait)
   {
+    super(parent);
     // Label
     String text=trait.getName();
     Color color=Color.WHITE;

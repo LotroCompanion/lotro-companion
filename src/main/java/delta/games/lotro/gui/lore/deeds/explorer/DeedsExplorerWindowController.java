@@ -82,7 +82,7 @@ public class DeedsExplorerWindowController extends DefaultWindowController
     _panelController=new DeedExplorerPanelController(this,_tableController);
     JPanel tablePanel=_panelController.getPanel();
     // Filter
-    _filterController=new DeedFilterController(_filter,_panelController,true);
+    _filterController=new DeedFilterController(this,_filter,_panelController,true);
     JPanel filterPanel=_filterController.getPanel();
     TitledBorder filterBorder=GuiFactory.buildTitledBorder("Filter");
     filterPanel.setBorder(filterBorder);
@@ -97,7 +97,7 @@ public class DeedsExplorerWindowController extends DefaultWindowController
   private void initDeedsTable()
   {
     TypedProperties prefs=GlobalPreferences.getGlobalProperties("DeedsExplorer");
-    _tableController=new DeedsTableController(prefs,_filter);
+    _tableController=new DeedsTableController(this,prefs,_filter);
     ActionListener al=new ActionListener()
     {
       @Override

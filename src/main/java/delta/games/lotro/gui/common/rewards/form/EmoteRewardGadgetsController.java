@@ -26,6 +26,7 @@ public class EmoteRewardGadgetsController extends RewardGadgetsController
    */
   public EmoteRewardGadgetsController(WindowController parent, EmoteDescription emote)
   {
+    super(parent);
     // Label
     _label=new LabelWithHalo();
     _label.setForeground(Color.WHITE);

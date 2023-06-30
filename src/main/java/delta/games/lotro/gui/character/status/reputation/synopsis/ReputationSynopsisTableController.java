@@ -15,6 +15,8 @@ import javax.swing.SwingConstants;
 import javax.swing.table.TableCellRenderer;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.area.AbstractAreaController;
+import delta.common.ui.swing.area.AreaController;
 import delta.common.ui.swing.tables.CellDataProvider;
 import delta.common.ui.swing.tables.DataProvider;
 import delta.common.ui.swing.tables.DefaultTableColumnController;
@@ -43,7 +45,7 @@ import delta.games.lotro.utils.strings.ContextRendering;
  * Controller for a table that shows reputation for several toons.
  * @author DAM
  */
-public class ReputationSynopsisTableController
+public class ReputationSynopsisTableController extends AbstractAreaController
 {
   // Data
   private List<CharacterFile> _toons;
@@ -53,10 +55,12 @@ public class ReputationSynopsisTableController
 
   /**
    * Constructor.
+   * @param parent Parent controller.
    * @param filter Faction filter.
    */
-  public ReputationSynopsisTableController(FactionFilter filter)
+  public ReputationSynopsisTableController(AreaController parent, FactionFilter filter)
   {
+    super(parent);
     _filter=filter;
     _toons=new ArrayList<CharacterFile>();
     _table=buildTable();
@@ -110,7 +114,8 @@ public class ReputationSynopsisTableController
       @Override
       public String getData(Faction item)
       {
-        return item.getName(); // L10n
+        String rawFactionName=item.getName();
+        return ContextRendering.render(ReputationSynopsisTableController.this,rawFactionName);
       }
     };
     DefaultTableColumnController<Faction,String> column=new DefaultTableColumnController<Faction,String>("Factions",String.class,cell);

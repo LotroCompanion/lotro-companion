@@ -17,8 +17,10 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.area.AreaController;
 import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.common.ui.swing.combobox.ItemSelectionListener;
+import delta.common.ui.swing.panels.AbstractPanelController;
 import delta.common.ui.swing.text.DynamicTextEditionController;
 import delta.common.ui.swing.text.TextListener;
 import delta.games.lotro.character.status.achievables.filter.QuestStatusFilter;
@@ -29,6 +31,7 @@ import delta.games.lotro.common.rewards.ReputationReward;
 import delta.games.lotro.common.rewards.Rewards;
 import delta.games.lotro.common.rewards.filters.ReputationRewardFilter;
 import delta.games.lotro.gui.lore.items.FilterUpdateListener;
+import delta.games.lotro.gui.utils.SharedUiUtils;
 import delta.games.lotro.lore.quests.QuestDescription;
 import delta.games.lotro.lore.quests.filter.QuestFilter;
 import delta.games.lotro.lore.reputation.Faction;
@@ -39,12 +42,11 @@ import delta.games.lotro.lore.tasks.TasksRegistry;
  * Controller for a task filter edition panel.
  * @author DAM
  */
-public class TaskFilterController implements ActionListener
+public class TaskFilterController extends AbstractPanelController implements ActionListener
 {
   // Data
   private TaskStatusFilter _filter;
   // GUI
-  private JPanel _panel;
   private JButton _reset;
   // Name
   private JTextField _contains;
@@ -56,13 +58,17 @@ public class TaskFilterController implements ActionListener
 
   /**
    * Constructor.
+   * @param parent Parent controller.
    * @param filter Managed filter.
    * @param filterUpdateListener Filter update listener.
    */
-  public TaskFilterController(TaskStatusFilter filter, FilterUpdateListener filterUpdateListener)
+  public TaskFilterController(AreaController parent, TaskStatusFilter filter, FilterUpdateListener filterUpdateListener)
   {
+    super(parent);
     _filter=filter;
     _filterUpdateListener=filterUpdateListener;
+    JPanel panel=buildPanel();
+    setPanel(panel);
   }
 
   /**
@@ -74,19 +80,12 @@ public class TaskFilterController implements ActionListener
     return _filter;
   }
 
-  /**
-   * Get the managed panel.
-   * @return the managed panel.
-   */
-  public JPanel getPanel()
+  private JPanel buildPanel()
   {
-    if (_panel==null)
-    {
-      _panel=build();
-      setFilter();
-      filterUpdated();
-    }
-    return _panel;
+    JPanel panel=build();
+    setFilter();
+    filterUpdated();
+    return panel;
   }
 
   /**
@@ -189,7 +188,8 @@ public class TaskFilterController implements ActionListener
 
   private ComboBoxController<Faction> buildReputationCombobox()
   {
-    ComboBoxController<Faction> combo=buildFactionCombo();
+    List<Faction> factions=buildFactions();
+    ComboBoxController<Faction> combo=SharedUiUtils.buildFactionCombo(this,factions);
     ItemSelectionListener<Faction> listener=new ItemSelectionListener<Faction>()
     {
       @Override
@@ -204,23 +204,6 @@ public class TaskFilterController implements ActionListener
     };
     combo.addListener(listener);
     return combo;
-  }
-
-  /**
-   * Build a combo-box controller to choose a faction.
-   * @return A new combo-box controller.
-   */
-  private static ComboBoxController<Faction> buildFactionCombo()
-  {
-    ComboBoxController<Faction> ctrl=new ComboBoxController<Faction>();
-    ctrl.addEmptyItem("");
-    List<Faction> factions=buildFactions();
-    for(Faction faction : factions)
-    {
-      ctrl.addItem(faction,faction.getName());
-    }
-    ctrl.selectItem(null);
-    return ctrl;
   }
 
   private static List<Faction> buildFactions()
@@ -249,14 +232,9 @@ public class TaskFilterController implements ActionListener
    */
   public void dispose()
   {
+    super.dispose();
     // Data
     _filter=null;
-    // GUI
-    if (_panel!=null)
-    {
-      _panel.removeAll();
-      _panel=null;
-    }
     // Controllers
     if (_textController!=null)
     {

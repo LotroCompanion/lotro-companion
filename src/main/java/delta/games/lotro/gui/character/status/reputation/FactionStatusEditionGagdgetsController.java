@@ -39,7 +39,8 @@ public class FactionStatusEditionGagdgetsController extends AbstractAreaControll
     super(parent);
     _faction=faction;
     // Label
-    String name=_faction.getName();
+    String rawName=_faction.getName();
+    String name=ContextRendering.render(this,rawName);
     _label=GuiFactory.buildLabel(name);
     // Bar
     FactionLevel[] levels=_faction.getLevels();
@@ -128,7 +129,6 @@ public class FactionStatusEditionGagdgetsController extends AbstractAreaControll
     }
     else
     {
-      String tierName=level.getName();
       Faction faction=status.getFaction();
       Integer reputation=status.getReputation();
       int reputationValue=(reputation!=null)?reputation.intValue():level.getRequiredReputation();
@@ -156,6 +156,7 @@ public class FactionStatusEditionGagdgetsController extends AbstractAreaControll
       _bar.setMinimum(min);
       _bar.setMaximum(max);
       _bar.setValue(value);
+      String tierName=level.getName();
       String label=ContextRendering.render(this,tierName);
       int diffReputation=reputationValue-level.getRequiredReputation();
       if (diffReputation>0)
@@ -166,9 +167,7 @@ public class FactionStatusEditionGagdgetsController extends AbstractAreaControll
     }
   }
 
-  /**
-   * Release all managed resources.
-   */
+  @Override
   public void dispose()
   {
     super.dispose();

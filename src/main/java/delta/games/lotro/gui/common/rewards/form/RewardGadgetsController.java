@@ -4,14 +4,26 @@ import java.awt.Component;
 
 import javax.swing.JLabel;
 
+import delta.common.ui.swing.area.AbstractAreaController;
+import delta.common.ui.swing.area.AreaController;
+
 /**
  * Base class for controllers of reward display gadgets.
  * @author DAM
  */
-public class RewardGadgetsController
+public class RewardGadgetsController extends AbstractAreaController
 {
   protected Component _icon;
   protected JLabel _label;
+
+  /**
+   * Constructor.
+   * @param parent Parent controller.
+   */
+  public RewardGadgetsController(AreaController parent)
+  {
+    super(parent);
+  }
 
   /**
    * Get the managed icon component.
@@ -36,6 +48,7 @@ public class RewardGadgetsController
    */
   public void dispose()
   {
+    super.dispose();
     _icon=null;
     _label=null;
   }

@@ -117,7 +117,7 @@ public class DeedsStatusWindowController extends DefaultFormDialogController<Ach
     _panelController=new DeedsStatusPanelController(this,_tableController);
     JPanel tablePanel=_panelController.getPanel();
     // Deed filter
-    _filterController=new DeedFilterController(_filter.getDeedFilter(),this,false);
+    _filterController=new DeedFilterController(this,_filter.getDeedFilter(),this,false);
     JPanel deedFilterPanel=_filterController.getPanel();
     TitledBorder deedFilterBorder=GuiFactory.buildTitledBorder("Deed Filter");
     deedFilterPanel.setBorder(deedFilterBorder);
@@ -186,7 +186,7 @@ public class DeedsStatusWindowController extends DefaultFormDialogController<Ach
   private void initTable(Blacklist blacklist)
   {
     TypedProperties prefs=GlobalPreferences.getGlobalProperties("DeedsStatus");
-    _tableController=new DeedStatusTableController(_data,prefs,_filter,_deeds,this,blacklist);
+    _tableController=new DeedStatusTableController(this,_data,prefs,_filter,_deeds,this,blacklist);
     GenericTableController<AchievableStatus> tableController=_tableController.getTableController();
     JTable table=tableController.getTable();
     table.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);

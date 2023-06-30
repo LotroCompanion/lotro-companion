@@ -6,6 +6,8 @@ import java.util.List;
 
 import javax.swing.JTable;
 
+import delta.common.ui.swing.area.AbstractAreaController;
+import delta.common.ui.swing.area.AreaController;
 import delta.common.ui.swing.tables.CellDataProvider;
 import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.GenericTableController;
@@ -33,7 +35,7 @@ import delta.games.lotro.lore.quests.QuestsManager;
  * Controller for a table that shows quests.
  * @author DAM
  */
-public class QuestsTableController
+public class QuestsTableController extends AbstractAreaController
 {
   // Data
   private TypedProperties _prefs;
@@ -44,11 +46,13 @@ public class QuestsTableController
 
   /**
    * Constructor.
+   * @param parent Parent controller.
    * @param prefs Preferences.
    * @param filter Managed filter.
    */
-  public QuestsTableController(TypedProperties prefs, Filter<QuestDescription> filter)
+  public QuestsTableController(AreaController parent, TypedProperties prefs, Filter<QuestDescription> filter)
   {
+    super(parent);
     _prefs=prefs;
     _quests=new ArrayList<QuestDescription>();
     init();
@@ -60,7 +64,7 @@ public class QuestsTableController
   {
     ListDataProvider<QuestDescription> provider=new ListDataProvider<QuestDescription>(_quests);
     GenericTableController<QuestDescription> table=new GenericTableController<QuestDescription>(provider);
-    List<TableColumnController<QuestDescription,?>> columns=buildColumns();
+    List<TableColumnController<QuestDescription,?>> columns=buildColumns(this);
     for(TableColumnController<QuestDescription,?> column : columns)
     {
       table.addColumnController(column);
@@ -74,9 +78,10 @@ public class QuestsTableController
 
   /**
    * Build the columns for a quests table.
+   * @param parent Parent controller.
    * @return A list of columns for a quests table.
    */
-  public static List<TableColumnController<QuestDescription,?>> buildColumns()
+  public static List<TableColumnController<QuestDescription,?>> buildColumns(AreaController parent)
   {
     List<TableColumnController<QuestDescription,?>> ret=new ArrayList<TableColumnController<QuestDescription,?>>();
     // Identifier column
@@ -287,7 +292,7 @@ public class QuestsTableController
     }
     // Rewards
     {
-      List<DefaultTableColumnController<Rewards,?>> rewardColumns=RewardsColumnsBuilder.buildRewardColumns();
+      List<DefaultTableColumnController<Rewards,?>> rewardColumns=RewardsColumnsBuilder.buildRewardColumns(parent);
       CellDataProvider<QuestDescription,Rewards> dataProvider=new CellDataProvider<QuestDescription,Rewards>()
       {
         @Override
@@ -450,6 +455,7 @@ public class QuestsTableController
    */
   public void dispose()
   {
+    super.dispose();
     // Preferences
     if (_prefs!=null)
     {

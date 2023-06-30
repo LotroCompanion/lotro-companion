@@ -6,6 +6,7 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.panels.AbstractPanelController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.status.achievables.statistics.AchievablesStatistics;
 import delta.games.lotro.character.status.achievables.statistics.reputation.AchievablesFactionStats;
@@ -23,10 +24,8 @@ import delta.games.lotro.gui.common.statistics.reputation.ReputationTableControl
  * Controller for a panel to show the detailed statistics about some achievables.
  * @author DAM
  */
-public class AchievablesStatisticsDetailsPanelController
+public class AchievablesStatisticsDetailsPanelController extends AbstractPanelController
 {
-  // UI
-  private JPanel _panel;
   // Controllers
   private AchievablesStatisticsDetailedSummaryPanelController _summary;
   private TitlesDisplayPanelController _titles;
@@ -44,15 +43,17 @@ public class AchievablesStatisticsDetailsPanelController
    */
   public AchievablesStatisticsDetailsPanelController(WindowController parent, AchievablesStatistics statistics, AchievableUIMode mode)
   {
+    super(parent);
     _summary=new AchievablesStatisticsDetailedSummaryPanelController(statistics,mode);
     _titles=new TitlesDisplayPanelController(parent,statistics);
-    ReputationTableController<AchievablesFactionStats> tableController=new AchievablesReputationTableController(statistics.getReputationStats(),mode);
+    ReputationTableController<AchievablesFactionStats> tableController=new AchievablesReputationTableController(this,statistics.getReputationStats(),mode);
     _reputation=new ReputationDisplayPanelController<AchievablesFactionStats>(parent,statistics.getReputationStats(),tableController);
     _virtueXP=new VirtueXPDisplayPanelController(parent,statistics,mode);
     _items=new ItemsDisplayPanelController(parent,statistics.getItemsStats());
     _emotes=new EmotesDisplayPanelController(parent,statistics);
     _traits=new TraitsDisplayPanelController(parent,statistics);
-    _panel=buildPanel();
+    JPanel panel=buildPanel();
+    setPanel(panel);
   }
 
   private JPanel buildPanel()
@@ -99,25 +100,11 @@ public class AchievablesStatisticsDetailsPanelController
   }
 
   /**
-   * Get the managed panel.
-   * @return the managed panel.
-   */
-  public JPanel getPanel()
-  {
-    return _panel;
-  }
-
-  /**
    * Release all managed resources.
    */
   public void dispose()
   {
-    // UI
-    if (_panel!=null)
-    {
-      _panel.removeAll();
-      _panel=null;
-    }
+    super.dispose();
     // Controllers
     if (_summary!=null)
     {

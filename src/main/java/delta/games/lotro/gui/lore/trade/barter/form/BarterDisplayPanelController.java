@@ -101,7 +101,7 @@ public class BarterDisplayPanelController extends AbstractNavigablePanelControll
       prefs=parent.getUserProperties("BartererDisplay");
     }
     final List<BarterEntry> items=_barterer.getEntries();
-    _entries=new BarterEntriesTableController(prefs,null,items);
+    _entries=new BarterEntriesTableController(this,prefs,null,items);
     ActionListener al=new ActionListener()
     {
       @Override

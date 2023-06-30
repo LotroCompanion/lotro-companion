@@ -16,8 +16,10 @@ import javax.swing.JTextField;
 import javax.swing.border.Border;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.area.AreaController;
 import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.common.ui.swing.combobox.ItemSelectionListener;
+import delta.common.ui.swing.panels.AbstractPanelController;
 import delta.common.ui.swing.text.DynamicTextEditionController;
 import delta.common.ui.swing.text.TextListener;
 import delta.common.utils.collections.filters.Filter;
@@ -54,12 +56,11 @@ import delta.games.lotro.lore.quests.filter.ShareableQuestFilter;
  * Controller for a quest filter edition panel.
  * @author DAM
  */
-public class QuestFilterController implements ActionListener
+public class QuestFilterController extends AbstractPanelController implements ActionListener
 {
   // Data
   private QuestFilter _filter;
   // GUI
-  private JPanel _panel;
   private JButton _reset;
   // -- Quest attributes UI --
   private JTextField _contains;
@@ -88,12 +89,14 @@ public class QuestFilterController implements ActionListener
 
   /**
    * Constructor.
+   * @param parent Parent controller.
    * @param filter Managed filter.
    * @param filterUpdateListener Filter update listener.
    * @param useRequirements Use requirements or not.
    */
-  public QuestFilterController(QuestFilter filter, FilterUpdateListener filterUpdateListener, boolean useRequirements)
+  public QuestFilterController(AreaController parent, QuestFilter filter, FilterUpdateListener filterUpdateListener, boolean useRequirements)
   {
+    super(parent);
     _filter=filter;
     _filterUpdateListener=filterUpdateListener;
     // Requirements
@@ -103,12 +106,14 @@ public class QuestFilterController implements ActionListener
     }
     // Rewards
     RewardsExplorer explorer=QuestsManager.getInstance().buildRewardsExplorer();
-    _rewards=new RewardsFilterController(filter.getRewardsFilter(),filterUpdateListener,explorer,true);
+    _rewards=new RewardsFilterController(this,filter.getRewardsFilter(),filterUpdateListener,explorer,true);
     // World events
     List<QuestDescription> quests=QuestsManager.getInstance().getAll();
     _worldEvents=new WorldEventsFilterController(quests,filter.getWorldEventsFilter(),filterUpdateListener);
     // Web Store items
     _webStoreItems=new WebStoreItemsFilterController<QuestDescription>(quests,filter.getWebStoreItemsFilter(),filterUpdateListener);
+    JPanel panel=buildPanel();
+    setPanel(panel);
   }
 
   /**
@@ -120,19 +125,12 @@ public class QuestFilterController implements ActionListener
     return _filter;
   }
 
-  /**
-   * Get the managed panel.
-   * @return the managed panel.
-   */
-  public JPanel getPanel()
+  private JPanel buildPanel()
   {
-    if (_panel==null)
-    {
-      _panel=build();
-      setFilter();
-      filterUpdated();
-    }
-    return _panel;
+    JPanel panel=build();
+    setFilter();
+    filterUpdated();
+    return panel;
   }
 
   /**
@@ -631,14 +629,9 @@ public class QuestFilterController implements ActionListener
    */
   public void dispose()
   {
+    super.dispose();
     // Data
     _filter=null;
-    // GUI
-    if (_panel!=null)
-    {
-      _panel.removeAll();
-      _panel=null;
-    }
     // Controllers
     if (_textController!=null)
     {

@@ -6,6 +6,8 @@ import java.util.List;
 
 import javax.swing.JTable;
 
+import delta.common.ui.swing.area.AbstractAreaController;
+import delta.common.ui.swing.area.AreaController;
 import delta.common.ui.swing.tables.CellDataProvider;
 import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.GenericTableController;
@@ -32,7 +34,7 @@ import delta.games.lotro.lore.deeds.DeedsManager;
  * Controller for a table that shows deeds.
  * @author DAM
  */
-public class DeedsTableController
+public class DeedsTableController extends AbstractAreaController
 {
   // Data
   private TypedProperties _prefs;
@@ -43,11 +45,13 @@ public class DeedsTableController
 
   /**
    * Constructor.
+   * @param parent Parent controller.
    * @param prefs Preferences.
    * @param filter Managed filter.
    */
-  public DeedsTableController(TypedProperties prefs, Filter<DeedDescription> filter)
+  public DeedsTableController(AreaController parent,TypedProperties prefs, Filter<DeedDescription> filter)
   {
+    super(parent);
     _prefs=prefs;
     _deeds=new ArrayList<DeedDescription>();
     init();
@@ -59,7 +63,7 @@ public class DeedsTableController
   {
     ListDataProvider<DeedDescription> provider=new ListDataProvider<DeedDescription>(_deeds);
     GenericTableController<DeedDescription> table=new GenericTableController<DeedDescription>(provider);
-    List<TableColumnController<DeedDescription,?>> columns=buildColumns();
+    List<TableColumnController<DeedDescription,?>> columns=buildColumns(this);
     for(TableColumnController<DeedDescription,?> column : columns)
     {
       table.addColumnController(column);
@@ -73,9 +77,10 @@ public class DeedsTableController
 
   /**
    * Build the columns for a deeds table.
+   * @param parent Parent controller.
    * @return A list of columns for a deeds table.
    */
-  public static List<TableColumnController<DeedDescription,?>> buildColumns()
+  public static List<TableColumnController<DeedDescription,?>> buildColumns(AreaController parent)
   {
     List<TableColumnController<DeedDescription,?>> ret=new ArrayList<TableColumnController<DeedDescription,?>>();
     // Identifier column
@@ -199,7 +204,7 @@ public class DeedsTableController
     }
     // Rewards
     {
-      List<DefaultTableColumnController<Rewards,?>> rewardColumns=RewardsColumnsBuilder.buildRewardColumns();
+      List<DefaultTableColumnController<Rewards,?>> rewardColumns=RewardsColumnsBuilder.buildRewardColumns(parent);
       CellDataProvider<DeedDescription,Rewards> dataProvider=new CellDataProvider<DeedDescription,Rewards>()
       {
         @Override
@@ -349,6 +354,7 @@ public class DeedsTableController
    */
   public void dispose()
   {
+    super.dispose();
     // Preferences
     if (_prefs!=null)
     {

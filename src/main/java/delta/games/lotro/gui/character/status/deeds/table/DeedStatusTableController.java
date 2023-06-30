@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.swing.JTable;
 
+import delta.common.ui.swing.area.AbstractAreaController;
+import delta.common.ui.swing.area.AreaController;
 import delta.common.ui.swing.tables.CellDataProvider;
 import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.GenericTableController;
@@ -29,7 +31,7 @@ import delta.games.lotro.lore.deeds.DeedDescription;
  * Controller for a table that shows the status of all deeds for a single character.
  * @author DAM
  */
-public class DeedStatusTableController
+public class DeedStatusTableController extends AbstractAreaController
 {
   // Data
   private TypedProperties _prefs;
@@ -41,6 +43,7 @@ public class DeedStatusTableController
 
   /**
    * Constructor.
+   * @param parent Parent controller.
    * @param deedsStatus Status to show.
    * @param prefs Preferences.
    * @param filter Managed filter.
@@ -48,8 +51,9 @@ public class DeedStatusTableController
    * @param listener Listener for updates.
    * @param blacklist Blacklist.
    */
-  public DeedStatusTableController(AchievablesStatusManager deedsStatus, TypedProperties prefs, DeedStatusFilter filter, List<DeedDescription> deeds, FilterUpdateListener listener, Blacklist blacklist)
+  public DeedStatusTableController(AreaController parent, AchievablesStatusManager deedsStatus, TypedProperties prefs, DeedStatusFilter filter, List<DeedDescription> deeds, FilterUpdateListener listener, Blacklist blacklist)
   {
+    super(parent);
     _prefs=prefs;
     _blacklist=blacklist;
     _statuses=new ArrayList<AchievableStatus>();
@@ -67,7 +71,7 @@ public class DeedStatusTableController
     ListDataProvider<AchievableStatus> provider=new ListDataProvider<AchievableStatus>(_statuses);
     GenericTableController<AchievableStatus> table=new GenericTableController<AchievableStatus>(provider);
     // Deed columns
-    List<TableColumnController<DeedDescription,?>> deedColumns=DeedsTableController.buildColumns();
+    List<TableColumnController<DeedDescription,?>> deedColumns=DeedsTableController.buildColumns(this);
     CellDataProvider<AchievableStatus,DeedDescription> dataProvider=new CellDataProvider<AchievableStatus,DeedDescription>()
     {
       @Override
@@ -187,6 +191,7 @@ public class DeedStatusTableController
    */
   public void dispose()
   {
+    super.dispose();
     // Preferences
     if (_prefs!=null)
     {

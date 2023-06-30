@@ -52,7 +52,7 @@ public class FactionHistoryChartPanelController extends AbstractPanelController
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     // History chart
-    _history=new FactionHistoryChartController(this,_stats,false);
+    _history=new FactionHistoryChartController(this,_stats);
     JPanel historyPanel=_history.getPanel();
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,1.0,GridBagConstraints.CENTER,GridBagConstraints.BOTH,new Insets(5,10,5,10),0,0);
     panel.add(historyPanel,c);

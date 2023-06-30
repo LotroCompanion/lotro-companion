@@ -16,8 +16,10 @@ import javax.swing.JTextField;
 import javax.swing.border.Border;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.area.AreaController;
 import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.common.ui.swing.combobox.ItemSelectionListener;
+import delta.common.ui.swing.panels.AbstractPanelController;
 import delta.common.ui.swing.text.DynamicTextEditionController;
 import delta.common.ui.swing.text.TextListener;
 import delta.common.utils.collections.filters.Filter;
@@ -46,12 +48,11 @@ import delta.games.lotro.lore.quests.filter.HiddenAchievableFilter;
  * Controller for a deed filter edition panel.
  * @author DAM
  */
-public class DeedFilterController implements ActionListener
+public class DeedFilterController extends AbstractPanelController implements ActionListener
 {
   // Data
   private DeedFilter _filter;
   // GUI
-  private JPanel _panel;
   private JButton _reset;
   // -- Deed attributes UI --
   private JTextField _contains;
@@ -73,12 +74,14 @@ public class DeedFilterController implements ActionListener
 
   /**
    * Constructor.
+   * @param parent Parent controller.
    * @param filter Managed filter.
    * @param filterUpdateListener Filter update listener.
    * @param useRequirements Use requirements or not.
    */
-  public DeedFilterController(DeedFilter filter, FilterUpdateListener filterUpdateListener, boolean useRequirements)
+  public DeedFilterController(AreaController parent, DeedFilter filter, FilterUpdateListener filterUpdateListener, boolean useRequirements)
   {
+    super(parent);
     _filter=filter;
     _filterUpdateListener=filterUpdateListener;
     if (useRequirements)
@@ -86,7 +89,7 @@ public class DeedFilterController implements ActionListener
       _requirements=new RequirementsFilterController(filter.getRequirementsFilter(),filterUpdateListener);
     }
     RewardsExplorer explorer=DeedsManager.getInstance().buildRewardsExplorer();
-    _rewards=new RewardsFilterController(filter.getRewardsFilter(),filterUpdateListener,explorer,false);
+    _rewards=new RewardsFilterController(parent,filter.getRewardsFilter(),filterUpdateListener,explorer,false);
     boolean isLive=LotroCoreConfig.isLive();
     if (isLive)
     {
@@ -96,6 +99,8 @@ public class DeedFilterController implements ActionListener
       // Web Store items
       _webStoreItems=new WebStoreItemsFilterController<DeedDescription>(deeds,filter.getWebStoreItemsFilter(),filterUpdateListener);
     }
+    JPanel panel=buildPanel();
+    setPanel(panel);
   }
 
   /**
@@ -107,19 +112,12 @@ public class DeedFilterController implements ActionListener
     return _filter;
   }
 
-  /**
-   * Get the managed panel.
-   * @return the managed panel.
-   */
-  public JPanel getPanel()
+  private JPanel buildPanel()
   {
-    if (_panel==null)
-    {
-      _panel=build();
-      setFilter();
-      filterUpdated();
-    }
-    return _panel;
+    JPanel panel=build();
+    setFilter();
+    filterUpdated();
+    return panel;
   }
 
   /**
@@ -404,14 +402,9 @@ public class DeedFilterController implements ActionListener
    */
   public void dispose()
   {
+    super.dispose();
     // Data
     _filter=null;
-    // GUI
-    if (_panel!=null)
-    {
-      _panel.removeAll();
-      _panel=null;
-    }
     // Controllers
     if (_textController!=null)
     {

@@ -2,6 +2,7 @@ package delta.games.lotro.gui.utils;
 
 import java.util.List;
 
+import delta.common.ui.swing.area.AreaController;
 import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.games.lotro.character.virtues.VirtueDescription;
 import delta.games.lotro.character.virtues.VirtuesManager;
@@ -9,6 +10,7 @@ import delta.games.lotro.common.stats.StatDescription;
 import delta.games.lotro.common.stats.StatsRegistry;
 import delta.games.lotro.lore.reputation.Faction;
 import delta.games.lotro.lore.reputation.FactionsRegistry;
+import delta.games.lotro.utils.strings.ContextRendering;
 
 /**
  * Shared UI utilities.
@@ -18,21 +20,34 @@ public class SharedUiUtils
 {
   /**
    * Build a combo-box controller to choose a faction.
+   * @param parent Parent controller.
+   * @param factions Faction to use.
    * @return A new combo-box controller.
    */
-  public static ComboBoxController<Faction> buildFactionCombo()
+  public static ComboBoxController<Faction> buildFactionCombo(AreaController parent, List<Faction> factions)
   {
     ComboBoxController<Faction> ctrl=new ComboBoxController<Faction>();
     ctrl.addEmptyItem("");
-    List<Faction> factions=FactionsRegistry.getInstance().getAll();
     for(Faction faction : factions)
     {
-      ctrl.addItem(faction,faction.getName());
+      String rawFactionName=faction.getName();
+      String name=ContextRendering.render(parent,rawFactionName);
+      ctrl.addItem(faction,name);
     }
     ctrl.selectItem(null);
     return ctrl;
   }
 
+  /**
+   * Build a combo-box controller to choose a faction.
+   * @param parent Parent controller.
+   * @return A new combo-box controller.
+   */
+  public static ComboBoxController<Faction> buildFactionCombo(AreaController parent)
+  {
+    List<Faction> factions=FactionsRegistry.getInstance().getAll();
+    return buildFactionCombo(parent,factions);
+  }
 
   /**
    * Build a combobox with integer values.

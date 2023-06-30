@@ -5,6 +5,7 @@ import java.awt.Color;
 import javax.swing.Icon;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.area.AreaController;
 import delta.common.ui.swing.icons.IconsManager;
 import delta.common.ui.swing.labels.LabelWithHalo;
 import delta.common.utils.l10n.L10n;
@@ -17,10 +18,12 @@ public class VirtueXpRewardGadgetsController extends RewardGadgetsController
 {
   /**
    * Constructor.
+   * @param parent Parent controller.
    * @param virtueXP Virtue XP.
    */
-  public VirtueXpRewardGadgetsController(int virtueXP)
+  public VirtueXpRewardGadgetsController(AreaController parent, int virtueXP)
   {
+    super(parent);
     // Label
     String text=L10n.getString(virtueXP)+" Virtue Experience";
     Color color=Color.WHITE;

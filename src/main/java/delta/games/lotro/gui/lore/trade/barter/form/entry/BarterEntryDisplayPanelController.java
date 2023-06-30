@@ -27,6 +27,7 @@ import delta.games.lotro.lore.trade.barter.BarterProfile;
 import delta.games.lotro.lore.trade.barter.ItemBarterEntryElement;
 import delta.games.lotro.lore.trade.barter.ReputationBarterEntryElement;
 import delta.games.lotro.utils.Proxy;
+import delta.games.lotro.utils.strings.ContextRendering;
 
 /**
  * Controller for a panel to display a barter entry.
@@ -171,7 +172,9 @@ public class BarterEntryDisplayPanelController extends AbstractNavigablePanelCon
     // Name
     c=new GridBagConstraints(1,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(2,2,2,2),0,0);
     Faction faction=reputationToReceive.getFaction();
-    JLabel factionLabel=GuiFactory.buildLabel(faction.getName());
+    String rawFactionName=faction.getName();
+    String factionName=ContextRendering.render(this,rawFactionName);
+    JLabel factionLabel=GuiFactory.buildLabel(factionName);
     panel.add(factionLabel,c);
     return panel;
   }

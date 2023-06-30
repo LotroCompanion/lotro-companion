@@ -3,6 +3,7 @@ package delta.games.lotro.gui.common.rewards.table;
 import java.util.ArrayList;
 import java.util.List;
 
+import delta.common.ui.swing.area.AreaController;
 import delta.common.ui.swing.tables.CellDataProvider;
 import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.games.lotro.common.rewards.EmoteReward;
@@ -12,6 +13,8 @@ import delta.games.lotro.common.rewards.TitleReward;
 import delta.games.lotro.common.rewards.TraitReward;
 import delta.games.lotro.common.rewards.VirtueReward;
 import delta.games.lotro.gui.utils.l10n.ColumnsUtils;
+import delta.games.lotro.lore.reputation.Faction;
+import delta.games.lotro.utils.strings.ContextRendering;
 
 /**
  * Builder for columns that show rewards data.
@@ -21,9 +24,10 @@ public class RewardsColumnsBuilder
 {
   /**
    * Build columns to display rewards.
+   * @param parent Parent controller.
    * @return A list of columns controllers for rewards data.
    */
-  public static List<DefaultTableColumnController<Rewards,?>> buildRewardColumns()
+  public static List<DefaultTableColumnController<Rewards,?>> buildRewardColumns(AreaController parent)
   {
     List<DefaultTableColumnController<Rewards,?>> ret=new ArrayList<DefaultTableColumnController<Rewards,?>>();
     // LOTRO points column
@@ -117,7 +121,7 @@ public class RewardsColumnsBuilder
       ret.add(traitColumn);
     }
     // Faction column
-    ret.add(buildFactionNameColumn());
+    ret.add(buildFactionNameColumn(parent));
     // Faction amount column
     ret.add(buildFactionAmountColumn());
     // XP column
@@ -206,9 +210,10 @@ public class RewardsColumnsBuilder
 
   /**
    * Build a 'faction name' column.
+   * @param parent Parent controller.
    * @return a column.
    */
-  public static DefaultTableColumnController<Rewards,String> buildFactionNameColumn()
+  public static DefaultTableColumnController<Rewards,String> buildFactionNameColumn(AreaController parent)
   {
     CellDataProvider<Rewards,String> factionCell=new CellDataProvider<Rewards,String>()
     {
@@ -216,7 +221,14 @@ public class RewardsColumnsBuilder
       public String getData(Rewards rewards)
       {
         List<ReputationReward> reputationRewards=rewards.getRewardElementsOfClass(ReputationReward.class);
-        return (reputationRewards.size()>0)?reputationRewards.get(0).getFaction().getName():null;
+        if (!reputationRewards.isEmpty())
+        {
+          Faction faction=reputationRewards.get(0).getFaction();
+          String rawFactionName=faction.getName();
+          String factionName=ContextRendering.render(parent,rawFactionName);
+          return factionName;
+        }
+        return null;
       }
     };
     DefaultTableColumnController<Rewards,String> factionColumn=new DefaultTableColumnController<Rewards,String>(RewardsColumnIds.FACTION.name(),"Faction",String.class,factionCell);

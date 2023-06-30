@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.swing.JTable;
 
+import delta.common.ui.swing.area.AbstractAreaController;
+import delta.common.ui.swing.area.AreaController;
 import delta.common.ui.swing.tables.CellDataProvider;
 import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.GenericTableController;
@@ -28,7 +30,7 @@ import delta.games.lotro.lore.quests.QuestDescription;
  * Controller for a table that shows the status of all quests for a single character.
  * @author DAM
  */
-public class QuestStatusTableController
+public class QuestStatusTableController extends AbstractAreaController
 {
   // Data
   private TypedProperties _prefs;
@@ -40,14 +42,16 @@ public class QuestStatusTableController
 
   /**
    * Constructor.
+   * @param parent Parent controller.
    * @param questsStatus Status to show.
    * @param prefs Preferences.
    * @param filter Managed filter.
    * @param quests Quests to use.
    * @param blacklist Blacklist.
    */
-  public QuestStatusTableController(AchievablesStatusManager questsStatus, TypedProperties prefs, QuestStatusFilter filter, List<QuestDescription> quests, Blacklist blacklist)
+  public QuestStatusTableController(AreaController parent, AchievablesStatusManager questsStatus, TypedProperties prefs, QuestStatusFilter filter, List<QuestDescription> quests, Blacklist blacklist)
   {
+    super(parent);
     _prefs=prefs;
     _blacklist=blacklist;
     _statuses=new ArrayList<AchievableStatus>();
@@ -65,7 +69,7 @@ public class QuestStatusTableController
     ListDataProvider<AchievableStatus> provider=new ListDataProvider<AchievableStatus>(_statuses);
     GenericTableController<AchievableStatus> table=new GenericTableController<AchievableStatus>(provider);
     // Quest columns
-    List<TableColumnController<QuestDescription,?>> questColumns=QuestsTableController.buildColumns();
+    List<TableColumnController<QuestDescription,?>> questColumns=QuestsTableController.buildColumns(this);
     CellDataProvider<AchievableStatus,QuestDescription> dataProvider=new CellDataProvider<AchievableStatus,QuestDescription>()
     {
       @Override
@@ -185,6 +189,7 @@ public class QuestStatusTableController
    */
   public void dispose()
   {
+    super.dispose();
     // Preferences
     if (_prefs!=null)
     {

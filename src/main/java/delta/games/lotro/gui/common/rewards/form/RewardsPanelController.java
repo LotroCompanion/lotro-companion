@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.border.Border;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.panels.AbstractPanelController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.traits.TraitDescription;
 import delta.games.lotro.common.money.Money;
@@ -38,14 +39,11 @@ import delta.games.lotro.lore.titles.TitleDescription;
  * Controller for a panel to display rewards.
  * @author DAM
  */
-public class RewardsPanelController
+public class RewardsPanelController extends AbstractPanelController
 {
   // Data
   private Rewards _rewards;
-  // UI
-  private JPanel _panel;
   // Controllers
-  private WindowController _parent;
   private ClassPointRewardGadgetsController _classPoint;
   private LotroPointsRewardGadgetsController _lotroPoints;
   private List<RewardGadgetsController> _rewardControllers;
@@ -73,32 +71,24 @@ public class RewardsPanelController
    */
   public RewardsPanelController(WindowController parent, Rewards rewards, int maxRows)
   {
-    _parent=parent;
+    super(parent);
     _rewards=rewards;
     // Class Point
     int classPoints=rewards.getClassPoints();
     if (classPoints>0)
     {
-      _classPoint=new ClassPointRewardGadgetsController(classPoints);
+      _classPoint=new ClassPointRewardGadgetsController(this,classPoints);
     }
     // LOTRO Points
     int lotroPoints=rewards.getLotroPoints();
     if (lotroPoints>0)
     {
-      _lotroPoints=new LotroPointsRewardGadgetsController(lotroPoints);
+      _lotroPoints=new LotroPointsRewardGadgetsController(this,lotroPoints);
     }
     _rewardControllers=new ArrayList<RewardGadgetsController>();
     _maxRows=maxRows;
-    _panel=build();
-  }
-
-  /**
-   * Get the managed panel.
-   * @return the managed panel.
-   */
-  public JPanel getPanel()
-  {
-    return _panel;
+    JPanel panel=build();
+    setPanel(panel);
   }
 
   private JPanel build()
@@ -131,7 +121,7 @@ public class RewardsPanelController
     int virtueXp=_rewards.getVirtueXp();
     if (virtueXp>0)
     {
-      _virtueXpController=new VirtueXpRewardGadgetsController(virtueXp);
+      _virtueXpController=new VirtueXpRewardGadgetsController(this,virtueXp);
       addRewardGadgets(ret,_virtueXpController.getIcon(),_virtueXpController.getLabel(),c);
       updateConstraints(c);
     }
@@ -210,32 +200,33 @@ public class RewardsPanelController
   private RewardGadgetsController getController(RewardElement rewardElement)
   {
     RewardGadgetsController ret=null;
+    WindowController parent=getParentWindowController();
     // Item reward
     if (rewardElement instanceof ItemReward)
     {
       ItemReward itemReward=(ItemReward)rewardElement;
       Item item=itemReward.getItem();
       int count=itemReward.getQuantity();
-      ret=new ItemRewardGadgetsController(_parent,item,count);
+      ret=new ItemRewardGadgetsController(parent,item,count);
     }
     // Title reward
     else if (rewardElement instanceof TitleReward)
     {
       TitleReward titleReward=(TitleReward)rewardElement;
       TitleDescription title=titleReward.getTitle();
-      ret=new TitleRewardGadgetsController(_parent,title);
+      ret=new TitleRewardGadgetsController(parent,title);
     }
     // Virtue reward
     else if (rewardElement instanceof VirtueReward)
     {
       VirtueReward virtueReward=(VirtueReward)rewardElement;
-      ret=new VirtueRewardGadgetsController(virtueReward);
+      ret=new VirtueRewardGadgetsController(this,virtueReward);
     }
     // Reputation
     else if (rewardElement instanceof ReputationReward)
     {
       ReputationReward reputationReward=(ReputationReward)rewardElement;
-      ret=new ReputationRewardGadgetsController(reputationReward);
+      ret=new ReputationRewardGadgetsController(this,reputationReward);
     }
     // Relic reward
     else if (rewardElement instanceof RelicReward)
@@ -243,33 +234,33 @@ public class RewardsPanelController
       RelicReward relicReward=(RelicReward)rewardElement;
       Relic relic=relicReward.getRelic();
       int count=relicReward.getQuantity();
-      ret=new RelicRewardGadgetsController(relic,count);
+      ret=new RelicRewardGadgetsController(this,relic,count);
     }
     // Emote reward
     else if (rewardElement instanceof EmoteReward)
     {
       EmoteReward emoteReward=(EmoteReward)rewardElement;
       EmoteDescription emote=emoteReward.getEmote();
-      ret=new EmoteRewardGadgetsController(_parent,emote);
+      ret=new EmoteRewardGadgetsController(parent,emote);
     }
     // Trait reward
     else if (rewardElement instanceof TraitReward)
     {
       TraitReward traitReward=(TraitReward)rewardElement;
       TraitDescription trait=traitReward.getTrait();
-      ret=new TraitRewardGadgetsController(_parent,trait);
+      ret=new TraitRewardGadgetsController(parent,trait);
     }
     // Crafting XP reward
     else if (rewardElement instanceof CraftingXpReward)
     {
       CraftingXpReward craftingXpReward=(CraftingXpReward)rewardElement;
-      ret=new CraftingXpRewardGadgetsController(craftingXpReward);
+      ret=new CraftingXpRewardGadgetsController(this,craftingXpReward);
     }
     // Billing token
     else if (rewardElement instanceof BillingTokenReward)
     {
       BillingTokenReward billingTokenReward=(BillingTokenReward)rewardElement;
-      ret=new BillingTokenRewardGadgetsController(_parent,billingTokenReward.getBillingGroup());
+      ret=new BillingTokenRewardGadgetsController(parent,billingTokenReward.getBillingGroup());
     }
     if (ret!=null)
     {
@@ -283,10 +274,10 @@ public class RewardsPanelController
    */
   public void dispose()
   {
+    super.dispose();
     // Data
     _rewards=null;
     // Controllers
-    _parent=null;
     _classPoint=null;
     _lotroPoints=null;
     if (_rewardControllers!=null)
@@ -311,12 +302,6 @@ public class RewardsPanelController
     {
       _xpController.dispose();
       _xpController=null;
-    }
-    // UI
-    if (_panel!=null)
-    {
-      _panel.removeAll();
-      _panel=null;
     }
   }
 }

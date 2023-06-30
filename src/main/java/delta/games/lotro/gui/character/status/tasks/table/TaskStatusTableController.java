@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.swing.JTable;
 
+import delta.common.ui.swing.area.AbstractAreaController;
+import delta.common.ui.swing.area.AreaController;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.ListDataProvider;
 import delta.common.ui.swing.tables.TableColumnController;
@@ -23,7 +25,7 @@ import delta.games.lotro.gui.lore.quests.table.QuestColumnIds;
  * Controller for a table that shows the status of all tasks for a single character.
  * @author DAM
  */
-public class TaskStatusTableController
+public class TaskStatusTableController extends AbstractAreaController
 {
   // Data
   private TypedProperties _prefs;
@@ -34,12 +36,14 @@ public class TaskStatusTableController
 
   /**
    * Constructor.
+   * @param parent Parent controller.
    * @param statusMgr Status to show.
    * @param prefs Preferences.
    * @param filter Managed filter.
    */
-  public TaskStatusTableController(TasksStatusManager statusMgr, TypedProperties prefs, TaskStatusFilter filter)
+  public TaskStatusTableController(AreaController parent, TasksStatusManager statusMgr, TypedProperties prefs, TaskStatusFilter filter)
   {
+    super(parent);
     _prefs=prefs;
     _statuses=new ArrayList<TaskStatus>(statusMgr.getTasksStatuses());
     _tableController=buildTable();
@@ -52,7 +56,7 @@ public class TaskStatusTableController
     ListDataProvider<TaskStatus> provider=new ListDataProvider<TaskStatus>(_statuses);
     GenericTableController<TaskStatus> table=new GenericTableController<TaskStatus>(provider);
     // Columns
-    List<TableColumnController<TaskStatus,?>> columns=TaskStatusColumnsBuilder.buildTaskStatusColumns();
+    List<TableColumnController<TaskStatus,?>> columns=TaskStatusColumnsBuilder.buildTaskStatusColumns(this);
     for(TableColumnController<TaskStatus,?> column : columns)
     {
       table.addColumnController(column);
@@ -151,6 +155,7 @@ public class TaskStatusTableController
    */
   public void dispose()
   {
+    super.dispose();
     // Preferences
     if (_prefs!=null)
     {

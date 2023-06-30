@@ -2,6 +2,7 @@ package delta.games.lotro.gui.character.status.achievables.statistics.reputation
 
 import java.util.List;
 
+import delta.common.ui.swing.area.AreaController;
 import delta.common.ui.swing.tables.CellDataProvider;
 import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.GenericTableController;
@@ -24,12 +25,13 @@ public class AchievablesReputationTableController extends ReputationTableControl
 
   /**
    * Constructor.
+   * @param parent Parent controller.
    * @param stats Stats to show.
    * @param mode UI mode.
    */
-  public AchievablesReputationTableController(AchievablesReputationStats stats, AchievableUIMode mode)
+  public AchievablesReputationTableController(AreaController parent, AchievablesReputationStats stats, AchievableUIMode mode)
   {
-    super(stats);
+    super(parent,stats);
     _mode=mode;
   }
 

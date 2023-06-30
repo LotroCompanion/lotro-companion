@@ -22,11 +22,12 @@ public class BillingTokenRewardGadgetsController extends RewardGadgetsController
 
   /**
    * Constructor.
-   * @param parent Parent window.
+   * @param parent Parent controller.
    * @param billingGroup Billing group to show.
    */
   public BillingTokenRewardGadgetsController(WindowController parent, BillingGroup billingGroup)
   {
+    super(parent);
     // Label
     _label=new LabelWithHalo();
     _label.setForeground(Color.WHITE);

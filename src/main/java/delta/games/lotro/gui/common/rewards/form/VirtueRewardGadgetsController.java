@@ -5,6 +5,7 @@ import java.awt.Color;
 import javax.swing.Icon;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.area.AreaController;
 import delta.common.ui.swing.icons.IconWithText;
 import delta.common.ui.swing.labels.LabelWithHalo;
 import delta.games.lotro.character.virtues.VirtueDescription;
@@ -19,10 +20,12 @@ public class VirtueRewardGadgetsController extends RewardGadgetsController
 {
   /**
    * Constructor.
+   * @param parent Parent controller.
    * @param virtueReward Virtue reward.
    */
-  public VirtueRewardGadgetsController(VirtueReward virtueReward)
+  public VirtueRewardGadgetsController(AreaController parent, VirtueReward virtueReward)
   {
+    super(parent);
     VirtueDescription virtue=virtueReward.getVirtue();
     // Label
     String text=virtue.getName();

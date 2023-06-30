@@ -8,8 +8,10 @@ import java.awt.Insets;
 import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.area.AreaController;
 import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.common.ui.swing.combobox.ItemSelectionListener;
+import delta.common.ui.swing.panels.AbstractPanelController;
 import delta.games.lotro.character.virtues.VirtueDescription;
 import delta.games.lotro.common.enums.BillingGroup;
 import delta.games.lotro.common.rewards.RewardsExplorer;
@@ -39,15 +41,12 @@ import delta.games.lotro.lore.reputation.Faction;
  * Controller for a reward filter edition panel.
  * @author DAM
  */
-public class RewardsFilterController
+public class RewardsFilterController extends AbstractPanelController
 {
   // Data
   private RewardsFilter _filter;
   private FilterUpdateListener _filterUpdateListener;
   private RewardsUiUtils _uiUtils;
-
-  // GUI
-  private JPanel _panel;
 
   // Quest or deed?
   private boolean _quest;
@@ -70,32 +69,33 @@ public class RewardsFilterController
 
   /**
    * Constructor.
+   * @param parent Parent controller.
    * @param filter Managed filter.
    * @param filterUpdateListener Filter update listener.
    * @param explorer Rewards explorer.
    * @param quest Indicates if this is for the quests filter or for the deeds filter.
    */
-  public RewardsFilterController(RewardsFilter filter, FilterUpdateListener filterUpdateListener, RewardsExplorer explorer, boolean quest)
+  public RewardsFilterController(AreaController parent, RewardsFilter filter, FilterUpdateListener filterUpdateListener, RewardsExplorer explorer, boolean quest)
   {
+    super(parent);
     _filter=filter;
     _filterUpdateListener=filterUpdateListener;
     _uiUtils=new RewardsUiUtils(explorer);
     _quest=quest;
+    JPanel panel=buildPanel();
+    setPanel(panel);
   }
 
   /**
    * Get the managed panel.
    * @return the managed panel.
    */
-  public JPanel getPanel()
+  public JPanel buildPanel()
   {
-    if (_panel==null)
-    {
-      _panel=buildRewardsPanel();
-      setFilter();
-      filterUpdated();
-    }
-    return _panel;
+    JPanel panel=buildRewardsPanel();
+    setFilter();
+    filterUpdated();
+    return panel;
   }
 
   /**
@@ -499,7 +499,7 @@ public class RewardsFilterController
 
   private ComboBoxController<Faction> buildReputationCombobox()
   {
-    ComboBoxController<Faction> combo=SharedUiUtils.buildFactionCombo();
+    ComboBoxController<Faction> combo=SharedUiUtils.buildFactionCombo(this);
     ItemSelectionListener<Faction> listener=new ItemSelectionListener<Faction>()
     {
       @Override
@@ -646,15 +646,10 @@ public class RewardsFilterController
    */
   public void dispose()
   {
+    super.dispose();
     // Data
     _filter=null;
     // Controllers
-    // GUI
-    if (_panel!=null)
-    {
-      _panel.removeAll();
-      _panel=null;
-    }
     if (_reputation!=null)
     {
       _reputation.dispose();

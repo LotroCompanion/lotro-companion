@@ -25,6 +25,7 @@ public class ItemRewardGadgetsController extends RewardGadgetsController
    */
   public ItemRewardGadgetsController(WindowController parent, Item item, int count)
   {
+    super(parent);
     // Label
     String text="???";
     Color color=Color.WHITE;

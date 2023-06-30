@@ -5,10 +5,12 @@ import java.awt.Color;
 import javax.swing.Icon;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.area.AreaController;
 import delta.common.ui.swing.icons.IconsManager;
 import delta.common.ui.swing.labels.LabelWithHalo;
 import delta.games.lotro.common.rewards.ReputationReward;
 import delta.games.lotro.lore.reputation.Faction;
+import delta.games.lotro.utils.strings.ContextRendering;
 
 /**
  * Controller for the UI gadgets of a reputation reward.
@@ -18,15 +20,19 @@ public class ReputationRewardGadgetsController extends RewardGadgetsController
 {
   /**
    * Constructor.
+   * @param parent Parent controller.
    * @param reputation Reputation.
    */
-  public ReputationRewardGadgetsController(ReputationReward reputation)
+  public ReputationRewardGadgetsController(AreaController parent, ReputationReward reputation)
   {
+    super(parent);
     // Label
     int amount=reputation.getAmount();
     String iconName=(amount>0)?"reputation":"reputation-decrease";
     Faction faction=reputation.getFaction();
-    String text=((amount>0)?"+":"")+amount+" "+faction.getName();
+    String rawFactionName=faction.getName();
+    String factionName=ContextRendering.render(getParentController(),rawFactionName);
+    String text=((amount>0)?"+":"")+amount+" "+factionName;
     Color color=Color.WHITE;
     _label=new LabelWithHalo();
     _label.setText(text);

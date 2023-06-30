@@ -7,6 +7,7 @@ import delta.common.ui.swing.windows.DefaultFormDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.status.reputation.FactionStatus;
 import delta.games.lotro.lore.reputation.Faction;
+import delta.games.lotro.utils.strings.ContextRendering;
 
 /**
  * Controller for a "faction edition" dialog.
@@ -36,7 +37,8 @@ public class FactionEditionDialogController extends DefaultFormDialogController<
   {
     JDialog dialog=super.build();
     Faction faction=_data.getFaction();
-    String name=faction.getName();
+    String rawName=faction.getName();
+    String name=ContextRendering.render(this,rawName);
     dialog.setTitle("Edit faction history: "+name);
     dialog.setResizable(false);
     return dialog;

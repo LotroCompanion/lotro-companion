@@ -5,6 +5,7 @@ import java.awt.Color;
 import javax.swing.ImageIcon;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.area.AreaController;
 import delta.common.ui.swing.labels.LabelWithHalo;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.lore.items.legendary.relics.Relic;
@@ -17,11 +18,13 @@ public class RelicRewardGadgetsController extends RewardGadgetsController
 {
   /**
    * Constructor.
+   * @param parent Parent controller.
    * @param relic Relic to display.
    * @param count Count of that relic.
    */
-  public RelicRewardGadgetsController(Relic relic, int count)
+  public RelicRewardGadgetsController(AreaController parent, Relic relic, int count)
   {
+    super(parent);
     // Label
     String text=relic.getName();
     _label=new LabelWithHalo();
