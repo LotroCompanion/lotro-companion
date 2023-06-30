@@ -278,6 +278,7 @@ public class BarterEntriesTableController extends AbstractAreaController
    */
   public void dispose()
   {
+    super.dispose();
     // Preferences
     if (_prefs!=null)
     {

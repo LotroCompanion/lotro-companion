@@ -342,6 +342,7 @@ public class ReputationSynopsisTableController extends AbstractAreaController
    */
   public void dispose()
   {
+    super.dispose();
     // GUI
     if (_table!=null)
     {
