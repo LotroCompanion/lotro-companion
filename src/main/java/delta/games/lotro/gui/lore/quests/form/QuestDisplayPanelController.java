@@ -41,6 +41,7 @@ import delta.games.lotro.lore.webStore.WebStoreItem;
 import delta.games.lotro.lore.worldEvents.AbstractWorldEventCondition;
 import delta.games.lotro.lore.worldEvents.WorldEventConditionsUtils;
 import delta.games.lotro.utils.gui.HtmlUtils;
+import delta.games.lotro.utils.strings.ContextRendering;
 
 /**
  * Controller for a quest display panel.
@@ -254,7 +255,9 @@ public class QuestDisplayPanelController extends AbstractNavigablePanelControlle
     StringBuilder sb=new StringBuilder();
     sb.append("<html><body>");
     sb.append("<b>Description</b><br>");
-    sb.append(HtmlUtils.toHtml(_quest.getDescription()));
+    String description=_quest.getDescription();
+    description=ContextRendering.render(this,description);
+    sb.append(HtmlUtils.toHtml(description));
     // Bestowers
     List<DialogElement> bestowers=_quest.getBestowers();
     if (bestowers.size()>0)
@@ -267,7 +270,7 @@ public class QuestDisplayPanelController extends AbstractNavigablePanelControlle
         {
           sb.append("<br>OR");
         }
-        QuestsHtmlUtils.buildHtmlForDialog(sb,bestower);
+        QuestsHtmlUtils.buildHtmlForDialog(this,sb,bestower);
         index++;
       }
       sb.append("</p>");
@@ -281,7 +284,7 @@ public class QuestDisplayPanelController extends AbstractNavigablePanelControlle
       sb.append("<p><b>End</b>");
       for(DialogElement endDialog : endDialogs)
       {
-        QuestsHtmlUtils.buildHtmlForDialog(sb,endDialog);
+        QuestsHtmlUtils.buildHtmlForDialog(this,sb,endDialog);
       }
       sb.append("</p>");
     }
@@ -292,7 +295,7 @@ public class QuestDisplayPanelController extends AbstractNavigablePanelControlle
       sb.append("<p><b>Completion comments</b>");
       for(QuestCompletionComment comment : comments)
       {
-        QuestsHtmlUtils.buildHtmlForCompletionComment(sb,comment);
+        QuestsHtmlUtils.buildHtmlForCompletionComment(this,sb,comment);
       }
       sb.append("</p>");
     }

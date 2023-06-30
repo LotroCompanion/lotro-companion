@@ -62,7 +62,7 @@ public class ObjectivesDisplayBuilder
 {
   private static final Logger LOGGER=Logger.getLogger(ObjectivesDisplayBuilder.class);
 
-  private static final String COUNT_PATTERN="{***}/{***}";
+  private static final String COUNT_PATTERN="${NUMBER}/${TOTAL}";
 
   private boolean _html;
   private AreaController _controller;
@@ -95,6 +95,7 @@ public class ObjectivesDisplayBuilder
       int index=objective.getIndex();
       sb.append("<p><b>Objective #").append(index).append("</b></p>");
       String text=objective.getDescription();
+      text=ContextRendering.render(_controller,text);
       if (text.length()>0)
       {
         sb.append("<p>").append(HtmlUtils.toHtml(text)).append("</p>");
@@ -108,7 +109,7 @@ public class ObjectivesDisplayBuilder
       // Dialogs
       for(DialogElement dialog : objective.getDialogs())
       {
-        QuestsHtmlUtils.buildHtmlForDialog(sb,dialog);
+        QuestsHtmlUtils.buildHtmlForDialog(_controller,sb,dialog);
       }
     }
   }
@@ -565,6 +566,7 @@ public class ObjectivesDisplayBuilder
         String type=isQuest?"quest ":"deed ";
         sb.append(type);
         text=achievable.getName();
+        text=ContextRendering.render(_controller,text);
       }
       if (_html)
       {
@@ -650,6 +652,7 @@ public class ObjectivesDisplayBuilder
         }
       }
     }
+    progressOverride=ContextRendering.render(_controller,progressOverride);
     return progressOverride;
   }
 
@@ -658,6 +661,7 @@ public class ObjectivesDisplayBuilder
     String progressOverride=condition.getProgressOverride();
     if ((progressOverride!=null) && (progressOverride.length()>0))
     {
+      progressOverride=ContextRendering.render(_controller,progressOverride);
       if (_html)
       {
         sb.append(HtmlUtils.toHtml(progressOverride));
@@ -677,6 +681,7 @@ public class ObjectivesDisplayBuilder
     String loreInfo=condition.getLoreInfo();
     if ((loreInfo!=null) && (loreInfo.trim().length()>0))
     {
+      loreInfo=ContextRendering.render(_controller,loreInfo);
       if (_html)
       {
         sb.append("<p><i>").append(HtmlUtils.toHtml(loreInfo)).append("</i></p>");

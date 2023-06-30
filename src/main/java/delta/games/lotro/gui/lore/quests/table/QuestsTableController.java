@@ -30,6 +30,7 @@ import delta.games.lotro.gui.lore.items.chooser.ItemChooser;
 import delta.games.lotro.gui.utils.UiConfiguration;
 import delta.games.lotro.lore.quests.QuestDescription;
 import delta.games.lotro.lore.quests.QuestsManager;
+import delta.games.lotro.utils.strings.ContextRendering;
 
 /**
  * Controller for a table that shows quests.
@@ -264,7 +265,9 @@ public class QuestsTableController extends AbstractAreaController
         @Override
         public String getData(QuestDescription quest)
         {
-          return quest.getDescription();
+          String description=quest.getDescription();
+          description=ContextRendering.render(parent,description);
+          return description;
         }
       };
       DefaultTableColumnController<QuestDescription,String> descriptionColumn=new DefaultTableColumnController<QuestDescription,String>(QuestColumnIds.DESCRIPTION.name(),"Description",String.class,descriptionCell);

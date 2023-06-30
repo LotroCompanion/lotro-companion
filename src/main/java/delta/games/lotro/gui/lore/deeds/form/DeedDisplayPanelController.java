@@ -39,6 +39,7 @@ import delta.games.lotro.lore.webStore.WebStoreItem;
 import delta.games.lotro.lore.worldEvents.AbstractWorldEventCondition;
 import delta.games.lotro.lore.worldEvents.WorldEventConditionsUtils;
 import delta.games.lotro.utils.gui.HtmlUtils;
+import delta.games.lotro.utils.strings.ContextRendering;
 
 /**
  * Controller for an deed display panel.
@@ -243,7 +244,9 @@ public class DeedDisplayPanelController extends AbstractNavigablePanelController
     StringBuilder sb=new StringBuilder();
     sb.append("<html><body>");
     sb.append("<b>Description</b><p>");
-    sb.append(HtmlUtils.toHtml(_deed.getDescription()));
+    String description=_deed.getDescription();
+    description=ContextRendering.render(this,description);
+    sb.append(HtmlUtils.toHtml(description));
     // Objectives
     new ObjectivesDisplayBuilder(this,true).build(sb,_deed);
     sb.append("</body></html>");
