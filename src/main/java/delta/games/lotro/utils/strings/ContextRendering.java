@@ -38,6 +38,8 @@ public class ContextRendering
     // Level
     int maxLevel=Config.getInstance().getMaxCharacterLevel();
     ret.setLevel(maxLevel);
+    // Name
+    ret.setName("(character name)");
     return ret;
   }
 
