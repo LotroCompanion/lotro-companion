@@ -308,7 +308,11 @@ public class ObjectivesDisplayBuilder
             {
               sb.append(" or ");
             }
-            sb.append(whatStr).append(" in ").append(where);
+            sb.append(whatStr);
+            if (where!=null)
+            {
+              sb.append(" in ").append(where);
+            }
             index++;
           }
         }
