@@ -1,5 +1,6 @@
 package delta.games.lotro.gui.lore.quests;
 
+import java.awt.geom.Point2D;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +12,7 @@ import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.common.utils.misc.IntegerHolder;
 import delta.games.lotro.character.skills.SkillDescription;
 import delta.games.lotro.common.Interactable;
+import delta.games.lotro.common.geo.PositionUtils;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.lore.agents.AgentDescription;
 import delta.games.lotro.lore.agents.EntityClassification;
@@ -21,6 +23,7 @@ import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.quests.Achievable;
 import delta.games.lotro.lore.quests.QuestDescription;
 import delta.games.lotro.lore.quests.dialogs.DialogElement;
+import delta.games.lotro.lore.quests.geo.AchievableGeoPoint;
 import delta.games.lotro.lore.quests.objectives.ConditionTarget;
 import delta.games.lotro.lore.quests.objectives.ConditionType;
 import delta.games.lotro.lore.quests.objectives.DefaultObjectiveCondition;
@@ -244,8 +247,7 @@ public class ObjectivesDisplayBuilder
 
   private void handleQuestCompleteCondition(StringBuilder sb, QuestCompleteCondition questComplete)
   {
-    int count=questComplete.getCount();
-    String progressOverride=getProgressOverrideWithCount(questComplete,count);
+    String progressOverride=getProgressOverrideWithCount(questComplete);
     Proxy<Achievable> proxy=questComplete.getProxy();
     String questCategory=questComplete.getQuestCategory();
 
@@ -260,6 +262,7 @@ public class ObjectivesDisplayBuilder
       {
         sb.append("Complete quests in category ").append(questCategory);
       }
+      int count=questComplete.getCount();
       if (count>1)
       {
         sb.append(" (x").append(count).append(')');
@@ -281,8 +284,7 @@ public class ObjectivesDisplayBuilder
 
   private void handleMonsterDiedCondition(StringBuilder sb, MonsterDiedCondition monsterDied)
   {
-    int count=monsterDied.getCount();
-    boolean hasProgressOverride=printProgressOverrideWithCount(sb,monsterDied,count);
+    boolean hasProgressOverride=printProgressOverrideWithCount(sb,monsterDied);
     if (!hasProgressOverride)
     {
       String mobName=monsterDied.getMobName();
@@ -311,6 +313,7 @@ public class ObjectivesDisplayBuilder
           }
         }
       }
+      int count=monsterDied.getCount();
       if (count>1)
       {
         sb.append(" (x").append(count).append(')');
@@ -354,15 +357,15 @@ public class ObjectivesDisplayBuilder
 
   private void handleItemCondition(StringBuilder sb, ItemCondition condition, String verb)
   {
-    int count=condition.getCount();
-    boolean hasProgressOverride=printProgressOverrideWithCount(sb,condition,count);
+    boolean hasProgressOverride=printProgressOverrideWithCount(sb,condition);
     if (!hasProgressOverride)
     {
       Item item=condition.getItem();
       if (item!=null)
       {
         sb.append(verb).append(' ');
-        String name=item.getName();
+        String rawName=item.getName();
+        String name=ContextRendering.render(_controller,rawName);
         if (_html)
         {
           PageIdentifier to=ReferenceConstants.getItemReference(item.getIdentifier());
@@ -373,6 +376,7 @@ public class ObjectivesDisplayBuilder
         {
           sb.append(name);
         }
+        int count=condition.getCount();
         if (count>1)
         {
           sb.append(" x").append(count);
@@ -405,8 +409,7 @@ public class ObjectivesDisplayBuilder
 
   private void handleSkillUsedCondition(StringBuilder sb, SkillUsedCondition condition)
   {
-    int count=condition.getCount();
-    boolean hasProgressOverride=printProgressOverrideWithCount(sb,condition,count);
+    boolean hasProgressOverride=printProgressOverrideWithCount(sb,condition);
     if (!hasProgressOverride)
     {
       SkillDescription skill=condition.getSkill();
@@ -414,6 +417,7 @@ public class ObjectivesDisplayBuilder
       {
         String name=skill.getName();
         sb.append("Use skill ").append(name);
+        int count=condition.getCount();
         if (count>1)
         {
           sb.append(" x").append(count);
@@ -455,8 +459,18 @@ public class ObjectivesDisplayBuilder
       }
       else
       {
-        LOGGER.warn("No NPC and no progress override");
-        sb.append("No NPC and no progress override");
+        List<AchievableGeoPoint> points=condition.getPoints();
+        if (!points.isEmpty())
+        {
+          String action=condition.getAction();
+          sb.append(action).append(" NPC at ");
+          sb.append(getPositions(points));
+        }
+        else
+        {
+          LOGGER.warn("No NPC and no progress override");
+          sb.append("No NPC and no progress override");
+        }
       }
     }
   }
@@ -507,7 +521,18 @@ public class ObjectivesDisplayBuilder
       }
       else
       {
-        LOGGER.warn("No NPC, no mob and no progress override");
+        List<AchievableGeoPoint> points=condition.getPoints();
+        if (!points.isEmpty())
+        {
+          String action=condition.getAction();
+          sb.append(action).append("Go near ");
+          sb.append(getPositions(points));
+        }
+        else
+        {
+          LOGGER.warn("No NPC, no mob and no progress override");
+          sb.append("No NPC, no mob and no progress override");
+        }
       }
     }
   }
@@ -616,9 +641,9 @@ public class ObjectivesDisplayBuilder
     return ((progressOverride!=null) && (progressOverride.length()>0));
   }
 
-  private boolean printProgressOverrideWithCount(StringBuilder sb, ObjectiveCondition condition, int count)
+  private boolean printProgressOverrideWithCount(StringBuilder sb, ObjectiveCondition condition)
   {
-    String progressOverride=getProgressOverrideWithCount(condition,count);
+    String progressOverride=getProgressOverrideWithCount(condition);
     if (progressOverride!=null)
     {
       if (_html)
@@ -634,8 +659,9 @@ public class ObjectivesDisplayBuilder
     return false;
   }
 
-  private String getProgressOverrideWithCount(ObjectiveCondition condition, int count)
+  private String getProgressOverrideWithCount(ObjectiveCondition condition)
   {
+    int count=condition.getCount();
     String progressOverride=condition.getProgressOverride();
     if ((progressOverride!=null) && (progressOverride.length()>0))
     {
@@ -661,7 +687,7 @@ public class ObjectivesDisplayBuilder
     String progressOverride=condition.getProgressOverride();
     if ((progressOverride!=null) && (progressOverride.length()>0))
     {
-      progressOverride=ContextRendering.render(_controller,progressOverride);
+      progressOverride=getProgressOverrideWithCount(condition);
       if (_html)
       {
         sb.append(HtmlUtils.toHtml(progressOverride));
@@ -691,5 +717,20 @@ public class ObjectivesDisplayBuilder
         sb.append(loreInfo);
       }
     }
+  }
+
+  private String getPositions(List<AchievableGeoPoint> points)
+  {
+    StringBuilder sb=new StringBuilder();
+    int index=0;
+    for(AchievableGeoPoint point : points)
+    {
+      Point2D.Float lonLat=point.getLonLat();
+      String positionStr=PositionUtils.getLabel(lonLat.y,lonLat.x,null);
+      if (index>0) sb.append(" ; ");
+      sb.append(positionStr);
+      index++;
+    }
+    return sb.toString();
   }
 }
