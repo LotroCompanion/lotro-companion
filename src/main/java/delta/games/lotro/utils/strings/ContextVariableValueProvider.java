@@ -87,12 +87,13 @@ public class ContextVariableValueProvider implements VariableValueProvider
     if ("PLAYERNAME".equals(variableName)) return _name;
     if ("NUMBER".equals(variableName)) return "0";
     if ("TOTAL".equals(variableName)) return "?";
+    if ("VALUE".equals(variableName)) return "0";
+    if ("PLAYER_NAME".equals(variableName)) return _name;
 
     // Unmanaged:
     /*
     if ("MAX".equals(variableName)) return "m";
     if ("CURRENT".equals(variableName)) return "c";
-    if ("VALUE".equals(variableName)) return "v";
     if ("NOS".equals(variableName)) return "?";
     */
     return null;
