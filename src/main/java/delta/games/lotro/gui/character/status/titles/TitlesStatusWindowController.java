@@ -124,7 +124,7 @@ public class TitlesStatusWindowController extends DefaultDisplayDialogController
   private void initTable()
   {
     TypedProperties prefs=GlobalPreferences.getGlobalProperties("TitlesStatus");
-    _tableController=new TitlesStatusTableController(_data,prefs,_filter,_titles,this);
+    _tableController=new TitlesStatusTableController(_data,this,prefs,_filter,_titles,this);
     ActionListener al=new ActionListener()
     {
       @Override

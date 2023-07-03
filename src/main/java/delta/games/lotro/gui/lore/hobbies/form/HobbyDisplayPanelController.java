@@ -16,6 +16,7 @@ import javax.swing.JScrollPane;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.labels.HyperLinkController;
+import delta.common.ui.swing.navigator.AbstractNavigablePanelController;
 import delta.common.ui.swing.navigator.NavigablePanelController;
 import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.games.lotro.gui.lore.titles.TitleUiUtils;
@@ -24,15 +25,15 @@ import delta.games.lotro.lore.hobbies.HobbyDescription;
 import delta.games.lotro.lore.hobbies.HobbyTitleEntry;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.titles.TitleDescription;
+import delta.games.lotro.utils.strings.ContextRendering;
 
 /**
  * Controller for a hobby display panel.
  * @author DAM
  */
-public class HobbyDisplayPanelController implements NavigablePanelController
+public class HobbyDisplayPanelController extends AbstractNavigablePanelController
 {
   // Controllers
-  private NavigatorWindowController _parent;
   private List<HyperLinkController> _links;
   private List<ItemDisplayGadgets> _items;
   private HobbyRewardsPanelController _rewards;
@@ -51,7 +52,7 @@ public class HobbyDisplayPanelController implements NavigablePanelController
    */
   public HobbyDisplayPanelController(NavigatorWindowController parent, HobbyDescription hobby)
   {
-    _parent=parent;
+    super(parent);
     _links=new ArrayList<HyperLinkController>();
     _items=new ArrayList<ItemDisplayGadgets>();
     _hobby=hobby;
@@ -167,7 +168,7 @@ public class HobbyDisplayPanelController implements NavigablePanelController
     {
       c.gridx=0;
       c.gridy++;
-      ItemDisplayGadgets gadgets=new ItemDisplayGadgets(_parent,item.getIdentifier(),1,"");
+      ItemDisplayGadgets gadgets=new ItemDisplayGadgets(getParent(),item.getIdentifier(),1,"");
       _items.add(gadgets);
       // Icon
       ret.add(gadgets.getIcon(),c);
@@ -196,8 +197,10 @@ public class HobbyDisplayPanelController implements NavigablePanelController
       c.gridx++;
       // Title
       TitleDescription title=entry.getTitle();
-      JLabel titleLabel=GuiFactory.buildLabel(title.getName());
-      HyperLinkController titleCtrl=TitleUiUtils.buildTitleLink(_parent,title,titleLabel);
+      String rawTitleName=title.getRawName();
+      String titleName=ContextRendering.render(this,rawTitleName);
+      JLabel titleLabel=GuiFactory.buildLabel(titleName);
+      HyperLinkController titleCtrl=TitleUiUtils.buildTitleLink(getParent(),title,titleLabel);
       ret.add(titleCtrl.getLabel(),c);
       c.gridx++;
     }
@@ -222,7 +225,7 @@ public class HobbyDisplayPanelController implements NavigablePanelController
   @Override
   public void dispose()
   {
-    _parent=null;
+    super.dispose();
     // Data
     _hobby=null;
     // Controllers

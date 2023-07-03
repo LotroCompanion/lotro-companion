@@ -27,6 +27,7 @@ import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.lore.billingGroups.BillingGroupDescription;
 import delta.games.lotro.lore.titles.TitleDescription;
 import delta.games.lotro.utils.gui.HtmlUtils;
+import delta.games.lotro.utils.strings.ContextRendering;
 
 /**
  * Controller for a billing group display panel.
@@ -182,7 +183,9 @@ public class BillingGroupDisplayPanelController implements NavigablePanelControl
     sb.append("<b>");
     int titleID=title.getIdentifier();
     PageIdentifier to=ReferenceConstants.getTitleReference(titleID);
-    HtmlUtils.printLink(sb,to.getFullAddress(),title.getName());
+    String rawTitleName=title.getRawName();
+    String titleName=ContextRendering.render(this,rawTitleName);
+    HtmlUtils.printLink(sb,to.getFullAddress(),titleName);
     sb.append("</b></p>");
   }
 

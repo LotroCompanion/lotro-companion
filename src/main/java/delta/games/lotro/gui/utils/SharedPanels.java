@@ -23,6 +23,7 @@ import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.lore.emotes.EmoteDescription;
 import delta.games.lotro.lore.hobbies.HobbyDescription;
 import delta.games.lotro.lore.titles.TitleDescription;
+import delta.games.lotro.utils.strings.ContextRendering;
 
 /**
  * Factory for shared panels.
@@ -151,7 +152,8 @@ public class SharedPanels
     IconController iconCtrl=IconControllerFactory.buildTitleIcon(parent,title);
     // Link
     PageIdentifier pageId=ReferenceConstants.getTitleReference(title.getIdentifier());
-    String text=title.getName();
+    String rawTitleName=title.getName();
+    String text=ContextRendering.render(parent,rawTitleName);
     HyperLinkController linkCtrl=NavigationUtils.buildNavigationLink(parent,text,pageId);
     return new IconAndLinkPanelController(iconCtrl,linkCtrl);
   }

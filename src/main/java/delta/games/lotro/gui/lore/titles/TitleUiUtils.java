@@ -16,6 +16,7 @@ import delta.games.lotro.gui.common.rewards.RewardsUiUtils;
 import delta.games.lotro.gui.utils.NavigationUtils;
 import delta.games.lotro.lore.titles.TitleDescription;
 import delta.games.lotro.lore.titles.TitlesManager;
+import delta.games.lotro.utils.strings.ContextRendering;
 
 /**
  * Utility methods for title-related UIs.
@@ -57,7 +58,11 @@ public class TitleUiUtils
         showTitleWindow(parent,title.getIdentifier());
       }
     };
-    String text=(title!=null)?title.getName():"???";
+    String text="???";
+    if (title!=null)
+    {
+      text=ContextRendering.render(parent,title.getRawName());
+    }
     text=RewardsUiUtils.getDisplayedTitle(text);
     LocalHyperlinkAction action=new LocalHyperlinkAction(text,al);
     HyperLinkController controller=new HyperLinkController(action,label);

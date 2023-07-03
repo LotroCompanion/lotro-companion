@@ -16,6 +16,7 @@ import delta.games.lotro.lore.hobbies.HobbyDescription;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.legendary.relics.Relic;
 import delta.games.lotro.lore.titles.TitleDescription;
+import delta.games.lotro.utils.strings.ContextRendering;
 
 /**
  * Factory of icon controllers.
@@ -166,7 +167,9 @@ public class IconControllerFactory
       Icon icon=LotroIconsManager.getTitleIcon(title.getIconId());
       ret.setIcon(icon);
       ret.setPageId(ReferenceConstants.getTitleReference(title.getIdentifier()));
-      ret.setTooltipText(title.getName());
+      String rawTitleName=title.getName();
+      String titleName=ContextRendering.render(parent,rawTitleName);
+      ret.setTooltipText(titleName);
     }
     return ret;
   }

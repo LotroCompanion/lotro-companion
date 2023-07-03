@@ -6,6 +6,8 @@ import java.util.List;
 
 import javax.swing.JTable;
 
+import delta.common.ui.swing.area.AbstractAreaController;
+import delta.common.ui.swing.area.AreaController;
 import delta.common.ui.swing.tables.CellDataProvider;
 import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.GenericTableController;
@@ -29,7 +31,7 @@ import delta.games.lotro.lore.titles.TitleDescription;
  * Controller for a table that shows the status of all titles for a single character.
  * @author DAM
  */
-public class TitlesStatusTableController
+public class TitlesStatusTableController extends AbstractAreaController
 {
   // Data
   private TypedProperties _prefs;
@@ -41,13 +43,15 @@ public class TitlesStatusTableController
   /**
    * Constructor.
    * @param titlesStatus Status to show.
+   * @param parent Parent controller.
    * @param prefs Preferences.
    * @param filter Managed filter.
    * @param titles Titles to use.
    * @param listener Listener for updates.
    */
-  public TitlesStatusTableController(TitlesStatusManager titlesStatus, TypedProperties prefs, TitleStatusFilter filter, List<TitleDescription> titles, FilterUpdateListener listener)
+  public TitlesStatusTableController(TitlesStatusManager titlesStatus, AreaController parent, TypedProperties prefs, TitleStatusFilter filter, List<TitleDescription> titles, FilterUpdateListener listener)
   {
+    super(parent);
     _prefs=prefs;
     _statuses=new ArrayList<TitleStatus>();
     for(TitleDescription title : titles)
@@ -75,7 +79,7 @@ public class TitlesStatusTableController
     ListDataProvider<TitleStatus> provider=new ListDataProvider<TitleStatus>(_statuses);
     GenericTableController<TitleStatus> table=new GenericTableController<TitleStatus>(provider);
     // Title columns
-    List<DefaultTableColumnController<TitleDescription,?>> titleColumns=TitlesTableController.buildColumns();
+    List<DefaultTableColumnController<TitleDescription,?>> titleColumns=TitlesTableController.buildColumns(this);
     CellDataProvider<TitleStatus,TitleDescription> dataProvider=new CellDataProvider<TitleStatus,TitleDescription>()
     {
       @Override
@@ -188,6 +192,7 @@ public class TitlesStatusTableController
    */
   public void dispose()
   {
+    super.dispose();
     // Preferences
     if (_prefs!=null)
     {

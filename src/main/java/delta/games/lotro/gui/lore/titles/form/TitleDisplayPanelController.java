@@ -16,16 +16,17 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import delta.common.ui.swing.GuiFactory;
-import delta.common.ui.swing.navigator.NavigablePanelController;
+import delta.common.ui.swing.navigator.AbstractNavigablePanelController;
 import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.lore.titles.TitleDescription;
+import delta.games.lotro.utils.strings.ContextRendering;
 
 /**
  * Controller for a title display panel.
  * @author DAM
  */
-public class TitleDisplayPanelController implements NavigablePanelController
+public class TitleDisplayPanelController extends AbstractNavigablePanelController
 {
   // Data
   private TitleDescription _title;
@@ -46,6 +47,7 @@ public class TitleDisplayPanelController implements NavigablePanelController
    */
   public TitleDisplayPanelController(NavigatorWindowController parent, TitleDescription title)
   {
+    super(parent);
     _title=title;
     _references=new TitleReferencesDisplayController(parent,title.getIdentifier());
   }
@@ -53,7 +55,14 @@ public class TitleDisplayPanelController implements NavigablePanelController
   @Override
   public String getTitle()
   {
-    return "Title: "+_title.getName();
+    return "Title: "+getRenderedTitle();
+  }
+
+  private String getRenderedTitle()
+  {
+    String rawTitle=_title.getRawName();
+    String title=ContextRendering.render(this,rawTitle);
+    return title;
   }
 
   /**
@@ -175,7 +184,7 @@ public class TitleDisplayPanelController implements NavigablePanelController
    */
   private void setTitle()
   {
-    String name=_title.getName();
+    String name=getRenderedTitle();
     // Name
     _name.setText(name);
     // Icon
@@ -192,6 +201,7 @@ public class TitleDisplayPanelController implements NavigablePanelController
   @Override
   public void dispose()
   {
+    super.dispose();
     // Data
     _title=null;
     // Controllers

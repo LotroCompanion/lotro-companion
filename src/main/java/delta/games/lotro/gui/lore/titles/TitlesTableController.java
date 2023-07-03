@@ -8,6 +8,8 @@ import java.util.List;
 import javax.swing.Icon;
 import javax.swing.JTable;
 
+import delta.common.ui.swing.area.AbstractAreaController;
+import delta.common.ui.swing.area.AreaController;
 import delta.common.ui.swing.tables.CellDataProvider;
 import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.GenericTableController;
@@ -21,12 +23,13 @@ import delta.games.lotro.gui.lore.items.chooser.ItemChooser;
 import delta.games.lotro.gui.utils.UiConfiguration;
 import delta.games.lotro.lore.titles.TitleDescription;
 import delta.games.lotro.lore.titles.TitlesManager;
+import delta.games.lotro.utils.strings.ContextRendering;
 
 /**
  * Controller for a table that shows titles.
  * @author DAM
  */
-public class TitlesTableController
+public class TitlesTableController extends AbstractAreaController
 {
   // Data
   private TypedProperties _prefs;
@@ -37,11 +40,13 @@ public class TitlesTableController
 
   /**
    * Constructor.
+   * @param parent Parent controller.
    * @param prefs Preferences.
    * @param filter Managed filter.
    */
-  public TitlesTableController(TypedProperties prefs, Filter<TitleDescription> filter)
+  public TitlesTableController(AreaController parent, TypedProperties prefs, Filter<TitleDescription> filter)
   {
+    super(parent);
     _prefs=prefs;
     _titles=new ArrayList<TitleDescription>();
     init();
@@ -54,7 +59,7 @@ public class TitlesTableController
   {
     ListDataProvider<TitleDescription> provider=new ListDataProvider<TitleDescription>(_titles);
     GenericTableController<TitleDescription> table=new GenericTableController<TitleDescription>(provider);
-    List<DefaultTableColumnController<TitleDescription,?>> columns=buildColumns();
+    List<DefaultTableColumnController<TitleDescription,?>> columns=buildColumns(this);
     for(DefaultTableColumnController<TitleDescription,?> column : columns)
     {
       table.addColumnController(column);
@@ -68,9 +73,10 @@ public class TitlesTableController
 
   /**
    * Build the columns for a recipes table.
+   * @param parent Parent controller.
    * @return A list of columns for a recipes table.
    */
-  public static List<DefaultTableColumnController<TitleDescription,?>> buildColumns()
+  public static List<DefaultTableColumnController<TitleDescription,?>> buildColumns(AreaController parent)
   {
     List<DefaultTableColumnController<TitleDescription,?>> ret=new ArrayList<DefaultTableColumnController<TitleDescription,?>>();
     // Icon column
@@ -126,7 +132,8 @@ public class TitlesTableController
         @Override
         public String getData(TitleDescription title)
         {
-          return title.getName();
+          String rawName=title.getRawName();
+          return ContextRendering.render(parent,rawName);
         }
       };
       DefaultTableColumnController<TitleDescription,String> nameColumn=new DefaultTableColumnController<TitleDescription,String>(TitleColumnIds.NAME.name(),"Name",String.class,nameCell);
@@ -276,6 +283,7 @@ public class TitlesTableController
    */
   public void dispose()
   {
+    super.dispose();
     // Preferences
     if (_prefs!=null)
     {

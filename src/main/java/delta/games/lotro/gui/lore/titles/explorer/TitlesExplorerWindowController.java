@@ -100,7 +100,7 @@ public class TitlesExplorerWindowController extends DefaultWindowController
   private void initTitlesTable()
   {
     TypedProperties prefs=GlobalPreferences.getGlobalProperties("TitlesExplorer");
-    _tableController=new TitlesTableController(prefs,_filter);
+    _tableController=new TitlesTableController(this,prefs,_filter);
     ActionListener al=new ActionListener()
     {
       @Override
