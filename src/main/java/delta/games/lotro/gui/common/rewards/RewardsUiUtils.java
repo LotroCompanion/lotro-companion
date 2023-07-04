@@ -79,6 +79,7 @@ public class RewardsUiUtils
       String displayedTitle=getDisplayedTitle(titleName);
       ctrl.addItem(title,displayedTitle);
     }
+    ctrl.sort();
     ctrl.selectItem(null);
     return ctrl;
   }
