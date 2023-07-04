@@ -40,6 +40,7 @@ import delta.games.lotro.lore.crafting.ProfessionComparator;
 import delta.games.lotro.lore.crafting.ProfessionFilter;
 import delta.games.lotro.lore.crafting.Vocation;
 import delta.games.lotro.lore.reputation.FactionLevelComparator;
+import delta.games.lotro.lore.titles.TitleDescription;
 import delta.games.lotro.utils.ContextPropertyNames;
 import delta.games.lotro.utils.gui.Gradients;
 import delta.games.lotro.utils.strings.ContextRendering;
@@ -127,10 +128,10 @@ public class CraftingSynopsisTableController
     DefaultTableColumnController<CraftingSynopsisItem,String> vocationNameColumn=buildVocationColumn();
     table.addColumnController(vocationNameColumn);
     // Proficiency
-    DefaultTableColumnController<CraftingSynopsisItem,CraftingLevel> proficiencyColumn=buildCraftingTierColumn(false);
+    DefaultTableColumnController<CraftingSynopsisItem,CraftingLevel> proficiencyColumn=buildCraftingTierColumn(table,false);
     table.addColumnController(proficiencyColumn);
     // Mastery
-    DefaultTableColumnController<CraftingSynopsisItem,CraftingLevel> masteryColumn=buildCraftingTierColumn(true);
+    DefaultTableColumnController<CraftingSynopsisItem,CraftingLevel> masteryColumn=buildCraftingTierColumn(table,true);
     table.addColumnController(masteryColumn);
     // Guild
     DefaultTableColumnController<CraftingSynopsisItem,FactionStatus> guildColumn=buildGuildColumn(table);
@@ -260,23 +261,21 @@ public class CraftingSynopsisTableController
     return panel;
   }
 
-  private TableCellRenderer buildCraftingLevelCellRenderer(final boolean mastery)
+  private TableCellRenderer buildCraftingLevelCellRenderer(GenericTableController<CraftingSynopsisItem> parentTable, boolean mastery)
   {
-    final JLabel label=GuiFactory.buildLabel("");
-    TableCellRenderer renderer=new TableCellRenderer()
+    CustomLabelCellRenderer<CraftingSynopsisItem,CraftingLevel> customRenderer=new CustomLabelCellRenderer<CraftingSynopsisItem,CraftingLevel>()
     {
-      @Override
-      public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
+      public void configure(GenericTableController<CraftingSynopsisItem> table, CraftingLevel value, boolean isSelected, boolean hasFocus, int row, int column, JLabel label)
       {
-        CraftingLevel data=(CraftingLevel)value;
-        configureCraftingLevelLabel(mastery,label,data);
-        return label;
+        Context context=table.getContextManager().getContext(row,column);
+        configureCraftingLevelLabel(mastery,label,value,context);
       }
     };
-    return renderer;
+    LabelTableCellRenderer<CraftingSynopsisItem,CraftingLevel> r=new LabelTableCellRenderer<CraftingSynopsisItem,CraftingLevel>(parentTable,customRenderer);
+    return r;
   }
 
-  private DefaultTableColumnController<CraftingSynopsisItem,CraftingLevel> buildCraftingTierColumn(final boolean mastery)
+  private DefaultTableColumnController<CraftingSynopsisItem,CraftingLevel> buildCraftingTierColumn(GenericTableController<CraftingSynopsisItem> table, final boolean mastery)
   {
     CellDataProvider<CraftingSynopsisItem,CraftingLevel> cell=new CellDataProvider<CraftingSynopsisItem,CraftingLevel>()
     {
@@ -294,7 +293,7 @@ public class CraftingSynopsisTableController
     TableCellRenderer headerRenderer=buildSimpleCellRenderer(panel);
     column.setHeaderCellRenderer(headerRenderer);
     // Cell renderer
-    TableCellRenderer renderer=buildCraftingLevelCellRenderer(mastery);
+    TableCellRenderer renderer=buildCraftingLevelCellRenderer(table,mastery);
     column.setCellRenderer(renderer);
 
     // Init widths
@@ -428,7 +427,7 @@ public class CraftingSynopsisTableController
     return ret;
   }
 
-  private void configureCraftingLevelLabel(boolean mastery, JLabel label, CraftingLevel level)
+  private void configureCraftingLevelLabel(boolean mastery, JLabel label, CraftingLevel level, Context context)
   {
     Color backgroundColor=null;
     String text="";
@@ -436,7 +435,12 @@ public class CraftingSynopsisTableController
     {
       backgroundColor=getColorForCraftingLevel(level);
       CraftingLevelTier tier=mastery?level.getMastery():level.getProficiency();
-      text=tier.getLabel();
+      TitleDescription title=tier.getTitle();
+      if (title!=null)
+      {
+        String rawTitleName=title.getRawName();
+        text=ContextRendering.render(context,rawTitleName);
+      }
     }
     label.setForeground(Color.BLACK);
     if (backgroundColor!=null)

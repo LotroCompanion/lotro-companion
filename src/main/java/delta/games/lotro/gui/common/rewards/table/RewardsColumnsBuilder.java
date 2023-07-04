@@ -14,6 +14,7 @@ import delta.games.lotro.common.rewards.TraitReward;
 import delta.games.lotro.common.rewards.VirtueReward;
 import delta.games.lotro.gui.utils.l10n.ColumnsUtils;
 import delta.games.lotro.lore.reputation.Faction;
+import delta.games.lotro.lore.titles.TitleDescription;
 import delta.games.lotro.utils.strings.ContextRendering;
 
 /**
@@ -68,7 +69,14 @@ public class RewardsColumnsBuilder
         public String getData(Rewards rewards)
         {
           List<TitleReward> titleRewards=rewards.getRewardElementsOfClass(TitleReward.class);
-          return (titleRewards.size()>0)?titleRewards.get(0).getName():null;
+          if (!titleRewards.isEmpty())
+          {
+            TitleDescription title=titleRewards.get(0).getTitle();
+            String rawTitleName=title.getRawName();
+            String titleName=ContextRendering.render(parent,rawTitleName);
+            return titleName;
+          }
+          return null;
         }
       };
       DefaultTableColumnController<Rewards,String> titleColumn=new DefaultTableColumnController<Rewards,String>(RewardsColumnIds.TITLE.name(),"Title",String.class,titleCell);

@@ -36,6 +36,7 @@ import delta.games.lotro.gui.common.rewards.RewardsUiUtils;
 import delta.games.lotro.gui.lore.items.FilterUpdateListener;
 import delta.games.lotro.gui.utils.SharedUiUtils;
 import delta.games.lotro.lore.reputation.Faction;
+import delta.games.lotro.lore.titles.TitleDescription;
 
 /**
  * Controller for a reward filter edition panel.
@@ -60,7 +61,7 @@ public class RewardsFilterController extends AbstractPanelController
   private ComboBoxController<Boolean> _mountXp;
   private ComboBoxController<Boolean> _virtueXp;
   private ComboBoxController<String> _trait;
-  private ComboBoxController<String> _title;
+  private ComboBoxController<TitleDescription> _title;
   private ComboBoxController<VirtueDescription> _virtue;
   private ComboBoxController<String> _emote;
   private ComboBoxController<Integer> _item;
@@ -216,7 +217,7 @@ public class RewardsFilterController extends AbstractPanelController
     _trait.selectItem(trait);
     // Title
     TitleRewardFilter titleFilter=_filter.getTitleFilter();
-    String title=titleFilter.getTitle();
+    TitleDescription title=titleFilter.getTitle();
     _title.selectItem(title);
     // Virtue
     if (_virtue!=null)
@@ -531,13 +532,13 @@ public class RewardsFilterController extends AbstractPanelController
     return combo;
   }
 
-  private ComboBoxController<String> buildTitlesCombobox()
+  private ComboBoxController<TitleDescription> buildTitlesCombobox()
   {
-    ComboBoxController<String> combo=_uiUtils.buildTitlesCombo();
-    ItemSelectionListener<String> listener=new ItemSelectionListener<String>()
+    ComboBoxController<TitleDescription> combo=_uiUtils.buildTitlesCombo(this);
+    ItemSelectionListener<TitleDescription> listener=new ItemSelectionListener<TitleDescription>()
     {
       @Override
-      public void itemSelected(String title)
+      public void itemSelected(TitleDescription title)
       {
         TitleRewardFilter filter=_filter.getTitleFilter();
         filter.setTitle(title);

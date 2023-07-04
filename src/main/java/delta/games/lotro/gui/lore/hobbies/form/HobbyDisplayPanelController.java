@@ -17,7 +17,6 @@ import javax.swing.JScrollPane;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.labels.HyperLinkController;
 import delta.common.ui.swing.navigator.AbstractNavigablePanelController;
-import delta.common.ui.swing.navigator.NavigablePanelController;
 import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.games.lotro.gui.lore.titles.TitleUiUtils;
 import delta.games.lotro.gui.utils.ItemDisplayGadgets;
