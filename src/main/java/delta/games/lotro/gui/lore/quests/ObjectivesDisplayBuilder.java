@@ -18,7 +18,7 @@ import delta.games.lotro.lore.agents.AgentDescription;
 import delta.games.lotro.lore.agents.EntityClassification;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.emotes.EmoteDescription;
-import delta.games.lotro.lore.geo.LandmarkDescription;
+import delta.games.lotro.lore.geo.landmarks.LandmarkDescription;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.maps.LandDivision;
 import delta.games.lotro.lore.quests.Achievable;
@@ -352,16 +352,16 @@ public class ObjectivesDisplayBuilder
       }
     }
     // Landmark
-    String landmark=where.getLandmark();
+    LandmarkDescription landmark=where.getLandmark();
     if (landmark!=null)
     {
       if (ret.length()>0)
       {
-        ret=ret+"/"+landmark;
+        ret=ret+"/"+landmark.getName();
       }
       else
       {
-        ret=landmark;
+        ret=landmark.getName();
       }
     }
     return ret;
@@ -372,7 +372,7 @@ public class ObjectivesDisplayBuilder
     boolean hasProgressOverride=printProgressOverride(sb,condition);
     if (!hasProgressOverride)
     {
-      Proxy<LandmarkDescription> landmark=condition.getLandmarkProxy();
+      LandmarkDescription landmark=condition.getLandmark();
       if (landmark!=null)
       {
         String name=landmark.getName();
