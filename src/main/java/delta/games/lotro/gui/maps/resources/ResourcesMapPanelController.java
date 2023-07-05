@@ -32,7 +32,6 @@ import delta.games.lotro.maps.ui.layers.BasemapLayer;
 import delta.games.lotro.maps.ui.layers.MarkersLayer;
 import delta.games.lotro.maps.ui.layers.SimpleMarkersProvider;
 import delta.games.lotro.maps.ui.layers.radar.RadarImageProvider;
-import delta.games.lotro.utils.Proxy;
 import delta.games.lotro.utils.maps.Maps;
 
 /**
@@ -160,10 +159,10 @@ public class ResourcesMapPanelController
       for(Area area : areas)
       {
         int areaId=area.getIdentifier();
-        List<Proxy<Item>> items=_mapDescriptor.getItems();
-        for(Proxy<Item> item : items)
+        List<Item> items=_mapDescriptor.getItems();
+        for(Item item : items)
         {
-          int itemId=item.getId();
+          int itemId=item.getIdentifier();
           List<Marker> markers=markersFinder.findMarkersForDid(itemId,areaId);
           ret.addAll(markers);
         }
@@ -173,10 +172,10 @@ public class ResourcesMapPanelController
     Dungeon dungeon=dungeonsMgr.getDungeonById(_mapId);
     if (dungeon!=null)
     {
-      List<Proxy<Item>> items=_mapDescriptor.getItems();
-      for(Proxy<Item> item : items)
+      List<Item> items=_mapDescriptor.getItems();
+      for(Item item : items)
       {
-        int itemId=item.getId();
+        int itemId=item.getIdentifier();
         List<Marker> markers=markersFinder.findMarkersForDid(itemId,_mapId);
         ret.addAll(markers);
       }

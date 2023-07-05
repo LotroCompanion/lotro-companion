@@ -22,7 +22,6 @@ import delta.games.lotro.lore.items.ItemsManager;
 import delta.games.lotro.lore.items.containers.ContainerInspector;
 import delta.games.lotro.lore.maps.resources.ResourcesMapDescriptor;
 import delta.games.lotro.lore.maps.resources.ResourcesMapsManager;
-import delta.games.lotro.utils.Proxy;
 
 /**
  * Provides access to the items that can be found
@@ -57,10 +56,9 @@ public class ResourceNodesLootManager
     {
       return;
     }
-    List<Proxy<Item>> items=descriptor.getItems();
-    for(Proxy<Item> resourceNodeProxy : items)
+    List<Item> items=descriptor.getItems();
+    for(Item resourceNode : items)
     {
-      Item resourceNode=resourceNodeProxy.getObject();
       _sourceItems.add(resourceNode);
       List<Item> lootItems=ContainerInspector.getContainerContents(resourceNode);
       Integer key=Integer.valueOf(resourceNode.getIdentifier());
