@@ -20,6 +20,7 @@ import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.emotes.EmoteDescription;
 import delta.games.lotro.lore.geo.LandmarkDescription;
 import delta.games.lotro.lore.items.Item;
+import delta.games.lotro.lore.maps.LandDivision;
 import delta.games.lotro.lore.quests.Achievable;
 import delta.games.lotro.lore.quests.QuestDescription;
 import delta.games.lotro.lore.quests.dialogs.DialogElement;
@@ -39,8 +40,9 @@ import delta.games.lotro.lore.quests.objectives.ItemTalkCondition;
 import delta.games.lotro.lore.quests.objectives.ItemUsedCondition;
 import delta.games.lotro.lore.quests.objectives.LandmarkDetectionCondition;
 import delta.games.lotro.lore.quests.objectives.LevelCondition;
+import delta.games.lotro.lore.quests.objectives.MobLocation;
+import delta.games.lotro.lore.quests.objectives.MobSelection;
 import delta.games.lotro.lore.quests.objectives.MonsterDiedCondition;
-import delta.games.lotro.lore.quests.objectives.MonsterDiedCondition.MobSelection;
 import delta.games.lotro.lore.quests.objectives.NpcCondition;
 import delta.games.lotro.lore.quests.objectives.NpcTalkCondition;
 import delta.games.lotro.lore.quests.objectives.NpcUsedCondition;
@@ -302,7 +304,7 @@ public class ObjectivesDisplayBuilder
           for(MobSelection mobSelection : mobSelections)
           {
             EntityClassification what=mobSelection.getWhat();
-            String where=mobSelection.getWhere();
+            MobLocation where=mobSelection.getWhere();
             String whatStr=(what!=null)?what.getLabel():"Mob";
             if (index>0)
             {
@@ -311,7 +313,8 @@ public class ObjectivesDisplayBuilder
             sb.append(whatStr);
             if (where!=null)
             {
-              sb.append(" in ").append(where);
+              String whereStr=renderMobLocation(where);
+              sb.append(" in ").append(whereStr);
             }
             index++;
           }
@@ -323,6 +326,45 @@ public class ObjectivesDisplayBuilder
         sb.append(" (x").append(count).append(')');
       }
     }
+  }
+
+  private String renderMobLocation(MobLocation where)
+  {
+    String ret="";
+    // Mob division
+    String mobDivision=where.getMobDivision();
+    if (mobDivision!=null)
+    {
+      ret=mobDivision;
+    }
+    // Land division
+    LandDivision landDivision=where.getLandDivision();
+    if (landDivision!=null)
+    {
+      String landDivisionName=landDivision.getName();
+      if (ret.length()>0)
+      {
+        ret=ret+"/"+landDivisionName;
+      }
+      else
+      {
+        ret=landDivisionName;
+      }
+    }
+    // Landmark
+    String landmark=where.getLandmark();
+    if (landmark!=null)
+    {
+      if (ret.length()>0)
+      {
+        ret=ret+"/"+landmark;
+      }
+      else
+      {
+        ret=landmark;
+      }
+    }
+    return ret;
   }
 
   private void handleLandmarkDetectionCondition(StringBuilder sb, LandmarkDetectionCondition condition)
