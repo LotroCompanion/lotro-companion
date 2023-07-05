@@ -96,7 +96,7 @@ public class BarterEntriesTableController extends AbstractAreaController
           if (toReceive instanceof ItemBarterEntryElement)
           {
             ItemBarterEntryElement itemEntry=(ItemBarterEntryElement)toReceive;
-            Item item=itemEntry.getItemProxy().getObject();
+            Item item=itemEntry.getItem();
             int quantity=itemEntry.getQuantity();
             Icon icon=ItemUiTools.buildItemIcon(item,quantity);
             return icon;
@@ -130,7 +130,7 @@ public class BarterEntriesTableController extends AbstractAreaController
           if (toReceive instanceof ItemBarterEntryElement)
           {
             ItemBarterEntryElement itemEntry=(ItemBarterEntryElement)toReceive;
-            name=itemEntry.getItemProxy().getName();
+            name=itemEntry.getItem().getName();
           }
           else if (toReceive instanceof ReputationBarterEntryElement)
           {

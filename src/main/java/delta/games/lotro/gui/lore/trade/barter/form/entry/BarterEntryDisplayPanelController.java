@@ -26,7 +26,6 @@ import delta.games.lotro.lore.trade.barter.BarterEntryElement;
 import delta.games.lotro.lore.trade.barter.BarterProfile;
 import delta.games.lotro.lore.trade.barter.ItemBarterEntryElement;
 import delta.games.lotro.lore.trade.barter.ReputationBarterEntryElement;
-import delta.games.lotro.utils.Proxy;
 import delta.games.lotro.utils.strings.ContextRendering;
 
 /**
@@ -181,9 +180,9 @@ public class BarterEntryDisplayPanelController extends AbstractNavigablePanelCon
 
   private ItemDisplayGadgets buildItemGadgets(ItemBarterEntryElement element)
   {
-    Proxy<Item> proxy=element.getItemProxy();
+    Item item=element.getItem();
     int quantity=element.getQuantity();
-    int itemId=proxy.getId();
+    int itemId=item.getIdentifier();
     WindowController parent=getParentWindowController();
     ItemDisplayGadgets gadgets=new ItemDisplayGadgets(parent,itemId,quantity,"");
     _itemIcons.add(gadgets);

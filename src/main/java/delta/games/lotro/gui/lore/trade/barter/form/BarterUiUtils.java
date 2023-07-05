@@ -24,7 +24,7 @@ public class BarterUiUtils
     List<CountedItem<Item>> items=new ArrayList<CountedItem<Item>>();
     for(ItemBarterEntryElement element : entry.getElementsToGive())
     {
-      Item item=element.getItemProxy().getObject();
+      Item item=element.getItem();
       int quantity=element.getQuantity();
       items.add(new CountedItem<Item>(item,quantity));
     }
