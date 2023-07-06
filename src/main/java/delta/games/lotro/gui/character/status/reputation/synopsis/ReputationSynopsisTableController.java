@@ -118,7 +118,7 @@ public class ReputationSynopsisTableController extends AbstractAreaController
         return ContextRendering.render(ReputationSynopsisTableController.this,rawFactionName);
       }
     };
-    DefaultTableColumnController<Faction,String> column=new DefaultTableColumnController<Faction,String>("Factions",String.class,cell);
+    DefaultTableColumnController<Faction,String> column=new DefaultTableColumnController<Faction,String>("Factions",String.class,cell); // I18n
 
     // Init panels
     column.setMinWidth(200);
@@ -177,7 +177,7 @@ public class ReputationSynopsisTableController extends AbstractAreaController
       }
     };
     String id=character.getIdentifier();
-    DefaultTableColumnController<Faction,FactionStatus> column=new DefaultTableColumnController<Faction,FactionStatus>(id,"Faction",FactionStatus.class,cell);
+    DefaultTableColumnController<Faction,FactionStatus> column=new DefaultTableColumnController<Faction,FactionStatus>(id,"Faction",FactionStatus.class,cell); // I18n
 
     // Cell renderer
     TableCellRenderer renderer=buildFactionStatusCellRenderer(table);

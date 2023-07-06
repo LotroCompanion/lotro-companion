@@ -102,27 +102,27 @@ public class StorageSummaryPanelController
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
     // Bags
-    JLabel bagsLabel=GuiFactory.buildLabel("Bags:");
+    JLabel bagsLabel=GuiFactory.buildLabel("Bags:"); // I18n
     panel.add(bagsLabel,c);
     c.gridx++;
     _bags=StorageUiUtils.buildProgressBar();
     panel.add(_bags,c);
     c.gridy++;c.gridx=0;
     // Vault
-    JLabel vaultLabel=GuiFactory.buildLabel("Vault:");
+    JLabel vaultLabel=GuiFactory.buildLabel("Vault:"); // I18n
     panel.add(vaultLabel,c);
     c.gridx++;
     _vault=StorageUiUtils.buildProgressBar();
     panel.add(_vault,c);
     c.gridy++;c.gridx=0;
     // Shared Vault
-    JLabel sharedVaultLabel=GuiFactory.buildLabel("Shared Vault:");
+    JLabel sharedVaultLabel=GuiFactory.buildLabel("Shared Vault:"); // I18n
     panel.add(sharedVaultLabel,c);
     c.gridx++;
     _sharedVault=StorageUiUtils.buildProgressBar();
     panel.add(_sharedVault,c);
     c.gridy++;c.gridx=0;
-    TitledBorder border=GuiFactory.buildTitledBorder("Capacity");
+    TitledBorder border=GuiFactory.buildTitledBorder("Capacity"); // I18n
     panel.setBorder(border);
     return panel;
   }

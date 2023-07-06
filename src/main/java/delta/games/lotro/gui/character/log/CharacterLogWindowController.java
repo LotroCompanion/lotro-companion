@@ -62,7 +62,7 @@ public class CharacterLogWindowController extends DefaultWindowController
   {
     JFrame frame=super.build();
     String name=_toon.getName();
-    String title="Character log for: "+name;
+    String title="Character log for: "+name; // I18n
     frame.setTitle(title);
     frame.pack();
     frame.setMinimumSize(new Dimension(400,300));
@@ -90,7 +90,7 @@ public class CharacterLogWindowController extends DefaultWindowController
     // Filter
     _filterController=new CharacterLogFilterController(log,_filter,_panelController);
     JPanel filterPanel=_filterController.getPanel();
-    TitledBorder filterBorder=GuiFactory.buildTitledBorder("Filter");
+    TitledBorder filterBorder=GuiFactory.buildTitledBorder("Filter"); // I18n
     filterPanel.setBorder(filterBorder);
     // Whole panel
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);

@@ -49,7 +49,7 @@ public class FactionStatusEditionPanelController extends AbstractPanelController
   private JPanel buildPanel()
   {
     JPanel panel=GuiFactory.buildPanel(new FlowLayout());
-    panel.add(GuiFactory.buildLabel("Current tier: "));
+    panel.add(GuiFactory.buildLabel("Current tier: ")); // I18n
     // Tiers
     _tiers=buildTierCombo();
     panel.add(_tiers.getComboBox());
@@ -84,7 +84,7 @@ public class FactionStatusEditionPanelController extends AbstractPanelController
     _reputationMax=GuiFactory.buildLabel(" / 000000");
     // Assembly
     JPanel panel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.CENTER,5,2));
-    panel.add(GuiFactory.buildLabel("Reputation: "));
+    panel.add(GuiFactory.buildLabel("Reputation: ")); // I18n
     panel.add(_reputationValue.getTextField());
     panel.add(_reputationMax);
     return panel;

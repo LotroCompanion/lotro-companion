@@ -144,7 +144,7 @@ public class AccountStorageSummaryPanelController
     else
     {
       bar.setForeground(Color.LIGHT_GRAY);
-      bar.setString("(unknown)");
+      bar.setString("(unknown)"); // I18n
       bar.setMaximum(100);
       bar.setValue(100);
     }
@@ -162,26 +162,26 @@ public class AccountStorageSummaryPanelController
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
     // Bags
-    JLabel bagsLabel=GuiFactory.buildLabel("Bags:");
+    JLabel bagsLabel=GuiFactory.buildLabel("Bags:"); // I18n
     panel.add(bagsLabel,c);
     c.gridx++;
     _bags=buildProgressBar();
     panel.add(_bags,c);
     c.gridy++;c.gridx=0;
     // Vaults
-    JLabel vaultLabel=GuiFactory.buildLabel("Vaults:");
+    JLabel vaultLabel=GuiFactory.buildLabel("Vaults:"); // I18n
     panel.add(vaultLabel,c);
     c.gridx++;
     _vault=buildProgressBar();
     panel.add(_vault,c);
     c.gridy++;c.gridx=0;
     // Shared vault
-    JLabel sharedVaultLabel=GuiFactory.buildLabel("Shared vault:");
+    JLabel sharedVaultLabel=GuiFactory.buildLabel("Shared vault:"); // I18n
     panel.add(sharedVaultLabel,c);
     c.gridx++;
     _sharedVault=buildProgressBar();
     panel.add(_sharedVault,c);
-    TitledBorder border=GuiFactory.buildTitledBorder("Capacity");
+    TitledBorder border=GuiFactory.buildTitledBorder("Capacity"); // I18n
     panel.setBorder(border);
     return panel;
   }

@@ -39,7 +39,7 @@ public class FactionEditionDialogController extends DefaultFormDialogController<
     Faction faction=_data.getFaction();
     String rawName=faction.getName();
     String name=ContextRendering.render(this,rawName);
-    dialog.setTitle("Edit faction history: "+name);
+    dialog.setTitle("Edit faction history: "+name); // I18n
     dialog.setResizable(false);
     return dialog;
   }

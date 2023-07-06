@@ -112,7 +112,7 @@ public class CharacterMainAttrsEditionPanelController
     // 2nd line
     JPanel secondLinePanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
     // Short description
-    secondLinePanel.add(GuiFactory.buildLabel("Description:"));
+    secondLinePanel.add(GuiFactory.buildLabel("Description:")); // I18n
     _shortDescription=GuiFactory.buildTextField("");
     _shortDescription.setColumns(50);
     secondLinePanel.add(_shortDescription);

@@ -59,20 +59,20 @@ public class EssencesSummaryPanelController
     panel.add(_total,c);
     // Counts
     _countsPanel=GuiFactory.buildPanel(new GridBagLayout());
-    TitledBorder countsBorder=GuiFactory.buildTitledBorder("Essence usage");
+    TitledBorder countsBorder=GuiFactory.buildTitledBorder("Essence usage"); // I18n
     _countsPanel.setBorder(countsBorder);
     c=new GridBagConstraints(0,1,1,1,0.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(_countsPanel,c);
     // Stats
     // - raw
     _rawStatsPanel=GuiFactory.buildPanel(new GridBagLayout());
-    TitledBorder rawBorder=GuiFactory.buildTitledBorder("Raw stats");
+    TitledBorder rawBorder=GuiFactory.buildTitledBorder("Raw stats"); // I18n
     _rawStatsPanel.setBorder(rawBorder);
     c=new GridBagConstraints(1,1,1,1,0.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(_rawStatsPanel,c);
     // - cumulated
     _cumulatedStatsPanel=GuiFactory.buildPanel(new GridBagLayout());
-    TitledBorder cumulatedBorder=GuiFactory.buildTitledBorder("Cumulated stats");
+    TitledBorder cumulatedBorder=GuiFactory.buildTitledBorder("Cumulated stats"); // I18n
     _cumulatedStatsPanel.setBorder(cumulatedBorder);
     c=new GridBagConstraints(2,1,1,1,0.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(_cumulatedStatsPanel,c);

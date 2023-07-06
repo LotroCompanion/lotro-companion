@@ -66,22 +66,22 @@ public class AchievablesStatisticsDetailsPanelController extends AbstractPanelCo
     panel.add(pane,BorderLayout.CENTER);
     // Titles
     JPanel titlesPanel=_titles.getPanel();
-    pane.add("Titles",titlesPanel);
+    pane.add("Titles",titlesPanel); // I18n
     // Reputation
     JPanel reputationPanel=_reputation.getPanel();
-    pane.add("Reputation",reputationPanel);
+    pane.add("Reputation",reputationPanel); // I18n
     // Virtue XP
     JPanel virtueXpPanel=_virtueXP.getPanel();
-    pane.add("Virtue XP",virtueXpPanel);
+    pane.add("Virtue XP",virtueXpPanel); // I18n
     // Items
     JPanel itemsPanel=_items.getPanel();
-    pane.add("Items",itemsPanel);
+    pane.add("Items",itemsPanel); // I18n
     // Emotes
     JPanel emotesPanel=_emotes.getPanel();
-    pane.add("Emotes",emotesPanel);
+    pane.add("Emotes",emotesPanel); // I18n
     // Traits
     JPanel traitsPanel=_traits.getPanel();
-    pane.add("Traits",traitsPanel);
+    pane.add("Traits",traitsPanel); // I18n
     return panel;
   }
 

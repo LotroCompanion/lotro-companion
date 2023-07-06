@@ -115,12 +115,12 @@ public class CharacterLogFilterController implements ItemListener
     {
       GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
       List<Long> dates=_log.getDates();
-      datesPanel.add(GuiFactory.buildLabel("After:"),c);
+      datesPanel.add(GuiFactory.buildLabel("After:"),c); // I18n
       _minDates=buildDatesChooser(dates);
       c.gridx=1;
       datesPanel.add(_minDates.getComboBox(),c);
       c.gridy=1;c.gridx=0;
-      datesPanel.add(GuiFactory.buildLabel("Before:"),c);
+      datesPanel.add(GuiFactory.buildLabel("Before:"),c); // I18n
       _maxDates=buildDatesChooser(dates);
       c.gridx=1;
       datesPanel.add(_maxDates.getComboBox(),c);
@@ -148,7 +148,7 @@ public class CharacterLogFilterController implements ItemListener
     // Label filter
     JPanel containsPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING));
     {
-      containsPanel.add(GuiFactory.buildLabel("Label filter:"));
+      containsPanel.add(GuiFactory.buildLabel("Label filter:")); // I18n
       _contains=GuiFactory.buildTextField("");
       _contains.setColumns(20);
       containsPanel.add(_contains);
@@ -188,7 +188,7 @@ public class CharacterLogFilterController implements ItemListener
       LogItemType[] types={
           LogItemType.QUEST,LogItemType.DEED,LogItemType.LEVELUP,
           LogItemType.PROFESSION, LogItemType.VOCATION, LogItemType.PVMP};
-      String[] labels={"Quests","Deeds","Level-ups","Profession","Vocation","PvM"};
+      String[] labels={"Quests","Deeds","Level-ups","Profession","Vocation","PvM"}; // I18n
       _types.clear();
       int nbInRow=3;
       int nbTypes=types.length;

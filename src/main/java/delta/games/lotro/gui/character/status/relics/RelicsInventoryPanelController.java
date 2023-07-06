@@ -60,8 +60,8 @@ public class RelicsInventoryPanelController implements FilterUpdateListener
   private JPanel build()
   {
     JPanel panel=GuiFactory.buildPanel(new BorderLayout());
-    TitledBorder itemsFrameBorder=GuiFactory.buildTitledBorder("Status of tasks");
-    panel.setBorder(itemsFrameBorder);
+    TitledBorder border=GuiFactory.buildTitledBorder("Status of relics"); // I18n
+    panel.setBorder(border);
 
     // Table
     JTable table=_tableController.getTable();
@@ -72,7 +72,7 @@ public class RelicsInventoryPanelController implements FilterUpdateListener
     _statsLabel=GuiFactory.buildLabel("-");
     statsPanel.add(_statsLabel);
     // - choose columns button
-    JButton choose=GuiFactory.buildButton("Choose columns...");
+    JButton choose=GuiFactory.buildButton("Choose columns..."); // I18n
     ActionListener al=new ActionListener()
     {
       @Override
@@ -104,11 +104,11 @@ public class RelicsInventoryPanelController implements FilterUpdateListener
     String label="";
     if (nbFiltered==nbItems)
     {
-      label="Relic(s): "+nbItems;
+      label="Relic(s): "+nbItems; // I18n
     }
     else
     {
-      label="Relic(s): "+nbFiltered+"/"+nbItems;
+      label="Relic(s): "+nbFiltered+"/"+nbItems; // I18n
     }
     _statsLabel.setText(label);
   }

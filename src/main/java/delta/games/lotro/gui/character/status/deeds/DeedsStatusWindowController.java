@@ -91,7 +91,7 @@ public class DeedsStatusWindowController extends DefaultFormDialogController<Ach
   {
     JDialog dialog=super.build();
     dialog.setMinimumSize(new Dimension(400,300));
-    dialog.setTitle("Deeds status edition");
+    dialog.setTitle("Deeds status edition"); // I18n
     dialog.pack();
     Dimension size=dialog.getSize();
     if (size.height>MAX_HEIGHT)
@@ -119,12 +119,12 @@ public class DeedsStatusWindowController extends DefaultFormDialogController<Ach
     // Deed filter
     _filterController=new DeedFilterController(this,_filter.getDeedFilter(),this,false);
     JPanel deedFilterPanel=_filterController.getPanel();
-    TitledBorder deedFilterBorder=GuiFactory.buildTitledBorder("Deed Filter");
+    TitledBorder deedFilterBorder=GuiFactory.buildTitledBorder("Deed Filter"); // I18n
     deedFilterPanel.setBorder(deedFilterBorder);
     // Deed status filter
     _statusFilterController=new AchievableStatusFilterController(_filter,this);
     JPanel statusFilterPanel=_statusFilterController.getPanel();
-    TitledBorder statusFilterBorder=GuiFactory.buildTitledBorder("Status Filter");
+    TitledBorder statusFilterBorder=GuiFactory.buildTitledBorder("Status Filter"); // I18n
     statusFilterPanel.setBorder(statusFilterBorder);
     // Blacklist
     _filter.setBlacklist(blacklist);
@@ -154,7 +154,7 @@ public class DeedsStatusWindowController extends DefaultFormDialogController<Ach
     JPanel ret=GuiFactory.buildPanel(new FlowLayout());
     // Stats button
     {
-      JButton statsButton=GuiFactory.buildButton("Stats");
+      JButton statsButton=GuiFactory.buildButton("Stats"); // I18n
       ActionListener alStats=new ActionListener()
       {
         @Override
@@ -168,7 +168,7 @@ public class DeedsStatusWindowController extends DefaultFormDialogController<Ach
     }
     // Maps button
     {
-      JButton mapsButton=GuiFactory.buildButton("Maps");
+      JButton mapsButton=GuiFactory.buildButton("Maps"); // I18n
       ActionListener alMaps=new ActionListener()
       {
         @Override
@@ -185,7 +185,7 @@ public class DeedsStatusWindowController extends DefaultFormDialogController<Ach
 
   private void initTable(Blacklist blacklist)
   {
-    TypedProperties prefs=GlobalPreferences.getGlobalProperties("DeedsStatus");
+    TypedProperties prefs=GlobalPreferences.getGlobalProperties("DeedsStatus"); // I18n
     _tableController=new DeedStatusTableController(this,_data,prefs,_filter,_deeds,this,blacklist);
     GenericTableController<AchievableStatus> tableController=_tableController.getTableController();
     JTable table=tableController.getTable();

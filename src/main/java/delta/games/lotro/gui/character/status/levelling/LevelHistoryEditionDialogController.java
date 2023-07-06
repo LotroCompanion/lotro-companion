@@ -36,7 +36,7 @@ public class LevelHistoryEditionDialogController extends DefaultFormDialogContro
   protected JDialog build()
   {
     JDialog dialog=super.build();
-    dialog.setTitle("Level history editor");
+    dialog.setTitle("Level history editor"); // I18n
     dialog.setResizable(false);
     return dialog;
   }

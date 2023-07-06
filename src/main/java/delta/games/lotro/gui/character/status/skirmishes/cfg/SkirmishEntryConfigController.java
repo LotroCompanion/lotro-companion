@@ -79,7 +79,7 @@ public class SkirmishEntryConfigController
   {
     // Build UI elements
     {
-      _mergeLevels=new CheckboxController("Merge Levels");
+      _mergeLevels=new CheckboxController("Merge Levels"); // I18n
       final JCheckBox mergeLevelsCheckbox=_mergeLevels.getCheckbox();
       ActionListener al=new ActionListener()
       {
@@ -93,7 +93,7 @@ public class SkirmishEntryConfigController
       mergeLevelsCheckbox.addActionListener(al);
     }
     {
-      _mergeSizes=new CheckboxController("Merge Sizes");
+      _mergeSizes=new CheckboxController("Merge Sizes"); // I18n
       final JCheckBox mergeSizesCheckbox=_mergeSizes.getCheckbox();
       ActionListener al=new ActionListener()
       {

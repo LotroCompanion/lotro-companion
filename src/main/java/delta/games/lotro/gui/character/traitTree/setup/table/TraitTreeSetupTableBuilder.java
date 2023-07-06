@@ -106,7 +106,7 @@ public class TraitTreeSetupTableBuilder
         return setup.getName();
       }
     };
-    DefaultTableColumnController<TraitTreeSetup,String> nameColumn=new DefaultTableColumnController<TraitTreeSetup,String>(TraitTreeSetupColumnIds.NAME.name(),"Name",String.class,nameCell);
+    DefaultTableColumnController<TraitTreeSetup,String> nameColumn=new DefaultTableColumnController<TraitTreeSetup,String>(TraitTreeSetupColumnIds.NAME.name(),"Name",String.class,nameCell); // I18n
     nameColumn.setWidthSpecs(150,-1,150);
     return nameColumn;
   }
@@ -125,7 +125,7 @@ public class TraitTreeSetupTableBuilder
         return Integer.valueOf(setup.getStatus().getCost());
       }
     };
-    DefaultTableColumnController<TraitTreeSetup,Integer> costColumn=new DefaultTableColumnController<TraitTreeSetup,Integer>(TraitTreeSetupColumnIds.COST.name(),"Cost",Integer.class,costCell);
+    DefaultTableColumnController<TraitTreeSetup,Integer> costColumn=new DefaultTableColumnController<TraitTreeSetup,Integer>(TraitTreeSetupColumnIds.COST.name(),"Cost",Integer.class,costCell); // I18n
     costColumn.setWidthSpecs(55,55,50);
     return costColumn;
   }
@@ -144,7 +144,7 @@ public class TraitTreeSetupTableBuilder
         return setup.getType();
       }
     };
-    DefaultTableColumnController<TraitTreeSetup,TraitTreeType> keyColumn=new DefaultTableColumnController<TraitTreeSetup,TraitTreeType>(TraitTreeSetupColumnIds.TYPE.name(),"Type",TraitTreeType.class,keyCell);
+    DefaultTableColumnController<TraitTreeSetup,TraitTreeType> keyColumn=new DefaultTableColumnController<TraitTreeSetup,TraitTreeType>(TraitTreeSetupColumnIds.TYPE.name(),"Type",TraitTreeType.class,keyCell); // I18n
     keyColumn.setWidthSpecs(80,100,80);
     return keyColumn;
   }
@@ -164,7 +164,7 @@ public class TraitTreeSetupTableBuilder
         return (branch!=null)?branch.getName():null;
       }
     };
-    DefaultTableColumnController<TraitTreeSetup,String> classColumn=new DefaultTableColumnController<TraitTreeSetup,String>(TraitTreeSetupColumnIds.MAIN_BRANCH.name(),"Branch",String.class,classCell);
+    DefaultTableColumnController<TraitTreeSetup,String> classColumn=new DefaultTableColumnController<TraitTreeSetup,String>(TraitTreeSetupColumnIds.MAIN_BRANCH.name(),"Branch",String.class,classCell); // I18n
     classColumn.setWidthSpecs(150,150,150);
     return classColumn;
   }

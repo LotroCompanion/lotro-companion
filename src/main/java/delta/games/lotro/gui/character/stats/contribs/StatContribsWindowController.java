@@ -48,7 +48,7 @@ public class StatContribsWindowController extends DefaultDialogController
     // Title
     String name=_toon.getName();
     String serverName=_toon.getServer();
-    String title="Stat contributions for: "+name+" @ "+serverName;
+    String title="Stat contributions for: "+name+" @ "+serverName; // I18n
     dialog.setTitle(title);
     dialog.pack();
     dialog.setResizable(true);

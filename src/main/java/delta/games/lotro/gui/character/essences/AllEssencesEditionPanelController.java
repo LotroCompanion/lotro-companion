@@ -81,8 +81,8 @@ public class AllEssencesEditionPanelController implements EssenceUpdatedListener
       int columnSpan=(i>1)?3:1;
       GridBagConstraints c=new GridBagConstraints(columnIndex,0,columnSpan,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
       String text="";
-      if (i==1) text="Name";
-      else if (i>1) text="Slot #"+(i-1);
+      if (i==1) text="Name"; // I18n
+      else if (i>1) text="Slot #"+(i-1); // I18n
       JLabel label=GuiFactory.buildLabel(text);
       _panel.add(label,c);
       columnIndex+=columnSpan;

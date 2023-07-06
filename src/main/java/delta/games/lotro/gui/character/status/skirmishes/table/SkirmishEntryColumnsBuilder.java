@@ -37,7 +37,7 @@ public class SkirmishEntryColumnsBuilder
           return entry.getSkirmish().getName();
         }
       };
-      DefaultTableColumnController<SkirmishEntry,String> column=new DefaultTableColumnController<SkirmishEntry,String>(SkirmishEntryColumnIds.NAME.name(),"Name",String.class,cell);
+      DefaultTableColumnController<SkirmishEntry,String> column=new DefaultTableColumnController<SkirmishEntry,String>(SkirmishEntryColumnIds.NAME.name(),"Name",String.class,cell); // I18n
       column.setWidthSpecs(220,300,220);
       ret.add(column);
     }
@@ -49,10 +49,10 @@ public class SkirmishEntryColumnsBuilder
         public String getData(SkirmishEntry entry)
         {
           GroupSize size=entry.getSize();
-          return (size!=null)?size.toString():"Mixed";
+          return (size!=null)?size.toString():"Mixed"; // I18n
         }
       };
-      DefaultTableColumnController<SkirmishEntry,String> column=new DefaultTableColumnController<SkirmishEntry,String>(SkirmishEntryColumnIds.GROUP_SIZE.name(),"Size",String.class,cell);
+      DefaultTableColumnController<SkirmishEntry,String> column=new DefaultTableColumnController<SkirmishEntry,String>(SkirmishEntryColumnIds.GROUP_SIZE.name(),"Size",String.class,cell); // I18n
       column.setWidthSpecs(100,100,100);
       ret.add(column);
     }
@@ -64,10 +64,10 @@ public class SkirmishEntryColumnsBuilder
         public String getData(SkirmishEntry stats)
         {
           SkirmishLevel level=stats.getLevel();
-          return (level!=null)?level.toString():"Mixed";
+          return (level!=null)?level.toString():"Mixed"; // I18n
         }
       };
-      DefaultTableColumnController<SkirmishEntry,String> column=new DefaultTableColumnController<SkirmishEntry,String>(SkirmishEntryColumnIds.LEVEL.name(),"Level",String.class,cell);
+      DefaultTableColumnController<SkirmishEntry,String> column=new DefaultTableColumnController<SkirmishEntry,String>(SkirmishEntryColumnIds.LEVEL.name(),"Level",String.class,cell); // I18n
       column.setWidthSpecs(65,65,65);
       ret.add(column);
     }
@@ -109,7 +109,7 @@ public class SkirmishEntryColumnsBuilder
           return Integer.valueOf(stats.getMonsterKills());
         }
       };
-      DefaultTableColumnController<SkirmishStats,Integer> column=new DefaultTableColumnController<SkirmishStats,Integer>(SkirmishEntryColumnIds.MONSTER_KILLS.name(),"Mob Kills",Integer.class,cell);
+      DefaultTableColumnController<SkirmishStats,Integer> column=new DefaultTableColumnController<SkirmishStats,Integer>(SkirmishEntryColumnIds.MONSTER_KILLS.name(),"Mob Kills",Integer.class,cell); // I18n
       ColumnsUtils.configureIntegerColumn(column,50);
       ret.add(column);
     }
@@ -123,7 +123,7 @@ public class SkirmishEntryColumnsBuilder
           return Integer.valueOf(stats.getLieutenantKills());
         }
       };
-      DefaultTableColumnController<SkirmishStats,Integer> column=new DefaultTableColumnController<SkirmishStats,Integer>(SkirmishEntryColumnIds.LIEUTENANT_KILLS.name(),"Lt Kills",Integer.class,cell);
+      DefaultTableColumnController<SkirmishStats,Integer> column=new DefaultTableColumnController<SkirmishStats,Integer>(SkirmishEntryColumnIds.LIEUTENANT_KILLS.name(),"Lt Kills",Integer.class,cell); // I18n
       ColumnsUtils.configureIntegerColumn(column,50);
       ret.add(column);
     }
@@ -137,7 +137,7 @@ public class SkirmishEntryColumnsBuilder
           return Integer.valueOf(stats.getBossKills());
         }
       };
-      DefaultTableColumnController<SkirmishStats,Integer> column=new DefaultTableColumnController<SkirmishStats,Integer>(SkirmishEntryColumnIds.BOSS_KILLS.name(),"Boss Kills",Integer.class,cell);
+      DefaultTableColumnController<SkirmishStats,Integer> column=new DefaultTableColumnController<SkirmishStats,Integer>(SkirmishEntryColumnIds.BOSS_KILLS.name(),"Boss Kills",Integer.class,cell); // I18n
       ColumnsUtils.configureIntegerColumn(column,50);
       ret.add(column);
     }
@@ -151,7 +151,7 @@ public class SkirmishEntryColumnsBuilder
           return Integer.valueOf(stats.getBossResets());
         }
       };
-      DefaultTableColumnController<SkirmishStats,Integer> column=new DefaultTableColumnController<SkirmishStats,Integer>(SkirmishEntryColumnIds.BOSS_RESETS.name(),"Boss Resets",Integer.class,cell);
+      DefaultTableColumnController<SkirmishStats,Integer> column=new DefaultTableColumnController<SkirmishStats,Integer>(SkirmishEntryColumnIds.BOSS_RESETS.name(),"Boss Resets",Integer.class,cell); // I18n
       ColumnsUtils.configureIntegerColumn(column,50);
       ret.add(column);
     }
@@ -165,7 +165,7 @@ public class SkirmishEntryColumnsBuilder
           return Integer.valueOf(stats.getDefendersLost());
         }
       };
-      DefaultTableColumnController<SkirmishStats,Integer> column=new DefaultTableColumnController<SkirmishStats,Integer>(SkirmishEntryColumnIds.DEFENDERS_LOST.name(),"Def.Lost",Integer.class,cell);
+      DefaultTableColumnController<SkirmishStats,Integer> column=new DefaultTableColumnController<SkirmishStats,Integer>(SkirmishEntryColumnIds.DEFENDERS_LOST.name(),"Def.Lost",Integer.class,cell); // I18n
       ColumnsUtils.configureIntegerColumn(column,50);
       ret.add(column);
     }
@@ -179,7 +179,7 @@ public class SkirmishEntryColumnsBuilder
           return Integer.valueOf(stats.getDefendersSaved());
         }
       };
-      DefaultTableColumnController<SkirmishStats,Integer> column=new DefaultTableColumnController<SkirmishStats,Integer>(SkirmishEntryColumnIds.DEFENDERS_SAVED.name(),"Def.Saved",Integer.class,cell);
+      DefaultTableColumnController<SkirmishStats,Integer> column=new DefaultTableColumnController<SkirmishStats,Integer>(SkirmishEntryColumnIds.DEFENDERS_SAVED.name(),"Def.Saved",Integer.class,cell); // I18n
       ColumnsUtils.configureIntegerColumn(column,50);
       ret.add(column);
     }
@@ -193,7 +193,7 @@ public class SkirmishEntryColumnsBuilder
           return Integer.valueOf(stats.getSoldiersDeaths());
         }
       };
-      DefaultTableColumnController<SkirmishStats,Integer> column=new DefaultTableColumnController<SkirmishStats,Integer>(SkirmishEntryColumnIds.SOLDIER_DEATHS.name(),"Soldier Deaths",Integer.class,cell);
+      DefaultTableColumnController<SkirmishStats,Integer> column=new DefaultTableColumnController<SkirmishStats,Integer>(SkirmishEntryColumnIds.SOLDIER_DEATHS.name(),"Soldier Deaths",Integer.class,cell); // I18n
       ColumnsUtils.configureIntegerColumn(column,50);
       ret.add(column);
     }
@@ -207,7 +207,7 @@ public class SkirmishEntryColumnsBuilder
           return Integer.valueOf(stats.getControlPointsTaken());
         }
       };
-      DefaultTableColumnController<SkirmishStats,Integer> column=new DefaultTableColumnController<SkirmishStats,Integer>(SkirmishEntryColumnIds.CONTROL_POINTS_TAKEN.name(),"CP Taken",Integer.class,cell);
+      DefaultTableColumnController<SkirmishStats,Integer> column=new DefaultTableColumnController<SkirmishStats,Integer>(SkirmishEntryColumnIds.CONTROL_POINTS_TAKEN.name(),"CP Taken",Integer.class,cell); // I18n
       ColumnsUtils.configureIntegerColumn(column,50);
       ret.add(column);
     }
@@ -221,7 +221,7 @@ public class SkirmishEntryColumnsBuilder
           return Integer.valueOf(stats.getEncountersCompleted());
         }
       };
-      DefaultTableColumnController<SkirmishStats,Integer> column=new DefaultTableColumnController<SkirmishStats,Integer>(SkirmishEntryColumnIds.ENCOUNTERS_COMPLETED.name(),"Encounters Completed",Integer.class,cell);
+      DefaultTableColumnController<SkirmishStats,Integer> column=new DefaultTableColumnController<SkirmishStats,Integer>(SkirmishEntryColumnIds.ENCOUNTERS_COMPLETED.name(),"Encounters Completed",Integer.class,cell); // I18n
       ColumnsUtils.configureIntegerColumn(column,50);
       ret.add(column);
     }
@@ -236,7 +236,7 @@ public class SkirmishEntryColumnsBuilder
           return (playTime!=-1)?Integer.valueOf((int)playTime):null;
         }
       };
-      DefaultTableColumnController<SkirmishStats,Integer> column=new DefaultTableColumnController<SkirmishStats,Integer>(SkirmishEntryColumnIds.PLAY_TIME.name(),"Play Time",Integer.class,cell);
+      DefaultTableColumnController<SkirmishStats,Integer> column=new DefaultTableColumnController<SkirmishStats,Integer>(SkirmishEntryColumnIds.PLAY_TIME.name(),"Play Time",Integer.class,cell); // I18n
       column.setWidthSpecs(80,100,80);
       column.setCellRenderer(new DurationCellRenderer());
       ret.add(column);
@@ -251,7 +251,7 @@ public class SkirmishEntryColumnsBuilder
           return Integer.valueOf(stats.getSkirmishesCompleted());
         }
       };
-      DefaultTableColumnController<SkirmishStats,Integer> column=new DefaultTableColumnController<SkirmishStats,Integer>(SkirmishEntryColumnIds.SKIRMISHES_COMPLETED.name(),"Completed",Integer.class,cell);
+      DefaultTableColumnController<SkirmishStats,Integer> column=new DefaultTableColumnController<SkirmishStats,Integer>(SkirmishEntryColumnIds.SKIRMISHES_COMPLETED.name(),"Completed",Integer.class,cell); // I18n
       ColumnsUtils.configureIntegerColumn(column,50);
       ret.add(column);
     }
@@ -265,7 +265,7 @@ public class SkirmishEntryColumnsBuilder
           return Integer.valueOf(stats.getSkirmishesAttempted());
         }
       };
-      DefaultTableColumnController<SkirmishStats,Integer> column=new DefaultTableColumnController<SkirmishStats,Integer>(SkirmishEntryColumnIds.SKIRMISHES_ATTEMPTED.name(),"Attempted",Integer.class,cell);
+      DefaultTableColumnController<SkirmishStats,Integer> column=new DefaultTableColumnController<SkirmishStats,Integer>(SkirmishEntryColumnIds.SKIRMISHES_ATTEMPTED.name(),"Attempted",Integer.class,cell); // I18n
       ColumnsUtils.configureIntegerColumn(column,50);
       ret.add(column);
     }
@@ -280,7 +280,7 @@ public class SkirmishEntryColumnsBuilder
           return (bestTime!=-1)?Integer.valueOf((int)bestTime):null;
         }
       };
-      DefaultTableColumnController<SkirmishStats,Integer> column=new DefaultTableColumnController<SkirmishStats,Integer>(SkirmishEntryColumnIds.BEST_TIME.name(),"Best Time",Integer.class,cell);
+      DefaultTableColumnController<SkirmishStats,Integer> column=new DefaultTableColumnController<SkirmishStats,Integer>(SkirmishEntryColumnIds.BEST_TIME.name(),"Best Time",Integer.class,cell); // I18n
       column.setWidthSpecs(80,100,80);
       column.setCellRenderer(new DurationCellRenderer());
       ret.add(column);
@@ -295,7 +295,7 @@ public class SkirmishEntryColumnsBuilder
           return Integer.valueOf(stats.getTotalMarksEarned());
         }
       };
-      DefaultTableColumnController<SkirmishStats,Integer> column=new DefaultTableColumnController<SkirmishStats,Integer>(SkirmishEntryColumnIds.TOTAL_MARKS_EARNED.name(),"Marks",Integer.class,cell);
+      DefaultTableColumnController<SkirmishStats,Integer> column=new DefaultTableColumnController<SkirmishStats,Integer>(SkirmishEntryColumnIds.TOTAL_MARKS_EARNED.name(),"Marks",Integer.class,cell); // I18n
       ColumnsUtils.configureIntegerColumn(column,50);
       ret.add(column);
     }

@@ -107,12 +107,12 @@ public class WarbandsPanelController
 
     // Filter
     JPanel filterPanel=_filterController.getPanel();
-    TitledBorder filterBorder=GuiFactory.buildTitledBorder("Filter");
+    TitledBorder filterBorder=GuiFactory.buildTitledBorder("Filter"); // I18n
     filterPanel.setBorder(filterBorder);
     panel.add(filterPanel,c);
 
     // Choose toons button
-    JButton chooser=GuiFactory.buildButton("Choose characters...");
+    JButton chooser=GuiFactory.buildButton("Choose characters..."); // I18n
     ActionListener al=new ActionListener()
     {
       @Override
@@ -130,7 +130,7 @@ public class WarbandsPanelController
   private JPanel buildStatsPanel()
   {
     JPanel panel=GuiFactory.buildPanel(new BorderLayout());
-    TitledBorder logFrameBorder=GuiFactory.buildTitledBorder("Warbands");
+    TitledBorder logFrameBorder=GuiFactory.buildTitledBorder("Warbands"); // I18n
     panel.setBorder(logFrameBorder);
 
     // Table

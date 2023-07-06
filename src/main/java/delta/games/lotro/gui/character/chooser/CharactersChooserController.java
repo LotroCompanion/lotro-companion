@@ -81,7 +81,7 @@ public final class CharactersChooserController extends DefaultFormDialogControll
   protected JDialog build()
   {
     JDialog dialog=super.build();
-    dialog.setTitle("Choose characters...");
+    dialog.setTitle("Choose characters..."); // I18n
     return dialog;
   }
 

@@ -54,7 +54,7 @@ public class BagWindowController extends DefaultDisplayDialogController<Void>
   {
     super.configureWindow();
     // Title
-    String title="Bag #"+_bagIndex;
+    String title="Bag #"+_bagIndex; // I18n
     setTitle(title);
     // Dimensions
     JDialog dialog=getDialog();

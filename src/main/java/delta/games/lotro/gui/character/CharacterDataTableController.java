@@ -89,7 +89,7 @@ public class CharacterDataTableController implements GenericEventsListener<Chara
           return (timestamp!=null)?new Date(timestamp.longValue()):null;
         }
       };
-      DefaultTableColumnController<CharacterData,Date> lastUpdateColumn=new DefaultTableColumnController<CharacterData,Date>(DATE,"Date",Date.class,lastUpdateCell);
+      DefaultTableColumnController<CharacterData,Date> lastUpdateColumn=new DefaultTableColumnController<CharacterData,Date>(DATE,"Date",Date.class,lastUpdateCell); // I18n
       ColumnsUtils.configureDateTimeColumn(lastUpdateColumn);
       table.addColumnController(lastUpdateColumn);
     }
@@ -103,7 +103,7 @@ public class CharacterDataTableController implements GenericEventsListener<Chara
           return Integer.valueOf(item.getLevel());
         }
       };
-      DefaultTableColumnController<CharacterData,Integer> serverColumn=new DefaultTableColumnController<CharacterData,Integer>(LEVEL,"Level",Integer.class,levelCell);
+      DefaultTableColumnController<CharacterData,Integer> serverColumn=new DefaultTableColumnController<CharacterData,Integer>(LEVEL,"Level",Integer.class,levelCell); // I18n
       serverColumn.setWidthSpecs(80,80,80);
       table.addColumnController(serverColumn);
     }
@@ -117,7 +117,7 @@ public class CharacterDataTableController implements GenericEventsListener<Chara
           return item.getShortDescription();
         }
       };
-      DefaultTableColumnController<CharacterData,String> descriptionColumn=new DefaultTableColumnController<CharacterData,String>(DESCRIPTION,"Description",String.class,descriptionCell);
+      DefaultTableColumnController<CharacterData,String> descriptionColumn=new DefaultTableColumnController<CharacterData,String>(DESCRIPTION,"Description",String.class,descriptionCell); // I18n
       descriptionColumn.setWidthSpecs(100,-1,100);
       table.addColumnController(descriptionColumn);
     }

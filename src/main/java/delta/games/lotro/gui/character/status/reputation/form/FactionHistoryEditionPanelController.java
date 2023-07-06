@@ -68,10 +68,10 @@ public class FactionHistoryEditionPanelController extends AbstractPanelControlle
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     // Header row
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
-    JLabel tier=GuiFactory.buildLabel("Rank");
+    JLabel tier=GuiFactory.buildLabel("Rank"); // I18n
     panel.add(tier,c);
     c=new GridBagConstraints(1,0,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
-    panel.add(GuiFactory.buildLabel("Completion date"),c);
+    panel.add(GuiFactory.buildLabel("Completion date"),c); // I18n
     c.gridx++;
     c.gridy++;
 

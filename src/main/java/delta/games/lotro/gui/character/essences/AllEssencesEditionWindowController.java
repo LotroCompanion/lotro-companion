@@ -54,7 +54,7 @@ public class AllEssencesEditionWindowController extends DefaultWindowController 
     // Title
     String name=_toon.getName();
     String serverName=_toon.getServer();
-    String title="Essences for: "+name+" @ "+serverName;
+    String title="Essences for: "+name+" @ "+serverName; // I18n
     frame.setTitle(title);
     frame.pack();
     frame.setResizable(false);

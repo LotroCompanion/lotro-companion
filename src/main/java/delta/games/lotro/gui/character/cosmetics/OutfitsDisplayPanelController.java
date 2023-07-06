@@ -70,8 +70,8 @@ public class OutfitsDisplayPanelController
 
   private String getTitleForOutfit(int index)
   {
-    if (index==0) return "Equipment";
-    return "Outfit #"+index;
+    if (index==0) return "Equipment"; // I18n
+    return "Outfit #"+index; // I18n
   }
 
   private void disposeOutfitPanels()

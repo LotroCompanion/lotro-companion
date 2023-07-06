@@ -64,11 +64,11 @@ public class SkillsStatusPanelController
     _panelController=new SkillsStatusDisplayPanelController(_parent,_skills,_status,_filter);
     JPanel displayPanel=_panelController.getPanel();
     JScrollPane scroll=GuiFactory.buildScrollPane(displayPanel);
-    scroll.setBorder(GuiFactory.buildTitledBorder("Skills"));
+    scroll.setBorder(GuiFactory.buildTitledBorder("Skills")); // I18n
     // Filter
     _filterController=new SkillStatusFilterController(_filter,_panelController);
     JPanel filterPanel=_filterController.getPanel();
-    filterPanel.setBorder(GuiFactory.buildTitledBorder("Filter"));
+    filterPanel.setBorder(GuiFactory.buildTitledBorder("Filter")); // I18n
     // Whole panel
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(filterPanel,c);

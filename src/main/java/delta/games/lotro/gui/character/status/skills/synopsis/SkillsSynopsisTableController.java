@@ -143,7 +143,7 @@ public class SkillsSynopsisTableController
         return LotroIconsManager.getSkillIcon(item.getIconId());
       }
     };
-    DefaultTableColumnController<SkillDescription,Icon> iconColumn=new DefaultTableColumnController<SkillDescription,Icon>("Icon",Icon.class,iconCell);
+    DefaultTableColumnController<SkillDescription,Icon> iconColumn=new DefaultTableColumnController<SkillDescription,Icon>("Icon",Icon.class,iconCell); // I18n
     iconColumn.setWidthSpecs(50,50,50);
     iconColumn.setSortable(false);
     // Header renderer
@@ -165,7 +165,7 @@ public class SkillsSynopsisTableController
       }
     };
     String id=character.getIdentifier();
-    DefaultTableColumnController<SkillDescription,SkillStatus> column=new DefaultTableColumnController<SkillDescription,SkillStatus>(id,"Skill",SkillStatus.class,cell);
+    DefaultTableColumnController<SkillDescription,SkillStatus> column=new DefaultTableColumnController<SkillDescription,SkillStatus>(id,"Skill",SkillStatus.class,cell); // I18n
 
     // Cell renderer
     TableCellRenderer renderer=new SkillStatusCellRenderer();

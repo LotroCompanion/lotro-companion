@@ -55,13 +55,13 @@ public class AchievablesStatisticsPanelController
     panel.add(pane,BorderLayout.CENTER);
     // Acquired
     JPanel acquiredPanel=_acquired.getPanel();
-    pane.add("Acquired",acquiredPanel);
+    pane.add("Acquired",acquiredPanel); // I18n
     // To Get
     JPanel toGetPanel=_toGet.getPanel();
-    pane.add("To Get",toGetPanel);
+    pane.add("To Get",toGetPanel); // I18n
     // Total
     JPanel totalPanel=_total.getPanel();
-    pane.add("Total",totalPanel);
+    pane.add("Total",totalPanel); // I18n
     return panel;
   }
 

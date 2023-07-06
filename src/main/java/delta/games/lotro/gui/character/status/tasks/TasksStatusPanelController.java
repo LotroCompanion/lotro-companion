@@ -60,7 +60,7 @@ public class TasksStatusPanelController implements FilterUpdateListener
   private JPanel build()
   {
     JPanel panel=GuiFactory.buildPanel(new BorderLayout());
-    TitledBorder itemsFrameBorder=GuiFactory.buildTitledBorder("Status of tasks");
+    TitledBorder itemsFrameBorder=GuiFactory.buildTitledBorder("Status of tasks"); // I18n
     panel.setBorder(itemsFrameBorder);
 
     // Table
@@ -72,7 +72,7 @@ public class TasksStatusPanelController implements FilterUpdateListener
     _statsLabel=GuiFactory.buildLabel("-");
     statsPanel.add(_statsLabel);
     // - choose columns button
-    JButton choose=GuiFactory.buildButton("Choose columns...");
+    JButton choose=GuiFactory.buildButton("Choose columns..."); // I18n
     ActionListener al=new ActionListener()
     {
       @Override

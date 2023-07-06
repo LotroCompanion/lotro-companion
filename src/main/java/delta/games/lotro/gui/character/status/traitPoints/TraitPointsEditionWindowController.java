@@ -40,7 +40,7 @@ public class TraitPointsEditionWindowController extends DefaultFormDialogControl
     dialog.setSize(800,dialog.getHeight());
     String name=_summary.getName();
     int level=_summary.getLevel();
-    dialog.setTitle("Trait points for "+name+" ("+level+")");
+    dialog.setTitle("Trait points for "+name+" ("+level+")"); // I18n
     return dialog;
   }
 

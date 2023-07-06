@@ -173,7 +173,7 @@ public class AccountsManagementController implements ActionListener,GenericEvent
     {
       String accountName=account.getDisplayName();
       // Check deletion
-      int result=GuiFactory.showQuestionDialog(_parentController.getWindow(),"Do you really want to delete account " + accountName + "?","Delete?",JOptionPane.YES_NO_OPTION);
+      int result=GuiFactory.showQuestionDialog(_parentController.getWindow(),"Do you really want to delete account " + accountName + "?","Delete?",JOptionPane.YES_NO_OPTION); // I18n
       if (result==JOptionPane.OK_OPTION)
       {
         String id=AccountWindowController.getIdentifier(account.getSummary());

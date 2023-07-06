@@ -69,7 +69,7 @@ public class TitlesStatusWindowController extends DefaultDisplayDialogController
   {
     JDialog dialog=super.build();
     dialog.setMinimumSize(new Dimension(400,300));
-    dialog.setTitle("Titles status");
+    dialog.setTitle("Titles status"); // I18n
     dialog.pack();
     Dimension size=dialog.getSize();
     if (size.height>MAX_HEIGHT)
@@ -102,12 +102,12 @@ public class TitlesStatusWindowController extends DefaultDisplayDialogController
     // Titles filter
     _filterController=new TitleFilterController(_filter.getTitleFilter(),this);
     JPanel titleFilterPanel=_filterController.getPanel();
-    TitledBorder titleFilterBorder=GuiFactory.buildTitledBorder("Title Filter");
+    TitledBorder titleFilterBorder=GuiFactory.buildTitledBorder("Title Filter"); // I18n
     titleFilterPanel.setBorder(titleFilterBorder);
     // Title status filter
     _statusFilterController=new TitleStatusFilterController(_filter,this);
     JPanel statusFilterPanel=_statusFilterController.getPanel();
-    TitledBorder statusFilterBorder=GuiFactory.buildTitledBorder("Status Filter");
+    TitledBorder statusFilterBorder=GuiFactory.buildTitledBorder("Status Filter"); // I18n
     statusFilterPanel.setBorder(statusFilterBorder);
     // Whole panel
     GridBagConstraints c=new GridBagConstraints(0,0,2,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);

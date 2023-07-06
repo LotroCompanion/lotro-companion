@@ -39,7 +39,7 @@ public class TraitTreeSetupAttrsDialogController extends DefaultFormDialogContro
   protected JDialog build()
   {
     JDialog dialog=super.build();
-    dialog.setTitle("Edit trait tree setup...");
+    dialog.setTitle("Edit trait tree setup..."); // I18n
     dialog.setResizable(false);
     return dialog;
   }
@@ -48,7 +48,7 @@ public class TraitTreeSetupAttrsDialogController extends DefaultFormDialogContro
   protected JPanel buildFormPanel()
   {
     JPanel dataPanel=buildAttributesPanel();
-    TitledBorder pathsBorder=GuiFactory.buildTitledBorder("Trait tree template");
+    TitledBorder pathsBorder=GuiFactory.buildTitledBorder("Trait tree template"); // I18n
     dataPanel.setBorder(pathsBorder);
     return dataPanel;
   }
@@ -65,9 +65,9 @@ public class TraitTreeSetupAttrsDialogController extends DefaultFormDialogContro
 
     Insets insets=new Insets(5,5,5,5);
     GridBagConstraints gbc=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,insets,0,0);
-    panel.add(GuiFactory.buildLabel("Name:"),gbc);
+    panel.add(GuiFactory.buildLabel("Name:"),gbc); // I18n
     gbc.gridx=0; gbc.gridy++;
-    panel.add(GuiFactory.buildLabel("Description:"),gbc);
+    panel.add(GuiFactory.buildLabel("Description:"),gbc); // I18n
     gbc.gridx=1; gbc.gridy=0;
     gbc.weightx=1.0; gbc.fill=GridBagConstraints.HORIZONTAL;
     panel.add(_setupName,gbc);
@@ -103,14 +103,14 @@ public class TraitTreeSetupAttrsDialogController extends DefaultFormDialogContro
     String name=_setupName.getText();
     if ((name==null) || (name.trim().length()==0))
     {
-      errorMsg="Invalid name!";
+      errorMsg="Invalid name!"; // I18n
     }
     return errorMsg;
   }
 
   private void showErrorMessage(String errorMsg)
   {
-    String title="Trait tree setup edition";
+    String title="Trait tree setup edition"; // I18n
     JDialog dialog=getDialog();
     GuiFactory.showErrorDialog(dialog,errorMsg,title);
   }

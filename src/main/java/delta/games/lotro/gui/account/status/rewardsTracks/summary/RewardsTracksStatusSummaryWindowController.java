@@ -36,7 +36,7 @@ public class RewardsTracksStatusSummaryWindowController extends DefaultDisplayDi
   protected JDialog build()
   {
     JDialog dialog=super.build();
-    dialog.setTitle("Rewards tracks status");
+    dialog.setTitle("Rewards tracks status"); // I18n
     dialog.pack();
     dialog.setResizable(false);
     return dialog;

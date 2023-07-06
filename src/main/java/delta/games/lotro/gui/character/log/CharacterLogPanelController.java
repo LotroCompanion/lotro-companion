@@ -48,7 +48,7 @@ public class CharacterLogPanelController
   private JPanel build()
   {
     JPanel panel=GuiFactory.buildPanel(new BorderLayout());
-    TitledBorder logFrameBorder=GuiFactory.buildTitledBorder("Log");
+    TitledBorder logFrameBorder=GuiFactory.buildTitledBorder("Log"); // I18n
     panel.setBorder(logFrameBorder);
 
     // Table
@@ -79,11 +79,11 @@ public class CharacterLogPanelController
     String label="";
     if (nbFiltered==nbItems)
     {
-      label="Item(s): "+nbItems;
+      label="Item(s): "+nbItems; // I18n
     }
     else
     {
-      label="Item(s): "+nbFiltered+"/"+nbItems;
+      label="Item(s): "+nbFiltered+"/"+nbItems; // I18n
     }
     _statsLabel.setText(label);
   }

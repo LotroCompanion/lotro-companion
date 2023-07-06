@@ -56,7 +56,7 @@ public class AboutPanelController
     }
 
     boolean isLive=LotroCoreConfig.isLive();
-    String appName=isLive?"LotRO Companion":"LotRO Lore Database";
+    String appName=isLive?"LotRO Companion":"LotRO Lore Database"; // I18n
     JLabel lbName=new JLabel(appName);
     Font defaultFont=lbName.getFont();
     Font font16=defaultFont.deriveFont(Font.BOLD,16);
@@ -82,7 +82,7 @@ public class AboutPanelController
     // Project contact
     {
       JPanel contactPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.CENTER));
-      JLabel contactLabel=GuiFactory.buildLabel("Contact: ");
+      JLabel contactLabel=GuiFactory.buildLabel("Contact: "); // I18n
       contactLabel.setFont(font16);
       contactPanel.add(contactLabel);
       String email=isLive?"lotrocompanion@gmail.com":"lotroloredatabase@gmail.com";
@@ -100,7 +100,7 @@ public class AboutPanelController
     if (isLive)
     {
       JPanel sourcePanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.CENTER));
-      JLabel sourceLabel=GuiFactory.buildLabel("Source code: ");
+      JLabel sourceLabel=GuiFactory.buildLabel("Source code: "); // I18n
       sourceLabel.setFont(font16);
       sourcePanel.add(sourceLabel);
       BrowserHyperlinkAction githubAction=new BrowserHyperlinkAction("https://github.com/LotroCompanion/lotro-companion","lotro-companion@GitHub");
@@ -116,7 +116,7 @@ public class AboutPanelController
     // Discord
     {
       JPanel discordPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.CENTER));
-      JLabel discordLabel=GuiFactory.buildLabel("Discord: ");
+      JLabel discordLabel=GuiFactory.buildLabel("Discord: "); // I18n
       discordLabel.setFont(font16);
       discordPanel.add(discordLabel);
       String discordText=isLive?"Lotro Companion's corner":"Discord";

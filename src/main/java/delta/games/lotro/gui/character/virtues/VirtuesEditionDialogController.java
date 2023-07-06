@@ -36,7 +36,7 @@ public class VirtuesEditionDialogController extends DefaultFormDialogController<
   protected JDialog build()
   {
     JDialog dialog=super.build();
-    dialog.setTitle("Virtues edition");
+    dialog.setTitle("Virtues edition"); // I18n
     dialog.setResizable(true);
     dialog.setMinimumSize(new Dimension(700,650));
     return dialog;

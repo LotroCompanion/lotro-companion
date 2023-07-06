@@ -138,7 +138,7 @@ public class StoredItemsTableController
           return countedItem.getOwner();
         }
       };
-      DefaultTableColumnController<StoredItem,Owner> ownerColumn=new DefaultTableColumnController<StoredItem,Owner>(OWNER_COLUMN,"Owner",Owner.class,ownerCell);
+      DefaultTableColumnController<StoredItem,Owner> ownerColumn=new DefaultTableColumnController<StoredItem,Owner>(OWNER_COLUMN,"Owner",Owner.class,ownerCell); // I18n
       ownerColumn.setWidthSpecs(150,-1,150);
       ownerColumn.setComparator(new OwnerComparator());
       ownerColumn.setCellRenderer(new OwnerRenderer());
@@ -154,7 +154,7 @@ public class StoredItemsTableController
           return countedItem.getLocation();
         }
       };
-      DefaultTableColumnController<StoredItem,StorageLocation> locationColumn=new DefaultTableColumnController<StoredItem,StorageLocation>(LOCATION_COLUMN,"Location",StorageLocation.class,locationCell);
+      DefaultTableColumnController<StoredItem,StorageLocation> locationColumn=new DefaultTableColumnController<StoredItem,StorageLocation>(LOCATION_COLUMN,"Location",StorageLocation.class,locationCell); // I18n
       locationColumn.setWidthSpecs(150,-1,150);
       locationColumn.setComparator(new LocationComparator());
       ret.add(locationColumn);

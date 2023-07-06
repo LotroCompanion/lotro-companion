@@ -102,7 +102,7 @@ public class EmotesSynopsisTableController
         return emote.getName();
       }
     };
-    DefaultTableColumnController<EmoteDescription,String> column=new DefaultTableColumnController<EmoteDescription,String>("Emotes",String.class,cell);
+    DefaultTableColumnController<EmoteDescription,String> column=new DefaultTableColumnController<EmoteDescription,String>("Emotes",String.class,cell); // I18n
 
     // Init panels
     column.setMinWidth(100);

@@ -102,7 +102,7 @@ public class TaskStatusColumnsBuilder
     }
     // Consumed items
     List<DefaultTableColumnController<Item,?>> itemColumns=new ArrayList<DefaultTableColumnController<Item,?>>();
-    DefaultTableColumnController<Item,?> itemNameColumn=ItemsTableBuilder.buildNameColumn(CONSUMED_ITEM_NAME_COLUMN,"Consumed item");
+    DefaultTableColumnController<Item,?> itemNameColumn=ItemsTableBuilder.buildNameColumn(CONSUMED_ITEM_NAME_COLUMN,"Consumed item"); // I18n
     itemColumns.add(itemNameColumn);
     itemColumns.add(ItemsTableBuilder.buildIconColumn());
     CellDataProvider<Task,Item> itemProvider=new CellDataProvider<Task,Item>()
@@ -130,7 +130,7 @@ public class TaskStatusColumnsBuilder
           return Integer.valueOf(item.getItemCount());
         }
       };
-      DefaultTableColumnController<Task,Integer> countColumn=new DefaultTableColumnController<Task,Integer>(COUNT_COLUMN,"Items Count",Integer.class,countCell);
+      DefaultTableColumnController<Task,Integer> countColumn=new DefaultTableColumnController<Task,Integer>(COUNT_COLUMN,"Items Count",Integer.class,countCell); // I18n
       countColumn.setWidthSpecs(55,55,50);
       ret.add(countColumn);
     }

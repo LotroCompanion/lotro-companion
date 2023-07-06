@@ -119,7 +119,7 @@ public class EmoteStatusFilterController
     // Label filter
     {
       JPanel linePanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
-      linePanel.add(GuiFactory.buildLabel("Name filter:"));
+      linePanel.add(GuiFactory.buildLabel("Name filter:")); // I18n
       _contains=GuiFactory.buildTextField("");
       _contains.setColumns(10);
       linePanel.add(_contains);
@@ -142,7 +142,7 @@ public class EmoteStatusFilterController
     // State
     {
       JPanel linePanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
-      JLabel label=GuiFactory.buildLabel("State:");
+      JLabel label=GuiFactory.buildLabel("State:"); // I18n
       linePanel.add(label);
       _states=buildStateMultiCheckbox();
       linePanel.add(_states.getPanel());

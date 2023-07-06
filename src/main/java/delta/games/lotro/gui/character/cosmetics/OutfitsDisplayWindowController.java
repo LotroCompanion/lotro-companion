@@ -57,7 +57,7 @@ public class OutfitsDisplayWindowController extends DefaultDisplayDialogControll
     // Title
     String name=_toon.getName();
     String serverName=_toon.getServerName();
-    String title="Outfits for "+name+" @ "+serverName;
+    String title="Outfits for "+name+" @ "+serverName; // I18n
     dialog.setTitle(title);
     dialog.setResizable(true);
     return dialog;

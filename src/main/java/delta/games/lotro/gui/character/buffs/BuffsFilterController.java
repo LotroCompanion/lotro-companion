@@ -87,7 +87,7 @@ public class BuffsFilterController extends ObjectFilterPanelController
     // Name filter
     JPanel nameContainsPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING));
     {
-      nameContainsPanel.add(GuiFactory.buildLabel("Name filter:"));
+      nameContainsPanel.add(GuiFactory.buildLabel("Name filter:")); // I18n
       _nameContains=buildReactiveTextField();
       nameContainsPanel.add(_nameContains);
     }
@@ -96,7 +96,7 @@ public class BuffsFilterController extends ObjectFilterPanelController
 
     // Category panel
     JPanel categoryPanel=GuiFactory.buildPanel(new FlowLayout());
-    categoryPanel.add(GuiFactory.buildLabel("Category:"));
+    categoryPanel.add(GuiFactory.buildLabel("Category:")); // I18n
     categoryPanel.add(_category.getComboBox());
 
     // Global assembly

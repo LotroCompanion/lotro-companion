@@ -65,7 +65,7 @@ public class ReputationSynopsisFilterController
   {
     FactionsRegistry registry=FactionsRegistry.getInstance();
     List<String> categories=registry.getFactionCategories();
-    categories.remove("Guild");
+    categories.remove("Guild"); // I18n
     String[] ret=categories.toArray(new String[categories.size()]);
     return ret;
   }
@@ -92,7 +92,7 @@ public class ReputationSynopsisFilterController
       }
     };
     _category.addListener(categoryListener);
-    panel.add(GuiFactory.buildLabel("Category:"));
+    panel.add(GuiFactory.buildLabel("Category:")); // I18n
     panel.add(_category.getComboBox());
     return panel;
   }

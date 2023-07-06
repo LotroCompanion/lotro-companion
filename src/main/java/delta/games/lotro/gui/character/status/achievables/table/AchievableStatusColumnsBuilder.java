@@ -40,7 +40,7 @@ public class AchievableStatusColumnsBuilder
           return status.getCompletionCountForDisplay();
         }
       };
-      DefaultTableColumnController<AchievableStatus,Integer> countColumn=new DefaultTableColumnController<AchievableStatus,Integer>(AchievableStatusColumnIds.COMPLETION_COUNT.name(),"Count",Integer.class,countCell);
+      DefaultTableColumnController<AchievableStatus,Integer> countColumn=new DefaultTableColumnController<AchievableStatus,Integer>(AchievableStatusColumnIds.COMPLETION_COUNT.name(),"Count",Integer.class,countCell); // I18n
       countColumn.setWidthSpecs(50,50,50);
       ret.add(countColumn);
     }
@@ -70,7 +70,7 @@ public class AchievableStatusColumnsBuilder
           return (timestamp!=null)?new Date(timestamp.longValue()):null;
         }
       };
-      DefaultTableColumnController<AchievableStatus,Date> completionDateColumn=new DefaultTableColumnController<AchievableStatus,Date>(AchievableStatusColumnIds.COMPLETION_DATE.name(),"Completion Date",Date.class,completionDateCell);
+      DefaultTableColumnController<AchievableStatus,Date> completionDateColumn=new DefaultTableColumnController<AchievableStatus,Date>(AchievableStatusColumnIds.COMPLETION_DATE.name(),"Completion Date",Date.class,completionDateCell); // I18n
       ColumnsUtils.configureDateTimeColumn(completionDateColumn);
       ret.add(completionDateColumn);
     }
@@ -93,7 +93,7 @@ public class AchievableStatusColumnsBuilder
         return status.getState();
       }
     };
-    DefaultTableColumnController<AchievableStatus,AchievableElementState> completedColumn=new DefaultTableColumnController<AchievableStatus,AchievableElementState>(AchievableStatusColumnIds.COMPLETED.name(),"Completed",AchievableElementState.class,completedCell);
+    DefaultTableColumnController<AchievableStatus,AchievableElementState> completedColumn=new DefaultTableColumnController<AchievableStatus,AchievableElementState>(AchievableStatusColumnIds.COMPLETED.name(),"Completed",AchievableElementState.class,completedCell); // I18n
     completedColumn.setWidthSpecs(30,30,30);
     completedColumn.setEditable(editable);
     // Renderer
@@ -135,7 +135,7 @@ public class AchievableStatusColumnsBuilder
         return status.getProgress();
       }
     };
-    DefaultTableColumnController<AchievableStatus,Progress> progressColumn=new DefaultTableColumnController<AchievableStatus,Progress>(AchievableStatusColumnIds.PROGRESS.name(),"Progress",Progress.class,progressCell);
+    DefaultTableColumnController<AchievableStatus,Progress> progressColumn=new DefaultTableColumnController<AchievableStatus,Progress>(AchievableStatusColumnIds.PROGRESS.name(),"Progress",Progress.class,progressCell); // I18n
     progressColumn.setWidthSpecs(70,70,70);
     progressColumn.setEditable(false);
     // Renderer

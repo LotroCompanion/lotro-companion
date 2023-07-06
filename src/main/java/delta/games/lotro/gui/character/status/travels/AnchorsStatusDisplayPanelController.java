@@ -86,7 +86,7 @@ public class AnchorsStatusDisplayPanelController
     String name=status.getName();
     if (name!=null)
     {
-      newLabel="Return to "+name;
+      newLabel="Return to "+name; // I18n
     }
     // Use position
     Icon newIcon=null;

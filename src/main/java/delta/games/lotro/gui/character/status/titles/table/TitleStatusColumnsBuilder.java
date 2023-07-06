@@ -91,7 +91,7 @@ public class TitleStatusColumnsBuilder
         return Boolean.FALSE;
       }
     };
-    DefaultTableColumnController<TitleStatus,Boolean> stateColumn=new DefaultTableColumnController<TitleStatus,Boolean>(TitleStatusColumnIds.ACQUIRED.name(),"Acquired",Boolean.class,stateCell);
+    DefaultTableColumnController<TitleStatus,Boolean> stateColumn=new DefaultTableColumnController<TitleStatus,Boolean>(TitleStatusColumnIds.ACQUIRED.name(),"Acquired",Boolean.class,stateCell); // I18n
     stateColumn.setWidthSpecs(30,30,30);
     return stateColumn;
   }

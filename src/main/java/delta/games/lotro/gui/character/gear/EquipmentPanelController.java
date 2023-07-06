@@ -180,37 +180,37 @@ public class EquipmentPanelController implements ActionListener
   {
     JPopupMenu popup=new JPopupMenu();
     // Edit...
-    JMenuItem edit=new JMenuItem("Edit...");
+    JMenuItem edit=new JMenuItem("Edit..."); // I18n
     edit.setActionCommand(EDIT_COMMAND);
     edit.addActionListener(this);
     popup.add(edit);
     // Choose...
-    JMenuItem choose=new JMenuItem("Choose...");
+    JMenuItem choose=new JMenuItem("Choose..."); // I18n
     choose.setActionCommand(CHOOSE_COMMAND);
     choose.addActionListener(this);
     popup.add(choose);
     // Choose from bags...
-    JMenuItem choosefromBags=new JMenuItem("Choose from bags...");
+    JMenuItem choosefromBags=new JMenuItem("Choose from bags..."); // I18n
     choosefromBags.setActionCommand(CHOOSE_FROM_BAGS_COMMAND);
     choosefromBags.addActionListener(this);
     popup.add(choosefromBags);
     // Choose from sharedVault...
-    JMenuItem choosefromSharedVault=new JMenuItem("Choose from shared vault...");
+    JMenuItem choosefromSharedVault=new JMenuItem("Choose from shared vault..."); // I18n
     choosefromSharedVault.setActionCommand(CHOOSE_FROM_SHARED_VAULT_COMMAND);
     choosefromSharedVault.addActionListener(this);
     popup.add(choosefromSharedVault);
     // Choose from stash...
-    JMenuItem choosefromStash=new JMenuItem("Choose from stash...");
+    JMenuItem choosefromStash=new JMenuItem("Choose from stash..."); // I18n
     choosefromStash.setActionCommand(CHOOSE_FROM_STASH_COMMAND);
     choosefromStash.addActionListener(this);
     popup.add(choosefromStash);
     // Remove!
-    JMenuItem remove=new JMenuItem("Remove");
+    JMenuItem remove=new JMenuItem("Remove"); // I18n
     remove.setActionCommand(REMOVE_COMMAND);
     remove.addActionListener(this);
     popup.add(remove);
     // Copy to stash
-    JMenuItem copyToStash=new JMenuItem("Copy to stash");
+    JMenuItem copyToStash=new JMenuItem("Copy to stash"); // I18n
     copyToStash.setActionCommand(COPY_TO_STASH_COMMAND);
     copyToStash.addActionListener(this);
     popup.add(copyToStash);
@@ -276,7 +276,7 @@ public class EquipmentPanelController implements ActionListener
     _layeredPane.setSize(d);
 
     JButton updateButton=GuiFactory.buildButton("Update");
-    updateButton.setToolTipText("Update gear using the current items database");
+    updateButton.setToolTipText("Update gear using the current items database"); // I18n
     updateButton.setBounds(X_BUTTON,Y_BUTTON,85,30);
     updateButton.setSize(updateButton.getPreferredSize());
     _layeredPane.add(updateButton,ICONS_DEPTH);

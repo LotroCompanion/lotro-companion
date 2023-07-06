@@ -67,7 +67,7 @@ public class DetailedStorageAccessPanelController implements ActionListener
     _character=character;
     _storage=null;
     _panel=GuiFactory.buildPanel(new GridBagLayout());
-    _panel.setBorder(GuiFactory.buildTitledBorder("Details"));
+    _panel.setBorder(GuiFactory.buildTitledBorder("Details")); // I18n
   }
 
   /**
@@ -90,19 +90,19 @@ public class DetailedStorageAccessPanelController implements ActionListener
     _panel.removeAll();
     // Bags
     JPanel bagsPanel=buildBagsPanel();
-    bagsPanel.setBorder(GuiFactory.buildTitledBorder("Bags"));
+    bagsPanel.setBorder(GuiFactory.buildTitledBorder("Bags")); // I18n
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     _panel.add(bagsPanel,c);
     // Wallet & vaults
     JPanel storagePanel=buildStoragePanel();
-    storagePanel.setBorder(GuiFactory.buildTitledBorder("Wallet/Vaults"));
+    storagePanel.setBorder(GuiFactory.buildTitledBorder("Wallet/Vaults")); // I18n
     c=new GridBagConstraints(1,0,1,1,0.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     _panel.add(storagePanel,c);
     // Carry-alls
     JPanel carryAllsPanel=buildCarryAllsPanel();
     if (carryAllsPanel!=null)
     {
-      carryAllsPanel.setBorder(GuiFactory.buildTitledBorder("Carry-alls"));
+      carryAllsPanel.setBorder(GuiFactory.buildTitledBorder("Carry-alls")); // I18n
       c=new GridBagConstraints(0,1,2,1,1.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
       _panel.add(carryAllsPanel,c);
     }
@@ -119,7 +119,7 @@ public class DetailedStorageAccessPanelController implements ActionListener
       SingleBagSetup bagSetup=setup.getBagSetup(index);
       boolean useBag=((bagSetup!=null) && (bagSetup.getSize()>0));
       String command=BAG_SEED+index;
-      JButton button=buildButton("Bag #"+index,command,useBag);
+      JButton button=buildButton("Bag #"+index,command,useBag); // I18n
       GridBagConstraints c=new GridBagConstraints(x,0,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
       ret.add(button,c);
       x++;
@@ -133,14 +133,14 @@ public class DetailedStorageAccessPanelController implements ActionListener
     int x=0;
     // Wallet
     {
-      JButton button=buildButton("Wallet",WALLET,true);
+      JButton button=buildButton("Wallet",WALLET,true); // I18n
       GridBagConstraints c=new GridBagConstraints(x,0,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
       ret.add(button,c);
       x++;
     }
     // Own vault
     {
-      JButton button=buildButton("Vault",VAULT,true);
+      JButton button=buildButton("Vault",VAULT,true); // I18n
       GridBagConstraints c=new GridBagConstraints(x,0,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
       ret.add(button,c);
       x++;
@@ -149,7 +149,7 @@ public class DetailedStorageAccessPanelController implements ActionListener
     {
       String accountName=_character.getAccountName();
       boolean useSharedVault=(accountName.length()>0);
-      JButton button=buildButton("Shared Vault",SHARED_VAULT,useSharedVault);
+      JButton button=buildButton("Shared Vault",SHARED_VAULT,useSharedVault); // I18n
       GridBagConstraints c=new GridBagConstraints(x,0,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
       ret.add(button,c);
       x++;

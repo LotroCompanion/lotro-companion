@@ -60,33 +60,33 @@ public class SkirmishStatsDisplayPanelController
 
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     // Monster kills
-    _monsterKills=buildLabelLine(panel,c,"Monster kills: ");
+    _monsterKills=buildLabelLine(panel,c,"Monster kills: "); // I18n
     // Lieutenant kills
-    _lieutenantKills=buildLabelLine(panel,c,"Lieutenant kills: ");
+    _lieutenantKills=buildLabelLine(panel,c,"Lieutenant kills: "); // I18n
     // Boss kills
-    _bossKills=buildLabelLine(panel,c,"Boss kills: ");
+    _bossKills=buildLabelLine(panel,c,"Boss kills: "); // I18n
     // Boss resets
-    _bossResets=buildLabelLine(panel,c,"Boss resets: ");
+    _bossResets=buildLabelLine(panel,c,"Boss resets: "); // I18n
     // Defenders lost
-    _defendersLost=buildLabelLine(panel,c,"Defenders lost: ");
+    _defendersLost=buildLabelLine(panel,c,"Defenders lost: "); // I18n
     // Defenders saved
-    _defendersSaved=buildLabelLine(panel,c,"Defenders saved: ");
+    _defendersSaved=buildLabelLine(panel,c,"Defenders saved: "); // I18n
     // Soldier deaths
-    _soldiersDeaths=buildLabelLine(panel,c,"Soldier deaths: ");
+    _soldiersDeaths=buildLabelLine(panel,c,"Soldier deaths: "); // I18n
     // Control points taken
-    _controlPointsTaken=buildLabelLine(panel,c,"Control Points taken: ");
+    _controlPointsTaken=buildLabelLine(panel,c,"Control Points taken: "); // I18n
     // Encounters completed
-    _encountersCompleted=buildLabelLine(panel,c,"Encounters completed: ");
+    _encountersCompleted=buildLabelLine(panel,c,"Encounters completed: "); // I18n
     // Play time
-    _playTime=buildLabelLine(panel,c,"Play time: ");
+    _playTime=buildLabelLine(panel,c,"Play time: "); // I18n
     // Skirmishes completed
-    _skirmishesCompleted=buildLabelLine(panel,c,"Skirmishes completed: ");
+    _skirmishesCompleted=buildLabelLine(panel,c,"Skirmishes completed: "); // I18n
     // Skirmishes attempted
-    _skirmishesAttempted=buildLabelLine(panel,c,"Skirmishes attempted: ");
+    _skirmishesAttempted=buildLabelLine(panel,c,"Skirmishes attempted: "); // I18n
     // Best time
-    _bestTime=buildLabelLine(panel,c,"Best time: ");
+    _bestTime=buildLabelLine(panel,c,"Best time: "); // I18n
     // Total marks earned
-    _totalMarksEarned=buildLabelLine(panel,c,"Total marks earned: ");
+    _totalMarksEarned=buildLabelLine(panel,c,"Total marks earned: "); // I18n
     return panel;
   }
 

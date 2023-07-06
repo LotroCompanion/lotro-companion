@@ -61,7 +61,7 @@ public class TraitPointsSummaryPanelController
   public void update()
   {
     String points=getPoints();
-    String toDisplay="Trait points: "+points;
+    String toDisplay="Trait points: "+points; // I18n
     _nameLabel.setText(toDisplay);
   }
 

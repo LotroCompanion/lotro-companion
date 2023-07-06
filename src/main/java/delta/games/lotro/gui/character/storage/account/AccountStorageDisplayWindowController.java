@@ -111,7 +111,7 @@ public class AccountStorageDisplayWindowController extends DefaultDialogControll
     // Filter
     _filterController=new StorageFilterController(_filter,this);
     JPanel filterPanel=_filterController.getPanel();
-    TitledBorder filterBorder=GuiFactory.buildTitledBorder("Filter");
+    TitledBorder filterBorder=GuiFactory.buildTitledBorder("Filter"); // I18n
     filterPanel.setBorder(filterBorder);
     // Whole panel
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
@@ -183,7 +183,7 @@ public class AccountStorageDisplayWindowController extends DefaultDialogControll
     Account account=_accountOnServer.getAccount();
     String accountName=account.getAccountName();
     String serverName=_accountOnServer.getServerName();
-    String title="Storage for account "+accountName+" @ "+serverName;
+    String title="Storage for account "+accountName+" @ "+serverName; // I18n
     getDialog().setTitle(title);
     // Update storage
     AccountServerStorage storage=new AccountServerStorage(accountName,serverName);

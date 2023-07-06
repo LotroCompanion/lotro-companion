@@ -103,17 +103,17 @@ public class QuestStatusTableController extends AbstractAreaController
 
   private TableColumnController<AchievableStatus,String> buildBlacklistedColumn()
   {
-    CellDataProvider<AchievableStatus,String> countCell=new CellDataProvider<AchievableStatus,String>()
+    CellDataProvider<AchievableStatus,String> blacklistedCell=new CellDataProvider<AchievableStatus,String>()
     {
       @Override
       public String getData(AchievableStatus status)
       {
-        return (_blacklist.isBlacklisted(status.getIdentifier()))?"Yes":"No";
+        return (_blacklist.isBlacklisted(status.getIdentifier()))?"Yes":"No"; // I18n
       }
     };
-    DefaultTableColumnController<AchievableStatus,String> countColumn=new DefaultTableColumnController<AchievableStatus,String>(AchievableStatusColumnIds.BLACKLISTED.name(),"Blacklisted",String.class,countCell);
-    countColumn.setWidthSpecs(50,50,50);
-    return countColumn;
+    DefaultTableColumnController<AchievableStatus,String> blacklistedColumn=new DefaultTableColumnController<AchievableStatus,String>(AchievableStatusColumnIds.BLACKLISTED.name(),"Blacklisted",String.class,blacklistedCell); // I18n
+    blacklistedColumn.setWidthSpecs(50,50,50);
+    return blacklistedColumn;
   }
 
   private List<String> getColumnIds()

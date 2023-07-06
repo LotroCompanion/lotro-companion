@@ -18,8 +18,8 @@ public class DatedCurvesChartConfiguration
   public DatedCurvesChartConfiguration()
   {
     _chartTitle="???";
-    _timeAxisLabel="Time";
-    _valueAxisLabel="Values";
+    _timeAxisLabel="Time"; // I18n
+    _valueAxisLabel="Values"; // I18n
     _valueAxisTicks=null;
     _useSquareMoves=true;
   }

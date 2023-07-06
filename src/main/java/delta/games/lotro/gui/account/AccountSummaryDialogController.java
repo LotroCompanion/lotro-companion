@@ -48,7 +48,7 @@ public class AccountSummaryDialogController extends DefaultFormDialogController<
   protected JDialog build()
   {
     JDialog dialog=super.build();
-    dialog.setTitle("Edit account summary...");
+    dialog.setTitle("Edit account summary..."); // I18n
     dialog.setResizable(false);
     return dialog;
   }
@@ -57,7 +57,7 @@ public class AccountSummaryDialogController extends DefaultFormDialogController<
   protected JPanel buildFormPanel()
   {
     JPanel dataPanel=buildPanel();
-    TitledBorder pathsBorder=GuiFactory.buildTitledBorder("Account summary");
+    TitledBorder pathsBorder=GuiFactory.buildTitledBorder("Account summary"); // I18n
     dataPanel.setBorder(pathsBorder);
     initData();
     return dataPanel;
@@ -85,15 +85,15 @@ public class AccountSummaryDialogController extends DefaultFormDialogController<
     Insets insets=new Insets(5,5,5,5);
     // Labels
     GridBagConstraints gbc=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,insets,0,0);
-    panel.add(GuiFactory.buildLabel("Name:"),gbc);
+    panel.add(GuiFactory.buildLabel("Name:"),gbc); // I18n
     gbc.gridy++;
-    panel.add(GuiFactory.buildLabel("Subscription:"),gbc);
+    panel.add(GuiFactory.buildLabel("Subscription:"),gbc); // I18n
     gbc.gridy++;
-    panel.add(GuiFactory.buildLabel("Signup date:"),gbc);
+    panel.add(GuiFactory.buildLabel("Signup date:"),gbc); // I18n
     gbc.gridy++;
-    panel.add(GuiFactory.buildLabel("Account type:"),gbc);
+    panel.add(GuiFactory.buildLabel("Account type:"),gbc); // I18n
     gbc.gridy++;
-    panel.add(GuiFactory.buildLabel("Comments:"),gbc);
+    panel.add(GuiFactory.buildLabel("Comments:"),gbc); // I18n
     gbc.gridy++;
     // Editors
     gbc.gridx=1; gbc.gridy=0;

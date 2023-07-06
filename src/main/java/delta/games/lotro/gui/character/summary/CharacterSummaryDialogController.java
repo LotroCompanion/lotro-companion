@@ -53,7 +53,7 @@ public class CharacterSummaryDialogController extends DefaultFormDialogControlle
   protected JDialog build()
   {
     JDialog dialog=super.build();
-    dialog.setTitle("Edit character summary...");
+    dialog.setTitle("Edit character summary..."); // I18n
     dialog.setResizable(false);
     return dialog;
   }
@@ -62,7 +62,7 @@ public class CharacterSummaryDialogController extends DefaultFormDialogControlle
   protected JPanel buildFormPanel()
   {
     JPanel dataPanel=buildPanel();
-    TitledBorder pathsBorder=GuiFactory.buildTitledBorder("Character summary");
+    TitledBorder pathsBorder=GuiFactory.buildTitledBorder("Character summary"); // I18n
     dataPanel.setBorder(pathsBorder);
     initData();
     return dataPanel;
@@ -94,21 +94,21 @@ public class CharacterSummaryDialogController extends DefaultFormDialogControlle
 
     Insets insets=new Insets(5,5,5,5);
     GridBagConstraints gbc=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,insets,0,0);
-    panel.add(GuiFactory.buildLabel("Name:"),gbc);
+    panel.add(GuiFactory.buildLabel("Name:"),gbc); // I18n
     gbc.gridx=0; gbc.gridy++;
-    panel.add(GuiFactory.buildLabel("Server:"),gbc);
+    panel.add(GuiFactory.buildLabel("Server:"),gbc); // I18n
     gbc.gridx=0; gbc.gridy++;
-    panel.add(GuiFactory.buildLabel("Account:"),gbc);
+    panel.add(GuiFactory.buildLabel("Account:"),gbc); // I18n
     gbc.gridx=0; gbc.gridy++;
-    panel.add(GuiFactory.buildLabel("Race:"),gbc);
+    panel.add(GuiFactory.buildLabel("Race:"),gbc); // I18n
     gbc.gridx=0; gbc.gridy++;
-    panel.add(GuiFactory.buildLabel("Class:"),gbc);
+    panel.add(GuiFactory.buildLabel("Class:"),gbc); // I18n
     gbc.gridx=0; gbc.gridy++;
-    panel.add(GuiFactory.buildLabel("Sex:"),gbc);
+    panel.add(GuiFactory.buildLabel("Sex:"),gbc); // I18n
     gbc.gridx=0; gbc.gridy++;
-    panel.add(GuiFactory.buildLabel("Region:"),gbc);
+    panel.add(GuiFactory.buildLabel("Region:"),gbc); // I18n
     gbc.gridx=0; gbc.gridy++;
-    panel.add(GuiFactory.buildLabel("Level:"),gbc);
+    panel.add(GuiFactory.buildLabel("Level:"),gbc); // I18n
     gbc.gridx=1; gbc.gridy=0;
     gbc.weightx=1.0; gbc.fill=GridBagConstraints.HORIZONTAL;
     panel.add(_toonName,gbc);

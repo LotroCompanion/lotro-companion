@@ -99,8 +99,8 @@ public class CraftingHistoryChartController
     }
     updateData();
     JFreeChart jfreechart = ChartFactory.createXYStepChart(title,
-                        "Time",
-                        "Tier",
+                        "Time", // I18n
+                        "Tier", // I18n
                         _data,
                         PlotOrientation.VERTICAL,
                         true,
@@ -192,7 +192,7 @@ public class CraftingHistoryChartController
     long lastProficiency=0;
     long lastMastery=0;
 
-    XYSeries proficiencySeries = new XYSeries("Proficiency");
+    XYSeries proficiencySeries = new XYSeries("Proficiency"); // I18n
     Profession profession=_stats.getProfession();
     CraftingLevel maxLevel=profession.getMaximumLevel();
     int maxTier=maxLevel.getTier();
@@ -208,7 +208,7 @@ public class CraftingHistoryChartController
         }
       }
     }
-    XYSeries masterySeries = new XYSeries("Mastery");
+    XYSeries masterySeries = new XYSeries("Mastery"); // I18n
     for(int i=0;i<=maxTier;i++)
     {
       long date=_stats.getLevelStatus(i).getMastery().getCompletionDate();

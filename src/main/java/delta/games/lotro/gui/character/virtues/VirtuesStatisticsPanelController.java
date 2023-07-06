@@ -58,10 +58,10 @@ public class VirtuesStatisticsPanelController
   private JPanel build()
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
-    panel.setBorder(GuiFactory.buildTitledBorder("Statistics"));
+    panel.setBorder(GuiFactory.buildTitledBorder("Statistics")); // I18n
     // Needed XP
     _neededXP=GuiFactory.buildLabel("");
-    JLabel neededXP=GuiFactory.buildLabel("vXP need:");
+    JLabel neededXP=GuiFactory.buildLabel("vXP need:"); // I18n
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,5,0,0),0,0);
     panel.add(neededXP,c);
     c=new GridBagConstraints(1,0,1,1,1.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(0,5,0,5),0,0);

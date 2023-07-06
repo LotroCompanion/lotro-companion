@@ -53,7 +53,7 @@ public class RecipesStatusColumnsBuilder
           return status.getState();
         }
       };
-      DefaultTableColumnController<RecipeStatus,RecipeState> stateColumn=new DefaultTableColumnController<RecipeStatus,RecipeState>(RecipeStatusColumnIds.STATE.name(),"State",RecipeState.class,stateCell);
+      DefaultTableColumnController<RecipeStatus,RecipeState> stateColumn=new DefaultTableColumnController<RecipeStatus,RecipeState>(RecipeStatusColumnIds.STATE.name(),"State",RecipeState.class,stateCell); // I18n
       stateColumn.setWidthSpecs(80,80,80);
       ret.add(stateColumn);
     }

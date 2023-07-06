@@ -50,20 +50,20 @@ public class StatCurvesPanelController
     JPanel panel=GuiFactory.buildPanel(new BorderLayout());
     // Chart
     JPanel chartPanel=_chartPanel.getPanel();
-    TitledBorder chartBorder=GuiFactory.buildTitledBorder("Chart");
+    TitledBorder chartBorder=GuiFactory.buildTitledBorder("Chart"); // I18n
     chartPanel.setBorder(chartBorder);
     panel.add(chartPanel,BorderLayout.CENTER);
 
     JPanel southPanel=GuiFactory.buildPanel(new GridBagLayout());
     // Values
     JPanel valuesPanel=_valuesPanel.getPanel();
-    TitledBorder valuesBorder=GuiFactory.buildTitledBorder("Values");
+    TitledBorder valuesBorder=GuiFactory.buildTitledBorder("Values"); // I18n
     valuesPanel.setBorder(valuesBorder);
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     southPanel.add(valuesPanel,c);
     // Configuration
     JPanel configurationPanel=_configPanel.getPanel();
-    TitledBorder configurationBorder=GuiFactory.buildTitledBorder("Configuration");
+    TitledBorder configurationBorder=GuiFactory.buildTitledBorder("Configuration"); // I18n
     configurationPanel.setBorder(configurationBorder);
     c=new GridBagConstraints(1,0,1,1,0.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     southPanel.add(configurationPanel,c);

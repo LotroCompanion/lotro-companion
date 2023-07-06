@@ -56,7 +56,7 @@ public class WalletWindowController extends DefaultDisplayDialogController<Void>
     String toonName=_character.getName();
     String serverName=_character.getServerName();
     String accountName=_character.getAccountName();
-    String title="Wallet for "+toonName+"@"+serverName+" ("+accountName+")";
+    String title="Wallet for "+toonName+"@"+serverName+" ("+accountName+")"; // I18n
     setTitle(title);
     // Dimensions
     JDialog dialog=getDialog();

@@ -81,7 +81,7 @@ public class AccountServerPanelController implements ActionListener
     JPanel panel=GuiFactory.buildBackgroundPanel(new BorderLayout());
     // Characters table
     JPanel tablePanel=buildTablePanel();
-    tablePanel.setBorder(GuiFactory.buildTitledBorder("Characters"));
+    tablePanel.setBorder(GuiFactory.buildTitledBorder("Characters")); // I18n
     panel.add(tablePanel,BorderLayout.CENTER);
     // Command buttons
     JPanel commandsPanel=buildCommandsPanel();
@@ -114,19 +114,19 @@ public class AccountServerPanelController implements ActionListener
   {
     JPanel panel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
     // Storage
-    JButton storageButton=buildCommandButton("Storage",STORAGE_COMMAND);
+    JButton storageButton=buildCommandButton("Storage",STORAGE_COMMAND); // I18n
     panel.add(storageButton);
     // Currencies
-    JButton currenciesButton=buildCommandButton("Currencies",CURRENCIES_COMMAND);
+    JButton currenciesButton=buildCommandButton("Currencies",CURRENCIES_COMMAND); // I18n
     panel.add(currenciesButton);
     // Friends
-    JButton friendsButton=buildCommandButton("Friends",FRIENDS_COMMAND);
+    JButton friendsButton=buildCommandButton("Friends",FRIENDS_COMMAND); // I18n
     panel.add(friendsButton);
     // Wardrobe
-    JButton wardrobeButton=buildCommandButton("Wardrobe",WARDROBE_COMMAND);
+    JButton wardrobeButton=buildCommandButton("Wardrobe",WARDROBE_COMMAND); // I18n
     panel.add(wardrobeButton);
     // Rewards tracks
-    JButton rewardsTracksButton=buildCommandButton("Rewards Tracks",REWARDS_TRACKS_COMMAND);
+    JButton rewardsTracksButton=buildCommandButton("Rewards Tracks",REWARDS_TRACKS_COMMAND); // I18n
     panel.add(rewardsTracksButton);
 
     return panel;

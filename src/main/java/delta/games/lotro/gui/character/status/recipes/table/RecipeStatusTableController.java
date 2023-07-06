@@ -77,7 +77,7 @@ public class RecipeStatusTableController
       @Override
       public String getData(RecipeStatus status)
       {
-        return (_blacklist.isBlacklisted(status.getIdentifier()))?"Yes":"No";
+        return (_blacklist.isBlacklisted(status.getIdentifier()))?"Yes":"No"; // I18n
       }
     };
     DefaultTableColumnController<RecipeStatus,String> countColumn=new DefaultTableColumnController<RecipeStatus,String>(AchievableStatusColumnIds.BLACKLISTED.name(),"Blacklisted",String.class,countCell);

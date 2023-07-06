@@ -63,7 +63,7 @@ public class QuestsStatusPanelController implements FilterUpdateListener
   private JPanel build()
   {
     JPanel panel=GuiFactory.buildPanel(new BorderLayout());
-    TitledBorder itemsFrameBorder=GuiFactory.buildTitledBorder("Status of quests");
+    TitledBorder itemsFrameBorder=GuiFactory.buildTitledBorder("Status of quests"); // I18n
     panel.setBorder(itemsFrameBorder);
 
     // Table
@@ -75,7 +75,7 @@ public class QuestsStatusPanelController implements FilterUpdateListener
     _statsLabel=GuiFactory.buildLabel("-");
     statsPanel.add(_statsLabel);
     // - choose columns button
-    JButton choose=GuiFactory.buildButton("Choose columns...");
+    JButton choose=GuiFactory.buildButton("Choose columns..."); // I18n
     ActionListener al=new ActionListener()
     {
       @Override
@@ -107,11 +107,11 @@ public class QuestsStatusPanelController implements FilterUpdateListener
     String label="";
     if (nbFiltered==nbItems)
     {
-      label="Quest(s): "+nbItems;
+      label="Quest(s): "+nbItems; // I18n
     }
     else
     {
-      label="Quest(s): "+nbFiltered+"/"+nbItems;
+      label="Quest(s): "+nbFiltered+"/"+nbItems; // I18n
     }
     _statsLabel.setText(label);
   }

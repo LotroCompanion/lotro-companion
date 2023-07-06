@@ -56,7 +56,7 @@ public class TitleEventsTableController
           return item.getTitle();
         }
       };
-      DefaultTableColumnController<TitleEvent,String> titleColumn=new DefaultTableColumnController<TitleEvent,String>(TITLE,"Title",String.class,titleCell);
+      DefaultTableColumnController<TitleEvent,String> titleColumn=new DefaultTableColumnController<TitleEvent,String>(TITLE,"Title",String.class,titleCell); // I18n
       titleColumn.setWidthSpecs(100,300,200);
       table.addColumnController(titleColumn);
     }
@@ -71,7 +71,7 @@ public class TitleEventsTableController
           return (timestamp!=null)?new Date(timestamp.longValue()):null;
         }
       };
-      DefaultTableColumnController<TitleEvent,Date> completionDateColumn=new DefaultTableColumnController<TitleEvent,Date>(DATE,"Date",Date.class,completionDateCell);
+      DefaultTableColumnController<TitleEvent,Date> completionDateColumn=new DefaultTableColumnController<TitleEvent,Date>(DATE,"Date",Date.class,completionDateCell); // I18n
       ColumnsUtils.configureDateTimeColumn(completionDateColumn);
       table.addColumnController(completionDateColumn);
     }
@@ -85,7 +85,7 @@ public class TitleEventsTableController
           return item.getAchievable().getName();
         }
       };
-      DefaultTableColumnController<TitleEvent,String> achievableColumn=new DefaultTableColumnController<TitleEvent,String>(ACHIEVABLE_NAME,"Source",String.class,achievableCell);
+      DefaultTableColumnController<TitleEvent,String> achievableColumn=new DefaultTableColumnController<TitleEvent,String>(ACHIEVABLE_NAME,"Source",String.class,achievableCell); // I18n
       achievableColumn.setWidthSpecs(100,300,200);
       table.addColumnController(achievableColumn);
     }

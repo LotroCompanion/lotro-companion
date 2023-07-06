@@ -65,7 +65,7 @@ public class TraitTreeSetupChooser
     final ObjectChoiceWindowController<TraitTreeSetup> chooser=new ObjectChoiceWindowController<TraitTreeSetup>(parent,prefs,table);
     JDialog dialog=chooser.getDialog();
     // Title
-    dialog.setTitle("Choose trait tree setup:");
+    dialog.setTitle("Choose trait tree setup:"); // I18n
     // Dimension
     dialog.setMinimumSize(new Dimension(600,300));
     dialog.setSize(600,300);

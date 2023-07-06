@@ -47,7 +47,7 @@ public class CarryAllWindowController extends DefaultDisplayDialogController<Voi
     // Title
     Item carryAllItem=_carryAll.getReference();
     String itemName=(carryAllItem!=null)?carryAllItem.getName():"?";
-    String title="Carry-all: "+itemName;
+    String title="Carry-all: "+itemName; // I18n
     setTitle(title);
     // Dimensions
     JDialog dialog=getDialog();

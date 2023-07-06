@@ -106,7 +106,7 @@ public class StashItemsTableBuilder
           return icon;
         }
       };
-      DefaultTableColumnController<Item,ImageIcon> iconColumn=new DefaultTableColumnController<Item,ImageIcon>("Icon",ImageIcon.class,iconCell);
+      DefaultTableColumnController<Item,ImageIcon> iconColumn=new DefaultTableColumnController<Item,ImageIcon>("Icon",ImageIcon.class,iconCell); // I18n
       iconColumn.setWidthSpecs(50,50,50);
       iconColumn.setSortable(false);
       ret.add(iconColumn);
@@ -121,7 +121,7 @@ public class StashItemsTableBuilder
           return item.getName();
         }
       };
-      DefaultTableColumnController<Item,String> nameColumn=new DefaultTableColumnController<Item,String>("Name",String.class,nameCell);
+      DefaultTableColumnController<Item,String> nameColumn=new DefaultTableColumnController<Item,String>("Name",String.class,nameCell); // I18n
       nameColumn.setWidthSpecs(200,-1,300);
       ret.add(nameColumn);
     }
@@ -135,7 +135,7 @@ public class StashItemsTableBuilder
           return item.getEquipmentLocation();
         }
       };
-      DefaultTableColumnController<Item,EquipmentLocation> locationColumn=new DefaultTableColumnController<Item,EquipmentLocation>("Location",EquipmentLocation.class,locationCell);
+      DefaultTableColumnController<Item,EquipmentLocation> locationColumn=new DefaultTableColumnController<Item,EquipmentLocation>("Location",EquipmentLocation.class,locationCell); // I18n
       locationColumn.setWidthSpecs(70,70,70);
       ret.add(locationColumn);
     }
@@ -150,7 +150,7 @@ public class StashItemsTableBuilder
           return property;
         }
       };
-      DefaultTableColumnController<Item,String> commentColumn=new DefaultTableColumnController<Item,String>("Comment",String.class,commentCell);
+      DefaultTableColumnController<Item,String> commentColumn=new DefaultTableColumnController<Item,String>("Comment",String.class,commentCell); // I18n
       commentColumn.setWidthSpecs(200,-1,400);
       ret.add(commentColumn);
     }

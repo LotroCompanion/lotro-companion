@@ -68,7 +68,7 @@ public class CharacterLogTableController
           return new Date(timestamp);
         }
       };
-      DefaultTableColumnController<CharacterLogItem,Date> dateColumn=new DefaultTableColumnController<CharacterLogItem,Date>("Date",Date.class,dateCell);
+      DefaultTableColumnController<CharacterLogItem,Date> dateColumn=new DefaultTableColumnController<CharacterLogItem,Date>("Date",Date.class,dateCell); // I18n
       ColumnsUtils.configureDateColumn(dateColumn);
       table.addColumnController(dateColumn);
     }
@@ -82,7 +82,7 @@ public class CharacterLogTableController
           return item.getLogItemType();
         }
       };
-      DefaultTableColumnController<CharacterLogItem,LogItemType> typeColumn=new DefaultTableColumnController<CharacterLogItem,LogItemType>("Type",LogItemType.class,typeCell);
+      DefaultTableColumnController<CharacterLogItem,LogItemType> typeColumn=new DefaultTableColumnController<CharacterLogItem,LogItemType>("Type",LogItemType.class,typeCell); // I18n
       typeColumn.setWidthSpecs(100,100,50);
       typeColumn.setCellRenderer(new LogItemTypeRenderer());
       typeColumn.setUseToString(Boolean.TRUE);
@@ -98,7 +98,7 @@ public class CharacterLogTableController
           return item.getLabel();
         }
       };
-      DefaultTableColumnController<CharacterLogItem,String> labelColumn=new DefaultTableColumnController<CharacterLogItem,String>("Label",String.class,labelCell);
+      DefaultTableColumnController<CharacterLogItem,String> labelColumn=new DefaultTableColumnController<CharacterLogItem,String>("Label",String.class,labelCell); // I18n
       labelColumn.setWidthSpecs(150,-1,150);
       table.addColumnController(labelColumn);
     }
@@ -130,13 +130,13 @@ public class CharacterLogTableController
     public LogItemTypeRenderer()
     {
       _labels=new HashMap<LogItemType,String>();
-      _labels.put(LogItemType.DEED,"Deed");
-      _labels.put(LogItemType.LEVELUP,"Level up");
-      _labels.put(LogItemType.PROFESSION,"Profession");
-      _labels.put(LogItemType.PVMP,"Player vs Monster");
-      _labels.put(LogItemType.QUEST,"Quest");
-      _labels.put(LogItemType.VOCATION,"Vocation");
-      _labels.put(LogItemType.UNKNOWN,"???");
+      _labels.put(LogItemType.DEED,"Deed"); // I18n
+      _labels.put(LogItemType.LEVELUP,"Level up"); // I18n
+      _labels.put(LogItemType.PROFESSION,"Profession"); // I18n
+      _labels.put(LogItemType.PVMP,"Player vs Monster"); // I18n
+      _labels.put(LogItemType.QUEST,"Quest"); // I18n
+      _labels.put(LogItemType.VOCATION,"Vocation"); // I18n
+      _labels.put(LogItemType.UNKNOWN,"???"); // I18n
     }
 
     @Override

@@ -98,8 +98,8 @@ public class FactionHistoryChartController extends AbstractPanelController
   {
     updateData();
     JFreeChart jfreechart = ChartFactory.createXYStepChart("",
-                        "Time",
-                        "Level",
+                        "Time", // I18n
+                        "Level", // I18n
                         _data,
                         PlotOrientation.VERTICAL,
                         true,
@@ -201,7 +201,7 @@ public class FactionHistoryChartController extends AbstractPanelController
   {
     _data.removeAllSeries();
 
-    XYSeries series = new XYSeries("History");
+    XYSeries series = new XYSeries("History"); // I18n
     Faction faction=_stats.getFaction();
     FactionLevel[] levels=faction.getLevels();
     for(FactionLevel level : levels)

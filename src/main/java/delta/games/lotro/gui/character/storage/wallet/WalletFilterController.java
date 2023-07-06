@@ -129,13 +129,13 @@ public class WalletFilterController implements ActionListener
 
     // Paper items attributes
     JPanel paperItemPanel=buildPaperItemPanel();
-    Border border=GuiFactory.buildTitledBorder("Filter");
+    Border border=GuiFactory.buildTitledBorder("Filter"); // I18n
     paperItemPanel.setBorder(border);
     GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(paperItemPanel,c);
 
     // Reset
-    _reset=GuiFactory.buildButton("Reset");
+    _reset=GuiFactory.buildButton("Reset"); // I18n
     _reset.addActionListener(this);
     c=new GridBagConstraints(1,y,1,1,0.0,0,GridBagConstraints.SOUTHWEST,GridBagConstraints.NONE,new Insets(0,5,5,5),0,0);
     panel.add(_reset,c);
@@ -151,7 +151,7 @@ public class WalletFilterController implements ActionListener
     JPanel namePanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
     // Label filter
     {
-      namePanel.add(GuiFactory.buildLabel("Name:"));
+      namePanel.add(GuiFactory.buildLabel("Name:")); // I18n
       _contains=GuiFactory.buildTextField("");
       _contains.setColumns(10);
       namePanel.add(_contains);
@@ -171,7 +171,7 @@ public class WalletFilterController implements ActionListener
     // Shared
     JPanel sharedPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
     {
-      JLabel label=GuiFactory.buildLabel("Shared:");
+      JLabel label=GuiFactory.buildLabel("Shared:"); // I18n
       sharedPanel.add(label);
       _shared=buildSharedCombobox();
       sharedPanel.add(_shared.getComboBox());
@@ -179,7 +179,7 @@ public class WalletFilterController implements ActionListener
     // Category
     JPanel categoryPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
     {
-      JLabel label=GuiFactory.buildLabel("Category:");
+      JLabel label=GuiFactory.buildLabel("Category:"); // I18n
       categoryPanel.add(label);
       _category=WalletUiUtils.buildCategoryCombo();
       ItemSelectionListener<PaperItemCategory> categoryListener=new ItemSelectionListener<PaperItemCategory>()

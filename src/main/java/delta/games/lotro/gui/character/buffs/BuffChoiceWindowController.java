@@ -34,7 +34,7 @@ public class BuffChoiceWindowController
     chooser.setFilter(filter,filterUiController);
     JDialog dialog=chooser.getDialog();
     // - title
-    dialog.setTitle("Choose buff: ");
+    dialog.setTitle("Choose buff: "); // I18n
     // - dimension
     dialog.setSize(500,500);
     dialog.setMinimumSize(new Dimension(500,400));

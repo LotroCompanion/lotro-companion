@@ -71,7 +71,7 @@ public class WardrobeDisplayWindowController extends DefaultDialogController imp
     // Filter
     _filterController=new WardrobeFilterController(_filter,this);
     JPanel filterPanel=_filterController.getPanel();
-    filterPanel.setBorder(GuiFactory.buildTitledBorder("Filter"));
+    filterPanel.setBorder(GuiFactory.buildTitledBorder("Filter")); // I18n
     // Whole panel
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(filterPanel,c);
@@ -132,7 +132,7 @@ public class WardrobeDisplayWindowController extends DefaultDialogController imp
     // Title
     String name=_accountOnServer.getAccount().getAccountName();
     String serverName=_accountOnServer.getServerName();
-    String title="Wardrobe for "+name+" @ "+serverName;
+    String title="Wardrobe for "+name+" @ "+serverName; // I18n
     getDialog().setTitle(title);
     // Update storage
     Wardrobe wardrobe=WardrobeIO.loadWardrobe(_accountOnServer);

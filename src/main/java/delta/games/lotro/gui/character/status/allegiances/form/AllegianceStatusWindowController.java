@@ -36,7 +36,7 @@ public class AllegianceStatusWindowController extends DefaultDisplayDialogContro
     JDialog dialog=super.build();
     dialog.setMinimumSize(new Dimension(800,500));
     String allegianceName=_data.getAllegiance().getName();
-    dialog.setTitle("Allegiance status: "+allegianceName);
+    dialog.setTitle("Allegiance status: "+allegianceName); // I18n
     dialog.setSize(new Dimension(800,700));
     dialog.setMaximumSize(new Dimension(1000,700));
     return dialog;

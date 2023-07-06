@@ -54,7 +54,7 @@ public class VaultWindowController extends DefaultDisplayDialogController<Void>
     String toonName=_character.getName();
     String serverName=_character.getServerName();
     String accountName=_character.getAccountName();
-    String seed=(_shared?"Shared vault":"Vault");
+    String seed=(_shared?"Shared vault":"Vault"); // I18n
     String title=seed+" for "+toonName+"@"+serverName+" ("+accountName+")";
     setTitle(title);
     // Dimensions

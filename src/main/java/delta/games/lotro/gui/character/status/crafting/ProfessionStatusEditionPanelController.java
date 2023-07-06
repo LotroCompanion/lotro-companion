@@ -100,24 +100,24 @@ public class ProfessionStatusEditionPanelController
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     // Header row 1
     GridBagConstraints c=new GridBagConstraints(0,0,1,2,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
-    JLabel tier=GuiFactory.buildLabel("Tier");
+    JLabel tier=GuiFactory.buildLabel("Tier"); // I18n
     panel.add(tier,c);
     c.gridx=1;c.gridwidth=3;c.gridheight=1;
-    JLabel proficiency=GuiFactory.buildLabel("Proficiency");
+    JLabel proficiency=GuiFactory.buildLabel("Proficiency"); // I18n
     panel.add(proficiency,c);
     c.gridx=4;c.gridwidth=3;c.gridheight=1;
-    JLabel mastery=GuiFactory.buildLabel("Mastery");
+    JLabel mastery=GuiFactory.buildLabel("Mastery"); // I18n
     panel.add(mastery,c);
 
     // Header row 2
     c.gridx=1;c.gridy=1;c.gridwidth=1;
     for(int i=0;i<2;i++)
     {
-      panel.add(GuiFactory.buildLabel("Completed"),c);
+      panel.add(GuiFactory.buildLabel("Completed"),c); // I18n
       c.gridx++;
-      panel.add(GuiFactory.buildLabel("XP"),c);
+      panel.add(GuiFactory.buildLabel("XP"),c); // I18n
       c.gridx++;
-      panel.add(GuiFactory.buildLabel("Completion date"),c);
+      panel.add(GuiFactory.buildLabel("Completion date"),c); // I18n
       c.gridx++;
     }
     c.gridy++;

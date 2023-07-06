@@ -49,7 +49,7 @@ public class CreditsPanelController
     x++;
 
     // Credits
-    JLabel lbName=new JLabel("Credits");
+    JLabel lbName=new JLabel("Credits"); // I18n
     lbName.setFont(lbName.getFont().deriveFont(Font.BOLD,36));
     c=new GridBagConstraints(x,y,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(10,5,10,20),0,0);
     panel.add(lbName,c);

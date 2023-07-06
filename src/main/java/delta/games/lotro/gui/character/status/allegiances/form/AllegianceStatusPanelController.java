@@ -66,7 +66,7 @@ public class AllegianceStatusPanelController
     JPanel summaryPanel=buildAllegianceSummaryPanel();
     // Rewards panel
     JPanel rewardsPanel=_rewards.getPanel();
-    rewardsPanel.setBorder(GuiFactory.buildTitledBorder("Rewards"));
+    rewardsPanel.setBorder(GuiFactory.buildTitledBorder("Rewards")); // I18n
     // Status summary panel
     JPanel statusSummaryPanel=_statusSummary.getPanel();
 

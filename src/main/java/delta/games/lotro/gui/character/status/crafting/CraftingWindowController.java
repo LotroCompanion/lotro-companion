@@ -61,7 +61,7 @@ public class CraftingWindowController extends DefaultFormDialogController<Crafti
     JPanel vocationPanel=GuiFactory.buildPanel(new FlowLayout());
     {
       _vocation=buildVocationCombo();
-      JLabel vocationLabel=GuiFactory.buildLabel("Vocation:");
+      JLabel vocationLabel=GuiFactory.buildLabel("Vocation:"); // I18n
       vocationPanel.add(vocationLabel);
       vocationPanel.add(_vocation.getComboBox());
     }
@@ -131,7 +131,7 @@ public class CraftingWindowController extends DefaultFormDialogController<Crafti
     // Title
     String name=_toon.getName();
     String serverName=_toon.getServerName();
-    String title="Crafting history editor for "+name+" @ "+serverName;
+    String title="Crafting history editor for "+name+" @ "+serverName; // I18n
     dialog.setTitle(title);
     // Minimum size
     dialog.setMinimumSize(new Dimension(500,380));

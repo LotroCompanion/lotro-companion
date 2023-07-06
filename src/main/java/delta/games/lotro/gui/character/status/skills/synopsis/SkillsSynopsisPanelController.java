@@ -109,12 +109,12 @@ public class SkillsSynopsisPanelController implements GenericEventsListener<Char
 
     // Filter
     JPanel filterPanel=_filterController.getPanel();
-    TitledBorder filterBorder=GuiFactory.buildTitledBorder("Filter");
+    TitledBorder filterBorder=GuiFactory.buildTitledBorder("Filter"); // I18n
     filterPanel.setBorder(filterBorder);
     panel.add(filterPanel,c);
 
     // Choose toons button
-    JButton chooser=GuiFactory.buildButton("Choose characters...");
+    JButton chooser=GuiFactory.buildButton("Choose characters..."); // I18n
     ActionListener al=new ActionListener()
     {
       @Override
@@ -132,7 +132,7 @@ public class SkillsSynopsisPanelController implements GenericEventsListener<Char
   private JPanel buildSynopsisPanel()
   {
     JPanel panel=GuiFactory.buildPanel(new BorderLayout());
-    TitledBorder border=GuiFactory.buildTitledBorder("Skills synopsis");
+    TitledBorder border=GuiFactory.buildTitledBorder("Skills synopsis"); // I18n
     panel.setBorder(border);
 
     // Table

@@ -100,7 +100,7 @@ public class TitleStatusFilterController implements ActionListener
     panel.add(statusPanel,c);
 
     // Reset
-    _reset=GuiFactory.buildButton("Reset");
+    _reset=GuiFactory.buildButton("Reset"); // I18n
     _reset.addActionListener(this);
     c=new GridBagConstraints(1,y,1,1,0.0,0.0,GridBagConstraints.SOUTHWEST,GridBagConstraints.NONE,new Insets(0,0,5,5),0,0);
     panel.add(_reset,c);
@@ -118,9 +118,9 @@ public class TitleStatusFilterController implements ActionListener
   private MultiCheckboxController<TitleState> buildStateMultiCheckbox()
   {
     final MultiCheckboxController<TitleState> multiCheckbox=new MultiCheckboxController<TitleState>();
-    multiCheckbox.addItem(TitleState.ACQUIRED,"Acquired");
-    multiCheckbox.addItem(TitleState.SUPERSEDED,"Superseded");
-    multiCheckbox.addItem(TitleState.UNDEFINED,"Not acquired");
+    multiCheckbox.addItem(TitleState.ACQUIRED,"Acquired"); // I18n
+    multiCheckbox.addItem(TitleState.SUPERSEDED,"Superseded"); // I18n
+    multiCheckbox.addItem(TitleState.UNDEFINED,"Not acquired"); // I18n
     Set<TitleState> selectedStates=new HashSet<TitleState>();
     selectedStates.add(TitleState.ACQUIRED);
     selectedStates.add(TitleState.SUPERSEDED);

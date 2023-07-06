@@ -103,11 +103,11 @@ public class CharacterDataWindowController extends DefaultFormDialogController<C
     JPanel statsPanel=_statsController.getPanel();
     // Equipment panel
     JPanel equipmentPanel=_equipmentController.getPanel();
-    TitledBorder equipmentBorder=GuiFactory.buildTitledBorder("Equipment");
+    TitledBorder equipmentBorder=GuiFactory.buildTitledBorder("Equipment"); // I18n
     equipmentPanel.setBorder(equipmentBorder);
     // Essences panel
     JPanel essencesPanel=buildEssencesPanel();
-    TitledBorder essencesBorder=GuiFactory.buildTitledBorder("Essences");
+    TitledBorder essencesBorder=GuiFactory.buildTitledBorder("Essences"); // I18n
     essencesPanel.setBorder(essencesBorder);
 
     JPanel gearingPanel=GuiFactory.buildPanel(new GridBagLayout());
@@ -135,7 +135,7 @@ public class CharacterDataWindowController extends DefaultFormDialogController<C
     // - virtues
     {
       JPanel virtuesPanel=buildVirtuesPanel();
-      TitledBorder border=GuiFactory.buildTitledBorder("Virtues");
+      TitledBorder border=GuiFactory.buildTitledBorder("Virtues"); // I18n
       virtuesPanel.setBorder(border);
       c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,5,0,5),0,0);
       bottomPanel1.add(virtuesPanel,c);
@@ -143,7 +143,7 @@ public class CharacterDataWindowController extends DefaultFormDialogController<C
     // - tomes
     {
       JPanel tomesPanel=_tomesController.getPanel();
-      TitledBorder border=GuiFactory.buildTitledBorder("Tomes");
+      TitledBorder border=GuiFactory.buildTitledBorder("Tomes"); // I18n
       tomesPanel.setBorder(border);
       c=new GridBagConstraints(1,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
       bottomPanel1.add(tomesPanel,c);
@@ -158,7 +158,7 @@ public class CharacterDataWindowController extends DefaultFormDialogController<C
     // - buffs
     {
       JPanel buffsPanel=_buffsController.getPanel();
-      TitledBorder border=GuiFactory.buildTitledBorder("Buffs");
+      TitledBorder border=GuiFactory.buildTitledBorder("Buffs"); // I18n
       buffsPanel.setBorder(border);
       c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,5,0,0),0,0);
       bottomPanel2.add(buffsPanel,c);
@@ -184,7 +184,7 @@ public class CharacterDataWindowController extends DefaultFormDialogController<C
     JPanel panel=GuiFactory.buildPanel(new FlowLayout());
     // Edition
     {
-      JButton edit=GuiFactory.buildButton("Edit...");
+      JButton edit=GuiFactory.buildButton("Edit..."); // I18n
       ActionListener alEssences=new ActionListener()
       {
         @Override
@@ -198,7 +198,7 @@ public class CharacterDataWindowController extends DefaultFormDialogController<C
     }
     // Summary
     {
-      JButton summary=GuiFactory.buildButton("Summary...");
+      JButton summary=GuiFactory.buildButton("Summary..."); // I18n
       ActionListener alEssences=new ActionListener()
       {
         @Override
@@ -218,7 +218,7 @@ public class CharacterDataWindowController extends DefaultFormDialogController<C
     JPanel panel=GuiFactory.buildPanel(new FlowLayout());
     JPanel virtuesPanel=_virtuesController.getPanel();
     panel.add(virtuesPanel);
-    JButton button=GuiFactory.buildButton("Edit...");
+    JButton button=GuiFactory.buildButton("Edit..."); // I18n
     panel.add(button);
     ActionListener al=new ActionListener()
     {
@@ -250,7 +250,7 @@ public class CharacterDataWindowController extends DefaultFormDialogController<C
     // Title
     String name=_data.getName();
     String serverName=_data.getServer();
-    String title="Character: "+name+" @ "+serverName;
+    String title="Character: "+name+" @ "+serverName; // I18n
     dialog.setTitle(title);
     // Set values
     _statsController.update();

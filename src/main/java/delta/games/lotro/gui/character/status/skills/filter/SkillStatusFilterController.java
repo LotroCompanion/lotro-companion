@@ -117,7 +117,7 @@ public class SkillStatusFilterController
     JPanel linePanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
     // Label filter
     {
-      linePanel.add(GuiFactory.buildLabel("Name filter:"));
+      linePanel.add(GuiFactory.buildLabel("Name filter:")); // I18n
       _contains=GuiFactory.buildTextField("");
       _contains.setColumns(10);
       linePanel.add(_contains);
@@ -136,7 +136,7 @@ public class SkillStatusFilterController
     }
     // Known
     {
-      JLabel label=GuiFactory.buildLabel("Known:");
+      JLabel label=GuiFactory.buildLabel("Known:"); // I18n
       linePanel.add(label);
       _known=buildKnownCombobox();
       linePanel.add(_known.getComboBox());
@@ -149,7 +149,7 @@ public class SkillStatusFilterController
 
   private ComboBoxController<Boolean> buildKnownCombobox()
   {
-    ComboBoxController<Boolean> combo=SharedUiUtils.build3StatesBooleanCombobox("","Yes","No");
+    ComboBoxController<Boolean> combo=SharedUiUtils.build3StatesBooleanCombobox("","Yes","No"); // I18n
     ItemSelectionListener<Boolean> listener=new ItemSelectionListener<Boolean>()
     {
       @Override

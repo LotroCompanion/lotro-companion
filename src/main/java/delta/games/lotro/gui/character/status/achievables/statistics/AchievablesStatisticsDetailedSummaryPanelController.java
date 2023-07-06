@@ -55,63 +55,63 @@ public class AchievablesStatisticsDetailedSummaryPanelController
   private JPanel buildPanel()
   {
     JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
-    TitledBorder border=GuiFactory.buildTitledBorder("Statistics");
+    TitledBorder border=GuiFactory.buildTitledBorder("Statistics"); // I18n
     ret.setBorder(border);
     GridBagConstraints cLabels=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,5,2,0),0,0);
     GridBagConstraints cValues=new GridBagConstraints(1,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,5,2,5),0,0);
 
     // LOTRO points
-    ret.add(GuiFactory.buildLabel("LOTRO Points:"),cLabels);
+    ret.add(GuiFactory.buildLabel("LOTRO Points:"),cLabels); // I18n
     _lotroPoints=GuiFactory.buildLabel("");
     ret.add(_lotroPoints,cValues);
     cLabels.gridy++;cValues.gridy++;
     // Class points
-    ret.add(GuiFactory.buildLabel("Class Points:"),cLabels);
+    ret.add(GuiFactory.buildLabel("Class Points:"),cLabels); // I18n
     _classPoints=GuiFactory.buildLabel("");
     ret.add(_classPoints,cValues);
     cLabels.gridy++;cValues.gridy++;
     // Marks
-    ret.add(GuiFactory.buildLabel("Marks:"),cLabels);
+    ret.add(GuiFactory.buildLabel("Marks:"),cLabels); // I18n
     _marks=GuiFactory.buildLabel("");
     ret.add(_marks,cValues);
     cLabels.gridy++;cValues.gridy++;
     // Medallions
-    ret.add(GuiFactory.buildLabel("Medallions:"),cLabels);
+    ret.add(GuiFactory.buildLabel("Medallions:"),cLabels); // I18n
     _medallions=GuiFactory.buildLabel("");
     ret.add(_medallions,cValues);
     cLabels.gridy++;cValues.gridy++;
     // Titles
-    ret.add(GuiFactory.buildLabel("Titles:"),cLabels);
+    ret.add(GuiFactory.buildLabel("Titles:"),cLabels); // I18n
     _titlesCount=GuiFactory.buildLabel("");
     ret.add(_titlesCount,cValues);
     cLabels.gridy++;cValues.gridy++;
     // Reputation
-    ret.add(GuiFactory.buildLabel("Reputation:"),cLabels);
+    ret.add(GuiFactory.buildLabel("Reputation:"),cLabels); // I18n
     _reputation=GuiFactory.buildLabel("");
     ret.add(_reputation,cValues);
     cLabels.gridy++;cValues.gridy++;
     // Virtues
-    ret.add(GuiFactory.buildLabel("Virtues:"),cLabels);
+    ret.add(GuiFactory.buildLabel("Virtues:"),cLabels); // I18n
     _virtues=GuiFactory.buildLabel("");
     ret.add(_virtues,cValues);
     cLabels.gridy++;cValues.gridy++;
     // Virtue XP
-    ret.add(GuiFactory.buildLabel("Virtue XP:"),cLabels);
+    ret.add(GuiFactory.buildLabel("Virtue XP:"),cLabels); // I18n
     _virtueXP=GuiFactory.buildLabel("");
     ret.add(_virtueXP,cValues);
     cLabels.gridy++;cValues.gridy++;
     // Items
-    ret.add(GuiFactory.buildLabel("Items:"),cLabels);
+    ret.add(GuiFactory.buildLabel("Items:"),cLabels); // I18n
     _itemsCount=GuiFactory.buildLabel("");
     ret.add(_itemsCount,cValues);
     cLabels.gridy++;cValues.gridy++;
     // Emotes
-    ret.add(GuiFactory.buildLabel("Emotes:"),cLabels);
+    ret.add(GuiFactory.buildLabel("Emotes:"),cLabels); // I18n
     _emotesCount=GuiFactory.buildLabel("");
     ret.add(_emotesCount,cValues);
     cLabels.gridy++;cValues.gridy++;
     // Traits
-    ret.add(GuiFactory.buildLabel("Traits:"),cLabels);
+    ret.add(GuiFactory.buildLabel("Traits:"),cLabels); // I18n
     _traitsCount=GuiFactory.buildLabel("");
     ret.add(_traitsCount,cValues);
     cLabels.gridy++;cValues.gridy++;
@@ -145,14 +145,14 @@ public class AchievablesStatisticsDetailedSummaryPanelController
     String nbFactionsStr=L10n.getString(nbFactions);
     int nbReputationPoints=reputation.getTotalReputationPoints();
     String nbReputationPointsStr=L10n.getString(nbReputationPoints);
-    String reputationStr=String.format("%s points, %s factions",nbReputationPointsStr,nbFactionsStr);
+    String reputationStr=String.format("%s points, %s factions",nbReputationPointsStr,nbFactionsStr); // I18n
     _reputation.setText(reputationStr);
     // Virtues
     int nbVirtues=_statistics.getVirtues().size();
     String nbVirtuesStr=L10n.getString(nbVirtues);
     int nbVirtuePoints=_statistics.getTotalVirtuePoints();
     String nbVirtuePointsStr=L10n.getString(nbVirtuePoints);
-    String virtuesStr=String.format("%s points, %s virtues",nbVirtuePointsStr,nbVirtuesStr);
+    String virtuesStr=String.format("%s points, %s virtues",nbVirtuePointsStr,nbVirtuesStr); // I18n
     _virtues.setText(virtuesStr);
     // Virtue XP
     {
@@ -166,11 +166,11 @@ public class AchievablesStatisticsDetailedSummaryPanelController
       String virtueXPLabel;
       if (_mode==AchievableUIMode.DEED)
       {
-        virtueXPLabel=totalVirtueXPStr+" points from "+achievablesCountStr+" deeds";
+        virtueXPLabel=totalVirtueXPStr+" points from "+achievablesCountStr+" deeds"; // I18n
       }
       else
       {
-        virtueXPLabel=totalVirtueXPStr+" points from "+completionsCountStr+" completions ("+achievablesCountStr+" unique quests)";
+        virtueXPLabel=totalVirtueXPStr+" points from "+completionsCountStr+" completions ("+achievablesCountStr+" unique quests)"; // I18n
       }
       _virtueXP.setText(virtueXPLabel);
     }

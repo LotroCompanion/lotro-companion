@@ -36,7 +36,7 @@ public class AllegiancesStatusSummaryWindowController extends DefaultDisplayDial
   protected JDialog build()
   {
     JDialog dialog=super.build();
-    dialog.setTitle("Allegiances status");
+    dialog.setTitle("Allegiances status"); // I18n
     dialog.pack();
     dialog.setResizable(false);
     return dialog;

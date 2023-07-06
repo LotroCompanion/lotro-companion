@@ -164,7 +164,7 @@ public class CraftingSynopsisTableController
         return name;
       }
     };
-    DefaultTableColumnController<CraftingSynopsisItem,String> column=new DefaultTableColumnController<CraftingSynopsisItem,String>(CraftingSynopsisColumnIds.CHARACTER_NAME.name(),"Name",String.class,cell);
+    DefaultTableColumnController<CraftingSynopsisItem,String> column=new DefaultTableColumnController<CraftingSynopsisItem,String>(CraftingSynopsisColumnIds.CHARACTER_NAME.name(),"Name",String.class,cell); // I18n
 
     // Init widths
     column.setMinWidth(100);
@@ -229,7 +229,7 @@ public class CraftingSynopsisTableController
         return item.getProfession().getName();
       }
     };
-    DefaultTableColumnController<CraftingSynopsisItem,String> professionColumn=new DefaultTableColumnController<CraftingSynopsisItem,String>(CraftingSynopsisColumnIds.PROFESSION_NAME.name(),"Profession",String.class,professionCell);
+    DefaultTableColumnController<CraftingSynopsisItem,String> professionColumn=new DefaultTableColumnController<CraftingSynopsisItem,String>(CraftingSynopsisColumnIds.PROFESSION_NAME.name(),"Profession",String.class,professionCell); // I18n
     professionColumn.setWidthSpecs(100,100,100);
     return professionColumn;
   }
@@ -246,7 +246,7 @@ public class CraftingSynopsisTableController
         return ContextRendering.render(summary,vocation);
       }
     };
-    DefaultTableColumnController<CraftingSynopsisItem,String> vocationColumn=new DefaultTableColumnController<CraftingSynopsisItem,String>(CraftingSynopsisColumnIds.VOCATION.name(),"Vocation",String.class,vocationCell);
+    DefaultTableColumnController<CraftingSynopsisItem,String> vocationColumn=new DefaultTableColumnController<CraftingSynopsisItem,String>(CraftingSynopsisColumnIds.VOCATION.name(),"Vocation",String.class,vocationCell); // I18n
     vocationColumn.setWidthSpecs(100,100,100);
     return vocationColumn;
   }
@@ -256,7 +256,7 @@ public class CraftingSynopsisTableController
     JPanel panel=GuiFactory.buildPanel(new FlowLayout());
     Icon tierIcon=LotroIconsManager.getCraftingTierIcon(mastery);
     panel.add(GuiFactory.buildIconLabel(tierIcon));
-    String label=mastery?"Mastery":"Proficiency";
+    String label=mastery?"Mastery":"Proficiency"; // I18n
     panel.add(GuiFactory.buildLabel(label));
     return panel;
   }
@@ -285,7 +285,7 @@ public class CraftingSynopsisTableController
         return item.getLevel(mastery);
       }
     };
-    String columnName=mastery?"Mastery":"Proficiency";
+    String columnName=mastery?"Mastery":"Proficiency"; // I18n
     String id=mastery?CraftingSynopsisColumnIds.MASTERY.name():CraftingSynopsisColumnIds.PROFICIENCY.name();
     DefaultTableColumnController<CraftingSynopsisItem,CraftingLevel> column=new DefaultTableColumnController<CraftingSynopsisItem,CraftingLevel>(id,columnName,CraftingLevel.class,cell);
     // Header cell renderer
@@ -317,7 +317,7 @@ public class CraftingSynopsisTableController
   private JPanel buildGuildPanel()
   {
     JPanel panel=GuiFactory.buildPanel(new FlowLayout());
-    panel.add(GuiFactory.buildLabel("Guild"));
+    panel.add(GuiFactory.buildLabel("Guild")); // I18n
     return panel;
   }
 
@@ -331,7 +331,7 @@ public class CraftingSynopsisTableController
         return item.getGuildFaction();
       }
     };
-    DefaultTableColumnController<CraftingSynopsisItem,FactionStatus> column=new DefaultTableColumnController<CraftingSynopsisItem,FactionStatus>(CraftingSynopsisColumnIds.GUILD.name(),"Guild",FactionStatus.class,cell);
+    DefaultTableColumnController<CraftingSynopsisItem,FactionStatus> column=new DefaultTableColumnController<CraftingSynopsisItem,FactionStatus>(CraftingSynopsisColumnIds.GUILD.name(),"Guild",FactionStatus.class,cell); // I18n
     // Header cell renderer
     JPanel panel=buildGuildPanel();
     TableCellRenderer headerRenderer=buildSimpleCellRenderer(panel);

@@ -41,7 +41,7 @@ public class SingleCollectionStatusGadgetsController
     // Progress
     _state=buildState(status);
     // Button
-    _button=GuiFactory.buildButton("Details...");
+    _button=GuiFactory.buildButton("Details..."); // I18n
   }
 
   private JProgressBar buildState(CollectionStatus status)

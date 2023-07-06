@@ -72,7 +72,7 @@ public class CurrencyChoicePanelController
 
   private JButton buildCurrenciesChooserButton()
   {
-    JButton ret=GuiFactory.buildButton("Choose currencies...");
+    JButton ret=GuiFactory.buildButton("Choose currencies..."); // I18n
     ActionListener al=new ActionListener()
     {
       @Override
@@ -94,7 +94,7 @@ public class CurrencyChoicePanelController
   private JPanel buildPanel()
   {
     JPanel ret=GuiFactory.buildPanel(new FlowLayout());
-    ret.add(GuiFactory.buildLabel("Currency: "));
+    ret.add(GuiFactory.buildLabel("Currency: ")); // I18n
     ret.add(_currencySelector.getComboBox());
     JButton chooser=buildCurrenciesChooserButton();
     ret.add(chooser);

@@ -86,7 +86,7 @@ public class AccountWindowController extends DefaultWindowController
     JFrame frame=super.build();
     // Title
     String name=_account.getDisplayName();
-    String title="Account: "+name;
+    String title="Account: "+name; // I18n
     frame.setTitle(title);
     frame.setMinimumSize(new Dimension(400,200));
     frame.setSize(800,350);
@@ -120,10 +120,6 @@ public class AccountWindowController extends DefaultWindowController
       }
       _serverPanels=null;
     }
-    if (_account!=null)
-    {
-      //_account.gc();
-      _account=null;
-    }
+    _account=null;
   }
 }

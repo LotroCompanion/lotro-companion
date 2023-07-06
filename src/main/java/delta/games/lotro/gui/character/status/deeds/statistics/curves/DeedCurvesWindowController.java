@@ -60,8 +60,8 @@ public class DeedCurvesWindowController extends DefaultWindowController
     }
     DeedCurvesBuilder provider=new DeedCurvesBuilder();
     DatedCurvesChartConfiguration configuration=new DatedCurvesChartConfiguration();
-    configuration.setChartTitle("LOTRO points acquisition by deeds");
-    configuration.setValueAxisLabel("LOTRO points");
+    configuration.setChartTitle("LOTRO points acquisition by deeds"); // I18n
+    configuration.setValueAxisLabel("LOTRO points"); // I18n
     configuration .setValueAxisTicks(new double[]{10,100,1000});
     _chartPanelController=new MultipleToonsDatedCurvesChartPanelController<CharacterFile>(this,_stats,provider,configuration);
   }
@@ -87,7 +87,7 @@ public class DeedCurvesWindowController extends DefaultWindowController
   {
     JFrame frame=super.build();
     // Title
-    frame.setTitle("Deed curves");
+    frame.setTitle("Deed curves"); // I18n
     frame.pack();
     frame.setMinimumSize(new Dimension(500,380));
     frame.setSize(new Dimension(700,500));

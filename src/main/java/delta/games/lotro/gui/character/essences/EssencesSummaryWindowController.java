@@ -54,7 +54,7 @@ public class EssencesSummaryWindowController extends DefaultDialogController imp
     // Title
     String name=_toon.getName();
     String serverName=_toon.getServer();
-    String title="Essences summary for: "+name+" @ "+serverName;
+    String title="Essences summary for: "+name+" @ "+serverName; // I18n
     dialog.setTitle(title);
     dialog.pack();
     dialog.setResizable(true);

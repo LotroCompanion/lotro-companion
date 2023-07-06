@@ -63,7 +63,7 @@ public final class CurrenciesChooserController extends DefaultFormDialogControll
   protected JDialog build()
   {
     JDialog dialog=super.build();
-    dialog.setTitle("Choose currencies...");
+    dialog.setTitle("Choose currencies..."); // I18n
     return dialog;
   }
 

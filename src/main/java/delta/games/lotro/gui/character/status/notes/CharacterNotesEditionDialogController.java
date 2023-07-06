@@ -36,7 +36,7 @@ public class CharacterNotesEditionDialogController extends DefaultFormDialogCont
   protected JDialog build()
   {
     JDialog dialog=super.build();
-    dialog.setTitle("Edit character notes...");
+    dialog.setTitle("Edit character notes..."); // I18n
     dialog.setResizable(true);
     return dialog;
   }
@@ -52,7 +52,7 @@ public class CharacterNotesEditionDialogController extends DefaultFormDialogCont
     JScrollPane scroll=GuiFactory.buildScrollPane(_notes);
 
     GridBagConstraints gbc=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
-    panel.add(GuiFactory.buildLabel("Notes:"),gbc);
+    panel.add(GuiFactory.buildLabel("Notes:"),gbc); // I18n
     gbc=new GridBagConstraints(0,1,1,1,1.0,1.0,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,5,5,5),0,0);
     panel.add(scroll,gbc);
 

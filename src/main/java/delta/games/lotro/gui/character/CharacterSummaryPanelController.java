@@ -105,7 +105,7 @@ public class CharacterSummaryPanelController implements GenericEventsListener<Ch
     c.gridx=3;c.weightx=0.0;c.fill=GridBagConstraints.NONE;c.anchor=GridBagConstraints.EAST;
     panel.add(_levelLabel,c);
     c.gridx=4;
-    JButton edit=GuiFactory.buildButton("Edit...");
+    JButton edit=GuiFactory.buildButton("Edit..."); // I18n
     ActionListener al=new ActionListener()
     {
       @Override
@@ -163,7 +163,7 @@ public class CharacterSummaryPanelController implements GenericEventsListener<Ch
       String text=name;
       if ((region!=null) && (region.length()>0))
       {
-        text=text+" of "+region;
+        text=text+" of "+region; // I18n
       }
       _nameLabel.setText(text);
       // Level

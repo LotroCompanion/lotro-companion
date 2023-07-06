@@ -55,7 +55,7 @@ public class SkirmishStatisticsWindowController extends DefaultDisplayDialogCont
   {
     JDialog dialog=super.build();
     dialog.setMinimumSize(new Dimension(1000,300));
-    dialog.setTitle("Skirmish statistics");
+    dialog.setTitle("Skirmish statistics"); // I18n
     dialog.setSize(new Dimension(1200,600));
     //dialog.pack();
     Dimension size=dialog.getSize();
@@ -93,17 +93,17 @@ public class SkirmishStatisticsWindowController extends DefaultDisplayDialogCont
     // Whole panel
     // - filter
     JPanel filterPanel=_filterController.getPanel();
-    filterPanel.setBorder(GuiFactory.buildTitledBorder("Filter"));
+    filterPanel.setBorder(GuiFactory.buildTitledBorder("Filter")); // I18n
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(filterPanel,c);
     // - config
     JPanel configPanel=_configController.getPanel();
-    configPanel.setBorder(GuiFactory.buildTitledBorder("Configuration"));
+    configPanel.setBorder(GuiFactory.buildTitledBorder("Configuration")); // I18n
     c=new GridBagConstraints(0,1,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(configPanel,c);
     // - totals
     JPanel totalsPanel=_totalsController.getPanel();
-    totalsPanel.setBorder(GuiFactory.buildTitledBorder("Totals"));
+    totalsPanel.setBorder(GuiFactory.buildTitledBorder("Totals")); // I18n
     c=new GridBagConstraints(1,0,1,2,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(totalsPanel,c);
     // - table

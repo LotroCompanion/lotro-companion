@@ -69,7 +69,7 @@ public class AccountSummaryPanelController implements GenericEventsListener<Acco
     _accountNameLabel=GuiFactory.buildLabel("",28.0f);
     panel.add(_accountNameLabel,c);
     // Edit...
-    JButton edit=GuiFactory.buildButton("Edit...");
+    JButton edit=GuiFactory.buildButton("Edit..."); // I18n
     ActionListener al=new ActionListener()
     {
       @Override

@@ -68,7 +68,7 @@ public class RelicsInventoryWindowController extends DefaultDisplayDialogControl
   {
     JDialog dialog=super.build();
     dialog.setMinimumSize(new Dimension(600,300));
-    dialog.setTitle("Relics inventory");
+    dialog.setTitle("Relics inventory"); // I18n
     dialog.pack();
     Dimension size=dialog.getSize();
     if (size.height>MAX_HEIGHT)
@@ -104,7 +104,7 @@ public class RelicsInventoryWindowController extends DefaultDisplayDialogControl
     // Whole panel
     // - filter
     JPanel filterPanel=_filterController.getPanel();
-    filterPanel.setBorder(GuiFactory.buildTitledBorder("Relic Filter"));
+    filterPanel.setBorder(GuiFactory.buildTitledBorder("Relic Filter")); // I18n
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(filterPanel,c);
     // - table

@@ -54,7 +54,7 @@ public class CollectionStatusWindowController extends DefaultDisplayDialogContro
   {
     super.configureWindow();
     // Title
-    setTitle("Collection status");
+    setTitle("Collection status"); // I18n
     // Dimensions
     JDialog dialog=getDialog();
     dialog.setResizable(false);

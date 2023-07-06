@@ -60,13 +60,13 @@ public class VirtuesStatsPanelController
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     // - actives
     _activesPanel=GuiFactory.buildPanel(new GridBagLayout());
-    TitledBorder activesBorder=GuiFactory.buildTitledBorder("Active virtues");
+    TitledBorder activesBorder=GuiFactory.buildTitledBorder("Active virtues"); // I18n
     _activesPanel.setBorder(activesBorder);
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(_activesPanel,c);
     // - passives
     _passivesPanel=GuiFactory.buildPanel(new GridBagLayout());
-    TitledBorder passivesBorder=GuiFactory.buildTitledBorder("Passive virtues");
+    TitledBorder passivesBorder=GuiFactory.buildTitledBorder("Passive virtues"); // I18n
     _passivesPanel.setBorder(passivesBorder);
     c=new GridBagConstraints(0,1,1,1,1.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(_passivesPanel,c);

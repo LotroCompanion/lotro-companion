@@ -75,7 +75,7 @@ public class ReputationSynopsisWindowController extends DefaultWindowController
   {
     JFrame frame=super.build();
     // Title
-    String title="Reputation synopsis";
+    String title="Reputation synopsis"; // I18n
     frame.setTitle(title);
     // Minimum size
     frame.setMinimumSize(new Dimension(500,380));

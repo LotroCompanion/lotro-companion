@@ -64,7 +64,7 @@ public class MultipleCharactersCurrencyHistoryWindowController extends DefaultWi
     CurrencyHistoryCurveProvider provider=new CurrencyHistoryCurveProvider();
     DatedCurvesChartConfiguration configuration=new DatedCurvesChartConfiguration();
     configuration.setChartTitle("");
-    configuration.setValueAxisLabel("Amount");
+    configuration.setValueAxisLabel("Amount"); // I18n
     configuration.setValueAxisTicks(new double[]{1,10,100,1000,10000,100000,1000000,10000000,100000000,1000000000});
     configuration.setUseSquareMoves(false);
     _panelController=new MultipleToonsDatedCurvesChartPanelController<CurrencyHistoryCurve>(this,_stats,provider,configuration);
@@ -130,7 +130,7 @@ public class MultipleCharactersCurrencyHistoryWindowController extends DefaultWi
   {
     JFrame frame=super.build();
     // Title
-    String title="Currency history";
+    String title="Currency history"; // I18n
     frame.setTitle(title);
     frame.pack();
     frame.setMinimumSize(new Dimension(500,380));

@@ -133,15 +133,15 @@ public class RewardsTrackRewardsDetailsPanelController
   private String getLabel(int level, RewardsTrackStepState state)
   {
     StringBuilder sb=new StringBuilder();
-    sb.append("Level ").append(level);
+    sb.append("Level ").append(level); // I18n
     sb.append(": ");
     if (state==RewardsTrackStepState.CLAIMED)
     {
-      sb.append("claimed");
+      sb.append("claimed"); // I18n
     }
     else if (state==RewardsTrackStepState.UNLOCKED)
     {
-      sb.append("unlocked");
+      sb.append("unlocked"); // I18n
     }
     else if (state==RewardsTrackStepState.FUTURE)
     {
@@ -151,11 +151,11 @@ public class RewardsTrackRewardsDetailsPanelController
         int currentXP=_status.getCurrentExperience();
         int nextGoalXP=_status.getNextExperienceGoal();
         int neededXP=nextGoalXP-currentXP;
-        sb.append(" need ").append(neededXP).append(" points");
+        sb.append(" need ").append(neededXP).append(" points"); // I18n
       }
       else
       {
-        sb.append(" not started");
+        sb.append(" not started"); // I18n
       }
     }
     return sb.toString();

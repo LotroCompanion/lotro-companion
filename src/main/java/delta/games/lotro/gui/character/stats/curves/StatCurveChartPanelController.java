@@ -172,8 +172,8 @@ public class StatCurveChartPanelController
   private JFreeChart buildChart()
   {
     String title=_config.getTitle();
-    String xAxisLabel="Rating";
-    String yAxisLabel="Percentage";
+    String xAxisLabel="Rating"; // I18n
+    String yAxisLabel="Percentage"; // I18n
 
     XYDataset xydataset=createDataset();
     JFreeChart jfreechart=ChartFactory.createXYLineChart(title,xAxisLabel,yAxisLabel,xydataset,PlotOrientation.VERTICAL,true,true,false);
@@ -232,7 +232,7 @@ public class StatCurveChartPanelController
       }
       // Current point series
       {
-        XYSeries currentPointSeries=new XYSeries(key+" (Current)");
+        XYSeries currentPointSeries=new XYSeries(key+" (Current)"); // I18n
         data.addSeries(currentPointSeries);
         _currentValueSeries.add(currentPointSeries);
       }

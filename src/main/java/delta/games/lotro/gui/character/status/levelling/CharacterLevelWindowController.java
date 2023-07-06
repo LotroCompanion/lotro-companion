@@ -54,8 +54,8 @@ public class CharacterLevelWindowController extends DefaultWindowController
     }
     LevelCurveProvider provider=new LevelCurveProvider();
     DatedCurvesChartConfiguration configuration=new DatedCurvesChartConfiguration();
-    configuration.setChartTitle("Characters levelling");
-    configuration.setValueAxisLabel("Level");
+    configuration.setChartTitle("Characters levelling"); // I18n
+    configuration.setValueAxisLabel("Level"); // I18n
     configuration.setValueAxisTicks(new double[]{1,5,10});
     _levellingPanelController=new MultipleToonsDatedCurvesChartPanelController<LevelHistory>(this,_stats,provider,configuration);
   }
@@ -81,7 +81,7 @@ public class CharacterLevelWindowController extends DefaultWindowController
   {
     JFrame frame=super.build();
     // Title
-    String title="Characters levelling";
+    String title="Characters levelling"; // I18n
     frame.setTitle(title);
     frame.pack();
     frame.setMinimumSize(new Dimension(500,380));

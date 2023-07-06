@@ -132,12 +132,12 @@ public class TaskFilterController extends AbstractPanelController implements Act
 
     // Task attributes
     JPanel taskPanel=buildTaskPanel();
-    taskPanel.setBorder(GuiFactory.buildTitledBorder("Task"));
+    taskPanel.setBorder(GuiFactory.buildTitledBorder("Task")); // I18n
     GridBagConstraints c=new GridBagConstraints(0,y,1,1,0.0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(taskPanel,c);
 
     // Reset
-    _reset=GuiFactory.buildButton("Reset");
+    _reset=GuiFactory.buildButton("Reset"); // I18n
     _reset.addActionListener(this);
     c=new GridBagConstraints(1,y,1,1,0.0,0,GridBagConstraints.SOUTHWEST,GridBagConstraints.NONE,new Insets(0,5,5,0),0,0);
     panel.add(_reset,c);
@@ -154,7 +154,7 @@ public class TaskFilterController extends AbstractPanelController implements Act
     JPanel linePanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,0,0));
     // Label filter
     JPanel containsPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
-    containsPanel.add(GuiFactory.buildLabel("Name filter:"));
+    containsPanel.add(GuiFactory.buildLabel("Name filter:")); // I18n
     _contains=GuiFactory.buildTextField("");
     _contains.setColumns(20);
     containsPanel.add(_contains);
@@ -175,7 +175,7 @@ public class TaskFilterController extends AbstractPanelController implements Act
     linePanel.add(containsPanel);
     JPanel repPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
     // Reputation
-    repPanel.add(GuiFactory.buildLabel("Reputation:"));
+    repPanel.add(GuiFactory.buildLabel("Reputation:")); // I18n
     _reputation=buildReputationCombobox();
     repPanel.add(_reputation.getComboBox());
     linePanel.add(repPanel);

@@ -81,7 +81,7 @@ public class CharactersSelectionPanelController
     ret.add(selectionPanel,c);
 
     // Choose toons button
-    JButton chooser=GuiFactory.buildButton("Choose characters...");
+    JButton chooser=GuiFactory.buildButton("Choose characters..."); // I18n
     ActionListener al=new ActionListener()
     {
       @Override

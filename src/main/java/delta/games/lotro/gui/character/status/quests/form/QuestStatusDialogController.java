@@ -42,7 +42,7 @@ public class QuestStatusDialogController extends DefaultDisplayDialogController<
     JDialog dialog=super.build();
     QuestDescription quest=(QuestDescription)_data.getAchievable();
     String questName=quest.getName();
-    dialog.setTitle("Quest status: "+questName);
+    dialog.setTitle("Quest status: "+questName); // I18n
     dialog.setResizable(true);
     dialog.pack();
     Dimension size=dialog.getSize();

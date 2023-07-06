@@ -37,7 +37,7 @@ public class CreditsDialogController extends DefaultDialogController
   protected JDialog build()
   {
     JDialog dialog=super.build();
-    dialog.setTitle("Credits");
+    dialog.setTitle("Credits"); // I18n
     dialog.pack();
     WindowController controller=getParentController();
     if (controller!=null)

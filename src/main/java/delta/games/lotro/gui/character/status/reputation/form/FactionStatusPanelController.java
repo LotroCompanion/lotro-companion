@@ -40,10 +40,7 @@ public class FactionStatusPanelController extends AbstractPanelController
     _historyController=new FactionHistoryEditionPanelController(this,status,_chartController);
   }
 
-  /**
-   * Get the managed panel.
-   * @return a panel.
-   */
+  @Override
   public JPanel getPanel()
   {
     JPanel panel=super.getPanel();
@@ -60,15 +57,15 @@ public class FactionStatusPanelController extends AbstractPanelController
     JPanel panel=GuiFactory.buildBackgroundPanel(new GridBagLayout());
     GridBagConstraints c=new GridBagConstraints(0,0,2,1,0.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
     JPanel statusPanel=_statusController.getPanel();
-    statusPanel.setBorder(GuiFactory.buildTitledBorder("Current reputation"));
+    statusPanel.setBorder(GuiFactory.buildTitledBorder("Current reputation")); // I18n
     panel.add(statusPanel,c);
     c=new GridBagConstraints(0,1,1,1,0.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
     JPanel historyPanel=_historyController.getPanel();
-    historyPanel.setBorder(GuiFactory.buildTitledBorder("History"));
+    historyPanel.setBorder(GuiFactory.buildTitledBorder("History")); // I18n
     panel.add(historyPanel,c);
     c=new GridBagConstraints(1,1,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(5,5,5,5),0,0);
     JPanel chartPanel=_chartController.getPanel();
-    chartPanel.setBorder(GuiFactory.buildTitledBorder("History chart"));
+    chartPanel.setBorder(GuiFactory.buildTitledBorder("History chart")); // I18n
     panel.add(chartPanel,c);
     return panel;
   }
@@ -84,6 +81,7 @@ public class FactionStatusPanelController extends AbstractPanelController
   /**
    * Release all managed resources.
    */
+  @Override
   public void dispose()
   {
     super.dispose();

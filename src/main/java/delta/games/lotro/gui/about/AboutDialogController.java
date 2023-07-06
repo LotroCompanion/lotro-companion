@@ -37,7 +37,7 @@ public class AboutDialogController extends DefaultDialogController
   protected JDialog build()
   {
     JDialog dialog=super.build();
-    dialog.setTitle("About");
+    dialog.setTitle("About"); // I18n
     dialog.pack();
     WindowController controller=getParentController();
     if (controller!=null)

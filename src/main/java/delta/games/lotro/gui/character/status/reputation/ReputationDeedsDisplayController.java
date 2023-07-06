@@ -57,7 +57,7 @@ public class ReputationDeedsDisplayController
     {
       String deedName=deed.getName();
       JLabel label=GuiFactory.buildLabel(deedName+":");
-      label.setToolTipText("Status for the '"+deedName+"' deed");
+      label.setToolTipText("Status for the '"+deedName+"' deed"); // I18n
       GridBagConstraints c=new GridBagConstraints(0,y,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
       panel.add(label,c);
       c.gridx++;

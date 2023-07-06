@@ -57,10 +57,10 @@ public class StorageStatisticsPanelController extends AbstractPanelController
     panel.add(pane,BorderLayout.CENTER);
     // Items
     JPanel itemsPanel=_items.getPanel();
-    pane.add("Disenchantment",itemsPanel);
+    pane.add("Disenchantment",itemsPanel); // I18n
     // Reputation
     JPanel reputationPanel=_reputation.getPanel();
-    pane.add("Reputation",reputationPanel);
+    pane.add("Reputation",reputationPanel); // I18n
     return panel;
   }
 

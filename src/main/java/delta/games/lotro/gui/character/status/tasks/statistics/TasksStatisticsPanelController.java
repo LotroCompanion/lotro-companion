@@ -60,13 +60,13 @@ public class TasksStatisticsPanelController extends AbstractPanelController
     panel.add(pane,BorderLayout.CENTER);
     // Reputation
     JPanel reputationPanel=_reputation.getPanel();
-    pane.add("Reputation",reputationPanel);
+    pane.add("Reputation",reputationPanel); // I18n
     // Consumed items
     JPanel itemsPanel=_consumedItems.getPanel();
-    pane.add("Consumed items",itemsPanel);
+    pane.add("Consumed items",itemsPanel); // I18n
     // Earned items
     JPanel earnedItemsPanel=_earnedItems.getPanel();
-    pane.add("Earned items",earnedItemsPanel);
+    pane.add("Earned items",earnedItemsPanel); // I18n
     return panel;
   }
 

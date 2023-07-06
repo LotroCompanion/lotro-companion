@@ -140,7 +140,7 @@ public class CollectablesStatusWindowController extends DefaultDisplayDialogCont
   protected JDialog build()
   {
     JDialog window=super.build();
-    window.setTitle((_type==STATUS_TYPE.PETS)?"Pets Status":"Mounts Status");
+    window.setTitle((_type==STATUS_TYPE.PETS)?"Pets Status":"Mounts Status"); // I18n
     window.pack();
     window.setSize(window.getWidth(),INITIAL_HEIGHT);
     window.setMinimumSize(new Dimension(window.getWidth(),MIN_HEIGHT));

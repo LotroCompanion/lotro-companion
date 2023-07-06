@@ -105,15 +105,15 @@ public class AllegianceRewardsDetailsPanelController
   private String getLabel(int level, AllegianceRewardState state)
   {
     StringBuilder sb=new StringBuilder();
-    sb.append("Level ").append(level);
+    sb.append("Level ").append(level); // I18n
     sb.append(": ");
     if (state==AllegianceRewardState.CLAIMED)
     {
-      sb.append("claimed");
+      sb.append("claimed"); // I18n
     }
     else if (state==AllegianceRewardState.UNLOCKED)
     {
-      sb.append("unlocked");
+      sb.append("unlocked"); // I18n
     }
     else if (state==AllegianceRewardState.FUTURE)
     {
@@ -123,11 +123,11 @@ public class AllegianceRewardsDetailsPanelController
         int minPoints=curve.getMinPointsForLevel(level);
         int currentPoints=_status.getPointsEarned();
         int missingPoints=minPoints-currentPoints;
-        sb.append(" need ").append(missingPoints).append(" points");
+        sb.append(" need ").append(missingPoints).append(" points"); // I18n
       }
       else
       {
-        sb.append(" not started");
+        sb.append(" not started"); // I18n
       }
     }
     return sb.toString();

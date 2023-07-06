@@ -56,7 +56,7 @@ public class TraitEventsTableController
           return item.getTrait();
         }
       };
-      DefaultTableColumnController<TraitEvent,String> traitColumn=new DefaultTableColumnController<TraitEvent,String>(TRAIT,"Trait",String.class,traitCell);
+      DefaultTableColumnController<TraitEvent,String> traitColumn=new DefaultTableColumnController<TraitEvent,String>(TRAIT,"Trait",String.class,traitCell); // I18n
       traitColumn.setWidthSpecs(100,300,200);
       table.addColumnController(traitColumn);
     }
@@ -71,7 +71,7 @@ public class TraitEventsTableController
           return (timestamp!=null)?new Date(timestamp.longValue()):null;
         }
       };
-      DefaultTableColumnController<TraitEvent,Date> completionDateColumn=new DefaultTableColumnController<TraitEvent,Date>(DATE,"Date",Date.class,completionDateCell);
+      DefaultTableColumnController<TraitEvent,Date> completionDateColumn=new DefaultTableColumnController<TraitEvent,Date>(DATE,"Date",Date.class,completionDateCell); // I18n
       ColumnsUtils.configureDateTimeColumn(completionDateColumn);
       table.addColumnController(completionDateColumn);
     }
@@ -85,7 +85,7 @@ public class TraitEventsTableController
           return item.getAchievable().getName();
         }
       };
-      DefaultTableColumnController<TraitEvent,String> achievableColumn=new DefaultTableColumnController<TraitEvent,String>(ACHIEVABLE_NAME,"Source",String.class,achievableCell);
+      DefaultTableColumnController<TraitEvent,String> achievableColumn=new DefaultTableColumnController<TraitEvent,String>(ACHIEVABLE_NAME,"Source",String.class,achievableCell); // I18n
       achievableColumn.setWidthSpecs(100,300,200);
       table.addColumnController(achievableColumn);
     }

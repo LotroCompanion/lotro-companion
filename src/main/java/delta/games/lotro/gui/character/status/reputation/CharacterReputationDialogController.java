@@ -65,7 +65,7 @@ public class CharacterReputationDialogController extends DefaultFormDialogContro
   protected JDialog build()
   {
     JDialog dialog=super.build();
-    dialog.setTitle("Reputation editor");
+    dialog.setTitle("Reputation editor"); // I18n
     dialog.setResizable(false);
     return dialog;
   }
@@ -101,7 +101,7 @@ public class CharacterReputationDialogController extends DefaultFormDialogContro
       tabPanel.add(reputationPanel,BorderLayout.CENTER);
       tabs.add(category,tabPanel);
     }
-    TitledBorder factionsBorder=GuiFactory.buildTitledBorder("Factions");
+    TitledBorder factionsBorder=GuiFactory.buildTitledBorder("Factions"); // I18n
     tabs.setBorder(factionsBorder);
     panel.add(tabs,BorderLayout.CENTER);
     return panel;
@@ -126,14 +126,14 @@ public class CharacterReputationDialogController extends DefaultFormDialogContro
     // Deeds
     _deedsDisplay=new ReputationDeedsDisplayController(_data);
     JPanel deedsDisplayPanel=_deedsDisplay.getPanel();
-    TitledBorder deedsBorder=GuiFactory.buildTitledBorder("Deeds");
+    TitledBorder deedsBorder=GuiFactory.buildTitledBorder("Deeds"); // I18n
     deedsDisplayPanel.setBorder(deedsBorder);
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(5,5,5,5),0,0);
     panel.add(deedsDisplayPanel,c);
     // Rewards
     _rewardsDisplay=new ReputationRewardsDisplayController(_data);
     JPanel rewardsDisplayPanel=_rewardsDisplay.getPanel();
-    TitledBorder rewardsBorder=GuiFactory.buildTitledBorder("Rewards");
+    TitledBorder rewardsBorder=GuiFactory.buildTitledBorder("Rewards"); // I18n
     rewardsDisplayPanel.setBorder(rewardsBorder);
     c=new GridBagConstraints(1,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.VERTICAL,new Insets(5,5,5,5),0,0);
     panel.add(rewardsDisplayPanel,c);

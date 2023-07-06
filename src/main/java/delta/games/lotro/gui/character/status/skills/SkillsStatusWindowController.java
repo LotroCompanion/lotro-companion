@@ -47,7 +47,7 @@ public class SkillsStatusWindowController extends DefaultWindowController
   protected JFrame build()
   {
     JFrame frame=super.build();
-    frame.setTitle("Skills Status");
+    frame.setTitle("Skills Status"); // I18n
     frame.pack();
     frame.setSize(frame.getWidth(),INITIAL_HEIGHT);
     frame.setMinimumSize(new Dimension(frame.getWidth(),MIN_HEIGHT));

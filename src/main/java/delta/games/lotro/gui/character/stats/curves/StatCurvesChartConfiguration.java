@@ -99,7 +99,7 @@ public class StatCurvesChartConfiguration
 
   /**
    * Add a curve.
-   * @param curveConfiguration Curve configruation.
+   * @param curveConfiguration Curve configuration.
    */
   public void addCurve(SingleStatCurveConfiguration curveConfiguration)
   {

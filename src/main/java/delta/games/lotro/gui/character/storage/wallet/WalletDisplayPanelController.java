@@ -108,7 +108,7 @@ public class WalletDisplayPanelController
     _status=new StatusMetadataPanelController();
     _status.setData(_wallet.getStatusMetadata());
     JPanel statusPanel=_status.getPanel();
-    statusPanel.setBorder(GuiFactory.buildTitledBorder("Status"));
+    statusPanel.setBorder(GuiFactory.buildTitledBorder("Status")); // I18n
     // Elements
     _elementsPanel=GuiFactory.buildPanel(new GridBagLayout());
     JScrollPane scrollPane=GuiFactory.buildScrollPane(_elementsPanel);

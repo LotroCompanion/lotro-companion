@@ -78,7 +78,7 @@ public class TravelsStatusWindowController extends DefaultWindowController
   protected JFrame build()
   {
     JFrame frame=super.build();
-    frame.setTitle("Travels Status");
+    frame.setTitle("Travels Status"); // I18n
     frame.pack();
     frame.setSize(frame.getWidth(),INITIAL_HEIGHT);
     frame.setMinimumSize(new Dimension(frame.getWidth(),MIN_HEIGHT));
@@ -104,11 +104,11 @@ public class TravelsStatusWindowController extends DefaultWindowController
     JTabbedPane tab=GuiFactory.buildTabbedPane();
     // Travel skills
     JPanel travelSkillsPanel=_travelSkillsPanel.getPanel();
-    tab.add("Travel Skills", travelSkillsPanel);
+    tab.add("Travel Skills", travelSkillsPanel); // I18n
     // Milestones
     JPanel anchorsPanel=_anchorsPanel.getPanel();
     JScrollPane scroll=GuiFactory.buildScrollPane(anchorsPanel);
-    tab.add("Milestones", scroll);
+    tab.add("Milestones", scroll); // I18n
     panel.add(tab,BorderLayout.CENTER);
     return panel;
   }

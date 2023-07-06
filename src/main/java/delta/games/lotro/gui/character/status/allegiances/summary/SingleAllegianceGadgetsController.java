@@ -43,7 +43,7 @@ public class SingleAllegianceGadgetsController
     // State
     _state=GuiFactory.buildLabel("?");
     // Button
-    _button=GuiFactory.buildButton("Details...");
+    _button=GuiFactory.buildButton("Details..."); // I18n
     // Init
     setAllegiance(status.getAllegiance());
     setAllegianceStatus(status);
@@ -134,17 +134,17 @@ public class SingleAllegianceGadgetsController
   {
     if (status==null)
     {
-      return "Unknown";
+      return "Unknown"; // I18n
     }
     Integer level=status.getCurrentLevel();
     if (level==null)
     {
-      return "Not Started";
+      return "Not Started"; // I18n
     }
     int maxLevel=status.getPoints2LevelCurve().getMaxLevel();
     if (level.intValue()>=maxLevel)
     {
-      return "Finished";
+      return "Finished"; // I18n
     }
     return level+" / "+maxLevel;
   }

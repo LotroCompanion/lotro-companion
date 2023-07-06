@@ -43,7 +43,7 @@ public class BuffsTableBuilder
           return icon;
         }
       };
-      DefaultTableColumnController<Buff,ImageIcon> iconColumn=new DefaultTableColumnController<Buff,ImageIcon>("Icon",ImageIcon.class,iconCell);
+      DefaultTableColumnController<Buff,ImageIcon> iconColumn=new DefaultTableColumnController<Buff,ImageIcon>("Icon",ImageIcon.class,iconCell); // I18n
       iconColumn.setWidthSpecs(50,50,50);
       iconColumn.setSortable(false);
       table.addColumnController(iconColumn);
@@ -58,7 +58,7 @@ public class BuffsTableBuilder
           return buff.getLabel();
         }
       };
-      DefaultTableColumnController<Buff,String> nameColumn=new DefaultTableColumnController<Buff,String>("Name",String.class,nameCell);
+      DefaultTableColumnController<Buff,String> nameColumn=new DefaultTableColumnController<Buff,String>("Name",String.class,nameCell); // I18n
       nameColumn.setWidthSpecs(100,-1,210);
       table.addColumnController(nameColumn);
     }
@@ -72,7 +72,7 @@ public class BuffsTableBuilder
           return buff.getRequiredClass();
         }
       };
-      DefaultTableColumnController<Buff,ClassDescription> classColumn=new DefaultTableColumnController<Buff,ClassDescription>("Class",ClassDescription.class,classCell);
+      DefaultTableColumnController<Buff,ClassDescription> classColumn=new DefaultTableColumnController<Buff,ClassDescription>("Class",ClassDescription.class,classCell); // I18n
       classColumn.setWidthSpecs(100,100,50);
       table.addColumnController(classColumn);
     }
@@ -86,7 +86,7 @@ public class BuffsTableBuilder
           return buff.getRequiredRace();
         }
       };
-      DefaultTableColumnController<Buff,RaceDescription> classColumn=new DefaultTableColumnController<Buff,RaceDescription>("Race",RaceDescription.class,classCell);
+      DefaultTableColumnController<Buff,RaceDescription> classColumn=new DefaultTableColumnController<Buff,RaceDescription>("Race",RaceDescription.class,classCell); // I18n
       classColumn.setWidthSpecs(100,100,50);
       table.addColumnController(classColumn);
     }

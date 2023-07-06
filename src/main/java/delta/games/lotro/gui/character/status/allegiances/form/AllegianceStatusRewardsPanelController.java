@@ -58,12 +58,12 @@ public class AllegianceStatusRewardsPanelController
     ret.add(_stateFilter.getPanel(),c);
     // Summary
     JScrollPane summaryPane=GuiFactory.buildScrollPane(_summary.getPanel());
-    summaryPane.setBorder(GuiFactory.buildTitledBorder("Total"));
+    summaryPane.setBorder(GuiFactory.buildTitledBorder("Total")); // I18n
     c=new GridBagConstraints(0,1,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(5,5,5,5),0,0);
     ret.add(summaryPane,c);
     // Details
     JScrollPane detailsPane=GuiFactory.buildScrollPane(_details.getPanel());
-    detailsPane.setBorder(GuiFactory.buildTitledBorder("Details"));
+    detailsPane.setBorder(GuiFactory.buildTitledBorder("Details")); // I18n
     c=new GridBagConstraints(1,1,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(5,5,5,5),0,0);
     ret.add(detailsPane,c);
     return ret;

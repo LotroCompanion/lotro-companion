@@ -68,13 +68,13 @@ public class BlacklistController<T extends Identifiable> implements Disposable
         handleButton(button.getActionCommand());
       }
     };
-    _add=GuiFactory.buildButton("Add");
+    _add=GuiFactory.buildButton("Add"); // I18n
     _add.setActionCommand(ADD);
     _add.addActionListener(alButtons);
-    _remove=GuiFactory.buildButton("Remove");
+    _remove=GuiFactory.buildButton("Remove"); // I18n
     _remove.setActionCommand(REMOVE);
     _remove.addActionListener(alButtons);
-    _active=new CheckboxController("Active");
+    _active=new CheckboxController("Active"); // I18n
     _active.setSelected(true);
     ActionListener alCheckbox=new ActionListener()
     {
@@ -147,7 +147,7 @@ public class BlacklistController<T extends Identifiable> implements Disposable
     ret.add(_add,c);
     c=new GridBagConstraints(2,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,5),0,0);
     ret.add(_remove,c);
-    ret.setBorder(GuiFactory.buildTitledBorder("Blacklist"));
+    ret.setBorder(GuiFactory.buildTitledBorder("Blacklist")); // I18n
     return ret;
   }
 

@@ -40,7 +40,7 @@ public class AchievablesReputationTableController extends ReputationTableControl
     super.defineColumns(table);
     // Achievables count column
     {
-      String name=(_mode==AchievableUIMode.DEED)?"Deeds":"Quests";
+      String name=(_mode==AchievableUIMode.DEED)?"Deeds":"Quests"; // I18n
       CellDataProvider<AchievablesFactionStats,Integer> countCell=new CellDataProvider<AchievablesFactionStats,Integer>()
       {
         @Override
@@ -66,7 +66,7 @@ public class AchievablesReputationTableController extends ReputationTableControl
           return count;
         }
       };
-      DefaultTableColumnController<AchievablesFactionStats,Integer> completionsCountColumn=new DefaultTableColumnController<AchievablesFactionStats,Integer>(COMPLETIONS_COUNT,"Completions",Integer.class,completionsCountCell);
+      DefaultTableColumnController<AchievablesFactionStats,Integer> completionsCountColumn=new DefaultTableColumnController<AchievablesFactionStats,Integer>(COMPLETIONS_COUNT,"Completions",Integer.class,completionsCountCell); // I18n
       completionsCountColumn.setWidthSpecs(60,60,60);
       table.addColumnController(completionsCountColumn);
     }

@@ -32,7 +32,7 @@ public class TraitTreeEditionDialog extends DefaultFormDialogController<TraitTre
   protected JDialog build()
   {
     JDialog dialog=super.build();
-    dialog.setTitle("Trait tree edition...");
+    dialog.setTitle("Trait tree edition..."); // I18n
     dialog.setResizable(false);
     return dialog;
   }

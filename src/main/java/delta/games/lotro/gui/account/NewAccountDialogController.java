@@ -39,7 +39,7 @@ public class NewAccountDialogController extends DefaultFormDialogController<Obje
   protected JDialog build()
   {
     JDialog dialog=super.build();
-    dialog.setTitle("New account...");
+    dialog.setTitle("New account..."); // I18n
     dialog.setResizable(false);
     return dialog;
   }
@@ -48,7 +48,7 @@ public class NewAccountDialogController extends DefaultFormDialogController<Obje
   protected JPanel buildFormPanel()
   {
     JPanel dataPanel=buildNewAccountPanel();
-    TitledBorder pathsBorder=GuiFactory.buildTitledBorder("Account");
+    TitledBorder pathsBorder=GuiFactory.buildTitledBorder("Account"); // I18n
     dataPanel.setBorder(pathsBorder);
     return dataPanel;
   }
@@ -60,14 +60,14 @@ public class NewAccountDialogController extends DefaultFormDialogController<Obje
     _accountName=GuiFactory.buildTextField("");
     _accountName.setColumns(ACCOUNT_NAME_SIZE);
     GridBagConstraints gbc=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
-    panel.add(GuiFactory.buildLabel("Name:"),gbc);
+    panel.add(GuiFactory.buildLabel("Name:"),gbc); // I18n
     gbc=new GridBagConstraints(1,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(5,5,5,5),0,0);
     panel.add(_accountName,gbc);
     // Subscription key
     _subscriptionKey=GuiFactory.buildTextField("");
     _subscriptionKey.setColumns(ACCOUNT_NAME_SIZE);
     gbc=new GridBagConstraints(0,1,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
-    panel.add(GuiFactory.buildLabel("Subcription:"),gbc);
+    panel.add(GuiFactory.buildLabel("Subcription:"),gbc); // I18n
     gbc=new GridBagConstraints(1,1,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(5,5,5,5),0,0);
     panel.add(_subscriptionKey,gbc);
 
@@ -84,7 +84,7 @@ public class NewAccountDialogController extends DefaultFormDialogController<Obje
     Account account=manager.addAccount(accountID);
     if (account==null)
     {
-      showErrorMessage("Account creation failed!");
+      showErrorMessage("Account creation failed!"); // I18n
     }
   }
 
@@ -106,14 +106,14 @@ public class NewAccountDialogController extends DefaultFormDialogController<Obje
     String accountName=_accountName.getText();
     if ((accountName==null) || (accountName.trim().length()==0))
     {
-      errorMsg="Invalid account name!";
+      errorMsg="Invalid account name!"; // I18n
     }
     return errorMsg;
   }
 
   private void showErrorMessage(String errorMsg)
   {
-    String title="Account creation";
+    String title="Account creation"; // I18n
     JDialog dialog=getDialog();
     GuiFactory.showErrorDialog(dialog,errorMsg,title);
   }

@@ -46,7 +46,7 @@ public class SameCosmeticsWindowController extends DefaultDialogController
   protected JDialog build()
   {
     JDialog dialog=super.build();
-    dialog.setTitle("Same cosmetics");
+    dialog.setTitle("Same cosmetics"); // I18n
     dialog.pack();
     int width=dialog.getWidth()+20;
     dialog.setSize(width,INITIAL_HEIGHT);

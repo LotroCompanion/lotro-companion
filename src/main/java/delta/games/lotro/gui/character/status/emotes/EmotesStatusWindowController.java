@@ -48,7 +48,7 @@ public class EmotesStatusWindowController extends DefaultWindowController
   protected JFrame build()
   {
     JFrame frame=super.build();
-    frame.setTitle("Emotes Status");
+    frame.setTitle("Emotes Status"); // I18n
     frame.pack();
     frame.setSize(frame.getWidth(),INITIAL_HEIGHT);
     frame.setMinimumSize(new Dimension(frame.getWidth(),MIN_HEIGHT));

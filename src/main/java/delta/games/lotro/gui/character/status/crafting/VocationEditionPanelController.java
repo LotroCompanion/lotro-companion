@@ -111,7 +111,7 @@ public class VocationEditionPanelController extends AbstractPanelController
     }
     else
     {
-      JLabel centerLabel=new JLabel("No vocation!");
+      JLabel centerLabel=new JLabel("No vocation!"); // I18n
       centerComponent=centerLabel;
       _tabbedPane=null;
     }
@@ -150,7 +150,7 @@ public class VocationEditionPanelController extends AbstractPanelController
       FactionStatusPanelController panelController=new FactionStatusPanelController(this,guildStatus.getFactionStatus());
       _guildStatus.add(panelController);
       JPanel guildPanel=panelController.getPanel();
-      _tabbedPane.add("Guild: "+guildedProfession.getName(),guildPanel);
+      _tabbedPane.add("Guild: "+guildedProfession.getName(),guildPanel); // I18n
       if (guildedProfession==toShow)
       {
         toSelect=guildPanel;

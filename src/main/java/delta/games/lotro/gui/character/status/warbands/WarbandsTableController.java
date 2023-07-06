@@ -318,7 +318,7 @@ public class WarbandsTableController
     String lastDateStr;
     if (date==null)
     {
-      lastDateStr="never";
+      lastDateStr="never"; // I18n
     }
     else
     {
@@ -331,11 +331,11 @@ public class WarbandsTableController
     }
     else if (nbTimes==1)
     {
-      nbTimesStr="1 time";
+      nbTimesStr="1 time"; // I18n
     }
     else
     {
-      nbTimesStr=nbTimes+" times";
+      nbTimesStr=nbTimes+" times"; // I18n
     }
     JPanel textPanel=GuiFactory.buildPanel(new GridBagLayout());
     // Last date

@@ -75,7 +75,7 @@ public class BuffEditionPanelController implements ActionListener
   private void build()
   {
     _panel=GuiFactory.buildPanel(new FlowLayout());
-    JButton traitTreeButton=GuiFactory.buildButton("Trait tree...");
+    JButton traitTreeButton=GuiFactory.buildButton("Trait tree..."); // I18n
     _panel.add(traitTreeButton);
     ActionListener alTraitTree=new ActionListener()
     {
@@ -89,7 +89,7 @@ public class BuffEditionPanelController implements ActionListener
     _iconsPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
     buildBuffControllers(_panel);
     _panel.add(_iconsPanel);
-    JButton button=GuiFactory.buildButton("Add...");
+    JButton button=GuiFactory.buildButton("Add..."); // I18n
     _panel.add(button);
     ActionListener al=new ActionListener()
     {
@@ -149,7 +149,7 @@ public class BuffEditionPanelController implements ActionListener
   private JPopupMenu buildContextualMenu()
   {
     JPopupMenu popup=new JPopupMenu();
-    JMenuItem remove=new JMenuItem("Remove");
+    JMenuItem remove=new JMenuItem("Remove"); // I18n
     remove.setActionCommand(REMOVE_COMMAND);
     remove.addActionListener(this);
     popup.add(remove);

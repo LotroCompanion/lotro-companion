@@ -57,7 +57,7 @@ public class RelicsInventoryColumnsBuilder
           return Integer.valueOf(item.getCount());
         }
       };
-      DefaultTableColumnController<RelicsInventoryEntry,Integer> countColumn=new DefaultTableColumnController<RelicsInventoryEntry,Integer>(COUNT_COLUMN,"Count",Integer.class,countCell);
+      DefaultTableColumnController<RelicsInventoryEntry,Integer> countColumn=new DefaultTableColumnController<RelicsInventoryEntry,Integer>(COUNT_COLUMN,"Count",Integer.class,countCell); // I18n
       countColumn.setWidthSpecs(55,55,50);
       ret.add(countColumn);
     }

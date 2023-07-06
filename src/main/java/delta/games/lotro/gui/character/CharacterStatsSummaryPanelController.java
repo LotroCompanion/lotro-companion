@@ -86,11 +86,11 @@ public class CharacterStatsSummaryPanelController
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     GridBagConstraints c1=new GridBagConstraints(0,0,1,2,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     StatDescription[][] statGroups1={main,mainStats,offence};
-    String[] groupNames1={"Vitals","Main","Offence"};
+    String[] groupNames1={"Vitals","Main","Offence"}; // I18n
     JPanel p1=showStatsColumn(statGroups1,groupNames1,true);
     panel.add(p1,c1);
     StatDescription[][] statGroups2={defence,avoidance,mitigation};
-    String[] groupNames2={"Defence","Avoidance","Mitigation"};
+    String[] groupNames2={"Defence","Avoidance","Mitigation"}; // I18n
     JPanel p2=showStatsColumn(statGroups2,groupNames2,false);
     GridBagConstraints c2=new GridBagConstraints(1,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(p2,c2);
@@ -98,7 +98,7 @@ public class CharacterStatsSummaryPanelController
     // Buttons
     JPanel buttonsPanel=GuiFactory.buildPanel(new FlowLayout());
     // Details button
-    JButton details=GuiFactory.buildButton("Details...");
+    JButton details=GuiFactory.buildButton("Details..."); // I18n
     ActionListener alDetails=new ActionListener()
     {
       @Override
@@ -110,7 +110,7 @@ public class CharacterStatsSummaryPanelController
     details.addActionListener(alDetails);
     buttonsPanel.add(details);
     // Contribs button
-    JButton contribs=GuiFactory.buildButton("Contribs...");
+    JButton contribs=GuiFactory.buildButton("Contribs..."); // I18n
     ActionListener alContribs=new ActionListener()
     {
       @Override

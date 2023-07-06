@@ -53,7 +53,7 @@ public class StorageStatisticsWindowController extends DefaultDialogController
     dialog.setMinimumSize(new Dimension(400,300));
     dialog.setSize(400,400);
     dialog.setResizable(true);
-    dialog.setTitle("Storage Statistics");
+    dialog.setTitle("Storage Statistics"); // I18n
     return dialog;
   }
 

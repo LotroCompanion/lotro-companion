@@ -50,7 +50,7 @@ public class DeedStatusDialogController extends DefaultFormDialogController<Achi
   protected JDialog build()
   {
     JDialog dialog=super.build();
-    dialog.setTitle("Deed status edition...");
+    dialog.setTitle("Deed status edition..."); // I18n
     dialog.setResizable(true);
     dialog.pack();
     Dimension size=dialog.getSize();

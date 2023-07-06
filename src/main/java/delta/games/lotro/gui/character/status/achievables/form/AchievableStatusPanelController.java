@@ -155,7 +155,7 @@ public class AchievableStatusPanelController extends AbstractPanelController imp
     if (useCompletionCount())
     {
       panel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
-      panel.add(GuiFactory.buildLabel("Completion count:"));
+      panel.add(GuiFactory.buildLabel("Completion count:")); // I18n
       _completionCount=GuiFactory.buildLabel("-");
       panel.add(_completionCount);
     }
@@ -181,7 +181,7 @@ public class AchievableStatusPanelController extends AbstractPanelController imp
     if (mode==AchievableUIMode.DEED)
     {
       panel=GuiFactory.buildPanel(new FlowLayout());
-      panel.add(GuiFactory.buildLabel("Completion date:"));
+      panel.add(GuiFactory.buildLabel("Completion date:")); // I18n
       _completionDate=new DateEditionController(DateFormat.getDateTimeCodec());
       panel.add(_completionDate.getTextField());
     }
@@ -213,7 +213,7 @@ public class AchievableStatusPanelController extends AbstractPanelController imp
     {
       AchievableGeoStatusManager geoStatusManager=new AchievableGeoStatusManager(_status,this);
       _geoController=new AchievableGeoStatusEditionController(parent,geoStatusManager,_config.isEditable());
-      toggleMap=GuiFactory.buildButton("Map");
+      toggleMap=GuiFactory.buildButton("Map"); // I18n
       ActionListener mapActionListener=new ActionListener()
       {
         @Override

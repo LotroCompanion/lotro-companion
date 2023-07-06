@@ -75,7 +75,7 @@ public class TraitPointsTableController
           return Boolean.valueOf(_pointsStatus.isAcquired(item.getId()));
         }
       };
-      DefaultTableColumnController<TraitPoint,Boolean> acquiredColumn=new DefaultTableColumnController<TraitPoint,Boolean>("Acquired",Boolean.class,acquiredCell);
+      DefaultTableColumnController<TraitPoint,Boolean> acquiredColumn=new DefaultTableColumnController<TraitPoint,Boolean>("Acquired",Boolean.class,acquiredCell); // I18n
       acquiredColumn.setWidthSpecs(80,80,80);
       acquiredColumn.setEditable(true);
       acquiredColumn.setCellRenderer(new TraitPointCellRenderer());
@@ -105,12 +105,12 @@ public class TraitPointsTableController
           return item.getLabel();
         }
       };
-      DefaultTableColumnController<TraitPoint,String> labelColumn=new DefaultTableColumnController<TraitPoint,String>("Label",String.class,descriptionCell);
+      DefaultTableColumnController<TraitPoint,String> labelColumn=new DefaultTableColumnController<TraitPoint,String>("Label",String.class,descriptionCell); // I18n
       labelColumn.setWidthSpecs(100,-1,100);
       table.addColumnController(labelColumn);
     }
     // Show
-    DefaultTableColumnController<TraitPoint,String> column=table.buildButtonColumn("SHOW","Show...",90);
+    DefaultTableColumnController<TraitPoint,String> column=table.buildButtonColumn("SHOW","Show...",90); // I18n
     ActionListener al=new ActionListener()
     {
       @Override

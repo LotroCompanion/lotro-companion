@@ -126,7 +126,7 @@ public class WardrobeItemsTableController
           return wardrobeItem.getColorsLabel();
         }
       };
-      DefaultTableColumnController<WardrobeItem,String> colorColumn=new DefaultTableColumnController<WardrobeItem,String>(COLOR_COLUMN,"Color",String.class,colorCell);
+      DefaultTableColumnController<WardrobeItem,String> colorColumn=new DefaultTableColumnController<WardrobeItem,String>(COLOR_COLUMN,"Color",String.class,colorCell); // I18n
       colorColumn.setWidthSpecs(100,100,100);
       ret.add(colorColumn);
     }

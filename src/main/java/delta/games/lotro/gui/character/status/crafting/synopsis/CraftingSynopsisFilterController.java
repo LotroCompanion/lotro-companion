@@ -91,7 +91,7 @@ public class CraftingSynopsisFilterController
       }
     };
     _professions.addListener(listener);
-    panel.add(GuiFactory.buildLabel("Profession:"));
+    panel.add(GuiFactory.buildLabel("Profession:")); // I18n
     panel.add(_professions.getComboBox());
     return panel;
   }

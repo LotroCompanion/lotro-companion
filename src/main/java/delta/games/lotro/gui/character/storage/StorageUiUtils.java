@@ -48,7 +48,7 @@ public class StorageUiUtils
     else
     {
       bar.setForeground(Color.LIGHT_GRAY);
-      bar.setString("(unknown)");
+      bar.setString("(unknown)"); // I18n
       bar.setMaximum(100);
       bar.setValue(100);
     }

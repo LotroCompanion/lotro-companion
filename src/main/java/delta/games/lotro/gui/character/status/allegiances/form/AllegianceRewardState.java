@@ -9,15 +9,15 @@ public enum AllegianceRewardState
   /**
    * Future.
    */
-  FUTURE("Future"),
+  FUTURE("Future"), // I18n
   /**
    * Unlocked (but not claimed).
    */
-  UNLOCKED("Unlocked"),
+  UNLOCKED("Unlocked"), // I18n
   /**
    * Claimed.
    */
-  CLAIMED("Claimed");
+  CLAIMED("Claimed"); // I18n
 
   private String _label;
 

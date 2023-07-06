@@ -75,7 +75,7 @@ public class WarbandsWindowController extends DefaultWindowController
   {
     JFrame frame=super.build();
     // Title
-    String title="Warbands statistics";
+    String title="Warbands statistics"; // I18n
     frame.setTitle(title);
     // Minimum size
     frame.setMinimumSize(new Dimension(800,400));

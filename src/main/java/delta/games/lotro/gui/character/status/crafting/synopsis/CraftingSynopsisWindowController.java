@@ -68,7 +68,7 @@ public class CraftingSynopsisWindowController extends DefaultWindowController
   {
     JFrame frame=super.build();
     // Title
-    String title="Crafting synopsis";
+    String title="Crafting synopsis"; // I18n
     frame.setTitle(title);
     // Minimum size
     frame.setMinimumSize(new Dimension(650,400));

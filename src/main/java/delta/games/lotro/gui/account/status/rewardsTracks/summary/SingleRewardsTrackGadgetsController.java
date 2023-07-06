@@ -31,7 +31,7 @@ public class SingleRewardsTrackGadgetsController
     // State
     _state=GuiFactory.buildLabel("?");
     // Button
-    _button=GuiFactory.buildButton("Details...");
+    _button=GuiFactory.buildButton("Details..."); // I18n
     // Init
     setRewardsTrackStatus(status);
   }
@@ -92,7 +92,7 @@ public class SingleRewardsTrackGadgetsController
     int currentMilestone=status.getCurrentMilestone();
     if (currentMilestone==0)
     {
-      return "Not Started";
+      return "Not Started"; // I18n
     }
     RewardsTrack rewardsTrack=status.getRewardsTrack();
     String claimedComplement="";
@@ -100,14 +100,14 @@ public class SingleRewardsTrackGadgetsController
     if (claimed<currentMilestone)
     {
       int toClaim=currentMilestone-claimed;
-      claimedComplement=" ("+toClaim+" to claim"+")";
+      claimedComplement=" ("+toClaim+" to claim"+")"; // I18n
     }
     int maxLevel=rewardsTrack.getSize();
     if (currentMilestone>=maxLevel)
     {
       int nbRepeats=currentMilestone-maxLevel+1;
-      String complement=(nbRepeats>1)?" (last step x"+nbRepeats+")":"";
-      return "Finished"+complement+claimedComplement;
+      String complement=(nbRepeats>1)?" (last step x"+nbRepeats+")":""; // I18n
+      return "Finished"+complement+claimedComplement; // I18n
     }
     return currentMilestone+" / "+maxLevel+claimedComplement;
   }

@@ -48,11 +48,11 @@ public class RecipesStatsDisplayPanelController
 
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     // Auto
-    _autoRecipesCount=buildLabelLine(panel,c,"Auto: ");
+    _autoRecipesCount=buildLabelLine(panel,c,"Auto: "); // I18n
     // Learnt
-    _learntRecipesCount=buildLabelLine(panel,c,"Learnt: ");
+    _learntRecipesCount=buildLabelLine(panel,c,"Learnt: "); // I18n
     // Not known
-    _notKnownRecipesCount=buildLabelLine(panel,c,"Not known: ");
+    _notKnownRecipesCount=buildLabelLine(panel,c,"Not known: "); // I18n
     return panel;
   }
 

@@ -88,7 +88,7 @@ public class StatContribsPanelController
     {
       _chartPanel=new StatContribsChartPanelController();
       JPanel chartPanel=_chartPanel.getPanel();
-      TitledBorder border=GuiFactory.buildTitledBorder("Contributions Chart");
+      TitledBorder border=GuiFactory.buildTitledBorder("Contributions Chart"); // I18n
       chartPanel.setBorder(border);
       panel.add(chartPanel,BorderLayout.CENTER);
     }
@@ -110,7 +110,7 @@ public class StatContribsPanelController
     JPanel configPanel=buildConfigurationPanel();
     panel.add(configPanel,BorderLayout.NORTH);
     JScrollPane scroll=GuiFactory.buildScrollPane(_table.getTable());
-    TitledBorder border=GuiFactory.buildTitledBorder("Contributions Table");
+    TitledBorder border=GuiFactory.buildTitledBorder("Contributions Table"); // I18n
     scroll.setBorder(border);
     panel.add(scroll,BorderLayout.CENTER);
     _totals=GuiFactory.buildLabel("");
@@ -134,7 +134,7 @@ public class StatContribsPanelController
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(_merged.getCheckbox(),c);
-    TitledBorder border=GuiFactory.buildTitledBorder("Configuration");
+    TitledBorder border=GuiFactory.buildTitledBorder("Configuration"); // I18n
     panel.setBorder(border);
     return panel;
   }
@@ -159,7 +159,7 @@ public class StatContribsPanelController
   {
     _statChooser=buildStatCombo();
     JPanel panel=GuiFactory.buildPanel(new FlowLayout());
-    panel.add(GuiFactory.buildLabel("Stat:"));
+    panel.add(GuiFactory.buildLabel("Stat:")); // I18n
     panel.add(_statChooser.getComboBox());
     return panel;
   }

@@ -64,7 +64,7 @@ public class AccountsTableController implements GenericEventsListener<AccountEve
           return data.getName();
         }
       };
-      DefaultTableColumnController<Account,String> nameColumn=new DefaultTableColumnController<Account,String>(AccountColumnIds.NAME.name(),"Name",String.class,nameCell);
+      DefaultTableColumnController<Account,String> nameColumn=new DefaultTableColumnController<Account,String>(AccountColumnIds.NAME.name(),"Name",String.class,nameCell); // I18n
       nameColumn.setWidthSpecs(100,100,100);
       table.addColumnController(nameColumn);
     }
@@ -79,7 +79,7 @@ public class AccountsTableController implements GenericEventsListener<AccountEve
           return data.getSubscriptionKey();
         }
       };
-      DefaultTableColumnController<Account,String> subscriptionColumn=new DefaultTableColumnController<Account,String>(AccountColumnIds.SUBSCRIPTION.name(),"Subscription",String.class,subscriptionCell);
+      DefaultTableColumnController<Account,String> subscriptionColumn=new DefaultTableColumnController<Account,String>(AccountColumnIds.SUBSCRIPTION.name(),"Subscription",String.class,subscriptionCell); // I18n
       subscriptionColumn.setWidthSpecs(230,230,230);
       table.addColumnController(subscriptionColumn);
     }
@@ -95,7 +95,7 @@ public class AccountsTableController implements GenericEventsListener<AccountEve
           return (signupDate!=null)?new Date(signupDate.longValue()):null;
         }
       };
-      DefaultTableColumnController<Account,Date> signupDateColumn=new DefaultTableColumnController<Account,Date>(AccountColumnIds.SIGNUP_DATE.name(),"Signup Date",Date.class,signupDateCell);
+      DefaultTableColumnController<Account,Date> signupDateColumn=new DefaultTableColumnController<Account,Date>(AccountColumnIds.SIGNUP_DATE.name(),"Signup Date",Date.class,signupDateCell); // I18n
       ColumnsUtils.configureDateColumn(signupDateColumn);
       table.addColumnController(signupDateColumn);
     }
@@ -110,7 +110,7 @@ public class AccountsTableController implements GenericEventsListener<AccountEve
           return data.getAccountType();
         }
       };
-      DefaultTableColumnController<Account,AccountType> accountTypeColumn=new DefaultTableColumnController<Account,AccountType>(AccountColumnIds.TYPE.name(),"Type",AccountType.class,accountTypeCell);
+      DefaultTableColumnController<Account,AccountType> accountTypeColumn=new DefaultTableColumnController<Account,AccountType>(AccountColumnIds.TYPE.name(),"Type",AccountType.class,accountTypeCell); // I18n
       accountTypeColumn.setWidthSpecs(100,100,100);
       table.addColumnController(accountTypeColumn);
     }
@@ -125,7 +125,7 @@ public class AccountsTableController implements GenericEventsListener<AccountEve
           return data.getUserData();
         }
       };
-      DefaultTableColumnController<Account,String> userDataColumn=new DefaultTableColumnController<Account,String>(AccountColumnIds.USER_DATA.name(),"Comments",String.class,userDataCell);
+      DefaultTableColumnController<Account,String> userDataColumn=new DefaultTableColumnController<Account,String>(AccountColumnIds.USER_DATA.name(),"Comments",String.class,userDataCell); // I18n
       userDataColumn.setWidthSpecs(100,-1,200);
       table.addColumnController(userDataColumn);
     }

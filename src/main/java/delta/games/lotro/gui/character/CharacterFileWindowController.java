@@ -159,7 +159,7 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     JPanel tablePanel=buildTablePanel();
     c=new GridBagConstraints(0,1,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
     panel.add(tablePanel,c);
-    tablePanel.setBorder(GuiFactory.buildTitledBorder("Configurations"));
+    tablePanel.setBorder(GuiFactory.buildTitledBorder("Configurations")); // I18n
     // Command buttons
     JPanel commandsPanel=buildCommandsPanel();
     c=new GridBagConstraints(0,2,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
@@ -174,7 +174,7 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     // Title
     String name=_toon.getName();
     String serverName=_toon.getServerName();
-    String title="Character: "+name+" @ "+serverName;
+    String title="Character: "+name+" @ "+serverName; // I18n
     frame.setTitle(title);
     frame.pack();
     frame.setResizable(true);
@@ -196,78 +196,78 @@ public class CharacterFileWindowController extends DefaultWindowController imple
 
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,5,2,0),0,0);
     // Deeds status
-    JButton deedsButton=buildCommandButton("Deeds",DEEDS_STATUS_COMMAND);
+    JButton deedsButton=buildCommandButton("Deeds",DEEDS_STATUS_COMMAND); // I18n
     panel.add(deedsButton,c);c.gridx++;
     // Titles status
-    JButton titlesButton=buildCommandButton("Titles",TITLES_STATUS_COMMAND);
+    JButton titlesButton=buildCommandButton("Titles",TITLES_STATUS_COMMAND); // I18n
     panel.add(titlesButton,c);c.gridx++;
     // Reputation
-    JButton reputationButton=buildCommandButton("Reputation",REPUTATION_COMMAND);
+    JButton reputationButton=buildCommandButton("Reputation",REPUTATION_COMMAND); // I18n
     panel.add(reputationButton,c);c.gridx++;
     // Crafting
-    JButton craftingButton=buildCommandButton("Crafting",CRAFTING_COMMAND);
+    JButton craftingButton=buildCommandButton("Crafting",CRAFTING_COMMAND); // I18n
     panel.add(craftingButton,c);c.gridx++;
     // Storage
-    JButton storageButton=buildCommandButton("Storage",STORAGE_COMMAND);
+    JButton storageButton=buildCommandButton("Storage",STORAGE_COMMAND); // I18n
     panel.add(storageButton,c);c.gridx++;
     // Tasks status
-    JButton tasksButton=buildCommandButton("Tasks",TASKS_STATUS_COMMAND);
+    JButton tasksButton=buildCommandButton("Tasks",TASKS_STATUS_COMMAND); // I18n
     panel.add(tasksButton,c);c.gridx++;
     // Relics inventory statistics
-    JButton relicsButton=buildCommandButton("Relics",RELICS_INVENTORY_COMMAND);
+    JButton relicsButton=buildCommandButton("Relics",RELICS_INVENTORY_COMMAND); // I18n
     panel.add(relicsButton,c);c.gridx++;
     // Log
-    JButton logButton=buildCommandButton("Log",LOG_COMMAND);
+    JButton logButton=buildCommandButton("Log",LOG_COMMAND); // I18n
     c.insets.right=5;
     panel.add(logButton,c);c.gridx++;
     // Currencies
-    JButton currenciesButton=buildCommandButton("Currencies",CURRENCIES_COMMAND);
+    JButton currenciesButton=buildCommandButton("Currencies",CURRENCIES_COMMAND); // I18n
     panel.add(currenciesButton,c);c.gridx++;
     // Emotes status
-    JButton emotesButton=buildCommandButton("Emotes",EMOTES_COMMAND);
+    JButton emotesButton=buildCommandButton("Emotes",EMOTES_COMMAND); // I18n
     panel.add(emotesButton,c);c.gridx++;
     // Mounts status
-    JButton mountsButton=buildCommandButton("Mounts",MOUNTS_COMMAND);
+    JButton mountsButton=buildCommandButton("Mounts",MOUNTS_COMMAND); // I18n
     panel.add(mountsButton,c);c.gridx++;
     // Notes
-    JButton notesButton=buildCommandButton("Notes",NOTES_COMMAND);
+    JButton notesButton=buildCommandButton("Notes",NOTES_COMMAND); // I18n
     panel.add(notesButton,c);c.gridx++;
 
     c.insets.right=0;
     c.gridx=0;c.gridy++;
     // Quests status
-    JButton questsButton=buildCommandButton("Quests",QUESTS_STATUS_COMMAND);
+    JButton questsButton=buildCommandButton("Quests",QUESTS_STATUS_COMMAND); // I18n
     panel.add(questsButton,c);c.gridx++;
     // Trait points
-    JButton traitPointsButton=buildCommandButton("Trait points",TRAIT_POINTS_COMMAND);
+    JButton traitPointsButton=buildCommandButton("Trait points",TRAIT_POINTS_COMMAND); // I18n
     panel.add(traitPointsButton,c);c.gridx++;
     // Allegiances status
-    JButton allegiancesButton=buildCommandButton("Allegiances",ALLEGIANCES_COMMAND);
+    JButton allegiancesButton=buildCommandButton("Allegiances",ALLEGIANCES_COMMAND); // I18n
     panel.add(allegiancesButton,c);c.gridx++;
     // Recipes status
-    JButton recipesButton=buildCommandButton("Recipes",RECIPES_STATUS_COMMAND);
+    JButton recipesButton=buildCommandButton("Recipes",RECIPES_STATUS_COMMAND); // I18n
     panel.add(recipesButton,c);c.gridx++;
     // Stash
-    JButton stashButton=buildCommandButton("Stash",STASH_COMMAND);
+    JButton stashButton=buildCommandButton("Stash",STASH_COMMAND); // I18n
     panel.add(stashButton,c);c.gridx++;
     // Skirmish statistics
-    JButton skirmishsButton=buildCommandButton("Skirmishs",SKIRMISH_STATS_COMMAND);
+    JButton skirmishsButton=buildCommandButton("Skirmishs",SKIRMISH_STATS_COMMAND); // I18n
     panel.add(skirmishsButton,c);c.gridx++;
     // Levels
-    JButton levelsButton=buildCommandButton("Levels",LEVEL_COMMAND);
+    JButton levelsButton=buildCommandButton("Levels",LEVEL_COMMAND); // I18n
     c.insets.right=5;
     panel.add(levelsButton,c);c.gridx++;
     // Travels status
-    JButton travelsButton=buildCommandButton("Travels",TRAVELS_COMMAND);
+    JButton travelsButton=buildCommandButton("Travels",TRAVELS_COMMAND); // I18n
     panel.add(travelsButton,c);c.gridx++;
     // Outfits
-    JButton outfitsButton=buildCommandButton("Outfits",OUTFITS_COMMAND);
+    JButton outfitsButton=buildCommandButton("Outfits",OUTFITS_COMMAND); // I18n
     panel.add(outfitsButton,c);c.gridx++;
     // Pets status
-    JButton petsButton=buildCommandButton("Pets",PETS_COMMAND);
+    JButton petsButton=buildCommandButton("Pets",PETS_COMMAND); // I18n
     panel.add(petsButton,c);c.gridx++;
     // Hobbies status
-    JButton hobbiesButton=buildCommandButton("Hobbies",HOBBIES_COMMAND);
+    JButton hobbiesButton=buildCommandButton("Hobbies",HOBBIES_COMMAND); // I18n
     panel.add(hobbiesButton,c);c.gridx++;
 
     // Disable buttons if no log
@@ -526,8 +526,8 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     CharacterData data=controller.getSelectedItem();
     if (data!=null)
     {
-      FileChooserController ctrl=new FileChooserController("export", "Export character...");
-      File toFile=ctrl.chooseFile(getWindow(),"Export");
+      FileChooserController ctrl=new FileChooserController("export", "Export character..."); // I18n
+      File toFile=ctrl.chooseFile(getWindow(),"Export"); // I18n
       if (toFile!=null)
       {
         boolean doIt=true;
@@ -538,7 +538,7 @@ public class CharacterFileWindowController extends DefaultWindowController imple
         if (toFile.exists())
         {
           doIt=false;
-          int result=GuiFactory.showQuestionDialog(getFrame(),"Do you really want to overwrite the selected file?","Overwrite?",JOptionPane.YES_NO_OPTION);
+          int result=GuiFactory.showQuestionDialog(getFrame(),"Do you really want to overwrite the selected file?","Overwrite?",JOptionPane.YES_NO_OPTION); // I18n
           if (result==JOptionPane.OK_OPTION)
           {
             doIt=true;
@@ -550,11 +550,11 @@ public class CharacterFileWindowController extends DefaultWindowController imple
           Window window=getWindow();
           if (ok)
           {
-            GuiFactory.showInformationDialog(window,"Export OK!","OK!");
+            GuiFactory.showInformationDialog(window,"Export OK!","OK!"); // I18n
           }
           else
           {
-            GuiFactory.showErrorDialog(window,"Export failed!","Error!");
+            GuiFactory.showErrorDialog(window,"Export failed!","Error!"); // I18n
           }
         }
       }
@@ -570,7 +570,7 @@ public class CharacterFileWindowController extends DefaultWindowController imple
       // Check deletion
       String serverName=data.getServer();
       String toonName=data.getName();
-      int result=GuiFactory.showQuestionDialog(getFrame(),"Do you really want to delete this configuration of " + toonName+"@"+ serverName + "?","Delete?",JOptionPane.YES_NO_OPTION);
+      int result=GuiFactory.showQuestionDialog(getFrame(),"Do you really want to delete this configuration of " + toonName+"@"+ serverName + "?","Delete?",JOptionPane.YES_NO_OPTION); // I18n
       if (result==JOptionPane.OK_OPTION)
       {
         String id=CharacterDataWindowController.getIdentifier(data);

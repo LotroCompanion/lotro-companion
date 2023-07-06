@@ -59,7 +59,7 @@ public class AchievablesStatisticsWindowController<T extends Achievable> extends
   {
     String name=toon.getName();
     String serverName=toon.getServerName();
-    String title="Statistics for "+name+" @ "+serverName;
+    String title="Statistics for "+name+" @ "+serverName; // I18n
     return title;
   }
 

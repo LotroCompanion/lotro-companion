@@ -42,7 +42,7 @@ public class StorageReputationTableController extends ReputationTableController<
           return count;
         }
       };
-      DefaultTableColumnController<StorageFactionStats,Integer> countColumn=new DefaultTableColumnController<StorageFactionStats,Integer>(COUNT,"Items",Integer.class,countCell);
+      DefaultTableColumnController<StorageFactionStats,Integer> countColumn=new DefaultTableColumnController<StorageFactionStats,Integer>(COUNT,"Items",Integer.class,countCell); // I18n
       countColumn.setWidthSpecs(60,60,60);
       table.addColumnController(countColumn);
     }

@@ -56,7 +56,7 @@ public class EmoteEventsTableController
           return item.getEmote();
         }
       };
-      DefaultTableColumnController<EmoteEvent,String> emoteColumn=new DefaultTableColumnController<EmoteEvent,String>(EMOTE,"Emote",String.class,emoteCell);
+      DefaultTableColumnController<EmoteEvent,String> emoteColumn=new DefaultTableColumnController<EmoteEvent,String>(EMOTE,"Emote",String.class,emoteCell); // I18n
       emoteColumn.setWidthSpecs(100,300,200);
       table.addColumnController(emoteColumn);
     }
@@ -71,7 +71,7 @@ public class EmoteEventsTableController
           return (timestamp!=null)?new Date(timestamp.longValue()):null;
         }
       };
-      DefaultTableColumnController<EmoteEvent,Date> completionDateColumn=new DefaultTableColumnController<EmoteEvent,Date>(DATE,"Date",Date.class,completionDateCell);
+      DefaultTableColumnController<EmoteEvent,Date> completionDateColumn=new DefaultTableColumnController<EmoteEvent,Date>(DATE,"Date",Date.class,completionDateCell); // I18n
       ColumnsUtils.configureDateTimeColumn(completionDateColumn);
       table.addColumnController(completionDateColumn);
     }
@@ -85,7 +85,7 @@ public class EmoteEventsTableController
           return item.getAchievable().getName();
         }
       };
-      DefaultTableColumnController<EmoteEvent,String> achievableColumn=new DefaultTableColumnController<EmoteEvent,String>(ACHIEVABLE_NAME,"Source",String.class,achievableCell);
+      DefaultTableColumnController<EmoteEvent,String> achievableColumn=new DefaultTableColumnController<EmoteEvent,String>(ACHIEVABLE_NAME,"Source",String.class,achievableCell); // I18n
       achievableColumn.setWidthSpecs(100,300,200);
       table.addColumnController(achievableColumn);
     }

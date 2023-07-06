@@ -39,7 +39,7 @@ public class HobbiesStatusWindowController extends DefaultWindowController
   protected JFrame build()
   {
     JFrame frame=super.build();
-    frame.setTitle("Hobbies Status");
+    frame.setTitle("Hobbies Status"); // I18n
     frame.pack();
     frame.setResizable(false);
     return frame;

@@ -59,7 +59,7 @@ public class VirtueXPFromAchievablesTableController
           return item.getAchievable().getName();
         }
       };
-      String name=(_mode==AchievableUIMode.DEED)?"Deed":"Quest";
+      String name=(_mode==AchievableUIMode.DEED)?"Deed":"Quest"; // I18n
       DefaultTableColumnController<VirtueXPStatsFromAchievable,String> nameColumn=new DefaultTableColumnController<VirtueXPStatsFromAchievable,String>(ACHIEVABLE_NAME,name,String.class,nameCell);
       nameColumn.setWidthSpecs(200,-1,200);
       table.addColumnController(nameColumn);
@@ -75,7 +75,7 @@ public class VirtueXPFromAchievablesTableController
           return amount;
         }
       };
-      DefaultTableColumnController<VirtueXPStatsFromAchievable,Integer> amountColumn=new DefaultTableColumnController<VirtueXPStatsFromAchievable,Integer>(POINTS,"Points",Integer.class,amountCell);
+      DefaultTableColumnController<VirtueXPStatsFromAchievable,Integer> amountColumn=new DefaultTableColumnController<VirtueXPStatsFromAchievable,Integer>(POINTS,"Points",Integer.class,amountCell); // I18n
       amountColumn.setWidthSpecs(60,60,60);
       table.addColumnController(amountColumn);
     }
@@ -91,7 +91,7 @@ public class VirtueXPFromAchievablesTableController
           return count;
         }
       };
-      DefaultTableColumnController<VirtueXPStatsFromAchievable,Integer> completionsColumn=new DefaultTableColumnController<VirtueXPStatsFromAchievable,Integer>(COUNT,"Completions",Integer.class,completionsCell);
+      DefaultTableColumnController<VirtueXPStatsFromAchievable,Integer> completionsColumn=new DefaultTableColumnController<VirtueXPStatsFromAchievable,Integer>(COUNT,"Completions",Integer.class,completionsCell); // I18n
       completionsColumn.setWidthSpecs(60,60,60);
       table.addColumnController(completionsColumn);
     }

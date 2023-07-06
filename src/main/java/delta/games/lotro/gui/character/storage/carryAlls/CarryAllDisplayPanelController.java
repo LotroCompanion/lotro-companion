@@ -92,7 +92,7 @@ public class CarryAllDisplayPanelController
     JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
     // Label
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
-    ret.add(GuiFactory.buildLabel("Capacity:"),c);
+    ret.add(GuiFactory.buildLabel("Capacity:"),c); // I18n
     // Progress bar
     int capacity=carryAll.getMaxItems();
     int used=_carryAllInstance.getItems().size();

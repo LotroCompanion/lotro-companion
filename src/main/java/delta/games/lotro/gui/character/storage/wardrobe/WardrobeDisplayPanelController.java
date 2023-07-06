@@ -69,7 +69,7 @@ public class WardrobeDisplayPanelController implements FilterUpdateListener
   private JPanel build()
   {
     JPanel panel=GuiFactory.buildPanel(new BorderLayout());
-    TitledBorder border=GuiFactory.buildTitledBorder("Items");
+    TitledBorder border=GuiFactory.buildTitledBorder("Items"); // I18n
     panel.setBorder(border);
 
     // Table
@@ -80,7 +80,7 @@ public class WardrobeDisplayPanelController implements FilterUpdateListener
     JPanel statsPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
     _statsLabel=GuiFactory.buildLabel("-");
     statsPanel.add(_statsLabel);
-    JButton choose=GuiFactory.buildButton("Choose columns...");
+    JButton choose=GuiFactory.buildButton("Choose columns..."); // I18n
     ActionListener al=new ActionListener()
     {
       @Override
@@ -123,11 +123,11 @@ public class WardrobeDisplayPanelController implements FilterUpdateListener
     String label="";
     if (nbFiltered==nbItems)
     {
-      label="Item(s): "+nbItems;
+      label="Item(s): "+nbItems; // I18n
     }
     else
     {
-      label="Item(s): "+nbFiltered+"/"+nbItems;
+      label="Item(s): "+nbFiltered+"/"+nbItems; // I18n
     }
     _statsLabel.setText(label);
   }

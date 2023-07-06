@@ -106,7 +106,7 @@ public class GeoAchievableMapWindowController extends DefaultDialogController
   {
     JDialog dialog=super.build();
     // Title
-    dialog.setTitle("Map");
+    dialog.setTitle("Map"); // I18n
     dialog.pack();
     dialog.setResizable(false);
     return dialog;

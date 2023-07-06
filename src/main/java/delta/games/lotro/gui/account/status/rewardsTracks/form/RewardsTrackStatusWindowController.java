@@ -36,7 +36,7 @@ public class RewardsTrackStatusWindowController extends DefaultDisplayDialogCont
     JDialog dialog=super.build();
     dialog.setMinimumSize(new Dimension(800,500));
     String rewardsTrackName=_data.getRewardsTrack().getName();
-    dialog.setTitle("Rewards track status: "+rewardsTrackName);
+    dialog.setTitle("Rewards track status: "+rewardsTrackName); // I18n
     dialog.setSize(new Dimension(800,700));
     dialog.setMaximumSize(new Dimension(1000,700));
     return dialog;

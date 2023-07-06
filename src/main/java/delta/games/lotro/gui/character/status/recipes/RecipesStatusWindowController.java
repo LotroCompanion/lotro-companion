@@ -79,7 +79,7 @@ public class RecipesStatusWindowController extends DefaultDisplayDialogControlle
   {
     JDialog dialog=super.build();
     dialog.setMinimumSize(new Dimension(1000,300));
-    dialog.setTitle("Recipes status");
+    dialog.setTitle("Recipes status"); // I18n
     dialog.pack();
     Dimension size=dialog.getSize();
     if (size.height>MAX_HEIGHT)
@@ -124,7 +124,7 @@ public class RecipesStatusWindowController extends DefaultDisplayDialogControlle
     // - stats
     JPanel statsPanel=_statsController.getPanel();
     c=new GridBagConstraints(1,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
-    statsPanel.setBorder(GuiFactory.buildTitledBorder("Statistics"));
+    statsPanel.setBorder(GuiFactory.buildTitledBorder("Statistics")); // I18n
     panel.add(statsPanel,c);
     // - table
     c=new GridBagConstraints(0,1,2,1,1,1,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
@@ -139,12 +139,12 @@ public class RecipesStatusWindowController extends DefaultDisplayDialogControlle
     GridBagConstraints c=new GridBagConstraints(0,0,3,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     // Recipe filter
     JPanel recipeFilterPanel=_filterController.getPanel();
-    recipeFilterPanel.setBorder(GuiFactory.buildTitledBorder("Recipe Filter"));
+    recipeFilterPanel.setBorder(GuiFactory.buildTitledBorder("Recipe Filter")); // I18n
     panel.add(recipeFilterPanel,c);
     c=new GridBagConstraints(0,1,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     // Status filter
     JPanel statusFilterPanel=_statusFilterController.getPanel();
-    statusFilterPanel.setBorder(GuiFactory.buildTitledBorder("Status Filter"));
+    statusFilterPanel.setBorder(GuiFactory.buildTitledBorder("Status Filter")); // I18n
     panel.add(statusFilterPanel,c);
     // Blacklist
     JPanel blacklistPanel=_blacklistController.getPanel();

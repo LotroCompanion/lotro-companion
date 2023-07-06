@@ -59,7 +59,7 @@ public class RewardsTrackStatusPanelController
     JPanel summaryPanel=buildAllegianceSummaryPanel();
     // Rewards panel
     JPanel rewardsPanel=_rewards.getPanel();
-    rewardsPanel.setBorder(GuiFactory.buildTitledBorder("Rewards"));
+    rewardsPanel.setBorder(GuiFactory.buildTitledBorder("Rewards")); // I18n
     // Status summary panel
     JPanel statusSummaryPanel=_statusSummary.getPanel();
 
@@ -71,7 +71,7 @@ public class RewardsTrackStatusPanelController
     y++;
     if (statusSummaryPanel!=null)
     {
-      statusSummaryPanel.setBorder(GuiFactory.buildTitledBorder("Status Summary"));
+      statusSummaryPanel.setBorder(GuiFactory.buildTitledBorder("Status Summary")); // I18n
       c=new GridBagConstraints(0,y,1,1,0.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(0,5,0,5),0,0);
       ret.add(statusSummaryPanel,c);
       y++;

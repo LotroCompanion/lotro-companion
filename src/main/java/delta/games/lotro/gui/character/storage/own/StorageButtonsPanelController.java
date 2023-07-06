@@ -67,8 +67,8 @@ public class StorageButtonsPanelController implements FilterUpdateListener
     // Stats button
     JButton statsButton;
     {
-      statsButton=GuiFactory.buildButton("Statistics");
-      statsButton.setToolTipText("Statistics on the selected items...");
+      statsButton=GuiFactory.buildButton("Statistics"); // I18n
+      statsButton.setToolTipText("Statistics on the selected items..."); // I18n
       ActionListener al=new ActionListener()
       {
         @Override
@@ -82,8 +82,8 @@ public class StorageButtonsPanelController implements FilterUpdateListener
     // Cosmetics button
     JButton cosmeticsButton;
     {
-      cosmeticsButton=GuiFactory.buildButton("Cosmetics");
-      cosmeticsButton.setToolTipText("A tool to find items with same look among the selected items...");
+      cosmeticsButton=GuiFactory.buildButton("Cosmetics"); // I18n
+      cosmeticsButton.setToolTipText("A tool to find items with same look among the selected items..."); // I18n
       ActionListener al=new ActionListener()
       {
         @Override

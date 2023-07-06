@@ -79,7 +79,7 @@ public class TasksStatusWindowController extends DefaultDisplayDialogController<
   {
     JDialog dialog=super.build();
     dialog.setMinimumSize(new Dimension(1000,300));
-    dialog.setTitle("Tasks status");
+    dialog.setTitle("Tasks status"); // I18n
     dialog.pack();
     Dimension size=dialog.getSize();
     if (size.height>MAX_HEIGHT)
@@ -125,12 +125,12 @@ public class TasksStatusWindowController extends DefaultDisplayDialogController<
     JPanel statusPanel=GuiFactory.buildPanel(new GridBagLayout());
     // - deeds status
     JPanel taskDeedsPanel=_taskDeedsController.getPanel();
-    taskDeedsPanel.setBorder(GuiFactory.buildTitledBorder("Task Deeds"));
+    taskDeedsPanel.setBorder(GuiFactory.buildTitledBorder("Task Deeds")); // I18n
     c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     statusPanel.add(taskDeedsPanel,c);
     // - quests status
     JPanel taskQuestsPanel=_taskQuestsController.getPanel();
-    taskQuestsPanel.setBorder(GuiFactory.buildTitledBorder("Task Quests"));
+    taskQuestsPanel.setBorder(GuiFactory.buildTitledBorder("Task Quests")); // I18n
     c=new GridBagConstraints(0,1,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     statusPanel.add(taskQuestsPanel,c);
 
@@ -148,12 +148,12 @@ public class TasksStatusWindowController extends DefaultDisplayDialogController<
     GridBagConstraints c=new GridBagConstraints(0,0,3,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     // Task filter
     JPanel taskFilterPanel=_filterController.getPanel();
-    taskFilterPanel.setBorder(GuiFactory.buildTitledBorder("Task Filter"));
+    taskFilterPanel.setBorder(GuiFactory.buildTitledBorder("Task Filter")); // I18n
     panel.add(taskFilterPanel,c);
     c=new GridBagConstraints(0,1,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     // Status filter
     JPanel statusFilterPanel=_statusFilterController.getPanel();
-    statusFilterPanel.setBorder(GuiFactory.buildTitledBorder("Status Filter"));
+    statusFilterPanel.setBorder(GuiFactory.buildTitledBorder("Status Filter")); // I18n
     panel.add(statusFilterPanel,c);
     // Stats button
     JButton b=GuiFactory.buildButton("Stats");

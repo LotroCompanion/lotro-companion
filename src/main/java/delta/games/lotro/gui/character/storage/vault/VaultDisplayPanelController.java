@@ -90,7 +90,7 @@ public class VaultDisplayPanelController
     StorageUiUtils.updateProgressBar(_capacity,Integer.valueOf(used),Integer.valueOf(capacity));
     JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
-    ret.add(GuiFactory.buildLabel("Capacity:"),c);
+    ret.add(GuiFactory.buildLabel("Capacity:"),c); // I18n
     c=new GridBagConstraints(0,1,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,5,5,5),0,0);
     ret.add(_capacity,c);
     return ret;
@@ -117,7 +117,7 @@ public class VaultDisplayPanelController
     JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
     int width=10;
     String chestName=chest.getName();
-    String label="Chest: "+chestName;
+    String label="Chest: "+chestName; // I18n
     ret.setBorder(GuiFactory.buildTitledBorder(label));
     GridBagConstraints c=new GridBagConstraints(0,0,width+1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     ret.add(Box.createHorizontalStrut(width*32),c);
