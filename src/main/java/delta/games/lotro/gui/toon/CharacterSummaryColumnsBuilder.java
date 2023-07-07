@@ -50,7 +50,7 @@ public class CharacterSummaryColumnsBuilder
           return null;
         }
       };
-      DefaultTableColumnController<T,String> iidColumn=new DefaultTableColumnController<T,String>(ToonsTableColumnIds.IID.name(),"ID",String.class,iidCell);
+      DefaultTableColumnController<T,String> iidColumn=new DefaultTableColumnController<T,String>(ToonsTableColumnIds.IID.name(),"ID",String.class,iidCell); // I18n
       iidColumn.setWidthSpecs(130,130,130);
       ret.add(iidColumn);
     }
@@ -64,7 +64,7 @@ public class CharacterSummaryColumnsBuilder
           return item.getName();
         }
       };
-      DefaultTableColumnController<T,String> nameColumn=new DefaultTableColumnController<T,String>(ToonsTableColumnIds.NAME.name(),"Name",String.class,nameCell);
+      DefaultTableColumnController<T,String> nameColumn=new DefaultTableColumnController<T,String>(ToonsTableColumnIds.NAME.name(),"Name",String.class,nameCell); // I18n
       nameColumn.setWidthSpecs(100,100,100);
       ret.add(nameColumn);
     }
@@ -78,7 +78,7 @@ public class CharacterSummaryColumnsBuilder
           return item.getCharacterClass();
         }
       };
-      DefaultTableColumnController<T,ClassDescription> classColumn=new DefaultTableColumnController<T,ClassDescription>(ToonsTableColumnIds.CLASS.name(),"Class",ClassDescription.class,classCell);
+      DefaultTableColumnController<T,ClassDescription> classColumn=new DefaultTableColumnController<T,ClassDescription>(ToonsTableColumnIds.CLASS.name(),"Class",ClassDescription.class,classCell); // I18n
       classColumn.setWidthSpecs(100,100,100);
       ret.add(classColumn);
     }
@@ -92,7 +92,7 @@ public class CharacterSummaryColumnsBuilder
           return Integer.valueOf(item.getLevel());
         }
       };
-      DefaultTableColumnController<T,Integer> levelColumn=new DefaultTableColumnController<T,Integer>(ToonsTableColumnIds.LEVEL.name(),"Level",Integer.class,levelCell);
+      DefaultTableColumnController<T,Integer> levelColumn=new DefaultTableColumnController<T,Integer>(ToonsTableColumnIds.LEVEL.name(),"Level",Integer.class,levelCell); // I18n
       levelColumn.setWidthSpecs(50,50,50);
       ret.add(levelColumn);
     }
@@ -122,7 +122,7 @@ public class CharacterSummaryColumnsBuilder
           return item.getRace();
         }
       };
-      DefaultTableColumnController<T,RaceDescription> raceColumn=new DefaultTableColumnController<T,RaceDescription>(ToonsTableColumnIds.RACE.name(),"Race",RaceDescription.class,raceCell);
+      DefaultTableColumnController<T,RaceDescription> raceColumn=new DefaultTableColumnController<T,RaceDescription>(ToonsTableColumnIds.RACE.name(),"Race",RaceDescription.class,raceCell); // I18n
       raceColumn.setWidthSpecs(100,100,100);
       ret.add(raceColumn);
     }
@@ -136,7 +136,7 @@ public class CharacterSummaryColumnsBuilder
           return item.getCharacterSex();
         }
       };
-      DefaultTableColumnController<T,CharacterSex> sexColumn=new DefaultTableColumnController<T,CharacterSex>(ToonsTableColumnIds.SEX.name(),"Sex",CharacterSex.class,sexCell);
+      DefaultTableColumnController<T,CharacterSex> sexColumn=new DefaultTableColumnController<T,CharacterSex>(ToonsTableColumnIds.SEX.name(),"Sex",CharacterSex.class,sexCell); // I18n
       sexColumn.setWidthSpecs(80,80,80);
       ret.add(sexColumn);
     }
@@ -150,7 +150,7 @@ public class CharacterSummaryColumnsBuilder
           return item.getServer();
         }
       };
-      DefaultTableColumnController<T,String> serverColumn=new DefaultTableColumnController<T,String>(ToonsTableColumnIds.SERVER.name(),"Server",String.class,serverCell);
+      DefaultTableColumnController<T,String> serverColumn=new DefaultTableColumnController<T,String>(ToonsTableColumnIds.SERVER.name(),"Server",String.class,serverCell); // I18n
       serverColumn.setWidthSpecs(100,100,100);
       ret.add(serverColumn);
     }
@@ -165,7 +165,7 @@ public class CharacterSummaryColumnsBuilder
           return (id!=null)?id.getAccountName():"";
         }
       };
-      DefaultTableColumnController<T,String> accountColumn=new DefaultTableColumnController<T,String>(ToonsTableColumnIds.ACCOUNT.name(),"Account",String.class,accountCell);
+      DefaultTableColumnController<T,String> accountColumn=new DefaultTableColumnController<T,String>(ToonsTableColumnIds.ACCOUNT.name(),"Account",String.class,accountCell); // I18n
       accountColumn.setWidthSpecs(100,100,100);
       ret.add(accountColumn);
     }
@@ -180,7 +180,7 @@ public class CharacterSummaryColumnsBuilder
           return (id!=null)?id.getSubscriptionKey():"";
         }
       };
-      DefaultTableColumnController<T,String> accountColumn=new DefaultTableColumnController<T,String>(ToonsTableColumnIds.SUBSCRIPTION.name(),"Subscription",String.class,subscriptionCell);
+      DefaultTableColumnController<T,String> accountColumn=new DefaultTableColumnController<T,String>(ToonsTableColumnIds.SUBSCRIPTION.name(),"Subscription",String.class,subscriptionCell); // I18n
       accountColumn.setWidthSpecs(230,230,230);
       ret.add(accountColumn);
     }
@@ -204,7 +204,7 @@ public class CharacterSummaryColumnsBuilder
           return item.getRegion();
         }
       };
-      DefaultTableColumnController<CharacterSummary,String> regionColumn=new DefaultTableColumnController<CharacterSummary,String>(ToonsTableColumnIds.REGION.name(),"Region",String.class,regionCell);
+      DefaultTableColumnController<CharacterSummary,String> regionColumn=new DefaultTableColumnController<CharacterSummary,String>(ToonsTableColumnIds.REGION.name(),"Region",String.class,regionCell); // I18n
       regionColumn.setWidthSpecs(100,100,100);
       ret.add(regionColumn);
     }
@@ -228,7 +228,7 @@ public class CharacterSummaryColumnsBuilder
           return null;
         }
       };
-      DefaultTableColumnController<CharacterSummary,String> kinshipColumn=new DefaultTableColumnController<CharacterSummary,String>(ToonsTableColumnIds.KINSHIP.name(),"Kinship",String.class,kinshipCell);
+      DefaultTableColumnController<CharacterSummary,String> kinshipColumn=new DefaultTableColumnController<CharacterSummary,String>(ToonsTableColumnIds.KINSHIP.name(),"Kinship",String.class,kinshipCell); // I18n
       kinshipColumn.setWidthSpecs(120,120,120);
       ret.add(kinshipColumn);
     }
@@ -243,7 +243,7 @@ public class CharacterSummaryColumnsBuilder
           return (importDate!=null)?new Date(importDate.longValue()):null;
         }
       };
-      DefaultTableColumnController<CharacterSummary,Date> importDateColumn=new DefaultTableColumnController<CharacterSummary,Date>(ToonsTableColumnIds.IMPORT_DATE.name(),"Import Date",Date.class,importDateCell);
+      DefaultTableColumnController<CharacterSummary,Date> importDateColumn=new DefaultTableColumnController<CharacterSummary,Date>(ToonsTableColumnIds.IMPORT_DATE.name(),"Import Date",Date.class,importDateCell); // I18n
       ColumnsUtils.configureDateTimeColumn(importDateColumn);
       ret.add(importDateColumn);
     }

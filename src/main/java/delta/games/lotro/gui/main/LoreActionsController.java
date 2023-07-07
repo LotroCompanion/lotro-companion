@@ -67,62 +67,62 @@ public class LoreActionsController implements ActionListener,Disposable
   public JMenu buildCompendiumMenu(boolean isLive)
   {
     // Compendium
-    JMenu compendiumMenu=GuiFactory.buildMenu("Compendium");
+    JMenu compendiumMenu=GuiFactory.buildMenu("Compendium"); // I18n
     // - items
-    JMenuItem itemsExplorer=GuiFactory.buildMenuItem("Items");
+    JMenuItem itemsExplorer=GuiFactory.buildMenuItem("Items"); // I18n
     itemsExplorer.setActionCommand(ITEMS_ID);
     itemsExplorer.addActionListener(this);
     compendiumMenu.add(itemsExplorer);
     // - mobs
-    JMenuItem mobsExplorer=GuiFactory.buildMenuItem("Mobs");
+    JMenuItem mobsExplorer=GuiFactory.buildMenuItem("Mobs"); // I18n
     mobsExplorer.setActionCommand(MOBS_ID);
     mobsExplorer.addActionListener(this);
     compendiumMenu.add(itemsExplorer);
     // - deeds
-    JMenuItem deedsExplorer=GuiFactory.buildMenuItem("Deeds");
+    JMenuItem deedsExplorer=GuiFactory.buildMenuItem("Deeds"); // I18n
     deedsExplorer.setActionCommand(DEEDS_ID);
     deedsExplorer.addActionListener(this);
     compendiumMenu.add(deedsExplorer);
     // - quests
-    JMenuItem questsExplorer=GuiFactory.buildMenuItem("Quests");
+    JMenuItem questsExplorer=GuiFactory.buildMenuItem("Quests"); // I18n
     questsExplorer.setActionCommand(QUESTS_ID);
     questsExplorer.addActionListener(this);
     compendiumMenu.add(questsExplorer);
     // - recipes
-    JMenuItem recipesExplorer=GuiFactory.buildMenuItem("Recipes");
+    JMenuItem recipesExplorer=GuiFactory.buildMenuItem("Recipes"); // I18n
     recipesExplorer.setActionCommand(RECIPES_ID);
     recipesExplorer.addActionListener(this);
     compendiumMenu.add(recipesExplorer);
     // - titles
-    JMenuItem titlesExplorer=GuiFactory.buildMenuItem("Titles");
+    JMenuItem titlesExplorer=GuiFactory.buildMenuItem("Titles"); // I18n
     titlesExplorer.setActionCommand(TITLES_ID);
     titlesExplorer.addActionListener(this);
     compendiumMenu.add(titlesExplorer);
     // - emotes
-    JMenuItem emotesExplorer=GuiFactory.buildMenuItem("Emotes");
+    JMenuItem emotesExplorer=GuiFactory.buildMenuItem("Emotes"); // I18n
     emotesExplorer.setActionCommand(EMOTES_ID);
     emotesExplorer.addActionListener(this);
     compendiumMenu.add(emotesExplorer);
     if (isLive)
     {
       // - mounts
-      JMenuItem mountsExplorer=GuiFactory.buildMenuItem("Mounts");
+      JMenuItem mountsExplorer=GuiFactory.buildMenuItem("Mounts"); // I18n
       mountsExplorer.setActionCommand(MOUNTS_ID);
       mountsExplorer.addActionListener(this);
       compendiumMenu.add(mountsExplorer);
       // - pets
-      JMenuItem petsExplorer=GuiFactory.buildMenuItem("Pets");
+      JMenuItem petsExplorer=GuiFactory.buildMenuItem("Pets"); // I18n
       petsExplorer.setActionCommand(PETS_ID);
       petsExplorer.addActionListener(this);
       compendiumMenu.add(petsExplorer);
     }
     // - vendors
-    JMenuItem vendorsExplorer=GuiFactory.buildMenuItem("Vendors");
+    JMenuItem vendorsExplorer=GuiFactory.buildMenuItem("Vendors"); // I18n
     vendorsExplorer.setActionCommand(VENDORS_ID);
     vendorsExplorer.addActionListener(this);
     compendiumMenu.add(vendorsExplorer);
     // - barterers
-    JMenuItem barterersExplorer=GuiFactory.buildMenuItem("Barterers");
+    JMenuItem barterersExplorer=GuiFactory.buildMenuItem("Barterers"); // I18n
     barterersExplorer.setActionCommand(BARTERERS_ID);
     barterersExplorer.addActionListener(this);
     compendiumMenu.add(barterersExplorer);
@@ -141,53 +141,53 @@ public class LoreActionsController implements ActionListener,Disposable
     ToolbarModel model=controller.getModel();
     // Items icon
     String itemsIconPath=SharedUiUtils.getToolbarIconPath("items");
-    ToolbarIconItem itemsIconItem=new ToolbarIconItem(ITEMS_ID,itemsIconPath,ITEMS_ID,"Items...","Items");
+    ToolbarIconItem itemsIconItem=new ToolbarIconItem(ITEMS_ID,itemsIconPath,ITEMS_ID,"Items...","Items"); // I18n
     model.addToolbarIconItem(itemsIconItem);
     // Mobs icon
     String mobsIconPath=SharedUiUtils.getToolbarIconPath("mobs");
-    ToolbarIconItem mobsIconItem=new ToolbarIconItem(MOBS_ID,mobsIconPath,MOBS_ID,"Mobs...","Mobs");
+    ToolbarIconItem mobsIconItem=new ToolbarIconItem(MOBS_ID,mobsIconPath,MOBS_ID,"Mobs...","Mobs"); // I18n
     model.addToolbarIconItem(mobsIconItem);
     // Deeds icon
     String deedsIconPath=SharedUiUtils.getToolbarIconPath("deeds");
-    ToolbarIconItem deedsIconItem=new ToolbarIconItem(DEEDS_ID,deedsIconPath,DEEDS_ID,"Deeds...","Deeds");
+    ToolbarIconItem deedsIconItem=new ToolbarIconItem(DEEDS_ID,deedsIconPath,DEEDS_ID,"Deeds...","Deeds"); // I18n
     model.addToolbarIconItem(deedsIconItem);
     // Quests icon
     String questsIconPath=SharedUiUtils.getToolbarIconPath("quests");
-    ToolbarIconItem questsIconItem=new ToolbarIconItem(QUESTS_ID,questsIconPath,QUESTS_ID,"Quests...","Quests");
+    ToolbarIconItem questsIconItem=new ToolbarIconItem(QUESTS_ID,questsIconPath,QUESTS_ID,"Quests...","Quests"); // I18n
     model.addToolbarIconItem(questsIconItem);
     // Recipes icon
     String recipesIconPath=SharedUiUtils.getToolbarIconPath("recipes");
-    ToolbarIconItem recipesIconItem=new ToolbarIconItem(RECIPES_ID,recipesIconPath,RECIPES_ID,"Recipes...","Recipes");
+    ToolbarIconItem recipesIconItem=new ToolbarIconItem(RECIPES_ID,recipesIconPath,RECIPES_ID,"Recipes...","Recipes"); // I18n
     model.addToolbarIconItem(recipesIconItem);
     // Titles icon
     String titlesIconPath=SharedUiUtils.getToolbarIconPath("titles");
-    ToolbarIconItem titlesIconItem=new ToolbarIconItem(TITLES_ID,titlesIconPath,TITLES_ID,"Titles...","Titles");
+    ToolbarIconItem titlesIconItem=new ToolbarIconItem(TITLES_ID,titlesIconPath,TITLES_ID,"Titles...","Titles"); // I18n
     model.addToolbarIconItem(titlesIconItem);
     // Emotes icon
     String emotesIconPath=SharedUiUtils.getToolbarIconPath("emotes");
-    ToolbarIconItem emotesIconItem=new ToolbarIconItem(EMOTES_ID,emotesIconPath,EMOTES_ID,"Emotes...","Emotes");
+    ToolbarIconItem emotesIconItem=new ToolbarIconItem(EMOTES_ID,emotesIconPath,EMOTES_ID,"Emotes...","Emotes"); // I18n
     model.addToolbarIconItem(emotesIconItem);
     if (isLive)
     {
       // Mounts icon
       String mountsIconPath=SharedUiUtils.getToolbarIconPath("mounts");
-      ToolbarIconItem mountsIconItem=new ToolbarIconItem(MOUNTS_ID,mountsIconPath,MOUNTS_ID,"Mounts...","Mounts");
+      ToolbarIconItem mountsIconItem=new ToolbarIconItem(MOUNTS_ID,mountsIconPath,MOUNTS_ID,"Mounts...","Mounts"); // I18n
       model.addToolbarIconItem(mountsIconItem);
       // Pets icon
       String petsIconPath=SharedUiUtils.getToolbarIconPath("pets");
-      ToolbarIconItem petsIconItem=new ToolbarIconItem(PETS_ID,petsIconPath,PETS_ID,"Pets...","Pets");
+      ToolbarIconItem petsIconItem=new ToolbarIconItem(PETS_ID,petsIconPath,PETS_ID,"Pets...","Pets"); // I18n
       model.addToolbarIconItem(petsIconItem);
     }
     // Vendors icon
     String vendorsIconPath=SharedUiUtils.getToolbarIconPath("vendors");
-    ToolbarIconItem vendorsIconItem=new ToolbarIconItem(VENDORS_ID,vendorsIconPath,VENDORS_ID,"Vendors...","Vendors");
+    ToolbarIconItem vendorsIconItem=new ToolbarIconItem(VENDORS_ID,vendorsIconPath,VENDORS_ID,"Vendors...","Vendors"); // I18n
     model.addToolbarIconItem(vendorsIconItem);
     // Barterers icon
     String barterersIconPath=SharedUiUtils.getToolbarIconPath("barterers");
-    ToolbarIconItem barterersIconItem=new ToolbarIconItem(BARTERERS_ID,barterersIconPath,BARTERERS_ID,"Barterers...","Barterers");
+    ToolbarIconItem barterersIconItem=new ToolbarIconItem(BARTERERS_ID,barterersIconPath,BARTERERS_ID,"Barterers...","Barterers"); // I18n
     model.addToolbarIconItem(barterersIconItem);
     // Border
-    controller.getToolBar().setBorder(GuiFactory.buildTitledBorder("Lore Compendium"));
+    controller.getToolBar().setBorder(GuiFactory.buildTitledBorder("Lore Compendium")); // I18n
     // Register action listener
     controller.addActionListener(this);
     return controller;

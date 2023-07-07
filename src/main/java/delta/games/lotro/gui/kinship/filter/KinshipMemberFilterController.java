@@ -143,7 +143,7 @@ public class KinshipMemberFilterController implements ActionListener
 
     // Summary
     JPanel summaryPanel=_summary.getPanel();
-    Border summaryBorder=GuiFactory.buildTitledBorder("Character");
+    Border summaryBorder=GuiFactory.buildTitledBorder("Character"); // I18n
     summaryPanel.setBorder(summaryBorder);
     GridBagConstraints c=new GridBagConstraints(0,y,2,1,0.0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(summaryPanel,c);
@@ -151,13 +151,13 @@ public class KinshipMemberFilterController implements ActionListener
 
     // Member attributes
     JPanel memberPanel=buildMemberPanel();
-    Border memberBorder=GuiFactory.buildTitledBorder("Member");
+    Border memberBorder=GuiFactory.buildTitledBorder("Member"); // I18n
     memberPanel.setBorder(memberBorder);
     c=new GridBagConstraints(0,y,1,1,0.0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(memberPanel,c);
 
     // Reset
-    _reset=GuiFactory.buildButton("Reset");
+    _reset=GuiFactory.buildButton("Reset"); // I18n
     _reset.addActionListener(this);
     c=new GridBagConstraints(1,y,1,1,1.0,0,GridBagConstraints.SOUTHEAST,GridBagConstraints.NONE,new Insets(0,5,5,5),0,0);
     panel.add(_reset,c);
@@ -174,7 +174,7 @@ public class KinshipMemberFilterController implements ActionListener
     JPanel linePanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
     // Rank filter
     {
-      JLabel label=GuiFactory.buildLabel("Rank:");
+      JLabel label=GuiFactory.buildLabel("Rank:"); // I18n
       linePanel.add(label);
       _rank=buildRankCombo(_kinship.getRoster());
       ItemSelectionListener<Integer> rankListener=new ItemSelectionListener<Integer>()
@@ -192,7 +192,7 @@ public class KinshipMemberFilterController implements ActionListener
     }
     // Notes filter
     {
-      linePanel.add(GuiFactory.buildLabel("Notes filter:"));
+      linePanel.add(GuiFactory.buildLabel("Notes filter:")); // I18n
       _contains=GuiFactory.buildTextField("");
       _contains.setColumns(10);
       linePanel.add(_contains);

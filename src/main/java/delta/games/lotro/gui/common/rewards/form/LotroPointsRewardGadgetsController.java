@@ -24,7 +24,7 @@ public class LotroPointsRewardGadgetsController extends RewardGadgetsController
   {
     super(parent);
     // Label
-    String text=count+" LOTRO Points";
+    String text=count+" LOTRO Points"; // I18n
     Color color=Color.WHITE;
     _label=new LabelWithHalo();
     _label.setText(text);

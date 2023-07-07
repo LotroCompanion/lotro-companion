@@ -55,22 +55,22 @@ public class CharacterDisplayPanelController implements Disposable
     ret.add(Box.createHorizontalStrut(150),c);
     c.gridx=0;c.gridy++;
     // Character name
-    ret.add(GuiFactory.buildLabel("Name:"),c);
+    ret.add(GuiFactory.buildLabel("Name:"),c); // I18n
     c.gridx++;
     ret.add(_characterName,c);
     c.gridx=0;c.gridy++;
     // Class
-    ret.add(GuiFactory.buildLabel("Class:"),c);
+    ret.add(GuiFactory.buildLabel("Class:"),c); // I18n
     c.gridx++;
     ret.add(_characterClass,c);
     c.gridx=0;c.gridy++;
     // Race
-    ret.add(GuiFactory.buildLabel("Race:"),c);
+    ret.add(GuiFactory.buildLabel("Race:"),c); // I18n
     c.gridx++;
     ret.add(_race,c);
     c.gridx=0;c.gridy++;
     // Level
-    ret.add(GuiFactory.buildLabel("Level:"),c);
+    ret.add(GuiFactory.buildLabel("Level:"),c); // I18n
     c.gridx++;
     ret.add(_level,c);
     c.gridx=0;c.gridy++;

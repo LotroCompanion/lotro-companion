@@ -59,7 +59,7 @@ public class KinshipMembersPanelController implements FilterUpdateListener
   private JPanel build()
   {
     JPanel panel=GuiFactory.buildPanel(new BorderLayout());
-    TitledBorder itemsFrameBorder=GuiFactory.buildTitledBorder("Members");
+    TitledBorder itemsFrameBorder=GuiFactory.buildTitledBorder("Members"); // I18n
     panel.setBorder(itemsFrameBorder);
 
     // Table
@@ -71,7 +71,7 @@ public class KinshipMembersPanelController implements FilterUpdateListener
     _statsLabel=GuiFactory.buildLabel("-");
     statsPanel.add(_statsLabel);
     // Button to choose columns
-    JButton choose=GuiFactory.buildButton("Choose columns...");
+    JButton choose=GuiFactory.buildButton("Choose columns..."); // I18n
     ActionListener al=new ActionListener()
     {
       @Override
@@ -105,11 +105,11 @@ public class KinshipMembersPanelController implements FilterUpdateListener
     String label="";
     if (nbFiltered==nbItems)
     {
-      label="Member(s): "+nbItems;
+      label="Member(s): "+nbItems; // I18n
     }
     else
     {
-      label="Member(s): "+nbFiltered+"/"+nbItems;
+      label="Member(s): "+nbFiltered+"/"+nbItems; // I18n
     }
     _statsLabel.setText(label);
   }

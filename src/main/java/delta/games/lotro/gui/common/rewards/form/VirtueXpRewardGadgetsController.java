@@ -25,7 +25,7 @@ public class VirtueXpRewardGadgetsController extends RewardGadgetsController
   {
     super(parent);
     // Label
-    String text=L10n.getString(virtueXP)+" Virtue Experience";
+    String text=L10n.getString(virtueXP)+" Virtue Experience"; // I18n
     Color color=Color.WHITE;
     _label=new LabelWithHalo();
     _label.setText(text);

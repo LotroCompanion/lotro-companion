@@ -71,7 +71,7 @@ public class NewToonDialogController extends DefaultFormDialogController<Object>
   protected JDialog build()
   {
     JDialog dialog=super.build();
-    dialog.setTitle("New character...");
+    dialog.setTitle("New character..."); // I18n
     dialog.setResizable(false);
     return dialog;
   }
@@ -80,7 +80,7 @@ public class NewToonDialogController extends DefaultFormDialogController<Object>
   protected JPanel buildFormPanel()
   {
     JPanel dataPanel=buildNewToonPanel();
-    TitledBorder pathsBorder=GuiFactory.buildTitledBorder("Character");
+    TitledBorder pathsBorder=GuiFactory.buildTitledBorder("Character"); // I18n
     dataPanel.setBorder(pathsBorder);
     return dataPanel;
   }
@@ -119,17 +119,17 @@ public class NewToonDialogController extends DefaultFormDialogController<Object>
 
     Insets insets=new Insets(5,5,5,5);
     GridBagConstraints gbc=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,insets,0,0);
-    panel.add(GuiFactory.buildLabel("Name:"),gbc);
+    panel.add(GuiFactory.buildLabel("Name:"),gbc); // I18n
     gbc.gridx=0; gbc.gridy++;
-    panel.add(GuiFactory.buildLabel("Server:"),gbc);
+    panel.add(GuiFactory.buildLabel("Server:"),gbc); // I18n
     gbc.gridx=0; gbc.gridy++;
-    panel.add(GuiFactory.buildLabel("Account:"),gbc);
+    panel.add(GuiFactory.buildLabel("Account:"),gbc); // I18n
     gbc.gridx=0; gbc.gridy++;
-    panel.add(GuiFactory.buildLabel("Race:"),gbc);
+    panel.add(GuiFactory.buildLabel("Race:"),gbc); // I18n
     gbc.gridx=0; gbc.gridy++;
-    panel.add(GuiFactory.buildLabel("Class:"),gbc);
+    panel.add(GuiFactory.buildLabel("Class:"),gbc); // I18n
     gbc.gridx=0; gbc.gridy++;
-    panel.add(GuiFactory.buildLabel("Sex:"),gbc);
+    panel.add(GuiFactory.buildLabel("Sex:"),gbc); // I18n
     gbc.gridx=1; gbc.gridy=0;
     gbc.weightx=1.0; gbc.fill=GridBagConstraints.HORIZONTAL;
     panel.add(_toonName,gbc);
@@ -170,7 +170,7 @@ public class NewToonDialogController extends DefaultFormDialogController<Object>
     CharacterFile toon=manager.addToon(summary);
     if (toon==null)
     {
-      showErrorMessage("Character creation failed!");
+      showErrorMessage("Character creation failed!"); // I18n
       return;
     }
 
@@ -237,19 +237,19 @@ public class NewToonDialogController extends DefaultFormDialogController<Object>
     String toonName=_toonName.getText();
     if ((toonName==null) || (toonName.trim().length()==0))
     {
-      errorMsg="Invalid toon name!";
+      errorMsg="Invalid toon name!"; // I18n
     }
     String server=_server.getSelectedItem();
     if ((server==null) || (server.trim().length()==0))
     {
-      errorMsg="Invalid server name!";
+      errorMsg="Invalid server name!"; // I18n
     }
     return errorMsg;
   }
 
   private void showErrorMessage(String errorMsg)
   {
-    String title="Character creation";
+    String title="Character creation"; // I18n
     JDialog dialog=getDialog();
     GuiFactory.showErrorDialog(dialog,errorMsg,title);
   }

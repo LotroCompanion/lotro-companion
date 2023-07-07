@@ -132,7 +132,7 @@ public class FriendSummaryFilterController
     JPanel linePanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
     // Label filter
     {
-      linePanel.add(GuiFactory.buildLabel("Name filter:"));
+      linePanel.add(GuiFactory.buildLabel("Name filter:")); // I18n
       _contains=GuiFactory.buildTextField("");
       _contains.setColumns(10);
       linePanel.add(_contains);
@@ -151,7 +151,7 @@ public class FriendSummaryFilterController
     }
     // Class
     {
-      JLabel label=GuiFactory.buildLabel("Class:");
+      JLabel label=GuiFactory.buildLabel("Class:"); // I18n
       linePanel.add(label);
       _class=CharacterUiUtils.buildCharacterClassCombo(true);
       ItemSelectionListener<ClassDescription> classListener=new ItemSelectionListener<ClassDescription>()

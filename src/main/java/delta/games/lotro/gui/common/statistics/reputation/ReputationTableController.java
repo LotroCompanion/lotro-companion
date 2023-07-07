@@ -79,7 +79,7 @@ public abstract class ReputationTableController<T extends FactionStats> extends 
           return factionName;
         }
       };
-      DefaultTableColumnController<T,String> factionColumn=new DefaultTableColumnController<T,String>(FACTION,"Faction",String.class,factionCell);
+      DefaultTableColumnController<T,String> factionColumn=new DefaultTableColumnController<T,String>(FACTION,"Faction",String.class,factionCell); // I18n
       factionColumn.setWidthSpecs(200,-1,200);
       table.addColumnController(factionColumn);
     }
@@ -94,7 +94,7 @@ public abstract class ReputationTableController<T extends FactionStats> extends 
           return amount;
         }
       };
-      DefaultTableColumnController<T,Integer> amountColumn=new DefaultTableColumnController<T,Integer>(AMOUNT,"Points",Integer.class,amountCell);
+      DefaultTableColumnController<T,Integer> amountColumn=new DefaultTableColumnController<T,Integer>(AMOUNT,"Points",Integer.class,amountCell); // I18n
       amountColumn.setWidthSpecs(60,60,60);
       table.addColumnController(amountColumn);
     }

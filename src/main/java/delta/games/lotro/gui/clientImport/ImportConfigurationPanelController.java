@@ -84,7 +84,7 @@ public class ImportConfigurationPanelController implements Disposable
 
   private JPanel buildButtonsPanel()
   {
-    JButton checkAll=GuiFactory.buildButton("Check all");
+    JButton checkAll=GuiFactory.buildButton("Check all"); // I18n
     ActionListener alCheckAll=new ActionListener()
     {
       @Override
@@ -94,7 +94,7 @@ public class ImportConfigurationPanelController implements Disposable
       }
     };
     checkAll.addActionListener(alCheckAll);
-    JButton uncheckAll=GuiFactory.buildButton("Uncheck all");
+    JButton uncheckAll=GuiFactory.buildButton("Uncheck all"); // I18n
     ActionListener alUncheckAll=new ActionListener()
     {
       @Override

@@ -104,7 +104,7 @@ public class MainFrameController extends DefaultWindowController implements Acti
   {
     JFrame frame=super.build();
     boolean isLive=LotroCoreConfig.isLive();
-    String appName=isLive?"LotRO Companion":"LotRO Lore Database";
+    String appName=isLive?"LotRO Companion":"LotRO Lore Database"; // I18n
     frame.setTitle(appName);
     if (isLive)
     {
@@ -123,8 +123,8 @@ public class MainFrameController extends DefaultWindowController implements Acti
   protected JMenuBar buildMenuBar()
   {
     JMenuBar menuBar=GuiFactory.buildMenuBar();
-    JMenu fileMenu=GuiFactory.buildMenu("File");
-    JMenuItem quit=GuiFactory.buildMenuItem("Quit");
+    JMenu fileMenu=GuiFactory.buildMenu("File"); // I18n
+    JMenuItem quit=GuiFactory.buildMenuItem("Quit"); // I18n
     ActionListener alQuit=new ActionListener()
     {
       @Override
@@ -147,35 +147,35 @@ public class MainFrameController extends DefaultWindowController implements Acti
     // Compendium menu
     JMenu compendiumMenu=_loreCtrl.buildCompendiumMenu(isLive);
     // Maps
-    JMenu mapsMenu=GuiFactory.buildMenu("Maps");
+    JMenu mapsMenu=GuiFactory.buildMenu("Maps"); // I18n
     // - map
-    JMenuItem map=GuiFactory.buildMenuItem("Middle-earth Map");
+    JMenuItem map=GuiFactory.buildMenuItem("Middle-earth Map"); // I18n
     map.setActionCommand(MAP_COMMAND);
     map.addActionListener(this);
     mapsMenu.add(map);
     if (isLive)
     {
       // - instances
-      JMenuItem instancesExplorer=GuiFactory.buildMenuItem("Instances");
+      JMenuItem instancesExplorer=GuiFactory.buildMenuItem("Instances"); // I18n
       instancesExplorer.setActionCommand(INSTANCES_COMMAND);
       instancesExplorer.addActionListener(this);
       mapsMenu.add(instancesExplorer);
     }
     // - resources maps
-    JMenuItem resourcesMapsExplorer=GuiFactory.buildMenuItem("Resources Maps");
+    JMenuItem resourcesMapsExplorer=GuiFactory.buildMenuItem("Resources Maps"); // I18n
     resourcesMapsExplorer.setActionCommand(RESOURCES_MAPS_COMMAND);
     resourcesMapsExplorer.addActionListener(this);
     mapsMenu.add(resourcesMapsExplorer);
 
     // Help
-    JMenu helpMenu=GuiFactory.buildMenu("Help");
+    JMenu helpMenu=GuiFactory.buildMenu("Help"); // I18n
     // - about
-    JMenuItem aboutMenuItem=GuiFactory.buildMenuItem("About...");
+    JMenuItem aboutMenuItem=GuiFactory.buildMenuItem("About..."); // I18n
     aboutMenuItem.setActionCommand(ABOUT_COMMAND);
     aboutMenuItem.addActionListener(this);
     helpMenu.add(aboutMenuItem);
     // - credits
-    JMenuItem creditsMenuItem=GuiFactory.buildMenuItem("Credits...");
+    JMenuItem creditsMenuItem=GuiFactory.buildMenuItem("Credits..."); // I18n
     ActionListener alCredits=new ActionListener()
     {
       @Override
@@ -197,34 +197,34 @@ public class MainFrameController extends DefaultWindowController implements Acti
   private JMenu buildStatisticsMenu()
   {
     // Statistics
-    JMenu statsMenu=GuiFactory.buildMenu("Statistics");
+    JMenu statsMenu=GuiFactory.buildMenu("Statistics"); // I18n
     // - levelling
-    JMenuItem levellingStats=GuiFactory.buildMenuItem("Levelling");
+    JMenuItem levellingStats=GuiFactory.buildMenuItem("Levelling"); // I18n
     levellingStats.setActionCommand(LEVELLING_COMMAND);
     levellingStats.addActionListener(this);
     statsMenu.add(levellingStats);
     // - warbands
-    JMenuItem warbandsStats=GuiFactory.buildMenuItem("Warbands");
+    JMenuItem warbandsStats=GuiFactory.buildMenuItem("Warbands"); // I18n
     warbandsStats.setActionCommand(WARBANDS_COMMAND);
     warbandsStats.addActionListener(this);
     statsMenu.add(warbandsStats);
     // - reputation
-    JMenuItem reputationSynopsis=GuiFactory.buildMenuItem("Reputation synopsis");
+    JMenuItem reputationSynopsis=GuiFactory.buildMenuItem("Reputation synopsis"); // I18n
     reputationSynopsis.setActionCommand(REPUTATION_SYNOPSIS_COMMAND);
     reputationSynopsis.addActionListener(this);
     statsMenu.add(reputationSynopsis);
     // - crafting
-    JMenuItem craftingSynopsis=GuiFactory.buildMenuItem("Crafting synopsis");
+    JMenuItem craftingSynopsis=GuiFactory.buildMenuItem("Crafting synopsis"); // I18n
     craftingSynopsis.setActionCommand(CRAFTING_SYNOPSIS_COMMAND);
     craftingSynopsis.addActionListener(this);
     statsMenu.add(craftingSynopsis);
     // - currencies
-    JMenuItem currenciesSynopsis=GuiFactory.buildMenuItem("Currencies synopsis");
+    JMenuItem currenciesSynopsis=GuiFactory.buildMenuItem("Currencies synopsis"); // I18n
     currenciesSynopsis.setActionCommand(CURRENCIES_SYNOPSIS_COMMAND);
     currenciesSynopsis.addActionListener(this);
     statsMenu.add(currenciesSynopsis);
     // - emotes
-    JMenuItem emotesSynopsis=GuiFactory.buildMenuItem("Emotes synopsis");
+    JMenuItem emotesSynopsis=GuiFactory.buildMenuItem("Emotes synopsis"); // I18n
     emotesSynopsis.setActionCommand(EMOTES_SYNOPSIS_COMMAND);
     emotesSynopsis.addActionListener(this);
     statsMenu.add(emotesSynopsis);
@@ -256,13 +256,13 @@ public class MainFrameController extends DefaultWindowController implements Acti
       JTabbedPane tabbedPane=GuiFactory.buildTabbedPane();
       // Characters
       JPanel toonsPanel=_toonsManager.getPanel();
-      tabbedPane.add("Characters",toonsPanel);
+      tabbedPane.add("Characters",toonsPanel); // I18n
       // Accounts
       JPanel accountsPanel=_accountsManager.getPanel();
-      tabbedPane.add("Accounts",accountsPanel);
+      tabbedPane.add("Accounts",accountsPanel); // I18n
       // Kinships
       JPanel kinshipsPanel=_kinshipsManager.getPanel();
-      tabbedPane.add("Kinships",kinshipsPanel);
+      tabbedPane.add("Kinships",kinshipsPanel); // I18n
       ret.add(tabbedPane,BorderLayout.CENTER);
     }
     return ret;
@@ -305,30 +305,30 @@ public class MainFrameController extends DefaultWindowController implements Acti
     ToolbarModel model=controller.getModel();
     // Leveling icon
     String levellingIconPath=SharedUiUtils.getToolbarIconPath("levelling");
-    ToolbarIconItem levellingIconItem=new ToolbarIconItem(LEVELLING_COMMAND,levellingIconPath,LEVELLING_COMMAND,"Levelling...","Levelling");
+    ToolbarIconItem levellingIconItem=new ToolbarIconItem(LEVELLING_COMMAND,levellingIconPath,LEVELLING_COMMAND,"Levelling...","Levelling"); // I18n
     model.addToolbarIconItem(levellingIconItem);
     // Warbands icon
     String warbandsIconPath=SharedUiUtils.getToolbarIconPath("warbands");
-    ToolbarIconItem warbandsIconItem=new ToolbarIconItem(WARBANDS_COMMAND,warbandsIconPath,WARBANDS_COMMAND,"Warbands...","Warbands");
+    ToolbarIconItem warbandsIconItem=new ToolbarIconItem(WARBANDS_COMMAND,warbandsIconPath,WARBANDS_COMMAND,"Warbands...","Warbands"); // I18n
     model.addToolbarIconItem(warbandsIconItem);
     // Reputation synopsis icon
     String reputationSynopsisIconPath=SharedUiUtils.getToolbarIconPath("reputation");
-    ToolbarIconItem reputationSynopsisIconItem=new ToolbarIconItem(REPUTATION_SYNOPSIS_COMMAND,reputationSynopsisIconPath,REPUTATION_SYNOPSIS_COMMAND,"Reputation synopsis...","Reputation synopsis");
+    ToolbarIconItem reputationSynopsisIconItem=new ToolbarIconItem(REPUTATION_SYNOPSIS_COMMAND,reputationSynopsisIconPath,REPUTATION_SYNOPSIS_COMMAND,"Reputation synopsis...","Reputation synopsis"); // I18n
     model.addToolbarIconItem(reputationSynopsisIconItem);
     // Crafting synopsis icon
     String craftingSynopsisIconPath=SharedUiUtils.getToolbarIconPath("crafting");
-    ToolbarIconItem craftingSynopsisIconItem=new ToolbarIconItem(CRAFTING_SYNOPSIS_COMMAND,craftingSynopsisIconPath,CRAFTING_SYNOPSIS_COMMAND,"Crafting synopsis...","Crafting synopsis");
+    ToolbarIconItem craftingSynopsisIconItem=new ToolbarIconItem(CRAFTING_SYNOPSIS_COMMAND,craftingSynopsisIconPath,CRAFTING_SYNOPSIS_COMMAND,"Crafting synopsis...","Crafting synopsis"); // I18n
     model.addToolbarIconItem(craftingSynopsisIconItem);
     // Currencies synopsis icon
     String currenciesSynopsisIconPath=SharedUiUtils.getToolbarIconPath("currencies");
-    ToolbarIconItem currenciesSynopsisIconItem=new ToolbarIconItem(CURRENCIES_SYNOPSIS_COMMAND,currenciesSynopsisIconPath,CURRENCIES_SYNOPSIS_COMMAND,"Currencies synopsis...","Currencies synopsis");
+    ToolbarIconItem currenciesSynopsisIconItem=new ToolbarIconItem(CURRENCIES_SYNOPSIS_COMMAND,currenciesSynopsisIconPath,CURRENCIES_SYNOPSIS_COMMAND,"Currencies synopsis...","Currencies synopsis"); // I18n
     model.addToolbarIconItem(currenciesSynopsisIconItem);
     // Emotes synopsis icon
     String emotesSynopsisIconPath=SharedUiUtils.getToolbarIconPath("emotes");
-    ToolbarIconItem emotesSynopsisIconItem=new ToolbarIconItem(EMOTES_SYNOPSIS_COMMAND,emotesSynopsisIconPath,EMOTES_SYNOPSIS_COMMAND,"Emotes synopsis...","Emotes synopsis");
+    ToolbarIconItem emotesSynopsisIconItem=new ToolbarIconItem(EMOTES_SYNOPSIS_COMMAND,emotesSynopsisIconPath,EMOTES_SYNOPSIS_COMMAND,"Emotes synopsis...","Emotes synopsis"); // I18n
     model.addToolbarIconItem(emotesSynopsisIconItem);
     // Border
-    controller.getToolBar().setBorder(GuiFactory.buildTitledBorder("Tracking Synopsis"));
+    controller.getToolBar().setBorder(GuiFactory.buildTitledBorder("Tracking Synopsis")); // I18n
     // Register action listener
     controller.addActionListener(this);
     return controller;
@@ -340,21 +340,21 @@ public class MainFrameController extends DefaultWindowController implements Acti
     ToolbarModel model=controller.getModel();
     // Map icon
     String mapIconPath=SharedUiUtils.getToolbarIconPath("globe");
-    ToolbarIconItem mapIconItem=new ToolbarIconItem(MAP_COMMAND,mapIconPath,MAP_COMMAND,"Maps...","Maps");
+    ToolbarIconItem mapIconItem=new ToolbarIconItem(MAP_COMMAND,mapIconPath,MAP_COMMAND,"Maps...","Maps"); // I18n
     model.addToolbarIconItem(mapIconItem);
     if (isLive)
     {
       // Instances icon
       String instancessIconPath=SharedUiUtils.getToolbarIconPath("instances");
-      ToolbarIconItem instancesIconItem=new ToolbarIconItem(INSTANCES_COMMAND,instancessIconPath,INSTANCES_COMMAND,"Instances...","Instances");
+      ToolbarIconItem instancesIconItem=new ToolbarIconItem(INSTANCES_COMMAND,instancessIconPath,INSTANCES_COMMAND,"Instances...","Instances"); // I18n
       model.addToolbarIconItem(instancesIconItem);
     }
     // Resources maps icon
     String resourcesMapsIconPath=SharedUiUtils.getToolbarIconPath("resourcesMap");
-    ToolbarIconItem resourcesMapsIconItem=new ToolbarIconItem(RESOURCES_MAPS_COMMAND,resourcesMapsIconPath,RESOURCES_MAPS_COMMAND,"Resources maps...","Resources Maps");
+    ToolbarIconItem resourcesMapsIconItem=new ToolbarIconItem(RESOURCES_MAPS_COMMAND,resourcesMapsIconPath,RESOURCES_MAPS_COMMAND,"Resources maps...","Resources Maps"); // I18n
     model.addToolbarIconItem(resourcesMapsIconItem);
     // Border
-    controller.getToolBar().setBorder(GuiFactory.buildTitledBorder("Maps"));
+    controller.getToolBar().setBorder(GuiFactory.buildTitledBorder("Maps")); // I18n
     // Register action listener
     controller.addActionListener(this);
     return controller;
@@ -366,21 +366,21 @@ public class MainFrameController extends DefaultWindowController implements Acti
     ToolbarModel model=controller.getModel();
     // Settings
     String settingsIconPath=SharedUiUtils.getToolbarIconPath("settings");
-    ToolbarIconItem settingsIconItem=new ToolbarIconItem(SETTINGS_COMMAND,settingsIconPath,SETTINGS_COMMAND,"Settings...","Settings...");
+    ToolbarIconItem settingsIconItem=new ToolbarIconItem(SETTINGS_COMMAND,settingsIconPath,SETTINGS_COMMAND,"Settings...","Settings..."); // I18n
     model.addToolbarIconItem(settingsIconItem);
     if (isLive)
     {
       // Import from LOTRO (client)
       String importIconPath=SharedUiUtils.getToolbarIconPath("lotro-import");
-      ToolbarIconItem importIconItem=new ToolbarIconItem(CLIENT_SYNCHRO_COMMAND,importIconPath,CLIENT_SYNCHRO_COMMAND,"Import from LotRO...","Import...");
+      ToolbarIconItem importIconItem=new ToolbarIconItem(CLIENT_SYNCHRO_COMMAND,importIconPath,CLIENT_SYNCHRO_COMMAND,"Import from LotRO...","Import..."); // I18n
       model.addToolbarIconItem(importIconItem);
     }
     // About
     String aboutIconPath=SharedUiUtils.getToolbarIconPath("about");
-    ToolbarIconItem aboutIconItem=new ToolbarIconItem(ABOUT_COMMAND,aboutIconPath,ABOUT_COMMAND,"About Lotro Companion...","About...");
+    ToolbarIconItem aboutIconItem=new ToolbarIconItem(ABOUT_COMMAND,aboutIconPath,ABOUT_COMMAND,"About Lotro Companion...","About..."); // I18n
     model.addToolbarIconItem(aboutIconItem);
     // Border
-    controller.getToolBar().setBorder(GuiFactory.buildTitledBorder("Misc"));
+    controller.getToolBar().setBorder(GuiFactory.buildTitledBorder("Misc")); // I18n
     // Register action listener
     controller.addActionListener(this);
     return controller;
@@ -607,7 +607,7 @@ public class MainFrameController extends DefaultWindowController implements Acti
 
   private void doQuit()
   {
-    int result=GuiFactory.showQuestionDialog(getFrame(),"Do you really want to quit?","Quit?",JOptionPane.YES_NO_OPTION);
+    int result=GuiFactory.showQuestionDialog(getFrame(),"Do you really want to quit?","Quit?",JOptionPane.YES_NO_OPTION); // I18n
     if (result==JOptionPane.OK_OPTION)
     {
       dispose();

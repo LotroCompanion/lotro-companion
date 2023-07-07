@@ -84,7 +84,7 @@ public class CharacterFileColumnsBuilder
           return Long.valueOf(data.getXp());
         }
       };
-      DefaultTableColumnController<CharacterFile,Long> xpColumn=new DefaultTableColumnController<CharacterFile,Long>(ToonsTableColumnIds.XP.name(),"XP",Long.class,xpCell);
+      DefaultTableColumnController<CharacterFile,Long> xpColumn=new DefaultTableColumnController<CharacterFile,Long>(ToonsTableColumnIds.XP.name(),"XP",Long.class,xpCell); // I18n
       ColumnsUtils.configureLongColumn(xpColumn);
       ret.add(xpColumn);
     }
@@ -99,7 +99,7 @@ public class CharacterFileColumnsBuilder
           return Integer.valueOf(data.getIngameTime());
         }
       };
-      DefaultTableColumnController<CharacterFile,Integer> cooldownColumn=new DefaultTableColumnController<CharacterFile,Integer>(ToonsTableColumnIds.INGAME_TIME.name(),"In-game Time",Integer.class,cooldownCell);
+      DefaultTableColumnController<CharacterFile,Integer> cooldownColumn=new DefaultTableColumnController<CharacterFile,Integer>(ToonsTableColumnIds.INGAME_TIME.name(),"In-game Time",Integer.class,cooldownCell); // I18n
       cooldownColumn.setWidthSpecs(120,120,120);
       DefaultTableCellRenderer renderer=new DefaultTableCellRenderer()
       {
@@ -124,7 +124,7 @@ public class CharacterFileColumnsBuilder
           return data.getMoney();
         }
       };
-      DefaultTableColumnController<CharacterFile,Money> moneyColumn=new DefaultTableColumnController<CharacterFile,Money>(ToonsTableColumnIds.MONEY.name(),"Money",Money.class,moneyCell);
+      DefaultTableColumnController<CharacterFile,Money> moneyColumn=new DefaultTableColumnController<CharacterFile,Money>(ToonsTableColumnIds.MONEY.name(),"Money",Money.class,moneyCell); // I18n
       moneyColumn.setWidthSpecs(180,180,180);
       moneyColumn.setCellRenderer(new MoneyCellRenderer());
       moneyColumn.setComparator(new MoneyComparator());
@@ -140,7 +140,7 @@ public class CharacterFileColumnsBuilder
           return data.getLastLogoutDate();
         }
       };
-      DefaultTableColumnController<CharacterFile,Long> lastLogoutColumn=new DefaultTableColumnController<CharacterFile,Long>(ToonsTableColumnIds.LAST_LOGOUT_DATE.name(),"Last logout",Long.class,lastLogoutCell);
+      DefaultTableColumnController<CharacterFile,Long> lastLogoutColumn=new DefaultTableColumnController<CharacterFile,Long>(ToonsTableColumnIds.LAST_LOGOUT_DATE.name(),"Last logout",Long.class,lastLogoutCell); // I18n
       ColumnsUtils.configureDateTimeColumn(lastLogoutColumn);
       ret.add(lastLogoutColumn);
     }
@@ -164,7 +164,7 @@ public class CharacterFileColumnsBuilder
           return titleName;
         }
       };
-      DefaultTableColumnController<CharacterFile,String> titleColumn=new DefaultTableColumnController<CharacterFile,String>(ToonsTableColumnIds.TITLE.name(),"Title",String.class,titleCell);
+      DefaultTableColumnController<CharacterFile,String> titleColumn=new DefaultTableColumnController<CharacterFile,String>(ToonsTableColumnIds.TITLE.name(),"Title",String.class,titleCell); // I18n
       titleColumn.setWidthSpecs(100,-1,200);
       ret.add(titleColumn);
     }
@@ -188,7 +188,7 @@ public class CharacterFileColumnsBuilder
           return zoneName;
         }
       };
-      DefaultTableColumnController<CharacterFile,String> areaColumn=new DefaultTableColumnController<CharacterFile,String>(ToonsTableColumnIds.AREA.name(),"Area",String.class,areaCell);
+      DefaultTableColumnController<CharacterFile,String> areaColumn=new DefaultTableColumnController<CharacterFile,String>(ToonsTableColumnIds.AREA.name(),"Area",String.class,areaCell); // I18n
       areaColumn.setWidthSpecs(80,250,250);
       ret.add(areaColumn);
     }
@@ -212,7 +212,7 @@ public class CharacterFileColumnsBuilder
           return zoneName;
         }
       };
-      DefaultTableColumnController<CharacterFile,String> dungeonColumn=new DefaultTableColumnController<CharacterFile,String>(ToonsTableColumnIds.DUNGEON.name(),"Dungeon",String.class,dungeonCell);
+      DefaultTableColumnController<CharacterFile,String> dungeonColumn=new DefaultTableColumnController<CharacterFile,String>(ToonsTableColumnIds.DUNGEON.name(),"Dungeon",String.class,dungeonCell); // I18n
       dungeonColumn.setWidthSpecs(80,250,250);
       ret.add(dungeonColumn);
     }
@@ -237,7 +237,7 @@ public class CharacterFileColumnsBuilder
           return vocationName;
         }
       };
-      DefaultTableColumnController<CharacterFile,String> vocationColumn=new DefaultTableColumnController<CharacterFile,String>(ToonsTableColumnIds.VOCATION.name(),"Vocation",String.class,vocationCell);
+      DefaultTableColumnController<CharacterFile,String> vocationColumn=new DefaultTableColumnController<CharacterFile,String>(ToonsTableColumnIds.VOCATION.name(),"Vocation",String.class,vocationCell); // I18n
       vocationColumn.setWidthSpecs(100,100,100);
       ret.add(vocationColumn);
     }
@@ -262,7 +262,7 @@ public class CharacterFileColumnsBuilder
         return positionStr;
       }
     };
-    DefaultTableColumnController<CharacterFile,String> positionColumn=new DefaultTableColumnController<CharacterFile,String>(ToonsTableColumnIds.POSITION.name(),"Position",String.class,positionCell);
+    DefaultTableColumnController<CharacterFile,String> positionColumn=new DefaultTableColumnController<CharacterFile,String>(ToonsTableColumnIds.POSITION.name(),"Position",String.class,positionCell); // I18n
     positionColumn.setWidthSpecs(100,200,200);
     return positionColumn;
   }

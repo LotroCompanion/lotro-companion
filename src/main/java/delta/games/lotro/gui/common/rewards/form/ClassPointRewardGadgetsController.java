@@ -24,10 +24,10 @@ public class ClassPointRewardGadgetsController extends RewardGadgetsController
   {
     super(parent);
     // Label
-    String text="Class Point";
+    String text="Class Point"; // I18n
     if (count>1)
     {
-      text=String.valueOf(count)+" Class Points";
+      text=String.valueOf(count)+" Class Points"; // I18n
     }
     Color color=Color.WHITE;
     _label=new LabelWithHalo();

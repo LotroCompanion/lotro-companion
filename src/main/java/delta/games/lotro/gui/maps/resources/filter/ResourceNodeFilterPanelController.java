@@ -101,14 +101,14 @@ public class ResourceNodeFilterPanelController
     _panel.removeAll();
     // Headers
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
-    _panel.add(GuiFactory.buildLabel("Show?"),c);
+    _panel.add(GuiFactory.buildLabel("Show?"),c); // I18n
     c=new GridBagConstraints(1,0,2,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
-    _panel.add(GuiFactory.buildLabel("Source item"),c);
+    _panel.add(GuiFactory.buildLabel("Source item"),c); // I18n
     boolean hasLootableItems=hasLootableItems();
     if (hasLootableItems)
     {
       c=new GridBagConstraints(3,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(5,5,5,5),0,0);
-      _panel.add(GuiFactory.buildLabel("Lootable items"),c);
+      _panel.add(GuiFactory.buildLabel("Lootable items"),c); // I18n
     }
     // Filter items
     int y=1;

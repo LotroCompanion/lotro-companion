@@ -42,7 +42,7 @@ public class RewardsColumnsBuilder
           return (lotroPoints>0)?Integer.valueOf(lotroPoints):null;
         }
       };
-      DefaultTableColumnController<Rewards,Integer> lpColumn=new DefaultTableColumnController<Rewards,Integer>(RewardsColumnIds.LOTRO_POINTS.name(),"LOTRO Points",Integer.class,lpCell);
+      DefaultTableColumnController<Rewards,Integer> lpColumn=new DefaultTableColumnController<Rewards,Integer>(RewardsColumnIds.LOTRO_POINTS.name(),"LOTRO Points",Integer.class,lpCell); // I18n
       lpColumn.setWidthSpecs(40,40,40);
       ret.add(lpColumn);
     }
@@ -57,7 +57,7 @@ public class RewardsColumnsBuilder
           return (classPoints>0)?Boolean.TRUE:Boolean.FALSE;
         }
       };
-      DefaultTableColumnController<Rewards,Boolean> cpColumn=new DefaultTableColumnController<Rewards,Boolean>(RewardsColumnIds.CLASS_POINT.name(),"Class Point",Boolean.class,cpCell);
+      DefaultTableColumnController<Rewards,Boolean> cpColumn=new DefaultTableColumnController<Rewards,Boolean>(RewardsColumnIds.CLASS_POINT.name(),"Class Point",Boolean.class,cpCell); // I18n
       cpColumn.setWidthSpecs(40,40,40);
       ret.add(cpColumn);
     }
@@ -79,7 +79,7 @@ public class RewardsColumnsBuilder
           return null;
         }
       };
-      DefaultTableColumnController<Rewards,String> titleColumn=new DefaultTableColumnController<Rewards,String>(RewardsColumnIds.TITLE.name(),"Title",String.class,titleCell);
+      DefaultTableColumnController<Rewards,String> titleColumn=new DefaultTableColumnController<Rewards,String>(RewardsColumnIds.TITLE.name(),"Title",String.class,titleCell); // I18n
       titleColumn.setWidthSpecs(100,300,200);
       ret.add(titleColumn);
     }
@@ -94,7 +94,7 @@ public class RewardsColumnsBuilder
           return (virtueRewards.size()>0)?virtueRewards.get(0).getVirtue().getName():null;
         }
       };
-      DefaultTableColumnController<Rewards,String> virtueColumn=new DefaultTableColumnController<Rewards,String>(RewardsColumnIds.VIRTUE.name(),"Virtue",String.class,virtueCell);
+      DefaultTableColumnController<Rewards,String> virtueColumn=new DefaultTableColumnController<Rewards,String>(RewardsColumnIds.VIRTUE.name(),"Virtue",String.class,virtueCell); // I18n
       virtueColumn.setWidthSpecs(100,300,200);
       ret.add(virtueColumn);
     }
@@ -109,7 +109,7 @@ public class RewardsColumnsBuilder
           return (emoteRewards.size()>0)?emoteRewards.get(0).getName():null;
         }
       };
-      DefaultTableColumnController<Rewards,String> emoteColumn=new DefaultTableColumnController<Rewards,String>(RewardsColumnIds.EMOTE.name(),"Emote",String.class,emoteCell);
+      DefaultTableColumnController<Rewards,String> emoteColumn=new DefaultTableColumnController<Rewards,String>(RewardsColumnIds.EMOTE.name(),"Emote",String.class,emoteCell); // I18n
       emoteColumn.setWidthSpecs(100,300,200);
       ret.add(emoteColumn);
     }
@@ -124,7 +124,7 @@ public class RewardsColumnsBuilder
           return (traitRewards.size()>0)?traitRewards.get(0).getName():null;
         }
       };
-      DefaultTableColumnController<Rewards,String> traitColumn=new DefaultTableColumnController<Rewards,String>(RewardsColumnIds.TRAIT.name(),"Trait",String.class,traitCell);
+      DefaultTableColumnController<Rewards,String> traitColumn=new DefaultTableColumnController<Rewards,String>(RewardsColumnIds.TRAIT.name(),"Trait",String.class,traitCell); // I18n
       traitColumn.setWidthSpecs(100,300,200);
       ret.add(traitColumn);
     }
@@ -149,7 +149,7 @@ public class RewardsColumnsBuilder
           return (virtueXp>0)?Integer.valueOf(virtueXp):null;
         }
       };
-      DefaultTableColumnController<Rewards,Integer> virtueXpColumn=new DefaultTableColumnController<Rewards,Integer>(RewardsColumnIds.VIRTUE_XP.name(),"Virtue XP",Integer.class,virtueXpCell);
+      DefaultTableColumnController<Rewards,Integer> virtueXpColumn=new DefaultTableColumnController<Rewards,Integer>(RewardsColumnIds.VIRTUE_XP.name(),"Virtue XP",Integer.class,virtueXpCell); // I18n
       ColumnsUtils.configureIntegerColumn(virtueXpColumn);
       ret.add(virtueXpColumn);
     }
@@ -171,7 +171,7 @@ public class RewardsColumnsBuilder
         return (xp>0)?Integer.valueOf(xp):null;
       }
     };
-    DefaultTableColumnController<Rewards,Integer> xpColumn=new DefaultTableColumnController<Rewards,Integer>(RewardsColumnIds.XP.name(),"XP",Integer.class,xpCell);
+    DefaultTableColumnController<Rewards,Integer> xpColumn=new DefaultTableColumnController<Rewards,Integer>(RewardsColumnIds.XP.name(),"XP",Integer.class,xpCell); // I18n
     ColumnsUtils.configureIntegerColumn(xpColumn);
     return xpColumn;
   }
@@ -191,7 +191,7 @@ public class RewardsColumnsBuilder
         return (itemXp>0)?Integer.valueOf(itemXp):null;
       }
     };
-    DefaultTableColumnController<Rewards,Integer> itemXpColumn=new DefaultTableColumnController<Rewards,Integer>(RewardsColumnIds.ITEM_XP.name(),"Item XP",Integer.class,itemXpCell);
+    DefaultTableColumnController<Rewards,Integer> itemXpColumn=new DefaultTableColumnController<Rewards,Integer>(RewardsColumnIds.ITEM_XP.name(),"Item XP",Integer.class,itemXpCell); // I18n
     ColumnsUtils.configureIntegerColumn(itemXpColumn);
     return itemXpColumn;
   }
@@ -211,7 +211,7 @@ public class RewardsColumnsBuilder
         return (mountXp>0)?Integer.valueOf(mountXp):null;
       }
     };
-    DefaultTableColumnController<Rewards,Integer> mountXpColumn=new DefaultTableColumnController<Rewards,Integer>(RewardsColumnIds.MOUNT_XP.name(),"Mount XP",Integer.class,mountXpCell);
+    DefaultTableColumnController<Rewards,Integer> mountXpColumn=new DefaultTableColumnController<Rewards,Integer>(RewardsColumnIds.MOUNT_XP.name(),"Mount XP",Integer.class,mountXpCell); // I18n
     ColumnsUtils.configureIntegerColumn(mountXpColumn);
     return mountXpColumn;
   }
@@ -239,7 +239,7 @@ public class RewardsColumnsBuilder
         return null;
       }
     };
-    DefaultTableColumnController<Rewards,String> factionColumn=new DefaultTableColumnController<Rewards,String>(RewardsColumnIds.FACTION.name(),"Faction",String.class,factionCell);
+    DefaultTableColumnController<Rewards,String> factionColumn=new DefaultTableColumnController<Rewards,String>(RewardsColumnIds.FACTION.name(),"Faction",String.class,factionCell); // I18n
     factionColumn.setWidthSpecs(100,300,200);
     return factionColumn;
   }
@@ -259,7 +259,7 @@ public class RewardsColumnsBuilder
         return (reputationRewards.size()>0)?Integer.valueOf(reputationRewards.get(0).getAmount()):null;
       }
     };
-    DefaultTableColumnController<Rewards,Integer> reputationAmountColumn=new DefaultTableColumnController<Rewards,Integer>(RewardsColumnIds.REPUTATION_AMOUNT.name(),"Rep Amount",Integer.class,reputationAmountCell);
+    DefaultTableColumnController<Rewards,Integer> reputationAmountColumn=new DefaultTableColumnController<Rewards,Integer>(RewardsColumnIds.REPUTATION_AMOUNT.name(),"Rep Amount",Integer.class,reputationAmountCell); // I18n
     reputationAmountColumn.setWidthSpecs(60,60,60);
     return reputationAmountColumn;
   }

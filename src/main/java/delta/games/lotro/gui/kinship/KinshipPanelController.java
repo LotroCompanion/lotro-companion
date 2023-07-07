@@ -60,12 +60,12 @@ public class KinshipPanelController
     JPanel panel=GuiFactory.buildBackgroundPanel(new BorderLayout());
     // Characters table
     JPanel tablePanel=buildTablePanel();
-    tablePanel.setBorder(GuiFactory.buildTitledBorder("Characters"));
+    tablePanel.setBorder(GuiFactory.buildTitledBorder("Characters")); // I18n
     panel.add(tablePanel,BorderLayout.CENTER);
     // Top panel
     _filterController=new KinshipMemberFilterController(_kinship,_filter,_membersPanel);
     JPanel filterPanel=_filterController.getPanel();
-    TitledBorder filterBorder=GuiFactory.buildTitledBorder("Filter");
+    TitledBorder filterBorder=GuiFactory.buildTitledBorder("Filter"); // I18n
     filterPanel.setBorder(filterBorder);
     panel.add(filterPanel,BorderLayout.NORTH);
     return panel;

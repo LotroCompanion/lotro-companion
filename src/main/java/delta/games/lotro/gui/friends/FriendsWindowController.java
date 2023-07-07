@@ -45,7 +45,7 @@ public class FriendsWindowController extends DefaultDisplayDialogController<Frie
   {
     JDialog frame=super.build();
     // Title
-    frame.setTitle("Friends");
+    frame.setTitle("Friends"); // I18n
     frame.setMinimumSize(new Dimension(650,350));
     frame.setSize(850,600);
     frame.setResizable(true);

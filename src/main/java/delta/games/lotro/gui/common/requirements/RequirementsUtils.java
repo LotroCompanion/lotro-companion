@@ -73,11 +73,11 @@ public class RequirementsUtils
       if (sb.length()>0) sb.append(", ");
       if (minLevel.intValue()==1000)
       {
-        sb.append("level cap");
+        sb.append("level cap"); // I18n
       }
       else
       {
-        sb.append("level>=").append(minLevel);
+        sb.append("level>=").append(minLevel); // I18n
       }
     }
     // Maximum level
@@ -85,7 +85,7 @@ public class RequirementsUtils
     if (maxLevel!=null)
     {
       if (sb.length()>0) sb.append(", ");
-      sb.append("level<=").append(maxLevel);
+      sb.append("level<=").append(maxLevel); // I18n
     }
     // Faction
     FactionRequirement factionReq=requirements.getFactionRequirement();
@@ -104,7 +104,7 @@ public class RequirementsUtils
       if (quest!=null)
       {
         if (sb.length()>0) sb.append(", ");
-        sb.append("quest ").append(quest.getName()).append(' ').append(questReq.getQuestStatus());
+        sb.append("quest ").append(quest.getName()).append(' ').append(questReq.getQuestStatus()); // I18n
       }
       else
       {
@@ -112,7 +112,7 @@ public class RequirementsUtils
         if (deed!=null)
         {
           if (sb.length()>0) sb.append(", ");
-          sb.append("deed ").append(deed.getName()).append(' ').append(questReq.getQuestStatus());
+          sb.append("deed ").append(deed.getName()).append(' ').append(questReq.getQuestStatus()); // I18n
         }
       }
     }

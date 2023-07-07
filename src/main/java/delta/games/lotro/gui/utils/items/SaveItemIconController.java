@@ -46,7 +46,7 @@ public class SaveItemIconController implements CommandExecutor,Disposable
   private void installMenu()
   {
     _menu=new PopupMenuController(this);
-    _menu.addMenuItem("Save icon...",SAVE_ICON_TO_FILE);
+    _menu.addMenuItem("Save icon...",SAVE_ICON_TO_FILE); // I18n
     _menu.install(_component);
   }
 
@@ -61,7 +61,7 @@ public class SaveItemIconController implements CommandExecutor,Disposable
 
   private void doSaveIcon()
   {
-    FileChooserController ctrl=new FileChooserController(ID, "Save item icon...");
+    FileChooserController ctrl=new FileChooserController(ID, "Save item icon..."); // I18n
     // Setup default file 
     String filename=_item.getIcon()+".png";
     ctrl.getChooser().setSelectedFile(new File(filename));
@@ -77,7 +77,7 @@ public class SaveItemIconController implements CommandExecutor,Disposable
       if (toFile.exists())
       {
         doIt=false;
-        int result=GuiFactory.showQuestionDialog(_component,"Do you really want to overwrite the selected file?","Overwrite?",JOptionPane.YES_NO_OPTION);
+        int result=GuiFactory.showQuestionDialog(_component,"Do you really want to overwrite the selected file?","Overwrite?",JOptionPane.YES_NO_OPTION); // I18n
         if (result==JOptionPane.OK_OPTION)
         {
           doIt=true;
@@ -88,7 +88,7 @@ public class SaveItemIconController implements CommandExecutor,Disposable
         boolean ok=saveToFile(toFile);
         if (!ok)
         {
-          GuiFactory.showErrorDialog(_component,"Export failed!","Error!");
+          GuiFactory.showErrorDialog(_component,"Export failed!","Error!"); // I18n
         }
       }
     }

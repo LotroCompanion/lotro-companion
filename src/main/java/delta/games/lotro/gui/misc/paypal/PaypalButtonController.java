@@ -37,7 +37,7 @@ public class PaypalButtonController
   {
     JButton button=GuiFactory.buildIconButton("/resources/gui/paypal/donate.png");
     // Tooltip
-    String tooltip="<html>Make a donation with Paypal.<br>"
+    String tooltip="<html>Make a donation with Paypal.<br>" // I18n
         + "This is only to show your support for my work on this tool."
         + "</html>";
     button.setToolTipText(tooltip);
@@ -48,7 +48,7 @@ public class PaypalButtonController
       public void actionPerformed(ActionEvent e)
       {
         String donatePaypal="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=CG39NLT2NJ58A&source=url";
-        BrowserHyperlinkAction action=new BrowserHyperlinkAction(donatePaypal,"Donate");
+        BrowserHyperlinkAction action=new BrowserHyperlinkAction(donatePaypal,"Donate"); // I18n
         action.doClick(null);
       }
     };

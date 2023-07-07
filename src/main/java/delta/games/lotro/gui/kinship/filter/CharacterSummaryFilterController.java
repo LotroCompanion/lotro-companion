@@ -148,7 +148,7 @@ public class CharacterSummaryFilterController
     JPanel linePanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
     // Label filter
     {
-      linePanel.add(GuiFactory.buildLabel("Name filter:"));
+      linePanel.add(GuiFactory.buildLabel("Name filter:")); // I18n
       _contains=GuiFactory.buildTextField("");
       _contains.setColumns(10);
       linePanel.add(_contains);
@@ -167,7 +167,7 @@ public class CharacterSummaryFilterController
     }
     // Class
     {
-      JLabel label=GuiFactory.buildLabel("Class:");
+      JLabel label=GuiFactory.buildLabel("Class:"); // I18n
       linePanel.add(label);
       _class=CharacterUiUtils.buildCharacterClassCombo(true);
       ItemSelectionListener<ClassDescription> classListener=new ItemSelectionListener<ClassDescription>()
@@ -185,7 +185,7 @@ public class CharacterSummaryFilterController
     }
     // Race
     {
-      JLabel label=GuiFactory.buildLabel("Race:");
+      JLabel label=GuiFactory.buildLabel("Race:"); // I18n
       linePanel.add(label);
       _race=CharacterUiUtils.buildRaceCombo(true);
       ItemSelectionListener<RaceDescription> raceListener=new ItemSelectionListener<RaceDescription>()
@@ -203,7 +203,7 @@ public class CharacterSummaryFilterController
     }
     // Sex
     {
-      JLabel label=GuiFactory.buildLabel("Sex:");
+      JLabel label=GuiFactory.buildLabel("Sex:"); // I18n
       linePanel.add(label);
       _sex=CharacterUiUtils.buildSexCombo(true);
       ItemSelectionListener<CharacterSex> sexListener=new ItemSelectionListener<CharacterSex>()

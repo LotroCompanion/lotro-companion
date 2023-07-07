@@ -161,7 +161,7 @@ public class RewardsPanelController extends AbstractPanelController
         JPanel selectablesPanel=GuiFactory.buildPanel(new GridBagLayout());
         GridBagConstraints c2=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
         addRewards(selectablesPanel,c2,selectable.getElements());
-        Border border=GuiFactory.buildTitledBorder("Select one of:");
+        Border border=GuiFactory.buildTitledBorder("Select one of:"); // I18n
         selectablesPanel.setBorder(border);
         int nbElements=selectable.getNbElements();
         GridBagConstraints cSubPanel=new GridBagConstraints(c.gridx,c.gridy,2,nbElements,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);

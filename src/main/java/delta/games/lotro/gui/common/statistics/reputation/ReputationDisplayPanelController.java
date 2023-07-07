@@ -63,7 +63,7 @@ public class ReputationDisplayPanelController<T extends FactionStats>
   private JPanel build()
   {
     JPanel panel=GuiFactory.buildBackgroundPanel(new BorderLayout());
-    TitledBorder border=GuiFactory.buildTitledBorder("Reputation");
+    TitledBorder border=GuiFactory.buildTitledBorder("Reputation"); // I18n
     panel.setBorder(border);
 
     // Table
@@ -74,7 +74,7 @@ public class ReputationDisplayPanelController<T extends FactionStats>
     JPanel statsPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
     _statsLabel=GuiFactory.buildLabel("-");
     statsPanel.add(_statsLabel);
-    JButton choose=GuiFactory.buildButton("Choose columns...");
+    JButton choose=GuiFactory.buildButton("Choose columns..."); // I18n
     ActionListener al=new ActionListener()
     {
       @Override

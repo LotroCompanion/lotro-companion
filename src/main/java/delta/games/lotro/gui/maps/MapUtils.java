@@ -33,7 +33,7 @@ public class MapUtils
     }
     if (title==null)
     {
-      title="Landscape";
+      title="Landscape"; // I18n
     }
     return title;
   }

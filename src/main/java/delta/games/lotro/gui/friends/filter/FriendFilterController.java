@@ -123,7 +123,7 @@ public class FriendFilterController implements ActionListener
     int x=0;
     // Summary
     JPanel summaryPanel=_summary.getPanel();
-    Border summaryBorder=GuiFactory.buildTitledBorder("Character");
+    Border summaryBorder=GuiFactory.buildTitledBorder("Character"); // I18n
     summaryPanel.setBorder(summaryBorder);
     GridBagConstraints c=new GridBagConstraints(x,0,1,1,0.0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(summaryPanel,c);
@@ -131,7 +131,7 @@ public class FriendFilterController implements ActionListener
 
     // Friend attributes
     JPanel friendFilterPanel=buildFriendPanel();
-    friendFilterPanel.setBorder(GuiFactory.buildTitledBorder("Friend"));
+    friendFilterPanel.setBorder(GuiFactory.buildTitledBorder("Friend")); // I18n
     c=new GridBagConstraints(x,0,1,1,0.0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(friendFilterPanel,c);
     x++;
@@ -153,7 +153,7 @@ public class FriendFilterController implements ActionListener
     JPanel linePanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
     // Notes filter
     {
-      linePanel.add(GuiFactory.buildLabel("Notes filter:"));
+      linePanel.add(GuiFactory.buildLabel("Notes filter:")); // I18n
       _contains=GuiFactory.buildTextField("");
       _contains.setColumns(10);
       linePanel.add(_contains);

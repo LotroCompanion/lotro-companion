@@ -60,7 +60,7 @@ public class ObjectChoicePanelController<T> implements FilterUpdateListener
   private JPanel build()
   {
     JPanel panel=GuiFactory.buildPanel(new BorderLayout());
-    TitledBorder itemsFrameBorder=GuiFactory.buildTitledBorder("Choice");
+    TitledBorder itemsFrameBorder=GuiFactory.buildTitledBorder("Choice"); // I18n
     panel.setBorder(itemsFrameBorder);
 
     // Table
@@ -71,7 +71,7 @@ public class ObjectChoicePanelController<T> implements FilterUpdateListener
     JPanel statsPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
     _statsLabel=GuiFactory.buildLabel("");
     statsPanel.add(_statsLabel);
-    JButton choose=GuiFactory.buildButton("Choose columns...");
+    JButton choose=GuiFactory.buildButton("Choose columns..."); // I18n
     ActionListener al=new ActionListener()
     {
       @Override
@@ -104,11 +104,11 @@ public class ObjectChoicePanelController<T> implements FilterUpdateListener
     String label="";
     if (nbFiltered==nbItems)
     {
-      label="Item(s): "+nbItems;
+      label="Item(s): "+nbItems; // I18n
     }
     else
     {
-      label="Item(s): "+nbFiltered+"/"+nbItems;
+      label="Item(s): "+nbFiltered+"/"+nbItems; // I18n
     }
     _statsLabel.setText(label);
   }

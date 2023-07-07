@@ -50,7 +50,7 @@ public class StatusMetadataPanelController
   private JPanel buildPanel()
   {
     JPanel ret=GuiFactory.buildPanel(new FlowLayout());
-    ret.add(GuiFactory.buildLabel("Date: "));
+    ret.add(GuiFactory.buildLabel("Date: ")); // I18n
     ret.add(_dateAge.getLabel());
     return ret;
   }

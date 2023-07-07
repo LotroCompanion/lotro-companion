@@ -150,15 +150,15 @@ public class CustomStatsEditionPanelController
   {
     // Automatic stats
     _autoStats=GuiFactory.buildPanel(new GridBagLayout());
-    _autoStats.setBorder(GuiFactory.buildTitledBorder("Automatic stats"));
+    _autoStats.setBorder(GuiFactory.buildTitledBorder("Automatic stats")); // I18n
 
     // Result stats
     _resultStats=GuiFactory.buildPanel(new GridBagLayout());
-    _resultStats.setBorder(GuiFactory.buildTitledBorder("Result stats"));
+    _resultStats.setBorder(GuiFactory.buildTitledBorder("Result stats")); // I18n
 
     // Custom stats
     JPanel customStatsPanel=buildCustomStatsPanel();
-    customStatsPanel.setBorder(GuiFactory.buildTitledBorder("Custom stats"));
+    customStatsPanel.setBorder(GuiFactory.buildTitledBorder("Custom stats")); // I18n
 
     // Assembly
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
@@ -191,7 +191,7 @@ public class CustomStatsEditionPanelController
   private JPanel buildModePanel()
   {
     JPanel panel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
-    panel.add(GuiFactory.buildLabel("Mode:"));
+    panel.add(GuiFactory.buildLabel("Mode:")); // I18n
     panel.add(_mode.getComboBox());
     _mode.addListener(buildModeChoiceListener());
     return panel;

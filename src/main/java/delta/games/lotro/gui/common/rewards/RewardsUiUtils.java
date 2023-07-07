@@ -152,7 +152,7 @@ public class RewardsUiUtils
     }
     ComboBoxController<BillingGroup> ctrl=new ComboBoxController<BillingGroup>();
     ctrl.addEmptyItem("");
-    ctrl.addItem(BillingGroup.ANY,"(any)");
+    ctrl.addItem(BillingGroup.ANY,"(any)"); // I18n
     for(BillingGroup billingGroup : billingGroups)
     {
       ctrl.addItem(billingGroup,billingGroup.getLabel());

@@ -85,15 +85,15 @@ public class KinshipSummaryDisplayPanelController implements GenericEventsListen
     Insets insets=new Insets(2,5,2,5);
     GridBagConstraints gbc=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,insets,0,0);
     // Labels
-    panel.add(GuiFactory.buildLabel("Status Date:"),gbc);
+    panel.add(GuiFactory.buildLabel("Status Date:"),gbc); // I18n
     gbc.gridx=0; gbc.gridy++;
-    panel.add(GuiFactory.buildLabel("Founder:"),gbc);
+    panel.add(GuiFactory.buildLabel("Founder:"),gbc); // I18n
     gbc.gridx=0; gbc.gridy++;
-    panel.add(GuiFactory.buildLabel("Creation Date:"),gbc);
+    panel.add(GuiFactory.buildLabel("Creation Date:"),gbc); // I18n
     gbc.gridx=0; gbc.gridy++;
-    panel.add(GuiFactory.buildLabel("Leader:"),gbc);
+    panel.add(GuiFactory.buildLabel("Leader:"),gbc); // I18n
     gbc.gridx=0; gbc.gridy++;
-    panel.add(GuiFactory.buildLabel("MOTD:"),gbc);
+    panel.add(GuiFactory.buildLabel("MOTD:"),gbc); // I18n
     gbc.gridx=0; gbc.gridy++;
     // Values
     gbc.gridx=1; gbc.gridy=0;

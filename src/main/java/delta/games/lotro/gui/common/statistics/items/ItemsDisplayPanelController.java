@@ -67,7 +67,7 @@ public class ItemsDisplayPanelController
   private JPanel build()
   {
     JPanel panel=GuiFactory.buildBackgroundPanel(new BorderLayout());
-    TitledBorder border=GuiFactory.buildTitledBorder("Items");
+    TitledBorder border=GuiFactory.buildTitledBorder("Items"); // I18n
     panel.setBorder(border);
 
     // Table
@@ -78,7 +78,7 @@ public class ItemsDisplayPanelController
     JPanel statsPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
     _statsLabel=GuiFactory.buildLabel("-");
     statsPanel.add(_statsLabel);
-    JButton choose=GuiFactory.buildButton("Choose columns...");
+    JButton choose=GuiFactory.buildButton("Choose columns..."); // I18n
     ActionListener al=new ActionListener()
     {
       @Override

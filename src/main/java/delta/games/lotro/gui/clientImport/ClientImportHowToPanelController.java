@@ -52,7 +52,7 @@ public class ClientImportHowToPanelController
 
   private String getHowToText()
   {
-    StringBuilder sb=new StringBuilder();
+    StringBuilder sb=new StringBuilder(); // I18n
     sb.append("1) Start your 32-bit or 64-bit LOTRO client for Windows.");
     sb.append(EndOfLine.UNIX);
     sb.append("2) Click on the Start Button when:");

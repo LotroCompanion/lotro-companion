@@ -35,7 +35,7 @@ public class ResourcesMapsExplorerWindowController extends DefaultWindowControll
   protected JFrame build()
   {
     JFrame frame=super.build();
-    frame.setTitle("Resources maps explorer");
+    frame.setTitle("Resources maps explorer"); // I18n
     frame.setResizable(false);
     frame.pack();
     return frame;

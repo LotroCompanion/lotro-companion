@@ -59,7 +59,7 @@ public class ClientImportDialogController extends DefaultDialogController implem
   {
     JDialog dialog=super.build();
     dialog.setModal(false);
-    dialog.setTitle("Import from local client");
+    dialog.setTitle("Import from local client"); // I18n
     dialog.setResizable(false);
     dialog.pack();
     WindowController controller=getParentController();
@@ -93,13 +93,13 @@ public class ClientImportDialogController extends DefaultDialogController implem
     // How-to panel
     _howToCtrl=new ClientImportHowToPanelController();
     JComponent howTo=_howToCtrl.getHowToGadget();
-    howTo.setBorder(GuiFactory.buildTitledBorder("How To?"));
+    howTo.setBorder(GuiFactory.buildTitledBorder("How To?")); // I18n
     GridBagConstraints c=new GridBagConstraints(0,0,2,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     ret.add(howTo,c);
     // Configuration panel
     _configCtrl=new ImportConfigurationPanelController();
     JPanel configurationPanel=_configCtrl.getPanel();
-    configurationPanel.setBorder(GuiFactory.buildTitledBorder("Configuration"));
+    configurationPanel.setBorder(GuiFactory.buildTitledBorder("Configuration")); // I18n
     c=new GridBagConstraints(0,1,1,2,0.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     ret.add(configurationPanel,c);
     // Commands panel
@@ -109,7 +109,7 @@ public class ClientImportDialogController extends DefaultDialogController implem
     // Display panel
     _displayCtrl=new ImportResultDisplayController();
     JPanel displayPanel=_displayCtrl.getPanel();
-    displayPanel.setBorder(GuiFactory.buildTitledBorder("Results"));
+    displayPanel.setBorder(GuiFactory.buildTitledBorder("Results")); // I18n
     c=new GridBagConstraints(1,2,1,0,1.0,1.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     ret.add(displayPanel,c);
     return ret;
@@ -118,7 +118,7 @@ public class ClientImportDialogController extends DefaultDialogController implem
   private JPanel buildCommandsPanel()
   {
     // Start button
-    _startButton=GuiFactory.buildButton("Start");
+    _startButton=GuiFactory.buildButton("Start"); // I18n
     ActionListener alStart=new ActionListener()
     {
       @Override

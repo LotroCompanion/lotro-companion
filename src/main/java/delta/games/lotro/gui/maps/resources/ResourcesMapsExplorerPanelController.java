@@ -61,7 +61,7 @@ public class ResourcesMapsExplorerPanelController implements ActionListener
 
   private void initFilter(WindowController parent)
   {
-    _filterButton=GuiFactory.buildButton("Filter...");
+    _filterButton=GuiFactory.buildButton("Filter..."); // I18n
     ActionListener al=new ActionListener()
     {
       @Override
@@ -138,26 +138,26 @@ public class ResourcesMapsExplorerPanelController implements ActionListener
     // Crafting level selection
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
     JPanel craftingLevelSelectionPanel=_craftingLevelSelection.getPanel();
-    craftingLevelSelectionPanel.setBorder(GuiFactory.buildTitledBorder("Choose crafting level:"));
+    craftingLevelSelectionPanel.setBorder(GuiFactory.buildTitledBorder("Choose crafting level:")); // I18n
     panel.add(craftingLevelSelectionPanel,c);
     // Map selection
     c=new GridBagConstraints(1,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
     JPanel mapSelectionPanel=GuiFactory.buildPanel(new BorderLayout());
     JComponent mapSelection=_mapSelection.getComboBox().getComboBox();
     mapSelectionPanel.add(mapSelection,BorderLayout.CENTER);
-    mapSelectionPanel.setBorder(GuiFactory.buildTitledBorder("Choose map:"));
+    mapSelectionPanel.setBorder(GuiFactory.buildTitledBorder("Choose map:")); // I18n
     panel.add(mapSelectionPanel,c);
     // Items
     c=new GridBagConstraints(2,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
     JPanel itemsPanel=_items.getPanel();
-    itemsPanel.setBorder(GuiFactory.buildTitledBorder("Items:"));
+    itemsPanel.setBorder(GuiFactory.buildTitledBorder("Items:")); // I18n
     panel.add(itemsPanel,c);
     // Filter...
     c=new GridBagConstraints(3,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
     panel.add(_filterButton,c);
     // Map
     c=new GridBagConstraints(0,1,4,1,1.0,1.0,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
-    _mapPanel.setBorder(GuiFactory.buildTitledBorder("Map"));
+    _mapPanel.setBorder(GuiFactory.buildTitledBorder("Map")); // I18n
     panel.add(_mapPanel,c);
     return panel;
   }

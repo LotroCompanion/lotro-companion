@@ -98,11 +98,11 @@ public class RequirementsFilterController
     {
       JPanel linePanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
       // Class
-      linePanel.add(GuiFactory.buildLabel("Class:"));
+      linePanel.add(GuiFactory.buildLabel("Class:")); // I18n
       _class=buildCharacterClassCombobox();
       linePanel.add(_class.getComboBox());
       // Race
-      linePanel.add(GuiFactory.buildLabel("Race:"));
+      linePanel.add(GuiFactory.buildLabel("Race:")); // I18n
       _race=buildRaceCombobox();
       linePanel.add(_race.getComboBox());
       c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(5,0,5,0),0,0);

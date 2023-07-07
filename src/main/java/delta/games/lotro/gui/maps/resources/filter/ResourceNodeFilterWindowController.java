@@ -54,7 +54,7 @@ public class ResourceNodeFilterWindowController extends DefaultDialogController
   public void configureWindow()
   {
     JDialog dialog=getDialog();
-    dialog.setTitle("Resource nodes filter");
+    dialog.setTitle("Resource nodes filter"); // I18n
     dialog.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
     dialog.setResizable(false);
   }

@@ -31,7 +31,7 @@ public class CraftingXpRewardGadgetsController extends RewardGadgetsController
     int tier=craftingXpReward.getTier();
     CraftingLevel level=profession.getByTier(tier);
     int xpValue=craftingXpReward.getXp();
-    String text=level.getName()+" "+profession.getName()+": "+xpValue+" XP";
+    String text=level.getName()+" "+profession.getName()+": "+xpValue+" XP"; // I18n
     Color color=Color.WHITE;
     _label=new LabelWithHalo();
     _label.setText(text);

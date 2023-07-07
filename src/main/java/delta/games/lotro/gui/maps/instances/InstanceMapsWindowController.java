@@ -87,7 +87,7 @@ public class InstanceMapsWindowController extends DefaultWindowController
       }
       else
       {
-        title="Landscape";
+        title="Landscape"; // I18n
       }
       tabbedPane.add(title,panel);
       _panels.add(ctrl);
@@ -100,7 +100,7 @@ public class InstanceMapsWindowController extends DefaultWindowController
   {
     JFrame frame=super.build();
     // Title
-    String title="Instance maps: "+_pe.getName();
+    String title="Instance maps: "+_pe.getName(); // I18n
     frame.setTitle(title);
     frame.pack();
     frame.setResizable(false);

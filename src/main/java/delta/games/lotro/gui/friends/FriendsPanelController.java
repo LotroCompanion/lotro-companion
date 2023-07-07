@@ -69,12 +69,12 @@ public class FriendsPanelController implements GenericEventsListener<AccountEven
     JPanel panel=GuiFactory.buildBackgroundPanel(new BorderLayout());
     // Characters table
     JPanel tablePanel=buildTablePanel();
-    tablePanel.setBorder(GuiFactory.buildTitledBorder("Friends"));
+    tablePanel.setBorder(GuiFactory.buildTitledBorder("Friends")); // I18n
     panel.add(tablePanel,BorderLayout.CENTER);
     // Top panel
     _filterController=new FriendFilterController(_filter,_membersPanel);
     JPanel filterPanel=_filterController.getPanel();
-    TitledBorder filterBorder=GuiFactory.buildTitledBorder("Filter");
+    TitledBorder filterBorder=GuiFactory.buildTitledBorder("Filter"); // I18n
     filterPanel.setBorder(filterBorder);
     panel.add(filterPanel,BorderLayout.NORTH);
     return panel;

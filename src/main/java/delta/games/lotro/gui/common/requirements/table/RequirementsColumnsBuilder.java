@@ -32,7 +32,7 @@ public class RequirementsColumnsBuilder
           return requirement.getRequiredClass();
         }
       };
-      DefaultTableColumnController<UsageRequirement,AbstractClassDescription> classColumn=new DefaultTableColumnController<UsageRequirement,AbstractClassDescription>(RequirementColumnIds.REQUIRED_CLASS.name(),"Class",AbstractClassDescription.class,classCell);
+      DefaultTableColumnController<UsageRequirement,AbstractClassDescription> classColumn=new DefaultTableColumnController<UsageRequirement,AbstractClassDescription>(RequirementColumnIds.REQUIRED_CLASS.name(),"Class",AbstractClassDescription.class,classCell); // I18n
       classColumn.setWidthSpecs(80,100,80);
       ret.add(classColumn);
     }
@@ -46,7 +46,7 @@ public class RequirementsColumnsBuilder
           return requirement.getRequiredRace();
         }
       };
-      DefaultTableColumnController<UsageRequirement,RaceDescription> raceColumn=new DefaultTableColumnController<UsageRequirement,RaceDescription>(RequirementColumnIds.REQUIRED_RACE.name(),"Race",RaceDescription.class,raceCell);
+      DefaultTableColumnController<UsageRequirement,RaceDescription> raceColumn=new DefaultTableColumnController<UsageRequirement,RaceDescription>(RequirementColumnIds.REQUIRED_RACE.name(),"Race",RaceDescription.class,raceCell); // I18n
       raceColumn.setWidthSpecs(80,100,80);
       ret.add(raceColumn);
     }
@@ -60,7 +60,7 @@ public class RequirementsColumnsBuilder
           return requirement.getMinLevel();
         }
       };
-      DefaultTableColumnController<UsageRequirement,Integer> minLevelColumn=new DefaultTableColumnController<UsageRequirement,Integer>(RequirementColumnIds.REQUIRED_LEVEL.name(),"Min Level",Integer.class,minLevelCell);
+      DefaultTableColumnController<UsageRequirement,Integer> minLevelColumn=new DefaultTableColumnController<UsageRequirement,Integer>(RequirementColumnIds.REQUIRED_LEVEL.name(),"Min Level",Integer.class,minLevelCell); // I18n
       minLevelColumn.setWidthSpecs(40,40,40);
       ret.add(minLevelColumn);
     }
@@ -74,7 +74,7 @@ public class RequirementsColumnsBuilder
           return requirement.getMaxLevel();
         }
       };
-      DefaultTableColumnController<UsageRequirement,Integer> maxLevelColumn=new DefaultTableColumnController<UsageRequirement,Integer>(RequirementColumnIds.MAX_LEVEL.name(),"Max Level",Integer.class,maxLevelCell);
+      DefaultTableColumnController<UsageRequirement,Integer> maxLevelColumn=new DefaultTableColumnController<UsageRequirement,Integer>(RequirementColumnIds.MAX_LEVEL.name(),"Max Level",Integer.class,maxLevelCell); // I18n
       maxLevelColumn.setWidthSpecs(40,40,40);
       ret.add(maxLevelColumn);
     }

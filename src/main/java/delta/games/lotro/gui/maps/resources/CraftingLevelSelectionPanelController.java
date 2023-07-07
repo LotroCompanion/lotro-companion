@@ -82,7 +82,7 @@ public class CraftingLevelSelectionPanelController
     List<Profession> professions=getSupportedProfessions();
     // Profession
     {
-      JLabel label=GuiFactory.buildLabel("Profession:");
+      JLabel label=GuiFactory.buildLabel("Profession:"); // I18n
       line2Panel.add(label);
       _profession=CraftingUiUtils.buildProfessionCombo(professions,false);
       ItemSelectionListener<Profession> professionListener=new ItemSelectionListener<Profession>()
@@ -100,7 +100,7 @@ public class CraftingLevelSelectionPanelController
     // Tier
     List<CraftingLevel> tiers=getSupportedLevels(professions.get(0));
     {
-      JLabel label=GuiFactory.buildLabel("Tier:");
+      JLabel label=GuiFactory.buildLabel("Tier:"); // I18n
       line2Panel.add(label);
       _tier=CraftingUiUtils.buildTierCombo(tiers,false);
       ItemSelectionListener<Integer> typeListener=new ItemSelectionListener<Integer>()

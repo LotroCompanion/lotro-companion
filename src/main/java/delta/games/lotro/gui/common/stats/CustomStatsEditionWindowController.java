@@ -55,7 +55,7 @@ public class CustomStatsEditionWindowController extends DefaultFormDialogControl
   {
     Item reference=_data.getReference();
     String name=reference.getName();
-    String title="Edit stats for "+name;
+    String title="Edit stats for "+name; // I18n
     getDialog().setTitle(title);
   }
 

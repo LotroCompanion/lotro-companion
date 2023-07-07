@@ -15,6 +15,6 @@ public class DurationCellRenderer extends DefaultTableCellRenderer
   public void setValue(Object value)
   {
     setHorizontalAlignment(SwingConstants.CENTER);
-    setText((value == null) ? "" : Duration.getDurationString(((Integer)value).intValue()));
+    setText((value == null) ? "" : Duration.getDurationString(((Integer)value).intValue())); // I18n
   }
 }

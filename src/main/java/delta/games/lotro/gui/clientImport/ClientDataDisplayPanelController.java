@@ -53,17 +53,17 @@ public class ClientDataDisplayPanelController implements Disposable
     ret.add(Box.createHorizontalStrut(150),c);
     c.gridx=0;c.gridy++;
     // Server name
-    ret.add(GuiFactory.buildLabel("Server Name:"),c);
+    ret.add(GuiFactory.buildLabel("Server Name:"),c); // I18n
     c.gridx++;
     ret.add(_serverName,c);
     c.gridx=0;c.gridy++;
     // Language
-    ret.add(GuiFactory.buildLabel("Language:"),c);
+    ret.add(GuiFactory.buildLabel("Language:"),c); // I18n
     c.gridx++;
     ret.add(_language,c);
     c.gridx=0;c.gridy++;
     // Client type
-    ret.add(GuiFactory.buildLabel("Client type:"),c);
+    ret.add(GuiFactory.buildLabel("Client type:"),c); // I18n
     c.gridx++;
     ret.add(_clientType,c);
     c.gridx=0;c.gridy++;

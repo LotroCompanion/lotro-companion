@@ -26,6 +26,7 @@ public class KinshipRankRenderer
    */
   public static String render(KinshipRank rank, CharacterSex sex)
   {
+    // TODO Use generic context system
     String key=buildKey(rank.getName(),sex);
     String ret=_cache.get(key);
     if (ret==null)

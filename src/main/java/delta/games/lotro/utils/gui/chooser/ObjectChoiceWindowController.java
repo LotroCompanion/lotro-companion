@@ -69,7 +69,7 @@ public class ObjectChoiceWindowController<T> extends DefaultFormDialogController
   protected JDialog build()
   {
     JDialog dialog=super.build();
-    dialog.setTitle("Choose:");
+    dialog.setTitle("Choose:"); // I18n
     dialog.setMinimumSize(new Dimension(400,300));
     dialog.setSize(1000,dialog.getHeight());
     return dialog;
@@ -110,7 +110,7 @@ public class ObjectChoiceWindowController<T> extends DefaultFormDialogController
     if (_filterController!=null)
     {
       filterPanel=_filterController.getPanel();
-      TitledBorder filterBorder=GuiFactory.buildTitledBorder("Filter");
+      TitledBorder filterBorder=GuiFactory.buildTitledBorder("Filter"); // I18n
       filterPanel.setBorder(filterBorder);
     }
     // Whole panel

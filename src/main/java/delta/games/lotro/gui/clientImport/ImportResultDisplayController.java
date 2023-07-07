@@ -63,18 +63,18 @@ public class ImportResultDisplayController implements Disposable
     _clientDataCtrl=new ClientDataDisplayPanelController();
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     JPanel clientPanel=_clientDataCtrl.getPanel();
-    clientPanel.setBorder(GuiFactory.buildTitledBorder("Client"));
+    clientPanel.setBorder(GuiFactory.buildTitledBorder("Client")); // I18n
     ret.add(clientPanel,c);
     // Character panel
     _characterCtrl=new CharacterDisplayPanelController();
     c=new GridBagConstraints(0,1,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     JPanel characterPanel=_characterCtrl.getPanel();
-    characterPanel.setBorder(GuiFactory.buildTitledBorder("Character"));
+    characterPanel.setBorder(GuiFactory.buildTitledBorder("Character")); // I18n
     ret.add(characterPanel,c);
     // Extraction results panel
     _extractionCtrl=new ExtractionResultsPanelController();
     JPanel extractionPanel=_extractionCtrl.getPanel();
-    extractionPanel.setBorder(GuiFactory.buildTitledBorder("Extraction"));
+    extractionPanel.setBorder(GuiFactory.buildTitledBorder("Extraction")); // I18n
     c=new GridBagConstraints(1,0,1,2,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     ret.add(extractionPanel,c);
     return ret;
@@ -84,7 +84,7 @@ public class ImportResultDisplayController implements Disposable
   {
     JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
-    ret.add(GuiFactory.buildLabel("Result: "),c);
+    ret.add(GuiFactory.buildLabel("Result: "),c); // I18n
     _message=GuiFactory.buildLabel("");
     c=new GridBagConstraints(1,0,1,1,1.0,1.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     ret.add(_message,c);
@@ -118,11 +118,11 @@ public class ImportResultDisplayController implements Disposable
     }
     if (importStatus==ImportStatus.RUNNING)
     {
-      return "Import in progress";
+      return "Import in progress"; // I18n
     }
     if (importStatus==ImportStatus.FINISHED)
     {
-      return "Import finished!";
+      return "Import finished!"; // I18n
     }
     return "?";
   }

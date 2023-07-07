@@ -156,7 +156,7 @@ public class KinshipsManagementController implements ActionListener,GenericEvent
     {
       String name=kinship.getName();
       // Check deletion
-      int result=GuiFactory.showQuestionDialog(_parentController.getWindow(),"Do you really want to delete kinship " + name + "?","Delete?",JOptionPane.YES_NO_OPTION);
+      int result=GuiFactory.showQuestionDialog(_parentController.getWindow(),"Do you really want to delete kinship " + name + "?","Delete?",JOptionPane.YES_NO_OPTION); // I18n
       if (result==JOptionPane.OK_OPTION)
       {
         String id=KinshipWindowController.getIdentifier(name);
