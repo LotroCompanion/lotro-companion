@@ -53,7 +53,7 @@ public class EmoteDisplayPanelController implements NavigablePanelController
   @Override
   public String getTitle()
   {
-    return "Emote: "+_emote.getName();
+    return "Emote: "+_emote.getName(); // I18n
   }
 
   /**
@@ -95,7 +95,7 @@ public class EmoteDisplayPanelController implements NavigablePanelController
     {
       panel=GuiFactory.buildPanel(new BorderLayout());
       panel.add(references,BorderLayout.CENTER);
-      panel.setBorder(GuiFactory.buildTitledBorder("References"));
+      panel.setBorder(GuiFactory.buildTitledBorder("References")); // I18n
     }
     return panel;
   }
@@ -125,7 +125,7 @@ public class EmoteDisplayPanelController implements NavigablePanelController
       panel.add(panelLine,c);
       c.gridy++;
       // Auto?
-      panelLine.add(GuiFactory.buildLabel("Auto: "));
+      panelLine.add(GuiFactory.buildLabel("Auto: ")); // I18n
       _auto=GuiFactory.buildLabel("");
       panelLine.add(_auto);
     }
@@ -133,7 +133,7 @@ public class EmoteDisplayPanelController implements NavigablePanelController
     // Description
     _details=buildDescriptionPane();
     JScrollPane detailsPane=GuiFactory.buildScrollPane(_details);
-    detailsPane.setBorder(GuiFactory.buildTitledBorder("Description"));
+    detailsPane.setBorder(GuiFactory.buildTitledBorder("Description")); // I18n
     c.fill=GridBagConstraints.BOTH;
     c.weightx=1.0;
     c.weighty=1.0;
@@ -183,7 +183,7 @@ public class EmoteDisplayPanelController implements NavigablePanelController
     _icon.setIcon(icon);
     // Auto
     boolean auto=_emote.isAuto();
-    _auto.setText(auto?"Yes":"No");
+    _auto.setText(auto?"Yes":"No"); // I18n
     // Details
     _details.setText(buildHtml());
     _details.setCaretPosition(0);

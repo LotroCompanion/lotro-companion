@@ -97,7 +97,7 @@ public class HobbyRewardsFilterController
     JPanel line1Panel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
     // Territory
     {
-      JLabel label=GuiFactory.buildLabel("Territory:");
+      JLabel label=GuiFactory.buildLabel("Territory:"); // I18n
       line1Panel.add(label);
       _territory=HobbiesUiUtils.buildTerritoryCombo(_hobby);
       ItemSelectionListener<Territory> categoryListener=new ItemSelectionListener<Territory>()
@@ -116,7 +116,7 @@ public class HobbyRewardsFilterController
     }
     // Proficiencies
     {
-      JLabel label=GuiFactory.buildLabel("Proficiency:");
+      JLabel label=GuiFactory.buildLabel("Proficiency:"); // I18n
       line1Panel.add(label);
       _proficiency=new ComboBoxController<Integer>();
       ItemSelectionListener<Integer> proficiencyListener=new ItemSelectionListener<Integer>()

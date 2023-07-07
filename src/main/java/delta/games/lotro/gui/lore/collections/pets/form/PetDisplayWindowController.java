@@ -46,7 +46,7 @@ public class PetDisplayWindowController extends DefaultDialogController
     container.removeAll();
     JPanel panel=_controller.getPanel();
     container.add(panel,BorderLayout.CENTER);
-    dialog.setTitle("Pet: "+pet.getName());
+    dialog.setTitle("Pet: "+pet.getName()); // 18n
     dialog.pack();
     WindowController controller=getParentController();
     if (controller!=null)

@@ -86,7 +86,7 @@ public class InstancesTableController
         return instance.getName();
       }
     };
-    DefaultTableColumnController<InstanceTreeEntry,String> groupNameColumn=new DefaultTableColumnController<InstanceTreeEntry,String>(InstanceColumnIds.GROUP_NAME.name(),"Group",String.class,groupNameCell);
+    DefaultTableColumnController<InstanceTreeEntry,String> groupNameColumn=new DefaultTableColumnController<InstanceTreeEntry,String>(InstanceColumnIds.GROUP_NAME.name(),"Group",String.class,groupNameCell); // I18n
     groupNameColumn.setWidthSpecs(100,150,150);
     return groupNameColumn;
   }
@@ -109,7 +109,7 @@ public class InstancesTableController
           return Integer.valueOf(instance.getIdentifier());
         }
       };
-      DefaultTableColumnController<SkirmishPrivateEncounter,Integer> idColumn=new DefaultTableColumnController<SkirmishPrivateEncounter,Integer>(InstanceColumnIds.ID.name(),"ID",Integer.class,idCell);
+      DefaultTableColumnController<SkirmishPrivateEncounter,Integer> idColumn=new DefaultTableColumnController<SkirmishPrivateEncounter,Integer>(InstanceColumnIds.ID.name(),"ID",Integer.class,idCell); // I18n
       idColumn.setWidthSpecs(80,80,80);
       ret.add(idColumn);
     }
@@ -123,7 +123,7 @@ public class InstancesTableController
           return instance.getName();
         }
       };
-      DefaultTableColumnController<SkirmishPrivateEncounter,String> nameColumn=new DefaultTableColumnController<SkirmishPrivateEncounter,String>(InstanceColumnIds.NAME.name(),"Name",String.class,nameCell);
+      DefaultTableColumnController<SkirmishPrivateEncounter,String> nameColumn=new DefaultTableColumnController<SkirmishPrivateEncounter,String>(InstanceColumnIds.NAME.name(),"Name",String.class,nameCell); // I18n
       nameColumn.setWidthSpecs(100,-1,250);
       ret.add(nameColumn);
     }
@@ -137,7 +137,7 @@ public class InstancesTableController
           return instance.getType();
         }
       };
-      DefaultTableColumnController<SkirmishPrivateEncounter,WJEncounterType> typeColumn=new DefaultTableColumnController<SkirmishPrivateEncounter,WJEncounterType>(InstanceColumnIds.TYPE.name(),"Type",WJEncounterType.class,typeCell);
+      DefaultTableColumnController<SkirmishPrivateEncounter,WJEncounterType> typeColumn=new DefaultTableColumnController<SkirmishPrivateEncounter,WJEncounterType>(InstanceColumnIds.TYPE.name(),"Type",WJEncounterType.class,typeCell); // I18n
       typeColumn.setWidthSpecs(100,140,140);
       ret.add(typeColumn);
     }
@@ -151,7 +151,7 @@ public class InstancesTableController
           return instance.getCategory();
         }
       };
-      DefaultTableColumnController<SkirmishPrivateEncounter,WJEncounterCategory> categoryColumn=new DefaultTableColumnController<SkirmishPrivateEncounter,WJEncounterCategory>(InstanceColumnIds.CATEGORY.name(),"Category",WJEncounterCategory.class,categoryCell);
+      DefaultTableColumnController<SkirmishPrivateEncounter,WJEncounterCategory> categoryColumn=new DefaultTableColumnController<SkirmishPrivateEncounter,WJEncounterCategory>(InstanceColumnIds.CATEGORY.name(),"Category",WJEncounterCategory.class,categoryCell); // I18n
       categoryColumn.setWidthSpecs(100,220,220);
       ret.add(categoryColumn);
     }
@@ -165,7 +165,7 @@ public class InstancesTableController
           return instance.getMaxPlayers();
         }
       };
-      DefaultTableColumnController<SkirmishPrivateEncounter,Integer> maxPlayersColumn=new DefaultTableColumnController<SkirmishPrivateEncounter,Integer>(InstanceColumnIds.MAX_PLAYERS.name(),"Max players",Integer.class,maxPlayersCell);
+      DefaultTableColumnController<SkirmishPrivateEncounter,Integer> maxPlayersColumn=new DefaultTableColumnController<SkirmishPrivateEncounter,Integer>(InstanceColumnIds.MAX_PLAYERS.name(),"Max players",Integer.class,maxPlayersCell); // I18n
       maxPlayersColumn.setWidthSpecs(50,50,50);
       ret.add(maxPlayersColumn);
     }
@@ -179,7 +179,7 @@ public class InstancesTableController
           return Integer.valueOf(instance.getMinLevelScale());
         }
       };
-      DefaultTableColumnController<SkirmishPrivateEncounter,Integer> minLevelColumn=new DefaultTableColumnController<SkirmishPrivateEncounter,Integer>(InstanceColumnIds.MIN_LEVEL.name(),"Min scale",Integer.class,minLevelCell);
+      DefaultTableColumnController<SkirmishPrivateEncounter,Integer> minLevelColumn=new DefaultTableColumnController<SkirmishPrivateEncounter,Integer>(InstanceColumnIds.MIN_LEVEL.name(),"Min scale",Integer.class,minLevelCell); // I18n
       minLevelColumn.setWidthSpecs(50,50,50);
       ret.add(minLevelColumn);
     }
@@ -193,7 +193,7 @@ public class InstancesTableController
           return Integer.valueOf(instance.getMaxLevelScale());
         }
       };
-      DefaultTableColumnController<SkirmishPrivateEncounter,Integer> maxLevelColumn=new DefaultTableColumnController<SkirmishPrivateEncounter,Integer>(InstanceColumnIds.MAX_LEVEL.name(),"Max scale",Integer.class,maxLevelCell);
+      DefaultTableColumnController<SkirmishPrivateEncounter,Integer> maxLevelColumn=new DefaultTableColumnController<SkirmishPrivateEncounter,Integer>(InstanceColumnIds.MAX_LEVEL.name(),"Max scale",Integer.class,maxLevelCell); // I18n
       maxLevelColumn.setWidthSpecs(50,50,50);
       ret.add(maxLevelColumn);
     }
@@ -207,7 +207,7 @@ public class InstancesTableController
           return instance.getLevelScaling();
         }
       };
-      DefaultTableColumnController<SkirmishPrivateEncounter,Integer> scalingColumn=new DefaultTableColumnController<SkirmishPrivateEncounter,Integer>(InstanceColumnIds.LEVEL_SCALING.name(),"Scaling",Integer.class,scalingCell);
+      DefaultTableColumnController<SkirmishPrivateEncounter,Integer> scalingColumn=new DefaultTableColumnController<SkirmishPrivateEncounter,Integer>(InstanceColumnIds.LEVEL_SCALING.name(),"Scaling",Integer.class,scalingCell); // I18n
       scalingColumn.setWidthSpecs(50,50,50);
       ret.add(scalingColumn);
     }
@@ -221,7 +221,7 @@ public class InstancesTableController
           return Boolean.valueOf(instance.isScalable());
         }
       };
-      DefaultTableColumnController<SkirmishPrivateEncounter,Boolean> scalableColumn=new DefaultTableColumnController<SkirmishPrivateEncounter,Boolean>(InstanceColumnIds.SCALABLE.name(),"Scalable",Boolean.class,scalableCell);
+      DefaultTableColumnController<SkirmishPrivateEncounter,Boolean> scalableColumn=new DefaultTableColumnController<SkirmishPrivateEncounter,Boolean>(InstanceColumnIds.SCALABLE.name(),"Scalable",Boolean.class,scalableCell); // I18n
       scalableColumn.setWidthSpecs(30,30,30);
       ret.add(scalableColumn);
     }

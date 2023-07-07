@@ -60,7 +60,7 @@ public class MobsExplorerPanelController implements FilterUpdateListener
   private JPanel build()
   {
     JPanel panel=GuiFactory.buildPanel(new BorderLayout());
-    TitledBorder border=GuiFactory.buildTitledBorder("Mobs");
+    TitledBorder border=GuiFactory.buildTitledBorder("Mobs"); // 18n
     panel.setBorder(border);
 
     // Table
@@ -71,7 +71,7 @@ public class MobsExplorerPanelController implements FilterUpdateListener
     JPanel statsPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
     _statsLabel=GuiFactory.buildLabel("-");
     statsPanel.add(_statsLabel);
-    JButton choose=GuiFactory.buildButton("Choose columns...");
+    JButton choose=GuiFactory.buildButton("Choose columns..."); // 18n
     ActionListener al=new ActionListener()
     {
       @Override
@@ -103,11 +103,11 @@ public class MobsExplorerPanelController implements FilterUpdateListener
     String label="";
     if (nbFiltered==nbItems)
     {
-      label="Mob(s): "+nbItems;
+      label="Mob(s): "+nbItems; // 18n
     }
     else
     {
-      label="Mob(s): "+nbFiltered+"/"+nbItems;
+      label="Mob(s): "+nbFiltered+"/"+nbItems; // 18n
     }
     _statsLabel.setText(label);
   }

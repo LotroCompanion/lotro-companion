@@ -57,7 +57,7 @@ public class RecipesExplorerWindowController extends DefaultWindowController
   protected JFrame build()
   {
     JFrame frame=super.build();
-    frame.setTitle("Recipes explorer");
+    frame.setTitle("Recipes explorer"); // 18n
     frame.setMinimumSize(new Dimension(400,300));
     frame.setSize(950,700);
     return frame;
@@ -87,7 +87,7 @@ public class RecipesExplorerWindowController extends DefaultWindowController
     List<Recipe> recipes=RecipesManager.getInstance().getAll();
     _filterController=new RecipeFilterController(recipes,_filter,_panelController);
     JPanel filterPanel=_filterController.getPanel();
-    TitledBorder filterBorder=GuiFactory.buildTitledBorder("Filter");
+    TitledBorder filterBorder=GuiFactory.buildTitledBorder("Filter"); // 18n
     filterPanel.setBorder(filterBorder);
 
     // Whole panel

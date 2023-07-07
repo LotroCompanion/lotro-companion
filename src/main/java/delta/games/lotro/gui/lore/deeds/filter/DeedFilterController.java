@@ -221,13 +221,13 @@ public class DeedFilterController extends AbstractPanelController implements Act
     JPanel line1Panel=GuiFactory.buildPanel(new GridBagLayout());
     // Deed attributes
     JPanel deedPanel=buildDeedPanel();
-    Border deedBorder=GuiFactory.buildTitledBorder("Deed");
+    Border deedBorder=GuiFactory.buildTitledBorder("Deed"); // 18n
     deedPanel.setBorder(deedBorder);
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     line1Panel.add(deedPanel,c);
 
     // Reset
-    _reset=GuiFactory.buildButton("Reset");
+    _reset=GuiFactory.buildButton("Reset"); // 18n
     _reset.addActionListener(this);
     c=new GridBagConstraints(1,0,1,1,0.0,0,GridBagConstraints.SOUTHWEST,GridBagConstraints.NONE,new Insets(0,5,5,0),0,0);
     line1Panel.add(_reset,c);
@@ -241,7 +241,7 @@ public class DeedFilterController extends AbstractPanelController implements Act
     if (_requirements!=null)
     {
       JPanel requirementsPanel=_requirements.getPanel();
-      Border requirementsBorder=GuiFactory.buildTitledBorder("Requirements");
+      Border requirementsBorder=GuiFactory.buildTitledBorder("Requirements"); // 18n
       requirementsPanel.setBorder(requirementsBorder);
       c=new GridBagConstraints(0,0,1,1,0.0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
       line2Panel.add(requirementsPanel,c);
@@ -250,7 +250,7 @@ public class DeedFilterController extends AbstractPanelController implements Act
     if (_worldEvents!=null)
     {
       JPanel contextsPanel=_worldEvents.getPanel();
-      Border border=GuiFactory.buildTitledBorder("Context");
+      Border border=GuiFactory.buildTitledBorder("Context"); // 18n
       contextsPanel.setBorder(border);
       c=new GridBagConstraints(1,0,1,1,0.0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
       line2Panel.add(contextsPanel,c);
@@ -259,7 +259,7 @@ public class DeedFilterController extends AbstractPanelController implements Act
     if (_webStoreItems!=null)
     {
       JPanel webStoreItemsPanel=_webStoreItems.getPanel();
-      Border border=GuiFactory.buildTitledBorder("Contents Pack");
+      Border border=GuiFactory.buildTitledBorder("Contents Pack"); // 18n
       webStoreItemsPanel.setBorder(border);
       c=new GridBagConstraints(2,0,1,1,0.0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
       line2Panel.add(webStoreItemsPanel,c);
@@ -270,7 +270,7 @@ public class DeedFilterController extends AbstractPanelController implements Act
 
     // Rewards
     JPanel rewardsPanel=_rewards.getPanel();
-    Border rewardsBorder=GuiFactory.buildTitledBorder("Rewards");
+    Border rewardsBorder=GuiFactory.buildTitledBorder("Rewards"); // 18n
     rewardsPanel.setBorder(rewardsBorder);
     c=new GridBagConstraints(0,y,1,1,0.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(rewardsPanel,c);
@@ -289,7 +289,7 @@ public class DeedFilterController extends AbstractPanelController implements Act
     JPanel linePanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
     // Label filter
     {
-      linePanel.add(GuiFactory.buildLabel("Name filter:"));
+      linePanel.add(GuiFactory.buildLabel("Name filter:")); // 18n
       _contains=GuiFactory.buildTextField("");
       _contains.setColumns(20);
       linePanel.add(_contains);
@@ -308,7 +308,7 @@ public class DeedFilterController extends AbstractPanelController implements Act
     }
     // Type
     {
-      JLabel label=GuiFactory.buildLabel("Type:");
+      JLabel label=GuiFactory.buildLabel("Type:"); // 18n
       linePanel.add(label);
       _type=DeedUiUtils.buildDeedTypeCombo();
       ItemSelectionListener<DeedType> typeListener=new ItemSelectionListener<DeedType>()
@@ -326,7 +326,7 @@ public class DeedFilterController extends AbstractPanelController implements Act
     }
     // Category
     {
-      JLabel label=GuiFactory.buildLabel("Category:");
+      JLabel label=GuiFactory.buildLabel("Category:"); // 18n
       linePanel.add(label);
       _category=DeedUiUtils.buildCategoryCombo();
       ItemSelectionListener<DeedCategory> categoryListener=new ItemSelectionListener<DeedCategory>()
@@ -346,14 +346,14 @@ public class DeedFilterController extends AbstractPanelController implements Act
     boolean isLive=LotroCoreConfig.isLive();
     if (isLive)
     {
-      linePanel.add(GuiFactory.buildLabel("Faction:"));
+      linePanel.add(GuiFactory.buildLabel("Faction:")); // 18n
       _monsterPlay=buildMonsterPlayCombobox();
       linePanel.add(_monsterPlay.getComboBox());
     }
     // Hidden
     if (isLive)
     {
-      linePanel.add(GuiFactory.buildLabel("Hidden:"));
+      linePanel.add(GuiFactory.buildLabel("Hidden:")); // 18n
       _hidden=buildHiddenCombobox();
       linePanel.add(_hidden.getComboBox());
     }
@@ -365,7 +365,7 @@ public class DeedFilterController extends AbstractPanelController implements Act
 
   private ComboBoxController<Boolean> buildMonsterPlayCombobox()
   {
-    ComboBoxController<Boolean> combo=SharedUiUtils.build3StatesBooleanCombobox("","Monster Play","Free Peoples");
+    ComboBoxController<Boolean> combo=SharedUiUtils.build3StatesBooleanCombobox("","Monster Play","Free Peoples"); // 18n
     ItemSelectionListener<Boolean> questSizeListener=new ItemSelectionListener<Boolean>()
     {
       @Override

@@ -62,7 +62,7 @@ public class HobbyDisplayPanelController extends AbstractNavigablePanelControlle
   @Override
   public String getTitle()
   {
-    return "Hobby: "+_hobby.getName();
+    return "Hobby: "+_hobby.getName(); // I18n
   }
 
   /**
@@ -84,7 +84,7 @@ public class HobbyDisplayPanelController extends AbstractNavigablePanelControlle
     panel.add(leftPanel,c);
     // Right panel (rewards)
     JPanel rewardsPanel=_rewards.getPanel();
-    rewardsPanel.setBorder(GuiFactory.buildTitledBorder("Rewards"));
+    rewardsPanel.setBorder(GuiFactory.buildTitledBorder("Rewards")); // I18n
     c=new GridBagConstraints(1,0,1,1,1.0,1.0,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
     panel.add(rewardsPanel,c);
     return panel;
@@ -110,14 +110,14 @@ public class HobbyDisplayPanelController extends AbstractNavigablePanelControlle
 
     // Items
     JPanel itemsPanel=buildItemsTable();
-    itemsPanel.setBorder(GuiFactory.buildTitledBorder("Items"));
+    itemsPanel.setBorder(GuiFactory.buildTitledBorder("Items")); // I18n
     c=new GridBagConstraints(0,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(itemsPanel,c);
     y++;
 
     // Titles
     JPanel titlesPanel=buildTitlesTable();
-    titlesPanel.setBorder(GuiFactory.buildTitledBorder("Titles"));
+    titlesPanel.setBorder(GuiFactory.buildTitledBorder("Titles")); // I18n
     c=new GridBagConstraints(0,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(titlesPanel,c);
     y++;
@@ -125,7 +125,7 @@ public class HobbyDisplayPanelController extends AbstractNavigablePanelControlle
     // Details
     _details=buildDescriptionPane();
     JScrollPane detailsPane=GuiFactory.buildScrollPane(_details);
-    detailsPane.setBorder(GuiFactory.buildTitledBorder("Description"));
+    detailsPane.setBorder(GuiFactory.buildTitledBorder("Description")); // I18n
     c=new GridBagConstraints(0,y,1,1,1.0,1.0,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
     panel.add(detailsPane,c);
 
@@ -184,8 +184,8 @@ public class HobbyDisplayPanelController extends AbstractNavigablePanelControlle
     JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
     // Headers
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
-    ret.add(GuiFactory.buildLabel("Proficiency"),c);c.gridx++;
-    ret.add(GuiFactory.buildLabel("Title"),c);c.gridx++;
+    ret.add(GuiFactory.buildLabel("Proficiency"),c);c.gridx++; // I18n
+    ret.add(GuiFactory.buildLabel("Title"),c);c.gridx++; // I18n
     for(HobbyTitleEntry entry : _hobby.getTitles())
     {
       c.gridx=0;

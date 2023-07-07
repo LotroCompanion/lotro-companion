@@ -46,7 +46,7 @@ public class MountDisplayWindowController extends DefaultDialogController
     container.removeAll();
     JPanel panel=_controller.getPanel();
     container.add(panel,BorderLayout.CENTER);
-    dialog.setTitle("Mount: "+mount.getName());
+    dialog.setTitle("Mount: "+mount.getName()); // 18n
     dialog.pack();
     WindowController controller=getParentController();
     if (controller!=null)

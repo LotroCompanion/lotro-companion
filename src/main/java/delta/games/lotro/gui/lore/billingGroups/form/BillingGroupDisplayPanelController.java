@@ -62,7 +62,7 @@ public class BillingGroupDisplayPanelController implements NavigablePanelControl
   @Override
   public String getTitle()
   {
-    return "Account feature: "+_billingGroup.getName();
+    return "Account feature: "+_billingGroup.getName(); // 18n
   }
 
   /**
@@ -104,7 +104,7 @@ public class BillingGroupDisplayPanelController implements NavigablePanelControl
     {
       panel=GuiFactory.buildPanel(new BorderLayout());
       panel.add(references,BorderLayout.CENTER);
-      panel.setBorder(GuiFactory.buildTitledBorder("References"));
+      panel.setBorder(GuiFactory.buildTitledBorder("References")); // 18n
     }
     return panel;
   }
@@ -128,7 +128,7 @@ public class BillingGroupDisplayPanelController implements NavigablePanelControl
     // Details
     _details=buildDetailsPane();
     JScrollPane detailsPane=GuiFactory.buildScrollPane(_details);
-    detailsPane.setBorder(GuiFactory.buildTitledBorder("Titles"));
+    detailsPane.setBorder(GuiFactory.buildTitledBorder("Titles")); // 18n
     c.fill=GridBagConstraints.BOTH;
     c.weightx=1.0;
     c.weighty=1.0;
@@ -179,7 +179,7 @@ public class BillingGroupDisplayPanelController implements NavigablePanelControl
 
   private void buildHtmlForTitleReference(StringBuilder sb, TitleDescription title)
   {
-    sb.append("<p>Gives title: ");
+    sb.append("<p>Gives title: "); // 18n
     sb.append("<b>");
     int titleID=title.getIdentifier();
     PageIdentifier to=ReferenceConstants.getTitleReference(titleID);

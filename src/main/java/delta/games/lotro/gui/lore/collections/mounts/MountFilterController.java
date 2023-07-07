@@ -128,13 +128,13 @@ public class MountFilterController implements ActionListener
 
     // Mount attributes
     JPanel mountPanel=buildMountPanel();
-    Border border=GuiFactory.buildTitledBorder("Mount");
+    Border border=GuiFactory.buildTitledBorder("Mount"); // 18n
     mountPanel.setBorder(border);
     GridBagConstraints c=new GridBagConstraints(0,y,1,1,0.0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(mountPanel,c);
 
     // Reset
-    _reset=GuiFactory.buildButton("Reset");
+    _reset=GuiFactory.buildButton("Reset"); // 18n
     _reset.addActionListener(this);
     c=new GridBagConstraints(1,y,1,1,0.0,0,GridBagConstraints.SOUTHWEST,GridBagConstraints.NONE,new Insets(0,5,5,5),0,0);
     panel.add(_reset,c);
@@ -151,7 +151,7 @@ public class MountFilterController implements ActionListener
     JPanel line1Panel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
     // Label filter
     {
-      line1Panel.add(GuiFactory.buildLabel("Name filter:"));
+      line1Panel.add(GuiFactory.buildLabel("Name filter:")); // 18n
       _contains=GuiFactory.buildTextField("");
       _contains.setColumns(20);
       line1Panel.add(_contains);
@@ -170,7 +170,7 @@ public class MountFilterController implements ActionListener
     }
     // Category
     {
-      JLabel label=GuiFactory.buildLabel("Category:");
+      JLabel label=GuiFactory.buildLabel("Category:"); // 18n
       line1Panel.add(label);
       _category=MountUiUtils.buildCategoryCombo();
       ItemSelectionListener<SkillCharacteristicSubCategory> categoryListener=new ItemSelectionListener<SkillCharacteristicSubCategory>()
@@ -188,7 +188,7 @@ public class MountFilterController implements ActionListener
     }
     // Type
     {
-      JLabel label=GuiFactory.buildLabel("Type:");
+      JLabel label=GuiFactory.buildLabel("Type:"); // 18n
       line1Panel.add(label);
       _mountType=MountUiUtils.buildTypeCombo();
       ItemSelectionListener<MountType> typeListener=new ItemSelectionListener<MountType>()

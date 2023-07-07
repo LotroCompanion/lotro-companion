@@ -56,7 +56,7 @@ public class PetsExplorerWindowController extends DefaultWindowController
   protected JFrame build()
   {
     JFrame frame=super.build();
-    frame.setTitle("Pets explorer");
+    frame.setTitle("Pets explorer"); // 18n
     frame.setMinimumSize(new Dimension(400,300));
     frame.setSize(825,700);
     return frame;
@@ -85,7 +85,7 @@ public class PetsExplorerWindowController extends DefaultWindowController
     // Filter
     _filterController=new PetFilterController(_filter,_panelController);
     JPanel filterPanel=_filterController.getPanel();
-    TitledBorder filterBorder=GuiFactory.buildTitledBorder("Filter");
+    TitledBorder filterBorder=GuiFactory.buildTitledBorder("Filter"); // 18n
     filterPanel.setBorder(filterBorder);
     // Whole panel
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);

@@ -60,7 +60,7 @@ public class RecipeExplorerPanelController implements FilterUpdateListener
   private JPanel build()
   {
     JPanel panel=GuiFactory.buildPanel(new BorderLayout());
-    TitledBorder itemsFrameBorder=GuiFactory.buildTitledBorder("Items");
+    TitledBorder itemsFrameBorder=GuiFactory.buildTitledBorder("Items"); // 18n
     panel.setBorder(itemsFrameBorder);
 
     // Table
@@ -71,7 +71,7 @@ public class RecipeExplorerPanelController implements FilterUpdateListener
     JPanel statsPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
     _statsLabel=GuiFactory.buildLabel("-");
     statsPanel.add(_statsLabel);
-    JButton choose=GuiFactory.buildButton("Choose columns...");
+    JButton choose=GuiFactory.buildButton("Choose columns..."); // 18n
     ActionListener al=new ActionListener()
     {
       @Override
@@ -103,11 +103,11 @@ public class RecipeExplorerPanelController implements FilterUpdateListener
     String label="";
     if (nbFiltered==nbItems)
     {
-      label="Recipe(s): "+nbItems;
+      label="Recipe(s): "+nbItems; // 18n
     }
     else
     {
-      label="Recipe(s): "+nbFiltered+"/"+nbItems;
+      label="Recipe(s): "+nbFiltered+"/"+nbItems; // 18n
     }
     _statsLabel.setText(label);
   }

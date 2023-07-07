@@ -122,7 +122,7 @@ public class BillingGroupReferencesDisplayController
     List<Reference<Achievable,BillingGroupRole>> achievableReferences=getReferences(references,Achievable.class);
     if (achievableReferences.size()>0)
     {
-      sb.append("<h1>Quests and deeds</h1>");
+      sb.append("<h1>Quests and deeds</h1>"); // 18n
       for(Reference<Achievable,BillingGroupRole> achievableReference : achievableReferences)
       {
         buildHtmlForAchievableReference(sb,achievableReference.getSource());
@@ -132,9 +132,9 @@ public class BillingGroupReferencesDisplayController
 
   private void buildHtmlForAchievableReference(StringBuilder sb, Achievable achievable)
   {
-    sb.append("<p>Reward for ");
+    sb.append("<p>Reward for "); // 18n
     boolean isQuest=(achievable instanceof QuestDescription);
-    String type=isQuest?"quest ":"deed ";
+    String type=isQuest?"quest ":"deed "; // 18n
     sb.append(type);
     sb.append("<b>");
     PageIdentifier to=ReferenceConstants.getAchievableReference(achievable);

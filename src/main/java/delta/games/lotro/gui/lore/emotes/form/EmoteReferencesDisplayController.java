@@ -124,7 +124,7 @@ public class EmoteReferencesDisplayController
     List<Reference<Achievable,EmoteRole>> achievableReferences=getReferences(references,Achievable.class);
     if (achievableReferences.size()>0)
     {
-      sb.append("<h1>Quests and deeds</h1>");
+      sb.append("<h1>Quests and deeds</h1>"); // I18n
       for(Reference<Achievable,EmoteRole> achievableReference : achievableReferences)
       {
         buildHtmlForAchievableReference(sb,achievableReference.getSource());
@@ -134,9 +134,9 @@ public class EmoteReferencesDisplayController
 
   private void buildHtmlForAchievableReference(StringBuilder sb, Achievable achievable)
   {
-    sb.append("<p>Reward for ");
+    sb.append("<p>Reward for "); // I18n
     boolean isQuest=(achievable instanceof QuestDescription);
-    String type=isQuest?"quest ":"deed ";
+    String type=isQuest?"quest ":"deed "; // I18n
     sb.append(type);
     sb.append("<b>");
     PageIdentifier to=ReferenceConstants.getAchievableReference(achievable);
@@ -159,7 +159,7 @@ public class EmoteReferencesDisplayController
 
   private void buildHtmlForItem(StringBuilder sb, Item item)
   {
-    sb.append("<p>Granted by item ");
+    sb.append("<p>Granted by item "); // I18n
     sb.append("<b>");
     PageIdentifier to=ReferenceConstants.getItemReference(item.getIdentifier());
     HtmlUtils.printLink(sb,to.getFullAddress(),item.getName());

@@ -98,7 +98,7 @@ public class ObjectivesDisplayBuilder
     for(Objective objective : objectives)
     {
       int index=objective.getIndex();
-      sb.append("<p><b>Objective #").append(index).append("</b></p>");
+      sb.append("<p><b>Objective #").append(index).append("</b></p>"); // I18n
       String text=objective.getDescription();
       text=ContextRendering.render(_controller,text);
       if (text.length()>0)
@@ -258,11 +258,11 @@ public class ObjectivesDisplayBuilder
       if (proxy!=null)
       {
         String link=getAchievableLink(proxy,null);
-        sb.append("Complete ").append(link);
+        sb.append("Complete ").append(link); // I18n
       }
       else if (questCategory!=null)
       {
-        sb.append("Complete quests in category ").append(questCategory);
+        sb.append("Complete quests in category ").append(questCategory); // I18n
       }
       int count=questComplete.getCount();
       if (count>1)
@@ -293,28 +293,28 @@ public class ObjectivesDisplayBuilder
       List<MobSelection> mobSelections=monsterDied.getMobSelections();
       if (mobName!=null)
       {
-        sb.append("Kill ").append(mobName);
+        sb.append("Kill ").append(mobName); // I18n
       }
       else
       {
         if (mobSelections.size()>0)
         {
-          sb.append("Kill ");
+          sb.append("Kill "); // I18n
           int index=0;
           for(MobSelection mobSelection : mobSelections)
           {
             EntityClassification what=mobSelection.getWhat();
             MobLocation where=mobSelection.getWhere();
-            String whatStr=(what!=null)?what.getLabel():"Mob";
+            String whatStr=(what!=null)?what.getLabel():"Mob"; // I18n
             if (index>0)
             {
-              sb.append(" or ");
+              sb.append(" or "); // I18n
             }
             sb.append(whatStr);
             if (where!=null)
             {
               String whereStr=renderMobLocation(where);
-              sb.append(" in ").append(whereStr);
+              sb.append(" in ").append(whereStr); // I18n
             }
             index++;
           }
@@ -376,29 +376,29 @@ public class ObjectivesDisplayBuilder
       if (landmark!=null)
       {
         String name=landmark.getName();
-        sb.append("Find ").append(name);
+        sb.append("Find ").append(name); // I18n
       }
     }
   }
 
   private void handleInventoryItemCondition(StringBuilder sb, InventoryItemCondition condition)
   {
-    handleItemCondition(sb,condition,"Get");
+    handleItemCondition(sb,condition,"Get"); // I18n
   }
 
   private void handleItemUsedCondition(StringBuilder sb, ItemUsedCondition condition)
   {
-    handleItemCondition(sb,condition,"Use");
+    handleItemCondition(sb,condition,"Use"); // I18n
   }
 
   private void handleExternalInventoryItemCondition(StringBuilder sb, ExternalInventoryItemCondition condition)
   {
-    handleItemCondition(sb,condition,"Obtain");
+    handleItemCondition(sb,condition,"Obtain"); // I18n
   }
 
   private void handleItemTalkCondition(StringBuilder sb, ItemTalkCondition condition)
   {
-    handleItemCondition(sb,condition,"Use");
+    handleItemCondition(sb,condition,"Use"); // I18n
   }
 
   private void handleItemCondition(StringBuilder sb, ItemCondition condition, String verb)
@@ -447,8 +447,8 @@ public class ObjectivesDisplayBuilder
         {
           levelName=ContextRendering.render(_controller,level.getName());
         }
-        sb.append("Reach reputation '").append(levelName);
-        sb.append("' (tier ").append(tier).append(") with ").append(name);
+        sb.append("Reach reputation '").append(levelName); // I18n
+        sb.append("' (tier ").append(tier).append(") with ").append(name); // I18n
       }
     }
   }
@@ -462,7 +462,7 @@ public class ObjectivesDisplayBuilder
       if (skill!=null)
       {
         String name=skill.getName();
-        sb.append("Use skill ").append(name);
+        sb.append("Use skill ").append(name); // I18n
         int count=condition.getCount();
         if (count>1)
         {
@@ -471,7 +471,7 @@ public class ObjectivesDisplayBuilder
         Integer maxPerDay=condition.getMaxPerDay();
         if (maxPerDay!=null)
         {
-          sb.append(" (max ").append(maxPerDay).append("/day)");
+          sb.append(" (max ").append(maxPerDay).append("/day)"); // I18n
         }
       }
       else
@@ -509,7 +509,7 @@ public class ObjectivesDisplayBuilder
         if (!points.isEmpty())
         {
           String action=condition.getAction();
-          sb.append(action).append(" NPC at ");
+          sb.append(action).append(" NPC at "); // I18n
           sb.append(getPositions(points));
         }
         else
@@ -527,7 +527,7 @@ public class ObjectivesDisplayBuilder
     if (!hasProgressOverride)
     {
       int level=condition.getLevel();
-      sb.append("Reach level ").append(level);
+      sb.append("Reach level ").append(level); // I18n
     }
   }
 
@@ -540,7 +540,7 @@ public class ObjectivesDisplayBuilder
       if (proxy!=null)
       {
         String link=getAchievableLink(proxy,null);
-        sb.append("Have ").append(link).append(" bestowed");
+        sb.append("Have ").append(link).append(" bestowed"); // I18n
       }
     }
   }
@@ -563,7 +563,7 @@ public class ObjectivesDisplayBuilder
       String target=getTarget(condition.getTarget());
       if (target!=null)
       {
-        sb.append("Go near ").append(target);
+        sb.append("Go near ").append(target); // I18n
       }
       else
       {
@@ -571,13 +571,13 @@ public class ObjectivesDisplayBuilder
         if (!points.isEmpty())
         {
           String action=condition.getAction();
-          sb.append(action).append("Go near ");
+          sb.append(action).append("Go near "); // I18n
           sb.append(getPositions(points));
         }
         else
         {
           LOGGER.warn("No NPC, no mob and no progress override");
-          sb.append("No NPC, no mob and no progress override");
+          sb.append("No NPC, no mob and no progress override"); // I18n
         }
       }
     }
@@ -590,7 +590,7 @@ public class ObjectivesDisplayBuilder
     {
       EmoteDescription emote=condition.getEmote();
       String command=emote.getName();
-      sb.append("Perform emote ").append(command);
+      sb.append("Perform emote ").append(command); // I18n
       int count=condition.getCount();
       if (count>1)
       {
@@ -599,13 +599,13 @@ public class ObjectivesDisplayBuilder
       Integer maxDaily=condition.getMaxDaily();
       if (maxDaily!=null)
       {
-        sb.append(" (max ").append(maxDaily).append("/day");
+        sb.append(" (max ").append(maxDaily).append("/day"); // I18n
       }
       ConditionTarget target=condition.getTarget();
       String targetLabel=getTarget(target);
       if (targetLabel!=null)
       {
-        sb.append(" on ");
+        sb.append(" on "); // I18n
         sb.append(targetLabel);
       }
     }
@@ -634,7 +634,7 @@ public class ObjectivesDisplayBuilder
       if (text==null)
       {
         boolean isQuest=(achievable instanceof QuestDescription);
-        String type=isQuest?"quest ":"deed ";
+        String type=isQuest?"quest ":"deed "; // I18n
         sb.append(type);
         text=achievable.getName();
         text=ContextRendering.render(_controller,text);
@@ -654,7 +654,7 @@ public class ObjectivesDisplayBuilder
     else
     {
       LOGGER.warn("Could not resolve deed/quest ID="+proxy.getId()+", name="+proxy.getName());
-      sb.append("quest/deed "+proxy.getId());
+      sb.append("quest/deed "+proxy.getId()); // I18n
     }
     return sb.toString();
   }
@@ -669,7 +669,7 @@ public class ObjectivesDisplayBuilder
     boolean hasProgressOverride=printProgressOverride(sb,condition);
     if (!hasProgressOverride)
     {
-      sb.append("Missing data!!");
+      sb.append("Missing data!!"); // I18n
       ConditionType type=condition.getType();
       IntegerHolder counter=_counters.get(type);
       if (counter==null)

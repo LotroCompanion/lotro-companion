@@ -169,13 +169,13 @@ public class RecipeFilterController implements ActionListener
 
     // Recipe attributes
     JPanel recipePanel=buildRecipePanel();
-    Border border=GuiFactory.buildTitledBorder("Recipe");
+    Border border=GuiFactory.buildTitledBorder("Recipe"); // 18n
     recipePanel.setBorder(border);
     GridBagConstraints c=new GridBagConstraints(0,y,1,1,0.0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(recipePanel,c);
 
     // Reset
-    _reset=GuiFactory.buildButton("Reset");
+    _reset=GuiFactory.buildButton("Reset"); // 18n
     _reset.addActionListener(this);
     c=new GridBagConstraints(1,y,1,1,0.0,0,GridBagConstraints.SOUTHWEST,GridBagConstraints.NONE,new Insets(0,5,5,5),0,0);
     panel.add(_reset,c);
@@ -200,13 +200,13 @@ public class RecipeFilterController implements ActionListener
     int y=0;
     // Label filter
     JPanel line1Panel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
-    line1Panel.add(GuiFactory.buildLabel("Name filter:"));
+    line1Panel.add(GuiFactory.buildLabel("Name filter:")); // 18n
     line1Panel.add(_contains);
     // Profession
-    line1Panel.add(GuiFactory.buildLabel("Profession:"));
+    line1Panel.add(GuiFactory.buildLabel("Profession:")); // 18n
     line1Panel.add(_profession.getComboBox());
     // Tier
-    line1Panel.add(GuiFactory.buildLabel("Tier:"));
+    line1Panel.add(GuiFactory.buildLabel("Tier:")); // 18n
     line1Panel.add(_tier.getComboBox());
 
     GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,5,0),0,0);
@@ -215,10 +215,10 @@ public class RecipeFilterController implements ActionListener
 
     JPanel line2Panel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
     // Category
-    line2Panel.add(GuiFactory.buildLabel("Category:"));
+    line2Panel.add(GuiFactory.buildLabel("Category:")); // 18n
     line2Panel.add(_category.getComboBox());
     // Ingredient
-    line2Panel.add(GuiFactory.buildLabel("Ingredient:"));
+    line2Panel.add(GuiFactory.buildLabel("Ingredient:")); // 18n
     line2Panel.add(_ingredient.getComboBox());
     c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,5,0),0,0);
     panel.add(line2Panel,c);
@@ -226,13 +226,13 @@ public class RecipeFilterController implements ActionListener
 
     JPanel line3Panel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
     // Single Use
-    line3Panel.add(GuiFactory.buildLabel("Single Use:"));
+    line3Panel.add(GuiFactory.buildLabel("Single Use:")); // 18n
     line3Panel.add(_singleUse.getComboBox());
     // Cooldown
-    line3Panel.add(GuiFactory.buildLabel("Cooldown:"));
+    line3Panel.add(GuiFactory.buildLabel("Cooldown:")); // 18n
     line3Panel.add(_cooldown.getComboBox());
     // Guild
-    line3Panel.add(GuiFactory.buildLabel("Guild:"));
+    line3Panel.add(GuiFactory.buildLabel("Guild:")); // 18n
     line3Panel.add(_guild.getComboBox());
     c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,5,0),0,0);
     panel.add(line3Panel,c);
@@ -336,7 +336,7 @@ public class RecipeFilterController implements ActionListener
 
   private ComboBoxController<Boolean> buildSingleUseCombobox()
   {
-    ComboBoxController<Boolean> combo=SharedUiUtils.build3StatesBooleanCombobox("","Yes","No");
+    ComboBoxController<Boolean> combo=SharedUiUtils.build3StatesBooleanCombobox("","Yes","No"); // 18n
     ItemSelectionListener<Boolean> listener=new ItemSelectionListener<Boolean>()
     {
       @Override
@@ -353,7 +353,7 @@ public class RecipeFilterController implements ActionListener
 
   private ComboBoxController<Boolean> buildCooldownCombobox()
   {
-    ComboBoxController<Boolean> combo=SharedUiUtils.build3StatesBooleanCombobox("","Yes","No");
+    ComboBoxController<Boolean> combo=SharedUiUtils.build3StatesBooleanCombobox("","Yes","No"); // 18n
     ItemSelectionListener<Boolean> listener=new ItemSelectionListener<Boolean>()
     {
       @Override
@@ -370,7 +370,7 @@ public class RecipeFilterController implements ActionListener
 
   private ComboBoxController<Boolean> buildGuildCombobox()
   {
-    ComboBoxController<Boolean> combo=SharedUiUtils.build3StatesBooleanCombobox("","Yes","No");
+    ComboBoxController<Boolean> combo=SharedUiUtils.build3StatesBooleanCombobox("","Yes","No"); // 18n
     ItemSelectionListener<Boolean> listener=new ItemSelectionListener<Boolean>()
     {
       @Override

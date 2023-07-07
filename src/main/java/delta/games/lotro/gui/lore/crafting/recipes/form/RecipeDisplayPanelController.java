@@ -66,7 +66,7 @@ public class RecipeDisplayPanelController implements NavigablePanelController
   @Override
   public String getTitle()
   {
-    return "Recipe: "+_recipe.getName();
+    return "Recipe: "+_recipe.getName(); // 18n
   }
 
   /**
@@ -100,7 +100,7 @@ public class RecipeDisplayPanelController implements NavigablePanelController
       for(RecipeVersion version : _recipe.getVersions())
       {
         JPanel versionPanel=buildVersionPanel(version);
-        tabbedPane.add("Output #"+index,versionPanel);
+        tabbedPane.add("Output #"+index,versionPanel); // 18n
         index++;
       }
       versionsComponent=tabbedPane;
@@ -123,7 +123,7 @@ public class RecipeDisplayPanelController implements NavigablePanelController
     // Name
     JLabel nameLabel=GuiFactory.buildLabel(_recipe.getName(), 28f);
     // Profession and tier
-    String professionAndTier=_recipe.getProfession()+", tier "+_recipe.getTier();
+    String professionAndTier=_recipe.getProfession()+", tier "+_recipe.getTier(); // 18n
     JLabel professionAndTierLabel=GuiFactory.buildLabel(professionAndTier);
     // Category and XP
     JLabel categoryAndXpLabel=GuiFactory.buildLabel(getCategoryAndXp());
@@ -176,7 +176,7 @@ public class RecipeDisplayPanelController implements NavigablePanelController
       scrollPanel.add(_recipeItemIcon.getIcon(),c);
       c=new GridBagConstraints(1,0,1,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(2,2,2,2),0,0);
       scrollPanel.add(_recipeItemLabel.getLabel(),c);
-      scrollPanel.setBorder(GuiFactory.buildTitledBorder("Scroll"));
+      scrollPanel.setBorder(GuiFactory.buildTitledBorder("Scroll")); // 18n
       c=new GridBagConstraints(0,4,2,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,2,2,2),0,0);
       panel.add(scrollPanel,c);
     }
@@ -187,7 +187,7 @@ public class RecipeDisplayPanelController implements NavigablePanelController
       ingredientPackPanel.add(_ingredientPackIcon.getIcon(),c);
       c=new GridBagConstraints(1,0,1,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(2,2,2,2),0,0);
       ingredientPackPanel.add(_ingredientPackLabel.getLabel(),c);
-      ingredientPackPanel.setBorder(GuiFactory.buildTitledBorder("Ingredient Pack"));
+      ingredientPackPanel.setBorder(GuiFactory.buildTitledBorder("Ingredient Pack")); // 18n
       c=new GridBagConstraints(0,5,2,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,2,2,2),0,0);
       panel.add(ingredientPackPanel,c);
     }
@@ -200,7 +200,7 @@ public class RecipeDisplayPanelController implements NavigablePanelController
     CraftingUICategory category=_recipe.getCategory();
     if (category!=null)
     {
-      sb.append("Category: ");
+      sb.append("Category: "); // 18n
       sb.append(category.getLabel());
     }
     int xp=_recipe.getXP();
@@ -210,7 +210,7 @@ public class RecipeDisplayPanelController implements NavigablePanelController
       {
         sb.append(", ");
       }
-      sb.append("XP: ");
+      sb.append("XP: "); // 18n
       sb.append(xp);
     }
     return sb.toString();
@@ -222,7 +222,7 @@ public class RecipeDisplayPanelController implements NavigablePanelController
     boolean singleUse=_recipe.isOneTimeUse();
     if (singleUse)
     {
-      sb.append("Single Use");
+      sb.append("Single Use"); // 18n
     }
     boolean autoBestowed=isAutobestowed(_recipe);
     if (autoBestowed)
@@ -231,7 +231,7 @@ public class RecipeDisplayPanelController implements NavigablePanelController
       {
         sb.append(", ");
       }
-      sb.append("Auto-bestowed");
+      sb.append("Auto-bestowed"); // 18n
     }
     boolean guildRequired=_recipe.isGuildRequired();
     if (guildRequired)
@@ -240,7 +240,7 @@ public class RecipeDisplayPanelController implements NavigablePanelController
       {
         sb.append(", ");
       }
-      sb.append("Guild recipe");
+      sb.append("Guild recipe"); // 18n
     }
     int cooldown=_recipe.getCooldown();
     if (cooldown>0)
@@ -249,7 +249,7 @@ public class RecipeDisplayPanelController implements NavigablePanelController
       {
         sb.append(", ");
       }
-      sb.append("Cooldown: ");
+      sb.append("Cooldown: "); // 18n
       String cooldownStr=Duration.getDurationString(cooldown);
       sb.append(cooldownStr);
     }
@@ -274,12 +274,12 @@ public class RecipeDisplayPanelController implements NavigablePanelController
     JPanel versionPanel=GuiFactory.buildBackgroundPanel(new GridBagLayout());
     // Ingredients
     JPanel ingredientsPanel=buildIngredientsPanel(version);
-    ingredientsPanel.setBorder(GuiFactory.buildTitledBorder("Ingredients"));
+    ingredientsPanel.setBorder(GuiFactory.buildTitledBorder("Ingredients")); // 18n
     GridBagConstraints c=new GridBagConstraints(0,1,1,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(2,2,2,2),0,0);
     versionPanel.add(ingredientsPanel,c);
     // Results
     JPanel resultsPanel=buildResultsPanel(version);
-    resultsPanel.setBorder(GuiFactory.buildTitledBorder("Results"));
+    resultsPanel.setBorder(GuiFactory.buildTitledBorder("Results")); // 18n
     c=new GridBagConstraints(0,2,1,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(2,2,2,2),0,0);
     versionPanel.add(resultsPanel,c);
     return versionPanel;
@@ -325,11 +325,11 @@ public class RecipeDisplayPanelController implements NavigablePanelController
       boolean optional=ingredient.isOptional();
       if (optional)
       {
-        comment="Optional";
+        comment="Optional"; // 18n
         Integer critBonus=ingredient.getCriticalChanceBonus();
         if (critBonus!=null)
         {
-          comment=comment+", gives +"+critBonus.toString()+"% critical chance";
+          comment=comment+", gives +"+critBonus.toString()+"% critical chance"; // 18n
         }
       }
       ItemDisplayGadgets gadgets=new ItemDisplayGadgets(_parent,itemId,quantity,comment);
@@ -381,7 +381,7 @@ public class RecipeDisplayPanelController implements NavigablePanelController
     Item item=result.getItem();
     int itemId=item.getIdentifier();
     int count=result.getQuantity();
-    String comment=result.isCriticalResult()?"Critical result: ":"Regular result: ";
+    String comment=result.isCriticalResult()?"Critical result: ":"Regular result: "; // 18n
     ItemDisplayGadgets ret=new ItemDisplayGadgets(_parent,itemId,count,comment);
     return ret;
   }

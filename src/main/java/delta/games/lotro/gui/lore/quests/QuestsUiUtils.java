@@ -43,7 +43,7 @@ public class QuestsUiUtils
     List<String> questArcs=QuestsUtils.getQuestArcs();
     for(String questArc : questArcs)
     {
-      String label=(questArc.length()>0)?questArc:"(none)";
+      String label=(questArc.length()>0)?questArc:"(none)"; // I18n
       ctrl.addItem(questArc,label);
     }
     ctrl.selectItem(null);
@@ -72,7 +72,7 @@ public class QuestsUiUtils
    */
   public static ComboBoxController<Boolean> build3StatesBooleanCombobox()
   {
-    return SharedUiUtils.build3StatesBooleanCombobox("","Yes","No");
+    return SharedUiUtils.build3StatesBooleanCombobox("","Yes","No"); // I18n
   }
 
   /**

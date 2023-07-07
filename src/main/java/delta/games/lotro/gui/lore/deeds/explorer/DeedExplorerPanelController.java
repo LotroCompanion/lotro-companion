@@ -60,7 +60,7 @@ public class DeedExplorerPanelController implements FilterUpdateListener
   private JPanel build()
   {
     JPanel panel=GuiFactory.buildPanel(new BorderLayout());
-    TitledBorder itemsFrameBorder=GuiFactory.buildTitledBorder("Items");
+    TitledBorder itemsFrameBorder=GuiFactory.buildTitledBorder("Items"); // 18n
     panel.setBorder(itemsFrameBorder);
 
     // Table
@@ -72,7 +72,7 @@ public class DeedExplorerPanelController implements FilterUpdateListener
     _statsLabel=GuiFactory.buildLabel("-");
     statsPanel.add(_statsLabel);
     // Button to choose columns
-    JButton choose=GuiFactory.buildButton("Choose columns...");
+    JButton choose=GuiFactory.buildButton("Choose columns..."); // 18n
     ActionListener al=new ActionListener()
     {
       @Override
@@ -104,11 +104,11 @@ public class DeedExplorerPanelController implements FilterUpdateListener
     String label="";
     if (nbFiltered==nbItems)
     {
-      label="Deed(s): "+nbItems;
+      label="Deed(s): "+nbItems; // 18n
     }
     else
     {
-      label="Deed(s): "+nbFiltered+"/"+nbItems;
+      label="Deed(s): "+nbFiltered+"/"+nbItems; // 18n
     }
     _statsLabel.setText(label);
   }

@@ -76,7 +76,7 @@ public class EmotesTableBuilder
           return icon;
         }
       };
-      DefaultTableColumnController<EmoteDescription,Icon> iconColumn=new DefaultTableColumnController<EmoteDescription,Icon>(EmoteColumnIds.ICON.name(),"Icon",Icon.class,iconCell);
+      DefaultTableColumnController<EmoteDescription,Icon> iconColumn=new DefaultTableColumnController<EmoteDescription,Icon>(EmoteColumnIds.ICON.name(),"Icon",Icon.class,iconCell); // I18n
       iconColumn.setWidthSpecs(50,50,50);
       iconColumn.setSortable(false);
       ret.add(iconColumn);
@@ -92,7 +92,7 @@ public class EmotesTableBuilder
           return Integer.valueOf(emote.getIdentifier());
         }
       };
-      DefaultTableColumnController<EmoteDescription,Integer> idColumn=new DefaultTableColumnController<EmoteDescription,Integer>(EmoteColumnIds.ID.name(),"ID",Integer.class,idCell);
+      DefaultTableColumnController<EmoteDescription,Integer> idColumn=new DefaultTableColumnController<EmoteDescription,Integer>(EmoteColumnIds.ID.name(),"ID",Integer.class,idCell); // I18n
       idColumn.setWidthSpecs(80,80,80);
       ret.add(idColumn);
     }
@@ -106,7 +106,7 @@ public class EmotesTableBuilder
           return emote.getCommand();
         }
       };
-      DefaultTableColumnController<EmoteDescription,String> commandColumn=new DefaultTableColumnController<EmoteDescription,String>(EmoteColumnIds.COMMAND.name(),"Command",String.class,commandCell);
+      DefaultTableColumnController<EmoteDescription,String> commandColumn=new DefaultTableColumnController<EmoteDescription,String>(EmoteColumnIds.COMMAND.name(),"Command",String.class,commandCell); // I18n
       commandColumn.setWidthSpecs(100,120,200);
       ret.add(commandColumn);
     }
@@ -120,7 +120,7 @@ public class EmotesTableBuilder
           return Boolean.valueOf(emote.isAuto());
         }
       };
-      DefaultTableColumnController<EmoteDescription,Boolean> autoColumn=new DefaultTableColumnController<EmoteDescription,Boolean>(EmoteColumnIds.AUTO.name(),"Auto",Boolean.class,autoCell);
+      DefaultTableColumnController<EmoteDescription,Boolean> autoColumn=new DefaultTableColumnController<EmoteDescription,Boolean>(EmoteColumnIds.AUTO.name(),"Auto",Boolean.class,autoCell); // I18n
       autoColumn.setWidthSpecs(30,30,30);
       ret.add(autoColumn);
     }
@@ -134,7 +134,7 @@ public class EmotesTableBuilder
           return emote.getDescription();
         }
       };
-      DefaultTableColumnController<EmoteDescription,String> nameColumn=new DefaultTableColumnController<EmoteDescription,String>(EmoteColumnIds.DESCRIPTION.name(),"Description",String.class,nameCell);
+      DefaultTableColumnController<EmoteDescription,String> nameColumn=new DefaultTableColumnController<EmoteDescription,String>(EmoteColumnIds.DESCRIPTION.name(),"Description",String.class,nameCell); // I18n
       nameColumn.setWidthSpecs(100,-1,200);
       ret.add(nameColumn);
     }

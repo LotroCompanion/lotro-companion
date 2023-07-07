@@ -82,7 +82,7 @@ public class QuestDisplayPanelController extends AbstractNavigablePanelControlle
   @Override
   public String getTitle()
   {
-    return "Quest: "+_quest.getName();
+    return "Quest: "+_quest.getName(); // I18n
   }
 
   private JPanel build()
@@ -98,7 +98,7 @@ public class QuestDisplayPanelController extends AbstractNavigablePanelControlle
     // Rewards
     _rewards=new RewardsPanelController(getParent(),_quest.getRewards());
     JPanel rewardsPanel=_rewards.getPanel();
-    TitledBorder rewardsBorder=GuiFactory.buildTitledBorder("Rewards");
+    TitledBorder rewardsBorder=GuiFactory.buildTitledBorder("Rewards"); // I18n
     rewardsPanel.setBorder(rewardsBorder);
     c=new GridBagConstraints(1,1,1,1,0.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(rewardsPanel,c);
@@ -106,7 +106,7 @@ public class QuestDisplayPanelController extends AbstractNavigablePanelControlle
     // Details
     _details=buildDetailsPane();
     JScrollPane detailsPane=GuiFactory.buildScrollPane(_details);
-    detailsPane.setBorder(GuiFactory.buildTitledBorder("Details"));
+    detailsPane.setBorder(GuiFactory.buildTitledBorder("Details")); // I18n
     c=new GridBagConstraints(0,1,1,1,1.0,1.0,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
     panel.add(detailsPane,c);
     setData();
@@ -134,7 +134,7 @@ public class QuestDisplayPanelController extends AbstractNavigablePanelControlle
       panel.add(panelLine,c);
       c.gridy++;
       // Category
-      panelLine.add(GuiFactory.buildLabel("Category: "));
+      panelLine.add(GuiFactory.buildLabel("Category: ")); // I18n
       _category=GuiFactory.buildLabel("");
       panelLine.add(_category);
     }
@@ -144,7 +144,7 @@ public class QuestDisplayPanelController extends AbstractNavigablePanelControlle
       panel.add(panelLine,c);
       c.gridy++;
       // Quest arc
-      panelLine.add(GuiFactory.buildLabel("Quest arc: "));
+      panelLine.add(GuiFactory.buildLabel("Quest arc: ")); // I18n
       _questArc=GuiFactory.buildLabel("");
       panelLine.add(_questArc);
     }
@@ -154,7 +154,7 @@ public class QuestDisplayPanelController extends AbstractNavigablePanelControlle
       panel.add(panelLine,c);
       c.gridy++;
       // Challenge level
-      panelLine.add(GuiFactory.buildLabel("Level: "));
+      panelLine.add(GuiFactory.buildLabel("Level: ")); // I18n
       _challengeLevel=GuiFactory.buildLabel("");
       panelLine.add(_challengeLevel);
     }
@@ -164,7 +164,7 @@ public class QuestDisplayPanelController extends AbstractNavigablePanelControlle
       panel.add(panelLine,c);
       c.gridy++;
       // Requirements
-      panelLine.add(GuiFactory.buildLabel("Requirements: "));
+      panelLine.add(GuiFactory.buildLabel("Requirements: ")); // I18n
       _requirements=GuiFactory.buildLabel("");
       panelLine.add(_requirements);
     }
@@ -183,7 +183,7 @@ public class QuestDisplayPanelController extends AbstractNavigablePanelControlle
       panel.add(panelLine,c);
       c.gridy++;
       // Quest pack
-      panelLine.add(GuiFactory.buildLabel("Contents pack: "));
+      panelLine.add(GuiFactory.buildLabel("Contents pack: ")); // I18n
       _questPack=GuiFactory.buildLabel("");
       panelLine.add(_questPack);
     }
@@ -203,7 +203,7 @@ public class QuestDisplayPanelController extends AbstractNavigablePanelControlle
       JPanel achievablesRequirementsPanel=_achievablesRequirements.getPanel();
       c=new GridBagConstraints(0,c.gridy,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
       panel.add(achievablesRequirementsPanel,c);
-      achievablesRequirementsPanel.setBorder(GuiFactory.buildTitledBorder("Quests/deeds Requirements"));
+      achievablesRequirementsPanel.setBorder(GuiFactory.buildTitledBorder("Quests/deeds Requirements")); // I18n
       c.gridy++;
     }
     // World events conditions
@@ -217,7 +217,7 @@ public class QuestDisplayPanelController extends AbstractNavigablePanelControlle
         JPanel worldEventConditionsPanel=_worldEventConditions.getPanel();
         c=new GridBagConstraints(0,c.gridy,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
         panel.add(worldEventConditionsPanel,c);
-        worldEventConditionsPanel.setBorder(GuiFactory.buildTitledBorder("Context"));
+        worldEventConditionsPanel.setBorder(GuiFactory.buildTitledBorder("Context")); // I18n
         c.gridy++;
       }
     }
@@ -254,7 +254,7 @@ public class QuestDisplayPanelController extends AbstractNavigablePanelControlle
   {
     StringBuilder sb=new StringBuilder();
     sb.append("<html><body>");
-    sb.append("<b>Description</b><br>");
+    sb.append("<b>Description</b><br>"); // I18n
     String description=_quest.getDescription();
     description=ContextRendering.render(this,description);
     sb.append(HtmlUtils.toHtml(description));
@@ -262,13 +262,13 @@ public class QuestDisplayPanelController extends AbstractNavigablePanelControlle
     List<DialogElement> bestowers=_quest.getBestowers();
     if (bestowers.size()>0)
     {
-      sb.append("<p><b>Bestowal dialogue</b>");
+      sb.append("<p><b>Bestowal dialogue</b>"); // I18n
       int index=0;
       for(DialogElement bestower : bestowers)
       {
         if (index>0)
         {
-          sb.append("<br>OR");
+          sb.append("<br>OR"); // I18n
         }
         QuestsHtmlUtils.buildHtmlForDialog(this,sb,bestower);
         index++;
@@ -281,7 +281,7 @@ public class QuestDisplayPanelController extends AbstractNavigablePanelControlle
     List<DialogElement> endDialogs=_quest.getEndDialogs();
     if (endDialogs.size()>0)
     {
-      sb.append("<p><b>End</b>");
+      sb.append("<p><b>End</b>"); // I18n
       for(DialogElement endDialog : endDialogs)
       {
         QuestsHtmlUtils.buildHtmlForDialog(this,sb,endDialog);
@@ -292,7 +292,7 @@ public class QuestDisplayPanelController extends AbstractNavigablePanelControlle
     List<QuestCompletionComment> comments=_quest.getCompletionComments();
     if (comments.size()>0)
     {
-      sb.append("<p><b>Completion comments</b>");
+      sb.append("<p><b>Completion comments</b>"); // I18n
       for(QuestCompletionComment comment : comments)
       {
         QuestsHtmlUtils.buildHtmlForCompletionComment(this,sb,comment);
@@ -361,7 +361,7 @@ public class QuestDisplayPanelController extends AbstractNavigablePanelControlle
     if (isMonsterPlay)
     {
       if (sb.length()>0) sb.append(", ");
-      sb.append("Monster Play");
+      sb.append("Monster Play"); // I18n
     }
     // Repeatability
     Repeatability repeatability=_quest.getRepeatability();
@@ -382,35 +382,35 @@ public class QuestDisplayPanelController extends AbstractNavigablePanelControlle
     if (instanced)
     {
       if (sb.length()>0) sb.append(", ");
-      sb.append("Instanced");
+      sb.append("Instanced"); // I18n
     }
     // Shareable
     boolean shareable=_quest.isShareable();
     if (!shareable)
     {
       if (sb.length()>0) sb.append(", ");
-      sb.append("Not shareable");
+      sb.append("Not shareable"); // I18n
     }
     // Session play
     boolean sessionPlay=_quest.isSessionPlay();
     if (sessionPlay)
     {
       if (sb.length()>0) sb.append(", ");
-      sb.append("Session play");
+      sb.append("Session play"); // I18n
     }
     // Auto-bestowed
     boolean autoBestowed=_quest.isAutoBestowed();
     if (autoBestowed)
     {
       if (sb.length()>0) sb.append(", ");
-      sb.append("Auto-bestowed");
+      sb.append("Auto-bestowed"); // I18n
     }
     // Hidden
     boolean hidden=_quest.isHidden();
     if (hidden)
     {
       if (sb.length()>0) sb.append(", ");
-      sb.append("Hidden");
+      sb.append("Hidden"); // I18n
     }
     String ret=sb.toString();
     return ret;

@@ -106,7 +106,7 @@ public class InstanceParametersController
     int y=0;
     // Parameters
     JPanel parametersPanel=buildParametersPanel();
-    Border border=GuiFactory.buildTitledBorder("Parameters");
+    Border border=GuiFactory.buildTitledBorder("Parameters"); // I18n
     parametersPanel.setBorder(border);
     GridBagConstraints c=new GridBagConstraints(0,y,1,1,0.0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(parametersPanel,c);
@@ -128,19 +128,19 @@ public class InstanceParametersController
     JPanel line1Panel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
     // Difficulty
     {
-      line1Panel.add(GuiFactory.buildLabel("Difficulty:"));
+      line1Panel.add(GuiFactory.buildLabel("Difficulty:")); // I18n
       _difficulty=buildDifficultyCombo();
       line1Panel.add(_difficulty.getComboBox());
     }
     // Group size
     {
-      line1Panel.add(GuiFactory.buildLabel("Size:"));
+      line1Panel.add(GuiFactory.buildLabel("Size:")); // I18n
       _size=buildGroupSizeCombo();
       line1Panel.add(_size.getComboBox());
     }
     // Level
     {
-      line1Panel.add(GuiFactory.buildLabel("Level:"));
+      line1Panel.add(GuiFactory.buildLabel("Level:")); // I18n
       _level=buildLevelCombo();
       line1Panel.add(_level.getComboBox());
     }

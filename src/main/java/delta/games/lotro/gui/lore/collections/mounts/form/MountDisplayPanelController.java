@@ -82,22 +82,22 @@ public class MountDisplayPanelController
       panelLine.add(_name);
     }
     // Category
-    _category=buildLabelLine(panel,c,"Category: ");
+    _category=buildLabelLine(panel,c,"Category: "); // 18n
     // Mount type
-    _mountType=buildLabelLine(panel,c,"Mount type: ");
+    _mountType=buildLabelLine(panel,c,"Mount type: "); // 18n
     // Initial name
-    _initialName=buildLabelLine(panel,c,"Initial name: ");
+    _initialName=buildLabelLine(panel,c,"Initial name: "); // 18n
     // Morale
-    _morale=buildLabelLine(panel,c,"Morale: ");
+    _morale=buildLabelLine(panel,c,"Morale: "); // 18n
     // Speed
-    _speed=buildLabelLine(panel,c,"Speed: ");
+    _speed=buildLabelLine(panel,c,"Speed: "); // 18n
     // Tall
-    _size=buildLabelLine(panel,c,"Size: ");
+    _size=buildLabelLine(panel,c,"Size: "); // 18n
 
     // Description
     _details=buildDescriptionPane();
     JScrollPane detailsPane=GuiFactory.buildScrollPane(_details);
-    detailsPane.setBorder(GuiFactory.buildTitledBorder("Description"));
+    detailsPane.setBorder(GuiFactory.buildTitledBorder("Description")); // 18n
     c.fill=GridBagConstraints.BOTH;
     c.weightx=1.0;
     c.weighty=1.0;
@@ -187,7 +187,7 @@ public class MountDisplayPanelController
     _speed.setText(speedStr);
     // Size
     boolean tall=_mount.isTall();
-    _size.setText(tall?"Tall":"Short");
+    _size.setText(tall?"Tall":"Short"); // 18n
     // Details
     _details.setText(buildHtml());
     _details.setCaretPosition(0);

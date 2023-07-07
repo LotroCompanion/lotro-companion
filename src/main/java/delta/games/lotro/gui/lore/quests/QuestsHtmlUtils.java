@@ -62,7 +62,7 @@ public class QuestsHtmlUtils
           first=false;
         }
       }
-      sb.append(" say: ");
+      sb.append(" say: "); // I18n
     }
     List<String> whats=comment.getWhats();
     for(String what : whats)

@@ -125,13 +125,13 @@ public class SimpleAchievableRequirementPanelController extends AbstractAchievab
 
   private String buildEqualRequirementLabel(QuestStatus status)
   {
-    if (status==QuestStatus.COMPLETED) return ACHIEVABLE_LINK_SEED+" is completed";
-    if (status==QuestStatus.UNDERWAY) return ACHIEVABLE_LINK_SEED+" is underway";
-    if (status==QuestStatus.FAILED) return ACHIEVABLE_LINK_SEED+" is failed";
+    if (status==QuestStatus.COMPLETED) return ACHIEVABLE_LINK_SEED+" is completed"; // I18n
+    if (status==QuestStatus.UNDERWAY) return ACHIEVABLE_LINK_SEED+" is underway"; // I18n
+    if (status==QuestStatus.FAILED) return ACHIEVABLE_LINK_SEED+" is failed"; // I18n
     int objectiveIndex=status.getObjectiveIndex();
     if (objectiveIndex>0)
     {
-      return ACHIEVABLE_LINK_SEED+" is underway at objective "+objectiveIndex;
+      return ACHIEVABLE_LINK_SEED+" is underway at objective "+objectiveIndex; // I18n
     }
     LOGGER.warn("Unmanaged quest status: "+status);
     return ACHIEVABLE_LINK_SEED+" is ???";
@@ -139,13 +139,13 @@ public class SimpleAchievableRequirementPanelController extends AbstractAchievab
 
   private String buildNotEqualRequirementLabel(QuestStatus status)
   {
-    if (status==QuestStatus.COMPLETED) return ACHIEVABLE_LINK_SEED+" is not completed";
-    if (status==QuestStatus.UNDERWAY) return ACHIEVABLE_LINK_SEED+" is not underway";
-    if (status==QuestStatus.FAILED) return ACHIEVABLE_LINK_SEED+" is not failed";
+    if (status==QuestStatus.COMPLETED) return ACHIEVABLE_LINK_SEED+" is not completed"; // I18n
+    if (status==QuestStatus.UNDERWAY) return ACHIEVABLE_LINK_SEED+" is not underway"; // I18n
+    if (status==QuestStatus.FAILED) return ACHIEVABLE_LINK_SEED+" is not failed"; // I18n
     int objectiveIndex=status.getObjectiveIndex();
     if (objectiveIndex>0)
     {
-      return ACHIEVABLE_LINK_SEED+" is not underway at objective "+objectiveIndex;
+      return ACHIEVABLE_LINK_SEED+" is not underway at objective "+objectiveIndex; // I18n
     }
     LOGGER.warn("Unmanaged quest status: "+status);
     return ACHIEVABLE_LINK_SEED+" is not ???";
@@ -153,9 +153,9 @@ public class SimpleAchievableRequirementPanelController extends AbstractAchievab
 
   private String buildGreaterOrEqualsRequirementLabel(QuestStatus status)
   {
-    if (status==QuestStatus.UNDERWAY) return ACHIEVABLE_LINK_SEED+" is underway/completed";
-    if (status==QuestStatus.COMPLETED) return ACHIEVABLE_LINK_SEED+" is completed";
-    if (status==null) return ACHIEVABLE_LINK_SEED+" is at least ???";
+    if (status==QuestStatus.UNDERWAY) return ACHIEVABLE_LINK_SEED+" is underway/completed"; // I18n
+    if (status==QuestStatus.COMPLETED) return ACHIEVABLE_LINK_SEED+" is completed"; // I18n
+    if (status==null) return ACHIEVABLE_LINK_SEED+" is at least ???"; // I18n
     if (status==QuestStatus.FAILED)
     {
       LOGGER.warn("Unexpected requirement combinaison: greater or equal "+status+" for "+_requirement.getQuestId());
@@ -163,7 +163,7 @@ public class SimpleAchievableRequirementPanelController extends AbstractAchievab
     int objectiveIndex=status.getObjectiveIndex();
     if (objectiveIndex>0)
     {
-      return ACHIEVABLE_LINK_SEED+" is completed or underway with at least objective "+objectiveIndex+" done";
+      return ACHIEVABLE_LINK_SEED+" is completed or underway with at least objective "+objectiveIndex+" done"; // I18n
     }
     LOGGER.warn("Unmanaged quest status: "+status);
     return "??? "+ACHIEVABLE_LINK_SEED+" ???";
@@ -171,8 +171,8 @@ public class SimpleAchievableRequirementPanelController extends AbstractAchievab
 
   private String buildLessRequirementLabel(QuestStatus status)
   {
-    if (status==QuestStatus.UNDERWAY) return ACHIEVABLE_LINK_SEED+" is not started";
-    if (status==null) return ACHIEVABLE_LINK_SEED+" has not reached ???";
+    if (status==QuestStatus.UNDERWAY) return ACHIEVABLE_LINK_SEED+" is not started"; // I18n
+    if (status==null) return ACHIEVABLE_LINK_SEED+" has not reached ???"; // I18n
     if ((status==QuestStatus.COMPLETED) || (status==QuestStatus.FAILED))
     {
       LOGGER.warn("Unexpected requirement combinaison: greater or equal "+status+" for "+_requirement.getQuestId());

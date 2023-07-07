@@ -55,7 +55,7 @@ public class NationalityDisplayPanelController implements NavigablePanelControll
   @Override
   public String getTitle()
   {
-    return "Nationality: "+_nationality.getName();
+    return "Nationality: "+_nationality.getName(); // I18n
   }
 
   @Override
@@ -96,7 +96,7 @@ public class NationalityDisplayPanelController implements NavigablePanelControll
     String fullText=description+"<p>"+maleNamingGuidelines+"<p>"+femaleNamingGuidelines;
     JEditorPane display=buildEditorPane(fullText);
     JScrollPane displayPane=GuiFactory.buildScrollPane(display);
-    displayPane.setBorder(GuiFactory.buildTitledBorder("Description"));
+    displayPane.setBorder(GuiFactory.buildTitledBorder("Description")); // I18n
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(0,5,0,0),0,0);
     panel.add(displayPane,c);
     return panel;

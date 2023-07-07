@@ -133,13 +133,13 @@ public class InstancesFilterController implements ActionListener
 
     // Instance attributes
     JPanel instancePanel=buildInstancePanel();
-    Border border=GuiFactory.buildTitledBorder("Instance");
+    Border border=GuiFactory.buildTitledBorder("Instance"); // I18n
     instancePanel.setBorder(border);
     GridBagConstraints c=new GridBagConstraints(0,y,1,1,0.0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(instancePanel,c);
 
     // Reset
-    _reset=GuiFactory.buildButton("Reset");
+    _reset=GuiFactory.buildButton("Reset"); // I18n
     _reset.addActionListener(this);
     c=new GridBagConstraints(1,y,1,1,0.0,0,GridBagConstraints.SOUTHWEST,GridBagConstraints.NONE,new Insets(0,5,5,5),0,0);
     panel.add(_reset,c);
@@ -157,7 +157,7 @@ public class InstancesFilterController implements ActionListener
     JPanel line1Panel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
     // Label filter
     {
-      line1Panel.add(GuiFactory.buildLabel("Name filter:"));
+      line1Panel.add(GuiFactory.buildLabel("Name filter:")); // I18n
       _contains=GuiFactory.buildTextField("");
       _contains.setColumns(20);
       line1Panel.add(_contains);
@@ -176,7 +176,7 @@ public class InstancesFilterController implements ActionListener
     }
     // Group
     {
-      JLabel label=GuiFactory.buildLabel("Group:");
+      JLabel label=GuiFactory.buildLabel("Group:"); // I18n
       line1Panel.add(label);
       _group=InstancesUiUtils.buildInstanceCategoriesCombo();
       ItemSelectionListener<String> categoryListener=new ItemSelectionListener<String>()
@@ -194,7 +194,7 @@ public class InstancesFilterController implements ActionListener
     }
     // Category
     {
-      JLabel label=GuiFactory.buildLabel("Category:");
+      JLabel label=GuiFactory.buildLabel("Category:"); // I18n
       line1Panel.add(label);
       _category=InstancesUiUtils.buildCategoryCombo();
       ItemSelectionListener<WJEncounterCategory> categoryListener=new ItemSelectionListener<WJEncounterCategory>()
@@ -212,7 +212,7 @@ public class InstancesFilterController implements ActionListener
     }
     // Scalable
     {
-      JLabel label=GuiFactory.buildLabel("Scalable:");
+      JLabel label=GuiFactory.buildLabel("Scalable:"); // I18n
       line1Panel.add(label);
       _scalable=SharedUiUtils.build3StatesBooleanCombobox("","Yes","No");
       ItemSelectionListener<Boolean> scalableListener=new ItemSelectionListener<Boolean>()

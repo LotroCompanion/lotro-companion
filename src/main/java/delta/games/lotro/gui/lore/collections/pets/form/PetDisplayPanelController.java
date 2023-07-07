@@ -81,18 +81,18 @@ public class PetDisplayPanelController
       panelLine.add(_name);
     }
     // Initial name
-    _initialName=buildLabelLine(panel,c,"Initial name: ");
+    _initialName=buildLabelLine(panel,c,"Initial name: "); // 18n
     // Genus
-    _genus=buildLabelLine(panel,c,"Genus: ");
+    _genus=buildLabelLine(panel,c,"Genus: "); // 18n
     // Species
     _species=buildLabelLine(panel,c,"Species: ");
     // Sub-species
-    _subSpecies=buildLabelLine(panel,c,"Sub-species: ");
+    _subSpecies=buildLabelLine(panel,c,"Sub-species: "); // 18n
 
     // Description
     _details=buildDescriptionPane();
     JScrollPane detailsPane=GuiFactory.buildScrollPane(_details);
-    detailsPane.setBorder(GuiFactory.buildTitledBorder("Description"));
+    detailsPane.setBorder(GuiFactory.buildTitledBorder("Description")); // 18n
     c.fill=GridBagConstraints.BOTH;
     c.weightx=1.0;
     c.weighty=1.0;

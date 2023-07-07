@@ -92,7 +92,7 @@ public class QuestLinksDisplayPanelController
 
   private void buildLinks()
   {
-    buildController("Next:",_quest.getNextQuest());
+    buildController("Next:",_quest.getNextQuest()); // I18n
   }
 
   private void buildController(String label, Proxy<Achievable> proxy)

@@ -162,13 +162,13 @@ public class MobsFilterController implements ActionListener
     int y=0;
     // Mob attributes
     JPanel mobPanel=buildMobPanel();
-    Border border=GuiFactory.buildTitledBorder("Mob");
+    Border border=GuiFactory.buildTitledBorder("Mob"); // 18n
     mobPanel.setBorder(border);
     GridBagConstraints c=new GridBagConstraints(0,y,1,1,0.0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(mobPanel,c);
 
     // Reset
-    _reset=GuiFactory.buildButton("Reset");
+    _reset=GuiFactory.buildButton("Reset"); // 18n
     _reset.addActionListener(this);
     c=new GridBagConstraints(1,y,1,1,0.0,0.0,GridBagConstraints.SOUTHWEST,GridBagConstraints.HORIZONTAL,new Insets(0,5,5,5),0,0);
     panel.add(_reset,c);
@@ -191,7 +191,7 @@ public class MobsFilterController implements ActionListener
     // Label filter
     {
       JPanel containsPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
-      containsPanel.add(GuiFactory.buildLabel("Name filter:"));
+      containsPanel.add(GuiFactory.buildLabel("Name filter:")); // 18n
       _contains=GuiFactory.buildTextField("");
       _contains.setColumns(20);
       containsPanel.add(_contains);
@@ -211,19 +211,19 @@ public class MobsFilterController implements ActionListener
     }
     // Alignment
     {
-      line1Panel.add(GuiFactory.buildLabel("Alignment:"));
+      line1Panel.add(GuiFactory.buildLabel("Alignment:")); // 18n
       _alignement=buildAlignmentCombo(MobsUiUtils.getAlignments(_mobs),_filter.getAlignmentFilter());
       line1Panel.add(_alignement.getComboBox());
     }
     // Agent class
     {
-      line1Panel.add(GuiFactory.buildLabel("Class:"));
+      line1Panel.add(GuiFactory.buildLabel("Class:")); // 18n
       _agentClass=buildAlignmentCombo(MobsUiUtils.getAgentClasses(_mobs),_filter.getAgentClassFilter());
       line1Panel.add(_agentClass.getComboBox());
     }
     // Classification
     {
-      line1Panel.add(GuiFactory.buildLabel("Classification:"));
+      line1Panel.add(GuiFactory.buildLabel("Classification:")); // 18n
       _classification=buildAlignmentCombo(MobsUiUtils.getClassifications(_mobs),_filter.getClassificationFilter());
       line1Panel.add(_classification.getComboBox());
     }
@@ -234,19 +234,19 @@ public class MobsFilterController implements ActionListener
     JPanel line2Panel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
     // Genus
     {
-      line2Panel.add(GuiFactory.buildLabel("Genus:"));
+      line2Panel.add(GuiFactory.buildLabel("Genus:")); // 18n
       _genus=buildAlignmentCombo(MobsUiUtils.getGenuses(_mobs),_filter.getGenusFilter());
       line2Panel.add(_genus.getComboBox());
     }
     // Species
     {
-      line2Panel.add(GuiFactory.buildLabel("Species:"));
+      line2Panel.add(GuiFactory.buildLabel("Species:")); // 18n
       _species=buildAlignmentCombo(MobsUiUtils.getSpecies(_mobs),_filter.getSpeciesFilter());
       line2Panel.add(_species.getComboBox());
     }
     // SubSpecies
     {
-      line2Panel.add(GuiFactory.buildLabel("Subspecies:"));
+      line2Panel.add(GuiFactory.buildLabel("Subspecies:")); // 18n
       _subSpecies=buildAlignmentCombo(MobsUiUtils.getSubspecies(_mobs),_filter.getSubSpeciesFilter());
       line2Panel.add(_subSpecies.getComboBox());
     }

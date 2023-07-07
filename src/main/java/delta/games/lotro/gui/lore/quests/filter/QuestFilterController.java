@@ -269,13 +269,13 @@ public class QuestFilterController extends AbstractPanelController implements Ac
     JPanel line1Panel=GuiFactory.buildPanel(new GridBagLayout());
     // Quest attributes
     JPanel questPanel=buildQuestPanel();
-    Border questBorder=GuiFactory.buildTitledBorder("Quest");
+    Border questBorder=GuiFactory.buildTitledBorder("Quest"); // I18n
     questPanel.setBorder(questBorder);
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     line1Panel.add(questPanel,c);
 
     // Reset
-    _reset=GuiFactory.buildButton("Reset");
+    _reset=GuiFactory.buildButton("Reset"); // I18n
     _reset.addActionListener(this);
     c=new GridBagConstraints(1,0,1,1,0.0,0,GridBagConstraints.SOUTHWEST,GridBagConstraints.NONE,new Insets(0,5,5,0),0,0);
     line1Panel.add(_reset,c);
@@ -289,7 +289,7 @@ public class QuestFilterController extends AbstractPanelController implements Ac
     if (_requirements!=null)
     {
       JPanel requirementsPanel=_requirements.getPanel();
-      Border requirementsBorder=GuiFactory.buildTitledBorder("Requirements");
+      Border requirementsBorder=GuiFactory.buildTitledBorder("Requirements"); // I18n
       requirementsPanel.setBorder(requirementsBorder);
       c=new GridBagConstraints(0,0,1,1,0.0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
       line2Panel.add(requirementsPanel,c);
@@ -297,7 +297,7 @@ public class QuestFilterController extends AbstractPanelController implements Ac
     // World Events
     {
       JPanel contextsPanel=_worldEvents.getPanel();
-      Border border=GuiFactory.buildTitledBorder("Context");
+      Border border=GuiFactory.buildTitledBorder("Context"); // I18n
       contextsPanel.setBorder(border);
       c=new GridBagConstraints(1,0,1,1,0.0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
       line2Panel.add(contextsPanel,c);
@@ -305,7 +305,7 @@ public class QuestFilterController extends AbstractPanelController implements Ac
     // Web Store Items
     {
       JPanel webStoreItemsPanel=_webStoreItems.getPanel();
-      Border border=GuiFactory.buildTitledBorder("Contents Pack");
+      Border border=GuiFactory.buildTitledBorder("Contents Pack"); // I18n
       webStoreItemsPanel.setBorder(border);
       c=new GridBagConstraints(2,0,1,1,0.0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
       line2Panel.add(webStoreItemsPanel,c);
@@ -316,7 +316,7 @@ public class QuestFilterController extends AbstractPanelController implements Ac
 
     // Rewards
     JPanel rewardsPanel=_rewards.getPanel();
-    Border rewardsBorder=GuiFactory.buildTitledBorder("Rewards");
+    Border rewardsBorder=GuiFactory.buildTitledBorder("Rewards"); // I18n
     rewardsPanel.setBorder(rewardsBorder);
     c=new GridBagConstraints(0,y,1,1,0.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(rewardsPanel,c);
@@ -337,7 +337,7 @@ public class QuestFilterController extends AbstractPanelController implements Ac
     // Label filter
     {
       JPanel containsPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
-      containsPanel.add(GuiFactory.buildLabel("Name filter:"));
+      containsPanel.add(GuiFactory.buildLabel("Name filter:")); // I18n
       _contains=GuiFactory.buildTextField("");
       _contains.setColumns(20);
       containsPanel.add(_contains);
@@ -362,7 +362,7 @@ public class QuestFilterController extends AbstractPanelController implements Ac
     JPanel line2Panel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
     // Category
     {
-      JLabel label=GuiFactory.buildLabel("Category:");
+      JLabel label=GuiFactory.buildLabel("Category:"); // I18n
       line2Panel.add(label);
       _category=QuestsUiUtils.buildCategoryCombo();
       ItemSelectionListener<QuestCategory> categoryListener=new ItemSelectionListener<QuestCategory>()
@@ -381,7 +381,7 @@ public class QuestFilterController extends AbstractPanelController implements Ac
     // Quest arc
     if (isLive)
     {
-      JLabel label=GuiFactory.buildLabel("Quest arc:");
+      JLabel label=GuiFactory.buildLabel("Quest arc:"); // I18n
       line2Panel.add(label);
       _questArc=buildQuestArcCombobox();
       line2Panel.add(_questArc.getComboBox());
@@ -394,29 +394,29 @@ public class QuestFilterController extends AbstractPanelController implements Ac
     {
       JPanel line=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
       // Instanced
-      line.add(GuiFactory.buildLabel("Instanced:"));
+      line.add(GuiFactory.buildLabel("Instanced:")); // I18n
       _instanced=buildInstancedCombobox();
       line.add(_instanced.getComboBox());
       // Shareable
       if (isLive)
       {
-        line.add(GuiFactory.buildLabel("Shareable:"));
+        line.add(GuiFactory.buildLabel("Shareable:")); // I18n
         _shareable=buildShareableCombobox();
         line.add(_shareable.getComboBox());
       }
       // Session-play
-      line.add(GuiFactory.buildLabel("Session-play:"));
+      line.add(GuiFactory.buildLabel("Session-play:")); // I18n
       _sessionPlay=buildSessionPlayCombobox();
       line.add(_sessionPlay.getComboBox());
       // Auto-bestowed
       if (isLive)
       {
-        line.add(GuiFactory.buildLabel("Auto-bestowed:"));
+        line.add(GuiFactory.buildLabel("Auto-bestowed:")); // I18n
         _autoBestowed=buildAutoBestowedCombobox();
         line.add(_autoBestowed.getComboBox());
       }
       // Hidden
-      line.add(GuiFactory.buildLabel("Hidden:"));
+      line.add(GuiFactory.buildLabel("Hidden:")); // I18n
       _hidden=buildHiddenCombobox();
       line.add(_hidden.getComboBox());
 
@@ -428,22 +428,22 @@ public class QuestFilterController extends AbstractPanelController implements Ac
     {
       JPanel line=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
       // Repeatability
-      line.add(GuiFactory.buildLabel("Repeatability:"));
+      line.add(GuiFactory.buildLabel("Repeatability:")); // I18n
       _repeatability=buildRepeatabilityCombobox();
       line.add(_repeatability.getComboBox());
       // Lock type
       if (isLive)
       {
-        line.add(GuiFactory.buildLabel("Lock type:"));
+        line.add(GuiFactory.buildLabel("Lock type:")); // I18n
         _lockType=buildLockTypeCombobox();
         line.add(_lockType.getComboBox());
       }
       // Size
-      line.add(GuiFactory.buildLabel("Size:"));
+      line.add(GuiFactory.buildLabel("Size:")); // I18n
       _size=buildSizeCombobox();
       line.add(_size.getComboBox());
       // Faction
-      line.add(GuiFactory.buildLabel("Faction:"));
+      line.add(GuiFactory.buildLabel("Faction:")); // I18n
       _monsterPlay=buildMonsterPlayCombobox();
       line.add(_monsterPlay.getComboBox());
 
@@ -490,7 +490,7 @@ public class QuestFilterController extends AbstractPanelController implements Ac
 
   private ComboBoxController<Boolean> buildMonsterPlayCombobox()
   {
-    ComboBoxController<Boolean> combo=SharedUiUtils.build3StatesBooleanCombobox("","Monster Play","Free Peoples");
+    ComboBoxController<Boolean> combo=SharedUiUtils.build3StatesBooleanCombobox("","Monster Play","Free Peoples"); // I18n
     ItemSelectionListener<Boolean> questSizeListener=new ItemSelectionListener<Boolean>()
     {
       @Override

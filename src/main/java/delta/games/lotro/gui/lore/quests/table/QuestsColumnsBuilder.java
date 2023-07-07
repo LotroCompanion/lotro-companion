@@ -26,7 +26,7 @@ public class QuestsColumnsBuilder
         return quest.getName();
       }
     };
-    DefaultTableColumnController<QuestDescription,String> nameColumn=new DefaultTableColumnController<QuestDescription,String>(QuestColumnIds.NAME.name(),"Name",String.class,nameCell);
+    DefaultTableColumnController<QuestDescription,String> nameColumn=new DefaultTableColumnController<QuestDescription,String>(QuestColumnIds.NAME.name(),"Name",String.class,nameCell); // I18n
     nameColumn.setWidthSpecs(100,300,200);
     return nameColumn;
   }
@@ -45,7 +45,7 @@ public class QuestsColumnsBuilder
         return quest.getChallengeLevel();
       }
     };
-    DefaultTableColumnController<QuestDescription,ChallengeLevel> levelColumn=new DefaultTableColumnController<QuestDescription,ChallengeLevel>(QuestColumnIds.LEVEL.name(),"Level",ChallengeLevel.class,levelCell);
+    DefaultTableColumnController<QuestDescription,ChallengeLevel> levelColumn=new DefaultTableColumnController<QuestDescription,ChallengeLevel>(QuestColumnIds.LEVEL.name(),"Level",ChallengeLevel.class,levelCell); // I18n
     levelColumn.setWidthSpecs(100,100,100);
     levelColumn.setComparator(new ChallengeLevelComparator());
     return levelColumn;
