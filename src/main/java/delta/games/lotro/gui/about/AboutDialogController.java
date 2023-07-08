@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 
 import delta.common.ui.swing.windows.DefaultDialogController;
 import delta.common.ui.swing.windows.WindowController;
+import delta.games.lotro.gui.utils.l10n.Labels;
 
 /**
  * Controller for a "about" window.
@@ -37,7 +38,7 @@ public class AboutDialogController extends DefaultDialogController
   protected JDialog build()
   {
     JDialog dialog=super.build();
-    dialog.setTitle("About"); // I18n
+    dialog.setTitle(Labels.getLabel("about.title"));
     dialog.pack();
     WindowController controller=getParentController();
     if (controller!=null)

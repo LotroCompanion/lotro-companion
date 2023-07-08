@@ -14,6 +14,7 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.icons.IconsManager;
 import delta.common.ui.swing.labels.BrowserHyperlinkAction;
 import delta.common.ui.swing.labels.HyperLinkController;
+import delta.games.lotro.gui.utils.l10n.Labels;
 
 /**
  * Controller for a 'credits' panel.
@@ -49,7 +50,7 @@ public class CreditsPanelController
     x++;
 
     // Credits
-    JLabel lbName=new JLabel("Credits"); // I18n
+    JLabel lbName=new JLabel(Labels.getLabel("credits.label"));
     lbName.setFont(lbName.getFont().deriveFont(Font.BOLD,36));
     c=new GridBagConstraints(x,y,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(10,5,10,20),0,0);
     panel.add(lbName,c);

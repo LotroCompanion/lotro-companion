@@ -12,6 +12,7 @@ import javax.swing.SwingConstants;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.account.status.rewardsTrack.RewardsTrackStatus;
+import delta.games.lotro.gui.utils.l10n.Labels;
 import delta.games.lotro.lore.rewardsTrack.RewardsTrack;
 
 /**
@@ -62,12 +63,14 @@ public class RewardsTrackStatusSummaryPanelController
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     // - level
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
-    panel.add(GuiFactory.buildLabel("Level:"),c); // I18n
+    String levelField=Labels.getFieldLabel("rewards.track.details.summary.level");
+    panel.add(GuiFactory.buildLabel(levelField),c);
     c=new GridBagConstraints(1,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(5,0,5,5),0,0);
     panel.add(levels,c);
     // - points
     c=new GridBagConstraints(0,1,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
-    panel.add(GuiFactory.buildLabel("Points:"),c); // I18n
+    String pointsField=Labels.getFieldLabel("rewards.track.details.summary.points");
+    panel.add(GuiFactory.buildLabel(pointsField),c);
     c=new GridBagConstraints(1,1,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(5,0,5,5),0,0);
     panel.add(points,c);
     return panel;

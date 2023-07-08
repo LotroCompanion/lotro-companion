@@ -19,6 +19,7 @@ import delta.common.ui.swing.labels.MailToHyperlinkAction;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.Config;
 import delta.games.lotro.config.LotroCoreConfig;
+import delta.games.lotro.gui.utils.l10n.Labels;
 
 /**
  * Controller for a 'about' panel.
@@ -56,7 +57,7 @@ public class AboutPanelController
     }
 
     boolean isLive=LotroCoreConfig.isLive();
-    String appName=isLive?"LotRO Companion":"LotRO Lore Database"; // I18n
+    String appName=Labels.getLabel(isLive?"about.app.name.lc":"about.app.name.lld");
     JLabel lbName=new JLabel(appName);
     Font defaultFont=lbName.getFont();
     Font font16=defaultFont.deriveFont(Font.BOLD,16);
@@ -82,11 +83,11 @@ public class AboutPanelController
     // Project contact
     {
       JPanel contactPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.CENTER));
-      JLabel contactLabel=GuiFactory.buildLabel("Contact: "); // I18n
+      JLabel contactLabel=GuiFactory.buildLabel(Labels.getFieldLabel("about.contact"));
       contactLabel.setFont(font16);
       contactPanel.add(contactLabel);
       String email=isLive?"lotrocompanion@gmail.com":"lotroloredatabase@gmail.com";
-      MailToHyperlinkAction mailAction=new MailToHyperlinkAction(email,"Contact");
+      MailToHyperlinkAction mailAction=new MailToHyperlinkAction(email,Labels.getLabel("about.contact"));
       _mail=new HyperLinkController(mailAction);
       JLabel lbEmail=_mail.getLabel();
       lbEmail.setFont(font16);
@@ -100,7 +101,7 @@ public class AboutPanelController
     if (isLive)
     {
       JPanel sourcePanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.CENTER));
-      JLabel sourceLabel=GuiFactory.buildLabel("Source code: "); // I18n
+      JLabel sourceLabel=GuiFactory.buildLabel(Labels.getFieldLabel("about.sourceCode"));
       sourceLabel.setFont(font16);
       sourcePanel.add(sourceLabel);
       BrowserHyperlinkAction githubAction=new BrowserHyperlinkAction("https://github.com/LotroCompanion/lotro-companion","lotro-companion@GitHub");
@@ -116,7 +117,7 @@ public class AboutPanelController
     // Discord
     {
       JPanel discordPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.CENTER));
-      JLabel discordLabel=GuiFactory.buildLabel("Discord: "); // I18n
+      JLabel discordLabel=GuiFactory.buildLabel(Labels.getFieldLabel("about.discord"));
       discordLabel.setFont(font16);
       discordPanel.add(discordLabel);
       String discordText=isLive?"Lotro Companion's corner":"Discord";

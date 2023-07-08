@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.account.status.rewardsTrack.RewardsTrackStatus;
+import delta.games.lotro.gui.utils.l10n.Labels;
 import delta.games.lotro.lore.rewardsTrack.RewardsTrack;
 import delta.games.lotro.utils.gui.HtmlUtils;
 
@@ -59,7 +60,8 @@ public class RewardsTrackStatusPanelController
     JPanel summaryPanel=buildAllegianceSummaryPanel();
     // Rewards panel
     JPanel rewardsPanel=_rewards.getPanel();
-    rewardsPanel.setBorder(GuiFactory.buildTitledBorder("Rewards")); // I18n
+    String rewardsTitle=Labels.getLabel("rewards.track.details.rewards.title");
+    rewardsPanel.setBorder(GuiFactory.buildTitledBorder(rewardsTitle));
     // Status summary panel
     JPanel statusSummaryPanel=_statusSummary.getPanel();
 
@@ -71,7 +73,8 @@ public class RewardsTrackStatusPanelController
     y++;
     if (statusSummaryPanel!=null)
     {
-      statusSummaryPanel.setBorder(GuiFactory.buildTitledBorder("Status Summary")); // I18n
+      String statusSummaryTitle=Labels.getLabel("rewards.track.details.statusSummary.title");
+      statusSummaryPanel.setBorder(GuiFactory.buildTitledBorder(statusSummaryTitle));
       c=new GridBagConstraints(0,y,1,1,0.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(0,5,0,5),0,0);
       ret.add(statusSummaryPanel,c);
       y++;

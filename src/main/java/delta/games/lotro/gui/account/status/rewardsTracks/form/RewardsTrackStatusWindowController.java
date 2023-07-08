@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import delta.common.ui.swing.windows.DefaultDisplayDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.account.status.rewardsTrack.RewardsTrackStatus;
+import delta.games.lotro.gui.utils.l10n.Labels;
 import delta.games.lotro.lore.rewardsTrack.RewardsTrack;
 
 /**
@@ -36,7 +37,8 @@ public class RewardsTrackStatusWindowController extends DefaultDisplayDialogCont
     JDialog dialog=super.build();
     dialog.setMinimumSize(new Dimension(800,500));
     String rewardsTrackName=_data.getRewardsTrack().getName();
-    dialog.setTitle("Rewards track status: "+rewardsTrackName); // I18n
+    String title=Labels.getLabel("rewards.track.details.window.title", new Object[] {rewardsTrackName});
+    dialog.setTitle(title);
     dialog.setSize(new Dimension(800,700));
     dialog.setMaximumSize(new Dimension(1000,700));
     return dialog;

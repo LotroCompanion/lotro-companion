@@ -12,6 +12,7 @@ import delta.common.ui.swing.combobox.ItemSelectionListener;
 import delta.common.ui.swing.multicheckbox.MultiCheckboxController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.account.status.rewardsTrack.RewardsTrackStatus;
+import delta.games.lotro.gui.utils.l10n.Labels;
 
 /**
  * Controller for a panel to display the rewards of a rewards track status.
@@ -58,12 +59,14 @@ public class RewardsTrackStatusRewardsPanelController
     ret.add(_stateFilter.getPanel(),c);
     // Summary
     JScrollPane summaryPane=GuiFactory.buildScrollPane(_summary.getPanel());
-    summaryPane.setBorder(GuiFactory.buildTitledBorder("Total")); // I18n
+    String totalTitle=Labels.getLabel("rewards.track.details.total.title");
+    summaryPane.setBorder(GuiFactory.buildTitledBorder(totalTitle));
     c=new GridBagConstraints(0,1,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(5,5,5,5),0,0);
     ret.add(summaryPane,c);
     // Details
     JScrollPane detailsPane=GuiFactory.buildScrollPane(_details.getPanel());
-    detailsPane.setBorder(GuiFactory.buildTitledBorder("Details")); // I18n
+    String detailsTitle=Labels.getLabel("rewards.track.details.details.title");
+    detailsPane.setBorder(GuiFactory.buildTitledBorder(detailsTitle));
     c=new GridBagConstraints(1,1,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(5,5,5,5),0,0);
     ret.add(detailsPane,c);
     return ret;

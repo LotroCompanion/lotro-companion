@@ -18,6 +18,7 @@ import delta.games.lotro.account.status.rewardsTrack.RewardsTrackStatus;
 import delta.games.lotro.common.rewards.Rewards;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.common.rewards.form.RewardsPanelController;
+import delta.games.lotro.gui.utils.l10n.Labels;
 import delta.games.lotro.lore.rewardsTrack.RewardsTrack;
 import delta.games.lotro.lore.rewardsTrack.RewardsTrackStep;
 
@@ -132,16 +133,15 @@ public class RewardsTrackRewardsDetailsPanelController
 
   private String getLabel(int level, RewardsTrackStepState state)
   {
-    StringBuilder sb=new StringBuilder();
-    sb.append("Level ").append(level); // I18n
-    sb.append(": ");
+    String levelStr=Labels.getFieldLabel("rewards.track.details.level",new Object[] {Integer.valueOf(level)});
+    String stateStr="";
     if (state==RewardsTrackStepState.CLAIMED)
     {
-      sb.append("claimed"); // I18n
+      stateStr=Labels.getLabel("rewards.track.details.state.claimed");
     }
     else if (state==RewardsTrackStepState.UNLOCKED)
     {
-      sb.append("unlocked"); // I18n
+      stateStr=Labels.getLabel("rewards.track.details.state.unlocked");
     }
     else if (state==RewardsTrackStepState.FUTURE)
     {
@@ -151,14 +151,14 @@ public class RewardsTrackRewardsDetailsPanelController
         int currentXP=_status.getCurrentExperience();
         int nextGoalXP=_status.getNextExperienceGoal();
         int neededXP=nextGoalXP-currentXP;
-        sb.append(" need ").append(neededXP).append(" points"); // I18n
+        stateStr=Labels.getLabel("rewards.track.details.state.need", new Object[] {Integer.valueOf(neededXP)});
       }
       else
       {
-        sb.append(" not started"); // I18n
+        stateStr=Labels.getLabel("rewards.track.details.state.notStarted");
       }
     }
-    return sb.toString();
+    return levelStr+stateStr;
   }
 
   /**
