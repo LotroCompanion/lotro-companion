@@ -6,6 +6,7 @@ import javax.swing.JPanel;
 import delta.common.ui.swing.windows.DefaultDisplayDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.account.status.rewardsTrack.RewardsTracksStatusManager;
+import delta.games.lotro.gui.utils.l10n.Labels;
 
 /**
  * Controller for a window that displays the status of rewards tracks for an account/server.
@@ -36,7 +37,7 @@ public class RewardsTracksStatusSummaryWindowController extends DefaultDisplayDi
   protected JDialog build()
   {
     JDialog dialog=super.build();
-    dialog.setTitle("Rewards tracks status"); // I18n
+    dialog.setTitle(Labels.getLabel("rewards.tracks.status.summary.title"));
     dialog.pack();
     dialog.setResizable(false);
     return dialog;

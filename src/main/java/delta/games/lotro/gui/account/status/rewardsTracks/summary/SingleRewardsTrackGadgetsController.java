@@ -5,6 +5,7 @@ import javax.swing.JLabel;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.account.status.rewardsTrack.RewardsTrackStatus;
+import delta.games.lotro.gui.utils.l10n.Labels;
 import delta.games.lotro.lore.rewardsTrack.RewardsTrack;
 
 /**
@@ -31,7 +32,7 @@ public class SingleRewardsTrackGadgetsController
     // State
     _state=GuiFactory.buildLabel("?");
     // Button
-    _button=GuiFactory.buildButton("Details..."); // I18n
+    _button=GuiFactory.buildButton(Labels.getLabel("rewards.tracks.status.summary.details"));
     // Init
     setRewardsTrackStatus(status);
   }
@@ -87,12 +88,12 @@ public class SingleRewardsTrackGadgetsController
   {
     if (status==null)
     {
-      return "Unknown";
+      return Labels.getLabel("rewards.tracks.status.summary.state.unknown");
     }
     int currentMilestone=status.getCurrentMilestone();
     if (currentMilestone==0)
     {
-      return "Not Started"; // I18n
+      return Labels.getLabel("rewards.tracks.status.summary.state.notStarted");
     }
     RewardsTrack rewardsTrack=status.getRewardsTrack();
     String claimedComplement="";
@@ -100,15 +101,21 @@ public class SingleRewardsTrackGadgetsController
     if (claimed<currentMilestone)
     {
       int toClaim=currentMilestone-claimed;
-      claimedComplement=" ("+toClaim+" to claim"+")"; // I18n
+      claimedComplement=Labels.getLabel("rewards.tracks.status.summary.state.complement",new Object[] {Integer.valueOf(toClaim)});
     }
     int maxLevel=rewardsTrack.getSize();
     if (currentMilestone>=maxLevel)
     {
       int nbRepeats=currentMilestone-maxLevel+1;
-      String complement=(nbRepeats>1)?" (last step x"+nbRepeats+")":""; // I18n
-      return "Finished"+complement+claimedComplement; // I18n
+      if (nbRepeats>1)
+      {
+        Object[] params={Integer.valueOf(nbRepeats),claimedComplement};
+        return Labels.getLabel("rewards.tracks.status.summary.state.finished.withRepeats",params);
+      }
+      Object[] params={claimedComplement};
+      return Labels.getLabel("rewards.tracks.status.summary.state.finished",params);
     }
-    return currentMilestone+" / "+maxLevel+claimedComplement;
+    Object[] params={Integer.valueOf(currentMilestone), Integer.valueOf(maxLevel), claimedComplement};
+    return Labels.getLabel("rewards.tracks.status.summary.state.notFinished",params);
   }
 }
