@@ -29,6 +29,7 @@ import delta.games.lotro.gui.character.storage.wardrobe.WardrobeDisplayWindowCon
 import delta.games.lotro.gui.friends.FriendsWindowController;
 import delta.games.lotro.gui.main.GlobalPreferences;
 import delta.games.lotro.gui.toon.ToonsTableController;
+import delta.games.lotro.gui.utils.l10n.Labels;
 
 /**
  * Controller for a panel to display account/server data.
@@ -81,7 +82,7 @@ public class AccountServerPanelController implements ActionListener
     JPanel panel=GuiFactory.buildBackgroundPanel(new BorderLayout());
     // Characters table
     JPanel tablePanel=buildTablePanel();
-    tablePanel.setBorder(GuiFactory.buildTitledBorder("Characters")); // I18n
+    tablePanel.setBorder(GuiFactory.buildTitledBorder(Labels.getLabel("account.server.characters.tab")));
     panel.add(tablePanel,BorderLayout.CENTER);
     // Command buttons
     JPanel commandsPanel=buildCommandsPanel();
@@ -114,27 +115,27 @@ public class AccountServerPanelController implements ActionListener
   {
     JPanel panel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
     // Storage
-    JButton storageButton=buildCommandButton("Storage",STORAGE_COMMAND); // I18n
+    JButton storageButton=buildCommandButton("storage",STORAGE_COMMAND);
     panel.add(storageButton);
     // Currencies
-    JButton currenciesButton=buildCommandButton("Currencies",CURRENCIES_COMMAND); // I18n
+    JButton currenciesButton=buildCommandButton("currencies",CURRENCIES_COMMAND);
     panel.add(currenciesButton);
     // Friends
-    JButton friendsButton=buildCommandButton("Friends",FRIENDS_COMMAND); // I18n
+    JButton friendsButton=buildCommandButton("friends",FRIENDS_COMMAND);
     panel.add(friendsButton);
     // Wardrobe
-    JButton wardrobeButton=buildCommandButton("Wardrobe",WARDROBE_COMMAND); // I18n
+    JButton wardrobeButton=buildCommandButton("wardrobe",WARDROBE_COMMAND);
     panel.add(wardrobeButton);
     // Rewards tracks
-    JButton rewardsTracksButton=buildCommandButton("Rewards Tracks",REWARDS_TRACKS_COMMAND); // I18n
+    JButton rewardsTracksButton=buildCommandButton("rewardsTracks",REWARDS_TRACKS_COMMAND);
     panel.add(rewardsTracksButton);
 
     return panel;
   }
 
-  private JButton buildCommandButton(String label, String command)
+  private JButton buildCommandButton(String key, String command)
   {
-    JButton b=GuiFactory.buildButton(label);
+    JButton b=GuiFactory.buildButton(Labels.getLabel("account.server.buttons."+key));
     b.setActionCommand(command);
     b.addActionListener(this);
     return b;

@@ -18,6 +18,7 @@ import delta.games.lotro.account.AccountsManager;
 import delta.games.lotro.account.events.AccountEvent;
 import delta.games.lotro.account.events.AccountEventType;
 import delta.games.lotro.gui.utils.l10n.ColumnsUtils;
+import delta.games.lotro.gui.utils.l10n.Labels;
 import delta.games.lotro.utils.events.EventsManager;
 import delta.games.lotro.utils.events.GenericEventsListener;
 
@@ -64,7 +65,8 @@ public class AccountsTableController implements GenericEventsListener<AccountEve
           return data.getName();
         }
       };
-      DefaultTableColumnController<Account,String> nameColumn=new DefaultTableColumnController<Account,String>(AccountColumnIds.NAME.name(),"Name",String.class,nameCell); // I18n
+      String title=Labels.getLabel("accounts.table.column.name");
+      DefaultTableColumnController<Account,String> nameColumn=new DefaultTableColumnController<Account,String>(AccountColumnIds.NAME.name(),title,String.class,nameCell);
       nameColumn.setWidthSpecs(100,100,100);
       table.addColumnController(nameColumn);
     }
@@ -79,7 +81,8 @@ public class AccountsTableController implements GenericEventsListener<AccountEve
           return data.getSubscriptionKey();
         }
       };
-      DefaultTableColumnController<Account,String> subscriptionColumn=new DefaultTableColumnController<Account,String>(AccountColumnIds.SUBSCRIPTION.name(),"Subscription",String.class,subscriptionCell); // I18n
+      String title=Labels.getLabel("accounts.table.column.subscription");
+      DefaultTableColumnController<Account,String> subscriptionColumn=new DefaultTableColumnController<Account,String>(AccountColumnIds.SUBSCRIPTION.name(),title,String.class,subscriptionCell);
       subscriptionColumn.setWidthSpecs(230,230,230);
       table.addColumnController(subscriptionColumn);
     }
@@ -95,7 +98,8 @@ public class AccountsTableController implements GenericEventsListener<AccountEve
           return (signupDate!=null)?new Date(signupDate.longValue()):null;
         }
       };
-      DefaultTableColumnController<Account,Date> signupDateColumn=new DefaultTableColumnController<Account,Date>(AccountColumnIds.SIGNUP_DATE.name(),"Signup Date",Date.class,signupDateCell); // I18n
+      String title=Labels.getLabel("accounts.table.column.signupDate");
+      DefaultTableColumnController<Account,Date> signupDateColumn=new DefaultTableColumnController<Account,Date>(AccountColumnIds.SIGNUP_DATE.name(),title,Date.class,signupDateCell);
       ColumnsUtils.configureDateColumn(signupDateColumn);
       table.addColumnController(signupDateColumn);
     }
@@ -110,7 +114,8 @@ public class AccountsTableController implements GenericEventsListener<AccountEve
           return data.getAccountType();
         }
       };
-      DefaultTableColumnController<Account,AccountType> accountTypeColumn=new DefaultTableColumnController<Account,AccountType>(AccountColumnIds.TYPE.name(),"Type",AccountType.class,accountTypeCell); // I18n
+      String title=Labels.getLabel("accounts.table.column.type");
+      DefaultTableColumnController<Account,AccountType> accountTypeColumn=new DefaultTableColumnController<Account,AccountType>(AccountColumnIds.TYPE.name(),title,AccountType.class,accountTypeCell);
       accountTypeColumn.setWidthSpecs(100,100,100);
       table.addColumnController(accountTypeColumn);
     }
@@ -125,7 +130,8 @@ public class AccountsTableController implements GenericEventsListener<AccountEve
           return data.getUserData();
         }
       };
-      DefaultTableColumnController<Account,String> userDataColumn=new DefaultTableColumnController<Account,String>(AccountColumnIds.USER_DATA.name(),"Comments",String.class,userDataCell); // I18n
+      String title=Labels.getLabel("accounts.table.column.comments");
+      DefaultTableColumnController<Account,String> userDataColumn=new DefaultTableColumnController<Account,String>(AccountColumnIds.USER_DATA.name(),title,String.class,userDataCell);
       userDataColumn.setWidthSpecs(100,-1,200);
       table.addColumnController(userDataColumn);
     }

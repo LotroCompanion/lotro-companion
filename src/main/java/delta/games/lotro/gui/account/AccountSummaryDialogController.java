@@ -17,6 +17,7 @@ import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.account.AccountSummary;
 import delta.games.lotro.account.AccountType;
 import delta.games.lotro.gui.utils.l10n.DateFormat;
+import delta.games.lotro.gui.utils.l10n.Labels;
 
 /**
  * Controller for the "account summary" dialog.
@@ -48,7 +49,7 @@ public class AccountSummaryDialogController extends DefaultFormDialogController<
   protected JDialog build()
   {
     JDialog dialog=super.build();
-    dialog.setTitle("Edit account summary..."); // I18n
+    dialog.setTitle(Labels.getLabel("account.summary.edition.title"));
     dialog.setResizable(false);
     return dialog;
   }
@@ -57,7 +58,8 @@ public class AccountSummaryDialogController extends DefaultFormDialogController<
   protected JPanel buildFormPanel()
   {
     JPanel dataPanel=buildPanel();
-    TitledBorder pathsBorder=GuiFactory.buildTitledBorder("Account summary"); // I18n
+    String borderTitle=Labels.getLabel("account.summary.edition.border");
+    TitledBorder pathsBorder=GuiFactory.buildTitledBorder(borderTitle);
     dataPanel.setBorder(pathsBorder);
     initData();
     return dataPanel;
@@ -74,7 +76,7 @@ public class AccountSummaryDialogController extends DefaultFormDialogController<
     _subscription=GuiFactory.buildTextField("");
     _subscription.setColumns(SUBSCRIPTION_KEY_SIZE);
     _subscription.setEditable(false);
-    // Signup date
+    // Sign-up date
     _signupDate=new DateEditionController(DateFormat.getDateCodec());
     // Account type
     _accountType=buildAccountTypeCombo();
@@ -85,15 +87,15 @@ public class AccountSummaryDialogController extends DefaultFormDialogController<
     Insets insets=new Insets(5,5,5,5);
     // Labels
     GridBagConstraints gbc=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,insets,0,0);
-    panel.add(GuiFactory.buildLabel("Name:"),gbc); // I18n
+    panel.add(GuiFactory.buildLabel(Labels.getFieldLabel("account.summary.edition.field.name")),gbc);
     gbc.gridy++;
-    panel.add(GuiFactory.buildLabel("Subscription:"),gbc); // I18n
+    panel.add(GuiFactory.buildLabel(Labels.getFieldLabel("account.summary.edition.field.subscription")),gbc);
     gbc.gridy++;
-    panel.add(GuiFactory.buildLabel("Signup date:"),gbc); // I18n
+    panel.add(GuiFactory.buildLabel(Labels.getFieldLabel("account.summary.edition.field.signupType")),gbc);
     gbc.gridy++;
-    panel.add(GuiFactory.buildLabel("Account type:"),gbc); // I18n
+    panel.add(GuiFactory.buildLabel(Labels.getFieldLabel("account.summary.edition.field.type")),gbc);
     gbc.gridy++;
-    panel.add(GuiFactory.buildLabel("Comments:"),gbc); // I18n
+    panel.add(GuiFactory.buildLabel(Labels.getFieldLabel("account.summary.edition.field.comments")),gbc);
     gbc.gridy++;
     // Editors
     gbc.gridx=1; gbc.gridy=0;
