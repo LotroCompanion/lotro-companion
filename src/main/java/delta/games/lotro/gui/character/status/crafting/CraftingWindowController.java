@@ -21,10 +21,10 @@ import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.events.CharacterEvent;
 import delta.games.lotro.character.events.CharacterEventType;
 import delta.games.lotro.character.status.crafting.CraftingStatus;
+import delta.games.lotro.common.comparators.NamedComparator;
 import delta.games.lotro.lore.crafting.CraftingData;
 import delta.games.lotro.lore.crafting.CraftingSystem;
 import delta.games.lotro.lore.crafting.Vocation;
-import delta.games.lotro.lore.crafting.VocationComparator;
 import delta.games.lotro.lore.crafting.Vocations;
 import delta.games.lotro.utils.events.EventsManager;
 import delta.games.lotro.utils.strings.ContextRendering;
@@ -161,7 +161,7 @@ public class CraftingWindowController extends DefaultFormDialogController<Crafti
     CraftingData crafting=CraftingSystem.getInstance().getData();
     Vocations vocationsRegistry=crafting.getVocationsRegistry();
     List<Vocation> vocations=vocationsRegistry.getAll();
-    Collections.sort(vocations,new VocationComparator());
+    Collections.sort(vocations,new NamedComparator());
     for(Vocation vocation : vocations)
     {
       String vocationName=vocation.getName();

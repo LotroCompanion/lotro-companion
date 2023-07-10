@@ -15,9 +15,9 @@ import org.apache.log4j.Logger;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.misc.Disposable;
 import delta.common.utils.NumericTools;
+import delta.games.lotro.common.comparators.NamedComparator;
 import delta.games.lotro.lore.maps.ParchmentMap;
 import delta.games.lotro.lore.maps.ParchmentMapsManager;
-import delta.games.lotro.lore.maps.comparators.AbstractMapNameComparator;
 import delta.games.lotro.maps.ui.navigation.NavigationSupport;
 
 /**
@@ -152,7 +152,7 @@ public class NavigationMenuController implements Disposable
   {
     List<ParchmentMap> ret=new ArrayList<ParchmentMap>();
     getAllChildMaps(map,ret);
-    Collections.sort(ret,new AbstractMapNameComparator<ParchmentMap>());
+    Collections.sort(ret,new NamedComparator());
     return ret;
   }
 

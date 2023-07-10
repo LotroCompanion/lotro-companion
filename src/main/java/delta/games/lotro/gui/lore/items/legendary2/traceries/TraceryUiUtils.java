@@ -6,8 +6,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import delta.games.lotro.common.comparators.NamedComparator;
 import delta.games.lotro.common.stats.StatDescription;
-import delta.games.lotro.common.stats.StatDescriptionNameComparator;
 import delta.games.lotro.common.stats.StatProvider;
 import delta.games.lotro.common.stats.StatsProvider;
 import delta.games.lotro.lore.items.Item;
@@ -61,7 +61,7 @@ public class TraceryUiUtils
       }
     }
     List<StatDescription> ret=new ArrayList<StatDescription>(values);
-    Collections.sort(ret,new StatDescriptionNameComparator());
+    Collections.sort(ret,new NamedComparator());
     return ret;
   }
 }
