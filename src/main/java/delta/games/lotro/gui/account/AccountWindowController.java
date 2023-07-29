@@ -17,6 +17,7 @@ import delta.games.lotro.account.Account;
 import delta.games.lotro.account.AccountOnServer;
 import delta.games.lotro.account.AccountSummary;
 import delta.games.lotro.account.AccountUtils;
+import delta.games.lotro.gui.utils.l10n.Labels;
 
 /**
  * Controller for an "account" window.
@@ -86,7 +87,7 @@ public class AccountWindowController extends DefaultWindowController
     JFrame frame=super.build();
     // Title
     String name=_account.getDisplayName();
-    String title="Account: "+name; // I18n
+    String title=Labels.getLabel("account.window.title",new Object[] {name});
     frame.setTitle(title);
     frame.setMinimumSize(new Dimension(400,200));
     frame.setSize(800,350);

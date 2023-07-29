@@ -16,6 +16,7 @@ import delta.games.lotro.account.Account;
 import delta.games.lotro.account.AccountSummary;
 import delta.games.lotro.account.events.AccountEvent;
 import delta.games.lotro.account.events.AccountEventType;
+import delta.games.lotro.gui.utils.l10n.Labels;
 import delta.games.lotro.utils.events.EventsManager;
 import delta.games.lotro.utils.events.GenericEventsListener;
 
@@ -69,7 +70,8 @@ public class AccountSummaryPanelController implements GenericEventsListener<Acco
     _accountNameLabel=GuiFactory.buildLabel("",28.0f);
     panel.add(_accountNameLabel,c);
     // Edit...
-    JButton edit=GuiFactory.buildButton("Edit..."); // I18n
+    String editLabel=Labels.getLabel("account.summary.buttons.edit");
+    JButton edit=GuiFactory.buildButton(editLabel);
     ActionListener al=new ActionListener()
     {
       @Override

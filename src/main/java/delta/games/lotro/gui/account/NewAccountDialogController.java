@@ -15,6 +15,7 @@ import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.account.Account;
 import delta.games.lotro.account.AccountReference;
 import delta.games.lotro.account.AccountsManager;
+import delta.games.lotro.gui.utils.l10n.Labels;
 
 /**
  * Controller for the "new account" dialog.
@@ -39,7 +40,8 @@ public class NewAccountDialogController extends DefaultFormDialogController<Obje
   protected JDialog build()
   {
     JDialog dialog=super.build();
-    dialog.setTitle("New account..."); // I18n
+    String title=Labels.getLabel("account.new.window.title");
+    dialog.setTitle(title);
     dialog.setResizable(false);
     return dialog;
   }
@@ -48,7 +50,8 @@ public class NewAccountDialogController extends DefaultFormDialogController<Obje
   protected JPanel buildFormPanel()
   {
     JPanel dataPanel=buildNewAccountPanel();
-    TitledBorder pathsBorder=GuiFactory.buildTitledBorder("Account"); // I18n
+    String borderTitle=Labels.getLabel("account.new.border.title");
+    TitledBorder pathsBorder=GuiFactory.buildTitledBorder(borderTitle);
     dataPanel.setBorder(pathsBorder);
     return dataPanel;
   }
@@ -60,14 +63,16 @@ public class NewAccountDialogController extends DefaultFormDialogController<Obje
     _accountName=GuiFactory.buildTextField("");
     _accountName.setColumns(ACCOUNT_NAME_SIZE);
     GridBagConstraints gbc=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
-    panel.add(GuiFactory.buildLabel("Name:"),gbc); // I18n
+    String nameField=Labels.getFieldLabel("account.new.field.name");
+    panel.add(GuiFactory.buildLabel(nameField),gbc);
     gbc=new GridBagConstraints(1,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(5,5,5,5),0,0);
     panel.add(_accountName,gbc);
     // Subscription key
     _subscriptionKey=GuiFactory.buildTextField("");
     _subscriptionKey.setColumns(ACCOUNT_NAME_SIZE);
     gbc=new GridBagConstraints(0,1,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
-    panel.add(GuiFactory.buildLabel("Subcription:"),gbc); // I18n
+    String subscriptionField=Labels.getFieldLabel("account.new.field.subcription");
+    panel.add(GuiFactory.buildLabel(subscriptionField),gbc);
     gbc=new GridBagConstraints(1,1,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(5,5,5,5),0,0);
     panel.add(_subscriptionKey,gbc);
 
@@ -84,7 +89,8 @@ public class NewAccountDialogController extends DefaultFormDialogController<Obje
     Account account=manager.addAccount(accountID);
     if (account==null)
     {
-      showErrorMessage("Account creation failed!"); // I18n
+      String message=Labels.getLabel("account.new.creation.error.message");
+      showErrorMessage(message);
     }
   }
 
@@ -106,14 +112,14 @@ public class NewAccountDialogController extends DefaultFormDialogController<Obje
     String accountName=_accountName.getText();
     if ((accountName==null) || (accountName.trim().length()==0))
     {
-      errorMsg="Invalid account name!"; // I18n
+      errorMsg=Labels.getLabel("account.new.validation.error.invalidAccountName");
     }
     return errorMsg;
   }
 
   private void showErrorMessage(String errorMsg)
   {
-    String title="Account creation"; // I18n
+    String title=Labels.getLabel("account.new.creation.error.title");
     JDialog dialog=getDialog();
     GuiFactory.showErrorDialog(dialog,errorMsg,title);
   }
