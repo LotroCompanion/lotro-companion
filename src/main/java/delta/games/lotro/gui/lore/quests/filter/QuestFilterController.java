@@ -82,7 +82,7 @@ public class QuestFilterController extends AbstractPanelController implements Ac
   // -- World Events UI --
   private WorldEventsFilterController _worldEvents;
   // -- Web Store Items UI --
-  private WebStoreItemsFilterController<QuestDescription> _webStoreItems;
+  private WebStoreItemsFilterController<QuestDescription> _webStoreItems; // Live only
   // Controllers
   private DynamicTextEditionController _textController;
   private FilterUpdateListener _filterUpdateListener;
@@ -111,7 +111,11 @@ public class QuestFilterController extends AbstractPanelController implements Ac
     List<QuestDescription> quests=QuestsManager.getInstance().getAll();
     _worldEvents=new WorldEventsFilterController(quests,filter.getWorldEventsFilter(),filterUpdateListener);
     // Web Store items
-    _webStoreItems=new WebStoreItemsFilterController<QuestDescription>(quests,filter.getWebStoreItemsFilter(),filterUpdateListener);
+    boolean isLive=LotroCoreConfig.isLive();
+    if (isLive)
+    {
+      _webStoreItems=new WebStoreItemsFilterController<QuestDescription>(quests,filter.getWebStoreItemsFilter(),filterUpdateListener);
+    }
     JPanel panel=buildPanel();
     setPanel(panel);
   }
@@ -176,7 +180,10 @@ public class QuestFilterController extends AbstractPanelController implements Ac
       }
       _rewards.reset();
       _worldEvents.reset();
-      _webStoreItems.reset();
+      if (_webStoreItems!=null)
+      {
+        _webStoreItems.reset();
+      }
       _contains.setText("");
     }
   }
@@ -256,7 +263,10 @@ public class QuestFilterController extends AbstractPanelController implements Ac
     // World Events
     _worldEvents.setFilter();
     // Web store items
-    _webStoreItems.setFilter();
+    if (_webStoreItems!=null)
+    {
+      _webStoreItems.setFilter();
+    }
   }
 
   private JPanel build()
@@ -303,6 +313,7 @@ public class QuestFilterController extends AbstractPanelController implements Ac
       line2Panel.add(contextsPanel,c);
     }
     // Web Store Items
+    if (_webStoreItems!=null)
     {
       JPanel webStoreItemsPanel=_webStoreItems.getPanel();
       Border border=GuiFactory.buildTitledBorder("Contents Pack"); // I18n

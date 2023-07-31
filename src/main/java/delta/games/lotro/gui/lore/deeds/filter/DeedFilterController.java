@@ -65,9 +65,9 @@ public class DeedFilterController extends AbstractPanelController implements Act
   // -- Rewards UI --
   private RewardsFilterController _rewards;
   // -- World Events UI --
-  private WorldEventsFilterController _worldEvents;
+  private WorldEventsFilterController _worldEvents; // Live only
   // -- Web Store Items UI --
-  private WebStoreItemsFilterController<DeedDescription> _webStoreItems;
+  private WebStoreItemsFilterController<DeedDescription> _webStoreItems; // Live only
   // Controllers
   private DynamicTextEditionController _textController;
   private FilterUpdateListener _filterUpdateListener;
@@ -84,10 +84,12 @@ public class DeedFilterController extends AbstractPanelController implements Act
     super(parent);
     _filter=filter;
     _filterUpdateListener=filterUpdateListener;
+    // Requirements
     if (useRequirements)
     {
       _requirements=new RequirementsFilterController(filter.getRequirementsFilter(),filterUpdateListener);
     }
+    // Rewards
     RewardsExplorer explorer=DeedsManager.getInstance().buildRewardsExplorer();
     _rewards=new RewardsFilterController(parent,filter.getRewardsFilter(),filterUpdateListener,explorer,false);
     boolean isLive=LotroCoreConfig.isLive();
@@ -227,7 +229,7 @@ public class DeedFilterController extends AbstractPanelController implements Act
     line1Panel.add(deedPanel,c);
 
     // Reset
-    _reset=GuiFactory.buildButton("Reset"); // 18n
+    _reset=GuiFactory.buildButton("Reset"); // I18n
     _reset.addActionListener(this);
     c=new GridBagConstraints(1,0,1,1,0.0,0,GridBagConstraints.SOUTHWEST,GridBagConstraints.NONE,new Insets(0,5,5,0),0,0);
     line1Panel.add(_reset,c);
@@ -241,7 +243,7 @@ public class DeedFilterController extends AbstractPanelController implements Act
     if (_requirements!=null)
     {
       JPanel requirementsPanel=_requirements.getPanel();
-      Border requirementsBorder=GuiFactory.buildTitledBorder("Requirements"); // 18n
+      Border requirementsBorder=GuiFactory.buildTitledBorder("Requirements"); // I18n
       requirementsPanel.setBorder(requirementsBorder);
       c=new GridBagConstraints(0,0,1,1,0.0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
       line2Panel.add(requirementsPanel,c);
@@ -250,7 +252,7 @@ public class DeedFilterController extends AbstractPanelController implements Act
     if (_worldEvents!=null)
     {
       JPanel contextsPanel=_worldEvents.getPanel();
-      Border border=GuiFactory.buildTitledBorder("Context"); // 18n
+      Border border=GuiFactory.buildTitledBorder("Context"); // I18n
       contextsPanel.setBorder(border);
       c=new GridBagConstraints(1,0,1,1,0.0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
       line2Panel.add(contextsPanel,c);
@@ -259,7 +261,7 @@ public class DeedFilterController extends AbstractPanelController implements Act
     if (_webStoreItems!=null)
     {
       JPanel webStoreItemsPanel=_webStoreItems.getPanel();
-      Border border=GuiFactory.buildTitledBorder("Contents Pack"); // 18n
+      Border border=GuiFactory.buildTitledBorder("Contents Pack"); // I18n
       webStoreItemsPanel.setBorder(border);
       c=new GridBagConstraints(2,0,1,1,0.0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
       line2Panel.add(webStoreItemsPanel,c);
@@ -270,7 +272,7 @@ public class DeedFilterController extends AbstractPanelController implements Act
 
     // Rewards
     JPanel rewardsPanel=_rewards.getPanel();
-    Border rewardsBorder=GuiFactory.buildTitledBorder("Rewards"); // 18n
+    Border rewardsBorder=GuiFactory.buildTitledBorder("Rewards"); // I18n
     rewardsPanel.setBorder(rewardsBorder);
     c=new GridBagConstraints(0,y,1,1,0.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(rewardsPanel,c);
@@ -283,6 +285,7 @@ public class DeedFilterController extends AbstractPanelController implements Act
 
   private JPanel buildDeedPanel()
   {
+    boolean isLive=LotroCoreConfig.isLive();
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
 
     int y=0;
@@ -343,7 +346,6 @@ public class DeedFilterController extends AbstractPanelController implements Act
       linePanel.add(_category.getComboBox());
     }
     // Faction
-    boolean isLive=LotroCoreConfig.isLive();
     if (isLive)
     {
       linePanel.add(GuiFactory.buildLabel("Faction:")); // 18n
