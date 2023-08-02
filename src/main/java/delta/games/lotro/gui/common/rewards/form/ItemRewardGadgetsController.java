@@ -2,6 +2,7 @@ package delta.games.lotro.gui.common.rewards.form;
 
 import java.awt.Color;
 
+import delta.common.ui.swing.labels.HyperLinkController;
 import delta.common.ui.swing.labels.LabelWithHalo;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.gui.lore.items.ItemUiTools;
@@ -15,6 +16,7 @@ import delta.games.lotro.lore.items.Item;
  */
 public class ItemRewardGadgetsController extends RewardGadgetsController
 {
+  private HyperLinkController _itemLink;
   private IconController _itemIcon;
 
   /**
@@ -27,17 +29,16 @@ public class ItemRewardGadgetsController extends RewardGadgetsController
   {
     super(parent);
     // Label
-    String text="???";
     Color color=Color.WHITE;
     if (item!=null)
     {
-      text=item.getName();
       color=ItemUiTools.getColorForItem(item,color);
     }
     _label=new LabelWithHalo();
-    _label.setText(text);
     _label.setOpaque(false);
     _label.setForeground(color);
+    // Link
+    _itemLink=ItemUiTools.buildItemLink(parent,item,_label);
     // Icon
     _itemIcon=IconControllerFactory.buildItemIcon(parent,item,count);
     _icon=_itemIcon.getIcon();
@@ -47,6 +48,11 @@ public class ItemRewardGadgetsController extends RewardGadgetsController
   public void dispose()
   {
     super.dispose();
+    if (_itemLink!=null)
+    {
+      _itemLink.dispose();
+      _itemLink=null;
+    }
     if (_itemIcon!=null)
     {
       _itemIcon.dispose();

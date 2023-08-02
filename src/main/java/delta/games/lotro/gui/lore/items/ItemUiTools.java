@@ -11,7 +11,9 @@ import java.util.Set;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 
+import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.common.ui.swing.icons.IconWithText;
 import delta.common.ui.swing.icons.IconWithText.Position;
@@ -90,6 +92,18 @@ public class ItemUiTools
    */
   public static HyperLinkController buildItemLink(final WindowController parent, final Item item)
   {
+    return buildItemLink(parent,item,GuiFactory.buildLabel(""));
+  }
+
+  /**
+   * Build an item link controller.
+   * @param parent Parent window.
+   * @param item Item to use.
+   * @param label Label to use.
+   * @return a new controller.
+   */
+  public static HyperLinkController buildItemLink(final WindowController parent, final Item item, JLabel label)
+  {
     ActionListener al=new ActionListener()
     {
       @Override
@@ -100,7 +114,7 @@ public class ItemUiTools
     };
     String text=(item!=null)?item.getName():"???";
     LocalHyperlinkAction action=new LocalHyperlinkAction(text,al);
-    HyperLinkController controller=new HyperLinkController(action);
+    HyperLinkController controller=new HyperLinkController(action,label);
     return controller;
   }
 

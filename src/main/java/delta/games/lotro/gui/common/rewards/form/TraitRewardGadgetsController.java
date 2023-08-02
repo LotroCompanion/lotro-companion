@@ -2,9 +2,11 @@ package delta.games.lotro.gui.common.rewards.form;
 
 import java.awt.Color;
 
+import delta.common.ui.swing.labels.HyperLinkController;
 import delta.common.ui.swing.labels.LabelWithHalo;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.traits.TraitDescription;
+import delta.games.lotro.gui.lore.traits.TraitUiUtils;
 import delta.games.lotro.gui.utils.IconController;
 import delta.games.lotro.gui.utils.IconControllerFactory;
 
@@ -14,7 +16,8 @@ import delta.games.lotro.gui.utils.IconControllerFactory;
  */
 public class TraitRewardGadgetsController extends RewardGadgetsController
 {
-  private IconController _itemIcon;
+  private HyperLinkController _traitLink;
+  private IconController _traitIcon;
 
   /**
    * Constructor.
@@ -25,25 +28,29 @@ public class TraitRewardGadgetsController extends RewardGadgetsController
   {
     super(parent);
     // Label
-    String text=trait.getName();
-    Color color=Color.WHITE;
     _label=new LabelWithHalo();
-    _label.setText(text);
     _label.setOpaque(false);
-    _label.setForeground(color);
+    _label.setForeground(Color.WHITE);
+    // Link
+    _traitLink=TraitUiUtils.buildTraitLink(parent,trait,_label);
     // Icon
-    _itemIcon=IconControllerFactory.buildTraitIcon(parent,trait);
-    _icon=_itemIcon.getIcon();
+    _traitIcon=IconControllerFactory.buildTraitIcon(parent,trait);
+    _icon=_traitIcon.getIcon();
   }
 
   @Override
   public void dispose()
   {
     super.dispose();
-    if (_itemIcon!=null)
+    if (_traitLink!=null)
     {
-      _itemIcon.dispose();
-      _itemIcon=null;
+      _traitLink.dispose();
+      _traitLink=null;
+    }
+    if (_traitIcon!=null)
+    {
+      _traitIcon.dispose();
+      _traitIcon=null;
     }
   }
 }

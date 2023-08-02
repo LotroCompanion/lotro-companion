@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.lore.virtues;
+package delta.games.lotro.gui.lore.traits;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,47 +9,47 @@ import delta.common.ui.swing.labels.HyperLinkController;
 import delta.common.ui.swing.labels.LocalHyperlinkAction;
 import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.common.ui.swing.windows.WindowController;
-import delta.games.lotro.character.virtues.VirtueDescription;
+import delta.games.lotro.character.traits.TraitDescription;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.gui.utils.NavigationUtils;
 
 /**
- * Tools related to virtues UI.
+ * Utility methods for trait-related UIs.
  * @author DAM
  */
-public class VirtueUiTools
+public class TraitUiUtils
 {
   /**
-   * Build a virtue link controller.
+   * Build an trait link controller.
    * @param parent Parent window.
-   * @param virtue Virtue to use.
+   * @param trait Trait to use.
    * @param label Label to use.
    * @return a new controller.
    */
-  public static HyperLinkController buildVirtueLink(final WindowController parent, final VirtueDescription virtue, JLabel label)
+  public static HyperLinkController buildTraitLink(final WindowController parent, final TraitDescription trait, JLabel label)
   {
     ActionListener al=new ActionListener()
     {
       @Override
       public void actionPerformed(ActionEvent e)
       {
-        showVirtueForm(parent,virtue);
+        showTraitWindow(parent,trait.getIdentifier());
       }
     };
-    String text=(virtue!=null)?virtue.getName():"???";
+    String text=(trait!=null)?trait.getName():"???";
     LocalHyperlinkAction action=new LocalHyperlinkAction(text,al);
     HyperLinkController controller=new HyperLinkController(action,label);
     return controller;
   }
 
   /**
-   * Show the form window for an item.
+   * Show a trait display window.
    * @param parent Parent window.
-   * @param virtue Virtue to show.
+   * @param traitID Trait identifier.
    */
-  public static void showVirtueForm(WindowController parent, VirtueDescription virtue)
+  public static void showTraitWindow(WindowController parent, int traitID)
   {
-    PageIdentifier ref=ReferenceConstants.getVirtueReference(virtue.getIdentifier());
+    PageIdentifier ref=ReferenceConstants.getTraitReference(traitID);
     NavigationUtils.navigateTo(ref,parent);
   }
 }

@@ -220,7 +220,7 @@ public class RewardsPanelController extends AbstractPanelController
     else if (rewardElement instanceof VirtueReward)
     {
       VirtueReward virtueReward=(VirtueReward)rewardElement;
-      ret=new VirtueRewardGadgetsController(this,virtueReward);
+      ret=new VirtueRewardGadgetsController(getParentWindowController(),virtueReward);
     }
     // Reputation
     else if (rewardElement instanceof ReputationReward)

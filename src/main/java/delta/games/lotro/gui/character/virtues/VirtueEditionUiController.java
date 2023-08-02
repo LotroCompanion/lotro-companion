@@ -92,7 +92,8 @@ public class VirtueEditionUiController implements ActionListener
       }
     });
     // Virtue name
-    _virtueName=VirtueUiTools.buildVirtueLink(parent,virtue);
+    JLabel virtueNameLabel=GuiFactory.buildLabel("");
+    _virtueName=VirtueUiTools.buildVirtueLink(parent,virtue,virtueNameLabel);
     // "+" button
     _plus=buildButton("circled_plus");
     // "-" button

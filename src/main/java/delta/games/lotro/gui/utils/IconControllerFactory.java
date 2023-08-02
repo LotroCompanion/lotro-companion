@@ -1,11 +1,15 @@
 package delta.games.lotro.gui.utils;
 
+import java.awt.Color;
+
 import javax.swing.Icon;
 
+import delta.common.ui.swing.icons.IconWithText;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.races.RaceDescription;
 import delta.games.lotro.character.skills.SkillDescription;
 import delta.games.lotro.character.traits.TraitDescription;
+import delta.games.lotro.character.virtues.VirtueDescription;
 import delta.games.lotro.common.Genders;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
@@ -92,6 +96,30 @@ public class IconControllerFactory
       ret.setIcon(icon);
       ret.setPageId(ReferenceConstants.getTraitReference(trait.getIdentifier()));
       ret.setTooltipText(trait.getName());
+    }
+    return ret;
+  }
+
+  /**
+   * Build a virtue icon.
+   * @param parent Parent window.
+   * @param virtue Virtue to use.
+   * @param count Count.
+   * @return A new controller.
+   */
+  public static IconController buildVirtueIcon(WindowController parent, VirtueDescription virtue, int count)
+  {
+    IconController ret=new IconController(parent);
+    if (virtue!=null)
+    {
+      Icon virtueIcon=LotroIconsManager.getVirtueIcon(virtue);
+      if (count>0)
+      {
+        virtueIcon=new IconWithText(virtueIcon,String.valueOf(count),Color.WHITE);
+      }
+      ret.setIcon(virtueIcon);
+      ret.setPageId(ReferenceConstants.getVirtueReference(virtue.getIdentifier()));
+      ret.setTooltipText(virtue.getName());
     }
     return ret;
   }
