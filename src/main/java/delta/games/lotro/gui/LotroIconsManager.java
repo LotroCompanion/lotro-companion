@@ -206,6 +206,23 @@ public class LotroIconsManager
   }
 
   /**
+   * Get icon for a virtue.
+   * @param virtue Virtue.
+   * @param count Count.
+   * @return An icon.
+   */
+  public static ImageIcon getVirtueIcon(VirtueDescription virtue, int count)
+  {
+    if (virtue==null)
+    {
+      return null;
+    }
+    String virtueKey=virtue.getKey();
+    String path="/traits/"+virtueKey+"-"+count+".png";
+    return IconsManager.getIcon(path);
+  }
+
+  /**
    * Get the icon for a profession.
    * @param profession Profession.
    * @return An icon or <code>null</code> if not found.
