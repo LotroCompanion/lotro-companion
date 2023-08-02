@@ -1,12 +1,15 @@
 package delta.games.lotro.gui;
 
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 import delta.common.ui.swing.icons.ApplicationIcons;
+import delta.common.ui.swing.icons.IconWithText;
 import delta.common.ui.swing.icons.IconsManager;
 import delta.games.lotro.character.races.RaceDescription;
 import delta.games.lotro.character.races.RaceGender;
@@ -14,6 +17,7 @@ import delta.games.lotro.character.virtues.VirtueDescription;
 import delta.games.lotro.common.CharacterSex;
 import delta.games.lotro.common.Genders;
 import delta.games.lotro.common.stats.StatDescription;
+import delta.games.lotro.config.LotroCoreConfig;
 import delta.games.lotro.gui.utils.icons.ItemIconBuilder;
 import delta.games.lotro.lore.crafting.Profession;
 import delta.games.lotro.lore.deeds.DeedType;
@@ -194,15 +198,20 @@ public class LotroIconsManager
    * @param virtue Virtue.
    * @return An icon.
    */
-  public static ImageIcon getVirtueIcon(VirtueDescription virtue)
+  public static Icon getVirtueIcon(VirtueDescription virtue)
   {
-    if (virtue!=null)
+    if (virtue==null)
+    {
+      return null;
+    }
+    boolean isLive=LotroCoreConfig.isLive();
+    if (isLive)
     {
       int virtueIconId=virtue.getIconId();
       String path="/traits/"+virtueIconId+".png";
       return IconsManager.getIcon(path);
     }
-    return null;
+    return getVirtueIcon(virtue,1);
   }
 
   /**
@@ -211,15 +220,29 @@ public class LotroIconsManager
    * @param count Count.
    * @return An icon.
    */
-  public static ImageIcon getVirtueIcon(VirtueDescription virtue, int count)
+  public static Icon getVirtueIcon(VirtueDescription virtue, int count)
   {
     if (virtue==null)
     {
       return null;
     }
-    String virtueKey=virtue.getKey();
-    String path="/traits/"+virtueKey+"-"+count+".png";
-    return IconsManager.getIcon(path);
+    Icon virtueIcon=null;
+    boolean isLive=LotroCoreConfig.isLive();
+    if (isLive)
+    {
+      virtueIcon=LotroIconsManager.getVirtueIcon(virtue);
+      if (count>0)
+      {
+        virtueIcon=new IconWithText(virtueIcon,String.valueOf(count),Color.WHITE);
+      }
+    }
+    else
+    {
+      String virtueKey=virtue.getKey();
+      String path="/traits/"+virtueKey+"-"+count+".png";
+      virtueIcon=IconsManager.getIcon(path);
+    }
+    return virtueIcon;
   }
 
   /**

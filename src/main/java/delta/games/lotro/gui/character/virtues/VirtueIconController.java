@@ -2,7 +2,7 @@ package delta.games.lotro.gui.character.virtues;
 
 import java.awt.Color;
 
-import javax.swing.ImageIcon;
+import javax.swing.Icon;
 import javax.swing.JLabel;
 
 import delta.common.ui.swing.GuiFactory;
@@ -122,7 +122,7 @@ public class VirtueIconController
    */
   private IconWithText buildVirtueIcon(VirtueDescription virtue)
   {
-    ImageIcon icon=null;
+    Icon icon=null;
     if (virtue!=null)
     {
       icon=LotroIconsManager.getVirtueIcon(virtue);

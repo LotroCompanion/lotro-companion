@@ -11,7 +11,7 @@ import java.awt.Insets;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.ImageIcon;
+import javax.swing.Icon;
 import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -122,7 +122,7 @@ public class VirtueDisplayPanelController implements NavigablePanelController
     {
       JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
       // Icon
-      ImageIcon icon=LotroIconsManager.getVirtueIcon(_virtue);
+      Icon icon=LotroIconsManager.getVirtueIcon(_virtue);
       JLabel iconLabel=GuiFactory.buildIconLabel(icon);
       panelLine.add(iconLabel);
       // Name

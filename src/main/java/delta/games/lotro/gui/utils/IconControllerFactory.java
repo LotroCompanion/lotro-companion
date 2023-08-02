@@ -1,17 +1,13 @@
 package delta.games.lotro.gui.utils;
 
-import java.awt.Color;
-
 import javax.swing.Icon;
 
-import delta.common.ui.swing.icons.IconWithText;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.races.RaceDescription;
 import delta.games.lotro.character.skills.SkillDescription;
 import delta.games.lotro.character.traits.TraitDescription;
 import delta.games.lotro.character.virtues.VirtueDescription;
 import delta.games.lotro.common.Genders;
-import delta.games.lotro.config.LotroCoreConfig;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.gui.lore.items.legendary.relics.RelicUiTools;
@@ -113,20 +109,7 @@ public class IconControllerFactory
     IconController ret=new IconController(parent);
     if (virtue!=null)
     {
-      Icon virtueIcon=null;
-      boolean isLive=LotroCoreConfig.isLive();
-      if (isLive)
-      {
-        virtueIcon=LotroIconsManager.getVirtueIcon(virtue);
-        if (count>0)
-        {
-          virtueIcon=new IconWithText(virtueIcon,String.valueOf(count),Color.WHITE);
-        }
-      }
-      else
-      {
-        virtueIcon=LotroIconsManager.getVirtueIcon(virtue,count);
-      }
+      Icon virtueIcon=LotroIconsManager.getVirtueIcon(virtue,count);
       ret.setIcon(virtueIcon);
       ret.setPageId(ReferenceConstants.getVirtueReference(virtue.getIdentifier()));
       ret.setTooltipText(virtue.getName());
