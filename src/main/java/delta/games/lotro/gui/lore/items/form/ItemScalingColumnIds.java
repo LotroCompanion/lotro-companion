@@ -17,5 +17,9 @@ public enum ItemScalingColumnIds
   /**
    * Value.
    */
-  VALUE
+  VALUE,
+  /**
+   * DPS.
+   */
+  DPS
 }

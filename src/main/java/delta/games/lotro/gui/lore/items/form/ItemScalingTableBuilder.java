@@ -90,6 +90,12 @@ public class ItemScalingTableBuilder
     columns.add(buildLevelColumn());
     // Item level column
     columns.add(buildItemLevelColumn());
+    // DPS
+    boolean useDPS=hasDPS(scaling);
+    if (useDPS)
+    {
+      columns.add(buildDPSColumn());
+    }
     // Value
     columns.add(buildValueColumn());
     // Stat columns
@@ -98,6 +104,18 @@ public class ItemScalingTableBuilder
       columns.add(buildStatColumn(stat));
     }
     return columns;
+  }
+
+  private static boolean hasDPS(ItemScaling scaling)
+  {
+    for(ItemScalingEntry entry : scaling.getEntries())
+    {
+      if (entry.getDPS()!=null)
+      {
+        return true;
+      }
+    }
+    return false;
   }
 
   /**
@@ -193,5 +211,24 @@ public class ItemScalingTableBuilder
     StatRenderer renderer=new StatRenderer(stat);
     ColumnsUtils.configureStatValueColumn(statColumn,renderer,55);
     return statColumn;
+  }
+
+  /**
+   * Build a column for the DPS of an item.
+   * @return a column.
+   */
+  public static DefaultTableColumnController<ItemScalingEntry,Float> buildDPSColumn()
+  {
+    CellDataProvider<ItemScalingEntry,Float> valueCell=new CellDataProvider<ItemScalingEntry,Float>()
+    {
+      @Override
+      public Float getData(ItemScalingEntry item)
+      {
+        return item.getDPS();
+      }
+    };
+    DefaultTableColumnController<ItemScalingEntry,Float> valueColumn=new DefaultTableColumnController<ItemScalingEntry,Float>(ItemScalingColumnIds.DPS.name(),"DPS",Float.class,valueCell);
+    valueColumn.setWidthSpecs(90,90,90);
+    return valueColumn;
   }
 }
