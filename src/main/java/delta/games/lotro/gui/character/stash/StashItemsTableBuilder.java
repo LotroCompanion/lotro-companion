@@ -83,6 +83,8 @@ public class StashItemsTableBuilder
       ProxiedTableColumnController<ItemInstance<? extends Item>,Item,Object> column=new ProxiedTableColumnController<ItemInstance<? extends Item>,Item,Object>(c,dataProvider);
       table.addColumnController(column);
     }
+    // Comments
+    table.addColumnController(buildCommentsColumn());
 
     // Configure table
     JTable swingTable=table.getTable();
@@ -139,21 +141,22 @@ public class StashItemsTableBuilder
       locationColumn.setWidthSpecs(70,70,70);
       ret.add(locationColumn);
     }
-    // Comment column
-    {
-      CellDataProvider<Item,String> commentCell=new CellDataProvider<Item,String>()
-      {
-        @Override
-        public String getData(Item item)
-        {
-          String property=item.getProperty(ItemPropertyNames.USER_COMMENT);
-          return property;
-        }
-      };
-      DefaultTableColumnController<Item,String> commentColumn=new DefaultTableColumnController<Item,String>("Comment",String.class,commentCell); // I18n
-      commentColumn.setWidthSpecs(200,-1,400);
-      ret.add(commentColumn);
-    }
     return ret;
+  }
+
+  private static TableColumnController<ItemInstance<? extends Item>,String> buildCommentsColumn()
+  {
+    CellDataProvider<ItemInstance<? extends Item>,String> commentCell=new CellDataProvider<ItemInstance<? extends Item>,String>()
+    {
+      @Override
+      public String getData(ItemInstance<? extends Item> item)
+      {
+        String property=item.getProperty(ItemPropertyNames.USER_COMMENT);
+        return property;
+      }
+    };
+    DefaultTableColumnController<ItemInstance<? extends Item>,String> commentColumn=new DefaultTableColumnController<ItemInstance<? extends Item>,String>("Comment",String.class,commentCell); // I18n
+    commentColumn.setWidthSpecs(200,-1,400);
+    return commentColumn;
   }
 }
