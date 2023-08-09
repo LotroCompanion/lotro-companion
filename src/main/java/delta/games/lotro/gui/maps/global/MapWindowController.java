@@ -163,6 +163,7 @@ public class MapWindowController extends DefaultWindowController implements Navi
     // Markers
     List<Marker> markers=new MapMarkersFactory().getMarkers(mapId);
     _markersProvider.setMarkers(markers);
+    _filtering.setMarkers(markers);
     // Links
     List<MapLink> links=new MapLinksFactory().getLinks(mapId);
     _navigation.setLinks(links);

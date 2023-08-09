@@ -80,6 +80,7 @@ public class InstanceMapPanelController
     SimpleMarkersProvider markersProvider=new SimpleMarkersProvider();
     List<Marker> markers=findMarkers();
     markersProvider.setMarkers(markers);
+    _filtering.setMarkers(markers);
     MarkersLayer markersLayer=new MarkersLayer(iconsProvider,markersProvider);
     markersLayer.setFilter(_filtering.getFilter());
     canvas.addLayer(markersLayer);
