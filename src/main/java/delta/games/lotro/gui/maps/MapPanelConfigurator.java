@@ -37,6 +37,13 @@ public class MapPanelConfigurator
     MapCanvas canvas=panel.getCanvas();
 
     GeoreferencedBasemap basemap=null;
+    Integer mapId=mapDescription.getMapId();
+    if (mapId!=null)
+    {
+      MapsManager mapsManager=Maps.getMaps().getMapsManager();
+      GeoreferencedBasemapsManager basemapsManager=mapsManager.getBasemapsManager();
+      basemap=basemapsManager.getMapById(mapId.intValue());
+    }
 
     // Configure bounding box
     // - specified bounding box?
@@ -50,17 +57,9 @@ public class MapPanelConfigurator
     }
     else
     {
-      // Use the bounding box of the map, if any
-      Integer mapId=mapDescription.getMapId();
-      if (mapId!=null)
+      if (basemap!=null)
       {
-        MapsManager mapsManager=Maps.getMaps().getMapsManager();
-        GeoreferencedBasemapsManager basemapsManager=mapsManager.getBasemapsManager();
-        basemap=basemapsManager.getMapById(mapId.intValue());
-        if (basemap!=null)
-        {
-          MapUiUtils.configureMapPanel(panel,basemap.getBoundingBox(),MAX_SIZE);
-        }
+        MapUiUtils.configureMapPanel(panel,basemap.getBoundingBox(),MAX_SIZE);
       }
     }
 
