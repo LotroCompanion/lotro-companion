@@ -17,7 +17,7 @@ import delta.games.lotro.maps.ui.DefaultMarkerIconsProvider;
 import delta.games.lotro.maps.ui.MapCanvas;
 import delta.games.lotro.maps.ui.MapPanelController;
 import delta.games.lotro.maps.ui.MarkerIconProvider;
-import delta.games.lotro.maps.ui.filter.MapFilterPanelController;
+import delta.games.lotro.maps.ui.filter.MapFilteringController;
 import delta.games.lotro.maps.ui.layers.MarkersLayer;
 import delta.games.lotro.maps.ui.layers.SimpleMarkersProvider;
 import delta.games.lotro.utils.maps.Maps;
@@ -28,9 +28,12 @@ import delta.games.lotro.utils.maps.Maps;
  */
 public class InstanceMapPanelController
 {
+  // Data
   private PrivateEncounter _privateEncounter;
   private InstanceMapDescription _mapDescription;
+  // Controllers
   private MapPanelController _mapPanel;
+  private MapFilteringController _filtering;
 
   /**
    * Constructor.
@@ -67,8 +70,8 @@ public class InstanceMapPanelController
 
     // Markers filter UI
     CategoriesManager categoriesManager=mapsManager.getCategories();
-    MapFilterPanelController mapFilterCtrl=new MapFilterPanelController(categoriesManager,canvas);
-    panel.addFilterButton(mapFilterCtrl);
+    _filtering=new MapFilteringController(categoriesManager,panel);
+    _filtering.addFilterButtons();
 
     // Basemap
     MapPanelConfigurator.configureCanvas(facade,panel,_mapDescription.getMap());
@@ -78,7 +81,7 @@ public class InstanceMapPanelController
     List<Marker> markers=findMarkers();
     markersProvider.setMarkers(markers);
     MarkersLayer markersLayer=new MarkersLayer(iconsProvider,markersProvider);
-    markersLayer.setFilter(mapFilterCtrl.getFilter());
+    markersLayer.setFilter(_filtering.getFilter());
     canvas.addLayer(markersLayer);
     return panel;
   }
@@ -121,6 +124,10 @@ public class InstanceMapPanelController
     {
       _mapPanel.dispose();
       _mapPanel=null;
+    }
+    if (_filtering!=null)
+    {
+      _filtering.dispose();
     }
   }
 }

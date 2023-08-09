@@ -31,7 +31,7 @@ import delta.games.lotro.maps.ui.BasemapPanelController;
 import delta.games.lotro.maps.ui.DefaultMarkerIconsProvider;
 import delta.games.lotro.maps.ui.MapCanvas;
 import delta.games.lotro.maps.ui.MarkerIconProvider;
-import delta.games.lotro.maps.ui.filter.MapFilterPanelController;
+import delta.games.lotro.maps.ui.filter.MapFilteringController;
 import delta.games.lotro.maps.ui.layers.BasemapLayer;
 import delta.games.lotro.maps.ui.layers.MarkersLayer;
 import delta.games.lotro.maps.ui.layers.SimpleMarkersProvider;
@@ -58,6 +58,7 @@ public class MapWindowController extends DefaultWindowController implements Navi
   private SimpleMarkersProvider _markersProvider;
   // UI controllers
   private BasemapPanelController _mapPanel;
+  private MapFilteringController _filtering;
   // Navigation
   private NavigationSupport _navigation;
   private NavigationMenuController _navigationMenuController;
@@ -95,14 +96,14 @@ public class MapWindowController extends DefaultWindowController implements Navi
     _navigation.getNavigationListeners().addListener(this);
     // Markers filter UI
     CategoriesManager categoriesManager=mapsManager.getCategories();
-    MapFilterPanelController mapFilterCtrl=new MapFilterPanelController(categoriesManager,_mapPanel.getCanvas());
-    removeCategories(mapFilterCtrl.getFilter().getCategoryFilter());
-    _mapPanel.getMapPanelController().addFilterButton(mapFilterCtrl);
+    _filtering=new MapFilteringController(categoriesManager,_mapPanel.getMapPanelController());
+    removeCategories(_filtering.getBasicFilter().getCategoryFilter());
+    _filtering.addFilterButtons();
     // Markers layer
     MarkerIconProvider iconsProvider=new DefaultMarkerIconsProvider(categoriesManager);
     _markersProvider=new SimpleMarkersProvider();
     MarkersLayer markersLayer=new MarkersLayer(iconsProvider,_markersProvider);
-    markersLayer.setFilter(mapFilterCtrl.getFilter());
+    markersLayer.setFilter(_filtering.getFilter());
     canvas.addLayer(markersLayer);
     // Setup selection manager
     SelectionManager selectionMgr=_mapPanel.getMapPanelController().getSelectionManager();
@@ -219,6 +220,10 @@ public class MapWindowController extends DefaultWindowController implements Navi
     {
       _mapPanel.dispose();
       _mapPanel=null;
+    }
+    if (_filtering!=null)
+    {
+      _filtering.dispose();
     }
     if (_navigation!=null)
     {
