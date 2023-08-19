@@ -24,6 +24,7 @@ import delta.games.lotro.common.money.comparator.MoneyComparator;
 import delta.games.lotro.common.stats.StatDescription;
 import delta.games.lotro.common.stats.StatType;
 import delta.games.lotro.common.stats.StatsRegistry;
+import delta.games.lotro.config.LotroCoreConfig;
 import delta.games.lotro.gui.lore.items.ItemColumnIds;
 import delta.games.lotro.gui.lore.items.ItemUiTools;
 import delta.games.lotro.gui.utils.MoneyCellRenderer;
@@ -36,6 +37,7 @@ import delta.games.lotro.lore.items.ItemBinding;
 import delta.games.lotro.lore.items.ItemQuality;
 import delta.games.lotro.lore.items.Weapon;
 import delta.games.lotro.lore.items.WeaponType;
+import delta.games.lotro.lore.items.weapons.WeaponSpeedEntry;
 
 /**
  * Builder for a table that shows items.
@@ -195,6 +197,14 @@ public class ItemsTableBuilder
       DefaultTableColumnController<Item,WeaponType> weaponTypeColumn=new DefaultTableColumnController<Item,WeaponType>(ItemColumnIds.WEAPON_TYPE.name(),"Weapon type",WeaponType.class,weaponTypeCell);
       weaponTypeColumn.setWidthSpecs(150,150,150);
       columns.add(weaponTypeColumn);
+    }
+    // DPS
+    columns.add(buildDPSColumn());
+    // Speed
+    boolean isLive=LotroCoreConfig.isLive();
+    if (!isLive)
+    {
+      columns.add(buildSpeedColumn());
     }
     // Binding
     {
@@ -408,6 +418,50 @@ public class ItemsTableBuilder
     valueColumn.setCellRenderer(new MoneyCellRenderer());
     valueColumn.setComparator(new MoneyComparator());
     return valueColumn;
+  }
+
+  private static DefaultTableColumnController<Item,Float> buildDPSColumn()
+  {
+    CellDataProvider<Item,Float> cell=new CellDataProvider<Item,Float>()
+    {
+      @Override
+      public Float getData(Item item)
+      {
+        if (item instanceof Weapon)
+        {
+          Weapon weapon=(Weapon)item;
+          return Float.valueOf(weapon.getDPS());
+        }
+        return null;
+      }
+    };
+    DefaultTableColumnController<Item,Float> column=new DefaultTableColumnController<Item,Float>(ItemColumnIds.DPS.name(),"DPS",Float.class,cell);
+    ColumnsUtils.configureFloatColumn(column,0,1,50);
+    return column;
+  }
+
+  private static DefaultTableColumnController<Item,Float> buildSpeedColumn()
+  {
+    CellDataProvider<Item,Float> cell=new CellDataProvider<Item,Float>()
+    {
+      @Override
+      public Float getData(Item item)
+      {
+        if (item instanceof Weapon)
+        {
+          Weapon weapon=(Weapon)item;
+          WeaponSpeedEntry speedEntry=weapon.getSpeed();
+          if (speedEntry!=null)
+          {
+            return Float.valueOf(speedEntry.getBaseActionDuration());
+          }
+        }
+        return null;
+      }
+    };
+    DefaultTableColumnController<Item,Float> column=new DefaultTableColumnController<Item,Float>(ItemColumnIds.SPEED.name(),"Speed",Float.class,cell);
+    column.setWidthSpecs(50,50,50);
+    return column;
   }
 
   private static DefaultTableColumnController<Item,Number> buildStatColumn(final StatDescription stat)

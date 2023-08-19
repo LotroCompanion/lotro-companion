@@ -55,6 +55,14 @@ public enum ItemColumnIds
    */
   WEAPON_TYPE,
   /**
+   * DPS.
+   */
+  DPS,
+  /**
+   * Speed.
+   */
+  SPEED,
+  /**
    * Binding.
    */
   BINDING,
