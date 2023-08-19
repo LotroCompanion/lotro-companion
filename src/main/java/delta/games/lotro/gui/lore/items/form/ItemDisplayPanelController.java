@@ -55,6 +55,7 @@ import delta.games.lotro.lore.items.legendary2.EnhancementRune;
 import delta.games.lotro.lore.items.legendary2.EnhancementRunesManager;
 import delta.games.lotro.lore.items.legendary2.TraceriesManager;
 import delta.games.lotro.lore.items.legendary2.Tracery;
+import delta.games.lotro.lore.items.weapons.WeaponSpeedEntry;
 import delta.games.lotro.lore.reputation.Faction;
 import delta.games.lotro.utils.gui.HtmlUtils;
 import delta.games.lotro.utils.strings.ContextRendering;
@@ -384,6 +385,14 @@ public class ItemDisplayPanelController extends AbstractNavigablePanelController
     float dps=weapon.getDPS();
     String dpsStr=L10n.getString(dps,1);
     ret.add("DPS: "+dpsStr);
+    // Speed
+    WeaponSpeedEntry speedData=weapon.getSpeed();
+    if (speedData!=null)
+    {
+      float duration=speedData.getBaseActionDuration();
+      String durationStr=L10n.getString(duration,1);
+      ret.add("Speed: "+durationStr);
+    }
     return ret;
   }
 
