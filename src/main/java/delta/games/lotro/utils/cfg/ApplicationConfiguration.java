@@ -9,6 +9,7 @@ import delta.common.utils.l10n.numbers.NumberFormatID;
 import delta.games.lotro.config.DataConfiguration;
 import delta.games.lotro.config.LotroCoreConfig;
 import delta.games.lotro.config.UserConfig;
+import delta.games.lotro.config.labels.LabelsConfiguration;
 import delta.games.lotro.dat.data.DatConfiguration;
 
 /**
@@ -30,6 +31,7 @@ public class ApplicationConfiguration
   private DatConfiguration _datConfiguration;
   private L10nConfiguration _l10nConfiguration;
   private DataConfiguration _dataConfiguration;
+  private LabelsConfiguration _labelsConfiguration;
   private ListenersManager<ConfigurationListener> _listeners;
 
   /**
@@ -78,6 +80,15 @@ public class ApplicationConfiguration
   }
 
   /**
+   * Get the labels configuration.
+   * @return the labels configuration.
+   */
+  public LabelsConfiguration getLabelsConfiguration()
+  {
+    return _labelsConfiguration;
+  }
+
+  /**
    * Get the configuration listeners.
    * @return the configuration listeners.
    */
@@ -107,6 +118,8 @@ public class ApplicationConfiguration
     _l10nConfiguration.setNumberFormatID(integerFormat);
     // Data
     _dataConfiguration=LotroCoreConfig.getInstance().getDataConfiguration();
+    // Labels
+    _labelsConfiguration=LotroCoreConfig.getInstance().getLabelsConfiguration();
     // Save...
     saveConfiguration();
   }
@@ -129,6 +142,8 @@ public class ApplicationConfiguration
     userCfg.setStringValue(L10N_CONFIGURATION,NUMBER_FORMAT,numberFormat);
     // Data
     _dataConfiguration.save(userCfg);
+    // Labels
+    _labelsConfiguration.save(userCfg);
     // Save configuration
     UserConfig.getInstance().save();
   }

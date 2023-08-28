@@ -28,12 +28,16 @@ import delta.games.lotro.utils.gui.filechooser.FileChooserController;
  */
 public class ConfigurationDialogController extends DefaultFormDialogController<ApplicationConfiguration>
 {
+  // DAT files path
   private static final int DAT_PATH_SIZE=50;
   private JTextField _datPath;
   private JButton _datPathChooseButton;
+  // Usage data path
   private static final int USER_DATA_PATH_SIZE=50;
   private JTextField _dataPath;
   private JButton _dataPathChooseButton;
+  // Labels
+  private LabelsConfigurationPanelController _labels;
 
   /**
    * Constructor.
@@ -60,6 +64,7 @@ public class ConfigurationDialogController extends DefaultFormDialogController<A
     // Build components
     JPanel datPanel=buildDatConfigurationPanel();
     JPanel dataPanel=buildDataConfigurationPanel();
+    _labels=new LabelsConfigurationPanelController();
     // Init
     init();
     // Layout
@@ -68,6 +73,8 @@ public class ConfigurationDialogController extends DefaultFormDialogController<A
     ret.add(datPanel,c);
     c=new GridBagConstraints(0,1,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(5,5,5,5),0,0);
     ret.add(dataPanel,c);
+    c=new GridBagConstraints(0,2,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
+    ret.add(_labels.getPanel(),c);
     return ret;
   }
 
@@ -139,6 +146,8 @@ public class ConfigurationDialogController extends DefaultFormDialogController<A
     DataConfiguration dataConfiguration=_data.getDataConfiguration();
     String dataPathStr=dataConfiguration.getRootPath().getAbsolutePath();
     _dataPath.setText(dataPathStr);
+    // Labels
+    _labels.setConfig(_data.getLabelsConfiguration());
   }
 
   private void doChooseDATFilesPath()
@@ -179,6 +188,8 @@ public class ConfigurationDialogController extends DefaultFormDialogController<A
     File dataPath=new File(dataPathStr);
     File oldDataPath=_data.getDataConfiguration().getRootPath();
     _data.getDataConfiguration().setRootPath(dataPath);
+    // Labels
+    _labels.saveTo(_data.getLabelsConfiguration());
     _data.saveConfiguration();
     if (!Objects.equals(dataPath,oldDataPath))
     {
@@ -253,5 +264,10 @@ public class ConfigurationDialogController extends DefaultFormDialogController<A
     _datPathChooseButton=null;
     _dataPath=null;
     _dataPathChooseButton=null;
+    if (_labels!=null)
+    {
+      _labels.dispose();
+      _labels=null;
+    }
   }
 }

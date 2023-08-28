@@ -1,7 +1,10 @@
 package delta.games.lotro.gui.utils.l10n;
 
+import java.util.Locale;
+
 import delta.common.utils.i18n.Translator;
-import delta.common.utils.i18n.TranslatorsManager;
+import delta.games.lotro.config.LotroCoreConfig;
+import delta.games.lotro.config.labels.LabelsConfiguration;
 
 /**
  * Access to internationalized labels.
@@ -9,7 +12,17 @@ import delta.common.utils.i18n.TranslatorsManager;
  */
 public class Labels
 {
-  private static Translator _translator=TranslatorsManager.getInstance().createTranslator(Labels.class);
+  private static final Labels _instance=new Labels();
+
+  private Translator _translator;
+
+  private Labels()
+  {
+    LabelsConfiguration cfg=LotroCoreConfig.getInstance().getLabelsConfiguration();
+    String appLabelsLocale=cfg.getAppLabelsKey();
+    Locale locale=Locale.forLanguageTag(appLabelsLocale);
+    _translator=new Translator(Labels.class.getName(),null,locale);
+  }
 
   /**
    * Get a label for a field.
@@ -29,7 +42,7 @@ public class Labels
    */
   public static String getLabel(String key)
   {
-    return _translator.translate(key);
+    return _instance._translator.translate(key);
   }
 
   /**
@@ -52,6 +65,6 @@ public class Labels
    */
   public static String getLabel(String key, Object[] params)
   {
-    return _translator.translate(key,params);
+    return _instance._translator.translate(key,params);
   }
 }
