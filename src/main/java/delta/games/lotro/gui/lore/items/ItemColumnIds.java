@@ -63,6 +63,10 @@ public enum ItemColumnIds
    */
   SPEED,
   /**
+   * Damage type.
+   */
+  DAMAGE_TYPE,
+  /**
    * Binding.
    */
   BINDING,

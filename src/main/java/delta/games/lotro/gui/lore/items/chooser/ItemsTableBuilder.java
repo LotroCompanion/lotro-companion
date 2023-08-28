@@ -32,6 +32,7 @@ import delta.games.lotro.gui.utils.l10n.ColumnsUtils;
 import delta.games.lotro.gui.utils.l10n.StatRenderer;
 import delta.games.lotro.lore.items.Armour;
 import delta.games.lotro.lore.items.ArmourType;
+import delta.games.lotro.lore.items.DamageType;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemBinding;
 import delta.games.lotro.lore.items.ItemQuality;
@@ -206,6 +207,8 @@ public class ItemsTableBuilder
     {
       columns.add(buildSpeedColumn());
     }
+    // Damage type
+    columns.add(buildDamageTypeColumn());
     // Binding
     {
       CellDataProvider<Item,ItemBinding> bindingCell=new CellDataProvider<Item,ItemBinding>()
@@ -461,6 +464,26 @@ public class ItemsTableBuilder
     };
     DefaultTableColumnController<Item,Float> column=new DefaultTableColumnController<Item,Float>(ItemColumnIds.SPEED.name(),"Speed",Float.class,cell);
     column.setWidthSpecs(50,50,50);
+    return column;
+  }
+
+  private static DefaultTableColumnController<Item,DamageType> buildDamageTypeColumn()
+  {
+    CellDataProvider<Item,DamageType> cell=new CellDataProvider<Item,DamageType>()
+    {
+      @Override
+      public DamageType getData(Item item)
+      {
+        if (item instanceof Weapon)
+        {
+          Weapon weapon=(Weapon)item;
+          return weapon.getDamageType();
+        }
+        return null;
+      }
+    };
+    DefaultTableColumnController<Item,DamageType> column=new DefaultTableColumnController<Item,DamageType>(ItemColumnIds.DAMAGE_TYPE.name(),"Damage Type",DamageType.class,cell);
+    column.setWidthSpecs(100,130,130);
     return column;
   }
 
