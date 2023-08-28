@@ -8,7 +8,7 @@ import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.TableColumnController;
 import delta.games.lotro.account.status.friends.Friend;
 import delta.games.lotro.gui.toon.CharacterSummaryColumnsBuilder;
-import delta.games.lotro.gui.utils.l10n.ColumnsUtils;
+import delta.games.lotro.gui.utils.l10n.StatColumnsUtils;
 
 /**
  * Build for columns of the friends tables.
@@ -52,7 +52,7 @@ public class FriendColumnsBuilder
         }
       };
       DefaultTableColumnController<Friend,Long> lastLogoutColumn=new DefaultTableColumnController<Friend,Long>(FriendsColumnIds.LAST_LOGOUT_DATE.name(),"Last logout",Long.class,lastLogoutCell); // I18n
-      ColumnsUtils.configureDateTimeColumn(lastLogoutColumn);
+      StatColumnsUtils.configureDateTimeColumn(lastLogoutColumn);
       ret.add(lastLogoutColumn);
     }
     // Area

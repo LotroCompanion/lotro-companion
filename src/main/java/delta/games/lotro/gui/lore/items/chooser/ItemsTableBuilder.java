@@ -28,7 +28,7 @@ import delta.games.lotro.config.LotroCoreConfig;
 import delta.games.lotro.gui.lore.items.ItemColumnIds;
 import delta.games.lotro.gui.lore.items.ItemUiTools;
 import delta.games.lotro.gui.utils.MoneyCellRenderer;
-import delta.games.lotro.gui.utils.l10n.ColumnsUtils;
+import delta.games.lotro.gui.utils.l10n.StatColumnsUtils;
 import delta.games.lotro.gui.utils.l10n.StatRenderer;
 import delta.games.lotro.lore.items.Armour;
 import delta.games.lotro.lore.items.ArmourType;
@@ -439,7 +439,7 @@ public class ItemsTableBuilder
       }
     };
     DefaultTableColumnController<Item,Float> column=new DefaultTableColumnController<Item,Float>(ItemColumnIds.DPS.name(),"DPS",Float.class,cell);
-    ColumnsUtils.configureFloatColumn(column,0,1,50);
+    StatColumnsUtils.configureFloatColumn(column,0,1,50);
     return column;
   }
 
@@ -518,7 +518,7 @@ public class ItemsTableBuilder
     }
     DefaultTableColumnController<Item,Number> statColumn=new DefaultTableColumnController<Item,Number>(id,name,valueClass,statCell);
     StatRenderer renderer=new StatRenderer(stat);
-    ColumnsUtils.configureStatValueColumn(statColumn,renderer,55);
+    StatColumnsUtils.configureStatValueColumn(statColumn,renderer,55);
     return statColumn;
   }
 }

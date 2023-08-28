@@ -22,7 +22,7 @@ import delta.games.lotro.common.stats.StatType;
 import delta.games.lotro.gui.lore.items.ItemColumnIds;
 import delta.games.lotro.gui.lore.items.ItemUiTools;
 import delta.games.lotro.gui.utils.MoneyCellRenderer;
-import delta.games.lotro.gui.utils.l10n.ColumnsUtils;
+import delta.games.lotro.gui.utils.l10n.StatColumnsUtils;
 import delta.games.lotro.gui.utils.l10n.StatRenderer;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.scaling.ItemScaling;
@@ -209,7 +209,7 @@ public class ItemScalingTableBuilder
     }
     DefaultTableColumnController<ItemScalingEntry,Number> statColumn=new DefaultTableColumnController<ItemScalingEntry,Number>(id,name,valueClass,statCell);
     StatRenderer renderer=new StatRenderer(stat);
-    ColumnsUtils.configureStatValueColumn(statColumn,renderer,55);
+    StatColumnsUtils.configureStatValueColumn(statColumn,renderer,55);
     return statColumn;
   }
 

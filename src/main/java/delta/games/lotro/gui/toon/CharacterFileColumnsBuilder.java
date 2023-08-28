@@ -19,7 +19,7 @@ import delta.games.lotro.common.geo.PositionUtils;
 import delta.games.lotro.common.money.Money;
 import delta.games.lotro.common.money.comparator.MoneyComparator;
 import delta.games.lotro.gui.utils.MoneyCellRenderer;
-import delta.games.lotro.gui.utils.l10n.ColumnsUtils;
+import delta.games.lotro.gui.utils.l10n.StatColumnsUtils;
 import delta.games.lotro.lore.crafting.CraftingData;
 import delta.games.lotro.lore.crafting.CraftingSystem;
 import delta.games.lotro.lore.crafting.Vocation;
@@ -85,7 +85,7 @@ public class CharacterFileColumnsBuilder
         }
       };
       DefaultTableColumnController<CharacterFile,Long> xpColumn=new DefaultTableColumnController<CharacterFile,Long>(ToonsTableColumnIds.XP.name(),"XP",Long.class,xpCell); // I18n
-      ColumnsUtils.configureLongColumn(xpColumn);
+      StatColumnsUtils.configureLongColumn(xpColumn);
       ret.add(xpColumn);
     }
     // In-game time column
@@ -141,7 +141,7 @@ public class CharacterFileColumnsBuilder
         }
       };
       DefaultTableColumnController<CharacterFile,Long> lastLogoutColumn=new DefaultTableColumnController<CharacterFile,Long>(ToonsTableColumnIds.LAST_LOGOUT_DATE.name(),"Last logout",Long.class,lastLogoutCell); // I18n
-      ColumnsUtils.configureDateTimeColumn(lastLogoutColumn);
+      StatColumnsUtils.configureDateTimeColumn(lastLogoutColumn);
       ret.add(lastLogoutColumn);
     }
     // Title column

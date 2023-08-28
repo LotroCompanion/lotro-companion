@@ -14,7 +14,7 @@ import delta.common.ui.swing.tables.ListDataProvider;
 import delta.common.ui.swing.tables.TableColumnsManager;
 import delta.games.lotro.character.stats.contribs.ContribsByStat;
 import delta.games.lotro.character.stats.contribs.StatContribution;
-import delta.games.lotro.gui.utils.l10n.ColumnsUtils;
+import delta.games.lotro.gui.utils.l10n.StatColumnsUtils;
 import delta.games.lotro.gui.utils.l10n.StatRenderer;
 
 /**
@@ -98,7 +98,7 @@ public class StatContribsTableController
         }
       };
       DefaultTableColumnController<StatContribution,Number> statColumn=new DefaultTableColumnController<StatContribution,Number>("Value",Number.class,statCell); // I18n
-      ColumnsUtils.configureStatValueColumn(statColumn,_renderer,70);
+      StatColumnsUtils.configureStatValueColumn(statColumn,_renderer,70);
       columnsManager.addColumnController(statColumn,true);
     }
   }

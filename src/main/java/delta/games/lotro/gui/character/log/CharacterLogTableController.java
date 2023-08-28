@@ -14,7 +14,7 @@ import delta.common.utils.collections.filters.Filter;
 import delta.games.lotro.character.log.CharacterLog;
 import delta.games.lotro.character.log.CharacterLogItem;
 import delta.games.lotro.character.log.CharacterLogItem.LogItemType;
-import delta.games.lotro.gui.utils.l10n.ColumnsUtils;
+import delta.games.lotro.gui.utils.l10n.StatColumnsUtils;
 
 /**
  * Controller for a table that shows a character log.
@@ -69,7 +69,7 @@ public class CharacterLogTableController
         }
       };
       DefaultTableColumnController<CharacterLogItem,Date> dateColumn=new DefaultTableColumnController<CharacterLogItem,Date>("Date",Date.class,dateCell); // I18n
-      ColumnsUtils.configureDateColumn(dateColumn);
+      StatColumnsUtils.configureDateColumn(dateColumn);
       table.addColumnController(dateColumn);
     }
     // Type column

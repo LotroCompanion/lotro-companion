@@ -25,7 +25,7 @@ import delta.games.lotro.gui.lore.items.ItemColumnIds;
 import delta.games.lotro.gui.lore.items.ItemInstanceColumnIds;
 import delta.games.lotro.gui.lore.items.ItemUiTools;
 import delta.games.lotro.gui.utils.InternalGameIdRenderer;
-import delta.games.lotro.gui.utils.l10n.ColumnsUtils;
+import delta.games.lotro.gui.utils.l10n.StatColumnsUtils;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemInstance;
 import delta.games.lotro.lore.items.ItemPropertyNames;
@@ -167,7 +167,7 @@ public class ItemInstancesTableBuilder
         }
       };
       DefaultTableColumnController<ItemInstance<? extends Item>,Date> column=new DefaultTableColumnController<ItemInstance<? extends Item>,Date>(ItemInstanceColumnIds.TIME.name(),"Time",Date.class,cell);
-      ColumnsUtils.configureDateTimeColumn(column);
+      StatColumnsUtils.configureDateTimeColumn(column);
       columns.add(column);
     }
     // Birth name column

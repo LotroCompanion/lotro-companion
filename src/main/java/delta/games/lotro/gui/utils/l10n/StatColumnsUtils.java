@@ -1,12 +1,13 @@
 package delta.games.lotro.gui.utils.l10n;
 
+import delta.common.ui.swing.tables.ColumnsUtils;
 import delta.common.ui.swing.tables.DefaultTableColumnController;
 
 /**
  * Columns configuration utilities.
  * @author DAM
  */
-public class ColumnsUtils extends delta.common.ui.swing.tables.ColumnsUtils
+public class StatColumnsUtils extends ColumnsUtils
 {
   /**
    * Configure a stat column.

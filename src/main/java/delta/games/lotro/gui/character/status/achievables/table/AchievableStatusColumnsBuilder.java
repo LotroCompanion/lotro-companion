@@ -13,7 +13,7 @@ import delta.games.lotro.character.status.achievables.AchievableStatus;
 import delta.games.lotro.character.status.achievables.Progress;
 import delta.games.lotro.character.status.achievables.comparators.ProgressComparator;
 import delta.games.lotro.gui.lore.items.FilterUpdateListener;
-import delta.games.lotro.gui.utils.l10n.ColumnsUtils;
+import delta.games.lotro.gui.utils.l10n.StatColumnsUtils;
 
 /**
  * Builds column definitions for AchievableStatus data.
@@ -71,7 +71,7 @@ public class AchievableStatusColumnsBuilder
         }
       };
       DefaultTableColumnController<AchievableStatus,Date> completionDateColumn=new DefaultTableColumnController<AchievableStatus,Date>(AchievableStatusColumnIds.COMPLETION_DATE.name(),"Completion Date",Date.class,completionDateCell); // I18n
-      ColumnsUtils.configureDateTimeColumn(completionDateColumn);
+      StatColumnsUtils.configureDateTimeColumn(completionDateColumn);
       ret.add(completionDateColumn);
     }
     return ret;

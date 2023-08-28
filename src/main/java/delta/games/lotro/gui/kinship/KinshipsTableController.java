@@ -12,7 +12,7 @@ import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.ListDataProvider;
 import delta.games.lotro.common.id.InternalGameId;
 import delta.games.lotro.gui.utils.UiConfiguration;
-import delta.games.lotro.gui.utils.l10n.ColumnsUtils;
+import delta.games.lotro.gui.utils.l10n.StatColumnsUtils;
 import delta.games.lotro.kinship.Kinship;
 import delta.games.lotro.kinship.KinshipSummary;
 import delta.games.lotro.kinship.KinshipsManager;
@@ -98,7 +98,7 @@ public class KinshipsTableController implements GenericEventsListener<KinshipEve
         }
       };
       DefaultTableColumnController<Kinship,Long> creationColumn=new DefaultTableColumnController<Kinship,Long>(KinshipColumnIds.CREATION_DATE.name(),"Creation",Long.class,creationCell);
-      ColumnsUtils.configureDateTimeColumn(creationColumn);
+      StatColumnsUtils.configureDateTimeColumn(creationColumn);
       table.addColumnController(creationColumn);
     }
     // Message of the day

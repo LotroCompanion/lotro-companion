@@ -16,7 +16,7 @@ import delta.games.lotro.character.races.RaceDescription;
 import delta.games.lotro.common.CharacterSex;
 import delta.games.lotro.common.id.InternalGameId;
 import delta.games.lotro.gui.utils.UiConfiguration;
-import delta.games.lotro.gui.utils.l10n.ColumnsUtils;
+import delta.games.lotro.gui.utils.l10n.StatColumnsUtils;
 import delta.games.lotro.kinship.Kinship;
 import delta.games.lotro.kinship.KinshipsManager;
 
@@ -244,7 +244,7 @@ public class CharacterSummaryColumnsBuilder
         }
       };
       DefaultTableColumnController<CharacterSummary,Date> importDateColumn=new DefaultTableColumnController<CharacterSummary,Date>(ToonsTableColumnIds.IMPORT_DATE.name(),"Import Date",Date.class,importDateCell); // I18n
-      ColumnsUtils.configureDateTimeColumn(importDateColumn);
+      StatColumnsUtils.configureDateTimeColumn(importDateColumn);
       ret.add(importDateColumn);
     }
     return ret;

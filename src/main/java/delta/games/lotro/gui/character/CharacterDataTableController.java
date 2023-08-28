@@ -15,7 +15,7 @@ import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharacterInfosManager;
 import delta.games.lotro.character.events.CharacterEvent;
 import delta.games.lotro.character.events.CharacterEventType;
-import delta.games.lotro.gui.utils.l10n.ColumnsUtils;
+import delta.games.lotro.gui.utils.l10n.StatColumnsUtils;
 import delta.games.lotro.utils.events.EventsManager;
 import delta.games.lotro.utils.events.GenericEventsListener;
 
@@ -90,7 +90,7 @@ public class CharacterDataTableController implements GenericEventsListener<Chara
         }
       };
       DefaultTableColumnController<CharacterData,Date> lastUpdateColumn=new DefaultTableColumnController<CharacterData,Date>(DATE,"Date",Date.class,lastUpdateCell); // I18n
-      ColumnsUtils.configureDateTimeColumn(lastUpdateColumn);
+      StatColumnsUtils.configureDateTimeColumn(lastUpdateColumn);
       table.addColumnController(lastUpdateColumn);
     }
     // Level column

@@ -12,7 +12,7 @@ import delta.games.lotro.common.rewards.Rewards;
 import delta.games.lotro.common.rewards.TitleReward;
 import delta.games.lotro.common.rewards.TraitReward;
 import delta.games.lotro.common.rewards.VirtueReward;
-import delta.games.lotro.gui.utils.l10n.ColumnsUtils;
+import delta.games.lotro.gui.utils.l10n.StatColumnsUtils;
 import delta.games.lotro.lore.reputation.Faction;
 import delta.games.lotro.lore.titles.TitleDescription;
 import delta.games.lotro.utils.strings.ContextRendering;
@@ -150,7 +150,7 @@ public class RewardsColumnsBuilder
         }
       };
       DefaultTableColumnController<Rewards,Integer> virtueXpColumn=new DefaultTableColumnController<Rewards,Integer>(RewardsColumnIds.VIRTUE_XP.name(),"Virtue XP",Integer.class,virtueXpCell); // I18n
-      ColumnsUtils.configureIntegerColumn(virtueXpColumn);
+      StatColumnsUtils.configureIntegerColumn(virtueXpColumn);
       ret.add(virtueXpColumn);
     }
     return ret;
@@ -172,7 +172,7 @@ public class RewardsColumnsBuilder
       }
     };
     DefaultTableColumnController<Rewards,Integer> xpColumn=new DefaultTableColumnController<Rewards,Integer>(RewardsColumnIds.XP.name(),"XP",Integer.class,xpCell); // I18n
-    ColumnsUtils.configureIntegerColumn(xpColumn);
+    StatColumnsUtils.configureIntegerColumn(xpColumn);
     return xpColumn;
   }
 
@@ -192,7 +192,7 @@ public class RewardsColumnsBuilder
       }
     };
     DefaultTableColumnController<Rewards,Integer> itemXpColumn=new DefaultTableColumnController<Rewards,Integer>(RewardsColumnIds.ITEM_XP.name(),"Item XP",Integer.class,itemXpCell); // I18n
-    ColumnsUtils.configureIntegerColumn(itemXpColumn);
+    StatColumnsUtils.configureIntegerColumn(itemXpColumn);
     return itemXpColumn;
   }
 
@@ -212,7 +212,7 @@ public class RewardsColumnsBuilder
       }
     };
     DefaultTableColumnController<Rewards,Integer> mountXpColumn=new DefaultTableColumnController<Rewards,Integer>(RewardsColumnIds.MOUNT_XP.name(),"Mount XP",Integer.class,mountXpCell); // I18n
-    ColumnsUtils.configureIntegerColumn(mountXpColumn);
+    StatColumnsUtils.configureIntegerColumn(mountXpColumn);
     return mountXpColumn;
   }
 
