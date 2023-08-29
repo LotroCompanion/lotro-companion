@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 import delta.games.lotro.common.enums.comparator.LotroEnumEntryNameComparator;
+import delta.games.lotro.config.LotroCoreConfig;
 import delta.games.lotro.lore.items.Armour;
 import delta.games.lotro.lore.items.ArmourType;
 import delta.games.lotro.lore.items.ArmourTypes;
@@ -132,6 +133,11 @@ public class ItemFilterConfiguration
     _components[ItemChooserFilterComponent.GENERIC_CHARACTER_CLASS.ordinal()]=true;
     _components[ItemChooserFilterComponent.GENERIC_CHARACTER_RACE.ordinal()]=true;
     _components[ItemChooserFilterComponent.ITEM_LEVEL.ordinal()]=true;
+    boolean isLive=LotroCoreConfig.isLive();
+    if (isLive)
+    {
+      _components[ItemChooserFilterComponent.SCALABLE.ordinal()]=true;
+    }
   }
 
   /**

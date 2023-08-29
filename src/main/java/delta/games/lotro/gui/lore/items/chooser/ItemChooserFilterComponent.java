@@ -63,6 +63,10 @@ public enum ItemChooserFilterComponent
    */
   ITEM_LEVEL,
   /**
+   * Scalable filter.
+   */
+  SCALABLE,
+  /**
    * Generic character class filter.
    */
   GENERIC_CHARACTER_CLASS,

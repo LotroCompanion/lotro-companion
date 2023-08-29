@@ -51,6 +51,7 @@ import delta.games.lotro.lore.items.filters.ItemLevelFilter;
 import delta.games.lotro.lore.items.filters.ItemRequiredClassFilter;
 import delta.games.lotro.lore.items.filters.ItemRequiredRaceFilter;
 import delta.games.lotro.lore.items.filters.ItemStatFilter;
+import delta.games.lotro.lore.items.filters.ScalableItemFilter;
 import delta.games.lotro.lore.items.filters.WeaponTypeFilter;
 import delta.games.lotro.utils.gui.filter.ObjectFilterPanelController;
 
@@ -84,6 +85,7 @@ public class ItemFilterController extends ObjectFilterPanelController implements
   private CheckboxController _characterLevelRequirement;
   private CheckboxController _proficienciesRequirement;
   private RangeEditorController _itemLevelRange;
+  private ComboBoxController<Boolean> _scalable;
   private ComboBoxController<AbstractClassDescription> _class;
   private ComboBoxController<RaceDescription> _race;
 
@@ -208,6 +210,11 @@ public class ItemFilterController extends ObjectFilterPanelController implements
       {
         _itemLevelRange.setCurrentRange(null,null);
       }
+      // Scalable
+      if (_scalable!=null)
+      {
+        _scalable.setSelectedItem(null);
+      }
       if (_class!=null)
       {
         _class.selectItem(null);
@@ -322,11 +329,19 @@ public class ItemFilterController extends ObjectFilterPanelController implements
       ItemLevelFilter itemLevelFilter=_filter.getItemLevelFilter();
       _itemLevelRange.setCurrentRange(itemLevelFilter.getMinItemLevel(),itemLevelFilter.getMaxItemLevel());
     }
+    // Scalable
+    if (_scalable!=null)
+    {
+      ScalableItemFilter filter=_filter.getScalableFilter();
+      _scalable.selectItem(filter.getScalable());
+    }
+    // Class
     if (_class!=null)
     {
       ItemRequiredClassFilter classFilter=_filter.getGenericClassFilter();
       _class.setSelectedItem(classFilter.getCharacterClass());
     }
+    // Race
     if (_race!=null)
     {
       ItemRequiredRaceFilter raceFilter=_filter.getGenericRaceFilter();
@@ -745,6 +760,12 @@ public class ItemFilterController extends ObjectFilterPanelController implements
       JPanel itemLevelPanel=buildItemLevelRangePanel();
       panel.add(itemLevelPanel);
     }
+    boolean useScalable=_cfg.hasComponent(ItemChooserFilterComponent.SCALABLE);
+    if (useScalable)
+    {
+      JPanel scalablePanel=buildScalablePanel();
+      panel.add(scalablePanel);
+    }
     return panel;
   }
 
@@ -929,6 +950,25 @@ public class ItemFilterController extends ObjectFilterPanelController implements
     return ret;
   }
 
+  private JPanel buildScalablePanel()
+  {
+    JPanel scalablePanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING));
+    scalablePanel.add(GuiFactory.buildLabel("Scalable:"));
+    _scalable=SharedUiUtils.build3StatesBooleanCombobox("Both","Yes","No");
+    ItemSelectionListener<Boolean> listener=new ItemSelectionListener<Boolean>()
+    {
+      @Override
+      public void itemSelected(Boolean scalable)
+      {
+        _filter.getScalableFilter().setScalable(scalable);
+        filterUpdated();
+      }
+    };
+    _scalable.addListener(listener);
+    scalablePanel.add(_scalable.getComboBox());
+    return scalablePanel;
+  }
+
   /**
    * Release all managed resources.
    */
@@ -1014,6 +1054,11 @@ public class ItemFilterController extends ObjectFilterPanelController implements
     {
       _itemLevelRange.dispose();
       _itemLevelRange=null;
+    }
+    if (_scalable!=null)
+    {
+      _scalable.dispose();
+      _scalable=null;
     }
     // GUI
     if (_panel!=null)

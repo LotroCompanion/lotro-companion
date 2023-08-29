@@ -26,6 +26,7 @@ import delta.games.lotro.lore.items.filters.ItemRequiredClassFilter;
 import delta.games.lotro.lore.items.filters.ItemRequiredRaceFilter;
 import delta.games.lotro.lore.items.filters.ItemStatFilter;
 import delta.games.lotro.lore.items.filters.LegendaryItemFilter;
+import delta.games.lotro.lore.items.filters.ScalableItemFilter;
 import delta.games.lotro.lore.items.filters.WeaponTypeFilter;
 
 /**
@@ -61,6 +62,7 @@ public class ItemChooserFilter implements Filter<Item>
   private ArmourTypeFilter _shieldTypeFilter;
   private ItemStatFilter _statFilter;
   private ItemLevelFilter _itemLevelFilter;
+  private ScalableItemFilter _scalableFilter;
 
   /**
    * Constructor.
@@ -193,6 +195,13 @@ public class ItemChooserFilter implements Filter<Item>
     {
       _itemLevelFilter=new ItemLevelFilter();
       filters.add(_itemLevelFilter);
+    }
+    // Scalable
+    boolean useScalable=cfg.hasComponent(ItemChooserFilterComponent.SCALABLE);
+    if (useScalable)
+    {
+      _scalableFilter=new ScalableItemFilter(null);
+      filters.add(_scalableFilter);
     }
     // Character class
     boolean useCharacterClass=cfg.hasComponent(ItemChooserFilterComponent.GENERIC_CHARACTER_CLASS);
@@ -371,6 +380,15 @@ public class ItemChooserFilter implements Filter<Item>
   public ItemLevelFilter getItemLevelFilter()
   {
     return _itemLevelFilter;
+  }
+
+  /**
+   * Get the scalable item filter.
+   * @return A filter for scalable items.
+   */
+  public ScalableItemFilter getScalableFilter()
+  {
+    return _scalableFilter;
   }
 
   @Override

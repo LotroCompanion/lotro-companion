@@ -30,6 +30,7 @@ import delta.games.lotro.lore.items.filters.ItemRequiredClassFilter;
 import delta.games.lotro.lore.items.filters.ItemRequiredRaceFilter;
 import delta.games.lotro.lore.items.filters.ItemStatFilter;
 import delta.games.lotro.lore.items.filters.LegendaryItemFilter;
+import delta.games.lotro.lore.items.filters.ScalableItemFilter;
 import delta.games.lotro.lore.items.filters.WeaponTypeFilter;
 
 /**
@@ -54,6 +55,7 @@ public class ItemChooserFilterIo
   private static final String STAT_SEED="stat.";
   private static final String MIN_ITEM_LEVEL="minItemLevel";
   private static final String MAX_ITEM_LEVEL="maxItemLevel";
+  private static final String SCALABLE="scalable";
   // Generic class/race filters
   private static final String GENERIC_CLASS_FILTER="classFilter";
   private static final String GENERIC_RACE_FILTER="raceFilter";
@@ -199,6 +201,18 @@ public class ItemChooserFilterIo
       Integer minLevel=props.getIntegerProperty(MIN_ITEM_LEVEL);
       Integer maxLevel=props.getIntegerProperty(MAX_ITEM_LEVEL);
       itemLevelFilter.setRange(minLevel,maxLevel);
+    }
+    // Scalable
+    ScalableItemFilter scalableFilter=filter.getScalableFilter();
+    if (scalableFilter!=null)
+    {
+      String scalableKey=props.getStringProperty(SCALABLE,null);
+      Boolean scalable=null;
+      if (scalableKey!=null)
+      {
+        scalable=BooleanTools.parseBoolean(scalableKey);
+      }
+      scalableFilter.setScalable(scalable);
     }
     // Character/monster class
     ItemRequiredClassFilter genericClassFilter=filter.getGenericClassFilter();
@@ -394,6 +408,20 @@ public class ItemChooserFilterIo
       else
       {
         props.removeProperty(MAX_ITEM_LEVEL);
+      }
+    }
+    // Scalable
+    ScalableItemFilter scalableFilter=filter.getScalableFilter();
+    if (scalableFilter!=null)
+    {
+      Boolean scalable=scalableFilter.getScalable();
+      if (scalable!=null)
+      {
+        props.setStringProperty(SCALABLE,scalable.toString());
+      }
+      else
+      {
+        props.removeProperty(SCALABLE);
       }
     }
     // Character/monster class
