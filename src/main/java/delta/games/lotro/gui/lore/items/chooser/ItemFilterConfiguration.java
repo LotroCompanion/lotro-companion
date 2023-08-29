@@ -120,10 +120,14 @@ public class ItemFilterConfiguration
    */
   public void forItemExplorerFilter()
   {
+    boolean isLive=LotroCoreConfig.isLive();
     _components[ItemChooserFilterComponent.NAME.ordinal()]=true;
     _components[ItemChooserFilterComponent.QUALITY.ordinal()]=true;
     _components[ItemChooserFilterComponent.CATEGORY.ordinal()]=true;
-    _components[ItemChooserFilterComponent.LEGENDARY.ordinal()]=true;
+    if (isLive)
+    {
+      _components[ItemChooserFilterComponent.LEGENDARY.ordinal()]=true;
+    }
     _components[ItemChooserFilterComponent.STAT.ordinal()]=true;
     _components[ItemChooserFilterComponent.LOCATION.ordinal()]=true;
     _components[ItemChooserFilterComponent.WEAPON_TYPE.ordinal()]=true;
@@ -133,7 +137,6 @@ public class ItemFilterConfiguration
     _components[ItemChooserFilterComponent.GENERIC_CHARACTER_CLASS.ordinal()]=true;
     _components[ItemChooserFilterComponent.GENERIC_CHARACTER_RACE.ordinal()]=true;
     _components[ItemChooserFilterComponent.ITEM_LEVEL.ordinal()]=true;
-    boolean isLive=LotroCoreConfig.isLive();
     if (isLive)
     {
       _components[ItemChooserFilterComponent.SCALABLE.ordinal()]=true;
