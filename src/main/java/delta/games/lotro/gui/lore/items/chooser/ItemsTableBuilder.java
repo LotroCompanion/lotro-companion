@@ -11,6 +11,7 @@ import javax.swing.JTable;
 import org.apache.log4j.Logger;
 
 import delta.common.ui.swing.tables.CellDataProvider;
+import delta.common.ui.swing.tables.ColumnsUtils;
 import delta.common.ui.swing.tables.DataProvider;
 import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.GenericTableController;
@@ -209,6 +210,10 @@ public class ItemsTableBuilder
     }
     // Damage type
     columns.add(buildDamageTypeColumn());
+    // Min Damage
+    columns.add(buildMinDamageColumn());
+    // Max Damage
+    columns.add(buildMaxDamageColumn());
     // Binding
     {
       CellDataProvider<Item,ItemBinding> bindingCell=new CellDataProvider<Item,ItemBinding>()
@@ -439,7 +444,7 @@ public class ItemsTableBuilder
       }
     };
     DefaultTableColumnController<Item,Float> column=new DefaultTableColumnController<Item,Float>(ItemColumnIds.DPS.name(),"DPS",Float.class,cell);
-    StatColumnsUtils.configureFloatColumn(column,0,1,50);
+    ColumnsUtils.configureFloatColumn(column,0,1,50);
     return column;
   }
 
@@ -463,7 +468,7 @@ public class ItemsTableBuilder
       }
     };
     DefaultTableColumnController<Item,Float> column=new DefaultTableColumnController<Item,Float>(ItemColumnIds.SPEED.name(),"Speed",Float.class,cell);
-    column.setWidthSpecs(50,50,50);
+    ColumnsUtils.configureFloatColumn(column,0,1,50);
     return column;
   }
 
@@ -484,6 +489,46 @@ public class ItemsTableBuilder
     };
     DefaultTableColumnController<Item,DamageType> column=new DefaultTableColumnController<Item,DamageType>(ItemColumnIds.DAMAGE_TYPE.name(),"Damage Type",DamageType.class,cell);
     column.setWidthSpecs(100,130,130);
+    return column;
+  }
+
+  private static DefaultTableColumnController<Item,Integer> buildMaxDamageColumn()
+  {
+    CellDataProvider<Item,Integer> cell=new CellDataProvider<Item,Integer>()
+    {
+      @Override
+      public Integer getData(Item item)
+      {
+        if (item instanceof Weapon)
+        {
+          Weapon weapon=(Weapon)item;
+          return Integer.valueOf(weapon.getMaxDamage());
+        }
+        return null;
+      }
+    };
+    DefaultTableColumnController<Item,Integer> column=new DefaultTableColumnController<Item,Integer>(ItemColumnIds.MAX_DAMAGE.name(),"Max Damage",Integer.class,cell);
+    ColumnsUtils.configureIntegerColumn(column,50);
+    return column;
+  }
+
+  private static DefaultTableColumnController<Item,Integer> buildMinDamageColumn()
+  {
+    CellDataProvider<Item,Integer> cell=new CellDataProvider<Item,Integer>()
+    {
+      @Override
+      public Integer getData(Item item)
+      {
+        if (item instanceof Weapon)
+        {
+          Weapon weapon=(Weapon)item;
+          return Integer.valueOf(weapon.getMinDamage());
+        }
+        return null;
+      }
+    };
+    DefaultTableColumnController<Item,Integer> column=new DefaultTableColumnController<Item,Integer>(ItemColumnIds.MIN_DAMAGE.name(),"Min Damage",Integer.class,cell);
+    ColumnsUtils.configureIntegerColumn(column,50);
     return column;
   }
 

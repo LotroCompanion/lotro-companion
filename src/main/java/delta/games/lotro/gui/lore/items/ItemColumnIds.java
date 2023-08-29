@@ -67,6 +67,14 @@ public enum ItemColumnIds
    */
   DAMAGE_TYPE,
   /**
+   * Minimum Damage.
+   */
+  MIN_DAMAGE,
+  /**
+   * Maximum damage.
+   */
+  MAX_DAMAGE,
+  /**
    * Binding.
    */
   BINDING,
