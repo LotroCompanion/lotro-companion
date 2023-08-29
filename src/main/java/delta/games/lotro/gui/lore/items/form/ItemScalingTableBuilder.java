@@ -8,6 +8,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import delta.common.ui.swing.tables.CellDataProvider;
+import delta.common.ui.swing.tables.ColumnsUtils;
 import delta.common.ui.swing.tables.DataProvider;
 import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.GenericTableController;
@@ -228,7 +229,7 @@ public class ItemScalingTableBuilder
       }
     };
     DefaultTableColumnController<ItemScalingEntry,Float> valueColumn=new DefaultTableColumnController<ItemScalingEntry,Float>(ItemScalingColumnIds.DPS.name(),"DPS",Float.class,valueCell);
-    valueColumn.setWidthSpecs(90,90,90);
+    ColumnsUtils.configureFloatColumn(valueColumn,0,1,60);
     return valueColumn;
   }
 }
