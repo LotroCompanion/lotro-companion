@@ -210,10 +210,13 @@ public class ItemsTableBuilder
     }
     // Damage type
     columns.add(buildDamageTypeColumn());
-    // Min Damage
-    columns.add(buildMinDamageColumn());
-    // Max Damage
-    columns.add(buildMaxDamageColumn());
+    if (!isLive)
+    {
+      // Min Damage
+      columns.add(buildMinDamageColumn());
+      // Max Damage
+      columns.add(buildMaxDamageColumn());
+    }
     // Binding
     {
       CellDataProvider<Item,ItemBinding> bindingCell=new CellDataProvider<Item,ItemBinding>()
