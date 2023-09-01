@@ -213,7 +213,7 @@ public class ItemFilterController extends ObjectFilterPanelController implements
       // Scalable
       if (_scalable!=null)
       {
-        _scalable.setSelectedItem(null);
+        _scalable.selectItem(null);
       }
       if (_class!=null)
       {
