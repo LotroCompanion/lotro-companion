@@ -28,6 +28,7 @@ import delta.games.lotro.gui.utils.l10n.StatRenderer;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.scaling.ItemScaling;
 import delta.games.lotro.lore.items.scaling.ItemScalingEntry;
+import delta.games.lotro.lore.items.scaling.WeaponScalingEntry;
 
 /**
  * Builder for a table that scaling data for an item.
@@ -91,11 +92,22 @@ public class ItemScalingTableBuilder
     columns.add(buildLevelColumn());
     // Item level column
     columns.add(buildItemLevelColumn());
-    // DPS
-    boolean useDPS=hasDPS(scaling);
-    if (useDPS)
+    // Weapon scaling?
+    boolean weaponScaling=false;
+    List<ItemScalingEntry> entries=scaling.getEntries();
+    if (!entries.isEmpty())
     {
+      ItemScalingEntry firstEntry=entries.get(0);
+      weaponScaling=(firstEntry instanceof WeaponScalingEntry);
+    }
+    if (weaponScaling)
+    {
+      // DPS
       columns.add(buildDPSColumn());
+      // Min damage
+      columns.add(buildMinDamageColumn());
+      // Max damage
+      columns.add(buildMaxDamageColumn());
     }
     // Value
     columns.add(buildValueColumn());
@@ -105,18 +117,6 @@ public class ItemScalingTableBuilder
       columns.add(buildStatColumn(stat));
     }
     return columns;
-  }
-
-  private static boolean hasDPS(ItemScaling scaling)
-  {
-    for(ItemScalingEntry entry : scaling.getEntries())
-    {
-      if (entry.getDPS()!=null)
-      {
-        return true;
-      }
-    }
-    return false;
   }
 
   /**
@@ -225,11 +225,51 @@ public class ItemScalingTableBuilder
       @Override
       public Float getData(ItemScalingEntry item)
       {
-        return item.getDPS();
+        return Float.valueOf(((WeaponScalingEntry)item).getDPS());
       }
     };
     DefaultTableColumnController<ItemScalingEntry,Float> valueColumn=new DefaultTableColumnController<ItemScalingEntry,Float>(ItemScalingColumnIds.DPS.name(),"DPS",Float.class,valueCell);
     ColumnsUtils.configureFloatColumn(valueColumn,0,1,60);
+    return valueColumn;
+  }
+
+  /**
+   * Build a column for the minimum damage of a weapon.
+   * @return a column.
+   */
+  public static DefaultTableColumnController<ItemScalingEntry,Integer> buildMinDamageColumn()
+  {
+    CellDataProvider<ItemScalingEntry,Integer> valueCell=new CellDataProvider<ItemScalingEntry,Integer>()
+    {
+      @Override
+      public Integer getData(ItemScalingEntry item)
+      {
+        float minDamage=((WeaponScalingEntry)item).getMinDamage();
+        return Integer.valueOf(Math.round(minDamage));
+      }
+    };
+    DefaultTableColumnController<ItemScalingEntry,Integer> valueColumn=new DefaultTableColumnController<ItemScalingEntry,Integer>(ItemScalingColumnIds.MIN_DAMAGE.name(),"Min Damage",Integer.class,valueCell);
+    ColumnsUtils.configureIntegerColumn(valueColumn,50);
+    return valueColumn;
+  }
+
+  /**
+   * Build a column for the maximum damage of a weapon.
+   * @return a column.
+   */
+  public static DefaultTableColumnController<ItemScalingEntry,Integer> buildMaxDamageColumn()
+  {
+    CellDataProvider<ItemScalingEntry,Integer> valueCell=new CellDataProvider<ItemScalingEntry,Integer>()
+    {
+      @Override
+      public Integer getData(ItemScalingEntry item)
+      {
+        float maxDamage=((WeaponScalingEntry)item).getMaxDamage();
+        return Integer.valueOf(Math.round(maxDamage));
+      }
+    };
+    DefaultTableColumnController<ItemScalingEntry,Integer> valueColumn=new DefaultTableColumnController<ItemScalingEntry,Integer>(ItemScalingColumnIds.MAX_DAMAGE.name(),"Max Damage",Integer.class,valueCell);
+    ColumnsUtils.configureIntegerColumn(valueColumn,50);
     return valueColumn;
   }
 }
