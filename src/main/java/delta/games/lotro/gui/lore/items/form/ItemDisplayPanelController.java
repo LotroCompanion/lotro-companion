@@ -30,7 +30,6 @@ import delta.games.lotro.common.enums.EquipmentCategory;
 import delta.games.lotro.common.money.Money;
 import delta.games.lotro.common.stats.StatUtils;
 import delta.games.lotro.common.stats.StatsProvider;
-import delta.games.lotro.config.LotroCoreConfig;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.common.money.MoneyDisplayController;
 import delta.games.lotro.gui.common.requirements.RequirementsUtils;
@@ -379,15 +378,9 @@ public class ItemDisplayPanelController extends AbstractNavigablePanelController
       ret.add("Damage type: "+damageType.getName());
     }
     // Damage range
-    boolean isLive=LotroCoreConfig.isLive();
-    if (!isLive)
-    {
-      // TODO Damage is wrong for scalable items whose item level has been fixed
-      // So temp remove this line!
-      int minDamage=weapon.getMinDamage();
-      int maxDamage=weapon.getMaxDamage();
-      ret.add("Damage: "+minDamage+" - "+maxDamage);
-    }
+    int minDamage=weapon.getMinDamage();
+    int maxDamage=weapon.getMaxDamage();
+    ret.add("Damage: "+minDamage+" - "+maxDamage);
     // DPS
     float dps=weapon.getDPS();
     String dpsStr=L10n.getString(dps,1);
