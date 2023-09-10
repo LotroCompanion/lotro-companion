@@ -8,6 +8,7 @@ import delta.games.lotro.character.races.RaceDescription;
 import delta.games.lotro.common.enums.CraftTier;
 import delta.games.lotro.common.requirements.ClassRequirement;
 import delta.games.lotro.common.requirements.FactionRequirement;
+import delta.games.lotro.common.requirements.GloryRankRequirement;
 import delta.games.lotro.common.requirements.ProfessionRequirement;
 import delta.games.lotro.common.requirements.QuestRequirement;
 import delta.games.lotro.common.requirements.RaceRequirement;
@@ -129,6 +130,14 @@ public class RequirementsUtils
         sb.append('/');
         sb.append(tier.getLabel());
       }
+    }
+    // Glory Rank
+    GloryRankRequirement gloryRankReq=requirements.getGloryRankRequirement();
+    if (gloryRankReq!=null)
+    {
+      if (sb.length()>0) sb.append(", ");
+      int rank=gloryRankReq.getRank();
+      sb.append("glory rank ").append(rank);
     }
     String ret=sb.toString().trim();
     return ret;
