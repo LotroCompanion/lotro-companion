@@ -5,8 +5,10 @@ import java.util.List;
 import delta.common.ui.swing.area.AreaController;
 import delta.games.lotro.character.classes.AbstractClassDescription;
 import delta.games.lotro.character.races.RaceDescription;
+import delta.games.lotro.common.effects.Effect;
 import delta.games.lotro.common.enums.CraftTier;
 import delta.games.lotro.common.requirements.ClassRequirement;
+import delta.games.lotro.common.requirements.EffectRequirement;
 import delta.games.lotro.common.requirements.FactionRequirement;
 import delta.games.lotro.common.requirements.GloryRankRequirement;
 import delta.games.lotro.common.requirements.ProfessionRequirement;
@@ -138,6 +140,14 @@ public class RequirementsUtils
       if (sb.length()>0) sb.append(", ");
       int rank=gloryRankReq.getRank();
       sb.append("glory rank ").append(rank);
+    }
+    // Effect
+    EffectRequirement effectReq=requirements.getEffectRequirement();
+    if (effectReq!=null)
+    {
+      if (sb.length()>0) sb.append(", ");
+      Effect effect=effectReq.getEffect();
+      sb.append(effect.getName());
     }
     String ret=sb.toString().trim();
     return ret;
