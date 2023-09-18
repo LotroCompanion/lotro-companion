@@ -10,7 +10,7 @@ import delta.games.lotro.gui.lore.items.chooser.ItemChooser;
 import delta.games.lotro.gui.lore.items.chooser.ItemFilterConfiguration;
 import delta.games.lotro.gui.lore.items.chooser.ItemFilterController;
 import delta.games.lotro.lore.items.Item;
-import delta.games.lotro.lore.items.ItemsManager;
+import delta.games.lotro.lore.items.essences.EssencesManager;
 import delta.games.lotro.utils.gui.chooser.ObjectChoiceWindowController;
 
 /**
@@ -32,7 +32,7 @@ public class EssenceChoice
    */
   public static Item chooseEssence(WindowController parent, BasicCharacterAttributes attrs)
   {
-    List<Item> essences=ItemsManager.getInstance().getEssences();
+    List<Item> essences=EssencesManager.getInstance().getAllEssenceItems();
     ItemFilterConfiguration cfg=new ItemFilterConfiguration();
     cfg.initFromItems(essences);
     cfg.forEssenceFilter();
