@@ -27,7 +27,7 @@ public class EssencesSetEditionWindowController extends DefaultFormDialogControl
   public EssencesSetEditionWindowController(WindowController parent, BasicCharacterAttributes attrs, ItemInstance<? extends Item> itemInstance)
   {
     super(parent,itemInstance);
-    _panelController=new EssencesEditionPanelController(this,attrs);
+    _panelController=new EssencesEditionPanelController(this,attrs,itemInstance.getReference());
     _panelController.init(itemInstance.getEssences());
   }
 

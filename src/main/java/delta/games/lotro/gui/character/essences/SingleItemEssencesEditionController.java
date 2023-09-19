@@ -11,11 +11,14 @@ import delta.common.ui.swing.labels.MultilineLabel;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.BasicCharacterAttributes;
 import delta.games.lotro.character.gear.GearSlot;
+import delta.games.lotro.common.enums.SocketType;
 import delta.games.lotro.gui.character.gear.EquipmentSlotIconController;
 import delta.games.lotro.gui.lore.items.essences.SimpleSingleEssenceEditionController;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemInstance;
 import delta.games.lotro.lore.items.essences.EssencesSet;
+import delta.games.lotro.lore.items.essences.EssencesSlotsSetup;
+import delta.games.lotro.lore.items.essences.SocketTypes;
 
 /**
  * Controller for the edition of the essences of a single item.
@@ -82,18 +85,24 @@ public class SingleItemEssencesEditionController
       {
         nbEssences=essences.getSize();
       }
-      int nbEssenceSlots=item.getEssenceSlots();
-      int size=Math.max(nbEssences,nbEssenceSlots);
-      for(int i=0;i<size;i++)
+      EssencesSlotsSetup setup=item.getEssenceSlotsSetup();
+      if (setup!=null)
       {
-        SimpleSingleEssenceEditionController controller=new SimpleSingleEssenceEditionController(_parent,2,_attrs);
-        Item essence=null;
-        if (essences!=null)
+        int nbEssenceSlots=setup.getSocketsCount();
+        int size=Math.max(nbEssences,nbEssenceSlots);
+        
+        for(int i=0;i<size;i++)
         {
-          essence=essences.getEssence(i);
+          SocketType type=(i<nbEssenceSlots)?setup.getSlotType(i):SocketTypes.CLASSIC;
+          SimpleSingleEssenceEditionController controller=new SimpleSingleEssenceEditionController(_parent,2,_attrs,type);
+          Item essence=null;
+          if (essences!=null)
+          {
+            essence=essences.getEssence(i);
+          }
+          controller.setEssence(essence);
+          _controllers.add(controller);
         }
-        controller.setEssence(essence);
-        _controllers.add(controller);
       }
     }
     _iconController.setItem(itemInstance);

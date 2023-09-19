@@ -14,6 +14,7 @@ import delta.common.ui.swing.icons.IconsManager;
 import delta.common.ui.swing.labels.MultilineLabel;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.BasicCharacterAttributes;
+import delta.games.lotro.common.enums.SocketType;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.lore.items.ItemUiTools;
 import delta.games.lotro.lore.items.Item;
@@ -28,6 +29,7 @@ public class SimpleSingleEssenceEditionController
   private BasicCharacterAttributes _attrs;
   private Item _essence;
   private int _linesCount;
+  private SocketType _type;
   // Controllers
   private WindowController _parent;
   // UI
@@ -42,13 +44,15 @@ public class SimpleSingleEssenceEditionController
    * @param parent Parent window.
    * @param linesCount Number of lines to display the essence name.
    * @param attrs Attributes of toon to use.
+   * @param type Socket type.
    */
-  public SimpleSingleEssenceEditionController(WindowController parent, int linesCount, BasicCharacterAttributes attrs)
+  public SimpleSingleEssenceEditionController(WindowController parent, int linesCount, BasicCharacterAttributes attrs, SocketType type)
   {
+    _parent=parent;
     _essence=null;
     _linesCount=linesCount;
     _attrs=attrs;
-    _parent=parent;
+    _type=type;
     // Button
     _essenceIconButton=GuiFactory.buildButton("");
     _essenceIconButton.setOpaque(false);
@@ -89,7 +93,7 @@ public class SimpleSingleEssenceEditionController
   {
     if (button==_essenceIconButton)
     {
-      Item essence=EssenceChoice.chooseEssence(_parent,_attrs);
+      Item essence=EssenceChoice.chooseEssence(_parent,_attrs,_type);
       if (essence!=null)
       {
         setEssence(essence);
