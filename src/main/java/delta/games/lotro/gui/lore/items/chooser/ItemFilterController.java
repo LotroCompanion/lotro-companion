@@ -228,10 +228,10 @@ public class ItemFilterController extends ObjectFilterPanelController implements
 
   private void setFilter()
   {
-    // Essence Tier
+    // Tier
     if (_tier!=null)
     {
-      Integer tier=_filter.getEssenceTierFilter().getTier();
+      Integer tier=_filter.getTierFilter().getTier();
       _tier.selectItem(tier);
     }
     // Name
@@ -397,7 +397,7 @@ public class ItemFilterController extends ObjectFilterPanelController implements
         @Override
         public void itemSelected(Integer tier)
         {
-          _filter.getEssenceTierFilter().setTier(tier);
+          _filter.getTierFilter().setTier(tier);
           filterUpdated();
         }
       };

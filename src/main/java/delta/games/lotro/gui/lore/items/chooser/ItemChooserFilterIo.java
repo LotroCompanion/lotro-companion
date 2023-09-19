@@ -19,7 +19,7 @@ import delta.games.lotro.lore.items.ItemQuality;
 import delta.games.lotro.lore.items.WeaponType;
 import delta.games.lotro.lore.items.filters.ArmourTypeFilter;
 import delta.games.lotro.lore.items.filters.CharacterProficienciesFilter;
-import delta.games.lotro.lore.items.filters.EssenceTierFilter;
+import delta.games.lotro.lore.items.filters.TierFilter;
 import delta.games.lotro.lore.items.filters.ItemCharacterLevelFilter;
 import delta.games.lotro.lore.items.filters.ItemClassFilter;
 import delta.games.lotro.lore.items.filters.ItemEquipmentLocationFilter;
@@ -43,7 +43,7 @@ public class ItemChooserFilterIo
   private static final String CURRENT_CHAR_CLASS_FILTER_ENABLED="classFilterEnabled";
   private static final String CURRENT_CHAR_PROFICIENCIES_FILTER_ENABLED="proficienciesFilterEnabled";
   private static final String CURRENT_CHAR_LEVEL_FILTER_ENABLED="levelFilterEnabled";
-  private static final String ESSENCE_TIER="essenceTier";
+  private static final String TIER="tier";
   private static final String NAME_PATTERN="namePattern";
   private static final String CATEGORY="category";
   private static final String QUALITY="quality";
@@ -92,11 +92,11 @@ public class ItemChooserFilterIo
       boolean enabled=props.getBooleanProperty(CURRENT_CHAR_LEVEL_FILTER_ENABLED,levelFilter.isEnabled());
       levelFilter.setEnabled(enabled);
     }
-    // Essence Tier
-    EssenceTierFilter tierFilter=filter.getEssenceTierFilter();
+    // Tier
+    TierFilter tierFilter=filter.getTierFilter();
     if (tierFilter!=null)
     {
-      Integer tier=props.getIntegerProperty(ESSENCE_TIER);
+      Integer tier=props.getIntegerProperty(TIER);
       tierFilter.setTier(tier);
     }
     // Name
@@ -257,18 +257,18 @@ public class ItemChooserFilterIo
     {
       props.setStringProperty(CURRENT_CHAR_LEVEL_FILTER_ENABLED,Boolean.toString(levelFilter.isEnabled()));
     }
-    // Essence Tier
-    EssenceTierFilter tierFilter=filter.getEssenceTierFilter();
+    // Tier
+    TierFilter tierFilter=filter.getTierFilter();
     if (tierFilter!=null)
     {
       Integer tier=tierFilter.getTier();
       if (tier!=null)
       {
-        props.setIntProperty(ESSENCE_TIER,tier.intValue());
+        props.setIntProperty(TIER,tier.intValue());
       }
       else
       {
-        props.removeProperty(ESSENCE_TIER);
+        props.removeProperty(TIER);
       }
     }
     // Name

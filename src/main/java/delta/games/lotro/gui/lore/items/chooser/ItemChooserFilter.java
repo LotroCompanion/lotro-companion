@@ -15,7 +15,7 @@ import delta.games.lotro.lore.items.WeaponType;
 import delta.games.lotro.lore.items.filters.ArmourTypeFilter;
 import delta.games.lotro.lore.items.filters.CharacterProficienciesFilter;
 import delta.games.lotro.lore.items.filters.DamageTypeFilter;
-import delta.games.lotro.lore.items.filters.EssenceTierFilter;
+import delta.games.lotro.lore.items.filters.TierFilter;
 import delta.games.lotro.lore.items.filters.ItemCharacterLevelFilter;
 import delta.games.lotro.lore.items.filters.ItemClassFilter;
 import delta.games.lotro.lore.items.filters.ItemEquipmentLocationFilter;
@@ -50,7 +50,7 @@ public class ItemChooserFilter implements Filter<Item>
   private ItemRequiredClassFilter _characterClassFilter;
   private CharacterProficienciesFilter _characterProficienciesFilter;
   private ItemCharacterLevelFilter _characterLevelFilter;
-  private EssenceTierFilter _essenceTierFilter;
+  private TierFilter _tierFilter;
   private ItemNameFilter _nameFilter;
   private ItemQualityFilter _qualityFilter;
   private ItemClassFilter _categoryFilter;
@@ -104,8 +104,8 @@ public class ItemChooserFilter implements Filter<Item>
     boolean useTier=cfg.hasComponent(ItemChooserFilterComponent.TIER);
     if (useTier)
     {
-      _essenceTierFilter=new EssenceTierFilter();
-      filters.add(_essenceTierFilter);
+      _tierFilter=new TierFilter();
+      filters.add(_tierFilter);
     }
     // Name
     boolean useName=cfg.hasComponent(ItemChooserFilterComponent.NAME);
@@ -230,12 +230,12 @@ public class ItemChooserFilter implements Filter<Item>
   }
 
   /**
-   * Get the managed essence tier filter.
+   * Get the managed tier filter.
    * @return a filter.
    */
-  public EssenceTierFilter getEssenceTierFilter()
+  public TierFilter getTierFilter()
   {
-    return _essenceTierFilter;
+    return _tierFilter;
   }
 
   /**

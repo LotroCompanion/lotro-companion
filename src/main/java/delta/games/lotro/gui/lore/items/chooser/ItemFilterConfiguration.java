@@ -121,6 +121,10 @@ public class ItemFilterConfiguration
   public void forItemExplorerFilter()
   {
     boolean isLive=LotroCoreConfig.isLive();
+    if (isLive)
+    {
+      _components[ItemChooserFilterComponent.TIER.ordinal()]=true;
+    }
     _components[ItemChooserFilterComponent.NAME.ordinal()]=true;
     _components[ItemChooserFilterComponent.QUALITY.ordinal()]=true;
     _components[ItemChooserFilterComponent.CATEGORY.ordinal()]=true;
