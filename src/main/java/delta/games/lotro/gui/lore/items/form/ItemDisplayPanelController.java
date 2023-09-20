@@ -533,7 +533,7 @@ public class ItemDisplayPanelController extends AbstractNavigablePanelController
         float slayerValue=weaponSlayerInfo.getSlayer();
         List<Genus> genuses=weaponSlayerInfo.getGenus();
         StringBuilder sb=new StringBuilder("+");
-        sb.append(Math.round(slayerValue)).append(" to ");
+        sb.append(Math.round(slayerValue)).append(" Damage to ");
         int index=0;
         for(Genus genus : genuses)
         {
