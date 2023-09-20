@@ -75,6 +75,10 @@ public enum ItemColumnIds
    */
   MAX_DAMAGE,
   /**
+   * Weapon slayer info.
+   */
+  WEAPON_SLAYER,
+  /**
    * Binding.
    */
   BINDING,

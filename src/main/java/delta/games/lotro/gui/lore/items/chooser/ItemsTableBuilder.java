@@ -39,6 +39,9 @@ import delta.games.lotro.lore.items.ItemBinding;
 import delta.games.lotro.lore.items.ItemQuality;
 import delta.games.lotro.lore.items.Weapon;
 import delta.games.lotro.lore.items.WeaponType;
+import delta.games.lotro.lore.items.comparators.WeaponSlayerInfoComparator;
+import delta.games.lotro.lore.items.details.ItemDetailsManager;
+import delta.games.lotro.lore.items.details.WeaponSlayerInfo;
 import delta.games.lotro.lore.items.weapons.WeaponSpeedEntry;
 
 /**
@@ -214,6 +217,8 @@ public class ItemsTableBuilder
     columns.add(buildMinDamageColumn());
     // Max Damage
     columns.add(buildMaxDamageColumn());
+    // Weapon slayer
+    columns.add(buildWeaponSlayerColumn());
     // Binding
     {
       CellDataProvider<Item,ItemBinding> bindingCell=new CellDataProvider<Item,ItemBinding>()
@@ -529,6 +534,23 @@ public class ItemsTableBuilder
     };
     DefaultTableColumnController<Item,Integer> column=new DefaultTableColumnController<Item,Integer>(ItemColumnIds.MIN_DAMAGE.name(),"Min Damage",Integer.class,cell);
     ColumnsUtils.configureIntegerColumn(column,50);
+    return column;
+  }
+
+  private static DefaultTableColumnController<Item,WeaponSlayerInfo> buildWeaponSlayerColumn()
+  {
+    CellDataProvider<Item,WeaponSlayerInfo> cell=new CellDataProvider<Item,WeaponSlayerInfo>()
+    {
+      @Override
+      public WeaponSlayerInfo getData(Item item)
+      {
+        ItemDetailsManager detailsMgr=item.getDetails();
+        return (detailsMgr!=null)?detailsMgr.getFirstItemDetail(WeaponSlayerInfo.class):null;
+      }
+    };
+    DefaultTableColumnController<Item,WeaponSlayerInfo> column=new DefaultTableColumnController<Item,WeaponSlayerInfo>(ItemColumnIds.WEAPON_SLAYER.name(),"Slayer",WeaponSlayerInfo.class,cell);
+    column.setWidthSpecs(100,200,200);
+    column.setComparator(new WeaponSlayerInfoComparator());
     return column;
   }
 
