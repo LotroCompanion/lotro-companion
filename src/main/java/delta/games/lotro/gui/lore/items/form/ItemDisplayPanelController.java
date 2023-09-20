@@ -27,6 +27,7 @@ import delta.games.lotro.character.skills.SkillDescription;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.character.traits.TraitDescription;
 import delta.games.lotro.common.enums.EquipmentCategory;
+import delta.games.lotro.common.enums.Genus;
 import delta.games.lotro.common.money.Money;
 import delta.games.lotro.common.stats.StatUtils;
 import delta.games.lotro.common.stats.StatsProvider;
@@ -51,6 +52,7 @@ import delta.games.lotro.lore.items.details.ItemDetailsManager;
 import delta.games.lotro.lore.items.details.ItemReputation;
 import delta.games.lotro.lore.items.details.ItemXP;
 import delta.games.lotro.lore.items.details.VirtueXP;
+import delta.games.lotro.lore.items.details.WeaponSlayerInfo;
 import delta.games.lotro.lore.items.legendary2.EnhancementRune;
 import delta.games.lotro.lore.items.legendary2.EnhancementRunesManager;
 import delta.games.lotro.lore.items.legendary2.TraceriesManager;
@@ -521,6 +523,29 @@ public class ItemDisplayPanelController extends AbstractNavigablePanelController
         y++;
       }
     }
+    // Weapon slayer
+    List<WeaponSlayerInfo> weaponSlayerInfos=mgr.getItemDetails(WeaponSlayerInfo.class);
+    if (!weaponSlayerInfos.isEmpty())
+    {
+      for(WeaponSlayerInfo weaponSlayerInfo : weaponSlayerInfos)
+      {
+        GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+        float slayerValue=weaponSlayerInfo.getSlayer();
+        List<Genus> genuses=weaponSlayerInfo.getGenus();
+        StringBuilder sb=new StringBuilder("+");
+        sb.append(Math.round(slayerValue)).append(" to ");
+        int index=0;
+        for(Genus genus : genuses)
+        {
+          if (index>0) sb.append(", ");
+          sb.append(genus.getLabel());
+        }
+        String label=sb.toString();
+        ret.add(GuiFactory.buildLabel(label),c);
+        y++;
+      }
+    }
+
     return ret;
   }
 
