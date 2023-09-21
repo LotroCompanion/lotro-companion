@@ -15,7 +15,6 @@ import delta.games.lotro.lore.items.WeaponType;
 import delta.games.lotro.lore.items.filters.ArmourTypeFilter;
 import delta.games.lotro.lore.items.filters.CharacterProficienciesFilter;
 import delta.games.lotro.lore.items.filters.DamageTypeFilter;
-import delta.games.lotro.lore.items.filters.TierFilter;
 import delta.games.lotro.lore.items.filters.ItemCharacterLevelFilter;
 import delta.games.lotro.lore.items.filters.ItemClassFilter;
 import delta.games.lotro.lore.items.filters.ItemEquipmentLocationFilter;
@@ -27,6 +26,8 @@ import delta.games.lotro.lore.items.filters.ItemRequiredRaceFilter;
 import delta.games.lotro.lore.items.filters.ItemStatFilter;
 import delta.games.lotro.lore.items.filters.LegendaryItemFilter;
 import delta.games.lotro.lore.items.filters.ScalableItemFilter;
+import delta.games.lotro.lore.items.filters.TierFilter;
+import delta.games.lotro.lore.items.filters.WeaponSlayerFilter;
 import delta.games.lotro.lore.items.filters.WeaponTypeFilter;
 
 /**
@@ -58,6 +59,7 @@ public class ItemChooserFilter implements Filter<Item>
   private ItemEquipmentLocationFilter _locationFilter;
   private WeaponTypeFilter _weaponTypeFilter;
   private DamageTypeFilter _damageTypeFilter;
+  private WeaponSlayerFilter _slayerGenusFilter;
   private ArmourTypeFilter _armourTypeFilter;
   private ArmourTypeFilter _shieldTypeFilter;
   private ItemStatFilter _statFilter;
@@ -159,6 +161,13 @@ public class ItemChooserFilter implements Filter<Item>
         _damageTypeFilter=new DamageTypeFilter(null);
         filters.add(_damageTypeFilter);
       }
+    }
+    // Slayer genus
+    boolean useSlayerGenus=cfg.hasComponent(ItemChooserFilterComponent.SLAYER_GENUS);
+    if (useSlayerGenus)
+    {
+      _slayerGenusFilter=new WeaponSlayerFilter(null);
+      filters.add(_slayerGenusFilter);
     }
     // Armour type
     boolean useArmourType=cfg.hasComponent(ItemChooserFilterComponent.ARMOUR_TYPE);
@@ -344,6 +353,15 @@ public class ItemChooserFilter implements Filter<Item>
   public DamageTypeFilter getDamageTypeFilter()
   {
     return _damageTypeFilter;
+  }
+
+  /**
+   * Get the slayer genus filter.
+   * @return a slayer genus filter or <code>null</code>.
+   */
+  public WeaponSlayerFilter getSlayerGenusFilter()
+  {
+    return _slayerGenusFilter;
   }
 
   /**

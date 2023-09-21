@@ -47,6 +47,10 @@ public enum ItemChooserFilterComponent
    */
   DAMAGE_TYPE,
   /**
+   * Weapon slayer genus filter.
+   */
+  SLAYER_GENUS,
+  /**
    * Filter on the class of the current character.
    */
   CURRENT_CHAR_CLASS,

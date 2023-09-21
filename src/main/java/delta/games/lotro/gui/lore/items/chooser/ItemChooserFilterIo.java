@@ -9,17 +9,19 @@ import delta.games.lotro.character.classes.AbstractClassDescription;
 import delta.games.lotro.character.classes.ClassesManager;
 import delta.games.lotro.character.races.RaceDescription;
 import delta.games.lotro.character.races.RacesManager;
+import delta.games.lotro.common.enums.Genus;
 import delta.games.lotro.common.enums.ItemClass;
 import delta.games.lotro.common.enums.LotroEnum;
 import delta.games.lotro.common.enums.LotroEnumsRegistry;
 import delta.games.lotro.common.stats.StatDescription;
 import delta.games.lotro.common.stats.StatsRegistry;
 import delta.games.lotro.lore.items.ArmourType;
+import delta.games.lotro.lore.items.DamageType;
 import delta.games.lotro.lore.items.ItemQuality;
 import delta.games.lotro.lore.items.WeaponType;
 import delta.games.lotro.lore.items.filters.ArmourTypeFilter;
 import delta.games.lotro.lore.items.filters.CharacterProficienciesFilter;
-import delta.games.lotro.lore.items.filters.TierFilter;
+import delta.games.lotro.lore.items.filters.DamageTypeFilter;
 import delta.games.lotro.lore.items.filters.ItemCharacterLevelFilter;
 import delta.games.lotro.lore.items.filters.ItemClassFilter;
 import delta.games.lotro.lore.items.filters.ItemEquipmentLocationFilter;
@@ -31,6 +33,8 @@ import delta.games.lotro.lore.items.filters.ItemRequiredRaceFilter;
 import delta.games.lotro.lore.items.filters.ItemStatFilter;
 import delta.games.lotro.lore.items.filters.LegendaryItemFilter;
 import delta.games.lotro.lore.items.filters.ScalableItemFilter;
+import delta.games.lotro.lore.items.filters.TierFilter;
+import delta.games.lotro.lore.items.filters.WeaponSlayerFilter;
 import delta.games.lotro.lore.items.filters.WeaponTypeFilter;
 
 /**
@@ -50,6 +54,8 @@ public class ItemChooserFilterIo
   private static final String LEGENDARY="legendary";
   private static final String LOCATION="location";
   private static final String WEAPON_TYPE="weaponType";
+  private static final String DAMAGE_TYPE="damageType";
+  private static final String SLAYER_GENUS="slayerGenus";
   private static final String ARMOUR_TYPE="armourType";
   private static final String SHIELD_TYPE="shieldType";
   private static final String STAT_SEED="stat.";
@@ -164,6 +170,23 @@ public class ItemChooserFilterIo
       String weaponTypeKey=props.getStringProperty(WEAPON_TYPE,null);
       WeaponType weaponType=WeaponType.getWeaponTypeByKey(weaponTypeKey);
       weaponTypeFilter.setWeaponType(weaponType);
+    }
+    // Damage type
+    DamageTypeFilter damageTypeFilter=filter.getDamageTypeFilter();
+    if (damageTypeFilter!=null)
+    {
+      String damageTypeKey=props.getStringProperty(DAMAGE_TYPE,null);
+      DamageType damageType=DamageType.getDamageTypeByKey(damageTypeKey);
+      damageTypeFilter.setDamageType(damageType);
+    }
+    // Slayer genus
+    WeaponSlayerFilter slayerGenusFilter=filter.getSlayerGenusFilter();
+    if (slayerGenusFilter!=null)
+    {
+      int slayerGenusCode=props.getIntProperty(SLAYER_GENUS,-1);
+      LotroEnum<Genus> genusEnum=LotroEnumsRegistry.getInstance().get(Genus.class);
+      Genus genus=genusEnum.getEntry(slayerGenusCode);
+      slayerGenusFilter.setGenus(genus);
     }
     // Armour type
     ArmourTypeFilter armourTypeFilter=filter.getArmourTypeFilter();
@@ -338,6 +361,34 @@ public class ItemChooserFilterIo
       else
       {
         props.removeProperty(WEAPON_TYPE);
+      }
+    }
+    // Damage type
+    DamageTypeFilter damageTypeFilter=filter.getDamageTypeFilter();
+    if (damageTypeFilter!=null)
+    {
+      DamageType damageType=damageTypeFilter.getDamageType();
+      if (damageType!=null)
+      {
+        props.setStringProperty(DAMAGE_TYPE,damageType.getKey());
+      }
+      else
+      {
+        props.removeProperty(DAMAGE_TYPE);
+      }
+    }
+    // Damage type
+    WeaponSlayerFilter slayerGenusFilter=filter.getSlayerGenusFilter();
+    if (slayerGenusFilter!=null)
+    {
+      Genus genus=slayerGenusFilter.getGenus();
+      if (genus!=null)
+      {
+        props.setIntProperty(SLAYER_GENUS,genus.getCode());
+      }
+      else
+      {
+        props.removeProperty(SLAYER_GENUS);
       }
     }
     // Armour type

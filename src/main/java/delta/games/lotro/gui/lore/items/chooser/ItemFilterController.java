@@ -31,6 +31,7 @@ import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.character.BasicCharacterAttributes;
 import delta.games.lotro.character.classes.AbstractClassDescription;
 import delta.games.lotro.character.races.RaceDescription;
+import delta.games.lotro.common.enums.Genus;
 import delta.games.lotro.common.enums.ItemClass;
 import delta.games.lotro.common.stats.StatDescription;
 import delta.games.lotro.gui.character.summary.CharacterUiUtils;
@@ -41,6 +42,7 @@ import delta.games.lotro.lore.items.DamageType;
 import delta.games.lotro.lore.items.EquipmentLocation;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemQuality;
+import delta.games.lotro.lore.items.ItemUtils;
 import delta.games.lotro.lore.items.WeaponType;
 import delta.games.lotro.lore.items.filters.ArmourTypeFilter;
 import delta.games.lotro.lore.items.filters.CharacterProficienciesFilter;
@@ -52,6 +54,7 @@ import delta.games.lotro.lore.items.filters.ItemRequiredClassFilter;
 import delta.games.lotro.lore.items.filters.ItemRequiredRaceFilter;
 import delta.games.lotro.lore.items.filters.ItemStatFilter;
 import delta.games.lotro.lore.items.filters.ScalableItemFilter;
+import delta.games.lotro.lore.items.filters.WeaponSlayerFilter;
 import delta.games.lotro.lore.items.filters.WeaponTypeFilter;
 import delta.games.lotro.utils.gui.filter.ObjectFilterPanelController;
 
@@ -78,6 +81,7 @@ public class ItemFilterController extends ObjectFilterPanelController implements
   private ComboBoxController<Set<EquipmentLocation>> _location;
   private ComboBoxController<WeaponType> _weaponType;
   private ComboBoxController<DamageType> _damageType;
+  private ComboBoxController<Genus> _slayerGenus;
   private ComboBoxController<ArmourType> _armourType;
   private ComboBoxController<ArmourType> _shieldType;
   private List<ComboBoxController<StatDescription>> _stats;
@@ -172,6 +176,11 @@ public class ItemFilterController extends ObjectFilterPanelController implements
       if (_damageType!=null)
       {
         _damageType.selectItem(null);
+      }
+      // Slayer genus
+      if (_slayerGenus!=null)
+      {
+        _slayerGenus.selectItem(null);
       }
       // Armour type
       if (_armourType!=null)
@@ -281,6 +290,13 @@ public class ItemFilterController extends ObjectFilterPanelController implements
       DamageTypeFilter damageTypeFilter=_filter.getDamageTypeFilter();
       DamageType damageType=damageTypeFilter.getDamageType();
       _damageType.selectItem(damageType);
+    }
+    // Slayer genus
+    if (_slayerGenus!=null)
+    {
+      WeaponSlayerFilter slayerGenusFilter=_filter.getSlayerGenusFilter();
+      Genus genus=slayerGenusFilter.getGenus();
+      _slayerGenus.selectItem(genus);
     }
     // Armour type
     if (_armourType!=null)
@@ -530,6 +546,8 @@ public class ItemFilterController extends ObjectFilterPanelController implements
     initWeaponType(panel);
     // Damage type
     initDamageType(panel);
+    // Slayer genus
+    initSlayerGenus(panel);
     // Armour type
     initArmourType(panel);
     // Shield type
@@ -648,6 +666,45 @@ public class ItemFilterController extends ObjectFilterPanelController implements
     }
   }
 
+  private void initSlayerGenus(JPanel panel)
+  {
+    final WeaponSlayerFilter slayerGenusFilter=_filter.getSlayerGenusFilter();
+    boolean useSlayerGenus=_cfg.hasComponent(ItemChooserFilterComponent.SLAYER_GENUS);
+    if ((slayerGenusFilter!=null) && (useSlayerGenus))
+    {
+      List<Genus> genuses=ItemUtils.getAvailableSlayerGenus();
+      _slayerGenus=ItemUiTools.buildGenus(genuses);
+      JPanel genusPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
+      genusPanel.add(GuiFactory.buildLabel("Slay genus:"));
+      ItemSelectionListener<Genus> genusListener=new ItemSelectionListener<Genus>()
+      {
+        @Override
+        public void itemSelected(Genus genus)
+        {
+          slayerGenusFilter.setGenus(genus);
+          // If a weapon type is selected,
+          if (genus!=null)
+          {
+            // Reset the shield type combo
+            if (_armourType!=null)
+            {
+              _armourType.selectItem(null);
+            }
+            // Reset the shield type combo
+            if (_shieldType!=null)
+            {
+              _shieldType.selectItem(null);
+            }
+          }
+          filterUpdated();
+        }
+      };
+      _slayerGenus.addListener(genusListener);
+      genusPanel.add(_slayerGenus.getComboBox());
+      panel.add(genusPanel);
+    }
+  }
+
   private void initArmourType(JPanel panel)
   {
     final ArmourTypeFilter armourTypeFilter=_filter.getArmourTypeFilter();
@@ -676,6 +733,11 @@ public class ItemFilterController extends ObjectFilterPanelController implements
             if (_damageType!=null)
             {
               _damageType.selectItem(null);
+            }
+            // Reset slayer genus
+            if (_slayerGenus!=null)
+            {
+              _slayerGenus.selectItem(null);
             }
             // Reset the shield type combo
             if (_shieldType!=null)
@@ -720,6 +782,11 @@ public class ItemFilterController extends ObjectFilterPanelController implements
             if (_damageType!=null)
             {
               _damageType.selectItem(null);
+            }
+            // Reset slayer genus
+            if (_slayerGenus!=null)
+            {
+              _slayerGenus.selectItem(null);
             }
             // Reset the armour type combo
             if (_armourType!=null)
@@ -1018,6 +1085,11 @@ public class ItemFilterController extends ObjectFilterPanelController implements
     {
       _damageType.dispose();
       _damageType=null;
+    }
+    if (_slayerGenus!=null)
+    {
+      _slayerGenus.dispose();
+      _slayerGenus=null;
     }
     if (_armourType!=null)
     {

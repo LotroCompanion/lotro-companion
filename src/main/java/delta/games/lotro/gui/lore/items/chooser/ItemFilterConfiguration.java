@@ -104,6 +104,7 @@ public class ItemFilterConfiguration
     _components[ItemChooserFilterComponent.STAT.ordinal()]=true;
     _components[ItemChooserFilterComponent.WEAPON_TYPE.ordinal()]=true;
     _components[ItemChooserFilterComponent.DAMAGE_TYPE.ordinal()]=true;
+    _components[ItemChooserFilterComponent.SLAYER_GENUS.ordinal()]=true;
     _components[ItemChooserFilterComponent.ARMOUR_TYPE.ordinal()]=true;
     _components[ItemChooserFilterComponent.SHIELD_TYPE.ordinal()]=true;
     // Requirements for the current character: class, proficiencies, level
@@ -136,6 +137,7 @@ public class ItemFilterConfiguration
     _components[ItemChooserFilterComponent.LOCATION.ordinal()]=true;
     _components[ItemChooserFilterComponent.WEAPON_TYPE.ordinal()]=true;
     _components[ItemChooserFilterComponent.DAMAGE_TYPE.ordinal()]=true;
+    _components[ItemChooserFilterComponent.SLAYER_GENUS.ordinal()]=true;
     _components[ItemChooserFilterComponent.ARMOUR_TYPE.ordinal()]=true;
     _components[ItemChooserFilterComponent.SHIELD_TYPE.ordinal()]=true;
     _components[ItemChooserFilterComponent.GENERIC_CHARACTER_CLASS.ordinal()]=true;

@@ -23,6 +23,7 @@ import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.text.EndOfLine;
 import delta.games.lotro.character.stats.BasicStatsSet;
+import delta.games.lotro.common.enums.Genus;
 import delta.games.lotro.common.enums.ItemClass;
 import delta.games.lotro.common.enums.comparator.LotroEnumEntryNameComparator;
 import delta.games.lotro.common.stats.StatUtils;
@@ -235,6 +236,23 @@ public class ItemUiTools
     for(DamageType damageType : damageTypes)
     {
       ctrl.addItem(damageType,damageType.getLabel());
+    }
+    ctrl.selectItem(null);
+    return ctrl;
+  }
+
+  /**
+   * Build a controller for a combo box to choose a genus.
+   * @param genuses Genuses to use.
+   * @return A new controller.
+   */
+  public static ComboBoxController<Genus> buildGenus(Iterable<Genus> genuses)
+  {
+    ComboBoxController<Genus> ctrl=new ComboBoxController<Genus>();
+    ctrl.addEmptyItem("");
+    for(Genus genus : genuses)
+    {
+      ctrl.addItem(genus,genus.getLabel());
     }
     ctrl.selectItem(null);
     return ctrl;
