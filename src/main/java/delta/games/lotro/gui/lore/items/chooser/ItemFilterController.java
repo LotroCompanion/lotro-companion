@@ -385,7 +385,7 @@ public class ItemFilterController extends ObjectFilterPanelController implements
     c=new GridBagConstraints(0,2,2,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(line3Panel,c);
     // Line 4: character-related requirements ; item level range
-    JPanel line4Panel=buildLine4Panel();
+    JPanel line4Panel=buildLine4();
     c=new GridBagConstraints(0,3,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(line4Panel,c);
 
@@ -401,7 +401,19 @@ public class ItemFilterController extends ObjectFilterPanelController implements
   private JPanel buildLine1()
   {
     JPanel panel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
-    // Tier
+    // Location
+    initLocation(panel);
+    // Quality
+    initQualityPanel(panel);
+    // Name filter
+    initNamePanel(panel);
+    // Category
+    initCategoryPanel(panel);
+    return panel;
+  }
+
+  private void initTierPanel(JPanel panel)
+  {
     boolean useTier=_cfg.hasComponent(ItemChooserFilterComponent.TIER);
     if (useTier)
     {
@@ -419,10 +431,12 @@ public class ItemFilterController extends ObjectFilterPanelController implements
       };
       _tier.addListener(tierListener);
       tierPanel.add(_tier.getComboBox());
-      GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
-      panel.add(tierPanel,c);
+      panel.add(tierPanel);
     }
-    // Quality
+  }
+
+  private void initQualityPanel(JPanel panel)
+  {
     boolean useQuality=_cfg.hasComponent(ItemChooserFilterComponent.QUALITY);
     if (useQuality)
     {
@@ -442,15 +456,18 @@ public class ItemFilterController extends ObjectFilterPanelController implements
       qualityPanel.add(_quality.getComboBox());
       panel.add(qualityPanel);
     }
-    // Name filter
+  }
+
+  private void initNamePanel(JPanel panel)
+  {
     boolean useName=_cfg.hasComponent(ItemChooserFilterComponent.NAME);
     if (useName)
     {
-      JPanel containsPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING));
-      containsPanel.add(GuiFactory.buildLabel("Name filter:"));
+      JPanel namePanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING));
+      namePanel.add(GuiFactory.buildLabel("Name:"));
       _contains=GuiFactory.buildTextField("");
       _contains.setColumns(20);
-      containsPanel.add(_contains);
+      namePanel.add(_contains);
       TextListener listener=new TextListener()
       {
         @Override
@@ -462,9 +479,12 @@ public class ItemFilterController extends ObjectFilterPanelController implements
         }
       };
       _textController=new DynamicTextEditionController(_contains,listener);
-      panel.add(containsPanel);
+      panel.add(namePanel);
     }
-    // Category
+  }
+
+  private void initCategoryPanel(JPanel panel)
+  {
     boolean useCategory=_cfg.hasComponent(ItemChooserFilterComponent.CATEGORY);
     if (useCategory)
     {
@@ -484,7 +504,10 @@ public class ItemFilterController extends ObjectFilterPanelController implements
       categoryPanel.add(_itemClass.getComboBox());
       panel.add(categoryPanel);
     }
-    // Legendary
+  }
+
+  private void initLegendaryPanel(JPanel panel)
+  {
     boolean useLegendary=_cfg.hasComponent(ItemChooserFilterComponent.LEGENDARY);
     if (useLegendary)
     {
@@ -502,10 +525,8 @@ public class ItemFilterController extends ObjectFilterPanelController implements
       };
       _legendary.addListener(legendaryListener);
       legendaryPanel.add(_legendary.getComboBox());
-      GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
-      panel.add(legendaryPanel,c);
+      panel.add(legendaryPanel);
     }
-    return panel;
   }
 
   private JPanel buildLine2()
@@ -540,8 +561,6 @@ public class ItemFilterController extends ObjectFilterPanelController implements
   private JPanel buildLine3()
   {
     JPanel panel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING));
-    // Location
-    initLocation(panel);
     // Weapon type
     initWeaponType(panel);
     // Damage type
@@ -724,21 +743,7 @@ public class ItemFilterController extends ObjectFilterPanelController implements
           // If an armour type is selected,
           if (type!=null)
           {
-            // Reset the weapon type combo
-            if (_weaponType!=null)
-            {
-              _weaponType.selectItem(null);
-            }
-            // Reset the damage type combo
-            if (_damageType!=null)
-            {
-              _damageType.selectItem(null);
-            }
-            // Reset slayer genus
-            if (_slayerGenus!=null)
-            {
-              _slayerGenus.selectItem(null);
-            }
+            resetWeaponGadgets();
             // Reset the shield type combo
             if (_shieldType!=null)
             {
@@ -751,6 +756,25 @@ public class ItemFilterController extends ObjectFilterPanelController implements
       _armourType.addListener(armourTypeListener);
       armourTypePanel.add(_armourType.getComboBox());
       panel.add(armourTypePanel);
+    }
+  }
+
+  private void resetWeaponGadgets()
+  {
+    // Reset the weapon type combo
+    if (_weaponType!=null)
+    {
+      _weaponType.selectItem(null);
+    }
+    // Reset the damage type combo
+    if (_damageType!=null)
+    {
+      _damageType.selectItem(null);
+    }
+    // Reset slayer genus
+    if (_slayerGenus!=null)
+    {
+      _slayerGenus.selectItem(null);
     }
   }
 
@@ -773,21 +797,7 @@ public class ItemFilterController extends ObjectFilterPanelController implements
           // If a shield type is selected,
           if (type!=null)
           {
-            // Reset the weapon type combo
-            if (_weaponType!=null)
-            {
-              _weaponType.selectItem(null);
-            }
-            // Reset the damage type combo
-            if (_damageType!=null)
-            {
-              _damageType.selectItem(null);
-            }
-            // Reset slayer genus
-            if (_slayerGenus!=null)
-            {
-              _slayerGenus.selectItem(null);
-            }
+            resetWeaponGadgets();
             // Reset the armour type combo
             if (_armourType!=null)
             {
@@ -803,9 +813,10 @@ public class ItemFilterController extends ObjectFilterPanelController implements
     }
   }
 
-  private JPanel buildLine4Panel()
+  private JPanel buildLine4()
   {
     JPanel panel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING));
+    // Class/proficiencies/level requirements
     boolean useCurrentCharacterClass=_cfg.hasComponent(ItemChooserFilterComponent.CURRENT_CHAR_CLASS);
     boolean useCurrentCharacterProficiences=_cfg.hasComponent(ItemChooserFilterComponent.CURRENT_CHAR_PROFICIENCIES);
     boolean useCurrentCharacterLevel=_cfg.hasComponent(ItemChooserFilterComponent.CURRENT_CHAR_LEVEL);
@@ -814,6 +825,7 @@ public class ItemFilterController extends ObjectFilterPanelController implements
       JPanel requirementsPanel=buildCurrentCharacterRequirementsPanel(useCurrentCharacterClass,useCurrentCharacterProficiences,useCurrentCharacterLevel);
       panel.add(requirementsPanel);
     }
+    // Race/class requirements
     boolean useGenericClass=_cfg.hasComponent(ItemChooserFilterComponent.GENERIC_CHARACTER_CLASS);
     boolean useGenericRace=_cfg.hasComponent(ItemChooserFilterComponent.GENERIC_CHARACTER_RACE);
     if (useGenericClass || useGenericRace)
@@ -821,18 +833,24 @@ public class ItemFilterController extends ObjectFilterPanelController implements
       JPanel requirementsPanel=buildCharacterRequirementsPanel(useGenericClass,useGenericRace,true);
       panel.add(requirementsPanel);
     }
+    // Item level
     boolean useItemLevel=_cfg.hasComponent(ItemChooserFilterComponent.ITEM_LEVEL);
     if (useItemLevel)
     {
       JPanel itemLevelPanel=buildItemLevelRangePanel();
       panel.add(itemLevelPanel);
     }
+    // Scalable
     boolean useScalable=_cfg.hasComponent(ItemChooserFilterComponent.SCALABLE);
     if (useScalable)
     {
       JPanel scalablePanel=buildScalablePanel();
       panel.add(scalablePanel);
     }
+    // Legendary
+    initLegendaryPanel(panel);
+    // Tier
+    initTierPanel(panel);
     return panel;
   }
 
