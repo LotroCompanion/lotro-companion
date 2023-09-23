@@ -52,6 +52,8 @@ import delta.games.lotro.lore.items.details.ItemReputation;
 import delta.games.lotro.lore.items.details.ItemXP;
 import delta.games.lotro.lore.items.details.VirtueXP;
 import delta.games.lotro.lore.items.details.WeaponSlayerInfo;
+import delta.games.lotro.lore.items.essences.Essence;
+import delta.games.lotro.lore.items.essences.EssencesManager;
 import delta.games.lotro.lore.items.legendary2.EnhancementRune;
 import delta.games.lotro.lore.items.legendary2.EnhancementRunesManager;
 import delta.games.lotro.lore.items.legendary2.TraceriesManager;
@@ -302,7 +304,19 @@ public class ItemDisplayPanelController extends AbstractNavigablePanelController
       String category=_item.getSubCategory();
       if ((category!=null) && (category.length()>0))
       {
-        ret.add("Category: "+category);
+        String label=category;
+        Essence essence=EssencesManager.getInstance().getEssence(_item.getIdentifier());
+        if (essence!=null)
+        {
+          label=label+" ("+essence.getType().getLabel();
+          Integer tier=essence.getTier();
+          if (tier!=null)
+          {
+            label=label+", tier "+tier;
+          }
+          label=label+")";
+        }
+        ret.add("Category: "+label);
       }
     }
     if (_item instanceof Weapon)
