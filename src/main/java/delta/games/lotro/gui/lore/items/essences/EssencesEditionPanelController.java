@@ -17,6 +17,7 @@ import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.BasicCharacterAttributes;
 import delta.games.lotro.common.enums.SocketType;
 import delta.games.lotro.lore.items.Item;
+import delta.games.lotro.lore.items.essences.Essence;
 import delta.games.lotro.lore.items.essences.EssencesSet;
 
 /**
@@ -27,7 +28,7 @@ public class EssencesEditionPanelController implements ActionListener
 {
   // Data
   private BasicCharacterAttributes _attrs;
-  private List<Item> _essences;
+  private List<Essence> _essences;
   private Item _item;
   // GUI
   private JPanel _panel;
@@ -47,7 +48,7 @@ public class EssencesEditionPanelController implements ActionListener
     _attrs=attrs;
     _item=item;
     _essenceControllers=new ArrayList<SingleEssenceEditionController>();
-    _essences=new ArrayList<Item>();
+    _essences=new ArrayList<Essence>();
     _panel=build();
   }
 
@@ -68,7 +69,7 @@ public class EssencesEditionPanelController implements ActionListener
     int nbSlots=essences.getSize();
     for(int i=0;i<nbSlots;i++)
     {
-      Item essence=essences.getEssence(i);
+      Essence essence=essences.getEssence(i);
       _essences.add(essence);
       SingleEssenceEditionController ctrl=new SingleEssenceEditionController();
       ctrl.setEssence(essence);
@@ -127,7 +128,7 @@ public class EssencesEditionPanelController implements ActionListener
       if (source==iconButton)
       {
         SocketType type=_item.getEssenceSlotsSetup().getSlotType(index);
-        Item essence=EssenceChoice.chooseEssence(_parent,_attrs,type);
+        Essence essence=EssenceChoice.chooseEssence(_parent,_attrs,type);
         if (essence!=null)
         {
           editor.setEssence(essence);
@@ -155,7 +156,7 @@ public class EssencesEditionPanelController implements ActionListener
     int nbSlots=_essences.size();
     for(int i=0;i<nbSlots;i++)
     {
-      Item essence=_essences.get(i);
+      Essence essence=_essences.get(i);
       essencesSet.setEssence(i,essence);
     }
   }

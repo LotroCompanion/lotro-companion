@@ -17,7 +17,7 @@ import delta.games.lotro.character.BasicCharacterAttributes;
 import delta.games.lotro.common.enums.SocketType;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.lore.items.ItemUiTools;
-import delta.games.lotro.lore.items.Item;
+import delta.games.lotro.lore.items.essences.Essence;
 
 /**
  * Controller for the UI items of a single essence.
@@ -27,7 +27,7 @@ public class SimpleSingleEssenceEditionController
 {
   // Data
   private BasicCharacterAttributes _attrs;
-  private Item _essence;
+  private Essence _essence;
   private int _linesCount;
   private SocketType _type;
   // Controllers
@@ -93,7 +93,7 @@ public class SimpleSingleEssenceEditionController
   {
     if (button==_essenceIconButton)
     {
-      Item essence=EssenceChoice.chooseEssence(_parent,_attrs,_type);
+      Essence essence=EssenceChoice.chooseEssence(_parent,_attrs,_type);
       if (essence!=null)
       {
         setEssence(essence);
@@ -117,7 +117,7 @@ public class SimpleSingleEssenceEditionController
    * Get the managed essence.
    * @return the managed essence.
    */
-  public Item getEssence()
+  public Essence getEssence()
   {
     return _essence;
   }
@@ -126,7 +126,7 @@ public class SimpleSingleEssenceEditionController
    * Set current essence.
    * @param essence Essence to set.
    */
-  public void setEssence(Item essence)
+  public void setEssence(Essence essence)
   {
     // Store essence
     _essence=essence;

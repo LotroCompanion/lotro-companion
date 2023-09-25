@@ -7,7 +7,7 @@ import delta.games.lotro.common.stats.StatUtils;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.lore.items.ItemUiTools;
 import delta.games.lotro.gui.lore.items.utils.IconNameStatsBundle;
-import delta.games.lotro.lore.items.Item;
+import delta.games.lotro.lore.items.essences.Essence;
 
 /**
  * Controller for the UI items to display a single essence.
@@ -29,7 +29,7 @@ public class SingleEssenceDisplayController extends IconNameStatsBundle
    * Set current essence.
    * @param essence Essence to set.
    */
-  public void setEssence(Item essence)
+  public void setEssence(Essence essence)
   {
     // Set essence icon
     Icon icon=null;

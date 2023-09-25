@@ -57,7 +57,7 @@ public class ItemsTableBuilder
    * @param items Items to show.
    * @return A new table controller.
    */
-  public static GenericTableController<Item> buildTable(List<Item> items)
+  public static GenericTableController<Item> buildTable(List<? extends Item> items)
   {
     DataProvider<Item> provider=new ListDataProvider<Item>(items);
     GenericTableController<Item> table=new GenericTableController<Item>(provider);

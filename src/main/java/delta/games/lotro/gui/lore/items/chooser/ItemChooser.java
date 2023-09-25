@@ -40,7 +40,7 @@ public class ItemChooser
    * @param filterController Filter UI to use.
    * @return the newly built chooser.
    */
-  public static ObjectChoiceWindowController<Item> buildChooser(WindowController parent, TypedProperties prefs, List<Item> items, Filter<Item> filter, ItemFilterController filterController)
+  public static ObjectChoiceWindowController<Item> buildChooser(WindowController parent, TypedProperties prefs, List<? extends Item> items, Filter<Item> filter, ItemFilterController filterController)
   {
     // Table
     GenericTableController<Item> itemsTable=ItemsTableBuilder.buildTable(items);

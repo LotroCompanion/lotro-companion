@@ -163,7 +163,7 @@ public class ItemFilterConfiguration
    * Init from a collection of items.
    * @param items Items to use.
    */
-  public void initFromItems(List<Item> items)
+  public void initFromItems(List<? extends Item> items)
   {
     _armourTypes.clear();
     _shieldTypes.clear();

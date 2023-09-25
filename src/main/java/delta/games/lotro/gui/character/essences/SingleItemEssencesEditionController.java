@@ -16,6 +16,7 @@ import delta.games.lotro.gui.character.gear.EquipmentSlotIconController;
 import delta.games.lotro.gui.lore.items.essences.SimpleSingleEssenceEditionController;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemInstance;
+import delta.games.lotro.lore.items.essences.Essence;
 import delta.games.lotro.lore.items.essences.EssencesSet;
 import delta.games.lotro.lore.items.essences.EssencesSlotsSetup;
 import delta.games.lotro.lore.items.essences.SocketTypes;
@@ -95,7 +96,7 @@ public class SingleItemEssencesEditionController
         {
           SocketType type=(i<nbEssenceSlots)?setup.getSlotType(i):SocketTypes.CLASSIC;
           SimpleSingleEssenceEditionController controller=new SimpleSingleEssenceEditionController(_parent,2,_attrs,type);
-          Item essence=null;
+          Essence essence=null;
           if (essences!=null)
           {
             essence=essences.getEssence(i);
