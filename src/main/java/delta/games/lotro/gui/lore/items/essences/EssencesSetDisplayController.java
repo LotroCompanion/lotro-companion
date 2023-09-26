@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.labels.MultilineLabel2;
+import delta.games.lotro.common.enums.SocketType;
 import delta.games.lotro.lore.items.essences.Essence;
 import delta.games.lotro.lore.items.essences.EssencesSet;
 
@@ -37,8 +38,9 @@ public class EssencesSetDisplayController
     _controllers=new ArrayList<SingleEssenceDisplayController>();
     int nbSlots=essences.getSize();
     for(int i=0;i<nbSlots;i++)
-    {
-      SingleEssenceDisplayController controller=new SingleEssenceDisplayController();
+   {
+      SocketType type=essences.getType(i);
+      SingleEssenceDisplayController controller=new SingleEssenceDisplayController(type);
       _controllers.add(controller);
     }
     _panel=build();

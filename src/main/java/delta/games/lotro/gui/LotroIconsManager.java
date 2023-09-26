@@ -19,6 +19,7 @@ import delta.games.lotro.common.Genders;
 import delta.games.lotro.common.stats.StatDescription;
 import delta.games.lotro.config.LotroCoreConfig;
 import delta.games.lotro.gui.utils.icons.ItemIconBuilder;
+import delta.games.lotro.gui.utils.icons.SocketIconBuilder;
 import delta.games.lotro.lore.crafting.Profession;
 import delta.games.lotro.lore.deeds.DeedType;
 import delta.games.lotro.utils.IconsUtils;
@@ -111,6 +112,43 @@ public class LotroIconsManager
   public static ImageIcon getDefaultItemIcon()
   {
     return IconsManager.getIcon(ITEM_WITH_NO_ICON);
+  }
+
+  /**
+   * Get the default icon for essences.
+   * @param socketType Socket type code.
+   * @return An icon.
+   */
+  public static ImageIcon getDefaultEssenceIcon(int socketType)
+  {
+    return getSocketBackgroundIcon(socketType);
+  }
+
+  /**
+   * Get the background icon for a given socket type.
+   * @param socketType Socket type code.
+   * @return An icon.
+   */
+  private static ImageIcon getSocketBackgroundIcon(int socketType)
+  {
+    String path="/sockets/background-"+socketType+".png";
+    return IconsManager.getIcon(path);
+  }
+
+  /**
+   * Get the icon for an empty socket icon.
+   * @param socketType Socket type.
+   * @return An icon or <code>null</code> if not found.
+   */
+  public static ImageIcon getEmptySocketIcon(int socketType)
+  {
+    ImageIcon icon=null;
+    BufferedImage image=SocketIconBuilder.getEmptySocketIcon(socketType);
+    if (image!=null)
+    {
+      icon=new ImageIcon(image);
+    }
+    return icon;
   }
 
   /**

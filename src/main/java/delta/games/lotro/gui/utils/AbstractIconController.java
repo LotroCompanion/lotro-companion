@@ -69,6 +69,7 @@ public class AbstractIconController
       icon=new ImageIcon(image);
     }
     setIcon(icon);
+    _icon.setDisabledIcon(icon);
     _icon.setFocusable(false);
     _icon.setEnabled(false);
     _icon.setToolTipText("");

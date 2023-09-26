@@ -330,7 +330,8 @@ public class SingleTraceryEditionController
     }
     else
     {
-      _icon.clear(LotroIconsManager.getDefaultItemIcon());
+      int socketTypeCode=_data.getTemplate().getType().getCode();
+      _icon.clear(LotroIconsManager.getEmptySocketIcon(socketTypeCode));
     }
   }
 

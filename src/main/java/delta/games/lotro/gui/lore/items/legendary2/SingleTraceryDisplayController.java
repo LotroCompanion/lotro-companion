@@ -25,14 +25,17 @@ public class SingleTraceryDisplayController extends IconControllerNameStatsBundl
 {
   // Data
   private int _characterLevel;
+  private SocketType _type;
 
   /**
    * Constructor.
    * @param parent Parent window.
+   * @param type Socket type.
    */
-  public SingleTraceryDisplayController(WindowController parent)
+  public SingleTraceryDisplayController(WindowController parent, SocketType type)
   {
     super();
+    _type=type;
     setIconController(new ItemIconController(parent));
     Integer characterLevel=parent.getContextProperty(ContextPropertyNames.CHARACTER_LEVEL,Integer.class);
     _characterLevel=(characterLevel!=null)?characterLevel.intValue():Config.getInstance().getMaxCharacterLevel();
@@ -57,7 +60,8 @@ public class SingleTraceryDisplayController extends IconControllerNameStatsBundl
     }
     else
     {
-      _icon.clear(LotroIconsManager.getDefaultItemIcon());
+      int socketTypeCode=_type.getCode();
+      _icon.clear(LotroIconsManager.getEmptySocketIcon(socketTypeCode));
     }
     // Color
     Color foreground=Color.BLACK;
@@ -102,9 +106,7 @@ public class SingleTraceryDisplayController extends IconControllerNameStatsBundl
     }
   }
 
-  /**
-   * Release all managed resources.
-   */
+  @Override
   public void dispose()
   {
     super.dispose();

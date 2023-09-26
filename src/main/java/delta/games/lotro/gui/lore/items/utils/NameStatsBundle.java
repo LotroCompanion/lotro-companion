@@ -5,12 +5,13 @@ import java.util.List;
 
 import delta.common.ui.swing.labels.LabelLineStyle;
 import delta.common.ui.swing.labels.MultilineLabel2;
+import delta.common.ui.swing.misc.Disposable;
 
 /**
  * Controller for the UI items to display an icon, a name, and some stats.
  * @author DAM
  */
-public class NameStatsBundle
+public class NameStatsBundle implements Disposable
 {
   // Data
   private String _name;

@@ -85,8 +85,6 @@ public class ItemIconBuilder
   {
     BufferedImage[] images=new BufferedImage[imageIds.length];
     int nbImages=imageIds.length;
-    int width=0;
-    int height=0;
     for(int i=0;i<nbImages;i++)
     {
       if ("0".equals(imageIds[i]))
@@ -95,14 +93,30 @@ public class ItemIconBuilder
       }
       String iconPath=IconsUtils.buildItemIcon(imageIds[i]);
       images[i]=IconsManager.getImage(iconPath);
-      if (images[i]!=null)
+    }
+    return buildImage(images);
+  }
+
+  /**
+   * Build an image from image layers.
+   * @param layers Layers to use.
+   * @return A new image.
+   */
+  public static BufferedImage buildImage(BufferedImage[] layers)
+  {
+    int nbImages=layers.length;
+    int width=0;
+    int height=0;
+    for(int i=0;i<nbImages;i++)
+    {
+      if (layers[i]!=null)
       {
-        int newWidth=images[i].getWidth();
+        int newWidth=layers[i].getWidth();
         if (newWidth>width)
         {
           width=newWidth;
         }
-        int newHeight=images[i].getHeight();
+        int newHeight=layers[i].getHeight();
         if (newHeight>height)
         {
           height=newHeight;
@@ -114,11 +128,11 @@ public class ItemIconBuilder
 
     // Paint all images, preserving the alpha channels
     Graphics g=combined.getGraphics();
-    for(BufferedImage image : images)
+    for(BufferedImage layer : layers)
     {
-      if (image!=null)
+      if (layer!=null)
       {
-        g.drawImage(image,0,0,null);
+        g.drawImage(layer,0,0,null);
       }
     }
     return combined;

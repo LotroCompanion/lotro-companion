@@ -1,5 +1,6 @@
 package delta.games.lotro.gui.lore.items.essences;
 
+import java.awt.Cursor;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -58,6 +59,7 @@ public class SimpleSingleEssenceEditionController
     _essenceIconButton.setOpaque(false);
     _essenceIconButton.setBorderPainted(false);
     _essenceIconButton.setMargin(new Insets(0,0,0,0));
+    _essenceIconButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
     ActionListener listener=new ActionListener()
     {
       @Override
@@ -138,7 +140,7 @@ public class SimpleSingleEssenceEditionController
     }
     else
     {
-      icon=LotroIconsManager.getDefaultItemIcon();
+      icon=LotroIconsManager.getDefaultEssenceIcon(_type.getCode());
     }
     _essenceIconButton.setIcon(icon);
     // Text

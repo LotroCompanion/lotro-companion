@@ -32,9 +32,7 @@ public class IconNameStatsBundle extends NameStatsBundle
     return _icon;
   }
 
-  /**
-   * Release all managed resources.
-   */
+  @Override
   public void dispose()
   {
     super.dispose();

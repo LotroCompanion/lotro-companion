@@ -1,8 +1,11 @@
 package delta.games.lotro.gui.lore.items.essences;
 
+import java.awt.Cursor;
+
 import javax.swing.JButton;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.games.lotro.common.enums.SocketType;
 
 /**
  * Controller for the UI items to edit a single essence.
@@ -14,15 +17,18 @@ public class SingleEssenceEditionController extends SingleEssenceDisplayControll
 
   /**
    * Constructor.
+   * @param type Socket type.
    */
-  public SingleEssenceEditionController()
+  public SingleEssenceEditionController(SocketType type)
   {
-    super();
+    super(type);
     init();
   }
 
   private void init()
   {
+    _icon.setEnabled(true);
+    _icon.setCursor(new Cursor(Cursor.HAND_CURSOR));
     // Delete button
     _deleteButton=GuiFactory.buildIconButton("/resources/gui/icons/cross.png");
   }
@@ -36,6 +42,7 @@ public class SingleEssenceEditionController extends SingleEssenceDisplayControll
     return _deleteButton;
   }
 
+  @Override
   public void dispose()
   {
     super.dispose();

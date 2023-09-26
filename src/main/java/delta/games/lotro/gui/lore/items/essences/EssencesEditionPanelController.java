@@ -71,7 +71,8 @@ public class EssencesEditionPanelController implements ActionListener
     {
       Essence essence=essences.getEssence(i);
       _essences.add(essence);
-      SingleEssenceEditionController ctrl=new SingleEssenceEditionController();
+      SocketType type=essences.getType(i);
+      SingleEssenceEditionController ctrl=new SingleEssenceEditionController(type);
       ctrl.setEssence(essence);
       _essenceControllers.add(ctrl);
     }
