@@ -149,7 +149,7 @@ public class SkillStatusFilterController
 
   private ComboBoxController<Boolean> buildKnownCombobox()
   {
-    ComboBoxController<Boolean> combo=SharedUiUtils.build3StatesBooleanCombobox("","Yes","No"); // I18n
+    ComboBoxController<Boolean> combo=SharedUiUtils.build3StatesBooleanCombobox();
     ItemSelectionListener<Boolean> listener=new ItemSelectionListener<Boolean>()
     {
       @Override

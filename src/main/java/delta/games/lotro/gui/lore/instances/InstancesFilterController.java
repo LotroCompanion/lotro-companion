@@ -214,7 +214,7 @@ public class InstancesFilterController implements ActionListener
     {
       JLabel label=GuiFactory.buildLabel("Scalable:"); // I18n
       line1Panel.add(label);
-      _scalable=SharedUiUtils.build3StatesBooleanCombobox("","Yes","No");
+      _scalable=SharedUiUtils.build3StatesBooleanCombobox();
       ItemSelectionListener<Boolean> scalableListener=new ItemSelectionListener<Boolean>()
       {
         @Override

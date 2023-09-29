@@ -37,6 +37,7 @@ import delta.games.lotro.common.stats.StatDescription;
 import delta.games.lotro.gui.character.summary.CharacterUiUtils;
 import delta.games.lotro.gui.lore.items.ItemUiTools;
 import delta.games.lotro.gui.utils.SharedUiUtils;
+import delta.games.lotro.gui.utils.l10n.Labels;
 import delta.games.lotro.lore.items.ArmourType;
 import delta.games.lotro.lore.items.DamageType;
 import delta.games.lotro.lore.items.EquipmentLocation;
@@ -418,7 +419,7 @@ public class ItemFilterController extends ObjectFilterPanelController implements
     if (useTier)
     {
       JPanel tierPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING));
-      tierPanel.add(GuiFactory.buildLabel("Tier:"));
+      tierPanel.add(GuiFactory.buildLabel(Labels.getFieldLabel("items.filter.tier")));
       _tier=buildTierCombo();
       ItemSelectionListener<Integer> tierListener=new ItemSelectionListener<Integer>()
       {
@@ -441,7 +442,7 @@ public class ItemFilterController extends ObjectFilterPanelController implements
     if (useQuality)
     {
       JPanel qualityPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING));
-      qualityPanel.add(GuiFactory.buildLabel("Quality:"));
+      qualityPanel.add(GuiFactory.buildLabel(Labels.getFieldLabel("items.filter.quality")));
       _quality=ItemUiTools.buildQualityCombo();
       ItemSelectionListener<ItemQuality> qualityListener=new ItemSelectionListener<ItemQuality>()
       {
@@ -464,7 +465,7 @@ public class ItemFilterController extends ObjectFilterPanelController implements
     if (useName)
     {
       JPanel namePanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING));
-      namePanel.add(GuiFactory.buildLabel("Name:"));
+      namePanel.add(GuiFactory.buildLabel(Labels.getFieldLabel("items.filter.name")));
       _contains=GuiFactory.buildTextField("");
       _contains.setColumns(20);
       namePanel.add(_contains);
@@ -489,7 +490,7 @@ public class ItemFilterController extends ObjectFilterPanelController implements
     if (useCategory)
     {
       JPanel categoryPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING));
-      categoryPanel.add(GuiFactory.buildLabel("Category:"));
+      categoryPanel.add(GuiFactory.buildLabel(Labels.getFieldLabel("items.filter.category")));
       _itemClass=ItemUiTools.buildCategoryCombo();
       ItemSelectionListener<ItemClass> itemClassListener=new ItemSelectionListener<ItemClass>()
       {
@@ -512,8 +513,8 @@ public class ItemFilterController extends ObjectFilterPanelController implements
     if (useLegendary)
     {
       JPanel legendaryPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING));
-      legendaryPanel.add(GuiFactory.buildLabel("Legendary:"));
-      _legendary=buildLegendaryCombo();
+      legendaryPanel.add(GuiFactory.buildLabel(Labels.getFieldLabel("items.filter.legendary")));
+      _legendary=SharedUiUtils.build3StatesBooleanCombobox();
       ItemSelectionListener<Boolean> legendaryListener=new ItemSelectionListener<Boolean>()
       {
         @Override
@@ -537,7 +538,7 @@ public class ItemFilterController extends ObjectFilterPanelController implements
       JPanel statPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING));
       for(int i=0;i<ItemChooserFilter.NB_STATS;i++)
       {
-        statPanel.add(GuiFactory.buildLabel("Stat:"));
+        statPanel.add(GuiFactory.buildLabel(Labels.getFieldLabel("items.filter.stat")));
         ComboBoxController<StatDescription> statChooser=SharedUiUtils.buildStatChooser();
         final int statIndex=i;
         ItemSelectionListener<StatDescription> statListener=new ItemSelectionListener<StatDescription>()
@@ -582,7 +583,7 @@ public class ItemFilterController extends ObjectFilterPanelController implements
     {
       _location=ItemUiTools.buildLocationsCombo();
       JPanel locationPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
-      locationPanel.add(GuiFactory.buildLabel("Location:"));
+      locationPanel.add(GuiFactory.buildLabel(Labels.getFieldLabel("items.filter.location")));
       ItemSelectionListener<Set<EquipmentLocation>> locationListener=new ItemSelectionListener<Set<EquipmentLocation>>()
       {
         @Override
@@ -616,7 +617,7 @@ public class ItemFilterController extends ObjectFilterPanelController implements
       List<WeaponType> weaponTypes=_filter.getConfiguration().getWeaponTypes();
       _weaponType=ItemUiTools.buildWeaponTypeCombo(weaponTypes);
       JPanel weaponTypePanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
-      weaponTypePanel.add(GuiFactory.buildLabel("Weapon type:"));
+      weaponTypePanel.add(GuiFactory.buildLabel(Labels.getFieldLabel("items.filter.weaponType")));
       ItemSelectionListener<WeaponType> weaponTypeListener=new ItemSelectionListener<WeaponType>()
       {
         @Override
@@ -626,7 +627,7 @@ public class ItemFilterController extends ObjectFilterPanelController implements
           // If a weapon type is selected,
           if (type!=null)
           {
-            // Reset the shield type combo
+            // Reset the armour type combo
             if (_armourType!=null)
             {
               _armourType.selectItem(null);
@@ -655,7 +656,7 @@ public class ItemFilterController extends ObjectFilterPanelController implements
       List<DamageType> damageTypes=_filter.getConfiguration().getDamageTypes();
       _damageType=ItemUiTools.buildDamageTypeCombo(damageTypes);
       JPanel damageTypePanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
-      damageTypePanel.add(GuiFactory.buildLabel("Damage type:"));
+      damageTypePanel.add(GuiFactory.buildLabel(Labels.getFieldLabel("items.filter.damageType")));
       ItemSelectionListener<DamageType> damageTypeListener=new ItemSelectionListener<DamageType>()
       {
         @Override
@@ -665,7 +666,7 @@ public class ItemFilterController extends ObjectFilterPanelController implements
           // If a weapon type is selected,
           if (type!=null)
           {
-            // Reset the shield type combo
+            // Reset the armour type combo
             if (_armourType!=null)
             {
               _armourType.selectItem(null);
@@ -694,7 +695,7 @@ public class ItemFilterController extends ObjectFilterPanelController implements
       List<Genus> genuses=ItemUtils.getAvailableSlayerGenus();
       _slayerGenus=ItemUiTools.buildGenus(genuses);
       JPanel genusPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
-      genusPanel.add(GuiFactory.buildLabel("Slay genus:"));
+      genusPanel.add(GuiFactory.buildLabel(Labels.getFieldLabel("items.filter.slayGenus")));
       ItemSelectionListener<Genus> genusListener=new ItemSelectionListener<Genus>()
       {
         @Override
@@ -704,7 +705,7 @@ public class ItemFilterController extends ObjectFilterPanelController implements
           // If a weapon type is selected,
           if (genus!=null)
           {
-            // Reset the shield type combo
+            // Reset the armour type combo
             if (_armourType!=null)
             {
               _armourType.selectItem(null);
@@ -733,7 +734,7 @@ public class ItemFilterController extends ObjectFilterPanelController implements
       List<ArmourType> armourTypes=_filter.getConfiguration().getArmourTypes();
       _armourType=ItemUiTools.buildArmourTypeCombo(armourTypes);
       JPanel armourTypePanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING));
-      armourTypePanel.add(GuiFactory.buildLabel("Armour type:"));
+      armourTypePanel.add(GuiFactory.buildLabel(Labels.getFieldLabel("items.filter.armourType")));
       ItemSelectionListener<ArmourType> armourTypeListener=new ItemSelectionListener<ArmourType>()
       {
         @Override
@@ -787,7 +788,7 @@ public class ItemFilterController extends ObjectFilterPanelController implements
       List<ArmourType> shieldTypes=_filter.getConfiguration().getShieldTypes();
       _shieldType=ItemUiTools.buildArmourTypeCombo(shieldTypes);
       JPanel shieldTypePanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING));
-      shieldTypePanel.add(GuiFactory.buildLabel("Shield type:"));
+      shieldTypePanel.add(GuiFactory.buildLabel(Labels.getFieldLabel("items.filter.shieldType")));
       ItemSelectionListener<ArmourType> shieldTypeListener=new ItemSelectionListener<ArmourType>()
       {
         @Override
@@ -857,12 +858,12 @@ public class ItemFilterController extends ObjectFilterPanelController implements
   private JPanel buildCurrentCharacterRequirementsPanel(boolean useClass,boolean useProficiences,boolean useLevel)
   {
     JPanel requirementsPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING));
-    TitledBorder border=GuiFactory.buildTitledBorder("Character requirements");
+    TitledBorder border=GuiFactory.buildTitledBorder(Labels.getLabel("items.filter.characterRequirements.border"));
     requirementsPanel.setBorder(border);
     // Class requirement
     if (useClass)
     {
-      _classRequirement=new CheckboxController("Class");
+      _classRequirement=new CheckboxController(Labels.getLabel("items.filter.class.checkbox"));
       final JCheckBox classCheckbox=_classRequirement.getCheckbox();
       _classRequirement.setSelected(true);
       requirementsPanel.add(classCheckbox);
@@ -881,7 +882,7 @@ public class ItemFilterController extends ObjectFilterPanelController implements
     // Proficiencies
     if (useProficiences)
     {
-      _proficienciesRequirement=new CheckboxController("Proficiencies");
+      _proficienciesRequirement=new CheckboxController(Labels.getLabel("items.filter.proficiencies.checkbox"));
       final JCheckBox proficienciesCheckbox=_proficienciesRequirement.getCheckbox();
       _proficienciesRequirement.setSelected(true);
       requirementsPanel.add(proficienciesCheckbox);
@@ -900,7 +901,7 @@ public class ItemFilterController extends ObjectFilterPanelController implements
     // Level
     if (useLevel)
     {
-      _characterLevelRequirement=new CheckboxController("Level");
+      _characterLevelRequirement=new CheckboxController(Labels.getLabel("items.filter.level.checkbox"));
       final JCheckBox levelCheckbox=_characterLevelRequirement.getCheckbox();
       _characterLevelRequirement.setSelected(true);
       requirementsPanel.add(levelCheckbox);
@@ -922,13 +923,13 @@ public class ItemFilterController extends ObjectFilterPanelController implements
   private JPanel buildCharacterRequirementsPanel(boolean useCharacterClass, boolean useRace, boolean useMonsterClasses)
   {
     JPanel requirementsPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING));
-    TitledBorder border=GuiFactory.buildTitledBorder("Character requirements");
+    TitledBorder border=GuiFactory.buildTitledBorder(Labels.getLabel("items.filter.characterRequirements.border"));
     requirementsPanel.setBorder(border);
     // Class requirement
     if (useCharacterClass)
     {
       _class=CharacterUiUtils.buildClassCombo(true,useMonsterClasses);
-      requirementsPanel.add(GuiFactory.buildLabel("Class:"));
+      requirementsPanel.add(GuiFactory.buildLabel(Labels.getFieldLabel("items.filter.class")));
       requirementsPanel.add(_class.getComboBox());
       ItemSelectionListener<AbstractClassDescription> l=new ItemSelectionListener<AbstractClassDescription>()
       {
@@ -945,7 +946,7 @@ public class ItemFilterController extends ObjectFilterPanelController implements
     if (useRace)
     {
       _race=CharacterUiUtils.buildRaceCombo(true);
-      requirementsPanel.add(GuiFactory.buildLabel("Race:"));
+      requirementsPanel.add(GuiFactory.buildLabel(Labels.getFieldLabel("items.filter.race")));
       requirementsPanel.add(_race.getComboBox());
       ItemSelectionListener<RaceDescription> l=new ItemSelectionListener<RaceDescription>()
       {
@@ -971,22 +972,9 @@ public class ItemFilterController extends ObjectFilterPanelController implements
     ctrl.addEmptyItem("");
     for(int tier=1;tier<=14;tier++)
     {
-      ctrl.addItem(Integer.valueOf(tier),"Tier "+tier);
+      String tierLabel=Labels.getLabel("shared.tier",new Object[] { Integer.valueOf(tier) });
+      ctrl.addItem(Integer.valueOf(tier),tierLabel);
     }
-    ctrl.selectItem(null);
-    return ctrl;
-  }
-
-  /**
-   * Build a controller for a combo box to choose the legendary quality of item.
-   * @return A new controller.
-   */
-  private ComboBoxController<Boolean> buildLegendaryCombo()
-  {
-    ComboBoxController<Boolean> ctrl=new ComboBoxController<Boolean>();
-    ctrl.addEmptyItem("");
-    ctrl.addItem(Boolean.TRUE,"Yes");
-    ctrl.addItem(Boolean.FALSE,"No");
     ctrl.selectItem(null);
     return ctrl;
   }
@@ -997,7 +985,7 @@ public class ItemFilterController extends ObjectFilterPanelController implements
     _itemLevelRange=new RangeEditorController();
     JPanel rangePanel=_itemLevelRange.getPanel();
     _itemLevelRange.setRangeValues(itemLevels);
-    TitledBorder title=GuiFactory.buildTitledBorder("Item Level");
+    TitledBorder title=GuiFactory.buildTitledBorder(Labels.getLabel("items.filter.itemLevel.border"));
     rangePanel.setBorder(title);
     RangeListener listener=new RangeListener()
     {
@@ -1038,8 +1026,8 @@ public class ItemFilterController extends ObjectFilterPanelController implements
   private JPanel buildScalablePanel()
   {
     JPanel scalablePanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING));
-    scalablePanel.add(GuiFactory.buildLabel("Scalable:"));
-    _scalable=SharedUiUtils.build3StatesBooleanCombobox("Both","Yes","No");
+    scalablePanel.add(GuiFactory.buildLabel(Labels.getFieldLabel("items.filter.scalable")));
+    _scalable=SharedUiUtils.build3StatesBooleanCombobox(Labels.getLabel("shared.both"));
     ItemSelectionListener<Boolean> listener=new ItemSelectionListener<Boolean>()
     {
       @Override

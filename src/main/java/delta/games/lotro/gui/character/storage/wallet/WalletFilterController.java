@@ -207,7 +207,7 @@ public class WalletFilterController implements ActionListener
 
   private ComboBoxController<Boolean> buildSharedCombobox()
   {
-    ComboBoxController<Boolean> combo=SharedUiUtils.build3StatesBooleanCombobox("","Yes","No");
+    ComboBoxController<Boolean> combo=SharedUiUtils.build3StatesBooleanCombobox();
     ItemSelectionListener<Boolean> listener=new ItemSelectionListener<Boolean>()
     {
       @Override

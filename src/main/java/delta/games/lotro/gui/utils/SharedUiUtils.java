@@ -8,6 +8,7 @@ import delta.games.lotro.character.virtues.VirtueDescription;
 import delta.games.lotro.character.virtues.VirtuesManager;
 import delta.games.lotro.common.stats.StatDescription;
 import delta.games.lotro.common.stats.StatsRegistry;
+import delta.games.lotro.gui.utils.l10n.Labels;
 import delta.games.lotro.lore.reputation.Faction;
 import delta.games.lotro.lore.reputation.FactionsRegistry;
 import delta.games.lotro.utils.strings.ContextRendering;
@@ -95,6 +96,27 @@ public class SharedUiUtils
   {
     String imgLocation="/resources/gui/icons/"+iconName+"-icon.png";
     return imgLocation;
+  }
+
+  /**
+   * Build a combo-box controller to choose from null, true or false (use default labels).
+   * @return A new combo-box controller.
+   */
+  public static ComboBoxController<Boolean> build3StatesBooleanCombobox()
+  {
+    return build3StatesBooleanCombobox("");
+  }
+
+  /**
+   * Build a combo-box controller to choose from null, true or false (use default labels).
+   * @param nullLabel Label for null case.
+   * @return A new combo-box controller.
+   */
+  public static ComboBoxController<Boolean> build3StatesBooleanCombobox(String nullLabel)
+  {
+    String yes=Labels.getLabel("shared.yes");
+    String no=Labels.getLabel("shared.no");
+    return build3StatesBooleanCombobox(null,yes,no);
   }
 
   /**

@@ -72,7 +72,7 @@ public class QuestsUiUtils
    */
   public static ComboBoxController<Boolean> build3StatesBooleanCombobox()
   {
-    return SharedUiUtils.build3StatesBooleanCombobox("","Yes","No"); // I18n
+    return SharedUiUtils.build3StatesBooleanCombobox();
   }
 
   /**

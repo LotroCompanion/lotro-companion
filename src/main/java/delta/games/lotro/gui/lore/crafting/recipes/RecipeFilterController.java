@@ -336,7 +336,7 @@ public class RecipeFilterController implements ActionListener
 
   private ComboBoxController<Boolean> buildSingleUseCombobox()
   {
-    ComboBoxController<Boolean> combo=SharedUiUtils.build3StatesBooleanCombobox("","Yes","No"); // 18n
+    ComboBoxController<Boolean> combo=SharedUiUtils.build3StatesBooleanCombobox();
     ItemSelectionListener<Boolean> listener=new ItemSelectionListener<Boolean>()
     {
       @Override
@@ -353,7 +353,7 @@ public class RecipeFilterController implements ActionListener
 
   private ComboBoxController<Boolean> buildCooldownCombobox()
   {
-    ComboBoxController<Boolean> combo=SharedUiUtils.build3StatesBooleanCombobox("","Yes","No"); // 18n
+    ComboBoxController<Boolean> combo=SharedUiUtils.build3StatesBooleanCombobox();
     ItemSelectionListener<Boolean> listener=new ItemSelectionListener<Boolean>()
     {
       @Override
@@ -370,7 +370,7 @@ public class RecipeFilterController implements ActionListener
 
   private ComboBoxController<Boolean> buildGuildCombobox()
   {
-    ComboBoxController<Boolean> combo=SharedUiUtils.build3StatesBooleanCombobox("","Yes","No"); // 18n
+    ComboBoxController<Boolean> combo=SharedUiUtils.build3StatesBooleanCombobox();
     ItemSelectionListener<Boolean> listener=new ItemSelectionListener<Boolean>()
     {
       @Override
