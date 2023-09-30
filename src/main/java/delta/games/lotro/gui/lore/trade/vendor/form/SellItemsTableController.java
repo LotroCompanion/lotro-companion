@@ -85,7 +85,7 @@ public class SellItemsTableController
     // Item level column
     itemColumns.add(ItemsTableBuilder.buildItemLevelColumn());
     // Category column
-    itemColumns.add(ItemsTableBuilder.buildSubCategoryColumn());
+    itemColumns.add(ItemsTableBuilder.buildCategoryColumn());
     // Build result
     for(DefaultTableColumnController<Item,?> itemColumn : itemColumns)
     {

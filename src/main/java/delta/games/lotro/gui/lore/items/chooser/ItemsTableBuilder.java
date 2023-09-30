@@ -29,6 +29,7 @@ import delta.games.lotro.config.LotroCoreConfig;
 import delta.games.lotro.gui.lore.items.ItemColumnIds;
 import delta.games.lotro.gui.lore.items.ItemUiTools;
 import delta.games.lotro.gui.utils.MoneyCellRenderer;
+import delta.games.lotro.gui.utils.l10n.Labels;
 import delta.games.lotro.gui.utils.l10n.StatColumnsUtils;
 import delta.games.lotro.gui.utils.l10n.StatRenderer;
 import delta.games.lotro.lore.items.Armour;
@@ -113,7 +114,7 @@ public class ItemsTableBuilder
     // Item level column
     columns.add(buildItemLevelColumn());
     // Category column
-    columns.add(buildSubCategoryColumn());
+    columns.add(buildCategoryColumn());
     // Required min level column
     columns.add(buildMinLevelColumn());
     // Required max level column
@@ -128,7 +129,8 @@ public class ItemsTableBuilder
           return item.getRequiredClass();
         }
       };
-      DefaultTableColumnController<Item,AbstractClassDescription> requiredClassColumn=new DefaultTableColumnController<Item,AbstractClassDescription>(ItemColumnIds.CLASS.name(),"Class",AbstractClassDescription.class,requiredClassCell);
+      String columnName=Labels.getLabel("items.table.class");
+      DefaultTableColumnController<Item,AbstractClassDescription> requiredClassColumn=new DefaultTableColumnController<Item,AbstractClassDescription>(ItemColumnIds.CLASS.name(),columnName,AbstractClassDescription.class,requiredClassCell);
       requiredClassColumn.setWidthSpecs(100,100,100);
       columns.add(requiredClassColumn);
     }
@@ -145,7 +147,8 @@ public class ItemsTableBuilder
           return (nbSlots>0)?Integer.valueOf(nbSlots):null;
         }
       };
-      DefaultTableColumnController<Item,Integer> slotsColumn=new DefaultTableColumnController<Item,Integer>(ItemColumnIds.SLOT_COUNT.name(),"Slots",Integer.class,slotsCell);
+      String columnName=Labels.getLabel("items.table.slotsCount");
+      DefaultTableColumnController<Item,Integer> slotsColumn=new DefaultTableColumnController<Item,Integer>(ItemColumnIds.SLOT_COUNT.name(),columnName,Integer.class,slotsCell);
       slotsColumn.setWidthSpecs(55,55,50);
       columns.add(slotsColumn);
     }
@@ -159,7 +162,8 @@ public class ItemsTableBuilder
           return item.getTier();
         }
       };
-      DefaultTableColumnController<Item,Integer> tierColumn=new DefaultTableColumnController<Item,Integer>(ItemColumnIds.TIER.name(),"Tier",Integer.class,tierCell);
+      String columnName=Labels.getLabel("items.table.tier");
+      DefaultTableColumnController<Item,Integer> tierColumn=new DefaultTableColumnController<Item,Integer>(ItemColumnIds.TIER.name(),columnName,Integer.class,tierCell);
       tierColumn.setWidthSpecs(55,55,50);
       columns.add(tierColumn);
     }
@@ -180,7 +184,8 @@ public class ItemsTableBuilder
           return null;
         }
       };
-      DefaultTableColumnController<Item,ArmourType> armourTypeColumn=new DefaultTableColumnController<Item,ArmourType>(ItemColumnIds.ARMOUR_TYPE.name(),"Armour type",ArmourType.class,armourTypeCell);
+      String columnName=Labels.getLabel("items.table.armourType");
+      DefaultTableColumnController<Item,ArmourType> armourTypeColumn=new DefaultTableColumnController<Item,ArmourType>(ItemColumnIds.ARMOUR_TYPE.name(),columnName,ArmourType.class,armourTypeCell);
       armourTypeColumn.setWidthSpecs(100,100,100);
       columns.add(armourTypeColumn);
     }
@@ -199,7 +204,8 @@ public class ItemsTableBuilder
           return null;
         }
       };
-      DefaultTableColumnController<Item,WeaponType> weaponTypeColumn=new DefaultTableColumnController<Item,WeaponType>(ItemColumnIds.WEAPON_TYPE.name(),"Weapon type",WeaponType.class,weaponTypeCell);
+      String columnName=Labels.getLabel("items.table.weaponType");
+      DefaultTableColumnController<Item,WeaponType> weaponTypeColumn=new DefaultTableColumnController<Item,WeaponType>(ItemColumnIds.WEAPON_TYPE.name(),columnName,WeaponType.class,weaponTypeCell);
       weaponTypeColumn.setWidthSpecs(150,150,150);
       columns.add(weaponTypeColumn);
     }
@@ -260,7 +266,8 @@ public class ItemsTableBuilder
         return icon;
       }
     };
-    DefaultTableColumnController<Item,Icon> iconColumn=new DefaultTableColumnController<Item,Icon>(ItemColumnIds.ICON.name(),"Icon",Icon.class,iconCell);
+    String columnName=Labels.getLabel("items.table.icon");
+    DefaultTableColumnController<Item,Icon> iconColumn=new DefaultTableColumnController<Item,Icon>(ItemColumnIds.ICON.name(),columnName,Icon.class,iconCell);
     iconColumn.setWidthSpecs(50,50,50);
     iconColumn.setSortable(false);
     return iconColumn;
@@ -280,7 +287,8 @@ public class ItemsTableBuilder
         return Integer.valueOf(item.getIdentifier());
       }
     };
-    DefaultTableColumnController<Item,Integer> idColumn=new DefaultTableColumnController<Item,Integer>(ItemColumnIds.ID.name(),"ID",Integer.class,idCell);
+    String columnName=Labels.getLabel("items.table.id");
+    DefaultTableColumnController<Item,Integer> idColumn=new DefaultTableColumnController<Item,Integer>(ItemColumnIds.ID.name(),columnName,Integer.class,idCell);
     idColumn.setWidthSpecs(90,90,50);
     return idColumn;
   }
@@ -291,7 +299,8 @@ public class ItemsTableBuilder
    */
   public static DefaultTableColumnController<Item,String> buildNameColumn()
   {
-    return buildNameColumn(ItemColumnIds.NAME.name(),"Name");
+    String columnName=Labels.getLabel("items.table.name");
+    return buildNameColumn(ItemColumnIds.NAME.name(),columnName);
   }
 
   /**
@@ -329,7 +338,8 @@ public class ItemsTableBuilder
         return item.getItemLevel();
       }
     };
-    DefaultTableColumnController<Item,Integer> levelColumn=new DefaultTableColumnController<Item,Integer>(ItemColumnIds.ITEM_LEVEL.name(),"Item Lvl",Integer.class,levelCell);
+    String columnName=Labels.getLabel("items.table.itemLevel");
+    DefaultTableColumnController<Item,Integer> levelColumn=new DefaultTableColumnController<Item,Integer>(ItemColumnIds.ITEM_LEVEL.name(),columnName,Integer.class,levelCell);
     levelColumn.setWidthSpecs(55,55,50);
     return levelColumn;
   }
@@ -348,7 +358,8 @@ public class ItemsTableBuilder
         return item.getMinLevel();
       }
     };
-    DefaultTableColumnController<Item,Integer> minLevelColumn=new DefaultTableColumnController<Item,Integer>(ItemColumnIds.REQUIRED_LEVEL.name(),"Level",Integer.class,minLevelCell);
+    String columnName=Labels.getLabel("items.table.level");
+    DefaultTableColumnController<Item,Integer> minLevelColumn=new DefaultTableColumnController<Item,Integer>(ItemColumnIds.REQUIRED_LEVEL.name(),columnName,Integer.class,minLevelCell);
     minLevelColumn.setWidthSpecs(55,55,50);
     return minLevelColumn;
   }
@@ -367,7 +378,8 @@ public class ItemsTableBuilder
         return item.getMaxLevel();
       }
     };
-    DefaultTableColumnController<Item,Integer> maxLevelColumn=new DefaultTableColumnController<Item,Integer>(ItemColumnIds.REQUIRED_MAX_LEVEL.name(),"Max Level",Integer.class,maxLevelCell);
+    String columnName=Labels.getLabel("items.table.maxLevel");
+    DefaultTableColumnController<Item,Integer> maxLevelColumn=new DefaultTableColumnController<Item,Integer>(ItemColumnIds.REQUIRED_MAX_LEVEL.name(),columnName,Integer.class,maxLevelCell);
     maxLevelColumn.setWidthSpecs(55,55,50);
     return maxLevelColumn;
   }
@@ -386,7 +398,8 @@ public class ItemsTableBuilder
         return item.getQuality();
       }
     };
-    DefaultTableColumnController<Item,ItemQuality> qualityColumn=new DefaultTableColumnController<Item,ItemQuality>(ItemColumnIds.QUALITY.name(),"Quality",ItemQuality.class,qualityCell);
+    String columnName=Labels.getLabel("items.table.quality");
+    DefaultTableColumnController<Item,ItemQuality> qualityColumn=new DefaultTableColumnController<Item,ItemQuality>(ItemColumnIds.QUALITY.name(),columnName,ItemQuality.class,qualityCell);
     qualityColumn.setWidthSpecs(100,100,100);
     return qualityColumn;
   }
@@ -395,7 +408,7 @@ public class ItemsTableBuilder
    * Build a column for the category of an item.
    * @return a column.
    */
-  public static DefaultTableColumnController<Item,String> buildSubCategoryColumn()
+  public static DefaultTableColumnController<Item,String> buildCategoryColumn()
   {
     CellDataProvider<Item,String> categoryCell=new CellDataProvider<Item,String>()
     {
@@ -406,7 +419,8 @@ public class ItemsTableBuilder
         return category;
       }
     };
-    DefaultTableColumnController<Item,String> categoryColumn=new DefaultTableColumnController<Item,String>(ItemColumnIds.CATEGORY.name(),"Category",String.class,categoryCell);
+    String columnName=Labels.getLabel("items.table.category");
+    DefaultTableColumnController<Item,String> categoryColumn=new DefaultTableColumnController<Item,String>(ItemColumnIds.CATEGORY.name(),columnName,String.class,categoryCell);
     categoryColumn.setWidthSpecs(150,150,150);
     return categoryColumn;
   }
@@ -426,7 +440,8 @@ public class ItemsTableBuilder
         return money;
       }
     };
-    DefaultTableColumnController<Item,Money> valueColumn=new DefaultTableColumnController<Item,Money>(ItemColumnIds.VALUE.name(),"Value",Money.class,valueCell);
+    String columnName=Labels.getLabel("items.table.value");
+    DefaultTableColumnController<Item,Money> valueColumn=new DefaultTableColumnController<Item,Money>(ItemColumnIds.VALUE.name(),columnName,Money.class,valueCell);
     valueColumn.setWidthSpecs(120,120,120);
     valueColumn.setCellRenderer(new MoneyCellRenderer());
     valueColumn.setComparator(new MoneyComparator());
@@ -448,7 +463,8 @@ public class ItemsTableBuilder
         return null;
       }
     };
-    DefaultTableColumnController<Item,Float> column=new DefaultTableColumnController<Item,Float>(ItemColumnIds.DPS.name(),"DPS",Float.class,cell);
+    String columnName=Labels.getLabel("items.table.dps");
+    DefaultTableColumnController<Item,Float> column=new DefaultTableColumnController<Item,Float>(ItemColumnIds.DPS.name(),columnName,Float.class,cell);
     ColumnsUtils.configureFloatColumn(column,0,1,50);
     return column;
   }
@@ -472,7 +488,8 @@ public class ItemsTableBuilder
         return null;
       }
     };
-    DefaultTableColumnController<Item,Float> column=new DefaultTableColumnController<Item,Float>(ItemColumnIds.SPEED.name(),"Speed",Float.class,cell);
+    String columnName=Labels.getLabel("items.table.speed");
+    DefaultTableColumnController<Item,Float> column=new DefaultTableColumnController<Item,Float>(ItemColumnIds.SPEED.name(),columnName,Float.class,cell);
     ColumnsUtils.configureFloatColumn(column,0,1,50);
     return column;
   }
@@ -492,7 +509,8 @@ public class ItemsTableBuilder
         return null;
       }
     };
-    DefaultTableColumnController<Item,DamageType> column=new DefaultTableColumnController<Item,DamageType>(ItemColumnIds.DAMAGE_TYPE.name(),"Damage Type",DamageType.class,cell);
+    String columnName=Labels.getLabel("items.table.damageType");
+    DefaultTableColumnController<Item,DamageType> column=new DefaultTableColumnController<Item,DamageType>(ItemColumnIds.DAMAGE_TYPE.name(),columnName,DamageType.class,cell);
     column.setWidthSpecs(100,130,130);
     return column;
   }
@@ -512,7 +530,8 @@ public class ItemsTableBuilder
         return null;
       }
     };
-    DefaultTableColumnController<Item,Integer> column=new DefaultTableColumnController<Item,Integer>(ItemColumnIds.MAX_DAMAGE.name(),"Max Damage",Integer.class,cell);
+    String columnName=Labels.getLabel("items.table.maxDamage");
+    DefaultTableColumnController<Item,Integer> column=new DefaultTableColumnController<Item,Integer>(ItemColumnIds.MAX_DAMAGE.name(),columnName,Integer.class,cell);
     ColumnsUtils.configureIntegerColumn(column,50);
     return column;
   }
@@ -532,7 +551,8 @@ public class ItemsTableBuilder
         return null;
       }
     };
-    DefaultTableColumnController<Item,Integer> column=new DefaultTableColumnController<Item,Integer>(ItemColumnIds.MIN_DAMAGE.name(),"Min Damage",Integer.class,cell);
+    String columnName=Labels.getLabel("items.table.minDamage");
+    DefaultTableColumnController<Item,Integer> column=new DefaultTableColumnController<Item,Integer>(ItemColumnIds.MIN_DAMAGE.name(),columnName,Integer.class,cell);
     ColumnsUtils.configureIntegerColumn(column,50);
     return column;
   }
@@ -548,7 +568,8 @@ public class ItemsTableBuilder
         return (detailsMgr!=null)?detailsMgr.getFirstItemDetail(WeaponSlayerInfo.class):null;
       }
     };
-    DefaultTableColumnController<Item,WeaponSlayerInfo> column=new DefaultTableColumnController<Item,WeaponSlayerInfo>(ItemColumnIds.WEAPON_SLAYER.name(),"Slayer",WeaponSlayerInfo.class,cell);
+    String columnName=Labels.getLabel("items.table.slayer");
+    DefaultTableColumnController<Item,WeaponSlayerInfo> column=new DefaultTableColumnController<Item,WeaponSlayerInfo>(ItemColumnIds.WEAPON_SLAYER.name(),columnName,WeaponSlayerInfo.class,cell);
     column.setWidthSpecs(100,200,200);
     column.setComparator(new WeaponSlayerInfoComparator());
     return column;
