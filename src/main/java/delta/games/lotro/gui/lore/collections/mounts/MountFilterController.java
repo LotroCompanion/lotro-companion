@@ -23,6 +23,7 @@ import delta.games.lotro.common.enums.MountType;
 import delta.games.lotro.common.enums.SkillCharacteristicSubCategory;
 import delta.games.lotro.common.filters.NamedFilter;
 import delta.games.lotro.gui.lore.items.FilterUpdateListener;
+import delta.games.lotro.gui.utils.l10n.Labels;
 import delta.games.lotro.lore.collections.mounts.MountDescription;
 import delta.games.lotro.lore.collections.mounts.filters.MountCategoryFilter;
 import delta.games.lotro.lore.collections.mounts.filters.MountTypeFilter;
@@ -134,7 +135,7 @@ public class MountFilterController implements ActionListener
     panel.add(mountPanel,c);
 
     // Reset
-    _reset=GuiFactory.buildButton("Reset"); // 18n
+    _reset=GuiFactory.buildButton(Labels.getLabel("shared.reset"));
     _reset.addActionListener(this);
     c=new GridBagConstraints(1,y,1,1,0.0,0,GridBagConstraints.SOUTHWEST,GridBagConstraints.NONE,new Insets(0,5,5,5),0,0);
     panel.add(_reset,c);

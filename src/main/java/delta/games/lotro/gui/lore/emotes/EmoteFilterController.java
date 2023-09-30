@@ -22,6 +22,7 @@ import delta.common.ui.swing.text.TextListener;
 import delta.common.utils.collections.filters.Filter;
 import delta.games.lotro.gui.lore.emotes.EmoteFilterConfiguration.State;
 import delta.games.lotro.gui.utils.SharedUiUtils;
+import delta.games.lotro.gui.utils.l10n.Labels;
 import delta.games.lotro.lore.emotes.EmoteDescription;
 import delta.games.lotro.lore.emotes.filters.EmoteAutoFilter;
 import delta.games.lotro.lore.emotes.filters.EmoteCommandFilter;
@@ -133,7 +134,7 @@ public class EmoteFilterController implements ActionListener
     panel.add(emotePanel,c);
 
     // Reset
-    _reset=GuiFactory.buildButton("Reset"); // I18n
+    _reset=GuiFactory.buildButton(Labels.getLabel("shared.reset"));
     _reset.addActionListener(this);
     c=new GridBagConstraints(1,y,1,1,0.0,0,GridBagConstraints.SOUTHWEST,GridBagConstraints.NONE,new Insets(0,5,5,5),0,0);
     panel.add(_reset,c);

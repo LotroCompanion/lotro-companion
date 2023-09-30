@@ -16,6 +16,7 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.common.ui.swing.combobox.ItemSelectionListener;
 import delta.games.lotro.common.Size;
+import delta.games.lotro.gui.utils.l10n.Labels;
 import delta.games.lotro.lore.warbands.WarbandDefinition;
 import delta.games.lotro.lore.warbands.WarbandFilter;
 import delta.games.lotro.lore.warbands.WarbandsRegistry;
@@ -191,7 +192,7 @@ public class WarbandsFilterController implements ActionListener
     panel.add(GuiFactory.buildLabel("Minimum level:")); // I18n
     panel.add(_minLevel.getComboBox());
     // Reset
-    _reset=GuiFactory.buildButton("Reset"); // I18n
+    _reset=GuiFactory.buildButton(Labels.getLabel("shared.reset"));
     _reset.addActionListener(this);
     panel.add(_reset);
     return panel;

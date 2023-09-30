@@ -21,6 +21,7 @@ import delta.common.ui.swing.text.TextListener;
 import delta.games.lotro.common.enums.WJEncounterCategory;
 import delta.games.lotro.gui.lore.items.FilterUpdateListener;
 import delta.games.lotro.gui.utils.SharedUiUtils;
+import delta.games.lotro.gui.utils.l10n.Labels;
 import delta.games.lotro.lore.instances.filters.InstanceTreeEntryCategoryNameFilter;
 import delta.games.lotro.lore.instances.filters.PrivateEncounterCategoryFilter;
 import delta.games.lotro.lore.instances.filters.PrivateEncounterNameFilter;
@@ -139,7 +140,7 @@ public class InstancesFilterController implements ActionListener
     panel.add(instancePanel,c);
 
     // Reset
-    _reset=GuiFactory.buildButton("Reset"); // I18n
+    _reset=GuiFactory.buildButton(Labels.getLabel("shared.reset"));
     _reset.addActionListener(this);
     c=new GridBagConstraints(1,y,1,1,0.0,0,GridBagConstraints.SOUTHWEST,GridBagConstraints.NONE,new Insets(0,5,5,5),0,0);
     panel.add(_reset,c);

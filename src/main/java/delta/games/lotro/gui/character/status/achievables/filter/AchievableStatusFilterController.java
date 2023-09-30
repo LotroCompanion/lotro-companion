@@ -18,6 +18,7 @@ import delta.games.lotro.character.status.achievables.AchievableElementState;
 import delta.games.lotro.character.status.achievables.filter.AchievableElementStateFilter;
 import delta.games.lotro.character.status.achievables.filter.AchievableStatusFilter;
 import delta.games.lotro.gui.lore.items.FilterUpdateListener;
+import delta.games.lotro.gui.utils.l10n.Labels;
 
 /**
  * Controller for an edition panel for an achievable status filter.
@@ -100,7 +101,7 @@ public class AchievableStatusFilterController implements ActionListener
     panel.add(statusPanel,c);
 
     // Reset
-    _reset=GuiFactory.buildButton("Reset");
+    _reset=GuiFactory.buildButton(Labels.getLabel("shared.reset"));
     _reset.addActionListener(this);
     c=new GridBagConstraints(1,y,1,1,0.0,0,GridBagConstraints.SOUTHWEST,GridBagConstraints.NONE,new Insets(0,0,5,5),0,0);
     panel.add(_reset,c);

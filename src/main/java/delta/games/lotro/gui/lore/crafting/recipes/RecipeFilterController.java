@@ -26,6 +26,7 @@ import delta.games.lotro.common.enums.CraftingUICategory;
 import delta.games.lotro.gui.common.crafting.CraftingUiUtils;
 import delta.games.lotro.gui.lore.items.FilterUpdateListener;
 import delta.games.lotro.gui.utils.SharedUiUtils;
+import delta.games.lotro.gui.utils.l10n.Labels;
 import delta.games.lotro.lore.crafting.Profession;
 import delta.games.lotro.lore.crafting.recipes.Recipe;
 import delta.games.lotro.lore.crafting.recipes.filters.RecipeCategoryFilter;
@@ -175,7 +176,7 @@ public class RecipeFilterController implements ActionListener
     panel.add(recipePanel,c);
 
     // Reset
-    _reset=GuiFactory.buildButton("Reset"); // 18n
+    _reset=GuiFactory.buildButton(Labels.getLabel("shared.reset"));
     _reset.addActionListener(this);
     c=new GridBagConstraints(1,y,1,1,0.0,0,GridBagConstraints.SOUTHWEST,GridBagConstraints.NONE,new Insets(0,5,5,5),0,0);
     panel.add(_reset,c);

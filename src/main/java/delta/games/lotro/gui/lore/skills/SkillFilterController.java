@@ -20,6 +20,7 @@ import delta.common.utils.collections.filters.Filter;
 import delta.games.lotro.character.skills.SkillDescription;
 import delta.games.lotro.character.skills.filters.SkillNameFilter;
 import delta.games.lotro.gui.lore.skills.form.SkillFilter;
+import delta.games.lotro.gui.utils.l10n.Labels;
 
 /**
  * Controller for a skill filter edition panel.
@@ -116,7 +117,7 @@ public class SkillFilterController implements ActionListener
     panel.add(skillPanel,c);
 
     // Reset
-    _reset=GuiFactory.buildButton("Reset");
+    _reset=GuiFactory.buildButton(Labels.getLabel("shared.reset"));
     _reset.addActionListener(this);
     c=new GridBagConstraints(1,y,1,1,0.0,0,GridBagConstraints.SOUTHWEST,GridBagConstraints.NONE,new Insets(0,5,5,5),0,0);
     panel.add(_reset,c);

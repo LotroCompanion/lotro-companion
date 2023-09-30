@@ -37,6 +37,7 @@ import delta.games.lotro.gui.lore.quests.QuestsUiUtils;
 import delta.games.lotro.gui.lore.webStoreItems.WebStoreItemsFilterController;
 import delta.games.lotro.gui.lore.worldEvents.WorldEventsFilterController;
 import delta.games.lotro.gui.utils.SharedUiUtils;
+import delta.games.lotro.gui.utils.l10n.Labels;
 import delta.games.lotro.lore.quests.QuestDescription;
 import delta.games.lotro.lore.quests.QuestsManager;
 import delta.games.lotro.lore.quests.filter.AchievableMonsterPlayFilter;
@@ -285,7 +286,7 @@ public class QuestFilterController extends AbstractPanelController implements Ac
     line1Panel.add(questPanel,c);
 
     // Reset
-    _reset=GuiFactory.buildButton("Reset"); // I18n
+    _reset=GuiFactory.buildButton(Labels.getLabel("shared.reset"));
     _reset.addActionListener(this);
     c=new GridBagConstraints(1,0,1,1,0.0,0,GridBagConstraints.SOUTHWEST,GridBagConstraints.NONE,new Insets(0,5,5,0),0,0);
     line1Panel.add(_reset,c);

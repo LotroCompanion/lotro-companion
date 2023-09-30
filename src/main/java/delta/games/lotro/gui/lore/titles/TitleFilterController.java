@@ -22,6 +22,7 @@ import delta.common.ui.swing.text.DynamicTextEditionController;
 import delta.common.ui.swing.text.TextListener;
 import delta.common.utils.collections.filters.Filter;
 import delta.games.lotro.gui.lore.items.FilterUpdateListener;
+import delta.games.lotro.gui.utils.l10n.Labels;
 import delta.games.lotro.lore.titles.TitleDescription;
 import delta.games.lotro.lore.titles.filters.TitleCategoryFilter;
 import delta.games.lotro.lore.titles.filters.TitleFilter;
@@ -128,7 +129,7 @@ public class TitleFilterController implements ActionListener
     panel.add(titlePanel,c);
 
     // Reset
-    _reset=GuiFactory.buildButton("Reset");
+    _reset=GuiFactory.buildButton(Labels.getLabel("shared.reset"));
     _reset.addActionListener(this);
     c=new GridBagConstraints(1,y,1,1,0.0,0.0,GridBagConstraints.SOUTHWEST,GridBagConstraints.HORIZONTAL,new Insets(0,5,5,5),0,0);
     panel.add(_reset,c);

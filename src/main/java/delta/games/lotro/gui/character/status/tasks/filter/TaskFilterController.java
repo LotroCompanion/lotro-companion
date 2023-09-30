@@ -32,6 +32,7 @@ import delta.games.lotro.common.rewards.Rewards;
 import delta.games.lotro.common.rewards.filters.ReputationRewardFilter;
 import delta.games.lotro.gui.lore.items.FilterUpdateListener;
 import delta.games.lotro.gui.utils.SharedUiUtils;
+import delta.games.lotro.gui.utils.l10n.Labels;
 import delta.games.lotro.lore.quests.QuestDescription;
 import delta.games.lotro.lore.quests.filter.QuestFilter;
 import delta.games.lotro.lore.reputation.Faction;
@@ -137,7 +138,7 @@ public class TaskFilterController extends AbstractPanelController implements Act
     panel.add(taskPanel,c);
 
     // Reset
-    _reset=GuiFactory.buildButton("Reset"); // I18n
+    _reset=GuiFactory.buildButton(Labels.getLabel("shared.reset"));
     _reset.addActionListener(this);
     c=new GridBagConstraints(1,y,1,1,0.0,0,GridBagConstraints.SOUTHWEST,GridBagConstraints.NONE,new Insets(0,5,5,0),0,0);
     panel.add(_reset,c);

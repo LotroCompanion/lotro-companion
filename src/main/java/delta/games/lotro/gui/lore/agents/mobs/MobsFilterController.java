@@ -31,6 +31,7 @@ import delta.games.lotro.common.enums.SubSpecies;
 import delta.games.lotro.common.enums.filter.LotroEnumValueFilter;
 import delta.games.lotro.gui.lore.items.FilterUpdateListener;
 import delta.games.lotro.gui.utils.enums.EnumUiUtils;
+import delta.games.lotro.gui.utils.l10n.Labels;
 import delta.games.lotro.lore.agents.mobs.MobDescription;
 import delta.games.lotro.lore.agents.mobs.filter.MobFilter;
 import delta.games.lotro.lore.agents.mobs.filter.MobNameFilter;
@@ -168,7 +169,7 @@ public class MobsFilterController implements ActionListener
     panel.add(mobPanel,c);
 
     // Reset
-    _reset=GuiFactory.buildButton("Reset"); // 18n
+    _reset=GuiFactory.buildButton(Labels.getLabel("shared.reset"));
     _reset.addActionListener(this);
     c=new GridBagConstraints(1,y,1,1,0.0,0.0,GridBagConstraints.SOUTHWEST,GridBagConstraints.HORIZONTAL,new Insets(0,5,5,5),0,0);
     panel.add(_reset,c);

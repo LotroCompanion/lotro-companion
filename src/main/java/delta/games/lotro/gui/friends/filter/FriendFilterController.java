@@ -20,6 +20,7 @@ import delta.games.lotro.account.status.friends.Friend;
 import delta.games.lotro.account.status.friends.filters.FriendFilter;
 import delta.games.lotro.account.status.friends.filters.FriendNoteFilter;
 import delta.games.lotro.gui.lore.items.FilterUpdateListener;
+import delta.games.lotro.gui.utils.l10n.Labels;
 
 /**
  * Controller for a kinship member filter edition panel.
@@ -137,7 +138,7 @@ public class FriendFilterController implements ActionListener
     x++;
 
     // Reset
-    _reset=GuiFactory.buildButton("Reset");
+    _reset=GuiFactory.buildButton(Labels.getLabel("shared.reset"));
     _reset.addActionListener(this);
     c=new GridBagConstraints(x,0,1,1,1.0,0,GridBagConstraints.SOUTHEAST,GridBagConstraints.NONE,new Insets(0,5,5,5),0,0);
     panel.add(_reset,c);

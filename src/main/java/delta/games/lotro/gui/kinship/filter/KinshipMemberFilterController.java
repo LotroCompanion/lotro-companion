@@ -23,6 +23,7 @@ import delta.common.utils.collections.filters.Filter;
 import delta.games.lotro.common.Genders;
 import delta.games.lotro.gui.kinship.KinshipRankRenderer;
 import delta.games.lotro.gui.lore.items.FilterUpdateListener;
+import delta.games.lotro.gui.utils.l10n.Labels;
 import delta.games.lotro.kinship.Kinship;
 import delta.games.lotro.kinship.KinshipMember;
 import delta.games.lotro.kinship.KinshipRank;
@@ -157,7 +158,7 @@ public class KinshipMemberFilterController implements ActionListener
     panel.add(memberPanel,c);
 
     // Reset
-    _reset=GuiFactory.buildButton("Reset"); // I18n
+    _reset=GuiFactory.buildButton(Labels.getLabel("shared.reset"));
     _reset.addActionListener(this);
     c=new GridBagConstraints(1,y,1,1,1.0,0,GridBagConstraints.SOUTHEAST,GridBagConstraints.NONE,new Insets(0,5,5,5),0,0);
     panel.add(_reset,c);
