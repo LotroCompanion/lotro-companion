@@ -17,6 +17,7 @@ import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.status.recipes.RecipeStatus;
 import delta.games.lotro.gui.character.status.recipes.table.RecipeStatusTableController;
 import delta.games.lotro.gui.lore.items.FilterUpdateListener;
+import delta.games.lotro.gui.utils.l10n.Labels;
 
 /**
  * Controller the recipes status display panel.
@@ -70,7 +71,7 @@ public class RecipesStatusPanelController implements FilterUpdateListener
     _statsLabel=GuiFactory.buildLabel("-");
     statsPanel.add(_statsLabel);
     // - choose columns button
-    JButton choose=GuiFactory.buildButton("Choose columns..."); // I18n
+    JButton choose=GuiFactory.buildButton(Labels.getLabel("shared.chooseColumns.button"));
     ActionListener al=new ActionListener()
     {
       @Override
@@ -99,15 +100,7 @@ public class RecipesStatusPanelController implements FilterUpdateListener
   {
     int nbFiltered=_tableController.getNbFilteredItems();
     int nbItems=_tableController.getNbItems();
-    String label="";
-    if (nbFiltered==nbItems)
-    {
-      label="Recipe(s): "+nbItems; // I18n
-    }
-    else
-    {
-      label="Recipe(s): "+nbFiltered+"/"+nbItems; // I18n
-    }
+    String label=Labels.getCountLabel("Recipe(s)",nbFiltered,nbItems); // I18n
     _statsLabel.setText(label);
   }
 

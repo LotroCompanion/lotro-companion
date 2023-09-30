@@ -17,6 +17,7 @@ import delta.common.ui.swing.tables.TableColumnsChooserController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.common.statistics.FactionStats;
 import delta.games.lotro.common.statistics.ReputationStats;
+import delta.games.lotro.gui.utils.l10n.Labels;
 
 /**
  * Controller for the reputation display panel.
@@ -74,7 +75,7 @@ public class ReputationDisplayPanelController<T extends FactionStats>
     JPanel statsPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
     _statsLabel=GuiFactory.buildLabel("-");
     statsPanel.add(_statsLabel);
-    JButton choose=GuiFactory.buildButton("Choose columns..."); // I18n
+    JButton choose=GuiFactory.buildButton(Labels.getLabel("shared.chooseColumns.button"));
     ActionListener al=new ActionListener()
     {
       @Override

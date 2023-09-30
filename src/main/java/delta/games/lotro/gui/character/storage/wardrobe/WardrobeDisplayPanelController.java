@@ -21,6 +21,7 @@ import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.character.storage.wardrobe.WardrobeItem;
 import delta.games.lotro.gui.lore.items.FilterUpdateListener;
 import delta.games.lotro.gui.main.GlobalPreferences;
+import delta.games.lotro.gui.utils.l10n.Labels;
 
 /**
  * Controller for the storage display panel.
@@ -80,7 +81,7 @@ public class WardrobeDisplayPanelController implements FilterUpdateListener
     JPanel statsPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
     _statsLabel=GuiFactory.buildLabel("-");
     statsPanel.add(_statsLabel);
-    JButton choose=GuiFactory.buildButton("Choose columns..."); // I18n
+    JButton choose=GuiFactory.buildButton(Labels.getLabel("shared.chooseColumns.button"));
     ActionListener al=new ActionListener()
     {
       @Override
@@ -120,15 +121,7 @@ public class WardrobeDisplayPanelController implements FilterUpdateListener
   {
     int nbFiltered=_tableController.getNbFilteredItems();
     int nbItems=_tableController.getNbItems();
-    String label="";
-    if (nbFiltered==nbItems)
-    {
-      label="Item(s): "+nbItems; // I18n
-    }
-    else
-    {
-      label="Item(s): "+nbFiltered+"/"+nbItems; // I18n
-    }
+    String label=Labels.getCountLabel(nbFiltered,nbItems);
     _statsLabel.setText(label);
   }
 

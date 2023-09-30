@@ -19,6 +19,7 @@ import delta.common.ui.swing.windows.WindowsManager;
 import delta.games.lotro.character.status.achievables.AchievableStatus;
 import delta.games.lotro.gui.character.status.quests.table.QuestStatusTableController;
 import delta.games.lotro.gui.lore.items.FilterUpdateListener;
+import delta.games.lotro.gui.utils.l10n.Labels;
 
 /**
  * Controller the quests status display panel.
@@ -75,7 +76,7 @@ public class QuestsStatusPanelController implements FilterUpdateListener
     _statsLabel=GuiFactory.buildLabel("-");
     statsPanel.add(_statsLabel);
     // - choose columns button
-    JButton choose=GuiFactory.buildButton("Choose columns..."); // I18n
+    JButton choose=GuiFactory.buildButton(Labels.getLabel("shared.chooseColumns.button"));
     ActionListener al=new ActionListener()
     {
       @Override
@@ -104,15 +105,7 @@ public class QuestsStatusPanelController implements FilterUpdateListener
   {
     int nbFiltered=_tableController.getNbFilteredItems();
     int nbItems=_tableController.getNbItems();
-    String label="";
-    if (nbFiltered==nbItems)
-    {
-      label="Quest(s): "+nbItems; // I18n
-    }
-    else
-    {
-      label="Quest(s): "+nbFiltered+"/"+nbItems; // I18n
-    }
+    String label=Labels.getCountLabel("Quest(s)",nbFiltered,nbItems); // I18n
     _statsLabel.setText(label);
   }
 

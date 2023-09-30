@@ -17,6 +17,7 @@ import delta.common.ui.swing.tables.TableColumnsChooserController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.account.status.friends.Friend;
 import delta.games.lotro.gui.lore.items.FilterUpdateListener;
+import delta.games.lotro.gui.utils.l10n.Labels;
 
 /**
  * Controller the friends table panel.
@@ -71,7 +72,7 @@ public class FriendsTablePanelController implements FilterUpdateListener
     _statsLabel=GuiFactory.buildLabel("-");
     statsPanel.add(_statsLabel);
     // Button to choose columns
-    JButton choose=GuiFactory.buildButton("Choose columns..."); // I18n
+    JButton choose=GuiFactory.buildButton(Labels.getLabel("shared.chooseColumns.button"));
     ActionListener al=new ActionListener()
     {
       @Override
@@ -102,15 +103,7 @@ public class FriendsTablePanelController implements FilterUpdateListener
   {
     int nbFiltered=_tableController.getNbFilteredItems();
     int nbItems=_tableController.getNbItems();
-    String label="";
-    if (nbFiltered==nbItems)
-    {
-      label="Friend(s): "+nbItems; // I18n
-    }
-    else
-    {
-      label="Friend(s): "+nbFiltered+"/"+nbItems; // I18n
-    }
+    String label=Labels.getCountLabel("Friend(s)",nbFiltered,nbItems); // I18n
     _statsLabel.setText(label);
   }
 

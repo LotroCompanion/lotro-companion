@@ -18,6 +18,7 @@ import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.status.tasks.TaskStatus;
 import delta.games.lotro.gui.character.status.tasks.table.TaskStatusTableController;
 import delta.games.lotro.gui.lore.items.FilterUpdateListener;
+import delta.games.lotro.gui.utils.l10n.Labels;
 
 /**
  * Controller the tasks status display panel.
@@ -72,7 +73,7 @@ public class TasksStatusPanelController implements FilterUpdateListener
     _statsLabel=GuiFactory.buildLabel("-");
     statsPanel.add(_statsLabel);
     // - choose columns button
-    JButton choose=GuiFactory.buildButton("Choose columns..."); // I18n
+    JButton choose=GuiFactory.buildButton(Labels.getLabel("shared.chooseColumns.button"));
     ActionListener al=new ActionListener()
     {
       @Override
@@ -101,15 +102,7 @@ public class TasksStatusPanelController implements FilterUpdateListener
   {
     int nbFiltered=_tableController.getNbFilteredItems();
     int nbItems=_tableController.getNbItems();
-    String label="";
-    if (nbFiltered==nbItems)
-    {
-      label="Task(s): "+nbItems;
-    }
-    else
-    {
-      label="Task(s): "+nbFiltered+"/"+nbItems;
-    }
+    String label=Labels.getCountLabel("Task(s)",nbFiltered,nbItems); // I18n
     _statsLabel.setText(label);
   }
 

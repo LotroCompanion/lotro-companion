@@ -17,6 +17,7 @@ import delta.common.ui.swing.tables.TableColumnsChooserController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.status.skirmishes.SkirmishEntry;
 import delta.games.lotro.gui.character.status.skirmishes.table.SkirmishEntriesTableController;
+import delta.games.lotro.gui.utils.l10n.Labels;
 
 /**
  * Controller the skirmish entries display panel.
@@ -71,7 +72,7 @@ public class SkirmishEntriesPanelController
     _statsLabel=GuiFactory.buildLabel("-");
     statsPanel.add(_statsLabel);
     // - choose columns button
-    JButton choose=GuiFactory.buildButton("Choose columns..."); // I18n
+    JButton choose=GuiFactory.buildButton(Labels.getLabel("shared.chooseColumns.button"));
     ActionListener al=new ActionListener()
     {
       @Override
@@ -100,15 +101,7 @@ public class SkirmishEntriesPanelController
   {
     int nbFiltered=_tableController.getNbFilteredItems();
     int nbItems=_tableController.getNbItems();
-    String label="";
-    if (nbFiltered==nbItems)
-    {
-      label="Element(s): "+nbItems; // I18n
-    }
-    else
-    {
-      label="Element(s): "+nbFiltered+"/"+nbItems; // I18n
-    }
+    String label=Labels.getCountLabel("Element(s)",nbFiltered,nbItems); // I18n
     _statsLabel.setText(label);
   }
 

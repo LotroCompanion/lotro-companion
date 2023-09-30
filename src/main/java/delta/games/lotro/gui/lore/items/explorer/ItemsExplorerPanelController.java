@@ -17,6 +17,7 @@ import delta.common.ui.swing.tables.TableColumnsChooserController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.gui.lore.items.FilterUpdateListener;
 import delta.games.lotro.gui.lore.items.table.ItemsTableController;
+import delta.games.lotro.gui.utils.l10n.Labels;
 import delta.games.lotro.lore.items.Item;
 
 /**
@@ -72,7 +73,7 @@ public class ItemsExplorerPanelController implements FilterUpdateListener
     _statsLabel=GuiFactory.buildLabel("-");
     statsPanel.add(_statsLabel);
     // Button to choose columns
-    JButton choose=GuiFactory.buildButton("Choose columns...");
+    JButton choose=GuiFactory.buildButton(Labels.getLabel("shared.chooseColumns.button"));
     ActionListener al=new ActionListener()
     {
       @Override
@@ -101,15 +102,7 @@ public class ItemsExplorerPanelController implements FilterUpdateListener
   {
     int nbFiltered=_tableController.getNbFilteredItems();
     int nbItems=_tableController.getNbItems();
-    String label="";
-    if (nbFiltered==nbItems)
-    {
-      label="Item(s): "+nbItems;
-    }
-    else
-    {
-      label="Item(s): "+nbFiltered+"/"+nbItems;
-    }
+    String label=Labels.getCountLabel(nbFiltered,nbItems);
     _statsLabel.setText(label);
   }
 

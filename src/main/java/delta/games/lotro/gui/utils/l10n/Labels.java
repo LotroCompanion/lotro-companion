@@ -67,4 +67,31 @@ public class Labels
   {
     return _instance._translator.translate(key,params);
   }
+
+  /**
+   * Build a label to display a current/max label.
+   * @param current Current value.
+   * @param max Max value.
+   * @return A displayable label.
+   */
+  public static String getCountLabel(int current, int max)
+  {
+    return getCountLabel("Item(s)",current,max);
+  }
+
+  /**
+   * Build a label to display a current/max label.
+   * @param key Prefix.
+   * @param current Current value.
+   * @param max Max value.
+   * @return A displayable label.
+   */
+  public static String getCountLabel(String key, int current, int max)
+  {
+    if (current==max)
+    {
+      return key+": "+max;
+    }
+    return key+": "+current+"/"+max;
+  }
 }

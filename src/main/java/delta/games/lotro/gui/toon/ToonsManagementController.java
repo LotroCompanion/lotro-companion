@@ -37,6 +37,7 @@ import delta.games.lotro.character.events.CharacterEventType;
 import delta.games.lotro.character.io.xml.CharacterXMLParser;
 import delta.games.lotro.gui.character.CharacterFileWindowController;
 import delta.games.lotro.gui.main.GlobalPreferences;
+import delta.games.lotro.gui.utils.l10n.Labels;
 import delta.games.lotro.utils.events.EventsManager;
 import delta.games.lotro.utils.events.GenericEventsListener;
 import delta.games.lotro.utils.gui.filechooser.FileChooserController;
@@ -101,7 +102,7 @@ public class ToonsManagementController implements ActionListener,GenericEventsLi
     // Toolbar
     _toolbar=buildToolBar();
     // Columns chooser
-    JButton choose=GuiFactory.buildButton("Choose columns..."); // I18n
+    JButton choose=GuiFactory.buildButton(Labels.getLabel("shared.chooseColumns.button"));
     {
       ActionListener al=new ActionListener()
       {
