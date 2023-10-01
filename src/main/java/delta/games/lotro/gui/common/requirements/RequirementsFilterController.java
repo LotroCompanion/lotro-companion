@@ -15,6 +15,7 @@ import delta.games.lotro.character.races.RaceDescription;
 import delta.games.lotro.common.requirements.filters.UsageRequirementFilter;
 import delta.games.lotro.gui.character.summary.CharacterUiUtils;
 import delta.games.lotro.gui.lore.items.FilterUpdateListener;
+import delta.games.lotro.gui.utils.l10n.Labels;
 
 /**
  * Controller for a requirements filter edition panel.
@@ -98,11 +99,11 @@ public class RequirementsFilterController
     {
       JPanel linePanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
       // Class
-      linePanel.add(GuiFactory.buildLabel("Class:")); // I18n
+      linePanel.add(GuiFactory.buildLabel(Labels.getFieldLabel("requirements.filter.class")));
       _class=buildCharacterClassCombobox();
       linePanel.add(_class.getComboBox());
       // Race
-      linePanel.add(GuiFactory.buildLabel("Race:")); // I18n
+      linePanel.add(GuiFactory.buildLabel(Labels.getFieldLabel("requirements.filter.race")));
       _race=buildRaceCombobox();
       linePanel.add(_race.getComboBox());
       c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(5,0,5,0),0,0);
