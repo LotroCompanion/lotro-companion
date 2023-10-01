@@ -116,7 +116,7 @@ public class SharedUiUtils
   {
     String yes=Labels.getLabel("shared.yes");
     String no=Labels.getLabel("shared.no");
-    return build3StatesBooleanCombobox(null,yes,no);
+    return build3StatesBooleanCombobox(nullLabel,yes,no);
   }
 
   /**
