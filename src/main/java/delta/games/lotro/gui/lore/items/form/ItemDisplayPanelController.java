@@ -26,6 +26,7 @@ import delta.common.utils.l10n.L10n;
 import delta.games.lotro.character.skills.SkillDescription;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.character.traits.TraitDescription;
+import delta.games.lotro.common.Duration;
 import delta.games.lotro.common.enums.EquipmentCategory;
 import delta.games.lotro.common.money.Money;
 import delta.games.lotro.common.stats.StatUtils;
@@ -49,6 +50,7 @@ import delta.games.lotro.lore.items.Weapon;
 import delta.games.lotro.lore.items.details.GrantedElement;
 import delta.games.lotro.lore.items.details.ItemDetailsManager;
 import delta.games.lotro.lore.items.details.ItemReputation;
+import delta.games.lotro.lore.items.details.ItemUsageCooldown;
 import delta.games.lotro.lore.items.details.ItemXP;
 import delta.games.lotro.lore.items.details.VirtueXP;
 import delta.games.lotro.lore.items.details.WeaponSlayerInfo;
@@ -547,7 +549,17 @@ public class ItemDisplayPanelController extends AbstractNavigablePanelController
         y++;
       }
     }
-
+    // Usage Cooldown
+    ItemUsageCooldown cooldown=mgr.getFirstItemDetail(ItemUsageCooldown.class);
+    if (cooldown!=null)
+    {
+      GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+      float duration=cooldown.getDuration();
+      String durationStr=Duration.getDurationString((int)duration);
+      String label="Cooldown: "+durationStr;
+      ret.add(GuiFactory.buildLabel(label),c);
+      y++;
+    }
     return ret;
   }
 
