@@ -1,11 +1,11 @@
 package delta.games.lotro.utils.strings;
 
+import delta.common.utils.variables.VariableValueProvider;
 import delta.games.lotro.character.BaseCharacterSummary;
 import delta.games.lotro.character.classes.ClassDescription;
 import delta.games.lotro.character.races.RaceDescription;
 import delta.games.lotro.common.CharacterSex;
 import delta.games.lotro.common.Genders;
-import delta.games.lotro.dat.data.strings.renderer.VariableValueProvider;
 
 /**
  * A variable value provider that handles the variable found in lore objects (quests, deeds, titles, ...):
