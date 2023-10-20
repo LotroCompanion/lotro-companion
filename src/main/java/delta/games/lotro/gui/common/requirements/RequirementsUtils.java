@@ -5,7 +5,7 @@ import java.util.List;
 import delta.common.ui.swing.area.AreaController;
 import delta.games.lotro.character.classes.AbstractClassDescription;
 import delta.games.lotro.character.races.RaceDescription;
-import delta.games.lotro.common.effects.Effect;
+import delta.games.lotro.common.effects.Effect2;
 import delta.games.lotro.common.enums.CraftTier;
 import delta.games.lotro.common.requirements.ClassRequirement;
 import delta.games.lotro.common.requirements.EffectRequirement;
@@ -146,7 +146,7 @@ public class RequirementsUtils
     if (effectReq!=null)
     {
       if (sb.length()>0) sb.append(", ");
-      Effect effect=effectReq.getEffect();
+      Effect2 effect=effectReq.getEffect();
       sb.append(effect.getName());
     }
     String ret=sb.toString().trim();
