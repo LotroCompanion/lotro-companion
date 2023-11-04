@@ -15,11 +15,10 @@ import javax.swing.JScrollPane;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.navigator.NavigablePanelController;
 import delta.common.ui.swing.navigator.NavigatorWindowController;
-import delta.games.lotro.character.stats.BasicStatsSet;
-import delta.games.lotro.common.stats.StatUtils;
-import delta.games.lotro.common.stats.StatsProvider;
+import delta.common.utils.text.EndOfLine;
 import delta.games.lotro.gui.utils.ItemDisplayGadgets;
 import delta.games.lotro.lore.items.Item;
+import delta.games.lotro.lore.items.ItemUtils;
 import delta.games.lotro.lore.items.sets.ItemsSet;
 import delta.games.lotro.lore.items.sets.SetBonus;
 import delta.games.lotro.utils.gui.HtmlUtils;
@@ -241,25 +240,12 @@ public abstract class AbstractSetDisplayPanelController implements NavigablePane
 
   protected abstract List<Item> getMembers();
 
-  private boolean hasBonus()
-  {
-    for(SetBonus bonus : _set.getBonuses())
-    {
-      StatsProvider statsProvider=bonus.getStatsProvider();
-      if (statsProvider.getNumberOfStatProviders()>0)
-      {
-        return true;
-      }
-    }
-    return false;
-  }
-
   protected void updateBonus()
   {
-    if (hasBonus())
+    String html=getBonusHtml();
+    if (!html.isEmpty())
     {
       _bonus.setVisible(true);
-      String html=getBonusHtml();
       _bonus.setText(html);
     }
     else
@@ -270,33 +256,41 @@ public abstract class AbstractSetDisplayPanelController implements NavigablePane
 
   private String getBonusHtml()
   {
-    StringBuilder sb=new StringBuilder();
-    sb.append("<html><body>");
+    List<String> allLines=new ArrayList<String>();
     Integer level=getSetLevel();
     if (level!=null)
     {
       int index=0;
       for(SetBonus bonus : _set.getBonuses())
       {
-        StatsProvider statsProvider=bonus.getStatsProvider();
-        BasicStatsSet stats=statsProvider.getStats(1,level.intValue());
-        String[] lines=StatUtils.getFullStatsDisplay(stats,statsProvider);
-        if (lines.length==0)
+        List<String> lines=ItemUtils.buildLinesToShowItemsSetBonus(_set,bonus,level.intValue());
+        if (lines.isEmpty())
         {
           continue;
         }
         if (index>0)
         {
-          sb.append("<p>");
+          allLines.add("<p>");
         }
         int nbPieces=bonus.getPiecesCount();
-        sb.append("<b>").append(nbPieces).append(" pieces</b>");
+        allLines.add("<b>"+nbPieces+" pieces</b>");
         for(String line : lines)
         {
-          sb.append("<br>").append(HtmlUtils.toHtml(line));
+          allLines.add("<br>"+HtmlUtils.toHtml(line));
         }
         index++;
       }
+    }
+    if (allLines.isEmpty())
+    {
+      return "";
+    }
+    // Full body
+    StringBuilder sb=new StringBuilder();
+    sb.append("<html><body>");
+    for(String line : allLines)
+    {
+      sb.append(line).append(EndOfLine.NATIVE_EOL);
     }
     sb.append("</body></html>");
     return sb.toString();
