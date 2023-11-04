@@ -24,13 +24,10 @@ import delta.common.ui.swing.navigator.AbstractNavigablePanelController;
 import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.common.utils.l10n.L10n;
 import delta.games.lotro.character.skills.SkillDescription;
-import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.character.traits.TraitDescription;
 import delta.games.lotro.common.Duration;
 import delta.games.lotro.common.enums.EquipmentCategory;
 import delta.games.lotro.common.money.Money;
-import delta.games.lotro.common.stats.StatUtils;
-import delta.games.lotro.common.stats.StatsProvider;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.common.money.MoneyDisplayController;
 import delta.games.lotro.gui.common.requirements.RequirementsUtils;
@@ -46,6 +43,7 @@ import delta.games.lotro.lore.items.EquipmentLocation;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemBinding;
 import delta.games.lotro.lore.items.ItemSturdiness;
+import delta.games.lotro.lore.items.ItemUtils;
 import delta.games.lotro.lore.items.Weapon;
 import delta.games.lotro.lore.items.details.GrantedElement;
 import delta.games.lotro.lore.items.details.ItemDetailsManager;
@@ -122,19 +120,12 @@ public class ItemDisplayPanelController extends AbstractNavigablePanelController
   private MultilineLabel2 buildStatsDisplay()
   {
     MultilineLabel2 statsLabel=null;
-    StatsProvider statsProvider=_item.getStatsProvider();
-    BasicStatsSet stats=_item.getStats();
-    int nbStats=stats.getStatsCount();
-    int nbEffects=0;
-    if (statsProvider!=null)
+    List<String> lines=ItemUtils.buildLinesToShowItem(_item);
+    if (!lines.isEmpty())
     {
-      nbEffects=statsProvider.getSpecialEffects().size();
-    }
-    if (nbStats+nbEffects>0)
-    {
-      String[] lines=StatUtils.getFullStatsDisplay(stats,statsProvider);
       statsLabel=new MultilineLabel2();
-      statsLabel.setText(lines);
+      String[] linesToShow=lines.toArray(new String[lines.size()]);
+      statsLabel.setText(linesToShow);
       statsLabel.setBorder(GuiFactory.buildTitledBorder("Stats"));
     }
     return statsLabel;
