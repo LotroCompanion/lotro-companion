@@ -32,6 +32,7 @@ import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.common.money.MoneyDisplayController;
 import delta.games.lotro.gui.common.requirements.RequirementsUtils;
 import delta.games.lotro.gui.lore.items.containers.form.ContainerDisplayPanelController;
+import delta.games.lotro.gui.lore.items.essences.EssencesTemplatePanelController;
 import delta.games.lotro.gui.utils.IconAndLinkPanelController;
 import delta.games.lotro.gui.utils.SharedPanels;
 import delta.games.lotro.gui.utils.items.SaveItemIconController;
@@ -74,6 +75,7 @@ public class ItemDisplayPanelController extends AbstractNavigablePanelController
   private ItemReferencesDisplayController _references;
   private ItemScalableStatsPanelController _scaling;
   private ContainerDisplayPanelController _container;
+  private EssencesTemplatePanelController _essences;
   private MoneyDisplayController _money;
   private DisenchantmentResultPanelController _disenchantment;
   private List<IconAndLinkPanelController> _grantedCtrls;
@@ -219,6 +221,15 @@ public class ItemDisplayPanelController extends AbstractNavigablePanelController
       panelLine.add(GuiFactory.buildLabel(line));
     }
     c.insets=new Insets(0,5,0,0);
+    // Essence slots
+    int nbSlots=_item.getEssenceSlots();
+    if (nbSlots>0)
+    {
+      _essences=new EssencesTemplatePanelController(_item.getEssenceSlotsSetup());
+      JPanel essencesPanel=_essences.getPanel();
+      panel.add(essencesPanel,c);
+      c.gridy++;
+    }
     // Details
     JPanel detailPanel=buildDetailsPanel();
     if (detailPanel!=null)
@@ -315,12 +326,6 @@ public class ItemDisplayPanelController extends AbstractNavigablePanelController
     {
       List<String> weaponLines=getWeaponAttributeLines((Weapon)_item);
       ret.addAll(weaponLines);
-    }
-    // Slots
-    int nbSlots=_item.getEssenceSlots();
-    if (nbSlots>0)
-    {
-      ret.add("Essence slots: "+nbSlots);
     }
     // Item level
     Integer itemLevel=_item.getItemLevel();
@@ -596,6 +601,11 @@ public class ItemDisplayPanelController extends AbstractNavigablePanelController
     {
       _container.dispose();
       _container=null;
+    }
+    if (_essences!=null)
+    {
+      _essences.dispose();
+      _essences=null;
     }
     if (_money!=null)
     {
