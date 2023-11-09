@@ -353,11 +353,7 @@ public class ItemDisplayPanelController extends AbstractNavigablePanelController
       int minItemLevel=enhancementRune.getMinItemLevel();
       int maxItemLevel=enhancementRune.getMaxItemLevel();
       int increment=enhancementRune.getLevelUpIncrement();
-      String label="Enhancement item levels: "+minItemLevel+"-"+maxItemLevel;
-      if (increment>1)
-      {
-        label=label+" (increment: "+increment+")";
-      }
+      String label="Enhancement item levels: "+minItemLevel+"-"+maxItemLevel+" (increment: "+increment+")";
       ret.add(label);
     }
     // Durability
