@@ -32,7 +32,7 @@ public class MainTestCraftingHistoryChart
       CharacterFile toon=utils.getMainToon();
       CraftingStatus stats=toon.getCraftingMgr().getCraftingStatus();
       stats.dump(System.out);
-      List<Profession> professions=stats.getProfessions();
+      List<Profession> professions=stats.getKnownProfessions();
       for(Profession profession : professions)
       {
         ProfessionStatus stat=stats.getProfessionStatus(profession);

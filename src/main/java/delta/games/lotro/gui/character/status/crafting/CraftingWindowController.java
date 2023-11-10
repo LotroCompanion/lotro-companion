@@ -1,33 +1,21 @@
 package delta.games.lotro.gui.character.status.crafting;
 
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.util.Collections;
-import java.util.List;
 
 import javax.swing.JDialog;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
-import delta.common.ui.swing.combobox.ComboBoxController;
-import delta.common.ui.swing.combobox.ItemSelectionListener;
 import delta.common.ui.swing.windows.DefaultFormDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.events.CharacterEvent;
 import delta.games.lotro.character.events.CharacterEventType;
 import delta.games.lotro.character.status.crafting.CraftingStatus;
-import delta.games.lotro.common.comparators.NamedComparator;
-import delta.games.lotro.lore.crafting.CraftingData;
-import delta.games.lotro.lore.crafting.CraftingSystem;
-import delta.games.lotro.lore.crafting.Vocation;
-import delta.games.lotro.lore.crafting.Vocations;
 import delta.games.lotro.utils.events.EventsManager;
-import delta.games.lotro.utils.strings.ContextRendering;
 
 /**
  * Controller for a "crafting stats" window.
@@ -38,8 +26,7 @@ public class CraftingWindowController extends DefaultFormDialogController<Crafti
   // Data
   private CharacterFile _toon;
   // Controllers
-  private ComboBoxController<Vocation> _vocation;
-  private VocationEditionPanelController _vocationController;
+  private CraftingEditionPanelController _editionController;
 
   /**
    * Constructor.
@@ -50,78 +37,25 @@ public class CraftingWindowController extends DefaultFormDialogController<Crafti
   {
     super(parentController,toon.getCraftingMgr().getCraftingStatus());
     _toon=toon;
-    _vocationController=new VocationEditionPanelController(this,_data);
+    _editionController=new CraftingEditionPanelController(this,_data);
   }
 
   @Override
   protected JPanel buildFormPanel()
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
-    // Vocation panel
-    JPanel vocationPanel=GuiFactory.buildPanel(new FlowLayout());
-    {
-      _vocation=buildVocationCombo();
-      JLabel vocationLabel=GuiFactory.buildLabel("Vocation:"); // I18n
-      vocationPanel.add(vocationLabel);
-      vocationPanel.add(_vocation.getComboBox());
-    }
 
-    // Vocation panel
-    JPanel vocationEditionPanel=_vocationController.getPanel();
+    // Professions edition panel
+    JPanel editionPanel=_editionController.getPanel();
 
     // Assembly
-    JPanel topPanel=GuiFactory.buildPanel(new FlowLayout());
-    topPanel.add(vocationPanel);
-    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,10,0,10),0,0);
-    panel.add(topPanel,c);
     GridBagConstraints c2=new GridBagConstraints(0,1,1,1,1.0,1.0,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(5,10,5,10),0,0);
-    panel.add(vocationEditionPanel,c2);
+    panel.add(editionPanel,c2);
 
     // Update vocation edition panel
-    _vocationController.updateUiFromData();
-    Vocation vocation=_data.getVocation();
-    // Init vocation combo
-    _vocation.selectItem(vocation);
-    ItemSelectionListener<Vocation> vocationListener=new ItemSelectionListener<Vocation>()
-    {
-      @Override
-      public void itemSelected(Vocation selectedVocation)
-      {
-        handleVocationUpdate(selectedVocation);
-      }
-    };
-    _vocation.addListener(vocationListener);
+    _editionController.updateUiFromData();
 
     return panel;
-  }
-
-  private void handleVocationUpdate(Vocation selectedVocation)
-  {
-   boolean changed=updateVocation(selectedVocation);
-    if (changed)
-    {
-      updateVocationPanel(selectedVocation);
-    }
-  }
-
-  private boolean updateVocation(Vocation selectedVocation)
-  {
-    boolean changed=false;
-    Vocation currentVocation=_data.getVocation();
-    if (currentVocation!=selectedVocation)
-    {
-      long now=System.currentTimeMillis();
-      _data.changeVocation(selectedVocation,now);
-      changed=true;
-    }
-    return changed;
-  }
-
-  private void updateVocationPanel(Vocation selectedVocation)
-  {
-    _vocationController.updateDataFromUi();
-    _vocationController.updateUiFromData();
-    getWindow().pack();
   }
 
   @Override
@@ -141,7 +75,7 @@ public class CraftingWindowController extends DefaultFormDialogController<Crafti
   @Override
   protected void okImpl()
   {
-    _vocationController.updateDataFromUi();
+    _editionController.updateDataFromUi();
     _toon.getCraftingMgr().saveCrafting();
     // Broadcast crafting update event...
     CharacterEvent event=new CharacterEvent(CharacterEventType.CHARACTER_CRAFTING_UPDATED,_toon,null);
@@ -154,23 +88,6 @@ public class CraftingWindowController extends DefaultFormDialogController<Crafti
     _toon.getCraftingMgr().revertCrafting();
   }
 
-  private ComboBoxController<Vocation> buildVocationCombo()
-  {
-    ComboBoxController<Vocation> ret=new ComboBoxController<Vocation>();
-    ret.addEmptyItem("");
-    CraftingData crafting=CraftingSystem.getInstance().getData();
-    Vocations vocationsRegistry=crafting.getVocationsRegistry();
-    List<Vocation> vocations=vocationsRegistry.getAll();
-    Collections.sort(vocations,new NamedComparator());
-    for(Vocation vocation : vocations)
-    {
-      String vocationName=vocation.getName();
-      vocationName=ContextRendering.render(_toon.getSummary(),vocationName);
-      ret.addItem(vocation,vocationName);
-    }
-    return ret;
-  }
-
   /**
    * Release all managed resources.
    */
@@ -178,15 +95,10 @@ public class CraftingWindowController extends DefaultFormDialogController<Crafti
   public void dispose()
   {
     super.dispose();
-    if (_vocationController!=null)
+    if (_editionController!=null)
     {
-      _vocationController.dispose();
-      _vocationController=null;
-    }
-    if (_vocation!=null)
-    {
-      _vocation.dispose();
-      _vocation=null;
+      _editionController.dispose();
+      _editionController=null;
     }
     _toon=null;
   }

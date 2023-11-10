@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.swing.JComponent;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
@@ -21,17 +19,16 @@ import delta.games.lotro.lore.crafting.CraftingData;
 import delta.games.lotro.lore.crafting.CraftingSystem;
 import delta.games.lotro.lore.crafting.Profession;
 import delta.games.lotro.lore.crafting.Professions;
-import delta.games.lotro.lore.crafting.Vocation;
 
 /**
- * Controller for the vocation edition panel. This panel contains:
+ * Controller for the crafting history edition panel. This panel contains:
  * <ul>
  * <li>3 profession panels,
  * <li>0-2 guild panels.
  * </ul>
  * @author DAM
  */
-public class VocationEditionPanelController extends AbstractPanelController
+public class CraftingEditionPanelController extends AbstractPanelController
 {
   // Controllers
   private HashMap<Profession,ProfessionStatusPanelController> _panels;
@@ -46,13 +43,13 @@ public class VocationEditionPanelController extends AbstractPanelController
    * @param parent Parent controller.
    * @param status Crafting status to edit.
    */
-  public VocationEditionPanelController(AreaController parent, CraftingStatus status)
+  public CraftingEditionPanelController(AreaController parent, CraftingStatus status)
   {
     super(parent);
     _panels=new HashMap<Profession,ProfessionStatusPanelController>();
     _status=status;
-    JPanel vocationPanel=GuiFactory.buildPanel(new BorderLayout());
-    setPanel(vocationPanel);
+    JPanel mainPanel=GuiFactory.buildPanel(new BorderLayout());
+    setPanel(mainPanel);
     _guildStatus=new ArrayList<FactionStatusPanelController>();
   }
 
@@ -65,7 +62,7 @@ public class VocationEditionPanelController extends AbstractPanelController
     updateGuildUi(null);
 
     // Select first tab, if any
-    if (_tabbedPane!=null)
+    if ((_tabbedPane!=null) && (_tabbedPane.getTabCount()>0))
     {
       _tabbedPane.setSelectedIndex(0);
     }
@@ -76,46 +73,34 @@ public class VocationEditionPanelController extends AbstractPanelController
    */
   private void updateProfessionsUi()
   {
-    Vocation vocation=_status.getVocation();
     JPanel panel=getPanel();
     panel.removeAll();
-    JComponent centerComponent=null;
-    List<Profession> currentProfessions=(vocation!=null)?vocation.getProfessions():null;
-    if ((currentProfessions!=null) && (currentProfessions.size()>0))
+    List<Profession> currentProfessions=_status.getKnownProfessions();
+    _tabbedPane=GuiFactory.buildTabbedPane();
+    // Professions
+    for(Profession profession : currentProfessions)
     {
-      _tabbedPane=GuiFactory.buildTabbedPane();
-      // Professions
-      for(Profession profession : currentProfessions)
+      ProfessionStatus stats=_status.getProfessionStatus(profession,true);
+      ProfessionStatusPanelController craftingPanelController=_panels.get(profession);
+      if (craftingPanelController==null)
       {
-        ProfessionStatus stats=_status.getProfessionStatus(profession,true);
-        ProfessionStatusPanelController craftingPanelController=_panels.get(profession);
-        if (craftingPanelController==null)
-        {
-          craftingPanelController=new ProfessionStatusPanelController(stats);
-          _panels.put(profession,craftingPanelController);
-        }
-        JPanel craftingPanel=craftingPanelController.getPanel();
-        _tabbedPane.add(profession.getName(),craftingPanel);
+        craftingPanelController=new ProfessionStatusPanelController(stats);
+        _panels.put(profession,craftingPanelController);
       }
-      // Clean other professions
-      CraftingData crafting=CraftingSystem.getInstance().getData();
-      Professions professions=crafting.getProfessionsRegistry();
-      for(Profession profession : professions.getAll())
-      {
-        if (!currentProfessions.contains(profession))
-        {
-          _panels.remove(profession);
-        }
-      }
-      centerComponent=_tabbedPane;
+      JPanel craftingPanel=craftingPanelController.getPanel();
+      _tabbedPane.add(profession.getName(),craftingPanel);
     }
-    else
+    // Clean other professions
+    CraftingData crafting=CraftingSystem.getInstance().getData();
+    Professions professions=crafting.getProfessionsRegistry();
+    for(Profession profession : professions.getAll())
     {
-      JLabel centerLabel=new JLabel("No vocation!"); // I18n
-      centerComponent=centerLabel;
-      _tabbedPane=null;
+      if (!currentProfessions.contains(profession))
+      {
+        _panels.remove(profession);
+      }
     }
-    panel.add(centerComponent,BorderLayout.CENTER);
+    panel.add(_tabbedPane,BorderLayout.CENTER);
     panel.revalidate();
     panel.repaint();
   }
@@ -137,12 +122,14 @@ public class VocationEditionPanelController extends AbstractPanelController
       }
       _guildStatus.clear();
     }
-    Vocation vocation=_status.getVocation();
-    if (vocation==null)
+    List<Profession> guildedProfessions=new ArrayList<Profession>();
+    for(Profession profession : _status.getKnownProfessions())
     {
-      return;
+      if (profession.hasGuild())
+      {
+        guildedProfessions.add(profession);
+      }
     }
-    List<Profession> guildedProfessions=vocation.getAvailableGuilds();
     JPanel toSelect=null;
     for(Profession guildedProfession : guildedProfessions)
     {
@@ -177,9 +164,7 @@ public class VocationEditionPanelController extends AbstractPanelController
     }
   }
 
-  /**
-   * Release all managed resources.
-   */
+  @Override
   public void dispose()
   {
     if (_panels!=null)
