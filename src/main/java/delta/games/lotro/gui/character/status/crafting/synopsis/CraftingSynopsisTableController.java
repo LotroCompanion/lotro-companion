@@ -33,11 +33,14 @@ import delta.games.lotro.character.status.crafting.ProfessionStatus;
 import delta.games.lotro.character.status.reputation.FactionStatus;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.character.status.reputation.synopsis.ReputationSynopsisTableController;
+import delta.games.lotro.lore.crafting.CraftingData;
 import delta.games.lotro.lore.crafting.CraftingLevel;
 import delta.games.lotro.lore.crafting.CraftingLevelTier;
+import delta.games.lotro.lore.crafting.CraftingSystem;
 import delta.games.lotro.lore.crafting.Profession;
 import delta.games.lotro.lore.crafting.ProfessionComparator;
 import delta.games.lotro.lore.crafting.ProfessionFilter;
+import delta.games.lotro.lore.crafting.Professions;
 import delta.games.lotro.lore.crafting.Vocation;
 import delta.games.lotro.lore.reputation.FactionLevelComparator;
 import delta.games.lotro.lore.titles.TitleDescription;
@@ -86,14 +89,20 @@ public class CraftingSynopsisTableController
     TableContextManager contextMgr=_table.getContextManager();
     contextMgr.clear();
     int row=0;
+    CraftingData data=CraftingSystem.getInstance().getData();
+    Professions professionsRegistry=data.getProfessionsRegistry();
     for(CharacterFile toon : _toons)
     {
       CraftingStatus craftingStatus=toon.getCraftingMgr().getCraftingStatus();
       Vocation vocation=craftingStatus.getVocation();
-      List<Profession> professions=craftingStatus.getProfessions();
+      List<Profession> professions=professionsRegistry.getAll();
       for(Profession profession : professions)
       {
-        ProfessionStatus professionStatus=craftingStatus.getProfessionStatus(profession,true);
+        ProfessionStatus professionStatus=craftingStatus.getProfessionStatus(profession,false);
+        if (professionStatus==null)
+        {
+          continue;
+        }
         GuildStatus displayedStatus=craftingStatus.getGuildStatus(profession,false);
         CraftingSynopsisItem item=new CraftingSynopsisItem(toon,vocation,professionStatus,displayedStatus);
         _rowItems.add(item);
@@ -242,8 +251,13 @@ public class CraftingSynopsisTableController
       public String getData(CraftingSynopsisItem item)
       {
         CharacterSummary summary=item.getCharacter().getSummary();
-        String vocation=item.getVocation().getName();
-        return ContextRendering.render(summary,vocation);
+        Vocation vocation=item.getVocation();
+        if (vocation!=null)
+        {
+          String vocationName=vocation.getName();
+          return ContextRendering.render(summary,vocationName);
+        }
+        return null;
       }
     };
     DefaultTableColumnController<CraftingSynopsisItem,String> vocationColumn=new DefaultTableColumnController<CraftingSynopsisItem,String>(CraftingSynopsisColumnIds.VOCATION.name(),"Vocation",String.class,vocationCell); // I18n
