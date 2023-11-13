@@ -44,7 +44,7 @@ public class AllegianceRewardsDetailsPanelController
     _filter=filter;
     _rewards=new ArrayList<RewardsPanelController>();
     _panel=GuiFactory.buildPanel(new GridBagLayout());
-    buildRewardsPanels(parent,status.getAllegiance());
+    buildRewardsPanels(parent,status);
     updatePanel();
   }
 
@@ -57,11 +57,14 @@ public class AllegianceRewardsDetailsPanelController
     return _panel;
   }
 
-  private void buildRewardsPanels(WindowController parent, AllegianceDescription allegiance)
+  private void buildRewardsPanels(WindowController parent, AllegianceStatus status)
   {
+    int maxLevel=status.getMaxLevel();
+    AllegianceDescription allegiance=status.getAllegiance();
     List<DeedDescription> deeds=allegiance.getDeeds();
-    for(DeedDescription deed : deeds)
+    for(int i=0;i<maxLevel;i++)
     {
+      DeedDescription deed=deeds.get(i);
       RewardsPanelController panel=new RewardsPanelController(parent,deed.getRewards());
       _rewards.add(panel);
     }
@@ -73,8 +76,7 @@ public class AllegianceRewardsDetailsPanelController
   public void updatePanel()
   {
     _panel.removeAll();
-    AllegianceDescription allegiance=_status.getAllegiance();
-    int nbLevels=allegiance.getDeeds().size();
+    int nbLevels=_status.getMaxLevel();
     int y=0;
     for(int i=1;i<=nbLevels;i++)
     {
@@ -123,11 +125,18 @@ public class AllegianceRewardsDetailsPanelController
         int minPoints=curve.getMinPointsForLevel(level);
         int currentPoints=_status.getPointsEarned();
         int missingPoints=minPoints-currentPoints;
-        sb.append(" need ").append(missingPoints).append(" points"); // I18n
+        if (missingPoints<0)
+        {
+          sb.append('?');
+        }
+        else
+        {
+          sb.append("need ").append(missingPoints).append(" points"); // I18n
+        }
       }
       else
       {
-        sb.append(" not started"); // I18n
+        sb.append("not started"); // I18n
       }
     }
     return sb.toString();

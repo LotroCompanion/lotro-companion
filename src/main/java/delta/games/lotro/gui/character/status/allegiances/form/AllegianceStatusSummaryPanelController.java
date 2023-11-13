@@ -56,7 +56,7 @@ public class AllegianceStatusSummaryPanelController
     JProgressBar levels=buildProgressBar();
     Integer currentLevel=_status.getCurrentLevel();
     int levelToShow=currentLevel.intValue();
-    int maxLevel=_status.getAllegiance().getDeeds().size();
+    int maxLevel=_status.getMaxLevel();
     setBar(levels,0,maxLevel,levelToShow);
     // - points
     int currentPoints=_status.getPointsEarned();
