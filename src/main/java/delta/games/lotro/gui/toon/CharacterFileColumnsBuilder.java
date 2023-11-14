@@ -18,6 +18,7 @@ import delta.games.lotro.common.geo.Position;
 import delta.games.lotro.common.geo.PositionUtils;
 import delta.games.lotro.common.money.Money;
 import delta.games.lotro.common.money.comparator.MoneyComparator;
+import delta.games.lotro.config.LotroCoreConfig;
 import delta.games.lotro.gui.utils.MoneyCellRenderer;
 import delta.games.lotro.gui.utils.l10n.StatColumnsUtils;
 import delta.games.lotro.lore.crafting.CraftingData;
@@ -217,6 +218,7 @@ public class CharacterFileColumnsBuilder
       ret.add(dungeonColumn);
     }
     // Vocation column
+    if (!LotroCoreConfig.isLive())
     {
       CellDataProvider<CharacterFile,String> vocationCell=new CellDataProvider<CharacterFile,String>()
       {
