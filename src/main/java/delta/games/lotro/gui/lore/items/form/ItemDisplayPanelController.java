@@ -12,11 +12,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.ImageIcon;
+import javax.swing.JComponent;
 import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import javax.swing.JTextField;
+import javax.swing.UIManager;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.labels.MultilineLabel2;
@@ -35,6 +38,7 @@ import delta.games.lotro.gui.lore.items.containers.form.ContainerDisplayPanelCon
 import delta.games.lotro.gui.lore.items.essences.EssencesTemplatePanelController;
 import delta.games.lotro.gui.utils.IconAndLinkPanelController;
 import delta.games.lotro.gui.utils.SharedPanels;
+import delta.games.lotro.gui.utils.UiConfiguration;
 import delta.games.lotro.gui.utils.items.SaveItemIconController;
 import delta.games.lotro.lore.emotes.EmoteDescription;
 import delta.games.lotro.lore.items.DamageType;
@@ -43,6 +47,7 @@ import delta.games.lotro.lore.items.DisenchantmentResult;
 import delta.games.lotro.lore.items.EquipmentLocation;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemBinding;
+import delta.games.lotro.lore.items.ItemQuality;
 import delta.games.lotro.lore.items.ItemSturdiness;
 import delta.games.lotro.lore.items.ItemUtils;
 import delta.games.lotro.lore.items.Weapon;
@@ -207,6 +212,18 @@ public class ItemDisplayPanelController extends AbstractNavigablePanelController
     return panel;
   }
 
+  private JComponent buildSelectableLabel(String text)
+  {
+    JTextField f=GuiFactory.buildTextField(text);
+    f.setEditable(false);
+    f.setBorder(null);
+    f.setOpaque(false);
+    f.setFont(UIManager.getFont("Label.font"));
+    Dimension d=f.getPreferredSize();
+    f.setPreferredSize(new Dimension(d.width+5,d.height));
+    return f;
+  }
+
   private JPanel buildMainAttrsPanel()
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
@@ -218,7 +235,7 @@ public class ItemDisplayPanelController extends AbstractNavigablePanelController
       JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
       panel.add(panelLine,c);
       c.gridy++;
-      panelLine.add(GuiFactory.buildLabel(line));
+      panelLine.add(buildSelectableLabel(line));
     }
     c.insets=new Insets(0,5,0,0);
     // Essence slots
@@ -287,8 +304,16 @@ public class ItemDisplayPanelController extends AbstractNavigablePanelController
   private List<String> getAttributesLines()
   {
     List<String> ret=new ArrayList<String>();
+    if (UiConfiguration.showTechnicalColumns())
+    {
+      ret.add("ID: "+_item.getIdentifier());
+    }
     // Quality
-    // TODO
+    ItemQuality quality=_item.getQuality();
+    if (quality!=null)
+    {
+      ret.add("Quality: "+_item.getQuality().getLabel());
+    }
     // Equipment category
     EquipmentCategory equipmentCategory=_item.getEquipmentCategory();
     if (equipmentCategory!=null)
@@ -371,7 +396,10 @@ public class ItemDisplayPanelController extends AbstractNavigablePanelController
     // Attributes
     {
       String attributes=buildAttributesString();
-      ret.add(attributes);
+      if (!attributes.isEmpty())
+      {
+        ret.add(attributes);
+      }
     }
     return ret;
   }
