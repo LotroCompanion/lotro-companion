@@ -381,7 +381,13 @@ public class RecipeDisplayPanelController implements NavigablePanelController
     Item item=result.getItem();
     int itemId=item.getIdentifier();
     int count=result.getQuantity();
-    String comment=result.isCriticalResult()?"Critical result: ":"Regular result: "; // 18n
+    String comment=result.isCriticalResult()?"Critical result":"Regular result"; // 18n
+    int itemLevel=result.getItemLevel();
+    if (itemLevel>0)
+    {
+      comment=comment+" (item level "+itemLevel+")";
+    }
+    comment=comment+": ";
     ItemDisplayGadgets ret=new ItemDisplayGadgets(_parent,itemId,count,comment);
     return ret;
   }
