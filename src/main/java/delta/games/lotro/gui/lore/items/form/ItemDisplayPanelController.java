@@ -378,6 +378,10 @@ public class ItemDisplayPanelController extends AbstractNavigablePanelController
     Integer itemLevel=_item.getItemLevel();
     if (itemLevel!=null)
     {
+      if (_itemLevel!=null)
+      {
+        itemLevel=_itemLevel;
+      }
       ret.add("Item level: "+itemLevel.toString());
     }
     // Tracery complements
