@@ -11,6 +11,7 @@ import delta.games.lotro.gui.lore.items.legendary.relics.form.RelicMeldingRecipe
 import delta.games.lotro.gui.lore.items.sets.form.AbstractSetDisplayPanelController;
 import delta.games.lotro.gui.lore.items.sets.form.ItemsSetDisplayPanelController;
 import delta.games.lotro.gui.lore.items.sets.form.TraceriesSetDisplayPanelController;
+import delta.games.lotro.gui.navigation.NavigationParameters;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemsManager;
 import delta.games.lotro.lore.items.legendary.relics.Relic;
@@ -46,7 +47,8 @@ public class ItemPanelsFactory implements NavigablePanelControllerFactory
     if (address.equals(ReferenceConstants.ITEM_PAGE))
     {
       int id=pageId.getIntParameter(PageIdentifier.ID_PARAMETER).intValue();
-      ret=buildItemPanel(id);
+      Integer itemLevel=pageId.getIntParameter(NavigationParameters.ITEM_LEVEL_PARAMETER);
+      ret=buildItemPanel(id,itemLevel);
     }
     else if (address.equals(ReferenceConstants.ITEMS_SET_PAGE))
     {
@@ -66,13 +68,13 @@ public class ItemPanelsFactory implements NavigablePanelControllerFactory
     return ret;
   }
 
-  private ItemDisplayPanelController buildItemPanel(int itemId)
+  private ItemDisplayPanelController buildItemPanel(int itemId, Integer itemLevel)
   {
     ItemsManager itemsMgr=ItemsManager.getInstance();
     Item item=itemsMgr.getItem(itemId);
     if (item!=null)
     {
-      ItemDisplayPanelController itemPanel=new ItemDisplayPanelController(_parent,item);
+      ItemDisplayPanelController itemPanel=new ItemDisplayPanelController(_parent,item,itemLevel);
       return itemPanel;
     }
     return null;

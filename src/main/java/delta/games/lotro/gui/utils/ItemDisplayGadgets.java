@@ -74,6 +74,24 @@ public class ItemDisplayGadgets
   }
 
   /**
+   * Get the managed icon controller.
+   * @return the managed icon controller.
+   */
+  public AbstractIconController getIconController()
+  {
+    return _icon;
+  }
+
+  /**
+   * Get the managed hyperlink controller.
+   * @return the managed hyperlink controller.
+   */
+  public HyperLinkController getHyperLinkController()
+  {
+    return _name;
+  }
+
+  /**
    * Get the managed icon button.
    * @return an icon button.
    */

@@ -1,17 +1,13 @@
 package delta.games.lotro.gui.utils;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import org.apache.log4j.Logger;
 
-import delta.common.ui.swing.labels.HyperLinkController;
-import delta.common.ui.swing.labels.LocalHyperlinkAction;
 import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.ui.swing.windows.WindowsManager;
 import delta.games.lotro.gui.navigation.NavigatorFactory;
+import delta.games.lotro.gui.utils.navigation.NavigationHyperLink;
 
 /**
  * Utility methods related to navigation.
@@ -86,18 +82,8 @@ public class NavigationUtils
    * @param pageId Page identifier.
    * @return a new controller.
    */
-  public static HyperLinkController buildNavigationLink(final WindowController parent, String text, final PageIdentifier pageId)
+  public static NavigationHyperLink buildNavigationLink(final WindowController parent, String text, final PageIdentifier pageId)
   {
-    ActionListener al=new ActionListener()
-    {
-      @Override
-      public void actionPerformed(ActionEvent e)
-      {
-        NavigationUtils.navigateTo(pageId,parent);
-      }
-    };
-    LocalHyperlinkAction action=new LocalHyperlinkAction(text,al);
-    HyperLinkController controller=new HyperLinkController(action);
-    return controller;
+    return new NavigationHyperLink(parent,text,pageId);
   }
 }

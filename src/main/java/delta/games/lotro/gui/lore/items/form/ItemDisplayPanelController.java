@@ -76,6 +76,7 @@ public class ItemDisplayPanelController extends AbstractNavigablePanelController
 {
   // Data
   private Item _item;
+  private Integer _itemLevel;
   // Controllers
   private ItemReferencesDisplayController _references;
   private ItemScalableStatsPanelController _scaling;
@@ -90,11 +91,13 @@ public class ItemDisplayPanelController extends AbstractNavigablePanelController
    * Constructor.
    * @param parent Parent window.
    * @param item Item to show.
+   * @param itemLevel Item level override.
    */
-  public ItemDisplayPanelController(NavigatorWindowController parent, Item item)
+  public ItemDisplayPanelController(NavigatorWindowController parent, Item item, Integer itemLevel)
   {
     super(parent);
     _item=item;
+    _itemLevel=itemLevel;
     _references=new ItemReferencesDisplayController(parent,item.getIdentifier());
     _scaling=new ItemScalableStatsPanelController(item);
     _container=new ContainerDisplayPanelController(parent,item);
@@ -106,7 +109,12 @@ public class ItemDisplayPanelController extends AbstractNavigablePanelController
   @Override
   public String getTitle()
   {
-    return "Item: "+_item.getName();
+    String title="Item: "+_item.getName();
+    if (_itemLevel!=null)
+    {
+      title=title+" (item level "+_itemLevel+")";
+    }
+    return title;
   }
 
   private JPanel build()
@@ -127,7 +135,7 @@ public class ItemDisplayPanelController extends AbstractNavigablePanelController
   private MultilineLabel2 buildStatsDisplay()
   {
     MultilineLabel2 statsLabel=null;
-    List<String> lines=ItemUtils.buildLinesToShowItem(_item);
+    List<String> lines=ItemUtils.buildLinesToShowItem(_item,_itemLevel);
     if (!lines.isEmpty())
     {
       statsLabel=new MultilineLabel2();
@@ -255,7 +263,7 @@ public class ItemDisplayPanelController extends AbstractNavigablePanelController
       c.gridy++;
     }
     // Value
-    Money money=_item.getValueAsMoney();
+    Money money=getValue();
     if (money!=null)
     {
       _money.setMoney(money);
@@ -299,6 +307,20 @@ public class ItemDisplayPanelController extends AbstractNavigablePanelController
     c.weighty=1.0;
     panel.add(paddingPanel,c);
     return panel;
+  }
+
+  private Money getValue()
+  {
+    Money money;
+    if (_itemLevel!=null)
+    {
+      money=_item.getValue(_itemLevel.intValue());
+    }
+    else
+    {
+      money=_item.getValueAsMoney();
+    }
+    return money;
   }
 
   private List<String> getAttributesLines()
@@ -610,6 +632,7 @@ public class ItemDisplayPanelController extends AbstractNavigablePanelController
     super.dispose();
     // Data
     _item=null;
+    _itemLevel=null;
     // Controllers
     if (_references!=null)
     {

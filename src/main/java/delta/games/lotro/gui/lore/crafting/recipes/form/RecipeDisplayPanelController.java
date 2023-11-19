@@ -16,14 +16,18 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.labels.HyperLinkController;
 import delta.common.ui.swing.navigator.NavigablePanelController;
 import delta.common.ui.swing.navigator.NavigatorWindowController;
+import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.games.lotro.common.Duration;
 import delta.games.lotro.common.enums.CraftingUICategory;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.lore.crafting.recipes.RecipeIcons;
 import delta.games.lotro.gui.lore.items.ItemUiTools;
+import delta.games.lotro.gui.navigation.NavigationParameters;
 import delta.games.lotro.gui.utils.IconController;
 import delta.games.lotro.gui.utils.IconControllerFactory;
 import delta.games.lotro.gui.utils.ItemDisplayGadgets;
+import delta.games.lotro.gui.utils.items.ItemIconController;
+import delta.games.lotro.gui.utils.navigation.NavigationHyperLink;
 import delta.games.lotro.lore.crafting.CraftingLevel;
 import delta.games.lotro.lore.crafting.Profession;
 import delta.games.lotro.lore.crafting.recipes.CraftingResult;
@@ -389,6 +393,15 @@ public class RecipeDisplayPanelController implements NavigablePanelController
     }
     comment=comment+": ";
     ItemDisplayGadgets ret=new ItemDisplayGadgets(_parent,itemId,count,comment);
+    if (itemLevel>0)
+    {
+      ItemIconController ctrl=(ItemIconController)ret.getIconController();
+      PageIdentifier pageID=ctrl.getPageIdentifier();
+      pageID.setParameter(NavigationParameters.ITEM_LEVEL_PARAMETER,String.valueOf(itemLevel));
+      NavigationHyperLink navigationLink=(NavigationHyperLink)ret.getHyperLinkController();
+      pageID=navigationLink.getPageIdentifier();
+      pageID.setParameter(NavigationParameters.ITEM_LEVEL_PARAMETER,String.valueOf(itemLevel));
+    }
     return ret;
   }
 

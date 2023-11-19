@@ -30,6 +30,7 @@ import delta.games.lotro.common.stats.StatUtils;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.gui.utils.NavigationUtils;
+import delta.games.lotro.gui.utils.navigation.NavigationHyperLink;
 import delta.games.lotro.lore.items.ArmourType;
 import delta.games.lotro.lore.items.DamageType;
 import delta.games.lotro.lore.items.EquipmentLocation;
@@ -91,7 +92,7 @@ public class ItemUiTools
    * @param item Item to use.
    * @return a new controller.
    */
-  public static HyperLinkController buildItemLink(final WindowController parent, final Item item)
+  public static NavigationHyperLink buildItemLink(final WindowController parent, final Item item)
   {
     return buildItemLink(parent,item,GuiFactory.buildLabel(""));
   }
@@ -103,19 +104,11 @@ public class ItemUiTools
    * @param label Label to use.
    * @return a new controller.
    */
-  public static HyperLinkController buildItemLink(final WindowController parent, final Item item, JLabel label)
+  public static NavigationHyperLink buildItemLink(final WindowController parent, final Item item, JLabel label)
   {
-    ActionListener al=new ActionListener()
-    {
-      @Override
-      public void actionPerformed(ActionEvent e)
-      {
-        showItemForm(parent,item);
-      }
-    };
+    PageIdentifier ref=ReferenceConstants.getItemReference(item.getIdentifier());
     String text=(item!=null)?item.getName():"???";
-    LocalHyperlinkAction action=new LocalHyperlinkAction(text,al);
-    HyperLinkController controller=new HyperLinkController(action,label);
+    NavigationHyperLink controller=new NavigationHyperLink(parent,text,ref);
     return controller;
   }
 

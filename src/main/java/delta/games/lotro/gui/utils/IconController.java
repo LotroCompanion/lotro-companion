@@ -57,6 +57,15 @@ public class IconController extends AbstractIconController
   }
 
   /**
+   * Get the page identifier.
+   * @return the page identifier.
+   */
+  public PageIdentifier getPageIdentifier()
+  {
+    return _pageId;
+  }
+
+  /**
    * Release all managed resources.
    */
   @Override
