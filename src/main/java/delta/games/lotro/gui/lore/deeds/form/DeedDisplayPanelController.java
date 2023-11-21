@@ -6,9 +6,12 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.Box;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -21,11 +24,15 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.navigator.AbstractNavigablePanelController;
 import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.common.ui.swing.navigator.PageIdentifier;
+import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.expressions.logical.LogicalTreeNode;
+import delta.games.lotro.character.status.achievables.AchievableStatus;
+import delta.games.lotro.character.status.achievables.edition.AchievableGeoStatusManager;
 import delta.games.lotro.common.ChallengeLevel;
 import delta.games.lotro.common.enums.DeedCategory;
 import delta.games.lotro.common.requirements.AbstractAchievableRequirement;
 import delta.games.lotro.gui.LotroIconsManager;
+import delta.games.lotro.gui.character.status.achievables.map.AchievableGeoStatusEditionController;
 import delta.games.lotro.gui.common.requirements.RequirementsUtils;
 import delta.games.lotro.gui.common.rewards.form.RewardsPanelController;
 import delta.games.lotro.gui.lore.quests.ObjectivesDisplayBuilder;
@@ -35,6 +42,7 @@ import delta.games.lotro.gui.lore.worldEvents.form.LogicalExpressionsPanelFactor
 import delta.games.lotro.gui.lore.worldEvents.form.PanelProvider;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.DeedType;
+import delta.games.lotro.lore.quests.Achievable;
 import delta.games.lotro.lore.webStore.WebStoreItem;
 import delta.games.lotro.lore.worldEvents.AbstractWorldEventCondition;
 import delta.games.lotro.lore.worldEvents.WorldEventConditionsUtils;
@@ -64,6 +72,7 @@ public class DeedDisplayPanelController extends AbstractNavigablePanelController
   private RewardsPanelController _rewards;
   private AbstractAchievableRequirementPanelController _achievablesRequirements;
   private PanelProvider _worldEventConditions;
+  private AchievableGeoStatusEditionController _geoController;
 
   /**
    * Constructor.
@@ -87,7 +96,7 @@ public class DeedDisplayPanelController extends AbstractNavigablePanelController
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
 
-    GridBagConstraints c=new GridBagConstraints(0,0,2,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    GridBagConstraints c=new GridBagConstraints(0,0,2,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
 
     // Top panel
     JPanel topPanel=buildTopPanel();
@@ -112,6 +121,23 @@ public class DeedDisplayPanelController extends AbstractNavigablePanelController
   }
 
   private JPanel buildTopPanel()
+  {
+    JPanel privateTopPanel=buildPrivateTop();
+    // Map
+    JButton mapButton=buildMapsButton(getWindowController());
+    if (mapButton==null)
+    {
+      return privateTopPanel;
+    }
+    JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    ret.add(privateTopPanel,c);
+    c=new GridBagConstraints(1,0,1,1,0.0,0.0,GridBagConstraints.SOUTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    ret.add(mapButton,c);
+    return ret;
+  }
+
+  private JPanel buildPrivateTop()
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
 
@@ -210,10 +236,30 @@ public class DeedDisplayPanelController extends AbstractNavigablePanelController
         c.gridy++;
       }
     }
-    // Padding to push everything on left
-    c=new GridBagConstraints(0,c.gridy,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
-    panel.add(Box.createHorizontalGlue(),c);
     return panel;
+  }
+
+  private JButton buildMapsButton(WindowController parent)
+  {
+    JButton toggleMap=null;
+    boolean hasGeoData=_deed.hasGeoData();
+    if (hasGeoData)
+    {
+      AchievableStatus status=new AchievableStatus(_deed);
+      AchievableGeoStatusManager geoStatusManager=new AchievableGeoStatusManager(status,null);
+      _geoController=new AchievableGeoStatusEditionController(parent,geoStatusManager,false);
+      toggleMap=GuiFactory.buildButton("Map"); // I18n
+      ActionListener mapActionListener=new ActionListener()
+      {
+        @Override
+        public void actionPerformed(ActionEvent e)
+        {
+          _geoController.showMaps();
+        }
+      };
+      toggleMap.addActionListener(mapActionListener);
+    }
+    return toggleMap;
   }
 
   private JEditorPane buildDetailsPane()
@@ -348,6 +394,11 @@ public class DeedDisplayPanelController extends AbstractNavigablePanelController
     {
       _worldEventConditions.dispose();
       _worldEventConditions=null;
+    }
+    if (_geoController!=null)
+    {
+      _geoController.dispose();
+      _geoController=null;
     }
     // UI
     _type=null;
