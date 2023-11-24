@@ -6,9 +6,12 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 
 import javax.swing.Box;
+import javax.swing.JButton;
 import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -21,13 +24,17 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.navigator.AbstractNavigablePanelController;
 import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.common.ui.swing.navigator.PageIdentifier;
+import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.expressions.logical.LogicalTreeNode;
+import delta.games.lotro.character.status.achievables.AchievableStatus;
+import delta.games.lotro.character.status.achievables.edition.AchievableGeoStatusManager;
 import delta.games.lotro.common.ChallengeLevel;
 import delta.games.lotro.common.LockType;
 import delta.games.lotro.common.Repeatability;
 import delta.games.lotro.common.Size;
 import delta.games.lotro.common.enums.QuestCategory;
 import delta.games.lotro.common.requirements.AbstractAchievableRequirement;
+import delta.games.lotro.gui.character.status.achievables.map.AchievableGeoStatusEditionController;
 import delta.games.lotro.gui.common.requirements.RequirementsUtils;
 import delta.games.lotro.gui.common.rewards.form.RewardsPanelController;
 import delta.games.lotro.gui.lore.quests.ObjectivesDisplayBuilder;
@@ -66,6 +73,7 @@ public class QuestDisplayPanelController extends AbstractNavigablePanelControlle
   private QuestLinksDisplayPanelController _links;
   private AbstractAchievableRequirementPanelController _achievablesRequirements;
   private PanelProvider _worldEventConditions;
+  private AchievableGeoStatusEditionController _geoController;
 
   /**
    * Constructor.
@@ -114,6 +122,25 @@ public class QuestDisplayPanelController extends AbstractNavigablePanelControlle
   }
 
   private JPanel buildTopPanel()
+  {
+    JPanel privateTopPanel=buildPrivateTop();
+    JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    ret.add(privateTopPanel,c);
+    // Map
+    JButton mapButton=buildMapsButton(getWindowController());
+    if (mapButton!=null)
+    {
+      c=new GridBagConstraints(1,0,1,1,0.0,0.0,GridBagConstraints.SOUTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+      ret.add(mapButton,c);
+    }
+    // Padding to push everything on left
+    c=new GridBagConstraints(2,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    ret.add(Box.createHorizontalGlue(),c);
+    return ret;
+  }
+
+  private JPanel buildPrivateTop()
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
 
@@ -191,7 +218,7 @@ public class QuestDisplayPanelController extends AbstractNavigablePanelControlle
     // Links
     _links=new QuestLinksDisplayPanelController(getParent(),_quest);
     JPanel linksPanel=_links.getPanel();
-    c=new GridBagConstraints(0,c.gridy,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    c=new GridBagConstraints(0,c.gridy,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(linksPanel,c);
     c.gridy++;
 
@@ -221,10 +248,30 @@ public class QuestDisplayPanelController extends AbstractNavigablePanelControlle
         c.gridy++;
       }
     }
-    // Padding to push everything on left
-    c=new GridBagConstraints(0,c.gridy,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
-    panel.add(Box.createHorizontalGlue(),c);
     return panel;
+  }
+
+  private JButton buildMapsButton(WindowController parent)
+  {
+    JButton toggleMap=null;
+    boolean hasGeoData=_quest.hasGeoData();
+    if (hasGeoData)
+    {
+      AchievableStatus status=new AchievableStatus(_quest);
+      AchievableGeoStatusManager geoStatusManager=new AchievableGeoStatusManager(status,null);
+      _geoController=new AchievableGeoStatusEditionController(parent,geoStatusManager,false);
+      toggleMap=GuiFactory.buildButton("Map"); // I18n
+      ActionListener mapActionListener=new ActionListener()
+      {
+        @Override
+        public void actionPerformed(ActionEvent e)
+        {
+          _geoController.showMaps();
+        }
+      };
+      toggleMap.addActionListener(mapActionListener);
+    }
+    return toggleMap;
   }
 
   private JEditorPane buildDetailsPane()
@@ -299,7 +346,6 @@ public class QuestDisplayPanelController extends AbstractNavigablePanelControlle
       }
       sb.append("</p>");
     }
-    // HTML end
     sb.append("</body></html>");
     return sb.toString();
   }
@@ -442,6 +488,11 @@ public class QuestDisplayPanelController extends AbstractNavigablePanelControlle
     {
       _worldEventConditions.dispose();
       _worldEventConditions=null;
+    }
+    if (_geoController!=null)
+    {
+      _geoController.dispose();
+      _geoController=null;
     }
     // UI
     _category=null;

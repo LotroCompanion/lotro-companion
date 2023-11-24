@@ -42,7 +42,6 @@ import delta.games.lotro.gui.lore.worldEvents.form.LogicalExpressionsPanelFactor
 import delta.games.lotro.gui.lore.worldEvents.form.PanelProvider;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.DeedType;
-import delta.games.lotro.lore.quests.Achievable;
 import delta.games.lotro.lore.webStore.WebStoreItem;
 import delta.games.lotro.lore.worldEvents.AbstractWorldEventCondition;
 import delta.games.lotro.lore.worldEvents.WorldEventConditionsUtils;
@@ -123,17 +122,19 @@ public class DeedDisplayPanelController extends AbstractNavigablePanelController
   private JPanel buildTopPanel()
   {
     JPanel privateTopPanel=buildPrivateTop();
-    // Map
-    JButton mapButton=buildMapsButton(getWindowController());
-    if (mapButton==null)
-    {
-      return privateTopPanel;
-    }
     JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     ret.add(privateTopPanel,c);
-    c=new GridBagConstraints(1,0,1,1,0.0,0.0,GridBagConstraints.SOUTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
-    ret.add(mapButton,c);
+    // Map
+    JButton mapButton=buildMapsButton(getWindowController());
+    if (mapButton!=null)
+    {
+      c=new GridBagConstraints(1,0,1,1,0.0,0.0,GridBagConstraints.SOUTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+      ret.add(mapButton,c);
+    }
+    // Padding to push everything on left
+    c=new GridBagConstraints(2,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    ret.add(Box.createHorizontalGlue(),c);
     return ret;
   }
 

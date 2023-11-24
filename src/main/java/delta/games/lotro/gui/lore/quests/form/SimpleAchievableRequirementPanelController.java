@@ -1,6 +1,8 @@
 package delta.games.lotro.gui.lore.quests.form;
 
-import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -95,18 +97,23 @@ public class SimpleAchievableRequirementPanelController extends AbstractAchievab
   private JPanel buildPanel()
   {
     String label=buildRequirementLabel();
-    JPanel ret=GuiFactory.buildPanel(new FlowLayout());
+    JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     String before=StringTools.findBefore(label,ACHIEVABLE_LINK_SEED);
     if ((before!=null) && (before.length()>0))
     {
-      ret.add(GuiFactory.buildLabel(before));
+      ret.add(GuiFactory.buildLabel(before),c);
+      c.gridx++;
     }
     JLabel linkLabel=((_link!=null)?_link.getLabel():GuiFactory.buildLabel("???"));
-    ret.add(linkLabel);
+    c.weightx=1.0;
+    ret.add(linkLabel,c);
+    c.gridx++;
     String after=StringTools.findAfter(label,ACHIEVABLE_LINK_SEED);
     if ((after!=null) && (after.length()>0))
     {
-      ret.add(GuiFactory.buildLabel(after));
+      ret.add(GuiFactory.buildLabel(after),c);
+      c.gridx++;
     }
     return ret;
   }
