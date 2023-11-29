@@ -1,5 +1,7 @@
 package delta.games.lotro.gui.utils.navigation;
 
+import javax.swing.JLabel;
+
 import delta.common.ui.swing.labels.HyperLinkController;
 import delta.common.ui.swing.labels.LocalHyperlinkAction;
 import delta.common.ui.swing.navigator.PageIdentifier;
@@ -22,6 +24,19 @@ public class NavigationHyperLink extends HyperLinkController
   public NavigationHyperLink(WindowController parent, String text, PageIdentifier pageId)
   {
     super(new LocalHyperlinkAction(text,new NavigationAction(parent,pageId)));
+    _pageId=pageId;
+  }
+
+  /**
+   * Constructor.
+   * @param parent Parent window.
+   * @param text Link text.
+   * @param pageId Page identifier.
+   * @param label Label to use.
+   */
+  public NavigationHyperLink(WindowController parent, String text, PageIdentifier pageId, JLabel label)
+  {
+    super(new LocalHyperlinkAction(text,new NavigationAction(parent,pageId)),label);
     _pageId=pageId;
   }
 

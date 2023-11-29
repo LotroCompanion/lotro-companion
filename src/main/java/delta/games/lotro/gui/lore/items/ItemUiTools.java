@@ -108,7 +108,7 @@ public class ItemUiTools
   {
     PageIdentifier ref=ReferenceConstants.getItemReference(item.getIdentifier());
     String text=(item!=null)?item.getName():"???";
-    NavigationHyperLink controller=new NavigationHyperLink(parent,text,ref);
+    NavigationHyperLink controller=new NavigationHyperLink(parent,text,ref,label);
     return controller;
   }
 
