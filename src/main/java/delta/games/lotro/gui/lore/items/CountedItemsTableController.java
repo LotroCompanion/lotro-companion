@@ -19,6 +19,7 @@ import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.lore.items.chooser.ItemChooser;
 import delta.games.lotro.gui.lore.items.chooser.ItemsTableBuilder;
+import delta.games.lotro.gui.utils.UiConfiguration;
 import delta.games.lotro.gui.utils.l10n.StatColumnsUtils;
 import delta.games.lotro.lore.items.CountedItem;
 import delta.games.lotro.lore.items.Item;
@@ -145,6 +146,7 @@ public class CountedItemsTableController<T extends ItemProvider>
       ret.add(iconColumn);
     }
     // ID column
+    if (UiConfiguration.showTechnicalColumns())
     {
       CellDataProvider<CountedItem<T>,Long> idCell=new CellDataProvider<CountedItem<T>,Long>()
       {

@@ -18,6 +18,7 @@ import delta.common.ui.swing.tables.TableColumnsManager;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.gui.lore.items.ItemUiTools;
 import delta.games.lotro.gui.lore.items.chooser.ItemsTableBuilder;
+import delta.games.lotro.gui.utils.UiConfiguration;
 import delta.games.lotro.lore.hobbies.rewards.HobbyDropTableEntry;
 import delta.games.lotro.lore.items.Item;
 
@@ -106,7 +107,10 @@ public class HobbyDropTableBuilder
     // Icon column
     columns.add(ItemsTableBuilder.buildIconColumn());
     // ID column
-    columns.add(ItemsTableBuilder.buildIdColumn());
+    if (UiConfiguration.showTechnicalColumns())
+    {
+      columns.add(ItemsTableBuilder.buildIdColumn());
+    }
     // Name column
     columns.add(ItemsTableBuilder.buildNameColumn());
     return columns;

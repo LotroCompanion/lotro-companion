@@ -29,6 +29,7 @@ import delta.games.lotro.config.LotroCoreConfig;
 import delta.games.lotro.gui.lore.items.ItemColumnIds;
 import delta.games.lotro.gui.lore.items.ItemUiTools;
 import delta.games.lotro.gui.utils.MoneyCellRenderer;
+import delta.games.lotro.gui.utils.UiConfiguration;
 import delta.games.lotro.gui.utils.l10n.Labels;
 import delta.games.lotro.gui.utils.l10n.StatColumnsUtils;
 import delta.games.lotro.gui.utils.l10n.StatRenderer;
@@ -108,7 +109,10 @@ public class ItemsTableBuilder
     // Icon column
     columns.add(buildIconColumn());
     // ID column
-    columns.add(buildIdColumn());
+    if (UiConfiguration.showTechnicalColumns())
+    {
+      columns.add(buildIdColumn());
+    }
     // Name column
     columns.add(buildNameColumn());
     // Item level column

@@ -21,6 +21,7 @@ import delta.games.lotro.gui.lore.items.ItemColumnIds;
 import delta.games.lotro.gui.lore.items.chooser.ItemChooser;
 import delta.games.lotro.gui.lore.items.chooser.ItemsTableBuilder;
 import delta.games.lotro.gui.utils.MoneyCellRenderer;
+import delta.games.lotro.gui.utils.UiConfiguration;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.trade.vendor.ValuedItem;
 
@@ -79,7 +80,10 @@ public class SellItemsTableController
     // Icon column
     itemColumns.add(ItemsTableBuilder.buildIconColumn());
     // Identifier column
-    itemColumns.add(ItemsTableBuilder.buildIdColumn());
+    if (UiConfiguration.showTechnicalColumns())
+    {
+      itemColumns.add(ItemsTableBuilder.buildIdColumn());
+    }
     // Name column
     itemColumns.add(ItemsTableBuilder.buildNameColumn());
     // Item level column
