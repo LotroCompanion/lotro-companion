@@ -31,6 +31,8 @@ public class AchievablesStatisticsDetailedSummaryPanelController
   private JLabel _classPoints;
   private JLabel _marks;
   private JLabel _medallions;
+  private JLabel _xp;
+  private JLabel _itemXp;
   private JLabel _titlesCount;
   private JLabel _reputation;
   private JLabel _virtues;
@@ -80,6 +82,22 @@ public class AchievablesStatisticsDetailedSummaryPanelController
     _medallions=GuiFactory.buildLabel("");
     ret.add(_medallions,cValues);
     cLabels.gridy++;cValues.gridy++;
+    // XP
+    if (_mode==AchievableUIMode.QUEST)
+    {
+      ret.add(GuiFactory.buildLabel("XP:"),cLabels); // I18n
+      _xp=GuiFactory.buildLabel("");
+      ret.add(_xp,cValues);
+      cLabels.gridy++;cValues.gridy++;
+    }
+    // Item XP
+    if (_mode==AchievableUIMode.QUEST)
+    {
+      ret.add(GuiFactory.buildLabel("Item XP:"),cLabels); // I18n
+      _itemXp=GuiFactory.buildLabel("");
+      ret.add(_itemXp,cValues);
+      cLabels.gridy++;cValues.gridy++;
+    }
     // Titles
     ret.add(GuiFactory.buildLabel("Titles:"),cLabels); // I18n
     _titlesCount=GuiFactory.buildLabel("");
@@ -136,6 +154,18 @@ public class AchievablesStatisticsDetailedSummaryPanelController
     // Medallions
     int medallions=_statistics.getMedallionsCount();
     _medallions.setText(L10n.getString(medallions));
+    // XP
+    if (_xp!=null)
+    {
+      long xp=_statistics.getXP();
+      _xp.setText(L10n.getString(xp));
+    }
+    // Item XP
+    if (_itemXp!=null)
+    {
+      long itemXP=_statistics.getItemXP();
+      _itemXp.setText(L10n.getString(itemXP));
+    }
     // Titles count
     int nbTitles=_statistics.getTitles().size();
     _titlesCount.setText(L10n.getString(nbTitles));
@@ -213,6 +243,8 @@ public class AchievablesStatisticsDetailedSummaryPanelController
     _classPoints=null;
     _marks=null;
     _medallions=null;
+    _xp=null;
+    _itemXp=null;
     _titlesCount=null;
     _reputation=null;
     _virtues=null;
