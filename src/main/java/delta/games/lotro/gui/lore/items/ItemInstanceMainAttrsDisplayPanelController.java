@@ -1,13 +1,11 @@
 package delta.games.lotro.gui.lore.items;
 
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.util.Date;
 
-import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -22,7 +20,6 @@ import delta.games.lotro.lore.items.ItemInstance;
 import delta.games.lotro.lore.items.ItemPropertyNames;
 import delta.games.lotro.lore.items.ItemSturdiness;
 import delta.games.lotro.utils.Formats;
-import delta.games.lotro.utils.gui.HtmlUtils;
 
 /**
  * Controller for an item instance edition panel.
@@ -56,27 +53,13 @@ public class ItemInstanceMainAttrsDisplayPanelController
   private LabeledComponent<JLabel> _color;
   // - Bound to
   // TODO
-  // - Description
-  private JEditorPane _description;
-  // - User comments
-  private LabeledComponent<JLabel> _userComments;
-
-  // Item model data:
-  // - slot
-  // - category?
-  // - binding
-  // - unique
-  // - max level
-  // - requirements: class, and later: race, faction, glory rank, trait
-  // - value
-  // - stack max
-  // - quality
-  // Weapons:
+  // Weapon specifics
+  // TODO
   // - weapon type
   // - damage type
   // - min damage, max damage, dps => later
-  // Armours:
-  // - armour type
+  // - User comments
+  private LabeledComponent<JLabel> _userComments;
 
   /**
    * Constructor.
@@ -124,27 +107,10 @@ public class ItemInstanceMainAttrsDisplayPanelController
     _color=new LabeledComponent<JLabel>("Color:",GuiFactory.buildLabel(""));
     // - Bound to
     // TODO
-    // - Description
-    _description=GuiFactory.buildHtmlPanel();
-    _description.setPreferredSize(new Dimension(300,90));
+    // Weapons
+    // TODO
     // - User comments
     _userComments=new LabeledComponent<JLabel>("Comments:",GuiFactory.buildLabel(""));
-  }
-
-  private void updateDescription()
-  {
-    Item item=_itemInstance.getReference();
-    String description=item.getDescription();
-    boolean hasDescription=(description.length()>0);
-    _description.setVisible(hasDescription);
-    if (hasDescription)
-    {
-      StringBuilder sb=new StringBuilder();
-      sb.append("<html><body>");
-      sb.append(HtmlUtils.toHtml(description));
-      sb.append("</body></html>");
-      _description.setText(sb.toString());
-    }
   }
 
   private JPanel build()
@@ -159,7 +125,7 @@ public class ItemInstanceMainAttrsDisplayPanelController
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
 
-    GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     // Identification line: ID and validity date
     {
       JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
@@ -227,13 +193,10 @@ public class ItemInstanceMainAttrsDisplayPanelController
       panelLine.add(_userComments.getLabel());
       panelLine.add(_userComments.getComponent());
     }
-    // Description
-    {
-      c.weighty=1.0;
-      c.fill=GridBagConstraints.BOTH;
-      panel.add(_description,c);
-      c.gridy++;
-    }
+    // Binding
+    // TODO
+    // Weapon specifics
+    // TODO
 
     return panel;
   }
@@ -306,8 +269,8 @@ public class ItemInstanceMainAttrsDisplayPanelController
     }
     // - Bound to
     // TODO
-    // Description
-    updateDescription();
+    // Weapon specifics
+    // TODO
     // - User comments
     String userComments=_itemInstance.getProperty(ItemPropertyNames.USER_COMMENT);
     boolean hasUserComments=(userComments!=null);
@@ -409,8 +372,8 @@ public class ItemInstanceMainAttrsDisplayPanelController
     }
     // - Bound to
     // TODO
-    // - Description
-    _description=null;
+    // Weapon specifics
+    // TODO
     // - User comments
     if (_userComments!=null)
     {

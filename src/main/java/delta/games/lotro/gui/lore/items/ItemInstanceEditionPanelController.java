@@ -7,6 +7,7 @@ import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -118,7 +119,7 @@ public class ItemInstanceEditionPanelController
     ret.add(idPanel,c);
     // Main attributes
     JPanel mainAttrsPanel=buildMainAttrsPanel();
-    c=new GridBagConstraints(0,1,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
+    c=new GridBagConstraints(0,1,1,1,0.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     ret.add(mainAttrsPanel,c);
     // Stats
     JPanel statsPanel=buildStatsPanel();
@@ -131,6 +132,9 @@ public class ItemInstanceEditionPanelController
       JPanel essencesPanel=buildEssencesPanel();
       ret.add(essencesPanel,c);
     }
+    // Glue
+    c=new GridBagConstraints(3,1,1,1,1.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    ret.add(Box.createHorizontalGlue(),c);
     // Legendary
     JPanel legendaryPanel=null;
     if (_legendary!=null)
@@ -143,7 +147,7 @@ public class ItemInstanceEditionPanelController
     }
     if (legendaryPanel!=null)
     {
-      c=new GridBagConstraints(0,2,2,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
+      c=new GridBagConstraints(0,2,4,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
       ret.add(legendaryPanel,c);
     }
     return ret;
@@ -153,7 +157,7 @@ public class ItemInstanceEditionPanelController
   {
     JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
     // Main attributes
-    GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     ret.add(_mainAttrs.getPanel(),c);
     // Edit main attrs
     JButton editButton=GuiFactory.buildButton(EDIT);

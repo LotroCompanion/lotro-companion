@@ -4,6 +4,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
+import javax.swing.Box;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
@@ -102,10 +103,10 @@ public class ItemInstanceDisplayPanelController
     JPanel ret=GuiFactory.buildBackgroundPanel(new GridBagLayout());
     // ID
     JPanel idPanel=_id.getPanel();
-    GridBagConstraints c=new GridBagConstraints(0,0,3,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    GridBagConstraints c=new GridBagConstraints(0,0,4,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     ret.add(idPanel,c);
     // Main attributes
-    c=new GridBagConstraints(0,1,1,1,1.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    c=new GridBagConstraints(0,1,1,1,0.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     ret.add(_mainAttrs.getPanel(),c);
     // Stats
     c=new GridBagConstraints(1,1,1,1,0.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
@@ -116,6 +117,9 @@ public class ItemInstanceDisplayPanelController
       c=new GridBagConstraints(2,1,1,1,0.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
       ret.add(_essences.getPanel(),c);
     }
+    // Glue
+    c=new GridBagConstraints(3,1,1,1,1.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    ret.add(Box.createHorizontalGlue(),c);
     // Legendary
     JPanel legendaryPanel=null;
     if (_legendary!=null)
@@ -129,7 +133,7 @@ public class ItemInstanceDisplayPanelController
     if (legendaryPanel!=null)
     {
       JScrollPane scrollPane=GuiFactory.buildScrollPane(legendaryPanel);
-      c=new GridBagConstraints(0,2,3,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
+      c=new GridBagConstraints(0,2,4,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
       ret.add(scrollPane,c);
       scrollPane.setBorder(GuiFactory.buildTitledBorder("Legendary"));
     }
