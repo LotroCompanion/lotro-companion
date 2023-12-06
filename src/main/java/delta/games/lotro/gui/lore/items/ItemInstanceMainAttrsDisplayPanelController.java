@@ -11,14 +11,17 @@ import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.form.LabeledComponent;
+import delta.common.utils.l10n.L10n;
 import delta.games.lotro.common.colors.ColorDescription;
 import delta.games.lotro.common.id.InternalGameId;
 import delta.games.lotro.common.money.Money;
 import delta.games.lotro.gui.common.money.MoneyDisplayController;
+import delta.games.lotro.lore.items.DamageType;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemInstance;
 import delta.games.lotro.lore.items.ItemPropertyNames;
 import delta.games.lotro.lore.items.ItemSturdiness;
+import delta.games.lotro.lore.items.WeaponInstance;
 import delta.games.lotro.utils.Formats;
 
 /**
@@ -54,10 +57,9 @@ public class ItemInstanceMainAttrsDisplayPanelController
   // - Bound to
   // TODO
   // Weapon specifics
-  // TODO
-  // - weapon type
-  // - damage type
-  // - min damage, max damage, dps => later
+  private JLabel _dps;
+  private JLabel _minMaxDamage;
+  private JLabel _damageType;
   // - User comments
   private LabeledComponent<JLabel> _userComments;
 
@@ -108,7 +110,12 @@ public class ItemInstanceMainAttrsDisplayPanelController
     // - Bound to
     // TODO
     // Weapons
-    // TODO
+    if (_itemInstance instanceof WeaponInstance)
+    {
+      _dps=GuiFactory.buildLabel("");
+      _minMaxDamage=GuiFactory.buildLabel("");
+      _damageType=GuiFactory.buildLabel("");
+    }
     // - User comments
     _userComments=new LabeledComponent<JLabel>("Comments:",GuiFactory.buildLabel(""));
   }
@@ -196,8 +203,22 @@ public class ItemInstanceMainAttrsDisplayPanelController
     // Binding
     // TODO
     // Weapon specifics
-    // TODO
-
+    if (_itemInstance instanceof WeaponInstance)
+    {
+      JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
+      panel.add(panelLine,c);
+      c.gridy++;
+      // DPS
+      panelLine.add(GuiFactory.buildLabel("DPS:"));
+      panelLine.add(_dps);
+      // Damage
+      panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
+      panel.add(panelLine,c);
+      c.gridy++;
+      panelLine.add(GuiFactory.buildLabel("Damage:"));
+      panelLine.add(_minMaxDamage);
+      panelLine.add(_damageType);
+    }
     return panel;
   }
 
@@ -270,7 +291,22 @@ public class ItemInstanceMainAttrsDisplayPanelController
     // - Bound to
     // TODO
     // Weapon specifics
-    // TODO
+    if (_itemInstance instanceof WeaponInstance)
+    {
+      WeaponInstance<?> wi=(WeaponInstance<?>)_itemInstance;
+      // DPS
+      float dps=wi.getEffectiveDPS();
+      String dpsStr=L10n.getString(dps,1);
+      _dps.setText(dpsStr);
+      // Damage
+      int minDamage=wi.getEffectiveMinDamage();
+      int maxDamage=wi.getEffectiveMaxDamage();
+      String damageStr=minDamage+" - "+maxDamage;
+      _minMaxDamage.setText(damageStr);
+      DamageType damageType=wi.getEffectiveDamageType();
+      String damageTypeStr=(damageType!=null)?damageType.getLabel():"";
+      _damageType.setText(damageTypeStr);
+    }
     // - User comments
     String userComments=_itemInstance.getProperty(ItemPropertyNames.USER_COMMENT);
     boolean hasUserComments=(userComments!=null);
@@ -373,7 +409,9 @@ public class ItemInstanceMainAttrsDisplayPanelController
     // - Bound to
     // TODO
     // Weapon specifics
-    // TODO
+    _dps=null;
+    _minMaxDamage=null;
+    _damageType=null;
     // - User comments
     if (_userComments!=null)
     {
