@@ -16,6 +16,7 @@ import delta.games.lotro.common.colors.ColorDescription;
 import delta.games.lotro.common.id.InternalGameId;
 import delta.games.lotro.common.money.Money;
 import delta.games.lotro.gui.common.money.MoneyDisplayController;
+import delta.games.lotro.gui.utils.UiConfiguration;
 import delta.games.lotro.lore.items.DamageType;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemInstance;
@@ -88,7 +89,10 @@ public class ItemInstanceMainAttrsDisplayPanelController
   private void initGadgets()
   {
     // - Instance ID
-    _instanceId=new LabeledComponent<JLabel>("ID:",GuiFactory.buildLabel(""));
+    if (UiConfiguration.showTechnicalColumns())
+    {
+      _instanceId=new LabeledComponent<JLabel>("ID:",GuiFactory.buildLabel(""));
+    }
     // Validity date
     _date=new LabeledComponent<JLabel>("Date:",GuiFactory.buildLabel(""));
     // Birth name
@@ -139,8 +143,11 @@ public class ItemInstanceMainAttrsDisplayPanelController
       panel.add(panelLine,c);
       c.gridy++;
       // ID
-      panelLine.add(_instanceId.getLabel());
-      panelLine.add(_instanceId.getComponent());
+      if (_instanceId!=null)
+      {
+        panelLine.add(_instanceId.getLabel());
+        panelLine.add(_instanceId.getComponent());
+      }
       // Date
       panelLine.add(_date.getLabel());
       panelLine.add(_date.getComponent());
@@ -228,22 +235,26 @@ public class ItemInstanceMainAttrsDisplayPanelController
   public void update()
   {
     // Instance ID
+    boolean instanceIdVisible=false;
     InternalGameId instanceId=_itemInstance.getInstanceId();
-    _instanceId.setVisible(instanceId!=null);
-    if (instanceId!=null)
+    if ((_instanceId!=null) && (instanceId!=null))
     {
+      _instanceId.setVisible(true);
       _instanceId.getComponent().setText(instanceId.asDisplayableString());
+      instanceIdVisible=true;
     }
     // Validity date
+    boolean timeVisible=false;
     Long time=_itemInstance.getTime();
-    _date.setVisible(time!=null);
     if (time!=null)
     {
+      _date.setVisible(true);
       String validityDateStr=Formats.getDateTimeString(new Date(time.longValue()));
       _date.getComponent().setText(validityDateStr);
+      timeVisible=true;
     }
     // Adjust visibility of the parent panel
-    _date.getComponent().getParent().setVisible((instanceId!=null)||(time!=null));
+    _date.getComponent().getParent().setVisible(instanceIdVisible&timeVisible);
     // Birth name
     String birthName=_itemInstance.getBirthName();
     boolean hasName=((birthName!=null) && (birthName.length()>0));

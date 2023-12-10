@@ -25,6 +25,7 @@ import delta.games.lotro.gui.lore.items.ItemColumnIds;
 import delta.games.lotro.gui.lore.items.ItemInstanceColumnIds;
 import delta.games.lotro.gui.lore.items.ItemUiTools;
 import delta.games.lotro.gui.utils.InternalGameIdRenderer;
+import delta.games.lotro.gui.utils.UiConfiguration;
 import delta.games.lotro.gui.utils.l10n.StatColumnsUtils;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemInstance;
@@ -139,6 +140,7 @@ public class ItemInstancesTableBuilder
     List<DefaultTableColumnController<ItemInstance<? extends Item>,?>> columns=new ArrayList<DefaultTableColumnController<ItemInstance<? extends Item>,?>>();
 
     // Instance ID
+    if (UiConfiguration.showTechnicalColumns())
     {
       CellDataProvider<ItemInstance<? extends Item>,InternalGameId> cell=new CellDataProvider<ItemInstance<? extends Item>,InternalGameId>()
       {
