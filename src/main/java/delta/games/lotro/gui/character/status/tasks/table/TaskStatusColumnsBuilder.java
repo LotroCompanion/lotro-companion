@@ -102,8 +102,7 @@ public class TaskStatusColumnsBuilder
     }
     // Consumed items
     List<DefaultTableColumnController<Item,?>> itemColumns=new ArrayList<DefaultTableColumnController<Item,?>>();
-    DefaultTableColumnController<Item,?> itemNameColumn=ItemsTableBuilder.buildNameColumn(CONSUMED_ITEM_NAME_COLUMN,"Consumed item"); // I18n
-    itemColumns.add(itemNameColumn);
+    itemColumns.add(ItemsTableBuilder.buildNameColumn(CONSUMED_ITEM_NAME_COLUMN,"Consumed item")); // I18n
     itemColumns.add(ItemsTableBuilder.buildIconColumn());
     CellDataProvider<Task,Item> itemProvider=new CellDataProvider<Task,Item>()
     {
@@ -113,7 +112,7 @@ public class TaskStatusColumnsBuilder
         return task.getItem();
       }
     };
-    for(TableColumnController<Item,?> itemColumn : itemColumns)
+    for(DefaultTableColumnController<Item,?> itemColumn : itemColumns)
     {
       @SuppressWarnings("unchecked")
       TableColumnController<Item,Object> c=(TableColumnController<Item,Object>)itemColumn;
