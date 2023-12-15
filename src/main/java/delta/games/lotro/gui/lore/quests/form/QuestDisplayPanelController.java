@@ -27,6 +27,7 @@ import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.expressions.logical.LogicalTreeNode;
 import delta.games.lotro.character.status.achievables.AchievableStatus;
+import delta.games.lotro.character.status.achievables.QuestRequirementStateComputer;
 import delta.games.lotro.character.status.achievables.edition.AchievableGeoStatusManager;
 import delta.games.lotro.common.ChallengeLevel;
 import delta.games.lotro.common.LockType;
@@ -47,6 +48,7 @@ import delta.games.lotro.lore.quests.dialogs.QuestCompletionComment;
 import delta.games.lotro.lore.webStore.WebStoreItem;
 import delta.games.lotro.lore.worldEvents.AbstractWorldEventCondition;
 import delta.games.lotro.lore.worldEvents.WorldEventConditionsUtils;
+import delta.games.lotro.utils.ContextPropertyNames;
 import delta.games.lotro.utils.gui.HtmlUtils;
 import delta.games.lotro.utils.strings.ContextRendering;
 
@@ -226,7 +228,8 @@ public class QuestDisplayPanelController extends AbstractNavigablePanelControlle
     AbstractAchievableRequirement requirement=_quest.getQuestRequirements();
     if (requirement!=null)
     {
-      _achievablesRequirements=AchievableRequirementsPanelFactory.buildAchievableRequirementPanelController(getParent(),requirement);
+      QuestRequirementStateComputer computer=getParentWindowController().getContextProperty(ContextPropertyNames.QUEST_REQUIREMENT_STATE_COMPUTER,QuestRequirementStateComputer.class);
+      _achievablesRequirements=AchievableRequirementsPanelFactory.buildAchievableRequirementPanelController(getParent(),computer,requirement);
       JPanel achievablesRequirementsPanel=_achievablesRequirements.getPanel();
       c=new GridBagConstraints(0,c.gridy,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
       panel.add(achievablesRequirementsPanel,c);

@@ -215,7 +215,7 @@ public class DeedDisplayPanelController extends AbstractNavigablePanelController
     AbstractAchievableRequirement requirement=_deed.getQuestRequirements();
     if (requirement!=null)
     {
-      _achievablesRequirements=AchievableRequirementsPanelFactory.buildAchievableRequirementPanelController(getParent(),requirement);
+      _achievablesRequirements=AchievableRequirementsPanelFactory.buildAchievableRequirementPanelController(getParent(),null,requirement);
       JPanel achievablesRequirementsPanel=_achievablesRequirements.getPanel();
       c=new GridBagConstraints(0,c.gridy,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
       panel.add(achievablesRequirementsPanel,c);

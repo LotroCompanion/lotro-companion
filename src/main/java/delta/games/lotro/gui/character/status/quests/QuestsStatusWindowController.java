@@ -28,7 +28,9 @@ import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.status.achievables.AchievableStatus;
 import delta.games.lotro.character.status.achievables.AchievablesStatusManager;
+import delta.games.lotro.character.status.achievables.QuestRequirementStateComputer;
 import delta.games.lotro.character.status.achievables.filter.QuestStatusFilter;
+import delta.games.lotro.character.status.achievables.io.DeedsStatusIo;
 import delta.games.lotro.common.blacklist.Blacklist;
 import delta.games.lotro.common.blacklist.io.BlackListIO;
 import delta.games.lotro.gui.character.status.achievables.AchievableUIMode;
@@ -41,6 +43,7 @@ import delta.games.lotro.gui.lore.quests.filter.QuestFilterController;
 import delta.games.lotro.gui.main.GlobalPreferences;
 import delta.games.lotro.lore.quests.AchievablesUtils;
 import delta.games.lotro.lore.quests.QuestDescription;
+import delta.games.lotro.utils.ContextPropertyNames;
 
 /**
  * Controller for a quests status display window.
@@ -78,6 +81,14 @@ public class QuestsStatusWindowController extends DefaultDisplayDialogController
     _toon=toon;
     _quests=AchievablesUtils.getQuests(_toon.getSummary());
     _filter=new QuestStatusFilter();
+    initStateComputer();
+  }
+
+  private void initStateComputer()
+  {
+    AchievablesStatusManager deedsStatusMgr=DeedsStatusIo.load(_toon);
+    QuestRequirementStateComputer computer=new QuestRequirementStateComputer(_data,deedsStatusMgr);
+    setContextProperty(ContextPropertyNames.QUEST_REQUIREMENT_STATE_COMPUTER,computer);
   }
 
   @Override

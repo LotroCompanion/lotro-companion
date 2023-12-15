@@ -8,12 +8,15 @@ import java.awt.Insets;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.Icon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
-import delta.common.ui.swing.navigator.NavigatorWindowController;
+import delta.common.ui.swing.icons.IconsManager;
+import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.collections.filters.Operator;
+import delta.games.lotro.character.status.achievables.QuestRequirementStateComputer;
 import delta.games.lotro.common.requirements.AbstractAchievableRequirement;
 import delta.games.lotro.common.requirements.CompoundQuestRequirement;
 
@@ -24,43 +27,44 @@ import delta.games.lotro.common.requirements.CompoundQuestRequirement;
 public class CompoundAchievableRequirementPanelController extends AbstractAchievableRequirementPanelController
 {
   // Controllers
-  private NavigatorWindowController _parent;
   private List<AbstractAchievableRequirementPanelController> _childPanels;
-  // UI
-  private JPanel _panel;
   // Data
   private CompoundQuestRequirement _requirement;
 
   /**
    * Constructor.
    * @param parent Parent window.
+   * @param computer State computer.
    * @param requirement Requirement to show.
    */
-  public CompoundAchievableRequirementPanelController(NavigatorWindowController parent, CompoundQuestRequirement requirement)
+  public CompoundAchievableRequirementPanelController(WindowController parent, QuestRequirementStateComputer computer, CompoundQuestRequirement requirement)
   {
-    _parent=parent;
+    super(parent,computer);
     _requirement=requirement;
     _childPanels=new ArrayList<AbstractAchievableRequirementPanelController>();
-    _panel=buildPanel();
-  }
-
-  /**
-   * Get the managed panel.
-   * @return A panel.
-   */
-  public JPanel getPanel()
-  {
-    return _panel;
+    JPanel panel=buildPanel();
+    setPanel(panel);
   }
 
   private JPanel buildPanel()
   {
     JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
+    int x=0;
+    GridBagConstraints c=new GridBagConstraints(x,0,1,1,0.0,1.0,GridBagConstraints.WEST,GridBagConstraints.VERTICAL,new Insets(0,0,0,0),0,0);
+    if (_stateComputer!=null)
+    {
+      boolean ok=_stateComputer.assess(_requirement);
+      Icon stateIcon=IconsManager.getIcon("/resources/gui/icons/state/"+(ok?"ok":"ko")+".png");
+      JLabel icon=GuiFactory.buildIconLabel(stateIcon);
+      ret.add(icon,c);
+      x++;
+    }
     // Operator
     Operator operator=_requirement.getOperator();
-    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,1.0,GridBagConstraints.WEST,GridBagConstraints.VERTICAL,new Insets(0,0,0,0),0,0);
     JLabel operatorLabel=GuiFactory.buildLabel(operator.name());
+    c=new GridBagConstraints(x,0,1,1,0.0,1.0,GridBagConstraints.WEST,GridBagConstraints.VERTICAL,new Insets(0,0,0,0),0,0);
     ret.add(operatorLabel,c);
+    x++;
     // Filler
     JPanel filler=GuiFactory.buildPanel(null);
     filler.setMinimumSize(new Dimension(5,0));
@@ -68,11 +72,13 @@ public class CompoundAchievableRequirementPanelController extends AbstractAchiev
     filler.setMaximumSize(new Dimension(5,Short.MAX_VALUE));
     filler.setBackground(Color.BLACK);
     filler.setOpaque(true);
-    c=new GridBagConstraints(1,0,1,1,0.0,1.0,GridBagConstraints.WEST,GridBagConstraints.VERTICAL,new Insets(5,5,5,0),0,0);
+    c=new GridBagConstraints(x,0,1,1,0.0,1.0,GridBagConstraints.WEST,GridBagConstraints.VERTICAL,new Insets(5,5,5,0),0,0);
+    x++;
     ret.add(filler,c);
     // Child requirements
     JPanel childRequirementsPanel=buildChildRequirementsPanel();
-    c=new GridBagConstraints(2,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    c=new GridBagConstraints(x,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    x++;
     ret.add(childRequirementsPanel,c);
     return ret;
   }
@@ -80,10 +86,11 @@ public class CompoundAchievableRequirementPanelController extends AbstractAchiev
   private JPanel buildChildRequirementsPanel()
   {
     JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
+    WindowController parent=getParentWindowController();
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     for(AbstractAchievableRequirement requirement : _requirement.getRequirements())
     {
-      AbstractAchievableRequirementPanelController ctrl=AchievableRequirementsPanelFactory.buildAchievableRequirementPanelController(_parent,requirement);
+      AbstractAchievableRequirementPanelController ctrl=AchievableRequirementsPanelFactory.buildAchievableRequirementPanelController(parent,_stateComputer,requirement);
       _childPanels.add(ctrl);
       ret.add(ctrl.getPanel(),c);
       c.gridy++;
@@ -91,13 +98,11 @@ public class CompoundAchievableRequirementPanelController extends AbstractAchiev
     return ret;
   }
 
-  /**
-   * Release all managed resources.
-   */
+  @Override
   public void dispose()
   {
+    super.dispose();
     // Controllers
-    _parent=null;
     if (_childPanels!=null)
     {
       for(AbstractAchievableRequirementPanelController ctrl : _childPanels)
@@ -105,12 +110,6 @@ public class CompoundAchievableRequirementPanelController extends AbstractAchiev
         ctrl.dispose();
       }
       _childPanels=null;
-    }
-    // UI
-    if (_panel!=null)
-    {
-      _panel.removeAll();
-      _panel=null;
     }
   }
 }

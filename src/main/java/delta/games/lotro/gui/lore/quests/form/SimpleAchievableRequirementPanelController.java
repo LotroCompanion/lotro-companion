@@ -6,17 +6,21 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.Icon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import org.apache.log4j.Logger;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.icons.IconsManager;
 import delta.common.ui.swing.labels.HyperLinkController;
 import delta.common.ui.swing.labels.LocalHyperlinkAction;
 import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.common.ui.swing.navigator.PageIdentifier;
+import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.text.StringTools;
+import delta.games.lotro.character.status.achievables.QuestRequirementStateComputer;
 import delta.games.lotro.common.requirements.QuestRequirement;
 import delta.games.lotro.common.requirements.QuestStatus;
 import delta.games.lotro.common.utils.ComparisonOperator;
@@ -35,33 +39,23 @@ public class SimpleAchievableRequirementPanelController extends AbstractAchievab
   private static final String ACHIEVABLE_LINK_SEED="{LINK}";
 
   // Controllers
-  private NavigatorWindowController _parent;
   private HyperLinkController _link;
-  // UI
-  private JPanel _panel;
   // Data
   private QuestRequirement _requirement;
 
   /**
    * Constructor.
    * @param parent Parent window.
+   * @param computer State computer.
    * @param requirement Requirement to show.
    */
-  public SimpleAchievableRequirementPanelController(NavigatorWindowController parent, QuestRequirement requirement)
+  public SimpleAchievableRequirementPanelController(WindowController parent, QuestRequirementStateComputer computer, QuestRequirement requirement)
   {
-    _parent=parent;
+    super(parent,computer);
     _requirement=requirement;
     _link=buildLinkController();
-    _panel=buildPanel();
-  }
-
-  /**
-   * Get the managed panel.
-   * @return A panel.
-   */
-  public JPanel getPanel()
-  {
-    return _panel;
+    JPanel panel=buildPanel();
+    setPanel(panel);
   }
 
   private HyperLinkController buildLinkController()
@@ -79,7 +73,8 @@ public class SimpleAchievableRequirementPanelController extends AbstractAchievab
           @Override
           public void actionPerformed(ActionEvent e)
           {
-            _parent.navigateTo(ref);
+            NavigatorWindowController parent=(NavigatorWindowController)getParentController();
+            parent.navigateTo(ref);
           }
         };
         String name=achievable.getName();
@@ -99,6 +94,14 @@ public class SimpleAchievableRequirementPanelController extends AbstractAchievab
     String label=buildRequirementLabel();
     JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    if (_stateComputer!=null)
+    {
+      boolean ok=_stateComputer.assess(_requirement);
+      Icon stateIcon=IconsManager.getIcon("/resources/gui/icons/state/"+(ok?"ok":"ko")+".png");
+      JLabel icon=GuiFactory.buildIconLabel(stateIcon);
+      ret.add(icon,c);
+      c.gridx++;
+    }
     String before=StringTools.findBefore(label,ACHIEVABLE_LINK_SEED);
     if ((before!=null) && (before.length()>0))
     {
@@ -188,23 +191,15 @@ public class SimpleAchievableRequirementPanelController extends AbstractAchievab
     return "??? "+ACHIEVABLE_LINK_SEED+" ???";
   }
 
-  /**
-   * Release all managed resources.
-   */
+  @Override
   public void dispose()
   {
+    super.dispose();
     // Controllers
-    _parent=null;
     if (_link!=null)
     {
       _link.dispose();
       _link=null;
-    }
-    // UI
-    if (_panel!=null)
-    {
-      _panel.removeAll();
-      _panel=null;
     }
   }
 }

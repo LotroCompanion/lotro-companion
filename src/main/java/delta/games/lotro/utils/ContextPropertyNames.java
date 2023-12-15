@@ -30,4 +30,8 @@ public class ContextPropertyNames
    * Current equipment slot. Class=EQUIMENT_SLOT.
    */
   public static final String EQUIMENT_SLOT="EQUIMENT_SLOT";
+  /**
+   * Quest requirement state computer. Class=QuestRequirementStateComputer.
+   */
+  public static final String QUEST_REQUIREMENT_STATE_COMPUTER="QUEST_REQUIREMENT_STATE_COMPUTER";
 }
