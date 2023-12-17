@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.util.List;
 
 import javax.swing.Box;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JEditorPane;
 import javax.swing.JLabel;
@@ -21,12 +22,14 @@ import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.icons.IconsManager;
 import delta.common.ui.swing.navigator.AbstractNavigablePanelController;
 import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.expressions.logical.LogicalTreeNode;
 import delta.games.lotro.character.status.achievables.AchievableStatus;
+import delta.games.lotro.character.status.achievables.AchievablesStatusManager;
 import delta.games.lotro.character.status.achievables.QuestRequirementStateComputer;
 import delta.games.lotro.character.status.achievables.edition.AchievableGeoStatusManager;
 import delta.games.lotro.common.ChallengeLevel;
@@ -35,6 +38,9 @@ import delta.games.lotro.common.Repeatability;
 import delta.games.lotro.common.Size;
 import delta.games.lotro.common.enums.QuestCategory;
 import delta.games.lotro.common.requirements.AbstractAchievableRequirement;
+import delta.games.lotro.gui.character.status.achievables.AchievableUIMode;
+import delta.games.lotro.gui.character.status.achievables.form.AchievableElementStateEditionController;
+import delta.games.lotro.gui.character.status.achievables.form.AchievableFormConfig;
 import delta.games.lotro.gui.character.status.achievables.map.AchievableGeoStatusEditionController;
 import delta.games.lotro.gui.common.requirements.RequirementsUtils;
 import delta.games.lotro.gui.common.rewards.form.RewardsPanelController;
@@ -71,6 +77,7 @@ public class QuestDisplayPanelController extends AbstractNavigablePanelControlle
   private JEditorPane _details;
 
   // Controllers
+  private AchievableElementStateEditionController _stateCtrl;
   private RewardsPanelController _rewards;
   private QuestLinksDisplayPanelController _links;
   private AbstractAchievableRequirementPanelController _achievablesRequirements;
@@ -146,12 +153,26 @@ public class QuestDisplayPanelController extends AbstractNavigablePanelControlle
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
 
+    QuestRequirementStateComputer computer=getParentWindowController().getContextProperty(ContextPropertyNames.QUEST_REQUIREMENT_STATE_COMPUTER,QuestRequirementStateComputer.class);
+
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     // Main data line
     {
       JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
       panel.add(panelLine,c);
       c.gridy++;
+      // State icon
+      if (computer!=null)
+      {
+        AchievablesStatusManager questsStatusMgr=computer.getQuestsStatusManager();
+        AchievableStatus status=questsStatusMgr.get(_quest,true);
+        ImageIcon icon=IconsManager.getIcon("/resources/gui/ring/ring32.png");
+        AchievableFormConfig config=new AchievableFormConfig(AchievableUIMode.QUEST,false);
+        _stateCtrl=new AchievableElementStateEditionController(icon,config);
+        _stateCtrl.setState(status.getState());
+        // TODO Add completion count
+        panelLine.add(_stateCtrl.getComponent(),c);
+      }
       // Name
       _name=GuiFactory.buildLabel("");
       _name.setFont(_name.getFont().deriveFont(16f).deriveFont(Font.BOLD));
@@ -228,7 +249,6 @@ public class QuestDisplayPanelController extends AbstractNavigablePanelControlle
     AbstractAchievableRequirement requirement=_quest.getQuestRequirements();
     if (requirement!=null)
     {
-      QuestRequirementStateComputer computer=getParentWindowController().getContextProperty(ContextPropertyNames.QUEST_REQUIREMENT_STATE_COMPUTER,QuestRequirementStateComputer.class);
       _achievablesRequirements=AchievableRequirementsPanelFactory.buildAchievableRequirementPanelController(getParent(),computer,requirement);
       JPanel achievablesRequirementsPanel=_achievablesRequirements.getPanel();
       c=new GridBagConstraints(0,c.gridy,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
