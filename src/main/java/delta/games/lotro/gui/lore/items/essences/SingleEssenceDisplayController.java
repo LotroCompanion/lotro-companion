@@ -45,7 +45,7 @@ public class SingleEssenceDisplayController extends IconNameStatsBundle
     }
     else
     {
-      icon=LotroIconsManager.getDefaultEssenceIcon(_type.getCode());
+      icon=LotroIconsManager.getEmptySocketIcon(_type.getCode());
     }
     _icon.setIcon(icon);
     _icon.setDisabledIcon(icon);

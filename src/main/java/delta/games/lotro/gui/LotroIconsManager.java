@@ -115,27 +115,6 @@ public class LotroIconsManager
   }
 
   /**
-   * Get the default icon for essences.
-   * @param socketType Socket type code.
-   * @return An icon.
-   */
-  public static ImageIcon getDefaultEssenceIcon(int socketType)
-  {
-    return getSocketBackgroundIcon(socketType);
-  }
-
-  /**
-   * Get the background icon for a given socket type.
-   * @param socketType Socket type code.
-   * @return An icon.
-   */
-  private static ImageIcon getSocketBackgroundIcon(int socketType)
-  {
-    String path="/sockets/background-"+socketType+".png";
-    return IconsManager.getIcon(path);
-  }
-
-  /**
    * Get the icon for an empty socket icon.
    * @param socketType Socket type.
    * @return An icon or <code>null</code> if not found.

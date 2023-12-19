@@ -140,7 +140,7 @@ public class SimpleSingleEssenceEditionController
     }
     else
     {
-      icon=LotroIconsManager.getDefaultEssenceIcon(_type.getCode());
+      icon=LotroIconsManager.getEmptySocketIcon(_type.getCode());
     }
     _essenceIconButton.setIcon(icon);
     // Text
