@@ -2,6 +2,9 @@ package delta.games.lotro.gui.lore.items.legendary2;
 
 import java.awt.Color;
 
+import javax.swing.JLabel;
+
+import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.labels.LabelLineStyle;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.Config;
@@ -26,6 +29,8 @@ public class SingleTraceryDisplayController extends IconControllerNameStatsBundl
   // Data
   private int _characterLevel;
   private SocketType _type;
+  // UI
+  private JLabel _advancement;
 
   /**
    * Constructor.
@@ -36,11 +41,21 @@ public class SingleTraceryDisplayController extends IconControllerNameStatsBundl
   {
     super();
     _type=type;
+    _advancement=GuiFactory.buildLabel("");
     setIconController(new ItemIconController(parent));
     Integer characterLevel=parent.getContextProperty(ContextPropertyNames.CHARACTER_LEVEL,Integer.class);
     _characterLevel=(characterLevel!=null)?characterLevel.intValue():Config.getInstance().getMaxCharacterLevel();
     // Initialize with nothing slotted
     setTracery(null,1);
+  }
+
+  /**
+   * Get the advancement label.
+   * @return the advancement label.
+   */
+  public JLabel getAdvancement()
+  {
+    return _advancement;
   }
 
   /**
@@ -62,6 +77,25 @@ public class SingleTraceryDisplayController extends IconControllerNameStatsBundl
     {
       int socketTypeCode=_type.getCode();
       _icon.clear(LotroIconsManager.getEmptySocketIcon(socketTypeCode));
+    }
+    // Advancement
+    if ((traceryInstance!=null) && (tracery!=null))
+    {
+      int currentItemLevel=traceryInstance.getItemLevel();
+      int maxItemLevel=tracery.getMaxItemLevel();
+      int max=Math.min(maxItemLevel,itemLevel);
+      if (currentItemLevel==max)
+      {
+        _advancement.setText(String.valueOf(currentItemLevel));
+      }
+      else
+      {
+        _advancement.setText(currentItemLevel+"/"+max);
+      }
+    }
+    else
+    {
+      _advancement.setText("-");
     }
     // Color
     Color foreground=Color.BLACK;
@@ -110,10 +144,7 @@ public class SingleTraceryDisplayController extends IconControllerNameStatsBundl
   public void dispose()
   {
     super.dispose();
-    if (_icon!=null)
-    {
-      _icon.dispose();
-      _icon=null;
-    }
+    _advancement=null;
+    _type=null;
   }
 }

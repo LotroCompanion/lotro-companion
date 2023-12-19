@@ -323,12 +323,12 @@ public class LegendaryInstance2EditionPanelController
       }
       // Icon
       JButton icon=editor.getIcon();
-      GridBagConstraints c=new GridBagConstraints(x,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,5,5,0),0,0);
+      GridBagConstraints c=new GridBagConstraints(x,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(2,5,2,5),0,0);
       _traceriesPanel.add(icon,c);
       x++;
       // Value
       MultilineLabel2 valueLabel=editor.getValueLabel();
-      c=new GridBagConstraints(x,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,5,5,0),0,0);
+      c=new GridBagConstraints(x,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
       _traceriesPanel.add(valueLabel,c);
       x++;
       // Item level

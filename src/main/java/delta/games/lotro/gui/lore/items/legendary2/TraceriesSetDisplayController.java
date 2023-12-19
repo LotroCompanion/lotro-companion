@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
@@ -81,12 +82,16 @@ public class TraceriesSetDisplayController
       }
       // Icon
       JButton icon=controller.getIcon();
-      GridBagConstraints c=new GridBagConstraints(0,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
+      GridBagConstraints c=new GridBagConstraints(0,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,5,2,5),0,0);
       _panel.add(icon,c);
       // Text
       MultilineLabel2 text=controller.getLinesGadget();
       c=new GridBagConstraints(1,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,5),0,0);
       _panel.add(text,c);
+      // Advancement
+      JLabel advancement=controller.getAdvancement();
+      c=new GridBagConstraints(2,y,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(0,0,0,5),0,0);
+      _panel.add(advancement,c);
       y++;
     }
   }

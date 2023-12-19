@@ -48,4 +48,15 @@ public class IconControllerNameStatsBundle<T extends AbstractIconController> ext
   {
     _icon=icon;
   }
+
+  @Override
+  public void dispose()
+  {
+    super.dispose();
+    if (_icon!=null)
+    {
+      _icon.dispose();
+      _icon=null;
+    }
+  }
 }

@@ -90,6 +90,9 @@ public class NameStatsBundle implements Disposable
    */
   public void dispose()
   {
+    // Data
+    _name=null;
+    _stats=null;
     // UI
     _lines=null;
   }
