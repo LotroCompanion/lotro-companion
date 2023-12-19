@@ -41,7 +41,6 @@ public class InstancesExplorerWindowController extends DefaultWindowController
   private InstancesExplorerPanelController _panelController;
   private InstancesTableController _tableController;
   private InstanceEntriesFilter _filter;
-  private WindowsManager _formWindows;
 
   /**
    * Constructor.
@@ -51,7 +50,6 @@ public class InstancesExplorerWindowController extends DefaultWindowController
   {
     super(parent);
     _filter=new InstanceEntriesFilter();
-    _formWindows=new WindowsManager();
   }
 
   @Override
@@ -123,13 +121,14 @@ public class InstancesExplorerWindowController extends DefaultWindowController
   private void showInstance(SkirmishPrivateEncounter instance)
   {
     String id=InstanceMapsWindowController.getId(instance.getIdentifier());
-    WindowController window=_formWindows.getWindow(id);
+    WindowsManager windowsMgr=getWindowsManager();
+    WindowController window=windowsMgr.getWindow(id);
     if (window==null)
     {
       window=new InstanceMapsWindowController(instance);
       Window w=window.getWindow();
       w.setLocationRelativeTo(getWindow());
-      _formWindows.registerWindow(window);
+      windowsMgr.registerWindow(window);
     }
     window.show();
   }
@@ -142,11 +141,6 @@ public class InstancesExplorerWindowController extends DefaultWindowController
   {
     saveBoundsPreferences();
     super.dispose();
-    if (_formWindows!=null)
-    {
-      _formWindows.disposeAll();
-      _formWindows=null;
-    }
     if (_tableController!=null)
     {
       _tableController.dispose();

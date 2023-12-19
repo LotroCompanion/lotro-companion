@@ -37,7 +37,6 @@ public class InstanceMapsWindowController extends DefaultWindowController
 {
   private static final Logger LOGGER=Logger.getLogger(InstanceMapsWindowController.class);
 
-  private DataFacade _facade;
   private PrivateEncounter _pe;
   private List<InstanceMapPanelController> _panels;
 
@@ -49,7 +48,6 @@ public class InstanceMapsWindowController extends DefaultWindowController
   {
     _pe=pe;
     setContextProperty(ContextPropertyNames.PRIVATE_ENCOUNTER,pe);
-    _facade=DatInterface.getInstance().getFacade();
     _panels=new ArrayList<InstanceMapPanelController>();
   }
 
@@ -58,7 +56,6 @@ public class InstanceMapsWindowController extends DefaultWindowController
   {
     JTabbedPane tabbedPane=GuiFactory.buildTabbedPane();
     GeoreferencedBasemapsManager basemapsMgr=Maps.getMaps().getMapsManager().getBasemapsManager();
-    JLayeredPane mapPanel=null;
     for(InstanceMapDescription instanceMap : _pe.getMapDescriptions())
     {
       MapDescription basemap=instanceMap.getMap();
@@ -68,18 +65,19 @@ public class InstanceMapsWindowController extends DefaultWindowController
         continue;
       }
       // Build map panel
-      Integer mapId=basemap.getMapId();
-      InstanceMapPanelController ctrl=new InstanceMapPanelController(_facade,_pe,instanceMap);
+      DataFacade facade=DatInterface.getInstance().getFacade();
+      InstanceMapPanelController ctrl=new InstanceMapPanelController(facade,_pe,instanceMap);
       MapPanelController panelCtrl=ctrl.getMapPanelController();
       // Setup selection manager
       SelectionManager selectionMgr=panelCtrl.getSelectionManager();
       selectionMgr.addListener(new MarkerSelectionListener(this));
       JPanel panel=GuiFactory.buildBackgroundPanel(new GridBagLayout());
-      mapPanel=panelCtrl.getLayers();
       GridBagConstraints c=new GridBagConstraints(1,1,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+      JLayeredPane mapPanel=panelCtrl.getLayers();
       panel.add(mapPanel,c);
       // Compute the title of the tab
       String title=null;
+      Integer mapId=basemap.getMapId();
       if (mapId!=null)
       {
         GeoreferencedBasemap geoBasemap=basemapsMgr.getMapById(mapId.intValue());
@@ -130,7 +128,6 @@ public class InstanceMapsWindowController extends DefaultWindowController
   public void dispose()
   {
     super.dispose();
-    _facade=null;
     _pe=null;
     if (_panels!=null)
     {
