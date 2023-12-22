@@ -110,6 +110,7 @@ public class ObjectiveConditionStatusEditionPanelController extends AbstractPane
     String progressOverride=condition.getProgressOverride();
     boolean hasProgressOverride=((progressOverride!=null) && (progressOverride.length()>0));
     boolean visible=((showProgress&&showBillboard)||hasProgressOverride);
+    // TODO Improve
     panel.setVisible(visible);
     return panel;
   }
