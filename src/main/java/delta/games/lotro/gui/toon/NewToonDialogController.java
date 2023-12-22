@@ -188,35 +188,29 @@ public class NewToonDialogController extends DefaultFormDialogController<Object>
   {
     RaceDescription race=info.getRace();
     ClassDescription description=info.getCharacterClass();
-    if (description!=null)
+    if (description==null)
     {
-      CharacterGear gear=info.getEquipment();
-      InitialGearDefinition initialGear=InitialGearManager.getInstance().getByKey(description.getKey());
-      List<Item> items=initialGear.getItems(race);
-      for(Item item : items)
+      LOGGER.warn("No class description!");
+      return;
+    }
+    CharacterGear gear=info.getEquipment();
+    InitialGearDefinition initialGear=InitialGearManager.getInstance().getByKey(description.getKey());
+    List<Item> items=initialGear.getItems(race);
+    for(Item item : items)
+    {
+      EquipmentLocation itemLocation=item.getEquipmentLocation();
+      for(GearSlot slot : GearSlot.getAll())
       {
-        EquipmentLocation itemLocation=item.getEquipmentLocation();
-        for(GearSlot slot : GearSlot.getAll())
+        EquipmentLocation slotLocation=GearSlotUtils.getEquipmentSlot(slot);
+        if (slotLocation==itemLocation)
         {
-          EquipmentLocation slotLocation=GearSlotUtils.getEquipmentSlot(slot);
-          if (slotLocation==itemLocation)
-          {
-            GearSlotContents contents=gear.getSlotContents(slot,true);
-            ItemInstance<? extends Item> old=contents.getItem();
-            ItemInstance<? extends Item> itemInstance=ItemFactory.buildInstance(item);
-            if (old==null)
-            {
-              contents.setItem(itemInstance);
-            }
-            else
-            {
-              LOGGER.warn("Would have overriden "+old+" by "+itemInstance);
-            }
-          }
+          GearSlotContents contents=gear.getSlotContents(slot,true);
+          ItemInstance<? extends Item> itemInstance=ItemFactory.buildInstance(item);
+          contents.setItem(itemInstance);
         }
       }
-      gear.setWearer(info.getSummary());
     }
+    gear.setWearer(info.getSummary());
   }
 
   @Override
