@@ -13,6 +13,6 @@ public class UiConfiguration
   public static boolean showTechnicalColumns()
   {
     String env=System.getenv("LC_SHOW_TECHNICAL_COLUMNS");
-    return "true".equals(env);
+    return Boolean.parseBoolean(env);
   }
 }
