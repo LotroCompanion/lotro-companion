@@ -11,6 +11,7 @@ import delta.common.ui.swing.area.AreaController;
 import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.common.utils.misc.IntegerHolder;
 import delta.games.lotro.character.skills.SkillDescription;
+import delta.games.lotro.common.Duration;
 import delta.games.lotro.common.Interactable;
 import delta.games.lotro.common.geo.PositionUtils;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
@@ -34,6 +35,7 @@ import delta.games.lotro.lore.quests.objectives.EmoteCondition;
 import delta.games.lotro.lore.quests.objectives.EnterDetectionCondition;
 import delta.games.lotro.lore.quests.objectives.ExternalInventoryItemCondition;
 import delta.games.lotro.lore.quests.objectives.FactionLevelCondition;
+import delta.games.lotro.lore.quests.objectives.HobbyCondition;
 import delta.games.lotro.lore.quests.objectives.InventoryItemCondition;
 import delta.games.lotro.lore.quests.objectives.ItemCondition;
 import delta.games.lotro.lore.quests.objectives.ItemTalkCondition;
@@ -52,6 +54,7 @@ import delta.games.lotro.lore.quests.objectives.ObjectivesManager;
 import delta.games.lotro.lore.quests.objectives.QuestBestowedCondition;
 import delta.games.lotro.lore.quests.objectives.QuestCompleteCondition;
 import delta.games.lotro.lore.quests.objectives.SkillUsedCondition;
+import delta.games.lotro.lore.quests.objectives.TimeExpiredCondition;
 import delta.games.lotro.lore.reputation.Faction;
 import delta.games.lotro.lore.reputation.FactionLevel;
 import delta.games.lotro.utils.Proxy;
@@ -106,15 +109,60 @@ public class ObjectivesDisplayBuilder
         sb.append("<p>").append(HtmlUtils.toHtml(text)).append("</p>");
       }
       // Conditions
+      StringBuilder conditionsSb=new StringBuilder();
       for(ObjectiveCondition condition : objective.getConditions())
       {
-        sb.append(getConditionDisplay(condition,isDeed));
-        printLoreInfo(sb,condition);
+        conditionsSb.append(getConditionDisplay(condition,isDeed));
+        printLoreInfo(conditionsSb,condition);
+      }
+      if (conditionsSb.length()>0)
+      {
+        Integer count=objective.getCompletionConditionsCount();
+        if (count!=null)
+        {
+          String countText="Complete "+count+" among:";
+          sb.append("<p><u><font color=\"#498500\">").append(countText).append("</font></u></p>");
+        }
+        sb.append(conditionsSb);
       }
       // Dialogs
       for(DialogElement dialog : objective.getDialogs())
       {
         QuestsHtmlUtils.buildHtmlForDialog(_controller,sb,dialog);
+      }
+      // Failure conditions
+      List<ObjectiveCondition> failureConditions=objective.getFailureConditions();
+      handleFailureConditions(sb,isDeed,false,failureConditions);
+    }
+    // Global failure conditions
+    List<ObjectiveCondition> failureConditions=objectivesMgr.getFailureConditions();
+    handleFailureConditions(sb,isDeed,true,failureConditions);
+  }
+
+  private void handleFailureConditions(StringBuilder sb, boolean isDeed, boolean global, List<ObjectiveCondition> failureConditions)
+  {
+    if (!failureConditions.isEmpty())
+    {
+      StringBuilder childSb=new StringBuilder();
+      for(ObjectiveCondition condition : failureConditions)
+      {
+        childSb.append(getConditionDisplay(condition,isDeed));
+        printLoreInfo(childSb,condition);
+      }
+      if (childSb.length()>0)
+      {
+        int nb=failureConditions.size();
+        String failureText;
+        if (global)
+        {
+          failureText=(nb>1)?"Global failure conditions:":"Global failure condition:";
+        }
+        else
+        {
+          failureText=(nb>1)?"Failure conditions:":"Failure condition:";
+        }
+        sb.append("<p><u><font color=\"#FF0000\">").append(failureText).append("</font></u></p>");
+        sb.append(childSb);
       }
     }
   }
@@ -240,10 +288,24 @@ public class ObjectivesDisplayBuilder
       EmoteCondition emoteCondition=(EmoteCondition)condition;
       handleEmoteCondition(sb,emoteCondition);
     }
+    else if (condition instanceof TimeExpiredCondition)
+    {
+      TimeExpiredCondition timeExpiredCondition=(TimeExpiredCondition)condition;
+      handleTimeExpiredCondition(sb,timeExpiredCondition);
+    }
+    else if (condition instanceof HobbyCondition)
+    {
+      HobbyCondition hobbyCondition=(HobbyCondition)condition;
+      handleHobbyCondition(sb,hobbyCondition);
+    }
     else if (condition instanceof DefaultObjectiveCondition)
     {
       DefaultObjectiveCondition defaultCondition=(DefaultObjectiveCondition)condition;
       handleDefaultCondition(sb,defaultCondition);
+    }
+    else
+    {
+      LOGGER.warn("Unmanaged condition: "+condition.getType());
     }
   }
 
@@ -515,7 +577,7 @@ public class ObjectivesDisplayBuilder
         else
         {
           LOGGER.warn("No NPC and no progress override");
-          sb.append("No NPC and no progress override");
+          //sb.append("No NPC and no progress override");
         }
       }
     }
@@ -577,7 +639,7 @@ public class ObjectivesDisplayBuilder
         else
         {
           LOGGER.warn("No NPC, no mob and no progress override");
-          sb.append("No NPC, no mob and no progress override"); // I18n
+          //sb.append("No NPC, no mob and no progress override"); // I18n
         }
       }
     }
@@ -609,6 +671,25 @@ public class ObjectivesDisplayBuilder
         sb.append(targetLabel);
       }
     }
+  }
+
+  private void handleTimeExpiredCondition(StringBuilder sb, TimeExpiredCondition condition)
+  {
+    boolean hasProgressOverride=printProgressOverride(sb,condition);
+    if (!hasProgressOverride)
+    {
+      sb.append("Timer expired");
+      int duration=condition.getDuration();
+      if (duration>0)
+      {
+        sb.append(" (").append(Duration.getSmartDurationString(duration)).append(')');
+      }
+    }
+  }
+
+  private void handleHobbyCondition(StringBuilder sb, HobbyCondition condition)
+  {
+    handleItemCondition(sb,condition,"Catch"); // I18n
   }
 
   private static String getTarget(ConditionTarget target)
@@ -669,16 +750,43 @@ public class ObjectivesDisplayBuilder
     boolean hasProgressOverride=printProgressOverride(sb,condition);
     if (!hasProgressOverride)
     {
-      sb.append("Missing data!!"); // I18n
       ConditionType type=condition.getType();
-      IntegerHolder counter=_counters.get(type);
-      if (counter==null)
+      String text=getDefaultConditionText(type);
+      if (text!=null)
       {
-        counter=new IntegerHolder();
-        _counters.put(type,counter);
+        sb.append(text);
       }
-      counter.increment();
+      else
+      {
+        LOGGER.warn("Missing data for condition: type="+type);
+        /*
+        IntegerHolder counter=_counters.get(type);
+        if (counter==null)
+        {
+          counter=new IntegerHolder();
+          _counters.put(type,counter);
+        }
+        counter.increment();
+        */
+      }
     }
+  }
+
+  private static String getDefaultConditionText(ConditionType type)
+  {
+    if (type==ConditionType.SELF_DIED)
+    {
+      return "Died";
+    }
+    else if (type==ConditionType.DISMOUNTED)
+    {
+      return "Dismounted";
+    }
+    else if (type==ConditionType.TELEPORTED)
+    {
+      return "Teleported";
+    }
+    return null;
   }
 
   private static boolean hasProgressOverride(ObjectiveCondition condition)
