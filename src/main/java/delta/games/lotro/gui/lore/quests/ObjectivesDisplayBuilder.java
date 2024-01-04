@@ -720,6 +720,7 @@ public class ObjectivesDisplayBuilder
         text=achievable.getName();
         text=ContextRendering.render(_controller,text);
       }
+      text=TextSanitizer.sanitize(text);
       if (_html)
       {
         sb.append("<b>");
