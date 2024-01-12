@@ -109,7 +109,7 @@ public class DeedsTableController extends AbstractAreaController
         }
       };
       DefaultTableColumnController<DeedDescription,String> nameColumn=new DefaultTableColumnController<DeedDescription,String>(DeedColumnIds.NAME.name(),"Name",String.class,nameCell); // 18n
-      nameColumn.setWidthSpecs(100,300,200);
+      nameColumn.setWidthSpecs(100,-1,200);
       ret.add(nameColumn);
     }
     // Type column
