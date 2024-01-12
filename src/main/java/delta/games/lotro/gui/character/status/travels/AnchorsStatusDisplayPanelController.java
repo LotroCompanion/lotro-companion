@@ -69,11 +69,14 @@ public class AnchorsStatusDisplayPanelController
     for(TravelSkill travelSkill : travelSkills)
     {
       TravelLink type=travelSkill.getType();
-      AnchorStatus status=statusMgr.get(type,false);
-      if (status!=null)
+      if (type!=null)
       {
-        IconLinkLabelGadgetsController skillGadgets=buildGadgets(parent,travelSkill,status);
-        _gadgets.add(skillGadgets);
+        AnchorStatus status=statusMgr.get(type,false);
+        if (status!=null)
+        {
+          IconLinkLabelGadgetsController skillGadgets=buildGadgets(parent,travelSkill,status);
+          _gadgets.add(skillGadgets);
+        }
       }
     }
   }
