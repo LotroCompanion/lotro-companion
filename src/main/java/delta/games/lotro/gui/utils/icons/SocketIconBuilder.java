@@ -20,6 +20,6 @@ public class SocketIconBuilder
     BufferedImage background=IconsManager.getImage("/sockets/background-"+socketType+".png");
     BufferedImage overlay=IconsManager.getImage("/sockets/overlay-"+socketType+".png");
     BufferedImage[] layers= {background,overlay};
-    return ItemIconBuilder.buildImage(layers);
+    return LayeredIconBuilder.buildImage(layers);
   }
 }
