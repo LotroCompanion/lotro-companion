@@ -48,6 +48,9 @@ import delta.games.lotro.gui.lore.quests.ObjectivesDisplayBuilder;
 import delta.games.lotro.gui.lore.quests.QuestsHtmlUtils;
 import delta.games.lotro.gui.lore.worldEvents.form.LogicalExpressionsPanelFactory;
 import delta.games.lotro.gui.lore.worldEvents.form.PanelProvider;
+import delta.games.lotro.gui.maps.instances.InstanceMapsWindowController;
+import delta.games.lotro.lore.instances.PrivateEncounter;
+import delta.games.lotro.lore.instances.PrivateEncountersManager;
 import delta.games.lotro.lore.quests.QuestDescription;
 import delta.games.lotro.lore.quests.dialogs.DialogElement;
 import delta.games.lotro.lore.quests.dialogs.QuestCompletionComment;
@@ -136,15 +139,23 @@ public class QuestDisplayPanelController extends AbstractNavigablePanelControlle
     JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     ret.add(privateTopPanel,c);
-    // Map
+    // Maps
+    // - landscape maps
     JButton mapButton=buildMapsButton(getWindowController());
     if (mapButton!=null)
     {
       c=new GridBagConstraints(1,0,1,1,0.0,0.0,GridBagConstraints.SOUTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
       ret.add(mapButton,c);
     }
+    // - instance maps
+    JButton instanceMapButton=buildInstanceMapsButton(getWindowController());
+    if (instanceMapButton!=null)
+    {
+      c=new GridBagConstraints(2,0,1,1,0.0,0.0,GridBagConstraints.SOUTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+      ret.add(instanceMapButton,c);
+    }
     // Padding to push everything on left
-    c=new GridBagConstraints(2,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    c=new GridBagConstraints(3,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     ret.add(Box.createHorizontalGlue(),c);
     return ret;
   }
@@ -294,6 +305,29 @@ public class QuestDisplayPanelController extends AbstractNavigablePanelControlle
       };
       toggleMap.addActionListener(mapActionListener);
     }
+    return toggleMap;
+  }
+
+  private JButton buildInstanceMapsButton(WindowController parent)
+  {
+    JButton toggleMap=null;
+    PrivateEncountersManager mgr=PrivateEncountersManager.getInstance();
+    PrivateEncounter pe=mgr.getPrivateEncounterForQuest(_quest.getIdentifier());
+    if (pe==null)
+    {
+      return null;
+    }
+    toggleMap=GuiFactory.buildButton("Instance Map"); // I18n
+    ActionListener actionListener=new ActionListener()
+    {
+      @Override
+      public void actionPerformed(ActionEvent e)
+      {
+        InstanceMapsWindowController window=new InstanceMapsWindowController(pe);
+        window.show();
+      }
+    };
+    toggleMap.addActionListener(actionListener);
     return toggleMap;
   }
 
