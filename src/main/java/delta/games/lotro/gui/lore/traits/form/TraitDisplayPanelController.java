@@ -25,6 +25,7 @@ import delta.games.lotro.character.skills.SkillDescription;
 import delta.games.lotro.character.traits.TraitDescription;
 import delta.games.lotro.common.enums.SkillCategory;
 import delta.games.lotro.common.enums.TraitNature;
+import delta.games.lotro.common.enums.TraitSubCategory;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.utils.GadgetsControllersFactory;
 import delta.games.lotro.gui.utils.IconLinkLabelGadgetsController;
@@ -198,6 +199,12 @@ public class TraitDisplayPanelController implements NavigablePanelController
   private List<String> getAttributesLines()
   {
     List<String> ret=new ArrayList<String>();
+    // Nature
+    TraitNature nature=_trait.getNature();
+    if (nature!=null)
+    {
+      ret.add("Nature: "+nature.getLabel());
+    }
     // Category
     SkillCategory category=_trait.getCategory();
     if (category!=null)
@@ -209,16 +216,17 @@ public class TraitDisplayPanelController implements NavigablePanelController
       }
       ret.add("Category: "+categoryLabel);
     }
+    // Sub-category
+    TraitSubCategory subCategory=_trait.getSubCategory();
+    if (subCategory!=null)
+    {
+      ret.add("Sub-category: "+subCategory.getLabel());
+    }
     // Minimum Level
     int minLevel=_trait.getMinLevel();
     if (minLevel>1)
     {
       ret.add("Minimum Level: "+minLevel);
-    }
-    TraitNature nature=_trait.getNature();
-    if (nature!=null)
-    {
-      ret.add("Nature: "+nature.getLabel());
     }
     int tiers=_trait.getTiersCount();
     if (tiers>1)
