@@ -8,11 +8,13 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -141,19 +143,11 @@ public class QuestDisplayPanelController extends AbstractNavigablePanelControlle
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     ret.add(privateTopPanel,c);
     // Maps
-    // - landscape maps
-    JButton mapButton=buildMapsButton(getWindowController());
-    if (mapButton!=null)
+    JComponent maps=buildMapsComponent(getWindowController());
+    if (maps!=null)
     {
       c=new GridBagConstraints(1,0,1,1,0.0,0.0,GridBagConstraints.SOUTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
-      ret.add(mapButton,c);
-    }
-    // - instance maps
-    JButton instanceMapButton=buildInstanceMapsButton(getWindowController());
-    if (instanceMapButton!=null)
-    {
-      c=new GridBagConstraints(2,0,1,1,0.0,0.0,GridBagConstraints.SOUTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
-      ret.add(instanceMapButton,c);
+      ret.add(maps,c);
     }
     // Padding to push everything on left
     c=new GridBagConstraints(3,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
@@ -284,6 +278,35 @@ public class QuestDisplayPanelController extends AbstractNavigablePanelControlle
       }
     }
     return panel;
+  }
+
+  private JComponent buildMapsComponent(WindowController parent)
+  {
+    List<JButton> buttons=new ArrayList<JButton>();
+    JButton mapsButton=buildMapsButton(parent);
+    if (mapsButton!=null)
+    {
+      buttons.add(mapsButton);
+    }
+    JButton instanceMapsButton=buildInstanceMapsButton(parent);
+    if (instanceMapsButton!=null)
+    {
+      buttons.add(instanceMapsButton);
+    }
+    if (buttons.isEmpty())
+    {
+      return null;
+    }
+    if (buttons.size()==1)
+    {
+      return buttons.get(0);
+    }
+    JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,0,5),0,0);
+    ret.add(buttons.get(0),c);
+    c=new GridBagConstraints(0,1,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,5,5,5),0,0);
+    ret.add(buttons.get(1),c);
+    return ret;
   }
 
   private JButton buildMapsButton(WindowController parent)
