@@ -41,10 +41,10 @@ public class NavigationUtils
       }
       else
       {
-        WindowsManager windows=parent.getWindowsManager();
-        int id=windows.getFreeId();
+        WindowsManager windowsMgr=parent.getWindowsManager();
+        int id=windowsMgr.getFreeId();
         navigator=NavigatorFactory.buildNavigator(parent,id);
-        windows.registerWindow(navigator);
+        windowsMgr.registerWindow(navigator);
       }
       navigator.navigateTo(pageId);
       navigator.bringToFront();

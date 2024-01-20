@@ -19,10 +19,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 
 import delta.common.ui.swing.GuiFactory;
-import delta.common.ui.swing.navigator.NavigablePanelController;
+import delta.common.ui.swing.navigator.AbstractNavigablePanelController;
 import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.games.lotro.character.skills.SkillDescription;
 import delta.games.lotro.character.traits.TraitDescription;
+import delta.games.lotro.character.traits.prerequisites.AbstractTraitPrerequisite;
 import delta.games.lotro.common.enums.SkillCategory;
 import delta.games.lotro.common.enums.TraitNature;
 import delta.games.lotro.common.enums.TraitSubCategory;
@@ -35,14 +36,14 @@ import delta.games.lotro.utils.gui.HtmlUtils;
  * Controller for a trait display panel.
  * @author DAM
  */
-public class TraitDisplayPanelController implements NavigablePanelController
+public class TraitDisplayPanelController extends AbstractNavigablePanelController
 {
   // Data
   private TraitDescription _trait;
   // GUI
   private JPanel _panel;
   // Controllers
-  private NavigatorWindowController _parent;
+  private AbstractTraitPrerequisitePanelController _prerequisites;
   private TraitReferencesDisplayController _references;
   private TraitStatsPanelController _stats;
   private List<IconLinkLabelGadgetsController> _skills;
@@ -54,7 +55,7 @@ public class TraitDisplayPanelController implements NavigablePanelController
    */
   public TraitDisplayPanelController(NavigatorWindowController parent, TraitDescription trait)
   {
-    _parent=parent;
+    super(parent);
     _trait=trait;
     _references=new TraitReferencesDisplayController(parent,trait.getIdentifier());
     _stats=new TraitStatsPanelController(trait);
@@ -180,6 +181,18 @@ public class TraitDisplayPanelController implements NavigablePanelController
       panel.add(panelLine,c);
       c.gridy++;
     }
+    // Prerequisites
+    AbstractTraitPrerequisite prerequisite=_trait.getTraitPrerequisites();
+    if (prerequisite!=null)
+    {
+      NavigatorWindowController parent=getParent();
+      _prerequisites=TraitPrerequisitesPanelFactory.buildTraitRequisitePanelController(parent,prerequisite);
+      JPanel prerequisitesPanel=_prerequisites.getPanel();
+      c=new GridBagConstraints(0,c.gridy,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+      panel.add(prerequisitesPanel,c);
+      prerequisitesPanel.setBorder(GuiFactory.buildTitledBorder("Prerequisites")); // 18n
+      c.gridy++;
+    }
     // Skills
     JPanel skillsPanel=buildSkillsPanel();
     if (skillsPanel!=null)
@@ -251,9 +264,10 @@ public class TraitDisplayPanelController implements NavigablePanelController
     GridBagConstraints c=new GridBagConstraints(0,y,2,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,5,0,0),0,0);
     ret.add(GuiFactory.buildLabel(label),c);
     y++;
+    NavigatorWindowController parent=getParent();
     for(SkillDescription skill : skills)
     {
-      IconLinkLabelGadgetsController gadget=GadgetsControllersFactory.build(_parent,skill);
+      IconLinkLabelGadgetsController gadget=GadgetsControllersFactory.build(parent,skill);
       _skills.add(gadget);
       c=new GridBagConstraints(0,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,5,0,5),0,0);
       ret.add(gadget.getIcon().getIcon(),c);
@@ -281,10 +295,10 @@ public class TraitDisplayPanelController implements NavigablePanelController
   @Override
   public void dispose()
   {
+    super.dispose();
     // Data
     _trait=null;
     // Controllers
-    _parent=null;
     if (_references!=null)
     {
       _references.dispose();
