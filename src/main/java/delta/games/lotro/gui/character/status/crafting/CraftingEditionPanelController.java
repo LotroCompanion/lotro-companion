@@ -75,16 +75,16 @@ public class CraftingEditionPanelController extends AbstractPanelController
   {
     JPanel panel=getPanel();
     panel.removeAll();
-    List<Profession> currentProfessions=_status.getKnownProfessions();
+    List<Profession> currentProfessions=_status.getActiveProfessions();
     _tabbedPane=GuiFactory.buildTabbedPane();
     // Professions
     for(Profession profession : currentProfessions)
     {
-      ProfessionStatus stats=_status.getProfessionStatus(profession,true);
+      ProfessionStatus status=_status.getProfessionStatus(profession,true);
       ProfessionStatusPanelController craftingPanelController=_panels.get(profession);
       if (craftingPanelController==null)
       {
-        craftingPanelController=new ProfessionStatusPanelController(stats);
+        craftingPanelController=new ProfessionStatusPanelController(status);
         _panels.put(profession,craftingPanelController);
       }
       JPanel craftingPanel=craftingPanelController.getPanel();
@@ -123,7 +123,7 @@ public class CraftingEditionPanelController extends AbstractPanelController
       _guildStatus.clear();
     }
     List<Profession> guildedProfessions=new ArrayList<Profession>();
-    for(Profession profession : _status.getKnownProfessions())
+    for(Profession profession : _status.getActiveProfessions())
     {
       if (profession.hasGuild())
       {
