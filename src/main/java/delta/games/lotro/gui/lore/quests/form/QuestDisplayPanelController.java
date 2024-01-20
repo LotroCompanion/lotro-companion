@@ -27,6 +27,7 @@ import delta.common.ui.swing.navigator.AbstractNavigablePanelController;
 import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.common.ui.swing.windows.WindowController;
+import delta.common.ui.swing.windows.WindowsManager;
 import delta.common.utils.expressions.logical.LogicalTreeNode;
 import delta.games.lotro.character.status.achievables.AchievableStatus;
 import delta.games.lotro.character.status.achievables.AchievablesStatusManager;
@@ -323,12 +324,24 @@ public class QuestDisplayPanelController extends AbstractNavigablePanelControlle
       @Override
       public void actionPerformed(ActionEvent e)
       {
-        InstanceMapsWindowController window=new InstanceMapsWindowController(pe);
-        window.show();
+        handleInstanceMapsButton(pe);
       }
     };
     toggleMap.addActionListener(actionListener);
     return toggleMap;
+  }
+
+  private void handleInstanceMapsButton(PrivateEncounter pe)
+  {
+    WindowsManager mgr=getParentWindowController().getWindowsManager();
+    int peId=pe.getIdentifier();
+    InstanceMapsWindowController mapsWindow=(InstanceMapsWindowController)mgr.getWindow(InstanceMapsWindowController.getId(peId));
+    if (mapsWindow==null)
+    {
+      mapsWindow=new InstanceMapsWindowController(pe);
+      mgr.registerWindow(mapsWindow);
+    }
+    mapsWindow.show();
   }
 
   private JEditorPane buildDetailsPane()
