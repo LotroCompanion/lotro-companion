@@ -1,6 +1,9 @@
 package delta.games.lotro.gui.utils;
 
+import java.awt.image.BufferedImage;
+
 import javax.swing.Icon;
+import javax.swing.ImageIcon;
 
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.races.RaceDescription;
@@ -11,6 +14,7 @@ import delta.games.lotro.common.Genders;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.gui.lore.items.legendary.relics.RelicUiTools;
+import delta.games.lotro.gui.utils.icons.TraitIconBuilder;
 import delta.games.lotro.gui.utils.items.ItemIconController;
 import delta.games.lotro.lore.emotes.EmoteDescription;
 import delta.games.lotro.lore.hobbies.HobbyDescription;
@@ -90,6 +94,27 @@ public class IconControllerFactory
     if (trait!=null)
     {
       Icon icon=LotroIconsManager.getTraitIcon(trait.getIconId());
+      ret.setIcon(icon);
+      ret.setPageId(ReferenceConstants.getTraitReference(trait.getIdentifier()));
+      ret.setTooltipText(trait.getName());
+    }
+    return ret;
+  }
+
+  /**
+   * Build a skirmish trait icon.
+   * @param parent Parent window.
+   * @param trait Trait to use.
+   * @param rank Rank to show.
+   * @return A new controller.
+   */
+  public static IconController buildSkirmishTraitIcon(WindowController parent, TraitDescription trait, int rank)
+  {
+    IconController ret=new IconController(parent);
+    if (trait!=null)
+    {
+      BufferedImage image=TraitIconBuilder.getTraitIcon(trait,Integer.valueOf(rank));
+      Icon icon=new ImageIcon(image);
       ret.setIcon(icon);
       ret.setPageId(ReferenceConstants.getTraitReference(trait.getIdentifier()));
       ret.setTooltipText(trait.getName());
