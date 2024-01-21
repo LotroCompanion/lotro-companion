@@ -1,15 +1,12 @@
 package delta.games.lotro.gui.character.status.traits.skirmish;
 
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
@@ -53,7 +50,7 @@ public class SlottedSkirmishTraitsStatusPanelController extends AbstractPanelCon
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     int y=0;
-    for(TraitNature nature : status.getTraitNatures())
+    for(TraitNature nature : SkirmishTraitStatusUiUtils.getOrderedTraitNature())
     {
       fillNature(parent,panel,nature,y);
       y+=2;
@@ -81,7 +78,7 @@ public class SlottedSkirmishTraitsStatusPanelController extends AbstractPanelCon
         int rank=_status.getTraitRank(slottedTraits[i]);
         IconController iconCtrl=IconControllerFactory.buildSkirmishTraitIcon(parent,trait,rank);
         _controllers.add(iconCtrl);
-        JLayeredPane layeredPane=buildBorderAndIconPanel(borderIcon,iconCtrl);
+        JLayeredPane layeredPane=SkirmishTraitStatusUiUtils.buildBorderAndIconPanel(borderIcon,iconCtrl);
         panel.add(layeredPane,c);
       }
       else
@@ -90,24 +87,6 @@ public class SlottedSkirmishTraitsStatusPanelController extends AbstractPanelCon
         panel.add(borderLabel,c);
       }
     }
-  }
-
-  private JLayeredPane buildBorderAndIconPanel(ImageIcon borderIcon, IconController iconCtrl)
-  {
-    JLayeredPane ret=new JLayeredPane();
-    // Border
-    JLabel borderLabel=GuiFactory.buildIconLabel(borderIcon);
-    ret.add(borderLabel,Integer.valueOf(0));
-    borderLabel.setBounds(0,0,borderIcon.getIconWidth(),borderIcon.getIconHeight());
-    // Icon
-    JButton buttonIcon=iconCtrl.getIcon();
-    ret.add(buttonIcon,Integer.valueOf(1));
-    Icon icon=buttonIcon.getIcon();
-    buttonIcon.setBounds(4,4,icon.getIconWidth(),icon.getIconHeight());
-    ret.setSize(borderIcon.getIconWidth(),borderIcon.getIconHeight());
-    Dimension size=new Dimension(borderIcon.getIconWidth(),borderIcon.getIconHeight());
-    ret.setPreferredSize(size);
-    return ret;
   }
 
   @Override

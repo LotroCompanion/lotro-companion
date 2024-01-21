@@ -77,6 +77,7 @@ import delta.games.lotro.gui.character.status.skirmishes.SkirmishStatisticsWindo
 import delta.games.lotro.gui.character.status.tasks.TasksStatusWindowController;
 import delta.games.lotro.gui.character.status.titles.TitlesStatusWindowController;
 import delta.games.lotro.gui.character.status.traitPoints.TraitPointsEditionWindowController;
+import delta.games.lotro.gui.character.status.traits.skirmish.SkirmishTraitsStatusWindowController;
 import delta.games.lotro.gui.character.status.travels.TravelsStatusWindowController;
 import delta.games.lotro.gui.character.storage.own.CharacterStorageDisplayWindowController;
 import delta.games.lotro.utils.ContextPropertyNames;
@@ -115,6 +116,7 @@ public class CharacterFileWindowController extends DefaultWindowController imple
   private static final String MOUNTS_COMMAND="mounts";
   private static final String PETS_COMMAND="pets";
   private static final String HOBBIES_COMMAND="hobbies";
+  private static final String SKIRMISH_TRAITS_COMMAND="skirmishTraits";
   private static final String NOTES_COMMAND="notes";
 
   private CharacterSummaryPanelController _summaryController;
@@ -269,6 +271,9 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     // Hobbies status
     JButton hobbiesButton=buildCommandButton("Hobbies",HOBBIES_COMMAND); // I18n
     panel.add(hobbiesButton,c);c.gridx++;
+    // Skirmish traits status
+    JButton skirmishTraitsButton=buildCommandButton("Skirmish Traits",SKIRMISH_TRAITS_COMMAND); // I18n
+    panel.add(skirmishTraitsButton,c);c.gridx++;
 
     // Disable buttons if no log
     boolean hasLog=_toon.hasLog();
@@ -398,6 +403,10 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     else if (HOBBIES_COMMAND.equals(command))
     {
       showHobbiesStatus();
+    }
+    else if (SKIRMISH_TRAITS_COMMAND.equals(command))
+    {
+      showSkirmishTraitsStatus();
     }
     else if (NOTES_COMMAND.equals(command))
     {
@@ -815,6 +824,18 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     if (windowCtrl==null)
     {
       windowCtrl=new HobbiesStatusWindowController(this,_toon);
+      windowsManager.registerWindow(windowCtrl);
+    }
+    windowCtrl.show();
+  }
+
+  private void showSkirmishTraitsStatus()
+  {
+    WindowsManager windowsManager=getWindowsManager();
+    SkirmishTraitsStatusWindowController windowCtrl=(SkirmishTraitsStatusWindowController)windowsManager.getWindow(SkirmishTraitsStatusWindowController.IDENTIFIER);
+    if (windowCtrl==null)
+    {
+      windowCtrl=new SkirmishTraitsStatusWindowController(this,_toon);
       windowsManager.registerWindow(windowCtrl);
     }
     windowCtrl.show();

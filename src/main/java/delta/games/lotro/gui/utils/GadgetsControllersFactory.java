@@ -42,6 +42,21 @@ public class GadgetsControllersFactory
   }
 
   /**
+   * Build a gadgets controller for a skirmish trait.
+   * @param parent Parent window.
+   * @param trait Trait to use.
+   * @param rank Rank to show.
+   * @return the new gadgets controller.
+   */
+  public static IconLinkLabelGadgetsController build(WindowController parent, TraitDescription trait, int rank)
+  {
+    IconController icon=IconControllerFactory.buildSkirmishTraitIcon(parent,trait,rank);
+    PageIdentifier pageId=ReferenceConstants.getTraitReference(trait.getIdentifier());
+    String text=trait.getName();
+    return new IconLinkLabelGadgetsController(parent,icon,text,pageId);
+  }
+
+  /**
    * Build a gadgets controller for an emote.
    * @param parent Parent window.
    * @param emote Emote to use.
