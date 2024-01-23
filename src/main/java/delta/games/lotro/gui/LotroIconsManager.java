@@ -350,7 +350,7 @@ public class LotroIconsManager
    */
   public static BufferedImage getAllegianceImage(int iconId)
   {
-    String path="/allegianceIcons/"+iconId+".png";
+    String path="/allegiances/"+iconId+".png";
     BufferedImage image=IconsManager.getImage(path);
     return image;
   }
