@@ -108,7 +108,7 @@ public class DisenchantmentResultPanelController
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,2,2,2),0,0);
     // Icon
-    Icon icon=IconsManager.getIcon("/trophyListIcons/"+imageId+".png");
+    Icon icon=IconsManager.getIcon("/misc/trophyLists/"+imageId+".png");
     JLabel iconLabel=GuiFactory.buildIconLabel(icon);
     panel.add(iconLabel,c);
     // Description
