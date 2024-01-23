@@ -384,7 +384,7 @@ public class LotroIconsManager
    */
   public static ImageIcon getHobbyIcon(int hobbyIconId)
   {
-    String path="/hobbyIcons/"+hobbyIconId+".png";
+    String path="/hobbies/"+hobbyIconId+".png";
     return IconsManager.getIcon(path);
   }
 
