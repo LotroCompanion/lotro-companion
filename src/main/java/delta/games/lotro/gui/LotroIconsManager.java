@@ -137,7 +137,7 @@ public class LotroIconsManager
    */
   public static ImageIcon getTitleIcon(int iconID)
   {
-    String path="/titleIcons/"+iconID+".png";
+    String path="/titles/"+iconID+".png";
     return IconsManager.getIcon(path);
   }
 
