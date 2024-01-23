@@ -318,7 +318,7 @@ public class LotroIconsManager
    */
   public static ImageIcon getLegacyIcon(int legacyIconId)
   {
-    String path="/legaciesIcons/"+legacyIconId+".png";
+    String path="/legacies/"+legacyIconId+".png";
     ImageIcon ret=IconsManager.getIcon(path);
     return ret;
   }
