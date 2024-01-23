@@ -373,7 +373,7 @@ public class LotroIconsManager
    */
   public static ImageIcon getAreaIcon(int areaId)
   {
-    String path="/areaIcons/"+areaId+".png";
+    String path="/areas/"+areaId+".png";
     return IconsManager.getIcon(path);
   }
 
