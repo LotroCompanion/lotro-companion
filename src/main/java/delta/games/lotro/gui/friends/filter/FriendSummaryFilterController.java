@@ -12,6 +12,7 @@ import javax.swing.JTextField;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.common.ui.swing.combobox.ItemSelectionListener;
+import delta.common.ui.swing.tables.panel.FilterUpdateListener;
 import delta.common.ui.swing.text.DynamicTextEditionController;
 import delta.common.ui.swing.text.TextListener;
 import delta.common.utils.collections.filters.Filter;
@@ -21,7 +22,6 @@ import delta.games.lotro.character.classes.ClassDescription;
 import delta.games.lotro.character.filters.CharacterClassFilter;
 import delta.games.lotro.character.filters.CharacterNameFilter;
 import delta.games.lotro.gui.character.summary.CharacterUiUtils;
-import delta.games.lotro.gui.lore.items.FilterUpdateListener;
 
 /**
  * Controller for a friend filter edition panel.

@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.common.ui.swing.combobox.ItemSelectionListener;
-import delta.games.lotro.gui.lore.items.FilterUpdateListener;
+import delta.common.ui.swing.tables.panel.FilterUpdateListener;
 import delta.games.lotro.lore.quests.Achievable;
 import delta.games.lotro.lore.worldEvents.WorldEventConditionsUtils;
 import delta.games.lotro.lore.worldEvents.filter.WorldEventConditionFilter;

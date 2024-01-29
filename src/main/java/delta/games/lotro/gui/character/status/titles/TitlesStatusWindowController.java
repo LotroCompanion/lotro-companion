@@ -15,6 +15,7 @@ import javax.swing.border.TitledBorder;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.tables.GenericTableController;
+import delta.common.ui.swing.tables.panel.FilterUpdateListener;
 import delta.common.ui.swing.windows.DefaultDisplayDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.misc.TypedProperties;
@@ -23,7 +24,6 @@ import delta.games.lotro.character.status.titles.TitlesStatusManager;
 import delta.games.lotro.character.status.titles.filter.TitleStatusFilter;
 import delta.games.lotro.gui.character.status.titles.filter.TitleStatusFilterController;
 import delta.games.lotro.gui.character.status.titles.table.TitlesStatusTableController;
-import delta.games.lotro.gui.lore.items.FilterUpdateListener;
 import delta.games.lotro.gui.lore.titles.TitleFilterController;
 import delta.games.lotro.gui.lore.titles.TitleUiUtils;
 import delta.games.lotro.gui.main.GlobalPreferences;

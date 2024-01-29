@@ -16,6 +16,7 @@ import javax.swing.ListSelectionModel;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.common.ui.swing.tables.GenericTableController;
+import delta.common.ui.swing.tables.panel.FilterUpdateListener;
 import delta.common.ui.swing.windows.DefaultDisplayDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.misc.TypedProperties;
@@ -30,7 +31,6 @@ import delta.games.lotro.gui.character.status.recipes.filter.RecipeStateFilterCo
 import delta.games.lotro.gui.character.status.recipes.table.RecipeStatusTableController;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.gui.lore.crafting.recipes.RecipeFilterController;
-import delta.games.lotro.gui.lore.items.FilterUpdateListener;
 import delta.games.lotro.gui.main.GlobalPreferences;
 import delta.games.lotro.gui.utils.NavigationUtils;
 import delta.games.lotro.lore.crafting.recipes.Recipe;

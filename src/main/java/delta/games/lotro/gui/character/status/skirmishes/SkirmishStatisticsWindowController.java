@@ -9,6 +9,7 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.tables.panel.FilterUpdateListener;
 import delta.common.ui.swing.windows.DefaultDisplayDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.misc.TypedProperties;
@@ -16,7 +17,6 @@ import delta.games.lotro.character.status.skirmishes.SkirmishEntriesManager;
 import delta.games.lotro.gui.character.status.skirmishes.cfg.SkirmishEntryConfigController;
 import delta.games.lotro.gui.character.status.skirmishes.filter.SkirmishEntryFilterController;
 import delta.games.lotro.gui.character.status.skirmishes.table.SkirmishEntriesTableController;
-import delta.games.lotro.gui.lore.items.FilterUpdateListener;
 import delta.games.lotro.gui.main.GlobalPreferences;
 import delta.games.lotro.gui.utils.ConfigUpdateListener;
 

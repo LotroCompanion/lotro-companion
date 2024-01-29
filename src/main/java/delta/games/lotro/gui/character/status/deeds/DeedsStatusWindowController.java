@@ -21,6 +21,7 @@ import javax.swing.border.TitledBorder;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.tables.GenericTableController;
+import delta.common.ui.swing.tables.panel.FilterUpdateListener;
 import delta.common.ui.swing.windows.DefaultFormDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.ui.swing.windows.WindowsManager;
@@ -46,7 +47,6 @@ import delta.games.lotro.gui.character.status.deeds.form.DeedStatusDialogControl
 import delta.games.lotro.gui.character.status.deeds.table.DeedStatusTableController;
 import delta.games.lotro.gui.character.status.quests.BlacklistController;
 import delta.games.lotro.gui.lore.deeds.filter.DeedFilterController;
-import delta.games.lotro.gui.lore.items.FilterUpdateListener;
 import delta.games.lotro.gui.main.GlobalPreferences;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.quests.AchievablesUtils;

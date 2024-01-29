@@ -14,6 +14,7 @@ import javax.swing.JTextField;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.combobox.ItemSelectionListener;
 import delta.common.ui.swing.multicheckbox.MultiCheckboxController;
+import delta.common.ui.swing.tables.panel.FilterUpdateListener;
 import delta.common.ui.swing.text.DynamicTextEditionController;
 import delta.common.ui.swing.text.TextListener;
 import delta.common.utils.collections.filters.Filter;
@@ -22,7 +23,6 @@ import delta.games.lotro.character.status.collections.CollectionStatus;
 import delta.games.lotro.character.status.collections.filters.CollectionStateFilter;
 import delta.games.lotro.character.status.collections.filters.CollectionsStatusFilter;
 import delta.games.lotro.common.filters.NamedFilter;
-import delta.games.lotro.gui.lore.items.FilterUpdateListener;
 import delta.games.lotro.lore.collections.CollectionDescription;
 
 /**

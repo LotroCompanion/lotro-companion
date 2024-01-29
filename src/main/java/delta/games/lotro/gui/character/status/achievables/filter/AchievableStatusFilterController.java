@@ -14,10 +14,10 @@ import javax.swing.JPanel;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.combobox.ItemSelectionListener;
 import delta.common.ui.swing.multicheckbox.MultiCheckboxController;
+import delta.common.ui.swing.tables.panel.FilterUpdateListener;
 import delta.games.lotro.character.status.achievables.AchievableElementState;
 import delta.games.lotro.character.status.achievables.filter.AchievableElementStateFilter;
 import delta.games.lotro.character.status.achievables.filter.AchievableStatusFilter;
-import delta.games.lotro.gui.lore.items.FilterUpdateListener;
 import delta.games.lotro.gui.utils.l10n.Labels;
 
 /**

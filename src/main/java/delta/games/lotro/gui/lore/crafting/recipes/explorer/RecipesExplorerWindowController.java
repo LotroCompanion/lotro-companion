@@ -15,6 +15,7 @@ import javax.swing.border.TitledBorder;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.common.ui.swing.tables.GenericTableController;
+import delta.common.ui.swing.tables.panel.GenericTablePanelController;
 import delta.common.ui.swing.windows.DefaultWindowController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.misc.TypedProperties;
@@ -39,7 +40,7 @@ public class RecipesExplorerWindowController extends DefaultWindowController
   public static final String IDENTIFIER="RECIPES_EXPLORER";
 
   private RecipeFilterController _filterController;
-  private RecipeExplorerPanelController _panelController;
+  private GenericTablePanelController<Recipe> _panelController;
   private RecipesTableController _tableController;
   private RecipeFilter _filter;
 
@@ -81,7 +82,9 @@ public class RecipesExplorerWindowController extends DefaultWindowController
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     // Table
     initRecipesTable();
-    _panelController=new RecipeExplorerPanelController(this,_tableController);
+    _panelController=new GenericTablePanelController<Recipe>(this,_tableController.getTableController());
+    _panelController.getConfiguration().setBorderTitle("Items");
+    _panelController.getCountsDisplay().setText("Recipe(s)");
     JPanel tablePanel=_panelController.getPanel();
     // Filter
     List<Recipe> recipes=RecipesManager.getInstance().getAll();

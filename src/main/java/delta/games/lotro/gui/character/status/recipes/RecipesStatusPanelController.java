@@ -13,10 +13,10 @@ import javax.swing.JTable;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.tables.TableColumnsChooserController;
+import delta.common.ui.swing.tables.panel.FilterUpdateListener;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.status.recipes.RecipeStatus;
 import delta.games.lotro.gui.character.status.recipes.table.RecipeStatusTableController;
-import delta.games.lotro.gui.lore.items.FilterUpdateListener;
 import delta.games.lotro.gui.utils.l10n.Labels;
 
 /**

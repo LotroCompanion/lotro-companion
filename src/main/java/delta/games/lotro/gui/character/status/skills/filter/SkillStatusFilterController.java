@@ -12,6 +12,7 @@ import javax.swing.JTextField;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.common.ui.swing.combobox.ItemSelectionListener;
+import delta.common.ui.swing.tables.panel.FilterUpdateListener;
 import delta.common.ui.swing.text.DynamicTextEditionController;
 import delta.common.ui.swing.text.TextListener;
 import delta.common.utils.collections.filters.Filter;
@@ -20,7 +21,6 @@ import delta.games.lotro.character.status.skills.SkillStatus;
 import delta.games.lotro.character.status.skills.filters.KnownSkillFilter;
 import delta.games.lotro.character.status.skills.filters.SkillStatusFilter;
 import delta.games.lotro.common.filters.NamedFilter;
-import delta.games.lotro.gui.lore.items.FilterUpdateListener;
 import delta.games.lotro.gui.utils.SharedUiUtils;
 
 /**

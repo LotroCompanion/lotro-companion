@@ -12,13 +12,13 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.tables.panel.FilterUpdateListener;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.ui.swing.windows.WindowsManager;
 import delta.games.lotro.character.storage.StoredItem;
 import delta.games.lotro.gui.character.storage.StorageFilter;
 import delta.games.lotro.gui.character.storage.cosmetics.SameCosmeticsWindowController;
 import delta.games.lotro.gui.character.storage.statistics.StorageStatisticsWindowController;
-import delta.games.lotro.gui.lore.items.FilterUpdateListener;
 
 /**
  * Controller for a panel to show the storage buttons.

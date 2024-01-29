@@ -12,6 +12,7 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.tables.panel.FilterUpdateListener;
 import delta.common.ui.swing.windows.DefaultDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.account.Account;
@@ -22,7 +23,6 @@ import delta.games.lotro.account.events.AccountEventType;
 import delta.games.lotro.character.storage.wardrobe.Wardrobe;
 import delta.games.lotro.character.storage.wardrobe.WardrobeItem;
 import delta.games.lotro.character.storage.wardrobe.io.xml.WardrobeIO;
-import delta.games.lotro.gui.lore.items.FilterUpdateListener;
 import delta.games.lotro.utils.events.EventsManager;
 import delta.games.lotro.utils.events.GenericEventsListener;
 

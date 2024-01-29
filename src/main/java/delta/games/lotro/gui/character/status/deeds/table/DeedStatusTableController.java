@@ -14,6 +14,7 @@ import delta.common.ui.swing.tables.ListDataProvider;
 import delta.common.ui.swing.tables.ProxiedTableColumnController;
 import delta.common.ui.swing.tables.TableColumnController;
 import delta.common.ui.swing.tables.TableColumnsManager;
+import delta.common.ui.swing.tables.panel.FilterUpdateListener;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.character.status.achievables.AchievableStatus;
 import delta.games.lotro.character.status.achievables.AchievablesStatusManager;
@@ -23,7 +24,6 @@ import delta.games.lotro.gui.character.status.achievables.table.AchievableStatus
 import delta.games.lotro.gui.character.status.achievables.table.AchievableStatusColumnsBuilder;
 import delta.games.lotro.gui.lore.deeds.table.DeedColumnIds;
 import delta.games.lotro.gui.lore.deeds.table.DeedsTableController;
-import delta.games.lotro.gui.lore.items.FilterUpdateListener;
 import delta.games.lotro.gui.lore.items.chooser.ItemChooser;
 import delta.games.lotro.lore.deeds.DeedDescription;
 

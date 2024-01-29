@@ -17,11 +17,11 @@ import delta.common.ui.swing.selection.SelectionChangedEvent;
 import delta.common.ui.swing.selection.SelectionChangedListener;
 import delta.common.ui.swing.selection.SelectionManager;
 import delta.common.ui.swing.tables.GenericTableController;
+import delta.common.ui.swing.tables.panel.FilterUpdateListener;
 import delta.games.lotro.common.Identifiable;
 import delta.games.lotro.common.blacklist.Blacklist;
 import delta.games.lotro.common.blacklist.filter.BlackListFilter;
 import delta.games.lotro.common.blacklist.io.BlackListIO;
-import delta.games.lotro.gui.lore.items.FilterUpdateListener;
 
 /**
  * Controller for the blacklist UI.

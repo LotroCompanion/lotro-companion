@@ -18,6 +18,7 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.common.ui.swing.combobox.ItemSelectionListener;
 import delta.common.ui.swing.multicheckbox.MultiCheckboxController;
+import delta.common.ui.swing.tables.panel.FilterUpdateListener;
 import delta.games.lotro.character.status.skirmishes.SkirmishLevel;
 import delta.games.lotro.character.status.skirmishes.filter.SkirmishEntryFilter;
 import delta.games.lotro.character.status.skirmishes.filter.SkirmishEntryLevelFilter;
@@ -26,7 +27,6 @@ import delta.games.lotro.character.status.skirmishes.filter.SkirmishEntrySkirmis
 import delta.games.lotro.common.enums.GroupSize;
 import delta.games.lotro.common.enums.LotroEnum;
 import delta.games.lotro.common.enums.LotroEnumsRegistry;
-import delta.games.lotro.gui.lore.items.FilterUpdateListener;
 import delta.games.lotro.gui.utils.l10n.Labels;
 import delta.games.lotro.lore.instances.PrivateEncountersManager;
 import delta.games.lotro.lore.instances.SkirmishPrivateEncounter;

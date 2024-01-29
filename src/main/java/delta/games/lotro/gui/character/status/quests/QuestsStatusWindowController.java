@@ -21,6 +21,7 @@ import javax.swing.border.TitledBorder;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.tables.GenericTableController;
+import delta.common.ui.swing.tables.panel.FilterUpdateListener;
 import delta.common.ui.swing.windows.DefaultDisplayDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.ui.swing.windows.WindowsManager;
@@ -38,7 +39,6 @@ import delta.games.lotro.gui.character.status.achievables.filter.AchievableStatu
 import delta.games.lotro.gui.character.status.achievables.statistics.AchievablesStatisticsWindowController;
 import delta.games.lotro.gui.character.status.quests.form.QuestStatusDialogController;
 import delta.games.lotro.gui.character.status.quests.table.QuestStatusTableController;
-import delta.games.lotro.gui.lore.items.FilterUpdateListener;
 import delta.games.lotro.gui.lore.quests.filter.QuestFilterController;
 import delta.games.lotro.gui.main.GlobalPreferences;
 import delta.games.lotro.lore.quests.AchievablesUtils;

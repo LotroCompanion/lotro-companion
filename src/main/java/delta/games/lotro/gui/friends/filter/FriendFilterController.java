@@ -13,13 +13,13 @@ import javax.swing.JTextField;
 import javax.swing.border.Border;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.tables.panel.FilterUpdateListener;
 import delta.common.ui.swing.text.DynamicTextEditionController;
 import delta.common.ui.swing.text.TextListener;
 import delta.common.utils.collections.filters.Filter;
 import delta.games.lotro.account.status.friends.Friend;
 import delta.games.lotro.account.status.friends.filters.FriendFilter;
 import delta.games.lotro.account.status.friends.filters.FriendNoteFilter;
-import delta.games.lotro.gui.lore.items.FilterUpdateListener;
 import delta.games.lotro.gui.utils.l10n.Labels;
 
 /**

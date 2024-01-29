@@ -8,11 +8,11 @@ import delta.common.ui.swing.tables.CellDataProvider;
 import delta.common.ui.swing.tables.CellDataUpdater;
 import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.TableColumnController;
+import delta.common.ui.swing.tables.panel.FilterUpdateListener;
 import delta.games.lotro.character.status.achievables.AchievableElementState;
 import delta.games.lotro.character.status.achievables.AchievableStatus;
 import delta.games.lotro.character.status.achievables.Progress;
 import delta.games.lotro.character.status.achievables.comparators.ProgressComparator;
-import delta.games.lotro.gui.lore.items.FilterUpdateListener;
 import delta.games.lotro.gui.utils.l10n.StatColumnsUtils;
 
 /**

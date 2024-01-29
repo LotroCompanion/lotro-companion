@@ -9,13 +9,13 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.tables.panel.FilterUpdateListener;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.math.Range;
 import delta.games.lotro.common.enums.Difficulty;
 import delta.games.lotro.common.enums.GroupSize;
 import delta.games.lotro.common.enums.LotroEnum;
 import delta.games.lotro.common.enums.LotroEnumsRegistry;
-import delta.games.lotro.gui.lore.items.FilterUpdateListener;
 import delta.games.lotro.gui.lore.items.ItemsListDisplayPanelController;
 import delta.games.lotro.gui.lore.loot.instances.filter.InstanceLootParametersConfiguration;
 import delta.games.lotro.gui.lore.loot.instances.filter.InstanceParameters;
