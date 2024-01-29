@@ -13,6 +13,7 @@ import javax.swing.border.TitledBorder;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.tables.GenericTableController;
+import delta.common.ui.swing.tables.panel.GenericTablePanelController;
 import delta.common.ui.swing.windows.DefaultWindowController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.ui.swing.windows.WindowsManager;
@@ -36,7 +37,7 @@ public class TitlesExplorerWindowController extends DefaultWindowController
   public static final String IDENTIFIER="TITLES_EXPLORER";
 
   private TitleFilterController _filterController;
-  private TitleExplorerPanelController _panelController;
+  private GenericTablePanelController<TitleDescription> _panelController;
   private TitlesTableController _tableController;
   private TitleFilter _filter;
   private WindowsManager _titleWindows;
@@ -80,7 +81,9 @@ public class TitlesExplorerWindowController extends DefaultWindowController
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     // Table
     initTitlesTable();
-    _panelController=new TitleExplorerPanelController(this,_tableController);
+    _panelController=new GenericTablePanelController<TitleDescription>(this,_tableController.getTableController());
+    _panelController.getConfiguration().setBorderTitle("Titles"); // I18n
+    _panelController.getCountsDisplay().setText("Title(s)"); // I18n
     JPanel tablePanel=_panelController.getPanel();
     // Filter
     _filterController=new TitleFilterController(_filter,_panelController);

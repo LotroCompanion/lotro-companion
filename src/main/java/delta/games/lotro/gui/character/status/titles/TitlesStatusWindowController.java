@@ -16,6 +16,7 @@ import javax.swing.border.TitledBorder;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.panel.FilterUpdateListener;
+import delta.common.ui.swing.tables.panel.GenericTablePanelController;
 import delta.common.ui.swing.windows.DefaultDisplayDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.misc.TypedProperties;
@@ -49,7 +50,7 @@ public class TitlesStatusWindowController extends DefaultDisplayDialogController
   // Controllers
   private TitleStatusFilterController _statusFilterController;
   private TitleFilterController _filterController;
-  private TitlesStatusPanelController _panelController;
+  private GenericTablePanelController<TitleStatus> _panelController;
   private TitlesStatusTableController _tableController;
 
   /**
@@ -97,7 +98,9 @@ public class TitlesStatusWindowController extends DefaultDisplayDialogController
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     // Table
     initTable();
-    _panelController=new TitlesStatusPanelController(this,_tableController);
+    _panelController=new GenericTablePanelController<TitleStatus>(this,_tableController.getTableController());
+    _panelController.getConfiguration().setBorderTitle("Status of titles"); // I18n
+    _panelController.getCountsDisplay().setText("Title(s)"); // I18n
     JPanel tablePanel=_panelController.getPanel();
     // Titles filter
     _filterController=new TitleFilterController(_filter.getTitleFilter(),this);

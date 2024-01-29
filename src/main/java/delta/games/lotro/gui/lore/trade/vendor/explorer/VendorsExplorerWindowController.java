@@ -14,6 +14,7 @@ import javax.swing.border.TitledBorder;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.common.ui.swing.tables.GenericTableController;
+import delta.common.ui.swing.tables.panel.GenericTablePanelController;
 import delta.common.ui.swing.windows.DefaultWindowController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.misc.TypedProperties;
@@ -37,7 +38,7 @@ public class VendorsExplorerWindowController extends DefaultWindowController
   public static final String IDENTIFIER="VENDORS_EXPLORER";
 
   private VendorFilterController _filterController;
-  private VendorsExplorerPanelController _panelController;
+  private GenericTablePanelController<VendorNpc> _panelController;
   private VendorsTableController _tableController;
   private VendorFilter _filter;
 
@@ -79,7 +80,9 @@ public class VendorsExplorerWindowController extends DefaultWindowController
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     // Table
     initVendorsTable();
-    _panelController=new VendorsExplorerPanelController(this,_tableController);
+    _panelController=new GenericTablePanelController<VendorNpc>(this,_tableController.getTableController());
+    _panelController.getConfiguration().setBorderTitle("Vendors"); // I18n
+    _panelController.getCountsDisplay().setText("Vendor(s)"); // I18n
     JPanel tablePanel=_panelController.getPanel();
     // Filter
     _filterController=new VendorFilterController(_filter,_panelController);

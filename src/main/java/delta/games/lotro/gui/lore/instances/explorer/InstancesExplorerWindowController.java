@@ -14,6 +14,7 @@ import javax.swing.border.TitledBorder;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.tables.GenericTableController;
+import delta.common.ui.swing.tables.panel.GenericTablePanelController;
 import delta.common.ui.swing.windows.DefaultWindowController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.ui.swing.windows.WindowsManager;
@@ -38,7 +39,7 @@ public class InstancesExplorerWindowController extends DefaultWindowController
   public static final String IDENTIFIER="INSTANCES_EXPLORER";
 
   private InstancesFilterController _filterController;
-  private InstancesExplorerPanelController _panelController;
+  private GenericTablePanelController<InstanceTreeEntry> _panelController;
   private InstancesTableController _tableController;
   private InstanceEntriesFilter _filter;
 
@@ -80,7 +81,9 @@ public class InstancesExplorerWindowController extends DefaultWindowController
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     // Table
     initInstancesTable();
-    _panelController=new InstancesExplorerPanelController(this,_tableController);
+    _panelController=new GenericTablePanelController<InstanceTreeEntry>(this,_tableController.getTableController());
+    _panelController.getConfiguration().setBorderTitle("Instances"); // I18n
+    _panelController.getCountsDisplay().setText("Instance(s)"); // I18n
     JPanel tablePanel=_panelController.getPanel();
     // Filter
     _filterController=new InstancesFilterController(_filter,_panelController);

@@ -10,10 +10,12 @@ import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.tables.panel.FilterUpdateListener;
+import delta.common.ui.swing.tables.panel.GenericTablePanelController;
 import delta.common.ui.swing.windows.DefaultDisplayDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.character.status.skirmishes.SkirmishEntriesManager;
+import delta.games.lotro.character.status.skirmishes.SkirmishEntry;
 import delta.games.lotro.gui.character.status.skirmishes.cfg.SkirmishEntryConfigController;
 import delta.games.lotro.gui.character.status.skirmishes.filter.SkirmishEntryFilterController;
 import delta.games.lotro.gui.character.status.skirmishes.table.SkirmishEntriesTableController;
@@ -37,7 +39,7 @@ public class SkirmishStatisticsWindowController extends DefaultDisplayDialogCont
   private SkirmishEntryFilterController _filterController;
   private SkirmishEntryConfigController _configController;
   private SkirmishStatsDisplayPanelController _totalsController;
-  private SkirmishEntriesPanelController _panelController;
+  private GenericTablePanelController<SkirmishEntry> _panelController;
   private SkirmishEntriesTableController _tableController;
 
   /**
@@ -84,7 +86,9 @@ public class SkirmishStatisticsWindowController extends DefaultDisplayDialogCont
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     // Table
     initTable();
-    _panelController=new SkirmishEntriesPanelController(this,_tableController);
+    _panelController=new GenericTablePanelController<SkirmishEntry>(this,_tableController.getTableController());
+    _panelController.getConfiguration().setBorderTitle("Skirmish statistics"); // I18n
+    _panelController.getCountsDisplay().setText("Element(s)"); // I18n
     JPanel tablePanel=_panelController.getPanel();
     // Build child controllers
     _filterController=new SkirmishEntryFilterController(_data.getFilter(),this);
@@ -134,7 +138,8 @@ public class SkirmishStatisticsWindowController extends DefaultDisplayDialogCont
   {
     _data.update();
     _totalsController.updateUI(_data.getTotals());
-    _panelController.updateContents();
+    _tableController.updateContents();
+    _panelController.getCountsDisplay().update();
   }
 
   /**
