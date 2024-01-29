@@ -6,11 +6,13 @@ import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.tables.panel.GenericTablePanelController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.gui.kinship.filter.KinshipMemberFilterController;
 import delta.games.lotro.gui.main.GlobalPreferences;
 import delta.games.lotro.kinship.Kinship;
+import delta.games.lotro.kinship.KinshipMember;
 import delta.games.lotro.kinship.filters.KinshipMemberFilter;
 
 /**
@@ -28,7 +30,7 @@ public class KinshipPanelController
   private WindowController _parent;
   private KinshipMemberFilterController _filterController;
   private KinshipMembersTableController _membersTable;
-  private KinshipMembersPanelController _membersPanel;
+  private GenericTablePanelController<KinshipMember> _membersPanel;
 
   /**
    * Constructor.
@@ -74,7 +76,9 @@ public class KinshipPanelController
   private JPanel buildTablePanel()
   {
     _membersTable=buildMembersTable();
-    _membersPanel=new KinshipMembersPanelController(_parent,_membersTable);
+    _membersPanel=new GenericTablePanelController<KinshipMember>(_parent,_membersTable.getTableController());
+    _membersPanel.getConfiguration().setBorderTitle("Members"); // I18n
+    _membersPanel.getCountsDisplay().setText("Member(s)"); // I18n
     return _membersPanel.getPanel();
   }
 

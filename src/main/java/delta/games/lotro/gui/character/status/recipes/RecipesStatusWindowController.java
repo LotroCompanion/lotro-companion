@@ -17,6 +17,7 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.panel.FilterUpdateListener;
+import delta.common.ui.swing.tables.panel.GenericTablePanelController;
 import delta.common.ui.swing.windows.DefaultDisplayDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.misc.TypedProperties;
@@ -54,7 +55,7 @@ public class RecipesStatusWindowController extends DefaultDisplayDialogControlle
   // Controllers
   private RecipeStateFilterController _statusFilterController;
   private RecipeFilterController _filterController;
-  private RecipesStatusPanelController _panelController;
+  private GenericTablePanelController<RecipeStatus> _panelController;
   private RecipeStatusTableController _tableController;
   private RecipesStatsDisplayPanelController _statsController;
   private BlacklistController<RecipeStatus> _blacklistController;
@@ -108,7 +109,9 @@ public class RecipesStatusWindowController extends DefaultDisplayDialogControlle
     // Table
     Blacklist blacklist=BlackListIO.load(_toon,"recipes");
     initTable(blacklist);
-    _panelController=new RecipesStatusPanelController(this,_tableController);
+    _panelController=new GenericTablePanelController<RecipeStatus>(this,_tableController.getTableController());
+    _panelController.getConfiguration().setBorderTitle("Status of recipes"); // I18n
+    _panelController.getCountsDisplay().setText("Recipe(s)"); // I18n
     JPanel tablePanel=_panelController.getPanel();
     // Build child controllers
     _filterController=new RecipeFilterController(_data.getRecipes(),_filter.getRecipeFilter(),this);

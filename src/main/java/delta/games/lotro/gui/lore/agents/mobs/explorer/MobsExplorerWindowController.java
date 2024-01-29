@@ -14,6 +14,7 @@ import javax.swing.border.TitledBorder;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.tables.GenericTableController;
+import delta.common.ui.swing.tables.panel.GenericTablePanelController;
 import delta.common.ui.swing.windows.DefaultWindowController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.misc.TypedProperties;
@@ -36,7 +37,7 @@ public class MobsExplorerWindowController extends DefaultWindowController
   public static final String IDENTIFIER="MOBS_EXPLORER";
 
   private MobsFilterController _filterController;
-  private MobsExplorerPanelController _panelController;
+  private GenericTablePanelController<MobDescription> _panelController;
   private MobsTableController _tableController;
   private MobFilter _filter;
 
@@ -79,7 +80,9 @@ public class MobsExplorerWindowController extends DefaultWindowController
     List<MobDescription> mobs=MobsManager.getInstance().getMobs();
     // Table
     initTable(mobs);
-    _panelController=new MobsExplorerPanelController(this,_tableController);
+    _panelController=new GenericTablePanelController<MobDescription>(this,_tableController.getTableController());
+    _panelController.getConfiguration().setBorderTitle("Mobs"); // I18n
+    _panelController.getCountsDisplay().setText("Mob(s)"); // I18n
     JPanel tablePanel=_panelController.getPanel();
     // Filter
     _filterController=new MobsFilterController(_filter,mobs,_panelController);

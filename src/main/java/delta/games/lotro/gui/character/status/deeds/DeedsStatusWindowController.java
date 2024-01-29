@@ -22,6 +22,7 @@ import javax.swing.border.TitledBorder;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.panel.FilterUpdateListener;
+import delta.common.ui.swing.tables.panel.GenericTablePanelController;
 import delta.common.ui.swing.windows.DefaultFormDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.ui.swing.windows.WindowsManager;
@@ -68,7 +69,7 @@ public class DeedsStatusWindowController extends DefaultFormDialogController<Ach
   // Controllers
   private AchievableStatusFilterController _statusFilterController;
   private DeedFilterController _filterController;
-  private DeedsStatusPanelController _panelController;
+  private GenericTablePanelController<AchievableStatus> _panelController;
   private DeedStatusTableController _tableController;
   private BlacklistController<AchievableStatus> _blacklistController;
 
@@ -114,7 +115,9 @@ public class DeedsStatusWindowController extends DefaultFormDialogController<Ach
     // Table
     Blacklist blacklist=BlackListIO.load(_toon,false);
     initTable(blacklist);
-    _panelController=new DeedsStatusPanelController(this,_tableController);
+    _panelController=new GenericTablePanelController<AchievableStatus>(this,_tableController.getTableController());
+    _panelController.getConfiguration().setBorderTitle("Status of deeds"); // I18n
+    _panelController.getCountsDisplay().setText("Deed(s)"); // I18n
     JPanel tablePanel=_panelController.getPanel();
     // Deed filter
     _filterController=new DeedFilterController(this,_filter.getDeedFilter(),this,false);

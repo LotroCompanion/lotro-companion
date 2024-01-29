@@ -7,12 +7,14 @@ import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.tables.panel.GenericTablePanelController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.account.AccountOnServer;
 import delta.games.lotro.account.events.AccountEvent;
 import delta.games.lotro.account.events.AccountEventProperties;
 import delta.games.lotro.account.events.AccountEventType;
+import delta.games.lotro.account.status.friends.Friend;
 import delta.games.lotro.account.status.friends.FriendsManager;
 import delta.games.lotro.account.status.friends.filters.FriendFilter;
 import delta.games.lotro.account.status.friends.io.xml.FriendsIO;
@@ -36,7 +38,7 @@ public class FriendsPanelController implements GenericEventsListener<AccountEven
   private WindowController _parent;
   private FriendFilterController _filterController;
   private FriendsTableController _membersTable;
-  private FriendsTablePanelController _membersPanel;
+  private GenericTablePanelController<Friend> _membersPanel;
 
   /**
    * Constructor.
@@ -84,7 +86,9 @@ public class FriendsPanelController implements GenericEventsListener<AccountEven
   {
     _membersTable=buildFriendsTable();
     updateFriends();
-    _membersPanel=new FriendsTablePanelController(_parent,_membersTable);
+    _membersPanel=new GenericTablePanelController<Friend>(_parent,_membersTable.getTableController());
+    _membersPanel.getConfiguration().setBorderTitle("Friends"); // I18n
+    _membersPanel.getCountsDisplay().setText("Friend(s)"); // I18n
     return _membersPanel.getPanel();
   }
 

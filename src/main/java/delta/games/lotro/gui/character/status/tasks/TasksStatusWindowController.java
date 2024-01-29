@@ -16,6 +16,7 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.panel.FilterUpdateListener;
+import delta.common.ui.swing.tables.panel.GenericTablePanelController;
 import delta.common.ui.swing.windows.DefaultDisplayDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.ui.swing.windows.WindowsManager;
@@ -54,7 +55,7 @@ public class TasksStatusWindowController extends DefaultDisplayDialogController<
   // Controllers
   private AchievableStatusFilterController _statusFilterController;
   private TaskFilterController _filterController;
-  private TasksStatusPanelController _panelController;
+  private GenericTablePanelController<TaskStatus> _panelController;
   private TaskStatusTableController _tableController;
   private TaskDeedsStatusPanelController _taskDeedsController;
   private TaskQuestsStatusPanelController _taskQuestsController;
@@ -107,7 +108,9 @@ public class TasksStatusWindowController extends DefaultDisplayDialogController<
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     // Table
     initTable();
-    _panelController=new TasksStatusPanelController(this,_tableController);
+    _panelController=new GenericTablePanelController<TaskStatus>(this,_tableController.getTableController());
+    _panelController.getConfiguration().setBorderTitle("Status of tasks"); // I18n
+    _panelController.getCountsDisplay().setText("Task(s)"); // I18n
     JPanel tablePanel=_panelController.getPanel();
     // Build child controllers
     _filterController=new TaskFilterController(this,_filter,this);

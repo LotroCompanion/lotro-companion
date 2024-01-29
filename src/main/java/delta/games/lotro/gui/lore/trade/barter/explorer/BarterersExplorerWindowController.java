@@ -14,6 +14,7 @@ import javax.swing.border.TitledBorder;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.common.ui.swing.tables.GenericTableController;
+import delta.common.ui.swing.tables.panel.GenericTablePanelController;
 import delta.common.ui.swing.windows.DefaultWindowController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.misc.TypedProperties;
@@ -37,7 +38,7 @@ public class BarterersExplorerWindowController extends DefaultWindowController
   public static final String IDENTIFIER="BARTERERS_EXPLORER";
 
   private BartererFilterController _filterController;
-  private BarterersExplorerPanelController _panelController;
+  private GenericTablePanelController<BarterNpc> _panelController;
   private BarterersTableController _tableController;
   private BartererFilter _filter;
 
@@ -79,7 +80,9 @@ public class BarterersExplorerWindowController extends DefaultWindowController
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     // Table
     initBarterersTable();
-    _panelController=new BarterersExplorerPanelController(this,_tableController);
+    _panelController=new GenericTablePanelController<BarterNpc>(this,_tableController.getTableController());
+    _panelController.getConfiguration().setBorderTitle("Barterers"); // I18n
+    _panelController.getCountsDisplay().setText("Barterer(s)"); // I18n
     JPanel tablePanel=_panelController.getPanel();
     // Filter
     _filterController=new BartererFilterController(_filter,_panelController);
