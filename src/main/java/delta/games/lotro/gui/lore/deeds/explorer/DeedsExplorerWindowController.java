@@ -14,6 +14,7 @@ import javax.swing.border.TitledBorder;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.common.ui.swing.tables.GenericTableController;
+import delta.common.ui.swing.tables.panel.GenericTablePanelController;
 import delta.common.ui.swing.windows.DefaultWindowController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.misc.TypedProperties;
@@ -37,7 +38,7 @@ public class DeedsExplorerWindowController extends DefaultWindowController
   public static final String IDENTIFIER="DEEDS_EXPLORER";
 
   private DeedFilterController _filterController;
-  private DeedExplorerPanelController _panelController;
+  private GenericTablePanelController<DeedDescription> _panelController;
   private DeedsTableController _tableController;
   private DeedFilter _filter;
 
@@ -79,7 +80,9 @@ public class DeedsExplorerWindowController extends DefaultWindowController
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     // Table
     initDeedsTable();
-    _panelController=new DeedExplorerPanelController(this,_tableController);
+    _panelController=new GenericTablePanelController<DeedDescription>(this,_tableController.getTableController());
+    _panelController.getConfiguration().setBorderTitle("Deeds"); // I18n
+    _panelController.getCountsDisplay().setText("Deed(s)"); // I18n
     JPanel tablePanel=_panelController.getPanel();
     // Filter
     _filterController=new DeedFilterController(this,_filter,_panelController,true);

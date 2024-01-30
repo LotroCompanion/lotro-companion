@@ -14,6 +14,7 @@ import javax.swing.border.TitledBorder;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.tables.GenericTableController;
+import delta.common.ui.swing.tables.panel.GenericTablePanelController;
 import delta.common.ui.swing.windows.DefaultFormDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.collections.filters.Filter;
@@ -37,7 +38,7 @@ public class ObjectChoiceWindowController<T> extends DefaultFormDialogController
   public static final String COLUMNS_PROPERTY="columns";
 
   private ObjectFilterPanelController _filterController;
-  private ObjectChoicePanelController<T> _panelController;
+  private GenericTablePanelController<T> _panelController;
   private GenericTableController<T> _tableController;
   private TypedProperties _prefs;
 
@@ -90,7 +91,9 @@ public class ObjectChoiceWindowController<T> extends DefaultFormDialogController
       }
     }
     // Table
-    _panelController=new ObjectChoicePanelController<T>(this,_tableController);
+    _panelController=new GenericTablePanelController<T>(this,_tableController);
+    _panelController.getConfiguration().setBorderTitle("Choice"); // I18n
+    _panelController.getCountsDisplay().setText("Item(s)"); // I18n
     if (_filterController!=null)
     {
       _filterController.setFilterUpdateListener(_panelController);

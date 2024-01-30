@@ -22,6 +22,7 @@ import javax.swing.border.TitledBorder;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.panel.FilterUpdateListener;
+import delta.common.ui.swing.tables.panel.GenericTablePanelController;
 import delta.common.ui.swing.windows.DefaultDisplayDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.ui.swing.windows.WindowsManager;
@@ -65,7 +66,7 @@ public class QuestsStatusWindowController extends DefaultDisplayDialogController
   // Controllers
   private AchievableStatusFilterController _statusFilterController;
   private QuestFilterController _filterController;
-  private QuestsStatusPanelController _panelController;
+  private GenericTablePanelController<AchievableStatus> _panelController;
   private QuestStatusTableController _tableController;
   private BlacklistController<AchievableStatus> _blacklistController;
 
@@ -125,7 +126,9 @@ public class QuestsStatusWindowController extends DefaultDisplayDialogController
     // Table
     Blacklist blacklist=BlackListIO.load(_toon,true);
     initTable(blacklist);
-    _panelController=new QuestsStatusPanelController(this,_tableController);
+    _panelController=new GenericTablePanelController<AchievableStatus>(this,_tableController.getTableController());
+    _panelController.getConfiguration().setBorderTitle("Status of quests"); // I18n
+    _panelController.getCountsDisplay().setText("Quest(s)"); // I18n
     JPanel tablePanel=_panelController.getPanel();
     // Quest filter
     _filterController=new QuestFilterController(this,_filter.getQuestFilter(),this,false);

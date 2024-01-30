@@ -13,6 +13,7 @@ import javax.swing.border.TitledBorder;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.tables.GenericTableController;
+import delta.common.ui.swing.tables.panel.GenericTablePanelController;
 import delta.common.ui.swing.windows.DefaultWindowController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.ui.swing.windows.WindowsManager;
@@ -36,7 +37,7 @@ public class PetsExplorerWindowController extends DefaultWindowController
   public static final String IDENTIFIER="PETS_EXPLORER";
 
   private PetFilterController _filterController;
-  private PetsExplorerPanelController _panelController;
+  private GenericTablePanelController<CosmeticPetDescription> _panelController;
   private PetsTableController _tableController;
   private PetFilter _filter;
   private WindowsManager _formWindows;
@@ -80,7 +81,9 @@ public class PetsExplorerWindowController extends DefaultWindowController
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     // Table
     initPetsTable();
-    _panelController=new PetsExplorerPanelController(this,_tableController);
+    _panelController=new GenericTablePanelController<CosmeticPetDescription>(this,_tableController.getTableController());
+    _panelController.getConfiguration().setBorderTitle("Pets"); // I18n
+    _panelController.getCountsDisplay().setText("Pet(s)"); // I18n
     JPanel tablePanel=_panelController.getPanel();
     // Filter
     _filterController=new PetFilterController(_filter,_panelController);

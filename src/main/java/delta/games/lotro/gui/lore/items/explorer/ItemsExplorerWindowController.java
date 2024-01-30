@@ -15,6 +15,7 @@ import javax.swing.border.TitledBorder;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.common.ui.swing.tables.GenericTableController;
+import delta.common.ui.swing.tables.panel.GenericTablePanelController;
 import delta.common.ui.swing.windows.DefaultWindowController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.misc.Preferences;
@@ -41,7 +42,7 @@ public class ItemsExplorerWindowController extends DefaultWindowController
   public static final String IDENTIFIER="ITEMS_EXPLORER";
 
   private ItemFilterController _filterController;
-  private ItemsExplorerPanelController _panelController;
+  private GenericTablePanelController<Item> _panelController;
   private ItemsTableController _tableController;
   private ItemFilterConfiguration _cfg;
 
@@ -92,7 +93,9 @@ public class ItemsExplorerWindowController extends DefaultWindowController
     filterPanel.setBorder(filterBorder);
     // Table
     initItemsTable();
-    _panelController=new ItemsExplorerPanelController(this,_tableController);
+    _panelController=new GenericTablePanelController<Item>(this,_tableController.getTableController());
+    _panelController.getConfiguration().setBorderTitle("Items"); // I18n
+    _panelController.getCountsDisplay().setText("Item(s)"); // I18n
     JPanel tablePanel=_panelController.getPanel();
     _filterController.setFilterUpdateListener(_panelController);
     _panelController.filterUpdated();

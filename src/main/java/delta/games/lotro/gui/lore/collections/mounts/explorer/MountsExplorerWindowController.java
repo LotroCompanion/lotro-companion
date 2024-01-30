@@ -13,6 +13,7 @@ import javax.swing.border.TitledBorder;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.tables.GenericTableController;
+import delta.common.ui.swing.tables.panel.GenericTablePanelController;
 import delta.common.ui.swing.windows.DefaultWindowController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.ui.swing.windows.WindowsManager;
@@ -36,7 +37,7 @@ public class MountsExplorerWindowController extends DefaultWindowController
   public static final String IDENTIFIER="MOUNTS_EXPLORER";
 
   private MountFilterController _filterController;
-  private MountsExplorerPanelController _panelController;
+  private GenericTablePanelController<MountDescription> _panelController;
   private MountsTableController _tableController;
   private MountFilter _filter;
   private WindowsManager _formWindows;
@@ -80,7 +81,9 @@ public class MountsExplorerWindowController extends DefaultWindowController
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     // Table
     initMountsTable();
-    _panelController=new MountsExplorerPanelController(this,_tableController);
+    _panelController=new GenericTablePanelController<MountDescription>(this,_tableController.getTableController());
+    _panelController.getConfiguration().setBorderTitle("Mounts"); // I18n
+    _panelController.getCountsDisplay().setText("Mount(s)"); // I18n
     JPanel tablePanel=_panelController.getPanel();
     // Filter
     _filterController=new MountFilterController(_filter,_panelController);
