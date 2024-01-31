@@ -12,6 +12,7 @@ import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.ListDataProvider;
 import delta.common.ui.swing.tables.ProxiedTableColumnController;
+import delta.common.ui.swing.tables.Sort;
 import delta.common.ui.swing.tables.TableColumnController;
 import delta.common.ui.swing.tables.TableColumnsManager;
 import delta.common.utils.collections.filters.Filter;
@@ -85,8 +86,12 @@ public class CountedItemsTableController<T extends ItemProvider>
     {
       columnsManager.addColumnController(column,false);
     }
+    // Columns
     List<String> columnsIds=getColumnsId();
     columnsManager.setColumns(columnsIds);
+    // Sort
+    String sort=Sort.SORT_DESCENDING+COUNT_COLUMN;
+    table.setSort(Sort.buildFromString(sort));
     return table;
   }
 

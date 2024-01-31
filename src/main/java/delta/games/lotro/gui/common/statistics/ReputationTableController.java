@@ -12,6 +12,7 @@ import delta.common.ui.swing.tables.CellDataProvider;
 import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.ListDataProvider;
+import delta.common.ui.swing.tables.Sort;
 import delta.common.ui.swing.tables.TableColumnsManager;
 import delta.games.lotro.common.Named;
 import delta.games.lotro.common.comparators.NamedComparator;
@@ -59,6 +60,9 @@ public abstract class ReputationTableController<T extends FactionStats> extends 
     TableColumnsManager<T> columnsManager=table.getColumnsManager();
     List<String> columnsIds=getColumnIds();
     columnsManager.setColumns(columnsIds);
+    // Sort
+    String sort=Sort.SORT_DESCENDING+AMOUNT;
+    table.setSort(Sort.buildFromString(sort));
     return table;
   }
 
