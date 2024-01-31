@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.common.statistics.reputation;
+package delta.games.lotro.gui.common.statistics;
 
 import java.util.ArrayList;
 import java.util.Collections;

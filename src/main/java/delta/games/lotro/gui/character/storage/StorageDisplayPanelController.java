@@ -1,27 +1,16 @@
 package delta.games.lotro.gui.character.storage;
 
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.border.TitledBorder;
 
-import delta.common.ui.swing.GuiFactory;
-import delta.common.ui.swing.tables.TableColumnsChooserController;
 import delta.common.ui.swing.tables.panel.FilterUpdateListener;
+import delta.common.ui.swing.tables.panel.GenericTablePanelController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.character.storage.StoredItem;
 import delta.games.lotro.gui.main.GlobalPreferences;
-import delta.games.lotro.gui.utils.l10n.Labels;
 
 /**
  * Controller for the storage display panel.
@@ -32,26 +21,24 @@ public class StorageDisplayPanelController implements FilterUpdateListener
   // Data
   private List<StoredItem> _items;
   private StorageFilter _filter;
-  // GUI
-  private JPanel _panel;
-  private JLabel _statsLabel;
   // Controllers
+  private GenericTablePanelController<StoredItem> _tablePanel;
   private StoredItemsTableController _tableController;
-  private WindowController _parent;
 
   /**
    * Constructor.
    * @param parent Parent window.
-   * @param filter FIlter of stored items.
+   * @param filter Filter of stored items.
    */
   public StorageDisplayPanelController(WindowController parent, StorageFilter filter)
   {
-    _parent=parent;
     _filter=filter;
     _items=new ArrayList<StoredItem>();
     TypedProperties prefs=GlobalPreferences.getGlobalProperties("StorageDisplay");
     _tableController=new StoredItemsTableController(parent,prefs,_items,filter);
-    getPanel();
+    _tablePanel=new GenericTablePanelController<>(parent,_tableController.getTableController());
+    _tablePanel.getConfiguration().setBorderTitle("Items"); // I18n
+    _tablePanel.getCountsDisplay().setText("Item(s)"); // I18n
   }
 
   /**
@@ -60,41 +47,7 @@ public class StorageDisplayPanelController implements FilterUpdateListener
    */
   public JPanel getPanel()
   {
-    if (_panel==null)
-    {
-      _panel=build();
-    }
-    return _panel;
-  }
-
-  private JPanel build()
-  {
-    JPanel panel=GuiFactory.buildPanel(new BorderLayout());
-    TitledBorder border=GuiFactory.buildTitledBorder("Items"); // I18n
-    panel.setBorder(border);
-
-    // Table
-    JTable table=_tableController.getTable();
-    JScrollPane scroll=GuiFactory.buildScrollPane(table);
-    panel.add(scroll,BorderLayout.CENTER);
-    // Stats
-    JPanel statsPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
-    _statsLabel=GuiFactory.buildLabel("-");
-    statsPanel.add(_statsLabel);
-    JButton choose=GuiFactory.buildButton(Labels.getLabel("shared.chooseColumns.button"));
-    ActionListener al=new ActionListener()
-    {
-      @Override
-      public void actionPerformed(ActionEvent e)
-      {
-        TableColumnsChooserController<StoredItem> chooser=new TableColumnsChooserController<StoredItem>(_parent,_tableController.getTableController());
-        chooser.editModal();
-      }
-    };
-    choose.addActionListener(al);
-    statsPanel.add(choose);
-    panel.add(statsPanel,BorderLayout.NORTH);
-    return panel;
+    return _tablePanel.getPanel();
   }
 
   /**
@@ -104,8 +57,8 @@ public class StorageDisplayPanelController implements FilterUpdateListener
   public void update(List<StoredItem> items)
   {
     updateStorage(items);
-    updateStatsLabel();
     _tableController.update();
+    _tablePanel.filterUpdated();
   }
 
   /**
@@ -113,16 +66,7 @@ public class StorageDisplayPanelController implements FilterUpdateListener
    */
   public void filterUpdated()
   {
-    _tableController.updateFilter();
-    updateStatsLabel();
-  }
-
-  private void updateStatsLabel()
-  {
-    int nbFiltered=_tableController.getNbFilteredItems();
-    int nbItems=_tableController.getNbItems();
-    String label=Labels.getCountLabel(nbFiltered,nbItems);
-    _statsLabel.setText(label);
+    _tablePanel.filterUpdated();
   }
 
   private void updateStorage(List<StoredItem> items)
@@ -140,15 +84,7 @@ public class StorageDisplayPanelController implements FilterUpdateListener
     // Data
     _items=null;
     _filter=null;
-    // GUI
-    if (_panel!=null)
-    {
-      _panel.removeAll();
-      _panel=null;
-    }
-    _statsLabel=null;
     // Controllers
     _tableController=null;
-    _parent=null;
   }
 }

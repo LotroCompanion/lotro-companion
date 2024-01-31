@@ -13,10 +13,12 @@ import delta.games.lotro.character.status.achievables.statistics.reputation.Achi
 import delta.games.lotro.character.status.tasks.TaskStatus;
 import delta.games.lotro.character.status.tasks.statistics.TasksStatistics;
 import delta.games.lotro.gui.character.status.achievables.AchievableUIMode;
+import delta.games.lotro.gui.character.status.achievables.statistics.AchievableStatisticsTabPanelController;
 import delta.games.lotro.gui.character.status.achievables.statistics.AchievablesReputationTableController;
-import delta.games.lotro.gui.common.statistics.items.ItemsDisplayPanelController;
-import delta.games.lotro.gui.common.statistics.reputation.ReputationDisplayPanelController;
-import delta.games.lotro.gui.common.statistics.reputation.ReputationTableController;
+import delta.games.lotro.gui.common.statistics.ReputationTableController;
+import delta.games.lotro.gui.lore.items.CountedItemsTableController;
+import delta.games.lotro.lore.items.CountedItem;
+import delta.games.lotro.lore.items.Item;
 
 /**
  * Controller for a panel to show the statistics about some tasks.
@@ -28,9 +30,9 @@ public class TasksStatisticsPanelController extends AbstractPanelController
   private TasksStatistics _statistics;
   // Controllers
   private TasksStatisticsSummaryPanelController _summary;
-  private ReputationDisplayPanelController<AchievablesFactionStats> _reputation;
-  private ItemsDisplayPanelController _consumedItems;
-  private ItemsDisplayPanelController _earnedItems;
+  private AchievableStatisticsTabPanelController<AchievablesFactionStats> _reputation;
+  private AchievableStatisticsTabPanelController<CountedItem<Item>> _consumedItems;
+  private AchievableStatisticsTabPanelController<CountedItem<Item>> _earnedItems;
 
   /**
    * Constructor.
@@ -42,10 +44,18 @@ public class TasksStatisticsPanelController extends AbstractPanelController
     super(parent);
     _statistics=statistics;
     _summary=new TasksStatisticsSummaryPanelController(statistics);
+    // Reputation
     ReputationTableController<AchievablesFactionStats> tableController=new AchievablesReputationTableController(this,statistics.getReputationStats(),AchievableUIMode.QUEST);
-    _reputation=new ReputationDisplayPanelController<AchievablesFactionStats>(parent,statistics.getReputationStats(),tableController);
-    _consumedItems=new ItemsDisplayPanelController(parent,statistics.getConsumedItemsStats());
-    _earnedItems=new ItemsDisplayPanelController(parent,statistics.getEarnedItemsStats());
+    _reputation=new AchievableStatisticsTabPanelController<AchievablesFactionStats>(parent,tableController.getTableController());
+    _reputation.configure("Reputation","Faction(s)");
+    // Consumed items
+    CountedItemsTableController<Item> consumedItemsTable=new CountedItemsTableController<Item>(null,statistics.getConsumedItemsStats().getItems(),null);
+    _consumedItems=new AchievableStatisticsTabPanelController<CountedItem<Item>>(parent,consumedItemsTable.getTableController());
+    _consumedItems.configure("Items","Item(s)");
+    // Earned items
+    CountedItemsTableController<Item> earnedItemsTable=new CountedItemsTableController<Item>(null,statistics.getEarnedItemsStats().getItems(),null);
+    _earnedItems=new AchievableStatisticsTabPanelController<CountedItem<Item>>(parent,earnedItemsTable.getTableController());
+    _earnedItems.configure("Items","Item(s)");
     JPanel panel=buildPanel();
     setPanel(panel);
   }

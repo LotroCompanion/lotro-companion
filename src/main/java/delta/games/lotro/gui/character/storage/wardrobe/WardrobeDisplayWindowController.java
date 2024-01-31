@@ -4,8 +4,6 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.JComponent;
 import javax.swing.JDialog;
@@ -21,7 +19,6 @@ import delta.games.lotro.account.events.AccountEvent;
 import delta.games.lotro.account.events.AccountEventProperties;
 import delta.games.lotro.account.events.AccountEventType;
 import delta.games.lotro.character.storage.wardrobe.Wardrobe;
-import delta.games.lotro.character.storage.wardrobe.WardrobeItem;
 import delta.games.lotro.character.storage.wardrobe.io.xml.WardrobeIO;
 import delta.games.lotro.utils.events.EventsManager;
 import delta.games.lotro.utils.events.GenericEventsListener;
@@ -40,7 +37,6 @@ public class WardrobeDisplayWindowController extends DefaultDialogController imp
   // Data
   private AccountOnServer _accountOnServer;
   private WardrobeFilter _filter;
-  private List<WardrobeItem> _items;
   // Controllers
   private WardrobeDisplayPanelController _panelController;
   private WardrobeFilterController _filterController;
@@ -55,7 +51,6 @@ public class WardrobeDisplayWindowController extends DefaultDialogController imp
     super(parent);
     _accountOnServer=accountOnServer;
     _filter=new WardrobeFilter();
-    _items=new ArrayList<WardrobeItem>();
     updateContents();
     EventsManager.addListener(AccountEvent.class,this);
   }
@@ -140,9 +135,7 @@ public class WardrobeDisplayWindowController extends DefaultDialogController imp
     {
       wardrobe=new Wardrobe();
     }
-    _items=new ArrayList<WardrobeItem>();
-    _items.addAll(wardrobe.getAll());
-    _panelController.update(_items);
+    _panelController.update(wardrobe.getAll());
     _filterController.update();
   }
 
@@ -156,7 +149,6 @@ public class WardrobeDisplayWindowController extends DefaultDialogController imp
     // Data
     _accountOnServer=null;
     _filter=null;
-    _items=null;
     // Controllers
     if (_panelController!=null)
     {

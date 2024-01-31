@@ -25,8 +25,6 @@ public class TraitEventsTableController
   private static final String DATE="COMPLETION_DATE";
   private static final String ACHIEVABLE_NAME="ACHIEVABLE";
 
-  // Data
-  private AchievablesStatistics _stats;
   // GUI
   private JTable _table;
   private GenericTableController<TraitEvent> _tableController;
@@ -37,13 +35,12 @@ public class TraitEventsTableController
    */
   public TraitEventsTableController(AchievablesStatistics stats)
   {
-    _stats=stats;
-    _tableController=buildTable();
+    _tableController=buildTable(stats.getTraits());
   }
 
-  private GenericTableController<TraitEvent> buildTable()
+  private GenericTableController<TraitEvent> buildTable(List<TraitEvent> stats)
   {
-    ListDataProvider<TraitEvent> provider=new ListDataProvider<TraitEvent>(_stats.getTraits());
+    ListDataProvider<TraitEvent> provider=new ListDataProvider<TraitEvent>(stats);
     GenericTableController<TraitEvent> table=new GenericTableController<TraitEvent>(provider);
 
     // Trait name
@@ -147,7 +144,5 @@ public class TraitEventsTableController
       _tableController.dispose();
       _tableController=null;
     }
-    // Data
-    _stats=null;
   }
 }

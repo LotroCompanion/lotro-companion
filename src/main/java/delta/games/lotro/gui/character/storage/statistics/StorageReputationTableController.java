@@ -8,7 +8,7 @@ import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.games.lotro.character.storage.statistics.reputation.StorageFactionStats;
 import delta.games.lotro.character.storage.statistics.reputation.StorageReputationStats;
-import delta.games.lotro.gui.common.statistics.reputation.ReputationTableController;
+import delta.games.lotro.gui.common.statistics.ReputationTableController;
 
 /**
  * Controller for a table that shows reputations from stored items.

@@ -9,7 +9,7 @@ import delta.common.ui.swing.tables.GenericTableController;
 import delta.games.lotro.character.status.achievables.statistics.reputation.AchievablesFactionStats;
 import delta.games.lotro.character.status.achievables.statistics.reputation.AchievablesReputationStats;
 import delta.games.lotro.gui.character.status.achievables.AchievableUIMode;
-import delta.games.lotro.gui.common.statistics.reputation.ReputationTableController;
+import delta.games.lotro.gui.common.statistics.ReputationTableController;
 
 /**
  * Controller for a table that shows the reputations for a single character.

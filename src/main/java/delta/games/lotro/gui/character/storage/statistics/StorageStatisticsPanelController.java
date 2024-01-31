@@ -13,9 +13,11 @@ import delta.games.lotro.character.storage.StoredItem;
 import delta.games.lotro.character.storage.statistics.StorageStatistics;
 import delta.games.lotro.character.storage.statistics.StorageStatisticsComputer;
 import delta.games.lotro.character.storage.statistics.reputation.StorageFactionStats;
-import delta.games.lotro.gui.common.statistics.items.ItemsDisplayPanelController;
-import delta.games.lotro.gui.common.statistics.reputation.ReputationDisplayPanelController;
-import delta.games.lotro.gui.common.statistics.reputation.ReputationTableController;
+import delta.games.lotro.gui.character.status.achievables.statistics.AchievableStatisticsTabPanelController;
+import delta.games.lotro.gui.common.statistics.ReputationTableController;
+import delta.games.lotro.gui.lore.items.CountedItemsTableController;
+import delta.games.lotro.lore.items.CountedItem;
+import delta.games.lotro.lore.items.Item;
 
 /**
  * Controller for a panel to show the statistics about stored items.
@@ -27,8 +29,8 @@ public class StorageStatisticsPanelController extends AbstractPanelController
   private StorageStatistics _statistics;
   // Controllers
   private StorageStatisticsSummaryPanelController _summary;
-  private ItemsDisplayPanelController _items;
-  private ReputationDisplayPanelController<StorageFactionStats> _reputation;
+  private AchievableStatisticsTabPanelController<CountedItem<Item>> _items;
+  private AchievableStatisticsTabPanelController<StorageFactionStats> _reputation;
 
   /**
    * Constructor.
@@ -40,9 +42,14 @@ public class StorageStatisticsPanelController extends AbstractPanelController
     super(parent);
     _statistics=statistics;
     _summary=new StorageStatisticsSummaryPanelController(statistics);
-    _items=new ItemsDisplayPanelController(parent,statistics.getItemStats());
+    // Items
+    CountedItemsTableController<Item> itemsTable=new CountedItemsTableController<Item>(null,statistics.getItemStats().getItems(),null);
+    _items=new AchievableStatisticsTabPanelController<CountedItem<Item>>(parent,itemsTable.getTableController());
+    _items.configure("Items","Item(s)");
+    // Reputation
     ReputationTableController<StorageFactionStats> tableController=new StorageReputationTableController(this,statistics.getReputationStats());
-    _reputation=new ReputationDisplayPanelController<StorageFactionStats>(parent,statistics.getReputationStats(),tableController);
+    _reputation=new AchievableStatisticsTabPanelController<StorageFactionStats>(parent,tableController.getTableController());
+    _reputation.configure("Reputation","Faction(s)");
     JPanel panel=buildPanel();
     setPanel(panel);
   }

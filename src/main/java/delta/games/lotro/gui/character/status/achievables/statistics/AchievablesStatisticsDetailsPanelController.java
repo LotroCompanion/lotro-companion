@@ -12,11 +12,14 @@ import delta.games.lotro.character.status.achievables.statistics.AchievablesStat
 import delta.games.lotro.character.status.achievables.statistics.emotes.EmoteEvent;
 import delta.games.lotro.character.status.achievables.statistics.reputation.AchievablesFactionStats;
 import delta.games.lotro.character.status.achievables.statistics.titles.TitleEvent;
+import delta.games.lotro.character.status.achievables.statistics.traits.TraitEvent;
 import delta.games.lotro.character.status.achievables.statistics.virtues.VirtueXPStatsFromAchievable;
 import delta.games.lotro.gui.character.status.achievables.AchievableUIMode;
-import delta.games.lotro.gui.character.status.achievables.statistics.traits.TraitsDisplayPanelController;
-import delta.games.lotro.gui.common.statistics.items.ItemsDisplayPanelController;
-import delta.games.lotro.gui.common.statistics.reputation.ReputationTableController;
+import delta.games.lotro.gui.character.status.achievables.statistics.traits.TraitEventsTableController;
+import delta.games.lotro.gui.common.statistics.ReputationTableController;
+import delta.games.lotro.gui.lore.items.CountedItemsTableController;
+import delta.games.lotro.lore.items.CountedItem;
+import delta.games.lotro.lore.items.Item;
 
 /**
  * Controller for a panel to show the detailed statistics about some achievables.
@@ -29,9 +32,9 @@ public class AchievablesStatisticsDetailsPanelController extends AbstractPanelCo
   private AchievableStatisticsTabPanelController<TitleEvent> _titles;
   private AchievableStatisticsTabPanelController<AchievablesFactionStats> _reputation;
   private AchievableStatisticsTabPanelController<VirtueXPStatsFromAchievable> _virtueXP;
-  private ItemsDisplayPanelController _items;
+  private AchievableStatisticsTabPanelController<CountedItem<Item>> _items;
   private AchievableStatisticsTabPanelController<EmoteEvent> _emotes;
-  private TraitsDisplayPanelController _traits;
+  private AchievableStatisticsTabPanelController<TraitEvent> _traits;
 
   /**
    * Constructor.
@@ -57,13 +60,17 @@ public class AchievablesStatisticsDetailsPanelController extends AbstractPanelCo
     _virtueXP=new AchievableStatisticsTabPanelController<VirtueXPStatsFromAchievable>(parent,virtuesTable.getTableController());
     _virtueXP.configure("Virtue XP","Element(s)");
     // Items
-    _items=new ItemsDisplayPanelController(parent,statistics.getItemsStats());
+    CountedItemsTableController<Item> itemsTable=new CountedItemsTableController<Item>(null,statistics.getItemsStats().getItems(),null);
+    _items=new AchievableStatisticsTabPanelController<CountedItem<Item>>(parent,itemsTable.getTableController());
+    _items.configure("Items","Item(s)");
     // Emotes
     EmoteEventsTableController emotesTable=new EmoteEventsTableController(statistics);
     _emotes=new AchievableStatisticsTabPanelController<EmoteEvent>(parent,emotesTable.getTableController());
     _emotes.configure("Emotes","Emote(s)");
     // Traits
-    _traits=new TraitsDisplayPanelController(parent,statistics);
+    TraitEventsTableController traitsTable=new TraitEventsTableController(statistics);
+    _traits=new AchievableStatisticsTabPanelController<TraitEvent>(parent,traitsTable.getTableController());
+    _traits.configure("Traits","Trait(s)");
     JPanel panel=buildPanel();
     setPanel(panel);
   }
