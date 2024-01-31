@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.character.status.achievables.statistics.titles;
+package delta.games.lotro.gui.character.status.achievables.statistics;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -12,16 +12,16 @@ import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.ListDataProvider;
 import delta.common.ui.swing.tables.TableColumnsManager;
 import delta.games.lotro.character.status.achievables.statistics.AchievablesStatistics;
-import delta.games.lotro.character.status.achievables.statistics.titles.TitleEvent;
+import delta.games.lotro.character.status.achievables.statistics.emotes.EmoteEvent;
 import delta.games.lotro.gui.utils.l10n.StatColumnsUtils;
 
 /**
- * Controller for a table that shows the title events for a single character.
+ * Controller for a table that shows the emote events for a single character.
  * @author DAM
  */
-public class TitleEventsTableController
+public class EmoteEventsTableController
 {
-  private static final String TITLE="TITLE";
+  private static final String EMOTE="EMOTE";
   private static final String DATE="COMPLETION_DATE";
   private static final String ACHIEVABLE_NAME="ACHIEVABLE";
 
@@ -29,68 +29,68 @@ public class TitleEventsTableController
   private AchievablesStatistics _stats;
   // GUI
   private JTable _table;
-  private GenericTableController<TitleEvent> _tableController;
+  private GenericTableController<EmoteEvent> _tableController;
 
   /**
    * Constructor.
    * @param stats Stats to show.
    */
-  public TitleEventsTableController(AchievablesStatistics stats)
+  public EmoteEventsTableController(AchievablesStatistics stats)
   {
     _stats=stats;
     _tableController=buildTable();
   }
 
-  private GenericTableController<TitleEvent> buildTable()
+  private GenericTableController<EmoteEvent> buildTable()
   {
-    ListDataProvider<TitleEvent> provider=new ListDataProvider<TitleEvent>(_stats.getTitles());
-    GenericTableController<TitleEvent> table=new GenericTableController<TitleEvent>(provider);
+    ListDataProvider<EmoteEvent> provider=new ListDataProvider<EmoteEvent>(_stats.getEmotes());
+    GenericTableController<EmoteEvent> table=new GenericTableController<EmoteEvent>(provider);
 
-    // Title
+    // Emote
     {
-      CellDataProvider<TitleEvent,String> titleCell=new CellDataProvider<TitleEvent,String>()
+      CellDataProvider<EmoteEvent,String> emoteCell=new CellDataProvider<EmoteEvent,String>()
       {
         @Override
-        public String getData(TitleEvent item)
+        public String getData(EmoteEvent item)
         {
-          return item.getTitle();
+          return item.getEmote();
         }
       };
-      DefaultTableColumnController<TitleEvent,String> titleColumn=new DefaultTableColumnController<TitleEvent,String>(TITLE,"Title",String.class,titleCell); // I18n
-      titleColumn.setWidthSpecs(100,300,200);
-      table.addColumnController(titleColumn);
+      DefaultTableColumnController<EmoteEvent,String> emoteColumn=new DefaultTableColumnController<EmoteEvent,String>(EMOTE,"Emote",String.class,emoteCell); // I18n
+      emoteColumn.setWidthSpecs(100,300,200);
+      table.addColumnController(emoteColumn);
     }
     // Date column
     {
-      CellDataProvider<TitleEvent,Date> completionDateCell=new CellDataProvider<TitleEvent,Date>()
+      CellDataProvider<EmoteEvent,Date> completionDateCell=new CellDataProvider<EmoteEvent,Date>()
       {
         @Override
-        public Date getData(TitleEvent item)
+        public Date getData(EmoteEvent item)
         {
           Long timestamp=item.getDate();
           return (timestamp!=null)?new Date(timestamp.longValue()):null;
         }
       };
-      DefaultTableColumnController<TitleEvent,Date> completionDateColumn=new DefaultTableColumnController<TitleEvent,Date>(DATE,"Date",Date.class,completionDateCell); // I18n
+      DefaultTableColumnController<EmoteEvent,Date> completionDateColumn=new DefaultTableColumnController<EmoteEvent,Date>(DATE,"Date",Date.class,completionDateCell); // I18n
       StatColumnsUtils.configureDateTimeColumn(completionDateColumn);
       table.addColumnController(completionDateColumn);
     }
     // Achievable name column
     {
-      CellDataProvider<TitleEvent,String> achievableCell=new CellDataProvider<TitleEvent,String>()
+      CellDataProvider<EmoteEvent,String> achievableCell=new CellDataProvider<EmoteEvent,String>()
       {
         @Override
-        public String getData(TitleEvent item)
+        public String getData(EmoteEvent item)
         {
           return item.getAchievable().getName();
         }
       };
-      DefaultTableColumnController<TitleEvent,String> achievableColumn=new DefaultTableColumnController<TitleEvent,String>(ACHIEVABLE_NAME,"Source",String.class,achievableCell); // I18n
+      DefaultTableColumnController<EmoteEvent,String> achievableColumn=new DefaultTableColumnController<EmoteEvent,String>(ACHIEVABLE_NAME,"Source",String.class,achievableCell); // I18n
       achievableColumn.setWidthSpecs(100,300,200);
       table.addColumnController(achievableColumn);
     }
 
-    TableColumnsManager<TitleEvent> columnsManager=table.getColumnsManager();
+    TableColumnsManager<EmoteEvent> columnsManager=table.getColumnsManager();
     List<String> columnsIds=getColumnIds();
     columnsManager.setColumns(columnsIds);
     return table;
@@ -99,7 +99,7 @@ public class TitleEventsTableController
   private List<String> getColumnIds()
   {
     List<String> columnIds=new ArrayList<String>();
-    columnIds.add(TITLE);
+    columnIds.add(EMOTE);
     columnIds.add(DATE);
     columnIds.add(ACHIEVABLE_NAME);
     return columnIds;
@@ -109,7 +109,7 @@ public class TitleEventsTableController
    * Get the managed table controller.
    * @return the managed table controller.
    */
-  public GenericTableController<TitleEvent> getTableController()
+  public GenericTableController<EmoteEvent> getTableController()
   {
     return _tableController;
   }

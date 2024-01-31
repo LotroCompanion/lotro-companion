@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.character.status.achievables.statistics.virtues;
+package delta.games.lotro.gui.character.status.achievables.statistics;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +12,7 @@ import delta.common.ui.swing.tables.ListDataProvider;
 import delta.common.ui.swing.tables.TableColumnsManager;
 import delta.games.lotro.character.status.achievables.statistics.AchievablesStatistics;
 import delta.games.lotro.character.status.achievables.statistics.virtues.VirtueXPStatsFromAchievable;
+import delta.games.lotro.character.status.achievables.statistics.virtues.VirtueXPStatsFromAchievables;
 import delta.games.lotro.gui.character.status.achievables.AchievableUIMode;
 
 /**
@@ -25,8 +26,6 @@ public class VirtueXPFromAchievablesTableController
   private static final String COUNT="COMPLETION_COUNT";
 
   // Data
-  private AchievablesStatistics _stats;
-  private List<VirtueXPStatsFromAchievable> _virtueStats;
   private AchievableUIMode _mode;
   // GUI
   private GenericTableController<VirtueXPStatsFromAchievable> _tableController;
@@ -38,15 +37,13 @@ public class VirtueXPFromAchievablesTableController
    */
   public VirtueXPFromAchievablesTableController(AchievablesStatistics stats, AchievableUIMode mode)
   {
-    _stats=stats;
     _mode=mode;
-    _tableController=buildTable();
+    _tableController=buildTable(stats.getVirtueXPStats());
   }
 
-  private GenericTableController<VirtueXPStatsFromAchievable> buildTable()
+  private GenericTableController<VirtueXPStatsFromAchievable> buildTable(VirtueXPStatsFromAchievables stats)
   {
-    _virtueStats=new ArrayList<VirtueXPStatsFromAchievable>();
-    ListDataProvider<VirtueXPStatsFromAchievable> provider=new ListDataProvider<VirtueXPStatsFromAchievable>(_virtueStats);
+    ListDataProvider<VirtueXPStatsFromAchievable> provider=new ListDataProvider<VirtueXPStatsFromAchievable>(stats.getStats());
     GenericTableController<VirtueXPStatsFromAchievable> table=new GenericTableController<VirtueXPStatsFromAchievable>(provider);
 
     // Achievable name
@@ -121,16 +118,6 @@ public class VirtueXPFromAchievablesTableController
   }
 
   /**
-   * Update display.
-   */
-  public void update()
-  {
-    _virtueStats.clear();
-    _virtueStats.addAll(_stats.getVirtueXPStats().getEntries());
-    _tableController.refresh();
-  }
-
-  /**
    * Get the managed table.
    * @return the managed table.
    */
@@ -150,7 +137,5 @@ public class VirtueXPFromAchievablesTableController
       _tableController.dispose();
       _tableController=null;
     }
-    // Data
-    _stats=null;
   }
 }

@@ -9,15 +9,13 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.panels.AbstractPanelController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.status.achievables.statistics.AchievablesStatistics;
+import delta.games.lotro.character.status.achievables.statistics.emotes.EmoteEvent;
 import delta.games.lotro.character.status.achievables.statistics.reputation.AchievablesFactionStats;
+import delta.games.lotro.character.status.achievables.statistics.titles.TitleEvent;
+import delta.games.lotro.character.status.achievables.statistics.virtues.VirtueXPStatsFromAchievable;
 import delta.games.lotro.gui.character.status.achievables.AchievableUIMode;
-import delta.games.lotro.gui.character.status.achievables.statistics.emotes.EmotesDisplayPanelController;
-import delta.games.lotro.gui.character.status.achievables.statistics.reputation.AchievablesReputationTableController;
-import delta.games.lotro.gui.character.status.achievables.statistics.titles.TitlesDisplayPanelController;
 import delta.games.lotro.gui.character.status.achievables.statistics.traits.TraitsDisplayPanelController;
-import delta.games.lotro.gui.character.status.achievables.statistics.virtues.VirtueXPDisplayPanelController;
 import delta.games.lotro.gui.common.statistics.items.ItemsDisplayPanelController;
-import delta.games.lotro.gui.common.statistics.reputation.ReputationDisplayPanelController;
 import delta.games.lotro.gui.common.statistics.reputation.ReputationTableController;
 
 /**
@@ -28,11 +26,11 @@ public class AchievablesStatisticsDetailsPanelController extends AbstractPanelCo
 {
   // Controllers
   private AchievablesStatisticsDetailedSummaryPanelController _summary;
-  private TitlesDisplayPanelController _titles;
-  private ReputationDisplayPanelController<AchievablesFactionStats> _reputation;
-  private VirtueXPDisplayPanelController _virtueXP;
+  private AchievableStatisticsTabPanelController<TitleEvent> _titles;
+  private AchievableStatisticsTabPanelController<AchievablesFactionStats> _reputation;
+  private AchievableStatisticsTabPanelController<VirtueXPStatsFromAchievable> _virtueXP;
   private ItemsDisplayPanelController _items;
-  private EmotesDisplayPanelController _emotes;
+  private AchievableStatisticsTabPanelController<EmoteEvent> _emotes;
   private TraitsDisplayPanelController _traits;
 
   /**
@@ -45,12 +43,26 @@ public class AchievablesStatisticsDetailsPanelController extends AbstractPanelCo
   {
     super(parent);
     _summary=new AchievablesStatisticsDetailedSummaryPanelController(statistics,mode);
-    _titles=new TitlesDisplayPanelController(parent,statistics);
+    // TODO I18n:
+    // Titles
+    TitleEventsTableController titlesTable=new TitleEventsTableController(statistics);
+    _titles=new AchievableStatisticsTabPanelController<TitleEvent>(parent,titlesTable.getTableController());
+    _titles.configure("Titles","Titles(s)");
+    // Reputation
     ReputationTableController<AchievablesFactionStats> tableController=new AchievablesReputationTableController(this,statistics.getReputationStats(),mode);
-    _reputation=new ReputationDisplayPanelController<AchievablesFactionStats>(parent,statistics.getReputationStats(),tableController);
-    _virtueXP=new VirtueXPDisplayPanelController(parent,statistics,mode);
+    _reputation=new AchievableStatisticsTabPanelController<AchievablesFactionStats>(parent,tableController.getTableController());
+    _reputation.configure("Reputation","Faction(s)");
+    // Virtues
+    VirtueXPFromAchievablesTableController virtuesTable=new VirtueXPFromAchievablesTableController(statistics,mode);
+    _virtueXP=new AchievableStatisticsTabPanelController<VirtueXPStatsFromAchievable>(parent,virtuesTable.getTableController());
+    _virtueXP.configure("Virtue XP","Element(s)");
+    // Items
     _items=new ItemsDisplayPanelController(parent,statistics.getItemsStats());
-    _emotes=new EmotesDisplayPanelController(parent,statistics);
+    // Emotes
+    EmoteEventsTableController emotesTable=new EmoteEventsTableController(statistics);
+    _emotes=new AchievableStatisticsTabPanelController<EmoteEvent>(parent,emotesTable.getTableController());
+    _emotes.configure("Emotes","Emote(s)");
+    // Traits
     _traits=new TraitsDisplayPanelController(parent,statistics);
     JPanel panel=buildPanel();
     setPanel(panel);

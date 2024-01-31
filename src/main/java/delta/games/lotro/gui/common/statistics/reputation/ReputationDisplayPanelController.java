@@ -26,6 +26,7 @@ import delta.games.lotro.gui.utils.l10n.Labels;
  */
 public class ReputationDisplayPanelController<T extends FactionStats>
 {
+  // TODO Remove!
   // Data
   private ReputationStats<T> _stats;
   // GUI

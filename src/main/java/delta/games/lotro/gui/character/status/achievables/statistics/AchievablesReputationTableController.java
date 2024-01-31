@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.character.status.achievables.statistics.reputation;
+package delta.games.lotro.gui.character.status.achievables.statistics;
 
 import java.util.List;
 

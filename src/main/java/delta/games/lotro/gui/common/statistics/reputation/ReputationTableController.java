@@ -34,7 +34,6 @@ public abstract class ReputationTableController<T extends FactionStats> extends 
 
   // Data
   private ReputationStats<T> _stats;
-  private List<T> _factionStats;
   // GUI
   private GenericTableController<T> _tableController;
 
@@ -47,13 +46,12 @@ public abstract class ReputationTableController<T extends FactionStats> extends 
   {
     super(parent);
     _stats=stats;
-    _tableController=buildTable();
+    _tableController=buildTable(stats.getFactionStats());
   }
 
-  private GenericTableController<T> buildTable()
+  private GenericTableController<T> buildTable(List<T> stats)
   {
-    _factionStats=new ArrayList<T>();
-    ListDataProvider<T> provider=new ListDataProvider<T>(_factionStats);
+    ListDataProvider<T> provider=new ListDataProvider<T>(stats);
     GenericTableController<T> table=new GenericTableController<T>(provider);
     // Define columns
     defineColumns(table);
@@ -122,10 +120,7 @@ public abstract class ReputationTableController<T extends FactionStats> extends 
    */
   public void update()
   {
-    List<T> factionStats=_stats.getFactionStats();
-    sortFactionStatsByName(factionStats);
-    _factionStats.clear();
-    _factionStats.addAll(factionStats);
+    sortFactionStatsByName(_stats.getFactionStats());
     _tableController.refresh();
   }
 
