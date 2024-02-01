@@ -31,8 +31,6 @@ public class AchievableStatisticsTabPanelController<T>
   {
     _tableController=table;
     _panelController=new GenericTablePanelController<>(parent,table);
-    _panel=GuiFactory.buildBackgroundPanel(new BorderLayout());
-    _panel.add(_panelController.getPanel(),BorderLayout.CENTER);
   }
 
   /**
@@ -52,6 +50,11 @@ public class AchievableStatisticsTabPanelController<T>
    */
   public JPanel getPanel()
   {
+    if (_panel==null)
+    {
+      _panel=GuiFactory.buildBackgroundPanel(new BorderLayout());
+      _panel.add(_panelController.getPanel(),BorderLayout.CENTER);
+    }
     return _panel;
   }
 

@@ -50,27 +50,27 @@ public class AchievablesStatisticsDetailsPanelController extends AbstractPanelCo
     // Titles
     TitleEventsTableController titlesTable=new TitleEventsTableController(statistics);
     _titles=new AchievableStatisticsTabPanelController<TitleEvent>(parent,titlesTable.getTableController());
-    _titles.configure("Titles","Titles(s)");
+    _titles.configure(null,"Titles(s)");
     // Reputation
     ReputationTableController<AchievablesFactionStats> tableController=new AchievablesReputationTableController(this,statistics.getReputationStats(),mode);
     _reputation=new AchievableStatisticsTabPanelController<AchievablesFactionStats>(parent,tableController.getTableController());
-    _reputation.configure("Reputation","Faction(s)");
+    _reputation.configure(null,"Faction(s)");
     // Virtues
     VirtueXPFromAchievablesTableController virtuesTable=new VirtueXPFromAchievablesTableController(statistics,mode);
     _virtueXP=new AchievableStatisticsTabPanelController<VirtueXPStatsFromAchievable>(parent,virtuesTable.getTableController());
-    _virtueXP.configure("Virtue XP","Element(s)");
+    _virtueXP.configure(null,"Source(s)");
     // Items
     CountedItemsTableController<Item> itemsTable=new CountedItemsTableController<Item>(null,statistics.getItemsStats().getItems(),null);
     _items=new AchievableStatisticsTabPanelController<CountedItem<Item>>(parent,itemsTable.getTableController());
-    _items.configure("Items","Item(s)");
+    _items.configure(null,"Item(s)");
     // Emotes
     EmoteEventsTableController emotesTable=new EmoteEventsTableController(statistics);
     _emotes=new AchievableStatisticsTabPanelController<EmoteEvent>(parent,emotesTable.getTableController());
-    _emotes.configure("Emotes","Emote(s)");
+    _emotes.configure(null,"Emote(s)");
     // Traits
     TraitEventsTableController traitsTable=new TraitEventsTableController(statistics);
     _traits=new AchievableStatisticsTabPanelController<TraitEvent>(parent,traitsTable.getTableController());
-    _traits.configure("Traits","Trait(s)");
+    _traits.configure(null,"Trait(s)");
     JPanel panel=buildPanel();
     setPanel(panel);
   }

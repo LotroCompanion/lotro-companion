@@ -9,6 +9,7 @@ import delta.common.ui.swing.tables.CellDataProvider;
 import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.ListDataProvider;
+import delta.common.ui.swing.tables.Sort;
 import delta.common.ui.swing.tables.TableColumnsManager;
 import delta.games.lotro.character.status.achievables.statistics.AchievablesStatistics;
 import delta.games.lotro.character.status.achievables.statistics.virtues.VirtueXPStatsFromAchievable;
@@ -92,10 +93,13 @@ public class VirtueXPFromAchievablesTableController
       completionsColumn.setWidthSpecs(60,60,60);
       table.addColumnController(completionsColumn);
     }
-
+    // Columns
     TableColumnsManager<VirtueXPStatsFromAchievable> columnsManager=table.getColumnsManager();
     List<String> columnsIds=getColumnIds();
     columnsManager.setColumns(columnsIds);
+    // Sort
+    String sort=Sort.SORT_ASCENDING+ACHIEVABLE_NAME;
+    table.setSort(Sort.buildFromString(sort));
     return table;
   }
 

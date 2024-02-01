@@ -47,15 +47,15 @@ public class TasksStatisticsPanelController extends AbstractPanelController
     // Reputation
     ReputationTableController<AchievablesFactionStats> tableController=new AchievablesReputationTableController(this,statistics.getReputationStats(),AchievableUIMode.QUEST);
     _reputation=new AchievableStatisticsTabPanelController<AchievablesFactionStats>(parent,tableController.getTableController());
-    _reputation.configure("Reputation","Faction(s)");
+    _reputation.configure(null,"Faction(s)");
     // Consumed items
     CountedItemsTableController<Item> consumedItemsTable=new CountedItemsTableController<Item>(null,statistics.getConsumedItemsStats().getItems(),null);
     _consumedItems=new AchievableStatisticsTabPanelController<CountedItem<Item>>(parent,consumedItemsTable.getTableController());
-    _consumedItems.configure("Items","Item(s)");
+    _consumedItems.configure(null,"Item(s)");
     // Earned items
     CountedItemsTableController<Item> earnedItemsTable=new CountedItemsTableController<Item>(null,statistics.getEarnedItemsStats().getItems(),null);
     _earnedItems=new AchievableStatisticsTabPanelController<CountedItem<Item>>(parent,earnedItemsTable.getTableController());
-    _earnedItems.configure("Items","Item(s)");
+    _earnedItems.configure(null,"Item(s)");
     JPanel panel=buildPanel();
     setPanel(panel);
   }

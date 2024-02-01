@@ -45,11 +45,11 @@ public class StorageStatisticsPanelController extends AbstractPanelController
     // Items
     CountedItemsTableController<Item> itemsTable=new CountedItemsTableController<Item>(null,statistics.getItemStats().getItems(),null);
     _items=new AchievableStatisticsTabPanelController<CountedItem<Item>>(parent,itemsTable.getTableController());
-    _items.configure("Items","Item(s)");
+    _items.configure(null,"Item(s)");
     // Reputation
     ReputationTableController<StorageFactionStats> tableController=new StorageReputationTableController(this,statistics.getReputationStats());
     _reputation=new AchievableStatisticsTabPanelController<StorageFactionStats>(parent,tableController.getTableController());
-    _reputation.configure("Reputation","Faction(s)");
+    _reputation.configure(null,"Faction(s)");
     JPanel panel=buildPanel();
     setPanel(panel);
   }
