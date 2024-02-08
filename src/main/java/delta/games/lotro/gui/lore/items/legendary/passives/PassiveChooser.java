@@ -7,8 +7,8 @@ import javax.swing.JDialog;
 
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.windows.WindowController;
-import delta.games.lotro.common.effects.Effect;
 import delta.games.lotro.lore.items.legendary.PassivesManager;
+import delta.games.lotro.lore.items.legendary.passives.Passive;
 import delta.games.lotro.utils.gui.chooser.ObjectChoiceWindowController;
 
 /**
@@ -17,15 +17,15 @@ import delta.games.lotro.utils.gui.chooser.ObjectChoiceWindowController;
  */
 public class PassiveChooser
 {
-  private static ObjectChoiceWindowController<Effect> buildPassiveChooser(WindowController parent, int itemLevel, List<Effect> passives, Effect selectedPassive)
+  private static ObjectChoiceWindowController<Passive> buildPassiveChooser(WindowController parent, int itemLevel, List<Passive> passives, Passive selectedPassive)
   {
     // Table
-    GenericTableController<Effect> table=PassivesTableBuilder.buildTable(passives,itemLevel);
+    GenericTableController<Passive> table=PassivesTableBuilder.buildTable(passives,itemLevel);
     // Filter
     // ... none ...
 
     // Build and configure chooser
-    ObjectChoiceWindowController<Effect> chooser=new ObjectChoiceWindowController<Effect>(parent,null,table);
+    ObjectChoiceWindowController<Passive> chooser=new ObjectChoiceWindowController<Passive>(parent,null,table);
     table.getTable();
     // - selection
     table.selectItem(selectedPassive);
@@ -48,14 +48,14 @@ public class PassiveChooser
    * @param selectedPassive Selected passive.
    * @return The selected passive or <code>null</code> if the window was closed or canceled.
    */
-  public static Effect selectPassive(WindowController parent, int itemId, int itemLevel, Effect selectedPassive)
+  public static Passive selectPassive(WindowController parent, int itemId, int itemLevel, Passive selectedPassive)
   {
     PassivesManager passivesMgr=PassivesManager.getInstance();
-    List<Effect> passives=passivesMgr.getPassivesForItem(itemId);
+    List<Passive> passives=passivesMgr.getPassivesForItem(itemId);
     // Build chooser
-    ObjectChoiceWindowController<Effect> chooser=buildPassiveChooser(parent,itemLevel,passives,selectedPassive);
+    ObjectChoiceWindowController<Passive> chooser=buildPassiveChooser(parent,itemLevel,passives,selectedPassive);
     // Show modal
-    Effect chosenPassive=chooser.editModal();
+    Passive chosenPassive=chooser.editModal();
     return chosenPassive;
   }
 }

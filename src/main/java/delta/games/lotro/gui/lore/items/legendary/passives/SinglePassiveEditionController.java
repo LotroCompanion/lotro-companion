@@ -11,8 +11,8 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.character.stats.StatsSetElement;
-import delta.games.lotro.common.effects.Effect;
 import delta.games.lotro.common.stats.StatUtils;
+import delta.games.lotro.lore.items.legendary.passives.Passive;
 
 /**
  * Controller for the UI items of a single passive.
@@ -21,7 +21,7 @@ import delta.games.lotro.common.stats.StatUtils;
 public class SinglePassiveEditionController
 {
   // Data
-  private Effect _passive;
+  private Passive _passive;
   private int _itemId;
   private int _level;
   // Controllers
@@ -34,10 +34,10 @@ public class SinglePassiveEditionController
   /**
    * Constructor.
    * @param parent Parent window.
-   * @param passive Current effect (may be <code>null</code>).
+   * @param passive Current passive (may be <code>null</code>).
    * @param itemId Item identifier.
    */
-  public SinglePassiveEditionController(WindowController parent, Effect passive, int itemId)
+  public SinglePassiveEditionController(WindowController parent, Passive passive, int itemId)
   {
     _parent=parent;
     _passive=passive;
@@ -83,7 +83,7 @@ public class SinglePassiveEditionController
 
   private void handleButtonClick()
   {
-    Effect passive=PassiveChooser.selectPassive(_parent,_itemId,_level,_passive);
+    Passive passive=PassiveChooser.selectPassive(_parent,_itemId,_level,_passive);
     if (passive!=null)
     {
       _passive=passive;
@@ -101,7 +101,7 @@ public class SinglePassiveEditionController
    * Get the managed passive.
    * @return the managed passive.
    */
-  public Effect getPassive()
+  public Passive getPassive()
   {
     return _passive;
   }

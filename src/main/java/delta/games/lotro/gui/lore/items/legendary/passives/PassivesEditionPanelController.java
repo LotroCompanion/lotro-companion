@@ -12,9 +12,9 @@ import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.WindowController;
-import delta.games.lotro.common.effects.Effect;
 import delta.games.lotro.lore.items.legendary.LegendaryConstants;
 import delta.games.lotro.lore.items.legendary.LegendaryInstanceAttrs;
+import delta.games.lotro.lore.items.legendary.passives.Passive;
 
 /**
  * Panel to edit passives.
@@ -35,11 +35,11 @@ public class PassivesEditionPanelController
   public PassivesEditionPanelController(WindowController parent, LegendaryInstanceAttrs legendaryAttrs, int itemId)
   {
     _passiveGadgets=new ArrayList<SinglePassiveEditionController>();
-    List<Effect> passives=legendaryAttrs.getPassives();
+    List<Passive> passives=legendaryAttrs.getPassives();
     int nbPassives=passives.size();
     for(int i=0;i<LegendaryConstants.NB_PASSIVES_MAX;i++)
     {
-      Effect passive=(i<nbPassives)?passives.get(i):null;
+      Passive passive=(i<nbPassives)?passives.get(i):null;
       SinglePassiveEditionController controller=new SinglePassiveEditionController(parent,passive,itemId);
       _passiveGadgets.add(controller);
     }
@@ -102,7 +102,7 @@ public class PassivesEditionPanelController
     legendaryAttrs.removeAllPassvies();
     for(SinglePassiveEditionController controller : _passiveGadgets)
     {
-      Effect passive=controller.getPassive();
+      Passive passive=controller.getPassive();
       if (passive!=null)
       {
         legendaryAttrs.addPassive(passive);

@@ -10,9 +10,9 @@ import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.ListDataProvider;
 import delta.common.ui.swing.tables.Sort;
 import delta.games.lotro.character.stats.BasicStatsSet;
-import delta.games.lotro.common.effects.Effect;
 import delta.games.lotro.common.stats.StatDescription;
 import delta.games.lotro.common.stats.StatsProvider;
+import delta.games.lotro.lore.items.legendary.passives.Passive;
 
 /**
  * Builder for a table that shows passives.
@@ -26,32 +26,32 @@ public class PassivesTableBuilder
    * @param itemLevel Item level to use for stats computations.
    * @return A new table controller.
    */
-  public static GenericTableController<Effect> buildTable(List<Effect> passives, final int itemLevel)
+  public static GenericTableController<Passive> buildTable(List<Passive> passives, final int itemLevel)
   {
-    DataProvider<Effect> provider=new ListDataProvider<Effect>(passives);
-    GenericTableController<Effect> table=new GenericTableController<Effect>(provider);
+    DataProvider<Passive> provider=new ListDataProvider<Passive>(passives);
+    GenericTableController<Passive> table=new GenericTableController<Passive>(provider);
 
     // Label column
     {
-      CellDataProvider<Effect,String> labelCell=new CellDataProvider<Effect,String>()
+      CellDataProvider<Passive,String> labelCell=new CellDataProvider<Passive,String>()
       {
         @Override
-        public String getData(Effect item)
+        public String getData(Passive item)
         {
           String label=item.getStatsProvider().getLabel();
           return label;
         }
       };
-      DefaultTableColumnController<Effect,String> labelColumn=new DefaultTableColumnController<Effect,String>(PassiveColumnIds.LABEL.name(),"Name",String.class,labelCell);
+      DefaultTableColumnController<Passive,String> labelColumn=new DefaultTableColumnController<Passive,String>(PassiveColumnIds.LABEL.name(),"Name",String.class,labelCell);
       labelColumn.setWidthSpecs(250,-1,250);
       table.addColumnController(labelColumn);
     }
     // Value column
     {
-      CellDataProvider<Effect,Number> valueCell=new CellDataProvider<Effect,Number>()
+      CellDataProvider<Passive,Number> valueCell=new CellDataProvider<Passive,Number>()
       {
         @Override
-        public Number getData(Effect item)
+        public Number getData(Passive item)
         {
           StatsProvider statsProvider=item.getStatsProvider();
           BasicStatsSet stats=statsProvider.getStats(1,itemLevel);
@@ -59,7 +59,7 @@ public class PassivesTableBuilder
           return stats.getStat(stat);
         }
       };
-      DefaultTableColumnController<Effect,Number> valueColumn=new DefaultTableColumnController<Effect,Number>(PassiveColumnIds.VALUE.name(),"Value",Number.class,valueCell);
+      DefaultTableColumnController<Passive,Number> valueColumn=new DefaultTableColumnController<Passive,Number>(PassiveColumnIds.VALUE.name(),"Value",Number.class,valueCell);
       valueColumn.setWidthSpecs(100,100,100);
       table.addColumnController(valueColumn);
     }
