@@ -60,7 +60,7 @@ public class SingleDefaultNonImbuedLegacyEditionController extends SingleNonImbu
   protected StatsProvider getStatsProvider()
   {
     DefaultNonImbuedLegacy legacy=getDefaultLegacy();
-    StatsProvider statsProvider=legacy.getEffect().getStatsProvider();
+    StatsProvider statsProvider=legacy.getStatsProvider();
     return statsProvider;
   }
 

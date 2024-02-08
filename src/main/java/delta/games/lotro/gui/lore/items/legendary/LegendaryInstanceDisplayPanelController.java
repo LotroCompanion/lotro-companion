@@ -173,7 +173,7 @@ public class LegendaryInstanceDisplayPanelController
       NonImbuedLegendaryInstanceAttrs nonImbuedAttrs=attrs.getNonImbuedAttrs();
       DefaultNonImbuedLegacyInstance defaultLegacyInstance=nonImbuedAttrs.getDefaultLegacy();
       DefaultNonImbuedLegacy defaultLegacy=defaultLegacyInstance.getLegacy();
-      StatsProvider statsProvider=defaultLegacy.getEffect().getStatsProvider();
+      StatsProvider statsProvider=defaultLegacy.getStatsProvider();
       int rank=defaultLegacyInstance.getRank();
       ret=statsProvider.getStats(1,rank);
     }

@@ -205,7 +205,7 @@ public class SingleTieredNonImbuedLegacyEditionController extends SingleNonImbue
     int tier=getTier();
     TieredNonImbuedLegacy legacy=getTieredLegacy();
     NonImbuedLegacyTier legacyTier=legacy.getTier(tier);
-    StatsProvider statsProvider=legacyTier.getEffect().getStatsProvider();
+    StatsProvider statsProvider=legacyTier.getStatsProvider();
     return statsProvider;
   }
 
