@@ -175,7 +175,7 @@ public class LotroIconsManager
       // Trait icon
       return IconsManager.getIcon(iconFilename);
     }
-    if (iconFilename.startsWith("/effectIcons"))
+    if (iconFilename.startsWith("/effects"))
     {
       // Effect icon
       return IconsManager.getIcon(iconFilename);
