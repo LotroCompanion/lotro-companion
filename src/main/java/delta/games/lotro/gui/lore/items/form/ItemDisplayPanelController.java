@@ -51,6 +51,7 @@ import delta.games.lotro.lore.items.ItemQuality;
 import delta.games.lotro.lore.items.ItemSturdiness;
 import delta.games.lotro.lore.items.ItemUtils;
 import delta.games.lotro.lore.items.Weapon;
+import delta.games.lotro.lore.items.details.AllegiancePoints;
 import delta.games.lotro.lore.items.details.GrantedElement;
 import delta.games.lotro.lore.items.details.ItemDetailsManager;
 import delta.games.lotro.lore.items.details.ItemReputation;
@@ -605,6 +606,19 @@ public class ItemDisplayPanelController extends AbstractNavigablePanelController
       String label="Cooldown: "+durationStr;
       ret.add(GuiFactory.buildLabel(label),c);
       y++;
+    }
+    // Allegiance points
+    List<AllegiancePoints> allegiancePoints=mgr.getItemDetails(AllegiancePoints.class);
+    if (allegiancePoints.size()>0)
+    {
+      for(AllegiancePoints allegiancePointsEntry : allegiancePoints)
+      {
+        GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+        String allegianceGroup=allegiancePointsEntry.getGroup().getLabel();
+        String label="This item is worth "+allegiancePointsEntry.getPoints()+" Allegiance Points ("+allegianceGroup+")."; // I18n
+        ret.add(GuiFactory.buildLabel(label),c);
+        y++;
+      }
     }
     return ret;
   }
