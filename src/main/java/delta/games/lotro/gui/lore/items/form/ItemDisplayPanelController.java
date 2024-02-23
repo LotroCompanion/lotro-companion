@@ -30,6 +30,8 @@ import delta.games.lotro.character.skills.SkillDescription;
 import delta.games.lotro.character.traits.TraitDescription;
 import delta.games.lotro.common.Duration;
 import delta.games.lotro.common.enums.EquipmentCategory;
+import delta.games.lotro.common.enums.HousingHookCategory;
+import delta.games.lotro.common.enums.LotroEnumEntry;
 import delta.games.lotro.common.money.Money;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.common.money.MoneyDisplayController;
@@ -53,6 +55,7 @@ import delta.games.lotro.lore.items.ItemUtils;
 import delta.games.lotro.lore.items.Weapon;
 import delta.games.lotro.lore.items.details.AllegiancePoints;
 import delta.games.lotro.lore.items.details.GrantedElement;
+import delta.games.lotro.lore.items.details.HousingHooks;
 import delta.games.lotro.lore.items.details.ItemDetailsManager;
 import delta.games.lotro.lore.items.details.ItemReputation;
 import delta.games.lotro.lore.items.details.ItemUsageCooldown;
@@ -620,7 +623,29 @@ public class ItemDisplayPanelController extends AbstractNavigablePanelController
         y++;
       }
     }
+    // Housing hooks
+    HousingHooks housingHooks=mgr.getFirstItemDetail(HousingHooks.class);
+    if (housingHooks!=null)
+    {
+      GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+      List<HousingHookCategory> categories=housingHooks.getHookCategories();
+      String categoriesStr=formatEnumEntries(categories);
+      String label="Decoration Category: "+categoriesStr;
+      ret.add(GuiFactory.buildLabel(label),c);
+      y++;
+    }
     return ret;
+  }
+
+  private String formatEnumEntries(List<? extends LotroEnumEntry> entries)
+  {
+    StringBuilder sb=new StringBuilder();
+    for(LotroEnumEntry entry : entries)
+    {
+      if (sb.length()>0) sb.append(", ");
+      sb.append(entry.getLabel());
+    }
+    return sb.toString();
   }
 
   private IconAndLinkPanelController buildGrantedElementPanel(GrantedElement<?> grantedElement)
