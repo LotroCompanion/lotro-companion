@@ -25,6 +25,7 @@ import delta.games.lotro.lore.relics.melding.RelicMeldingRecipe;
 import delta.games.lotro.lore.tasks.Task;
 import delta.games.lotro.lore.trade.barter.BarterNpc;
 import delta.games.lotro.lore.trade.vendor.VendorNpc;
+import delta.games.lotro.lore.webStore.WebStoreItem;
 import delta.games.lotro.lore.xrefs.Reference;
 import delta.games.lotro.lore.xrefs.items.ItemReferencesBuilder;
 import delta.games.lotro.lore.xrefs.items.ItemRole;
@@ -118,6 +119,7 @@ public class ItemReferencesDisplayController
     buildHtmlForContainers(sb,references);
     buildHtmlForMeldingRecipes(sb,references);
     buildHtmlForSameCosmetics(sb,references);
+    buildHtmlForWebStoreItems(sb,references);
     sb.append("</body></html>");
     return sb.toString();
   }
@@ -413,6 +415,15 @@ public class ItemReferencesDisplayController
     PageIdentifier to=ReferenceConstants.getItemReference(item.getIdentifier());
     HtmlUtils.printLink(sb,to.getFullAddress(),item.getName());
     sb.append("</b></p>");
+  }
+
+  private void buildHtmlForWebStoreItems(StringBuilder sb, List<Reference<?,ItemRole>> references)
+  {
+    List<Reference<WebStoreItem,ItemRole>> webStoreReferences=getReferences(references,WebStoreItem.class,ItemRole.WEB_STORE_ITEM);
+    if (webStoreReferences.size()>0)
+    {
+      sb.append("<h1>Can be bought in the Lotro Store</h1>");
+    }
   }
 
   /**
