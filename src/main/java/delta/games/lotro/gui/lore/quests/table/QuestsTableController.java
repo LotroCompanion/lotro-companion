@@ -78,6 +78,304 @@ public class QuestsTableController extends AbstractAreaController
   }
 
   /**
+   * Build a 'ID' column.
+   * @return a column.
+   */
+  public static DefaultTableColumnController<QuestDescription,Integer> buildQuestIDColumn()
+  {
+    CellDataProvider<QuestDescription,Integer> cell=new CellDataProvider<QuestDescription,Integer>()
+    {
+      @Override
+      public Integer getData(QuestDescription quest)
+      {
+        return Integer.valueOf(quest.getIdentifier());
+      }
+    };
+    DefaultTableColumnController<QuestDescription,Integer> column=new DefaultTableColumnController<QuestDescription,Integer>(QuestColumnIds.ID.name(),"ID",Integer.class,cell); // I18n
+    column.setWidthSpecs(100,100,100);
+    return column;
+  }
+
+  /**
+   * Build a 'category' column.
+   * @return a column.
+   */
+  public static DefaultTableColumnController<QuestDescription,QuestCategory> buildQuestCategoryColumn()
+  {
+    CellDataProvider<QuestDescription,QuestCategory> cell=new CellDataProvider<QuestDescription,QuestCategory>()
+    {
+      @Override
+      public QuestCategory getData(QuestDescription quest)
+      {
+        return quest.getCategory();
+      }
+    };
+    DefaultTableColumnController<QuestDescription,QuestCategory> column=new DefaultTableColumnController<QuestDescription,QuestCategory>(QuestColumnIds.CATEGORY.name(),"Category",QuestCategory.class,cell); // I18n
+    column.setWidthSpecs(80,350,80);
+    return column;
+  }
+
+  /**
+   * Build a 'quest arc' column.
+   * @return a column.
+   */
+  public static DefaultTableColumnController<QuestDescription,String> buildQuestArcColumn()
+  {
+    CellDataProvider<QuestDescription,String> cell=new CellDataProvider<QuestDescription,String>()
+    {
+      @Override
+      public String getData(QuestDescription quest)
+      {
+        return quest.getQuestArc();
+      }
+    };
+    DefaultTableColumnController<QuestDescription,String> column=new DefaultTableColumnController<QuestDescription,String>(QuestColumnIds.QUEST_ARC.name(),"Quest arc",String.class,cell); // I18n
+    column.setWidthSpecs(80,350,80);
+    return column;
+  }
+
+  /**
+   * Build a 'quest size' column.
+   * @return a column.
+   */
+  public static DefaultTableColumnController<QuestDescription,Size> buildQuestSizeColumn()
+  {
+    CellDataProvider<QuestDescription,Size> sizeCell=new CellDataProvider<QuestDescription,Size>()
+    {
+      @Override
+      public Size getData(QuestDescription quest)
+      {
+        return quest.getSize();
+      }
+    };
+    DefaultTableColumnController<QuestDescription,Size> sizeColumn=new DefaultTableColumnController<QuestDescription,Size>(QuestColumnIds.SIZE.name(),"Size",Size.class,sizeCell); // I18n
+    sizeColumn.setWidthSpecs(100,100,100);
+    return sizeColumn;
+  }
+
+  /**
+   * Build a 'monster play' column.
+   * @return a column.
+   */
+  public static DefaultTableColumnController<QuestDescription,Boolean> buildMonsterPlayColumn()
+  {
+    CellDataProvider<QuestDescription,Boolean> cell=new CellDataProvider<QuestDescription,Boolean>()
+    {
+      @Override
+      public Boolean getData(QuestDescription quest)
+      {
+        return Boolean.valueOf(quest.isMonsterPlay());
+      }
+    };
+    DefaultTableColumnController<QuestDescription,Boolean> column=new DefaultTableColumnController<QuestDescription,Boolean>(QuestColumnIds.MONSTER_PLAY.name(),"Monster Play",Boolean.class,cell); // I18n
+    column.setWidthSpecs(100,100,100);
+    return column;
+  }
+
+  /**
+   * Build a 'repeatability' column.
+   * @return a column.
+   */
+  public static DefaultTableColumnController<QuestDescription,Repeatability> buildRepeatabilityColumn()
+  {
+    CellDataProvider<QuestDescription,Repeatability> cell=new CellDataProvider<QuestDescription,Repeatability>()
+    {
+      @Override
+      public Repeatability getData(QuestDescription quest)
+      {
+        return quest.getRepeatability();
+      }
+    };
+    DefaultTableColumnController<QuestDescription,Repeatability> column=new DefaultTableColumnController<QuestDescription,Repeatability>(QuestColumnIds.REPEATABLE.name(),"Repeatability",Repeatability.class,cell); // I18n
+    column.setWidthSpecs(100,100,100);
+    return column;
+  }
+
+  /**
+   * Build a 'lock type' column.
+   * @return a column.
+   */
+  public static DefaultTableColumnController<QuestDescription,LockType> buildLockTypeColumn()
+  {
+    CellDataProvider<QuestDescription,LockType> cell=new CellDataProvider<QuestDescription,LockType>()
+    {
+      @Override
+      public LockType getData(QuestDescription quest)
+      {
+        return quest.getLockType();
+      }
+    };
+    DefaultTableColumnController<QuestDescription,LockType> column=new DefaultTableColumnController<QuestDescription,LockType>(QuestColumnIds.LOCK_TYPE.name(),"Lock",LockType.class,cell); // I18n
+    column.setWidthSpecs(60,60,60);
+    return column;
+  }
+
+  /**
+   * Build a 'instanced' column.
+   * @return a column.
+   */
+  public static DefaultTableColumnController<QuestDescription,Boolean> buildInstancedColumn()
+  {
+    CellDataProvider<QuestDescription,Boolean> cell=new CellDataProvider<QuestDescription,Boolean>()
+    {
+      @Override
+      public Boolean getData(QuestDescription quest)
+      {
+        return Boolean.valueOf(quest.isInstanced());
+      }
+    };
+    DefaultTableColumnController<QuestDescription,Boolean> column=new DefaultTableColumnController<QuestDescription,Boolean>(QuestColumnIds.INSTANCED.name(),"Instanced",Boolean.class,cell); // I18n
+    column.setWidthSpecs(100,100,100);
+    return column;
+  }
+
+  /**
+   * Build a 'shareable' column.
+   * @return a column.
+   */
+  public static DefaultTableColumnController<QuestDescription,Boolean> buildShareableColumn()
+  {
+    CellDataProvider<QuestDescription,Boolean> cell=new CellDataProvider<QuestDescription,Boolean>()
+    {
+      @Override
+      public Boolean getData(QuestDescription quest)
+      {
+        return Boolean.valueOf(quest.isShareable());
+      }
+    };
+    DefaultTableColumnController<QuestDescription,Boolean> column=new DefaultTableColumnController<QuestDescription,Boolean>(QuestColumnIds.SHAREABLE.name(),"Shareable",Boolean.class,cell); // I18n
+    column.setWidthSpecs(100,100,100);
+    return column;
+  }
+
+  /**
+   * Build a 'session play' column.
+   * @return a column.
+   */
+  public static DefaultTableColumnController<QuestDescription,Boolean> buildSessionPlayColumn()
+  {
+    CellDataProvider<QuestDescription,Boolean> cell=new CellDataProvider<QuestDescription,Boolean>()
+    {
+      @Override
+      public Boolean getData(QuestDescription quest)
+      {
+        return Boolean.valueOf(quest.isSessionPlay());
+      }
+    };
+    DefaultTableColumnController<QuestDescription,Boolean> column=new DefaultTableColumnController<QuestDescription,Boolean>(QuestColumnIds.SESSION_PLAY.name(),"Session Play",Boolean.class,cell); // I18n
+    column.setWidthSpecs(100,100,100);
+    return column;
+  }
+
+  /**
+   * Build a 'autobestowed' column.
+   * @return a column.
+   */
+  public static DefaultTableColumnController<QuestDescription,Boolean> buildAutobestowedColumn()
+  {
+    CellDataProvider<QuestDescription,Boolean> cell=new CellDataProvider<QuestDescription,Boolean>()
+    {
+      @Override
+      public Boolean getData(QuestDescription quest)
+      {
+        return Boolean.valueOf(quest.isAutoBestowed());
+      }
+    };
+    DefaultTableColumnController<QuestDescription,Boolean> column=new DefaultTableColumnController<QuestDescription,Boolean>(QuestColumnIds.AUTO_BESTOWED.name(),"Auto-bestowed",Boolean.class,cell); // I18n
+    column.setWidthSpecs(100,100,100);
+    return column;
+  }
+
+  /**
+   * Build a 'hidden' column.
+   * @return a column.
+   */
+  public static DefaultTableColumnController<QuestDescription,Boolean> buildHiddenColumn()
+  {
+    CellDataProvider<QuestDescription,Boolean> cell=new CellDataProvider<QuestDescription,Boolean>()
+    {
+      @Override
+      public Boolean getData(QuestDescription quest)
+      {
+        return Boolean.valueOf(quest.isHidden());
+      }
+    };
+    DefaultTableColumnController<QuestDescription,Boolean> column=new DefaultTableColumnController<QuestDescription,Boolean>(QuestColumnIds.OBSOLETE.name(),"Hidden",Boolean.class,cell); // I18n
+    column.setWidthSpecs(100,100,100);
+    return column;
+  }
+
+  /**
+   * Build a 'description' column.
+   * @param parent Parent controller.
+   * @return a column.
+   */
+  public static DefaultTableColumnController<QuestDescription,String> buildDescriptionColumn(AreaController parent)
+  {
+    CellDataProvider<QuestDescription,String> descriptionCell=new CellDataProvider<QuestDescription,String>()
+    {
+      @Override
+      public String getData(QuestDescription quest)
+      {
+        String description=quest.getDescription();
+        description=ContextRendering.render(parent,description);
+        return description;
+      }
+    };
+    DefaultTableColumnController<QuestDescription,String> descriptionColumn=new DefaultTableColumnController<QuestDescription,String>(QuestColumnIds.DESCRIPTION.name(),"Description",String.class,descriptionCell); // I18n
+    descriptionColumn.setWidthSpecs(100,-1,100);
+    return descriptionColumn;
+  }
+
+  /**
+   * Build a 'infamy' column.
+   * @return a column.
+   */
+  public static DefaultTableColumnController<QuestDescription,Integer> buildInfamyColumn()
+  {
+    CellDataProvider<QuestDescription,Integer> cell=new CellDataProvider<QuestDescription,Integer>()
+    {
+      @Override
+      public Integer getData(QuestDescription quest)
+      {
+        if (quest.isMonsterPlay())
+        {
+          int glory=quest.getRewards().getGlory();
+          return glory>0?Integer.valueOf(glory):null;
+        }
+        return null;
+      }
+    };
+    DefaultTableColumnController<QuestDescription,Integer> column=new DefaultTableColumnController<QuestDescription,Integer>(RewardsColumnIds.INFAMY.name(),"Infamy",Integer.class,cell); // I18n
+    column.setWidthSpecs(60,60,60);
+    return column;
+  }
+
+  /**
+   * Build a 'renown' column.
+   * @return a column.
+   */
+  public static DefaultTableColumnController<QuestDescription,Integer> buildRenownColumn()
+  {
+    CellDataProvider<QuestDescription,Integer> cell=new CellDataProvider<QuestDescription,Integer>()
+    {
+      @Override
+      public Integer getData(QuestDescription quest)
+      {
+        if (quest.isMonsterPlay())
+        {
+          return null;
+        }
+        int glory=quest.getRewards().getGlory();
+        return glory>0?Integer.valueOf(glory):null;
+      }
+    };
+    DefaultTableColumnController<QuestDescription,Integer> column=new DefaultTableColumnController<QuestDescription,Integer>(RewardsColumnIds.RENOWN.name(),"Renown",Integer.class,cell); // I18n
+    column.setWidthSpecs(60,60,60);
+    return column;
+  }
+
+  /**
    * Build the columns for a quests table.
    * @param parent Parent controller.
    * @return A list of columns for a quests table.
@@ -88,192 +386,36 @@ public class QuestsTableController extends AbstractAreaController
     // Identifier column
     if (UiConfiguration.showTechnicalColumns())
     {
-      CellDataProvider<QuestDescription,Integer> idCell=new CellDataProvider<QuestDescription,Integer>()
-      {
-        @Override
-        public Integer getData(QuestDescription quest)
-        {
-          return Integer.valueOf(quest.getIdentifier());
-        }
-      };
-      DefaultTableColumnController<QuestDescription,Integer> idColumn=new DefaultTableColumnController<QuestDescription,Integer>(QuestColumnIds.ID.name(),"ID",Integer.class,idCell); // I18n
-      idColumn.setWidthSpecs(100,100,100);
-      ret.add(idColumn);
+      ret.add(buildQuestIDColumn());
     }
     // Name column
     ret.add(QuestsColumnsBuilder.buildQuestNameColumn());
     // Category column
-    {
-      CellDataProvider<QuestDescription,QuestCategory> categoryCell=new CellDataProvider<QuestDescription,QuestCategory>()
-      {
-        @Override
-        public QuestCategory getData(QuestDescription quest)
-        {
-          return quest.getCategory();
-        }
-      };
-      DefaultTableColumnController<QuestDescription,QuestCategory> categoryColumn=new DefaultTableColumnController<QuestDescription,QuestCategory>(QuestColumnIds.CATEGORY.name(),"Category",QuestCategory.class,categoryCell); // I18n
-      categoryColumn.setWidthSpecs(80,350,80);
-      ret.add(categoryColumn);
-    }
+    ret.add(buildQuestCategoryColumn());
     // Quest arc column
-    {
-      CellDataProvider<QuestDescription,String> questArcCell=new CellDataProvider<QuestDescription,String>()
-      {
-        @Override
-        public String getData(QuestDescription quest)
-        {
-          return quest.getQuestArc();
-        }
-      };
-      DefaultTableColumnController<QuestDescription,String> questArcColumn=new DefaultTableColumnController<QuestDescription,String>(QuestColumnIds.QUEST_ARC.name(),"Quest arc",String.class,questArcCell); // I18n
-      questArcColumn.setWidthSpecs(80,350,80);
-      ret.add(questArcColumn);
-    }
+    ret.add(buildQuestArcColumn());
     // Challenge level column
     ret.add(QuestsColumnsBuilder.buildQuestChallengeColumn());
     // Recommended size column
-    {
-      CellDataProvider<QuestDescription,Size> sizeCell=new CellDataProvider<QuestDescription,Size>()
-      {
-        @Override
-        public Size getData(QuestDescription quest)
-        {
-          return quest.getSize();
-        }
-      };
-      DefaultTableColumnController<QuestDescription,Size> sizeColumn=new DefaultTableColumnController<QuestDescription,Size>(QuestColumnIds.SIZE.name(),"Size",Size.class,sizeCell); // I18n
-      sizeColumn.setWidthSpecs(100,100,100);
-      ret.add(sizeColumn);
-    }
+    ret.add(buildQuestSizeColumn());
     // Monster Play column
-    {
-      CellDataProvider<QuestDescription,Boolean> monsterPlayCell=new CellDataProvider<QuestDescription,Boolean>()
-      {
-        @Override
-        public Boolean getData(QuestDescription quest)
-        {
-          return Boolean.valueOf(quest.isMonsterPlay());
-        }
-      };
-      DefaultTableColumnController<QuestDescription,Boolean> monsterPlayColumn=new DefaultTableColumnController<QuestDescription,Boolean>(QuestColumnIds.MONSTER_PLAY.name(),"Monster Play",Boolean.class,monsterPlayCell); // I18n
-      monsterPlayColumn.setWidthSpecs(100,100,100);
-      ret.add(monsterPlayColumn);
-    }
+    ret.add(buildMonsterPlayColumn());
     // Repeatable column
-    {
-      CellDataProvider<QuestDescription,Repeatability> repeatableCell=new CellDataProvider<QuestDescription,Repeatability>()
-      {
-        @Override
-        public Repeatability getData(QuestDescription quest)
-        {
-          return quest.getRepeatability();
-        }
-      };
-      DefaultTableColumnController<QuestDescription,Repeatability> repeatableColumn=new DefaultTableColumnController<QuestDescription,Repeatability>(QuestColumnIds.REPEATABLE.name(),"Repeatability",Repeatability.class,repeatableCell); // I18n
-      repeatableColumn.setWidthSpecs(100,100,100);
-      ret.add(repeatableColumn);
-    }
+    ret.add(buildRepeatabilityColumn());
     // Lock type column
-    {
-      CellDataProvider<QuestDescription,LockType> lockTypeCell=new CellDataProvider<QuestDescription,LockType>()
-      {
-        @Override
-        public LockType getData(QuestDescription quest)
-        {
-          return quest.getLockType();
-        }
-      };
-      DefaultTableColumnController<QuestDescription,LockType> lockTypeColumn=new DefaultTableColumnController<QuestDescription,LockType>(QuestColumnIds.LOCK_TYPE.name(),"Lock",LockType.class,lockTypeCell); // I18n
-      lockTypeColumn.setWidthSpecs(60,60,60);
-      ret.add(lockTypeColumn);
-    }
+    ret.add(buildLockTypeColumn());
     // Instanced column
-    {
-      CellDataProvider<QuestDescription,Boolean> instancedCell=new CellDataProvider<QuestDescription,Boolean>()
-      {
-        @Override
-        public Boolean getData(QuestDescription quest)
-        {
-          return Boolean.valueOf(quest.isInstanced());
-        }
-      };
-      DefaultTableColumnController<QuestDescription,Boolean> instancedColumn=new DefaultTableColumnController<QuestDescription,Boolean>(QuestColumnIds.INSTANCED.name(),"Instanced",Boolean.class,instancedCell); // I18n
-      instancedColumn.setWidthSpecs(100,100,100);
-      ret.add(instancedColumn);
-    }
+    ret.add(buildInstancedColumn());
     // Shareable column
-    {
-      CellDataProvider<QuestDescription,Boolean> shareableCell=new CellDataProvider<QuestDescription,Boolean>()
-      {
-        @Override
-        public Boolean getData(QuestDescription quest)
-        {
-          return Boolean.valueOf(quest.isShareable());
-        }
-      };
-      DefaultTableColumnController<QuestDescription,Boolean> shareableColumn=new DefaultTableColumnController<QuestDescription,Boolean>(QuestColumnIds.SHAREABLE.name(),"Shareable",Boolean.class,shareableCell); // I18n
-      shareableColumn.setWidthSpecs(100,100,100);
-      ret.add(shareableColumn);
-    }
+    ret.add(buildShareableColumn());
     // Session play column
-    {
-      CellDataProvider<QuestDescription,Boolean> sessionPlayCell=new CellDataProvider<QuestDescription,Boolean>()
-      {
-        @Override
-        public Boolean getData(QuestDescription quest)
-        {
-          return Boolean.valueOf(quest.isSessionPlay());
-        }
-      };
-      DefaultTableColumnController<QuestDescription,Boolean> sessionPlayColumn=new DefaultTableColumnController<QuestDescription,Boolean>(QuestColumnIds.SESSION_PLAY.name(),"Session Play",Boolean.class,sessionPlayCell); // I18n
-      sessionPlayColumn.setWidthSpecs(100,100,100);
-      ret.add(sessionPlayColumn);
-    }
+    ret.add(buildSessionPlayColumn());
     // Auto-bestowed column
-    {
-      CellDataProvider<QuestDescription,Boolean> autoBestowedCell=new CellDataProvider<QuestDescription,Boolean>()
-      {
-        @Override
-        public Boolean getData(QuestDescription quest)
-        {
-          return Boolean.valueOf(quest.isAutoBestowed());
-        }
-      };
-      DefaultTableColumnController<QuestDescription,Boolean> autoBestowedColumn=new DefaultTableColumnController<QuestDescription,Boolean>(QuestColumnIds.AUTO_BESTOWED.name(),"Auto-bestowed",Boolean.class,autoBestowedCell); // I18n
-      autoBestowedColumn.setWidthSpecs(100,100,100);
-      ret.add(autoBestowedColumn);
-    }
+    ret.add(buildAutobestowedColumn());
     // Hidden column
-    {
-      CellDataProvider<QuestDescription,Boolean> hiddenCell=new CellDataProvider<QuestDescription,Boolean>()
-      {
-        @Override
-        public Boolean getData(QuestDescription quest)
-        {
-          return Boolean.valueOf(quest.isHidden());
-        }
-      };
-      DefaultTableColumnController<QuestDescription,Boolean> hiddenColumn=new DefaultTableColumnController<QuestDescription,Boolean>(QuestColumnIds.OBSOLETE.name(),"Hidden",Boolean.class,hiddenCell); // I18n
-      hiddenColumn.setWidthSpecs(100,100,100);
-      ret.add(hiddenColumn);
-    }
+    ret.add(buildHiddenColumn());
     // Description column
-    {
-      CellDataProvider<QuestDescription,String> descriptionCell=new CellDataProvider<QuestDescription,String>()
-      {
-        @Override
-        public String getData(QuestDescription quest)
-        {
-          String description=quest.getDescription();
-          description=ContextRendering.render(parent,description);
-          return description;
-        }
-      };
-      DefaultTableColumnController<QuestDescription,String> descriptionColumn=new DefaultTableColumnController<QuestDescription,String>(QuestColumnIds.DESCRIPTION.name(),"Description",String.class,descriptionCell); // I18n
-      descriptionColumn.setWidthSpecs(100,-1,100);
-      ret.add(descriptionColumn);
-    }
+    ret.add(buildDescriptionColumn(parent));
     // Requirements
     {
       List<DefaultTableColumnController<UsageRequirement,?>> requirementColumns=RequirementsColumnsBuilder.buildRequirementsColumns();
@@ -313,43 +455,9 @@ public class QuestsTableController extends AbstractAreaController
       }
     }
     // Infamy
-    {
-      CellDataProvider<QuestDescription,Integer> infamyCell=new CellDataProvider<QuestDescription,Integer>()
-      {
-        @Override
-        public Integer getData(QuestDescription quest)
-        {
-          if (quest.isMonsterPlay())
-          {
-            int glory=quest.getRewards().getGlory();
-            return glory>0?Integer.valueOf(glory):null;
-          }
-          return null;
-        }
-      };
-      DefaultTableColumnController<QuestDescription,Integer> infamyColumn=new DefaultTableColumnController<QuestDescription,Integer>(RewardsColumnIds.INFAMY.name(),"Infamy",Integer.class,infamyCell); // I18n
-      infamyColumn.setWidthSpecs(60,60,60);
-      ret.add(infamyColumn);
-    }
+    ret.add(buildInfamyColumn());
     // Renown
-    {
-      CellDataProvider<QuestDescription,Integer> renownCell=new CellDataProvider<QuestDescription,Integer>()
-      {
-        @Override
-        public Integer getData(QuestDescription quest)
-        {
-          if (quest.isMonsterPlay())
-          {
-            return null;
-          }
-          int glory=quest.getRewards().getGlory();
-          return glory>0?Integer.valueOf(glory):null;
-        }
-      };
-      DefaultTableColumnController<QuestDescription,Integer> renownColumn=new DefaultTableColumnController<QuestDescription,Integer>(RewardsColumnIds.RENOWN.name(),"Renown",Integer.class,renownCell); // I18n
-      renownColumn.setWidthSpecs(60,60,60);
-      ret.add(renownColumn);
-    }
+    ret.add(buildRenownColumn());
     return ret;
   }
 
