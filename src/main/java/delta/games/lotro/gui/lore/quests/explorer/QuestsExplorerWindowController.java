@@ -23,6 +23,7 @@ import delta.games.lotro.gui.lore.quests.filter.QuestFilterController;
 import delta.games.lotro.gui.lore.quests.table.QuestsTableController;
 import delta.games.lotro.gui.main.GlobalPreferences;
 import delta.games.lotro.gui.utils.NavigationUtils;
+import delta.games.lotro.gui.utils.l10n.Labels;
 import delta.games.lotro.lore.quests.QuestDescription;
 import delta.games.lotro.lore.quests.filter.QuestFilter;
 
@@ -56,7 +57,7 @@ public class QuestsExplorerWindowController extends DefaultWindowController
   protected JFrame build()
   {
     JFrame frame=super.build();
-    frame.setTitle("Quests explorer"); // I18n
+    frame.setTitle(Labels.getLabel("quests.explorer.title"));
     frame.setMinimumSize(new Dimension(400,300));
     frame.setSize(950,700);
     return frame;
@@ -81,13 +82,13 @@ public class QuestsExplorerWindowController extends DefaultWindowController
     // Table
     initQuestsTable();
     _panelController=new GenericTablePanelController<QuestDescription>(this,_tableController.getTableController());
-    _panelController.getConfiguration().setBorderTitle("Quests");
-    _panelController.getCountsDisplay().setText("Quest(s)");
+    _panelController.getConfiguration().setBorderTitle(Labels.getLabel("quests.explorer.table.border.title"));
+    _panelController.getCountsDisplay().setText(Labels.getLabel("quests.explorer.count.label"));
     JPanel tablePanel=_panelController.getPanel();
     // Filter
     _filterController=new QuestFilterController(this,_filter,_panelController,true);
     JPanel filterPanel=_filterController.getPanel();
-    TitledBorder filterBorder=GuiFactory.buildTitledBorder("Filter"); // I18n
+    TitledBorder filterBorder=GuiFactory.buildTitledBorder(Labels.getLabel("quests.explorer.filter.border.title"));
     filterPanel.setBorder(filterBorder);
     // Whole panel
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);

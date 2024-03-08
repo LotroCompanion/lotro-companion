@@ -505,7 +505,7 @@ public class QuestFilterController extends AbstractPanelController implements Ac
     String monsterPlayLabel=Labels.getLabel("quests.filter.monsterPlay");
     String freePeoplesLabel=Labels.getLabel("quests.filter.freePeoples");
     ComboBoxController<Boolean> combo=SharedUiUtils.build3StatesBooleanCombobox("",monsterPlayLabel,freePeoplesLabel);
-    ItemSelectionListener<Boolean> questSizeListener=new ItemSelectionListener<Boolean>()
+    ItemSelectionListener<Boolean> listener=new ItemSelectionListener<Boolean>()
     {
       @Override
       public void itemSelected(Boolean monsterPlayFlag)
@@ -515,7 +515,7 @@ public class QuestFilterController extends AbstractPanelController implements Ac
         filterUpdated();
       }
     };
-    combo.addListener(questSizeListener);
+    combo.addListener(listener);
     return combo;
   }
 
