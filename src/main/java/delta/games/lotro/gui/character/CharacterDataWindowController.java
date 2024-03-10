@@ -35,6 +35,7 @@ import delta.games.lotro.gui.character.essences.AllEssencesEditionWindowControll
 import delta.games.lotro.gui.character.essences.EssencesSummaryWindowController;
 import delta.games.lotro.gui.character.gear.EquipmentPanelController;
 import delta.games.lotro.gui.character.tomes.TomesEditionPanelController;
+import delta.games.lotro.gui.character.traits.TraitsEditionPanelController;
 import delta.games.lotro.gui.character.virtues.VirtuesDisplayPanelController;
 import delta.games.lotro.gui.character.virtues.VirtuesEditionDialogController;
 import delta.games.lotro.utils.ContextPropertyNames;
@@ -54,6 +55,7 @@ public class CharacterDataWindowController extends DefaultFormDialogController<C
   private EquipmentPanelController _equipmentController;
   private VirtuesDisplayPanelController _virtuesController;
   private BuffEditionPanelController _buffsController;
+  private TraitsEditionPanelController _traitsController;
   private TomesEditionPanelController _tomesController;
   private CharacterFile _toonFile;
   private WindowsManager _windowsManager;
@@ -76,6 +78,7 @@ public class CharacterDataWindowController extends DefaultFormDialogController<C
     _virtuesController=new VirtuesDisplayPanelController();
     updateVirtues();
     _buffsController=new BuffEditionPanelController(this,toonData);
+    _traitsController=new TraitsEditionPanelController(parent,toonData);
     _tomesController=new TomesEditionPanelController(toonData);
     // Set context
     setContext();
@@ -155,12 +158,20 @@ public class CharacterDataWindowController extends DefaultFormDialogController<C
     bottomPanel.add(bottomPanel1,c);
 
     JPanel bottomPanel2=GuiFactory.buildPanel(new GridBagLayout());
+    // - traits
+    {
+      JPanel traitsPanel=_traitsController.getPanel();
+      TitledBorder border=GuiFactory.buildTitledBorder("Traits"); // I18n
+      traitsPanel.setBorder(border);
+      c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,5,0,0),0,0);
+      bottomPanel2.add(traitsPanel,c);
+    }
     // - buffs
     {
       JPanel buffsPanel=_buffsController.getPanel();
       TitledBorder border=GuiFactory.buildTitledBorder("Buffs"); // I18n
       buffsPanel.setBorder(border);
-      c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,5,0,0),0,0);
+      c=new GridBagConstraints(1,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,5,0,0),0,0);
       bottomPanel2.add(buffsPanel,c);
     }
     // Space on right
@@ -408,6 +419,11 @@ public class CharacterDataWindowController extends DefaultFormDialogController<C
     {
       _buffsController.dispose();
       _buffsController=null;
+    }
+    if (_traitsController!=null)
+    {
+      _traitsController.dispose();
+      _traitsController=null;
     }
     if (_tomesController!=null)
     {

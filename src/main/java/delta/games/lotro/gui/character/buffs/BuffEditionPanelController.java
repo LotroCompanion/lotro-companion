@@ -25,9 +25,6 @@ import delta.games.lotro.character.stats.buffs.Buff;
 import delta.games.lotro.character.stats.buffs.BuffInstance;
 import delta.games.lotro.character.stats.buffs.BuffRegistry;
 import delta.games.lotro.character.stats.buffs.BuffsManager;
-import delta.games.lotro.character.status.traitTree.TraitTreeStatus;
-import delta.games.lotro.character.status.traits.TraitsStatus;
-import delta.games.lotro.gui.character.traitTree.TraitTreeEditionDialog;
 import delta.games.lotro.utils.events.EventsManager;
 
 /**
@@ -75,17 +72,6 @@ public class BuffEditionPanelController implements ActionListener
   private void build()
   {
     _panel=GuiFactory.buildPanel(new FlowLayout());
-    JButton traitTreeButton=GuiFactory.buildButton("Trait tree..."); // I18n
-    _panel.add(traitTreeButton);
-    ActionListener alTraitTree=new ActionListener()
-    {
-      @Override
-      public void actionPerformed(ActionEvent e)
-      {
-        editTraitTree();
-      }
-    };
-    traitTreeButton.addActionListener(alTraitTree);
     _iconsPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
     buildBuffControllers(_panel);
     _panel.add(_iconsPanel);
@@ -216,23 +202,6 @@ public class BuffEditionPanelController implements ActionListener
       Component invoker=_contextMenu.getInvoker();
       String buffId=invoker.getName();
       remove(buffId);
-    }
-  }
-
-  private void editTraitTree()
-  {
-    TraitTreeStatus status=_toon.getTraits().getTraitTreeStatus();
-    TraitTreeStatus toEdit=new TraitTreeStatus(status);
-    TraitTreeEditionDialog dialog=new TraitTreeEditionDialog(_parentWindow,_toon,toEdit);
-    TraitTreeStatus result=dialog.editModal();
-    if (result!=null)
-    {
-      TraitsStatus traitsStatus=_toon.getTraits();
-      TraitTreeStatus newStatus=new TraitTreeStatus(result);
-      traitsStatus.setTraitTreeStatus(newStatus);
-      // Broadcast toon update event...
-      CharacterEvent event=new CharacterEvent(CharacterEventType.CHARACTER_DATA_UPDATED,null,_toon);
-      EventsManager.invokeEvent(event);
     }
   }
 
