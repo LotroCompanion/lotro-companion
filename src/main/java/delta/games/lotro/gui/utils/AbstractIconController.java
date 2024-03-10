@@ -6,12 +6,13 @@ import java.awt.image.BufferedImage;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.WindowController;
 
 /**
- * Controller for an icon that brings a page.
+ * Base class for controllers of an icon that brings a page.
  * @author DAM
  */
 public class AbstractIconController
@@ -21,23 +22,35 @@ public class AbstractIconController
   protected WindowController _parent;
   protected ActionListener _listener;
   protected JButton _icon;
+  private boolean _useNavigation;
 
   /**
    * Constructor.
    * @param parent Parent window.
+   * @param useNavigation Use navigation of not.
    */
-  public AbstractIconController(WindowController parent)
+  public AbstractIconController(WindowController parent, boolean useNavigation)
   {
     _parent=parent;
+    _useNavigation=useNavigation;
     _icon=GuiFactory.buildIconButton();
     _icon.setSize(DEFAULT_SIZE,DEFAULT_SIZE);
   }
 
   /**
-   * Get the managed item icon.
-   * @return an icon.
+   * Get the managed button.
+   * @return a button.
    */
   public JButton getIcon()
+  {
+    return _icon;
+  }
+
+  /**
+   * Get the managed component.
+   * @return the managed component.
+   */
+  public JComponent getComponent()
   {
     return _icon;
   }
@@ -49,12 +62,21 @@ public class AbstractIconController
   public void setIcon(Icon icon)
   {
     _icon.setIcon(icon);
+    _icon.setDisabledIcon(icon);
     if (icon!=null)
     {
       _icon.setSize(icon.getIconWidth(),icon.getIconHeight());
     }
-    _icon.setEnabled(true);
-    _icon.setFocusable(true);
+    if (_useNavigation)
+    {
+      _icon.setEnabled(true);
+      _icon.setFocusable(true);
+    }
+    else
+    {
+      _icon.setEnabled(false);
+      _icon.setFocusable(false);
+    }
   }
 
   /**
@@ -69,7 +91,6 @@ public class AbstractIconController
       icon=new ImageIcon(image);
     }
     setIcon(icon);
-    _icon.setDisabledIcon(icon);
     _icon.setFocusable(false);
     _icon.setEnabled(false);
     _icon.setToolTipText("");

@@ -23,17 +23,34 @@ public class IconController extends AbstractIconController
    */
   public IconController(WindowController parent)
   {
-    super(parent);
-    _listener=new ActionListener()
+    this(parent,true);
+  }
+
+  /**
+   * Constructor.
+   * @param parent Parent window.
+   * @param useNavigation Use navigation of not.
+   */
+  public IconController(WindowController parent, boolean useNavigation)
+  {
+    super(parent,useNavigation);
+    if (useNavigation)
     {
-      @Override
-      public void actionPerformed(ActionEvent e)
+      _listener=new ActionListener()
       {
-        NavigationUtils.navigateTo(_pageId,_parent);
-      }
-    };
-    _icon.addActionListener(_listener);
-    _icon.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        @Override
+        public void actionPerformed(ActionEvent e)
+        {
+          NavigationUtils.navigateTo(_pageId,_parent);
+        }
+      };
+      _icon.addActionListener(_listener);
+      _icon.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    }
+    else
+    {
+      _icon.setEnabled(false);
+    }
   }
 
   /**
@@ -51,7 +68,7 @@ public class IconController extends AbstractIconController
    * Set the page to use.
    * @param pageId Page identifier.
    */
-  protected void setPageId(PageIdentifier pageId)
+  public void setPageId(PageIdentifier pageId)
   {
     _pageId=pageId;
   }
