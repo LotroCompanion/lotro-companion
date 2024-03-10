@@ -38,6 +38,15 @@ public class AbstractIconController
   }
 
   /**
+   * Constructor.
+   * @param parent Parent window.
+   */
+  public AbstractIconController(WindowController parent)
+  {
+    this(parent,true);
+  }
+
+  /**
    * Get the managed button.
    * @return a button.
    */
