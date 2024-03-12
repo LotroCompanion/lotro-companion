@@ -77,6 +77,7 @@ import delta.games.lotro.gui.character.status.skirmishes.SkirmishStatisticsWindo
 import delta.games.lotro.gui.character.status.tasks.TasksStatusWindowController;
 import delta.games.lotro.gui.character.status.titles.TitlesStatusWindowController;
 import delta.games.lotro.gui.character.status.traitPoints.TraitPointsEditionWindowController;
+import delta.games.lotro.gui.character.status.traits.mountedAppearances.MountedAppearancesStatusWindowController;
 import delta.games.lotro.gui.character.status.traits.skirmish.SkirmishTraitsStatusWindowController;
 import delta.games.lotro.gui.character.status.travels.TravelsStatusWindowController;
 import delta.games.lotro.gui.character.storage.own.CharacterStorageDisplayWindowController;
@@ -118,6 +119,7 @@ public class CharacterFileWindowController extends DefaultWindowController imple
   private static final String HOBBIES_COMMAND="hobbies";
   private static final String SKIRMISH_TRAITS_COMMAND="skirmishTraits";
   private static final String NOTES_COMMAND="notes";
+  private static final String MOUNTED_APPEARANCES_COMMAND="mountedAppearances";
 
   private CharacterSummaryPanelController _summaryController;
   private CharacterDataTableController _toonsTable;
@@ -231,6 +233,9 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     // Mounts status
     JButton mountsButton=buildCommandButton("Mounts",MOUNTS_COMMAND); // I18n
     panel.add(mountsButton,c);c.gridx++;
+    // Mounted appearances
+    JButton mountedAppearancesButton=buildCommandButton("Mounted Cosmetics",MOUNTED_APPEARANCES_COMMAND); // I18n
+    panel.add(mountedAppearancesButton,c);c.gridx++;
     // Notes
     JButton notesButton=buildCommandButton("Notes",NOTES_COMMAND); // I18n
     panel.add(notesButton,c);c.gridx++;
@@ -411,6 +416,10 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     else if (NOTES_COMMAND.equals(command))
     {
       editNotes();
+    }
+    else if (MOUNTED_APPEARANCES_COMMAND.equals(command))
+    {
+      showMountedAppearances();
     }
     else if (NEW_TOON_DATA_ID.equals(command))
     {
@@ -850,6 +859,18 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     {
       CharacterNotesIo.save(_toon,notes);
     }
+  }
+
+  private void showMountedAppearances()
+  {
+    WindowsManager windowsManager=getWindowsManager();
+    MountedAppearancesStatusWindowController windowCtrl=(MountedAppearancesStatusWindowController)windowsManager.getWindow(MountedAppearancesStatusWindowController.IDENTIFIER);
+    if (windowCtrl==null)
+    {
+      windowCtrl=new MountedAppearancesStatusWindowController(this,_toon);
+      windowsManager.registerWindow(windowCtrl);
+    }
+    windowCtrl.show();
   }
 
   /**
