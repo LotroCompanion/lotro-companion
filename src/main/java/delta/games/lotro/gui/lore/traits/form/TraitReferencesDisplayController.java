@@ -13,6 +13,7 @@ import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.games.lotro.character.classes.ClassDescription;
 import delta.games.lotro.character.races.RaceDescription;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
+import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.quests.Achievable;
 import delta.games.lotro.lore.quests.QuestDescription;
 import delta.games.lotro.lore.xrefs.Reference;
@@ -102,6 +103,7 @@ public class TraitReferencesDisplayController
     buildHtmlForRace(sb,references);
     buildHtmlForClass(sb,references);
     buildHtmlForQuestsAndDeeds(sb,references);
+    buildHtmlForItem(sb,references);
     sb.append("</body></html>");
     return sb.toString();
   }
@@ -187,6 +189,28 @@ public class TraitReferencesDisplayController
     sb.append("<b>");
     PageIdentifier to=ReferenceConstants.getAchievableReference(achievable);
     HtmlUtils.printLink(sb,to.getFullAddress(),achievable.getName());
+    sb.append("</b></p>");
+  }
+
+  private void buildHtmlForItem(StringBuilder sb, List<Reference<?,TraitRole>> references)
+  {
+    List<Reference<Item,TraitRole>> itemReferences=getReferences(references,Item.class);
+    if (!itemReferences.isEmpty())
+    {
+      for(Reference<Item,TraitRole> itemReference : itemReferences)
+      {
+        Item item=itemReference.getSource();
+        buildHtmlForItemReference(sb,item);
+      }
+    }
+  }
+
+  private void buildHtmlForItemReference(StringBuilder sb, Item item)
+  {
+    sb.append("<p>Granted by item ");
+    sb.append("<b>");
+    PageIdentifier to=ReferenceConstants.getItemReference(item.getIdentifier());
+    HtmlUtils.printLink(sb,to.getFullAddress(),item.getName());
     sb.append("</b></p>");
   }
 
