@@ -25,6 +25,7 @@ import delta.games.lotro.character.skills.SkillDescription;
 import delta.games.lotro.character.traits.TraitDescription;
 import delta.games.lotro.character.traits.prerequisites.AbstractTraitPrerequisite;
 import delta.games.lotro.common.enums.SkillCategory;
+import delta.games.lotro.common.enums.TraitGroup;
 import delta.games.lotro.common.enums.TraitNature;
 import delta.games.lotro.common.enums.TraitSubCategory;
 import delta.games.lotro.gui.LotroIconsManager;
@@ -234,6 +235,15 @@ public class TraitDisplayPanelController extends AbstractNavigablePanelControlle
     if (subCategory!=null)
     {
       ret.add("Sub-category: "+subCategory.getLabel());
+    }
+    // Groups
+    List<TraitGroup> groups=_trait.getTraitGroups();
+    if (!groups.isEmpty())
+    {
+      for(TraitGroup group : groups)
+      {
+        ret.add("Group: "+group.getLabel());
+      }
     }
     // Minimum Level
     int minLevel=_trait.getMinLevel();
