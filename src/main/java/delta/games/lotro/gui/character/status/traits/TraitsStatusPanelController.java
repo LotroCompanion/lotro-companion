@@ -17,7 +17,7 @@ import delta.games.lotro.character.traits.TraitDescription;
 import delta.games.lotro.gui.character.status.traits.filter.TraitStatusFilterController;
 
 /**
- * Controller for a window that show the status of traits.
+ * Controller for a panel that shows the availability of traits.
  * @author DAM
  */
 public class TraitsStatusPanelController

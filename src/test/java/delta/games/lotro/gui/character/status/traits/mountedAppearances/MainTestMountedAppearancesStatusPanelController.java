@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.character.status.traits;
+package delta.games.lotro.gui.character.status.traits.mountedAppearances;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +10,7 @@ import delta.common.ui.swing.windows.DefaultWindowController;
 import delta.games.lotro.character.status.traits.shared.AvailableTraitsStatus;
 import delta.games.lotro.character.traits.TraitDescription;
 import delta.games.lotro.character.traits.TraitsManager;
+import delta.games.lotro.gui.character.status.traits.TraitsStatusPanelController;
 
 /**
  * Test class for the mounted appearances status panel.
