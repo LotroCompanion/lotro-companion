@@ -93,7 +93,7 @@ public class MountedAppearancesStatusWindowController extends DefaultWindowContr
     // Slotted traits
     JPanel slottedTraitsPanel=_slottedPanel.getPanel();
     slottedTraitsPanel.setBorder(GuiFactory.buildTitledBorder("Slotted traits"));
-    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(slottedTraitsPanel,c);
     // Available traits
     JPanel availableTraitsPanel=_statusPanel.getPanel();
