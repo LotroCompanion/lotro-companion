@@ -28,8 +28,8 @@ import delta.games.lotro.gui.character.status.traits.TraitsStatusPanelController
  */
 public class MountedAppearancesStatusWindowController extends DefaultWindowController
 {
-  private static final int MIN_HEIGHT=300;
-  private static final int INITIAL_HEIGHT=400;
+  private static final int MIN_HEIGHT=480;
+  private static final int INITIAL_HEIGHT=500;
 
   /**
    * Identifier for this window.
@@ -69,8 +69,8 @@ public class MountedAppearancesStatusWindowController extends DefaultWindowContr
     JFrame frame=super.build();
     frame.setTitle("Mounted Appearances"); // I18n
     frame.pack();
-    frame.setSize(frame.getWidth()+30,INITIAL_HEIGHT);
-    frame.setMinimumSize(new Dimension(frame.getWidth()+30,MIN_HEIGHT));
+    frame.setSize(frame.getWidth()+100,INITIAL_HEIGHT);
+    frame.setMinimumSize(new Dimension(frame.getWidth()+100,MIN_HEIGHT));
     return frame;
   }
 
