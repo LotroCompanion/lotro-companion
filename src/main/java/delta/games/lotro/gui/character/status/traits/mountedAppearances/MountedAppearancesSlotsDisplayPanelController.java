@@ -3,7 +3,6 @@ package delta.games.lotro.gui.character.status.traits.mountedAppearances;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JLabel;
@@ -17,9 +16,8 @@ import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.status.traits.shared.TraitSlotsStatus;
 import delta.games.lotro.character.traits.TraitDescription;
 import delta.games.lotro.character.traits.TraitsManager;
-import delta.games.lotro.common.enums.LotroEnum;
-import delta.games.lotro.common.enums.LotroEnumsRegistry;
 import delta.games.lotro.common.enums.TraitGroup;
+import delta.games.lotro.gui.character.status.traits.TraitGroupsUtils;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.gui.lore.traits.TraitIconController;
 import delta.games.lotro.gui.utils.NavigationUtils;
@@ -64,7 +62,7 @@ public class MountedAppearancesSlotsDisplayPanelController extends AbstractPanel
   {
     WindowController parent=getWindowController();
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
-    List<TraitGroup> groups=getTraitGroupsForSlots();
+    List<TraitGroup> groups=TraitGroupsUtils.getTraitGroupsForSlots();
     int nbTraits=status.getSlotsCount();
     for(int i=0;i<MAX_TRAITS;i++)
     {
@@ -95,39 +93,6 @@ public class MountedAppearancesSlotsDisplayPanelController extends AbstractPanel
     }
     return panel;
   }
-
-  private static final int[] SLOT_CODES={
-      8,  // HEAD
-      9,  // BODY
-      12, // SADDLE,
-      13, // GEAR
-      10, // LEFS
-      11, // TAIL
-      14  // HIDE
-  };
-
-  private List<TraitGroup> getTraitGroupsForSlots()
-  {
-    List<TraitGroup> ret=new ArrayList<TraitGroup>();
-    LotroEnum<TraitGroup> traitGroupEnum=LotroEnumsRegistry.getInstance().get(TraitGroup.class);
-    for(int code : SLOT_CODES)
-    {
-      TraitGroup group=traitGroupEnum.getEntry(code);
-      ret.add(group);
-    }
-    return ret;
-  }
-
-  // UI order: 
-  /*
-    9 // BODY
-    13 // GEAR
-    8 // HEAD
-    14 // HIDE
-    10 // LEGS
-    12 // SADDLE
-    11 // TAIL
-   */
 
   @Override
   public void dispose()

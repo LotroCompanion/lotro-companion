@@ -4,6 +4,7 @@ import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.util.List;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -20,7 +21,10 @@ import delta.games.lotro.character.status.traits.TraitStatus;
 import delta.games.lotro.character.status.traits.filters.KnownTraitFilter;
 import delta.games.lotro.character.status.traits.filters.TraitStatusFilter;
 import delta.games.lotro.character.traits.TraitDescription;
+import delta.games.lotro.character.traits.filters.TraitGroupFilter;
+import delta.games.lotro.common.enums.TraitGroup;
 import delta.games.lotro.common.filters.NamedFilter;
+import delta.games.lotro.gui.character.status.traits.TraitGroupsUtils;
 import delta.games.lotro.gui.utils.SharedUiUtils;
 
 /**
@@ -36,6 +40,7 @@ public class TraitStatusFilterController
   // -- Filter UI --
   private JTextField _contains;
   private ComboBoxController<Boolean> _known;
+  private ComboBoxController<TraitGroup> _group;
   // Controllers
   private DynamicTextEditionController _textController;
   private FilterUpdateListener _filterUpdateListener;
@@ -90,6 +95,7 @@ public class TraitStatusFilterController
   {
     _known.selectItem(null);
     _contains.setText("");
+    _group.selectItem(null);
   }
 
   /**
@@ -107,6 +113,9 @@ public class TraitStatusFilterController
     // Known
     KnownTraitFilter knownFilter=_filter.getKnownFilter();
     _known.selectItem(knownFilter.getIsKnownFlag());
+    // Group
+    TraitGroupFilter groupFilter=_filter.getGroupFilter();
+    _group.selectItem(groupFilter.getGroup());
   }
 
   private JPanel build()
@@ -144,6 +153,17 @@ public class TraitStatusFilterController
     GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(linePanel,c);
     y++;
+    JPanel line2Panel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
+    // Group
+    {
+      JLabel label=GuiFactory.buildLabel("Slot:"); // I18n
+      line2Panel.add(label);
+      _group=buildGroupCombobox();
+      line2Panel.add(_group.getComboBox());
+    }
+    c=new GridBagConstraints(0,y,2,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(3,0,5,0),0,0);
+    panel.add(line2Panel,c);
+    y++;
     return panel;
   }
 
@@ -162,6 +182,40 @@ public class TraitStatusFilterController
     };
     combo.addListener(listener);
     return combo;
+  }
+
+  private ComboBoxController<TraitGroup> buildGroupCombobox()
+  {
+    ComboBoxController<TraitGroup> combo=buildTraitGroupCombobox();
+    ItemSelectionListener<TraitGroup> listener=new ItemSelectionListener<TraitGroup>()
+    {
+      @Override
+      public void itemSelected(TraitGroup value)
+      {
+        TraitGroupFilter filter=_filter.getGroupFilter();
+        filter.setGroup(value);
+        filterUpdated();
+      }
+    };
+    combo.addListener(listener);
+    return combo;
+  }
+
+  /**
+   * Build a combo-box controller to choose a trait group.
+   * @return A new combo-box controller.
+   */
+  private ComboBoxController<TraitGroup> buildTraitGroupCombobox()
+  {
+    ComboBoxController<TraitGroup> ctrl=new ComboBoxController<TraitGroup>();
+    ctrl.addEmptyItem("(all)"); // I18n
+    List<TraitGroup> groups=TraitGroupsUtils.getTraitGroupsForSlots();
+    for(TraitGroup group : groups)
+    {
+      ctrl.addItem(group,group.getLabel());
+    }
+    ctrl.selectItem(null);
+    return ctrl;
   }
 
   /**
@@ -188,6 +242,12 @@ public class TraitStatusFilterController
       _known.dispose();
       _known=null;
     }
+    if (_group!=null)
+    {
+      _group.dispose();
+      _group=null;
+    }
     _contains=null;
+    _filterUpdateListener=null;
   }
 }
