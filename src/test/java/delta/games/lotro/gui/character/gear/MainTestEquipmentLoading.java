@@ -33,7 +33,7 @@ public class MainTestEquipmentLoading
       if (infos!=null)
       {
         DefaultWindowController c=new DefaultWindowController();
-        EquipmentPanelController ctrl=new EquipmentPanelController(c,toon,infos);
+        EquipmentEditionPanelController ctrl=new EquipmentEditionPanelController(c,toon,infos);
         JPanel panel=ctrl.getPanel();
         JFrame f=c.getFrame();
         f.setTitle("Equipment for "+toon.getName());

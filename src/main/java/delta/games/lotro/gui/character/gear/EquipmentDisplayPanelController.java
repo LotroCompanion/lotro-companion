@@ -1,11 +1,13 @@
 package delta.games.lotro.gui.character.gear;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.Icon;
 import javax.swing.JButton;
@@ -25,7 +27,7 @@ import delta.games.lotro.lore.items.ItemInstance;
  * Controller for equipment panel.
  * @author DAM
  */
-public class ROEquipmentPanelController implements ActionListener
+public class EquipmentDisplayPanelController implements ActionListener
 {
   private static final int ICON_SIZE=32;
   private static final Integer ICONS_DEPTH=Integer.valueOf(1);
@@ -47,8 +49,13 @@ public class ROEquipmentPanelController implements ActionListener
   private static final int X_ROW=X_MARGIN+(COLUMNS_WIDTH-ROW_WIDTH)/2;
   private static final int Y_MARGIN_COLUMNS_ROW=25;
   private static final int Y_ROW=Y_START+DELTA_Y*3+ICON_SIZE+ICON_FRAME_SIZE+Y_MARGIN_COLUMNS_ROW;
+  private static final int X_BUTTON=X_COLUMN_2+DELTA_COLUMNS+5;
+  private static final int Y_BUTTON=Y_START+DELTA_Y*2;
 
-  private static final String SLOT_SEED="slot_";
+  /**
+   * Slot seed.
+   */
+  public static final String SLOT_SEED="slot_";
 
   private WindowController _parentWindow;
   private JPanel _panel;
@@ -63,13 +70,14 @@ public class ROEquipmentPanelController implements ActionListener
    * @param parent Parent window controller.
    * @param gear Gear to display.
    */
-  public ROEquipmentPanelController(WindowController parent, CharacterGear gear)
+  public EquipmentDisplayPanelController(WindowController parent, CharacterGear gear)
   {
     _parentWindow=parent;
     _gear=gear;
     _buttons=new HashMap<GearSlot,JButton>();
     _icons=new HashMap<GearSlot,EquipmentSlotIconController>();
     initPositions();
+    _panel=buildPanel();
   }
 
   private void initPositions()
@@ -126,16 +134,23 @@ public class ROEquipmentPanelController implements ActionListener
     _iconPositions.put(GearSlots.CLASS_ITEM,new Dimension(x,y));
   }
 
-    /**
+  /**
+   * Set the button in the middle of the panel.
+   * @param updateButton Button to set.
+   */
+  public void setButton(JButton updateButton)
+  {
+    updateButton.setLocation(X_BUTTON,Y_BUTTON);
+    updateButton.setSize(updateButton.getPreferredSize());
+    _layeredPane.add(updateButton,ICONS_DEPTH);
+  }
+
+  /**
    * Get the managed panel.
    * @return a panel.
    */
   public JPanel getPanel()
   {
-    if (_panel==null)
-    {
-      _panel=buildPanel();
-    }
     return _panel;
   }
 
@@ -174,7 +189,6 @@ public class ROEquipmentPanelController implements ActionListener
       _layeredPane.add(button,ICONS_DEPTH);
       _buttons.put(slot,button);
       button.setActionCommand(SLOT_SEED+slot.getKey());
-      button.addActionListener(this);
       button.setToolTipText("");
     }
     updateIcons();
@@ -183,9 +197,48 @@ public class ROEquipmentPanelController implements ActionListener
   }
 
   /**
+   * Init listeners for item display.
+   */
+  public void initButtonListeners()
+  {
+    for(GearSlot slot : GearSlot.getAll())
+    {
+      JButton button=getButtonForSlot(slot);
+      button.addActionListener(this);
+    }
+  }
+
+  /**
+   * Get the button for a given slot.
+   * @param slot Slot to use.
+   * @return A button or <code>null</code> if not found.
+   */
+  public JButton getButtonForSlot(GearSlot slot)
+  {
+    return _buttons.get(slot);
+  }
+
+  /**
+   * Find the slot for the given button.
+   * @param c Source component.
+   * @return A slot or <code>null</code> if not found.
+   */
+  public GearSlot findSlotForButton(Component c)
+  {
+    for(Map.Entry<GearSlot,JButton> entry : _buttons.entrySet())
+    {
+      if (c==entry.getValue())
+      {
+        return entry.getKey();
+      }
+    }
+    return null;
+  }
+
+  /**
    * Update contents.
    */
-  private void updateIcons()
+  public void updateIcons()
   {
     for(GearSlot slot : GearSlot.getAll())
     {

@@ -33,7 +33,7 @@ import delta.games.lotro.character.status.virtues.io.VirtuesStatusIO;
 import delta.games.lotro.gui.character.buffs.BuffEditionPanelController;
 import delta.games.lotro.gui.character.essences.AllEssencesEditionWindowController;
 import delta.games.lotro.gui.character.essences.EssencesSummaryWindowController;
-import delta.games.lotro.gui.character.gear.EquipmentPanelController;
+import delta.games.lotro.gui.character.gear.EquipmentEditionPanelController;
 import delta.games.lotro.gui.character.tomes.TomesEditionPanelController;
 import delta.games.lotro.gui.character.traits.TraitsEditionPanelController;
 import delta.games.lotro.gui.character.virtues.VirtuesDisplayPanelController;
@@ -52,7 +52,7 @@ public class CharacterDataWindowController extends DefaultFormDialogController<C
 
   private CharacterMainAttrsEditionPanelController _attrsController;
   private CharacterStatsSummaryPanelController _statsController;
-  private EquipmentPanelController _equipmentController;
+  private EquipmentEditionPanelController _equipmentController;
   private VirtuesDisplayPanelController _virtuesController;
   private BuffEditionPanelController _buffsController;
   private TraitsEditionPanelController _traitsController;
@@ -74,7 +74,7 @@ public class CharacterDataWindowController extends DefaultFormDialogController<C
     _attrsController=new CharacterMainAttrsEditionPanelController(toon,toonData);
     _attrsController.set();
     _statsController=new CharacterStatsSummaryPanelController(this,toonData);
-    _equipmentController=new EquipmentPanelController(this,toon,toonData);
+    _equipmentController=new EquipmentEditionPanelController(this,toon,toonData);
     _virtuesController=new VirtuesDisplayPanelController();
     updateVirtues();
     _buffsController=new BuffEditionPanelController(this,toonData);

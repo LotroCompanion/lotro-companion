@@ -33,7 +33,8 @@ public class MainTestEquipmentDisplay
       if (infos!=null)
       {
         DefaultWindowController c=new DefaultWindowController();
-        ROEquipmentPanelController ctrl=new ROEquipmentPanelController(c,infos.getEquipment());
+        EquipmentDisplayPanelController ctrl=new EquipmentDisplayPanelController(c,infos.getEquipment());
+        ctrl.initButtonListeners();
         JPanel panel=ctrl.getPanel();
         JFrame f=c.getFrame();
         f.setTitle("Equipment for "+toon.getName());
