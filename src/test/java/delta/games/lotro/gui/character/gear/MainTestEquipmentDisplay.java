@@ -10,10 +10,10 @@ import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharacterInfosManager;
 
 /**
- * Test for character equipment access.
+ * Test for character equipment display.
  * @author DAM
  */
-public class MainTestEquipmentLoading
+public class MainTestEquipmentDisplay
 {
   /**
    * Basic main method for test.
@@ -33,7 +33,7 @@ public class MainTestEquipmentLoading
       if (infos!=null)
       {
         DefaultWindowController c=new DefaultWindowController();
-        EquipmentPanelController ctrl=new EquipmentPanelController(c,toon,infos);
+        ROEquipmentPanelController ctrl=new ROEquipmentPanelController(c,infos.getEquipment());
         JPanel panel=ctrl.getPanel();
         JFrame f=c.getFrame();
         f.setTitle("Equipment for "+toon.getName());
