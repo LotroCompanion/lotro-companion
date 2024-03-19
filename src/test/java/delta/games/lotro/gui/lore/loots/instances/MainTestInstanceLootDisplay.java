@@ -30,7 +30,7 @@ public class MainTestInstanceLootDisplay
     PrivateEncounter pe=PrivateEncountersManager.getInstance().getPrivateEncounterById(instanceId);
     window.setContextProperty(ContextPropertyNames.PRIVATE_ENCOUNTER,pe);
     // Chest
-    int chestId=1879092875; // 
+    int chestId=1879092875;
     Item item=ItemsManager.getInstance().getItem(chestId);
     window.setContextProperty(ContextPropertyNames.ITEM,item);
     InstanceLootDisplayPanelController panelCtrl=new InstanceLootDisplayPanelController(window);

@@ -23,7 +23,7 @@ public class WalletUtils
    */
   public static List<PaperItemCategory> getCategories()
   {
-    Set<PaperItemCategory> categories=new HashSet<PaperItemCategory>(); 
+    Set<PaperItemCategory> categories=new HashSet<PaperItemCategory>();
     List<PaperItem> paperItems=PaperItemsManager.getInstance().getAll();
     for(PaperItem paperItem : paperItems)
     {

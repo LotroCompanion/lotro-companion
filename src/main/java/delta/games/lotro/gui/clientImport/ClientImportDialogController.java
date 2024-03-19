@@ -144,6 +144,7 @@ public class ClientImportDialogController extends DefaultDialogController implem
     final CharExtractor extractor=new CharExtractor(session);
     Runnable r=new Runnable()
     {
+      @Override
       public void run()
       {
         extractor.doIt();

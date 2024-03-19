@@ -38,6 +38,7 @@ public class DeedCurvesWindowController extends DefaultWindowController
   {
     _stats=new MultipleToonsStats<CharacterFile>()
     {
+      @Override
       public CharacterFile loadToonStats(CharacterFile toon)
       {
         return toon;

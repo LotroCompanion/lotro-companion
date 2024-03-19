@@ -35,6 +35,7 @@ public class InstanceEntriesFilter implements Filter<InstanceTreeEntry>
     _instancesFilter=new InstancesFilter();
     ProxyValueResolver<InstanceTreeEntry,SkirmishPrivateEncounter> peProvider=new ProxyValueResolver<InstanceTreeEntry,SkirmishPrivateEncounter>()
     {
+      @Override
       public SkirmishPrivateEncounter getValue(InstanceTreeEntry entry)
       {
         return entry.getInstance();

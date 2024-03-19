@@ -25,7 +25,7 @@ public class QuestsUtils
    */
   public static List<QuestCategory> getCategories()
   {
-    Set<QuestCategory> categories=new HashSet<QuestCategory>(); 
+    Set<QuestCategory> categories=new HashSet<QuestCategory>();
     List<QuestDescription> quests=QuestsManager.getInstance().getAll();
     for(QuestDescription quest : quests)
     {
@@ -44,7 +44,7 @@ public class QuestsUtils
    */
   public static List<String> getQuestArcs()
   {
-    Set<String> questArcs=new HashSet<String>(); 
+    Set<String> questArcs=new HashSet<String>();
     List<QuestDescription> quests=QuestsManager.getInstance().getAll();
     for(QuestDescription quest : quests)
     {
@@ -63,7 +63,7 @@ public class QuestsUtils
    */
   public static List<Repeatability> getRepeatabilities()
   {
-    Set<Repeatability> repeatabilities=new HashSet<Repeatability>(); 
+    Set<Repeatability> repeatabilities=new HashSet<Repeatability>();
     List<QuestDescription> quests=QuestsManager.getInstance().getAll();
     for(QuestDescription quest : quests)
     {

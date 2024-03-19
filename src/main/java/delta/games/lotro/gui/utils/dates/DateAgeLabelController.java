@@ -46,7 +46,6 @@ public class DateAgeLabelController
   {
     ActionListener al=new ActionListener()
     {
-      
       @Override
       public void actionPerformed(ActionEvent e)
       {

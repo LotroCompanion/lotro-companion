@@ -124,7 +124,7 @@ public class ResourcesMapPanelController
 
   /**
    * Set the markers filter.
-   * @param filter Filter to set. 
+   * @param filter Filter to set.
    */
   public void setFilter(Filter<Marker> filter)
   {

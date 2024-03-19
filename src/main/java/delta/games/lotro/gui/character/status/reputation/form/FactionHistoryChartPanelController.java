@@ -37,6 +37,7 @@ public class FactionHistoryChartPanelController extends AbstractPanelController
    * Get the managed panel.
    * @return a panel.
    */
+  @Override
   public JPanel getPanel()
   {
     JPanel panel=super.getPanel();
@@ -71,9 +72,7 @@ public class FactionHistoryChartPanelController extends AbstractPanelController
     }
   }
 
-  /**
-   * Release all managed resources.
-   */
+  @Override
   public void dispose()
   {
     super.dispose();

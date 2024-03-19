@@ -12,8 +12,8 @@ import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.common.ui.swing.panels.AbstractPanelController;
 import delta.games.lotro.config.labels.AvailableLabelsDefinition;
 import delta.games.lotro.config.labels.DefinitionOfAvailableLabels;
-import delta.games.lotro.config.labels.LabelsEntry;
 import delta.games.lotro.config.labels.LabelsConfiguration;
+import delta.games.lotro.config.labels.LabelsEntry;
 
 /**
  * Controller for a panel to edit the labels configuration.

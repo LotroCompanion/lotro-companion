@@ -8,6 +8,7 @@ import java.util.List;
 import javax.swing.JTable;
 
 import delta.common.ui.swing.tables.CellDataProvider;
+import delta.common.ui.swing.tables.ColumnsUtils;
 import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.ListDataProvider;
@@ -17,7 +18,6 @@ import delta.games.lotro.account.AccountType;
 import delta.games.lotro.account.AccountsManager;
 import delta.games.lotro.account.events.AccountEvent;
 import delta.games.lotro.account.events.AccountEventType;
-import delta.games.lotro.gui.utils.l10n.StatColumnsUtils;
 import delta.games.lotro.gui.utils.l10n.Labels;
 import delta.games.lotro.utils.events.EventsManager;
 import delta.games.lotro.utils.events.GenericEventsListener;
@@ -100,7 +100,7 @@ public class AccountsTableController implements GenericEventsListener<AccountEve
       };
       String title=Labels.getLabel("accounts.table.column.signupDate");
       DefaultTableColumnController<Account,Date> signupDateColumn=new DefaultTableColumnController<Account,Date>(AccountColumnIds.SIGNUP_DATE.name(),title,Date.class,signupDateCell);
-      StatColumnsUtils.configureDateColumn(signupDateColumn);
+      ColumnsUtils.configureDateColumn(signupDateColumn);
       table.addColumnController(signupDateColumn);
     }
     // Account type

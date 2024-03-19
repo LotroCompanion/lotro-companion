@@ -58,6 +58,7 @@ public class AchievableGeoStatusEditionController
     Window window=_mapController.getWindow();
     WindowAdapter l=new WindowAdapter()
     {
+      @Override
       public void windowClosed(WindowEvent e)
       {
         _mapController=null;

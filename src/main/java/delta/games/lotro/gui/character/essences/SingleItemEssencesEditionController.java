@@ -91,7 +91,7 @@ public class SingleItemEssencesEditionController
       {
         int nbEssenceSlots=setup.getSocketsCount();
         int size=Math.max(nbEssences,nbEssenceSlots);
-        
+
         for(int i=0;i<size;i++)
         {
           SocketType type=(i<nbEssenceSlots)?setup.getSlotType(i):SocketTypes.CLASSIC;

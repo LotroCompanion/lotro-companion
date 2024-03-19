@@ -36,9 +36,6 @@ import delta.games.lotro.lore.items.legendary2.LegendaryInstance2;
  */
 public class ItemInstanceEditionPanelController
 {
-  /**
-   * 
-   */
   private static final String EDIT="Edit...";
   // Data
   private BasicCharacterAttributes _attrs;

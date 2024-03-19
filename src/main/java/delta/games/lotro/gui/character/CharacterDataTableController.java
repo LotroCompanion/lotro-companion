@@ -6,6 +6,7 @@ import java.util.Date;
 import javax.swing.JTable;
 
 import delta.common.ui.swing.tables.CellDataProvider;
+import delta.common.ui.swing.tables.ColumnsUtils;
 import delta.common.ui.swing.tables.DataProvider;
 import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.GenericTableController;
@@ -15,7 +16,6 @@ import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharacterInfosManager;
 import delta.games.lotro.character.events.CharacterEvent;
 import delta.games.lotro.character.events.CharacterEventType;
-import delta.games.lotro.gui.utils.l10n.StatColumnsUtils;
 import delta.games.lotro.utils.events.EventsManager;
 import delta.games.lotro.utils.events.GenericEventsListener;
 
@@ -90,7 +90,7 @@ public class CharacterDataTableController implements GenericEventsListener<Chara
         }
       };
       DefaultTableColumnController<CharacterData,Date> lastUpdateColumn=new DefaultTableColumnController<CharacterData,Date>(DATE,"Date",Date.class,lastUpdateCell); // I18n
-      StatColumnsUtils.configureDateTimeColumn(lastUpdateColumn);
+      ColumnsUtils.configureDateTimeColumn(lastUpdateColumn);
       table.addColumnController(lastUpdateColumn);
     }
     // Level column

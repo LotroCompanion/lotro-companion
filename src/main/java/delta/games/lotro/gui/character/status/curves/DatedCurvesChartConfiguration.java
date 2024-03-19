@@ -61,7 +61,7 @@ public class DatedCurvesChartConfiguration
   }
 
   /**
-   * Set the label for the value axis. 
+   * Set the label for the value axis.
    * @param label Label to set.
    */
   public void setValueAxisLabel(String label)

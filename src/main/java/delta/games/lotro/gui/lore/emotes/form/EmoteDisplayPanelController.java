@@ -56,10 +56,7 @@ public class EmoteDisplayPanelController implements NavigablePanelController
     return "Emote: "+_emote.getName(); // I18n
   }
 
-  /**
-   * Get the managed panel.
-   * @return the managed panel.
-   */
+  @Override
   public JPanel getPanel()
   {
     if (_panel==null)

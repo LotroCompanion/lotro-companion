@@ -23,7 +23,7 @@ public class DeedUtils
    */
   public static List<DeedCategory> getCategories()
   {
-    Set<DeedCategory> categories=new HashSet<DeedCategory>(); 
+    Set<DeedCategory> categories=new HashSet<DeedCategory>();
     List<DeedDescription> deeds=DeedsManager.getInstance().getAll();
     for(DeedDescription deed : deeds)
     {

@@ -57,6 +57,7 @@ public class InstancesTableController
     // Private encounter columns
     CellDataProvider<InstanceTreeEntry,SkirmishPrivateEncounter> peProvider=new CellDataProvider<InstanceTreeEntry,SkirmishPrivateEncounter>()
     {
+      @Override
       public SkirmishPrivateEncounter getData(InstanceTreeEntry entry)
       {
         return entry.getInstance();

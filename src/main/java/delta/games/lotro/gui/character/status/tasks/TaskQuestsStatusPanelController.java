@@ -60,7 +60,7 @@ public class TaskQuestsStatusPanelController
       String name=taskQuest.getQuest().getName();
       JLabel questName=GuiFactory.buildLabel(name+": ");
       panel.add(questName,c);
-      // Completion count 
+      // Completion count
       c=new GridBagConstraints(1,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,0,2,5),0,0);
       JLabel count=GuiFactory.buildLabel("");
       _counts.add(count);

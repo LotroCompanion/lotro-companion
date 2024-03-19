@@ -47,10 +47,7 @@ public class BuffsFilterController extends ObjectFilterPanelController
     _filter=filter;
   }
 
-  /**
-   * Get the managed panel.
-   * @return the managed panel.
-   */
+  @Override
   public JPanel getPanel()
   {
     if (_panel==null)
@@ -183,9 +180,7 @@ public class BuffsFilterController extends ObjectFilterPanelController
     filterUpdated();
   }
 
-  /**
-   * Release all managed resources.
-   */
+  @Override
   public void dispose()
   {
     // Data

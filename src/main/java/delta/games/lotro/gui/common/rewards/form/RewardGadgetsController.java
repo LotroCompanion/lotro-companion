@@ -43,9 +43,7 @@ public class RewardGadgetsController extends AbstractAreaController
     return _label;
   }
 
-  /**
-   * Release all managed resources.
-   */
+  @Override
   public void dispose()
   {
     super.dispose();

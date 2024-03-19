@@ -87,9 +87,7 @@ public class TraceriesSetDisplayPanelController extends AbstractSetDisplayPanelC
     return itemLevelCombo.getSelectedItem();
   }
 
-  /**
-   * Release all managed resources.
-   */
+  @Override
   public void dispose()
   {
     super.dispose();

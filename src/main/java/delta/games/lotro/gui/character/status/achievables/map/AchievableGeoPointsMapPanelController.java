@@ -192,9 +192,7 @@ public class AchievableGeoPointsMapPanelController extends AbstractAreaControlle
     _mapPanel.getCanvas().repaint();
   }
 
-  /**
-   * Release all managed resources.
-   */
+  @Override
   public void dispose()
   {
     super.dispose();

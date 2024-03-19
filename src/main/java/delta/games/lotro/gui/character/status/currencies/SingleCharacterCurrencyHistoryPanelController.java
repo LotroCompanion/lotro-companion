@@ -57,6 +57,7 @@ public class SingleCharacterCurrencyHistoryPanelController
        * Get the identifiers for the curves to show.
        * @return a list of curve identifiers.
        */
+      @Override
       public List<String> getCurveIds()
       {
         List<String> id=new ArrayList<String>();
@@ -69,6 +70,7 @@ public class SingleCharacterCurrencyHistoryPanelController
        * @param curveId Curve identifier.
        * @return A curve or <code>null</code> if not found.
        */
+      @Override
       public DatedCurve<?> getCurve(String curveId)
       {
         DatedCurve<?> curve=curveProvider.getCurve(historyCurve);

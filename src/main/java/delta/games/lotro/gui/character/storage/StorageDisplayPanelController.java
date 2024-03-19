@@ -64,6 +64,7 @@ public class StorageDisplayPanelController implements FilterUpdateListener
   /**
    * Update filter.
    */
+  @Override
   public void filterUpdated()
   {
     _tablePanel.filterUpdated();

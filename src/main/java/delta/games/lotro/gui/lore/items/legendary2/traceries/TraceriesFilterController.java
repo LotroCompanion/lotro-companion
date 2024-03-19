@@ -80,10 +80,7 @@ public class TraceriesFilterController extends ObjectFilterPanelController imple
     return _filter;
   }
 
-  /**
-   * Get the managed panel.
-   * @return the managed panel.
-   */
+  @Override
   public JPanel getPanel()
   {
     if (_panel==null)
@@ -264,9 +261,7 @@ public class TraceriesFilterController extends ObjectFilterPanelController imple
     return ret;
   }
 
-  /**
-   * Release all managed resources.
-   */
+  @Override
   public void dispose()
   {
     // Data

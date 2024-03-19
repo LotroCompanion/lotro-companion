@@ -65,10 +65,7 @@ public class HobbyDisplayPanelController extends AbstractNavigablePanelControlle
     return "Hobby: "+_hobby.getName(); // I18n
   }
 
-  /**
-   * Get the managed panel.
-   * @return the managed panel.
-   */
+  @Override
   public JPanel getPanel()
   {
     return _panel;

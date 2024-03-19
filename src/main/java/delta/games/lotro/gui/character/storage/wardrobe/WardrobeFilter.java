@@ -49,6 +49,7 @@ public class WardrobeFilter implements Filter<WardrobeItem>
 
     ProxyValueResolver<WardrobeItem,Item> itemResolver=new ProxyValueResolver<WardrobeItem,Item>()
     {
+      @Override
       public Item getValue(WardrobeItem source)
       {
         return source.getItem();

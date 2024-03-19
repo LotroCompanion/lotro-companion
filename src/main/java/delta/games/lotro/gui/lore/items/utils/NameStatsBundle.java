@@ -85,9 +85,7 @@ public class NameStatsBundle implements Disposable
     _lines.setText(text);
   }
 
-  /**
-   * Release all managed resources.
-   */
+  @Override
   public void dispose()
   {
     // Data

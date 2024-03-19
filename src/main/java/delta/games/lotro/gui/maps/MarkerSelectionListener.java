@@ -101,9 +101,7 @@ public class MarkerSelectionListener implements SelectionListener,Disposable
     return null;
   }
 
-  /**
-   * Release all managed resources.
-   */
+  @Override
   public void dispose()
   {
     _parent=null;

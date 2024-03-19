@@ -65,10 +65,7 @@ public class TitleDisplayPanelController extends AbstractNavigablePanelControlle
     return title;
   }
 
-  /**
-   * Get the managed panel.
-   * @return the managed panel.
-   */
+  @Override
   public JPanel getPanel()
   {
     if (_panel==null)

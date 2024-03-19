@@ -28,6 +28,7 @@ public class StorageReputationTableController extends ReputationTableController<
     super(parent,stats);
   }
 
+  @Override
   protected void defineColumns(GenericTableController<StorageFactionStats> table)
   {
     super.defineColumns(table);
@@ -48,6 +49,7 @@ public class StorageReputationTableController extends ReputationTableController<
     }
   }
 
+  @Override
   protected List<String> getColumnIds()
   {
     List<String> columnIds=super.getColumnIds();

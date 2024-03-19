@@ -39,7 +39,7 @@ public class TraitGroupsUtils
     return ret;
   }
 
-  // UI order: 
+  // UI order:
   /*
     9 // BODY
     13 // GEAR

@@ -51,7 +51,7 @@ public class DatedCurvesChartController
   // Data
   private DatedCurvesProvider _provider;
   // Configuration
-  private DatedCurvesChartConfiguration _configuration; 
+  private DatedCurvesChartConfiguration _configuration;
   // Internal cooking
   private HashMap<String,Integer> _curveIds2SeriesIndex;
 

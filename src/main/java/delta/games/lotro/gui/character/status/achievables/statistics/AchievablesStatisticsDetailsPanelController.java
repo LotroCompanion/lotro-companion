@@ -118,9 +118,7 @@ public class AchievablesStatisticsDetailsPanelController extends AbstractPanelCo
     _traits.update();
   }
 
-  /**
-   * Release all managed resources.
-   */
+  @Override
   public void dispose()
   {
     super.dispose();

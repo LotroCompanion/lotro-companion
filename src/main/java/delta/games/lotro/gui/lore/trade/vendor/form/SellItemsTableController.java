@@ -95,6 +95,7 @@ public class SellItemsTableController
     {
       CellDataProvider<ValuedItem,Item> provider=new CellDataProvider<ValuedItem,Item>()
       {
+        @Override
         public Item getData(ValuedItem source)
         {
           return source.getItem();

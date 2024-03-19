@@ -152,9 +152,7 @@ public class FactionHistoryEditionPanelController extends AbstractPanelControlle
     }
   }
 
-  /**
-   * Release all managed resources.
-   */
+  @Override
   public void dispose()
   {
     super.dispose();

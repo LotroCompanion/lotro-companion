@@ -189,9 +189,7 @@ public class BarterEntryDisplayPanelController extends AbstractNavigablePanelCon
     return gadgets;
   }
 
-  /**
-   * Release all managed resources.
-   */
+  @Override
   public void dispose()
   {
     super.dispose();

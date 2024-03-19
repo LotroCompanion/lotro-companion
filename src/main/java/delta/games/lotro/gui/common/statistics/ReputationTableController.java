@@ -132,6 +132,7 @@ public abstract class ReputationTableController<T extends FactionStats> extends 
   {
     DataProvider<T,Named> provider=new DataProvider<T,Named>()
     {
+      @Override
       public Named getData(T p)
       {
         return p.getFaction();
@@ -150,9 +151,7 @@ public abstract class ReputationTableController<T extends FactionStats> extends 
     return _tableController.getTable();
   }
 
-  /**
-   * Release all managed resources.
-   */
+  @Override
   public void dispose()
   {
     super.dispose();

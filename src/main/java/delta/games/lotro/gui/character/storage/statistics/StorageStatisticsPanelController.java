@@ -84,9 +84,7 @@ public class StorageStatisticsPanelController extends AbstractPanelController
     _items.update();
   }
 
-  /**
-   * Release all managed resources.
-   */
+  @Override
   public void dispose()
   {
     super.dispose();

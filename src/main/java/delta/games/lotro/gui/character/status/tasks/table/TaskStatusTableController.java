@@ -150,9 +150,7 @@ public class TaskStatusTableController extends AbstractAreaController
     return _table;
   }
 
-  /**
-   * Release all managed resources.
-   */
+  @Override
   public void dispose()
   {
     super.dispose();

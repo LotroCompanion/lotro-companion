@@ -77,9 +77,7 @@ public class ItemsSetDisplayPanelController extends AbstractSetDisplayPanelContr
     return super.getSetLevel();
   }
 
-  /**
-   * Release all managed resources.
-   */
+  @Override
   public void dispose()
   {
     super.dispose();

@@ -160,9 +160,7 @@ public class BarterDisplayPanelController extends AbstractNavigablePanelControll
     _requirements.setText(requirements);
   }
 
-  /**
-   * Release all managed resources.
-   */
+  @Override
   public void dispose()
   {
     super.dispose();

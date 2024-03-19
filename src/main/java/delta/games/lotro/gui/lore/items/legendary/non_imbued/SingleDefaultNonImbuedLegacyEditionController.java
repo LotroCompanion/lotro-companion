@@ -40,6 +40,7 @@ public class SingleDefaultNonImbuedLegacyEditionController extends SingleNonImbu
     storage.setLegacy(legacy);
   }
 
+  @Override
   protected void setupLegacy(AbstractNonImbuedLegacy legacy)
   {
     super.setupLegacy(legacy);
@@ -57,6 +58,7 @@ public class SingleDefaultNonImbuedLegacyEditionController extends SingleNonImbu
     }
   }
 
+  @Override
   protected StatsProvider getStatsProvider()
   {
     DefaultNonImbuedLegacy legacy=getDefaultLegacy();
@@ -64,6 +66,7 @@ public class SingleDefaultNonImbuedLegacyEditionController extends SingleNonImbu
     return statsProvider;
   }
 
+  @Override
   protected void updateIcon()
   {
     DefaultNonImbuedLegacy legacy=getDefaultLegacy();

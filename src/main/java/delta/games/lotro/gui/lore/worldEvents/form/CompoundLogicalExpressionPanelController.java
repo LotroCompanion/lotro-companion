@@ -40,10 +40,7 @@ public class CompoundLogicalExpressionPanelController implements PanelProvider
     _panel=buildPanel();
   }
 
-  /**
-   * Get the managed panel.
-   * @return A panel.
-   */
+  @Override
   public JPanel getPanel()
   {
     return _panel;
@@ -87,9 +84,7 @@ public class CompoundLogicalExpressionPanelController implements PanelProvider
     return ret;
   }
 
-  /**
-   * Release all managed resources.
-   */
+  @Override
   public void dispose()
   {
     // Controllers

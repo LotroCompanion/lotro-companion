@@ -262,7 +262,7 @@ public class TraitDisplayPanelController extends AbstractNavigablePanelControlle
   private JPanel buildSkillsPanel()
   {
     List<SkillDescription> skills=_trait.getSkills();
-    int nbSkills=skills.size(); 
+    int nbSkills=skills.size();
     if (nbSkills==0)
     {
       return null;

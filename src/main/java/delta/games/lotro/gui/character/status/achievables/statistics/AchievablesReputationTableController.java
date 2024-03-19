@@ -35,6 +35,7 @@ public class AchievablesReputationTableController extends ReputationTableControl
     _mode=mode;
   }
 
+  @Override
   protected void defineColumns(GenericTableController<AchievablesFactionStats> table)
   {
     super.defineColumns(table);
@@ -72,6 +73,7 @@ public class AchievablesReputationTableController extends ReputationTableControl
     }
   }
 
+  @Override
   protected List<String> getColumnIds()
   {
     List<String> columnIds=super.getColumnIds();

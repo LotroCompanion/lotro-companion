@@ -223,14 +223,14 @@ public class DetailedStorageAccessPanelController implements ActionListener
       VaultWindowController vaultCtrl=new VaultWindowController(_parent,_character,false,vault);
       vaultCtrl.getDialog().setLocationRelativeTo(_parent.getWindow());
       vaultCtrl.show();
-    } 
+    }
     else if (SHARED_VAULT.equals(command))
     {
       Vault vault=_storage.getSharedVault();
       VaultWindowController vaultCtrl=new VaultWindowController(_parent,_character,true,vault);
       vaultCtrl.getDialog().setLocationRelativeTo(_parent.getWindow());
       vaultCtrl.show();
-    } 
+    }
     else if (command.startsWith(BAG_SEED))
     {
       int index=NumericTools.parseInt(command.substring(BAG_SEED.length()),0);

@@ -65,10 +65,7 @@ public class BillingGroupDisplayPanelController implements NavigablePanelControl
     return "Account feature: "+_billingGroup.getName(); // 18n
   }
 
-  /**
-   * Get the managed panel.
-   * @return the managed panel.
-   */
+  @Override
   public JPanel getPanel()
   {
     if (_panel==null)

@@ -228,9 +228,7 @@ public class TaskFilterController extends AbstractPanelController implements Act
     return ret;
   }
 
-  /**
-   * Release all managed resources.
-   */
+  @Override
   public void dispose()
   {
     super.dispose();

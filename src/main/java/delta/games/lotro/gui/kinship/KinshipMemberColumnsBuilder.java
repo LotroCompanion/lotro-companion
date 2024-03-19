@@ -84,6 +84,7 @@ public class KinshipMemberColumnsBuilder
     {
       CellDataProvider<KinshipCharacterSummary,Long> lastLogoutCell=new CellDataProvider<KinshipCharacterSummary,Long>()
       {
+        @Override
         public Long getData(KinshipCharacterSummary summary)
         {
           return summary.getLastLogoutDate();
@@ -117,6 +118,7 @@ public class KinshipMemberColumnsBuilder
     {
       CellDataProvider<KinshipMember,Long> joinDateCell=new CellDataProvider<KinshipMember,Long>()
       {
+        @Override
         public Long getData(KinshipMember member)
         {
           return member.getJoinDate();
@@ -130,6 +132,7 @@ public class KinshipMemberColumnsBuilder
     {
       CellDataProvider<KinshipMember,String> rankCell=new CellDataProvider<KinshipMember,String>()
       {
+        @Override
         public String getData(KinshipMember member)
         {
           KinshipRank rank=member.getRank();

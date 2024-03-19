@@ -13,8 +13,8 @@ import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.utils.xml.DOMParsingTools;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemInstance;
-import delta.games.lotro.lore.items.io.xml.ItemXMLConstants;
 import delta.games.lotro.lore.items.io.xml.ItemInstanceXMLParser;
+import delta.games.lotro.lore.items.io.xml.ItemXMLConstants;
 import delta.games.lotro.utils.gui.chooser.ObjectChoiceWindowController;
 
 /**

@@ -106,13 +106,13 @@ public class RacialTraitsEditionPanelController implements ActionListener
       {
         if (e.isPopupTrigger()) doPop(e);
       }
-  
+
       @Override
       public void mouseReleased(MouseEvent e)
       {
         if (e.isPopupTrigger()) doPop(e);
       }
-  
+
       private void doPop(MouseEvent e)
       {
         _contextMenu.show(e.getComponent(),e.getX(),e.getY());
@@ -120,7 +120,7 @@ public class RacialTraitsEditionPanelController implements ActionListener
     }
     return new PopClickListener();
   }
-  
+
   /**
    * Get the managed panel.
    * @return the managed panel.

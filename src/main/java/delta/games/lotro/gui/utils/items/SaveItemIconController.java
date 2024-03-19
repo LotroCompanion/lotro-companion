@@ -62,7 +62,7 @@ public class SaveItemIconController implements CommandExecutor,Disposable
   private void doSaveIcon()
   {
     FileChooserController ctrl=new FileChooserController(ID, "Save item icon..."); // I18n
-    // Setup default file 
+    // Setup default file
     String filename=_item.getIcon()+".png";
     ctrl.getChooser().setSelectedFile(new File(filename));
     // Choose file...
@@ -110,9 +110,7 @@ public class SaveItemIconController implements CommandExecutor,Disposable
     return ok;
   }
 
-  /**
-   * Release all managed resources.
-   */
+  @Override
   public void dispose()
   {
     if (_menu!=null)

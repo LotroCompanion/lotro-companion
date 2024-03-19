@@ -141,6 +141,7 @@ public class ReputationSynopsisTableController extends AbstractAreaController
   {
     CustomLabelCellRenderer<T,FactionStatus> customRenderer=new CustomLabelCellRenderer<T,FactionStatus>()
     {
+      @Override
       public void configure(GenericTableController<T> table, FactionStatus value, boolean isSelected, boolean hasFocus, int row, int column, JLabel label)
       {
         Context context=table.getContextManager().getContext(row,column);
@@ -337,9 +338,7 @@ public class ReputationSynopsisTableController extends AbstractAreaController
     label.setMaximumSize(new Dimension(50,preferredSize.height));
   }
 
-  /**
-   * Release all managed resources.
-   */
+  @Override
   public void dispose()
   {
     super.dispose();

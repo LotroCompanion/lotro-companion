@@ -161,6 +161,7 @@ public class SkillsSynopsisPanelController implements GenericEventsListener<Char
   /**
    * Update filter.
    */
+  @Override
   public void filterUpdated()
   {
     _tableController.updateFilter();

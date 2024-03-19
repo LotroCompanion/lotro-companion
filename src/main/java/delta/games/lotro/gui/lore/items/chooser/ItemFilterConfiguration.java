@@ -48,19 +48,19 @@ public class ItemFilterConfiguration
   {
     int nbComponents=ItemChooserFilterComponent.values().length;
     _components=new boolean[nbComponents];
-    for(ArmourType armourType : ArmourTypes.ARMOUR_TYPES) 
+    for(ArmourType armourType : ArmourTypes.ARMOUR_TYPES)
     {
       _armourTypes.add(armourType);
     }
-    for(ArmourType shieldType : ShieldTypes.SHIELD_TYPES) 
+    for(ArmourType shieldType : ShieldTypes.SHIELD_TYPES)
     {
       _shieldTypes.add(shieldType);
     }
-    for(WeaponType weaponType : WeaponType.getAll()) 
+    for(WeaponType weaponType : WeaponType.getAll())
     {
       _weaponTypes.add(weaponType);
     }
-    for(DamageType damageType : DamageType.getAll()) 
+    for(DamageType damageType : DamageType.getAll())
     {
       _damageTypes.add(damageType);
     }

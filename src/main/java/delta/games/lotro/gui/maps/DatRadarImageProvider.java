@@ -35,6 +35,7 @@ public class DatRadarImageProvider implements RadarImageProvider
    * @param blockY Landblock Y.
    * @return a buffered image or <code>null</code> if not found.
    */
+  @Override
   public BufferedImage getImage(int region, int blockX, int blockY)
   {
     BufferedImage ret=null;

@@ -61,9 +61,7 @@ public class CollectionStatusWindowController extends DefaultDisplayDialogContro
     pack();
   }
 
-  /**
-   * Release all managed resources.
-   */
+  @Override
   public void dispose()
   {
     super.dispose();

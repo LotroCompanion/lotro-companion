@@ -402,9 +402,7 @@ public class DeedFilterController extends AbstractPanelController implements Act
     return combo;
   }
 
-  /**
-   * Release all managed resources.
-   */
+  @Override
   public void dispose()
   {
     super.dispose();

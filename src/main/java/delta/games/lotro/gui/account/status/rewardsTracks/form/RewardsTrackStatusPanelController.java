@@ -102,7 +102,7 @@ public class RewardsTrackStatusPanelController
     String name=_rewardsTrack.getName();
     return GuiFactory.buildLabel(name,28.0f);
   }
- 
+
   private JComponent buildDescriptionGadget()
   {
     JEditorPane ret=GuiFactory.buildHtmlPanel();

@@ -93,9 +93,7 @@ public class TasksStatisticsPanelController extends AbstractPanelController
     _earnedItems.update();
   }
 
-  /**
-   * Release all managed resources.
-   */
+  @Override
   public void dispose()
   {
     super.dispose();

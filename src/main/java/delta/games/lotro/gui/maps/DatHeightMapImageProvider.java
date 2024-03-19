@@ -33,12 +33,13 @@ public class DatHeightMapImageProvider implements RadarImageProvider
   }
 
   /**
-   * Get the radar image for the given landblock.
+   * Get the height map image for the given landblock.
    * @param region Region.
    * @param blockX Landblock X.
    * @param blockY Landblock Y.
    * @return a buffered image or <code>null</code> if not found.
    */
+  @Override
   public BufferedImage getImage(int region, int blockX, int blockY)
   {
     BufferedImage ret=null;
@@ -87,7 +88,7 @@ public class DatHeightMapImageProvider implements RadarImageProvider
     //System.out.println("Min="+minH+",max="+maxH);
     DataBuffer buffer = new DataBufferByte(b, b.length);
     WritableRaster raster = Raster.createInterleavedRaster(buffer, width, height, 3 * width, 3, new int[] {0, 1, 2}, (Point)null);
-    ColorModel cm = new ComponentColorModel(ColorModel.getRGBdefault().getColorSpace(), false, true, Transparency.OPAQUE, DataBuffer.TYPE_BYTE); 
+    ColorModel cm = new ComponentColorModel(ColorModel.getRGBdefault().getColorSpace(), false, true, Transparency.OPAQUE, DataBuffer.TYPE_BYTE);
     BufferedImage image = new BufferedImage(cm, raster, true, null);
     return image;
   }

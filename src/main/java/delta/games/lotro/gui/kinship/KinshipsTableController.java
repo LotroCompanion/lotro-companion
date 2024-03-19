@@ -92,6 +92,7 @@ public class KinshipsTableController implements GenericEventsListener<KinshipEve
     {
       CellDataProvider<Kinship,Long> creationCell=new CellDataProvider<Kinship,Long>()
       {
+        @Override
         public Long getData(Kinship kinship)
         {
           return kinship.getSummary().getCreationDate();

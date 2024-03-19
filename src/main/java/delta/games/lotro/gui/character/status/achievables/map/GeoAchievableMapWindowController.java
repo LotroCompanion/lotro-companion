@@ -124,9 +124,7 @@ public class GeoAchievableMapWindowController extends DefaultDialogController
     return "GEODEED MAP";
   }
 
-  /**
-   * Release all managed resources.
-   */
+  @Override
   public void dispose()
   {
     super.dispose();

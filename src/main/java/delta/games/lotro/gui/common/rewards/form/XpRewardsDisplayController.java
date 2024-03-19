@@ -85,7 +85,7 @@ public class XpRewardsDisplayController
     // XP
     _xp.setVisible(xp>0);
     _xpIcon.setVisible(xp>0);
-    
+
     _xp.setText(L10n.getString(xp));
     // Item XP
     _itemXp.setVisible(itemXp>0);

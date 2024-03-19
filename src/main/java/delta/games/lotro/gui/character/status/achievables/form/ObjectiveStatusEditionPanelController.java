@@ -178,9 +178,7 @@ public class ObjectiveStatusEditionPanelController extends AbstractPanelControll
     return ret;
   }
 
-  /**
-   * Release all managed resources.
-   */
+  @Override
   public void dispose()
   {
     super.dispose();

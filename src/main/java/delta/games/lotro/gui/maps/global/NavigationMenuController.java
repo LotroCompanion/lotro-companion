@@ -188,9 +188,7 @@ public class NavigationMenuController implements Disposable
     return actionListener;
   }
 
-  /**
-   * Release all managed resources.
-   */
+  @Override
   public void dispose()
   {
     if (_menuBar!=null)

@@ -94,6 +94,7 @@ public class BlacklistController<T extends Identifiable> implements Disposable
   {
     SelectionChangedListener<T> listener=new SelectionChangedListener<T>()
     {
+      @Override
       public void selectionChanged(SelectionChangedEvent<T> event)
       {
         handleSelectionChange(event.getSelectedElements());
@@ -125,7 +126,6 @@ public class BlacklistController<T extends Identifiable> implements Disposable
     _remove.setEnabled(useRemove);
   }
 
-  
   private void setActive(boolean active)
   {
     if (_filter.isEnabled()!=active)

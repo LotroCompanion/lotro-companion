@@ -278,9 +278,7 @@ public class TitlesTableController extends AbstractAreaController
     _tableController.removeActionListener(al);
   }
 
-  /**
-   * Release all managed resources.
-   */
+  @Override
   public void dispose()
   {
     super.dispose();

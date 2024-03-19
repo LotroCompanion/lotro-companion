@@ -61,10 +61,7 @@ public class VendorDisplayPanelController implements NavigablePanelController
     return "Vendor: "+_vendor.getNpc().getName();
   }
 
-  /**
-   * Get the managed panel.
-   * @return the managed panel.
-   */
+  @Override
   public JPanel getPanel()
   {
     if (_panel==null)
@@ -182,9 +179,7 @@ public class VendorDisplayPanelController implements NavigablePanelController
     _factor.setText(sellFactorStr);
   }
 
-  /**
-   * Release all managed resources.
-   */
+  @Override
   public void dispose()
   {
     // Data

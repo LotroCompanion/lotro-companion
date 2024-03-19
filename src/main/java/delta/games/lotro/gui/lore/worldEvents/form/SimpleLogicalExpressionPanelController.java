@@ -28,10 +28,7 @@ public class SimpleLogicalExpressionPanelController implements PanelProvider
     _panel=buildPanel();
   }
 
-  /**
-   * Get the managed panel.
-   * @return A panel.
-   */
+  @Override
   public JPanel getPanel()
   {
     return _panel;
@@ -45,9 +42,7 @@ public class SimpleLogicalExpressionPanelController implements PanelProvider
     return ret;
   }
 
-  /**
-   * Release all managed resources.
-   */
+  @Override
   public void dispose()
   {
     // UI

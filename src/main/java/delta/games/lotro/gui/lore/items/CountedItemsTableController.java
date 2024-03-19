@@ -57,6 +57,7 @@ public class CountedItemsTableController<T extends ItemProvider>
     {
       Filter<CountedItem<T>> f=new Filter<CountedItem<T>>()
       {
+        @Override
         public boolean accept(CountedItem<T> item)
         {
           return filter.accept(item.getItem());

@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import delta.common.ui.swing.tables.CellDataProvider;
+import delta.common.ui.swing.tables.ColumnsUtils;
 import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.TableColumnController;
 import delta.games.lotro.account.AccountReference;
@@ -16,7 +17,6 @@ import delta.games.lotro.character.races.RaceDescription;
 import delta.games.lotro.common.CharacterSex;
 import delta.games.lotro.common.id.InternalGameId;
 import delta.games.lotro.gui.utils.UiConfiguration;
-import delta.games.lotro.gui.utils.l10n.StatColumnsUtils;
 import delta.games.lotro.kinship.Kinship;
 import delta.games.lotro.kinship.KinshipsManager;
 
@@ -244,7 +244,7 @@ public class CharacterSummaryColumnsBuilder
         }
       };
       DefaultTableColumnController<CharacterSummary,Date> importDateColumn=new DefaultTableColumnController<CharacterSummary,Date>(ToonsTableColumnIds.IMPORT_DATE.name(),"Import Date",Date.class,importDateCell); // I18n
-      StatColumnsUtils.configureDateTimeColumn(importDateColumn);
+      ColumnsUtils.configureDateTimeColumn(importDateColumn);
       ret.add(importDateColumn);
     }
     return ret;

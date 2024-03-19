@@ -106,7 +106,7 @@ public class RadarMapLayer extends BaseRasterLayer
     if (nbImagesY>20) return;
 
     //System.out.println("Images X="+nbImagesX+", images Y="+nbImagesY);
-    // Compute the size of images in pixels 
+    // Compute the size of images in pixels
     float imgSize=deltaDegrees*viewReference.getGeo2PixelFactor();
 
     // Iterate vertically

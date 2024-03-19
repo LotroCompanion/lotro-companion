@@ -41,7 +41,7 @@ public class ImportResultDisplayController implements Disposable
   {
     return _panel;
   }
-  
+
   private JPanel buildPanel()
   {
     JPanel ret=GuiFactory.buildBackgroundPanel(new GridBagLayout());

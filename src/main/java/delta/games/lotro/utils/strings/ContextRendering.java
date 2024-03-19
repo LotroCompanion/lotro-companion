@@ -77,7 +77,7 @@ public class ContextRendering
     }
     return getSummaryFromContext(context);
   }
-  
+
   private static BaseCharacterSummary getSummaryFromContext(Context context)
   {
     BaseCharacterSummary ret=DEFAULT_SUMMARY;

@@ -70,9 +70,7 @@ public class WalletWindowController extends DefaultDisplayDialogController<Void>
     }
   }
 
-  /**
-   * Release all managed resources.
-   */
+  @Override
   public void dispose()
   {
     super.dispose();

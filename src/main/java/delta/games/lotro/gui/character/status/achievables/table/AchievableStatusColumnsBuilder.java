@@ -6,6 +6,7 @@ import java.util.List;
 
 import delta.common.ui.swing.tables.CellDataProvider;
 import delta.common.ui.swing.tables.CellDataUpdater;
+import delta.common.ui.swing.tables.ColumnsUtils;
 import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.TableColumnController;
 import delta.common.ui.swing.tables.panel.FilterUpdateListener;
@@ -13,7 +14,6 @@ import delta.games.lotro.character.status.achievables.AchievableElementState;
 import delta.games.lotro.character.status.achievables.AchievableStatus;
 import delta.games.lotro.character.status.achievables.Progress;
 import delta.games.lotro.character.status.achievables.comparators.ProgressComparator;
-import delta.games.lotro.gui.utils.l10n.StatColumnsUtils;
 
 /**
  * Builds column definitions for AchievableStatus data.
@@ -71,7 +71,7 @@ public class AchievableStatusColumnsBuilder
         }
       };
       DefaultTableColumnController<AchievableStatus,Date> completionDateColumn=new DefaultTableColumnController<AchievableStatus,Date>(AchievableStatusColumnIds.COMPLETION_DATE.name(),"Completion Date",Date.class,completionDateCell); // I18n
-      StatColumnsUtils.configureDateTimeColumn(completionDateColumn);
+      ColumnsUtils.configureDateTimeColumn(completionDateColumn);
       ret.add(completionDateColumn);
     }
     return ret;

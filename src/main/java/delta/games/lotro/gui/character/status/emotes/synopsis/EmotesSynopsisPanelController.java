@@ -164,6 +164,7 @@ public class EmotesSynopsisPanelController implements GenericEventsListener<Char
   /**
    * Update filter.
    */
+  @Override
   public void filterUpdated()
   {
     _tableController.updateFilter();

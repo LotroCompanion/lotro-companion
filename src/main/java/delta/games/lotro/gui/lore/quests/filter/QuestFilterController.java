@@ -638,9 +638,7 @@ public class QuestFilterController extends AbstractPanelController implements Ac
     return combo;
   }
 
-  /**
-   * Release all managed resources.
-   */
+  @Override
   public void dispose()
   {
     super.dispose();

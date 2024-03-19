@@ -198,9 +198,7 @@ public class FactionStatusEditionPanelController extends AbstractPanelController
     return ctrl;
   }
 
-  /**
-   * Release all managed resources.
-   */
+  @Override
   public void dispose()
   {
     super.dispose();

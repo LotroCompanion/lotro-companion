@@ -64,7 +64,7 @@ public class AllegianceRewardsSummaryPanelController
   public void updatePanel()
   {
     _panel.removeAll();
-    List<Rewards> selectedRewards=new ArrayList<Rewards>(); 
+    List<Rewards> selectedRewards=new ArrayList<Rewards>();
     AllegianceDescription allegiance=_status.getAllegiance();
     int nbLevels=_status.getMaxLevel();
     for(int i=1;i<=nbLevels;i++)

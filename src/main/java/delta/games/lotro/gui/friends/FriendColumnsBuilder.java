@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import delta.common.ui.swing.tables.CellDataProvider;
+import delta.common.ui.swing.tables.ColumnsUtils;
 import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.TableColumnController;
 import delta.games.lotro.account.status.friends.Friend;
 import delta.games.lotro.gui.toon.CharacterSummaryColumnsBuilder;
-import delta.games.lotro.gui.utils.l10n.StatColumnsUtils;
 
 /**
  * Build for columns of the friends tables.
@@ -46,13 +46,14 @@ public class FriendColumnsBuilder
     {
       CellDataProvider<Friend,Long> lastLogoutCell=new CellDataProvider<Friend,Long>()
       {
+        @Override
         public Long getData(Friend friend)
         {
           return friend.getLastLogoutDate();
         }
       };
       DefaultTableColumnController<Friend,Long> lastLogoutColumn=new DefaultTableColumnController<Friend,Long>(FriendsColumnIds.LAST_LOGOUT_DATE.name(),"Last logout",Long.class,lastLogoutCell); // I18n
-      StatColumnsUtils.configureDateTimeColumn(lastLogoutColumn);
+      ColumnsUtils.configureDateTimeColumn(lastLogoutColumn);
       ret.add(lastLogoutColumn);
     }
     // Area

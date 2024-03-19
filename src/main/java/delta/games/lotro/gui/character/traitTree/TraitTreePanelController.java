@@ -84,6 +84,7 @@ public class TraitTreePanelController
     }
     ItemSelectionListener<TraitTreeBranch> listener=new ItemSelectionListener<TraitTreeBranch>()
     {
+      @Override
       public void itemSelected(TraitTreeBranch branch)
       {
         selectBranch(branch);

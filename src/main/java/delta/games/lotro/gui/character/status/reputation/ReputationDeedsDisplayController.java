@@ -83,7 +83,7 @@ public class ReputationDeedsDisplayController
     for(ReputationDeedStatus deedStatus : deedStatuses)
     {
       int acquired=deedStatus.getAcquiredCount();
-      int total=deedStatus.getTotalCount(); 
+      int total=deedStatus.getTotalCount();
       String deedLabel=acquired+" / "+total;
       _countLabels.get(index).setText(deedLabel);
       index++;

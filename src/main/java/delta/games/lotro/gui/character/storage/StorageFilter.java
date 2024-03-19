@@ -44,6 +44,7 @@ public class StorageFilter implements Filter<StoredItem>
     _nameFilter=new NamedFilter<Item>();
     ProxyValueResolver<StoredItem,Item> itemResolver=new ProxyValueResolver<StoredItem,Item>()
     {
+      @Override
       public Item getValue(StoredItem source)
       {
         ItemProvider itemProvider=source.getItem();

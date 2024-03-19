@@ -49,10 +49,7 @@ public class MountedAppearancesSlotsDisplayPanelController extends AbstractPanel
     _panel=build(status);
   }
 
-  /**
-   * Get the managed panel.
-   * @return the managed panel.
-   */
+  @Override
   public JPanel getPanel()
   {
     return _panel;

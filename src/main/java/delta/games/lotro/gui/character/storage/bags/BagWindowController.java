@@ -62,9 +62,7 @@ public class BagWindowController extends DefaultDisplayDialogController<Void>
     pack();
   }
 
-  /**
-   * Release all managed resources.
-   */
+  @Override
   public void dispose()
   {
     super.dispose();

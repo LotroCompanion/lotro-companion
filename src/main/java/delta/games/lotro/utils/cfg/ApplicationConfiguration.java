@@ -53,7 +53,7 @@ public class ApplicationConfiguration
   }
 
   /**
-   * Get the DAT configuration. 
+   * Get the DAT configuration.
    * @return the DAT configuration.
    */
   public DatConfiguration getDatConfiguration()
@@ -62,7 +62,7 @@ public class ApplicationConfiguration
   }
 
   /**
-   * Get the localization configuration. 
+   * Get the localization configuration.
    * @return the localization configuration.
    */
   public L10nConfiguration getL10nConfiguration()
@@ -71,7 +71,7 @@ public class ApplicationConfiguration
   }
 
   /**
-   * Get the data configuration. 
+   * Get the data configuration.
    * @return the data configuration.
    */
   public DataConfiguration getDataConfiguration()

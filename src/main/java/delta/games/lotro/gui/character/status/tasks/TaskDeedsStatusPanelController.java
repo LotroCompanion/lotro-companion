@@ -63,7 +63,7 @@ public class TaskDeedsStatusPanelController
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,2,5),0,0);
     JPanel achievedPanel=buildLabeledBar("Achieved deed:",_achievedDeed,_global); // I18n
     panel.add(achievedPanel,c);
-    // Deed in progress 
+    // Deed in progress
     c=new GridBagConstraints(0,1,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,5,5,5),0,0);
     _deedInProgressPanel=buildLabeledBar("Next deed:",_deedInProgressLabel,_deedInProgressProgress); // I18n
     panel.add(_deedInProgressPanel,c);

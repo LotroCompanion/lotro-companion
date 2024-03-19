@@ -115,7 +115,7 @@ public class AllegianceStatusPanelController
     String name=_allegiance.getName();
     return GuiFactory.buildLabel(name,28.0f);
   }
- 
+
   private JLabel buildIconGadget()
   {
     int iconID=_allegiance.getIconId();

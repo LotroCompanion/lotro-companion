@@ -187,7 +187,7 @@ public class CollectionStatusDisplayPanelController
       _gadgets=null;
     }
     if (_rewardsCtrl!=null)
-    { 
+    {
       _rewardsCtrl.dispose();
       _rewardsCtrl=null;
     }

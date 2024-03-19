@@ -33,7 +33,7 @@ public class MainTestInstanceMapPanelController
   private void doIt()
   {
     /*
-    doPeMap(1879389091); // Shadow-roost 
+    doPeMap(1879389091); // Shadow-roost
     doPeMap(1879389963); // Eithel Gwaur, the Filth-well
     doPeMap(1879389964); // Gorthad Nûr, the Deep-barrow
     doPeMap(1879240540); // Public Instance: The Road to Thornhope
@@ -42,7 +42,7 @@ public class MainTestInstanceMapPanelController
     doPeMap(1879108596); // Instance: The Forges of Khazad-Dûm
     doPeMap(1879102898); // Instance: Weapons of the Enemy
     doPeMap(1879154502); // Raid: Barad Guldur
-    doPeMap(1879141205); 
+    doPeMap(1879141205);
     doPeMap(1879196288); // Battle of the Deep-way
     doPeMap(1879196035); // Ost Dunhoth
     //doPeMap(1879264103); // Ost Dunhoth - Disease and Poison Wing

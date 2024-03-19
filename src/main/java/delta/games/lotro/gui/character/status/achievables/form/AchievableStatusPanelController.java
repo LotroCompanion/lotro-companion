@@ -417,9 +417,7 @@ public class AchievableStatusPanelController extends AbstractPanelController imp
     }
   }
 
-  /**
-   * Release all managed resources.
-   */
+  @Override
   public void dispose()
   {
     super.dispose();

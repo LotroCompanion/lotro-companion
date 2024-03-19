@@ -155,9 +155,7 @@ public class ObjectiveConditionStatusEditionPanelController extends AbstractPane
     }
   }
 
-  /**
-   * Release all managed resources.
-   */
+  @Override
   public void dispose()
   {
     super.dispose();

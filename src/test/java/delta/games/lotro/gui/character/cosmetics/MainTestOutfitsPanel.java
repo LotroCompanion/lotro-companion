@@ -2,6 +2,7 @@ package delta.games.lotro.gui.character.cosmetics;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.WindowConstants;
 
 import delta.games.lotro.LotroTestUtils;
 import delta.games.lotro.character.CharacterFile;
@@ -34,7 +35,7 @@ public class MainTestOutfitsPanel
       ctrl.updateContents(mgr);
       JPanel panel=ctrl.getPanel();
       JFrame frame=new JFrame("Outfits for "+toon.getName());
-      frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+      frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
       frame.setContentPane(panel);
       frame.pack();
       frame.setVisible(true);

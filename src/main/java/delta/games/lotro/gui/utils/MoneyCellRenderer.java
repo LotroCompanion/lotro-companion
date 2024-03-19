@@ -17,6 +17,7 @@ public class MoneyCellRenderer implements TableCellRenderer
 {
   private MoneyDisplayController _moneyCtrl=new MoneyDisplayController();
 
+  @Override
   public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
   {
     Money money=(Money)value;

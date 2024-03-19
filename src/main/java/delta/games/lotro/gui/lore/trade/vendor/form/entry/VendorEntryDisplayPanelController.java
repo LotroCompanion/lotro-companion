@@ -45,10 +45,7 @@ public class VendorEntryDisplayPanelController implements NavigablePanelControll
     return "Item to sell";
   }
 
-  /**
-   * Get the managed panel.
-   * @return the managed panel.
-   */
+  @Override
   public JPanel getPanel()
   {
     if (_panel==null)
@@ -96,9 +93,7 @@ public class VendorEntryDisplayPanelController implements NavigablePanelControll
     return gadgets;
   }
 
-  /**
-   * Release all managed resources.
-   */
+  @Override
   public void dispose()
   {
     // UI

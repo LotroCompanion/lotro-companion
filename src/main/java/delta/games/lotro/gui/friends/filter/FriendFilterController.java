@@ -142,7 +142,7 @@ public class FriendFilterController implements ActionListener
     _reset.addActionListener(this);
     c=new GridBagConstraints(x,0,1,1,1.0,0,GridBagConstraints.SOUTHEAST,GridBagConstraints.NONE,new Insets(0,5,5,5),0,0);
     panel.add(_reset,c);
- 
+
     return panel;
   }
 

@@ -61,10 +61,7 @@ public abstract class AbstractSetDisplayPanelController implements NavigablePane
 
   protected abstract String getTitlePrefix();
 
-  /**
-   * Get the managed panel.
-   * @return the managed panel.
-   */
+  @Override
   public JPanel getPanel()
   {
     if (_panel==null)
@@ -301,9 +298,7 @@ public abstract class AbstractSetDisplayPanelController implements NavigablePane
     return Integer.valueOf(_set.getSetLevel());
   }
 
-  /**
-   * Release all managed resources.
-   */
+  @Override
   public void dispose()
   {
     // Data

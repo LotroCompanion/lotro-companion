@@ -77,6 +77,7 @@ public class RecipeDisplayPanelController implements NavigablePanelController
    * Get the managed panel.
    * @return the managed panel.
    */
+  @Override
   public JPanel getPanel()
   {
     if (_panel==null)
@@ -405,9 +406,7 @@ public class RecipeDisplayPanelController implements NavigablePanelController
     return ret;
   }
 
-  /**
-   * Release all managed resources.
-   */
+  @Override
   public void dispose()
   {
     // Data

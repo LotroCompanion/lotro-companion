@@ -41,10 +41,7 @@ public class RacialTraitsDisplayPanelController extends AbstractPanelController
     _panel=build();
   }
 
-  /**
-   * Get the managed panel.
-   * @return the managed panel.
-   */
+  @Override
   public JPanel getPanel()
   {
     return _panel;

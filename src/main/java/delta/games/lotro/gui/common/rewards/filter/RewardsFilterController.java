@@ -645,9 +645,7 @@ public class RewardsFilterController extends AbstractPanelController
     return combo;
   }
 
-  /**
-   * Release all managed resources.
-   */
+  @Override
   public void dispose()
   {
     super.dispose();

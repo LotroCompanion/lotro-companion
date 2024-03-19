@@ -181,6 +181,7 @@ public class CraftingSynopsisTableController
   {
     CustomLabelCellRenderer<CraftingSynopsisItem,Profession> customRenderer=new CustomLabelCellRenderer<CraftingSynopsisItem,Profession>()
     {
+      @Override
       public void configure(GenericTableController<CraftingSynopsisItem> table, Profession value, boolean isSelected, boolean hasFocus, int row, int column, JLabel label)
       {
         Icon icon=LotroIconsManager.getProfessionIcon(value);
@@ -273,6 +274,7 @@ public class CraftingSynopsisTableController
   {
     CustomLabelCellRenderer<CraftingSynopsisItem,CraftingLevel> customRenderer=new CustomLabelCellRenderer<CraftingSynopsisItem,CraftingLevel>()
     {
+      @Override
       public void configure(GenericTableController<CraftingSynopsisItem> table, CraftingLevel value, boolean isSelected, boolean hasFocus, int row, int column, JLabel label)
       {
         Context context=table.getContextManager().getContext(row,column);
