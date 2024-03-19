@@ -7,13 +7,13 @@ import java.util.List;
 import javax.swing.JTable;
 
 import delta.common.ui.swing.tables.CellDataProvider;
+import delta.common.ui.swing.tables.ColumnsUtils;
 import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.ListDataProvider;
 import delta.common.ui.swing.tables.TableColumnsManager;
 import delta.games.lotro.character.status.achievables.statistics.AchievablesStatistics;
 import delta.games.lotro.character.status.achievables.statistics.titles.TitleEvent;
-import delta.games.lotro.gui.utils.l10n.StatColumnsUtils;
 
 /**
  * Controller for a table that shows the title events for a single character.
@@ -72,7 +72,7 @@ public class TitleEventsTableController
         }
       };
       DefaultTableColumnController<TitleEvent,Date> completionDateColumn=new DefaultTableColumnController<TitleEvent,Date>(DATE,"Date",Date.class,completionDateCell); // I18n
-      StatColumnsUtils.configureDateTimeColumn(completionDateColumn);
+      ColumnsUtils.configureDateTimeColumn(completionDateColumn);
       table.addColumnController(completionDateColumn);
     }
     // Achievable name column

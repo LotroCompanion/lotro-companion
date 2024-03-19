@@ -51,7 +51,7 @@ public class SingleTieredNonImbuedLegacyEditionController extends SingleNonImbue
         @Override
         public void actionPerformed(ActionEvent e)
         {
-          handleChooseLegacy((JButton)e.getSource());
+          handleChooseLegacy();
         }
       };
       _chooseButton.addActionListener(listener);
@@ -64,7 +64,7 @@ public class SingleTieredNonImbuedLegacyEditionController extends SingleNonImbue
         @Override
         public void actionPerformed(ActionEvent e)
         {
-          handleDeleteLegacy((JButton)e.getSource());
+          handleDeleteLegacy();
         }
       };
       _deleteButton.addActionListener(listener);
@@ -107,7 +107,7 @@ public class SingleTieredNonImbuedLegacyEditionController extends SingleNonImbue
     }
   }
 
-  private void handleChooseLegacy(JButton button)
+  private void handleChooseLegacy()
   {
     ClassDescription characterClass=_constraints.getCharacterClass();
     EquipmentLocation location=_constraints.getSlot();
@@ -119,7 +119,7 @@ public class SingleTieredNonImbuedLegacyEditionController extends SingleNonImbue
     }
   }
 
-  private void handleDeleteLegacy(JButton button)
+  private void handleDeleteLegacy()
   {
     setLegacy(null);
   }

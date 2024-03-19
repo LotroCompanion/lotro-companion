@@ -7,12 +7,12 @@ import java.util.List;
 import javax.swing.JTable;
 
 import delta.common.ui.swing.tables.CellDataProvider;
+import delta.common.ui.swing.tables.ColumnsUtils;
 import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.ListDataProvider;
 import delta.games.lotro.common.id.InternalGameId;
 import delta.games.lotro.gui.utils.UiConfiguration;
-import delta.games.lotro.gui.utils.l10n.StatColumnsUtils;
 import delta.games.lotro.kinship.Kinship;
 import delta.games.lotro.kinship.KinshipSummary;
 import delta.games.lotro.kinship.KinshipsManager;
@@ -98,7 +98,7 @@ public class KinshipsTableController implements GenericEventsListener<KinshipEve
         }
       };
       DefaultTableColumnController<Kinship,Long> creationColumn=new DefaultTableColumnController<Kinship,Long>(KinshipColumnIds.CREATION_DATE.name(),"Creation",Long.class,creationCell);
-      StatColumnsUtils.configureDateTimeColumn(creationColumn);
+      ColumnsUtils.configureDateTimeColumn(creationColumn);
       table.addColumnController(creationColumn);
     }
     // Message of the day

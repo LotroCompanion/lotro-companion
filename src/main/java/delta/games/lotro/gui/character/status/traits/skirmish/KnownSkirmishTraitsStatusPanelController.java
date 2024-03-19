@@ -12,6 +12,7 @@ import java.util.Map;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import javax.swing.ScrollPaneConstants;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.panels.AbstractPanelController;
@@ -80,8 +81,8 @@ public class KnownSkirmishTraitsStatusPanelController extends AbstractPanelContr
       GridBagConstraints c=new GridBagConstraints(2,y,1,1,1.0,1.0,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
       naturePanel.add(padding,c);
       JScrollPane scroll=GuiFactory.buildScrollPane(naturePanel);
-      scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-      scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+      scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+      scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
       tabbedPane.add(nature.getLabel(),scroll);
     }
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,1.0,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,5,5,5),0,0);

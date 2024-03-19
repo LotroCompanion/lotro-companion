@@ -7,6 +7,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 
 import delta.common.ui.swing.tables.CellDataProvider;
+import delta.common.ui.swing.tables.ColumnsUtils;
 import delta.common.ui.swing.tables.DataProvider;
 import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.GenericTableController;
@@ -14,7 +15,6 @@ import delta.common.utils.collections.filters.Filter;
 import delta.games.lotro.character.log.CharacterLog;
 import delta.games.lotro.character.log.CharacterLogItem;
 import delta.games.lotro.character.log.CharacterLogItem.LogItemType;
-import delta.games.lotro.gui.utils.l10n.StatColumnsUtils;
 
 /**
  * Controller for a table that shows a character log.
@@ -69,7 +69,7 @@ public class CharacterLogTableController
         }
       };
       DefaultTableColumnController<CharacterLogItem,Date> dateColumn=new DefaultTableColumnController<CharacterLogItem,Date>("Date",Date.class,dateCell); // I18n
-      StatColumnsUtils.configureDateColumn(dateColumn);
+      ColumnsUtils.configureDateColumn(dateColumn);
       table.addColumnController(dateColumn);
     }
     // Type column

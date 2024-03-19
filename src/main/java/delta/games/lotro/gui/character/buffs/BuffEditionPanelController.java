@@ -73,7 +73,7 @@ public class BuffEditionPanelController implements ActionListener
   {
     _panel=GuiFactory.buildPanel(new FlowLayout());
     _iconsPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
-    buildBuffControllers(_panel);
+    buildBuffControllers();
     _panel.add(_iconsPanel);
     JButton button=GuiFactory.buildButton("Add..."); // I18n
     _panel.add(button);
@@ -107,7 +107,7 @@ public class BuffEditionPanelController implements ActionListener
     _panel.repaint();
   }
 
-  private void buildBuffControllers(JPanel panel)
+  private void buildBuffControllers()
   {
     BuffsManager buffs=_toon.getBuffs();
     int nbBuffs=buffs.getBuffsCount();

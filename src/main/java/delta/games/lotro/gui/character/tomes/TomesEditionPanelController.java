@@ -60,7 +60,7 @@ public class TomesEditionPanelController
   {
     _panel=GuiFactory.buildPanel(new FlowLayout());
     _iconsPanel=GuiFactory.buildPanel(new GridBagLayout());
-    buildTomesControllers(_panel);
+    buildTomesControllers();
     _panel.add(_iconsPanel);
   }
 
@@ -84,7 +84,7 @@ public class TomesEditionPanelController
     _panel.repaint();
   }
 
-  private void buildTomesControllers(JPanel panel)
+  private void buildTomesControllers()
   {
     TomesSet tomes=_toon.getTomes();
     for(StatDescription stat : StatTomesManager.getInstance().getStats())

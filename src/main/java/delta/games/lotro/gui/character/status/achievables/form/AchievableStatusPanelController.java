@@ -368,7 +368,7 @@ public class AchievableStatusPanelController extends AbstractPanelController imp
   private void handleConditionClick(ObjectiveConditionStatusEditionPanelController conditionCtrl)
   {
     ObjectiveConditionStatus status=conditionCtrl.getStatus();
-    AchievableElementState nextState=getNextConditionState(status.getParentStatus(),status.getState());
+    AchievableElementState nextState=getNextConditionState(status.getState());
     AchievableStatusBusinessRules.setConditionState(nextState,status);
     updateUi();
   }
@@ -396,7 +396,7 @@ public class AchievableStatusPanelController extends AbstractPanelController imp
     return null;
   }
 
-  private AchievableElementState getNextConditionState(AchievableObjectiveStatus parent, AchievableElementState state)
+  private AchievableElementState getNextConditionState(AchievableElementState state)
   {
     if (state==AchievableElementState.COMPLETED) return AchievableElementState.UNDERWAY;
     if (state==AchievableElementState.UNDERWAY) return AchievableElementState.COMPLETED;

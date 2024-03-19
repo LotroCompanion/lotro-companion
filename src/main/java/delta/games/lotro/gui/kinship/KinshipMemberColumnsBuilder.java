@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import delta.common.ui.swing.tables.CellDataProvider;
+import delta.common.ui.swing.tables.ColumnsUtils;
 import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.ProxiedTableColumnController;
 import delta.common.ui.swing.tables.TableColumnController;
 import delta.games.lotro.common.CharacterSex;
 import delta.games.lotro.gui.toon.CharacterSummaryColumnsBuilder;
-import delta.games.lotro.gui.utils.l10n.StatColumnsUtils;
 import delta.games.lotro.kinship.KinshipCharacterSummary;
 import delta.games.lotro.kinship.KinshipMember;
 import delta.games.lotro.kinship.KinshipRank;
@@ -90,7 +90,7 @@ public class KinshipMemberColumnsBuilder
         }
       };
       DefaultTableColumnController<KinshipCharacterSummary,Long> lastLogoutColumn=new DefaultTableColumnController<KinshipCharacterSummary,Long>(KinshipMembersColumnIds.LAST_LOGOUT_DATE.name(),"Last logout",Long.class,lastLogoutCell); // I18n
-      StatColumnsUtils.configureDateTimeColumn(lastLogoutColumn);
+      ColumnsUtils.configureDateTimeColumn(lastLogoutColumn);
       ret.add(lastLogoutColumn);
     }
     // Area
@@ -123,7 +123,7 @@ public class KinshipMemberColumnsBuilder
         }
       };
       DefaultTableColumnController<KinshipMember,Long> joinDateColumn=new DefaultTableColumnController<KinshipMember,Long>(KinshipMembersColumnIds.JOIN_DATE.name(),"Joined",Long.class,joinDateCell); // I18n
-      StatColumnsUtils.configureDateTimeColumn(joinDateColumn);
+      ColumnsUtils.configureDateTimeColumn(joinDateColumn);
       ret.add(joinDateColumn);
     }
     // Rank

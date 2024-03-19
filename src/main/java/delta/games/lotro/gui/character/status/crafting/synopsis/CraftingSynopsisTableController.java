@@ -401,7 +401,6 @@ public class CraftingSynopsisTableController
   private void configureTable(final JTable table)
   {
     table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-    //table.setShowGrid(false);
     table.getTableHeader().setReorderingAllowed(false);
     // Adjust table row height for icons (30 pixels)
     table.setRowHeight(30);

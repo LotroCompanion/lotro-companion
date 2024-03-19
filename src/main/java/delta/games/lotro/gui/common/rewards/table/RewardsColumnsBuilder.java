@@ -5,6 +5,7 @@ import java.util.List;
 
 import delta.common.ui.swing.area.AreaController;
 import delta.common.ui.swing.tables.CellDataProvider;
+import delta.common.ui.swing.tables.ColumnsUtils;
 import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.games.lotro.common.rewards.EmoteReward;
 import delta.games.lotro.common.rewards.ReputationReward;
@@ -150,7 +151,7 @@ public class RewardsColumnsBuilder
         }
       };
       DefaultTableColumnController<Rewards,Integer> virtueXpColumn=new DefaultTableColumnController<Rewards,Integer>(RewardsColumnIds.VIRTUE_XP.name(),"Virtue XP",Integer.class,virtueXpCell); // I18n
-      StatColumnsUtils.configureIntegerColumn(virtueXpColumn);
+      ColumnsUtils.configureIntegerColumn(virtueXpColumn);
       ret.add(virtueXpColumn);
     }
     return ret;
@@ -172,7 +173,7 @@ public class RewardsColumnsBuilder
       }
     };
     DefaultTableColumnController<Rewards,Integer> xpColumn=new DefaultTableColumnController<Rewards,Integer>(RewardsColumnIds.XP.name(),"XP",Integer.class,xpCell); // I18n
-    StatColumnsUtils.configureIntegerColumn(xpColumn);
+    ColumnsUtils.configureIntegerColumn(xpColumn);
     return xpColumn;
   }
 

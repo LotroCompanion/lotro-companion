@@ -63,7 +63,6 @@ public class IconAndLinkPanelController implements Disposable
 
   private JPanel buildPanel()
   {
-    // Result panel;
     JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,5),0,0);
     ret.add(_icon.getIcon(),c);

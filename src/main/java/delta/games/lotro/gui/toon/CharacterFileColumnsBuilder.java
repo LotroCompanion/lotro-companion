@@ -7,6 +7,7 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 
 import delta.common.ui.swing.tables.CellDataProvider;
+import delta.common.ui.swing.tables.ColumnsUtils;
 import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.ProxiedTableColumnController;
 import delta.common.ui.swing.tables.TableColumnController;
@@ -86,7 +87,7 @@ public class CharacterFileColumnsBuilder
         }
       };
       DefaultTableColumnController<CharacterFile,Long> xpColumn=new DefaultTableColumnController<CharacterFile,Long>(ToonsTableColumnIds.XP.name(),"XP",Long.class,xpCell); // I18n
-      StatColumnsUtils.configureLongColumn(xpColumn);
+      ColumnsUtils.configureLongColumn(xpColumn);
       ret.add(xpColumn);
     }
     // In-game time column
