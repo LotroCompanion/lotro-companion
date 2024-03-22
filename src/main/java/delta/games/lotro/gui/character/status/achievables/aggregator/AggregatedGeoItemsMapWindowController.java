@@ -173,7 +173,7 @@ public class AggregatedGeoItemsMapWindowController extends DefaultDisplayDialogC
     }
     if (toSelect==null)
     {
-      if (maps.size()>0)
+      if (!maps.isEmpty())
       {
         toSelect=maps.get(0);
       }

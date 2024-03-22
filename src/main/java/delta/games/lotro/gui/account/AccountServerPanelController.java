@@ -37,11 +37,11 @@ import delta.games.lotro.gui.utils.l10n.Labels;
  */
 public class AccountServerPanelController implements ActionListener
 {
-  private static final String STORAGE_COMMAND="storage";
-  private static final String CURRENCIES_COMMAND="currencies";
-  private static final String FRIENDS_COMMAND="friends";
-  private static final String WARDROBE_COMMAND="wardrobe";
-  private static final String REWARDS_TRACKS_COMMAND="rewardsTracks";
+  private static final String STORAGE_COMMAND="storageCommand";
+  private static final String CURRENCIES_COMMAND="currenciesCommand";
+  private static final String FRIENDS_COMMAND="friendsCommand";
+  private static final String WARDROBE_COMMAND="wardrobeCommand";
+  private static final String REWARDS_TRACKS_COMMAND="rewardsTracksCommand";
 
   // Data
   private AccountOnServer _accountOnServer;

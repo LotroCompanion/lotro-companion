@@ -423,7 +423,7 @@ public class MainFrameController extends DefaultWindowController implements Acti
 
   private void doWarbands()
   {
-    String id=WarbandsWindowController.getIdentifier();
+    String id=WarbandsWindowController.WINDOW_IDENTIFIER;
     WindowController controller=_windowsManager.getWindow(id);
     if (controller==null)
     {
@@ -435,7 +435,7 @@ public class MainFrameController extends DefaultWindowController implements Acti
 
   private void doReputationSynopsis()
   {
-    String id=ReputationSynopsisWindowController.getIdentifier();
+    String id=ReputationSynopsisWindowController.WINDOW_IDENTIFIER;
     WindowController controller=_windowsManager.getWindow(id);
     if (controller==null)
     {
@@ -459,7 +459,7 @@ public class MainFrameController extends DefaultWindowController implements Acti
 
   private void doCurrenciesSynopsis()
   {
-    String id=MultipleCharactersCurrencyHistoryWindowController.getIdentifier();
+    String id=MultipleCharactersCurrencyHistoryWindowController.WINDOW_IDENTIFIER;
     WindowController controller=_windowsManager.getWindow(id);
     if (controller==null)
     {
@@ -471,7 +471,7 @@ public class MainFrameController extends DefaultWindowController implements Acti
 
   private void doEmotesSynopsis()
   {
-    String id=EmotesSynopsisWindowController.getIdentifier();
+    String id=EmotesSynopsisWindowController.WINDOW_IDENTIFIER;
     WindowController controller=_windowsManager.getWindow(id);
     if (controller==null)
     {
@@ -591,7 +591,7 @@ public class MainFrameController extends DefaultWindowController implements Acti
 
   private void doLevelling()
   {
-    String id=CharacterLevelWindowController.getIdentifier();
+    String id=CharacterLevelWindowController.WINDOW_IDENTIFIER;
     WindowController controller=_windowsManager.getWindow(id);
     if (controller==null)
     {

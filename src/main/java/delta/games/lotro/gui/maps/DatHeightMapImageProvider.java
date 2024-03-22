@@ -64,7 +64,6 @@ public class DatHeightMapImageProvider implements RadarImageProvider
       for(int x=0;x<32;x++)
       {
         int h=map.getRawHeightAt(x,y);
-        //int c = (int)(Math.log(((16 * h) % 65535) + 1)/Math.log(1.045));
         /*
         int c;
         if (h<10000) c=0;
@@ -73,7 +72,7 @@ public class DatHeightMapImageProvider implements RadarImageProvider
         //int c=h/128;
         c=255-c;
         */
-        int c = (int)(Math.log(((16 * h) % 65535) + 1)/Math.log(1.045));
+        int c = (int)(Math.log(((16 * h) % 65535) + 1.0)/Math.log(1.045));
         byte color=(byte)c;
         int fullX=x;
         int fullY=(31-y);

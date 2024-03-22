@@ -23,6 +23,10 @@ import delta.games.lotro.character.skills.SkillDescription;
  */
 public class SkillsSynopsisWindowController extends DefaultWindowController
 {
+  /**
+   * Window identifier.
+   */
+  public static final String WINDOW_IDENTIFIER="SKILLS_SYNOPSIS";
   private static final String SKILLS_PREFERENCES_NAME="skillsSynopsis";
   private static final String TOON_NAME_PREFERENCE="skills.synopsis.registered.toon";
 
@@ -41,7 +45,7 @@ public class SkillsSynopsisWindowController extends DefaultWindowController
     TypedProperties props=preferences.getPreferences(SKILLS_PREFERENCES_NAME);
     List<String> toonIds=props.getStringList(TOON_NAME_PREFERENCE);
     CharactersManager manager=CharactersManager.getInstance();
-    if ((toonIds!=null) && (toonIds.size()>0))
+    if ((toonIds!=null) && (!toonIds.isEmpty()))
     {
       for(String toonID : toonIds)
       {
@@ -54,15 +58,6 @@ public class SkillsSynopsisWindowController extends DefaultWindowController
     }
     _panelController=new SkillsSynopsisPanelController(this,skills);
     _panelController.getTableController().setToons(toons);
-  }
-
-  /**
-   * Get the window identifier.
-   * @return A window identifier.
-   */
-  public static String getIdentifier()
-  {
-    return "SKILLS_SYNOPSIS";
   }
 
   @Override
@@ -95,7 +90,7 @@ public class SkillsSynopsisWindowController extends DefaultWindowController
   @Override
   public String getWindowIdentifier()
   {
-    return getIdentifier();
+    return WINDOW_IDENTIFIER;
   }
 
   /**

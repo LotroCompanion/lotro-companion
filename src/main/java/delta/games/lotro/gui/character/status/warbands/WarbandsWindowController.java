@@ -22,6 +22,10 @@ import delta.games.lotro.character.CharactersManager;
  */
 public class WarbandsWindowController extends DefaultWindowController
 {
+  /**
+   * Window identifier.
+   */
+  public static final String WINDOW_IDENTIFIER="WARBANDS";
   private static final String WARBANDS_PREFERENCES_NAME="warbands";
   private static final String TOON_NAME_PREFERENCE="warbands.registered.toon";
 
@@ -54,15 +58,6 @@ public class WarbandsWindowController extends DefaultWindowController
     _warbandsStatisticsPanelController.getTableController().refresh(toons);
   }
 
-  /**
-   * Get the window identifier for a given toon.
-   * @return A window identifier.
-   */
-  public static String getIdentifier()
-  {
-    return "WARBANDS";
-  }
-
   @Override
   protected JComponent buildContents()
   {
@@ -93,7 +88,7 @@ public class WarbandsWindowController extends DefaultWindowController
   @Override
   public String getWindowIdentifier()
   {
-    return getIdentifier();
+    return WINDOW_IDENTIFIER;
   }
 
   /**

@@ -94,7 +94,7 @@ public class StatValuesPanelController
     _panel.add(baseStatValueLabel,c);
     c.gridy++;
 
-    boolean doComputeDelta=(_deltaValues.size()==0);
+    boolean doComputeDelta=(_deltaValues.isEmpty());
     // Stat lines
     int level=_config.getLevel();
     List<SingleStatCurveConfiguration> curveConfigs=_config.getCurveConfigurations();

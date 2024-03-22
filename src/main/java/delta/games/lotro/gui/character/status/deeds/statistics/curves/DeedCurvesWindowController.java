@@ -25,6 +25,10 @@ import delta.games.lotro.utils.charts.MultipleToonsDatedCurvesChartPanelControll
  */
 public class DeedCurvesWindowController extends DefaultWindowController
 {
+  /**
+   * Window identifier.
+   */
+  public static final String WINDOW_IDENTIFIER="DEED_CURVES";
   private static final String DEEDS_PREFERENCES_NAME="deeds";
   private static final String REGISTERED_TOONS_PREFERENCE_NAME="registered.toon";
 
@@ -48,7 +52,7 @@ public class DeedCurvesWindowController extends DefaultWindowController
     TypedProperties props=preferences.getPreferences(DEEDS_PREFERENCES_NAME);
     List<String> toonIds=props.getStringList(REGISTERED_TOONS_PREFERENCE_NAME);
     CharactersManager manager=CharactersManager.getInstance();
-    if ((toonIds!=null) && (toonIds.size()>0))
+    if ((toonIds!=null) && (!toonIds.isEmpty()))
     {
       for(String toonID : toonIds)
       {
@@ -74,15 +78,6 @@ public class DeedCurvesWindowController extends DefaultWindowController
     return panel;
   }
 
-  /**
-   * Get the window identifier for this window.
-   * @return A window identifier.
-   */
-  public static String getIdentifier()
-  {
-    return "DEED_CURVES";
-  }
-
   @Override
   protected JFrame build()
   {
@@ -98,7 +93,7 @@ public class DeedCurvesWindowController extends DefaultWindowController
   @Override
   public String getWindowIdentifier()
   {
-    return getIdentifier();
+    return WINDOW_IDENTIFIER;
   }
 
   /**

@@ -30,8 +30,8 @@ import delta.games.lotro.common.blacklist.io.BlackListIO;
  */
 public class BlacklistController<T extends Identifiable> implements Disposable
 {
-  private static final String ADD="Add";
-  private static final String REMOVE="Remove";
+  private static final String ADD="AddCommand";
+  private static final String REMOVE="RemoveCommand";
   // Data
   private Blacklist _blacklist;
   private BlackListFilter _filter;
@@ -142,7 +142,7 @@ public class BlacklistController<T extends Identifiable> implements Disposable
   {
     JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
-    ret.add(_active.getCheckbox());
+    ret.add(_active.getCheckbox(),c);
     c=new GridBagConstraints(1,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,5,0,5),0,0);
     ret.add(_add,c);
     c=new GridBagConstraints(2,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,5),0,0);

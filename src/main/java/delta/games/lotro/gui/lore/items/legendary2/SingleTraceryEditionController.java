@@ -104,7 +104,7 @@ public class SingleTraceryEditionController
     Integer selectedLevel=_currentLevel.getSelectedItem();
     if (selectedLevel==null)
     {
-      //System.out.println("Bad selected level");
+      // Bad selected level
       return false;
     }
     // Check character level

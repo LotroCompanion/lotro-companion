@@ -42,7 +42,6 @@ public class SkirmishTraitsStatusWindowController extends DefaultWindowControlle
     frame.setTitle("Skirmish traits Status"); // I18n
     frame.pack();
     frame.setMinimumSize(frame.getPreferredSize());
-    //frame.setResizable(false);
     return frame;
   }
 

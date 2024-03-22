@@ -254,7 +254,7 @@ public class ItemInstanceMainAttrsDisplayPanelController
       timeVisible=true;
     }
     // Adjust visibility of the parent panel
-    _date.getComponent().getParent().setVisible(instanceIdVisible&timeVisible);
+    _date.getComponent().getParent().setVisible(instanceIdVisible&&timeVisible);
     // Birth name
     String birthName=_itemInstance.getBirthName();
     boolean hasName=((birthName!=null) && (birthName.length()>0));

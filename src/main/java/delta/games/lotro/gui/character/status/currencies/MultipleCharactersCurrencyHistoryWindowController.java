@@ -31,6 +31,10 @@ import delta.games.lotro.utils.charts.MultipleToonsDatedCurvesChartPanelControll
  */
 public class MultipleCharactersCurrencyHistoryWindowController extends DefaultWindowController
 {
+  /**
+   * Window identifier.
+   */
+  public static final String WINDOW_IDENTIFIER="CURRENCY_HISTORY";
   private static final String PREFERENCES_NAME="currencyHistory";
   private static final String TOON_NAMES_PREFERENCE="currencyHistory.registered.toon";
 
@@ -50,7 +54,7 @@ public class MultipleCharactersCurrencyHistoryWindowController extends DefaultWi
     TypedProperties props=preferences.getPreferences(PREFERENCES_NAME);
     List<String> toonIds=props.getStringList(TOON_NAMES_PREFERENCE);
     CharactersManager manager=CharactersManager.getInstance();
-    if ((toonIds!=null) && (toonIds.size()>0))
+    if ((toonIds!=null) && (!toonIds.isEmpty()))
     {
       for(String toonID : toonIds)
       {
@@ -116,15 +120,6 @@ public class MultipleCharactersCurrencyHistoryWindowController extends DefaultWi
     setCurrency(currency);
   }
 
-  /**
-   * Get the window identifier for this window.
-   * @return A window identifier.
-   */
-  public static String getIdentifier()
-  {
-    return "CURRENCY_HISTORY";
-  }
-
   @Override
   protected JFrame build()
   {
@@ -147,7 +142,7 @@ public class MultipleCharactersCurrencyHistoryWindowController extends DefaultWi
   @Override
   public String getWindowIdentifier()
   {
-    return getIdentifier();
+    return WINDOW_IDENTIFIER;
   }
 
   /**

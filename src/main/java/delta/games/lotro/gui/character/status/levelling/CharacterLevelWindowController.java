@@ -25,6 +25,10 @@ import delta.games.lotro.utils.charts.MultipleToonsDatedCurvesChartPanelControll
  */
 public class CharacterLevelWindowController extends DefaultWindowController
 {
+  /**
+   * Window identifier.
+   */
+  public static final String WINDOW_IDENTIFIER="LEVELLING";
   private static final String LEVELLING_PREFERENCES_NAME="levelling";
   private static final String TOON_NAME_PREFERENCE="levelling.registered.toon";
 
@@ -67,15 +71,6 @@ public class CharacterLevelWindowController extends DefaultWindowController
     return panel;
   }
 
-  /**
-   * Get the window identifier for this window.
-   * @return A window identifier.
-   */
-  public static String getIdentifier()
-  {
-    return "LEVELLING";
-  }
-
   @Override
   protected JFrame build()
   {
@@ -92,7 +87,7 @@ public class CharacterLevelWindowController extends DefaultWindowController
   @Override
   public String getWindowIdentifier()
   {
-    return getIdentifier();
+    return WINDOW_IDENTIFIER;
   }
 
   /**

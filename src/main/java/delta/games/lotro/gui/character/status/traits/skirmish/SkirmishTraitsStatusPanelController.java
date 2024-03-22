@@ -32,10 +32,10 @@ public class SkirmishTraitsStatusPanelController extends AbstractPanelController
     super(parent);
     _slotted=new SlottedSkirmishTraitsStatusPanelController(parent,status);
     _known=new KnownSkirmishTraitsStatusPanelController(parent,status);
-    setPanel(buildPanel(parent,status));
+    setPanel(buildPanel());
   }
 
-  private JPanel buildPanel(WindowController parent, SkirmishTraitsStatus status)
+  private JPanel buildPanel()
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     // Slotted traits

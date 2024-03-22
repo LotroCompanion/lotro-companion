@@ -237,7 +237,7 @@ public class BuffEditionPanelController implements ActionListener
     BuffsManager buffs=_toon.getBuffs();
     BuffInstance buff=buffs.getBuffById(buffId);
     List<Integer> tiers=buff.getBuff().getImpl().getTiers();
-    if ((tiers!=null) && (tiers.size()>0))
+    if ((tiers!=null) && (!tiers.isEmpty()))
     {
       Integer currentTier=buff.getTier();
       int currentTierIndex=tiers.indexOf(currentTier);

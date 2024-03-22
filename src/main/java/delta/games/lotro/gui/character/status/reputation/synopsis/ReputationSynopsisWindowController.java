@@ -22,6 +22,10 @@ import delta.games.lotro.character.CharactersManager;
  */
 public class ReputationSynopsisWindowController extends DefaultWindowController
 {
+  /**
+   * Window identifier.
+   */
+  public static final String WINDOW_IDENTIFIER="REPUTATION_SYNOPSIS";
   private static final String REPUTATION_PREFERENCES_NAME="reputationSynopsis";
   private static final String TOON_NAME_PREFERENCE="reputation.synopsis.registered.toon";
 
@@ -39,7 +43,7 @@ public class ReputationSynopsisWindowController extends DefaultWindowController
     TypedProperties props=preferences.getPreferences(REPUTATION_PREFERENCES_NAME);
     List<String> toonIds=props.getStringList(TOON_NAME_PREFERENCE);
     CharactersManager manager=CharactersManager.getInstance();
-    if ((toonIds!=null) && (toonIds.size()>0))
+    if ((toonIds!=null) && (!toonIds.isEmpty()))
     {
       for(String toonID : toonIds)
       {
@@ -52,15 +56,6 @@ public class ReputationSynopsisWindowController extends DefaultWindowController
     }
     _panelController=new ReputationSynopsisPanelController(this);
     _panelController.getTableController().setToons(toons);
-  }
-
-  /**
-   * Get the window identifier.
-   * @return A window identifier.
-   */
-  public static String getIdentifier()
-  {
-    return "REPUTATION_SYNOPSIS";
   }
 
   @Override
@@ -93,7 +88,7 @@ public class ReputationSynopsisWindowController extends DefaultWindowController
   @Override
   public String getWindowIdentifier()
   {
-    return getIdentifier();
+    return WINDOW_IDENTIFIER;
   }
 
   /**

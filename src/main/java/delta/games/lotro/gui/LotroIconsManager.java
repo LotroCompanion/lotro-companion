@@ -225,8 +225,7 @@ public class LotroIconsManager
     if (isLive)
     {
       int virtueIconId=virtue.getIconId();
-      String path="/traits/"+virtueIconId+".png";
-      return IconsManager.getIcon(path);
+      return getTraitIcon(virtueIconId);
     }
     return getVirtueIcon(virtue,1);
   }
