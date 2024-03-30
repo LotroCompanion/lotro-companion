@@ -444,11 +444,11 @@ public class ItemDisplayPanelController extends AbstractNavigablePanelController
       ret.add("Damage type: "+damageType.getName());
     }
     // Damage range
-    int minDamage=weapon.getMinDamage();
-    int maxDamage=weapon.getMaxDamage();
+    int minDamage=getMinDamage(weapon);
+    int maxDamage=getMaxDamage(weapon);
     ret.add("Damage: "+minDamage+" - "+maxDamage);
     // DPS
-    float dps=weapon.getDPS();
+    float dps=getDPS(weapon);
     String dpsStr=L10n.getString(dps,1);
     ret.add("DPS: "+dpsStr);
     // Speed
@@ -460,6 +460,27 @@ public class ItemDisplayPanelController extends AbstractNavigablePanelController
       ret.add("Speed: "+durationStr);
     }
     return ret;
+  }
+
+  private float getDPS(Weapon weapon)
+  {
+    Integer itemLevel=(_itemLevel!=null)?_itemLevel:weapon.getItemLevel();
+    int baseItemLevel=(itemLevel!=null)?itemLevel.intValue():1;
+    return weapon.computeDPS(baseItemLevel);
+  }
+
+  private int getMinDamage(Weapon weapon)
+  {
+    Integer itemLevel=(_itemLevel!=null)?_itemLevel:weapon.getItemLevel();
+    int baseItemLevel=(itemLevel!=null)?itemLevel.intValue():1;
+    return Math.round(weapon.computeMinDamage(baseItemLevel));
+  }
+
+  private int getMaxDamage(Weapon weapon)
+  {
+    Integer itemLevel=(_itemLevel!=null)?_itemLevel:weapon.getItemLevel();
+    int baseItemLevel=(itemLevel!=null)?itemLevel.intValue():1;
+    return Math.round(weapon.computeMaxDamage(baseItemLevel));
   }
 
   /**
