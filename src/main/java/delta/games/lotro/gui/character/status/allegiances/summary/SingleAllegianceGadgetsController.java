@@ -111,7 +111,6 @@ public class SingleAllegianceGadgetsController
     int iconId=allegiance.getIconId();
     Image image=LotroIconsManager.getAllegianceImage(iconId);
     Image scaledImage=image.getScaledInstance(64,64,Image.SCALE_SMOOTH);
-    //Image scaledImage=IconsManager.getScaledImage(image,64,64);
     ImageIcon icon=new ImageIcon(scaledImage);
     _icon.setIcon(icon);
     // Name

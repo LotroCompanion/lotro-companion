@@ -3,6 +3,8 @@ package delta.games.lotro.gui.character.stats.curves;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import delta.games.lotro.character.stats.ratings.RatingCurve;
 import delta.games.lotro.common.stats.StatDescription;
 
@@ -12,6 +14,8 @@ import delta.games.lotro.common.stats.StatDescription;
  */
 public class StatCurvesChartConfiguration
 {
+  private static final Logger LOGGER=Logger.getLogger(StatCurvesChartConfiguration.class);
+
   private String _title;
   private int _level;
   private double _minRating;
@@ -127,7 +131,10 @@ public class StatCurvesChartConfiguration
     {
       RatingCurve curve=config.getCurve();
       Double rating=curve.getRatingForCap(_level);
-      //System.out.println("Found rating "+rating+" for cap of curve "+config.getTitle()+" at level "+_level);
+      if (LOGGER.isDebugEnabled())
+      {
+        LOGGER.debug("Found rating "+rating+" for cap of curve "+config.getTitle()+" at level "+_level);
+      }
       if (rating!=null)
       {
         if (rating.doubleValue()>max)

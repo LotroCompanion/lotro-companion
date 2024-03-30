@@ -31,11 +31,6 @@ public class AggregatedGeoItemsManager
     _mapsWithNoId=new ArrayList<AggregatedGeoItemsMap>();
   }
 
-  private boolean useStatus(AchievableStatus status)
-  {
-    return true;
-  }
-
   /**
    * Add an achievable status.
    * @param status Status to use.
@@ -43,22 +38,12 @@ public class AggregatedGeoItemsManager
   public void addAchievableStatus(AchievableStatus status)
   {
     Achievable achievable=status.getAchievable();
-    if (!useStatus(status))
-    {
-      return;
-    }
     AchievableGeoStatusManager geoStatusManager=new AchievableGeoStatusManager(status,null);
     List<AchievableStatusGeoItem> points=geoStatusManager.getPoints();
     List<MapDescription> maps=achievable.getMaps();
 
     for(AchievableStatusGeoItem point : points)
     {
-      /*
-      if (point.isCompleted())
-      {
-        continue;
-      }
-      */
       MapDescription map=maps.get(point.getPoint().getMapIndex());
       Integer mapId=map.getMapId();
       AggregatedGeoItemsMap aggregatedMap=null;

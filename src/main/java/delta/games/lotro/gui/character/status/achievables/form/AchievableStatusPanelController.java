@@ -242,14 +242,8 @@ public class AchievableStatusPanelController extends AbstractPanelController imp
     if (_completionDate!=null)
     {
       _completionDate.setDate(_status.getCompletionDate());
-      if (state==AchievableElementState.COMPLETED)
-      {
-        _completionDate.setState(true,true);
-      }
-      else
-      {
-        _completionDate.setState(false,false);
-      }
+      boolean completed=(state==AchievableElementState.COMPLETED);
+      _completionDate.setState(completed,completed);
     }
     // Count
     if (_completionCount!=null)
@@ -360,7 +354,7 @@ public class AchievableStatusPanelController extends AbstractPanelController imp
   private void handleObjectiveClick(ObjectiveStatusEditionPanelController objectiveController)
   {
     AchievableObjectiveStatus status=objectiveController.getStatus();
-    AchievableElementState nextState=getNextObjectiveState(status.getParentStatus(),status.getState());
+    AchievableElementState nextState=getNextObjectiveState(status.getState());
     AchievableStatusBusinessRules.setObjectiveState(nextState,status);
     updateUi();
   }
@@ -388,15 +382,17 @@ public class AchievableStatusPanelController extends AbstractPanelController imp
     return null;
   }
 
-  private AchievableElementState getNextObjectiveState(AchievableStatus parent, AchievableElementState state)
+  private AchievableElementState getNextObjectiveState(AchievableElementState state)
   {
-    if (state==AchievableElementState.COMPLETED) return AchievableElementState.UNDERWAY;
-    if (state==AchievableElementState.UNDERWAY) return AchievableElementState.COMPLETED;
-    if (state==AchievableElementState.UNDEFINED) return AchievableElementState.UNDERWAY;
-    return null;
+    return getNextState(state);
   }
 
   private AchievableElementState getNextConditionState(AchievableElementState state)
+  {
+    return getNextState(state);
+  }
+
+  private AchievableElementState getNextState(AchievableElementState state)
   {
     if (state==AchievableElementState.COMPLETED) return AchievableElementState.UNDERWAY;
     if (state==AchievableElementState.UNDERWAY) return AchievableElementState.COMPLETED;

@@ -160,7 +160,7 @@ public class WarbandsTableController
     return column;
   }
 
-  private TableCellRenderer buildStatCellRenderer(final WarbandsStats warbandsStats)
+  private TableCellRenderer buildStatCellRenderer()
   {
     // Map warband ID -> stats panel
     final Map<String,JPanel> cellPanels=new HashMap<String,JPanel>();
@@ -226,7 +226,7 @@ public class WarbandsTableController
     DefaultTableColumnController<WarbandDefinition,WarbandStats> column=new DefaultTableColumnController<WarbandDefinition,WarbandStats>(id,"Stats",WarbandStats.class,cell);
 
     // Cell renderer
-    TableCellRenderer renderer=buildStatCellRenderer(warbandsStats);
+    TableCellRenderer renderer=buildStatCellRenderer();
     column.setCellRenderer(renderer);
     // Header renderer
     JPanel headerPanel=buildToonHeaderPanel(character);

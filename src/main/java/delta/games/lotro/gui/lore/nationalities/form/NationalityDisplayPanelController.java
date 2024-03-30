@@ -119,13 +119,6 @@ public class NationalityDisplayPanelController implements NavigablePanelControll
     // Main data line
     {
       JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
-      // Icon
-      /*
-      int iconID=_nationality.getIconID();
-      ImageIcon icon=LotroIconsManager.getNationalityIcon(iconID);
-      JLabel iconLabel=GuiFactory.buildIconLabel(icon);
-      panelLine.add(iconLabel);
-      */
       // Name
       String name=_nationality.getName();
       JLabel nameLabel=GuiFactory.buildLabel(name);
@@ -154,7 +147,6 @@ public class NationalityDisplayPanelController implements NavigablePanelControll
         _titlePanel=SharedPanels.buildTitlePanel(_parent,title);
         c=new GridBagConstraints(0,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
         panel.add(_titlePanel.getPanel(),c);
-        y++;
       }
     }
 

@@ -11,14 +11,6 @@ public enum TitleStatusColumnIds
    */
   ACQUIRED,
   /**
-   * Acquisition timestamp.
-   */
-  //ACQUISITION_TIMESTAMP,
-  /**
-   * Acquisition date.
-   */
-  //ACQUISITION_DATE
-  /**
    * Order.
    */
   ORDER

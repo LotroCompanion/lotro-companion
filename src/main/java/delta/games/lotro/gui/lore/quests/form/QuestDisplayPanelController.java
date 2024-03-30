@@ -288,7 +288,7 @@ public class QuestDisplayPanelController extends AbstractNavigablePanelControlle
     {
       buttons.add(mapsButton);
     }
-    JButton instanceMapsButton=buildInstanceMapsButton(parent);
+    JButton instanceMapsButton=buildInstanceMapsButton();
     if (instanceMapsButton!=null)
     {
       buttons.add(instanceMapsButton);
@@ -332,7 +332,7 @@ public class QuestDisplayPanelController extends AbstractNavigablePanelControlle
     return toggleMap;
   }
 
-  private JButton buildInstanceMapsButton(WindowController parent)
+  private JButton buildInstanceMapsButton()
   {
     JButton toggleMap=null;
     PrivateEncountersManager mgr=PrivateEncountersManager.getInstance();
@@ -400,7 +400,7 @@ public class QuestDisplayPanelController extends AbstractNavigablePanelControlle
     sb.append(HtmlUtils.toHtml(description));
     // Bestowers
     List<DialogElement> bestowers=_quest.getBestowers();
-    if (bestowers.size()>0)
+    if (!bestowers.isEmpty())
     {
       sb.append("<p><b>Bestowal dialogue</b>"); // I18n
       int index=0;
@@ -419,7 +419,7 @@ public class QuestDisplayPanelController extends AbstractNavigablePanelControlle
     new ObjectivesDisplayBuilder(this,true).build(sb,_quest);
     // End dialogs
     List<DialogElement> endDialogs=_quest.getEndDialogs();
-    if (endDialogs.size()>0)
+    if (!endDialogs.isEmpty())
     {
       sb.append("<p><b>End</b>"); // I18n
       for(DialogElement endDialog : endDialogs)
@@ -430,7 +430,7 @@ public class QuestDisplayPanelController extends AbstractNavigablePanelControlle
     }
     // Completion comments
     List<QuestCompletionComment> comments=_quest.getCompletionComments();
-    if (comments.size()>0)
+    if (!comments.isEmpty())
     {
       sb.append("<p><b>Completion comments</b>"); // I18n
       for(QuestCompletionComment comment : comments)
@@ -493,7 +493,7 @@ public class QuestDisplayPanelController extends AbstractNavigablePanelControlle
     Size size=_quest.getSize();
     if ((size!=null) && (size!=Size.SOLO))
     {
-      sb.append(size.toString());
+      sb.append(size);
     }
     // Monster play
     boolean isMonsterPlay=_quest.isMonsterPlay();
@@ -551,8 +551,7 @@ public class QuestDisplayPanelController extends AbstractNavigablePanelControlle
       if (sb.length()>0) sb.append(", ");
       sb.append("Hidden"); // I18n
     }
-    String ret=sb.toString();
-    return ret;
+    return sb.toString();
   }
 
   @Override
@@ -562,6 +561,11 @@ public class QuestDisplayPanelController extends AbstractNavigablePanelControlle
     // Data
     _quest=null;
     // Controllers
+    if (_stateCtrl!=null)
+    {
+      _stateCtrl.dispose();
+      _stateCtrl=null;
+    }
     if (_rewards!=null)
     {
       _rewards.dispose();

@@ -88,7 +88,7 @@ public class TitlesStatusTableController extends AbstractAreaController
         return status.getTitle();
       }
     };
-    for(TableColumnController<TitleDescription,?> titleColumn : titleColumns)
+    for(DefaultTableColumnController<TitleDescription,?> titleColumn : titleColumns)
     {
       @SuppressWarnings("unchecked")
       TableColumnController<TitleDescription,Object> c=(TableColumnController<TitleDescription,Object>)titleColumn;
@@ -123,7 +123,6 @@ public class TitlesStatusTableController extends AbstractAreaController
       columnIds=new ArrayList<String>();
       columnIds.add(TitleStatusColumnIds.ACQUIRED.name());
       columnIds.add(TitleStatusColumnIds.ORDER.name());
-      //columnIds.add(TitleStatusColumnIds.ACQUISITION_DATE.name());
       columnIds.add(TitleColumnIds.ICON.name());
       columnIds.add(TitleColumnIds.NAME.name());
       columnIds.add(TitleColumnIds.CATEGORY.name());

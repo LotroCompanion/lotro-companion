@@ -16,7 +16,6 @@ import delta.games.lotro.utils.NumericUtils;
  */
 public class SingleStatWidgetsController
 {
-  private boolean _isPercentage;
   private StatDescription _stat;
   private JLabel _value;
   private JLabel _deltaValue;
@@ -59,7 +58,7 @@ public class SingleStatWidgetsController
   {
     // Update current value
     Number currentValue=current.getStat(_stat);
-    setValue(_value,currentValue,_isPercentage);
+    setValue(_value,currentValue);
     // Handle reference
     Number referenceValue=null;
     if (reference!=null)
@@ -69,7 +68,7 @@ public class SingleStatWidgetsController
     if (referenceValue!=null)
     {
       Number delta=delta(currentValue,referenceValue);
-      setValue(_deltaValue,delta,_isPercentage);
+      setValue(_deltaValue,delta);
       Color color=Color.BLACK;
       int sign=NumericUtils.sign(delta);
       if (sign==1) // Positive
@@ -91,7 +90,8 @@ public class SingleStatWidgetsController
 
   private Number delta(Number value, Number reference)
   {
-    if (_isPercentage)
+    boolean isPercentage=_stat.isPercentage();
+    if (isPercentage)
     {
       float currentValue=(value!=null)?value.floatValue():0;
       float diff=currentValue-reference.floatValue();
@@ -102,7 +102,7 @@ public class SingleStatWidgetsController
     return Integer.valueOf(diff);
   }
 
-  private void setValue(JLabel label, Number value, boolean percentage)
+  private void setValue(JLabel label, Number value)
   {
     String valueStr=StatUtils.getStatDisplay(value,_stat);
     label.setText(valueStr);

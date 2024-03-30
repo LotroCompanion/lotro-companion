@@ -59,7 +59,6 @@ public class SkirmishStatisticsWindowController extends DefaultDisplayDialogCont
     dialog.setMinimumSize(new Dimension(1000,300));
     dialog.setTitle("Skirmish statistics"); // I18n
     dialog.setSize(new Dimension(1200,600));
-    //dialog.pack();
     Dimension size=dialog.getSize();
     if (size.height>MAX_HEIGHT)
     {

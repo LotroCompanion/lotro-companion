@@ -128,14 +128,14 @@ public class VendorDisplayPanelController implements NavigablePanelController
         {
           ValuedItem entry=(ValuedItem)event.getSource();
           int index=items.indexOf(entry);
-          showVendorEntry(entry,index);
+          showVendorEntry(index);
         }
       }
     };
     _itemsToSell.addActionListener(al);
   }
 
-  private void showVendorEntry(ValuedItem barterEntry, int index)
+  private void showVendorEntry(int index)
   {
     PageIdentifier ref=ReferenceConstants.getVendorEntryReference(_vendor.getIdentifier(),index);
     _parent.navigateTo(ref);

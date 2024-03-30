@@ -78,7 +78,7 @@ public class SingleTieredNonImbuedLegacyEditionController extends SingleNonImbue
       {
         if (tier!=null)
         {
-          handleTierUpdate(tier.intValue());
+          handleTierUpdate();
         }
       }
     };
@@ -124,7 +124,7 @@ public class SingleTieredNonImbuedLegacyEditionController extends SingleNonImbue
     setLegacy(null);
   }
 
-  private void handleTierUpdate(int tier)
+  private void handleTierUpdate()
   {
     updateIcon();
     updateStats();
@@ -134,8 +134,7 @@ public class SingleTieredNonImbuedLegacyEditionController extends SingleNonImbue
   {
     setupLegacy(legacy);
     updateGadgetsState();
-    Integer tier=_tier.getSelectedItem();
-    handleTierUpdate(tier!=null?tier.intValue():1);
+    handleTierUpdate();
   }
 
   private ComboBoxController<Integer> buildTiersComboBox()

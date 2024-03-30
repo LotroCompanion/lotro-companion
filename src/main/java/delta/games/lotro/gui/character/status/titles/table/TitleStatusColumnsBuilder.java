@@ -24,39 +24,6 @@ public class TitleStatusColumnsBuilder
     List<TableColumnController<TitleStatus,?>> ret=new ArrayList<TableColumnController<TitleStatus,?>>();
     // State
     ret.add(buildTitleStateColumn());
-    // Acquisition time column
-    /*
-    {
-      CellDataProvider<TitleStatus,Double> timestampCell=new CellDataProvider<TitleStatus,Double>()
-      {
-        @Override
-        public Double getData(TitleStatus status)
-        {
-          Double timestamp=status.getAcquisitionTimeStamp();
-          return timestamp;
-        }
-      };
-      DefaultTableColumnController<TitleStatus,Double> timestampColumn=new DefaultTableColumnController<TitleStatus,Double>(TitleStatusColumnIds.ACQUISITION_TIMESTAMP.name(),"Acquisition Timestamp",Double.class,timestampCell);
-      timestampColumn.setWidthSpecs(120,120,120);
-      ret.add(timestampColumn);
-    }
-    // Acquisition date column
-    {
-      CellDataProvider<TitleStatus,Date> completionDateCell=new CellDataProvider<TitleStatus,Date>()
-      {
-        @Override
-        public Date getData(TitleStatus status)
-        {
-          Long acquisitionTime=status.getAcquisitionDate();
-          return (acquisitionTime!=null)?new Date(acquisitionTime.longValue()):null;
-        }
-      };
-      DefaultTableColumnController<TitleStatus,Date> completionDateColumn=new DefaultTableColumnController<TitleStatus,Date>(TitleStatusColumnIds.ACQUISITION_DATE.name(),"Date",Date.class,completionDateCell);
-      completionDateColumn.setWidthSpecs(120,120,120);
-      completionDateColumn.setCellRenderer(new DateRenderer(Formats.DATE_TIME_PATTERN));
-      ret.add(completionDateColumn);
-    }
-    */
     // Order column
     CellDataProvider<TitleStatus,Integer> orderCell=new CellDataProvider<TitleStatus,Integer>()
     {

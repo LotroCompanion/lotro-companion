@@ -1,7 +1,7 @@
 package delta.games.lotro.gui.lore.quests;
 
 import java.awt.geom.Point2D;
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
@@ -359,7 +359,7 @@ public class ObjectivesDisplayBuilder
       }
       else
       {
-        if (mobSelections.size()>0)
+        if (!mobSelections.isEmpty())
         {
           sb.append("Kill "); // I18n
           int index=0;
@@ -744,7 +744,7 @@ public class ObjectivesDisplayBuilder
   /**
    * Counters.
    */
-  public static Map<ConditionType,IntegerHolder> _counters=new HashMap<ConditionType,IntegerHolder>();
+  public static Map<ConditionType,IntegerHolder> _counters=new EnumMap<ConditionType,IntegerHolder>(ConditionType.class);
 
   private void handleDefaultCondition(StringBuilder sb, DefaultObjectiveCondition condition)
   {

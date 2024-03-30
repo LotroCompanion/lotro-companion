@@ -92,11 +92,11 @@ public class CharacterReputationDialogController extends DefaultFormDialogContro
     {
       List<Faction> factions=registry.getFactionsForCategory(category);
       factions=filterFactions(factions);
-      if (factions.size()==0)
+      if (factions.isEmpty())
       {
         continue;
       }
-      JPanel reputationPanel=buildReputationPanelForCategory(category,factions);
+      JPanel reputationPanel=buildReputationPanelForCategory(factions);
       JPanel tabPanel=GuiFactory.buildBackgroundPanel(new BorderLayout());
       tabPanel.add(reputationPanel,BorderLayout.CENTER);
       tabs.add(category,tabPanel);
@@ -140,7 +140,7 @@ public class CharacterReputationDialogController extends DefaultFormDialogContro
     return panel;
   }
 
-  private JPanel buildReputationPanelForCategory(String category, List<Faction> factions)
+  private JPanel buildReputationPanelForCategory(List<Faction> factions)
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
 

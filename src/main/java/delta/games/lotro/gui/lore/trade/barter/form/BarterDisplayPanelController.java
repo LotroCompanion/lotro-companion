@@ -112,14 +112,14 @@ public class BarterDisplayPanelController extends AbstractNavigablePanelControll
         {
           BarterEntry entry=(BarterEntry)event.getSource();
           int index=items.indexOf(entry);
-          showBarterEntry(entry,index);
+          showBarterEntry(index);
         }
       }
     };
     _entries.addActionListener(al);
   }
 
-  private void showBarterEntry(BarterEntry barterEntry, int index)
+  private void showBarterEntry(int index)
   {
     PageIdentifier ref=ReferenceConstants.getBarterEntryReference(_barterer.getIdentifier(),index);
     getParent().navigateTo(ref);

@@ -193,12 +193,12 @@ public class ConfigurationDialogController extends DefaultFormDialogController<A
     _data.saveConfiguration();
     if (!Objects.equals(dataPath,oldDataPath))
     {
-      warnOnDataPathChange(oldDataPath,dataPath);
+      warnOnDataPathChange();
     }
     _data.configurationUpdated();
   }
 
-  private void warnOnDataPathChange(File oldPath, File newPath)
+  private void warnOnDataPathChange()
   {
     String message="User data path has changed.\nPlease restart the application so that it takes effect!"; // I18n
     String title="Restart application"; // I18n

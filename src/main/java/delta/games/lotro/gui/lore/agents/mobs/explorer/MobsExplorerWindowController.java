@@ -12,6 +12,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
+import org.apache.log4j.Logger;
+
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.panel.GenericTablePanelController;
@@ -31,6 +33,7 @@ import delta.games.lotro.lore.agents.mobs.filter.MobFilter;
  */
 public class MobsExplorerWindowController extends DefaultWindowController
 {
+  private static final Logger LOGGER=Logger.getLogger(MobsExplorerWindowController.class);
   /**
    * Identifier for this window.
    */
@@ -121,16 +124,7 @@ public class MobsExplorerWindowController extends DefaultWindowController
 
   private void showMob(MobDescription mob)
   {
-    /*
-    String id=TitleDisplayWindowController.getId(title);
-    WindowController window=_titleWindows.getWindow(id);
-    if (window==null)
-    {
-      window=new TitleDisplayWindowController(this,title);
-      _titleWindows.registerWindow(window);
-    }
-    window.show();
-    */
+    LOGGER.debug("Show mob: "+mob);
   }
 
   /**

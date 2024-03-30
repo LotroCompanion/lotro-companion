@@ -302,7 +302,6 @@ public class ItemDisplayPanelController extends AbstractNavigablePanelController
       disenchantmentPanel.setBorder(GuiFactory.buildTitledBorder("Disenchantment"));
       c=new GridBagConstraints(0,y,1,1,0.0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
       panel.add(disenchantmentPanel,c);
-      y++;
     }
     // Padding to push everything on left and top
     JPanel paddingPanel=GuiFactory.buildPanel(new BorderLayout());
@@ -550,7 +549,7 @@ public class ItemDisplayPanelController extends AbstractNavigablePanelController
     // Granted elements
     @SuppressWarnings("rawtypes")
     List<GrantedElement> grantedElements=mgr.getItemDetails(GrantedElement.class);
-    if (grantedElements.size()>0)
+    if (!grantedElements.isEmpty())
     {
       GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
       ret.add(GuiFactory.buildLabel("Grants:"),c);
@@ -569,7 +568,7 @@ public class ItemDisplayPanelController extends AbstractNavigablePanelController
     }
     // Item XP
     List<ItemXP> itemXPs=mgr.getItemDetails(ItemXP.class);
-    if (itemXPs.size()>0)
+    if (!itemXPs.isEmpty())
     {
       for(ItemXP itemXP : itemXPs)
       {
@@ -581,7 +580,7 @@ public class ItemDisplayPanelController extends AbstractNavigablePanelController
     }
     // Virtue XP
     List<VirtueXP> virtueXPs=mgr.getItemDetails(VirtueXP.class);
-    if (virtueXPs.size()>0)
+    if (!virtueXPs.isEmpty())
     {
       for(VirtueXP virtueXP : virtueXPs)
       {
@@ -593,7 +592,7 @@ public class ItemDisplayPanelController extends AbstractNavigablePanelController
     }
     // Reputation
     List<ItemReputation> reputations=mgr.getItemDetails(ItemReputation.class);
-    if (reputations.size()>0)
+    if (!reputations.isEmpty())
     {
       for(ItemReputation reputation : reputations)
       {
@@ -633,7 +632,7 @@ public class ItemDisplayPanelController extends AbstractNavigablePanelController
     }
     // Allegiance points
     List<AllegiancePoints> allegiancePoints=mgr.getItemDetails(AllegiancePoints.class);
-    if (allegiancePoints.size()>0)
+    if (!allegiancePoints.isEmpty())
     {
       for(AllegiancePoints allegiancePointsEntry : allegiancePoints)
       {
@@ -653,7 +652,6 @@ public class ItemDisplayPanelController extends AbstractNavigablePanelController
       String categoriesStr=formatEnumEntries(categories);
       String label="Decoration Category: "+categoriesStr;
       ret.add(GuiFactory.buildLabel(label),c);
-      y++;
     }
     return ret;
   }

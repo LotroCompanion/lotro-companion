@@ -43,10 +43,10 @@ public class SlottedSkirmishTraitsStatusPanelController extends AbstractPanelCon
     super(parent);
     _status=status;
     _controllers=new ArrayList<IconController>();
-    setPanel(buildPanel(parent,status));
+    setPanel(buildPanel(parent));
   }
 
-  private JPanel buildPanel(WindowController parent, SkirmishTraitsStatus status)
+  private JPanel buildPanel(WindowController parent)
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     int y=0;

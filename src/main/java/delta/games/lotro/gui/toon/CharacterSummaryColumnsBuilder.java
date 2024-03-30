@@ -31,7 +31,7 @@ public class CharacterSummaryColumnsBuilder
    * @param clazz Class of managed type.
    * @return a list of columns.
    */
-  public static <T extends CharacterReference> List<TableColumnController<T,?>> buildCharacterReferenceColumns(Class<T> clazz)
+  public static <T extends CharacterReference> List<TableColumnController<T,?>> buildCharacterReferenceColumns(Class<T> clazz) // NOSONAR
   {
     List<TableColumnController<T,?>> ret=new ArrayList<TableColumnController<T,?>>();
     // ID column
