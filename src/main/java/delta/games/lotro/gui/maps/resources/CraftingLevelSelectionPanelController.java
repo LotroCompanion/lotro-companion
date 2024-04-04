@@ -17,10 +17,10 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.common.ui.swing.combobox.ComboBoxItem;
 import delta.common.ui.swing.combobox.ItemSelectionListener;
+import delta.games.lotro.common.comparators.NamedComparator;
 import delta.games.lotro.gui.common.crafting.CraftingUiUtils;
 import delta.games.lotro.lore.crafting.CraftingLevel;
 import delta.games.lotro.lore.crafting.Profession;
-import delta.games.lotro.lore.crafting.ProfessionComparator;
 import delta.games.lotro.lore.maps.resources.ResourcesMapDescriptor;
 import delta.games.lotro.lore.maps.resources.ResourcesMapsManager;
 
@@ -143,7 +143,7 @@ public class CraftingLevelSelectionPanelController
   {
     List<Profession> professions=new ArrayList<Profession>();
     professions.addAll(_supportedTiers.keySet());
-    Collections.sort(professions, new ProfessionComparator());
+    Collections.sort(professions, new NamedComparator());
     return professions;
   }
 

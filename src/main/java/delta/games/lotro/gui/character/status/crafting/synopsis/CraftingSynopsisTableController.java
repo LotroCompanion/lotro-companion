@@ -31,12 +31,12 @@ import delta.games.lotro.character.status.crafting.CraftingStatus;
 import delta.games.lotro.character.status.crafting.GuildStatus;
 import delta.games.lotro.character.status.crafting.ProfessionStatus;
 import delta.games.lotro.character.status.reputation.FactionStatus;
+import delta.games.lotro.common.comparators.TypedNamedComparator;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.character.status.reputation.synopsis.ReputationSynopsisTableController;
 import delta.games.lotro.lore.crafting.CraftingLevel;
 import delta.games.lotro.lore.crafting.CraftingLevelTier;
 import delta.games.lotro.lore.crafting.Profession;
-import delta.games.lotro.lore.crafting.ProfessionComparator;
 import delta.games.lotro.lore.crafting.ProfessionFilter;
 import delta.games.lotro.lore.crafting.Vocation;
 import delta.games.lotro.lore.reputation.FactionLevelComparator;
@@ -218,7 +218,7 @@ public class CraftingSynopsisTableController
     TableCellRenderer cellRenderer=buildProfessionCellRenderer(table);
     professionColumn.setCellRenderer(cellRenderer);
     // Comparator
-    ProfessionComparator comparator=new ProfessionComparator();
+    Comparator<Profession> comparator=new TypedNamedComparator<Profession>();
     professionColumn.setComparator(comparator);
     return professionColumn;
   }

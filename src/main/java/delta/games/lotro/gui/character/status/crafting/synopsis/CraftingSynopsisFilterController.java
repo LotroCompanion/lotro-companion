@@ -9,10 +9,10 @@ import javax.swing.JPanel;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.common.ui.swing.combobox.ItemSelectionListener;
+import delta.games.lotro.common.comparators.NamedComparator;
 import delta.games.lotro.lore.crafting.CraftingData;
 import delta.games.lotro.lore.crafting.CraftingSystem;
 import delta.games.lotro.lore.crafting.Profession;
-import delta.games.lotro.lore.crafting.ProfessionComparator;
 import delta.games.lotro.lore.crafting.ProfessionFilter;
 import delta.games.lotro.lore.crafting.Professions;
 
@@ -74,7 +74,7 @@ public class CraftingSynopsisFilterController
     CraftingData crafting=CraftingSystem.getInstance().getData();
     Professions professionsRegistry=crafting.getProfessionsRegistry();
     List<Profession> professions=professionsRegistry.getAll();
-    Collections.sort(professions,new ProfessionComparator());
+    Collections.sort(professions,new NamedComparator());
     _professions=new ComboBoxController<Profession>();
     _professions.addEmptyItem(" ");
     for(Profession profession : professions)

@@ -4,11 +4,11 @@ import java.util.Collections;
 import java.util.List;
 
 import delta.common.ui.swing.combobox.ComboBoxController;
+import delta.games.lotro.common.comparators.NamedComparator;
 import delta.games.lotro.lore.crafting.CraftingData;
 import delta.games.lotro.lore.crafting.CraftingLevel;
 import delta.games.lotro.lore.crafting.CraftingSystem;
 import delta.games.lotro.lore.crafting.Profession;
-import delta.games.lotro.lore.crafting.ProfessionComparator;
 import delta.games.lotro.lore.crafting.Professions;
 
 /**
@@ -42,8 +42,7 @@ public class CraftingUiUtils
     {
       ctrl.addEmptyItem("");
     }
-
-    Collections.sort(professions,new ProfessionComparator());
+    Collections.sort(professions,new NamedComparator());
     for(Profession profession : professions)
     {
       String label=profession.getName();
