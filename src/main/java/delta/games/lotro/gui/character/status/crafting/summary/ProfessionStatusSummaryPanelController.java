@@ -7,6 +7,7 @@ import java.awt.Insets;
 import javax.swing.Icon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.TitledBorder;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.panels.AbstractPanelController;
@@ -22,7 +23,7 @@ import delta.games.lotro.lore.reputation.FactionLevel;
  */
 public class ProfessionStatusSummaryPanelController extends AbstractPanelController
 {
-  private JLabel _profession;
+  private TitledBorder _profession;
   private JLabel _proficiency;
   private JLabel _mastery;
   private JLabel _guild;
@@ -33,7 +34,7 @@ public class ProfessionStatusSummaryPanelController extends AbstractPanelControl
   public ProfessionStatusSummaryPanelController()
   {
     super();
-    _profession=GuiFactory.buildLabel("");
+    _profession=GuiFactory.buildTitledBorder("");
     _proficiency=GuiFactory.buildLabel("");
     _mastery=GuiFactory.buildLabel("");
     _guild=GuiFactory.buildLabel("");
@@ -43,27 +44,26 @@ public class ProfessionStatusSummaryPanelController extends AbstractPanelControl
   private JPanel buildPanel()
   {
     JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
-    // - profession
-    GridBagConstraints c=new GridBagConstraints(0,0,2,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
-    ret.add(_profession,c);
+    ret.setBorder(_profession);
+    int y=0;
     // - mastery
     Icon masteryIcon=LotroIconsManager.getCraftingTierIcon(true);
     JLabel masteryLabel=GuiFactory.buildIconLabel(masteryIcon);
-    c=new GridBagConstraints(0,1,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    GridBagConstraints c=new GridBagConstraints(0,y,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(2,5,0,0),0,0);
     ret.add(masteryLabel,c);
-    c.gridx++;
-    c.anchor=GridBagConstraints.WEST;
+    c=new GridBagConstraints(1,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(2,5,0,0),0,0);
     ret.add(_mastery,c);
+    y++;
     // - proficiency
     Icon proficiencyIcon=LotroIconsManager.getCraftingTierIcon(false);
     JLabel proficiencyLabel=GuiFactory.buildIconLabel(proficiencyIcon);
-    c=new GridBagConstraints(0,2,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    c=new GridBagConstraints(0,y,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(2,5,0,0),0,0);
     ret.add(proficiencyLabel,c);
-    c.gridx++;
-    c.anchor=GridBagConstraints.WEST;
+    c=new GridBagConstraints(1,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(2,5,0,0),0,0);
     ret.add(_proficiency,c);
+    y++;
     // Guild
-    c=new GridBagConstraints(0,3,2,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    c=new GridBagConstraints(0,y,2,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,5,0,5),0,0);
     ret.add(_guild,c);
     return ret;
   }
@@ -76,7 +76,7 @@ public class ProfessionStatusSummaryPanelController extends AbstractPanelControl
   {
     // - profession
     Profession profession=summary.getProfession();
-    _profession.setText(profession.getName());
+    _profession.setTitle(profession.getName());
     // - proficiency
     CraftTier proficiencyTier=summary.getProficiency();
     String proficiencyLabel=(proficiencyTier!=null)?proficiencyTier.getLabel():"-";
@@ -89,7 +89,7 @@ public class ProfessionStatusSummaryPanelController extends AbstractPanelControl
     if (profession.hasGuild())
     {
       FactionLevel level=summary.getGuildLevel();
-      String guildLabel=(level!=null)?level.getName():"-";
+      String guildLabel=(level!=null)?level.getName():"(not in guild)";
       _guild.setText(guildLabel);
       _guild.setVisible(true);
     }

@@ -22,17 +22,25 @@ public class MainTestCraftingStatusSummaryPanelController
    */
   public static void main(String[] args)
   {
-    CharacterFile file=new LotroTestUtils().getToonByName("Giswald");
-    CraftingStatus status=file.getCraftingMgr().getCraftingStatus();
-    CraftingStatusSummaryBuilder b=new CraftingStatusSummaryBuilder();
-    CraftingStatusSummary summary=b.buildSummary(status);
-    DefaultWindowController c=new DefaultWindowController();
-    JFrame f=c.getFrame();
-    CraftingStatusSummaryPanelController ctrl=new CraftingStatusSummaryPanelController();
-    ctrl.setStatus(summary);
-    JPanel panel=ctrl.getPanel();
-    f.add(panel);
-    f.pack();
-    f.setVisible(true);
+    //CharacterFile file=new LotroTestUtils().getToonByName("Giswald");
+    for(CharacterFile file : new LotroTestUtils().getAllFiles())
+    {
+      CraftingStatus status=file.getCraftingMgr().getCraftingStatus();
+      CraftingStatusSummaryBuilder b=new CraftingStatusSummaryBuilder();
+      CraftingStatusSummary summary=b.buildSummary(status);
+      if (summary.getProfessionStatuses().isEmpty())
+      {
+        continue;
+      }
+      DefaultWindowController c=new DefaultWindowController();
+      JFrame f=c.getFrame();
+      CraftingStatusSummaryPanelController ctrl=new CraftingStatusSummaryPanelController();
+      ctrl.setStatus(summary);
+      JPanel panel=ctrl.getPanel();
+      f.add(panel);
+      f.pack();
+      f.setTitle(file.getName());
+      f.setVisible(true);
+    }
   }
 }

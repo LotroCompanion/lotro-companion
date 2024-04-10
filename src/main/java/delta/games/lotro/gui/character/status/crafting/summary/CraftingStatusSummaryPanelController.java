@@ -51,7 +51,7 @@ public class CraftingStatusSummaryPanelController extends AbstractPanelControlle
   {
     JPanel panel=getPanel();
     panel.removeAll();
-    GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     for(ProfessionStatusSummaryPanelController ctrl : _professionControllers)
     {
       JPanel childPanel=ctrl.getPanel();
