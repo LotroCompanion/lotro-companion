@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.event.MouseListener;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JLayeredPane;
@@ -132,9 +133,10 @@ public class TraitTreeBranchPanelController
     _layeredPane.setSize(d);
 
     int iconSize=TraitTreeBranchGeometryUtils.ICON_SIZE;
-    for(String cellId : _cells.keySet())
+    for(Map.Entry<String,TraitTreeCellController> entry : _cells.entrySet())
     {
-      TraitTreeCellController cellController=_cells.get(cellId);
+      String cellId=entry.getKey();
+      TraitTreeCellController cellController=entry.getValue();
       JButton button=cellController.getButton();
       Dimension position=TraitTreeBranchGeometryUtils.getPosition(cellId);
       button.setBounds(position.width,position.height,iconSize,iconSize);

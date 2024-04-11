@@ -1,6 +1,7 @@
 package delta.games.lotro.gui.lore.items.utils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import delta.common.ui.swing.labels.LabelLineStyle;
@@ -57,10 +58,7 @@ public class NameStatsBundle implements Disposable
   public void setStats(String[] stats)
   {
     _stats.clear();
-    for(String stat : stats)
-    {
-      _stats.add(stat);
-    }
+    _stats.addAll(Arrays.asList(stats));
     updateUI();
   }
 

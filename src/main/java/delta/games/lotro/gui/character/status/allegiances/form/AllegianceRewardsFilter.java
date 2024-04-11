@@ -1,5 +1,6 @@
 package delta.games.lotro.gui.character.status.allegiances.form;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -20,10 +21,7 @@ public class AllegianceRewardsFilter implements Filter<AllegianceRewardState>
   public AllegianceRewardsFilter()
   {
     _selected=new HashSet<AllegianceRewardState>();
-    for(AllegianceRewardState state : AllegianceRewardState.values())
-    {
-      _selected.add(state);
-    }
+    _selected.addAll(Arrays.asList(AllegianceRewardState.values()));
   }
 
   @Override

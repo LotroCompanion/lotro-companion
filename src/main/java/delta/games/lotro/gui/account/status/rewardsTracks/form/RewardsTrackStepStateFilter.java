@@ -1,5 +1,6 @@
 package delta.games.lotro.gui.account.status.rewardsTracks.form;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -20,10 +21,7 @@ public class RewardsTrackStepStateFilter implements Filter<RewardsTrackStepState
   public RewardsTrackStepStateFilter()
   {
     _selected=new HashSet<RewardsTrackStepState>();
-    for(RewardsTrackStepState state : RewardsTrackStepState.values())
-    {
-      _selected.add(state);
-    }
+    _selected.addAll(Arrays.asList(RewardsTrackStepState.values()));
   }
 
   @Override

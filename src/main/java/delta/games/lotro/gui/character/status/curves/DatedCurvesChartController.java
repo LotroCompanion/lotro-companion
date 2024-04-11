@@ -8,6 +8,7 @@ import java.text.NumberFormat;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.swing.JPanel;
@@ -217,9 +218,10 @@ public class DatedCurvesChartController
     Set<String> ret=new HashSet<String>();
     XYPlot plot=_chart.getXYPlot();
     XYItemRenderer renderer=plot.getRenderer();
-    for(String curveId : _curveIds2SeriesIndex.keySet())
+    for(Map.Entry<String,Integer> entry : _curveIds2SeriesIndex.entrySet())
     {
-      int index=_curveIds2SeriesIndex.get(curveId).intValue();
+      String curveId=entry.getKey();
+      int index=entry.getValue().intValue();
       boolean visible=renderer.isSeriesVisible(index);
       if (!visible)
       {
