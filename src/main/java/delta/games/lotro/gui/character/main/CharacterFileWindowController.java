@@ -31,57 +31,11 @@ import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.CharacterFactory;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharacterInfosManager;
-import delta.games.lotro.character.CharacterSummary;
 import delta.games.lotro.character.events.CharacterEvent;
 import delta.games.lotro.character.events.CharacterEventType;
 import delta.games.lotro.character.io.xml.CharacterDataIO;
 import delta.games.lotro.character.stats.CharacterStatsComputer;
-import delta.games.lotro.character.status.achievables.AchievablesStatusManager;
-import delta.games.lotro.character.status.achievables.io.DeedsStatusIo;
-import delta.games.lotro.character.status.achievables.io.QuestsStatusIo;
-import delta.games.lotro.character.status.allegiances.AllegiancesStatusManager;
-import delta.games.lotro.character.status.allegiances.io.AllegiancesStatusIo;
-import delta.games.lotro.character.status.crafting.CraftingStatus;
-import delta.games.lotro.character.status.notes.CharacterNotes;
-import delta.games.lotro.character.status.notes.io.CharacterNotesIo;
-import delta.games.lotro.character.status.recipes.RecipesStatusManager;
-import delta.games.lotro.character.status.relics.RelicsInventory;
-import delta.games.lotro.character.status.relics.RelicsInventoryManager;
-import delta.games.lotro.character.status.relics.io.RelicsInventoryIo;
-import delta.games.lotro.character.status.skirmishes.SkirmishEntriesManager;
-import delta.games.lotro.character.status.skirmishes.SkirmishStatsManager;
-import delta.games.lotro.character.status.skirmishes.io.SkirmishStatsIo;
-import delta.games.lotro.character.status.tasks.TasksStatusManager;
-import delta.games.lotro.character.status.titles.TitlesStatusManager;
-import delta.games.lotro.character.status.titles.io.TitlesStatusIo;
-import delta.games.lotro.character.status.traitPoints.TraitPoints;
-import delta.games.lotro.character.status.traitPoints.TraitPointsStatus;
 import delta.games.lotro.gui.character.config.CharacterDataWindowController;
-import delta.games.lotro.gui.character.cosmetics.OutfitsDisplayWindowController;
-import delta.games.lotro.gui.character.log.CharacterLogWindowController;
-import delta.games.lotro.gui.character.stash.StashWindowController;
-import delta.games.lotro.gui.character.status.allegiances.summary.AllegiancesStatusSummaryWindowController;
-import delta.games.lotro.gui.character.status.collections.CollectablesStatusWindowController;
-import delta.games.lotro.gui.character.status.collections.CollectablesStatusWindowController.STATUS_TYPE;
-import delta.games.lotro.gui.character.status.crafting.CraftingWindowController;
-import delta.games.lotro.gui.character.status.currencies.SingleCharacterCurrencyHistoryWindowController;
-import delta.games.lotro.gui.character.status.deeds.DeedsStatusWindowController;
-import delta.games.lotro.gui.character.status.emotes.EmotesStatusWindowController;
-import delta.games.lotro.gui.character.status.hobbies.HobbiesStatusWindowController;
-import delta.games.lotro.gui.character.status.levelling.LevelHistoryEditionDialogController;
-import delta.games.lotro.gui.character.status.notes.CharacterNotesEditionDialogController;
-import delta.games.lotro.gui.character.status.quests.QuestsStatusWindowController;
-import delta.games.lotro.gui.character.status.recipes.RecipesStatusWindowController;
-import delta.games.lotro.gui.character.status.relics.RelicsInventoryWindowController;
-import delta.games.lotro.gui.character.status.reputation.CharacterReputationDialogController;
-import delta.games.lotro.gui.character.status.skirmishes.SkirmishStatisticsWindowController;
-import delta.games.lotro.gui.character.status.tasks.TasksStatusWindowController;
-import delta.games.lotro.gui.character.status.titles.TitlesStatusWindowController;
-import delta.games.lotro.gui.character.status.traitPoints.TraitPointsEditionWindowController;
-import delta.games.lotro.gui.character.status.traits.mountedAppearances.MountedAppearancesStatusWindowController;
-import delta.games.lotro.gui.character.status.traits.skirmish.SkirmishTraitsStatusWindowController;
-import delta.games.lotro.gui.character.status.travels.TravelsStatusWindowController;
-import delta.games.lotro.gui.character.storage.own.CharacterStorageDisplayWindowController;
 import delta.games.lotro.utils.ContextPropertyNames;
 import delta.games.lotro.utils.events.EventsManager;
 import delta.games.lotro.utils.gui.filechooser.FileChooserController;
@@ -96,36 +50,12 @@ public class CharacterFileWindowController extends DefaultWindowController imple
   private static final String CLONE_TOON_DATA_ID="cloneToonData";
   private static final String EXPORT_TOON_DATA_ID="exportToonData";
   private static final String REMOVE_TOON_DATA_ID="removeToonData";
-  private static final String LOG_COMMAND="log";
-  private static final String LEVEL_COMMAND="level";
-  private static final String REPUTATION_COMMAND="reputation";
-  private static final String CRAFTING_COMMAND="crafting";
-  private static final String STASH_COMMAND="stash";
-  private static final String TRAIT_POINTS_COMMAND="traitPoints";
-  private static final String DEEDS_STATUS_COMMAND="deedsStatus";
-  private static final String QUESTS_STATUS_COMMAND="questsStatus";
-  private static final String TASKS_STATUS_COMMAND="tasksStatus";
-  private static final String SKIRMISH_STATS_COMMAND="skirmishStats";
-  private static final String RELICS_INVENTORY_COMMAND="relicsInventory";
-  private static final String RECIPES_STATUS_COMMAND="recipesStatus";
-  private static final String TITLES_STATUS_COMMAND="titlesStatus";
-  private static final String STORAGE_COMMAND="storage";
-  private static final String ALLEGIANCES_COMMAND="allegiances";
-  private static final String TRAVELS_COMMAND="travels";
-  private static final String CURRENCIES_COMMAND="currencies";
-  private static final String OUTFITS_COMMAND="outfits";
-  private static final String EMOTES_COMMAND="emotes";
-  private static final String MOUNTS_COMMAND="mounts";
-  private static final String PETS_COMMAND="pets";
-  private static final String HOBBIES_COMMAND="hobbies";
-  private static final String SKIRMISH_TRAITS_COMMAND="skirmishTraits";
-  private static final String NOTES_COMMAND="notes";
-  private static final String MOUNTED_APPEARANCES_COMMAND="mountedAppearances";
 
   private CharacterSummaryPanelController _summaryController;
   private CharacterDataTableController _toonsTable;
   private ToolbarController _toolbar;
   private CharacterFile _toon;
+  private MainCharacterWindowCommandsManager _commandsManager;
 
   /**
    * Constructor.
@@ -136,6 +66,7 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     _toon=toon;
     _summaryController=new CharacterSummaryPanelController(this,_toon);
     setContextProperty(ContextPropertyNames.BASE_CHARACTER_SUMMARY,toon.getSummary());
+    _commandsManager=new MainCharacterWindowCommandsManager(this,toon);
   }
 
   /**
@@ -201,84 +132,84 @@ public class CharacterFileWindowController extends DefaultWindowController imple
 
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,5,2,0),0,0);
     // Deeds status
-    JButton deedsButton=buildCommandButton("Deeds",DEEDS_STATUS_COMMAND); // I18n
+    JButton deedsButton=buildCommandButton("Deeds",MainCharacterWindowCommands.DEEDS_STATUS_COMMAND); // I18n
     panel.add(deedsButton,c);c.gridx++;
     // Titles status
-    JButton titlesButton=buildCommandButton("Titles",TITLES_STATUS_COMMAND); // I18n
+    JButton titlesButton=buildCommandButton("Titles",MainCharacterWindowCommands.TITLES_STATUS_COMMAND); // I18n
     panel.add(titlesButton,c);c.gridx++;
     // Reputation
-    JButton reputationButton=buildCommandButton("Reputation",REPUTATION_COMMAND); // I18n
+    JButton reputationButton=buildCommandButton("Reputation",MainCharacterWindowCommands.REPUTATION_COMMAND); // I18n
     panel.add(reputationButton,c);c.gridx++;
     // Crafting
-    JButton craftingButton=buildCommandButton("Crafting",CRAFTING_COMMAND); // I18n
+    JButton craftingButton=buildCommandButton("Crafting",MainCharacterWindowCommands.CRAFTING_COMMAND); // I18n
     panel.add(craftingButton,c);c.gridx++;
     // Storage
-    JButton storageButton=buildCommandButton("Storage",STORAGE_COMMAND); // I18n
+    JButton storageButton=buildCommandButton("Storage",MainCharacterWindowCommands.STORAGE_COMMAND); // I18n
     panel.add(storageButton,c);c.gridx++;
     // Tasks status
-    JButton tasksButton=buildCommandButton("Tasks",TASKS_STATUS_COMMAND); // I18n
+    JButton tasksButton=buildCommandButton("Tasks",MainCharacterWindowCommands.TASKS_STATUS_COMMAND); // I18n
     panel.add(tasksButton,c);c.gridx++;
     // Relics inventory statistics
-    JButton relicsButton=buildCommandButton("Relics",RELICS_INVENTORY_COMMAND); // I18n
+    JButton relicsButton=buildCommandButton("Relics",MainCharacterWindowCommands.RELICS_INVENTORY_COMMAND); // I18n
     panel.add(relicsButton,c);c.gridx++;
     // Log
-    JButton logButton=buildCommandButton("Log",LOG_COMMAND); // I18n
+    JButton logButton=buildCommandButton("Log",MainCharacterWindowCommands.LOG_COMMAND); // I18n
     c.insets.right=5;
     panel.add(logButton,c);c.gridx++;
     // Currencies
-    JButton currenciesButton=buildCommandButton("Currencies",CURRENCIES_COMMAND); // I18n
+    JButton currenciesButton=buildCommandButton("Currencies",MainCharacterWindowCommands.CURRENCIES_COMMAND); // I18n
     panel.add(currenciesButton,c);c.gridx++;
     // Emotes status
-    JButton emotesButton=buildCommandButton("Emotes",EMOTES_COMMAND); // I18n
+    JButton emotesButton=buildCommandButton("Emotes",MainCharacterWindowCommands.EMOTES_COMMAND); // I18n
     panel.add(emotesButton,c);c.gridx++;
     // Mounts status
-    JButton mountsButton=buildCommandButton("Mounts",MOUNTS_COMMAND); // I18n
+    JButton mountsButton=buildCommandButton("Mounts",MainCharacterWindowCommands.MOUNTS_COMMAND); // I18n
     panel.add(mountsButton,c);c.gridx++;
     // Mounted appearances
-    JButton mountedAppearancesButton=buildCommandButton("Mounted Cosmetics",MOUNTED_APPEARANCES_COMMAND); // I18n
+    JButton mountedAppearancesButton=buildCommandButton("Mounted Cosmetics",MainCharacterWindowCommands.MOUNTED_APPEARANCES_COMMAND); // I18n
     panel.add(mountedAppearancesButton,c);c.gridx++;
     // Notes
-    JButton notesButton=buildCommandButton("Notes",NOTES_COMMAND); // I18n
+    JButton notesButton=buildCommandButton("Notes",MainCharacterWindowCommands.NOTES_COMMAND); // I18n
     panel.add(notesButton,c);c.gridx++;
 
     c.insets.right=0;
     c.gridx=0;c.gridy++;
     // Quests status
-    JButton questsButton=buildCommandButton("Quests",QUESTS_STATUS_COMMAND); // I18n
+    JButton questsButton=buildCommandButton("Quests",MainCharacterWindowCommands.QUESTS_STATUS_COMMAND); // I18n
     panel.add(questsButton,c);c.gridx++;
     // Trait points
-    JButton traitPointsButton=buildCommandButton("Trait points",TRAIT_POINTS_COMMAND); // I18n
+    JButton traitPointsButton=buildCommandButton("Trait points",MainCharacterWindowCommands.TRAIT_POINTS_COMMAND); // I18n
     panel.add(traitPointsButton,c);c.gridx++;
     // Allegiances status
-    JButton allegiancesButton=buildCommandButton("Allegiances",ALLEGIANCES_COMMAND); // I18n
+    JButton allegiancesButton=buildCommandButton("Allegiances",MainCharacterWindowCommands.ALLEGIANCES_COMMAND); // I18n
     panel.add(allegiancesButton,c);c.gridx++;
     // Recipes status
-    JButton recipesButton=buildCommandButton("Recipes",RECIPES_STATUS_COMMAND); // I18n
+    JButton recipesButton=buildCommandButton("Recipes",MainCharacterWindowCommands.RECIPES_STATUS_COMMAND); // I18n
     panel.add(recipesButton,c);c.gridx++;
     // Stash
-    JButton stashButton=buildCommandButton("Stash",STASH_COMMAND); // I18n
+    JButton stashButton=buildCommandButton("Stash",MainCharacterWindowCommands.STASH_COMMAND); // I18n
     panel.add(stashButton,c);c.gridx++;
     // Skirmish statistics
-    JButton skirmishsButton=buildCommandButton("Skirmishs",SKIRMISH_STATS_COMMAND); // I18n
+    JButton skirmishsButton=buildCommandButton("Skirmishs",MainCharacterWindowCommands.SKIRMISH_STATS_COMMAND); // I18n
     panel.add(skirmishsButton,c);c.gridx++;
     // Levels
-    JButton levelsButton=buildCommandButton("Levels",LEVEL_COMMAND); // I18n
+    JButton levelsButton=buildCommandButton("Levels",MainCharacterWindowCommands.LEVEL_COMMAND); // I18n
     c.insets.right=5;
     panel.add(levelsButton,c);c.gridx++;
     // Travels status
-    JButton travelsButton=buildCommandButton("Travels",TRAVELS_COMMAND); // I18n
+    JButton travelsButton=buildCommandButton("Travels",MainCharacterWindowCommands.TRAVELS_COMMAND); // I18n
     panel.add(travelsButton,c);c.gridx++;
     // Outfits
-    JButton outfitsButton=buildCommandButton("Outfits",OUTFITS_COMMAND); // I18n
+    JButton outfitsButton=buildCommandButton("Outfits",MainCharacterWindowCommands.OUTFITS_COMMAND); // I18n
     panel.add(outfitsButton,c);c.gridx++;
     // Pets status
-    JButton petsButton=buildCommandButton("Pets",PETS_COMMAND); // I18n
+    JButton petsButton=buildCommandButton("Pets",MainCharacterWindowCommands.PETS_COMMAND); // I18n
     panel.add(petsButton,c);c.gridx++;
     // Hobbies status
-    JButton hobbiesButton=buildCommandButton("Hobbies",HOBBIES_COMMAND); // I18n
+    JButton hobbiesButton=buildCommandButton("Hobbies",MainCharacterWindowCommands.HOBBIES_COMMAND); // I18n
     panel.add(hobbiesButton,c);c.gridx++;
     // Skirmish traits status
-    JButton skirmishTraitsButton=buildCommandButton("Skirmish Traits",SKIRMISH_TRAITS_COMMAND); // I18n
+    JButton skirmishTraitsButton=buildCommandButton("Skirmish Traits",MainCharacterWindowCommands.SKIRMISH_TRAITS_COMMAND); // I18n
     panel.add(skirmishTraitsButton,c);c.gridx++;
 
     // Disable buttons if no log
@@ -304,125 +235,7 @@ public class CharacterFileWindowController extends DefaultWindowController imple
   public void actionPerformed(ActionEvent e)
   {
     String command=e.getActionCommand();
-    if (LOG_COMMAND.equals(command))
-    {
-      // Show log
-      String serverName=_toon.getServerName();
-      String toonName=_toon.getName();
-      String id=CharacterLogWindowController.getIdentifier(serverName,toonName);
-      WindowsManager windowsManager=getWindowsManager();
-      WindowController controller=windowsManager.getWindow(id);
-      if (controller==null)
-      {
-        controller=new CharacterLogWindowController(_toon);
-        windowsManager.registerWindow(controller);
-        controller.getWindow().setLocationRelativeTo(getFrame());
-      }
-      controller.bringToFront();
-    }
-    else if (REPUTATION_COMMAND.equals(command))
-    {
-      // Reputation
-      CharacterReputationDialogController controller=new CharacterReputationDialogController(this,_toon);
-      controller.editModal();
-    }
-    else if (LEVEL_COMMAND.equals(command))
-    {
-      // Level history
-      LevelHistoryEditionDialogController controller=new LevelHistoryEditionDialogController(this,_toon);
-      controller.editModal();
-    }
-    else if (CRAFTING_COMMAND.equals(command))
-    {
-      // Crafting
-      CraftingWindowController controller=new CraftingWindowController(this,_toon);
-      controller.editModal();
-    }
-    else if (STASH_COMMAND.equals(command))
-    {
-      showStash();
-    }
-    else if (TRAIT_POINTS_COMMAND.equals(command))
-    {
-      editTraitPoints();
-    }
-    else if (DEEDS_STATUS_COMMAND.equals(command))
-    {
-      editDeedsStatus();
-    }
-    else if (QUESTS_STATUS_COMMAND.equals(command))
-    {
-      showQuestsStatus();
-    }
-    else if (TASKS_STATUS_COMMAND.equals(command))
-    {
-      showTasksStatus();
-    }
-    else if (SKIRMISH_STATS_COMMAND.equals(command))
-    {
-      showSkirmishStatistics();
-    }
-    else if (RELICS_INVENTORY_COMMAND.equals(command))
-    {
-      showRelicsInventory();
-    }
-    else if (RECIPES_STATUS_COMMAND.equals(command))
-    {
-      showRecipesStatus();
-    }
-    else if (TITLES_STATUS_COMMAND.equals(command))
-    {
-      showTitlesStatus();
-    }
-    else if (STORAGE_COMMAND.equals(command))
-    {
-      showStorage();
-    }
-    else if (ALLEGIANCES_COMMAND.equals(command))
-    {
-      showAllegiancesStatus();
-    }
-    else if (TRAVELS_COMMAND.equals(command))
-    {
-      showTravelsStatus();
-    }
-    else if (CURRENCIES_COMMAND.equals(command))
-    {
-      showCurrencies();
-    }
-    else if (OUTFITS_COMMAND.equals(command))
-    {
-      showOutfits();
-    }
-    else if (EMOTES_COMMAND.equals(command))
-    {
-      showEmotesStatus();
-    }
-    else if (MOUNTS_COMMAND.equals(command))
-    {
-      showCollectablesStatus(STATUS_TYPE.MOUNTS);
-    }
-    else if (PETS_COMMAND.equals(command))
-    {
-      showCollectablesStatus(STATUS_TYPE.PETS);
-    }
-    else if (HOBBIES_COMMAND.equals(command))
-    {
-      showHobbiesStatus();
-    }
-    else if (SKIRMISH_TRAITS_COMMAND.equals(command))
-    {
-      showSkirmishTraitsStatus();
-    }
-    else if (NOTES_COMMAND.equals(command))
-    {
-      editNotes();
-    }
-    else if (MOUNTED_APPEARANCES_COMMAND.equals(command))
-    {
-      showMountedAppearances();
-    }
-    else if (NEW_TOON_DATA_ID.equals(command))
+    if (NEW_TOON_DATA_ID.equals(command))
     {
       startNewCharacterData();
     }
@@ -442,6 +255,10 @@ public class CharacterFileWindowController extends DefaultWindowController imple
     {
       CharacterData data=(CharacterData)e.getSource();
       showCharacterData(data);
+    }
+    else
+    {
+      _commandsManager.handleCommand(command);
     }
   }
 
@@ -607,271 +424,6 @@ public class CharacterFileWindowController extends DefaultWindowController imple
         }
       }
     }
-  }
-
-  private void showStash()
-  {
-    // Stash
-    String serverName=_toon.getServerName();
-    String toonName=_toon.getName();
-    String id=StashWindowController.getIdentifier(serverName,toonName);
-    WindowsManager windowsManager=getWindowsManager();
-    WindowController controller=windowsManager.getWindow(id);
-    if (controller==null)
-    {
-      controller=new StashWindowController(_toon);
-      windowsManager.registerWindow(controller);
-      controller.getWindow().setLocationRelativeTo(getFrame());
-    }
-    controller.bringToFront();
-  }
-
-  private void editTraitPoints()
-  {
-    CharacterSummary summary=_toon.getSummary();
-    TraitPointsStatus pointsStatus=TraitPoints.get().load(_toon);
-    TraitPointsEditionWindowController controller=new TraitPointsEditionWindowController(this,summary,pointsStatus);
-    TraitPointsStatus newStatus=controller.editModal();
-    if (newStatus!=null)
-    {
-      TraitPoints.get().save(_toon,newStatus);
-    }
-  }
-
-  private void editDeedsStatus()
-  {
-    AchievablesStatusManager status=DeedsStatusIo.load(_toon);
-    DeedsStatusWindowController controller=new DeedsStatusWindowController(this,status,_toon);
-    AchievablesStatusManager newStatus=controller.editModal();
-    if (newStatus!=null)
-    {
-      boolean ok=DeedsStatusIo.save(_toon,newStatus);
-      if (ok)
-      {
-        // Broadcast deeds status update event...
-        CharacterEvent event=new CharacterEvent(CharacterEventType.DEEDS_STATUS_UPDATED,_toon,null);
-        EventsManager.invokeEvent(event);
-      }
-    }
-  }
-
-  private void showQuestsStatus()
-  {
-    WindowsManager windowsManager=getWindowsManager();
-    QuestsStatusWindowController windowCtrl=(QuestsStatusWindowController)windowsManager.getWindow(QuestsStatusWindowController.IDENTIFIER);
-    if (windowCtrl==null)
-    {
-      AchievablesStatusManager status=QuestsStatusIo.load(_toon);
-      windowCtrl=new QuestsStatusWindowController(this,status,_toon);
-      windowsManager.registerWindow(windowCtrl);
-    }
-    windowCtrl.bringToFront();
-  }
-
-  private void showTasksStatus()
-  {
-    WindowsManager windowsManager=getWindowsManager();
-    TasksStatusWindowController windowCtrl=(TasksStatusWindowController)windowsManager.getWindow(TasksStatusWindowController.IDENTIFIER);
-    if (windowCtrl==null)
-    {
-      AchievablesStatusManager status=QuestsStatusIo.load(_toon);
-      TasksStatusManager tasksStatus=new TasksStatusManager();
-      tasksStatus.init(status);
-      windowCtrl=new TasksStatusWindowController(this,tasksStatus,status,_toon);
-      windowsManager.registerWindow(windowCtrl);
-    }
-    windowCtrl.bringToFront();
-  }
-
-  private void showSkirmishStatistics()
-  {
-    WindowsManager windowsManager=getWindowsManager();
-    SkirmishStatisticsWindowController windowCtrl=(SkirmishStatisticsWindowController)windowsManager.getWindow(SkirmishStatisticsWindowController.IDENTIFIER);
-    if (windowCtrl==null)
-    {
-      SkirmishStatsManager status=SkirmishStatsIo.load(_toon);
-      SkirmishEntriesManager entriesMgr=new SkirmishEntriesManager(status);
-      windowCtrl=new SkirmishStatisticsWindowController(this,entriesMgr);
-      windowsManager.registerWindow(windowCtrl);
-    }
-    windowCtrl.bringToFront();
-  }
-
-  private void showRelicsInventory()
-  {
-    WindowsManager windowsManager=getWindowsManager();
-    RelicsInventoryWindowController windowCtrl=(RelicsInventoryWindowController)windowsManager.getWindow(RelicsInventoryWindowController.IDENTIFIER);
-    if (windowCtrl==null)
-    {
-      RelicsInventory status=RelicsInventoryIo.load(_toon);
-      RelicsInventoryManager relicsStatusMgr=new RelicsInventoryManager();
-      relicsStatusMgr.init(status);
-      windowCtrl=new RelicsInventoryWindowController(this,relicsStatusMgr);
-      windowsManager.registerWindow(windowCtrl);
-    }
-    windowCtrl.bringToFront();
-  }
-
-  private void showRecipesStatus()
-  {
-    WindowsManager windowsManager=getWindowsManager();
-    RecipesStatusWindowController windowCtrl=(RecipesStatusWindowController)windowsManager.getWindow(RecipesStatusWindowController.IDENTIFIER);
-    if (windowCtrl==null)
-    {
-      CraftingStatus status=_toon.getCraftingMgr().getCraftingStatus();
-      RecipesStatusManager recipesStatusMgr=new RecipesStatusManager();
-      recipesStatusMgr.init(status);
-      windowCtrl=new RecipesStatusWindowController(this,_toon,recipesStatusMgr);
-      windowsManager.registerWindow(windowCtrl);
-    }
-    windowCtrl.bringToFront();
-  }
-
-  private void showTitlesStatus()
-  {
-    WindowsManager windowsManager=getWindowsManager();
-    TitlesStatusWindowController windowCtrl=(TitlesStatusWindowController)windowsManager.getWindow(TitlesStatusWindowController.IDENTIFIER);
-    if (windowCtrl==null)
-    {
-      TitlesStatusManager status=TitlesStatusIo.load(_toon);
-      windowCtrl=new TitlesStatusWindowController(this,status);
-      windowsManager.registerWindow(windowCtrl);
-    }
-    windowCtrl.bringToFront();
-  }
-
-  private void showStorage()
-  {
-    WindowsManager windowsManager=getWindowsManager();
-    CharacterStorageDisplayWindowController summaryController=(CharacterStorageDisplayWindowController)windowsManager.getWindow(CharacterStorageDisplayWindowController.IDENTIFIER);
-    if (summaryController==null)
-    {
-      summaryController=new CharacterStorageDisplayWindowController(this,_toon);
-      windowsManager.registerWindow(summaryController);
-      summaryController.getWindow().setLocationRelativeTo(getWindow());
-    }
-    summaryController.bringToFront();
-  }
-
-  private void showAllegiancesStatus()
-  {
-    WindowsManager windowsManager=getWindowsManager();
-    AllegiancesStatusSummaryWindowController windowCtrl=(AllegiancesStatusSummaryWindowController)windowsManager.getWindow(AllegiancesStatusSummaryWindowController.IDENTIFIER);
-    if (windowCtrl==null)
-    {
-      AllegiancesStatusManager status=AllegiancesStatusIo.load(_toon);
-      windowCtrl=new AllegiancesStatusSummaryWindowController(this,status);
-      windowsManager.registerWindow(windowCtrl);
-    }
-    windowCtrl.bringToFront();
-  }
-
-  private void showTravelsStatus()
-  {
-    WindowsManager windowsManager=getWindowsManager();
-    TravelsStatusWindowController windowCtrl=(TravelsStatusWindowController)windowsManager.getWindow(TravelsStatusWindowController.IDENTIFIER);
-    if (windowCtrl==null)
-    {
-      windowCtrl=new TravelsStatusWindowController(this,_toon);
-      windowsManager.registerWindow(windowCtrl);
-    }
-    windowCtrl.show();
-  }
-
-  private void showCurrencies()
-  {
-    WindowsManager windowsManager=getWindowsManager();
-    SingleCharacterCurrencyHistoryWindowController windowCtrl=(SingleCharacterCurrencyHistoryWindowController)windowsManager.getWindow(SingleCharacterCurrencyHistoryWindowController.getIdentifier());
-    if (windowCtrl==null)
-    {
-      windowCtrl=new SingleCharacterCurrencyHistoryWindowController(this,_toon);
-      windowsManager.registerWindow(windowCtrl);
-    }
-    windowCtrl.show();
-  }
-
-  private void showOutfits()
-  {
-    WindowsManager windowsManager=getWindowsManager();
-    OutfitsDisplayWindowController windowCtrl=(OutfitsDisplayWindowController)windowsManager.getWindow(OutfitsDisplayWindowController.IDENTIFIER);
-    if (windowCtrl==null)
-    {
-      windowCtrl=new OutfitsDisplayWindowController(this,_toon);
-      windowsManager.registerWindow(windowCtrl);
-    }
-    windowCtrl.show();
-  }
-
-  private void showEmotesStatus()
-  {
-    WindowsManager windowsManager=getWindowsManager();
-    EmotesStatusWindowController windowCtrl=(EmotesStatusWindowController)windowsManager.getWindow(EmotesStatusWindowController.IDENTIFIER);
-    if (windowCtrl==null)
-    {
-      windowCtrl=new EmotesStatusWindowController(this,_toon);
-      windowsManager.registerWindow(windowCtrl);
-    }
-    windowCtrl.show();
-  }
-
-  private void showCollectablesStatus(STATUS_TYPE type)
-  {
-    WindowsManager windowsManager=getWindowsManager();
-    String id=CollectablesStatusWindowController.getWindowIdentifier(type);
-    CollectablesStatusWindowController windowCtrl=(CollectablesStatusWindowController)windowsManager.getWindow(id);
-    if (windowCtrl==null)
-    {
-      windowCtrl=new CollectablesStatusWindowController(this,_toon,type);
-      windowsManager.registerWindow(windowCtrl);
-    }
-    windowCtrl.show();
-  }
-
-  private void showHobbiesStatus()
-  {
-    WindowsManager windowsManager=getWindowsManager();
-    HobbiesStatusWindowController windowCtrl=(HobbiesStatusWindowController)windowsManager.getWindow(HobbiesStatusWindowController.IDENTIFIER);
-    if (windowCtrl==null)
-    {
-      windowCtrl=new HobbiesStatusWindowController(this,_toon);
-      windowsManager.registerWindow(windowCtrl);
-    }
-    windowCtrl.show();
-  }
-
-  private void showSkirmishTraitsStatus()
-  {
-    WindowsManager windowsManager=getWindowsManager();
-    SkirmishTraitsStatusWindowController windowCtrl=(SkirmishTraitsStatusWindowController)windowsManager.getWindow(SkirmishTraitsStatusWindowController.IDENTIFIER);
-    if (windowCtrl==null)
-    {
-      windowCtrl=new SkirmishTraitsStatusWindowController(this,_toon);
-      windowsManager.registerWindow(windowCtrl);
-    }
-    windowCtrl.show();
-  }
-
-  private void editNotes()
-  {
-    CharacterNotes notes=CharacterNotesIo.load(_toon);
-    CharacterNotesEditionDialogController editDialog=new CharacterNotesEditionDialogController(this,notes);
-    notes=editDialog.editModal();
-    if (notes!=null)
-    {
-      CharacterNotesIo.save(_toon,notes);
-    }
-  }
-
-  private void showMountedAppearances()
-  {
-    WindowsManager windowsManager=getWindowsManager();
-    MountedAppearancesStatusWindowController windowCtrl=(MountedAppearancesStatusWindowController)windowsManager.getWindow(MountedAppearancesStatusWindowController.IDENTIFIER);
-    if (windowCtrl==null)
-    {
-      windowCtrl=new MountedAppearancesStatusWindowController(this,_toon);
-      windowsManager.registerWindow(windowCtrl);
-    }
-    windowCtrl.show();
   }
 
   /**
