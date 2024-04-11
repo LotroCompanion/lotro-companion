@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.character;
+package delta.games.lotro.gui.character.main;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;

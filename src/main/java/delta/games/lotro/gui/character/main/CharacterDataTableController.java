@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.character;
+package delta.games.lotro.gui.character.main;
 
 import java.awt.event.ActionListener;
 import java.util.Date;

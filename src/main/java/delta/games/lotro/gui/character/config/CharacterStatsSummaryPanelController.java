@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.character;
+package delta.games.lotro.gui.character.config;
 
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;

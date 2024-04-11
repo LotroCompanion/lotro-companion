@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.character;
+package delta.games.lotro.gui.character.main;
 
 import delta.games.lotro.LotroTestUtils;
 import delta.games.lotro.character.CharacterFile;

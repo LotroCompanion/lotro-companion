@@ -35,7 +35,7 @@ import delta.games.lotro.character.CharactersManager;
 import delta.games.lotro.character.events.CharacterEvent;
 import delta.games.lotro.character.events.CharacterEventType;
 import delta.games.lotro.character.io.xml.CharacterXMLParser;
-import delta.games.lotro.gui.character.CharacterFileWindowController;
+import delta.games.lotro.gui.character.main.CharacterFileWindowController;
 import delta.games.lotro.gui.main.GlobalPreferences;
 import delta.games.lotro.gui.utils.l10n.Labels;
 import delta.games.lotro.utils.events.EventsManager;

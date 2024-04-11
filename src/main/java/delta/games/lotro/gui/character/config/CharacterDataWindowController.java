@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.character;
+package delta.games.lotro.gui.character.config;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -30,6 +30,7 @@ import delta.games.lotro.character.stats.CharacterStatsComputer;
 import delta.games.lotro.character.stats.virtues.VirtuesSet;
 import delta.games.lotro.character.status.virtues.VirtuesStatus;
 import delta.games.lotro.character.status.virtues.io.VirtuesStatusIO;
+import delta.games.lotro.gui.character.CharacterPreferencesManager;
 import delta.games.lotro.gui.character.buffs.BuffEditionPanelController;
 import delta.games.lotro.gui.character.essences.AllEssencesEditionWindowController;
 import delta.games.lotro.gui.character.essences.EssencesSummaryWindowController;
