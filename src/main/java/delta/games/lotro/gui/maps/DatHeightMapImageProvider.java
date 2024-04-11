@@ -57,22 +57,12 @@ public class DatHeightMapImageProvider implements RadarImageProvider
     int height=32;
     byte[] b=new byte[width*height*3];
     // Decode data
-    //int maxH=0;
-    //int minH=40000;
     for(int y=0;y<32;y++)
     {
       for(int x=0;x<32;x++)
       {
         int h=map.getRawHeightAt(x,y);
-        /*
-        int c;
-        if (h<10000) c=0;
-        else if (h>45000) c=255;
-        else c=((h-10000)*255)/(45000-10000);
-        //int c=h/128;
-        c=255-c;
-        */
-        int c = (int)(Math.log(((16 * h) % 65535) + 1.0)/Math.log(1.045));
+        int c=getColorFromHeightUsingLog(h);
         byte color=(byte)c;
         int fullX=x;
         int fullY=(31-y);
@@ -80,15 +70,32 @@ public class DatHeightMapImageProvider implements RadarImageProvider
         b[offset]=color;
         b[offset+1]=color;
         b[offset+2]=color;
-        //if (h>maxH) maxH=h;
-        //if (h<minH) minH=h;
       }
     }
-    //System.out.println("Min="+minH+",max="+maxH);
     DataBuffer buffer = new DataBufferByte(b, b.length);
     WritableRaster raster = Raster.createInterleavedRaster(buffer, width, height, 3 * width, 3, new int[] {0, 1, 2}, (Point)null);
     ColorModel cm = new ComponentColorModel(ColorModel.getRGBdefault().getColorSpace(), false, true, Transparency.OPAQUE, DataBuffer.TYPE_BYTE);
     BufferedImage image = new BufferedImage(cm, raster, true, null);
     return image;
+  }
+
+  private static final int MIN_HEIGHT=10000;
+  private static final int MAX_HEIGHT=45000;
+
+  private int getColorFromHeightUsingLog(int h)
+  {
+    int c = (int)(Math.log(((16 * h) % 65535) + 1.0)/Math.log(1.045));
+    return c;
+  }
+
+  int getColorFromHeightUsingLinear(int h)
+  {
+    int c;
+    if (h<MIN_HEIGHT) c=0;
+    else if (h>MAX_HEIGHT) c=255;
+    else c=((h-MIN_HEIGHT)*255)/(MAX_HEIGHT-MIN_HEIGHT);
+    // White=255 is low, Black=0 is high, so we need to flip the color value:
+    c=255-c; 
+    return c;
   }
 }

@@ -14,6 +14,8 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import org.apache.log4j.Logger;
+
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.NumericTools;
@@ -30,6 +32,8 @@ import delta.games.lotro.lore.maps.resources.ResourcesMapsManager;
  */
 public class ResourcesMapsExplorerPanelController implements ActionListener
 {
+  private static final Logger LOGGER=Logger.getLogger(ResourcesMapsExplorerPanelController.class);
+
   // Controllers
   private CraftingLevelSelectionPanelController _craftingLevelSelection;
   private ItemsController _items;
@@ -87,7 +91,7 @@ public class ResourcesMapsExplorerPanelController implements ActionListener
   public void actionPerformed(ActionEvent e)
   {
     int mapId=NumericTools.parseInt(e.getActionCommand(),0);
-    //System.out.println("Select map: "+mapId);
+    LOGGER.info("Select map: "+mapId);
     CraftingLevel craftingLevel=_craftingLevelSelection.getCraftingLevel();
     ResourcesMapDescriptor descriptor=ResourcesMapsManager.getInstance().getMapForLevel(craftingLevel);
     changeMap(craftingLevel,descriptor,mapId);

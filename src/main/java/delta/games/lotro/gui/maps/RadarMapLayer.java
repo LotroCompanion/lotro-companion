@@ -5,6 +5,8 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
+import org.apache.log4j.Logger;
+
 import delta.games.lotro.dat.data.DatPosition;
 import delta.games.lotro.dat.loaders.PositionDecoder;
 import delta.games.lotro.maps.data.GeoBox;
@@ -21,6 +23,8 @@ import delta.games.lotro.maps.ui.layers.radar.RadarImageProvider;
  */
 public class RadarMapLayer extends BaseRasterLayer
 {
+  private static final Logger LOGGER=Logger.getLogger(RadarMapLayer.class);
+
   /**
    * Satellite map.
    */
@@ -104,8 +108,11 @@ public class RadarMapLayer extends BaseRasterLayer
     float deltaLat=bounds.getMax().getLatitude()-bounds.getMin().getLatitude();
     int nbImagesY=(int)(deltaLat/deltaDegrees)+2;
     if (nbImagesY>20) return;
+    if (LOGGER.isDebugEnabled())
+    {
+      LOGGER.debug("Images X="+nbImagesX+", images Y="+nbImagesY);
+    }
 
-    //System.out.println("Images X="+nbImagesX+", images Y="+nbImagesY);
     // Compute the size of images in pixels
     float imgSize=deltaDegrees*viewReference.getGeo2PixelFactor();
 

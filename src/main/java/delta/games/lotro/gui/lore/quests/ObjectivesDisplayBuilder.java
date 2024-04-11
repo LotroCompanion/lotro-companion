@@ -207,7 +207,6 @@ public class ObjectivesDisplayBuilder
         }
       }
     }
-    //sb.append("<p>").append(condition.getIndex()+": "+type).append("</p>");
     if (condition instanceof QuestCompleteCondition)
     {
       QuestCompleteCondition questComplete=(QuestCompleteCondition)condition;
@@ -577,7 +576,6 @@ public class ObjectivesDisplayBuilder
         else
         {
           LOGGER.warn("No NPC and no progress override");
-          //sb.append("No NPC and no progress override");
         }
       }
     }

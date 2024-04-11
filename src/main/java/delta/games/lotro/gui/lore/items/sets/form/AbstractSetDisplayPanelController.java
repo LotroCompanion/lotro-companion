@@ -45,7 +45,7 @@ public abstract class AbstractSetDisplayPanelController implements NavigablePane
    * @param parent Parent window.
    * @param set Items set to show.
    */
-  public AbstractSetDisplayPanelController(NavigatorWindowController parent, ItemsSet set)
+  protected AbstractSetDisplayPanelController(NavigatorWindowController parent, ItemsSet set)
   {
     _parent=parent;
     _set=set;
@@ -127,7 +127,6 @@ public abstract class AbstractSetDisplayPanelController implements NavigablePane
     // Bonus
     c=new GridBagConstraints(0,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(2,2,2,2),0,0);
     panel.add(_bonus,c);
-    y++;
     updateBonus();
     Dimension prefSize=panel.getPreferredSize();
     int height=Math.min(600,prefSize.height);

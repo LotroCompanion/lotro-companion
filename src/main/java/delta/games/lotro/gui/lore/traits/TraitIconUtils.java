@@ -11,7 +11,8 @@ import delta.games.lotro.common.stats.StatsProvider;
 import delta.games.lotro.gui.LotroIconsManager;
 
 /**
- * @author dm
+ * Utility methods related to trait icons.
+ * @author DAM
  */
 public class TraitIconUtils
 {
@@ -68,6 +69,4 @@ public class TraitIconUtils
       }
     }
   }
-
-  //JLabel iconLabel=GuiFactory.buildIconLabel(icon);
 }

@@ -43,7 +43,7 @@ public abstract class SingleNonImbuedLegacyEditionController<T extends NonImbued
    * @param parent Parent window.
    * @param constraints Constraints.
    */
-  public SingleNonImbuedLegacyEditionController(WindowController parent, ClassAndSlot constraints)
+  protected SingleNonImbuedLegacyEditionController(WindowController parent, ClassAndSlot constraints)
   {
     _parent=parent;
     _constraints=constraints;

@@ -2,6 +2,8 @@ package delta.games.lotro.stats.deeds;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import delta.games.lotro.character.status.achievables.AchievableStatus;
 import delta.games.lotro.character.status.achievables.AchievablesStatusManager;
 import delta.games.lotro.character.status.reputation.FactionLevelStatus;
@@ -19,6 +21,8 @@ import delta.games.lotro.lore.reputation.FactionsRegistry;
  */
 public class SyncDeedsStatusAndReputationStatus
 {
+  private static final Logger LOGGER=Logger.getLogger(SyncDeedsStatusAndReputationStatus.class);
+
   /**
    * Update the deeds status to reflect the reputation status.
    * @param repStatus Source reputation status.
@@ -57,7 +61,10 @@ public class SyncDeedsStatusAndReputationStatus
         {
           AchievableStatus deedStatus=deedsStatus.get(deed,true);
           deedStatus.setCompleted(true);
-          //System.out.println("Set deed "+deedKey+" to completed!");
+          if (LOGGER.isDebugEnabled())
+          {
+            LOGGER.debug("Set deed "+deedKey+" to completed!");
+          }
           FactionLevelStatus levelStatus=factionStatus.getStatusForLevel(level);
           long date=levelStatus.getCompletionDate();
           if (date!=0)
