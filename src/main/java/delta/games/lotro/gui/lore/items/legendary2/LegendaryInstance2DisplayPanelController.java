@@ -62,7 +62,6 @@ public class LegendaryInstance2DisplayPanelController
     JPanel traceries=_traceries.getPanel();
     c=new GridBagConstraints(0,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,5,0,0),0,0);
     ret.add(traceries,c);
-    y++;
     return ret;
   }
 

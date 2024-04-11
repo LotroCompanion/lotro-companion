@@ -173,7 +173,6 @@ public class FriendFilterController implements ActionListener
     }
     GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,5,0),0,0);
     panel.add(linePanel,c);
-    y++;
     return panel;
   }
 

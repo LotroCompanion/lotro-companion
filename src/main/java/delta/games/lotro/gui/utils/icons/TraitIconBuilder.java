@@ -14,6 +14,8 @@ import delta.games.lotro.utils.maths.ArrayProgression;
  */
 public class TraitIconBuilder
 {
+  private static final String TRAITS="/traits/";
+
   /**
    * Get the buffered image that represents a ranked trait.
    * @param trait Trait to use.
@@ -25,13 +27,13 @@ public class TraitIconBuilder
     List<BufferedImage> images=new ArrayList<BufferedImage>();
     // Background
     int traitIconId=trait.getIconId();
-    BufferedImage background=IconsManager.getImage("/traits/"+traitIconId+".png");
+    BufferedImage background=IconsManager.getImage(TRAITS+traitIconId+".png");
     images.add(background);
     // Static overlay
     Integer staticIconOverlayId=trait.getStaticIconOverlayId();
     if (staticIconOverlayId!=null)
     {
-      BufferedImage staticOverlay=IconsManager.getImage("/traits/"+staticIconOverlayId+".png");
+      BufferedImage staticOverlay=IconsManager.getImage(TRAITS+staticIconOverlayId+".png");
       images.add(staticOverlay);
     }
     // Rank overlay
@@ -43,7 +45,7 @@ public class TraitIconBuilder
         Number rankIconId=progression.getRawValue(rank.intValue());
         if (rankIconId!=null)
         {
-          BufferedImage rankOverlay=IconsManager.getImage("/traits/"+rankIconId+".png");
+          BufferedImage rankOverlay=IconsManager.getImage(TRAITS+rankIconId+".png");
           images.add(rankOverlay);
         }
       }

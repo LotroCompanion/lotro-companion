@@ -120,7 +120,6 @@ public class PetFilterController implements ActionListener
     _reset.addActionListener(this);
     c=new GridBagConstraints(1,y,1,1,0.0,0,GridBagConstraints.SOUTHWEST,GridBagConstraints.NONE,new Insets(0,5,5,5),0,0);
     panel.add(_reset,c);
-    y++;
 
     return panel;
   }
@@ -154,7 +153,6 @@ public class PetFilterController implements ActionListener
     }
     GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,5,0),0,0);
     panel.add(line1Panel,c);
-    y++;
 
     return panel;
   }

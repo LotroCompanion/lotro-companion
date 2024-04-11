@@ -10,6 +10,7 @@ import javax.swing.event.HyperlinkListener;
 
 import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.common.ui.swing.navigator.PageIdentifier;
+import delta.common.utils.html.HtmlConstants;
 import delta.games.lotro.character.classes.ClassDescription;
 import delta.games.lotro.character.traits.TraitDescription;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
@@ -135,11 +136,13 @@ public class SkillReferencesDisplayController
 
   private void buildHtmlForClassReference(StringBuilder sb, ClassDescription characterClass)
   {
-    sb.append("<p>Skill for class ");
-    sb.append("<b>");
+    sb.append(HtmlConstants.START_PARAGRAPH);
+    sb.append("Skill for class ");
+    sb.append(HtmlConstants.START_BOLD);
     PageIdentifier to=ReferenceConstants.getClassReference(characterClass);
     HtmlUtils.printLink(sb,to.getFullAddress(),characterClass.getName());
-    sb.append("</b></p>");
+    sb.append(HtmlConstants.END_BOLD);
+    sb.append(HtmlConstants.END_PARAGRAPH);
   }
 
   private void buildHtmlForItems(StringBuilder sb, List<Reference<?,SkillRole>> references)
@@ -157,11 +160,13 @@ public class SkillReferencesDisplayController
 
   private void buildHtmlForItem(StringBuilder sb, Item item)
   {
-    sb.append("<p>Granted by item ");
-    sb.append("<b>");
+    sb.append(HtmlConstants.START_PARAGRAPH);
+    sb.append("Granted by item ");
+    sb.append(HtmlConstants.START_BOLD);
     PageIdentifier to=ReferenceConstants.getItemReference(item.getIdentifier());
     HtmlUtils.printLink(sb,to.getFullAddress(),item.getName());
-    sb.append("</b></p>");
+    sb.append(HtmlConstants.END_BOLD);
+    sb.append(HtmlConstants.END_PARAGRAPH);
   }
 
   private void buildHtmlForTraits(StringBuilder sb, List<Reference<?,SkillRole>> references)
@@ -179,11 +184,13 @@ public class SkillReferencesDisplayController
 
   private void buildHtmlForTraitReference(StringBuilder sb, TraitDescription trait)
   {
-    sb.append("<p>Granted by trait ");
-    sb.append("<b>");
+    sb.append(HtmlConstants.START_PARAGRAPH);
+    sb.append("Granted by trait ");
+    sb.append(HtmlConstants.START_BOLD);
     PageIdentifier to=ReferenceConstants.getTraitReference(trait.getIdentifier());
     HtmlUtils.printLink(sb,to.getFullAddress(),trait.getName());
-    sb.append("</b></p>");
+    sb.append(HtmlConstants.END_BOLD);
+    sb.append(HtmlConstants.END_PARAGRAPH);
   }
 
   /**

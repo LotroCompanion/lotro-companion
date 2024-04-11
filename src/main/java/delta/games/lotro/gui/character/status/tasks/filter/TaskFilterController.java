@@ -142,7 +142,6 @@ public class TaskFilterController extends AbstractPanelController implements Act
     _reset.addActionListener(this);
     c=new GridBagConstraints(1,y,1,1,0.0,0,GridBagConstraints.SOUTHWEST,GridBagConstraints.NONE,new Insets(0,5,5,0),0,0);
     panel.add(_reset,c);
-    y++;
 
     return panel;
   }
@@ -182,7 +181,6 @@ public class TaskFilterController extends AbstractPanelController implements Act
     linePanel.add(repPanel);
     GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,5,5,0),0,0);
     panel.add(linePanel,c);
-    y++;
 
     return panel;
   }

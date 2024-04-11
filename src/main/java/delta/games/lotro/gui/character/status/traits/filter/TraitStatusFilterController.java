@@ -163,7 +163,6 @@ public class TraitStatusFilterController
     }
     c=new GridBagConstraints(0,y,2,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(3,0,5,0),0,0);
     panel.add(line2Panel,c);
-    y++;
     return panel;
   }
 

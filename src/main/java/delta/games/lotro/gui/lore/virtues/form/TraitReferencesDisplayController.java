@@ -10,6 +10,7 @@ import javax.swing.event.HyperlinkListener;
 
 import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.common.ui.swing.navigator.PageIdentifier;
+import delta.common.utils.html.HtmlConstants;
 import delta.games.lotro.character.classes.ClassDescription;
 import delta.games.lotro.character.races.RaceDescription;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
@@ -136,11 +137,13 @@ public class TraitReferencesDisplayController
 
   private void buildHtmlForRaceReference(StringBuilder sb, RaceDescription race)
   {
-    sb.append("<p>Trait for race ");
-    sb.append("<b>");
+    sb.append(HtmlConstants.START_PARAGRAPH);
+    sb.append("Trait for race ");
+    sb.append(HtmlConstants.START_BOLD);
     PageIdentifier to=ReferenceConstants.getRaceReference(race);
     HtmlUtils.printLink(sb,to.getFullAddress(),race.getName());
-    sb.append("</b></p>");
+    sb.append(HtmlConstants.END_BOLD);
+    sb.append(HtmlConstants.END_PARAGRAPH);
   }
 
   private void buildHtmlForClass(StringBuilder sb, List<Reference<?,TraitRole>> references)
@@ -158,11 +161,13 @@ public class TraitReferencesDisplayController
 
   private void buildHtmlForClassReference(StringBuilder sb, ClassDescription characterClass)
   {
-    sb.append("<p>Trait for class ");
-    sb.append("<b>");
+    sb.append(HtmlConstants.START_PARAGRAPH);
+    sb.append("Trait for class ");
+    sb.append(HtmlConstants.START_BOLD);
     PageIdentifier to=ReferenceConstants.getClassReference(characterClass);
     HtmlUtils.printLink(sb,to.getFullAddress(),characterClass.getName());
-    sb.append("</b></p>");
+    sb.append(HtmlConstants.END_BOLD);
+    sb.append(HtmlConstants.END_PARAGRAPH);
   }
 
   private void buildHtmlForQuestsAndDeeds(StringBuilder sb, List<Reference<?,TraitRole>> references)
@@ -180,14 +185,16 @@ public class TraitReferencesDisplayController
 
   private void buildHtmlForAchievableReference(StringBuilder sb, Achievable achievable)
   {
-    sb.append("<p>Reward for ");
+    sb.append(HtmlConstants.START_PARAGRAPH);
+    sb.append("Reward for ");
     boolean isQuest=(achievable instanceof QuestDescription);
     String type=isQuest?"quest ":"deed ";
     sb.append(type);
-    sb.append("<b>");
+    sb.append(HtmlConstants.START_BOLD);
     PageIdentifier to=ReferenceConstants.getAchievableReference(achievable);
     HtmlUtils.printLink(sb,to.getFullAddress(),achievable.getName());
-    sb.append("</b></p>");
+    sb.append(HtmlConstants.END_BOLD);
+    sb.append(HtmlConstants.END_PARAGRAPH);
   }
 
   /**

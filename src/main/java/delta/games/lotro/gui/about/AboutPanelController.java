@@ -139,7 +139,6 @@ public class AboutPanelController
       JLabel userManualLabel=userManualLink.getLabel();
       userManualLabel.setFont(font16);
       panel.add(userManualLabel,c);
-      y++;
     }
 
     return panel;

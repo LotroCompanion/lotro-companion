@@ -156,7 +156,7 @@ public class VirtueEditionUiController implements ActionListener
 
   private static class DragTransferHandler extends TransferHandler
   {
-    private VirtueDescription _virtue;
+    private transient VirtueDescription _virtue;
 
     @Override
     protected Transferable createTransferable(JComponent c)

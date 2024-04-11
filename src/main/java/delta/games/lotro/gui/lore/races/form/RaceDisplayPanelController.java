@@ -126,7 +126,6 @@ public class RaceDisplayPanelController implements NavigablePanelController
     tabbedPane.add("References",buildPanelForTab(references));
     GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(5,5,5,5),0,0);
     panel.add(tabbedPane,c);
-    y++;
     return panel;
   }
 

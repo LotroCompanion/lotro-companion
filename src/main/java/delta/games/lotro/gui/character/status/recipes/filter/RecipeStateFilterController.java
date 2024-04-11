@@ -103,7 +103,6 @@ public class RecipeStateFilterController implements ActionListener
     _reset.addActionListener(this);
     c=new GridBagConstraints(1,y,1,1,0.0,0,GridBagConstraints.SOUTHWEST,GridBagConstraints.NONE,new Insets(0,0,5,5),0,0);
     panel.add(_reset,c);
-    y++;
 
     return panel;
   }

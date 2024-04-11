@@ -10,6 +10,7 @@ import javax.swing.event.HyperlinkListener;
 
 import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.common.ui.swing.navigator.PageIdentifier;
+import delta.common.utils.html.HtmlConstants;
 import delta.games.lotro.common.Identifiable;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.lore.items.Item;
@@ -139,14 +140,16 @@ public class RelicReferencesDisplayController
 
   private void buildHtmlForAchievableReference(StringBuilder sb, Achievable achievable)
   {
-    sb.append("<p>Reward for ");
+    sb.append(HtmlConstants.START_PARAGRAPH);
+    sb.append("Reward for ");
     boolean isQuest=(achievable instanceof QuestDescription);
     String type=isQuest?"quest ":"deed ";
     sb.append(type);
-    sb.append("<b>");
+    sb.append(HtmlConstants.START_BOLD);
     PageIdentifier to=ReferenceConstants.getAchievableReference(achievable);
     HtmlUtils.printLink(sb,to.getFullAddress(),achievable.getName());
-    sb.append("</b></p>");
+    sb.append(HtmlConstants.END_BOLD);
+    sb.append(HtmlConstants.END_PARAGRAPH);
   }
 
   private void buildHtmlForContainers(StringBuilder sb, List<Reference<?,RelicRole>> references)
@@ -164,13 +167,15 @@ public class RelicReferencesDisplayController
 
   private void buildHtmlForContainerReference(StringBuilder sb, int itemId)
   {
-    sb.append("<p>Found in ");
-    sb.append("<b>");
+    sb.append(HtmlConstants.START_PARAGRAPH);
+    sb.append("Found in ");
+    sb.append(HtmlConstants.START_BOLD);
     PageIdentifier to=ReferenceConstants.getItemReference(itemId);
     Item item=ItemsManager.getInstance().getItem(itemId);
     String itemName=item.getName();
     HtmlUtils.printLink(sb,to.getFullAddress(),itemName);
-    sb.append("</b></p>");
+    sb.append(HtmlConstants.END_BOLD);
+    sb.append(HtmlConstants.END_PARAGRAPH);
   }
 
   private void buildHtmlForMeldingRecipes(StringBuilder sb, List<Reference<?,RelicRole>> references)
@@ -189,7 +194,8 @@ public class RelicReferencesDisplayController
   private void buildHtmlForRecipeReference(StringBuilder sb, Reference<RelicMeldingRecipe,RelicRole> recipeReference)
   {
     RelicMeldingRecipe recipe=recipeReference.getSource();
-    sb.append("<p>Found as ");
+    sb.append(HtmlConstants.START_PARAGRAPH);
+    sb.append("Found as ");
     int index=0;
     for(RelicRole role : recipeReference.getRoles())
     {
@@ -202,11 +208,12 @@ public class RelicReferencesDisplayController
       index++;
     }
     sb.append(" in recipe ");
-    sb.append("<b>");
+    sb.append(HtmlConstants.START_BOLD);
     PageIdentifier to=ReferenceConstants.getMeldingRecipeReference(recipe.getIdentifier());
     String recipeName=recipe.getName();
     HtmlUtils.printLink(sb,to.getFullAddress(),recipeName);
-    sb.append("</b></p>");
+    sb.append(HtmlConstants.END_BOLD);
+    sb.append(HtmlConstants.END_PARAGRAPH);
   }
 
   /**

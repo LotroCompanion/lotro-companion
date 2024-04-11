@@ -24,12 +24,13 @@ public class MapLinksFactory
    */
   public List<MapLink> getLinks(int mapId)
   {
-    List<MapLink> links=getParchmentMapLinks(mapId);
-    if (links==null)
+    ParchmentMapsManager parchmentMapsMgr=ParchmentMapsManager.getInstance();
+    ParchmentMap parchmentMap=parchmentMapsMgr.getMapById(mapId);
+    if (parchmentMap!=null)
     {
-      links=getDungeonLinks(mapId);
+      return getParchmentMapLinks(parchmentMap);
     }
-    return links;
+    return getDungeonLinks(mapId);
   }
 
   private List<MapLink> getDungeonLinks(int dungeonId)
@@ -40,14 +41,9 @@ public class MapLinksFactory
     return links;
   }
 
-  private List<MapLink> getParchmentMapLinks(int parchmentMapId)
+  private List<MapLink> getParchmentMapLinks(ParchmentMap parchmentMap)
   {
-    ParchmentMapsManager parchmentMapsMgr=ParchmentMapsManager.getInstance();
-    ParchmentMap parchmentMap=parchmentMapsMgr.getMapById(parchmentMapId);
-    if (parchmentMap==null)
-    {
-      return null;
-    }
+    int parchmentMapId=parchmentMap.getIdentifier();
     List<MapLink> links=new ArrayList<MapLink>();
     MapsManager mapsManager=Maps.getMaps().getMapsManager();
     LinksManager linksManager=mapsManager.getLinksManager();

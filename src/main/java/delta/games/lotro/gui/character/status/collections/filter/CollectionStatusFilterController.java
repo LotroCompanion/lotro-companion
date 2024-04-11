@@ -148,7 +148,6 @@ public class CollectionStatusFilterController
       linePanel.add(_states.getPanel());
       GridBagConstraints c=new GridBagConstraints(0,y,1,1,0.0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
       panel.add(linePanel,c);
-      y++;
     }
     return panel;
   }

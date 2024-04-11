@@ -12,7 +12,7 @@ import delta.games.lotro.common.stats.StatUtils;
  */
 public class StatRenderer extends DefaultTableCellRenderer
 {
-  private StatDescription _stat;
+  private transient StatDescription _stat;
 
   /**
    * Constructor.

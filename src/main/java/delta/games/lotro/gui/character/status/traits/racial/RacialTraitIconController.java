@@ -88,7 +88,7 @@ public class RacialTraitIconController extends TraitIconController
 
   private static class DragTransferHandler extends TransferHandler
   {
-    private TraitDescription _trait;
+    private transient TraitDescription _trait;
 
     @Override
     protected Transferable createTransferable(JComponent c)

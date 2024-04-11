@@ -24,12 +24,13 @@ public class MapMarkersFactory
    */
   public List<Marker> getMarkers(int mapId)
   {
-    List<Marker> markers=getParchmentMapMarkers(mapId);
-    if (markers==null)
+    ParchmentMapsManager parchmentMapsMgr=ParchmentMapsManager.getInstance();
+    ParchmentMap parchmentMap=parchmentMapsMgr.getMapById(mapId);
+    if (parchmentMap!=null)
     {
-      markers=getDungeonMarkers(mapId);
+      return getParchmentMapMarkers(parchmentMap);
     }
-    return markers;
+    return getDungeonMarkers(mapId);
   }
 
   private List<Marker> getDungeonMarkers(int dungeonId)
@@ -40,14 +41,8 @@ public class MapMarkersFactory
     return markers;
   }
 
-  private List<Marker> getParchmentMapMarkers(int parchmentMapId)
+  private List<Marker> getParchmentMapMarkers(ParchmentMap parchmentMap)
   {
-    ParchmentMapsManager parchmentMapsMgr=ParchmentMapsManager.getInstance();
-    ParchmentMap parchmentMap=parchmentMapsMgr.getMapById(parchmentMapId);
-    if (parchmentMap==null)
-    {
-      return null;
-    }
     List<Marker> markers=new ArrayList<Marker>();
     MapsManager mapsManager=Maps.getMaps().getMapsManager();
     MarkersFinder finder=mapsManager.getMarkersFinder();

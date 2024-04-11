@@ -220,7 +220,6 @@ public class VirtuesEditionPanelController implements TierValueListener,ActionLi
     Component strut=Box.createHorizontalStrut(200);
     c=new GridBagConstraints(0,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(1,1,1,1),0,0);
     panel.add(strut,c);
-    y++;
     return panel;
   }
 

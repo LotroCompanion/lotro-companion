@@ -109,7 +109,6 @@ public class VirtueDisplayPanelController implements NavigablePanelController
     JScrollPane scrollPane=GuiFactory.buildScrollPane(statsPanel);
     GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(5,5,5,5),0,0);
     panel.add(scrollPane,c);
-    y++;
     return panel;
   }
 

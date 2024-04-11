@@ -178,7 +178,6 @@ public class MobsFilterController implements ActionListener
     Component glue=Box.createGlue();
     c=new GridBagConstraints(2,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(glue,c);
-    y++;
 
     return panel;
   }
@@ -253,7 +252,6 @@ public class MobsFilterController implements ActionListener
     }
     c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,5,0),0,0);
     panel.add(line2Panel,c);
-    y++;
 
     return panel;
   }

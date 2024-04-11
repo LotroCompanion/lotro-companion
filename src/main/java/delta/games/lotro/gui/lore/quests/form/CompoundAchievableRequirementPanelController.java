@@ -78,7 +78,6 @@ public class CompoundAchievableRequirementPanelController extends AbstractAchiev
     // Child requirements
     JPanel childRequirementsPanel=buildChildRequirementsPanel();
     c=new GridBagConstraints(x,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
-    x++;
     ret.add(childRequirementsPanel,c);
     return ret;
   }

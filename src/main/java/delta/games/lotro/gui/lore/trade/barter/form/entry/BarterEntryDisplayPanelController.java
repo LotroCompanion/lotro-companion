@@ -92,10 +92,12 @@ public class BarterEntryDisplayPanelController extends AbstractNavigablePanelCon
 
     // To receive
     JPanel toReceivePanel=buildToReceivePanel();
-    toReceivePanel.setBorder(GuiFactory.buildTitledBorder("To receive"));
-    c=new GridBagConstraints(0,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(2,2,2,2),0,0);
-    panel.add(toReceivePanel,c);
-    y++;
+    if (toReceivePanel!=null)
+    {
+      toReceivePanel.setBorder(GuiFactory.buildTitledBorder("To receive"));
+      c=new GridBagConstraints(0,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(2,2,2,2),0,0);
+      panel.add(toReceivePanel,c);
+    }
     return panel;
   }
 

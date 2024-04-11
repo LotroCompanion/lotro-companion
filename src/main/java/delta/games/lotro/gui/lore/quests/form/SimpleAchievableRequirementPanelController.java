@@ -34,6 +34,8 @@ import delta.games.lotro.utils.Proxy;
  */
 public class SimpleAchievableRequirementPanelController extends AbstractAchievableRequirementPanelController
 {
+  private static final String UNMANAGED_QUEST_STATUS="Unmanaged quest status: ";
+
   private static final Logger LOGGER=Logger.getLogger(SimpleAchievableRequirementPanelController.class);
 
   private static final String ACHIEVABLE_LINK_SEED="{LINK}";
@@ -143,7 +145,7 @@ public class SimpleAchievableRequirementPanelController extends AbstractAchievab
     {
       return ACHIEVABLE_LINK_SEED+" is underway at objective "+objectiveIndex; // I18n
     }
-    LOGGER.warn("Unmanaged quest status: "+status);
+    LOGGER.warn(UNMANAGED_QUEST_STATUS+status);
     return ACHIEVABLE_LINK_SEED+" is ???";
   }
 
@@ -157,7 +159,7 @@ public class SimpleAchievableRequirementPanelController extends AbstractAchievab
     {
       return ACHIEVABLE_LINK_SEED+" is not underway at objective "+objectiveIndex; // I18n
     }
-    LOGGER.warn("Unmanaged quest status: "+status);
+    LOGGER.warn(UNMANAGED_QUEST_STATUS+status);
     return ACHIEVABLE_LINK_SEED+" is not ???";
   }
 
@@ -175,7 +177,7 @@ public class SimpleAchievableRequirementPanelController extends AbstractAchievab
     {
       return ACHIEVABLE_LINK_SEED+" is completed or underway with at least objective "+objectiveIndex+" done"; // I18n
     }
-    LOGGER.warn("Unmanaged quest status: "+status);
+    LOGGER.warn(UNMANAGED_QUEST_STATUS+status);
     return "??? "+ACHIEVABLE_LINK_SEED+" ???";
   }
 
@@ -187,7 +189,7 @@ public class SimpleAchievableRequirementPanelController extends AbstractAchievab
     {
       LOGGER.warn("Unexpected requirement combinaison: greater or equal "+status+" for "+_requirement.getQuestId());
     }
-    LOGGER.warn("Unmanaged quest status: "+status);
+    LOGGER.warn(UNMANAGED_QUEST_STATUS+status);
     return "??? "+ACHIEVABLE_LINK_SEED+" ???";
   }
 

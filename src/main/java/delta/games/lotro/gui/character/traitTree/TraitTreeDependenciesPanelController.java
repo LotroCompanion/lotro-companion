@@ -22,7 +22,7 @@ import delta.games.lotro.character.classes.traitTree.TraitTreeCellDependency;
 public class TraitTreeDependenciesPanelController extends JPanel
 {
   private static final Logger LOGGER=Logger.getLogger(TraitTreeDependenciesPanelController.class);
-  private TraitTreeBranch _branch;
+  private transient TraitTreeBranch _branch;
 
   /**
    * Constructor.

@@ -138,7 +138,6 @@ public class TitleFilterController implements ActionListener
     Component glue=Box.createGlue();
     c=new GridBagConstraints(2,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(glue,c);
-    y++;
 
     return panel;
   }
@@ -190,7 +189,6 @@ public class TitleFilterController implements ActionListener
     }
     GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,5,0),0,0);
     panel.add(line1Panel,c);
-    y++;
 
     return panel;
   }

@@ -303,7 +303,6 @@ public class LegendaryInstance2EditionPanelController
       x++;
       c=new GridBagConstraints(x,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,5,0),0,0);
       _traceriesPanel.add(buildCenteredLabel("Item Level"),c);
-      x++;
       y++;
       Component valueStrut=Box.createHorizontalStrut(200);
       c=new GridBagConstraints(1,y,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
@@ -351,7 +350,6 @@ public class LegendaryInstance2EditionPanelController
         c=new GridBagConstraints(x,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,5,5,5),0,0);
         _traceriesPanel.add(deleteButton,c);
       }
-      x++;
       y++;
     }
   }

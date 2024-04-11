@@ -51,11 +51,10 @@ public class ContextVariableValueProvider implements VariableValueProvider
     // Name
     String name=attrs.getName();
     _name=name+"["+genderTag+"]";
+    // TODO Surname and rank
     // Surname
-    // TODO
     _surname="";
     // Rank
-    // TODO
     _rank="";
     // Class
     ClassDescription characterClass=attrs.getCharacterClass();
@@ -89,13 +88,7 @@ public class ContextVariableValueProvider implements VariableValueProvider
     if ("TOTAL".equals(variableName)) return "?";
     if ("VALUE".equals(variableName)) return "0";
     if ("PLAYER_NAME".equals(variableName)) return _name;
-
-    // Unmanaged:
-    /*
-    if ("MAX".equals(variableName)) return "m";
-    if ("CURRENT".equals(variableName)) return "c";
-    if ("NOS".equals(variableName)) return "?";
-    */
+    // TODO Unmanaged: MAX, CURRENT, NOS
     return null;
   }
 }

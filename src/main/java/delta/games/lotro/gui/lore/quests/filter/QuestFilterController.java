@@ -461,7 +461,6 @@ public class QuestFilterController extends AbstractPanelController implements Ac
 
       c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(5,0,5,0),0,0);
       panel.add(line,c);
-      y++;
     }
     return panel;
   }

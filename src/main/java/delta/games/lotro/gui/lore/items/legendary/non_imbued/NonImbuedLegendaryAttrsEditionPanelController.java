@@ -146,7 +146,6 @@ public class NonImbuedLegendaryAttrsEditionPanelController
       x++;
       c=new GridBagConstraints(x,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
       panel.add(buildCenteredLabel("Tier"),c);
-      x++;
       y++;
     }
     // Rows
@@ -200,7 +199,6 @@ public class NonImbuedLegendaryAttrsEditionPanelController
         c=new GridBagConstraints(x,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
         panel.add(deleteButton,c);
       }
-      x++;
     }
   }
 

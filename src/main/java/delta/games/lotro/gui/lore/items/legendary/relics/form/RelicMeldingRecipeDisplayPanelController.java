@@ -184,7 +184,6 @@ public class RelicMeldingRecipeDisplayPanelController implements NavigablePanelC
     {
       GridBagConstraints c=new GridBagConstraints(0,y,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
       ret.add(specificRelicsPanel,c);
-      y++;
     }
     return ret;
   }

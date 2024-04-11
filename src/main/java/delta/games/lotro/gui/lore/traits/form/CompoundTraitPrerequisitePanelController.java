@@ -46,11 +46,10 @@ public class CompoundTraitPrerequisitePanelController extends AbstractTraitPrere
   {
     JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
     int x=0;
-    GridBagConstraints c=new GridBagConstraints(x,0,1,1,0.0,1.0,GridBagConstraints.WEST,GridBagConstraints.VERTICAL,new Insets(0,0,0,0),0,0);
     // Operator
     TraitLogicOperator operator=_prerequisite.getOperator();
     JLabel operatorLabel=GuiFactory.buildLabel(getOperatorLabel(operator));
-    c=new GridBagConstraints(x,0,1,1,0.0,1.0,GridBagConstraints.WEST,GridBagConstraints.VERTICAL,new Insets(0,0,0,0),0,0);
+    GridBagConstraints c=new GridBagConstraints(x,0,1,1,0.0,1.0,GridBagConstraints.WEST,GridBagConstraints.VERTICAL,new Insets(0,0,0,0),0,0);
     ret.add(operatorLabel,c);
     x++;
     // Filler
@@ -66,7 +65,6 @@ public class CompoundTraitPrerequisitePanelController extends AbstractTraitPrere
     // Child prerequisites
     JPanel childPrerequisitesPanel=buildChildPrerequisitesPanel();
     c=new GridBagConstraints(x,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
-    x++;
     ret.add(childPrerequisitesPanel,c);
     return ret;
   }

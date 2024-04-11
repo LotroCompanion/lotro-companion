@@ -8,13 +8,12 @@ import delta.games.lotro.LotroTestUtils;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.status.traits.skirmish.SkirmishTraitsStatus;
 import delta.games.lotro.character.status.traits.skirmish.io.SkirmishTraitsStatusIo;
-import junit.framework.TestCase;
 
 /**
  * Test class for the skirmish traits status panel.
  * @author DAM
  */
-public class MainTestSkirmishTraitsStatusPanelController extends TestCase
+public class MainTestSkirmishTraitsStatusPanelController
 {
   /**
    * Main method for this test.

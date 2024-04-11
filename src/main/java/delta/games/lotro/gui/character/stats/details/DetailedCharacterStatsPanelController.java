@@ -281,7 +281,6 @@ public class DetailedCharacterStatsPanelController
     y++;
     // Shadow Mitigation
     addStatWidgets(panel,WellKnownStat.SHADOW_MITIGATION_PERCENTAGE,x+2,y,false);
-    y++;
 
     TitledBorder border=GuiFactory.buildTitledBorder("Mitigations");
     panel.setBorder(border);
