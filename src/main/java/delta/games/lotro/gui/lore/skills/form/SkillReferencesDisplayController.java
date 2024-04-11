@@ -53,7 +53,7 @@ public class SkillReferencesDisplayController
   private JEditorPane buildDetailsPane(int skillID)
   {
     List<Reference<?,SkillRole>> references=getReferences(skillID);
-    if (references.size()==0)
+    if (references.isEmpty())
     {
       return null;
     }
@@ -145,7 +145,7 @@ public class SkillReferencesDisplayController
   private void buildHtmlForItems(StringBuilder sb, List<Reference<?,SkillRole>> references)
   {
     List<Reference<Item,SkillRole>> itemReferences=getReferences(references,Item.class);
-    if (itemReferences.size()>0)
+    if (!itemReferences.isEmpty())
     {
       for(Reference<Item,SkillRole> itemReference : itemReferences)
       {
@@ -167,7 +167,7 @@ public class SkillReferencesDisplayController
   private void buildHtmlForTraits(StringBuilder sb, List<Reference<?,SkillRole>> references)
   {
     List<Reference<TraitDescription,SkillRole>> classReferences=getReferences(references,TraitDescription.class);
-    if (classReferences.size()>0)
+    if (!classReferences.isEmpty())
     {
       for(Reference<TraitDescription,SkillRole> classReference : classReferences)
       {

@@ -185,7 +185,7 @@ public class AccountServerPanelController implements ActionListener
 
   private void showCurrencies()
   {
-    SingleCharacterCurrencyHistoryWindowController summaryController=(SingleCharacterCurrencyHistoryWindowController)_windowsManager.getWindow(SingleCharacterCurrencyHistoryWindowController.getIdentifier());
+    SingleCharacterCurrencyHistoryWindowController summaryController=(SingleCharacterCurrencyHistoryWindowController)_windowsManager.getWindow(SingleCharacterCurrencyHistoryWindowController.IDENTIFIER);
     if (summaryController==null)
     {
       summaryController=new SingleCharacterCurrencyHistoryWindowController(_parent,_accountOnServer);

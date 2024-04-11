@@ -52,7 +52,7 @@ public class CurrencyChoicePanelController
   {
     ComboBoxController<Currency> ctrl=new ComboBoxController<Currency>();
     updateCurrencyCombo(ctrl,currencies);
-    if (currencies.size()>0)
+    if (!currencies.isEmpty())
     {
       ctrl.selectItem(currencies.get(0));
     }

@@ -192,7 +192,7 @@ public class RelicMeldingRecipeDisplayPanelController implements NavigablePanelC
   private JPanel buildNeededTiersPanel(MeldingInput input)
   {
     List<Integer> tiers=input.getNeededTiers();
-    if (tiers.size()==0)
+    if (tiers.isEmpty())
     {
       return null;
     }
@@ -212,7 +212,7 @@ public class RelicMeldingRecipeDisplayPanelController implements NavigablePanelC
   private JPanel buildSpecificRelicsPanel(MeldingInput input)
   {
     List<CountedRelic> relics=input.getNeededRelics();
-    if (relics.size()==0)
+    if (relics.isEmpty())
     {
       return null;
     }

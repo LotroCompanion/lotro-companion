@@ -46,7 +46,7 @@ public class ResourceNodesFilter implements Filter<Marker>
   {
     Integer key=Integer.valueOf(itemId);
     Boolean ok=_selectedItems.get(key);
-    return (ok!=null)?ok.booleanValue():false;
+    return ((ok!=null) && (ok.booleanValue()));
   }
 
   /**
@@ -63,8 +63,6 @@ public class ResourceNodesFilter implements Filter<Marker>
   @Override
   public boolean accept(Marker item)
   {
-    Integer key=Integer.valueOf(item.getDid());
-    Boolean ok=_selectedItems.get(key);
-    return (ok!=null)?ok.booleanValue():false;
+    return isSelected(item.getDid());
   }
 }

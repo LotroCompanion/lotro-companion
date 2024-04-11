@@ -56,7 +56,7 @@ public class ItemScalableStatsPanelController
   private JPanel build()
   {
     ItemScaling scaling=ItemScalingBuilder.build(_item);
-    if (scaling.getEntries().size()==0)
+    if (scaling.getEntries().isEmpty())
     {
       return null;
     }

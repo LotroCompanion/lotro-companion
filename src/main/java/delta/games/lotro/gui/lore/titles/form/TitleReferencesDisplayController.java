@@ -53,7 +53,7 @@ public class TitleReferencesDisplayController
   private JEditorPane buildDetailsPane(int titleID)
   {
     List<Reference<?,TitleRole>> references=getReferences(titleID);
-    if (references.size()==0)
+    if (references.isEmpty())
     {
       return null;
     }
@@ -122,7 +122,7 @@ public class TitleReferencesDisplayController
   private void buildHtmlForBillingGroups(StringBuilder sb, List<Reference<?,TitleRole>> references)
   {
     List<Reference<BillingGroupDescription,TitleRole>> billingGroupsReferences=getReferences(references,BillingGroupDescription.class);
-    if (billingGroupsReferences.size()>0)
+    if (!billingGroupsReferences.isEmpty())
     {
       for(Reference<BillingGroupDescription,TitleRole> billingGroupsReference : billingGroupsReferences)
       {
@@ -146,7 +146,7 @@ public class TitleReferencesDisplayController
   private void buildHtmlForQuestsAndDeeds(StringBuilder sb, List<Reference<?,TitleRole>> references)
   {
     List<Reference<Achievable,TitleRole>> achievableReferences=getReferences(references,Achievable.class);
-    if (achievableReferences.size()>0)
+    if (!achievableReferences.isEmpty())
     {
       sb.append("<h1>Quests and deeds</h1>");
       for(Reference<Achievable,TitleRole> achievableReference : achievableReferences)

@@ -39,7 +39,7 @@ public class MainCharactersSelectionManager implements Filter<CharacterFile>
     Preferences preferences=Config.getInstance().getPreferences();
     TypedProperties props=preferences.getPreferences(MAIN_CHARACTERS_PREFERENCES_NAME);
     List<String> toonIds=props.getStringList(HIDDEN_CHARACTERS_PREFERENCE);
-    if ((toonIds!=null) && (toonIds.size()>0))
+    if ((toonIds!=null) && (!toonIds.isEmpty()))
     {
       _hiddenIds.addAll(toonIds);
     }

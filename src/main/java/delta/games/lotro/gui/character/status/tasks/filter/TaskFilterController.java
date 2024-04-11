@@ -215,7 +215,7 @@ public class TaskFilterController extends AbstractPanelController implements Act
     {
       Rewards rewards=task.getQuest().getRewards();
       List<ReputationReward> repRewards=rewards.getRewardElementsOfClass(ReputationReward.class);
-      if (repRewards.size()>0)
+      if (!repRewards.isEmpty())
       {
         for(ReputationReward repReward : repRewards)
         {

@@ -66,7 +66,7 @@ public class ContainerDisplayPanelController
   private JPanel build()
   {
     List<ItemDisplayGadgets> allItemGadgets=initItemsGadgets();
-    if (allItemGadgets.size()==0)
+    if (allItemGadgets.isEmpty())
     {
       return null;
     }

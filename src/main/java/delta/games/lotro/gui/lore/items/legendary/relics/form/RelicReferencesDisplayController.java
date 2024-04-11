@@ -57,7 +57,7 @@ public class RelicReferencesDisplayController
   private JEditorPane buildDetailsPane(int relicId)
   {
     List<Reference<?,RelicRole>> references=getReferences(relicId);
-    if (references.size()==0)
+    if (references.isEmpty())
     {
       return null;
     }
@@ -127,7 +127,7 @@ public class RelicReferencesDisplayController
   private void buildHtmlForQuestsAndDeeds(StringBuilder sb, List<Reference<?,RelicRole>> references)
   {
     List<Reference<Achievable,RelicRole>> achievableReferences=getReferences(references,Achievable.class);
-    if (achievableReferences.size()>0)
+    if (!achievableReferences.isEmpty())
     {
       sb.append("<h1>Quests and deeds</h1>");
       for(Reference<Achievable,RelicRole> achievableReference : achievableReferences)
@@ -152,7 +152,7 @@ public class RelicReferencesDisplayController
   private void buildHtmlForContainers(StringBuilder sb, List<Reference<?,RelicRole>> references)
   {
     List<Reference<RelicsContainer,RelicRole>> containerReferences=getReferences(references,RelicsContainer.class);
-    if (containerReferences.size()>0)
+    if (!containerReferences.isEmpty())
     {
       sb.append("<h1>Containers</h1>");
       for(Reference<RelicsContainer,RelicRole> setReference : containerReferences)
@@ -176,7 +176,7 @@ public class RelicReferencesDisplayController
   private void buildHtmlForMeldingRecipes(StringBuilder sb, List<Reference<?,RelicRole>> references)
   {
     List<Reference<RelicMeldingRecipe,RelicRole>> recipeReferences=getReferences(references,RelicMeldingRecipe.class);
-    if (recipeReferences.size()>0)
+    if (!recipeReferences.isEmpty())
     {
       sb.append("<h1>Melding recipes</h1>");
       for(Reference<RelicMeldingRecipe,RelicRole> recipeReference : recipeReferences)

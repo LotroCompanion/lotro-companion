@@ -74,7 +74,7 @@ public class NameStatsBundle implements Disposable
       text[index]=_name;
       index++;
     }
-    if (_stats.size()>0)
+    if (!_stats.isEmpty())
     {
       for(String stat : _stats)
       {

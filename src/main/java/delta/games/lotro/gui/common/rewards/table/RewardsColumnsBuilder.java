@@ -91,7 +91,7 @@ public class RewardsColumnsBuilder
         public String getData(Rewards rewards)
         {
           List<VirtueReward> virtueRewards=rewards.getRewardElementsOfClass(VirtueReward.class);
-          return (virtueRewards.size()>0)?virtueRewards.get(0).getVirtue().getName():null;
+          return (!virtueRewards.isEmpty())?virtueRewards.get(0).getVirtue().getName():null;
         }
       };
       DefaultTableColumnController<Rewards,String> virtueColumn=new DefaultTableColumnController<Rewards,String>(RewardsColumnIds.VIRTUE.name(),"Virtue",String.class,virtueCell); // I18n
@@ -106,7 +106,7 @@ public class RewardsColumnsBuilder
         public String getData(Rewards rewards)
         {
           List<EmoteReward> emoteRewards=rewards.getRewardElementsOfClass(EmoteReward.class);
-          return (emoteRewards.size()>0)?emoteRewards.get(0).getName():null;
+          return (!emoteRewards.isEmpty())?emoteRewards.get(0).getName():null;
         }
       };
       DefaultTableColumnController<Rewards,String> emoteColumn=new DefaultTableColumnController<Rewards,String>(RewardsColumnIds.EMOTE.name(),"Emote",String.class,emoteCell); // I18n
@@ -121,7 +121,7 @@ public class RewardsColumnsBuilder
         public String getData(Rewards rewards)
         {
           List<TraitReward> traitRewards=rewards.getRewardElementsOfClass(TraitReward.class);
-          return (traitRewards.size()>0)?traitRewards.get(0).getName():null;
+          return (!traitRewards.isEmpty())?traitRewards.get(0).getName():null;
         }
       };
       DefaultTableColumnController<Rewards,String> traitColumn=new DefaultTableColumnController<Rewards,String>(RewardsColumnIds.TRAIT.name(),"Trait",String.class,traitCell); // I18n

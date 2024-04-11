@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Set;
 
 import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 import delta.common.ui.swing.GuiFactory;
@@ -54,14 +53,16 @@ public class ItemUiTools
    */
   public static Icon buildItemIcon(Item item)
   {
-    Icon ret=null;
-    String iconPath=(item!=null)?item.getIcon():null;
-    ImageIcon icon=LotroIconsManager.getItemIcon(iconPath);
-    ret=icon;
+    if (item==null)
+    {
+      return LotroIconsManager.getDefaultItemIcon();
+    }
+    String iconPath=item.getIcon();
+    Icon ret=LotroIconsManager.getItemIcon(iconPath);
     Integer tier=item.getTier();
     if (tier!=null)
     {
-      IconWithText iconWithText=new IconWithText(icon,tier.toString(),Color.WHITE);
+      IconWithText iconWithText=new IconWithText(ret,tier.toString(),Color.WHITE);
       iconWithText.setPosition(Position.TOP_LEFT);
       ret=iconWithText;
     }
@@ -107,7 +108,11 @@ public class ItemUiTools
   public static NavigationHyperLink buildItemLink(final WindowController parent, final Item item, JLabel label)
   {
     PageIdentifier ref=ReferenceConstants.getItemReference(item.getIdentifier());
-    String text=(item!=null)?item.getName():"???";
+    String text=item.getName();
+    if (text==null)
+    {
+      text="???";
+    }
     NavigationHyperLink controller=new NavigationHyperLink(parent,text,ref,label);
     return controller;
   }

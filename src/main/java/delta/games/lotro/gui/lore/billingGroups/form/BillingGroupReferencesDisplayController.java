@@ -52,7 +52,7 @@ public class BillingGroupReferencesDisplayController
   private JEditorPane buildDetailsPane(int billingGroupID)
   {
     List<Reference<?,BillingGroupRole>> references=getReferences(billingGroupID);
-    if (references.size()==0)
+    if (references.isEmpty())
     {
       return null;
     }
@@ -120,7 +120,7 @@ public class BillingGroupReferencesDisplayController
   private void buildHtmlForQuestsAndDeeds(StringBuilder sb, List<Reference<?,BillingGroupRole>> references)
   {
     List<Reference<Achievable,BillingGroupRole>> achievableReferences=getReferences(references,Achievable.class);
-    if (achievableReferences.size()>0)
+    if (!achievableReferences.isEmpty())
     {
       sb.append("<h1>Quests and deeds</h1>"); // 18n
       for(Reference<Achievable,BillingGroupRole> achievableReference : achievableReferences)

@@ -53,7 +53,7 @@ public class EmoteReferencesDisplayController
   private JEditorPane buildDetailsPane(int emoteID)
   {
     List<Reference<?,EmoteRole>> references=getReferences(emoteID);
-    if (references.size()==0)
+    if (references.isEmpty())
     {
       return null;
     }
@@ -122,7 +122,7 @@ public class EmoteReferencesDisplayController
   private void buildHtmlForQuestsAndDeeds(StringBuilder sb, List<Reference<?,EmoteRole>> references)
   {
     List<Reference<Achievable,EmoteRole>> achievableReferences=getReferences(references,Achievable.class);
-    if (achievableReferences.size()>0)
+    if (!achievableReferences.isEmpty())
     {
       sb.append("<h1>Quests and deeds</h1>"); // I18n
       for(Reference<Achievable,EmoteRole> achievableReference : achievableReferences)
@@ -147,7 +147,7 @@ public class EmoteReferencesDisplayController
   private void buildHtmlForItems(StringBuilder sb, List<Reference<?,EmoteRole>> references)
   {
     List<Reference<Item,EmoteRole>> itemReferences=getReferences(references,Item.class);
-    if (itemReferences.size()>0)
+    if (!itemReferences.isEmpty())
     {
       for(Reference<Item,EmoteRole> itemReference : itemReferences)
       {

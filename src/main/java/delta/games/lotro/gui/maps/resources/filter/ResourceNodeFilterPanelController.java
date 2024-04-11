@@ -149,7 +149,7 @@ public class ResourceNodeFilterPanelController
   {
     for(ResourceNodeFilterItemGadgets gadgets : _gadgets)
     {
-      if (gadgets.getLootItemIcons().size()>0)
+      if (!gadgets.getLootItemIcons().isEmpty())
       {
         return true;
       }

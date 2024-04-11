@@ -65,7 +65,7 @@ public class ItemReferencesDisplayController
   private JEditorPane buildDetailsPane(int itemId)
   {
     List<Reference<?,ItemRole>> references=getReferences(itemId);
-    if (references.size()==0)
+    if (references.isEmpty())
     {
       return null;
     }
@@ -152,7 +152,7 @@ public class ItemReferencesDisplayController
     List<Reference<Recipe,ItemRole>> recipeReferences=getReferences(references,Recipe.class);
     Profession currentProfession=null;
     int currentTier=0;
-    if (recipeReferences.size()>0)
+    if (!recipeReferences.isEmpty())
     {
       sb.append("<h1>Crafting</h1>");
       for(Reference<Recipe,ItemRole> recipeReference : recipeReferences)
@@ -203,7 +203,7 @@ public class ItemReferencesDisplayController
   private void buildHtmlForTaskItems(StringBuilder sb, List<Reference<?,ItemRole>> references)
   {
     List<Reference<Task,ItemRole>> taskReferences=getReferences(references,Task.class);
-    if (taskReferences.size()>0)
+    if (!taskReferences.isEmpty())
     {
       sb.append("<h1>Tasks</h1>");
       for(Reference<Task,ItemRole> taskReference : taskReferences)
@@ -224,7 +224,7 @@ public class ItemReferencesDisplayController
   private void buildHtmlForQuestsAndDeeds(StringBuilder sb, List<Reference<?,ItemRole>> references)
   {
     List<Reference<Achievable,ItemRole>> achievableReferences=getReferences(references,Achievable.class);
-    if (achievableReferences.size()>0)
+    if (!achievableReferences.isEmpty())
     {
       sb.append("<h1>Quests and deeds</h1>");
       for(Reference<Achievable,ItemRole> achievableReference : achievableReferences)
@@ -249,7 +249,7 @@ public class ItemReferencesDisplayController
   private void buildHtmlForBarterers(StringBuilder sb, List<Reference<?,ItemRole>> references)
   {
     List<Reference<BarterNpc,ItemRole>> bartererReferences=getReferences(references,BarterNpc.class);
-    if (bartererReferences.size()>0)
+    if (!bartererReferences.isEmpty())
     {
       sb.append("<h1>Barterers</h1>");
       for(Reference<BarterNpc,ItemRole> bartererReference : bartererReferences)
@@ -283,7 +283,7 @@ public class ItemReferencesDisplayController
   private void buildHtmlForVendors(StringBuilder sb, List<Reference<?,ItemRole>> references)
   {
     List<Reference<VendorNpc,ItemRole>> vendorReferences=getReferences(references,VendorNpc.class);
-    if (vendorReferences.size()>0)
+    if (!vendorReferences.isEmpty())
     {
       sb.append("<h1>Vendors</h1>");
       for(Reference<VendorNpc,ItemRole> vendorReference : vendorReferences)
@@ -305,7 +305,7 @@ public class ItemReferencesDisplayController
   private void buildHtmlForSets(StringBuilder sb, List<Reference<?,ItemRole>> references)
   {
     List<Reference<ItemsSet,ItemRole>> setReferences=getReferences(references,ItemsSet.class);
-    if (setReferences.size()>0)
+    if (!setReferences.isEmpty())
     {
       sb.append("<h1>Sets</h1>");
       for(Reference<ItemsSet,ItemRole> setReference : setReferences)
@@ -327,7 +327,7 @@ public class ItemReferencesDisplayController
   private void buildHtmlForContainers(StringBuilder sb, List<Reference<?,ItemRole>> references)
   {
     List<Reference<ItemsContainer,ItemRole>> containerReferences=getReferences(references,ItemsContainer.class);
-    if (containerReferences.size()>0)
+    if (!containerReferences.isEmpty())
     {
       sb.append("<h1>Containers</h1>");
       for(Reference<ItemsContainer,ItemRole> containerReference : containerReferences)
@@ -351,7 +351,7 @@ public class ItemReferencesDisplayController
   private void buildHtmlForMeldingRecipes(StringBuilder sb, List<Reference<?,ItemRole>> references)
   {
     List<Reference<RelicMeldingRecipe,ItemRole>> recipeReferences=getReferences(references,RelicMeldingRecipe.class);
-    if (recipeReferences.size()>0)
+    if (!recipeReferences.isEmpty())
     {
       sb.append("<h1>Melding recipes</h1>");
       for(Reference<RelicMeldingRecipe,ItemRole> recipeReference : recipeReferences)
@@ -398,7 +398,7 @@ public class ItemReferencesDisplayController
   private void buildHtmlForSameCosmetics(StringBuilder sb, List<Reference<?,ItemRole>> references)
   {
     List<Reference<Item,ItemRole>> sameCosmeticsReferences=getReferences(references,Item.class,ItemRole.SAME_COSMETICS);
-    if (sameCosmeticsReferences.size()>0)
+    if (!sameCosmeticsReferences.isEmpty())
     {
       sb.append("<h1>Items with same cosmetics</h1>");
       for(Reference<Item,ItemRole> sameCosmeticsReference : sameCosmeticsReferences)
@@ -420,7 +420,7 @@ public class ItemReferencesDisplayController
   private void buildHtmlForWebStoreItems(StringBuilder sb, List<Reference<?,ItemRole>> references)
   {
     List<Reference<WebStoreItem,ItemRole>> webStoreReferences=getReferences(references,WebStoreItem.class,ItemRole.WEB_STORE_ITEM);
-    if (webStoreReferences.size()>0)
+    if (!webStoreReferences.isEmpty())
     {
       sb.append("<h1>Can be bought in the Lotro Store</h1>");
     }

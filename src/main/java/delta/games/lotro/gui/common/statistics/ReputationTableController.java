@@ -43,7 +43,7 @@ public abstract class ReputationTableController<T extends FactionStats> extends 
    * @param parent Parent controller.
    * @param stats Stats to show.
    */
-  public ReputationTableController(AreaController parent, ReputationStats<T> stats)
+  protected ReputationTableController(AreaController parent, ReputationStats<T> stats)
   {
     super(parent);
     _stats=stats;

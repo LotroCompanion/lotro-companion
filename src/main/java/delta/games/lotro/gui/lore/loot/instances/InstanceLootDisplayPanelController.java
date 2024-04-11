@@ -81,7 +81,7 @@ public class InstanceLootDisplayPanelController implements FilterUpdateListener
     List<Difficulty> difficulties=cfg.getDifficulties();
     List<GroupSize> groupSize=cfg.getGroupSizes();
     List<Integer> levels=cfg.getLevels();
-    if ((difficulties.size()>0) && (groupSize.size()>0) && (levels.size()>0))
+    if ((!difficulties.isEmpty()) && (!groupSize.isEmpty()) && (!levels.isEmpty()))
     {
       return new InstanceParameters(difficulties.get(0),groupSize.get(0),levels.get(0).intValue());
     }

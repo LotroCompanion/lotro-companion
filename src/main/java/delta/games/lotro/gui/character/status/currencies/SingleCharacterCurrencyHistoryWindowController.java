@@ -29,6 +29,10 @@ import delta.games.lotro.gui.character.CharacterPreferencesManager;
  */
 public class SingleCharacterCurrencyHistoryWindowController extends DefaultDisplayDialogController<Void>
 {
+  /**
+   * 
+   */
+  public static final String IDENTIFIER="SINGLE_CURRENCY";
   // Controllers
   private SingleCharacterCurrencyHistoryPanelController _panelController;
   private CurrencyChoicePanelController _currencyChoice;
@@ -109,15 +113,6 @@ public class SingleCharacterCurrencyHistoryWindowController extends DefaultDispl
     _chartHostPanel.repaint();
   }
 
-  /**
-   * Get the window identifier for this window.
-   * @return A window identifier.
-   */
-  public static String getIdentifier()
-  {
-    return "SINGLE_CURRENCY";
-  }
-
   @Override
   protected JDialog build()
   {
@@ -138,7 +133,7 @@ public class SingleCharacterCurrencyHistoryWindowController extends DefaultDispl
   @Override
   public String getWindowIdentifier()
   {
-    return getIdentifier();
+    return IDENTIFIER;
   }
 
   /**

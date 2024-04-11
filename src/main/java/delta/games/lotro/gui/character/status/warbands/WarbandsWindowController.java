@@ -43,7 +43,7 @@ public class WarbandsWindowController extends DefaultWindowController
     TypedProperties props=preferences.getPreferences(WARBANDS_PREFERENCES_NAME);
     List<String> toonIds=props.getStringList(TOON_NAME_PREFERENCE);
     CharactersManager manager=CharactersManager.getInstance();
-    if ((toonIds!=null) && (toonIds.size()>0))
+    if ((toonIds!=null) && (!toonIds.isEmpty()))
     {
       for(String toonID : toonIds)
       {

@@ -145,7 +145,7 @@ public class ItemChooserFilter implements Filter<Item>
     if (useWeaponType)
     {
       List<WeaponType> weaponTypes=cfg.getWeaponTypes();
-      if (weaponTypes.size()>0)
+      if (!weaponTypes.isEmpty())
       {
         _weaponTypeFilter=new WeaponTypeFilter(null);
         filters.add(_weaponTypeFilter);
@@ -174,7 +174,7 @@ public class ItemChooserFilter implements Filter<Item>
     if (useArmourType)
     {
       List<ArmourType> armourTypes=cfg.getArmourTypes();
-      if (armourTypes.size()>0)
+      if (!armourTypes.isEmpty())
       {
         _armourTypeFilter=new ArmourTypeFilter(null);
         filters.add(_armourTypeFilter);
@@ -185,7 +185,7 @@ public class ItemChooserFilter implements Filter<Item>
     if (useShieldType)
     {
       List<ArmourType> shieldTypes=cfg.getShieldTypes();
-      if (shieldTypes.size()>0)
+      if (!shieldTypes.isEmpty())
       {
         _shieldTypeFilter=new ArmourTypeFilter(null);
         filters.add(_shieldTypeFilter);

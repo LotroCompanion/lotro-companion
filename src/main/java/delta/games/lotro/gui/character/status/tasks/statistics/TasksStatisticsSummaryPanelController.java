@@ -26,7 +26,6 @@ public class TasksStatisticsSummaryPanelController
   private TasksStatistics _statistics;
   // UI
   private JPanel _panel;
-  private JPanel _statsPanel;
   private JLabel _distinctTasksCount;
   private JLabel _completionsCount;
   private JLabel _reputation;
@@ -52,57 +51,57 @@ public class TasksStatisticsSummaryPanelController
   {
     JPanel panel=GuiFactory.buildPanel(new BorderLayout());
     // Stats panel
-    _statsPanel=GuiFactory.buildPanel(new GridBagLayout());
+    JPanel statsPanel=GuiFactory.buildPanel(new GridBagLayout());
     TitledBorder border=GuiFactory.buildTitledBorder("Statistics"); // I18n
-    _statsPanel.setBorder(border);
-    panel.add(_statsPanel,BorderLayout.CENTER);
+    statsPanel.setBorder(border);
+    panel.add(statsPanel,BorderLayout.CENTER);
     GridBagConstraints cLabels=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,5,2,0),0,0);
     GridBagConstraints cValues=new GridBagConstraints(1,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,5,2,5),0,0);
 
     // Distinct tasks count
-    _statsPanel.add(GuiFactory.buildLabel("Distinct tasks count:"),cLabels); // I18n
+    statsPanel.add(GuiFactory.buildLabel("Distinct tasks count:"),cLabels); // I18n
     _distinctTasksCount=GuiFactory.buildLabel("");
-    _statsPanel.add(_distinctTasksCount,cValues);
+    statsPanel.add(_distinctTasksCount,cValues);
     cLabels.gridy++;cValues.gridy++;
     // Completions count
-    _statsPanel.add(GuiFactory.buildLabel("Completions count:"),cLabels); // I18n
+    statsPanel.add(GuiFactory.buildLabel("Completions count:"),cLabels); // I18n
     _completionsCount=GuiFactory.buildLabel("");
-    _statsPanel.add(_completionsCount,cValues);
+    statsPanel.add(_completionsCount,cValues);
     cLabels.gridy++;cValues.gridy++;
     // Reputation
-    _statsPanel.add(GuiFactory.buildLabel("Reputation:"),cLabels); // I18n
+    statsPanel.add(GuiFactory.buildLabel("Reputation:"),cLabels); // I18n
     _reputation=GuiFactory.buildLabel("");
-    _statsPanel.add(_reputation,cValues);
+    statsPanel.add(_reputation,cValues);
     cLabels.gridy++;cValues.gridy++;
     // Consumed items
-    _statsPanel.add(GuiFactory.buildLabel("Consumed items:"),cLabels); // I18n
+    statsPanel.add(GuiFactory.buildLabel("Consumed items:"),cLabels); // I18n
     _consumedItemsCount=GuiFactory.buildLabel("");
-    _statsPanel.add(_consumedItemsCount,cValues);
+    statsPanel.add(_consumedItemsCount,cValues);
     cLabels.gridy++;cValues.gridy++;
     // Price
-    _statsPanel.add(GuiFactory.buildLabel("Value:"),cLabels); // I18n
+    statsPanel.add(GuiFactory.buildLabel("Value:"),cLabels); // I18n
     _priceDisplay=new MoneyDisplayController();
-    _statsPanel.add(_priceDisplay.getPanel(),cValues);
+    statsPanel.add(_priceDisplay.getPanel(),cValues);
     cLabels.gridy++;cValues.gridy++;
     // Earned items
-    _statsPanel.add(GuiFactory.buildLabel("Earned items:"),cLabels); // I18n
+    statsPanel.add(GuiFactory.buildLabel("Earned items:"),cLabels); // I18n
     _earnedItemsCount=GuiFactory.buildLabel("");
-    _statsPanel.add(_earnedItemsCount,cValues);
+    statsPanel.add(_earnedItemsCount,cValues);
     cLabels.gridy++;cValues.gridy++;
     // XP
-    _statsPanel.add(GuiFactory.buildLabel("Total XP:"),cLabels); // I18n
+    statsPanel.add(GuiFactory.buildLabel("Total XP:"),cLabels); // I18n
     _totalXP=GuiFactory.buildLabel("");
-    _statsPanel.add(_totalXP,cValues);
+    statsPanel.add(_totalXP,cValues);
     cLabels.gridy++;cValues.gridy++;
     // Item XP
-    _statsPanel.add(GuiFactory.buildLabel("Total Item XP:"),cLabels); // I18n
+    statsPanel.add(GuiFactory.buildLabel("Total Item XP:"),cLabels); // I18n
     _totalItemXP=GuiFactory.buildLabel("");
-    _statsPanel.add(_totalItemXP,cValues);
+    statsPanel.add(_totalItemXP,cValues);
     cLabels.gridy++;cValues.gridy++;
     // Mount XP
-    _statsPanel.add(GuiFactory.buildLabel("Total Mount XP:"),cLabels); // I18n
+    statsPanel.add(GuiFactory.buildLabel("Total Mount XP:"),cLabels); // I18n
     _totalMountXP=GuiFactory.buildLabel("");
-    _statsPanel.add(_totalMountXP,cValues);
+    statsPanel.add(_totalMountXP,cValues);
     cLabels.gridy++;cValues.gridy++;
 
     return panel;

@@ -371,7 +371,7 @@ public class MainCharacterWindowCommandsManager
   private void showCurrencies()
   {
     WindowsManager windowsManager=getWindowsManager();
-    SingleCharacterCurrencyHistoryWindowController windowCtrl=(SingleCharacterCurrencyHistoryWindowController)windowsManager.getWindow(SingleCharacterCurrencyHistoryWindowController.getIdentifier());
+    SingleCharacterCurrencyHistoryWindowController windowCtrl=(SingleCharacterCurrencyHistoryWindowController)windowsManager.getWindow(SingleCharacterCurrencyHistoryWindowController.IDENTIFIER);
     if (windowCtrl==null)
     {
       windowCtrl=new SingleCharacterCurrencyHistoryWindowController(_parent,_toon);
