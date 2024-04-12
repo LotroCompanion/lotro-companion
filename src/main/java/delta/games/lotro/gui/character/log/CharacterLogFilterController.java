@@ -6,6 +6,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -40,7 +41,7 @@ public class CharacterLogFilterController implements ItemListener
   private ComboBoxController<Long> _minDates;
   private ComboBoxController<Long> _maxDates;
   private JTextField _contains;
-  private HashMap<LogItemType,JCheckBox> _types;
+  private Map<LogItemType,JCheckBox> _types;
   private CharacterLogPanelController _panelController;
 
   /**
@@ -52,7 +53,7 @@ public class CharacterLogFilterController implements ItemListener
   public CharacterLogFilterController(CharacterLog log, CharacterLogItemsFilter filter, CharacterLogPanelController panelController)
   {
     _log=log;
-    _types=new HashMap<LogItemType,JCheckBox>();
+    _types=new EnumMap<LogItemType,JCheckBox>(LogItemType.class);
     _filter=filter;
     _panelController=panelController;
   }

@@ -631,6 +631,14 @@ public class ItemDisplayPanelController extends AbstractNavigablePanelController
       y++;
     }
     // Allegiance points
+    y=handleAllegiancePoints(mgr,ret,y);
+    // Housing hooks
+    handleHousingHooks(mgr,ret,y);
+    return ret;
+  }
+
+  private int handleAllegiancePoints(ItemDetailsManager mgr, JPanel panel, int y)
+  {
     List<AllegiancePoints> allegiancePoints=mgr.getItemDetails(AllegiancePoints.class);
     if (!allegiancePoints.isEmpty())
     {
@@ -639,11 +647,15 @@ public class ItemDisplayPanelController extends AbstractNavigablePanelController
         GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
         String allegianceGroup=allegiancePointsEntry.getGroup().getLabel();
         String label="This item is worth "+allegiancePointsEntry.getPoints()+" Allegiance Points ("+allegianceGroup+")."; // I18n
-        ret.add(GuiFactory.buildLabel(label),c);
+        panel.add(GuiFactory.buildLabel(label),c);
         y++;
       }
     }
-    // Housing hooks
+    return y;
+  }
+
+  private int handleHousingHooks(ItemDetailsManager mgr, JPanel panel, int y)
+  {
     HousingHooks housingHooks=mgr.getFirstItemDetail(HousingHooks.class);
     if (housingHooks!=null)
     {
@@ -651,9 +663,10 @@ public class ItemDisplayPanelController extends AbstractNavigablePanelController
       List<HousingHookCategory> categories=housingHooks.getHookCategories();
       String categoriesStr=formatEnumEntries(categories);
       String label="Decoration Category: "+categoriesStr;
-      ret.add(GuiFactory.buildLabel(label),c);
+      panel.add(GuiFactory.buildLabel(label),c);
+      y++;
     }
-    return ret;
+    return y;
   }
 
   private String formatEnumEntries(List<? extends LotroEnumEntry> entries)

@@ -128,7 +128,7 @@ public class CountedItemsTableController<T extends ItemProvider>
     List<TableColumnController<CountedItem<T>,?>> ret=new ArrayList<TableColumnController<CountedItem<T>,?>>();
 
     List<DefaultTableColumnController<Item,?>> columns=ItemsTableBuilder.initColumns();
-    for(TableColumnController<Item,?> column : columns)
+    for(DefaultTableColumnController<Item,?> column : columns)
     {
       CellDataProvider<CountedItem<T>,Item> dataProvider=new CellDataProvider<CountedItem<T>,Item>()
       {

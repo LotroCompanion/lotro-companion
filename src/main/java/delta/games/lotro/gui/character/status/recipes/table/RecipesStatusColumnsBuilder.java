@@ -35,7 +35,7 @@ public class RecipesStatusColumnsBuilder
           return recipeStatus.getRecipe();
         }
       };
-      for(TableColumnController<Recipe,?> recipeColumn : RecipesTableController.buildColumns())
+      for(DefaultTableColumnController<Recipe,?> recipeColumn : RecipesTableController.buildColumns())
       {
         @SuppressWarnings("unchecked")
         TableColumnController<Recipe,Object> c=(TableColumnController<Recipe,Object>)recipeColumn;

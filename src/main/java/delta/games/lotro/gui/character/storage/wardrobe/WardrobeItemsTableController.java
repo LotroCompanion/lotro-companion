@@ -101,7 +101,7 @@ public class WardrobeItemsTableController
     List<TableColumnController<WardrobeItem,?>> ret=new ArrayList<TableColumnController<WardrobeItem,?>>();
 
     List<DefaultTableColumnController<Item,?>> columns=ItemsTableBuilder.initColumns();
-    for(TableColumnController<Item,?> column : columns)
+    for(DefaultTableColumnController<Item,?> column : columns)
     {
       CellDataProvider<WardrobeItem,Item> dataProvider=new CellDataProvider<WardrobeItem,Item>()
       {

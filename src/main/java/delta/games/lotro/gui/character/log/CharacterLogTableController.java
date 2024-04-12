@@ -1,7 +1,8 @@
 package delta.games.lotro.gui.character.log;
 
 import java.util.Date;
-import java.util.HashMap;
+import java.util.EnumMap;
+import java.util.Map;
 
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -122,14 +123,14 @@ public class CharacterLogTableController
 
   static class LogItemTypeRenderer extends DefaultTableCellRenderer
   {
-    private HashMap<LogItemType,String> _labels;
+    private Map<LogItemType,String> _labels;
 
     /**
      * Constructor.
      */
     public LogItemTypeRenderer()
     {
-      _labels=new HashMap<LogItemType,String>();
+      _labels=new EnumMap<LogItemType,String>(LogItemType.class);
       _labels.put(LogItemType.DEED,"Deed"); // I18n
       _labels.put(LogItemType.LEVELUP,"Level up"); // I18n
       _labels.put(LogItemType.PROFESSION,"Profession"); // I18n

@@ -256,7 +256,7 @@ public class RewardsColumnsBuilder
       public Integer getData(Rewards rewards)
       {
         List<ReputationReward> reputationRewards=rewards.getRewardElementsOfClass(ReputationReward.class);
-        return (reputationRewards.size()>0)?Integer.valueOf(reputationRewards.get(0).getAmount()):null;
+        return (reputationRewards.isEmpty())?null:Integer.valueOf(reputationRewards.get(0).getAmount());
       }
     };
     DefaultTableColumnController<Rewards,Integer> reputationAmountColumn=new DefaultTableColumnController<Rewards,Integer>(RewardsColumnIds.REPUTATION_AMOUNT.name(),"Rep Amount",Integer.class,reputationAmountCell); // I18n

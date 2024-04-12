@@ -3,7 +3,7 @@ package delta.games.lotro.gui.clientImport;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Map;
 
 import javax.swing.Box;
@@ -30,7 +30,7 @@ public class ExtractionResultsPanelController implements Disposable
    */
   public ExtractionResultsPanelController()
   {
-    _gadgets=new HashMap<ExtractableElement,JLabel>();
+    _gadgets=new EnumMap<ExtractableElement,JLabel>(ExtractableElement.class);
     _panel=buildPanel();
   }
 
