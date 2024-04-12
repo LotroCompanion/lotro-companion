@@ -49,7 +49,6 @@ public enum ItemInstanceColumnIds
   /**
    * Essences.
    */
-  // TODO: really?
   ESSENCES,
   /**
    * User comments.

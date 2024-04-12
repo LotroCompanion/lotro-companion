@@ -86,7 +86,7 @@ public class TraitTreeSetupAttrsDialogController extends DefaultFormDialogContro
   }
 
   @Override
-  protected boolean checkInput()
+  protected boolean checkInput() // NOSONAR (false positive)
   {
     String errorMsg=checkData();
     if (errorMsg==null)

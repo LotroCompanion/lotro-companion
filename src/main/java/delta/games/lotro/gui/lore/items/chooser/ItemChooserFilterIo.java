@@ -377,7 +377,26 @@ public class ItemChooserFilterIo
         props.removeProperty(DAMAGE_TYPE);
       }
     }
-    // Damage type
+    // Weapon slayer
+    handleWeaponSlayerFilter(filter,props);
+    // Armour type
+    handleArmourTypeFilter(filter,props);
+    // Shield type
+    handleShieldTypeFilter(filter,props);
+    // Stats
+    handleItemStatsFilter(filter,props);
+    // Item level
+    handleItemLevelFilter(filter,props);
+    // Scalable
+    handleScalableFilter(filter,props);
+    // Character/monster class
+    handleClassRequirementFilter(filter,props);
+    // Race
+    handleRaceFilter(filter,props);
+  }
+
+  private static void handleWeaponSlayerFilter(ItemChooserFilter filter, TypedProperties props)
+  {
     WeaponSlayerFilter slayerGenusFilter=filter.getSlayerGenusFilter();
     if (slayerGenusFilter!=null)
     {
@@ -391,7 +410,10 @@ public class ItemChooserFilterIo
         props.removeProperty(SLAYER_GENUS);
       }
     }
-    // Armour type
+  }
+
+  private static void handleArmourTypeFilter(ItemChooserFilter filter, TypedProperties props)
+  {
     ArmourTypeFilter armourTypeFilter=filter.getArmourTypeFilter();
     if (armourTypeFilter!=null)
     {
@@ -405,7 +427,10 @@ public class ItemChooserFilterIo
         props.removeProperty(ARMOUR_TYPE);
       }
     }
-    // Shield type
+  }
+
+  private static void handleShieldTypeFilter(ItemChooserFilter filter, TypedProperties props)
+  {
     ArmourTypeFilter shieldTypeFilter=filter.getShieldTypeFilter();
     if (shieldTypeFilter!=null)
     {
@@ -419,7 +444,10 @@ public class ItemChooserFilterIo
         props.removeProperty(SHIELD_TYPE);
       }
     }
-    // Stats
+  }
+
+  private static void handleItemStatsFilter(ItemChooserFilter filter, TypedProperties props)
+  {
     ItemStatFilter statFilter=filter.getStatFilter();
     if (statFilter!=null)
     {
@@ -438,7 +466,10 @@ public class ItemChooserFilterIo
         }
       }
     }
-    // Item level
+  }
+
+  private static void handleItemLevelFilter(ItemChooserFilter filter, TypedProperties props)
+  {
     ItemLevelFilter itemLevelFilter=filter.getItemLevelFilter();
     if (itemLevelFilter!=null)
     {
@@ -461,7 +492,10 @@ public class ItemChooserFilterIo
         props.removeProperty(MAX_ITEM_LEVEL);
       }
     }
-    // Scalable
+  }
+
+  private static void handleScalableFilter(ItemChooserFilter filter, TypedProperties props)
+  {
     ScalableItemFilter scalableFilter=filter.getScalableFilter();
     if (scalableFilter!=null)
     {
@@ -475,7 +509,10 @@ public class ItemChooserFilterIo
         props.removeProperty(SCALABLE);
       }
     }
-    // Character/monster class
+  }
+
+  private static void handleClassRequirementFilter(ItemChooserFilter filter, TypedProperties props)
+  {
     ItemRequiredClassFilter genericClassFilter=filter.getGenericClassFilter();
     if (genericClassFilter!=null)
     {
@@ -489,7 +526,10 @@ public class ItemChooserFilterIo
         props.removeProperty(GENERIC_CLASS_FILTER);
       }
     }
-    // Race
+  }
+
+  private static void handleRaceFilter(ItemChooserFilter filter, TypedProperties props)
+  {
     ItemRequiredRaceFilter genericRaceFilter=filter.getGenericRaceFilter();
     if (genericRaceFilter!=null)
     {

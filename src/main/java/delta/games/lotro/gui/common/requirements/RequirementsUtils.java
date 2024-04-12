@@ -99,6 +99,17 @@ public class RequirementsUtils
       sb.append(factionRequirementLabel);
     }
     // Quest
+    handleQuestRequirements(sb,requirements);
+    // Profession
+    handleProfessionRequirements(sb,requirements);
+    // Glory Rank
+    handleGloryRank(sb,requirements);
+    String ret=sb.toString().trim();
+    return ret;
+  }
+
+  private static void handleQuestRequirements(StringBuilder sb, UsageRequirement requirements)
+  {
     QuestRequirement questReq=requirements.getQuestRequirement();
     if (questReq!=null)
     {
@@ -119,7 +130,10 @@ public class RequirementsUtils
         }
       }
     }
-    // Profession
+  }
+
+  private static void handleProfessionRequirements(StringBuilder sb, UsageRequirement requirements)
+  {
     ProfessionRequirement professionReq=requirements.getProfessionRequirement();
     if (professionReq!=null)
     {
@@ -133,7 +147,10 @@ public class RequirementsUtils
         sb.append(tier.getLabel());
       }
     }
-    // Glory Rank
+  }
+
+  private static void handleGloryRank(StringBuilder sb, UsageRequirement requirements)
+  {
     GloryRankRequirement gloryRankReq=requirements.getGloryRankRequirement();
     if (gloryRankReq!=null)
     {
@@ -149,8 +166,6 @@ public class RequirementsUtils
       Effect effect=effectReq.getEffect();
       sb.append(effect.getName());
     }
-    String ret=sb.toString().trim();
-    return ret;
   }
 
   private static String getFactionRequirementLabel(AreaController controller, FactionRequirement factionReq)

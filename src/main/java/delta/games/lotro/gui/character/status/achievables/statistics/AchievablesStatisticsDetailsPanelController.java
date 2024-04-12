@@ -46,31 +46,30 @@ public class AchievablesStatisticsDetailsPanelController extends AbstractPanelCo
   {
     super(parent);
     _summary=new AchievablesStatisticsDetailedSummaryPanelController(statistics,mode);
-    // TODO I18n:
     // Titles
     TitleEventsTableController titlesTable=new TitleEventsTableController(statistics);
     _titles=new AchievableStatisticsTabPanelController<TitleEvent>(parent,titlesTable.getTableController());
-    _titles.configure(null,"Titles(s)");
+    _titles.configure(null,"Titles(s)"); // I18n
     // Reputation
     ReputationTableController<AchievablesFactionStats> tableController=new AchievablesReputationTableController(this,statistics.getReputationStats(),mode);
     _reputation=new AchievableStatisticsTabPanelController<AchievablesFactionStats>(parent,tableController.getTableController());
-    _reputation.configure(null,"Faction(s)");
+    _reputation.configure(null,"Faction(s)"); // I18n
     // Virtues
     VirtueXPFromAchievablesTableController virtuesTable=new VirtueXPFromAchievablesTableController(statistics,mode);
     _virtueXP=new AchievableStatisticsTabPanelController<VirtueXPStatsFromAchievable>(parent,virtuesTable.getTableController());
-    _virtueXP.configure(null,"Source(s)");
+    _virtueXP.configure(null,"Source(s)"); // I18n
     // Items
     CountedItemsTableController<Item> itemsTable=new CountedItemsTableController<Item>(null,statistics.getItemsStats().getItems(),null);
     _items=new AchievableStatisticsTabPanelController<CountedItem<Item>>(parent,itemsTable.getTableController());
-    _items.configure(null,"Item(s)");
+    _items.configure(null,"Item(s)"); // I18n
     // Emotes
     EmoteEventsTableController emotesTable=new EmoteEventsTableController(statistics);
     _emotes=new AchievableStatisticsTabPanelController<EmoteEvent>(parent,emotesTable.getTableController());
-    _emotes.configure(null,"Emote(s)");
+    _emotes.configure(null,"Emote(s)"); // I18n
     // Traits
     TraitEventsTableController traitsTable=new TraitEventsTableController(statistics);
     _traits=new AchievableStatisticsTabPanelController<TraitEvent>(parent,traitsTable.getTableController());
-    _traits.configure(null,"Trait(s)");
+    _traits.configure(null,"Trait(s)"); // I18n
     JPanel panel=buildPanel();
     setPanel(panel);
   }
