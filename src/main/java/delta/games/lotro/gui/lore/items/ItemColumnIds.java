@@ -43,9 +43,13 @@ public enum ItemColumnIds
    */
   CATEGORY,
   /**
-   * Slot count.
+   * Slots count.
    */
   SLOT_COUNT,
+  /**
+   * Slots (detailed).
+   */
+  SLOTS,
   /**
    * Armour/shield type.
    */

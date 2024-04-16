@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.swing.Icon;
 import javax.swing.JTable;
+import javax.swing.table.TableCellRenderer;
 
 import org.apache.log4j.Logger;
 
@@ -28,6 +29,7 @@ import delta.games.lotro.common.stats.StatsRegistry;
 import delta.games.lotro.config.LotroCoreConfig;
 import delta.games.lotro.gui.lore.items.ItemColumnIds;
 import delta.games.lotro.gui.lore.items.ItemUiTools;
+import delta.games.lotro.gui.lore.items.SlotsPanelController;
 import delta.games.lotro.gui.utils.MoneyCellRenderer;
 import delta.games.lotro.gui.utils.UiConfiguration;
 import delta.games.lotro.gui.utils.l10n.Labels;
@@ -44,6 +46,7 @@ import delta.games.lotro.lore.items.WeaponType;
 import delta.games.lotro.lore.items.comparators.WeaponSlayerInfoComparator;
 import delta.games.lotro.lore.items.details.ItemDetailsManager;
 import delta.games.lotro.lore.items.details.WeaponSlayerInfo;
+import delta.games.lotro.lore.items.essences.EssencesSlotsSetup;
 import delta.games.lotro.lore.items.weapons.WeaponSpeedEntry;
 
 /**
@@ -129,6 +132,8 @@ public class ItemsTableBuilder
     columns.add(buildValueColumn());
     // Slots count
     columns.add(buildSlotsCountColumn());
+    // Slots
+    columns.add(buildSlotsColumn());
     // Tier (essences, traceries)
     columns.add(buildTierColumn());
     // Quality
@@ -314,6 +319,28 @@ public class ItemsTableBuilder
     String columnName=Labels.getLabel("items.table.slotsCount");
     DefaultTableColumnController<Item,Integer> column=new DefaultTableColumnController<Item,Integer>(ItemColumnIds.SLOT_COUNT.name(),columnName,Integer.class,cell);
     column.setWidthSpecs(55,55,50);
+    return column;
+  }
+
+  private static DefaultTableColumnController<Item,EssencesSlotsSetup> buildSlotsColumn()
+  {
+    CellDataProvider<Item,EssencesSlotsSetup> cell=new CellDataProvider<Item,EssencesSlotsSetup>()
+    {
+      @Override
+      public EssencesSlotsSetup getData(Item item)
+      {
+        EssencesSlotsSetup setup=item.getEssenceSlotsSetup();
+        return setup;
+      }
+    };
+    String columnName=Labels.getLabel("items.table.slots");
+    DefaultTableColumnController<Item,EssencesSlotsSetup> column=new DefaultTableColumnController<Item,EssencesSlotsSetup>(ItemColumnIds.SLOTS.name(),columnName,EssencesSlotsSetup.class,cell);
+    int minWidth=SlotsPanelController.getWidthForSlotsCount(1);
+    int maxWidth=SlotsPanelController.getWidthForSlotsCount(5);
+    column.setWidthSpecs(minWidth,maxWidth,maxWidth);
+    SlotsPanelController panelController=new SlotsPanelController();
+    TableCellRenderer renderer=panelController.buildRenderer();
+    column.setCellRenderer(renderer);
     return column;
   }
 
