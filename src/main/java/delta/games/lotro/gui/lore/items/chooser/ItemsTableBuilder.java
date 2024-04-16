@@ -124,95 +124,19 @@ public class ItemsTableBuilder
     // Required max level column
     columns.add(buildMaxLevelColumn());
     // Class requirement
-    {
-      CellDataProvider<Item,AbstractClassDescription> requiredClassCell=new CellDataProvider<Item,AbstractClassDescription>()
-      {
-        @Override
-        public AbstractClassDescription getData(Item item)
-        {
-          return item.getRequiredClass();
-        }
-      };
-      String columnName=Labels.getLabel("items.table.class");
-      DefaultTableColumnController<Item,AbstractClassDescription> requiredClassColumn=new DefaultTableColumnController<Item,AbstractClassDescription>(ItemColumnIds.CLASS.name(),columnName,AbstractClassDescription.class,requiredClassCell);
-      requiredClassColumn.setWidthSpecs(100,100,100);
-      columns.add(requiredClassColumn);
-    }
+    columns.add(buildClassRequirementColumn());
     // Value
     columns.add(buildValueColumn());
-    // Slot count
-    {
-      CellDataProvider<Item,Integer> slotsCell=new CellDataProvider<Item,Integer>()
-      {
-        @Override
-        public Integer getData(Item item)
-        {
-          int nbSlots=item.getEssenceSlots();
-          return (nbSlots>0)?Integer.valueOf(nbSlots):null;
-        }
-      };
-      String columnName=Labels.getLabel("items.table.slotsCount");
-      DefaultTableColumnController<Item,Integer> slotsColumn=new DefaultTableColumnController<Item,Integer>(ItemColumnIds.SLOT_COUNT.name(),columnName,Integer.class,slotsCell);
-      slotsColumn.setWidthSpecs(55,55,50);
-      columns.add(slotsColumn);
-    }
+    // Slots count
+    columns.add(buildSlotsCountColumn());
     // Tier (essences, traceries)
-    {
-      CellDataProvider<Item,Integer> tierCell=new CellDataProvider<Item,Integer>()
-      {
-        @Override
-        public Integer getData(Item item)
-        {
-          return item.getTier();
-        }
-      };
-      String columnName=Labels.getLabel("items.table.tier");
-      DefaultTableColumnController<Item,Integer> tierColumn=new DefaultTableColumnController<Item,Integer>(ItemColumnIds.TIER.name(),columnName,Integer.class,tierCell);
-      tierColumn.setWidthSpecs(55,55,50);
-      columns.add(tierColumn);
-    }
+    columns.add(buildTierColumn());
     // Quality
     columns.add(buildQualityColumn());
     // Armour type
-    {
-      CellDataProvider<Item,ArmourType> armourTypeCell=new CellDataProvider<Item,ArmourType>()
-      {
-        @Override
-        public ArmourType getData(Item item)
-        {
-          if (item instanceof Armour)
-          {
-            Armour armour=(Armour)item;
-            return armour.getArmourType();
-          }
-          return null;
-        }
-      };
-      String columnName=Labels.getLabel("items.table.armourType");
-      DefaultTableColumnController<Item,ArmourType> armourTypeColumn=new DefaultTableColumnController<Item,ArmourType>(ItemColumnIds.ARMOUR_TYPE.name(),columnName,ArmourType.class,armourTypeCell);
-      armourTypeColumn.setWidthSpecs(100,100,100);
-      columns.add(armourTypeColumn);
-    }
+    columns.add(buildArmourTypeColumn());
     // Weapon type
-    {
-      CellDataProvider<Item,WeaponType> weaponTypeCell=new CellDataProvider<Item,WeaponType>()
-      {
-        @Override
-        public WeaponType getData(Item item)
-        {
-          if (item instanceof Weapon)
-          {
-            Weapon weapon=(Weapon)item;
-            return weapon.getWeaponType();
-          }
-          return null;
-        }
-      };
-      String columnName=Labels.getLabel("items.table.weaponType");
-      DefaultTableColumnController<Item,WeaponType> weaponTypeColumn=new DefaultTableColumnController<Item,WeaponType>(ItemColumnIds.WEAPON_TYPE.name(),columnName,WeaponType.class,weaponTypeCell);
-      weaponTypeColumn.setWidthSpecs(150,150,150);
-      columns.add(weaponTypeColumn);
-    }
+    columns.add(buildWeaponTypeColumn());
     // DPS
     columns.add(buildDPSColumn());
     // Speed
@@ -230,19 +154,7 @@ public class ItemsTableBuilder
     // Weapon slayer
     columns.add(buildWeaponSlayerColumn());
     // Binding
-    {
-      CellDataProvider<Item,ItemBinding> bindingCell=new CellDataProvider<Item,ItemBinding>()
-      {
-        @Override
-        public ItemBinding getData(Item item)
-        {
-          return item.getBinding();
-        }
-      };
-      DefaultTableColumnController<Item,ItemBinding> bindingColumn=new DefaultTableColumnController<Item,ItemBinding>(ItemColumnIds.BINDING.name(),"Binding",ItemBinding.class,bindingCell);
-      bindingColumn.setWidthSpecs(150,150,150);
-      columns.add(bindingColumn);
-    }
+    columns.add(buildBindingColumn());
     // Stat columns
     StatsRegistry registry=StatsRegistry.getInstance();
     for(StatDescription stat : registry.getAll())
@@ -388,6 +300,39 @@ public class ItemsTableBuilder
     return maxLevelColumn;
   }
 
+  private static DefaultTableColumnController<Item,Integer> buildSlotsCountColumn()
+  {
+    CellDataProvider<Item,Integer> cell=new CellDataProvider<Item,Integer>()
+    {
+      @Override
+      public Integer getData(Item item)
+      {
+        int nbSlots=item.getEssenceSlots();
+        return (nbSlots>0)?Integer.valueOf(nbSlots):null;
+      }
+    };
+    String columnName=Labels.getLabel("items.table.slotsCount");
+    DefaultTableColumnController<Item,Integer> column=new DefaultTableColumnController<Item,Integer>(ItemColumnIds.SLOT_COUNT.name(),columnName,Integer.class,cell);
+    column.setWidthSpecs(55,55,50);
+    return column;
+  }
+
+  private static DefaultTableColumnController<Item,Integer> buildTierColumn()
+  {
+    CellDataProvider<Item,Integer> cell=new CellDataProvider<Item,Integer>()
+    {
+      @Override
+      public Integer getData(Item item)
+      {
+        return item.getTier();
+      }
+    };
+    String columnName=Labels.getLabel("items.table.tier");
+    DefaultTableColumnController<Item,Integer> column=new DefaultTableColumnController<Item,Integer>(ItemColumnIds.TIER.name(),columnName,Integer.class,cell);
+    column.setWidthSpecs(55,55,50);
+    return column;
+  }
+
   /**
    * Build a column for the quality of an item.
    * @return a column.
@@ -429,6 +374,22 @@ public class ItemsTableBuilder
     return categoryColumn;
   }
 
+  private static DefaultTableColumnController<Item,AbstractClassDescription> buildClassRequirementColumn()
+  {
+    CellDataProvider<Item,AbstractClassDescription> cell=new CellDataProvider<Item,AbstractClassDescription>()
+    {
+      @Override
+      public AbstractClassDescription getData(Item item)
+      {
+        return item.getRequiredClass();
+      }
+    };
+    String columnName=Labels.getLabel("items.table.class");
+    DefaultTableColumnController<Item,AbstractClassDescription> column=new DefaultTableColumnController<Item,AbstractClassDescription>(ItemColumnIds.CLASS.name(),columnName,AbstractClassDescription.class,cell);
+    column.setWidthSpecs(100,100,100);
+    return column;
+  }
+
   /**
    * Build a column for the value of an item.
    * @return a column.
@@ -450,6 +411,48 @@ public class ItemsTableBuilder
     valueColumn.setCellRenderer(new MoneyCellRenderer());
     valueColumn.setComparator(new MoneyComparator());
     return valueColumn;
+  }
+
+  private static DefaultTableColumnController<Item,ArmourType> buildArmourTypeColumn()
+  {
+    CellDataProvider<Item,ArmourType> cell=new CellDataProvider<Item,ArmourType>()
+    {
+      @Override
+      public ArmourType getData(Item item)
+      {
+        if (item instanceof Armour)
+        {
+          Armour armour=(Armour)item;
+          return armour.getArmourType();
+        }
+        return null;
+      }
+    };
+    String columnName=Labels.getLabel("items.table.armourType");
+    DefaultTableColumnController<Item,ArmourType> column=new DefaultTableColumnController<Item,ArmourType>(ItemColumnIds.ARMOUR_TYPE.name(),columnName,ArmourType.class,cell);
+    column.setWidthSpecs(100,100,100);
+    return column;
+  }
+
+  private static DefaultTableColumnController<Item,WeaponType> buildWeaponTypeColumn()
+  {
+    CellDataProvider<Item,WeaponType> cell=new CellDataProvider<Item,WeaponType>()
+    {
+      @Override
+      public WeaponType getData(Item item)
+      {
+        if (item instanceof Weapon)
+        {
+          Weapon weapon=(Weapon)item;
+          return weapon.getWeaponType();
+        }
+        return null;
+      }
+    };
+    String columnName=Labels.getLabel("items.table.weaponType");
+    DefaultTableColumnController<Item,WeaponType> column=new DefaultTableColumnController<Item,WeaponType>(ItemColumnIds.WEAPON_TYPE.name(),columnName,WeaponType.class,cell);
+    column.setWidthSpecs(150,150,150);
+    return column;
   }
 
   private static DefaultTableColumnController<Item,Float> buildDPSColumn()
@@ -576,6 +579,21 @@ public class ItemsTableBuilder
     DefaultTableColumnController<Item,WeaponSlayerInfo> column=new DefaultTableColumnController<Item,WeaponSlayerInfo>(ItemColumnIds.WEAPON_SLAYER.name(),columnName,WeaponSlayerInfo.class,cell);
     column.setWidthSpecs(100,200,200);
     column.setComparator(new WeaponSlayerInfoComparator());
+    return column;
+  }
+
+  private static DefaultTableColumnController<Item,ItemBinding> buildBindingColumn()
+  {
+    CellDataProvider<Item,ItemBinding> cell=new CellDataProvider<Item,ItemBinding>()
+    {
+      @Override
+      public ItemBinding getData(Item item)
+      {
+        return item.getBinding();
+      }
+    };
+    DefaultTableColumnController<Item,ItemBinding> column=new DefaultTableColumnController<Item,ItemBinding>(ItemColumnIds.BINDING.name(),"Binding",ItemBinding.class,cell);
+    column.setWidthSpecs(150,150,150);
     return column;
   }
 
