@@ -468,4 +468,13 @@ public class MainCharacterWindowCommandsManager
   {
     return _parent.getWindowsManager();
   }
+
+  /**
+   * Release all managed resources.
+   */
+  public void dispose()
+  {
+    _parent=null;
+    _toon=null;
+  }
 }

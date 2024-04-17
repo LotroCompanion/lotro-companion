@@ -112,6 +112,11 @@ public class CharacterFileWindowController extends DefaultWindowController
       _configsController.dispose();
       _configsController=null;
     }
+    if (_mainButtons!=null)
+    {
+      _mainButtons.dispose();
+      _mainButtons=null;
+    }
     if (_toon!=null)
     {
       _toon.getPreferences().saveAllPreferences();

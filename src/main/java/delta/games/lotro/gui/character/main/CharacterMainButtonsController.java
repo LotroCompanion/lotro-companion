@@ -148,4 +148,18 @@ public class CharacterMainButtonsController extends AbstractPanelController impl
     String command=e.getActionCommand();
     _commandsManager.handleCommand(command);
   }
+
+  /**
+   * Release all managed resources.
+   */
+  @Override
+  public void dispose()
+  {
+    super.dispose();
+    if (_commandsManager!=null)
+    {
+      _commandsManager.dispose();
+      _commandsManager=null;
+    }
+  }
 }
