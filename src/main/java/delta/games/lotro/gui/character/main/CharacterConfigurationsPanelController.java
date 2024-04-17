@@ -48,7 +48,7 @@ public class CharacterConfigurationsPanelController extends AbstractPanelControl
   private CharacterFile _toon;
   // Controllers
   private WindowController _parent;
-  private CharacterDataTableController _toonsTable;
+  private CharacterConfigurationsTableController _toonsTable;
   private ToolbarController _toolbar;
 
   /**
@@ -140,9 +140,9 @@ public class CharacterConfigurationsPanelController extends AbstractPanelControl
     return imgLocation;
   }
 
-  private CharacterDataTableController buildToonsTable()
+  private CharacterConfigurationsTableController buildToonsTable()
   {
-    CharacterDataTableController tableController=new CharacterDataTableController(_toon);
+    CharacterConfigurationsTableController tableController=new CharacterConfigurationsTableController(_toon);
     tableController.addActionListener(this);
     return tableController;
   }

@@ -20,10 +20,10 @@ import delta.games.lotro.utils.events.EventsManager;
 import delta.games.lotro.utils.events.GenericEventsListener;
 
 /**
- * Controller for a table that shows all available data for a single toon.
+ * Controller for a table that shows all available configurations for a single toon.
  * @author DAM
  */
-public class CharacterDataTableController implements GenericEventsListener<CharacterEvent>
+public class CharacterConfigurationsTableController implements GenericEventsListener<CharacterEvent>
 {
   // Column IDs
   private static final String DATE="DATE";
@@ -40,7 +40,7 @@ public class CharacterDataTableController implements GenericEventsListener<Chara
    * Constructor.
    * @param toon Managed toon.
    */
-  public CharacterDataTableController(CharacterFile toon)
+  public CharacterConfigurationsTableController(CharacterFile toon)
   {
     _toon=toon;
     _toon.getInfosManager().sync();
