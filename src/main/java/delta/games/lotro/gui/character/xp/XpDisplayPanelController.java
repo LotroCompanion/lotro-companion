@@ -100,4 +100,18 @@ public class XpDisplayPanelController extends AbstractPanelController
     }
     _nextLevelInfo.setText(nextLevelInfo);
   }
+
+  @Override
+  public void dispose()
+  {
+    super.dispose();
+    _xp=null;
+    _currentLevel=null;
+    if (_bar!=null)
+    {
+      _bar.dispose();
+      _bar=null;
+    }
+    _nextLevelInfo=null;
+  }
 }

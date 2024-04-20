@@ -12,6 +12,7 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.DefaultWindowController;
 import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.CharacterFile;
+import delta.games.lotro.character.details.CharacterDetails;
 import delta.games.lotro.character.stats.virtues.VirtuesSet;
 import delta.games.lotro.character.status.crafting.CraftingStatus;
 import delta.games.lotro.character.status.crafting.CraftingStatusSummaryBuilder;
@@ -20,6 +21,7 @@ import delta.games.lotro.gui.character.config.CharacterStatsSummaryPanelControll
 import delta.games.lotro.gui.character.gear.EquipmentDisplayPanelController;
 import delta.games.lotro.gui.character.status.crafting.summary.CraftingStatusSummaryPanelController;
 import delta.games.lotro.gui.character.virtues.VirtuesDisplayPanelController;
+import delta.games.lotro.gui.character.xp.XpDisplayPanelController;
 import delta.games.lotro.utils.ContextPropertyNames;
 
 /**
@@ -36,6 +38,7 @@ public class MainCharacterWindowController extends DefaultWindowController
   private EquipmentDisplayPanelController _gear;
   private VirtuesDisplayPanelController _virtues;
   private CharacterStatsSummaryPanelController _stats;
+  private XpDisplayPanelController _xp;
   private CharacterMainButtonsController _mainButtons;
 
   /**
@@ -52,6 +55,7 @@ public class MainCharacterWindowController extends DefaultWindowController
     _gear=new EquipmentDisplayPanelController(this,current.getEquipment());
     _virtues=new VirtuesDisplayPanelController();
     _stats=new CharacterStatsSummaryPanelController(this,current);
+    _xp=new XpDisplayPanelController();
     _mainButtons=new CharacterMainButtonsController(this,toon);
     fill();
   }
@@ -70,6 +74,10 @@ public class MainCharacterWindowController extends DefaultWindowController
     // Stats
     _stats.getPanel();
     _stats.update();
+    // XP
+    CharacterDetails details=_toon.getDetails();
+    long xp=details.getXp();
+    _xp.setXP(xp);
   }
 
   /**
@@ -92,7 +100,7 @@ public class MainCharacterWindowController extends DefaultWindowController
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     // Summary panel
     JPanel summaryPanel=_summaryController.getPanel();
-    GridBagConstraints c=new GridBagConstraints(0,0,3,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(3,5,3,5),0,0);
+    GridBagConstraints c=new GridBagConstraints(0,0,4,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(3,5,3,5),0,0);
     panel.add(summaryPanel,c);
     // Equipment
     JPanel gearPanel=_gear.getPanel();
@@ -114,9 +122,14 @@ public class MainCharacterWindowController extends DefaultWindowController
     craftingStatusPanel.setBorder(GuiFactory.buildTitledBorder("Crafting"));
     c=new GridBagConstraints(2,1,1,2,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(craftingStatusPanel,c);
+    // XP
+    JPanel xpPanel=_xp.getPanel();
+    xpPanel.setBorder(GuiFactory.buildTitledBorder("XP"));
+    c=new GridBagConstraints(3,1,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    panel.add(xpPanel,c);
     // Command buttons
     JPanel commandsPanel=_mainButtons.getPanel();
-    c=new GridBagConstraints(0,3,3,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    c=new GridBagConstraints(0,3,4,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(commandsPanel,c);
     return panel;
   }
@@ -175,6 +188,11 @@ public class MainCharacterWindowController extends DefaultWindowController
     {
       _stats.dispose();
       _stats=null;
+    }
+    if (_xp!=null)
+    {
+      _xp.dispose();
+      _xp=null;
     }
     if (_mainButtons!=null)
     {
