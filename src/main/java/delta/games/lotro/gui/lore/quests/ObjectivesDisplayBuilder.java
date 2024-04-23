@@ -14,6 +14,7 @@ import delta.games.lotro.character.skills.SkillDescription;
 import delta.games.lotro.common.Duration;
 import delta.games.lotro.common.Interactable;
 import delta.games.lotro.common.enums.MobDivision;
+import delta.games.lotro.common.enums.QuestCategory;
 import delta.games.lotro.common.geo.PositionUtils;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.lore.agents.AgentDescription;
@@ -313,7 +314,7 @@ public class ObjectivesDisplayBuilder
   {
     String progressOverride=getProgressOverrideWithCount(questComplete);
     Proxy<Achievable> proxy=questComplete.getProxy();
-    String questCategory=questComplete.getQuestCategory();
+    QuestCategory questCategory=questComplete.getQuestCategory();
 
     if (progressOverride==null)
     {
