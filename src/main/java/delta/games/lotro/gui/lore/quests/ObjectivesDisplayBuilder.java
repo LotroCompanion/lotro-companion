@@ -13,6 +13,7 @@ import delta.common.utils.misc.IntegerHolder;
 import delta.games.lotro.character.skills.SkillDescription;
 import delta.games.lotro.common.Duration;
 import delta.games.lotro.common.Interactable;
+import delta.games.lotro.common.enums.MobDivision;
 import delta.games.lotro.common.geo.PositionUtils;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.lore.agents.AgentDescription;
@@ -393,10 +394,10 @@ public class ObjectivesDisplayBuilder
   {
     String ret="";
     // Mob division
-    String mobDivision=where.getMobDivision();
+    MobDivision mobDivision=where.getMobDivision();
     if (mobDivision!=null)
     {
-      ret=mobDivision;
+      ret=mobDivision.getLabel();
     }
     // Land division
     LandDivision landDivision=where.getLandDivision();
