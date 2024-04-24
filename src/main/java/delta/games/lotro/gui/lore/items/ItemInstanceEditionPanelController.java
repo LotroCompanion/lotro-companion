@@ -84,7 +84,7 @@ public class ItemInstanceEditionPanelController
     // ID
     _id=new ItemIdentificationPanelController(_parent,_itemInstance);
     // Main attributes
-    _mainAttrs=new ItemInstanceMainAttrsDisplayPanelController(_itemInstance);
+    _mainAttrs=new ItemInstanceMainAttrsDisplayPanelController(_parent,_itemInstance);
     // Stats
     _stats=GuiFactory.buildPanel(new GridBagLayout());
     // Essences

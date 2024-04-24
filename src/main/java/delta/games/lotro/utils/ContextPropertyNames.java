@@ -27,6 +27,10 @@ public class ContextPropertyNames
    */
   public static final String CHARACTER_DATA="CHARACTER_DATA";
   /**
+   * Character file. Class=CharacterFile.
+   */
+  public static final String CHARACTER_FILE="CHARACTER_FILE";
+  /**
    * Current equipment slot. Class=EQUIMENT_SLOT.
    */
   public static final String EQUIMENT_SLOT="EQUIMENT_SLOT";

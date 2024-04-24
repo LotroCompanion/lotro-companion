@@ -37,6 +37,13 @@ public class CharacterFileWindowController extends DefaultWindowController
     setContextProperty(ContextPropertyNames.BASE_CHARACTER_SUMMARY,toon.getSummary());
     _configsController=new CharacterConfigurationsPanelController(this,toon);
     _mainButtons=new CharacterMainButtonsController(this,toon);
+    // Set context
+    setContext();
+  }
+
+  private void setContext()
+  {
+    setContextProperty(ContextPropertyNames.CHARACTER_FILE,_toon);
   }
 
   /**

@@ -11,10 +11,14 @@ import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.form.LabeledComponent;
+import delta.common.ui.swing.panels.AbstractPanelController;
+import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.l10n.L10n;
+import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.common.colors.ColorDescription;
 import delta.games.lotro.common.id.InternalGameId;
 import delta.games.lotro.common.money.Money;
+import delta.games.lotro.gui.common.binding.BindingDisplayController;
 import delta.games.lotro.gui.common.money.MoneyDisplayController;
 import delta.games.lotro.gui.utils.UiConfiguration;
 import delta.games.lotro.lore.items.DamageType;
@@ -23,18 +27,18 @@ import delta.games.lotro.lore.items.ItemInstance;
 import delta.games.lotro.lore.items.ItemPropertyNames;
 import delta.games.lotro.lore.items.ItemSturdiness;
 import delta.games.lotro.lore.items.WeaponInstance;
+import delta.games.lotro.utils.ContextPropertyNames;
 import delta.games.lotro.utils.Formats;
 
 /**
  * Controller for an item instance edition panel.
  * @author DAM
  */
-public class ItemInstanceMainAttrsDisplayPanelController
+public class ItemInstanceMainAttrsDisplayPanelController extends AbstractPanelController
 {
   // Data
   private ItemInstance<? extends Item> _itemInstance;
   // GUI
-  private JPanel _panel;
   // - Instance ID
   private LabeledComponent<JLabel> _instanceId;
   // - Validity date
@@ -56,7 +60,7 @@ public class ItemInstanceMainAttrsDisplayPanelController
   // - Color
   private LabeledComponent<JLabel> _color;
   // - Bound to
-  // TODO
+  private BindingDisplayController _binding;
   // Weapon specifics
   private JLabel _dps;
   private JLabel _minMaxDamage;
@@ -66,24 +70,16 @@ public class ItemInstanceMainAttrsDisplayPanelController
 
   /**
    * Constructor.
+   * @param parent Parent window.
    * @param itemInstance Item instance.
    */
-  public ItemInstanceMainAttrsDisplayPanelController(ItemInstance<? extends Item> itemInstance)
+  public ItemInstanceMainAttrsDisplayPanelController(WindowController parent, ItemInstance<? extends Item> itemInstance)
   {
+    super(parent);
     _itemInstance=itemInstance;
-  }
-
-  /**
-   * Get the managed panel.
-   * @return the managed panel.
-   */
-  public JPanel getPanel()
-  {
-    if (_panel==null)
-    {
-      _panel=build();
-    }
-    return _panel;
+    initGadgets();
+    setPanel(buildPanel());
+    update();
   }
 
   private void initGadgets()
@@ -112,7 +108,8 @@ public class ItemInstanceMainAttrsDisplayPanelController
     // - Color
     _color=new LabeledComponent<JLabel>("Color:",GuiFactory.buildLabel(""));
     // - Bound to
-    // TODO
+    CharacterFile toon=getParentWindowController().getContextProperty(ContextPropertyNames.CHARACTER_FILE,CharacterFile.class);
+    _binding=new BindingDisplayController(toon);
     // Weapons
     if (_itemInstance instanceof WeaponInstance)
     {
@@ -122,14 +119,6 @@ public class ItemInstanceMainAttrsDisplayPanelController
     }
     // - User comments
     _userComments=new LabeledComponent<JLabel>("Comments:",GuiFactory.buildLabel(""));
-  }
-
-  private JPanel build()
-  {
-    initGadgets();
-    _panel=buildPanel();
-    update();
-    return _panel;
   }
 
   private JPanel buildPanel()
@@ -208,7 +197,12 @@ public class ItemInstanceMainAttrsDisplayPanelController
       panelLine.add(_userComments.getComponent());
     }
     // Binding
-    // TODO
+    {
+      JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
+      panel.add(panelLine,c);
+      c.gridy++;
+      panelLine.add(_binding.getComponent());
+    }
     // Weapon specifics
     if (_itemInstance instanceof WeaponInstance)
     {
@@ -300,7 +294,16 @@ public class ItemInstanceMainAttrsDisplayPanelController
       _color.getComponent().setText(color.getName());
     }
     // - Bound to
-    // TODO
+    InternalGameId boundTo=_itemInstance.getBoundTo();
+    if (boundTo!=null)
+    {
+      _binding.setBinding(boundTo);
+      _binding.getComponent().setVisible(true);
+    }
+    else
+    {
+      _binding.getComponent().setVisible(false);
+    }
     // Weapon specifics
     if (_itemInstance instanceof WeaponInstance)
     {
@@ -365,14 +368,10 @@ public class ItemInstanceMainAttrsDisplayPanelController
    */
   public void dispose()
   {
+    super.dispose();
     // Data
     _itemInstance=null;
     // UI/controllers
-    if (_panel!=null)
-    {
-      _panel.removeAll();
-      _panel=null;
-    }
     // - Instance ID
     if (_instanceId!=null)
     {
@@ -418,7 +417,11 @@ public class ItemInstanceMainAttrsDisplayPanelController
       _color=null;
     }
     // - Bound to
-    // TODO
+    if (_binding!=null)
+    {
+      _binding.dispose();
+      _binding=null;
+    }
     // Weapon specifics
     _dps=null;
     _minMaxDamage=null;

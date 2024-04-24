@@ -75,7 +75,7 @@ public class ItemInstanceDisplayPanelController
     _stats=GuiFactory.buildPanel(new GridBagLayout());
     _stats.setBorder(GuiFactory.buildTitledBorder("Stats"));
     // Main attributes
-    _mainAttrs=new ItemInstanceMainAttrsDisplayPanelController(_itemInstance);
+    _mainAttrs=new ItemInstanceMainAttrsDisplayPanelController(_parent,_itemInstance);
     _mainAttrs.getPanel().setBorder(GuiFactory.buildTitledBorder("Characteristics"));
     // Essences
     int nbEssences=_itemInstance.getReference().getEssenceSlots();
