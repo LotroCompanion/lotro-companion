@@ -31,7 +31,7 @@ public class ContextPropertyNames
    */
   public static final String CHARACTER_FILE="CHARACTER_FILE";
   /**
-   * Current equipment slot. Class=EQUIMENT_SLOT.
+   * Current equipment slot. Class=GearSlot.
    */
   public static final String EQUIMENT_SLOT="EQUIMENT_SLOT";
   /**

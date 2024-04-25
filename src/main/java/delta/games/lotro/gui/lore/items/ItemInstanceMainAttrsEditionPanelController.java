@@ -13,6 +13,7 @@ import javax.swing.JTextField;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.common.ui.swing.combobox.ItemSelectionListener;
+import delta.common.ui.swing.panels.AbstractPanelController;
 import delta.common.ui.swing.text.DynamicTextEditionController;
 import delta.common.ui.swing.text.IntegerEditionController;
 import delta.common.ui.swing.text.TextListener;
@@ -21,11 +22,14 @@ import delta.common.ui.swing.text.dates.DateEditionController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.NumericTools;
 import delta.games.lotro.Config;
+import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.common.colors.ColorDescription;
 import delta.games.lotro.common.colors.ColorsManager;
+import delta.games.lotro.common.id.InternalGameId;
 import delta.games.lotro.common.money.Money;
 import delta.games.lotro.common.stats.StatsProvider;
+import delta.games.lotro.gui.common.binding.BindingDisplayController;
 import delta.games.lotro.gui.common.money.MoneyEditionPanelController;
 import delta.games.lotro.gui.common.stats.StatsPanel;
 import delta.games.lotro.gui.utils.l10n.DateFormat;
@@ -33,21 +37,19 @@ import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemInstance;
 import delta.games.lotro.lore.items.ItemPropertyNames;
 import delta.games.lotro.lore.items.scaling.Munging;
+import delta.games.lotro.utils.ContextPropertyNames;
 import delta.games.lotro.utils.maths.Progression;
 
 /**
  * Controller for a panel to edit the main attributes of an item instance.
  * @author DAM
  */
-public class ItemInstanceMainAttrsEditionPanelController
+public class ItemInstanceMainAttrsEditionPanelController extends AbstractPanelController
 {
   // Data
   private ItemInstance<? extends Item> _itemInstance;
   private Munging _munging;
-  // Controllers
-  private WindowController _parent;
-  // GUI
-  private JPanel _panel;
+  // UI/controllers
   // - Validity date
   private DateEditionController _date;
   // - Birth name
@@ -69,7 +71,7 @@ public class ItemInstanceMainAttrsEditionPanelController
   // - Value
   private MoneyEditionPanelController _value;
   // - Bound to
-  // TODO
+  private BindingDisplayController _binding;
   // - User comments
   private JTextField _userComments;
   // - Own stats display
@@ -82,21 +84,11 @@ public class ItemInstanceMainAttrsEditionPanelController
    */
   public ItemInstanceMainAttrsEditionPanelController(WindowController parent, ItemInstance<? extends Item> itemInstance)
   {
-    _parent=parent;
+    super(parent);
     _itemInstance=itemInstance;
-  }
-
-  /**
-   * Get the managed panel.
-   * @return the managed panel.
-   */
-  public JPanel getPanel()
-  {
-    if (_panel==null)
-    {
-      _panel=build();
-    }
-    return _panel;
+    initGadgets();
+    setPanel(buildPanel());
+    setItem();
   }
 
   private void initGadgets()
@@ -130,19 +122,14 @@ public class ItemInstanceMainAttrsEditionPanelController
     // - Value
     _value=new MoneyEditionPanelController();
     // - Bound to
-    // TODO
+    CharacterFile toon=getParentWindowController().getContextProperty(ContextPropertyNames.CHARACTER_FILE,CharacterFile.class);
+    _binding=new BindingDisplayController(toon);
     // - User comments
     _userComments=GuiFactory.buildTextField("");
     _userComments.setColumns(40);
     // - Own stats
     _stats=GuiFactory.buildPanel(new GridBagLayout());
     _stats.setBorder(GuiFactory.buildTitledBorder("Stats"));
-  }
-
-  private JPanel build()
-  {
-    initGadgets();
-    return buildPanel();
   }
 
   private JPanel buildPanel()
@@ -220,14 +207,19 @@ public class ItemInstanceMainAttrsEditionPanelController
       panelLine.add(_userComments);
     }
 
+    // Binding
+    {
+      JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
+      panel.add(panelLine,c);
+      c.gridy++;
+      panelLine.add(_binding.getComponent());
+    }
+
     JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
     c=new GridBagConstraints(0,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     ret.add(panel,c);
     c=new GridBagConstraints(0,1,1,1,0.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     ret.add(_stats,c);
-
-    _panel=ret;
-    setItem();
     return ret;
   }
 
@@ -267,7 +259,16 @@ public class ItemInstanceMainAttrsEditionPanelController
       _value.setMoney(value);
     }
     // - Bound to
-    // TODO
+    InternalGameId boundTo=_itemInstance.getBoundTo();
+    if (boundTo!=null)
+    {
+      _binding.setBinding(boundTo);
+      _binding.getComponent().setVisible(true);
+    }
+    else
+    {
+      _binding.getComponent().setVisible(false);
+    }
     // - User comments
     String userComments=_itemInstance.getProperty(ItemPropertyNames.USER_COMMENT);
     if (userComments==null) userComments="";
@@ -317,8 +318,7 @@ public class ItemInstanceMainAttrsEditionPanelController
     // - Value
     Money value=_value.getMoney();
     _itemInstance.setValue(value);
-    // - Bound to
-    // TODO
+    // - Bound to: not editable
     // - User comments
     {
       String userComments=_userComments.getText();
@@ -426,24 +426,17 @@ public class ItemInstanceMainAttrsEditionPanelController
     StatsPanel.fillStatsPanel(_stats,stats,provider);
     _stats.revalidate();
     _stats.repaint();
-    _parent.getWindow().pack();
+    getWindowController().pack();
   }
 
-  /**
-   * Release all managed resources.
-   */
+  @Override
   public void dispose()
   {
+    super.dispose();
     // Data
     _itemInstance=null;
     _munging=null;
     // UI/controllers
-    _parent=null;
-    if (_panel!=null)
-    {
-      _panel.removeAll();
-      _panel=null;
-    }
     // - Validity date
     if (_date!=null)
     {
@@ -493,7 +486,11 @@ public class ItemInstanceMainAttrsEditionPanelController
       _value=null;
     }
     // - Bound to
-    // TODO
+    if (_binding!=null)
+    {
+      _binding.dispose();
+      _binding=null;
+    }
     // - User comments
     _userComments=null;
     // - Own stats
