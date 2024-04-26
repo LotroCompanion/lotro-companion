@@ -31,15 +31,18 @@ public class MoneyDisplayController
    */
   public MoneyDisplayController()
   {
-    _gold=GuiFactory.buildLabel("0");
-    _gold.setMinimumSize(new Dimension(25, 10));
+    _gold=GuiFactory.buildLabel("99999");
+    _gold.setMinimumSize(_gold.getPreferredSize());
     _gold.setHorizontalAlignment(SwingConstants.RIGHT);
-    _silver=GuiFactory.buildLabel("0");
-    _silver.setMinimumSize(new Dimension(25, 10));
+    _silver=GuiFactory.buildLabel("999");
+    Dimension silverSize=_silver.getPreferredSize();
+    _silver.setMinimumSize(silverSize);
+    _silver.setSize(silverSize);
     _silver.setHorizontalAlignment(SwingConstants.RIGHT);
-    _copper=GuiFactory.buildLabel("0");
-    _copper.setMinimumSize(new Dimension(20, 10));
-    _copper.setHorizontalAlignment(SwingConstants.RIGHT);
+    _copper=GuiFactory.buildLabel("99");
+    Dimension copperSize=_copper.getPreferredSize();
+    _copper.setMinimumSize(copperSize);
+    _copper.setSize(copperSize);
     _panel=buildPanel();
   }
 

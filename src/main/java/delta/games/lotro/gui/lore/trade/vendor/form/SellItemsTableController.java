@@ -16,7 +16,6 @@ import delta.common.ui.swing.tables.TableColumnsManager;
 import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.common.money.Money;
-import delta.games.lotro.common.money.comparator.MoneyComparator;
 import delta.games.lotro.gui.lore.items.ItemColumnIds;
 import delta.games.lotro.gui.lore.items.chooser.ItemChooser;
 import delta.games.lotro.gui.lore.items.chooser.ItemsTableBuilder;
@@ -126,9 +125,7 @@ public class SellItemsTableController
       }
     };
     DefaultTableColumnController<ValuedItem,Money> valueColumn=new DefaultTableColumnController<ValuedItem,Money>(ItemColumnIds.VALUE.name(),"Sell Price",Money.class,valueCell);
-    valueColumn.setWidthSpecs(120,120,120);
-    valueColumn.setCellRenderer(new MoneyCellRenderer());
-    valueColumn.setComparator(new MoneyComparator());
+    MoneyCellRenderer.configureColumn(valueColumn);
     return valueColumn;
   }
 

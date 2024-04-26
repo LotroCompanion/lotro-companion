@@ -22,7 +22,6 @@ import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.classes.AbstractClassDescription;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.common.money.Money;
-import delta.games.lotro.common.money.comparator.MoneyComparator;
 import delta.games.lotro.common.stats.StatDescription;
 import delta.games.lotro.common.stats.StatType;
 import delta.games.lotro.common.stats.StatsRegistry;
@@ -434,9 +433,7 @@ public class ItemsTableBuilder
     };
     String columnName=Labels.getLabel("items.table.value");
     DefaultTableColumnController<Item,Money> valueColumn=new DefaultTableColumnController<Item,Money>(ItemColumnIds.VALUE.name(),columnName,Money.class,valueCell);
-    valueColumn.setWidthSpecs(120,120,120);
-    valueColumn.setCellRenderer(new MoneyCellRenderer());
-    valueColumn.setComparator(new MoneyComparator());
+    MoneyCellRenderer.configureColumn(valueColumn);
     return valueColumn;
   }
 

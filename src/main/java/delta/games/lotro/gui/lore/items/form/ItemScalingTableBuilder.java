@@ -17,7 +17,6 @@ import delta.common.ui.swing.tables.TableColumnsManager;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.common.money.Money;
-import delta.games.lotro.common.money.comparator.MoneyComparator;
 import delta.games.lotro.common.stats.StatDescription;
 import delta.games.lotro.common.stats.StatType;
 import delta.games.lotro.gui.lore.items.ItemColumnIds;
@@ -173,9 +172,7 @@ public class ItemScalingTableBuilder
       }
     };
     DefaultTableColumnController<ItemScalingEntry,Money> valueColumn=new DefaultTableColumnController<ItemScalingEntry,Money>(ItemScalingColumnIds.VALUE.name(),"Value",Money.class,valueCell);
-    valueColumn.setWidthSpecs(150,150,150);
-    valueColumn.setCellRenderer(new MoneyCellRenderer());
-    valueColumn.setComparator(new MoneyComparator());
+    MoneyCellRenderer.configureColumn(valueColumn);
     return valueColumn;
   }
 

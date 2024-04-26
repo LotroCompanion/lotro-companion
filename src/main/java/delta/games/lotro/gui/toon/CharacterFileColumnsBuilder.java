@@ -18,7 +18,6 @@ import delta.games.lotro.common.Duration;
 import delta.games.lotro.common.geo.Position;
 import delta.games.lotro.common.geo.PositionUtils;
 import delta.games.lotro.common.money.Money;
-import delta.games.lotro.common.money.comparator.MoneyComparator;
 import delta.games.lotro.config.LotroCoreConfig;
 import delta.games.lotro.gui.utils.MoneyCellRenderer;
 import delta.games.lotro.lore.crafting.CraftingData;
@@ -126,9 +125,7 @@ public class CharacterFileColumnsBuilder
         }
       };
       DefaultTableColumnController<CharacterFile,Money> moneyColumn=new DefaultTableColumnController<CharacterFile,Money>(ToonsTableColumnIds.MONEY.name(),"Money",Money.class,moneyCell); // I18n
-      moneyColumn.setWidthSpecs(180,180,180);
-      moneyColumn.setCellRenderer(new MoneyCellRenderer());
-      moneyColumn.setComparator(new MoneyComparator());
+      MoneyCellRenderer.configureColumn(moneyColumn);
       ret.add(moneyColumn);
     }
     // Last logout time
