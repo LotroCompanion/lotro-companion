@@ -132,6 +132,11 @@ public class EquipmentDisplayPanelController implements ActionListener
     _iconPositions.put(GearSlots.TOOL,new Dimension(x,y));
     x+=DELTA_X;
     _iconPositions.put(GearSlots.CLASS_ITEM,new Dimension(x,y));
+
+    // Bridle
+    x=X_COLUMN_1+DELTA_COLUMNS+24+(DELTA_COLUMN_GROUPS)/2;
+    y=Y_START+3*DELTA_Y;
+    _iconPositions.put(GearSlots.BRIDLE,new Dimension(x,y));
   }
 
   /**
@@ -176,6 +181,10 @@ public class EquipmentDisplayPanelController implements ActionListener
     {
       // Position for item
       Dimension position=_iconPositions.get(slot);
+      if (position==null)
+      {
+        continue;
+      }
       // Add object icon
       // - icon controller
       EquipmentSlotIconController iconController=new EquipmentSlotIconController(slot);
@@ -244,6 +253,10 @@ public class EquipmentDisplayPanelController implements ActionListener
     {
       ItemInstance<? extends Item> itemInstance=getItemForSlot(slot);
       EquipmentSlotIconController iconController=_icons.get(slot);
+      if (iconController==null)
+      {
+        continue;
+      }
       iconController.setItem(itemInstance);
       JButton button=_buttons.get(slot);
       Icon icon=iconController.getIcon();

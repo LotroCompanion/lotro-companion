@@ -17,6 +17,7 @@ import delta.games.lotro.character.events.CharacterEvent;
 import delta.games.lotro.character.events.CharacterEventType;
 import delta.games.lotro.character.gear.CharacterGear;
 import delta.games.lotro.character.gear.GearSlot;
+import delta.games.lotro.character.gear.GearSlots;
 import delta.games.lotro.gui.lore.items.essences.EssenceUpdatedListener;
 import delta.games.lotro.gui.lore.items.essences.SimpleSingleEssenceEditionController;
 import delta.games.lotro.lore.items.Item;
@@ -55,7 +56,7 @@ public class AllEssencesEditionPanelController implements EssenceUpdatedListener
   private void initEditors()
   {
     CharacterGear equipment=_toon.getEquipment();
-    for(GearSlot slot : GearSlot.getAll())
+    for(GearSlot slot : GearSlots.getSlotsForStatsComputation())
     {
       SingleItemEssencesEditionController controller=new SingleItemEssencesEditionController(_parent,_toon.getSummary(),slot);
       ItemInstance<? extends Item> item=equipment.getItemForSlot(slot);

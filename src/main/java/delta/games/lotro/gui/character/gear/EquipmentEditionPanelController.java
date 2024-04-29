@@ -174,6 +174,10 @@ public class EquipmentEditionPanelController implements ActionListener
     for(GearSlot slot : GearSlot.getAll())
     {
       JButton button=_displayPanel.getButtonForSlot(slot);
+      if (button==null)
+      {
+        continue;
+      }
       button.addActionListener(this);
       button.addMouseListener(listener);
     }

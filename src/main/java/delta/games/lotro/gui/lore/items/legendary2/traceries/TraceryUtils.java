@@ -47,7 +47,7 @@ public class TraceryUtils
    * @param parent Parent manager.
    * @return A new constraints manager.
    */
-  public static TraceriesConstraintsMgr buildFromItem(ItemInstance<? extends Item> itemInstance, TraceriesConstraintsMgr parent)
+  private static TraceriesConstraintsMgr buildFromItem(ItemInstance<? extends Item> itemInstance, TraceriesConstraintsMgr parent)
   {
     TraceriesConstraintsMgr ret=new TraceriesConstraintsMgr(parent);
     LegendaryInstance2 li=(LegendaryInstance2)itemInstance;
