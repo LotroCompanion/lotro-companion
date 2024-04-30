@@ -1,10 +1,9 @@
 package delta.games.lotro.gui.common.money;
 
 import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
 
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.Icon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -33,17 +32,23 @@ public class MoneyDisplayController
   {
     _gold=GuiFactory.buildLabel("99999");
     _gold.setMinimumSize(_gold.getPreferredSize());
+    _gold.setMaximumSize(_gold.getPreferredSize());
     _gold.setHorizontalAlignment(SwingConstants.RIGHT);
     _silver=GuiFactory.buildLabel("999");
     Dimension silverSize=_silver.getPreferredSize();
     _silver.setMinimumSize(silverSize);
+    _silver.setMaximumSize(_silver.getPreferredSize());
     _silver.setSize(silverSize);
     _silver.setHorizontalAlignment(SwingConstants.RIGHT);
     _copper=GuiFactory.buildLabel("99");
     Dimension copperSize=_copper.getPreferredSize();
     _copper.setMinimumSize(copperSize);
+    _copper.setMaximumSize(_copper.getPreferredSize());
     _copper.setSize(copperSize);
+    _copper.setHorizontalAlignment(SwingConstants.RIGHT);
     _panel=buildPanel();
+    _panel.setSize(_panel.getPreferredSize());
+    _panel.setMinimumSize(_panel.getPreferredSize());
   }
 
   /**
@@ -57,29 +62,29 @@ public class MoneyDisplayController
 
   private JPanel buildPanel()
   {
-    JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
-    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(1,1,1,1),0,0);
+    JPanel ret=GuiFactory.buildPanel(null);
+    ret.setLayout(new BoxLayout(ret,BoxLayout.LINE_AXIS));
     // Gold
-    ret.add(_gold,c);
-    c.gridx++;
+    ret.add(_gold);
+    ret.add(Box.createRigidArea(new Dimension(1,0)));
     Icon goldIcon=IconsManager.getIcon("/resources/gui/money/gold.png");
     JLabel goldLabel=GuiFactory.buildIconLabel(goldIcon);
-    ret.add(goldLabel,c);
-    c.gridx++;
+    ret.add(goldLabel);
+    ret.add(Box.createRigidArea(new Dimension(1,0)));
     // Silver
-    ret.add(_silver,c);
-    c.gridx++;
+    ret.add(_silver);
+    ret.add(Box.createRigidArea(new Dimension(1,0)));
     Icon silverIcon=IconsManager.getIcon("/resources/gui/money/silver.png");
     JLabel silverLabel=GuiFactory.buildIconLabel(silverIcon);
-    ret.add(silverLabel,c);
-    c.gridx++;
+    ret.add(silverLabel);
+    ret.add(Box.createRigidArea(new Dimension(1,0)));
     // Copper
     ret.add(_copper);
-    c.gridx++;
+    ret.add(Box.createRigidArea(new Dimension(1,0)));
     Icon copperIcon=IconsManager.getIcon("/resources/gui/money/copper.png");
     JLabel copperLabel=GuiFactory.buildIconLabel(copperIcon);
-    ret.add(copperLabel,c);
-    c.gridx++;
+    ret.add(copperLabel);
+    ret.add(Box.createRigidArea(new Dimension(1,0)));
     return ret;
   }
 
