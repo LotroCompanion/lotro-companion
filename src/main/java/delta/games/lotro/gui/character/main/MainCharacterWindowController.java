@@ -53,6 +53,7 @@ public class MainCharacterWindowController extends DefaultWindowController
     _crafting=new CraftingStatusSummaryPanelController();
     CharacterData current=_toon.getInfosManager().getCurrentData();
     _gear=new EquipmentDisplayPanelController(this,current.getEquipment());
+    _gear.initButtonListeners();
     _virtues=new VirtuesDisplayPanelController();
     _stats=new CharacterStatsSummaryPanelController(this,current);
     _xp=new XpDisplayPanelController();
