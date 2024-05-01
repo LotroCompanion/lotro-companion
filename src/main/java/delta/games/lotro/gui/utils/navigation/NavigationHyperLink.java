@@ -2,6 +2,7 @@ package delta.games.lotro.gui.utils.navigation;
 
 import javax.swing.JLabel;
 
+import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.labels.HyperLinkController;
 import delta.common.ui.swing.labels.LocalHyperlinkAction;
 import delta.common.ui.swing.navigator.PageIdentifier;
@@ -13,6 +14,8 @@ import delta.common.ui.swing.windows.WindowController;
  */
 public class NavigationHyperLink extends HyperLinkController
 {
+  private WindowController _parent;
+  private String _text;
   private PageIdentifier _pageId;
 
   /**
@@ -23,8 +26,7 @@ public class NavigationHyperLink extends HyperLinkController
    */
   public NavigationHyperLink(WindowController parent, String text, PageIdentifier pageId)
   {
-    super(new LocalHyperlinkAction(text,new NavigationAction(parent,pageId)));
-    _pageId=pageId;
+    this(parent,text,pageId,GuiFactory.buildLabel(""));
   }
 
   /**
@@ -37,7 +39,20 @@ public class NavigationHyperLink extends HyperLinkController
   public NavigationHyperLink(WindowController parent, String text, PageIdentifier pageId, JLabel label)
   {
     super(new LocalHyperlinkAction(text,new NavigationAction(parent,pageId)),label);
+    _parent=parent;
+    _text=text;
     _pageId=pageId;
+  }
+
+  /**
+   * Set the page identifier.
+   * @param pageId Page identifier to set.
+   */
+  public void setPageIdentifier(PageIdentifier pageId)
+  {
+    NavigationAction navigationAction=new NavigationAction(_parent,pageId);
+    LocalHyperlinkAction hyperLinkAction=new LocalHyperlinkAction(_text,navigationAction);
+    setAction(hyperLinkAction);
   }
 
   /**
