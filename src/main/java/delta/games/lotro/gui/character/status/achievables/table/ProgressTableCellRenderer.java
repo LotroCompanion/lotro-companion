@@ -2,6 +2,7 @@ package delta.games.lotro.gui.character.status.achievables.table;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.util.function.Function;
 
 import javax.swing.JProgressBar;
 import javax.swing.JTable;
@@ -18,6 +19,8 @@ import delta.games.lotro.character.status.achievables.Progress;
 public class ProgressTableCellRenderer extends DefaultTableCellRenderer
 {
   private JProgressBar _progressBar;
+  private Function<Progress,Color> _colorFunction;
+  private Function<Progress,String> _labelFunction;
 
   /**
    * Constructor.
@@ -35,6 +38,26 @@ public class ProgressTableCellRenderer extends DefaultTableCellRenderer
       @Override
       protected Color getSelectionForeground() { return Color.black; }
     });
+    _colorFunction=ProgressTableCellRenderer::color;
+    _labelFunction=ProgressTableCellRenderer::label;
+  }
+
+  /**
+   * Set the color function.
+   * @param f Function to set.
+   */
+  public void setColorFunction(Function<Progress,Color> f)
+  {
+    _colorFunction=f;
+  }
+
+  /**
+   * Set the label function.
+   * @param f Function to set.
+   */
+  public void setLabelFunction(Function<Progress,String> f)
+  {
+    _labelFunction=f;
   }
 
   @Override
@@ -42,29 +65,14 @@ public class ProgressTableCellRenderer extends DefaultTableCellRenderer
   {
     if (value instanceof Progress)
     {
-      Progress state=(Progress)value;
-      int percentage=state.getPercentage();
-      int current=state.getCurrent();
-      int max=state.getMax();
-      Color color=Color.RED;
-      if (percentage>80)
-      {
-        color=Color.GREEN; // > 80%
-      }
-      else if (percentage>50)
-      {
-        color=Color.YELLOW; // > 50%
-      }
+      Progress progress=(Progress)value;
+      Color color=_colorFunction.apply(progress);
       _progressBar.setForeground(color);
-      if (current!=max)
-      {
-        _progressBar.setString(current+" / "+max);
-      }
-      else
-      {
-        _progressBar.setString(String.valueOf(max));
-      }
+      String label=_labelFunction.apply(progress);
+      _progressBar.setString(label);
+      int max=progress.getMax();
       _progressBar.setMaximum(max);
+      int current=progress.getCurrent();
       _progressBar.setValue(current);
       return _progressBar;
     }
@@ -75,5 +83,31 @@ public class ProgressTableCellRenderer extends DefaultTableCellRenderer
   public void setValue(Object value)
   {
     super.setValue(value);
+  }
+
+  private static Color color(Progress progress)
+  {
+    int percentage=progress.getPercentage();
+    Color color=Color.RED;
+    if (percentage>80)
+    {
+      color=Color.GREEN; // > 80%
+    }
+    else if (percentage>50)
+    {
+      color=Color.YELLOW; // > 50%
+    }
+    return color;
+  }
+
+  private static String label(Progress progress)
+  {
+    int current=progress.getCurrent();
+    int max=progress.getMax();
+    if (current!=max)
+    {
+      return current+" / "+max;
+    }
+    return String.valueOf(max);
   }
 }

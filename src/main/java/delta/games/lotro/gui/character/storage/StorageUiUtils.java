@@ -7,6 +7,7 @@ import javax.swing.JProgressBar;
 import javax.swing.SwingConstants;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.games.lotro.character.status.achievables.Progress;
 
 /**
  * Utility methods used in storage-related UIs.
@@ -52,6 +53,16 @@ public class StorageUiUtils
       bar.setMaximum(100);
       bar.setValue(100);
     }
+  }
+
+  /**
+   * Color provider.
+   * @param progress Input progress.
+   * @return A color.
+   */
+  public static Color getColor(Progress progress)
+  {
+    return getColor(progress.getCurrent(),progress.getMax());
   }
 
   private static Color getColor(int value, int maxValue)

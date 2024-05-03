@@ -26,6 +26,7 @@ import delta.games.lotro.common.geo.PositionUtils;
 import delta.games.lotro.common.money.Money;
 import delta.games.lotro.config.LotroCoreConfig;
 import delta.games.lotro.gui.character.status.achievables.table.ProgressTableCellRenderer;
+import delta.games.lotro.gui.character.storage.StorageUiUtils;
 import delta.games.lotro.gui.utils.MoneyCellRenderer;
 import delta.games.lotro.lore.crafting.CraftingData;
 import delta.games.lotro.lore.crafting.CraftingSystem;
@@ -309,7 +310,9 @@ public class CharacterFileColumnsBuilder
     progressColumn.setWidthSpecs(70,70,70);
     progressColumn.setEditable(false);
     // Renderer
-    progressColumn.setCellRenderer(new ProgressTableCellRenderer());
+    ProgressTableCellRenderer renderer=new ProgressTableCellRenderer();
+    renderer.setColorFunction(StorageUiUtils::getColor);
+    progressColumn.setCellRenderer(renderer);
     // Comparator
     progressColumn.setComparator(new ProgressComparator());
     return progressColumn;
