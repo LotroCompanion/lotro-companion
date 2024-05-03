@@ -97,5 +97,13 @@ public enum ToonsTableColumnIds
   /**
    * Own vault summary.
    */
-  OWN_VAULT_SUMMARY
+  OWN_VAULT_SUMMARY,
+  /**
+   * Bags free slots.
+   */
+  BAG_AVAILABLE,
+  /**
+   * Own vault free slots.
+   */
+  OWN_VAULT_AVAILABLE
 }

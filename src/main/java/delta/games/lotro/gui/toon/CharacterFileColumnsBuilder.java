@@ -78,6 +78,8 @@ public class CharacterFileColumnsBuilder
     // Storage columns
     columns.add(getBagSummaryColumn());
     columns.add(getOwnVaultSummaryColumn());
+    columns.add(getBagAvailableColumn());
+    columns.add(getOwnVaultAvailableColumn());
     return columns;
   }
 
@@ -101,7 +103,7 @@ public class CharacterFileColumnsBuilder
     }
     // In-game time column
     {
-      CellDataProvider<CharacterFile,Integer> cooldownCell=new CellDataProvider<CharacterFile,Integer>()
+      CellDataProvider<CharacterFile,Integer> inGameTimeCell=new CellDataProvider<CharacterFile,Integer>()
       {
         @Override
         public Integer getData(CharacterFile file)
@@ -110,8 +112,8 @@ public class CharacterFileColumnsBuilder
           return Integer.valueOf(data.getIngameTime());
         }
       };
-      DefaultTableColumnController<CharacterFile,Integer> cooldownColumn=new DefaultTableColumnController<CharacterFile,Integer>(ToonsTableColumnIds.INGAME_TIME.name(),"In-game Time",Integer.class,cooldownCell); // I18n
-      cooldownColumn.setWidthSpecs(120,120,120);
+      DefaultTableColumnController<CharacterFile,Integer> inGameTimeColumn=new DefaultTableColumnController<CharacterFile,Integer>(ToonsTableColumnIds.INGAME_TIME.name(),"In-game Time",Integer.class,inGameTimeCell); // I18n
+      inGameTimeColumn.setWidthSpecs(120,120,120);
       DefaultTableCellRenderer renderer=new DefaultTableCellRenderer()
       {
         @Override
@@ -121,8 +123,8 @@ public class CharacterFileColumnsBuilder
           setText((value == null) ? "" : Duration.getDurationString(((Integer)value).intValue()));
         }
       };
-      cooldownColumn.setCellRenderer(renderer);
-      ret.add(cooldownColumn);
+      inGameTimeColumn.setCellRenderer(renderer);
+      ret.add(inGameTimeColumn);
     }
     // Money
     {
@@ -288,6 +290,16 @@ public class CharacterFileColumnsBuilder
     return getStorageSummaryColumn(ToonsTableColumnIds.OWN_VAULT_SUMMARY.name(),"Own Vault",CharacterStorageSummary::getOwnVault); // I18n
   }
 
+  private static TableColumnController<CharacterFile,?> getBagAvailableColumn()
+  {
+    return getStorageAvailableColumn(ToonsTableColumnIds.BAG_AVAILABLE.name(),"Bags free slots",CharacterStorageSummary::getBags); // I18n
+  }
+
+  private static TableColumnController<CharacterFile,?> getOwnVaultAvailableColumn()
+  {
+    return getStorageAvailableColumn(ToonsTableColumnIds.OWN_VAULT_AVAILABLE.name(),"Own Vault free slots",CharacterStorageSummary::getOwnVault); // I18n
+  }
+
   private static TableColumnController<CharacterFile,?> getStorageSummaryColumn(String columnId, String columnName, Function<CharacterStorageSummary,SingleStorageSummary> getter)
   {
     CellDataProvider<CharacterFile,Progress> progressCell=new CellDataProvider<CharacterFile,Progress>()
@@ -316,5 +328,29 @@ public class CharacterFileColumnsBuilder
     // Comparator
     progressColumn.setComparator(new ProgressComparator());
     return progressColumn;
+  }
+
+  private static TableColumnController<CharacterFile,?> getStorageAvailableColumn(String columnId, String columnName, Function<CharacterStorageSummary,SingleStorageSummary> getter)
+  {
+    CellDataProvider<CharacterFile,Integer> cell=new CellDataProvider<CharacterFile,Integer>()
+    {
+      @Override
+      public Integer getData(CharacterFile status)
+      {
+        CharacterStorageSummary summary=StorageSummaryIO.loadCharacterStorageSummary(status);
+        SingleStorageSummary storageSummary=getter.apply(summary);
+        int max=storageSummary.getMax();
+        if (max==0)
+        {
+          return null;
+        }
+        Integer ret=Integer.valueOf(storageSummary.getAvailable());
+        return ret;
+      }
+    };
+    DefaultTableColumnController<CharacterFile,Integer> column=new DefaultTableColumnController<CharacterFile,Integer>(columnId,columnName,Integer.class,cell);
+    ColumnsUtils.configureIntegerColumn(column);
+    column.setEditable(false);
+    return column;
   }
 }
