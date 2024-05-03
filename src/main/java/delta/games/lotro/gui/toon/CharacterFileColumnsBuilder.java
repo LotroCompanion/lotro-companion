@@ -2,6 +2,7 @@ package delta.games.lotro.gui.toon;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -14,11 +15,17 @@ import delta.common.ui.swing.tables.TableColumnController;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharacterSummary;
 import delta.games.lotro.character.details.CharacterDetails;
+import delta.games.lotro.character.status.achievables.Progress;
+import delta.games.lotro.character.status.achievables.comparators.ProgressComparator;
+import delta.games.lotro.character.storage.summary.CharacterStorageSummary;
+import delta.games.lotro.character.storage.summary.SingleStorageSummary;
+import delta.games.lotro.character.storage.summary.StorageSummaryIO;
 import delta.games.lotro.common.Duration;
 import delta.games.lotro.common.geo.Position;
 import delta.games.lotro.common.geo.PositionUtils;
 import delta.games.lotro.common.money.Money;
 import delta.games.lotro.config.LotroCoreConfig;
+import delta.games.lotro.gui.character.status.achievables.table.ProgressTableCellRenderer;
 import delta.games.lotro.gui.utils.MoneyCellRenderer;
 import delta.games.lotro.lore.crafting.CraftingData;
 import delta.games.lotro.lore.crafting.CraftingSystem;
@@ -67,6 +74,9 @@ public class CharacterFileColumnsBuilder
     // Details columns
     List<TableColumnController<CharacterFile,?>> detailsColumns=getDetailsColumns();
     columns.addAll(detailsColumns);
+    // Storage columns
+    columns.add(getBagSummaryColumn());
+    columns.add(getOwnVaultSummaryColumn());
     return columns;
   }
 
@@ -265,5 +275,43 @@ public class CharacterFileColumnsBuilder
     DefaultTableColumnController<CharacterFile,String> positionColumn=new DefaultTableColumnController<CharacterFile,String>(ToonsTableColumnIds.POSITION.name(),"Position",String.class,positionCell); // I18n
     positionColumn.setWidthSpecs(100,200,200);
     return positionColumn;
+  }
+
+  private static TableColumnController<CharacterFile,?> getBagSummaryColumn()
+  {
+    return getStorageSummaryColumn(ToonsTableColumnIds.BAG_SUMMARY.name(),"Bags",CharacterStorageSummary::getBags); // I18n
+  }
+
+  private static TableColumnController<CharacterFile,?> getOwnVaultSummaryColumn()
+  {
+    return getStorageSummaryColumn(ToonsTableColumnIds.OWN_VAULT_SUMMARY.name(),"Own Vault",CharacterStorageSummary::getOwnVault); // I18n
+  }
+
+  private static TableColumnController<CharacterFile,?> getStorageSummaryColumn(String columnId, String columnName, Function<CharacterStorageSummary,SingleStorageSummary> getter)
+  {
+    CellDataProvider<CharacterFile,Progress> progressCell=new CellDataProvider<CharacterFile,Progress>()
+    {
+      @Override
+      public Progress getData(CharacterFile status)
+      {
+        CharacterStorageSummary summary=StorageSummaryIO.loadCharacterStorageSummary(status);
+        SingleStorageSummary storageSummary=getter.apply(summary);
+        int max=storageSummary.getMax();
+        if (max==0)
+        {
+          return null;
+        }
+        Progress ret=new Progress(storageSummary.getUsed(),max);
+        return ret;
+      }
+    };
+    DefaultTableColumnController<CharacterFile,Progress> progressColumn=new DefaultTableColumnController<CharacterFile,Progress>(columnId,columnName,Progress.class,progressCell);
+    progressColumn.setWidthSpecs(70,70,70);
+    progressColumn.setEditable(false);
+    // Renderer
+    progressColumn.setCellRenderer(new ProgressTableCellRenderer());
+    // Comparator
+    progressColumn.setComparator(new ProgressComparator());
+    return progressColumn;
   }
 }

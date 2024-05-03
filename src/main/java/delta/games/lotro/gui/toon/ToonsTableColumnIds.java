@@ -89,5 +89,13 @@ public enum ToonsTableColumnIds
   /**
    * Import date.
    */
-  IMPORT_DATE
+  IMPORT_DATE,
+  /**
+   * Bag summary.
+   */
+  BAG_SUMMARY,
+  /**
+   * Own vault summary.
+   */
+  OWN_VAULT_SUMMARY
 }

@@ -120,7 +120,6 @@ public class AchievableStatusColumnsBuilder
     return completedColumn;
   }
 
-
   /**
    * Build a column to show an achievable progress.
    * @return a column.
