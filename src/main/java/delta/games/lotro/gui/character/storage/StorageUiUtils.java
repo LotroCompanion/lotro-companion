@@ -21,12 +21,23 @@ public class StorageUiUtils
    */
   public static JProgressBar buildProgressBar()
   {
+    Dimension size=new Dimension(200,25);
+    return buildProgressBar(size);
+  }
+
+  /**
+   * Build a progress bar to show storage capacity.
+   * @param size Size of progress bar.
+   * @return A progress bar.
+   */
+  public static JProgressBar buildProgressBar(Dimension size)
+  {
     JProgressBar bar=new JProgressBar(SwingConstants.HORIZONTAL,0,100);
     bar.setBackground(GuiFactory.getBackgroundColor());
     bar.setBorderPainted(true);
     bar.setStringPainted(true);
-    bar.setPreferredSize(new Dimension(200,25));
-    bar.setMinimumSize(new Dimension(200,25));
+    bar.setPreferredSize(size);
+    bar.setMinimumSize(size);
     return bar;
   }
 

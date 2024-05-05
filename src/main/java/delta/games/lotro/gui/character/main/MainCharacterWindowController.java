@@ -18,10 +18,13 @@ import delta.games.lotro.character.stats.virtues.VirtuesSet;
 import delta.games.lotro.character.status.crafting.CraftingStatus;
 import delta.games.lotro.character.status.crafting.CraftingStatusSummaryBuilder;
 import delta.games.lotro.character.status.crafting.summary.CraftingStatusSummary;
+import delta.games.lotro.character.storage.summary.CharacterStorageSummary;
+import delta.games.lotro.character.storage.summary.StorageSummaryIO;
 import delta.games.lotro.gui.character.config.CharacterStatsSummaryPanelController;
 import delta.games.lotro.gui.character.gear.EquipmentDisplayPanelController;
 import delta.games.lotro.gui.character.main.summary.CharacterSummaryPanelController;
 import delta.games.lotro.gui.character.status.crafting.summary.CraftingStatusSummaryPanelController;
+import delta.games.lotro.gui.character.storage.summary.CharacterStorageSummaryPanelController;
 import delta.games.lotro.gui.character.virtues.VirtuesDisplayPanelController;
 import delta.games.lotro.gui.character.xp.XpDisplayPanelController;
 import delta.games.lotro.utils.ContextPropertyNames;
@@ -41,6 +44,7 @@ public class MainCharacterWindowController extends DefaultWindowController
   private VirtuesDisplayPanelController _virtues;
   private CharacterStatsSummaryPanelController _stats;
   private XpDisplayPanelController _xp;
+  private CharacterStorageSummaryPanelController _storage;
   private CharacterMainButtonsController _mainButtons;
 
   /**
@@ -59,6 +63,7 @@ public class MainCharacterWindowController extends DefaultWindowController
     _virtues=new VirtuesDisplayPanelController();
     _stats=new CharacterStatsSummaryPanelController(this,current);
     _xp=new XpDisplayPanelController();
+    _storage=new CharacterStorageSummaryPanelController();
     _mainButtons=new CharacterMainButtonsController(this,toon);
     fill();
   }
@@ -84,6 +89,9 @@ public class MainCharacterWindowController extends DefaultWindowController
     // XP
     long xp=details.getXp();
     _xp.setXP(xp);
+    // Storage
+    CharacterStorageSummary storageSummary=StorageSummaryIO.loadCharacterStorageSummary(_toon);
+    _storage.update(storageSummary);
   }
 
   /**
@@ -116,6 +124,11 @@ public class MainCharacterWindowController extends DefaultWindowController
     xpPanel.setBorder(GuiFactory.buildTitledBorder("XP"));
     c=new GridBagConstraints(0,1,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     column1Panel.add(xpPanel,c);
+    // Storage
+    JPanel storagePanel=_storage.getPanel();
+    storagePanel.setBorder(GuiFactory.buildTitledBorder("Storage"));
+    c=new GridBagConstraints(0,2,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    column1Panel.add(storagePanel,c);
     // => add column
     c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(column1Panel,c);
@@ -212,6 +225,11 @@ public class MainCharacterWindowController extends DefaultWindowController
     {
       _xp.dispose();
       _xp=null;
+    }
+    if (_storage!=null)
+    {
+      _storage.dispose();
+      _storage=null;
     }
     if (_mainButtons!=null)
     {
