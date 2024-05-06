@@ -18,12 +18,15 @@ import delta.games.lotro.character.stats.virtues.VirtuesSet;
 import delta.games.lotro.character.status.crafting.CraftingStatus;
 import delta.games.lotro.character.status.crafting.CraftingStatusSummaryBuilder;
 import delta.games.lotro.character.status.crafting.summary.CraftingStatusSummary;
+import delta.games.lotro.character.status.hobbies.HobbiesStatusManager;
+import delta.games.lotro.character.status.hobbies.io.HobbiesStatusIo;
 import delta.games.lotro.character.storage.summary.CharacterStorageSummary;
 import delta.games.lotro.character.storage.summary.StorageSummaryIO;
 import delta.games.lotro.gui.character.config.CharacterStatsSummaryPanelController;
 import delta.games.lotro.gui.character.gear.EquipmentDisplayPanelController;
 import delta.games.lotro.gui.character.main.summary.CharacterSummaryPanelController;
 import delta.games.lotro.gui.character.status.crafting.summary.CraftingStatusSummaryPanelController;
+import delta.games.lotro.gui.character.status.hobbies.HobbiesStatusPanelController;
 import delta.games.lotro.gui.character.storage.summary.CharacterStorageSummaryPanelController;
 import delta.games.lotro.gui.character.virtues.VirtuesDisplayPanelController;
 import delta.games.lotro.gui.character.xp.XpDisplayPanelController;
@@ -47,6 +50,7 @@ public class MainCharacterWindowController extends DefaultWindowController
   private XpDisplayPanelController _xp;
   private CharacterStorageSummaryPanelController _storage;
   private MoneyDisplayController _money;
+  private HobbiesStatusPanelController _hobbies;
   private CharacterMainButtonsController _mainButtons;
 
   /**
@@ -56,6 +60,7 @@ public class MainCharacterWindowController extends DefaultWindowController
   public MainCharacterWindowController(CharacterFile toon)
   {
     _toon=toon;
+    setContextProperty(ContextPropertyNames.BASE_CHARACTER_SUMMARY,toon.getSummary());
     _summaryController=new CharacterSummaryPanelController(this);
     setContextProperty(ContextPropertyNames.BASE_CHARACTER_SUMMARY,toon.getSummary());
     _crafting=new CraftingStatusSummaryPanelController();
@@ -67,6 +72,8 @@ public class MainCharacterWindowController extends DefaultWindowController
     _xp=new XpDisplayPanelController();
     _storage=new CharacterStorageSummaryPanelController();
     _money=new MoneyDisplayController();
+    HobbiesStatusManager status=HobbiesStatusIo.load(toon);
+    _hobbies=new HobbiesStatusPanelController(this,status);
     _mainButtons=new CharacterMainButtonsController(this,toon);
     fill();
   }
@@ -166,10 +173,15 @@ public class MainCharacterWindowController extends DefaultWindowController
     craftingStatusPanel.setBorder(GuiFactory.buildTitledBorder("Crafting"));
     c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     column4Panel.add(craftingStatusPanel,c);
+    // Hobbies
+    JPanel hobbiesStatusPanel=_hobbies.getPanel();
+    hobbiesStatusPanel.setBorder(GuiFactory.buildTitledBorder("Hobbies"));
+    c=new GridBagConstraints(0,1,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    column4Panel.add(hobbiesStatusPanel,c);
     // Money
     JPanel moneyPanel=_money.getPanel();
     moneyPanel.setBorder(GuiFactory.buildTitledBorder("Money"));
-    c=new GridBagConstraints(0,1,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    c=new GridBagConstraints(0,2,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     column4Panel.add(moneyPanel,c);
     // => add column
     c=new GridBagConstraints(3,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
@@ -251,6 +263,11 @@ public class MainCharacterWindowController extends DefaultWindowController
     {
       _money.dispose();
       _money=null;
+    }
+    if (_hobbies!=null)
+    {
+      _hobbies.dispose();
+      _hobbies=null;
     }
     if (_mainButtons!=null)
     {

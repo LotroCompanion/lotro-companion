@@ -70,7 +70,7 @@ public class ContextRendering
   private static BaseCharacterSummary getSummaryFromContext(AreaController areaController)
   {
     Context context=null;
-    WindowController parentController=AreaUtils.findParentWindowController(areaController);
+    WindowController parentController=AreaUtils.findWindowController(areaController);
     if (parentController!=null)
     {
       context=parentController.getContext();
