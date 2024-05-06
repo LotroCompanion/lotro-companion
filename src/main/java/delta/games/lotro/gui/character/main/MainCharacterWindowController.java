@@ -27,6 +27,7 @@ import delta.games.lotro.gui.character.status.crafting.summary.CraftingStatusSum
 import delta.games.lotro.gui.character.storage.summary.CharacterStorageSummaryPanelController;
 import delta.games.lotro.gui.character.virtues.VirtuesDisplayPanelController;
 import delta.games.lotro.gui.character.xp.XpDisplayPanelController;
+import delta.games.lotro.gui.common.money.MoneyDisplayController;
 import delta.games.lotro.utils.ContextPropertyNames;
 
 /**
@@ -45,6 +46,7 @@ public class MainCharacterWindowController extends DefaultWindowController
   private CharacterStatsSummaryPanelController _stats;
   private XpDisplayPanelController _xp;
   private CharacterStorageSummaryPanelController _storage;
+  private MoneyDisplayController _money;
   private CharacterMainButtonsController _mainButtons;
 
   /**
@@ -64,6 +66,7 @@ public class MainCharacterWindowController extends DefaultWindowController
     _stats=new CharacterStatsSummaryPanelController(this,current);
     _xp=new XpDisplayPanelController();
     _storage=new CharacterStorageSummaryPanelController();
+    _money=new MoneyDisplayController();
     _mainButtons=new CharacterMainButtonsController(this,toon);
     fill();
   }
@@ -91,6 +94,8 @@ public class MainCharacterWindowController extends DefaultWindowController
     _xp.setXP(xp);
     // Storage
     CharacterStorageSummary storageSummary=StorageSummaryIO.loadCharacterStorageSummary(_toon);
+    // Money
+    _money.setMoney(details.getMoney());
     _storage.update(storageSummary);
   }
 
@@ -117,7 +122,7 @@ public class MainCharacterWindowController extends DefaultWindowController
     // Summary panel
     JPanel summaryPanel=_summaryController.getPanel();
     summaryPanel.setBorder(GuiFactory.buildTitledBorder("Summary"));
-    GridBagConstraints c=new GridBagConstraints(0,0,1,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(3,5,3,5),0,0);
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,1,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(3,5,3,5),0,0);
     column1Panel.add(summaryPanel,c);
     // XP
     JPanel xpPanel=_xp.getPanel();
@@ -154,11 +159,22 @@ public class MainCharacterWindowController extends DefaultWindowController
     statsPanel.setBorder(GuiFactory.buildTitledBorder("Stats"));
     c=new GridBagConstraints(2,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(statsPanel,c);
+    // Column 4
+    JPanel column4Panel=GuiFactory.buildPanel(new GridBagLayout());
     // Crafting
     JPanel craftingStatusPanel=_crafting.getPanel();
     craftingStatusPanel.setBorder(GuiFactory.buildTitledBorder("Crafting"));
+    c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    column4Panel.add(craftingStatusPanel,c);
+    // Money
+    JPanel moneyPanel=_money.getPanel();
+    moneyPanel.setBorder(GuiFactory.buildTitledBorder("Money"));
+    c=new GridBagConstraints(0,1,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    column4Panel.add(moneyPanel,c);
+    // => add column
     c=new GridBagConstraints(3,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
-    panel.add(craftingStatusPanel,c);
+    panel.add(column4Panel,c);
+
     // Command buttons
     JPanel commandsPanel=_mainButtons.getPanel();
     c=new GridBagConstraints(0,1,4,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
@@ -230,6 +246,11 @@ public class MainCharacterWindowController extends DefaultWindowController
     {
       _storage.dispose();
       _storage=null;
+    }
+    if (_money!=null)
+    {
+      _money.dispose();
+      _money=null;
     }
     if (_mainButtons!=null)
     {
