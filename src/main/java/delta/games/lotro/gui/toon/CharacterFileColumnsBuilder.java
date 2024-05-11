@@ -17,6 +17,8 @@ import delta.games.lotro.character.CharacterSummary;
 import delta.games.lotro.character.details.CharacterDetails;
 import delta.games.lotro.character.status.achievables.Progress;
 import delta.games.lotro.character.status.achievables.comparators.ProgressComparator;
+import delta.games.lotro.character.status.summary.AchievementsSummary;
+import delta.games.lotro.character.status.summary.io.AchievementsSummaryIO;
 import delta.games.lotro.character.storage.summary.CharacterStorageSummary;
 import delta.games.lotro.character.storage.summary.SingleStorageSummary;
 import delta.games.lotro.character.storage.summary.StorageSummaryIO;
@@ -80,6 +82,10 @@ public class CharacterFileColumnsBuilder
     columns.add(getOwnVaultSummaryColumn());
     columns.add(getBagAvailableColumn());
     columns.add(getOwnVaultAvailableColumn());
+    // Achievements
+    columns.add(getDeedsCountColumn());
+    columns.add(getQuestsCountColumn());
+    columns.add(getTitlesCountColumn());
     return columns;
   }
 
@@ -346,6 +352,39 @@ public class CharacterFileColumnsBuilder
         }
         Integer ret=Integer.valueOf(storageSummary.getAvailable());
         return ret;
+      }
+    };
+    DefaultTableColumnController<CharacterFile,Integer> column=new DefaultTableColumnController<CharacterFile,Integer>(columnId,columnName,Integer.class,cell);
+    ColumnsUtils.configureIntegerColumn(column);
+    column.setEditable(false);
+    return column;
+  }
+
+  private static TableColumnController<CharacterFile,?> getDeedsCountColumn()
+  {
+    return getAchievementsSummaryColumn(ToonsTableColumnIds.DEEDS_COUNT.name(),"Deeds",AchievementsSummary::getDeedsCount); // I18n
+  }
+
+  private static TableColumnController<CharacterFile,?> getQuestsCountColumn()
+  {
+    return getAchievementsSummaryColumn(ToonsTableColumnIds.QUESTS_COUNT.name(),"Quests",AchievementsSummary::getQuestsCount); // I18n
+  }
+
+  private static TableColumnController<CharacterFile,?> getTitlesCountColumn()
+  {
+    return getAchievementsSummaryColumn(ToonsTableColumnIds.TITLES_COUNT.name(),"Titles",AchievementsSummary::getTitlesCount); // I18n
+  }
+
+  private static TableColumnController<CharacterFile,?> getAchievementsSummaryColumn(String columnId, String columnName, Function<AchievementsSummary,Integer> getter)
+  {
+    CellDataProvider<CharacterFile,Integer> cell=new CellDataProvider<CharacterFile,Integer>()
+    {
+      @Override
+      public Integer getData(CharacterFile status)
+      {
+        AchievementsSummary summary=AchievementsSummaryIO.loadAchievementsSummary(status);
+        Integer count=getter.apply(summary);
+        return count;
       }
     };
     DefaultTableColumnController<CharacterFile,Integer> column=new DefaultTableColumnController<CharacterFile,Integer>(columnId,columnName,Integer.class,cell);

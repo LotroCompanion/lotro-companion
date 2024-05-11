@@ -105,5 +105,17 @@ public enum ToonsTableColumnIds
   /**
    * Own vault free slots.
    */
-  OWN_VAULT_AVAILABLE
+  OWN_VAULT_AVAILABLE,
+  /**
+   * Completed deeds count.
+   */
+  DEEDS_COUNT,
+  /**
+   * Completed quests count.
+   */
+  QUESTS_COUNT,
+  /**
+   * Acquired titles count.
+   */
+  TITLES_COUNT
 }
