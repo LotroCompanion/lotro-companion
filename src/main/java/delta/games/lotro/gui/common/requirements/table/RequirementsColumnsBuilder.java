@@ -7,6 +7,7 @@ import delta.common.ui.swing.tables.CellDataProvider;
 import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.games.lotro.character.classes.AbstractClassDescription;
 import delta.games.lotro.character.races.RaceDescription;
+import delta.games.lotro.common.requirements.ProfessionRequirement;
 import delta.games.lotro.common.requirements.UsageRequirement;
 import delta.games.lotro.gui.utils.l10n.Labels;
 
@@ -31,6 +32,8 @@ public class RequirementsColumnsBuilder
     ret.add(buildMinLevelColumn(RequirementColumnIds.REQUIRED_LEVEL.name()));
     // Max level column
     ret.add(buildMaxLevelColumn(RequirementColumnIds.MAX_LEVEL.name()));
+    // Crafting requirements columns
+    ret.add(buildCraftingRequirementColumn(RequirementColumnIds.CRAFTING.name()));
     return ret;
   }
 
@@ -116,5 +119,26 @@ public class RequirementsColumnsBuilder
     DefaultTableColumnController<UsageRequirement,Integer> maxLevelColumn=new DefaultTableColumnController<UsageRequirement,Integer>(id,columnName,Integer.class,maxLevelCell);
     maxLevelColumn.setWidthSpecs(40,40,40);
     return maxLevelColumn;
+  }
+
+  /**
+   * Build a column to show crafting requirement.
+   * @param id Column identifier.
+   * @return the new column.
+   */
+  public static DefaultTableColumnController<UsageRequirement,ProfessionRequirement> buildCraftingRequirementColumn(String id)
+  {
+    CellDataProvider<UsageRequirement,ProfessionRequirement> cell=new CellDataProvider<UsageRequirement,ProfessionRequirement>()
+    {
+      @Override
+      public ProfessionRequirement getData(UsageRequirement requirement)
+      {
+        return requirement.getProfessionRequirement();
+      }
+    };
+    String columnName=Labels.getLabel("requirements.column.craftingRequirement");
+    DefaultTableColumnController<UsageRequirement,ProfessionRequirement> column=new DefaultTableColumnController<UsageRequirement,ProfessionRequirement>(id,columnName,ProfessionRequirement.class,cell);
+    column.setWidthSpecs(20,150,150);
+    return column;
   }
 }

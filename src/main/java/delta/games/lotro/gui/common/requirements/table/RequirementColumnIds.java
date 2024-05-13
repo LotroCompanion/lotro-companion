@@ -21,5 +21,9 @@ public enum RequirementColumnIds
   /**
    * Maximum level.
    */
-  MAX_LEVEL
+  MAX_LEVEL,
+  /**
+   * Crafting requirement.
+   */
+  CRAFTING
 }

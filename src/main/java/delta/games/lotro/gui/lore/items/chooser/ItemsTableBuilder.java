@@ -629,6 +629,8 @@ public class ItemsTableBuilder
     ret.add(buildMinLevelColumn());
     // Max level
     ret.add(buildMaxLevelColumn());
+    // Crafting
+    ret.add(buildRequirementProxyColumn(RequirementsColumnsBuilder.buildCraftingRequirementColumn(RequirementColumnIds.CRAFTING.name())));
     return ret;
   }
 
