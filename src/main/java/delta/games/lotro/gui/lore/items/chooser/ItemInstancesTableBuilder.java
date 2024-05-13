@@ -120,8 +120,8 @@ public class ItemInstancesTableBuilder
       }
     };
 
-    List<DefaultTableColumnController<Item,?>> itemColumns=ItemsTableBuilder.initColumns();
-    for(DefaultTableColumnController<Item,?> itemColumn : itemColumns)
+    List<TableColumnController<Item,?>> itemColumns=ItemsTableBuilder.initColumns();
+    for(TableColumnController<Item,?> itemColumn : itemColumns)
     {
       @SuppressWarnings("unchecked")
       TableColumnController<Item,Object> c=(TableColumnController<Item,Object>)itemColumn;
