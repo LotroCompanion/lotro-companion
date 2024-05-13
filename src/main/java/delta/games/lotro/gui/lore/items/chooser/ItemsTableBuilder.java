@@ -17,15 +17,19 @@ import delta.common.ui.swing.tables.DataProvider;
 import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.ListDataProvider;
+import delta.common.ui.swing.tables.ProxiedTableColumnController;
+import delta.common.ui.swing.tables.TableColumnController;
 import delta.common.ui.swing.tables.TableColumnsManager;
 import delta.common.ui.swing.windows.WindowController;
-import delta.games.lotro.character.classes.AbstractClassDescription;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.common.money.Money;
+import delta.games.lotro.common.requirements.UsageRequirement;
 import delta.games.lotro.common.stats.StatDescription;
 import delta.games.lotro.common.stats.StatType;
 import delta.games.lotro.common.stats.StatsRegistry;
 import delta.games.lotro.config.LotroCoreConfig;
+import delta.games.lotro.gui.common.requirements.table.RequirementColumnIds;
+import delta.games.lotro.gui.common.requirements.table.RequirementsColumnsBuilder;
 import delta.games.lotro.gui.lore.items.ItemColumnIds;
 import delta.games.lotro.gui.lore.items.ItemUiTools;
 import delta.games.lotro.gui.lore.items.SlotsPanelController;
@@ -65,9 +69,9 @@ public class ItemsTableBuilder
   {
     DataProvider<Item> provider=new ListDataProvider<Item>(items);
     GenericTableController<Item> table=new GenericTableController<Item>(provider);
-    List<DefaultTableColumnController<Item,?>> columns=initColumns();
+    List<TableColumnController<Item,?>> columns=initColumns();
     TableColumnsManager<Item> columnsManager=table.getColumnsManager();
-    for(DefaultTableColumnController<Item,?> column : columns)
+    for(TableColumnController<Item,?> column : columns)
     {
       columnsManager.addColumnController(column,false);
     }
@@ -105,9 +109,9 @@ public class ItemsTableBuilder
    * Build a list of all managed columns.
    * @return A list of column controllers.
    */
-  public static List<DefaultTableColumnController<Item,?>> initColumns()
+  public static List<TableColumnController<Item,?>> initColumns()
   {
-    List<DefaultTableColumnController<Item,?>> columns=new ArrayList<DefaultTableColumnController<Item,?>>();
+    List<TableColumnController<Item,?>> columns=new ArrayList<TableColumnController<Item,?>>();
     // Icon column
     columns.add(buildIconColumn());
     // ID column
@@ -121,12 +125,8 @@ public class ItemsTableBuilder
     columns.add(buildItemLevelColumn());
     // Category column
     columns.add(buildCategoryColumn());
-    // Required min level column
-    columns.add(buildMinLevelColumn());
-    // Required max level column
-    columns.add(buildMaxLevelColumn());
     // Class requirement
-    columns.add(buildClassRequirementColumn());
+    columns.addAll(buildRequirementsColumns());
     // Value
     columns.add(buildValueColumn());
     // Slots count
@@ -268,40 +268,18 @@ public class ItemsTableBuilder
    * Build a column for the min required level of an item.
    * @return a column.
    */
-  public static DefaultTableColumnController<Item,Integer> buildMinLevelColumn()
+  public static TableColumnController<Item,Integer> buildMinLevelColumn()
   {
-    CellDataProvider<Item,Integer> minLevelCell=new CellDataProvider<Item,Integer>()
-    {
-      @Override
-      public Integer getData(Item item)
-      {
-        return item.getMinLevel();
-      }
-    };
-    String columnName=Labels.getLabel("items.table.level");
-    DefaultTableColumnController<Item,Integer> minLevelColumn=new DefaultTableColumnController<Item,Integer>(ItemColumnIds.REQUIRED_LEVEL.name(),columnName,Integer.class,minLevelCell);
-    minLevelColumn.setWidthSpecs(55,55,50);
-    return minLevelColumn;
+    return buildRequirementProxyColumn(RequirementsColumnsBuilder.buildMinLevelColumn(ItemColumnIds.REQUIRED_LEVEL.name()));
   }
 
   /**
    * Build a column for the max required level of an item.
    * @return a column.
    */
-  public static DefaultTableColumnController<Item,Integer> buildMaxLevelColumn()
+  public static TableColumnController<Item,Integer> buildMaxLevelColumn()
   {
-    CellDataProvider<Item,Integer> maxLevelCell=new CellDataProvider<Item,Integer>()
-    {
-      @Override
-      public Integer getData(Item item)
-      {
-        return item.getMaxLevel();
-      }
-    };
-    String columnName=Labels.getLabel("items.table.maxLevel");
-    DefaultTableColumnController<Item,Integer> maxLevelColumn=new DefaultTableColumnController<Item,Integer>(ItemColumnIds.REQUIRED_MAX_LEVEL.name(),columnName,Integer.class,maxLevelCell);
-    maxLevelColumn.setWidthSpecs(55,55,50);
-    return maxLevelColumn;
+    return buildRequirementProxyColumn(RequirementsColumnsBuilder.buildMaxLevelColumn(ItemColumnIds.REQUIRED_MAX_LEVEL.name()));
   }
 
   private static DefaultTableColumnController<Item,Integer> buildSlotsCountColumn()
@@ -398,22 +376,6 @@ public class ItemsTableBuilder
     DefaultTableColumnController<Item,String> categoryColumn=new DefaultTableColumnController<Item,String>(ItemColumnIds.CATEGORY.name(),columnName,String.class,categoryCell);
     categoryColumn.setWidthSpecs(150,150,150);
     return categoryColumn;
-  }
-
-  private static DefaultTableColumnController<Item,AbstractClassDescription> buildClassRequirementColumn()
-  {
-    CellDataProvider<Item,AbstractClassDescription> cell=new CellDataProvider<Item,AbstractClassDescription>()
-    {
-      @Override
-      public AbstractClassDescription getData(Item item)
-      {
-        return item.getRequiredClass();
-      }
-    };
-    String columnName=Labels.getLabel("items.table.class");
-    DefaultTableColumnController<Item,AbstractClassDescription> column=new DefaultTableColumnController<Item,AbstractClassDescription>(ItemColumnIds.CLASS.name(),columnName,AbstractClassDescription.class,cell);
-    column.setWidthSpecs(100,100,100);
-    return column;
   }
 
   /**
@@ -654,5 +616,33 @@ public class ItemsTableBuilder
     StatRenderer renderer=new StatRenderer(stat);
     StatColumnsUtils.configureStatValueColumn(statColumn,renderer,55);
     return statColumn;
+  }
+
+  private static List<TableColumnController<Item,?>> buildRequirementsColumns()
+  {
+    List<TableColumnController<Item,?>> ret=new ArrayList<TableColumnController<Item,?>>();
+    // Class
+    ret.add(buildRequirementProxyColumn(RequirementsColumnsBuilder.buildRequiredClassColumn(ItemColumnIds.CLASS.name())));
+    // Race
+    ret.add(buildRequirementProxyColumn(RequirementsColumnsBuilder.buildRequiredRaceColumn(RequirementColumnIds.REQUIRED_RACE.name())));
+    // Min level
+    ret.add(buildMinLevelColumn());
+    // Max level
+    ret.add(buildMaxLevelColumn());
+    return ret;
+  }
+
+  private static <T> TableColumnController<Item,T> buildRequirementProxyColumn(TableColumnController<UsageRequirement,T> requirementColumn)
+  {
+    CellDataProvider<Item,UsageRequirement> dataProvider=new CellDataProvider<Item,UsageRequirement>()
+    {
+      @Override
+      public UsageRequirement getData(Item item)
+      {
+        return item.getUsageRequirements();
+      }
+    };
+    TableColumnController<Item,T> proxiedColumn=new ProxiedTableColumnController<Item,UsageRequirement,T>(requirementColumn,dataProvider);
+    return proxiedColumn;
   }
 }

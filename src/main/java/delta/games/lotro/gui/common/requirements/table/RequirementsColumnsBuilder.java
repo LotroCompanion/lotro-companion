@@ -8,6 +8,7 @@ import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.games.lotro.character.classes.AbstractClassDescription;
 import delta.games.lotro.character.races.RaceDescription;
 import delta.games.lotro.common.requirements.UsageRequirement;
+import delta.games.lotro.gui.utils.l10n.Labels;
 
 /**
  * Builder for columns that show requirements data.
@@ -23,61 +24,97 @@ public class RequirementsColumnsBuilder
   {
     List<DefaultTableColumnController<UsageRequirement,?>> ret=new ArrayList<DefaultTableColumnController<UsageRequirement,?>>();
     // Class column
-    {
-      CellDataProvider<UsageRequirement,AbstractClassDescription> classCell=new CellDataProvider<UsageRequirement,AbstractClassDescription>()
-      {
-        @Override
-        public AbstractClassDescription getData(UsageRequirement requirement)
-        {
-          return requirement.getRequiredClass();
-        }
-      };
-      DefaultTableColumnController<UsageRequirement,AbstractClassDescription> classColumn=new DefaultTableColumnController<UsageRequirement,AbstractClassDescription>(RequirementColumnIds.REQUIRED_CLASS.name(),"Class",AbstractClassDescription.class,classCell); // I18n
-      classColumn.setWidthSpecs(80,100,80);
-      ret.add(classColumn);
-    }
+    ret.add(buildRequiredClassColumn(RequirementColumnIds.REQUIRED_CLASS.name()));
     // Race column
-    {
-      CellDataProvider<UsageRequirement,RaceDescription> raceCell=new CellDataProvider<UsageRequirement,RaceDescription>()
-      {
-        @Override
-        public RaceDescription getData(UsageRequirement requirement)
-        {
-          return requirement.getRequiredRace();
-        }
-      };
-      DefaultTableColumnController<UsageRequirement,RaceDescription> raceColumn=new DefaultTableColumnController<UsageRequirement,RaceDescription>(RequirementColumnIds.REQUIRED_RACE.name(),"Race",RaceDescription.class,raceCell); // I18n
-      raceColumn.setWidthSpecs(80,100,80);
-      ret.add(raceColumn);
-    }
+    ret.add(buildRequiredRaceColumn(RequirementColumnIds.REQUIRED_RACE.name()));
     // Min level column
-    {
-      CellDataProvider<UsageRequirement,Integer> minLevelCell=new CellDataProvider<UsageRequirement,Integer>()
-      {
-        @Override
-        public Integer getData(UsageRequirement requirement)
-        {
-          return requirement.getMinLevel();
-        }
-      };
-      DefaultTableColumnController<UsageRequirement,Integer> minLevelColumn=new DefaultTableColumnController<UsageRequirement,Integer>(RequirementColumnIds.REQUIRED_LEVEL.name(),"Min Level",Integer.class,minLevelCell); // I18n
-      minLevelColumn.setWidthSpecs(40,40,40);
-      ret.add(minLevelColumn);
-    }
+    ret.add(buildMinLevelColumn(RequirementColumnIds.REQUIRED_LEVEL.name()));
     // Max level column
-    {
-      CellDataProvider<UsageRequirement,Integer> maxLevelCell=new CellDataProvider<UsageRequirement,Integer>()
-      {
-        @Override
-        public Integer getData(UsageRequirement requirement)
-        {
-          return requirement.getMaxLevel();
-        }
-      };
-      DefaultTableColumnController<UsageRequirement,Integer> maxLevelColumn=new DefaultTableColumnController<UsageRequirement,Integer>(RequirementColumnIds.MAX_LEVEL.name(),"Max Level",Integer.class,maxLevelCell); // I18n
-      maxLevelColumn.setWidthSpecs(40,40,40);
-      ret.add(maxLevelColumn);
-    }
+    ret.add(buildMaxLevelColumn(RequirementColumnIds.MAX_LEVEL.name()));
     return ret;
+  }
+
+  /**
+   * Build a column to show class requirement.
+   * @param id Column identifier.
+   * @return the new column.
+   */
+  public static DefaultTableColumnController<UsageRequirement,AbstractClassDescription> buildRequiredClassColumn(String id)
+  {
+    CellDataProvider<UsageRequirement,AbstractClassDescription> classCell=new CellDataProvider<UsageRequirement,AbstractClassDescription>()
+    {
+      @Override
+      public AbstractClassDescription getData(UsageRequirement requirement)
+      {
+        return requirement.getRequiredClass();
+      }
+    };
+    String columnName=Labels.getLabel("requirements.column.class");
+    DefaultTableColumnController<UsageRequirement,AbstractClassDescription> classColumn=new DefaultTableColumnController<UsageRequirement,AbstractClassDescription>(id,columnName,AbstractClassDescription.class,classCell);
+    classColumn.setWidthSpecs(100,100,100);
+    return classColumn;
+  }
+
+  /**
+   * Build a column to show race requirement.
+   * @param id Column identifier.
+   * @return the new column.
+   */
+  public static DefaultTableColumnController<UsageRequirement,RaceDescription> buildRequiredRaceColumn(String id)
+  {
+    CellDataProvider<UsageRequirement,RaceDescription> raceCell=new CellDataProvider<UsageRequirement,RaceDescription>()
+    {
+      @Override
+      public RaceDescription getData(UsageRequirement requirement)
+      {
+        return requirement.getRequiredRace();
+      }
+    };
+    String columnName=Labels.getLabel("requirements.column.race");
+    DefaultTableColumnController<UsageRequirement,RaceDescription> raceColumn=new DefaultTableColumnController<UsageRequirement,RaceDescription>(id,columnName,RaceDescription.class,raceCell);
+    raceColumn.setWidthSpecs(80,100,80);
+    return raceColumn;
+  }
+
+  /**
+   * Build a column to show minimum level requirement.
+   * @param id Column identifier.
+   * @return the new column.
+   */
+  public static DefaultTableColumnController<UsageRequirement,Integer> buildMinLevelColumn(String id)
+  {
+    CellDataProvider<UsageRequirement,Integer> minLevelCell=new CellDataProvider<UsageRequirement,Integer>()
+    {
+      @Override
+      public Integer getData(UsageRequirement requirement)
+      {
+        return requirement.getMinLevel();
+      }
+    };
+    String columnName=Labels.getLabel("requirements.column.minLevel");
+    DefaultTableColumnController<UsageRequirement,Integer> minLevelColumn=new DefaultTableColumnController<UsageRequirement,Integer>(id,columnName,Integer.class,minLevelCell);
+    minLevelColumn.setWidthSpecs(40,40,40);
+    return minLevelColumn;
+  }
+
+  /**
+   * Build a column to show maximum level requirement.
+   * @param id Column identifier.
+   * @return the new column.
+   */
+  public static DefaultTableColumnController<UsageRequirement,Integer> buildMaxLevelColumn(String id)
+  {
+    CellDataProvider<UsageRequirement,Integer> maxLevelCell=new CellDataProvider<UsageRequirement,Integer>()
+    {
+      @Override
+      public Integer getData(UsageRequirement requirement)
+      {
+        return requirement.getMaxLevel();
+      }
+    };
+    String columnName=Labels.getLabel("requirements.column.maxLevel");
+    DefaultTableColumnController<UsageRequirement,Integer> maxLevelColumn=new DefaultTableColumnController<UsageRequirement,Integer>(id,columnName,Integer.class,maxLevelCell);
+    maxLevelColumn.setWidthSpecs(40,40,40);
+    return maxLevelColumn;
   }
 }
