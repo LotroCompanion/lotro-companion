@@ -295,8 +295,12 @@ public class EquipmentEditionPanelController implements ActionListener
     List<ItemInstance<? extends Item>> selectedInstances=filter(itemInstances,slot);
     ItemFilterConfiguration cfg=new ItemFilterConfiguration();
     cfg.forStashFilter();
+
     TypedProperties filterProps=_parentWindow.getUserProperties(propsId);
     ItemFilterController filterController=new ItemFilterController(cfg,_toonData.getSummary(),filterProps);
+    CharacterFile currentToon=_parentWindow.getContextProperty(ContextPropertyNames.CHARACTER_FILE,CharacterFile.class);
+    filterController.configure(currentToon);
+
     Filter<Item> filter=filterController.getFilter();
     String id=ItemChooser.ITEM_INSTANCE_CHOOSER_PROPERTIES_ID+"#"+slot.getKey();
     TypedProperties props=_parentWindow.getUserProperties(id);
@@ -327,8 +331,12 @@ public class EquipmentEditionPanelController implements ActionListener
     ItemFilterConfiguration cfg=new ItemFilterConfiguration();
     cfg.initFromItems(selectedItems);
     cfg.forItemFilter();
+
     TypedProperties filterProps=_parentWindow.getUserProperties("ItemFilter");
     ItemFilterController filterController=new ItemFilterController(cfg,_toonData.getSummary(),filterProps);
+    CharacterFile currentToon=_parentWindow.getContextProperty(ContextPropertyNames.CHARACTER_FILE,CharacterFile.class);
+    filterController.configure(currentToon);
+
     Filter<Item> filter=filterController.getFilter();
     String id=ItemChooser.ITEM_CHOOSER_PROPERTIES_ID+"#"+slot.getKey();
     TypedProperties props=_parentWindow.getUserProperties(id);

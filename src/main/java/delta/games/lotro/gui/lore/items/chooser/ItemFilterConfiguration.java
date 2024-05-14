@@ -79,6 +79,7 @@ public class ItemFilterConfiguration
     _components[ItemChooserFilterComponent.STAT.ordinal()]=true;
     _components[ItemChooserFilterComponent.CURRENT_CHAR_CLASS.ordinal()]=true;
     _components[ItemChooserFilterComponent.CURRENT_CHAR_LEVEL.ordinal()]=true;
+    _components[ItemChooserFilterComponent.CURRENT_CHAR_REPUTATION.ordinal()]=true;
     _components[ItemChooserFilterComponent.ITEM_LEVEL.ordinal()]=true;
   }
 
@@ -96,11 +97,11 @@ public class ItemFilterConfiguration
     _components[ItemChooserFilterComponent.SLAYER_GENUS.ordinal()]=true;
     _components[ItemChooserFilterComponent.ARMOUR_TYPE.ordinal()]=true;
     _components[ItemChooserFilterComponent.SHIELD_TYPE.ordinal()]=true;
-    // Requirements for the current character: class, proficiencies, level
-    // TODO: add faction requirements
+    // Requirements for the current character: class, proficiencies, level, faction
     _components[ItemChooserFilterComponent.CURRENT_CHAR_CLASS.ordinal()]=true;
     _components[ItemChooserFilterComponent.CURRENT_CHAR_PROFICIENCIES.ordinal()]=true;
     _components[ItemChooserFilterComponent.CURRENT_CHAR_LEVEL.ordinal()]=true;
+    _components[ItemChooserFilterComponent.CURRENT_CHAR_REPUTATION.ordinal()]=true;
     // Item level range
     _components[ItemChooserFilterComponent.ITEM_LEVEL.ordinal()]=true;
   }

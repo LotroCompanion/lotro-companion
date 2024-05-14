@@ -16,6 +16,7 @@ import delta.games.lotro.lore.items.filters.ArmourTypeFilter;
 import delta.games.lotro.lore.items.filters.CharacterProficienciesFilter;
 import delta.games.lotro.lore.items.filters.DamageTypeFilter;
 import delta.games.lotro.lore.items.filters.ItemCharacterLevelFilter;
+import delta.games.lotro.lore.items.filters.ItemCharacterReputationFilter;
 import delta.games.lotro.lore.items.filters.ItemClassFilter;
 import delta.games.lotro.lore.items.filters.ItemEquipmentLocationFilter;
 import delta.games.lotro.lore.items.filters.ItemLevelFilter;
@@ -51,6 +52,7 @@ public class ItemChooserFilter implements Filter<Item>
   private ItemRequiredClassFilter _characterClassFilter;
   private CharacterProficienciesFilter _characterProficienciesFilter;
   private ItemCharacterLevelFilter _characterLevelFilter;
+  private ItemCharacterReputationFilter _characterReputationFilter;
   private TierFilter _tierFilter;
   private ItemNameFilter _nameFilter;
   private ItemQualityFilter _qualityFilter;
@@ -100,6 +102,13 @@ public class ItemChooserFilter implements Filter<Item>
       {
         _characterLevelFilter=new ItemCharacterLevelFilter(level);
         filters.add(_characterLevelFilter);
+      }
+      // Reputation
+      boolean useCurrentCharReputation=cfg.hasComponent(ItemChooserFilterComponent.CURRENT_CHAR_REPUTATION);
+      if (useCurrentCharReputation)
+      {
+        _characterReputationFilter=new ItemCharacterReputationFilter();
+        filters.add(_characterReputationFilter);
       }
     }
     // Tier
@@ -290,6 +299,15 @@ public class ItemChooserFilter implements Filter<Item>
   public ItemCharacterLevelFilter getCurrentCharacterLevelFilter()
   {
     return _characterLevelFilter;
+  }
+
+  /**
+   * Get the managed current character reputation filter.
+   * @return a level filter or <code>null</code>.
+   */
+  public ItemCharacterReputationFilter getCurrentCharacterReputationFilter()
+  {
+    return _characterReputationFilter;
   }
 
   /**

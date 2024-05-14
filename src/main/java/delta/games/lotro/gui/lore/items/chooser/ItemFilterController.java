@@ -29,8 +29,10 @@ import delta.common.ui.swing.text.range.RangeListener;
 import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.character.BasicCharacterAttributes;
+import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.classes.AbstractClassDescription;
 import delta.games.lotro.character.races.RaceDescription;
+import delta.games.lotro.character.status.reputation.ReputationStatus;
 import delta.games.lotro.common.enums.Genus;
 import delta.games.lotro.common.enums.ItemClass;
 import delta.games.lotro.common.stats.StatDescription;
@@ -49,6 +51,7 @@ import delta.games.lotro.lore.items.filters.ArmourTypeFilter;
 import delta.games.lotro.lore.items.filters.CharacterProficienciesFilter;
 import delta.games.lotro.lore.items.filters.DamageTypeFilter;
 import delta.games.lotro.lore.items.filters.ItemCharacterLevelFilter;
+import delta.games.lotro.lore.items.filters.ItemCharacterReputationFilter;
 import delta.games.lotro.lore.items.filters.ItemEquipmentLocationFilter;
 import delta.games.lotro.lore.items.filters.ItemLevelFilter;
 import delta.games.lotro.lore.items.filters.ItemRequiredClassFilter;
@@ -87,8 +90,9 @@ public class ItemFilterController extends ObjectFilterPanelController implements
   private ComboBoxController<ArmourType> _shieldType;
   private List<ComboBoxController<StatDescription>> _stats;
   private CheckboxController _classRequirement;
-  private CheckboxController _characterLevelRequirement;
   private CheckboxController _proficienciesRequirement;
+  private CheckboxController _characterLevelRequirement;
+  private CheckboxController _characterReputationRequirement;
   private RangeEditorController _itemLevelRange;
   private ComboBoxController<Boolean> _scalable;
   private ComboBoxController<AbstractClassDescription> _class;
@@ -106,6 +110,20 @@ public class ItemFilterController extends ObjectFilterPanelController implements
     _filter=new ItemChooserFilter(cfg,attrs);
     _props=props;
     ItemChooserFilterIo.loadFrom(_filter,props);
+  }
+
+  /**
+   * Configure.
+   * @param toon Current character.
+   */
+  public void configure(CharacterFile toon)
+  {
+    ItemCharacterReputationFilter reputationFilter=_filter.getCurrentCharacterReputationFilter();
+    if (reputationFilter!=null)
+    {
+      ReputationStatus reputationStatus=toon.getReputation();
+      reputationFilter.setReputationStatus(reputationStatus);
+    }
   }
 
   /**
@@ -214,6 +232,10 @@ public class ItemFilterController extends ObjectFilterPanelController implements
       if (_characterLevelRequirement!=null)
       {
         _characterLevelRequirement.setSelected(true);
+      }
+      if (_characterReputationRequirement!=null)
+      {
+        _characterReputationRequirement.setSelected(true);
       }
       // Item level range
       if (_itemLevelRange!=null)
@@ -339,6 +361,11 @@ public class ItemFilterController extends ObjectFilterPanelController implements
     {
       ItemCharacterLevelFilter levelFilter=_filter.getCurrentCharacterLevelFilter();
       _characterLevelRequirement.setSelected(levelFilter.isEnabled());
+    }
+    if (_characterReputationRequirement!=null)
+    {
+      ItemCharacterReputationFilter levelFilter=_filter.getCurrentCharacterReputationFilter();
+      _characterReputationRequirement.setSelected(levelFilter.isEnabled());
     }
     // Item level range
     if (_itemLevelRange!=null)
@@ -821,9 +848,10 @@ public class ItemFilterController extends ObjectFilterPanelController implements
     boolean useCurrentCharacterClass=_cfg.hasComponent(ItemChooserFilterComponent.CURRENT_CHAR_CLASS);
     boolean useCurrentCharacterProficiences=_cfg.hasComponent(ItemChooserFilterComponent.CURRENT_CHAR_PROFICIENCIES);
     boolean useCurrentCharacterLevel=_cfg.hasComponent(ItemChooserFilterComponent.CURRENT_CHAR_LEVEL);
-    if (useCurrentCharacterClass || useCurrentCharacterProficiences || useCurrentCharacterLevel)
+    boolean useCurrentCharacterReputation=_cfg.hasComponent(ItemChooserFilterComponent.CURRENT_CHAR_REPUTATION);
+    if (useCurrentCharacterClass || useCurrentCharacterProficiences || useCurrentCharacterLevel || useCurrentCharacterReputation)
     {
-      JPanel requirementsPanel=buildCurrentCharacterRequirementsPanel(useCurrentCharacterClass,useCurrentCharacterProficiences,useCurrentCharacterLevel);
+      JPanel requirementsPanel=buildCurrentCharacterRequirementsPanel(useCurrentCharacterClass,useCurrentCharacterProficiences,useCurrentCharacterLevel,useCurrentCharacterReputation);
       panel.add(requirementsPanel);
     }
     // Race/class requirements
@@ -855,7 +883,7 @@ public class ItemFilterController extends ObjectFilterPanelController implements
     return panel;
   }
 
-  private JPanel buildCurrentCharacterRequirementsPanel(boolean useClass,boolean useProficiences,boolean useLevel)
+  private JPanel buildCurrentCharacterRequirementsPanel(boolean useClass,boolean useProficiences,boolean useLevel, boolean useReputation)
   {
     JPanel requirementsPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING));
     TitledBorder border=GuiFactory.buildTitledBorder(Labels.getLabel("items.filter.characterRequirements.border"));
@@ -916,6 +944,25 @@ public class ItemFilterController extends ObjectFilterPanelController implements
         }
       };
       levelCheckbox.addActionListener(l);
+    }
+    // Reputation
+    if (useReputation)
+    {
+      _characterReputationRequirement=new CheckboxController(Labels.getLabel("items.filter.reputation.checkbox"));
+      final JCheckBox reputationCheckbox=_characterReputationRequirement.getCheckbox();
+      _characterReputationRequirement.setSelected(true);
+      requirementsPanel.add(reputationCheckbox);
+      ActionListener l=new ActionListener()
+      {
+        @Override
+        public void actionPerformed(ActionEvent e)
+        {
+          boolean selected=reputationCheckbox.isSelected();
+          _filter.getCurrentCharacterReputationFilter().setEnabled(selected);
+          filterUpdated();
+        }
+      };
+      reputationCheckbox.addActionListener(l);
     }
     return requirementsPanel;
   }
@@ -1118,15 +1165,20 @@ public class ItemFilterController extends ObjectFilterPanelController implements
       _classRequirement.dispose();
       _classRequirement=null;
     }
+    if (_proficienciesRequirement!=null)
+    {
+      _proficienciesRequirement.dispose();
+      _proficienciesRequirement=null;
+    }
     if (_characterLevelRequirement!=null)
     {
       _characterLevelRequirement.dispose();
       _characterLevelRequirement=null;
     }
-    if (_proficienciesRequirement!=null)
+    if (_characterReputationRequirement!=null)
     {
-      _proficienciesRequirement.dispose();
-      _proficienciesRequirement=null;
+      _characterReputationRequirement.dispose();
+      _characterReputationRequirement=null;
     }
     if (_itemLevelRange!=null)
     {

@@ -63,6 +63,10 @@ public enum ItemChooserFilterComponent
    */
   CURRENT_CHAR_LEVEL,
   /**
+   * Filter on the reputation of the current character.
+   */
+  CURRENT_CHAR_REPUTATION,
+  /**
    * Item level filter.
    */
   ITEM_LEVEL,

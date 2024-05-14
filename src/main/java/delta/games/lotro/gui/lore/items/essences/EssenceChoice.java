@@ -6,6 +6,7 @@ import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.character.BasicCharacterAttributes;
+import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.common.enums.SocketType;
 import delta.games.lotro.gui.lore.items.chooser.ItemChooser;
 import delta.games.lotro.gui.lore.items.chooser.ItemFilterConfiguration;
@@ -13,6 +14,7 @@ import delta.games.lotro.gui.lore.items.chooser.ItemFilterController;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.essences.Essence;
 import delta.games.lotro.lore.items.essences.EssencesManager;
+import delta.games.lotro.utils.ContextPropertyNames;
 import delta.games.lotro.utils.gui.chooser.ObjectChoiceWindowController;
 
 /**
@@ -49,6 +51,8 @@ public class EssenceChoice
       filterProps=new TypedProperties();
     }
     ItemFilterController filterController=new ItemFilterController(cfg,attrs,filterProps);
+    CharacterFile currentToon=parent.getContextProperty(ContextPropertyNames.CHARACTER_FILE,CharacterFile.class);
+    filterController.configure(currentToon);
     TypedProperties prefs=null;
     if (parent!=null)
     {
