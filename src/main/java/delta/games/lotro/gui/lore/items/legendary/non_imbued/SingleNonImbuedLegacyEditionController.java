@@ -92,7 +92,7 @@ public abstract class SingleNonImbuedLegacyEditionController<T extends NonImbued
   {
     _internalRanks=ranks;
     Integer previousValue=_rank.getSelectedItem();
-    if (ranks!=null)
+    if ((ranks!=null) && (ranks.length>0))
     {
       // Remove old items
       _rank.removeAllItems();
