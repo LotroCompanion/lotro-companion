@@ -25,5 +25,9 @@ public enum RequirementColumnIds
   /**
    * Crafting requirement.
    */
-  CRAFTING
+  CRAFTING,
+  /**
+   * Reputation requirement.
+   */
+  REPUTATION
 }

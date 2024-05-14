@@ -7,6 +7,7 @@ import delta.common.ui.swing.tables.CellDataProvider;
 import delta.common.ui.swing.tables.DefaultTableColumnController;
 import delta.games.lotro.character.classes.AbstractClassDescription;
 import delta.games.lotro.character.races.RaceDescription;
+import delta.games.lotro.common.requirements.FactionRequirement;
 import delta.games.lotro.common.requirements.ProfessionRequirement;
 import delta.games.lotro.common.requirements.UsageRequirement;
 import delta.games.lotro.gui.utils.l10n.Labels;
@@ -32,8 +33,10 @@ public class RequirementsColumnsBuilder
     ret.add(buildMinLevelColumn(RequirementColumnIds.REQUIRED_LEVEL.name()));
     // Max level column
     ret.add(buildMaxLevelColumn(RequirementColumnIds.MAX_LEVEL.name()));
-    // Crafting requirements columns
+    // Crafting requirement column
     ret.add(buildCraftingRequirementColumn(RequirementColumnIds.CRAFTING.name()));
+    // Reputation requirement column
+    ret.add(buildReputationRequirementColumn(RequirementColumnIds.REPUTATION.name()));
     return ret;
   }
 
@@ -139,6 +142,27 @@ public class RequirementsColumnsBuilder
     String columnName=Labels.getLabel("requirements.column.craftingRequirement");
     DefaultTableColumnController<UsageRequirement,ProfessionRequirement> column=new DefaultTableColumnController<UsageRequirement,ProfessionRequirement>(id,columnName,ProfessionRequirement.class,cell);
     column.setWidthSpecs(20,150,150);
+    return column;
+  }
+
+  /**
+   * Build a column to show reputation requirement.
+   * @param id Column identifier.
+   * @return the new column.
+   */
+  public static DefaultTableColumnController<UsageRequirement,FactionRequirement> buildReputationRequirementColumn(String id)
+  {
+    CellDataProvider<UsageRequirement,FactionRequirement> cell=new CellDataProvider<UsageRequirement,FactionRequirement>()
+    {
+      @Override
+      public FactionRequirement getData(UsageRequirement requirement)
+      {
+        return requirement.getFactionRequirement();
+      }
+    };
+    String columnName=Labels.getLabel("requirements.column.factionRequirement");
+    DefaultTableColumnController<UsageRequirement,FactionRequirement> column=new DefaultTableColumnController<UsageRequirement,FactionRequirement>(id,columnName,FactionRequirement.class,cell);
+    column.setWidthSpecs(20,200,200);
     return column;
   }
 }

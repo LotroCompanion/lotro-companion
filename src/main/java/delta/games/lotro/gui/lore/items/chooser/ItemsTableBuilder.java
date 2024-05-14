@@ -631,6 +631,8 @@ public class ItemsTableBuilder
     ret.add(buildMaxLevelColumn());
     // Crafting
     ret.add(buildRequirementProxyColumn(RequirementsColumnsBuilder.buildCraftingRequirementColumn(RequirementColumnIds.CRAFTING.name())));
+    // Reputation
+    ret.add(buildRequirementProxyColumn(RequirementsColumnsBuilder.buildReputationRequirementColumn(RequirementColumnIds.REPUTATION.name())));
     return ret;
   }
 
