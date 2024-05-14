@@ -27,7 +27,6 @@ public class MainTestCraftingHistoryChart
   {
     Locale.setDefault(Locale.US);
     LotroTestUtils utils=new LotroTestUtils();
-    //for(CharacterFile toon : utils.getAllFiles())
     {
       CharacterFile toon=utils.getMainToon();
       CraftingStatus stats=toon.getCraftingMgr().getCraftingStatus();

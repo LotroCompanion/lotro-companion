@@ -31,10 +31,7 @@ public class MainTestMapLinksFactory
       {
         if (link.getTargetMapKey()==mapId)
         {
-          //if (link.getParentId()!=mapId)
-          {
-            System.out.println("Link to same map: "+link+" with different parent map");
-          }
+          System.out.println("Link to same map: "+link);
         }
       }
     }

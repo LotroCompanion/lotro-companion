@@ -25,7 +25,6 @@ public class MainTestCharacterSummaryPanelController
   {
     LotroTestUtils utils=new LotroTestUtils();
     List<CharacterFile> toons=utils.getAllFiles();
-    //CharacterFile toon=utils.getMainToon();
     for(CharacterFile toon : toons)
     {
       String name=toon.getName();

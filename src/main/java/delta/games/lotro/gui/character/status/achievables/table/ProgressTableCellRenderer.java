@@ -19,8 +19,8 @@ import delta.games.lotro.character.status.achievables.Progress;
 public class ProgressTableCellRenderer extends DefaultTableCellRenderer
 {
   private JProgressBar _progressBar;
-  private Function<Progress,Color> _colorFunction;
-  private Function<Progress,String> _labelFunction;
+  private transient Function<Progress,Color> _colorFunction;
+  private transient Function<Progress,String> _labelFunction;
 
   /**
    * Constructor.

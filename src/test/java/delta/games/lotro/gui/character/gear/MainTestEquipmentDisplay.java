@@ -22,9 +22,7 @@ public class MainTestEquipmentDisplay
   public static void main(String[] args)
   {
     LotroTestUtils utils=new LotroTestUtils();
-    //List<CharacterFile> toons=utils.getAllFiles();
     CharacterFile toon=utils.getMainToon();
-    //for(CharacterFile toon : toons)
     {
       String name=toon.getName();
       System.out.println("Loading toon ["+name+"]");

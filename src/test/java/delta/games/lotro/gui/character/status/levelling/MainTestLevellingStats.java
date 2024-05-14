@@ -29,9 +29,6 @@ public class MainTestLevellingStats
     LotroTestUtils utils=new LotroTestUtils();
     List<CharacterFile> toons=utils.getAllFiles();
     MultipleToonsLevellingStats stats=new MultipleToonsLevellingStats();
-    //String[] names={"Glumlug","Feroce","Tilmogrim","Beleganth"};
-    //for(String name : names)
-    //CharacterFile toon=utils.getMainToon();
     for(CharacterFile toon : toons)
     {
       stats.addToon(toon);

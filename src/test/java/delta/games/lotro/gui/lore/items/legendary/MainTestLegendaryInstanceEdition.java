@@ -24,8 +24,7 @@ public class MainTestLegendaryInstanceEdition
 {
   ItemInstance<? extends Item> buildTestItemInstance()
   {
-    //String name="CaptainEmblemSecondAge75NonImbued.xml";
-    String name="CaptainGreatSwordFirstAgeImbued.xml";
+    String name="CaptainGreatSwordFirstAgeImbued.xml"; // or CaptainEmblemSecondAge75NonImbued.xml
     ItemInstance<? extends Item> item=LegendariesTestUtils.loadItemInstance(name);
     return item;
   }

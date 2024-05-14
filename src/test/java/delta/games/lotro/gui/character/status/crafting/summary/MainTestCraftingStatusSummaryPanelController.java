@@ -22,7 +22,6 @@ public class MainTestCraftingStatusSummaryPanelController
    */
   public static void main(String[] args)
   {
-    //CharacterFile file=new LotroTestUtils().getToonByName("Giswald");
     for(CharacterFile file : new LotroTestUtils().getAllFiles())
     {
       CraftingStatus status=file.getCraftingMgr().getCraftingStatus();

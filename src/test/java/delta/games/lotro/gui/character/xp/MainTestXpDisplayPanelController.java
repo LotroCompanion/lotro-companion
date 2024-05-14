@@ -15,7 +15,6 @@ public class MainTestXpDisplayPanelController
   public static void main(String[] args)
   {
     long[] xpValues=new long[] {0, 1242277, 371153271, 549062588L, 532832186L};
-    //long[] xpValues=new long[] {1242277};
     for(long xpValue : xpValues)
     {
       JFrame frame=new JFrame();

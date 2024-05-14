@@ -19,7 +19,6 @@ public class MainTestCollectionStatusWindowController
     CollectionsStatusManager mgr=new CollectionsStatusBuilder().build(toon,null);
     for(CollectionStatus collectionStatus : mgr.getAll())
     {
-      //if (collectionStatus.getCompletedCount()>0)
       {
         CollectionStatusWindowController window=new CollectionStatusWindowController(null,collectionStatus);
         window.show();

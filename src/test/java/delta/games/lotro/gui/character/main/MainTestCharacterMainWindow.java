@@ -16,10 +16,7 @@ public class MainTestCharacterMainWindow
   public static void main(String[] args)
   {
     LotroTestUtils utils=new LotroTestUtils();
-    //List<CharacterFile> toons=utils.getAllFiles();
-    //List<CharacterFile> toons=CharactersManager.getInstance().getAllToons();
     CharacterFile toon=utils.getMainToon();
-    //for(CharacterFile toon : toons)
     {
       CharacterFileWindowController controller=new CharacterFileWindowController(toon);
       controller.show();

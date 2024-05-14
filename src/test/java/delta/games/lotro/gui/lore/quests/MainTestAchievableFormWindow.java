@@ -7,6 +7,8 @@ import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.gui.navigation.NavigatorFactory;
+import delta.games.lotro.lore.deeds.DeedDescription;
+import delta.games.lotro.lore.deeds.DeedsManager;
 import delta.games.lotro.lore.quests.Achievable;
 import delta.games.lotro.lore.quests.QuestDescription;
 import delta.games.lotro.lore.quests.QuestsManager;
@@ -38,7 +40,6 @@ public class MainTestAchievableFormWindow
       }
     }
     // Deeds
-    /*
     {
       DeedsManager deedsManager=DeedsManager.getInstance();
       List<DeedDescription> deeds=deedsManager.getAll();
@@ -48,7 +49,6 @@ public class MainTestAchievableFormWindow
         showAchievableWindow(deed);
       }
     }
-    */
   }
 
   private void showAchievableWindow(Achievable achievable)

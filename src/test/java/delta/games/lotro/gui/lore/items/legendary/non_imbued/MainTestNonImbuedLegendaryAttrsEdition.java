@@ -22,8 +22,7 @@ public class MainTestNonImbuedLegendaryAttrsEdition
 {
   private void doIt()
   {
-    //doIt("CaptainEmblemSecondAge75NonImbued.xml");
-    doIt("HunterCrossbowFirstAge75NonImbued.xml");
+    doIt("HunterCrossbowFirstAge75NonImbued.xml"); // or CaptainEmblemSecondAge75NonImbued.xml
   }
 
   private void doIt(String sampleName)

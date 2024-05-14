@@ -25,7 +25,6 @@ public class MainTestShowCharacterStorage
   {
     String accountName="glorfindel666";
     String server="Landroval";
-    //String toon="Meva";
     boolean showShared=true;
     Account account=AccountsManager.getInstance().getAccountByAccountName(accountName);
     List<CharacterFile> characters=AccountUtils.getCharacters(account.getSummary(),server);
