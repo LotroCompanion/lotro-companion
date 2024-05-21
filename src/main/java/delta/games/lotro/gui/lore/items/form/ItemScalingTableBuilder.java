@@ -148,7 +148,8 @@ public class ItemScalingTableBuilder
       @Override
       public Integer getData(ItemScalingEntry item)
       {
-        return Integer.valueOf(item.getLevel());
+        int level=item.getLevel();
+        return (level>0)?Integer.valueOf(item.getLevel()):null;
       }
     };
     DefaultTableColumnController<ItemScalingEntry,Integer> minLevelColumn=new DefaultTableColumnController<ItemScalingEntry,Integer>(ItemScalingColumnIds.LEVEL.name(),"Level",Integer.class,minLevelCell);
