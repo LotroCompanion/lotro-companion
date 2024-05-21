@@ -363,9 +363,7 @@ public class ItemInstanceMainAttrsDisplayPanelController extends AbstractPanelCo
     return ret;
   }
 
-  /**
-   * Release all managed resources.
-   */
+  @Override
   public void dispose()
   {
     super.dispose();
