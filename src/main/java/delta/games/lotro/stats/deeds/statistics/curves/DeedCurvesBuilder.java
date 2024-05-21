@@ -9,20 +9,52 @@ import delta.games.lotro.character.status.achievables.AchievableStatus;
 import delta.games.lotro.character.status.achievables.AchievableStatusDateComparator;
 import delta.games.lotro.character.status.achievables.AchievablesStatusManager;
 import delta.games.lotro.character.status.achievables.io.DeedsStatusIo;
+import delta.games.lotro.common.rewards.ItemReward;
+import delta.games.lotro.common.rewards.Rewards;
 import delta.games.lotro.gui.character.status.curves.DatedCurveProvider;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.DeedsManager;
+import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.utils.charts.DatedCurve;
 
-/**
+/** 
  * Builds dated curves from deeds statistics.
  * @author DAM
  */
 public class DeedCurvesBuilder implements DatedCurveProvider<CharacterFile>
 {
+  private int getValueFromRewards(DeedDescription deed, int itemIdToUse)
+  {
+    int value=0;
+    Rewards rewards=deed.getRewards();
+    List<ItemReward> itemRewards=rewards.getRewardElementsOfClass(ItemReward.class);
+    for(ItemReward itemReward : itemRewards)
+    {
+      Item rewardedItem=itemReward.getItem();
+      int itemId=rewardedItem.getIdentifier();
+      int itemsCount=itemReward.getQuantity();
+      if (itemId==itemIdToUse)
+      {
+        value+=itemsCount;
+      }
+    }
+    return value;
+  }
+
+  private int getValue(DeedDescription deed, int itemId)
+  {
+    if (itemId==0)
+    {
+      // LP
+      return deed.getRewards().getLotroPoints();
+    }
+    return getValueFromRewards(deed,itemId);
+  }
+
   @Override
   public DatedCurve<?> getCurve(CharacterFile toon)
   {
+    int type=0; // type could be WellKnownItems.MARK or WellKnownItems.MEDALLION
     String name=toon.getName();
     DatedCurve<Integer> curve=new DatedCurve<Integer>(name);
     AchievablesStatusManager deedsStatus=DeedsStatusIo.load(toon);
@@ -36,29 +68,7 @@ public class DeedCurvesBuilder implements DatedCurveProvider<CharacterFile>
       DeedDescription deed=deeds.getDeed(deedId);
       if (deed!=null)
       {
-        int value=deed.getRewards().getLotroPoints();
-        /*
-        int value=0;
-        Rewards rewards=deed.getRewards();
-        ObjectsSet objects=rewards.getObjects();
-        int nbItems=objects.getNbObjectItems();
-        for(int i=0;i<nbItems;i++)
-        {
-          Proxy<Item> itemReward=objects.getItem(i);
-          int itemId=itemReward.getId();
-          int itemsCount=objects.getQuantity(i);
-          // Marks
-          if (itemId==WellKnownItems.MARK)
-          {
-            value+=itemsCount;
-          }
-          // Medallions
-          if (itemId==WellKnownItems.MEDALLION)
-          {
-            value+=itemsCount;
-          }
-        }
-        */
+        int value=getValue(deed,type);
         if (value!=0)
         {
           totalValue+=value;

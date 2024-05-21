@@ -36,10 +36,10 @@ public class MainTestStringRendering
   private void doIt()
   {
     StringRenderer r= buildRenderer();
-    //renderTitles(r);
-    //renderVocations(r);
-    //renderDeeds(r);
-    //renderQuests(r);
+    renderTitles(r);
+    renderVocations(r);
+    renderDeeds(r);
+    renderQuests(r);
     doAllLabels(r);
   }
 
@@ -85,7 +85,7 @@ public class MainTestStringRendering
 
   private void doAllLabels(StringRenderer r)
   {
-    File root=new File("../lotro-data/labels/fr");
+    File root=new File("../lotro-data/lore/labels/fr");
     for(String labelsFile : root.list())
     {
       String group=labelsFile.substring(0,labelsFile.length()-4);

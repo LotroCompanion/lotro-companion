@@ -354,23 +354,7 @@ public class ItemDisplayPanelController extends AbstractNavigablePanelController
     // Category
     if ((equipmentCategory==null) && (location==null))
     {
-      String category=_item.getSubCategory();
-      if ((category!=null) && (category.length()>0))
-      {
-        String label=category;
-        if (_item instanceof Essence)
-        {
-          Essence essence=(Essence)_item;
-          label=label+" ("+essence.getType().getLabel();
-          Integer tier=essence.getTier();
-          if (tier!=null)
-          {
-            label=label+", tier "+tier;
-          }
-          label=label+")";
-        }
-        ret.add("Category: "+label);
-      }
+      handleItemCategory(ret);
     }
     if (_item instanceof Weapon)
     {
@@ -431,6 +415,27 @@ public class ItemDisplayPanelController extends AbstractNavigablePanelController
       }
     }
     return ret;
+  }
+
+  private void handleItemCategory(List<String> ret)
+  {
+    String category=_item.getSubCategory();
+    if ((category!=null) && (category.length()>0))
+    {
+      String label=category;
+      if (_item instanceof Essence)
+      {
+        Essence essence=(Essence)_item;
+        label=label+" ("+essence.getType().getLabel();
+        Integer tier=essence.getTier();
+        if (tier!=null)
+        {
+          label=label+", tier "+tier;
+        }
+        label=label+")";
+      }
+      ret.add("Category: "+label);
+    }
   }
 
   private List<String> getWeaponAttributeLines(Weapon weapon)
@@ -619,7 +624,17 @@ public class ItemDisplayPanelController extends AbstractNavigablePanelController
         y++;
       }
     }
-    // Usage Cooldown
+    // Usage Cool-down
+    y=handleUsageCooldown(mgr,ret,y);
+    // Allegiance points
+    y=handleAllegiancePoints(mgr,ret,y);
+    // Housing hooks
+    handleHousingHooks(mgr,ret,y);
+    return ret;
+  }
+
+  private int handleUsageCooldown(ItemDetailsManager mgr, JPanel panel, int y)
+  {
     ItemUsageCooldown cooldown=mgr.getFirstItemDetail(ItemUsageCooldown.class);
     if (cooldown!=null)
     {
@@ -627,14 +642,10 @@ public class ItemDisplayPanelController extends AbstractNavigablePanelController
       float duration=cooldown.getDuration();
       String durationStr=Duration.getDurationString((int)duration);
       String label="Cooldown: "+durationStr;
-      ret.add(GuiFactory.buildLabel(label),c);
+      panel.add(GuiFactory.buildLabel(label),c);
       y++;
     }
-    // Allegiance points
-    y=handleAllegiancePoints(mgr,ret,y);
-    // Housing hooks
-    handleHousingHooks(mgr,ret,y);
-    return ret;
+    return y;
   }
 
   private int handleAllegiancePoints(ItemDetailsManager mgr, JPanel panel, int y)

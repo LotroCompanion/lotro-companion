@@ -10,7 +10,6 @@ import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.character.stats.CharacterGenerationTools;
 import delta.games.lotro.character.stats.CharacterGeneratorGiswald;
-import delta.games.lotro.character.stats.CharacterGeneratorMeva;
 import delta.games.lotro.character.stats.CharacterStatsComputer;
 
 /**
@@ -20,14 +19,6 @@ import delta.games.lotro.character.stats.CharacterStatsComputer;
 public class MainTestStatCurveChart
 {
   private void doIt()
-  {
-    CharacterGenerationTools tools=new CharacterGenerationTools();
-    CharacterGeneratorMeva generator=new CharacterGeneratorMeva(tools);
-    CharacterData c=generator.buildCharacter();
-    doIt(c);
-  }
-
-  private void doIt(CharacterData data)
   {
     // Load toon stats
     CharacterGenerationTools tools=new CharacterGenerationTools();
