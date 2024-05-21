@@ -254,10 +254,7 @@ public class ItemInstanceMainAttrsEditionPanelController extends AbstractPanelCo
     _color.selectItem(_itemInstance.getColor());
     // - Value
     Money value=_itemInstance.getEffectiveValue();
-    if (value!=null)
-    {
-      _value.setMoney(value);
-    }
+    _value.setMoney(value);
     // - Bound to
     InternalGameId boundTo=_itemInstance.getBoundTo();
     if (boundTo!=null)

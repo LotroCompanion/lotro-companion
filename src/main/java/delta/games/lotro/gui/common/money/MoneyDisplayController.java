@@ -94,15 +94,24 @@ public class MoneyDisplayController
    */
   public void setMoney(Money money)
   {
-    // Gold
-    int gold=money.getGoldCoins();
-    _gold.setText(L10n.getString(gold));
-    // Silver
-    int silver=money.getSilverCoins();
-    _silver.setText(L10n.getString(silver));
-    // Copper
-    int copper=money.getCopperCoins();
-    _copper.setText(L10n.getString(copper));
+    if (money!=null)
+    {
+      // Gold
+      int gold=money.getGoldCoins();
+      _gold.setText(L10n.getString(gold));
+      // Silver
+      int silver=money.getSilverCoins();
+      _silver.setText(L10n.getString(silver));
+      // Copper
+      int copper=money.getCopperCoins();
+      _copper.setText(L10n.getString(copper));
+    }
+    else
+    {
+      _gold.setText("0");
+      _silver.setText("0");
+      _copper.setText("0");
+    }
   }
 
   /**

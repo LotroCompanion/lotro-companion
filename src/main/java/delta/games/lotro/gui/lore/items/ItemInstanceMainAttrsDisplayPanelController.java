@@ -282,10 +282,7 @@ public class ItemInstanceMainAttrsDisplayPanelController extends AbstractPanelCo
     _minLevel.setText(minLevel!=null?minLevel.toString():"-");
     // - Value
     Money value=_itemInstance.getEffectiveValue();
-    if (value!=null)
-    {
-      _value.setMoney(value);
-    }
+    _value.setMoney(value);
     // - Color
     ColorDescription color=_itemInstance.getColor();
     _color.setVisible(color!=null);

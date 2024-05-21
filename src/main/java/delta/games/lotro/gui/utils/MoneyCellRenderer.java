@@ -23,7 +23,10 @@ public class MoneyCellRenderer implements TableCellRenderer
   public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
   {
     Money money=(Money)value;
-    if (money==null) money=new Money();
+    if (money==null)
+    {
+      money=new Money();
+    }
     _moneyCtrl.setMoney(money);
     JPanel panel=_moneyCtrl.getPanel();
     return panel;
