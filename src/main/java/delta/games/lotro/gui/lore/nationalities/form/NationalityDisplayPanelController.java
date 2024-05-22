@@ -24,7 +24,7 @@ import delta.games.lotro.gui.utils.IconAndLinkPanelController;
 import delta.games.lotro.gui.utils.SharedPanels;
 import delta.games.lotro.lore.titles.TitleDescription;
 import delta.games.lotro.lore.titles.TitlesManager;
-import delta.games.lotro.utils.gui.HtmlUtils;
+import delta.games.lotro.utils.html.HtmlUtils;
 
 /**
  * Controller for a nationality display panel.

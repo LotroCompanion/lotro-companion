@@ -5,6 +5,7 @@ import delta.common.ui.swing.area.AreaUtils;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.context.Context;
 import delta.common.utils.context.ContextUtils;
+import delta.common.utils.variables.VariablesResolver;
 import delta.games.lotro.Config;
 import delta.games.lotro.character.BaseCharacterSummary;
 import delta.games.lotro.character.classes.ClassDescription;
@@ -116,5 +117,19 @@ public class ContextRendering
     ret=ret.replace("  "," ");
     ret=ret.trim();
     return ret;
+  }
+
+  /**
+   * Build a renderer using the given context.
+   * @param areaController Context.
+   * @return A renderer.
+   */
+  public static VariablesResolver buildRenderer(AreaController areaController)
+  {
+    BaseCharacterSummary summary=getSummaryFromContext(areaController);
+    ContextVariableValueProvider provider=new ContextVariableValueProvider();
+    provider.setup(summary);
+    StringRenderer renderer=new StringRenderer(provider);
+    return renderer.getResolver();
   }
 }

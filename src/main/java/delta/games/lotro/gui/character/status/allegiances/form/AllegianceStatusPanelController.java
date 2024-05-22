@@ -18,7 +18,7 @@ import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.utils.IconAndLinkPanelController;
 import delta.games.lotro.gui.utils.SharedPanels;
 import delta.games.lotro.lore.allegiances.AllegianceDescription;
-import delta.games.lotro.utils.gui.HtmlUtils;
+import delta.games.lotro.utils.html.HtmlUtils;
 
 /**
  * Controller for a panel to show and allegiance status.

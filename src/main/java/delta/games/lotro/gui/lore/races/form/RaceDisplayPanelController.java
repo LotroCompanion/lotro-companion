@@ -40,7 +40,7 @@ import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.utils.GadgetsControllersFactory;
 import delta.games.lotro.gui.utils.IconLinkLabelGadgetsController;
 import delta.games.lotro.gui.utils.SharedLinks;
-import delta.games.lotro.utils.gui.HtmlUtils;
+import delta.games.lotro.utils.html.HtmlUtils;
 
 /**
  * Controller for a race display panel.

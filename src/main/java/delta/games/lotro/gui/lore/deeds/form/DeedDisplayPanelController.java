@@ -26,6 +26,7 @@ import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.expressions.logical.LogicalTreeNode;
+import delta.common.utils.variables.VariablesResolver;
 import delta.games.lotro.character.status.achievables.AchievableStatus;
 import delta.games.lotro.character.status.achievables.edition.AchievableGeoStatusManager;
 import delta.games.lotro.common.ChallengeLevel;
@@ -35,18 +36,21 @@ import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.character.status.achievables.map.AchievableGeoStatusEditionController;
 import delta.games.lotro.gui.common.requirements.RequirementsUtils;
 import delta.games.lotro.gui.common.rewards.form.RewardsPanelController;
-import delta.games.lotro.gui.lore.quests.ObjectivesDisplayBuilder;
 import delta.games.lotro.gui.lore.quests.form.AbstractAchievableRequirementPanelController;
 import delta.games.lotro.gui.lore.quests.form.AchievableRequirementsPanelFactory;
 import delta.games.lotro.gui.lore.worldEvents.form.LogicalExpressionsPanelFactory;
 import delta.games.lotro.gui.lore.worldEvents.form.PanelProvider;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.DeedType;
+import delta.games.lotro.lore.quests.objectives.ObjectivesDisplayBuilder;
 import delta.games.lotro.lore.webStore.WebStoreItem;
 import delta.games.lotro.lore.worldEvents.AbstractWorldEventCondition;
 import delta.games.lotro.lore.worldEvents.WorldEventConditionsUtils;
-import delta.games.lotro.utils.gui.HtmlUtils;
+import delta.games.lotro.utils.html.HtmlOutput;
+import delta.games.lotro.utils.html.HtmlUtils;
+import delta.games.lotro.utils.html.NavigatorLinkGenerator;
 import delta.games.lotro.utils.strings.ContextRendering;
+import delta.games.lotro.utils.strings.GenericOutput;
 
 /**
  * Controller for an deed display panel.
@@ -295,7 +299,9 @@ public class DeedDisplayPanelController extends AbstractNavigablePanelController
     description=ContextRendering.render(this,description);
     sb.append(HtmlUtils.toHtml(description));
     // Objectives
-    new ObjectivesDisplayBuilder(this,true).build(sb,_deed);
+    VariablesResolver resolver=ContextRendering.buildRenderer(this);
+    GenericOutput output=new HtmlOutput(new NavigatorLinkGenerator());
+    new ObjectivesDisplayBuilder(resolver,output).build(sb,_deed);
     sb.append("</body></html>");
     return sb.toString();
   }

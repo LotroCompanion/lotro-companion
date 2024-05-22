@@ -26,7 +26,7 @@ import delta.games.lotro.common.comparators.NamedComparator;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.lore.billingGroups.BillingGroupDescription;
 import delta.games.lotro.lore.titles.TitleDescription;
-import delta.games.lotro.utils.gui.HtmlUtils;
+import delta.games.lotro.utils.html.HtmlUtils;
 import delta.games.lotro.utils.strings.ContextRendering;
 
 /**

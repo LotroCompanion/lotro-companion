@@ -24,7 +24,7 @@ import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.games.lotro.character.skills.SkillDescription;
 import delta.games.lotro.common.enums.SkillCategory;
 import delta.games.lotro.gui.LotroIconsManager;
-import delta.games.lotro.utils.gui.HtmlUtils;
+import delta.games.lotro.utils.html.HtmlUtils;
 
 /**
  * Controller for a skill display panel.

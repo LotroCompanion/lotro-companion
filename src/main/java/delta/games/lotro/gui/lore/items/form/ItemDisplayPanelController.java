@@ -69,7 +69,7 @@ import delta.games.lotro.lore.items.legendary2.TraceriesManager;
 import delta.games.lotro.lore.items.legendary2.Tracery;
 import delta.games.lotro.lore.items.weapons.WeaponSpeedEntry;
 import delta.games.lotro.lore.reputation.Faction;
-import delta.games.lotro.utils.gui.HtmlUtils;
+import delta.games.lotro.utils.html.HtmlUtils;
 import delta.games.lotro.utils.strings.ContextRendering;
 
 /**

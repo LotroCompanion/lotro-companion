@@ -30,7 +30,7 @@ import delta.games.lotro.lore.webStore.WebStoreItem;
 import delta.games.lotro.lore.xrefs.Reference;
 import delta.games.lotro.lore.xrefs.items.ItemReferencesBuilder;
 import delta.games.lotro.lore.xrefs.items.ItemRole;
-import delta.games.lotro.utils.gui.HtmlUtils;
+import delta.games.lotro.utils.html.HtmlUtils;
 
 /**
  * Controller to display references to an item.

@@ -16,7 +16,7 @@ import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.lore.xrefs.Reference;
 import delta.games.lotro.lore.xrefs.races.RaceReferencesBuilder;
 import delta.games.lotro.lore.xrefs.races.RaceRole;
-import delta.games.lotro.utils.gui.HtmlUtils;
+import delta.games.lotro.utils.html.HtmlUtils;
 
 /**
  * Controller to display references to a race.

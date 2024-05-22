@@ -1,9 +1,12 @@
 package delta.games.lotro.gui.character.status.achievables.form;
 
 import delta.common.ui.swing.area.AreaController;
-import delta.games.lotro.gui.lore.quests.ObjectivesDisplayBuilder;
+import delta.common.utils.variables.VariablesResolver;
 import delta.games.lotro.lore.quests.objectives.ObjectiveCondition;
-import delta.games.lotro.utils.gui.TextSanitizer;
+import delta.games.lotro.lore.quests.objectives.ObjectivesDisplayBuilder;
+import delta.games.lotro.utils.strings.ContextRendering;
+import delta.games.lotro.utils.strings.TextOutput;
+import delta.games.lotro.utils.strings.TextSanitizer;
 
 /**
  * Utility methods related to achievable status display/edition.
@@ -19,7 +22,8 @@ public class AchievableStatusUtils
    */
   public AchievableStatusUtils(AreaController controller)
   {
-    _builder=new ObjectivesDisplayBuilder(controller,false);
+    VariablesResolver resolver=ContextRendering.buildRenderer(controller);
+    _builder=new ObjectivesDisplayBuilder(resolver,new TextOutput());
   }
 
   /**

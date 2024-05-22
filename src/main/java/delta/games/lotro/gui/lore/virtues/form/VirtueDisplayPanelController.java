@@ -24,7 +24,7 @@ import delta.games.lotro.character.virtues.VirtueDescription;
 import delta.games.lotro.common.enums.SkillCategory;
 import delta.games.lotro.common.enums.TraitNature;
 import delta.games.lotro.gui.LotroIconsManager;
-import delta.games.lotro.utils.gui.HtmlUtils;
+import delta.games.lotro.utils.html.HtmlUtils;
 
 /**
  * Controller for a virtue display panel.

@@ -17,7 +17,7 @@ import delta.games.lotro.lore.quests.QuestDescription;
 import delta.games.lotro.lore.xrefs.Reference;
 import delta.games.lotro.lore.xrefs.titles.TitleReferencesBuilder;
 import delta.games.lotro.lore.xrefs.titles.TitleRole;
-import delta.games.lotro.utils.gui.HtmlUtils;
+import delta.games.lotro.utils.html.HtmlUtils;
 
 /**
  * Controller to display references to a title.

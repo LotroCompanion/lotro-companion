@@ -31,6 +31,7 @@ import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.ui.swing.windows.WindowsManager;
 import delta.common.utils.expressions.logical.LogicalTreeNode;
+import delta.common.utils.variables.VariablesResolver;
 import delta.games.lotro.character.status.achievables.AchievableStatus;
 import delta.games.lotro.character.status.achievables.AchievablesStatusManager;
 import delta.games.lotro.character.status.achievables.QuestRequirementStateComputer;
@@ -47,22 +48,25 @@ import delta.games.lotro.gui.character.status.achievables.form.AchievableFormCon
 import delta.games.lotro.gui.character.status.achievables.map.AchievableGeoStatusEditionController;
 import delta.games.lotro.gui.common.requirements.RequirementsUtils;
 import delta.games.lotro.gui.common.rewards.form.RewardsPanelController;
-import delta.games.lotro.gui.lore.quests.ObjectivesDisplayBuilder;
-import delta.games.lotro.gui.lore.quests.QuestsHtmlUtils;
 import delta.games.lotro.gui.lore.worldEvents.form.LogicalExpressionsPanelFactory;
 import delta.games.lotro.gui.lore.worldEvents.form.PanelProvider;
 import delta.games.lotro.gui.maps.instances.InstanceMapsWindowController;
 import delta.games.lotro.lore.instances.PrivateEncounter;
 import delta.games.lotro.lore.instances.PrivateEncountersManager;
 import delta.games.lotro.lore.quests.QuestDescription;
+import delta.games.lotro.lore.quests.QuestsHtmlUtils;
 import delta.games.lotro.lore.quests.dialogs.DialogElement;
 import delta.games.lotro.lore.quests.dialogs.QuestCompletionComment;
+import delta.games.lotro.lore.quests.objectives.ObjectivesDisplayBuilder;
 import delta.games.lotro.lore.webStore.WebStoreItem;
 import delta.games.lotro.lore.worldEvents.AbstractWorldEventCondition;
 import delta.games.lotro.lore.worldEvents.WorldEventConditionsUtils;
 import delta.games.lotro.utils.ContextPropertyNames;
-import delta.games.lotro.utils.gui.HtmlUtils;
+import delta.games.lotro.utils.html.HtmlOutput;
+import delta.games.lotro.utils.html.HtmlUtils;
+import delta.games.lotro.utils.html.NavigatorLinkGenerator;
 import delta.games.lotro.utils.strings.ContextRendering;
+import delta.games.lotro.utils.strings.GenericOutput;
 
 /**
  * Controller for a quest display panel.
@@ -398,6 +402,7 @@ public class QuestDisplayPanelController extends AbstractNavigablePanelControlle
     String description=_quest.getDescription();
     description=ContextRendering.render(this,description);
     sb.append(HtmlUtils.toHtml(description));
+    VariablesResolver resolver=ContextRendering.buildRenderer(this);
     // Bestowers
     List<DialogElement> bestowers=_quest.getBestowers();
     if (!bestowers.isEmpty())
@@ -410,13 +415,14 @@ public class QuestDisplayPanelController extends AbstractNavigablePanelControlle
         {
           sb.append("<br>OR"); // I18n
         }
-        QuestsHtmlUtils.buildHtmlForDialog(this,sb,bestower);
+        QuestsHtmlUtils.buildHtmlForDialog(resolver,sb,bestower);
         index++;
       }
       sb.append("</p>");
     }
     // Objectives
-    new ObjectivesDisplayBuilder(this,true).build(sb,_quest);
+    GenericOutput output=new HtmlOutput(new NavigatorLinkGenerator());
+    new ObjectivesDisplayBuilder(resolver,output).build(sb,_quest);
     // End dialogs
     List<DialogElement> endDialogs=_quest.getEndDialogs();
     if (!endDialogs.isEmpty())
@@ -424,7 +430,7 @@ public class QuestDisplayPanelController extends AbstractNavigablePanelControlle
       sb.append("<p><b>End</b>"); // I18n
       for(DialogElement endDialog : endDialogs)
       {
-        QuestsHtmlUtils.buildHtmlForDialog(this,sb,endDialog);
+        QuestsHtmlUtils.buildHtmlForDialog(resolver,sb,endDialog);
       }
       sb.append("</p>");
     }
@@ -435,7 +441,7 @@ public class QuestDisplayPanelController extends AbstractNavigablePanelControlle
       sb.append("<p><b>Completion comments</b>"); // I18n
       for(QuestCompletionComment comment : comments)
       {
-        QuestsHtmlUtils.buildHtmlForCompletionComment(this,sb,comment);
+        QuestsHtmlUtils.buildHtmlForCompletionComment(resolver,sb,comment);
       }
       sb.append("</p>");
     }

@@ -22,7 +22,7 @@ import delta.games.lotro.lore.relics.melding.RelicMeldingRecipe;
 import delta.games.lotro.lore.xrefs.Reference;
 import delta.games.lotro.lore.xrefs.relics.RelicReferencesBuilder;
 import delta.games.lotro.lore.xrefs.relics.RelicRole;
-import delta.games.lotro.utils.gui.HtmlUtils;
+import delta.games.lotro.utils.html.HtmlUtils;
 
 /**
  * Controller to display references to a relic.

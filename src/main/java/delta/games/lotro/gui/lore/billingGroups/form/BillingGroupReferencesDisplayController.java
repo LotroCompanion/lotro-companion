@@ -16,7 +16,7 @@ import delta.games.lotro.lore.quests.QuestDescription;
 import delta.games.lotro.lore.xrefs.Reference;
 import delta.games.lotro.lore.xrefs.billingGroups.BillingGroupReferencesBuilder;
 import delta.games.lotro.lore.xrefs.billingGroups.BillingGroupRole;
-import delta.games.lotro.utils.gui.HtmlUtils;
+import delta.games.lotro.utils.html.HtmlUtils;
 
 /**
  * Controller to display references to a billing group.

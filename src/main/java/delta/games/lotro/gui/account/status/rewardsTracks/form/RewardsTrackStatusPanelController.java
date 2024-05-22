@@ -14,7 +14,7 @@ import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.account.status.rewardsTrack.RewardsTrackStatus;
 import delta.games.lotro.gui.utils.l10n.Labels;
 import delta.games.lotro.lore.rewardsTrack.RewardsTrack;
-import delta.games.lotro.utils.gui.HtmlUtils;
+import delta.games.lotro.utils.html.HtmlUtils;
 
 /**
  * Controller for a panel to show a rewards track status.

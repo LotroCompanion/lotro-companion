@@ -21,7 +21,7 @@ import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemUtils;
 import delta.games.lotro.lore.items.sets.ItemsSet;
 import delta.games.lotro.lore.items.sets.SetBonus;
-import delta.games.lotro.utils.gui.HtmlUtils;
+import delta.games.lotro.utils.html.HtmlUtils;
 
 /**
  * Base class for a controller of a panel to display an items/traceries set.
