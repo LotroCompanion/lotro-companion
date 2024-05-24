@@ -1,17 +1,15 @@
 package delta.games.lotro.gui.maps.resources;
 
-import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
-import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
-import javax.swing.WindowConstants;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.windows.DefaultWindowController;
 import delta.games.lotro.dat.data.DataFacade;
 import delta.games.lotro.lore.crafting.CraftingLevel;
 import delta.games.lotro.lore.maps.resources.ResourcesMapDescriptor;
@@ -51,12 +49,14 @@ public class MainTestResourcesMapPanelController
 
   private void doResourcesMap(ResourcesMapDescriptor map)
   {
+    DefaultWindowController w=new DefaultWindowController();
+
     JTabbedPane tabbedPane=GuiFactory.buildTabbedPane();
     GeoreferencedBasemapsManager basemapsMgr=Maps.getMaps().getMapsManager().getBasemapsManager();
     JLayeredPane mapPanel=null;
     for(Integer mapId : map.getMapIds())
     {
-      ResourcesMapPanelController ctrl=new ResourcesMapPanelController(_facade,map,mapId.intValue());
+      ResourcesMapPanelController ctrl=new ResourcesMapPanelController(w,_facade,map,mapId.intValue());
       MapPanelController panelCtrl=ctrl.getMapPanelController();
       JPanel panel=GuiFactory.buildBackgroundPanel(new GridBagLayout());
       mapPanel=panelCtrl.getLayers();
@@ -66,13 +66,12 @@ public class MainTestResourcesMapPanelController
       String title=basemap.getName();
       tabbedPane.add(title,panel);
     }
-    JFrame f=new JFrame();
-    f.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-    f.getContentPane().add(tabbedPane,BorderLayout.CENTER);
-    f.setTitle(map.getLevel().getName());
-    f.pack();
-    f.setResizable(false);
-    f.setVisible(true);
+    w.getFrame().add(tabbedPane);
+    w.setTitle(map.getLevel().getName());
+    w.getFrame().setResizable(false);
+    w.pack();
+    w.show();
+
   }
 
   /**

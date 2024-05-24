@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -12,11 +11,11 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 
 import org.apache.log4j.Logger;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.panels.AbstractPanelController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.NumericTools;
 import delta.games.lotro.dat.data.DataFacade;
@@ -30,7 +29,7 @@ import delta.games.lotro.lore.maps.resources.ResourcesMapsManager;
  * Controller for the resources maps explorer.
  * @author DAM
  */
-public class ResourcesMapsExplorerPanelController implements ActionListener
+public class ResourcesMapsExplorerPanelController extends AbstractPanelController implements ActionListener
 {
   private static final Logger LOGGER=Logger.getLogger(ResourcesMapsExplorerPanelController.class);
 
@@ -43,7 +42,6 @@ public class ResourcesMapsExplorerPanelController implements ActionListener
   private ResourceNodeFilterWindowController _filterWindow;
   // UI
   private JPanel _mapPanel;
-  private JPanel _panel;
   // Data
   private DataFacade _facade;
 
@@ -54,13 +52,15 @@ public class ResourcesMapsExplorerPanelController implements ActionListener
    */
   public ResourcesMapsExplorerPanelController(WindowController parent, DataFacade facade)
   {
+    super(parent);
     _facade=facade;
     _mapPanel=GuiFactory.buildPanel(new BorderLayout());
     _mapSelection=new MapSelectionPanelController(this);
     _craftingLevelSelection=new CraftingLevelSelectionPanelController(_mapSelection);
     _items=new ItemsController(parent);
     initFilter(parent);
-    _panel=buildPanel();
+    JPanel panel=buildPanel();
+    setPanel(panel);
   }
 
   private void initFilter(WindowController parent)
@@ -97,15 +97,6 @@ public class ResourcesMapsExplorerPanelController implements ActionListener
     changeMap(craftingLevel,descriptor,mapId);
   }
 
-  /**
-   * Get the managed panel.
-   * @return the managed panel.
-   */
-  public JPanel getPanel()
-  {
-    return _panel;
-  }
-
   private void changeMap(CraftingLevel craftingLevel, ResourcesMapDescriptor map, int mapId)
   {
     // Cleanup
@@ -116,7 +107,8 @@ public class ResourcesMapsExplorerPanelController implements ActionListener
       _mapPanelCtrl=null;
     }
     // Build new map panel
-    _mapPanelCtrl=new ResourcesMapPanelController(_facade,map,mapId);
+    WindowController parent=getWindowController();
+    _mapPanelCtrl=new ResourcesMapPanelController(parent,_facade,map,mapId);
     _mapPanelCtrl.setFilter(_filterWindow.getFilter());
     _mapPanel.add(_mapPanelCtrl.getMapPanelController().getLayers(),BorderLayout.CENTER);
 
@@ -129,11 +121,7 @@ public class ResourcesMapsExplorerPanelController implements ActionListener
     // Update filter
     _filterWindow.setItems(mgr,sourceItems);
     // Pack
-    Window window=(Window)SwingUtilities.getRoot(_panel);
-    if (window!=null)
-    {
-      window.pack();
-    }
+    parent.pack();
   }
 
   private JPanel buildPanel()
@@ -166,11 +154,10 @@ public class ResourcesMapsExplorerPanelController implements ActionListener
     return panel;
   }
 
-  /**
-   * Release all managed resources.
-   */
+  @Override
   public void dispose()
   {
+    super.dispose();
     _facade=null;
     if (_craftingLevelSelection!=null)
     {
@@ -202,11 +189,6 @@ public class ResourcesMapsExplorerPanelController implements ActionListener
     {
       _mapPanel.removeAll();
       _mapPanel=null;
-    }
-    if (_panel!=null)
-    {
-      _panel.removeAll();
-      _panel=null;
     }
   }
 }

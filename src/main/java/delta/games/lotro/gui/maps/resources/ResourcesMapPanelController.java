@@ -6,10 +6,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import delta.common.ui.swing.area.AbstractAreaController;
+import delta.common.ui.swing.area.AreaController;
+import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.collections.filters.Filter;
 import delta.games.lotro.dat.data.DataFacade;
 import delta.games.lotro.gui.maps.DatHeightMapImageProvider;
 import delta.games.lotro.gui.maps.DatRadarImageProvider;
+import delta.games.lotro.gui.maps.MarkerSelectionListener;
 import delta.games.lotro.gui.maps.RadarMapLayer;
 import delta.games.lotro.gui.maps.basemap.DatBasemapImageProvider;
 import delta.games.lotro.lore.items.Item;
@@ -32,13 +36,14 @@ import delta.games.lotro.maps.ui.layers.BasemapLayer;
 import delta.games.lotro.maps.ui.layers.MarkersLayer;
 import delta.games.lotro.maps.ui.layers.SimpleMarkersProvider;
 import delta.games.lotro.maps.ui.layers.radar.RadarImageProvider;
+import delta.games.lotro.maps.ui.selection.SelectionManager;
 import delta.games.lotro.utils.maps.Maps;
 
 /**
  * Controller for a resources map panel.
  * @author DAM
  */
-public class ResourcesMapPanelController
+public class ResourcesMapPanelController extends AbstractAreaController
 {
   private static final Dimension MAX_SIZE=new Dimension(1024,768);
 
@@ -50,12 +55,14 @@ public class ResourcesMapPanelController
 
   /**
    * Constructor.
+   * @param parent Parent window.
    * @param facade Data facade.
    * @param mapDescriptor Map descriptor to use.
    * @param mapId Basemap identifier.
    */
-  public ResourcesMapPanelController(DataFacade facade, ResourcesMapDescriptor mapDescriptor, int mapId)
+  public ResourcesMapPanelController(AreaController parent, DataFacade facade, ResourcesMapDescriptor mapDescriptor, int mapId)
   {
+    super(parent);
     _mapDescriptor=mapDescriptor;
     _mapId=mapId;
     _mapPanel=buildPanel(facade);
@@ -78,6 +85,10 @@ public class ResourcesMapPanelController
   private MapPanelController buildPanel(DataFacade facade)
   {
     MapPanelController panel=new MapPanelController();
+    // Setup selection manager
+    SelectionManager selectionMgr=panel.getSelectionManager();
+    WindowController parent=getWindowController();
+    selectionMgr.addListener(new MarkerSelectionListener(parent));
     MapCanvas canvas=panel.getCanvas();
     MapsManager mapsManager=Maps.getMaps().getMapsManager();
     int region=0;
@@ -183,11 +194,10 @@ public class ResourcesMapPanelController
     return ret;
   }
 
-  /**
-   * Release all managed resources.
-   */
+  @Override
   public void dispose()
   {
+    super.dispose();
     _mapDescriptor=null;
     if (_mapPanel!=null)
     {

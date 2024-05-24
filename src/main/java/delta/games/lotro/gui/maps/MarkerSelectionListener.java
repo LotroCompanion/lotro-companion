@@ -57,7 +57,8 @@ public class MarkerSelectionListener implements SelectionListener,Disposable
     {
       ref=getBartererRef(did);
     }
-    else if ((categoryCode==CategoriesConstants.ITEM) || (categoryCode==CategoriesConstants.CONTAINER))
+    else if ((categoryCode==CategoriesConstants.ITEM) || (categoryCode==CategoriesConstants.CONTAINER) ||
+        (categoryCode==CategoriesConstants.RESOURCE_NODE) || (categoryCode==CategoriesConstants.CROP))
     {
       ref=getItemRef(did);
     }
