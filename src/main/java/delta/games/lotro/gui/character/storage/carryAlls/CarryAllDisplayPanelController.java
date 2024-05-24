@@ -66,20 +66,28 @@ public class CarryAllDisplayPanelController
   private JPanel buildPanel()
   {
     JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
+    int y=0;
+    // Name
+    GridBagConstraints c=new GridBagConstraints(0,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,0,0),0,0);
+    JLabel label=GuiFactory.buildLabel("Name: "+_carryAllInstance.getEffectiveName());
+    ret.add(label,c);
+    y++;
     // Status date
     _status=new StatusMetadataPanelController();
     _status.setData(_carryAllInstance.getStatusMetadata());
-    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    c=new GridBagConstraints(0,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     ret.add(_status.getPanel(),c);
+    y++;
     // Capacity
-    c=new GridBagConstraints(0,1,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    c=new GridBagConstraints(0,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     JPanel capacityPanel=buildCapacityPanel();
     ret.add(capacityPanel,c);
+    y++;
     // Contents
     JPanel itemsPanel=buildItemsPanel();
     if (itemsPanel!=null)
     {
-      c=new GridBagConstraints(0,2,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
+      c=new GridBagConstraints(0,y,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
       JScrollPane scrollPane=GuiFactory.buildScrollPane(itemsPanel);
       ret.add(scrollPane,c);
     }

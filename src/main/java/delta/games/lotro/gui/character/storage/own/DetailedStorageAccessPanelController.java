@@ -170,8 +170,7 @@ public class DetailedStorageAccessPanelController implements ActionListener
     {
       String command=CARRY_ALL_SEED+i;
       CarryAllInstance carryAllInstance=_carryAlls.get(i);
-      CarryAll carryAll=carryAllInstance.getReference();
-      String name=carryAll.getName();
+      String name=carryAllInstance.getEffectiveName();
       JButton button=buildButton(name,command,true);
       GridBagConstraints c=new GridBagConstraints(x,y,1,1,0.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
       ret.add(button,c);
