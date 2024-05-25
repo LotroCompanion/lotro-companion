@@ -106,4 +106,8 @@ public class MainCharacterWindowCommands
    * Command: show mounted appearances.
    */
   public static final String MOUNTED_APPEARANCES_COMMAND="mountedAppearances";
+  /**
+   * Command: show PVP status.
+   */
+  public static final String PVP_COMMAND="pvp";
 }

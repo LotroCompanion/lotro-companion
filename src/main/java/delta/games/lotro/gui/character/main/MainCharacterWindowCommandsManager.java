@@ -39,6 +39,7 @@ import delta.games.lotro.gui.character.status.emotes.EmotesStatusWindowControlle
 import delta.games.lotro.gui.character.status.hobbies.HobbiesStatusWindowController;
 import delta.games.lotro.gui.character.status.levelling.LevelHistoryEditionDialogController;
 import delta.games.lotro.gui.character.status.notes.CharacterNotesEditionDialogController;
+import delta.games.lotro.gui.character.status.pvp.PvpStatusWindowController;
 import delta.games.lotro.gui.character.status.quests.QuestsStatusWindowController;
 import delta.games.lotro.gui.character.status.recipes.RecipesStatusWindowController;
 import delta.games.lotro.gui.character.status.relics.RelicsInventoryWindowController;
@@ -196,6 +197,10 @@ public class MainCharacterWindowCommandsManager
     else if (MainCharacterWindowCommands.MOUNTED_APPEARANCES_COMMAND.equals(command))
     {
       showMountedAppearances();
+    }
+    else if (MainCharacterWindowCommands.PVP_COMMAND.equals(command))
+    {
+      showPVPStatus();
     }
   }
 
@@ -459,6 +464,18 @@ public class MainCharacterWindowCommandsManager
     if (windowCtrl==null)
     {
       windowCtrl=new MountedAppearancesStatusWindowController(_parent,_toon);
+      windowsManager.registerWindow(windowCtrl);
+    }
+    windowCtrl.show();
+  }
+
+  private void showPVPStatus()
+  {
+    WindowsManager windowsManager=getWindowsManager();
+    PvpStatusWindowController windowCtrl=(PvpStatusWindowController)windowsManager.getWindow(PvpStatusWindowController.IDENTIFIER);
+    if (windowCtrl==null)
+    {
+      windowCtrl=new PvpStatusWindowController(_parent,_toon);
       windowsManager.registerWindow(windowCtrl);
     }
     windowCtrl.show();

@@ -122,6 +122,9 @@ public class CharacterMainButtonsController extends AbstractPanelController impl
     // Skirmish traits status
     JButton skirmishTraitsButton=buildCommandButton("Skirmish Traits",MainCharacterWindowCommands.SKIRMISH_TRAITS_COMMAND); // I18n
     panel.add(skirmishTraitsButton,c);c.gridx++;
+    // PVP
+    JButton pvpButton=buildCommandButton("PVP",MainCharacterWindowCommands.PVP_COMMAND); // I18n
+    panel.add(pvpButton,c);c.gridx++;
 
     // Disable buttons if no log
     boolean hasLog=_toon.hasLog();
