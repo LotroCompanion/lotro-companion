@@ -41,6 +41,10 @@ public class ContextRendering
     ret.setLevel(maxLevel);
     // Name
     ret.setName("(character name)"); // I18n
+    // Surname
+    ret.setSurname("(surname)"); // I18n
+    // Rank
+    ret.setRankCode(null);
     return ret;
   }
 
