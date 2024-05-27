@@ -140,4 +140,49 @@ public class RecipeUiUtils
     Collections.sort(ret,new ItemNameComparator());
     return ret;
   }
+
+  /**
+   * Build a combo-box controller to choose a result item name.
+   * @param recipes Recipes to use.
+   * @return A new combo-box controller.
+   */
+  public static ComboBoxController<Integer> buildResultsCombo(List<Recipe> recipes)
+  {
+    ComboBoxController<Integer> ctrl=new ComboBoxController<Integer>();
+    ctrl.addEmptyItem("");
+    List<Item> items=getResults(recipes);
+    for(Item item : items)
+    {
+      ctrl.addItem(Integer.valueOf(item.getIdentifier()),item.getName());
+    }
+    ctrl.selectItem(null);
+    return ctrl;
+  }
+
+  private static List<Item> getResults(List<Recipe> recipes)
+  {
+    Set<Item> items=new HashSet<Item>();
+    for(Recipe recipe : recipes)
+    {
+      for(RecipeVersion version : recipe.getVersions())
+      {
+        CraftingResult regular=version.getRegular();
+        if (regular!=null)
+        {
+          Item item=regular.getItem();
+          items.add(item);
+        }
+        CraftingResult critical=version.getCritical();
+        if (critical!=null)
+        {
+          Item item=critical.getItem();
+          items.add(item);
+        }
+      }
+    }
+    items.remove(null);
+    ArrayList<Item> ret=new ArrayList<Item>(items);
+    Collections.sort(ret,new ItemNameComparator());
+    return ret;
+  }
 }

@@ -36,6 +36,7 @@ import delta.games.lotro.lore.crafting.recipes.filters.RecipeIngredientFilter;
 import delta.games.lotro.lore.crafting.recipes.filters.RecipeIsGuildFilter;
 import delta.games.lotro.lore.crafting.recipes.filters.RecipeNameFilter;
 import delta.games.lotro.lore.crafting.recipes.filters.RecipeProfessionFilter;
+import delta.games.lotro.lore.crafting.recipes.filters.RecipeResultFilter;
 import delta.games.lotro.lore.crafting.recipes.filters.RecipeSingleUseFilter;
 import delta.games.lotro.lore.crafting.recipes.filters.RecipeTierFilter;
 
@@ -57,6 +58,7 @@ public class RecipeFilterController implements ActionListener
   private ComboBoxController<Integer> _tier;
   private ComboBoxController<CraftingUICategory> _category;
   private ComboBoxController<Integer> _ingredient;
+  private ComboBoxController<Integer> _result;
   private ComboBoxController<Boolean> _singleUse;
   private ComboBoxController<Boolean> _cooldown;
   private ComboBoxController<Boolean> _guild;
@@ -191,6 +193,7 @@ public class RecipeFilterController implements ActionListener
     buildTierFilter();
     buildCategoryFilter();
     _ingredient=buildIngredientsCombobox();
+    _result=buildResultsCombobox();
     _singleUse=buildSingleUseCombobox();
     _cooldown=buildCooldownCombobox();
     _guild=buildGuildCombobox();
@@ -234,6 +237,9 @@ public class RecipeFilterController implements ActionListener
     // Guild
     line3Panel.add(GuiFactory.buildLabel("Guild:")); // 18n
     line3Panel.add(_guild.getComboBox());
+    // Result
+    line3Panel.add(GuiFactory.buildLabel("Result:")); // 18n
+    line3Panel.add(_result.getComboBox());
     c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,5,0),0,0);
     panel.add(line3Panel,c);
 
@@ -333,6 +339,23 @@ public class RecipeFilterController implements ActionListener
     return combo;
   }
 
+  private ComboBoxController<Integer> buildResultsCombobox()
+  {
+    ComboBoxController<Integer> combo=RecipeUiUtils.buildResultsCombo(_recipes);
+    ItemSelectionListener<Integer> listener=new ItemSelectionListener<Integer>()
+    {
+      @Override
+      public void itemSelected(Integer itemId)
+      {
+        RecipeResultFilter filter=_filter.getResultFilter();
+        filter.setItemId(itemId);
+        filterUpdated();
+      }
+    };
+    combo.addListener(listener);
+    return combo;
+  }
+
   private ComboBoxController<Boolean> buildSingleUseCombobox()
   {
     ComboBoxController<Boolean> combo=SharedUiUtils.build3StatesBooleanCombobox();
@@ -422,6 +445,11 @@ public class RecipeFilterController implements ActionListener
     {
       _ingredient.dispose();
       _ingredient=null;
+    }
+    if (_result!=null)
+    {
+      _result.dispose();
+      _result=null;
     }
     if (_singleUse!=null)
     {
