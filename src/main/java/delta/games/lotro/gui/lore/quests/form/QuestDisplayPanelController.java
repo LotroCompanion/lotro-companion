@@ -63,7 +63,6 @@ import delta.games.lotro.lore.worldEvents.AbstractWorldEventCondition;
 import delta.games.lotro.lore.worldEvents.WorldEventConditionsUtils;
 import delta.games.lotro.utils.ContextPropertyNames;
 import delta.games.lotro.utils.html.HtmlOutput;
-import delta.games.lotro.utils.html.HtmlUtils;
 import delta.games.lotro.utils.html.NavigatorLinkGenerator;
 import delta.games.lotro.utils.strings.ContextRendering;
 import delta.games.lotro.utils.strings.GenericOutput;
@@ -397,56 +396,76 @@ public class QuestDisplayPanelController extends AbstractNavigablePanelControlle
   private String buildHtml()
   {
     StringBuilder sb=new StringBuilder();
-    sb.append("<html><body>");
-    sb.append("<b>Description</b><br>"); // I18n
+    GenericOutput output=new HtmlOutput(new NavigatorLinkGenerator());
+    build(sb,output);
+    return sb.toString();
+  }
+
+  private void build(StringBuilder sb, GenericOutput output)
+  {
+    output.startDocument(sb);
+    output.startBody(sb);
+    output.startBold(sb);
+    output.printText(sb,"Description"); // I18n
+    output.endBold(sb);
+    output.newLine(sb);
     String description=_quest.getDescription();
     description=ContextRendering.render(this,description);
-    sb.append(HtmlUtils.toHtml(description));
+    output.printText(sb,description);
     VariablesResolver resolver=ContextRendering.buildRenderer(this);
     // Bestowers
     List<DialogElement> bestowers=_quest.getBestowers();
     if (!bestowers.isEmpty())
     {
-      sb.append("<p><b>Bestowal dialogue</b>"); // I18n
+      output.startParagraph(sb);
+      output.startBold(sb);
+      output.printText(sb,"Bestowal dialogue"); // I18n
+      output.endBold(sb);
       int index=0;
       for(DialogElement bestower : bestowers)
       {
         if (index>0)
         {
-          sb.append("<br>OR"); // I18n
+          output.newLine(sb);
+          output.printText(sb,"OR"); // I18n
         }
         QuestsHtmlUtils.buildHtmlForDialog(resolver,sb,bestower);
         index++;
       }
-      sb.append("</p>");
+      output.endParagraph(sb);
     }
     // Objectives
-    GenericOutput output=new HtmlOutput(new NavigatorLinkGenerator());
     new ObjectivesDisplayBuilder(resolver,output).build(sb,_quest);
     // End dialogs
     List<DialogElement> endDialogs=_quest.getEndDialogs();
     if (!endDialogs.isEmpty())
     {
-      sb.append("<p><b>End</b>"); // I18n
+      output.startParagraph(sb);
+      output.startBold(sb);
+      output.printText(sb,"End"); // I18n
+      output.endBold(sb);
       for(DialogElement endDialog : endDialogs)
       {
         QuestsHtmlUtils.buildHtmlForDialog(resolver,sb,endDialog);
       }
-      sb.append("</p>");
+      output.endParagraph(sb);
     }
     // Completion comments
     List<QuestCompletionComment> comments=_quest.getCompletionComments();
     if (!comments.isEmpty())
     {
-      sb.append("<p><b>Completion comments</b>"); // I18n
+      output.startParagraph(sb);
+      output.startBold(sb);
+      output.printText(sb,"Completion comments"); // I18n
+      output.endBold(sb);
       for(QuestCompletionComment comment : comments)
       {
         QuestsHtmlUtils.buildHtmlForCompletionComment(resolver,sb,comment);
       }
-      sb.append("</p>");
+      output.endParagraph(sb);
     }
-    sb.append("</body></html>");
-    return sb.toString();
+    output.endBody(sb);
+    output.endDocument(sb);
   }
 
   /**
