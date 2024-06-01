@@ -5,6 +5,7 @@ import java.util.List;
 import delta.common.ui.swing.area.AreaController;
 import delta.games.lotro.character.classes.AbstractClassDescription;
 import delta.games.lotro.character.races.RaceDescription;
+import delta.games.lotro.character.traits.TraitDescription;
 import delta.games.lotro.common.effects.Effect;
 import delta.games.lotro.common.enums.CraftTier;
 import delta.games.lotro.common.requirements.ClassRequirement;
@@ -14,6 +15,7 @@ import delta.games.lotro.common.requirements.GloryRankRequirement;
 import delta.games.lotro.common.requirements.ProfessionRequirement;
 import delta.games.lotro.common.requirements.QuestRequirement;
 import delta.games.lotro.common.requirements.RaceRequirement;
+import delta.games.lotro.common.requirements.TraitRequirement;
 import delta.games.lotro.common.requirements.UsageRequirement;
 import delta.games.lotro.lore.crafting.Profession;
 import delta.games.lotro.lore.deeds.DeedDescription;
@@ -104,6 +106,10 @@ public class RequirementsUtils
     handleProfessionRequirements(sb,requirements);
     // Glory Rank
     handleGloryRank(sb,requirements);
+    // Effect
+    handleEffectRequirement(sb,requirements);
+    // Trait requirement
+    handleTraitRequirement(sb,requirements);
     String ret=sb.toString().trim();
     return ret;
   }
@@ -158,13 +164,27 @@ public class RequirementsUtils
       int rank=gloryRankReq.getRank();
       sb.append("glory rank ").append(rank);
     }
-    // Effect
+  }
+
+  private static void handleEffectRequirement(StringBuilder sb, UsageRequirement requirements)
+  {
     EffectRequirement effectReq=requirements.getEffectRequirement();
     if (effectReq!=null)
     {
       if (sb.length()>0) sb.append(", ");
       Effect effect=effectReq.getEffect();
       sb.append(effect.getName());
+    }
+  }
+
+  private static void handleTraitRequirement(StringBuilder sb, UsageRequirement requirements)
+  {
+    TraitRequirement traitRequirement=requirements.getTraitRequirement();
+    if (traitRequirement!=null)
+    {
+      if (sb.length()>0) sb.append(", ");
+      TraitDescription trait=traitRequirement.getTrait();
+      sb.append("Trait: ").append(trait.getName()); // I18n
     }
   }
 
