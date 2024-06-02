@@ -9,6 +9,8 @@ import java.awt.Insets;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.Box;
+import javax.swing.ImageIcon;
 import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -18,6 +20,8 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.labels.HyperLinkController;
 import delta.common.ui.swing.navigator.AbstractNavigablePanelController;
 import delta.common.ui.swing.navigator.NavigatorWindowController;
+import delta.common.utils.l10n.L10n;
+import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.lore.titles.TitleUiUtils;
 import delta.games.lotro.gui.utils.ItemDisplayGadgets;
 import delta.games.lotro.lore.hobbies.HobbyDescription;
@@ -40,9 +44,6 @@ public class HobbyDisplayPanelController extends AbstractNavigablePanelControlle
   private HobbyDescription _hobby;
   // GUI
   private JPanel _panel;
-
-  private JLabel _name;
-  private JEditorPane _details;
 
   /**
    * Constructor.
@@ -77,12 +78,30 @@ public class HobbyDisplayPanelController extends AbstractNavigablePanelControlle
 
     // Left panel
     JPanel leftPanel=buildLeftPanel();
-    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,1.0,GridBagConstraints.WEST,GridBagConstraints.VERTICAL,new Insets(0,0,0,0),0,0);
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,1.0,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
     panel.add(leftPanel,c);
-    // Right panel (rewards)
+    // Right panel
+    JPanel rightPanel=buildRightPanel();
+    c=new GridBagConstraints(1,0,1,1,1.0,1.0,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
+    panel.add(rightPanel,c);
+    return panel;
+  }
+
+  private JPanel buildRightPanel()
+  {
+    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
+    int y=0;
+    // Description
+    JEditorPane description=buildDescriptionPane();
+    JScrollPane descriptionPane=GuiFactory.buildScrollPane(description);
+    descriptionPane.setBorder(GuiFactory.buildTitledBorder("Description")); // I18n
+    GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
+    panel.add(descriptionPane,c);
+    y++;
+    // Rewards
     JPanel rewardsPanel=_rewards.getPanel();
     rewardsPanel.setBorder(GuiFactory.buildTitledBorder("Rewards")); // I18n
-    c=new GridBagConstraints(1,0,1,1,1.0,1.0,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
+    c=new GridBagConstraints(0,y,1,1,1.0,1.0,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
     panel.add(rewardsPanel,c);
     return panel;
   }
@@ -93,58 +112,92 @@ public class HobbyDisplayPanelController extends AbstractNavigablePanelControlle
 
     int y=0;
     GridBagConstraints c=new GridBagConstraints(0,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
-    // Main data line
-    {
-      JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
-      panel.add(panelLine,c);
-      c.gridy++;
-      // Name
-      _name=GuiFactory.buildLabel("");
-      _name.setFont(_name.getFont().deriveFont(16f).deriveFont(Font.BOLD));
-      panelLine.add(_name);
-    }
+    JPanel firstLine=GuiFactory.buildPanel(new FlowLayout());
+    // Icon
+    ImageIcon icon=LotroIconsManager.getHobbyIcon(_hobby.getIconId());
+    firstLine.add(GuiFactory.buildIconLabel(icon));
+    // Name
+    String name=_hobby.getName();
+    JLabel nameLabel=GuiFactory.buildLabel(name);
+    nameLabel.setFont(nameLabel.getFont().deriveFont(16f).deriveFont(Font.BOLD));
+    firstLine.add(nameLabel);
+    panel.add(firstLine,c);
+    y++;
+    // Minimum level
+    int minLevel=_hobby.getMinLevel();
+    String minLevelText="Min level: "+L10n.getString(minLevel);
+    JLabel minLevelLabel=GuiFactory.buildLabel(minLevelText);
+    c=new GridBagConstraints(0,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,5,0,0),0,0);
+    panel.add(minLevelLabel,c);
+    y++;
+    // Max daily proficiency gain
+    int maxDailyGain=_hobby.getDailyProficiencyGainLimit();
+    String maxDailyGainText="Maximum daily proficiency gain: "+L10n.getString(maxDailyGain);
+    JLabel gainLabel=GuiFactory.buildLabel(maxDailyGainText);
+    c=new GridBagConstraints(0,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,5,0,0),0,0);
+    panel.add(gainLabel,c);
     y++;
 
     // Items
     JPanel itemsPanel=buildItemsTable();
     itemsPanel.setBorder(GuiFactory.buildTitledBorder("Items")); // I18n
-    c=new GridBagConstraints(0,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    c=new GridBagConstraints(0,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(itemsPanel,c);
     y++;
 
     // Titles
     JPanel titlesPanel=buildTitlesTable();
     titlesPanel.setBorder(GuiFactory.buildTitledBorder("Titles")); // I18n
-    c=new GridBagConstraints(0,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    c=new GridBagConstraints(0,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
     panel.add(titlesPanel,c);
     y++;
 
-    // Details
-    _details=buildDescriptionPane();
-    JScrollPane detailsPane=GuiFactory.buildScrollPane(_details);
-    detailsPane.setBorder(GuiFactory.buildTitledBorder("Description")); // I18n
+    // Trainer Info
+    JEditorPane trainerInfo=buildTrainerInfoPane();
+    JScrollPane trainerInfoPane=GuiFactory.buildScrollPane(trainerInfo);
+    trainerInfoPane.setBorder(GuiFactory.buildTitledBorder("Trainer Info")); // I18n
     c=new GridBagConstraints(0,y,1,1,1.0,1.0,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
-    panel.add(detailsPane,c);
+    panel.add(trainerInfoPane,c);
 
-    _panel=panel;
-    setHobby();
-    return _panel;
+    return panel;
   }
 
   private JEditorPane buildDescriptionPane()
   {
     JEditorPane editor=new JEditorPane("text/html","");
     editor.setEditable(false);
-    editor.setPreferredSize(new Dimension(300,100));
+    editor.setPreferredSize(new Dimension(300,50));
     editor.setOpaque(false);
+    editor.setText(buildDescriptionHtml());
+    editor.setCaretPosition(0);
     return editor;
   }
 
-  private String buildHtml()
+  private JEditorPane buildTrainerInfoPane()
+  {
+    JEditorPane editor=new JEditorPane("text/html","");
+    editor.setEditable(false);
+    editor.setPreferredSize(new Dimension(300,100));
+    editor.setOpaque(false);
+    editor.setText(buildTrainerInfoHtml());
+    editor.setCaretPosition(0);
+    return editor;
+  }
+
+  private String buildDescriptionHtml()
   {
     StringBuilder sb=new StringBuilder();
     sb.append("<html><body>");
     sb.append(toHtml(_hobby.getDescription()));
+    sb.append("</body></html>");
+    return sb.toString();
+  }
+
+  private String buildTrainerInfoHtml()
+  {
+    StringBuilder sb=new StringBuilder();
+    sb.append("<html><body>");
+    sb.append(toHtml(_hobby.getTrainerDisplayInfo()));
     sb.append("</body></html>");
     return sb.toString();
   }
@@ -200,22 +253,9 @@ public class HobbyDisplayPanelController extends AbstractNavigablePanelControlle
       ret.add(titleCtrl.getLabel(),c);
       c.gridx++;
     }
+    c=new GridBagConstraints(3,0,1,1,1.0,1.0,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
+    ret.add(Box.createGlue(),c);
     return ret;
-  }
-
-  /**
-   * Set the hobby to display.
-   */
-  private void setHobby()
-  {
-    String name=_hobby.getName();
-    // Name
-    _name.setText(name);
-    // Details
-    _details.setText(buildHtml());
-    int nbTitles=_hobby.getTitles().size();
-    _details.setPreferredSize(new Dimension(300,50+(30*nbTitles)));
-    _details.setCaretPosition(0);
   }
 
   @Override
@@ -254,7 +294,5 @@ public class HobbyDisplayPanelController extends AbstractNavigablePanelControlle
       _panel.removeAll();
       _panel=null;
     }
-    _name=null;
-    _details=null;
   }
 }
