@@ -80,7 +80,7 @@ public class QuestsStatusWindowController extends DefaultDisplayDialogController
   {
     super(parent,status);
     _toon=toon;
-    _quests=AchievablesUtils.getQuests(_toon.getSummary());
+    _quests=AchievablesUtils.getQuests(_toon);
     _filter=new QuestStatusFilter();
     initStateComputer();
   }

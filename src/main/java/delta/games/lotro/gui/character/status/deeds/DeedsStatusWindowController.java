@@ -83,7 +83,7 @@ public class DeedsStatusWindowController extends DefaultFormDialogController<Ach
   {
     super(parent,status);
     _toon=toon;
-    _deeds=AchievablesUtils.getDeeds(_toon.getSummary());
+    _deeds=AchievablesUtils.getDeeds(_toon);
     _filter=new DeedStatusFilter();
   }
 
