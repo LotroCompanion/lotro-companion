@@ -15,7 +15,9 @@ import delta.games.lotro.character.classes.ClassDescription;
 import delta.games.lotro.character.races.RaceDescription;
 import delta.games.lotro.common.requirements.filters.UsageRequirementFilter;
 import delta.games.lotro.gui.character.summary.CharacterUiUtils;
+import delta.games.lotro.gui.common.crafting.CraftingUiUtils;
 import delta.games.lotro.gui.utils.l10n.Labels;
+import delta.games.lotro.lore.crafting.Profession;
 
 /**
  * Controller for a requirements filter edition panel.
@@ -33,6 +35,7 @@ public class RequirementsFilterController
   // Controllers
   private ComboBoxController<ClassDescription> _class;
   private ComboBoxController<RaceDescription> _race;
+  private ComboBoxController<Profession> _profession;
 
   /**
    * Constructor.
@@ -75,6 +78,7 @@ public class RequirementsFilterController
   {
     _class.selectItem(null);
     _race.selectItem(null);
+    _profession.selectItem(null);
   }
 
   /**
@@ -83,11 +87,14 @@ public class RequirementsFilterController
   public void setFilter()
   {
     // - class
-    ClassDescription requiredClass=_filter.getCharacterClass();
+    ClassDescription requiredClass=_filter.getCharacterClassFilter().getCharacterClass();
     _class.selectItem(requiredClass);
     // - race
-    RaceDescription requiredRace=_filter.getRace();
+    RaceDescription requiredRace=_filter.getRaceFilter().getRace();
     _race.selectItem(requiredRace);
+    // - profession
+    Profession requiredProfession=_filter.getProfessionFilter().getProfession();
+    _profession.selectItem(requiredProfession);
   }
 
   private JPanel buildRequirementsPanel()
@@ -106,6 +113,10 @@ public class RequirementsFilterController
       linePanel.add(GuiFactory.buildLabel(Labels.getFieldLabel("requirements.filter.race")));
       _race=buildRaceCombobox();
       linePanel.add(_race.getComboBox());
+      // Profession
+      linePanel.add(GuiFactory.buildLabel(Labels.getFieldLabel("requirements.filter.profession")));
+      _profession=buildProfessionCombobox();
+      linePanel.add(_profession.getComboBox());
       c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(5,0,5,0),0,0);
       panel.add(linePanel,c);
     }
@@ -121,7 +132,7 @@ public class RequirementsFilterController
       @Override
       public void itemSelected(ClassDescription requiredClass)
       {
-        _filter.setCharacterClass(requiredClass);
+        _filter.getCharacterClassFilter().setCharacterClass(requiredClass);
         filterUpdated();
       }
     };
@@ -137,7 +148,23 @@ public class RequirementsFilterController
       @Override
       public void itemSelected(RaceDescription requiredRace)
       {
-        _filter.setRace(requiredRace);
+        _filter.getRaceFilter().setRace(requiredRace);
+        filterUpdated();
+      }
+    };
+    combo.addListener(listener);
+    return combo;
+  }
+
+  private ComboBoxController<Profession> buildProfessionCombobox()
+  {
+    ComboBoxController<Profession> combo=CraftingUiUtils.buildProfessionCombo();
+    ItemSelectionListener<Profession> listener=new ItemSelectionListener<Profession>()
+    {
+      @Override
+      public void itemSelected(Profession requiredProfession)
+      {
+        _filter.getProfessionFilter().setProfession(requiredProfession);
         filterUpdated();
       }
     };
@@ -162,6 +189,11 @@ public class RequirementsFilterController
     {
       _race.dispose();
       _race=null;
+    }
+    if (_profession!=null)
+    {
+      _profession.dispose();
+      _profession=null;
     }
     // GUI
     if (_panel!=null)
