@@ -20,15 +20,16 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.labels.HyperLinkController;
 import delta.common.ui.swing.navigator.AbstractNavigablePanelController;
 import delta.common.ui.swing.navigator.NavigatorWindowController;
+import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.common.utils.l10n.L10n;
 import delta.games.lotro.gui.LotroIconsManager;
-import delta.games.lotro.gui.lore.titles.TitleUiUtils;
+import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.gui.utils.ItemDisplayGadgets;
+import delta.games.lotro.gui.utils.navigation.NavigationHyperLink;
 import delta.games.lotro.lore.hobbies.HobbyDescription;
 import delta.games.lotro.lore.hobbies.HobbyTitleEntry;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.titles.TitleDescription;
-import delta.games.lotro.utils.strings.ContextRendering;
 
 /**
  * Controller for a hobby display panel.
@@ -245,12 +246,20 @@ public class HobbyDisplayPanelController extends AbstractNavigablePanelControlle
       ret.add(GuiFactory.buildLabel(String.valueOf(proficiency)),c);
       c.gridx++;
       // Title
+      JLabel titleLabel=null;
       TitleDescription title=entry.getTitle();
-      String rawTitleName=title.getRawName();
-      String titleName=ContextRendering.render(this,rawTitleName);
-      JLabel titleLabel=GuiFactory.buildLabel(titleName);
-      HyperLinkController titleCtrl=TitleUiUtils.buildTitleLink(getParent(),title,titleLabel);
-      ret.add(titleCtrl.getLabel(),c);
+      if (title!=null)
+      {
+        PageIdentifier titlePageId=ReferenceConstants.getTitleReference(title.getIdentifier());
+        NavigationHyperLink titleLink=new NavigationHyperLink(getParent(),title.getName(),titlePageId);
+        _links.add(titleLink);
+        titleLabel=titleLink.getLabel();
+      }
+      else
+      {
+        titleLabel=GuiFactory.buildLabel("-");
+      }
+      ret.add(titleLabel,c);
       c.gridx++;
     }
     c=new GridBagConstraints(3,0,1,1,1.0,1.0,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);

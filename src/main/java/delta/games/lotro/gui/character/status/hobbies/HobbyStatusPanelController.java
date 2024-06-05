@@ -9,12 +9,14 @@ import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.labels.HyperLinkController;
+import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.l10n.L10n;
 import delta.games.lotro.character.status.hobbies.HobbyStatus;
-import delta.games.lotro.gui.lore.titles.TitleUiUtils;
+import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.gui.utils.IconAndLinkPanelController;
 import delta.games.lotro.gui.utils.SharedPanels;
+import delta.games.lotro.gui.utils.navigation.NavigationHyperLink;
 import delta.games.lotro.lore.hobbies.HobbyDescription;
 import delta.games.lotro.lore.titles.TitleDescription;
 
@@ -67,7 +69,8 @@ public class HobbyStatusPanelController
     TitleDescription title=hobby.getTitleForProficiency(proficiency);
     if (title!=null)
     {
-      _title=TitleUiUtils.buildTitleLink(parent,title,GuiFactory.buildLabel(""));
+      PageIdentifier titlePageId=ReferenceConstants.getTitleReference(title.getIdentifier());
+      _title=new NavigationHyperLink(parent,title.getName(),titlePageId);
       c=new GridBagConstraints(1,1,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,5,5,0),0,0);
       ret.add(_title.getLabel(),c);
     }
