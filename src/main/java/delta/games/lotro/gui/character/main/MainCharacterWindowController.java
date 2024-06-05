@@ -20,6 +20,7 @@ import delta.games.lotro.character.status.crafting.CraftingStatusSummaryBuilder;
 import delta.games.lotro.character.status.crafting.summary.CraftingStatusSummary;
 import delta.games.lotro.character.status.hobbies.HobbiesStatusManager;
 import delta.games.lotro.character.status.hobbies.io.HobbiesStatusIo;
+import delta.games.lotro.character.status.traits.shared.TraitSlotsStatus;
 import delta.games.lotro.character.storage.summary.CharacterStorageSummary;
 import delta.games.lotro.character.storage.summary.StorageSummaryIO;
 import delta.games.lotro.gui.character.config.CharacterStatsSummaryPanelController;
@@ -27,6 +28,7 @@ import delta.games.lotro.gui.character.gear.EquipmentDisplayPanelController;
 import delta.games.lotro.gui.character.main.summary.CharacterSummaryPanelController;
 import delta.games.lotro.gui.character.status.crafting.summary.CraftingStatusSummaryPanelController;
 import delta.games.lotro.gui.character.status.hobbies.HobbiesStatusPanelController;
+import delta.games.lotro.gui.character.status.traits.racial.RacialTraitsDisplayPanelController;
 import delta.games.lotro.gui.character.storage.summary.CharacterStorageSummaryPanelController;
 import delta.games.lotro.gui.character.virtues.VirtuesDisplayPanelController;
 import delta.games.lotro.gui.character.xp.XpDisplayPanelController;
@@ -46,6 +48,7 @@ public class MainCharacterWindowController extends DefaultWindowController
   private CraftingStatusSummaryPanelController _crafting;
   private EquipmentDisplayPanelController _gear;
   private VirtuesDisplayPanelController _virtues;
+  private RacialTraitsDisplayPanelController _racialTraits;
   private CharacterStatsSummaryPanelController _stats;
   private XpDisplayPanelController _xp;
   private CharacterStorageSummaryPanelController _storage;
@@ -68,6 +71,8 @@ public class MainCharacterWindowController extends DefaultWindowController
     _gear=new EquipmentDisplayPanelController(this,current.getEquipment());
     _gear.initButtonListeners();
     _virtues=new VirtuesDisplayPanelController();
+    int level=toon.getSummary().getLevel();
+    _racialTraits=new RacialTraitsDisplayPanelController(this,level);
     _stats=new CharacterStatsSummaryPanelController(this,current);
     _xp=new XpDisplayPanelController();
     _storage=new CharacterStorageSummaryPanelController();
@@ -93,6 +98,9 @@ public class MainCharacterWindowController extends DefaultWindowController
     CharacterData current=_toon.getInfosManager().getCurrentData();
     VirtuesSet virtues=current.getVirtues();
     _virtues.setVirtues(virtues);
+    // Racial traits
+    TraitSlotsStatus racialTraitsStatus=current.getTraits().getRacialTraitsStatus();
+    _racialTraits.setStatus(racialTraitsStatus);
     // Stats
     _stats.getPanel();
     _stats.update();
@@ -157,6 +165,11 @@ public class MainCharacterWindowController extends DefaultWindowController
     virtuesPanel.setBorder(GuiFactory.buildTitledBorder("Virtues"));
     c=new GridBagConstraints(0,1,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     column2Panel.add(virtuesPanel,c);
+    // Racial traits
+    JPanel racialTraitPanel=_racialTraits.getPanel();
+    racialTraitPanel.setBorder(GuiFactory.buildTitledBorder("Racial Traits"));
+    c=new GridBagConstraints(0,2,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    column2Panel.add(racialTraitPanel,c);
     // => add column
     c=new GridBagConstraints(1,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(column2Panel,c);
@@ -243,6 +256,11 @@ public class MainCharacterWindowController extends DefaultWindowController
     {
       _virtues.dispose();
       _virtues=null;
+    }
+    if (_racialTraits!=null)
+    {
+      _racialTraits.dispose();
+      _racialTraits=null;
     }
     if (_stats!=null)
     {

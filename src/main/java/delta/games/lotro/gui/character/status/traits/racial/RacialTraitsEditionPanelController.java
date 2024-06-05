@@ -158,7 +158,7 @@ public class RacialTraitsEditionPanelController implements ActionListener
       MouseListener popupListener=buildRightClickListener();
       label.addMouseListener(popupListener);
     }
-    TitledBorder border=GuiFactory.buildTitledBorder("Selected Traits");
+    TitledBorder border=GuiFactory.buildTitledBorder("Selected Traits"); // I18n
     selectedTraitsPanel.setBorder(border);
     return selectedTraitsPanel;
   }

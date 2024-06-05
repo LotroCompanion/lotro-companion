@@ -1,6 +1,5 @@
 package delta.games.lotro.gui.character.status.traits.racial;
 
-import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.CharacterSummary;
 import delta.games.lotro.character.races.RaceDescription;
 import delta.games.lotro.character.races.RacesManager;
@@ -21,13 +20,12 @@ public class MainTestRacialTraitsEditionDialogController
   {
     for(RaceDescription r : RacesManager.getInstance().getAll())
     {
-      CharacterData data=new CharacterData();
       CharacterSummary s=new CharacterSummary();
       s.setRace(r);
       s.setLevel(140);
-      data.getSummary().setSummary(s);
-      data.getTraits().setRacialTraitsStatus(new TraitSlotsStatus());
-      TraitSlotsStatus newStatus=RacialTraitsEditionDialogController.editTraits(null,data.getTraits().getRacialTraitsStatus(),data.getSummary());
+      TraitSlotsStatus status=new TraitSlotsStatus();
+      RacialTraitsEditionDialogController controller=new RacialTraitsEditionDialogController(null,status,s);
+      TraitSlotsStatus newStatus=controller.editModal();
       if (newStatus!=null)
       {
         int nbSlots=newStatus.getSlotsCount();

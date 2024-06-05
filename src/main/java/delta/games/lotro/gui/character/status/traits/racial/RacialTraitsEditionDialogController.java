@@ -65,18 +65,4 @@ public class RacialTraitsEditionDialogController extends DefaultFormDialogContro
       _traitsEdition=null;
     }
   }
-
-  /**
-   * Edit traits.
-   * @param parent Parent controller.
-   * @param status Status to show.
-   * @param character Character attributes.
-   * @return The edited traits or <code>null</code> if the window was closed or canceled.
-   */
-  public static TraitSlotsStatus editTraits(WindowController parent, TraitSlotsStatus status, BasicCharacterAttributes character)
-  {
-    RacialTraitsEditionDialogController controller=new RacialTraitsEditionDialogController(parent,status,character);
-    TraitSlotsStatus editedStatus=controller.editModal();
-    return editedStatus;
-  }
 }
