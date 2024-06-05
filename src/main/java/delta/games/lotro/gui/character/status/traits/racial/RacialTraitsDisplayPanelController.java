@@ -103,8 +103,11 @@ public class RacialTraitsDisplayPanelController extends AbstractPanelController
    */
   public void setStatus(TraitSlotsStatus status)
   {
-    int nbSlots=status.getSlotsCount();
-    for(int i=0;i<nbSlots;i++)
+    if (status==null)
+    {
+      status=new TraitSlotsStatus();
+    }
+    for(int i=0;i<MAX_TRAITS;i++)
     {
       int traitID=status.getTraitAt(i);
       TraitDescription trait=null;
