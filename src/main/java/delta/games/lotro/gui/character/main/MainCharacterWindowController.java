@@ -20,6 +20,8 @@ import delta.games.lotro.character.status.crafting.CraftingStatusSummaryBuilder;
 import delta.games.lotro.character.status.crafting.summary.CraftingStatusSummary;
 import delta.games.lotro.character.status.hobbies.HobbiesStatusManager;
 import delta.games.lotro.character.status.hobbies.io.HobbiesStatusIo;
+import delta.games.lotro.character.status.summary.AchievementsSummary;
+import delta.games.lotro.character.status.summary.io.AchievementsSummaryIO;
 import delta.games.lotro.character.status.traits.shared.TraitSlotsStatus;
 import delta.games.lotro.character.storage.summary.CharacterStorageSummary;
 import delta.games.lotro.character.storage.summary.StorageSummaryIO;
@@ -28,6 +30,7 @@ import delta.games.lotro.gui.character.gear.EquipmentDisplayPanelController;
 import delta.games.lotro.gui.character.main.summary.CharacterSummaryPanelController;
 import delta.games.lotro.gui.character.status.crafting.summary.CraftingStatusSummaryPanelController;
 import delta.games.lotro.gui.character.status.hobbies.HobbiesStatusPanelController;
+import delta.games.lotro.gui.character.status.summary.AchievementsSummaryPanelController;
 import delta.games.lotro.gui.character.status.traits.racial.RacialTraitsDisplayPanelController;
 import delta.games.lotro.gui.character.storage.summary.CharacterStorageSummaryPanelController;
 import delta.games.lotro.gui.character.virtues.VirtuesDisplayPanelController;
@@ -45,6 +48,7 @@ public class MainCharacterWindowController extends DefaultWindowController
   private CharacterFile _toon;
   // Controllers
   private CharacterSummaryPanelController _summaryController;
+  private AchievementsSummaryPanelController _achievements;
   private CraftingStatusSummaryPanelController _crafting;
   private EquipmentDisplayPanelController _gear;
   private VirtuesDisplayPanelController _virtues;
@@ -66,6 +70,7 @@ public class MainCharacterWindowController extends DefaultWindowController
     setContextProperty(ContextPropertyNames.BASE_CHARACTER_SUMMARY,toon.getSummary());
     _summaryController=new CharacterSummaryPanelController(this);
     setContextProperty(ContextPropertyNames.BASE_CHARACTER_SUMMARY,toon.getSummary());
+    _achievements=new AchievementsSummaryPanelController(this);
     _crafting=new CraftingStatusSummaryPanelController();
     CharacterData current=_toon.getInfosManager().getCurrentData();
     _gear=new EquipmentDisplayPanelController(this,current.getEquipment());
@@ -89,6 +94,9 @@ public class MainCharacterWindowController extends DefaultWindowController
     CharacterDetails details=_toon.getDetails();
     // Summary
     _summaryController.setSummary(summary,details);
+    // Achievements
+    AchievementsSummary achievements=AchievementsSummaryIO.loadAchievementsSummary(_toon);
+    _achievements.setSummary(achievements);
     // Crafting
     CraftingStatus status=_toon.getCraftingMgr().getCraftingStatus();
     CraftingStatusSummaryBuilder b=new CraftingStatusSummaryBuilder();
@@ -137,18 +145,23 @@ public class MainCharacterWindowController extends DefaultWindowController
     // Summary panel
     JPanel summaryPanel=_summaryController.getPanel();
     summaryPanel.setBorder(GuiFactory.buildTitledBorder("Summary"));
-    GridBagConstraints c=new GridBagConstraints(0,0,1,1,1,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(3,5,3,5),0,0);
+    GridBagConstraints c=new GridBagConstraints(0,0,2,1,1,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(3,5,3,5),0,0);
     column1Panel.add(summaryPanel,c);
     // XP
     JPanel xpPanel=_xp.getPanel();
     xpPanel.setBorder(GuiFactory.buildTitledBorder("XP"));
-    c=new GridBagConstraints(0,1,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    c=new GridBagConstraints(0,1,2,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     column1Panel.add(xpPanel,c);
     // Storage
     JPanel storagePanel=_storage.getPanel();
     storagePanel.setBorder(GuiFactory.buildTitledBorder("Storage"));
     c=new GridBagConstraints(0,2,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     column1Panel.add(storagePanel,c);
+    // Achivements
+    JPanel achievementsPanel=_achievements.getPanel();
+    achievementsPanel.setBorder(GuiFactory.buildTitledBorder("Achievements"));
+    c=new GridBagConstraints(1,2,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    column1Panel.add(achievementsPanel,c);
     // => add column
     c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(column1Panel,c);
@@ -241,6 +254,11 @@ public class MainCharacterWindowController extends DefaultWindowController
     {
       _summaryController.dispose();
       _summaryController=null;
+    }
+    if (_achievements!=null)
+    {
+      _achievements.dispose();
+      _achievements=null;
     }
     if (_crafting!=null)
     {
