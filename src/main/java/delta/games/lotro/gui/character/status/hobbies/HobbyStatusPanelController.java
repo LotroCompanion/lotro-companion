@@ -61,18 +61,22 @@ public class HobbyStatusPanelController
     ret.add(_hobby.getPanel(),c);
     // Proficiency
     int proficiency=status.getValue();
-    String proficiencyValue=(proficiency>=0)?L10n.getString(proficiency):"unknown"; // I18n
+    String proficiencyValue=(proficiency>=0)?L10n.getString(proficiency):"?";
     JLabel proficiencyLabel=GuiFactory.buildLabel("Proficiency: "+proficiencyValue); // I18n
-    c=new GridBagConstraints(1,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,5,0,0),0,0);
+    c=new GridBagConstraints(1,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,5,0,5),0,0);
     ret.add(proficiencyLabel,c);
     // Title
+    c=new GridBagConstraints(1,1,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,5,5,5),0,0);
     TitleDescription title=hobby.getTitleForProficiency(proficiency);
     if (title!=null)
     {
       PageIdentifier titlePageId=ReferenceConstants.getTitleReference(title.getIdentifier());
       _title=new NavigationHyperLink(parent,title.getName(),titlePageId);
-      c=new GridBagConstraints(1,1,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,5,5,0),0,0);
       ret.add(_title.getLabel(),c);
+    }
+    else
+    {
+      ret.add(GuiFactory.buildLabel("-"),c);
     }
     return ret;
   }
