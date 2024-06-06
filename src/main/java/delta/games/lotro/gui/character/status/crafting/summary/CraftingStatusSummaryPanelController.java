@@ -58,6 +58,8 @@ public class CraftingStatusSummaryPanelController extends AbstractPanelControlle
       panel.add(childPanel,c);
       c.gridy++;
     }
+    boolean visible=(panel.getComponentCount()>0);
+    panel.setVisible(visible);
   }
 
   private void disposeChildPanels()
