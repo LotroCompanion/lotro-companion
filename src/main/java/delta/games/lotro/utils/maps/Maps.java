@@ -3,6 +3,8 @@ package delta.games.lotro.utils.maps;
 import java.io.File;
 
 import delta.games.lotro.Config;
+import delta.games.lotro.config.LotroCoreConfig;
+import delta.games.lotro.config.labels.LabelsConfiguration;
 import delta.games.lotro.maps.data.MapsManager;
 
 /**
@@ -17,7 +19,9 @@ public class Maps
   private Maps()
   {
     File mapsDir=Config.getInstance().getMapsDir();
-    _maps=new MapsManager(mapsDir);
+    LabelsConfiguration cfg=LotroCoreConfig.getInstance().getLabelsConfiguration();
+    String localeKey=cfg.getDataLabelsKey();
+    _maps=new MapsManager(mapsDir,localeKey);
   }
 
   /**
