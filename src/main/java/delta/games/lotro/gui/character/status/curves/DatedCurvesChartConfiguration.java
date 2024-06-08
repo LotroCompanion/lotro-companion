@@ -11,6 +11,7 @@ public class DatedCurvesChartConfiguration
   private String _valueAxisLabel;
   private double[] _valueAxisTicks;
   private boolean _useSquareMoves;
+  private ValueRenderer _renderer;
 
   /**
    * Constructor.
@@ -22,6 +23,7 @@ public class DatedCurvesChartConfiguration
     _valueAxisLabel="Values"; // I18n
     _valueAxisTicks=null;
     _useSquareMoves=true;
+    _renderer=null;
   }
 
   /**
@@ -103,5 +105,23 @@ public class DatedCurvesChartConfiguration
   public void setUseSquareMoves(boolean useSquareMoves)
   {
     _useSquareMoves=useSquareMoves;
+  }
+
+  /**
+   * Get the value renderer.
+   * @return a value renderer (<code>null</code> to use standard rendering).
+   */
+  public ValueRenderer getValueRenderer()
+  {
+    return _renderer;
+  }
+
+  /**
+   * Set the value renderer.
+   * @param renderer Renderer to set (<code>null</code> to use standard rendering).
+   */
+  public void setValueRenderer(ValueRenderer renderer)
+  {
+    _renderer=renderer;
   }
 }

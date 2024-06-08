@@ -1,6 +1,5 @@
 package delta.games.lotro.gui.character.status.currencies;
 
-import delta.games.lotro.character.storage.currencies.Currency;
 import delta.games.lotro.character.storage.currencies.CurrencyHistory;
 import delta.games.lotro.character.storage.currencies.CurrencyStorage;
 import delta.games.lotro.gui.character.status.curves.DatedCurveProvider;
@@ -16,8 +15,6 @@ public class CurrencyHistoryCurveProvider implements DatedCurveProvider<Currency
   public DatedCurve<?> getCurve(CurrencyHistoryCurve source)
   {
     CurrencyHistory history=source.getHistory();
-    Currency currency=history.getCurrency();
-    int factor=currency.getFactor();
     CurrencyStorage storage=history.getStorage();
     String name=source.getName();
     DatedCurve<Float> curve=new DatedCurve<Float>(name);
@@ -28,7 +25,7 @@ public class CurrencyHistoryCurveProvider implements DatedCurveProvider<Currency
       Integer intValue=storage.getValueAtIndex(i);
       if (intValue!=null)
       {
-        Float value=Float.valueOf(intValue.floatValue()/factor);
+        Float value=Float.valueOf(intValue.floatValue());
         curve.addValue(time.longValue(),value);
       }
     }

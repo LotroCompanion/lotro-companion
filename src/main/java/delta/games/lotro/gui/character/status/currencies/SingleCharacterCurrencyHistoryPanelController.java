@@ -9,6 +9,7 @@ import delta.games.lotro.character.storage.currencies.CurrencyHistory;
 import delta.games.lotro.gui.character.status.curves.DatedCurvesChartConfiguration;
 import delta.games.lotro.gui.character.status.curves.DatedCurvesChartController;
 import delta.games.lotro.gui.character.status.curves.DatedCurvesProvider;
+import delta.games.lotro.gui.character.status.curves.ValueRenderer;
 import delta.games.lotro.utils.charts.DatedCurve;
 
 /**
@@ -83,6 +84,8 @@ public class SingleCharacterCurrencyHistoryPanelController
     configuration.setValueAxisLabel("Amount"); // I18n
     configuration.setValueAxisTicks(new double[]{1,10,100,1000,10000,100000,1000000,10000000,100000000,1000000000});
     configuration.setUseSquareMoves(false);
+    ValueRenderer renderer=CurrencyValueRendererFactory.buildValueRenderer(currency);
+    configuration.setValueRenderer(renderer);
     _panelController=new DatedCurvesChartController(provider,configuration);
   }
 

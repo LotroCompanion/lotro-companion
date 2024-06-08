@@ -4,7 +4,9 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Paint;
 import java.text.DateFormat;
+import java.text.FieldPosition;
 import java.text.NumberFormat;
+import java.text.ParsePosition;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -69,6 +71,15 @@ public class DatedCurvesChartController
   }
 
   /**
+   * Get the configuration.
+   * @return the configuration.
+   */
+  public DatedCurvesChartConfiguration getConfiguration()
+  {
+    return _configuration;
+  }
+
+  /**
    * Get the managed panel.
    * @return the managed panel.
    */
@@ -118,23 +129,11 @@ public class DatedCurvesChartController
     t.setPaint(foregroundColor);
     jfreechart.setTitle(t);
 
-    XYPlot plot = jfreechart.getXYPlot();
+    XYPlot plot=jfreechart.getXYPlot();
     plot.setDomainPannable(false);
 
-    XYToolTipGenerator tooltip=new StandardXYToolTipGenerator()
-    {
-      @Override
-      public String generateLabelString(XYDataset dataset, int series, int item)
-      {
-        String name=(String)((XYSeriesCollection)dataset).getSeriesKey(series);
-        int value=(int)dataset.getYValue(series,item);
-        double timestamp=dataset.getXValue(series,item);
-        String date=Formats.getDateString(Long.valueOf((long)timestamp));
-        return name+" - "+value+" ("+date+")";
-      }
-    };
-    XYItemRenderer renderer=plot.getRenderer();
-    renderer.setBaseToolTipGenerator(tooltip);
+    // Tooltip
+    configureTooltip(plot);
 
     // Time axis
     DateAxis axis = (DateAxis) plot.getDomainAxis();
@@ -145,8 +144,48 @@ public class DatedCurvesChartController
     axis.setTickLabelPaint(foregroundColor);
 
     // Value axis
+    configureValueAxis(plot);
+
+    LegendTitle legend=jfreechart.getLegend();
+    legend.setPosition(RectangleEdge.BOTTOM);
+    legend.setItemPaint(foregroundColor);
+    legend.setBackgroundPaint(backgroundPaint);
+    return jfreechart;
+  }
+
+  private void configureTooltip(XYPlot plot)
+  {
+    ValueRenderer valueRenderer=_configuration.getValueRenderer();
+    XYToolTipGenerator tooltip=new StandardXYToolTipGenerator()
+    {
+      @Override
+      public String generateLabelString(XYDataset dataset, int series, int item)
+      {
+        String name=(String)((XYSeriesCollection)dataset).getSeriesKey(series);
+        double value=dataset.getYValue(series,item);
+        String valueDisplay;
+        if (valueRenderer!=null)
+        {
+          valueDisplay=valueRenderer.render(value);
+        }
+        else
+        {
+          valueDisplay=String.valueOf((int)value);
+        }
+        double timestamp=dataset.getXValue(series,item);
+        String date=Formats.getDateString(Long.valueOf((long)timestamp));
+        return name+" - "+valueDisplay+" ("+date+")";
+      }
+    };
+    XYItemRenderer renderer=plot.getRenderer();
+    renderer.setBaseToolTipGenerator(tooltip);
+  }
+
+  private void configureValueAxis(XYPlot plot)
+  {
     NumberAxis valueAxis = (NumberAxis)plot.getRangeAxis();
     valueAxis.setAutoRange(true);
+    Color foregroundColor=GuiFactory.getForegroundColor();
     valueAxis.setAxisLinePaint(foregroundColor);
     valueAxis.setLabelPaint(foregroundColor);
     valueAxis.setTickLabelPaint(foregroundColor);
@@ -161,12 +200,45 @@ public class DatedCurvesChartController
       }
       valueAxis.setStandardTickUnits(ticks);
     }
+    ValueRenderer valueRenderer=_configuration.getValueRenderer();
+    if (valueRenderer!=null)
+    {
+      valueAxis.setNumberFormatOverride(buildValueNumberFormat(valueRenderer));
+    }
+    else
+    {
+      valueAxis.setNumberFormatOverride(null);
+    }
+  }
 
-    LegendTitle legend=jfreechart.getLegend();
-    legend.setPosition(RectangleEdge.BOTTOM);
-    legend.setItemPaint(foregroundColor);
-    legend.setBackgroundPaint(backgroundPaint);
-    return jfreechart;
+  private NumberFormat buildValueNumberFormat(ValueRenderer renderer)
+  {
+    NumberFormat nf=new NumberFormat()
+    {
+      private String formatImpl(double number)
+      {
+        return renderer.render(number);
+      }
+
+      @Override
+      public StringBuffer format(double number, StringBuffer toAppendTo, FieldPosition pos)
+      {
+        return toAppendTo.append(formatImpl(number));
+      }
+
+      @Override
+      public StringBuffer format(long number, StringBuffer toAppendTo, FieldPosition pos)
+      {
+        return toAppendTo.append(formatImpl(number));
+      }
+
+      @Override
+      public Number parse(String source, ParsePosition parsePosition)
+      {
+        return null;
+      }
+    };
+    return nf;
   }
 
   /**
@@ -211,6 +283,10 @@ public class DatedCurvesChartController
       boolean hidden=hiddenCurves.contains(curveID);
       setVisible(curveID,!hidden);
     }
+    // Configuration
+    XYPlot plot=(XYPlot)_chart.getPlot();
+    configureTooltip(plot);
+    configureValueAxis(plot);
   }
 
   private Set<String> getHiddenCurves()
