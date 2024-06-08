@@ -80,8 +80,9 @@ public class SingleCharacterCurrencyHistoryPanelController
     };
     DatedCurvesChartConfiguration configuration=new DatedCurvesChartConfiguration();
     Currency currency=history.getCurrency();
-    configuration.setChartTitle(currency.getName());
-    configuration.setValueAxisLabel("Amount"); // I18n
+    String name=currency.getName();
+    configuration.setChartTitle(name);
+    configuration.setValueAxisLabel(name);
     configuration.setValueAxisTicks(new double[]{1,10,100,1000,10000,100000,1000000,10000000,100000000,1000000000});
     configuration.setUseSquareMoves(false);
     ValueRenderer renderer=CurrencyValueRendererFactory.buildValueRenderer(currency);
