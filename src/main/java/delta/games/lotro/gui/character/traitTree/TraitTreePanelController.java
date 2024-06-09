@@ -80,7 +80,10 @@ public class TraitTreePanelController
     ret.addEmptyItem("(none)"); // I18n
     for(TraitTreeBranch branch : branches)
     {
-      ret.addItem(branch,branch.getName());
+      if (branch.isEnabled())
+      {
+        ret.addItem(branch,branch.getName());
+      }
     }
     ItemSelectionListener<TraitTreeBranch> listener=new ItemSelectionListener<TraitTreeBranch>()
     {
@@ -117,6 +120,10 @@ public class TraitTreePanelController
   private void handleClick(String cellId, boolean leftClick)
   {
     TraitTreeCellController ctrl=getController(cellId);
+    if (ctrl==null)
+    {
+      return;
+    }
     boolean enabled=ctrl.isEnabled();
     if (!enabled)
     {
