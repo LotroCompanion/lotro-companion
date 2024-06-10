@@ -21,9 +21,12 @@ import javax.swing.JTabbedPane;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.navigator.NavigablePanelController;
 import delta.common.ui.swing.navigator.NavigatorWindowController;
+import delta.games.lotro.Config;
 import delta.games.lotro.character.skills.SkillDescription;
 import delta.games.lotro.common.enums.SkillCategory;
 import delta.games.lotro.gui.LotroIconsManager;
+import delta.games.lotro.lore.items.effects.SkillEffectsDisplay;
+import delta.games.lotro.utils.ContextPropertyNames;
 import delta.games.lotro.utils.html.HtmlUtils;
 
 /**
@@ -176,6 +179,11 @@ public class SkillDisplayPanelController implements NavigablePanelController
       }
       ret.add("Category: "+categoryLabel);
     }
+    // Effects
+    Integer characterLevel=_parent.getContextProperty(ContextPropertyNames.CHARACTER_LEVEL,Integer.class);
+    int skillLevel=(characterLevel!=null)?characterLevel.intValue():Config.getInstance().getMaxCharacterLevel();
+    List<String> effects=SkillEffectsDisplay.showSkill(_skill,skillLevel);
+    ret.addAll(effects);
     return ret;
   }
 
