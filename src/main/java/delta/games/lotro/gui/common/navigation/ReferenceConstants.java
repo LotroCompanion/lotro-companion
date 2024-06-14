@@ -4,6 +4,7 @@ import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.games.lotro.character.classes.ClassDescription;
 import delta.games.lotro.character.races.NationalityDescription;
 import delta.games.lotro.character.races.RaceDescription;
+import delta.games.lotro.lore.agents.mobs.MobDescription;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.quests.Achievable;
 import delta.games.lotro.lore.quests.QuestDescription;
@@ -99,6 +100,10 @@ public class ReferenceConstants
    * Hobby page identifier.
    */
   public static final String HOBBY_PAGE="hobby";
+  /**
+   * Mob page identifier.
+   */
+  public static final String MOB_PAGE="mob";
 
   /**
    * Get a page identifier for the given achievable proxy.
@@ -335,5 +340,15 @@ public class ReferenceConstants
   public static final PageIdentifier getHobbyReference(int hobbyID)
   {
     return new PageIdentifier(HOBBY_PAGE,hobbyID);
+  }
+
+  /**
+   * Get a page identifier for the given mob.
+   * @param mob Identifier of the mob to use.
+   * @return A page identifier.
+   */
+  public static final PageIdentifier getMobReference(MobDescription mob)
+  {
+    return new PageIdentifier(MOB_PAGE,mob.getIdentifier());
   }
 }

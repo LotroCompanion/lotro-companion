@@ -260,9 +260,6 @@ public class CharacterConfigurationsPanelController extends AbstractPanelControl
     }
   }
 
-  /**
-   * Release all managed resources.
-   */
   @Override
   public void dispose()
   {

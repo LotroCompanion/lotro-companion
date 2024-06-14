@@ -40,7 +40,6 @@ public class SkillDisplayPanelController implements NavigablePanelController
   // GUI
   private JPanel _panel;
   // Controllers
-  @SuppressWarnings("unused")
   private NavigatorWindowController _parent;
   private SkillReferencesDisplayController _references;
 
