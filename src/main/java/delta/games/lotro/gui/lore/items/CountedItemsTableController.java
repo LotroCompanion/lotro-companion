@@ -17,10 +17,14 @@ import delta.common.ui.swing.tables.TableColumnController;
 import delta.common.ui.swing.tables.TableColumnsManager;
 import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.misc.TypedProperties;
+import delta.games.lotro.common.money.Money;
 import delta.games.lotro.gui.lore.items.chooser.ItemChooser;
 import delta.games.lotro.gui.lore.items.chooser.ItemsTableBuilder;
+import delta.games.lotro.gui.utils.MoneyCellRenderer;
+import delta.games.lotro.gui.utils.l10n.Labels;
 import delta.games.lotro.lore.items.CountedItem;
 import delta.games.lotro.lore.items.Item;
+import delta.games.lotro.lore.items.ItemInstance;
 import delta.games.lotro.lore.items.ItemProvider;
 
 /**
@@ -30,6 +34,10 @@ import delta.games.lotro.lore.items.ItemProvider;
  */
 public class CountedItemsTableController<T extends ItemProvider>
 {
+  /**
+   * Identifier of the "Total Value" column.
+   */
+  public static final String TOTAL_VALUE_COLUMN="TOTAL_VALUE";
   /**
    * Identifier of the "Count" column.
    */
@@ -115,6 +123,7 @@ public class CountedItemsTableController<T extends ItemProvider>
     List<String> columnsIds=new ArrayList<String>();
     columnsIds.add(ItemColumnIds.ICON.name());
     columnsIds.add(COUNT_COLUMN);
+    columnsIds.add(TOTAL_VALUE_COLUMN);
     columnsIds.add(ItemColumnIds.NAME.name());
     return columnsIds;
   }
@@ -128,20 +137,52 @@ public class CountedItemsTableController<T extends ItemProvider>
     List<TableColumnController<CountedItem<T>,?>> ret=new ArrayList<TableColumnController<CountedItem<T>,?>>();
 
     List<TableColumnController<Item,?>> columns=ItemsTableBuilder.initColumns();
+    CellDataProvider<CountedItem<T>,Item> dataProvider=new CellDataProvider<CountedItem<T>,Item>()
+    {
+      @Override
+      public Item getData(CountedItem<T> p)
+      {
+        return p.getItem();
+      }
+    };
     for(TableColumnController<Item,?> column : columns)
     {
-      CellDataProvider<CountedItem<T>,Item> dataProvider=new CellDataProvider<CountedItem<T>,Item>()
+      // Skip value column (redefined below)
+      if (ItemColumnIds.VALUE.name().equals(column.getId()))
+      {
+        ret.add(buildValueColumn());
+      }
+      else
+      {
+        @SuppressWarnings("unchecked")
+        TableColumnController<Item,Object> c=(TableColumnController<Item,Object>)column;
+        TableColumnController<CountedItem<T>,Object> proxiedColumn=new ProxiedTableColumnController<CountedItem<T>,Item,Object>(c,dataProvider);
+        ret.add(proxiedColumn);
+      }
+    }
+    // Total value column
+    {
+      CellDataProvider<CountedItem<T>,Money> valueCell=new CellDataProvider<CountedItem<T>,Money>()
       {
         @Override
-        public Item getData(CountedItem<T> p)
+        public Money getData(CountedItem<T> item)
         {
-          return p.getItem();
+          int quantity=item.getQuantity();
+          T managedItem=item.getManagedItem();
+          Money oneValue=getItemValue(managedItem);
+          if ((oneValue==null) || (quantity==1))
+          {
+            return oneValue;
+          }
+          int newInternalValue=oneValue.getInternalValue()*quantity;
+          Money money=new Money();
+          money.setRawValue(newInternalValue);
+          return money;
         }
       };
-      @SuppressWarnings("unchecked")
-      TableColumnController<Item,Object> c=(TableColumnController<Item,Object>)column;
-      TableColumnController<CountedItem<T>,Object> proxiedColumn=new ProxiedTableColumnController<CountedItem<T>,Item,Object>(c,dataProvider);
-      ret.add(proxiedColumn);
+      DefaultTableColumnController<CountedItem<T>,Money> valueColumn=new DefaultTableColumnController<CountedItem<T>,Money>(TOTAL_VALUE_COLUMN,"Total Value",Money.class,valueCell); // 18n
+      MoneyCellRenderer.configureColumn(valueColumn);
+      ret.add(valueColumn);
     }
     // Count column
     {
@@ -153,11 +194,40 @@ public class CountedItemsTableController<T extends ItemProvider>
           return Integer.valueOf(item.getQuantity());
         }
       };
-      DefaultTableColumnController<CountedItem<T>,Integer> countColumn=new DefaultTableColumnController<CountedItem<T>,Integer>(COUNT_COLUMN,"Count",Integer.class,countCell);
+      DefaultTableColumnController<CountedItem<T>,Integer> countColumn=new DefaultTableColumnController<CountedItem<T>,Integer>(COUNT_COLUMN,"Count",Integer.class,countCell); // 18n
       ColumnsUtils.configureIntegerColumn(countColumn,55);
       ret.add(countColumn);
     }
     return ret;
+  }
+
+  /**
+   * Build a column for the unitary value of an item/item instance.
+   * @return a column.
+   */
+  private static <T extends ItemProvider> DefaultTableColumnController<CountedItem<T>,Money> buildValueColumn()
+  {
+    CellDataProvider<CountedItem<T>,Money> valueCell=new CellDataProvider<CountedItem<T>,Money>()
+    {
+      @Override
+      public Money getData(CountedItem<T> item)
+      {
+        return getItemValue(item.getManagedItem());
+      }
+    };
+    String columnName=Labels.getLabel("items.table.value");
+    DefaultTableColumnController<CountedItem<T>,Money> valueColumn=new DefaultTableColumnController<CountedItem<T>,Money>(ItemColumnIds.VALUE.name(),columnName,Money.class,valueCell);
+    MoneyCellRenderer.configureColumn(valueColumn);
+    return valueColumn;
+  }
+
+  private static <T extends ItemProvider> Money getItemValue(T managedItem)
+  {
+    if (managedItem instanceof ItemInstance)
+    {
+      return ((ItemInstance<?>)managedItem).getEffectiveValue();
+    }
+    return managedItem.getItem().getValueAsMoney();
   }
 
   private void configureTable()

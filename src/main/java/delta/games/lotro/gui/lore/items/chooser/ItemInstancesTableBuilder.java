@@ -26,6 +26,7 @@ import delta.games.lotro.gui.lore.items.ItemColumnIds;
 import delta.games.lotro.gui.lore.items.ItemInstanceColumnIds;
 import delta.games.lotro.gui.lore.items.ItemUiTools;
 import delta.games.lotro.gui.utils.InternalGameIdRenderer;
+import delta.games.lotro.gui.utils.MoneyCellRenderer;
 import delta.games.lotro.gui.utils.UiConfiguration;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemInstance;
@@ -243,20 +244,7 @@ public class ItemInstancesTableBuilder
       columns.add(column);
     }
     // Value column
-    {
-      CellDataProvider<ItemInstance<? extends Item>,Money> cell=new CellDataProvider<ItemInstance<? extends Item>,Money>()
-      {
-        @Override
-        public Money getData(ItemInstance<? extends Item> item)
-        {
-          return item.getEffectiveValue();
-        }
-      };
-      DefaultTableColumnController<ItemInstance<? extends Item>,Money> column=new DefaultTableColumnController<ItemInstance<? extends Item>,Money>(ItemInstanceColumnIds.INSTANCE_VALUE.name(),"Value",Money.class,cell);
-      column.setWidthSpecs(90,90,50);
-      column.setCellRenderer(new MoneyRenderer());
-      columns.add(column);
-    }
+    columns.add(buildValueColumn());
     // Color column
     {
       CellDataProvider<ItemInstance<? extends Item>,ColorDescription> cell=new CellDataProvider<ItemInstance<? extends Item>,ColorDescription>()
@@ -318,6 +306,25 @@ public class ItemInstancesTableBuilder
       columns.add(column);
     }
     return columns;
+  }
+
+  /**
+   * Build a value column.
+   * @return A new column.
+   */
+  public static DefaultTableColumnController<ItemInstance<? extends Item>,Money> buildValueColumn()
+  {
+    CellDataProvider<ItemInstance<? extends Item>,Money> cell=new CellDataProvider<ItemInstance<? extends Item>,Money>()
+    {
+      @Override
+      public Money getData(ItemInstance<? extends Item> item)
+      {
+        return item.getEffectiveValue();
+      }
+    };
+    DefaultTableColumnController<ItemInstance<? extends Item>,Money> column=new DefaultTableColumnController<ItemInstance<? extends Item>,Money>(ItemInstanceColumnIds.INSTANCE_VALUE.name(),"Value",Money.class,cell);
+    MoneyCellRenderer.configureColumn(column);
+    return column;
   }
 
   /**
