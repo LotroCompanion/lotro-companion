@@ -15,14 +15,17 @@ import javax.swing.border.TitledBorder;
 import org.apache.log4j.Logger;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.panel.GenericTablePanelController;
 import delta.common.ui.swing.windows.DefaultWindowController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.misc.TypedProperties;
+import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.gui.lore.agents.mobs.MobsFilterController;
 import delta.games.lotro.gui.lore.agents.mobs.MobsTableController;
 import delta.games.lotro.gui.main.GlobalPreferences;
+import delta.games.lotro.gui.utils.NavigationUtils;
 import delta.games.lotro.lore.agents.mobs.MobDescription;
 import delta.games.lotro.lore.agents.mobs.MobsManager;
 import delta.games.lotro.lore.agents.mobs.filter.MobFilter;
@@ -125,6 +128,8 @@ public class MobsExplorerWindowController extends DefaultWindowController
   private void showMob(MobDescription mob)
   {
     LOGGER.debug("Show mob: "+mob);
+    PageIdentifier ref=ReferenceConstants.getMobReference(mob);
+    NavigationUtils.navigateTo(ref,this);
   }
 
   /**
