@@ -113,8 +113,9 @@ public class MainCharacterWindowController extends DefaultWindowController
     _stats.getPanel();
     _stats.update();
     // XP
+    int level=summary.getLevel();
     long xp=details.getXp();
-    _xp.setXP(xp);
+    _xp.setXP(xp,level);
     // Storage
     CharacterStorageSummary storageSummary=StorageSummaryIO.loadCharacterStorageSummary(_toon);
     // Money

@@ -61,21 +61,35 @@ public class XpDisplayPanelController extends AbstractPanelController
 
   /**
    * Set the displayed XP value.
-   * @param xp
+   * @param xp XP value to set.
+   * @param charLevel Expected character level.
    */
-  public void setXP(long xp)
+  public void setXP(long xp, int charLevel)
   {
     XPTable xpTable=XPTableManager.getInstance().getXPTable();
     int level=xpTable.getLevel(xp);
+    if (level!=charLevel)
+    {
+      level=charLevel;
+      xp=-1;
+    }
     int maxLevel=LotroCoreConfig.getInstance().getMaxCharacterLevel();
     if (level>maxLevel)
     {
       level=maxLevel;
     }
-    _xp.setText("XP: "+L10n.getString(xp));
+    String xpText=(xp<0)?"?":L10n.getString(xp);
+    _xp.setText("XP: "+xpText);
     _currentLevel.setText(L10n.getString(level));
     String nextLevelInfo;
-    if (level==maxLevel)
+    if (xp<0)
+    {
+      _bar.setRange(0,1);
+      _bar.setValue(0);
+      _bar.getProgressBar().setString("?");
+      nextLevelInfo="-";
+    }
+    else if (level==maxLevel)
     {
       _bar.setRange(0,1);
       _bar.setValue(1);
@@ -87,9 +101,10 @@ public class XpDisplayPanelController extends AbstractPanelController
     {
       long minXP=xpTable.getXp(level);
       long maxXP=xpTable.getXp(level+1);
-      // TODO Shall use long values when we'll be at level ~180
-      _bar.setRange(0,(int)(maxXP-minXP));
-      _bar.setValue((int)(xp-minXP));
+      long range=maxXP-minXP;
+      _bar.setRange(0,(int)range);
+      long xpInLevel=xp-minXP;
+      _bar.setValue((int)xpInLevel);
       _bar.setColor(Color.BLUE);
       long xpForLevel=maxXP-minXP;
       float percentage=(100.0f*(xp-minXP))/xpForLevel;
