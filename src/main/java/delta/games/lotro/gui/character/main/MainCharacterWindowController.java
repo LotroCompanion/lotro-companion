@@ -60,7 +60,7 @@ public class MainCharacterWindowController extends DefaultWindowController
   private CharacterStorageSummaryPanelController _storage;
   private MoneyDisplayController _money;
   private HobbiesStatusPanelController _hobbies;
-  private CharacterMainButtonsController _mainButtons;
+  private CharacterMainButtonsController2 _mainButtons;
 
   /**
    * Constructor.
@@ -86,7 +86,7 @@ public class MainCharacterWindowController extends DefaultWindowController
     _money=new MoneyDisplayController();
     HobbiesStatusManager status=HobbiesStatusIo.load(toon);
     _hobbies=new HobbiesStatusPanelController(this,status);
-    _mainButtons=new CharacterMainButtonsController(this,toon);
+    _mainButtons=new CharacterMainButtonsController2(this,toon);
     fill();
   }
 
@@ -141,6 +141,7 @@ public class MainCharacterWindowController extends DefaultWindowController
   @Override
   protected JComponent buildContents()
   {
+    // Header: TODO
     // Tabs
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     JTabbedPane tabs=GuiFactory.buildTabbedPane();
@@ -148,10 +149,6 @@ public class MainCharacterWindowController extends DefaultWindowController
     tabs.add("Gear",buildTab2());
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,1.0,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
     panel.add(tabs,c);
-    // Command buttons
-    JPanel commandsPanel=_mainButtons.getPanel();
-    c=new GridBagConstraints(0,1,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
-    panel.add(commandsPanel,c);
     return panel;
   }
 
@@ -164,8 +161,15 @@ public class MainCharacterWindowController extends DefaultWindowController
     panel.add(column1,c);
     // Crafting & co.
     JPanel column2=buildTab1Column2();
-    c=new GridBagConstraints(1,0,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    c=new GridBagConstraints(1,0,1,1,0.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(column2,c);
+    // Command buttons
+    JPanel commandsPanel=_mainButtons.buildSummaryCommandsPanel();
+    c=new GridBagConstraints(2,0,1,1,0.0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    panel.add(commandsPanel,c);
+    // Glue
+    c=new GridBagConstraints(3,0,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
+    panel.add(Box.createGlue(),c);
     return panel;
   }
 
@@ -227,8 +231,12 @@ public class MainCharacterWindowController extends DefaultWindowController
     JPanel column2=buildTab2Column2();
     c=new GridBagConstraints(1,0,1,1,0.0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(column2,c);
+    // Command buttons
+    JPanel commandsPanel=_mainButtons.buildGearCommandsPanel();
+    c=new GridBagConstraints(2,0,1,1,0.0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    panel.add(commandsPanel,c);
     // Glue
-    c=new GridBagConstraints(2,0,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
+    c=new GridBagConstraints(3,0,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
     panel.add(Box.createGlue(),c);
     return panel;
   }
