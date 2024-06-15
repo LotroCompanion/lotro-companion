@@ -50,7 +50,7 @@ public class HobbiesStatusPanelController
 
   private JPanel buildPanel(WindowController parent, HobbiesStatusManager statusMgr)
   {
-    JPanel ret=GuiFactory.buildBackgroundPanel(new GridBagLayout());
+    JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
     List<HobbyDescription> hobbies=HobbiesManager.getInstance().getAll();
     Collections.sort(hobbies,new NamedComparator());
     int y=0;

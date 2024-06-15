@@ -63,9 +63,11 @@ public class CharacterMainButtonsController extends AbstractPanelController impl
     // Relics inventory statistics
     JButton relicsButton=buildCommandButton("Relics",MainCharacterWindowCommands.RELICS_INVENTORY_COMMAND); // I18n
     panel.add(relicsButton,c);c.gridx++;
+    c.insets.right=0;
+    c.gridx=0;c.gridy++;
+
     // Log
     JButton logButton=buildCommandButton("Log",MainCharacterWindowCommands.LOG_COMMAND); // I18n
-    c.insets.right=5;
     panel.add(logButton,c);c.gridx++;
     // Currencies
     JButton currenciesButton=buildCommandButton("Currencies",MainCharacterWindowCommands.CURRENCIES_COMMAND); // I18n
@@ -82,12 +84,12 @@ public class CharacterMainButtonsController extends AbstractPanelController impl
     // Notes
     JButton notesButton=buildCommandButton("Notes",MainCharacterWindowCommands.NOTES_COMMAND); // I18n
     panel.add(notesButton,c);c.gridx++;
-
-    c.insets.right=0;
-    c.gridx=0;c.gridy++;
     // Quests status
     JButton questsButton=buildCommandButton("Quests",MainCharacterWindowCommands.QUESTS_STATUS_COMMAND); // I18n
     panel.add(questsButton,c);c.gridx++;
+    c.insets.right=0;
+    c.gridx=0;c.gridy++;
+
     // Trait points
     JButton traitPointsButton=buildCommandButton("Trait points",MainCharacterWindowCommands.TRAIT_POINTS_COMMAND); // I18n
     panel.add(traitPointsButton,c);c.gridx++;
@@ -110,6 +112,9 @@ public class CharacterMainButtonsController extends AbstractPanelController impl
     // Travels status
     JButton travelsButton=buildCommandButton("Travels",MainCharacterWindowCommands.TRAVELS_COMMAND); // I18n
     panel.add(travelsButton,c);c.gridx++;
+    c.insets.right=0;
+    c.gridx=0;c.gridy++;
+
     // Outfits
     JButton outfitsButton=buildCommandButton("Outfits",MainCharacterWindowCommands.OUTFITS_COMMAND); // I18n
     panel.add(outfitsButton,c);c.gridx++;

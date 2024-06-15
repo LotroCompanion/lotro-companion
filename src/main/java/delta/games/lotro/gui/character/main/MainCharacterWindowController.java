@@ -4,9 +4,11 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
+import javax.swing.Box;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.DefaultWindowController;
@@ -139,85 +141,127 @@ public class MainCharacterWindowController extends DefaultWindowController
   @Override
   protected JComponent buildContents()
   {
-    // Whole panel
+    // Tabs
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
-    // Column 1
-    JPanel column1Panel=GuiFactory.buildPanel(new GridBagLayout());
+    JTabbedPane tabs=GuiFactory.buildTabbedPane();
+    tabs.add("Summary",buildTab1());
+    tabs.add("Gear",buildTab2());
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,1.0,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
+    panel.add(tabs,c);
+    // Command buttons
+    JPanel commandsPanel=_mainButtons.getPanel();
+    c=new GridBagConstraints(0,1,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    panel.add(commandsPanel,c);
+    return panel;
+  }
+
+  private JPanel buildTab1()
+  {
+    JPanel panel=GuiFactory.buildBackgroundPanel(new GridBagLayout());
+    // Summary
+    JPanel column1=buildTab1Column1();
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    panel.add(column1,c);
+    // Crafting & co.
+    JPanel column2=buildTab1Column2();
+    c=new GridBagConstraints(1,0,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    panel.add(column2,c);
+    return panel;
+  }
+
+  private JPanel buildTab1Column1()
+  {
+    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     // Summary panel
     JPanel summaryPanel=_summaryController.getPanel();
     summaryPanel.setBorder(GuiFactory.buildTitledBorder("Summary"));
     GridBagConstraints c=new GridBagConstraints(0,0,2,1,1,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(3,5,3,5),0,0);
-    column1Panel.add(summaryPanel,c);
+    panel.add(summaryPanel,c);
     // XP
     JPanel xpPanel=_xp.getPanel();
     xpPanel.setBorder(GuiFactory.buildTitledBorder("XP"));
     c=new GridBagConstraints(0,1,2,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
-    column1Panel.add(xpPanel,c);
+    panel.add(xpPanel,c);
     // Storage
     JPanel storagePanel=_storage.getPanel();
     storagePanel.setBorder(GuiFactory.buildTitledBorder("Storage"));
     c=new GridBagConstraints(0,2,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
-    column1Panel.add(storagePanel,c);
-    // Achivements
+    panel.add(storagePanel,c);
+    // Achievements
     JPanel achievementsPanel=_achievements.getPanel();
     achievementsPanel.setBorder(GuiFactory.buildTitledBorder("Achievements"));
     c=new GridBagConstraints(1,2,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
-    column1Panel.add(achievementsPanel,c);
-    // => add column
-    c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
-    panel.add(column1Panel,c);
+    panel.add(achievementsPanel,c);
+    return panel;
+  }
 
-    // Column 2
-    JPanel column2Panel=GuiFactory.buildPanel(new GridBagLayout());
-    // Equipment
-    JPanel gearPanel=_gear.getPanel();
-    gearPanel.setBorder(GuiFactory.buildTitledBorder("Gear"));
-    c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
-    column2Panel.add(gearPanel,c);
-    // Virtues
-    JPanel virtuesPanel=_virtues.getPanel();
-    virtuesPanel.setBorder(GuiFactory.buildTitledBorder("Virtues"));
-    c=new GridBagConstraints(0,1,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
-    column2Panel.add(virtuesPanel,c);
-    // Racial traits
-    JPanel racialTraitPanel=_racialTraits.getPanel();
-    racialTraitPanel.setBorder(GuiFactory.buildTitledBorder("Racial Traits"));
-    c=new GridBagConstraints(0,2,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
-    column2Panel.add(racialTraitPanel,c);
-    // => add column
-    c=new GridBagConstraints(1,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
-    panel.add(column2Panel,c);
-
-    // Stats
-    JPanel statsPanel=_stats.getPanel();
-    statsPanel.setBorder(GuiFactory.buildTitledBorder("Stats"));
-    c=new GridBagConstraints(2,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
-    panel.add(statsPanel,c);
-    // Column 4
-    JPanel column4Panel=GuiFactory.buildPanel(new GridBagLayout());
+  private JPanel buildTab1Column2()
+  {
+    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     // Crafting
     JPanel craftingStatusPanel=_crafting.getPanel();
     craftingStatusPanel.setBorder(GuiFactory.buildTitledBorder("Crafting"));
-    c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
-    column4Panel.add(craftingStatusPanel,c);
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    panel.add(craftingStatusPanel,c);
     // Hobbies
     JPanel hobbiesStatusPanel=_hobbies.getPanel();
     hobbiesStatusPanel.setBorder(GuiFactory.buildTitledBorder("Hobbies"));
     c=new GridBagConstraints(0,1,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
-    column4Panel.add(hobbiesStatusPanel,c);
+    panel.add(hobbiesStatusPanel,c);
     // Money
     JPanel moneyPanel=_money.getPanel();
     moneyPanel.setBorder(GuiFactory.buildTitledBorder("Money"));
     c=new GridBagConstraints(0,2,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
-    column4Panel.add(moneyPanel,c);
-    // => add column
-    c=new GridBagConstraints(3,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
-    panel.add(column4Panel,c);
+    panel.add(moneyPanel,c);
+    return panel;
+  }
 
-    // Command buttons
-    JPanel commandsPanel=_mainButtons.getPanel();
-    c=new GridBagConstraints(0,1,4,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
-    panel.add(commandsPanel,c);
+  private JPanel buildTab2()
+  {
+    JPanel panel=GuiFactory.buildBackgroundPanel(new GridBagLayout());
+    // Gear
+    JPanel column1=buildTab2Column1();
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    panel.add(column1,c);
+    // Stats
+    JPanel column2=buildTab2Column2();
+    c=new GridBagConstraints(1,0,1,1,0.0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    panel.add(column2,c);
+    // Glue
+    c=new GridBagConstraints(2,0,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
+    panel.add(Box.createGlue(),c);
+    return panel;
+  }
+
+  private JPanel buildTab2Column1()
+  {
+    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
+    // Equipment
+    JPanel gearPanel=_gear.getPanel();
+    gearPanel.setBorder(GuiFactory.buildTitledBorder("Gear"));
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    panel.add(gearPanel,c);
+    // Virtues
+    JPanel virtuesPanel=_virtues.getPanel();
+    virtuesPanel.setBorder(GuiFactory.buildTitledBorder("Virtues"));
+    c=new GridBagConstraints(0,1,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    panel.add(virtuesPanel,c);
+    // Racial traits
+    JPanel racialTraitPanel=_racialTraits.getPanel();
+    racialTraitPanel.setBorder(GuiFactory.buildTitledBorder("Racial Traits"));
+    c=new GridBagConstraints(0,2,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    panel.add(racialTraitPanel,c);
+    return panel;
+  }
+
+  private JPanel buildTab2Column2()
+  {
+    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
+    // Stats
+    JPanel statsPanel=_stats.getPanel();
+    statsPanel.setBorder(GuiFactory.buildTitledBorder("Stats"));
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    panel.add(statsPanel,c);
     return panel;
   }
 
