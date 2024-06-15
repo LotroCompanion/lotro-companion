@@ -125,6 +125,9 @@ public class CharacterMainButtonsController extends AbstractPanelController impl
     // PVP
     JButton pvpButton=buildCommandButton("PVP",MainCharacterWindowCommands.PVP_COMMAND); // I18n
     panel.add(pvpButton,c);c.gridx++;
+    // Configurations
+    JButton configsButton=buildCommandButton("Configs",MainCharacterWindowCommands.CONFIGS_COMMAND); // I18n
+    panel.add(configsButton,c);c.gridx++;
 
     // Disable buttons if no log
     boolean hasLog=_toon.hasLog();

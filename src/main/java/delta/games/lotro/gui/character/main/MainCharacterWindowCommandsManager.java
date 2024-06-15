@@ -202,6 +202,10 @@ public class MainCharacterWindowCommandsManager
     {
       showPVPStatus();
     }
+    else if (MainCharacterWindowCommands.CONFIGS_COMMAND.equals(command))
+    {
+      showConfigs();
+    }
   }
 
   private void showStash()
@@ -338,14 +342,14 @@ public class MainCharacterWindowCommandsManager
   private void showStorage()
   {
     WindowsManager windowsManager=getWindowsManager();
-    CharacterStorageDisplayWindowController summaryController=(CharacterStorageDisplayWindowController)windowsManager.getWindow(CharacterStorageDisplayWindowController.IDENTIFIER);
-    if (summaryController==null)
+    CharacterStorageDisplayWindowController windowCtrl=(CharacterStorageDisplayWindowController)windowsManager.getWindow(CharacterStorageDisplayWindowController.IDENTIFIER);
+    if (windowCtrl==null)
     {
-      summaryController=new CharacterStorageDisplayWindowController(_parent,_toon);
-      windowsManager.registerWindow(summaryController);
-      summaryController.getWindow().setLocationRelativeTo(_parent.getWindow());
+      windowCtrl=new CharacterStorageDisplayWindowController(_parent,_toon);
+      windowsManager.registerWindow(windowCtrl);
+      windowCtrl.getWindow().setLocationRelativeTo(_parent.getWindow());
     }
-    summaryController.bringToFront();
+    windowCtrl.bringToFront();
   }
 
   private void showAllegiancesStatus()
@@ -481,6 +485,20 @@ public class MainCharacterWindowCommandsManager
     windowCtrl.show();
   }
 
+  private void showConfigs()
+  {
+    WindowsManager windowsManager=getWindowsManager();
+    CharacterConfigsWindowController windowCtrl=(CharacterConfigsWindowController)windowsManager.getWindow(CharacterConfigsWindowController.IDENTIFIER);
+    if (windowCtrl==null)
+    {
+      windowCtrl=new CharacterConfigsWindowController(_toon);
+      windowsManager.registerWindow(windowCtrl);
+      windowCtrl.getWindow().setLocationRelativeTo(_parent.getWindow());
+    }
+    windowCtrl.show();
+  }
+
+  
   private WindowsManager getWindowsManager()
   {
     return _parent.getWindowsManager();

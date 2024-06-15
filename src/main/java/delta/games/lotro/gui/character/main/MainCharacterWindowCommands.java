@@ -7,6 +7,10 @@ package delta.games.lotro.gui.character.main;
 public class MainCharacterWindowCommands
 {
   /**
+   * Command: configs.
+   */
+  public static final String CONFIGS_COMMAND="configs";
+  /**
    * Command: show the character log.
    */
   public static final String LOG_COMMAND="log";
