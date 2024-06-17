@@ -3,8 +3,11 @@ package delta.games.lotro.gui.character.main;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.Box;
+import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -48,10 +51,12 @@ public class MainCharacterWindowController extends DefaultWindowController
 {
   // Data
   private CharacterFile _toon;
+  // UI
+  private CharacterMainButtonsManager _buttonsMgr;
   // Controllers
   private CharacterSummaryPanelController _summaryController;
   private AchievementsSummaryPanelController _achievements;
-  private CraftingStatusSummaryPanelController _crafting;
+  private CraftingStatusSummaryPanelController _craftingStatus;
   private EquipmentDisplayPanelController _gear;
   private VirtuesDisplayPanelController _virtues;
   private RacialTraitsDisplayPanelController _racialTraits;
@@ -60,7 +65,6 @@ public class MainCharacterWindowController extends DefaultWindowController
   private CharacterStorageSummaryPanelController _storage;
   private MoneyDisplayController _money;
   private HobbiesStatusPanelController _hobbies;
-  private CharacterMainButtonsController2 _mainButtons;
 
   /**
    * Constructor.
@@ -70,10 +74,10 @@ public class MainCharacterWindowController extends DefaultWindowController
   {
     _toon=toon;
     setContextProperty(ContextPropertyNames.BASE_CHARACTER_SUMMARY,toon.getSummary());
+    _buttonsMgr=new CharacterMainButtonsManager(this,toon);
     _summaryController=new CharacterSummaryPanelController(this);
-    setContextProperty(ContextPropertyNames.BASE_CHARACTER_SUMMARY,toon.getSummary());
     _achievements=new AchievementsSummaryPanelController(this);
-    _crafting=new CraftingStatusSummaryPanelController();
+    _craftingStatus=new CraftingStatusSummaryPanelController();
     CharacterData current=_toon.getInfosManager().getCurrentData();
     _gear=new EquipmentDisplayPanelController(this,current.getEquipment());
     _gear.initButtonListeners();
@@ -86,7 +90,6 @@ public class MainCharacterWindowController extends DefaultWindowController
     _money=new MoneyDisplayController();
     HobbiesStatusManager status=HobbiesStatusIo.load(toon);
     _hobbies=new HobbiesStatusPanelController(this,status);
-    _mainButtons=new CharacterMainButtonsController2(this,toon);
     fill();
   }
 
@@ -103,7 +106,7 @@ public class MainCharacterWindowController extends DefaultWindowController
     CraftingStatus status=_toon.getCraftingMgr().getCraftingStatus();
     CraftingStatusSummaryBuilder b=new CraftingStatusSummaryBuilder();
     CraftingStatusSummary craftingSummary=b.buildSummary(status);
-    _crafting.setStatus(craftingSummary);
+    _craftingStatus.setStatus(craftingSummary);
     // Virtues
     CharacterData current=_toon.getInfosManager().getCurrentData();
     VirtuesSet virtues=current.getVirtues();
@@ -159,16 +162,12 @@ public class MainCharacterWindowController extends DefaultWindowController
     JPanel column1=buildTab1Column1();
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(column1,c);
-    // Crafting & co.
+    // Crafting, capabilities and hobbies
     JPanel column2=buildTab1Column2();
-    c=new GridBagConstraints(1,0,1,1,0.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    c=new GridBagConstraints(1,0,1,1,0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(column2,c);
-    // Command buttons
-    JPanel commandsPanel=_mainButtons.buildSummaryCommandsPanel();
-    c=new GridBagConstraints(2,0,1,1,0.0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
-    panel.add(commandsPanel,c);
     // Glue
-    c=new GridBagConstraints(3,0,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
+    c=new GridBagConstraints(2,0,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
     panel.add(Box.createGlue(),c);
     return panel;
   }
@@ -186,38 +185,156 @@ public class MainCharacterWindowController extends DefaultWindowController
     xpPanel.setBorder(GuiFactory.buildTitledBorder("XP"));
     c=new GridBagConstraints(0,1,2,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(xpPanel,c);
+    // Wealth
+    JPanel wealthPanel=buildWealthPanel();
+    c=new GridBagConstraints(0,2,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    panel.add(wealthPanel,c);
+    return panel;
+  }
+
+  private JPanel buildWealthPanel()
+  {
+    JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
     // Storage
     JPanel storagePanel=_storage.getPanel();
     storagePanel.setBorder(GuiFactory.buildTitledBorder("Storage"));
-    c=new GridBagConstraints(0,2,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
-    panel.add(storagePanel,c);
-    // Achievements
-    JPanel achievementsPanel=_achievements.getPanel();
-    achievementsPanel.setBorder(GuiFactory.buildTitledBorder("Achievements"));
-    c=new GridBagConstraints(1,2,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
-    panel.add(achievementsPanel,c);
-    return panel;
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    ret.add(storagePanel,c);
+    // Money
+    JPanel moneyPanel=_money.getPanel();
+    moneyPanel.setBorder(GuiFactory.buildTitledBorder("Money"));
+    c=new GridBagConstraints(0,1,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    ret.add(moneyPanel,c);
+    // Buttons
+    List<JButton> buttons=new ArrayList<JButton>();
+    buttons.add(_buttonsMgr.getButton(MainCharacterWindowCommands.STORAGE_COMMAND));
+    buttons.add(_buttonsMgr.getButton(MainCharacterWindowCommands.CURRENCIES_COMMAND));
+    JPanel buttonsPanel=buildVerticalPanel(buttons,buttons.size());
+    c=new GridBagConstraints(1,0,1,2,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    ret.add(buttonsPanel,c);
+    ret.setBorder(GuiFactory.buildTitledBorder("Wealth"));
+    return ret;
   }
 
   private JPanel buildTab1Column2()
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
-    // Crafting
-    JPanel craftingStatusPanel=_crafting.getPanel();
-    craftingStatusPanel.setBorder(GuiFactory.buildTitledBorder("Crafting"));
-    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    // - Crafting
+    JPanel craftingStatusPanel=buildCraftingPanel();
+    GridBagConstraints c=new GridBagConstraints(0,0,1,2,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(craftingStatusPanel,c);
+    // Capabilities
+    JPanel capabilitiesPanel=buildCapabilitiesPanel();
+    c=new GridBagConstraints(1,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    panel.add(capabilitiesPanel,c);
     // Hobbies
     JPanel hobbiesStatusPanel=_hobbies.getPanel();
     hobbiesStatusPanel.setBorder(GuiFactory.buildTitledBorder("Hobbies"));
-    c=new GridBagConstraints(0,1,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    c=new GridBagConstraints(1,1,2,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(hobbiesStatusPanel,c);
-    // Money
-    JPanel moneyPanel=_money.getPanel();
-    moneyPanel.setBorder(GuiFactory.buildTitledBorder("Money"));
-    c=new GridBagConstraints(0,2,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
-    panel.add(moneyPanel,c);
+    // Misc
+    JPanel miscButtons=buildMiscButtonsPanel();
+    c=new GridBagConstraints(2,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    panel.add(miscButtons,c);
+    // Achievements
+    JPanel achievementsPanel=buildAchievementsPanel();
+    c=new GridBagConstraints(0,2,3,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    panel.add(achievementsPanel,c);
+    // Reputation
+    JPanel reputationPanel=buildReputationPanel();
+    c=new GridBagConstraints(0,3,3,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    panel.add(reputationPanel,c);
     return panel;
+  }
+
+  private JPanel buildCraftingPanel()
+  {
+    JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
+    // Crafting status
+    JPanel craftingStatusPanel=_craftingStatus.getPanel();
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    ret.add(craftingStatusPanel,c);
+    // Buttons
+    List<JButton> buttons=new ArrayList<JButton>();
+    buttons.add(_buttonsMgr.getButton(MainCharacterWindowCommands.CRAFTING_COMMAND));
+    buttons.add(_buttonsMgr.getButton(MainCharacterWindowCommands.RECIPES_STATUS_COMMAND));
+    JPanel buttonsPanel=buildHorizontalPanel(buttons,buttons.size());
+    c=new GridBagConstraints(0,1,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    ret.add(buttonsPanel,c);
+    ret.setBorder(GuiFactory.buildTitledBorder("Crafting"));
+    return ret;
+  }
+
+  private JPanel buildAchievementsPanel()
+  {
+    JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
+    // Summary
+    JPanel summaryPanel=_achievements.getPanel();
+    summaryPanel.setBorder(GuiFactory.buildTitledBorder("Summary"));
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    ret.add(summaryPanel,c);
+    // Buttons
+    JPanel buttonsPanel=buildAchievementsButtonsPanel();
+    c=new GridBagConstraints(1,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    ret.add(buttonsPanel,c);
+    ret.setBorder(GuiFactory.buildTitledBorder("Achievements"));
+    return ret;
+  }
+
+  private JPanel buildAchievementsButtonsPanel()
+  {
+    JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
+    List<JButton> buttonsLine1=new ArrayList<JButton>();
+    buttonsLine1.add(_buttonsMgr.getButton(MainCharacterWindowCommands.QUESTS_STATUS_COMMAND));
+    buttonsLine1.add(_buttonsMgr.getButton(MainCharacterWindowCommands.DEEDS_STATUS_COMMAND));
+    buttonsLine1.add(_buttonsMgr.getButton(MainCharacterWindowCommands.TITLES_STATUS_COMMAND));
+    JPanel line1=buildHorizontalPanel(buttonsLine1,buttonsLine1.size());
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    ret.add(line1,c);
+    List<JButton> buttonsLine2=new ArrayList<JButton>();
+    buttonsLine2.add(_buttonsMgr.getButton(MainCharacterWindowCommands.TASKS_STATUS_COMMAND));
+    buttonsLine2.add(_buttonsMgr.getButton(MainCharacterWindowCommands.SKIRMISH_STATS_COMMAND));
+    JPanel line2=buildHorizontalPanel(buttonsLine2,buttonsLine2.size());
+    c=new GridBagConstraints(0,1,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    ret.add(line2,c);
+    return ret;
+  }
+
+  private JPanel buildReputationPanel()
+  {
+    // Buttons
+    List<JButton> buttons=new ArrayList<JButton>();
+    buttons.add(_buttonsMgr.getButton(MainCharacterWindowCommands.REPUTATION_COMMAND));
+    buttons.add(_buttonsMgr.getButton(MainCharacterWindowCommands.ALLEGIANCES_COMMAND));
+    JPanel ret=buildHorizontalPanel(buttons,buttons.size());
+    ret.setBorder(GuiFactory.buildTitledBorder("Reputation"));
+    return ret;
+  }
+
+  private JPanel buildCapabilitiesPanel()
+  {
+    // Buttons
+    List<JButton> buttons=new ArrayList<JButton>();
+    buttons.add(_buttonsMgr.getButton(MainCharacterWindowCommands.EMOTES_COMMAND));
+    buttons.add(_buttonsMgr.getButton(MainCharacterWindowCommands.MOUNTS_COMMAND));
+    buttons.add(_buttonsMgr.getButton(MainCharacterWindowCommands.MOUNTED_APPEARANCES_COMMAND));
+    buttons.add(_buttonsMgr.getButton(MainCharacterWindowCommands.TRAVELS_COMMAND));
+    buttons.add(_buttonsMgr.getButton(MainCharacterWindowCommands.PETS_COMMAND));
+    JPanel ret=buildVerticalPanel(buttons,buttons.size());
+    ret.setBorder(GuiFactory.buildTitledBorder("Capabilities"));
+    return ret;
+  }
+
+  private JPanel buildMiscButtonsPanel()
+  {
+    // Buttons
+    List<JButton> buttons=new ArrayList<JButton>();
+    buttons.add(_buttonsMgr.getButton(MainCharacterWindowCommands.LEVEL_COMMAND));
+    buttons.add(_buttonsMgr.getButton(MainCharacterWindowCommands.LOG_COMMAND));
+    buttons.add(_buttonsMgr.getButton(MainCharacterWindowCommands.NOTES_COMMAND));
+    JPanel ret=buildVerticalPanel(buttons,buttons.size());
+    ret.setBorder(GuiFactory.buildTitledBorder("Misc."));
+    return ret;
   }
 
   private JPanel buildTab2()
@@ -232,11 +349,14 @@ public class MainCharacterWindowController extends DefaultWindowController
     c=new GridBagConstraints(1,0,1,1,0.0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(column2,c);
     // Command buttons
-    JPanel commandsPanel=_mainButtons.buildGearCommandsPanel();
+    JPanel buttonsPanel=buildTab2ButtonsPanel();
     c=new GridBagConstraints(2,0,1,1,0.0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
-    panel.add(commandsPanel,c);
+    panel.add(buttonsPanel,c);
+    JPanel bottomPanel=buildTab2BottomPanel();
+    c=new GridBagConstraints(0,1,3,1,0.0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    panel.add(bottomPanel,c);
     // Glue
-    c=new GridBagConstraints(3,0,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
+    c=new GridBagConstraints(0,2,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
     panel.add(Box.createGlue(),c);
     return panel;
   }
@@ -262,6 +382,29 @@ public class MainCharacterWindowController extends DefaultWindowController
     return panel;
   }
 
+  private JPanel buildTab2BottomPanel()
+  {
+    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
+    // Racial traits
+    JPanel racialTraitPanel=_racialTraits.getPanel();
+    racialTraitPanel.setBorder(GuiFactory.buildTitledBorder("Racial Traits"));
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    panel.add(racialTraitPanel,c);
+    // Buttons
+    JPanel buttonsPanel=buildTab2BottomButtonsPanel();
+    c=new GridBagConstraints(1,0,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    panel.add(buttonsPanel,c);
+    return panel;
+  }
+
+  private JPanel buildTab2BottomButtonsPanel()
+  {
+    List<JButton> buttons=new ArrayList<JButton>();
+    // TODO Trait tree, BB Tree, Mounted tree
+    buttons.add(_buttonsMgr.getButton(MainCharacterWindowCommands.SKIRMISH_TRAITS_COMMAND));
+    return buildHorizontalPanel(buttons,buttons.size());
+  }
+
   private JPanel buildTab2Column2()
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
@@ -270,6 +413,60 @@ public class MainCharacterWindowController extends DefaultWindowController
     statsPanel.setBorder(GuiFactory.buildTitledBorder("Stats"));
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(statsPanel,c);
+    return panel;
+  }
+
+  private JPanel buildTab2ButtonsPanel()
+  {
+    List<JButton> buttons=new ArrayList<JButton>();
+    buttons.add(_buttonsMgr.getButton(MainCharacterWindowCommands.STASH_COMMAND));
+    buttons.add(_buttonsMgr.getButton(MainCharacterWindowCommands.RELICS_INVENTORY_COMMAND));
+    buttons.add(_buttonsMgr.getButton(MainCharacterWindowCommands.OUTFITS_COMMAND));
+    buttons.add(_buttonsMgr.getButton(MainCharacterWindowCommands.PVP_COMMAND));
+    return buildVerticalPanel(buttons,buttons.size());
+  }
+
+  private JPanel buildVerticalPanel(List<JButton> buttons, int nbPerColumn)
+  {
+    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,2,5,2),0,0);
+    for(JButton button : buttons)
+    {
+      panel.add(button,c);
+      c.gridy++;
+      if (c.gridy==nbPerColumn)
+      {
+        c.gridy=0;
+        c.gridx++;
+        c.insets.top=5;
+      }
+      else if (c.gridy>0)
+      {
+        c.insets.top=0;
+      }
+    }
+    return panel;
+  }
+
+  private JPanel buildHorizontalPanel(List<JButton> buttons, int nbPerLine)
+  {
+    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,5,2,5),0,0);
+    for(JButton button : buttons)
+    {
+      panel.add(button,c);
+      c.gridx++;
+      if (c.gridx==nbPerLine)
+      {
+        c.gridx=0;
+        c.gridy++;
+        c.insets.left=5;
+      }
+      else if (c.gridy>0)
+      {
+        c.insets.left=0;
+      }
+    }
     return panel;
   }
 
@@ -303,6 +500,11 @@ public class MainCharacterWindowController extends DefaultWindowController
   public void dispose()
   {
     super.dispose();
+    if (_buttonsMgr!=null)
+    {
+      _buttonsMgr.dispose();
+      _buttonsMgr=null;
+    }
     if (_summaryController!=null)
     {
       _summaryController.dispose();
@@ -313,10 +515,10 @@ public class MainCharacterWindowController extends DefaultWindowController
       _achievements.dispose();
       _achievements=null;
     }
-    if (_crafting!=null)
+    if (_craftingStatus!=null)
     {
-      _crafting.dispose();
-      _crafting=null;
+      _craftingStatus.dispose();
+      _craftingStatus=null;
     }
     if (_gear!=null)
     {
@@ -357,11 +559,6 @@ public class MainCharacterWindowController extends DefaultWindowController
     {
       _hobbies.dispose();
       _hobbies=null;
-    }
-    if (_mainButtons!=null)
-    {
-      _mainButtons.dispose();
-      _mainButtons=null;
     }
     if (_toon!=null)
     {
