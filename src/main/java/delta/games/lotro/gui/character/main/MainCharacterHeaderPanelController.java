@@ -12,6 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.panels.AbstractPanelController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharacterSummary;
@@ -29,15 +30,12 @@ import delta.games.lotro.utils.events.GenericEventsListener;
  * Controller for character header panel.
  * @author DAM
  */
-public class MainCharacterHeaderPanelController implements GenericEventsListener<CharacterEvent>
+public class MainCharacterHeaderPanelController extends AbstractPanelController implements GenericEventsListener<CharacterEvent>
 {
   // Data
   private CharacterFile _toon;
   private CharacterSummary _summary;
-  // Controllers
-  private WindowController _parent;
   // UI
-  private JPanel _panel;
   private JLabel _nameLabel;
   private JLabel _levelLabel;
   private JLabel _characterIconLabel;
@@ -49,23 +47,11 @@ public class MainCharacterHeaderPanelController implements GenericEventsListener
    */
   public MainCharacterHeaderPanelController(WindowController parent, CharacterFile toon)
   {
-    _parent=parent;
+    super(parent);
     _toon=toon;
     _summary=toon.getSummary();
+    setPanel(buildPanel());
     EventsManager.addListener(CharacterEvent.class,this);
-  }
-
-  /**
-   * Get the managed panel.
-   * @return a panel.
-   */
-  public JPanel getPanel()
-  {
-    if (_panel==null)
-    {
-      _panel=buildPanel();
-    }
-    return _panel;
   }
 
   private JPanel buildPanel()
@@ -122,7 +108,7 @@ public class MainCharacterHeaderPanelController implements GenericEventsListener
 
   private void editSummary()
   {
-    CharacterSummaryDialogController dialog=new CharacterSummaryDialogController(_parent,_summary);
+    CharacterSummaryDialogController dialog=new CharacterSummaryDialogController(getWindowController(),_summary);
     CharacterSummary summary=dialog.editModal();
     if (summary!=null)
     {
@@ -155,44 +141,37 @@ public class MainCharacterHeaderPanelController implements GenericEventsListener
    */
   public void update()
   {
-    if (_summary!=null)
+    if (_summary==null)
     {
-      // Name/region
-      String name=_summary.getName();
-      String region=_summary.getRegion();
-      String text=name;
-      if ((region!=null) && (region.length()>0))
-      {
-        text=text+" of "+region; // I18n
-      }
-      _nameLabel.setText(text);
-      // Level
-      int level=_summary.getLevel();
-      _levelLabel.setText(String.valueOf(level));
-      // Character icon
-      RaceDescription race=_summary.getRace();
-      CharacterSex sex=_summary.getCharacterSex();
-      ImageIcon characterIcon=LotroIconsManager.getCharacterIcon(race,sex);
-      _characterIconLabel.setIcon(characterIcon);
+      return;
     }
+    // Name/region
+    String name=_summary.getName();
+    String region=_summary.getRegion();
+    String text=name;
+    if ((region!=null) && (region.length()>0))
+    {
+      text=text+" of "+region; // I18n
+    }
+    _nameLabel.setText(text);
+    // Level
+    int level=_summary.getLevel();
+    _levelLabel.setText(String.valueOf(level));
+    // Character icon
+    RaceDescription race=_summary.getRace();
+    CharacterSex sex=_summary.getCharacterSex();
+    ImageIcon characterIcon=LotroIconsManager.getCharacterIcon(race,sex);
+    _characterIconLabel.setIcon(characterIcon);
   }
 
-  /**
-   * Release all managed resources.
-   */
+  @Override
   public void dispose()
   {
+    super.dispose();
     // Listeners
     EventsManager.removeListener(CharacterEvent.class,this);
-    // Controllers
-    _parent=null;
     // UI
     _characterIconLabel=null;
-    if (_panel!=null)
-    {
-      _panel.removeAll();
-      _panel=null;
-    }
     // Data
     _toon=null;
     _summary=null;
