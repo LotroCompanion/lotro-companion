@@ -2,6 +2,7 @@ package delta.games.lotro.gui.character.main;
 
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.ui.swing.windows.WindowsManager;
+import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharacterSummary;
 import delta.games.lotro.character.events.CharacterEvent;
@@ -26,6 +27,7 @@ import delta.games.lotro.character.status.titles.TitlesStatusManager;
 import delta.games.lotro.character.status.titles.io.TitlesStatusIo;
 import delta.games.lotro.character.status.traitPoints.TraitPoints;
 import delta.games.lotro.character.status.traitPoints.TraitPointsStatus;
+import delta.games.lotro.character.status.traitTree.TraitTreeStatus;
 import delta.games.lotro.gui.character.cosmetics.OutfitsDisplayWindowController;
 import delta.games.lotro.gui.character.log.CharacterLogWindowController;
 import delta.games.lotro.gui.character.stash.StashWindowController;
@@ -52,6 +54,7 @@ import delta.games.lotro.gui.character.status.traits.mountedAppearances.MountedA
 import delta.games.lotro.gui.character.status.traits.skirmish.SkirmishTraitsStatusWindowController;
 import delta.games.lotro.gui.character.status.travels.TravelsStatusWindowController;
 import delta.games.lotro.gui.character.storage.own.CharacterStorageDisplayWindowController;
+import delta.games.lotro.gui.character.traitTree.TraitTreeWindowController;
 import delta.games.lotro.utils.events.EventsManager;
 
 /**
@@ -201,6 +204,10 @@ public class MainCharacterWindowCommandsManager
     else if (MainCharacterWindowCommands.PVP_COMMAND.equals(command))
     {
       showPVPStatus();
+    }
+    else if (MainCharacterWindowCommands.TRAIT_TREE_COMMAND.equals(command))
+    {
+      showTraitTree();
     }
     else if (MainCharacterWindowCommands.CONFIGS_COMMAND.equals(command))
     {
@@ -480,6 +487,20 @@ public class MainCharacterWindowCommandsManager
     if (windowCtrl==null)
     {
       windowCtrl=new PvpStatusWindowController(_parent,_toon);
+      windowsManager.registerWindow(windowCtrl);
+    }
+    windowCtrl.show();
+  }
+
+  private void showTraitTree()
+  {
+    WindowsManager windowsManager=getWindowsManager();
+    TraitTreeWindowController windowCtrl=(TraitTreeWindowController)windowsManager.getWindow(TraitTreeWindowController.IDENTIFIER);
+    if (windowCtrl==null)
+    {
+      CharacterData data=_toon.getInfosManager().getCurrentData();
+      TraitTreeStatus traitTreeStatus=data.getTraits().getTraitTreeStatus();
+      windowCtrl=new TraitTreeWindowController(_parent,data,traitTreeStatus);
       windowsManager.registerWindow(windowCtrl);
     }
     windowCtrl.show();

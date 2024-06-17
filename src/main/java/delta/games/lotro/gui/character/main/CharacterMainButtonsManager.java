@@ -101,6 +101,8 @@ public class CharacterMainButtonsManager implements ActionListener
     buildCommandButton("Outfits",MainCharacterWindowCommands.OUTFITS_COMMAND);
     // PVP
     buildCommandButton("PVP",MainCharacterWindowCommands.PVP_COMMAND);
+    // Trait Tree
+    buildCommandButton("Trait Tree",MainCharacterWindowCommands.TRAIT_TREE_COMMAND);
     // Configurations
     buildCommandButton("Configs",MainCharacterWindowCommands.CONFIGS_COMMAND);
   }

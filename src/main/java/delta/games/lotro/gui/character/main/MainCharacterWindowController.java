@@ -405,7 +405,8 @@ public class MainCharacterWindowController extends DefaultWindowController
   private JPanel buildTab2BottomButtonsPanel()
   {
     List<JButton> buttons=new ArrayList<JButton>();
-    // TODO Trait tree, BB Tree, Mounted tree
+    // Later: BB Tree, Mounted tree
+    buttons.add(_buttonsMgr.getButton(MainCharacterWindowCommands.TRAIT_TREE_COMMAND));
     buttons.add(_buttonsMgr.getButton(MainCharacterWindowCommands.SKIRMISH_TRAITS_COMMAND));
     return buildHorizontalPanel(buttons,buttons.size());
   }

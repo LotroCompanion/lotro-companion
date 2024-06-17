@@ -114,4 +114,8 @@ public class MainCharacterWindowCommands
    * Command: show PVP status.
    */
   public static final String PVP_COMMAND="pvp";
+  /**
+   * Command: show trait tree.
+   */
+  public static final String TRAIT_TREE_COMMAND="traitTree";
 }

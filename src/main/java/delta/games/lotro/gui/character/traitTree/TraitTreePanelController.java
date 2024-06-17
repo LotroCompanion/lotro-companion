@@ -49,28 +49,38 @@ public class TraitTreePanelController
   // Data
   private TraitTree _tree;
   private TraitTreeStatus _status;
+  private boolean _edition;
 
   /**
    * Constructor.
    * @param parent Parent window controller.
    * @param toon Character data.
    * @param status Trait tree status to show.
+   * @param edition Allow edition or not.
    */
-  public TraitTreePanelController(WindowController parent,CharacterData toon,TraitTreeStatus status)
+  public TraitTreePanelController(WindowController parent,CharacterData toon,TraitTreeStatus status,boolean edition)
   {
     _parent=parent;
     _tree=status.getTraitTree();
     _status=status;
+    _edition=edition;
     _side=new TraitTreeSidePanelController(toon,_tree,status);
     _branches=new ArrayList<TraitTreeBranchPanelController>();
-    MouseListener listener=buildMouseListener();
     for(TraitTreeBranch branch : _tree.getBranches())
     {
       TraitTreeBranchPanelController branchCtrl=new TraitTreeBranchPanelController(toon,branch,status);
-      branchCtrl.setMouseListener(listener);
       _branches.add(branchCtrl);
     }
+    if (_edition)
+    {
+      MouseListener listener=buildMouseListener();
+      for(TraitTreeBranchPanelController branchCtrl : _branches)
+      {
+        branchCtrl.setMouseListener(listener);
+      }
+    }
     _branchCombo=buildBranchCombo();
+    _branchCombo.getComboBox().setEnabled(edition);
   }
 
   private ComboBoxController<TraitTreeBranch> buildBranchCombo()
@@ -247,33 +257,36 @@ public class TraitTreePanelController
     c.gridx++;
     c.weightx=0.0;
     c.fill=GridBagConstraints.NONE;
-    // Buttons
-    // - load
-    JButton load=GuiFactory.buildButton("Load from template..."); // I18n
-    ActionListener alLoad=new ActionListener()
+    if (_edition)
     {
-      @Override
-      public void actionPerformed(ActionEvent e)
+      // Buttons
+      // - load
+      JButton load=GuiFactory.buildButton("Load from template..."); // I18n
+      ActionListener alLoad=new ActionListener()
       {
-        loadFromTemplate();
-      }
-    };
-    load.addActionListener(alLoad);
-    ret.add(load,c);
-    c.gridx++;
-    // - save
-    JButton save=GuiFactory.buildButton("Save as template..."); // I18n
-    ActionListener alSave=new ActionListener()
-    {
-      @Override
-      public void actionPerformed(ActionEvent e)
+        @Override
+        public void actionPerformed(ActionEvent e)
+        {
+          loadFromTemplate();
+        }
+      };
+      load.addActionListener(alLoad);
+      ret.add(load,c);
+      c.gridx++;
+      // - save
+      JButton save=GuiFactory.buildButton("Save as template..."); // I18n
+      ActionListener alSave=new ActionListener()
       {
-        saveAsTemplate();
-      }
-    };
-    save.addActionListener(alSave);
-    ret.add(save,c);
-    c.gridx++;
+        @Override
+        public void actionPerformed(ActionEvent e)
+        {
+          saveAsTemplate();
+        }
+      };
+      save.addActionListener(alSave);
+      ret.add(save,c);
+      c.gridx++;
+    }
     return ret;
   }
 
