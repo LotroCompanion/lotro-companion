@@ -26,10 +26,10 @@ import delta.games.lotro.utils.events.EventsManager;
 import delta.games.lotro.utils.events.GenericEventsListener;
 
 /**
- * Controller for character summary panel.
+ * Controller for character header panel.
  * @author DAM
  */
-public class CharacterSummaryPanelController implements GenericEventsListener<CharacterEvent>
+public class MainCharacterHeaderPanelController implements GenericEventsListener<CharacterEvent>
 {
   // Data
   private CharacterFile _toon;
@@ -47,7 +47,7 @@ public class CharacterSummaryPanelController implements GenericEventsListener<Ch
    * @param parent Parent window.
    * @param toon Toon to display.
    */
-  public CharacterSummaryPanelController(WindowController parent, CharacterFile toon)
+  public MainCharacterHeaderPanelController(WindowController parent, CharacterFile toon)
   {
     _parent=parent;
     _toon=toon;

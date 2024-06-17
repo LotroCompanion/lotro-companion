@@ -54,6 +54,7 @@ public class MainCharacterWindowController extends DefaultWindowController
   // UI
   private CharacterMainButtonsManager _buttonsMgr;
   // Controllers
+  private MainCharacterHeaderPanelController _header;
   private CharacterSummaryPanelController _summaryController;
   private AchievementsSummaryPanelController _achievements;
   private CraftingStatusSummaryPanelController _craftingStatus;
@@ -74,6 +75,7 @@ public class MainCharacterWindowController extends DefaultWindowController
   {
     _toon=toon;
     setContextProperty(ContextPropertyNames.BASE_CHARACTER_SUMMARY,toon.getSummary());
+    _header=new MainCharacterHeaderPanelController(this,_toon);
     _buttonsMgr=new CharacterMainButtonsManager(this,toon);
     _summaryController=new CharacterSummaryPanelController(this);
     _achievements=new AchievementsSummaryPanelController(this);
@@ -144,13 +146,16 @@ public class MainCharacterWindowController extends DefaultWindowController
   @Override
   protected JComponent buildContents()
   {
-    // Header: TODO
-    // Tabs
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
+    // Header
+    JPanel headerPanel=_header.getPanel();
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(3,5,3,5),0,0);
+    panel.add(headerPanel,c);
+    // Tabs
     JTabbedPane tabs=GuiFactory.buildTabbedPane();
     tabs.add("Summary",buildTab1());
     tabs.add("Gear",buildTab2());
-    GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,1.0,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
+    c=new GridBagConstraints(0,1,1,1,1.0,1.0,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
     panel.add(tabs,c);
     return panel;
   }
@@ -504,6 +509,11 @@ public class MainCharacterWindowController extends DefaultWindowController
     {
       _buttonsMgr.dispose();
       _buttonsMgr=null;
+    }
+    if (_header!=null)
+    {
+      _header.dispose();
+      _header=null;
     }
     if (_summaryController!=null)
     {

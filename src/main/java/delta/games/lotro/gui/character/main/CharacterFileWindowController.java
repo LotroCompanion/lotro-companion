@@ -22,7 +22,7 @@ public class CharacterFileWindowController extends DefaultWindowController
   // Data
   private CharacterFile _toon;
   // Controllers
-  private CharacterSummaryPanelController _summaryController;
+  private MainCharacterHeaderPanelController _summaryController;
   private CharacterConfigurationsPanelController _configsController;
   private CharacterMainButtonsController _mainButtons;
 
@@ -33,7 +33,7 @@ public class CharacterFileWindowController extends DefaultWindowController
   public CharacterFileWindowController(CharacterFile toon)
   {
     _toon=toon;
-    _summaryController=new CharacterSummaryPanelController(this,_toon);
+    _summaryController=new MainCharacterHeaderPanelController(this,_toon);
     setContextProperty(ContextPropertyNames.BASE_CHARACTER_SUMMARY,toon.getSummary());
     _configsController=new CharacterConfigurationsPanelController(this,toon);
     _mainButtons=new CharacterMainButtonsController(this,toon);
