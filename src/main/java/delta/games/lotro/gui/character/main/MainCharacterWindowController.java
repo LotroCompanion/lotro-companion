@@ -224,30 +224,40 @@ public class MainCharacterWindowController extends DefaultWindowController
   private JPanel buildTab1Column2()
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
-    // - Crafting
+    // Top panel (achievements and reputation)
+    JPanel topPanel=buildTopPanel();
+    GridBagConstraints c=new GridBagConstraints(0,0,3,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    panel.add(topPanel,c);
+    // Crafting
     JPanel craftingStatusPanel=buildCraftingPanel();
-    GridBagConstraints c=new GridBagConstraints(0,0,1,2,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    c=new GridBagConstraints(0,1,1,2,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(craftingStatusPanel,c);
     // Capabilities
     JPanel capabilitiesPanel=buildCapabilitiesPanel();
-    c=new GridBagConstraints(1,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    c=new GridBagConstraints(1,1,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(capabilitiesPanel,c);
     // Hobbies
     JPanel hobbiesStatusPanel=_hobbies.getPanel();
     hobbiesStatusPanel.setBorder(GuiFactory.buildTitledBorder("Hobbies"));
-    c=new GridBagConstraints(1,1,2,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    c=new GridBagConstraints(1,2,2,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(hobbiesStatusPanel,c);
     // Misc
     JPanel miscButtons=buildMiscButtonsPanel();
-    c=new GridBagConstraints(2,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    c=new GridBagConstraints(2,1,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(miscButtons,c);
+    return panel;
+  }
+
+  private JPanel buildTopPanel()
+  {
+    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     // Achievements
     JPanel achievementsPanel=buildAchievementsPanel();
-    c=new GridBagConstraints(0,2,3,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(achievementsPanel,c);
     // Reputation
     JPanel reputationPanel=buildReputationPanel();
-    c=new GridBagConstraints(0,3,3,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    c=new GridBagConstraints(1,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(reputationPanel,c);
     return panel;
   }
@@ -311,7 +321,7 @@ public class MainCharacterWindowController extends DefaultWindowController
     List<JButton> buttons=new ArrayList<JButton>();
     buttons.add(_buttonsMgr.getButton(MainCharacterWindowCommands.REPUTATION_COMMAND));
     buttons.add(_buttonsMgr.getButton(MainCharacterWindowCommands.ALLEGIANCES_COMMAND));
-    JPanel ret=buildHorizontalPanel(buttons,buttons.size());
+    JPanel ret=buildVerticalPanel(buttons,buttons.size());
     ret.setBorder(GuiFactory.buildTitledBorder("Reputation"));
     return ret;
   }
@@ -361,7 +371,7 @@ public class MainCharacterWindowController extends DefaultWindowController
     c=new GridBagConstraints(0,1,3,1,0.0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(bottomPanel,c);
     // Glue
-    c=new GridBagConstraints(0,2,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
+    c=new GridBagConstraints(3,2,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
     panel.add(Box.createGlue(),c);
     return panel;
   }
