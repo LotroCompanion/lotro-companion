@@ -7,9 +7,7 @@ import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.games.lotro.character.BasicCharacterAttributes;
-import delta.games.lotro.character.classes.ClassDescription;
 import delta.games.lotro.character.status.traitPoints.TraitPoints;
-import delta.games.lotro.character.status.traitPoints.TraitPointsStatus;
 
 /**
  * Controller for trait points summary panel.
@@ -19,18 +17,15 @@ public class TraitPointsSummaryPanelController
 {
   private JPanel _panel;
   private BasicCharacterAttributes _attrs;
-  private TraitPointsStatus _status;
   private JLabel _nameLabel;
 
   /**
    * Constructor.
    * @param attrs Attributes of toon to use.
-   * @param status Trait points status.
    */
-  public TraitPointsSummaryPanelController(BasicCharacterAttributes attrs, TraitPointsStatus status)
+  public TraitPointsSummaryPanelController(BasicCharacterAttributes attrs)
   {
     _attrs=attrs;
-    _status=status;
   }
 
   /**
@@ -67,12 +62,9 @@ public class TraitPointsSummaryPanelController
 
   private String getPoints()
   {
-    ClassDescription characterClass=_attrs.getCharacterClass();
     int level=_attrs.getLevel();
-    int maxPoints=TraitPoints.get().getMaxTraitPoints(characterClass,level);
-    int points=_status.getPointsCount(level);
-    String ret=points+" / "+maxPoints;
-    return ret;
+    int points=TraitPoints.getTraitPointsFromLevel(level);
+    return String.valueOf(points);
   }
 
   /**
@@ -88,7 +80,6 @@ public class TraitPointsSummaryPanelController
     }
     _nameLabel=null;
     // Data
-    _status=null;
     _attrs=null;
   }
 }

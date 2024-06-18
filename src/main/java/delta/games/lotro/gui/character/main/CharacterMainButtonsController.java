@@ -90,9 +90,6 @@ public class CharacterMainButtonsController extends AbstractPanelController impl
     c.insets.right=0;
     c.gridx=0;c.gridy++;
 
-    // Trait points
-    JButton traitPointsButton=buildCommandButton("Trait points",MainCharacterWindowCommands.TRAIT_POINTS_COMMAND); // I18n
-    panel.add(traitPointsButton,c);c.gridx++;
     // Allegiances status
     JButton allegiancesButton=buildCommandButton("Allegiances",MainCharacterWindowCommands.ALLEGIANCES_COMMAND); // I18n
     panel.add(allegiancesButton,c);c.gridx++;

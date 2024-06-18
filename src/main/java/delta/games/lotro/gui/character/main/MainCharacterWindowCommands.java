@@ -31,10 +31,6 @@ public class MainCharacterWindowCommands
    */
   public static final String STASH_COMMAND="stash";
   /**
-   * Command: trait points edition.
-   */
-  public static final String TRAIT_POINTS_COMMAND="traitPoints";
-  /**
    * Command: edit deeds status.
    */
   public static final String DEEDS_STATUS_COMMAND="deedsStatus";

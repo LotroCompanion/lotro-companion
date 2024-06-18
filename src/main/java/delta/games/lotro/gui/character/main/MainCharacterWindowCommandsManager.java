@@ -4,7 +4,6 @@ import delta.common.ui.swing.windows.WindowController;
 import delta.common.ui.swing.windows.WindowsManager;
 import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.CharacterFile;
-import delta.games.lotro.character.CharacterSummary;
 import delta.games.lotro.character.events.CharacterEvent;
 import delta.games.lotro.character.events.CharacterEventType;
 import delta.games.lotro.character.status.achievables.AchievablesStatusManager;
@@ -25,8 +24,6 @@ import delta.games.lotro.character.status.skirmishes.io.SkirmishStatsIo;
 import delta.games.lotro.character.status.tasks.TasksStatusManager;
 import delta.games.lotro.character.status.titles.TitlesStatusManager;
 import delta.games.lotro.character.status.titles.io.TitlesStatusIo;
-import delta.games.lotro.character.status.traitPoints.TraitPoints;
-import delta.games.lotro.character.status.traitPoints.TraitPointsStatus;
 import delta.games.lotro.character.status.traitTree.TraitTreeStatus;
 import delta.games.lotro.gui.character.cosmetics.OutfitsDisplayWindowController;
 import delta.games.lotro.gui.character.log.CharacterLogWindowController;
@@ -49,7 +46,6 @@ import delta.games.lotro.gui.character.status.reputation.CharacterReputationDial
 import delta.games.lotro.gui.character.status.skirmishes.SkirmishStatisticsWindowController;
 import delta.games.lotro.gui.character.status.tasks.TasksStatusWindowController;
 import delta.games.lotro.gui.character.status.titles.TitlesStatusWindowController;
-import delta.games.lotro.gui.character.status.traitPoints.TraitPointsEditionWindowController;
 import delta.games.lotro.gui.character.status.traits.mountedAppearances.MountedAppearancesStatusWindowController;
 import delta.games.lotro.gui.character.status.traits.skirmish.SkirmishTraitsStatusWindowController;
 import delta.games.lotro.gui.character.status.travels.TravelsStatusWindowController;
@@ -120,10 +116,6 @@ public class MainCharacterWindowCommandsManager
     else if (MainCharacterWindowCommands.STASH_COMMAND.equals(command))
     {
       showStash();
-    }
-    else if (MainCharacterWindowCommands.TRAIT_POINTS_COMMAND.equals(command))
-    {
-      editTraitPoints();
     }
     else if (MainCharacterWindowCommands.DEEDS_STATUS_COMMAND.equals(command))
     {
@@ -230,18 +222,6 @@ public class MainCharacterWindowCommandsManager
       controller.getWindow().setLocationRelativeTo(_parent.getWindow());
     }
     controller.bringToFront();
-  }
-
-  private void editTraitPoints()
-  {
-    CharacterSummary summary=_toon.getSummary();
-    TraitPointsStatus pointsStatus=TraitPoints.get().load(_toon);
-    TraitPointsEditionWindowController controller=new TraitPointsEditionWindowController(_parent,summary,pointsStatus);
-    TraitPointsStatus newStatus=controller.editModal();
-    if (newStatus!=null)
-    {
-      TraitPoints.get().save(_toon,newStatus);
-    }
   }
 
   private void editDeedsStatus()

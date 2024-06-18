@@ -28,16 +28,12 @@ import delta.common.ui.swing.windows.WindowController;
 import delta.common.ui.swing.windows.WindowsManager;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.character.CharacterFile;
-import delta.games.lotro.character.classes.ClassDescription;
 import delta.games.lotro.character.events.CharacterEvent;
 import delta.games.lotro.character.events.CharacterEventType;
 import delta.games.lotro.character.status.achievables.AchievableStatus;
 import delta.games.lotro.character.status.achievables.AchievablesStatusManager;
-import delta.games.lotro.character.status.achievables.SyncAchievablesStatusAndTraitPoints;
 import delta.games.lotro.character.status.achievables.filter.DeedStatusFilter;
 import delta.games.lotro.character.status.reputation.ReputationStatus;
-import delta.games.lotro.character.status.traitPoints.TraitPoints;
-import delta.games.lotro.character.status.traitPoints.TraitPointsStatus;
 import delta.games.lotro.common.blacklist.Blacklist;
 import delta.games.lotro.common.blacklist.io.BlackListIO;
 import delta.games.lotro.gui.character.status.achievables.AchievableUIMode;
@@ -308,11 +304,6 @@ public class DeedsStatusWindowController extends DefaultFormDialogController<Ach
       CharacterEvent event=new CharacterEvent(CharacterEventType.CHARACTER_REPUTATION_UPDATED,_toon,null);
       EventsManager.invokeEvent(event);
     }
-    // Sync trait points
-    TraitPointsStatus pointsStatus=TraitPoints.get().load(_toon);
-    ClassDescription characterClass=_toon.getSummary().getCharacterClass();
-    SyncAchievablesStatusAndTraitPoints.syncTraitPointsFromDeeds(characterClass,pointsStatus,_data);
-    TraitPoints.get().save(_toon,pointsStatus);
   }
 
   /**
