@@ -10,6 +10,7 @@ import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
@@ -30,6 +31,7 @@ import delta.games.lotro.character.status.summary.io.AchievementsSummaryIO;
 import delta.games.lotro.character.status.traits.shared.TraitSlotsStatus;
 import delta.games.lotro.character.storage.summary.CharacterStorageSummary;
 import delta.games.lotro.character.storage.summary.StorageSummaryIO;
+import delta.games.lotro.common.Duration;
 import delta.games.lotro.gui.character.config.CharacterStatsSummaryPanelController;
 import delta.games.lotro.gui.character.gear.EquipmentDisplayPanelController;
 import delta.games.lotro.gui.character.main.summary.CharacterSummaryPanelController;
@@ -57,6 +59,7 @@ public class MainCharacterWindowController extends DefaultWindowController
   private MainCharacterHeaderPanelController _header;
   private CharacterSummaryPanelController _summaryController;
   private AchievementsSummaryPanelController _achievements;
+  private JLabel _inGameTime;
   private CraftingStatusSummaryPanelController _craftingStatus;
   private EquipmentDisplayPanelController _gear;
   private VirtuesDisplayPanelController _virtues;
@@ -79,6 +82,7 @@ public class MainCharacterWindowController extends DefaultWindowController
     _buttonsMgr=new CharacterMainButtonsManager(this,toon);
     _summaryController=new CharacterSummaryPanelController(this);
     _achievements=new AchievementsSummaryPanelController(this);
+    _inGameTime=GuiFactory.buildLabel("");
     _craftingStatus=new CraftingStatusSummaryPanelController();
     CharacterData current=_toon.getInfosManager().getCurrentData();
     _gear=new EquipmentDisplayPanelController(this,current.getEquipment());
@@ -104,6 +108,8 @@ public class MainCharacterWindowController extends DefaultWindowController
     // Achievements
     AchievementsSummary achievements=AchievementsSummaryIO.loadAchievementsSummary(_toon);
     _achievements.setSummary(achievements);
+    int inGameTime=details.getIngameTime();
+    _inGameTime.setText(Duration.getDurationString(inGameTime));
     // Crafting
     CraftingStatus status=_toon.getCraftingMgr().getCraftingStatus();
     CraftingStatusSummaryBuilder b=new CraftingStatusSummaryBuilder();
@@ -286,13 +292,27 @@ public class MainCharacterWindowController extends DefaultWindowController
     // Summary
     JPanel summaryPanel=_achievements.getPanel();
     summaryPanel.setBorder(GuiFactory.buildTitledBorder("Summary"));
-    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    GridBagConstraints c=new GridBagConstraints(0,0,1,2,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     ret.add(summaryPanel,c);
+    // In-game time
+    JPanel inGameTimePanel=buildInGameTimePanel();
+    c=new GridBagConstraints(1,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,5,2,5),0,0);
+    ret.add(inGameTimePanel,c);
     // Buttons
     JPanel buttonsPanel=buildAchievementsButtonsPanel();
-    c=new GridBagConstraints(1,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    c=new GridBagConstraints(1,1,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     ret.add(buttonsPanel,c);
     ret.setBorder(GuiFactory.buildTitledBorder("Achievements"));
+    return ret;
+  }
+
+  private JPanel buildInGameTimePanel()
+  {
+    JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    ret.add(GuiFactory.buildLabel("In-game time: "),c);
+    c=new GridBagConstraints(1,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    ret.add(_inGameTime,c);
     return ret;
   }
 
@@ -536,6 +556,7 @@ public class MainCharacterWindowController extends DefaultWindowController
       _achievements.dispose();
       _achievements=null;
     }
+    _inGameTime=null;
     if (_craftingStatus!=null)
     {
       _craftingStatus.dispose();
