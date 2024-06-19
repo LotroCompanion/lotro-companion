@@ -87,7 +87,8 @@ public class TraitsEditionPanelController
     TraitsStatus traitsStatus=_toon.getTraits();
     TraitTreeStatus status=traitsStatus.getTraitTreeStatus();
     TraitTreeStatus toEdit=new TraitTreeStatus(status);
-    TraitTreeEditionDialog dialog=new TraitTreeEditionDialog(_parentWindow,_toon,toEdit);
+    int level=_toon.getLevel();
+    TraitTreeEditionDialog dialog=new TraitTreeEditionDialog(_parentWindow,level,toEdit);
     TraitTreeStatus result=dialog.editModal();
     if (result!=null)
     {

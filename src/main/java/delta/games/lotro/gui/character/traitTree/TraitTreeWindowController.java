@@ -6,7 +6,6 @@ import javax.swing.JPanel;
 
 import delta.common.ui.swing.windows.DefaultWindowController;
 import delta.common.ui.swing.windows.WindowController;
-import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.status.traitTree.TraitTreeStatus;
 
 /**
@@ -25,13 +24,13 @@ public class TraitTreeWindowController extends DefaultWindowController
   /**
    * Constructor.
    * @param parentController Parent controller.
-   * @param toon Character data.
+   * @param level Character level.
    * @param status Status to edit.
    */
-  public TraitTreeWindowController(WindowController parentController, CharacterData toon, TraitTreeStatus status)
+  public TraitTreeWindowController(WindowController parentController, int level, TraitTreeStatus status)
   {
     super(parentController);
-    _treePanel=new TraitTreePanelController(this,toon,status,false);
+    _treePanel=new TraitTreePanelController(this,level,status,false);
   }
 
   @Override

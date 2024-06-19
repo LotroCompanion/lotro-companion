@@ -12,7 +12,6 @@ import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
-import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.classes.traitTree.TraitTreeBranch;
 import delta.games.lotro.character.classes.traitTree.TraitTreeCell;
 import delta.games.lotro.character.status.traitTree.TraitTreeStatus;
@@ -37,17 +36,17 @@ public class TraitTreeBranchPanelController
 
   /**
    * Constructor.
-   * @param toon Character data.
+   * @param level Character level.
    * @param branch Branch to show.
    * @param status Trait tree status to show.
    */
-  public TraitTreeBranchPanelController(CharacterData toon, TraitTreeBranch branch, TraitTreeStatus status)
+  public TraitTreeBranchPanelController(int level, TraitTreeBranch branch, TraitTreeStatus status)
   {
     _branch=branch;
     _status=status;
     _dependenciesPanel=new TraitTreeDependenciesPanelController(branch);
     _cells=new HashMap<String,TraitTreeCellController>();
-    init(toon);
+    init(level);
     updateUi();
   }
 
@@ -74,14 +73,14 @@ public class TraitTreeBranchPanelController
     return _cells.get(cellId);
   }
 
-  private void init(CharacterData toon)
+  private void init(int level)
   {
     List<String> cellIds=_branch.getCells();
     for(String cellId : cellIds)
     {
       TraitTreeCell cell=_branch.getCell(cellId);
       TraitDescription trait=cell.getTrait();
-      TraitTreeCellController cellController=new TraitTreeCellController(toon,cellId,trait);
+      TraitTreeCellController cellController=new TraitTreeCellController(level,cellId,trait);
       _cells.put(cellId,cellController);
     }
   }

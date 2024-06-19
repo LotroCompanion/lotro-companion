@@ -9,7 +9,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 import delta.common.ui.swing.icons.IconWithText;
-import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.character.stats.StatsComputer;
 import delta.games.lotro.character.traits.TraitDescription;
@@ -22,7 +21,7 @@ import delta.games.lotro.gui.utils.StatDisplayUtils;
  */
 public class TraitTreeCellController
 {
-  private CharacterData _toon;
+  private int _level;
   private String _cellId;
   private TraitDescription _trait;
   private JButton _button;
@@ -33,13 +32,13 @@ public class TraitTreeCellController
 
   /**
    * Constructor.
-   * @param toon Character data.
+   * @param level Character level.
    * @param cellId Identifier of the managed cell.
    * @param trait Associated trait.
    */
-  public TraitTreeCellController(CharacterData toon, String cellId, TraitDescription trait)
+  public TraitTreeCellController(int level, String cellId, TraitDescription trait)
   {
-    _toon=toon;
+    _level=level;
     _cellId=cellId;
     _button=new JButton();
     _button.setBorderPainted(false);
@@ -55,7 +54,7 @@ public class TraitTreeCellController
     BasicStatsSet stats;
     if (rank>0)
     {
-      stats=StatsComputer.getStats(_toon,_trait,rank);
+      stats=StatsComputer.getStats(_level,_trait,rank);
     }
     else
     {
@@ -175,7 +174,6 @@ public class TraitTreeCellController
    */
   public void dispose()
   {
-    _toon=null;
     _cellId=null;
     _trait=null;
     _button=null;

@@ -22,7 +22,6 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.common.ui.swing.combobox.ItemSelectionListener;
 import delta.common.ui.swing.windows.WindowController;
-import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.classes.traitTree.TraitTree;
 import delta.games.lotro.character.classes.traitTree.TraitTreeBranch;
 import delta.games.lotro.character.classes.traitTree.setup.TraitTreeSetup;
@@ -54,21 +53,21 @@ public class TraitTreePanelController
   /**
    * Constructor.
    * @param parent Parent window controller.
-   * @param toon Character data.
+   * @param level Character level.
    * @param status Trait tree status to show.
    * @param edition Allow edition or not.
    */
-  public TraitTreePanelController(WindowController parent,CharacterData toon,TraitTreeStatus status,boolean edition)
+  public TraitTreePanelController(WindowController parent,int level,TraitTreeStatus status,boolean edition)
   {
     _parent=parent;
     _tree=status.getTraitTree();
     _status=status;
     _edition=edition;
-    _side=new TraitTreeSidePanelController(toon,_tree,status);
+    _side=new TraitTreeSidePanelController(level,_tree,status);
     _branches=new ArrayList<TraitTreeBranchPanelController>();
     for(TraitTreeBranch branch : _tree.getBranches())
     {
-      TraitTreeBranchPanelController branchCtrl=new TraitTreeBranchPanelController(toon,branch,status);
+      TraitTreeBranchPanelController branchCtrl=new TraitTreeBranchPanelController(level,branch,status);
       _branches.add(branchCtrl);
     }
     if (_edition)
@@ -185,8 +184,9 @@ public class TraitTreePanelController
 
   private void updatePoints()
   {
-    _status.setCost(_status.computeCost());
-    _points.setText(String.valueOf(_status.getCost()));
+    int cost=_status.computeCost();
+    _status.setCost(cost);
+    _points.setText(String.valueOf(cost));
   }
 
   /**

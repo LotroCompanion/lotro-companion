@@ -23,7 +23,8 @@ public class MainTestTraitTreeDisplay
   private void showTree(CharacterData data)
   {
     TraitTreeStatus status=data.getTraits().getTraitTreeStatus();
-    TraitTreeEditionDialog dialog=new TraitTreeEditionDialog(null,data,status);
+    int level=data.getLevel();
+    TraitTreeEditionDialog dialog=new TraitTreeEditionDialog(null,level,status);
     TraitTreeStatus result=dialog.editModal();
     if (result!=null)
     {

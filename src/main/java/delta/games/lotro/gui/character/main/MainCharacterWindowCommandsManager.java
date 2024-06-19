@@ -480,7 +480,8 @@ public class MainCharacterWindowCommandsManager
     {
       CharacterData data=_toon.getInfosManager().getCurrentData();
       TraitTreeStatus traitTreeStatus=data.getTraits().getTraitTreeStatus();
-      windowCtrl=new TraitTreeWindowController(_parent,data,traitTreeStatus);
+      int level=data.getLevel();
+      windowCtrl=new TraitTreeWindowController(_parent,level,traitTreeStatus);
       windowsManager.registerWindow(windowCtrl);
     }
     windowCtrl.show();

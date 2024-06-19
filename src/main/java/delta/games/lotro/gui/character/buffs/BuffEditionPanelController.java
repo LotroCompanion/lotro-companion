@@ -122,7 +122,7 @@ public class BuffEditionPanelController implements ActionListener
 
   private BuffIconController buildBuffController(BuffInstance buff)
   {
-    BuffIconController controller=new BuffIconController(buff,_toon);
+    BuffIconController controller=new BuffIconController(buff,_toon.getLevel());
     JLabel label=controller.getLabel();
     label.setName(buff.getBuff().getId());
     MouseListener popupListener=buildRightClickListener();

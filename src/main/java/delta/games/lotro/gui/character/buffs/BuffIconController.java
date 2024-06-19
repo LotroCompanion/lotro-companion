@@ -7,7 +7,6 @@ import javax.swing.JLabel;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.icons.IconWithText;
-import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.character.stats.buffs.Buff;
 import delta.games.lotro.character.stats.buffs.BuffInstance;
@@ -21,19 +20,19 @@ import delta.games.lotro.gui.utils.StatDisplayUtils;
 public class BuffIconController
 {
   private BuffInstance _buff;
-  private CharacterData _toon;
+  private int _level;
   private JLabel _label;
   private IconWithText _icon;
 
   /**
    * Constructor.
    * @param buff Buff to use.
-   * @param toon Parent toon.
+   * @param level Character level.
    */
-  public BuffIconController(BuffInstance buff, CharacterData toon)
+  public BuffIconController(BuffInstance buff, int level)
   {
     _buff=buff;
-    _toon=toon;
+    _level=level;
     _icon=buildBuffIcon(buff);
     _label=GuiFactory.buildIconLabel(_icon);
     _label.setSize(_icon.getIconWidth(),_icon.getIconHeight());
@@ -91,7 +90,7 @@ public class BuffIconController
   private String buildToolTip()
   {
     Buff buff=_buff.getBuff();
-    BasicStatsSet stats=_buff.getStats(_toon);
+    BasicStatsSet stats=_buff.getStats(_level);
     String html=StatDisplayUtils.buildToolTip(buff.getLabel(),stats);
     return html;
   }
