@@ -26,6 +26,7 @@ import delta.games.lotro.character.classes.traitTree.TraitTree;
 import delta.games.lotro.character.classes.traitTree.TraitTreeBranch;
 import delta.games.lotro.character.classes.traitTree.setup.TraitTreeSetup;
 import delta.games.lotro.character.classes.traitTree.setup.TraitTreeSetupsManager;
+import delta.games.lotro.character.status.traitPoints.TraitPoints;
 import delta.games.lotro.character.status.traitTree.TraitTreeStatus;
 import delta.games.lotro.character.traits.TraitDescription;
 import delta.games.lotro.gui.character.traitTree.setup.TraitTreeSetupAttrsDialogController;
@@ -46,6 +47,7 @@ public class TraitTreePanelController
   private List<TraitTreeBranchPanelController> _branches;
   private ComboBoxController<TraitTreeBranch> _branchCombo;
   // Data
+  private int _level;
   private TraitTree _tree;
   private TraitTreeStatus _status;
   private boolean _edition;
@@ -60,6 +62,7 @@ public class TraitTreePanelController
   public TraitTreePanelController(WindowController parent,int level,TraitTreeStatus status,boolean edition)
   {
     _parent=parent;
+    _level=level;
     _tree=status.getTraitTree();
     _status=status;
     _edition=edition;
@@ -186,7 +189,8 @@ public class TraitTreePanelController
   {
     int cost=_status.computeCost();
     _status.setCost(cost);
-    _points.setText(String.valueOf(cost));
+    int max=TraitPoints.getTraitPointsFromLevel(_level);
+    _points.setText(cost+" / "+max);
   }
 
   /**
