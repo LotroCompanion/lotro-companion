@@ -30,8 +30,8 @@ import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.games.lotro.character.races.NationalityDescription;
 import delta.games.lotro.character.races.RaceDescription;
 import delta.games.lotro.character.races.RaceGender;
-import delta.games.lotro.character.races.RaceTrait;
 import delta.games.lotro.character.traits.TraitDescription;
+import delta.games.lotro.character.utils.TraitAndLevel;
 import delta.games.lotro.common.Genders;
 import delta.games.lotro.common.comparators.NamedComparator;
 import delta.games.lotro.common.enums.TraitNature;
@@ -235,8 +235,8 @@ public class RaceDisplayPanelController implements NavigablePanelController
       gadgets.put(entry.getKey(),gadget);
     }
     // Update level data
-    List<RaceTrait> traits=_race.getTraits();
-    for(RaceTrait raceTrait : traits)
+    List<TraitAndLevel> traits=_race.getTraits();
+    for(TraitAndLevel raceTrait : traits)
     {
       TraitDescription trait=raceTrait.getTrait();
       Integer key=Integer.valueOf(trait.getIdentifier());
@@ -264,8 +264,8 @@ public class RaceDisplayPanelController implements NavigablePanelController
   private Map<Integer,TraitDescription> getTraits()
   {
     Map<Integer,TraitDescription> map=new HashMap<Integer,TraitDescription>();
-    List<RaceTrait> traits=_race.getTraits();
-    for(RaceTrait raceTrait : traits)
+    List<TraitAndLevel> traits=_race.getTraits();
+    for(TraitAndLevel raceTrait : traits)
     {
       TraitDescription trait=raceTrait.getTrait();
       Integer key=Integer.valueOf(trait.getIdentifier());
