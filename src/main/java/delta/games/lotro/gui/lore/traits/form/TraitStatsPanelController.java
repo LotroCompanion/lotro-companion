@@ -54,8 +54,8 @@ public class TraitStatsPanelController
   private JPanel build()
   {
     StatsProvider statsProvider=_trait.getStatsProvider();
-    int nbStats=statsProvider.getNumberOfStatProviders();
-    if (nbStats<1)
+    List<StatProvider> statProviders=statsProvider.getStatProviders();
+    if (statProviders.isEmpty())
     {
       return null;
     }
@@ -63,7 +63,7 @@ public class TraitStatsPanelController
     List<RawTablePanelController> tables=new ArrayList<RawTablePanelController>();
     for(int i=0;i<nbTiers;i++)
     {
-      DataTable table=buildTable(statsProvider,i+1,nbTiers);
+      DataTable table=buildTable(statProviders,i+1,nbTiers);
       RawTablePanelController tableController=new RawTablePanelController(table);
       tables.add(tableController);
     }
@@ -90,15 +90,15 @@ public class TraitStatsPanelController
     return ret;
   }
 
-  private DataTable buildTable(StatsProvider statsProvider, int tier, int nbTiers)
+  private DataTable buildTable(List<StatProvider> statProviders, int tier, int nbTiers)
   {
     DataTable ret=new DataTable();
-    int nbStats=statsProvider.getNumberOfStatProviders();
+    int nbStats=statProviders.size();
     // Columns
     ret.addColumn("0","Level",Integer.class,null);
     for(int i=0;i<nbStats;i++)
     {
-      StatProvider statProvider=statsProvider.getStatProvider(i);
+      StatProvider statProvider=statProviders.get(i);
       StatDescription stat=statProvider.getStat();
       String statName=stat.getName();
       ret.addColumn(String.valueOf(i+1),statName,String.class,null);
@@ -111,7 +111,7 @@ public class TraitStatsPanelController
       row.setData(0,Integer.valueOf(i));
       for(int statIndex=0;statIndex<nbStats;statIndex++)
       {
-        StatProvider statProvider=statsProvider.getStatProvider(statIndex);
+        StatProvider statProvider=statProviders.get(statIndex);
         Float rawValue=getStatValue(i,tier,nbTiers,statProvider);
         if (rawValue!=null)
         {

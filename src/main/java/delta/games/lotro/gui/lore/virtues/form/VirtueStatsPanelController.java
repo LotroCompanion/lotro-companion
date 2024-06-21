@@ -2,6 +2,7 @@ package delta.games.lotro.gui.lore.virtues.form;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.util.List;
 
 import javax.swing.JPanel;
 
@@ -49,7 +50,7 @@ public class VirtueStatsPanelController
   private JPanel build()
   {
     StatsProvider statsProvider=_virtue.getStatsProvider();
-    int nbStats=statsProvider.getNumberOfStatProviders();
+    int nbStats=statsProvider.getStatProviders().size();
     if (nbStats<1)
     {
       return null;
@@ -59,14 +60,14 @@ public class VirtueStatsPanelController
     // Header cells
     {
       StatsProvider activeStatsProvider=_virtue.getStatsProvider();
-      int nbActiveStats=activeStatsProvider.getNumberOfStatProviders();
+      int nbActiveStats=activeStatsProvider.getStatProviders().size();
       if (nbActiveStats>0)
       {
         String label=(nbActiveStats>1)?"Active bonuses":"Passive bonus";
         tableController.setHeaderCell(1,nbActiveStats,label,Color.LIGHT_GRAY);
       }
       StatsProvider passiveStatsProvider=_virtue.getPassiveStatsProvider();
-      int nbPassiveStats=passiveStatsProvider.getNumberOfStatProviders();
+      int nbPassiveStats=passiveStatsProvider.getStatProviders().size();
       if (nbPassiveStats>0)
       {
         String label=(nbPassiveStats>1)?"Passive bonuses":"Passive bonus";
@@ -84,19 +85,21 @@ public class VirtueStatsPanelController
     // Columns
     ret.addColumn("0","Rank",Integer.class,null);
     StatsProvider activeStatsProvider=_virtue.getStatsProvider();
-    int nbActiveStats=activeStatsProvider.getNumberOfStatProviders();
+    List<StatProvider> activeStatProviders=activeStatsProvider.getStatProviders();
+    int nbActiveStats=activeStatProviders.size();
     for(int i=0;i<nbActiveStats;i++)
     {
-      StatProvider statProvider=activeStatsProvider.getStatProvider(i);
+      StatProvider statProvider=activeStatProviders.get(i);
       StatDescription stat=statProvider.getStat();
       String statName=stat.getName();
       ret.addColumn(String.valueOf(i+1),statName,String.class,null);
     }
     StatsProvider passiveStatsProvider=_virtue.getPassiveStatsProvider();
-    int nbPassiveStats=passiveStatsProvider.getNumberOfStatProviders();
+    List<StatProvider> passiveStatProviders=passiveStatsProvider.getStatProviders();
+    int nbPassiveStats=passiveStatProviders.size();
     for(int i=0;i<nbPassiveStats;i++)
     {
-      StatProvider statProvider=passiveStatsProvider.getStatProvider(i);
+      StatProvider statProvider=passiveStatProviders.get(i);
       StatDescription stat=statProvider.getStat();
       String statName=stat.getName();
       ret.addColumn(String.valueOf(nbActiveStats+i+1),statName,String.class,null);
@@ -112,7 +115,7 @@ public class VirtueStatsPanelController
       BasicStatsSet activeStats=mgr.getContribution(_virtue,i,false);
       for(int statIndex=0;statIndex<nbActiveStats;statIndex++)
       {
-        StatProvider statProvider=activeStatsProvider.getStatProvider(statIndex);
+        StatProvider statProvider=activeStatProviders.get(statIndex);
         StatDescription stat=statProvider.getStat();
         Number value=activeStats.getStat(stat);
         if (value!=null)
@@ -124,7 +127,7 @@ public class VirtueStatsPanelController
       BasicStatsSet passiveStats=mgr.getContribution(_virtue,i,true);
       for(int statIndex=0;statIndex<nbPassiveStats;statIndex++)
       {
-        StatProvider statProvider=passiveStatsProvider.getStatProvider(statIndex);
+        StatProvider statProvider=passiveStatProviders.get(statIndex);
         StatDescription stat=statProvider.getStat();
         Number value=passiveStats.getStat(stat);
         if (value!=null)

@@ -52,10 +52,8 @@ public class TraceryUiUtils
     {
       Item item=tracery.getItem();
       StatsProvider statsProvider=item.getStatsProvider();
-      int nbProviders=statsProvider.getNumberOfStatProviders();
-      for(int i=0;i<nbProviders;i++)
+      for(StatProvider statProvider : statsProvider.getStatProviders())
       {
-        StatProvider statProvider=statsProvider.getStatProvider(i);
         StatDescription statDescription=statProvider.getStat();
         values.add(statDescription);
       }
