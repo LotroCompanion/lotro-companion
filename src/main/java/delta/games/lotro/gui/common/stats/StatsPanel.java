@@ -87,7 +87,8 @@ public class StatsPanel
    */
   public static void fillStatsPanel(JPanel panel, BasicStatsSet stats)
   {
-    fillStatsPanel(panel,stats,(StatsProvider)null);
+    List<String> lines=StatUtils.getStatsForDisplay(stats);
+    fillStatsPanel(panel,lines);
   }
 
   /**
@@ -98,24 +99,29 @@ public class StatsPanel
    */
   public static void fillStatsPanel(JPanel panel, BasicStatsSet stats, StatsProvider provider)
   {
-    panel.removeAll();
+    List<String> lines=StatUtils.getFullStatsForDisplay(stats,provider);
+    fillStatsPanel(panel,lines);
+  }
 
+  /**
+   * Fill a panel with stats.
+   * @param panel Panel to use.
+   * @param lines Lines to show.
+   */
+  private static void fillStatsPanel(JPanel panel, List<String> lines)
+  {
+    panel.removeAll();
     int rowIndex=0;
     GridBagConstraints strutConstraints=new GridBagConstraints(0,rowIndex,1,1,0.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,5,0,0),0,0);
     panel.add(Box.createHorizontalStrut(100),strutConstraints);
     rowIndex++;
 
-    int statsCount=stats.getStatsCount();
-    if (statsCount>0)
+    for(String line : lines)
     {
-      List<String> lines=StatUtils.getFullStatsForDisplay(stats,provider);
-      for(String line : lines)
-      {
-        JLabel label=GuiFactory.buildLabel(line);
-        GridBagConstraints c=new GridBagConstraints(0,rowIndex,1,1,0.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,5,0,0),0,0);
-        panel.add(label,c);
-        rowIndex++;
-      }
+      JLabel label=GuiFactory.buildLabel(line);
+      GridBagConstraints c=new GridBagConstraints(0,rowIndex,1,1,0.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,5,0,0),0,0);
+      panel.add(label,c);
+      rowIndex++;
     }
   }
 }
