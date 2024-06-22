@@ -6,6 +6,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.swing.ImageIcon;
@@ -144,12 +145,12 @@ public class RelicsEditionPanelController implements ActionListener
       if (relic!=null)
       {
         BasicStatsSet stats=relic.getStats();
-        String[] lines=StatUtils.getStatsDisplayLines(stats);
+        List<String> lines=StatUtils.getStatsForDisplay(stats);
         editor.setStats(lines);
       }
       else
       {
-        editor.setStats(new String[]{""});
+        editor.setStats(Collections.emptyList());
       }
     }
     // - Resize window

@@ -8,6 +8,7 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JEditorPane;
@@ -79,7 +80,7 @@ public class RelicDisplayPanelController extends AbstractNavigablePanelControlle
     BasicStatsSet stats=_relic.getStats();
     if (stats.getStatsCount()>0)
     {
-      String[] lines=StatUtils.getStatsDisplayLines(stats);
+      List<String> lines=StatUtils.getStatsForDisplay(stats);
       statsLabel=new MultilineLabel2();
       statsLabel.setText(lines);
       statsLabel.setBorder(GuiFactory.buildTitledBorder("Stats"));

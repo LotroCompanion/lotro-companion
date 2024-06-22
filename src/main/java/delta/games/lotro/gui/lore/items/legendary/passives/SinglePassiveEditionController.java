@@ -126,8 +126,8 @@ public class SinglePassiveEditionController
       int nbStats=statElements.size();
       if (nbStats==1)
       {
-        String[] lines=StatUtils.getStatsDisplayLines(stats);
-        _value.setText(lines[0]);
+        List<String> lines=StatUtils.getStatsForDisplay(stats);
+        _value.setText(lines.get(0));
       }
     }
     else

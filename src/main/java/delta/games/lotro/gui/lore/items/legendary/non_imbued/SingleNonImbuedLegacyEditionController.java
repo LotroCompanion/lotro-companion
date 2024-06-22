@@ -1,6 +1,7 @@
 package delta.games.lotro.gui.lore.items.legendary.non_imbued;
 
 import java.awt.Dimension;
+import java.util.List;
 
 import javax.swing.JLabel;
 
@@ -197,7 +198,7 @@ public abstract class SingleNonImbuedLegacyEditionController<T extends NonImbued
       StatsProvider statsProvider=getStatsProvider();
       int rank=getRank();
       BasicStatsSet stats=statsProvider.getStats(1,rank);
-      String[] lines=StatUtils.getStatsDisplayLines(stats);
+      List<String> lines=StatUtils.getStatsForDisplay(stats);
       _value.setText(lines);
     }
     else

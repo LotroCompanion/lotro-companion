@@ -1,5 +1,7 @@
 package delta.games.lotro.gui.lore.traits;
 
+import java.util.List;
+
 import javax.swing.Icon;
 
 import delta.common.ui.swing.icons.IconsManager;
@@ -62,7 +64,7 @@ public class TraitIconUtils
   {
     if (stats!=null)
     {
-      String[] lines=StatUtils.getStatsDisplayLines(stats);
+      List<String> lines=StatUtils.getStatsForDisplay(stats);
       for(String line : lines)
       {
         sb.append(line).append(EndOfLine.NATIVE_EOL);

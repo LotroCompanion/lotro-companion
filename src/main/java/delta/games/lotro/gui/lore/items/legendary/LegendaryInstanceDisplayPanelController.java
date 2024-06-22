@@ -127,7 +127,7 @@ public class LegendaryInstanceDisplayPanelController
     _name.setVisible(name.length()>0);
     // Default legacy stats
     BasicStatsSet defaultLegacyStats=getDefaultStats(attrs);
-    _defaultLegacyStats.setText(StatUtils.getStatsDisplayLines(defaultLegacyStats));
+    _defaultLegacyStats.setText(StatUtils.getStatsForDisplay(defaultLegacyStats));
     // Info panel
     _nonImbuedAttrs.getInfosPanel().setVisible(!attrs.isImbued());
     // Title
@@ -138,7 +138,7 @@ public class LegendaryInstanceDisplayPanelController
     Integer itemLevelInt=_itemInstance.getEffectiveItemLevel();
     int itemLevel=(itemLevelInt!=null)?itemLevelInt.intValue():1;
     BasicStatsSet passives=attrs.getPassivesStats(itemLevel);
-    _passives.setText(StatUtils.getStatsDisplayLines(passives));
+    _passives.setText(StatUtils.getStatsForDisplay(passives));
     _passives.setVisible(passives.getStatsCount()>0);
     // Legacies
     _nonImbuedAttrs.update();

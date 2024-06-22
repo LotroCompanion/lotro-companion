@@ -3,6 +3,7 @@ package delta.games.lotro.gui.lore.items.legendary.titles;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.util.List;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -94,7 +95,7 @@ public class LegendaryTitleDisplayPanelController
       _slayer.setText(slayerStr);
       // Stats
       BasicStatsSet stats=title.getStats();
-      String[] lines=StatUtils.getStatsDisplayLines(stats);
+      List<String> lines=StatUtils.getStatsForDisplay(stats);
       _stats.setText(lines);
     }
     else

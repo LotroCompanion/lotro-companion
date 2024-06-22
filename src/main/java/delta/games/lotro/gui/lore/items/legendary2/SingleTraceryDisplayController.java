@@ -1,6 +1,8 @@
 package delta.games.lotro.gui.lore.items.legendary2;
 
 import java.awt.Color;
+import java.util.Collections;
+import java.util.List;
 
 import javax.swing.JLabel;
 
@@ -131,12 +133,12 @@ public class SingleTraceryDisplayController extends IconControllerNameStatsBundl
     {
       // Stats
       BasicStatsSet stats=traceryInstance.getStats();
-      String[] lines=StatUtils.getStatsDisplayLines(stats);
+      List<String> lines=StatUtils.getStatsForDisplay(stats);
       setStats(lines);
     }
     else
     {
-      setStats(new String[]{});
+      setStats(Collections.emptyList());
     }
   }
 

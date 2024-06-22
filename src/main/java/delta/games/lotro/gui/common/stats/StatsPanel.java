@@ -2,6 +2,7 @@ package delta.games.lotro.gui.common.stats;
 
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.JLabel;
@@ -107,7 +108,7 @@ public class StatsPanel
     int statsCount=stats.getStatsCount();
     if (statsCount>0)
     {
-      String[] lines=StatUtils.getFullStatsDisplay(stats,provider);
+      List<String> lines=StatUtils.getFullStatsForDisplay(stats,provider);
       for(String line : lines)
       {
         JLabel label=GuiFactory.buildLabel(line);

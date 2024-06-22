@@ -1,5 +1,8 @@
 package delta.games.lotro.gui.lore.items.legendary.relics;
 
+import java.util.Collections;
+import java.util.List;
+
 import javax.swing.Icon;
 
 import delta.games.lotro.character.stats.BasicStatsSet;
@@ -53,12 +56,12 @@ public class SingleRelicDisplayController extends IconNameStatsBundle
     if (relic!=null)
     {
       BasicStatsSet stats=relic.getStats();
-      String[] lines=StatUtils.getStatsDisplayLines(stats);
+      List<String> lines=StatUtils.getStatsForDisplay(stats);
       setStats(lines);
     }
     else
     {
-      setStats(new String[0]);
+      setStats(Collections.emptyList());
     }
   }
 }

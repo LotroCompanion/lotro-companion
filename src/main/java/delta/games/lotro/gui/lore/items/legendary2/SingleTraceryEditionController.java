@@ -2,6 +2,7 @@ package delta.games.lotro.gui.lore.items.legendary2;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -304,10 +305,10 @@ public class SingleTraceryEditionController
       _value.setLineStyle(0,nameStyle);
       // Stats
       BasicStatsSet stats=_data.getStats();
-      String[] lines=StatUtils.getStatsDisplayLines(stats);
-      String[] toShow=new String[lines.length+1];
-      System.arraycopy(lines,0,toShow,1,lines.length);
-      toShow[0]=name;
+      List<String> lines=StatUtils.getStatsForDisplay(stats);
+      List<String> toShow=new ArrayList<String>(lines.size()+1);
+      toShow.add(name);
+      toShow.addAll(lines);
       _value.setText(toShow);
     }
     else

@@ -1,6 +1,7 @@
 package delta.games.lotro.gui.character.virtues;
 
 import java.awt.Color;
+import java.util.List;
 
 import javax.swing.Icon;
 import javax.swing.JLabel;
@@ -158,7 +159,7 @@ public class VirtueIconController
   {
     if (stats!=null)
     {
-      String[] lines=StatUtils.getStatsDisplayLines(stats);
+      List<String> lines=StatUtils.getStatsForDisplay(stats);
       for(String line : lines)
       {
         sb.append(line).append(EndOfLine.NATIVE_EOL);

@@ -3,6 +3,7 @@ package delta.games.lotro.gui.lore.items.legendary.imbued;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -272,7 +273,7 @@ public class SingleImbuedLegacyEditionController
     if (hasLegacy())
     {
       BasicStatsSet stats=_legacy.getStats();
-      String[] lines=StatUtils.getStatsDisplayLines(stats);
+      List<String> lines=StatUtils.getStatsForDisplay(stats);
       _value.setText(lines);
     }
     else

@@ -3,6 +3,7 @@ package delta.games.lotro.gui.lore.items.legendary.titles;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -159,7 +160,7 @@ public class SingleTitleEditionController
     if (_legendaryTitle!=null)
     {
       BasicStatsSet stats=_legendaryTitle.getStats();
-      String[] lines=StatUtils.getStatsDisplayLines(stats);
+      List<String> lines=StatUtils.getStatsForDisplay(stats);
       _stats.setText(lines);
     }
     else

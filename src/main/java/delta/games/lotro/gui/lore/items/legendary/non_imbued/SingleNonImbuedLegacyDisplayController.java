@@ -1,5 +1,7 @@
 package delta.games.lotro.gui.lore.items.legendary.non_imbued;
 
+import java.util.List;
+
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
@@ -94,7 +96,7 @@ public class SingleNonImbuedLegacyDisplayController
     _rank.setText(rankStr);
     // Stats
     BasicStatsSet stats=legacy.getStats();
-    String[] lines=StatUtils.getStatsDisplayLines(stats);
+    List<String> lines=StatUtils.getStatsForDisplay(stats);
     _stats.setText(lines);
   }
 }

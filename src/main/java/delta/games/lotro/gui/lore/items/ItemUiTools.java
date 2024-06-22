@@ -356,7 +356,7 @@ public class ItemUiTools
     }
     sb.append(EndOfLine.NATIVE_EOL);
     BasicStatsSet stats=itemInstance.getStats();
-    String[] lines=StatUtils.getStatsDisplayLines(stats);
+    List<String> lines=StatUtils.getStatsForDisplay(stats);
     for(String line : lines)
     {
       sb.append(line).append(EndOfLine.NATIVE_EOL);

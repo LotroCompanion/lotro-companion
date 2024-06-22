@@ -1,5 +1,8 @@
 package delta.games.lotro.gui.lore.items.essences;
 
+import java.util.Collections;
+import java.util.List;
+
 import javax.swing.Icon;
 
 import delta.games.lotro.character.stats.BasicStatsSet;
@@ -60,12 +63,12 @@ public class SingleEssenceDisplayController extends IconNameStatsBundle
     if (essence!=null)
     {
       BasicStatsSet stats=essence.getStats();
-      String[] lines=StatUtils.getStatsDisplayLines(stats);
+      List<String> lines=StatUtils.getStatsForDisplay(stats);
       setStats(lines);
     }
     else
     {
-      setStats(new String[0]);
+      setStats(Collections.emptyList());
     }
   }
 }
