@@ -193,6 +193,7 @@ public class ImbuedLegendaryAttrsEditionPanelController
         c=new GridBagConstraints(x,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
         panel.add(deleteButton,c);
       }
+      y++;
     }
     return panel;
   }
