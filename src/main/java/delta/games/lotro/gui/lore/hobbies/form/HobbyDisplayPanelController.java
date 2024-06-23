@@ -251,6 +251,7 @@ public class HobbyDisplayPanelController extends AbstractNavigablePanelControlle
       if (title!=null)
       {
         PageIdentifier titlePageId=ReferenceConstants.getTitleReference(title.getIdentifier());
+        // TODO !!French gives long title name with male/female labels!!
         NavigationHyperLink titleLink=new NavigationHyperLink(getParent(),title.getName(),titlePageId);
         _links.add(titleLink);
         titleLabel=titleLink.getLabel();

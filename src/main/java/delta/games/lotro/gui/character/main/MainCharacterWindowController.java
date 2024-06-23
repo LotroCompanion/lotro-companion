@@ -234,23 +234,25 @@ public class MainCharacterWindowController extends DefaultWindowController
     JPanel topPanel=buildTopPanel();
     GridBagConstraints c=new GridBagConstraints(0,0,3,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(topPanel,c);
-    // Crafting
-    JPanel craftingStatusPanel=buildCraftingPanel();
-    c=new GridBagConstraints(0,1,1,2,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
-    panel.add(craftingStatusPanel,c);
-    // Capabilities
+    // Capabilities & Misc
     JPanel capabilitiesPanel=buildCapabilitiesPanel();
-    c=new GridBagConstraints(1,1,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
-    panel.add(capabilitiesPanel,c);
-    // Hobbies
+    JPanel miscButtons=buildMiscButtonsPanel();
+    List<JComponent> componentsColumn1=new ArrayList<JComponent>();
+    componentsColumn1.add(capabilitiesPanel);
+    componentsColumn1.add(miscButtons);
+    JPanel column1=buildVerticalPanel(componentsColumn1,componentsColumn1.size(),0,0);
+    c=new GridBagConstraints(0,1,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    panel.add(column1,c);
+    // Hobbies & Crafting
     JPanel hobbiesStatusPanel=_hobbies.getPanel();
     hobbiesStatusPanel.setBorder(GuiFactory.buildTitledBorder("Hobbies"));
-    c=new GridBagConstraints(1,2,2,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
-    panel.add(hobbiesStatusPanel,c);
-    // Misc
-    JPanel miscButtons=buildMiscButtonsPanel();
-    c=new GridBagConstraints(2,1,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
-    panel.add(miscButtons,c);
+    JPanel craftingStatusPanel=buildCraftingPanel();
+    List<JComponent> componentsColumn2=new ArrayList<JComponent>();
+    componentsColumn2.add(hobbiesStatusPanel);
+    componentsColumn2.add(craftingStatusPanel);
+    JPanel column2=buildVerticalPanel(componentsColumn2,componentsColumn2.size(),0,0);
+    c=new GridBagConstraints(1,1,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    panel.add(column2,c);
     return panel;
   }
 
@@ -462,19 +464,24 @@ public class MainCharacterWindowController extends DefaultWindowController
     return buildVerticalPanel(buttons,buttons.size());
   }
 
-  private JPanel buildVerticalPanel(List<JButton> buttons, int nbPerColumn)
+  private JPanel buildVerticalPanel(List<? extends JComponent> components, int nbPerColumn)
+  {
+    return buildVerticalPanel(components,nbPerColumn,2,5);
+  }
+
+  private JPanel buildVerticalPanel(List<? extends JComponent> components, int nbPerColumn, int deltaX, int deltaY)
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
-    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,2,5,2),0,0);
-    for(JButton button : buttons)
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(deltaY,deltaX,deltaY,deltaX),0,0);
+    for(JComponent component : components)
     {
-      panel.add(button,c);
+      panel.add(component,c);
       c.gridy++;
       if (c.gridy==nbPerColumn)
       {
         c.gridy=0;
         c.gridx++;
-        c.insets.top=5;
+        c.insets.top=deltaY;
       }
       else if (c.gridy>0)
       {
