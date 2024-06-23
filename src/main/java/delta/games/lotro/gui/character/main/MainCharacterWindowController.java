@@ -43,6 +43,7 @@ import delta.games.lotro.gui.character.storage.summary.CharacterStorageSummaryPa
 import delta.games.lotro.gui.character.virtues.VirtuesDisplayPanelController;
 import delta.games.lotro.gui.character.xp.XpDisplayPanelController;
 import delta.games.lotro.gui.common.money.MoneyDisplayController;
+import delta.games.lotro.gui.utils.LayoutUtils;
 import delta.games.lotro.utils.ContextPropertyNames;
 
 /**
@@ -220,7 +221,7 @@ public class MainCharacterWindowController extends DefaultWindowController
     List<JButton> buttons=new ArrayList<JButton>();
     buttons.add(_buttonsMgr.getButton(MainCharacterWindowCommands.STORAGE_COMMAND));
     buttons.add(_buttonsMgr.getButton(MainCharacterWindowCommands.CURRENCIES_COMMAND));
-    JPanel buttonsPanel=buildVerticalPanel(buttons,buttons.size());
+    JPanel buttonsPanel=LayoutUtils.buildVerticalPanel(buttons,buttons.size());
     c=new GridBagConstraints(1,0,1,2,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     ret.add(buttonsPanel,c);
     ret.setBorder(GuiFactory.buildTitledBorder("Wealth"));
@@ -240,7 +241,7 @@ public class MainCharacterWindowController extends DefaultWindowController
     List<JComponent> componentsColumn1=new ArrayList<JComponent>();
     componentsColumn1.add(capabilitiesPanel);
     componentsColumn1.add(miscButtons);
-    JPanel column1=buildVerticalPanel(componentsColumn1,componentsColumn1.size(),0,0);
+    JPanel column1=LayoutUtils.buildVerticalPanel(componentsColumn1,componentsColumn1.size(),0,0);
     c=new GridBagConstraints(0,1,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(column1,c);
     // Hobbies & Crafting
@@ -250,7 +251,7 @@ public class MainCharacterWindowController extends DefaultWindowController
     List<JComponent> componentsColumn2=new ArrayList<JComponent>();
     componentsColumn2.add(hobbiesStatusPanel);
     componentsColumn2.add(craftingStatusPanel);
-    JPanel column2=buildVerticalPanel(componentsColumn2,componentsColumn2.size(),0,0);
+    JPanel column2=LayoutUtils.buildVerticalPanel(componentsColumn2,componentsColumn2.size(),0,0);
     c=new GridBagConstraints(1,1,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(column2,c);
     return panel;
@@ -281,7 +282,7 @@ public class MainCharacterWindowController extends DefaultWindowController
     List<JButton> buttons=new ArrayList<JButton>();
     buttons.add(_buttonsMgr.getButton(MainCharacterWindowCommands.CRAFTING_COMMAND));
     buttons.add(_buttonsMgr.getButton(MainCharacterWindowCommands.RECIPES_STATUS_COMMAND));
-    JPanel buttonsPanel=buildHorizontalPanel(buttons,buttons.size());
+    JPanel buttonsPanel=LayoutUtils.buildHorizontalPanel(buttons,buttons.size());
     c=new GridBagConstraints(0,1,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     ret.add(buttonsPanel,c);
     ret.setBorder(GuiFactory.buildTitledBorder("Crafting"));
@@ -325,13 +326,13 @@ public class MainCharacterWindowController extends DefaultWindowController
     buttonsLine1.add(_buttonsMgr.getButton(MainCharacterWindowCommands.QUESTS_STATUS_COMMAND));
     buttonsLine1.add(_buttonsMgr.getButton(MainCharacterWindowCommands.DEEDS_STATUS_COMMAND));
     buttonsLine1.add(_buttonsMgr.getButton(MainCharacterWindowCommands.TITLES_STATUS_COMMAND));
-    JPanel line1=buildHorizontalPanel(buttonsLine1,buttonsLine1.size());
+    JPanel line1=LayoutUtils.buildHorizontalPanel(buttonsLine1,buttonsLine1.size());
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     ret.add(line1,c);
     List<JButton> buttonsLine2=new ArrayList<JButton>();
     buttonsLine2.add(_buttonsMgr.getButton(MainCharacterWindowCommands.TASKS_STATUS_COMMAND));
     buttonsLine2.add(_buttonsMgr.getButton(MainCharacterWindowCommands.SKIRMISH_STATS_COMMAND));
-    JPanel line2=buildHorizontalPanel(buttonsLine2,buttonsLine2.size());
+    JPanel line2=LayoutUtils.buildHorizontalPanel(buttonsLine2,buttonsLine2.size());
     c=new GridBagConstraints(0,1,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     ret.add(line2,c);
     return ret;
@@ -343,7 +344,7 @@ public class MainCharacterWindowController extends DefaultWindowController
     List<JButton> buttons=new ArrayList<JButton>();
     buttons.add(_buttonsMgr.getButton(MainCharacterWindowCommands.REPUTATION_COMMAND));
     buttons.add(_buttonsMgr.getButton(MainCharacterWindowCommands.ALLEGIANCES_COMMAND));
-    JPanel ret=buildVerticalPanel(buttons,buttons.size());
+    JPanel ret=LayoutUtils.buildVerticalPanel(buttons,buttons.size());
     ret.setBorder(GuiFactory.buildTitledBorder("Reputation"));
     return ret;
   }
@@ -357,7 +358,7 @@ public class MainCharacterWindowController extends DefaultWindowController
     buttons.add(_buttonsMgr.getButton(MainCharacterWindowCommands.MOUNTED_APPEARANCES_COMMAND));
     buttons.add(_buttonsMgr.getButton(MainCharacterWindowCommands.TRAVELS_COMMAND));
     buttons.add(_buttonsMgr.getButton(MainCharacterWindowCommands.PETS_COMMAND));
-    JPanel ret=buildVerticalPanel(buttons,buttons.size());
+    JPanel ret=LayoutUtils.buildVerticalPanel(buttons,buttons.size());
     ret.setBorder(GuiFactory.buildTitledBorder("Capabilities"));
     return ret;
   }
@@ -369,7 +370,7 @@ public class MainCharacterWindowController extends DefaultWindowController
     buttons.add(_buttonsMgr.getButton(MainCharacterWindowCommands.LEVEL_COMMAND));
     buttons.add(_buttonsMgr.getButton(MainCharacterWindowCommands.LOG_COMMAND));
     buttons.add(_buttonsMgr.getButton(MainCharacterWindowCommands.NOTES_COMMAND));
-    JPanel ret=buildVerticalPanel(buttons,buttons.size());
+    JPanel ret=LayoutUtils.buildVerticalPanel(buttons,buttons.size());
     ret.setBorder(GuiFactory.buildTitledBorder("Misc."));
     return ret;
   }
@@ -440,7 +441,7 @@ public class MainCharacterWindowController extends DefaultWindowController
     // Later: BB Tree, Mounted tree
     buttons.add(_buttonsMgr.getButton(MainCharacterWindowCommands.TRAIT_TREE_COMMAND));
     buttons.add(_buttonsMgr.getButton(MainCharacterWindowCommands.SKIRMISH_TRAITS_COMMAND));
-    return buildHorizontalPanel(buttons,buttons.size());
+    return LayoutUtils.buildHorizontalPanel(buttons,buttons.size());
   }
 
   private JPanel buildTab2Column2()
@@ -461,56 +462,7 @@ public class MainCharacterWindowController extends DefaultWindowController
     buttons.add(_buttonsMgr.getButton(MainCharacterWindowCommands.RELICS_INVENTORY_COMMAND));
     buttons.add(_buttonsMgr.getButton(MainCharacterWindowCommands.OUTFITS_COMMAND));
     buttons.add(_buttonsMgr.getButton(MainCharacterWindowCommands.PVP_COMMAND));
-    return buildVerticalPanel(buttons,buttons.size());
-  }
-
-  private JPanel buildVerticalPanel(List<? extends JComponent> components, int nbPerColumn)
-  {
-    return buildVerticalPanel(components,nbPerColumn,2,5);
-  }
-
-  private JPanel buildVerticalPanel(List<? extends JComponent> components, int nbPerColumn, int deltaX, int deltaY)
-  {
-    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
-    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(deltaY,deltaX,deltaY,deltaX),0,0);
-    for(JComponent component : components)
-    {
-      panel.add(component,c);
-      c.gridy++;
-      if (c.gridy==nbPerColumn)
-      {
-        c.gridy=0;
-        c.gridx++;
-        c.insets.top=deltaY;
-      }
-      else if (c.gridy>0)
-      {
-        c.insets.top=0;
-      }
-    }
-    return panel;
-  }
-
-  private JPanel buildHorizontalPanel(List<JButton> buttons, int nbPerLine)
-  {
-    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
-    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,5,2,5),0,0);
-    for(JButton button : buttons)
-    {
-      panel.add(button,c);
-      c.gridx++;
-      if (c.gridx==nbPerLine)
-      {
-        c.gridx=0;
-        c.gridy++;
-        c.insets.left=5;
-      }
-      else if (c.gridy>0)
-      {
-        c.insets.left=0;
-      }
-    }
-    return panel;
+    return LayoutUtils.buildVerticalPanel(buttons,buttons.size());
   }
 
   @Override

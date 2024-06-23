@@ -51,11 +51,21 @@ public class CraftingStatusSummaryPanelController extends AbstractPanelControlle
   {
     JPanel panel=getPanel();
     panel.removeAll();
-    GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    JPanel rowPanel=GuiFactory.buildPanel(new GridBagLayout());
+    GridBagConstraints c1=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    panel.add(rowPanel,c1);
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     for(ProfessionStatusSummaryPanelController ctrl : _professionControllers)
     {
+      if (c.gridy==2)
+      {
+        c.gridy=0;
+        rowPanel=GuiFactory.buildPanel(new GridBagLayout());
+        c1.gridx++;
+        panel.add(rowPanel,c1);
+      }
       JPanel childPanel=ctrl.getPanel();
-      panel.add(childPanel,c);
+      rowPanel.add(childPanel,c);
       c.gridy++;
     }
     boolean visible=(panel.getComponentCount()>0);
