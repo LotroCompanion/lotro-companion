@@ -41,7 +41,7 @@ public class CharacterSummaryPanelController extends AbstractPanelController
   private NavigationHyperLink _race;
   private JLabel _gender;
   private NavigationHyperLink _nationality;
-  private NavigationHyperLink _class;
+  private JLabel _class;
   private JLabel _kinship;
   private JLabel _level;
   private NavigationHyperLink _title;
@@ -59,7 +59,7 @@ public class CharacterSummaryPanelController extends AbstractPanelController
     _race=new NavigationHyperLink(parent,"",null);
     _gender=GuiFactory.buildLabel("");
     _nationality=new NavigationHyperLink(parent,"",null);
-    _class=new NavigationHyperLink(parent,"",null);
+    _class=GuiFactory.buildLabel("");
     _kinship=GuiFactory.buildLabel("");
     _level=GuiFactory.buildLabel("");
     _title=new NavigationHyperLink(parent,"",null);
@@ -91,7 +91,7 @@ public class CharacterSummaryPanelController extends AbstractPanelController
     cLabel.gridy++;cValue.gridy++;
     // Class
     ret.add(GuiFactory.buildLabel("Class:"),cLabel);
-    ret.add(_class.getLabel(),cValue);
+    ret.add(_class,cValue);
     cLabel.gridy++;cValue.gridy++;
     // Kinship
     ret.add(GuiFactory.buildLabel("Kinship:"),cLabel);
@@ -156,9 +156,7 @@ public class CharacterSummaryPanelController extends AbstractPanelController
     ClassDescription characterClass=summary.getCharacterClass();
     if (characterClass!=null)
     {
-      PageIdentifier classPageId=ReferenceConstants.getClassReference(characterClass);
       _class.setText(characterClass.getName());
-      _class.setPageIdentifier(classPageId);
     }
     else
     {
@@ -261,11 +259,7 @@ public class CharacterSummaryPanelController extends AbstractPanelController
       _nationality.dispose();
       _nationality=null;
     }
-    if (_class!=null)
-    {
-      _class.dispose();
-      _class=null;
-    }
+    _class=null;
     _kinship=null;
     _level=null;
     if (_title!=null)
