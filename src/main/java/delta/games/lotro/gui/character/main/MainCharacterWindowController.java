@@ -4,6 +4,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.Box;
@@ -45,6 +46,7 @@ import delta.games.lotro.gui.character.xp.XpDisplayPanelController;
 import delta.games.lotro.gui.common.money.MoneyDisplayController;
 import delta.games.lotro.gui.utils.LayoutUtils;
 import delta.games.lotro.utils.ContextPropertyNames;
+import delta.games.lotro.utils.Formats;
 
 /**
  * Controller for the main window of a character.
@@ -58,6 +60,7 @@ public class MainCharacterWindowController extends DefaultWindowController
   private CharacterMainButtonsManager _buttonsMgr;
   // Controllers
   private MainCharacterHeaderPanelController _header;
+  private JLabel _importDate;
   private CharacterSummaryPanelController _summaryController;
   private AchievementsSummaryPanelController _achievements;
   private JLabel _inGameTime;
@@ -80,6 +83,7 @@ public class MainCharacterWindowController extends DefaultWindowController
     _toon=toon;
     setContextProperty(ContextPropertyNames.BASE_CHARACTER_SUMMARY,toon.getSummary());
     _header=new MainCharacterHeaderPanelController(this,_toon);
+    _importDate=GuiFactory.buildLabel("");
     _buttonsMgr=new CharacterMainButtonsManager(this,toon);
     _summaryController=new CharacterSummaryPanelController(this);
     _achievements=new AchievementsSummaryPanelController(this);
@@ -104,6 +108,18 @@ public class MainCharacterWindowController extends DefaultWindowController
   {
     CharacterSummary summary=_toon.getSummary();
     CharacterDetails details=_toon.getDetails();
+    // Import date
+    Long importDate=summary.getImportDate();
+    if (importDate!=null)
+    {
+      String dateStr=Formats.getDateTimeString(new Date(importDate.longValue()));
+      _importDate.setText("Import date: "+dateStr);
+      _importDate.setVisible(true);
+    }
+    else
+    {
+      _importDate.setVisible(false);
+    }
     // Summary
     _summaryController.setSummary(summary,details);
     // Achievements
@@ -165,11 +181,14 @@ public class MainCharacterWindowController extends DefaultWindowController
     JPanel headerPanel=_header.getPanel();
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,1,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(3,5,3,5),0,0);
     panel.add(headerPanel,c);
+    // Import date
+    c=new GridBagConstraints(0,1,1,1,1,0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(0,5,2,5),0,0);
+    panel.add(_importDate,c);
     // Tabs
     JTabbedPane tabs=GuiFactory.buildTabbedPane();
     tabs.add("Summary",buildTab1());
     tabs.add("Gear",buildTab2());
-    c=new GridBagConstraints(0,1,1,1,1.0,1.0,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
+    c=new GridBagConstraints(0,2,1,1,1.0,1.0,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
     panel.add(tabs,c);
     return panel;
   }
@@ -513,6 +532,7 @@ public class MainCharacterWindowController extends DefaultWindowController
       _header.dispose();
       _header=null;
     }
+    _importDate=null;
     if (_summaryController!=null)
     {
       _summaryController.dispose();
