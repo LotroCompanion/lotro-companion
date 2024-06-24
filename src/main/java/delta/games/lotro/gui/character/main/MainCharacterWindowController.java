@@ -110,7 +110,14 @@ public class MainCharacterWindowController extends DefaultWindowController
     AchievementsSummary achievements=AchievementsSummaryIO.loadAchievementsSummary(_toon);
     _achievements.setSummary(achievements);
     int inGameTime=details.getIngameTime();
-    _inGameTime.setText(Duration.getDurationString(inGameTime));
+    if (inGameTime>0)
+    {
+      _inGameTime.setText(Duration.getDurationString(inGameTime));
+    }
+    else
+    {
+      _inGameTime.setText("?");
+    }
     // Crafting
     CraftingStatus status=_toon.getCraftingMgr().getCraftingStatus();
     CraftingStatusSummaryBuilder b=new CraftingStatusSummaryBuilder();
