@@ -458,6 +458,7 @@ public class MainCharacterWindowController extends DefaultWindowController
   private JPanel buildTab2ButtonsPanel()
   {
     List<JButton> buttons=new ArrayList<JButton>();
+    buttons.add(_buttonsMgr.getButton(MainCharacterWindowCommands.CONFIGS_COMMAND));
     buttons.add(_buttonsMgr.getButton(MainCharacterWindowCommands.STASH_COMMAND));
     buttons.add(_buttonsMgr.getButton(MainCharacterWindowCommands.RELICS_INVENTORY_COMMAND));
     buttons.add(_buttonsMgr.getButton(MainCharacterWindowCommands.OUTFITS_COMMAND));
