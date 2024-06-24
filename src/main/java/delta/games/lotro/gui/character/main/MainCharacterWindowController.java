@@ -190,12 +190,12 @@ public class MainCharacterWindowController extends DefaultWindowController
     // Summary panel
     JPanel summaryPanel=_summaryController.getPanel();
     summaryPanel.setBorder(GuiFactory.buildTitledBorder("Summary"));
-    GridBagConstraints c=new GridBagConstraints(0,0,2,1,1,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(3,5,3,5),0,0);
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(summaryPanel,c);
     // XP
     JPanel xpPanel=_xp.getPanel();
     xpPanel.setBorder(GuiFactory.buildTitledBorder("XP"));
-    c=new GridBagConstraints(0,1,2,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    c=new GridBagConstraints(0,1,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(xpPanel,c);
     // Wealth
     JPanel wealthPanel=buildWealthPanel();

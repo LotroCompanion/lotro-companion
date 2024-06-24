@@ -4,6 +4,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
+import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -111,6 +112,9 @@ public class CharacterSummaryPanelController extends AbstractPanelController
     cLabel.gridy++;cValue.gridy++;
     ret.add(_position,cValue);
     cValue.gridy++;
+    // Glue
+    GridBagConstraints c=new GridBagConstraints(0,cValue.gridy,3,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
+    ret.add(Box.createGlue(),c);
     return ret;
   }
 
