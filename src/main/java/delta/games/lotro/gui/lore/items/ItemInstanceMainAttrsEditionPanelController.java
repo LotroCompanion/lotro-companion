@@ -21,7 +21,6 @@ import delta.common.ui.swing.text.dates.DateCodec;
 import delta.common.ui.swing.text.dates.DateEditionController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.NumericTools;
-import delta.games.lotro.Config;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.common.colors.ColorDescription;
@@ -37,6 +36,7 @@ import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemInstance;
 import delta.games.lotro.lore.items.ItemPropertyNames;
 import delta.games.lotro.lore.items.scaling.Munging;
+import delta.games.lotro.lore.parameters.Game;
 import delta.games.lotro.utils.ContextPropertyNames;
 import delta.games.lotro.utils.maths.Progression;
 
@@ -111,7 +111,7 @@ public class ItemInstanceMainAttrsEditionPanelController extends AbstractPanelCo
     // - Min level
     JTextField minLevel=GuiFactory.buildTextField("");
     _minLevel=new IntegerEditionController(minLevel,3);
-    int maxLevel=Config.getInstance().getMaxCharacterLevel();
+    int maxLevel=Game.getParameters().getMaxCharacterLevel();
     _minLevel.setValueRange(Integer.valueOf(1),Integer.valueOf(maxLevel));
     // - Durability
     JTextField durability=GuiFactory.buildTextField("");
@@ -366,7 +366,7 @@ public class ItemInstanceMainAttrsEditionPanelController extends AbstractPanelCo
         Integer min=_munging.getMin();
         int minLevel=(min!=null?min.intValue():1);
         Integer max=_munging.getMax();
-        int levelCap=Config.getInstance().getMaxCharacterLevel();
+        int levelCap=Game.getParameters().getMaxCharacterLevel();
         int maxLevel=(max!=null?max.intValue():levelCap);
         _mungingLevel.addEmptyItem("");
         for(int level=minLevel;level<=maxLevel;level++)

@@ -56,15 +56,6 @@ public final class Config
   }
 
   /**
-   * Get the maximum character level.
-   * @return the maximum character level.
-   */
-  public int getMaxCharacterLevel()
-  {
-    return LotroCoreConfig.getInstance().getMaxCharacterLevel();
-  }
-
-  /**
    * Get the configuration parameters.
    * @return the configuration parameters.
    */

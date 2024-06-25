@@ -15,6 +15,7 @@ import delta.games.lotro.character.races.RaceDescription;
 import delta.games.lotro.character.races.RacesManager;
 import delta.games.lotro.common.Genders;
 import delta.games.lotro.dat.data.strings.renderer.StringRenderer;
+import delta.games.lotro.lore.parameters.Game;
 import delta.games.lotro.utils.ContextPropertyNames;
 
 /**
@@ -37,7 +38,7 @@ public class ContextRendering
     // Gender
     ret.setCharacterSex(Genders.MALE);
     // Level
-    int maxLevel=Config.getInstance().getMaxCharacterLevel();
+    int maxLevel=Game.getParameters().getMaxCharacterLevel();
     ret.setLevel(maxLevel);
     // Name
     ret.setName("(character name)"); // I18n

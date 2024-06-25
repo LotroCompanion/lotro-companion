@@ -1,13 +1,6 @@
 # Default server to use in the new toon window (OPTIONAL)
 default.server=Landroval
 
-# Max character level
-max.character.level=150
-# Max virtue rank
-max.virtue.rank=90
-# Max item level for a legendary item
-max.li.itemLevel=515
-
 # Current version
 current.version.id=2100
 current.version.name=21 Update 38

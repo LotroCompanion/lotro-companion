@@ -9,7 +9,6 @@ import javax.swing.JLabel;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.labels.LabelLineStyle;
 import delta.common.ui.swing.windows.WindowController;
-import delta.games.lotro.Config;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.common.enums.SocketType;
 import delta.games.lotro.common.stats.StatUtils;
@@ -20,6 +19,7 @@ import delta.games.lotro.gui.utils.items.ItemIconController;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.legendary2.SocketEntryInstance;
 import delta.games.lotro.lore.items.legendary2.Tracery;
+import delta.games.lotro.lore.parameters.Game;
 import delta.games.lotro.utils.ContextPropertyNames;
 
 /**
@@ -46,7 +46,7 @@ public class SingleTraceryDisplayController extends IconControllerNameStatsBundl
     _advancement=GuiFactory.buildLabel("");
     setIconController(new ItemIconController(parent));
     Integer characterLevel=parent.getContextProperty(ContextPropertyNames.CHARACTER_LEVEL,Integer.class);
-    _characterLevel=(characterLevel!=null)?characterLevel.intValue():Config.getInstance().getMaxCharacterLevel();
+    _characterLevel=(characterLevel!=null)?characterLevel.intValue():Game.getParameters().getMaxCharacterLevel();
     // Initialize with nothing slotted
     setTracery(null,1);
   }

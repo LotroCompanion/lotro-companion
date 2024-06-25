@@ -14,7 +14,6 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.tables.RawTablePanelController;
 import delta.common.utils.tables.DataTable;
 import delta.common.utils.tables.DataTableRow;
-import delta.games.lotro.Config;
 import delta.games.lotro.character.traits.TraitDescription;
 import delta.games.lotro.common.stats.ScalableStatProvider;
 import delta.games.lotro.common.stats.StatDescription;
@@ -22,6 +21,7 @@ import delta.games.lotro.common.stats.StatProvider;
 import delta.games.lotro.common.stats.StatUtils;
 import delta.games.lotro.common.stats.StatsProvider;
 import delta.games.lotro.common.stats.TieredScalableStatProvider;
+import delta.games.lotro.lore.parameters.Game;
 
 /**
  * Controller for a panel to display the stats of a trait.
@@ -104,7 +104,7 @@ public class TraitStatsPanelController
       ret.addColumn(String.valueOf(i+1),statName,String.class,null);
     }
     // Rows
-    int levelCap=Config.getInstance().getMaxCharacterLevel();
+    int levelCap=Game.getParameters().getMaxCharacterLevel();
     for(int i=1;i<=levelCap;i++)
     {
       DataTableRow row=ret.addRow();

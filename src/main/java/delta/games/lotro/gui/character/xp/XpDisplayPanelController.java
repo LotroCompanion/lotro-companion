@@ -14,7 +14,7 @@ import delta.common.ui.swing.progress.ProgressBarController;
 import delta.common.utils.l10n.L10n;
 import delta.games.lotro.character.xp.XPTable;
 import delta.games.lotro.character.xp.XPTableManager;
-import delta.games.lotro.config.LotroCoreConfig;
+import delta.games.lotro.lore.parameters.Game;
 
 /**
  * Panel to display the XP status of a character.
@@ -73,7 +73,7 @@ public class XpDisplayPanelController extends AbstractPanelController
       level=charLevel;
       xp=-1;
     }
-    int maxLevel=LotroCoreConfig.getInstance().getMaxCharacterLevel();
+    int maxLevel=Game.getParameters().getMaxCharacterLevel();
     if (level>maxLevel)
     {
       level=maxLevel;

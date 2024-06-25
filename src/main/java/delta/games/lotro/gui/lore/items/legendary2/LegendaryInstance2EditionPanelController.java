@@ -23,12 +23,10 @@ import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.common.ui.swing.combobox.ItemSelectionListener;
 import delta.common.ui.swing.labels.MultilineLabel2;
 import delta.common.ui.swing.windows.WindowController;
-import delta.games.lotro.Config;
 import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.gear.CharacterGear;
 import delta.games.lotro.character.gear.GearSlot;
 import delta.games.lotro.common.enums.SocketType;
-import delta.games.lotro.config.LotroCoreConfig;
 import delta.games.lotro.gui.lore.items.legendary2.traceries.TraceriesConstraintsMgr;
 import delta.games.lotro.gui.lore.items.legendary2.traceries.TraceryUtils;
 import delta.games.lotro.lore.items.Item;
@@ -42,6 +40,7 @@ import delta.games.lotro.lore.items.legendary2.SocketsSetupInstance;
 import delta.games.lotro.lore.items.legendary2.TraceriesManager;
 import delta.games.lotro.lore.items.legendary2.Tracery;
 import delta.games.lotro.lore.items.legendary2.global.LegendarySystem2;
+import delta.games.lotro.lore.parameters.Game;
 import delta.games.lotro.utils.ContextPropertyNames;
 
 /**
@@ -75,7 +74,7 @@ public class LegendaryInstance2EditionPanelController
     _parent=parent;
     // Character level
     Integer characterLevel=parent.getContextProperty(ContextPropertyNames.CHARACTER_LEVEL,Integer.class);
-    _characterLevel=(characterLevel!=null)?characterLevel.intValue():Config.getInstance().getMaxCharacterLevel();
+    _characterLevel=(characterLevel!=null)?characterLevel.intValue():Game.getParameters().getMaxCharacterLevel();
     // Item level
     Integer itemLevel=item.getEffectiveItemLevel();
     _itemLevel=(itemLevel!=null)?itemLevel.intValue():1;
@@ -199,7 +198,7 @@ public class LegendaryInstance2EditionPanelController
   {
     int reforgeLevel=_characterLevel;
     int itemLevel=LegendarySystem2.getInstance().getItemLevelForCharacterLevel(reforgeLevel);
-    int maxItemLevel=LotroCoreConfig.getInstance().getMaxItemLevelForLI();
+    int maxItemLevel=Game.getParameters().getMaxLegendaryItemLevel();
     int nextItemLevel=Math.min(itemLevel,maxItemLevel);
     if (nextItemLevel==_itemLevel)
     {
@@ -227,11 +226,11 @@ public class LegendaryInstance2EditionPanelController
 
   private String buildNextReforgeLabel()
   {
-    int maxLevel=Config.getInstance().getMaxCharacterLevel();
+    int maxLevel=Game.getParameters().getMaxCharacterLevel();
     for(int level=_minLevel;level<=maxLevel;level++)
     {
       int itemLevel=LegendarySystem2.getInstance().getItemLevelForCharacterLevel(level);
-      int maxItemLevel=LotroCoreConfig.getInstance().getMaxItemLevelForLI();
+      int maxItemLevel=Game.getParameters().getMaxLegendaryItemLevel();
       int nextItemLevel=Math.min(itemLevel,maxItemLevel);
       if (nextItemLevel>_itemLevel)
       {

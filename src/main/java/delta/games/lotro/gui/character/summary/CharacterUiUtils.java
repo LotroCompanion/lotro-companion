@@ -22,6 +22,7 @@ import delta.games.lotro.common.CharacterSex;
 import delta.games.lotro.common.enums.LotroEnum;
 import delta.games.lotro.common.enums.LotroEnumsRegistry;
 import delta.games.lotro.gui.utils.SharedUiUtils;
+import delta.games.lotro.lore.parameters.Game;
 
 /**
  * Utility methods for character UI.
@@ -187,7 +188,7 @@ public class CharacterUiUtils
    */
   public static ComboBoxController<Integer> buildLevelCombo()
   {
-    int maxLevel=Config.getInstance().getMaxCharacterLevel();
+    int maxLevel=Game.getParameters().getMaxCharacterLevel();
     List<Integer> levels=new ArrayList<Integer>();
     for(int i=1;i<=maxLevel;i++)
     {

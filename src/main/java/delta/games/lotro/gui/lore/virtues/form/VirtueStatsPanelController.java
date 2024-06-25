@@ -17,7 +17,7 @@ import delta.games.lotro.common.stats.StatDescription;
 import delta.games.lotro.common.stats.StatProvider;
 import delta.games.lotro.common.stats.StatUtils;
 import delta.games.lotro.common.stats.StatsProvider;
-import delta.games.lotro.config.LotroCoreConfig;
+import delta.games.lotro.lore.parameters.Game;
 
 /**
  * Controller for a panel to display the stats of a virtue.
@@ -107,7 +107,7 @@ public class VirtueStatsPanelController
 
     VirtuesContributionsMgr mgr=VirtuesContributionsMgr.get();
     // Rows
-    int maxTier=LotroCoreConfig.getInstance().getMaxVirtueRank();
+    int maxTier=Game.getParameters().getMaxVirtueRank();
     for(int i=0;i<=maxTier;i++)
     {
       DataTableRow row=ret.addRow();
