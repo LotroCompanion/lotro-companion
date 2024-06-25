@@ -159,7 +159,7 @@ public class VirtuesEditionPanelController implements TierValueListener,ActionLi
 
   private JPanel buildSelectedVirtuesPanel()
   {
-    _selectedVirtues=new VirtuesDisplayPanelController();
+    _selectedVirtues=new VirtuesDisplayPanelController(true);
     JPanel selectedVirtuesPanel=_selectedVirtues.getPanel();
     for(int i=0;i<VirtuesDisplayPanelController.MAX_VIRTUES;i++)
     {

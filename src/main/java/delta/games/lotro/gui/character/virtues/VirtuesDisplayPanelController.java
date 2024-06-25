@@ -24,14 +24,18 @@ public class VirtuesDisplayPanelController
   private VirtueIconController[] _virtues;
   private JLabel[] _virtueLabels;
   private JPanel _panel;
+  // Config
+  private boolean _showVirtueName;
 
   /**
    * Constructor.
+   * @param showVirtueName Show the name of the virtue or not.
    */
-  public VirtuesDisplayPanelController()
+  public VirtuesDisplayPanelController(boolean showVirtueName)
   {
     _virtues=new VirtueIconController[MAX_VIRTUES];
     _virtueLabels=new JLabel[MAX_VIRTUES];
+    _showVirtueName=showVirtueName;
     _panel=build();
   }
 
@@ -98,10 +102,13 @@ public class VirtuesDisplayPanelController
     {
       _virtues[i]=new VirtueIconController(null,true);
       int left=(i>0)?3:0;
-      GridBagConstraints c=new GridBagConstraints(i,0,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(0,left,0,0),0,0);
       _virtueLabels[i]=GuiFactory.buildLabel("");
-      panel.add(_virtueLabels[i],c);
-      c.gridy++;
+      GridBagConstraints c=new GridBagConstraints(i,0,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(0,left,0,0),0,0);
+      if (_showVirtueName)
+      {
+        panel.add(_virtueLabels[i],c);
+        c.gridy++;
+      }
       JLabel label=_virtues[i].getLabel();
       panel.add(label,c);
     }

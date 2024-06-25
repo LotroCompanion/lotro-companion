@@ -24,7 +24,7 @@ public class MainTestVirtuesDisplayPanel
     CharacterGeneratorMeva mevaGenerator=new CharacterGeneratorMeva(tools);
     CharacterData meva=mevaGenerator.buildCharacter();
     meva.setDate(Long.valueOf(System.currentTimeMillis()));
-    VirtuesDisplayPanelController panelCtrl=new VirtuesDisplayPanelController();
+    VirtuesDisplayPanelController panelCtrl=new VirtuesDisplayPanelController(false);
     VirtuesSet virtues=meva.getVirtues();
     virtues.setSelectedVirtue(null,1);
     panelCtrl.setVirtues(virtues);

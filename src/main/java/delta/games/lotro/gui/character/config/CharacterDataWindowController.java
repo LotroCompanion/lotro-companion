@@ -76,7 +76,7 @@ public class CharacterDataWindowController extends DefaultFormDialogController<C
     _attrsController.set();
     _statsController=new CharacterStatsSummaryPanelController(this,toonData);
     _equipmentController=new EquipmentEditionPanelController(this,toon,toonData);
-    _virtuesController=new VirtuesDisplayPanelController();
+    _virtuesController=new VirtuesDisplayPanelController(true);
     updateVirtues();
     _buffsController=new BuffEditionPanelController(this,toonData);
     _traitsController=new TraitsEditionPanelController(parent,toonData);
