@@ -35,6 +35,7 @@ public class AbstractIconController
     _useNavigation=useNavigation;
     _icon=GuiFactory.buildIconButton();
     _icon.setSize(DEFAULT_SIZE,DEFAULT_SIZE);
+    _icon.setBorder(null);
   }
 
   /**
