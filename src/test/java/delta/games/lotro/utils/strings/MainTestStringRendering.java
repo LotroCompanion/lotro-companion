@@ -1,6 +1,7 @@
 package delta.games.lotro.utils.strings;
 
 import java.io.File;
+import java.util.Map;
 
 import delta.common.utils.i18n.SingleLocaleLabelsManager;
 import delta.games.lotro.LotroTestUtils;
@@ -25,10 +26,19 @@ public class MainTestStringRendering
 {
   private StringRenderer buildRenderer()
   {
-    ContextVariableValueProvider p=new ContextVariableValueProvider();
     CharacterFile toon=new LotroTestUtils().getToonByName("Meva");
     CharacterSummary summary=toon.getSummary();
-    p.setup(summary);
+    Map<String,String> context=RenderingUtils.setupContext(summary);
+    context.put("PERCENTVALUE","0%");
+    context.put("VALUE","0");
+    context.put("TOTAL","TOTAL");
+    context.put("NUMBER","N");
+    context.put("MAX","MAX");
+    context.put("CURRENT","N");
+    context.put("PROPERTY","(property)");
+    context.put("DESTINATION","(destination)");
+    context.put("PROCPROBABILITY","X%");
+    ContextVariableValueProvider p=new ContextVariableValueProvider(context);
     StringRenderer r=new StringRenderer(p);
     return r;
   }

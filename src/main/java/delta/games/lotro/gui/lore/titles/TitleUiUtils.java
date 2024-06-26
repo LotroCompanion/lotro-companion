@@ -3,9 +3,11 @@ package delta.games.lotro.gui.lore.titles;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JLabel;
 
+import delta.common.ui.swing.area.AreaController;
 import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.common.ui.swing.labels.HyperLinkController;
 import delta.common.ui.swing.labels.LocalHyperlinkAction;
@@ -79,5 +81,52 @@ public class TitleUiUtils
     PageIdentifier ref=ReferenceConstants.getTitleReference(titleID);
     NavigationUtils.navigateTo(ref,parent);
   }
-}
 
+  /**
+   * Available formats to render titles.
+   * @author DAM
+   */
+  public enum TitleRenderingFormat
+  {
+    /**
+     * Includes rank, surname and handles gender.
+     */
+    FULL,
+    /**
+     * No rank, no surname. Handles gender.
+     */
+    SHORT,
+    /**
+     * Minimal (no player name). Handles gender.
+     */
+    MINIMAL
+  }
+
+  /**
+   * Render a title.
+   * @param areaController Context.
+   * @param title Title to use.
+   * @param format Format to use.
+   * @return the rendered title.
+   */
+  public static String renderTitle(AreaController areaController, TitleDescription title, TitleRenderingFormat format)
+  {
+    Map<String,String> context=ContextRendering.initContext(areaController);
+    if (format!=TitleRenderingFormat.FULL)
+    {
+      context.put("RANK","");
+      context.put("SURNAME","");
+      if (format==TitleRenderingFormat.MINIMAL)
+      {
+        String name=context.get("NAME");
+        context.put("NAME",name.substring(name.indexOf('[')));
+      }
+    }
+    String renderedTitle=ContextRendering.renderCustomContext(context,title.getRawName()).trim();
+    if (renderedTitle.startsWith(","))
+    {
+      renderedTitle=renderedTitle.substring(1).trim();
+    }
+    return renderedTitle;
+  }
+}

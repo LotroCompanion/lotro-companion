@@ -1,21 +1,15 @@
 package delta.games.lotro.utils.strings;
 
+import java.util.Map;
+
 import delta.common.ui.swing.area.AreaController;
 import delta.common.ui.swing.area.AreaUtils;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.context.Context;
 import delta.common.utils.context.ContextUtils;
 import delta.common.utils.variables.VariablesResolver;
-import delta.games.lotro.Config;
 import delta.games.lotro.character.BaseCharacterSummary;
-import delta.games.lotro.character.classes.ClassDescription;
-import delta.games.lotro.character.classes.ClassesManager;
-import delta.games.lotro.character.classes.WellKnownCharacterClassKeys;
-import delta.games.lotro.character.races.RaceDescription;
-import delta.games.lotro.character.races.RacesManager;
-import delta.games.lotro.common.Genders;
 import delta.games.lotro.dat.data.strings.renderer.StringRenderer;
-import delta.games.lotro.lore.parameters.Game;
 import delta.games.lotro.utils.ContextPropertyNames;
 
 /**
@@ -24,30 +18,7 @@ import delta.games.lotro.utils.ContextPropertyNames;
  */
 public class ContextRendering
 {
-  private static final BaseCharacterSummary DEFAULT_SUMMARY=buildDefaultSummary();
-
-  private static BaseCharacterSummary buildDefaultSummary()
-  {
-    BaseCharacterSummary ret=new BaseCharacterSummary();
-    // Class
-    ClassDescription characterClass=ClassesManager.getInstance().getCharacterClassByKey(WellKnownCharacterClassKeys.CHAMPION);
-    ret.setCharacterClass(characterClass);
-    // Race
-    RaceDescription race=RacesManager.getInstance().getByKey("man");
-    ret.setRace(race);
-    // Gender
-    ret.setCharacterSex(Genders.MALE);
-    // Level
-    int maxLevel=Game.getParameters().getMaxCharacterLevel();
-    ret.setLevel(maxLevel);
-    // Name
-    ret.setName("(character name)"); // I18n
-    // Surname
-    ret.setSurname("(surname)"); // I18n
-    // Rank
-    ret.setRankCode(null);
-    return ret;
-  }
+  private static final BaseCharacterSummary DEFAULT_SUMMARY=RenderingUtils.buildDefaultSummary();
 
   /**
    * Render a given string using the given character summary.
@@ -57,8 +28,8 @@ public class ContextRendering
    */
   public static String render(AreaController areaController, String rawFormat)
   {
-    BaseCharacterSummary summary=getSummaryFromContext(areaController);
-    return render(summary,rawFormat);
+    Context context=getContext(areaController);
+    return render(context,rawFormat);
   }
 
   /**
@@ -73,7 +44,12 @@ public class ContextRendering
     return render(summary,rawFormat);
   }
 
-  private static BaseCharacterSummary getSummaryFromContext(AreaController areaController)
+  /**
+   * Get the context from the given area controller.
+   * @param areaController Area controller.
+   * @return A context or <code>null</code> if not found.
+   */
+  public static Context getContext(AreaController areaController)
   {
     Context context=null;
     WindowController parentController=AreaUtils.findWindowController(areaController);
@@ -81,7 +57,19 @@ public class ContextRendering
     {
       context=parentController.getContext();
     }
-    return getSummaryFromContext(context);
+    return context;
+  }
+
+  /**
+   * Initialize a rendering context using the current UI controller.
+   * @param areaController UI controller.
+   * @return A rendering context.
+   */
+  public static Map<String,String> initContext(AreaController areaController)
+  {
+    Context context=getContext(areaController);
+    BaseCharacterSummary summary=getSummaryFromContext(context);
+    return RenderingUtils.setupContext(summary);
   }
 
   private static BaseCharacterSummary getSummaryFromContext(Context context)
@@ -106,22 +94,8 @@ public class ContextRendering
    */
   public static String render(BaseCharacterSummary summary, String rawFormat)
   {
-    if (rawFormat==null)
-    {
-      return null;
-    }
-    if (rawFormat.indexOf("${")==-1)
-    {
-      return rawFormat;
-    }
-    ContextVariableValueProvider provider=new ContextVariableValueProvider();
-    provider.setup(summary);
-    StringRenderer renderer=new StringRenderer(provider);
-    String ret=renderer.render(rawFormat);
-    ret=ret.replace(" ,",",");
-    ret=ret.replace("  "," ");
-    ret=ret.trim();
-    return ret;
+    Map<String,String> map=RenderingUtils.setupContext(summary);
+    return renderCustomContext(map,rawFormat);
   }
 
   /**
@@ -131,10 +105,34 @@ public class ContextRendering
    */
   public static VariablesResolver buildRenderer(AreaController areaController)
   {
-    BaseCharacterSummary summary=getSummaryFromContext(areaController);
-    ContextVariableValueProvider provider=new ContextVariableValueProvider();
-    provider.setup(summary);
+    Map<String,String> newContext=initContext(areaController);
+    ContextVariableValueProvider provider=new ContextVariableValueProvider(newContext);
     StringRenderer renderer=new StringRenderer(provider);
     return renderer.getResolver();
+  }
+
+  /**
+   * Render a given string using the given context.
+   * @param context Context to use.
+   * @param rawFormat Input string.
+   * @return the rendered string.
+   */
+  public static String renderCustomContext(Map<String,String> context, String rawFormat)
+  {
+    if (rawFormat==null)
+    {
+      return null;
+    }
+    if (rawFormat.indexOf("${")==-1)
+    {
+      return rawFormat;
+    }
+    ContextVariableValueProvider provider=new ContextVariableValueProvider(context);
+    StringRenderer renderer=new StringRenderer(provider);
+    String ret=renderer.render(rawFormat);
+    ret=ret.replace(" ,",",");
+    ret=ret.replace("  "," ");
+    ret=ret.trim();
+    return ret;
   }
 }
