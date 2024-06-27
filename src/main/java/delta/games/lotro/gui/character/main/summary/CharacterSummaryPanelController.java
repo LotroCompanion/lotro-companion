@@ -29,8 +29,11 @@ import delta.games.lotro.lore.maps.Area;
 import delta.games.lotro.lore.maps.Dungeon;
 import delta.games.lotro.lore.maps.DungeonsManager;
 import delta.games.lotro.lore.maps.GeoAreasManager;
+import delta.games.lotro.lore.pvp.RankScaleKeys;
+import delta.games.lotro.lore.pvp.RanksManager;
 import delta.games.lotro.lore.titles.TitleDescription;
 import delta.games.lotro.lore.titles.TitlesManager;
+import delta.games.lotro.utils.strings.ContextRendering;
 
 /**
  * Panel to show a character summary.
@@ -45,6 +48,7 @@ public class CharacterSummaryPanelController extends AbstractPanelController
   private JLabel _class;
   private JLabel _kinship;
   private JLabel _level;
+  private JLabel _pvpRank;
   private NavigationHyperLink _title;
   private JLabel _positionZone;
   private JLabel _position;
@@ -63,6 +67,7 @@ public class CharacterSummaryPanelController extends AbstractPanelController
     _class=GuiFactory.buildLabel("");
     _kinship=GuiFactory.buildLabel("");
     _level=GuiFactory.buildLabel("");
+    _pvpRank=GuiFactory.buildLabel("");
     _title=new NavigationHyperLink(parent,"",null);
     _positionZone=GuiFactory.buildLabel("");
     _position=GuiFactory.buildLabel("");
@@ -101,6 +106,10 @@ public class CharacterSummaryPanelController extends AbstractPanelController
     // Level
     ret.add(GuiFactory.buildLabel("Level:"),cLabel);
     ret.add(_level,cValue);
+    cLabel.gridy++;cValue.gridy++;
+    // PVP rank
+    ret.add(GuiFactory.buildLabel("PVP Rank:"),cLabel);
+    ret.add(_pvpRank,cValue);
     cLabel.gridy++;cValue.gridy++;
     // Title
     ret.add(GuiFactory.buildLabel("Title:"),cLabel);
@@ -183,6 +192,18 @@ public class CharacterSummaryPanelController extends AbstractPanelController
     // Level
     int level=summary.getLevel();
     _level.setText(String.valueOf(level));
+    // PVP Rank
+    Integer rankCode=summary.getRankCode();
+    String rank=RanksManager.getInstance().getRankLabel(rankCode,RankScaleKeys.RENOWN);
+    if (rank!=null)
+    {
+      rank=ContextRendering.render(this,rank);
+    }
+    else
+    {
+      rank="?";
+    }
+    _pvpRank.setText(rank);
     // Title
     Integer titleID=details.getCurrentTitleId();
     TitleDescription title=null;
@@ -266,6 +287,7 @@ public class CharacterSummaryPanelController extends AbstractPanelController
     _class=null;
     _kinship=null;
     _level=null;
+    _pvpRank=null;
     if (_title!=null)
     {
       _title.dispose();
