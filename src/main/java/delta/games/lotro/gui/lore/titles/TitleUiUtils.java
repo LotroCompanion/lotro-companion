@@ -13,12 +13,15 @@ import delta.common.ui.swing.labels.HyperLinkController;
 import delta.common.ui.swing.labels.LocalHyperlinkAction;
 import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.common.ui.swing.windows.WindowController;
+import delta.common.utils.context.Context;
+import delta.games.lotro.character.BaseCharacterSummary;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.gui.common.rewards.RewardsUiUtils;
 import delta.games.lotro.gui.utils.NavigationUtils;
 import delta.games.lotro.lore.titles.TitleDescription;
 import delta.games.lotro.lore.titles.TitlesManager;
 import delta.games.lotro.utils.strings.ContextRendering;
+import delta.games.lotro.utils.strings.RenderingUtils;
 
 /**
  * Utility methods for title-related UIs.
@@ -63,7 +66,7 @@ public class TitleUiUtils
     String text="???";
     if (title!=null)
     {
-      text=ContextRendering.render(parent,title.getRawName());
+      text=renderTitle(parent,title,TitleRenderingFormat.MINIMAL);
     }
     text=RewardsUiUtils.getDisplayedTitle(text);
     LocalHyperlinkAction action=new LocalHyperlinkAction(text,al);
@@ -112,6 +115,37 @@ public class TitleUiUtils
   public static String renderTitle(AreaController areaController, TitleDescription title, TitleRenderingFormat format)
   {
     Map<String,String> context=ContextRendering.initContext(areaController);
+    return renderTitle(context,title,format);
+  }
+
+  /**
+   * Render a title.
+   * @param summary Character summary.
+   * @param title Title to use.
+   * @param format Format to use.
+   * @return the rendered title.
+   */
+  public static String renderTitle(BaseCharacterSummary summary, TitleDescription title, TitleRenderingFormat format)
+  {
+    Map<String,String> context=RenderingUtils.setupContext(summary);
+    return renderTitle(context,title,format);
+  }
+
+  /**
+   * Render a title.
+   * @param uiContext Context.
+   * @param title Title to use.
+   * @param format Format to use.
+   * @return the rendered title.
+   */
+  public static String renderTitle(Context uiContext, TitleDescription title, TitleRenderingFormat format)
+  {
+    Map<String,String> context=ContextRendering.initContext(uiContext);
+    return renderTitle(context,title,format);
+  }
+
+  private static String renderTitle(Map<String,String> context, TitleDescription title, TitleRenderingFormat format)
+  {
     if (format!=TitleRenderingFormat.FULL)
     {
       context.put("RANK","");
@@ -123,9 +157,18 @@ public class TitleUiUtils
       }
     }
     String renderedTitle=ContextRendering.renderCustomContext(context,title.getRawName()).trim();
+    renderedTitle=renderedTitle.replace('*',' ').trim();
+    if (renderedTitle.startsWith("+"))
+    {
+      renderedTitle=renderedTitle.substring(1).trim();
+    }
     if (renderedTitle.startsWith(","))
     {
       renderedTitle=renderedTitle.substring(1).trim();
+    }
+    if (renderedTitle.length()>0)
+    {
+      renderedTitle=renderedTitle.substring(0,1).toUpperCase()+renderedTitle.substring(1);
     }
     return renderedTitle;
   }

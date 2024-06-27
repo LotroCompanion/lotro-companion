@@ -19,6 +19,8 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.navigator.AbstractNavigablePanelController;
 import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.games.lotro.gui.LotroIconsManager;
+import delta.games.lotro.gui.lore.titles.TitleUiUtils;
+import delta.games.lotro.gui.lore.titles.TitleUiUtils.TitleRenderingFormat;
 import delta.games.lotro.lore.titles.TitleDescription;
 import delta.games.lotro.utils.strings.ContextRendering;
 
@@ -60,8 +62,7 @@ public class TitleDisplayPanelController extends AbstractNavigablePanelControlle
 
   private String getRenderedTitle()
   {
-    String rawTitle=_title.getRawName();
-    String title=ContextRendering.render(this,rawTitle);
+    String title=TitleUiUtils.renderTitle(this,_title,TitleRenderingFormat.MINIMAL);
     return title;
   }
 

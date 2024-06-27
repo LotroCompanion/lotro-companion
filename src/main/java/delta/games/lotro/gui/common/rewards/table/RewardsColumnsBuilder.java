@@ -13,6 +13,8 @@ import delta.games.lotro.common.rewards.Rewards;
 import delta.games.lotro.common.rewards.TitleReward;
 import delta.games.lotro.common.rewards.TraitReward;
 import delta.games.lotro.common.rewards.VirtueReward;
+import delta.games.lotro.gui.lore.titles.TitleUiUtils;
+import delta.games.lotro.gui.lore.titles.TitleUiUtils.TitleRenderingFormat;
 import delta.games.lotro.lore.reputation.Faction;
 import delta.games.lotro.lore.titles.TitleDescription;
 import delta.games.lotro.utils.strings.ContextRendering;
@@ -72,8 +74,7 @@ public class RewardsColumnsBuilder
           if (!titleRewards.isEmpty())
           {
             TitleDescription title=titleRewards.get(0).getTitle();
-            String rawTitleName=title.getRawName();
-            String titleName=ContextRendering.render(parent,rawTitleName);
+            String titleName=TitleUiUtils.renderTitle(parent,title,TitleRenderingFormat.MINIMAL);
             return titleName;
           }
           return null;

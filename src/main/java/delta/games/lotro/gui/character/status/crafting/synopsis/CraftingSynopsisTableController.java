@@ -34,6 +34,8 @@ import delta.games.lotro.character.status.reputation.FactionStatus;
 import delta.games.lotro.common.comparators.TypedNamedComparator;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.character.status.reputation.synopsis.ReputationSynopsisTableController;
+import delta.games.lotro.gui.lore.titles.TitleUiUtils;
+import delta.games.lotro.gui.lore.titles.TitleUiUtils.TitleRenderingFormat;
 import delta.games.lotro.lore.crafting.CraftingLevel;
 import delta.games.lotro.lore.crafting.CraftingLevelTier;
 import delta.games.lotro.lore.crafting.Profession;
@@ -447,8 +449,7 @@ public class CraftingSynopsisTableController
       TitleDescription title=tier.getTitle();
       if (title!=null)
       {
-        String rawTitleName=title.getRawName();
-        text=ContextRendering.render(context,rawTitleName);
+        text=TitleUiUtils.renderTitle(context,title,TitleRenderingFormat.MINIMAL);
       }
     }
     label.setForeground(Color.BLACK);

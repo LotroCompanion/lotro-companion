@@ -24,10 +24,11 @@ import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.games.lotro.common.comparators.NamedComparator;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
+import delta.games.lotro.gui.lore.titles.TitleUiUtils;
+import delta.games.lotro.gui.lore.titles.TitleUiUtils.TitleRenderingFormat;
 import delta.games.lotro.lore.billingGroups.BillingGroupDescription;
 import delta.games.lotro.lore.titles.TitleDescription;
 import delta.games.lotro.utils.html.HtmlUtils;
-import delta.games.lotro.utils.strings.ContextRendering;
 
 /**
  * Controller for a billing group display panel.
@@ -180,8 +181,7 @@ public class BillingGroupDisplayPanelController implements NavigablePanelControl
     sb.append("<b>");
     int titleID=title.getIdentifier();
     PageIdentifier to=ReferenceConstants.getTitleReference(titleID);
-    String rawTitleName=title.getRawName();
-    String titleName=ContextRendering.render(this,rawTitleName);
+    String titleName=TitleUiUtils.renderTitle(this,title,TitleRenderingFormat.MINIMAL);
     HtmlUtils.printLink(sb,to.getFullAddress(),titleName);
     sb.append("</b></p>");
   }

@@ -20,10 +20,10 @@ import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.common.comparators.NamedComparator;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.lore.items.chooser.ItemChooser;
+import delta.games.lotro.gui.lore.titles.TitleUiUtils.TitleRenderingFormat;
 import delta.games.lotro.gui.utils.UiConfiguration;
 import delta.games.lotro.lore.titles.TitleDescription;
 import delta.games.lotro.lore.titles.TitlesManager;
-import delta.games.lotro.utils.strings.ContextRendering;
 
 /**
  * Controller for a table that shows titles.
@@ -132,8 +132,7 @@ public class TitlesTableController extends AbstractAreaController
         @Override
         public String getData(TitleDescription title)
         {
-          String rawName=title.getRawName();
-          return ContextRendering.render(parent,rawName);
+          return TitleUiUtils.renderTitle(parent,title,TitleRenderingFormat.MINIMAL);
         }
       };
       DefaultTableColumnController<TitleDescription,String> nameColumn=new DefaultTableColumnController<TitleDescription,String>(TitleColumnIds.NAME.name(),"Name",String.class,nameCell);

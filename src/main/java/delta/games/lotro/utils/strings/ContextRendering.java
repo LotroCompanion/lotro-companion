@@ -51,7 +51,7 @@ public class ContextRendering
    * @param areaController Area controller.
    * @return A context or <code>null</code> if not found.
    */
-  public static Context getContext(AreaController areaController)
+  private static Context getContext(AreaController areaController)
   {
     Context context=null;
     WindowController parentController=AreaUtils.findWindowController(areaController);
@@ -70,6 +70,16 @@ public class ContextRendering
   public static Map<String,String> initContext(AreaController areaController)
   {
     Context context=getContext(areaController);
+    return initContext(context);
+  }
+
+  /**
+   * Initialize a rendering context using the given UI context.
+   * @param context Context to use.
+   * @return A rendering context.
+   */
+  public static Map<String,String> initContext(Context context)
+  {
     BaseCharacterSummary summary=getSummaryFromContext(context);
     return RenderingUtils.setupContext(summary);
   }

@@ -29,6 +29,8 @@ import delta.games.lotro.common.money.Money;
 import delta.games.lotro.config.LotroCoreConfig;
 import delta.games.lotro.gui.character.status.achievables.table.ProgressTableCellRenderer;
 import delta.games.lotro.gui.character.storage.StorageUiUtils;
+import delta.games.lotro.gui.lore.titles.TitleUiUtils;
+import delta.games.lotro.gui.lore.titles.TitleUiUtils.TitleRenderingFormat;
 import delta.games.lotro.gui.utils.MoneyCellRenderer;
 import delta.games.lotro.lore.crafting.CraftingData;
 import delta.games.lotro.lore.crafting.CraftingSystem;
@@ -176,7 +178,7 @@ public class CharacterFileColumnsBuilder
             TitleDescription title=TitlesManager.getInstance().getTitle(titleId.intValue());
             if (title!=null)
             {
-              titleName=ContextRendering.render(file.getSummary(),title.getRawName());
+              titleName=TitleUiUtils.renderTitle(file.getSummary(),title,TitleRenderingFormat.MINIMAL);
             }
           }
           return titleName;

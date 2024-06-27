@@ -6,10 +6,11 @@ import delta.common.ui.swing.area.AreaController;
 import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.games.lotro.common.enums.BillingGroup;
 import delta.games.lotro.common.rewards.RewardsExplorer;
+import delta.games.lotro.gui.lore.titles.TitleUiUtils;
+import delta.games.lotro.gui.lore.titles.TitleUiUtils.TitleRenderingFormat;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.legendary.relics.Relic;
 import delta.games.lotro.lore.titles.TitleDescription;
-import delta.games.lotro.utils.strings.ContextRendering;
 
 /**
  * Utility methods for reward-related UIs.
@@ -74,8 +75,7 @@ public class RewardsUiUtils
     List<TitleDescription> titles=_rewardsExplorer.getTitles();
     for(TitleDescription title : titles)
     {
-      String rawTitleName=title.getRawName();
-      String titleName=ContextRendering.render(parent,rawTitleName);
+      String titleName=TitleUiUtils.renderTitle(parent,title,TitleRenderingFormat.MINIMAL);
       String displayedTitle=getDisplayedTitle(titleName);
       ctrl.addItem(title,displayedTitle);
     }

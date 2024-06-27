@@ -38,6 +38,7 @@ public class MainTestStringRendering
     context.put("PROPERTY","(property)");
     context.put("DESTINATION","(destination)");
     context.put("PROCPROBABILITY","X%");
+    context.put("EFFECTLIST","(effects)");
     ContextVariableValueProvider p=new ContextVariableValueProvider(context);
     StringRenderer r=new StringRenderer(p);
     return r;
