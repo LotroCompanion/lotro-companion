@@ -35,7 +35,7 @@ import delta.games.lotro.character.CharactersManager;
 import delta.games.lotro.character.events.CharacterEvent;
 import delta.games.lotro.character.events.CharacterEventType;
 import delta.games.lotro.character.io.xml.CharacterXMLParser;
-import delta.games.lotro.gui.character.main.CharacterFileWindowController;
+import delta.games.lotro.gui.character.main.MainCharacterWindowController;
 import delta.games.lotro.gui.main.GlobalPreferences;
 import delta.games.lotro.gui.utils.l10n.Labels;
 import delta.games.lotro.utils.events.EventsManager;
@@ -232,11 +232,11 @@ public class ToonsManagementController implements ActionListener,GenericEventsLi
   {
     String serverName=toon.getServerName();
     String toonName=toon.getName();
-    String id=CharacterFileWindowController.getIdentifier(serverName,toonName);
+    String id=MainCharacterWindowController.getIdentifier(serverName,toonName);
     WindowController controller=_mainWindowsManager.getWindow(id);
     if (controller==null)
     {
-      controller=new CharacterFileWindowController(toon);
+      controller=new MainCharacterWindowController(toon);
       _mainWindowsManager.registerWindow(controller);
       controller.getWindow().setLocationRelativeTo(getPanel());
     }
@@ -265,7 +265,7 @@ public class ToonsManagementController implements ActionListener,GenericEventsLi
       int result=GuiFactory.showQuestionDialog(_parentController.getWindow(),"Do you really want to delete " + toonName+"@"+ serverName + "?","Delete?",JOptionPane.YES_NO_OPTION); // I18n
       if (result==JOptionPane.OK_OPTION)
       {
-        String id=CharacterFileWindowController.getIdentifier(serverName,toonName);
+        String id=MainCharacterWindowController.getIdentifier(serverName,toonName);
         WindowController windowController=_mainWindowsManager.getWindow(id);
         if (windowController!=null)
         {
