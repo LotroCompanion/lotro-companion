@@ -23,7 +23,6 @@ import delta.games.lotro.lore.hobbies.HobbyDescription;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.legendary.relics.Relic;
 import delta.games.lotro.lore.titles.TitleDescription;
-import delta.games.lotro.utils.strings.ContextRendering;
 
 /**
  * Factory of icon controllers.

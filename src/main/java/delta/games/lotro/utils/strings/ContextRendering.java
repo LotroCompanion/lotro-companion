@@ -1,5 +1,7 @@
 package delta.games.lotro.utils.strings;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import delta.common.ui.swing.area.AreaController;
@@ -118,6 +120,39 @@ public class ContextRendering
    * @return the rendered string.
    */
   public static String renderCustomContext(Map<String,String> context, String rawFormat)
+  {
+    if (rawFormat==null)
+    {
+      return null;
+    }
+    if (rawFormat.indexOf("${")==-1)
+    {
+      return rawFormat;
+    }
+    // Render context elements (for RANK)
+    List<String> keys=new ArrayList<String>(context.keySet());
+    for(String key : keys)
+    {
+      String value=context.get(key);
+      value=unsafeRenderCustomContext(context,value);
+      context.put(key,value);
+    }
+    ContextVariableValueProvider provider=new ContextVariableValueProvider(context);
+    StringRenderer renderer=new StringRenderer(provider);
+    String ret=renderer.render(rawFormat);
+    ret=ret.replace(" ,",",");
+    ret=ret.replace("  "," ");
+    ret=ret.trim();
+    return ret;
+  }
+
+  /**
+   * Render a given string using the given context.
+   * @param context Context to use.
+   * @param rawFormat Input string.
+   * @return the rendered string.
+   */
+  private static String unsafeRenderCustomContext(Map<String,String> context, String rawFormat)
   {
     if (rawFormat==null)
     {
