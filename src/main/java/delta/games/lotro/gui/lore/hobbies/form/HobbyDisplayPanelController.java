@@ -24,6 +24,8 @@ import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.common.utils.l10n.L10n;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
+import delta.games.lotro.gui.lore.titles.TitleUiUtils;
+import delta.games.lotro.gui.lore.titles.TitleUiUtils.TitleRenderingFormat;
 import delta.games.lotro.gui.utils.ItemDisplayGadgets;
 import delta.games.lotro.gui.utils.navigation.NavigationHyperLink;
 import delta.games.lotro.lore.hobbies.HobbyDescription;
@@ -251,8 +253,8 @@ public class HobbyDisplayPanelController extends AbstractNavigablePanelControlle
       if (title!=null)
       {
         PageIdentifier titlePageId=ReferenceConstants.getTitleReference(title.getIdentifier());
-        // TODO !!French gives long title name with male/female labels!!
-        NavigationHyperLink titleLink=new NavigationHyperLink(getParent(),title.getName(),titlePageId);
+        String titleName=TitleUiUtils.renderTitle(getParent(),title,TitleRenderingFormat.MINIMAL);
+        NavigationHyperLink titleLink=new NavigationHyperLink(getParent(),titleName,titlePageId);
         _links.add(titleLink);
         titleLabel=titleLink.getLabel();
       }

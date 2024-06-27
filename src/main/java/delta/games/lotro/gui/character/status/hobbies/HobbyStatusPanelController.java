@@ -14,6 +14,8 @@ import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.l10n.L10n;
 import delta.games.lotro.character.status.hobbies.HobbyStatus;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
+import delta.games.lotro.gui.lore.titles.TitleUiUtils;
+import delta.games.lotro.gui.lore.titles.TitleUiUtils.TitleRenderingFormat;
 import delta.games.lotro.gui.utils.IconAndLinkPanelController;
 import delta.games.lotro.gui.utils.SharedPanels;
 import delta.games.lotro.gui.utils.navigation.NavigationHyperLink;
@@ -71,7 +73,8 @@ public class HobbyStatusPanelController
     if (title!=null)
     {
       PageIdentifier titlePageId=ReferenceConstants.getTitleReference(title.getIdentifier());
-      _title=new NavigationHyperLink(parent,title.getName(),titlePageId);
+      String titleName=TitleUiUtils.renderTitle(parent,title,TitleRenderingFormat.MINIMAL);
+      _title=new NavigationHyperLink(parent,titleName,titlePageId);
       ret.add(_title.getLabel(),c);
     }
     else

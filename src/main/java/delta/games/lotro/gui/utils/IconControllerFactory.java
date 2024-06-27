@@ -14,6 +14,8 @@ import delta.games.lotro.common.Genders;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
 import delta.games.lotro.gui.lore.items.legendary.relics.RelicUiTools;
+import delta.games.lotro.gui.lore.titles.TitleUiUtils;
+import delta.games.lotro.gui.lore.titles.TitleUiUtils.TitleRenderingFormat;
 import delta.games.lotro.gui.utils.icons.TraitIconBuilder;
 import delta.games.lotro.gui.utils.items.ItemIconController;
 import delta.games.lotro.lore.emotes.EmoteDescription;
@@ -203,9 +205,10 @@ public class IconControllerFactory
    * Build a title icon.
    * @param parent Parent window.
    * @param title Title to use.
+   * @param format Title format.
    * @return A new controller.
    */
-  public static IconController buildTitleIcon(WindowController parent, TitleDescription title)
+  public static IconController buildTitleIcon(WindowController parent, TitleDescription title, TitleRenderingFormat format)
   {
     IconController ret=new IconController(parent);
     if (title!=null)
@@ -213,8 +216,7 @@ public class IconControllerFactory
       Icon icon=LotroIconsManager.getTitleIcon(title.getIconId());
       ret.setIcon(icon);
       ret.setPageId(ReferenceConstants.getTitleReference(title.getIdentifier()));
-      String rawTitleName=title.getName();
-      String titleName=ContextRendering.render(parent,rawTitleName);
+      String titleName=TitleUiUtils.renderTitle(parent,title,format);
       ret.setTooltipText(titleName);
     }
     return ret;

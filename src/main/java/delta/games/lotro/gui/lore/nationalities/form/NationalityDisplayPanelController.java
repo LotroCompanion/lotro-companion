@@ -20,6 +20,7 @@ import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.games.lotro.character.races.NationalityDescription;
 import delta.games.lotro.character.races.RaceDescription;
 import delta.games.lotro.character.races.RacesManager;
+import delta.games.lotro.gui.lore.titles.TitleUiUtils.TitleRenderingFormat;
 import delta.games.lotro.gui.utils.IconAndLinkPanelController;
 import delta.games.lotro.gui.utils.SharedPanels;
 import delta.games.lotro.lore.titles.TitleDescription;
@@ -144,7 +145,7 @@ public class NationalityDisplayPanelController implements NavigablePanelControll
       TitleDescription title=TitlesManager.getInstance().getTitle(titleID.intValue());
       if (title!=null)
       {
-        _titlePanel=SharedPanels.buildTitlePanel(_parent,title);
+        _titlePanel=SharedPanels.buildTitlePanel(_parent,title,TitleRenderingFormat.MINIMAL);
         c=new GridBagConstraints(0,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
         panel.add(_titlePanel.getPanel(),c);
       }

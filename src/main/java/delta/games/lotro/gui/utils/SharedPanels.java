@@ -20,6 +20,7 @@ import delta.games.lotro.character.skills.SkillDescription;
 import delta.games.lotro.character.traits.TraitDescription;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
+import delta.games.lotro.gui.lore.titles.TitleUiUtils.TitleRenderingFormat;
 import delta.games.lotro.lore.emotes.EmoteDescription;
 import delta.games.lotro.lore.hobbies.HobbyDescription;
 import delta.games.lotro.lore.titles.TitleDescription;
@@ -140,16 +141,17 @@ public class SharedPanels
    * Build a title link panel controller.
    * @param parent Parent window.
    * @param title Title to show.
+   * @param format Title format.
    * @return A panel.
    */
-  public static IconAndLinkPanelController buildTitlePanel(WindowController parent, TitleDescription title)
+  public static IconAndLinkPanelController buildTitlePanel(WindowController parent, TitleDescription title, TitleRenderingFormat format)
   {
     if (title==null)
     {
       return null;
     }
     // Icon
-    IconController iconCtrl=IconControllerFactory.buildTitleIcon(parent,title);
+    IconController iconCtrl=IconControllerFactory.buildTitleIcon(parent,title,format);
     // Link
     PageIdentifier pageId=ReferenceConstants.getTitleReference(title.getIdentifier());
     String rawTitleName=title.getName();

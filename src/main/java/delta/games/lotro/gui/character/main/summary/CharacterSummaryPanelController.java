@@ -22,6 +22,8 @@ import delta.games.lotro.common.geo.Position;
 import delta.games.lotro.common.geo.PositionUtils;
 import delta.games.lotro.common.id.InternalGameId;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
+import delta.games.lotro.gui.lore.titles.TitleUiUtils;
+import delta.games.lotro.gui.lore.titles.TitleUiUtils.TitleRenderingFormat;
 import delta.games.lotro.gui.utils.navigation.NavigationHyperLink;
 import delta.games.lotro.kinship.Kinship;
 import delta.games.lotro.kinship.KinshipsManager;
@@ -214,7 +216,8 @@ public class CharacterSummaryPanelController extends AbstractPanelController
     if (title!=null)
     {
       PageIdentifier titlePageId=ReferenceConstants.getTitleReference(title.getIdentifier());
-      _title.setText(title.getName());
+      String titleName=TitleUiUtils.renderTitle(this,title,TitleRenderingFormat.MINIMAL);
+      _title.setText(titleName);
       _title.setPageIdentifier(titlePageId);
     }
     else
