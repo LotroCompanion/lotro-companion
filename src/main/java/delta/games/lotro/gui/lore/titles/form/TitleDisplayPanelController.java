@@ -164,7 +164,9 @@ public class TitleDisplayPanelController extends AbstractNavigablePanelControlle
   {
     StringBuilder sb=new StringBuilder();
     sb.append("<html><body>");
-    sb.append(toHtml(_title.getDescription()));
+    String description=_title.getDescription();
+    String renderedDescription=ContextRendering.render(getParent(),description);
+    sb.append(toHtml(renderedDescription));
     sb.append("</body></html>");
     return sb.toString();
   }
