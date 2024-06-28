@@ -9,28 +9,33 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.navigator.AbstractNavigablePanelController;
 import delta.common.ui.swing.navigator.NavigatorWindowController;
+import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.games.lotro.character.skills.SkillDescription;
 import delta.games.lotro.common.action.ActionEntry;
 import delta.games.lotro.common.action.ActionTable;
 import delta.games.lotro.common.action.ActionTableEntry;
 import delta.games.lotro.common.action.ActionTables;
 import delta.games.lotro.common.action.ActionTablesEntry;
+import delta.games.lotro.common.comparators.NamedComparator;
 import delta.games.lotro.common.enums.AgentClass;
 import delta.games.lotro.common.enums.Alignment;
 import delta.games.lotro.common.enums.Genus;
 import delta.games.lotro.common.enums.Species;
 import delta.games.lotro.common.enums.SubSpecies;
-import delta.games.lotro.gui.utils.GadgetsControllersFactory;
-import delta.games.lotro.gui.utils.IconLinkLabelGadgetsController;
+import delta.games.lotro.gui.common.navigation.ReferenceConstants;
+import delta.games.lotro.gui.utils.NavigationUtils;
+import delta.games.lotro.gui.utils.navigation.NavigationHyperLink;
 import delta.games.lotro.lore.agents.AgentClassification;
 import delta.games.lotro.lore.agents.EntityClassification;
 import delta.games.lotro.lore.agents.mobs.MobDescription;
@@ -44,7 +49,7 @@ public class MobDisplayPanelController extends AbstractNavigablePanelController
   // Data
   private MobDescription _mob;
   // Controllers
-  private List<IconLinkLabelGadgetsController> _skills;
+  private List<NavigationHyperLink> _links;
 
   /**
    * Constructor.
@@ -80,9 +85,12 @@ public class MobDisplayPanelController extends AbstractNavigablePanelController
     return panel;
   }
 
-  private JPanel buildCenter()
+  private Component buildCenter()
   {
-    return buildSkillsPanel();
+    JPanel panel=buildSkillsPanel();
+    JScrollPane sp=GuiFactory.buildScrollPane(panel);
+    sp.setBorder(GuiFactory.buildTitledBorder("Skills"));
+    return sp;
   }
 
   private JPanel buildTopPanel()
@@ -178,36 +186,27 @@ public class MobDisplayPanelController extends AbstractNavigablePanelController
   private JPanel buildSkillsPanel()
   {
     // Build traits gadgets controllers
-    _skills=new ArrayList<IconLinkLabelGadgetsController>();
+    _links=new ArrayList<NavigationHyperLink>();
 
     for(SkillDescription skill : getSkills())
     {
-      IconLinkLabelGadgetsController gadget=GadgetsControllersFactory.build(getParent(),skill);
-      _skills.add(gadget);
+      PageIdentifier pageId=ReferenceConstants.getSkillReference(skill.getIdentifier());
+      String text=skill.getName();
+      NavigationHyperLink link=NavigationUtils.buildNavigationLink(getParent(),text,pageId);
+      _links.add(link);
     }
-    return buildPanel(_skills);
+    return buildPanel(_links);
   }
 
-  private JPanel buildPanel(List<IconLinkLabelGadgetsController> gadgetsList)
+  private JPanel buildPanel(List<NavigationHyperLink> links)
   {
     JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
     int y=0;
-    for(IconLinkLabelGadgetsController gadgets : gadgetsList)
+    for(NavigationHyperLink link : links)
     {
-      // Icon
-      GridBagConstraints c=new GridBagConstraints(0,y,1,2,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE, new Insets(0,0,0,0),5,5);
-      ret.add(gadgets.getIcon().getIcon(),c);
-      // Text
-      boolean hasComplements=(gadgets.getComplement().getText().length()>0);
-      int height=(hasComplements?1:2);
-      c=new GridBagConstraints(1,y,1,height,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL, new Insets(0,0,0,0),5,5);
-      ret.add(gadgets.getLink().getLabel(),c);
-      if (hasComplements)
-      {
-        c=new GridBagConstraints(1,y+1,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL, new Insets(0,0,0,0),5,5);
-        ret.add(gadgets.getComplement(),c);
-      }
-      y+=2;
+      GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL, new Insets(0,5,0,0),5,5);
+      ret.add(link.getLabel(),c);
+      y++;
     }
     GridBagConstraints c=new GridBagConstraints(0,y,1,1,0.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.VERTICAL,new Insets(0,0,0,0),0,0);
     ret.add(Box.createVerticalGlue(),c);
@@ -236,6 +235,7 @@ public class MobDisplayPanelController extends AbstractNavigablePanelController
         }
       }
     }
+    Collections.sort(ret,new NamedComparator());
     return ret;
   }
 
@@ -245,13 +245,13 @@ public class MobDisplayPanelController extends AbstractNavigablePanelController
     super.dispose();
     // Data
     _mob=null;
-    if (_skills!=null)
+    if (_links!=null)
     {
-      for(IconLinkLabelGadgetsController gadget : _skills)
+      for(NavigationHyperLink links : _links)
       {
-        gadget.dispose();
+        links.dispose();
       }
-      _skills=null;
+      _links=null;
     }
   }
 }
