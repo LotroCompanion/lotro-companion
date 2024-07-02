@@ -1,7 +1,6 @@
 package delta.games.lotro.gui.lore.items.chooser;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -49,8 +48,8 @@ public class ItemFilterConfiguration
   {
     int nbComponents=ItemChooserFilterComponent.values().length;
     _components=new boolean[nbComponents];
-    _armourTypes.addAll(Arrays.asList(ArmourTypes.ARMOUR_TYPES));
-    _shieldTypes.addAll(Arrays.asList(ShieldTypes.SHIELD_TYPES));
+    _armourTypes.addAll(ArmourTypes.getArmourTypes());
+    _shieldTypes.addAll(ShieldTypes.getShieldTypes());
     _weaponTypes.addAll(WeaponType.getAll());
     _damageTypes.addAll(DamageType.getAll());
     for(int i=1;i<400;i++) // TODO Configurable max item level
@@ -161,7 +160,7 @@ public class ItemFilterConfiguration
     _damageTypes.clear();
     _itemLevels.clear();
     Set<ArmourType> shieldTypes=new HashSet<ArmourType>();
-    shieldTypes.addAll(Arrays.asList(ShieldTypes.SHIELD_TYPES));
+    shieldTypes.addAll(ShieldTypes.getShieldTypes());
     for(Item item : items)
     {
       // Armour
