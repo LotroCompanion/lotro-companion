@@ -171,7 +171,10 @@ public class RewardsPanelController extends AbstractPanelController
       else
       {
         RewardGadgetsController controller=getController(rewardElement);
-        addRewardGadgets(target,controller.getIcon(),controller.getLabel(),c);
+        if (controller!=null)
+        {
+          addRewardGadgets(target,controller.getIcon(),controller.getLabel(),c);
+        }
       }
       updateConstraints(c);
     }
