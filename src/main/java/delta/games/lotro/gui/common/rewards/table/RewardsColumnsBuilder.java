@@ -7,6 +7,7 @@ import delta.common.ui.swing.area.AreaController;
 import delta.common.ui.swing.tables.CellDataProvider;
 import delta.common.ui.swing.tables.ColumnsUtils;
 import delta.common.ui.swing.tables.DefaultTableColumnController;
+import delta.games.lotro.common.money.Money;
 import delta.games.lotro.common.rewards.EmoteReward;
 import delta.games.lotro.common.rewards.ReputationReward;
 import delta.games.lotro.common.rewards.Rewards;
@@ -15,6 +16,7 @@ import delta.games.lotro.common.rewards.TraitReward;
 import delta.games.lotro.common.rewards.VirtueReward;
 import delta.games.lotro.gui.lore.titles.TitleUiUtils;
 import delta.games.lotro.gui.lore.titles.TitleUiUtils.TitleRenderingFormat;
+import delta.games.lotro.gui.utils.MoneyCellRenderer;
 import delta.games.lotro.lore.reputation.Faction;
 import delta.games.lotro.lore.titles.TitleDescription;
 import delta.games.lotro.utils.strings.ContextRendering;
@@ -140,20 +142,9 @@ public class RewardsColumnsBuilder
     // Mount XP column
     ret.add(buildMountXPColumn());
     // Virtue XP column
-    {
-      CellDataProvider<Rewards,Integer> virtueXpCell=new CellDataProvider<Rewards,Integer>()
-      {
-        @Override
-        public Integer getData(Rewards rewards)
-        {
-          int virtueXp=rewards.getVirtueXp();
-          return (virtueXp>0)?Integer.valueOf(virtueXp):null;
-        }
-      };
-      DefaultTableColumnController<Rewards,Integer> virtueXpColumn=new DefaultTableColumnController<Rewards,Integer>(RewardsColumnIds.VIRTUE_XP.name(),"Virtue XP",Integer.class,virtueXpCell); // I18n
-      ColumnsUtils.configureIntegerColumn(virtueXpColumn);
-      ret.add(virtueXpColumn);
-    }
+    ret.add(buildVirtueXPColumn());
+    // Money column
+    ret.add(buildMoneyColumn());
     return ret;
   }
 
@@ -263,5 +254,46 @@ public class RewardsColumnsBuilder
     DefaultTableColumnController<Rewards,Integer> reputationAmountColumn=new DefaultTableColumnController<Rewards,Integer>(RewardsColumnIds.REPUTATION_AMOUNT.name(),"Rep Amount",Integer.class,reputationAmountCell); // I18n
     reputationAmountColumn.setWidthSpecs(60,60,60);
     return reputationAmountColumn;
+  }
+
+  /**
+   * Build a 'virtue XP' column.
+   * @return a column.
+   */
+  public static DefaultTableColumnController<Rewards,Integer> buildVirtueXPColumn()
+  {
+    CellDataProvider<Rewards,Integer> virtueXpCell=new CellDataProvider<Rewards,Integer>()
+    {
+      @Override
+      public Integer getData(Rewards rewards)
+      {
+        int virtueXp=rewards.getVirtueXp();
+        return (virtueXp>0)?Integer.valueOf(virtueXp):null;
+      }
+    };
+    DefaultTableColumnController<Rewards,Integer> virtueXpColumn=new DefaultTableColumnController<Rewards,Integer>(RewardsColumnIds.VIRTUE_XP.name(),"Virtue XP",Integer.class,virtueXpCell); // I18n
+    ColumnsUtils.configureIntegerColumn(virtueXpColumn);
+    return virtueXpColumn;
+  }
+
+  /**
+   * Build a column for the money reward.
+   * @return a column.
+   */
+  public static DefaultTableColumnController<Rewards,Money> buildMoneyColumn()
+  {
+    CellDataProvider<Rewards,Money> valueCell=new CellDataProvider<Rewards,Money>()
+    {
+      @Override
+      public Money getData(Rewards item)
+      {
+        Money money=item.getMoney();
+        return money;
+      }
+    };
+    String columnName="Money";
+    DefaultTableColumnController<Rewards,Money> valueColumn=new DefaultTableColumnController<Rewards,Money>(RewardsColumnIds.MONEY.name(),columnName,Money.class,valueCell);
+    MoneyCellRenderer.configureColumn(valueColumn);
+    return valueColumn;
   }
 }

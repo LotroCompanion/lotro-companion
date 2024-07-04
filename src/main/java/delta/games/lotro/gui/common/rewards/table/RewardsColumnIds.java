@@ -61,5 +61,9 @@ public enum RewardsColumnIds
   /**
    * Infamy.
    */
-  INFAMY
+  INFAMY,
+  /**
+   * Money.
+   */
+  MONEY
 }

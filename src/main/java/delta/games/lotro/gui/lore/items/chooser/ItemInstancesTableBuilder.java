@@ -341,19 +341,4 @@ public class ItemInstancesTableBuilder
       setText(text);
     }
   }
-
-  /**
-   * Money renderer.
-   * @author DAM
-   */
-  public static class MoneyRenderer extends DefaultTableCellRenderer
-  {
-    @Override
-    public void setValue(Object value)
-    {
-      Money money=(Money)value;
-      String text=(money!=null)?money.getShortLabel():"";
-      setText(text);
-    }
-  }
 }
