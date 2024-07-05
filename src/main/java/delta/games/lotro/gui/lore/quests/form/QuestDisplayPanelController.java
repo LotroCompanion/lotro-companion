@@ -122,7 +122,8 @@ public class QuestDisplayPanelController extends AbstractNavigablePanelControlle
     panel.add(topPanel,c);
 
     // Rewards
-    _rewards=new RewardsPanelController(getParent(),_quest.getRewards());
+    boolean monsterPlay=_quest.isMonsterPlay();
+    _rewards=new RewardsPanelController(getParent(),_quest.getRewards(),monsterPlay);
     JPanel rewardsPanel=_rewards.getPanel();
     TitledBorder rewardsBorder=GuiFactory.buildTitledBorder("Rewards"); // I18n
     rewardsPanel.setBorder(rewardsBorder);

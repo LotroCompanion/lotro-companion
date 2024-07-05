@@ -106,7 +106,8 @@ public class DeedDisplayPanelController extends AbstractNavigablePanelController
     panel.add(topPanel,c);
 
     // Rewards
-    _rewards=new RewardsPanelController(getParent(),_deed.getRewards());
+    boolean monsterPlay=_deed.isMonsterPlay();
+    _rewards=new RewardsPanelController(getParent(),_deed.getRewards(),monsterPlay);
     JPanel rewardsPanel=_rewards.getPanel();
     TitledBorder rewardsBorder=GuiFactory.buildTitledBorder("Rewards"); // 18n
     rewardsPanel.setBorder(rewardsBorder);

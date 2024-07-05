@@ -48,6 +48,7 @@ public class RewardsPanelController extends AbstractPanelController
   private LotroPointsRewardGadgetsController _lotroPoints;
   private List<RewardGadgetsController> _rewardControllers;
   private VirtueXpRewardGadgetsController _virtueXpController;
+  private GloryRewardGadgetsController _gloryController;
   private MoneyDisplayController _moneyController;
   private XpRewardsDisplayController _xpController;
   // Configuration
@@ -67,9 +68,32 @@ public class RewardsPanelController extends AbstractPanelController
    * Constructor.
    * @param parent Parent window.
    * @param rewards Rewards to display.
+   * @param monsterPlay Monster play or not.
+   */
+  public RewardsPanelController(WindowController parent, Rewards rewards, boolean monsterPlay)
+  {
+    this(parent,rewards,8,monsterPlay);
+  }
+
+  /**
+   * Constructor.
+   * @param parent Parent window.
+   * @param rewards Rewards to display.
    * @param maxRows Maximum number of rows.
    */
   public RewardsPanelController(WindowController parent, Rewards rewards, int maxRows)
+  {
+    this(parent,rewards,maxRows,false);
+  }
+
+  /**
+   * Constructor.
+   * @param parent Parent window.
+   * @param rewards Rewards to display.
+   * @param maxRows Maximum number of rows.
+   * @param monsterPlay Monster play or not.
+   */
+  public RewardsPanelController(WindowController parent, Rewards rewards, int maxRows, boolean monsterPlay)
   {
     super(parent);
     _rewards=rewards;
@@ -87,19 +111,13 @@ public class RewardsPanelController extends AbstractPanelController
     }
     _rewardControllers=new ArrayList<RewardGadgetsController>();
     _maxRows=maxRows;
-    JPanel panel=build();
+    JPanel rewardsPanel=buildRewardsPanel(!monsterPlay);
+    JPanel panel=GuiFactory.buildPanel(new BorderLayout());
+    panel.add(rewardsPanel,BorderLayout.WEST);
     setPanel(panel);
   }
 
-  private JPanel build()
-  {
-    JPanel rewardsPanel=buildRewardsPanel();
-    JPanel ret=GuiFactory.buildPanel(new BorderLayout());
-    ret.add(rewardsPanel,BorderLayout.WEST);
-    return ret;
-  }
-
-  private JPanel buildRewardsPanel()
+  private JPanel buildRewardsPanel(boolean renown)
   {
     JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
@@ -123,6 +141,14 @@ public class RewardsPanelController extends AbstractPanelController
     {
       _virtueXpController=new VirtueXpRewardGadgetsController(this,virtueXp);
       addRewardGadgets(ret,_virtueXpController.getIcon(),_virtueXpController.getLabel(),c);
+      updateConstraints(c);
+    }
+    // Glory
+    int glory=_rewards.getGlory();
+    if (glory>0)
+    {
+      _gloryController=new GloryRewardGadgetsController(this,glory,renown);
+      addRewardGadgets(ret,_gloryController.getIcon(),_gloryController.getLabel(),c);
       updateConstraints(c);
     }
 
@@ -293,6 +319,11 @@ public class RewardsPanelController extends AbstractPanelController
     {
       _virtueXpController.dispose();
       _virtueXpController=null;
+    }
+    if (_gloryController!=null)
+    {
+      _gloryController.dispose();
+      _gloryController=null;
     }
     if (_moneyController!=null)
     {
