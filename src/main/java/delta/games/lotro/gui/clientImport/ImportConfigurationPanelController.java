@@ -68,7 +68,8 @@ public class ImportConfigurationPanelController implements Disposable
     for(ExtractableElement element : ExtractableElement.values())
     {
       CheckboxController checkbox=new CheckboxController(element.getLabel());
-      checkbox.setSelected(true);
+      boolean selected=(element!=ExtractableElement.ARCHIVE_GEAR);
+      checkbox.setSelected(selected);
       _gadgets.put(element,checkbox);
       GridBagConstraints c=new GridBagConstraints(column,row,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
       ret.add(checkbox.getCheckbox(),c);
