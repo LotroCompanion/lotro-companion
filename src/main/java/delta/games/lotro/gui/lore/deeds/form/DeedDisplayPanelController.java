@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
 import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -40,6 +41,7 @@ import delta.games.lotro.gui.lore.quests.form.AbstractAchievableRequirementPanel
 import delta.games.lotro.gui.lore.quests.form.AchievableRequirementsPanelFactory;
 import delta.games.lotro.gui.lore.worldEvents.form.LogicalExpressionsPanelFactory;
 import delta.games.lotro.gui.lore.worldEvents.form.PanelProvider;
+import delta.games.lotro.gui.utils.LayoutUtils;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.deeds.DeedType;
 import delta.games.lotro.lore.quests.objectives.ObjectivesDisplayBuilder;
@@ -109,16 +111,18 @@ public class DeedDisplayPanelController extends AbstractNavigablePanelController
     boolean monsterPlay=_deed.isMonsterPlay();
     _rewards=new RewardsPanelController(getParent(),_deed.getRewards(),monsterPlay);
     JPanel rewardsPanel=_rewards.getPanel();
+    JComponent rewards=LayoutUtils.configureMaxHeightWithScrollPane(rewardsPanel,400,40);
     TitledBorder rewardsBorder=GuiFactory.buildTitledBorder("Rewards"); // 18n
-    rewardsPanel.setBorder(rewardsBorder);
+    rewards.setBorder(rewardsBorder);
     c=new GridBagConstraints(1,1,1,1,0.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
-    panel.add(rewardsPanel,c);
+    panel.add(rewards,c);
 
     // Details
     _details=buildDetailsPane();
     JScrollPane detailsPane=GuiFactory.buildScrollPane(_details);
-    detailsPane.setBorder(GuiFactory.buildTitledBorder("Details")); // 18n
-    c=new GridBagConstraints(0,1,1,1,1.0,1.0,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
+    detailsPane.setBorder(GuiFactory.buildTitledBorder("Details")); // I18n
+    LayoutUtils.configureScrollPane(_details,detailsPane,500,40,400);
+    c=new GridBagConstraints(0,1,1,1,0.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(detailsPane,c);
     setData();
     return panel;

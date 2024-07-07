@@ -1,6 +1,5 @@
 package delta.games.lotro.gui.common.rewards.form;
 
-import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -8,6 +7,7 @@ import java.awt.Insets;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
@@ -21,6 +21,7 @@ import delta.games.lotro.common.rewards.BillingTokenReward;
 import delta.games.lotro.common.rewards.CraftingXpReward;
 import delta.games.lotro.common.rewards.EmoteReward;
 import delta.games.lotro.common.rewards.ItemReward;
+import delta.games.lotro.common.rewards.QuestCompleteReward;
 import delta.games.lotro.common.rewards.RelicReward;
 import delta.games.lotro.common.rewards.ReputationReward;
 import delta.games.lotro.common.rewards.RewardElement;
@@ -33,6 +34,7 @@ import delta.games.lotro.gui.common.money.MoneyDisplayController;
 import delta.games.lotro.lore.emotes.EmoteDescription;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.legendary.relics.Relic;
+import delta.games.lotro.lore.quests.Achievable;
 import delta.games.lotro.lore.titles.TitleDescription;
 
 /**
@@ -51,8 +53,6 @@ public class RewardsPanelController extends AbstractPanelController
   private GloryRewardGadgetsController _gloryController;
   private MoneyDisplayController _moneyController;
   private XpRewardsDisplayController _xpController;
-  // Configuration
-  private int _maxRows;
 
   /**
    * Constructor.
@@ -61,7 +61,7 @@ public class RewardsPanelController extends AbstractPanelController
    */
   public RewardsPanelController(WindowController parent, Rewards rewards)
   {
-    this(parent,rewards,8);
+    this(parent,rewards,false);
   }
 
   /**
@@ -71,29 +71,6 @@ public class RewardsPanelController extends AbstractPanelController
    * @param monsterPlay Monster play or not.
    */
   public RewardsPanelController(WindowController parent, Rewards rewards, boolean monsterPlay)
-  {
-    this(parent,rewards,8,monsterPlay);
-  }
-
-  /**
-   * Constructor.
-   * @param parent Parent window.
-   * @param rewards Rewards to display.
-   * @param maxRows Maximum number of rows.
-   */
-  public RewardsPanelController(WindowController parent, Rewards rewards, int maxRows)
-  {
-    this(parent,rewards,maxRows,false);
-  }
-
-  /**
-   * Constructor.
-   * @param parent Parent window.
-   * @param rewards Rewards to display.
-   * @param maxRows Maximum number of rows.
-   * @param monsterPlay Monster play or not.
-   */
-  public RewardsPanelController(WindowController parent, Rewards rewards, int maxRows, boolean monsterPlay)
   {
     super(parent);
     _rewards=rewards;
@@ -110,11 +87,8 @@ public class RewardsPanelController extends AbstractPanelController
       _lotroPoints=new LotroPointsRewardGadgetsController(this,lotroPoints);
     }
     _rewardControllers=new ArrayList<RewardGadgetsController>();
-    _maxRows=maxRows;
     JPanel rewardsPanel=buildRewardsPanel(!monsterPlay);
-    JPanel panel=GuiFactory.buildPanel(new BorderLayout());
-    panel.add(rewardsPanel,BorderLayout.WEST);
-    setPanel(panel);
+    setPanel(rewardsPanel);
   }
 
   private JPanel buildRewardsPanel(boolean renown)
@@ -174,6 +148,9 @@ public class RewardsPanelController extends AbstractPanelController
       ret.add(_xpController.getPanel(),c);
       c.gridy++;
     }
+    // Glue
+    c=new GridBagConstraints(0,c.gridy,2,1,1.0,1.0,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
+    ret.add(Box.createGlue(),c);
     return ret;
   }
 
@@ -209,11 +186,6 @@ public class RewardsPanelController extends AbstractPanelController
   private void updateConstraints(GridBagConstraints c)
   {
     c.gridy++;
-    if (c.gridy>_maxRows)
-    {
-      c.gridy=0;
-      c.gridx+=2;
-    }
   }
 
   private void addRewardGadgets(JPanel target, Component icon, JLabel label, GridBagConstraints c)
@@ -290,6 +262,13 @@ public class RewardsPanelController extends AbstractPanelController
     {
       BillingTokenReward billingTokenReward=(BillingTokenReward)rewardElement;
       ret=new BillingTokenRewardGadgetsController(parent,billingTokenReward.getBillingGroup());
+    }
+    // Quest complete
+    else if (rewardElement instanceof QuestCompleteReward)
+    {
+      QuestCompleteReward questCompleteReward=(QuestCompleteReward)rewardElement;
+      Achievable achievable=questCompleteReward.getAchievable().getObject();
+      ret=new QuestCompleteRewardGadgetsController(parent,achievable);
     }
     if (ret!=null)
     {

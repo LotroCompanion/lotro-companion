@@ -49,8 +49,8 @@ public class AchievableLinkController implements Disposable
   }
 
   /**
-   * Build the managed panel.
-   * @return a new panel.
+   * Build the managed controller.
+   * @return a new link controller.
    */
   private HyperLinkController buildLinkController()
   {

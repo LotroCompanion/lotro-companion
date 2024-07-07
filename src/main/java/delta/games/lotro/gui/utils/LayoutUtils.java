@@ -1,5 +1,6 @@
 package delta.games.lotro.gui.utils;
 
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -7,6 +8,7 @@ import java.util.List;
 
 import javax.swing.JComponent;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import delta.common.ui.swing.GuiFactory;
 
@@ -83,5 +85,52 @@ public class LayoutUtils
       }
     }
     return panel;
+  }
+
+  /**
+   * Configure a component so that its height does not exceed <code>maxheight</code>.
+   * Use a scroll pane if needed. If a scroll pane is used, its width is the component's
+   * preferred width + <code>margin</code>.
+   * @param inside
+   * @param maxHeight
+   * @param margin
+   * @return the initial component, or the newly built scrollpane.
+   */
+  public static JComponent configureMaxHeightWithScrollPane(JComponent inside, int maxHeight, int margin)
+  {
+    JComponent ret=inside;
+    Dimension preferredSize=inside.getPreferredSize();
+    int height=preferredSize.height;
+    if (height>maxHeight)
+    {
+      height=maxHeight;
+      JScrollPane scrollPane=GuiFactory.buildScrollPane(inside);
+      scrollPane.setPreferredSize(new Dimension(preferredSize.width+margin,height));
+      ret=scrollPane;
+    }
+    return ret;
+  }
+
+  /**
+   * Configure a scrollPane so that its width does not exceed <code>maxWidth</code>.
+   * @param inside Inside component.
+   * @param scrollPane Scroll pane.
+   * @param maxWidth Maximum width.
+   * @param margin Width margin.
+   * @param height The height to set for the scrollpane.
+   */
+  public static void configureScrollPane(JComponent inside, JScrollPane scrollPane, int maxWidth, int margin, int height)
+  {
+    Dimension preferredSize=inside.getPreferredSize();
+    int width=preferredSize.width;
+    if (width>maxWidth)
+    {
+      width=maxWidth;
+    }
+    else
+    {
+      width=width+margin;
+    }
+    scrollPane.setPreferredSize(new Dimension(width,height));
   }
 }

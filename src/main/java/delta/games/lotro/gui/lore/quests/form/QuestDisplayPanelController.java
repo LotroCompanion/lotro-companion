@@ -51,6 +51,7 @@ import delta.games.lotro.gui.common.rewards.form.RewardsPanelController;
 import delta.games.lotro.gui.lore.worldEvents.form.LogicalExpressionsPanelFactory;
 import delta.games.lotro.gui.lore.worldEvents.form.PanelProvider;
 import delta.games.lotro.gui.maps.instances.InstanceMapsWindowController;
+import delta.games.lotro.gui.utils.LayoutUtils;
 import delta.games.lotro.lore.instances.PrivateEncounter;
 import delta.games.lotro.lore.instances.PrivateEncountersManager;
 import delta.games.lotro.lore.quests.QuestDescription;
@@ -125,16 +126,18 @@ public class QuestDisplayPanelController extends AbstractNavigablePanelControlle
     boolean monsterPlay=_quest.isMonsterPlay();
     _rewards=new RewardsPanelController(getParent(),_quest.getRewards(),monsterPlay);
     JPanel rewardsPanel=_rewards.getPanel();
-    TitledBorder rewardsBorder=GuiFactory.buildTitledBorder("Rewards"); // I18n
-    rewardsPanel.setBorder(rewardsBorder);
+    JComponent rewards=LayoutUtils.configureMaxHeightWithScrollPane(rewardsPanel,400,40);
+    TitledBorder rewardsBorder=GuiFactory.buildTitledBorder("Rewards"); // 18n
+    rewards.setBorder(rewardsBorder);
     c=new GridBagConstraints(1,1,1,1,0.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
-    panel.add(rewardsPanel,c);
+    panel.add(rewards,c);
 
     // Details
     _details=buildDetailsPane();
     JScrollPane detailsPane=GuiFactory.buildScrollPane(_details);
     detailsPane.setBorder(GuiFactory.buildTitledBorder("Details")); // I18n
-    c=new GridBagConstraints(0,1,1,1,1.0,1.0,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
+    LayoutUtils.configureScrollPane(_details,detailsPane,500,40,400);
+    c=new GridBagConstraints(0,1,1,1,0.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     panel.add(detailsPane,c);
     setData();
     return panel;
