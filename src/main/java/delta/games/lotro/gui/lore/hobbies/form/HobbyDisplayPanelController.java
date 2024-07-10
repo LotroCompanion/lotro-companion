@@ -144,14 +144,14 @@ public class HobbyDisplayPanelController extends AbstractNavigablePanelControlle
     // Items
     JPanel itemsPanel=buildItemsTable();
     itemsPanel.setBorder(GuiFactory.buildTitledBorder("Items")); // I18n
-    c=new GridBagConstraints(0,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    c=new GridBagConstraints(0,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(itemsPanel,c);
     y++;
 
     // Titles
     JPanel titlesPanel=buildTitlesTable();
     titlesPanel.setBorder(GuiFactory.buildTitledBorder("Titles")); // I18n
-    c=new GridBagConstraints(0,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
+    c=new GridBagConstraints(0,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     panel.add(titlesPanel,c);
     y++;
 
@@ -219,7 +219,6 @@ public class HobbyDisplayPanelController extends AbstractNavigablePanelControlle
     for(Item item : _hobby.getItems())
     {
       c.gridx=0;
-      c.gridy++;
       ItemDisplayGadgets gadgets=new ItemDisplayGadgets(getParent(),item.getIdentifier(),1,"");
       _items.add(gadgets);
       // Icon
@@ -228,7 +227,10 @@ public class HobbyDisplayPanelController extends AbstractNavigablePanelControlle
       // Link
       ret.add(gadgets.getName(),c);
       c.gridx++;
+      c.gridy++;
     }
+    c=new GridBagConstraints(c.gridx,c.gridy,1,1,1.0,1.0,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
+    ret.add(Box.createGlue(),c);
     return ret;
   }
 
