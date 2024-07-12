@@ -87,6 +87,8 @@ public class HobbyDisplayPanelController extends AbstractNavigablePanelControlle
     JPanel rightPanel=buildRightPanel();
     c=new GridBagConstraints(1,0,1,1,1.0,1.0,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
     panel.add(rightPanel,c);
+    // Size
+    panel.setPreferredSize(new Dimension(900,600));
     return panel;
   }
 
@@ -238,7 +240,7 @@ public class HobbyDisplayPanelController extends AbstractNavigablePanelControlle
   {
     JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
     // Headers
-    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,5,2,5),0,0);
     ret.add(GuiFactory.buildLabel("Proficiency"),c);c.gridx++; // I18n
     ret.add(GuiFactory.buildLabel("Title"),c);c.gridx++; // I18n
     for(HobbyTitleEntry entry : _hobby.getTitles())
