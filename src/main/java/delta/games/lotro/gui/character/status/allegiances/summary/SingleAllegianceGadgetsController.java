@@ -135,6 +135,11 @@ public class SingleAllegianceGadgetsController
     {
       return "Unknown"; // I18n
     }
+    boolean started=status.isStarted();
+    if (!started)
+    {
+      return "Not Started"; // I18n
+    }
     Integer level=status.getCurrentLevel();
     if (level==null)
     {
