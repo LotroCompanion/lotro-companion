@@ -261,6 +261,8 @@ public class EquipmentEditionPanelController implements ActionListener
       ItemInstance<? extends Item> itemInstance=ItemFactory.buildInstance(item);
       itemInstance.setWearer(_toonData.getSummary());
       contents.setItem(itemInstance);
+      CharacterGearUpdater updater=new CharacterGearUpdater(_toon,_toonData);
+      updater.updateItem(itemInstance);
       refreshToon();
     }
   }
@@ -403,8 +405,8 @@ public class EquipmentEditionPanelController implements ActionListener
     }
     else if (cmd.equals(UPDATE_COMMAND))
     {
-      CharacterGearUpdater updater=new CharacterGearUpdater();
-      updater.updateGear(_toonData);
+      CharacterGearUpdater updater=new CharacterGearUpdater(_toon,_toonData);
+      updater.updateGear();
       refreshToon();
     }
     else
@@ -446,9 +448,16 @@ public class EquipmentEditionPanelController implements ActionListener
     }
   }
 
-  private void refreshToon()
+  /**
+   * Update display.
+   */
+  public void updateDisplay()
   {
     _displayPanel.updateIcons();
+  }
+
+  private void refreshToon()
+  {
     // Broadcast equipment update event...
     CharacterEvent event=new CharacterEvent(CharacterEventType.CHARACTER_DATA_UPDATED,_toon,_toonData);
     EventsManager.invokeEvent(event);

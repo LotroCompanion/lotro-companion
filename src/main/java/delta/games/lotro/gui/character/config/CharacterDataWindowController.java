@@ -30,6 +30,7 @@ import delta.games.lotro.character.stats.CharacterStatsComputer;
 import delta.games.lotro.character.stats.virtues.VirtuesSet;
 import delta.games.lotro.character.status.virtues.VirtuesStatus;
 import delta.games.lotro.character.status.virtues.io.VirtuesStatusIO;
+import delta.games.lotro.character.utils.CharacterGearUpdater;
 import delta.games.lotro.gui.character.CharacterPreferencesManager;
 import delta.games.lotro.gui.character.buffs.BuffEditionPanelController;
 import delta.games.lotro.gui.character.essences.AllEssencesEditionWindowController;
@@ -334,12 +335,17 @@ public class CharacterDataWindowController extends DefaultFormDialogController<C
       CharacterData data=event.getToonData();
       if (data==_data)
       {
+        // Gear update
+        CharacterGearUpdater updater=new CharacterGearUpdater(_toonFile,data);
+        updater.updateGear();
         // Compute new stats
         CharacterStatsComputer computer=new CharacterStatsComputer();
         BasicStatsSet stats=computer.getStats(data);
         BasicStatsSet toonStats=_data.getStats();
         toonStats.clear();
         toonStats.setStats(stats);
+        // Update gear display
+        _equipmentController.updateDisplay();
         // Update stats display
         _statsController.update();
         // Update buffs display
