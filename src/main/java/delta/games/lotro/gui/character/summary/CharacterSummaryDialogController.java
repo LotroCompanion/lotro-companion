@@ -37,7 +37,6 @@ public class CharacterSummaryDialogController extends DefaultFormDialogControlle
   private ComboBoxController<RaceDescription> _race;
   private ComboBoxController<CharacterSex> _sex;
   private CharacterNationalityController _nationality;
-  private ComboBoxController<Integer> _level;
 
   /**
    * Constructor.
@@ -89,8 +88,6 @@ public class CharacterSummaryDialogController extends DefaultFormDialogControlle
     _sex.getComboBox().setEnabled(true);
     // Nationality
     _nationality=new CharacterNationalityController();
-    // Level
-    _level=CharacterUiUtils.buildLevelCombo();
 
     Insets insets=new Insets(5,5,5,5);
     GridBagConstraints gbc=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,insets,0,0);
@@ -107,8 +104,6 @@ public class CharacterSummaryDialogController extends DefaultFormDialogControlle
     panel.add(GuiFactory.buildLabel("Sex:"),gbc); // I18n
     gbc.gridx=0; gbc.gridy++;
     panel.add(GuiFactory.buildLabel("Region:"),gbc); // I18n
-    gbc.gridx=0; gbc.gridy++;
-    panel.add(GuiFactory.buildLabel("Level:"),gbc); // I18n
     gbc.gridx=1; gbc.gridy=0;
     gbc.weightx=1.0; gbc.fill=GridBagConstraints.HORIZONTAL;
     panel.add(_toonName,gbc);
@@ -124,8 +119,6 @@ public class CharacterSummaryDialogController extends DefaultFormDialogControlle
     panel.add(_sex.getComboBox(),gbc);
     gbc.gridx=1; gbc.gridy++;
     panel.add(_nationality.getComboBoxController().getComboBox(),gbc);
-    gbc.gridx=1; gbc.gridy++;
-    panel.add(_level.getComboBox(),gbc);
     return panel;
   }
 
@@ -154,9 +147,6 @@ public class CharacterSummaryDialogController extends DefaultFormDialogControlle
     // Nationality
     NationalityDescription nationality=_data.getNationality();
     _nationality.getComboBoxController().selectItem(nationality);
-    // Level
-    int level=_data.getLevel();
-    _level.selectItem(Integer.valueOf(level));
   }
 
   @Override
@@ -177,8 +167,6 @@ public class CharacterSummaryDialogController extends DefaultFormDialogControlle
     _data.setCharacterSex(sex);
     NationalityDescription nationality=_nationality.getComboBoxController().getSelectedItem();
     _data.setNationality(nationality);
-    int level=_level.getSelectedItem().intValue();
-    _data.setLevel(level);
   }
 
   /**
@@ -218,11 +206,6 @@ public class CharacterSummaryDialogController extends DefaultFormDialogControlle
     {
       _nationality.dispose();
       _nationality=null;
-    }
-    if (_level!=null)
-    {
-      _level.dispose();
-      _level=null;
     }
   }
 }
