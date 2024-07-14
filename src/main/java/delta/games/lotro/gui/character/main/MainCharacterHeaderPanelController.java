@@ -113,6 +113,7 @@ public class MainCharacterHeaderPanelController extends AbstractPanelController 
     if (summary!=null)
     {
       _toon.saveSummary(_summary);
+      _toon.summaryUpdated();
       CharacterEvent event=new CharacterEvent(CharacterEventType.CHARACTER_SUMMARY_UPDATED,_toon,null);
       EventsManager.invokeEvent(event);
     }
