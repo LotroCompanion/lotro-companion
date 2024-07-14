@@ -24,6 +24,7 @@ import delta.games.lotro.account.AccountReference;
 import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.CharacterFactory;
 import delta.games.lotro.character.CharacterFile;
+import delta.games.lotro.character.CharacterInfosManager;
 import delta.games.lotro.character.CharacterSummary;
 import delta.games.lotro.character.CharactersManager;
 import delta.games.lotro.character.classes.ClassDescription;
@@ -181,7 +182,10 @@ public class NewToonDialogController extends DefaultFormDialogController<Object>
     CharacterStatsComputer computer=new CharacterStatsComputer();
     data.getStats().setStats(computer.getStats(data));
     // Save
-    toon.getInfosManager().writeNewCharacterData(data);
+    CharacterInfosManager infosMgr=toon.getInfosManager();
+    CharacterData current=new CharacterData(data);
+    infosMgr.updateCurrentData(current);
+    infosMgr.writeNewCharacterData(data);
   }
 
   private void setInitialGear(CharacterData info)
