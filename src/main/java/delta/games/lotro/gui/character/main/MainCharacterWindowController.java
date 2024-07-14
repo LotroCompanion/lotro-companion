@@ -21,6 +21,8 @@ import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.CharacterSummary;
 import delta.games.lotro.character.details.CharacterDetails;
+import delta.games.lotro.character.events.CharacterEvent;
+import delta.games.lotro.character.events.CharacterEventType;
 import delta.games.lotro.character.stats.virtues.VirtuesSet;
 import delta.games.lotro.character.status.crafting.CraftingStatus;
 import delta.games.lotro.character.status.crafting.CraftingStatusSummaryBuilder;
@@ -47,12 +49,14 @@ import delta.games.lotro.gui.common.money.MoneyDisplayController;
 import delta.games.lotro.gui.utils.LayoutUtils;
 import delta.games.lotro.utils.ContextPropertyNames;
 import delta.games.lotro.utils.Formats;
+import delta.games.lotro.utils.events.EventsManager;
+import delta.games.lotro.utils.events.GenericEventsListener;
 
 /**
  * Controller for the main window of a character.
  * @author DAM
  */
-public class MainCharacterWindowController extends DefaultWindowController
+public class MainCharacterWindowController extends DefaultWindowController implements GenericEventsListener<CharacterEvent>
 {
   // Data
   private CharacterFile _toon;
@@ -102,6 +106,7 @@ public class MainCharacterWindowController extends DefaultWindowController
     HobbiesStatusManager status=HobbiesStatusIo.load(toon);
     _hobbies=new HobbiesStatusPanelController(this,status);
     fill();
+    EventsManager.addListener(CharacterEvent.class,this);
   }
 
   private void fill()
@@ -158,6 +163,25 @@ public class MainCharacterWindowController extends DefaultWindowController
     // Money
     _money.setMoney(details.getMoney());
     _storage.update(storageSummary);
+  }
+
+  @Override
+  public void eventOccurred(CharacterEvent event)
+  {
+    CharacterEventType type=event.getType();
+    if (type==CharacterEventType.CHARACTER_SUMMARY_UPDATED)
+    {
+      CharacterFile toon=event.getToonFile();
+      if (toon==_toon)
+      {
+        update();
+      }
+    }
+  }
+
+  private void update()
+  {
+    fill();
   }
 
   /**
@@ -521,6 +545,7 @@ public class MainCharacterWindowController extends DefaultWindowController
   @Override
   public void dispose()
   {
+    EventsManager.removeListener(CharacterEvent.class,this);
     super.dispose();
     if (_buttonsMgr!=null)
     {
