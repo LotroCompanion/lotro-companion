@@ -160,6 +160,13 @@ public class MapWindowController extends DefaultWindowController implements Navi
     // - reset caches on map change to avoid too much memory consumption
     _radarLayer.resetCache();
     _heightMapLayer.resetCache();
+    // Show location?
+    boolean locationVisible=true;
+    if ((parchmentMap!=null) && (parchmentMap.isQuestGuideDisabled()))
+    {
+      locationVisible=false;
+    }
+    _mapPanel.getMapPanelController().setLocationVisible(locationVisible);
     // Markers
     List<Marker> markers=new MapMarkersFactory().getMarkers(mapId);
     _markersProvider.setMarkers(markers);
