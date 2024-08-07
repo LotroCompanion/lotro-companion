@@ -32,3 +32,5 @@ Ithil
 Bullroarer
 Shadowfax
 Treebeard
+Mordor
+Angmar
