@@ -49,7 +49,7 @@ public class RewardsTracksStatusSummaryPanelController
     JPanel ret=GuiFactory.buildBackgroundPanel(new GridBagLayout());
     int y=0;
     RewardsTracksManager mgr=RewardsTracksManager.getInstance();
-    List<RewardsTrack> rewardsTracks=mgr.getAllRewardsTracks();
+    List<RewardsTrack> rewardsTracks=mgr.getRewardsTracks(false);
     for(RewardsTrack rewardsTrack : rewardsTracks)
     {
       JPanel panel=buildRewardsTrackPanel(rewardsTrack,statusMgr);
