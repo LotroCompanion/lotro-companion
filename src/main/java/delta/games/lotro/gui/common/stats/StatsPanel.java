@@ -54,7 +54,7 @@ public class StatsPanel
           continue;
         }
         String valueStr=StatUtils.getStatDisplay(element);
-        if (valueStr==null)
+        if ((valueStr!=null) && (!valueStr.isEmpty()))
         {
           continue;
         }
