@@ -235,23 +235,32 @@ public class ItemReferencesDisplayController
       sb.append("<h1>Quests and deeds</h1>");
       for(Reference<Achievable,ItemRole> achievableReference : achievableReferences)
       {
-        buildHtmlForAchievableReference(sb,achievableReference.getSource());
+        for(ItemRole role : achievableReference.getRoles())
+        {
+          buildHtmlForAchievableReference(sb,achievableReference.getSource(),role);
+        }
       }
     }
   }
 
-  private void buildHtmlForAchievableReference(StringBuilder sb, Achievable achievable)
+  private void buildHtmlForAchievableReference(StringBuilder sb, Achievable achievable, ItemRole role)
   {
     sb.append(HtmlConstants.START_PARAGRAPH);
-    sb.append("Reward for ");
     boolean isQuest=(achievable instanceof QuestDescription);
-    String type=isQuest?"quest ":"deed ";
-    sb.append(type);
+    String text=getTextForAchievableReference(isQuest,role);
+    sb.append(text);
     sb.append(HtmlConstants.START_BOLD);
     PageIdentifier to=ReferenceConstants.getAchievableReference(achievable);
     HtmlUtils.printLink(sb,to.getFullAddress(),achievable.getName());
     sb.append(HtmlConstants.END_BOLD);
     sb.append(HtmlConstants.END_PARAGRAPH);
+  }
+
+  private String getTextForAchievableReference(boolean isQuest, ItemRole role)
+  {
+    if (role==ItemRole.ACHIEVABLE_REWARD) return "Reward for "+(isQuest?"quest ":"deed ");
+    if (role==ItemRole.ACHIEVABLE_INVOLVED) return "Involved in "+(isQuest?"quest ":"deed ");
+    return "? for ";
   }
 
   private void buildHtmlForBarterers(StringBuilder sb, List<Reference<?,ItemRole>> references)
