@@ -23,6 +23,7 @@ import delta.games.lotro.lore.items.sets.ItemsSet;
 import delta.games.lotro.lore.quests.Achievable;
 import delta.games.lotro.lore.quests.QuestDescription;
 import delta.games.lotro.lore.relics.melding.RelicMeldingRecipe;
+import delta.games.lotro.lore.rewardsTrack.RewardsTrack;
 import delta.games.lotro.lore.tasks.Task;
 import delta.games.lotro.lore.trade.barter.BarterNpc;
 import delta.games.lotro.lore.trade.vendor.VendorNpc;
@@ -114,6 +115,7 @@ public class ItemReferencesDisplayController
     buildHtmlForCrafting(sb,references);
     buildHtmlForTaskItems(sb,references);
     buildHtmlForQuestsAndDeeds(sb,references);
+    buildHtmlForRewardTracks(sb,references);
     buildHtmlForBarterers(sb,references);
     buildHtmlForVendors(sb,references);
     buildHtmlForSets(sb,references);
@@ -274,6 +276,26 @@ public class ItemReferencesDisplayController
         buildHtmlForBartererReference(sb,bartererReference);
       }
     }
+  }
+
+  private void buildHtmlForRewardTracks(StringBuilder sb, List<Reference<?,ItemRole>> references)
+  {
+    List<Reference<RewardsTrack,ItemRole>> rewardsTrackReferences=getReferences(references,RewardsTrack.class);
+    if (!rewardsTrackReferences.isEmpty())
+    {
+      sb.append("<h1>Reward Tracks</h1>");
+      for(Reference<RewardsTrack,ItemRole> rewardsTrackReference : rewardsTrackReferences)
+      {
+        buildHtmlForRewardTracksReference(sb,rewardsTrackReference.getSource());
+      }
+    }
+  }
+
+  private void buildHtmlForRewardTracksReference(StringBuilder sb, RewardsTrack rewardTrack)
+  {
+    sb.append(HtmlConstants.START_PARAGRAPH);
+    sb.append("Reward in Reward Track '"+rewardTrack.getName()+"'");
+    sb.append(HtmlConstants.END_PARAGRAPH);
   }
 
   private void buildHtmlForBartererReference(StringBuilder sb, Reference<BarterNpc,ItemRole> bartererReference)
