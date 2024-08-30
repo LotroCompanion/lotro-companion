@@ -1,5 +1,6 @@
 package delta.games.lotro.gui.lore.items.form;
 
+import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -7,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -16,10 +18,13 @@ import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.tables.export.DataExport;
 import delta.common.ui.swing.tables.export.StringExportDataOutput;
 import delta.common.ui.utils.clipboard.ClipboardIO;
+import delta.common.utils.l10n.L10n;
 import delta.games.lotro.lore.items.Item;
+import delta.games.lotro.lore.items.scaling.ItemLevelBonus;
 import delta.games.lotro.lore.items.scaling.ItemScaling;
 import delta.games.lotro.lore.items.scaling.ItemScalingBuilder;
 import delta.games.lotro.lore.items.scaling.ItemScalingEntry;
+import delta.games.lotro.lore.items.scaling.ScalingData;
 
 /**
  * Controller for a panel to display a table of the scalable stats of an item.
@@ -60,6 +65,23 @@ public class ItemScalableStatsPanelController
     {
       return null;
     }
+    JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
+    // Bonus
+    JPanel bonusPanel=buildBonusPanel();
+    if (bonusPanel!=null)
+    {
+      GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+      panel.add(bonusPanel,c);
+    }
+    // Table
+    JPanel tablePanel=buildTablePanel(scaling);
+    GridBagConstraints c=new GridBagConstraints(0,1,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
+    panel.add(tablePanel,c);
+    return panel;
+  }
+
+  private JPanel buildTablePanel(ItemScaling scaling)
+  {
     // Table
     _table=ItemScalingTableBuilder.buildTable(scaling);
     JTable table=_table.getTable();
@@ -96,6 +118,28 @@ public class ItemScalableStatsPanelController
     exporter.export(_table);
     String result=output.getResult();
     ClipboardIO.writeText(result);
+  }
+
+  private JPanel buildBonusPanel()
+  {
+    ScalingData scaling=_item.getScaling();
+    if (scaling==null)
+    {
+      return null;
+    }
+    ItemLevelBonus bonus=scaling.getItemLevelBonus();
+    if (bonus==null)
+    {
+      return null;
+    }
+    JPanel ret=GuiFactory.buildPanel(new FlowLayout());
+    int bonusLimit=bonus.getBonusLimit();
+    float chance=bonus.getBonusChance();
+    String chanceStr=L10n.getString(chance*100,1)+"%";
+    String text="Item level bonus: max="+bonusLimit+", chance="+chanceStr;
+    JLabel label=GuiFactory.buildLabel(text);
+    ret.add(label);
+    return ret;
   }
 
   /**
