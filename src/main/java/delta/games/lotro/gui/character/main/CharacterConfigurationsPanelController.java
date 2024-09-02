@@ -30,6 +30,7 @@ import delta.games.lotro.character.events.CharacterEventType;
 import delta.games.lotro.character.io.xml.CharacterDataIO;
 import delta.games.lotro.character.stats.CharacterStatsComputer;
 import delta.games.lotro.gui.character.config.CharacterDataWindowController;
+import delta.games.lotro.gui.utils.l10n.DateFormat;
 import delta.games.lotro.utils.events.EventsManager;
 import delta.games.lotro.utils.gui.filechooser.FileChooserController;
 
@@ -41,6 +42,7 @@ public class CharacterConfigurationsPanelController extends AbstractPanelControl
 {
   private static final String NEW_TOON_DATA_ID="newToonData";
   private static final String CLONE_TOON_DATA_ID="cloneToonData";
+  private static final String CLONE_CURRENT_TOON_DATA_ID="cloneCurrentToonData";
   private static final String EXPORT_TOON_DATA_ID="exportToonData";
   private static final String REMOVE_TOON_DATA_ID="removeToonData";
 
@@ -79,6 +81,10 @@ public class CharacterConfigurationsPanelController extends AbstractPanelControl
     else if (CLONE_TOON_DATA_ID.equals(command))
     {
       cloneCharacterData();
+    }
+    else if (CLONE_CURRENT_TOON_DATA_ID.equals(command))
+    {
+      cloneCurrentCharacterData();
     }
     else if (EXPORT_TOON_DATA_ID.equals(command))
     {
@@ -121,6 +127,10 @@ public class CharacterConfigurationsPanelController extends AbstractPanelControl
     String cloneIconPath=getToolbarIconPath("copy");
     ToolbarIconItem cloneIconItem=new ToolbarIconItem(CLONE_TOON_DATA_ID,cloneIconPath,CLONE_TOON_DATA_ID,"Clone the selected character configuration...","Clone");
     model.addToolbarIconItem(cloneIconItem);
+    // Clone current config icon
+    String cloneCurrentIconPath=getToolbarIconPath("copyCurrent");
+    ToolbarIconItem cloneCurrentIconItem=new ToolbarIconItem(CLONE_CURRENT_TOON_DATA_ID,cloneCurrentIconPath,CLONE_CURRENT_TOON_DATA_ID,"Clone the current character configuration...","Clone Current");
+    model.addToolbarIconItem(cloneCurrentIconItem);
     // Remove icon
     String deleteIconPath=getToolbarIconPath("delete");
     ToolbarIconItem deleteIconItem=new ToolbarIconItem(REMOVE_TOON_DATA_ID,deleteIconPath,REMOVE_TOON_DATA_ID,"Remove the selected character...","Remove");
@@ -179,11 +189,28 @@ public class CharacterConfigurationsPanelController extends AbstractPanelControl
   {
     GenericTableController<CharacterData> controller=_toonsTable.getTableController();
     CharacterData data=controller.getSelectedItem();
+    cloneCharacterData(data,null);
+  }
+
+  private void cloneCurrentCharacterData()
+  {
+    CharacterData currentData=_toon.getInfosManager().getCurrentData();
+    String dateStr=DateFormat.getDateTimeCodec().formatDate(currentData.getDate());
+    String shortDescription="Cloned from current configuration ("+dateStr+")";
+    cloneCharacterData(currentData,shortDescription);
+  }
+
+  private void cloneCharacterData(CharacterData data, String shortDescription)
+  {
     if (data!=null)
     {
       // Build new configuration
       CharacterData newInfos=new CharacterData(data);
       newInfos.setDate(Long.valueOf(System.currentTimeMillis()));
+      if (shortDescription!=null)
+      {
+        newInfos.setShortDescription(shortDescription);
+      }
       // Register new configuration
       CharacterInfosManager infos=_toon.getInfosManager();
       infos.writeNewCharacterData(newInfos);
