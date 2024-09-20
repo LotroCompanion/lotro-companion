@@ -13,7 +13,8 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.DefaultFormDialogController;
@@ -50,7 +51,7 @@ import delta.games.lotro.utils.events.GenericEventsListener;
  */
 public class CharacterDataWindowController extends DefaultFormDialogController<CharacterData> implements GenericEventsListener<CharacterEvent>
 {
-  private static final Logger LOGGER=Logger.getLogger(CharacterDataWindowController.class);
+  private static final Logger LOGGER=LoggerFactory.getLogger(CharacterDataWindowController.class);
 
   private CharacterMainAttrsEditionPanelController _attrsController;
   private CharacterStatsSummaryPanelController _statsController;

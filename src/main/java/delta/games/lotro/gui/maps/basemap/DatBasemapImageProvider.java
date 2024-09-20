@@ -3,7 +3,8 @@ package delta.games.lotro.gui.maps.basemap;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import delta.common.ui.ImageUtils;
 import delta.games.lotro.dat.data.DataFacade;
@@ -17,7 +18,7 @@ import delta.games.lotro.maps.ui.layers.basemap.BasemapImageProvider;
  */
 public class DatBasemapImageProvider implements BasemapImageProvider
 {
-  private static final Logger LOGGER=Logger.getLogger(DatBasemapImageProvider.class);
+  private static final Logger LOGGER=LoggerFactory.getLogger(DatBasemapImageProvider.class);
 
   private DataFacade _facade;
 

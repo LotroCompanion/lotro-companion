@@ -10,7 +10,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.combobox.ComboBoxController;
@@ -49,7 +50,7 @@ import delta.games.lotro.lore.items.ItemInstance;
  */
 public class NewToonDialogController extends DefaultFormDialogController<Object>
 {
-  private static final Logger LOGGER=Logger.getLogger(NewToonDialogController.class);
+  private static final Logger LOGGER=LoggerFactory.getLogger(NewToonDialogController.class);
 
   private static final int TOON_NAME_SIZE=32;
   private JTextField _toonName;

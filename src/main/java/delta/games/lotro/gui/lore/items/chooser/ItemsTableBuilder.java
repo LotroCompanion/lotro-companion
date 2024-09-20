@@ -9,7 +9,8 @@ import javax.swing.Icon;
 import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import delta.common.ui.swing.tables.CellDataProvider;
 import delta.common.ui.swing.tables.ColumnsUtils;
@@ -58,7 +59,7 @@ import delta.games.lotro.lore.items.weapons.WeaponSpeedEntry;
  */
 public class ItemsTableBuilder
 {
-  private static final Logger LOGGER=Logger.getLogger(ItemsTableBuilder.class);
+  private static final Logger LOGGER=LoggerFactory.getLogger(ItemsTableBuilder.class);
 
   /**
    * Build a table to show items.

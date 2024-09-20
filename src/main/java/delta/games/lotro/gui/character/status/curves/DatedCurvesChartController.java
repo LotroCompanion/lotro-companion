@@ -15,7 +15,8 @@ import java.util.Set;
 
 import javax.swing.JPanel;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -46,7 +47,7 @@ import delta.games.lotro.utils.charts.DatedCurveItem;
  */
 public class DatedCurvesChartController
 {
-  private static final Logger LOGGER=Logger.getLogger(DatedCurvesChartController.class);
+  private static final Logger LOGGER=LoggerFactory.getLogger(DatedCurvesChartController.class);
 
   // GUI
   private JPanel _panel;

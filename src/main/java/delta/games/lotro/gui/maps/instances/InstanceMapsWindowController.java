@@ -12,7 +12,8 @@ import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.DefaultWindowController;
@@ -35,7 +36,7 @@ import delta.games.lotro.utils.maps.Maps;
  */
 public class InstanceMapsWindowController extends DefaultWindowController
 {
-  private static final Logger LOGGER=Logger.getLogger(InstanceMapsWindowController.class);
+  private static final Logger LOGGER=LoggerFactory.getLogger(InstanceMapsWindowController.class);
 
   private PrivateEncounter _pe;
   private List<InstanceMapPanelController> _panels;

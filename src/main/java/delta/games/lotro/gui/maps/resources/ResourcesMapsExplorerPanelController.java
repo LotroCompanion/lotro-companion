@@ -12,7 +12,8 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.panels.AbstractPanelController;
@@ -31,7 +32,7 @@ import delta.games.lotro.lore.maps.resources.ResourcesMapsManager;
  */
 public class ResourcesMapsExplorerPanelController extends AbstractPanelController implements ActionListener
 {
-  private static final Logger LOGGER=Logger.getLogger(ResourcesMapsExplorerPanelController.class);
+  private static final Logger LOGGER=LoggerFactory.getLogger(ResourcesMapsExplorerPanelController.class);
 
   // Controllers
   private CraftingLevelSelectionPanelController _craftingLevelSelection;

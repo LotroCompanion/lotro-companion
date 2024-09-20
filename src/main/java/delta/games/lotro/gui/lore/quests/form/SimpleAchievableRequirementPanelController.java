@@ -10,7 +10,8 @@ import javax.swing.Icon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.icons.IconsManager;
@@ -36,7 +37,7 @@ public class SimpleAchievableRequirementPanelController extends AbstractAchievab
 {
   private static final String UNMANAGED_QUEST_STATUS="Unmanaged quest status: ";
 
-  private static final Logger LOGGER=Logger.getLogger(SimpleAchievableRequirementPanelController.class);
+  private static final Logger LOGGER=LoggerFactory.getLogger(SimpleAchievableRequirementPanelController.class);
 
   private static final String ACHIEVABLE_LINK_SEED="{LINK}";
 

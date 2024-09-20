@@ -10,7 +10,8 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.misc.Disposable;
@@ -26,7 +27,7 @@ import delta.games.lotro.maps.ui.navigation.NavigationSupport;
  */
 public class NavigationMenuController implements Disposable
 {
-  private static final Logger LOGGER=Logger.getLogger(NavigationMenuController.class);
+  private static final Logger LOGGER=LoggerFactory.getLogger(NavigationMenuController.class);
 
   private JMenuBar _menuBar;
   private ActionListener _actionListener;

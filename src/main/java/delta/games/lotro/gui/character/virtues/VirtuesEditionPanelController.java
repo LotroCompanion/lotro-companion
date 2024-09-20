@@ -24,7 +24,8 @@ import javax.swing.JPopupMenu;
 import javax.swing.TransferHandler;
 import javax.swing.border.TitledBorder;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.WindowController;
@@ -41,7 +42,7 @@ import delta.games.lotro.lore.parameters.Game;
  */
 public class VirtuesEditionPanelController implements TierValueListener,ActionListener
 {
-  private static final Logger LOGGER=Logger.getLogger(VirtuesEditionPanelController.class);
+  private static final Logger LOGGER=LoggerFactory.getLogger(VirtuesEditionPanelController.class);
 
   private static final String REMOVE_COMMAND="remove";
 

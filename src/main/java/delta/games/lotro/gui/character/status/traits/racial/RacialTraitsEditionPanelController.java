@@ -20,7 +20,8 @@ import javax.swing.JPopupMenu;
 import javax.swing.TransferHandler;
 import javax.swing.border.TitledBorder;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.WindowController;
@@ -37,7 +38,7 @@ import delta.games.lotro.gui.lore.traits.TraitIconController;
  */
 public class RacialTraitsEditionPanelController implements ActionListener
 {
-  private static final Logger LOGGER=Logger.getLogger(RacialTraitsEditionPanelController.class);
+  private static final Logger LOGGER=LoggerFactory.getLogger(RacialTraitsEditionPanelController.class);
 
   private static final String REMOVE_COMMAND="remove";
 

@@ -10,7 +10,8 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.labels.HyperLinkController;
@@ -29,7 +30,7 @@ import delta.games.lotro.utils.Proxy;
  */
 public class QuestLinksDisplayPanelController
 {
-  private static final Logger LOGGER=Logger.getLogger(QuestLinksDisplayPanelController.class);
+  private static final Logger LOGGER=LoggerFactory.getLogger(QuestLinksDisplayPanelController.class);
 
   // Data
   private QuestDescription _quest;

@@ -3,7 +3,8 @@ package delta.games.lotro.gui.lore.items;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import delta.games.lotro.gui.lore.items.legendary.shared.LegendariesTestUtils;
 import delta.games.lotro.lore.items.Item;
@@ -15,7 +16,7 @@ import delta.games.lotro.lore.items.ItemInstance;
  */
 public class MainTestItemInstanceDisplay
 {
-  private static final Logger LOGGER=Logger.getLogger(MainTestItemInstanceDisplay.class);
+  private static final Logger LOGGER=LoggerFactory.getLogger(MainTestItemInstanceDisplay.class);
 
   private void doIt()
   {

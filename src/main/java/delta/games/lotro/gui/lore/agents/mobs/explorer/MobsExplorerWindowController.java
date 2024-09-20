@@ -12,7 +12,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.navigator.PageIdentifier;
@@ -36,7 +37,7 @@ import delta.games.lotro.lore.agents.mobs.filter.MobFilter;
  */
 public class MobsExplorerWindowController extends DefaultWindowController
 {
-  private static final Logger LOGGER=Logger.getLogger(MobsExplorerWindowController.class);
+  private static final Logger LOGGER=LoggerFactory.getLogger(MobsExplorerWindowController.class);
   /**
    * Identifier for this window.
    */

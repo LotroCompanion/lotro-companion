@@ -6,7 +6,8 @@ import java.io.File;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.menus.CommandExecutor;
@@ -23,7 +24,7 @@ import delta.games.lotro.utils.gui.filechooser.FileChooserController;
  */
 public class SaveItemIconController implements CommandExecutor,Disposable
 {
-  private static final Logger LOGGER=Logger.getLogger(SaveItemIconController.class);
+  private static final Logger LOGGER=LoggerFactory.getLogger(SaveItemIconController.class);
 
   private static final String ID="saveItemIcon";
   private static final String SAVE_ICON_TO_FILE="SAVE_ICON_TO_FILE";

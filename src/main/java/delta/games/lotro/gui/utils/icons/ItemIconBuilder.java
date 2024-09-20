@@ -3,7 +3,8 @@ package delta.games.lotro.gui.utils.icons;
 import java.awt.image.BufferedImage;
 import java.util.WeakHashMap;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import delta.common.ui.swing.icons.IconsManager;
 import delta.games.lotro.utils.IconsUtils;
@@ -14,7 +15,7 @@ import delta.games.lotro.utils.IconsUtils;
  */
 public class ItemIconBuilder
 {
-  private static final Logger LOGGER=Logger.getLogger(ItemIconBuilder.class);
+  private static final Logger LOGGER=LoggerFactory.getLogger(ItemIconBuilder.class);
   private static final WeakHashMap<String,BufferedImage> _icons=new WeakHashMap<String,BufferedImage>();
 
   /**

@@ -5,7 +5,8 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import delta.games.lotro.dat.data.DatPosition;
 import delta.games.lotro.dat.loaders.PositionDecoder;
@@ -23,7 +24,7 @@ import delta.games.lotro.maps.ui.layers.radar.RadarImageProvider;
  */
 public class RadarMapLayer extends BaseRasterLayer
 {
-  private static final Logger LOGGER=Logger.getLogger(RadarMapLayer.class);
+  private static final Logger LOGGER=LoggerFactory.getLogger(RadarMapLayer.class);
 
   /**
    * Satellite map.

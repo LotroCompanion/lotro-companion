@@ -9,7 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import delta.games.lotro.common.IdentifiableComparator;
 import delta.games.lotro.common.enums.ItemClass;
@@ -30,7 +31,7 @@ import delta.games.lotro.lore.maps.resources.ResourcesMapsManager;
  */
 public class ResourceNodesLootManager
 {
-  private static final Logger LOGGER=Logger.getLogger(ResourceNodesLootManager.class);
+  private static final Logger LOGGER=LoggerFactory.getLogger(ResourceNodesLootManager.class);
 
   private CraftingLevel _level;
   private List<Item> _sourceItems;

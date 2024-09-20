@@ -2,7 +2,8 @@ package delta.games.lotro.gui.lore.items;
 
 import java.net.URL;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Element;
 
 import delta.common.utils.url.URLTools;
@@ -17,7 +18,7 @@ import delta.games.lotro.lore.items.io.xml.ItemInstanceXMLParser;
  */
 public class ItemsTestUtils
 {
-  private static final Logger LOGGER=Logger.getLogger(ItemsTestUtils.class);
+  private static final Logger LOGGER=LoggerFactory.getLogger(ItemsTestUtils.class);
 
   /**
    * Test samples.

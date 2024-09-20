@@ -2,7 +2,8 @@ package delta.games.lotro.stats.deeds;
 
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import delta.games.lotro.character.status.achievables.AchievableStatus;
 import delta.games.lotro.character.status.achievables.AchievablesStatusManager;
@@ -21,7 +22,7 @@ import delta.games.lotro.lore.reputation.FactionsRegistry;
  */
 public class SyncDeedsStatusAndReputationStatus
 {
-  private static final Logger LOGGER=Logger.getLogger(SyncDeedsStatusAndReputationStatus.class);
+  private static final Logger LOGGER=LoggerFactory.getLogger(SyncDeedsStatusAndReputationStatus.class);
 
   /**
    * Update the deeds status to reflect the reputation status.

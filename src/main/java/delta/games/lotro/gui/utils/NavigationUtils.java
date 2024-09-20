@@ -1,6 +1,7 @@
 package delta.games.lotro.gui.utils;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.common.ui.swing.navigator.PageIdentifier;
@@ -15,7 +16,7 @@ import delta.games.lotro.gui.utils.navigation.NavigationHyperLink;
  */
 public class NavigationUtils
 {
-  private static final Logger LOGGER=Logger.getLogger(NavigationUtils.class);
+  private static final Logger LOGGER=LoggerFactory.getLogger(NavigationUtils.class);
 
   /*
    * Policies:

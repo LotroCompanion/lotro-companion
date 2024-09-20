@@ -5,7 +5,8 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import delta.common.ui.swing.tables.CellDataProvider;
 import delta.common.ui.swing.tables.ColumnsUtils;
@@ -35,7 +36,7 @@ import delta.games.lotro.lore.items.scaling.WeaponScalingEntry;
  */
 public class ItemScalingTableBuilder
 {
-  private static final Logger LOGGER=Logger.getLogger(ItemScalingTableBuilder.class);
+  private static final Logger LOGGER=LoggerFactory.getLogger(ItemScalingTableBuilder.class);
 
   /**
    * Build a table to show item scaling data.

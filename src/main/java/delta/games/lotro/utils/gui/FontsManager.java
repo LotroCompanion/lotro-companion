@@ -6,7 +6,8 @@ import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Custom fonts manager.
@@ -14,7 +15,7 @@ import org.apache.log4j.Logger;
  */
 public final class FontsManager
 {
-  private static final Logger LOGGER=Logger.getLogger(FontsManager.class);
+  private static final Logger LOGGER=LoggerFactory.getLogger(FontsManager.class);
 
   private static final String FONT = "/resources/gui/fonts/firstv2.ttf";
 

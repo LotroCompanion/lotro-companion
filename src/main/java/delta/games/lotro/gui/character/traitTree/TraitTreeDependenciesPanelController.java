@@ -8,7 +8,8 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import delta.common.ui.swing.draw.Arrows;
 import delta.games.lotro.character.classes.traitTree.TraitTreeBranch;
@@ -21,7 +22,7 @@ import delta.games.lotro.character.classes.traitTree.TraitTreeCellDependency;
  */
 public class TraitTreeDependenciesPanelController extends JPanel
 {
-  private static final Logger LOGGER=Logger.getLogger(TraitTreeDependenciesPanelController.class);
+  private static final Logger LOGGER=LoggerFactory.getLogger(TraitTreeDependenciesPanelController.class);
   private transient TraitTreeBranch _branch;
 
   /**

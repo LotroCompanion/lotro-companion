@@ -3,7 +3,8 @@ package delta.games.lotro.gui.character.stats.curves;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import delta.games.lotro.character.stats.ratings.RatingCurve;
 import delta.games.lotro.common.stats.StatDescription;
@@ -14,7 +15,7 @@ import delta.games.lotro.common.stats.StatDescription;
  */
 public class StatCurvesChartConfiguration
 {
-  private static final Logger LOGGER=Logger.getLogger(StatCurvesChartConfiguration.class);
+  private static final Logger LOGGER=LoggerFactory.getLogger(StatCurvesChartConfiguration.class);
 
   private String _title;
   private int _level;
