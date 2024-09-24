@@ -23,6 +23,7 @@ import delta.common.ui.swing.combobox.ComboBoxController;
 import delta.common.ui.swing.combobox.ItemSelectionListener;
 import delta.common.ui.swing.labels.MultilineLabel2;
 import delta.common.ui.swing.windows.WindowController;
+import delta.common.utils.l10n.L10n;
 import delta.games.lotro.character.CharacterData;
 import delta.games.lotro.character.gear.CharacterGear;
 import delta.games.lotro.character.gear.GearSlot;
@@ -31,6 +32,7 @@ import delta.games.lotro.gui.lore.items.legendary2.traceries.TraceriesConstraint
 import delta.games.lotro.gui.lore.items.legendary2.traceries.TraceryUtils;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemInstance;
+import delta.games.lotro.lore.items.Weapon;
 import delta.games.lotro.lore.items.legendary2.LegendaryInstance2;
 import delta.games.lotro.lore.items.legendary2.LegendaryInstanceAttrs2;
 import delta.games.lotro.lore.items.legendary2.SocketEntry;
@@ -50,6 +52,7 @@ import delta.games.lotro.utils.ContextPropertyNames;
 public class LegendaryInstance2EditionPanelController
 {
   // Data
+  private ItemInstance<? extends Item> _item;
   private int _characterLevel;
   private int _itemLevel;
   private int _minLevel;
@@ -72,6 +75,8 @@ public class LegendaryInstance2EditionPanelController
   public LegendaryInstance2EditionPanelController(WindowController parent, ItemInstance<? extends Item> item)
   {
     _parent=parent;
+    // Item
+    _item=item;
     // Character level
     Integer characterLevel=parent.getContextProperty(ContextPropertyNames.CHARACTER_LEVEL,Integer.class);
     _characterLevel=(characterLevel!=null)?characterLevel.intValue():Game.getParameters().getMaxCharacterLevel();
@@ -234,10 +239,29 @@ public class LegendaryInstance2EditionPanelController
       int nextItemLevel=Math.min(itemLevel,maxItemLevel);
       if (nextItemLevel>_itemLevel)
       {
-        return "at "+level+" (item level "+nextItemLevel+")";
+        String text="at "+level+" (item level "+nextItemLevel+")";
+        String dps=getDps(nextItemLevel);
+        if (dps!=null)
+        {
+          text=text+" (DPS "+dps+")";
+        }
+        return text;
       }
     }
     return "none";
+  }
+
+  private String getDps(int itemLevel)
+  {
+    Item item=_item.getReference();
+    if (item instanceof Weapon)
+    {
+      Weapon weapon=(Weapon)item;
+      float dps=weapon.computeDPS(itemLevel);
+      String dpsStr=L10n.getString(dps,1);
+      return dpsStr;
+    }
+    return null;
   }
 
   private JButton buildMinButton()
@@ -526,6 +550,8 @@ public class LegendaryInstance2EditionPanelController
    */
   public void dispose()
   {
+    // Data
+    _item=null;
     // GUI
     if (_panel!=null)
     {
