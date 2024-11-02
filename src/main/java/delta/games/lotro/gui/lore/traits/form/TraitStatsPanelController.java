@@ -15,12 +15,10 @@ import delta.common.ui.swing.tables.RawTablePanelController;
 import delta.common.utils.tables.DataTable;
 import delta.common.utils.tables.DataTableRow;
 import delta.games.lotro.character.traits.TraitDescription;
-import delta.games.lotro.common.stats.ScalableStatProvider;
 import delta.games.lotro.common.stats.StatDescription;
 import delta.games.lotro.common.stats.StatProvider;
 import delta.games.lotro.common.stats.StatUtils;
 import delta.games.lotro.common.stats.StatsProvider;
-import delta.games.lotro.common.stats.TieredScalableStatProvider;
 import delta.games.lotro.lore.parameters.Game;
 
 /**
@@ -112,7 +110,7 @@ public class TraitStatsPanelController
       for(int statIndex=0;statIndex<nbStats;statIndex++)
       {
         StatProvider statProvider=statProviders.get(statIndex);
-        Float rawValue=getStatValue(i,tier,nbTiers,statProvider);
+        Float rawValue=StatUtils.getStatValue(i,tier,nbTiers,statProvider);
         if (rawValue!=null)
         {
           StatDescription stat=statProvider.getStat();
@@ -122,32 +120,6 @@ public class TraitStatsPanelController
       }
     }
     return ret;
-  }
-
-  private Float getStatValue(int level, int tier, int nbTiers, StatProvider provider)
-  {
-    Float value=null;
-    if (provider instanceof TieredScalableStatProvider)
-    {
-      value=provider.getStatValue(tier,level);
-    }
-    else if (provider instanceof ScalableStatProvider)
-    {
-      ScalableStatProvider scalableStatProvider=(ScalableStatProvider)provider;
-      if (nbTiers>1)
-      {
-        value=scalableStatProvider.getStatValue(1,tier);
-      }
-      else
-      {
-        value=scalableStatProvider.getStatValue(1,level);
-      }
-    }
-    else
-    {
-      value=provider.getStatValue(1,level);
-    }
-    return value;
   }
 
   /**
