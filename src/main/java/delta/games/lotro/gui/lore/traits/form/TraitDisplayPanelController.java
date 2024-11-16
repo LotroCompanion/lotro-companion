@@ -22,6 +22,7 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.navigator.AbstractNavigablePanelController;
 import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.games.lotro.character.skills.SkillDescription;
+import delta.games.lotro.character.traits.SkillAtRank;
 import delta.games.lotro.character.traits.TraitDescription;
 import delta.games.lotro.character.traits.prerequisites.AbstractTraitPrerequisite;
 import delta.games.lotro.common.enums.SkillCategory;
@@ -259,7 +260,7 @@ public class TraitDisplayPanelController extends AbstractNavigablePanelControlle
 
   private JPanel buildSkillsPanel()
   {
-    List<SkillDescription> skills=_trait.getSkills();
+    List<SkillAtRank> skills=_trait.getSkills();
     int nbSkills=skills.size();
     if (nbSkills==0)
     {
@@ -273,8 +274,9 @@ public class TraitDisplayPanelController extends AbstractNavigablePanelControlle
     ret.add(GuiFactory.buildLabel(label),c);
     y++;
     NavigatorWindowController parent=getParent();
-    for(SkillDescription skill : skills)
+    for(SkillAtRank skillAtRank : skills)
     {
+      SkillDescription skill=skillAtRank.getSkill();
       IconLinkLabelGadgetsController gadget=GadgetsControllersFactory.build(parent,skill);
       _skills.add(gadget);
       c=new GridBagConstraints(0,y,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,5,0,5),0,0);
