@@ -49,6 +49,7 @@ import delta.games.lotro.utils.gui.filechooser.FileChooserController;
 public class ToonsManagementController implements ActionListener,GenericEventsListener<CharacterEvent>
 {
   private static final String NEW_TOON_ID="newToon";
+  private static final String OPEN_TOON_ID="openToon";
   private static final String IMPORT_TOON_ID="importToon";
   private static final String REMOVE_TOON_ID="removeToon";
   private JPanel _panel;
@@ -189,15 +190,19 @@ public class ToonsManagementController implements ActionListener,GenericEventsLi
     String newIconPath=getToolbarIconPath("new");
     ToolbarIconItem newIconItem=new ToolbarIconItem(NEW_TOON_ID,newIconPath,NEW_TOON_ID,"Create a new character...","New"); // I18n
     model.addToolbarIconItem(newIconItem);
+    // Open icon
+    String openIconPath=getToolbarIconPath("open");
+    ToolbarIconItem openIconItem=new ToolbarIconItem(OPEN_TOON_ID,openIconPath,OPEN_TOON_ID,"Open the selected character...","Open"); // I18n
+    model.addToolbarIconItem(openIconItem);
     // Remove icon
     String deleteIconPath=getToolbarIconPath("delete");
     ToolbarIconItem deleteIconItem=new ToolbarIconItem(REMOVE_TOON_ID,deleteIconPath,REMOVE_TOON_ID,"Remove the selected character...","Remove"); // I18n
     model.addToolbarIconItem(deleteIconItem);
-    controller.addActionListener(this);
     // Import icon
     String importIconPath=getToolbarIconPath("import");
     ToolbarIconItem importIconItem=new ToolbarIconItem(IMPORT_TOON_ID,importIconPath,IMPORT_TOON_ID,"Import a character...","Import"); // I18n
     model.addToolbarIconItem(importIconItem);
+    controller.addActionListener(this);
     return controller;
   }
 
@@ -212,6 +217,10 @@ public class ToonsManagementController implements ActionListener,GenericEventsLi
     if (NEW_TOON_ID.equals(action))
     {
       startNewToon();
+    }
+    else if (OPEN_TOON_ID.equals(action))
+    {
+      openToon();
     }
     else if (REMOVE_TOON_ID.equals(action))
     {
@@ -251,6 +260,16 @@ public class ToonsManagementController implements ActionListener,GenericEventsLi
     }
     _newToonDialog.getDialog().setLocationRelativeTo(getPanel());
     _newToonDialog.show(true);
+  }
+
+  private void openToon()
+  {
+    GenericTableController<CharacterFile> controller=_toonsTable.getTableController();
+    CharacterFile file=controller.getSelectedItem();
+    if (file!=null)
+    {
+      showToon(file);
+    }
   }
 
   private void deleteToon()
