@@ -125,6 +125,9 @@ public class MainCharacterWindowController extends DefaultWindowController imple
     {
       _importDate.setVisible(false);
     }
+    // Context
+    CharacterData current=_toon.getInfosManager().getCurrentData();
+    setContext(current);
     // Summary
     _summaryController.setSummary(summary,details);
     // Achievements
@@ -145,7 +148,6 @@ public class MainCharacterWindowController extends DefaultWindowController imple
     CraftingStatusSummary craftingSummary=b.buildSummary(status);
     _craftingStatus.setStatus(craftingSummary);
     // Virtues
-    CharacterData current=_toon.getInfosManager().getCurrentData();
     VirtuesSet virtues=current.getVirtues();
     _virtues.setVirtues(virtues);
     // Racial traits
@@ -163,6 +165,15 @@ public class MainCharacterWindowController extends DefaultWindowController imple
     // Money
     _money.setMoney(details.getMoney());
     _storage.update(storageSummary);
+  }
+
+  private void setContext(CharacterData current)
+  {
+    // Character level
+    int level=current.getLevel();
+    setContextProperty(ContextPropertyNames.CHARACTER_LEVEL,Integer.valueOf(level));
+    // Current character
+    setContextProperty(ContextPropertyNames.CHARACTER_DATA,current);
   }
 
   @Override
