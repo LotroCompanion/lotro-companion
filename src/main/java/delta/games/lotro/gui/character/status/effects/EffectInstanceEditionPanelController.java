@@ -1,0 +1,174 @@
+package delta.games.lotro.gui.character.status.effects;
+
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.NumberFormat;
+
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.panels.AbstractPanelController;
+import delta.common.ui.swing.text.FloatEditionController;
+import delta.common.ui.swing.windows.WindowController;
+import delta.common.utils.l10n.LocalizedFormats;
+import delta.games.lotro.character.status.effects.EffectInstance;
+import delta.games.lotro.common.effects.Effect;
+import delta.games.lotro.gui.common.effects.EffectIconController;
+import delta.games.lotro.gui.utils.l10n.Labels;
+
+/**
+ * Controller for an item instance edition panel.
+ * @author DAM
+ */
+public class EffectInstanceEditionPanelController extends AbstractPanelController
+{
+  // Data
+  private EffectInstance _effectInstance;
+  // GUI
+  private JLabel _effectName;
+  // Controllers
+  private EffectIconController _effectIcon;
+  private FloatEditionController _spellcraftEditor;
+
+  /**
+   * Constructor.
+   * @param parent Parent window.
+   * @param effectInstance Item instance.
+   */
+  public EffectInstanceEditionPanelController(WindowController parent, EffectInstance effectInstance)
+  {
+    super(parent);
+    _effectInstance=effectInstance;
+    JPanel panel=buildPanel();
+    setPanel(panel);
+    update();
+  }
+
+  private JPanel buildEffectEditionPanel()
+  {
+    JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    // - icon
+    _effectIcon=new EffectIconController(getWindowController(),null,true);
+    ret.add(_effectIcon.getIcon(),c);
+    // - name
+    _effectName=GuiFactory.buildLabel("");
+    c=new GridBagConstraints(1,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    ret.add(_effectName,c);
+    // - choose button
+    JButton chooseButton=GuiFactory.buildButton("Choose...");
+    c=new GridBagConstraints(2,0,1,1,0.0,0.0,GridBagConstraints.EAST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
+    ret.add(chooseButton,c);
+    ActionListener al=new ActionListener()
+    {
+      @Override
+      public void actionPerformed(ActionEvent e)
+      {
+        chooseEffect();
+      }
+    };
+    chooseButton.addActionListener(al);
+    return ret;
+  }
+
+  private void chooseEffect()
+  {
+    System.out.println("Choose effect...");
+  }
+
+  private JPanel buildPanel()
+  {
+    JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
+    // Effect
+    JLabel effect=GuiFactory.buildLabel("Effect:");
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,5,0,0),0,0);
+    ret.add(effect,c);
+    JPanel effectPanel=buildEffectEditionPanel();
+    c=new GridBagConstraints(1,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,5,0,0),0,0);
+    ret.add(effectPanel,c);
+    // Spellcraft
+    JLabel spellcraft=GuiFactory.buildLabel("Level:");
+    c=new GridBagConstraints(0,1,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,5,0,0),0,0);
+    ret.add(spellcraft,c);
+    JTextField value=GuiFactory.buildTextField("");
+    _spellcraftEditor=new FloatEditionController(value);
+    NumberFormat format=LocalizedFormats.getRealNumberFormat(0,1);
+    _spellcraftEditor.setFormat(format);
+    c=new GridBagConstraints(1,1,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,5,0,0),0,0);
+    ret.add(_spellcraftEditor.getTextField(),c);
+    return ret;
+  }
+
+  /**
+   * Update display.
+   */
+  private void update()
+  {
+    // Effect
+    updateEffect();
+    // Spellcraft
+    Float spellcraft=_effectInstance.getSpellcraft();
+    _spellcraftEditor.setValue(spellcraft);
+  }
+
+  private void updateEffect()
+  {
+    Effect effect=_effectInstance.getEffect();
+    _effectIcon.setEffect(effect);
+    String effectName=(effect!=null)?effect.getName():"";
+    _effectName.setText(effectName);
+  }
+
+  /**
+   * Update the managed data from the UI state.
+   */
+  public void updateFromUi()
+  {
+    // Effect: nothing to do: already done when choosing
+    // Spellcraft
+    Float spellcraft=_spellcraftEditor.getValue();
+    _effectInstance.setSpellcraft(spellcraft);
+  }
+
+  /**
+   * Check data validity.
+   * @return A error message or <code>null</code> if OK.
+   */
+  public String checkData()
+  {
+    String errorMsg=null;
+    Effect effect=_effectInstance.getEffect();
+    if (effect==null)
+    {
+      errorMsg=Labels.getLabel("effect.edition.validation.error.noEffect");
+    }
+    return errorMsg;
+  }
+
+  @Override
+  public void dispose()
+  {
+    super.dispose();
+    // Data
+    _effectInstance=null;
+    // GUI
+    _effectName=null;
+    // Controllers
+    if (_effectIcon!=null)
+    {
+      _effectIcon.dispose();
+      _effectIcon=null;
+    }
+    if (_spellcraftEditor!=null)
+    {
+      _spellcraftEditor.dispose();
+      _spellcraftEditor=null;
+    }
+  }
+}

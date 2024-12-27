@@ -191,10 +191,7 @@ public class CharacterConfigurationsTableController implements GenericEventsList
   public void dispose()
   {
     // GUI
-    if (_table!=null)
-    {
-      _table=null;
-    }
+    _table=null;
     if (_tableController!=null)
     {
       _tableController.dispose();
