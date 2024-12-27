@@ -21,10 +21,10 @@ import delta.games.lotro.character.status.effects.EffectInstance;
 import delta.games.lotro.gui.common.effects.table.EffectInstancesTableBuilder;
 
 /**
- * Controller for a "character configurations" panel.
+ * Controller for a "character effects" edition panel.
  * @author DAM
  */
-public class EffectsManagerPanelController extends AbstractPanelController implements ActionListener
+public class CharacterEffectsEditionPanelController extends AbstractPanelController implements ActionListener
 {
   private static final String ADD_EFFECT_ID="addEffect";
   private static final String REMOVE_EFFECT_ID="removeEffect";
@@ -40,7 +40,7 @@ public class EffectsManagerPanelController extends AbstractPanelController imple
    * @param parent Parent window.
    * @param effects Effects to edit.
    */
-  public EffectsManagerPanelController(WindowController parent, List<EffectInstance> effects)
+  public CharacterEffectsEditionPanelController(WindowController parent, List<EffectInstance> effects)
   {
     super(parent);
     _effects=effects;
