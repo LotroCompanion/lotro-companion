@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.lore.items;
+package delta.games.lotro.gui.lore.items.table;
 
 /**
  * Some column identifiers for the items tables.

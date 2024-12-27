@@ -20,10 +20,10 @@ import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.character.storage.wardrobe.WardrobeItem;
-import delta.games.lotro.gui.lore.items.ItemColumnIds;
 import delta.games.lotro.gui.lore.items.ItemUiTools;
 import delta.games.lotro.gui.lore.items.chooser.ItemChooser;
-import delta.games.lotro.gui.lore.items.chooser.ItemsTableBuilder;
+import delta.games.lotro.gui.lore.items.table.ItemColumnIds;
+import delta.games.lotro.gui.lore.items.table.ItemsTableBuilder;
 import delta.games.lotro.lore.items.Item;
 
 /**

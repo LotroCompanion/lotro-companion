@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.lore.items.chooser;
+package delta.games.lotro.gui.lore.items.table;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -22,8 +22,6 @@ import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.common.colors.ColorDescription;
 import delta.games.lotro.common.id.InternalGameId;
 import delta.games.lotro.common.money.Money;
-import delta.games.lotro.gui.lore.items.ItemColumnIds;
-import delta.games.lotro.gui.lore.items.ItemInstanceColumnIds;
 import delta.games.lotro.gui.lore.items.ItemUiTools;
 import delta.games.lotro.gui.utils.InternalGameIdRenderer;
 import delta.games.lotro.gui.utils.MoneyCellRenderer;

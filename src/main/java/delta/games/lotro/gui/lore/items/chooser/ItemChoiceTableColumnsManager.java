@@ -8,8 +8,8 @@ import delta.games.lotro.character.classes.WellKnownCharacterClassKeys;
 import delta.games.lotro.character.gear.GearSlot;
 import delta.games.lotro.character.gear.GearSlots;
 import delta.games.lotro.common.stats.WellKnownStat;
-import delta.games.lotro.gui.lore.items.ItemColumnIds;
-import delta.games.lotro.gui.lore.items.ItemInstanceColumnIds;
+import delta.games.lotro.gui.lore.items.table.ItemColumnIds;
+import delta.games.lotro.gui.lore.items.table.ItemInstanceColumnIds;
 
 /**
  * Manages the columns to show for item/essence choice table.

@@ -13,7 +13,7 @@ import delta.games.lotro.character.status.tasks.TaskStatus;
 import delta.games.lotro.common.rewards.Rewards;
 import delta.games.lotro.gui.character.status.achievables.table.AchievableStatusColumnsBuilder;
 import delta.games.lotro.gui.common.rewards.table.RewardsColumnsBuilder;
-import delta.games.lotro.gui.lore.items.chooser.ItemsTableBuilder;
+import delta.games.lotro.gui.lore.items.table.ItemsTableBuilder;
 import delta.games.lotro.gui.lore.quests.table.QuestsColumnsBuilder;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.quests.QuestDescription;

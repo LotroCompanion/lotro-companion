@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.lore.items.chooser;
+package delta.games.lotro.gui.lore.items.table;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -31,7 +31,6 @@ import delta.games.lotro.common.stats.StatsRegistry;
 import delta.games.lotro.config.LotroCoreConfig;
 import delta.games.lotro.gui.common.requirements.table.RequirementColumnIds;
 import delta.games.lotro.gui.common.requirements.table.RequirementsColumnsBuilder;
-import delta.games.lotro.gui.lore.items.ItemColumnIds;
 import delta.games.lotro.gui.lore.items.ItemUiTools;
 import delta.games.lotro.gui.lore.items.SlotsPanelController;
 import delta.games.lotro.gui.utils.MoneyCellRenderer;

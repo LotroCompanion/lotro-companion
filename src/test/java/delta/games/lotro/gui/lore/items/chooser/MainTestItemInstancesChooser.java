@@ -11,6 +11,7 @@ import org.w3c.dom.Element;
 
 import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.utils.xml.DOMParsingTools;
+import delta.games.lotro.gui.lore.items.table.ItemInstancesTableBuilder;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemInstance;
 import delta.games.lotro.lore.items.io.xml.ItemInstanceXMLParser;

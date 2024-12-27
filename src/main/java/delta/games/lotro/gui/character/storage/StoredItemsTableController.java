@@ -26,9 +26,9 @@ import delta.games.lotro.character.storage.location.comparators.LocationComparat
 import delta.games.lotro.common.owner.Owner;
 import delta.games.lotro.common.owner.comparators.OwnerComparator;
 import delta.games.lotro.gui.lore.items.CountedItemsTableController;
-import delta.games.lotro.gui.lore.items.ItemColumnIds;
 import delta.games.lotro.gui.lore.items.ItemUiTools;
 import delta.games.lotro.gui.lore.items.chooser.ItemChooser;
+import delta.games.lotro.gui.lore.items.table.ItemColumnIds;
 import delta.games.lotro.lore.items.CountedItem;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemInstance;

@@ -9,6 +9,7 @@ import delta.common.ui.swing.tables.GenericTableController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.misc.TypedProperties;
+import delta.games.lotro.gui.lore.items.table.ItemsTableBuilder;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.utils.gui.chooser.ObjectChoiceWindowController;
 

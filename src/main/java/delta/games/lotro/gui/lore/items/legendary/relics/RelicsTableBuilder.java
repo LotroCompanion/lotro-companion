@@ -18,7 +18,7 @@ import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.classes.AbstractClassDescription;
 import delta.games.lotro.common.enums.RunicTier;
 import delta.games.lotro.gui.LotroIconsManager;
-import delta.games.lotro.gui.lore.items.ItemColumnIds;
+import delta.games.lotro.gui.lore.items.table.ItemColumnIds;
 import delta.games.lotro.lore.items.legendary.relics.Relic;
 
 /**
