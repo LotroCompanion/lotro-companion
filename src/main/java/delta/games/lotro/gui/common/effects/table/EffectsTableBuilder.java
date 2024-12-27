@@ -41,7 +41,7 @@ public class EffectsTableBuilder
     TableColumnsManager<Effect> columnsManager=table.getColumnsManager();
     for(TableColumnController<Effect,?> column : columns)
     {
-      columnsManager.addColumnController(column,false);
+      columnsManager.addColumnController(column,true);
     }
     // Adjust table row height for icons (32 pixels)
     JTable swingTable=table.getTable();
@@ -103,8 +103,13 @@ public class EffectsTableBuilder
       @Override
       public Icon getData(Effect effect)
       {
-        Icon icon=LotroIconsManager.getEffectIcon(effect.getIdentifier());
-        return icon;
+        Integer iconID=effect.getIconId();
+        if (iconID!=null)
+        {
+          Icon icon=LotroIconsManager.getEffectIcon(iconID.intValue());
+          return icon;
+        }
+        return null;
       }
     };
     String columnName=Labels.getLabel("effects.table.icon");

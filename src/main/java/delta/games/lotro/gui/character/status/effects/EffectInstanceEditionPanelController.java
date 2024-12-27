@@ -6,6 +6,8 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.NumberFormat;
+import java.util.Collections;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -16,11 +18,18 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.panels.AbstractPanelController;
 import delta.common.ui.swing.text.FloatEditionController;
 import delta.common.ui.swing.windows.WindowController;
+import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.l10n.LocalizedFormats;
+import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.character.status.effects.EffectInstance;
+import delta.games.lotro.common.comparators.NamedComparator;
 import delta.games.lotro.common.effects.Effect;
+import delta.games.lotro.common.effects.EffectsManager;
 import delta.games.lotro.gui.common.effects.EffectIconController;
+import delta.games.lotro.gui.common.effects.chooser.EffectChooser;
+import delta.games.lotro.gui.common.effects.chooser.EffectFilterController;
 import delta.games.lotro.gui.utils.l10n.Labels;
+import delta.games.lotro.utils.gui.chooser.ObjectChoiceWindowController;
 
 /**
  * Controller for an item instance edition panel.
@@ -79,7 +88,34 @@ public class EffectInstanceEditionPanelController extends AbstractPanelControlle
 
   private void chooseEffect()
   {
-    System.out.println("Choose effect...");
+    Effect chosenEffect=chooseAnEffect();
+    if (chosenEffect==null)
+    {
+      return;
+    }
+    _effectInstance.setEffect(chosenEffect);
+    updateEffect();
+  }
+
+  private Effect chooseAnEffect()
+  {
+    List<Effect> selectedItems=EffectsManager.getInstance().getEffects();
+    Collections.sort(selectedItems,new NamedComparator());
+
+    WindowController parentWindow=getWindowController();
+    TypedProperties filterProps=parentWindow.getUserProperties("EffectFilter");
+    EffectFilterController filterController=new EffectFilterController(filterProps);
+
+    TypedProperties prefs=null;
+    if (parentWindow!=null)
+    {
+      prefs=parentWindow.getUserProperties(EffectChooser.EFFECT_CHOOSER_PROPERTIES_ID);
+    }
+
+    Filter<Effect> filter=filterController.getFilter();
+    ObjectChoiceWindowController<Effect> chooser=EffectChooser.buildChooser(parentWindow,prefs,selectedItems,filter,filterController);
+    Effect ret=chooser.editModal();
+    return ret;
   }
 
   private JPanel buildPanel()
