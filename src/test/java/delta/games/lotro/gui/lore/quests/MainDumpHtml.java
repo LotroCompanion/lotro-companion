@@ -5,7 +5,6 @@ import java.util.List;
 
 import delta.common.ui.swing.area.AreaController;
 import delta.common.utils.files.TextFileWriter;
-import delta.common.utils.misc.IntegerHolder;
 import delta.common.utils.text.EndOfLine;
 import delta.common.utils.variables.VariablesResolver;
 import delta.games.lotro.lore.deeds.DeedDescription;
@@ -13,7 +12,6 @@ import delta.games.lotro.lore.deeds.DeedsManager;
 import delta.games.lotro.lore.quests.AchievableProxiesResolver;
 import delta.games.lotro.lore.quests.QuestDescription;
 import delta.games.lotro.lore.quests.QuestsManager;
-import delta.games.lotro.lore.quests.objectives.ConditionType;
 import delta.games.lotro.lore.quests.objectives.Objective;
 import delta.games.lotro.lore.quests.objectives.ObjectiveCondition;
 import delta.games.lotro.lore.quests.objectives.ObjectivesDisplayBuilder;
@@ -41,14 +39,6 @@ public class MainDumpHtml
   {
     dumpQuests();
     dumpDeedsAsText();
-    for(ConditionType type : ConditionType.values())
-    {
-      IntegerHolder count=ObjectivesDisplayBuilder._counters.get(type);
-      if (count!=null)
-      {
-        System.out.println(type+" => "+count);
-      }
-    }
   }
 
   private static void dumpQuests()
