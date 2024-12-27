@@ -4,6 +4,7 @@ import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.games.lotro.character.classes.ClassDescription;
 import delta.games.lotro.character.races.NationalityDescription;
 import delta.games.lotro.character.races.RaceDescription;
+import delta.games.lotro.common.effects.Effect;
 import delta.games.lotro.lore.agents.mobs.MobDescription;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.quests.Achievable;
@@ -104,6 +105,10 @@ public class ReferenceConstants
    * Mob page identifier.
    */
   public static final String MOB_PAGE="mob";
+  /**
+   * Effect page identifier.
+   */
+  public static final String EFFECT_PAGE="effect";
 
   /**
    * Get a page identifier for the given achievable proxy.
@@ -344,11 +349,21 @@ public class ReferenceConstants
 
   /**
    * Get a page identifier for the given mob.
-   * @param mob Identifier of the mob to use.
+   * @param mob Mob to use.
    * @return A page identifier.
    */
   public static final PageIdentifier getMobReference(MobDescription mob)
   {
     return new PageIdentifier(MOB_PAGE,mob.getIdentifier());
+  }
+
+  /**
+   * Get a page identifier for the given effect.
+   * @param effect Effect to use.
+   * @return A page identifier.
+   */
+  public static final PageIdentifier getEffectReference(Effect effect)
+  {
+    return new PageIdentifier(EFFECT_PAGE,effect.getIdentifier());
   }
 }

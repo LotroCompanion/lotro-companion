@@ -388,6 +388,17 @@ public class LotroIconsManager
   }
 
   /**
+   * Get the icon for an effect.
+   * @param iconID Icon identifier.
+   * @return An icon or <code>null</code> if not found.
+   */
+  public static ImageIcon getEffectIcon(int iconID)
+  {
+    String path="/effects/"+iconID+".png";
+    return IconsManager.getIcon(path);
+  }
+
+  /**
    * Initialize the application icons.
    */
   public static void initApplicationIcons()
