@@ -6,6 +6,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -20,13 +21,14 @@ import delta.common.ui.swing.text.TextListener;
 import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.character.skills.SkillDescription;
-import delta.games.lotro.character.skills.SkillsManager;
+import delta.games.lotro.character.skills.SkillEffectsUtils;
 import delta.games.lotro.common.effects.Effect;
 import delta.games.lotro.gui.lore.agents.mobs.MobsUiUtils;
 import delta.games.lotro.gui.lore.skills.SkillUiUtils;
 import delta.games.lotro.gui.utils.l10n.Labels;
 import delta.games.lotro.lore.agents.mobs.MobDescription;
 import delta.games.lotro.lore.agents.mobs.MobsManager;
+import delta.games.lotro.lore.utils.EffectUtils;
 import delta.games.lotro.utils.gui.filter.ObjectFilterPanelController;
 
 /**
@@ -186,6 +188,7 @@ public class EffectFilterController extends ObjectFilterPanelController implemen
   private ComboBoxController<MobDescription> getMobCombo()
   {
     List<MobDescription> mobs=MobsManager.getInstance().getMobs();
+    mobs=filterMobs(mobs);
     ComboBoxController<MobDescription> ret=MobsUiUtils.builMobsCombo(mobs,true);
     ItemSelectionListener<MobDescription> listener=new ItemSelectionListener<MobDescription>()
     {
@@ -200,6 +203,19 @@ public class EffectFilterController extends ObjectFilterPanelController implemen
     return ret;
   }
 
+  private List<MobDescription> filterMobs(List<MobDescription> mobs)
+  {
+    List<MobDescription> ret=new ArrayList<MobDescription>();
+    for(MobDescription mob : mobs)
+    {
+      if (!EffectUtils.getEffectsFromMob(mob).isEmpty())
+      {
+        ret.add(mob);
+      }
+    }
+    return ret;
+  }
+
   private void initSkill(JPanel panel)
   {
     JPanel skillPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
@@ -211,7 +227,8 @@ public class EffectFilterController extends ObjectFilterPanelController implemen
 
   private ComboBoxController<SkillDescription> getSkillCombo()
   {
-    List<SkillDescription> skills=SkillsManager.getInstance().getAll();
+    List<SkillDescription> skills=SkillEffectsUtils.getSkillsForClasses();
+    skills=filterSkills(skills);
     ComboBoxController<SkillDescription> ret=SkillUiUtils.buildSkillsCombo(skills,true);
     ItemSelectionListener<SkillDescription> listener=new ItemSelectionListener<SkillDescription>()
     {
@@ -223,6 +240,19 @@ public class EffectFilterController extends ObjectFilterPanelController implemen
       }
     };
     ret.addListener(listener);
+    return ret;
+  }
+
+  private List<SkillDescription> filterSkills(List<SkillDescription> skills)
+  {
+    List<SkillDescription> ret=new ArrayList<SkillDescription>();
+    for(SkillDescription skill : skills)
+    {
+      if (!EffectUtils.getSelfEffectsFromSkill(skill).isEmpty())
+      {
+        ret.add(skill);
+      }
+    }
     return ret;
   }
 
