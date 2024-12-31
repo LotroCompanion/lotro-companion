@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import delta.common.ui.swing.combobox.ComboBoxController;
+import delta.games.lotro.common.comparators.NamedComparator;
 import delta.games.lotro.common.enums.AgentClass;
 import delta.games.lotro.common.enums.Alignment;
 import delta.games.lotro.common.enums.ClassificationFilter;
@@ -121,5 +123,29 @@ public class MobsUiUtils
     List<SubSpecies> ret=new ArrayList<SubSpecies>(values);
     Collections.sort(ret,new LotroEnumEntryNameComparator<SubSpecies>());
     return ret;
+  }
+
+
+  /**
+   * Build a combo-box controller to choose a mob.
+   * @param mobs Mobs to show.
+   * @param includeEmptyItem Include empty item.
+   * @return A new combo-box controller.
+   */
+  public static ComboBoxController<MobDescription> builMobsCombo(List<MobDescription> mobs, boolean includeEmptyItem)
+  {
+    ComboBoxController<MobDescription> ctrl=new ComboBoxController<MobDescription>();
+    if (includeEmptyItem)
+    {
+      ctrl.addEmptyItem("");
+    }
+    Collections.sort(mobs,new NamedComparator());
+    for(MobDescription mob : mobs)
+    {
+      String label=mob.getName();
+      ctrl.addItem(mob,label);
+    }
+    ctrl.selectItem(null);
+    return ctrl;
   }
 }
