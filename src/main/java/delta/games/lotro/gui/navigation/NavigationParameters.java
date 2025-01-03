@@ -10,4 +10,8 @@ public class NavigationParameters
    * "itemLevel" parameter (Integer).
    */
   public static final String ITEM_LEVEL_PARAMETER = "itemLevel";
+  /**
+   * "effectLevel" parameter (Integer).
+   */
+  public static final String EFFECT_LEVEL_PARAMETER = "effectLevel";
 }
