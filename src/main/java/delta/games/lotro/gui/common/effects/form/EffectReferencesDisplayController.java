@@ -11,6 +11,7 @@ import javax.swing.event.HyperlinkListener;
 import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.common.utils.html.HtmlConstants;
+import delta.games.lotro.character.skills.SkillDescription;
 import delta.games.lotro.common.Identifiable;
 import delta.games.lotro.common.effects.Effect;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
@@ -98,7 +99,8 @@ public class EffectReferencesDisplayController
   {
     StringBuilder sb=new StringBuilder();
     sb.append("<html><body style='width: 500px'>");
-    buildHtmlForEffect(sb,references);
+    buildHtmlForEffects(sb,references);
+    buildHtmlForSkills(sb,references);
     sb.append("</body></html>");
     return sb.toString();
   }
@@ -126,7 +128,7 @@ public class EffectReferencesDisplayController
     return recipes;
   }
 
-  private void buildHtmlForEffect(StringBuilder sb, List<Reference<?,EffectRole>> references)
+  private void buildHtmlForEffects(StringBuilder sb, List<Reference<?,EffectRole>> references)
   {
     List<Reference<Effect,EffectRole>> effectReferences=getReferences(references,Effect.class);
     if (!effectReferences.isEmpty())
@@ -152,6 +154,36 @@ public class EffectReferencesDisplayController
       effectName="(no name)";
     }
     HtmlUtils.printLink(sb,to.getFullAddress(),effectName);
+    sb.append(HtmlConstants.END_BOLD);
+    sb.append(HtmlConstants.END_PARAGRAPH);
+  }
+
+  private void buildHtmlForSkills(StringBuilder sb, List<Reference<?,EffectRole>> references)
+  {
+    List<Reference<SkillDescription,EffectRole>> skillReferences=getReferences(references,SkillDescription.class);
+    if (!skillReferences.isEmpty())
+    {
+      sb.append("<h1>Skills</h1>");
+      for(Reference<SkillDescription,EffectRole> skillReference : skillReferences)
+      {
+        SkillDescription skill=skillReference.getSource();
+        buildHtmlForSkillReference(sb,skill);
+      }
+    }
+  }
+
+  private void buildHtmlForSkillReference(StringBuilder sb, SkillDescription skill)
+  {
+    sb.append(HtmlConstants.START_PARAGRAPH);
+    sb.append("Found in skill ");
+    sb.append(HtmlConstants.START_BOLD);
+    PageIdentifier to=ReferenceConstants.getSkillReference(skill.getIdentifier());
+    String skillName=skill.getName();
+    if (skillName.isEmpty())
+    {
+      skillName="(no name)";
+    }
+    HtmlUtils.printLink(sb,to.getFullAddress(),skillName);
     sb.append(HtmlConstants.END_BOLD);
     sb.append(HtmlConstants.END_PARAGRAPH);
   }
