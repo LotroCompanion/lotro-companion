@@ -283,6 +283,7 @@ public class TraitDisplayPanelController extends AbstractNavigablePanelControlle
       ret.add(gadget.getIcon().getIcon(),c);
       c=new GridBagConstraints(1,y,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
       ret.add(gadget.getLink().getLabel(),c);
+      y++;
     }
     return ret;
   }
