@@ -70,6 +70,8 @@ public class DatInterface implements ConfigurationListener
   {
     ApplicationConfiguration cfg=ApplicationConfiguration.getInstance();
     DatConfiguration datCfg=cfg.getDatConfiguration();
+    String localeKey=cfg.getLabelsConfiguration().getDataLabelsKey();
+    datCfg.setLocale(localeKey);
     DataFacade facade=new DataFacade(datCfg);
     return facade;
   }
