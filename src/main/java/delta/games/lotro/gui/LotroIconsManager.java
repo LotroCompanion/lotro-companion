@@ -399,6 +399,17 @@ public class LotroIconsManager
   }
 
   /**
+   * Get a housing-related icon.
+   * @param iconID Icon identifier.
+   * @return An icon or <code>null</code> if not found.
+   */
+  public static ImageIcon getHousingIcon(int iconID)
+  {
+    String path="/housing/"+iconID+".png";
+    return IconsManager.getIcon(path);
+  }
+
+  /**
    * Initialize the application icons.
    */
   public static void initApplicationIcons()

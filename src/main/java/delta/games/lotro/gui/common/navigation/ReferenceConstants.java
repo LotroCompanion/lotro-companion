@@ -4,7 +4,9 @@ import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.games.lotro.character.classes.ClassDescription;
 import delta.games.lotro.character.races.NationalityDescription;
 import delta.games.lotro.character.races.RaceDescription;
+import delta.games.lotro.character.status.housing.HouseAddress;
 import delta.games.lotro.common.effects.Effect;
+import delta.games.lotro.gui.navigation.NavigationParameters;
 import delta.games.lotro.lore.agents.mobs.MobDescription;
 import delta.games.lotro.lore.deeds.DeedDescription;
 import delta.games.lotro.lore.quests.Achievable;
@@ -109,6 +111,10 @@ public class ReferenceConstants
    * Effect page identifier.
    */
   public static final String EFFECT_PAGE="effect";
+  /**
+   * House page identifier.
+   */
+  public static final String HOUSE_PAGE="house";
 
   /**
    * Get a page identifier for the given achievable proxy.
@@ -365,5 +371,19 @@ public class ReferenceConstants
   public static final PageIdentifier getEffectReference(Effect effect)
   {
     return new PageIdentifier(EFFECT_PAGE,effect.getIdentifier());
+  }
+
+  /**
+   * Get a page identifier for a house.
+   * @param address House address.
+   * @return A page identifier.
+   */
+  public static final PageIdentifier getHouseReference(HouseAddress address)
+  {
+    int houseID=address.getHouseID();
+    int neighborhoodID=address.getNeighborhoodID();
+    PageIdentifier pageId=new PageIdentifier(HOUSE_PAGE,houseID);
+    pageId.setParameter(NavigationParameters.NEIGHBORHOOD_ID_PARAMETER,String.valueOf(neighborhoodID));
+    return pageId;
   }
 }

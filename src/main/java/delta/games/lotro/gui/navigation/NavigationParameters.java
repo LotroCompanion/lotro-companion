@@ -14,4 +14,8 @@ public class NavigationParameters
    * "effectLevel" parameter (Integer).
    */
   public static final String EFFECT_LEVEL_PARAMETER = "effectLevel";
+  /**
+   * "neighborhoodID" parameter (Integer).
+   */
+  public static final String NEIGHBORHOOD_ID_PARAMETER = "neighborhoodID";
 }
