@@ -16,7 +16,7 @@ import delta.games.lotro.common.rewards.TraitReward;
 import delta.games.lotro.common.rewards.VirtueReward;
 import delta.games.lotro.gui.lore.titles.TitleUiUtils;
 import delta.games.lotro.gui.lore.titles.TitleUiUtils.TitleRenderingFormat;
-import delta.games.lotro.gui.utils.MoneyCellRenderer;
+import delta.games.lotro.gui.utils.tables.renderers.MoneyCellRenderer;
 import delta.games.lotro.lore.reputation.Faction;
 import delta.games.lotro.lore.titles.TitleDescription;
 import delta.games.lotro.utils.strings.ContextRendering;

@@ -19,8 +19,8 @@ import delta.games.lotro.common.money.Money;
 import delta.games.lotro.gui.lore.items.chooser.ItemChooser;
 import delta.games.lotro.gui.lore.items.table.ItemColumnIds;
 import delta.games.lotro.gui.lore.items.table.ItemsTableBuilder;
-import delta.games.lotro.gui.utils.MoneyCellRenderer;
 import delta.games.lotro.gui.utils.UiConfiguration;
+import delta.games.lotro.gui.utils.tables.renderers.MoneyCellRenderer;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.trade.vendor.ValuedItem;
 

@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JTable;
-import javax.swing.table.DefaultTableCellRenderer;
 
 import delta.common.ui.swing.tables.CellDataProvider;
 import delta.common.ui.swing.tables.DataProvider;
@@ -29,6 +28,7 @@ import delta.games.lotro.gui.lore.items.CountedItemsTableController;
 import delta.games.lotro.gui.lore.items.ItemUiTools;
 import delta.games.lotro.gui.lore.items.chooser.ItemChooser;
 import delta.games.lotro.gui.lore.items.table.ItemColumnIds;
+import delta.games.lotro.gui.utils.tables.renderers.OwnerRenderer;
 import delta.games.lotro.lore.items.CountedItem;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemInstance;
@@ -292,19 +292,5 @@ public class StoredItemsTableController
     }
     // Data
     _items=null;
-  }
-
-  /**
-   * Owner renderer.
-   * @author DAM
-   */
-  public static class OwnerRenderer extends DefaultTableCellRenderer
-  {
-    @Override
-    public void setValue(Object value)
-    {
-      String text=StorageFilterController.getLabelForOwner((Owner)value);
-      setText(text);
-    }
   }
 }

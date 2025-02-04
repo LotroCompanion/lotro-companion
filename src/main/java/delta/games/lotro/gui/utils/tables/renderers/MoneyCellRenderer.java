@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.utils;
+package delta.games.lotro.gui.utils.tables.renderers;
 
 import java.awt.Component;
 

@@ -31,7 +31,7 @@ import delta.games.lotro.gui.character.status.achievables.table.ProgressTableCel
 import delta.games.lotro.gui.character.storage.StorageUiUtils;
 import delta.games.lotro.gui.lore.titles.TitleUiUtils;
 import delta.games.lotro.gui.lore.titles.TitleUiUtils.TitleRenderingFormat;
-import delta.games.lotro.gui.utils.MoneyCellRenderer;
+import delta.games.lotro.gui.utils.tables.renderers.MoneyCellRenderer;
 import delta.games.lotro.lore.crafting.CraftingData;
 import delta.games.lotro.lore.crafting.CraftingSystem;
 import delta.games.lotro.lore.crafting.Vocation;
