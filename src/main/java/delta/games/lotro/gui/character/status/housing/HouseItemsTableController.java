@@ -31,7 +31,6 @@ import delta.games.lotro.gui.lore.items.table.ItemColumnIds;
 import delta.games.lotro.gui.lore.items.table.ItemsTableBuilder;
 import delta.games.lotro.gui.utils.tables.renderers.InternalGameIdRenderer;
 import delta.games.lotro.lore.items.Item;
-import delta.games.lotro.lore.items.ItemsManager;
 
 /**
  * Controller for a table that shows house items.
@@ -135,9 +134,7 @@ public class HouseItemsTableController
         @Override
         public Item getData(HousingItem hi)
         {
-          int itemID=hi.getItemID();
-          // TODO : put the Item inside the HousingItem
-          Item item=ItemsManager.getInstance().getItem(itemID);
+          Item item=hi.getItem();
           return item;
         }
       };
@@ -307,12 +304,8 @@ public class HouseItemsTableController
   private void showItem(Object sourceItem)
   {
     HousingItem housingItem=(HousingItem)sourceItem;
-    int itemID=housingItem.getItemID();
-    Item item=ItemsManager.getInstance().getItem(itemID);
-    if (item!=null)
-    {
-      ItemUiTools.showItemForm(_parent,item);
-    }
+    Item item=housingItem.getItem();
+    ItemUiTools.showItemForm(_parent,item);
   }
 
   /**
