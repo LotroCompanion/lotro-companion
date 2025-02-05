@@ -22,9 +22,9 @@ class MainTestHouseItemsTableController
     HouseIdentifier id=new HouseIdentifier("Landroval",address);
     House house=HousingStatusIO.loadHouse(id);
     List<HousingItem> items=house.getInterior().getItems();
-    HouseItemsTableController t=new HouseItemsTableController(null,null,items,null);
 
     DefaultWindowController w=new DefaultWindowController();
+    HouseItemsTableController t=new HouseItemsTableController(w,null,items,null);
     GenericTablePanelController<HousingItem> panelCtrl=new GenericTablePanelController<HousingItem>(w,t.getTableController());
     w.getFrame().add(panelCtrl.getPanel());
     w.getFrame().pack();
