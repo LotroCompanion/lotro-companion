@@ -47,7 +47,7 @@ public class EffectIconController extends IconController
     setIcon(icon);
     if (effect!=null)
     {
-      setPageId(ReferenceConstants.getTraitReference(effect.getIdentifier()));
+      setPageId(ReferenceConstants.getEffectReference(effect));
     }
     else
     {
