@@ -160,6 +160,10 @@ public class HouseMapPanelController extends AbstractAreaController
     canvas.addLayer(radarLayer);
     radarLayer.setRegion(region);
 
+    // Offsets
+    HouseItemOffsetLayer offsetsLayer=new HouseItemOffsetLayer();
+    offsetsLayer.setItems(_points);
+    canvas.addLayer(offsetsLayer);
     // Markers
     MarkerIconProvider iconsProvider=new ItemIconProvider();
     SimpleMarkersProvider markersProvider=new SimpleMarkersProvider();

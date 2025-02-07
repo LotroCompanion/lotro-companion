@@ -39,7 +39,6 @@ public class MainTestHouseMapPanelController
     w.getFrame().setResizable(false);
     w.pack();
     w.show();
-
   }
 
   /**
