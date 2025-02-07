@@ -12,6 +12,7 @@ import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.common.ui.swing.navigator.PageIdentifier;
 import delta.common.utils.html.HtmlConstants;
 import delta.games.lotro.character.skills.SkillDescription;
+import delta.games.lotro.character.traits.TraitDescription;
 import delta.games.lotro.common.Identifiable;
 import delta.games.lotro.common.effects.Effect;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
@@ -101,6 +102,7 @@ public class EffectReferencesDisplayController
     sb.append("<html><body style='width: 500px'>");
     buildHtmlForEffects(sb,references);
     buildHtmlForSkills(sb,references);
+    buildHtmlForTraits(sb,references);
     sb.append("</body></html>");
     return sb.toString();
   }
@@ -184,6 +186,36 @@ public class EffectReferencesDisplayController
       skillName="(no name)";
     }
     HtmlUtils.printLink(sb,to.getFullAddress(),skillName);
+    sb.append(HtmlConstants.END_BOLD);
+    sb.append(HtmlConstants.END_PARAGRAPH);
+  }
+
+  private void buildHtmlForTraits(StringBuilder sb, List<Reference<?,EffectRole>> references)
+  {
+    List<Reference<TraitDescription,EffectRole>> traitReferences=getReferences(references,TraitDescription.class);
+    if (!traitReferences.isEmpty())
+    {
+      sb.append("<h1>Traits</h1>");
+      for(Reference<TraitDescription,EffectRole> traitReference : traitReferences)
+      {
+        TraitDescription trait=traitReference.getSource();
+        buildHtmlForTraitReference(sb,trait);
+      }
+    }
+  }
+
+  private void buildHtmlForTraitReference(StringBuilder sb, TraitDescription trait)
+  {
+    sb.append(HtmlConstants.START_PARAGRAPH);
+    sb.append("Found in trait ");
+    sb.append(HtmlConstants.START_BOLD);
+    PageIdentifier to=ReferenceConstants.getTraitReference(trait.getIdentifier());
+    String traitName=trait.getName();
+    if (traitName.isEmpty())
+    {
+      traitName="(no name)";
+    }
+    HtmlUtils.printLink(sb,to.getFullAddress(),traitName);
     sb.append(HtmlConstants.END_BOLD);
     sb.append(HtmlConstants.END_PARAGRAPH);
   }
