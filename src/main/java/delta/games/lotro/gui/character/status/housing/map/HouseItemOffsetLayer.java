@@ -92,7 +92,12 @@ public class HouseItemOffsetLayer extends BaseVectorLayer
     // Compute hook position
     DatPosition datPosition=PositionDecoder.fromLatLon(position.getLongitude(),position.getLatitude());
     Vector3D datVector=datPosition.getPosition();
-    datPosition.setPosition(datVector.getX()+offset.getX(),datVector.getY()-offset.getY(),datVector.getZ()-offset.getZ());
+    double cos=Math.cos(item.getHookRotation()*Math.PI/180);
+    double sin=Math.sin(item.getHookRotation()*Math.PI/180);
+    double hookX=datVector.getX()-offset.getX()*cos-offset.getY()*sin;
+    double hookY=datVector.getY()+offset.getX()*sin-offset.getY()*cos;
+    double hookZ=datVector.getZ()-offset.getZ();
+    datPosition.setPosition((float)hookX,(float)hookY,(float)hookZ);
     float[] hookLonLat=datPosition.getLonLat();
     Dimension hookPosition=viewReference.geo2pixel(new GeoPoint(hookLonLat[0],hookLonLat[1]));
 
