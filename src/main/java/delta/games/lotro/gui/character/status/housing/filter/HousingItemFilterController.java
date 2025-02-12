@@ -196,7 +196,7 @@ public class HousingItemFilterController implements ActionListener
         }
       };
       _category.addListener(itemClassListener);
-      linePanel.add(_hook.getComboBox());
+      linePanel.add(_category.getComboBox());
     }
     // Hook filter
     {
