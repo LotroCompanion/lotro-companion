@@ -1,4 +1,4 @@
-package delta.games.lotro.gui.character.status.housing.maps;
+package delta.games.lotro.gui.character.status.housing.map;
 
 import delta.games.lotro.lore.maps.Dungeon;
 import delta.games.lotro.lore.maps.DungeonsManager;

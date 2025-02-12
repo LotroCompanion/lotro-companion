@@ -12,7 +12,6 @@ import delta.games.lotro.character.status.housing.HouseContents;
 import delta.games.lotro.character.status.housing.HousingItem;
 import delta.games.lotro.common.geo.Position;
 import delta.games.lotro.dat.data.DataFacade;
-import delta.games.lotro.gui.character.status.housing.maps.HousingMapsUtils;
 import delta.games.lotro.gui.maps.DatRadarImageProvider;
 import delta.games.lotro.gui.maps.MapUtils;
 import delta.games.lotro.gui.maps.MarkerSelectionListener;
