@@ -16,6 +16,7 @@ import delta.games.lotro.character.traits.TraitDescription;
 import delta.games.lotro.common.Identifiable;
 import delta.games.lotro.common.effects.Effect;
 import delta.games.lotro.gui.common.navigation.ReferenceConstants;
+import delta.games.lotro.lore.agents.mobs.MobDescription;
 import delta.games.lotro.lore.xrefs.Reference;
 import delta.games.lotro.lore.xrefs.effects.EffectReferencesBuilder;
 import delta.games.lotro.lore.xrefs.effects.EffectRole;
@@ -103,6 +104,7 @@ public class EffectReferencesDisplayController
     buildHtmlForEffects(sb,references);
     buildHtmlForSkills(sb,references);
     buildHtmlForTraits(sb,references);
+    buildHtmlForMobs(sb,references);
     sb.append("</body></html>");
     return sb.toString();
   }
@@ -216,6 +218,36 @@ public class EffectReferencesDisplayController
       traitName="(no name)";
     }
     HtmlUtils.printLink(sb,to.getFullAddress(),traitName);
+    sb.append(HtmlConstants.END_BOLD);
+    sb.append(HtmlConstants.END_PARAGRAPH);
+  }
+
+  private void buildHtmlForMobs(StringBuilder sb, List<Reference<?,EffectRole>> references)
+  {
+    List<Reference<MobDescription,EffectRole>> mobReferences=getReferences(references,MobDescription.class);
+    if (!mobReferences.isEmpty())
+    {
+      sb.append("<h1>Mobs</h1>");
+      for(Reference<MobDescription,EffectRole> mobReference : mobReferences)
+      {
+        MobDescription mob=mobReference.getSource();
+        buildHtmlForMobReference(sb,mob);
+      }
+    }
+  }
+
+  private void buildHtmlForMobReference(StringBuilder sb, MobDescription mob)
+  {
+    sb.append(HtmlConstants.START_PARAGRAPH);
+    sb.append("Used by mob ");
+    sb.append(HtmlConstants.START_BOLD);
+    PageIdentifier to=ReferenceConstants.getMobReference(mob);
+    String mobName=mob.getName();
+    if (mobName.isEmpty())
+    {
+      mobName="(no name)";
+    }
+    HtmlUtils.printLink(sb,to.getFullAddress(),mobName);
     sb.append(HtmlConstants.END_BOLD);
     sb.append(HtmlConstants.END_PARAGRAPH);
   }
