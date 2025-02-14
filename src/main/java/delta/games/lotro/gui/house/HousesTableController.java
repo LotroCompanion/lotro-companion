@@ -16,9 +16,11 @@ import delta.common.ui.swing.tables.Sort;
 import delta.common.ui.swing.tables.TableColumnController;
 import delta.common.ui.swing.tables.TableColumnsManager;
 import delta.common.ui.swing.windows.WindowController;
+import delta.common.ui.swing.windows.WindowsManager;
 import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.common.enums.HouseType;
+import delta.games.lotro.gui.character.status.housing.HouseDisplayWindowController;
 import delta.games.lotro.gui.lore.items.chooser.ItemChooser;
 import delta.games.lotro.gui.lore.items.table.ItemColumnIds;
 
@@ -248,7 +250,15 @@ public class HousesTableController
 
   private void showHouse(HouseTableEntry house)
   {
-    // TODO
+    String id=HouseDisplayWindowController.getWindowIdentifier(house.getHouse().getIdentifier());
+    WindowsManager mgr=_parent.getWindowsManager();
+    WindowController ctrl=mgr.getWindow(id);
+    if (ctrl==null)
+    {
+      ctrl=new HouseDisplayWindowController(_parent,house.getHouse());
+      mgr.registerWindow(ctrl);
+    }
+    ctrl.bringToFront();
   }
 
   /**

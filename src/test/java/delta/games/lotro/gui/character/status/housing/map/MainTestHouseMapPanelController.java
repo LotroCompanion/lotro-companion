@@ -2,6 +2,9 @@ package delta.games.lotro.gui.character.status.housing.map;
 
 import java.awt.Component;
 
+import javax.swing.JFrame;
+import javax.swing.WindowConstants;
+
 import delta.common.ui.swing.windows.DefaultWindowController;
 import delta.games.lotro.character.status.housing.House;
 import delta.games.lotro.character.status.housing.HouseAddress;
@@ -34,7 +37,9 @@ public class MainTestHouseMapPanelController
     HouseMapPanelController ctrl=new HouseMapPanelController(w,_facade,contents);
     Component mapComponent=ctrl.getMapComponent();
     String title=ctrl.getMapTitle();
-    w.getFrame().add(mapComponent);
+    JFrame jframe=w.getFrame();
+    jframe.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+    jframe.add(mapComponent);
     w.setTitle(title);
     w.getFrame().setResizable(false);
     w.pack();
