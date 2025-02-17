@@ -15,7 +15,9 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.labels.MultilineLabel2;
 import delta.common.ui.swing.panels.AbstractPanelController;
 import delta.common.ui.swing.windows.WindowController;
-import delta.games.lotro.character.status.housing.HouseAddress;
+import delta.games.lotro.character.status.housing.House;
+import delta.games.lotro.character.status.housing.HouseIdentifier;
+import delta.games.lotro.character.status.housing.io.HousingStatusIO;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.lore.housing.HouseDefinition;
 import delta.games.lotro.lore.housing.HousingManager;
@@ -30,7 +32,7 @@ import delta.games.lotro.lore.housing.NeighborhoodTemplate;
 public class HouseStatusSummaryPanelController extends AbstractPanelController
 {
   // Data
-  private HouseAddress _address;
+  private HouseIdentifier _houseId;
   // UI
   private JLabel _houseIcon;
   private JPanel _houseAddress;
@@ -39,12 +41,12 @@ public class HouseStatusSummaryPanelController extends AbstractPanelController
   /**
    * Constructor.
    * @param parent Parent window.
-   * @param address House address.
+   * @param houseId House identifier.
    */
-  public HouseStatusSummaryPanelController(WindowController parent, HouseAddress address)
+  public HouseStatusSummaryPanelController(WindowController parent, HouseIdentifier houseId)
   {
     super(parent);
-    _address=address;
+    _houseId=houseId;
     init();
     setPanel(buildPanel());
   }
@@ -82,7 +84,7 @@ public class HouseStatusSummaryPanelController extends AbstractPanelController
 
   private JLabel buildHouseIcon()
   {
-    int houseID=_address.getHouseID();
+    int houseID=_houseId.getAddress().getHouseID();
     HousingManager mgr=HousingSystem.getInstance().getData();
     HouseDefinition house=mgr.getHouse(houseID);
     int iconID=house.getInfo().getIcon32ID();
@@ -92,13 +94,13 @@ public class HouseStatusSummaryPanelController extends AbstractPanelController
 
   private MultilineLabel2 buildAddressPanel()
   {
-    int houseID=_address.getHouseID();
+    int houseID=getHouseID();
     HousingManager mgr=HousingSystem.getInstance().getData();
     // Address
     HouseDefinition house=mgr.getHouse(houseID);
     String address=house.getAddress();
     // Neighborhood
-    int neightborhoodID=_address.getNeighborhoodID();
+    int neightborhoodID=getNeighborhoodID();
     Neighborhood neighborhood=mgr.getNeighborhood(neightborhoodID);
     NeighborhoodTemplate template=neighborhood.getTemplate();
     String neighborhoodStr=neighborhood.getName()+", "+template.getName();
@@ -108,17 +110,33 @@ public class HouseStatusSummaryPanelController extends AbstractPanelController
     return ret;
   }
 
+  private int getHouseID()
+  {
+    return _houseId.getAddress().getHouseID();
+  }
+
+  private int getNeighborhoodID()
+  {
+    return _houseId.getAddress().getNeighborhoodID();
+  }
+
   private void showHouse()
   {
-    // TODO Show house window
-    System.out.println("Show house: "+_address);
+    House house=HousingStatusIO.loadHouse(_houseId);
+    if (house==null)
+    {
+      return;
+    }
+    WindowController parent=getWindowController();
+    HouseDisplayWindowController w=new HouseDisplayWindowController(parent,house);
+    w.bringToFront();
   }
 
   @Override
   public void dispose()
   {
     super.dispose();
-    _address=null;
+    _houseId=null;
     _houseIcon=null;
     _houseAddress=null;
     _detailsButton=null;

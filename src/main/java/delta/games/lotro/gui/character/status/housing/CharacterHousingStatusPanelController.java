@@ -12,6 +12,7 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.panels.AbstractPanelController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.status.housing.AccountHousingData;
+import delta.games.lotro.character.status.housing.HouseIdentifier;
 import delta.games.lotro.character.status.housing.HouseReference;
 
 /**
@@ -71,7 +72,8 @@ public class CharacterHousingStatusPanelController extends AbstractPanelControll
     for(HouseReference house : houses)
     {
       WindowController parent=getWindowController();
-      HouseStatusSummaryPanelController ctrl=new HouseStatusSummaryPanelController(parent,house.getAddress());
+      HouseIdentifier houseId=new HouseIdentifier(_data.getServer(),house.getAddress());
+      HouseStatusSummaryPanelController ctrl=new HouseStatusSummaryPanelController(parent,houseId);
       _houseStatusCtrls.add(ctrl);
       ret.add(ctrl.getPanel(),c);
       c.gridy++;

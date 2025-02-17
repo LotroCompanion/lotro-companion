@@ -13,7 +13,7 @@ class MainTestHouseDisplayWindowController
 {
   private void doIt()
   {
-    HouseAddress address=new HouseAddress(1879094517,1879094597);
+    HouseAddress address=new HouseAddress(1879094517,1879094572);
     HouseIdentifier id=new HouseIdentifier("Landroval",address);
     House house=HousingStatusIO.loadHouse(id);
     HouseDisplayWindowController w=new HouseDisplayWindowController(null,house);
