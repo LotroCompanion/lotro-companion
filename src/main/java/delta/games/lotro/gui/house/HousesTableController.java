@@ -23,6 +23,7 @@ import delta.games.lotro.common.enums.HouseType;
 import delta.games.lotro.gui.character.status.housing.HouseDisplayWindowController;
 import delta.games.lotro.gui.lore.items.chooser.ItemChooser;
 import delta.games.lotro.gui.lore.items.table.ItemColumnIds;
+import delta.games.lotro.house.HouseEntry;
 
 /**
  * Controller for a table that shows houses.
@@ -56,9 +57,9 @@ public class HousesTableController
   // Preferences
   private TypedProperties _prefs;
   // Data
-  protected List<HouseTableEntry> _items;
+  protected List<HouseEntry> _items;
   // GUI
-  private GenericTableController<HouseTableEntry> _tableController;
+  private GenericTableController<HouseEntry> _tableController;
 
   /**
    * Constructor.
@@ -67,7 +68,7 @@ public class HousesTableController
    * @param items Items to show.
    * @param filter Managed filter.
    */
-  public HousesTableController(WindowController parent, TypedProperties prefs, List<HouseTableEntry> items, Filter<HouseTableEntry> filter)
+  public HousesTableController(WindowController parent, TypedProperties prefs, List<HouseEntry> items, Filter<HouseEntry> filter)
   {
     _parent=parent;
     _prefs=prefs;
@@ -81,19 +82,19 @@ public class HousesTableController
    * Get the managed generic table controller.
    * @return the managed generic table controller.
    */
-  public GenericTableController<HouseTableEntry> getTableController()
+  public GenericTableController<HouseEntry> getTableController()
   {
     return _tableController;
   }
 
-  private GenericTableController<HouseTableEntry> buildTable()
+  private GenericTableController<HouseEntry> buildTable()
   {
     // Build table
-    DataProvider<HouseTableEntry> provider=new ListDataProvider<HouseTableEntry>(_items);
-    GenericTableController<HouseTableEntry> table=new GenericTableController<HouseTableEntry>(provider);
-    List<TableColumnController<HouseTableEntry,?>> columns=initColumns();
-    TableColumnsManager<HouseTableEntry> columnsManager=table.getColumnsManager();
-    for(TableColumnController<HouseTableEntry,?> column : columns)
+    DataProvider<HouseEntry> provider=new ListDataProvider<HouseEntry>(_items);
+    GenericTableController<HouseEntry> table=new GenericTableController<HouseEntry>(provider);
+    List<TableColumnController<HouseEntry,?>> columns=initColumns();
+    TableColumnsManager<HouseEntry> columnsManager=table.getColumnsManager();
+    for(TableColumnController<HouseEntry,?> column : columns)
     {
       columnsManager.addColumnController(column,false);
     }
@@ -110,9 +111,9 @@ public class HousesTableController
    * Build a list of all managed columns.
    * @return A list of column controllers.
    */
-  private List<TableColumnController<HouseTableEntry,?>> initColumns()
+  private List<TableColumnController<HouseEntry,?>> initColumns()
   {
-    List<TableColumnController<HouseTableEntry,?>> ret=new ArrayList<TableColumnController<HouseTableEntry,?>>();
+    List<TableColumnController<HouseEntry,?>> ret=new ArrayList<TableColumnController<HouseEntry,?>>();
 
     // Server column
     ret.add(buildServerColumn());
@@ -127,77 +128,77 @@ public class HousesTableController
     return ret;
   }
 
-  private TableColumnController<HouseTableEntry,?> buildServerColumn()
+  private TableColumnController<HouseEntry,?> buildServerColumn()
   {
-    CellDataProvider<HouseTableEntry,String> cell=new CellDataProvider<HouseTableEntry,String>()
+    CellDataProvider<HouseEntry,String> cell=new CellDataProvider<HouseEntry,String>()
     {
       @Override
-      public String getData(HouseTableEntry item)
+      public String getData(HouseEntry item)
       {
         return item.getServer();
       }
     };
-    DefaultTableColumnController<HouseTableEntry,String> column=new DefaultTableColumnController<HouseTableEntry,String>(SERVER,"Server",String.class,cell); // I18n
+    DefaultTableColumnController<HouseEntry,String> column=new DefaultTableColumnController<HouseEntry,String>(SERVER,"Server",String.class,cell); // I18n
     column.setWidthSpecs(100,100,100);
     return column;
   }
 
-  private TableColumnController<HouseTableEntry,?> buildHomesteadColumn()
+  private TableColumnController<HouseEntry,?> buildHomesteadColumn()
   {
-    CellDataProvider<HouseTableEntry,String> cell=new CellDataProvider<HouseTableEntry,String>()
+    CellDataProvider<HouseEntry,String> cell=new CellDataProvider<HouseEntry,String>()
     {
       @Override
-      public String getData(HouseTableEntry item)
+      public String getData(HouseEntry item)
       {
         return item.getNeighborhoodTemplate();
       }
     };
-    DefaultTableColumnController<HouseTableEntry,String> column=new DefaultTableColumnController<HouseTableEntry,String>(HOMESTEAD,"Homestead",String.class,cell); // I18n
+    DefaultTableColumnController<HouseEntry,String> column=new DefaultTableColumnController<HouseEntry,String>(HOMESTEAD,"Homestead",String.class,cell); // I18n
     column.setWidthSpecs(100,150,150);
     return column;
   }
 
-  private TableColumnController<HouseTableEntry,?> buildNeighborhoodColumn()
+  private TableColumnController<HouseEntry,?> buildNeighborhoodColumn()
   {
-    CellDataProvider<HouseTableEntry,String> cell=new CellDataProvider<HouseTableEntry,String>()
+    CellDataProvider<HouseEntry,String> cell=new CellDataProvider<HouseEntry,String>()
     {
       @Override
-      public String getData(HouseTableEntry item)
+      public String getData(HouseEntry item)
       {
         return item.getNeighborhood();
       }
     };
-    DefaultTableColumnController<HouseTableEntry,String> column=new DefaultTableColumnController<HouseTableEntry,String>(NEIGHBORHOOD,"Neighborhood",String.class,cell); // I18n
+    DefaultTableColumnController<HouseEntry,String> column=new DefaultTableColumnController<HouseEntry,String>(NEIGHBORHOOD,"Neighborhood",String.class,cell); // I18n
     column.setWidthSpecs(100,100,100);
     return column;
   }
 
-  private TableColumnController<HouseTableEntry,?> buildAddressColumn()
+  private TableColumnController<HouseEntry,?> buildAddressColumn()
   {
-    CellDataProvider<HouseTableEntry,String> cell=new CellDataProvider<HouseTableEntry,String>()
+    CellDataProvider<HouseEntry,String> cell=new CellDataProvider<HouseEntry,String>()
     {
       @Override
-      public String getData(HouseTableEntry item)
+      public String getData(HouseEntry item)
       {
         return item.getAddress();
       }
     };
-    DefaultTableColumnController<HouseTableEntry,String> column=new DefaultTableColumnController<HouseTableEntry,String>(HOUSE_ADDRESS,"Address",String.class,cell); // I18n
+    DefaultTableColumnController<HouseEntry,String> column=new DefaultTableColumnController<HouseEntry,String>(HOUSE_ADDRESS,"Address",String.class,cell); // I18n
     column.setWidthSpecs(100,150,150);
     return column;
   }
 
-  private TableColumnController<HouseTableEntry,?> buildTypeColumn()
+  private TableColumnController<HouseEntry,?> buildTypeColumn()
   {
-    CellDataProvider<HouseTableEntry,HouseType> cell=new CellDataProvider<HouseTableEntry,HouseType>()
+    CellDataProvider<HouseEntry,HouseType> cell=new CellDataProvider<HouseEntry,HouseType>()
     {
       @Override
-      public HouseType getData(HouseTableEntry item)
+      public HouseType getData(HouseEntry item)
       {
         return item.getType();
       }
     };
-    DefaultTableColumnController<HouseTableEntry,HouseType> column=new DefaultTableColumnController<HouseTableEntry,HouseType>(HOUSE_TYPE,"Type",HouseType.class,cell); // I18n
+    DefaultTableColumnController<HouseEntry,HouseType> column=new DefaultTableColumnController<HouseEntry,HouseType>(HOUSE_TYPE,"Type",HouseType.class,cell); // I18n
     column.setWidthSpecs(100,100,100);
     return column;
   }
@@ -240,7 +241,7 @@ public class HousesTableController
         String action=event.getActionCommand();
         if (GenericTableController.DOUBLE_CLICK.equals(action))
         {
-          HouseTableEntry house=(HouseTableEntry)event.getSource();
+          HouseEntry house=(HouseEntry)event.getSource();
           showHouse(house);
         }
       }
@@ -248,7 +249,7 @@ public class HousesTableController
     _tableController.addActionListener(al);
   }
 
-  private void showHouse(HouseTableEntry house)
+  private void showHouse(HouseEntry house)
   {
     String id=HouseDisplayWindowController.getWindowIdentifier(house.getHouse().getIdentifier());
     WindowsManager mgr=_parent.getWindowsManager();
