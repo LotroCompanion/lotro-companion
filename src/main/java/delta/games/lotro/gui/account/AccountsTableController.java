@@ -147,11 +147,6 @@ public class AccountsTableController implements GenericEventsListener<AccountEve
     return _tableController;
   }
 
-  private void reset()
-  {
-    _accounts.clear();
-  }
-
   /**
    * Refresh accounts table.
    */
@@ -181,7 +176,7 @@ public class AccountsTableController implements GenericEventsListener<AccountEve
 
   private void init()
   {
-    reset();
+    _accounts.clear();
     AccountsManager manager=AccountsManager.getInstance();
     List<Account> accounts=manager.getAllAccounts();
     for(Account account : accounts)

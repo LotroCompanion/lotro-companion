@@ -42,6 +42,7 @@ import delta.games.lotro.gui.character.status.reputation.synopsis.ReputationSyno
 import delta.games.lotro.gui.character.status.warbands.WarbandsWindowController;
 import delta.games.lotro.gui.clientImport.ClientImportDialogController;
 import delta.games.lotro.gui.configuration.ConfigurationDialogController;
+import delta.games.lotro.gui.house.HousesManagementController;
 import delta.games.lotro.gui.kinship.KinshipsManagementController;
 import delta.games.lotro.gui.lore.instances.explorer.InstancesExplorerWindowController;
 import delta.games.lotro.gui.maps.global.MapWindowController;
@@ -85,6 +86,7 @@ public class MainFrameController extends DefaultWindowController implements Acti
   private PaypalButtonController _paypalButton;
   private ToonsManagementController _toonsManager;
   private AccountsManagementController _accountsManager;
+  private HousesManagementController _housesManager;
   private KinshipsManagementController _kinshipsManager;
   private WindowsManager _windowsManager;
 
@@ -95,6 +97,7 @@ public class MainFrameController extends DefaultWindowController implements Acti
   {
     _toonsManager=new ToonsManagementController(this);
     _accountsManager=new AccountsManagementController(this);
+    _housesManager=new HousesManagementController(this);
     _kinshipsManager=new KinshipsManagementController(this);
     _windowsManager=new WindowsManager();
     _loreCtrl=new LoreActionsController(this,_windowsManager);
@@ -262,6 +265,9 @@ public class MainFrameController extends DefaultWindowController implements Acti
       // Accounts
       JPanel accountsPanel=_accountsManager.getPanel();
       tabbedPane.add(Labels.getLabel("main.window.tab.accounts"),accountsPanel);
+      // Houses
+      JPanel housesPanel=_housesManager.getPanel();
+      tabbedPane.add(Labels.getLabel("main.window.tab.houses"),housesPanel);
       // Kinships
       JPanel kinshipsPanel=_kinshipsManager.getPanel();
       tabbedPane.add(Labels.getLabel("main.window.tab.kinships"),kinshipsPanel);
@@ -694,6 +700,11 @@ public class MainFrameController extends DefaultWindowController implements Acti
     {
       _accountsManager.dispose();
       _accountsManager=null;
+    }
+    if (_housesManager!=null)
+    {
+      _housesManager.dispose();
+      _housesManager=null;
     }
     if (_kinshipsManager!=null)
     {

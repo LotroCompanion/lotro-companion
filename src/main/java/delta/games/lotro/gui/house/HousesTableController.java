@@ -19,11 +19,14 @@ import delta.common.ui.swing.windows.WindowController;
 import delta.common.ui.swing.windows.WindowsManager;
 import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.misc.TypedProperties;
+import delta.games.lotro.character.status.housing.House;
 import delta.games.lotro.common.enums.HouseType;
 import delta.games.lotro.gui.character.status.housing.HouseDisplayWindowController;
 import delta.games.lotro.gui.lore.items.chooser.ItemChooser;
 import delta.games.lotro.gui.lore.items.table.ItemColumnIds;
+import delta.games.lotro.gui.utils.l10n.Labels;
 import delta.games.lotro.house.HouseEntry;
+import delta.games.lotro.house.HousesManager;
 
 /**
  * Controller for a table that shows houses.
@@ -65,16 +68,16 @@ public class HousesTableController
    * Constructor.
    * @param parent Parent controller.
    * @param prefs User preferences.
-   * @param items Items to show.
    * @param filter Managed filter.
    */
-  public HousesTableController(WindowController parent, TypedProperties prefs, List<HouseEntry> items, Filter<HouseEntry> filter)
+  public HousesTableController(WindowController parent, TypedProperties prefs, Filter<HouseEntry> filter)
   {
     _parent=parent;
     _prefs=prefs;
-    _items=items;
+    _items=new ArrayList<HouseEntry>();
     _tableController=buildTable();
     _tableController.setFilter(filter);
+    init();
     configureTable();
   }
 
@@ -85,6 +88,23 @@ public class HousesTableController
   public GenericTableController<HouseEntry> getTableController()
   {
     return _tableController;
+  }
+
+  /**
+   * Refresh the whole contents of the table.
+   */
+  public void refresh()
+  {
+    init();
+    _tableController.refresh();
+  }
+
+  private void init()
+  {
+    _items.clear();
+    HousesManager manager=HousesManager.getInstance();
+    List<HouseEntry> houses=manager.getAllHouses();
+    _items.addAll(houses);
   }
 
   private GenericTableController<HouseEntry> buildTable()
@@ -138,7 +158,8 @@ public class HousesTableController
         return item.getServer();
       }
     };
-    DefaultTableColumnController<HouseEntry,String> column=new DefaultTableColumnController<HouseEntry,String>(SERVER,"Server",String.class,cell); // I18n
+    String title=Labels.getLabel("houses.table.column.server");
+    DefaultTableColumnController<HouseEntry,String> column=new DefaultTableColumnController<HouseEntry,String>(SERVER,title,String.class,cell);
     column.setWidthSpecs(100,100,100);
     return column;
   }
@@ -153,7 +174,8 @@ public class HousesTableController
         return item.getNeighborhoodTemplate();
       }
     };
-    DefaultTableColumnController<HouseEntry,String> column=new DefaultTableColumnController<HouseEntry,String>(HOMESTEAD,"Homestead",String.class,cell); // I18n
+    String title=Labels.getLabel("houses.table.column.homestead");
+    DefaultTableColumnController<HouseEntry,String> column=new DefaultTableColumnController<HouseEntry,String>(HOMESTEAD,title,String.class,cell);
     column.setWidthSpecs(100,150,150);
     return column;
   }
@@ -168,7 +190,8 @@ public class HousesTableController
         return item.getNeighborhood();
       }
     };
-    DefaultTableColumnController<HouseEntry,String> column=new DefaultTableColumnController<HouseEntry,String>(NEIGHBORHOOD,"Neighborhood",String.class,cell); // I18n
+    String title=Labels.getLabel("houses.table.column.neighborhood");
+    DefaultTableColumnController<HouseEntry,String> column=new DefaultTableColumnController<HouseEntry,String>(NEIGHBORHOOD,title,String.class,cell);
     column.setWidthSpecs(100,100,100);
     return column;
   }
@@ -183,7 +206,8 @@ public class HousesTableController
         return item.getAddress();
       }
     };
-    DefaultTableColumnController<HouseEntry,String> column=new DefaultTableColumnController<HouseEntry,String>(HOUSE_ADDRESS,"Address",String.class,cell); // I18n
+    String title=Labels.getLabel("houses.table.column.address");
+    DefaultTableColumnController<HouseEntry,String> column=new DefaultTableColumnController<HouseEntry,String>(HOUSE_ADDRESS,title,String.class,cell); // I18n
     column.setWidthSpecs(100,150,150);
     return column;
   }
@@ -198,7 +222,8 @@ public class HousesTableController
         return item.getType();
       }
     };
-    DefaultTableColumnController<HouseEntry,HouseType> column=new DefaultTableColumnController<HouseEntry,HouseType>(HOUSE_TYPE,"Type",HouseType.class,cell); // I18n
+    String title=Labels.getLabel("houses.table.column.type");
+    DefaultTableColumnController<HouseEntry,HouseType> column=new DefaultTableColumnController<HouseEntry,HouseType>(HOUSE_TYPE,title,HouseType.class,cell); // I18n
     column.setWidthSpecs(100,100,100);
     return column;
   }
@@ -249,14 +274,20 @@ public class HousesTableController
     _tableController.addActionListener(al);
   }
 
-  private void showHouse(HouseEntry house)
+  /**
+   * Show the given house.
+   * @param houseEntry House to show.
+   */
+  public void showHouse(HouseEntry houseEntry)
   {
-    String id=HouseDisplayWindowController.getWindowIdentifier(house.getHouse().getIdentifier());
+    houseEntry.ensureLoaded();
+    House house=houseEntry.getHouse();
+    String id=HouseDisplayWindowController.getWindowIdentifier(house.getIdentifier());
     WindowsManager mgr=_parent.getWindowsManager();
     WindowController ctrl=mgr.getWindow(id);
     if (ctrl==null)
     {
-      ctrl=new HouseDisplayWindowController(_parent,house.getHouse());
+      ctrl=new HouseDisplayWindowController(_parent,house);
       mgr.registerWindow(ctrl);
     }
     ctrl.bringToFront();
