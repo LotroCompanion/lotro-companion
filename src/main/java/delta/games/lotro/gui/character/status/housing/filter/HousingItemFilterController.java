@@ -32,6 +32,7 @@ import delta.games.lotro.common.enums.HousingHookID;
 import delta.games.lotro.common.enums.ItemClass;
 import delta.games.lotro.gui.lore.items.ItemUiTools;
 import delta.games.lotro.gui.utils.l10n.Labels;
+import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.filters.ItemClassFilter;
 import delta.games.lotro.lore.items.filters.ItemNameFilter;
 
@@ -191,7 +192,7 @@ public class HousingItemFilterController implements ActionListener
     {
       JLabel label=GuiFactory.buildLabel("Category:"); // I18n
       linePanel.add(label);
-      _category=ItemUiTools.buildCategoryCombo();
+      _category=buildCategoryCombo();
       ItemSelectionListener<ItemClass> itemClassListener=new ItemSelectionListener<ItemClass>()
       {
         @Override
@@ -225,6 +226,17 @@ public class HousingItemFilterController implements ActionListener
     GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,5,0),0,0);
     panel.add(linePanel,c);
     return panel;
+  }
+
+  private ComboBoxController<ItemClass> buildCategoryCombo()
+  {
+    List<Item> items=new ArrayList<Item>();
+    for(HousingItem housingItem : _items)
+    {
+      Item item=housingItem.getItem();
+      items.add(item);
+    }
+    return ItemUiTools.buildCategoryCombo(items);
   }
 
   /**

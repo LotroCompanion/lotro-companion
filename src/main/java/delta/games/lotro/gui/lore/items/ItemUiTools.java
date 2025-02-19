@@ -184,10 +184,21 @@ public class ItemUiTools
    */
   public static ComboBoxController<ItemClass> buildCategoryCombo()
   {
+    List<Item> items=ItemsManager.getInstance().getAllItems();
+    return buildCategoryCombo(items);
+  }
+
+  /**
+   * Build a controller for a combo box to choose an item category.
+   * @param items List of items to use.
+   * @return A new controller.
+   */
+  public static ComboBoxController<ItemClass> buildCategoryCombo(List<Item> items)
+  {
     ComboBoxController<ItemClass> ctrl=new ComboBoxController<ItemClass>();
     ctrl.addEmptyItem("");
     Set<ItemClass> categories=new HashSet<ItemClass>();
-    for(Item item : ItemsManager.getInstance().getAllItems())
+    for(Item item : items)
     {
       ItemClass itemClass=item.getItemClass();
       if (itemClass!=null)
