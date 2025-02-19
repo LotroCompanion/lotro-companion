@@ -45,7 +45,6 @@ public class HouseSummaryDisplayPanelController extends AbstractPanelController
   private JPanel build()
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
-    panel.setBorder(GuiFactory.buildTitledBorder("House summary"));
     // Icon
     HousingManager mgr=HousingSystem.getInstance().getData();
     int houseID=_address.getHouseID();

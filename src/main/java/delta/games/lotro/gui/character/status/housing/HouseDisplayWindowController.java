@@ -99,6 +99,7 @@ public class HouseDisplayWindowController extends DefaultWindowController
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     // Summary
     JPanel topPanel=_houseSummary.getPanel();
+    topPanel.setBorder(GuiFactory.buildTitledBorder("House summary"));
     // Contents
     JTabbedPane tab=GuiFactory.buildTabbedPane();
     tab.add("Interior",_interiorController.getPanel());
