@@ -15,7 +15,8 @@ import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.status.housing.House;
 import delta.games.lotro.character.status.housing.HouseAddress;
 import delta.games.lotro.character.status.housing.HouseIdentifier;
-import delta.games.lotro.gui.lore.housing.form.HouseDisplayPanelController;
+import delta.games.lotro.gui.lore.housing.form.HouseSummaryDisplayPanelController;
+import delta.games.lotro.house.HouseEntry;
 
 /**
  * Controller for a window to show a house and its contents.
@@ -28,7 +29,7 @@ public class HouseDisplayWindowController extends DefaultWindowController
   // Data
   private House _house;
   // Controllers
-  private HouseDisplayPanelController _houseSummary;
+  private HouseSummaryDisplayPanelController _houseSummary;
   private HouseContentsDisplayPanelController _interiorController;
   private HouseContentsDisplayPanelController _exteriorController;
 
@@ -47,10 +48,17 @@ public class HouseDisplayWindowController extends DefaultWindowController
   protected JFrame build()
   {
     JFrame frame=super.build();
-    frame.setTitle("House");
+    String title=buildTitle();
+    frame.setTitle(title);
     frame.setMinimumSize(new Dimension(400,300));
     frame.setSize(950,700);
     return frame;
+  }
+
+  private String buildTitle()
+  {
+    HouseEntry entry=new HouseEntry(_house.getIdentifier());
+    return "House: "+entry.getDisplayName();
   }
 
   @Override
@@ -90,15 +98,15 @@ public class HouseDisplayWindowController extends DefaultWindowController
   {
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
     // Summary
-    JPanel topPanel=GuiFactory.buildPanel(new GridBagLayout());
-    //JPanel topPanel=_houseSummary.getPanel();
+    JPanel topPanel=_houseSummary.getPanel();
     // Contents
     JTabbedPane tab=GuiFactory.buildTabbedPane();
     tab.add("Interior",_interiorController.getPanel());
     tab.add("Exterior",_exteriorController.getPanel());
+    tab.setBorder(GuiFactory.buildTitledBorder("House contents"));
 
     // Assembly
-    GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(5,0,5,0),0,0);
     panel.add(topPanel,c);
     c=new GridBagConstraints(0,1,1,1,1.0,1.0,GridBagConstraints.WEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
     panel.add(tab,c);
@@ -107,7 +115,7 @@ public class HouseDisplayWindowController extends DefaultWindowController
 
   private void initControllers()
   {
-    //_houseSummary=new HouseDisplayPanelController(this,_house.getIdentifier().getAddress());
+    _houseSummary=new HouseSummaryDisplayPanelController(this,_house.getIdentifier().getAddress());
     // Interior
     _interiorController=new HouseContentsDisplayPanelController(this,_house.getInterior());
     // Exterior
