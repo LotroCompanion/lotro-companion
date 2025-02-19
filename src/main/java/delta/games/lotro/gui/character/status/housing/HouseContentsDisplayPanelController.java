@@ -79,7 +79,7 @@ public class HouseContentsDisplayPanelController extends AbstractPanelController
     _panelController.getCountsDisplay().setText("Item(s)"); // I18n
     JPanel tablePanel=_panelController.getPanel();
     // Filter
-    _filterController=new HousingItemFilterController(_filter,_panelController);
+    _filterController=new HousingItemFilterController(_filter,items,_panelController);
     JPanel filterPanel=_filterController.getPanel();
     TitledBorder filterBorder=GuiFactory.buildTitledBorder("Filter");
     filterPanel.setBorder(filterBorder);

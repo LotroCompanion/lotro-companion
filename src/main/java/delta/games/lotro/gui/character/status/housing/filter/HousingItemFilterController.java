@@ -6,6 +6,11 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -25,8 +30,6 @@ import delta.games.lotro.character.status.housing.filter.HousingItemFilter;
 import delta.games.lotro.character.status.housing.filter.HousingItemHookFilter;
 import delta.games.lotro.common.enums.HousingHookID;
 import delta.games.lotro.common.enums.ItemClass;
-import delta.games.lotro.common.enums.LotroEnum;
-import delta.games.lotro.common.enums.LotroEnumsRegistry;
 import delta.games.lotro.gui.lore.items.ItemUiTools;
 import delta.games.lotro.gui.utils.l10n.Labels;
 import delta.games.lotro.lore.items.filters.ItemClassFilter;
@@ -39,6 +42,7 @@ import delta.games.lotro.lore.items.filters.ItemNameFilter;
 public class HousingItemFilterController implements ActionListener
 {
   // Data
+  private List<HousingItem> _items;
   private HousingItemFilter _filter;
   // GUI
   private JPanel _panel;
@@ -47,18 +51,20 @@ public class HousingItemFilterController implements ActionListener
   // Controllers
   private DynamicTextEditionController _textController;
   private ComboBoxController<ItemClass> _category;
-  private ComboBoxController<HousingHookID> _hook;
+  private ComboBoxController<String> _hook;
   // Listeners
   private FilterUpdateListener _filterUpdateListener;
 
   /**
    * Constructor.
    * @param filter Managed filter.
+   * @param items Items to use.
    * @param filterUpdateListener Filter update listener.
    */
-  public HousingItemFilterController(HousingItemFilter filter, FilterUpdateListener filterUpdateListener)
+  public HousingItemFilterController(HousingItemFilter filter, List<HousingItem> items, FilterUpdateListener filterUpdateListener)
   {
     _filter=filter;
+    _items=items;
     _filterUpdateListener=filterUpdateListener;
   }
 
@@ -130,8 +136,8 @@ public class HousingItemFilterController implements ActionListener
     _category.selectItem(category);
     // Hook
     HousingItemHookFilter hookFilter=_filter.getHookFilter();
-    HousingHookID hookID=hookFilter.getHookID();
-    _hook.selectItem(hookID);
+    String hook=hookFilter.getHook();
+    _hook.selectItem(hook);
   }
 
   private JPanel build()
@@ -203,17 +209,17 @@ public class HousingItemFilterController implements ActionListener
       JLabel label=GuiFactory.buildLabel("Hook:"); // I18n
       linePanel.add(label);
       _hook=buildHookCombo();
-      ItemSelectionListener<HousingHookID> rankListener=new ItemSelectionListener<HousingHookID>()
+      ItemSelectionListener<String> listener=new ItemSelectionListener<String>()
       {
         @Override
-        public void itemSelected(HousingHookID hookID)
+        public void itemSelected(String hook)
         {
           HousingItemHookFilter hookFilter=_filter.getHookFilter();
-          hookFilter.setHookID(hookID);
+          hookFilter.setHook(hook);
           filterUpdated();
         }
       };
-      _hook.addListener(rankListener);
+      _hook.addListener(listener);
       linePanel.add(_hook.getComboBox());
     }
     GridBagConstraints c=new GridBagConstraints(0,y,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,5,0),0,0);
@@ -225,17 +231,36 @@ public class HousingItemFilterController implements ActionListener
    * Build a combo-box controller to choose a hook.
    * @return A new combo-box controller.
    */
-  public static ComboBoxController<HousingHookID> buildHookCombo()
+  private ComboBoxController<String> buildHookCombo()
   {
-    ComboBoxController<HousingHookID> ctrl=new ComboBoxController<HousingHookID>();
+    ComboBoxController<String> ctrl=new ComboBoxController<String>();
     ctrl.addEmptyItem("");
-    LotroEnum<HousingHookID> hooksEnum=LotroEnumsRegistry.getInstance().get(HousingHookID.class);
-    for(HousingHookID hook : hooksEnum.getAll())
+    for(String hook : buildHooks())
     {
-      ctrl.addItem(hook,hook.getLabel());
+      ctrl.addItem(hook,hook);
     }
     ctrl.selectItem(null);
     return ctrl;
+  }
+
+  private List<String> buildHooks()
+  {
+    Set<String> hooks=new HashSet<String>();
+    for(HousingItem item : _items)
+    {
+      HousingHookID hookID=item.getHookID();
+      if (hookID!=null)
+      {
+        String hookLabel=hookID.getLabel();
+        if ((hookLabel!=null) && (!hookLabel.isEmpty()))
+        {
+          hooks.add(hookLabel);
+        }
+      }
+    }
+    List<String> ret=new ArrayList<String>(hooks);
+    Collections.sort(ret);
+    return ret;
   }
 
   /**
