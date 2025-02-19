@@ -10,6 +10,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.List;
 
+import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
@@ -99,8 +100,11 @@ public class HouseContentsDisplayPanelController extends AbstractPanelController
     // Status date
     _status=new StatusMetadataPanelController();
     _status.setData(_houseContents.getStatusMetadata());
-    GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
     ret.add(_status.getPanel(),c);
+    // Glue
+    c=new GridBagConstraints(0,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    ret.add(Box.createHorizontalGlue(),c);
     // Map button
     JButton mapButton=GuiFactory.buildButton("Map...");
     ActionListener al=new ActionListener()
