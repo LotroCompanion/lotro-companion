@@ -6,8 +6,6 @@ import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
@@ -23,6 +21,7 @@ import delta.common.ui.swing.navigator.NavigatorWindowController;
 import delta.games.lotro.character.status.housing.HouseAddress;
 import delta.games.lotro.common.money.Money;
 import delta.games.lotro.gui.LotroIconsManager;
+import delta.games.lotro.gui.common.money.MoneyDisplayController;
 import delta.games.lotro.lore.housing.HouseDefinition;
 import delta.games.lotro.lore.housing.HousingManager;
 import delta.games.lotro.lore.housing.HousingSystem;
@@ -38,6 +37,9 @@ public class HouseDisplayPanelController extends AbstractNavigablePanelControlle
 {
   // Data
   private HouseAddress _address;
+  // Controllers
+  private MoneyDisplayController _price;
+  private MoneyDisplayController _upkeep;
 
   /**
    * Constructor.
@@ -97,14 +99,7 @@ public class HouseDisplayPanelController extends AbstractNavigablePanelControlle
     JPanel panel=GuiFactory.buildPanel(new GridBagLayout());
 
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
-    List<String> lines=getAttributesLines(house);
-    for(String line : lines)
-    {
-      JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
-      panel.add(panelLine,c);
-      c.gridy++;
-      panelLine.add(buildSelectableLabel(line));
-    }
+    addAttributesLines(house,panel,c);
     int y=c.gridy;
     // Description
     JEditorPane description=buildDescription(house.getDescription());
@@ -122,38 +117,60 @@ public class HouseDisplayPanelController extends AbstractNavigablePanelControlle
     return panel;
   }
 
-  private List<String> getAttributesLines(HouseDefinition house)
+  private void addAttributesLines(HouseDefinition house, JPanel panel, GridBagConstraints c)
   {
-    List<String> ret=new ArrayList<String>();
     HousingManager mgr=HousingSystem.getInstance().getData();
     int neightborhoodID=_address.getNeighborhoodID();
     Neighborhood neighborhood=mgr.getNeighborhood(neightborhoodID);
     NeighborhoodTemplate template=neighborhood.getTemplate();
     // Address
     String address=house.getAddress();
-    ret.add(address);
+    addAttributeLine(address,panel,c);
     // Neighborhood
     String neighborhoodStr=neighborhood.getName()+", "+template.getName();
-    ret.add(neighborhoodStr);
+    addAttributeLine(neighborhoodStr,panel,c);
     // Type
     String type=house.getHouseType().getLabel();
-    ret.add(type);
+    addAttributeLine(type,panel,c);
     // Cost
     boolean isPremium=house.isPremium();
     Money price=house.getPrice();
     if (isPremium)
     {
       int mcPrice=price.getInternalValue();
-      ret.add("Price: "+mcPrice+" mithril coins");
+      String line="Price: "+mcPrice+" mithril coins";
+      addAttributeLine(line,panel,c);
     }
     else
     {
-      ret.add("Price: "+price.toString());
+      _price=new MoneyDisplayController();
+      JPanel upkeepPanel=buildMoneyPanel("Price: ",_price,price);
+      panel.add(upkeepPanel,c);
+      c.gridy++;
     }
     // Upkeep
     Money upkeep=house.getUpkeep();
-    ret.add("Upkeep Cost: "+upkeep);
+    _upkeep=new MoneyDisplayController();
+    JPanel upkeepPanel=buildMoneyPanel("Upkeep Cost: ",_upkeep,upkeep);
+    panel.add(upkeepPanel,c);
+    c.gridy++;
+  }
+
+  private JPanel buildMoneyPanel(String prefix, MoneyDisplayController ctrl, Money value)
+  {
+    ctrl.setMoney(value);
+    JPanel ret=GuiFactory.buildPanel(new FlowLayout());
+    ret.add(GuiFactory.buildLabel(prefix));
+    ret.add(ctrl.getPanel());
     return ret;
+  }
+
+  private void addAttributeLine(String line, JPanel panel, GridBagConstraints c)
+  {
+    JPanel panelLine=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
+    panel.add(panelLine,c);
+    c.gridy++;
+    panelLine.add(buildSelectableLabel(line));
   }
 
   private JEditorPane buildDescription(String description)
@@ -177,5 +194,16 @@ public class HouseDisplayPanelController extends AbstractNavigablePanelControlle
     super.dispose();
     // Data
     _address=null;
+    // Controllers
+    if (_price!=null)
+    {
+      _price.dispose();
+      _price=null;
+    }
+    if (_upkeep!=null)
+    {
+      _upkeep.dispose();
+      _upkeep=null;
+    }
   }
 }
