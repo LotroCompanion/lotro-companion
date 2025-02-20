@@ -125,6 +125,7 @@ public class HouseStatusSummaryPanelController extends AbstractPanelController
     House house=HousingStatusIO.loadHouse(_houseId);
     if (house==null)
     {
+      GuiFactory.showInformationDialog(getPanel(),"House not found!\nUse import to get it.","Warning!");
       return;
     }
     WindowController parent=getWindowController();
