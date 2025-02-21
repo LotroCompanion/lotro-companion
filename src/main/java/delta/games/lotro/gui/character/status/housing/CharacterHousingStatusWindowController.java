@@ -18,7 +18,10 @@ import delta.games.lotro.character.utils.CharacterUtils;
  */
 public class CharacterHousingStatusWindowController extends DefaultWindowController
 {
-  private static final String IDENTIFIER="HOUSE-STATUS";
+  /**
+   * Window identifier.
+   */
+  public static final String IDENTIFIER="HOUSE-STATUS";
 
   // Data
   private CharacterFile _character;

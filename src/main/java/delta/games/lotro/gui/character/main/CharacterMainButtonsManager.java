@@ -105,6 +105,8 @@ public class CharacterMainButtonsManager implements ActionListener
     buildCommandButton("Trait Tree",MainCharacterWindowCommands.TRAIT_TREE_COMMAND);
     // Configurations
     buildCommandButton("Configs",MainCharacterWindowCommands.CONFIGS_COMMAND);
+    // Housing
+    buildCommandButton("Housing",MainCharacterWindowCommands.HOUSING_COMMAND);
   }
 
   private JButton buildCommandButton(String label, String command)

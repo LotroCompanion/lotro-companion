@@ -428,6 +428,7 @@ public class MainCharacterWindowController extends DefaultWindowController imple
   {
     // Buttons
     List<JButton> buttons=new ArrayList<JButton>();
+    buttons.add(_buttonsMgr.getButton(MainCharacterWindowCommands.HOUSING_COMMAND));
     buttons.add(_buttonsMgr.getButton(MainCharacterWindowCommands.LEVEL_COMMAND));
     buttons.add(_buttonsMgr.getButton(MainCharacterWindowCommands.LOG_COMMAND));
     buttons.add(_buttonsMgr.getButton(MainCharacterWindowCommands.NOTES_COMMAND));

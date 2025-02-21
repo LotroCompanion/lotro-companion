@@ -19,6 +19,10 @@ public class MainCharacterWindowCommands
    */
   public static final String LEVEL_COMMAND="level";
   /**
+   * Command: housing status.
+   */
+  public static final String HOUSING_COMMAND="houing";
+  /**
    * Command: reputation status edition.
    */
   public static final String REPUTATION_COMMAND="reputation";

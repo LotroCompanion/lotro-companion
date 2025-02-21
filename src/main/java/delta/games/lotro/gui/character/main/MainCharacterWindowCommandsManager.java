@@ -36,6 +36,7 @@ import delta.games.lotro.gui.character.status.currencies.SingleCharacterCurrency
 import delta.games.lotro.gui.character.status.deeds.DeedsStatusWindowController;
 import delta.games.lotro.gui.character.status.emotes.EmotesStatusWindowController;
 import delta.games.lotro.gui.character.status.hobbies.HobbiesStatusWindowController;
+import delta.games.lotro.gui.character.status.housing.CharacterHousingStatusWindowController;
 import delta.games.lotro.gui.character.status.levelling.LevelHistoryEditionDialogController;
 import delta.games.lotro.gui.character.status.notes.CharacterNotesEditionDialogController;
 import delta.games.lotro.gui.character.status.pvp.PvpStatusWindowController;
@@ -100,6 +101,20 @@ public class MainCharacterWindowCommandsManager
       // Level history
       LevelHistoryEditionDialogController controller=new LevelHistoryEditionDialogController(_parent,_toon);
       controller.editModal();
+    }
+    else if (MainCharacterWindowCommands.HOUSING_COMMAND.equals(command))
+    {
+      // Housing
+      String id=CharacterHousingStatusWindowController.IDENTIFIER;
+      WindowsManager windowsManager=getWindowsManager();
+      WindowController controller=windowsManager.getWindow(id);
+      if (controller==null)
+      {
+        controller=new CharacterHousingStatusWindowController(_parent,_toon);
+        windowsManager.registerWindow(controller);
+        controller.getWindow().setLocationRelativeTo(_parent.getWindow());
+      }
+      controller.bringToFront();
     }
     else if (MainCharacterWindowCommands.REPUTATION_COMMAND.equals(command))
     {
