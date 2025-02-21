@@ -3,13 +3,21 @@ package delta.games.lotro.gui.kinship;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Date;
 
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
+import delta.common.ui.swing.panels.AbstractPanelController;
+import delta.common.ui.swing.windows.WindowController;
+import delta.games.lotro.character.status.housing.HouseAddress;
+import delta.games.lotro.character.status.housing.HouseIdentifier;
 import delta.games.lotro.common.id.InternalGameId;
+import delta.games.lotro.gui.character.status.housing.HousingUiUtils;
 import delta.games.lotro.kinship.Kinship;
 import delta.games.lotro.kinship.KinshipMember;
 import delta.games.lotro.kinship.KinshipRoster;
@@ -24,13 +32,12 @@ import delta.games.lotro.utils.events.GenericEventsListener;
  * Controller for a kinship summary panel.
  * @author DAM
  */
-public class KinshipSummaryDisplayPanelController implements GenericEventsListener<KinshipEvent>
+public class KinshipSummaryDisplayPanelController extends AbstractPanelController implements GenericEventsListener<KinshipEvent>
 {
   // Data
   private Kinship _kinship;
   private KinshipSummary _summary;
   // UI
-  private JPanel _panel;
   private JLabel _nameLabel;
   private JLabel _statusDateLabel;
   private JLabel _founderLabel;
@@ -40,26 +47,16 @@ public class KinshipSummaryDisplayPanelController implements GenericEventsListen
 
   /**
    * Constructor.
+   * @param parent Parent window.
    * @param kinship Kinship to display.
    */
-  public KinshipSummaryDisplayPanelController(Kinship kinship)
+  public KinshipSummaryDisplayPanelController(WindowController parent, Kinship kinship)
   {
+    super(parent);
     _kinship=kinship;
     _summary=kinship.getSummary();
     EventsManager.addListener(KinshipEvent.class,this);
-  }
-
-  /**
-   * Get the managed panel.
-   * @return a panel.
-   */
-  public JPanel getPanel()
-  {
-    if (_panel==null)
-    {
-      _panel=buildPanel();
-    }
-    return _panel;
+    setPanel(buildPanel());
   }
 
   private JPanel buildPanel()
@@ -74,7 +71,20 @@ public class KinshipSummaryDisplayPanelController implements GenericEventsListen
     JPanel attributesPanel=buildAttributesPanel();
     c=new GridBagConstraints(0,1,1,1,1.0,0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(2,2,2,2),0,0);
     panel.add(attributesPanel,c);
-
+    // House button
+    JButton houseButton=GuiFactory.buildButton("House...");
+    c=new GridBagConstraints(1,1,1,1,0.0,0,GridBagConstraints.SOUTHEAST,GridBagConstraints.NONE,new Insets(5,5,5,5),0,0);
+    panel.add(houseButton,c);
+    ActionListener al=new ActionListener()
+    {
+      
+      @Override
+      public void actionPerformed(ActionEvent e)
+      {
+        doHouseButton();
+      }
+    };
+    houseButton.addActionListener(al);
     update();
     return panel;
   }
@@ -192,19 +202,29 @@ public class KinshipSummaryDisplayPanelController implements GenericEventsListen
     return "???";
   }
 
+  private void doHouseButton()
+  {
+    KinshipSummary kinshipSummary=_kinship.getSummary();
+    HouseAddress address=kinshipSummary.getAddress();
+    if (address==null)
+    {
+      GuiFactory.showInformationDialog(getPanel(),"No known house!","Warning!");
+      return;
+    }
+    String server=_kinship.getSummary().getServerName();
+    HouseIdentifier id=new HouseIdentifier(server,address);
+    HousingUiUtils.showHouse(id,getWindowController());
+  }
+
   /**
    * Release all managed resources.
    */
   public void dispose()
   {
+    super.dispose();
     // Listeners
     EventsManager.removeListener(KinshipEvent.class,this);
     // UI
-    if (_panel!=null)
-    {
-      _panel.removeAll();
-      _panel=null;
-    }
     // Data
     _kinship=null;
     _summary=null;

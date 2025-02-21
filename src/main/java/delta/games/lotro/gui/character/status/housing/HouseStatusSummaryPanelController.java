@@ -15,9 +15,7 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.labels.MultilineLabel2;
 import delta.common.ui.swing.panels.AbstractPanelController;
 import delta.common.ui.swing.windows.WindowController;
-import delta.games.lotro.character.status.housing.House;
 import delta.games.lotro.character.status.housing.HouseIdentifier;
-import delta.games.lotro.character.status.housing.io.HousingStatusIO;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.lore.housing.HouseDefinition;
 import delta.games.lotro.lore.housing.HousingManager;
@@ -64,7 +62,7 @@ public class HouseStatusSummaryPanelController extends AbstractPanelController
       @Override
       public void actionPerformed(ActionEvent e)
       {
-        showHouse();
+        HousingUiUtils.showHouse(_houseId,getWindowController());
       }
     };
     _detailsButton.addActionListener(al);
@@ -118,19 +116,6 @@ public class HouseStatusSummaryPanelController extends AbstractPanelController
   private int getNeighborhoodID()
   {
     return _houseId.getAddress().getNeighborhoodID();
-  }
-
-  private void showHouse()
-  {
-    House house=HousingStatusIO.loadHouse(_houseId);
-    if (house==null)
-    {
-      GuiFactory.showInformationDialog(getPanel(),"House not found!\nUse import to get it.","Warning!");
-      return;
-    }
-    WindowController parent=getWindowController();
-    HouseDisplayWindowController w=new HouseDisplayWindowController(parent,house);
-    w.bringToFront();
   }
 
   @Override

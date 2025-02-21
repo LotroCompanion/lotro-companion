@@ -29,7 +29,7 @@ public class KinshipWindowController extends DefaultWindowController
   {
     _kinship=kinship;
     _detailsPanel=new KinshipPanelController(this,_kinship);
-    _summaryController=new KinshipSummaryDisplayPanelController(_kinship);
+    _summaryController=new KinshipSummaryDisplayPanelController(this,_kinship);
   }
 
   /**
