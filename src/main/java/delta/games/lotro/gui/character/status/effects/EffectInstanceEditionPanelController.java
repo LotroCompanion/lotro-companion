@@ -37,8 +37,24 @@ import delta.games.lotro.utils.gui.chooser.ObjectChoiceWindowController;
  */
 public class EffectInstanceEditionPanelController extends AbstractPanelController
 {
+  /**
+   * UI mode.
+   * @author DAM
+   */
+  public enum MODE
+  {
+    /**
+     * Creation.
+     */
+    CREATION,
+    /**
+     * Edition.
+     */
+    EDITION
+  }
   // Data
   private EffectInstance _effectInstance;
+  private MODE _mode;
   // GUI
   private JLabel _effectName;
   // Controllers
@@ -49,11 +65,13 @@ public class EffectInstanceEditionPanelController extends AbstractPanelControlle
    * Constructor.
    * @param parent Parent window.
    * @param effectInstance Item instance.
+   * @param mode UI mode.
    */
-  public EffectInstanceEditionPanelController(WindowController parent, EffectInstance effectInstance)
+  public EffectInstanceEditionPanelController(WindowController parent, EffectInstance effectInstance, MODE mode)
   {
     super(parent);
     _effectInstance=effectInstance;
+    _mode=mode;
     JPanel panel=buildPanel();
     setPanel(panel);
     update();
@@ -83,6 +101,10 @@ public class EffectInstanceEditionPanelController extends AbstractPanelControlle
       }
     };
     chooseButton.addActionListener(al);
+    if (_mode==MODE.EDITION)
+    {
+      chooseButton.setEnabled(false);
+    }
     return ret;
   }
 

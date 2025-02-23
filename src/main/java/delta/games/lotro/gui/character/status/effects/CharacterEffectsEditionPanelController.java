@@ -18,6 +18,7 @@ import delta.common.ui.swing.toolbar.ToolbarIconItem;
 import delta.common.ui.swing.toolbar.ToolbarModel;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.status.effects.EffectInstance;
+import delta.games.lotro.gui.character.status.effects.EffectInstanceEditionPanelController.MODE;
 import delta.games.lotro.gui.common.effects.table.EffectInstancesTableBuilder;
 
 /**
@@ -111,7 +112,7 @@ public class CharacterEffectsEditionPanelController extends AbstractPanelControl
   private void addEffect()
   {
     EffectInstance newInstance=new EffectInstance();
-    EffectInstanceEditionWindowController editor=new EffectInstanceEditionWindowController(getWindowController(),newInstance);
+    EffectInstanceEditionWindowController editor=new EffectInstanceEditionWindowController(getWindowController(),newInstance,MODE.CREATION);
     EffectInstance editedInstance=editor.editModal();
     if (editedInstance!=null)
     {
@@ -123,7 +124,7 @@ public class CharacterEffectsEditionPanelController extends AbstractPanelControl
   private void editEffect(EffectInstance effectInstance)
   {
     EffectInstance toEdit=new EffectInstance(effectInstance);
-    EffectInstanceEditionWindowController editor=new EffectInstanceEditionWindowController(getWindowController(),toEdit);
+    EffectInstanceEditionWindowController editor=new EffectInstanceEditionWindowController(getWindowController(),toEdit,MODE.EDITION);
     EffectInstance editedInstance=editor.editModal();
     if (editedInstance!=null)
     {

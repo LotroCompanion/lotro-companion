@@ -7,6 +7,7 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.DefaultFormDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.status.effects.EffectInstance;
+import delta.games.lotro.gui.character.status.effects.EffectInstanceEditionPanelController.MODE;
 import delta.games.lotro.gui.utils.l10n.Labels;
 
 /**
@@ -22,11 +23,12 @@ public class EffectInstanceEditionWindowController extends DefaultFormDialogCont
    * Constructor.
    * @param parent Parent window.
    * @param effectInstance Effect instance.
+   * @param mode UI mode.
    */
-  public EffectInstanceEditionWindowController(WindowController parent, EffectInstance effectInstance)
+  public EffectInstanceEditionWindowController(WindowController parent, EffectInstance effectInstance, MODE mode)
   {
     super(parent,effectInstance);
-    _panelController=new EffectInstanceEditionPanelController(this,_data);
+    _panelController=new EffectInstanceEditionPanelController(this,_data,mode);
   }
 
   @Override
