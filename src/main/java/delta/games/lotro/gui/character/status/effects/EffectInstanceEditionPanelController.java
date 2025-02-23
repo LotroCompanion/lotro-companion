@@ -183,6 +183,7 @@ public class EffectInstanceEditionPanelController extends AbstractPanelControlle
       @Override
       public void valueChanged(NumberEditionController<Float> source, Float newValue)
       {
+        updateSpellcraftFromUi();
         updateStatsPanel();
       }
     };
@@ -249,6 +250,11 @@ public class EffectInstanceEditionPanelController extends AbstractPanelControlle
   {
     // Effect: nothing to do: already done when choosing
     // Spellcraft
+    updateSpellcraftFromUi();
+  }
+
+  private void updateSpellcraftFromUi()
+  {
     Float spellcraft=_spellcraftEditor.getValue();
     _effectInstance.setSpellcraft(spellcraft);
   }
