@@ -6,6 +6,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -17,6 +18,8 @@ import javax.swing.JTextField;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.panels.AbstractPanelController;
 import delta.common.ui.swing.text.FloatEditionController;
+import delta.common.ui.swing.text.NumberEditionController;
+import delta.common.ui.swing.text.NumberListener;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.l10n.LocalizedFormats;
@@ -29,6 +32,7 @@ import delta.games.lotro.gui.common.effects.EffectIconController;
 import delta.games.lotro.gui.common.effects.chooser.EffectChooser;
 import delta.games.lotro.gui.common.effects.chooser.EffectFilterController;
 import delta.games.lotro.gui.utils.l10n.Labels;
+import delta.games.lotro.lore.items.effects.DisplayEffectsUtils;
 import delta.games.lotro.utils.gui.chooser.ObjectChoiceWindowController;
 
 /**
@@ -57,6 +61,7 @@ public class EffectInstanceEditionPanelController extends AbstractPanelControlle
   private MODE _mode;
   // GUI
   private JLabel _effectName;
+  private JPanel _statsPanel;
   // Controllers
   private EffectIconController _effectIcon;
   private FloatEditionController _spellcraftEditor;
@@ -75,6 +80,7 @@ public class EffectInstanceEditionPanelController extends AbstractPanelControlle
     JPanel panel=buildPanel();
     setPanel(panel);
     update();
+    updateStatsPanel();
   }
 
   private JPanel buildEffectEditionPanel()
@@ -117,6 +123,7 @@ public class EffectInstanceEditionPanelController extends AbstractPanelControlle
     }
     _effectInstance.setEffect(chosenEffect);
     updateEffect();
+    updateStatsPanel();
   }
 
   private Effect chooseAnEffect()
@@ -143,6 +150,19 @@ public class EffectInstanceEditionPanelController extends AbstractPanelControlle
   private JPanel buildPanel()
   {
     JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
+    JPanel editionPanel=buildEditionPanel();
+    editionPanel.setBorder(GuiFactory.buildTitledBorder("Edition"));
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    ret.add(editionPanel,c);
+    _statsPanel=buildStatsPanel();
+    c=new GridBagConstraints(0,1,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    ret.add(_statsPanel,c);
+    return ret;
+  }
+
+  private JPanel buildEditionPanel()
+  {
+    JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
     // Effect
     JLabel effect=GuiFactory.buildLabel("Effect:");
     GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,5,0,0),0,0);
@@ -158,9 +178,48 @@ public class EffectInstanceEditionPanelController extends AbstractPanelControlle
     _spellcraftEditor=new FloatEditionController(value);
     NumberFormat format=LocalizedFormats.getRealNumberFormat(0,1);
     _spellcraftEditor.setFormat(format);
+    NumberListener<Float> listener=new NumberListener<Float>()
+    {
+      @Override
+      public void valueChanged(NumberEditionController<Float> source, Float newValue)
+      {
+        updateStatsPanel();
+      }
+    };
+    _spellcraftEditor.addValueListener(listener);
     c=new GridBagConstraints(1,1,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,5,0,0),0,0);
     ret.add(_spellcraftEditor.getTextField(),c);
     return ret;
+  }
+
+  private JPanel buildStatsPanel()
+  {
+    JPanel ret=GuiFactory.buildPanel(new GridBagLayout());
+    ret.setBorder(GuiFactory.buildTitledBorder("Effect"));
+    return ret;
+  }
+
+  private void updateStatsPanel()
+  {
+    Effect effect=_effectInstance.getEffect();
+    Float spellcraft=_effectInstance.getSpellcraft();
+    int level=(spellcraft!=null)?spellcraft.intValue():1;
+    List<String> lines=new ArrayList<String>();
+    if (effect!=null)
+    {
+      DisplayEffectsUtils.showEffect(lines,effect,level,false);
+    }
+    _statsPanel.removeAll();
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,1.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    for(String line : lines)
+    {
+      JLabel label=GuiFactory.buildLabel(line);
+      _statsPanel.add(label,c);
+      c.gridy++;
+    }
+    _statsPanel.revalidate();
+    _statsPanel.repaint();
+    getWindowController().pack();
   }
 
   /**
@@ -217,6 +276,7 @@ public class EffectInstanceEditionPanelController extends AbstractPanelControlle
     _effectInstance=null;
     // GUI
     _effectName=null;
+    _statsPanel=null;
     // Controllers
     if (_effectIcon!=null)
     {
