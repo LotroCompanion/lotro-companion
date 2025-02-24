@@ -29,6 +29,7 @@ import delta.games.lotro.character.io.xml.CharacterDataIO;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.character.stats.CharacterStatsComputer;
 import delta.games.lotro.character.stats.virtues.VirtuesSet;
+import delta.games.lotro.character.status.effects.CharacterEffectsManager;
 import delta.games.lotro.character.status.virtues.VirtuesStatus;
 import delta.games.lotro.character.status.virtues.io.VirtuesStatusIO;
 import delta.games.lotro.character.utils.CharacterGearUpdater;
@@ -37,6 +38,7 @@ import delta.games.lotro.gui.character.buffs.BuffEditionPanelController;
 import delta.games.lotro.gui.character.essences.AllEssencesEditionWindowController;
 import delta.games.lotro.gui.character.essences.EssencesSummaryWindowController;
 import delta.games.lotro.gui.character.gear.EquipmentEditionPanelController;
+import delta.games.lotro.gui.character.status.effects.CharacterEffectsEditionDialogController;
 import delta.games.lotro.gui.character.tomes.TomesEditionPanelController;
 import delta.games.lotro.gui.character.traits.TraitsEditionPanelController;
 import delta.games.lotro.gui.character.virtues.VirtuesDisplayPanelController;
@@ -177,8 +179,25 @@ public class CharacterDataWindowController extends DefaultFormDialogController<C
       c=new GridBagConstraints(1,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,5,0,0),0,0);
       bottomPanel2.add(buffsPanel,c);
     }
+    // - effects
+    {
+      JButton effectsButton=GuiFactory.buildButton("Effects...");
+      ActionListener al=new ActionListener()
+      {
+        @Override
+        public void actionPerformed(ActionEvent e)
+        {
+          doEffects();
+        }
+      };
+      effectsButton.addActionListener(al);
+      TitledBorder border=GuiFactory.buildTitledBorder("Effects"); // I18n
+      effectsButton.setBorder(border);
+      c=new GridBagConstraints(2,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,5,0,0),0,0);
+      bottomPanel2.add(effectsButton,c);
+    }
     // Space on right
-    c=new GridBagConstraints(1,0,1,1,1.0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
+    c=new GridBagConstraints(3,0,1,1,1.0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
     bottomPanel2.add(GuiFactory.buildPanel(new GridBagLayout()),c);
     c=new GridBagConstraints(0,1,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
     bottomPanel.add(bottomPanel2,c);
@@ -191,6 +210,18 @@ public class CharacterDataWindowController extends DefaultFormDialogController<C
     // Register to events
     EventsManager.addListener(CharacterEvent.class,this);
     return fullPanel;
+  }
+
+  private void doEffects()
+  {
+    CharacterEffectsManager mgr=_data.getEffects();
+    CharacterEffectsManager result=CharacterEffectsEditionDialogController.editEffects(this,mgr);
+    if (result!=null)
+    {
+      // Broadcast effects update event...
+      CharacterEvent event=new CharacterEvent(CharacterEventType.CHARACTER_DATA_UPDATED,null,_data);
+      EventsManager.invokeEvent(event);
+    }
   }
 
   private JPanel buildEssencesPanel()
