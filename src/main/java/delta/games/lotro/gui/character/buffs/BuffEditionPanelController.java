@@ -2,6 +2,9 @@ package delta.games.lotro.gui.character.buffs;
 
 import java.awt.Component;
 import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -71,12 +74,14 @@ public class BuffEditionPanelController implements ActionListener
 
   private void build()
   {
-    _panel=GuiFactory.buildPanel(new FlowLayout());
-    _iconsPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT));
+    _panel=GuiFactory.buildPanel(new GridBagLayout());
+    _iconsPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEFT,5,2));
     buildBuffControllers();
-    _panel.add(_iconsPanel);
+    GridBagConstraints c=new GridBagConstraints(0,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    _panel.add(_iconsPanel,c);
     JButton button=GuiFactory.buildButton("Add..."); // I18n
-    _panel.add(button);
+    c=new GridBagConstraints(1,0,1,1,0.0,0.0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
+    _panel.add(button,c);
     ActionListener al=new ActionListener()
     {
       @Override
