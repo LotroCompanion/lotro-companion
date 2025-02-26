@@ -29,7 +29,6 @@ import delta.games.lotro.character.io.xml.CharacterDataIO;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.character.stats.CharacterStatsComputer;
 import delta.games.lotro.character.stats.virtues.VirtuesSet;
-import delta.games.lotro.character.status.effects.CharacterEffectsManager;
 import delta.games.lotro.character.status.virtues.VirtuesStatus;
 import delta.games.lotro.character.status.virtues.io.VirtuesStatusIO;
 import delta.games.lotro.character.utils.CharacterGearUpdater;
@@ -38,7 +37,7 @@ import delta.games.lotro.gui.character.buffs.BuffEditionPanelController;
 import delta.games.lotro.gui.character.essences.AllEssencesEditionWindowController;
 import delta.games.lotro.gui.character.essences.EssencesSummaryWindowController;
 import delta.games.lotro.gui.character.gear.EquipmentEditionPanelController;
-import delta.games.lotro.gui.character.status.effects.CharacterEffectsEditionDialogController;
+import delta.games.lotro.gui.character.status.effects.CharacterEffectsPanelController;
 import delta.games.lotro.gui.character.tomes.TomesEditionPanelController;
 import delta.games.lotro.gui.character.traits.TraitsEditionPanelController;
 import delta.games.lotro.gui.character.virtues.VirtuesDisplayPanelController;
@@ -60,6 +59,7 @@ public class CharacterDataWindowController extends DefaultFormDialogController<C
   private EquipmentEditionPanelController _equipmentController;
   private VirtuesDisplayPanelController _virtuesController;
   private BuffEditionPanelController _buffsController;
+  private CharacterEffectsPanelController _effectsController;
   private TraitsEditionPanelController _traitsController;
   private TomesEditionPanelController _tomesController;
   private CharacterFile _toonFile;
@@ -83,6 +83,7 @@ public class CharacterDataWindowController extends DefaultFormDialogController<C
     _virtuesController=new VirtuesDisplayPanelController(true);
     updateVirtues();
     _buffsController=new BuffEditionPanelController(this,toonData);
+    _effectsController=new CharacterEffectsPanelController(this,toonData);
     _traitsController=new TraitsEditionPanelController(parent,toonData);
     _tomesController=new TomesEditionPanelController(toonData);
     // Set context
@@ -181,20 +182,11 @@ public class CharacterDataWindowController extends DefaultFormDialogController<C
     }
     // - effects
     {
-      JButton effectsButton=GuiFactory.buildButton("Effects...");
-      ActionListener al=new ActionListener()
-      {
-        @Override
-        public void actionPerformed(ActionEvent e)
-        {
-          doEffects();
-        }
-      };
-      effectsButton.addActionListener(al);
+      JPanel effectsPanel=_effectsController.getPanel();
       TitledBorder border=GuiFactory.buildTitledBorder("Effects"); // I18n
-      effectsButton.setBorder(border);
+      effectsPanel.setBorder(border);
       c=new GridBagConstraints(2,0,1,1,0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.NONE,new Insets(0,5,0,0),0,0);
-      bottomPanel2.add(effectsButton,c);
+      bottomPanel2.add(effectsPanel,c);
     }
     // Space on right
     c=new GridBagConstraints(3,0,1,1,1.0,0,GridBagConstraints.NORTHWEST,GridBagConstraints.HORIZONTAL,new Insets(0,0,0,0),0,0);
@@ -210,18 +202,6 @@ public class CharacterDataWindowController extends DefaultFormDialogController<C
     // Register to events
     EventsManager.addListener(CharacterEvent.class,this);
     return fullPanel;
-  }
-
-  private void doEffects()
-  {
-    CharacterEffectsManager mgr=_data.getEffects();
-    CharacterEffectsManager result=CharacterEffectsEditionDialogController.editEffects(this,mgr);
-    if (result!=null)
-    {
-      // Broadcast effects update event...
-      CharacterEvent event=new CharacterEvent(CharacterEventType.CHARACTER_DATA_UPDATED,null,_data);
-      EventsManager.invokeEvent(event);
-    }
   }
 
   private JPanel buildEssencesPanel()
@@ -457,6 +437,11 @@ public class CharacterDataWindowController extends DefaultFormDialogController<C
     if (_buffsController!=null)
     {
       _buffsController.dispose();
+      _buffsController=null;
+    }
+    if (_effectsController!=null)
+    {
+      _effectsController.dispose();
       _buffsController=null;
     }
     if (_traitsController!=null)
