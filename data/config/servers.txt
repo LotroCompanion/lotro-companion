@@ -34,3 +34,7 @@ Shadowfax
 Treebeard
 Mordor
 Angmar
+Glamdring
+Peregrin
+Orcrist
+Meriadoc
