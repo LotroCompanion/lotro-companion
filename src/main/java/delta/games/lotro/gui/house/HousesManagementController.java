@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JToolBar;
+import javax.swing.SwingUtilities;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.panels.AbstractPanelController;
@@ -73,12 +74,28 @@ public class HousesManagementController extends AbstractPanelController implemen
     HouseEventType type=event.getType();
     if ((type==HouseEventType.HOUSE_ADDED) || (type==HouseEventType.HOUSE_REMOVED))
     {
-      _housesTable.refresh();
+      Runnable r=new Runnable()
+      {
+        @Override
+        public void run()
+        {
+          _housesTable.refresh();
+        }
+      };
+      SwingUtilities.invokeLater(r);
     }
     else if (type==HouseEventType.HOUSE_UPDATED)
     {
-      GenericTableController<HouseEntry> tableCtrl=_housesTable.getTableController();
-      tableCtrl.refresh(event.getHouse());
+      Runnable r=new Runnable()
+      {
+        @Override
+        public void run()
+        {
+          GenericTableController<HouseEntry> tableCtrl=_housesTable.getTableController();
+          tableCtrl.refresh(event.getHouse());
+        }
+      };
+      SwingUtilities.invokeLater(r);
     }
   }
 
