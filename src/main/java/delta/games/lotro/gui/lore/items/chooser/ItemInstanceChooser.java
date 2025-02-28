@@ -33,7 +33,7 @@ public class ItemInstanceChooser
   public static ObjectChoiceWindowController<ItemInstance<? extends Item>> buildChooser(WindowController parent, TypedProperties prefs, List<ItemInstance<? extends Item>> items, Filter<Item> filter, ItemFilterController filterController)
   {
     // Table
-    GenericTableController<ItemInstance<? extends Item>> itemsTable=ItemInstancesTableBuilder.buildTable(items);
+    GenericTableController<ItemInstance<? extends Item>> itemsTable=ItemInstancesTableBuilder.buildTable(parent,items);
 
     // Build and configure chooser
     ObjectChoiceWindowController<ItemInstance<? extends Item>> chooser=new ObjectChoiceWindowController<ItemInstance<? extends Item>>(parent,prefs,itemsTable);

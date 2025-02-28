@@ -21,7 +21,7 @@ import delta.common.ui.swing.text.dates.DateCodec;
 import delta.common.ui.swing.text.dates.DateEditionController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.NumericTools;
-import delta.games.lotro.character.CharacterFile;
+import delta.games.lotro.character.BaseCharacterSummary;
 import delta.games.lotro.character.stats.BasicStatsSet;
 import delta.games.lotro.common.colors.ColorDescription;
 import delta.games.lotro.common.colors.ColorsManager;
@@ -122,7 +122,7 @@ public class ItemInstanceMainAttrsEditionPanelController extends AbstractPanelCo
     // - Value
     _value=new MoneyEditionPanelController();
     // - Bound to
-    CharacterFile toon=getParentWindowController().getContextProperty(ContextPropertyNames.CHARACTER_FILE,CharacterFile.class);
+    BaseCharacterSummary toon=getParentWindowController().getContextProperty(ContextPropertyNames.BASE_CHARACTER_SUMMARY,BaseCharacterSummary.class);
     _binding=new BindingDisplayController(toon);
     // - User comments
     _userComments=GuiFactory.buildTextField("");

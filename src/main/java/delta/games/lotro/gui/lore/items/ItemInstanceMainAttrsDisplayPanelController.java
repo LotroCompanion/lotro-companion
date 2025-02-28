@@ -14,7 +14,7 @@ import delta.common.ui.swing.form.LabeledComponent;
 import delta.common.ui.swing.panels.AbstractPanelController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.l10n.L10n;
-import delta.games.lotro.character.CharacterFile;
+import delta.games.lotro.character.BaseCharacterSummary;
 import delta.games.lotro.common.colors.ColorDescription;
 import delta.games.lotro.common.id.InternalGameId;
 import delta.games.lotro.common.money.Money;
@@ -108,7 +108,7 @@ public class ItemInstanceMainAttrsDisplayPanelController extends AbstractPanelCo
     // - Color
     _color=new LabeledComponent<JLabel>("Color:",GuiFactory.buildLabel(""));
     // - Bound to
-    CharacterFile toon=getParentWindowController().getContextProperty(ContextPropertyNames.CHARACTER_FILE,CharacterFile.class);
+    BaseCharacterSummary toon=getParentWindowController().getContextProperty(ContextPropertyNames.BASE_CHARACTER_SUMMARY,BaseCharacterSummary.class);
     _binding=new BindingDisplayController(toon);
     // Weapons
     if (_itemInstance instanceof WeaponInstance)

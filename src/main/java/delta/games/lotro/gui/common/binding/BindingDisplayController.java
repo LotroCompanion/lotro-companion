@@ -5,7 +5,7 @@ import javax.swing.JLabel;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.misc.Disposable;
-import delta.games.lotro.character.CharacterFile;
+import delta.games.lotro.character.BaseCharacterSummary;
 import delta.games.lotro.common.binding.BindingsManager;
 import delta.games.lotro.common.id.InternalGameId;
 
@@ -15,14 +15,14 @@ import delta.games.lotro.common.id.InternalGameId;
  */
 public class BindingDisplayController implements Disposable
 {
-  private CharacterFile _currentCharacter;
+  private BaseCharacterSummary _currentCharacter;
   private JLabel _label;
 
   /**
    * Constructor.
    * @param currentCharacter Current character (if any).
    */
-  public BindingDisplayController(CharacterFile currentCharacter)
+  public BindingDisplayController(BaseCharacterSummary currentCharacter)
   {
     super();
     _currentCharacter=currentCharacter;

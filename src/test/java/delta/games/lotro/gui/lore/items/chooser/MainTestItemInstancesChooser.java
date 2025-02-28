@@ -49,7 +49,7 @@ public class MainTestItemInstancesChooser
   private ObjectChoiceWindowController<ItemInstance<? extends Item>> buildChooser(List<ItemInstance<? extends Item>> items)
   {
     // Table
-    GenericTableController<ItemInstance<? extends Item>> itemsTable=ItemInstancesTableBuilder.buildTable(items);
+    GenericTableController<ItemInstance<? extends Item>> itemsTable=ItemInstancesTableBuilder.buildTable(null,items);
 
     // Build and configure chooser
     ObjectChoiceWindowController<ItemInstance<? extends Item>> chooser=new ObjectChoiceWindowController<ItemInstance<? extends Item>>(null,null,itemsTable);

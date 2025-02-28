@@ -21,6 +21,7 @@ import delta.common.ui.swing.windows.WindowController;
 import delta.common.utils.collections.filters.Filter;
 import delta.common.utils.math.geometry.Vector3D;
 import delta.common.utils.misc.TypedProperties;
+import delta.games.lotro.character.BaseCharacterSummary;
 import delta.games.lotro.character.status.housing.HousingItem;
 import delta.games.lotro.common.enums.HousingHookID;
 import delta.games.lotro.common.geo.Position;
@@ -31,6 +32,7 @@ import delta.games.lotro.gui.lore.items.table.ItemColumnIds;
 import delta.games.lotro.gui.lore.items.table.ItemsTableBuilder;
 import delta.games.lotro.gui.utils.tables.renderers.InternalGameIdRenderer;
 import delta.games.lotro.lore.items.Item;
+import delta.games.lotro.utils.ContextPropertyNames;
 
 /**
  * Controller for a table that shows house items.
@@ -237,6 +239,12 @@ public class HouseItemsTableController
 
   private TableColumnController<HousingItem,?> buildBoundToColumn()
   {
+    BaseCharacterSummary toon=null;
+    if (_parent!=null)
+    {
+      toon=_parent.getContextProperty(ContextPropertyNames.BASE_CHARACTER_SUMMARY,BaseCharacterSummary.class);
+    }
+
     CellDataProvider<HousingItem,InternalGameId> cell=new CellDataProvider<HousingItem,InternalGameId>()
     {
       @Override
@@ -247,7 +255,7 @@ public class HouseItemsTableController
     };
     DefaultTableColumnController<HousingItem,InternalGameId> column=new DefaultTableColumnController<HousingItem,InternalGameId>(BOUND_TO_COLUMN,"Bound to",InternalGameId.class,cell); // I18n
     column.setWidthSpecs(150,150,150);
-    column.setCellRenderer(new InternalGameIdRenderer());
+    column.setCellRenderer(new InternalGameIdRenderer(toon));
     return column;
   }
 

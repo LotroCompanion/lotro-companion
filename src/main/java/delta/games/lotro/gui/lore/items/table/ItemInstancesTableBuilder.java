@@ -19,6 +19,7 @@ import delta.common.ui.swing.tables.ProxiedTableColumnController;
 import delta.common.ui.swing.tables.TableColumnController;
 import delta.common.ui.swing.tables.TableColumnsManager;
 import delta.common.ui.swing.windows.WindowController;
+import delta.games.lotro.character.BaseCharacterSummary;
 import delta.games.lotro.common.colors.ColorDescription;
 import delta.games.lotro.common.id.InternalGameId;
 import delta.games.lotro.common.money.Money;
@@ -29,6 +30,7 @@ import delta.games.lotro.gui.utils.tables.renderers.MoneyCellRenderer;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemInstance;
 import delta.games.lotro.lore.items.ItemPropertyNames;
+import delta.games.lotro.utils.ContextPropertyNames;
 
 /**
  * Builder for a table that shows items.
@@ -38,14 +40,15 @@ public class ItemInstancesTableBuilder
 {
   /**
    * Build a table to show item instances.
+   * @param parent Parent window controller.
    * @param items Items to show.
    * @return A new table controller.
    */
-  public static GenericTableController<ItemInstance<? extends Item>> buildTable(List<ItemInstance<? extends Item>> items)
+  public static GenericTableController<ItemInstance<? extends Item>> buildTable(WindowController parent, List<ItemInstance<? extends Item>> items)
   {
     DataProvider<ItemInstance<? extends Item>> provider=new ListDataProvider<ItemInstance<? extends Item>>(items);
     GenericTableController<ItemInstance<? extends Item>> table=new GenericTableController<ItemInstance<? extends Item>>(provider);
-    List<TableColumnController<ItemInstance<? extends Item>,?>> columns=initColumns();
+    List<TableColumnController<ItemInstance<? extends Item>,?>> columns=initColumns(parent);
 
     TableColumnsManager<ItemInstance<? extends Item>> columnsManager=table.getColumnsManager();
     for(TableColumnController<ItemInstance<? extends Item>,?> column : columns)
@@ -103,12 +106,13 @@ public class ItemInstancesTableBuilder
 
   /**
    * Build a list of all managed columns.
+   * @param parent Parent window.
    * @return A list of column controllers.
    */
-  public static List<TableColumnController<ItemInstance<? extends Item>,?>> initColumns()
+  public static List<TableColumnController<ItemInstance<? extends Item>,?>> initColumns(WindowController parent)
   {
     List<TableColumnController<ItemInstance<? extends Item>,?>> columns=new ArrayList<TableColumnController<ItemInstance<? extends Item>,?>>();
-    columns.addAll(initInstanceColumns());
+    columns.addAll(initInstanceColumns(parent));
 
     CellDataProvider<ItemInstance<? extends Item>,Item> dataProvider=new CellDataProvider<ItemInstance<? extends Item>,Item>()
     {
@@ -132,11 +136,18 @@ public class ItemInstancesTableBuilder
 
   /**
    * Build a list of all managed columns.
+   * @param parent Parent window.
    * @return A list of column controllers.
    */
-  public static List<DefaultTableColumnController<ItemInstance<? extends Item>,?>> initInstanceColumns()
+  public static List<DefaultTableColumnController<ItemInstance<? extends Item>,?>> initInstanceColumns(WindowController parent)
   {
     List<DefaultTableColumnController<ItemInstance<? extends Item>,?>> columns=new ArrayList<DefaultTableColumnController<ItemInstance<? extends Item>,?>>();
+
+    BaseCharacterSummary toon=null;
+    if (parent!=null)
+    {
+      toon=parent.getContextProperty(ContextPropertyNames.BASE_CHARACTER_SUMMARY,BaseCharacterSummary.class);
+    }
 
     // Instance ID
     if (UiConfiguration.showTechnicalColumns())
@@ -153,7 +164,7 @@ public class ItemInstancesTableBuilder
       DefaultTableColumnController<ItemInstance<? extends Item>,InternalGameId> column=new DefaultTableColumnController<ItemInstance<? extends Item>,InternalGameId>(ItemInstanceColumnIds.INSTANCE_ID.name(),"Instance ID",InternalGameId.class,cell);
       column.setWidthSpecs(150,150,150);
       column.setSortable(false);
-      column.setCellRenderer(new InternalGameIdRenderer());
+      column.setCellRenderer(new InternalGameIdRenderer(toon));
       columns.add(column);
     }
     // Time column
@@ -270,7 +281,7 @@ public class ItemInstancesTableBuilder
       };
       DefaultTableColumnController<ItemInstance<? extends Item>,InternalGameId> column=new DefaultTableColumnController<ItemInstance<? extends Item>,InternalGameId>(ItemInstanceColumnIds.BOUND_TO.name(),"Bound to",InternalGameId.class,cell);
       column.setWidthSpecs(150,150,150);
-      column.setCellRenderer(new InternalGameIdRenderer());
+      column.setCellRenderer(new InternalGameIdRenderer(toon));
       columns.add(column);
     }
     // Essences column
