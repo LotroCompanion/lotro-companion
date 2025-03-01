@@ -21,7 +21,7 @@ public class CharacterHousingStatusWindowController extends DefaultWindowControl
   /**
    * Window identifier.
    */
-  public static final String IDENTIFIER="HOUSE-STATUS";
+  public static final String IDENTIFIER="HouseStatus";
 
   // Data
   private CharacterFile _character;
@@ -79,7 +79,6 @@ public class CharacterHousingStatusWindowController extends DefaultWindowControl
   @Override
   public void dispose()
   {
-    saveBoundsPreferences();
     super.dispose();
     // Data
     _character=null;

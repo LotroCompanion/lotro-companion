@@ -112,7 +112,6 @@ public class MainCharacterWindowCommandsManager
       {
         controller=new CharacterHousingStatusWindowController(_parent,_toon);
         windowsManager.registerWindow(controller);
-        controller.getWindow().setLocationRelativeTo(_parent.getWindow());
       }
       controller.bringToFront();
     }
