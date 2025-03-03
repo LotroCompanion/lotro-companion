@@ -33,6 +33,7 @@ import delta.games.lotro.common.enums.EquipmentCategory;
 import delta.games.lotro.common.enums.HousingHookCategory;
 import delta.games.lotro.common.enums.LotroEnumEntry;
 import delta.games.lotro.common.money.Money;
+import delta.games.lotro.config.LotroCoreConfig;
 import delta.games.lotro.gui.LotroIconsManager;
 import delta.games.lotro.gui.common.money.MoneyDisplayController;
 import delta.games.lotro.gui.common.requirements.RequirementsUtils;
@@ -468,23 +469,38 @@ public class ItemDisplayPanelController extends AbstractNavigablePanelController
 
   private float getDPS(Weapon weapon)
   {
-    Integer itemLevel=(_itemLevel!=null)?_itemLevel:weapon.getItemLevel();
-    int baseItemLevel=(itemLevel!=null)?itemLevel.intValue():1;
-    return weapon.computeDPS(baseItemLevel);
+    boolean isLive=LotroCoreConfig.isLive();
+    if (isLive)
+    {
+      Integer itemLevel=(_itemLevel!=null)?_itemLevel:weapon.getItemLevel();
+      int baseItemLevel=(itemLevel!=null)?itemLevel.intValue():1;
+      return weapon.computeDPS(baseItemLevel);
+    }
+    return weapon.getDPS();
   }
 
   private int getMinDamage(Weapon weapon)
   {
-    Integer itemLevel=(_itemLevel!=null)?_itemLevel:weapon.getItemLevel();
-    int baseItemLevel=(itemLevel!=null)?itemLevel.intValue():1;
-    return Math.round(weapon.computeMinDamage(baseItemLevel));
+    boolean isLive=LotroCoreConfig.isLive();
+    if (isLive)
+    {
+      Integer itemLevel=(_itemLevel!=null)?_itemLevel:weapon.getItemLevel();
+      int baseItemLevel=(itemLevel!=null)?itemLevel.intValue():1;
+      return Math.round(weapon.computeMinDamage(baseItemLevel));
+    }
+    return weapon.getMinDamage();
   }
 
   private int getMaxDamage(Weapon weapon)
   {
-    Integer itemLevel=(_itemLevel!=null)?_itemLevel:weapon.getItemLevel();
-    int baseItemLevel=(itemLevel!=null)?itemLevel.intValue():1;
-    return Math.round(weapon.computeMaxDamage(baseItemLevel));
+    boolean isLive=LotroCoreConfig.isLive();
+    if (isLive)
+    {
+      Integer itemLevel=(_itemLevel!=null)?_itemLevel:weapon.getItemLevel();
+      int baseItemLevel=(itemLevel!=null)?itemLevel.intValue():1;
+      return Math.round(weapon.computeMaxDamage(baseItemLevel));
+    }
+    return weapon.getMaxDamage();
   }
 
   /**
