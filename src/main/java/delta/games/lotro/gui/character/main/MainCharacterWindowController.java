@@ -401,7 +401,6 @@ public class MainCharacterWindowController extends DefaultWindowController imple
 
   private JPanel buildReputationPanel()
   {
-    // Buttons
     List<JButton> buttons=new ArrayList<JButton>();
     buttons.add(_buttonsMgr.getButton(MainCharacterWindowCommands.REPUTATION_COMMAND));
     buttons.add(_buttonsMgr.getButton(MainCharacterWindowCommands.ALLEGIANCES_COMMAND));
@@ -412,21 +411,36 @@ public class MainCharacterWindowController extends DefaultWindowController imple
 
   private JPanel buildCapabilitiesPanel()
   {
-    // Buttons
-    List<JButton> buttons=new ArrayList<JButton>();
-    buttons.add(_buttonsMgr.getButton(MainCharacterWindowCommands.EMOTES_COMMAND));
-    buttons.add(_buttonsMgr.getButton(MainCharacterWindowCommands.MOUNTS_COMMAND));
-    buttons.add(_buttonsMgr.getButton(MainCharacterWindowCommands.MOUNTED_APPEARANCES_COMMAND));
-    buttons.add(_buttonsMgr.getButton(MainCharacterWindowCommands.TRAVELS_COMMAND));
-    buttons.add(_buttonsMgr.getButton(MainCharacterWindowCommands.PETS_COMMAND));
-    JPanel ret=LayoutUtils.buildVerticalPanel(buttons,buttons.size());
-    ret.setBorder(GuiFactory.buildTitledBorder("Capabilities"));
+    List<JComponent> verticalList=new ArrayList<JComponent>();
+    // Line 1
+    List<JButton> buttonsLine1=new ArrayList<JButton>();
+    buttonsLine1.add(_buttonsMgr.getButton(MainCharacterWindowCommands.MOUNTED_APPEARANCES_COMMAND));
+    JPanel line1=LayoutUtils.buildHorizontalPanel(buttonsLine1,buttonsLine1.size());
+    verticalList.add(line1);
+    // Line 2
+    List<JButton> buttonsLine2=new ArrayList<JButton>();
+    buttonsLine2.add(_buttonsMgr.getButton(MainCharacterWindowCommands.EMOTES_COMMAND));
+    buttonsLine2.add(_buttonsMgr.getButton(MainCharacterWindowCommands.MOUNTS_COMMAND));
+    JPanel line2=LayoutUtils.buildHorizontalPanel(buttonsLine2,buttonsLine2.size());
+    verticalList.add(line2);
+    // Line 3
+    List<JButton> buttonsLine3=new ArrayList<JButton>();
+    buttonsLine3.add(_buttonsMgr.getButton(MainCharacterWindowCommands.TRAVELS_COMMAND));
+    buttonsLine3.add(_buttonsMgr.getButton(MainCharacterWindowCommands.PETS_COMMAND));
+    JPanel line3=LayoutUtils.buildHorizontalPanel(buttonsLine3,buttonsLine3.size());
+    verticalList.add(line3);
+    // Line 4
+    List<JButton> buttonsLine4=new ArrayList<JButton>();
+    buttonsLine4.add(_buttonsMgr.getButton(MainCharacterWindowCommands.BAUBLES_COMMAND));
+    JPanel line4=LayoutUtils.buildHorizontalPanel(buttonsLine4,buttonsLine4.size());
+    verticalList.add(line4);
+    JPanel ret=LayoutUtils.buildVerticalPanel(verticalList,verticalList.size());
+    ret.setBorder(GuiFactory.buildTitledBorder("Capabilities & Collections"));
     return ret;
   }
 
   private JPanel buildMiscButtonsPanel()
   {
-    // Buttons
     List<JButton> buttons=new ArrayList<JButton>();
     buttons.add(_buttonsMgr.getButton(MainCharacterWindowCommands.HOUSING_COMMAND));
     buttons.add(_buttonsMgr.getButton(MainCharacterWindowCommands.LEVEL_COMMAND));

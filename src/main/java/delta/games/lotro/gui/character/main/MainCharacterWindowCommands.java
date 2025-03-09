@@ -95,6 +95,10 @@ public class MainCharacterWindowCommands
    */
   public static final String PETS_COMMAND="pets";
   /**
+   * Command: show baubles status.
+   */
+  public static final String BAUBLES_COMMAND="baubles";
+  /**
    * Command: show hobbies status.
    */
   public static final String HOBBIES_COMMAND="hobbies";

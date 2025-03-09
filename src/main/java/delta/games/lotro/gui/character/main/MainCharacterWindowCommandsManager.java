@@ -29,6 +29,7 @@ import delta.games.lotro.gui.character.cosmetics.OutfitsDisplayWindowController;
 import delta.games.lotro.gui.character.log.CharacterLogWindowController;
 import delta.games.lotro.gui.character.stash.StashWindowController;
 import delta.games.lotro.gui.character.status.allegiances.summary.AllegiancesStatusSummaryWindowController;
+import delta.games.lotro.gui.character.status.baubles.BaublesStatusWindowController;
 import delta.games.lotro.gui.character.status.collections.CollectablesStatusWindowController;
 import delta.games.lotro.gui.character.status.collections.CollectablesStatusWindowController.STATUS_TYPE;
 import delta.games.lotro.gui.character.status.crafting.CraftingWindowController;
@@ -190,6 +191,10 @@ public class MainCharacterWindowCommandsManager
     else if (MainCharacterWindowCommands.PETS_COMMAND.equals(command))
     {
       showCollectablesStatus(STATUS_TYPE.PETS);
+    }
+    else if (MainCharacterWindowCommands.BAUBLES_COMMAND.equals(command))
+    {
+      showBaublesStatus();
     }
     else if (MainCharacterWindowCommands.HOBBIES_COMMAND.equals(command))
     {
@@ -422,6 +427,19 @@ public class MainCharacterWindowCommandsManager
     if (windowCtrl==null)
     {
       windowCtrl=new CollectablesStatusWindowController(_parent,_toon,type);
+      windowsManager.registerWindow(windowCtrl);
+    }
+    windowCtrl.show();
+  }
+
+  private void showBaublesStatus()
+  {
+    WindowsManager windowsManager=getWindowsManager();
+    String id=BaublesStatusWindowController.WINDOW_IDENTIFIER;
+    BaublesStatusWindowController windowCtrl=(BaublesStatusWindowController)windowsManager.getWindow(id);
+    if (windowCtrl==null)
+    {
+      windowCtrl=new BaublesStatusWindowController(_parent,_toon);
       windowsManager.registerWindow(windowCtrl);
     }
     windowCtrl.show();
