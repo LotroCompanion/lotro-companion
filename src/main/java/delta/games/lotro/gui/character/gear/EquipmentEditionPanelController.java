@@ -25,7 +25,6 @@ import delta.games.lotro.character.events.CharacterEventType;
 import delta.games.lotro.character.gear.CharacterGear;
 import delta.games.lotro.character.gear.GearSlot;
 import delta.games.lotro.character.gear.GearSlotContents;
-import delta.games.lotro.character.gear.GearSlotUtils;
 import delta.games.lotro.character.storage.StorageUtils;
 import delta.games.lotro.character.storage.StoragesIO;
 import delta.games.lotro.character.storage.bags.BagsManager;
@@ -38,7 +37,6 @@ import delta.games.lotro.gui.lore.items.chooser.ItemChooser;
 import delta.games.lotro.gui.lore.items.chooser.ItemFilterConfiguration;
 import delta.games.lotro.gui.lore.items.chooser.ItemFilterController;
 import delta.games.lotro.gui.lore.items.chooser.ItemInstanceChooser;
-import delta.games.lotro.lore.items.EquipmentLocation;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemFactory;
 import delta.games.lotro.lore.items.ItemInstance;
@@ -328,8 +326,7 @@ public class EquipmentEditionPanelController implements ActionListener
 
   private Item chooseItem(GearSlot slot)
   {
-    EquipmentLocation location=GearSlotUtils.getEquipmentSlot(slot);
-    List<Item> selectedItems=ItemsManager.getInstance().getItems(location);
+    List<Item> selectedItems=ItemsManager.getInstance().getItems(slot);
     ItemFilterConfiguration cfg=new ItemFilterConfiguration();
     cfg.initFromItems(selectedItems);
     cfg.forItemFilter();

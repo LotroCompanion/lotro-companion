@@ -1,7 +1,5 @@
 package delta.games.lotro.gui.lore.items.chooser;
 
-import java.util.List;
-
 import delta.common.utils.BooleanTools;
 import delta.common.utils.NumericTools;
 import delta.common.utils.misc.TypedProperties;
@@ -17,6 +15,7 @@ import delta.games.lotro.common.stats.StatDescription;
 import delta.games.lotro.common.stats.StatsRegistry;
 import delta.games.lotro.lore.items.ArmourType;
 import delta.games.lotro.lore.items.DamageType;
+import delta.games.lotro.lore.items.EquipmentLocation;
 import delta.games.lotro.lore.items.ItemQuality;
 import delta.games.lotro.lore.items.WeaponType;
 import delta.games.lotro.lore.items.filters.ArmourTypeFilter;
@@ -157,10 +156,11 @@ public class ItemChooserFilterIo
     ItemEquipmentLocationFilter locationFilter=filter.getLocationFilter();
     if (locationFilter!=null)
     {
-      List<String> locationKeys=props.getStringList(LOCATION);
-      if (locationKeys!=null)
+      String locationKey=props.getStringProperty(LOCATION,null);
+      if (locationKey!=null)
       {
-        locationFilter.loadFromString(locationKeys);
+        EquipmentLocation location=EquipmentLocation.getByKey(locationKey);
+        locationFilter.setLocation(location);
       }
     }
     // Weapon type
@@ -347,7 +347,15 @@ public class ItemChooserFilterIo
     ItemEquipmentLocationFilter locationFilter=filter.getLocationFilter();
     if (locationFilter!=null)
     {
-      props.setStringList(LOCATION,locationFilter.asString());
+      EquipmentLocation location=locationFilter.getLocation();
+      if (location!=null)
+      {
+        props.setStringProperty(LOCATION,location.getKey());
+      }
+      else
+      {
+        props.removeProperty(LOCATION);
+      }
     }
     // Weapon type
     WeaponTypeFilter weaponTypeFilter=filter.getWeaponTypeFilter();

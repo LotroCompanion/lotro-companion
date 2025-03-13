@@ -82,7 +82,7 @@ public class ItemFilterController extends ObjectFilterPanelController implements
   private ComboBoxController<ItemQuality> _quality;
   private ComboBoxController<ItemClass> _itemClass;
   private ComboBoxController<Boolean> _legendary;
-  private ComboBoxController<Set<EquipmentLocation>> _location;
+  private ComboBoxController<EquipmentLocation> _location;
   private ComboBoxController<WeaponType> _weaponType;
   private ComboBoxController<DamageType> _damageType;
   private ComboBoxController<Genus> _slayerGenus;
@@ -184,7 +184,7 @@ public class ItemFilterController extends ObjectFilterPanelController implements
       // Location
       if (_location!=null)
       {
-        _location.selectItem(new ItemEquipmentLocationFilter().getSelectedLocations());
+        _location.selectItem(null);
       }
       // Weapon type
       if (_weaponType!=null)
@@ -297,8 +297,8 @@ public class ItemFilterController extends ObjectFilterPanelController implements
     if (_location!=null)
     {
       ItemEquipmentLocationFilter locationFilter=_filter.getLocationFilter();
-      Set<EquipmentLocation> selectedLocations=locationFilter.getSelectedLocations();
-      _location.selectItem(selectedLocations);
+      EquipmentLocation selectedLocation=locationFilter.getLocation();
+      _location.selectItem(selectedLocation);
     }
     // Weapon type
     if (_weaponType!=null)
@@ -611,21 +611,12 @@ public class ItemFilterController extends ObjectFilterPanelController implements
       _location=ItemUiTools.buildLocationsCombo();
       JPanel locationPanel=GuiFactory.buildPanel(new FlowLayout(FlowLayout.LEADING,5,0));
       locationPanel.add(GuiFactory.buildLabel(Labels.getFieldLabel("items.filter.location")));
-      ItemSelectionListener<Set<EquipmentLocation>> locationListener=new ItemSelectionListener<Set<EquipmentLocation>>()
+      ItemSelectionListener<EquipmentLocation> locationListener=new ItemSelectionListener<EquipmentLocation>()
       {
         @Override
-        public void itemSelected(Set<EquipmentLocation> locations)
+        public void itemSelected(EquipmentLocation location)
         {
-          if (locations!=null)
-          {
-            Set<EquipmentLocation> selectedLocations=new HashSet<EquipmentLocation>();
-            selectedLocations.addAll(locations);
-            locationFilter.setLocations(selectedLocations);
-          }
-          else
-          {
-            locationFilter.selectAll();
-          }
+          locationFilter.setLocation(location);
           filterUpdated();
         }
       };

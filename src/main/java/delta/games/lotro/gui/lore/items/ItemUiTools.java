@@ -288,31 +288,13 @@ public class ItemUiTools
    * Build a controller for a combo box to choose a location.
    * @return A new controller.
    */
-  public static ComboBoxController<Set<EquipmentLocation>> buildLocationsCombo()
+  public static ComboBoxController<EquipmentLocation> buildLocationsCombo()
   {
-    ComboBoxController<Set<EquipmentLocation>> ctrl=new ComboBoxController<Set<EquipmentLocation>>();
-    // All
-    {
-      Set<EquipmentLocation> locations=new HashSet<EquipmentLocation>();
-      locations.add(null);
-      for(EquipmentLocation location : EquipmentLocation.getAll())
-      {
-        locations.add(location);
-      }
-      ctrl.addItem(locations,"(all)");
-    }
-    // No location
-    {
-      Set<EquipmentLocation> noLocation=new HashSet<EquipmentLocation>();
-      noLocation.add(null);
-      ctrl.addItem(noLocation,"No location");
-    }
-    // One location
+    ComboBoxController<EquipmentLocation> ctrl=new ComboBoxController<EquipmentLocation>();
+    ctrl.addEmptyItem("");
     for(EquipmentLocation location : EquipmentLocation.getAll())
     {
-      Set<EquipmentLocation> locations=new HashSet<EquipmentLocation>();
-      locations.add(location);
-      ctrl.addItem(locations,location.getLabel());
+      ctrl.addItem(location,location.getLabel());
     }
     ctrl.selectItem(null);
     return ctrl;
