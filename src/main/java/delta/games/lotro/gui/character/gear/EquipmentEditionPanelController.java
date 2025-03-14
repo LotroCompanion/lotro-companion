@@ -318,17 +318,35 @@ public class EquipmentEditionPanelController implements ActionListener
     {
       Item item=itemInstance.getReference();
       EquipmentLocation location=item.getEquipmentLocation();
-      GearSlot[] allowedSlots=GearSlotUtils.getSlots(location);
-      if (allowedSlots.length>0)
+      boolean ok=select(location,slot);
+      if (ok)
       {
-        boolean ok=(Arrays.binarySearch(allowedSlots,slot)!=-1);
-        if (ok)
-        {
-          selectedInstances.add(itemInstance);
-        }
+        selectedInstances.add(itemInstance);
       }
     }
     return selectedInstances;
+  }
+
+  private boolean select(EquipmentLocation location, GearSlot slot)
+  {
+    GearSlot[] allowedSlots=GearSlotUtils.getSlots(location);
+    int size=allowedSlots.length;
+    if (size==0)
+    {
+      return false;
+    }
+    if (size==1)
+    {
+      return (allowedSlots[0]==slot);
+    }
+    for(GearSlot allowedSlot : allowedSlots)
+    {
+      if (allowedSlot==slot)
+      {
+        return true;
+      }
+    }
+    return false;
   }
 
   private Item chooseItem(GearSlot slot)
