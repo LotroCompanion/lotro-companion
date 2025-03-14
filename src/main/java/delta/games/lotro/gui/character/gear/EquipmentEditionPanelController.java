@@ -7,6 +7,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -25,6 +26,7 @@ import delta.games.lotro.character.events.CharacterEventType;
 import delta.games.lotro.character.gear.CharacterGear;
 import delta.games.lotro.character.gear.GearSlot;
 import delta.games.lotro.character.gear.GearSlotContents;
+import delta.games.lotro.character.gear.GearSlotUtils;
 import delta.games.lotro.character.storage.StorageUtils;
 import delta.games.lotro.character.storage.StoragesIO;
 import delta.games.lotro.character.storage.bags.BagsManager;
@@ -37,11 +39,11 @@ import delta.games.lotro.gui.lore.items.chooser.ItemChooser;
 import delta.games.lotro.gui.lore.items.chooser.ItemFilterConfiguration;
 import delta.games.lotro.gui.lore.items.chooser.ItemFilterController;
 import delta.games.lotro.gui.lore.items.chooser.ItemInstanceChooser;
+import delta.games.lotro.lore.items.EquipmentLocation;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemFactory;
 import delta.games.lotro.lore.items.ItemInstance;
 import delta.games.lotro.lore.items.ItemsManager;
-import delta.games.lotro.lore.items.filters.ItemSlotFilter;
 import delta.games.lotro.utils.ContextPropertyNames;
 import delta.games.lotro.utils.events.EventsManager;
 import delta.games.lotro.utils.gui.chooser.ObjectChoiceWindowController;
@@ -312,13 +314,18 @@ public class EquipmentEditionPanelController implements ActionListener
   private List<ItemInstance<? extends Item>> filter(List<ItemInstance<? extends Item>> itemInstances, GearSlot slot)
   {
     List<ItemInstance<? extends Item>> selectedInstances=new ArrayList<ItemInstance<? extends Item>>();
-    ItemSlotFilter filter=new ItemSlotFilter(slot);
     for(ItemInstance<? extends Item> itemInstance : itemInstances)
     {
       Item item=itemInstance.getReference();
-      if (filter.accept(item))
+      EquipmentLocation location=item.getEquipmentLocation();
+      GearSlot[] allowedSlots=GearSlotUtils.getSlots(location);
+      if (allowedSlots.length>0)
       {
-        selectedInstances.add(itemInstance);
+        boolean ok=(Arrays.binarySearch(allowedSlots,slot)!=-1);
+        if (ok)
+        {
+          selectedInstances.add(itemInstance);
+        }
       }
     }
     return selectedInstances;

@@ -26,7 +26,7 @@ import delta.games.lotro.gui.utils.l10n.Labels;
 import delta.games.lotro.lore.items.EquipmentLocation;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.filters.ItemClassFilter;
-import delta.games.lotro.lore.items.filters.ItemSlotFilter;
+import delta.games.lotro.lore.items.filters.ItemEquipmentLocationFilter;
 
 /**
  * Controller for a wardrobe filter edition panel.
@@ -172,7 +172,10 @@ public class WardrobeFilterController implements ActionListener
         @Override
         public void textChanged(String newText)
         {
-          if (newText.length()==0) newText=null;
+          if (newText.isEmpty())
+          {
+            newText=null;
+          }
           NamedFilter<Item> nameFilter=_filter.getNameFilter();
           nameFilter.setPattern(newText);
           filterUpdated();
@@ -206,11 +209,6 @@ public class WardrobeFilterController implements ActionListener
   private ComboBoxController<EquipmentLocation> buildSlotCombobox()
   {
     ComboBoxController<EquipmentLocation> ctrl=new ComboBoxController<EquipmentLocation>();
-    ctrl.addEmptyItem("");
-    for(EquipmentLocation slot : EquipmentLocation.getAll())
-    {
-      ctrl.addItem(slot,slot.getLabel());
-    }
     updateSlotCombobox(ctrl);
     ctrl.selectItem(null);
     ItemSelectionListener<EquipmentLocation> ownerListener=new ItemSelectionListener<EquipmentLocation>()
@@ -218,7 +216,7 @@ public class WardrobeFilterController implements ActionListener
       @Override
       public void itemSelected(EquipmentLocation slot)
       {
-        ItemSlotFilter slotFilter=_filter.getSlotFilter();
+        ItemEquipmentLocationFilter slotFilter=_filter.getSlotFilter();
         slotFilter.setLocation(slot);
         filterUpdated();
       }

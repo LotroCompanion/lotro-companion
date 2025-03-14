@@ -10,10 +10,9 @@ import delta.common.utils.collections.filters.ProxyFilter;
 import delta.common.utils.collections.filters.ProxyValueResolver;
 import delta.games.lotro.character.storage.wardrobe.WardrobeItem;
 import delta.games.lotro.common.filters.NamedFilter;
-import delta.games.lotro.lore.items.EquipmentLocation;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.filters.ItemClassFilter;
-import delta.games.lotro.lore.items.filters.ItemSlotFilter;
+import delta.games.lotro.lore.items.filters.ItemEquipmentLocationFilter;
 
 /**
  * Wardrobe filter.
@@ -26,7 +25,7 @@ public class WardrobeFilter implements Filter<WardrobeItem>
   private Filter<WardrobeItem> _filter;
 
   private NamedFilter<Item> _nameFilter;
-  private ItemSlotFilter _slotFilter;
+  private ItemEquipmentLocationFilter _slotFilter;
   private ItemClassFilter _categoryFilter;
 
   /**
@@ -43,7 +42,7 @@ public class WardrobeFilter implements Filter<WardrobeItem>
     _categoryFilter=new ItemClassFilter(null);
     filters.add(_categoryFilter);
     // Category
-    _slotFilter=new ItemSlotFilter((EquipmentLocation)null);
+    _slotFilter=new ItemEquipmentLocationFilter(null);
     filters.add(_slotFilter);
     CompoundFilter<Item> filter=new CompoundFilter<Item>(Operator.AND,filters);
 
@@ -77,10 +76,10 @@ public class WardrobeFilter implements Filter<WardrobeItem>
   }
 
   /**
-   * Get the filter on slot.
+   * Get the filter on location.
    * @return A category filter.
    */
-  public ItemSlotFilter getSlotFilter()
+  public ItemEquipmentLocationFilter getSlotFilter()
   {
     return _slotFilter;
   }
