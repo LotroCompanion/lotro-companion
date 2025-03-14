@@ -41,6 +41,7 @@ import delta.games.lotro.gui.utils.tables.renderers.MoneyCellRenderer;
 import delta.games.lotro.lore.items.Armour;
 import delta.games.lotro.lore.items.ArmourType;
 import delta.games.lotro.lore.items.DamageType;
+import delta.games.lotro.lore.items.EquipmentLocation;
 import delta.games.lotro.lore.items.Item;
 import delta.games.lotro.lore.items.ItemBinding;
 import delta.games.lotro.lore.items.ItemQuality;
@@ -125,6 +126,8 @@ public class ItemsTableBuilder
     columns.add(buildItemLevelColumn());
     // Category column
     columns.add(buildCategoryColumn());
+    // Location column
+    columns.add(buildLocationColumn());
     // Class requirement
     columns.addAll(buildRequirementsColumns());
     // Value
@@ -379,6 +382,27 @@ public class ItemsTableBuilder
   }
 
   /**
+   * Build a column for the location of an item.
+   * @return a column.
+   */
+  private static DefaultTableColumnController<Item,EquipmentLocation> buildLocationColumn()
+  {
+    CellDataProvider<Item,EquipmentLocation> cell=new CellDataProvider<Item,EquipmentLocation>()
+    {
+      @Override
+      public EquipmentLocation getData(Item item)
+      {
+        EquipmentLocation category=item.getEquipmentLocation();
+        return category;
+      }
+    };
+    String columnName=Labels.getLabel("items.table.location");
+    DefaultTableColumnController<Item,EquipmentLocation> column=new DefaultTableColumnController<Item,EquipmentLocation>(ItemColumnIds.LOCATION.name(),columnName,EquipmentLocation.class,cell);
+    column.setWidthSpecs(150,150,150);
+    return column;
+  }
+
+  /**
    * Build a column for the value of an item.
    * @return a column.
    */
@@ -610,7 +634,7 @@ public class ItemsTableBuilder
     else
     {
       valueClass=Integer.class;
-      LOGGER.warn("Unmanaged stat type: "+type);
+      LOGGER.warn("Unmanaged stat type: {}",type);
     }
     DefaultTableColumnController<Item,Number> statColumn=new DefaultTableColumnController<Item,Number>(id,name,valueClass,statCell);
     StatRenderer renderer=new StatRenderer(stat);
