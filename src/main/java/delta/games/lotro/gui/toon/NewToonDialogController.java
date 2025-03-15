@@ -204,15 +204,13 @@ public class NewToonDialogController extends DefaultFormDialogController<Object>
     for(Item item : items)
     {
       EquipmentLocation itemLocation=item.getEquipmentLocation();
-      for(GearSlot slot : GearSlot.getAll())
+      GearSlot[] slots=GearSlotUtils.getSlots(itemLocation);
+      if (slots.length>=1)
       {
-        EquipmentLocation slotLocation=GearSlotUtils.getEquipmentSlot(slot);
-        if (slotLocation==itemLocation)
-        {
-          GearSlotContents contents=gear.getSlotContents(slot,true);
-          ItemInstance<? extends Item> itemInstance=ItemFactory.buildInstance(item);
-          contents.setItem(itemInstance);
-        }
+        GearSlot slot=slots[0];
+        GearSlotContents contents=gear.getSlotContents(slot,true);
+        ItemInstance<? extends Item> itemInstance=ItemFactory.buildInstance(item);
+        contents.setItem(itemInstance);
       }
     }
     gear.setWearer(info.getSummary());
