@@ -31,6 +31,7 @@ import delta.common.utils.misc.TypedProperties;
 import delta.games.lotro.character.BasicCharacterAttributes;
 import delta.games.lotro.character.CharacterFile;
 import delta.games.lotro.character.classes.AbstractClassDescription;
+import delta.games.lotro.character.gear.GearSlot;
 import delta.games.lotro.character.races.RaceDescription;
 import delta.games.lotro.character.status.reputation.ReputationStatus;
 import delta.games.lotro.common.enums.Genus;
@@ -123,6 +124,19 @@ public class ItemFilterController extends ObjectFilterPanelController implements
     {
       ReputationStatus reputationStatus=toon.getReputation();
       reputationFilter.setReputationStatus(reputationStatus);
+    }
+  }
+
+  /**
+   * Set the slot to use.
+   * @param slot Slot to use (may be <code>null</code>).
+   */
+  public void setSlot(GearSlot slot)
+  {
+    CharacterProficienciesFilter proficienciesFilter=_filter.getCurrentCharacterProficienciesFilter();
+    if (proficienciesFilter!=null)
+    {
+      proficienciesFilter.setSlot(slot);
     }
   }
 

@@ -359,6 +359,7 @@ public class EquipmentEditionPanelController implements ActionListener
     ItemFilterController filterController=new ItemFilterController(cfg,_toonData.getSummary(),filterProps);
     CharacterFile currentToon=_parentWindow.getContextProperty(ContextPropertyNames.CHARACTER_FILE,CharacterFile.class);
     filterController.configure(currentToon);
+    filterController.setSlot(slot);
 
     Filter<Item> filter=filterController.getFilter();
     String id=ItemChooser.ITEM_CHOOSER_PROPERTIES_ID+"#"+slot.getKey();
