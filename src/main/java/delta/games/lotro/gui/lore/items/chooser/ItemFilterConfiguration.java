@@ -65,6 +65,7 @@ public class ItemFilterConfiguration
   {
     _components[ItemChooserFilterComponent.NAME.ordinal()]=true;
     _components[ItemChooserFilterComponent.QUALITY.ordinal()]=true;
+    _components[ItemChooserFilterComponent.LOCATION.ordinal()]=true;
   }
 
   /**
