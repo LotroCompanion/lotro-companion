@@ -45,7 +45,7 @@ public enum ItemColumnIds
   /**
    * Location.
    */
-  LOCATION,
+  ITEM_LOCATION,
   /**
    * Slots count.
    */

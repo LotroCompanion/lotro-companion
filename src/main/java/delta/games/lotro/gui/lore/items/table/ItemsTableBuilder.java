@@ -397,7 +397,7 @@ public class ItemsTableBuilder
       }
     };
     String columnName=Labels.getLabel("items.table.location");
-    DefaultTableColumnController<Item,EquipmentLocation> column=new DefaultTableColumnController<Item,EquipmentLocation>(ItemColumnIds.LOCATION.name(),columnName,EquipmentLocation.class,cell);
+    DefaultTableColumnController<Item,EquipmentLocation> column=new DefaultTableColumnController<Item,EquipmentLocation>(ItemColumnIds.ITEM_LOCATION.name(),columnName,EquipmentLocation.class,cell);
     column.setWidthSpecs(150,150,150);
     return column;
   }
