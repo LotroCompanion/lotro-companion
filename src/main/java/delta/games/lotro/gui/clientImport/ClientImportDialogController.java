@@ -17,12 +17,13 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.windows.DefaultDialogController;
 import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.dat.data.DataFacade;
-import delta.games.lotro.memory.extraction.CharExtractor;
 import delta.games.lotro.memory.extraction.MemoryExtractionSession;
-import delta.games.lotro.memory.facade.data.ImportConfiguration;
-import delta.games.lotro.memory.facade.data.ImportStatus;
-import delta.games.lotro.memory.facade.data.ImportStatusData;
-import delta.games.lotro.memory.facade.data.ImportStatusListener;
+import delta.games.lotro.memory.extraction.extractors.CharExtractor;
+import delta.games.lotro.memory.extraction.session.ImportConfiguration;
+import delta.games.lotro.memory.extraction.session.ImportSession;
+import delta.games.lotro.memory.extraction.session.status.ImportStatus;
+import delta.games.lotro.memory.extraction.session.status.ImportStatusData;
+import delta.games.lotro.memory.extraction.session.status.ImportStatusListener;
 import delta.games.lotro.memory.io.MemoryAccess;
 import delta.games.lotro.memory.io.jna.WinInterface;
 import delta.games.lotro.utils.dat.DatInterface;
@@ -140,8 +141,10 @@ public class ClientImportDialogController extends DefaultDialogController implem
     DataFacade dataFacade=datInterface.getFacade();
     final MemoryAccess memoryAccess=buildMemoryAccess();
     final ImportConfiguration config=_configCtrl.getConfig();
-    MemoryExtractionSession session=new MemoryExtractionSession(memoryAccess,dataFacade,config,this);
-    final CharExtractor extractor=new CharExtractor(session);
+    MemoryExtractionSession session=new MemoryExtractionSession(memoryAccess,dataFacade);
+    ImportSession importSession=new ImportSession(config);
+    importSession.getStatus().setListener(this);
+    final CharExtractor extractor=new CharExtractor(session,importSession);
     Runnable r=new Runnable()
     {
       @Override

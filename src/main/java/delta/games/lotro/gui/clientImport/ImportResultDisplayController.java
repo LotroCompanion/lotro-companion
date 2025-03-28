@@ -9,8 +9,8 @@ import javax.swing.JPanel;
 
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.misc.Disposable;
-import delta.games.lotro.memory.facade.data.ImportStatus;
-import delta.games.lotro.memory.facade.data.ImportStatusData;
+import delta.games.lotro.memory.extraction.session.status.ImportStatus;
+import delta.games.lotro.memory.extraction.session.status.ImportStatusData;
 
 /**
  * Controller for a panel to display the result/status of an import.

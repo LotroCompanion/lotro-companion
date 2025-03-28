@@ -13,8 +13,8 @@ import javax.swing.JPanel;
 import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.misc.Disposable;
 import delta.games.lotro.memory.extraction.ExtractableElement;
-import delta.games.lotro.memory.facade.data.ExtractableElementStatus;
-import delta.games.lotro.memory.facade.data.ImportStatusData;
+import delta.games.lotro.memory.extraction.session.status.ExtractableElementStatus;
+import delta.games.lotro.memory.extraction.session.status.ImportStatusData;
 
 /**
  * Panel controller to show the results of extraction.

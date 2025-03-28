@@ -16,7 +16,7 @@ import delta.common.ui.swing.GuiFactory;
 import delta.common.ui.swing.checkbox.CheckboxController;
 import delta.common.ui.swing.misc.Disposable;
 import delta.games.lotro.memory.extraction.ExtractableElement;
-import delta.games.lotro.memory.facade.data.ImportConfiguration;
+import delta.games.lotro.memory.extraction.session.ImportConfiguration;
 
 /**
  * Panel controller for the import configuration.
