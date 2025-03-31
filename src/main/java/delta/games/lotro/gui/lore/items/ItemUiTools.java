@@ -170,7 +170,7 @@ public class ItemUiTools
   {
     ComboBoxController<ItemQuality> ctrl=new ComboBoxController<ItemQuality>();
     ctrl.addEmptyItem("");
-    for(ItemQuality quality : ItemQualities.ALL)
+    for(ItemQuality quality : ItemQualities.getAll())
     {
       ctrl.addItem(quality,quality.getMeaning());
     }
