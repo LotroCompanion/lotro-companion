@@ -134,7 +134,7 @@ public class StatCurvesChartConfiguration
       Double rating=curve.getRatingForCap(_level);
       if (LOGGER.isDebugEnabled())
       {
-        LOGGER.debug("Found rating "+rating+" for cap of curve "+config.getTitle()+" at level "+_level);
+        LOGGER.debug("Found rating {} for cap of curve {} at level {}",rating,config.getTitle(),Integer.valueOf(_level));
       }
       if (rating!=null)
       {

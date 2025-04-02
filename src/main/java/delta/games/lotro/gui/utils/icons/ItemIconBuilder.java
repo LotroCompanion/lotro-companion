@@ -31,19 +31,13 @@ public class ItemIconBuilder
       ret=buildImage(iconName);
       if (ret!=null)
       {
-        if (LOGGER.isDebugEnabled())
-        {
-          LOGGER.debug("Loaded into cache: "+iconName);
-        }
+        LOGGER.debug("Loaded into cache: {}",iconName);
         _icons.put(iconName,ret);
       }
     }
     else
     {
-      if (LOGGER.isDebugEnabled())
-      {
-        LOGGER.debug("Successful cache hit: "+iconName);
-      }
+      LOGGER.debug("Successful cache hit: {}",iconName);
     }
     return ret;
   }

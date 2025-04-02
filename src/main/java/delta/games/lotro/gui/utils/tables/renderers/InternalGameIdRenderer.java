@@ -12,7 +12,7 @@ import delta.games.lotro.common.id.InternalGameId;
  */
 public class InternalGameIdRenderer extends DefaultTableCellRenderer
 {
-  private BaseCharacterSummary _toon;
+  private transient BaseCharacterSummary _toon;
 
   /**
    * Constructor.

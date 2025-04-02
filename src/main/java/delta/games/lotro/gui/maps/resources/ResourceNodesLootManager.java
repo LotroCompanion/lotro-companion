@@ -145,7 +145,7 @@ public class ResourceNodesLootManager
   {
     if (LOGGER.isDebugEnabled())
     {
-      LOGGER.debug("Sorting items: "+items);
+      LOGGER.debug("Sorting items: {}",items);
     }
     List<Item> ret=new ArrayList<Item>();
     Map<String,List<Item>> sortedItemsMap=new HashMap<String,List<Item>>();
@@ -167,17 +167,14 @@ public class ResourceNodesLootManager
       if (itemsForCategory!=null)
       {
         Collections.sort(itemsForCategory,new IdentifiableComparator<Item>());
-        if (LOGGER.isDebugEnabled())
-        {
-          LOGGER.debug("\tFound items: "+itemsForCategory+" for category: "+category);
-        }
+        LOGGER.debug("\tFound items: {} for category: {}",itemsForCategory,category);
         ret.addAll(itemsForCategory);
         sortedItemsMap.remove(category);
       }
     }
     if (sortedItemsMap.size()>0)
     {
-      LOGGER.warn("Unmanaged categories: "+sortedItemsMap.keySet());
+      LOGGER.warn("Unmanaged categories: {}",sortedItemsMap.keySet());
       List<String> missingCategories=new ArrayList<String>(sortedItemsMap.keySet());
       Collections.sort(missingCategories);
       for(String missingCategory : missingCategories)
@@ -186,7 +183,7 @@ public class ResourceNodesLootManager
         if (itemsForCategory!=null)
         {
           Collections.sort(itemsForCategory,new IdentifiableComparator<Item>());
-          LOGGER.warn("\tFound items: "+itemsForCategory+" for missing category: "+missingCategory);
+          LOGGER.warn("\tFound items: {} for missing category: {}",itemsForCategory,missingCategory);
           ret.addAll(itemsForCategory);
         }
       }

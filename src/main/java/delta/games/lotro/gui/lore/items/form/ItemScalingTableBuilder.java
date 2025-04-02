@@ -205,7 +205,7 @@ public class ItemScalingTableBuilder
     else
     {
       valueClass=Integer.class;
-      LOGGER.warn("Unmanaged stat type: "+type);
+      LOGGER.warn("Unmanaged stat type: {}",type);
     }
     DefaultTableColumnController<ItemScalingEntry,Number> statColumn=new DefaultTableColumnController<ItemScalingEntry,Number>(id,name,valueClass,statCell);
     StatRenderer renderer=new StatRenderer(stat);

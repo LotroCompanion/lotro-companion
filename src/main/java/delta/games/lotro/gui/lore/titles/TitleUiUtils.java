@@ -166,7 +166,7 @@ public class TitleUiUtils
     {
       renderedTitle=renderedTitle.substring(1).trim();
     }
-    if (renderedTitle.length()>0)
+    if (!renderedTitle.isEmpty())
     {
       renderedTitle=renderedTitle.substring(0,1).toUpperCase()+renderedTitle.substring(1);
     }

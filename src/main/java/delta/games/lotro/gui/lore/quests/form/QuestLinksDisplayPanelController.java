@@ -121,7 +121,7 @@ public class QuestLinksDisplayPanelController
       }
       else
       {
-        LOGGER.warn("Achievable not managed: "+achievable);
+        LOGGER.warn("Achievable not managed: {}",achievable);
       }
     }
   }

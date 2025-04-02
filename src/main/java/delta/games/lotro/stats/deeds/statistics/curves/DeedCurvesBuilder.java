@@ -76,6 +76,7 @@ public class DeedCurvesBuilder implements DatedCurveProvider<CharacterFile>
           if (!deedDate.equals(currentDate))
           {
             curve.addValue(deedDate.longValue(),Integer.valueOf(totalValue));
+            currentDate=deedDate;
           }
         }
       }

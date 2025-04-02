@@ -89,7 +89,7 @@ public abstract class AbstractSetDisplayPanelController implements NavigablePane
     y++;
 
     // Description
-    if (_set.getDescription().length()>0)
+    if (!_set.getDescription().isEmpty())
     {
       JEditorPane description=buildDescription();
       description.setBorder(GuiFactory.buildTitledBorder("Description"));

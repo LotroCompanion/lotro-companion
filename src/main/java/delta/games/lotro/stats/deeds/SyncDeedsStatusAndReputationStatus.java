@@ -64,7 +64,7 @@ public class SyncDeedsStatusAndReputationStatus
           deedStatus.setCompleted(true);
           if (LOGGER.isDebugEnabled())
           {
-            LOGGER.debug("Set deed "+deedKey+" to completed!");
+            LOGGER.debug("Set deed {} to completed!",deedKey);
           }
           FactionLevelStatus levelStatus=factionStatus.getStatusForLevel(level);
           long date=levelStatus.getCompletionDate();

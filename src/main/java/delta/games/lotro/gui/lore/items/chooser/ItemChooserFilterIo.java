@@ -358,33 +358,9 @@ public class ItemChooserFilterIo
       }
     }
     // Weapon type
-    WeaponTypeFilter weaponTypeFilter=filter.getWeaponTypeFilter();
-    if (weaponTypeFilter!=null)
-    {
-      WeaponType weaponType=weaponTypeFilter.getWeaponType();
-      if (weaponType!=null)
-      {
-        props.setStringProperty(WEAPON_TYPE,weaponType.getKey());
-      }
-      else
-      {
-        props.removeProperty(WEAPON_TYPE);
-      }
-    }
+    handleTypeWeaponFilter(filter,props);
     // Damage type
-    DamageTypeFilter damageTypeFilter=filter.getDamageTypeFilter();
-    if (damageTypeFilter!=null)
-    {
-      DamageType damageType=damageTypeFilter.getDamageType();
-      if (damageType!=null)
-      {
-        props.setStringProperty(DAMAGE_TYPE,damageType.getKey());
-      }
-      else
-      {
-        props.removeProperty(DAMAGE_TYPE);
-      }
-    }
+    handleDamageTypeFilter(filter,props);
     // Weapon slayer
     handleWeaponSlayerFilter(filter,props);
     // Armour type
@@ -401,6 +377,40 @@ public class ItemChooserFilterIo
     handleClassRequirementFilter(filter,props);
     // Race
     handleRaceFilter(filter,props);
+  }
+
+  private static void handleTypeWeaponFilter(ItemChooserFilter filter, TypedProperties props)
+  {
+    WeaponTypeFilter weaponTypeFilter=filter.getWeaponTypeFilter();
+    if (weaponTypeFilter!=null)
+    {
+      WeaponType weaponType=weaponTypeFilter.getWeaponType();
+      if (weaponType!=null)
+      {
+        props.setStringProperty(WEAPON_TYPE,weaponType.getKey());
+      }
+      else
+      {
+        props.removeProperty(WEAPON_TYPE);
+      }
+    }
+  }
+
+  private static void handleDamageTypeFilter(ItemChooserFilter filter, TypedProperties props)
+  {
+    DamageTypeFilter damageTypeFilter=filter.getDamageTypeFilter();
+    if (damageTypeFilter!=null)
+    {
+      DamageType damageType=damageTypeFilter.getDamageType();
+      if (damageType!=null)
+      {
+        props.setStringProperty(DAMAGE_TYPE,damageType.getKey());
+      }
+      else
+      {
+        props.removeProperty(DAMAGE_TYPE);
+      }
+    }
   }
 
   private static void handleWeaponSlayerFilter(ItemChooserFilter filter, TypedProperties props)

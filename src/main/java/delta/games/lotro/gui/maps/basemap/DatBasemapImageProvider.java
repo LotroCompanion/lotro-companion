@@ -45,14 +45,14 @@ public class DatBasemapImageProvider implements BasemapImageProvider
 
   private BufferedImage loadFromLocalClient(int imageId)
   {
-    LOGGER.debug("Loading image: "+imageId);
+    LOGGER.debug("Loading image: {}",Integer.valueOf(imageId));
     try
     {
       return DatIconsUtils.loadImage(_facade,imageId);
     }
     catch(Exception e)
     {
-      LOGGER.warn("Error when loading basemap image: "+imageId);
+      LOGGER.warn("Error when loading basemap image: {}",Integer.valueOf(imageId));
     }
     return null;
   }

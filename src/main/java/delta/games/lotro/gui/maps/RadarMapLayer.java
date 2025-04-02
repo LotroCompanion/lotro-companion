@@ -111,7 +111,7 @@ public class RadarMapLayer extends BaseRasterLayer
     if (nbImagesY>20) return;
     if (LOGGER.isDebugEnabled())
     {
-      LOGGER.debug("Images X="+nbImagesX+", images Y="+nbImagesY);
+      LOGGER.debug("Images X={}, images Y={}",Integer.valueOf(nbImagesX),Integer.valueOf(nbImagesY));
     }
 
     // Compute the size of images in pixels

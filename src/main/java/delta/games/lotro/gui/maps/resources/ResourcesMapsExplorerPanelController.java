@@ -92,7 +92,7 @@ public class ResourcesMapsExplorerPanelController extends AbstractPanelControlle
   public void actionPerformed(ActionEvent e)
   {
     int mapId=NumericTools.parseInt(e.getActionCommand(),0);
-    LOGGER.info("Select map: "+mapId);
+    LOGGER.info("Select map: {}",Integer.valueOf(mapId));
     CraftingLevel craftingLevel=_craftingLevelSelection.getCraftingLevel();
     ResourcesMapDescriptor descriptor=ResourcesMapsManager.getInstance().getMapForLevel(craftingLevel);
     changeMap(craftingLevel,descriptor,mapId);
