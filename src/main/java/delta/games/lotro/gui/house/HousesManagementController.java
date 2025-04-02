@@ -185,9 +185,7 @@ public class HousesManagementController extends AbstractPanelController implemen
     }
   }
 
-  /**
-   * Release all managed resources.
-   */
+  @Override
   public void dispose()
   {
     super.dispose();

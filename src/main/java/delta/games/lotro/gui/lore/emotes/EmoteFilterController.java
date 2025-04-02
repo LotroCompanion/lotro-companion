@@ -159,7 +159,10 @@ public class EmoteFilterController implements ActionListener
         @Override
         public void textChanged(String newText)
         {
-          if (newText.length()==0) newText=null;
+          if (newText.isEmpty())
+          {
+            newText=null;
+          }
           EmoteCommandFilter commandFilter=_filter.getCommandFilter();
           commandFilter.setPattern(newText);
           filterUpdated();

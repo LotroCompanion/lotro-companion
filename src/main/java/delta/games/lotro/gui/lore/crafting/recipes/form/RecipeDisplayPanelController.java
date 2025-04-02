@@ -169,7 +169,7 @@ public class RecipeDisplayPanelController implements NavigablePanelController
     c=new GridBagConstraints(0,2,2,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,2,2,2),0,0);
     panel.add(categoryAndXpLabel,c);
     // Attributes
-    if (attributesStr.length()>0)
+    if (!attributesStr.isEmpty())
     {
       c=new GridBagConstraints(0,3,2,1,0,0,GridBagConstraints.WEST,GridBagConstraints.NONE,new Insets(2,2,2,2),0,0);
       panel.add(attributesLabel,c);

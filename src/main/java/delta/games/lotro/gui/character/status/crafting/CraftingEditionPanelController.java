@@ -51,6 +51,7 @@ public class CraftingEditionPanelController extends AbstractPanelController
     JPanel mainPanel=GuiFactory.buildPanel(new BorderLayout());
     setPanel(mainPanel);
     _guildStatus=new ArrayList<FactionStatusPanelController>();
+    _tabbedPane=GuiFactory.buildTabbedPane();
   }
 
   /**
@@ -62,7 +63,7 @@ public class CraftingEditionPanelController extends AbstractPanelController
     updateGuildUi(null);
 
     // Select first tab, if any
-    if ((_tabbedPane!=null) && (_tabbedPane.getTabCount()>0))
+    if (_tabbedPane.getTabCount()>0)
     {
       _tabbedPane.setSelectedIndex(0);
     }
@@ -75,8 +76,8 @@ public class CraftingEditionPanelController extends AbstractPanelController
   {
     JPanel panel=getPanel();
     panel.removeAll();
+    _tabbedPane.removeAll();
     List<Profession> currentProfessions=_status.getActiveProfessions();
-    _tabbedPane=GuiFactory.buildTabbedPane();
     // Professions
     for(Profession profession : currentProfessions)
     {
@@ -112,16 +113,13 @@ public class CraftingEditionPanelController extends AbstractPanelController
   public void updateGuildUi(Profession toShow)
   {
     // Cleanup
-    if (_tabbedPane!=null)
+    for(FactionStatusPanelController guildStatus : _guildStatus)
     {
-      for(FactionStatusPanelController guildStatus : _guildStatus)
-      {
-        JPanel guildPanel=guildStatus.getPanel();
-        _tabbedPane.remove(guildPanel);
-        guildStatus.dispose();
-      }
-      _guildStatus.clear();
+      JPanel guildPanel=guildStatus.getPanel();
+      _tabbedPane.remove(guildPanel);
+      guildStatus.dispose();
     }
+    _guildStatus.clear();
     List<Profession> guildedProfessions=new ArrayList<Profession>();
     for(Profession profession : _status.getActiveProfessions())
     {

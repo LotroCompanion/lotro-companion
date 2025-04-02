@@ -163,7 +163,10 @@ public class TaskFilterController extends AbstractPanelController implements Act
       @Override
       public void textChanged(String newText)
       {
-        if (newText.length()==0) newText=null;
+        if (newText.isEmpty())
+        {
+          newText=null;
+        }
         QuestStatusFilter questStatusFilter=_filter.getQuestStatusFilter();
         QuestFilter questFilter=questStatusFilter.getQuestFilter();
         NamedFilter<QuestDescription> nameFilter=questFilter.getNameFilter();

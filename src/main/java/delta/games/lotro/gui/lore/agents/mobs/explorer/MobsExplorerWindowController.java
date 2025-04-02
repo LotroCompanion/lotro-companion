@@ -128,7 +128,7 @@ public class MobsExplorerWindowController extends DefaultWindowController
 
   private void showMob(MobDescription mob)
   {
-    LOGGER.debug("Show mob: "+mob);
+    LOGGER.debug("Show mob: {}",mob);
     PageIdentifier ref=ReferenceConstants.getMobReference(mob);
     NavigationUtils.navigateTo(ref,this);
   }

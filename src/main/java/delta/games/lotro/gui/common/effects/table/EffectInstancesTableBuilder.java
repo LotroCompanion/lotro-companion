@@ -1,7 +1,5 @@
 package delta.games.lotro.gui.common.effects.table;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,10 +13,8 @@ import delta.common.ui.swing.tables.ListDataProvider;
 import delta.common.ui.swing.tables.ProxiedTableColumnController;
 import delta.common.ui.swing.tables.TableColumnController;
 import delta.common.ui.swing.tables.TableColumnsManager;
-import delta.common.ui.swing.windows.WindowController;
 import delta.games.lotro.character.status.effects.EffectInstance;
 import delta.games.lotro.common.effects.Effect;
-import delta.games.lotro.gui.common.effects.EffectUiTools;
 
 /**
  * Builder for a table that shows effect instances.
@@ -61,30 +57,6 @@ public class EffectInstancesTableBuilder
     columnsIds.add(EffectColumnIds.NAME.name());
     columnsIds.add(EffectInstanceColumnIds.SPELLCRAFT.name());
     return columnsIds;
-  }
-
-  /**
-   * Add a details column on the given table.
-   * @param parent Parent window.
-   * @param table Table to use.
-   * @return A column controller.
-   */
-  public static DefaultTableColumnController<EffectInstance,String> addDetailsColumn(final WindowController parent, GenericTableController<EffectInstance> table)
-  {
-    DefaultTableColumnController<EffectInstance,String> column=table.buildButtonColumn(EffectColumnIds.DETAILS.name(),"Details...",90);
-    ActionListener al=new ActionListener()
-    {
-      @Override
-      public void actionPerformed(ActionEvent e)
-      {
-        EffectInstance source=(EffectInstance)e.getSource();
-        EffectUiTools.showEffectInstanceWindow(parent,source);
-      }
-    };
-    column.setActionListener(al);
-    table.addColumnController(column);
-    table.updateColumns();
-    return column;
   }
 
   /**

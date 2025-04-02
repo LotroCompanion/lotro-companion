@@ -285,11 +285,17 @@ public class ItemInstanceMainAttrsEditionPanelController extends AbstractPanelCo
     _itemInstance.setTime(date);
     // - Birth name
     String birthName=_birthName.getText();
-    if (birthName.length()==0) birthName=null;
+    if (birthName.isEmpty())
+    {
+      birthName=null;
+    }
     _itemInstance.setBirthName(birthName);
     // - Crafter name
     String crafterName=_crafterName.getText();
-    if (crafterName.length()==0) crafterName=null;
+    if (crafterName.isEmpty())
+    {
+      crafterName=null;
+    }
     _itemInstance.setCrafterName(crafterName);
     // - Scaling level
     _mungingLabel=GuiFactory.buildLabel("Scaling level:");
@@ -319,7 +325,7 @@ public class ItemInstanceMainAttrsEditionPanelController extends AbstractPanelCo
     // - User comments
     {
       String userComments=_userComments.getText();
-      if (userComments.length()>0)
+      if (!userComments.isEmpty())
       {
         _itemInstance.setProperty(ItemPropertyNames.USER_COMMENT,userComments);
       }

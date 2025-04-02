@@ -149,7 +149,7 @@ public class ObjectiveStatusEditionPanelController extends AbstractPanelControll
     panel.add(_stateCtrl.getComponent(),c);
     c=new GridBagConstraints(1,0,1,1,1.0,0.0,GridBagConstraints.EAST,GridBagConstraints.HORIZONTAL,new Insets(5,0,5,5),0,0);
     panel.add(_label,c);
-    if (label.length()==0)
+    if (label.isEmpty())
     {
       panel.setVisible(false);
     }
@@ -170,7 +170,7 @@ public class ObjectiveStatusEditionPanelController extends AbstractPanelControll
     if (_config.getMode()==AchievableUIMode.QUEST)
     {
       ret="Objective #"+objective.getIndex();
-      if (objectiveOverride.length()>0)
+      if (!objectiveOverride.isEmpty())
       {
         ret=ret+": "+objectiveOverride;
       }

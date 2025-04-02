@@ -101,7 +101,7 @@ public class TraitTreeSetupAttrsDialogController extends DefaultFormDialogContro
   {
     String errorMsg=null;
     String name=_setupName.getText();
-    if ((name==null) || (name.trim().length()==0))
+    if ((name==null) || (name.trim().isEmpty()))
     {
       errorMsg="Invalid name!"; // I18n
     }

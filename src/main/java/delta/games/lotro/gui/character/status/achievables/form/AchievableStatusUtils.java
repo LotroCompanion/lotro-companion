@@ -34,7 +34,7 @@ public class AchievableStatusUtils
   public String getConditionLabel(ObjectiveCondition condition)
   {
     String label=condition.getProgressOverride();
-    if ((label==null) || (label.length()==0))
+    if ((label==null) || (label.isEmpty()))
     {
       label=_builder.getConditionDisplay(condition,true);
     }

@@ -135,11 +135,7 @@ public class EffectInstanceEditionPanelController extends AbstractPanelControlle
     TypedProperties filterProps=parentWindow.getUserProperties("EffectFilter");
     EffectFilterController filterController=new EffectFilterController(filterProps);
 
-    TypedProperties prefs=null;
-    if (parentWindow!=null)
-    {
-      prefs=parentWindow.getUserProperties(EffectChooser.EFFECT_CHOOSER_PROPERTIES_ID);
-    }
+    TypedProperties prefs=parentWindow.getUserProperties(EffectChooser.EFFECT_CHOOSER_PROPERTIES_ID);
 
     Filter<Effect> filter=filterController.getFilter();
     ObjectChoiceWindowController<Effect> chooser=EffectChooser.buildChooser(parentWindow,prefs,selectedItems,filter,filterController);

@@ -148,7 +148,7 @@ public class DetailedStorageAccessPanelController implements ActionListener
     // Shared vault
     {
       String accountName=_character.getAccountName();
-      boolean useSharedVault=(accountName.length()>0);
+      boolean useSharedVault=(!accountName.isEmpty());
       JButton button=buildButton("Shared Vault",SHARED_VAULT,useSharedVault); // I18n
       GridBagConstraints c=new GridBagConstraints(x,0,1,1,0.0,0.0,GridBagConstraints.CENTER,GridBagConstraints.NONE,new Insets(0,0,0,0),0,0);
       ret.add(button,c);

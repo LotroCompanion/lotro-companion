@@ -333,11 +333,14 @@ public class DeedDisplayPanelController extends AbstractNavigablePanelController
     _challengeLevel.setText(challengeLevel.getLabel());
     // Requirements
     String requirements=RequirementsUtils.buildRequirementString(this,_deed.getUsageRequirement());
-    if (requirements.length()==0) requirements="-";
+    if (requirements.isEmpty())
+    {
+      requirements="-";
+    }
     _requirements.setText(requirements);
     // Attributes
     String attributes=buildAttributesString();
-    if (attributes.length()>0)
+    if (!attributes.isEmpty())
     {
       _attributes.setText(attributes);
     }

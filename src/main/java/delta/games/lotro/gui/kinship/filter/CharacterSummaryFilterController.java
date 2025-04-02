@@ -157,7 +157,10 @@ public class CharacterSummaryFilterController
         @Override
         public void textChanged(String newText)
         {
-          if (newText.length()==0) newText=null;
+          if (newText.isEmpty())
+          {
+            newText=null;
+          }
           CharacterNameFilter<BaseCharacterSummary> nameFilter=_filter.getNameFilter();
           nameFilter.setPattern(newText);
           filterUpdated();

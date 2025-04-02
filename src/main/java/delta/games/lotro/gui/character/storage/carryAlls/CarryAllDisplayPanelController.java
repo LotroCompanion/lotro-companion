@@ -105,12 +105,9 @@ public class CarryAllDisplayPanelController implements FilterUpdateListener
     y++;
     // Contents
     JPanel itemsPanel=buildItemsPanel();
-    if (itemsPanel!=null)
-    {
-      c=new GridBagConstraints(0,y,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
-      JScrollPane scrollPane=GuiFactory.buildScrollPane(itemsPanel);
-      ret.add(scrollPane,c);
-    }
+    c=new GridBagConstraints(0,y,1,1,1.0,1.0,GridBagConstraints.NORTHWEST,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
+    JScrollPane scrollPane=GuiFactory.buildScrollPane(itemsPanel);
+    ret.add(scrollPane,c);
     return ret;
   }
 

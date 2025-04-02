@@ -65,12 +65,12 @@ public final class CharactersChooserController extends DefaultFormDialogControll
     String name=character.getName();
     String ret=name;
     String server=character.getServerName();
-    if (server.length()>0)
+    if (!server.isEmpty())
     {
       ret=name+"@"+server;
     }
     String accountName=character.getAccountName();
-    if (accountName.length()>0)
+    if (!accountName.isEmpty())
     {
       ret=ret+" ("+accountName+")";
     }

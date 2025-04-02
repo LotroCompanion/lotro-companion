@@ -251,7 +251,7 @@ public class ItemInstanceMainAttrsDisplayPanelController extends AbstractPanelCo
     _date.getComponent().getParent().setVisible(instanceIdVisible&&timeVisible);
     // Birth name
     String birthName=_itemInstance.getBirthName();
-    boolean hasName=((birthName!=null) && (birthName.length()>0));
+    boolean hasName=((birthName!=null) && (!birthName.isEmpty()));
     _birthName.setVisible(hasName);
     if (hasName)
     {
@@ -259,7 +259,7 @@ public class ItemInstanceMainAttrsDisplayPanelController extends AbstractPanelCo
     }
     // Crafter name
     String crafterName=_itemInstance.getCrafterName();
-    boolean hasCrafter=((crafterName!=null) && (crafterName.length()>0));
+    boolean hasCrafter=((crafterName!=null) && (!crafterName.isEmpty()));
     _crafterName.setVisible(hasCrafter);
     if (hasCrafter)
     {

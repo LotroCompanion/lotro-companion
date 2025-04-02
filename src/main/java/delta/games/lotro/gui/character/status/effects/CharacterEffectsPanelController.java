@@ -67,9 +67,7 @@ public class CharacterEffectsPanelController extends AbstractPanelController
     }
   }
 
-  /**
-   * Release all managed resources.
-   */
+  @Override
   public void dispose()
   {
     super.dispose();

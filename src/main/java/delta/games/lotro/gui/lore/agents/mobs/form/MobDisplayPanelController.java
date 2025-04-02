@@ -149,7 +149,7 @@ public class MobDisplayPanelController extends AbstractNavigablePanelController
     EntityClassification entityClassification=classification.getEntityClassification();
     List<Genus> genuses=entityClassification.getGenuses();
     String genusLabel=buildGenusLabel(genuses);
-    if (genusLabel.length()>0)
+    if (!genusLabel.isEmpty())
     {
       ret.add("Genus: "+genusLabel);
     }

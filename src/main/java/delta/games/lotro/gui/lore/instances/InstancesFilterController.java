@@ -166,7 +166,10 @@ public class InstancesFilterController implements ActionListener
         @Override
         public void textChanged(String newText)
         {
-          if (newText.length()==0) newText=null;
+          if (newText.isEmpty())
+          {
+            newText=null;
+          }
           PrivateEncounterNameFilter nameFilter=filter.getNameFilter();
           nameFilter.setPattern(newText);
           filterUpdated();

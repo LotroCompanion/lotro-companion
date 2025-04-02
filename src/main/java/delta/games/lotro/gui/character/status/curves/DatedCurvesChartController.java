@@ -354,7 +354,7 @@ public class DatedCurvesChartController
     }
     else
     {
-      LOGGER.warn("Cannot find curve with id: "+curveId);
+      LOGGER.warn("Cannot find curve with id: {}",curveId);
     }
   }
 

@@ -87,7 +87,7 @@ public class ReputationSynopsisTableController extends AbstractAreaController
       {
         continue;
       }
-      if (faction.getCategory().length()==0)
+      if (faction.getCategory().isEmpty())
       {
         continue;
       }

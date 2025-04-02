@@ -140,7 +140,7 @@ public class MountDisplayPanelController
     String description=_mount.getDescription();
     String sourceDescription=_mount.getSourceDescription();
     String text=description;
-    if (sourceDescription.length()>0)
+    if (!sourceDescription.isEmpty())
     {
       text=text+EndOfLine.NATIVE_EOL+sourceDescription;
     }

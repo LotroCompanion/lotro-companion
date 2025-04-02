@@ -135,7 +135,7 @@ public class PetDisplayPanelController
     String description=_pet.getDescription();
     String sourceDescription=_pet.getSourceDescription();
     String text=description;
-    if (sourceDescription.length()>0)
+    if (!sourceDescription.isEmpty())
     {
       text=text+EndOfLine.NATIVE_EOL+sourceDescription;
     }

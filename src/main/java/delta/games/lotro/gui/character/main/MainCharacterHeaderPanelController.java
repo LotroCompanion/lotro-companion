@@ -150,7 +150,7 @@ public class MainCharacterHeaderPanelController extends AbstractPanelController 
     String name=_summary.getName();
     String region=_summary.getRegion();
     String text=name;
-    if ((region!=null) && (region.length()>0))
+    if ((region!=null) && (!region.isEmpty()))
     {
       text=text+" of "+region; // I18n
     }

@@ -68,7 +68,7 @@ public class TraitTreeDependenciesPanelController extends JPanel
     g.drawLine(fromPosition.width,fromPosition.height,toPosition.width,toPosition.height);
     if (LOGGER.isDebugEnabled())
     {
-      LOGGER.debug("From: "+fromPosition+", to: "+toPosition);
+      LOGGER.debug("From: {}, to: {}",fromPosition,toPosition);
     }
     double angle=0;
     if (toPosition.width==fromPosition.width)

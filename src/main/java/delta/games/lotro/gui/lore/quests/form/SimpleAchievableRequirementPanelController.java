@@ -35,7 +35,7 @@ import delta.games.lotro.utils.Proxy;
  */
 public class SimpleAchievableRequirementPanelController extends AbstractAchievableRequirementPanelController
 {
-  private static final String UNMANAGED_QUEST_STATUS="Unmanaged quest status: ";
+  private static final String UNMANAGED_QUEST_STATUS="Unmanaged quest status: {}";
 
   private static final Logger LOGGER=LoggerFactory.getLogger(SimpleAchievableRequirementPanelController.class);
 
@@ -86,7 +86,7 @@ public class SimpleAchievableRequirementPanelController extends AbstractAchievab
       }
       else
       {
-        LOGGER.warn("Achievable not managed: "+achievable);
+        LOGGER.warn("Achievable not managed: {}",achievable);
       }
     }
     return ret;
@@ -106,7 +106,7 @@ public class SimpleAchievableRequirementPanelController extends AbstractAchievab
       c.gridx++;
     }
     String before=StringTools.findBefore(label,ACHIEVABLE_LINK_SEED);
-    if ((before!=null) && (before.length()>0))
+    if ((before!=null) && (!before.isEmpty()))
     {
       ret.add(GuiFactory.buildLabel(before),c);
       c.gridx++;
@@ -116,7 +116,7 @@ public class SimpleAchievableRequirementPanelController extends AbstractAchievab
     ret.add(linkLabel,c);
     c.gridx++;
     String after=StringTools.findAfter(label,ACHIEVABLE_LINK_SEED);
-    if ((after!=null) && (after.length()>0))
+    if ((after!=null) && (!after.isEmpty()))
     {
       ret.add(GuiFactory.buildLabel(after),c);
       c.gridx++;
@@ -132,7 +132,7 @@ public class SimpleAchievableRequirementPanelController extends AbstractAchievab
     if (operator==ComparisonOperator.NOT_EQUAL) return buildNotEqualRequirementLabel(questStatus);
     if (operator==ComparisonOperator.GREATER_OR_EQUAL) return buildGreaterOrEqualsRequirementLabel(questStatus);
     if (operator==ComparisonOperator.LESS) return buildLessRequirementLabel(questStatus);
-    LOGGER.warn("Unmanaged quest requirement operator: "+operator);
+    LOGGER.warn("Unmanaged quest requirement operator: {}",operator);
     return "??? "+ACHIEVABLE_LINK_SEED+" ???";
   }
 
@@ -146,7 +146,7 @@ public class SimpleAchievableRequirementPanelController extends AbstractAchievab
     {
       return ACHIEVABLE_LINK_SEED+" is underway at objective "+objectiveIndex; // I18n
     }
-    LOGGER.warn(UNMANAGED_QUEST_STATUS+status);
+    LOGGER.warn(UNMANAGED_QUEST_STATUS,status);
     return ACHIEVABLE_LINK_SEED+" is ???";
   }
 
@@ -160,7 +160,7 @@ public class SimpleAchievableRequirementPanelController extends AbstractAchievab
     {
       return ACHIEVABLE_LINK_SEED+" is not underway at objective "+objectiveIndex; // I18n
     }
-    LOGGER.warn(UNMANAGED_QUEST_STATUS+status);
+    LOGGER.warn(UNMANAGED_QUEST_STATUS,status);
     return ACHIEVABLE_LINK_SEED+" is not ???";
   }
 
@@ -171,14 +171,14 @@ public class SimpleAchievableRequirementPanelController extends AbstractAchievab
     if (status==null) return ACHIEVABLE_LINK_SEED+" is at least ???"; // I18n
     if (status==QuestStatus.FAILED)
     {
-      LOGGER.warn("Unexpected requirement combinaison: greater or equal "+status+" for "+_requirement.getQuestId());
+      LOGGER.warn("Unexpected requirement combinaison: greater or equal {} for {}",status,Integer.valueOf(_requirement.getQuestId()));
     }
     int objectiveIndex=status.getObjectiveIndex();
     if (objectiveIndex>0)
     {
       return ACHIEVABLE_LINK_SEED+" is completed or underway with at least objective "+objectiveIndex+" done"; // I18n
     }
-    LOGGER.warn(UNMANAGED_QUEST_STATUS+status);
+    LOGGER.warn(UNMANAGED_QUEST_STATUS,status);
     return "??? "+ACHIEVABLE_LINK_SEED+" ???";
   }
 
@@ -188,9 +188,9 @@ public class SimpleAchievableRequirementPanelController extends AbstractAchievab
     if (status==null) return ACHIEVABLE_LINK_SEED+" has not reached ???"; // I18n
     if ((status==QuestStatus.COMPLETED) || (status==QuestStatus.FAILED))
     {
-      LOGGER.warn("Unexpected requirement combinaison: greater or equal "+status+" for "+_requirement.getQuestId());
+      LOGGER.warn("Unexpected requirement combinaison: greater or equal {} for {}",status,Integer.valueOf(_requirement.getQuestId()));
     }
-    LOGGER.warn(UNMANAGED_QUEST_STATUS+status);
+    LOGGER.warn(UNMANAGED_QUEST_STATUS,status);
     return "??? "+ACHIEVABLE_LINK_SEED+" ???";
   }
 

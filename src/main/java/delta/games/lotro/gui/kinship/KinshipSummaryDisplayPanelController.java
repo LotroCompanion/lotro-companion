@@ -162,7 +162,7 @@ public class KinshipSummaryDisplayPanelController extends AbstractPanelControlle
     String name=_summary.getName();
     String server=_summary.getServerName();
     String label=name;
-    if (server.length()>0)
+    if (!server.isEmpty())
     {
       label=label+" ("+server+")";
     }
@@ -216,15 +216,12 @@ public class KinshipSummaryDisplayPanelController extends AbstractPanelControlle
     HousingUiUtils.showHouse(id,getWindowController());
   }
 
-  /**
-   * Release all managed resources.
-   */
+  @Override
   public void dispose()
   {
     super.dispose();
     // Listeners
     EventsManager.removeListener(KinshipEvent.class,this);
-    // UI
     // Data
     _kinship=null;
     _summary=null;
